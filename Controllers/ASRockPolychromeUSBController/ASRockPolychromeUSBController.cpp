@@ -76,7 +76,7 @@ std::string PolychromeUSBController::GetSerialString()
     {
         return("");
     }
-    
+
     std::wstring return_wstring = serial_string;
     std::string return_string(return_wstring.begin(), return_wstring.end());
 
@@ -213,13 +213,13 @@ void PolychromeUSBController::WriteZone
     unsigned char   zone,
     unsigned char   mode,
     unsigned char   speed,
-    RGBColor        rgb, 
+    RGBColor        rgb,
     bool            allzone = false
     )
 {
 
 	/*----------------------------------------------------*\
-    | Get the device info so we can look up the zone type. | 
+    | Get the device info so we can look up the zone type. |
 	\*----------------------------------------------------*/
     PolychromeDeviceInfo device_info = GetPolychromeDevices()[zone];
 
@@ -234,7 +234,7 @@ void PolychromeUSBController::WriteZone
     | Set up message packet with leading 00                  |
     \*-----------------------------------------------------*/
 	usb_buf[0x01] = POLYCHROME_USB_SET_ZONE;
-    usb_buf[0x03] = device_info.zone_type; 
+    usb_buf[0x03] = device_info.zone_type;
 	usb_buf[0x04] = mode;
 
     if(device_info.rgswap)
@@ -262,7 +262,7 @@ void PolychromeUSBController::WriteZone
 
 void PolychromeUSBController::WriteAllZones
     (
-    const std::vector<PolychromeZoneInfo>&  zones_info,
+    const std::vector<PolychromeZoneInfo>&  /*zones_info*/,
     const std::vector<zone>&                zones
     )
 {
@@ -434,7 +434,7 @@ PolychromeZoneInfo PolychromeUSBController::GetZoneConfig(unsigned char zone)
     | Set up config table request packet                    |
     \*-----------------------------------------------------*/
     usb_buf[0x01]   = POLYCHROME_USB_READ_ZONE_CONFIG;
-    usb_buf[0x03]   = device_info.zone_type; 
+    usb_buf[0x03]   = device_info.zone_type;
 
     /*-----------------------------------------------------*\
     | Send packet                                           |
@@ -446,7 +446,7 @@ PolychromeZoneInfo PolychromeUSBController::GetZoneConfig(unsigned char zone)
     \*-----------------------------------------------------*/
     memset(usb_buf, 0x00, sizeof(usb_buf));
     hid_read(dev, usb_buf, 64);
-    
+
     r   = usb_buf[0x05];
     g   = usb_buf[0x06];
     b   = usb_buf[0x07];

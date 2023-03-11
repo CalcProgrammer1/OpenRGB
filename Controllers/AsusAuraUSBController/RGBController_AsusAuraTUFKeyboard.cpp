@@ -429,7 +429,7 @@ void RGBController_AuraTUFKeyboard::DeviceUpdateLEDs()
 {
     std::vector<led_color> led_color_list = {};
 
-    for(int i = 0; i < colors.size(); i++)
+    for(size_t i = 0; i < colors.size(); i++)
     {
         led_color_list.push_back({ leds[i].value, colors[i] });
     }

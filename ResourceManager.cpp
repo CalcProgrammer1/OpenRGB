@@ -1264,7 +1264,7 @@ void ResourceManager::DetectDevicesThreadFunction()
     | Load the libhidapi-libusb library                 |
     \*-------------------------------------------------*/
 #ifdef __GLIBC__
-    if(dyn_handle = dlopen("libhidapi-libusb.so", RTLD_NOW | RTLD_NODELETE | RTLD_DEEPBIND))
+    if((dyn_handle = dlopen("libhidapi-libusb.so", RTLD_NOW | RTLD_NODELETE | RTLD_DEEPBIND)))
 #else
     if(dyn_handle = dlopen("libhidapi-libusb.so", RTLD_NOW | RTLD_NODELETE ))
 #endif

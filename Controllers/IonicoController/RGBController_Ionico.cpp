@@ -143,7 +143,7 @@ void RGBController_Ionico::SetupZones()
         zone_keyboard.leds_count = leds.size();
         zone_keyboard.matrix_map = nullptr;
         zones.emplace_back(zone_keyboard);
-        for(int i = 0; i < leds.size(); ++i)
+        for(size_t i = 0; i < leds.size(); ++i)
         {
             leds[i].name = "Keyboard Zone " + std::to_string(i+1);
         }
@@ -159,7 +159,7 @@ void RGBController_Ionico::SetupZones()
         zone_bar.leds_count = leds.size();
         zone_bar.matrix_map = nullptr;
         zones.emplace_back(zone_bar);
-        for(int i = 0; i < leds.size(); ++i)
+        for(size_t i = 0; i < leds.size(); ++i)
         {
             leds[i].name = "Bar Led " + std::to_string(i+1);
         }
@@ -187,12 +187,12 @@ void RGBController_Ionico::DeviceSaveMode()
     controller->SaveBios();
 }
 
-void RGBController_Ionico::UpdateZoneLEDs(int zone)
+void RGBController_Ionico::UpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_Ionico::UpdateSingleLED(int led)
+void RGBController_Ionico::UpdateSingleLED(int /*led*/)
 {
     //
 }

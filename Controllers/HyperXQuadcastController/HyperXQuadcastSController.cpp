@@ -54,7 +54,6 @@ void HyperXQuadcastSController::SaveColors(std::vector<RGBColor> colors, unsigne
     unsigned int  num_color_packets                     = 0;
     unsigned int  frame                                 = 0;
     unsigned char color[HYPERX_QUADCAST_S_PACKET_SIZE]  = {0};
-    unsigned char empty[HYPERX_QUADCAST_S_PACKET_SIZE]  = {0};
 
     num_color_packets = num_frames/8;
     if(num_frames % 8)
@@ -137,7 +136,6 @@ void HyperXQuadcastSController::SendDirect(std::vector<RGBColor> colors)
         return;
     }
 
-    int      res;
     RGBColor c1 = colors[0];
     RGBColor c2 = colors[1];
     uint8_t  buffer[HYPERX_QUADCAST_S_PACKET_SIZE];
@@ -158,7 +156,7 @@ void HyperXQuadcastSController::SendDirect(std::vector<RGBColor> colors)
 
     lock.lock();
 
-    res = wrapper.hid_send_feature_report(dev, buffer, HYPERX_QUADCAST_S_PACKET_SIZE);
+    wrapper.hid_send_feature_report(dev, buffer, HYPERX_QUADCAST_S_PACKET_SIZE);
     std::this_thread::sleep_for(15ms);
 
     SendToRegister(0xF2, 0, 1);

@@ -741,7 +741,7 @@ void RGBController_MountainKeyboard::DeviceUpdate(const mode& current_mode)
             unsigned char color_data[MOUNTAIN_KEYBOARD_TRANSFER_BUFFER_SIZE] = {0};
             unsigned char color_edge_data[MOUNTAIN_KEYBOARD_TRANSFER_EDGE_BUFFER_SIZE] = {0};
 
-            for(int led_idx = 0; led_idx < colors.size(); led_idx++)
+            for(unsigned int led_idx = 0; led_idx < colors.size(); led_idx++)
             {
                 if(led_idx < zones[0].leds_count)
                 {

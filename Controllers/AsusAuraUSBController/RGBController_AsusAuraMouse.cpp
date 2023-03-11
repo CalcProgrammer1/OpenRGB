@@ -205,7 +205,7 @@ void RGBController_AuraMouse::DeviceUpdateLEDs()
     }
 }
 
-void RGBController_AuraMouse::UpdateZoneLEDs(int zone)
+void RGBController_AuraMouse::UpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateLEDs();
 }

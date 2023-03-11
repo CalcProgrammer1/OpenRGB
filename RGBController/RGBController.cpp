@@ -119,7 +119,7 @@ unsigned char * RGBController::GetDeviceDescription(unsigned int protocol_versio
     for(int zone_index = 0; zone_index < num_zones; zone_index++)
     {
         zone_name_len[zone_index]   = strlen(zones[zone_index].name.c_str()) + 1;
-        
+
         data_size += zone_name_len[zone_index] + sizeof(zone_name_len[zone_index]);
         data_size += sizeof(zones[zone_index].type);
         data_size += sizeof(zones[zone_index].leds_min);
@@ -145,7 +145,7 @@ unsigned char * RGBController::GetDeviceDescription(unsigned int protocol_versio
             \*---------------------------------------------------------*/
             data_size += sizeof(unsigned short);
 
-            for(int segment_index = 0; segment_index < zones[zone_index].segments.size(); segment_index++)
+            for(size_t segment_index = 0; segment_index < zones[zone_index].segments.size(); segment_index++)
             {
                 /*---------------------------------------------------------*\
                 | Length of segment name string                             |
@@ -224,7 +224,7 @@ unsigned char * RGBController::GetDeviceDescription(unsigned int protocol_versio
 
     strcpy((char *)&data_buf[data_ptr], description.c_str());
     data_ptr += description_len;
-    
+
     /*---------------------------------------------------------*\
     | Copy in version (size+data)                               |
     \*---------------------------------------------------------*/
@@ -469,7 +469,7 @@ unsigned char * RGBController::GetDeviceDescription(unsigned int protocol_versio
                 | Length of segment name string                             |
                 \*---------------------------------------------------------*/
                 unsigned short segment_name_length = strlen(zones[zone_index].segments[segment_index].name.c_str()) + 1;
-                
+
                 memcpy(&data_buf[data_ptr], &segment_name_length, sizeof(segment_name_length));
                 data_ptr += sizeof(segment_name_length);
 
@@ -610,7 +610,7 @@ void RGBController::ReadDeviceDescription(unsigned char* data_buf, unsigned int 
 
     version = (char *)&data_buf[data_ptr];
     data_ptr += version_len;
-    
+
     /*---------------------------------------------------------*\
     | Copy in serial                                            |
     \*---------------------------------------------------------*/
@@ -857,7 +857,7 @@ void RGBController::ReadDeviceDescription(unsigned char* data_buf, unsigned int 
         {
             new_zone.matrix_map = NULL;
         }
-        
+
         /*---------------------------------------------------------*\
         | Copy in segments                                          |
         \*---------------------------------------------------------*/
@@ -1099,7 +1099,7 @@ unsigned char * RGBController::GetModeDescription(int mode, unsigned int protoco
         memcpy(&data_buf[data_ptr], &modes[mode].brightness, sizeof(modes[mode].brightness));
         data_ptr += sizeof(modes[mode].brightness);
     }
-    
+
     /*---------------------------------------------------------*\
     | Copy in mode direction (data)                             |
     \*---------------------------------------------------------*/
@@ -1156,7 +1156,7 @@ void RGBController::SetModeDescription(unsigned char* data_buf, unsigned int pro
     | Get pointer to target mode                                |
     \*---------------------------------------------------------*/
     mode * new_mode = &modes[mode_idx];
-    
+
     /*---------------------------------------------------------*\
     | Set active mode to the new mode                           |
     \*---------------------------------------------------------*/
@@ -1208,7 +1208,7 @@ void RGBController::SetModeDescription(unsigned char* data_buf, unsigned int pro
         memcpy(&new_mode->brightness_max, &data_buf[data_ptr], sizeof(new_mode->brightness_max));
         data_ptr += sizeof(new_mode->brightness_max);
     }
-    
+
     /*---------------------------------------------------------*\
     | Copy in mode colors_min (data)                            |
     \*---------------------------------------------------------*/
@@ -1235,7 +1235,7 @@ void RGBController::SetModeDescription(unsigned char* data_buf, unsigned int pro
         memcpy(&new_mode->brightness, &data_buf[data_ptr], sizeof(new_mode->brightness));
         data_ptr += sizeof(new_mode->brightness);
     }
-    
+
     /*---------------------------------------------------------*\
     | Copy in mode direction (data)                             |
     \*---------------------------------------------------------*/
