@@ -176,7 +176,7 @@ static const corsair_v2_device ironclaw_wired_device =
     CORSAIR_IRONCLAW_WIRELESS_WIRED_PID,
     false,
     DEVICE_TYPE_MOUSE,
-    CORSAIR_V2_MODE_SW,
+    CORSAIR_V2_TYPE_SW_COLOUR_BLOCK,
     1,
     6,
     {
@@ -196,7 +196,7 @@ static const corsair_v2_device ironclaw_wireless_device =
     CORSAIR_IRONCLAW_WIRELESS_PID,
     true,
     DEVICE_TYPE_MOUSE,
-    CORSAIR_V2_MODE_SW,
+    CORSAIR_V2_TYPE_SW_COLOUR_BLOCK,
     1,
     6,
     {
@@ -231,7 +231,7 @@ static const corsair_v2_device k55_rgb_pro_device =
     CORSAIR_K55_RGB_PRO_PID,
     false,
     DEVICE_TYPE_KEYBOARD,
-    CORSAIR_V2_MODE_SW,
+    CORSAIR_V2_TYPE_SW_COLOUR_BLOCK,
     1,
     6,
     {
@@ -266,7 +266,7 @@ static const corsair_v2_device k60_rgb_pro_device =
     CORSAIR_K60_RGB_PRO_PID,
     false,
     DEVICE_TYPE_KEYBOARD,
-    CORSAIR_V2_MODE_SW,
+    CORSAIR_V2_TYPE_SW_COLOUR_BLOCK,
     6,
     21,
     {
@@ -301,7 +301,7 @@ static const corsair_v2_device k60_rgb_pro_lp_device =
     CORSAIR_K60_RGB_PRO_LP_PID,
     false,
     DEVICE_TYPE_KEYBOARD,
-    CORSAIR_V2_MODE_SW,
+    CORSAIR_V2_TYPE_SW_COLOUR_BLOCK,
     6,
     21,
     {
@@ -314,6 +314,52 @@ static const corsair_v2_device k60_rgb_pro_lp_device =
     },
     K60_keymap,
     K60_KEYMAP_SIZE
+};
+
+/*-------------------------------------------------------------*\
+|  Corsair M55 1B1C:1B70                                        |
+|                                                               |
+|  Zone "Logo"                                                  |
+|       Single                                                  |
+|                                                               |
+|  Zone "Edge"                                                  |
+|       Linear                                                  |
+|       1 Row, 2 Columns                                        |
+\*-------------------------------------------------------------*/
+static const corsair_v2_zone m55_mid_zone =
+{
+    "Middle Button",
+    ZONE_TYPE_SINGLE,
+    1,
+    1
+};
+
+static const corsair_v2_zone m55_logo_zone =
+{
+    "Logo",
+    ZONE_TYPE_SINGLE,
+    1,
+    1
+};
+
+static const corsair_v2_device m55_device =
+{
+    CORSAIR_M55_RGB_PRO_PID,
+    false,
+    DEVICE_TYPE_MOUSE,
+    CORSAIR_V2_TYPE_SW_COLOUR_BLOCK,
+    1,
+    2,
+    {
+        &m55_mid_zone,
+        &m55_logo_zone,
+        nullptr,
+        nullptr,
+        nullptr,
+        nullptr
+    },
+    nullptr,
+    0
 };
 
 /*-------------------------------------------------------------*\
@@ -355,7 +401,7 @@ static const corsair_v2_device mm700_device =
     CORSAIR_MM700_PID,
     false,
     DEVICE_TYPE_MOUSEMAT,
-    CORSAIR_V2_MODE_SW,
+    CORSAIR_V2_TYPE_SW_COLOUR_BLOCK,
     1,
     3,
     {
@@ -387,6 +433,7 @@ const corsair_v2_device* corsair_v2_device_list_data[] =
 \*-----------------------------------------------------------------*/
     &ironclaw_wired_device,
     &ironclaw_wireless_device,
+    &m55_device,
 
 /*-----------------------------------------------------------------*\
 |  MOUSEMATS                                                        |

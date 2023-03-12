@@ -1,23 +1,22 @@
 /*---------------------------------------------------------------------*\
-|  RGBController_CorsairV2SoftwareController.cpp                        |
+|  RGBController_CorsairV2HardwareController.h                          |
 |                                                                       |
-|  Common driver for the newer Corsair peripherals that use             |
-|    the `08` based USB protocol                                        |
+|  Driver for the newer Corsair peripherals that use the '08'           |
+|    based USB protocol and support hardware lighting modes.            |
 |                                                                       |
-|  Chris M (Dr_No)          11 Aug 2022                                 |
+|  Chris M (Dr_No)          10 Dec 2022                                 |
 \*---------------------------------------------------------------------*/
 #pragma once
 
 #include "RGBController.h"
 #include "CorsairPeripheralV2Controller.h"
 #include "CorsairPeripheralV2HardwareController.h"
-#include "CorsairPeripheralV2SoftwareController.h"
 
-class RGBController_CorsairV2SW : public RGBController
+class RGBController_CorsairV2HW : public RGBController
 {
 public:
-    RGBController_CorsairV2SW(CorsairPeripheralV2Controller* controller_ptr);
-    ~RGBController_CorsairV2SW();
+    RGBController_CorsairV2HW(CorsairPeripheralV2Controller* controller_ptr);
+    ~RGBController_CorsairV2HW();
 
     void SetupZones();
     void ResizeZone(int zone, int new_size);

@@ -12,6 +12,14 @@ enum corsair_v2_device_mode
     CORSAIR_V2_MODE_SW              = 0x02,     /* Software RGB mode                */
 };
 
+enum corsair_v2_supports
+{
+    CORSAIR_V2_TYPE_SW_COLOUR_BLOCK = 1,
+    CORSAIR_V2_TYPE_HW_COLOUR_BLOCK = 2,
+    CORSAIR_V2_TYPE_SW_TRIPLETS     = 3,
+    CORSAIR_V2_TYPE_HW_TRIPLETS     = 4,
+};
+
 typedef struct
 {
     std::string             name;
@@ -34,7 +42,7 @@ typedef struct
     uint16_t                pid;
     bool                    wireless;
     device_type             type;
-    uint8_t                 supports;
+    corsair_v2_supports     protocol;
     uint8_t                 rows;
     uint8_t                 cols;
     const corsair_v2_zone*  zones[CORSAIR_ZONES_MAX];
@@ -54,6 +62,7 @@ typedef struct
 \*-----------------------------------------------------*/
 #define CORSAIR_IRONCLAW_WIRELESS_PID               0x1BA6
 #define CORSAIR_IRONCLAW_WIRELESS_WIRED_PID         0x1B4C
+#define CORSAIR_M55_RGB_PRO_PID                     0x1B70
 
 /*-----------------------------------------------------*\
 | Corsair V2 Protocol Mousemats                         |

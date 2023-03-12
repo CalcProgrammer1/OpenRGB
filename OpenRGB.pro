@@ -355,7 +355,9 @@ HEADERS +=                                                                      
     Controllers/CorsairPeripheralController/RGBController_CorsairK95PlatinumXT.h                \
     Controllers/CorsairPeripheralV2Controller/CorsairPeripheralV2Controller.h                   \
     Controllers/CorsairPeripheralV2Controller/CorsairPeripheralV2Devices.h                      \
+    Controllers/CorsairPeripheralV2Controller/CorsairPeripheralV2HardwareController.h           \
     Controllers/CorsairPeripheralV2Controller/CorsairPeripheralV2SoftwareController.h           \
+    Controllers/CorsairPeripheralV2Controller/RGBController_CorsairV2Hardware.h                 \
     Controllers/CorsairPeripheralV2Controller/RGBController_CorsairV2Software.h                 \
     Controllers/CorsairVengeanceController/CorsairVengeanceController.h                         \
     Controllers/CorsairVengeanceController/RGBController_CorsairVengeance.h                     \
@@ -908,7 +910,9 @@ SOURCES +=                                                                      
     Controllers/CorsairPeripheralV2Controller/CorsairPeripheralV2Devices.cpp                    \
     Controllers/CorsairPeripheralV2Controller/CorsairPeripheralV2Controller.cpp                 \
     Controllers/CorsairPeripheralV2Controller/CorsairPeripheralV2ControllerDetect.cpp           \
+    Controllers/CorsairPeripheralV2Controller/CorsairPeripheralV2HardwareController.cpp         \
     Controllers/CorsairPeripheralV2Controller/CorsairPeripheralV2SoftwareController.cpp         \
+    Controllers/CorsairPeripheralV2Controller/RGBController_CorsairV2Hardware.cpp               \
     Controllers/CorsairPeripheralV2Controller/RGBController_CorsairV2Software.cpp               \
     Controllers/CorsairVengeanceController/CorsairVengeanceController.cpp                       \
     Controllers/CorsairVengeanceController/CorsairVengeanceControllerDetect.cpp                 \
