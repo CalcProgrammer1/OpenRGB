@@ -272,6 +272,7 @@ static const Config board_configs[] =
     { 0x7D41, 6,  0, 0, 2, &zones_set13, MSIMysticLight185Controller::DIRECT_MODE_PER_LED },        // MAG B660M TOMAHAWK WIFI DDR4
     { 0x7D42, 6,  0, 0, 2, &zones_set11, MSIMysticLight185Controller::DIRECT_MODE_PER_LED },        // MAG B660 MORTAR WIFI DDR4
     { 0x7D43, 0,  0, 0, 2, &zones_set11, MSIMysticLight185Controller::DIRECT_MODE_PER_LED },        // PRO B660M-A WIFI DDR4
+    { 0x7D46, 0,  1, 1, 0, &zones_set11, MSIMysticLight185Controller::DIRECT_MODE_PER_LED },        // PRO H610M-G DDR4
     { 0x7D50, 6, 12, 0, 1, &zones_set4,  MSIMysticLight185Controller::DIRECT_MODE_PER_LED },        // MEG X570S ACE MAX
     { 0x7D51, 6,  0, 0, 2, &zones_set1,  MSIMysticLight185Controller::DIRECT_MODE_PER_LED },        // MEG X570S UNIFY-X MAX
     { 0x7D52, 6, 14, 0, 1, &zones_set4,  MSIMysticLight185Controller::DIRECT_MODE_PER_LED },        // MPG X570S CARBON EK X
