@@ -17,8 +17,9 @@
 
 enum
 {
-    ROCCAT_VULCAN_120_AIMO      = 0x3098,
-    ROCCAT_VULCAN_TKL           = 0x2FEE,
+    ROCCAT_VULCAN_120_AIMO_PID  = 0x3098,
+    ROCCAT_VULCAN_TKL_PID       = 0x2FEE,
+    ROCCAT_MAGMA_PID            = 0x3124,
 };
 
 enum

@@ -39,7 +39,8 @@ struct layout_info
     std::vector<led_value>      led_names;
 };
 
-static unsigned int ROCCAT_VULCAN_120_AIMO_LAYOUT_KEYS_104[6][24] = {
+static unsigned int ROCCAT_VULCAN_120_AIMO_LAYOUT_KEYS_104[6][24] =
+{
     {   0,  NA,   8,  14,  19,  24,  NA,  34,  39,  44,  49,  55,  61,  66,  70,  NA,  74,  78,  83,  NA,  NA,  NA,  NA,  NA },
     {   1,   6,   9,  15,  20,  25,  29,  35,  40,  45,  50,  56,  62,  67,  NA,  NA,  75,  79,  84,  NA,  87,  92,  96, 101 },
     {   2,  NA,  10,  16,  21,  26,  30,  36,  41,  46,  51,  57,  63,  68,  71,  NA,  76,  80,  85,  NA,  88,  93,  97, 102 },
@@ -49,7 +50,8 @@ static unsigned int ROCCAT_VULCAN_120_AIMO_LAYOUT_KEYS_104[6][24] = {
 };
 
 
-static unsigned int ROCCAT_VULCAN_120_AIMO_LAYOUT_KEYS_105[6][24] = {
+static unsigned int ROCCAT_VULCAN_120_AIMO_LAYOUT_KEYS_105[6][24] =
+{
     {   0,  NA,   9,  15,  20,  25,  NA,  35,  40,  45,  50,  56,  62,  67,  72,  NA,  75,  79,  84,  NA,  NA,  NA,  NA,  NA },
     {   1,   6,  10,  16,  21,  26,  30,  36,  41,  46,  51,  57,  63,  68,  NA,  NA,  76,  80,  85,  NA,  88,  93,  97, 102 },
     {   2,  NA,  11,  17,  22,  27,  31,  37,  42,  47,  52,  58,  64,  69,  NA,  NA,  77,  81,  86,  NA,  89,  94,  98, 103 },
@@ -58,7 +60,8 @@ static unsigned int ROCCAT_VULCAN_120_AIMO_LAYOUT_KEYS_105[6][24] = {
     {   5,   8,  14,  NA,  NA,  NA,  34,  NA,  NA,  NA,  55,  61,  66,  NA,  74,  NA,  78,  83,  87,  NA,  92,  NA, 101,  NA }
 };
 
-static unsigned int ROCCAT_VULCAN_TKL_LAYOUT_KEYS_104[6][19] = {
+static unsigned int ROCCAT_VULCAN_TKL_LAYOUT_KEYS_104[6][19] =
+{
     {   0,  NA,   8,  14,  19,  24,  NA,  34,  39,  44,  49,  55,  61,  66,  70,  NA,  74,  NA,  NA },
     {   1,   6,   9,  15,  20,  25,  29,  35,  40,  45,  50,  56,  62,  67,  NA,  NA,  75,  78,  82 },
     {   2,  NA,  10,  16,  21,  26,  30,  36,  41,  46,  51,  57,  63,  68,  71,  NA,  76,  79,  83 },
@@ -68,13 +71,19 @@ static unsigned int ROCCAT_VULCAN_TKL_LAYOUT_KEYS_104[6][19] = {
 };
 
 
-static unsigned int ROCCAT_VULCAN_TKL_LAYOUT_KEYS_105[6][19] = {
+static unsigned int ROCCAT_VULCAN_TKL_LAYOUT_KEYS_105[6][19] =
+{
     {   0,  NA,   9,  15,  20,  25,  NA,  35,  40,  45,  50,  56,  62,  67,  72,  NA,  75,  NA,  NA },
     {   1,   6,  10,  16,  21,  26,  30,  36,  41,  46,  51,  57,  63,  68,  NA,  NA,  76,  79,  83 },
     {   2,  NA,  11,  17,  22,  27,  31,  37,  42,  47,  52,  58,  64,  69,  NA,  NA,  77,  80,  84 },
     {   3,  NA,  12,  18,  23,  28,  32,  38,  43,  48,  53,  59,  65,  70,  73,  NA,  NA,  NA,  NA },
     {   4,   7,  13,  19,  24,  29,  33,  39,  44,  49,  54,  60,  NA,  71,  NA,  NA,  NA,  81,  NA },
     {   5,   8,  14,  NA,  NA,  NA,  34,  NA,  NA,  NA,  55,  61,  66,  NA,  74,  NA,  78,  82,  85 }
+};
+
+static unsigned int ROCCAT_MAGMA_LAYOUT_KEYS[1][5] =
+{
+    {  0,  1,  2,  3,  4 },
 };
 
 static std::map<int, layout_info> RoccatVulcan120AimoLayouts =
@@ -580,6 +589,26 @@ static std::map<int, layout_info> RoccatVulcanTKLLayouts =
                 { KEY_EN_PAGE_UP,             0x5D },
                 { KEY_EN_PAGE_DOWN,           0x5E },
                 { KEY_EN_RIGHT_ARROW,         0x5F },
+            }
+        }
+    },
+};
+
+static std::map<int, layout_info> RoccatMagmaLayouts =
+{
+    {
+        ROCCAT_VULCAN_LAYOUT_US,
+        {
+            *ROCCAT_MAGMA_LAYOUT_KEYS,
+            5,
+            1,
+            5,
+            {
+                { "Keyboard LED 1",             0x00 },
+                { "Keyboard LED 2",             0x01 },
+                { "Keyboard LED 3",             0x02 },
+                { "Keyboard LED 4",             0x03 },
+                { "Keyboard LED 5",             0x04 },
             }
         }
     },

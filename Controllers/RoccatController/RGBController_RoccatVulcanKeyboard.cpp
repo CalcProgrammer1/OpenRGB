@@ -48,7 +48,7 @@ RGBController_RoccatVulcanKeyboard::RGBController_RoccatVulcanKeyboard(RoccatVul
     Direct.flags      = MODE_FLAG_HAS_PER_LED_COLOR;
     Direct.color_mode = MODE_COLORS_PER_LED;
 
-    if(pid == ROCCAT_VULCAN_TKL)
+    if(pid != ROCCAT_VULCAN_120_AIMO_PID)
     {
         Direct.flags         |= MODE_FLAG_HAS_BRIGHTNESS;
         Direct.brightness_min = ROCCAT_VULCAN_BRIGHTNESS_MIN;
@@ -105,11 +105,14 @@ void RGBController_RoccatVulcanKeyboard::SetupZones()
 
     switch(pid)
     {
-        case ROCCAT_VULCAN_120_AIMO:
+        case ROCCAT_VULCAN_120_AIMO_PID:
             keyboard_ptr = &RoccatVulcan120AimoLayouts;
             break;
-        case ROCCAT_VULCAN_TKL:
+        case ROCCAT_VULCAN_TKL_PID:
             keyboard_ptr = &RoccatVulcanTKLLayouts;
+            break;
+        case ROCCAT_MAGMA_PID:
+            keyboard_ptr = &RoccatMagmaLayouts;
             break;
         default:
             keyboard_ptr = &RoccatVulcan120AimoLayouts;
