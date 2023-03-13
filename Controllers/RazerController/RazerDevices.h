@@ -62,6 +62,7 @@
 #define RAZER_BLADE_2021_ADVANCED_PID                   0x026D
 #define RAZER_BLADE_2021_BASE_PID                       0x026F
 #define RAZER_BLADE_2021_BASE_V2_PID                    0x027A
+#define RAZER_BLADE_LATE_2021_ADVANCED_PID              0x0276
 
 #define RAZER_BLADE_14_2021_PID                         0x0270
 #define RAZER_BLADE_14_2022_PID                         0x028C
