@@ -10,6 +10,7 @@
 #include <hidapi/hidapi.h>
 #include <vector>
 #include "SteelSeriesGeneric.h"
+#include <cstdint>
 
 #pragma once
 

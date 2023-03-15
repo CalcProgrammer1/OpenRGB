@@ -10,6 +10,7 @@
 #include "ENESMBusInterface_SpectrixS40G.h"
 #include <sys/ioctl.h>
 #include <cstring>
+#include <cstdint>
 
 /*---------------------------------------------------------------------*\
 | Functions for submitting NVME admin passthrough command taken from    |

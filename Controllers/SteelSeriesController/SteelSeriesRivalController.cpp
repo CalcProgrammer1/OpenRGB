@@ -11,6 +11,7 @@
 #include <cstring>
 #include <stdio.h>
 #include <stdlib.h>
+#include <cstdint>
 
 static void send_usb_msg(hid_device* dev, char * data_pkt, unsigned int size)
 {
