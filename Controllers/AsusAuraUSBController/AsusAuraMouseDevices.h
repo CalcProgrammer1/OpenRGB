@@ -27,6 +27,8 @@
 #define AURA_ROG_CHAKRAM_CORE_PID                   0x1958
 #define AURA_ROG_CHAKRAM_X_USB_PID                  0x1A18
 #define AURA_ROG_CHAKRAM_X_2_4_PID                  0x1A1A
+#define AURA_ROG_SPATHA_X_USB_PID                   0x1977
+#define AURA_ROG_SPATHA_X_2_4_PID                   0x1979
 #define AURA_ROG_PUGIO_PID                          0x1846
 #define AURA_ROG_PUGIO_II_WIRED_PID                 0x1906
 #define AURA_ROG_PUGIO_II_WIRELESS_PID              0x1908
@@ -271,12 +273,12 @@ static std::map<int,mouse_type> aura_mouse_devices =
     {
         AURA_ROG_CHAKRAM_X_USB_PID, // ROG Chakram X USB
         {
-            0,
-            0,
-            0,
-            4,
-            false,
+            15, // technically until 255, but unusably slow after 15
             1,
+            0,
+            64,
+            false,
+            2,
             { AURA_MOUSE_ZONE_LOGO, AURA_MOUSE_ZONE_SCROLL, AURA_MOUSE_ZONE_UNDERGLOW },
             { AURA_MOUSE_MODE_STATIC, AURA_MOUSE_MODE_BREATHING, AURA_MOUSE_MODE_SPECTRUM, AURA_MOUSE_MODE_WAVE, AURA_MOUSE_MODE_REACTIVE, AURA_MOUSE_MODE_COMET, AURA_MOUSE_MODE_BATTERY }
         }
@@ -284,12 +286,38 @@ static std::map<int,mouse_type> aura_mouse_devices =
     {
         AURA_ROG_CHAKRAM_X_2_4_PID, // ROG Chakram X 2.4GHz Dongle
         {
-            255,
+            15, // technically until 255, but unusably slow after 15
             1,
             0,
             64,
             true,
             2,
+            { AURA_MOUSE_ZONE_LOGO, AURA_MOUSE_ZONE_SCROLL, AURA_MOUSE_ZONE_UNDERGLOW },
+            { AURA_MOUSE_MODE_STATIC, AURA_MOUSE_MODE_BREATHING, AURA_MOUSE_MODE_SPECTRUM, AURA_MOUSE_MODE_WAVE, AURA_MOUSE_MODE_REACTIVE, AURA_MOUSE_MODE_COMET, AURA_MOUSE_MODE_BATTERY }
+        }
+    },
+    {
+        AURA_ROG_SPATHA_X_USB_PID, // ROG Spatha X USB
+        {
+            15, // technically until 255, but unusably slow after 15
+            1,
+            0,
+            64,
+            false,
+            1,
+            { AURA_MOUSE_ZONE_LOGO, AURA_MOUSE_ZONE_SCROLL, AURA_MOUSE_ZONE_UNDERGLOW },
+            { AURA_MOUSE_MODE_STATIC, AURA_MOUSE_MODE_BREATHING, AURA_MOUSE_MODE_SPECTRUM, AURA_MOUSE_MODE_WAVE, AURA_MOUSE_MODE_REACTIVE, AURA_MOUSE_MODE_COMET, AURA_MOUSE_MODE_BATTERY }
+        }
+    },
+    {
+        AURA_ROG_SPATHA_X_2_4_PID, // ROG Spatha X 2.4GHz Dock
+        {
+            15, // technically until 255, but unusably slow after 15
+            1,
+            0,
+            64,
+            true,
+            1,
             { AURA_MOUSE_ZONE_LOGO, AURA_MOUSE_ZONE_SCROLL, AURA_MOUSE_ZONE_UNDERGLOW },
             { AURA_MOUSE_MODE_STATIC, AURA_MOUSE_MODE_BREATHING, AURA_MOUSE_MODE_SPECTRUM, AURA_MOUSE_MODE_WAVE, AURA_MOUSE_MODE_REACTIVE, AURA_MOUSE_MODE_COMET, AURA_MOUSE_MODE_BATTERY }
         }
