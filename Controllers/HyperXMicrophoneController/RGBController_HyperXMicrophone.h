@@ -1,5 +1,5 @@
 /*-----------------------------------------*\
-|  RGBController_HyperXQuadcastS.h          |
+|  RGBController_HyperXMicrophone.h         |
 |                                           |
 |  Implementation for the HyperX            |
 |  Quadcast S RGB microphone                |
@@ -11,13 +11,13 @@
 #include <chrono>
 
 #include "RGBController.h"
-#include "HyperXQuadcastSController.h"
+#include "HyperXMicrophoneController.h"
 
-class RGBController_HyperXQuadcastS : public RGBController
+class RGBController_HyperXMicrophone : public RGBController
 {
 public:
-    RGBController_HyperXQuadcastS(HyperXQuadcastSController* controller_ptr);
-    ~RGBController_HyperXQuadcastS();
+    RGBController_HyperXMicrophone(HyperXMicrophoneController* controller_ptr);
+    ~RGBController_HyperXMicrophone();
 
     void        SetupZones();
 
@@ -33,7 +33,7 @@ public:
     void        KeepaliveThread();
 
 private:
-    HyperXQuadcastSController*                          controller;
+    HyperXMicrophoneController*                         controller;
     std::thread*                                        keepalive_thread;
     std::atomic<bool>                                   keepalive_thread_run;
     std::chrono::time_point<std::chrono::steady_clock>  last_update_time;

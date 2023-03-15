@@ -1,5 +1,5 @@
 /*-----------------------------------------*\
-|  RGBController_HyperXQuadcastS.cpp        |
+|  RGBController_HyperXMicrophone.cpp        |
 |                                           |
 |  Implementation for the HyperX            |
 |  Quadcast S RGB microphone                |
@@ -13,7 +13,7 @@
     @save :white_check_mark:
     @direct :white_check_mark:
     @effects :x:
-    @detectors DetectHyperXQuadcastSControllers
+    @detectors DetectHyperXMicrophoneControllers
     @comment The HyperX Quadcast S has a manufacturer issue
     with the interface it uses (0) for controlling its RGB.
     HID requires that any HID interface have at least one
@@ -46,37 +46,34 @@
     program session.
 \*-------------------------------------------------------------------*/
 
-#include "RGBController_HyperXQuadcastS.h"
+#include "RGBController_HyperXMicrophone.h"
 #include <LogManager.h>
 
 using namespace std::chrono_literals;
 
-RGBController_HyperXQuadcastS::RGBController_HyperXQuadcastS(HyperXQuadcastSController* controller_ptr)
+RGBController_HyperXMicrophone::RGBController_HyperXMicrophone(HyperXMicrophoneController* controller_ptr)
 {
     controller              = controller_ptr;
 
-    name                    = "HyperX QuadcastS Device";
     vendor                  = "HyperX";
     type                    = DEVICE_TYPE_MICROPHONE;
-    description             = "HyperX QuadcastS Device";
+    description             = "HyperX Microphone Device";
     location                = controller->GetDeviceLocation();
     serial                  = controller->GetSerialString();
 
     mode Direct;
     Direct.name             = "Direct";
-    Direct.flags            = MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_MANUAL_SAVE;
+    Direct.flags            = MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_MANUAL_SAVE;
     Direct.color_mode       = MODE_COLORS_PER_LED;
-    Direct.brightness_min   = 0;
-    Direct.brightness_max   = 100;
     modes.push_back(Direct);
 
     SetupZones();
 
     keepalive_thread_run    = 1;
-    keepalive_thread        = new std::thread(&RGBController_HyperXQuadcastS::KeepaliveThread, this);
+    keepalive_thread        = new std::thread(&RGBController_HyperXMicrophone::KeepaliveThread, this);
 };
 
-RGBController_HyperXQuadcastS::~RGBController_HyperXQuadcastS()
+RGBController_HyperXMicrophone::~RGBController_HyperXMicrophone()
 {
     keepalive_thread_run = 0;
     keepalive_thread->join();
@@ -85,61 +82,64 @@ RGBController_HyperXQuadcastS::~RGBController_HyperXQuadcastS()
     delete controller;
 }
 
-void RGBController_HyperXQuadcastS::SetupZones()
+void RGBController_HyperXMicrophone::SetupZones()
 {
-    led* Top        = new led();
-    led* Bot        = new led();
-    Top->name       = std::string("Top");
-    Top->value      = 0;
-    Bot->name       = std::string("Bottom");
-    Bot->value      = 1;
-    leds.push_back(*Top);
-    leds.push_back(*Bot);
+    led Top;
+    Top.name   = "Top";
+    Top.value  = 0;
 
-    zone* Mic       = new zone();
-    Mic->name       = std::string("Microphone");
-    Mic->type       = ZONE_TYPE_LINEAR;
-    Mic->leds_min   = 2;
-    Mic->leds_max   = 2;
-    Mic->leds_count = 2;
-    Mic->matrix_map = NULL;
-    zones.push_back(*Mic);
+    led Bot;
+    Bot.name   = "Bottom";
+    Bot.value  = 1;
+
+    leds.push_back(Top);
+    leds.push_back(Bot);
+
+    zone Mic;
+    Mic.name       = "Microphone";
+    Mic.type       = ZONE_TYPE_LINEAR;
+    Mic.leds_min   = 2;
+    Mic.leds_max   = 2;
+    Mic.leds_count = 2;
+    Mic.matrix_map = nullptr;
+
+    zones.push_back(Mic);
 
     SetupColors();
 }
 
-void RGBController_HyperXQuadcastS::ResizeZone(int /*zone*/, int /*new_size*/)
+void RGBController_HyperXMicrophone::ResizeZone(int /*zone*/, int /*new_size*/)
 {
     /*---------------------------------------------------------*\
     | This device does not support resizing zones               |
     \*---------------------------------------------------------*/
 }
 
-void RGBController_HyperXQuadcastS::DeviceUpdateLEDs()
+void RGBController_HyperXMicrophone::DeviceUpdateLEDs()
 {
     last_update_time = std::chrono::steady_clock::now();
     controller->SendDirect(colors);
 }
-void RGBController_HyperXQuadcastS::UpdateZoneLEDs(int /*zone*/)
+void RGBController_HyperXMicrophone::UpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateLEDs();
 }
-void RGBController_HyperXQuadcastS::UpdateSingleLED(int /*led*/)
+void RGBController_HyperXMicrophone::UpdateSingleLED(int /*led*/)
 {
     DeviceUpdateLEDs();
 }
-void RGBController_HyperXQuadcastS::DeviceUpdateMode()
+void RGBController_HyperXMicrophone::DeviceUpdateMode()
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_HyperXQuadcastS::DeviceSaveMode()
+void RGBController_HyperXMicrophone::DeviceSaveMode()
 {
     LOG_DEBUG("[%s] Saving current direct colors to device", name.c_str());
-    controller->SaveColors(colors,1);
+    controller->SaveColors(colors, 1);
 }
 
-void RGBController_HyperXQuadcastS::KeepaliveThread()
+void RGBController_HyperXMicrophone::KeepaliveThread()
 {
     while(keepalive_thread_run.load())
     {
