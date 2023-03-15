@@ -99,6 +99,73 @@ keyboard_keymap_overlay_values razer_blackwidow_x_chroma_te_layout
     }
 };
 
+keyboard_keymap_overlay_values razer_blade_14_2021_layout
+{
+    KEYBOARD_SIZE::KEYBOARD_SIZE_TKL,
+    {
+        {   /* ANSI Value set not used */   },
+        {
+            {
+                KEYBOARD_LAYOUT_ISO_QWERTY,
+                {
+                    /*---------------------------------------------------------------------*\
+                    | Swap Keys                                                             |
+                    |   Zone,   Row,    Column,     Index,      Key                         |
+                    \*---------------------------------------------------------------------*/
+                    {   0,      2,      13,         0,          KEY_EN_ISO_ENTER,           },  // Remove ANSI_BACKSLASH
+                    {   0,      3,      13,         0,          KEY_EN_UNUSED,              },  // Remove ANSI_ENTER
+                }
+            },
+            /* Add more regional layout fixes here */
+        }
+    },
+    {
+        /*---------------------------------------------------------------------*\
+        | Insert Keys                                                           |
+        |   Zone,   Row,    Column,     Index,      Key                         |
+        \*---------------------------------------------------------------------*/
+        {   0,      0,      0,          0,          KEY_EN_UNUSED,              },
+        {   0,      1,      0,          0,          KEY_EN_UNUSED,              },
+        {   0,      1,      14,         0,          KEY_EN_UNUSED,              },  // Move Backspace 1 right
+        {   0,      2,      0,          0,          KEY_EN_UNUSED,              },
+        {   0,      2,      14,         0,          KEY_EN_UNUSED,              },
+        {   0,      3,      0,          0,          KEY_EN_UNUSED,              },
+        {   0,      3,      13,         0,          KEY_EN_UNUSED,              },
+        {   0,      4,      0,          0,          KEY_EN_UNUSED,              },
+        {   0,      4,      2,          0,          KEY_EN_UNUSED,              },
+        {   0,      5,      0,          0,          KEY_EN_UNUSED,              },
+        {   0,      5,      5,          0,          KEY_EN_LEFT_ALT,            },
+        {   0,      5,      9,          0,          KEY_EN_RIGHT_ALT,           },
+    },
+    {
+        /*---------------------------------------------------------------------*\
+        | Swap Keys                                                             |
+        |   Zone,   Row,    Column,     Index,      Key                         |
+        \*---------------------------------------------------------------------*/
+        {   0,      0,      14,         0,          KEY_EN_INSERT,              },  // Swap PRTSCN for INS
+        {   0,      0,      15,         0,          KEY_EN_DELETE,              },  // Swap SCRLCK for DEL
+        {   0,      0,      16,         0,          KEY_EN_UNUSED,              },  // Remove PSE_BRK
+        {   0,      1,      16,         0,          KEY_EN_UNUSED,              },  // Remove INSERT
+        {   0,      1,      17,         0,          KEY_EN_UNUSED,              },  // Remove HOME
+        {   0,      1,      18,         0,          KEY_EN_UNUSED,              },  // Remove PGUP
+        {   0,      2,      16,         0,          KEY_EN_UNUSED,              },  // Remove DEL
+        {   0,      2,      17,         0,          KEY_EN_UNUSED,              },  // Remove END
+        {   0,      2,      18,         0,          KEY_EN_UNUSED,              },  // Remove PGDN
+        {   0,      4,      13,         0,          KEY_EN_UNUSED,              },  // Remove RGT_SHFT
+        {   0,      4,      15,         0,          KEY_EN_RIGHT_SHIFT,         },  // Swap ARWUP for RGT_SHFT
+        {   0,      5,      2,          0,          KEY_EN_LEFT_FUNCTION,       },  // Swap LFT_WIN for LFT_FNC
+        {   0,      5,      3,          0,          KEY_EN_LEFT_WINDOWS,        },  // Swap LFT_ALT for LFT_WIN
+        {   0,      5,      6,          0,          KEY_EN_UNUSED,              },  // Remove SPACE
+        {   0,      5,      10,         0,          KEY_EN_RIGHT_FUNCTION,      },  // Swap RGT_ALT for RGT_FNC
+        {   0,      5,      11,         0,          KEY_EN_RIGHT_CONTROL,       },  // Swap RGT_FNC for RGT_CTL
+        {   0,      5,      12,         0,          KEY_EN_LEFT_ARROW,          },  // Swap ARWLFT for RGT_MNU
+        {   0,      5,      13,         0,          KEY_EN_UP_ARROW,            },  // Swap ARWUP for RGT_CTL
+        {   0,      5,      14,         0,          KEY_EN_RIGHT_ARROW,         },  // Swap ARWRGT for ARWLFT
+        {   0,      5,      15,         0,          KEY_EN_DOWN_ARROW,          },  // Swap ARWDWN for ARWDWN
+        {   0,      5,      16,         0,          KEY_EN_UNUSED,              },  // Remove ARWRGT
+    }
+};
+
 keyboard_keymap_overlay_values razer_blade_15_2021_advanced_layout
 {
     KEYBOARD_SIZE::KEYBOARD_SIZE_TKL,
@@ -4454,9 +4521,9 @@ static const razer_device blade_14_2021_device =
         NULL,
         NULL
     },
-    blade_14_2021_keymap,
-    BLADE_14_2021_KEYMAP_SIZE,
-    &razer_empty_layout
+    NULL,
+    0,
+    &razer_blade_14_2021_layout
 };
 
 /*-------------------------------------------------------------*\
