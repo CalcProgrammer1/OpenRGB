@@ -57,6 +57,7 @@ RazerController::RazerController(hid_device* dev_handle, hid_device* dev_argb_ha
         case RAZER_BLACKWIDOW_V3_MINI_WIRED_PID:
         case RAZER_BLADE_2021_BASE_V2_PID:
         case RAZER_BLADE_14_2022_PID:
+        case RAZER_BLADE_15_2022_PID:
         case RAZER_CYNOSA_V2_PID:
         case RAZER_ORNATA_CHROMA_V2_PID:
         case RAZER_ORNATA_V3_PID:
@@ -136,6 +137,7 @@ RazerController::RazerController(hid_device* dev_handle, hid_device* dev_argb_ha
         case RAZER_BASE_STATION_CHROMA_PID:
         case RAZER_BASE_STATION_V2_CHROMA_PID:
         case RAZER_BLADE_14_2022_PID:
+        case RAZER_BLADE_15_2022_PID:
         case RAZER_CHARGING_PAD_CHROMA_PID:
         case RAZER_CHROMA_HDK_PID:
         case RAZER_CORE_X_PID:
@@ -219,6 +221,7 @@ RazerController::RazerController(hid_device* dev_handle, hid_device* dev_argb_ha
         case RAZER_BLADE_LATE_2021_ADVANCED_PID:
         case RAZER_BLADE_14_2021_PID:
         case RAZER_BLADE_14_2022_PID:
+        case RAZER_BLADE_15_2022_PID:
         case RAZER_BLADE_PRO_2016_PID:
         case RAZER_BLADE_PRO_2017_PID:
         case RAZER_BLADE_PRO_2017_FULLHD_PID:
@@ -594,6 +597,7 @@ bool RazerController::SupportsWave()
         case RAZER_BLADE_LATE_2021_ADVANCED_PID:
         case RAZER_BLADE_14_2021_PID:
         case RAZER_BLADE_14_2022_PID:
+        case RAZER_BLADE_15_2022_PID:
         case RAZER_BLADE_PRO_2016_PID:
         case RAZER_BLADE_PRO_2017_PID:
         case RAZER_BLADE_PRO_2017_FULLHD_PID:
