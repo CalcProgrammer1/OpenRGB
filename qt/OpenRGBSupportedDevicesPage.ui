@@ -47,6 +47,13 @@
        </property>
       </widget>
      </item>
+     <item>
+      <widget class="QPushButton" name="GetHardwareIDsButton">
+       <property name="text">
+        <string>Get hardware IDs</string>
+       </property>
+      </widget>
+     </item>
     </layout>
    </item>
   </layout>

@@ -219,6 +219,7 @@ HEADERS +=                                                                      
     qt/OpenRGBDialog2.h                                                                         \
     qt/OpenRGBElgatoKeyLightSettingsPage/OpenRGBElgatoKeyLightSettingsEntry.h                   \
     qt/OpenRGBElgatoKeyLightSettingsPage/OpenRGBElgatoKeyLightSettingsPage.h                    \
+    qt/OpenRGBHardwareIDsDialog.h                                                               \
     qt/OpenRGBKasaSmartSettingsPage/OpenRGBKasaSmartSettingsEntry.h                             \
     qt/OpenRGBKasaSmartSettingsPage/OpenRGBKasaSmartSettingsPage.h                              \
     qt/OpenRGBPluginContainer.h                                                                 \
@@ -255,6 +256,7 @@ HEADERS +=                                                                      
     qt/TabLabel.h                                                                               \
     serial_port/find_usb_serial_port.h                                                          \
     serial_port/serial_port.h                                                                   \
+    StringUtils.h                                                                               \
     super_io/super_io.h                                                                         \
     AutoStart/AutoStart.h                                                                       \
     Controllers/A4TechController/BloodyMouseController.h                                        \
@@ -755,6 +757,7 @@ SOURCES +=                                                                      
     qt/OpenRGBDialog2.cpp                                                                       \
     qt/OpenRGBElgatoKeyLightSettingsPage/OpenRGBElgatoKeyLightSettingsEntry.cpp                 \
     qt/OpenRGBElgatoKeyLightSettingsPage/OpenRGBElgatoKeyLightSettingsPage.cpp                  \
+    qt/OpenRGBHardwareIDsDialog.cpp                                                             \
     qt/OpenRGBKasaSmartSettingsPage/OpenRGBKasaSmartSettingsEntry.cpp                           \
     qt/OpenRGBKasaSmartSettingsPage/OpenRGBKasaSmartSettingsPage.cpp                            \
     qt/OpenRGBPluginContainer.cpp                                                               \
@@ -791,6 +794,7 @@ SOURCES +=                                                                      
     qt/OpenRGBYeelightSettingsPage/OpenRGBYeelightSettingsEntry.cpp                             \
     qt/OpenRGBYeelightSettingsPage/OpenRGBYeelightSettingsPage.cpp                              \
     serial_port/serial_port.cpp                                                                 \
+    StringUtils.cpp                                                                             \
     super_io/super_io.cpp                                                                       \
     AutoStart/AutoStart.cpp                                                                     \
     Controllers/A4TechController/A4Tech_Detector.cpp                                            \
@@ -1367,6 +1371,7 @@ FORMS +=                                                                        
     qt/OpenRGBDevicePage.ui                                                                     \
     qt/OpenRGBDialog.ui                                                                         \
     qt/OpenRGBDialog2.ui                                                                        \
+    qt/OpenRGBHardwareIDsDialog.ui                                                              \
     qt/OpenRGBPluginContainer.ui                                                                \
     qt/OpenRGBProfileSaveDialog.ui                                                              \
     qt/OpenRGBServerInfoPage.ui                                                                 \
