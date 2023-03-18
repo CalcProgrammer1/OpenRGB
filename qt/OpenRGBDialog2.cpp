@@ -509,6 +509,11 @@ OpenRGBDialog2::OpenRGBDialog2(QWidget *parent) : QMainWindow(parent), ui(new Op
         AddConsolePage();
     }
 
+    /*-----------------------------------------------------*\
+    | Connect aboutToQuit signal to handleAboutToQuit       |
+    \*-----------------------------------------------------*/
+    connect(qApp, &QCoreApplication::aboutToQuit, this, &OpenRGBDialog2::handleAboutToQuit);
+
 }
 
 OpenRGBDialog2::~OpenRGBDialog2()
@@ -543,6 +548,15 @@ OpenRGBDialog2::~OpenRGBDialog2()
 
     delete ui;
 }
+
+
+void OpenRGBDialog2::handleAboutToQuit()
+{
+    QCloseEvent* closeEvent = new QCloseEvent;
+    this->closeEvent(closeEvent);
+    delete closeEvent;
+}
+
 
 void OpenRGBDialog2::changeEvent(QEvent *event)
 {
