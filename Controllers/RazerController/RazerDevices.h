@@ -91,6 +91,7 @@
 #define RAZER_CYNOSA_LITE_PID                           0x023F
 #define RAZER_CYNOSA_V2_PID                             0x025E
 #define RAZER_DEATHSTALKER_CHROMA_PID                   0x0204
+#define RAZER_DEATHSTALKER_V2_PID                       0x0295
 #define RAZER_HUNTSMAN_ELITE_PID                        0x0226
 #define RAZER_HUNTSMAN_PID                              0x0227
 #define RAZER_HUNTSMAN_MINI_PID                         0x0257

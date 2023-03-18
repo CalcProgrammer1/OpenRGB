@@ -189,6 +189,51 @@ keyboard_keymap_overlay_values razer_blade_15_2021_advanced_layout
     }
 };
 
+keyboard_keymap_overlay_values razer_deathstalker_v2_layout
+{
+    KEYBOARD_SIZE::KEYBOARD_SIZE_FULL,
+    {
+        {   /* ANSI Value set not used */   },
+        {
+            {
+                KEYBOARD_LAYOUT_ANSI_QWERTY,
+                {
+                    /*---------------------------------------------------------------------*\
+                    | Swap Keys                                                             |
+                    |   Zone,   Row,    Column,     Index,      Key                         |
+                    \*---------------------------------------------------------------------*/
+                    {   0,      4,       1,         0,          KEY_EN_UNUSED,              },  // Move 'Z' 1 right (Account for ISO key)
+                }
+            },
+            {
+                KEYBOARD_LAYOUT_ISO_QWERTY,
+                {
+                    /*---------------------------------------------------------------------*\
+                    | Swap Keys                                                             |
+                    |   Zone,   Row,    Column,     Index,      Key                         |
+                    \*---------------------------------------------------------------------*/
+                    {   0,      2,      13,         0,          KEY_EN_UNUSED,              },  // Remove ANSI_BACKSLASH
+                    {   0,      4,       1,         0,          KEY_EN_ISO_BACK_SLASH,      },  // Add ISO_BACK_SLASH
+                }
+            },
+            /* Add more regional layout fixes here */
+        }
+    },
+    {
+        /*---------------------------------------------------------------------*\
+        | Insert Keys                                                           |
+        |   Zone,   Row,    Column,     Index,      Key                         |
+        \*---------------------------------------------------------------------*/
+        {   0,      1,      13,         0,          KEY_EN_UNUSED,              },  // Move Backspace 1 right
+    },
+    {
+        /*---------------------------------------------------------------------*\
+        | Swap Keys                                                             |
+        |   Zone,   Row,    Column,     Index,      Key                         |
+        \*---------------------------------------------------------------------*/
+    }
+};
+
 keyboard_keymap_overlay_values razer_huntsman_elite_layout
 {
     KEYBOARD_SIZE::KEYBOARD_SIZE_FULL,
@@ -3691,6 +3736,42 @@ static const razer_device deathstalker_chroma_device =
     NULL,
     0,
     &razer_empty_layout
+};
+
+/*-------------------------------------------------------------*\
+|  Razer Deathstalker V2 1532:0295                              |
+|                                                               |
+|  Zone "Keyboard"                                              |
+|       Matrix                                                  |
+|       6 Rows, 22 Columns                                      |
+\*-------------------------------------------------------------*/
+static const razer_zone deathstalker_v2_zone =
+{
+    ZONE_EN_KEYBOARD,
+    ZONE_TYPE_MATRIX,
+    6,
+    22
+};
+
+static const razer_device deathstalker_v2_device =
+{
+    "Razer Deathstalker V2",
+    RAZER_DEATHSTALKER_V2_PID,
+    DEVICE_TYPE_KEYBOARD,
+    true,
+    6,
+    22,
+    {
+        &deathstalker_v2_zone,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL
+    },
+    NULL,
+    0,
+    &razer_deathstalker_v2_layout
 };
 
 /*-------------------------------------------------------------*\
@@ -9101,6 +9182,7 @@ const razer_device* razer_device_list[] =
     &cynosa_v2_device,
     &cynosa_lite_device,
     &deathstalker_chroma_device,
+    &deathstalker_v2_device,
     &huntsman_device,
     &huntsman_elite_device,
     &huntsman_mini_device,

@@ -222,7 +222,7 @@ keyboard_keymap_overlay iso_qwertz
         {   0,      3,      10,         0,          KEY_DE_DIAERESIS_O,         },
         {   0,      3,      11,         0,          KEY_DE_DIAERESIS_A,         },
         {   0,      4,      2,          0,          KEY_EN_Y,                   },
-        {   0,      5,      12,         0,          KEY_EN_MINUS,               },
+        {   0,      4,      11,         0,          KEY_EN_MINUS,               },
     }
 };
 
