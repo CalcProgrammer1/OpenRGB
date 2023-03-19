@@ -28,7 +28,96 @@ const char* LOG_MSG_SHIFTING_RIGHT  = ", shifting keys right";
 const char* LOG_MSG_CREATED_NEW     = "[%s] Created new %s%s with %d rows and %d columns containing %d keys";
 const char* LOG_MSG_INSERT_BEFORE   = "[%s] Inserting %s before %s @ %02d, %02d%s";
 
-static const std::vector<keyboard_led> keyboard_basemap =
+/*-------------------------------------------------------------------------*\
+| Keyboard Base Maps                                                        |
+|                                                                           |
+|   The following maps define the following standardized sections of the    |
+|   keyboard layout:                                                        |
+|                                                                           |
+|   *-----------------------------------*   *-----------*                   |
+|   | Function Key Row (ESC, F1-F12)    |   | Extras    |                   |
+|   *-----------------------------------*   |           |                   |
+|                                           |           |                   |
+|   *-----------------------------------*   |           |   *-----------*   |
+|   | Main Key Block                    |   |           |   | Num Pad   |   |
+|   |                                   |   |           |   |           |   |
+|   |                                   |   |           |   |           |   |
+|   *-----------------------------------*   *-----------*   *-----------*   |
+|                                                                           |
+|   The base keymap for a given keyboard size is assembled by combining the |
+|   blocks used in that particular layout.                                  |
+|                                                                           |
+\*-------------------------------------------------------------------------*/
+
+static const std::vector<keyboard_led> keyboard_zone_main =
+{
+    /*---------------------------------------------------------------------*\
+    |   Zone,   Row,    Column,     Value,      Key                         |
+    \*---------------------------------------------------------------------*/
+    {   0,      1,      0,          0,          KEY_EN_BACK_TICK,           },
+    {   0,      1,      1,          0,          KEY_EN_1,                   },
+    {   0,      1,      2,          0,          KEY_EN_2,                   },
+    {   0,      1,      3,          0,          KEY_EN_3,                   },
+    {   0,      1,      4,          0,          KEY_EN_4,                   },
+    {   0,      1,      5,          0,          KEY_EN_5,                   },
+    {   0,      1,      6,          0,          KEY_EN_6,                   },
+    {   0,      1,      7,          0,          KEY_EN_7,                   },
+    {   0,      1,      8,          0,          KEY_EN_8,                   },
+    {   0,      1,      9,          0,          KEY_EN_9,                   },
+    {   0,      1,      10,         0,          KEY_EN_0,                   },
+    {   0,      1,      11,         0,          KEY_EN_MINUS,               },
+    {   0,      1,      12,         0,          KEY_EN_EQUALS,              },
+    {   0,      1,      13,         0,          KEY_EN_BACKSPACE,           },
+    {   0,      2,      0,          0,          KEY_EN_TAB,                 },
+    {   0,      2,      1,          0,          KEY_EN_Q,                   },
+    {   0,      2,      2,          0,          KEY_EN_W,                   },
+    {   0,      2,      3,          0,          KEY_EN_E,                   },
+    {   0,      2,      4,          0,          KEY_EN_R,                   },
+    {   0,      2,      5,          0,          KEY_EN_T,                   },
+    {   0,      2,      6,          0,          KEY_EN_Y,                   },
+    {   0,      2,      7,          0,          KEY_EN_U,                   },
+    {   0,      2,      8,          0,          KEY_EN_I,                   },
+    {   0,      2,      9,          0,          KEY_EN_O,                   },
+    {   0,      2,      10,         0,          KEY_EN_P,                   },
+    {   0,      2,      11,         0,          KEY_EN_LEFT_BRACKET,        },
+    {   0,      2,      12,         0,          KEY_EN_RIGHT_BRACKET,       },
+    {   0,      2,      13,         0,          KEY_EN_ANSI_BACK_SLASH,     },
+    {   0,      3,      0,          0,          KEY_EN_CAPS_LOCK,           },
+    {   0,      3,      1,          0,          KEY_EN_A,                   },
+    {   0,      3,      2,          0,          KEY_EN_S,                   },
+    {   0,      3,      3,          0,          KEY_EN_D,                   },
+    {   0,      3,      4,          0,          KEY_EN_F,                   },
+    {   0,      3,      5,          0,          KEY_EN_G,                   },
+    {   0,      3,      6,          0,          KEY_EN_H,                   },
+    {   0,      3,      7,          0,          KEY_EN_J,                   },
+    {   0,      3,      8,          0,          KEY_EN_K,                   },
+    {   0,      3,      9,          0,          KEY_EN_L,                   },
+    {   0,      3,      10,         0,          KEY_EN_SEMICOLON,           },
+    {   0,      3,      11,         0,          KEY_EN_QUOTE,               },
+    {   0,      3,      13,         0,          KEY_EN_ANSI_ENTER,          },
+    {   0,      4,      0,          0,          KEY_EN_LEFT_SHIFT,          },
+    {   0,      4,      2,          0,          KEY_EN_Z,                   },
+    {   0,      4,      3,          0,          KEY_EN_X,                   },
+    {   0,      4,      4,          0,          KEY_EN_C,                   },
+    {   0,      4,      5,          0,          KEY_EN_V,                   },
+    {   0,      4,      6,          0,          KEY_EN_B,                   },
+    {   0,      4,      7,          0,          KEY_EN_N,                   },
+    {   0,      4,      8,          0,          KEY_EN_M,                   },
+    {   0,      4,      9,          0,          KEY_EN_COMMA,               },
+    {   0,      4,      10,         0,          KEY_EN_PERIOD,              },
+    {   0,      4,      11,         0,          KEY_EN_FORWARD_SLASH,       },
+    {   0,      4,      13,         0,          KEY_EN_RIGHT_SHIFT,         },
+    {   0,      5,      0,          0,          KEY_EN_LEFT_CONTROL,        },
+    {   0,      5,      1,          0,          KEY_EN_LEFT_WINDOWS,        },
+    {   0,      5,      2,          0,          KEY_EN_LEFT_ALT,            },
+    {   0,      5,      6,          0,          KEY_EN_SPACE,               },
+    {   0,      5,      10,         0,          KEY_EN_RIGHT_ALT,           },
+    {   0,      5,      11,         0,          KEY_EN_RIGHT_FUNCTION,      },
+    {   0,      5,      12,         0,          KEY_EN_MENU,                },
+    {   0,      5,      13,         0,          KEY_EN_RIGHT_CONTROL,       },
+};
+
+static const std::vector<keyboard_led> keyboard_zone_fn_row =
 {
     /*---------------------------------------------------------------------*\
     |   Zone,   Row,    Column,     Value,      Key                         |
@@ -46,95 +135,48 @@ static const std::vector<keyboard_led> keyboard_basemap =
     {   0,      0,      11,         0,          KEY_EN_F10,                 },
     {   0,      0,      12,         0,          KEY_EN_F11,                 },
     {   0,      0,      13,         0,          KEY_EN_F12,                 },
+};
+
+static const std::vector<keyboard_led> keyboard_zone_extras =
+{
+    /*---------------------------------------------------------------------*\
+    |   Zone,   Row,    Column,     Value,      Key                         |
+    \*---------------------------------------------------------------------*/
     {   0,      0,      14,         0,          KEY_EN_PRINT_SCREEN,        },
     {   0,      0,      15,         0,          KEY_EN_SCROLL_LOCK,         },
     {   0,      0,      16,         0,          KEY_EN_PAUSE_BREAK,         },
-    {   0,      1,      0,          0,          KEY_EN_BACK_TICK,           },
-    {   0,      1,      1,          0,          KEY_EN_1,                   },
-    {   0,      1,      2,          0,          KEY_EN_2,                   },
-    {   0,      1,      3,          0,          KEY_EN_3,                   },
-    {   0,      1,      4,          0,          KEY_EN_4,                   },
-    {   0,      1,      5,          0,          KEY_EN_5,                   },
-    {   0,      1,      6,          0,          KEY_EN_6,                   },
-    {   0,      1,      7,          0,          KEY_EN_7,                   },
-    {   0,      1,      8,          0,          KEY_EN_8,                   },
-    {   0,      1,      9,          0,          KEY_EN_9,                   },
-    {   0,      1,      10,         0,          KEY_EN_0,                   },
-    {   0,      1,      11,         0,          KEY_EN_MINUS,               },
-    {   0,      1,      12,         0,          KEY_EN_EQUALS,              },
-    {   0,      1,      13,         0,          KEY_EN_BACKSPACE,           },
     {   0,      1,      14,         0,          KEY_EN_INSERT,              },
     {   0,      1,      15,         0,          KEY_EN_HOME,                },
     {   0,      1,      16,         0,          KEY_EN_PAGE_UP,             },
+    {   0,      2,      14,         0,          KEY_EN_DELETE,              },
+    {   0,      2,      15,         0,          KEY_EN_END,                 },
+    {   0,      2,      16,         0,          KEY_EN_PAGE_DOWN,           },
+    {   0,      4,      15,         0,          KEY_EN_UP_ARROW,            },
+    {   0,      5,      14,         0,          KEY_EN_LEFT_ARROW,          },
+    {   0,      5,      15,         0,          KEY_EN_DOWN_ARROW,          },
+    {   0,      5,      16,         0,          KEY_EN_RIGHT_ARROW,         },
+};
+
+static const std::vector<keyboard_led> keyboard_zone_numpad =
+{
+    /*---------------------------------------------------------------------*\
+    |   Zone,   Row,    Column,     Value,      Key                         |
+    \*---------------------------------------------------------------------*/
     {   0,      1,      17,         0,          KEY_EN_NUMPAD_LOCK,         },
     {   0,      1,      18,         0,          KEY_EN_NUMPAD_DIVIDE,       },
     {   0,      1,      19,         0,          KEY_EN_NUMPAD_TIMES,        },
     {   0,      1,      20,         0,          KEY_EN_NUMPAD_MINUS,        },
-    {   0,      2,      0,          0,          KEY_EN_TAB,                 },
-    {   0,      2,      1,          0,          KEY_EN_Q,                   },
-    {   0,      2,      2,          0,          KEY_EN_W,                   },
-    {   0,      2,      3,          0,          KEY_EN_E,                   },
-    {   0,      2,      4,          0,          KEY_EN_R,                   },
-    {   0,      2,      5,          0,          KEY_EN_T,                   },
-    {   0,      2,      6,          0,          KEY_EN_Y,                   },
-    {   0,      2,      7,          0,          KEY_EN_U,                   },
-    {   0,      2,      8,          0,          KEY_EN_I,                   },
-    {   0,      2,      9,          0,          KEY_EN_O,                   },
-    {   0,      2,      10,         0,          KEY_EN_P,                   },
-    {   0,      2,      11,         0,          KEY_EN_LEFT_BRACKET,        },
-    {   0,      2,      12,         0,          KEY_EN_RIGHT_BRACKET,       },
-    {   0,      2,      13,         0,          KEY_EN_ANSI_BACK_SLASH,     },
-    {   0,      2,      14,         0,          KEY_EN_DELETE,              },
-    {   0,      2,      15,         0,          KEY_EN_END,                 },
-    {   0,      2,      16,         0,          KEY_EN_PAGE_DOWN,           },
     {   0,      2,      17,         0,          KEY_EN_NUMPAD_7,            },
     {   0,      2,      18,         0,          KEY_EN_NUMPAD_8,            },
     {   0,      2,      19,         0,          KEY_EN_NUMPAD_9,            },
     {   0,      2,      20,         0,          KEY_EN_NUMPAD_PLUS,         },
-    {   0,      3,      0,          0,          KEY_EN_CAPS_LOCK,           },
-    {   0,      3,      1,          0,          KEY_EN_A,                   },
-    {   0,      3,      2,          0,          KEY_EN_S,                   },
-    {   0,      3,      3,          0,          KEY_EN_D,                   },
-    {   0,      3,      4,          0,          KEY_EN_F,                   },
-    {   0,      3,      5,          0,          KEY_EN_G,                   },
-    {   0,      3,      6,          0,          KEY_EN_H,                   },
-    {   0,      3,      7,          0,          KEY_EN_J,                   },
-    {   0,      3,      8,          0,          KEY_EN_K,                   },
-    {   0,      3,      9,          0,          KEY_EN_L,                   },
-    {   0,      3,      10,         0,          KEY_EN_SEMICOLON,           },
-    {   0,      3,      11,         0,          KEY_EN_QUOTE,               },
-    {   0,      3,      13,         0,          KEY_EN_ANSI_ENTER,          },
     {   0,      3,      17,         0,          KEY_EN_NUMPAD_4,            },
     {   0,      3,      18,         0,          KEY_EN_NUMPAD_5,            },
     {   0,      3,      19,         0,          KEY_EN_NUMPAD_6,            },
-    {   0,      4,      0,          0,          KEY_EN_LEFT_SHIFT,          },
-    {   0,      4,      2,          0,          KEY_EN_Z,                   },
-    {   0,      4,      3,          0,          KEY_EN_X,                   },
-    {   0,      4,      4,          0,          KEY_EN_C,                   },
-    {   0,      4,      5,          0,          KEY_EN_V,                   },
-    {   0,      4,      6,          0,          KEY_EN_B,                   },
-    {   0,      4,      7,          0,          KEY_EN_N,                   },
-    {   0,      4,      8,          0,          KEY_EN_M,                   },
-    {   0,      4,      9,          0,          KEY_EN_COMMA,               },
-    {   0,      4,      10,         0,          KEY_EN_PERIOD,              },
-    {   0,      4,      11,         0,          KEY_EN_FORWARD_SLASH,       },
-    {   0,      4,      13,         0,          KEY_EN_RIGHT_SHIFT,         },
-    {   0,      4,      15,         0,          KEY_EN_UP_ARROW,            },
     {   0,      4,      17,         0,          KEY_EN_NUMPAD_1,            },
     {   0,      4,      18,         0,          KEY_EN_NUMPAD_2,            },
     {   0,      4,      19,         0,          KEY_EN_NUMPAD_3,            },
     {   0,      4,      20,         0,          KEY_EN_NUMPAD_ENTER,        },
-    {   0,      5,      0,          0,          KEY_EN_LEFT_CONTROL,        },
-    {   0,      5,      1,          0,          KEY_EN_LEFT_WINDOWS,        },
-    {   0,      5,      2,          0,          KEY_EN_LEFT_ALT,            },
-    {   0,      5,      6,          0,          KEY_EN_SPACE,               },
-    {   0,      5,      10,         0,          KEY_EN_RIGHT_ALT,           },
-    {   0,      5,      11,         0,          KEY_EN_RIGHT_FUNCTION,      },
-    {   0,      5,      12,         0,          KEY_EN_MENU,                },
-    {   0,      5,      13,         0,          KEY_EN_RIGHT_CONTROL,       },
-    {   0,      5,      14,         0,          KEY_EN_LEFT_ARROW,          },
-    {   0,      5,      15,         0,          KEY_EN_DOWN_ARROW,          },
-    {   0,      5,      16,         0,          KEY_EN_RIGHT_ARROW,         },
     {   0,      5,      18,         0,          KEY_EN_NUMPAD_0,            },
     {   0,      5,      19,         0,          KEY_EN_NUMPAD_PERIOD,       },
 };
@@ -146,13 +188,13 @@ keyboard_keymap_overlay iso_azerty
         /*---------------------------------------------------------------------*\
         | Insert Keys                                                           |
         \*---------------------------------------------------------------------*/
-        {   0,      3,      12,         0,          KEY_FR_ASTERIX,             },
-        {   0,      4,      1,          0,          KEY_NORD_ANGLE_BRACKET,     },
     },
     {
         /*---------------------------------------------------------------------*\
         | Swap Keys                                                             |
         \*---------------------------------------------------------------------*/
+        {   0,      3,      12,         0,          KEY_FR_ASTERIX,             },
+        {   0,      4,      1,          0,          KEY_NORD_ANGLE_BRACKET,     },
         {   0,      1,      0,          0,          KEY_FR_SUPER_2,             },
         {   0,      1,      1,          0,          KEY_FR_AMPERSAND,           },
         {   0,      1,      2,          0,          KEY_FR_ACUTE_E,             },
@@ -188,13 +230,13 @@ keyboard_keymap_overlay iso_qwerty
         /*---------------------------------------------------------------------*\
         | Insert Keys                                                           |
         \*---------------------------------------------------------------------*/
-        {   0,      3,      12,         0,          KEY_EN_POUND,               },
-        {   0,      4,      1,          0,          KEY_EN_ISO_BACK_SLASH,      },
     },
     {
         /*---------------------------------------------------------------------*\
         | Swap Keys                                                             |
         \*---------------------------------------------------------------------*/
+        {   0,      3,      12,         0,          KEY_EN_POUND,               },
+        {   0,      4,      1,          0,          KEY_EN_ISO_BACK_SLASH,      },
         {   0,      2,      13,         0,          KEY_EN_UNUSED,              },
     }
 };
@@ -206,13 +248,13 @@ keyboard_keymap_overlay iso_qwertz
         /*---------------------------------------------------------------------*\
         | Insert Keys                                                           |
         \*---------------------------------------------------------------------*/
-        {   0,      3,      12,         0,          KEY_EN_POUND,               },
-        {   0,      4,      1,          0,          KEY_NORD_ANGLE_BRACKET,     },
     },
     {
         /*---------------------------------------------------------------------*\
         | Swap Keys                                                             |
         \*---------------------------------------------------------------------*/
+        {   0,      3,      12,         0,          KEY_EN_POUND,               },
+        {   0,      4,      1,          0,          KEY_NORD_ANGLE_BRACKET,     },
         {   0,      1,      0,          0,          KEY_JP_CHEVRON,             },
         {   0,      1,      11,         0,          KEY_DE_ESZETT,              },
         {   0,      1,      12,         0,          KEY_EN_BACK_TICK,           },
@@ -234,92 +276,18 @@ keyboard_keymap_overlay jis
         /*---------------------------------------------------------------------*\
         | Insert Keys                                                           |
         \*---------------------------------------------------------------------*/
-        {   0,      3,      12,         0,          KEY_EN_RIGHT_BRACKET,       },
-        {   0,      4,      12,         0,          KEY_EN_BACK_SLASH,          },
     },
     {
         /*---------------------------------------------------------------------*\
         | Swap Keys                                                             |
         \*---------------------------------------------------------------------*/
+        {   0,      3,      12,         0,          KEY_EN_RIGHT_BRACKET,       },
+        {   0,      4,      12,         0,          KEY_EN_BACK_SLASH,          },
         {   0,      1,      12,         0,          KEY_JP_CHEVRON,             },
         {   0,      2,      11,         0,          KEY_JP_AT,                  },
         {   0,      2,      12,         0,          KEY_EN_LEFT_BRACKET,        },
         {   0,      3,      11,         0,          KEY_JP_COLON,               },
         {   0,      2,      13,         0,          KEY_EN_UNUSED,              },
-    }
-};
-
-keyboard_keymap_overlay full_to_tkl
-{
-    KEYBOARD_SIZE_FULL,
-    {
-        /*---------------------------------------------------------------------*\
-        | Insert Keys                                                           |
-        \*---------------------------------------------------------------------*/
-    },
-    {
-        /*---------------------------------------------------------------------*\
-        | Swap Keys                                                             |
-        \*---------------------------------------------------------------------*/
-        {   0,      1,      17,         0,          KEY_EN_UNUSED,              },
-        {   0,      1,      18,         0,          KEY_EN_UNUSED,              },
-        {   0,      1,      19,         0,          KEY_EN_UNUSED,              },
-        {   0,      1,      20,         0,          KEY_EN_UNUSED,              },
-        {   0,      2,      17,         0,          KEY_EN_UNUSED,              },
-        {   0,      2,      18,         0,          KEY_EN_UNUSED,              },
-        {   0,      2,      19,         0,          KEY_EN_UNUSED,              },
-        {   0,      2,      20,         0,          KEY_EN_UNUSED,              },
-        {   0,      3,      17,         0,          KEY_EN_UNUSED,              },
-        {   0,      3,      18,         0,          KEY_EN_UNUSED,              },
-        {   0,      3,      19,         0,          KEY_EN_UNUSED,              },
-        {   0,      4,      17,         0,          KEY_EN_UNUSED,              },
-        {   0,      4,      18,         0,          KEY_EN_UNUSED,              },
-        {   0,      4,      19,         0,          KEY_EN_UNUSED,              },
-        {   0,      4,      20,         0,          KEY_EN_UNUSED,              },
-        {   0,      5,      18,         0,          KEY_EN_UNUSED,              },
-        {   0,      5,      19,         0,          KEY_EN_UNUSED,              },
-    }
-};
-
-keyboard_keymap_overlay tkl_to_sixty
-{
-    KEYBOARD_SIZE_TKL,
-    {
-        /*---------------------------------------------------------------------*\
-        | Insert Keys                                                           |
-        \*---------------------------------------------------------------------*/
-    },
-    {
-        /*---------------------------------------------------------------------*\
-        | Swap Keys                                                             |
-        \*---------------------------------------------------------------------*/
-        {   0,      0,      0,          0,          KEY_EN_UNUSED,              },
-        {   0,      0,      2,          0,          KEY_EN_UNUSED,              },
-        {   0,      0,      3,          0,          KEY_EN_UNUSED,              },
-        {   0,      0,      4,          0,          KEY_EN_UNUSED,              },
-        {   0,      0,      5,          0,          KEY_EN_UNUSED,              },
-        {   0,      0,      6,          0,          KEY_EN_UNUSED,              },
-        {   0,      0,      7,          0,          KEY_EN_UNUSED,              },
-        {   0,      0,      8,          0,          KEY_EN_UNUSED,              },
-        {   0,      0,      9,          0,          KEY_EN_UNUSED,              },
-        {   0,      0,      10,         0,          KEY_EN_UNUSED,              },
-        {   0,      0,      11,         0,          KEY_EN_UNUSED,              },
-        {   0,      0,      12,         0,          KEY_EN_UNUSED,              },
-        {   0,      0,      13,         0,          KEY_EN_UNUSED,              },
-        {   0,      0,      14,         0,          KEY_EN_UNUSED,              },
-        {   0,      0,      15,         0,          KEY_EN_UNUSED,              },
-        {   0,      0,      16,         0,          KEY_EN_UNUSED,              },
-        {   0,      1,      0,          0,          KEY_EN_ESCAPE,              },
-        {   0,      1,      14,         0,          KEY_EN_UNUSED,              },
-        {   0,      1,      15,         0,          KEY_EN_UNUSED,              },
-        {   0,      1,      16,         0,          KEY_EN_UNUSED,              },
-        {   0,      2,      14,         0,          KEY_EN_UNUSED,              },
-        {   0,      2,      15,         0,          KEY_EN_UNUSED,              },
-        {   0,      2,      16,         0,          KEY_EN_UNUSED,              },
-        {   0,      4,      15,         0,          KEY_EN_UNUSED,              },
-        {   0,      5,      14,         0,          KEY_EN_UNUSED,              },
-        {   0,      5,      15,         0,          KEY_EN_UNUSED,              },
-        {   0,      5,      16,         0,          KEY_EN_UNUSED,              },
     }
 };
 
@@ -329,19 +297,42 @@ KeyboardLayoutManager::KeyboardLayoutManager(KEYBOARD_LAYOUT layout, KEYBOARD_SI
 
 KeyboardLayoutManager::KeyboardLayoutManager(KEYBOARD_LAYOUT layout, KEYBOARD_SIZE size, layout_values values)
 {
+    /*---------------------------------------------------------------------*\
+    | Store given size bitfield                                             |
+    \*---------------------------------------------------------------------*/
     physical_size = size;
 
-    if(size == KEYBOARD_SIZE::KEYBOARD_SIZE_EMPTY)
+    /*---------------------------------------------------------------------*\
+    | If the given size is EMPTY, we are done.  No keys need added          |
+    \*---------------------------------------------------------------------*/
+    if(physical_size == KEYBOARD_SIZE::KEYBOARD_SIZE_EMPTY)
     {
         LOG_INFO(LOG_MSG_CREATED_NEW, KLM_CLASS_NAME, name.c_str(), LOG_MSG_EMPTY, rows, cols, physical_size);
         return;
     }
 
-    std::string tmp_name;
+    /*---------------------------------------------------------------------*\
+    | Add sections to the keymap based on KEYBOARD_SIZE bitfield            |
+    \*---------------------------------------------------------------------*/
+    if(physical_size & KEYBOARD_ZONE_MAIN)
+    {
+        InsertKeys(keyboard_zone_main);
+    }
 
-    keymap  = keyboard_basemap;
-    rows    = 6;
-    cols    = 21;
+    if(physical_size & KEYBOARD_ZONE_FN_ROW)
+    {
+        InsertKeys(keyboard_zone_fn_row);
+    }
+
+    if(physical_size & KEYBOARD_ZONE_EXTRA)
+    {
+        InsertKeys(keyboard_zone_extras);
+    }
+
+    if(physical_size & KEYBOARD_ZONE_NUMPAD)
+    {
+        InsertKeys(keyboard_zone_numpad);
+    }
 
     /*---------------------------------------------------------------------*\
     | Add any values passed into the constructor before switching layouts   |
@@ -351,6 +342,11 @@ KeyboardLayoutManager::KeyboardLayoutManager(KEYBOARD_LAYOUT layout, KEYBOARD_SI
     {
         keymap[key_idx].value = values.ansi[key_idx];
     }
+
+    /*---------------------------------------------------------------------*\
+    | Modify the base ANSI QWERTY layout to the desired regional layout     |
+    \*---------------------------------------------------------------------*/
+    std::string tmp_name;
 
     switch(layout)
     {
@@ -394,26 +390,21 @@ KeyboardLayoutManager::KeyboardLayoutManager(KEYBOARD_LAYOUT layout, KEYBOARD_SI
         SwapKeys(values.regional_overlay.find(layout)->second);
     }
 
-    LOG_DEBUG("[%s] Adjusting layout to size '%d'", KLM_CLASS_NAME, size);
     switch(size)
     {
         case KEYBOARD_SIZE::KEYBOARD_SIZE_SIXTY:
-            ChangeKeys(full_to_tkl);
-            ChangeKeys(tkl_to_sixty);
             name = KEYBOARD_NAME_SIXTY;
             break;
 
         case KEYBOARD_SIZE::KEYBOARD_SIZE_TKL:
-            ChangeKeys(full_to_tkl);
             name = KEYBOARD_NAME_TKL;
             break;
 
         default:
             name = KEYBOARD_NAME_FULL;
-            break;
     }
 
-    LOG_INFO(LOG_MSG_CREATED_NEW, KLM_CLASS_NAME, name.c_str(), tmp_name.c_str(), rows, cols, physical_size);
+    LOG_INFO(LOG_MSG_CREATED_NEW, KLM_CLASS_NAME, name.c_str(), tmp_name.c_str(), rows, cols, keymap.size());
 }
 
 KeyboardLayoutManager::~KeyboardLayoutManager()
@@ -439,79 +430,175 @@ void KeyboardLayoutManager::InsertKeys(std::vector<keyboard_led> ins_keys)
 {
     LOG_DEBUG("[%s] %d keys to insert", KLM_CLASS_NAME, ins_keys.size());
 
-    for(size_t i = 0; i < ins_keys.size(); i++)
+    /*---------------------------------------------------------------------*\
+    | Ensure rows and cols are accurate by updating dimensions before insert|
+    \*---------------------------------------------------------------------*/
+    UpdateDimensions();
+
+    /*---------------------------------------------------------------------*\
+    | Insert new keys one by one                                            |
+    \*---------------------------------------------------------------------*/
+    for(unsigned int ins_key_idx = 0; ins_key_idx < ins_keys.size(); ins_key_idx++)
     {
         /*---------------------------------------------------------------------*\
-        | Find the insertion point                                              |
+        | Get the insertion point                                               |
         \*---------------------------------------------------------------------*/
-        std::vector<keyboard_led>::iterator key = keymap.begin();
+        unsigned int    ins_row     = ins_keys[ins_key_idx].row;
+        unsigned int    ins_col     = ins_keys[ins_key_idx].col;
+        const char*     ins_name    = ins_keys[ins_key_idx].name;
 
-        while(  key != keymap.end()                                                                         &&
-              ((ins_keys[i].col <  cols && !(ins_keys[i].row == key->row && ins_keys[i].col <= key->col))   ||
-              ( ins_keys[i].col >= cols && ins_keys[i].row >= key->row)))
+        unsigned int    key_idx     = 0;
+
+        for(key_idx; key_idx < keymap.size(); key_idx++)
         {
-            key++;
+            /*---------------------------------------------------------------------*\
+            | Search through all existing keys and determine where in the list to   |
+            | insert the new key.  Order is row first, then column.                 |
+            \*---------------------------------------------------------------------*/
+            if((ins_row < keymap[key_idx].row) || ((ins_row == keymap[key_idx].row) && (ins_col <= keymap[key_idx].col)))
+            {
+                break;
+            }
         }
 
-        if(key == keymap.end())
+        /*---------------------------------------------------------------------*\
+        | Determine whether to update row shift or not                          |
+        \*---------------------------------------------------------------------*/
+        bool update_row = true;
+
+        /*---------------------------------------------------------------------*\
+        | If the search reached the end, put the new key at the end of the list |
+        \*---------------------------------------------------------------------*/
+        if(key_idx == keymap.size())
         {
-            LOG_DEBUG(LOG_MSG_INSERT_BEFORE, KLM_CLASS_NAME, ins_keys[i].name, "the end", ins_keys[i].row, ins_keys[i].col, KEY_EN_UNUSED);
-            keymap.push_back(ins_keys[i]);
-            break;
+            LOG_DEBUG(LOG_MSG_INSERT_BEFORE, KLM_CLASS_NAME, ins_name, "the end", ins_row, ins_col, KEY_EN_UNUSED);
+            keymap.push_back(ins_keys[ins_key_idx]);
+            update_row = false;
         }
-        else if(strlen(ins_keys[i].name) == 0)
+
+        /*---------------------------------------------------------------------*\
+        | If inserting an empty key in the middle of the list, the key entry is |
+        | not actually added.  Instead, increment the col field of all keys on  |
+        | the same row after the inserted key.                                  |
+        \*---------------------------------------------------------------------*/
+        else if(strlen(ins_name) == 0)
         {
-            LOG_DEBUG(LOG_MSG_INSERT_BEFORE, KLM_CLASS_NAME, LOG_MSG_UNUSED_KEY, key->name, key->row, key->col, LOG_MSG_SHIFTING_RIGHT);
-            key->col++;
+            LOG_DEBUG(LOG_MSG_INSERT_BEFORE, KLM_CLASS_NAME, LOG_MSG_UNUSED_KEY, keymap[key_idx].name, keymap[key_idx].row, keymap[key_idx].col, LOG_MSG_SHIFTING_RIGHT);
         }
         else
         {
-            LOG_DEBUG(LOG_MSG_INSERT_BEFORE, KLM_CLASS_NAME, ins_keys[i].name, key->name, ins_keys[i].row, ins_keys[i].col, KEY_EN_UNUSED);
-            key = keymap.insert(key, ins_keys[i]);
-            key++;
+            LOG_DEBUG(LOG_MSG_INSERT_BEFORE, KLM_CLASS_NAME, ins_name, keymap[key_idx].name, ins_row, ins_col, KEY_EN_UNUSED);
+            keymap.insert(keymap.begin() + key_idx, ins_keys[ins_key_idx]);
+            key_idx++;
         }
 
         /*---------------------------------------------------------------------*\
-        | Provided key is not the end of the vector, until the end of the row   |
-        |   and assuming the column is equal to the key to the left             |
-        |   (i.e. sharing the same spot) shift 1 column right                   |
+        | If update_row is true, key at key_idx is not the end of the vector.   |
+        | For the remaining keys, if the row is equal to the inserted key row,  |
+        | shift 1 column right                                                  |
         \*---------------------------------------------------------------------*/
-        for(std::vector<keyboard_led>::iterator shift = key + 1;
-            shift != keymap.end() && shift->row == key->row &&
-            shift->col == key->col; ++shift, ++key)
+        if(update_row)
         {
-            shift->col++;
+            for(key_idx; key_idx < keymap.size(); key_idx++)
+            {
+                if((keymap[key_idx].row == ins_row) && (keymap[key_idx].col >= ins_col))
+                {
+                    keymap[key_idx].col++;
+                }
+
+                if(keymap[key_idx].row > ins_row)
+                {
+                    break;
+                }
+            }
         }
     }
+
+    /*---------------------------------------------------------------------*\
+    | Ensure rows and cols are accurate by updating dimensions after insert |
+    \*---------------------------------------------------------------------*/
+    UpdateDimensions();
 }
 
 void KeyboardLayoutManager::SwapKeys(std::vector<keyboard_led> swp_keys)
 {
     LOG_DEBUG("[%s] %d keys to swap", KLM_CLASS_NAME, swp_keys.size());
 
-    for(size_t i = 0; i < swp_keys.size(); i++)
+    /*---------------------------------------------------------------------*\
+    | Swap keys one by one                                                  |
+    \*---------------------------------------------------------------------*/
+    for(unsigned int swp_key_idx = 0; swp_key_idx < swp_keys.size(); swp_key_idx++)
     {
-        bool not_swapped = true;
-        for(std::vector<keyboard_led>::iterator key = keymap.begin(); key != keymap.end(); ++key)
+        /*---------------------------------------------------------------------*\
+        | Get the swap point                                                    |
+        \*---------------------------------------------------------------------*/
+        unsigned int    swp_row     = swp_keys[swp_key_idx].row;
+        unsigned int    swp_col     = swp_keys[swp_key_idx].col;
+        const char*     swp_name    = swp_keys[swp_key_idx].name;
+        unsigned int    swp_value   = swp_keys[swp_key_idx].value;
+
+        /*---------------------------------------------------------------------*\
+        | If the keymap is empty, insert the key                                |
+        \*---------------------------------------------------------------------*/
+        if(keymap.size() == 0)
         {
-            if(key->row == swp_keys[i].row && key->col == swp_keys[i].col)
+            keymap.push_back(swp_keys[swp_key_idx]);
+            break;
+        }
+
+        /*---------------------------------------------------------------------*\
+        | Otherwise, loop through and either swap an existing entry or insert   |
+        | a new entry if the given location does not already have a key present |
+        \*---------------------------------------------------------------------*/
+        for(unsigned int key_idx = 0; key_idx < keymap.size(); key_idx++)
+        {
+            /*---------------------------------------------------------------------*\
+            | If the row and column are identical, we've found the swap location    |
+            \*---------------------------------------------------------------------*/
+            if((swp_row == keymap[key_idx].row) && (swp_col == keymap[key_idx].col))
             {
-                std::string swap_name = (strlen(swp_keys[i].name) == 0) ? LOG_MSG_UNUSED_KEY : swp_keys[i].name;
-                LOG_DEBUG("[%s] Swapping in %s and %s out @ %02d, %02d", KLM_CLASS_NAME, swap_name.c_str(), key->name, key->row, key->col);
-                key->name   = swp_keys[i].name;
-                key->value  = swp_keys[i].value;
-                not_swapped = false;
+                /*---------------------------------------------------------------------*\
+                | If the key to be swapped in is an unused key, we want to remove the   |
+                | entry from the keymap rather than perform a swap                      |
+                \*---------------------------------------------------------------------*/
+                if(strlen(swp_name) == 0)
+                {
+                    keymap.erase(keymap.begin() + key_idx);
+                }
+                /*---------------------------------------------------------------------*\
+                | Otherwise, update the entry at this position with the new name and    |
+                | value                                                                 |
+                \*---------------------------------------------------------------------*/
+                else
+                {
+                    std::string swap_name = (strlen(swp_name) == 0) ? LOG_MSG_UNUSED_KEY : swp_name;
+                    LOG_DEBUG("[%s] Swapping in %s and %s out @ %02d, %02d", KLM_CLASS_NAME, swap_name.c_str(), keymap[key_idx].name, swp_row, swp_col);
+                    keymap[key_idx].name    = swp_name;
+                    keymap[key_idx].value   = swp_value;
+                }
                 break;
             }
-        }
-        /*---------------------------------------------------------------------*\
-        | If the key was not able to be swapped then insert the key instead     |
-        \*---------------------------------------------------------------------*/
-        if(not_swapped)
-        {
-            std::vector<keyboard_led> insert;
-            insert.push_back(swp_keys[i]);
-            InsertKeys(insert);
+
+            /*---------------------------------------------------------------------*\
+            | If the key row is greater than the swap key row OR the key row is     |
+            | equal to the swap key row and the key column is greater than the swap |
+            | key column, we've gone past the swap location without a match.  In    |
+            | this situation, we need to insert the swap key into the empty location|
+            | without performing a shift right.                                     |
+            \*---------------------------------------------------------------------*/
+            if((keymap[key_idx].row > swp_row)
+             ||((keymap[key_idx].row == swp_row) && (keymap[key_idx].col > swp_col)))
+            {
+                /*---------------------------------------------------------------------*\
+                | Only insert the new key if the new key is not unused                  |
+                \*---------------------------------------------------------------------*/
+                if(strlen(swp_name) != 0)
+                {
+                    LOG_DEBUG(LOG_MSG_INSERT_BEFORE, KLM_CLASS_NAME, swp_name, keymap[key_idx].name, swp_row, swp_col, KEY_EN_UNUSED);
+                    keymap.insert(keymap.begin() + (key_idx - 1), swp_keys[swp_key_idx]);
+                }
+                break;
+            }
         }
     }
 }
@@ -663,48 +750,29 @@ void KeyboardLayoutManager::GetKeyMap(unsigned int* map_ptr, KEYBOARD_MAP_FILL_T
 void KeyboardLayoutManager::UpdateDimensions()
 {
     /*---------------------------------------------------------------------*\
-    | Recalculate row and column values                                     |
-    |   First trim all "unused" entries by dropping zero length key names   |
-    \*---------------------------------------------------------------------*/
-    std::vector<keyboard_led> km = keymap;
-    keymap.clear();
-    for(std::vector<keyboard_led>::iterator key = km.begin(); key != km.end(); ++key)
-    {
-        if(strlen(key->name) > 0)
-        {
-            keymap.push_back(*key);
-        }
-    }
-
-    /*-------------------------------------*\
-    | Sixty percent KBs fix                 |
-    |   Check the first row is still row 0  |
-    \*-------------------------------------*/
-    if(keymap.begin()->row > 0)
-    {
-        for(std::vector<keyboard_led>::iterator key = keymap.begin(); key != keymap.end(); ++key)
-        {
-            key->row--;
-        }
-    }
-
-    /*---------------------------------------------------------------------*\
     | Compute max_row and max_col.                                          |
     \*---------------------------------------------------------------------*/
     uint8_t max_row = 0;
     uint8_t max_col = 0;
-    for(std::vector<keyboard_led>::iterator key = keymap.begin(); key != keymap.end(); ++key)
+
+    /*---------------------------------------------------------------------*\
+    | Search through the keymap and find the maximum row and column values  |
+    \*---------------------------------------------------------------------*/
+    for(unsigned int key_idx = 0; key_idx < keymap.size(); key_idx++)
     {
-        if(key->row > max_row)
+        if(keymap[key_idx].row > max_row)
         {
-            max_row = key->row;
+            max_row = keymap[key_idx].row;
         }
-        if(key->col > max_col)
+        if(keymap[key_idx].col > max_col)
         {
-            max_col = key->col;
+            max_col = keymap[key_idx].col;
         }
     }
 
+    /*---------------------------------------------------------------------*\
+    | The size is one greater than the highest row/column value             |
+    \*---------------------------------------------------------------------*/
     rows = max_row + 1;
     cols = max_col + 1;
 }
