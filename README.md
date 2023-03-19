@@ -300,6 +300,7 @@ There have been two instances of hardware damage in OpenRGB's development and we
   * Http Hook Plugin (by morg): https://gitlab.com/OpenRGBDevelopers/OpenRGBHttpHookPlugin
   * Razer extras Plugin (by morg): https://gitlab.com/OpenRGBDevelopers/OpenRGBRazerExtrasPlugin
   * Fan Hardware Sync Plugin (by Shady): https://gitlab.com/ShadyNawara/openrgbfansyncplugin
+  * OpenRGB Ambient Plugin (by krojew): https://github.com/krojew/OpenRGB-Ambient
 
 ## Projects Used
 
