@@ -482,8 +482,11 @@ HEADERS +=                                                                      
     Controllers/LEDStripController/LEDStripController.h                                         \
     Controllers/LEDStripController/RGBController_LEDStrip.h                                     \
     Controllers/LenovoControllers/LenovoDevices.h                                               \
+    Controllers/LenovoControllers/LenovoDevices4Zone.h                                          \
     Controllers/LenovoControllers/LenovoUSBController.h                                         \
+    Controllers/LenovoControllers/Lenovo4ZoneUSBController.h                                    \
     Controllers/LenovoControllers/RGBController_LenovoUSB.h                                     \
+    Controllers/LenovoControllers/RGBController_Lenovo4ZoneUSB.h                                \
     Controllers/LenovoMotherboardController/LenovoMotherboardController.h                       \
     Controllers/LenovoMotherboardController/RGBController_LenovoMotherboard.h                   \
     Controllers/LexipMouseController/LexipMouseController.h                                     \
@@ -1087,8 +1090,11 @@ SOURCES +=                                                                      
     Controllers/LEDStripController/LEDStripControllerDetect.cpp                                 \
     Controllers/LEDStripController/RGBController_LEDStrip.cpp                                   \
     Controllers/LenovoControllers/LenovoUSBController.cpp                                       \
+    Controllers/LenovoControllers/Lenovo4ZoneUSBController.cpp                                  \
     Controllers/LenovoControllers/LenovoUSBDetect.cpp                                           \
+    Controllers/LenovoControllers/Lenovo4ZoneUSBDetect.cpp                                      \
     Controllers/LenovoControllers/RGBController_LenovoUSB.cpp                                   \
+    Controllers/LenovoControllers/RGBController_Lenovo4ZoneUSB.cpp                              \
     Controllers/LenovoMotherboardController/LenovoMotherboardController.cpp                     \
     Controllers/LenovoMotherboardController/LenovoMotherboardControllerDetect.cpp               \
     Controllers/LenovoMotherboardController/RGBController_LenovoMotherboard.cpp                 \
