@@ -448,14 +448,14 @@ HEADERS +=                                                                      
     Controllers/HyperXKeyboardController/HyperXAlloyEliteController.h                           \
     Controllers/HyperXKeyboardController/HyperXAlloyElite2Controller.h                          \
     Controllers/HyperXKeyboardController/HyperXAlloyFPSController.h                             \
-    Controllers/HyperXKeyboardController/HyperXAlloyOrigins60Controller.h                       \
+    Controllers/HyperXKeyboardController/HyperXAlloyOrigins60and65Controller.h                  \
     Controllers/HyperXKeyboardController/HyperXAlloyOriginsController.h                         \
     Controllers/HyperXKeyboardController/HyperXAlloyOriginsCoreController.h                     \
     Controllers/HyperXKeyboardController/RGBController_HyperXAlloyElite.h                       \
     Controllers/HyperXKeyboardController/RGBController_HyperXAlloyElite2.h                      \
     Controllers/HyperXKeyboardController/RGBController_HyperXAlloyFPS.h                         \
     Controllers/HyperXKeyboardController/RGBController_HyperXAlloyOrigins.h                     \
-    Controllers/HyperXKeyboardController/RGBController_HyperXAlloyOrigins60.h                   \
+    Controllers/HyperXKeyboardController/RGBController_HyperXAlloyOrigins60and65.h              \
     Controllers/HyperXKeyboardController/RGBController_HyperXAlloyOriginsCore.h                 \
     Controllers/HyperXMicrophoneController/HyperXMicrophoneController.h                         \
     Controllers/HyperXMicrophoneController/RGBController_HyperXMicrophone.h                     \
@@ -1047,7 +1047,7 @@ SOURCES +=                                                                      
     Controllers/HyperXKeyboardController/HyperXAlloyEliteController.cpp                         \
     Controllers/HyperXKeyboardController/HyperXAlloyElite2Controller.cpp                        \
     Controllers/HyperXKeyboardController/HyperXAlloyFPSController.cpp                           \
-    Controllers/HyperXKeyboardController/HyperXAlloyOrigins60Controller.cpp                     \
+    Controllers/HyperXKeyboardController/HyperXAlloyOrigins60and65Controller.cpp                \
     Controllers/HyperXKeyboardController/HyperXAlloyOriginsController.cpp                       \
     Controllers/HyperXKeyboardController/HyperXAlloyOriginsCoreController.cpp                   \
     Controllers/HyperXKeyboardController/HyperXKeyboardControllerDetect.cpp                     \
@@ -1055,7 +1055,7 @@ SOURCES +=                                                                      
     Controllers/HyperXKeyboardController/RGBController_HyperXAlloyElite2.cpp                    \
     Controllers/HyperXKeyboardController/RGBController_HyperXAlloyFPS.cpp                       \
     Controllers/HyperXKeyboardController/RGBController_HyperXAlloyOrigins.cpp                   \
-    Controllers/HyperXKeyboardController/RGBController_HyperXAlloyOrigins60.cpp                 \
+    Controllers/HyperXKeyboardController/RGBController_HyperXAlloyOrigins60and65.cpp            \
     Controllers/HyperXKeyboardController/RGBController_HyperXAlloyOriginsCore.cpp               \
     Controllers/HyperXMicrophoneController/HyperXMicrophoneController.cpp                       \
     Controllers/HyperXMicrophoneController/HyperXMicrophoneControllerDetect.cpp                 \

@@ -1,33 +1,33 @@
 /*-----------------------------------------*\
-|  HyperXAlloyOrigins60Controller.cpp       |
+|  HyperXAlloyOrigins60and65Controller.cpp  |
 |                                           |
-|  Driver for HyperX Alloy Origins 60 RGB   |
-|  Keyboard lighting controller             |
+|  Driver for HyperX Alloy Origins 60 and   |
+|  65 RGB Keyboards lighting controller     |
 |                                           |
-|  Derek Huber 10/24/2022                   |
+|  Derek Huber 03/18/2023                   |
 \*-----------------------------------------*/
 
-#include "HyperXAlloyOrigins60Controller.h"
+#include "HyperXAlloyOrigins60and65Controller.h"
 
 #include <cstring>
 
-HyperXAlloyOrigins60Controller::HyperXAlloyOrigins60Controller(hid_device* dev_handle, const char* path)
+HyperXAlloyOrigins60and65Controller::HyperXAlloyOrigins60and65Controller(hid_device* dev_handle, const char* path)
 {
     dev         = dev_handle;
     location    = path;
 }
 
-HyperXAlloyOrigins60Controller::~HyperXAlloyOrigins60Controller()
+HyperXAlloyOrigins60and65Controller::~HyperXAlloyOrigins60and65Controller()
 {
     hid_close(dev);
 }
 
-std::string HyperXAlloyOrigins60Controller::GetDeviceLocation()
+std::string HyperXAlloyOrigins60and65Controller::GetDeviceLocation()
 {
     return("HID " + location);
 }
 
-std::string HyperXAlloyOrigins60Controller::GetSerialString()
+std::string HyperXAlloyOrigins60and65Controller::GetSerialString()
 {
     wchar_t serial_string[128];
     int ret = hid_get_serial_number_string(dev, serial_string, 128);
@@ -43,7 +43,7 @@ std::string HyperXAlloyOrigins60Controller::GetSerialString()
     return(return_string);
 }
 
-void HyperXAlloyOrigins60Controller::SetLEDsDirect(std::vector<RGBColor> colors)
+void HyperXAlloyOrigins60and65Controller::SetLEDsDirect(std::vector<RGBColor> colors)
 {
     /*-----------------------------------------------------*\
     | Set up variables to track progress of color transmit  |
@@ -76,7 +76,7 @@ void HyperXAlloyOrigins60Controller::SetLEDsDirect(std::vector<RGBColor> colors)
     }
 }
 
-void HyperXAlloyOrigins60Controller::SendDirectInitialization()
+void HyperXAlloyOrigins60and65Controller::SendDirectInitialization()
 {
     unsigned char buf[65];
 
@@ -99,7 +99,7 @@ void HyperXAlloyOrigins60Controller::SendDirectInitialization()
     hid_send_feature_report(dev, buf, 65);
 }
 
-void HyperXAlloyOrigins60Controller::SendDirectColorPacket
+void HyperXAlloyOrigins60and65Controller::SendDirectColorPacket
     (
     RGBColor*       color_data,
     unsigned int    color_count
