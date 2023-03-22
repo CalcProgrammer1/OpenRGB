@@ -187,6 +187,15 @@ void DetectAsusAuraUSBMice(hid_device_info* info, const std::string& name)
         RGBController_AuraMouse* rgb_controller             = new RGBController_AuraMouse(controller);
         rgb_controller->name                                = name;
         ResourceManager::get()->RegisterRGBController(rgb_controller);
+
+        // adding the mouse dock for the ASUS ROG Spatha X
+        if(info->product_id == AURA_ROG_SPATHA_X_2_4_PID)
+        {
+            AuraMouseController*     dock_controller            = new AuraMouseController(dev, info->path, AURA_ROG_SPATHA_X_DOCK_FAKE_PID);
+            RGBController_AuraMouse* rgb_controller_dock        = new RGBController_AuraMouse(dock_controller);
+            rgb_controller_dock->name                           = "Asus ROG Spatha X Dock";
+            ResourceManager::get()->RegisterRGBController(rgb_controller_dock);
+        }
     }
 }
 

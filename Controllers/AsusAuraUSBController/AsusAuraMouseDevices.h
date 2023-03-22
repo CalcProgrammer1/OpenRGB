@@ -46,12 +46,15 @@
 #define AURA_TUF_M3_PID                             0x1910
 #define AURA_TUF_M5_PID                             0x1898
 
+#define AURA_ROG_SPATHA_X_DOCK_FAKE_PID             0xFFFF
+
 enum
 {
     AURA_MOUSE_ZONE_LOGO        = 0,
     AURA_MOUSE_ZONE_SCROLL      = 1,
     AURA_MOUSE_ZONE_UNDERGLOW   = 2,
     AURA_MOUSE_ZONE_ALL         = 3,
+    AURA_MOUSE_ZONE_DOCK        = 4,
 };
 
 enum
@@ -528,6 +531,19 @@ static std::map<int,mouse_type> aura_mouse_devices =
             3,
             { AURA_MOUSE_ZONE_LOGO },
             { AURA_MOUSE_MODE_STATIC, AURA_MOUSE_MODE_BREATHING, AURA_MOUSE_MODE_SPECTRUM, AURA_MOUSE_MODE_REACTIVE }
+        }
+    },
+    {
+        AURA_ROG_SPATHA_X_DOCK_FAKE_PID, // Asus ROG Spatha X Dock (only in wireless mode)
+        {
+            0,
+            0,
+            0,
+            100,
+            false,
+            1,
+            { AURA_MOUSE_ZONE_DOCK },
+            { AURA_MOUSE_MODE_STATIC, AURA_MOUSE_MODE_BREATHING, AURA_MOUSE_MODE_SPECTRUM, AURA_MOUSE_MODE_NONE, AURA_MOUSE_MODE_REACTIVE, AURA_MOUSE_MODE_NONE, AURA_MOUSE_MODE_BATTERY }
         }
     },
 };
