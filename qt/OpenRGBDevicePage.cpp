@@ -263,10 +263,10 @@ void Ui::OpenRGBDevicePage::on_ZoneBox_currentIndexChanged(int index)
                     }
 
                     /*-------------------------------------*\
-                    | Resizing is not allowed when all      |
+                    | Editing is not allowed when all       |
                     | zones are selected at once            |
                     \*-------------------------------------*/
-                    ui->ResizeButton->setEnabled(false);
+                    ui->EditZoneButton->setEnabled(false);
 
                     if(!ui->ZoneBox->signalsBlocked())
                     {
@@ -307,17 +307,10 @@ void Ui::OpenRGBDevicePage::on_ZoneBox_currentIndexChanged(int index)
                     }
 
                     /*-------------------------------------*\
-                    | Enable resizing if zone has variable  |
-                    | LED count (min != max)                |
+                    | Enable resizing if zone is LINEAR     |
                     \*-------------------------------------*/
-                    if(device->zones[selected_zone].leds_min == device->zones[selected_zone].leds_max)
-                    {
-                        ui->ResizeButton->setEnabled(false);
-                    }
-                    else
-                    {
-                        ui->ResizeButton->setEnabled(true);
-                    }
+                    bool zone_is_editable = (device->zones[selected_zone].type == ZONE_TYPE_LINEAR);
+                    ui->EditZoneButton->setEnabled(zone_is_editable);
 
                     if(!ui->ZoneBox->signalsBlocked())
                     {
@@ -358,10 +351,10 @@ void Ui::OpenRGBDevicePage::on_ZoneBox_currentIndexChanged(int index)
                     }
 
                     /*-------------------------------------*\
-                    | Resizing is not allowed when a        |
+                    | Editing is not allowed when a         |
                     | segment is selected                   |
                     \*-------------------------------------*/
-                    ui->ResizeButton->setEnabled(false);
+                    ui->EditZoneButton->setEnabled(false);
 
                     if(!ui->ZoneBox->signalsBlocked())
                     {
@@ -998,7 +991,7 @@ void Ui::OpenRGBDevicePage::UpdateModeUi()
                 ui->LEDBox->clear();
                 ui->LEDBox->blockSignals(false);
 
-                ui->ResizeButton->setEnabled(false);
+                ui->EditZoneButton->setEnabled(false);
                 ui->ApplyColorsButton->setEnabled(false);
                 //ui->AutoFillCheck->setEnabled(false);
                 break;
@@ -1019,7 +1012,7 @@ void Ui::OpenRGBDevicePage::UpdateModeUi()
                 else
                 {
                     ui->ZoneBox->setDisabled(1);
-                    ui->ResizeButton->setEnabled(false);
+                    ui->EditZoneButton->setEnabled(false);
                 }
 
                 for(std::size_t zone_idx = 0; zone_idx < device->zones.size(); zone_idx++)
@@ -1059,11 +1052,11 @@ void Ui::OpenRGBDevicePage::UpdateModeUi()
 
                 if(device->modes[selected_mode].colors_min == device->modes[selected_mode].colors_max)
                 {
-                    ui->ResizeButton->setEnabled(false);
+                    ui->EditZoneButton->setEnabled(false);
                 }
                 else
                 {
-                    ui->ResizeButton->setEnabled(true);
+                    ui->EditZoneButton->setEnabled(true);
                 }
 
                 for(unsigned int i = 0; i < device->modes[selected_mode].colors.size(); i++)
@@ -1395,7 +1388,7 @@ void Ui::OpenRGBDevicePage::on_SetAllButton_clicked()
     emit SetAllDevices(current_color.red(), current_color.green(), current_color.blue());
 }
 
-void Ui::OpenRGBDevicePage::on_ResizeButton_clicked()
+void Ui::OpenRGBDevicePage::on_EditZoneButton_clicked()
 {
     switch(device->modes[device->active_mode].color_mode)
     {
