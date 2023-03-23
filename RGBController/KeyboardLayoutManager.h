@@ -13,6 +13,12 @@
 #include <vector>
 #include "RGBControllerKeyNames.h"
 
+extern const char* KLM_CLASS_NAME;
+extern const char* KEYBOARD_NAME_FULL;
+extern const char* KEYBOARD_NAME_TKL;
+extern const char* KEYBOARD_NAME_SIXTY;
+extern const char* LOG_MSG_UNUSED_KEY;
+
 enum KEYBOARD_SIZE
 {
     KEYBOARD_SIZE_EMPTY = -1,
@@ -114,7 +120,7 @@ private:
 
     KEYBOARD_LAYOUT             layout;
     KEYBOARD_SIZE               physical_size;
-    std::string                 name            = ZONE_EN_KEYBOARD;
+    std::string                 name            = KLM_CLASS_NAME;
     uint8_t                     rows            = 0;
     uint8_t                     cols            = 0;
     std::vector<keyboard_led>   keymap          = empty_basemap;

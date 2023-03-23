@@ -10,6 +10,7 @@
 #include "LogManager.h"
 #include "KeyboardLayoutManager.h"
 
+const char* KLM_CLASS_NAME          = "KLM";
 const char* KEYBOARD_NAME_ISO       = "ISO ";
 const char* KEYBOARD_NAME_ANSI      = "ANSI ";
 const char* KEYBOARD_NAME_JIS       = "JIS";
@@ -22,9 +23,9 @@ const char* KEYBOARD_NAME_TKL       = "Tenkeyless ";
 const char* KEYBOARD_NAME_SIXTY     = "Sixty percent ";
 
 const char* LOG_MSG_EMPTY           = "empty ";
-const char* LOG_MSG_UNUSED_KEY      = "'unused' key ";
+const char* LOG_MSG_UNUSED_KEY      = "'unused' key";
 const char* LOG_MSG_SHIFTING_RIGHT  = ", shifting keys right";
-const char* LOG_MSG_CREATED_NEW     = "[Keyboard Layout Manager] Created new %s%s with %d rows and %d columns containing %d keys";
+const char* LOG_MSG_CREATED_NEW     = "[%s] Created new %s%s with %d rows and %d columns containing %d keys";
 const char* LOG_MSG_INSERT_BEFORE   = "[%s] Inserting %s before %s @ %02d, %02d%s";
 
 static const std::vector<keyboard_led> keyboard_basemap =
@@ -328,17 +329,19 @@ KeyboardLayoutManager::KeyboardLayoutManager(KEYBOARD_LAYOUT layout, KEYBOARD_SI
 
 KeyboardLayoutManager::KeyboardLayoutManager(KEYBOARD_LAYOUT layout, KEYBOARD_SIZE size, layout_values values)
 {
+    physical_size = size;
+
     if(size == KEYBOARD_SIZE::KEYBOARD_SIZE_EMPTY)
     {
-        LOG_INFO(LOG_MSG_CREATED_NEW, name.c_str(), LOG_MSG_EMPTY, rows, cols, keymap.size());
+        LOG_INFO(LOG_MSG_CREATED_NEW, KLM_CLASS_NAME, name.c_str(), LOG_MSG_EMPTY, rows, cols, physical_size);
         return;
     }
 
     std::string tmp_name;
 
     keymap  = keyboard_basemap;
-    rows = 6;
-    cols = 21;
+    rows    = 6;
+    cols    = 21;
 
     /*---------------------------------------------------------------------*\
     | Add any values passed into the constructor before switching layouts   |
@@ -382,32 +385,35 @@ KeyboardLayoutManager::KeyboardLayoutManager(KEYBOARD_LAYOUT layout, KEYBOARD_SI
     | If the regional layouts were passed in count() returns true before    |
     |   attempting to swap keys.                                            |
     \*---------------------------------------------------------------------*/
-    LOG_DEBUG("[%s] Looking for a regional overlay %d and found: %d", name.c_str(), layout, values.regional_overlay.count(layout));
-    if(values.regional_overlay.count(layout))
+    bool found_overlay = (bool)values.regional_overlay.count(layout);
+
+    LOG_DEBUG("[%s] Regional overlay %d was %sfound.", KLM_CLASS_NAME, layout, (found_overlay) ? KEY_EN_UNUSED : "not ");
+    if(found_overlay)
     {
-        LOG_DEBUG("[%s] Found a regional overlay swapping keys", name.c_str());
+        LOG_DEBUG("[%s] Processing regional overlay for %s", KLM_CLASS_NAME, tmp_name.c_str());
         SwapKeys(values.regional_overlay.find(layout)->second);
     }
 
+    LOG_DEBUG("[%s] Adjusting layout to size '%d'", KLM_CLASS_NAME, size);
     switch(size)
     {
         case KEYBOARD_SIZE::KEYBOARD_SIZE_SIXTY:
             ChangeKeys(full_to_tkl);
             ChangeKeys(tkl_to_sixty);
-            name = KEYBOARD_NAME_SIXTY + tmp_name;
+            name = KEYBOARD_NAME_SIXTY;
             break;
 
         case KEYBOARD_SIZE::KEYBOARD_SIZE_TKL:
             ChangeKeys(full_to_tkl);
-            name = KEYBOARD_NAME_TKL + tmp_name;
+            name = KEYBOARD_NAME_TKL;
             break;
 
         default:
-            name = KEYBOARD_NAME_FULL + tmp_name;
+            name = KEYBOARD_NAME_FULL;
             break;
     }
 
-    LOG_INFO(LOG_MSG_CREATED_NEW, name.c_str(), KEY_EN_UNUSED, rows, cols, keymap.size());
+    LOG_INFO(LOG_MSG_CREATED_NEW, KLM_CLASS_NAME, name.c_str(), tmp_name.c_str(), rows, cols, physical_size);
 }
 
 KeyboardLayoutManager::~KeyboardLayoutManager()
@@ -431,7 +437,7 @@ void KeyboardLayoutManager::ChangeKeys(keyboard_keymap_overlay_values new_layout
 
 void KeyboardLayoutManager::InsertKeys(std::vector<keyboard_led> ins_keys)
 {
-    LOG_DEBUG("[%s] Inserting %d keys", name.c_str(), ins_keys.size());
+    LOG_DEBUG("[%s] %d keys to insert", KLM_CLASS_NAME, ins_keys.size());
 
     for(size_t i = 0; i < ins_keys.size(); i++)
     {
@@ -449,18 +455,18 @@ void KeyboardLayoutManager::InsertKeys(std::vector<keyboard_led> ins_keys)
 
         if(key == keymap.end())
         {
-            LOG_DEBUG(LOG_MSG_INSERT_BEFORE, name.c_str(), ins_keys[i].name, "the end", ins_keys[i].row, ins_keys[i].col, KEY_EN_UNUSED);
+            LOG_DEBUG(LOG_MSG_INSERT_BEFORE, KLM_CLASS_NAME, ins_keys[i].name, "the end", ins_keys[i].row, ins_keys[i].col, KEY_EN_UNUSED);
             keymap.push_back(ins_keys[i]);
             break;
         }
         else if(strlen(ins_keys[i].name) == 0)
         {
-            LOG_DEBUG(LOG_MSG_INSERT_BEFORE, name.c_str(), LOG_MSG_UNUSED_KEY, key->name, key->row, key->col, LOG_MSG_SHIFTING_RIGHT);
+            LOG_DEBUG(LOG_MSG_INSERT_BEFORE, KLM_CLASS_NAME, LOG_MSG_UNUSED_KEY, key->name, key->row, key->col, LOG_MSG_SHIFTING_RIGHT);
             key->col++;
         }
         else
         {
-            LOG_DEBUG(LOG_MSG_INSERT_BEFORE, name.c_str(), ins_keys[i].name, key->name, key->row, key->col, KEY_EN_UNUSED);
+            LOG_DEBUG(LOG_MSG_INSERT_BEFORE, KLM_CLASS_NAME, ins_keys[i].name, key->name, ins_keys[i].row, ins_keys[i].col, KEY_EN_UNUSED);
             key = keymap.insert(key, ins_keys[i]);
             key++;
         }
@@ -481,7 +487,7 @@ void KeyboardLayoutManager::InsertKeys(std::vector<keyboard_led> ins_keys)
 
 void KeyboardLayoutManager::SwapKeys(std::vector<keyboard_led> swp_keys)
 {
-    LOG_DEBUG("[%s] Swapping %d keys", name.c_str(), swp_keys.size());
+    LOG_DEBUG("[%s] %d keys to swap", KLM_CLASS_NAME, swp_keys.size());
 
     for(size_t i = 0; i < swp_keys.size(); i++)
     {
@@ -490,7 +496,8 @@ void KeyboardLayoutManager::SwapKeys(std::vector<keyboard_led> swp_keys)
         {
             if(key->row == swp_keys[i].row && key->col == swp_keys[i].col)
             {
-                LOG_DEBUG("[%s] Swapping in %s and %s out @ %02d, %02d", name.c_str(), swp_keys[i].name, key->name, key->row, key->col);
+                std::string swap_name = (strlen(swp_keys[i].name) == 0) ? LOG_MSG_UNUSED_KEY : swp_keys[i].name;
+                LOG_DEBUG("[%s] Swapping in %s and %s out @ %02d, %02d", KLM_CLASS_NAME, swap_name.c_str(), key->name, key->row, key->col);
                 key->name   = swp_keys[i].name;
                 key->value  = swp_keys[i].value;
                 not_swapped = false;
@@ -517,7 +524,7 @@ void KeyboardLayoutManager::RemoveKeys(std::vector<keyboard_led> rmv_keys)
         {
             if(key->row == rmv_keys[i].row && key->col == rmv_keys[i].col)
             {
-                LOG_DEBUG("[%s] Removing %s @ %02d, %02d and shifting keys left", name.c_str(), key->name, key->row, key->col);
+                LOG_DEBUG("[%s] Removing %s @ %02d, %02d and shifting keys left", KLM_CLASS_NAME, key->name, key->row, key->col);
                 for(std::vector<keyboard_led>::iterator shift = key + 1; shift != keymap.end() && shift->row == key->row; ++shift)
                 {
                     shift->col--;
