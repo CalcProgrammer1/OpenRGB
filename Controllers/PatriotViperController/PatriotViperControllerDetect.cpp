@@ -51,10 +51,7 @@ bool TestForPatriotViperController(i2c_smbus_interface* bus, unsigned char addre
 
 void DetectPatriotViperControllers(std::vector<i2c_smbus_interface*> &busses)
 {
-    PatriotViperController* new_viper;
-    RGBController_PatriotViper* new_controller;
-
-    for (unsigned int bus = 0; bus < busses.size(); bus++)
+    for(unsigned int bus = 0; bus < busses.size(); bus++)
     {
         unsigned char slots_valid = 0x00;
 
@@ -105,9 +102,9 @@ void DetectPatriotViperControllers(std::vector<i2c_smbus_interface*> &busses)
 
                 if(slots_valid != 0)
                 {
-                    new_viper = new PatriotViperController(busses[bus], 0x77, slots_valid);
-                    new_controller = new RGBController_PatriotViper(new_viper);
-                    ResourceManager::get()->RegisterRGBController(new_controller);
+                    PatriotViperController*     controller     = new PatriotViperController(busses[bus], 0x77, slots_valid);
+                    RGBController_PatriotViper* rgb_controller = new RGBController_PatriotViper(controller);
+                    ResourceManager::get()->RegisterRGBController(rgb_controller);
                 }
             }
         }
