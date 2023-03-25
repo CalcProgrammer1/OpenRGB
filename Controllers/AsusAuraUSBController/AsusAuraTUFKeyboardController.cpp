@@ -17,12 +17,12 @@
 #include <string.h>
 #include <cmath>
 
-AuraTUFKeyboardController::AuraTUFKeyboardController(hid_device* dev_handle, const char* path, uint16_t pid, unsigned short rev_version)
+AuraTUFKeyboardController::AuraTUFKeyboardController(hid_device* dev_handle, const char* path, uint16_t pid, unsigned short version)
 {
     dev         = dev_handle;
     location    = path;
     device_pid  = pid;
-    version     = rev_version;
+    rev_version = version;
 }
 
 AuraTUFKeyboardController::~AuraTUFKeyboardController()
@@ -136,13 +136,7 @@ int AuraTUFKeyboardController::GetLayout()
     }
     else
     {
-        char layout[4];
-
-        snprintf(layout, 4, "%X", version);
-
-        int layoutnum = std::stoi(std::string(layout, 1));
-
-        switch(layoutnum)
+        switch(rev_version >> 0b1100)
         {
             case 1:
                 return 117;

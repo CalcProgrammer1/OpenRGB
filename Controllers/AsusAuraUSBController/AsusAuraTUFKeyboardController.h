@@ -49,7 +49,7 @@ struct led_color
 class AuraTUFKeyboardController
 {
 public:
-    AuraTUFKeyboardController(hid_device* dev_handle, const char* path, uint16_t pid, unsigned short rev_version);
+    AuraTUFKeyboardController(hid_device* dev_handle, const char* path, uint16_t pid, unsigned short version);
     ~AuraTUFKeyboardController();
 
     std::string GetDeviceLocation();
@@ -92,6 +92,6 @@ public:
 private:
     hid_device*                 dev;
     std::string                 location;
-    unsigned short              version;
+    unsigned short              rev_version;
 };
 
