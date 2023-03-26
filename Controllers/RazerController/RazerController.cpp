@@ -57,6 +57,7 @@ RazerController::RazerController(hid_device* dev_handle, hid_device* dev_argb_ha
         case RAZER_BLACKWIDOW_V3_MINI_WIRED_PID:
         case RAZER_BLADE_2021_BASE_V2_PID:
         case RAZER_BLADE_14_2022_PID:
+        case RAZER_BLADE_15_2022_PID:
         case RAZER_CYNOSA_V2_PID:
         case RAZER_ORNATA_CHROMA_V2_PID:
         case RAZER_ORNATA_V3_PID:
@@ -67,6 +68,7 @@ RazerController::RazerController(hid_device* dev_handle, hid_device* dev_argb_ha
         case RAZER_DEATHADDER_CHROMA_PID:
         case RAZER_DEATHADDER_ESSENTIAL_V2_PID:
         case RAZER_DEATHADDER_V2_MINI_PID:
+        case RAZER_DEATHSTALKER_V2_PID:
         case RAZER_LAPTOP_STAND_CHROMA_PID:
         case RAZER_LAPTOP_STAND_CHROMA_V2_PID:
         case RAZER_MAMBA_ELITE_PID:
@@ -98,6 +100,8 @@ RazerController::RazerController(hid_device* dev_handle, hid_device* dev_argb_ha
             break;
 
         case RAZER_BLACKWIDOW_V3_MINI_WIRELESS_PID:
+        case RAZER_DEATHSTALKER_V2_PRO_WIRED_PID:
+        case RAZER_DEATHSTALKER_V2_PRO_WIRELESS_PID:
             {
             dev_transaction_id = 0x9F;
             break;
@@ -136,12 +140,15 @@ RazerController::RazerController(hid_device* dev_handle, hid_device* dev_argb_ha
         case RAZER_BASE_STATION_CHROMA_PID:
         case RAZER_BASE_STATION_V2_CHROMA_PID:
         case RAZER_BLADE_14_2022_PID:
+        case RAZER_BLADE_15_2022_PID:
         case RAZER_CHARGING_PAD_CHROMA_PID:
         case RAZER_CHROMA_HDK_PID:
         case RAZER_CORE_X_PID:
         case RAZER_DEATHADDER_ELITE_PID:
         case RAZER_DEATHADDER_V2_MINI_PID:
         case RAZER_DEATHADDER_ESSENTIAL_V2_PID:
+        case RAZER_DEATHSTALKER_V2_PRO_WIRED_PID:
+        case RAZER_DEATHSTALKER_V2_PRO_WIRELESS_PID:
         case RAZER_FIREFLY_V2_PID:
         case RAZER_GOLIATHUS_CHROMA_EXTENDED_PID:
         case RAZER_GOLIATHUS_CHROMA_PID:
@@ -173,6 +180,7 @@ RazerController::RazerController(hid_device* dev_handle, hid_device* dev_argb_ha
         case RAZER_CYNOSA_CHROMA_PID:
         case RAZER_CYNOSA_LITE_PID:
         case RAZER_CYNOSA_V2_PID:
+        case RAZER_DEATHSTALKER_V2_PID:
         case RAZER_HUNTSMAN_ELITE_PID:
         case RAZER_HUNTSMAN_PID:
         case RAZER_HUNTSMAN_MINI_PID:
@@ -216,8 +224,10 @@ RazerController::RazerController(hid_device* dev_handle, hid_device* dev_argb_ha
         case RAZER_BLADE_2021_ADVANCED_PID:
         case RAZER_BLADE_2021_BASE_PID:
         case RAZER_BLADE_2021_BASE_V2_PID:
+        case RAZER_BLADE_LATE_2021_ADVANCED_PID:
         case RAZER_BLADE_14_2021_PID:
         case RAZER_BLADE_14_2022_PID:
+        case RAZER_BLADE_15_2022_PID:
         case RAZER_BLADE_PRO_2016_PID:
         case RAZER_BLADE_PRO_2017_PID:
         case RAZER_BLADE_PRO_2017_FULLHD_PID:
@@ -276,6 +286,9 @@ RazerController::RazerController(hid_device* dev_handle, hid_device* dev_argb_ha
         case RAZER_DEATHADDER_V2_PID:
         case RAZER_DEATHADDER_V2_PRO_WIRED_PID:
         case RAZER_DEATHADDER_V2_PRO_WIRELESS_PID:
+        case RAZER_DEATHSTALKER_V2_PID:
+        case RAZER_DEATHSTALKER_V2_PRO_WIRED_PID:
+        case RAZER_DEATHSTALKER_V2_PRO_WIRELESS_PID:
         case RAZER_FIREFLY_HYPERFLUX_PID:
         case RAZER_FIREFLY_V2_PID:
         case RAZER_GOLIATHUS_CHROMA_EXTENDED_PID:
@@ -590,8 +603,10 @@ bool RazerController::SupportsWave()
         case RAZER_BLADE_2021_ADVANCED_PID:
         case RAZER_BLADE_2021_BASE_PID:
         case RAZER_BLADE_2021_BASE_V2_PID:
+        case RAZER_BLADE_LATE_2021_ADVANCED_PID:
         case RAZER_BLADE_14_2021_PID:
         case RAZER_BLADE_14_2022_PID:
+        case RAZER_BLADE_15_2022_PID:
         case RAZER_BLADE_PRO_2016_PID:
         case RAZER_BLADE_PRO_2017_PID:
         case RAZER_BLADE_PRO_2017_FULLHD_PID:
@@ -607,6 +622,9 @@ bool RazerController::SupportsWave()
         case RAZER_CYNOSA_CHROMA_PID:
         case RAZER_CYNOSA_V2_PID:
         case RAZER_DEATHSTALKER_CHROMA_PID:
+        case RAZER_DEATHSTALKER_V2_PID:
+        case RAZER_DEATHSTALKER_V2_PRO_WIRED_PID:
+        case RAZER_DEATHSTALKER_V2_PRO_WIRELESS_PID:
         case RAZER_ORNATA_CHROMA_PID:
         case RAZER_ORNATA_CHROMA_V2_PID:
         case RAZER_ORNATA_V3_PID:
@@ -1230,7 +1248,6 @@ unsigned char RazerController::GetKeyboardLayoutType()
             return RAZER_LAYOUT_TYPE_ANSI;
 
         case RAZER_KEYBOARD_LAYOUT_GREEK:                  // Unconfirmed
-        case RAZER_KEYBOARD_LAYOUT_FRENCH:
         case RAZER_KEYBOARD_LAYOUT_UK:
         case RAZER_KEYBOARD_LAYOUT_NORDIC:
         case RAZER_KEYBOARD_LAYOUT_KOREAN:                 // Unconfirmed
@@ -1242,6 +1259,9 @@ unsigned char RazerController::GetKeyboardLayoutType()
         case RAZER_KEYBOARD_LAYOUT_PORTUGESE_PORTUGA:      // Unconfirmed
         case RAZER_KEYBOARD_LAYOUT_HEBREW:                 // Unconfirmed
             return RAZER_LAYOUT_TYPE_ISO;
+
+        case RAZER_KEYBOARD_LAYOUT_FRENCH:
+            return RAZER_LAYOUT_TYPE_AZERTY;
 
         case RAZER_KEYBOARD_LAYOUT_JAPAN:                  // Unconfirmed
             return RAZER_LAYOUT_TYPE_JIS;

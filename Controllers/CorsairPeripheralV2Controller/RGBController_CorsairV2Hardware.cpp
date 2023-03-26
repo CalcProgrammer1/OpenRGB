@@ -1,29 +1,28 @@
 /*---------------------------------------------------------------------*\
-|  RGBController_CorsairV2SoftwareController.cpp                        |
+|  RGBController_CorsairV2HardwareController.cpp                        |
 |                                                                       |
-|  Common driver for the newer Corsair peripherals that use             |
-|    the `08` based USB protocol                                        |
+|  Driver for the newer Corsair peripherals that use the '08'           |
+|    based USB protocol and support hardware lighting modes.            |
 |                                                                       |
-|  Chris M (Dr_No)          11 Aug 2022                                 |
+|  Chris M (Dr_No)          10 Dec 2022                                 |
 \*---------------------------------------------------------------------*/
-
 #include "LogManager.h"
-#include "RGBController_CorsairV2Software.h"
+#include "RGBController_CorsairV2Hardware.h"
 
 using namespace std::chrono_literals;
 
 /**------------------------------------------------------------------*\
-    @name Corsair Peripherals V2 Software
+    @name Corsair Peripherals V2 Hardware
     @category Keyboard
     @type USB
-    @save :x:
+    @save :robot:
     @direct :white_check_mark:
-    @effects :x:
-    @detectors DetectCorsairV2SoftwareControllers
+    @effects :white_check_mark:
+    @detectors DetectCorsairV2HardwareControllers
     @comment
 \*-------------------------------------------------------------------*/
 
-RGBController_CorsairV2SW::RGBController_CorsairV2SW(CorsairPeripheralV2Controller *controller_ptr)
+RGBController_CorsairV2HW::RGBController_CorsairV2HW(CorsairPeripheralV2Controller *controller_ptr)
 {
     controller                          = controller_ptr;
     const corsair_v2_device* corsair    = controller->GetDeviceData();
@@ -35,28 +34,25 @@ RGBController_CorsairV2SW::RGBController_CorsairV2SW(CorsairPeripheralV2Controll
     location                            = controller->GetDeviceLocation();
     serial                              = controller->GetSerialString();
 
-    if(corsair->protocol & CORSAIR_V2_TYPE_SW_COLOUR_BLOCK)
-    {
-        mode Direct;
-        Direct.name                     = "Direct";
-        Direct.value                    = CORSAIR_V2_MODE_DIRECT;
-        Direct.flags                    = MODE_FLAG_HAS_PER_LED_COLOR;
-        Direct.color_mode               = MODE_COLORS_PER_LED;
-        modes.push_back(Direct);
+    mode Direct;
+    Direct.name                         = "Direct";
+    Direct.value                        = CORSAIR_V2_MODE_DIRECT;
+    Direct.flags                        = MODE_FLAG_HAS_PER_LED_COLOR;
+    Direct.color_mode                   = MODE_COLORS_PER_LED;
+    modes.push_back(Direct);
 
-        mode Static;
-        Static.name                     = "Static";
-        Static.value                    = CORSAIR_V2_MODE_STATIC;
-        Static.flags                    = MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_BRIGHTNESS;
-        Static.colors_min               = 1;
-        Static.colors_max               = 1;
-        Static.colors.resize(Static.colors_max);
-        Static.brightness_min           = CORSAIR_V2_BRIGHTNESS_MIN;
-        Static.brightness_max           = CORSAIR_V2_BRIGHTNESS_MAX;
-        Static.brightness               = CORSAIR_V2_BRIGHTNESS_MAX;
-        Static.color_mode               = MODE_COLORS_MODE_SPECIFIC;
-        modes.push_back(Static);
-    }
+    mode Static;
+    Static.name                         = "Static";
+    Static.value                        = CORSAIR_V2_MODE_STATIC;
+    Static.flags                        = MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_BRIGHTNESS;
+    Static.colors_min                   = 1;
+    Static.colors_max                   = 1;
+    Static.colors.resize(Static.colors_max);
+    Static.brightness_min               = CORSAIR_V2_BRIGHTNESS_MIN;
+    Static.brightness_max               = CORSAIR_V2_BRIGHTNESS_MAX;
+    Static.brightness                   = CORSAIR_V2_BRIGHTNESS_MAX;
+    Static.color_mode                   = MODE_COLORS_MODE_SPECIFIC;
+    modes.push_back(Static);
 
     SetupZones();
     /*-----------------------------------------------------*\
@@ -66,10 +62,10 @@ RGBController_CorsairV2SW::RGBController_CorsairV2SW(CorsairPeripheralV2Controll
     | to continuously send a keepalive packet every 50 sec  |
     \*-----------------------------------------------------*/
     keepalive_thread_run                = true;
-    keepalive_thread                    = new std::thread(&RGBController_CorsairV2SW::KeepaliveThread, this);
+    keepalive_thread                    = new std::thread(&RGBController_CorsairV2HW::KeepaliveThread, this);
 }
 
-RGBController_CorsairV2SW::~RGBController_CorsairV2SW()
+RGBController_CorsairV2HW::~RGBController_CorsairV2HW()
 {
     /*-----------------------------------------------------*\
     | Close keepalive thread                                |
@@ -92,7 +88,7 @@ RGBController_CorsairV2SW::~RGBController_CorsairV2SW()
     delete controller;
 }
 
-void RGBController_CorsairV2SW::SetupZones()
+void RGBController_CorsairV2HW::SetupZones()
 {
     unsigned int max_led_value              = 0;
     const corsair_v2_device* corsair        = controller->GetDeviceData();
@@ -206,36 +202,36 @@ void RGBController_CorsairV2SW::SetupZones()
     }
 }
 
-void RGBController_CorsairV2SW::ResizeZone(int /*zone*/, int /*new_size*/)
+void RGBController_CorsairV2HW::ResizeZone(int /*zone*/, int /*new_size*/)
 {
     /*---------------------------------------------------------*\
     | This device does not support resizing zones               |
     \*---------------------------------------------------------*/
 }
 
-void RGBController_CorsairV2SW::DeviceUpdateLEDs()
+void RGBController_CorsairV2HW::DeviceUpdateLEDs()
 {
     last_update_time = std::chrono::steady_clock::now();
 
     controller->SetLedsDirect(buffer_map);
 }
 
-void RGBController_CorsairV2SW::UpdateZoneLEDs(int /*zone*/)
+void RGBController_CorsairV2HW::UpdateZoneLEDs(int /*zone*/)
 {
     controller->SetLedsDirect(buffer_map);
 }
 
-void RGBController_CorsairV2SW::UpdateSingleLED(int /*led*/)
+void RGBController_CorsairV2HW::UpdateSingleLED(int /*led*/)
 {
     controller->SetLedsDirect(buffer_map);
 }
 
-void RGBController_CorsairV2SW::DeviceUpdateMode()
+void RGBController_CorsairV2HW::DeviceUpdateMode()
 {
 
 }
 
-void RGBController_CorsairV2SW::KeepaliveThread()
+void RGBController_CorsairV2HW::KeepaliveThread()
 {
     while(keepalive_thread_run.load())
     {

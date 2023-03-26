@@ -1,5 +1,5 @@
 /*-----------------------------------------*\
-|  HyperXQuadcastSController.cpp            |
+|  HyperXMicrophoneController.cpp           |
 |                                           |
 |  Implementation for the HyperX            |
 |  Quadcast S RGB microphone                |
@@ -7,11 +7,12 @@
 |  Matt Silva (thesilvanator) 2022          |
 \*-----------------------------------------*/
 
-#include "HyperXQuadcastSController.h"
+#include "HyperXMicrophoneController.h"
+#include <cstring>
 
 using namespace std::chrono_literals;
 
-HyperXQuadcastSController::HyperXQuadcastSController(hidapi_wrapper hid_wrapper, hid_device* dev_handle, std::string path)
+HyperXMicrophoneController::HyperXMicrophoneController(hidapi_wrapper hid_wrapper, hid_device* dev_handle, std::string path)
 {
     wrapper     = hid_wrapper;
     dev         = dev_handle;
@@ -31,7 +32,7 @@ HyperXQuadcastSController::HyperXQuadcastSController(hidapi_wrapper hid_wrapper,
     }
 }
 
-HyperXQuadcastSController::~HyperXQuadcastSController()
+HyperXMicrophoneController::~HyperXMicrophoneController()
 {
     if(dev)
     {
@@ -39,17 +40,17 @@ HyperXQuadcastSController::~HyperXQuadcastSController()
     }
 }
 
-std::string HyperXQuadcastSController::GetDeviceLocation()
+std::string HyperXMicrophoneController::GetDeviceLocation()
 {
     return location;
 }
 
-std::string HyperXQuadcastSController::GetSerialString()
+std::string HyperXMicrophoneController::GetSerialString()
 {
     return serial_number;
 }
 
-void HyperXQuadcastSController::SaveColors(std::vector<RGBColor> colors, unsigned int num_frames)
+void HyperXMicrophoneController::SaveColors(std::vector<RGBColor> colors, unsigned int num_frames)
 {
     unsigned int  num_color_packets                     = 0;
     unsigned int  frame                                 = 0;
@@ -126,7 +127,7 @@ void HyperXQuadcastSController::SaveColors(std::vector<RGBColor> colors, unsigne
     SendDirect(colors);
 }
 
-void HyperXQuadcastSController::SendDirect(std::vector<RGBColor> colors)
+void HyperXMicrophoneController::SendDirect(std::vector<RGBColor> colors)
 {
     /*---------------------------------------------------------*\
     | Verify colors size                                        |
@@ -164,7 +165,7 @@ void HyperXQuadcastSController::SendDirect(std::vector<RGBColor> colors)
     lock.unlock();
 }
 
-void HyperXQuadcastSController::SendEOT(uint8_t frame_count)
+void HyperXMicrophoneController::SendEOT(uint8_t frame_count)
 {
     uint8_t buffer[HYPERX_QUADCAST_S_PACKET_SIZE];
 
@@ -181,7 +182,7 @@ void HyperXQuadcastSController::SendEOT(uint8_t frame_count)
     std::this_thread::sleep_for(15ms);
 }
 
-void HyperXQuadcastSController::SendToRegister(uint8_t reg, uint8_t param1, uint8_t param2)
+void HyperXMicrophoneController::SendToRegister(uint8_t reg, uint8_t param1, uint8_t param2)
 {
     uint8_t buffer[HYPERX_QUADCAST_S_PACKET_SIZE];
 

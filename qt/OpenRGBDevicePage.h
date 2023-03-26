@@ -52,7 +52,7 @@ private slots:
     void on_RandomCheck_clicked();
     void on_PerLEDCheck_clicked();
     void on_ModeSpecificCheck_clicked();
-    void on_ResizeButton_clicked();
+    void on_EditZoneButton_clicked();
 
     void on_ApplyColorsButton_clicked();
 

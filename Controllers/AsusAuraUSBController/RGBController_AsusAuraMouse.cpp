@@ -9,11 +9,12 @@
 
 #include "RGBController_AsusAuraMouse.h"
 
-static std::string aura_mouse_zone_names[3]
+static std::string aura_mouse_zone_names[4]
 {
     "Logo",
     "Scroll Wheel",
-    "Underglow"
+    "Underglow",
+    "Dock"
 };
 
 /**------------------------------------------------------------------*\
@@ -238,7 +239,15 @@ void RGBController_AuraMouse::DeviceUpdateMode()
             blu = RGBGetBValue(modes[active_mode].colors[0]);
         }
 
-        controller->SendUpdate(AURA_MOUSE_ZONE_ALL, modes[active_mode].value, red, grn, blu, modes[active_mode].direction, modes[active_mode].color_mode == MODE_COLORS_RANDOM, modes[active_mode].speed, modes[active_mode].brightness);
+
+        if(pid == AURA_ROG_SPATHA_X_DOCK_FAKE_PID)
+        {
+            controller->SendUpdate(AURA_MOUSE_ZONE_DOCK, modes[active_mode].value, red, grn, blu, modes[active_mode].direction, modes[active_mode].color_mode == MODE_COLORS_RANDOM, modes[active_mode].speed, modes[active_mode].brightness);
+        }
+        else
+        {
+            controller->SendUpdate(AURA_MOUSE_ZONE_ALL, modes[active_mode].value, red, grn, blu, modes[active_mode].direction, modes[active_mode].color_mode == MODE_COLORS_RANDOM, modes[active_mode].speed, modes[active_mode].brightness);
+        }
     }
 }
 

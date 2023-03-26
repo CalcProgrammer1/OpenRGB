@@ -1,6 +1,7 @@
 #include "OpenRGBSupportedDevicesPage.h"
 #include "ui_OpenRGBSupportedDevicesPage.h"
 #include "ResourceManager.h"
+#include "OpenRGBHardwareIDsDialog.h"
 
 using namespace Ui;
 
@@ -50,6 +51,12 @@ void OpenRGBSupportedDevicesPage::changeEvent(QEvent *event)
 void OpenRGBSupportedDevicesPage::on_SaveButton_clicked()
 {
     detectorTableModel->applySettings();
+}
+
+void OpenRGBSupportedDevicesPage::on_GetHardwareIDsButton_clicked()
+{
+    OpenRGBHardwareIDsDialog dialog(this);
+    dialog.show();
 }
 
 void OpenRGBSupportedDevicesPage::on_Filter_textChanged(const QString &arg1)

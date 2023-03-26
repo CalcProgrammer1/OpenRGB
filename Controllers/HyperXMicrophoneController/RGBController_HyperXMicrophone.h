@@ -1,23 +1,23 @@
 /*-----------------------------------------*\
-|  RGBController_HyperXAlloyOrigins60.h     |
+|  RGBController_HyperXMicrophone.h         |
 |                                           |
-|  Generic RGB Interface for HyperX Alloy   |
-|  Origins 60 RGB Keyboard                  |
+|  Implementation for the HyperX            |
+|  Quadcast S RGB microphone                |
 |                                           |
-|  Derek Huber 10/24/2022                   |
+|  Matt Silva (thesilvanator) 2022          |
 \*-----------------------------------------*/
 
 #pragma once
 #include <chrono>
 
 #include "RGBController.h"
-#include "HyperXAlloyOrigins60Controller.h"
+#include "HyperXMicrophoneController.h"
 
-class RGBController_HyperXAlloyOrigins60 : public RGBController
+class RGBController_HyperXMicrophone : public RGBController
 {
 public:
-    RGBController_HyperXAlloyOrigins60(HyperXAlloyOrigins60Controller* controller_ptr);
-    ~RGBController_HyperXAlloyOrigins60();
+    RGBController_HyperXMicrophone(HyperXMicrophoneController* controller_ptr);
+    ~RGBController_HyperXMicrophone();
 
     void        SetupZones();
 
@@ -28,11 +28,12 @@ public:
     void        UpdateSingleLED(int led);
 
     void        DeviceUpdateMode();
+    void        DeviceSaveMode();
 
     void        KeepaliveThread();
 
 private:
-    HyperXAlloyOrigins60Controller*                     controller;
+    HyperXMicrophoneController*                         controller;
     std::thread*                                        keepalive_thread;
     std::atomic<bool>                                   keepalive_thread_run;
     std::chrono::time_point<std::chrono::steady_clock>  last_update_time;

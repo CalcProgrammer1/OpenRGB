@@ -4,14 +4,14 @@
 #include "HyperXAlloyFPSController.h"
 #include "HyperXAlloyOriginsController.h"
 #include "HyperXAlloyOriginsCoreController.h"
-#include "HyperXAlloyOrigins60Controller.h"
+#include "HyperXAlloyOrigins60and65Controller.h"
 #include "RGBController.h"
 #include "RGBController_HyperXAlloyElite.h"
 #include "RGBController_HyperXAlloyElite2.h"
 #include "RGBController_HyperXAlloyFPS.h"
 #include "RGBController_HyperXAlloyOrigins.h"
 #include "RGBController_HyperXAlloyOriginsCore.h"
-#include "RGBController_HyperXAlloyOrigins60.h"
+#include "RGBController_HyperXAlloyOrigins60and65.h"
 #include <hidapi/hidapi.h>
 
 /*-----------------------------------------------------*\
@@ -27,15 +27,31 @@
 #define HYPERX_ALLOY_ORIGINS_60_PID                0x1734
 
 /*-----------------------------------------------------*\
-| HyperX keyboard vendor and product IDs (HP)               |
+| HyperX keyboard vendor and product IDs (HP)           |
 \*-----------------------------------------------------*/
 #define HP_KEYBOARD_VID                            0x03F0
 
 #define HYPERX_ALLOY_ELITE_2_HP_PID                0x058F
 #define HYPERX_ALLOY_ORIGINS_60_HP_PID             0x0C8E
+#define HYPERX_ALLOY_ORIGINS_65_HP_PID             0x038F
 #define HYPERX_ALLOY_ORIGINS_CORE_HP_PID           0x098F
 #define HYPERX_ALLOY_ORIGINS_HP_PID                0x0591
 
+AlloyOrigins60and65MappingLayoutType GetAlloyOrigins60and65MappingLayoutType(int pid)
+{
+    switch(pid)
+    {
+        case HYPERX_ALLOY_ORIGINS_60_PID:
+        case HYPERX_ALLOY_ORIGINS_60_HP_PID:
+            return ALLOY_ORIGINS_60_LAYOUT;
+
+        case HYPERX_ALLOY_ORIGINS_65_HP_PID:
+            return ALLOY_ORIGINS_65_LAYOUT;
+
+        default:
+            return ALLOY_ORIGINS_60_LAYOUT;
+    }
+}
 
 void DetectHyperXAlloyElite(hid_device_info* info, const std::string& name)
 {
@@ -107,40 +123,43 @@ void DetectHyperXAlloyOriginsCore(hid_device_info* info, const std::string& name
     }
 }
 
-void DetectHyperXAlloyOrigins60(hid_device_info* info, const std::string& name)
+void DetectHyperXAlloyOrigins60and65(hid_device_info* info, const std::string& name)
 {
     hid_device* dev = hid_open_path(info->path);
 
     if(dev)
     {
-        HyperXAlloyOrigins60Controller*     controller     = new HyperXAlloyOrigins60Controller(dev, info->path);
-        RGBController_HyperXAlloyOrigins60* rgb_controller = new RGBController_HyperXAlloyOrigins60(controller);
-        rgb_controller->name                             = name;
+        HyperXAlloyOrigins60and65Controller* controller         = new HyperXAlloyOrigins60and65Controller(dev, info->path);
+        AlloyOrigins60and65MappingLayoutType layout             = GetAlloyOrigins60and65MappingLayoutType(info->product_id);
+        RGBController_HyperXAlloyOrigins60and65* rgb_controller = new RGBController_HyperXAlloyOrigins60and65(controller, layout);
+        rgb_controller->name                                    = name;
 
         ResourceManager::get()->RegisterRGBController(rgb_controller);
     }
 }
 
-REGISTER_HID_DETECTOR_IP("HyperX Alloy Elite RGB",          DetectHyperXAlloyElite,       HYPERX_KEYBOARD_VID, HYPERX_ALLOY_ELITE_PID,           2, 0xFF01);
-REGISTER_HID_DETECTOR_IP("HyperX Alloy FPS RGB",            DetectHyperXAlloyFPS,         HYPERX_KEYBOARD_VID, HYPERX_ALLOY_FPS_RGB_PID,         2, 0xFF01);
-REGISTER_HID_DETECTOR_I("HyperX Alloy Origins Core",        DetectHyperXAlloyOriginsCore, HYPERX_KEYBOARD_VID, HYPERX_ALLOY_ORIGINS_CORE_PID,    2);
+REGISTER_HID_DETECTOR_IP("HyperX Alloy Elite RGB",        DetectHyperXAlloyElite,          HYPERX_KEYBOARD_VID, HYPERX_ALLOY_ELITE_PID,           2, 0xFF01);
+REGISTER_HID_DETECTOR_IP("HyperX Alloy FPS RGB",          DetectHyperXAlloyFPS,            HYPERX_KEYBOARD_VID, HYPERX_ALLOY_FPS_RGB_PID,         2, 0xFF01);
+REGISTER_HID_DETECTOR_I("HyperX Alloy Origins Core",      DetectHyperXAlloyOriginsCore,    HYPERX_KEYBOARD_VID, HYPERX_ALLOY_ORIGINS_CORE_PID,    2);
 
-REGISTER_HID_DETECTOR_I("HyperX Alloy Origins Core (HP)",   DetectHyperXAlloyOriginsCore, HP_KEYBOARD_VID,     HYPERX_ALLOY_ORIGINS_CORE_HP_PID, 2);
+REGISTER_HID_DETECTOR_I("HyperX Alloy Origins Core (HP)", DetectHyperXAlloyOriginsCore,    HP_KEYBOARD_VID,     HYPERX_ALLOY_ORIGINS_CORE_HP_PID, 2);
 
 #ifdef _WIN32
-REGISTER_HID_DETECTOR_I("HyperX Alloy Origins",             DetectHyperXAlloyOrigins,     HYPERX_KEYBOARD_VID, HYPERX_ALLOY_ORIGINS_PID,         3);
-REGISTER_HID_DETECTOR_IP("HyperX Alloy Elite 2",            DetectHyperXAlloyElite2,      HYPERX_KEYBOARD_VID, HYPERX_ALLOY_ELITE_2_PID,         3, 0xFF90);
-REGISTER_HID_DETECTOR_I("HyperX Alloy Origins 60",          DetectHyperXAlloyOrigins60,   HYPERX_KEYBOARD_VID, HYPERX_ALLOY_ORIGINS_60_PID,      3);
+REGISTER_HID_DETECTOR_I("HyperX Alloy Origins",           DetectHyperXAlloyOrigins,        HYPERX_KEYBOARD_VID, HYPERX_ALLOY_ORIGINS_PID,         3);
+REGISTER_HID_DETECTOR_IP("HyperX Alloy Elite 2",          DetectHyperXAlloyElite2,         HYPERX_KEYBOARD_VID, HYPERX_ALLOY_ELITE_2_PID,         3, 0xFF90);
+REGISTER_HID_DETECTOR_I("HyperX Alloy Origins 60",        DetectHyperXAlloyOrigins60and65, HYPERX_KEYBOARD_VID, HYPERX_ALLOY_ORIGINS_60_PID,      3);
 
-REGISTER_HID_DETECTOR_IP("HyperX Alloy Elite 2 (HP)",       DetectHyperXAlloyElite2,      HP_KEYBOARD_VID,     HYPERX_ALLOY_ELITE_2_HP_PID,      3, 0xFF90);
-REGISTER_HID_DETECTOR_IP("HyperX Alloy Origins (HP)",       DetectHyperXAlloyOrigins,     HP_KEYBOARD_VID,     HYPERX_ALLOY_ORIGINS_HP_PID,      3, 0xFF90);
-REGISTER_HID_DETECTOR_I("HyperX Alloy Origins 60 (HP)",     DetectHyperXAlloyOrigins60,   HP_KEYBOARD_VID,     HYPERX_ALLOY_ORIGINS_60_HP_PID,   3);
+REGISTER_HID_DETECTOR_IP("HyperX Alloy Elite 2 (HP)",     DetectHyperXAlloyElite2,         HP_KEYBOARD_VID,     HYPERX_ALLOY_ELITE_2_HP_PID,      3, 0xFF90);
+REGISTER_HID_DETECTOR_IP("HyperX Alloy Origins (HP)",     DetectHyperXAlloyOrigins,        HP_KEYBOARD_VID,     HYPERX_ALLOY_ORIGINS_HP_PID,      3, 0xFF90);
+REGISTER_HID_DETECTOR_I("HyperX Alloy Origins 60 (HP)",   DetectHyperXAlloyOrigins60and65, HP_KEYBOARD_VID,     HYPERX_ALLOY_ORIGINS_60_HP_PID,   3);
+REGISTER_HID_DETECTOR_I("HyperX Alloy Origins 65 (HP)",   DetectHyperXAlloyOrigins60and65, HP_KEYBOARD_VID,     HYPERX_ALLOY_ORIGINS_65_HP_PID,   3);
 #else
-REGISTER_HID_DETECTOR_I("HyperX Alloy Origins",             DetectHyperXAlloyOrigins,     HYPERX_KEYBOARD_VID, HYPERX_ALLOY_ORIGINS_PID,         0);
-REGISTER_HID_DETECTOR_I("HyperX Alloy Elite 2",             DetectHyperXAlloyElite2,      HYPERX_KEYBOARD_VID, HYPERX_ALLOY_ELITE_2_PID,         0);
-REGISTER_HID_DETECTOR_I("HyperX Alloy Origins 60",          DetectHyperXAlloyOrigins60,   HYPERX_KEYBOARD_VID, HYPERX_ALLOY_ORIGINS_60_PID,      0);
+REGISTER_HID_DETECTOR_I("HyperX Alloy Origins",           DetectHyperXAlloyOrigins,        HYPERX_KEYBOARD_VID, HYPERX_ALLOY_ORIGINS_PID,         0);
+REGISTER_HID_DETECTOR_I("HyperX Alloy Elite 2",           DetectHyperXAlloyElite2,         HYPERX_KEYBOARD_VID, HYPERX_ALLOY_ELITE_2_PID,         0);
+REGISTER_HID_DETECTOR_I("HyperX Alloy Origins 60",        DetectHyperXAlloyOrigins60and65, HYPERX_KEYBOARD_VID, HYPERX_ALLOY_ORIGINS_60_PID,      0);
 
-REGISTER_HID_DETECTOR_I("HyperX Alloy Elite 2 (HP)",        DetectHyperXAlloyElite2,      HP_KEYBOARD_VID,     HYPERX_ALLOY_ELITE_2_HP_PID,      0);
-REGISTER_HID_DETECTOR_I("HyperX Alloy Origins (HP)",        DetectHyperXAlloyOrigins,     HP_KEYBOARD_VID,     HYPERX_ALLOY_ORIGINS_HP_PID,      0);
-REGISTER_HID_DETECTOR_I("HyperX Alloy Origins 60 (HP)",     DetectHyperXAlloyOrigins60,   HP_KEYBOARD_VID,     HYPERX_ALLOY_ORIGINS_60_HP_PID,   0);
+REGISTER_HID_DETECTOR_I("HyperX Alloy Elite 2 (HP)",      DetectHyperXAlloyElite2,         HP_KEYBOARD_VID,     HYPERX_ALLOY_ELITE_2_HP_PID,      0);
+REGISTER_HID_DETECTOR_I("HyperX Alloy Origins (HP)",      DetectHyperXAlloyOrigins,        HP_KEYBOARD_VID,     HYPERX_ALLOY_ORIGINS_HP_PID,      0);
+REGISTER_HID_DETECTOR_I("HyperX Alloy Origins 60 (HP)",   DetectHyperXAlloyOrigins60and65, HP_KEYBOARD_VID,     HYPERX_ALLOY_ORIGINS_60_HP_PID,   0);
+REGISTER_HID_DETECTOR_I("HyperX Alloy Origins 65 (HP)",   DetectHyperXAlloyOrigins60and65, HP_KEYBOARD_VID,     HYPERX_ALLOY_ORIGINS_65_HP_PID,   0);
 #endif

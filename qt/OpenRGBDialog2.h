@@ -70,6 +70,7 @@ signals:
 public slots:
     void changeEvent(QEvent *event);
     void SetTrayIcon(bool tray_icon);
+    void handleAboutToQuit();
 
 private:
     const char* context = "Ui::OpenRGBDialog2";

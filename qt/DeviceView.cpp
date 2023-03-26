@@ -103,6 +103,7 @@ static const std::map<std::string, led_label> led_label_lookup =
     { KEY_EN_EQUALS,            { "="     , "=",                }},
     { KEY_EN_LEFT_BRACKET,      { "["     , "[",                }},
     { KEY_EN_RIGHT_BRACKET,     { "]"     , "]",                }},
+    { KEY_EN_BACK_SLASH,        { "\\"    , "\\",               }},
     { KEY_EN_ANSI_BACK_SLASH,   { "\\"    , "\\",               }},
     { KEY_EN_ISO_BACK_SLASH,    { "\\"    , "\\",               }},
     { KEY_EN_SEMICOLON,         { ";"     , ";",                }},
@@ -205,6 +206,20 @@ static const std::map<std::string, led_label> led_label_lookup =
     { KEY_DE_DIAERESIS_A,       { "Ä"     , "\xC3\x84",         }},
     { KEY_DE_DIAERESIS_O,       { "Ö"     , "\xC3\x96",         }},
     { KEY_DE_DIAERESIS_U,       { "Ü"     , "\xC3\x9C"          }},
+    { KEY_FR_SUPER_2,           { "²"     , "\xc2\xb2"          }},
+    { KEY_FR_AMPERSAND,         { "&"     , "&"                 }},
+    { KEY_FR_ACUTE_E,           { "é"     , "\xc3\xa9"          }},
+    { KEY_FR_DOUBLEQUOTE,       { "\""    , "\""                }},
+    { KEY_FR_LEFT_PARENTHESIS,  { "("     , "("                 }},
+    { KEY_FR_GRAVE_E,           { "è"     , "\xc3\xa8"          }},
+    { KEY_FR_UNDERSCORE,        { "_"     , "_"                 }},
+    { KEY_FR_CEDILLA_C,         { "ç"     , "\xc3\xa7"          }},
+    { KEY_FR_GRAVE_A,           { "à"     , "\xc3\xa0"          }},
+    { KEY_FR_RIGHT_PARENTHESIS, { ")"     , ")"                 }},
+    { KEY_FR_DOLLAR,            { "$"     , "$"                 }},
+    { KEY_FR_GRAVE_U,           { "ù"     , "\xc3\xb9"          }},
+    { KEY_FR_ASTERIX,           { "*"     , "*"                 }},
+    { KEY_FR_EXCLAIMATION,      { "!"     , "!"                 }},
 };
 
 void DeviceView::setController(RGBController * controller_ptr)

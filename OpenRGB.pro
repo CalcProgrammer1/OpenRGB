@@ -133,9 +133,9 @@ INCLUDEPATH +=                                                                  
     Controllers/HPOmen30LController/                                                            \
     Controllers/HyperXDRAMController/                                                           \
     Controllers/HyperXKeyboardController/                                                       \
+    Controllers/HyperXMicrophoneController/                                                     \
     Controllers/HyperXMouseController/                                                          \
     Controllers/HyperXMousematController/                                                       \
-    Controllers/HyperXQuadcastController/                                                       \
     Controllers/IntelArcA770LEController/                                                       \
     Controllers/IonicoController/                                                               \
     Controllers/LEDStripController/                                                             \
@@ -219,6 +219,7 @@ HEADERS +=                                                                      
     qt/OpenRGBDialog2.h                                                                         \
     qt/OpenRGBElgatoKeyLightSettingsPage/OpenRGBElgatoKeyLightSettingsEntry.h                   \
     qt/OpenRGBElgatoKeyLightSettingsPage/OpenRGBElgatoKeyLightSettingsPage.h                    \
+    qt/OpenRGBHardwareIDsDialog.h                                                               \
     qt/OpenRGBKasaSmartSettingsPage/OpenRGBKasaSmartSettingsEntry.h                             \
     qt/OpenRGBKasaSmartSettingsPage/OpenRGBKasaSmartSettingsPage.h                              \
     qt/OpenRGBPluginContainer.h                                                                 \
@@ -255,6 +256,7 @@ HEADERS +=                                                                      
     qt/TabLabel.h                                                                               \
     serial_port/find_usb_serial_port.h                                                          \
     serial_port/serial_port.h                                                                   \
+    StringUtils.h                                                                               \
     super_io/super_io.h                                                                         \
     AutoStart/AutoStart.h                                                                       \
     Controllers/A4TechController/BloodyMouseController.h                                        \
@@ -355,7 +357,9 @@ HEADERS +=                                                                      
     Controllers/CorsairPeripheralController/RGBController_CorsairK95PlatinumXT.h                \
     Controllers/CorsairPeripheralV2Controller/CorsairPeripheralV2Controller.h                   \
     Controllers/CorsairPeripheralV2Controller/CorsairPeripheralV2Devices.h                      \
+    Controllers/CorsairPeripheralV2Controller/CorsairPeripheralV2HardwareController.h           \
     Controllers/CorsairPeripheralV2Controller/CorsairPeripheralV2SoftwareController.h           \
+    Controllers/CorsairPeripheralV2Controller/RGBController_CorsairV2Hardware.h                 \
     Controllers/CorsairPeripheralV2Controller/RGBController_CorsairV2Software.h                 \
     Controllers/CorsairVengeanceController/CorsairVengeanceController.h                         \
     Controllers/CorsairVengeanceController/RGBController_CorsairVengeance.h                     \
@@ -444,15 +448,17 @@ HEADERS +=                                                                      
     Controllers/HyperXKeyboardController/HyperXAlloyEliteController.h                           \
     Controllers/HyperXKeyboardController/HyperXAlloyElite2Controller.h                          \
     Controllers/HyperXKeyboardController/HyperXAlloyFPSController.h                             \
-    Controllers/HyperXKeyboardController/HyperXAlloyOrigins60Controller.h                       \
+    Controllers/HyperXKeyboardController/HyperXAlloyOrigins60and65Controller.h                  \
     Controllers/HyperXKeyboardController/HyperXAlloyOriginsController.h                         \
     Controllers/HyperXKeyboardController/HyperXAlloyOriginsCoreController.h                     \
     Controllers/HyperXKeyboardController/RGBController_HyperXAlloyElite.h                       \
     Controllers/HyperXKeyboardController/RGBController_HyperXAlloyElite2.h                      \
     Controllers/HyperXKeyboardController/RGBController_HyperXAlloyFPS.h                         \
     Controllers/HyperXKeyboardController/RGBController_HyperXAlloyOrigins.h                     \
-    Controllers/HyperXKeyboardController/RGBController_HyperXAlloyOrigins60.h                   \
+    Controllers/HyperXKeyboardController/RGBController_HyperXAlloyOrigins60and65.h              \
     Controllers/HyperXKeyboardController/RGBController_HyperXAlloyOriginsCore.h                 \
+    Controllers/HyperXMicrophoneController/HyperXMicrophoneController.h                         \
+    Controllers/HyperXMicrophoneController/RGBController_HyperXMicrophone.h                     \
     Controllers/HyperXMouseController/HyperXPulsefireFPSProController.h                         \
     Controllers/HyperXMouseController/HyperXPulsefireHasteController.h                          \
     Controllers/HyperXMouseController/HyperXPulsefireSurgeController.h                          \
@@ -465,8 +471,6 @@ HEADERS +=                                                                      
     Controllers/HyperXMouseController/RGBController_HyperXPulsefireRaid.h                       \
     Controllers/HyperXMousematController/HyperXMousematController.h                             \
     Controllers/HyperXMousematController/RGBController_HyperXMousemat.h                         \
-    Controllers/HyperXQuadcastController/HyperXQuadcastSController.h                            \
-    Controllers/HyperXQuadcastController/RGBController_HyperXQuadcastS.h                        \
     Controllers/IntelArcA770LEController/IntelArcA770LEController.h                             \
     Controllers/IntelArcA770LEController/RGBController_IntelArcA770LE.h                         \
     Controllers/IonicoController/IonicoController.h                                             \
@@ -478,8 +482,11 @@ HEADERS +=                                                                      
     Controllers/LEDStripController/LEDStripController.h                                         \
     Controllers/LEDStripController/RGBController_LEDStrip.h                                     \
     Controllers/LenovoControllers/LenovoDevices.h                                               \
+    Controllers/LenovoControllers/LenovoDevices4Zone.h                                          \
     Controllers/LenovoControllers/LenovoUSBController.h                                         \
+    Controllers/LenovoControllers/Lenovo4ZoneUSBController.h                                    \
     Controllers/LenovoControllers/RGBController_LenovoUSB.h                                     \
+    Controllers/LenovoControllers/RGBController_Lenovo4ZoneUSB.h                                \
     Controllers/LenovoMotherboardController/LenovoMotherboardController.h                       \
     Controllers/LenovoMotherboardController/RGBController_LenovoMotherboard.h                   \
     Controllers/LexipMouseController/LexipMouseController.h                                     \
@@ -680,6 +687,7 @@ HEADERS +=                                                                      
     Controllers/ZETKeyboardController/RGBController_ZETBladeOptical.h                           \
     Controllers/ZotacTuringGPUController/ZotacTuringGPUController.h                             \
     Controllers/ZotacTuringGPUController/RGBController_ZotacTuringGPU.h                         \
+    RGBController/KeyboardLayoutManager.h                                                       \
     RGBController/RGBController.h                                                               \
     RGBController/RGBController_Dummy.h                                                         \
     RGBController/RGBControllerKeyNames.h                                                       \
@@ -752,6 +760,7 @@ SOURCES +=                                                                      
     qt/OpenRGBDialog2.cpp                                                                       \
     qt/OpenRGBElgatoKeyLightSettingsPage/OpenRGBElgatoKeyLightSettingsEntry.cpp                 \
     qt/OpenRGBElgatoKeyLightSettingsPage/OpenRGBElgatoKeyLightSettingsPage.cpp                  \
+    qt/OpenRGBHardwareIDsDialog.cpp                                                             \
     qt/OpenRGBKasaSmartSettingsPage/OpenRGBKasaSmartSettingsEntry.cpp                           \
     qt/OpenRGBKasaSmartSettingsPage/OpenRGBKasaSmartSettingsPage.cpp                            \
     qt/OpenRGBPluginContainer.cpp                                                               \
@@ -788,6 +797,7 @@ SOURCES +=                                                                      
     qt/OpenRGBYeelightSettingsPage/OpenRGBYeelightSettingsEntry.cpp                             \
     qt/OpenRGBYeelightSettingsPage/OpenRGBYeelightSettingsPage.cpp                              \
     serial_port/serial_port.cpp                                                                 \
+    StringUtils.cpp                                                                             \
     super_io/super_io.cpp                                                                       \
     AutoStart/AutoStart.cpp                                                                     \
     Controllers/A4TechController/A4Tech_Detector.cpp                                            \
@@ -908,7 +918,9 @@ SOURCES +=                                                                      
     Controllers/CorsairPeripheralV2Controller/CorsairPeripheralV2Devices.cpp                    \
     Controllers/CorsairPeripheralV2Controller/CorsairPeripheralV2Controller.cpp                 \
     Controllers/CorsairPeripheralV2Controller/CorsairPeripheralV2ControllerDetect.cpp           \
+    Controllers/CorsairPeripheralV2Controller/CorsairPeripheralV2HardwareController.cpp         \
     Controllers/CorsairPeripheralV2Controller/CorsairPeripheralV2SoftwareController.cpp         \
+    Controllers/CorsairPeripheralV2Controller/RGBController_CorsairV2Hardware.cpp               \
     Controllers/CorsairPeripheralV2Controller/RGBController_CorsairV2Software.cpp               \
     Controllers/CorsairVengeanceController/CorsairVengeanceController.cpp                       \
     Controllers/CorsairVengeanceController/CorsairVengeanceControllerDetect.cpp                 \
@@ -1035,7 +1047,7 @@ SOURCES +=                                                                      
     Controllers/HyperXKeyboardController/HyperXAlloyEliteController.cpp                         \
     Controllers/HyperXKeyboardController/HyperXAlloyElite2Controller.cpp                        \
     Controllers/HyperXKeyboardController/HyperXAlloyFPSController.cpp                           \
-    Controllers/HyperXKeyboardController/HyperXAlloyOrigins60Controller.cpp                     \
+    Controllers/HyperXKeyboardController/HyperXAlloyOrigins60and65Controller.cpp                \
     Controllers/HyperXKeyboardController/HyperXAlloyOriginsController.cpp                       \
     Controllers/HyperXKeyboardController/HyperXAlloyOriginsCoreController.cpp                   \
     Controllers/HyperXKeyboardController/HyperXKeyboardControllerDetect.cpp                     \
@@ -1043,8 +1055,11 @@ SOURCES +=                                                                      
     Controllers/HyperXKeyboardController/RGBController_HyperXAlloyElite2.cpp                    \
     Controllers/HyperXKeyboardController/RGBController_HyperXAlloyFPS.cpp                       \
     Controllers/HyperXKeyboardController/RGBController_HyperXAlloyOrigins.cpp                   \
-    Controllers/HyperXKeyboardController/RGBController_HyperXAlloyOrigins60.cpp                 \
+    Controllers/HyperXKeyboardController/RGBController_HyperXAlloyOrigins60and65.cpp            \
     Controllers/HyperXKeyboardController/RGBController_HyperXAlloyOriginsCore.cpp               \
+    Controllers/HyperXMicrophoneController/HyperXMicrophoneController.cpp                       \
+    Controllers/HyperXMicrophoneController/HyperXMicrophoneControllerDetect.cpp                 \
+    Controllers/HyperXMicrophoneController/RGBController_HyperXMicrophone.cpp                   \
     Controllers/HyperXMouseController/HyperXMouseControllerDetect.cpp                           \
     Controllers/HyperXMouseController/HyperXPulsefireFPSProController.cpp                       \
     Controllers/HyperXMouseController/HyperXPulsefireHasteController.cpp                        \
@@ -1059,9 +1074,6 @@ SOURCES +=                                                                      
     Controllers/HyperXMousematController/HyperXMousematController.cpp                           \
     Controllers/HyperXMousematController/HyperXMousematControllerDetect.cpp                     \
     Controllers/HyperXMousematController/RGBController_HyperXMousemat.cpp                       \
-    Controllers/HyperXQuadcastController/HyperXQuadcastSController.cpp                          \
-    Controllers/HyperXQuadcastController/HyperXQuadcastSControllerDetect.cpp                    \
-    Controllers/HyperXQuadcastController/RGBController_HyperXQuadcastS.cpp                      \
     Controllers/IntelArcA770LEController/IntelArcA770LEController.cpp                           \
     Controllers/IntelArcA770LEController/IntelArcA770LEControllerDetect.cpp                     \
     Controllers/IonicoController/IonicoController.cpp                                           \
@@ -1078,8 +1090,11 @@ SOURCES +=                                                                      
     Controllers/LEDStripController/LEDStripControllerDetect.cpp                                 \
     Controllers/LEDStripController/RGBController_LEDStrip.cpp                                   \
     Controllers/LenovoControllers/LenovoUSBController.cpp                                       \
+    Controllers/LenovoControllers/Lenovo4ZoneUSBController.cpp                                  \
     Controllers/LenovoControllers/LenovoUSBDetect.cpp                                           \
+    Controllers/LenovoControllers/Lenovo4ZoneUSBDetect.cpp                                      \
     Controllers/LenovoControllers/RGBController_LenovoUSB.cpp                                   \
+    Controllers/LenovoControllers/RGBController_Lenovo4ZoneUSB.cpp                              \
     Controllers/LenovoMotherboardController/LenovoMotherboardController.cpp                     \
     Controllers/LenovoMotherboardController/LenovoMotherboardControllerDetect.cpp               \
     Controllers/LenovoMotherboardController/RGBController_LenovoMotherboard.cpp                 \
@@ -1320,6 +1335,7 @@ SOURCES +=                                                                      
     Controllers/ZotacTuringGPUController/ZotacTuringGPUController.cpp                           \
     Controllers/ZotacTuringGPUController/ZotacTuringGPUControllerDetect.cpp                     \
     Controllers/ZotacTuringGPUController/RGBController_ZotacTuringGPU.cpp                       \
+    RGBController/KeyboardLayoutManager.cpp                                                     \
     RGBController/RGBController.cpp                                                             \
     RGBController/RGBController_Dummy.cpp                                                       \
     RGBController/RGBControllerKeyNames.cpp                                                     \
@@ -1361,6 +1377,7 @@ FORMS +=                                                                        
     qt/OpenRGBDevicePage.ui                                                                     \
     qt/OpenRGBDialog.ui                                                                         \
     qt/OpenRGBDialog2.ui                                                                        \
+    qt/OpenRGBHardwareIDsDialog.ui                                                              \
     qt/OpenRGBPluginContainer.ui                                                                \
     qt/OpenRGBProfileSaveDialog.ui                                                              \
     qt/OpenRGBServerInfoPage.ui                                                                 \

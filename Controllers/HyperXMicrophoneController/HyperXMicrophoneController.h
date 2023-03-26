@@ -1,5 +1,5 @@
 /*-----------------------------------------*\
-|  HyperXQuadcastSController.h              |
+|  HyperXMicrophoneController.h             |
 |                                           |
 |  Implementation for the HyperX            |
 |  Quadcast S RGB microphone                |
@@ -10,17 +10,16 @@
 
 #include <string>
 #include "hidapi_wrapper.h"
-#include "LogManager.h"
 #include "RGBController.h"
 
 #define HYPERX_QUADCAST_S_PACKET_SIZE 64 + 1
 #define HYPERX_QUADCAST_S_FRAME_SIZE  8
 
-class HyperXQuadcastSController
+class HyperXMicrophoneController
 {
 public:
-    HyperXQuadcastSController(hidapi_wrapper hid_wrapper, hid_device* dev, std::string path);
-    ~HyperXQuadcastSController();
+    HyperXMicrophoneController(hidapi_wrapper hid_wrapper, hid_device* dev, std::string path);
+    ~HyperXMicrophoneController();
 
     std::string GetDeviceLocation();
     std::string GetSerialString();

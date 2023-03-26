@@ -286,6 +286,7 @@ static const Config board_configs[] =
     { 0x7D76, 0,  0, 0, 2, &zones_set13, MSIMysticLight185Controller::DIRECT_MODE_PER_LED },        // MAG B650M MORTAR WIFI
     { 0x7D77, 6,  0, 0, 2, &zones_set13, MSIMysticLight185Controller::DIRECT_MODE_PER_LED },        // PRO B650M-A WIFI                 
     { 0x7D86, 0, 18, 4, 1, &zones_set16, MSIMysticLight185Controller::DIRECT_MODE_PER_LED },        // MEG Z790 ACE
+    { 0x7D89, 0,  6, 0, 1, &zones_set17, MSIMysticLight185Controller::DIRECT_MODE_PER_LED },        // MPG Z790 CARBON WIFI
     { 0x7D91, 1,  0, 0, 1, &zones_set10, MSIMysticLight185Controller::DIRECT_MODE_PER_LED },        // MAG Z790 TOMAHAWK WIFI
     { 0x7E06, 0,  0, 0, 2, &zones_set11, MSIMysticLight185Controller::DIRECT_MODE_PER_LED },        // PRO Z790-P WIFI DDR4
     { 0x7E07, 0,  0, 0, 2, &zones_set10, MSIMysticLight185Controller::DIRECT_MODE_PER_LED },        // PRO Z790-A WIFI DDR4

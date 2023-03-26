@@ -13,6 +13,7 @@
 #include "ProfileManager.h"
 #include "LogManager.h"
 #include "filesystem.h"
+#include "StringUtils.h"
 
 #ifdef _WIN32
 #include <codecvt>
@@ -807,44 +808,6 @@ void ResourceManager::DisableDetection()
     detection_enabled = false;
 }
 
-const char* wchar_to_char(const wchar_t* pwchar)
-{
-    if (pwchar == nullptr)
-    {
-        return "";
-    }
-    // get the number of characters in the string.
-    int currentCharIndex = 0;
-    char currentChar = pwchar[currentCharIndex];
-
-    while (currentChar != '\0')
-    {
-        currentCharIndex++;
-        currentChar = pwchar[currentCharIndex];
-    }
-
-    const int charCount = currentCharIndex + 1;
-
-    // allocate a new block of memory size char (1 byte) instead of wide char (2 bytes)
-    char* filePathC = (char*)malloc(sizeof(char) * charCount);
-
-    for (int i = 0; i < charCount; i++)
-    {
-        // convert to char (1 byte)
-        char character = pwchar[i];
-
-        *filePathC = character;
-
-        filePathC += sizeof(char);
-
-    }
-    filePathC += '\0';
-
-    filePathC -= (sizeof(char) * charCount);
-
-    return filePathC;
-}
-
 void ResourceManager::DetectDevicesThreadFunction()
 {
     DetectDeviceMutex.lock();
@@ -1131,8 +1094,8 @@ void ResourceManager::DetectDevicesThreadFunction()
         {
             if(LogManager::get()->getLoglevel() >= LL_DEBUG)
             {
-                const char* manu_name = wchar_to_char(current_hid_device->manufacturer_string);
-                const char* prod_name = wchar_to_char(current_hid_device->product_string);
+                const char* manu_name = StringUtils::wchar_to_char(current_hid_device->manufacturer_string);
+                const char* prod_name = StringUtils::wchar_to_char(current_hid_device->product_string);
                 LOG_DEBUG("[%04X:%04X U=%04X P=0x%04X I=%d] %-25s - %s", current_hid_device->vendor_id, current_hid_device->product_id, current_hid_device->usage, current_hid_device->usage_page, current_hid_device->interface_number, manu_name, prod_name);
             }
             detection_string = "";
@@ -1299,8 +1262,8 @@ void ResourceManager::DetectDevicesThreadFunction()
         {
             if(LogManager::get()->getLoglevel() >= LL_DEBUG)
             {
-                const char* manu_name = wchar_to_char(current_hid_device->manufacturer_string);
-                const char* prod_name = wchar_to_char(current_hid_device->product_string);
+                const char* manu_name = StringUtils::wchar_to_char(current_hid_device->manufacturer_string);
+                const char* prod_name = StringUtils::wchar_to_char(current_hid_device->product_string);
                 LOG_DEBUG("[%04X:%04X U=%04X P=0x%04X I=%d] %-25s - %s", current_hid_device->vendor_id, current_hid_device->product_id, current_hid_device->usage, current_hid_device->usage_page, current_hid_device->interface_number, manu_name, prod_name);
             }
             detection_string = "";

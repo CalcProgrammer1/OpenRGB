@@ -10,6 +10,7 @@
 #include "RGBController.h"
 #include "RGBControllerKeyNames.h"
 #include "RazerController.h"
+#include "KeyboardLayoutManager.h"
 
 /*-----------------------------------------------------*\
 | Razer vendor ID                                       |
@@ -61,9 +62,11 @@
 #define RAZER_BLADE_2021_ADVANCED_PID                   0x026D
 #define RAZER_BLADE_2021_BASE_PID                       0x026F
 #define RAZER_BLADE_2021_BASE_V2_PID                    0x027A
+#define RAZER_BLADE_LATE_2021_ADVANCED_PID              0x0276
 
 #define RAZER_BLADE_14_2021_PID                         0x0270
 #define RAZER_BLADE_14_2022_PID                         0x028C
+#define RAZER_BLADE_15_2022_PID                         0x028A
 
 #define RAZER_BLADE_PRO_2016_PID                        0x0210
 #define RAZER_BLADE_PRO_2017_PID                        0x0225
@@ -88,6 +91,9 @@
 #define RAZER_CYNOSA_LITE_PID                           0x023F
 #define RAZER_CYNOSA_V2_PID                             0x025E
 #define RAZER_DEATHSTALKER_CHROMA_PID                   0x0204
+#define RAZER_DEATHSTALKER_V2_PID                       0x0295
+#define RAZER_DEATHSTALKER_V2_PRO_WIRELESS_PID          0x0290
+#define RAZER_DEATHSTALKER_V2_PRO_WIRED_PID             0x0292
 #define RAZER_HUNTSMAN_ELITE_PID                        0x0226
 #define RAZER_HUNTSMAN_PID                              0x0227
 #define RAZER_HUNTSMAN_MINI_PID                         0x0257
@@ -222,32 +228,33 @@
 
 typedef struct
 {
-    std::string name;
-    unsigned int type;
-    unsigned int rows;
-    unsigned int cols;
+    std::string                         name;
+    unsigned int                        type;
+    unsigned int                        rows;
+    unsigned int                        cols;
 } razer_zone;
 
 typedef struct
 {
-    unsigned int zone;
-    unsigned int row;
-    unsigned int col;
-    const char* name;
-    unsigned char layout = RAZER_LAYOUT_TYPE_ALL;
+    unsigned int                        zone;
+    unsigned int                        row;
+    unsigned int                        col;
+    const char*                         name;
+    unsigned char                       layout = RAZER_LAYOUT_TYPE_ALL;
 } razer_key;
 
 typedef struct
 {
-    std::string name;
-    unsigned short pid;
-    device_type type;
-    bool matrix_type;
-    unsigned int rows;
-    unsigned int cols;
-    const razer_zone* zones[RAZER_MAX_ZONES];
-    const razer_key* keymap;
-    unsigned int keymap_size;
+    std::string                         name;
+    unsigned short                      pid;
+    device_type                         type;
+    bool                                matrix_type;
+    unsigned int                        rows;
+    unsigned int                        cols;
+    const razer_zone*                   zones[RAZER_MAX_ZONES];
+    const razer_key*                    keymap;
+    unsigned int                        keymap_size;
+    keyboard_keymap_overlay_values*     layout;
 } razer_device;
 
 /*-----------------------------------------------------*\
