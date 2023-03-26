@@ -566,6 +566,7 @@
 #define PALIT_RTX3080TI_GAMEROCK_SUB_DEV                0xF278
 
 #define PALIT_RTX3090_SUB_DEV                           0x2204
+#define PALIT_RTX3090_GAMEROCK_SUB_DEV                  0xF278
 
 /*-----------------------------------------------------*\
 | Sapphire Sub-Device IDs                               |
