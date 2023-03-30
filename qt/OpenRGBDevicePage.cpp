@@ -307,9 +307,24 @@ void Ui::OpenRGBDevicePage::on_ZoneBox_currentIndexChanged(int index)
                     }
 
                     /*-------------------------------------*\
-                    | Enable resizing if zone is LINEAR     |
+                    | Enable editing if:                    |
+                    |   Zone has variable size              |
+                    | OR                                    |
+                    |   Zone is LINEAR and device type is   |
+                    |   LEDSTRIP                            |
                     \*-------------------------------------*/
-                    bool zone_is_editable = (device->zones[selected_zone].type == ZONE_TYPE_LINEAR);
+                    bool zone_is_editable = false;
+
+                    if(device->zones[selected_zone].leds_min != device->zones[selected_zone].leds_max)
+                    {
+                        zone_is_editable = true;
+                    }
+
+                    if((device->zones[selected_zone].type == ZONE_TYPE_LINEAR) && (device->type == DEVICE_TYPE_LEDSTRIP))
+                    {
+                        zone_is_editable = true;
+                    }
+
                     ui->EditZoneButton->setEnabled(zone_is_editable);
 
                     if(!ui->ZoneBox->signalsBlocked())
