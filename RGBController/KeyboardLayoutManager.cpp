@@ -416,6 +416,7 @@ void KeyboardLayoutManager::ChangeKeys(keyboard_keymap_overlay new_layout)
 {
     InsertKeys(new_layout.insert);
     SwapKeys(new_layout.swap);
+    RemoveKeys(new_layout.remove);
     UpdateDimensions();
 }
 
@@ -423,6 +424,7 @@ void KeyboardLayoutManager::ChangeKeys(keyboard_keymap_overlay_values new_layout
 {
     InsertKeys(new_layout.insert);
     SwapKeys(new_layout.swap);
+    RemoveKeys(new_layout.remove);
     UpdateDimensions();
 }
 
@@ -605,18 +607,63 @@ void KeyboardLayoutManager::SwapKeys(std::vector<keyboard_led> swp_keys)
 
 void KeyboardLayoutManager::RemoveKeys(std::vector<keyboard_led> rmv_keys)
 {
-    for(size_t i = 0; i < rmv_keys.size(); i++)
+    /*---------------------------------------------------------------------*\
+    | Remove keys one by one                                                |
+    \*---------------------------------------------------------------------*/
+    for(unsigned int rmv_key_idx = 0; rmv_key_idx < rmv_keys.size(); rmv_key_idx++)
     {
-        for(std::vector<keyboard_led>::iterator key = keymap.begin(); key != keymap.end(); ++key)
+        /*---------------------------------------------------------------------*\
+        | Get the remove point                                                  |
+        \*---------------------------------------------------------------------*/
+        unsigned int    rmv_row     = rmv_keys[rmv_key_idx].row;
+        unsigned int    rmv_col     = rmv_keys[rmv_key_idx].col;
+        const char*     rmv_name    = rmv_keys[rmv_key_idx].name;
+        unsigned int    rmv_value   = rmv_keys[rmv_key_idx].value;
+
+        /*---------------------------------------------------------------------*\
+        | Loop through and find the entry to remove                             |
+        \*---------------------------------------------------------------------*/
+        for(unsigned int key_idx = 0; key_idx < keymap.size(); key_idx++)
         {
-            if(key->row == rmv_keys[i].row && key->col == rmv_keys[i].col)
+            /*---------------------------------------------------------------------*\
+            | If the row and column are identical, we've found the swap location    |
+            \*---------------------------------------------------------------------*/
+            if((rmv_row == keymap[key_idx].row) && (rmv_col == keymap[key_idx].col))
             {
-                LOG_DEBUG("[%s] Removing %s @ %02d, %02d and shifting keys left", KLM_CLASS_NAME, key->name, key->row, key->col);
-                for(std::vector<keyboard_led>::iterator shift = key + 1; shift != keymap.end() && shift->row == key->row; ++shift)
+                LOG_DEBUG("[%s] Removing %s @ %02d, %02d and shifting keys left", KLM_CLASS_NAME, keymap[key_idx].name, rmv_row, rmv_col);
+                keymap.erase(keymap.begin() + key_idx);
+
+                for(key_idx; key_idx < keymap.size(); key_idx++)
                 {
-                    shift->col--;
+                    if(rmv_row == keymap[key_idx].row)
+                    {
+                        keymap[key_idx].col--;
+                    }
+                    else
+                    {
+                        break;
+                    }
                 }
-                keymap.erase(key);
+
+                break;
+            }
+
+            if((rmv_row == keymap[key_idx].row) && (rmv_col < keymap[key_idx].col))
+            {
+                LOG_DEBUG("[%s] Removing unused key @ %02d, %02d and shifting keys left", KLM_CLASS_NAME, rmv_row, rmv_col);
+
+                for(key_idx; key_idx < keymap.size(); key_idx++)
+                {
+                    if(rmv_row == keymap[key_idx].row)
+                    {
+                        keymap[key_idx].col--;
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+
                 break;
             }
         }
