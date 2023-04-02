@@ -55,6 +55,41 @@ keyboard_keymap_overlay_values razer_blackwidow_layout
     }
 };
 
+keyboard_keymap_overlay_values razer_blackwidow_chroma_layout
+{
+    KEYBOARD_SIZE::KEYBOARD_SIZE_FULL,
+    {
+        {   /* ANSI Value set not used */   },
+        {
+        }
+    },
+    {
+        /*---------------------------------------------------------------------*\
+        | Insert Keys                                                           |
+        |   * Add left-most column containing M1-M5                             |
+        |                                                                       |
+        |   Zone,   Row,    Column,     Index,      Key                         |
+        \*---------------------------------------------------------------------*/
+        {   0,      0,      0,          0,          KEY_EN_UNUSED,              },
+        {   0,      1,      0,          0,          "Key: M1",                  },
+        {   0,      2,      0,          0,          "Key: M2",                  },
+        {   0,      3,      0,          0,          "Key: M3",                  },
+        {   0,      4,      0,          0,          "Key: M4",                  },
+        {   0,      5,      0,          0,          "Key: M5",                  },
+    },
+    {
+        /*---------------------------------------------------------------------*\
+        | Swap Keys                                                             |
+        |   * Add Logo                                                          |
+        |   * Remove Fn                                                         |
+        |                                                                       |
+        |   Zone,   Row,    Column,     Index,      Key                         |
+        \*---------------------------------------------------------------------*/
+        {   0,      0,      20,         0,          "Logo",                     },
+        {   0,      5,      12,         0,          KEY_EN_UNUSED,              },
+    }
+};
+
 keyboard_keymap_overlay_values razer_blackwidow_x_chroma_te_layout
 {
     KEYBOARD_SIZE::KEYBOARD_SIZE_TKL,
@@ -3017,7 +3052,7 @@ static const razer_device blackwidow_chroma_device =
     },
     blackwidow_chroma_keymap,
     BLACKWIDOW_CHROMA_KEYMAP_SIZE,
-    NULL
+    &razer_blackwidow_chroma_layout
 };
 
 /*-------------------------------------------------------------*\
