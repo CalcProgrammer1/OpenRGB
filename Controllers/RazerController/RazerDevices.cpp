@@ -201,6 +201,57 @@ keyboard_keymap_overlay_values razer_blade_15_2021_advanced_layout
     }
 };
 
+keyboard_keymap_overlay_values razer_blade_14_layout
+{
+    (KEYBOARD_SIZE)(KEYBOARD_ZONE_MAIN | KEYBOARD_ZONE_FN_ROW),
+    {
+        {},
+        {},
+    },
+    {
+        /*---------------------------------------------------------------------*\
+        | Insert Keys                                                           |
+        |   Zone,   Row,    Column,     Index,      Key                         |
+        \*---------------------------------------------------------------------*/
+        {   0,      0,      0,          0,          KEY_EN_UNUSED,              },
+        {   0,      1,      0,          0,          KEY_EN_UNUSED,              },
+        {   0,      1,      14,         0,          KEY_EN_UNUSED,              },
+        {   0,      2,      0,          0,          KEY_EN_UNUSED,              },
+        {   0,      2,      14,         0,          KEY_EN_UNUSED,              },
+        {   0,      3,      0,          0,          KEY_EN_UNUSED,              },
+        {   0,      3,      14,         0,          KEY_EN_UNUSED,              },
+        {   0,      4,      0,          0,          KEY_EN_UNUSED,              },
+        {   0,      4,      14,         0,          KEY_EN_UNUSED,              },
+        {   0,      5,      0,          0,          KEY_EN_UNUSED,              },
+        {   0,      5,      2,          0,          KEY_EN_LEFT_FUNCTION,       },
+        {   0,      5,      4,          0,          KEY_EN_UNUSED,              },
+        {   0,      5,      17,         0,          KEY_EN_LEFT_ARROW,          },
+        {   0,      5,      18,         0,          KEY_EN_UP_ARROW,            },
+        {   0,      5,      19,         0,          KEY_EN_RIGHT_ARROW,         },
+        {   0,      5,      20,         0,          KEY_EN_DOWN_ARROW,          },
+    },
+    {
+        /*---------------------------------------------------------------------*\
+        | Swap Keys                                                             |
+        \*---------------------------------------------------------------------*/
+        {   0,      0,      15,         0,          KEY_EN_DELETE,              },
+        {   0,      0,      16,         0,          KEY_EN_POWER,               },
+        {   0,      5,      15,         0,          KEY_EN_UNUSED,              },
+    },
+    {
+        /*---------------------------------------------------------------------*\
+        | Remove Keys                                                           |
+        |   Zone,   Row,    Column,     Index,      Key                         |
+        \*---------------------------------------------------------------------*/
+        {   0,      0,      2,          0,          KEY_EN_UNUSED,              },
+        {   0,      5,      7,          0,          KEY_EN_UNUSED,              },
+        {   0,      5,      7,          0,          KEY_EN_UNUSED,              },
+        {   0,      5,      7,          0,          KEY_EN_UNUSED,              },
+        {   0,      5,      7,          0,          KEY_EN_UNUSED,              },
+        {   0,      5,      10,         0,          KEY_EN_UNUSED,              },
+    }
+};
+
 keyboard_keymap_overlay_values razer_blade_15_2022_layout
 {
     KEYBOARD_SIZE::KEYBOARD_SIZE_TKL,
@@ -4767,7 +4818,7 @@ static const razer_device blade_14_2021_device =
     },
     blade_14_2021_keymap,
     BLADE_14_2021_KEYMAP_SIZE,
-    NULL
+    &razer_blade_14_layout
 };
 
 /*-------------------------------------------------------------*\
