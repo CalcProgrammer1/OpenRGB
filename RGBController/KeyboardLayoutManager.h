@@ -74,6 +74,7 @@ typedef struct
     KEYBOARD_SIZE                           base_size;
     key_set                                 insert;
     key_set                                 swap;
+    key_set                                 remove;
 }   keyboard_keymap_overlay;
 
 typedef struct
@@ -82,6 +83,7 @@ typedef struct
     layout_values                           key_values;
     key_set                                 insert;
     key_set                                 swap;
+    key_set                                 remove;
 }   keyboard_keymap_overlay_values;
 
 static const std::vector<keyboard_led> empty_basemap =
