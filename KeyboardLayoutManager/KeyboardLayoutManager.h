@@ -86,13 +86,6 @@ typedef struct
     key_set                                 remove;
 }   keyboard_keymap_overlay_values;
 
-static const std::vector<keyboard_led> empty_basemap =
-{
-    /*---------------------------------------------------------------------*\
-    |   Zone,   Row,    Column,     Index,      Key                         |
-    \*---------------------------------------------------------------------*/
-};
-
 class KeyboardLayoutManager
 {
 public:
@@ -133,6 +126,6 @@ private:
     std::string                 name            = KLM_CLASS_NAME;
     uint8_t                     rows            = 0;
     uint8_t                     cols            = 0;
-    std::vector<keyboard_led>   keymap          = empty_basemap;
+    std::vector<keyboard_led>   keymap;
 };
 
