@@ -52,6 +52,12 @@ keyboard_keymap_overlay_values razer_blackwidow_layout
         |   Zone,   Row,    Column,     Index,      Key                         |
         \*---------------------------------------------------------------------*/
         {   0,      5,      11,         0,          "Logo",                     },  // Swap RGT_ALT for 'Logo'
+    },
+    {
+        /*---------------------------------------------------------------------*\
+        | Remove Keys                                                           |
+        |   Zone,   Row,    Column,     Index,      Key                         |
+        \*---------------------------------------------------------------------*/
     }
 };
 
@@ -61,16 +67,6 @@ keyboard_keymap_overlay_values razer_blackwidow_x_chroma_te_layout
     {
         {   /* ANSI Value set not used */   },
         {
-            {
-                KEYBOARD_LAYOUT_ANSI_QWERTY,
-                {
-                    /*---------------------------------------------------------------------*\
-                    | Swap Keys                                                             |
-                    |   Zone,   Row,    Column,     Index,      Key                         |
-                    \*---------------------------------------------------------------------*/
-                    {   0,      4,      1,          0,          KEY_EN_UNUSED,              },  // Move 'Z' 1 right (Account for ISO key)
-                }
-            },
             /* Add more regional layout fixes here */
         }
     },
@@ -79,23 +75,23 @@ keyboard_keymap_overlay_values razer_blackwidow_x_chroma_te_layout
         | Insert Keys                                                           |
         |   Zone,   Row,    Column,     Index,      Key                         |
         \*---------------------------------------------------------------------*/
-        {   0,      0,      0,          0,          KEY_EN_UNUSED,              },  // Move 'Esc' 1 right
-        {   0,      0,      2,          0,          KEY_EN_UNUSED,              },  // Move 'F1' 1 right (Shifts row)
-        {   0,      0,      20,         0,          "Logo",                     },  // Insert 'Logo' key
+        {   0,      0,      0,          0,          KEY_EN_UNUSED,              },  // Move 'Esc' 1 right (Shifts row)
         {   0,      1,      0,          0,          KEY_EN_UNUSED,              },  // Move Backtick 1 right (Shifts row)
         {   0,      2,      0,          0,          KEY_EN_UNUSED,              },  // Move Tab 1 right (Shifts row)
-        {   0,      3,      0,          0,          KEY_EN_UNUSED,              },  // Move Caps 1 right (Shifts most of row)
-        {   0,      3,      13,         0,          KEY_EN_UNUSED,              },  // Move Enter 1 right
-        {   0,      4,      0,          0,          KEY_EN_UNUSED,              },  // Move LFT_SHFT 1 right (Shifts most of row)
-        {   0,      4,      13,         0,          KEY_EN_UNUSED,              },  // Move RGT_SHFT 1 right
-        {   0,      4,      15,         0,          KEY_EN_UNUSED,              },  // Move ARWUP 1 right
-        {   0,      5,      0,          0,          KEY_EN_UNUSED,              },  // Move LFT_CTRL 1 right
-        {   0,      5,      6,          0,          KEY_EN_UNUSED,              },  // Move Space 1 right
-        {   0,      5,      10,         0,          KEY_EN_UNUSED,              },  // Move RGT_ALT 1 right (Shifts remainder of row)
+        {   0,      3,      0,          0,          KEY_EN_UNUSED,              },  // Move Caps 1 right (Shifts row)
+        {   0,      4,      0,          0,          KEY_EN_UNUSED,              },  // Move LFT_SHFT 1 right (Shifts row)
+        {   0,      5,      0,          0,          KEY_EN_UNUSED,              },  // Move LFT_CTRL 1 right (Shifts row)
     },
     {
         /*---------------------------------------------------------------------*\
         | Swap Keys                                                             |
+        |   Zone,   Row,    Column,     Index,      Key                         |
+        \*---------------------------------------------------------------------*/
+        {   0,      0,      20,         0,          "Logo",                     },  // Insert 'Logo' key
+    },
+    {
+        /*---------------------------------------------------------------------*\
+        | Remove Keys                                                           |
         |   Zone,   Row,    Column,     Index,      Key                         |
         \*---------------------------------------------------------------------*/
     }
@@ -163,6 +159,12 @@ keyboard_keymap_overlay_values razer_blade_15_2021_advanced_layout
         {   0,      5,      14,         0,          KEY_EN_RIGHT_ARROW,         },  // Swap ARWRGT for ARWLFT
         {   0,      5,      15,         0,          KEY_EN_DOWN_ARROW,          },  // Swap ARWDWN for ARWDWN
         {   0,      5,      16,         0,          KEY_EN_UNUSED,              },  // Remove ARWRGT
+    },
+    {
+        /*---------------------------------------------------------------------*\
+        | Remove Keys                                                           |
+        |   Zone,   Row,    Column,     Index,      Key                         |
+        \*---------------------------------------------------------------------*/
     }
 };
 
@@ -240,6 +242,12 @@ keyboard_keymap_overlay_values razer_blade_15_2022_layout
         {   0,      5,      14,         0,          KEY_EN_RIGHT_ARROW,         },  // Swap ARWRGT for ARWLFT
         {   0,      5,      15,         0,          KEY_EN_DOWN_ARROW,          },  // Swap ARWDWN for ARWDWN
         {   0,      5,      16,         0,          KEY_EN_UNUSED,              },  // Remove ARWRGT
+    },
+    {
+        /*---------------------------------------------------------------------*\
+        | Remove Keys                                                           |
+        |   Zone,   Row,    Column,     Index,      Key                         |
+        \*---------------------------------------------------------------------*/
     }
 };
 
@@ -283,6 +291,12 @@ keyboard_keymap_overlay_values razer_deathstalker_v2_layout
     {
         /*---------------------------------------------------------------------*\
         | Swap Keys                                                             |
+        |   Zone,   Row,    Column,     Index,      Key                         |
+        \*---------------------------------------------------------------------*/
+    },
+    {
+        /*---------------------------------------------------------------------*\
+        | Remove Keys                                                           |
         |   Zone,   Row,    Column,     Index,      Key                         |
         \*---------------------------------------------------------------------*/
     }
@@ -329,6 +343,12 @@ keyboard_keymap_overlay_values razer_deathstalker_v2_pro_layout
         | Swap Keys                                                             |
         |   Zone,   Row,    Column,     Index,      Key                         |
         \*---------------------------------------------------------------------*/
+    },
+    {
+        /*---------------------------------------------------------------------*\
+        | Remove Keys                                                           |
+        |   Zone,   Row,    Column,     Index,      Key                         |
+        \*---------------------------------------------------------------------*/
     }
 };
 
@@ -360,6 +380,12 @@ keyboard_keymap_overlay_values razer_huntsman_elite_layout
     {
         /*---------------------------------------------------------------------*\
         | Swap Keys                                                             |
+        |   Zone,   Row,    Column,     Index,      Key                         |
+        \*---------------------------------------------------------------------*/
+    },
+    {
+        /*---------------------------------------------------------------------*\
+        | Remove Keys                                                           |
         |   Zone,   Row,    Column,     Index,      Key                         |
         \*---------------------------------------------------------------------*/
     }
