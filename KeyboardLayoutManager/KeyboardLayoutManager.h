@@ -17,27 +17,30 @@ extern const char* KLM_CLASS_NAME;
 extern const char* KEYBOARD_NAME_FULL;
 extern const char* KEYBOARD_NAME_TKL;
 extern const char* KEYBOARD_NAME_SIXTY;
+extern const char* KEYBOARD_NAME_SEVENTY_FIVE;
 extern const char* LOG_MSG_UNUSED_KEY;
 
 enum KEYBOARD_ZONE_BITS
 {
-    KEYBOARD_ZONE_MAIN      = ( 1 << 0 ),
-    KEYBOARD_ZONE_FN_ROW    = ( 1 << 1 ),
-    KEYBOARD_ZONE_EXTRA     = ( 1 << 2 ),
-    KEYBOARD_ZONE_NUMPAD    = ( 1 << 3 ),
+    KEYBOARD_ZONE_MAIN                  = ( 1 << 0 ),
+    KEYBOARD_ZONE_FN_ROW                = ( 1 << 1 ),
+    KEYBOARD_ZONE_EXTRA                 = ( 1 << 2 ),
+    KEYBOARD_ZONE_NUMPAD                = ( 1 << 3 ),
 };
 
 enum KEYBOARD_SIZE
 {
-    KEYBOARD_SIZE_EMPTY = 0,
-    KEYBOARD_SIZE_FULL  = ( KEYBOARD_ZONE_MAIN | KEYBOARD_ZONE_FN_ROW | KEYBOARD_ZONE_EXTRA | KEYBOARD_ZONE_NUMPAD ),
-    KEYBOARD_SIZE_TKL   = ( KEYBOARD_ZONE_MAIN | KEYBOARD_ZONE_FN_ROW | KEYBOARD_ZONE_EXTRA ),
-    KEYBOARD_SIZE_SIXTY = ( KEYBOARD_ZONE_MAIN ),
+    KEYBOARD_SIZE_EMPTY                 = 0,
+    KEYBOARD_SIZE_FULL                  = ( KEYBOARD_ZONE_MAIN  | KEYBOARD_ZONE_FN_ROW |
+                                            KEYBOARD_ZONE_EXTRA | KEYBOARD_ZONE_NUMPAD ),
+    KEYBOARD_SIZE_TKL                   = ( KEYBOARD_ZONE_MAIN  | KEYBOARD_ZONE_FN_ROW | KEYBOARD_ZONE_EXTRA ),
+    KEYBOARD_SIZE_SEVENTY_FIVE          = ( KEYBOARD_ZONE_MAIN  | KEYBOARD_ZONE_FN_ROW ),
+    KEYBOARD_SIZE_SIXTY                 = ( KEYBOARD_ZONE_MAIN  ),
 };
 
 enum KEYBOARD_LAYOUT
 {
-    KEYBOARD_LAYOUT_ANSI_QWERTY = 0,
+    KEYBOARD_LAYOUT_ANSI_QWERTY         = 0,
     KEYBOARD_LAYOUT_ISO_QWERTY,
     KEYBOARD_LAYOUT_ISO_QWERTZ,
     KEYBOARD_LAYOUT_ISO_AZERTY,
@@ -51,6 +54,14 @@ enum KEYBOARD_MAP_FILL_TYPE
     KEYBOARD_MAP_FILL_TYPE_VALUE,
 };
 
+enum KEYBOARD_OPCODE
+{
+    KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT  = 0,
+    KEYBOARD_OPCODE_SWAP_ONLY           = 1,
+    KEYBOARD_OPCODE_REMOVE_SHIFT_LEFT   = 2,
+    KEYBOARD_OPCODE_INS_SHFT_ADJACENT   = 3,
+};
+
 typedef struct
 {
     uint8_t                                 zone;
@@ -58,6 +69,7 @@ typedef struct
     uint8_t                                 col;
     unsigned int                            value;
     const char*                             name;
+    KEYBOARD_OPCODE                         opcode;
 }   keyboard_led;
 
 typedef
@@ -72,18 +84,14 @@ typedef struct
 typedef struct
 {
     KEYBOARD_SIZE                           base_size;
-    key_set                                 insert;
-    key_set                                 swap;
-    key_set                                 remove;
+    key_set                                 edit_keys;
 }   keyboard_keymap_overlay;
 
 typedef struct
 {
     KEYBOARD_SIZE                           base_size;
     layout_values                           key_values;
-    key_set                                 insert;
-    key_set                                 swap;
-    key_set                                 remove;
+    key_set                                 edit_keys;
 }   keyboard_keymap_overlay_values;
 
 class KeyboardLayoutManager
@@ -93,10 +101,9 @@ public:
     KeyboardLayoutManager(KEYBOARD_LAYOUT, KEYBOARD_SIZE, layout_values values);
     ~KeyboardLayoutManager();
 
+    void                        ChangeKeys(key_set edit_keys);
     void                        ChangeKeys(keyboard_keymap_overlay new_layout);
     void                        ChangeKeys(keyboard_keymap_overlay_values new_layout);
-    void                        InsertKeys(std::vector<keyboard_led> keys);
-    void                        SwapKeys(std::vector<keyboard_led> keys);
     void                        UpdateDimensions();
 
     std::string                 GetName();
@@ -119,7 +126,12 @@ public:
                                           uint8_t height, uint8_t width);
 
 private:
-    void                        RemoveKeys(std::vector<keyboard_led> keys);
+    void                        OpCodeSwitch(key_set change_keys);
+    void                        InsertKey(keyboard_led key);
+    void                        InsertKeys(std::vector<keyboard_led> keys);
+    void                        SwapKey(keyboard_led keys);
+    void                        SwapKeys(std::vector<keyboard_led> keys);
+    void                        RemoveKey(keyboard_led keys);
 
     KEYBOARD_LAYOUT             layout;
     KEYBOARD_SIZE               physical_size;

@@ -20,44 +20,32 @@ keyboard_keymap_overlay_values razer_blackwidow_layout
             {
                 KEYBOARD_LAYOUT_ANSI_QWERTY,
                 {
-                    /*---------------------------------------------------------------------*\
-                    | Swap Keys                                                             |
-                    |   Zone,   Row,    Column,     Index,      Key                         |
-                    \*---------------------------------------------------------------------*/
-                    {   0,      4,      1,          0,          KEY_EN_UNUSED,              },  // Move 'Z' 1 right (Account for ISO key)
+                    /*---------------------------------------------------------------------------------------------------------*\
+                    | Edit Keys                                                                                                 |
+                    |   Zone,   Row,    Column,     Value,      Key,                        OpCode,                             |
+                    \*---------------------------------------------------------------------------------------------------------*/
+                    {   0,      4,      1,          0,          KEY_EN_UNUSED,              KEYBOARD_OPCODE_SWAP_ONLY,          },  // Move 'Z' 1 right (Account for ISO key)
                 }
             },
             /* Add more regional layout fixes here */
         }
     },
     {
-        /*---------------------------------------------------------------------*\
-        | Insert Keys                                                           |
-        |   Zone,   Row,    Column,     Index,      Key                         |
-        \*---------------------------------------------------------------------*/
-        {   0,      0,      0,          0,          KEY_EN_UNUSED,              },  // Move 'Esc' 1 right
-        {   0,      0,      2,          0,          KEY_EN_UNUSED,              },  // Move 'F1' 1 right (Shifts row)
-        {   0,      1,      0,          0,          KEY_EN_UNUSED,              },  // Move Backtick 1 right (Shifts row)
-        {   0,      1,      14,         0,          KEY_EN_EQUALS,              },
-        {   0,      2,      0,          0,          KEY_EN_UNUSED,              },  // Move Tab 1 right (Shifts row)
-        {   0,      3,      0,          0,          KEY_EN_UNUSED,              },  // Move Caps 1 right (Shifts most of row)
-        {   0,      3,      13,         0,          KEY_EN_UNUSED,              },  // Move Enter 1 right
-        {   0,      4,      0,          0,          KEY_EN_UNUSED,              },  // Move LFT_SHFT 1 right (Shifts most of row)
-        {   0,      5,      0,          0,          KEY_EN_UNUSED,              },  // Move LFT_CTRL 1 right
-        {   0,      5,      10,         0,          KEY_EN_RIGHT_ALT,           },  // Insert (Another) RGT_ALT (Shifts remainder of row)
-    },
-    {
-        /*---------------------------------------------------------------------*\
-        | Swap Keys                                                             |
-        |   Zone,   Row,    Column,     Index,      Key                         |
-        \*---------------------------------------------------------------------*/
-        {   0,      5,      11,         0,          "Logo",                     },  // Swap RGT_ALT for 'Logo'
-    },
-    {
-        /*---------------------------------------------------------------------*\
-        | Remove Keys                                                           |
-        |   Zone,   Row,    Column,     Index,      Key                         |
-        \*---------------------------------------------------------------------*/
+        /*---------------------------------------------------------------------------------------------------------*\
+        | Edit Keys                                                                                                 |
+        |   Zone,   Row,    Column,     Value,      Key,                        OpCode,                             |
+        \*---------------------------------------------------------------------------------------------------------*/
+        {   0,      0,      0,          0,          KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Move 'Esc' 1 right
+        {   0,      0,      2,          0,          KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Move 'F1' 1 right (Shifts row)
+        {   0,      1,      0,          0,          KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Move Backtick 1 right (Shifts row)
+        {   0,      1,      14,         0,          KEY_EN_EQUALS,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      2,      0,          0,          KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Move Tab 1 right (Shifts row)
+        {   0,      3,      0,          0,          KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Move Caps 1 right (Shifts most of row)
+        {   0,      3,      13,         0,          KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Move Enter 1 right
+        {   0,      4,      0,          0,          KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Move LFT_SHFT 1 right (Shifts most of row)
+        {   0,      5,      0,          0,          KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Move LFT_CTRL 1 right
+        {   0,      5,      10,         0,          KEY_EN_RIGHT_ALT,           KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Insert (Another) RGT_ALT (Shifts remainder of row)
+        {   0,      5,      11,         0,          "Logo",                     KEYBOARD_OPCODE_SWAP_ONLY,          },  // Swap RGT_ALT for 'Logo'
     }
 };
 
@@ -71,29 +59,17 @@ keyboard_keymap_overlay_values razer_blackwidow_x_chroma_te_layout
         }
     },
     {
-        /*---------------------------------------------------------------------*\
-        | Insert Keys                                                           |
-        |   Zone,   Row,    Column,     Index,      Key                         |
-        \*---------------------------------------------------------------------*/
-        {   0,      0,      0,          0,          KEY_EN_UNUSED,              },  // Move 'Esc' 1 right (Shifts row)
-        {   0,      1,      0,          0,          KEY_EN_UNUSED,              },  // Move Backtick 1 right (Shifts row)
-        {   0,      2,      0,          0,          KEY_EN_UNUSED,              },  // Move Tab 1 right (Shifts row)
-        {   0,      3,      0,          0,          KEY_EN_UNUSED,              },  // Move Caps 1 right (Shifts row)
-        {   0,      4,      0,          0,          KEY_EN_UNUSED,              },  // Move LFT_SHFT 1 right (Shifts row)
-        {   0,      5,      0,          0,          KEY_EN_UNUSED,              },  // Move LFT_CTRL 1 right (Shifts row)
-    },
-    {
-        /*---------------------------------------------------------------------*\
-        | Swap Keys                                                             |
-        |   Zone,   Row,    Column,     Index,      Key                         |
-        \*---------------------------------------------------------------------*/
-        {   0,      0,      20,         0,          "Logo",                     },  // Insert 'Logo' key
-    },
-    {
-        /*---------------------------------------------------------------------*\
-        | Remove Keys                                                           |
-        |   Zone,   Row,    Column,     Index,      Key                         |
-        \*---------------------------------------------------------------------*/
+        /*---------------------------------------------------------------------------------------------------------*\
+        | Edit Keys                                                                                                 |
+        |   Zone,   Row,    Column,     Value,      Key,                        OpCode,                             |
+        \*---------------------------------------------------------------------------------------------------------*/
+        {   0,      0,      0,          0,          KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Move 'Esc' 1 right (Shifts row)
+        {   0,      1,      0,          0,          KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Move Backtick 1 right (Shifts row)
+        {   0,      2,      0,          0,          KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Move Tab 1 right (Shifts row)
+        {   0,      3,      0,          0,          KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Move Caps 1 right (Shifts row)
+        {   0,      4,      0,          0,          KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Move LFT_SHFT 1 right (Shifts row)
+        {   0,      5,      0,          0,          KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Move LFT_CTRL 1 right (Shifts row)
+        {   0,      0,      20,         0,          "Logo",                     KEYBOARD_OPCODE_SWAP_ONLY,          },  // Insert 'Logo' key
     }
 };
 
@@ -106,65 +82,53 @@ keyboard_keymap_overlay_values razer_blade_15_2021_advanced_layout
             {
                 KEYBOARD_LAYOUT_ISO_QWERTY,
                 {
-                    /*---------------------------------------------------------------------*\
-                    | Swap Keys                                                             |
-                    |   Zone,   Row,    Column,     Index,      Key                         |
-                    \*---------------------------------------------------------------------*/
-                    {   0,      2,      13,         0,          KEY_EN_ISO_ENTER,           },  // Remove ANSI_BACKSLASH
-                    {   0,      3,      13,         0,          KEY_EN_UNUSED,              },  // Remove ANSI_ENTER
+                    /*---------------------------------------------------------------------------------------------------------*\
+                    | Edit Keys                                                                                                 |
+                    |   Zone,   Row,    Column,     Value,      Key,                        OpCode,                             |
+                    \*---------------------------------------------------------------------------------------------------------*/
+                    {   0,      2,      13,         0,          KEY_EN_ISO_ENTER,           KEYBOARD_OPCODE_SWAP_ONLY,          },  // Remove ANSI_BACKSLASH
+                    {   0,      3,      13,         0,          KEY_EN_UNUSED,              KEYBOARD_OPCODE_SWAP_ONLY,          },  // Remove ANSI_ENTER
                 }
             },
             /* Add more regional layout fixes here */
         }
     },
     {
-        /*---------------------------------------------------------------------*\
-        | Insert Keys                                                           |
-        |   Zone,   Row,    Column,     Index,      Key                         |
-        \*---------------------------------------------------------------------*/
-        {   0,      0,      1,          0,          KEY_EN_ESCAPE,              },
-        {   0,      1,      0,          0,          KEY_EN_UNUSED,              },
-        {   0,      1,      14,         0,          KEY_EN_UNUSED,              },  // Move Backspace 1 right
-        {   0,      2,      0,          0,          KEY_EN_UNUSED,              },
-        {   0,      3,      0,          0,          KEY_EN_UNUSED,              },
-        {   0,      4,      0,          0,          KEY_EN_UNUSED,              },
-        {   0,      5,      0,          0,          KEY_EN_UNUSED,              },
-        {   0,      5,      5,          0,          KEY_EN_LEFT_ALT,            },
-        {   0,      5,      9,          0,          KEY_EN_RIGHT_ALT,           },
-    },
-    {
-        /*---------------------------------------------------------------------*\
-        | Swap Keys                                                             |
-        |   Zone,   Row,    Column,     Index,      Key                         |
-        \*---------------------------------------------------------------------*/
-        {   0,      0,      0,          0,          KEY_EN_UNUSED,              },  // Remove ESC
-        {   0,      0,      14,         0,          KEY_EN_INSERT,              },  // Swap PRTSCN for INS
-        {   0,      0,      15,         0,          KEY_EN_DELETE,              },  // Swap SCRLCK for DEL
-        {   0,      0,      16,         0,          KEY_EN_UNUSED,              },  // Remove PSE_BRK
-        {   0,      1,      16,         0,          KEY_EN_UNUSED,              },  // Remove INSERT
-        {   0,      1,      17,         0,          KEY_EN_UNUSED,              },  // Remove HOME
-        {   0,      1,      18,         0,          KEY_EN_UNUSED,              },  // Remove PGUP
-        {   0,      2,      15,         0,          KEY_EN_UNUSED,              },  // Remove DEL
-        {   0,      2,      16,         0,          KEY_EN_UNUSED,              },  // Remove END
-        {   0,      2,      17,         0,          KEY_EN_UNUSED,              },  // Remove PGDN
-        {   0,      4,      13,         0,          KEY_EN_UNUSED,              },  // Remove RGT_SHFT
-        {   0,      4,      15,         0,          KEY_EN_RIGHT_SHIFT,         },  // Swap ARWUP for RGT_SHFT
-        {   0,      5,      2,          0,          KEY_EN_LEFT_FUNCTION,       },  // Swap LFT_WIN for LFT_FNC
-        {   0,      5,      3,          0,          KEY_EN_LEFT_WINDOWS,        },  // Swap LFT_ALT for LFT_WIN
-        {   0,      5,      6,          0,          KEY_EN_UNUSED,              },  // Remove SPACE
-        {   0,      5,      10,         0,          KEY_EN_RIGHT_FUNCTION,      },  // Swap RGT_ALT for RGT_FNC
-        {   0,      5,      11,         0,          KEY_EN_RIGHT_CONTROL,       },  // Swap RGT_FNC for RGT_CTL
-        {   0,      5,      12,         0,          KEY_EN_LEFT_ARROW,          },  // Swap ARWLFT for RGT_MNU
-        {   0,      5,      13,         0,          KEY_EN_UP_ARROW,            },  // Swap ARWUP for RGT_CTL
-        {   0,      5,      14,         0,          KEY_EN_RIGHT_ARROW,         },  // Swap ARWRGT for ARWLFT
-        {   0,      5,      15,         0,          KEY_EN_DOWN_ARROW,          },  // Swap ARWDWN for ARWDWN
-        {   0,      5,      16,         0,          KEY_EN_UNUSED,              },  // Remove ARWRGT
-    },
-    {
-        /*---------------------------------------------------------------------*\
-        | Remove Keys                                                           |
-        |   Zone,   Row,    Column,     Index,      Key                         |
-        \*---------------------------------------------------------------------*/
+        /*---------------------------------------------------------------------------------------------------------*\
+        | Edit Keys                                                                                                 |
+        |   Zone,   Row,    Column,     Value,      Key,                        OpCode,                             |
+        \*---------------------------------------------------------------------------------------------------------*/
+        {   0,      0,      1,          0,          KEY_EN_ESCAPE,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      1,      0,          0,          KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      1,      14,         0,          KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Move Backspace 1 right
+        {   0,      2,      0,          0,          KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      3,      0,          0,          KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      4,      0,          0,          KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      5,      0,          0,          KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      5,      5,          0,          KEY_EN_LEFT_ALT,            KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      5,      9,          0,          KEY_EN_RIGHT_ALT,           KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      0,      0,          0,          KEY_EN_UNUSED,              KEYBOARD_OPCODE_SWAP_ONLY,          },  // Remove ESC
+        {   0,      0,      14,         0,          KEY_EN_INSERT,              KEYBOARD_OPCODE_SWAP_ONLY,          },  // Swap PRTSCN for INS
+        {   0,      0,      15,         0,          KEY_EN_DELETE,              KEYBOARD_OPCODE_SWAP_ONLY,          },  // Swap SCRLCK for DEL
+        {   0,      0,      16,         0,          KEY_EN_UNUSED,              KEYBOARD_OPCODE_SWAP_ONLY,          },  // Remove PSE_BRK
+        {   0,      1,      16,         0,          KEY_EN_UNUSED,              KEYBOARD_OPCODE_SWAP_ONLY,          },  // Remove INSERT
+        {   0,      1,      17,         0,          KEY_EN_UNUSED,              KEYBOARD_OPCODE_SWAP_ONLY,          },  // Remove HOME
+        {   0,      1,      18,         0,          KEY_EN_UNUSED,              KEYBOARD_OPCODE_SWAP_ONLY,          },  // Remove PGUP
+        {   0,      2,      15,         0,          KEY_EN_UNUSED,              KEYBOARD_OPCODE_SWAP_ONLY,          },  // Remove DEL
+        {   0,      2,      16,         0,          KEY_EN_UNUSED,              KEYBOARD_OPCODE_SWAP_ONLY,          },  // Remove END
+        {   0,      2,      17,         0,          KEY_EN_UNUSED,              KEYBOARD_OPCODE_SWAP_ONLY,          },  // Remove PGDN
+        {   0,      4,      13,         0,          KEY_EN_UNUSED,              KEYBOARD_OPCODE_SWAP_ONLY,          },  // Remove RGT_SHFT
+        {   0,      4,      15,         0,          KEY_EN_RIGHT_SHIFT,         KEYBOARD_OPCODE_SWAP_ONLY,          },  // Swap ARWUP for RGT_SHFT
+        {   0,      5,      2,          0,          KEY_EN_LEFT_FUNCTION,       KEYBOARD_OPCODE_SWAP_ONLY,          },  // Swap LFT_WIN for LFT_FNC
+        {   0,      5,      3,          0,          KEY_EN_LEFT_WINDOWS,        KEYBOARD_OPCODE_SWAP_ONLY,          },  // Swap LFT_ALT for LFT_WIN
+        {   0,      5,      6,          0,          KEY_EN_UNUSED,              KEYBOARD_OPCODE_SWAP_ONLY,          },  // Remove SPACE
+        {   0,      5,      10,         0,          KEY_EN_RIGHT_FUNCTION,      KEYBOARD_OPCODE_SWAP_ONLY,          },  // Swap RGT_ALT for RGT_FNC
+        {   0,      5,      11,         0,          KEY_EN_RIGHT_CONTROL,       KEYBOARD_OPCODE_SWAP_ONLY,          },  // Swap RGT_FNC for RGT_CTL
+        {   0,      5,      12,         0,          KEY_EN_LEFT_ARROW,          KEYBOARD_OPCODE_SWAP_ONLY,          },  // Swap ARWLFT for RGT_MNU
+        {   0,      5,      13,         0,          KEY_EN_UP_ARROW,            KEYBOARD_OPCODE_SWAP_ONLY,          },  // Swap ARWUP for RGT_CTL
+        {   0,      5,      14,         0,          KEY_EN_RIGHT_ARROW,         KEYBOARD_OPCODE_SWAP_ONLY,          },  // Swap ARWRGT for ARWLFT
+        {   0,      5,      15,         0,          KEY_EN_DOWN_ARROW,          KEYBOARD_OPCODE_SWAP_ONLY,          },  // Swap ARWDWN for ARWDWN
+        {   0,      5,      16,         0,          KEY_EN_UNUSED,              KEYBOARD_OPCODE_SWAP_ONLY,          },  // Remove ARWRGT
     }
 };
 
@@ -177,77 +141,65 @@ keyboard_keymap_overlay_values razer_blade_15_2022_layout
             {
                 KEYBOARD_LAYOUT_ANSI_QWERTY,
                 {
-                    /*---------------------------------------------------------------------*\
-                    | Swap Keys                                                             |
-                    |   Zone,   Row,    Column,     Index,      Key                         |
-                    \*---------------------------------------------------------------------*/
-                    {   0,      4,      1,          0,          KEY_EN_UNUSED,              },  // Move 'Z' 1 right (Account for ISO key)
+                    /*---------------------------------------------------------------------------------------------------------*\
+                    | Edit Keys                                                                                                 |
+                    |   Zone,   Row,    Column,     Value,      Key,                        OpCode,                             |
+                    \*---------------------------------------------------------------------------------------------------------*/
+                    {   0,      4,      1,          0,          KEY_EN_UNUSED,              KEYBOARD_OPCODE_SWAP_ONLY,          },  // Move 'Z' 1 right (Account for ISO key)
                 }
             },
             {
                 KEYBOARD_LAYOUT_ISO_QWERTY,
                 {
-                    /*---------------------------------------------------------------------*\
-                    | Swap Keys                                                             |
-                    |   Zone,   Row,    Column,     Index,      Key                         |
-                    \*---------------------------------------------------------------------*/
-                    {   0,      2,      13,         0,          KEY_EN_ISO_ENTER,           },  // Remove ANSI_BACKSLASH
-                    {   0,      3,      13,         0,          KEY_EN_UNUSED,              },  // Remove ANSI_ENTER
+                    /*---------------------------------------------------------------------------------------------------------*\
+                    | Edit Keys                                                                                                 |
+                    |   Zone,   Row,    Column,     Value,      Key,                        OpCode,                             |
+                    \*---------------------------------------------------------------------------------------------------------*/
+                    {   0,      2,      13,         0,          KEY_EN_ISO_ENTER,           KEYBOARD_OPCODE_SWAP_ONLY,          },  // Remove ANSI_BACKSLASH
+                    {   0,      3,      13,         0,          KEY_EN_UNUSED,              KEYBOARD_OPCODE_SWAP_ONLY,          },  // Remove ANSI_ENTER
                 }
             },
             /* Add more regional layout fixes here */
         }
     },
     {
-        /*---------------------------------------------------------------------*\
-        | Insert Keys                                                           |
-        |   Zone,   Row,    Column,     Index,      Key                         |
-        \*---------------------------------------------------------------------*/
-        {   0,      0,      0,          0,          KEY_EN_UNUSED,              },  // Move Escape 1 right
-        {   0,      1,      0,          0,          KEY_EN_UNUSED,              },
-        {   0,      1,      14,         0,          KEY_EN_UNUSED,              },  // Move Backspace 1 right
-        {   0,      2,      0,          0,          KEY_EN_UNUSED,              },
-        {   0,      2,      14,         0,          KEY_EN_UNUSED,              },  // Move Back slash 1 right
-        {   0,      3,      0,          0,          KEY_EN_UNUSED,              },
-        {   0,      3,      13,         0,          KEY_EN_UNUSED,              },  // Move ANSI Enter 1 right
-        {   0,      3,      14,         0,          KEY_EN_UNUSED,              },  // Move ANSI Enter 1 right
-        {   0,      4,      0,          0,          KEY_EN_UNUSED,              },
-        {   0,      5,      0,          0,          KEY_EN_UNUSED,              },
-        {   0,      5,      5,          0,          KEY_EN_LEFT_ALT,            },
-        {   0,      5,      6,          0,          KEY_EN_UNUSED,              },  // Move Space 1 right
-        {   0,      5,      9,          0,          KEY_EN_RIGHT_ALT,           },
-    },
-    {
-        /*---------------------------------------------------------------------*\
-        | Swap Keys                                                             |
-        |   Zone,   Row,    Column,     Index,      Key                         |
-        \*---------------------------------------------------------------------*/
-        {   0,      0,      14,         0,          KEY_EN_DELETE,              },  // Swap PRTSCN for DEL
-        {   0,      0,      15,         0,          KEY_EN_POWER,               },  // Swap SCRLCK for POWER
-        {   0,      0,      16,         0,          KEY_EN_UNUSED,              },  // Remove PSE_BRK
-        {   0,      1,      16,         0,          KEY_EN_UNUSED,              },  // Remove INSERT
-        {   0,      1,      17,         0,          KEY_EN_UNUSED,              },  // Remove HOME
-        {   0,      1,      18,         0,          KEY_EN_UNUSED,              },  // Remove PGUP
-        {   0,      2,      16,         0,          KEY_EN_UNUSED,              },  // Remove DEL
-        {   0,      2,      17,         0,          KEY_EN_UNUSED,              },  // Remove END
-        {   0,      2,      18,         0,          KEY_EN_UNUSED,              },  // Remove PGDN
-        {   0,      4,      13,         0,          KEY_EN_UNUSED,              },  // Remove RGT_SHFT
-        {   0,      4,      15,         0,          KEY_EN_RIGHT_SHIFT,         },  // Swap ARWUP for RGT_SHFT
-        {   0,      5,      2,          0,          KEY_EN_LEFT_FUNCTION,       },  // Swap LFT_WIN for LFT_FNC
-        {   0,      5,      3,          0,          KEY_EN_LEFT_WINDOWS,        },  // Swap LFT_ALT for LFT_WIN
-        {   0,      5,      10,         0,          KEY_EN_RIGHT_FUNCTION,      },  // Swap RGT_ALT for RGT_FNC
-        {   0,      5,      11,         0,          KEY_EN_RIGHT_CONTROL,       },  // Swap RGT_FNC for RGT_CTL
-        {   0,      5,      12,         0,          KEY_EN_LEFT_ARROW,          },  // Swap ARWLFT for RGT_MNU
-        {   0,      5,      13,         0,          KEY_EN_UP_ARROW,            },  // Swap ARWUP for RGT_CTL
-        {   0,      5,      14,         0,          KEY_EN_RIGHT_ARROW,         },  // Swap ARWRGT for ARWLFT
-        {   0,      5,      15,         0,          KEY_EN_DOWN_ARROW,          },  // Swap ARWDWN for ARWDWN
-        {   0,      5,      16,         0,          KEY_EN_UNUSED,              },  // Remove ARWRGT
-    },
-    {
-        /*---------------------------------------------------------------------*\
-        | Remove Keys                                                           |
-        |   Zone,   Row,    Column,     Index,      Key                         |
-        \*---------------------------------------------------------------------*/
+        /*---------------------------------------------------------------------------------------------------------*\
+        | Edit Keys                                                                                                 |
+        |   Zone,   Row,    Column,     Value,      Key,                        OpCode,                             |
+        \*---------------------------------------------------------------------------------------------------------*/
+        {   0,      0,      0,          0,          KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Move Escape 1 right
+        {   0,      1,      0,          0,          KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      1,      14,         0,          KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Move Backspace 1 right
+        {   0,      2,      0,          0,          KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      2,      14,         0,          KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Move Back slash 1 right
+        {   0,      3,      0,          0,          KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      3,      13,         0,          KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Move ANSI Enter 1 right
+        {   0,      3,      14,         0,          KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Move ANSI Enter 1 right
+        {   0,      4,      0,          0,          KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      5,      0,          0,          KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      5,      5,          0,          KEY_EN_LEFT_ALT,            KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      5,      6,          0,          KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Move Space 1 right
+        {   0,      5,      9,          0,          KEY_EN_RIGHT_ALT,           KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      0,      14,         0,          KEY_EN_DELETE,              KEYBOARD_OPCODE_SWAP_ONLY,          },  // Swap PRTSCN for DEL
+        {   0,      0,      15,         0,          KEY_EN_POWER,               KEYBOARD_OPCODE_SWAP_ONLY,          },  // Swap SCRLCK for POWER
+        {   0,      0,      16,         0,          KEY_EN_UNUSED,              KEYBOARD_OPCODE_SWAP_ONLY,          },  // Remove PSE_BRK
+        {   0,      1,      16,         0,          KEY_EN_UNUSED,              KEYBOARD_OPCODE_SWAP_ONLY,          },  // Remove INSERT
+        {   0,      1,      17,         0,          KEY_EN_UNUSED,              KEYBOARD_OPCODE_SWAP_ONLY,          },  // Remove HOME
+        {   0,      1,      18,         0,          KEY_EN_UNUSED,              KEYBOARD_OPCODE_SWAP_ONLY,          },  // Remove PGUP
+        {   0,      2,      16,         0,          KEY_EN_UNUSED,              KEYBOARD_OPCODE_SWAP_ONLY,          },  // Remove DEL
+        {   0,      2,      17,         0,          KEY_EN_UNUSED,              KEYBOARD_OPCODE_SWAP_ONLY,          },  // Remove END
+        {   0,      2,      18,         0,          KEY_EN_UNUSED,              KEYBOARD_OPCODE_SWAP_ONLY,          },  // Remove PGDN
+        {   0,      4,      13,         0,          KEY_EN_UNUSED,              KEYBOARD_OPCODE_SWAP_ONLY,          },  // Remove RGT_SHFT
+        {   0,      4,      15,         0,          KEY_EN_RIGHT_SHIFT,         KEYBOARD_OPCODE_SWAP_ONLY,          },  // Swap ARWUP for RGT_SHFT
+        {   0,      5,      2,          0,          KEY_EN_LEFT_FUNCTION,       KEYBOARD_OPCODE_SWAP_ONLY,          },  // Swap LFT_WIN for LFT_FNC
+        {   0,      5,      3,          0,          KEY_EN_LEFT_WINDOWS,        KEYBOARD_OPCODE_SWAP_ONLY,          },  // Swap LFT_ALT for LFT_WIN
+        {   0,      5,      10,         0,          KEY_EN_RIGHT_FUNCTION,      KEYBOARD_OPCODE_SWAP_ONLY,          },  // Swap RGT_ALT for RGT_FNC
+        {   0,      5,      11,         0,          KEY_EN_RIGHT_CONTROL,       KEYBOARD_OPCODE_SWAP_ONLY,          },  // Swap RGT_FNC for RGT_CTL
+        {   0,      5,      12,         0,          KEY_EN_LEFT_ARROW,          KEYBOARD_OPCODE_SWAP_ONLY,          },  // Swap ARWLFT for RGT_MNU
+        {   0,      5,      13,         0,          KEY_EN_UP_ARROW,            KEYBOARD_OPCODE_SWAP_ONLY,          },  // Swap ARWUP for RGT_CTL
+        {   0,      5,      14,         0,          KEY_EN_RIGHT_ARROW,         KEYBOARD_OPCODE_SWAP_ONLY,          },  // Swap ARWRGT for ARWLFT
+        {   0,      5,      15,         0,          KEY_EN_DOWN_ARROW,          KEYBOARD_OPCODE_SWAP_ONLY,          },  // Swap ARWDWN for ARWDWN
+        {   0,      5,      16,         0,          KEY_EN_UNUSED,              KEYBOARD_OPCODE_SWAP_ONLY,          },  // Remove ARWRGT
     }
 };
 
@@ -260,45 +212,33 @@ keyboard_keymap_overlay_values razer_deathstalker_v2_layout
             {
                 KEYBOARD_LAYOUT_ANSI_QWERTY,
                 {
-                    /*---------------------------------------------------------------------*\
-                    | Swap Keys                                                             |
-                    |   Zone,   Row,    Column,     Index,      Key                         |
-                    \*---------------------------------------------------------------------*/
-                    {   0,      4,       1,         0,          KEY_EN_UNUSED,              },  // Move 'Z' 1 right (Account for ISO key)
+                    /*---------------------------------------------------------------------------------------------------------*\
+                    | Edit Keys                                                                                                 |
+                    |   Zone,   Row,    Column,     Value,      Key,                        OpCode,                             |
+                    \*---------------------------------------------------------------------------------------------------------*/
+                    {   0,      4,       1,         0,          KEY_EN_UNUSED,              KEYBOARD_OPCODE_SWAP_ONLY,          },  // Move 'Z' 1 right (Account for ISO key)
                 }
             },
             {
                 KEYBOARD_LAYOUT_ISO_QWERTY,
                 {
-                    /*---------------------------------------------------------------------*\
-                    | Swap Keys                                                             |
-                    |   Zone,   Row,    Column,     Index,      Key                         |
-                    \*---------------------------------------------------------------------*/
-                    {   0,      2,      13,         0,          KEY_EN_UNUSED,              },  // Remove ANSI_BACKSLASH
-                    {   0,      4,       1,         0,          KEY_EN_ISO_BACK_SLASH,      },  // Add ISO_BACK_SLASH
+                    /*---------------------------------------------------------------------------------------------------------*\
+                    | Edit Keys                                                                                                 |
+                    |   Zone,   Row,    Column,     Value,      Key,                        OpCode,                             |
+                    \*---------------------------------------------------------------------------------------------------------*/
+                    {   0,      2,      13,         0,          KEY_EN_UNUSED,              KEYBOARD_OPCODE_SWAP_ONLY,          },  // Remove ANSI_BACKSLASH
+                    {   0,      4,       1,         0,          KEY_EN_ISO_BACK_SLASH,      KEYBOARD_OPCODE_SWAP_ONLY,          },  // Add ISO_BACK_SLASH
                 }
             },
             /* Add more regional layout fixes here */
         }
     },
     {
-        /*---------------------------------------------------------------------*\
-        | Insert Keys                                                           |
-        |   Zone,   Row,    Column,     Index,      Key                         |
-        \*---------------------------------------------------------------------*/
-        {   0,      1,      13,         0,          KEY_EN_UNUSED,              },  // Move Backspace 1 right
-    },
-    {
-        /*---------------------------------------------------------------------*\
-        | Swap Keys                                                             |
-        |   Zone,   Row,    Column,     Index,      Key                         |
-        \*---------------------------------------------------------------------*/
-    },
-    {
-        /*---------------------------------------------------------------------*\
-        | Remove Keys                                                           |
-        |   Zone,   Row,    Column,     Index,      Key                         |
-        \*---------------------------------------------------------------------*/
+        /*---------------------------------------------------------------------------------------------------------*\
+        | Edit Keys                                                                                                 |
+        |   Zone,   Row,    Column,     Value,      Key,                        OpCode,                             |
+        \*---------------------------------------------------------------------------------------------------------*/
+        {   0,      1,      13,         0,          KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Move Backspace 1 right
     }
 };
 
@@ -311,44 +251,32 @@ keyboard_keymap_overlay_values razer_deathstalker_v2_pro_layout
             {
                 KEYBOARD_LAYOUT_ANSI_QWERTY,
                 {
-                    /*---------------------------------------------------------------------*\
-                    | Swap Keys                                                             |
-                    |   Zone,   Row,    Column,     Index,      Key                         |
-                    \*---------------------------------------------------------------------*/
-                    {   0,      4,       1,         0,          KEY_EN_UNUSED,              },  // Move 'Z' 1 right (Account for ISO key)
+                    /*---------------------------------------------------------------------------------------------------------*\
+                    | Edit Keys                                                                                                 |
+                    |   Zone,   Row,    Column,     Value,      Key,                        OpCode,                             |
+                    \*---------------------------------------------------------------------------------------------------------*/
+                    {   0,      4,       1,         0,          KEY_EN_UNUSED,              KEYBOARD_OPCODE_SWAP_ONLY,          },  // Move 'Z' 1 right (Account for ISO key)
                 }
             },
             {
                 KEYBOARD_LAYOUT_ISO_QWERTY,
                 {
-                    /*---------------------------------------------------------------------*\
-                    | Swap Keys                                                             |
-                    |   Zone,   Row,    Column,     Index,      Key                         |
-                    \*---------------------------------------------------------------------*/
-                    {   0,      2,      13,         0,          KEY_EN_UNUSED,              },  // Remove ANSI_BACKSLASH
-                    {   0,      4,       1,         0,          KEY_EN_ISO_BACK_SLASH,      },  // Add ISO_BACK_SLASH
+                    /*---------------------------------------------------------------------------------------------------------*\
+                    | Edit Keys                                                                                                 |
+                    |   Zone,   Row,    Column,     Value,      Key,                        OpCode,                             |
+                    \*---------------------------------------------------------------------------------------------------------*/
+                    {   0,      2,      13,         0,          KEY_EN_UNUSED,              KEYBOARD_OPCODE_SWAP_ONLY,          },  // Remove ANSI_BACKSLASH
+                    {   0,      4,       1,         0,          KEY_EN_ISO_BACK_SLASH,      KEYBOARD_OPCODE_SWAP_ONLY,          },  // Add ISO_BACK_SLASH
                 }
             },
             /* Add more regional layout fixes here */
         }
     },
     {
-        /*---------------------------------------------------------------------*\
-        | Insert Keys                                                           |
-        |   Zone,   Row,    Column,     Index,      Key                         |
-        \*---------------------------------------------------------------------*/
-    },
-    {
-        /*---------------------------------------------------------------------*\
-        | Swap Keys                                                             |
-        |   Zone,   Row,    Column,     Index,      Key                         |
-        \*---------------------------------------------------------------------*/
-    },
-    {
-        /*---------------------------------------------------------------------*\
-        | Remove Keys                                                           |
-        |   Zone,   Row,    Column,     Index,      Key                         |
-        \*---------------------------------------------------------------------*/
+        /*---------------------------------------------------------------------------------------------------------*\
+        | Edit Keys                                                                                                 |
+        |   Zone,   Row,    Column,     Value,      Key,                        OpCode,                             |
+        \*---------------------------------------------------------------------------------------------------------*/
     }
 };
 
@@ -362,32 +290,20 @@ keyboard_keymap_overlay_values razer_huntsman_elite_layout
         }
     },
     {
-        /*---------------------------------------------------------------------*\
-        | Insert Keys                                                           |
-        |   Zone,   Row,    Column,     Index,      Key                         |
-        \*---------------------------------------------------------------------*/
-        {   0,      0,      0,          0,          KEY_EN_UNUSED,              },
-        {   0,      0,      18,         0,          KEY_EN_MEDIA_PREVIOUS,      },
-        {   0,      0,      19,         0,          KEY_EN_MEDIA_PLAY_PAUSE,    },
-        {   0,      0,      20,         0,          KEY_EN_MEDIA_NEXT,          },
-        {   0,      0,      21,         0,          KEY_EN_MEDIA_MUTE,          },
-        {   0,      1,      0,          0,          KEY_EN_UNUSED,              },
-        {   0,      2,      0,          0,          KEY_EN_UNUSED,              },
-        {   0,      3,      0,          0,          KEY_EN_UNUSED,              },
-        {   0,      4,      0,          0,          KEY_EN_UNUSED,              },
-        {   0,      5,      0,          0,          KEY_EN_UNUSED,              },
-    },
-    {
-        /*---------------------------------------------------------------------*\
-        | Swap Keys                                                             |
-        |   Zone,   Row,    Column,     Index,      Key                         |
-        \*---------------------------------------------------------------------*/
-    },
-    {
-        /*---------------------------------------------------------------------*\
-        | Remove Keys                                                           |
-        |   Zone,   Row,    Column,     Index,      Key                         |
-        \*---------------------------------------------------------------------*/
+        /*---------------------------------------------------------------------------------------------------------*\
+        | Edit Keys                                                                                                 |
+        |   Zone,   Row,    Column,     Value,      Key,                        OpCode,                             |
+        \*---------------------------------------------------------------------------------------------------------*/
+        {   0,      0,      0,          0,          KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      0,      18,         0,          KEY_EN_MEDIA_PREVIOUS,      KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      0,      19,         0,          KEY_EN_MEDIA_PLAY_PAUSE,    KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      0,      20,         0,          KEY_EN_MEDIA_NEXT,          KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      0,      21,         0,          KEY_EN_MEDIA_MUTE,          KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      1,      0,          0,          KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      2,      0,          0,          KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      3,      0,          0,          KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      4,      0,          0,          KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      5,      0,          0,          KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
     }
 };
 

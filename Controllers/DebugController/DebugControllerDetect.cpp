@@ -308,10 +308,10 @@ void DetectDebugControllers()
                 /*---------------------------------------------------------*\
                 | Check for custom key inserts and swaps                    |
                 \*---------------------------------------------------------*/
+                std::vector<keyboard_led> change;
 
                 if(json_kbd.contains("insert"))
                 {
-                    std::vector<keyboard_led> insert;
 
                     for(size_t i = 0; i < json_kbd["insert"].size(); i++)
                     {
@@ -322,17 +322,14 @@ void DetectDebugControllers()
                         key->col     = json_kbd["insert"][i]["Col"];
                         key->value   = json_kbd["insert"][i]["Val"];
                         key->name    = json_kbd["insert"][i]["Name"].get_ref<const std::string&>().c_str();
+                        key->opcode  = KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT;
 
-                        insert.push_back(*key);
+                        change.push_back(*key);
                     }
-                    new_kb.InsertKeys(insert);
-                    new_kb.UpdateDimensions();
                 }
 
                 if(json_kbd.contains("swap"))
                 {
-                    std::vector<keyboard_led> swap;
-
                     for(size_t i = 0; i < json_kbd["swap"].size(); i++)
                     {
                         keyboard_led* key = new keyboard_led;
@@ -342,12 +339,13 @@ void DetectDebugControllers()
                         key->col    = json_kbd["swap"][i]["Col"];
                         key->value  = json_kbd["swap"][i]["Val"];
                         key->name   = json_kbd["swap"][i]["Name"].get_ref<const std::string&>().c_str();
+                        key->opcode = KEYBOARD_OPCODE_SWAP_ONLY;
 
-                        swap.push_back(*key);
+                        change.push_back(*key);
                     }
-                    new_kb.SwapKeys(swap);
-                    new_kb.UpdateDimensions();
                 }
+
+                new_kb.ChangeKeys(change);
 
                 dummy_keyboard->name                             = new_kb.GetName();
                 dummy_keyboard->type                             = DEVICE_TYPE_KEYBOARD;
