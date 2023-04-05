@@ -614,7 +614,14 @@ void KeyboardLayoutManager::SwapKey(keyboard_led swp_key)
             if(strlen(swp_name) != 0)
             {
                 LOG_DEBUG(LOG_MSG_INSERT_BEFORE, KLM_CLASS_NAME, swp_name, keymap[key_idx].name, swp_row, swp_col, KEY_EN_UNUSED);
-                keymap.insert(keymap.begin() + (key_idx - 1), swp_key);
+                if(key_idx == 0)
+                {
+                    keymap.insert(keymap.begin(), swp_key);
+                }
+                else
+                {
+                    keymap.insert(keymap.begin() + (key_idx - 1), swp_key);
+                }
             }
             break;
         }
