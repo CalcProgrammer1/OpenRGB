@@ -18,14 +18,6 @@ PhilipsWizController::PhilipsWizController(std::string ip)
     location    = "IP: " + ip;
 
     /*-----------------------------------------------------------------*\
-    | Set a few sane default values                                     |
-    \*-----------------------------------------------------------------*/
-    red         = 0;
-    green       = 0;
-    blue        = 0;
-    brightness  = 100;
-
-    /*-----------------------------------------------------------------*\
     | Open a UDP client sending to the device's IP, port 38899          |
     \*-----------------------------------------------------------------*/
     port.udp_client(ip.c_str(), "38899");
@@ -64,6 +56,11 @@ std::string PhilipsWizController::GetVersion()
     return(module_name + " " + firmware_version);
 }
 
+std::string PhilipsWizController::GetModuleName()
+{
+    return(module_name);
+}
+
 std::string PhilipsWizController::GetManufacturer()
 {
     return("Philips");
@@ -74,30 +71,15 @@ std::string PhilipsWizController::GetUniqueID()
     return(module_mac);
 }
 
-void PhilipsWizController::SetColor(unsigned char red, unsigned char green, unsigned char blue)
-{
-    this->red    = red;
-    this->green  = green;
-    this->blue   = blue;
-
-    SendSetPilot();
-}
-
-void PhilipsWizController::SetBrightness(unsigned char brightness)
-{
-    this->brightness = brightness;
-
-    SendSetPilot();
-}
-
-void PhilipsWizController::SendSetPilot()
+void PhilipsWizController::SetColor(unsigned char red, unsigned char green, unsigned char blue, unsigned char brightness)
 {
     json command;
 
     /*-----------------------------------------------------------------*\
     | Fill in the setPilot command with RGB and brightness information. |
     | The bulb will not respond to 0, 0, 0, so if all channels are zero,|
-    | set the state to off.  Otherwise, set it to on.                   |
+    | set the state to off.  Otherwise, set it to on. As we're also     |
+    | running direct the bulb needs to be set back to max brightness.   |
     \*-----------------------------------------------------------------*/
     command["method"]            = "setPilot";
     command["params"]["r"]       = red;
@@ -121,6 +103,25 @@ void PhilipsWizController::SendSetPilot()
     std::string command_str     = command.dump();
 
     port.udp_write((char *)command_str.c_str(), command_str.length() + 1);
+}
+
+void PhilipsWizController::SetScene(int scene, unsigned char brightness)
+{
+    json command;
+
+    /*------------------------------------------------------------*\
+    | Fill in the setPilot command with Scene information.         |
+    \*------------------------------------------------------------*/
+    command["method"] = "setPilot";
+    command["params"]["sceneId"] = scene;
+    command["params"]["dimming"] = brightness;
+
+    /*------------------------------------------------------------*\
+    | Convert the JSON object to a string and write it             |
+    \*------------------------------------------------------------*/
+    std::string command_str = command.dump();
+
+    port.udp_write((char*)command_str.c_str(), command_str.length() + 1);
 }
 
 void PhilipsWizController::ReceiveThreadFunction()
