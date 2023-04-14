@@ -95,6 +95,8 @@ std::string AuraTUFKeyboardController::GetVersion()
         
         switch(device_pid)
         {
+            case AURA_ROG_AZOTH_USB_PID:
+            case AURA_ROG_AZOTH_2_4_PID:
             case AURA_TUF_K3_GAMING_PID:
             case AURA_ROG_STRIX_FLARE_II_ANIMATE_PID:
             case AURA_ROG_STRIX_SCOPE_NX_WIRELESS_DELUXE_USB_PID:
@@ -473,7 +475,6 @@ void AuraTUFKeyboardController::UpdateScopeIIQuicksand
     AwaitResponse(20);
 }
 
-
 void AuraTUFKeyboardController::UpdateDevice
     (
     unsigned char           mode,
@@ -488,8 +489,10 @@ void AuraTUFKeyboardController::UpdateDevice
     {
         return UpdateK1Wave(colors, direction, speed, brightness);
     }
-    
-    if(device_pid == AURA_ROG_STRIX_SCOPE_NX_WIRELESS_DELUXE_USB_PID
+
+    if(device_pid == AURA_ROG_AZOTH_USB_PID
+    || device_pid == AURA_ROG_AZOTH_2_4_PID
+    || device_pid == AURA_ROG_STRIX_SCOPE_NX_WIRELESS_DELUXE_USB_PID
     || device_pid == AURA_ROG_STRIX_SCOPE_NX_WIRELESS_DELUXE_2_4_PID
     || device_pid == AURA_ROG_STRIX_SCOPE_II_96_WIRELESS_USB_PID
     || device_pid == AURA_ROG_STRIX_SCOPE_II_RX_PID)
