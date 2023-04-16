@@ -83,6 +83,7 @@ INCLUDEPATH +=                                                                  
     Controllers/AlienwareController/                                                            \
     Controllers/AlienwareKeyboardController/                                                    \
     Controllers/AMDWraithPrismController/                                                       \
+    Controllers/AOCMousematController/                                                          \
     Controllers/ASRockPolychromeUSBController/                                                  \
     Controllers/ASRockSMBusController/                                                          \
     Controllers/AsusAuraCoreController/                                                         \
@@ -271,6 +272,8 @@ HEADERS +=                                                                      
     Controllers/AMDWraithPrismController/RGBController_AMDWraithPrism.h                         \
     Controllers/AnnePro2Controller/AnnePro2Controller.h                                         \
     Controllers/AnnePro2Controller/RGBController_AnnePro2.h                                     \
+    Controllers/AOCMousematController/AOCMousematController.h                                   \
+    Controllers/AOCMousematController/RGBController_AOCMousemat.h                               \
     Controllers/ASRockPolychromeUSBController/ASRockPolychromeUSBController.h                   \
     Controllers/ASRockPolychromeUSBController/RGBController_ASRockPolychromeUSB.h               \
     Controllers/ASRockSMBusController/ASRockASRRGBSMBusController.h                             \
@@ -821,6 +824,9 @@ SOURCES +=                                                                      
     Controllers/AnnePro2Controller/AnnePro2Controller.cpp                                       \
     Controllers/AnnePro2Controller/AnnePro2ControllerDetect.cpp                                 \
     Controllers/AnnePro2Controller/RGBController_AnnePro2.cpp                                   \
+    Controllers/AOCMousematController/AOCMousematController.cpp                                 \
+    Controllers/AOCMousematController/AOCMousematControllerDetect.cpp                           \
+    Controllers/AOCMousematController/RGBController_AOCMousemat.cpp                             \
     Controllers/ASRockPolychromeUSBController/ASRockPolychromeUSBController.cpp                 \
     Controllers/ASRockPolychromeUSBController/ASRockPolychromeUSBControllerDetect.cpp           \
     Controllers/ASRockPolychromeUSBController/RGBController_ASRockPolychromeUSB.cpp             \
