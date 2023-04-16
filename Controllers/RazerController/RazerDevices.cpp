@@ -224,6 +224,60 @@ keyboard_keymap_overlay_values razer_blackwidow_x_chroma_te_layout
     }
 };
 
+keyboard_keymap_overlay_values razer_blade_pro_2017_layout
+{
+    KEYBOARD_SIZE::KEYBOARD_SIZE_SEVENTY_FIVE,
+    {
+        {   /* ANSI Value set not used */   },
+        {
+            /* Add more regional layout fixes here */
+        }
+    },
+    {
+        /*---------------------------------------------------------------------------------------------------------*\
+        | Edit Keys                                                                                                 |
+        |   Zone,   Row,    Column,     Value,      Key,                        OpCode,                             |
+        \*---------------------------------------------------------------------------------------------------------*/
+        {   0,      0,      0,          0,          KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Move Escape 1 right (Shifts row)
+        {   0,      0,      1,          0,          KEY_EN_UNUSED,              KEYBOARD_OPCODE_SWAP_ONLY,          },  // Remove Escape @ 0,1
+        {   0,      0,      2,          0,          KEY_EN_ESCAPE,              KEYBOARD_OPCODE_SWAP_ONLY,          },  // Insert Escape @ 0,2
+        {   0,      0,      15,         0,          KEY_EN_INSERT,              KEYBOARD_OPCODE_SWAP_ONLY,          },  // Insert 'Insert' key
+        {   0,      0,      17,         0,          KEY_EN_DELETE,              KEYBOARD_OPCODE_SWAP_ONLY,          },  // Insert Delete key
+        {   0,      0,      19,         0,          KEY_EN_MEDIA_PREVIOUS,      KEYBOARD_OPCODE_SWAP_ONLY,          },  // Insert Previous track key
+        {   0,      0,      20,         0,          KEY_EN_MEDIA_NEXT,          KEYBOARD_OPCODE_SWAP_ONLY,          },  // Insert Next track key
+        {   0,      0,      21,         0,          "Key: Media Volume",        KEYBOARD_OPCODE_SWAP_ONLY,          },  // Insert Volume key
+        {   0,      0,      23,         0,          KEY_EN_MEDIA_PLAY_PAUSE,    KEYBOARD_OPCODE_SWAP_ONLY,          },  // Insert Play / Pause key
+        {   0,      0,      24,         0,          KEY_EN_MEDIA_MUTE,          KEYBOARD_OPCODE_SWAP_ONLY,          },  // Insert Volume Mute key
+        {   0,      1,      0,          0,          KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Move Backtick 1 right (Shifts row)
+        {   0,      1,      0,          0,          KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Move Backtick 1 right (Shifts row)
+        {   0,      2,      0,          0,          KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Move Tab 1 right (Shifts row)
+        {   0,      2,      0,          0,          KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Move Tab 1 right (Shifts row)
+        {   0,      2,      3,          0,          KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Move 'Q' 1 right (Shifts row)
+        {   0,      2,      16,         0,          KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Move Back slash 1 right -> 2,17
+        {   0,      3,      0,          0,          KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Move Caps 1 right (Shifts row)
+        {   0,      3,      2,          0,          KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Move 'A' 1 right (Shifts row)
+        {   0,      3,      3,          0,          KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Move 'A' 1 right (Shifts row)
+        {   0,      3,      17,         0,          KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Move ANSI Enter 1 right -> 3,18
+        {   0,      4,      2,          0,          KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Move 'Z' 1 right (Shifts row)
+        {   0,      4,      3,          0,          KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Move 'Z' 1 right (Shifts row)
+        {   0,      4,      14,         0,          KEY_EN_UP_ARROW,            KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Insert Arrow Up and shift row 1 right
+        {   0,      4,      16,         0,          KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Move Right Shift 1 right -> 4,17
+        {   0,      4,      17,         0,          KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Move Right Shift 1 right -> 4,18
+        {   0,      5,      1,          0,          KEY_EN_UNUSED,              KEYBOARD_OPCODE_SWAP_ONLY,          },  // Remove Left Windows @ 5,1
+        {   0,      5,      2,          0,          KEY_EN_LEFT_FUNCTION,       KEYBOARD_OPCODE_SWAP_ONLY,          },  // Insert Left Function @ 5,2
+        {   0,      5,      3,          0,          KEY_EN_LEFT_WINDOWS,        KEYBOARD_OPCODE_SWAP_ONLY,          },  // Insert Left Windows @ 5,3
+        {   0,      5,      5,          0,          KEY_EN_LEFT_ALT,            KEYBOARD_OPCODE_SWAP_ONLY,          },  // Insert Left Alt @ 5,5
+        {   0,      5,      6,          0,          KEY_EN_UNUSED,              KEYBOARD_OPCODE_SWAP_ONLY,          },  // Remove Spacebar @ 5,6
+        {   0,      5,      7,          0,          KEY_EN_SPACE,               KEYBOARD_OPCODE_SWAP_ONLY,          },  // Insert Spacebar @ 5,7
+        {   0,      5,      11,         0,          KEY_EN_UNUSED,              KEYBOARD_OPCODE_SWAP_ONLY,          },  // Remove Right Function @ 5,11
+        {   0,      5,      12,         0,          KEY_EN_RIGHT_CONTROL,       KEYBOARD_OPCODE_SWAP_ONLY,          },  // Swap Right Control for Right Menu @ 5,12
+        {   0,      5,      13,         0,          KEY_EN_LEFT_ARROW,          KEYBOARD_OPCODE_SWAP_ONLY,          },  // Swap Arrow Left for Right Control @ 5,13
+        {   0,      5,      14,         0,          KEY_EN_DOWN_ARROW,          KEYBOARD_OPCODE_SWAP_ONLY,          },  // Insert Arrow Down @ 5,14
+        {   0,      5,      15,         0,          KEY_EN_RIGHT_ARROW,         KEYBOARD_OPCODE_SWAP_ONLY,          },  // Insert Arrow Right @ 5,15
+        {   0,      5,      16,         0,          KEY_EN_RIGHT_FUNCTION,      KEYBOARD_OPCODE_SWAP_ONLY,          },  // Insert Right Function @ 5,16
+    }
+};
+
 keyboard_keymap_overlay_values razer_blade_15_2021_advanced_layout
 {
     KEYBOARD_SIZE::KEYBOARD_SIZE_TKL,
@@ -634,100 +688,6 @@ static const razer_key blade_17_pro_2021_keymap[] =
     {   0,      5,      13,             KEY_EN_UP_ARROW,            RAZER_LAYOUT_TYPE_ALL                           },
     {   0,      5,      14,             KEY_EN_RIGHT_ARROW,         RAZER_LAYOUT_TYPE_ALL                           },
     {   0,      5,      15,             KEY_EN_DOWN_ARROW,          RAZER_LAYOUT_TYPE_ALL                           },
-};
-
-#define BLADE_PRO_2017_KEYMAP_SIZE (sizeof(blade_pro_2017_keymap) / sizeof(blade_pro_2017_keymap[0]))
-
-static const razer_key blade_pro_2017_keymap[] =
-{
-    /*-------------------------------------------------------------------------------------------------------------*\
-    |   Zone,   Row,    Column,         Key                         Layout Type                                     |
-    \*-------------------------------------------------------------------------------------------------------------*/
-    {   0,      0,      2,              KEY_EN_ESCAPE,              RAZER_LAYOUT_TYPE_ALL                           },
-    {   0,      0,      3,              KEY_EN_F1,                  RAZER_LAYOUT_TYPE_ALL                           },
-    {   0,      0,      4,              KEY_EN_F2,                  RAZER_LAYOUT_TYPE_ALL                           },
-    {   0,      0,      5,              KEY_EN_F3,                  RAZER_LAYOUT_TYPE_ALL                           },
-    {   0,      0,      6,              KEY_EN_F4,                  RAZER_LAYOUT_TYPE_ALL                           },
-    {   0,      0,      7,              KEY_EN_F5,                  RAZER_LAYOUT_TYPE_ALL                           },
-    {   0,      0,      8,              KEY_EN_F6,                  RAZER_LAYOUT_TYPE_ALL                           },
-    {   0,      0,      9,              KEY_EN_F7,                  RAZER_LAYOUT_TYPE_ALL                           },
-    {   0,      0,      10,             KEY_EN_F8,                  RAZER_LAYOUT_TYPE_ALL                           },
-    {   0,      0,      11,             KEY_EN_F9,                  RAZER_LAYOUT_TYPE_ALL                           },
-    {   0,      0,      12,             KEY_EN_F10,                 RAZER_LAYOUT_TYPE_ALL                           },
-    {   0,      0,      13,             KEY_EN_F11,                 RAZER_LAYOUT_TYPE_ALL                           },
-    {   0,      0,      14,             KEY_EN_F12,                 RAZER_LAYOUT_TYPE_ALL                           },
-    {   0,      0,      15,             KEY_EN_INSERT,              RAZER_LAYOUT_TYPE_ALL                           },
-    {   0,      0,      17,             KEY_EN_DELETE,              RAZER_LAYOUT_TYPE_ALL                           },
-    {   0,      0,      19,             KEY_EN_MEDIA_PREVIOUS,      RAZER_LAYOUT_TYPE_ALL                           },
-    {   0,      0,      20,             KEY_EN_MEDIA_NEXT,          RAZER_LAYOUT_TYPE_ALL                           },
-    {   0,      0,      21,             "Key: Media Volume",        RAZER_LAYOUT_TYPE_ALL                           },
-    {   0,      0,      23,             KEY_EN_MEDIA_PLAY_PAUSE,    RAZER_LAYOUT_TYPE_ALL                           },
-    {   0,      0,      24,             KEY_EN_MEDIA_MUTE,          RAZER_LAYOUT_TYPE_ALL                           },
-    {   0,      1,      2,              KEY_EN_BACK_TICK,           RAZER_LAYOUT_TYPE_ALL                           },
-    {   0,      1,      3,              KEY_EN_1,                   RAZER_LAYOUT_TYPE_ALL                           },
-    {   0,      1,      4,              KEY_EN_2,                   RAZER_LAYOUT_TYPE_ALL                           },
-    {   0,      1,      5,              KEY_EN_3,                   RAZER_LAYOUT_TYPE_ALL                           },
-    {   0,      1,      6,              KEY_EN_4,                   RAZER_LAYOUT_TYPE_ALL                           },
-    {   0,      1,      7,              KEY_EN_5,                   RAZER_LAYOUT_TYPE_ALL                           },
-    {   0,      1,      8,              KEY_EN_6,                   RAZER_LAYOUT_TYPE_ALL                           },
-    {   0,      1,      9,              KEY_EN_7,                   RAZER_LAYOUT_TYPE_ALL                           },
-    {   0,      1,      10,             KEY_EN_8,                   RAZER_LAYOUT_TYPE_ALL                           },
-    {   0,      1,      11,             KEY_EN_9,                   RAZER_LAYOUT_TYPE_ALL                           },
-    {   0,      1,      12,             KEY_EN_0,                   RAZER_LAYOUT_TYPE_ALL                           },
-    {   0,      1,      13,             KEY_EN_MINUS,               RAZER_LAYOUT_TYPE_ALL                           },
-    {   0,      1,      14,             KEY_EN_EQUALS,              RAZER_LAYOUT_TYPE_ALL                           },
-    {   0,      1,      15,             KEY_EN_BACKSPACE,           RAZER_LAYOUT_TYPE_ALL                           },
-    {   0,      2,      2,              KEY_EN_TAB,                 RAZER_LAYOUT_TYPE_ALL                           },
-    {   0,      2,      4,              KEY_EN_Q,                   RAZER_LAYOUT_TYPE_ALL                           },
-    {   0,      2,      5,              KEY_EN_W,                   RAZER_LAYOUT_TYPE_ALL                           },
-    {   0,      2,      6,              KEY_EN_E,                   RAZER_LAYOUT_TYPE_ALL                           },
-    {   0,      2,      7,              KEY_EN_R,                   RAZER_LAYOUT_TYPE_ALL                           },
-    {   0,      2,      8,              KEY_EN_T,                   RAZER_LAYOUT_TYPE_ALL                           },
-    {   0,      2,      9,              KEY_EN_Y,                   RAZER_LAYOUT_TYPE_ALL                           },
-    {   0,      2,      10,             KEY_EN_U,                   RAZER_LAYOUT_TYPE_ALL                           },
-    {   0,      2,      11,             KEY_EN_I,                   RAZER_LAYOUT_TYPE_ALL                           },
-    {   0,      2,      12,             KEY_EN_O,                   RAZER_LAYOUT_TYPE_ALL                           },
-    {   0,      2,      13,             KEY_EN_P,                   RAZER_LAYOUT_TYPE_ALL                           },
-    {   0,      2,      14,             KEY_EN_LEFT_BRACKET,        RAZER_LAYOUT_TYPE_ALL                           },
-    {   0,      2,      15,             KEY_EN_RIGHT_BRACKET,       RAZER_LAYOUT_TYPE_ALL                           },
-    {   0,      2,      17,             KEY_EN_ANSI_BACK_SLASH,     RAZER_LAYOUT_TYPE_ANSI                          },
-    {   0,      3,      1,              KEY_EN_CAPS_LOCK,           RAZER_LAYOUT_TYPE_ALL                           },
-    {   0,      3,      4,              KEY_EN_A,                   RAZER_LAYOUT_TYPE_ALL                           },
-    {   0,      3,      5,              KEY_EN_S,                   RAZER_LAYOUT_TYPE_ALL                           },
-    {   0,      3,      6,              KEY_EN_D,                   RAZER_LAYOUT_TYPE_ALL                           },
-    {   0,      3,      7,              KEY_EN_F,                   RAZER_LAYOUT_TYPE_ALL                           },
-    {   0,      3,      8,              KEY_EN_G,                   RAZER_LAYOUT_TYPE_ALL                           },
-    {   0,      3,      9,              KEY_EN_H,                   RAZER_LAYOUT_TYPE_ALL                           },
-    {   0,      3,      10,             KEY_EN_J,                   RAZER_LAYOUT_TYPE_ALL                           },
-    {   0,      3,      11,             KEY_EN_K,                   RAZER_LAYOUT_TYPE_ALL                           },
-    {   0,      3,      12,             KEY_EN_L,                   RAZER_LAYOUT_TYPE_ALL                           },
-    {   0,      3,      13,             KEY_EN_SEMICOLON,           RAZER_LAYOUT_TYPE_ALL                           },
-    {   0,      3,      14,             KEY_EN_QUOTE,               RAZER_LAYOUT_TYPE_ALL                           },
-    {   0,      3,      18,             KEY_EN_ANSI_ENTER,          RAZER_LAYOUT_TYPE_ALL                           },
-    {   0,      4,      0,              KEY_EN_LEFT_SHIFT,          RAZER_LAYOUT_TYPE_ALL                           },
-    {   0,      4,      4,              KEY_EN_Z,                   RAZER_LAYOUT_TYPE_ALL                           },
-    {   0,      4,      5,              KEY_EN_X,                   RAZER_LAYOUT_TYPE_ALL                           },
-    {   0,      4,      6,              KEY_EN_C,                   RAZER_LAYOUT_TYPE_ALL                           },
-    {   0,      4,      7,              KEY_EN_V,                   RAZER_LAYOUT_TYPE_ALL                           },
-    {   0,      4,      8,              KEY_EN_B,                   RAZER_LAYOUT_TYPE_ALL                           },
-    {   0,      4,      9,              KEY_EN_N,                   RAZER_LAYOUT_TYPE_ALL                           },
-    {   0,      4,      10,             KEY_EN_M,                   RAZER_LAYOUT_TYPE_ALL                           },
-    {   0,      4,      11,             KEY_EN_COMMA,               RAZER_LAYOUT_TYPE_ALL                           },
-    {   0,      4,      12,             KEY_EN_PERIOD,              RAZER_LAYOUT_TYPE_ALL                           },
-    {   0,      4,      13,             KEY_EN_FORWARD_SLASH,       RAZER_LAYOUT_TYPE_ALL                           },
-    {   0,      4,      14,             KEY_EN_UP_ARROW,            RAZER_LAYOUT_TYPE_ALL                           },
-    {   0,      4,      18,             KEY_EN_RIGHT_SHIFT,         RAZER_LAYOUT_TYPE_ALL                           },
-    {   0,      5,      0,              KEY_EN_LEFT_CONTROL,        RAZER_LAYOUT_TYPE_ALL                           },
-    {   0,      5,      2,              KEY_EN_LEFT_FUNCTION,       RAZER_LAYOUT_TYPE_ALL                           },
-    {   0,      5,      3,              KEY_EN_LEFT_WINDOWS,        RAZER_LAYOUT_TYPE_ALL                           },
-    {   0,      5,      5,              KEY_EN_LEFT_ALT,            RAZER_LAYOUT_TYPE_ALL                           },
-    {   0,      5,      7,              KEY_EN_SPACE,               RAZER_LAYOUT_TYPE_ALL                           },
-    {   0,      5,      10,             KEY_EN_RIGHT_ALT,           RAZER_LAYOUT_TYPE_ALL                           },
-    {   0,      5,      12,             KEY_EN_RIGHT_CONTROL,       RAZER_LAYOUT_TYPE_ALL                           },
-    {   0,      5,      13,             KEY_EN_LEFT_ARROW,          RAZER_LAYOUT_TYPE_ALL                           },
-    {   0,      5,      14,             KEY_EN_DOWN_ARROW,          RAZER_LAYOUT_TYPE_ALL                           },
-    {   0,      5,      15,             KEY_EN_RIGHT_ARROW,         RAZER_LAYOUT_TYPE_ALL                           },
-    {   0,      5,      16,             KEY_EN_RIGHT_FUNCTION,      RAZER_LAYOUT_TYPE_ALL                           },
 };
 
 #define BLADE_STEALTH_2016_KEYMAP_SIZE (sizeof(blade_stealth_2016_keymap) / sizeof(blade_stealth_2016_keymap[0]))
@@ -4300,9 +4260,9 @@ static const razer_device blade_pro_2017_device =
         NULL,
         NULL
     },
-    blade_pro_2017_keymap,
-    BLADE_PRO_2017_KEYMAP_SIZE,
-    NULL
+    NULL,
+    0,
+    &razer_blade_pro_2017_layout
 };
 
 /*-------------------------------------------------------------*\
