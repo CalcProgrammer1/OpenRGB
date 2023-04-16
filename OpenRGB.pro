@@ -102,6 +102,7 @@ INCLUDEPATH +=                                                                  
     Controllers/CorsairWirelessController/                                                      \
     Controllers/CreativeController/                                                             \
     Controllers/CrucialController/                                                              \
+    Controllers/CryorigH7QuadLumiController/                                                    \
     Controllers/DasKeyboardController/                                                          \
     Controllers/DebugController/                                                                \
     Controllers/DuckyKeyboardController/                                                        \
@@ -376,6 +377,8 @@ HEADERS +=                                                                      
     Controllers/CreativeController/RGBController_CreativeSoundBlasterXG6.h                      \
     Controllers/CrucialController/CrucialController.h                                           \
     Controllers/CrucialController/RGBController_Crucial.h                                       \
+    Controllers/CryorigH7QuadLumiController/CryorigH7QuadLumiController.h                       \
+    Controllers/CryorigH7QuadLumiController/RGBController_CryorigH7QuadLumi.h                   \
     Controllers/DarkProject/DarkProjectKeyboardController.h                                     \
     Controllers/DarkProject/RGBController_DarkProjectKeyboard.h                                 \
     Controllers/DasKeyboardController/DasKeyboardController.h                                   \
@@ -945,6 +948,9 @@ SOURCES +=                                                                      
     Controllers/CrucialController/CrucialController.cpp                                         \
     Controllers/CrucialController/CrucialControllerDetect.cpp                                   \
     Controllers/CrucialController/RGBController_Crucial.cpp                                     \
+    Controllers/CryorigH7QuadLumiController/CryorigH7QuadLumiController.cpp                     \
+    Controllers/CryorigH7QuadLumiController/CryorigH7QuadLumiControllerDetect.cpp               \
+    Controllers/CryorigH7QuadLumiController/RGBController_CryorigH7QuadLumi.cpp                 \
     Controllers/DebugController/DebugControllerDetect.cpp                                       \
     Controllers/DarkProject/DarkProjectControllerDetect.cpp                                     \
     Controllers/DarkProject/DarkProjectKeyboardController.cpp                                   \
