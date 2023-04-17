@@ -282,6 +282,7 @@ static const Config board_configs[] =
     { 0x7D69, 9,  2, 4, 1, &zones_set15, MSIMysticLight185Controller::DIRECT_MODE_PER_LED },        // MEG X670E ACE
     { 0x7D70, 0,  6, 0, 1, &zones_set17, MSIMysticLight185Controller::DIRECT_MODE_PER_LED },        // MPG X670E Carbon WIFI
     { 0x7D73, 1,  0, 0, 0, &zones_set6,  MSIMysticLight185Controller::DIRECT_MODE_PER_LED },        // MPG B650I EDGE WIFI
+    { 0x7D75, 0,  0, 0, 2, &zones_set13, MSIMysticLight185Controller::DIRECT_MODE_PER_LED },        // MAG B650 TOMAHAWK WIFI
     { 0x7D76, 0,  0, 0, 2, &zones_set13, MSIMysticLight185Controller::DIRECT_MODE_PER_LED },        // MAG B650M MORTAR WIFI
     { 0x7D77, 6,  0, 0, 2, &zones_set13, MSIMysticLight185Controller::DIRECT_MODE_PER_LED },        // PRO B650M-A WIFI
     { 0x7D78, 6,  0, 0, 2, &zones_set13, MSIMysticLight185Controller::DIRECT_MODE_PER_LED },        // PRO B650-P WIFI
