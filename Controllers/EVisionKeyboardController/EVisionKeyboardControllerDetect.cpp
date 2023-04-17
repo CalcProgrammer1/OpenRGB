@@ -14,6 +14,7 @@
 #define GLORIOUS_GMMK_TKL_PID           0x5064
 #define REDRAGON_K550_PID               0x5204
 #define REDRAGON_K552_PID               0x5104
+#define REDRAGON_K552_V2_PID            0x5000
 #define REDRAGON_K556_PID               0x5004
 #define TECWARE_PHANTOM_ELITE_PID       0x652F
 #define WARRIOR_KANE_TC235              0x8520
@@ -46,6 +47,7 @@ void DetectEVisionKeyboards(hid_device_info* info, const std::string& /*name*/)
 \*---------------------------------------------------------------------------------------------------------------------------------------------*/
 REGISTER_HID_DETECTOR_IP("EVision Keyboard 0C45:5204",  DetectEVisionKeyboards, EVISION_KEYBOARD_VID,   REDRAGON_K550_PID,         1, EVISION_KEYBOARD_USAGE_PAGE);
 REGISTER_HID_DETECTOR_IP("EVision Keyboard 0C45:5104",  DetectEVisionKeyboards, EVISION_KEYBOARD_VID,   REDRAGON_K552_PID,         1, EVISION_KEYBOARD_USAGE_PAGE);
+REGISTER_HID_DETECTOR_IP("EVision Keyboard 320F:5000",  DetectEVisionKeyboards, EVISION_KEYBOARD2_VID,  REDRAGON_K552_V2_PID,     1, EVISION_KEYBOARD_USAGE_PAGE);
 REGISTER_HID_DETECTOR_IP("EVision Keyboard 0C45:5004",  DetectEVisionKeyboards, EVISION_KEYBOARD_VID,   REDRAGON_K556_PID,         1, EVISION_KEYBOARD_USAGE_PAGE);
 REGISTER_HID_DETECTOR_IP("EVision Keyboard 0C45:652F",  DetectEVisionKeyboards, EVISION_KEYBOARD_VID,   TECWARE_PHANTOM_ELITE_PID, 1, EVISION_KEYBOARD_USAGE_PAGE);
 REGISTER_HID_DETECTOR_IP("EVision Keyboard 0C45:8520",  DetectEVisionKeyboards, EVISION_KEYBOARD_VID,   WARRIOR_KANE_TC235,        1, EVISION_KEYBOARD_USAGE_PAGE);
