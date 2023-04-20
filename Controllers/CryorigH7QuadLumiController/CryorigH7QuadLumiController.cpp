@@ -82,7 +82,7 @@ void CryorigH7QuadLumiController::SetChannelEffect
         for(std::size_t color_idx = 0; color_idx < num_colors; color_idx++)
         {
             /*-----------------------------------------------------*\
-            | Fill in color data (40 entries per color)             |
+            | Fill in color data (5 entries per color)              |
             \*-----------------------------------------------------*/
             for (std::size_t idx = 0; idx < 40; idx++)
             {
@@ -96,7 +96,7 @@ void CryorigH7QuadLumiController::SetChannelEffect
             /*-----------------------------------------------------*\
             | Send mode and color data                              |
             \*-----------------------------------------------------*/
-            SendPacket(channel, mode, direction, color_idx, speed, 40, &color_data[0]);
+            SendPacket(channel, mode, direction, color_idx, speed, 5, &color_data[0]);
         }
     }
     /*-----------------------------------------------------*\
@@ -173,26 +173,25 @@ void CryorigH7QuadLumiController::SendPacket
     memset(usb_buf, 0x00, sizeof(usb_buf));
 
     /*-----------------------------------------------------*\
-    | Set up packet                                         |
+    | Set up RGB packet                                     |
     \*-----------------------------------------------------*/
     usb_buf[0x00]       = 0x02;
     usb_buf[0x01]       = 0x4C;
 
     /*-----------------------------------------------------*\
-    | Set channel in serial packet                          |
+    | Set channel and direction in RGB packet               |
     \*-----------------------------------------------------*/
-    usb_buf[0x02]       = channel + 1;
+    usb_buf[0x02]       = (channel + 1) | (direction ? (1 << 4) : 0);
 
     /*-----------------------------------------------------*\
-    | Set mode in serial packet                             |
+    | Set mode in RGB packet                                |
     \*-----------------------------------------------------*/
     usb_buf[0x03]       = mode;
 
     /*-----------------------------------------------------*\
-    | Set options bitfield in serial packet                 |
+    | Set color index and speed in RGB packet               |
     \*-----------------------------------------------------*/
-    usb_buf[0x04]       = 0;
-    usb_buf[0x04]      |= direction ? ( 1 << 4 ) : 0;
+    usb_buf[0x04]       = ( color_idx << 5 ) | speed;
 
     /*-----------------------------------------------------*\
     | Copy in color data bytes                              |

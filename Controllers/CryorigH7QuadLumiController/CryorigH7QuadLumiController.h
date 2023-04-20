@@ -30,14 +30,14 @@ enum
 
 enum
 {
-    CRYORIG_H7_QUAD_LUMI_MODE_FIXED         = 0x00,     /* Fixed colors mode            */
-    CRYORIG_H7_QUAD_LUMI_MODE_FADING        = 0x01,     /* Fading mode                  */
-    CRYORIG_H7_QUAD_LUMI_MODE_SPECTRUM      = 0x02,     /* Spectrum cycle mode          */
-    CRYORIG_H7_QUAD_LUMI_MODE_MARQUEE       = 0x03,     /* Marquee mode                 */
-    CRYORIG_H7_QUAD_LUMI_MODE_COVER_MARQUE  = 0x04,     /* Cover marquee mode           */
-    CRYORIG_H7_QUAD_LUMI_MODE_ALTERNATING   = 0x05,     /* Alternating mode             */
-    CRYORIG_H7_QUAD_LUMI_MODE_BREATHING     = 0x06,     /* Breathing mode               */
-    CRYORIG_H7_QUAD_LUMI_MODE_PULSING       = 0x07,     /* Pulsing mode                 */
+    CRYORIG_H7_QUAD_LUMI_MODE_FIXED         = 0x00, /* Fixed colors mode            */
+    CRYORIG_H7_QUAD_LUMI_MODE_FADING        = 0x01, /* Fading mode                  */
+    CRYORIG_H7_QUAD_LUMI_MODE_SPECTRUM      = 0x02, /* Spectrum cycle mode          */
+    CRYORIG_H7_QUAD_LUMI_MODE_MARQUEE       = 0x03, /* Marquee mode                 */
+    CRYORIG_H7_QUAD_LUMI_MODE_COVER_MARQUEE = 0x04, /* Cover marquee mode           */
+    CRYORIG_H7_QUAD_LUMI_MODE_ALTERNATING   = 0x05, /* Alternating mode             */
+    CRYORIG_H7_QUAD_LUMI_MODE_BREATHING     = 0x06, /* Breathing mode               */
+    CRYORIG_H7_QUAD_LUMI_MODE_PULSING       = 0x07, /* Pulsing mode                 */
 };
 
 class CryorigH7QuadLumiController
