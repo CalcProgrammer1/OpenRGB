@@ -121,6 +121,33 @@ keyboard_keymap_overlay_values razer_blackwidow_chroma_te_layout
     }
 };
 
+keyboard_keymap_overlay_values razer_blackwidow_v3_layout
+{
+    KEYBOARD_SIZE::KEYBOARD_SIZE_FULL,
+    {
+        {   /* ANSI Value set not used */   },
+        {
+            /* Add more regional layout fixes here */
+        }
+    },
+    {
+        /*---------------------------------------------------------------------------------------------------------*\
+        | Edit Keys                                                                                                 |
+        |   Zone,   Row,    Column,     Value,      Key,                        OpCode,                             |
+        \*---------------------------------------------------------------------------------------------------------*/
+        {   0,      0,      0,          0,          KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Move 'Esc' 1 right (Shifts row)
+        {   0,      1,      0,          0,          KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Move Backtick 1 right (Shifts row)
+        {   0,      2,      0,          0,          KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Move Tab 1 right (Shifts row)
+        {   0,      3,      0,          0,          KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Move Caps 1 right (Shifts row)
+        {   0,      4,      0,          0,          KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Move LFT_SHFT 1 right (Shifts row)
+        {   0,      5,      0,          0,          KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Move LFT_CTRL 1 right (Shifts row)
+        {   0,      5,      6,          0,          KEY_EN_SPACE,               KEYBOARD_OPCODE_SWAP_ONLY,          },  // Insert Spacebar @ 5,6
+        {   0,      5,      7,          0,          KEY_EN_UNUSED,              KEYBOARD_OPCODE_SWAP_ONLY,          },  // Remove Spacebar @ 5,7
+        {   0,      5,     10,          0,          KEY_EN_RIGHT_ALT,           KEYBOARD_OPCODE_SWAP_ONLY,          },  // Insert (another) Right Alt
+        {   0,      5,     11,          0,          "Logo",                     KEYBOARD_OPCODE_SWAP_ONLY,          },  // Swap 'Logo' instead of Right ALt
+    }
+};
+
 keyboard_keymap_overlay_values razer_blackwidow_v3_mini_layout
 {
     KEYBOARD_SIZE::KEYBOARD_SIZE_SIXTY,
@@ -2450,7 +2477,7 @@ static const razer_device blackwidow_v3_device =
     },
     NULL,
     0,
-    NULL
+    &razer_blackwidow_v3_layout
 };
 
 /*-------------------------------------------------------------*\
