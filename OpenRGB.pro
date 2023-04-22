@@ -89,6 +89,7 @@ INCLUDEPATH +=                                                                  
     Controllers/AsusAuraCoreController/                                                         \
     Controllers/AsusAuraGPUController/                                                          \
     Controllers/AsusAuraUSBController/                                                          \
+    Controllers/CherryKeyboardController/                                                       \
     Controllers/CoolerMasterController/                                                         \
     Controllers/CorsairCommanderCoreController/                                                 \
     Controllers/CorsairDominatorPlatinumController/                                             \
@@ -319,6 +320,8 @@ HEADERS +=                                                                      
     Controllers/AsusLegacyUSBController/RGBController_AsusStrixClaw.h                           \
     Controllers/BlinkyTapeController/BlinkyTapeController.h                                     \
     Controllers/BlinkyTapeController/RGBController_BlinkyTape.h                                 \
+    Controllers/CherryKeyboardController/CherryKeyboardController.h                             \
+    Controllers/CherryKeyboardController/RGBController_CherryKeyboard.h                         \
     Controllers/ColorfulGPUController/ColorfulGPUController.h                                   \
     Controllers/ColorfulGPUController/RGBController_ColorfulGPU.h                               \
     Controllers/CoolerMasterController/CMARGBcontroller.h                                       \
@@ -879,6 +882,9 @@ SOURCES +=                                                                      
     Controllers/BlinkyTapeController/BlinkyTapeController.cpp                                   \
     Controllers/BlinkyTapeController/BlinkyTapeControllerDetect.cpp                             \
     Controllers/BlinkyTapeController/RGBController_BlinkyTape.cpp                               \
+    Controllers/CherryKeyboardController/CherryKeyboardController.cpp                           \
+    Controllers/CherryKeyboardController/CherryKeyboardControllerDetect.cpp                     \
+    Controllers/CherryKeyboardController/RGBController_CherryKeyboard.cpp                       \
     Controllers/ColorfulGPUController/ColorfulGPUController.cpp                                 \
     Controllers/ColorfulGPUController/ColorfulGPUControllerDetect.cpp                           \
     Controllers/ColorfulGPUController/RGBController_ColorfulGPU.cpp                             \
