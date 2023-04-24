@@ -16,7 +16,7 @@
 class RGBController_HyperXMousemat : public RGBController
 {
 public:
-    RGBController_HyperXMousemat(HyperXMousematController* controller_ptr);
+    RGBController_HyperXMousemat(HyperXMousematController* controller_ptr, unsigned int first_zone_leds_count_arg, unsigned int second_zone_leds_count_arg);
     ~RGBController_HyperXMousemat();
 
     void        SetupZones();
@@ -36,4 +36,7 @@ private:
     std::thread*                                        keepalive_thread;
     std::atomic<bool>                                   keepalive_thread_run;
     std::chrono::time_point<std::chrono::steady_clock>  last_update_time;
+
+    unsigned int first_zone_leds_count;
+    unsigned int second_zone_leds_count;
 };
