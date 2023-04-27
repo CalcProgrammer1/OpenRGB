@@ -17,12 +17,12 @@
 #include <string.h>
 #include <cmath>
 
-AuraTUFKeyboardController::AuraTUFKeyboardController(hid_device* dev_handle, const char* path, uint16_t pid, unsigned short rev_version)
+AuraTUFKeyboardController::AuraTUFKeyboardController(hid_device* dev_handle, const char* path, uint16_t pid, unsigned short version)
 {
     dev         = dev_handle;
     location    = path;
     device_pid  = pid;
-    version     = rev_version;
+    rev_version = version;
 }
 
 AuraTUFKeyboardController::~AuraTUFKeyboardController()
@@ -136,13 +136,7 @@ int AuraTUFKeyboardController::GetLayout()
     }
     else
     {
-        char layout[4];
-
-        snprintf(layout, 4, "%X", version);
-
-        int layoutnum = std::stoi(std::string(layout, 1));
-
-        switch(layoutnum)
+        switch(rev_version >> 0b1100)
         {
             case 1:
                 return 117;
@@ -262,20 +256,66 @@ void AuraTUFKeyboardController::UpdateLeds
         usb_buf[0] = 0x00;
         usb_buf[1] = 0xC0;
         usb_buf[2] = 0x81;
-        usb_buf[3] = leds;
+        usb_buf[3] = (device_pid != AURA_TUF_K1_GAMING_PID) ? leds : 0x00;
         usb_buf[4] = 0x00;
 
         for(int j = 0; j < leds; j++)
         {
-            usb_buf[j * 4 + 5] = colors[i * 15 + j].value;
+            usb_buf[j * 4 + 5] = (device_pid != AURA_TUF_K1_GAMING_PID) ? colors[i * 15 + j].value : 0x00;
             usb_buf[j * 4 + 6] = RGBGetRValue(colors[i * 15 + j].color);
             usb_buf[j * 4 + 7] = RGBGetGValue(colors[i * 15 + j].color);
             usb_buf[j * 4 + 8] = RGBGetBValue(colors[i * 15 + j].color);
         }
+
         ClearResponses();
         hid_write(dev, usb_buf, 65);
         AwaitResponse(20);
     }
+}
+
+void AuraTUFKeyboardController::UpdateK1Wave
+    (
+    std::vector<RGBColor>   colors,
+    unsigned char           direction,
+    unsigned char           speed,
+    unsigned char           brightness
+    )
+{
+    unsigned char usb_buf[65];
+
+    memset(usb_buf, 0x00, sizeof(usb_buf));
+
+    usb_buf[0x00]   = 0x00;
+    usb_buf[0x01]   = 0x51;
+    usb_buf[0x02]   = 0x2C;
+    usb_buf[0x03]   = 0x03;
+    usb_buf[0x04]   = 0x00;
+    usb_buf[0x05]   = speed;
+    usb_buf[0x06]   = brightness;
+    usb_buf[0x07]   = 0x00;
+    usb_buf[0x08]   = direction;
+    usb_buf[0x09]   = 0x00;
+
+    usb_buf[10] = 5;
+    usb_buf[11] = RGBGetRValue(colors[4]);
+    usb_buf[12] = RGBGetGValue(colors[4]);
+    usb_buf[13] = RGBGetBValue(colors[4]);
+
+    ClearResponses();
+    hid_write(dev, usb_buf, 65);
+    AwaitResponse(20);
+
+    for(unsigned int i = 0; i < 4; i ++)
+    {
+        usb_buf[10 + i * 4] = i + 1;
+        usb_buf[11 + i * 4] = RGBGetRValue(colors[i]);
+        usb_buf[12 + i * 4] = RGBGetGValue(colors[i]);
+        usb_buf[13 + i * 4] = RGBGetBValue(colors[i]);
+    }
+
+    ClearResponses();
+    hid_write(dev, usb_buf, 65);
+    AwaitResponse(20);
 }
 
 void AuraTUFKeyboardController::UpdateDevice
@@ -288,6 +328,11 @@ void AuraTUFKeyboardController::UpdateDevice
     unsigned char           brightness
     )
 {
+    if(device_pid == AURA_TUF_K1_GAMING_PID && mode == AURA_KEYBOARD_MODE_WAVE)
+    {
+        return UpdateK1Wave(colors, direction, speed, brightness);
+    }
+
     unsigned char usb_buf[65];
     memset(usb_buf, 0x00, sizeof(usb_buf));
 
@@ -303,24 +348,44 @@ void AuraTUFKeyboardController::UpdateDevice
         usb_buf[0x06]   = brightness;
         usb_buf[0x07]   = color_mode;
         usb_buf[0x08]   = direction;
-        usb_buf[0x09]   = 0x02;
 
-        if(mode == AURA_KEYBOARD_MODE_WAVE || mode == AURA_KEYBOARD_MODE_RIPPLE)
+        if(device_pid != AURA_TUF_K1_GAMING_PID)
         {
-            usb_buf[0x0A]   = colors.size();
+            usb_buf[0x09]   = 0x02;
 
-            /*-----------------------------------------------------*\
-            | Loop over every color given                           |
-            \*-----------------------------------------------------*/
-            for(unsigned int i = 0; i < colors.size(); i ++)
+            if(mode == AURA_KEYBOARD_MODE_WAVE || mode == AURA_KEYBOARD_MODE_RIPPLE)
             {
-                if(colors[i])
+                usb_buf[0x0A]   = colors.size();
+
+                /*-----------------------------------------------------*\
+                | Loop over every color given                           |
+                \*-----------------------------------------------------*/
+                for(unsigned int i = 0; i < colors.size(); i ++)
                 {
-                    usb_buf[11 + i * 4] = 100/(double)colors.size()*(i+1);
-                    usb_buf[12 + i * 4] = RGBGetRValue(colors[i]);
-                    usb_buf[13 + i * 4] = RGBGetGValue(colors[i]);
-                    usb_buf[14 + i * 4] = RGBGetBValue(colors[i]);
+                    if(colors[i])
+                    {
+                        usb_buf[11 + i * 4] = 100/(double)colors.size()*(i+1);
+                        usb_buf[12 + i * 4] = RGBGetRValue(colors[i]);
+                        usb_buf[13 + i * 4] = RGBGetGValue(colors[i]);
+                        usb_buf[14 + i * 4] = RGBGetBValue(colors[i]);
+                    }
                 }
+            }
+            else
+            {
+                /*-----------------------------------------------------*\
+                | Loop over Color1, Color2 and Background if there      |
+                \*-----------------------------------------------------*/
+                for(unsigned int i = 0; i != colors.size(); i++)
+                {
+                    if(colors[i])
+                    {
+                        usb_buf[10 + i * 3] = RGBGetRValue(colors[i]);
+                        usb_buf[11 + i * 3] = RGBGetGValue(colors[i]);
+                        usb_buf[12 + i * 3] = RGBGetBValue(colors[i]);
+                    }
+                }
+                    
             }
         }
         else
@@ -332,12 +397,11 @@ void AuraTUFKeyboardController::UpdateDevice
             {
                 if(colors[i])
                 {
-                    usb_buf[10 + i * 3] = RGBGetRValue(colors[i]);
-                    usb_buf[11 + i * 3] = RGBGetGValue(colors[i]);
-                    usb_buf[12 + i * 3] = RGBGetBValue(colors[i]);
+                    usb_buf[ 9 + i * 3] = RGBGetRValue(colors[i]);
+                    usb_buf[10 + i * 3] = RGBGetGValue(colors[i]);
+                    usb_buf[11 + i * 3] = RGBGetBValue(colors[i]);
                 }
             }
-
         }
     }
     else

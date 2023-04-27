@@ -143,35 +143,6 @@ void RGBController_Razer::SetupZones()
     unsigned char layout_type = controller->GetKeyboardLayoutType();
 
     /*---------------------------------------------------------*\
-    | Dynamically generate a keyboard layout                    |
-    \*---------------------------------------------------------*/
-    KEYBOARD_LAYOUT new_layout;
-    switch(layout_type)
-    {
-        case RAZER_LAYOUT_TYPE_AZERTY:
-            new_layout = KEYBOARD_LAYOUT::KEYBOARD_LAYOUT_ISO_AZERTY;
-            break;
-
-        case RAZER_LAYOUT_TYPE_ISO:
-            new_layout = KEYBOARD_LAYOUT::KEYBOARD_LAYOUT_ISO_QWERTY;
-            break;
-
-        case RAZER_LAYOUT_TYPE_JIS:
-            new_layout = KEYBOARD_LAYOUT::KEYBOARD_LAYOUT_ANSI_QWERTY;
-            break;
-
-        case RAZER_LAYOUT_TYPE_QWERTZ:
-            new_layout = KEYBOARD_LAYOUT::KEYBOARD_LAYOUT_ISO_QWERTZ;
-            break;
-
-        default:
-            new_layout = KEYBOARD_LAYOUT::KEYBOARD_LAYOUT_ANSI_QWERTY;
-    }
-
-    KeyboardLayoutManager new_kb(new_layout, device_list[device_index]->layout->base_size,
-                                             device_list[device_index]->layout->key_values);
-
-    /*---------------------------------------------------------*\
     | Fill in zone information based on device table            |
     \*---------------------------------------------------------*/
     for(unsigned int zone_id = 0; zone_id < RAZER_MAX_ZONES; zone_id++)
@@ -187,30 +158,94 @@ void RGBController_Razer::SetupZones()
             new_zone.leds_min   = new_zone.leds_count;
             new_zone.leds_max   = new_zone.leds_count;
 
+            /*---------------------------------------------------------*\
+            | If this is a keyboard zone, check if using Keyboard Layout|
+            | Manager                                                   |
+            \*---------------------------------------------------------*/
             if(new_zone.type == ZONE_TYPE_MATRIX)
             {
-                matrix_map_type * new_map   = new matrix_map_type;
-                new_zone.matrix_map         = new_map;
-                new_map->height             = device_list[device_index]->zones[zone_id]->rows;
-                new_map->width              = device_list[device_index]->zones[zone_id]->cols;
-                new_map->map                = new unsigned int[new_map->height * new_map->width];
-
-                if(device_list[device_index]->layout->base_size != KEYBOARD_SIZE::KEYBOARD_SIZE_EMPTY)
+                if(new_zone.name == ZONE_EN_KEYBOARD && device_list[device_index]->layout != NULL)
                 {
                     /*---------------------------------------------------------*\
-                    | Minor adjustments to keyboard layout                      |
+                    | Dynamically generate a keyboard layout                    |
                     \*---------------------------------------------------------*/
-                    keyboard_keymap_overlay_values* temp = device_list[device_index]->layout;
-                    new_kb.ChangeKeys(*temp);
+                    KEYBOARD_LAYOUT new_layout;
+                    switch(layout_type)
+                    {
+                        case RAZER_LAYOUT_TYPE_AZERTY:
+                            new_layout = KEYBOARD_LAYOUT::KEYBOARD_LAYOUT_ISO_AZERTY;
+                            break;
+
+                        case RAZER_LAYOUT_TYPE_ISO:
+                            new_layout = KEYBOARD_LAYOUT::KEYBOARD_LAYOUT_ISO_QWERTY;
+                            break;
+
+                        case RAZER_LAYOUT_TYPE_JIS:
+                            new_layout = KEYBOARD_LAYOUT::KEYBOARD_LAYOUT_ANSI_QWERTY;
+                            break;
+
+                        case RAZER_LAYOUT_TYPE_QWERTZ:
+                            new_layout = KEYBOARD_LAYOUT::KEYBOARD_LAYOUT_ISO_QWERTZ;
+                            break;
+
+                        default:
+                            new_layout = KEYBOARD_LAYOUT::KEYBOARD_LAYOUT_ANSI_QWERTY;
+                    }
+
+                    KeyboardLayoutManager new_kb(new_layout, device_list[device_index]->layout->base_size,
+                                                             device_list[device_index]->layout->key_values);
+
+                    matrix_map_type * new_map   = new matrix_map_type;
+                    new_zone.matrix_map         = new_map;
+                    new_map->height             = device_list[device_index]->zones[zone_id]->rows;
+                    new_map->width              = device_list[device_index]->zones[zone_id]->cols;
+                    new_map->map                = new unsigned int[new_map->height * new_map->width];
+
+                    if(device_list[device_index]->layout->base_size != KEYBOARD_SIZE::KEYBOARD_SIZE_EMPTY)
+                    {
+                        /*---------------------------------------------------------*\
+                        | Minor adjustments to keyboard layout                      |
+                        \*---------------------------------------------------------*/
+                        keyboard_keymap_overlay_values* temp = device_list[device_index]->layout;
+                        new_kb.ChangeKeys(*temp);
+
+                        /*---------------------------------------------------------*\
+                        | Matrix map still uses declared zone rows and columns      |
+                        |   as the packet structure depends on the matrix map       |
+                        \*---------------------------------------------------------*/
+                        new_kb.GetKeyMap(new_map->map, KEYBOARD_MAP_FILL_TYPE_INDEX, new_map->height, new_map->width);
+                    }
+
+                    zones.push_back(new_zone);
 
                     /*---------------------------------------------------------*\
-                    | Matrix map still uses declared zone rows and columns      |
-                    |   as the packet structure depends on the matrix map       |
+                    | Check the dynamic layout                                  |
                     \*---------------------------------------------------------*/
-                    new_kb.GetKeyMap(new_map->map, KEYBOARD_MAP_FILL_TYPE_INDEX, new_map->height, new_map->width);
+                    if(new_kb.GetKeyCount() > 0)
+                    {
+                        for(std::size_t row = 0; row < zones[zone_id].matrix_map->height; row++)
+                        {
+                            for(std::size_t col = 0; col < zones[zone_id].matrix_map->width; col++)
+                            {
+                                led new_led;
+
+                                new_led.name = new_kb.GetKeyNameAt(row, col);
+
+                                leds.push_back(new_led);
+                            }
+                        }
+                    }
+
+                    continue;
                 }
                 else
                 {
+                    matrix_map_type * new_map   = new matrix_map_type;
+                    new_zone.matrix_map         = new_map;
+                    new_map->height             = device_list[device_index]->zones[zone_id]->rows;
+                    new_map->width              = device_list[device_index]->zones[zone_id]->cols;
+                    new_map->map                = new unsigned int[new_map->height * new_map->width];
+
                     for(unsigned int y = 0; y < new_map->height; y++)
                     {
                         for(unsigned int x = 0; x < new_map->width; x++)
@@ -265,30 +300,7 @@ void RGBController_Razer::SetupZones()
             }
 
             zones.push_back(new_zone);
-        }
-    }
 
-    for(unsigned int zone_id = 0; zone_id < zones.size(); zone_id++)
-    {
-        /*---------------------------------------------------------*\
-        | Check the dynamic layout                                  |
-        \*---------------------------------------------------------*/
-        if(device_list[device_index]->zones[zone_id]->name == ZONE_EN_KEYBOARD && new_kb.GetKeyCount() > 0)
-        {
-            for(std::size_t row = 0; row < zones[zone_id].matrix_map->height; row++)
-            {
-                for(std::size_t col = 0; col < zones[zone_id].matrix_map->width; col++)
-                {
-                    led* new_led = new led();
-
-                    new_led->name = new_kb.GetKeyNameAt(row, col);
-
-                    leds.push_back(*new_led);
-                }
-            }
-        }
-        else
-        {
             for (unsigned int row_id = 0; row_id < device_list[device_index]->zones[zone_id]->rows; row_id++)
             {
                 for (unsigned int col_id = 0; col_id < device_list[device_index]->zones[zone_id]->cols; col_id++)

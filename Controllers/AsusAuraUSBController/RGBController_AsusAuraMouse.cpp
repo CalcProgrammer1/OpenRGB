@@ -244,6 +244,13 @@ void RGBController_AuraMouse::DeviceUpdateMode()
         {
             controller->SendUpdate(AURA_MOUSE_ZONE_DOCK, modes[active_mode].value, red, grn, blu, modes[active_mode].direction, modes[active_mode].color_mode == MODE_COLORS_RANDOM, modes[active_mode].speed, modes[active_mode].brightness);
         }
+        else if(pid == AURA_ROG_STRIX_IMPACT_PID)
+        {
+            /*-----------------------------------------------------------------*\
+            | The ROG Impact doesn't accept AURA_MOUSE_ZONE_ALL                 |
+            \*-----------------------------------------------------------------*/
+            controller->SendUpdate(AURA_MOUSE_ZONE_LOGO, modes[active_mode].value, red, grn, blu, modes[active_mode].direction, modes[active_mode].color_mode == MODE_COLORS_RANDOM, modes[active_mode].speed, modes[active_mode].brightness);
+        }
         else
         {
             controller->SendUpdate(AURA_MOUSE_ZONE_ALL, modes[active_mode].value, red, grn, blu, modes[active_mode].direction, modes[active_mode].color_mode == MODE_COLORS_RANDOM, modes[active_mode].speed, modes[active_mode].brightness);

@@ -3,51 +3,59 @@
 #include <string>
 #include "RGBController.h"
 #include "RGBControllerKeyNames.h"
+#include "KeyboardLayoutManager.h"
 
-#define CORSAIR_ZONES_MAX   6
+#define CORSAIR_ZONES_MAX               6
 
 enum corsair_v2_device_mode
 {
-    CORSAIR_V2_MODE_HW              = 0x01,     /* Hardware RGB mode                */
-    CORSAIR_V2_MODE_SW              = 0x02,     /* Software RGB mode                */
+    CORSAIR_V2_MODE_HW                  = 0x01,     /* Hardware RGB mode                */
+    CORSAIR_V2_MODE_SW                  = 0x02,     /* Software RGB mode                */
 };
 
 enum corsair_v2_supports
 {
-    CORSAIR_V2_TYPE_SW_COLOUR_BLOCK = 1,
-    CORSAIR_V2_TYPE_HW_COLOUR_BLOCK = 2,
-    CORSAIR_V2_TYPE_SW_TRIPLETS     = 3,
-    CORSAIR_V2_TYPE_HW_TRIPLETS     = 4,
+    CORSAIR_V2_TYPE_SW_COLOUR_BLOCK     = 1,
+    CORSAIR_V2_TYPE_HW_COLOUR_BLOCK     = 2,
+    CORSAIR_V2_TYPE_SW_TRIPLETS         = 3,
+    CORSAIR_V2_TYPE_HW_TRIPLETS         = 4,
+};
+
+enum corsair_v2_kb_layout
+{
+    CORSAIR_V2_KB_LAYOUT_ANSI           = 0x01,     /* US ANSI Layout                   */
+    CORSAIR_V2_KB_LAYOUT_ISO            = 0x02,     /* EURO ISO Layout                  */
+    CORSAIR_V2_KB_LAYOUT_ABNT           = 0x03,     /* Brazilian Layout                 */
+    CORSAIR_V2_KB_LAYOUT_JIS            = 0x04,     /* Japanese Layout                  */
 };
 
 typedef struct
 {
-    std::string             name;
-    zone_type               type;
-    uint8_t                 rows;
-    uint8_t                 cols;
+    std::string                         name;
+    zone_type                           type;
+    uint8_t                             rows;
+    uint8_t                             cols;
 }   corsair_v2_zone;
 
 typedef struct
 {
-    uint8_t                 zone;
-    uint8_t                 row;
-    uint8_t                 col;
-    uint8_t                 index;
-    const char*             name;
+    uint8_t                             zone;
+    uint8_t                             row;
+    uint8_t                             col;
+    uint8_t                             index;
+    const char*                         name;
 }   corsair_v2_led;
 
 typedef struct
 {
-    uint16_t                pid;
-    bool                    wireless;
-    device_type             type;
-    corsair_v2_supports     protocol;
-    uint8_t                 rows;
-    uint8_t                 cols;
-    const corsair_v2_zone*  zones[CORSAIR_ZONES_MAX];
-    const corsair_v2_led*   layout;
-    uint16_t                layout_size;
+    uint16_t                            pid;
+    bool                                wireless;
+    device_type                         type;
+    corsair_v2_supports                 protocol;
+    uint8_t                             rows;
+    uint8_t                             cols;
+    const corsair_v2_zone*              zones[CORSAIR_ZONES_MAX];
+    keyboard_keymap_overlay_values*     layout_new;
 }   corsair_v2_device;
 
 /*-----------------------------------------------------*\

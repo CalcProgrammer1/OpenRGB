@@ -570,6 +570,8 @@ before_script:
     name: "${CI_PROJECT_NAME}_Windows_32_${CI_COMMIT_SHORT_SHA}"
     paths:
     - 'OpenRGB Windows 32-bit'
+    exclude:
+    - 'OpenRGB Windows 32-bit\*.qm'
     expire_in: 30 days
 
   rules:
@@ -646,6 +648,8 @@ before_script:
     name: "${CI_PROJECT_NAME}_Windows_64_${CI_COMMIT_SHORT_SHA}"
     paths:
     - 'OpenRGB Windows 64-bit'
+    exclude:
+    - 'OpenRGB Windows 64-bit\*.qm'
     expire_in: 30 days
 
 #-----------------------------------------------------------------------#

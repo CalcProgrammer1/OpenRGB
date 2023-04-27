@@ -374,7 +374,7 @@ static std::map<int,mouse_type> aura_mouse_devices =
             false,
             4,
             { AURA_MOUSE_ZONE_LOGO },
-            { AURA_MOUSE_MODE_STATIC, AURA_MOUSE_MODE_BREATHING, AURA_MOUSE_MODE_SPECTRUM }
+            { AURA_MOUSE_MODE_STATIC, AURA_MOUSE_MODE_BREATHING, AURA_MOUSE_MODE_SPECTRUM, AURA_MOUSE_MODE_NONE, AURA_MOUSE_MODE_REACTIVE }
         }
     },
     {

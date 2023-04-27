@@ -19,7 +19,8 @@
 #define NA                              0xFFFFFFFF
 #define HID_MAX_STR                     255
 
-#define CORSAIR_V2_TIMEOUT              100
+#define CORSAIR_V2_TIMEOUT              50
+#define CORSAIR_V2_TIMEOUT_SHORT        3
 #define CORSAIR_V2_VALUE_MODE           3
 #define CORSAIR_V2_WRITE_WIRED_ID       8
 #define CORSAIR_V2_WRITE_WIRELESS_ID    9
@@ -74,6 +75,7 @@ public:
     std::string                     GetName();
     std::string                     GetSerialString();
     const corsair_v2_device*        GetDeviceData();
+    unsigned int                    GetKeyboardLayout();
 
     void                            SetRenderMode(corsair_v2_device_mode mode);
     void                            LightingControl(uint8_t opt1, uint8_t opt2);
@@ -88,7 +90,7 @@ protected:
     std::string                     device_name;
 
 private:
-    void                            GetAddress(uint8_t address);
+    unsigned int                    GetAddress(uint8_t address);
     void                            StartTransaction(uint8_t opt1);
     void                            StopTransaction(uint8_t opt1);
 

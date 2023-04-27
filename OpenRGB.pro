@@ -83,11 +83,14 @@ INCLUDEPATH +=                                                                  
     Controllers/AlienwareController/                                                            \
     Controllers/AlienwareKeyboardController/                                                    \
     Controllers/AMDWraithPrismController/                                                       \
+    Controllers/AOCMouseController/                                                             \
+    Controllers/AOCMousematController/                                                          \
     Controllers/ASRockPolychromeUSBController/                                                  \
     Controllers/ASRockSMBusController/                                                          \
     Controllers/AsusAuraCoreController/                                                         \
     Controllers/AsusAuraGPUController/                                                          \
     Controllers/AsusAuraUSBController/                                                          \
+    Controllers/CherryKeyboardController/                                                       \
     Controllers/CoolerMasterController/                                                         \
     Controllers/CorsairCommanderCoreController/                                                 \
     Controllers/CorsairDominatorPlatinumController/                                             \
@@ -102,6 +105,7 @@ INCLUDEPATH +=                                                                  
     Controllers/CorsairWirelessController/                                                      \
     Controllers/CreativeController/                                                             \
     Controllers/CrucialController/                                                              \
+    Controllers/CryorigH7QuadLumiController/                                                    \
     Controllers/DasKeyboardController/                                                          \
     Controllers/DebugController/                                                                \
     Controllers/DuckyKeyboardController/                                                        \
@@ -151,6 +155,7 @@ INCLUDEPATH +=                                                                  
     Controllers/MSIRGBController/                                                               \
     Controllers/MSIVigorController/                                                             \
     Controllers/NanoleafController/                                                             \
+    Controllers/NZXTHue1Controller/                                                             \
     Controllers/NZXTHue2Controller/                                                             \
     Controllers/NZXTHuePlusController/                                                          \
     Controllers/NZXTKrakenController/                                                           \
@@ -178,6 +183,7 @@ INCLUDEPATH +=                                                                  
     Controllers/YeelightController/                                                             \
     Controllers/ZalmanZSyncController/                                                          \
     Controllers/ZotacTuringGPUController/                                                       \
+    KeyboardLayoutManager/                                                                      \
     RGBController/                                                                              \
     qt/
 
@@ -269,6 +275,10 @@ HEADERS +=                                                                      
     Controllers/AMDWraithPrismController/RGBController_AMDWraithPrism.h                         \
     Controllers/AnnePro2Controller/AnnePro2Controller.h                                         \
     Controllers/AnnePro2Controller/RGBController_AnnePro2.h                                     \
+    Controllers/AOCMouseController/AOCMouseController.h                                         \
+    Controllers/AOCMouseController/RGBController_AOCMouse.h                                     \
+    Controllers/AOCMousematController/AOCMousematController.h                                   \
+    Controllers/AOCMousematController/RGBController_AOCMousemat.h                               \
     Controllers/ASRockPolychromeUSBController/ASRockPolychromeUSBController.h                   \
     Controllers/ASRockPolychromeUSBController/RGBController_ASRockPolychromeUSB.h               \
     Controllers/ASRockSMBusController/ASRockASRRGBSMBusController.h                             \
@@ -313,6 +323,8 @@ HEADERS +=                                                                      
     Controllers/AsusLegacyUSBController/RGBController_AsusStrixClaw.h                           \
     Controllers/BlinkyTapeController/BlinkyTapeController.h                                     \
     Controllers/BlinkyTapeController/RGBController_BlinkyTape.h                                 \
+    Controllers/CherryKeyboardController/CherryKeyboardController.h                             \
+    Controllers/CherryKeyboardController/RGBController_CherryKeyboard.h                         \
     Controllers/ColorfulGPUController/ColorfulGPUController.h                                   \
     Controllers/ColorfulGPUController/RGBController_ColorfulGPU.h                               \
     Controllers/CoolerMasterController/CMARGBcontroller.h                                       \
@@ -375,6 +387,8 @@ HEADERS +=                                                                      
     Controllers/CreativeController/RGBController_CreativeSoundBlasterXG6.h                      \
     Controllers/CrucialController/CrucialController.h                                           \
     Controllers/CrucialController/RGBController_Crucial.h                                       \
+    Controllers/CryorigH7QuadLumiController/CryorigH7QuadLumiController.h                       \
+    Controllers/CryorigH7QuadLumiController/RGBController_CryorigH7QuadLumi.h                   \
     Controllers/DarkProject/DarkProjectKeyboardController.h                                     \
     Controllers/DarkProject/RGBController_DarkProjectKeyboard.h                                 \
     Controllers/DasKeyboardController/DasKeyboardController.h                                   \
@@ -559,6 +573,8 @@ HEADERS +=                                                                      
     Controllers/NvidiaESAController/NvidiaESAController.h                                       \
     Controllers/NanoleafController/RGBController_Nanoleaf.h                                     \
     Controllers/NvidiaESAController/RGBController_NvidiaESA.h                                   \
+    Controllers/NZXTHue1Controller/NZXTHue1Controller.h                                         \
+    Controllers/NZXTHue1Controller/RGBController_NZXTHue1.h                                     \
     Controllers/NZXTHue2Controller/NZXTHue2Controller.h                                         \
     Controllers/NZXTHue2Controller/RGBController_NZXTHue2.h                                     \
     Controllers/NZXTHuePlusController/NZXTHuePlusController.h                                   \
@@ -566,6 +582,8 @@ HEADERS +=                                                                      
     Controllers/NZXTKrakenController/NZXTKrakenController.h                                     \
     Controllers/NZXTKrakenController/RGBController_NZXTKraken.h                                 \
     Controllers/OpenRazerController/OpenRazerDevices.h                                          \
+    Controllers/PalitGPUController/PalitGPUController.h                                         \
+    Controllers/PalitGPUController/RGBController_PalitGPU.h                                     \
     Controllers/PatriotViperController/PatriotViperController.h                                 \
     Controllers/PatriotViperController/RGBController_PatriotViper.h                             \
     Controllers/PatriotViperSteelController/PatriotViperSteelController.h                       \
@@ -687,7 +705,7 @@ HEADERS +=                                                                      
     Controllers/ZETKeyboardController/RGBController_ZETBladeOptical.h                           \
     Controllers/ZotacTuringGPUController/ZotacTuringGPUController.h                             \
     Controllers/ZotacTuringGPUController/RGBController_ZotacTuringGPU.h                         \
-    RGBController/KeyboardLayoutManager.h                                                       \
+    KeyboardLayoutManager/KeyboardLayoutManager.h                                               \
     RGBController/RGBController.h                                                               \
     RGBController/RGBController_Dummy.h                                                         \
     RGBController/RGBControllerKeyNames.h                                                       \
@@ -815,6 +833,12 @@ SOURCES +=                                                                      
     Controllers/AnnePro2Controller/AnnePro2Controller.cpp                                       \
     Controllers/AnnePro2Controller/AnnePro2ControllerDetect.cpp                                 \
     Controllers/AnnePro2Controller/RGBController_AnnePro2.cpp                                   \
+    Controllers/AOCMouseController/AOCMouseController.cpp                                       \
+    Controllers/AOCMouseController/AOCMouseControllerDetect.cpp                                 \
+    Controllers/AOCMouseController/RGBController_AOCMouse.cpp                                   \
+    Controllers/AOCMousematController/AOCMousematController.cpp                                 \
+    Controllers/AOCMousematController/AOCMousematControllerDetect.cpp                           \
+    Controllers/AOCMousematController/RGBController_AOCMousemat.cpp                             \
     Controllers/ASRockPolychromeUSBController/ASRockPolychromeUSBController.cpp                 \
     Controllers/ASRockPolychromeUSBController/ASRockPolychromeUSBControllerDetect.cpp           \
     Controllers/ASRockPolychromeUSBController/RGBController_ASRockPolychromeUSB.cpp             \
@@ -864,6 +888,9 @@ SOURCES +=                                                                      
     Controllers/BlinkyTapeController/BlinkyTapeController.cpp                                   \
     Controllers/BlinkyTapeController/BlinkyTapeControllerDetect.cpp                             \
     Controllers/BlinkyTapeController/RGBController_BlinkyTape.cpp                               \
+    Controllers/CherryKeyboardController/CherryKeyboardController.cpp                           \
+    Controllers/CherryKeyboardController/CherryKeyboardControllerDetect.cpp                     \
+    Controllers/CherryKeyboardController/RGBController_CherryKeyboard.cpp                       \
     Controllers/ColorfulGPUController/ColorfulGPUController.cpp                                 \
     Controllers/ColorfulGPUController/ColorfulGPUControllerDetect.cpp                           \
     Controllers/ColorfulGPUController/RGBController_ColorfulGPU.cpp                             \
@@ -942,6 +969,9 @@ SOURCES +=                                                                      
     Controllers/CrucialController/CrucialController.cpp                                         \
     Controllers/CrucialController/CrucialControllerDetect.cpp                                   \
     Controllers/CrucialController/RGBController_Crucial.cpp                                     \
+    Controllers/CryorigH7QuadLumiController/CryorigH7QuadLumiController.cpp                     \
+    Controllers/CryorigH7QuadLumiController/CryorigH7QuadLumiControllerDetect.cpp               \
+    Controllers/CryorigH7QuadLumiController/RGBController_CryorigH7QuadLumi.cpp                 \
     Controllers/DebugController/DebugControllerDetect.cpp                                       \
     Controllers/DarkProject/DarkProjectControllerDetect.cpp                                     \
     Controllers/DarkProject/DarkProjectKeyboardController.cpp                                   \
@@ -1182,6 +1212,9 @@ SOURCES +=                                                                      
     Controllers/NvidiaESAController/NvidiaESAController.cpp                                     \
     Controllers/NvidiaESAController/NvidiaESAControllerDetect.cpp                               \
     Controllers/NvidiaESAController/RGBController_NvidiaESA.cpp                                 \
+    Controllers/NZXTHue1Controller/NZXTHue1Controller.cpp                                       \
+    Controllers/NZXTHue1Controller/NZXTHue1ControllerDetect.cpp                                 \
+    Controllers/NZXTHue1Controller/RGBController_NZXTHue1.cpp                                   \
     Controllers/NZXTHue2Controller/NZXTHue2Controller.cpp                                       \
     Controllers/NZXTHue2Controller/NZXTHue2ControllerDetect.cpp                                 \
     Controllers/NZXTHue2Controller/RGBController_NZXTHue2.cpp                                   \
@@ -1191,6 +1224,9 @@ SOURCES +=                                                                      
     Controllers/NZXTKrakenController/NZXTKrakenController.cpp                                   \
     Controllers/NZXTKrakenController/NZXTKrakenControllerDetect.cpp                             \
     Controllers/NZXTKrakenController/RGBController_NZXTKraken.cpp                               \
+    Controllers/PalitGPUController/PalitGPUController.cpp                                       \
+    Controllers/PalitGPUController/PalitGPUControllerDetect.cpp                                 \
+    Controllers/PalitGPUController/RGBController_PalitGPU.cpp                                   \
     Controllers/PatriotViperController/PatriotViperController.cpp                               \
     Controllers/PatriotViperController/PatriotViperControllerDetect.cpp                         \
     Controllers/PatriotViperController/RGBController_PatriotViper.cpp                           \
@@ -1335,7 +1371,7 @@ SOURCES +=                                                                      
     Controllers/ZotacTuringGPUController/ZotacTuringGPUController.cpp                           \
     Controllers/ZotacTuringGPUController/ZotacTuringGPUControllerDetect.cpp                     \
     Controllers/ZotacTuringGPUController/RGBController_ZotacTuringGPU.cpp                       \
-    RGBController/KeyboardLayoutManager.cpp                                                     \
+    KeyboardLayoutManager/KeyboardLayoutManager.cpp                                             \
     RGBController/RGBController.cpp                                                             \
     RGBController/RGBController_Dummy.cpp                                                       \
     RGBController/RGBControllerKeyNames.cpp                                                     \

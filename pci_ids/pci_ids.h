@@ -103,6 +103,7 @@
 #define NVIDIA_RTX3090_FE_SUB_DEV                       0x147D
 #define NVIDIA_RTX3090TI_FE_SUB_DEV                     0x1618
 #define NVIDIA_RTX4080_FE_SUB_DEV                       0x167A
+#define NVIDIA_RTX4080_FE_SUB_DEV2                      0x1794
 #define NVIDIA_RTX4090_FE_SUB_DEV                       0x165B
 #define NVIDIA_RTX4090_FE_SUB_DEV2                      0x16F4
 
@@ -257,6 +258,7 @@
 #define ASUS_ROG_STRIX_RTX_4080_O16G_GAMING             0x88BF
 #define ASUS_TUF_RTX_4080_O16G_GAMING                   0x88CA
 #define ASUS_ROG_STRIX_RTX_4090_O24G_GAMING             0x889C
+#define ASUS_ROG_STRIX_RTX_4090_24G_GAMING              0x889D
 
 /*-----------------------------------------------------*\
 | Colorful Sub-Device IDs                               |
@@ -266,6 +268,7 @@
 #define COLORFUL_IGAME_RTX_3070_ADVANCED_OCV            0x140A
 #define COLORFUL_IGAME_RTX_3070_ADVANCED_OCV2           0x1401
 #define COLORFUL_IGAME_RTX_3070_ULTRAW_OC               0x150A
+#define COLORFUL_IGAME_RTX_3070_TI_ULTRAW_OC            0x1581
 #define COLORFUL_IGAME_RTX_3070_TI_ADVANCED_OCV2        0x1400
 #define COLORFUL_IGAME_RTX_4080_ULTRAW_OCV2             0x1500
 
@@ -426,6 +429,7 @@
 #define GIGABYTE_AORUS_RTX2080S_SUB_DEV                 0x3FF3
 #define GIGABYTE_AORUS_RTX2080S_SUB_DEV_V1              0x3FF4
 #define GIGABYTE_AORUS_RTX2080S_WATERFORCE_WB_SUB_DEV   0x4003
+#define GIGABYTE_AORUS_RTX2080S_WATERFORCE_WB_SUB_DEV2  0x4005
 #define GIGABYTE_AORUS_RTX2080TI_EXTREME_SUB_DEV        0x37BC
 #define GIGABYTE_RTX3050_GAMING_OC_8GB_SUB_DEV          0x40AA
 #define GIGABYTE_RTX3060_EAGLE_OC_12GB_SUB_DEV          0x4072
@@ -463,6 +467,7 @@
 #define GIGABYTE_RTX3090_VISION_OC_24G_SUB_DEV          0x4044
 #define GIGABYTE_RTX3090_XTREME_WATERFORCE_SUB_DEV      0x4039
 #define GIGABYTE_RTX3090_XTREME_WATERFORCE_WB_SUB_DEV   0x403A
+#define GIGABYTE_RTX4070TI_GAMING_OC_12G                0x40C6
 #define GIGABYTE_RTX4080_EAGLE_OC_SUB_DEV               0x40BE
 #define GIGABYTE_RTX4080_GAMING_OC_SUB_DEV              0x40BC
 #define GIGABYTE_AORUS_RTX4080_MASTER_16G_SUB_DEV       0x40BD
@@ -500,6 +505,7 @@
 #define MSI_RTX2080TI_GAMING_Z_TRIO_SUB_DEV             0x371E
 #define MSI_RTX2080TI_11G_GAMING_X_TRIO_SUB_DEV         0x3716
 #define MSI_RTX2080TI_SEA_HAWK_EK_X_SUB_DEV             0x3717
+#define MSI_RTX3060_GAMING_X_8G_SUB_DEV                 0xC979
 #define MSI_RTX3060_GAMING_X_12G_SUB_DEV                0x3976
 #define MSI_RTX3060TI_GAMING_X_SUB_DEV                  0x3973
 #define MSI_RTX3070_GAMING_TRIO_SUB_DEV                 0x3904
@@ -566,6 +572,7 @@
 #define PALIT_RTX3080TI_GAMEROCK_SUB_DEV                0xF278
 
 #define PALIT_RTX3090_SUB_DEV                           0x2204
+#define PALIT_RTX3090_GAMEROCK_SUB_DEV                  0xF278
 
 /*-----------------------------------------------------*\
 | Sapphire Sub-Device IDs                               |

@@ -413,10 +413,10 @@
   <tabstop>DirectionBox</tabstop>
   <tabstop>BrightnessSlider</tabstop>
   <tabstop>RedSpinBox</tabstop>
-  <tabstop>HueSpinBox</tabstop>
   <tabstop>GreenSpinBox</tabstop>
-  <tabstop>SatSpinBox</tabstop>
   <tabstop>BlueSpinBox</tabstop>
+  <tabstop>HueSpinBox</tabstop>
+  <tabstop>SatSpinBox</tabstop>
   <tabstop>ValSpinBox</tabstop>
   <tabstop>DeviceSaveButton</tabstop>
  </tabstops>

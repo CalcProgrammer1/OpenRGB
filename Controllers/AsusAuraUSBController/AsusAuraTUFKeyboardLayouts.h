@@ -60,7 +60,8 @@ struct layout_info
     std::vector<led_value>      led_names;
 };
 
-static unsigned int ASUS_TUF_K7_LAYOUT_KEYS_US[6][24] = {
+static unsigned int ASUS_TUF_K7_LAYOUT_KEYS_US[6][24] =
+{
     {   0,  NA,   8,  14,  19,  24,  NA,  34,  39,  44,  49,  55,  61,  66,  70,  NA,  74,  78,  83,  NA,  NA,  NA,  NA,  NA },
     {   1,   6,   9,  15,  20,  25,  29,  35,  40,  45,  50,  56,  62,  67,  NA,  NA,  75,  79,  84,  NA,  87,  92,  96, 101 },
     {   2,  NA,  10,  16,  21,  26,  30,  36,  41,  46,  51,  57,  63,  68,  71,  NA,  76,  80,  85,  NA,  88,  93,  97, 102 },
@@ -70,7 +71,8 @@ static unsigned int ASUS_TUF_K7_LAYOUT_KEYS_US[6][24] = {
 };
 
 
-static unsigned int ASUS_TUF_K7_LAYOUT_KEYS_UK[6][24] = {
+static unsigned int ASUS_TUF_K7_LAYOUT_KEYS_UK[6][24] =
+{
     {   0,  NA,   9,  15,  20,  25,  NA,  35,  40,  45,  50,  56,  62,  67,  72,  NA,  75,  79,  84,  NA,  NA,  NA,  NA,  NA },
     {   1,   6,  10,  16,  21,  26,  30,  36,  41,  46,  51,  57,  63,  68,  NA,  NA,  76,  80,  85,  NA,  88,  93,  97, 102 },
     {   2,  NA,  11,  17,  22,  27,  31,  37,  42,  47,  52,  58,  64,  69,  NA,  NA,  77,  81,  86,  NA,  89,  94,  98, 103 },
@@ -79,7 +81,8 @@ static unsigned int ASUS_TUF_K7_LAYOUT_KEYS_UK[6][24] = {
     {   5,   8,  14,  NA,  NA,  NA,  34,  NA,  NA,  NA,  55,  61,  66,  NA,  74,  NA,  78,  83,  87,  NA,  92,  NA, 101,  NA }
 };
 
-static unsigned int ASUS_FALCHION_LAYOUT_KEYS_US[5][16] = {
+static unsigned int ASUS_FALCHION_LAYOUT_KEYS_US[5][16] =
+{
     {   0,   5,   7,  12,  16,  20,  24,  29,  33,  37,  41,  46,  51,  56,  NA,  63 },
     {   1,  NA,   8,  13,  17,  21,  25,  30,  34,  38,  42,  47,  52,  57,  59,  64 },
     {   2,  NA,   9,  14,  18,  22,  26,  31,  35,  39,  43,  48,  53,  NA,  60,  65 }, 
@@ -87,7 +90,8 @@ static unsigned int ASUS_FALCHION_LAYOUT_KEYS_US[5][16] = {
     {   4,   6,  11,  NA,  NA,  NA,  28,  NA,  NA,  NA,  45,  50,  55,  58,  62,  67 }
 };
 
-static unsigned int ASUS_FALCHION_LAYOUT_KEYS_UK[5][16] = {
+static unsigned int ASUS_FALCHION_LAYOUT_KEYS_UK[5][16] =
+{
     {   0,   5,   8,  13,  17,  21,  25,  30,  34,  38,  42,  47,  52,  57,  NA,  64 },
     {   1,  NA,   9,  14,  18,  22,  26,  31,  35,  39,  43,  48,  53,  58,  61,  65 },
     {   2,  NA,  10,  15,  19,  23,  27,  32,  36,  40,  44,  49,  54,  59,  NA,  66 }, 
@@ -95,7 +99,8 @@ static unsigned int ASUS_FALCHION_LAYOUT_KEYS_UK[5][16] = {
     {   4,   7,  12,  NA,  NA,  NA,  29,  NA,  NA,  NA,  46,  51,  56,  60,  63,  68 }
 };
 
-static unsigned int ASUS_CLAYMORE_NO_NUMPAD_LAYOUT_KEYS_US[7][19] = {
+static unsigned int ASUS_CLAYMORE_NO_NUMPAD_LAYOUT_KEYS_US[7][19] =
+{
     {   0,  NA,   8,  14,  19,  24,  NA,  34,  39,  45,  50,  56,  62,  67,  71,  NA,  75,  79,  84 },
     {   1,   6,   9,  15,  20,  25,  29,  35,  40,  46,  51,  57,  63,  68,  NA,  NA,  76,  80,  85 },
     {   2,  NA,  10,  16,  21,  26,  30,  36,  41,  47,  52,  58,  64,  69,  72,  NA,  77,  81,  86 },
@@ -105,7 +110,8 @@ static unsigned int ASUS_CLAYMORE_NO_NUMPAD_LAYOUT_KEYS_US[7][19] = {
     {  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  44,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA }
 };
 
-static unsigned int ASUS_CLAYMORE_NO_NUMPAD_LAYOUT_KEYS_UK[7][19] = {
+static unsigned int ASUS_CLAYMORE_NO_NUMPAD_LAYOUT_KEYS_UK[7][19] =
+{
     {   0,  NA,   9,  15,  20,  25,  NA,  35,  40,  46,  51,  57,  63,  68,  73,  NA,  76,  80,  85 },
     {   1,   6,  10,  16,  21,  26,  30,  36,  41,  47,  52,  58,  64,  69,  NA,  NA,  77,  81,  86 },
     {   2,  NA,  11,  17,  22,  27,  31,  37,  42,  48,  53,  59,  65,  70,  NA,  NA,  78,  82,  87 },
@@ -115,7 +121,8 @@ static unsigned int ASUS_CLAYMORE_NO_NUMPAD_LAYOUT_KEYS_UK[7][19] = {
     {  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  45,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA }
 };
 
-static unsigned int ASUS_CLAYMORE_NUMPAD_RIGHT_LAYOUT_KEYS_US[7][24] = {
+static unsigned int ASUS_CLAYMORE_NUMPAD_RIGHT_LAYOUT_KEYS_US[7][24] =
+{
     {   0,  NA,   8,  14,  19,  24,  NA,  34,  39,  45,  50,  56,  62,  67,  71,  NA,  75,  79,  84,  NA,  NA,  NA,  NA,  NA },
     {   1,   6,   9,  15,  20,  25,  29,  35,  40,  46,  51,  57,  63,  68,  NA,  NA,  76,  80,  85,  NA,  88,  93,  97, 102 },
     {   2,  NA,  10,  16,  21,  26,  30,  36,  41,  47,  52,  58,  64,  69,  72,  NA,  77,  81,  86,  NA,  89,  94,  98, 103 },
@@ -125,7 +132,8 @@ static unsigned int ASUS_CLAYMORE_NUMPAD_RIGHT_LAYOUT_KEYS_US[7][24] = {
     {  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  44,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA }
 };
 
-static unsigned int ASUS_CLAYMORE_NUMPAD_RIGHT_LAYOUT_KEYS_UK[7][24] = {
+static unsigned int ASUS_CLAYMORE_NUMPAD_RIGHT_LAYOUT_KEYS_UK[7][24] =
+{
     {   0,  NA,   9,  15,  20,  25,  NA,  35,  40,  46,  51,  57,  63,  68,  73,  NA,  76,  80,  85,  NA,  NA,  NA,  NA,  NA },
     {   1,   6,  10,  16,  21,  26,  30,  36,  41,  47,  52,  58,  64,  69,  NA,  NA,  77,  81,  86,  NA,  89,  94,  98, 103 },
     {   2,  NA,  11,  17,  22,  27,  31,  37,  42,  48,  53,  59,  65,  70,  NA,  NA,  78,  82,  87,  NA,  90,  95,  99, 104 },
@@ -135,7 +143,8 @@ static unsigned int ASUS_CLAYMORE_NUMPAD_RIGHT_LAYOUT_KEYS_UK[7][24] = {
     {  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  45,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA }
 };
 
-static unsigned int ASUS_CLAYMORE_NUMPAD_LEFT_LAYOUT_KEYS_US[7][24] = {
+static unsigned int ASUS_CLAYMORE_NUMPAD_LEFT_LAYOUT_KEYS_US[7][24] =
+{
     {  NA,  NA,  NA,  NA,  NA,  17,  NA,  25,  31,  36,  41,  NA,  51,  56,  62,  67,  73,  79,  84,  88,  NA,  92,  96, 101 },
     {   0,   5,   9,  14,  NA,  18,  23,  26,  32,  37,  42,  46,  52,  57,  63,  68,  74,  80,  85,  NA,  NA,  93,  97, 102 },
     {   1,   6,  10,  15,  NA,  19,  NA,  27,  33,  38,  43,  47,  53,  58,  64,  69,  75,  81,  86,  89,  NA,  94,  98, 103 },
@@ -145,7 +154,8 @@ static unsigned int ASUS_CLAYMORE_NUMPAD_LEFT_LAYOUT_KEYS_US[7][24] = {
     {  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  61,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA }
 };
 
-static unsigned int ASUS_CLAYMORE_NUMPAD_LEFT_LAYOUT_KEYS_UK[7][24] = {
+static unsigned int ASUS_CLAYMORE_NUMPAD_LEFT_LAYOUT_KEYS_UK[7][24] =
+{
     {  NA,  NA,  NA,  NA,  NA,  17,  NA,  26,  32,  37,  42,  NA,  52,  57,  63,  68,  74,  80,  85,  90,  NA,  93,  97, 102 },
     {   0,   5,   9,  14,  NA,  18,  23,  27,  33,  38,  43,  47,  53,  58,  64,  69,  75,  81,  86,  NA,  NA,  94,  98, 103 },
     {   1,   6,  10,  15,  NA,  19,  NA,  28,  34,  39,  44,  48,  54,  59,  65,  70,  76,  82,  87,  NA,  NA,  95,  99, 104 },
@@ -153,6 +163,11 @@ static unsigned int ASUS_CLAYMORE_NUMPAD_LEFT_LAYOUT_KEYS_UK[7][24] = {
     {   3,   8,  12,  16,  NA,  21,  24,  30,  36,  41,  46,  50,  56,  61,  67,  72,  78,  NA,  89,  NA,  NA,  NA, 100,  NA },
     {   4,  NA,  13,  NA,  NA,  22,  25,  31,  NA,  NA,  NA,  51,  NA,  NA,  NA,  73,  79,  84,  NA,  92,  NA,  96, 101, 105 },
     {  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  62,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA }
+};
+
+static unsigned int ASUS_TUF_K1_LAYOUT_KEYS[1][5] =
+{
+    {  0,  1,  2,  3,  4 },
 };
 
 static std::map<int,layout_info> AsusTUFK7Layouts =
@@ -1298,6 +1313,42 @@ static std::map<int,layout_info> AsusClaymoreNumpadLeftLayouts =
                 { KEY_EN_PAGE_UP,             0xB1 },
                 { KEY_EN_PAGE_DOWN,           0xB2 },
                 { KEY_EN_RIGHT_ARROW,         0xB5 }
+            }
+        }
+    },
+};
+
+static std::map<int,layout_info> AsusTufK1Layouts =
+{
+    {
+        ASUS_TUF_K7_LAYOUT_UK,
+        {
+            *ASUS_TUF_K1_LAYOUT_KEYS,
+            5,
+            1,
+            5,
+            {
+                { "Keyboard LED 1",             0x00 },
+                { "Keyboard LED 2",             0x01 },
+                { "Keyboard LED 3",             0x02 },
+                { "Keyboard LED 4",             0x03 },
+                { "Keyboard LED 5",             0x04 },
+            }
+        }
+    },
+    {
+        ASUS_TUF_K7_LAYOUT_US,
+        {
+            *ASUS_TUF_K1_LAYOUT_KEYS,
+            5,
+            1,
+            5,
+            {
+                { "Keyboard LED 1",             0x00 },
+                { "Keyboard LED 2",             0x01 },
+                { "Keyboard LED 3",             0x02 },
+                { "Keyboard LED 4",             0x03 },
+                { "Keyboard LED 5",             0x04 },
             }
         }
     },

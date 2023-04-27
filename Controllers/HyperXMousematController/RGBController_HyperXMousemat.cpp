@@ -22,9 +22,16 @@ using namespace std::chrono_literals;
     @comment
 \*-------------------------------------------------------------------*/
 
-RGBController_HyperXMousemat::RGBController_HyperXMousemat(HyperXMousematController* controller_ptr)
+RGBController_HyperXMousemat::RGBController_HyperXMousemat
+(
+    HyperXMousematController* controller_ptr,
+    unsigned int first_zone_leds_count_arg,
+    unsigned int second_zone_leds_count_arg
+)
 {
-    controller  = controller_ptr;
+    controller              = controller_ptr;
+    first_zone_leds_count   = first_zone_leds_count_arg;
+    second_zone_leds_count  = second_zone_leds_count_arg;
 
     name        = "HyperX Mousemat Device";
     vendor      = "HyperX";
@@ -63,23 +70,30 @@ RGBController_HyperXMousemat::~RGBController_HyperXMousemat()
 
 void RGBController_HyperXMousemat::SetupZones()
 {
-    zone underglow;
-    underglow.name       = "Underglow";
-    underglow.type       = ZONE_TYPE_LINEAR;
-    underglow.leds_min   = 15;
-    underglow.leds_max   = 15;
-    underglow.leds_count = 15;
-    underglow.matrix_map = NULL;
-    zones.push_back(underglow);
+    if(first_zone_leds_count > 0)
+    {
+        zone underglow;
+        underglow.name       = "Underglow";
+        underglow.type       = ZONE_TYPE_LINEAR;
+        underglow.leds_min   = first_zone_leds_count;
+        underglow.leds_max   = first_zone_leds_count;
+        underglow.leds_count = first_zone_leds_count;
+        underglow.matrix_map = NULL;
+        zones.push_back(underglow);
+    }
 
-    zone led_strip;
-    led_strip.name       = "LED Strip";
-    led_strip.type       = ZONE_TYPE_LINEAR;
-    led_strip.leds_min   = 5;
-    led_strip.leds_max   = 5;
-    led_strip.leds_count = 5;
-    led_strip.matrix_map = NULL;
-    zones.push_back(led_strip);
+    if(second_zone_leds_count > 0)
+    {
+        zone led_strip;
+        led_strip.name       = "LED Strip";
+        led_strip.type       = ZONE_TYPE_LINEAR;
+        led_strip.leds_min   = second_zone_leds_count;
+        led_strip.leds_max   = second_zone_leds_count;
+        led_strip.leds_count = second_zone_leds_count;
+        led_strip.matrix_map = NULL;
+        zones.push_back(led_strip);
+    }
+
 
     for(unsigned int zone_idx = 0; zone_idx < zones.size(); zone_idx++)
     {
@@ -113,13 +127,7 @@ void RGBController_HyperXMousemat::DeviceUpdateLEDs()
 {
     last_update_time = std::chrono::steady_clock::now();
 
-    if(active_mode == 0)
-    {
-        controller->SendDirect(&colors[0]);
-    }
-    else
-    {
-    }
+    controller->SendDirect(&colors[0]);
 }
 
 void RGBController_HyperXMousemat::UpdateZoneLEDs(int /*zone*/)
