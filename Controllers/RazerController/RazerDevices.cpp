@@ -257,7 +257,8 @@ keyboard_keymap_overlay_values razer_blade_pro_2017_layout
         {   0,      3,      0,          0,          KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Move Caps 1 right (Shifts row)
         {   0,      3,      2,          0,          KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Move 'A' 1 right (Shifts row)
         {   0,      3,      3,          0,          KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Move 'A' 1 right (Shifts row)
-        {   0,      3,      17,         0,          KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Move ANSI Enter 1 right -> 3,18
+        {   0,      3,      16,         0,          KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Move ANSI Enter 1 right -> 3,18
+        {   0,      3,      16,         0,          KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Move ANSI Enter 1 right -> 3,18
         {   0,      4,      2,          0,          KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Move 'Z' 1 right (Shifts row)
         {   0,      4,      3,          0,          KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Move 'Z' 1 right (Shifts row)
         {   0,      4,      14,         0,          KEY_EN_UP_ARROW,            KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Insert Arrow Up and shift row 1 right
@@ -272,9 +273,9 @@ keyboard_keymap_overlay_values razer_blade_pro_2017_layout
         {   0,      5,      11,         0,          KEY_EN_UNUSED,              KEYBOARD_OPCODE_SWAP_ONLY,          },  // Remove Right Function @ 5,11
         {   0,      5,      12,         0,          KEY_EN_RIGHT_CONTROL,       KEYBOARD_OPCODE_SWAP_ONLY,          },  // Swap Right Control for Right Menu @ 5,12
         {   0,      5,      13,         0,          KEY_EN_LEFT_ARROW,          KEYBOARD_OPCODE_SWAP_ONLY,          },  // Swap Arrow Left for Right Control @ 5,13
-        {   0,      5,      14,         0,          KEY_EN_DOWN_ARROW,          KEYBOARD_OPCODE_SWAP_ONLY,          },  // Insert Arrow Down @ 5,14
-        {   0,      5,      15,         0,          KEY_EN_RIGHT_ARROW,         KEYBOARD_OPCODE_SWAP_ONLY,          },  // Insert Arrow Right @ 5,15
-        {   0,      5,      16,         0,          KEY_EN_RIGHT_FUNCTION,      KEYBOARD_OPCODE_SWAP_ONLY,          },  // Insert Right Function @ 5,16
+        {   0,      5,      14,         0,          KEY_EN_DOWN_ARROW,          KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Insert Arrow Down @ 5,14
+        {   0,      5,      15,         0,          KEY_EN_RIGHT_ARROW,         KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Insert Arrow Right @ 5,15
+        {   0,      5,      16,         0,          KEY_EN_RIGHT_FUNCTION,      KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Insert Right Function @ 5,16
     }
 };
 
