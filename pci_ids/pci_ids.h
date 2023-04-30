@@ -84,6 +84,7 @@
 #define NVIDIA_RTX3070_DEV                              0x2484
 #define NVIDIA_RTX3070_LHR_DEV                          0x2488
 #define NVIDIA_RTX3070TI_DEV                            0x2482
+#define NVIDIA_RTX3070TI_GA102_DEV                      0x2207
 #define NVIDIA_RTX3080_DEV                              0x2206
 #define NVIDIA_RTX3080_LHR_DEV                          0x2216
 #define NVIDIA_RTX3080_12G_LHR_DEV                      0x220A
@@ -217,6 +218,7 @@
 #define ASUS_ROG_STRIX_RTX_3070TI_O8G_GAMING            0x880E
 #define ASUS_TUF_RTX_3070TI_O8G_V2_GAMING               0x8812
 #define ASUS_TUF_RTX_3070TI_O8G_GAMING                  0x8813
+#define ASUS_TUF_RTX_3070TI_O8G_V2_GAMING_2             0x88BD
 #define ASUS_ROG_STRIX_RTX_3080_10G_GAMING              0x87AA
 #define ASUS_ROG_STRIX_RTX_3080_O10G_GAMING             0x87AC
 #define ASUS_ROG_STRIX_RTX_3080_O10G_WHITE              0x87D1
