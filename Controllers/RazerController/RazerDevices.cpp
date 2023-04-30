@@ -250,20 +250,32 @@ keyboard_keymap_overlay_values razer_blade_pro_2017_layout
         {   0,      0,      24,         0,          KEY_EN_MEDIA_MUTE,          KEYBOARD_OPCODE_SWAP_ONLY,          },  // Insert Volume Mute key
         {   0,      1,      0,          0,          KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Move Backtick 1 right (Shifts row)
         {   0,      1,      0,          0,          KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Move Backtick 1 right (Shifts row)
+        {   0,      1,      19,         0,          "Trackpad",                 KEYBOARD_OPCODE_SWAP_ONLY,          },  // Trackpad
+        {   0,      1,      20,         0,          "Trackpad",                 KEYBOARD_OPCODE_SWAP_ONLY,          },  // Trackpad
+        {   0,      1,      21,         0,          "Trackpad",                 KEYBOARD_OPCODE_SWAP_ONLY,          },  // Trackpad
+        {   0,      1,      22,         0,          "Trackpad",                 KEYBOARD_OPCODE_SWAP_ONLY,          },  // Trackpad
+        {   0,      1,      23,         0,          "Trackpad",                 KEYBOARD_OPCODE_SWAP_ONLY,          },  // Trackpad
+        {   0,      1,      24,         0,          "Trackpad",                 KEYBOARD_OPCODE_SWAP_ONLY,          },  // Trackpad
         {   0,      2,      0,          0,          KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Move Tab 1 right (Shifts row)
         {   0,      2,      0,          0,          KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Move Tab 1 right (Shifts row)
         {   0,      2,      3,          0,          KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Move 'Q' 1 right (Shifts row)
         {   0,      2,      16,         0,          KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Move Back slash 1 right -> 2,17
+        {   0,      2,      19,         0,          "Trackpad",                 KEYBOARD_OPCODE_SWAP_ONLY,          },  // Trackpad
+        {   0,      2,      24,         0,          "Trackpad",                 KEYBOARD_OPCODE_SWAP_ONLY,          },  // Trackpad
         {   0,      3,      0,          0,          KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Move Caps 1 right (Shifts row)
         {   0,      3,      2,          0,          KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Move 'A' 1 right (Shifts row)
         {   0,      3,      3,          0,          KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Move 'A' 1 right (Shifts row)
         {   0,      3,      16,         0,          KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Move ANSI Enter 1 right -> 3,18
         {   0,      3,      16,         0,          KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Move ANSI Enter 1 right -> 3,18
+        {   0,      3,      19,         0,          "Trackpad",                 KEYBOARD_OPCODE_SWAP_ONLY,          },  // Trackpad
+        {   0,      3,      24,         0,          "Trackpad",                 KEYBOARD_OPCODE_SWAP_ONLY,          },  // Trackpad
         {   0,      4,      2,          0,          KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Move 'Z' 1 right (Shifts row)
         {   0,      4,      3,          0,          KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Move 'Z' 1 right (Shifts row)
         {   0,      4,      14,         0,          KEY_EN_UP_ARROW,            KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Insert Arrow Up and shift row 1 right
         {   0,      4,      16,         0,          KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Move Right Shift 1 right -> 4,17
         {   0,      4,      17,         0,          KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Move Right Shift 1 right -> 4,18
+        {   0,      4,      19,         0,          "Trackpad",                 KEYBOARD_OPCODE_SWAP_ONLY,          },  // Trackpad
+        {   0,      4,      24,         0,          "Trackpad",                 KEYBOARD_OPCODE_SWAP_ONLY,          },  // Trackpad
         {   0,      5,      1,          0,          KEY_EN_UNUSED,              KEYBOARD_OPCODE_SWAP_ONLY,          },  // Remove Left Windows @ 5,1
         {   0,      5,      2,          0,          KEY_EN_LEFT_FUNCTION,       KEYBOARD_OPCODE_SWAP_ONLY,          },  // Insert Left Function @ 5,2
         {   0,      5,      3,          0,          KEY_EN_LEFT_WINDOWS,        KEYBOARD_OPCODE_SWAP_ONLY,          },  // Insert Left Windows @ 5,3
@@ -276,6 +288,12 @@ keyboard_keymap_overlay_values razer_blade_pro_2017_layout
         {   0,      5,      14,         0,          KEY_EN_DOWN_ARROW,          KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Insert Arrow Down @ 5,14
         {   0,      5,      15,         0,          KEY_EN_RIGHT_ARROW,         KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Insert Arrow Right @ 5,15
         {   0,      5,      16,         0,          KEY_EN_RIGHT_FUNCTION,      KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Insert Right Function @ 5,16
+        {   0,      5,      19,         0,          "Trackpad",                 KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Trackpad
+        {   0,      5,      20,         0,          "Trackpad",                 KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Trackpad
+        {   0,      5,      21,         0,          "Trackpad",                 KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Trackpad
+        {   0,      5,      22,         0,          "Trackpad",                 KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Trackpad
+        {   0,      5,      23,         0,          "Trackpad",                 KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Trackpad
+        {   0,      5,      24,         0,          "Trackpad",                 KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Trackpad
     }
 };
 
