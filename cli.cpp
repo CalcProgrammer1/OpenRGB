@@ -44,14 +44,14 @@ enum
 struct DeviceOptions
 {
     int             device;
-    int             zone        = -1;
+    int             zone            = -1;
     std::vector<std::tuple<unsigned char, unsigned char, unsigned char>> colors;
     std::string     mode;
     unsigned int    brightness;
     unsigned int    size;
-    bool            random_colors;
-    bool            hasSize;
-    bool            hasOption;
+    bool            random_colors   = false;
+    bool            hasSize         = false;
+    bool            hasOption       = false;
 };
 
 struct ServerOptions
@@ -69,8 +69,8 @@ struct Options
     | allDeviceOptions shall be applied to all available devices|
     | except in the case that a profile was loaded.             |
     \*---------------------------------------------------------*/
-    bool                        hasDevice;
-    bool                        profile_loaded;
+    bool                        hasDevice        = false;
+    bool                        profile_loaded  = false;
     DeviceOptions               allDeviceOptions;
     ServerOptions               servOpts;
 };
