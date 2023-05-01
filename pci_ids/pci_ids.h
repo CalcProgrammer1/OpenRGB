@@ -90,6 +90,7 @@
 #define NVIDIA_RTX3080TI_DEV                            0x2208
 #define NVIDIA_RTX3090_DEV                              0x2204
 #define NVIDIA_RTX3090TI_DEV                            0x2203
+#define NVIDIA_RTX4070_DEV                              0x2786
 #define NVIDIA_RTX4070TI_DEV                            0x2782
 #define NVIDIA_RTX4080_DEV                              0x2704
 #define NVIDIA_RTX4090_DEV                              0x2684
@@ -525,6 +526,7 @@
 #define MSI_RTX3090_SUPRIM_X_SUB_DEV                    0x3882
 #define MSI_RTX3090TI_SUPRIM_X_SUB_DEV                  0x5090
 #define MSI_RTX3090TI_GAMING_X_TRIO_SUB_DEV             0x5091
+#define MSI_RTX4070_GAMING_X_TRIO_SUB_DEV               0x5136
 #define MSI_RTX4070TI_GAMING_X_TRIO_SUB_DEV             0x5132
 #define MSI_RTX4070TI_SUPRIM_X_TRIO_SUB_DEV             0x5133
 #define MSI_RTX4080_GAMING_X_TRIO_SUB_DEV               0x5111
