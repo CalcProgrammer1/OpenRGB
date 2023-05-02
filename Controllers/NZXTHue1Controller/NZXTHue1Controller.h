@@ -11,17 +11,6 @@
 
 enum
 {
-    HUE_1_CHANNEL_1             = 0x01, /* Channel 1                    */
-    HUE_1_NUM_CHANNELS          = 0x01  /* Number of channels           */
-};
-
-enum
-{
-    HUE_1_CHANNEL_1_IDX         = 0x00, /* Channel 1 array index        */
-};
-
-enum
-{
     HUE_1_ACCESSORY_STRIP       = 0x00, /* NZXT Hue+ LED Strip (10 LEDs)*/
     HUE_1_ACCESSORY_FAN         = 0x01  /* NZXT Aer RGB Fan (8 LEDs)    */
 };
@@ -54,7 +43,7 @@ enum
 class NZXTHue1Controller
 {
 public:
-    NZXTHue1Controller(hid_device* dev_handle, unsigned int rgb_channels, unsigned int fan_channels, const char* path);
+    NZXTHue1Controller(hid_device* dev_handle, unsigned int fan_channels, const char* path);
     ~NZXTHue1Controller();
 
     std::string     GetFirmwareVersion();
@@ -62,11 +51,9 @@ public:
     std::string     GetSerialString();
 
     unsigned int    GetAccessoryType();
-    unsigned int    GetNumRGBChannels();
 
-    void            SetChannelEffect
+    void            SetEffect
                         (
-                        unsigned char   channel,
                         unsigned char   mode,
                         unsigned char   speed,
                         bool            direction,
@@ -74,28 +61,25 @@ public:
                         unsigned int    num_colors
                         );
 
-    void            SetChannelLEDs
+    void            SetLEDs
                         (
-                        unsigned char   channel,
                         RGBColor *      colors,
                         unsigned int    num_colors
                         );
 
-    unsigned int    channel_leds[HUE_1_NUM_CHANNELS];
+    unsigned int    num_leds;
 
 private:
     hid_device*     dev;
 
     char            firmware_version[16];
     std::string     location;
-    unsigned int    num_rgb_channels;
     unsigned int    accessory_type;
 
     void            Initialize();
 
     void            SendPacket
                         (
-                        unsigned char   channel,
                         unsigned char   mode,
                         bool            direction,
                         unsigned char   color_idx,
