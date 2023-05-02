@@ -34,9 +34,9 @@ int Ui::OpenRGBHardwareIDsDialog::show()
     strings.push_back("i2c busses");
 
     for(i2c_smbus_interface* bus : i2CBusses)
-    {        
+    {
         char line[512];
-        sprintf(line, "%04X:%04X %04X:%04X - %s", bus->pci_vendor, bus->pci_device, bus->pci_subsystem_vendor, bus->pci_subsystem_device, bus->device_name);
+        snprintf(line, 512, "%04X:%04X %04X:%04X - %s", bus->pci_vendor, bus->pci_device, bus->pci_subsystem_vendor, bus->pci_subsystem_device, bus->device_name);
         strings.push_back(line);
     }
 
@@ -56,9 +56,9 @@ int Ui::OpenRGBHardwareIDsDialog::show()
         const char* manu_name = StringUtils::wchar_to_char(current_hid_device->manufacturer_string);
         const char* prod_name = StringUtils::wchar_to_char(current_hid_device->product_string);
 
-        char line[512];
+        char line[550];
 
-        sprintf(line, "[%04X:%04X U=%04X P=0x%04X I=%d] %s - %s", current_hid_device->vendor_id, current_hid_device->product_id, current_hid_device->usage, current_hid_device->usage_page, current_hid_device->interface_number, manu_name, prod_name);
+        snprintf(line, 550, "[%04X:%04X U=%04X P=0x%04X I=%d] %s - %s", current_hid_device->vendor_id, current_hid_device->product_id, current_hid_device->usage, current_hid_device->usage_page, current_hid_device->interface_number, manu_name, prod_name);
 
         strings.push_back(line);
         current_hid_device = current_hid_device->next;
