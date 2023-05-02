@@ -199,11 +199,6 @@ static const char* zone_names[] =
     ZONE_EN_KEYBOARD
 };
 
-static zone_type zone_types[] =
-{
-    ZONE_TYPE_MATRIX
-};
-
 /**------------------------------------------------------------------*\
     @name HyperX Alloy Origins 60 and 65
     @category Keyboard
