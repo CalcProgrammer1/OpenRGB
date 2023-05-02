@@ -74,6 +74,59 @@ RGBController::~RGBController()
     modes.clear();
 }
 
+std::string RGBController::GetName()
+{
+    return(name);
+}
+
+std::string RGBController::GetVendor()
+{
+    return(vendor);
+}
+
+std::string RGBController::GetDescription()
+{
+    return(description);
+}
+
+std::string RGBController::GetVersion()
+{
+    return(version);
+}
+
+std::string RGBController::GetSerial()
+{
+    return(serial);
+}
+
+std::string RGBController::GetLocation()
+{
+    return(location);
+}
+
+std::string RGBController::GetModeName(unsigned int mode)
+{
+    return(modes[mode].name);
+}
+
+std::string RGBController::GetZoneName(unsigned int zone)
+{
+    return(zones[zone].name);
+}
+
+std::string RGBController::GetLEDName(unsigned int led)
+{
+    if(led < led_alt_names.size())
+    {
+        if(led_alt_names[led] != "")
+        {
+            return(led_alt_names[led]);
+        }
+    }
+
+    return(leds[led].name);
+}
+
 unsigned char * RGBController::GetDeviceDescription(unsigned int protocol_version)
 {
     unsigned int data_ptr = 0;

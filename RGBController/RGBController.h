@@ -228,6 +228,16 @@ public:
     virtual void            SetupColors()                                                                       = 0;
 
     virtual unsigned int    GetLEDsInZone(unsigned int zone)                                                    = 0;
+    virtual std::string     GetName()                                                                           = 0;
+    virtual std::string     GetVendor()                                                                         = 0;
+    virtual std::string     GetDescription()                                                                    = 0;
+    virtual std::string     GetVersion()                                                                        = 0;
+    virtual std::string     GetSerial()                                                                         = 0;
+    virtual std::string     GetLocation()                                                                       = 0;
+
+    virtual std::string     GetModeName(unsigned int mode)                                                      = 0;
+    virtual std::string     GetZoneName(unsigned int zone)                                                      = 0;
+    virtual std::string     GetLEDName(unsigned int led)                                                        = 0;
 
     virtual RGBColor        GetLED(unsigned int led)                                                            = 0;
     virtual void            SetLED(unsigned int led, RGBColor color)                                            = 0;
@@ -298,6 +308,8 @@ public:
     std::vector<RGBColor>   colors;         /* Color buffer             */
     device_type             type;           /* device type              */
     int                     active_mode = 0;/* active mode              */
+    std::vector<std::string>
+                            led_alt_names;  /* alternate LED names      */
 
     /*---------------------------------------------------------*\
     | RGBController base class constructor                      |
@@ -311,6 +323,16 @@ public:
     void                    SetupColors();
 
     unsigned int            GetLEDsInZone(unsigned int zone);
+    std::string             GetName();
+    std::string             GetVendor();
+    std::string             GetDescription();
+    std::string             GetVersion();
+    std::string             GetSerial();
+    std::string             GetLocation();
+
+    std::string             GetModeName(unsigned int mode);
+    std::string             GetZoneName(unsigned int zone);
+    std::string             GetLEDName(unsigned int led);
 
     RGBColor                GetLED(unsigned int led);
     void                    SetLED(unsigned int led, RGBColor color);
