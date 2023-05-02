@@ -58,6 +58,7 @@ zone::~zone()
 
 RGBController::RGBController()
 {
+    translation = NULL;
     DeviceThreadRunning = true;
     DeviceCallThread = new std::thread(&RGBController::DeviceCallThreadFunction, this);
 }
@@ -72,6 +73,123 @@ RGBController::~RGBController()
     colors.clear();
     zones.clear();
     modes.clear();
+}
+
+std::string RGBController::GetName()
+{
+    if(translation != NULL)
+    {
+        if(translation->name != "")
+        {
+            return(translation->name);
+        }
+    }
+
+    return(name);
+}
+
+std::string RGBController::GetVendor()
+{
+    if(translation != NULL)
+    {
+        if(translation->vendor != "")
+        {
+            return(translation->vendor);
+        }
+    }
+
+    return(vendor);
+}
+
+std::string RGBController::GetDescription()
+{
+    if(translation != NULL)
+    {
+        if(translation->description != "")
+        {
+            return(translation->description);
+        }
+    }
+
+    return(description);
+}
+
+std::string RGBController::GetVersion()
+{
+    if(translation != NULL)
+    {
+        if(translation->version != "")
+        {
+            return(translation->version);
+        }
+    }
+
+    return(version);
+}
+
+std::string RGBController::GetSerial()
+{
+    if(translation != NULL)
+    {
+        if(translation->serial != "")
+        {
+            return(translation->serial);
+        }
+    }
+
+    return(serial);
+}
+
+std::string RGBController::GetLocation()
+{
+    if(translation != NULL)
+    {
+        if(translation->location != "")
+        {
+            return(translation->location);
+        }
+    }
+
+    return(location);
+}
+
+std::string RGBController::GetModeName(unsigned int mode)
+{
+    if(translation != NULL)
+    {
+        if(translation->modes[mode] != "")
+        {
+            return(translation->modes[mode]);
+        }
+    }
+
+    return(modes[mode].name);
+}
+
+std::string RGBController::GetZoneName(unsigned int zone)
+{
+    if(translation != NULL)
+    {
+        if(translation->zones[zone] != "")
+        {
+            return(translation->zones[zone]);
+        }
+    }
+
+    return(zones[zone].name);
+}
+
+std::string RGBController::GetLEDName(unsigned int led)
+{
+    if(translation != NULL)
+    {
+        if(translation->leds[led] != "")
+        {
+            return(translation->leds[led]);
+        }
+    }
+
+    return(leds[led].name);
 }
 
 unsigned char * RGBController::GetDeviceDescription(unsigned int protocol_version)

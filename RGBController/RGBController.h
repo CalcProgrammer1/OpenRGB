@@ -216,6 +216,26 @@ enum
 };
 
 /*------------------------------------------------------------------*\
+| Translation Data Struct                                            |
+|   Leave string empty if no translation provided                    |
+|   If translation data is used, modes/zones/leds vectors must be    |
+|   resized to match the modes/zones/leds vectors in the main class  |
+\*------------------------------------------------------------------*/
+
+typedef struct
+{
+    std::string                 name;       /* controller name          */
+    std::string                 vendor;     /* controller vendor        */
+    std::string                 description;/* controller description   */
+    std::string                 version;    /* controller version       */
+    std::string                 serial;     /* controller serial number */
+    std::string                 location;   /* controller location      */
+    std::vector<std::string>    modes;      /* mode names               */
+    std::vector<std::string>    zones;      /* zone names               */
+    std::vector<std::string>    leds;       /* led names                */
+} translation_data;
+
+/*------------------------------------------------------------------*\
 | RGBController Callback Types                                       |
 \*------------------------------------------------------------------*/
 typedef void (*RGBControllerCallback)(void *);
@@ -228,6 +248,16 @@ public:
     virtual void            SetupColors()                                                                       = 0;
 
     virtual unsigned int    GetLEDsInZone(unsigned int zone)                                                    = 0;
+    virtual std::string     GetName()                                                                           = 0;
+    virtual std::string     GetVendor()                                                                         = 0;
+    virtual std::string     GetDescription()                                                                    = 0;
+    virtual std::string     GetVersion()                                                                        = 0;
+    virtual std::string     GetSerial()                                                                         = 0;
+    virtual std::string     GetLocation()                                                                       = 0;
+
+    virtual std::string     GetModeName(unsigned int mode)                                                      = 0;
+    virtual std::string     GetZoneName(unsigned int zone)                                                      = 0;
+    virtual std::string     GetLEDName(unsigned int led)                                                        = 0;
 
     virtual RGBColor        GetLED(unsigned int led)                                                            = 0;
     virtual void            SetLED(unsigned int led, RGBColor color)                                            = 0;
@@ -298,6 +328,7 @@ public:
     std::vector<RGBColor>   colors;         /* Color buffer             */
     device_type             type;           /* device type              */
     int                     active_mode = 0;/* active mode              */
+    translation_data*       translation;    /* optional translation data*/
 
     /*---------------------------------------------------------*\
     | RGBController base class constructor                      |
@@ -311,6 +342,16 @@ public:
     void                    SetupColors();
 
     unsigned int            GetLEDsInZone(unsigned int zone);
+    std::string             GetName();
+    std::string             GetVendor();
+    std::string             GetDescription();
+    std::string             GetVersion();
+    std::string             GetSerial();
+    std::string             GetLocation();
+
+    std::string             GetModeName(unsigned int mode);
+    std::string             GetZoneName(unsigned int zone);
+    std::string             GetLEDName(unsigned int led);
 
     RGBColor                GetLED(unsigned int led);
     void                    SetLED(unsigned int led, RGBColor color);
