@@ -161,7 +161,7 @@ void KasaSmartController::SetColor(unsigned char red, unsigned char green, unsig
     | Normalize case where hue is "-1" undefined |
     \*------------------------------------------*/
     unsigned int normalized_hue = hsv.hue;
-    if(hsv.hue == -1)
+    if(hsv.hue == (int)-1)
     {
         normalized_hue = 0;
     }
