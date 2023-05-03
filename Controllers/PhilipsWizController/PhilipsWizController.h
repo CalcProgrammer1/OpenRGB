@@ -25,6 +25,7 @@ public:
     std::string GetManufacturer();
     std::string GetUniqueID();
 
+    void SetBrightness(unsigned char brightness);
     void SetColor(unsigned char red, unsigned char green, unsigned char blue);
 
     void ReceiveThreadFunction();
@@ -38,4 +39,11 @@ private:
     net_port            port;
     std::thread*        ReceiveThread;
     std::atomic<bool>   ReceiveThreadRun;
+
+    unsigned char       red;
+    unsigned char       green;
+    unsigned char       blue;
+    unsigned char       brightness;
+
+    void SendSetPilot();
 };

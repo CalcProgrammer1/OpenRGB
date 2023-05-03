@@ -18,6 +18,14 @@ PhilipsWizController::PhilipsWizController(std::string ip)
     location    = "IP: " + ip;
 
     /*-----------------------------------------------------------------*\
+    | Set a few sane default values                                     |
+    \*-----------------------------------------------------------------*/
+    red         = 0;
+    green       = 0;
+    blue        = 0;
+    brightness  = 100;
+
+    /*-----------------------------------------------------------------*\
     | Open a UDP client sending to the device's IP, port 38899          |
     \*-----------------------------------------------------------------*/
     port.udp_client(ip.c_str(), "38899");
@@ -68,18 +76,44 @@ std::string PhilipsWizController::GetUniqueID()
 
 void PhilipsWizController::SetColor(unsigned char red, unsigned char green, unsigned char blue)
 {
+    this->red    = red;
+    this->green  = green;
+    this->blue   = blue;
+
+    SendSetPilot();
+}
+
+void PhilipsWizController::SetBrightness(unsigned char brightness)
+{
+    this->brightness = brightness;
+
+    SendSetPilot();
+}
+
+void PhilipsWizController::SendSetPilot()
+{
     json command;
 
     /*-----------------------------------------------------------------*\
-    | Fill in the setPilot command with RGB information.                |
+    | Fill in the setPilot command with RGB and brightness information. |
     | The bulb will not respond to 0, 0, 0, so if all channels are zero,|
     | set the state to off.  Otherwise, set it to on.                   |
     \*-----------------------------------------------------------------*/
-    command["method"]           = "setPilot";
-    command["params"]["r"]      = red;
-    command["params"]["g"]      = green;
-    command["params"]["b"]      = blue;
-    command["params"]["state"]  = !((red == 0) && (green == 0) && (blue == 0));
+    command["method"]            = "setPilot";
+    command["params"]["r"]       = red;
+    command["params"]["g"]       = green;
+    command["params"]["b"]       = blue;
+    command["params"]["dimming"] = brightness;
+    command["params"]["state"]   = !((red == 0) && (green == 0) && (blue == 0));
+
+    /*-----------------------------------------------------------------*\
+    | The official Wiz app also sends a warm white level with its       |
+    | custom colours. Until we can figure out a way to account for it   |
+    | correctly, set the cool white level to the average of RGB to      |
+    | improve its apparent brightness.                                  |
+    \*-----------------------------------------------------------------*/
+    command["params"]["c"]       = (red + green + blue) / 3;
+//  command["params"]["w"]       = 0;
 
     /*-----------------------------------------------------------------*\
     | Convert the JSON object to a string and write it                  |

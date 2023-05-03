@@ -32,10 +32,13 @@ RGBController_PhilipsWiz::RGBController_PhilipsWiz(PhilipsWizController* control
     location    = controller->GetLocation();
 
     mode Direct;
-    Direct.name       = "Direct";
-    Direct.value      = 0;
-    Direct.flags      = MODE_FLAG_HAS_PER_LED_COLOR;
-    Direct.color_mode = MODE_COLORS_PER_LED;
+    Direct.name           = "Direct";
+    Direct.value          = 0;
+    Direct.flags          = MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_HAS_BRIGHTNESS;
+    Direct.color_mode     = MODE_COLORS_PER_LED;
+    Direct.brightness     = 100;
+    Direct.brightness_min = 10;
+    Direct.brightness_max = 100;
     modes.push_back(Direct);
 
     SetupZones();
@@ -93,5 +96,12 @@ void RGBController_PhilipsWiz::UpdateSingleLED(int /*led*/)
 
 void RGBController_PhilipsWiz::DeviceUpdateMode()
 {
-
+    if(modes[active_mode].flags & MODE_FLAG_HAS_BRIGHTNESS)
+    {
+        controller->SetBrightness(modes[active_mode].brightness);
+    }
+    else
+    {
+        controller->SetBrightness(100);
+    }
 }
