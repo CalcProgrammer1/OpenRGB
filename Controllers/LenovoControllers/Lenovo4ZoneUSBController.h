@@ -39,8 +39,6 @@ class Lenovo4ZoneUSBController
     uint16_t getPid();
     std::string getName();
     std::string getLocation();
-    void setDeviceSoftwareMode();
-    void setDeviceHardwareMode();
 
     private:
     /*--------------*\

@@ -15,6 +15,9 @@
 | Keyboard product IDs                                  |
 \*-----------------------------------------------------*/
 #define IDEAPAD_315ACH6                         0xC963
+#define LEGION_5_2022_PID                       0xC975
+#define LEGION_5_2021_PID                       0xC965
+#define LEGION_5_2020_PID                       0xC955
 
 enum LENOVO_4_ZONE_EFFECT
 {
@@ -50,10 +53,8 @@ public:
     uint8_t zone1_rgb[3] = {0xFF, 0xFF, 0xFF};
     uint8_t zone2_rgb[3] = {0xFF, 0xFF, 0xFF};
     uint8_t zone3_rgb[3] = {0xFF, 0xFF, 0xFF};
-    uint8_t padding = 0;
     uint8_t wave_ltr = 0;
     uint8_t wave_rtl = 0;
-    uint8_t unused[13] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 
     void Reset()
     {
@@ -65,13 +66,8 @@ public:
         zone1_rgb[0] = 0xFF, zone1_rgb[1] = 0xFF, zone1_rgb[2] = 0xFF;
         zone2_rgb[0] = 0xFF, zone2_rgb[1] = 0xFF, zone2_rgb[2] = 0xFF;
         zone3_rgb[0] = 0xFF, zone3_rgb[1] = 0xFF, zone3_rgb[2] = 0xFF;
-        padding = 0;
         wave_ltr = 0;
         wave_rtl = 0;
-        for(int i = 0; i < 13; ++i)
-        {
-            unused[i] = 0;
-        }
     }
 
     void SetColors(std::vector<RGBColor> group_colors)
