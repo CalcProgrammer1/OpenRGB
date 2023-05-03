@@ -21,12 +21,12 @@ OpenRGBDeviceInfoPage::OpenRGBDeviceInfoPage(RGBController *dev, QWidget *parent
 
     ui->TypeValue->setText(device_type_to_str(dev->type).c_str());
 
-    ui->NameValue->setText(QString::fromStdString(dev->name));
-    ui->VendorValue->setText(QString::fromStdString(dev->vendor));
-    ui->DescriptionValue->setText(QString::fromStdString(dev->description));
-    ui->VersionValue->setText(QString::fromStdString(dev->version));
-    ui->LocationValue->setText(QString::fromStdString(dev->location));
-    ui->SerialValue->setText(QString::fromStdString(dev->serial));
+    ui->NameValue->setText(QString::fromStdString(dev->GetName()));
+    ui->VendorValue->setText(QString::fromStdString(dev->GetVendor()));
+    ui->DescriptionValue->setText(QString::fromStdString(dev->GetDescription()));
+    ui->VersionValue->setText(QString::fromStdString(dev->GetVersion()));
+    ui->LocationValue->setText(QString::fromStdString(dev->GetLocation()));
+    ui->SerialValue->setText(QString::fromStdString(dev->GetSerial()));
 }
 
 OpenRGBDeviceInfoPage::~OpenRGBDeviceInfoPage()

@@ -388,18 +388,18 @@ void DeviceView::InitDeviceView()
                             \*-----------------------------------------------------*/
                             if(led_x < map->width - 1 && map->map[map_idx + 1] == 0xFFFFFFFF)
                             {
-                                if( ( controller->leds[color_idx].name == KEY_EN_TAB        )
-                                 || ( controller->leds[color_idx].name == KEY_EN_CAPS_LOCK  )
-                                 || ( controller->leds[color_idx].name == KEY_EN_LEFT_SHIFT )
-                                 || ( controller->leds[color_idx].name == KEY_EN_RIGHT_SHIFT)
-                                 || ( controller->leds[color_idx].name == KEY_EN_BACKSPACE  )
-                                 || ( controller->leds[color_idx].name == KEY_EN_NUMPAD_0   ) )
+                                if( ( controller->GetLEDName(color_idx) == KEY_EN_TAB        )
+                                 || ( controller->GetLEDName(color_idx) == KEY_EN_CAPS_LOCK  )
+                                 || ( controller->GetLEDName(color_idx) == KEY_EN_LEFT_SHIFT )
+                                 || ( controller->GetLEDName(color_idx) == KEY_EN_RIGHT_SHIFT)
+                                 || ( controller->GetLEDName(color_idx) == KEY_EN_BACKSPACE  )
+                                 || ( controller->GetLEDName(color_idx) == KEY_EN_NUMPAD_0   ) )
                                 {
                                     led_pos[color_idx].matrix_w += 1.0f;
                                 }
                             }
-                            if( ( controller->leds[color_idx].name == KEY_EN_NUMPAD_ENTER   )
-                             || ( controller->leds[color_idx].name == KEY_EN_NUMPAD_PLUS    ) )
+                            if( ( controller->GetLEDName(color_idx) == KEY_EN_NUMPAD_ENTER   )
+                             || ( controller->GetLEDName(color_idx) == KEY_EN_NUMPAD_PLUS    ) )
                             {
                                 if(led_y < map->height - 1 && map->map[map_idx + map->width] == 0xFFFFFFFF)
                                 {
@@ -412,7 +412,7 @@ void DeviceView::InitDeviceView()
                                     led_pos[color_idx].matrix_h += 1.0f;
                                 }
                             }
-                            else if(controller->leds[color_idx].name == KEY_EN_SPACE)
+                            else if(controller->GetLEDName(color_idx) == KEY_EN_SPACE)
                             {
                                 for(unsigned int map_idx2 = map_idx - 1; map_idx2 > led_y * map->width && map->map[map_idx2] == 0xFFFFFFFF; map_idx2--)
                                 {
@@ -498,7 +498,7 @@ void DeviceView::InitDeviceView()
     \*-----------------------------------------------------*/
     for(std::size_t led_idx = 0; led_idx < controller->leds.size(); led_idx++)
     {
-        std::map<std::string, led_label>::const_iterator it = led_label_lookup.find(controller->leds[led_idx].name);
+        std::map<std::string, led_label>::const_iterator it = led_label_lookup.find(controller->GetLEDName(led_idx));
 
         if(it != led_label_lookup.end())
         {
@@ -824,7 +824,7 @@ void DeviceView::paintEvent(QPaintEvent* /* event */)
         {
             painter.setPen(palette().windowText().color());
         }
-        painter.drawText(posx, posy + posh, QString(controller->zones[zone_idx].name.c_str()));
+        painter.drawText(posx, posy + posh, QString(controller->GetZoneName(zone_idx).c_str()));
 
         for(std::size_t segment_idx = 0; segment_idx < controller->zones[zone_idx].segments.size(); segment_idx++)
         {
