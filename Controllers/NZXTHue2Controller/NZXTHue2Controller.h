@@ -18,7 +18,9 @@ enum
     HUE_2_CHANNEL_2         = 0x02,     /* Channel 2                    */
     HUE_2_CHANNEL_3         = 0x03,     /* Channel 3                    */
     HUE_2_CHANNEL_4         = 0x04,     /* Channel 4                    */
-    HUE_2_NUM_CHANNELS      = 0x04      /* Number of channels           */
+    HUE_2_CHANNEL_5         = 0x05,     /* Channel 5                    */
+    HUE_2_CHANNEL_6         = 0x06,     /* Channel 6                    */
+    HUE_2_NUM_CHANNELS      = 0x06      /* Number of channels           */
 };
 
 enum
@@ -107,14 +109,14 @@ public:
     void            UpdateDeviceList();
 
     void            UpdateStatus();
-    
+
     unsigned int    channel_leds[HUE_2_NUM_CHANNELS];
     unsigned int    channel_dev_ids[HUE_2_NUM_CHANNELS][6];
     unsigned int    channel_dev_szs[HUE_2_NUM_CHANNELS][6];
 
 private:
     hid_device*     dev;
-    
+
     std::vector<unsigned char>  fan_cmd;
     std::vector<unsigned short> fan_rpm;
 

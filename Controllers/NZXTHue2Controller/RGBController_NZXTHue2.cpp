@@ -277,6 +277,10 @@ void RGBController_NZXTHue2::SetupZones()
                 device_name = "Hue 2 strip (6 LEDs)";
                 break;
 
+            case 0x08: //Hue 2 Cable Comb (14 LEDs)
+                device_name = "Hue 2 Cable Comb (14 LEDs)";
+                break;
+
             case 0x09: //Hue 2 Underglow (300mm) (15 LEDs)
                 device_name = "Hue 2 Underglow (300mm) (15 LEDs)";
                 break;
@@ -301,8 +305,8 @@ void RGBController_NZXTHue2::SetupZones()
                 device_name = "Kraken X3 logo";
                 break;
 
-            case 0x08: //Hue 2 Cable Comb (14 LEDs)
-                device_name = "Hue 2 Cable Comb (14 LEDs)";
+            case 0x14: //F140 RGB fan (140mm)
+                device_name = "F140 fan (140mm)";
                 break;
 
             default:
