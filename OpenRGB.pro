@@ -1711,7 +1711,6 @@ contains(QMAKE_PLATFORM, linux) {
     -lmbedtls                                                                                   \
     -lmbedcrypto                                                                                \
     -ldl                                                                                        \
-    -lftdi1                                                                                     \
 
     COMPILER_VERSION = $$system($$QMAKE_CXX " -dumpversion")
     if (!versionAtLeast(COMPILER_VERSION, "9")) {

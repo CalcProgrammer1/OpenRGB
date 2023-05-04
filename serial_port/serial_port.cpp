@@ -104,8 +104,9 @@ bool serial_port::serial_open()
 
     struct termios2 options;
     ioctl(file_descriptor, TCGETS2, &options);
+    options.c_cflag &= ~PARENB;
     options.c_cflag &= ~CBAUD;
-    options.c_cflag |= BOTHER;
+    options.c_cflag |= CBAUDEX | CSTOPB | CLOCAL;
     options.c_lflag &= ~ICANON;
     options.c_lflag &= ~ECHO;                                               // Disable echo
     options.c_lflag &= ~ECHOE;                                              // Disable erasure
@@ -116,6 +117,10 @@ bool serial_port::serial_open()
     options.c_ospeed = baud_rate;
     options.c_iflag &= ~(IGNBRK|BRKINT|PARMRK|ISTRIP|INLCR|IGNCR|ICRNL);    // Disable any special handling of received bytes
     ioctl(file_descriptor, TCSETS2, &options);
+
+   int RTS_flag;
+   RTS_flag = TIOCM_RTS;
+   ioctl(file_descriptor,TIOCMBIC,&RTS_flag);//Set RTS pin
 #endif
 
     /*-----------------------------------------------------*\
@@ -355,5 +360,18 @@ void serial_port::serial_flush_tx()
 
 #ifdef __APPLE__
     tcflush(file_descriptor, TCOFLUSH);
+#endif
+}
+
+/*---------------------------------------------------------*\
+|  serial_break                                             |
+\*---------------------------------------------------------*/
+void serial_port::serial_break()
+{
+#ifdef __linux__
+    //Send break for at least 1 ms
+    ioctl(file_descriptor, TIOCSBRK);
+    usleep(1000);
+    ioctl(file_descriptor, TIOCCBRK);
 #endif
 }

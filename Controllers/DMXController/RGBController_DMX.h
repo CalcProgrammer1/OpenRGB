@@ -12,7 +12,6 @@
 #include "serial_port.h"
 #include <chrono>
 #include <thread>
-#include <libftdi1/ftdi.h>
 
 struct DMXDevice
 {
@@ -44,7 +43,7 @@ public:
 
 private:
 	std::vector<DMXDevice> 	                            devices;
-    ftdi_context *                                      ftdi;
+    serial_port *                                       port;
     std::thread *                                       keepalive_thread;
     std::atomic<bool>                                   keepalive_thread_run;
     std::chrono::milliseconds                           keepalive_delay;

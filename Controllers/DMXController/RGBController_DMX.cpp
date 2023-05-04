@@ -45,18 +45,9 @@ RGBController_DMX::RGBController_DMX(std::vector<DMXDevice> device_list)
     }
 
     /*-----------------------------------------*\
-    | Open OpenDMX FTDI                         |
+    | Open OpenDMX port                         |
     \*-----------------------------------------*/
-    ftdi_device_list* devlist;
-    ftdi = ftdi_new();
-    //ftdi_usb_open(ftdi, 0x0403, 0x6001);
-    LOG_WARNING("ftdi_set_interface %d", ftdi_set_interface(ftdi, INTERFACE_ANY));
-    LOG_WARNING("ftdi_usb_find_all %d", ftdi_usb_find_all(ftdi, &devlist, 0, 0));
-    LOG_WARNING("ftdi_usb_open_dev %d", ftdi_usb_open_dev(ftdi,  devlist[0].dev));
-    ftdi_list_free(&devlist);
-    LOG_WARNING("ftdi_set_baudrate %d", ftdi_set_baudrate(ftdi, 250000));
-    LOG_WARNING("ftdi_set_line_property2 %d", ftdi_set_line_property2(ftdi, BITS_8, STOP_BIT_2, NONE, BREAK_ON));
-    LOG_WARNING("ftdi_usb_purge_buffers %d", ftdi_usb_purge_buffers(ftdi));
+    port = new serial_port("/dev/ttyUSB0", 250000);
 
     /*-----------------------------------------*\
     | Set up modes                              |
@@ -177,8 +168,7 @@ void RGBController_DMX::DeviceUpdateLEDs()
 
     last_update_time = std::chrono::steady_clock::now();
 
-    unsigned char dmx_data[512];
-    const unsigned char startcode = 0;
+    unsigned char dmx_data[513];
 
     memset(dmx_data, 0, sizeof(dmx_data));
 
@@ -186,29 +176,28 @@ void RGBController_DMX::DeviceUpdateLEDs()
     {
         if(devices[device_idx].brightness_channel > 0)
         {
-            dmx_data[devices[device_idx].brightness_channel - 1] = modes[0].brightness;
+            dmx_data[devices[device_idx].brightness_channel] = modes[0].brightness;
         }
 
         if(devices[device_idx].red_channel > 0)
         {
-            dmx_data[devices[device_idx].red_channel - 1]        = RGBGetRValue(colors[device_idx]);
+            dmx_data[devices[device_idx].red_channel]        = RGBGetRValue(colors[device_idx]);
         }
 
         if(devices[device_idx].green_channel > 0)
         {
-            dmx_data[devices[device_idx].green_channel - 1]      = RGBGetGValue(colors[device_idx]);
+            dmx_data[devices[device_idx].green_channel]      = RGBGetGValue(colors[device_idx]);
         }
 
         if(devices[device_idx].blue_channel > 0)
         {
-            dmx_data[devices[device_idx].blue_channel - 1]       = RGBGetBValue(colors[device_idx]);
+            dmx_data[devices[device_idx].blue_channel]       = RGBGetBValue(colors[device_idx]);
         }
     }
 
-    ftdi_set_line_property2(ftdi, BITS_8, STOP_BIT_2, NONE, BREAK_ON);
-    ftdi_set_line_property2(ftdi, BITS_8, STOP_BIT_2, NONE, BREAK_OFF);
-    ftdi_write_data(ftdi, &startcode, 1);
-    ftdi_write_data(ftdi, (const unsigned char*)dmx_data, sizeof(dmx_data));
+    port->serial_break();
+    port->serial_write((char*)&dmx_data, sizeof(dmx_data));
+    //port->serial_flush_tx();
 }
 
 void RGBController_DMX::UpdateZoneLEDs(int /*zone*/)

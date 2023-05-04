@@ -62,6 +62,33 @@
 #endif /* __APPLE__ */
 
 /*-------------------------------------------------------------------------*\
+|  Serial Port Enums                                                        |
+\*-------------------------------------------------------------------------*/
+typedef unsigned int serial_port_parity;
+enum
+{
+    SERIAL_PORT_PARITY_NONE = 0,    /* No parity                           */
+    SERIAL_PORT_PARITY_ODD  = 1,    /* Odd parity                          */
+    SERIAL_PORT_PARITY_EVEN = 2,    /* Even parity                         */
+};
+
+typedef unsigned int serial_port_size;
+enum
+{
+    SERIAL_PORT_SIZE_8      = 0,    /* 8 bits per byte                     */
+    SERIAL_PORT_SIZE_7      = 1,    /* 7 bits per byte                     */
+    SERIAL_PORT_SIZE_6      = 2,    /* 6 bits per byte                     */
+    SERIAL_PORT_SIZE_5      = 3,    /* 5 bits per byte                     */
+};
+
+typedef unsigned int serial_port_stop_bits;
+enum
+{
+    SERIAL_PORT_STOP_BITS_1 = 0,    /* 1 stop bit                          */
+    SERIAL_PORT_STOP_BITS_2 = 1,    /* 2 stop bits                         */
+};
+
+/*-------------------------------------------------------------------------*\
 |  Serial Port Class                                                        |
 |    The reason for this class is that serial ports are treated differently |
 |    on Windows and Linux.  By creating a class, those differences can be   |
@@ -72,6 +99,12 @@ class serial_port
 public:
     serial_port();
     serial_port(const char * name, unsigned int baud);
+    serial_port(const char *            name,
+                unsigned int            baud,
+                serial_port_parity      parity,
+                serial_port_size        size,
+                serial_port_stop_bits   stop_bits,
+                bool                    flow_control);
 
     ~serial_port();
 
@@ -90,6 +123,7 @@ public:
 
     void serial_flush_rx();
     void serial_flush_tx();
+    void serial_break();
 
     int serial_available();
 
