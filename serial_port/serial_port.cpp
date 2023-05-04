@@ -17,9 +17,13 @@
 serial_port::serial_port()
 {
     /*-----------------------------------------------------*\
-    | Set a default baud rate                               |
+    | Set default port configuration but do not open        |
     \*-----------------------------------------------------*/
-    baud_rate = 9600;
+    baud_rate       = 9600;
+    parity          = SERIAL_PORT_PARITY_NONE;
+    size            = SERIAL_PORT_SIZE_8;
+    stop_bits       = SERIAL_PORT_STOP_BITS_1;
+    flow_control    = true;
 }
 
 /*---------------------------------------------------------*\
@@ -29,7 +33,44 @@ serial_port::serial_port()
 \*---------------------------------------------------------*/
 serial_port::serial_port(const char * name, unsigned int baud)
 {
-    serial_open(name, baud);
+    /*-----------------------------------------------------*\
+    | Set default port configuration and open               |
+    \*-----------------------------------------------------*/
+    baud_rate       = baud;
+    parity          = SERIAL_PORT_PARITY_NONE;
+    size            = SERIAL_PORT_SIZE_8;
+    stop_bits       = SERIAL_PORT_STOP_BITS_1;
+    flow_control    = true;
+
+    serial_open(name);
+}
+
+/*---------------------------------------------------------*\
+|  serial_port (constructor)                                |
+|    When created with port information, the constructor    |
+|    will automatically open port <name> at baud rate <baud>|
+|    with the given port configuration                      |
+\*---------------------------------------------------------*/
+serial_port::serial_port
+    (
+    const char *            name,
+    unsigned int            baud,
+    serial_port_parity      parity,
+    serial_port_size        size,
+    serial_port_stop_bits   stop_bits,
+    bool                    flow_control
+    )
+{
+    /*-----------------------------------------------------*\
+    | Set default port configuration and open               |
+    \*-----------------------------------------------------*/
+    this->baud_rate     = baud;
+    this->parity        = parity;
+    this->size          = size;
+    this->stop_bits     = stop_bits;
+    this->flow_control  = flow_control;
+
+    serial_open(name);
 }
 
 /*---------------------------------------------------------*\
@@ -95,6 +136,9 @@ bool serial_port::serial_open()
     | Linux-specific code path for serial port opening      |
     \*-----------------------------------------------------*/
 #ifdef __linux__
+    /*-----------------------------------------*\
+    | Open the port read/write with no delay    |
+    \*-----------------------------------------*/
     file_descriptor = open(port_name, O_RDWR | O_NOCTTY | O_NDELAY);
 
     if(file_descriptor < 0)
@@ -102,20 +146,81 @@ bool serial_port::serial_open()
         return false;
     }
 
+    /*-----------------------------------------*\
+    | Get the port configuration options        |
+    \*-----------------------------------------*/
     struct termios2 options;
     ioctl(file_descriptor, TCGETS2, &options);
-    options.c_cflag &= ~PARENB;
+
+    /*-----------------------------------------*\
+    | Configure baud rate                       |
+    \*-----------------------------------------*/
     options.c_cflag &= ~CBAUD;
-    options.c_cflag |= CBAUDEX | CSTOPB | CLOCAL;
+    options.c_cflag |= CBAUDEX;
+
+    options.c_ispeed = baud_rate;
+    options.c_ospeed = baud_rate;
+
+    /*-----------------------------------------*\
+    | Configure parity                          |
+    \*-----------------------------------------*/
+    switch(parity)
+    {
+        case SERIAL_PORT_PARITY_NONE:
+            options.c_cflag &= ~PARENB;
+            options.c_cflag &= ~PARODD;
+            break;
+
+        case SERIAL_PORT_PARITY_ODD:
+            options.c_cflag |= PARENB;
+            options.c_cflag |= PARODD;
+            break;
+
+        case SERIAL_PORT_PARITY_EVEN:
+            options.c_cflag |= PARENB;
+            options.c_cflag &= ~PARODD;
+            break;
+    }
+
+    /*-----------------------------------------*\
+    | Configure stop bits                       |
+    \*-----------------------------------------*/
+    if(stop_bits == SERIAL_PORT_STOP_BITS_2)
+    {
+        options.c_cflag |= CSTOPB;
+    }
+    else
+    {
+        options.c_cflag &= ~CSTOPB;
+    }
+
+    /*-----------------------------------------*\
+    | Configure flow control                    |
+    \*-----------------------------------------*/
+    if(flow_control)
+    {
+        options.c_cflag |= CRTSCTS;
+    }
+    else
+    {
+        options.c_cflag &= ~CRTSCTS;
+    }
+
+    /*-----------------------------------------*\
+    | Configure additional parameters           |
+    \*-----------------------------------------*/
     options.c_lflag &= ~ICANON;
     options.c_lflag &= ~ECHO;                                               // Disable echo
     options.c_lflag &= ~ECHOE;                                              // Disable erasure
     options.c_lflag &= ~ECHONL;                                             // Disable new-line echo
     options.c_lflag &= ~ISIG;                                               // Disable interpretation of INTR, QUIT and SUSP
+
     options.c_iflag &= ~(IXON | IXOFF | IXANY);                             // Turn off s/w flow ctrl
-    options.c_ispeed = baud_rate;
-    options.c_ospeed = baud_rate;
     options.c_iflag &= ~(IGNBRK|BRKINT|PARMRK|ISTRIP|INLCR|IGNCR|ICRNL);    // Disable any special handling of received bytes
+
+    /*-----------------------------------------*\
+    | Set the port configuration options        |
+    \*-----------------------------------------*/
     ioctl(file_descriptor, TCSETS2, &options);
 
    int RTS_flag;
@@ -127,6 +232,9 @@ bool serial_port::serial_open()
     | MacOS-specific code path for serial port opening      |
     \*-----------------------------------------------------*/
 #ifdef __APPLE__
+    /*-----------------------------------------*\
+    | Open the port read/write with no delay    |
+    \*-----------------------------------------*/
     file_descriptor = open(port_name, O_RDWR | O_NOCTTY | O_NDELAY);
 
     if(file_descriptor < 0)
@@ -134,48 +242,78 @@ bool serial_port::serial_open()
         return false;
     }
 
+    /*-----------------------------------------*\
+    | Get the port configuration options        |
+    \*-----------------------------------------*/
     struct termios options;
     tcgetattr(file_descriptor, &options);
-    switch(baud_rate)
+
+    /*-----------------------------------------*\
+    | Configure baud rate                       |
+    \*-----------------------------------------*/
+    ioctl(file_descriptor, IOSSIOSPEED, &baud_rate);
+
+    /*-----------------------------------------*\
+    | Configure parity                          |
+    \*-----------------------------------------*/
+    switch(parity)
     {
-        case 9600:
-            cfsetispeed(&options, B9600);
-            cfsetospeed(&options, B9600);
+        case SERIAL_PORT_PARITY_NONE:
+            options.c_cflag &= ~PARENB;
+            options.c_cflag &= ~PARODD;
             break;
-        case 19200:
-            cfsetispeed(&options, B19200);
-            cfsetospeed(&options, B19200);
+
+        case SERIAL_PORT_PARITY_ODD:
+            options.c_cflag |= PARENB;
+            options.c_cflag |= PARODD;
             break;
-        case 115200:
-            cfsetispeed(&options, B115200);
-            cfsetospeed(&options, B115200);
-            break;
-        case 38400:
-            cfsetispeed(&options, B38400);
-            cfsetospeed(&options, B38400);
-            break;
-        case 57600:
-            cfsetispeed(&options, B57600);
-            cfsetospeed(&options, B57600);
-            break;
-        default:
-            cfsetispeed(&options, B9600);
-            cfsetospeed(&options, B9600);
+
+        case SERIAL_PORT_PARITY_EVEN:
+            options.c_cflag |= PARENB;
+            options.c_cflag &= ~PARODD;
             break;
     }
 
-    /*-----------------------------------------------------*\
-    | Configure other settings                              |
-    \*-----------------------------------------------------*/
+    /*-----------------------------------------*\
+    | Configure stop bits                       |
+    \*-----------------------------------------*/
+    if(stop_bits == SERIAL_PORT_STOP_BITS_2)
+    {
+        options.c_cflag |= CSTOPB;
+    }
+    else
+    {
+        options.c_cflag &= ~CSTOPB;
+    }
+
+    /*-----------------------------------------*\
+    | Configure flow control                    |
+    \*-----------------------------------------*/
+    if(flow_control)
+    {
+        options.c_cflag |= CRTSCTS;
+    }
+    else
+    {
+        options.c_cflag &= ~CRTSCTS;
+    }
+
+    /*-----------------------------------------*\
+    | Configure additional parameters           |
+    \*-----------------------------------------*/
+    options.c_lflag &= ~(ICANON | ISIG | ECHO);
+
     options.c_iflag &= ~(INLCR | ICRNL);
     options.c_iflag |= IGNPAR | IGNBRK;
+
     options.c_oflag &= ~(OPOST | ONLCR | OCRNL);
-    options.c_cflag &= ~(PARENB | PARODD | CSTOPB | CSIZE | CRTSCTS);
-    options.c_cflag |= CLOCAL | CREAD | CS8;
-    options.c_lflag &= ~(ICANON | ISIG | ECHO);
+
     options.c_cc[VTIME] = 1;
     options.c_cc[VMIN]  = 0;
 
+    /*-----------------------------------------*\
+    | Set the port configuration options        |
+    \*-----------------------------------------*/
     if(tcsetattr(file_descriptor, TCSANOW, &options) < 0)
     {
         close(file_descriptor);

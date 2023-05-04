@@ -58,6 +58,7 @@
 #include <unistd.h>
 #include <termios.h>
 #include <sys/ioctl.h>
+#include <IOKit/serial/ioss.h>
 
 #endif /* __APPLE__ */
 
@@ -128,8 +129,12 @@ public:
     int serial_available();
 
 private:
-    char port_name[1024];
-    unsigned int baud_rate;
+    char                    port_name[1024];
+    unsigned int            baud_rate;
+    serial_port_parity      parity;
+    serial_port_size        size;
+    serial_port_stop_bits   stop_bits;
+    bool                    flow_control;
 
 #ifdef _WIN32
     HANDLE file_descriptor;
