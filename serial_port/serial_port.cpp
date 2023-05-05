@@ -249,11 +249,6 @@ bool serial_port::serial_open()
     tcgetattr(file_descriptor, &options);
 
     /*-----------------------------------------*\
-    | Configure baud rate                       |
-    \*-----------------------------------------*/
-    ioctl(file_descriptor, IOSSIOSPEED, &baud_rate);
-
-    /*-----------------------------------------*\
     | Configure parity                          |
     \*-----------------------------------------*/
     switch(parity)
@@ -319,6 +314,15 @@ bool serial_port::serial_open()
         close(file_descriptor);
         return false;
     }
+
+    /*-----------------------------------------*\
+    | Configure baud rate                       |
+    \*-----------------------------------------*/
+    ioctl(file_descriptor, IOSSIOSPEED, &baud_rate);
+
+   int RTS_flag;
+   RTS_flag = TIOCM_RTS;
+   ioctl(file_descriptor,TIOCMBIC,&RTS_flag);//Set RTS pin
 #endif
 
     /*-----------------------------------------------------*\
@@ -507,6 +511,13 @@ void serial_port::serial_flush_tx()
 void serial_port::serial_break()
 {
 #ifdef __linux__
+    //Send break for at least 1 ms
+    ioctl(file_descriptor, TIOCSBRK);
+    usleep(1000);
+    ioctl(file_descriptor, TIOCCBRK);
+#endif
+
+#ifdef __APPLE__
     //Send break for at least 1 ms
     ioctl(file_descriptor, TIOCSBRK);
     usleep(1000);
