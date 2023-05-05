@@ -48,6 +48,7 @@ RGBController_DMX::RGBController_DMX(std::vector<DMXDevice> device_list)
     | Open OpenDMX port                         |
     \*-----------------------------------------*/
     port = new serial_port(devices[0].port.c_str(), 250000, SERIAL_PORT_PARITY_NONE, SERIAL_PORT_SIZE_8, SERIAL_PORT_STOP_BITS_2, false);
+    port->serial_set_rts(true);
 
     /*-----------------------------------------*\
     | Set up modes                              |

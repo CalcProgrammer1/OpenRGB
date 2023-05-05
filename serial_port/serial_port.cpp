@@ -222,10 +222,6 @@ bool serial_port::serial_open()
     | Set the port configuration options        |
     \*-----------------------------------------*/
     ioctl(file_descriptor, TCSETS2, &options);
-
-   int RTS_flag;
-   RTS_flag = TIOCM_RTS;
-   ioctl(file_descriptor,TIOCMBIC,&RTS_flag);//Set RTS pin
 #endif
 
     /*-----------------------------------------------------*\
@@ -319,10 +315,6 @@ bool serial_port::serial_open()
     | Configure baud rate                       |
     \*-----------------------------------------*/
     ioctl(file_descriptor, IOSSIOSPEED, &baud_rate);
-
-   int RTS_flag;
-   RTS_flag = TIOCM_RTS;
-   ioctl(file_descriptor,TIOCMBIC,&RTS_flag);//Set RTS pin
 #endif
 
     /*-----------------------------------------------------*\
@@ -510,6 +502,9 @@ void serial_port::serial_flush_tx()
 \*---------------------------------------------------------*/
 void serial_port::serial_break()
 {
+    /*-----------------------------------------------------*\
+    | Linux-specific code path for serial break             |
+    \*-----------------------------------------------------*/
 #ifdef __linux__
     //Send break for at least 1 ms
     ioctl(file_descriptor, TIOCSBRK);
@@ -517,10 +512,34 @@ void serial_port::serial_break()
     ioctl(file_descriptor, TIOCCBRK);
 #endif
 
+    /*-----------------------------------------------------*\
+    | MacOS-specific code path for serial break             |
+    \*-----------------------------------------------------*/
 #ifdef __APPLE__
     //Send break for at least 1 ms
     ioctl(file_descriptor, TIOCSBRK);
     usleep(1000);
     ioctl(file_descriptor, TIOCCBRK);
+#endif
+}
+
+void serial_port::serial_set_rts(bool rts)
+{
+    /*-----------------------------------------------------*\
+    | Linux-specific code path for serial break             |
+    \*-----------------------------------------------------*/
+#ifdef __linux__
+   int RTS_flag;
+   RTS_flag = TIOCM_RTS;
+   ioctl(file_descriptor,TIOCMBIC,&RTS_flag);//Set RTS pin
+#endif
+
+    /*-----------------------------------------------------*\
+    | MacOS-specific code path for serial break             |
+    \*-----------------------------------------------------*/
+#ifdef __APPLE__
+   int RTS_flag;
+   RTS_flag = TIOCM_RTS;
+   ioctl(file_descriptor,TIOCMBIC,&RTS_flag);//Set RTS pin
 #endif
 }
