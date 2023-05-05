@@ -31,6 +31,11 @@ OpenRGBDMXSettingsPage::OpenRGBDMXSettingsPage(QWidget *parent) :
                 entry->ui->NameEdit->setText(QString::fromStdString(dmx_settings["devices"][device_idx]["name"]));
             }
 
+            if(dmx_settings["devices"][device_idx].contains("port"))
+            {
+                entry->ui->PortEdit->setText(QString::fromStdString(dmx_settings["devices"][device_idx]["port"]));
+            }
+
             if(dmx_settings["devices"][device_idx].contains("red_channel"))
             {
                 entry->ui->RedEdit->setText(QString::number((int)dmx_settings["devices"][device_idx]["red_channel"]));
@@ -131,6 +136,7 @@ void Ui::OpenRGBDMXSettingsPage::on_SaveDMXConfigurationButton_clicked()
         | Required parameters                               |
         \*-------------------------------------------------*/
         dmx_settings["devices"][device_idx]["name"]                     = entries[device_idx]->ui->NameEdit->text().toStdString();
+        dmx_settings["devices"][device_idx]["port"]                     = entries[device_idx]->ui->PortEdit->text().toStdString();
         dmx_settings["devices"][device_idx]["red_channel"]              = entries[device_idx]->ui->RedEdit->text().toUInt();
         dmx_settings["devices"][device_idx]["green_channel"]            = entries[device_idx]->ui->GreenEdit->text().toUInt();
         dmx_settings["devices"][device_idx]["blue_channel"]             = entries[device_idx]->ui->BlueEdit->text().toUInt();

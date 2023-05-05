@@ -16,6 +16,7 @@
 struct DMXDevice
 {
     std::string name;
+    std::string port;
     unsigned int keepalive_time;
     unsigned int red_channel;
     unsigned int green_channel;

@@ -50,6 +50,11 @@ void DetectDMXControllers()
                 dev.name = dmx_settings["devices"][device_idx]["name"];
             }
 
+            if(dmx_settings["devices"][device_idx].contains("port"))
+            {
+                dev.port = dmx_settings["devices"][device_idx]["port"];
+            }
+
             if(dmx_settings["devices"][device_idx].contains("keepalive_time"))
             {
                 dev.keepalive_time = dmx_settings["devices"][device_idx]["keepalive_time"];
@@ -122,6 +127,7 @@ void DetectDMXControllers()
                 device_lists.push_back(new_list);
             }
         }
+
 
         for(unsigned int list_idx = 0; list_idx < device_lists.size(); list_idx++)
         {

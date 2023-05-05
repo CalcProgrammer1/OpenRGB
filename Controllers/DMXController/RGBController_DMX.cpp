@@ -32,7 +32,7 @@ RGBController_DMX::RGBController_DMX(std::vector<DMXDevice> device_list)
     name        = "DMX Device Group";
     type        = DEVICE_TYPE_LEDSTRIP;
     description = "DMX Device";
-    location    = "DMX";
+    location    = "DMX: " + devices[0].port;
 
     /*-----------------------------------------*\
     | If this controller only represents a      |
@@ -47,7 +47,7 @@ RGBController_DMX::RGBController_DMX(std::vector<DMXDevice> device_list)
     /*-----------------------------------------*\
     | Open OpenDMX port                         |
     \*-----------------------------------------*/
-    port = new serial_port("/dev/ttyUSB0", 250000, SERIAL_PORT_PARITY_NONE, SERIAL_PORT_SIZE_8, SERIAL_PORT_STOP_BITS_2, false);
+    port = new serial_port(devices[0].port.c_str(), 250000, SERIAL_PORT_PARITY_NONE, SERIAL_PORT_SIZE_8, SERIAL_PORT_STOP_BITS_2, false);
 
     /*-----------------------------------------*\
     | Set up modes                              |
