@@ -99,6 +99,9 @@ bool serial_port::serial_open()
     char full_path[100];
     snprintf(full_path, sizeof(full_path), "\\\\.\\%s", port_name);
 
+    /*-----------------------------------------*\
+    | Open the port read/write                  |
+    \*-----------------------------------------*/
     file_descriptor = CreateFile(full_path, GENERIC_READ | GENERIC_WRITE, 0, NULL, OPEN_EXISTING, 0, NULL);
 
     if((int)file_descriptor < 0)
@@ -106,29 +109,85 @@ bool serial_port::serial_open()
         return false;
     }
 
+    /*-----------------------------------------*\
+    | Get the port configuration options        |
+    \*-----------------------------------------*/
     SetupComm(file_descriptor, 1, 128);
     GetCommState(file_descriptor, &dcb);
 
-    dcb.BaudRate = baud_rate;                   //Set baud rate
+    /*-----------------------------------------*\
+    | Configure baud rate                       |
+    \*-----------------------------------------*/
+    dcb.BaudRate = baud_rate;
+
+    /*-----------------------------------------*\
+    | Configure parity                          |
+    \*-----------------------------------------*/
+    switch(parity)
+    {
+        case SERIAL_PORT_PARITY_NONE:
+            dcb.Parity = NOPARITY;
+            break;
+
+        case SERIAL_PORT_PARITY_ODD:
+            dcb.Parity = ODDPARITY;
+            break;
+
+        case SERIAL_PORT_PARITY_EVEN:
+            dcb.Parity = EVENPARITY;
+            break;
+    }
+
+    /*-----------------------------------------*\
+    | Configure stop bits                       |
+    \*-----------------------------------------*/
+    if(stop_bits == SERIAL_PORT_STOP_BITS_2)
+    {
+        dcb.StopBits = ONESTOPBIT;
+    }
+    else
+    {
+        dcb.StopBits = TWOSTOPBITS;
+    }
+
+    /*-----------------------------------------*\
+    | Configure flow control                    |
+    \*-----------------------------------------*/
+    if(flow_control)
+    {
+        dcb.fRtsControl = RTS_CONTROL_ENABLE;
+    }
+    else
+    {
+        dcb.fRtsControl = RTS_CONTROL_DISABLE;
+    }
+
+    /*-----------------------------------------*\
+    | Configure additional parameters           |
+    \*-----------------------------------------*/
     dcb.ByteSize = 8;                           //8 data bits
-    dcb.Parity = NOPARITY;                      //Parity = none
-    dcb.StopBits = ONESTOPBIT;                  //One stop bit
     dcb.fAbortOnError = TRUE;                   //Abort on error
     dcb.fOutX = FALSE;                          //XON/XOFF off for transmit
     dcb.fInX = FALSE;                           //XON/XOFF off for receive
     dcb.fOutxCtsFlow = FALSE;                   //Turn off CTS flow control
-    dcb.fRtsControl = RTS_CONTROL_DISABLE;      //Options DISABLE, ENABLE, HANDSHAKE
     dcb.fOutxDsrFlow = FALSE;                   //Turn off DSR flow control
     dcb.fDtrControl = DTR_CONTROL_DISABLE;      //Disable DTR control
 
+    /*-----------------------------------------*\
+    | Set the port configuration options        |
+    \*-----------------------------------------*/
     SetCommState(file_descriptor, &dcb);
 
-    COMMTIMEOUTS timeouts = {0};
-    timeouts.ReadIntervalTimeout = 50;
-    timeouts.ReadTotalTimeoutConstant=50;
-    timeouts.ReadTotalTimeoutMultiplier=10;
-    timeouts.WriteTotalTimeoutConstant=50;
-    timeouts.WriteTotalTimeoutMultiplier=10;
+    /*-----------------------------------------*\
+    | Set the port timeouts                     |
+    \*-----------------------------------------*/
+    COMMTIMEOUTS timeouts                   = {0};
+    timeouts.ReadIntervalTimeout            = 50;
+    timeouts.ReadTotalTimeoutConstant       =50;
+    timeouts.ReadTotalTimeoutMultiplier     =10;
+    timeouts.WriteTotalTimeoutConstant      =50;
+    timeouts.WriteTotalTimeoutMultiplier    =10;
+
     SetCommTimeouts(file_descriptor, &timeouts);
 #endif
 
@@ -503,6 +562,15 @@ void serial_port::serial_flush_tx()
 void serial_port::serial_break()
 {
     /*-----------------------------------------------------*\
+    | Windows-specific code path for serial break           |
+    \*-----------------------------------------------------*/
+#ifdef _WIN32
+    SetCommBreak(file_descriptor);
+    Sleep(1);
+    ClearCommBreak(file_descriptor);
+#endif
+
+    /*-----------------------------------------------------*\
     | Linux-specific code path for serial break             |
     \*-----------------------------------------------------*/
 #ifdef __linux__
@@ -526,7 +594,14 @@ void serial_port::serial_break()
 void serial_port::serial_set_rts(bool rts)
 {
     /*-----------------------------------------------------*\
-    | Linux-specific code path for serial break             |
+    | Windows-specific code path for serial set RTS         |
+    \*-----------------------------------------------------*/
+#ifdef _WIN32
+    EscapeCommFunction(file_descriptor, SETRTS); //or CLRRTS
+#endif
+
+    /*-----------------------------------------------------*\
+    | Linux-specific code path for serial set RTS           |
     \*-----------------------------------------------------*/
 #ifdef __linux__
    int RTS_flag;
@@ -535,7 +610,7 @@ void serial_port::serial_set_rts(bool rts)
 #endif
 
     /*-----------------------------------------------------*\
-    | MacOS-specific code path for serial break             |
+    | MacOS-specific code path for serial set RTS           |
     \*-----------------------------------------------------*/
 #ifdef __APPLE__
    int RTS_flag;
