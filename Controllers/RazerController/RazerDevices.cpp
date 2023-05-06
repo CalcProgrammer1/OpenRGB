@@ -483,21 +483,24 @@ keyboard_keymap_overlay_values razer_blade_stealth_2016_layout
         |   Zone,   Row,    Column,     Value,      Key,                        OpCode,                             |
         \*---------------------------------------------------------------------------------------------------------*/
         {   0,      0,      0,          0,          KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT  },  /* Shift rows right by one              */
+        {   0,      0,      2,          0,          KEY_EN_UNUSED,              KEYBOARD_OPCODE_REMOVE_SHIFT_LEFT   },  /* Remove empty between Esc and F1      */
+        {   0,      0,      14,         0,          KEY_EN_INSERT,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT  },  /* Add Insert at end of row             */
+        {   0,      0,      15,         0,          KEY_EN_DELETE,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT  },  /* Add Delete at end of row             */
         {   0,      1,      0,          0,          KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT  },  /* Shift rows right by one              */
-        {   0,      2,      1,          0,          KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT  },  /* Insert and shift right @ 2,1         */
-        {   0,      3,      1,          0,          KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT  },  /* Insert and shift right @ 3,1         */
-        {   0,      1,      14,         0,          KEY_EN_BACKSPACE,           KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT  },  /* Insert 2nd Backspace @ 1,14          */
-        {   0,      2,      14,         0,          KEY_EN_ANSI_BACK_SLASH,     KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT  },  /* Insert 2nd Backslash @ 2,14          */
-        {   0,      3,      14,         0,          KEY_EN_ANSI_ENTER,          KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT  },  /* Insert 2nd Enter @ 3,14              */
-        {   0,      0,      2,          0,          KEY_EN_UNUSED,              KEYBOARD_OPCODE_REMOVE_SHIFT_LEFT   },  /* Remove empty spot between Esc and F1 */
-        {   0,      0,      14,         0,          KEY_EN_INSERT,              KEYBOARD_OPCODE_SWAP_ONLY           },  /* Swap in Delete after F12             */
-        {   0,      0,      15,         0,          KEY_EN_DELETE,              KEYBOARD_OPCODE_SWAP_ONLY           },  /* Swap in Power after Delete           */
-        {   0,      4,      12,         0,          KEY_EN_RIGHT_SHIFT,         KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT  },  /* Insert 2nd Right Shift               */
+        {   0,      1,      15,         0,          KEY_EN_BACKSPACE,           KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT  },  /* Add second Backspace at end of row   */
+        {   0,      2,      1,          0,          KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT  },  /* Add empty between tab and Q          */
+        {   0,      2,      15,         0,          KEY_EN_ANSI_BACK_SLASH,     KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT  },  /* Add second Backslash at end of row   */
+        {   0,      3,      1,          0,          KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT  },  /* Add empty between caps and A         */
+        {   0,      3,      15,         0,          KEY_EN_ANSI_ENTER,          KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT  },  /* Add second Enter at end of row       */
+        {   0,      4,      12,         0,          KEY_EN_RIGHT_SHIFT,         KEYBOARD_OPCODE_SWAP_ONLY           },  /* Insert 1st Right Shift               */
+        {   0,      4,      13,         0,          KEY_EN_RIGHT_SHIFT,         KEYBOARD_OPCODE_SWAP_ONLY           },  /* Insert 2nd Right Shift               */
+        {   0,      4,      14,         0,          KEY_EN_RIGHT_SHIFT,         KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT  },  /* Insert 3rd Right Shift               */
         {   0,      5,      1,          0,          KEY_EN_LEFT_FUNCTION,       KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT  },  /* Insert left Fn between Ctrl and Win  */
-        {   0,      5,      5,          0,          KEY_EN_SPACE,               KEYBOARD_OPCODE_SWAP_ONLY           },  /* Insert 2nd Spacebar                  */
-        {   0,      5,      6,          0,          KEY_EN_SPACE,               KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT  },  /* Insert 3rd Spacebar                  */
-        {   0,      5,      8,          0,          KEY_EN_UNUSED,              KEYBOARD_OPCODE_REMOVE_SHIFT_LEFT   },  /* Shift Keys Left                      */
-        {   0,      5,      11,         0,          KEY_EN_UNUSED,              KEYBOARD_OPCODE_REMOVE_SHIFT_LEFT   },  /* Shift Keys Left                      */
+        {   0,      5,      5,          0,          KEY_EN_SPACE,               KEYBOARD_OPCODE_SWAP_ONLY           },  /* Insert 1st Space                     */
+        {   0,      5,      6,          0,          KEY_EN_UNUSED,              KEYBOARD_OPCODE_REMOVE_SHIFT_LEFT   },  /* Remove empty between Space 1 and 2   */
+        {   0,      5,      8,          0,          KEY_EN_UNUSED,              KEYBOARD_OPCODE_REMOVE_SHIFT_LEFT   },  /* Remove empty between Space 2 and 3   */
+        {   0,      5,      8,          0,          KEY_EN_SPACE,               KEYBOARD_OPCODE_SWAP_ONLY           },  /* Insert 3rd Space                     */
+        {   0,      5,      11,         0,          KEY_EN_UNUSED,              KEYBOARD_OPCODE_REMOVE_SHIFT_LEFT   },  /* Remove Menu                          */
         {   0,      5,      12,         0,          KEY_EN_LEFT_ARROW,          KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT  },  /* Add Left Arrow at the end of row 5   */
         {   0,      5,      13,         0,          KEY_EN_UP_ARROW,            KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT  },  /* Add Up Arrow at the end of row 5     */
         {   0,      5,      14,         0,          KEY_EN_RIGHT_ARROW,         KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT  },  /* Add Right Arrow at the end of row 5  */
