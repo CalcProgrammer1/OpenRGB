@@ -108,6 +108,7 @@ INCLUDEPATH +=                                                                  
     Controllers/CryorigH7QuadLumiController/                                                    \
     Controllers/DasKeyboardController/                                                          \
     Controllers/DebugController/                                                                \
+    Controllers/DMXController/                                                                  \
     Controllers/DuckyKeyboardController/                                                        \
     Controllers/DygmaRaiseController/                                                           \
     Controllers/E131Controller/                                                                 \
@@ -240,6 +241,8 @@ HEADERS +=                                                                      
     qt/OpenRGBSystemInfoPage.h                                                                  \
     qt/OpenRGBThemeManager.h                                                                    \
     qt/OpenRGBZoneResizeDialog.h                                                                \
+    qt/OpenRGBDMXSettingsPage/OpenRGBDMXSettingsEntry.h                                         \
+    qt/OpenRGBDMXSettingsPage/OpenRGBDMXSettingsPage.h                                          \
     qt/OpenRGBE131SettingsPage/OpenRGBE131SettingsEntry.h                                       \
     qt/OpenRGBE131SettingsPage/OpenRGBE131SettingsPage.h                                        \
     qt/OpenRGBLIFXSettingsPage/OpenRGBLIFXSettingsEntry.h                                       \
@@ -393,6 +396,7 @@ HEADERS +=                                                                      
     Controllers/DarkProject/RGBController_DarkProjectKeyboard.h                                 \
     Controllers/DasKeyboardController/DasKeyboardController.h                                   \
     Controllers/DasKeyboardController/RGBController_DasKeyboard.h                               \
+    Controllers/DMXController/RGBController_DMX.h                                               \
     Controllers/DuckyKeyboardController/DuckyKeyboardController.h                               \
     Controllers/DuckyKeyboardController/RGBController_DuckyKeyboard.h                           \
     Controllers/DygmaRaiseController/DygmaRaiseController.h                                     \
@@ -799,6 +803,8 @@ SOURCES +=                                                                      
     qt/QTooltipedSlider.cpp                                                                     \
     qt/TabLabel.cpp                                                                             \
     qt/hsv.cpp                                                                                  \
+    qt/OpenRGBDMXSettingsPage/OpenRGBDMXSettingsEntry.cpp                                       \
+    qt/OpenRGBDMXSettingsPage/OpenRGBDMXSettingsPage.cpp                                        \
     qt/OpenRGBE131SettingsPage/OpenRGBE131SettingsEntry.cpp                                     \
     qt/OpenRGBE131SettingsPage/OpenRGBE131SettingsPage.cpp                                      \
     qt/OpenRGBLIFXSettingsPage/OpenRGBLIFXSettingsEntry.cpp                                     \
@@ -981,6 +987,8 @@ SOURCES +=                                                                      
     Controllers/DasKeyboardController/DasKeyboardController.cpp                                 \
     Controllers/DasKeyboardController/DasKeyboardControllerDetect.cpp                           \
     Controllers/DasKeyboardController/RGBController_DasKeyboard.cpp                             \
+    Controllers/DMXController/DMXControllerDetect.cpp                                           \
+    Controllers/DMXController/RGBController_DMX.cpp                                             \
     Controllers/DuckyKeyboardController/DuckyKeyboardController.cpp                             \
     Controllers/DuckyKeyboardController/DuckyKeyboardControllerDetect.cpp                       \
     Controllers/DuckyKeyboardController/RGBController_DuckyKeyboard.cpp                         \
@@ -1426,6 +1434,8 @@ FORMS +=                                                                        
     qt/OpenRGBSupportedDevicesPage.ui                                                           \
     qt/OpenRGBSystemInfoPage.ui                                                                 \
     qt/OpenRGBZoneResizeDialog.ui                                                               \
+    qt/OpenRGBDMXSettingsPage/OpenRGBDMXSettingsEntry.ui                                        \
+    qt/OpenRGBDMXSettingsPage/OpenRGBDMXSettingsPage.ui                                         \
     qt/OpenRGBE131SettingsPage/OpenRGBE131SettingsEntry.ui                                      \
     qt/OpenRGBE131SettingsPage/OpenRGBE131SettingsPage.ui                                       \
     qt/OpenRGBElgatoKeyLightSettingsPage/OpenRGBElgatoKeyLightSettingsEntry.ui                  \
