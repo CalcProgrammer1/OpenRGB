@@ -143,11 +143,11 @@ bool serial_port::serial_open()
     \*-----------------------------------------*/
     if(stop_bits == SERIAL_PORT_STOP_BITS_2)
     {
-        dcb.StopBits = ONESTOPBIT;
+        dcb.StopBits = TWOSTOPBITS;
     }
     else
     {
-        dcb.StopBits = TWOSTOPBITS;
+        dcb.StopBits = ONESTOPBIT;
     }
 
     /*-----------------------------------------*\
@@ -166,7 +166,7 @@ bool serial_port::serial_open()
     | Configure additional parameters           |
     \*-----------------------------------------*/
     dcb.ByteSize = 8;                           //8 data bits
-    dcb.fAbortOnError = TRUE;                   //Abort on error
+    dcb.fAbortOnError = FALSE;                  //Abort on error
     dcb.fOutX = FALSE;                          //XON/XOFF off for transmit
     dcb.fInX = FALSE;                           //XON/XOFF off for receive
     dcb.fOutxCtsFlow = FALSE;                   //Turn off CTS flow control
@@ -183,10 +183,10 @@ bool serial_port::serial_open()
     \*-----------------------------------------*/
     COMMTIMEOUTS timeouts                   = {0};
     timeouts.ReadIntervalTimeout            = 50;
-    timeouts.ReadTotalTimeoutConstant       =50;
-    timeouts.ReadTotalTimeoutMultiplier     =10;
-    timeouts.WriteTotalTimeoutConstant      =50;
-    timeouts.WriteTotalTimeoutMultiplier    =10;
+    timeouts.ReadTotalTimeoutConstant       = 50;
+    timeouts.ReadTotalTimeoutMultiplier     = 10;
+    timeouts.WriteTotalTimeoutConstant      = 50;
+    timeouts.WriteTotalTimeoutMultiplier    = 10;
 
     SetCommTimeouts(file_descriptor, &timeouts);
 #endif
@@ -597,24 +597,43 @@ void serial_port::serial_set_rts(bool rts)
     | Windows-specific code path for serial set RTS         |
     \*-----------------------------------------------------*/
 #ifdef _WIN32
-    EscapeCommFunction(file_descriptor, SETRTS); //or CLRRTS
+    if(rts)
+    {
+        EscapeCommFunction(file_descriptor, SETRTS);
+    }
+    else
+    {
+        EscapeCommFunction(file_descriptor, CLRRTS);
+    }
 #endif
 
     /*-----------------------------------------------------*\
     | Linux-specific code path for serial set RTS           |
     \*-----------------------------------------------------*/
 #ifdef __linux__
-   int RTS_flag;
-   RTS_flag = TIOCM_RTS;
-   ioctl(file_descriptor,TIOCMBIC,&RTS_flag);//Set RTS pin
+    const int RTSFLAG = TIOCM_RTS;
+    if(rts)
+    {
+        ioctl(file_descriptor, TIOCMBIS, &RTSFLAG);
+    }
+    else
+    {
+        ioctl(file_descriptor, TIOCMBIC, &RTSFLAG);
+    }
 #endif
 
     /*-----------------------------------------------------*\
     | MacOS-specific code path for serial set RTS           |
     \*-----------------------------------------------------*/
 #ifdef __APPLE__
-   int RTS_flag;
-   RTS_flag = TIOCM_RTS;
-   ioctl(file_descriptor,TIOCMBIC,&RTS_flag);//Set RTS pin
+    const int RTSFLAG = TIOCM_RTS;
+    if(rts)
+    {
+        ioctl(file_descriptor, TIOCMBIS, &RTSFLAG);
+    }
+    else
+    {
+        ioctl(file_descriptor, TIOCMBIC, &RTSFLAG);
+    }
 #endif
 }
