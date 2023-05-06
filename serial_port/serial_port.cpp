@@ -139,6 +139,28 @@ bool serial_port::serial_open()
     }
 
     /*-----------------------------------------*\
+    | Configure size                            |
+    \*-----------------------------------------*/
+    switch(size)
+    {
+        case SERIAL_PORT_SIZE_8:
+            dcb.ByteSize = 8;
+            break;
+
+        case SERIAL_PORT_SIZE_7:
+            dcb.ByteSize = 7;
+            break;
+
+        case SERIAL_PORT_SIZE_6:
+            dcb.ByteSize = 6;
+            break;
+
+        case SERIAL_PORT_SIZE_5:
+            dcb.ByteSize = 5;
+            break;
+    }
+
+    /*-----------------------------------------*\
     | Configure stop bits                       |
     \*-----------------------------------------*/
     if(stop_bits == SERIAL_PORT_STOP_BITS_2)
@@ -165,7 +187,6 @@ bool serial_port::serial_open()
     /*-----------------------------------------*\
     | Configure additional parameters           |
     \*-----------------------------------------*/
-    dcb.ByteSize = 8;                           //8 data bits
     dcb.fAbortOnError = FALSE;                  //Abort on error
     dcb.fOutX = FALSE;                          //XON/XOFF off for transmit
     dcb.fInX = FALSE;                           //XON/XOFF off for receive
@@ -238,6 +259,30 @@ bool serial_port::serial_open()
         case SERIAL_PORT_PARITY_EVEN:
             options.c_cflag |= PARENB;
             options.c_cflag &= ~PARODD;
+            break;
+    }
+
+    /*-----------------------------------------*\
+    | Configure size                            |
+    \*-----------------------------------------*/
+    options.c_cflag &= ~CSIZE;
+
+    switch(size)
+    {
+        case SERIAL_PORT_SIZE_8:
+            options.c_cflag |= CS8;
+            break;
+
+        case SERIAL_PORT_SIZE_7:
+            options.c_cflag |= CS7;
+            break;
+
+        case SERIAL_PORT_SIZE_6:
+            options.c_cflag |= CS6;
+            break;
+
+        case SERIAL_PORT_SIZE_5:
+            options.c_cflag |= CS5;
             break;
     }
 
@@ -321,6 +366,30 @@ bool serial_port::serial_open()
         case SERIAL_PORT_PARITY_EVEN:
             options.c_cflag |= PARENB;
             options.c_cflag &= ~PARODD;
+            break;
+    }
+
+    /*-----------------------------------------*\
+    | Configure size                            |
+    \*-----------------------------------------*/
+    options.c_cflag &= ~CSIZE;
+
+    switch(size)
+    {
+        case SERIAL_PORT_SIZE_8:
+            options.c_cflag |= CS8;
+            break;
+
+        case SERIAL_PORT_SIZE_7:
+            options.c_cflag |= CS7;
+            break;
+
+        case SERIAL_PORT_SIZE_6:
+            options.c_cflag |= CS6;
+            break;
+
+        case SERIAL_PORT_SIZE_5:
+            options.c_cflag |= CS5;
             break;
     }
 
