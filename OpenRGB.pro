@@ -611,7 +611,9 @@ HEADERS +=                                                                      
     Controllers/RedragonController/RGBController_RedragonMouse.h                                \
     Controllers/RedragonController/RedragonMouseController.h                                    \
     Controllers/RedSquareKeyroxController/RedSquareKeyroxController.h                           \
+    Controllers/RedSquareKeyroxController/RedSquareKeyroxTKLClassicController.h                 \
     Controllers/RedSquareKeyroxController/RGBController_RedSquareKeyrox.h                       \
+    Controllers/RedSquareKeyroxController/RGBController_RedSquareKeyroxTKLClassic.h             \
     Controllers/RoccatController/RGBController_RoccatBurst.h                                    \
     Controllers/RoccatController/RGBController_RoccatElo.h                                      \
     Controllers/RoccatController/RGBController_RoccatHordeAimo.h                                \
@@ -1264,7 +1266,9 @@ SOURCES +=                                                                      
     Controllers/RedragonController/RedragonMouseController.cpp                                  \
     Controllers/RedSquareKeyroxController/RedSquareKeyroxController.cpp                         \
     Controllers/RedSquareKeyroxController/RedSquareKeyroxControllerDetect.cpp                   \
+    Controllers/RedSquareKeyroxController/RedSquareKeyroxTKLClassicController.cpp               \
     Controllers/RedSquareKeyroxController/RGBController_RedSquareKeyrox.cpp                     \
+    Controllers/RedSquareKeyroxController/RGBController_RedSquareKeyroxTKLClassic.cpp           \
     Controllers/RoccatController/RGBController_RoccatBurst.cpp                                  \
     Controllers/RoccatController/RGBController_RoccatElo.cpp                                    \
     Controllers/RoccatController/RGBController_RoccatHordeAimo.cpp                              \
