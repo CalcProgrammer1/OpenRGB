@@ -129,6 +129,15 @@ OpenRGBSettingsPage::OpenRGBSettingsPage(QWidget *parent) :
         ui->CheckboxRunZoneChecks->setChecked(true);
     }
 
+    if(ui_settings.contains("disable_key_expansion"))
+    {
+        ui->CheckboxDisableKeyExpansion->setChecked(ui_settings["disable_key_expansion"]);
+    }
+    else
+    {
+        ui->CheckboxDisableKeyExpansion->setChecked(false);
+    }
+
     /*---------------------------------------------------------*\
     | Load LogManager settings                                  |
     \*---------------------------------------------------------*/
@@ -796,4 +805,10 @@ void Ui::OpenRGBSettingsPage::on_CheckboxSharedSMBusAccess_clicked()
     SaveSettings();
 }
 
-
+void Ui::OpenRGBSettingsPage::on_CheckboxDisableKeyExpansion_clicked()
+{
+    json ui_settings                            = ResourceManager::get()->GetSettingsManager()->GetSettings("UserInterface");
+    ui_settings["disable_key_expansion"]        = ui->CheckboxDisableKeyExpansion->isChecked();
+    ResourceManager::get()->GetSettingsManager()->SetSettings("UserInterface", ui_settings);
+    SaveSettings();
+}
