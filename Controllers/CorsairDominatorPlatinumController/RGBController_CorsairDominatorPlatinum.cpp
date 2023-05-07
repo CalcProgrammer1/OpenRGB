@@ -23,10 +23,9 @@ RGBController_CorsairDominatorPlatinum::RGBController_CorsairDominatorPlatinum(C
 {
     controller  = controller_ptr;
 
-    name        = controller->GetDeviceName();
     vendor      = "Corsair";
     type        = DEVICE_TYPE_DRAM;
-    description = "Corsair Dominator Platinum RGB Device";
+    description = "Corsair RAM RGB Device";
     location    = controller->GetDeviceLocation();
 
     mode Direct;
@@ -55,7 +54,7 @@ void RGBController_CorsairDominatorPlatinum::SetupZones()
     | Set up zone                                               |
     \*---------------------------------------------------------*/
     zone new_zone;
-    new_zone.name       = "Corsair Platinum Zone";
+    new_zone.name       = "Corsair RAM Zone";
     new_zone.type       = ZONE_TYPE_LINEAR;
     new_zone.leds_min   = controller->GetLEDCount();
     new_zone.leds_max   = controller->GetLEDCount();
@@ -68,10 +67,10 @@ void RGBController_CorsairDominatorPlatinum::SetupZones()
     \*---------------------------------------------------------*/
     for(std::size_t led_idx = 0; led_idx < zones[0].leds_count; led_idx++)
     {
-        led *new_led    = new led();
-        new_led->name   = "Corsair Platinum LED ";
-        new_led->name.append(std::to_string(led_idx));
-        leds.push_back(*new_led);
+        led new_led;
+        new_led.name   = "Corsair RAM LED ";
+        new_led.name.append(std::to_string(led_idx));
+        leds.push_back(new_led);
     }
 
     SetupColors();
