@@ -152,49 +152,52 @@ void PhilipsWizController::ReceiveThreadFunction()
     while(ReceiveThreadRun.load())
     {
         /*-----------------------------------------------------------------*\
-        | Receive up to 1024 bytes from the device                          |
+        | Receive up to 1024 bytes from the device with a 1s timeout        |
         \*-----------------------------------------------------------------*/
-        int size = port.udp_listen(recv_buf, 1024);
+        int size = port.udp_listen_timeout(recv_buf, 1024, 1, 0);
 
-        /*-----------------------------------------------------------------*\
-        | Responses are not null-terminated, so add termination             |
-        \*-----------------------------------------------------------------*/
-        recv_buf[size] = '\0';
-
-        /*-----------------------------------------------------------------*\
-        | Convert null-terminated response to JSON                          |
-        \*-----------------------------------------------------------------*/
-        json response = json::parse(recv_buf);
-
-        /*-----------------------------------------------------------------*\
-        | Check if the response contains the method name                    |
-        \*-----------------------------------------------------------------*/
-        if(response.contains("method"))
+        if(size > 0)
         {
-            /*-------------------------------------------------------------*\
-            | Handle responses for getSystemConfig method                   |
-            | This method's response should contain a result object         |
-            | containing fwVersion, moduleName, and mac, among others.      |
-            \*-------------------------------------------------------------*/
-            if(response["method"] == "getSystemConfig")
+            /*-----------------------------------------------------------------*\
+            | Responses are not null-terminated, so add termination             |
+            \*-----------------------------------------------------------------*/
+            recv_buf[size] = '\0';
+
+            /*-----------------------------------------------------------------*\
+            | Convert null-terminated response to JSON                          |
+            \*-----------------------------------------------------------------*/
+            json response = json::parse(recv_buf);
+
+            /*-----------------------------------------------------------------*\
+            | Check if the response contains the method name                    |
+            \*-----------------------------------------------------------------*/
+            if(response.contains("method"))
             {
-                if(response.contains("result"))
+                /*-------------------------------------------------------------*\
+                | Handle responses for getSystemConfig method                   |
+                | This method's response should contain a result object         |
+                | containing fwVersion, moduleName, and mac, among others.      |
+                \*-------------------------------------------------------------*/
+                if(response["method"] == "getSystemConfig")
                 {
-                    json result = response["result"];
-
-                    if(result.contains("fwVersion"))
+                    if(response.contains("result"))
                     {
-                        firmware_version = result["fwVersion"];
-                    }
+                        json result = response["result"];
 
-                    if(result.contains("moduleName"))
-                    {
-                        module_name = result["moduleName"];
-                    }
+                        if(result.contains("fwVersion"))
+                        {
+                            firmware_version = result["fwVersion"];
+                        }
 
-                    if(result.contains("mac"))
-                    {
-                        module_mac = result["mac"];
+                        if(result.contains("moduleName"))
+                        {
+                            module_name = result["moduleName"];
+                        }
+
+                        if(result.contains("mac"))
+                        {
+                            module_mac = result["mac"];
+                        }
                     }
                 }
             }
@@ -219,7 +222,15 @@ void PhilipsWizController::RequestSystemConfig()
     port.udp_write((char *)command_str.c_str(), command_str.length() + 1);
 
     /*-----------------------------------------------------------------*\
-    | Sleep for 100ms to give it time to receive and process response   |
+    | Wait up to 1s to give it time to receive and process response     |
     \*-----------------------------------------------------------------*/
-    std::this_thread::sleep_for(100ms);
+    for(unsigned int wait_count = 0; wait_count < 100; wait_count++)
+    {
+        if(firmware_version != "")
+        {
+            return;
+        }
+
+        std::this_thread::sleep_for(10ms);
+    }
 }
