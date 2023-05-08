@@ -9,6 +9,7 @@
 #include "OpenRGBSystemInfoPage.h"
 #include "OpenRGBSupportedDevicesPage.h"
 #include "OpenRGBSettingsPage.h"
+#include "OpenRGBDMXSettingsPage/OpenRGBDMXSettingsPage.h"
 #include "OpenRGBE131SettingsPage/OpenRGBE131SettingsPage.h"
 #include "OpenRGBElgatoKeyLightSettingsPage/OpenRGBElgatoKeyLightSettingsPage.h"
 #include "OpenRGBKasaSmartSettingsPage/OpenRGBKasaSmartSettingsPage.h"
@@ -84,6 +85,7 @@ private:
     OpenRGBSoftwareInfoPage *SoftInfoPage;
     OpenRGBSupportedDevicesPage *SupportedPage;
     OpenRGBSettingsPage *SettingsPage;
+    OpenRGBDMXSettingsPage *DMXSettingsPage;
     OpenRGBE131SettingsPage *E131SettingsPage;
     OpenRGBElgatoKeyLightSettingsPage *ElgatoKeyLightSettingsPage;
     OpenRGBKasaSmartSettingsPage *KasaSmartSettingsPage;
@@ -112,6 +114,7 @@ private:
     void AddSoftwareInfoPage();
     void AddSupportedDevicesPage();
     void AddSettingsPage();
+    void AddDMXSettingsPage();
     void AddE131SettingsPage();
     void AddElgatoKeyLightSettingsPage();
     void AddKasaSmartSettingsPage();

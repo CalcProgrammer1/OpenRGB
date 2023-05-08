@@ -109,12 +109,5 @@ void AOCMouseController::SendDirect
     /*-----------------------------------------------------*\
     | Send packet                                           |
     \*-----------------------------------------------------*/
-    int ret = hid_send_feature_report(dev, buf, 60);
-    const wchar_t * errval = hid_error(dev);
-
-    if(ret)
-    {
-        int a = 0;
-        a++;
-    }
+    hid_send_feature_report(dev, buf, 60);
 }

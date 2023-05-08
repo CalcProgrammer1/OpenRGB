@@ -181,77 +181,65 @@ RGBController_NZXTHue1::~RGBController_NZXTHue1()
 void RGBController_NZXTHue1::SetupZones()
 {
     /*-------------------------------------------------*\
-    | Set up zones                                      |
+    | Set up zone                                       |
     \*-------------------------------------------------*/
-    for(unsigned int zone_idx = 0; zone_idx < controller->GetNumRGBChannels(); zone_idx++)
-    {
-        zone* new_zone = new zone;
+    zone* new_zone = new zone;
 
-        new_zone->name          = "Hue 1 Channel ";
-        new_zone->name.append(std::to_string(zone_idx + 1));
-        new_zone->type          = ZONE_TYPE_LINEAR;
-        new_zone->leds_min      = 0;
-        new_zone->leds_max      = 40;
-        new_zone->leds_count    = controller->channel_leds[zone_idx];
-        new_zone->matrix_map    = NULL;
+    new_zone->name          = "Hue 1 Channel";
+    new_zone->type          = ZONE_TYPE_LINEAR;
+    new_zone->leds_min      = 0;
+    new_zone->leds_max      = 40;
+    new_zone->leds_count    = controller->num_leds;
+    new_zone->matrix_map    = NULL;
 
-        zones.push_back(*new_zone);
-    }
+    zones.push_back(*new_zone);
 
     /*-------------------------------------------------*\
     | Set up LEDs                                       |
     \*-------------------------------------------------*/
-    for(unsigned int zone_idx = 0; zone_idx < zones.size(); zone_idx++)
+    for(unsigned int led_idx = 0; led_idx < zones[0].leds_count; led_idx++)
     {
-        for(unsigned int led_idx = 0; led_idx < zones[zone_idx].leds_count; led_idx++)
-        {
-            led new_led;
-            new_led.name = "Hue 1 Channel ";
-            new_led.name.append(std::to_string(zone_idx + 1));
-            new_led.name.append(", LED ");
-            new_led.name.append(std::to_string(led_idx + 1));
-            new_led.value = zone_idx;
+        led new_led;
+        new_led.name = "Hue 1 Channel";
+        new_led.name.append(", LED ");
+        new_led.name.append(std::to_string(led_idx + 1));
 
-            leds.push_back(new_led);
-        }
+        leds.push_back(new_led);
     }
 
     /*-------------------------------------------------*\
     | Set up Segments                                   |
     \*-------------------------------------------------*/
-    for(unsigned int zone_idx = 0; zone_idx < zones.size(); zone_idx++)
+    unsigned int num_segments = 0;
+    unsigned int segment_size = 0;
+    std::string  segment_name = "";
+
+    switch(controller->GetAccessoryType())
     {
-        unsigned int num_segments = 0;
-        unsigned int segment_size = 0;
-        std::string  segment_name = "";
+        case HUE_1_ACCESSORY_STRIP:
+            segment_size = 10;
+            num_segments = zones[0].leds_count / segment_size;
+            segment_name = "Hue+ Strip";
+            break;
 
-        switch(controller->GetAccessoryType())
+        case HUE_1_ACCESSORY_FAN:
+            segment_size = 8;
+            num_segments = zones[0].leds_count / segment_size;
+            segment_name = "Aer RGB Fan";
+            break;
+    }
+
+    if(segment_name != "")
+    {
+        for(unsigned int segment_idx = 0; segment_idx < num_segments; segment_idx++)
         {
-            case HUE_1_ACCESSORY_STRIP:
-                segment_size = 10;
-                num_segments = zones[zone_idx].leds_count / segment_size;
-                segment_name = "Hue+ Strip";
-                break;
+            segment new_segment;
+            new_segment.name = segment_name;
+            new_segment.type = ZONE_TYPE_LINEAR;
+            new_segment.start_idx = segment_idx * segment_size;
+            new_segment.leds_count = segment_size;
 
-            case HUE_1_ACCESSORY_FAN:
-                segment_size = 8;
-                num_segments = zones[zone_idx].leds_count / segment_size;
-                segment_name = "Aer RGB Fan";
-                break;
-        }
-
-        if(segment_name != "")
-        {
-            for(unsigned int segment_idx = 0; segment_idx < num_segments; segment_idx++)
-            {
-                segment new_segment;
-                new_segment.name = segment_name;
-                new_segment.type = ZONE_TYPE_LINEAR;
-                new_segment.start_idx = segment_idx * segment_size;
-                new_segment.leds_count = segment_size;
-
-                zones[zone_idx].segments.push_back(new_segment);
-            }
+            zones[0].segments.push_back(new_segment);
         }
     }
 
@@ -264,22 +252,17 @@ void RGBController_NZXTHue1::ResizeZone(int zone, int new_size)
 
 void RGBController_NZXTHue1::DeviceUpdateLEDs()
 {
-    for(std::size_t zone_idx = 0; zone_idx < zones.size(); zone_idx++)
-    {
-        controller->SetChannelLEDs(zone_idx, zones[zone_idx].colors, zones[zone_idx].leds_count);
-    }
+    controller->SetLEDs(zones[0].colors, zones[0].leds_count);
 }
 
-void RGBController_NZXTHue1::UpdateZoneLEDs(int zone)
+void RGBController_NZXTHue1::UpdateZoneLEDs(int /*zone*/)
 {
-    controller->SetChannelLEDs(zone, zones[zone].colors, zones[zone].leds_count);
+    DeviceUpdateLEDs();
 }
 
-void RGBController_NZXTHue1::UpdateSingleLED(int led)
+void RGBController_NZXTHue1::UpdateSingleLED(int /*led*/)
 {
-    unsigned int zone_idx = leds[led].value;
-
-    controller->SetChannelLEDs(zone_idx, zones[zone_idx].colors, zones[zone_idx].leds_count);
+    DeviceUpdateLEDs();
 }
 
 void RGBController_NZXTHue1::DeviceUpdateMode()
@@ -290,30 +273,26 @@ void RGBController_NZXTHue1::DeviceUpdateMode()
     }
     else
     {
-        for(std::size_t zone_idx = 0; zone_idx < zones.size(); zone_idx++)
+        RGBColor*   colors      = NULL;
+        bool        direction   = false;
+
+        if(modes[active_mode].direction == MODE_DIRECTION_LEFT)
         {
-            RGBColor*   colors      = NULL;
-            bool        direction   = false;
-
-            if(modes[active_mode].direction == MODE_DIRECTION_LEFT)
-            {
-                direction = true;
-            }
-
-            if(modes[active_mode].colors.size() > 0)
-            {
-                colors = &modes[active_mode].colors[0];
-            }
-
-            controller->SetChannelEffect
-                    (
-                    zone_idx,
-                    modes[active_mode].value,
-                    modes[active_mode].speed,
-                    direction,
-                    colors,
-                    modes[active_mode].colors.size()
-                    );
+            direction = true;
         }
+
+        if(modes[active_mode].colors.size() > 0)
+        {
+            colors = &modes[active_mode].colors[0];
+        }
+
+        controller->SetEffect
+                (
+                modes[active_mode].value,
+                modes[active_mode].speed,
+                direction,
+                colors,
+                modes[active_mode].colors.size()
+                );
     }
 }

@@ -65,6 +65,7 @@ public:
     SOCKET *    tcp_server_listen();
 
     int udp_listen(char * recv_data, int length);
+    int udp_listen_timeout(char * recv_data, int length, int sec, int usec);
     int tcp_listen(char * recv_data, int length);
 
     //Function to write data to the serial port

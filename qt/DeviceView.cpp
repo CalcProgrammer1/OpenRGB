@@ -7,8 +7,10 @@
 \*-----------------------------------------------------*/
 
 #include "DeviceView.h"
+#include "ResourceManager.h"
 #include "RGBControllerKeyNames.h"
 #include "RGBController.h"
+#include "SettingsManager.h"
 #include <QPainter>
 #include <QResizeEvent>
 #include <QStyleOption>
@@ -252,6 +254,22 @@ void DeviceView::InitDeviceView()
     float        totalHeight    = 0;
 
     /*-----------------------------------------------------*\
+    | Get device view settings                              |
+    \*-----------------------------------------------------*/
+    SettingsManager*    settings_manager    = ResourceManager::get()->GetSettingsManager();
+    std::string         ui_string           = "UserInterface";
+    json                ui_settings;
+
+    bool                disable_expansion   = false;
+
+    ui_settings = settings_manager->GetSettings(ui_string);
+
+    if(ui_settings.contains("disable_key_expansion"))
+    {
+        disable_expansion       = ui_settings["disable_key_expansion"];
+    }
+
+    /*-----------------------------------------------------*\
     | Determine the total height (in LEDs) of all zones     |
     \*-----------------------------------------------------*/
     for(std::size_t zone_idx = 0; zone_idx < controller->zones.size(); zone_idx++)
@@ -342,60 +360,63 @@ void DeviceView::InitDeviceView()
                         led_pos[color_idx].matrix_w = (1 - (2 * PAD_LED));
                         led_pos[color_idx].matrix_h = (1 - (2 * PAD_LED));
 
-                        /*-----------------------------------------------------*\
-                        | Expand large keys to fill empty spaces in matrix, if  |
-                        | possible.  Large keys can fill left, down, up, or wide|
-                        | Fill Left:                                            |
-                        |    Tab                                                |
-                        |    Caps Lock                                          |
-                        |    Left Shift                                         |
-                        |    Right Shift                                        |
-                        |    Backspace                                          |
-                        |    Number Pad 0                                       |
-                        |                                                       |
-                        | Fill Up or Down:                                      |
-                        |    Number Pad Enter                                   |
-                        |    Number Pad +                                       |
-                        |                                                       |
-                        | Fill Wide:                                            |
-                        |    Space                                              |
-                        \*-----------------------------------------------------*/
-                        if(led_x < map->width - 1 && map->map[map_idx + 1] == 0xFFFFFFFF)
+                        if(!disable_expansion)
                         {
-                            if( ( controller->leds[color_idx].name == KEY_EN_TAB        )
-                             || ( controller->leds[color_idx].name == KEY_EN_CAPS_LOCK  )
-                             || ( controller->leds[color_idx].name == KEY_EN_LEFT_SHIFT )
-                             || ( controller->leds[color_idx].name == KEY_EN_RIGHT_SHIFT)
-                             || ( controller->leds[color_idx].name == KEY_EN_BACKSPACE  )
-                             || ( controller->leds[color_idx].name == KEY_EN_NUMPAD_0   ) )
+                            /*-----------------------------------------------------*\
+                            | Expand large keys to fill empty spaces in matrix, if  |
+                            | possible.  Large keys can fill left, down, up, or wide|
+                            | Fill Left:                                            |
+                            |    Tab                                                |
+                            |    Caps Lock                                          |
+                            |    Left Shift                                         |
+                            |    Right Shift                                        |
+                            |    Backspace                                          |
+                            |    Number Pad 0                                       |
+                            |                                                       |
+                            | Fill Up or Down:                                      |
+                            |    Number Pad Enter                                   |
+                            |    Number Pad +                                       |
+                            |                                                       |
+                            | Fill Wide:                                            |
+                            |    Space                                              |
+                            \*-----------------------------------------------------*/
+                            if(led_x < map->width - 1 && map->map[map_idx + 1] == 0xFFFFFFFF)
                             {
-                                led_pos[color_idx].matrix_w += 1;
+                                if( ( controller->leds[color_idx].name == KEY_EN_TAB        )
+                                 || ( controller->leds[color_idx].name == KEY_EN_CAPS_LOCK  )
+                                 || ( controller->leds[color_idx].name == KEY_EN_LEFT_SHIFT )
+                                 || ( controller->leds[color_idx].name == KEY_EN_RIGHT_SHIFT)
+                                 || ( controller->leds[color_idx].name == KEY_EN_BACKSPACE  )
+                                 || ( controller->leds[color_idx].name == KEY_EN_NUMPAD_0   ) )
+                                {
+                                    led_pos[color_idx].matrix_w += 1;
+                                }
                             }
-                        }
-                        if( ( controller->leds[color_idx].name == KEY_EN_NUMPAD_ENTER   )
-                         || ( controller->leds[color_idx].name == KEY_EN_NUMPAD_PLUS    ) )
-                        {
-                            if(led_y < map->height - 1 && map->map[map_idx + map->width] == 0xFFFFFFFF)
+                            if( ( controller->leds[color_idx].name == KEY_EN_NUMPAD_ENTER   )
+                             || ( controller->leds[color_idx].name == KEY_EN_NUMPAD_PLUS    ) )
                             {
-                                led_pos[color_idx].matrix_h += 1;
+                                if(led_y < map->height - 1 && map->map[map_idx + map->width] == 0xFFFFFFFF)
+                                {
+                                    led_pos[color_idx].matrix_h += 1;
+                                }
+                                /* TODO: check if there isn't another widened key above */
+                                else if(led_y > 0 && map->map[map_idx - map->width] == 0xFFFFFFFF)
+                                {
+                                    led_pos[color_idx].matrix_y -= 1;
+                                    led_pos[color_idx].matrix_h += 1;
+                                }
                             }
-                            /* TODO: check if there isn't another widened key above */
-                            else if(led_y > 0 && map->map[map_idx - map->width] == 0xFFFFFFFF)
+                            else if(controller->leds[color_idx].name == KEY_EN_SPACE)
                             {
-                                led_pos[color_idx].matrix_y -= 1;
-                                led_pos[color_idx].matrix_h += 1;
-                            }
-                        }
-                        else if(controller->leds[color_idx].name == KEY_EN_SPACE)
-                        {
-                            for(unsigned int map_idx2 = map_idx - 1; map_idx2 > led_y * map->width && map->map[map_idx2] == 0xFFFFFFFF; --map_idx2)
-                            {
-                                led_pos[color_idx].matrix_x -= 1;
-                                led_pos[color_idx].matrix_w += 1;
-                            }
-                            for(unsigned int map_idx2 = map_idx + 1; map_idx2 < (led_y + 1) * map->width && map->map[map_idx2] == 0xFFFFFFFF; ++map_idx2)
-                            {
-                                led_pos[color_idx].matrix_w += 1;
+                                for(unsigned int map_idx2 = map_idx - 1; map_idx2 > led_y * map->width && map->map[map_idx2] == 0xFFFFFFFF; --map_idx2)
+                                {
+                                    led_pos[color_idx].matrix_x -= 1;
+                                    led_pos[color_idx].matrix_w += 1;
+                                }
+                                for(unsigned int map_idx2 = map_idx + 1; map_idx2 < (led_y + 1) * map->width && map->map[map_idx2] == 0xFFFFFFFF; ++map_idx2)
+                                {
+                                    led_pos[color_idx].matrix_w += 1;
+                                }
                             }
                         }
                     }

@@ -13,22 +13,22 @@
 
 using namespace std::chrono_literals;
 
-CorsairDominatorPlatinumController::CorsairDominatorPlatinumController(i2c_smbus_interface *bus, corsair_dev_id dev)
+CorsairDominatorPlatinumController::CorsairDominatorPlatinumController(i2c_smbus_interface *bus, corsair_dev_id dev, unsigned int leds_count)
 {
-    this->bus = bus;
-    this->dev = dev;
+    this->bus           = bus;
+    this->dev           = dev;
+    this->leds_count    = leds_count;
 
     led_data[0] = 0xc;
 }
 
 CorsairDominatorPlatinumController::~CorsairDominatorPlatinumController()
 {
-
 }
 
-std::string CorsairDominatorPlatinumController::GetDeviceName()
+unsigned int CorsairDominatorPlatinumController::GetLEDCount()
 {
-    return "Corsair Dominator Platinum RGB";
+    return leds_count;
 }
 
 std::string CorsairDominatorPlatinumController::GetDeviceLocation()
@@ -48,7 +48,7 @@ void CorsairDominatorPlatinumController::SetAllColors
     unsigned char   blue
     )
 {
-    for(unsigned int led = 0; led < CORSAIR_PLAT_LED_COUNT; led++)
+    for(unsigned int led = 0; led < leds_count; led++)
     {
         SetLEDColor(led, red, green, blue);
     }
@@ -62,7 +62,7 @@ void CorsairDominatorPlatinumController::SetLEDColor
     unsigned char   blue
     )
 {
-    if(led >= CORSAIR_PLAT_LED_COUNT)
+    if(led >= leds_count)
     {
         return;
     }

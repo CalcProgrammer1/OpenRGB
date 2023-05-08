@@ -71,18 +71,10 @@ RGBController_Lenovo4ZoneUSB::RGBController_Lenovo4ZoneUSB(Lenovo4ZoneUSBControl
 
 
     SetupZones();
-
-    // Reset colors to white
-    colors[0] = 0xFFFFFFFF;
-    colors[1] = 0xFFFFFFFF;
-    colors[2] = 0xFFFFFFFF;
-    colors[3] = 0xFFFFFFFF;
 }
 
 RGBController_Lenovo4ZoneUSB::~RGBController_Lenovo4ZoneUSB()
 {
-    controller->setDeviceHardwareMode();
-
     delete controller;
 }
 

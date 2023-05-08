@@ -70,6 +70,7 @@ private slots:
 
     void on_CheckboxSetOnExit_clicked(bool checked);
     void on_ComboBoxExitProfile_currentTextChanged(const QString exit_profile_name);
+    void on_CheckboxDisableKeyExpansion_clicked();
 };
 
 #endif // OPENRGBSETTINGSPAGE_H

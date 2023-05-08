@@ -176,7 +176,7 @@ void Ui::OpenRGBDevicePage::on_ZoneBox_currentIndexChanged(int index)
                 \*-----------------------------------------*/
                 if(device->zones.size() > 1)
                 {
-                    if(index == current_index)
+                    if(index == (int)current_index)
                     {
                         selected_all_zones = true;
                     }
@@ -193,7 +193,7 @@ void Ui::OpenRGBDevicePage::on_ZoneBox_currentIndexChanged(int index)
                 {
                     for(std::size_t zone_idx = 0; zone_idx < device->zones.size(); zone_idx++)
                     {
-                        if(index == current_index)
+                        if(index == (int)current_index)
                         {
                             selected_zone = zone_idx;
                             break;
@@ -203,7 +203,7 @@ void Ui::OpenRGBDevicePage::on_ZoneBox_currentIndexChanged(int index)
 
                         for(std::size_t segment_idx = 0; segment_idx < device->zones[zone_idx].segments.size(); segment_idx++)
                         {
-                            if(index == current_index)
+                            if(index == (int)current_index)
                             {
                                 selected_zone    = zone_idx;
                                 selected_segment = segment_idx;
@@ -419,7 +419,7 @@ void Ui::OpenRGBDevicePage::on_LEDBox_currentIndexChanged(int index)
                 \*-----------------------------------------*/
                 if(device->zones.size() > 1)
                 {
-                    if(ui->ZoneBox->currentIndex() == current_index)
+                    if(ui->ZoneBox->currentIndex() == (int)current_index)
                     {
                         selected_all_zones = true;
                     }
@@ -436,7 +436,7 @@ void Ui::OpenRGBDevicePage::on_LEDBox_currentIndexChanged(int index)
                 {
                     for(std::size_t zone_idx = 0; zone_idx < device->zones.size(); zone_idx++)
                     {
-                        if(ui->ZoneBox->currentIndex() == current_index)
+                        if(ui->ZoneBox->currentIndex() == (int)current_index)
                         {
                             selected_zone = zone_idx;
                             break;
@@ -446,7 +446,7 @@ void Ui::OpenRGBDevicePage::on_LEDBox_currentIndexChanged(int index)
 
                         for(std::size_t segment_idx = 0; segment_idx < device->zones[zone_idx].segments.size(); segment_idx++)
                         {
-                            if(ui->ZoneBox->currentIndex() == current_index)
+                            if(ui->ZoneBox->currentIndex() == (int)current_index)
                             {
                                 selected_zone    = zone_idx;
                                 selected_segment = segment_idx;
@@ -1425,7 +1425,7 @@ void Ui::OpenRGBDevicePage::on_EditZoneButton_clicked()
             \*-----------------------------------------*/
             if(device->zones.size() > 1)
             {
-                if(ui->ZoneBox->currentIndex() == current_index)
+                if(ui->ZoneBox->currentIndex() == (int)current_index)
                 {
                     selected_all_zones = true;
                 }
@@ -1442,7 +1442,7 @@ void Ui::OpenRGBDevicePage::on_EditZoneButton_clicked()
             {
                 for(std::size_t zone_idx = 0; zone_idx < device->zones.size(); zone_idx++)
                 {
-                    if(ui->ZoneBox->currentIndex() == current_index)
+                    if(ui->ZoneBox->currentIndex() == (int)current_index)
                     {
                         selected_zone = zone_idx;
                         break;
@@ -1452,7 +1452,7 @@ void Ui::OpenRGBDevicePage::on_EditZoneButton_clicked()
 
                     for(std::size_t segment_idx = 0; segment_idx < device->zones[zone_idx].segments.size(); segment_idx++)
                     {
-                        if(ui->ZoneBox->currentIndex() == current_index)
+                        if(ui->ZoneBox->currentIndex() == (int)current_index)
                         {
                             selected_zone    = zone_idx;
                             selected_segment = segment_idx;

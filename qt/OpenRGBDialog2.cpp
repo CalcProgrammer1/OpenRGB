@@ -433,6 +433,11 @@ OpenRGBDialog2::OpenRGBDialog2(QWidget *parent) : QMainWindow(parent), ui(new Op
     AddPluginsPage();
 
     /*-----------------------------------------------------*\
+    | Add the DMX settings page                             |
+    \*-----------------------------------------------------*/
+    AddDMXSettingsPage();
+
+    /*-----------------------------------------------------*\
     | Add the E1.31 settings page                           |
     \*-----------------------------------------------------*/
     AddE131SettingsPage();
@@ -755,6 +760,34 @@ void OpenRGBDialog2::AddSettingsPage()
     \*-----------------------------------------------------*/
     connect(SettingsPage, SIGNAL(TrayIconChanged(bool)), this, SLOT(SetTrayIcon(bool)));
     connect(this, SIGNAL(ProfileListChanged()), SettingsPage, SLOT(UpdateProfiles()));
+}
+
+void OpenRGBDialog2::AddDMXSettingsPage()
+{
+    /*-----------------------------------------------------*\
+    | Create the Settings page                              |
+    \*-----------------------------------------------------*/
+    DMXSettingsPage = new OpenRGBDMXSettingsPage();
+
+    ui->SettingsTabBar->addTab(DMXSettingsPage, "");
+
+    QString SettingsLabelString;
+
+    if(OpenRGBThemeManager::IsDarkTheme())
+    {
+        SettingsLabelString = "serial_dark.png";
+    }
+    else
+    {
+        SettingsLabelString = "serial.png";
+    }
+
+    /*-----------------------------------------------------*\
+    | Create the tab label                                  |
+    \*-----------------------------------------------------*/
+    TabLabel* SettingsTabLabel = new TabLabel(SettingsLabelString, tr("DMX Devices"), (char *)"DMX Devices", (char *)context);
+
+    ui->SettingsTabBar->tabBar()->setTabButton(ui->SettingsTabBar->tabBar()->count() - 1, QTabBar::LeftSide, SettingsTabLabel);
 }
 
 void OpenRGBDialog2::AddE131SettingsPage()

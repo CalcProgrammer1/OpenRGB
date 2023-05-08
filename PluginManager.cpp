@@ -3,18 +3,6 @@
 #include "PluginManager.h"
 #include "OpenRGBThemeManager.h"
 
-// These two functions address the lack of a type-aware way to construct a QString
-// Allows to avoid double conversions
-static QString convertQPath(const std::string & filepath)
-{
-    return QString::fromStdString(filepath);
-}
-static QString convertQPath(const std::wstring & filepath)
-{
-    return QString::fromStdWString(filepath);
-}
-
-
 PluginManager::PluginManager()
 {
     /*---------------------------------------------------------*\
@@ -117,7 +105,7 @@ void PluginManager::AddPlugin(const filesystem::path& path)
         | Create a QPluginLoader and load the plugin                        |
         \*-----------------------------------------------------------------*/
         std::string     path_string = path.generic_u8string();
-        QPluginLoader*  loader      = new QPluginLoader(convertQPath(path_string));
+        QPluginLoader*  loader      = new QPluginLoader(QString::fromStdString(path_string));
         QObject*        instance    = loader->instance();
 
         /*-----------------------------------------------------------------*\

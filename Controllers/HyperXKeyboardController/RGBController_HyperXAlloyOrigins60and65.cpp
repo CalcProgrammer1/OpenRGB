@@ -199,11 +199,6 @@ static const char* zone_names[] =
     ZONE_EN_KEYBOARD
 };
 
-static zone_type zone_types[] =
-{
-    ZONE_TYPE_MATRIX
-};
-
 /**------------------------------------------------------------------*\
     @name HyperX Alloy Origins 60 and 65
     @category Keyboard
@@ -280,6 +275,7 @@ void RGBController_HyperXAlloyOrigins60and65::SetupZones()
     switch(layout)
     {
         case ALLOY_ORIGINS_60_LAYOUT:
+        default:
             led_names = led_names_60;
             led_zones.push_back({ZONE_EN_KEYBOARD, ZONE_TYPE_MATRIX, 71, new matrix_map_type{5, 14, (unsigned int *)&matrix_map_60}});
             break;

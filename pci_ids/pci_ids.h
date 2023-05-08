@@ -84,12 +84,14 @@
 #define NVIDIA_RTX3070_DEV                              0x2484
 #define NVIDIA_RTX3070_LHR_DEV                          0x2488
 #define NVIDIA_RTX3070TI_DEV                            0x2482
+#define NVIDIA_RTX3070TI_GA102_DEV                      0x2207
 #define NVIDIA_RTX3080_DEV                              0x2206
 #define NVIDIA_RTX3080_LHR_DEV                          0x2216
 #define NVIDIA_RTX3080_12G_LHR_DEV                      0x220A
 #define NVIDIA_RTX3080TI_DEV                            0x2208
 #define NVIDIA_RTX3090_DEV                              0x2204
 #define NVIDIA_RTX3090TI_DEV                            0x2203
+#define NVIDIA_RTX4070_DEV                              0x2786
 #define NVIDIA_RTX4070TI_DEV                            0x2782
 #define NVIDIA_RTX4080_DEV                              0x2704
 #define NVIDIA_RTX4090_DEV                              0x2684
@@ -216,6 +218,7 @@
 #define ASUS_ROG_STRIX_RTX_3070TI_O8G_GAMING            0x880E
 #define ASUS_TUF_RTX_3070TI_O8G_V2_GAMING               0x8812
 #define ASUS_TUF_RTX_3070TI_O8G_GAMING                  0x8813
+#define ASUS_TUF_RTX_3070TI_O8G_V2_GAMING_2             0x88BD
 #define ASUS_ROG_STRIX_RTX_3080_10G_GAMING              0x87AA
 #define ASUS_ROG_STRIX_RTX_3080_O10G_GAMING             0x87AC
 #define ASUS_ROG_STRIX_RTX_3080_O10G_WHITE              0x87D1
@@ -252,6 +255,7 @@
 #define ASUS_ROG_STRIX_LC_RX_6950XT_O16G_GAMING         0x05E9
 #define ASUS_TUF_RTX_4070TI_12G_GAMING                  0x88A4
 #define ASUS_TUF_RTX_4070TI_O12G_GAMING                 0x88A3
+#define ASUS_TUF_RTX_4080_O16G_OC_GAMING                0x88A1
 #define ASUS_TUF_RTX_4090_O24G_OC_GAMING                0x889A
 #define ASUS_TUF_RTX_4090_O24G_GAMING                   0x889B
 #define ASUS_ROG_STRIX_RTX_4080_16G_GAMING              0x88C0
@@ -525,6 +529,7 @@
 #define MSI_RTX3090_SUPRIM_X_SUB_DEV                    0x3882
 #define MSI_RTX3090TI_SUPRIM_X_SUB_DEV                  0x5090
 #define MSI_RTX3090TI_GAMING_X_TRIO_SUB_DEV             0x5091
+#define MSI_RTX4070_GAMING_X_TRIO_SUB_DEV               0x5136
 #define MSI_RTX4070TI_GAMING_X_TRIO_SUB_DEV             0x5132
 #define MSI_RTX4070TI_SUPRIM_X_TRIO_SUB_DEV             0x5133
 #define MSI_RTX4080_GAMING_X_TRIO_SUB_DEV               0x5111

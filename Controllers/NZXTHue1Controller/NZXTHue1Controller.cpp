@@ -7,12 +7,10 @@
 #include "NZXTHue1Controller.h"
 #include <cstring>
 
-NZXTHue1Controller::NZXTHue1Controller(hid_device* dev_handle, unsigned int rgb_channels, unsigned int fan_channels, const char* path)
+NZXTHue1Controller::NZXTHue1Controller(hid_device* dev_handle, unsigned int /*fan_channels*/, const char* path)
 {
     dev         = dev_handle;
     location    = path;
-
-    num_rgb_channels = rgb_channels;
 
     Initialize();
 }
@@ -53,14 +51,8 @@ unsigned int NZXTHue1Controller::GetAccessoryType()
     return(accessory_type);
 }
 
-unsigned int NZXTHue1Controller::GetNumRGBChannels()
-{
-    return(num_rgb_channels);
-}
-
-void NZXTHue1Controller::SetChannelEffect
+void NZXTHue1Controller::SetEffect
     (
-    unsigned char   channel,
     unsigned char   mode,
     unsigned char   speed,
     bool            direction,
@@ -78,7 +70,7 @@ void NZXTHue1Controller::SetChannelEffect
         /*-----------------------------------------------------*\
         | Send mode without color data                          |
         \*-----------------------------------------------------*/
-        SendPacket(channel, mode, direction, 0, speed, 0, NULL);
+        SendPacket(mode, direction, 0, speed, 0, NULL);
     }
     /*-----------------------------------------------------*\
     | If mode requires indexed colors, send color index     |
@@ -103,7 +95,7 @@ void NZXTHue1Controller::SetChannelEffect
             /*-----------------------------------------------------*\
             | Send mode and color data                              |
             \*-----------------------------------------------------*/
-            SendPacket(channel, mode, direction, color_idx, speed, 40, &color_data[0]);
+            SendPacket(mode, direction, color_idx, speed, 40, &color_data[0]);
         }
     }
     /*-----------------------------------------------------*\
@@ -126,13 +118,12 @@ void NZXTHue1Controller::SetChannelEffect
         /*-----------------------------------------------------*\
         | Send mode and color data                              |
         \*-----------------------------------------------------*/
-        SendPacket(channel, mode, direction, 0, speed, num_colors, &color_data[0]);
+        SendPacket(mode, direction, 0, speed, num_colors, &color_data[0]);
     }
 }
 
-void NZXTHue1Controller::SetChannelLEDs
+void NZXTHue1Controller::SetLEDs
     (
-    unsigned char   channel,
     RGBColor *      colors,
     unsigned int    num_colors
     )
@@ -154,7 +145,7 @@ void NZXTHue1Controller::SetChannelLEDs
     /*-----------------------------------------------------*\
     | Send color data                                       |
     \*-----------------------------------------------------*/
-    SendPacket(channel, HUE_1_MODE_FIXED, false, 0, 0, num_colors, &color_data[0]);
+    SendPacket(HUE_1_MODE_FIXED, false, 0, 0, num_colors, &color_data[0]);
 }
 
 /*-------------------------------------------------------------------------------------------------*\
@@ -218,17 +209,16 @@ void NZXTHue1Controller::Initialize()
     if(accessory_type == HUE_1_ACCESSORY_STRIP)
     {
 
-        channel_leds[HUE_1_CHANNEL_1_IDX] = dev_count * 10;
+        num_leds = dev_count * 10;
     }
     else
     {
-        channel_leds[HUE_1_CHANNEL_1_IDX] = dev_count * 8;
+        num_leds = dev_count * 8;
     }
 }
 
 void NZXTHue1Controller::SendPacket
     (
-    unsigned char   channel,
     unsigned char   mode,
     bool            direction,
     unsigned char   color_idx,

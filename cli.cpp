@@ -44,14 +44,14 @@ enum
 struct DeviceOptions
 {
     int             device;
-    int             zone        = -1;
+    int             zone            = -1;
     std::vector<std::tuple<unsigned char, unsigned char, unsigned char>> colors;
     std::string     mode;
     unsigned int    brightness;
     unsigned int    size;
-    bool            random_colors;
-    bool            hasSize;
-    bool            hasOption;
+    bool            random_colors   = false;
+    bool            hasSize         = false;
+    bool            hasOption       = false;
 };
 
 struct ServerOptions
@@ -69,8 +69,8 @@ struct Options
     | allDeviceOptions shall be applied to all available devices|
     | except in the case that a profile was loaded.             |
     \*---------------------------------------------------------*/
-    bool                        hasDevice;
-    bool                        profile_loaded;
+    bool                        hasDevice        = false;
+    bool                        profile_loaded  = false;
     DeviceOptions               allDeviceOptions;
     ServerOptions               servOpts;
 };
@@ -641,30 +641,47 @@ bool OptionZone(std::vector<DeviceOptions>* current_devices, std::string argumen
     return found;
 }
 
-bool OptionColor(std::vector<DeviceOptions>* current_devices, std::string argument, Options* /*options*/)
+bool CheckColor(std::string argument, DeviceOptions* currentDevOpts)
 {
-    bool found = false;
-
-    for(size_t i = 0; i < current_devices->size(); i++)
+    if(ParseColors(argument, currentDevOpts))
     {
-        DeviceOptions* currentDevOpts = &current_devices->at(i);
+        currentDevOpts->hasOption = true;
+        return true;
+    }
+    else
+    {
+        std::cout << "Error: Invalid color value: " + argument << std::endl;
+        return false;
+    }
+}
 
-        if(ParseColors(argument, currentDevOpts))
+bool OptionColor(std::vector<DeviceOptions>* current_devices, std::string argument, Options* options)
+{
+    /*---------------------------------------------------------*\
+    | If a device is not selected  i.e. size() == 0             |
+    |   then add color to allDeviceOptions                      |
+    \*---------------------------------------------------------*/
+    bool found                      = false;
+    DeviceOptions* currentDevOpts   = &options->allDeviceOptions;
+
+    if(current_devices->size() == 0)
+    {
+        found = CheckColor(argument, currentDevOpts);
+    }
+    else
+    {
+        for(size_t i = 0; i < current_devices->size(); i++)
         {
-            currentDevOpts->hasOption = true;
-            found = true;
-        }
-        else
-        {
-            std::cout << "Error: Invalid color value: " + argument << std::endl;
-            return false;
+            currentDevOpts = &current_devices->at(i);
+
+            found = CheckColor(argument, currentDevOpts);
         }
     }
 
     return found;
 }
 
-bool OptionMode(std::vector<DeviceOptions>* current_devices, std::string argument, Options* /*options*/)
+bool OptionMode(std::vector<DeviceOptions>* current_devices, std::string argument, Options* options)
 {
     if(argument.size() == 0)
     {
@@ -672,21 +689,35 @@ bool OptionMode(std::vector<DeviceOptions>* current_devices, std::string argumen
         return false;
     }
 
-    bool found = false;
+    /*---------------------------------------------------------*\
+    | If a device is not selected  i.e. size() == 0             |
+    |   then add mode to allDeviceOptions                       |
+    \*---------------------------------------------------------*/
+    bool found                      = false;
+    DeviceOptions* currentDevOpts   = &options->allDeviceOptions;
 
-    for(size_t i = 0; i < current_devices->size(); i++)
+    if(current_devices->size() == 0)
     {
-        DeviceOptions* currentDevOpts = &current_devices->at(i);
-
         currentDevOpts->mode = argument;
         currentDevOpts->hasOption = true;
         found = true;
+    }
+    else
+    {
+        for(size_t i = 0; i < current_devices->size(); i++)
+        {
+            currentDevOpts = &current_devices->at(i);
+
+            currentDevOpts->mode = argument;
+            currentDevOpts->hasOption = true;
+            found = true;
+        }
     }
 
     return found;
 }
 
-bool OptionBrightness(std::vector<DeviceOptions>* current_devices, std::string argument, Options* /*options*/)
+bool OptionBrightness(std::vector<DeviceOptions>* current_devices, std::string argument, Options* options)
 {
     if(argument.size() == 0)
     {
@@ -694,15 +725,29 @@ bool OptionBrightness(std::vector<DeviceOptions>* current_devices, std::string a
         return false;
     }
 
-    bool found = false;
+    /*---------------------------------------------------------*\
+    | If a device is not selected  i.e. size() == 0             |
+    |   then add brightness to allDeviceOptions                 |
+    \*---------------------------------------------------------*/
+    bool found                      = false;
+    DeviceOptions* currentDevOpts   = &options->allDeviceOptions;
 
-    for(size_t i = 0; i < current_devices->size(); i++)
+    if(current_devices->size() == 0)
     {
-        DeviceOptions* currentDevOpts   = &current_devices->at(i);
-
-        currentDevOpts->brightness      = std::min(std::max(std::stoi(argument), 0),(int)brightness_percentage);
-        currentDevOpts->hasOption       = true;
+        currentDevOpts->brightness  = std::min(std::max(std::stoi(argument), 0),(int)brightness_percentage);
+        currentDevOpts->hasOption   = true;
         found = true;
+    }
+    else
+    {
+        for(size_t i = 0; i < current_devices->size(); i++)
+        {
+            DeviceOptions* currentDevOpts   = &current_devices->at(i);
+
+            currentDevOpts->brightness      = std::min(std::max(std::stoi(argument), 0),(int)brightness_percentage);
+            currentDevOpts->hasOption       = true;
+            found = true;
+        }
     }
 
     return found;
