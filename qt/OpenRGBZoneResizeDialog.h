@@ -30,10 +30,16 @@ private slots:
 
     void on_RemoveSegmentButton_clicked();
 
+    void on_segment_slider_valueChanged(int);
+
+    void on_segment_lineedit_textChanged();
+
 private:
     Ui::OpenRGBZoneResizeDialogUi *ui;
     RGBController* edit_dev;
     unsigned int edit_zone_idx;
+
+    void CheckSegmentsValidity();
 };
 
 #endif // OPENRGBZONERESIZEDIALOG_H
