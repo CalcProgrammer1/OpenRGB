@@ -33,9 +33,22 @@ void DetectPhilipsWizControllers()
         {
             if(wiz_settings["devices"][device_idx].contains("ip"))
             {
-                std::string wiz_ip = wiz_settings["devices"][device_idx]["ip"];
+                std::string wiz_ip  = wiz_settings["devices"][device_idx]["ip"];
 
-                PhilipsWizController*     controller     = new PhilipsWizController(wiz_ip);
+                bool wiz_cool       = false;
+
+                if(wiz_settings["devices"][device_idx].contains("use_cool_white"))
+                {
+                    wiz_cool        = wiz_settings["devices"][device_idx]["use_cool_white"];
+                }
+
+                bool wiz_warm       = false;
+                if(wiz_settings["devices"][device_idx].contains("use_warm_white"))
+                {
+                    wiz_warm        = wiz_settings["devices"][device_idx]["use_warm_white"];
+                }
+
+                PhilipsWizController*     controller     = new PhilipsWizController(wiz_ip, wiz_cool, wiz_warm);
                 RGBController_PhilipsWiz* rgb_controller = new RGBController_PhilipsWiz(controller);
 
                 ResourceManager::get()->RegisterRGBController(rgb_controller);

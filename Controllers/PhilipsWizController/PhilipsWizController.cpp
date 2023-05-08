@@ -10,12 +10,18 @@
 using json = nlohmann::json;
 using namespace std::chrono_literals;
 
-PhilipsWizController::PhilipsWizController(std::string ip)
+PhilipsWizController::PhilipsWizController(std::string ip, bool use_cool, bool use_warm)
 {
     /*-----------------------------------------------------------------*\
     | Fill in location string with device's IP address                  |
     \*-----------------------------------------------------------------*/
     location    = "IP: " + ip;
+
+    /*-----------------------------------------------------------------*\
+    | Fill in settings                                                  |
+    \*-----------------------------------------------------------------*/
+    use_cool_white = use_cool;
+    use_warm_white = use_warm;
 
     /*-----------------------------------------------------------------*\
     | Open a UDP client sending to the device's IP, port 38899          |
@@ -94,8 +100,23 @@ void PhilipsWizController::SetColor(unsigned char red, unsigned char green, unsi
     | correctly, set the cool white level to the average of RGB to      |
     | improve its apparent brightness.                                  |
     \*-----------------------------------------------------------------*/
-    command["params"]["c"]       = (red + green + blue) / 3;
-//  command["params"]["w"]       = 0;
+    if(use_warm_white)
+    {
+        command["params"]["w"]      = (red + green + blue) / 3;
+    }
+    else
+    {
+        command["params"]["w"]      = 0;
+    }
+
+    if(use_cool_white)
+    {
+        command["params"]["c"]      = (red + green + blue) / 3;
+    }
+    else
+    {
+        command["params"]["c"]      = 0;
+    }
 
     /*-----------------------------------------------------------------*\
     | Convert the JSON object to a string and write it                  |

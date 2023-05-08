@@ -56,7 +56,7 @@ enum
 class PhilipsWizController
 {
 public:
-    PhilipsWizController(std::string ip);
+    PhilipsWizController(std::string ip, bool use_cool, bool use_warm);
     ~PhilipsWizController();
 
     std::string GetLocation();
@@ -82,10 +82,8 @@ private:
     std::thread*        ReceiveThread;
     std::atomic<bool>   ReceiveThreadRun;
 
-    unsigned char       red;
-    unsigned char       green;
-    unsigned char       blue;
-    unsigned char       brightness;
+    bool                use_cool_white;
+    bool                use_warm_white;
 
     void SendSetPilot();
 };
