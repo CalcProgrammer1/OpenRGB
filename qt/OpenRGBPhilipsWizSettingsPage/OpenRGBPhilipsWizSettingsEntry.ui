@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>190</width>
-    <height>68</height>
+    <width>246</width>
+    <height>82</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -20,16 +20,30 @@
    <string>Philips WIZ settings entry</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
-   <item row="1" column="0" colspan="2">
+   <item row="0" column="1">
     <widget class="QGroupBox" name="groupBox">
      <property name="title">
       <string/>
      </property>
      <layout class="QGridLayout" name="gridLayout_2">
-      <item row="1" column="3">
+      <item row="2" column="0">
+       <widget class="QCheckBox" name="UseCoolWhiteCheckBox">
+        <property name="text">
+         <string>Use Cool White</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="1">
+       <widget class="QCheckBox" name="UseWarmWhiteCheckBox">
+        <property name="text">
+         <string>Use Warm White</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
        <widget class="QLineEdit" name="IPEdit"/>
       </item>
-      <item row="1" column="0">
+      <item row="0" column="0">
        <widget class="QLabel" name="IPLabel">
         <property name="text">
          <string>IP:</string>
@@ -41,9 +55,6 @@
    </item>
   </layout>
  </widget>
- <tabstops>
-  <tabstop>IPEdit</tabstop>
- </tabstops>
  <resources/>
  <connections/>
 </ui>
