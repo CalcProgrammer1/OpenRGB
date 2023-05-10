@@ -83,6 +83,7 @@ INCLUDEPATH +=                                                                  
     Controllers/AlienwareController/                                                            \
     Controllers/AlienwareKeyboardController/                                                    \
     Controllers/AMDWraithPrismController/                                                       \
+    Controllers/AOCKeyboardController/                                                          \
     Controllers/AOCMouseController/                                                             \
     Controllers/AOCMousematController/                                                          \
     Controllers/ASRockPolychromeUSBController/                                                  \
@@ -278,6 +279,8 @@ HEADERS +=                                                                      
     Controllers/AMDWraithPrismController/RGBController_AMDWraithPrism.h                         \
     Controllers/AnnePro2Controller/AnnePro2Controller.h                                         \
     Controllers/AnnePro2Controller/RGBController_AnnePro2.h                                     \
+    Controllers/AOCKeyboardController/AOCKeyboardController.h                                   \
+    Controllers/AOCKeyboardController/RGBController_AOCKeyboard.h                               \
     Controllers/AOCMouseController/AOCMouseController.h                                         \
     Controllers/AOCMouseController/RGBController_AOCMouse.h                                     \
     Controllers/AOCMousematController/AOCMousematController.h                                   \
@@ -841,6 +844,9 @@ SOURCES +=                                                                      
     Controllers/AnnePro2Controller/AnnePro2Controller.cpp                                       \
     Controllers/AnnePro2Controller/AnnePro2ControllerDetect.cpp                                 \
     Controllers/AnnePro2Controller/RGBController_AnnePro2.cpp                                   \
+    Controllers/AOCKeyboardController/AOCKeyboardController.cpp                                 \
+    Controllers/AOCKeyboardController/AOCKeyboardControllerDetect.cpp                           \
+    Controllers/AOCKeyboardController/RGBController_AOCKeyboard.cpp                             \
     Controllers/AOCMouseController/AOCMouseController.cpp                                       \
     Controllers/AOCMouseController/AOCMouseControllerDetect.cpp                                 \
     Controllers/AOCMouseController/RGBController_AOCMouse.cpp                                   \
