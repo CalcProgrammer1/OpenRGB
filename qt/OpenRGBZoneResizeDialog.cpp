@@ -188,9 +188,9 @@ void Ui::OpenRGBZoneResizeDialog::on_AddSegmentButton_clicked()
     \*---------------------------------------------------------*/
     std::string new_name        = "Segment ";
 
-    new_name.append(ui->SegmentsTreeWidget->topLevelItemCount() + 1);
+    new_name.append(std::to_string(ui->SegmentsTreeWidget->topLevelItemCount() + 1));
 
-    lineedit_name->setText(new_name);
+    lineedit_name->setText(new_name.c_str());
 
     /*---------------------------------------------------------*\
     | Restrict slider maximum to zone size                      |
