@@ -171,18 +171,43 @@ int Ui::OpenRGBZoneResizeDialog::show()
 
 void Ui::OpenRGBZoneResizeDialog::on_AddSegmentButton_clicked()
 {
+    /*---------------------------------------------------------*\
+    | Create new line in segments list tree                     |
+    \*---------------------------------------------------------*/
     QTreeWidgetItem* new_item   = new QTreeWidgetItem(ui->SegmentsTreeWidget);
 
+    /*---------------------------------------------------------*\
+    | Create new widgets for line                               |
+    \*---------------------------------------------------------*/
     QLineEdit* lineedit_name    = new QLineEdit(ui->SegmentsTreeWidget);
     QLineEdit* lineedit_length  = new QLineEdit(ui->SegmentsTreeWidget);
     QSlider*   slider_length    = new QSlider(Qt::Horizontal, ui->SegmentsTreeWidget);
 
+    /*---------------------------------------------------------*\
+    | Fill in new Name field as "Segment X"                     |
+    \*---------------------------------------------------------*/
+    std::string new_name        = "Segment ";
+
+    new_name.append(ui->SegmentsTreeWidget->topLevelItemCount() + 1);
+
+    lineedit_name->setText(new_name);
+
+    /*---------------------------------------------------------*\
+    | Restrict slider maximum to zone size                      |
+    \*---------------------------------------------------------*/
     slider_length->setMaximum(edit_dev->zones[edit_zone_idx].leds_count);
 
+    /*---------------------------------------------------------*\
+    | Add new widgets to tree                                   |
+    \*---------------------------------------------------------*/
     ui->SegmentsTreeWidget->setItemWidget(new_item, 0, lineedit_name);
     ui->SegmentsTreeWidget->setItemWidget(new_item, 1, lineedit_length);
     ui->SegmentsTreeWidget->setItemWidget(new_item, 2, slider_length);
 
+    /*---------------------------------------------------------*\
+    | Connect signals for handling slider and line edits        |
+    \*---------------------------------------------------------*/
+    connect(lineedit_name, &QLineEdit::textChanged, this, &OpenRGBZoneResizeDialog::on_segment_lineedit_textChanged);
     connect(slider_length, &QSlider::valueChanged, this, &OpenRGBZoneResizeDialog::on_segment_slider_valueChanged);
     connect(lineedit_length, &QLineEdit::textChanged, this, &OpenRGBZoneResizeDialog::on_segment_lineedit_textChanged);
 
@@ -216,6 +241,14 @@ void Ui::OpenRGBZoneResizeDialog::CheckSegmentsValidity()
             }
 
             total_segment_leds += segment_leds;
+
+            /*-------------------------------------------------*\
+            | Empty name is not allowed                         |
+            \*-------------------------------------------------*/
+            if(((QLineEdit*)ui->SegmentsTreeWidget->itemWidget(ui->SegmentsTreeWidget->topLevelItem(segment_idx), 0))->text().isEmpty())
+            {
+                segments_valid = false;
+            }
         }
 
         if(total_segment_leds != ui->ResizeBox->value())
