@@ -717,6 +717,29 @@ keyboard_keymap_overlay_values razer_huntsman_common_layout
     }
 };
 
+keyboard_keymap_overlay_values razer_huntsman_mini_layout
+{
+    KEYBOARD_SIZE::KEYBOARD_SIZE_SIXTY,
+    {
+        {   /* ANSI Value set not used */   },
+        {
+            /* Add more regional layout fixes here */
+        }
+    },
+    {
+        /*---------------------------------------------------------------------------------------------------------*\
+        | Edit Keys                                                                                                 |
+        |   Zone,   Row,    Column,     Value,      Key,                        OpCode,                             |
+        \*---------------------------------------------------------------------------------------------------------*/
+        {   0,      0,      0,          0,          KEY_EN_UNUSED,              KEYBOARD_OPCODE_SWAP_ONLY,          },  // Swap out Backtick
+        {   0,      0,      1,          0,          KEY_EN_ESCAPE,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Insert Escape and shift row 0
+        {   0,      1,      0,          0,          KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Shift row 1
+        {   0,      2,      0,          0,          KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Shift row 2
+        {   0,      3,      0,          0,          KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Shift row 3
+        {   0,      4,      0,          0,          KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Shift row 4
+    }
+};
+
 keyboard_keymap_overlay_values razer_laptop_common_layout
 {
     KEYBOARD_SIZE::KEYBOARD_SIZE_SEVENTY_FIVE,
@@ -804,78 +827,6 @@ keyboard_keymap_overlay_values razer_laptop_with_spacebar_layout
 /*-------------------------------------------------------------------------*\
 |  OLD_KEYMAPS                                                              |
 \*-------------------------------------------------------------------------*/
-#define HUNTSMAN_MINI_KEYMAP_SIZE (sizeof(huntsman_mini_keymap) / sizeof(huntsman_mini_keymap[0]))
-
-static const razer_key huntsman_mini_keymap[] =
-{
-    /*-------------------------------------------------------------------------------------------------------------*\
-    |   Zone,   Row,    Column,         Key                         Layout Type                                     |
-    \*-------------------------------------------------------------------------------------------------------------*/
-    {   0,      0,      1,              KEY_EN_ESCAPE,              RAZER_LAYOUT_TYPE_ALL                           },
-    {   0,      0,      2,              KEY_EN_1,                   RAZER_LAYOUT_TYPE_ALL                           },
-    {   0,      0,      3,              KEY_EN_2,                   RAZER_LAYOUT_TYPE_ALL                           },
-    {   0,      0,      4,              KEY_EN_3,                   RAZER_LAYOUT_TYPE_ALL                           },
-    {   0,      0,      5,              KEY_EN_4,                   RAZER_LAYOUT_TYPE_ALL                           },
-    {   0,      0,      6,              KEY_EN_5,                   RAZER_LAYOUT_TYPE_ALL                           },
-    {   0,      0,      7,              KEY_EN_6,                   RAZER_LAYOUT_TYPE_ALL                           },
-    {   0,      0,      8,              KEY_EN_7,                   RAZER_LAYOUT_TYPE_ALL                           },
-    {   0,      0,      9,              KEY_EN_8,                   RAZER_LAYOUT_TYPE_ALL                           },
-    {   0,      0,      10,             KEY_EN_9,                   RAZER_LAYOUT_TYPE_ALL                           },
-    {   0,      0,      11,             KEY_EN_0,                   RAZER_LAYOUT_TYPE_ALL                           },
-    {   0,      0,      12,             KEY_EN_MINUS,               RAZER_LAYOUT_TYPE_ALL                           },
-    {   0,      0,      13,             KEY_EN_EQUALS,              RAZER_LAYOUT_TYPE_ALL                           },
-    {   0,      0,      14,             KEY_EN_EQUALS,              RAZER_LAYOUT_TYPE_ALL                           },
-    {   0,      1,      1,              KEY_EN_TAB,                 RAZER_LAYOUT_TYPE_ALL                           },
-    {   0,      1,      2,              KEY_EN_Q,                   RAZER_LAYOUT_TYPE_ALL                           },
-    {   0,      1,      3,              KEY_EN_W,                   RAZER_LAYOUT_TYPE_ALL                           },
-    {   0,      1,      4,              KEY_EN_E,                   RAZER_LAYOUT_TYPE_ALL                           },
-    {   0,      1,      5,              KEY_EN_R,                   RAZER_LAYOUT_TYPE_ALL                           },
-    {   0,      1,      6,              KEY_EN_T,                   RAZER_LAYOUT_TYPE_ALL                           },
-    {   0,      1,      7,              KEY_EN_Y,                   RAZER_LAYOUT_TYPE_ALL                           },
-    {   0,      1,      8,              KEY_EN_U,                   RAZER_LAYOUT_TYPE_ALL                           },
-    {   0,      1,      9,              KEY_EN_I,                   RAZER_LAYOUT_TYPE_ALL                           },
-    {   0,      1,      10,             KEY_EN_O,                   RAZER_LAYOUT_TYPE_ALL                           },
-    {   0,      1,      11,             KEY_EN_P,                   RAZER_LAYOUT_TYPE_ALL                           },
-    {   0,      1,      12,             KEY_EN_LEFT_BRACKET,        RAZER_LAYOUT_TYPE_ALL                           },
-    {   0,      1,      13,             KEY_EN_RIGHT_BRACKET,       RAZER_LAYOUT_TYPE_ALL                           },
-    {   0,      1,      14,             KEY_EN_ANSI_BACK_SLASH,     RAZER_LAYOUT_TYPE_ANSI                          },
-    {   0,      2,      1,              KEY_EN_CAPS_LOCK,           RAZER_LAYOUT_TYPE_ALL                           },
-    {   0,      2,      2,              KEY_EN_A,                   RAZER_LAYOUT_TYPE_ALL                           },
-    {   0,      2,      3,              KEY_EN_S,                   RAZER_LAYOUT_TYPE_ALL                           },
-    {   0,      2,      4,              KEY_EN_D,                   RAZER_LAYOUT_TYPE_ALL                           },
-    {   0,      2,      5,              KEY_EN_F,                   RAZER_LAYOUT_TYPE_ALL                           },
-    {   0,      2,      6,              KEY_EN_G,                   RAZER_LAYOUT_TYPE_ALL                           },
-    {   0,      2,      7,              KEY_EN_H,                   RAZER_LAYOUT_TYPE_ALL                           },
-    {   0,      2,      8,              KEY_EN_J,                   RAZER_LAYOUT_TYPE_ALL                           },
-    {   0,      2,      9,              KEY_EN_K,                   RAZER_LAYOUT_TYPE_ALL                           },
-    {   0,      2,      10,             KEY_EN_L,                   RAZER_LAYOUT_TYPE_ALL                           },
-    {   0,      2,      11,             KEY_EN_SEMICOLON,           RAZER_LAYOUT_TYPE_ALL                           },
-    {   0,      2,      12,             KEY_EN_QUOTE,               RAZER_LAYOUT_TYPE_ALL                           },
-    {   0,      2,      13,             KEY_EN_POUND,               RAZER_LAYOUT_TYPE_ISO                           },
-    {   0,      2,      14,             KEY_EN_ANSI_ENTER,          RAZER_LAYOUT_TYPE_ALL                           },
-    {   0,      3,      1,              KEY_EN_LEFT_SHIFT,          RAZER_LAYOUT_TYPE_ALL                           },
-    {   0,      3,      2,              KEY_EN_ISO_BACK_SLASH,      RAZER_LAYOUT_TYPE_ISO | RAZER_LAYOUT_TYPE_JIS   },
-    {   0,      3,      3,              KEY_EN_Z,                   RAZER_LAYOUT_TYPE_ALL                           },
-    {   0,      3,      4,              KEY_EN_X,                   RAZER_LAYOUT_TYPE_ALL                           },
-    {   0,      3,      5,              KEY_EN_C,                   RAZER_LAYOUT_TYPE_ALL                           },
-    {   0,      3,      6,              KEY_EN_V,                   RAZER_LAYOUT_TYPE_ALL                           },
-    {   0,      3,      7,              KEY_EN_B,                   RAZER_LAYOUT_TYPE_ALL                           },
-    {   0,      3,      8,              KEY_EN_N,                   RAZER_LAYOUT_TYPE_ALL                           },
-    {   0,      3,      9,              KEY_EN_M,                   RAZER_LAYOUT_TYPE_ALL                           },
-    {   0,      3,      10,             KEY_EN_COMMA,               RAZER_LAYOUT_TYPE_ALL                           },
-    {   0,      3,      11,             KEY_EN_PERIOD,              RAZER_LAYOUT_TYPE_ALL                           },
-    {   0,      3,      12,             KEY_EN_FORWARD_SLASH,       RAZER_LAYOUT_TYPE_ALL                           },
-    {   0,      3,      14,             KEY_EN_RIGHT_SHIFT,         RAZER_LAYOUT_TYPE_ALL                           },
-    {   0,      4,      1,              KEY_EN_LEFT_CONTROL,        RAZER_LAYOUT_TYPE_ALL                           },
-    {   0,      4,      2,              KEY_EN_LEFT_WINDOWS,        RAZER_LAYOUT_TYPE_ALL                           },
-    {   0,      4,      3,              KEY_EN_LEFT_ALT,            RAZER_LAYOUT_TYPE_ALL                           },
-    {   0,      4,      7,              KEY_EN_SPACE,               RAZER_LAYOUT_TYPE_ALL                           },
-    {   0,      4,      11,             KEY_EN_RIGHT_ALT,           RAZER_LAYOUT_TYPE_ALL                           },
-    {   0,      4,      12,             KEY_EN_RIGHT_FUNCTION,      RAZER_LAYOUT_TYPE_ALL                           },
-    {   0,      4,      13,             KEY_EN_MENU,                RAZER_LAYOUT_TYPE_ALL                           },
-    {   0,      4,      14,             KEY_EN_RIGHT_CONTROL,       RAZER_LAYOUT_TYPE_ALL                           },
-};
-
 #define HUNTSMAN_TE_KEYMAP_SIZE (sizeof(huntsman_te_keymap) / sizeof(huntsman_te_keymap[0]))
 
 static const razer_key huntsman_te_keymap[] =
@@ -2664,9 +2615,9 @@ static const razer_device huntsman_mini_device =
         NULL,
         NULL
     },
-    huntsman_mini_keymap,
-    HUNTSMAN_MINI_KEYMAP_SIZE,
-    NULL
+    NULL,
+    0,
+    &razer_huntsman_mini_layout
 };
 
 /*-------------------------------------------------------------*\
