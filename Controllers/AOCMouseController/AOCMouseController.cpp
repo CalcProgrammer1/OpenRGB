@@ -51,6 +51,22 @@ void AOCMouseController::SendDirect
     RGBColor*       color_data
     )
 {
+    SendPacket(AOC_MOUSE_MODE_STATIC_SINGLE_COLOR,
+               AOC_MOUSE_BRIGHTNESS_HIGH,
+               AOC_MOUSE_SPEED_MEDIUM,
+               AOC_MOUSE_DIRECTION_CLOCKWISE,
+               color_data);
+}
+
+void AOCMouseController::SendPacket
+    (
+    unsigned char   mode,
+    unsigned char   brightness,
+    unsigned char   speed,
+    unsigned char   direction,
+    RGBColor*       color_data
+    )
+{
     unsigned char buf[60];
 
     /*-----------------------------------------------------*\
@@ -64,9 +80,10 @@ void AOCMouseController::SendDirect
     buf[0x00]   = 0x20;
     buf[0x01]   = 0x03;
     buf[0x02]   = 0x01;
-    buf[0x04]   = 0x02;
-    buf[0x05]   = 0x02;
-    buf[0x06]   = 0x01;
+    buf[0x03]   = mode;
+    buf[0x04]   = speed;
+    buf[0x05]   = brightness;
+    buf[0x06]   = direction;
     buf[0x07]   = 0x01;
     buf[0x08]   = 0x02;
     buf[0x09]   = 0xFF;
