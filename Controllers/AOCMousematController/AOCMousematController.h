@@ -31,9 +31,9 @@ enum
 
 enum
 {
-    AOC_MOUSEMAT_SPEED_SLOW                     = 0x01,     /* Slowest speed                */
+    AOC_MOUSEMAT_SPEED_SLOW                     = 0x03,     /* Slowest speed                */
     AOC_MOUSEMAT_SPEED_MEDIUM                   = 0x02,     /* Medium speed                 */
-    AOC_MOUSEMAT_SPEED_FAST                     = 0x03,     /* Fastest speed                */
+    AOC_MOUSEMAT_SPEED_FAST                     = 0x01,     /* Fastest speed                */
 };
 
 enum
