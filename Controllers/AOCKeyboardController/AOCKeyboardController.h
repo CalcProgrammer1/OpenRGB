@@ -68,12 +68,7 @@ public:
     std::string GetDeviceLocation();
     std::string GetSerialString();
 
-    void SendDirect
-            (
-            RGBColor*       color_data
-            );
-
-    void SendPacket
+    void SetLightingConfig
             (
             unsigned char   mode,
             unsigned char   random,
@@ -83,8 +78,30 @@ public:
             RGBColor*       color_data
             );
 
+    void SetCustom
+            (
+            RGBColor*       color_data
+            );
 
 private:
     hid_device*             dev;
     std::string             location;
+
+    void SendStartPacket();
+    void SendEndPacket();
+
+    void SendCustomPacket
+            (
+            RGBColor*       color_data
+            );
+
+    void SendLightingConfigPacket
+            (
+            unsigned char   mode,
+            unsigned char   random,
+            unsigned char   brightness,
+            unsigned char   speed,
+            unsigned char   direction,
+            RGBColor*       color_data
+            );
 };

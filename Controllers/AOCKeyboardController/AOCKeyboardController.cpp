@@ -47,24 +47,121 @@ std::string AOCKeyboardController::GetSerialString()
     return(return_string);
 }
 
-/*-------------------------------------------------------------------------------------------------*\
-| Private packet sending functions.                                                                 |
-\*-------------------------------------------------------------------------------------------------*/
+void AOCKeyboardController::SetLightingConfig
+    (
+    unsigned char   mode,
+    unsigned char   random,
+    unsigned char   brightness,
+    unsigned char   speed,
+    unsigned char   direction,
+    RGBColor*       color_data
+    )
+{
+    SendStartPacket();
+    std::this_thread::sleep_for(5ms);
 
-void AOCKeyboardController::SendDirect
+    SendLightingConfigPacket(mode, random, brightness, speed, direction, color_data);
+    std::this_thread::sleep_for(5ms);
+
+    SendEndPacket();
+    std::this_thread::sleep_for(10ms);
+}
+
+void AOCKeyboardController::SetCustom
     (
     RGBColor*       color_data
     )
 {
-    SendPacket(AOC_KEYBOARD_MODE_STATIC,
-               AOC_KEYBOARD_SINGLE_COLOR,
-               AOC_KEYBOARD_BRIGHTNESS_HIGH,
-               AOC_KEYBOARD_SPEED_MEDIUM,
-               AOC_KEYBOARD_DIRECTION_CLOCKWISE,
-               color_data);
+    SendStartPacket();
+    std::this_thread::sleep_for(5ms);
+
+    SendCustomPacket(color_data);
+    std::this_thread::sleep_for(5ms);
+
+    SendEndPacket();
+    std::this_thread::sleep_for(5ms);
 }
 
-void AOCKeyboardController::SendPacket
+/*-------------------------------------------------------------------------------------------------*\
+| Private packet sending functions.                                                                 |
+\*-------------------------------------------------------------------------------------------------*/
+
+void AOCKeyboardController::SendStartPacket()
+{
+    unsigned char buf[64];
+
+    /*-----------------------------------------------------*\
+    | Zero out buffer                                       |
+    \*-----------------------------------------------------*/
+    memset(buf, 0x00, sizeof(buf));
+
+    /*-----------------------------------------------------*\
+    | Set up start packet                                   |
+    \*-----------------------------------------------------*/
+    buf[0x00]   = 0x09;
+    buf[0x01]   = 0x21;
+
+    /*-----------------------------------------------------*\
+    | Send packet                                           |
+    \*-----------------------------------------------------*/
+    hid_write(dev, buf, sizeof(buf));
+}
+
+void AOCKeyboardController::SendEndPacket()
+{
+    unsigned char buf[64];
+
+    /*-----------------------------------------------------*\
+    | Zero out buffer                                       |
+    \*-----------------------------------------------------*/
+    memset(buf, 0x00, sizeof(buf));
+
+    /*-----------------------------------------------------*\
+    | Set up end packet                                     |
+    \*-----------------------------------------------------*/
+    buf[0x00]   = 0x09;
+    buf[0x01]   = 0x22;
+
+    /*-----------------------------------------------------*\
+    | Send packet                                           |
+    \*-----------------------------------------------------*/
+    hid_write(dev, buf, sizeof(buf));
+}
+
+void AOCKeyboardController::SendCustomPacket
+    (
+    RGBColor*       color_data
+    )
+{
+    unsigned char buf[361];
+
+    /*-----------------------------------------------------*\
+    | Zero out buffer                                       |
+    \*-----------------------------------------------------*/
+    memset(buf, 0x00, sizeof(buf));
+
+    /*-----------------------------------------------------*\
+    | Set up custom lighting packet                         |
+    \*-----------------------------------------------------*/
+    buf[0x00]   = 0x20;
+
+    /*-----------------------------------------------------*\
+    | Copy in color data                                    |
+    \*-----------------------------------------------------*/
+    for(unsigned int color_idx = 0; color_idx < 120; color_idx++)
+    {
+        buf[color_idx + 1]      = RGBGetRValue(color_data[color_idx]);
+        buf[color_idx + 121]    = RGBGetGValue(color_data[color_idx]);
+        buf[color_idx + 241]    = RGBGetBValue(color_data[color_idx]);
+    }
+
+    /*-----------------------------------------------------*\
+    | Send packet                                           |
+    \*-----------------------------------------------------*/
+    hid_send_feature_report(dev, buf, sizeof(buf));
+}
+
+void AOCKeyboardController::SendLightingConfigPacket
     (
     unsigned char   mode,
     unsigned char   random,
@@ -82,7 +179,7 @@ void AOCKeyboardController::SendPacket
     memset(buf, 0x00, sizeof(buf));
 
     /*-----------------------------------------------------*\
-    | Set up RGB configuration packet                       |
+    | Set up lighting configuration packet                  |
     \*-----------------------------------------------------*/
     buf[0x00]   = 0x14;
     buf[0x01]   = 0x01;
@@ -107,34 +204,8 @@ void AOCKeyboardController::SendPacket
     buf[115]    = checksum & 0xFF;
     buf[116]    = checksum >> 8;
 
-
-    unsigned char buf3[] =
-{
-0x09, 0x21, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-0x00, 0x00, 0x00, 0x00,
-};
-    hid_write(dev, buf3, 64);
-
-
-    std::this_thread::sleep_for(10ms);
-
     /*-----------------------------------------------------*\
     | Send packet                                           |
     \*-----------------------------------------------------*/
     hid_send_feature_report(dev, buf, 117);
-
-    std::this_thread::sleep_for(10ms);
-
-    unsigned char buf2[] =
-{
-0x09, 0x22, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-0x00, 0x00, 0x00, 0x00,
-};
-    hid_write(dev, buf2, 64);
 }
