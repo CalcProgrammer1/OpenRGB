@@ -932,67 +932,42 @@ keyboard_keymap_overlay_values razer_laptop_with_spacebar_layout
     }
 };
 
-/*-------------------------------------------------------------------------*\
-|  OLD_KEYMAPS                                                              |
-\*-------------------------------------------------------------------------*/
-#define TARTARUS_V2_KEYMAP_SIZE (sizeof(tartarus_v2_keymap) / sizeof(tartarus_v2_keymap[0]))
-
-static const razer_key tartarus_v2_keymap[] =
+keyboard_keymap_overlay_values razer_tartarus_v2_layout
 {
-    /*---------------------------------------------------------------------*\
-    |   Zone,   Row,    Column,         Key                                 |
-    \*---------------------------------------------------------------------*/
-    {   0,      0,      0,              "Key: 01"                           },
-    {   0,      0,      1,              "Key: 02"                           },
-    {   0,      0,      2,              "Key: 03"                           },
-    {   0,      0,      3,              "Key: 04"                           },
-    {   0,      0,      4,              "Key: 05"                           },
-    {   0,      1,      0,              "Key: 06"                           },
-    {   0,      1,      1,              "Key: 07"                           },
-    {   0,      1,      2,              "Key: 08"                           },
-    {   0,      1,      3,              "Key: 09"                           },
-    {   0,      1,      4,              "Key: 10"                           },
-    {   0,      2,      0,              "Key: 11"                           },
-    {   0,      2,      1,              "Key: 12"                           },
-    {   0,      2,      2,              "Key: 13"                           },
-    {   0,      2,      3,              "Key: 14"                           },
-    {   0,      2,      4,              "Key: 15"                           },
-    {   0,      3,      0,              "Key: 16"                           },
-    {   0,      3,      1,              "Key: 17"                           },
-    {   0,      3,      2,              "Key: 18"                           },
-    {   0,      3,      3,              "Key: 19"                           },
-    {   0,      3,      4,              "Key: Scroll Wheel"                 },
-    {   0,      3,      5,              "Key: 20"                           },
-};
-
-#define TARTARUS_PRO_KEYMAP_SIZE (sizeof(tartarus_pro_keymap) / sizeof(tartarus_pro_keymap[0]))
-
-static const razer_key tartarus_pro_keymap[] =
-{
-    /*---------------------------------------------------------------------*\
-    |   Zone,   Row,    Column,         Key                                 |
-    \*---------------------------------------------------------------------*/
-    {   0,      0,      0,              "Keypad 01"                         },
-    {   0,      0,      1,              "Keypad 02"                         },
-    {   0,      0,      2,              "Keypad 03"                         },
-    {   0,      0,      3,              "Keypad 04"                         },
-    {   0,      0,      4,              "Keypad 05"                         },
-    {   0,      1,      0,              "Keypad 06"                         },
-    {   0,      1,      1,              "Keypad 07"                         },
-    {   0,      1,      2,              "Keypad 08"                         },
-    {   0,      1,      3,              "Keypad 09"                         },
-    {   0,      1,      4,              "Keypad 10"                         },
-    {   0,      2,      0,              "Keypad 11"                         },
-    {   0,      2,      1,              "Keypad 12"                         },
-    {   0,      2,      2,              "Keypad 13"                         },
-    {   0,      2,      3,              "Keypad 14"                         },
-    {   0,      2,      4,              "Keypad 15"                         },
-    {   0,      3,      0,              "Keypad 16"                         },
-    {   0,      3,      1,              "Keypad 17"                         },
-    {   0,      3,      2,              "Keypad 18"                         },
-    {   0,      3,      3,              "Keypad 19"                         },
-    {   0,      3,      4,              "Key Scroll Wheel"                  },
-    {   1,      0,      0,              "Keypad 20"                         },
+    KEYBOARD_SIZE::KEYBOARD_SIZE_EMPTY,
+    {
+        {   /* ANSI Value set not used */   },
+        {
+            /* Add more regional layout fixes here */
+        }
+    },
+    {
+        /*---------------------------------------------------------------------------------------------------------*\
+        | Edit Keys                                                                                                 |
+        |   Zone,   Row,    Column,     Value,      Key,                        OpCode,                             |
+        \*---------------------------------------------------------------------------------------------------------*/
+        {   0,      0,       0,         0,          "Key: 01",                  KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      0,       1,         0,          "Key: 02",                  KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      0,       2,         0,          "Key: 03",                  KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      0,       3,         0,          "Key: 04",                  KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      0,       4,         0,          "Key: 05",                  KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      1,       0,         0,          "Key: 06",                  KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      1,       1,         0,          "Key: 07",                  KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      1,       2,         0,          "Key: 08",                  KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      1,       3,         0,          "Key: 09",                  KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      1,       4,         0,          "Key: 10",                  KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      2,       0,         0,          "Key: 11",                  KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      2,       1,         0,          "Key: 12",                  KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      2,       2,         0,          "Key: 13",                  KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      2,       3,         0,          "Key: 14",                  KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      2,       4,         0,          "Key: 15",                  KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      3,       0,         0,          "Key: 16",                  KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      3,       1,         0,          "Key: 17",                  KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      3,       2,         0,          "Key: 18",                  KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      3,       3,         0,          "Key: 19",                  KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      3,       4,         0,          "Key: Scroll Wheel",        KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      3,       5,         0,          "Key: 20",                  KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+    }
 };
 
 /*-------------------------------------------------------------------------*\
@@ -5991,9 +5966,9 @@ static const razer_device tartarus_v2_device =
         NULL,
         NULL
     },
-    tartarus_v2_keymap,
-    TARTARUS_V2_KEYMAP_SIZE,
-    NULL
+    NULL,
+    0,
+    &razer_tartarus_v2_layout
 };
 
 /*-------------------------------------------------------------------------*\
