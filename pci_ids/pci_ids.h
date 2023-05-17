@@ -551,6 +551,7 @@
 \*-----------------------------------------------------*/
 #define PNY_RTX_3060_XLR8_REVEL_EPIC_X_SUB_DEV          0x138E
 #define PNY_RTX_3070_XLR8_REVEL_EPIC_X_SUB_DEV          0x136E
+#define PNY_RTX_3070_XLR8_REVEL_EPIC_X_LHR_SUB_DEV      0x138A
 #define PNY_RTX_3080_XLR8_REVEL_EPIC_X_SUB_DEV          0x136B
 #define PNY_RTX_3090_XLR8_REVEL_EPIC_X_SUB_DEV          0x136A
 #define PNY_RTX_3060TI_XLR8_REVEL_EPIC_X_SUB_DEV        0x1389
