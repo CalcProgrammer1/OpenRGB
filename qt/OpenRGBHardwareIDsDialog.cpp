@@ -35,8 +35,8 @@ int Ui::OpenRGBHardwareIDsDialog::show()
 
     for(i2c_smbus_interface* bus : i2CBusses)
     {
-        char line[512];
-        snprintf(line, 512, "%04X:%04X %04X:%04X - %s", bus->pci_vendor, bus->pci_device, bus->pci_subsystem_vendor, bus->pci_subsystem_device, bus->device_name);
+        char line[550];
+        snprintf(line, 550, "%04X:%04X %04X:%04X - %s", bus->pci_vendor, bus->pci_device, bus->pci_subsystem_vendor, bus->pci_subsystem_device, bus->device_name);
         strings.push_back(line);
     }
 
