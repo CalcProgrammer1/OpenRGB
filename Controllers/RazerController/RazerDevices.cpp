@@ -932,6 +932,33 @@ keyboard_keymap_overlay_values razer_laptop_with_spacebar_layout
     }
 };
 
+keyboard_keymap_overlay_values razer_ornata_chroma_v2_layout
+{
+    KEYBOARD_SIZE::KEYBOARD_SIZE_FULL,
+    {
+        {   /* ANSI Value set not used */   },
+        {
+            /* Add more regional layout fixes here */
+        }
+    },
+    {
+        /*---------------------------------------------------------------------------------------------------------*\
+        | Edit Keys                                                                                                 |
+        |   Zone,   Row,    Column,     Value,      Key,                        OpCode,                             |
+        \*---------------------------------------------------------------------------------------------------------*/
+        {   0,      0,      0,          0,          KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      0,      18,         0,          KEY_EN_MEDIA_PREVIOUS,      KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      0,      19,         0,          KEY_EN_MEDIA_PLAY_PAUSE,    KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      0,      20,         0,          KEY_EN_MEDIA_NEXT,          KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      0,      21,         0,          KEY_EN_MEDIA_MUTE,          KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      1,      0,          0,          KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      2,      0,          0,          KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      3,      0,          0,          KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      4,      0,          0,          KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      5,      0,          0,          KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+    }
+};
+
 keyboard_keymap_overlay_values razer_tartarus_v2_layout
 {
     KEYBOARD_SIZE::KEYBOARD_SIZE_EMPTY,
@@ -1650,6 +1677,41 @@ static const razer_device ornata_chroma_device =
     &razer_full_size_shifted_layout
 };
 
+/*-------------------------------------------------------------*\
+|  Razer Ornata Chroma V2 1532:025D                             |
+|                                                               |
+|  Zone "Keyboard"                                              |
+|       Matrix                                                  |
+|       6 Rows, 22 Columns                                      |
+\*-------------------------------------------------------------*/
+static const razer_zone ornata_chroma_v2_zone =
+{
+    ZONE_EN_KEYBOARD,
+    ZONE_TYPE_MATRIX,
+    6,
+    22
+};
+
+static const razer_device ornata_chroma_v2_device =
+{
+    "Razer Ornata Chroma V2",
+    RAZER_ORNATA_CHROMA_V2_PID,
+    DEVICE_TYPE_KEYBOARD,
+    true,
+    6,
+    22,
+    {
+        &ornata_chroma_v2_zone,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL
+    },
+    NULL,
+    0,
+    &razer_ornata_chroma_v2_layout
+};
 
 /*-------------------------------------------------------------*\
 |  Razer Ornata V3                                              |
@@ -7288,6 +7350,7 @@ const razer_device* razer_device_list[] =
     &huntsman_v2_analog_device,
     &huntsman_v2_tkl_device,
     &ornata_chroma_device,
+    &ornata_chroma_v2_device,
     &ornata_v3_device,
     &ornata_v3_x_device,
 /*-----------------------------------------------------------------*\
