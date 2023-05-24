@@ -170,8 +170,6 @@ void RGBController_DMX::ResizeZone(int /*zone*/, int /*new_size*/)
 
 void RGBController_DMX::DeviceUpdateLEDs()
 {
-    int color_idx = 0;
-
     last_update_time = std::chrono::steady_clock::now();
 
     unsigned char dmx_data[513];
