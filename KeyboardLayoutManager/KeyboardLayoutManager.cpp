@@ -463,7 +463,7 @@ void KeyboardLayoutManager::InsertKey(keyboard_led ins_key)
 
     unsigned int    key_idx     = 0;
 
-    for(key_idx; key_idx < keymap.size(); key_idx++)
+    for(/*key_idx*/; key_idx < keymap.size(); key_idx++)
     {
         /*---------------------------------------------------------------------*\
         | Search through all existing keys and determine where in the list to   |
@@ -513,7 +513,7 @@ void KeyboardLayoutManager::InsertKey(keyboard_led ins_key)
     \*---------------------------------------------------------------------*/
     if(update_row)
     {
-        for(key_idx; key_idx < keymap.size(); key_idx++)
+        for(/*key_idx*/; key_idx < keymap.size(); key_idx++)
         {
             if((keymap[key_idx].row == ins_row) && (keymap[key_idx].col >= ins_col))
             {
@@ -662,7 +662,7 @@ void KeyboardLayoutManager::RemoveKey(keyboard_led rmv_key)
             LOG_DEBUG("[%s] Removing %s @ %02d, %02d and shifting keys left", KLM_CLASS_NAME, keymap[key_idx].name, rmv_row, rmv_col);
             keymap.erase(keymap.begin() + key_idx);
 
-            for(key_idx; key_idx < keymap.size(); key_idx++)
+            for(/*key_idx*/; key_idx < keymap.size(); key_idx++)
             {
                 if(rmv_row == keymap[key_idx].row)
                 {
@@ -681,7 +681,7 @@ void KeyboardLayoutManager::RemoveKey(keyboard_led rmv_key)
         {
             LOG_DEBUG("[%s] Removing unused key @ %02d, %02d and shifting keys left", KLM_CLASS_NAME, rmv_row, rmv_col);
 
-            for(key_idx; key_idx < keymap.size(); key_idx++)
+            for(/*key_idx*/; key_idx < keymap.size(); key_idx++)
             {
                 if(rmv_row == keymap[key_idx].row)
                 {
