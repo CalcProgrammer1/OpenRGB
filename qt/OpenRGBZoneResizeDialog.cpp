@@ -73,7 +73,7 @@ void Ui::OpenRGBZoneResizeDialog::on_ResizeSlider_valueChanged(int value)
     | Set maximum value for all segment sliders to new zone |
     | size                                                  |
     \*-----------------------------------------------------*/
-    for(unsigned int item_idx = 0; item_idx < ui->SegmentsTreeWidget->topLevelItemCount(); item_idx++)
+    for(int item_idx = 0; item_idx < ui->SegmentsTreeWidget->topLevelItemCount(); item_idx++)
     {
         ((QSlider*)ui->SegmentsTreeWidget->itemWidget(ui->SegmentsTreeWidget->topLevelItem(item_idx), 2))->setMaximum(value);
     }
@@ -87,7 +87,7 @@ void Ui::OpenRGBZoneResizeDialog::on_segment_lineedit_textChanged()
     | Update the Slider with the LineEdit value for each    |
     | segment                                               |
     \*-----------------------------------------------------*/
-    for(unsigned int item_idx = 0; item_idx < ui->SegmentsTreeWidget->topLevelItemCount(); item_idx++)
+    for(int item_idx = 0; item_idx < ui->SegmentsTreeWidget->topLevelItemCount(); item_idx++)
     {
         int lineedit_value = ((QLineEdit*)ui->SegmentsTreeWidget->itemWidget(ui->SegmentsTreeWidget->topLevelItem(item_idx), 1))->text().toInt();
         ((QSlider*)ui->SegmentsTreeWidget->itemWidget(ui->SegmentsTreeWidget->topLevelItem(item_idx), 2))->setValue(lineedit_value);
@@ -102,7 +102,7 @@ void Ui::OpenRGBZoneResizeDialog::on_segment_slider_valueChanged(int)
     | Update the LineEdit with the Slider value for each    |
     | segment                                               |
     \*-----------------------------------------------------*/
-    for(unsigned int item_idx = 0; item_idx < ui->SegmentsTreeWidget->topLevelItemCount(); item_idx++)
+    for(int item_idx = 0; item_idx < ui->SegmentsTreeWidget->topLevelItemCount(); item_idx++)
     {
         int slider_value = ((QSlider*)ui->SegmentsTreeWidget->itemWidget(ui->SegmentsTreeWidget->topLevelItem(item_idx), 2))->value();
         ((QLineEdit*)ui->SegmentsTreeWidget->itemWidget(ui->SegmentsTreeWidget->topLevelItem(item_idx), 1))->setText(QString::number(slider_value));
@@ -121,7 +121,7 @@ void Ui::OpenRGBZoneResizeDialog::on_ResizeBox_valueChanged(int value)
     | Set maximum value for all segment sliders to new zone |
     | size                                                  |
     \*-----------------------------------------------------*/
-    for(unsigned int item_idx = 0; item_idx < ui->SegmentsTreeWidget->topLevelItemCount(); item_idx++)
+    for(int item_idx = 0; item_idx < ui->SegmentsTreeWidget->topLevelItemCount(); item_idx++)
     {
         ((QSlider*)ui->SegmentsTreeWidget->itemWidget(ui->SegmentsTreeWidget->topLevelItem(item_idx), 2))->setMaximum(value);
     }
@@ -152,7 +152,7 @@ int Ui::OpenRGBZoneResizeDialog::show()
 
         unsigned int start_idx = 0;
 
-        for(unsigned int item_idx = 0; item_idx < ui->SegmentsTreeWidget->topLevelItemCount(); item_idx++)
+        for(int item_idx = 0; item_idx < ui->SegmentsTreeWidget->topLevelItemCount(); item_idx++)
         {
             segment new_segment;
             new_segment.type       = ZONE_TYPE_LINEAR;
@@ -226,9 +226,9 @@ void Ui::OpenRGBZoneResizeDialog::CheckSegmentsValidity()
         /*-----------------------------------------------------*\
         | Verify all segments add up to zone size               |
         \*-----------------------------------------------------*/
-        unsigned int total_segment_leds = 0;
+        int total_segment_leds = 0;
 
-        for(unsigned int segment_idx = 0; segment_idx < ui->SegmentsTreeWidget->topLevelItemCount(); segment_idx++)
+        for(int segment_idx = 0; segment_idx < ui->SegmentsTreeWidget->topLevelItemCount(); segment_idx++)
         {
             unsigned int segment_leds = ((QLineEdit*)ui->SegmentsTreeWidget->itemWidget(ui->SegmentsTreeWidget->topLevelItem(segment_idx), 1))->text().toInt();
 
