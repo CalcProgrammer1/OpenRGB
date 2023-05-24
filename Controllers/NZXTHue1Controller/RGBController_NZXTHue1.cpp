@@ -246,7 +246,7 @@ void RGBController_NZXTHue1::SetupZones()
     SetupColors();
 }
 
-void RGBController_NZXTHue1::ResizeZone(int zone, int new_size)
+void RGBController_NZXTHue1::ResizeZone(int /*zone*/, int /*new_size*/)
 {
 }
 
