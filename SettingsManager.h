@@ -19,11 +19,13 @@ using json = nlohmann::json;
 class SettingsManagerInterface
 {
 public:
-    virtual json GetSettings(std::string settings_key)                       = 0;
-    virtual void SetSettings(std::string settings_key, json new_settings)    = 0;
+    virtual json GetSettings(std::string settings_key)                                      = 0;
+    virtual void SetSettings(std::string settings_key, json new_settings)                   = 0;
 
-    virtual void LoadSettings(const filesystem::path& filename)              = 0;
-    virtual void SaveSettings()                                              = 0;
+    virtual void LoadSettings(const filesystem::path& filename)                             = 0;
+    virtual void SaveSettings()                                                             = 0;
+
+    virtual void RegisterSettingsPrototype(std::string settings_key, json new_prototype)    = 0;
 
 protected:
     virtual ~SettingsManagerInterface() {};
@@ -40,6 +42,9 @@ public:
 
     void LoadSettings(const filesystem::path& filename) override;
     void SaveSettings() override;
+
+    void RegisterSettingsPrototype(std::string settings_key, json new_prototype) override;
+    json GetSettingsPrototype();
 
 private:
     json             settings_data;

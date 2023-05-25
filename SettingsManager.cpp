@@ -110,3 +110,13 @@ void SettingsManager::SaveSettings()
         settings_file.close();
     }
 }
+
+void SettingsManager::RegisterSettingsPrototype(std::string settings_key, json new_prototype)
+{
+    settings_prototype[settings_key] = new_prototype;
+}
+
+json SettingsManager::GetSettingsPrototype()
+{
+    return(settings_prototype);
+}

@@ -168,6 +168,25 @@ OpenRGBDialog2::OpenRGBDialog2(QWidget *parent) : QMainWindow(parent), ui(new Op
     setWindowIcon(logo);
 
     /*-----------------------------------------------------*\
+    | Create UserInterface settings prototype               |
+    \*-----------------------------------------------------*/
+    json                ui_settings_proto;
+
+    ui_settings_proto["numerical_labels"]["name"]       = "Numerical Labels";
+    ui_settings_proto["numerical_labels"]["type"]       = "boolean";
+
+    ui_settings_proto["disable_key_expansion"]["name"]  = "Disable Key Expansion";
+    ui_settings_proto["disable_key_expansion"]["type"]  = "boolean";
+
+    ui_settings_proto["greyscale_tray_icon"]["name"]    = "Greyscale Tray Icon";
+    ui_settings_proto["greyscale_tray_icon"]["type"]    = "boolean";
+
+    ui_settings_proto["minimize_on_close"]["name"]      = "Minimize On Close";
+    ui_settings_proto["minimize_on_close"]["type"]      = "boolean";
+
+    settings_manager->RegisterSettingsPrototype(ui_string, ui_settings_proto);
+
+    /*-----------------------------------------------------*\
     | Set window geometry from config (if available)        |
     \*-----------------------------------------------------*/
     SettingsManager*    settings_manager    = ResourceManager::get()->GetSettingsManager();
@@ -412,6 +431,11 @@ OpenRGBDialog2::OpenRGBDialog2(QWidget *parent) : QMainWindow(parent), ui(new Op
     | Add the settings page                                 |
     \*-----------------------------------------------------*/
     AddSettingsPage();
+
+    /*-----------------------------------------------------*\
+    | Add the settings manager page                         |
+    \*-----------------------------------------------------*/
+    AddSettingsManagerPage();
 
     /*-----------------------------------------------------*\
     | Add the Supported Devices page                        |
@@ -716,6 +740,34 @@ void OpenRGBDialog2::AddSettingsPage()
     connect(this, SIGNAL(ProfileListChanged()), SettingsPage, SLOT(UpdateProfiles()));
 }
 
+void OpenRGBDialog2::AddSettingsManagerPage()
+{
+    /*-----------------------------------------------------*\
+    | Create the SettingsManager page                       |
+    \*-----------------------------------------------------*/
+    SettingsManagerPage = new OpenRGBSettingsManagerPage();
+
+    ui->SettingsTabBar->addTab(SettingsManagerPage, "");
+
+    QString SettingsLabelString;
+
+    if(OpenRGBThemeManager::IsDarkTheme())
+    {
+        SettingsLabelString = "settings_dark.png";
+    }
+    else
+    {
+        SettingsLabelString = "settings.png";
+    }
+
+    /*-----------------------------------------------------*\
+    | Create the tab label                                  |
+    \*-----------------------------------------------------*/
+    TabLabel* SettingsTabLabel = new TabLabel(OpenRGBFont::options, tr("Settings Manager"), (char *)"Settings Manager", (char *)context);
+
+    ui->SettingsTabBar->tabBar()->setTabButton(ui->SettingsTabBar->tabBar()->count() - 1, QTabBar::LeftSide, SettingsTabLabel);
+}
+
 void OpenRGBDialog2::AddDMXSettingsPage()
 {
     /*-----------------------------------------------------*\
@@ -853,7 +905,7 @@ void OpenRGBDialog2::AddSerialSettingsPage()
     \*-----------------------------------------------------*/
     SerialSettingsPage = new OpenRGBSerialSettingsPage();
 
-    ui->SettingsTabBar->addTab(SerialSettingsPage, "");    
+    ui->SettingsTabBar->addTab(SerialSettingsPage, "");
 
     /*-----------------------------------------------------*\
     | Create the tab label                                  |

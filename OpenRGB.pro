@@ -309,6 +309,8 @@ HEADERS +=                                                                      
     qt/OpenRGBSerialSettingsPage/OpenRGBSerialSettingsEntry.h                                   \
     qt/OpenRGBSerialSettingsPage/OpenRGBSerialSettingsPage.h                                    \
     qt/OpenRGBServerInfoPage/OpenRGBServerInfoPage.h                                            \
+    qt/OpenRGBSettingsManagerPage/OpenRGBSettingsManagerEntry.h                                 \
+    qt/OpenRGBSettingsManagerPage/OpenRGBSettingsManagerPage.h                                  \
     qt/OpenRGBSettingsPage/OpenRGBSettingsPage.h                                                \
     qt/OpenRGBSoftwareInfoPage/OpenRGBSoftwareInfoPage.h                                        \
     qt/OpenRGBSupportedDevicesPage/OpenRGBSupportedDevicesPage.h                                \
@@ -912,6 +914,8 @@ SOURCES +=                                                                      
     qt/OpenRGBSerialSettingsPage/OpenRGBSerialSettingsEntry.cpp                                 \
     qt/OpenRGBSerialSettingsPage/OpenRGBSerialSettingsPage.cpp                                  \
     qt/OpenRGBServerInfoPage/OpenRGBServerInfoPage.cpp                                          \
+    qt/OpenRGBSettingsManagerPage/OpenRGBSettingsManagerEntry.cpp                               \
+    qt/OpenRGBSettingsManagerPage/OpenRGBSettingsManagerPage.cpp                                \
     qt/OpenRGBSettingsPage/OpenRGBSettingsPage.cpp                                              \
     qt/OpenRGBSoftwareInfoPage/OpenRGBSoftwareInfoPage.cpp                                      \
     qt/OpenRGBSupportedDevicesPage/OpenRGBSupportedDevicesPage.cpp                              \
@@ -1606,6 +1610,8 @@ FORMS +=                                                                        
     qt/OpenRGBSerialSettingsPage/OpenRGBSerialSettingsEntry.ui                                  \
     qt/OpenRGBSerialSettingsPage/OpenRGBSerialSettingsPage.ui                                   \
     qt/OpenRGBServerInfoPage/OpenRGBServerInfoPage.ui                                           \
+    qt/OpenRGBSettingsManagerPage/OpenRGBSettingsManagerEntry.ui                                \
+    qt/OpenRGBSettingsManagerPage/OpenRGBSettingsManagerPage.ui                                 \
     qt/OpenRGBSettingsPage/OpenRGBSettingsPage.ui                                               \
     qt/OpenRGBSoftwareInfoPage/OpenRGBSoftwareInfoPage.ui                                       \
     qt/OpenRGBSupportedDevicesPage/OpenRGBSupportedDevicesPage.ui                               \

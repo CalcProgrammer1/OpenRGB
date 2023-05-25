@@ -18,6 +18,7 @@
 #include "OpenRGBPhilipsWizSettingsPage/OpenRGBPhilipsWizSettingsPage.h"
 #include "OpenRGBQMKORGBSettingsPage/OpenRGBQMKORGBSettingsPage.h"
 #include "OpenRGBSerialSettingsPage/OpenRGBSerialSettingsPage.h"
+#include "OpenRGBSettingsManagerPage/OpenRGBSettingsManagerPage.h"
 #include "OpenRGBYeelightSettingsPage/OpenRGBYeelightSettingsPage.h"
 #include "OpenRGBNanoleafSettingsPage/OpenRGBNanoleafSettingsPage.h"
 #include "PluginManager.h"
@@ -94,6 +95,7 @@ private:
     OpenRGBPhilipsWizSettingsPage *PhilipsWizSettingsPage;
     OpenRGBQMKORGBSettingsPage *QMKORGBSettingsPage;
     OpenRGBSerialSettingsPage *SerialSettingsPage;
+    OpenRGBSettingsManagerPage *SettingsManagerPage;
     OpenRGBYeelightSettingsPage *YeelightSettingsPage;
     OpenRGBNanoleafSettingsPage *NanoleafSettingsPage;
 
@@ -114,6 +116,7 @@ private:
     void AddSoftwareInfoPage();
     void AddSupportedDevicesPage();
     void AddSettingsPage();
+    void AddSettingsManagerPage();
     void AddDMXSettingsPage();
     void AddE131SettingsPage();
     void AddElgatoKeyLightSettingsPage();
