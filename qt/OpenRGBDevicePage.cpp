@@ -1513,7 +1513,7 @@ void Ui::OpenRGBDevicePage::on_EditZoneButton_clicked()
             }
         }
         break;
-#if 0
+
     case MODE_COLORS_MODE_SPECIFIC:
         {
             OpenRGBZoneResizeDialog dlg(device->modes[device->active_mode].colors_min,
@@ -1531,7 +1531,6 @@ void Ui::OpenRGBDevicePage::on_EditZoneButton_clicked()
             UpdateMode();
         }
         break;
-#endif
     }
 }
 

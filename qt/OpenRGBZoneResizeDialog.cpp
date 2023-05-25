@@ -50,6 +50,33 @@ OpenRGBZoneResizeDialog::OpenRGBZoneResizeDialog(RGBController* edit_dev_ptr, un
     }
 }
 
+OpenRGBZoneResizeDialog::OpenRGBZoneResizeDialog(unsigned int edit_zone_min_val, unsigned int edit_zone_max_val, unsigned int edit_zone_current_val, QWidget *parent) :
+    QDialog(parent),
+    ui(new Ui::OpenRGBZoneResizeDialogUi)
+{
+    /*-----------------------------------------------------*\
+    | This constructor does not use a device pointer.       |
+    \*-----------------------------------------------------*/
+    edit_dev = NULL;
+
+    ui->setupUi(this);
+
+    /*-----------------------------------------------------*\
+    | This constructor is used for resizing mode-specific   |
+    | colors.  Segments are not used in this mode, so hide  |
+    | the Segments tree view and buttons.                   |
+    \*-----------------------------------------------------*/
+    ui->SegmentsTreeWidget->hide();
+    ui->AddSegmentButton->hide();
+    ui->RemoveSegmentButton->hide();
+
+    ui->ResizeSlider->setRange(edit_zone_min_val, edit_zone_max_val);
+    ui->ResizeBox->setRange(edit_zone_min_val, edit_zone_max_val);
+
+    ui->ResizeSlider->setValue(edit_zone_current_val);
+    ui->ResizeBox->setValue(edit_zone_current_val);
+}
+
 OpenRGBZoneResizeDialog::~OpenRGBZoneResizeDialog()
 {
     delete ui;
@@ -144,7 +171,7 @@ int Ui::OpenRGBZoneResizeDialog::show()
         ret_val = ui->ResizeBox->value();
     }
 
-    if(ret_val >= 0)
+    if(ret_val >= 0 && edit_dev != NULL)
     {
         edit_dev->ResizeZone(edit_zone_idx, ret_val);
 
