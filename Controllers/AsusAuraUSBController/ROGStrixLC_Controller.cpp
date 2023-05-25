@@ -23,7 +23,7 @@ ROGStrixLC_Controller::ROGStrixLC_Controller(hid_device* dev_handle, const char*
 
 ROGStrixLC_Controller::~ROGStrixLC_Controller()
 {
-    hid_close(dev);
+    // Device will close at AuraUSBController destructor
 }
 
 std::string ROGStrixLC_Controller::GetLocation()
