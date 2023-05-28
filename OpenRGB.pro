@@ -333,6 +333,8 @@ HEADERS +=                                                                      
     Controllers/CherryKeyboardController/RGBController_CherryKeyboard.h                         \
     Controllers/ColorfulGPUController/ColorfulGPUController.h                                   \
     Controllers/ColorfulGPUController/RGBController_ColorfulGPU.h                               \
+    Controllers/ColorfulTuringGPUController/ColorfulTuringGPUController.h                       \
+    Controllers/ColorfulTuringGPUController/RGBController_ColorfulTuringGPU.h                   \
     Controllers/CoolerMasterController/CMARGBcontroller.h                                       \
     Controllers/CoolerMasterController/CMARGBGen2A1controller.h                                 \
     Controllers/CoolerMasterController/CMMKController.h                                         \
@@ -908,6 +910,9 @@ SOURCES +=                                                                      
     Controllers/ColorfulGPUController/ColorfulGPUController.cpp                                 \
     Controllers/ColorfulGPUController/ColorfulGPUControllerDetect.cpp                           \
     Controllers/ColorfulGPUController/RGBController_ColorfulGPU.cpp                             \
+    Controllers/ColorfulTuringGPUController/ColorfulTuringGPUController.cpp                     \
+    Controllers/ColorfulTuringGPUController/ColorfulTuringGPUControllerDetect.cpp               \
+    Controllers/ColorfulTuringGPUController/RGBController_ColorfulTuringGPU.cpp                 \
     Controllers/CoolerMasterController/CMARGBcontroller.cpp                                     \
     Controllers/CoolerMasterController/CMARGBGen2A1controller.cpp                               \
     Controllers/CoolerMasterController/CMMKController.cpp                                       \
