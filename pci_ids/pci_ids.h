@@ -586,6 +586,7 @@
 #define PALIT_RTX3090_GAMEROCK_SUB_DEV                  0xF278
 
 #define PALIT_RTX4070_SUB_DEV                           0xF302
+#define PALIT_RTX4070TI_GAMEROCK_SUB_DEV                0xF294
 #define PALIT_RTX4090_GAMEROCK_SUB_DEV                  0xF296
 
 /*-----------------------------------------------------*\
