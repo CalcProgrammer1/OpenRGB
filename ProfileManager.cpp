@@ -228,11 +228,19 @@ bool ProfileManager::LoadDeviceFromListWithOptions
         if(load_controller->location.find("HID: ") == 0)
         {
             location_check = true;
-        } 
+        }
         else if(load_controller->location.find("I2C: ") == 0)
         {
-            std::string i2c_address = load_controller->location.substr(load_controller->location.find_last_of(", ") + 2);
-            location_check = temp_controller->location.find(i2c_address) != std::string::npos;
+            std::size_t loc = load_controller->location.rfind(", ");
+            if(loc == std::string::npos)
+            {
+                location_check = false;
+            }
+            else
+            {
+                std::string i2c_address = load_controller->location.substr(loc + 2);
+                location_check = temp_controller->location.find(i2c_address) != std::string::npos;
+            }
         }
         else
         {
