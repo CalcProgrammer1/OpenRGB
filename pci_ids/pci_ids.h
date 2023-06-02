@@ -277,6 +277,7 @@
 #define COLORFUL_IGAME_RTX_3070_ULTRAW_OC               0x150A
 #define COLORFUL_IGAME_RTX_3070_TI_ULTRAW_OC            0x1581
 #define COLORFUL_IGAME_RTX_3070_TI_ADVANCED_OCV2        0x1400
+#define COLORFUL_IGAME_RTX_3080_TI_ADVANCED_OCV2        0x1401
 #define COLORFUL_IGAME_RTX_4080_ULTRAW_OCV2             0x1500
 
 /*-----------------------------------------------------*\
