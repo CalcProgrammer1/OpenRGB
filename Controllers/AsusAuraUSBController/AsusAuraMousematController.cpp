@@ -55,8 +55,8 @@ std::string AuraMousematController::GetVersion()
     unsigned char usb_buf_out[65];
     hid_read(dev, usb_buf_out, 65);
 
-    char version[5];
-    snprintf(version, 5, "%04X", (usb_buf_out[6] << 8) | usb_buf_out[7]);
+    char version[8];
+    snprintf(version, 8, "%X.%02X.%02X", usb_buf_out[6], usb_buf_out[7], usb_buf_out[8]);
     return std::string(version);
 }
 
