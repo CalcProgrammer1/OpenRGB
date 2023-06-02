@@ -72,13 +72,15 @@ std::string AuraTUFKeyboardController::GetVersion()
         hid_read(dev, usb_buf_out, 65);
 
         char version[9];
-        if(device_pid == AURA_TUF_K3_GAMING_PID)
+        
+        switch(device_pid)
         {
-            snprintf(version, 9, "%02X.%02X.%02X", usb_buf_out[6], usb_buf_out[5], usb_buf_out[4]);
-        }
-        else
-        {
-            snprintf(version, 9, "%02X.%02X.%02X", usb_buf_out[5], usb_buf_out[6], usb_buf_out[7]);
+            case AURA_TUF_K3_GAMING_PID:
+            case AURA_ROG_STRIX_FLARE_II_ANIMATE_PID:
+                snprintf(version, 9, "%02X.%02X.%02X", usb_buf_out[6], usb_buf_out[5], usb_buf_out[4]);
+                break;
+            default:
+                snprintf(version, 9, "%02X.%02X.%02X", usb_buf_out[5], usb_buf_out[6], usb_buf_out[7]);
         }
 
         return std::string(version);
