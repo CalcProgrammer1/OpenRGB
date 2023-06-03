@@ -145,6 +145,7 @@ INCLUDEPATH +=                                                                  
     Controllers/IntelArcA770LEController/                                                       \
     Controllers/IonicoController/                                                               \
     Controllers/LEDStripController/                                                             \
+    Controllers/LegoDimensionsToypadBaseController/                                             \
     Controllers/LenovoControllers/                                                              \
     Controllers/LenovoMotherboardController/                                                    \
     Controllers/LianLiController/                                                               \
@@ -504,6 +505,8 @@ HEADERS +=                                                                      
     Controllers/KeychronKeyboardController/RGBController_KeychronKeyboard.h                     \
     Controllers/LEDStripController/LEDStripController.h                                         \
     Controllers/LEDStripController/RGBController_LEDStrip.h                                     \
+    Controllers/LegoDimensionsToypadBaseController/LegoDimensionsToypadBaseController.h         \
+    Controllers/LegoDimensionsToypadBaseController/RGBController_LegoDimensionsToypadBase.h     \
     Controllers/LenovoControllers/LenovoDevices.h                                               \
     Controllers/LenovoControllers/LenovoDevices4Zone.h                                          \
     Controllers/LenovoControllers/LenovoUSBController.h                                         \
@@ -1140,6 +1143,9 @@ SOURCES +=                                                                      
     Controllers/LEDStripController/LEDStripController.cpp                                       \
     Controllers/LEDStripController/LEDStripControllerDetect.cpp                                 \
     Controllers/LEDStripController/RGBController_LEDStrip.cpp                                   \
+    Controllers/LegoDimensionsToypadBaseController/LegoDimensionsToypadBaseController.cpp       \
+    Controllers/LegoDimensionsToypadBaseController/LegoDimensionsToypadBaseControllerDetect.cpp \
+    Controllers/LegoDimensionsToypadBaseController/RGBController_LegoDimensionsToypadBase.cpp   \
     Controllers/LenovoControllers/LenovoUSBController.cpp                                       \
     Controllers/LenovoControllers/Lenovo4ZoneUSBController.cpp                                  \
     Controllers/LenovoControllers/LenovoUSBDetect.cpp                                           \
