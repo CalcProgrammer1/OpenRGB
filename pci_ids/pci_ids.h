@@ -270,6 +270,7 @@
 | Colorful Sub-Device IDs                               |
 \*-----------------------------------------------------*/
 #define COLORFUL_IGAME_RTX_2070_SUPER_ADVANCED_OCV      0X1401
+#define COLORFUL_IGAME_RTX_3060_ADVANCED_OC_12G_LV      0x140A
 #define COLORFUL_IGAME_RTX_3060_ULTRAW_OC_12G           0x150A
 #define COLORFUL_IGAME_RTX_3060_ULTRAW_OC_12G_2         0x1501
 #define COLORFUL_IGAME_RTX_3070_ADVANCED_OCV            0x140A
