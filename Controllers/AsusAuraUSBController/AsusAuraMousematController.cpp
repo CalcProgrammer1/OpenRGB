@@ -128,7 +128,7 @@ void AuraMousematController::SaveMode()
 
     usb_save_buf[0x00]   = 0xEE;
     usb_save_buf[0x01]   = 0x50;
-    usb_save_buf[0x02]   = 0x55;
+    usb_save_buf[0x02]   = 0x03;
 
     hid_write(dev, usb_save_buf, 65);
 }
