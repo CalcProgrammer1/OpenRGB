@@ -1,18 +1,15 @@
-/*-------------------------------------------------------------------*\
-|  RGBController_WushiL50USB.h                                     |
-|                                                                     |
-|  interface for Wushi L50 Devices                               |
-\*-------------------------------------------------------------------*/
+/*-------------------------------------*\
+|  RGBController_WushiL50USB.h          |
+|                                       |
+|  interface for Wushi L50 Devices      |
+\*-------------------------------------*/
 
 #pragma once
 
-#include "WushiDevices.h"
 #include "WushiL50USBController.h"
 #include "RGBController.h"
 
 #include <vector>
-
-#define NA 0xFFFFFFFF
 
 class RGBController_WushiL50USB : public RGBController
 {
@@ -31,7 +28,6 @@ public:
     void        DeviceSaveMode();
 
 private:
-    KeyboardState state;
-
-    WushiL50USBController *controller;
+    WushiL50USBController * controller;
+    WushiL50State           state;
 };

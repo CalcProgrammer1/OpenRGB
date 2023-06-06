@@ -1,23 +1,18 @@
-/*-------------------------------------------------------------------*\
-|  WushiL50USBController.cpp                                       |
-|                                                                     |
-|  interface for Wushi L50 Devices                               |
-\*-------------------------------------------------------------------*/
+/*-------------------------------------*\
+|  WushiL50USBController.h              |
+|                                       |
+|  interface for Wushi L50 Devices      |
+\*-------------------------------------*/
 
-#include <iostream>
 #include "WushiL50USBController.h"
-#include "LogManager.h"
 
-WushiL50USBController::WushiL50USBController(hid_device* dev_handle, const char* path, uint16_t in_pid)
+WushiL50USBController::WushiL50USBController(hid_device* dev_handle, const char* path)
 {
     const uint8_t   sz      = HID_MAX_STR;
     wchar_t         tmp[sz];
     wchar_t serial_string[128];
     dev                     = dev_handle;
     location                = path;
-    pid                     = in_pid;
-
-
 
     hid_get_manufacturer_string(dev, tmp, sz);
     std::wstring w_tmp      = std::wstring(tmp);
@@ -38,8 +33,6 @@ WushiL50USBController::WushiL50USBController(hid_device* dev_handle, const char*
         std::wstring return_wstring = tmp;//serial_string;
         serial_number = std::string(return_wstring.begin(), return_wstring.end());
     }
-    version ="0.10";   //
-    setDeviceSoftwareMode();
 }
 
 WushiL50USBController::~WushiL50USBController()
@@ -47,16 +40,9 @@ WushiL50USBController::~WushiL50USBController()
     hid_close(dev);
 }
 
-void WushiL50USBController::setMode(const KeyboardState &in_mode)
+void WushiL50USBController::setMode(WushiL50State * in_mode)
 {
-    uint8_t buffer[WUSHIL50_HID_PACKET_SIZE];
-    memcpy(buffer, &in_mode, WUSHIL50_HID_PACKET_SIZE);
-    hid_send_feature_report(dev, buffer, WUSHIL50_HID_PACKET_SIZE);
-}
-
-uint16_t WushiL50USBController::getPid()
-{
-    return pid;
+    hid_send_feature_report(dev, (uint8_t *)in_mode, WUSHI_L50_HID_PACKET_SIZE);
 }
 
 std::string WushiL50USBController::getName()
@@ -72,19 +58,4 @@ std::string WushiL50USBController::getLocation()
 std::string WushiL50USBController::GetSerialString()
 {
     return(serial_number);
-}
-
-std::string WushiL50USBController::GetFirmwareVersion()
-{
-    return(version);
-}
-
-void WushiL50USBController::setDeviceSoftwareMode()
-{
-
-}
-
-void WushiL50USBController::setDeviceHardwareMode()
-{
-
 }

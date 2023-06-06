@@ -183,6 +183,7 @@ INCLUDEPATH +=                                                                  
     Controllers/ThermaltakeRiingController/                                                     \
     Controllers/ViewSonicController/                                                            \
     Controllers/WootingKeyboardController/                                                      \
+    Controllers/WushiController/                                                                \
     Controllers/YeelightController/                                                             \
     Controllers/ZalmanZSyncController/                                                          \
     Controllers/ZotacTuringGPUController/                                                       \
@@ -708,6 +709,8 @@ HEADERS +=                                                                      
     Controllers/WootingKeyboardController/WootingOneKeyboardController.h                        \
     Controllers/WootingKeyboardController/WootingTwoKeyboardController.h                        \
     Controllers/WootingKeyboardController/RGBController_WootingKeyboard.h                       \
+    Controllers/WushiController/WushiL50USBController.h                                         \
+    Controllers/WushiController/RGBController_WushiL50USB.h                                     \
     Controllers/ThermaltakeRiingController/RGBController_ThermaltakeRiingQuad.h                 \
     Controllers/YeelightController/YeelightController.h                                         \
     Controllers/YeelightController/RGBController_Yeelight.h                                     \
@@ -1384,6 +1387,9 @@ SOURCES +=                                                                      
     Controllers/WootingKeyboardController/WootingOneKeyboardController.cpp                      \
     Controllers/WootingKeyboardController/WootingTwoKeyboardController.cpp                      \
     Controllers/WootingKeyboardController/RGBController_WootingKeyboard.cpp                     \
+    Controllers/WushiController/WushiL50USBController.cpp                                       \
+    Controllers/WushiController/WushiL50USBDetect.cpp                                           \
+    Controllers/WushiController/RGBController_WushiL50USB.cpp                                   \
     Controllers/ThermaltakeRiingController/RGBController_ThermaltakeRiingQuad.cpp               \
     Controllers/YeelightController/YeelightController.cpp                                       \
     Controllers/YeelightController/YeelightControllerDetect.cpp                                 \
