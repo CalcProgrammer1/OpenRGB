@@ -52,6 +52,22 @@ void AOCMousematController::SendDirect
     RGBColor*       color_data
     )
 {
+    SendPacket(AOC_MOUSEMAT_MODE_STATIC_SINGLE_COLOR,
+               AOC_MOUSEMAT_BRIGHTNESS_HIGH,
+               AOC_MOUSEMAT_SPEED_MEDIUM,
+               AOC_MOUSEMAT_DIRECTION_CLOCKWISE,
+               color_data);
+}
+
+void AOCMousematController::SendPacket
+    (
+    unsigned char   mode,
+    unsigned char   brightness,
+    unsigned char   speed,
+    unsigned char   direction,
+    RGBColor*       color_data
+    )
+{
     unsigned char buf[32];
 
     /*-----------------------------------------------------*\
@@ -63,9 +79,11 @@ void AOCMousematController::SendDirect
     | Set up packet                                         |
     \*-----------------------------------------------------*/
     buf[0x00]   = 0x20;
-    buf[0x01]   = 0x03;
-    buf[0x02]   = 0x01;
+    buf[0x01]   = brightness;
+    buf[0x02]   = speed;
+    buf[0x03]   = direction;
     buf[0x04]   = 0x01;
+    buf[0x05]   = mode;
     buf[0x09]   = 0xFF;
     buf[0x0C]   = 0xFF;
     buf[0x0D]   = 0x3F;

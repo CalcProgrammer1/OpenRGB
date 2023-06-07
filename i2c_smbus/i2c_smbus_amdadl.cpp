@@ -16,6 +16,7 @@ typedef int ( *ADL2_MAIN_CONTROL_DESTROY )(ADL_CONTEXT_HANDLE);
 typedef int ( *ADL2_ADAPTER_NUMBEROFADAPTERS_GET ) ( ADL_CONTEXT_HANDLE , int* );
 typedef int ( *ADL2_ADAPTER_PRIMARY_GET) (ADL_CONTEXT_HANDLE, int* lpPrimaryAdapterIndex);
 typedef int ( *ADL2_ADAPTER_ADAPTERINFOX2_GET) (ADL_CONTEXT_HANDLE, AdapterInfo**);
+typedef int ( *ADL2_ADAPTER_ADAPTERINFOX4_GET) (ADL_CONTEXT_HANDLE, int iAdapterIndex, int* numAdapters, AdapterInfoX2** lppAdapterInfoX2);
 typedef int ( *ADL2_DISPLAY_WRITEANDREADI2C) (ADL_CONTEXT_HANDLE, int iAdapterIndex, ADLI2C* plI2C);
 
 ADL2_MAIN_CONTROL_CREATE          ADL2_Main_Control_Create;
@@ -23,6 +24,7 @@ ADL2_MAIN_CONTROL_DESTROY         ADL2_Main_Control_Destroy;
 ADL2_ADAPTER_NUMBEROFADAPTERS_GET ADL2_Adapter_NumberOfAdapters_Get;
 ADL2_ADAPTER_PRIMARY_GET          ADL2_Adapter_Primary_Get;
 ADL2_ADAPTER_ADAPTERINFOX2_GET    ADL2_Adapter_AdapterInfoX2_Get;
+ADL2_ADAPTER_ADAPTERINFOX4_GET    ADL2_Adapter_AdapterInfoX4_Get;
 ADL2_DISPLAY_WRITEANDREADI2C      ADL2_Display_WriteAndReadI2C;
 
 int LoadLibraries()
@@ -47,16 +49,18 @@ int LoadLibraries()
         ADL2_Adapter_NumberOfAdapters_Get   = (ADL2_ADAPTER_NUMBEROFADAPTERS_GET)GetProcAddress(hDLL, "ADL2_Adapter_NumberOfAdapters_Get");
         ADL2_Adapter_Primary_Get            = (ADL2_ADAPTER_PRIMARY_GET)GetProcAddress(hDLL, "ADL2_Adapter_Primary_Get");
         ADL2_Adapter_AdapterInfoX2_Get      = (ADL2_ADAPTER_ADAPTERINFOX2_GET)GetProcAddress(hDLL, "ADL2_Adapter_AdapterInfoX2_Get");
+        ADL2_Adapter_AdapterInfoX4_Get      = (ADL2_ADAPTER_ADAPTERINFOX4_GET)GetProcAddress(hDLL, "ADL2_Adapter_AdapterInfoX4_Get");
         ADL2_Display_WriteAndReadI2C        = (ADL2_DISPLAY_WRITEANDREADI2C)GetProcAddress(hDLL, "ADL2_Display_WriteAndReadI2C");
 
         /*---------------------------------------------------------------------*\
         | Only return OK if all function pointers are valid                     |
         \*---------------------------------------------------------------------*/
-        if( ADL2_Main_Control_Create 
+        if( ADL2_Main_Control_Create
          && ADL2_Main_Control_Destroy
          && ADL2_Adapter_NumberOfAdapters_Get
          && ADL2_Adapter_Primary_Get
          && ADL2_Adapter_AdapterInfoX2_Get
+         && ADL2_Adapter_AdapterInfoX4_Get
          && ADL2_Display_WriteAndReadI2C)
         {
             return ADL_OK;
@@ -85,13 +89,14 @@ void __stdcall ADL_Main_Memory_Free ( void* lpBuffer )
     }
 }
 
-i2c_smbus_amdadl::i2c_smbus_amdadl(ADL_CONTEXT_HANDLE context)
+i2c_smbus_amdadl::i2c_smbus_amdadl(ADL_CONTEXT_HANDLE context, int adapter_index)
 {
-    AdapterInfo * info;
+    int num_of_devices;
+    AdapterInfoX2* info;
 
     this->context = context;
 
-    if (ADL_OK != ADL2_Adapter_AdapterInfoX2_Get(context, &info))
+    if (ADL_OK != ADL2_Adapter_AdapterInfoX4_Get(context, adapter_index, &num_of_devices, &info))
     {
         printf("Cannot get Adapter Info!\n");
     }
@@ -228,9 +233,24 @@ bool i2c_smbus_amdadl_detect()
         }
         else
         {
-            i2c_smbus_amdadl * adl_bus = new i2c_smbus_amdadl(context);
-            LOG_INFO("ADL GPU Device %04X:%04X Subsystem: %04X:%04X", adl_bus->pci_vendor, adl_bus->pci_device,adl_bus->pci_subsystem_vendor,adl_bus->pci_subsystem_device);
-            ResourceManager::get()->RegisterI2CBus(adl_bus);
+            int num_of_devices;
+            AdapterInfoX2* info;
+            if (ADL_OK == ADL2_Adapter_AdapterInfoX4_Get(context, -1, &num_of_devices, &info))
+            {
+                int last_bus_number = -1;
+                for(int i = 0; i < num_of_devices; i++)
+                {
+                    AdapterInfoX2 current = *(info + i);
+                    if(last_bus_number == current.iBusNumber)
+                    {
+                        continue;
+                    }
+                    last_bus_number = current.iBusNumber;
+                    i2c_smbus_amdadl * adl_bus = new i2c_smbus_amdadl(context, current.iAdapterIndex);
+                    LOG_INFO("ADL GPU Device %04X:%04X Subsystem: %04X:%04X", adl_bus->pci_vendor, adl_bus->pci_device,adl_bus->pci_subsystem_vendor,adl_bus->pci_subsystem_device);
+                    ResourceManager::get()->RegisterI2CBus(adl_bus);
+                }
+            }
         }
     }
 

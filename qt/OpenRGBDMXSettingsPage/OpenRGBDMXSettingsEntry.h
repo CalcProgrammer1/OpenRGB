@@ -19,7 +19,6 @@ public:
 
 private slots:
     void changeEvent(QEvent *event);
-    void on_TypeComboBox_currentIndexChanged(int index);
 };
 
 #endif // OPENRGBDMXSETTINGSENTRY_H

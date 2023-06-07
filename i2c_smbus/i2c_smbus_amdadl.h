@@ -21,7 +21,7 @@
 class i2c_smbus_amdadl : public i2c_smbus_interface
 {
 public:
-    i2c_smbus_amdadl(ADL_CONTEXT_HANDLE context);
+    i2c_smbus_amdadl(ADL_CONTEXT_HANDLE context, int adapter_index);
 
     int LoadLibraries();
     //void* __stdcall ADL_Main_Memory_Alloc ( int iSize );

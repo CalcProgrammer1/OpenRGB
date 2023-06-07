@@ -228,11 +228,19 @@ bool ProfileManager::LoadDeviceFromListWithOptions
         if(load_controller->location.find("HID: ") == 0)
         {
             location_check = true;
-        } 
+        }
         else if(load_controller->location.find("I2C: ") == 0)
         {
-            std::string i2c_address = load_controller->location.substr(load_controller->location.find_last_of(", ") + 2);
-            location_check = temp_controller->location.find(i2c_address) != std::string::npos;
+            std::size_t loc = load_controller->location.rfind(", ");
+            if(loc == std::string::npos)
+            {
+                location_check = false;
+            }
+            else
+            {
+                std::string i2c_address = load_controller->location.substr(loc + 2);
+                location_check = temp_controller->location.find(i2c_address) != std::string::npos;
+            }
         }
         else
         {
@@ -379,9 +387,10 @@ bool ProfileManager::LoadProfileWithOptions
     \*---------------------------------------------------------*/
     for(std::size_t controller_index = 0; controller_index < controllers.size(); controller_index++)
     {
-        ret_val = LoadDeviceFromListWithOptions(temp_controllers, temp_controller_used, controllers[controller_index], load_size, load_settings);
+        bool temp_ret_val = LoadDeviceFromListWithOptions(temp_controllers, temp_controller_used, controllers[controller_index], load_size, load_settings);
         std::string current_name = controllers[controller_index]->name + " @ " + controllers[controller_index]->location;
-        LOG_INFO("Profile loading: %s for %s", ( ret_val ? "Succeeded" : "FAILED!" ), current_name.c_str());
+        LOG_INFO("Profile loading: %s for %s", ( temp_ret_val ? "Succeeded" : "FAILED!" ), current_name.c_str());
+        ret_val |= temp_ret_val;
     }
 
     /*---------------------------------------------------------*\

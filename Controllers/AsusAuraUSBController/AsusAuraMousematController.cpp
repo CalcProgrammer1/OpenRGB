@@ -55,8 +55,8 @@ std::string AuraMousematController::GetVersion()
     unsigned char usb_buf_out[65];
     hid_read(dev, usb_buf_out, 65);
 
-    char version[5];
-    snprintf(version, 5, "%04X", (usb_buf_out[6] << 8) | usb_buf_out[7]);
+    char version[8];
+    snprintf(version, 8, "%X.%02X.%02X", usb_buf_out[6], usb_buf_out[7], usb_buf_out[8]);
     return std::string(version);
 }
 
@@ -128,7 +128,7 @@ void AuraMousematController::SaveMode()
 
     usb_save_buf[0x00]   = 0xEE;
     usb_save_buf[0x01]   = 0x50;
-    usb_save_buf[0x02]   = 0x55;
+    usb_save_buf[0x02]   = 0x03;
 
     hid_write(dev, usb_save_buf, 65);
 }

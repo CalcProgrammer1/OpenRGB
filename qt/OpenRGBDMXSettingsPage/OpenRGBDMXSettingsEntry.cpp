@@ -22,8 +22,3 @@ void OpenRGBDMXSettingsEntry::changeEvent(QEvent *event)
         ui->retranslateUi(this);
     }
 }
-
-void Ui::OpenRGBDMXSettingsEntry::on_TypeComboBox_currentIndexChanged(int index)
-{
-
-}

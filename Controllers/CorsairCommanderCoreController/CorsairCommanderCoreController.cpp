@@ -14,7 +14,7 @@
 
 using namespace std::chrono_literals;
 
-CorsairCommanderCoreController::CorsairCommanderCoreController(hid_device* dev_handle, const char* path)
+CorsairCommanderCoreController::CorsairCommanderCoreController(hid_device* dev_handle, const char* path, int pid)
 {
     dev                     = dev_handle;
     location                = path;
@@ -22,6 +22,7 @@ CorsairCommanderCoreController::CorsairCommanderCoreController(hid_device* dev_h
     controller_ready        = 0;
     packet_size             = CORSAIR_COMMANDER_CORE_PACKET_SIZE_V2;
     command_res_size        = packet_size - 4;
+    this->pid               = pid;
 
     /*-----------------------------------------------------*\
     | Initialize controller                                 |
@@ -62,10 +63,14 @@ void CorsairCommanderCoreController::InitController()
     version[2] = res[2];
     delete[] res;
 
-    if(version[0] == 1)
+    if (pid == 0x0C1C && version[0] == 1)
     {
         packet_size = CORSAIR_COMMANDER_CORE_PACKET_SIZE_V1;
         command_res_size = packet_size - 4;
+    }
+    else if (pid == 0x0C32)
+    {
+        packet_size = CORSAIR_COMMANDER_CORE_PACKET_SIZE_V3;
     }
 
     /*-----------------------------------------------------*\

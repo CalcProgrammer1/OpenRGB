@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>340</width>
-    <height>187</height>
+    <width>450</width>
+    <height>250</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -57,18 +57,18 @@
      </column>
      <column>
       <property name="text">
-       <string>Start</string>
+       <string>Length</string>
       </property>
      </column>
      <column>
       <property name="text">
-       <string>Length</string>
+       <string> </string>
       </property>
      </column>
     </widget>
    </item>
    <item row="4" column="0" colspan="2">
-    <widget class="QDialogButtonBox" name="buttonBox">
+    <widget class="QDialogButtonBox" name="ButtonBox">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
        <horstretch>0</horstretch>
@@ -105,7 +105,7 @@
  <resources/>
  <connections>
   <connection>
-   <sender>buttonBox</sender>
+   <sender>ButtonBox</sender>
    <signal>accepted()</signal>
    <receiver>OpenRGBZoneResizeDialogUi</receiver>
    <slot>accept()</slot>
@@ -121,7 +121,7 @@
    </hints>
   </connection>
   <connection>
-   <sender>buttonBox</sender>
+   <sender>ButtonBox</sender>
    <signal>rejected()</signal>
    <receiver>OpenRGBZoneResizeDialogUi</receiver>
    <slot>reject()</slot>

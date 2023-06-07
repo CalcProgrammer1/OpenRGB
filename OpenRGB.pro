@@ -83,6 +83,7 @@ INCLUDEPATH +=                                                                  
     Controllers/AlienwareController/                                                            \
     Controllers/AlienwareKeyboardController/                                                    \
     Controllers/AMDWraithPrismController/                                                       \
+    Controllers/AOCKeyboardController/                                                          \
     Controllers/AOCMouseController/                                                             \
     Controllers/AOCMousematController/                                                          \
     Controllers/ASRockPolychromeUSBController/                                                  \
@@ -144,6 +145,7 @@ INCLUDEPATH +=                                                                  
     Controllers/IntelArcA770LEController/                                                       \
     Controllers/IonicoController/                                                               \
     Controllers/LEDStripController/                                                             \
+    Controllers/LegoDimensionsToypadBaseController/                                             \
     Controllers/LenovoControllers/                                                              \
     Controllers/LenovoMotherboardController/                                                    \
     Controllers/LianLiController/                                                               \
@@ -278,6 +280,8 @@ HEADERS +=                                                                      
     Controllers/AMDWraithPrismController/RGBController_AMDWraithPrism.h                         \
     Controllers/AnnePro2Controller/AnnePro2Controller.h                                         \
     Controllers/AnnePro2Controller/RGBController_AnnePro2.h                                     \
+    Controllers/AOCKeyboardController/AOCKeyboardController.h                                   \
+    Controllers/AOCKeyboardController/RGBController_AOCKeyboard.h                               \
     Controllers/AOCMouseController/AOCMouseController.h                                         \
     Controllers/AOCMouseController/RGBController_AOCMouse.h                                     \
     Controllers/AOCMousematController/AOCMousematController.h                                   \
@@ -330,6 +334,8 @@ HEADERS +=                                                                      
     Controllers/CherryKeyboardController/RGBController_CherryKeyboard.h                         \
     Controllers/ColorfulGPUController/ColorfulGPUController.h                                   \
     Controllers/ColorfulGPUController/RGBController_ColorfulGPU.h                               \
+    Controllers/ColorfulTuringGPUController/ColorfulTuringGPUController.h                       \
+    Controllers/ColorfulTuringGPUController/RGBController_ColorfulTuringGPU.h                   \
     Controllers/CoolerMasterController/CMARGBcontroller.h                                       \
     Controllers/CoolerMasterController/CMARGBGen2A1controller.h                                 \
     Controllers/CoolerMasterController/CMMKController.h                                         \
@@ -499,6 +505,8 @@ HEADERS +=                                                                      
     Controllers/KeychronKeyboardController/RGBController_KeychronKeyboard.h                     \
     Controllers/LEDStripController/LEDStripController.h                                         \
     Controllers/LEDStripController/RGBController_LEDStrip.h                                     \
+    Controllers/LegoDimensionsToypadBaseController/LegoDimensionsToypadBaseController.h         \
+    Controllers/LegoDimensionsToypadBaseController/RGBController_LegoDimensionsToypadBase.h     \
     Controllers/LenovoControllers/LenovoDevices.h                                               \
     Controllers/LenovoControllers/LenovoDevices4Zone.h                                          \
     Controllers/LenovoControllers/LenovoUSBController.h                                         \
@@ -841,6 +849,9 @@ SOURCES +=                                                                      
     Controllers/AnnePro2Controller/AnnePro2Controller.cpp                                       \
     Controllers/AnnePro2Controller/AnnePro2ControllerDetect.cpp                                 \
     Controllers/AnnePro2Controller/RGBController_AnnePro2.cpp                                   \
+    Controllers/AOCKeyboardController/AOCKeyboardController.cpp                                 \
+    Controllers/AOCKeyboardController/AOCKeyboardControllerDetect.cpp                           \
+    Controllers/AOCKeyboardController/RGBController_AOCKeyboard.cpp                             \
     Controllers/AOCMouseController/AOCMouseController.cpp                                       \
     Controllers/AOCMouseController/AOCMouseControllerDetect.cpp                                 \
     Controllers/AOCMouseController/RGBController_AOCMouse.cpp                                   \
@@ -902,6 +913,9 @@ SOURCES +=                                                                      
     Controllers/ColorfulGPUController/ColorfulGPUController.cpp                                 \
     Controllers/ColorfulGPUController/ColorfulGPUControllerDetect.cpp                           \
     Controllers/ColorfulGPUController/RGBController_ColorfulGPU.cpp                             \
+    Controllers/ColorfulTuringGPUController/ColorfulTuringGPUController.cpp                     \
+    Controllers/ColorfulTuringGPUController/ColorfulTuringGPUControllerDetect.cpp               \
+    Controllers/ColorfulTuringGPUController/RGBController_ColorfulTuringGPU.cpp                 \
     Controllers/CoolerMasterController/CMARGBcontroller.cpp                                     \
     Controllers/CoolerMasterController/CMARGBGen2A1controller.cpp                               \
     Controllers/CoolerMasterController/CMMKController.cpp                                       \
@@ -1129,6 +1143,9 @@ SOURCES +=                                                                      
     Controllers/LEDStripController/LEDStripController.cpp                                       \
     Controllers/LEDStripController/LEDStripControllerDetect.cpp                                 \
     Controllers/LEDStripController/RGBController_LEDStrip.cpp                                   \
+    Controllers/LegoDimensionsToypadBaseController/LegoDimensionsToypadBaseController.cpp       \
+    Controllers/LegoDimensionsToypadBaseController/LegoDimensionsToypadBaseControllerDetect.cpp \
+    Controllers/LegoDimensionsToypadBaseController/RGBController_LegoDimensionsToypadBase.cpp   \
     Controllers/LenovoControllers/LenovoUSBController.cpp                                       \
     Controllers/LenovoControllers/Lenovo4ZoneUSBController.cpp                                  \
     Controllers/LenovoControllers/LenovoUSBDetect.cpp                                           \

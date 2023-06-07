@@ -1358,44 +1358,47 @@ void Ui::OpenRGBDevicePage::on_ValSpinBox_valueChanged(int val)
 
 void Ui::OpenRGBDevicePage::on_DeviceViewBox_selectionChanged(QVector<int> indices)
 {
-    ui->ZoneBox->blockSignals(true);
-    ui->LEDBox->blockSignals(true);
-    ui->ZoneBox->setCurrentIndex(0);
-    on_ZoneBox_currentIndexChanged(0);
-    //updateLeds(); // We want to update the LED box, but we don't want any of the side effects of that action
-    ui->ZoneBox->blockSignals(false);
-    if(indices.size() != 0 && size_t(indices.size()) != device->leds.size())
+    if(device->modes[device->active_mode].color_mode == MODE_COLORS_PER_LED)
     {
-        if(indices.size() == 1)
+        ui->ZoneBox->blockSignals(true);
+        ui->LEDBox->blockSignals(true);
+        ui->ZoneBox->setCurrentIndex(0);
+        on_ZoneBox_currentIndexChanged(0);
+        //updateLeds(); // We want to update the LED box, but we don't want any of the side effects of that action
+        ui->ZoneBox->blockSignals(false);
+        if(indices.size() != 0 && size_t(indices.size()) != device->leds.size())
         {
-            if(device->leds.size() == 1)
+            if(indices.size() == 1)
             {
-                ui->LEDBox->setCurrentIndex(0);
+                if(device->leds.size() == 1)
+                {
+                    ui->LEDBox->setCurrentIndex(0);
+                }
+                else
+                {
+                    ui->LEDBox->setCurrentIndex(indices[0] + 1);
+                    // Set everything to it's color
+                }
+                MultipleSelected = 0;
             }
             else
             {
-                ui->LEDBox->setCurrentIndex(indices[0] + 1);
-                // Set everything to it's color
+                if(MultipleSelected)
+                {
+                    ui->LEDBox->removeItem((int)(device->leds.size() + 1));
+                }
+                // TODO: translate
+                ui->LEDBox->addItem("Multiple (" + QVariant(indices.size()).toString() + ")");
+                ui->LEDBox->setCurrentIndex((int)(device->leds.size() + 1));
+                MultipleSelected = 1;
             }
-            MultipleSelected = 0;
         }
         else
         {
-            if(MultipleSelected)
-            {
-                ui->LEDBox->removeItem((int)(device->leds.size() + 1));
-            }
-            // TODO: translate
-            ui->LEDBox->addItem("Multiple (" + QVariant(indices.size()).toString() + ")");
-            ui->LEDBox->setCurrentIndex((int)(device->leds.size() + 1));
-            MultipleSelected = 1;
+            ui->LEDBox->setCurrentIndex(0);
         }
+        ui->LEDBox->blockSignals(false);
     }
-    else
-    {
-        ui->LEDBox->setCurrentIndex(0);
-    }
-    ui->LEDBox->blockSignals(false);
 }
 
 void Ui::OpenRGBDevicePage::on_SetAllButton_clicked()
@@ -1513,7 +1516,7 @@ void Ui::OpenRGBDevicePage::on_EditZoneButton_clicked()
             }
         }
         break;
-#if 0
+
     case MODE_COLORS_MODE_SPECIFIC:
         {
             OpenRGBZoneResizeDialog dlg(device->modes[device->active_mode].colors_min,
@@ -1531,7 +1534,6 @@ void Ui::OpenRGBDevicePage::on_EditZoneButton_clicked()
             UpdateMode();
         }
         break;
-#endif
     }
 }
 

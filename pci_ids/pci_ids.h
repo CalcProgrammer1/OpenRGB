@@ -100,6 +100,7 @@
 | nVidia Sub-Device IDs                                 |
 \*-----------------------------------------------------*/
 #define NVIDIA_RTX2070_FE_SUPER_SUB_DEV                 0x13AA
+#define NVIDIA_RTX2080_FE_SUB_DEV                       0x12A6
 #define NVIDIA_RTX3080_FE_SUB_DEV                       0x1467
 #define NVIDIA_RTX3080TI_FE_SUB_DEV                     0x1535
 #define NVIDIA_RTX3090_FE_SUB_DEV                       0x147D
@@ -164,6 +165,7 @@
 #define ASUS_ROG_STRIX_GTX1660S_O6G_GAMING              0x8752
 #define ASUS_ROG_STRIX_LC_RX6800XT_O16G_GAMING          0x04F0
 #define ASUS_ROG_STRIX_LC_RX6900XT_O16G_GAMING          0x04F8
+#define ASUS_ROG_STRIX_LC_RX6900XT_O16G_GAMING_TOP      0x04FC
 #define ASUS_ROG_GTX1660TI_OC                           0x86A5
 #define ASUS_ROG_STRIX_RTX2060_EVO_GAMING               0x86D3
 #define ASUS_ROG_STRIX_RTX2060_O6G_GAMING               0x868E
@@ -267,6 +269,8 @@
 /*-----------------------------------------------------*\
 | Colorful Sub-Device IDs                               |
 \*-----------------------------------------------------*/
+#define COLORFUL_IGAME_RTX_2070_SUPER_ADVANCED_OCV      0X1401
+#define COLORFUL_IGAME_RTX_3060_ADVANCED_OC_12G_LV      0x140A
 #define COLORFUL_IGAME_RTX_3060_ULTRAW_OC_12G           0x150A
 #define COLORFUL_IGAME_RTX_3060_ULTRAW_OC_12G_2         0x1501
 #define COLORFUL_IGAME_RTX_3070_ADVANCED_OCV            0x140A
@@ -274,6 +278,7 @@
 #define COLORFUL_IGAME_RTX_3070_ULTRAW_OC               0x150A
 #define COLORFUL_IGAME_RTX_3070_TI_ULTRAW_OC            0x1581
 #define COLORFUL_IGAME_RTX_3070_TI_ADVANCED_OCV2        0x1400
+#define COLORFUL_IGAME_RTX_3080_TI_ADVANCED_OCV2        0x1401
 #define COLORFUL_IGAME_RTX_4080_ULTRAW_OCV2             0x1500
 
 /*-----------------------------------------------------*\
@@ -295,6 +300,7 @@
 #define EVGA_RTX2070_XC_GAMING_SUB_DEV                  0x2172
 #define EVGA_RTX2070_XC_OC_SUB_DEV                      0x2173
 #define EVGA_RTX2070S_BLACK_SUB_DEV                     0x3071
+#define EVGA_RTX2070S_XC_GAMING_SUB_DEV                 0x3172
 #define EVGA_RTX2070S_XC_ULTRA_SUB_DEV                  0x3173
 #define EVGA_RTX2070S_XC_ULTRA_PLUS_SUB_DEV             0x3175
 #define EVGA_RTX2070S_FTW3_ULTRA_OC_SUB_DEV             0x3277
@@ -367,6 +373,7 @@
 #define EVGA_RTX3090_FTW3_ULTRA_HC_SUB_DEV              0x3989
 #define EVGA_RTX3090_KINGPIN_HYBRID_SUB_DEV             0x3998
 #define EVGA_RTX3090_KINGPIN_HC_SUB_DEV                 0x3999
+#define EVGA_RTX3090TI_FTW3_BLACK_SUB_DEV               0x4981
 #define EVGA_RTX3090TI_FTW3_GAMING_SUB_DEV              0x4983
 #define EVGA_RTX3090TI_FTW3_ULTRA_GAMING_SUB_DEV        0x4985
 
@@ -444,6 +451,7 @@
 #define GIGABYTE_RTX3060TI_EAGLE_OC_SUB_DEV             0x405B
 #define GIGABYTE_RTX3060TI_EAGLE_OC_LHR_SUB_DEV         0x4060
 #define GIGABYTE_RTX3060TI_ELITE_8GB_SUB_DEV            0x4076
+#define GIGABYTE_RTX3060TI_GAMING_OC_8G_SUB_DEV         0x40CD
 #define GIGABYTE_RTX3060TI_GAMING_OC_SUB_DEV            0x405A
 #define GIGABYTE_RTX3060TI_GAMING_OC_PRO_SUB_DEV        0x405E
 #define GIGABYTE_RTX3060TI_VISION_OC_8G_SUB_DEV         0x4077
@@ -551,6 +559,7 @@
 \*-----------------------------------------------------*/
 #define PNY_RTX_3060_XLR8_REVEL_EPIC_X_SUB_DEV          0x138E
 #define PNY_RTX_3070_XLR8_REVEL_EPIC_X_SUB_DEV          0x136E
+#define PNY_RTX_3070_XLR8_REVEL_EPIC_X_LHR_SUB_DEV      0x138A
 #define PNY_RTX_3080_XLR8_REVEL_EPIC_X_SUB_DEV          0x136B
 #define PNY_RTX_3090_XLR8_REVEL_EPIC_X_SUB_DEV          0x136A
 #define PNY_RTX_3060TI_XLR8_REVEL_EPIC_X_SUB_DEV        0x1389
@@ -578,6 +587,10 @@
 
 #define PALIT_RTX3090_SUB_DEV                           0x2204
 #define PALIT_RTX3090_GAMEROCK_SUB_DEV                  0xF278
+
+#define PALIT_RTX4070_SUB_DEV                           0xF302
+#define PALIT_RTX4070TI_GAMEROCK_SUB_DEV                0xF294
+#define PALIT_RTX4090_GAMEROCK_SUB_DEV                  0xF296
 
 /*-----------------------------------------------------*\
 | Sapphire Sub-Device IDs                               |

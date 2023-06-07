@@ -33,7 +33,7 @@ OpenRGBKasaSmartSettingsPage::OpenRGBKasaSmartSettingsPage(QWidget *parent) :
 
             if(KasaSmart_settings["devices"][device_idx].contains("name"))
             {
-                entry->ui->IPEdit->setText(QString::fromStdString(KasaSmart_settings["devices"][device_idx]["name"]));
+                entry->ui->NameEdit->setText(QString::fromStdString(KasaSmart_settings["devices"][device_idx]["name"]));
             }
 
             entries.push_back(entry);

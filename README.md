@@ -22,11 +22,11 @@ One of the biggest complaints about RGB is the software ecosystem surrounding it
 
 ## Supported Devices
 
-* See the [Supported Devices](https://gitlab.com/CalcProgrammer1/OpenRGB/-/wikis/Supported-Devices) page for the current list of supported devices.
+* See the [Supported Devices](https://openrgb.org/devices.html) page for the current list of supported devices.
 
 ## Configuration
 
-* See the [OpenRGB Settings](https://gitlab.com/CalcProgrammer1/OpenRGB/-/wikis/OpenRGB-Settings) page for information about the configuration file.
+* See the [OpenRGB Settings](https://gitlab.com/OpenRGBDevelopers/OpenRGB-Wiki/-/blob/stable/OpenRGB-Settings.md) page for information about the configuration file.
 
 ## WARNING!
 
@@ -146,7 +146,7 @@ There have been two instances of hardware damage in OpenRGB's development and we
     <summary><h6>Intel</h6></summary>
 
      * `sudo modprobe i2c-i801`
-     * `sudo modprobe i2c-nct6775` - Secondary controller for motherboard LEDs (requires [kernel patch](https://gitlab.com/CalcProgrammer1/OpenRGB/-/wikis/OpenRGB-Kernel-Patch))
+     * `sudo modprobe i2c-nct6775` - Secondary controller for motherboard LEDs (requires [kernel patch](https://gitlab.com/OpenRGBDevelopers/OpenRGB-Wiki/-/blob/stable/OpenRGB-Kernel-Patch.md))
 
     </details>
     <details>
@@ -167,7 +167,7 @@ There have been two instances of hardware damage in OpenRGB's development and we
       - List all SMBus controllers: `sudo i2cdetect -l`
       - Note the number for PIIX4, I801, and NCT6775 controllers.
       - Give user access to those controllers. If you have not installed OpenRGB from a package (e.g. deb, RPM or from the AUR) then most likely you need to [install the UDEV rules](#installing-udev-rules-manually).
-  *  The i2c-nct6775 kernel module requires patching, please refer to [instructions here](https://gitlab.com/CalcProgrammer1/OpenRGB/-/wikis/OpenRGB-Kernel-Patch)
+  *  The i2c-nct6775 kernel module requires patching, please refer to [instructions here](https://gitlab.com/OpenRGBDevelopers/OpenRGB-Wiki/-/blob/stable/OpenRGB-Kernel-Patch.md)
   *  Some Gigabyte/Aorus motherboards have an ACPI conflict with the SMBus controller. Please [add a kernel parameter](#kernel-parameters) to resolve this conflict.
 
 ### USB Access
@@ -248,8 +248,8 @@ There have been two instances of hardware damage in OpenRGB's development and we
 
 ## How-Tos and FAQs
 
-* [Windows Setup and Usage](https://gitlab.com/CalcProgrammer1/OpenRGB/-/wikis/OpenRGB-Windows-Setup-and-Usage)
-* [Frequently Asked Questions](https://gitlab.com/CalcProgrammer1/OpenRGB/-/wikis/Frequently-Asked-Questions)
+* [Windows Setup and Usage](https://gitlab.com/OpenRGBDevelopers/OpenRGB-Wiki/-/blob/stable/OpenRGB-Windows-Setup-and-Usage.md)
+* [Frequently Asked Questions](https://gitlab.com/OpenRGBDevelopers/OpenRGB-Wiki/-/blob/stable/Frequently-Asked-Questions.md)
 
 ## Support OpenRGB
 
@@ -260,12 +260,12 @@ There have been two instances of hardware damage in OpenRGB's development and we
 
 ## History of OpenRGB
 
-* OpenRGB is a continuation of OpenAuraSDK, which itself was created out of reverse engineering work done on the Keyboard Visualizer project.  For a complete history of the RGB projects that led to OpenRGB's creation, see the [History page](https://gitlab.com/CalcProgrammer1/OpenRGB/-/wikis/History-of-OpenRGB).
+* OpenRGB is a continuation of OpenAuraSDK, which itself was created out of reverse engineering work done on the Keyboard Visualizer project.  For a complete history of the RGB projects that led to OpenRGB's creation, see the [History page](https://gitlab.com/OpenRGBDevelopers/OpenRGB-Wiki/-/blob/stable/History-of-OpenRGB.md).
 
 ## Contributing
 
-* Want to contribute support for a new device?  Check out the [RGBController API](https://gitlab.com/CalcProgrammer1/OpenRGB/-/wikis/The-RGBController-API) page for documentation of how OpenRGB implements device control.
-* Want to create a new OpenRGB SDK client implementation?  Check out the [OpenRGB SDK Documentation](https://gitlab.com/CalcProgrammer1/OpenRGB/-/wikis/OpenRGB-SDK-Documentation) page for documentation of how the OpenRGB SDK network protocol functions.
+* Want to contribute support for a new device?  Check out the [RGBController API](https://gitlab.com/OpenRGBDevelopers/OpenRGB-Wiki/-/blob/stable/The-RGBController-API.md) page for documentation of how OpenRGB implements device control.
+* Want to create a new OpenRGB SDK client implementation?  Check out the [OpenRGB SDK Documentation](Documentation) page for documentation of how the OpenRGB SDK network protocol functions.
 * Please read the [Contributing Guidelines](https://gitlab.com/CalcProgrammer1/OpenRGB/-/blob/master/CONTRIBUTING.md) before starting work on your new changes.
 
 ## OpenRGB SDK

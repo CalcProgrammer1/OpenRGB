@@ -97,9 +97,7 @@ const std::vector<MSI_ZONE> zones_set4 =
     MSI_ZONE_J_RGB_1,
     MSI_ZONE_J_RAINBOW_1,
     MSI_ZONE_J_RAINBOW_2,
-    MSI_ZONE_J_CORSAIR,
-    MSI_ZONE_J_PIPE_1,
-    MSI_ZONE_ON_BOARD_LED_0
+    MSI_ZONE_J_PIPE_1
 };
 
 const std::vector<MSI_ZONE> zones_set5 =
@@ -202,13 +200,6 @@ const std::vector<MSI_ZONE> zones_set16 =
     MSI_ZONE_J_PIPE_2
 };
 
-const std::vector<MSI_ZONE> zones_set17 =
-{
-    MSI_ZONE_J_RGB_1,
-    MSI_ZONE_J_RAINBOW_1,
-    MSI_ZONE_J_RAINBOW_2,
-    MSI_ZONE_J_PIPE_1
-};
 
 
 /*---------------------------------------------------------------------------------------------------------------------------------*\
@@ -223,75 +214,76 @@ const std::vector<MSI_ZONE> zones_set17 =
 
 static const Config board_configs[] =
 {
-    { 0x7B93, 6,  1, 0, 1, &zones_set4,  MSIMysticLight185Controller::DIRECT_MODE_ZONE_BASED },     // MPG X570 GAMING PRO CARBON WIFI
-    { 0x7C34, 0,  1, 1, 1, &zones_set8,  MSIMysticLight185Controller::DIRECT_MODE_ZONE_BASED },     // MEG X570 GODLIKE
-    { 0x7C35, 0,  1, 0, 1, &zones_set9,  MSIMysticLight185Controller::DIRECT_MODE_ZONE_BASED },     // MEG X570 ACE
-    { 0x7C36, 6,  1, 0, 1, &zones_set4,  MSIMysticLight185Controller::DIRECT_MODE_ZONE_BASED },     // PRESTIGE X570 CREATION
-    { 0x7C37, 1,  0, 0, 2, &zones_set0,  MSIMysticLight185Controller::DIRECT_MODE_DISABLED },       // MPG X570 GAMING PLUS
-    { 0x7C56, 6,  0, 0, 1, &zones_set2,  MSIMysticLight185Controller::DIRECT_MODE_PER_LED },        // MPG B550 GAMING PLUS
-    { 0x7C59, 0,  8, 0, 1, &zones_set9,  MSIMysticLight185Controller::DIRECT_MODE_DISABLED },       // CREATOR TRX40
-    { 0x7C60, 6,  0, 0, 1, &zones_set1,  MSIMysticLight185Controller::DIRECT_MODE_PER_LED },       	// TRX40-A PRO
-    { 0x7C67, 6,  0, 0, 1, &zones_set5,  MSIMysticLight185Controller::DIRECT_MODE_DISABLED },       // MAG B365M MORTAR
-    { 0x7C71, 6,  6, 0, 1, &zones_set3,  MSIMysticLight185Controller::DIRECT_MODE_PER_LED },        // MEG Z490 ACE
-    { 0x7C73, 6,  4, 0, 1, &zones_set3,  MSIMysticLight185Controller::DIRECT_MODE_PER_LED },        // MPG Z490 GAMING CARBON WIFI
-    { 0x7C75, 6,  0, 0, 1, &zones_set2,  MSIMysticLight185Controller::DIRECT_MODE_PER_LED },        // MPG Z490 GAMING PLUS
-    { 0x7C76, 6,  0, 0, 2, &zones_set0,  MSIMysticLight185Controller::DIRECT_MODE_DISABLED },       // MPG Z490M GAMING EDGE
-    { 0x7C77, 0,  0, 0, 0, &zones_set14, MSIMysticLight185Controller::DIRECT_MODE_PER_LED },        // MEG Z490I UNIFY
-    { 0x7C79, 6,  0, 0, 2, &zones_set0,  MSIMysticLight185Controller::DIRECT_MODE_PER_LED },        // MPG Z490 GAMING EDGE WIFI
-    { 0x7C80, 6,  0, 0, 2, &zones_set0,  MSIMysticLight185Controller::DIRECT_MODE_PER_LED },        // MAG Z490 TOMAHAWK
-    { 0x7C81, 6,  0, 0, 2, &zones_set0,  MSIMysticLight185Controller::DIRECT_MODE_PER_LED },        // MAG B460 TOMAHAWK
-    { 0x7C83, 6,  0, 0, 1, &zones_set5,  MSIMysticLight185Controller::DIRECT_MODE_DISABLED },       // B460M PRO-VDH WIFI
-    { 0x7C84, 6,  0, 0, 2, &zones_set0,  MSIMysticLight185Controller::DIRECT_MODE_ZONE_BASED },     // MAG X570 TOMAHAWK WIFI
-    { 0x7C86, 6,  0, 0, 1, &zones_set5,  MSIMysticLight185Controller::DIRECT_MODE_DISABLED },       // MPG B460I GAMING EDGE
-    { 0x7C87, 6,  0, 0, 2, &zones_set13, MSIMysticLight185Controller::DIRECT_MODE_PER_LED },        // B450M BAZOOKA MAX WIFI
-    { 0x7C90, 6,  4, 0, 1, &zones_set3,  MSIMysticLight185Controller::DIRECT_MODE_PER_LED },        // MPG B550 GAMING CARBON WIFI
-    { 0x7C91, 6,  0, 0, 2, &zones_set0,  MSIMysticLight185Controller::DIRECT_MODE_PER_LED },        // MAG B550 TOMAHAWK
-    { 0x7C92, 6,  0, 0, 0, &zones_set6,  MSIMysticLight185Controller::DIRECT_MODE_DISABLED },       // MPG B550I GAMING EDGE WIFI
-    { 0x7C94, 6,  0, 0, 1, &zones_set11, MSIMysticLight185Controller::DIRECT_MODE_PER_LED },        // MAG B550M MORTAR
-    { 0x7C95, 6,  0, 0, 2, &zones_set0,  MSIMysticLight185Controller::DIRECT_MODE_PER_LED },        // B550M PRO-VDH WIFI
-    { 0x7C98, 6,  0, 0, 1, &zones_set5,  MSIMysticLight185Controller::DIRECT_MODE_PER_LED },        // Z490 PLUS
-    { 0x7D06, 4,  4, 0, 1, &zones_set3,  MSIMysticLight185Controller::DIRECT_MODE_DISABLED },       // MPG Z590 GAMING FORCE
-    { 0x7D07, 4,  5, 0, 2, &zones_set7,  MSIMysticLight185Controller::DIRECT_MODE_PER_LED },        // MPG Z590 GAMING EDGE WIFI
-    { 0x7D08, 6,  0, 0, 2, &zones_set0,  MSIMysticLight185Controller::DIRECT_MODE_PER_LED },        // MAG Z590 TOMAHAWK
-    { 0x7D09, 6,  0, 0, 2, &zones_set11, MSIMysticLight185Controller::DIRECT_MODE_PER_LED },        // Z590-A PRO WIFI
-    { 0x7D13, 6,  0, 0, 1, &zones_set1,  MSIMysticLight185Controller::DIRECT_MODE_DISABLED },       // MEG B550 UNIFY
-    { 0x7D15, 6,  0, 0, 2, &zones_set0,  MSIMysticLight185Controller::DIRECT_MODE_PER_LED },        // MAG B560 TOMAHAWK WIFI
-    { 0x7D17, 6,  0, 0, 2, &zones_set11, MSIMysticLight185Controller::DIRECT_MODE_PER_LED },        // MAG B560M MORTAR
-    { 0x7D18, 6,  0, 0, 2, &zones_set5,  MSIMysticLight185Controller::DIRECT_MODE_PER_LED },        // MAG B560M PRO-VDH
-    { 0x7D19, 6,  0, 0, 2, &zones_set5,  MSIMysticLight185Controller::DIRECT_MODE_PER_LED },        // MPG B560I GAMIING EDGE WIFI
-    { 0x7D20, 6,  0, 0, 2, &zones_set5,  MSIMysticLight185Controller::DIRECT_MODE_PER_LED },        // MAG B560M PRO
-    { 0x7D25, 6,  0, 0, 2, &zones_set11, MSIMysticLight185Controller::DIRECT_MODE_PER_LED },        // PRO Z690-A WIFI DDR4
-    { 0x7D27, 6,  0, 0, 2, &zones_set1,  MSIMysticLight185Controller::DIRECT_MODE_PER_LED },        // MEG Z690 ACE
-    { 0x7D28, 6,  0, 0, 1, &zones_set1,  MSIMysticLight185Controller::DIRECT_MODE_PER_LED },        // MEG Z690 UNIFY-X
-    { 0x7D29, 6,  0, 0, 0, &zones_set6,  MSIMysticLight185Controller::DIRECT_MODE_DISABLED },       // MEG Z690I UNIFY
-    { 0x7D30, 6,  6, 0, 2, &zones_set3,  MSIMysticLight185Controller::DIRECT_MODE_PER_LED },        // MPG Z690 CARBON WIFI
-    { 0x7D31, 4,  8, 0, 2, &zones_set12, MSIMysticLight185Controller::DIRECT_MODE_PER_LED },        // MPG EDGE WIFI DDR4
-    { 0x7D32, 1,  0, 0, 1, &zones_set10, MSIMysticLight185Controller::DIRECT_MODE_PER_LED },        // MAG Z690 TOMAHAWK WIFI DDR4
-    { 0x7D36, 6,  0, 0, 2, &zones_set5,  MSIMysticLight185Controller::DIRECT_MODE_PER_LED },        // PRO Z690-P DDR4
-    { 0x7D38, 0,  0, 0, 1, &zones_set1,  MSIMysticLight185Controller::DIRECT_MODE_PER_LED },        // MEG Z590 UNIFY-X
-    { 0x7D41, 6,  0, 0, 2, &zones_set13, MSIMysticLight185Controller::DIRECT_MODE_PER_LED },        // MAG B660M TOMAHAWK WIFI DDR4
-    { 0x7D42, 6,  0, 0, 2, &zones_set11, MSIMysticLight185Controller::DIRECT_MODE_PER_LED },        // MAG B660 MORTAR WIFI DDR4
-    { 0x7D43, 0,  0, 0, 2, &zones_set11, MSIMysticLight185Controller::DIRECT_MODE_PER_LED },        // PRO B660M-A WIFI DDR4
+    { 0x7B93, 6,  1,  0, 1, &zones_set3,  MSIMysticLight185Controller::DIRECT_MODE_ZONE_BASED },    // MPG X570 GAMING PRO CARBON WIFI
+    { 0x7C34, 0,  1,  1, 1, &zones_set8,  MSIMysticLight185Controller::DIRECT_MODE_ZONE_BASED },    // MEG X570 GODLIKE
+    { 0x7C35, 0,  1,  0, 1, &zones_set9,  MSIMysticLight185Controller::DIRECT_MODE_ZONE_BASED },    // MEG X570 ACE
+    { 0x7C36, 6,  1,  0, 1, &zones_set3,  MSIMysticLight185Controller::DIRECT_MODE_ZONE_BASED },    // PRESTIGE X570 CREATION
+    { 0x7C37, 6,  0,  0, 2, &zones_set0,  MSIMysticLight185Controller::DIRECT_MODE_ZONE_BASED },    // MPG X570 GAMING PLUS
+    { 0x7C56, 6,  0,  0, 1, &zones_set2,  MSIMysticLight185Controller::DIRECT_MODE_PER_LED },       // MPG B550 GAMING PLUS
+    { 0x7C59, 0,  8,  0, 1, &zones_set9,  MSIMysticLight185Controller::DIRECT_MODE_DISABLED },      // CREATOR TRX40
+    { 0x7C60, 6,  0,  0, 1, &zones_set1,  MSIMysticLight185Controller::DIRECT_MODE_PER_LED },       // TRX40-A PRO
+    { 0x7C67, 6,  0,  0, 1, &zones_set5,  MSIMysticLight185Controller::DIRECT_MODE_DISABLED },      // MAG B365M MORTAR
+    { 0x7C71, 6,  6,  0, 1, &zones_set3,  MSIMysticLight185Controller::DIRECT_MODE_PER_LED },       // MEG Z490 ACE
+    { 0x7C73, 6,  4,  0, 1, &zones_set3,  MSIMysticLight185Controller::DIRECT_MODE_PER_LED },       // MPG Z490 GAMING CARBON WIFI
+    { 0x7C75, 6,  0,  0, 1, &zones_set2,  MSIMysticLight185Controller::DIRECT_MODE_PER_LED },       // MPG Z490 GAMING PLUS
+    { 0x7C76, 6,  0,  0, 2, &zones_set0,  MSIMysticLight185Controller::DIRECT_MODE_DISABLED },      // MPG Z490M GAMING EDGE
+    { 0x7C77, 0,  0,  0, 0, &zones_set14, MSIMysticLight185Controller::DIRECT_MODE_PER_LED },       // MEG Z490I UNIFY
+    { 0x7C79, 6,  0,  0, 2, &zones_set0,  MSIMysticLight185Controller::DIRECT_MODE_PER_LED },       // MPG Z490 GAMING EDGE WIFI
+    { 0x7C80, 6,  0,  0, 2, &zones_set0,  MSIMysticLight185Controller::DIRECT_MODE_PER_LED },       // MAG Z490 TOMAHAWK
+    { 0x7C81, 6,  0,  0, 2, &zones_set0,  MSIMysticLight185Controller::DIRECT_MODE_PER_LED },       // MAG B460 TOMAHAWK
+    { 0x7C83, 6,  0,  0, 1, &zones_set5,  MSIMysticLight185Controller::DIRECT_MODE_DISABLED },      // B460M PRO-VDH WIFI
+    { 0x7C84, 6,  0,  0, 2, &zones_set0,  MSIMysticLight185Controller::DIRECT_MODE_ZONE_BASED },    // MAG X570 TOMAHAWK WIFI
+    { 0x7C86, 6,  0,  0, 1, &zones_set5,  MSIMysticLight185Controller::DIRECT_MODE_DISABLED },      // MPG B460I GAMING EDGE
+    { 0x7C87, 6,  0,  0, 2, &zones_set13, MSIMysticLight185Controller::DIRECT_MODE_PER_LED },       // B450M BAZOOKA MAX WIFI
+    { 0x7C90, 6,  4,  0, 1, &zones_set3,  MSIMysticLight185Controller::DIRECT_MODE_PER_LED },       // MPG B550 GAMING CARBON WIFI
+    { 0x7C91, 6,  0,  0, 2, &zones_set0,  MSIMysticLight185Controller::DIRECT_MODE_PER_LED },       // MAG B550 TOMAHAWK
+    { 0x7C92, 6,  0,  0, 0, &zones_set6,  MSIMysticLight185Controller::DIRECT_MODE_DISABLED },      // MPG B550I GAMING EDGE WIFI
+    { 0x7C94, 6,  0,  0, 1, &zones_set11, MSIMysticLight185Controller::DIRECT_MODE_PER_LED },       // MAG B550M MORTAR
+    { 0x7C95, 6,  0,  0, 2, &zones_set0,  MSIMysticLight185Controller::DIRECT_MODE_PER_LED },       // B550M PRO-VDH WIFI
+    { 0x7C98, 6,  0,  0, 1, &zones_set5,  MSIMysticLight185Controller::DIRECT_MODE_PER_LED },       // Z490 PLUS
+    { 0x7D03, 0, 15, 18, 1, &zones_set8,  MSIMysticLight185Controller::DIRECT_MODE_PER_LED },       // MPG Z590 GODLIKE
+    { 0x7D06, 4,  4,  0, 1, &zones_set3,  MSIMysticLight185Controller::DIRECT_MODE_DISABLED },      // MPG Z590 GAMING FORCE
+    { 0x7D07, 4,  5,  0, 2, &zones_set7,  MSIMysticLight185Controller::DIRECT_MODE_PER_LED },       // MPG Z590 GAMING EDGE WIFI
+    { 0x7D08, 6,  0,  0, 2, &zones_set0,  MSIMysticLight185Controller::DIRECT_MODE_PER_LED },       // MAG Z590 TOMAHAWK
+    { 0x7D09, 6,  0,  0, 2, &zones_set11, MSIMysticLight185Controller::DIRECT_MODE_PER_LED },       // Z590-A PRO WIFI
+    { 0x7D13, 6,  0,  0, 1, &zones_set1,  MSIMysticLight185Controller::DIRECT_MODE_DISABLED },      // MEG B550 UNIFY
+    { 0x7D15, 6,  0,  0, 2, &zones_set0,  MSIMysticLight185Controller::DIRECT_MODE_PER_LED },       // MAG B560 TOMAHAWK WIFI
+    { 0x7D17, 6,  0,  0, 2, &zones_set11, MSIMysticLight185Controller::DIRECT_MODE_PER_LED },       // MAG B560M MORTAR
+    { 0x7D18, 6,  0,  0, 2, &zones_set5,  MSIMysticLight185Controller::DIRECT_MODE_PER_LED },       // MAG B560M PRO-VDH
+    { 0x7D19, 6,  0,  0, 2, &zones_set5,  MSIMysticLight185Controller::DIRECT_MODE_PER_LED },       // MPG B560I GAMIING EDGE WIFI
+    { 0x7D20, 6,  0,  0, 2, &zones_set5,  MSIMysticLight185Controller::DIRECT_MODE_PER_LED },       // MAG B560M PRO
+    { 0x7D25, 6,  0,  0, 2, &zones_set11, MSIMysticLight185Controller::DIRECT_MODE_PER_LED },       // PRO Z690-A WIFI DDR4
+    { 0x7D27, 6,  0,  0, 2, &zones_set1,  MSIMysticLight185Controller::DIRECT_MODE_PER_LED },       // MEG Z690 ACE
+    { 0x7D28, 6,  0,  0, 1, &zones_set1,  MSIMysticLight185Controller::DIRECT_MODE_PER_LED },       // MEG Z690 UNIFY-X
+    { 0x7D29, 6,  0,  0, 0, &zones_set6,  MSIMysticLight185Controller::DIRECT_MODE_DISABLED },      // MEG Z690I UNIFY
+    { 0x7D30, 6,  6,  0, 2, &zones_set3,  MSIMysticLight185Controller::DIRECT_MODE_PER_LED },       // MPG Z690 CARBON WIFI
+    { 0x7D31, 4,  8,  0, 2, &zones_set12, MSIMysticLight185Controller::DIRECT_MODE_PER_LED },       // MPG EDGE WIFI DDR4
+    { 0x7D32, 1,  0,  0, 1, &zones_set10, MSIMysticLight185Controller::DIRECT_MODE_PER_LED },       // MAG Z690 TOMAHAWK WIFI DDR4
+    { 0x7D36, 6,  0,  0, 2, &zones_set5,  MSIMysticLight185Controller::DIRECT_MODE_PER_LED },       // PRO Z690-P DDR4
+    { 0x7D38, 0,  0,  0, 1, &zones_set1,  MSIMysticLight185Controller::DIRECT_MODE_PER_LED },       // MEG Z590 UNIFY-X
+    { 0x7D41, 6,  0,  0, 2, &zones_set13, MSIMysticLight185Controller::DIRECT_MODE_PER_LED },       // MAG B660M TOMAHAWK WIFI DDR4
+    { 0x7D42, 6,  0,  0, 2, &zones_set11, MSIMysticLight185Controller::DIRECT_MODE_PER_LED },       // MAG B660 MORTAR WIFI DDR4
+    { 0x7D43, 0,  0,  0, 2, &zones_set11, MSIMysticLight185Controller::DIRECT_MODE_PER_LED },       // PRO B660M-A WIFI DDR4
     { 0x7D46, 0,  1, 1, 0, &zones_set11, MSIMysticLight185Controller::DIRECT_MODE_PER_LED },        // PRO H610M-G DDR4
-    { 0x7D50, 6, 12, 0, 1, &zones_set4,  MSIMysticLight185Controller::DIRECT_MODE_PER_LED },        // MEG X570S ACE MAX
-    { 0x7D51, 6,  0, 0, 2, &zones_set1,  MSIMysticLight185Controller::DIRECT_MODE_PER_LED },        // MEG X570S UNIFY-X MAX
-    { 0x7D52, 6, 14, 0, 1, &zones_set4,  MSIMysticLight185Controller::DIRECT_MODE_PER_LED },        // MPG X570S CARBON EK X
-    { 0x7D53, 6,  0, 0, 2, &zones_set0,  MSIMysticLight185Controller::DIRECT_MODE_PER_LED },        // MPG X570S EDGE MAX WIFI
-    { 0x7D54, 6,  0, 0, 2, &zones_set0,  MSIMysticLight185Controller::DIRECT_MODE_PER_LED },        // MAG X570S TOMAHAWK MAX WIFI
-    { 0x7D59, 0,  0, 0, 2, &zones_set11, MSIMysticLight185Controller::DIRECT_MODE_PER_LED },        // PRO B660-A DDR4
-    { 0x7D67, 0,  0, 0, 1, &zones_set11, MSIMysticLight185Controller::DIRECT_MODE_PER_LED },        // PRO X670-P WIFI
-    { 0x7D69, 9,  2, 4, 1, &zones_set15, MSIMysticLight185Controller::DIRECT_MODE_PER_LED },        // MEG X670E ACE
-    { 0x7D70, 0,  6, 0, 1, &zones_set17, MSIMysticLight185Controller::DIRECT_MODE_PER_LED },        // MPG X670E Carbon WIFI
-    { 0x7D73, 1,  0, 0, 0, &zones_set6,  MSIMysticLight185Controller::DIRECT_MODE_PER_LED },        // MPG B650I EDGE WIFI
-    { 0x7D75, 0,  0, 0, 2, &zones_set13, MSIMysticLight185Controller::DIRECT_MODE_PER_LED },        // MAG B650 TOMAHAWK WIFI
-    { 0x7D76, 0,  0, 0, 2, &zones_set13, MSIMysticLight185Controller::DIRECT_MODE_PER_LED },        // MAG B650M MORTAR WIFI
-    { 0x7D77, 6,  0, 0, 2, &zones_set13, MSIMysticLight185Controller::DIRECT_MODE_PER_LED },        // PRO B650M-A WIFI
-    { 0x7D78, 6,  0, 0, 2, &zones_set13, MSIMysticLight185Controller::DIRECT_MODE_PER_LED },        // PRO B650-P WIFI
-    { 0x7D86, 0, 18, 4, 1, &zones_set16, MSIMysticLight185Controller::DIRECT_MODE_PER_LED },        // MEG Z790 ACE
-    { 0x7D89, 0,  6, 0, 1, &zones_set17, MSIMysticLight185Controller::DIRECT_MODE_PER_LED },        // MPG Z790 CARBON WIFI
-    { 0x7D91, 1,  0, 0, 1, &zones_set10, MSIMysticLight185Controller::DIRECT_MODE_PER_LED },        // MAG Z790 TOMAHAWK WIFI
-    { 0x7E06, 0,  0, 0, 2, &zones_set11, MSIMysticLight185Controller::DIRECT_MODE_PER_LED },        // PRO Z790-P WIFI DDR4
-    { 0x7E07, 0,  0, 0, 2, &zones_set10, MSIMysticLight185Controller::DIRECT_MODE_PER_LED },        // PRO Z790-A WIFI DDR4
+    { 0x7D50, 6, 12,  0, 1, &zones_set3,  MSIMysticLight185Controller::DIRECT_MODE_PER_LED },       // MEG X570S ACE MAX
+    { 0x7D51, 6,  0,  0, 2, &zones_set1,  MSIMysticLight185Controller::DIRECT_MODE_PER_LED },       // MEG X570S UNIFY-X MAX
+    { 0x7D52, 6, 14,  0, 1, &zones_set3,  MSIMysticLight185Controller::DIRECT_MODE_PER_LED },       // MPG X570S CARBON EK X
+    { 0x7D53, 6,  0,  0, 2, &zones_set0,  MSIMysticLight185Controller::DIRECT_MODE_PER_LED },       // MPG X570S EDGE MAX WIFI
+    { 0x7D54, 6,  0,  0, 2, &zones_set0,  MSIMysticLight185Controller::DIRECT_MODE_PER_LED },       // MAG X570S TOMAHAWK MAX WIFI
+    { 0x7D59, 0,  0,  0, 2, &zones_set11, MSIMysticLight185Controller::DIRECT_MODE_PER_LED },       // PRO B660-A DDR4
+    { 0x7D67, 0,  0,  0, 1, &zones_set11, MSIMysticLight185Controller::DIRECT_MODE_PER_LED },       // PRO X670-P WIFI
+    { 0x7D69, 9,  2,  4, 1, &zones_set15, MSIMysticLight185Controller::DIRECT_MODE_PER_LED },       // MEG X670E ACE
+    { 0x7D70, 0,  6,  0, 1, &zones_set4,  MSIMysticLight185Controller::DIRECT_MODE_PER_LED },       // MPG X670E Carbon WIFI
+    { 0x7D73, 1,  0,  0, 0, &zones_set6,  MSIMysticLight185Controller::DIRECT_MODE_PER_LED },       // MPG B650I EDGE WIFI
+    { 0x7D75, 0,  0,  0, 2, &zones_set13, MSIMysticLight185Controller::DIRECT_MODE_PER_LED },       // MAG B650 TOMAHAWK WIFI
+    { 0x7D76, 0,  0,  0, 2, &zones_set13, MSIMysticLight185Controller::DIRECT_MODE_PER_LED },       // MAG B650M MORTAR WIFI
+    { 0x7D77, 6,  0,  0, 2, &zones_set13, MSIMysticLight185Controller::DIRECT_MODE_PER_LED },       // PRO B650M-A WIFI
+    { 0x7D78, 6,  0,  0, 2, &zones_set13, MSIMysticLight185Controller::DIRECT_MODE_PER_LED },       // PRO B650-P WIFI
+    { 0x7D86, 0, 18,  4, 1, &zones_set16, MSIMysticLight185Controller::DIRECT_MODE_PER_LED },       // MEG Z790 ACE
+    { 0x7D89, 0,  6,  0, 1, &zones_set4,  MSIMysticLight185Controller::DIRECT_MODE_PER_LED },       // MPG Z790 CARBON WIFI
+    { 0x7D91, 1,  0,  0, 1, &zones_set10, MSIMysticLight185Controller::DIRECT_MODE_PER_LED },       // MAG Z790 TOMAHAWK WIFI
+    { 0x7E06, 0,  0,  0, 2, &zones_set11, MSIMysticLight185Controller::DIRECT_MODE_PER_LED },       // PRO Z790-P WIFI DDR4
+    { 0x7E07, 0,  0,  0, 2, &zones_set10, MSIMysticLight185Controller::DIRECT_MODE_PER_LED },       // PRO Z790-A WIFI DDR4
 };
 
 
