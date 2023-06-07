@@ -778,8 +778,7 @@ keyboard_keymap_overlay_values razer_huntsman_mini_layout
         | Edit Keys                                                                                                 |
         |   Zone,   Row,    Column,     Value,      Key,                        OpCode,                             |
         \*---------------------------------------------------------------------------------------------------------*/
-        {   0,      0,      0,          0,          KEY_EN_UNUSED,              KEYBOARD_OPCODE_SWAP_ONLY,          },  // Swap out Backtick
-        {   0,      0,      1,          0,          KEY_EN_ESCAPE,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Insert Escape and shift row 0
+        {   0,      0,      0,          0,          KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Shift row 0
         {   0,      1,      0,          0,          KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Shift row 1
         {   0,      2,      0,          0,          KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Shift row 2
         {   0,      3,      0,          0,          KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Shift row 3

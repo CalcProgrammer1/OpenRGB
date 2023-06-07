@@ -372,10 +372,18 @@ KeyboardLayoutManager::KeyboardLayoutManager(KEYBOARD_LAYOUT layout, KEYBOARD_SI
         SwapKeys(values.regional_overlay.find(layout)->second);
     }
 
+    /*---------------------------------------------------------------------*\
+    | Size specific fixes                                                   |
+    \*---------------------------------------------------------------------*/
     switch(size)
     {
         case KEYBOARD_SIZE::KEYBOARD_SIZE_SIXTY:
+            /*-------------------------------------------------------------*\
+            | Remove the empty Function row and swap in the Escape key      |
+            \*-------------------------------------------------------------*/
             name = KEYBOARD_NAME_SIXTY;
+            RemoveRow(0);
+            SwapKey(keyboard_zone_fn_row[0]);
             break;
 
         case KEYBOARD_SIZE::KEYBOARD_SIZE_SEVENTY_FIVE:
@@ -441,6 +449,10 @@ void KeyboardLayoutManager::OpCodeSwitch(key_set change_keys)
             case KEYBOARD_OPCODE_INS_SHFT_ADJACENT:
                 //TODO: Insert, then find next unused and remove shift left
                 //SwapKey(change_keys[chg_key_idx]);
+                break;
+
+            case KEYBOARD_OPCODE_REMOVE_ROW:
+                RemoveRow(change_keys[chg_key_idx].row);
                 break;
 
             default:
@@ -695,6 +707,45 @@ void KeyboardLayoutManager::RemoveKey(keyboard_led rmv_key)
 
             break;
         }
+    }
+}
+
+void KeyboardLayoutManager::RemoveRow(uint8_t rmv_row)
+{
+    /*---------------------------------------------------------------------*\
+    | Check row is valid to remove                                          |
+    \*---------------------------------------------------------------------*/
+    if(rmv_row >= rows)
+    {
+        LOG_DEBUG("[%s] Removing row %d failed as rows currently = %d", KLM_CLASS_NAME, rmv_row, rows);
+        return;
+    }
+
+    /*---------------------------------------------------------------------*\
+    | Loop through and remove any keys in the row                           |
+    \*---------------------------------------------------------------------*/
+    unsigned int key_idx = 0;
+
+    for(/*key_idx*/; key_idx < keymap.size() && rmv_row > keymap[key_idx].row; key_idx++)
+    {
+        if(rmv_row == keymap[key_idx].row)
+        {
+            LOG_DEBUG("[%s] Removing %s @ %02d, %02d from row %d", KLM_CLASS_NAME, keymap[key_idx].name, keymap[key_idx].row, keymap[key_idx].col, rmv_row);
+            keymap.erase(keymap.begin() + key_idx);
+        }
+    }
+
+    /*---------------------------------------------------------------------*\
+    | Loop through the remaining rows and adjust row number                 |
+    \*---------------------------------------------------------------------*/
+    if(rmv_row < keymap[key_idx].row)
+    {
+        for(/*key_idx*/; key_idx < keymap.size(); key_idx++)
+        {
+            keymap[key_idx].row--;
+        }
+
+        LOG_DEBUG("[%s] Remove row %d successful", KLM_CLASS_NAME, rmv_row);
     }
 }
 
