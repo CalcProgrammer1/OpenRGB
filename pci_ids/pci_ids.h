@@ -141,6 +141,7 @@
 #define ASUS_RX480_STRIX_GAMING_OC                      0x04FB
 #define ASUS_RX560_STRIX_4G_GAMING                      0x04BC
 #define ASUS_RX570_STRIX_O4G_GAMING_OC                  0x04C2
+#define ASUS_RX570_STRIX_O8G_GAMING_OC                  0x0588
 #define ASUS_RX580_STRIX_GAMING_OC                      0x0517
 #define ASUS_RX580_STRIX_GAMING_TOP                     0x0519
 #define ASUS_GTX1050_STRIX_O2G_GAMING                   0x85D8
