@@ -140,8 +140,12 @@ There have been two instances of hardware damage in OpenRGB's development and we
   * If you are not trying to use OpenRGB to control RGB RAM or motherboard LEDs, you may skip this section.
   * ASUS and ASRock motherboards have their RGB controller on a secondary SMBus interface and requires a Linux kernel > 5.7 <sup>[commit](https://github.com/torvalds/linux/commit/f27237c174fd9653033330e4e532cd9d153ce824)</sup>
   * Allowing access to SMBus:
-    1. Load the i2c-dev module: `sudo modprobe i2c-dev`
-    2. Load the i2c driver for your chipset:
+    1. Install the `i2c-tools` package.
+    2. Load the i2c-dev module: `sudo modprobe i2c-dev`
+    3. Create the i2c group if it does not already exist: `sudo groupadd --system i2c`
+    4. Add yourself to the i2c group: `sudo usermod $USER -aG i2c`
+    5. If you want you can load the i2c-dev module at boot: `sudo touch /etc/modules-load.d/i2c.conf && sudo sh -c 'echo "i2c-dev" >> /etc/modules-load.d/i2c.conf'`
+    6. Load the i2c driver for your chipset:
     <details>
     <summary><h6>Intel</h6></summary>
 
