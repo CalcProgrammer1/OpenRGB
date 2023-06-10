@@ -38,4 +38,4 @@ void DetectWushiL50USBControllers(hidapi_wrapper wrapper, hid_device_info* info,
     }
 }
 
-REGISTER_HID_WRAPPED_DETECTOR_PU("JSAUX RGB Docking Station", DetectWushiL50USBControllers, WUSHI_VID, WUSHI_PID, WUSHI_PAGE, WUSHI_USAGE);
+REGISTER_HID_WRAPPED_DETECTOR("JSAUX RGB Docking Station", DetectWushiL50USBControllers, WUSHI_VID, WUSHI_PID);
