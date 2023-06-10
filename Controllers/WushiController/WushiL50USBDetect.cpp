@@ -24,13 +24,13 @@ enum
     WUSHI_USAGE = 0x0C
 };
 
-void DetectWushiL50USBControllers(hid_device_info* info, const std::string& name)
+void DetectWushiL50USBControllers(hidapi_wrapper wrapper, hid_device_info* info, const std::string& name)
 {
-    hid_device* dev = hid_open_path(info->path);
+    hid_device* dev = wrapper.hid_open_path(info->path);
 
     if(dev)
     {
-        WushiL50USBController*     controller      = new WushiL50USBController(dev, info->path);
+        WushiL50USBController*     controller      = new WushiL50USBController(wrapper, dev, info->path);
         RGBController_WushiL50USB* rgb_controller  = new RGBController_WushiL50USB(controller);
         rgb_controller->name                       = name;
 
@@ -38,4 +38,4 @@ void DetectWushiL50USBControllers(hid_device_info* info, const std::string& name
     }
 }
 
-REGISTER_HID_DETECTOR_PU("JSAUX RGB Docking Station", DetectWushiL50USBControllers, WUSHI_VID, WUSHI_PID, WUSHI_PAGE, WUSHI_USAGE);
+REGISTER_HID_WRAPPED_DETECTOR_PU("JSAUX RGB Docking Station", DetectWushiL50USBControllers, WUSHI_VID, WUSHI_PID, WUSHI_PAGE, WUSHI_USAGE);

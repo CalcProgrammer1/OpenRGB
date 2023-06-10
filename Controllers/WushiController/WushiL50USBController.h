@@ -11,6 +11,8 @@
 #include <string>
 #include <hidapi/hidapi.h>
 
+#include "hidapi_wrapper.h"
+
 #ifndef HID_MAX_STR
 #define HID_MAX_STR                 255
 #endif
@@ -103,7 +105,7 @@ public:
 class WushiL50USBController
 {
 public:
-    WushiL50USBController(hid_device* dev_handle, const char* path);
+    WushiL50USBController(hidapi_wrapper hid_wrapper, hid_device* dev_handle, const char* path);
     ~WushiL50USBController();
 
     void        setMode(WushiL50State * in_mode);
@@ -114,6 +116,7 @@ public:
 
 private:
     std::string     name;
+    hidapi_wrapper  wrapper;
     hid_device *    dev;
     std::string     location;
     std::string     serial_number;

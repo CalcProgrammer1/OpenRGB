@@ -14,6 +14,7 @@
 #define REGISTER_HID_DETECTOR_PU(name, func, vid, pid, page, usage)                     static HIDDeviceDetector        device_detector_obj_##vid##pid##__##page##_##usage(name, func, vid, pid, HID_INTERFACE_ANY, page, usage)
 #define REGISTER_HID_WRAPPED_DETECTOR_I(name, func, vid, pid, interface)                static HIDWrappedDeviceDetector device_detector_obj_##vid##pid##_##interface(name, func, vid, pid, interface, HID_USAGE_PAGE_ANY, HID_USAGE_ANY)
 #define REGISTER_HID_WRAPPED_DETECTOR_IPU(name, func, vid, pid, interface, page, usage) static HIDWrappedDeviceDetector device_detector_obj_##vid##pid##_##interface##_##page##_##usage(name, func, vid, pid, interface, page, usage)
+#define REGISTER_HID_WRAPPED_DETECTOR_PU(name, func, vid, pid, page, usage)             static HIDWrappedDeviceDetector device_detector_obj_##vid##pid##__##page##_##usage(name, func, vid, pid, HID_INTERFACE_ANY, page, usage)
 #define REGISTER_DYNAMIC_DETECTOR(name, func)                                           static DynamicDetector          device_detector_obj_##func(name, func)
 #define REGISTER_PRE_DETECTION_HOOK(func)                                               static PreDetectionHook         device_detector_obj_##func(func)
 
