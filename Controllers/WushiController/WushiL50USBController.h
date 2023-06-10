@@ -17,7 +17,7 @@
 #define HID_MAX_STR                 255
 #endif
 
-#define WUSHI_L50_HID_PACKET_SIZE   33
+#define WUSHI_L50_HID_PACKET_SIZE   65
 #define WUSHI_L50_NUM_LEDS          4
 
 enum WUSHI_L50_EFFECT
@@ -53,7 +53,6 @@ enum WUSHI_L50_Direction
 class WushiL50State
 {
 public:
-    uint8_t header[2]               = {0xCC, 0x16};
     uint8_t effect                  = WUSHI_L50_EFFECT_STATIC;
     uint8_t speed                   = WUSHI_L50_SPEED_SLOWEST;
     uint8_t brightness              = WUSHI_L50_BRIGHTNESS_LOW;
@@ -61,26 +60,16 @@ public:
     uint8_t zone1_rgb[3]            = {0xFF, 0xFF, 0xFF};
     uint8_t zone2_rgb[3]            = {0xFF, 0xFF, 0xFF};
     uint8_t zone3_rgb[3]            = {0xFF, 0xFF, 0xFF};
-    uint8_t padding                 = 0;
     uint8_t wave_ltr                = 0;
     uint8_t wave_rtl                = 0;
-    uint8_t unused[13]              = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 
     void Reset()
     {
-        header[0]                   = 0xCC;
-        header[1]                   = 0x16;
         effect                      = WUSHI_L50_EFFECT_STATIC;
         speed                       = WUSHI_L50_SPEED_SLOWEST;
         brightness                  = WUSHI_L50_BRIGHTNESS_LOW;
-        padding                     = 0;
         wave_ltr                    = 0;
         wave_rtl                    = 0;
-
-        for(int i = 0; i < 13; ++i)
-        {
-            unused[i]               = 0;
-        }
     }
 
     void SetColors(std::vector<RGBColor> group_colors)
