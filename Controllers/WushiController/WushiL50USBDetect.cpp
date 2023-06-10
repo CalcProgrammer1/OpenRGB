@@ -15,15 +15,6 @@
 \*-----------------------------------------------------*/
 #define WUSHI_PID                               0x1234
 
-/*-----------------------------------------------------*\
-| Interface, Usage, and Usage Page                      |
-\*-----------------------------------------------------*/
-enum
-{
-    WUSHI_PAGE  = 0xFF63,
-    WUSHI_USAGE = 0x0C
-};
-
 void DetectWushiL50USBControllers(hidapi_wrapper wrapper, hid_device_info* info, const std::string& name)
 {
     hid_device* dev = wrapper.hid_open_path(info->path);

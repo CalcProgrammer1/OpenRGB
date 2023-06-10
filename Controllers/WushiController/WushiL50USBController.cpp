@@ -15,7 +15,7 @@ WushiL50USBController::WushiL50USBController(hidapi_wrapper hid_wrapper, hid_dev
 
 WushiL50USBController::~WushiL50USBController()
 {
-    hid_close(dev);
+    wrapper.hid_close(dev);
 }
 
 void WushiL50USBController::setMode(WushiL50State * in_mode)
