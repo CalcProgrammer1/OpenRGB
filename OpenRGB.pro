@@ -116,6 +116,7 @@ INCLUDEPATH +=                                                                  
     Controllers/EKController/                                                                   \
     Controllers/ENESMBusController/                                                             \
     Controllers/ENESMBusController/ENESMBusInterface                                            \
+    Controllers/EpomakerController/                                                             \
     Controllers/EspurnaController/                                                              \
     Controllers/EVGAGP102GPUController/                                                         \
     Controllers/EVGAPascalGPUController/                                                        \
@@ -418,6 +419,8 @@ HEADERS +=                                                                      
     Controllers/ENESMBusController/RGBController_ENESMBus.h                                     \
     Controllers/ENESMBusController/ENESMBusInterface/ENESMBusInterface.h                        \
     Controllers/ENESMBusController/ENESMBusInterface/ENESMBusInterface_i2c_smbus.h              \
+    Controllers/EpomakerController/EpomakerController.h                                         \
+    Controllers/EpomakerController/RGBController_EpomakerController.h                           \
     Controllers/EspurnaController/EspurnaController.h                                           \
     Controllers/EspurnaController/RGBController_Espurna.h                                       \
     Controllers/EVGAGP102GPUController/EVGAGP102Controller.h                                    \
@@ -1025,6 +1028,9 @@ SOURCES +=                                                                      
     Controllers/ENESMBusController/ENESMBusControllerDetect.cpp                                 \
     Controllers/ENESMBusController/RGBController_ENESMBus.cpp                                   \
     Controllers/ENESMBusController/ENESMBusInterface/ENESMBusInterface_i2c_smbus.cpp            \
+    Controllers/EpomakerController/EpomakerController.cpp                                       \
+    Controllers/EpomakerController/EpomakerControllerDetect.cpp                                 \
+    Controllers/EpomakerController/RGBController_EpomakerController.cpp                         \
     Controllers/EspurnaController/EspurnaController.cpp                                         \
     Controllers/EspurnaController/EspurnaControllerDetect.cpp                                   \
     Controllers/EspurnaController/RGBController_Espurna.cpp                                     \
