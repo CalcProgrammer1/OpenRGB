@@ -238,6 +238,7 @@
 #define ASUS_ROG_STRIX_RTX_3080_10G_V2_GAMING           0x882F
 #define ASUS_ROG_STRIX_RTX_3080_12G                     0x886C
 #define ASUS_ROG_STRIX_RTX_3080_O12G_OC                 0x886B
+#define ASUS_ROG_STRIX_RTX_3080_O12G_EVA                0x8887
 #define ASUS_TUF_RTX_3080TI_12G_GAMING                  0x8803
 #define ASUS_TUF_RTX_3080TI_O12G_GAMING                 0x8802
 #define ASUS_ROG_STRIX_RTX_3080TI_O12G_GAMING           0x8807
