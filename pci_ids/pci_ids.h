@@ -551,6 +551,7 @@
 #define MSI_RX6600XT_GAMING_X_SUB_DEV                   0x5020
 #define MSI_RX6700XT_GAMING_X_SUB_DEV                   0x3981
 #define MSI_RX6750XT_GAMING_X_TRIO_SUB_DEV              0x3990
+#define MSI_RX6800_GAMING_Z_TRIO_V1_SUB_DEV             0x3956
 #define MSI_RX6800_GAMING_X_TRIO_SUB_DEV                0x3961
 #define MSI_RX6800XT_GAMING_X_TRIO_SUB_DEV              0x3951
 #define MSI_RX6800XT_GAMING_Z_TRIO_SUB_DEV              0x3953
