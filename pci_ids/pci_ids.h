@@ -527,6 +527,7 @@
 #define EVGA_RTX3090TI_FTW3_BLACK_SUB_DEV               0x4981
 #define EVGA_RTX3090TI_FTW3_GAMING_SUB_DEV              0x4983
 #define EVGA_RTX3090TI_FTW3_ULTRA_GAMING_SUB_DEV        0x4985
+#define EVGA_RTX3090TI_FTW3_ULTRA_HYBRID_GAMING_SUB_DEV 0x4988
 
 /*-----------------------------------------------------*\
 | Gainward Sub-Device IDs                               |
