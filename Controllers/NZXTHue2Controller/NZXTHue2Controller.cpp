@@ -218,6 +218,10 @@ void NZXTHue2Controller::UpdateDeviceList()
                 num_leds_in_device = 8;
                 break;
 
+            case 0x18: //F140 RGB fan (140mm)
+                num_leds_in_device = 18;
+                break;
+
             default:
                 break;
             }
