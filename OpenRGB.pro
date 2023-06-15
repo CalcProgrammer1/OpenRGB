@@ -199,6 +199,8 @@ contains(QMAKE_PLATFORM, freebsd) {
 
 HEADERS +=                                                                                      \
     Colors.h                                                                                    \
+    Controllers/AsusAuraUSBController/AsusROGAllyController.h \
+    Controllers/AsusAuraUSBController/RGBController_AsusROGAlly.h \
     dependencies/ColorWheel/ColorWheel.h                                                        \
     dependencies/Swatches/swatches.h                                                            \
     dependencies/json/json.hpp                                                                  \
@@ -742,6 +744,8 @@ contains(QMAKE_PLATFORM, freebsd) {
 }
 
 SOURCES +=                                                                                      \
+    Controllers/AsusAuraUSBController/AsusROGAllyController.cpp \
+    Controllers/AsusAuraUSBController/RGBController_AsusROGAlly.cpp \
     dependencies/Swatches/swatches.cpp                                                          \
     dependencies/dmiinfo.cpp                                                                    \
     dependencies/ColorWheel/ColorWheel.cpp                                                      \
