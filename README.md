@@ -246,9 +246,9 @@ There have been two instances of hardware damage in OpenRGB's development and we
 
 * https://discord.gg/AQwjJPY
 
-## Visit Our Subreddit
+## Visit Our Lemmy Community
 
-* https://www.reddit.com/r/OpenRGB
+* https://lemmy.ml/c/OpenRGB
 
 ## How-Tos and FAQs
 
