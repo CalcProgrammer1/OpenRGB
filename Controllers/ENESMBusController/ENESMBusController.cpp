@@ -143,6 +143,17 @@ ENESMBusController::ENESMBusController(ENESMBusInterface* interface, ene_dev_id 
         // Read LED count from configuration table
         led_count = config_table[ENE_CONFIG_LED_COUNT_1110];
     }
+    // AUMA0-E6K5-1107 - Second generation GPU controller
+    // Found on ASUS TUF 4070 TI OC, seems to be equal to AUMA0-E6K5-0107
+    else if (strcmp(device_name, "AUMA0-E6K5-1107") == 0)
+    {
+        direct_reg  = ENE_REG_COLORS_DIRECT_V2;
+        effect_reg  = ENE_REG_COLORS_EFFECT_V2;
+        channel_cfg = ENE_CONFIG_CHANNEL_V2;
+
+        // Read LED count from configuration table
+        led_count = config_table[ENE_CONFIG_LED_COUNT_0107];
+    }
     // Assume first generation controller if string does not match
     else
     {
