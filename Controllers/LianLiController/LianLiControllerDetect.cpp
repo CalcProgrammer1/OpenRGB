@@ -49,6 +49,7 @@
 #define UNI_HUB_PID                                 0x7750
 #define UNI_HUB_AL_PID                              0xA101
 #define UNI_HUB_SLV2_PID                            0xA103
+#define UNI_HUB_SLV2_V05_PID                        0xA105
 
 /*----------------------------------------------------------------------------*\
 | The Uni Hub is controlled by sending control transfers to various wIndex     |
@@ -207,6 +208,7 @@ void DetectStrimerControllers(hid_device_info* info, const std::string& name)
 REGISTER_DETECTOR("Lian Li Uni Hub", DetectLianLiUniHub);
 REGISTER_HID_DETECTOR_IPU("Lian Li Uni Hub - AL", DetectLianLiUniHubAL,    ENE_USB_VID,  UNI_HUB_AL_PID,           0x01,  0xFF72, 0xA1);
 REGISTER_HID_DETECTOR_IPU("Lian Li Uni Hub - SL V2", DetectLianLiUniHubSLV2,    ENE_USB_VID,  UNI_HUB_SLV2_PID,           0x01,  0xFF72, 0xA1);
+REGISTER_HID_DETECTOR_IPU("Lian Li Uni Hub - SL V2 v0.5", DetectLianLiUniHubSLV2,    ENE_USB_VID,  UNI_HUB_SLV2_V05_PID,           0x01,  0xFF72, 0xA1);
 /*---------------------------------------------------------------------------------------------------------*\
 | Entries for dynamic UDEV rules                                                                            |
 |                                                                                                           |
