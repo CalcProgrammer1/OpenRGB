@@ -55,9 +55,19 @@ RGBController_AuraTUFKeyboard::RGBController_AuraTUFKeyboard(AuraTUFKeyboardCont
                 AURA_KEYBOARD_SPEED_MAX          = 0;
                 AURA_KEYBOARD_SPEED_DEFAULT      = 8;
                 break;
+            case AURA_TUF_K5_GAMING_PID:
+                AURA_KEYBOARD_SPEED_MIN          = 63;
+                AURA_KEYBOARD_SPEED_MAX          = 0;
+                AURA_KEYBOARD_SPEED_DEFAULT      = 31;
+                break;
             case AURA_ROG_FALCHION_WIRED_PID:
             case AURA_ROG_FALCHION_WIRELESS_PID:
                 AURA_KEYBOARD_SPEED_MIN          = 255;
+                AURA_KEYBOARD_SPEED_MAX          = 0;
+                AURA_KEYBOARD_SPEED_DEFAULT      = 8;
+                break;
+            default:
+                AURA_KEYBOARD_SPEED_MIN          = 15;
                 AURA_KEYBOARD_SPEED_MAX          = 0;
                 AURA_KEYBOARD_SPEED_DEFAULT      = 8;
         }
@@ -86,7 +96,7 @@ RGBController_AuraTUFKeyboard::RGBController_AuraTUFKeyboard(AuraTUFKeyboardCont
         Breathing.name              = "Breathing";
         Breathing.value             = AURA_KEYBOARD_MODE_BREATHING;
         Breathing.flags             = MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_SPEED | MODE_FLAG_MANUAL_SAVE | MODE_FLAG_HAS_BRIGHTNESS;
-        if(pid != AURA_TUF_K1_GAMING_PID) Breathing.flags |= MODE_FLAG_HAS_RANDOM_COLOR;
+        if(controller->is_per_led_keyboard) Breathing.flags |= MODE_FLAG_HAS_RANDOM_COLOR;
 
         Breathing.speed_min         = AURA_KEYBOARD_SPEED_MIN;
         Breathing.speed_max         = AURA_KEYBOARD_SPEED_MAX;
@@ -117,7 +127,7 @@ RGBController_AuraTUFKeyboard::RGBController_AuraTUFKeyboard(AuraTUFKeyboardCont
         Wave.name                   = "Rainbow Wave";
         Wave.value                  = AURA_KEYBOARD_MODE_WAVE;
         Wave.flags                  = MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_DIRECTION_LR | MODE_FLAG_HAS_DIRECTION_HV | MODE_FLAG_MANUAL_SAVE | MODE_FLAG_HAS_BRIGHTNESS;
-        if(pid != AURA_TUF_K1_GAMING_PID) Wave.flags |= MODE_FLAG_HAS_DIRECTION_UD;
+        if(controller->is_per_led_keyboard) Wave.flags |= MODE_FLAG_HAS_DIRECTION_UD;
         
         Wave.speed_min              = AURA_KEYBOARD_SPEED_MIN;
         Wave.speed_max              = AURA_KEYBOARD_SPEED_MAX;
@@ -128,7 +138,7 @@ RGBController_AuraTUFKeyboard::RGBController_AuraTUFKeyboard(AuraTUFKeyboardCont
         Wave.direction              = MODE_DIRECTION_LEFT;
         Wave.color_mode             = MODE_COLORS_MODE_SPECIFIC;
 
-        if(pid == AURA_TUF_K1_GAMING_PID)
+        if(!controller->is_per_led_keyboard)
         {
             Wave.colors_min             = 5;
             Wave.colors_max             = 5;
@@ -142,7 +152,7 @@ RGBController_AuraTUFKeyboard::RGBController_AuraTUFKeyboard(AuraTUFKeyboardCont
         Wave.colors.resize(Wave.colors_max);
         modes.push_back(Wave);
 
-        if(pid != AURA_TUF_K1_GAMING_PID)
+        if(controller->is_per_led_keyboard)
         {
             mode Reactive;
             Reactive.name               = "Reactive";
@@ -413,6 +423,7 @@ void RGBController_AuraTUFKeyboard::SetupZones()
             }
             break;
         case AURA_TUF_K1_GAMING_PID:
+        case AURA_TUF_K5_GAMING_PID:
             keyboard_ptr = &AsusTufK1Layouts;
             break;
         default:
@@ -487,7 +498,7 @@ void RGBController_AuraTUFKeyboard::UpdateZoneLEDs(int /*zone*/)
 
 void RGBController_AuraTUFKeyboard::UpdateSingleLED(int led)
 {
-    if(pid == AURA_TUF_K1_GAMING_PID)
+    if(!controller->is_per_led_keyboard)
     {
         return DeviceUpdateLEDs();
     }
@@ -533,7 +544,7 @@ void RGBController_AuraTUFKeyboard::DeviceUpdateMode()
             case AURA_KEYBOARD_MODE_STARRY_NIGHT:
             case AURA_KEYBOARD_MODE_CURRENT:
             case AURA_KEYBOARD_MODE_RAIN_DROP:
-                if(pid == AURA_TUF_K1_GAMING_PID && modes[active_mode].colors.size() > 1)
+                if(!controller->is_per_led_keyboard && modes[active_mode].colors.size() > 1)
                 {
                     color_mode = 1;
                     break;

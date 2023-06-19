@@ -53,6 +53,7 @@
 #define AURA_ROG_CLAYMORE_PID                   0x184D
 #define AURA_TUF_K1_GAMING_PID                  0x1945
 #define AURA_TUF_K3_GAMING_PID                  0x194B
+#define AURA_TUF_K5_GAMING_PID                  0x1899
 #define AURA_TUF_K7_GAMING_PID                  0x18AA
 
 /*-----------------------------------------------------------------*\
@@ -320,6 +321,7 @@ REGISTER_HID_DETECTOR_IP("ASUS ROG Falchion (Wired)",                   DetectAs
 REGISTER_HID_DETECTOR_IP("ASUS ROG Falchion (Wireless)",                DetectAsusAuraTUFUSBKeyboard,   AURA_USB_VID, AURA_ROG_FALCHION_WIRELESS_PID,               1,  0xFF00);
 REGISTER_HID_DETECTOR_IP("ASUS TUF Gaming K1",                          DetectAsusAuraTUFUSBKeyboard,   AURA_USB_VID, AURA_TUF_K1_GAMING_PID,                       2,  0xFF00);
 REGISTER_HID_DETECTOR_IP("ASUS TUF Gaming K3",                          DetectAsusAuraTUFUSBKeyboard,   AURA_USB_VID, AURA_TUF_K3_GAMING_PID,                       1,  0xFF00);
+REGISTER_HID_DETECTOR_IP("ASUS TUF Gaming K5",                          DetectAsusAuraTUFUSBKeyboard,   AURA_USB_VID, AURA_TUF_K5_GAMING_PID,                       2,  0xFF00);
 REGISTER_HID_DETECTOR_IP("ASUS TUF Gaming K7",                          DetectAsusAuraTUFUSBKeyboard,   AURA_USB_VID, AURA_TUF_K7_GAMING_PID,                       1,  0xFF00);
 
 /*-----------------------------------------------------------------*\

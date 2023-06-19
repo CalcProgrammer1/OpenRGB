@@ -23,6 +23,8 @@ AuraTUFKeyboardController::AuraTUFKeyboardController(hid_device* dev_handle, con
     location    = path;
     device_pid  = pid;
     rev_version = version;
+
+    is_per_led_keyboard = (pid != AURA_TUF_K1_GAMING_PID && pid != AURA_TUF_K5_GAMING_PID);
 }
 
 AuraTUFKeyboardController::~AuraTUFKeyboardController()
@@ -256,12 +258,12 @@ void AuraTUFKeyboardController::UpdateLeds
         usb_buf[0] = 0x00;
         usb_buf[1] = 0xC0;
         usb_buf[2] = 0x81;
-        usb_buf[3] = (device_pid != AURA_TUF_K1_GAMING_PID) ? leds : 0x00;
+        usb_buf[3] = leds;
         usb_buf[4] = 0x00;
 
         for(int j = 0; j < leds; j++)
         {
-            usb_buf[j * 4 + 5] = (device_pid != AURA_TUF_K1_GAMING_PID) ? colors[i * 15 + j].value : 0x00;
+            usb_buf[j * 4 + 5] = (is_per_led_keyboard) ? colors[i * 15 + j].value : 0x00;
             usb_buf[j * 4 + 6] = RGBGetRValue(colors[i * 15 + j].color);
             usb_buf[j * 4 + 7] = RGBGetGValue(colors[i * 15 + j].color);
             usb_buf[j * 4 + 8] = RGBGetBValue(colors[i * 15 + j].color);
@@ -349,7 +351,7 @@ void AuraTUFKeyboardController::UpdateDevice
         usb_buf[0x07]   = color_mode;
         usb_buf[0x08]   = direction;
 
-        if(device_pid != AURA_TUF_K1_GAMING_PID)
+        if(is_per_led_keyboard)
         {
             usb_buf[0x09]   = 0x02;
 
@@ -390,16 +392,35 @@ void AuraTUFKeyboardController::UpdateDevice
         }
         else
         {
-            /*-----------------------------------------------------*\
-            | Loop over Color1, Color2 and Background if there      |
-            \*-----------------------------------------------------*/
-            for(unsigned int i = 0; i != colors.size(); i++)
+            /*-----------------------------------------------------------------*\
+            | Only handles K5 Rainbow.                                          |
+            | K1 is filtered out earlier and is executed in `UpdateK1Wave()`    |
+            \*-----------------------------------------------------------------*/
+            if(mode == AURA_KEYBOARD_MODE_WAVE)
             {
-                if(colors[i])
+                usb_buf[0x09]   = 0x05;
+
+                for(unsigned int i = 0; i < 5; i ++)
                 {
-                    usb_buf[ 9 + i * 3] = RGBGetRValue(colors[i]);
-                    usb_buf[10 + i * 3] = RGBGetGValue(colors[i]);
-                    usb_buf[11 + i * 3] = RGBGetBValue(colors[i]);
+                    usb_buf[10 + i * 4] = i + 1;
+                    usb_buf[11 + i * 4] = RGBGetRValue(colors[i]);
+                    usb_buf[12 + i * 4] = RGBGetGValue(colors[i]);
+                    usb_buf[13 + i * 4] = RGBGetBValue(colors[i]);
+                }
+            }
+            else
+            {
+                /*-----------------------------------------------------*\
+                | Loop over Color1, Color2 and Background if there      |
+                \*-----------------------------------------------------*/
+                for(unsigned int i = 0; i != colors.size(); i++)
+                {
+                    if(colors[i])
+                    {
+                        usb_buf[ 9 + i * 3] = RGBGetRValue(colors[i]);
+                        usb_buf[10 + i * 3] = RGBGetGValue(colors[i]);
+                        usb_buf[11 + i * 3] = RGBGetBValue(colors[i]);
+                    }
                 }
             }
         }
