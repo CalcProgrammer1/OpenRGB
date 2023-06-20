@@ -63,6 +63,7 @@ typedef struct
 #define CORSAIR_K60_RGB_PRO_PID                     0x1BA0
 #define CORSAIR_K60_RGB_PRO_LP_PID                  0x1BAD
 #define CORSAIR_K60_RGB_PRO_TKL_PID                 0x1BC7
+#define CORSAIR_K70_RGB_PRO_PID                     0x1BC4
 #define CORSAIR_K70_RGB_TKL_PID                     0x1B73
 #define CORSAIR_K70_RGB_TKL_CS_PID                  0x1BB9
 
