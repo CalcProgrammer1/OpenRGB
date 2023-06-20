@@ -101,11 +101,6 @@ AuraKeyboardMappingLayoutType GetKeyboardMappingLayoutType(int pid)
 {
     switch(pid)
     {
-        case AURA_ROG_STRIX_FLARE_PID:
-        case AURA_ROG_STRIX_FLARE_PNK_LTD_PID:
-        case AURA_ROG_STRIX_FLARE_COD_BO4_PID:
-            return FLARE_LAYOUT;
-
         case AURA_ROG_STRIX_SCOPE_PID:
             return SCOPE_LAYOUT;
 
@@ -325,15 +320,15 @@ REGISTER_HID_DETECTOR   ("ASUS Aura Motherboard",                       DetectAs
 /*-----------------------------------------------------------------*\
 |  KEYBOARDS                                                        |
 \*-----------------------------------------------------------------*/
-REGISTER_HID_DETECTOR_IP("ASUS ROG Strix Flare",                        DetectAsusAuraUSBKeyboards,     AURA_USB_VID, AURA_ROG_STRIX_FLARE_PID,                     1,  0xFF00);
-REGISTER_HID_DETECTOR_IP("ASUS ROG Strix Flare PNK LTD",                DetectAsusAuraUSBKeyboards,     AURA_USB_VID, AURA_ROG_STRIX_FLARE_PNK_LTD_PID,             1,  0xFF00);
-REGISTER_HID_DETECTOR_IP("ASUS ROG Strix Flare CoD Black Ops 4 Edition",DetectAsusAuraUSBKeyboards,     AURA_USB_VID, AURA_ROG_STRIX_FLARE_COD_BO4_PID,             1,  0xFF00);
 REGISTER_HID_DETECTOR_IP("ASUS ROG Strix Scope",                        DetectAsusAuraUSBKeyboards,     AURA_USB_VID, AURA_ROG_STRIX_SCOPE_PID,                     1,  0xFF00);
 REGISTER_HID_DETECTOR_IP("ASUS ROG Strix Scope RX",                     DetectAsusAuraUSBKeyboards,     AURA_USB_VID, AURA_ROG_STRIX_SCOPE_RX_PID,                  1,  0xFF00);
 REGISTER_HID_DETECTOR_IP("ASUS ROG Strix Scope TKL",                    DetectAsusAuraUSBKeyboards,     AURA_USB_VID, AURA_ROG_STRIX_SCOPE_TKL_PID,                 1,  0xFF00);
 REGISTER_HID_DETECTOR_IP("ASUS ROG Strix Scope RX TKL Wireless Deluxe", DetectAsusAuraUSBKeyboards,     AURA_USB_VID, AURA_ROG_STRIX_SCOPE_RX_TKL_DELUXE_PID,       1,  0xFF00);
 REGISTER_HID_DETECTOR_IP("ASUS ROG Strix Scope TKL PNK LTD",            DetectAsusAuraUSBKeyboards,     AURA_USB_VID, AURA_ROG_STRIX_SCOPE_TKL_PNK_LTD_PID,         1,  0xFF00);
 REGISTER_HID_DETECTOR_IP("ASUS ROG Claymore",                           DetectAsusAuraTUFUSBKeyboard,   AURA_USB_VID, AURA_ROG_CLAYMORE_PID,                        1,  0xFF00);
+REGISTER_HID_DETECTOR_IP("ASUS ROG Strix Flare",                        DetectAsusAuraTUFUSBKeyboard,   AURA_USB_VID, AURA_ROG_STRIX_FLARE_PID,                     1,  0xFF00);
+REGISTER_HID_DETECTOR_IP("ASUS ROG Strix Flare PNK LTD",                DetectAsusAuraTUFUSBKeyboard,   AURA_USB_VID, AURA_ROG_STRIX_FLARE_PNK_LTD_PID,             1,  0xFF00);
+REGISTER_HID_DETECTOR_IP("ASUS ROG Strix Flare CoD Black Ops 4 Edition",DetectAsusAuraTUFUSBKeyboard,   AURA_USB_VID, AURA_ROG_STRIX_FLARE_COD_BO4_PID,             1,  0xFF00);
 REGISTER_HID_DETECTOR_IP("ASUS ROG Falchion (Wired)",                   DetectAsusAuraTUFUSBKeyboard,   AURA_USB_VID, AURA_ROG_FALCHION_WIRED_PID,                  1,  0xFF00);
 REGISTER_HID_DETECTOR_IP("ASUS ROG Falchion (Wireless)",                DetectAsusAuraTUFUSBKeyboard,   AURA_USB_VID, AURA_ROG_FALCHION_WIRELESS_PID,               1,  0xFF00);
 REGISTER_HID_DETECTOR_IP("ASUS ROG Strix Flare II Animate",             DetectAsusAuraTUFUSBKeyboard,   AURA_USB_VID, AURA_ROG_STRIX_FLARE_II_ANIMATE_PID,          1,  0xFF00);
