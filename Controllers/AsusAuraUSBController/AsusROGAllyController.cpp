@@ -77,7 +77,7 @@ void ROGAllyController::UpdateDevice
     std::vector<RGBColor>   colors,
     unsigned char           speed,
     unsigned char           brightness,
-    unsigned char           pattern
+    unsigned char           direction
     )
 {
     unsigned char usb_buf[64];
@@ -95,6 +95,7 @@ void ROGAllyController::UpdateDevice
         usb_buf[0x06]   = RGBGetBValue(colors[0]);
     }
     usb_buf[0x07]   = speed;
+    usb_buf[0x08]   = direction;
     if(colors.size() > 1)
     {
         usb_buf[0x0A]   = RGBGetRValue(colors[1]);
@@ -103,9 +104,24 @@ void ROGAllyController::UpdateDevice
     }
 
     hid_send_feature_report(dev, usb_buf, sizeof(usb_buf));
+
+    memset(usb_buf, 0x00, sizeof(usb_buf));
+
+    usb_buf[0x00]   = 0x5A;
+    usb_buf[0x01]   = 0xB5;
+
+    hid_send_feature_report(dev, usb_buf, sizeof(usb_buf));
 }
 
 void ROGAllyController::SaveMode()
 {
+    unsigned char usb_buf[64];
+
+    memset(usb_buf, 0x00, sizeof(usb_buf));
+
+    usb_buf[0x00]   = 0x5A;
+    usb_buf[0x01]   = 0xB4;
+
+    hid_send_feature_report(dev, usb_buf, sizeof(usb_buf));
 }
 

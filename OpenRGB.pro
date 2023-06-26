@@ -199,8 +199,6 @@ contains(QMAKE_PLATFORM, freebsd) {
 
 HEADERS +=                                                                                      \
     Colors.h                                                                                    \
-    Controllers/AsusAuraUSBController/AsusROGAllyController.h \
-    Controllers/AsusAuraUSBController/RGBController_AsusROGAlly.h \
     dependencies/ColorWheel/ColorWheel.h                                                        \
     dependencies/Swatches/swatches.h                                                            \
     dependencies/json/json.hpp                                                                  \
@@ -313,6 +311,7 @@ HEADERS +=                                                                      
     Controllers/AsusAuraUSBController/AsusAuraMouseController.h                                 \
     Controllers/AsusAuraUSBController/AsusAuraMousematController.h                              \
     Controllers/AsusAuraUSBController/AsusAuraMouseDevices.h                                    \
+    Controllers/AsusAuraUSBController/AsusROGAllyController.h                                   \
     Controllers/AsusAuraUSBController/AsusAuraRyuoAIOController.h                               \
     Controllers/AsusAuraUSBController/AsusAuraStrixEvolveController.h                           \
     Controllers/AsusAuraUSBController/AsusAuraTUFKeyboardController.h                           \
@@ -322,6 +321,7 @@ HEADERS +=                                                                      
     Controllers/AsusAuraUSBController/RGBController_AsusAuraMonitor.h                           \
     Controllers/AsusAuraUSBController/RGBController_AsusAuraMouse.h                             \
     Controllers/AsusAuraUSBController/RGBController_AsusAuraMousemat.h                          \
+    Controllers/AsusAuraUSBController/RGBController_AsusROGAlly.h                               \
     Controllers/AsusAuraUSBController/RGBController_AsusAuraRyuoAIO.h                           \
     Controllers/AsusAuraUSBController/RGBController_AsusAuraStrixEvolve.h                       \
     Controllers/AsusAuraUSBController/RGBController_AsusAuraTUFKeyboard.h                       \
@@ -744,8 +744,6 @@ contains(QMAKE_PLATFORM, freebsd) {
 }
 
 SOURCES +=                                                                                      \
-    Controllers/AsusAuraUSBController/AsusROGAllyController.cpp \
-    Controllers/AsusAuraUSBController/RGBController_AsusROGAlly.cpp \
     dependencies/Swatches/swatches.cpp                                                          \
     dependencies/dmiinfo.cpp                                                                    \
     dependencies/ColorWheel/ColorWheel.cpp                                                      \
@@ -894,6 +892,7 @@ SOURCES +=                                                                      
     Controllers/AsusAuraUSBController/AsusAuraMonitorController.cpp                             \
     Controllers/AsusAuraUSBController/AsusAuraMouseController.cpp                               \
     Controllers/AsusAuraUSBController/AsusAuraMousematController.cpp                            \
+    Controllers/AsusAuraUSBController/AsusROGAllyController.cpp                                 \
     Controllers/AsusAuraUSBController/AsusAuraRyuoAIOController.cpp                             \
     Controllers/AsusAuraUSBController/AsusAuraStrixEvolveController.cpp                         \
     Controllers/AsusAuraUSBController/AsusAuraTUFKeyboardController.cpp                         \
@@ -903,6 +902,7 @@ SOURCES +=                                                                      
     Controllers/AsusAuraUSBController/RGBController_AsusAuraMonitor.cpp                         \
     Controllers/AsusAuraUSBController/RGBController_AsusAuraMouse.cpp                           \
     Controllers/AsusAuraUSBController/RGBController_AsusAuraMousemat.cpp                        \
+    Controllers/AsusAuraUSBController/RGBController_AsusROGAlly.cpp                             \
     Controllers/AsusAuraUSBController/RGBController_AsusAuraRyuoAIO.cpp                         \
     Controllers/AsusAuraUSBController/RGBController_AsusAuraStrixEvolve.cpp                     \
     Controllers/AsusAuraUSBController/RGBController_AsusAuraTUFKeyboard.cpp                     \
