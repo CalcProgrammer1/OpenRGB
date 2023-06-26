@@ -31,11 +31,15 @@
 #define WOOTING_TWO_HE_X_PID                  0x1220
 #define WOOTING_TWO_HE_C_PID                  0x1221
 #define WOOTING_TWO_HE_N_PID                  0x1222
-#define WOOTING_TWO_HE_ARM_PID                0x1230
+#define WOOTING_TWO_HE_ARM_X_PID              0x1230
+#define WOOTING_TWO_HE_ARM_C_PID              0x1231
+#define WOOTING_TWO_HE_ARM_N_PID              0x1232
 #define WOOTING_TWO_60_X_PID                  0x1300
 #define WOOTING_TWO_60_C_PID                  0x1301
 #define WOOTING_TWO_60_N_PID                  0x1302
-#define WOOTING_TWO_60_HE_ARM_PID             0x1310
+#define WOOTING_TWO_60_HE_ARM_X_PID           0x1310
+#define WOOTING_TWO_60_HE_ARM_C_PID           0x1311
+#define WOOTING_TWO_60_HE_ARM_N_PID           0x1312
 
 void DetectWootingOneKeyboardControllers(hid_device_info* info, const std::string& name)
 {
