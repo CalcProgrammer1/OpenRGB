@@ -31,6 +31,7 @@
 #define WOOTING_TWO_HE_X_PID                  0x1220
 #define WOOTING_TWO_HE_C_PID                  0x1221
 #define WOOTING_TWO_HE_N_PID                  0x1222
+#define WOOTING_TWO_HE_ARM_PID                0x1230
 #define WOOTING_TWO_60_X_PID                  0x1300
 #define WOOTING_TWO_60_C_PID                  0x1301
 #define WOOTING_TWO_60_N_PID                  0x1302
@@ -95,6 +96,7 @@ REGISTER_HID_DETECTOR_PU("Wooting Two LE (None)",      DetectWootingTwoKeyboardC
 REGISTER_HID_DETECTOR_PU("Wooting Two HE (Xbox)",      DetectWootingTwoKeyboardControllers,  WOOTING_NEW_VID,  WOOTING_TWO_HE_X_PID,        0x1337, 1);
 REGISTER_HID_DETECTOR_PU("Wooting Two HE (Classic)",   DetectWootingTwoKeyboardControllers,  WOOTING_NEW_VID,  WOOTING_TWO_HE_C_PID,        0x1337, 1);
 REGISTER_HID_DETECTOR_PU("Wooting Two HE (None)",      DetectWootingTwoKeyboardControllers,  WOOTING_NEW_VID,  WOOTING_TWO_HE_N_PID,        0x1337, 1);
+REGISTER_HID_DETECTOR_PU("Wooting Two HE (ARM)",       DetectWootingTwoKeyboardControllers,  WOOTING_NEW_VID,  WOOTING_TWO_HE_ARM_PID,      0x1337, 1);
 REGISTER_HID_DETECTOR_PU("Wooting Two 60HE (Xbox)",    DetectWootingTwoKeyboardControllers,  WOOTING_NEW_VID,  WOOTING_TWO_60_X_PID,        0x1337, 1);
 REGISTER_HID_DETECTOR_PU("Wooting Two 60HE (Classic)", DetectWootingTwoKeyboardControllers,  WOOTING_NEW_VID,  WOOTING_TWO_60_C_PID,        0x1337, 1);
 REGISTER_HID_DETECTOR_PU("Wooting Two 60HE (None)",    DetectWootingTwoKeyboardControllers,  WOOTING_NEW_VID,  WOOTING_TWO_60_N_PID,        0x1337, 1);
