@@ -159,6 +159,7 @@ INCLUDEPATH +=                                                                  
     Controllers/MSIRGBController/                                                               \
     Controllers/MSIVigorController/                                                             \
     Controllers/NanoleafController/                                                             \
+    Controllers/NollieController/                                                               \
     Controllers/NZXTHue1Controller/                                                             \
     Controllers/NZXTHue2Controller/                                                             \
     Controllers/NZXTHuePlusController/                                                          \
@@ -590,6 +591,8 @@ HEADERS +=                                                                      
     Controllers/N5312AController/RGBController_N5312A.h                                         \
     Controllers/NvidiaESAController/NvidiaESAController.h                                       \
     Controllers/NanoleafController/RGBController_Nanoleaf.h                                     \
+    Controllers/NollieController/NollieController.h                                             \
+    Controllers/NollieController/RGBController_Nollie.h                                         \
     Controllers/NvidiaESAController/RGBController_NvidiaESA.h                                   \
     Controllers/NZXTHue1Controller/NZXTHue1Controller.h                                         \
     Controllers/NZXTHue1Controller/RGBController_NZXTHue1.h                                     \
@@ -1249,6 +1252,9 @@ SOURCES +=                                                                      
     Controllers/N5312AController/N5312AController.cpp                                           \
     Controllers/N5312AController/N5312AControllerDetect.cpp                                     \
     Controllers/N5312AController/RGBController_N5312A.cpp                                       \
+    Controllers/NollieController/NollieController.cpp                                           \
+    Controllers/NollieController/NollieControllerDetect.cpp                                     \
+    Controllers/NollieController/RGBController_Nollie.cpp                                       \
     Controllers/NvidiaESAController/NvidiaESAController.cpp                                     \
     Controllers/NvidiaESAController/NvidiaESAControllerDetect.cpp                               \
     Controllers/NvidiaESAController/RGBController_NvidiaESA.cpp                                 \
