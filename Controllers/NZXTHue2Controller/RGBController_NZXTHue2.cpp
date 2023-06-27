@@ -309,6 +309,10 @@ void RGBController_NZXTHue2::SetupZones()
                 device_name = "F140 fan (140mm)";
                 break;
 
+            case 0x15: //F120 RGB Duo fan (120mm)
+                device_name = "F120 Duo fan (120mm)";
+                break;
+
             case 0x17: //F120 RGB Core fan (120mm)
                 device_name = "F120 Core fan (120mm)";
                 break;
