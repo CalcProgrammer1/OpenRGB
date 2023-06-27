@@ -1748,6 +1748,41 @@ static const razer_device ornata_v3_device =
     NULL
 };
 
+/*-------------------------------------------------------------*\
+|  Razer Ornata V3 Rev2 1532:02A1                               |
+|                                                               |
+|  Zone "Keyboard"                                              |
+|       Linear                                                  |
+|       10 LEDs                                                 |
+\*-------------------------------------------------------------*/
+static const razer_zone ornata_v3_rev2_zone =
+{
+    ZONE_EN_KEYBOARD,
+    ZONE_TYPE_LINEAR,
+    1,
+    10
+};
+
+static const razer_device ornata_v3_rev2_device =
+{
+    "Razer Ornata V3 rev2",
+    RAZER_ORNATA_V3_REV2_PID,
+    DEVICE_TYPE_KEYBOARD,
+    false,
+    1,
+    10,
+    {
+        &ornata_v3_rev2_zone,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL
+    },
+    NULL,
+    0,
+    NULL
+};
 
 /*-------------------------------------------------------------*\
 |  Razer Ornata V3 X                                            |
@@ -7351,6 +7386,7 @@ const razer_device* razer_device_list[] =
     &ornata_chroma_device,
     &ornata_chroma_v2_device,
     &ornata_v3_device,
+    &ornata_v3_rev2_device,
     &ornata_v3_x_device,
 /*-----------------------------------------------------------------*\
 |  LAPTOPS                                                          |
