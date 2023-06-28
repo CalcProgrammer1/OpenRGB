@@ -12,6 +12,8 @@
 
 #include "RGBController_GaiZhongGai.h"
 #include "RGBControllerKeyNames.h"
+#include <math.h>
+using namespace std;
 
 //0xFFFFFFFF indicates an unused entry in matrix
 #define NA  0xFFFFFFFF
@@ -669,7 +671,7 @@ void RGBController_GaiZhongGaiKeyboard::ResizeZone(int zone, int new_size)
         SetupZones();
     }
 }
-    
+
 void RGBController_GaiZhongGaiKeyboard::DeviceUpdateLEDs()
 {
     unsigned char colordata[1024 * 3];
