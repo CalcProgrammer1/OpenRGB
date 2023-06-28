@@ -447,8 +447,8 @@ HEADERS +=                                                                      
     Controllers/GainwardGPUController/GainwardGPUv2Controller.h                                 \
     Controllers/GainwardGPUController/RGBController_GainwardGPUv1.h                             \
     Controllers/GainwardGPUController/RGBController_GainwardGPUv2.h                             \
-    Controllers/GaiZongGaiKeyboardController/GaiZhongGaiKeyboardController.h                    \
-    Controllers/GaiZongGaiKeyboardController/RGBController_GaiZhongGaiKeyboard.h                \
+    Controllers/GaiZongGaiKeyboardController/GaiZhongGaiController.h                            \
+    Controllers/GaiZongGaiKeyboardController/RGBController_GaiZhongGai.h                        \
     Controllers/GalaxGPUController/GalaxGPUController.h                                         \
     Controllers/GalaxGPUController/RGBController_GalaxGPU.h                                     \
     Controllers/GigabyteAorusCPUCoolerController/ATC800Controller.h                             \
@@ -1070,9 +1070,9 @@ SOURCES +=                                                                      
     Controllers/GainwardGPUController/GainwardGPUv2Controller.cpp                               \
     Controllers/GainwardGPUController/RGBController_GainwardGPUv1.cpp                           \
     Controllers/GainwardGPUController/RGBController_GainwardGPUv2.cpp                           \
-    Controllers/GaiZongGaiKeyboardController/GaiZhongGaiKeyboardController.cpp                  \
-    Controllers/GaiZongGaiKeyboardController/GaiZhongGaiKeyboardControllerDetect.cpp            \
-    Controllers/GaiZongGaiKeyboardController/RGBController_GaiZhongGaiKeyboard.cpp              \
+    Controllers/GaiZongGaiKeyboardController/GaiZhongGaiController.cpp                          \
+    Controllers/GaiZongGaiKeyboardController/GaiZhongGaiControllerDetect.cpp                    \
+    Controllers/GaiZongGaiKeyboardController/RGBController_GaiZhongGai.cpp                      \
     Controllers/GalaxGPUController/GalaxGPUController.cpp                                       \
     Controllers/GalaxGPUController/GalaxGPUControllerDetect.cpp                                 \
     Controllers/GalaxGPUController/RGBController_GalaxGPU.cpp                                   \
