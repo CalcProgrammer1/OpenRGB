@@ -32,21 +32,22 @@ void WushiL50USBController::setMode(WushiL50State * in_mode)
     /*-----------------------------------------------------*\
     | Set up custom lighting packet                         |
     \*-----------------------------------------------------*/
-    usb_buf[0x00]   = 0x16;
-    usb_buf[0x01]   = in_mode->effect;
-    usb_buf[0x02]   = in_mode->speed;
-    usb_buf[0x03]   = in_mode->brightness;
+    usb_buf[0x00]   = 0xCC;
+    usb_buf[0x01]   = 0x16;
+    usb_buf[0x02]   = in_mode->effect;
+    usb_buf[0x03]   = in_mode->speed;
+    usb_buf[0x04]   = in_mode->brightness;
 
     /*-----------------------------------------------------*\
     | Copy in color data                                    |
     \*-----------------------------------------------------*/
-    memcpy(&usb_buf[0x04], in_mode->zone0_rgb, 3);
-    memcpy(&usb_buf[0x07], in_mode->zone0_rgb, 3);
-    memcpy(&usb_buf[0x0A], in_mode->zone0_rgb, 3);
-    memcpy(&usb_buf[0x0D], in_mode->zone0_rgb, 3);
+    memcpy(&usb_buf[0x05], in_mode->zone0_rgb, 3);
+    memcpy(&usb_buf[0x08], in_mode->zone0_rgb, 3);
+    memcpy(&usb_buf[0x0B], in_mode->zone0_rgb, 3);
+    memcpy(&usb_buf[0x0E], in_mode->zone0_rgb, 3);
 
-    usb_buf[0x11]   = in_mode->wave_ltr;
-    usb_buf[0x12]   = in_mode->wave_rtl;
+    usb_buf[0x12]   = in_mode->wave_ltr;
+    usb_buf[0x13]   = in_mode->wave_rtl;
 
     /*-----------------------------------------------------*\
     | Send packet                                           |
