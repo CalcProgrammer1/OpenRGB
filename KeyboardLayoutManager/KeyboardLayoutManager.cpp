@@ -11,6 +11,7 @@
 #include "KeyboardLayoutManager.h"
 
 const char* KLM_CLASS_NAME              = "KLM";
+const char* KEYBOARD_NAME_DEFAULT       = "DEFAULT ";
 const char* KEYBOARD_NAME_ISO           = "ISO ";
 const char* KEYBOARD_NAME_ANSI          = "ANSI ";
 const char* KEYBOARD_NAME_JIS           = "JIS";
@@ -96,8 +97,10 @@ static const std::vector<keyboard_led> keyboard_zone_main =
     {   0,      3,      9,          0,          KEY_EN_L,                   KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
     {   0,      3,      10,         0,          KEY_EN_SEMICOLON,           KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
     {   0,      3,      11,         0,          KEY_EN_QUOTE,               KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+    {   0,      3,      12,         0,          KEY_EN_POUND,               KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT  },
     {   0,      3,      13,         0,          KEY_EN_ANSI_ENTER,          KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
     {   0,      4,      0,          0,          KEY_EN_LEFT_SHIFT,          KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+    {   0,      4,      1,          0,          KEY_EN_ISO_BACK_SLASH,      KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
     {   0,      4,      2,          0,          KEY_EN_Z,                   KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
     {   0,      4,      3,          0,          KEY_EN_X,                   KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
     {   0,      4,      4,          0,          KEY_EN_C,                   KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
@@ -220,6 +223,18 @@ keyboard_keymap_overlay iso_azerty
     }
 };
 
+keyboard_keymap_overlay ansi_qwerty
+{
+    KEYBOARD_SIZE_FULL,
+    {
+        /*---------------------------------------------------------------------------------------------------------*\
+        | Edit Keys                                                                                                 |
+        \*---------------------------------------------------------------------------------------------------------*/
+        {   0,      3,      12,         0,          KEY_EN_UNUSED,              KEYBOARD_OPCODE_SWAP_ONLY,          },
+        {   0,      4,      1,          0,          KEY_EN_UNUSED,              KEYBOARD_OPCODE_SWAP_ONLY,          },
+    }
+};
+
 keyboard_keymap_overlay iso_qwerty
 {
     KEYBOARD_SIZE_FULL,
@@ -227,8 +242,6 @@ keyboard_keymap_overlay iso_qwerty
         /*---------------------------------------------------------------------------------------------------------*\
         | Edit Keys                                                                                                 |
         \*---------------------------------------------------------------------------------------------------------*/
-        {   0,      3,      12,         0,          KEY_EN_POUND,               KEYBOARD_OPCODE_SWAP_ONLY,          },
-        {   0,      4,      1,          0,          KEY_EN_ISO_BACK_SLASH,      KEYBOARD_OPCODE_SWAP_ONLY,          },
         {   0,      2,      13,         0,          KEY_EN_UNUSED,              KEYBOARD_OPCODE_SWAP_ONLY,          },
     }
 };
@@ -326,12 +339,18 @@ KeyboardLayoutManager::KeyboardLayoutManager(KEYBOARD_LAYOUT layout, KEYBOARD_SI
     }
 
     /*---------------------------------------------------------------------*\
-    | Modify the base ANSI QWERTY layout to the desired regional layout     |
+    | Modify the base default QWERTY layout to the desired regional layout  |
     \*---------------------------------------------------------------------*/
     std::string tmp_name;
 
     switch(layout)
     {
+        case KEYBOARD_LAYOUT::KEYBOARD_LAYOUT_ANSI_QWERTY:
+            ChangeKeys(ansi_qwerty);
+            tmp_name = KEYBOARD_NAME_ANSI;
+            tmp_name.append(KEYBOARD_NAME_QWERTY);
+            break;
+
         case KEYBOARD_LAYOUT::KEYBOARD_LAYOUT_ISO_AZERTY:
             ChangeKeys(iso_azerty);
             tmp_name = KEYBOARD_NAME_AZERTY;
@@ -354,7 +373,7 @@ KeyboardLayoutManager::KeyboardLayoutManager(KEYBOARD_LAYOUT layout, KEYBOARD_SI
             break;
 
         default:
-            tmp_name = KEYBOARD_NAME_ANSI;
+            tmp_name = KEYBOARD_NAME_DEFAULT;
             tmp_name.append(KEYBOARD_NAME_QWERTY);
             break;
     }
