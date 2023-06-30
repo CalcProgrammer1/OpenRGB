@@ -603,6 +603,8 @@ HEADERS +=                                                                      
     Controllers/NZXTKrakenController/NZXTKrakenController.h                                     \
     Controllers/NZXTKrakenController/RGBController_NZXTKraken.h                                 \
     Controllers/OpenRazerController/OpenRazerDevices.h                                          \
+    Controllers/OKSController/OKSKeyboardController.h                                           \
+    Controllers/OKSController/RGBController_OKSKeyboard.h                                       \
     Controllers/PalitGPUController/PalitGPUController.h                                         \
     Controllers/PalitGPUController/RGBController_PalitGPU.h                                     \
     Controllers/PatriotViperController/PatriotViperController.h                                 \
@@ -1270,6 +1272,9 @@ SOURCES +=                                                                      
     Controllers/NZXTKrakenController/NZXTKrakenController.cpp                                   \
     Controllers/NZXTKrakenController/NZXTKrakenControllerDetect.cpp                             \
     Controllers/NZXTKrakenController/RGBController_NZXTKraken.cpp                               \
+    Controllers/OKSController/OKSKeyboardController.cpp                                         \
+    Controllers/OKSController/OKSKeyboardControllerDetect.cpp                                   \
+    Controllers/OKSController/RGBController_OKSKeyboard.cpp                                     \
     Controllers/PalitGPUController/PalitGPUController.cpp                                       \
     Controllers/PalitGPUController/PalitGPUControllerDetect.cpp                                 \
     Controllers/PalitGPUController/RGBController_PalitGPU.cpp                                   \
