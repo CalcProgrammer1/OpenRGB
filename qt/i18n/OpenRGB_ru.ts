@@ -5,7 +5,7 @@
     <name>DetectorTableModel</name>
     <message>
         <source>Name</source>
-        <translation>Название</translation>
+        <translation>Имя</translation>
     </message>
     <message>
         <source>Enabled</source>
@@ -32,15 +32,15 @@
     </message>
     <message>
         <source>Connected Clients</source>
-        <translation type="unfinished">Подключенные клиенты</translation>
+        <translation>Подключенные клиенты</translation>
     </message>
     <message>
         <source>Protocol Version</source>
-        <translation type="unfinished">Версия протокола</translation>
+        <translation>Версия протокола</translation>
     </message>
     <message>
         <source>Save Connection</source>
-        <translation type="unfinished">Сохранить подключение</translation>
+        <translation>Сохранить подключение</translation>
     </message>
 </context>
 <context>
@@ -260,15 +260,15 @@
     </message>
     <message>
         <source>Red</source>
-        <translation></translation>
+        <translation>Красный</translation>
     </message>
     <message>
         <source>Green</source>
-        <translation></translation>
+        <translation>Зелёный</translation>
     </message>
     <message>
         <source>Blue</source>
-        <translation></translation>
+        <translation>Синий</translation>
     </message>
     <message>
         <source>Mode</source>
@@ -281,7 +281,7 @@
     <message>
         <source>Set Device</source>
         <translatorcomment>Unused</translatorcomment>
-        <translation type="unfinished"></translation>
+        <translation>Настроить устойство</translation>
     </message>
     <message>
         <source>Zone</source>
@@ -290,16 +290,16 @@
     <message>
         <source>Set Zone</source>
         <translatorcomment>Unused</translatorcomment>
-        <translation type="unfinished"></translation>
+        <translation>Задать область</translation>
     </message>
     <message>
         <source>Set LED</source>
         <translatorcomment>Unused</translatorcomment>
-        <translation type="unfinished"></translation>
+        <translation>Задать светодиод</translation>
     </message>
     <message>
         <source>LED</source>
-        <translation></translation>
+        <translation>Светодиод</translation>
     </message>
 </context>
 <context>
@@ -315,11 +315,11 @@
     <message>
         <source>Start Universe:</source>
         <translatorcomment>Not sure if the term should be translated</translatorcomment>
-        <translation></translation>
+        <translation>Начальная вселенная:</translation>
     </message>
     <message>
         <source>Name:</source>
-        <translation>Название:</translation>
+        <translation>Имя:</translation>
     </message>
     <message>
         <source>Matrix Order:</source>
@@ -339,11 +339,11 @@
     </message>
     <message>
         <source>IP (Unicast):</source>
-        <translation></translation>
+        <translation>IP (одноадресный):</translation>
     </message>
     <message>
         <source>Universe Size:</source>
-        <translation></translation>
+        <translation>Размер вселенной:</translation>
     </message>
     <message>
         <source>Keepalive Time:</source>
@@ -355,7 +355,7 @@
     </message>
     <message>
         <source>E131 settings entry</source>
-        <translation>Настройки E131</translation>
+        <translation>Ввод параметров E131</translation>
     </message>
 </context>
 <context>
@@ -374,124 +374,124 @@
     </message>
     <message>
         <source>E131 settings page</source>
-        <translation>Настройки E131</translation>
+        <translation>Параметры E131</translation>
     </message>
 </context>
 <context>
     <name>OpenRGBElgatoKeyLightSettingsEntryUi</name>
     <message>
         <source>Dialog</source>
-        <translation type="unfinished"></translation>
+        <translation>Диалоговое окно</translation>
     </message>
     <message>
         <source>IP:</source>
-        <translation type="unfinished">IP:</translation>
+        <translation>IP:</translation>
     </message>
 </context>
 <context>
     <name>OpenRGBElgatoKeyLightSettingsPageUi</name>
     <message>
         <source>Dialog</source>
-        <translation type="unfinished"></translation>
+        <translation>Диалоговое окно</translation>
     </message>
     <message>
         <source>Add</source>
-        <translation type="unfinished">Добавить</translation>
+        <translation>Добавить</translation>
     </message>
     <message>
         <source>Remove</source>
-        <translation type="unfinished">Удалить</translation>
+        <translation>Удалить</translation>
     </message>
     <message>
         <source>Save</source>
-        <translation type="unfinished">Сохранить</translation>
+        <translation>Сохранить</translation>
     </message>
 </context>
 <context>
     <name>OpenRGBLIFXSettingsEntryUi</name>
     <message>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>Форма</translation>
     </message>
     <message>
         <source>IP:</source>
-        <translation type="unfinished">IP:</translation>
+        <translation>IP:</translation>
     </message>
     <message>
         <source>Name</source>
-        <translation type="unfinished">Название</translation>
+        <translation>Имя</translation>
     </message>
 </context>
 <context>
     <name>OpenRGBLIFXSettingsPageUi</name>
     <message>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>Форма</translation>
     </message>
     <message>
         <source>Add</source>
-        <translation type="unfinished">Добавить</translation>
+        <translation>Добавить</translation>
     </message>
     <message>
         <source>Remove</source>
-        <translation type="unfinished">Удалить</translation>
+        <translation>Удалить</translation>
     </message>
     <message>
         <source>Save</source>
-        <translation type="unfinished">Сохранить</translation>
+        <translation>Сохранить</translation>
     </message>
 </context>
 <context>
     <name>OpenRGBNanoleafSettingsEntryUi</name>
     <message>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>Форма</translation>
     </message>
     <message>
         <source>IP:</source>
-        <translation type="unfinished">IP:</translation>
+        <translation>IP:</translation>
     </message>
     <message>
         <source>Port:</source>
-        <translation type="unfinished">Порт:</translation>
+        <translation>Порт:</translation>
     </message>
     <message>
         <source>Auth Key:</source>
-        <translation type="unfinished"></translation>
+        <translation>Ключ авторизации:</translation>
     </message>
     <message>
         <source>Unpair</source>
-        <translation type="unfinished"></translation>
+        <translation>Разъединить</translation>
     </message>
     <message>
         <source>Pair</source>
-        <translation type="unfinished"></translation>
+        <translation>Связать</translation>
     </message>
 </context>
 <context>
     <name>OpenRGBNanoleafSettingsPageUi</name>
     <message>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>Форма</translation>
     </message>
     <message>
         <source>Scan</source>
-        <translation type="unfinished"></translation>
+        <translation>Сканировать</translation>
     </message>
     <message>
         <source>To pair, hold the on-off button down for 5-7 seconds until the LED starts flashing in a pattern, then click the &quot;Pair&quot; button within 30 seconds.</source>
-        <translation type="unfinished"></translation>
+        <translation>Для выполнения сопряжения, удерживайте кнопку включения/выключения в течение 5-7 секунд пока не начнётся мерцание светодиодов, а затем в течение 30 секунд щёлкните кнопку «Связать».</translation>
     </message>
 </context>
 <context>
     <name>OpenRGBPhilipsHueSettingsEntryUi</name>
     <message>
         <source>IP:</source>
-        <translation></translation>
+        <translation>IP:</translation>
     </message>
     <message>
         <source>Entertainment Mode:</source>
-        <translation></translation>
+        <translation>Развлекательный режим:</translation>
     </message>
     <message>
         <source>Username:</source>
@@ -507,7 +507,7 @@
     </message>
     <message>
         <source>MAC:</source>
-        <translation></translation>
+        <translation>MAC:</translation>
     </message>
     <message>
         <source>Philips Hue settings entry</source>
@@ -515,11 +515,11 @@
     </message>
     <message>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>Форма</translation>
     </message>
     <message>
         <source>Auto Connect Group:</source>
-        <translation type="unfinished"></translation>
+        <translation>Группа автоматического подключения:</translation>
     </message>
 </context>
 <context>
@@ -538,11 +538,11 @@
     </message>
     <message>
         <source>After adding a Hue entry and saving, restart OpenRGB and press the Sync button on your Hue bridge to pair it.</source>
-        <translation>После добавления устройств Hue и сохранения, перезапустите OpenRGB и нажвите кнопку Sync на мосте Hue brisge для установления связи.</translation>
+        <translation>После добавления устройств Hue и сохранения, перезапустите OpenRGB, затем нажмите кнопку Sync на мосте Hue brisge для установления связи.</translation>
     </message>
     <message>
         <source>Philips Hue settings page</source>
-        <translation>Настройки Philips Hue</translation>
+        <translation>Параметры Philips Hue</translation>
     </message>
 </context>
 <context>
@@ -553,7 +553,7 @@
     </message>
     <message>
         <source>Philips WIZ settings entry</source>
-        <translation>Настройки Philips WIZ</translation>
+        <translation>Параметры Philips WIZ</translation>
     </message>
 </context>
 <context>
@@ -572,14 +572,14 @@
     </message>
     <message>
         <source>Philips WIZ settings page</source>
-        <translation>Настройки Philips WIZ</translation>
+        <translation>Параметры Philips WIZ</translation>
     </message>
 </context>
 <context>
     <name>OpenRGBPluginContainerUi</name>
     <message>
         <source>Plugin container</source>
-        <translation>Контейнер плагина</translation>
+        <translation>Контейнер подключаемого модуля</translation>
     </message>
 </context>
 <context>
@@ -610,53 +610,53 @@
     </message>
     <message>
         <source>Commit:</source>
-        <translation></translation>
+        <translation>Коммит:</translation>
     </message>
     <message>
         <source>Icon</source>
         <translatorcomment>idk what it&apos;s for</translatorcomment>
-        <translation></translation>
+        <translation>Значок</translation>
     </message>
     <message>
         <source>Plugins entry</source>
-        <translation>Плагины</translation>
+        <translation>Подключаемые модули</translation>
     </message>
 </context>
 <context>
     <name>OpenRGBPluginsPageUi</name>
     <message>
         <source>Install Plugin</source>
-        <translation>Установить плагин</translation>
+        <translation>Установить подключаемый модуль</translation>
     </message>
     <message>
         <source>Remove Plugin</source>
-        <translation>Удалить плагин</translation>
+        <translation>Удалить подключаемый модуль</translation>
     </message>
     <message>
         <source>Plugins page</source>
-        <translation>Плагины</translation>
+        <translation>Подключаемые модули</translation>
     </message>
     <message>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;Looking for plugins? See the official list at &lt;a href=&quot;https://openrgb.org/plugins.html&quot;&gt;OpenRGB.org&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;Посмотрите список подключаемых модулей на официальном сайте &lt;a href=&quot;https://openrgb.org/plugins.html&quot;&gt;OpenRGB.org&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
 </context>
 <context>
     <name>OpenRGBProfileSaveDialogUi</name>
     <message>
         <source>Profile Name</source>
-        <translation>Название профиля</translation>
+        <translation>Имя профиля</translation>
     </message>
     <message>
         <source>New Profile Name:</source>
-        <translation>Новое название для профиля:</translation>
+        <translation>Новое имя профиля:</translation>
     </message>
 </context>
 <context>
     <name>OpenRGBQMKORGBSettingsEntryUi</name>
     <message>
         <source>Name:</source>
-        <translation>Название:</translation>
+        <translation>Имя:</translation>
     </message>
     <message>
         <source>USB PID:</source>
@@ -668,7 +668,7 @@
     </message>
     <message>
         <source>QMK settings entry</source>
-        <translation>Настройки QMK</translation>
+        <translation>Параметры QMK</translation>
     </message>
 </context>
 <context>
@@ -687,18 +687,18 @@
     </message>
     <message>
         <source>QMK Settings page</source>
-        <translation>Настройки QMK</translation>
+        <translation>Параметры QMK</translation>
     </message>
 </context>
 <context>
     <name>OpenRGBSerialSettingsEntryUi</name>
     <message>
         <source>Baud:</source>
-        <translation></translation>
+        <translation>Бод:</translation>
     </message>
     <message>
         <source>Name:</source>
-        <translation>Название:</translation>
+        <translation>Имя:</translation>
     </message>
     <message>
         <source>Number of LEDs:</source>
@@ -714,7 +714,7 @@
     </message>
     <message>
         <source>Serial settings entry</source>
-        <translation>Настройки последовательного порта</translation>
+        <translation>Параметры последовательного порта</translation>
     </message>
 </context>
 <context>
@@ -733,7 +733,7 @@
     </message>
     <message>
         <source>Serial settings page</source>
-        <translation>Настройки последовательного порта</translation>
+        <translation>Параметры последовательного порта</translation>
     </message>
 </context>
 <context>
@@ -756,7 +756,7 @@
     </message>
     <message>
         <source>Offline</source>
-        <translation></translation>
+        <translation>Отключен</translation>
     </message>
     <message>
         <source>Connected Clients:</source>
@@ -764,23 +764,23 @@
     </message>
     <message>
         <source>Server info page</source>
-        <translation>Состояние сервера</translation>
+        <translation>Информация о сервере</translation>
     </message>
     <message>
         <source>Server Host:</source>
-        <translation type="unfinished"></translation>
+        <translation>Узел сервера:</translation>
     </message>
     <message>
         <source>Client IP</source>
-        <translation type="unfinished">IP Клиента</translation>
+        <translation>IP клиента</translation>
     </message>
     <message>
         <source>Protocol Version</source>
-        <translation type="unfinished">Версия протокола</translation>
+        <translation>Версия протокола</translation>
     </message>
     <message>
         <source>Client Name</source>
-        <translation type="unfinished">Название клиента</translation>
+        <translation>Имя клиента</translation>
     </message>
 </context>
 <context>
@@ -788,7 +788,7 @@
     <message>
         <source>Load Window Geometry</source>
         <translatorcomment>What is this for?</translatorcomment>
-        <translation>Загрузить размер окна</translation>
+        <translation>Загружать геометрию окна</translation>
     </message>
     <message>
         <source>90000</source>
@@ -796,19 +796,19 @@
     </message>
     <message>
         <source>Run zone checks on rescan</source>
-        <translation>Проверять области при сканировании</translation>
+        <translation>Проверять области при повторном сканировании</translation>
     </message>
     <message>
         <source>Start Server</source>
-        <translation>Запустить сервер</translation>
+        <translation>Запускать сервер</translation>
     </message>
     <message>
         <source>Start Minimized</source>
-        <translation>Запускать свёрнутым</translation>
+        <translation>Запускать в свёрнутом виде</translation>
     </message>
     <message>
         <source>User Interface Settings:</source>
-        <translation>Настройки интерфейса:</translation>
+        <translation>Настройка параметров интерфейса:</translation>
     </message>
     <message>
         <source>Start At Login</source>
@@ -816,23 +816,23 @@
     </message>
     <message>
         <source>Minimize On Close</source>
-        <translation>Сворачивать вместо закрытия</translation>
+        <translation>Сворачивать при закрытии</translation>
     </message>
     <message>
         <source>Save Geometry On Close</source>
-        <translation>Сохранять размер окна при закрытии</translation>
+        <translation>Сохранять геометрию окна при закрытии</translation>
     </message>
     <message>
         <source>Start Client</source>
-        <translation>Запустить клиент</translation>
+        <translation>Запускать клиент</translation>
     </message>
     <message>
         <source>Load Profile</source>
-        <translation>Загрузить профиль</translation>
+        <translation>Загружать профиль</translation>
     </message>
     <message>
         <source>Set Server Port</source>
-        <translation>Задать порт сервера</translation>
+        <translation>Задавать порт сервера</translation>
     </message>
     <message>
         <source>Theme (restart required)</source>
@@ -848,51 +848,51 @@
     </message>
     <message>
         <source>Log Manager Settings:</source>
-        <translation>Настройки журналирования:</translation>
+        <translation>Настройка параметров журналирования:</translation>
     </message>
     <message>
         <source>Start at Login Status</source>
-        <translation>Запуск при входе в систему</translation>
+        <translation>Состояние автоматического запуска при входе в систему</translation>
     </message>
     <message>
         <source>Start At Login Settings:</source>
-        <translation>Настройки запуска при входе в систему:</translation>
+        <translation>Параметры запуска при входе в систему:</translation>
     </message>
     <message>
         <source>Open Settings Folder</source>
-        <translation>Открыть папку настроек</translation>
+        <translation>Открыть папку настройки параметров</translation>
     </message>
     <message>
         <source>Settings page</source>
-        <translation>Настройки</translation>
+        <translation>Настройка параметров</translation>
     </message>
     <message>
         <source>Drivers Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Параметры драйверов</translation>
     </message>
     <message>
         <source>Greyscale Tray Icon</source>
-        <translation type="unfinished"></translation>
+        <translation>Отображение значка в системном лотке в оттенках серого</translation>
     </message>
     <message>
         <source>AMD SMBus: Reduce CPU Usage (restart required)</source>
-        <translation type="unfinished"></translation>
+        <translation>AMD SMBus: уменьшить загрузку ЦП (потребуется перезапуск)</translation>
     </message>
     <message>
         <source>Set Profile on Exit</source>
-        <translation type="unfinished"></translation>
+        <translation>Устанавливать профиль при завершении работы</translation>
     </message>
     <message>
         <source>Shared SMBus Access (restart required)</source>
-        <translation type="unfinished"></translation>
+        <translation>Общий доступ к SMBus (потребуется перезапуск)</translation>
     </message>
     <message>
         <source>Set Server Host</source>
-        <translation type="unfinished"></translation>
+        <translation>Задать узел сервера</translation>
     </message>
     <message>
         <source>Language</source>
-        <translation type="unfinished"></translation>
+        <translation>Язык</translation>
     </message>
 </context>
 <context>
@@ -903,7 +903,7 @@
     </message>
     <message>
         <source>Git Commit ID:</source>
-        <translation></translation>
+        <translation>ИД коммита Git:</translation>
     </message>
     <message>
         <source>Git Commit Date:</source>
@@ -923,7 +923,7 @@
     </message>
     <message>
         <source>Website</source>
-        <translation>Сайт</translation>
+        <translation>Веб-сайт</translation>
     </message>
     <message>
         <source>&lt;a href=&quot;https://openrgb.org&quot;&gt;https://openrgb.org&lt;/a&gt;</source>
@@ -954,7 +954,7 @@
     </message>
     <message>
         <source>Apply changes</source>
-        <translation>Прменить</translation>
+        <translation>Прменить изменения</translation>
     </message>
 </context>
 <context>
@@ -973,7 +973,7 @@
     </message>
     <message>
         <source>SMBus Dumper:</source>
-        <translation></translation>
+        <translation>Дампер SMBus:</translation>
     </message>
     <message>
         <source>0x</source>
@@ -989,11 +989,11 @@
     </message>
     <message>
         <source>Detect Devices</source>
-        <translation>Сканировать</translation>
+        <translation>Сканировать устройства</translation>
     </message>
     <message>
         <source>Dump Device</source>
-        <translation></translation>
+        <translation>Получить дамп устройства</translation>
     </message>
     <message>
         <source>SMBus Reader:</source>
@@ -1013,7 +1013,7 @@
     </message>
     <message>
         <source>System info page</source>
-        <translation>Системная информация</translation>
+        <translation>Информация о системе</translation>
     </message>
 </context>
 <context>
@@ -1028,20 +1028,19 @@
     </message>
     <message>
         <source>Music Mode:</source>
-        <translation></translation>
+        <translation>Режим захвата звука:</translation>
     </message>
     <message>
         <source>Override host IP:</source>
-        <translatorcomment>Didn&apos;t find an exact match for &quot;override&quot;</translatorcomment>
-        <translation>Host IP:</translation>
+        <translation>Указать IP-адрес узла:</translation>
     </message>
     <message>
         <source>Left blank for auto discovering host ip</source>
-        <translation>Оставьте пустым для автообнаружения</translation>
+        <translation>Оставьте пустым для автообнаружения IP узла</translation>
     </message>
     <message>
         <source>Yeelight settings entry</source>
-        <translation>Настройки Yeelight</translation>
+        <translation>Параметры Yeelight</translation>
     </message>
 </context>
 <context>
@@ -1060,7 +1059,7 @@
     </message>
     <message>
         <source>Yeelight settings page</source>
-        <translation>Настройки Yeelight</translation>
+        <translation>Параметры Yeelight</translation>
     </message>
 </context>
 <context>
@@ -1074,7 +1073,7 @@
     <name>OpenRGBZonesBulkResizerUi</name>
     <message>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;One or more resizable zones have not been configured.  Resizable zones are most commonly used for addressable RGB headers where the size of the connected device cannot be detected automatically.&lt;/p&gt;&lt;p&gt;Please enter the number of LEDs in each zone below.&lt;/p&gt;&lt;p&gt;For more information about calcuating the correct size, please check &lt;a href=&quot;https://openrgb.org/resize&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;this link.&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Одна или более из настраиваемых областей не настроена. Обычно такие области используются для адресных RGB разъёмов, колисество светодиодов в которых не может быть определено автоматически.&lt;/p&gt;&lt;p&gt;Пожалуйста, укажите количество светодиодов в каждой из областей, указанных ниже.&lt;/p&gt;&lt;p&gt;Подробную справку можно получить &lt;a href=&quot;https://openrgb.org/resize&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;здесь.&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Не настроены параметры одной или нескольких настраиваемых областей. Обычно такие области используются для адресуемых RGB разъёмов, не позволяющих определить размер подключённого устройства автоматически.&lt;/p&gt;&lt;p&gt;Укажите количество светодиодов в каждой из областей, представленных ниже.&lt;/p&gt;&lt;p&gt;Подробная информация по правильному рассчёту размера доступна &lt;a href=&quot;https://openrgb.org/resize&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;здесь.&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <source>Do not show again</source>
@@ -1102,7 +1101,7 @@
     <message>
         <source>Tab Label</source>
         <translatorcomment>Default placeholder?</translatorcomment>
-        <translation></translation>
+        <translation>Подпись вкладки</translation>
     </message>
 </context>
 <context>
@@ -1121,7 +1120,7 @@
     </message>
     <message>
         <source>Disconnect</source>
-        <translation>Отключить</translation>
+        <translation>Разъединить</translation>
     </message>
 </context>
 <context>
@@ -1136,7 +1135,7 @@
     </message>
     <message>
         <source>Sets the entire device or a zone to a single color.</source>
-        <translation>Задаёт один цвет для всего устройства.</translation>
+        <translation>Задаёт один цвет для всего устройства или области.</translation>
     </message>
     <message>
         <source>Gradually fades between fully off and fully on.</source>
@@ -1152,11 +1151,11 @@
     </message>
     <message>
         <source>Gradually cycles through the entire color spectrum.  Produces a rainbow pattern that moves.</source>
-        <translation>Плавно меняет цвет. Создаёт двигающуюся радугу.</translation>
+        <translation>Плавно меняет цвет. Создаёт движущуюся радугу.</translation>
     </message>
     <message>
         <source>Flashes lights when keys or buttons are pressed.</source>
-        <translation>Вспыхивает когда нажимаются кнопки.</translation>
+        <translation>Вспыхивает при нажатии клавишей или кнопок.</translation>
     </message>
     <message>
         <source>Entire Device</source>
@@ -1164,7 +1163,7 @@
     </message>
     <message>
         <source>Entire Zone</source>
-        <translation>Секция целиком</translation>
+        <translation>Область целиком</translation>
     </message>
     <message>
         <source>Left</source>
@@ -1204,7 +1203,7 @@
     </message>
     <message>
         <source>All Zones</source>
-        <translation>Все секции</translation>
+        <translation>Все области</translation>
     </message>
     <message>
         <source>Mode Specific</source>
@@ -1255,7 +1254,7 @@
     </message>
     <message>
         <source>Lights Off</source>
-        <translation>Выкл.</translation>
+        <translation>Цвета выкл.</translation>
     </message>
     <message>
         <source>Exit</source>
@@ -1263,7 +1262,7 @@
     </message>
     <message>
         <source>Plugins</source>
-        <translation>Плагины</translation>
+        <translation>Подключаемые модули</translation>
     </message>
     <message>
         <source>Software</source>
@@ -1279,7 +1278,7 @@
     </message>
     <message>
         <source>E1.31 Devices</source>
-        <translation>Настройки E1.31</translation>
+        <translation>Устройства E1.31</translation>
     </message>
     <message>
         <source>Philips Hue Devices</source>
@@ -1291,11 +1290,11 @@
     </message>
     <message>
         <source>OpenRGB QMK Protocol</source>
-        <translation>QMK</translation>
+        <translation>Протокол OpenRGB QMK</translation>
     </message>
     <message>
         <source>Serial Devices</source>
-        <translation type="unfinished"></translation>
+        <translation>Последовательные устройства</translation>
     </message>
     <message>
         <source>Yeelight Devices</source>
@@ -1319,7 +1318,7 @@
     </message>
     <message>
         <source>Do you really want to delete this profile?</source>
-        <translation>Вы действительно хотите удалить этот профиль?</translation>
+        <translation>Удалить этот профиль?</translation>
     </message>
     <message>
         <source>Log Console</source>
@@ -1327,31 +1326,30 @@
     </message>
     <message>
         <source>LIFX Devices</source>
-        <translation type="unfinished"></translation>
+        <translation>Устройства LIFX</translation>
     </message>
     <message>
         <source>Nanoleaf Devices</source>
-        <translation type="unfinished"></translation>
+        <translation>Устройства Nanoleaf</translation>
     </message>
     <message>
         <source>Elgato KeyLight Devices</source>
-        <translation type="unfinished"></translation>
+        <translation>Устройства Elgato KeyLight</translation>
     </message>
 </context>
 <context>
     <name>Ui::OpenRGBE131SettingsEntry</name>
     <message>
         <source>Single</source>
-        <translatorcomment>Context is needed (the specific word can differ depending on he/she and single/plural parameters, which are derived from the context of what this adjective actually describes)</translatorcomment>
-        <translation>Одиночный</translation>
+        <translation>Однородная область</translation>
     </message>
     <message>
         <source>Linear</source>
-        <translation>Линейный</translation>
+        <translation>Линейная область</translation>
     </message>
     <message>
         <source>Matrix</source>
-        <translation>Матричный</translation>
+        <translation>Матрица</translation>
     </message>
     <message>
         <source>Horizontal Top Left</source>
@@ -1390,42 +1388,42 @@
     <name>Ui::OpenRGBPluginsPage</name>
     <message>
         <source>Install OpenRGB Plugin</source>
-        <translation>Установить плагин OpenRGB</translation>
+        <translation>Установить подключаемый модуль OpenRGB</translation>
     </message>
     <message>
         <source>Plugin files (*.dll *.dylib *.so *.so.*)</source>
-        <translation>Файлы плагинов (*.dll *.dylib *.so; *.so.*)</translation>
+        <translation>Файлы подключаемых модулей (*.dll *.dylib *.so; *.so.*)</translation>
     </message>
     <message>
         <source>Replace Plugin</source>
-        <translation>Заменить плагин</translation>
+        <translation>Заменить подключаемый модуль</translation>
     </message>
     <message>
         <source>A plugin with this filename is already installed.  Are you sure you want to replace this plugin?</source>
-        <translation>Плагин с таким названием уже существует. Вы хотите заменить установленный плагин?</translation>
+        <translation>Подключаемый модуль с таким названием уже существует. Заменить установленный подключаемый модуль?</translation>
     </message>
     <message>
         <source>Remove Plugin</source>
-        <translation>Удалить плагин</translation>
+        <translation>Удалить подключаемый модуль</translation>
     </message>
     <message>
         <source>Are you sure you want to remove this plugin?</source>
-        <translation>Вы действительно хотите удалить плагин?</translation>
+        <translation>Удалить подключаемый модуль?</translation>
     </message>
 </context>
 <context>
     <name>Ui::OpenRGBServerInfoPage</name>
     <message>
         <source>Stopping...</source>
-        <translation>Остановка...</translation>
+        <translation>Остановка…</translation>
     </message>
     <message>
         <source>Online</source>
-        <translation>Запущен</translation>
+        <translation>Включен</translation>
     </message>
     <message>
         <source>Offline</source>
-        <translation>Остановлен</translation>
+        <translation>Отключен</translation>
     </message>
     <message>
         <source>Client IP</source>
@@ -1444,33 +1442,33 @@
     <name>Ui::OpenRGBSettingsPage</name>
     <message>
         <source>A problem occurred enabling Start At Login.</source>
-        <translation>Возникла проблема при включении автозапуска</translation>
+        <translation>Проблема при включении автозапуска.</translation>
     </message>
     <message>
         <source>English - US</source>
-        <translation type="unfinished">Русский</translation>
+        <translation>Русский</translation>
     </message>
     <message>
         <source>System Default</source>
-        <translation type="unfinished"></translation>
+        <translation>Системный по умолчанию</translation>
     </message>
 </context>
 <context>
     <name>Ui::OpenRGBYeelightSettingsEntry</name>
     <message>
         <source>Choose an IP...</source>
-        <translation>Выберите IP адрес...</translation>
+        <translation>Выберите IP адрес…</translation>
     </message>
     <message>
         <source>Choose the correct IP for the host</source>
-        <translation>Выберите правильный IP адрес</translation>
+        <translation>Выберите правильный IP адрес узла</translation>
     </message>
 </context>
 <context>
     <name>Ui::OpenRGBZonesBulkResizer</name>
     <message>
         <source>Resize the zones</source>
-        <translation>Изменить размер секций</translation>
+        <translation>Изменение размера областей</translation>
     </message>
     <message>
         <source>Controller</source>
@@ -1478,7 +1476,7 @@
     </message>
     <message>
         <source>Zone</source>
-        <translation>Секция</translation>
+        <translation>Область</translation>
     </message>
     <message>
         <source>Size</source>
