@@ -345,6 +345,11 @@ KeyboardLayoutManager::KeyboardLayoutManager(KEYBOARD_LAYOUT layout, KEYBOARD_SI
 
     switch(layout)
     {
+        case KEYBOARD_LAYOUT::KEYBOARD_LAYOUT_DEFAULT:
+        default:
+            tmp_name = KEYBOARD_NAME_DEFAULT;
+            break;
+
         case KEYBOARD_LAYOUT::KEYBOARD_LAYOUT_ANSI_QWERTY:
             ChangeKeys(ansi_qwerty);
             tmp_name = KEYBOARD_NAME_ANSI;
@@ -370,11 +375,6 @@ KeyboardLayoutManager::KeyboardLayoutManager(KEYBOARD_LAYOUT layout, KEYBOARD_SI
         case KEYBOARD_LAYOUT::KEYBOARD_LAYOUT_JIS:
             ChangeKeys(jis);
             tmp_name = KEYBOARD_NAME_JIS;
-            break;
-
-        default:
-            tmp_name = KEYBOARD_NAME_DEFAULT;
-            tmp_name.append(KEYBOARD_NAME_QWERTY);
             break;
     }
 
