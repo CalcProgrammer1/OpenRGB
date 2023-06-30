@@ -217,6 +217,7 @@
 #define RAZER_GOLIATHUS_CHROMA_PID                      0x0C01
 #define RAZER_LAPTOP_STAND_CHROMA_PID                   0x0F0D
 #define RAZER_LAPTOP_STAND_CHROMA_V2_PID                0x0F2B
+#define RAZER_LEVIATHAN_V2X_PID                         0x054A
 #define RAZER_MOUSE_BUNGEE_V3_CHROMA_PID                0x0F1D
 #define RAZER_MOUSE_DOCK_CHROMA_PID                     0x007E
 #define RAZER_MOUSE_DOCK_PRO_PID                        0x00A4

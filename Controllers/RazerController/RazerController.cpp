@@ -40,25 +40,51 @@ RazerController::RazerController(hid_device* dev_handle, hid_device* dev_argb_ha
     /*-----------------------------------------------------------------*\
     | Set report index                                                  |
     \*-----------------------------------------------------------------*/
-    report_index    = 0;
-    response_index  = 0;
+    switch(dev_pid)
+    {
+        case RAZER_LEVIATHAN_V2X_PID:
+            report_index    = 0x07;
+            response_index  = 0x07;
+            break;
+
+        default:
+            report_index    = 0;
+            response_index  = 0;
+    }
 
     /*-----------------------------------------------------------------*\
     | Determine transaction ID for device                               |
     \*-----------------------------------------------------------------*/
     switch(dev_pid)
     {
+        case RAZER_BASE_STATION_V2_CHROMA_PID:
         case RAZER_BASILISK_V3_PID:
+        case RAZER_BASILISK_V3_PRO_BLUETOOTH_PID:
         case RAZER_BASILISK_V3_PRO_WIRED_PID:
         case RAZER_BASILISK_V3_PRO_WIRELESS_PID:
-        case RAZER_BASILISK_V3_PRO_BLUETOOTH_PID:
-        case RAZER_BLACKWIDOW_ELITE_PID:
         case RAZER_BLACKWIDOW_2019_PID:
+        case RAZER_BLACKWIDOW_ELITE_PID:
         case RAZER_BLACKWIDOW_V3_MINI_WIRED_PID:
-        case RAZER_BLADE_2021_BASE_V2_PID:
         case RAZER_BLADE_14_2022_PID:
         case RAZER_BLADE_15_2022_PID:
+        case RAZER_BLADE_2021_BASE_V2_PID:
         case RAZER_CYNOSA_V2_PID:
+        case RAZER_DEATHADDER_CHROMA_PID:
+        case RAZER_DEATHADDER_ESSENTIAL_V2_PID:
+        case RAZER_DEATHADDER_V2_MINI_PID:
+        case RAZER_DEATHSTALKER_V2_PID:
+        case RAZER_KRAKEN_KITTY_EDITION_PID:
+        case RAZER_LAPTOP_STAND_CHROMA_PID:
+        case RAZER_LAPTOP_STAND_CHROMA_V2_PID:
+        case RAZER_LEVIATHAN_V2X_PID:
+        case RAZER_MAMBA_ELITE_PID:
+        case RAZER_MOUSE_BUNGEE_V3_CHROMA_PID:
+        case RAZER_NAGA_CLASSIC_PID:
+        case RAZER_NAGA_EPIC_CHROMA_PID:
+        case RAZER_NAGA_LEFT_HANDED_PID:
+        case RAZER_NAGA_PRO_WIRED_PID:
+        case RAZER_NAGA_PRO_WIRELESS_PID:
+        case RAZER_O11_DYNAMIC_PID:
         case RAZER_ORNATA_CHROMA_V2_PID:
         case RAZER_ORNATA_V3_PID:
         case RAZER_ORNATA_V3_REV2_PID:
@@ -66,22 +92,6 @@ RazerController::RazerController(hid_device* dev_handle, hid_device* dev_argb_ha
         case RAZER_TARTARUS_CHROMA_PID:
         case RAZER_TARTARUS_PRO_PID:
         case RAZER_TARTARUS_V2_PID:
-        case RAZER_DEATHADDER_CHROMA_PID:
-        case RAZER_DEATHADDER_ESSENTIAL_V2_PID:
-        case RAZER_DEATHADDER_V2_MINI_PID:
-        case RAZER_DEATHSTALKER_V2_PID:
-        case RAZER_LAPTOP_STAND_CHROMA_PID:
-        case RAZER_LAPTOP_STAND_CHROMA_V2_PID:
-        case RAZER_MAMBA_ELITE_PID:
-        case RAZER_NAGA_CLASSIC_PID:
-        case RAZER_NAGA_EPIC_CHROMA_PID:
-        case RAZER_NAGA_LEFT_HANDED_PID:
-        case RAZER_NAGA_PRO_WIRED_PID:
-        case RAZER_NAGA_PRO_WIRELESS_PID:
-        case RAZER_KRAKEN_KITTY_EDITION_PID:
-        case RAZER_BASE_STATION_V2_CHROMA_PID:
-        case RAZER_MOUSE_BUNGEE_V3_CHROMA_PID:
-        case RAZER_O11_DYNAMIC_PID:
         case RAZER_VIPER_8KHZ_PID:
             dev_transaction_id = 0x1F;
             break;
@@ -155,6 +165,7 @@ RazerController::RazerController(hid_device* dev_handle, hid_device* dev_argb_ha
         case RAZER_GOLIATHUS_CHROMA_PID:
         case RAZER_LAPTOP_STAND_CHROMA_PID:
         case RAZER_LAPTOP_STAND_CHROMA_V2_PID:
+        case RAZER_LEVIATHAN_V2X_PID:
         case RAZER_MAMBA_ELITE_PID:
         case RAZER_MOUSE_BUNGEE_V3_CHROMA_PID:
         case RAZER_MOUSE_DOCK_PRO_PID:
@@ -311,6 +322,7 @@ RazerController::RazerController(hid_device* dev_handle, hid_device* dev_argb_ha
         case RAZER_LANCEHEAD_2019_WIRELESS_PID:
         case RAZER_LAPTOP_STAND_CHROMA_PID:
         case RAZER_LAPTOP_STAND_CHROMA_V2_PID:
+        case RAZER_LEVIATHAN_V2X_PID:
         case RAZER_MAMBA_2018_WIRED_PID:
         case RAZER_MAMBA_2018_WIRELESS_PID:
         case RAZER_MAMBA_ELITE_PID:
@@ -682,6 +694,7 @@ bool RazerController::SupportsWave()
         case RAZER_FIREFLY_V2_PID:
         case RAZER_LAPTOP_STAND_CHROMA_PID:
         case RAZER_LAPTOP_STAND_CHROMA_V2_PID:
+        case RAZER_LEVIATHAN_V2X_PID:
         case RAZER_MOUSE_BUNGEE_V3_CHROMA_PID:
         case RAZER_MOUSE_DOCK_PRO_PID:
         case RAZER_NOMMO_CHROMA_PID:

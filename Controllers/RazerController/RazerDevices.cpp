@@ -4912,6 +4912,42 @@ static const razer_device lancehead_te_device =
 };
 
 /*-------------------------------------------------------------*\
+|  Razer Leviathan V2X 1532:054A                                |
+|                                                               |
+|  Zone "Speaker Underglow"                                     |
+|       Linear                                                  |
+|       14 LEDs                                                 |
+\*-------------------------------------------------------------*/
+static const razer_zone leviathan_v2x_speaker_zone =
+{
+    "Speaker Underglow",
+    ZONE_TYPE_LINEAR,
+    1,
+    14
+};
+
+static const razer_device leviathan_v2x_device =
+{
+    "Razer Leviathan V2 X",
+    RAZER_LEVIATHAN_V2X_PID,
+    DEVICE_TYPE_SPEAKER,
+    false,
+    1,
+    14,
+    {
+        &leviathan_v2x_speaker_zone,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL
+    },
+    NULL,
+    0,
+    NULL
+};
+
+/*-------------------------------------------------------------*\
 |  Razer Mamba 2012 (Wired)                                     |
 |                                                               |
 |  Zone "Scroll Wheel"                                          |
@@ -7515,6 +7551,7 @@ const razer_device* razer_device_list[] =
     &core_x_device,
     &laptop_stand_chroma_device,
     &laptop_stand_chroma_v2_device,
+    &leviathan_v2x_device,
     &mug_holder_device,
     &mouse_dock_chroma_device,
     &mouse_dock_pro_device,
