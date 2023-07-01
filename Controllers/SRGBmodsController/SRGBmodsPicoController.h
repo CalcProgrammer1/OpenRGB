@@ -1,5 +1,5 @@
 /*-----------------------------------------*\
-|  ZalmanZSyncController.h                  |
+|  SRGBmodsPicoController.h                 |
 |                                           |
 |  Definitions and types for SRGBmods       |
 |  Raspberry Pi Pico LED Controller         |
@@ -32,7 +32,7 @@ private:
     std::thread*            keepalive_thread;
     std::atomic<bool>       keepalive_thread_run;
     std::chrono::time_point<std::chrono::steady_clock> last_commit_time;
-    
+
     void            SendPacket
                         (
                         unsigned char   channel,

@@ -670,6 +670,8 @@ HEADERS +=                                                                      
     Controllers/SonyGamepadController/RGBController_SonyDualSense.h                             \
     Controllers/SonyGamepadController/SonyDS4Controller.h                                       \
     Controllers/SonyGamepadController/RGBController_SonyDS4.h                                   \
+    Controllers/SRGBmodsController/SRGBmodsLEDControllerV1.h                                    \
+    Controllers/SRGBmodsController/RGBController_SRGBmodsLEDControllerV1.h                      \
     Controllers/SRGBmodsController/SRGBmodsPicoController.h                                     \
     Controllers/SRGBmodsController/RGBController_SRGBmodsPico.h                                 \
     Controllers/SteelSeriesController/color32.h                                                 \
@@ -1354,8 +1356,10 @@ SOURCES +=                                                                      
     Controllers/SonyGamepadController/SonyDS4Controller.cpp                                     \
     Controllers/SonyGamepadController/RGBController_SonyDS4.cpp                                 \
     Controllers/SonyGamepadController/SonyGamepadControllerDetect.cpp                           \
+    Controllers/SRGBmodsController/SRGBmodsLEDControllerV1.cpp                              \
     Controllers/SRGBmodsController/SRGBmodsPicoController.cpp                                   \
     Controllers/SRGBmodsController/SRGBmodsControllerDetect.cpp                                 \
+    Controllers/SRGBmodsController/RGBController_SRGBmodsLEDControllerV1.cpp                    \
     Controllers/SRGBmodsController/RGBController_SRGBmodsPico.cpp                               \
     Controllers/SteelSeriesController/SteelSeriesAerox3Controller.cpp                           \
     Controllers/SteelSeriesController/SteelSeriesAerox9Controller.cpp                           \

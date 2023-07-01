@@ -1,5 +1,5 @@
 /*-----------------------------------------*\
-|  ZalmanZSyncController.cpp                |
+|  SRGBmodsPicoController.cpp               |
 |                                           |
 |  Driver for SRGBmods Raspberry Pi Pico    |
 |  LED Controller                           |
