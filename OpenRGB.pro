@@ -189,6 +189,7 @@ INCLUDEPATH +=                                                                  
     Controllers/YeelightController/                                                             \
     Controllers/ZalmanZSyncController/                                                          \
     Controllers/ZotacTuringGPUController/                                                       \
+    Controllers/ZotacV2GPUController/                                                           \
     KeyboardLayoutManager/                                                                      \
     RGBController/                                                                              \
     qt/
@@ -734,6 +735,8 @@ HEADERS +=                                                                      
     Controllers/ZETKeyboardController/RGBController_ZETBladeOptical.h                           \
     Controllers/ZotacTuringGPUController/ZotacTuringGPUController.h                             \
     Controllers/ZotacTuringGPUController/RGBController_ZotacTuringGPU.h                         \
+    Controllers/ZotacV2GPUController/ZotacV2GPUController.h                                     \
+    Controllers/ZotacV2GPUController/RGBController_ZotacV2GPU.h                                 \
     KeyboardLayoutManager/KeyboardLayoutManager.h                                               \
     RGBController/RGBController.h                                                               \
     RGBController/RGBController_Dummy.h                                                         \
@@ -1431,6 +1434,9 @@ SOURCES +=                                                                      
     Controllers/ZotacTuringGPUController/ZotacTuringGPUController.cpp                           \
     Controllers/ZotacTuringGPUController/ZotacTuringGPUControllerDetect.cpp                     \
     Controllers/ZotacTuringGPUController/RGBController_ZotacTuringGPU.cpp                       \
+    Controllers/ZotacV2GPUController/ZotacV2GPUController.cpp                                   \
+    Controllers/ZotacV2GPUController/ZotacV2GPUControllerDetect.cpp                             \
+    Controllers/ZotacV2GPUController/RGBController_ZotacV2GPU.cpp                               \
     KeyboardLayoutManager/KeyboardLayoutManager.cpp                                             \
     RGBController/RGBController.cpp                                                             \
     RGBController/RGBController_Dummy.cpp                                                       \

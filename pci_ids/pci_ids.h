@@ -628,6 +628,11 @@
 #define ZOTAC_RTX2060S_AMP_SUB_DEV                      0x5511
 #define ZOTAC_RTX2070S_GAMING_SUB_DEV                   0x7500
 #define ZOTAC_RTX2080_AMP_SUB_DEV                       0x3500
+#define ZOTAC_RTX3070TI_TRINITY_SUB_DEV                 0x1653
+#define ZOTAC_RTX3080TI_AMP_SUB_DEV                     0x2612
+#define ZOTAC_RTX3090_AMP_SUB_DEV                       0x1619
+#define ZOTAC_RTX4090_TRINITY_SUB_DEV                   0x3675
+#define ZOTAC_RTX4090_AMP_SUB_DEV                       0x4675
 
 /*-----------------------------------------------------*\
 | Manli Sub-Device IDs                                  |
