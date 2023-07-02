@@ -29,8 +29,8 @@
 \*---------------------------------------------------------*/
 enum
 {
-    RAZER_DEVICE_MODE_HARDWARE                  = 0x00,
-    RAZER_DEVICE_MODE_SOFTWARE                  = 0x03,
+    RAZER_DEVICE_MODE_HARDWARE                      = 0x00,
+    RAZER_DEVICE_MODE_SOFTWARE                      = 0x03,
 };
 
 /*---------------------------------------------------------*\
@@ -41,17 +41,17 @@ enum
     /*-----------------------------------------------------*\
     | Set Commands                                          |
     \*-----------------------------------------------------*/
-    RAZER_COMMAND_ID_SET_LED_STATE              = 0x00,
-    RAZER_COMMAND_ID_SET_DEVICE_MODE            = 0x04,
+    RAZER_COMMAND_ID_SET_LED_STATE                  = 0x00,
+    RAZER_COMMAND_ID_SET_DEVICE_MODE                = 0x04,
 
     /*-----------------------------------------------------*\
     | Get Commands                                          |
     \*-----------------------------------------------------*/
-    RAZER_COMMAND_ID_GET_LED_STATE              = 0x80,
-    RAZER_COMMAND_ID_GET_FIRMWARE_VERSION       = 0x81,
-    RAZER_COMMAND_ID_GET_SERIAL_STRING          = 0x82,
-    RAZER_COMMAND_ID_GET_DEVICE_MODE            = 0x84,
-    RAZER_COMMAND_ID_GET_KEYBOARD_INFO          = 0x86,
+    RAZER_COMMAND_ID_GET_LED_STATE                  = 0x80,
+    RAZER_COMMAND_ID_GET_FIRMWARE_VERSION           = 0x81,
+    RAZER_COMMAND_ID_GET_SERIAL_STRING              = 0x82,
+    RAZER_COMMAND_ID_GET_DEVICE_MODE                = 0x84,
+    RAZER_COMMAND_ID_GET_KEYBOARD_INFO              = 0x86,
 };
 
 /*---------------------------------------------------------*\
@@ -59,8 +59,8 @@ enum
 \*---------------------------------------------------------*/
 enum
 {
-    RAZER_STORAGE_NO_SAVE                       = 0x00,
-    RAZER_STORAGE_SAVE                          = 0x01,
+    RAZER_STORAGE_NO_SAVE                           = 0x00,
+    RAZER_STORAGE_SAVE                              = 0x01,
 };
 
 /*---------------------------------------------------------*\
@@ -68,24 +68,24 @@ enum
 \*---------------------------------------------------------*/
 enum
 {
-    RAZER_LED_ID_ZERO                           = 0x00,
-    RAZER_LED_ID_SCROLL_WHEEL                   = 0x01,
-    RAZER_LED_ID_BATTERY                        = 0x03,
-    RAZER_LED_ID_LOGO                           = 0x04,
-    RAZER_LED_ID_BACKLIGHT                      = 0x05,
-    RAZER_LED_ID_MACRO                          = 0x07,
-    RAZER_LED_ID_GAME                           = 0x08,
-    RAZER_LED_ID_PROFILE_RED                    = 0x0C,
-    RAZER_LED_ID_PROFILE_GREEN                  = 0x0D,
-    RAZER_LED_ID_PROFILE_BLUE                   = 0x0E,
-    RAZER_LED_ID_RIGHT_SIDE                     = 0x10,
-    RAZER_LED_ID_LEFT_SIDE                      = 0x11,
-    RAZER_LED_ID_ARGB_CH_1                      = 0x1A,
-    RAZER_LED_ID_ARGB_CH_2                      = 0x1B,
-    RAZER_LED_ID_ARGB_CH_3                      = 0x1C,
-    RAZER_LED_ID_ARGB_CH_4                      = 0x1D,
-    RAZER_LED_ID_ARGB_CH_5                      = 0x1E,
-    RAZER_LED_ID_ARGB_CH_6                      = 0x1F,
+    RAZER_LED_ID_ZERO                               = 0x00,
+    RAZER_LED_ID_SCROLL_WHEEL                       = 0x01,
+    RAZER_LED_ID_BATTERY                            = 0x03,
+    RAZER_LED_ID_LOGO                               = 0x04,
+    RAZER_LED_ID_BACKLIGHT                          = 0x05,
+    RAZER_LED_ID_MACRO                              = 0x07,
+    RAZER_LED_ID_GAME                               = 0x08,
+    RAZER_LED_ID_PROFILE_RED                        = 0x0C,
+    RAZER_LED_ID_PROFILE_GREEN                      = 0x0D,
+    RAZER_LED_ID_PROFILE_BLUE                       = 0x0E,
+    RAZER_LED_ID_RIGHT_SIDE                         = 0x10,
+    RAZER_LED_ID_LEFT_SIDE                          = 0x11,
+    RAZER_LED_ID_ARGB_CH_1                          = 0x1A,
+    RAZER_LED_ID_ARGB_CH_2                          = 0x1B,
+    RAZER_LED_ID_ARGB_CH_3                          = 0x1C,
+    RAZER_LED_ID_ARGB_CH_4                          = 0x1D,
+    RAZER_LED_ID_ARGB_CH_5                          = 0x1E,
+    RAZER_LED_ID_ARGB_CH_6                          = 0x1F,
 };
 
 /*---------------------------------------------------------*\
@@ -93,11 +93,12 @@ enum
 \*---------------------------------------------------------*/
 enum
 {
-    RAZER_MATRIX_TYPE_STANDARD                  = 0,
-    RAZER_MATRIX_TYPE_EXTENDED                  = 1,
-    RAZER_MATRIX_TYPE_LINEAR                    = 2,
-    RAZER_MATRIX_TYPE_EXTENDED_ARGB             = 3,
-    RAZER_MATRIX_TYPE_CUSTOM                    = 4,
+    RAZER_MATRIX_TYPE_NONE                          = 0,
+    RAZER_MATRIX_TYPE_STANDARD                      = 1,
+    RAZER_MATRIX_TYPE_EXTENDED                      = 2,
+    RAZER_MATRIX_TYPE_LINEAR                        = 3,
+    RAZER_MATRIX_TYPE_EXTENDED_ARGB                 = 4,
+    RAZER_MATRIX_TYPE_CUSTOM                        = 5,
 };
 
 /*---------------------------------------------------------*\
@@ -105,27 +106,27 @@ enum
 \*---------------------------------------------------------*/
 enum
 {
-    RAZER_KEYBOARD_LAYOUT_NONE                     = 0,
-    RAZER_KEYBOARD_LAYOUT_US                       = 1,
-    RAZER_KEYBOARD_LAYOUT_GREEK                    = 2,
-    RAZER_KEYBOARD_LAYOUT_GERMAN                   = 3,
-    RAZER_KEYBOARD_LAYOUT_FRENCH                   = 4,
-    RAZER_KEYBOARD_LAYOUT_RUSSIAN                  = 5,
-    RAZER_KEYBOARD_LAYOUT_UK                       = 6,
-    RAZER_KEYBOARD_LAYOUT_NORDIC                   = 7,
-    RAZER_KEYBOARD_LAYOUT_CHT                      = 8,
-    RAZER_KEYBOARD_LAYOUT_KOREAN                   = 9,
-    RAZER_KEYBOARD_LAYOUT_TURKISH                  = 10,
-    RAZER_KEYBOARD_LAYOUT_THAILAND                 = 11,
-    RAZER_KEYBOARD_LAYOUT_JAPAN                    = 12,
-    RAZER_KEYBOARD_LAYOUT_PORTUGESE_BRAZIL         = 13,
-    RAZER_KEYBOARD_LAYOUT_SPANISH_LATIN_AMERICAN   = 14,
-    RAZER_KEYBOARD_LAYOUT_SWISS                    = 15,
-    RAZER_KEYBOARD_LAYOUT_SPANISH_EUR              = 16,
-    RAZER_KEYBOARD_LAYOUT_ITALIAN                  = 17,
-    RAZER_KEYBOARD_LAYOUT_PORTUGESE_PORTUGA        = 18,
-    RAZER_KEYBOARD_LAYOUT_HEBREW                   = 19,
-    RAZER_KEYBOARD_LAYOUT_ARABIC                   = 20,
+    RAZER_KEYBOARD_LAYOUT_NONE                      = 0,
+    RAZER_KEYBOARD_LAYOUT_US                        = 1,
+    RAZER_KEYBOARD_LAYOUT_GREEK                     = 2,
+    RAZER_KEYBOARD_LAYOUT_GERMAN                    = 3,
+    RAZER_KEYBOARD_LAYOUT_FRENCH                    = 4,
+    RAZER_KEYBOARD_LAYOUT_RUSSIAN                   = 5,
+    RAZER_KEYBOARD_LAYOUT_UK                        = 6,
+    RAZER_KEYBOARD_LAYOUT_NORDIC                    = 7,
+    RAZER_KEYBOARD_LAYOUT_CHT                       = 8,
+    RAZER_KEYBOARD_LAYOUT_KOREAN                    = 9,
+    RAZER_KEYBOARD_LAYOUT_TURKISH                   = 10,
+    RAZER_KEYBOARD_LAYOUT_THAILAND                  = 11,
+    RAZER_KEYBOARD_LAYOUT_JAPAN                     = 12,
+    RAZER_KEYBOARD_LAYOUT_PORTUGESE_BRAZIL          = 13,
+    RAZER_KEYBOARD_LAYOUT_SPANISH_LATIN_AMERICAN    = 14,
+    RAZER_KEYBOARD_LAYOUT_SWISS                     = 15,
+    RAZER_KEYBOARD_LAYOUT_SPANISH_EUR               = 16,
+    RAZER_KEYBOARD_LAYOUT_ITALIAN                   = 17,
+    RAZER_KEYBOARD_LAYOUT_PORTUGESE_PORTUGA         = 18,
+    RAZER_KEYBOARD_LAYOUT_HEBREW                    = 19,
+    RAZER_KEYBOARD_LAYOUT_ARABIC                    = 20,
 };
 
 /*---------------------------------------------------------*\
@@ -133,15 +134,15 @@ enum
 \*---------------------------------------------------------*/
 enum
 {
-    RAZER_LAYOUT_TYPE_NONE                      = 0x00,
-    RAZER_LAYOUT_TYPE_ANSI                      = 0x01,
-    RAZER_LAYOUT_TYPE_ISO                       = 0x02,
-    RAZER_LAYOUT_TYPE_JIS                       = 0x04,
-    RAZER_LAYOUT_TYPE_QWERTZ                    = 0x08,
-    RAZER_LAYOUT_TYPE_AZERTY                    = 0x10,
+    RAZER_LAYOUT_TYPE_NONE                          = 0x00,
+    RAZER_LAYOUT_TYPE_ANSI                          = 0x01,
+    RAZER_LAYOUT_TYPE_ISO                           = 0x02,
+    RAZER_LAYOUT_TYPE_JIS                           = 0x04,
+    RAZER_LAYOUT_TYPE_QWERTZ                        = 0x08,
+    RAZER_LAYOUT_TYPE_AZERTY                        = 0x10,
 
-    RAZER_LAYOUT_TYPE_ALL                       = RAZER_LAYOUT_TYPE_ANSI | RAZER_LAYOUT_TYPE_ISO
-                                                | RAZER_LAYOUT_TYPE_JIS  | RAZER_LAYOUT_TYPE_QWERTZ
+    RAZER_LAYOUT_TYPE_ALL                           = RAZER_LAYOUT_TYPE_ANSI | RAZER_LAYOUT_TYPE_ISO
+                                                    | RAZER_LAYOUT_TYPE_JIS  | RAZER_LAYOUT_TYPE_QWERTZ
 };
 
 /*---------------------------------------------------------*\
@@ -149,8 +150,8 @@ enum
 \*---------------------------------------------------------*/
 enum
 {
-    RAZER_KEYBOARD_VARIANT_BLACK                = 0x00,
-    RAZER_KEYBOARD_VARIANT_MERCURY              = 0x82,
+    RAZER_KEYBOARD_VARIANT_BLACK                    = 0x00,
+    RAZER_KEYBOARD_VARIANT_MERCURY                  = 0x82,
 };
 
 /*---------------------------------------------------------*\

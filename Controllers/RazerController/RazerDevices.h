@@ -250,7 +250,7 @@ typedef struct
     std::string                         name;
     unsigned short                      pid;
     device_type                         type;
-    bool                                matrix_type;
+    unsigned char                       matrix_type;
     unsigned int                        rows;
     unsigned int                        cols;
     const razer_zone*                   zones[RAZER_MAX_ZONES];
