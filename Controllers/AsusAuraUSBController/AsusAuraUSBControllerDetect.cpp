@@ -6,6 +6,7 @@
 #include "AsusAuraMainboardController.h"
 #include "AsusAuraMouseController.h"
 #include "AsusAuraMousematController.h"
+#include "AsusROGAllyController.h"
 #include "AsusAuraStrixEvolveController.h"
 #include "AsusAuraMonitorController.h"
 #include "AsusAuraRyuoAIOController.h"
@@ -16,6 +17,7 @@
 #include "RGBController_AsusAuraTUFKeyboard.h"
 #include "RGBController_AsusAuraMouse.h"
 #include "RGBController_AsusAuraMousemat.h"
+#include "RGBController_AsusROGAlly.h"
 #include "RGBController_ROGStrixLC_Controller.h"
 #include "RGBController_AsusAuraStrixEvolve.h"
 #include "RGBController_AsusAuraMonitor.h"
@@ -53,6 +55,7 @@
 #define AURA_ROG_CLAYMORE_PID                   0x184D
 #define AURA_TUF_K1_GAMING_PID                  0x1945
 #define AURA_TUF_K3_GAMING_PID                  0x194B
+#define AURA_TUF_K5_GAMING_PID                  0x1899
 #define AURA_TUF_K7_GAMING_PID                  0x18AA
 
 /*-----------------------------------------------------------------*\
@@ -91,6 +94,7 @@
 #define AURA_TERMINAL_PID                       0x1889
 #define ROG_STRIX_LC120_PID                     0x879E
 #define AURA_RYUO_AIO_PID                       0x1887
+#define ASUS_ROG_ALLY_PID                       0x1ABE
 
 AuraKeyboardMappingLayoutType GetKeyboardMappingLayoutType(int pid)
 {
@@ -293,6 +297,19 @@ void DetectAsusAuraUSBMonitor(hid_device_info* info, const std::string& name)
     }
 }
 
+void DetectAsusROGAlly(hid_device_info* info, const std::string& name)
+{
+    hid_device* dev = hid_open_path(info->path);
+
+    if(dev)
+    {
+        ROGAllyController*         controller           = new ROGAllyController(dev, info->path);
+        RGBController_AsusROGAlly* rgb_controller       = new RGBController_AsusROGAlly(controller);
+        rgb_controller->name                            = name;
+        ResourceManager::get()->RegisterRGBController(rgb_controller);
+    }
+}
+
 /*-----------------------------------------------------------------*\
 |  MOTHERBOARDS                                                     |
 \*-----------------------------------------------------------------*/
@@ -320,6 +337,7 @@ REGISTER_HID_DETECTOR_IP("ASUS ROG Falchion (Wired)",                   DetectAs
 REGISTER_HID_DETECTOR_IP("ASUS ROG Falchion (Wireless)",                DetectAsusAuraTUFUSBKeyboard,   AURA_USB_VID, AURA_ROG_FALCHION_WIRELESS_PID,               1,  0xFF00);
 REGISTER_HID_DETECTOR_IP("ASUS TUF Gaming K1",                          DetectAsusAuraTUFUSBKeyboard,   AURA_USB_VID, AURA_TUF_K1_GAMING_PID,                       2,  0xFF00);
 REGISTER_HID_DETECTOR_IP("ASUS TUF Gaming K3",                          DetectAsusAuraTUFUSBKeyboard,   AURA_USB_VID, AURA_TUF_K3_GAMING_PID,                       1,  0xFF00);
+REGISTER_HID_DETECTOR_IP("ASUS TUF Gaming K5",                          DetectAsusAuraTUFUSBKeyboard,   AURA_USB_VID, AURA_TUF_K5_GAMING_PID,                       2,  0xFF00);
 REGISTER_HID_DETECTOR_IP("ASUS TUF Gaming K7",                          DetectAsusAuraTUFUSBKeyboard,   AURA_USB_VID, AURA_TUF_K7_GAMING_PID,                       1,  0xFF00);
 
 /*-----------------------------------------------------------------*\
@@ -386,3 +404,4 @@ REGISTER_HID_DETECTOR_PU ("ASUS ROG Ryuo AIO",                          DetectAs
 REGISTER_HID_DETECTOR_I  ("ASUS ROG Throne",                            DetectAsusAuraUSBHeadsetStand,  AURA_USB_VID, AURA_ROG_THRONE_PID,                          0);
 REGISTER_HID_DETECTOR_I  ("ASUS ROG Throne QI",                         DetectAsusAuraUSBHeadsetStand,  AURA_USB_VID, AURA_ROG_THRONE_QI_PID,                       0);
 REGISTER_HID_DETECTOR_I  ("ASUS ROG Throne QI GUNDAM",                  DetectAsusAuraUSBHeadsetStand,  AURA_USB_VID, AURA_ROG_THRONE_QI_GUNDAM_PID,                0);
+REGISTER_HID_DETECTOR_IPU("ASUS ROG Ally",                              DetectAsusROGAlly,              AURA_USB_VID, ASUS_ROG_ALLY_PID,                            2,  0xFF31, 0x0076);

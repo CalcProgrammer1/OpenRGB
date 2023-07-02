@@ -101,6 +101,7 @@
 \*-----------------------------------------------------*/
 #define NVIDIA_RTX2070_FE_SUPER_SUB_DEV                 0x13AA
 #define NVIDIA_RTX2080_FE_SUB_DEV                       0x12A6
+#define NVIDIA_RTX2080S_FE_SUB_DEV                      0x13A0
 #define NVIDIA_RTX3080_FE_SUB_DEV                       0x1467
 #define NVIDIA_RTX3080TI_FE_SUB_DEV                     0x1535
 #define NVIDIA_RTX3090_FE_SUB_DEV                       0x147D
@@ -141,6 +142,7 @@
 #define ASUS_RX480_STRIX_GAMING_OC                      0x04FB
 #define ASUS_RX560_STRIX_4G_GAMING                      0x04BC
 #define ASUS_RX570_STRIX_O4G_GAMING_OC                  0x04C2
+#define ASUS_RX570_STRIX_O8G_GAMING_OC                  0x0588
 #define ASUS_RX580_STRIX_GAMING_OC                      0x0517
 #define ASUS_RX580_STRIX_GAMING_TOP                     0x0519
 #define ASUS_GTX1050_STRIX_O2G_GAMING                   0x85D8
@@ -236,6 +238,7 @@
 #define ASUS_ROG_STRIX_RTX_3080_10G_V2_GAMING           0x882F
 #define ASUS_ROG_STRIX_RTX_3080_12G                     0x886C
 #define ASUS_ROG_STRIX_RTX_3080_O12G_OC                 0x886B
+#define ASUS_ROG_STRIX_RTX_3080_O12G_EVA                0x8887
 #define ASUS_TUF_RTX_3080TI_12G_GAMING                  0x8803
 #define ASUS_TUF_RTX_3080TI_O12G_GAMING                 0x8802
 #define ASUS_ROG_STRIX_RTX_3080TI_O12G_GAMING           0x8807
@@ -279,6 +282,7 @@
 #define COLORFUL_IGAME_RTX_3070_TI_ULTRAW_OC            0x1581
 #define COLORFUL_IGAME_RTX_3070_TI_ADVANCED_OCV2        0x1400
 #define COLORFUL_IGAME_RTX_3080_TI_ADVANCED_OCV2        0x1401
+#define COLORFUL_IGAME_RTX_4070_TI_ADVANCED_OCV         0x1400
 #define COLORFUL_IGAME_RTX_4080_ULTRAW_OCV2             0x1500
 
 /*-----------------------------------------------------*\
@@ -480,6 +484,7 @@
 #define GIGABYTE_RTX3090_XTREME_WATERFORCE_SUB_DEV      0x4039
 #define GIGABYTE_RTX3090_XTREME_WATERFORCE_WB_SUB_DEV   0x403A
 #define GIGABYTE_RTX4070TI_GAMING_OC_12G                0x40C6
+#define GIGABYTE_RTX4080_AERO_OC_SUB_DEV                0x40C5
 #define GIGABYTE_RTX4080_EAGLE_OC_SUB_DEV               0x40BE
 #define GIGABYTE_RTX4080_GAMING_OC_SUB_DEV              0x40BC
 #define GIGABYTE_AORUS_RTX4080_MASTER_16G_SUB_DEV       0x40BD
@@ -548,6 +553,7 @@
 #define MSI_RX6600XT_GAMING_X_SUB_DEV                   0x5020
 #define MSI_RX6700XT_GAMING_X_SUB_DEV                   0x3981
 #define MSI_RX6750XT_GAMING_X_TRIO_SUB_DEV              0x3990
+#define MSI_RX6800_GAMING_Z_TRIO_V1_SUB_DEV             0x3956
 #define MSI_RX6800_GAMING_X_TRIO_SUB_DEV                0x3961
 #define MSI_RX6800XT_GAMING_X_TRIO_SUB_DEV              0x3951
 #define MSI_RX6800XT_GAMING_Z_TRIO_SUB_DEV              0x3953
@@ -622,6 +628,11 @@
 #define ZOTAC_RTX2060S_AMP_SUB_DEV                      0x5511
 #define ZOTAC_RTX2070S_GAMING_SUB_DEV                   0x7500
 #define ZOTAC_RTX2080_AMP_SUB_DEV                       0x3500
+#define ZOTAC_RTX3070TI_TRINITY_SUB_DEV                 0x1653
+#define ZOTAC_RTX3080TI_AMP_SUB_DEV                     0x2612
+#define ZOTAC_RTX3090_AMP_SUB_DEV                       0x1619
+#define ZOTAC_RTX4090_TRINITY_SUB_DEV                   0x3675
+#define ZOTAC_RTX4090_AMP_SUB_DEV                       0x4675
 
 /*-----------------------------------------------------*\
 | Manli Sub-Device IDs                                  |

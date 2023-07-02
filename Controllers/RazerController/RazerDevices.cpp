@@ -778,8 +778,7 @@ keyboard_keymap_overlay_values razer_huntsman_mini_layout
         | Edit Keys                                                                                                 |
         |   Zone,   Row,    Column,     Value,      Key,                        OpCode,                             |
         \*---------------------------------------------------------------------------------------------------------*/
-        {   0,      0,      0,          0,          KEY_EN_UNUSED,              KEYBOARD_OPCODE_SWAP_ONLY,          },  // Swap out Backtick
-        {   0,      0,      1,          0,          KEY_EN_ESCAPE,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Insert Escape and shift row 0
+        {   0,      0,      0,          0,          KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Shift row 0
         {   0,      1,      0,          0,          KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Shift row 1
         {   0,      2,      0,          0,          KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Shift row 2
         {   0,      3,      0,          0,          KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Shift row 3
@@ -1749,6 +1748,41 @@ static const razer_device ornata_v3_device =
     NULL
 };
 
+/*-------------------------------------------------------------*\
+|  Razer Ornata V3 Rev2 1532:02A1                               |
+|                                                               |
+|  Zone "Keyboard"                                              |
+|       Linear                                                  |
+|       10 LEDs                                                 |
+\*-------------------------------------------------------------*/
+static const razer_zone ornata_v3_rev2_zone =
+{
+    ZONE_EN_KEYBOARD,
+    ZONE_TYPE_LINEAR,
+    1,
+    10
+};
+
+static const razer_device ornata_v3_rev2_device =
+{
+    "Razer Ornata V3 rev2",
+    RAZER_ORNATA_V3_REV2_PID,
+    DEVICE_TYPE_KEYBOARD,
+    false,
+    1,
+    10,
+    {
+        &ornata_v3_rev2_zone,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL
+    },
+    NULL,
+    0,
+    NULL
+};
 
 /*-------------------------------------------------------------*\
 |  Razer Ornata V3 X                                            |
@@ -4878,6 +4912,42 @@ static const razer_device lancehead_te_device =
 };
 
 /*-------------------------------------------------------------*\
+|  Razer Leviathan V2X 1532:054A                                |
+|                                                               |
+|  Zone "Speaker Underglow"                                     |
+|       Linear                                                  |
+|       14 LEDs                                                 |
+\*-------------------------------------------------------------*/
+static const razer_zone leviathan_v2x_speaker_zone =
+{
+    "Speaker Underglow",
+    ZONE_TYPE_LINEAR,
+    1,
+    14
+};
+
+static const razer_device leviathan_v2x_device =
+{
+    "Razer Leviathan V2 X",
+    RAZER_LEVIATHAN_V2X_PID,
+    DEVICE_TYPE_SPEAKER,
+    false,
+    1,
+    14,
+    {
+        &leviathan_v2x_speaker_zone,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL
+    },
+    NULL,
+    0,
+    NULL
+};
+
+/*-------------------------------------------------------------*\
 |  Razer Mamba 2012 (Wired)                                     |
 |                                                               |
 |  Zone "Scroll Wheel"                                          |
@@ -7352,6 +7422,7 @@ const razer_device* razer_device_list[] =
     &ornata_chroma_device,
     &ornata_chroma_v2_device,
     &ornata_v3_device,
+    &ornata_v3_rev2_device,
     &ornata_v3_x_device,
 /*-----------------------------------------------------------------*\
 |  LAPTOPS                                                          |
@@ -7480,6 +7551,7 @@ const razer_device* razer_device_list[] =
     &core_x_device,
     &laptop_stand_chroma_device,
     &laptop_stand_chroma_v2_device,
+    &leviathan_v2x_device,
     &mug_holder_device,
     &mouse_dock_chroma_device,
     &mouse_dock_pro_device,

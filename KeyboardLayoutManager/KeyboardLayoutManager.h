@@ -40,7 +40,8 @@ enum KEYBOARD_SIZE
 
 enum KEYBOARD_LAYOUT
 {
-    KEYBOARD_LAYOUT_ANSI_QWERTY         = 0,
+    KEYBOARD_LAYOUT_DEFAULT             = 0,
+    KEYBOARD_LAYOUT_ANSI_QWERTY,
     KEYBOARD_LAYOUT_ISO_QWERTY,
     KEYBOARD_LAYOUT_ISO_QWERTZ,
     KEYBOARD_LAYOUT_ISO_AZERTY,
@@ -60,6 +61,7 @@ enum KEYBOARD_OPCODE
     KEYBOARD_OPCODE_SWAP_ONLY           = 1,
     KEYBOARD_OPCODE_REMOVE_SHIFT_LEFT   = 2,
     KEYBOARD_OPCODE_INS_SHFT_ADJACENT   = 3,
+    KEYBOARD_OPCODE_REMOVE_ROW          = 4,
 };
 
 typedef struct
@@ -132,6 +134,7 @@ private:
     void                        SwapKey(keyboard_led keys);
     void                        SwapKeys(std::vector<keyboard_led> keys);
     void                        RemoveKey(keyboard_led keys);
+    void                        RemoveRow(uint8_t row);
 
     KEYBOARD_LAYOUT             layout;
     KEYBOARD_SIZE               physical_size;

@@ -105,6 +105,7 @@
 #define RAZER_ORNATA_CHROMA_PID                         0x021E
 #define RAZER_ORNATA_CHROMA_V2_PID                      0x025D
 #define RAZER_ORNATA_V3_PID                             0x028F
+#define RAZER_ORNATA_V3_REV2_PID                        0x02A1
 #define RAZER_ORNATA_V3_X_PID                           0x0294
 #define RAZER_TARTARUS_CHROMA_PID                       0x0208
 #define RAZER_TARTARUS_PRO_PID                          0x0244
@@ -216,6 +217,7 @@
 #define RAZER_GOLIATHUS_CHROMA_PID                      0x0C01
 #define RAZER_LAPTOP_STAND_CHROMA_PID                   0x0F0D
 #define RAZER_LAPTOP_STAND_CHROMA_V2_PID                0x0F2B
+#define RAZER_LEVIATHAN_V2X_PID                         0x054A
 #define RAZER_MOUSE_BUNGEE_V3_CHROMA_PID                0x0F1D
 #define RAZER_MOUSE_DOCK_CHROMA_PID                     0x007E
 #define RAZER_MOUSE_DOCK_PRO_PID                        0x00A4

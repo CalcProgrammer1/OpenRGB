@@ -1,13 +1,18 @@
 /*---------------------------------------------------------------*\
-|  RGBController_GaiZhongGaiKeyboard.h                            |
+|  RGBController_GaiZhongGai.h                                    |
 |                                                                 |
 | https://oshwlab.com/yangdsada/GaiZhongGai-Keyboard-68-4PRO      |
+| https://oshwhub.com/myng/42-jian-pan                            |
+| https://oshwhub.com/hivisme/17jian-shuo-zi-xiao-jian-pan        |
+| https://oshwhub.com/yangzen/xing-huo-2-qi-guang-ban-qu-dong-    |
+| https://oshwhub.com/morempty/CH552gyin-liang-xuan-niu           |
 |                                                                 |
-| An Yang     2022/6/12                                           |
+| An Yang     2023/6/24                                           |
 \*---------------------------------------------------------------*/
+
 #pragma once
 #include "RGBController.h"
-#include "GaiZhongGaiKeyboardController.h"
+#include "GaiZhongGaiController.h"
 
 class RGBController_GaiZhongGaiKeyboard : public RGBController
 {

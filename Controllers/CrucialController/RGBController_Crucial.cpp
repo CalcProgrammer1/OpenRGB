@@ -197,6 +197,7 @@ void RGBController_Crucial::DeviceUpdateMode()
     if(modes[active_mode].value == 0xFFFF)
     {
         controller->SetMode(CRUCIAL_MODE_STATIC);
+        controller->SetAllColorsEffect(&colors[0]);
         return;
     }
 

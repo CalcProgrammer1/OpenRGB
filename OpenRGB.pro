@@ -116,6 +116,7 @@ INCLUDEPATH +=                                                                  
     Controllers/EKController/                                                                   \
     Controllers/ENESMBusController/                                                             \
     Controllers/ENESMBusController/ENESMBusInterface                                            \
+    Controllers/EpomakerController/                                                             \
     Controllers/EspurnaController/                                                              \
     Controllers/EVGAGP102GPUController/                                                         \
     Controllers/EVGAPascalGPUController/                                                        \
@@ -158,6 +159,7 @@ INCLUDEPATH +=                                                                  
     Controllers/MSIRGBController/                                                               \
     Controllers/MSIVigorController/                                                             \
     Controllers/NanoleafController/                                                             \
+    Controllers/NollieController/                                                               \
     Controllers/NZXTHue1Controller/                                                             \
     Controllers/NZXTHue2Controller/                                                             \
     Controllers/NZXTHuePlusController/                                                          \
@@ -183,9 +185,11 @@ INCLUDEPATH +=                                                                  
     Controllers/ThermaltakeRiingController/                                                     \
     Controllers/ViewSonicController/                                                            \
     Controllers/WootingKeyboardController/                                                      \
+    Controllers/WushiController/                                                                \
     Controllers/YeelightController/                                                             \
     Controllers/ZalmanZSyncController/                                                          \
     Controllers/ZotacTuringGPUController/                                                       \
+    Controllers/ZotacV2GPUController/                                                           \
     KeyboardLayoutManager/                                                                      \
     RGBController/                                                                              \
     qt/
@@ -309,6 +313,7 @@ HEADERS +=                                                                      
     Controllers/AsusAuraUSBController/AsusAuraMouseController.h                                 \
     Controllers/AsusAuraUSBController/AsusAuraMousematController.h                              \
     Controllers/AsusAuraUSBController/AsusAuraMouseDevices.h                                    \
+    Controllers/AsusAuraUSBController/AsusROGAllyController.h                                   \
     Controllers/AsusAuraUSBController/AsusAuraRyuoAIOController.h                               \
     Controllers/AsusAuraUSBController/AsusAuraStrixEvolveController.h                           \
     Controllers/AsusAuraUSBController/AsusAuraTUFKeyboardController.h                           \
@@ -318,6 +323,7 @@ HEADERS +=                                                                      
     Controllers/AsusAuraUSBController/RGBController_AsusAuraMonitor.h                           \
     Controllers/AsusAuraUSBController/RGBController_AsusAuraMouse.h                             \
     Controllers/AsusAuraUSBController/RGBController_AsusAuraMousemat.h                          \
+    Controllers/AsusAuraUSBController/RGBController_AsusROGAlly.h                               \
     Controllers/AsusAuraUSBController/RGBController_AsusAuraRyuoAIO.h                           \
     Controllers/AsusAuraUSBController/RGBController_AsusAuraStrixEvolve.h                       \
     Controllers/AsusAuraUSBController/RGBController_AsusAuraTUFKeyboard.h                       \
@@ -417,6 +423,8 @@ HEADERS +=                                                                      
     Controllers/ENESMBusController/RGBController_ENESMBus.h                                     \
     Controllers/ENESMBusController/ENESMBusInterface/ENESMBusInterface.h                        \
     Controllers/ENESMBusController/ENESMBusInterface/ENESMBusInterface_i2c_smbus.h              \
+    Controllers/EpomakerController/EpomakerController.h                                         \
+    Controllers/EpomakerController/RGBController_EpomakerController.h                           \
     Controllers/EspurnaController/EspurnaController.h                                           \
     Controllers/EspurnaController/RGBController_Espurna.h                                       \
     Controllers/EVGAGP102GPUController/EVGAGP102Controller.h                                    \
@@ -440,8 +448,8 @@ HEADERS +=                                                                      
     Controllers/GainwardGPUController/GainwardGPUv2Controller.h                                 \
     Controllers/GainwardGPUController/RGBController_GainwardGPUv1.h                             \
     Controllers/GainwardGPUController/RGBController_GainwardGPUv2.h                             \
-    Controllers/GaiZongGaiKeyboardController/GaiZhongGaiKeyboardController.h                    \
-    Controllers/GaiZongGaiKeyboardController/RGBController_GaiZhongGaiKeyboard.h                \
+    Controllers/GaiZongGaiKeyboardController/GaiZhongGaiController.h                            \
+    Controllers/GaiZongGaiKeyboardController/RGBController_GaiZhongGai.h                        \
     Controllers/GalaxGPUController/GalaxGPUController.h                                         \
     Controllers/GalaxGPUController/RGBController_GalaxGPU.h                                     \
     Controllers/GigabyteAorusCPUCoolerController/ATC800Controller.h                             \
@@ -584,6 +592,8 @@ HEADERS +=                                                                      
     Controllers/N5312AController/RGBController_N5312A.h                                         \
     Controllers/NvidiaESAController/NvidiaESAController.h                                       \
     Controllers/NanoleafController/RGBController_Nanoleaf.h                                     \
+    Controllers/NollieController/NollieController.h                                             \
+    Controllers/NollieController/RGBController_Nollie.h                                         \
     Controllers/NvidiaESAController/RGBController_NvidiaESA.h                                   \
     Controllers/NZXTHue1Controller/NZXTHue1Controller.h                                         \
     Controllers/NZXTHue1Controller/RGBController_NZXTHue1.h                                     \
@@ -594,6 +604,8 @@ HEADERS +=                                                                      
     Controllers/NZXTKrakenController/NZXTKrakenController.h                                     \
     Controllers/NZXTKrakenController/RGBController_NZXTKraken.h                                 \
     Controllers/OpenRazerController/OpenRazerDevices.h                                          \
+    Controllers/OKSController/OKSKeyboardController.h                                           \
+    Controllers/OKSController/RGBController_OKSKeyboard.h                                       \
     Controllers/PalitGPUController/PalitGPUController.h                                         \
     Controllers/PalitGPUController/RGBController_PalitGPU.h                                     \
     Controllers/PatriotViperController/PatriotViperController.h                                 \
@@ -659,6 +671,8 @@ HEADERS +=                                                                      
     Controllers/SonyGamepadController/RGBController_SonyDualSense.h                             \
     Controllers/SonyGamepadController/SonyDS4Controller.h                                       \
     Controllers/SonyGamepadController/RGBController_SonyDS4.h                                   \
+    Controllers/SRGBmodsController/SRGBmodsLEDControllerV1.h                                    \
+    Controllers/SRGBmodsController/RGBController_SRGBmodsLEDControllerV1.h                      \
     Controllers/SRGBmodsController/SRGBmodsPicoController.h                                     \
     Controllers/SRGBmodsController/RGBController_SRGBmodsPico.h                                 \
     Controllers/SteelSeriesController/color32.h                                                 \
@@ -708,6 +722,8 @@ HEADERS +=                                                                      
     Controllers/WootingKeyboardController/WootingOneKeyboardController.h                        \
     Controllers/WootingKeyboardController/WootingTwoKeyboardController.h                        \
     Controllers/WootingKeyboardController/RGBController_WootingKeyboard.h                       \
+    Controllers/WushiController/WushiL50USBController.h                                         \
+    Controllers/WushiController/RGBController_WushiL50USB.h                                     \
     Controllers/ThermaltakeRiingController/RGBController_ThermaltakeRiingQuad.h                 \
     Controllers/YeelightController/YeelightController.h                                         \
     Controllers/YeelightController/RGBController_Yeelight.h                                     \
@@ -719,6 +735,8 @@ HEADERS +=                                                                      
     Controllers/ZETKeyboardController/RGBController_ZETBladeOptical.h                           \
     Controllers/ZotacTuringGPUController/ZotacTuringGPUController.h                             \
     Controllers/ZotacTuringGPUController/RGBController_ZotacTuringGPU.h                         \
+    Controllers/ZotacV2GPUController/ZotacV2GPUController.h                                     \
+    Controllers/ZotacV2GPUController/RGBController_ZotacV2GPU.h                                 \
     KeyboardLayoutManager/KeyboardLayoutManager.h                                               \
     RGBController/RGBController.h                                                               \
     RGBController/RGBController_Dummy.h                                                         \
@@ -884,6 +902,7 @@ SOURCES +=                                                                      
     Controllers/AsusAuraUSBController/AsusAuraMonitorController.cpp                             \
     Controllers/AsusAuraUSBController/AsusAuraMouseController.cpp                               \
     Controllers/AsusAuraUSBController/AsusAuraMousematController.cpp                            \
+    Controllers/AsusAuraUSBController/AsusROGAllyController.cpp                                 \
     Controllers/AsusAuraUSBController/AsusAuraRyuoAIOController.cpp                             \
     Controllers/AsusAuraUSBController/AsusAuraStrixEvolveController.cpp                         \
     Controllers/AsusAuraUSBController/AsusAuraTUFKeyboardController.cpp                         \
@@ -893,6 +912,7 @@ SOURCES +=                                                                      
     Controllers/AsusAuraUSBController/RGBController_AsusAuraMonitor.cpp                         \
     Controllers/AsusAuraUSBController/RGBController_AsusAuraMouse.cpp                           \
     Controllers/AsusAuraUSBController/RGBController_AsusAuraMousemat.cpp                        \
+    Controllers/AsusAuraUSBController/RGBController_AsusROGAlly.cpp                             \
     Controllers/AsusAuraUSBController/RGBController_AsusAuraRyuoAIO.cpp                         \
     Controllers/AsusAuraUSBController/RGBController_AsusAuraStrixEvolve.cpp                     \
     Controllers/AsusAuraUSBController/RGBController_AsusAuraTUFKeyboard.cpp                     \
@@ -1022,6 +1042,9 @@ SOURCES +=                                                                      
     Controllers/ENESMBusController/ENESMBusControllerDetect.cpp                                 \
     Controllers/ENESMBusController/RGBController_ENESMBus.cpp                                   \
     Controllers/ENESMBusController/ENESMBusInterface/ENESMBusInterface_i2c_smbus.cpp            \
+    Controllers/EpomakerController/EpomakerController.cpp                                       \
+    Controllers/EpomakerController/EpomakerControllerDetect.cpp                                 \
+    Controllers/EpomakerController/RGBController_EpomakerController.cpp                         \
     Controllers/EspurnaController/EspurnaController.cpp                                         \
     Controllers/EspurnaController/EspurnaControllerDetect.cpp                                   \
     Controllers/EspurnaController/RGBController_Espurna.cpp                                     \
@@ -1054,9 +1077,9 @@ SOURCES +=                                                                      
     Controllers/GainwardGPUController/GainwardGPUv2Controller.cpp                               \
     Controllers/GainwardGPUController/RGBController_GainwardGPUv1.cpp                           \
     Controllers/GainwardGPUController/RGBController_GainwardGPUv2.cpp                           \
-    Controllers/GaiZongGaiKeyboardController/GaiZhongGaiKeyboardController.cpp                  \
-    Controllers/GaiZongGaiKeyboardController/GaiZhongGaiKeyboardControllerDetect.cpp            \
-    Controllers/GaiZongGaiKeyboardController/RGBController_GaiZhongGaiKeyboard.cpp              \
+    Controllers/GaiZongGaiKeyboardController/GaiZhongGaiController.cpp                          \
+    Controllers/GaiZongGaiKeyboardController/GaiZhongGaiControllerDetect.cpp                    \
+    Controllers/GaiZongGaiKeyboardController/RGBController_GaiZhongGai.cpp                      \
     Controllers/GalaxGPUController/GalaxGPUController.cpp                                       \
     Controllers/GalaxGPUController/GalaxGPUControllerDetect.cpp                                 \
     Controllers/GalaxGPUController/RGBController_GalaxGPU.cpp                                   \
@@ -1236,6 +1259,9 @@ SOURCES +=                                                                      
     Controllers/N5312AController/N5312AController.cpp                                           \
     Controllers/N5312AController/N5312AControllerDetect.cpp                                     \
     Controllers/N5312AController/RGBController_N5312A.cpp                                       \
+    Controllers/NollieController/NollieController.cpp                                           \
+    Controllers/NollieController/NollieControllerDetect.cpp                                     \
+    Controllers/NollieController/RGBController_Nollie.cpp                                       \
     Controllers/NvidiaESAController/NvidiaESAController.cpp                                     \
     Controllers/NvidiaESAController/NvidiaESAControllerDetect.cpp                               \
     Controllers/NvidiaESAController/RGBController_NvidiaESA.cpp                                 \
@@ -1251,6 +1277,9 @@ SOURCES +=                                                                      
     Controllers/NZXTKrakenController/NZXTKrakenController.cpp                                   \
     Controllers/NZXTKrakenController/NZXTKrakenControllerDetect.cpp                             \
     Controllers/NZXTKrakenController/RGBController_NZXTKraken.cpp                               \
+    Controllers/OKSController/OKSKeyboardController.cpp                                         \
+    Controllers/OKSController/OKSKeyboardControllerDetect.cpp                                   \
+    Controllers/OKSController/RGBController_OKSKeyboard.cpp                                     \
     Controllers/PalitGPUController/PalitGPUController.cpp                                       \
     Controllers/PalitGPUController/PalitGPUControllerDetect.cpp                                 \
     Controllers/PalitGPUController/RGBController_PalitGPU.cpp                                   \
@@ -1330,8 +1359,10 @@ SOURCES +=                                                                      
     Controllers/SonyGamepadController/SonyDS4Controller.cpp                                     \
     Controllers/SonyGamepadController/RGBController_SonyDS4.cpp                                 \
     Controllers/SonyGamepadController/SonyGamepadControllerDetect.cpp                           \
+    Controllers/SRGBmodsController/SRGBmodsLEDControllerV1.cpp                              \
     Controllers/SRGBmodsController/SRGBmodsPicoController.cpp                                   \
     Controllers/SRGBmodsController/SRGBmodsControllerDetect.cpp                                 \
+    Controllers/SRGBmodsController/RGBController_SRGBmodsLEDControllerV1.cpp                    \
     Controllers/SRGBmodsController/RGBController_SRGBmodsPico.cpp                               \
     Controllers/SteelSeriesController/SteelSeriesAerox3Controller.cpp                           \
     Controllers/SteelSeriesController/SteelSeriesAerox9Controller.cpp                           \
@@ -1384,6 +1415,9 @@ SOURCES +=                                                                      
     Controllers/WootingKeyboardController/WootingOneKeyboardController.cpp                      \
     Controllers/WootingKeyboardController/WootingTwoKeyboardController.cpp                      \
     Controllers/WootingKeyboardController/RGBController_WootingKeyboard.cpp                     \
+    Controllers/WushiController/WushiL50USBController.cpp                                       \
+    Controllers/WushiController/WushiL50USBDetect.cpp                                           \
+    Controllers/WushiController/RGBController_WushiL50USB.cpp                                   \
     Controllers/ThermaltakeRiingController/RGBController_ThermaltakeRiingQuad.cpp               \
     Controllers/YeelightController/YeelightController.cpp                                       \
     Controllers/YeelightController/YeelightControllerDetect.cpp                                 \
@@ -1400,6 +1434,9 @@ SOURCES +=                                                                      
     Controllers/ZotacTuringGPUController/ZotacTuringGPUController.cpp                           \
     Controllers/ZotacTuringGPUController/ZotacTuringGPUControllerDetect.cpp                     \
     Controllers/ZotacTuringGPUController/RGBController_ZotacTuringGPU.cpp                       \
+    Controllers/ZotacV2GPUController/ZotacV2GPUController.cpp                                   \
+    Controllers/ZotacV2GPUController/ZotacV2GPUControllerDetect.cpp                             \
+    Controllers/ZotacV2GPUController/RGBController_ZotacV2GPU.cpp                               \
     KeyboardLayoutManager/KeyboardLayoutManager.cpp                                             \
     RGBController/RGBController.cpp                                                             \
     RGBController/RGBController_Dummy.cpp                                                       \

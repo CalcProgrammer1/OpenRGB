@@ -78,30 +78,3 @@ REGISTER_HID_DETECTOR_IP("Cherry Keyboard G80-3000N TKL RGB",           DetectCh
 REGISTER_HID_DETECTOR_IP("Cherry Keyboard G80-3000N FL RGB",            DetectCherryKeyboards, CHERRY_KEYBOARD_VID,   G30_3000N_FL_RGB_PID        , 1, CHERRY_KEYBOARD_USAGE_PAGE);
 REGISTER_HID_DETECTOR_IP("Cherry Keyboard MX BOARD 10.0N FL RGB",       DetectCherryKeyboards, CHERRY_KEYBOARD_VID,   MX_BOARD_10_0N_FL_RGB_PID   , 1, CHERRY_KEYBOARD_USAGE_PAGE);
 REGISTER_HID_DETECTOR_IP("Cherry Keyboard MX BOARD 2.0S FL RGB DE",     DetectCherryKeyboards, CHERRY_KEYBOARD_VID,   MX_BOARD_2_0S_FL_RGB_DE_PID , 1, CHERRY_KEYBOARD_USAGE_PAGE);
-
-
-/*-----------------------------------------------------------------------------------------------------------*\
-| Entries for dynamic UDEV rules                                                                              |
-| DUMMY_DEVICE_DETECTOR("Cherry Keyboard MX BOARD 3.0S FL NBL", DetectCherryKeyboards, 0x046a, 0x0077 )       |
-| DUMMY_DEVICE_DETECTOR("Cherry Keyboard MX BOARD 3.0S FL RGB", DetectCherryKeyboards, 0x046a, 0x0079 )       |
-| DUMMY_DEVICE_DETECTOR("Cherry Keyboard MX BOARD 3.0S FL RGB KOREAN", DetectCherryKeyboards, 0x046a, 0x0083 )|
-| DUMMY_DEVICE_DETECTOR("Cherry Keyboard MX 1.0 FL BL", DetectCherryKeyboards, 0x046a, 0x00ab )               |
-| DUMMY_DEVICE_DETECTOR("Cherry Keyboard MX BOARD 1.0 TKL RGB", DetectCherryKeyboards, 0x046a, 0x00ac )       |
-| DUMMY_DEVICE_DETECTOR("Cherry Keyboard MX BOARD 8.0 TKL RGB", DetectCherryKeyboards, 0x046a, 0x00b7 )       |
-| DUMMY_DEVICE_DETECTOR("Cherry Keyboard MX BOARD 10.0 FL RGB", DetectCherryKeyboards, 0x046a, 0x00bb )       |
-| DUMMY_DEVICE_DETECTOR("Cherry Keyboard G80-3000 TKL NBL", DetectCherryKeyboards, 0x046a, 0x00c3 )           |
-| DUMMY_DEVICE_DETECTOR("Cherry Keyboard MX BOARD 2.0S FL RGB", DetectCherryKeyboards, 0x046a, 0x00c4 )       |
-| DUMMY_DEVICE_DETECTOR("Cherry Keyboard G80-3000 TKL RGB", DetectCherryKeyboards, 0x046a, 0x00c5 )           |
-| DUMMY_DEVICE_DETECTOR("Cherry Keyboard MV BOARD 3.0FL RGB", DetectCherryKeyboards, 0x046a, 0x00c7 )         |
-| DUMMY_DEVICE_DETECTOR("Cherry Keyboard CCF MX 8.0 TKL BL", DetectCherryKeyboards, 0x046a, 0x00c9 )          |
-| DUMMY_DEVICE_DETECTOR("Cherry Keyboard CCF MX 1.0 TKL BL", DetectCherryKeyboards, 0x046a, 0x00ca )          |
-| DUMMY_DEVICE_DETECTOR("Cherry Keyboard CCF MX 1.0 TKL NBL", DetectCherryKeyboards, 0x046a, 0x00cb )         |
-| DUMMY_DEVICE_DETECTOR("Cherry Keyboard G30-3000 TKL NBL KOR", DetectCherryKeyboards, 0x046a, 0x00cd )       |
-| DUMMY_DEVICE_DETECTOR("Cherry Keyboard MX BOARD 2.0S FL NBL", DetectCherryKeyboards, 0x046a, 0x00ce )       |
-| DUMMY_DEVICE_DETECTOR("Cherry Keyboard MX 1.0 FL NBL", DetectCherryKeyboards, 0x046a, 0x00d2 )              |
-| DUMMY_DEVICE_DETECTOR("Cherry Keyboard MX 1.0 FL RGB", DetectCherryKeyboards, 0x046a, 0x00d3 )              |
-| DUMMY_DEVICE_DETECTOR("Cherry Keyboard G80-3000N TKL RGB", DetectCherryKeyboards, 0x046a, 0x00dd )          |
-| DUMMY_DEVICE_DETECTOR("Cherry Keyboard G30-3000N FL RGB", DetectCherryKeyboards, 0x046a, 0x00de )           |
-| DUMMY_DEVICE_DETECTOR("Cherry Keyboard MX BOARD 10.0N FL RGB", DetectCherryKeyboards, 0x046a, 0x00df )      |
-| DUMMY_DEVICE_DETECTOR("Cherry Keyboard MX BOARD 2.0S FL RGB DE", DetectCherryKeyboards, 0x046a, 0x01a6 )    |
-\*-----------------------------------------------------------------------------------------------------------*/

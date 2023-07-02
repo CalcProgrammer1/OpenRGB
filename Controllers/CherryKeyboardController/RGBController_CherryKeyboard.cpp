@@ -20,6 +20,17 @@ static unsigned int matrix_map[6][23] =
       {  4,  10,  16,  22,  28,  34,  40,  46,  52,  58,  64,  70,  NA,  82,  NA,  94,  NA,  NA,  NA,  NA,  NA,  NA,  NA },
       {  5,  11,  17,  NA,  NA,  NA,  41,  NA,  NA,  NA,  65,  71,  77,  83,  89,  95, 101,  NA,  NA,  NA,  NA,  NA,  NA } };
 
+/**------------------------------------------------------------------*\
+    @name Cherry Keyboard
+    @category Keyboard
+    @type USB
+    @save :robot:
+    @direct :rotating_light:
+    @effects :white_check_mark:
+    @detectors DetectCherryKeyboards
+    @comment
+\*-------------------------------------------------------------------*/
+
 RGBController_CherryKeyboard::RGBController_CherryKeyboard(CherryKeyboardController* controller_ptr)
 {
     controller  = controller_ptr;

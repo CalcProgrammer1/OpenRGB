@@ -37,6 +37,7 @@ enum
     AURA_ROG_FALCHION_WIRELESS_PID  = 0x193E,
     AURA_TUF_K1_GAMING_PID          = 0x1945,
     AURA_TUF_K3_GAMING_PID          = 0x194B,
+    AURA_TUF_K5_GAMING_PID          = 0x1899,
     AURA_TUF_K7_GAMING_PID          = 0x18AA,
     AURA_ROG_CLAYMORE_PID           = 0x184D,
 };
@@ -97,6 +98,7 @@ public:
     void ClearResponses();
 
     uint16_t                    device_pid;
+    bool                        is_per_led_keyboard;
 
 private:
     hid_device*                 dev;
