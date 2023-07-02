@@ -220,6 +220,8 @@ RazerController::RazerController(hid_device* dev_handle, hid_device* dev_argb_ha
         /*-------------------------------------------------*\
         | These devices use a standard matrix report        |
         \*-------------------------------------------------*/
+        case RAZER_BLACKWIDOW_CHROMA_PID:
+        case RAZER_BLACKWIDOW_CHROMA_TE_PID:
         case RAZER_BLACKWIDOW_CHROMA_V2_PID:
         case RAZER_BLACKWIDOW_X_CHROMA_TE_PID:
         case RAZER_BLADE_2016_PID:
