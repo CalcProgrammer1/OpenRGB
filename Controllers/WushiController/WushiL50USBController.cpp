@@ -47,9 +47,9 @@ void WushiL50USBController::setMode(WushiL50State * in_mode)
     | Copy in color data                                    |
     \*-----------------------------------------------------*/
     memcpy(&usb_buf[0x04 + OFFSET], in_mode->zone0_rgb, 3);
-    memcpy(&usb_buf[0x07 + OFFSET], in_mode->zone0_rgb, 3);
-    memcpy(&usb_buf[0x0A + OFFSET], in_mode->zone0_rgb, 3);
-    memcpy(&usb_buf[0x0D + OFFSET], in_mode->zone0_rgb, 3);
+    memcpy(&usb_buf[0x07 + OFFSET], in_mode->zone1_rgb, 3);
+    memcpy(&usb_buf[0x0A + OFFSET], in_mode->zone2_rgb, 3);
+    memcpy(&usb_buf[0x0D + OFFSET], in_mode->zone3_rgb, 3);
 
     usb_buf[0x11 + OFFSET]  = in_mode->wave_ltr;
     usb_buf[0x12 + OFFSET]  = in_mode->wave_rtl;
