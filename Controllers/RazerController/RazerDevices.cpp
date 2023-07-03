@@ -1021,6 +1021,7 @@ static const razer_device blackwidow_2019_device =
     RAZER_BLACKWIDOW_2019_PID,
     DEVICE_TYPE_KEYBOARD,
     RAZER_MATRIX_TYPE_EXTENDED,
+    0x1F,
     6,
     22,
     {
@@ -1057,6 +1058,7 @@ static const razer_device blackwidow_chroma_device =
     RAZER_BLACKWIDOW_CHROMA_PID,
     DEVICE_TYPE_KEYBOARD,
     RAZER_MATRIX_TYPE_STANDARD,
+    0x3F,
     6,
     22,
     {
@@ -1093,6 +1095,7 @@ static const razer_device blackwidow_chroma_overwatch_device =
     RAZER_BLACKWIDOW_OVERWATCH_PID,
     DEVICE_TYPE_KEYBOARD,
     RAZER_MATRIX_TYPE_STANDARD,
+    0x3F,
     6,
     22,
     {
@@ -1129,6 +1132,7 @@ static const razer_device blackwidow_v3_device =
     RAZER_BLACKWIDOW_V3_PID,
     DEVICE_TYPE_KEYBOARD,
     RAZER_MATRIX_TYPE_EXTENDED,
+    0x3F,
     6,
     22,
     {
@@ -1165,6 +1169,7 @@ static const razer_device blackwidow_chroma_te_device =
     RAZER_BLACKWIDOW_CHROMA_TE_PID,
     DEVICE_TYPE_KEYBOARD,
     RAZER_MATRIX_TYPE_STANDARD,
+    0x3F,
     6,
     22,
     {
@@ -1201,6 +1206,7 @@ static const razer_device blackwidow_elite_device =
     RAZER_BLACKWIDOW_ELITE_PID,
     DEVICE_TYPE_KEYBOARD,
     RAZER_MATRIX_TYPE_EXTENDED,
+    0x1F,
     6,
     22,
     {
@@ -1237,6 +1243,7 @@ static const razer_device blackwidow_chroma_v2_device =
     RAZER_BLACKWIDOW_CHROMA_V2_PID,
     DEVICE_TYPE_KEYBOARD,
     RAZER_MATRIX_TYPE_STANDARD,
+    0x3F,
     6,
     22,
     {
@@ -1273,6 +1280,7 @@ static const razer_device blackwidow_v3_pro_wired_device =
     RAZER_BLACKWIDOW_V3_PRO_WIRED_PID,
     DEVICE_TYPE_KEYBOARD,
     RAZER_MATRIX_TYPE_EXTENDED,
+    0x3F,
     6,
     22,
     {
@@ -1309,6 +1317,7 @@ static const razer_device blackwidow_v3_pro_bluetooth_device =
     RAZER_BLACKWIDOW_V3_PRO_BLUETOOTH_PID,
     DEVICE_TYPE_KEYBOARD,
     RAZER_MATRIX_TYPE_EXTENDED,
+    0x3F,
     6,
     22,
     {
@@ -1345,6 +1354,7 @@ static const razer_device blackwidow_v3_pro_wireless_device =
     RAZER_BLACKWIDOW_V3_PRO_WIRELESS_PID,
     DEVICE_TYPE_KEYBOARD,
     RAZER_MATRIX_TYPE_EXTENDED,
+    0x3F,
     6,
     22,
     {
@@ -1381,6 +1391,7 @@ static const razer_device blackwidow_v3_tkl_device =
     RAZER_BLACKWIDOW_V3_TKL_PID,
     DEVICE_TYPE_KEYBOARD,
     RAZER_MATRIX_TYPE_EXTENDED,
+    0x3F,
     6,
     18,
     {
@@ -1417,6 +1428,7 @@ static const razer_device blackwidow_v3_mini_wired_device =
     RAZER_BLACKWIDOW_V3_MINI_WIRED_PID,
     DEVICE_TYPE_KEYBOARD,
     RAZER_MATRIX_TYPE_EXTENDED,
+    0x1F,
     5,
     16,
     {
@@ -1445,6 +1457,7 @@ static const razer_device blackwidow_v3_mini_wireless_device =
     RAZER_BLACKWIDOW_V3_MINI_WIRELESS_PID,
     DEVICE_TYPE_KEYBOARD,
     RAZER_MATRIX_TYPE_EXTENDED,
+    0x9F,
     5,
     16,
     {
@@ -1481,6 +1494,7 @@ static const razer_device blackwidow_x_chroma_device =
     RAZER_BLACKWIDOW_X_CHROMA_PID,
     DEVICE_TYPE_KEYBOARD,
     RAZER_MATRIX_TYPE_STANDARD,
+    0x3F,
     6,
     22,
     {
@@ -1517,6 +1531,7 @@ static const razer_device blackwidow_x_chroma_te_device =
     RAZER_BLACKWIDOW_X_CHROMA_TE_PID,
     DEVICE_TYPE_KEYBOARD,
     RAZER_MATRIX_TYPE_STANDARD,
+    0x3F,
     6,
     22,
     {
@@ -1553,6 +1568,7 @@ static const razer_device cynosa_chroma_device =
     RAZER_CYNOSA_CHROMA_PID,
     DEVICE_TYPE_KEYBOARD,
     RAZER_MATRIX_TYPE_EXTENDED,
+    0x3F,
     6,
     22,
     {
@@ -1589,6 +1605,7 @@ static const razer_device cynosa_v2_device =
     RAZER_CYNOSA_V2_PID,
     DEVICE_TYPE_KEYBOARD,
     RAZER_MATRIX_TYPE_EXTENDED,
+    0x1F,
     6,
     22,
     {
@@ -1625,6 +1642,7 @@ static const razer_device cynosa_lite_device =
     RAZER_CYNOSA_LITE_PID,
     DEVICE_TYPE_KEYBOARD,
     RAZER_MATRIX_TYPE_EXTENDED,
+    0x3F,
     1,
     1,
     {
@@ -1661,6 +1679,7 @@ static const razer_device ornata_chroma_device =
     RAZER_ORNATA_CHROMA_PID,
     DEVICE_TYPE_KEYBOARD,
     RAZER_MATRIX_TYPE_EXTENDED,
+    0x3F,
     6,
     22,
     {
@@ -1697,6 +1716,7 @@ static const razer_device ornata_chroma_v2_device =
     RAZER_ORNATA_CHROMA_V2_PID,
     DEVICE_TYPE_KEYBOARD,
     RAZER_MATRIX_TYPE_EXTENDED,
+    0x1F,
     6,
     22,
     {
@@ -1733,6 +1753,7 @@ static const razer_device ornata_v3_device =
     RAZER_ORNATA_V3_PID,
     DEVICE_TYPE_KEYBOARD,
     RAZER_MATRIX_TYPE_EXTENDED,
+    0x1F,
     1,
     10,
     {
@@ -1769,6 +1790,7 @@ static const razer_device ornata_v3_rev2_device =
     RAZER_ORNATA_V3_REV2_PID,
     DEVICE_TYPE_KEYBOARD,
     RAZER_MATRIX_TYPE_EXTENDED,
+    0x1F,
     1,
     10,
     {
@@ -1805,6 +1827,7 @@ static const razer_device ornata_v3_x_device =
     RAZER_ORNATA_V3_X_PID,
     DEVICE_TYPE_KEYBOARD,
     RAZER_MATRIX_TYPE_EXTENDED,
+    0x1F,
     1,
     1,
     {
@@ -1842,6 +1865,7 @@ static const razer_device deathstalker_chroma_device =
     RAZER_DEATHSTALKER_CHROMA_PID,
     DEVICE_TYPE_KEYBOARD,
     RAZER_MATRIX_TYPE_LINEAR,
+    0x3F,
     1,
     12,
     {
@@ -1878,6 +1902,7 @@ static const razer_device deathstalker_v2_device =
     RAZER_DEATHSTALKER_V2_PID,
     DEVICE_TYPE_KEYBOARD,
     RAZER_MATRIX_TYPE_EXTENDED,
+    0x1F,
     6,
     22,
     {
@@ -1914,6 +1939,7 @@ static const razer_device deathstalker_v2_pro_wireless_device =
     RAZER_DEATHSTALKER_V2_PRO_WIRELESS_PID,
     DEVICE_TYPE_KEYBOARD,
     RAZER_MATRIX_TYPE_EXTENDED,
+    0x9F,
     6,
     22,
     {
@@ -1950,6 +1976,7 @@ static const razer_device deathstalker_v2_pro_wired_device =
     RAZER_DEATHSTALKER_V2_PRO_WIRED_PID,
     DEVICE_TYPE_KEYBOARD,
     RAZER_MATRIX_TYPE_EXTENDED,
+    0x9F,
     6,
     22,
     {
@@ -1986,6 +2013,7 @@ static const razer_device huntsman_device =
     RAZER_HUNTSMAN_PID,
     DEVICE_TYPE_KEYBOARD,
     RAZER_MATRIX_TYPE_EXTENDED,
+    0x3F,
     6,
     22,
     {
@@ -2034,6 +2062,7 @@ static const razer_device huntsman_elite_device =
     RAZER_HUNTSMAN_ELITE_PID,
     DEVICE_TYPE_KEYBOARD,
     RAZER_MATRIX_TYPE_EXTENDED,
+    0x3F,
     9,
     22,
     {
@@ -2082,6 +2111,7 @@ static const razer_device huntsman_v2_analog_device =
     RAZER_HUNTSMAN_V2_ANALOG_PID,
     DEVICE_TYPE_KEYBOARD,
     RAZER_MATRIX_TYPE_EXTENDED,
+    0x3F,
     9,
     22,
     {
@@ -2118,6 +2148,7 @@ static const razer_device huntsman_mini_device =
     RAZER_HUNTSMAN_MINI_PID,
     DEVICE_TYPE_KEYBOARD,
     RAZER_MATRIX_TYPE_EXTENDED,
+    0x3F,
     5,
     15,
     {
@@ -2154,6 +2185,7 @@ static const razer_device huntsman_te_device =
     RAZER_HUNTSMAN_TE_PID,
     DEVICE_TYPE_KEYBOARD,
     RAZER_MATRIX_TYPE_EXTENDED,
+    0x3F,
     6,
     18,
     {
@@ -2190,6 +2222,7 @@ static const razer_device huntsman_v2_tkl_device =
     RAZER_HUNTSMAN_V2_TKL_PID,
     DEVICE_TYPE_KEYBOARD,
     RAZER_MATRIX_TYPE_EXTENDED,
+    0x3F,
     6,
     17,
     {
@@ -2226,6 +2259,7 @@ static const razer_device huntsman_v2_device =
     RAZER_HUNTSMAN_V2_PID,
     DEVICE_TYPE_KEYBOARD,
     RAZER_MATRIX_TYPE_EXTENDED,
+    0x3F,
     6,
     22,
     {
@@ -2266,6 +2300,7 @@ static const razer_device blade_2016_device =
     RAZER_BLADE_2016_PID,
     DEVICE_TYPE_KEYBOARD,
     RAZER_MATRIX_TYPE_STANDARD,
+    0x3F,
     6,
     16,
     {
@@ -2302,6 +2337,7 @@ static const razer_device blade_late_2016_device =
     RAZER_BLADE_LATE_2016_PID,
     DEVICE_TYPE_KEYBOARD,
     RAZER_MATRIX_TYPE_STANDARD,
+    0x3F,
     6,
     16,
     {
@@ -2338,6 +2374,7 @@ static const razer_device blade_15_2018_advanced_device =
     RAZER_BLADE_2018_ADVANCED_PID,
     DEVICE_TYPE_KEYBOARD,
     RAZER_MATRIX_TYPE_STANDARD,
+    0x3F,
     6,
     16,
     {
@@ -2374,6 +2411,7 @@ static const razer_device blade_15_2018_base_device =
     RAZER_BLADE_2018_BASE_PID,
     DEVICE_TYPE_KEYBOARD,
     RAZER_MATRIX_TYPE_STANDARD,
+    0x3F,
     6,
     16,
     {
@@ -2410,6 +2448,7 @@ static const razer_device blade_15_2018_mercury_device =
     RAZER_BLADE_2018_MERCURY_PID,
     DEVICE_TYPE_KEYBOARD,
     RAZER_MATRIX_TYPE_STANDARD,
+    0x3F,
     6,
     16,
     {
@@ -2446,6 +2485,7 @@ static const razer_device blade_15_2019_advanced_device =
     RAZER_BLADE_2019_ADVANCED_PID,
     DEVICE_TYPE_KEYBOARD,
     RAZER_MATRIX_TYPE_STANDARD,
+    0x3F,
     6,
     16,
     {
@@ -2482,6 +2522,7 @@ static const razer_device blade_15_2019_base_device =
     RAZER_BLADE_2019_BASE_PID,
     DEVICE_TYPE_KEYBOARD,
     RAZER_MATRIX_TYPE_STANDARD,
+    0x3F,
     1,
     1,
     {
@@ -2518,6 +2559,7 @@ static const razer_device blade_15_2019_mercury_device =
     RAZER_BLADE_2019_MERCURY_PID,
     DEVICE_TYPE_KEYBOARD,
     RAZER_MATRIX_TYPE_STANDARD,
+    0x3F,
     6,
     16,
     {
@@ -2554,6 +2596,7 @@ static const razer_device blade_15_2019_studio_device =
     RAZER_BLADE_2019_STUDIO_PID,
     DEVICE_TYPE_KEYBOARD,
     RAZER_MATRIX_TYPE_STANDARD,
+    0x3F,
     6,
     16,
     {
@@ -2590,6 +2633,7 @@ static const razer_device blade_15_2020_advanced_device =
     RAZER_BLADE_2020_ADVANCED_PID,
     DEVICE_TYPE_KEYBOARD,
     RAZER_MATRIX_TYPE_STANDARD,
+    0x3F,
     6,
     16,
     {
@@ -2626,6 +2670,7 @@ static const razer_device blade_15_2020_base_device =
     RAZER_BLADE_2020_BASE_PID,
     DEVICE_TYPE_KEYBOARD,
     RAZER_MATRIX_TYPE_STANDARD,
+    0x3F,
     1,
     16,
     {
@@ -2662,6 +2707,7 @@ static const razer_device blade_late_2020_device =
     RAZER_BLADE_LATE_2020_PID,
     DEVICE_TYPE_KEYBOARD,
     RAZER_MATRIX_TYPE_STANDARD,
+    0x3F,
     6,
     16,
     {
@@ -2698,6 +2744,7 @@ static const razer_device blade_15_2021_advanced_device =
     RAZER_BLADE_2021_ADVANCED_PID,
     DEVICE_TYPE_KEYBOARD,
     RAZER_MATRIX_TYPE_STANDARD,
+    0x3F,
     6,
     16,
     {
@@ -2734,6 +2781,7 @@ static const razer_device blade_15_2021_base_device =
     RAZER_BLADE_2021_BASE_PID,
     DEVICE_TYPE_KEYBOARD,
     RAZER_MATRIX_TYPE_STANDARD,
+    0x3F,
     1,
     16,
     {
@@ -2770,6 +2818,7 @@ static const razer_device blade_15_2021_base_v2_device =
     RAZER_BLADE_2021_BASE_V2_PID,
     DEVICE_TYPE_KEYBOARD,
     RAZER_MATRIX_TYPE_STANDARD,
+    0x1F,
     1,
     16,
     {
@@ -2806,6 +2855,7 @@ static const razer_device blade_15_late_2021_advanced_device =
     RAZER_BLADE_LATE_2021_ADVANCED_PID,
     DEVICE_TYPE_KEYBOARD,
     RAZER_MATRIX_TYPE_STANDARD,
+    0x3F,
     6,
     16,
     {
@@ -2842,6 +2892,7 @@ static const razer_device blade_14_2021_device =
     RAZER_BLADE_14_2021_PID,
     DEVICE_TYPE_KEYBOARD,
     RAZER_MATRIX_TYPE_STANDARD,
+    0x3F,
     6,
     16,
     {
@@ -2878,6 +2929,7 @@ static const razer_device blade_14_2022_device =
     RAZER_BLADE_14_2022_PID,
     DEVICE_TYPE_KEYBOARD,
     RAZER_MATRIX_TYPE_STANDARD,
+    0x1F,
     6,
     16,
     {
@@ -2914,6 +2966,7 @@ static const razer_device blade_15_2022_device =
     RAZER_BLADE_15_2022_PID,
     DEVICE_TYPE_KEYBOARD,
     RAZER_MATRIX_TYPE_STANDARD,
+    0x1F,
     6,
     16,
     {
@@ -2950,6 +3003,7 @@ static const razer_device book_13_2020_device =
     RAZER_BOOK_13_2020_PID,
     DEVICE_TYPE_KEYBOARD,
     RAZER_MATRIX_TYPE_STANDARD,
+    0x3F,
     6,
     16,
     {
@@ -2986,6 +3040,7 @@ static const razer_device blade_pro_2016_device =
     RAZER_BLADE_PRO_2016_PID,
     DEVICE_TYPE_KEYBOARD,
     RAZER_MATRIX_TYPE_STANDARD,
+    0x3F,
     6,
     25,
     {
@@ -3022,6 +3077,7 @@ static const razer_device blade_pro_2017_device =
     RAZER_BLADE_PRO_2017_PID,
     DEVICE_TYPE_KEYBOARD,
     RAZER_MATRIX_TYPE_STANDARD,
+    0x3F,
     6,
     25,
     {
@@ -3058,6 +3114,7 @@ static const razer_device blade_pro_2017_fullhd_device =
     RAZER_BLADE_PRO_2017_FULLHD_PID,
     DEVICE_TYPE_KEYBOARD,
     RAZER_MATRIX_TYPE_STANDARD,
+    0x3F,
     6,
     25,
     {
@@ -3093,6 +3150,7 @@ static const razer_device blade_pro_2019_device =
     RAZER_BLADE_PRO_2019_PID,
     DEVICE_TYPE_KEYBOARD,
     RAZER_MATRIX_TYPE_STANDARD,
+    0x3F,
     6,
     16,
     {
@@ -3129,6 +3187,7 @@ static const razer_device blade_pro_late_2019_device =
     RAZER_BLADE_PRO_LATE_2019_PID,
     DEVICE_TYPE_KEYBOARD,
     RAZER_MATRIX_TYPE_STANDARD,
+    0x3F,
     6,
     16,
     {
@@ -3165,6 +3224,7 @@ static const razer_device blade_pro_17_2020_device =
     RAZER_BLADE_PRO_17_2020_PID,
     DEVICE_TYPE_KEYBOARD,
     RAZER_MATRIX_TYPE_STANDARD,
+    0x3F,
     6,
     16,
     {
@@ -3201,6 +3261,7 @@ static const razer_device blade_pro_17_2021_device =
     RAZER_BLADE_PRO_17_2021_PID,
     DEVICE_TYPE_KEYBOARD,
     RAZER_MATRIX_TYPE_STANDARD,
+    0x3F,
     6,
     16,
     {
@@ -3237,6 +3298,7 @@ static const razer_device blade_stealth_2016_device =
     RAZER_BLADE_STEALTH_2016_PID,
     DEVICE_TYPE_KEYBOARD,
     RAZER_MATRIX_TYPE_STANDARD,
+    0x3F,
     6,
     16,
     {
@@ -3273,6 +3335,7 @@ static const razer_device blade_stealth_late_2016_device =
     RAZER_BLADE_STEALTH_LATE_2016_PID,
     DEVICE_TYPE_KEYBOARD,
     RAZER_MATRIX_TYPE_STANDARD,
+    0x3F,
     6,
     16,
     {
@@ -3309,6 +3372,7 @@ static const razer_device blade_stealth_2017_device =
     RAZER_BLADE_STEALTH_2017_PID,
     DEVICE_TYPE_KEYBOARD,
     RAZER_MATRIX_TYPE_STANDARD,
+    0x3F,
     6,
     16,
     {
@@ -3345,6 +3409,7 @@ static const razer_device blade_stealth_late_2017_device =
     RAZER_BLADE_STEALTH_LATE_2017_PID,
     DEVICE_TYPE_KEYBOARD,
     RAZER_MATRIX_TYPE_STANDARD,
+    0x3F,
     6,
     16,
     {
@@ -3381,6 +3446,7 @@ static const razer_device blade_stealth_2019_device =
     RAZER_BLADE_STEALTH_2019_PID,
     DEVICE_TYPE_KEYBOARD,
     RAZER_MATRIX_TYPE_STANDARD,
+    0x3F,
     6,
     16,
     {
@@ -3417,6 +3483,7 @@ static const razer_device blade_stealth_late_2019_device =
     RAZER_BLADE_STEALTH_LATE_2019_PID,
     DEVICE_TYPE_KEYBOARD,
     RAZER_MATRIX_TYPE_STANDARD,
+    0x3F,
     1,
     1,
     {
@@ -3453,6 +3520,7 @@ static const razer_device blade_stealth_2020_device =
     RAZER_BLADE_STEALTH_2020_PID,
     DEVICE_TYPE_KEYBOARD,
     RAZER_MATRIX_TYPE_STANDARD,
+    0x3F,
     1,
     1,
     {
@@ -3489,6 +3557,7 @@ static const razer_device blade_stealth_late_2020_device =
     RAZER_BLADE_STEALTH_LATE_2020_PID,
     DEVICE_TYPE_KEYBOARD,
     RAZER_MATRIX_TYPE_STANDARD,
+    0x3F,
     1,
     16,
     {
@@ -3529,6 +3598,7 @@ static const razer_device abyssus_elite_dva_edition_device =
     RAZER_ABYSSUS_ELITE_DVA_EDITION_PID,
     DEVICE_TYPE_MOUSE,
     RAZER_MATRIX_TYPE_EXTENDED,
+    0x3F,
     1,
     1,
     {
@@ -3565,6 +3635,7 @@ static const razer_device abyssus_essential_device =
     RAZER_ABYSSUS_ESSENTIAL_PID,
     DEVICE_TYPE_MOUSE,
     RAZER_MATRIX_TYPE_EXTENDED,
+    0x3F,
     1,
     1,
     {
@@ -3613,6 +3684,7 @@ static const razer_device basilisk_device =
     RAZER_BASILISK_PID,
     DEVICE_TYPE_MOUSE,
     RAZER_MATRIX_TYPE_EXTENDED,
+    0x3F,
     1,
     2,
     {
@@ -3649,6 +3721,7 @@ static const razer_device basilisk_essential_device =
     RAZER_BASILISK_ESSENTIAL_PID,
     DEVICE_TYPE_MOUSE,
     RAZER_MATRIX_TYPE_EXTENDED,
+    0x3F,
     1,
     1,
     {
@@ -3721,6 +3794,7 @@ static const razer_device basilisk_ultimate_wired_device =
     RAZER_BASILISK_ULTIMATE_WIRED_PID,
     DEVICE_TYPE_MOUSE,
     RAZER_MATRIX_TYPE_EXTENDED,
+    0x3F,
     1,
     14,
     {
@@ -3793,6 +3867,7 @@ static const razer_device basilisk_ultimate_wireless_device =
     RAZER_BASILISK_ULTIMATE_WIRELESS_PID,
     DEVICE_TYPE_MOUSE,
     RAZER_MATRIX_TYPE_EXTENDED,
+    0x3F,
     1,
     14,
     {
@@ -3841,6 +3916,7 @@ static const razer_device basilisk_v2_device =
     RAZER_BASILISK_V2_PID,
     DEVICE_TYPE_MOUSE,
     RAZER_MATRIX_TYPE_EXTENDED,
+    0x3F,
     1,
     2,
     {
@@ -3901,6 +3977,7 @@ static const razer_device basilisk_v3_device =
     RAZER_BASILISK_V3_PID,
     DEVICE_TYPE_MOUSE,
     RAZER_MATRIX_TYPE_EXTENDED,
+    0x1F,
     1,
     11,
     {
@@ -3961,6 +4038,7 @@ static const razer_device basilisk_v3_pro_wired_device =
     RAZER_BASILISK_V3_PRO_WIRED_PID,
     DEVICE_TYPE_MOUSE,
     RAZER_MATRIX_TYPE_EXTENDED,
+    0x1F,
     1,
     11,
     {
@@ -4021,6 +4099,7 @@ static const razer_device basilisk_v3_pro_wireless_device =
     RAZER_BASILISK_V3_PRO_WIRELESS_PID,
     DEVICE_TYPE_MOUSE,
     RAZER_MATRIX_TYPE_EXTENDED,
+    0x1F,
     1,
     11,
     {
@@ -4081,6 +4160,7 @@ static const razer_device basilisk_v3_pro_bluetooth_device =
     RAZER_BASILISK_V3_PRO_BLUETOOTH_PID,
     DEVICE_TYPE_MOUSE,
     RAZER_MATRIX_TYPE_EXTENDED,
+    0x1F,
     1,
     11,
     {
@@ -4129,6 +4209,7 @@ static const razer_device deathadder_chroma_device =
     RAZER_DEATHADDER_CHROMA_PID,
     DEVICE_TYPE_MOUSE,
     RAZER_MATRIX_TYPE_CUSTOM,
+    0x1F,
     1,
     2,
     {
@@ -4177,6 +4258,7 @@ static const razer_device deathadder_elite_device =
     RAZER_DEATHADDER_ELITE_PID,
     DEVICE_TYPE_MOUSE,
     RAZER_MATRIX_TYPE_EXTENDED,
+    0x3F,
     1,
     2,
     {
@@ -4225,6 +4307,7 @@ static const razer_device deathadder_essential_device =
     RAZER_DEATHADDER_ESSENTIAL_PID,
     DEVICE_TYPE_MOUSE,
     RAZER_MATRIX_TYPE_EXTENDED,
+    0x3F,
     1,
     2,
     {
@@ -4273,6 +4356,7 @@ static const razer_device deathadder_essential_v2_device =
     RAZER_DEATHADDER_ESSENTIAL_V2_PID,
     DEVICE_TYPE_MOUSE,
     RAZER_MATRIX_TYPE_EXTENDED,
+    0x1F,
     1,
     2,
     {
@@ -4321,6 +4405,7 @@ static const razer_device deathadder_essential_white_edition_device =
     RAZER_DEATHADDER_ESSENTIAL_WHITE_EDITION_PID,
     DEVICE_TYPE_MOUSE,
     RAZER_MATRIX_TYPE_EXTENDED,
+    0x3F,
     1,
     2,
     {
@@ -4369,6 +4454,7 @@ static const razer_device deathadder_v2_device =
     RAZER_DEATHADDER_V2_PID,
     DEVICE_TYPE_MOUSE,
     RAZER_MATRIX_TYPE_EXTENDED,
+    0x3F,
     1,
     2,
     {
@@ -4405,6 +4491,7 @@ static const razer_device deathadder_v2_mini_device =
     RAZER_DEATHADDER_V2_MINI_PID,
     DEVICE_TYPE_MOUSE,
     RAZER_MATRIX_TYPE_EXTENDED,
+    0x1F,
     1,
     1,
     {
@@ -4441,6 +4528,7 @@ static const razer_device deathadder_v2_pro_wired_device =
     RAZER_DEATHADDER_V2_PRO_WIRED_PID,
     DEVICE_TYPE_MOUSE,
     RAZER_MATRIX_TYPE_EXTENDED,
+    0x3F,
     1,
     1,
     {
@@ -4477,6 +4565,7 @@ static const razer_device deathadder_v2_pro_wireless_device =
     RAZER_DEATHADDER_V2_PRO_WIRELESS_PID,
     DEVICE_TYPE_MOUSE,
     RAZER_MATRIX_TYPE_EXTENDED,
+    0x3F,
     1,
     1,
     {
@@ -4537,6 +4626,7 @@ static const razer_device diamondback_chroma_device =
     RAZER_DIAMONDBACK_CHROMA_PID,
     DEVICE_TYPE_MOUSE,
     RAZER_MATRIX_TYPE_LINEAR,
+    0x3F,
     1,
     21,
     {
@@ -4609,6 +4699,7 @@ static const razer_device lancehead_2017_wired_device =
     RAZER_LANCEHEAD_2017_WIRED_PID,
     DEVICE_TYPE_MOUSE,
     RAZER_MATRIX_TYPE_EXTENDED,
+    0x3F,
     1,
     16,
     {
@@ -4681,6 +4772,7 @@ static const razer_device lancehead_2017_wireless_device =
     RAZER_LANCEHEAD_2017_WIRELESS_PID,
     DEVICE_TYPE_MOUSE,
     RAZER_MATRIX_TYPE_EXTENDED,
+    0x3F,
     1,
     16,
     {
@@ -4753,6 +4845,7 @@ static const razer_device lancehead_2019_wired_device =
     RAZER_LANCEHEAD_2019_WIRED_PID,
     DEVICE_TYPE_MOUSE,
     RAZER_MATRIX_TYPE_EXTENDED,
+    0x3F,
     1,
     16,
     {
@@ -4825,6 +4918,7 @@ static const razer_device lancehead_2019_wireless_device =
     RAZER_LANCEHEAD_2019_WIRELESS_PID,
     DEVICE_TYPE_MOUSE,
     RAZER_MATRIX_TYPE_EXTENDED,
+    0x3F,
     1,
     16,
     {
@@ -4897,6 +4991,7 @@ static const razer_device lancehead_te_device =
     RAZER_LANCEHEAD_TE_WIRED_PID,
     DEVICE_TYPE_MOUSE,
     RAZER_MATRIX_TYPE_EXTENDED,
+    0x3F,
     1,
     16,
     {
@@ -4933,6 +5028,7 @@ static const razer_device leviathan_v2x_device =
     RAZER_LEVIATHAN_V2X_PID,
     DEVICE_TYPE_SPEAKER,
     RAZER_MATRIX_TYPE_EXTENDED,
+    0x1F,
     1,
     14,
     {
@@ -4969,6 +5065,7 @@ static const razer_device mamba_2012_wired_device =
     RAZER_MAMBA_2012_WIRED_PID,
     DEVICE_TYPE_MOUSE,
     RAZER_MATRIX_TYPE_CUSTOM,
+    0x3F,
     1,
     15,
     {
@@ -5005,6 +5102,7 @@ static const razer_device mamba_2012_wireless_device =
     RAZER_MAMBA_2012_WIRELESS_PID,
     DEVICE_TYPE_MOUSE,
     RAZER_MATRIX_TYPE_CUSTOM,
+    0x3F,
     1,
     15,
     {
@@ -5041,6 +5139,7 @@ static const razer_device mamba_2015_wired_device =
     RAZER_MAMBA_2015_WIRED_PID,
     DEVICE_TYPE_MOUSE,
     RAZER_MATRIX_TYPE_LINEAR,
+    0x3F,
     1,
     15,
     {
@@ -5077,6 +5176,7 @@ static const razer_device mamba_2015_wireless_device =
     RAZER_MAMBA_2015_WIRELESS_PID,
     DEVICE_TYPE_MOUSE,
     RAZER_MATRIX_TYPE_LINEAR,
+    0x3F,
     1,
     15,
     {
@@ -5125,6 +5225,7 @@ static const razer_device mamba_2018_wired_device =
     RAZER_MAMBA_2018_WIRED_PID,
     DEVICE_TYPE_MOUSE,
     RAZER_MATRIX_TYPE_EXTENDED,
+    0x3F,
     1,
     2,
     {
@@ -5174,6 +5275,7 @@ static const razer_device mamba_2018_wireless_device =
     RAZER_MAMBA_2018_WIRELESS_PID,
     DEVICE_TYPE_MOUSE,
     RAZER_MATRIX_TYPE_EXTENDED,
+    0x3F,
     1,
     2,
     {
@@ -5247,6 +5349,7 @@ static const razer_device mamba_elite_device =
     RAZER_MAMBA_ELITE_PID,
     DEVICE_TYPE_MOUSE,
     RAZER_MATRIX_TYPE_EXTENDED,
+    0x1F,
     1,
     20,
     {
@@ -5319,6 +5422,7 @@ static const razer_device mamba_te_device =
     RAZER_MAMBA_TE_PID,
     DEVICE_TYPE_MOUSE,
     RAZER_MATRIX_TYPE_LINEAR,
+    0x3F,
     1,
     16,
     {
@@ -5379,6 +5483,7 @@ static const razer_device naga_chroma_device =
     RAZER_NAGA_CHROMA_PID,
     DEVICE_TYPE_MOUSE,
     RAZER_MATRIX_TYPE_LINEAR,
+    0x3F,
     1,
     3,
     {
@@ -5439,6 +5544,7 @@ static const razer_device naga_classic_device =
     RAZER_NAGA_CLASSIC_PID,
     DEVICE_TYPE_MOUSE,
     RAZER_MATRIX_TYPE_EXTENDED,
+    0x1F,
     1,
     3,
     {
@@ -5499,6 +5605,7 @@ static const razer_device naga_hex_v2_device =
     RAZER_NAGA_HEX_V2_PID,
     DEVICE_TYPE_MOUSE,
     RAZER_MATRIX_TYPE_STANDARD,
+    0x3F,
     1,
     3,
     {
@@ -5559,6 +5666,7 @@ static const razer_device naga_left_handed_device =
     RAZER_NAGA_LEFT_HANDED_PID,
     DEVICE_TYPE_MOUSE,
     RAZER_MATRIX_TYPE_EXTENDED,
+    0x1F,
     1,
     3,
     {
@@ -5619,6 +5727,7 @@ static const razer_device naga_trinity_device =
     RAZER_NAGA_TRINITY_PID,
     DEVICE_TYPE_MOUSE,
     RAZER_MATRIX_TYPE_EXTENDED,
+    0x3F,
     1,
     3,
     {
@@ -5679,6 +5788,7 @@ static const razer_device naga_pro_wired_device =
     RAZER_NAGA_PRO_WIRED_PID,
     DEVICE_TYPE_MOUSE,
     RAZER_MATRIX_TYPE_EXTENDED,
+    0x1F,
     1,
     3,
     {
@@ -5700,6 +5810,7 @@ static const razer_device naga_pro_wireless_device =
     RAZER_NAGA_PRO_WIRELESS_PID,
     DEVICE_TYPE_MOUSE,
     RAZER_MATRIX_TYPE_EXTENDED,
+    0x1F,
     1,
     3,
     {
@@ -5736,6 +5847,7 @@ static const razer_device viper_8khz_device =
     RAZER_VIPER_8KHZ_PID,
     DEVICE_TYPE_MOUSE,
     RAZER_MATRIX_TYPE_EXTENDED,
+    0x1F,
     1,
     1,
     {
@@ -5772,6 +5884,7 @@ static const razer_device viper_mini_device =
     RAZER_VIPER_MINI_PID,
     DEVICE_TYPE_MOUSE,
     RAZER_MATRIX_TYPE_EXTENDED,
+    0x3F,
     1,
     1,
     {
@@ -5808,6 +5921,7 @@ static const razer_device viper_ultimate_wired_device =
     RAZER_VIPER_ULTIMATE_WIRED_PID,
     DEVICE_TYPE_MOUSE,
     RAZER_MATRIX_TYPE_EXTENDED,
+    0x3F,
     1,
     1,
     {
@@ -5844,6 +5958,7 @@ static const razer_device viper_ultimate_wireless_device =
     RAZER_VIPER_ULTIMATE_WIRELESS_PID,
     DEVICE_TYPE_MOUSE,
     RAZER_MATRIX_TYPE_EXTENDED,
+    0x3F,
     1,
     1,
     {
@@ -5880,6 +5995,7 @@ static const razer_device viper_device =
     RAZER_VIPER_PID,
     DEVICE_TYPE_MOUSE,
     RAZER_MATRIX_TYPE_EXTENDED,
+    0x3F,
     1,
     1,
     {
@@ -5928,6 +6044,7 @@ static const razer_device naga_epic_chroma_device =
     RAZER_NAGA_EPIC_CHROMA_PID,
     DEVICE_TYPE_MOUSE,
     RAZER_MATRIX_TYPE_CUSTOM,
+    0x1F,
     1,
     2,
     {
@@ -5968,6 +6085,7 @@ static const razer_device orbweaver_chroma_device =
     RAZER_ORBWEAVER_CHROMA_PID,
     DEVICE_TYPE_KEYPAD,
     RAZER_MATRIX_TYPE_CUSTOM,
+    0x3F,
     4,
     5,
     {
@@ -6004,6 +6122,7 @@ static const razer_device tartarus_chroma_device =
     RAZER_TARTARUS_CHROMA_PID,
     DEVICE_TYPE_KEYPAD,
     RAZER_MATRIX_TYPE_CUSTOM,
+    0x1F,
     1,
     1,
     {
@@ -6048,6 +6167,7 @@ static const razer_device tartarus_pro_device =
     RAZER_TARTARUS_PRO_PID,
     DEVICE_TYPE_KEYPAD,
     RAZER_MATRIX_TYPE_EXTENDED,
+    0x1F,
     1,
     21,
     {
@@ -6089,6 +6209,7 @@ static const razer_device tartarus_v2_device =
     RAZER_TARTARUS_V2_PID,
     DEVICE_TYPE_KEYPAD,
     RAZER_MATRIX_TYPE_EXTENDED,
+    0x1F,
     4,
     6,
     {
@@ -6129,6 +6250,7 @@ static const razer_device firefly_device =
     RAZER_FIREFLY_PID,
     DEVICE_TYPE_MOUSEMAT,
     RAZER_MATRIX_TYPE_LINEAR,
+    0x3F,
     1,
     15,
     {
@@ -6165,6 +6287,7 @@ static const razer_device firefly_hyperflux_device =
     RAZER_FIREFLY_HYPERFLUX_PID,
     DEVICE_TYPE_MOUSEMAT,
     RAZER_MATRIX_TYPE_EXTENDED,
+    0x3F,
     1,
     1,
     {
@@ -6201,6 +6324,7 @@ static const razer_device firefly_v2_device =
     RAZER_FIREFLY_V2_PID,
     DEVICE_TYPE_MOUSEMAT,
     RAZER_MATRIX_TYPE_EXTENDED,
+    0x3F,
     1,
     19,
     {
@@ -6237,6 +6361,7 @@ static const razer_device goliathus_device =
     RAZER_GOLIATHUS_CHROMA_PID,
     DEVICE_TYPE_MOUSEMAT,
     RAZER_MATRIX_TYPE_EXTENDED,
+    0x3F,
     1,
     1,
     {
@@ -6273,6 +6398,7 @@ static const razer_device goliathus_extended_device =
     RAZER_GOLIATHUS_CHROMA_EXTENDED_PID,
     DEVICE_TYPE_MOUSEMAT,
     RAZER_MATRIX_TYPE_EXTENDED,
+    0x3F,
     1,
     1,
     {
@@ -6309,6 +6435,7 @@ static const razer_device strider_chroma_device =
     RAZER_STRIDER_CHROMA_PID,
     DEVICE_TYPE_MOUSEMAT,
     RAZER_MATRIX_TYPE_EXTENDED,
+    0x3F,
     1,
     19,
     {
@@ -6349,6 +6476,7 @@ static const razer_device kraken_chroma_device =
     RAZER_KRAKEN_PID,
     DEVICE_TYPE_HEADSET,
     RAZER_MATRIX_TYPE_NONE,
+    0,
     1,
     1,
     {
@@ -6385,6 +6513,7 @@ static const razer_device kraken_v2_device =
     RAZER_KRAKEN_V2_PID,
     DEVICE_TYPE_HEADSET,
     RAZER_MATRIX_TYPE_NONE,
+    0,
     1,
     1,
     {
@@ -6421,6 +6550,7 @@ static const razer_device kraken_ultimate_device =
     RAZER_KRAKEN_ULTIMATE_PID,
     DEVICE_TYPE_HEADSET,
     RAZER_MATRIX_TYPE_NONE,
+    0,
     1,
     1,
     {
@@ -6457,6 +6587,7 @@ static const razer_device kraken_kitty_device =
     RAZER_KRAKEN_KITTY_EDITION_PID,
     DEVICE_TYPE_HEADSET,
     RAZER_MATRIX_TYPE_EXTENDED,
+    0x1F,
     1,
     4,
     {
@@ -6517,6 +6648,7 @@ static const razer_device tiamat_71_v2_device =
     RAZER_TIAMAT_71_V2_PID,
     DEVICE_TYPE_HEADSET,
     RAZER_MATRIX_TYPE_EXTENDED,
+    0x3F,
     1,
     17,
     {
@@ -6569,6 +6701,7 @@ static const razer_device core_device =
     RAZER_CORE_PID,
     DEVICE_TYPE_GPU,
     RAZER_MATRIX_TYPE_STANDARD,
+    0x3F,
     1,
     9,
     {
@@ -6617,6 +6750,7 @@ static const razer_device core_x_device =
     RAZER_CORE_X_PID,
     DEVICE_TYPE_GPU,
     RAZER_MATRIX_TYPE_EXTENDED,
+    0x3F,
     1,
     16,
     {
@@ -6653,6 +6787,7 @@ static const razer_device mug_holder_device =
     RAZER_CHROMA_MUG_PID,
     DEVICE_TYPE_ACCESSORY,
     RAZER_MATRIX_TYPE_LINEAR,
+    0x3F,
     1,
     15,
     {
@@ -6749,6 +6884,7 @@ static const razer_device chromaargb_device =
     RAZER_CHROMA_ADDRESSABLE_RGB_CONTROLLER_PID,
     DEVICE_TYPE_LEDSTRIP,
     RAZER_MATRIX_TYPE_EXTENDED_ARGB,
+    0x3F,
     6,
     80,
     {
@@ -6821,6 +6957,7 @@ static const razer_device chromahdk_device =
     RAZER_CHROMA_HDK_PID,
     DEVICE_TYPE_LEDSTRIP,
     RAZER_MATRIX_TYPE_EXTENDED,
+    0x3F,
     4,
     16,
     {
@@ -6869,6 +7006,7 @@ static const razer_device chroma_pc_case_lighting_kit_device =
     RAZER_CHROMA_PC_CASE_LIGHTING_KIT_PID,
     DEVICE_TYPE_LEDSTRIP,
     RAZER_MATRIX_TYPE_EXTENDED,
+    0x3F,
     2,
     16,
     {
@@ -6905,6 +7043,7 @@ static const razer_device base_station_device =
     RAZER_BASE_STATION_CHROMA_PID,
     DEVICE_TYPE_HEADSET_STAND,
     RAZER_MATRIX_TYPE_EXTENDED,
+    0x3F,
     1,
     15,
     {
@@ -6941,6 +7080,7 @@ static const razer_device mouse_bungee_device =
     RAZER_MOUSE_BUNGEE_V3_CHROMA_PID,
     DEVICE_TYPE_MOUSE,
     RAZER_MATRIX_TYPE_EXTENDED,
+    0x1F,
     1,
     8,
     {
@@ -6977,6 +7117,7 @@ static const razer_device base_station_v2_device =
     RAZER_BASE_STATION_V2_CHROMA_PID,
     DEVICE_TYPE_HEADSET_STAND,
     RAZER_MATRIX_TYPE_EXTENDED,
+    0x1F,
     1,
     8,
     {
@@ -7013,6 +7154,7 @@ static const razer_device laptop_stand_chroma_device =
     RAZER_LAPTOP_STAND_CHROMA_PID,
     DEVICE_TYPE_LEDSTRIP,
     RAZER_MATRIX_TYPE_EXTENDED,
+    0x1F,
     1,
     15,
     {
@@ -7049,6 +7191,7 @@ static const razer_device laptop_stand_chroma_v2_device =
     RAZER_LAPTOP_STAND_CHROMA_V2_PID,
     DEVICE_TYPE_LEDSTRIP,
     RAZER_MATRIX_TYPE_EXTENDED,
+    0x1F,
     1,
     15,
     {
@@ -7085,6 +7228,7 @@ static const razer_device mouse_dock_chroma_device =
     RAZER_MOUSE_DOCK_CHROMA_PID,
     DEVICE_TYPE_LIGHT,
     RAZER_MATRIX_TYPE_EXTENDED,
+    0x3F,
     1,
     1,
     {
@@ -7121,6 +7265,7 @@ static const razer_device mouse_dock_pro_device =
     RAZER_MOUSE_DOCK_PRO_PID,
     DEVICE_TYPE_LIGHT,
     RAZER_MATRIX_TYPE_EXTENDED,
+    0xFF,
     1,
     9,
     {
@@ -7170,6 +7315,7 @@ static const razer_device nommo_pro_device =
     RAZER_NOMMO_PRO_PID,
     DEVICE_TYPE_SPEAKER,
     RAZER_MATRIX_TYPE_EXTENDED,
+    0x3F,
     2,
     8,
     {
@@ -7219,6 +7365,7 @@ static const razer_device nommo_chroma_device =
     RAZER_NOMMO_CHROMA_PID,
     DEVICE_TYPE_SPEAKER,
     RAZER_MATRIX_TYPE_EXTENDED,
+    0x3F,
     2,
     24,
     {
@@ -7256,6 +7403,7 @@ static const razer_device charging_pad_chroma_device =
     RAZER_CHARGING_PAD_CHROMA_PID,
     DEVICE_TYPE_ACCESSORY,
     RAZER_MATRIX_TYPE_EXTENDED,
+    0x1F,
     1,
     10,
     {
@@ -7293,6 +7441,7 @@ static const razer_device o11_dynamic_device =
     RAZER_O11_DYNAMIC_PID,
     DEVICE_TYPE_LEDSTRIP,
     RAZER_MATRIX_TYPE_EXTENDED,
+    0x1F,
     4,
     16,
     {
@@ -7330,6 +7479,7 @@ static const razer_device seiren_emote_device =
     RAZER_SEIREN_EMOTE_PID,
     DEVICE_TYPE_MICROPHONE,
     RAZER_MATRIX_TYPE_EXTENDED,
+    0x3F,
     4,
     16,
     {
@@ -7367,6 +7517,7 @@ static const razer_device thunderbolt_4_dock_chroma_device =
     RAZER_THUNDERBOLT_4_DOCK_CHROMA_PID,
     DEVICE_TYPE_ACCESSORY,
     RAZER_MATRIX_TYPE_EXTENDED,
+    0x3F,
     1,
     12,
     {

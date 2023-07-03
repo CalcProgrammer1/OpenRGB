@@ -55,87 +55,15 @@ RazerController::RazerController(hid_device* dev_handle, hid_device* dev_argb_ha
     /*-----------------------------------------------------------------*\
     | Determine transaction ID for device                               |
     \*-----------------------------------------------------------------*/
+    dev_transaction_id = device_list[device_index]->transaction_id;
+
     switch(dev_pid)
     {
-        case RAZER_BASE_STATION_V2_CHROMA_PID:
-        case RAZER_BASILISK_V3_PID:
-        case RAZER_BASILISK_V3_PRO_BLUETOOTH_PID:
-        case RAZER_BASILISK_V3_PRO_WIRED_PID:
-        case RAZER_BASILISK_V3_PRO_WIRELESS_PID:
-        case RAZER_BLACKWIDOW_2019_PID:
-        case RAZER_BLACKWIDOW_ELITE_PID:
-        case RAZER_BLACKWIDOW_V3_MINI_WIRED_PID:
-        case RAZER_BLADE_14_2022_PID:
-        case RAZER_BLADE_15_2022_PID:
-        case RAZER_BLADE_2021_BASE_V2_PID:
-        case RAZER_CYNOSA_V2_PID:
-        case RAZER_DEATHADDER_CHROMA_PID:
-        case RAZER_DEATHADDER_ESSENTIAL_V2_PID:
-        case RAZER_DEATHADDER_V2_MINI_PID:
-        case RAZER_DEATHSTALKER_V2_PID:
-        case RAZER_KRAKEN_KITTY_EDITION_PID:
-        case RAZER_LAPTOP_STAND_CHROMA_PID:
-        case RAZER_LAPTOP_STAND_CHROMA_V2_PID:
-        case RAZER_LEVIATHAN_V2X_PID:
-        case RAZER_MAMBA_ELITE_PID:
-        case RAZER_MOUSE_BUNGEE_V3_CHROMA_PID:
-        case RAZER_NAGA_CLASSIC_PID:
-        case RAZER_NAGA_EPIC_CHROMA_PID:
-        case RAZER_NAGA_LEFT_HANDED_PID:
-        case RAZER_NAGA_PRO_WIRED_PID:
-        case RAZER_NAGA_PRO_WIRELESS_PID:
-        case RAZER_O11_DYNAMIC_PID:
-        case RAZER_ORNATA_CHROMA_V2_PID:
-        case RAZER_ORNATA_V3_PID:
-        case RAZER_ORNATA_V3_REV2_PID:
-        case RAZER_ORNATA_V3_X_PID:
-        case RAZER_TARTARUS_CHROMA_PID:
-        case RAZER_TARTARUS_PRO_PID:
-        case RAZER_TARTARUS_V2_PID:
-        case RAZER_VIPER_8KHZ_PID:
-            dev_transaction_id = 0x1F;
-            break;
-
         case RAZER_CHARGING_PAD_CHROMA_PID:
-            {
-            razer_set_device_mode(RAZER_DEVICE_MODE_SOFTWARE);
-            dev_transaction_id = 0x1F;
-            }
-            break;
-
         case RAZER_CHROMA_MUG_PID:
             {
             razer_set_device_mode(RAZER_DEVICE_MODE_SOFTWARE);
-            dev_transaction_id = 0x3F;
             }
-            break;
-
-        case RAZER_BLACKWIDOW_V3_MINI_WIRELESS_PID:
-        case RAZER_DEATHSTALKER_V2_PRO_WIRED_PID:
-        case RAZER_DEATHSTALKER_V2_PRO_WIRELESS_PID:
-            {
-            dev_transaction_id = 0x9F;
-            break;
-            }
-
-        case RAZER_MOUSE_DOCK_PRO_PID:
-            dev_transaction_id = 0xFF;
-            break;
-
-        case RAZER_GOLIATHUS_CHROMA_PID:
-        case RAZER_GOLIATHUS_CHROMA_EXTENDED_PID:
-        case RAZER_BASE_STATION_CHROMA_PID:
-        case RAZER_CHROMA_HDK_PID:
-        case RAZER_CORE_PID:
-        case RAZER_CORE_X_PID:
-        case RAZER_FIREFLY_PID:
-        case RAZER_FIREFLY_HYPERFLUX_PID:
-        case RAZER_FIREFLY_V2_PID:
-        case RAZER_NOMMO_CHROMA_PID:
-        case RAZER_NOMMO_PRO_PID:
-        case RAZER_STRIDER_CHROMA_PID:
-        default:
-            dev_transaction_id = 0x3F;
             break;
     }
 
