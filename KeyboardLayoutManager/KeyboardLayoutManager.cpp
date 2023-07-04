@@ -356,26 +356,30 @@ KeyboardLayoutManager::KeyboardLayoutManager(KEYBOARD_LAYOUT layout, KEYBOARD_SI
             tmp_name.append(KEYBOARD_NAME_QWERTY);
             break;
 
-        case KEYBOARD_LAYOUT::KEYBOARD_LAYOUT_ISO_AZERTY:
-            ChangeKeys(iso_azerty);
-            tmp_name = KEYBOARD_NAME_AZERTY;
-            break;
-
         case KEYBOARD_LAYOUT::KEYBOARD_LAYOUT_ISO_QWERTY:
             ChangeKeys(iso_qwerty);
             tmp_name = KEYBOARD_NAME_ISO;
             tmp_name.append(KEYBOARD_NAME_QWERTY);
             break;
 
-        case KEYBOARD_LAYOUT::KEYBOARD_LAYOUT_ISO_QWERTZ:
-            ChangeKeys(iso_qwertz);
-            tmp_name = KEYBOARD_NAME_QWERTZ;
-            break;
+        /*-------------------------------------------------*\
+        | Non-English, non-QWERTY layouts are disabled      |
+        | until proper translation feature is implemented   |
+        \*-------------------------------------------------*/
+        // case KEYBOARD_LAYOUT::KEYBOARD_LAYOUT_ISO_AZERTY:
+        //     ChangeKeys(iso_azerty);
+        //     tmp_name = KEYBOARD_NAME_AZERTY;
+        //     break;
 
-        case KEYBOARD_LAYOUT::KEYBOARD_LAYOUT_JIS:
-            ChangeKeys(jis);
-            tmp_name = KEYBOARD_NAME_JIS;
-            break;
+        // case KEYBOARD_LAYOUT::KEYBOARD_LAYOUT_ISO_QWERTZ:
+        //     ChangeKeys(iso_qwertz);
+        //     tmp_name = KEYBOARD_NAME_QWERTZ;
+        //     break;
+
+        // case KEYBOARD_LAYOUT::KEYBOARD_LAYOUT_JIS:
+        //     ChangeKeys(jis);
+        //     tmp_name = KEYBOARD_NAME_JIS;
+        //     break;
     }
 
     /*---------------------------------------------------------------------*\
