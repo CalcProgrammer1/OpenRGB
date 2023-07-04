@@ -56,14 +56,14 @@ RGBController_Razer::RGBController_Razer(RazerController* controller_ptr)
     mode Off;
     Off.name                = "Off";
     Off.value               = RAZER_MODE_OFF;
-    Off.flags               = 0;
+    Off.flags               = MODE_FLAG_MANUAL_SAVE;
     Off.color_mode          = MODE_COLORS_NONE;
     modes.push_back(Off);
 
     mode Static;
     Static.name             = "Static";
     Static.value            = RAZER_MODE_STATIC;
-    Static.flags            = MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_BRIGHTNESS;
+    Static.flags            = MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_MANUAL_SAVE;
     Static.color_mode       = MODE_COLORS_MODE_SPECIFIC;
     Static.colors_min       = 1;
     Static.colors_max       = 1;
@@ -78,7 +78,7 @@ RGBController_Razer::RGBController_Razer(RazerController* controller_ptr)
         mode Breathing;
         Breathing.name           = "Breathing";
         Breathing.value          = RAZER_MODE_BREATHING;
-        Breathing.flags          = MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_RANDOM_COLOR | MODE_FLAG_HAS_BRIGHTNESS;
+        Breathing.flags          = MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_RANDOM_COLOR | MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_MANUAL_SAVE;
         Breathing.color_mode     = MODE_COLORS_MODE_SPECIFIC;
         Breathing.colors_min     = 1;
         Breathing.colors_max     = 2;
@@ -92,7 +92,7 @@ RGBController_Razer::RGBController_Razer(RazerController* controller_ptr)
     mode SpectrumCycle;
     SpectrumCycle.name           = "Spectrum Cycle";
     SpectrumCycle.value          = RAZER_MODE_SPECTRUM_CYCLE;
-    SpectrumCycle.flags          = MODE_FLAG_HAS_BRIGHTNESS;
+    SpectrumCycle.flags          = MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_MANUAL_SAVE;
     SpectrumCycle.color_mode     = MODE_COLORS_NONE;
     SpectrumCycle.brightness_min = 0;
     SpectrumCycle.brightness_max = max_brightness;
@@ -104,7 +104,7 @@ RGBController_Razer::RGBController_Razer(RazerController* controller_ptr)
         mode Wave;
         Wave.name               = "Wave";
         Wave.value              = RAZER_MODE_WAVE;
-        Wave.flags              = MODE_FLAG_HAS_DIRECTION_LR | MODE_FLAG_HAS_BRIGHTNESS;
+        Wave.flags              = MODE_FLAG_HAS_DIRECTION_LR | MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_MANUAL_SAVE;
         Wave.direction          = MODE_DIRECTION_RIGHT;
         Wave.color_mode         = MODE_COLORS_NONE;
         Wave.brightness_min     = 0;
@@ -375,10 +375,20 @@ void RGBController_Razer::UpdateSingleLED(int /*led*/)
 
 void RGBController_Razer::DeviceUpdateMode()
 {
+    SendMode(false);
+}
+
+void RGBController_Razer::DeviceSaveMode()
+{
+    SendMode(true);
+}
+
+void RGBController_Razer::SendMode(bool save)
+{
     switch(modes[active_mode].value)
     {
         case RAZER_MODE_OFF:
-            controller->SetModeOff();
+            controller->SetModeOff(save);
             break;
 
         case RAZER_MODE_STATIC:
@@ -388,14 +398,14 @@ void RGBController_Razer::DeviceUpdateMode()
                 unsigned char grn = RGBGetGValue(modes[active_mode].colors[0]);
                 unsigned char blu = RGBGetBValue(modes[active_mode].colors[0]);
 
-                controller->SetModeStatic(red, grn, blu);
+                controller->SetModeStatic(red, grn, blu, save);
             }
             break;
 
         case RAZER_MODE_BREATHING:
             if(modes[active_mode].color_mode == MODE_COLORS_RANDOM)
             {
-                controller->SetModeBreathingRandom();
+                controller->SetModeBreathingRandom(save);
             }
             else if(modes[active_mode].color_mode == MODE_COLORS_MODE_SPECIFIC)
             {
@@ -405,7 +415,7 @@ void RGBController_Razer::DeviceUpdateMode()
                     unsigned char grn = RGBGetGValue(modes[active_mode].colors[0]);
                     unsigned char blu = RGBGetBValue(modes[active_mode].colors[0]);
 
-                    controller->SetModeBreathingOneColor(red, grn, blu);
+                    controller->SetModeBreathingOneColor(red, grn, blu, save);
                 }
                 else if(modes[active_mode].colors.size() == 2)
                 {
@@ -416,24 +426,24 @@ void RGBController_Razer::DeviceUpdateMode()
                     unsigned char grn2 = RGBGetGValue(modes[active_mode].colors[1]);
                     unsigned char blu2 = RGBGetBValue(modes[active_mode].colors[1]);
 
-                    controller->SetModeBreathingTwoColors(red1, grn1, blu1, red2, grn2, blu2);
+                    controller->SetModeBreathingTwoColors(red1, grn1, blu1, red2, grn2, blu2, save);
                 }
             }
             break;
 
         case RAZER_MODE_SPECTRUM_CYCLE:
-            controller->SetModeSpectrumCycle();
+            controller->SetModeSpectrumCycle(save);
             break;
 
         case RAZER_MODE_WAVE:
             switch(modes[active_mode].direction)
             {
                 case MODE_DIRECTION_LEFT:
-                    controller->SetModeWave(2);
+                    controller->SetModeWave(2, save);
                     break;
 
                 default:
-                    controller->SetModeWave(1);
+                    controller->SetModeWave(1, save);
                     break;
             }
             break;

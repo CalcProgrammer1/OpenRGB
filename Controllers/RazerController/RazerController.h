@@ -234,13 +234,13 @@ public:
     void                    SetLEDs(RGBColor* colors);
     void                    SetAddressableZoneSizes(unsigned char zone_1_size, unsigned char zone_2_size, unsigned char zone_3_size, unsigned char zone_4_size, unsigned char zone_5_size, unsigned char zone_6_size);
 
-    void                    SetModeBreathingRandom();
-    void                    SetModeBreathingOneColor(unsigned char red, unsigned char grn, unsigned char blu);
-    void                    SetModeBreathingTwoColors(unsigned char r1, unsigned char g1, unsigned char b1, unsigned char r2, unsigned char g2, unsigned char b2);
-    void                    SetModeOff();
-    void                    SetModeSpectrumCycle();
-    void                    SetModeStatic(unsigned char red, unsigned char grn, unsigned char blu);
-    void                    SetModeWave(unsigned char direction);
+    void                    SetModeBreathingRandom(bool save = false);
+    void                    SetModeBreathingOneColor(unsigned char red, unsigned char grn, unsigned char blu, bool save = false);
+    void                    SetModeBreathingTwoColors(unsigned char r1, unsigned char g1, unsigned char b1, unsigned char r2, unsigned char g2, unsigned char b2, bool save = false);
+    void                    SetModeOff(bool save = false);
+    void                    SetModeSpectrumCycle(bool save = false);
+    void                    SetModeStatic(unsigned char red, unsigned char grn, unsigned char blu, bool save = false);
+    void                    SetModeWave(unsigned char direction, bool save = false);
 
     bool                    SupportsBreathing();
     bool                    SupportsReactive();
@@ -325,14 +325,14 @@ private:
 
     void                    razer_set_device_mode(unsigned char device_mode);
 
-    void                    razer_set_mode_breathing_random();
-    void                    razer_set_mode_breathing_one_color(unsigned char red, unsigned char grn, unsigned char blu);
-    void                    razer_set_mode_breathing_two_colors(unsigned char r1, unsigned char g1, unsigned char b1, unsigned char r2, unsigned char g2, unsigned char b2);
+    void                    razer_set_mode_breathing_random(bool save);
+    void                    razer_set_mode_breathing_one_color(unsigned char red, unsigned char grn, unsigned char blu, bool save);
+    void                    razer_set_mode_breathing_two_colors(unsigned char r1, unsigned char g1, unsigned char b1, unsigned char r2, unsigned char g2, unsigned char b2, bool save);
     void                    razer_set_mode_custom();
-    void                    razer_set_mode_none();
-    void                    razer_set_mode_spectrum_cycle();
-    void                    razer_set_mode_static(unsigned char red, unsigned char grn, unsigned char blu);
-    void                    razer_set_mode_wave(unsigned char direction);
+    void                    razer_set_mode_none(bool save);
+    void                    razer_set_mode_spectrum_cycle(bool save);
+    void                    razer_set_mode_static(unsigned char red, unsigned char grn, unsigned char blu, bool save);
+    void                    razer_set_mode_wave(unsigned char direction, bool save);
 
     int                     razer_usb_receive(razer_report* report);
     int                     razer_usb_send(razer_report* report);
