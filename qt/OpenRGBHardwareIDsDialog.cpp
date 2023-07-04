@@ -31,12 +31,18 @@ int Ui::OpenRGBHardwareIDsDialog::show()
     \*---------------------------------------------------------*/
     std::vector<i2c_smbus_interface*> i2CBusses = ResourceManager::get()->GetI2CBusses();
 
-    strings.push_back("i2c busses");
+    // The widget takes control over items after creation
+    QTreeWidgetItem* i2c_top = new QTreeWidgetItem(ui->HardwareIdsList, {"i2c busses"});
+    strings.push_back("[ i2c busses ]");
 
     for(i2c_smbus_interface* bus : i2CBusses)
     {
         char line[550];
-        snprintf(line, 550, "%04X:%04X %04X:%04X - %s", bus->pci_vendor, bus->pci_device, bus->pci_subsystem_vendor, bus->pci_subsystem_device, bus->device_name);
+        snprintf(line, 550, "%04X:%04X %04X:%04X", bus->pci_vendor, bus->pci_device, bus->pci_subsystem_vendor, bus->pci_subsystem_device);
+        new QTreeWidgetItem(i2c_top, {line, bus->device_name});
+        // We keep the strings for the clipboard feature
+        strncat(line, " - ", 550);
+        strncat(line, bus->device_name, 550);
         strings.push_back(line);
     }
 
@@ -49,7 +55,8 @@ int Ui::OpenRGBHardwareIDsDialog::show()
     hid_device_info*    current_hid_device;
     current_hid_device  = hid_devices;
 
-    strings.push_back("HID devices");
+    QTreeWidgetItem* hid_top = new QTreeWidgetItem(ui->HardwareIdsList, {"HID devices"});
+    strings.push_back("\n[ i2c devices ]");
 
     while(current_hid_device)
     {
@@ -58,8 +65,12 @@ int Ui::OpenRGBHardwareIDsDialog::show()
 
         char line[550];
 
-        snprintf(line, 550, "[%04X:%04X U=%04X P=0x%04X I=%d] %s - %s", current_hid_device->vendor_id, current_hid_device->product_id, current_hid_device->usage, current_hid_device->usage_page, current_hid_device->interface_number, manu_name, prod_name);
+        snprintf(line, 550, "[%04X:%04X U=%04X P=0x%04X I=%d]", current_hid_device->vendor_id, current_hid_device->product_id, current_hid_device->usage, current_hid_device->usage_page, current_hid_device->interface_number);
+        new QTreeWidgetItem(hid_top, {line, prod_name, manu_name});
 
+        strncat(line, manu_name, 550);
+        strncat(line, " - ", 550);
+        strncat(line, prod_name, 550);
         strings.push_back(line);
         current_hid_device = current_hid_device->next;
     }
@@ -69,7 +80,8 @@ int Ui::OpenRGBHardwareIDsDialog::show()
     \*---------------------------------------------------------*/
     libusb_device** devices = nullptr;
 
-    strings.push_back("LibUSB devices");
+    QTreeWidgetItem* libusb_top = new QTreeWidgetItem(ui->HardwareIdsList, {"LibUSB devices"});
+    strings.push_back("\n[ LibUSB devices ]");
 
     int ret;
 
@@ -103,6 +115,7 @@ int Ui::OpenRGBHardwareIDsDialog::show()
 
         char line[512];
         sprintf(line, "%04X:%04X", descriptor.idVendor, descriptor.idProduct);
+        new QTreeWidgetItem(libusb_top, {line});
         strings.push_back(line);
     }
 
@@ -110,8 +123,6 @@ int Ui::OpenRGBHardwareIDsDialog::show()
     {
         libusb_free_device_list(devices, 1);
     }
-
-    ui->HardwareIdsList->addItems(strings);
 
     return this->exec();
 }

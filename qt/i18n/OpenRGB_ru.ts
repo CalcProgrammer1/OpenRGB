@@ -574,14 +574,33 @@
 <context>
     <name>OpenRGBHardwareIDsDialogUi</name>
     <message>
-        <location filename="../OpenRGBHardwareIDsDialog.ui" line="14"/>
         <source>Form</source>
-        <translation type="unfinished">Идентификаторы устройств</translation>
+        <translation type="obsolete">Идентификаторы устройств</translation>
     </message>
     <message>
-        <location filename="../OpenRGBHardwareIDsDialog.ui" line="23"/>
+        <location filename="../OpenRGBHardwareIDsDialog.ui" line="20"/>
         <source>Copy to clipboard</source>
         <translation>Скопировать в буфер обмена</translation>
+    </message>
+    <message>
+        <location filename="../OpenRGBHardwareIDsDialog.ui" line="14"/>
+        <source>Hardware IDs</source>
+        <translation>Идентификаторы устройств</translation>
+    </message>
+    <message>
+        <location filename="../OpenRGBHardwareIDsDialog.ui" line="28"/>
+        <source>Location</source>
+        <translation>Расположение</translation>
+    </message>
+    <message>
+        <location filename="../OpenRGBHardwareIDsDialog.ui" line="33"/>
+        <source>Device</source>
+        <translation>Устройство</translation>
+    </message>
+    <message>
+        <location filename="../OpenRGBHardwareIDsDialog.ui" line="38"/>
+        <source>Vendor</source>
+        <translation>Изготовитель</translation>
     </message>
 </context>
 <context>
@@ -732,7 +751,7 @@
     <message>
         <location filename="../OpenRGBPhilipsHueSettingsPage/OpenRGBPhilipsHueSettingsEntry.ui" line="81"/>
         <source>Username:</source>
-        <translation>Имя пользоватля:</translation>
+        <translation>Имя пользователя:</translation>
     </message>
     <message>
         <location filename="../OpenRGBPhilipsHueSettingsPage/OpenRGBPhilipsHueSettingsEntry.ui" line="74"/>
@@ -761,7 +780,7 @@
     <message>
         <location filename="../OpenRGBPhilipsHueSettingsPage/OpenRGBPhilipsHueSettingsEntry.ui" line="46"/>
         <source>Auto Connect Group:</source>
-        <translation>Группа автоматического подключения:</translation>
+        <translation>Автоматически подключаться к этой группе:</translation>
     </message>
 </context>
 <context>
@@ -1481,10 +1500,6 @@
 <context>
     <name>OpenRGBZonesBulkResizerUi</name>
     <message>
-        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;One or more resizable zones have not been configured.  Resizable zones are most commonly used for addressable RGB headers where the size of the connected device cannot be detected automatically.&lt;/p&gt;&lt;p&gt;Please enter the number of LEDs in each zone below.&lt;/p&gt;&lt;p&gt;For more information about calcuating the correct size, please check &lt;a href=&quot;https://openrgb.org/resize&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;this link.&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="vanished">&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Не настроены параметры одной или нескольких настраиваемых областей. Обычно такие области используются для адресуемых RGB разъёмов, не позволяющих определить размер подключённого устройства автоматически.&lt;/p&gt;&lt;p&gt;Укажите количество светодиодов в каждой из областей, представленных ниже.&lt;/p&gt;&lt;p&gt;Подробная информация по правильному рассчёту размера доступна &lt;a href=&quot;https://openrgb.org/resize&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;здесь.&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
-    </message>
-    <message>
         <location filename="../OpenRGBZonesBulkResizer.ui" line="39"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;One or more resizable zones have not been configured.  Resizable zones are most commonly used for addressable RGB headers where the size of the connected device cannot be detected automatically.&lt;/p&gt;&lt;p&gt;Please enter the number of LEDs in each zone below.&lt;/p&gt;&lt;p&gt;For more information about calcuating the correct size, please check &lt;a href=&quot;https://openrgb.org/resize.html&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;this link.&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Найдена не настроенная зона изменяемого размера. Созы изменяемого размера обычно используются для разъёмов адресной ленты, где размер подключенной ленты не может быть определён автоматически.&lt;/p&gt;&lt;p&gt;Пожалуйста, введите количество светодиодов для каждой такой зоны.&lt;/p&gt;&lt;p&gt;Подробнее о расчёте правильного размера см. &lt;a href=&quot;https://openrgb.org/resize.html&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;здесь.&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
@@ -1772,7 +1787,7 @@
     <message>
         <location filename="../OpenRGBDialog2.cpp" line="984"/>
         <source>Serial Devices</source>
-        <translation type="unfinished">Устройства последовательного порта</translation>
+        <translation>Устройства последовательного порта</translation>
     </message>
     <message>
         <location filename="../OpenRGBDialog2.cpp" line="1012"/>
