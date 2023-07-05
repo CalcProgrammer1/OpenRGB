@@ -25,4 +25,4 @@ static void DetectAsusTUFLaptopLinuxControllers()
     return;
 }
 
-REGISTER_DETECTOR("ASUS TUF Laptop Linux WMI", DetectAsusTUFLaptopLinuxControllers);
+REGISTER_DETECTOR("ASUS TUF Laptop", DetectAsusTUFLaptopLinuxControllers);
