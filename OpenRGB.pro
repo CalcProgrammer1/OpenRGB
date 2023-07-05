@@ -1625,7 +1625,6 @@ win32:SOURCES +=                                                                
     i2c_smbus/i2c_smbus_piix4.cpp                                                               \
     serial_port/find_usb_serial_port_win.cpp                                                    \
     wmi/wmi.cpp                                                                                 \
-    wmi/acpiwmi.cpp                                                                             \
     AutoStart/AutoStart-Windows.cpp                                                             \
     Controllers/AsusTUFLaptopController/AsusTUFLaptopController.cpp                             \
     Controllers/AsusTUFLaptopController/AsusTUFLaptopWMIDetect.cpp                              \
@@ -1650,7 +1649,6 @@ win32:HEADERS +=                                                                
     i2c_smbus/i2c_smbus_nvapi.h                                                                 \
     i2c_smbus/i2c_smbus_piix4.h                                                                 \
     wmi/wmi.h                                                                                   \
-    wmi/acpiwmi.h                                                                               \
     AutoStart/AutoStart-Windows.h                                                               \
     Controllers/AsusTUFLaptopController/AsusTUFLaptopController.h                               \
     Controllers/AsusTUFLaptopController/RGBController_AsusTUFLaptopWMI.h                        \

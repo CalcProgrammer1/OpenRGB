@@ -1,11 +1,16 @@
-#ifdef _WIN32
-
 #ifndef ASUSTUFLAPTOPCONTROLLER_H
 #define ASUSTUFLAPTOPCONTROLLER_H
+
+#ifdef _WIN32
+
+#include <windows.h>
 
 #define ASUS_WMI_DEVID_KBD_BACKLIGHT      0x00050021
 #define ASUS_WMI_DEVID_TUF_RGB_MODE       0x00100056
 #define ASUS_WMI_DEVID_TUF_RGB_STATE      0x00100057
+
+#define ASUS_WMI_DEVID_FAN_BOOST_MODE     0x00110018
+#define ASUS_WMI_DEVID_THROTTLE_THERMAL_POLICY 0x00120075
 
 #define ASUS_WMI_KEYBOARD_SPEED_SLOW      0xE1
 #define ASUS_WMI_KEYBOARD_SPEED_NORMAL    0xEB
@@ -32,29 +37,46 @@
 
 #define ASUS_WMI_KEYBOARD_POWER_SAVE      0x01<<8
 
+#define ASUS_WMI_FAN_SPEED_NORMAL         0
+#define ASUS_WMI_FAN_SPEED_TURBO          1
+#define ASUS_WMI_FAN_SPEED_SILENT         2
+
 class AsusTUFLaptopController
 {
-public:
+private:
+    HANDLE hDevice;
+    static int checkWMIType();
     AsusTUFLaptopController();
+
+    bool deviceIoControlWrapper(const void *dataIn, int commandIndex, int dataSizeIn, void *dataOut, int *dataSizeOut);
+    bool deviceControl(int a1, int a2);
+    bool deviceControl(int a1, int a2, int a3);
+    bool getStatus(int a1, int *out);
+    bool getStatusExtended(int a1, int a2, int *status1, int *status2, int* status3);
+
+public:
+    static AsusTUFLaptopController * checkAndCreate();
     ~AsusTUFLaptopController();
 
-    void            SetMode(unsigned char red,
+    void            setMode(unsigned char red,
                             unsigned char green,
                             unsigned char blue,
                             unsigned char mode,
                             unsigned char speed,
                             bool save);
 
-    unsigned char   GetBrightness();
-    void            SetBrightness(unsigned char brightness);
+    unsigned char   getBrightness();
+    void            setBrightness(unsigned char brightness);
 
-    void            SetPowerState(bool boot,
+    void            setPowerState(bool boot,
                                   bool awake,
                                   bool sleep,
                                   bool shutdown,
                                   bool save);
+
+    void            setFanMode(int mode);
 };
 
-#endif // ASUSTUFLAPTOPCONTROLLER_H
+#endif
 
-#endif // _WIN32
+#endif // ASUSTUFLAPTOPCONTROLLER_H

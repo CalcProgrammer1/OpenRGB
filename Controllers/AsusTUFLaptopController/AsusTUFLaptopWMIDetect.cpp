@@ -3,7 +3,6 @@
 #include "AsusTUFLaptopController.h"
 #include "RGBController_AsusTUFLaptopWMI.h"
 
-#include "acpiwmi.h"
 #include "Detector.h"
 #include "wmi.h"
 #include <string>
@@ -36,16 +35,15 @@ static void DetectAsusTUFLaptopWMIControllers()
         return;
     }
 
-    if(AsWMI_Open())
+    AsusTUFLaptopController* controller = AsusTUFLaptopController::checkAndCreate();
+    if(controller)
     {
-        AsusTUFLaptopController* asus_wmi_controller = new AsusTUFLaptopController();
-        RGBController* new_controller                = new RGBController_AsusTUFLaptopWMI(asus_wmi_controller);
+        RGBController* new_controller = new RGBController_AsusTUFLaptopWMI(controller);
 
         ResourceManager::get()->RegisterRGBController(new_controller);
-        // Success! No more if's
     }
-}   /* DetectFaustusControllers() */
+}   /* DetectAsusTUFLaptopWMIControllers() */
 
-REGISTER_DETECTOR("TUF Laptop WMI", DetectAsusTUFLaptopWMIControllers);
+REGISTER_DETECTOR("ASUS TUF Laptop", DetectAsusTUFLaptopWMIControllers);
 
 #endif

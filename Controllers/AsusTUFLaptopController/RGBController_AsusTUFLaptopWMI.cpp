@@ -133,7 +133,7 @@ void RGBController_AsusTUFLaptopWMI::ControllerSetMode(bool save)
         speed = (unsigned char)modes[(unsigned int)active_mode].speed;
     }
 
-    controller->SetMode(red, green, blue, mode, speed, save);
+    controller->setMode(red, green, blue, mode, speed, save);
 }
 
 void RGBController_AsusTUFLaptopWMI::DeviceUpdateLEDs()
@@ -155,7 +155,7 @@ void RGBController_AsusTUFLaptopWMI::DeviceUpdateMode()
 {
     if (modes[(unsigned int)active_mode].flags & MODE_FLAG_HAS_BRIGHTNESS)
     {
-        controller->SetBrightness((unsigned char)modes[(unsigned int)active_mode].brightness);
+        controller->setBrightness((unsigned char)modes[(unsigned int)active_mode].brightness);
     }
     ControllerSetMode(false);
 }
@@ -164,7 +164,7 @@ void RGBController_AsusTUFLaptopWMI::ReadConfiguration()
 {
     if (modes[(unsigned int)active_mode].flags & MODE_FLAG_HAS_BRIGHTNESS)
     {
-        modes[(unsigned int)active_mode].brightness = controller->GetBrightness();
+        modes[(unsigned int)active_mode].brightness = controller->getBrightness();
     }
 }
 
