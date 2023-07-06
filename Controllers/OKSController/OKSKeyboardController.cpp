@@ -50,7 +50,7 @@ unsigned short OKSKeyboardController::GetUSBPID()
     return(usb_pid);
 }
 
-void OKSKeyboardController::SendColors(unsigned char* color_data, unsigned int color_data_size)
+void OKSKeyboardController::SendColors(unsigned char* color_data, unsigned int /*color_data_size*/)
 {
     char usb_buf[65];
     union kb2_port_t Pack;
@@ -86,7 +86,7 @@ void OKSKeyboardController::SendColors(unsigned char* color_data, unsigned int c
     std::this_thread::sleep_for(std::chrono::milliseconds(5));
 }
 
-void OKSKeyboardController::SendKeyboardModeEx(const mode &m, unsigned char red, unsigned char green, unsigned char blue)
+void OKSKeyboardController::SendKeyboardModeEx(const mode &m, unsigned char /*red*/, unsigned char /*green*/, unsigned char /*blue*/)
 {
     union kb2_port_t Pack;
     kb2M_wrgb(&Pack, m.brightness, m.value, m.speed, m.direction);

@@ -152,7 +152,7 @@ void RGBController_Nollie::DeviceUpdateLEDs()
         }
     }
     std::sort(ChSort.begin(), ChSort.end());
-    for (int i = 0; i < ChSort.size(); i++)
+    for (std::size_t i = 0; i < ChSort.size(); i++)
     {
         int* ptr = std::find(channel_index, channel_index + 32, ChSort[i]);
         int zone_idx = ptr - channel_index;

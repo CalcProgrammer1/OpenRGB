@@ -11,7 +11,7 @@
 
 using namespace std::chrono_literals;
 
-NollieController::NollieController(hid_device* dev_handle, const char* path, unsigned short pid)
+NollieController::NollieController(hid_device* dev_handle, const char* path, unsigned short /*pid*/)
 {
     dev         = dev_handle;
     location    = path;

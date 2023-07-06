@@ -269,7 +269,7 @@ void RGBController_OKSKeyboard::DeviceUpdateLEDs()
     controller->SendColors(colordata, colors.size()*3);
 }
 
-void RGBController_OKSKeyboard::UpdateZoneLEDs(int zone)
+void RGBController_OKSKeyboard::UpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateLEDs();
 }
@@ -290,7 +290,7 @@ void RGBController_OKSKeyboard::DeviceUpdateMode()
     unsigned char red    = 0x00;
     unsigned char grn    = 0x00;
     unsigned char blu    = 0x00;
-    unsigned char random = (modes[active_mode].color_mode == MODE_COLORS_RANDOM);
+    //unsigned char random = (modes[active_mode].color_mode == MODE_COLORS_RANDOM);
 
     if(modes[active_mode].colors.size() > 0)
     {

@@ -43,7 +43,7 @@ std::string SRGBmodsLEDControllerV1::GetSerialString()
     return(return_string);
 }
 
-void SRGBmodsLEDControllerV1::SetChannelLEDs(unsigned char channel, RGBColor* colors, unsigned int num_colors)
+void SRGBmodsLEDControllerV1::SetChannelLEDs(unsigned char /*channel*/, RGBColor* colors, unsigned int num_colors)
 {
     /*-----------------------------------------------------*\
     | Determine number of packets to send                   |

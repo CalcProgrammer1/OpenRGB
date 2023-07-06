@@ -408,7 +408,7 @@ void RGBController_ZotacV2GPU::DeviceUpdateMode()
     if(zoneConfig.mode == ZOTAC_V2_GPU_MODE_DUET)
     {
         zoneConfig.colorPreset = ZOTAC_V2_GPU_DUET_PRESETS.size();  // custom
-        for(int i = 0; i < ZOTAC_V2_GPU_DUET_PRESETS.size(); ++i)
+        for(size_t i = 0; i < ZOTAC_V2_GPU_DUET_PRESETS.size(); ++i)
         {
             if(zoneConfig.color1 == ZOTAC_V2_GPU_DUET_PRESETS[i].first &&
                 zoneConfig.color2 == ZOTAC_V2_GPU_DUET_PRESETS[i].second)
