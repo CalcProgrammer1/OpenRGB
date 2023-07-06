@@ -1467,6 +1467,7 @@ TRANSLATIONS +=                                                                 
     qt/i18n/OpenRGB_en_GB.ts                                                                    \
     qt/i18n/OpenRGB_es.ts                                                                       \
     qt/i18n/OpenRGB_fr.ts                                                                       \
+    qt/i18n/OpenRGB_hr.ts                                                                       \
     qt/i18n/OpenRGB_ms_MY.ts                                                                    \
     qt/i18n/OpenRGB_pl.ts                                                                       \
     qt/i18n/OpenRGB_pt_BR.ts                                                                    \
