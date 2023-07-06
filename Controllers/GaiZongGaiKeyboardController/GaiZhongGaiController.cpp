@@ -251,15 +251,21 @@ void GaiZhongGaiKeyboardController::SendColors
             for(uint8_t i = 0; i < 32; i++) //Maximum up to 640 RGB LED
             {
                 if(i > color_data_size / 60)
+                {
                     break;
+                }
 
                 usb_buf[1] = i;
                 for(uint8_t j = 0; j < 60; j++ )
                 {
-                    if(i * 60 + j < color_data_size)
+                    if((unsigned int)(i * 60 + j) < color_data_size)
+                    {
                         usb_buf[j + 2] = color_data[i * 60 + j];
+                    }
                     else
+                    {
                         usb_buf[j + 2] = 0; //Redundant data set 0
+                    }
                 }
                 hid_write(dev, usb_buf, 65);
             }

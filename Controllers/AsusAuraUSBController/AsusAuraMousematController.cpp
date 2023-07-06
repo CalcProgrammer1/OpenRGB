@@ -55,8 +55,8 @@ std::string AuraMousematController::GetVersion()
     unsigned char usb_buf_out[65];
     hid_read(dev, usb_buf_out, 65);
 
-    char version[8];
-    snprintf(version, 8, "%X.%02X.%02X", usb_buf_out[6], usb_buf_out[7], usb_buf_out[8]);
+    char version[9];
+    snprintf(version, 9, "%X.%02X.%02X", usb_buf_out[6], usb_buf_out[7], usb_buf_out[8]);
     return std::string(version);
 }
 
@@ -116,7 +116,7 @@ void AuraMousematController::UpdateDevice
         usb_buf[0x0b + i * 3]   = RGBGetGValue(colors[i]);
         usb_buf[0x0c + i * 3]   = RGBGetBValue(colors[i]);
     }
-    
+
     hid_write(dev, usb_buf, 65);
 }
 

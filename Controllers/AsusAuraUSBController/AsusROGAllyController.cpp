@@ -76,7 +76,7 @@ void ROGAllyController::UpdateDevice
     unsigned char           mode,
     std::vector<RGBColor>   colors,
     unsigned char           speed,
-    unsigned char           brightness,
+    unsigned char           /*brightness*/,
     unsigned char           direction
     )
 {
