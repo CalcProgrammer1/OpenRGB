@@ -40,9 +40,8 @@ int Ui::OpenRGBHardwareIDsDialog::show()
         char line[550];
         snprintf(line, 550, "%04X:%04X %04X:%04X", bus->pci_vendor, bus->pci_device, bus->pci_subsystem_vendor, bus->pci_subsystem_device);
         new QTreeWidgetItem(i2c_top, {line, bus->device_name});
-        // We keep the strings for the clipboard feature
-        strncat(line, " - ", 550);
-        strncat(line, bus->device_name, 550);
+
+        snprintf(line, 550, "%04X:%04X %04X:%04X - %s", bus->pci_vendor, bus->pci_device, bus->pci_subsystem_vendor, bus->pci_subsystem_device, bus->device_name);
         strings.push_back(line);
     }
 
@@ -68,10 +67,9 @@ int Ui::OpenRGBHardwareIDsDialog::show()
         snprintf(line, 550, "[%04X:%04X U=%04X P=0x%04X I=%d]", current_hid_device->vendor_id, current_hid_device->product_id, current_hid_device->usage, current_hid_device->usage_page, current_hid_device->interface_number);
         new QTreeWidgetItem(hid_top, {line, prod_name, manu_name});
 
-        strncat(line, manu_name, 550);
-        strncat(line, " - ", 550);
-        strncat(line, prod_name, 550);
+        snprintf(line, 550, "[%04X:%04X U=%04X P=0x%04X I=%d] %s - %s", current_hid_device->vendor_id, current_hid_device->product_id, current_hid_device->usage, current_hid_device->usage_page, current_hid_device->interface_number, manu_name, prod_name);
         strings.push_back(line);
+
         current_hid_device = current_hid_device->next;
     }
 
@@ -114,7 +112,7 @@ int Ui::OpenRGBHardwareIDsDialog::show()
         }
 
         char line[512];
-        sprintf(line, "%04X:%04X", descriptor.idVendor, descriptor.idProduct);
+        snprintf(line, 512, "%04X:%04X", descriptor.idVendor, descriptor.idProduct);
         new QTreeWidgetItem(libusb_top, {line});
         strings.push_back(line);
     }
