@@ -235,6 +235,7 @@ HEADERS +=                                                                      
     qt/OpenRGBHardwareIDsDialog.h                                                               \
     qt/OpenRGBKasaSmartSettingsPage/OpenRGBKasaSmartSettingsEntry.h                             \
     qt/OpenRGBKasaSmartSettingsPage/OpenRGBKasaSmartSettingsPage.h                              \
+    qt/OpenRGBFont.h                                                                            \
     qt/OpenRGBPluginContainer.h                                                                 \
     qt/OpenRGBPluginsPage/OpenRGBPluginsEntry.h                                                 \
     qt/OpenRGBPluginsPage/OpenRGBPluginsList.h                                                  \
@@ -813,6 +814,7 @@ SOURCES +=                                                                      
     qt/OpenRGBHardwareIDsDialog.cpp                                                             \
     qt/OpenRGBKasaSmartSettingsPage/OpenRGBKasaSmartSettingsEntry.cpp                           \
     qt/OpenRGBKasaSmartSettingsPage/OpenRGBKasaSmartSettingsPage.cpp                            \
+    qt/OpenRGBFont.cpp                                                                          \
     qt/OpenRGBPluginContainer.cpp                                                               \
     qt/OpenRGBPluginsPage/OpenRGBPluginsEntry.cpp                                               \
     qt/OpenRGBPluginsPage/OpenRGBPluginsList.cpp                                                \

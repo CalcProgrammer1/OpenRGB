@@ -1,4 +1,4 @@
-#include <functional>
+﻿#include <functional>
 #include "OpenRGBDialog2.h"
 #include "LogManager.h"
 #include "PluginManager.h"
@@ -17,6 +17,7 @@
 #include <QMessageBox>
 #include <QCloseEvent>
 #include <QStyleFactory>
+#include "OpenRGBFont.h"
 
 #ifdef __APPLE__
 #include "macutils.h"
@@ -24,82 +25,79 @@
 
 using namespace Ui;
 
-static QString GetIconString(device_type type, bool dark)
+static int GetIcon(device_type type)
 {
     /*-----------------------------------------------------*\
-    | Return the icon filename string for the given device  |
+    | Return the icon int value for the given device        |
     | type value                                            |
     \*-----------------------------------------------------*/
-    QString filename;
+    int icon;
+
     switch(type)
     {
     case DEVICE_TYPE_ACCESSORY:
-        filename = "accessory";
+        icon = OpenRGBFont::usb;
         break;
     case DEVICE_TYPE_MOTHERBOARD:
-        filename = "motherboard";
+        icon = OpenRGBFont::mainboard;
         break;
     case DEVICE_TYPE_DRAM:
-        filename = "dram";
+        icon = OpenRGBFont::dram;
         break;
     case DEVICE_TYPE_GPU:
-        filename = "gpu";
+        icon = OpenRGBFont::gpu;
         break;
     case DEVICE_TYPE_COOLER:
-        filename = "fan";
+        icon = OpenRGBFont::cooler;
         break;
     case DEVICE_TYPE_LEDSTRIP:
-        filename = "ledstrip";
+        icon = OpenRGBFont::ledstrip;
         break;
     case DEVICE_TYPE_KEYBOARD:
-        filename = "keyboard";
+        icon = OpenRGBFont::keyboard;
         break;
     case DEVICE_TYPE_MICROPHONE:
-        filename = "microphone";
+        icon = OpenRGBFont::mic;
         break;
     case DEVICE_TYPE_MOUSE:
-        filename = "mouse";
+        icon = OpenRGBFont::mouse;
         break;
     case DEVICE_TYPE_MOUSEMAT:
-        filename = "mousemat";
+        icon = OpenRGBFont::mousemat;
         break;
     case DEVICE_TYPE_HEADSET:
-        filename = "headset";
+        icon = OpenRGBFont::headset;
         break;
     case DEVICE_TYPE_HEADSET_STAND:
-        filename = "headsetstand";
+        icon = OpenRGBFont::headsetstand;
         break;
     case DEVICE_TYPE_GAMEPAD:
-        filename = "gamepad";
+        icon = OpenRGBFont::gamepad;
         break;
     case DEVICE_TYPE_LIGHT:
-        filename = "light";
+        icon = OpenRGBFont::bulb;
         break;
     case DEVICE_TYPE_SPEAKER:
-        filename = "speaker";
+        icon = OpenRGBFont::music_speaker;
         break;
     case DEVICE_TYPE_VIRTUAL:
-        filename = "virtual";
+        icon = OpenRGBFont::virtual_controller;
         break;
     case DEVICE_TYPE_STORAGE:
-        filename = "storage";
+        icon = OpenRGBFont::drive;
         break;
     case DEVICE_TYPE_CASE:
-        filename = "case";
+        icon = OpenRGBFont::pc_case;
         break;
     case DEVICE_TYPE_KEYPAD:
-        filename = "keypad";
+        icon = OpenRGBFont::keypad;
         break;
     default:
-        filename = "unknown";
+        icon = OpenRGBFont::unknown;
         break;
     }
-    if(dark)
-    {
-        filename += "_dark";
-    }
-    filename += ".png";
-    return filename;
+
+    return icon;
 }
 
 static void UpdateDeviceListCallback(void * this_ptr)
@@ -652,21 +650,10 @@ void OpenRGBDialog2::AddPluginsPage()
 
     ui->SettingsTabBar->addTab(PluginsPage, "");
 
-    QString PluginsLabelString;
-
-    if(OpenRGBThemeManager::IsDarkTheme())
-    {
-        PluginsLabelString = "plugin_dark.png";
-    }
-    else
-    {
-        PluginsLabelString = "plugin.png";
-    }
-
     /*-----------------------------------------------------*\
     | Create the tab label                                  |
     \*-----------------------------------------------------*/
-    TabLabel* PluginTabLabel = new TabLabel(PluginsLabelString, tr("Plugins"), (char *)"Plugins", (char *)context);
+    TabLabel* PluginTabLabel = new TabLabel(OpenRGBFont::extension, tr("Plugins"), (char *)"Plugins", (char *)context);
 
     ui->SettingsTabBar->tabBar()->setTabButton(ui->SettingsTabBar->tabBar()->count() - 1, QTabBar::LeftSide, PluginTabLabel);
 }
@@ -680,21 +667,10 @@ void OpenRGBDialog2::AddSoftwareInfoPage()
 
     ui->InformationTabBar->addTab(SoftInfoPage, "");
 
-    QString SoftwareLabelString;
-
-    if(OpenRGBThemeManager::IsDarkTheme())
-    {
-        SoftwareLabelString = "software_dark.png";
-    }
-    else
-    {
-        SoftwareLabelString = "software.png";
-    }
-
     /*-----------------------------------------------------*\
     | Create the tab label                                  |
     \*-----------------------------------------------------*/
-    TabLabel* SoftwareTabLabel = new TabLabel(SoftwareLabelString, tr("Software"), (char *)"Software", (char *)context);
+    TabLabel* SoftwareTabLabel = new TabLabel(OpenRGBFont::info, tr("Software"), (char *)"Software", (char *)context);
 
     ui->InformationTabBar->tabBar()->setTabButton(ui->InformationTabBar->tabBar()->count() - 1, QTabBar::LeftSide, SoftwareTabLabel);
 }
@@ -708,25 +684,13 @@ void OpenRGBDialog2::AddSupportedDevicesPage()
 
     ui->SettingsTabBar->addTab(SupportedPage, "");
 
-    QString SettingsLabelString;
-
-    if(OpenRGBThemeManager::IsDarkTheme())
-    {
-        SettingsLabelString = "software_dark.png";
-    }
-    else
-    {
-        SettingsLabelString = "software.png";
-    }
-
     /*-----------------------------------------------------*\
     | Create the tab label                                  |
     \*-----------------------------------------------------*/
-    TabLabel* SupportedTabLabel = new TabLabel(SettingsLabelString, tr("Supported Devices"), (char *)"Supported Devices", (char *)context);
+    TabLabel* SupportedTabLabel = new TabLabel(OpenRGBFont::controller, tr("Supported Devices"), (char *)"Supported Devices", (char *)context);
 
     ui->SettingsTabBar->tabBar()->setTabButton(ui->SettingsTabBar->tabBar()->count() - 1, QTabBar::LeftSide, SupportedTabLabel);
 }
-
 
 void OpenRGBDialog2::AddSettingsPage()
 {
@@ -737,21 +701,10 @@ void OpenRGBDialog2::AddSettingsPage()
 
     ui->SettingsTabBar->addTab(SettingsPage, "");
 
-    QString SettingsLabelString;
-
-    if(OpenRGBThemeManager::IsDarkTheme())
-    {
-        SettingsLabelString = "settings_dark.png";
-    }
-    else
-    {
-        SettingsLabelString = "settings.png";
-    }
-
     /*-----------------------------------------------------*\
     | Create the tab label                                  |
     \*-----------------------------------------------------*/
-    TabLabel* SettingsTabLabel = new TabLabel(SettingsLabelString, tr("General Settings"), (char *)"General Settings", (char *)context);
+    TabLabel* SettingsTabLabel = new TabLabel(OpenRGBFont::options, tr("General Settings"), (char *)"General Settings", (char *)context);
 
     ui->SettingsTabBar->tabBar()->setTabButton(ui->SettingsTabBar->tabBar()->count() - 1, QTabBar::LeftSide, SettingsTabLabel);
 
@@ -771,21 +724,10 @@ void OpenRGBDialog2::AddDMXSettingsPage()
 
     ui->SettingsTabBar->addTab(DMXSettingsPage, "");
 
-    QString SettingsLabelString;
-
-    if(OpenRGBThemeManager::IsDarkTheme())
-    {
-        SettingsLabelString = "serial_dark.png";
-    }
-    else
-    {
-        SettingsLabelString = "serial.png";
-    }
-
     /*-----------------------------------------------------*\
     | Create the tab label                                  |
     \*-----------------------------------------------------*/
-    TabLabel* SettingsTabLabel = new TabLabel(SettingsLabelString, tr("DMX Devices"), (char *)"DMX Devices", (char *)context);
+    TabLabel* SettingsTabLabel = new TabLabel(OpenRGBFont::serial, tr("DMX Devices"), (char *)"DMX Devices", (char *)context);
 
     ui->SettingsTabBar->tabBar()->setTabButton(ui->SettingsTabBar->tabBar()->count() - 1, QTabBar::LeftSide, SettingsTabLabel);
 }
@@ -799,21 +741,10 @@ void OpenRGBDialog2::AddE131SettingsPage()
 
     ui->SettingsTabBar->addTab(E131SettingsPage, "");
 
-    QString SettingsLabelString;
-
-    if(OpenRGBThemeManager::IsDarkTheme())
-    {
-        SettingsLabelString = "wireless_dark.png";
-    }
-    else
-    {
-        SettingsLabelString = "wireless.png";
-    }
-
     /*-----------------------------------------------------*\
     | Create the tab label                                  |
     \*-----------------------------------------------------*/
-    TabLabel* SettingsTabLabel = new TabLabel(SettingsLabelString, tr("E1.31 Devices"), (char *)"E1.31 Devices", (char *)context);
+    TabLabel* SettingsTabLabel = new TabLabel(OpenRGBFont::data, tr("E1.31 Devices"), (char *)"E1.31 Devices", (char *)context);
 
     ui->SettingsTabBar->tabBar()->setTabButton(ui->SettingsTabBar->tabBar()->count() - 1, QTabBar::LeftSide, SettingsTabLabel);
 }
@@ -841,7 +772,7 @@ void OpenRGBDialog2::AddKasaSmartSettingsPage()
     /*-----------------------------------------------------*\
     | Create the tab label                                  |
     \*-----------------------------------------------------*/
-    TabLabel* SettingsTabLabel = new TabLabel(SettingsLabelString, tr("Kasa Smart Devices"), (char *)"Kasa Smart Devices", (char *)context);
+    TabLabel* SettingsTabLabel = new TabLabel(OpenRGBFont::bulb, tr("Kasa Smart Devices"), (char *)"Kasa Smart Devices", (char *)context);
 
     ui->SettingsTabBar->tabBar()->setTabButton(ui->SettingsTabBar->tabBar()->count() - 1, QTabBar::LeftSide, SettingsTabLabel);
 }
@@ -855,21 +786,10 @@ void OpenRGBDialog2::AddLIFXSettingsPage()
 
     ui->SettingsTabBar->addTab(LIFXSettingsPage, "");
 
-    QString SettingsLabelString;
-
-    if(OpenRGBThemeManager::IsDarkTheme())
-    {
-        SettingsLabelString = "light_dark.png";
-    }
-    else
-    {
-        SettingsLabelString = "light.png";
-    }
-
     /*-----------------------------------------------------*\
     | Create the tab label                                  |
     \*-----------------------------------------------------*/
-    TabLabel* SettingsTabLabel = new TabLabel(SettingsLabelString, tr("LIFX Devices"), (char *)"LIFX Devices", (char *)context);
+    TabLabel* SettingsTabLabel = new TabLabel(OpenRGBFont::bulb, tr("LIFX Devices"), (char *)"LIFX Devices", (char *)context);
 
     ui->SettingsTabBar->tabBar()->setTabButton(ui->SettingsTabBar->tabBar()->count() - 1, QTabBar::LeftSide, SettingsTabLabel);
 }
@@ -883,21 +803,10 @@ void OpenRGBDialog2::AddPhilipsHueSettingsPage()
 
     ui->SettingsTabBar->addTab(PhilipsHueSettingsPage, "");
 
-    QString SettingsLabelString;
-
-    if(OpenRGBThemeManager::IsDarkTheme())
-    {
-        SettingsLabelString = "light_dark.png";
-    }
-    else
-    {
-        SettingsLabelString = "light.png";
-    }
-
     /*-----------------------------------------------------*\
     | Create the tab label                                  |
     \*-----------------------------------------------------*/
-    TabLabel* SettingsTabLabel = new TabLabel(SettingsLabelString, tr("Philips Hue Devices"), (char *)"Philips Hue Devices", (char *)context);
+    TabLabel* SettingsTabLabel = new TabLabel(OpenRGBFont::bulb, tr("Philips Hue Devices"), (char *)"Philips Hue Devices", (char *)context);
 
     ui->SettingsTabBar->tabBar()->setTabButton(ui->SettingsTabBar->tabBar()->count() - 1, QTabBar::LeftSide, SettingsTabLabel);
 }
@@ -911,21 +820,10 @@ void OpenRGBDialog2::AddPhilipsWizSettingsPage()
 
     ui->SettingsTabBar->addTab(PhilipsWizSettingsPage, "");
 
-    QString SettingsLabelString;
-
-    if(OpenRGBThemeManager::IsDarkTheme())
-    {
-        SettingsLabelString = "light_dark.png";
-    }
-    else
-    {
-        SettingsLabelString = "light.png";
-    }
-
-    /*-----------------------------------------------------*\
+      /*-----------------------------------------------------*\
     | Create the tab label                                  |
     \*-----------------------------------------------------*/
-    TabLabel* SettingsTabLabel = new TabLabel(SettingsLabelString, tr("Philips Wiz Devices"), (char *)"Philips Wiz Devices", (char *)context);
+    TabLabel* SettingsTabLabel = new TabLabel(OpenRGBFont::bulb, tr("Philips Wiz Devices"), (char *)"Philips Wiz Devices", (char *)context);
 
     ui->SettingsTabBar->tabBar()->setTabButton(ui->SettingsTabBar->tabBar()->count() - 1, QTabBar::LeftSide, SettingsTabLabel);
 }
@@ -939,21 +837,10 @@ void OpenRGBDialog2::AddQMKORGBSettingsPage()
 
     ui->SettingsTabBar->addTab(QMKORGBSettingsPage, "");
 
-    QString SettingsLabelString;
-
-    if(OpenRGBThemeManager::IsDarkTheme())
-    {
-        SettingsLabelString = "keyboard_dark.png";
-    }
-    else
-    {
-        SettingsLabelString = "keyboard.png";
-    }
-
     /*-----------------------------------------------------*\
     | Create the tab label                                  |
     \*-----------------------------------------------------*/
-    TabLabel* SettingsTabLabel = new TabLabel(SettingsLabelString, tr("OpenRGB QMK Protocol"), (char *)"OpenRGB QMK Protocol", (char *)context);
+    TabLabel* SettingsTabLabel = new TabLabel(OpenRGBFont::keyboard, tr("OpenRGB QMK Protocol"), (char *)"OpenRGB QMK Protocol", (char *)context);
 
     ui->SettingsTabBar->tabBar()->setTabButton(ui->SettingsTabBar->tabBar()->count() - 1, QTabBar::LeftSide, SettingsTabLabel);
 }
@@ -965,25 +852,14 @@ void OpenRGBDialog2::AddSerialSettingsPage()
     \*-----------------------------------------------------*/
     SerialSettingsPage = new OpenRGBSerialSettingsPage();
 
-    ui->SettingsTabBar->addTab(SerialSettingsPage, "");
-
-    QString SettingsLabelString;
-
-    if(OpenRGBThemeManager::IsDarkTheme())
-    {
-        SettingsLabelString = "serial_dark.png";
-    }
-    else
-    {
-        SettingsLabelString = "serial.png";
-    }
+    ui->SettingsTabBar->addTab(SerialSettingsPage, "");    
 
     /*-----------------------------------------------------*\
     | Create the tab label                                  |
     \*-----------------------------------------------------*/
-    TabLabel* SettingsTabLabel = new TabLabel(SettingsLabelString, tr("Serial Devices"), (char *)"Serial Devices", (char *)context);
+    TabLabel* SerialSettingsTabLabel = new TabLabel(OpenRGBFont::serial, tr("Serial Devices"), (char *)"Serial Devices", (char *)context);
 
-    ui->SettingsTabBar->tabBar()->setTabButton(ui->SettingsTabBar->tabBar()->count() - 1, QTabBar::LeftSide, SettingsTabLabel);
+    ui->SettingsTabBar->tabBar()->setTabButton(ui->SettingsTabBar->tabBar()->count() - 1, QTabBar::LeftSide, SerialSettingsTabLabel);
 }
 
 void OpenRGBDialog2::AddYeelightSettingsPage()
@@ -995,21 +871,10 @@ void OpenRGBDialog2::AddYeelightSettingsPage()
 
     ui->SettingsTabBar->addTab(YeelightSettingsPage, "");
 
-    QString SettingsLabelString;
-
-    if(OpenRGBThemeManager::IsDarkTheme())
-    {
-        SettingsLabelString = "light_dark.png";
-    }
-    else
-    {
-        SettingsLabelString = "light.png";
-    }
-
     /*-----------------------------------------------------*\
     | Create the tab label                                  |
     \*-----------------------------------------------------*/
-    TabLabel* SettingsTabLabel = new TabLabel(SettingsLabelString, tr("Yeelight Devices"), (char *)"Yeelight Devices", (char *)context);
+    TabLabel* SettingsTabLabel = new TabLabel(OpenRGBFont::bulb, tr("Yeelight Devices"), (char *)"Yeelight Devices", (char *)context);
 
     ui->SettingsTabBar->tabBar()->setTabButton(ui->SettingsTabBar->tabBar()->count() - 1, QTabBar::LeftSide, SettingsTabLabel);
 }
@@ -1023,21 +888,10 @@ void OpenRGBDialog2::AddNanoleafSettingsPage()
 
     ui->SettingsTabBar->addTab(NanoleafSettingsPage, "");
 
-    QString SettingsLabelString;
-
-    if(OpenRGBThemeManager::IsDarkTheme())
-    {
-        SettingsLabelString = "light_dark.png";
-    }
-    else
-    {
-        SettingsLabelString = "light.png";
-    }
-
     /*-----------------------------------------------------*\
     | Create the tab label                                  |
     \*-----------------------------------------------------*/
-    TabLabel* SettingsTabLabel = new TabLabel(SettingsLabelString, tr("Nanoleaf Devices"), (char *)"Nanoleaf Devices", (char *)context);
+    TabLabel* SettingsTabLabel = new TabLabel(OpenRGBFont::bulb, tr("Nanoleaf Devices"), (char *)"Nanoleaf Devices", (char *)context);
 
     ui->SettingsTabBar->tabBar()->setTabButton(ui->SettingsTabBar->tabBar()->count() - 1, QTabBar::LeftSide, SettingsTabLabel);
 }
@@ -1051,21 +905,10 @@ void OpenRGBDialog2::AddElgatoKeyLightSettingsPage()
 
     ui->SettingsTabBar->addTab(ElgatoKeyLightSettingsPage, "");
 
-    QString SettingsLabelString;
-
-    if(OpenRGBThemeManager::IsDarkTheme())
-    {
-        SettingsLabelString = "light_dark.png";
-    }
-    else
-    {
-        SettingsLabelString = "light.png";
-    }
-
     /*-----------------------------------------------------*\
     | Create the tab label                                  |
     \*-----------------------------------------------------*/
-    TabLabel* SettingsTabLabel = new TabLabel(SettingsLabelString, tr("Elgato KeyLight Devices"), (char *)"Elgato KeyLight Devices", (char *)context);
+    TabLabel* SettingsTabLabel = new TabLabel(OpenRGBFont::bulb, tr("Elgato KeyLight Devices"), (char *)"Elgato KeyLight Devices", (char *)context);
 
     ui->SettingsTabBar->tabBar()->setTabButton(ui->SettingsTabBar->tabBar()->count() - 1, QTabBar::LeftSide, SettingsTabLabel);
 }
@@ -1073,29 +916,9 @@ void OpenRGBDialog2::AddElgatoKeyLightSettingsPage()
 void OpenRGBDialog2::AddPlugin(OpenRGBPluginEntry* plugin)
 {
     /*-----------------------------------------------------*\
-    | Create Label for the Tab                              |
-    \*-----------------------------------------------------*/
-    QLabel* PluginTabLabel = new QLabel;
-
-    /*-----------------------------------------------------*\
-    | If the plugin has custom information, use it,         |
-    | otherwise generate it                                 |
-    \*-----------------------------------------------------*/
-    QString PluginLabelString;
-
-    if(OpenRGBThemeManager::IsDarkTheme())
-    {
-        PluginLabelString = "plugin_dark.png";
-    }
-    else
-    {
-        PluginLabelString = "plugin.png";
-    }
-
-    /*-----------------------------------------------------*\
     | Create the tab label                                  |
     \*-----------------------------------------------------*/
-    PluginTabLabel = (QLabel*)new TabLabel(PluginLabelString, QString::fromStdString(plugin->info.Label), (char *)plugin->info.Label.c_str(), (char *)context);
+    TabLabel* PluginTabLabel = new TabLabel(OpenRGBFont::extension, QString::fromStdString(plugin->info.Label), (char *)plugin->info.Label.c_str(), (char *)context);
 
     /*-----------------------------------------------------*\
     | Place plugin as its own top level tab                 |
@@ -1265,21 +1088,10 @@ void OpenRGBDialog2::AddI2CToolsPage()
     \*-----------------------------------------------------*/
     ui->InformationTabBar->addTab(SMBusToolsPage, "");
 
-    QString SMBusToolsLabelString;
-
-    if(OpenRGBThemeManager::IsDarkTheme())
-    {
-        SMBusToolsLabelString = "tools_dark.png";
-    }
-    else
-    {
-        SMBusToolsLabelString = "tools.png";
-    }
-
     /*-----------------------------------------------------*\
     | Create the tab label                                  |
     \*-----------------------------------------------------*/
-    TabLabel* SMBusToolsTabLabel = new TabLabel(SMBusToolsLabelString, tr("SMBus Tools"), (char *)"SMBus Tools", (char *)context);
+    TabLabel* SMBusToolsTabLabel = new TabLabel(OpenRGBFont::toolbox, tr("SMBus Tools"), (char *)"SMBus Tools", (char *)context);
 
     ui->InformationTabBar->tabBar()->setTabButton(ui->InformationTabBar->tabBar()->count() - 1, QTabBar::LeftSide, SMBusToolsTabLabel);
 }
@@ -1400,7 +1212,7 @@ void OpenRGBDialog2::UpdateDevicesList()
             /*-----------------------------------------------------*\
             | Create the tab label                                  |
             \*-----------------------------------------------------*/
-            TabLabel* NewTabLabel = new TabLabel(GetIconString(controllers[controller_idx]->type, OpenRGBThemeManager::IsDarkTheme()), QString::fromStdString(controllers[controller_idx]->name), (char *)controllers[controller_idx]->name.c_str(), (char *)context);
+            TabLabel* NewTabLabel = new TabLabel(GetIcon(controllers[controller_idx]->type), QString::fromStdString(controllers[controller_idx]->name), (char *)controllers[controller_idx]->name.c_str(), (char *)context);
 
             ui->DevicesTabBar->tabBar()->setTabButton(ui->DevicesTabBar->count() - 1, QTabBar::LeftSide, NewTabLabel);
             ui->DevicesTabBar->tabBar()->setTabToolTip(ui->DevicesTabBar->count() - 1, QString::fromStdString(controllers[controller_idx]->name));
@@ -1451,7 +1263,7 @@ void OpenRGBDialog2::UpdateDevicesList()
             /*-----------------------------------------------------*\
             | Create the tab label                                  |
             \*-----------------------------------------------------*/
-            TabLabel* NewTabLabel = new TabLabel(GetIconString(controllers[controller_idx]->type, OpenRGBThemeManager::IsDarkTheme()), QString::fromStdString(controllers[controller_idx]->name), (char *)controllers[controller_idx]->name.c_str(), (char *)context);
+            TabLabel* NewTabLabel = new TabLabel(GetIcon(controllers[controller_idx]->type), QString::fromStdString(controllers[controller_idx]->name), (char *)controllers[controller_idx]->name.c_str(), (char *)context);
 
             ui->InformationTabBar->tabBar()->setTabButton(ui->InformationTabBar->count() - 1, QTabBar::LeftSide, NewTabLabel);
             ui->InformationTabBar->tabBar()->setTabToolTip(ui->InformationTabBar->count() - 1, QString::fromStdString(controllers[controller_idx]->name));
@@ -2069,21 +1881,10 @@ void Ui::OpenRGBDialog2::AddConsolePage()
 
     ui->InformationTabBar->addTab(page, "");
 
-    QString ConsoleLabelString;
-
-    if(OpenRGBThemeManager::IsDarkTheme())
-    {
-        ConsoleLabelString = "console_dark.png";
-    }
-    else
-    {
-        ConsoleLabelString = "console.png";
-    }
-
     /*-----------------------------------------------------*\
     | Create the tab label                                  |
     \*-----------------------------------------------------*/
-    TabLabel* ConsoleTabLabel = new TabLabel(ConsoleLabelString, tr("Log Console"), (char *)"Log Console", (char *)context);
+    TabLabel* ConsoleTabLabel = new TabLabel(OpenRGBFont::terminal, tr("Log Console"), (char *)"Log Console", (char *)context);
 
     ui->InformationTabBar->tabBar()->setTabButton(ui->InformationTabBar->tabBar()->count() - 1, QTabBar::LeftSide, ConsoleTabLabel);
 }

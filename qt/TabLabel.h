@@ -13,7 +13,7 @@ class Ui::TabLabel : public QWidget
     Q_OBJECT
 
 public:
-    TabLabel(QString icon, QString name, char* original, char* context);
+    TabLabel(int icon, QString name, char* original, char* context);
     ~TabLabel();
 
 private:

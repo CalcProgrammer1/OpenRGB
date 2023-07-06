@@ -1,62 +1,7 @@
 <RCC>
     <qresource prefix="/">
         <file>OpenRGB.png</file>
-        <file>motherboard.png</file>
-        <file>dram.png</file>
-        <file>gpu.png</file>
-        <file>fan.png</file>
-        <file>ledstrip.png</file>
-        <file>keyboard.png</file>
-        <file>mouse.png</file>
-        <file>mousemat.png</file>
-        <file>headset.png</file>
-        <file>headsetstand.png</file>
-        <file>tools.png</file>
-        <file>software.png</file>
-        <file>dram_dark.png</file>
-        <file>fan_dark.png</file>
-        <file>gpu_dark.png</file>
-        <file>headset_dark.png</file>
-        <file>headsetstand_dark.png</file>
-        <file>keyboard_dark.png</file>
-        <file>ledstrip_dark.png</file>
-        <file>mousemat_dark.png</file>
-        <file>mouse_dark.png</file>
-        <file>motherboard_dark.png</file>
-        <file>software_dark.png</file>
-        <file>tools_dark.png</file>
-        <file>gamepad.png</file>
-        <file>gamepad_dark.png</file>
-        <file>light.png</file>
-        <file>light_dark.png</file>
-        <file>arrow-down.png</file>
-        <file>arrow-up.png</file>
-        <file>plugin.png</file>
-        <file>plugin_dark.png</file>
-        <file>speaker.png</file>
-        <file>speaker_dark.png</file>
-        <file>virtual.png</file>
-        <file>virtual_dark.png</file>
-        <file>settings.png</file>
-        <file>settings_dark.png</file>
-        <file>serial.png</file>
-        <file>serial_dark.png</file>
-        <file>wireless.png</file>
-        <file>wireless_dark.png</file>
-        <file>console.png</file>
-        <file>console_dark.png</file>
-        <file>storage.png</file>
-        <file>storage_dark.png</file>
-        <file>case.png</file>
-        <file>case_dark.png</file>
+        <file>fonts/OpenRGB.ttf</file>
         <file>OpenRGBGreyscale.png</file>
-        <file>microphone.png</file>
-        <file>microphone_dark.png</file>
-        <file>accessory.png</file>
-        <file>accessory_dark.png</file>
-        <file>keypad.png</file>
-        <file>keypad_dark.png</file>
-        <file>unknown.png</file>
-        <file>unknown_dark.png</file>
     </qresource>
 </RCC>

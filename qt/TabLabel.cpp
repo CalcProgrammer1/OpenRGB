@@ -1,13 +1,21 @@
 #include "TabLabel.h"
 #include <QFontMetrics>
+#include "OpenRGBFont.h"
 
-Ui::TabLabel::TabLabel(QString icon, QString name, char* original, char* context) :
+Ui::TabLabel::TabLabel(int icon, QString name, char* original, char* context) :
     QWidget(nullptr),
     ui(new Ui::TabLabelUi)
 {
     ui->setupUi(this);
-    ui->icon->setText("<img src=':/" + icon + "' height='16' width='16'  />");
+
+    QFont font = OpenRGBFont::GetFont();
+    font.setPointSize(18);
+
+    ui->icon->setFont(font);
+    ui->icon->setText(OpenRGBFont::icon(icon));
+
     ui->name->setText(name);
+
     label   = original;
     ctxt    = context;
 }
