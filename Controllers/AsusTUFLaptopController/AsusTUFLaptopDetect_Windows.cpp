@@ -9,6 +9,7 @@
 
 #include <string>
 #include "Detector.h"
+#include "FanController_AsusTUFLaptop_Windows.h"
 #include "RGBController_AsusTUFLaptop_Windows.h"
 #include "wmi.h"
 
@@ -44,8 +45,10 @@ static void DetectAsusTUFLaptopWMIControllers()
     if(controller)
     {
         RGBController* new_controller = new RGBController_AsusTUFLaptopWMI(controller);
+        FanController* fan_controller = new FanController_AsusTUFLaptopWMI(controller);
 
         ResourceManager::get()->RegisterRGBController(new_controller);
+        ResourceManager::get()->RegisterFanController(fan_controller);
     }
 }   /* DetectAsusTUFLaptopWMIControllers() */
 
