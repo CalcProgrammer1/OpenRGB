@@ -79,6 +79,32 @@ INCLUDEPATH +=                                                                  
     serial_port/                                                                                \
     super_io/                                                                                   \
     AutoStart/                                                                                  \
+    qt/OpenRGBClientInfoPage/                                                                   \
+    qt/OpenRGBConsolePage/                                                                      \
+    qt/OpenRGBDeviceInfoPage/                                                                   \
+    qt/OpenRGBDevicePage/                                                                       \
+    qt/OpenRGBDialog2/                                                                          \
+    qt/OpenRGBDMXSettingsPage/                                                                  \
+    qt/OpenRGBE131SettingsPage/                                                                 \
+    qt/OpenRGBElgatoKeyLightSettingsPage/                                                       \
+    qt/OpenRGBHardwareIDsDialog/                                                                \
+    qt/OpenRGBKasaSmartSettingsPage/                                                            \
+    qt/OpenRGBLIFXSettingsPage/                                                                 \
+    qt/OpenRGBNanoleafSettingsPage/                                                             \
+    qt/OpenRGBPhilipsHueSettingsPage/                                                           \
+    qt/OpenRGBPhilipsWizSettingsPage/                                                           \
+    qt/OpenRGBPluginContainer/                                                                  \
+    qt/OpenRGBProfileSaveDialog/                                                                \
+    qt/OpenRGBQMKORGBSettingsPage/                                                              \
+    qt/OpenRGBSerialSettingsPage/                                                               \
+    qt/OpenRGBServerInfoPage/                                                                   \
+    qt/OpenRGBSettingsPage/                                                                     \
+    qt/OpenRGBSoftwareInfoPage/                                                                 \
+    qt/OpenRGBSupportedDevicesPage/                                                             \
+    qt/OpenRGBSystemInfoPage/                                                                   \
+    qt/OpenRGBYeelightSettingsPage/                                                             \
+    qt/OpenRGBZoneResizeDialog/                                                                 \
+    qt/OpenRGBZonesBulkResizer/                                                                 \
     Controllers/A4TechController/                                                               \
     Controllers/AlienwareController/                                                            \
     Controllers/AlienwareKeyboardController/                                                    \
@@ -218,40 +244,30 @@ HEADERS +=                                                                      
     DeviceDetector.h                                                                            \
     filesystem.h                                                                                \
     qt/DetectorTableModel.h                                                                     \
-    qt/OpenRGBClientInfoPage.h                                                                  \
-    qt/OpenRGBConsolePage.h                                                                     \
-    qt/OpenRGBDeviceInfoPage.h                                                                  \
-    qt/OpenRGBDevicePage.h                                                                      \
-    qt/OpenRGBDialog.h                                                                          \
     hidapi_wrapper/hidapi_wrapper.h                                                             \
     i2c_smbus/i2c_smbus.h                                                                       \
     i2c_tools/i2c_tools.h                                                                       \
     net_port/net_port.h                                                                         \
     pci_ids/pci_ids.h                                                                           \
     qt/DeviceView.h                                                                             \
-    qt/OpenRGBDialog2.h                                                                         \
-    qt/OpenRGBElgatoKeyLightSettingsPage/OpenRGBElgatoKeyLightSettingsEntry.h                   \
-    qt/OpenRGBElgatoKeyLightSettingsPage/OpenRGBElgatoKeyLightSettingsPage.h                    \
-    qt/OpenRGBHardwareIDsDialog.h                                                               \
-    qt/OpenRGBKasaSmartSettingsPage/OpenRGBKasaSmartSettingsEntry.h                             \
-    qt/OpenRGBKasaSmartSettingsPage/OpenRGBKasaSmartSettingsPage.h                              \
     qt/OpenRGBFont.h                                                                            \
-    qt/OpenRGBPluginContainer.h                                                                 \
-    qt/OpenRGBPluginsPage/OpenRGBPluginsEntry.h                                                 \
-    qt/OpenRGBPluginsPage/OpenRGBPluginsList.h                                                  \
-    qt/OpenRGBPluginsPage/OpenRGBPluginsPage.h                                                  \
-    qt/OpenRGBProfileSaveDialog.h                                                               \
-    qt/OpenRGBServerInfoPage.h                                                                  \
-    qt/OpenRGBSettingsPage.h                                                                    \
-    qt/OpenRGBSoftwareInfoPage.h                                                                \
-    qt/OpenRGBSupportedDevicesPage.h                                                            \
-    qt/OpenRGBSystemInfoPage.h                                                                  \
     qt/OpenRGBThemeManager.h                                                                    \
-    qt/OpenRGBZoneResizeDialog.h                                                                \
+    qt/QTooltipedSlider.h                                                                       \
+    qt/TabLabel.h                                                                               \
+    qt/OpenRGBClientInfoPage/OpenRGBClientInfoPage.h                                            \
+    qt/OpenRGBConsolePage/OpenRGBConsolePage.h                                                  \
+    qt/OpenRGBDeviceInfoPage/OpenRGBDeviceInfoPage.h                                            \
+    qt/OpenRGBDevicePage/OpenRGBDevicePage.h                                                    \
+    qt/OpenRGBDialog2/OpenRGBDialog2.h                                                          \
     qt/OpenRGBDMXSettingsPage/OpenRGBDMXSettingsEntry.h                                         \
     qt/OpenRGBDMXSettingsPage/OpenRGBDMXSettingsPage.h                                          \
     qt/OpenRGBE131SettingsPage/OpenRGBE131SettingsEntry.h                                       \
     qt/OpenRGBE131SettingsPage/OpenRGBE131SettingsPage.h                                        \
+    qt/OpenRGBElgatoKeyLightSettingsPage/OpenRGBElgatoKeyLightSettingsEntry.h                   \
+    qt/OpenRGBElgatoKeyLightSettingsPage/OpenRGBElgatoKeyLightSettingsPage.h                    \
+    qt/OpenRGBHardwareIDsDialog/OpenRGBHardwareIDsDialog.h                                      \
+    qt/OpenRGBKasaSmartSettingsPage/OpenRGBKasaSmartSettingsEntry.h                             \
+    qt/OpenRGBKasaSmartSettingsPage/OpenRGBKasaSmartSettingsPage.h                              \
     qt/OpenRGBLIFXSettingsPage/OpenRGBLIFXSettingsEntry.h                                       \
     qt/OpenRGBLIFXSettingsPage/OpenRGBLIFXSettingsPage.h                                        \
     qt/OpenRGBNanoleafSettingsPage/OpenRGBNanoleafSettingsEntry.h                               \
@@ -261,15 +277,24 @@ HEADERS +=                                                                      
     qt/OpenRGBPhilipsHueSettingsPage/OpenRGBPhilipsHueSettingsPage.h                            \
     qt/OpenRGBPhilipsWizSettingsPage/OpenRGBPhilipsWizSettingsEntry.h                           \
     qt/OpenRGBPhilipsWizSettingsPage/OpenRGBPhilipsWizSettingsPage.h                            \
+    qt/OpenRGBPluginContainer/OpenRGBPluginContainer.h                                          \
+    qt/OpenRGBPluginsPage/OpenRGBPluginsEntry.h                                                 \
+    qt/OpenRGBPluginsPage/OpenRGBPluginsList.h                                                  \
+    qt/OpenRGBPluginsPage/OpenRGBPluginsPage.h                                                  \
+    qt/OpenRGBProfileSaveDialog/OpenRGBProfileSaveDialog.h                                      \
     qt/OpenRGBQMKORGBSettingsPage/OpenRGBQMKORGBSettingsEntry.h                                 \
     qt/OpenRGBQMKORGBSettingsPage/OpenRGBQMKORGBSettingsPage.h                                  \
     qt/OpenRGBSerialSettingsPage/OpenRGBSerialSettingsEntry.h                                   \
     qt/OpenRGBSerialSettingsPage/OpenRGBSerialSettingsPage.h                                    \
+    qt/OpenRGBServerInfoPage/OpenRGBServerInfoPage.h                                            \
+    qt/OpenRGBSettingsPage/OpenRGBSettingsPage.h                                                \
+    qt/OpenRGBSoftwareInfoPage/OpenRGBSoftwareInfoPage.h                                        \
+    qt/OpenRGBSupportedDevicesPage/OpenRGBSupportedDevicesPage.h                                \
+    qt/OpenRGBSystemInfoPage/OpenRGBSystemInfoPage.h                                            \
     qt/OpenRGBYeelightSettingsPage/OpenRGBYeelightSettingsEntry.h                               \
     qt/OpenRGBYeelightSettingsPage/OpenRGBYeelightSettingsPage.h                                \
-    qt/OpenRGBZonesBulkResizer.h                                                                \
-    qt/QTooltipedSlider.h                                                                       \
-    qt/TabLabel.h                                                                               \
+    qt/OpenRGBZoneResizeDialog/OpenRGBZoneResizeDialog.h                                        \
+    qt/OpenRGBZonesBulkResizer/OpenRGBZonesBulkResizer.h                                        \
     serial_port/find_usb_serial_port.h                                                          \
     serial_port/serial_port.h                                                                   \
     StringUtils.h                                                                               \
@@ -799,42 +824,29 @@ SOURCES +=                                                                      
     ResourceManager.cpp                                                                         \
     SettingsManager.cpp                                                                         \
     qt/DetectorTableModel.cpp                                                                   \
-    qt/OpenRGBClientInfoPage.cpp                                                                \
-    qt/OpenRGBConsolePage.cpp                                                                   \
-    qt/OpenRGBDeviceInfoPage.cpp                                                                \
-    qt/OpenRGBDevicePage.cpp                                                                    \
-    qt/OpenRGBDialog.cpp                                                                        \
     i2c_smbus/i2c_smbus.cpp                                                                     \
     i2c_tools/i2c_tools.cpp                                                                     \
     net_port/net_port.cpp                                                                       \
     qt/DeviceView.cpp                                                                           \
-    qt/OpenRGBDialog2.cpp                                                                       \
-    qt/OpenRGBElgatoKeyLightSettingsPage/OpenRGBElgatoKeyLightSettingsEntry.cpp                 \
-    qt/OpenRGBElgatoKeyLightSettingsPage/OpenRGBElgatoKeyLightSettingsPage.cpp                  \
-    qt/OpenRGBHardwareIDsDialog.cpp                                                             \
-    qt/OpenRGBKasaSmartSettingsPage/OpenRGBKasaSmartSettingsEntry.cpp                           \
-    qt/OpenRGBKasaSmartSettingsPage/OpenRGBKasaSmartSettingsPage.cpp                            \
+    qt/hsv.cpp                                                                                  \
     qt/OpenRGBFont.cpp                                                                          \
-    qt/OpenRGBPluginContainer.cpp                                                               \
-    qt/OpenRGBPluginsPage/OpenRGBPluginsEntry.cpp                                               \
-    qt/OpenRGBPluginsPage/OpenRGBPluginsList.cpp                                                \
-    qt/OpenRGBPluginsPage/OpenRGBPluginsPage.cpp                                                \
-    qt/OpenRGBProfileSaveDialog.cpp                                                             \
-    qt/OpenRGBServerInfoPage.cpp                                                                \
-    qt/OpenRGBSettingsPage.cpp                                                                  \
-    qt/OpenRGBSoftwareInfoPage.cpp                                                              \
-    qt/OpenRGBSupportedDevicesPage.cpp                                                          \
-    qt/OpenRGBSystemInfoPage.cpp                                                                \
     qt/OpenRGBThemeManager.cpp                                                                  \
-    qt/OpenRGBZoneResizeDialog.cpp                                                              \
-    qt/OpenRGBZonesBulkResizer.cpp                                                              \
     qt/QTooltipedSlider.cpp                                                                     \
     qt/TabLabel.cpp                                                                             \
-    qt/hsv.cpp                                                                                  \
+    qt/OpenRGBClientInfoPage/OpenRGBClientInfoPage.cpp                                          \
+    qt/OpenRGBConsolePage/OpenRGBConsolePage.cpp                                                \
+    qt/OpenRGBDeviceInfoPage/OpenRGBDeviceInfoPage.cpp                                          \
+    qt/OpenRGBDevicePage/OpenRGBDevicePage.cpp                                                  \
+    qt/OpenRGBDialog2/OpenRGBDialog2.cpp                                                        \
     qt/OpenRGBDMXSettingsPage/OpenRGBDMXSettingsEntry.cpp                                       \
     qt/OpenRGBDMXSettingsPage/OpenRGBDMXSettingsPage.cpp                                        \
     qt/OpenRGBE131SettingsPage/OpenRGBE131SettingsEntry.cpp                                     \
     qt/OpenRGBE131SettingsPage/OpenRGBE131SettingsPage.cpp                                      \
+    qt/OpenRGBElgatoKeyLightSettingsPage/OpenRGBElgatoKeyLightSettingsEntry.cpp                 \
+    qt/OpenRGBElgatoKeyLightSettingsPage/OpenRGBElgatoKeyLightSettingsPage.cpp                  \
+    qt/OpenRGBHardwareIDsDialog/OpenRGBHardwareIDsDialog.cpp                                    \
+    qt/OpenRGBKasaSmartSettingsPage/OpenRGBKasaSmartSettingsEntry.cpp                           \
+    qt/OpenRGBKasaSmartSettingsPage/OpenRGBKasaSmartSettingsPage.cpp                            \
     qt/OpenRGBLIFXSettingsPage/OpenRGBLIFXSettingsEntry.cpp                                     \
     qt/OpenRGBLIFXSettingsPage/OpenRGBLIFXSettingsPage.cpp                                      \
     qt/OpenRGBNanoleafSettingsPage/OpenRGBNanoleafSettingsEntry.cpp                             \
@@ -844,12 +856,24 @@ SOURCES +=                                                                      
     qt/OpenRGBPhilipsHueSettingsPage/OpenRGBPhilipsHueSettingsPage.cpp                          \
     qt/OpenRGBPhilipsWizSettingsPage/OpenRGBPhilipsWizSettingsEntry.cpp                         \
     qt/OpenRGBPhilipsWizSettingsPage/OpenRGBPhilipsWizSettingsPage.cpp                          \
+    qt/OpenRGBPluginContainer/OpenRGBPluginContainer.cpp                                        \
+    qt/OpenRGBPluginsPage/OpenRGBPluginsEntry.cpp                                               \
+    qt/OpenRGBPluginsPage/OpenRGBPluginsList.cpp                                                \
+    qt/OpenRGBPluginsPage/OpenRGBPluginsPage.cpp                                                \
+    qt/OpenRGBProfileSaveDialog/OpenRGBProfileSaveDialog.cpp                                    \
     qt/OpenRGBQMKORGBSettingsPage/OpenRGBQMKORGBSettingsEntry.cpp                               \
     qt/OpenRGBQMKORGBSettingsPage/OpenRGBQMKORGBSettingsPage.cpp                                \
     qt/OpenRGBSerialSettingsPage/OpenRGBSerialSettingsEntry.cpp                                 \
     qt/OpenRGBSerialSettingsPage/OpenRGBSerialSettingsPage.cpp                                  \
+    qt/OpenRGBServerInfoPage/OpenRGBServerInfoPage.cpp                                          \
+    qt/OpenRGBSettingsPage/OpenRGBSettingsPage.cpp                                              \
+    qt/OpenRGBSoftwareInfoPage/OpenRGBSoftwareInfoPage.cpp                                      \
+    qt/OpenRGBSupportedDevicesPage/OpenRGBSupportedDevicesPage.cpp                              \
+    qt/OpenRGBSystemInfoPage/OpenRGBSystemInfoPage.cpp                                          \
     qt/OpenRGBYeelightSettingsPage/OpenRGBYeelightSettingsEntry.cpp                             \
     qt/OpenRGBYeelightSettingsPage/OpenRGBYeelightSettingsPage.cpp                              \
+    qt/OpenRGBZoneResizeDialog/OpenRGBZoneResizeDialog.cpp                                      \
+    qt/OpenRGBZonesBulkResizer/OpenRGBZonesBulkResizer.cpp                                      \
     serial_port/serial_port.cpp                                                                 \
     StringUtils.cpp                                                                             \
     super_io/super_io.cpp                                                                       \
@@ -1476,27 +1500,19 @@ TRANSLATIONS +=                                                                 
     qt/i18n/OpenRGB_zh_TW.ts                                                                    \
 
 FORMS +=                                                                                        \
-    qt/OpenRGBClientInfoPage.ui                                                                 \
-    qt/OpenRGBConsolePage.ui                                                                    \
-    qt/OpenRGBDeviceInfoPage.ui                                                                 \
-    qt/OpenRGBDevicePage.ui                                                                     \
-    qt/OpenRGBDialog.ui                                                                         \
-    qt/OpenRGBDialog2.ui                                                                        \
-    qt/OpenRGBHardwareIDsDialog.ui                                                              \
-    qt/OpenRGBPluginContainer.ui                                                                \
-    qt/OpenRGBProfileSaveDialog.ui                                                              \
-    qt/OpenRGBServerInfoPage.ui                                                                 \
-    qt/OpenRGBSettingsPage.ui                                                                   \
-    qt/OpenRGBSoftwareInfoPage.ui                                                               \
-    qt/OpenRGBSupportedDevicesPage.ui                                                           \
-    qt/OpenRGBSystemInfoPage.ui                                                                 \
-    qt/OpenRGBZoneResizeDialog.ui                                                               \
+    qt/TabLabel.ui                                                                              \
+    qt/OpenRGBClientInfoPage/OpenRGBClientInfoPage.ui                                           \
+    qt/OpenRGBConsolePage/OpenRGBConsolePage.ui                                                 \
+    qt/OpenRGBDeviceInfoPage/OpenRGBDeviceInfoPage.ui                                           \
+    qt/OpenRGBDevicePage/OpenRGBDevicePage.ui                                                   \
+    qt/OpenRGBDialog2/OpenRGBDialog2.ui                                                         \
     qt/OpenRGBDMXSettingsPage/OpenRGBDMXSettingsEntry.ui                                        \
     qt/OpenRGBDMXSettingsPage/OpenRGBDMXSettingsPage.ui                                         \
     qt/OpenRGBE131SettingsPage/OpenRGBE131SettingsEntry.ui                                      \
     qt/OpenRGBE131SettingsPage/OpenRGBE131SettingsPage.ui                                       \
     qt/OpenRGBElgatoKeyLightSettingsPage/OpenRGBElgatoKeyLightSettingsEntry.ui                  \
     qt/OpenRGBElgatoKeyLightSettingsPage/OpenRGBElgatoKeyLightSettingsPage.ui                   \
+    qt/OpenRGBHardwareIDsDialog/OpenRGBHardwareIDsDialog.ui                                     \
     qt/OpenRGBKasaSmartSettingsPage/OpenRGBKasaSmartSettingsEntry.ui                            \
     qt/OpenRGBKasaSmartSettingsPage/OpenRGBKasaSmartSettingsPage.ui                             \
     qt/OpenRGBLIFXSettingsPage/OpenRGBLIFXSettingsEntry.ui                                      \
@@ -1507,16 +1523,23 @@ FORMS +=                                                                        
     qt/OpenRGBPhilipsHueSettingsPage/OpenRGBPhilipsHueSettingsPage.ui                           \
     qt/OpenRGBPhilipsWizSettingsPage/OpenRGBPhilipsWizSettingsEntry.ui                          \
     qt/OpenRGBPhilipsWizSettingsPage/OpenRGBPhilipsWizSettingsPage.ui                           \
+    qt/OpenRGBPluginContainer/OpenRGBPluginContainer.ui                                         \
     qt/OpenRGBPluginsPage/OpenRGBPluginsEntry.ui                                                \
     qt/OpenRGBPluginsPage/OpenRGBPluginsPage.ui                                                 \
+    qt/OpenRGBProfileSaveDialog/OpenRGBProfileSaveDialog.ui                                     \
     qt/OpenRGBQMKORGBSettingsPage/OpenRGBQMKORGBSettingsEntry.ui                                \
     qt/OpenRGBQMKORGBSettingsPage/OpenRGBQMKORGBSettingsPage.ui                                 \
     qt/OpenRGBSerialSettingsPage/OpenRGBSerialSettingsEntry.ui                                  \
     qt/OpenRGBSerialSettingsPage/OpenRGBSerialSettingsPage.ui                                   \
+    qt/OpenRGBServerInfoPage/OpenRGBServerInfoPage.ui                                           \
+    qt/OpenRGBSettingsPage/OpenRGBSettingsPage.ui                                               \
+    qt/OpenRGBSoftwareInfoPage/OpenRGBSoftwareInfoPage.ui                                       \
+    qt/OpenRGBSupportedDevicesPage/OpenRGBSupportedDevicesPage.ui                               \
+    qt/OpenRGBSystemInfoPage/OpenRGBSystemInfoPage.ui                                           \
     qt/OpenRGBYeelightSettingsPage/OpenRGBYeelightSettingsEntry.ui                              \
     qt/OpenRGBYeelightSettingsPage/OpenRGBYeelightSettingsPage.ui                               \
-    qt/OpenRGBZonesBulkResizer.ui                                                               \
-    qt/TabLabel.ui                                                                              \
+    qt/OpenRGBZoneResizeDialog/OpenRGBZoneResizeDialog.ui                                       \
+    qt/OpenRGBZonesBulkResizer/OpenRGBZonesBulkResizer.ui                                       \
 
 #-----------------------------------------------------------------------------------------------#
 # Windows-specific Configuration                                                                #
