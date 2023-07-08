@@ -1412,7 +1412,7 @@
     </message>
     <message>
         <source>English - US</source>
-        <translation></translation>
+        <translation>Hrvatski</translation>
     </message>
     <message>
         <source>System Default</source>
