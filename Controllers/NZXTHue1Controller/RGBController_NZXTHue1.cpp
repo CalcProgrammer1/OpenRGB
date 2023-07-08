@@ -12,7 +12,7 @@
     @name NZXT Hue 1
     @category LEDStrip
     @type USB
-    @save :robot:
+    @save :x:
     @direct :white_check_mark:
     @effects :white_check_mark:
     @detectors DetectNZXTHue1Controllers

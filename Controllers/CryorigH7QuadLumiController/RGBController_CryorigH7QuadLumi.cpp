@@ -9,6 +9,16 @@
 
 #include "RGBController_CryorigH7QuadLumi.h"
 
+/**------------------------------------------------------------------*\
+    @name Cryorig H7 Quad Lumi
+    @category Cooler
+    @type USB
+    @save :x:
+    @direct :white_check_mark:
+    @effects :white_check_mark:
+    @detectors DetectCryorigH7QuadLumi
+    @comment
+\*-------------------------------------------------------------------*/
 
 RGBController_CryorigH7QuadLumi::RGBController_CryorigH7QuadLumi(CryorigH7QuadLumiController* controller_ptr)
 {
