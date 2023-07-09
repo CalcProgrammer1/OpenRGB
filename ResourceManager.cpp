@@ -1239,6 +1239,7 @@ void ResourceManager::DetectDevicesThreadFunction()
     | Reset current device pointer to first device      |
     \*-------------------------------------------------*/
 #ifdef __linux__
+#ifdef __GLIBC__
     LOG_INFO("------------------------------------------------------");
     LOG_INFO("|            Detecting libusb HID devices            |");
     LOG_INFO("------------------------------------------------------");
@@ -1352,6 +1353,7 @@ void ResourceManager::DetectDevicesThreadFunction()
         \*-------------------------------------------------*/
         wrapper.hid_free_enumeration(hid_devices);
     }
+#endif
 #endif
 
     /*-------------------------------------------------*\
