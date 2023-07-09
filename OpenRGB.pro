@@ -64,13 +64,16 @@ INCLUDEPATH +=                                                                  
     dependencies/ColorWheel                                                                     \
     dependencies/Swatches/                                                                      \
     dependencies/CRCpp/                                                                         \
+    dependencies/hidapi/                                                                        \
     dependencies/hueplusplus-1.0.0/include                                                      \
     dependencies/hueplusplus-1.0.0/include/hueplusplus                                          \
     dependencies/httplib                                                                        \
     dependencies/json/                                                                          \
     dependencies/libe131/src/                                                                   \
     dependencies/libcmmk/include/                                                               \
+    dependencies/libusb-1.0.22/include/                                                         \
     dependencies/mdns                                                                           \
+    dependencies/mbedtls-2.24.0/include/                                                        \
     hidapi_wrapper/                                                                             \
     i2c_smbus/                                                                                  \
     i2c_tools/                                                                                  \
@@ -229,6 +232,7 @@ HEADERS +=                                                                      
     Colors.h                                                                                    \
     dependencies/ColorWheel/ColorWheel.h                                                        \
     dependencies/Swatches/swatches.h                                                            \
+    dependencies/hidapi/hidapi/hidapi.h                                                         \
     dependencies/json/json.hpp                                                                  \
     dependencies/libcmmk/include/libcmmk/libcmmk.h                                              \
     LogManager.h                                                                                \
