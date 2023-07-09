@@ -361,6 +361,19 @@ uint16_t LightBoard_init(uint8_t* p_in)
     @effects :x:
     @detectors DetectGaiZhongGaiKeyboardControllers
     @comment
+        Open source web : https://oshwhub.com/yangzen/zui-gai68-
+
+        | function                      | command code      | format    | format    | format    |  format                                   |
+        | ----------------------------- | ----------------- | --------  | --------  | --------  | ----------------------------------------- |
+        |                               |        [0]        |    [1]    |   [2]     |   [3]     |   [4]                                     |
+        | ----------------------------- | ----------------- | --------  | --------  | --------  | ----------------------------------------- |
+        | Restore offline effects       |   0xFF            | undefined | undefined | undefined | undefined                                 |
+        | Set color                     |   0x10            | LED0_G    | LED0_R    | LED0_B    | LED1_G(And so on to LED20)                |
+        | Set color                     |   0x11            | LED21_G   | LED21_R   | LED21_B   | LED22_G(The sequence is WS2812 network)   |
+        | Get color                     |   0x20            | LED0_G    | LED0_R    | LED0_B    | LED1_G(And so on to LED20)                |
+        | Get color                     |   0x21            | LED21_G   | LED21_R   | LED21_B   | LED22_G(The sequence is WS2812 network)   |
+
+        Note: Get color only sends command code, and the keyboard returns LED color data
 \*-------------------------------------------------------------------*/
 
 RGBController_GaiZhongGaiKeyboard::RGBController_GaiZhongGaiKeyboard(GaiZhongGaiKeyboardController* controller_ptr)
