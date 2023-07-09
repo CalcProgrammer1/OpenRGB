@@ -803,7 +803,7 @@
     <message>
         <location filename="../OpenRGBPhilipsHueSettingsPage/OpenRGBPhilipsHueSettingsPage.ui" line="48"/>
         <source>After adding a Hue entry and saving, restart OpenRGB and press the Sync button on your Hue bridge to pair it.</source>
-        <translation>После добавления устройств Hue и сохранения, перезапустите OpenRGB, затем нажмите кнопку Sync на мосте Hue brisge для установления связи.</translation>
+        <translation>После добавления устройств Hue и сохранения, перезапустите OpenRGB, затем нажмите кнопку Sync на мосте Hue bridge для установления связи.</translation>
     </message>
     <message>
         <location filename="../OpenRGBPhilipsHueSettingsPage/OpenRGBPhilipsHueSettingsPage.ui" line="14"/>
