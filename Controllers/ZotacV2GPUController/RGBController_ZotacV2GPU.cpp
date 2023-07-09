@@ -53,15 +53,8 @@ RGBController_ZotacV2GPU::RGBController_ZotacV2GPU(ZotacV2GPUController* control
     location    = controller->GetDeviceLocation();
     type        = DEVICE_TYPE_GPU;
 
-    try
-    {
-        config = ZOTAC_V2_GPU_CONFIG.at(controller->GetVersion());
-    }
-    catch(std::out_of_range)
-    {
-        LOG_ERROR("No zone config found for %s", version.c_str());
-        config = ZotacV2GPUConfig();
-    }
+    config = ZOTAC_V2_GPU_CONFIG.at(controller->GetVersion());
+
     version += std::to_string(config.numberOfZones) + " zones, "
             + (config.supportsExternalLEDStrip ? "with" : "without") + " external LED strip support";
 
