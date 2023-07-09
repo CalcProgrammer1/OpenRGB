@@ -53,6 +53,7 @@ enum
     ENE_MODE_SPECTRUM_CYCLE_WAVE        = 11,       /* Wave effect mode                     */
     ENE_MODE_CHASE_RAINBOW_PULSE        = 12,       /* Chase with  Rainbow Pulse effect mode*/
     ENE_MODE_RANDOM_FLICKER             = 13,       /* Random flicker effect mode           */
+    ENE_MODE_DOUBLE_FADE                = 14,       /* Rainbow fade to dual color           */
     ENE_NUMBER_MODES                                /* Number of Aura modes                 */
 };
 
@@ -74,6 +75,7 @@ enum
 enum
 {
     ENE_LED_CHANNEL_DRAM_2              = 0x05,     /* DRAM LED channel                     */
+    ENE_LED_CHANNEL_DRAM_3              = 0x0E,     /* DRAM LED channel                     */
     ENE_LED_CHANNEL_CENTER_START        = 0x82,     /* Center zone first LED channel        */
     ENE_LED_CHANNEL_CENTER              = 0x83,     /* Center zone LED channel              */
     ENE_LED_CHANNEL_AUDIO               = 0x84,     /* Audio zone LED channel               */
@@ -134,5 +136,4 @@ private:
     unsigned char           channel_cfg;
     ENESMBusInterface*      interface;
     ene_dev_id              dev;
-
 };

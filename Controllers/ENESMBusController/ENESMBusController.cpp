@@ -187,6 +187,8 @@ std::string ENESMBusController::GetDeviceLocation()
 
 const char * ENESMBusController::GetChannelName(unsigned int cfg_zone)
 {
+    LOG_TRACE("[%s] Config table for zone %02d: %02d", device_name, cfg_zone, config_table[channel_cfg + cfg_zone]);
+
     switch(config_table[channel_cfg + cfg_zone])
     {
     case (unsigned char)ENE_LED_CHANNEL_AUDIO:
@@ -211,6 +213,7 @@ const char * ENESMBusController::GetChannelName(unsigned int cfg_zone)
 
     case (unsigned char)ENE_LED_CHANNEL_DRAM:
     case (unsigned char)ENE_LED_CHANNEL_DRAM_2:
+    case (unsigned char)ENE_LED_CHANNEL_DRAM_3:
         return(ene_channels[5]);
         break;
 
@@ -238,6 +241,7 @@ const char * ENESMBusController::GetChannelName(unsigned int cfg_zone)
 
 unsigned int ENESMBusController::GetLEDCount(unsigned int cfg_zone)
 {
+    LOG_TRACE("[%s] LED Count for zone %02d: %02d", device_name, cfg_zone, config_table[0x03 + cfg_zone]);
     return(config_table[0x03 + cfg_zone]);
 }
 

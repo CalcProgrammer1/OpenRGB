@@ -7,6 +7,7 @@
 \*-----------------------------------------*/
 
 #include "RGBController_ENESMBus.h"
+#include "LogManager.h"
 #include "ResourceManager.h"
 
 /**------------------------------------------------------------------*\
@@ -65,98 +66,111 @@ RGBController_ENESMBus::RGBController_ENESMBus(ENESMBusController * controller_p
     description = "ENE SMBus Device";
 
     mode Direct;
-    Direct.name       = "Direct";
-    Direct.value      = 0xFFFF;
-    Direct.flags      = MODE_FLAG_HAS_PER_LED_COLOR;
-    Direct.color_mode = MODE_COLORS_PER_LED;
+    Direct.name                 = "Direct";
+    Direct.value                = 0xFFFF;
+    Direct.flags                = MODE_FLAG_HAS_PER_LED_COLOR;
+    Direct.color_mode           = MODE_COLORS_PER_LED;
     modes.push_back(Direct);
 
     mode Off;
-    Off.name       = "Off";
-    Off.value      = ENE_MODE_OFF;
-    Off.flags      = save_flag;
-    Off.color_mode = MODE_COLORS_NONE;
+    Off.name                    = "Off";
+    Off.value                   = ENE_MODE_OFF;
+    Off.flags                   = save_flag;
+    Off.color_mode              = MODE_COLORS_NONE;
     modes.push_back(Off);
 
     mode Static;
-    Static.name       = "Static";
-    Static.value      = ENE_MODE_STATIC;
-    Static.flags      = MODE_FLAG_HAS_PER_LED_COLOR | save_flag;
-    Static.color_mode = MODE_COLORS_PER_LED;
+    Static.name                 = "Static";
+    Static.value                = ENE_MODE_STATIC;
+    Static.flags                = MODE_FLAG_HAS_PER_LED_COLOR | save_flag;
+    Static.color_mode           = MODE_COLORS_PER_LED;
     modes.push_back(Static);
 
     mode Breathing;
-    Breathing.name       = "Breathing";
-    Breathing.value      = ENE_MODE_BREATHING;
-    Breathing.flags      = MODE_FLAG_HAS_RANDOM_COLOR | MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_HAS_SPEED | save_flag;
-    Breathing.color_mode = MODE_COLORS_PER_LED;
-    Breathing.speed_min  = ENE_SPEED_SLOWEST;
-    Breathing.speed_max  = ENE_SPEED_FASTEST;
-    Breathing.speed      = ENE_SPEED_NORMAL;
+    Breathing.name              = "Breathing";
+    Breathing.value             = ENE_MODE_BREATHING;
+    Breathing.flags             = MODE_FLAG_HAS_RANDOM_COLOR | MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_HAS_SPEED | save_flag;
+    Breathing.color_mode        = MODE_COLORS_PER_LED;
+    Breathing.speed_min         = ENE_SPEED_SLOWEST;
+    Breathing.speed_max         = ENE_SPEED_FASTEST;
+    Breathing.speed             = ENE_SPEED_NORMAL;
     modes.push_back(Breathing);
 
     mode Flashing;
-    Flashing.name       = "Flashing";
-    Flashing.value      = ENE_MODE_FLASHING;
-    Flashing.flags      = MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_HAS_SPEED | save_flag;
-    Flashing.color_mode = MODE_COLORS_PER_LED;
-    Flashing.speed_min  = ENE_SPEED_SLOWEST;
-    Flashing.speed_max  = ENE_SPEED_FASTEST;
-    Flashing.speed      = ENE_SPEED_NORMAL;
+    Flashing.name               = "Flashing";
+    Flashing.value              = ENE_MODE_FLASHING;
+    Flashing.flags              = MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_HAS_SPEED | save_flag;
+    Flashing.color_mode         = MODE_COLORS_PER_LED;
+    Flashing.speed_min          = ENE_SPEED_SLOWEST;
+    Flashing.speed_max          = ENE_SPEED_FASTEST;
+    Flashing.speed              = ENE_SPEED_NORMAL;
     modes.push_back(Flashing);
 
     mode SpectrumCycle;
-    SpectrumCycle.name       = "Spectrum Cycle";
-    SpectrumCycle.value      = ENE_MODE_SPECTRUM_CYCLE;
-    SpectrumCycle.flags      = MODE_FLAG_HAS_SPEED | save_flag;
-    SpectrumCycle.color_mode = MODE_COLORS_NONE;
-    SpectrumCycle.speed_min  = ENE_SPEED_SLOWEST;
-    SpectrumCycle.speed_max  = ENE_SPEED_FASTEST;
-    SpectrumCycle.speed      = ENE_SPEED_NORMAL;
+    SpectrumCycle.name          = "Spectrum Cycle";
+    SpectrumCycle.value         = ENE_MODE_SPECTRUM_CYCLE;
+    SpectrumCycle.flags         = MODE_FLAG_HAS_SPEED | save_flag;
+    SpectrumCycle.color_mode    = MODE_COLORS_NONE;
+    SpectrumCycle.speed_min     = ENE_SPEED_SLOWEST;
+    SpectrumCycle.speed_max     = ENE_SPEED_FASTEST;
+    SpectrumCycle.speed         = ENE_SPEED_NORMAL;
     modes.push_back(SpectrumCycle);
 
     mode Rainbow;
-    Rainbow.name       = "Rainbow";
-    Rainbow.value      = ENE_MODE_RAINBOW;
-    Rainbow.flags      = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_DIRECTION_LR | save_flag;
-    Rainbow.color_mode = MODE_COLORS_NONE;
-    Rainbow.speed_min  = ENE_SPEED_SLOWEST;
-    Rainbow.speed_max  = ENE_SPEED_FASTEST;
-    Rainbow.speed      = ENE_SPEED_NORMAL;
-    Rainbow.direction  = MODE_DIRECTION_LEFT;
+    Rainbow.name                = "Rainbow";
+    Rainbow.value               = ENE_MODE_RAINBOW;
+    Rainbow.flags               = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_DIRECTION_LR | save_flag;
+    Rainbow.color_mode          = MODE_COLORS_NONE;
+    Rainbow.speed_min           = ENE_SPEED_SLOWEST;
+    Rainbow.speed_max           = ENE_SPEED_FASTEST;
+    Rainbow.speed               = ENE_SPEED_NORMAL;
+    Rainbow.direction           = MODE_DIRECTION_LEFT;
     modes.push_back(Rainbow);
 
     mode ChaseFade;
-    ChaseFade.name       = "Chase Fade";
-    ChaseFade.value      = ENE_MODE_CHASE_FADE;
-    ChaseFade.flags      = MODE_FLAG_HAS_RANDOM_COLOR | MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_DIRECTION_LR | save_flag;
-    ChaseFade.color_mode = MODE_COLORS_PER_LED;
-    ChaseFade.speed_min  = ENE_SPEED_SLOWEST;
-    ChaseFade.speed_max  = ENE_SPEED_FASTEST;
-    ChaseFade.speed      = ENE_SPEED_NORMAL;
-    ChaseFade.direction  = MODE_DIRECTION_LEFT;
+    ChaseFade.name              = "Chase Fade";
+    ChaseFade.value             = ENE_MODE_CHASE_FADE;
+    ChaseFade.flags             = MODE_FLAG_HAS_RANDOM_COLOR | MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_DIRECTION_LR | save_flag;
+    ChaseFade.color_mode        = MODE_COLORS_PER_LED;
+    ChaseFade.speed_min         = ENE_SPEED_SLOWEST;
+    ChaseFade.speed_max         = ENE_SPEED_FASTEST;
+    ChaseFade.speed             = ENE_SPEED_NORMAL;
+    ChaseFade.direction         = MODE_DIRECTION_LEFT;
     modes.push_back(ChaseFade);
 
     mode Chase;
-    Chase.name       = "Chase";
-    Chase.value      = ENE_MODE_CHASE;
-    Chase.flags      = MODE_FLAG_HAS_RANDOM_COLOR | MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_DIRECTION_LR | save_flag;
-    Chase.color_mode = MODE_COLORS_PER_LED;
-    Chase.speed_min  = ENE_SPEED_SLOWEST;
-    Chase.speed_max  = ENE_SPEED_FASTEST;
-    Chase.speed      = ENE_SPEED_NORMAL;
-    ChaseFade.direction  = MODE_DIRECTION_LEFT;
+    Chase.name                  = "Chase";
+    Chase.value                 = ENE_MODE_CHASE;
+    Chase.flags                 = MODE_FLAG_HAS_RANDOM_COLOR | MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_DIRECTION_LR | save_flag;
+    Chase.color_mode            = MODE_COLORS_PER_LED;
+    Chase.speed_min             = ENE_SPEED_SLOWEST;
+    Chase.speed_max             = ENE_SPEED_FASTEST;
+    Chase.speed                 = ENE_SPEED_NORMAL;
+    ChaseFade.direction         = MODE_DIRECTION_LEFT;
     modes.push_back(Chase);
 
     mode RandomFlicker;
-    RandomFlicker.name       = "Random Flicker";
-    RandomFlicker.value      = ENE_MODE_RANDOM_FLICKER;
-    RandomFlicker.flags      = MODE_FLAG_HAS_SPEED | save_flag;
-    RandomFlicker.color_mode = MODE_COLORS_NONE;
-    RandomFlicker.speed_min  = ENE_SPEED_SLOWEST;
-    RandomFlicker.speed_max  = ENE_SPEED_FASTEST;
-    RandomFlicker.speed      = ENE_SPEED_NORMAL;
+    RandomFlicker.name          = "Random Flicker";
+    RandomFlicker.value         = ENE_MODE_RANDOM_FLICKER;
+    RandomFlicker.flags         = MODE_FLAG_HAS_SPEED | save_flag;
+    RandomFlicker.color_mode    = MODE_COLORS_NONE;
+    RandomFlicker.speed_min     = ENE_SPEED_SLOWEST;
+    RandomFlicker.speed_max     = ENE_SPEED_FASTEST;
+    RandomFlicker.speed         = ENE_SPEED_NORMAL;
     modes.push_back(RandomFlicker);
+
+    if(version == "AUDA0-E6K5-0101")
+    {
+        mode DoubleFade;
+        DoubleFade.name         = "Double Fade";
+        DoubleFade.value        = ENE_MODE_DOUBLE_FADE;
+        DoubleFade.flags        = MODE_FLAG_HAS_SPEED;
+        DoubleFade.color_mode   = MODE_COLORS_NONE;
+        DoubleFade.speed_min    = ENE_SPEED_SLOWEST;
+        DoubleFade.speed_max    = ENE_SPEED_FASTEST;
+        DoubleFade.speed        = ENE_SPEED_NORMAL;
+        modes.push_back(DoubleFade);
+    }
 
     SetupZones();
 
@@ -181,6 +195,8 @@ int RGBController_ENESMBus::GetDeviceMode()
     int speed       = controller->ENERegisterRead(ENE_REG_SPEED);
     int direction   = controller->ENERegisterRead(ENE_REG_DIRECTION);
 
+    LOG_TRACE("[%s] Retrieved ENE mode from module: %02d", name.c_str(), dev_mode);
+
     if(controller->ENERegisterRead(ENE_REG_DIRECT))
     {
         dev_mode = 0xFFFF;
@@ -192,6 +208,7 @@ int RGBController_ENESMBus::GetDeviceMode()
         case ENE_MODE_RAINBOW:
         case ENE_MODE_SPECTRUM_CYCLE:
         case ENE_MODE_RANDOM_FLICKER:
+        case ENE_MODE_DOUBLE_FADE:
             color_mode = MODE_COLORS_NONE;
             break;
 
