@@ -17,6 +17,69 @@
     @effects :white_check_mark:
     @detectors DetectGigabyteSuperIORGBControllers
     @comment
+        Testing was done on an ITE8688 Chipset, and adds the support for motherboards that can only be controlled with Gigabyte’s “Ambient Led” NOT EITHER RGB Fusion 1.0/2.0.
+
+        You should first check to confirm that you DO NOT HAVE EITHER A USB OR SMBUS controllable chipset, use the following powershell command to confirm if you have a USB device:
+        ```powershell
+        gwmi Win32_USBControllerDevice |%{[wmi]($_.Dependent)} | Sort Manufacturer,Description,DeviceID | Ft -GroupBy Manufacturer Description,Service,DeviceID
+        ```
+
+        If you see anything with a VID of 048D or 8297, DO NOT PROCEED, the software is likely supportable by OpenRGB's Fusion2 USB controller.
+
+        After that check output on the SMBus: Using the OpenRGB I2C Sniffer to confirm that no data is output on either bus while changing colors in “Ambient LED”, if either bus outputs data, DO NOT PROCEED, the software is likely supportable in Gigabyte RGB Fusion.
+
+        The following chipsets are likely supported:
+        | Chipset ID |
+        | :---:      |
+        | ITE8620E   |
+        | ITE8626    |
+        | ITE8686E   |
+        | ITE8688    |
+        | ITE8689    |
+        | ITE8728F   |
+        | ITE8790F   |
+        | ITE8791E   |
+
+        To confirm your chipset, you can open CPU-Z, the MCU chipset model is found under Mainboard like below:
+
+        To confirm that your RGB is compatible with this Controller in OpenRGB, you will need to add the motherboard DMI Model name, which is the output of the following powershell command:
+
+        ```powershell
+        wmic baseboard get product
+        ```
+
+        To the struct array that is found in GigabyteSuperIORGBControllerDetect.cpp, like below
+
+        ```c++
+        gig_device compatible_devices[] =
+        {
+            {"X570 UD"},
+            {"EXAMPLEBASEBOARDPRODUCTNAME"}
+        };
+        ```
+
+         If your chipset is also NOT an ITE8688, you will also need to add the chipset, to get this is a bit harder, for myself I added a breakpoint, on this line, in GigabyteSuperIORGBControllerDetect.cpp:
+         ```c++
+                switch (val & SIO_ID_MASK)
+        ```
+
+        For an ITE8688, the value was 0x8688 in Hexidecimal, it is likely the case with other models as well that the code matches the MCU model.
+
+        To add this chipset you will need to first add it to the SuperIO definitions file, which is named super_io.h like below
+        ```c++
+        #define SIO_ITE688_ID               0x8688  // Device ID for ITE8688  (8688)
+        #define SIO_NEWCHIPSETMODEL_ID      0xFOUNDHEXIDECIMALVALUE  // Device ID for NEWCHIPSETMODEL  (FOUNDHEXIDECIMALVALUE)
+        ```
+
+        And lastly you will need to add the chip to the
+
+        GigabyteSuperIORGBControllerDetect.cpp like below:
+        ```c++
+                switch (val & SIO_ID_MASK)
+                {
+                    case SIO_ITE688_ID:
+                    case SIO_NEWCHIPSETMODEL_ID:
+        ```
 \*-------------------------------------------------------------------*/
 
 RGBController_GigabyteSuperIORGB::RGBController_GigabyteSuperIORGB(GigabyteSuperIORGBController* controller_ptr)
