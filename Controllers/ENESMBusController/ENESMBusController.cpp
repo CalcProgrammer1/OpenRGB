@@ -31,8 +31,9 @@ static const char* ene_channels[] =                 /* ENE channel strings      
 
 ENESMBusController::ENESMBusController(ENESMBusInterface* interface, ene_dev_id dev)
 {
-    this->interface = interface;
-    this->dev       = dev;
+    this->interface     = interface;
+    this->dev           = dev;
+    supports_mode_14    = false;
 
     UpdateDeviceName();
 
@@ -93,6 +94,17 @@ ENESMBusController::ENESMBusController(ENESMBusInterface* interface, ene_dev_id 
         direct_reg  = ENE_REG_COLORS_DIRECT_V2;
         effect_reg  = ENE_REG_COLORS_EFFECT_V2;
         channel_cfg = ENE_CONFIG_CHANNEL_V1;
+
+        // Check for Mode 14 support, only known to exist on modules where the
+        // DRAM 3 zone ID exists
+        for(std::size_t cfg_zone_idx = 0; cfg_zone_idx < ENE_NUM_ZONES; cfg_zone_idx++)
+        {
+            if(config_table[channel_cfg + cfg_zone_idx] == (unsigned char)ENE_LED_CHANNEL_DRAM_3)
+            {
+                supports_mode_14 = true;
+                break;
+            }
+        }
     }
     // AUMA0-E6K5-0106 - Second generation motherboard controller
     else if (strcmp(device_name, "AUMA0-E6K5-0106") == 0)
@@ -369,6 +381,11 @@ void ENESMBusController::SetMode(unsigned char mode, unsigned char speed, unsign
     ENERegisterWrite(ENE_REG_SPEED,     speed);
     ENERegisterWrite(ENE_REG_DIRECTION, direction);
     ENERegisterWrite(ENE_REG_APPLY,     ENE_APPLY_VAL);
+}
+
+bool ENESMBusController::SupportsMode14()
+{
+    return(supports_mode_14);
 }
 
 void ENESMBusController::UpdateDeviceName()

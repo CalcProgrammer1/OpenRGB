@@ -120,6 +120,7 @@ public:
     void          SetLEDColorDirect(unsigned int led, unsigned char red, unsigned char green, unsigned char blue);
     void          SetLEDColorEffect(unsigned int led, unsigned char red, unsigned char green, unsigned char blue);
     void          SetMode(unsigned char mode, unsigned char speed, unsigned char direction);
+    bool          SupportsMode14();
 
     void          UpdateDeviceName();
 
@@ -136,4 +137,5 @@ private:
     unsigned char           channel_cfg;
     ENESMBusInterface*      interface;
     ene_dev_id              dev;
+    bool                    supports_mode_14;
 };

@@ -159,7 +159,7 @@ RGBController_ENESMBus::RGBController_ENESMBus(ENESMBusController * controller_p
     RandomFlicker.speed         = ENE_SPEED_NORMAL;
     modes.push_back(RandomFlicker);
 
-    if(version == "AUDA0-E6K5-0101")
+    if(controller->SupportsMode14())
     {
         mode DoubleFade;
         DoubleFade.name         = "Double Fade";
