@@ -105,7 +105,7 @@ RGBController_ASRockPolychromeV1SMBus::RGBController_ASRockPolychromeV1SMBus(ASR
     mode Music;
     Music.name                  = "Music";
     Music.value                 = POLYCHROME_V1_MODE_MUSIC;
-    Music.flags                 = MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_AUTOMATIC_SAVE;
+    Music.flags                 = MODE_FLAG_AUTOMATIC_SAVE;
     Music.color_mode            = MODE_COLORS_NONE;
     modes.push_back(Music);
 
@@ -122,7 +122,6 @@ RGBController_ASRockPolychromeV1SMBus::RGBController_ASRockPolychromeV1SMBus(ASR
     /*---------------------------------------------------------------------*\
     | Comment out until per zone modes are working. These are only for ARGB |
     \*---------------------------------------------------------------------*/
-    /*
     mode Spring;
     Spring.name                 = "Spring";
     Spring.value                = POLYCHROME_V1_MODE_SPRING;
@@ -192,7 +191,6 @@ RGBController_ASRockPolychromeV1SMBus::RGBController_ASRockPolychromeV1SMBus(ASR
     Rainbow.speed               = POLYCHROME_V1_SPEED_DEFAULT_RAINBOW;
     Rainbow.color_mode          = MODE_COLORS_NONE;
     modes.push_back(Rainbow);
-    */
 
     /*---------------------------------------------------------------------*\
     | This ARGB_Config section is a hack to allow users to configure the    |
