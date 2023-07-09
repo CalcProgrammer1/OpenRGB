@@ -236,12 +236,12 @@ int cmmk_find_device(int *product)
 
 static int cmmk_try_determine_layout(struct cmmk *dev, int product)
 {
-	char fw[16];
+	char fw[CMMK_FW_SIZE];
 
-	enum cmmk_layout_type general_layout = CMMK_LAYOUT_TYPE_ANSI;
-	enum cmmk_product_type device_model;
+	enum cmmk_layout_type general_layout    = CMMK_LAYOUT_TYPE_ANSI;
+	enum cmmk_product_type device_model     = 0;
 
-	if (cmmk_get_firmware_version(dev, fw, sizeof(fw)) == 0) {
+	if (cmmk_get_firmware_version(dev, fw, CMMK_FW_SIZE) == 0) {
 		if (fw[0] == '1') {
 			/* ANSI firmware */
 			general_layout = CMMK_LAYOUT_TYPE_ANSI;
@@ -399,7 +399,7 @@ int cmmk_get_firmware_version(struct cmmk *dev, char *fw, size_t fwsiz)
 		fwsiz = 60;
 	}
 
-	strncpy(fw, (char *)data + 4, fwsiz);
+	memcpy(fw, (char *)data + 4, fwsiz);
 
 	return CMMK_OK;
 }
@@ -890,7 +890,6 @@ int cmmk_get_multilayer_map(struct cmmk *dev, struct cmmk_effect_matrix *effmap)
 {
     const unsigned char HEADER_SIZE         = 9;
     unsigned char data_size                 = CMMK_BUFFER_SIZE - HEADER_SIZE;
-    unsigned char data_size_in_bytes        = data_size / BYTE_SIZE;
     int r;
 
     unsigned char data[CMMK_BUFFER_SIZE];
@@ -939,7 +938,6 @@ int cmmk_set_multilayer_map(struct cmmk *dev, struct cmmk_effect_matrix const *e
 {
     const unsigned char HEADER_SIZE         = 9;
     unsigned char data_size                 = CMMK_BUFFER_SIZE - HEADER_SIZE;
-    unsigned char data_size_in_bytes        = data_size / BYTE_SIZE;
 	int r;
 
     unsigned char data[CMMK_BUFFER_SIZE];
@@ -1035,7 +1033,7 @@ int cmmk_set_all_single(struct cmmk *dev, struct rgb const *col)
  */
 int cmmk_set_leds(struct cmmk *dev, struct cmmk_color_matrix const *colmap)
 {
-    unsigned char data[CMMK_BUFFER_SIZE];
+	unsigned char data[CMMK_BUFFER_SIZE];
 
 	int i;
 	int j;
