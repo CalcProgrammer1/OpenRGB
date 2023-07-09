@@ -1431,6 +1431,9 @@ void ResourceManager::DetectDevicesThreadFunction()
                                 "<p>See <a href='https://openrgb.org/udev'>https://openrgb.org/udev</a> to install the udev rules manually</p>";
 
         LOG_DIALOG("%s", message);
+
+        udev_multiple       = false;
+        i2c_interface_fail  = false;
     }
 
     /*-------------------------------------------------*\
@@ -1445,6 +1448,8 @@ void ResourceManager::DetectDevicesThreadFunction()
                                 "<p>Multiple udev rules files can conflict, it is recommended to remove one of them.</p>";
 
         LOG_DIALOG("%s", message);
+
+        i2c_interface_fail  = false;
     }
 
 #endif
