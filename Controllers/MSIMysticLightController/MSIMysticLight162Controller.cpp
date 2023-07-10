@@ -17,7 +17,7 @@
 #define BITSET(val, bit, pos)       ((unsigned char)std::bitset<8>(val).set((pos), (bit)).to_ulong())
 
 
-struct Config
+struct mystic_light_162_config
 {
     unsigned short                  pid;                    // PID of the board
     size_t                          numof_onboard_leds;     // number of onboard leds
@@ -65,9 +65,9 @@ const std::vector<MSI_ZONE> zones_set3 =
 | Boards with yet unknown supported zones are configured to support all zones.                                                  |
 \*-----------------------------------------------------------------------------------------------------------------------------*/
 
-#define NUMOF_CONFIGS       (sizeof(board_configs) / sizeof(Config))
+#define NUMOF_CONFIGS       (sizeof(board_configs) / sizeof(mystic_light_162_config))
 
-static const Config board_configs[] =
+static const mystic_light_162_config board_configs[] =
 {
     { 0x1720, 10, &zones_set0 },        // MPG Z390 GAMING EDGE AC
     { 0x7B12, 10, &zones_set0 },        // MEG Z390 ACE
@@ -107,7 +107,7 @@ MSIMysticLight162Controller::MSIMysticLight162Controller
     /*-----------------------------------------*\
     | Initialize zone based per LED data        |
     \*-----------------------------------------*/
-    const Config* board_config = nullptr;
+    const mystic_light_162_config* board_config = nullptr;
 
     for(std::size_t i = 0; i < NUMOF_CONFIGS; ++i)
     {

@@ -24,7 +24,7 @@ typedef struct
 {
     const char*         name;
     unsigned char       idx;
-} led_type;
+} aura_keyboard_led;
 
 typedef struct
 {

@@ -18,24 +18,24 @@ class RGBController_OpenRazer : public RGBController
 public:
     enum
     {
-        RAZER_MODE_CUSTOM,
-        RAZER_MODE_OFF,
-        RAZER_MODE_STATIC,
-        RAZER_MODE_BREATHING,
-        RAZER_MODE_SPECTRUM_CYCLE,
-        RAZER_MODE_WAVE,
-        RAZER_MODE_REACTIVE,
-        RAZER_MODE_FLASHING,
-        RAZER_NUM_MODES
+        OPEN_RAZER_MODE_CUSTOM,
+        OPEN_RAZER_MODE_OFF,
+        OPEN_RAZER_MODE_STATIC,
+        OPEN_RAZER_MODE_BREATHING,
+        OPEN_RAZER_MODE_SPECTRUM_CYCLE,
+        OPEN_RAZER_MODE_WAVE,
+        OPEN_RAZER_MODE_REACTIVE,
+        OPEN_RAZER_MODE_FLASHING,
+        OPEN_RAZER_NUM_MODES
     };
 
     enum
     {
-        RAZER_TYPE_MATRIX_FRAME,
-        RAZER_TYPE_MATRIX_NOFRAME,
-        RAZER_TYPE_MATRIX_STATIC,
-        RAZER_TYPE_NOMATRIX,
-        RAZER_NUM_TYPES
+        OPEN_RAZER_TYPE_MATRIX_FRAME,
+        OPEN_RAZER_TYPE_MATRIX_NOFRAME,
+        OPEN_RAZER_TYPE_MATRIX_STATIC,
+        OPEN_RAZER_TYPE_NOMATRIX,
+        OPEN_RAZER_NUM_TYPES
     };
 
 public:
@@ -113,11 +113,11 @@ private:
     std::ofstream backlight_led_effect;
     std::ofstream backlight_led_rgb;
     std::ofstream backlight_led_state;
-    
+
     std::ofstream logo_led_effect;
     std::ofstream logo_led_rgb;
     std::ofstream logo_led_state;
-    
+
     std::ofstream scroll_led_effect;
     std::ofstream scroll_led_rgb;
     std::ofstream scroll_led_state;

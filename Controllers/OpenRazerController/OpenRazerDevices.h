@@ -1,4 +1,4 @@
-#define RAZER_MAX_ZONES 6
+#define OPEN_RAZER_MAX_ZONES 6
 
 #include <string>
 #include "RGBController.h"
@@ -10,7 +10,7 @@ typedef struct
     unsigned int type;
     unsigned int rows;
     unsigned int cols;
-} razer_zone;
+} open_razer_zone;
 
 typedef struct
 {
@@ -18,7 +18,7 @@ typedef struct
     unsigned int row;
     unsigned int col;
     const char* name;
-} razer_key;
+} open_razer_key;
 
 typedef struct
 {
@@ -27,17 +27,17 @@ typedef struct
     bool matrix_type;
     unsigned int rows;
     unsigned int cols;
-    const razer_zone* zones[RAZER_MAX_ZONES];
-    const razer_key* keymap;
+    const open_razer_zone* zones[OPEN_RAZER_MAX_ZONES];
+    const open_razer_key* keymap;
     unsigned int keymap_size;
-} razer_device;
+} open_razer_device;
 
 /*-------------------------------------------------------------------------*\
 |  KEYMAPS                                                                  |
 \*-------------------------------------------------------------------------*/
 #define BLACKWIDOW_CHROMA_KEYMAP_SIZE (sizeof(blackwidow_chroma_keymap) / sizeof(blackwidow_chroma_keymap[0]))
 
-static const razer_key blackwidow_chroma_keymap[] =
+static const open_razer_key blackwidow_chroma_keymap[] =
 {
     /*---------------------------------------------------------------------*\
     |   Zone,   Row,    Column,         Key                                 |
@@ -156,7 +156,7 @@ static const razer_key blackwidow_chroma_keymap[] =
 
 #define BLACKWIDOW_CHROMA_TE_KEYMAP_SIZE (sizeof(blackwidow_chroma_te_keymap) / sizeof(blackwidow_chroma_te_keymap[0]))
 
-static const razer_key blackwidow_chroma_te_keymap[] =
+static const open_razer_key blackwidow_chroma_te_keymap[] =
 {
     /*---------------------------------------------------------------------*\
     |   Zone,   Row,    Column,         Key                                 |
@@ -253,7 +253,7 @@ static const razer_key blackwidow_chroma_te_keymap[] =
 
 #define BLADE_PRO_2017_KEYMAP_SIZE (sizeof(blade_pro_2017_keymap) / sizeof(blade_pro_2017_keymap[0]))
 
-static const razer_key blade_pro_2017_keymap[] =
+static const open_razer_key blade_pro_2017_keymap[] =
 {
     /*---------------------------------------------------------------------*\
     |   Zone,   Row,    Column,         Key                                 |
@@ -347,7 +347,7 @@ static const razer_key blade_pro_2017_keymap[] =
 
 #define BLADE_STEALTH_KEYMAP_SIZE (sizeof(blade_stealth_keymap) / sizeof(blade_stealth_keymap[0]))
 
-static const razer_key blade_stealth_keymap[] =
+static const open_razer_key blade_stealth_keymap[] =
 {
     /*---------------------------------------------------------------------*\
     |   Zone,   Row,    Column,         Key                                 |
@@ -443,7 +443,7 @@ static const razer_key blade_stealth_keymap[] =
 
 #define CYNOSA_CHROMA_KEYMAP_SIZE (sizeof(cynosa_chroma_keymap) / sizeof(cynosa_chroma_keymap[0]))
 
-static const razer_key cynosa_chroma_keymap[] =
+static const open_razer_key cynosa_chroma_keymap[] =
 {
     /*---------------------------------------------------------------------*\
     |   Zone,   Row,    Column,         Key                                 |
@@ -559,7 +559,7 @@ static const razer_key cynosa_chroma_keymap[] =
 
 #define HUNTSMAN_ELITE_KEYMAP_SIZE (sizeof(huntsman_elite_keymap) / sizeof(huntsman_elite_keymap[0]))
 
-static const razer_key huntsman_elite_keymap[] =
+static const open_razer_key huntsman_elite_keymap[] =
 {
     /*---------------------------------------------------------------------*\
     |   Zone,   Row,    Column,         Key                                 |
@@ -678,7 +678,7 @@ static const razer_key huntsman_elite_keymap[] =
 
 #define HUNTSMAN_KEYMAP_SIZE (sizeof(huntsman_keymap) / sizeof(huntsman_keymap[0]))
 
-static const razer_key huntsman_keymap[] =
+static const open_razer_key huntsman_keymap[] =
 {
     /*---------------------------------------------------------------------*\
     |   Zone,   Row,    Column,         Key                                 |
@@ -793,7 +793,7 @@ static const razer_key huntsman_keymap[] =
 
 #define HUNTSMAN_TE_KEYMAP_SIZE (sizeof(huntsman_te_keymap) / sizeof(huntsman_te_keymap[0]))
 
-static const razer_key huntsman_te_keymap[] =
+static const open_razer_key huntsman_te_keymap[] =
 {
     /*---------------------------------------------------------------------*\
     |   Zone,   Row,    Column,         Key                                 |
@@ -891,7 +891,7 @@ static const razer_key huntsman_te_keymap[] =
 
 #define BLACKWIDOW_ELITE_KEYMAP_SIZE (sizeof(blackwidow_elite_keymap) / sizeof(blackwidow_elite_keymap[0]))
 
-static const razer_key blackwidow_elite_keymap[] =
+static const open_razer_key blackwidow_elite_keymap[] =
 {
     /*---------------------------------------------------------------------*\
     |   Zone,   Row,    Column,         Key                                 |
@@ -1011,7 +1011,7 @@ static const razer_key blackwidow_elite_keymap[] =
 
 #define BLACKWIDOW_2019_KEYMAP_SIZE (sizeof(blackwidow_2019_keymap) / sizeof(blackwidow_2019_keymap[0]))
 
-static const razer_key blackwidow_2019_keymap[] =
+static const open_razer_key blackwidow_2019_keymap[] =
 {
     /*---------------------------------------------------------------------*\
     |   Zone,   Row,    Column,         Key                                 |
@@ -1127,7 +1127,7 @@ static const razer_key blackwidow_2019_keymap[] =
 
 #define ORNATA_CHROMA_KEYMAP_SIZE (sizeof(ornata_chroma_keymap) / sizeof(ornata_chroma_keymap[0]))
 
-static const razer_key ornata_chroma_keymap[] =
+static const open_razer_key ornata_chroma_keymap[] =
 {
     /*---------------------------------------------------------------------*\
     |   Zone,   Row,    Column,         Key                                 |
@@ -1242,7 +1242,7 @@ static const razer_key ornata_chroma_keymap[] =
 
 #define BLACKWIDOW_CHROMA_V2_KEYMAP_SIZE (sizeof(blackwidow_chroma_v2_keymap) / sizeof(blackwidow_chroma_v2_keymap[0]))
 
-static const razer_key blackwidow_chroma_v2_keymap[] =
+static const open_razer_key blackwidow_chroma_v2_keymap[] =
 {
     /*---------------------------------------------------------------------*\
     |   Zone,   Row,    Column,         Key                                 |
@@ -1370,7 +1370,7 @@ static const razer_key blackwidow_chroma_v2_keymap[] =
 |       Matrix                                                  |
 |       6 Rows, 22 Columns                                      |
 \*-------------------------------------------------------------*/
-static const razer_zone blackwidow_2019_zone =
+static const open_razer_zone blackwidow_2019_zone =
 {
     ZONE_EN_KEYBOARD,
     ZONE_TYPE_MATRIX,
@@ -1378,7 +1378,7 @@ static const razer_zone blackwidow_2019_zone =
     22
 };
 
-static const razer_device blackwidow_2019_device =
+static const open_razer_device blackwidow_2019_device =
 {
     "Razer BlackWidow 2019",
     DEVICE_TYPE_KEYBOARD,
@@ -1404,7 +1404,7 @@ static const razer_device blackwidow_2019_device =
 |       Matrix                                                  |
 |       6 Rows, 22 Columns                                      |
 \*-------------------------------------------------------------*/
-static const razer_zone blackwidow_chroma_zone =
+static const open_razer_zone blackwidow_chroma_zone =
 {
     ZONE_EN_KEYBOARD,
     ZONE_TYPE_MATRIX,
@@ -1412,7 +1412,7 @@ static const razer_zone blackwidow_chroma_zone =
     22
 };
 
-static const razer_device blackwidow_chroma_device =
+static const open_razer_device blackwidow_chroma_device =
 {
     "Razer BlackWidow Chroma",
     DEVICE_TYPE_KEYBOARD,
@@ -1438,7 +1438,7 @@ static const razer_device blackwidow_chroma_device =
 |       Matrix                                                  |
 |       6 Rows, 22 Columns                                      |
 \*-------------------------------------------------------------*/
-static const razer_zone blackwidow_chroma_overwatch_zone =
+static const open_razer_zone blackwidow_chroma_overwatch_zone =
 {
     ZONE_EN_KEYBOARD,
     ZONE_TYPE_MATRIX,
@@ -1446,7 +1446,7 @@ static const razer_zone blackwidow_chroma_overwatch_zone =
     22
 };
 
-static const razer_device blackwidow_chroma_overwatch_device =
+static const open_razer_device blackwidow_chroma_overwatch_device =
 {
     "Razer Blackwidow Chroma Overwatch",
     DEVICE_TYPE_KEYBOARD,
@@ -1472,7 +1472,7 @@ static const razer_device blackwidow_chroma_overwatch_device =
 |       Matrix                                                  |
 |       6 Rows, 22 Columns                                      |
 \*-------------------------------------------------------------*/
-static const razer_zone blackwidow_chroma_te_zone =
+static const open_razer_zone blackwidow_chroma_te_zone =
 {
     ZONE_EN_KEYBOARD,
     ZONE_TYPE_MATRIX,
@@ -1480,7 +1480,7 @@ static const razer_zone blackwidow_chroma_te_zone =
     22
 };
 
-static const razer_device blackwidow_chroma_te_device =
+static const open_razer_device blackwidow_chroma_te_device =
 {
     "Razer BlackWidow Chroma Tournament Edition",
     DEVICE_TYPE_KEYBOARD,
@@ -1506,7 +1506,7 @@ static const razer_device blackwidow_chroma_te_device =
 |       Matrix                                                  |
 |       6 Rows, 22 Columns                                      |
 \*-------------------------------------------------------------*/
-static const razer_zone blackwidow_elite_zone =
+static const open_razer_zone blackwidow_elite_zone =
 {
     ZONE_EN_KEYBOARD,
     ZONE_TYPE_MATRIX,
@@ -1514,7 +1514,7 @@ static const razer_zone blackwidow_elite_zone =
     22
 };
 
-static const razer_device blackwidow_elite_device =
+static const open_razer_device blackwidow_elite_device =
 {
     "Razer BlackWidow Elite",
     DEVICE_TYPE_KEYBOARD,
@@ -1540,7 +1540,7 @@ static const razer_device blackwidow_elite_device =
 |       Matrix                                                  |
 |       6 Rows, 22 Columns                                      |
 \*-------------------------------------------------------------*/
-static const razer_zone blackwidow_chroma_v2_zone =
+static const open_razer_zone blackwidow_chroma_v2_zone =
 {
     ZONE_EN_KEYBOARD,
     ZONE_TYPE_MATRIX,
@@ -1548,7 +1548,7 @@ static const razer_zone blackwidow_chroma_v2_zone =
     22
 };
 
-static const razer_device blackwidow_chroma_v2_device =
+static const open_razer_device blackwidow_chroma_v2_device =
 {
     "Razer BlackWidow Chroma V2",
     DEVICE_TYPE_KEYBOARD,
@@ -1574,7 +1574,7 @@ static const razer_device blackwidow_chroma_v2_device =
 |       Matrix                                                  |
 |       6 Rows, 22 Columns                                      |
 \*-------------------------------------------------------------*/
-static const razer_zone blackwidow_x_chroma_zone =
+static const open_razer_zone blackwidow_x_chroma_zone =
 {
     ZONE_EN_KEYBOARD,
     ZONE_TYPE_MATRIX,
@@ -1582,7 +1582,7 @@ static const razer_zone blackwidow_x_chroma_zone =
     22
 };
 
-static const razer_device blackwidow_x_chroma_device =
+static const open_razer_device blackwidow_x_chroma_device =
 {
     "Razer BlackWidow X Chroma",
     DEVICE_TYPE_KEYBOARD,
@@ -1608,7 +1608,7 @@ static const razer_device blackwidow_x_chroma_device =
 |       Matrix                                                  |
 |       6 Rows, 22 Columns                                      |
 \*-------------------------------------------------------------*/
-static const razer_zone blackwidow_x_chroma_te_zone =
+static const open_razer_zone blackwidow_x_chroma_te_zone =
 {
     ZONE_EN_KEYBOARD,
     ZONE_TYPE_MATRIX,
@@ -1616,7 +1616,7 @@ static const razer_zone blackwidow_x_chroma_te_zone =
     22
 };
 
-static const razer_device blackwidow_x_chroma_te_device =
+static const open_razer_device blackwidow_x_chroma_te_device =
 {
     "Razer BlackWidow X Chroma Tournament Edition",
     DEVICE_TYPE_KEYBOARD,
@@ -1642,7 +1642,7 @@ static const razer_device blackwidow_x_chroma_te_device =
 |       Matrix                                                  |
 |       6 Rows, 22 Columns                                      |
 \*-------------------------------------------------------------*/
-static const razer_zone cynosa_chroma_zone =
+static const open_razer_zone cynosa_chroma_zone =
 {
     ZONE_EN_KEYBOARD,
     ZONE_TYPE_MATRIX,
@@ -1650,7 +1650,7 @@ static const razer_zone cynosa_chroma_zone =
     22
 };
 
-static const razer_device cynosa_chroma_device =
+static const open_razer_device cynosa_chroma_device =
 {
     "Razer Cynosa Chroma",
     DEVICE_TYPE_KEYBOARD,
@@ -1676,7 +1676,7 @@ static const razer_device cynosa_chroma_device =
 |       Matrix                                                  |
 |       6 Rows, 22 Columns                                      |
 \*-------------------------------------------------------------*/
-static const razer_zone cynosa_v2_zone =
+static const open_razer_zone cynosa_v2_zone =
 {
     ZONE_EN_KEYBOARD,
     ZONE_TYPE_MATRIX,
@@ -1684,7 +1684,7 @@ static const razer_zone cynosa_v2_zone =
     22
 };
 
-static const razer_device cynosa_v2_device =
+static const open_razer_device cynosa_v2_device =
 {
     "Razer Cynosa V2",
     DEVICE_TYPE_KEYBOARD,
@@ -1710,7 +1710,7 @@ static const razer_device cynosa_v2_device =
 |       Single                                                  |
 |       1 LED                                                   |
 \*-------------------------------------------------------------*/
-static const razer_zone cynosa_lite_zone =
+static const open_razer_zone cynosa_lite_zone =
 {
     ZONE_EN_KEYBOARD,
     ZONE_TYPE_SINGLE,
@@ -1718,7 +1718,7 @@ static const razer_zone cynosa_lite_zone =
     1
 };
 
-static const razer_device cynosa_lite_device =
+static const open_razer_device cynosa_lite_device =
 {
     "Razer Cynosa Lite",
     DEVICE_TYPE_KEYBOARD,
@@ -1744,7 +1744,7 @@ static const razer_device cynosa_lite_device =
 |       Matrix                                                  |
 |       6 Rows, 22 Columns                                      |
 \*-------------------------------------------------------------*/
-static const razer_zone ornata_chroma_zone =
+static const open_razer_zone ornata_chroma_zone =
 {
     ZONE_EN_KEYBOARD,
     ZONE_TYPE_MATRIX,
@@ -1752,7 +1752,7 @@ static const razer_zone ornata_chroma_zone =
     22
 };
 
-static const razer_device ornata_chroma_device =
+static const open_razer_device ornata_chroma_device =
 {
     "Razer Ornata Chroma",
     DEVICE_TYPE_KEYBOARD,
@@ -1778,7 +1778,7 @@ static const razer_device ornata_chroma_device =
 |       Linear                                                  |
 |       12 LEDs                                                 |
 \*-------------------------------------------------------------*/
-static const razer_zone deathstalker_chroma_zone =
+static const open_razer_zone deathstalker_chroma_zone =
 {
     ZONE_EN_KEYBOARD,
     ZONE_TYPE_LINEAR,
@@ -1786,7 +1786,7 @@ static const razer_zone deathstalker_chroma_zone =
     12
 };
 
-static const razer_device deathstalker_chroma_device =
+static const open_razer_device deathstalker_chroma_device =
 {
     "Razer DeathStalker Chroma",
     DEVICE_TYPE_KEYBOARD,
@@ -1812,7 +1812,7 @@ static const razer_device deathstalker_chroma_device =
 |       Matrix                                                  |
 |       6 Rows, 22 Columns                                      |
 \*-------------------------------------------------------------*/
-static const razer_zone huntsman_zone =
+static const open_razer_zone huntsman_zone =
 {
     ZONE_EN_KEYBOARD,
     ZONE_TYPE_MATRIX,
@@ -1820,7 +1820,7 @@ static const razer_zone huntsman_zone =
     22
 };
 
-static const razer_device huntsman_device =
+static const open_razer_device huntsman_device =
 {
     "Razer Huntsman",
     DEVICE_TYPE_KEYBOARD,
@@ -1850,7 +1850,7 @@ static const razer_device huntsman_device =
 |       Matrix                                                  |
 |       3 Rows, 22 Columns                                      |
 \*-------------------------------------------------------------*/
-static const razer_zone huntsman_elite_keyboard_zone =
+static const open_razer_zone huntsman_elite_keyboard_zone =
 {
     ZONE_EN_KEYBOARD,
     ZONE_TYPE_MATRIX,
@@ -1858,7 +1858,7 @@ static const razer_zone huntsman_elite_keyboard_zone =
     22
 };
 
-static const razer_zone huntsman_elite_underglow_zone =
+static const open_razer_zone huntsman_elite_underglow_zone =
 {
     "Underglow",
     ZONE_TYPE_MATRIX,
@@ -1866,7 +1866,7 @@ static const razer_zone huntsman_elite_underglow_zone =
     22
 };
 
-static const razer_device huntsman_elite_device =
+static const open_razer_device huntsman_elite_device =
 {
     "Razer Huntsman Elite",
     DEVICE_TYPE_KEYBOARD,
@@ -1892,7 +1892,7 @@ static const razer_device huntsman_elite_device =
 |       Matrix                                                  |
 |       6 Rows, 18 Columns                                      |
 \*-------------------------------------------------------------*/
-static const razer_zone huntsman_te_zone =
+static const open_razer_zone huntsman_te_zone =
 {
     ZONE_EN_KEYBOARD,
     ZONE_TYPE_MATRIX,
@@ -1900,7 +1900,7 @@ static const razer_zone huntsman_te_zone =
     18
 };
 
-static const razer_device huntsman_te_device =
+static const open_razer_device huntsman_te_device =
 {
     "Razer Huntsman Tournament Edition",
     DEVICE_TYPE_KEYBOARD,
@@ -1930,7 +1930,7 @@ static const razer_device huntsman_te_device =
 |       Matrix                                                  |
 |       6 Rows, 16 Columns                                      |
 \*-------------------------------------------------------------*/
-static const razer_zone blade_stealth_zone =
+static const open_razer_zone blade_stealth_zone =
 {
     ZONE_EN_KEYBOARD,
     ZONE_TYPE_MATRIX,
@@ -1938,7 +1938,7 @@ static const razer_zone blade_stealth_zone =
     16
 };
 
-static const razer_device blade_stealth_device =
+static const open_razer_device blade_stealth_device =
 {
     "Razer Blade Stealth",
     DEVICE_TYPE_KEYBOARD,
@@ -1964,7 +1964,7 @@ static const razer_device blade_stealth_device =
 |       Matrix                                                  |
 |       6 Rows, 16 Columns                                      |
 \*-------------------------------------------------------------*/
-static const razer_zone blade_stealth_late_2016_zone =
+static const open_razer_zone blade_stealth_late_2016_zone =
 {
     ZONE_EN_KEYBOARD,
     ZONE_TYPE_MATRIX,
@@ -1972,7 +1972,7 @@ static const razer_zone blade_stealth_late_2016_zone =
     16
 };
 
-static const razer_device blade_stealth_late_2016_device =
+static const open_razer_device blade_stealth_late_2016_device =
 {
     "Razer Blade Stealth (Late 2016)",
     DEVICE_TYPE_KEYBOARD,
@@ -1998,7 +1998,7 @@ static const razer_device blade_stealth_late_2016_device =
 |       Matrix                                                  |
 |       6 Rows, 16 Columns                                      |
 \*-------------------------------------------------------------*/
-static const razer_zone blade_stealth_mid_2017_zone =
+static const open_razer_zone blade_stealth_mid_2017_zone =
 {
     ZONE_EN_KEYBOARD,
     ZONE_TYPE_MATRIX,
@@ -2006,7 +2006,7 @@ static const razer_zone blade_stealth_mid_2017_zone =
     16
 };
 
-static const razer_device blade_stealth_mid_2017_device =
+static const open_razer_device blade_stealth_mid_2017_device =
 {
     "Razer Blade Stealth (Mid 2017)",
     DEVICE_TYPE_KEYBOARD,
@@ -2032,7 +2032,7 @@ static const razer_device blade_stealth_mid_2017_device =
 |       Matrix                                                  |
 |       6 Rows, 16 Columns                                      |
 \*-------------------------------------------------------------*/
-static const razer_zone blade_stealth_late_2017_zone =
+static const open_razer_zone blade_stealth_late_2017_zone =
 {
     ZONE_EN_KEYBOARD,
     ZONE_TYPE_MATRIX,
@@ -2040,7 +2040,7 @@ static const razer_zone blade_stealth_late_2017_zone =
     16
 };
 
-static const razer_device blade_stealth_late_2017_device =
+static const open_razer_device blade_stealth_late_2017_device =
 {
     "Razer Blade Stealth (Late 2017)",
     DEVICE_TYPE_KEYBOARD,
@@ -2066,7 +2066,7 @@ static const razer_device blade_stealth_late_2017_device =
 |       Matrix                                                  |
 |       6 Rows, 16 Columns                                      |
 \*-------------------------------------------------------------*/
-static const razer_zone blade_stealth_2019_zone =
+static const open_razer_zone blade_stealth_2019_zone =
 {
     ZONE_EN_KEYBOARD,
     ZONE_TYPE_MATRIX,
@@ -2074,7 +2074,7 @@ static const razer_zone blade_stealth_2019_zone =
     16
 };
 
-static const razer_device blade_stealth_2019_device =
+static const open_razer_device blade_stealth_2019_device =
 {
     "Razer Blade Stealth (2019)",
     DEVICE_TYPE_KEYBOARD,
@@ -2100,7 +2100,7 @@ static const razer_device blade_stealth_2019_device =
 |       Single                                                  |
 |       1 LED                                                   |
 \*-------------------------------------------------------------*/
-static const razer_zone blade_stealth_late_2019_zone =
+static const open_razer_zone blade_stealth_late_2019_zone =
 {
     ZONE_EN_KEYBOARD,
     ZONE_TYPE_SINGLE,
@@ -2108,7 +2108,7 @@ static const razer_zone blade_stealth_late_2019_zone =
     1
 };
 
-static const razer_device blade_stealth_late_2019_device =
+static const open_razer_device blade_stealth_late_2019_device =
 {
     "Razer Blade Stealth (Late 2019)",
     DEVICE_TYPE_KEYBOARD,
@@ -2133,7 +2133,7 @@ static const razer_device blade_stealth_late_2019_device =
 |       Single                                                  |
 |       1 LED                                                   |
 \*-------------------------------------------------------------*/
-static const razer_zone blade_stealth_early_2020_zone =
+static const open_razer_zone blade_stealth_early_2020_zone =
 {
     ZONE_EN_KEYBOARD,
     ZONE_TYPE_SINGLE,
@@ -2141,7 +2141,7 @@ static const razer_zone blade_stealth_early_2020_zone =
     1
 };
 
-static const razer_device blade_stealth_early_2020_device =
+static const open_razer_device blade_stealth_early_2020_device =
 {
     "Razer Blade Stealth (Early 2020)",
     DEVICE_TYPE_KEYBOARD,
@@ -2167,7 +2167,7 @@ static const razer_device blade_stealth_early_2020_device =
 |       Matrix                                                  |
 |       6 Rows, 16 Columns                                      |
 \*-------------------------------------------------------------*/
-static const razer_zone blade_late_2016_zone =
+static const open_razer_zone blade_late_2016_zone =
 {
     ZONE_EN_KEYBOARD,
     ZONE_TYPE_MATRIX,
@@ -2175,7 +2175,7 @@ static const razer_zone blade_late_2016_zone =
     16
 };
 
-static const razer_device blade_late_2016_device =
+static const open_razer_device blade_late_2016_device =
 {
     "Razer Blade (Late 2016)",
     DEVICE_TYPE_KEYBOARD,
@@ -2201,7 +2201,7 @@ static const razer_device blade_late_2016_device =
 |       Matrix                                                  |
 |       6 Rows, 16 Columns                                      |
 \*-------------------------------------------------------------*/
-static const razer_zone blade_qhd_zone =
+static const open_razer_zone blade_qhd_zone =
 {
     ZONE_EN_KEYBOARD,
     ZONE_TYPE_MATRIX,
@@ -2209,7 +2209,7 @@ static const razer_zone blade_qhd_zone =
     16
 };
 
-static const razer_device blade_qhd_device =
+static const open_razer_device blade_qhd_device =
 {
     "Razer Blade (QHD)",
     DEVICE_TYPE_KEYBOARD,
@@ -2235,7 +2235,7 @@ static const razer_device blade_qhd_device =
 |       Matrix                                                  |
 |       6 Rows, 16 Columns                                      |
 \*-------------------------------------------------------------*/
-static const razer_zone blade_15_2018_zone =
+static const open_razer_zone blade_15_2018_zone =
 {
     ZONE_EN_KEYBOARD,
     ZONE_TYPE_MATRIX,
@@ -2243,7 +2243,7 @@ static const razer_zone blade_15_2018_zone =
     16
 };
 
-static const razer_device blade_15_2018_device =
+static const open_razer_device blade_15_2018_device =
 {
     "Razer Blade 15 (2018)",
     DEVICE_TYPE_KEYBOARD,
@@ -2269,7 +2269,7 @@ static const razer_device blade_15_2018_device =
 |       Matrix                                                  |
 |       6 Rows, 16 Columns                                      |
 \*-------------------------------------------------------------*/
-static const razer_zone blade_15_2018_mercury_zone =
+static const open_razer_zone blade_15_2018_mercury_zone =
 {
     ZONE_EN_KEYBOARD,
     ZONE_TYPE_MATRIX,
@@ -2277,7 +2277,7 @@ static const razer_zone blade_15_2018_mercury_zone =
     16
 };
 
-static const razer_device blade_15_2018_mercury_device =
+static const open_razer_device blade_15_2018_mercury_device =
 {
     "Razer Blade 15 (2018) Mercury",
     DEVICE_TYPE_KEYBOARD,
@@ -2303,7 +2303,7 @@ static const razer_device blade_15_2018_mercury_device =
 |       Matrix                                                  |
 |       6 Rows, 16 Columns                                      |
 \*-------------------------------------------------------------*/
-static const razer_zone blade_15_2018_base_zone =
+static const open_razer_zone blade_15_2018_base_zone =
 {
     ZONE_EN_KEYBOARD,
     ZONE_TYPE_MATRIX,
@@ -2311,7 +2311,7 @@ static const razer_zone blade_15_2018_base_zone =
     16
 };
 
-static const razer_device blade_15_2018_base_device =
+static const open_razer_device blade_15_2018_base_device =
 {
     "Razer Blade 15 (2018) Base Model",
     DEVICE_TYPE_KEYBOARD,
@@ -2337,7 +2337,7 @@ static const razer_device blade_15_2018_base_device =
 |       Matrix                                                  |
 |       6 Rows, 16 Columns                                      |
 \*-------------------------------------------------------------*/
-static const razer_zone blade_15_2019_advanced_zone =
+static const open_razer_zone blade_15_2019_advanced_zone =
 {
     ZONE_EN_KEYBOARD,
     ZONE_TYPE_MATRIX,
@@ -2345,7 +2345,7 @@ static const razer_zone blade_15_2019_advanced_zone =
     16
 };
 
-static const razer_device blade_15_2019_advanced_device =
+static const open_razer_device blade_15_2019_advanced_device =
 {
     "Razer Blade 15 (2019) Advanced",
     DEVICE_TYPE_KEYBOARD,
@@ -2371,7 +2371,7 @@ static const razer_device blade_15_2019_advanced_device =
 |       Matrix                                                  |
 |       6 Rows, 16 Columns                                      |
 \*-------------------------------------------------------------*/
-static const razer_zone blade_15_mid_2019_mercury_zone =
+static const open_razer_zone blade_15_mid_2019_mercury_zone =
 {
     ZONE_EN_KEYBOARD,
     ZONE_TYPE_MATRIX,
@@ -2379,7 +2379,7 @@ static const razer_zone blade_15_mid_2019_mercury_zone =
     16
 };
 
-static const razer_device blade_15_mid_2019_mercury_device =
+static const open_razer_device blade_15_mid_2019_mercury_device =
 {
     "Razer Blade 15 (Mid 2019) Mercury White",
     DEVICE_TYPE_KEYBOARD,
@@ -2405,7 +2405,7 @@ static const razer_device blade_15_mid_2019_mercury_device =
 |       Single                                                  |
 |       1 LED                                                   |
 \*-------------------------------------------------------------*/
-static const razer_zone blade_15_mid_2019_base_zone =
+static const open_razer_zone blade_15_mid_2019_base_zone =
 {
     ZONE_EN_KEYBOARD,
     ZONE_TYPE_SINGLE,
@@ -2413,7 +2413,7 @@ static const razer_zone blade_15_mid_2019_base_zone =
     1
 };
 
-static const razer_device blade_15_mid_2019_base_device =
+static const open_razer_device blade_15_mid_2019_base_device =
 {
     "Razer Blade 15 (Mid 2019) Base Model",
     DEVICE_TYPE_KEYBOARD,
@@ -2439,7 +2439,7 @@ static const razer_device blade_15_mid_2019_base_device =
 |       Linear                                                  |
 |       1 Row, 16 Columns                                       |
 \*-------------------------------------------------------------*/
-static const razer_zone blade_15_early_2020_base_zone =
+static const open_razer_zone blade_15_early_2020_base_zone =
 {
     ZONE_EN_KEYBOARD,
     ZONE_TYPE_LINEAR,
@@ -2447,7 +2447,7 @@ static const razer_zone blade_15_early_2020_base_zone =
     16
 };
 
-static const razer_device blade_15_early_2020_base_device =
+static const open_razer_device blade_15_early_2020_base_device =
 {
     "Razer Blade 15 Base (Early 2020)",
     DEVICE_TYPE_KEYBOARD,
@@ -2473,7 +2473,7 @@ static const razer_device blade_15_early_2020_base_device =
 |       Matrix                                                  |
 |       6 Rows, 16 Columns                                      |
 \*-------------------------------------------------------------*/
-static const razer_zone blade_15_studio_2019_zone =
+static const open_razer_zone blade_15_studio_2019_zone =
 {
     ZONE_EN_KEYBOARD,
     ZONE_TYPE_MATRIX,
@@ -2481,7 +2481,7 @@ static const razer_zone blade_15_studio_2019_zone =
     16
 };
 
-static const razer_device blade_15_studio_2019_device =
+static const open_razer_device blade_15_studio_2019_device =
 {
     "Razer Blade 15 Studio Edition (2019)",
     DEVICE_TYPE_KEYBOARD,
@@ -2507,7 +2507,7 @@ static const razer_device blade_15_studio_2019_device =
 |       Matrix                                                  |
 |       6 Rows, 25 Columns                                      |
 \*-------------------------------------------------------------*/
-static const razer_zone blade_pro_late_2016_zone =
+static const open_razer_zone blade_pro_late_2016_zone =
 {
     ZONE_EN_KEYBOARD,
     ZONE_TYPE_MATRIX,
@@ -2515,7 +2515,7 @@ static const razer_zone blade_pro_late_2016_zone =
     25
 };
 
-static const razer_device blade_pro_late_2016_device =
+static const open_razer_device blade_pro_late_2016_device =
 {
     "Razer Blade Pro (Late 2016)",
     DEVICE_TYPE_KEYBOARD,
@@ -2541,7 +2541,7 @@ static const razer_device blade_pro_late_2016_device =
 |       Matrix                                                  |
 |       6 Rows, 25 Columns                                      |
 \*-------------------------------------------------------------*/
-static const razer_zone blade_pro_2017_zone =
+static const open_razer_zone blade_pro_2017_zone =
 {
     ZONE_EN_KEYBOARD,
     ZONE_TYPE_MATRIX,
@@ -2549,7 +2549,7 @@ static const razer_zone blade_pro_2017_zone =
     25
 };
 
-static const razer_device blade_pro_2017_device =
+static const open_razer_device blade_pro_2017_device =
 {
     "Razer Blade Pro (2017)",
     DEVICE_TYPE_KEYBOARD,
@@ -2575,7 +2575,7 @@ static const razer_device blade_pro_2017_device =
 |       Matrix                                                  |
 |       6 Rows, 25 Columns                                      |
 \*-------------------------------------------------------------*/
-static const razer_zone blade_pro_2017_fullhd_zone =
+static const open_razer_zone blade_pro_2017_fullhd_zone =
 {
     ZONE_EN_KEYBOARD,
     ZONE_TYPE_MATRIX,
@@ -2583,7 +2583,7 @@ static const razer_zone blade_pro_2017_fullhd_zone =
     25
 };
 
-static const razer_device blade_pro_2017_fullhd_device =
+static const open_razer_device blade_pro_2017_fullhd_device =
 {
     "Razer Blade Pro FullHD (2017)",
     DEVICE_TYPE_KEYBOARD,
@@ -2608,7 +2608,7 @@ static const razer_device blade_pro_2017_fullhd_device =
 |       Matrix                                                  |
 |       6 Rows, 16 Columns                                      |
 \*-------------------------------------------------------------*/
-static const razer_zone blade_pro_17_2019_zone =
+static const open_razer_zone blade_pro_17_2019_zone =
 {
     ZONE_EN_KEYBOARD,
     ZONE_TYPE_MATRIX,
@@ -2616,7 +2616,7 @@ static const razer_zone blade_pro_17_2019_zone =
     16
 };
 
-static const razer_device blade_pro_17_2019_device =
+static const open_razer_device blade_pro_17_2019_device =
 {
     "Razer Blade Pro 17 (2019)",
     DEVICE_TYPE_KEYBOARD,
@@ -2642,7 +2642,7 @@ static const razer_device blade_pro_17_2019_device =
 |       Matrix                                                  |
 |       6 Rows, 16 Columns                                      |
 \*-------------------------------------------------------------*/
-static const razer_zone blade_pro_late_2019_zone =
+static const open_razer_zone blade_pro_late_2019_zone =
 {
     ZONE_EN_KEYBOARD,
     ZONE_TYPE_MATRIX,
@@ -2650,7 +2650,7 @@ static const razer_zone blade_pro_late_2019_zone =
     16
 };
 
-static const razer_device blade_pro_late_2019_device =
+static const open_razer_device blade_pro_late_2019_device =
 {
     "Razer Blade Pro (Late 2019)",
     DEVICE_TYPE_KEYBOARD,
@@ -2676,7 +2676,7 @@ static const razer_device blade_pro_late_2019_device =
 |       Matrix                                                  |
 |       6 Rows, 16 Columns                                      |
 \*-------------------------------------------------------------*/
-static const razer_zone blade_15_advanced_2020_zone =
+static const open_razer_zone blade_15_advanced_2020_zone =
 {
     ZONE_EN_KEYBOARD,
     ZONE_TYPE_MATRIX,
@@ -2684,7 +2684,7 @@ static const razer_zone blade_15_advanced_2020_zone =
     16
 };
 
-static const razer_device blade_15_advanced_2020_device =
+static const open_razer_device blade_15_advanced_2020_device =
 {
     "Razer Blade 15 Advanced (2020)",
     DEVICE_TYPE_KEYBOARD,
@@ -2714,7 +2714,7 @@ static const razer_device blade_15_advanced_2020_device =
 |       Single                                                  |
 |       1 LED                                                   |
 \*-------------------------------------------------------------*/
-static const razer_zone abyssus_elite_dva_edition_logo_zone =
+static const open_razer_zone abyssus_elite_dva_edition_logo_zone =
 {
     "Logo",
     ZONE_TYPE_SINGLE,
@@ -2722,7 +2722,7 @@ static const razer_zone abyssus_elite_dva_edition_logo_zone =
     1
 };
 
-static const razer_device abyssus_elite_dva_edition_device =
+static const open_razer_device abyssus_elite_dva_edition_device =
 {
     "Razer Abyssus Elite DVa Edition",
     DEVICE_TYPE_MOUSE,
@@ -2748,7 +2748,7 @@ static const razer_device abyssus_elite_dva_edition_device =
 |       Single                                                  |
 |       1 LED                                                   |
 \*-------------------------------------------------------------*/
-static const razer_zone abyssus_essential_logo_zone =
+static const open_razer_zone abyssus_essential_logo_zone =
 {
     "Logo",
     ZONE_TYPE_SINGLE,
@@ -2756,7 +2756,7 @@ static const razer_zone abyssus_essential_logo_zone =
     1
 };
 
-static const razer_device abyssus_essential_device =
+static const open_razer_device abyssus_essential_device =
 {
     "Razer Abyssus Essential",
     DEVICE_TYPE_MOUSE,
@@ -2786,7 +2786,7 @@ static const razer_device abyssus_essential_device =
 |       Single                                                  |
 |       1 LED                                                   |
 \*-------------------------------------------------------------*/
-static const razer_zone basilisk_logo_zone =
+static const open_razer_zone basilisk_logo_zone =
 {
     "Logo",
     ZONE_TYPE_SINGLE,
@@ -2794,7 +2794,7 @@ static const razer_zone basilisk_logo_zone =
     1
 };
 
-static const razer_zone basilisk_scroll_wheel_zone =
+static const open_razer_zone basilisk_scroll_wheel_zone =
 {
     "Scroll Wheel",
     ZONE_TYPE_SINGLE,
@@ -2802,7 +2802,7 @@ static const razer_zone basilisk_scroll_wheel_zone =
     1
 };
 
-static const razer_device basilisk_device =
+static const open_razer_device basilisk_device =
 {
     "Razer Basilisk",
     DEVICE_TYPE_MOUSE,
@@ -2832,7 +2832,7 @@ static const razer_device basilisk_device =
 |       Single                                                  |
 |       1 LED                                                   |
 \*-------------------------------------------------------------*/
-static const razer_zone deathadder_chroma_logo_zone =
+static const open_razer_zone deathadder_chroma_logo_zone =
 {
     "Logo",
     ZONE_TYPE_SINGLE,
@@ -2840,7 +2840,7 @@ static const razer_zone deathadder_chroma_logo_zone =
     1
 };
 
-static const razer_zone deathadder_chroma_scroll_wheel_zone =
+static const open_razer_zone deathadder_chroma_scroll_wheel_zone =
 {
     "Scroll Wheel",
     ZONE_TYPE_SINGLE,
@@ -2848,7 +2848,7 @@ static const razer_zone deathadder_chroma_scroll_wheel_zone =
     1
 };
 
-static const razer_device deathadder_chroma_device =
+static const open_razer_device deathadder_chroma_device =
 {
     "Razer DeathAdder Chroma",
     DEVICE_TYPE_MOUSE,
@@ -2878,7 +2878,7 @@ static const razer_device deathadder_chroma_device =
 |       Single                                                  |
 |       1 LED                                                   |
 \*-------------------------------------------------------------*/
-static const razer_zone deathadder_elite_logo_zone =
+static const open_razer_zone deathadder_elite_logo_zone =
 {
     "Logo",
     ZONE_TYPE_SINGLE,
@@ -2886,7 +2886,7 @@ static const razer_zone deathadder_elite_logo_zone =
     1
 };
 
-static const razer_zone deathadder_elite_scroll_wheel_zone =
+static const open_razer_zone deathadder_elite_scroll_wheel_zone =
 {
     "Scroll Wheel",
     ZONE_TYPE_SINGLE,
@@ -2894,7 +2894,7 @@ static const razer_zone deathadder_elite_scroll_wheel_zone =
     1
 };
 
-static const razer_device deathadder_elite_device =
+static const open_razer_device deathadder_elite_device =
 {
     "Razer DeathAdder Elite",
     DEVICE_TYPE_MOUSE,
@@ -2924,7 +2924,7 @@ static const razer_device deathadder_elite_device =
 |       Single                                                  |
 |       1 LED                                                   |
 \*-------------------------------------------------------------*/
-static const razer_zone deathadder_essential_logo_zone =
+static const open_razer_zone deathadder_essential_logo_zone =
 {
     "Logo",
     ZONE_TYPE_SINGLE,
@@ -2932,7 +2932,7 @@ static const razer_zone deathadder_essential_logo_zone =
     1
 };
 
-static const razer_zone deathadder_essential_scroll_wheel_zone =
+static const open_razer_zone deathadder_essential_scroll_wheel_zone =
 {
     "Scroll Wheel",
     ZONE_TYPE_SINGLE,
@@ -2940,7 +2940,7 @@ static const razer_zone deathadder_essential_scroll_wheel_zone =
     1
 };
 
-static const razer_device deathadder_essential_device =
+static const open_razer_device deathadder_essential_device =
 {
     "Razer DeathAdder Essential",
     DEVICE_TYPE_MOUSE,
@@ -2970,7 +2970,7 @@ static const razer_device deathadder_essential_device =
 |       Single                                                  |
 |       1 LED                                                   |
 \*-------------------------------------------------------------*/
-static const razer_zone deathadder_essential_white_edition_logo_zone =
+static const open_razer_zone deathadder_essential_white_edition_logo_zone =
 {
     "Logo",
     ZONE_TYPE_SINGLE,
@@ -2978,7 +2978,7 @@ static const razer_zone deathadder_essential_white_edition_logo_zone =
     1
 };
 
-static const razer_zone deathadder_essential_white_edition_scroll_wheel_zone =
+static const open_razer_zone deathadder_essential_white_edition_scroll_wheel_zone =
 {
     "Scroll Wheel",
     ZONE_TYPE_SINGLE,
@@ -2986,7 +2986,7 @@ static const razer_zone deathadder_essential_white_edition_scroll_wheel_zone =
     1
 };
 
-static const razer_device deathadder_essential_white_edition_device =
+static const open_razer_device deathadder_essential_white_edition_device =
 {
     "Razer DeathAdder Essential (White Edition)",
     DEVICE_TYPE_MOUSE,
@@ -3016,7 +3016,7 @@ static const razer_device deathadder_essential_white_edition_device =
 |       Single                                                  |
 |       1 LED                                                   |
 \*-------------------------------------------------------------*/
-static const razer_zone deathadder_v2_logo_zone =
+static const open_razer_zone deathadder_v2_logo_zone =
 {
     "Logo",
     ZONE_TYPE_SINGLE,
@@ -3024,7 +3024,7 @@ static const razer_zone deathadder_v2_logo_zone =
     1
 };
 
-static const razer_zone deathadder_v2_scroll_wheel_zone =
+static const open_razer_zone deathadder_v2_scroll_wheel_zone =
 {
     "Scroll Wheel",
     ZONE_TYPE_SINGLE,
@@ -3032,7 +3032,7 @@ static const razer_zone deathadder_v2_scroll_wheel_zone =
     1
 };
 
-static const razer_device deathadder_v2_device =
+static const open_razer_device deathadder_v2_device =
 {
     "Razer DeathAdder V2",
     DEVICE_TYPE_MOUSE,
@@ -3066,7 +3066,7 @@ static const razer_device deathadder_v2_device =
 |       Single                                                  |
 |       1 LED                                                   |
 \*-------------------------------------------------------------*/
-static const razer_zone diamondback_chroma_led_strip_zone =
+static const open_razer_zone diamondback_chroma_led_strip_zone =
 {
     "LED Strip",
     ZONE_TYPE_LINEAR,
@@ -3074,7 +3074,7 @@ static const razer_zone diamondback_chroma_led_strip_zone =
     19
 };
 
-static const razer_zone diamondback_chroma_logo_zone =
+static const open_razer_zone diamondback_chroma_logo_zone =
 {
     "Logo",
     ZONE_TYPE_SINGLE,
@@ -3082,7 +3082,7 @@ static const razer_zone diamondback_chroma_logo_zone =
     1
 };
 
-static const razer_zone diamondback_chroma_scroll_wheel_zone =
+static const open_razer_zone diamondback_chroma_scroll_wheel_zone =
 {
     "Scroll Wheel",
     ZONE_TYPE_SINGLE,
@@ -3090,7 +3090,7 @@ static const razer_zone diamondback_chroma_scroll_wheel_zone =
     1
 };
 
-static const razer_device diamondback_chroma_device =
+static const open_razer_device diamondback_chroma_device =
 {
     "Razer Diamondback Chroma",
     DEVICE_TYPE_MOUSE,
@@ -3128,7 +3128,7 @@ static const razer_device diamondback_chroma_device =
 |       Single                                                  |
 |       1 LED                                                   |
 \*-------------------------------------------------------------*/
-static const razer_zone lancehead_te_right_zone =
+static const open_razer_zone lancehead_te_right_zone =
 {
     "Right LED Strip",
     ZONE_TYPE_LINEAR,
@@ -3136,7 +3136,7 @@ static const razer_zone lancehead_te_right_zone =
     7
 };
 
-static const razer_zone lancehead_te_left_zone =
+static const open_razer_zone lancehead_te_left_zone =
 {
     "Left LED Strip",
     ZONE_TYPE_LINEAR,
@@ -3144,7 +3144,7 @@ static const razer_zone lancehead_te_left_zone =
     7
 };
 
-static const razer_zone lancehead_te_logo_zone =
+static const open_razer_zone lancehead_te_logo_zone =
 {
     "Logo",
     ZONE_TYPE_SINGLE,
@@ -3152,7 +3152,7 @@ static const razer_zone lancehead_te_logo_zone =
     1
 };
 
-static const razer_zone lancehead_te_scroll_wheel_zone =
+static const open_razer_zone lancehead_te_scroll_wheel_zone =
 {
     "Scroll Wheel",
     ZONE_TYPE_SINGLE,
@@ -3160,7 +3160,7 @@ static const razer_zone lancehead_te_scroll_wheel_zone =
     1
 };
 
-static const razer_device lancehead_te_device =
+static const open_razer_device lancehead_te_device =
 {
     "Razer Lancehead Tournament Edition",
     DEVICE_TYPE_MOUSE,
@@ -3198,7 +3198,7 @@ static const razer_device lancehead_te_device =
 |       Single                                                  |
 |       1 LED                                                   |
 \*-------------------------------------------------------------*/
-static const razer_zone lancehead_v2_wired_right_zone =
+static const open_razer_zone lancehead_v2_wired_right_zone =
 {
     "Right LED Strip",
     ZONE_TYPE_LINEAR,
@@ -3206,7 +3206,7 @@ static const razer_zone lancehead_v2_wired_right_zone =
     7
 };
 
-static const razer_zone lancehead_v2_wired_left_zone =
+static const open_razer_zone lancehead_v2_wired_left_zone =
 {
     "Left LED Strip",
     ZONE_TYPE_LINEAR,
@@ -3214,7 +3214,7 @@ static const razer_zone lancehead_v2_wired_left_zone =
     7
 };
 
-static const razer_zone lancehead_v2_wired_logo_zone =
+static const open_razer_zone lancehead_v2_wired_logo_zone =
 {
     "Logo",
     ZONE_TYPE_SINGLE,
@@ -3222,7 +3222,7 @@ static const razer_zone lancehead_v2_wired_logo_zone =
     1
 };
 
-static const razer_zone lancehead_v2_wired_scroll_wheel_zone =
+static const open_razer_zone lancehead_v2_wired_scroll_wheel_zone =
 {
     "Scroll Wheel",
     ZONE_TYPE_SINGLE,
@@ -3230,7 +3230,7 @@ static const razer_zone lancehead_v2_wired_scroll_wheel_zone =
     1
 };
 
-static const razer_device lancehead_v2_wired_device =
+static const open_razer_device lancehead_v2_wired_device =
 {
     "Razer Lancehead Wireless (Wired)",
     DEVICE_TYPE_MOUSE,
@@ -3268,7 +3268,7 @@ static const razer_device lancehead_v2_wired_device =
 |       Single                                                  |
 |       1 LED                                                   |
 \*-------------------------------------------------------------*/
-static const razer_zone lancehead_v2_wireless_right_zone =
+static const open_razer_zone lancehead_v2_wireless_right_zone =
 {
     "Right LED Strip",
     ZONE_TYPE_LINEAR,
@@ -3276,7 +3276,7 @@ static const razer_zone lancehead_v2_wireless_right_zone =
     7
 };
 
-static const razer_zone lancehead_v2_wireless_left_zone =
+static const open_razer_zone lancehead_v2_wireless_left_zone =
 {
     "Left LED Strip",
     ZONE_TYPE_LINEAR,
@@ -3284,7 +3284,7 @@ static const razer_zone lancehead_v2_wireless_left_zone =
     7
 };
 
-static const razer_zone lancehead_v2_wireless_logo_zone =
+static const open_razer_zone lancehead_v2_wireless_logo_zone =
 {
     "Logo",
     ZONE_TYPE_SINGLE,
@@ -3292,7 +3292,7 @@ static const razer_zone lancehead_v2_wireless_logo_zone =
     1
 };
 
-static const razer_zone lancehead_v2_wireless_scroll_wheel_zone =
+static const open_razer_zone lancehead_v2_wireless_scroll_wheel_zone =
 {
     "Scroll Wheel",
     ZONE_TYPE_SINGLE,
@@ -3300,7 +3300,7 @@ static const razer_zone lancehead_v2_wireless_scroll_wheel_zone =
     1
 };
 
-static const razer_device lancehead_v2_wireless_device =
+static const open_razer_device lancehead_v2_wireless_device =
 {
     "Razer Lancehead Wireless (Receiver)",
     DEVICE_TYPE_MOUSE,
@@ -3326,7 +3326,7 @@ static const razer_device lancehead_v2_wireless_device =
 |       Single                                                  |
 |       1 LED                                                   |
 \*-------------------------------------------------------------*/
-static const razer_zone mamba_2012_wired_zone =
+static const open_razer_zone mamba_2012_wired_zone =
 {
     "Scroll Wheel",
     ZONE_TYPE_LINEAR,
@@ -3334,7 +3334,7 @@ static const razer_zone mamba_2012_wired_zone =
     1
 };
 
-static const razer_device mamba_2012_wired_device =
+static const open_razer_device mamba_2012_wired_device =
 {
     "Razer Mamba 2012 (Wired)",
     DEVICE_TYPE_MOUSE,
@@ -3360,7 +3360,7 @@ static const razer_device mamba_2012_wired_device =
 |       Single                                                  |
 |       1 LED                                                   |
 \*-------------------------------------------------------------*/
-static const razer_zone mamba_2012_wireless_zone =
+static const open_razer_zone mamba_2012_wireless_zone =
 {
     "Scroll Wheel",
     ZONE_TYPE_LINEAR,
@@ -3368,7 +3368,7 @@ static const razer_zone mamba_2012_wireless_zone =
     1
 };
 
-static const razer_device mamba_2012_wireless_device =
+static const open_razer_device mamba_2012_wireless_device =
 {
     "Razer Mamba 2012 (Wireless)",
     DEVICE_TYPE_MOUSE,
@@ -3394,7 +3394,7 @@ static const razer_device mamba_2012_wireless_device =
 |       Single                                                  |
 |       15 LEDs                                                 |
 \*-------------------------------------------------------------*/
-static const razer_zone mamba_wired_zone =
+static const open_razer_zone mamba_wired_zone =
 {
     "Chroma Zone",
     ZONE_TYPE_LINEAR,
@@ -3402,7 +3402,7 @@ static const razer_zone mamba_wired_zone =
     15
 };
 
-static const razer_device mamba_wired_device =
+static const open_razer_device mamba_wired_device =
 {
     "Razer Mamba (Wired)",
     DEVICE_TYPE_MOUSE,
@@ -3428,7 +3428,7 @@ static const razer_device mamba_wired_device =
 |       Single                                                  |
 |       15 LED                                                  |
 \*-------------------------------------------------------------*/
-static const razer_zone mamba_wireless_zone =
+static const open_razer_zone mamba_wireless_zone =
 {
     "Chroma Zone",
     ZONE_TYPE_LINEAR,
@@ -3436,7 +3436,7 @@ static const razer_zone mamba_wireless_zone =
     15
 };
 
-static const razer_device mamba_wireless_device =
+static const open_razer_device mamba_wireless_device =
 {
     "Razer Mamba (Wireless)",
     DEVICE_TYPE_MOUSE,
@@ -3475,7 +3475,7 @@ static const razer_device mamba_wireless_device =
 |       9 LEDs                                                  |
 |                                                               |
 \*-------------------------------------------------------------*/
-static const razer_zone mamba_elite_scroll_wheel_zone =
+static const open_razer_zone mamba_elite_scroll_wheel_zone =
 {
     "Scroll Wheel",
     ZONE_TYPE_SINGLE,
@@ -3483,7 +3483,7 @@ static const razer_zone mamba_elite_scroll_wheel_zone =
     1
 };
 
-static const razer_zone mamba_elite_logo_zone =
+static const open_razer_zone mamba_elite_logo_zone =
 {
     "Logo",
     ZONE_TYPE_SINGLE,
@@ -3491,7 +3491,7 @@ static const razer_zone mamba_elite_logo_zone =
     1
 };
 
-static const razer_zone mamba_elite_left_zone =
+static const open_razer_zone mamba_elite_left_zone =
 {
     "Left LED Strip",
     ZONE_TYPE_LINEAR,
@@ -3499,7 +3499,7 @@ static const razer_zone mamba_elite_left_zone =
     9
 };
 
-static const razer_zone mamba_elite_right_zone =
+static const open_razer_zone mamba_elite_right_zone =
 {
     "Right LED Strip",
     ZONE_TYPE_LINEAR,
@@ -3507,7 +3507,7 @@ static const razer_zone mamba_elite_right_zone =
     9
 };
 
-static const razer_device mamba_elite_device =
+static const open_razer_device mamba_elite_device =
 {
     "Razer Mamba Elite",
     DEVICE_TYPE_MOUSE,
@@ -3545,7 +3545,7 @@ static const razer_device mamba_elite_device =
 |       Single                                                  |
 |       1 LED                                                   |
 \*-------------------------------------------------------------*/
-static const razer_zone mamba_te_left_zone =
+static const open_razer_zone mamba_te_left_zone =
 {
     "Left LED Strip",
     ZONE_TYPE_LINEAR,
@@ -3553,7 +3553,7 @@ static const razer_zone mamba_te_left_zone =
     7
 };
 
-static const razer_zone mamba_te_right_zone =
+static const open_razer_zone mamba_te_right_zone =
 {
     "Right LED Strip",
     ZONE_TYPE_LINEAR,
@@ -3561,7 +3561,7 @@ static const razer_zone mamba_te_right_zone =
     7
 };
 
-static const razer_zone mamba_te_logo_zone =
+static const open_razer_zone mamba_te_logo_zone =
 {
     "Logo",
     ZONE_TYPE_SINGLE,
@@ -3569,7 +3569,7 @@ static const razer_zone mamba_te_logo_zone =
     1
 };
 
-static const razer_zone mamba_te_scroll_wheel_zone =
+static const open_razer_zone mamba_te_scroll_wheel_zone =
 {
     "Scroll Wheel",
     ZONE_TYPE_SINGLE,
@@ -3577,7 +3577,7 @@ static const razer_zone mamba_te_scroll_wheel_zone =
     1
 };
 
-static const razer_device mamba_te_device =
+static const open_razer_device mamba_te_device =
 {
     "Razer Mamba Tournament Edition",
     DEVICE_TYPE_MOUSE,
@@ -3607,7 +3607,7 @@ static const razer_device mamba_te_device =
 |       Single                                                  |
 |       1 LED                                                   |
 \*-------------------------------------------------------------*/
-static const razer_zone mamba_wireless_2018_wired_logo_zone =
+static const open_razer_zone mamba_wireless_2018_wired_logo_zone =
 {
     "Logo Zone",
     ZONE_TYPE_SINGLE,
@@ -3615,7 +3615,7 @@ static const razer_zone mamba_wireless_2018_wired_logo_zone =
     1
 };
 
-static const razer_zone mamba_wireless_2018_wired_scroll_wheel_zone =
+static const open_razer_zone mamba_wireless_2018_wired_scroll_wheel_zone =
 {
     "Scroll Wheel Zone",
     ZONE_TYPE_SINGLE,
@@ -3623,7 +3623,7 @@ static const razer_zone mamba_wireless_2018_wired_scroll_wheel_zone =
     1
 };
 
-static const razer_device mamba_wireless_2018_wired_device =
+static const open_razer_device mamba_wireless_2018_wired_device =
 {
     "Razer Mamba Wireless (Wired)",
     DEVICE_TYPE_MOUSE,
@@ -3654,7 +3654,7 @@ static const razer_device mamba_wireless_2018_wired_device =
 |       1 LED                                                   |
 \*-------------------------------------------------------------*/
 
-static const razer_zone mamba_wireless_2018_wireless_logo_zone =
+static const open_razer_zone mamba_wireless_2018_wireless_logo_zone =
 {
     "Logo Zone",
     ZONE_TYPE_SINGLE,
@@ -3662,7 +3662,7 @@ static const razer_zone mamba_wireless_2018_wireless_logo_zone =
     1
 };
 
-static const razer_zone mamba_wireless_2018_wireless_scroll_wheel_zone =
+static const open_razer_zone mamba_wireless_2018_wireless_scroll_wheel_zone =
 {
     "Scroll Wheel Zone",
     ZONE_TYPE_SINGLE,
@@ -3670,7 +3670,7 @@ static const razer_zone mamba_wireless_2018_wireless_scroll_wheel_zone =
     1
 };
 
-static const razer_device mamba_wireless_2018_wireless_device =
+static const open_razer_device mamba_wireless_2018_wireless_device =
 {
     "Razer Mamba Wireless (Receiver)",
     DEVICE_TYPE_MOUSE,
@@ -3704,7 +3704,7 @@ static const razer_device mamba_wireless_2018_wireless_device =
 |       Single                                                  |
 |       1 LED                                                   |
 \*-------------------------------------------------------------*/
-static const razer_zone naga_chroma_logo_zone =
+static const open_razer_zone naga_chroma_logo_zone =
 {
     "Logo",
     ZONE_TYPE_SINGLE,
@@ -3712,7 +3712,7 @@ static const razer_zone naga_chroma_logo_zone =
     1
 };
 
-static const razer_zone naga_chroma_scroll_wheel_zone =
+static const open_razer_zone naga_chroma_scroll_wheel_zone =
 {
     "Scroll Wheel",
     ZONE_TYPE_SINGLE,
@@ -3720,7 +3720,7 @@ static const razer_zone naga_chroma_scroll_wheel_zone =
     1
 };
 
-static const razer_zone naga_chroma_numpad_zone =
+static const open_razer_zone naga_chroma_numpad_zone =
 {
     "Numpad",
     ZONE_TYPE_SINGLE,
@@ -3728,7 +3728,7 @@ static const razer_zone naga_chroma_numpad_zone =
     1
 };
 
-static const razer_device naga_chroma_device =
+static const open_razer_device naga_chroma_device =
 {
     "Razer Naga Chroma",
     DEVICE_TYPE_MOUSE,
@@ -3762,7 +3762,7 @@ static const razer_device naga_chroma_device =
 |       Single                                                  |
 |       1 LED                                                   |
 \*-------------------------------------------------------------*/
-static const razer_zone naga_hex_v2_logo_zone =
+static const open_razer_zone naga_hex_v2_logo_zone =
 {
     "Logo",
     ZONE_TYPE_SINGLE,
@@ -3770,7 +3770,7 @@ static const razer_zone naga_hex_v2_logo_zone =
     1
 };
 
-static const razer_zone naga_hex_v2_scroll_wheel_zone =
+static const open_razer_zone naga_hex_v2_scroll_wheel_zone =
 {
     "Scroll Wheel",
     ZONE_TYPE_SINGLE,
@@ -3778,7 +3778,7 @@ static const razer_zone naga_hex_v2_scroll_wheel_zone =
     1
 };
 
-static const razer_zone naga_hex_v2_numpad_zone =
+static const open_razer_zone naga_hex_v2_numpad_zone =
 {
     "Numpad",
     ZONE_TYPE_SINGLE,
@@ -3786,7 +3786,7 @@ static const razer_zone naga_hex_v2_numpad_zone =
     1
 };
 
-static const razer_device naga_hex_v2_device =
+static const open_razer_device naga_hex_v2_device =
 {
     "Razer Naga Hex V2",
     DEVICE_TYPE_MOUSE,
@@ -3820,7 +3820,7 @@ static const razer_device naga_hex_v2_device =
 |       Single                                                  |
 |       1 LED                                                   |
 \*-------------------------------------------------------------*/
-static const razer_zone naga_trinity_logo_zone =
+static const open_razer_zone naga_trinity_logo_zone =
 {
     "Logo",
     ZONE_TYPE_SINGLE,
@@ -3828,7 +3828,7 @@ static const razer_zone naga_trinity_logo_zone =
     1
 };
 
-static const razer_zone naga_trinity_scroll_wheel_zone =
+static const open_razer_zone naga_trinity_scroll_wheel_zone =
 {
     "Scroll Wheel",
     ZONE_TYPE_SINGLE,
@@ -3836,7 +3836,7 @@ static const razer_zone naga_trinity_scroll_wheel_zone =
     1
 };
 
-static const razer_zone naga_trinity_numpad_zone =
+static const open_razer_zone naga_trinity_numpad_zone =
 {
     "Numpad",
     ZONE_TYPE_SINGLE,
@@ -3844,7 +3844,7 @@ static const razer_zone naga_trinity_numpad_zone =
     1
 };
 
-static const razer_device naga_trinity_device =
+static const open_razer_device naga_trinity_device =
 {
     "Razer Naga Trinity",
     DEVICE_TYPE_MOUSE,
@@ -3870,7 +3870,7 @@ static const razer_device naga_trinity_device =
 |       Matrix                                                  |
 |       1 LED                                                   |
 \*-------------------------------------------------------------*/
-static const razer_zone viper_mini_logo_zone =
+static const open_razer_zone viper_mini_logo_zone =
 {
     "Logo",      //Matrix of one as per https://github.com/openrazer/openrazer/blob/master/daemon/openrazer_daemon/hardware/mouse.py#L27
     ZONE_TYPE_SINGLE,
@@ -3878,7 +3878,7 @@ static const razer_zone viper_mini_logo_zone =
     1
 };
 
-static const razer_device viper_mini_device =
+static const open_razer_device viper_mini_device =
 {
     "Razer Viper Mini",
     DEVICE_TYPE_MOUSE,
@@ -3904,7 +3904,7 @@ static const razer_device viper_mini_device =
 |       Matrix                                                  |
 |       1 LED                                                   |
 \*-------------------------------------------------------------*/
-static const razer_zone viper_ultimate_wired_logo_zone =
+static const open_razer_zone viper_ultimate_wired_logo_zone =
 {
     "Logo",      //Matrix of one as per https://github.com/openrazer/openrazer/blob/master/daemon/openrazer_daemon/hardware/mouse.py#L1690
     ZONE_TYPE_SINGLE,
@@ -3912,7 +3912,7 @@ static const razer_zone viper_ultimate_wired_logo_zone =
     1
 };
 
-static const razer_device viper_ultimate_wired_device =
+static const open_razer_device viper_ultimate_wired_device =
 {
     "Razer Viper Ultimate (Wired)",
     DEVICE_TYPE_MOUSE,
@@ -3938,7 +3938,7 @@ static const razer_device viper_ultimate_wired_device =
 |       Matrix                                                  |
 |       1 LED                                                   |
 \*-------------------------------------------------------------*/
-static const razer_zone viper_ultimate_wireless_logo_zone =
+static const open_razer_zone viper_ultimate_wireless_logo_zone =
 {
     "Logo",      //Matrix of one as per https://github.com/openrazer/openrazer/blob/master/daemon/openrazer_daemon/hardware/mouse.py#L1690
     ZONE_TYPE_SINGLE,
@@ -3946,7 +3946,7 @@ static const razer_zone viper_ultimate_wireless_logo_zone =
     1
 };
 
-static const razer_device viper_ultimate_wireless_device =
+static const open_razer_device viper_ultimate_wireless_device =
 {
     "Razer Viper Ultimate (Wireless)",
     DEVICE_TYPE_MOUSE,
@@ -3972,7 +3972,7 @@ static const razer_device viper_ultimate_wireless_device =
 |       Matrix                                                  |
 |       1 LED                                                   |
 \*-------------------------------------------------------------*/
-static const razer_zone viper_logo_zone =
+static const open_razer_zone viper_logo_zone =
 {
     "Logo",
     ZONE_TYPE_SINGLE,
@@ -3980,7 +3980,7 @@ static const razer_zone viper_logo_zone =
     1
 };
 
-static const razer_device viper_device =
+static const open_razer_device viper_device =
 {
     "Razer Viper",
     DEVICE_TYPE_MOUSE,
@@ -4010,7 +4010,7 @@ static const razer_device viper_device =
 |       Single                                                  |
 |       1 LED                                                   |
 \*-------------------------------------------------------------*/
-static const razer_zone naga_epic_chroma_scroll_wheel_zone =
+static const open_razer_zone naga_epic_chroma_scroll_wheel_zone =
 {
     "Scroll Wheel",
     ZONE_TYPE_SINGLE,
@@ -4018,7 +4018,7 @@ static const razer_zone naga_epic_chroma_scroll_wheel_zone =
     1
 };
 
-static const razer_zone naga_epic_chroma_numpad_zone =
+static const open_razer_zone naga_epic_chroma_numpad_zone =
 {
     "Numpad",
     ZONE_TYPE_SINGLE,
@@ -4026,7 +4026,7 @@ static const razer_zone naga_epic_chroma_numpad_zone =
     1
 };
 
-static const razer_device naga_epic_chroma_device =
+static const open_razer_device naga_epic_chroma_device =
 {
     "Razer Naga Epic Chroma",
     DEVICE_TYPE_MOUSE,
@@ -4056,7 +4056,7 @@ static const razer_device naga_epic_chroma_device =
 |       Matrix                                                  |
 |       4 Rows, 5 Columns                                       |
 \*-------------------------------------------------------------*/
-static const razer_zone orbweaver_chroma_zone =
+static const open_razer_zone orbweaver_chroma_zone =
 {
     "Keypad",
     ZONE_TYPE_MATRIX,
@@ -4064,7 +4064,7 @@ static const razer_zone orbweaver_chroma_zone =
     5
 };
 
-static const razer_device orbweaver_chroma_device =
+static const open_razer_device orbweaver_chroma_device =
 {
     "Razer Orbweaver Chroma",
     DEVICE_TYPE_KEYBOARD,
@@ -4090,7 +4090,7 @@ static const razer_device orbweaver_chroma_device =
 |       Single                                                  |
 |       1 LED                                                   |
 \*-------------------------------------------------------------*/
-static const razer_zone tartarus_chroma_zone =
+static const open_razer_zone tartarus_chroma_zone =
 {
     "Keypad",
     ZONE_TYPE_SINGLE,
@@ -4098,7 +4098,7 @@ static const razer_zone tartarus_chroma_zone =
     1
 };
 
-static const razer_device tartarus_chroma_device =
+static const open_razer_device tartarus_chroma_device =
 {
     "Razer Tartarus Chroma",
     DEVICE_TYPE_KEYBOARD,
@@ -4124,7 +4124,7 @@ static const razer_device tartarus_chroma_device =
 |       Matrix                                                  |
 |       4 Rows, 5 Columns                                       |
 \*-------------------------------------------------------------*/
-static const razer_zone tartarus_v2_zone =
+static const open_razer_zone tartarus_v2_zone =
 {
     "Keypad",
     ZONE_TYPE_MATRIX,
@@ -4132,7 +4132,7 @@ static const razer_zone tartarus_v2_zone =
     5
 };
 
-static const razer_device tartarus_v2_device =
+static const open_razer_device tartarus_v2_device =
 {
     "Razer Tartarus V2",
     DEVICE_TYPE_KEYBOARD,
@@ -4162,7 +4162,7 @@ static const razer_device tartarus_v2_device =
 |       Linear                                                  |
 |       15 LEDs                                                 |
 \*-------------------------------------------------------------*/
-static const razer_zone firefly_zone =
+static const open_razer_zone firefly_zone =
 {
     "LED Strip",
     ZONE_TYPE_LINEAR,
@@ -4170,7 +4170,7 @@ static const razer_zone firefly_zone =
     15
 };
 
-static const razer_device firefly_device =
+static const open_razer_device firefly_device =
 {
     "Razer Firefly",
     DEVICE_TYPE_MOUSEMAT,
@@ -4196,7 +4196,7 @@ static const razer_device firefly_device =
 |       Linear                                                  |
 |       1 LEDs                                                  |
 \*-------------------------------------------------------------*/
-static const razer_zone firefly_hyperflux_zone =
+static const open_razer_zone firefly_hyperflux_zone =
 {
     "LED Strip",
     ZONE_TYPE_SINGLE,
@@ -4204,7 +4204,7 @@ static const razer_zone firefly_hyperflux_zone =
     1
 };
 
-static const razer_device firefly_hyperflux_device =
+static const open_razer_device firefly_hyperflux_device =
 {
     "Razer Firefly Hyperflux",
     DEVICE_TYPE_MOUSEMAT,
@@ -4230,7 +4230,7 @@ static const razer_device firefly_hyperflux_device =
 |       Matrix                                                  |
 |       19 LEDs                                                 |
 \*-------------------------------------------------------------*/
-static const razer_zone firefly_v2_zone =
+static const open_razer_zone firefly_v2_zone =
 {
     "LED Strip",
     ZONE_TYPE_LINEAR,
@@ -4238,7 +4238,7 @@ static const razer_zone firefly_v2_zone =
     19
 };
 
-static const razer_device firefly_v2_device =
+static const open_razer_device firefly_v2_device =
 {
     "Razer Firefly V2",
     DEVICE_TYPE_MOUSEMAT,
@@ -4264,7 +4264,7 @@ static const razer_device firefly_v2_device =
 |       Single                                                  |
 |       1 LED                                                   |
 \*-------------------------------------------------------------*/
-static const razer_zone goliathus_zone =
+static const open_razer_zone goliathus_zone =
 {
     "LED Strip",
     ZONE_TYPE_SINGLE,
@@ -4272,7 +4272,7 @@ static const razer_zone goliathus_zone =
     1
 };
 
-static const razer_device goliathus_device =
+static const open_razer_device goliathus_device =
 {
     "Razer Goliathus",
     DEVICE_TYPE_MOUSEMAT,
@@ -4298,7 +4298,7 @@ static const razer_device goliathus_device =
 |       Single                                                  |
 |       1 LED                                                   |
 \*-------------------------------------------------------------*/
-static const razer_zone goliathus_extended_zone =
+static const open_razer_zone goliathus_extended_zone =
 {
     "LED Strip",
     ZONE_TYPE_SINGLE,
@@ -4306,7 +4306,7 @@ static const razer_zone goliathus_extended_zone =
     1
 };
 
-static const razer_device goliathus_extended_device =
+static const open_razer_device goliathus_extended_device =
 {
     "Razer Goliathus Extended",
     DEVICE_TYPE_MOUSEMAT,
@@ -4336,7 +4336,7 @@ static const razer_device goliathus_extended_device =
 |       Single                                                  |
 |       1 LED                                                   |
 \*-------------------------------------------------------------*/
-static const razer_zone kraken_chroma_zone =
+static const open_razer_zone kraken_chroma_zone =
 {
     "Headset",
     ZONE_TYPE_SINGLE,
@@ -4344,7 +4344,7 @@ static const razer_zone kraken_chroma_zone =
     1
 };
 
-static const razer_device kraken_chroma_device =
+static const open_razer_device kraken_chroma_device =
 {
     "Razer Kraken 7.1 Chroma",
     DEVICE_TYPE_HEADSET,
@@ -4370,7 +4370,7 @@ static const razer_device kraken_chroma_device =
 |       Single                                                  |
 |       1 LED                                                   |
 \*-------------------------------------------------------------*/
-static const razer_zone kraken_v2_zone =
+static const open_razer_zone kraken_v2_zone =
 {
     "Headset",
     ZONE_TYPE_SINGLE,
@@ -4378,7 +4378,7 @@ static const razer_zone kraken_v2_zone =
     1
 };
 
-static const razer_device kraken_v2_device =
+static const open_razer_device kraken_v2_device =
 {
     "Razer Kraken 7.1 V2",
     DEVICE_TYPE_HEADSET,
@@ -4404,7 +4404,7 @@ static const razer_device kraken_v2_device =
 |       Single                                                  |
 |       1 LED                                                   |
 \*-------------------------------------------------------------*/
-static const razer_zone kraken_ultimate_zone =
+static const open_razer_zone kraken_ultimate_zone =
 {
     "Headset",
     ZONE_TYPE_SINGLE,
@@ -4412,7 +4412,7 @@ static const razer_zone kraken_ultimate_zone =
     1
 };
 
-static const razer_device kraken_ultimate_device =
+static const open_razer_device kraken_ultimate_device =
 {
     "Razer Kraken Ultimate",
     DEVICE_TYPE_HEADSET,
@@ -4438,7 +4438,7 @@ static const razer_device kraken_ultimate_device =
 |       Matrix                                                  |
 |       4 LED                                                   |
 \*-------------------------------------------------------------*/
-static const razer_zone kraken_kitty_zone =
+static const open_razer_zone kraken_kitty_zone =
 {
     "Headset",
     ZONE_TYPE_LINEAR,
@@ -4446,7 +4446,7 @@ static const razer_zone kraken_kitty_zone =
     4
 };
 
-static const razer_device kraken_kitty_device =
+static const open_razer_device kraken_kitty_device =
 {
     "Razer Kraken Kitty Edition",
     DEVICE_TYPE_HEADSET,
@@ -4480,7 +4480,7 @@ static const razer_device kraken_kitty_device =
 |       Single                                                  |
 |       1 LED                                                   |
 \*-------------------------------------------------------------*/
-static const razer_zone tiamat_71_v2_controller_zone =
+static const open_razer_zone tiamat_71_v2_controller_zone =
 {
     "Controller",
     ZONE_TYPE_LINEAR,
@@ -4488,7 +4488,7 @@ static const razer_zone tiamat_71_v2_controller_zone =
     15
 };
 
-static const razer_zone tiamat_71_v2_headset_left_zone =
+static const open_razer_zone tiamat_71_v2_headset_left_zone =
 {
     "Headset Left",
     ZONE_TYPE_SINGLE,
@@ -4496,7 +4496,7 @@ static const razer_zone tiamat_71_v2_headset_left_zone =
     1
 };
 
-static const razer_zone tiamat_71_v2_headset_right_zone =
+static const open_razer_zone tiamat_71_v2_headset_right_zone =
 {
     "Headset Right",
     ZONE_TYPE_SINGLE,
@@ -4504,7 +4504,7 @@ static const razer_zone tiamat_71_v2_headset_right_zone =
     1
 };
 
-static const razer_device tiamat_71_v2_device =
+static const open_razer_device tiamat_71_v2_device =
 {
     "Razer Tiamat 7.1 V2",
     DEVICE_TYPE_HEADSET,
@@ -4538,7 +4538,7 @@ static const razer_device tiamat_71_v2_device =
 |       Linear                                                  |
 |       8 LEDs                                                  |
 \*-------------------------------------------------------------*/
-static const razer_zone core_side_zone =
+static const open_razer_zone core_side_zone =
 {
     "Side Window Lights",
     ZONE_TYPE_SINGLE,
@@ -4546,7 +4546,7 @@ static const razer_zone core_side_zone =
     1
 };
 
-static const razer_zone core_led_strip_zone =
+static const open_razer_zone core_led_strip_zone =
 {
     "LED Strip",
     ZONE_TYPE_LINEAR,
@@ -4554,7 +4554,7 @@ static const razer_zone core_led_strip_zone =
     8
 };
 
-static const razer_device core_device =
+static const open_razer_device core_device =
 {
     "Razer Core",
     DEVICE_TYPE_UNKNOWN,
@@ -4580,7 +4580,7 @@ static const razer_device core_device =
 |       Linear                                                  |
 |       15 LEDs                                                 |
 \*-------------------------------------------------------------*/
-static const razer_zone mug_holder_zone =
+static const open_razer_zone mug_holder_zone =
 {
     "LED Strip",
     ZONE_TYPE_LINEAR,
@@ -4588,7 +4588,7 @@ static const razer_zone mug_holder_zone =
     15
 };
 
-static const razer_device mug_holder_device =
+static const open_razer_device mug_holder_device =
 {
     "Razer Chroma Mug Holder",
     DEVICE_TYPE_UNKNOWN,
@@ -4626,7 +4626,7 @@ static const razer_device mug_holder_device =
 |       Linear                                                  |
 |       16 LEDs                                                 |
 \*-------------------------------------------------------------*/
-static const razer_zone chromahdk_zone_1 =
+static const open_razer_zone chromahdk_zone_1 =
 {
     "Channel 1",
     ZONE_TYPE_LINEAR,
@@ -4634,7 +4634,7 @@ static const razer_zone chromahdk_zone_1 =
     16
 };
 
-static const razer_zone chromahdk_zone_2 =
+static const open_razer_zone chromahdk_zone_2 =
 {
     "Channel 2",
     ZONE_TYPE_LINEAR,
@@ -4642,7 +4642,7 @@ static const razer_zone chromahdk_zone_2 =
     16
 };
 
-static const razer_zone chromahdk_zone_3 =
+static const open_razer_zone chromahdk_zone_3 =
 {
     "Channel 3",
     ZONE_TYPE_LINEAR,
@@ -4650,7 +4650,7 @@ static const razer_zone chromahdk_zone_3 =
     16
 };
 
-static const razer_zone chromahdk_zone_4 =
+static const open_razer_zone chromahdk_zone_4 =
 {
     "Channel 4",
     ZONE_TYPE_LINEAR,
@@ -4658,7 +4658,7 @@ static const razer_zone chromahdk_zone_4 =
     16
 };
 
-static const razer_device chromahdk_device =
+static const open_razer_device chromahdk_device =
 {
     "Razer Chroma HDK",
     DEVICE_TYPE_LEDSTRIP,
@@ -4684,7 +4684,7 @@ static const razer_device chromahdk_device =
 |       Linear                                                  |
 |       15 LEDs                                                 |
 \*-------------------------------------------------------------*/
-static const razer_zone base_station_zone =
+static const open_razer_zone base_station_zone =
 {
     "LED Strip",
     ZONE_TYPE_LINEAR,
@@ -4692,7 +4692,7 @@ static const razer_zone base_station_zone =
     15
 };
 
-static const razer_device base_station_device =
+static const open_razer_device base_station_device =
 {
     "Razer Base Station Chroma",
     DEVICE_TYPE_HEADSET_STAND,
@@ -4723,7 +4723,7 @@ static const razer_device base_station_device =
 |       8 LEDs                                                  |
 |                                                               |
 \*-------------------------------------------------------------*/
-static const razer_zone nommo_pro_left_zone =
+static const open_razer_zone nommo_pro_left_zone =
 {
     "Left Speaker",
     ZONE_TYPE_LINEAR,
@@ -4731,7 +4731,7 @@ static const razer_zone nommo_pro_left_zone =
     8
 };
 
-static const razer_zone nommo_pro_right_zone =
+static const open_razer_zone nommo_pro_right_zone =
 {
     "Right Speaker",
     ZONE_TYPE_LINEAR,
@@ -4739,7 +4739,7 @@ static const razer_zone nommo_pro_right_zone =
     8
 };
 
-static const razer_device nommo_pro_device =
+static const open_razer_device nommo_pro_device =
 {
     "Razer Nommo Pro",
     DEVICE_TYPE_SPEAKER,
@@ -4770,7 +4770,7 @@ static const razer_device nommo_pro_device =
 |       8 LEDs                                                  |
 |                                                               |
 \*-------------------------------------------------------------*/
-static const razer_zone nommo_chroma_right_zone =
+static const open_razer_zone nommo_chroma_right_zone =
 {
     "Right Speaker",
     ZONE_TYPE_LINEAR,
@@ -4778,7 +4778,7 @@ static const razer_zone nommo_chroma_right_zone =
     24
 };
 
-static const razer_zone nommo_chroma_left_zone =
+static const open_razer_zone nommo_chroma_left_zone =
 {
     "Left Speaker",
     ZONE_TYPE_LINEAR,
@@ -4786,7 +4786,7 @@ static const razer_zone nommo_chroma_left_zone =
     24
 };
 
-static const razer_device nommo_chroma_device =
+static const open_razer_device nommo_chroma_device =
 {
     "Razer Nommo Chroma",
     DEVICE_TYPE_SPEAKER,
@@ -4808,9 +4808,9 @@ static const razer_device nommo_chroma_device =
 /*-------------------------------------------------------------------------*\
 |  DEVICE MASTER LIST                                                       |
 \*-------------------------------------------------------------------------*/
-#define RAZER_NUM_DEVICES (sizeof(device_list) / sizeof(device_list[ 0 ]))
+#define OPEN_RAZER_NUM_DEVICES (sizeof(device_list) / sizeof(device_list[ 0 ]))
 
-static const razer_device* device_list[] =
+static const open_razer_device* device_list[] =
 {
 /*-----------------------------------------------------------------*\
 |  KEYBOARDS                                                        |

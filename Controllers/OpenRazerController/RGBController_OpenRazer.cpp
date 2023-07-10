@@ -20,9 +20,9 @@ void RGBController_OpenRazer::DeviceUpdateLEDs()
 
     switch(matrix_type)
     {
-        case RAZER_TYPE_MATRIX_FRAME:
-        case RAZER_TYPE_MATRIX_NOFRAME:
-        case RAZER_TYPE_MATRIX_STATIC:
+        case OPEN_RAZER_TYPE_MATRIX_FRAME:
+        case OPEN_RAZER_TYPE_MATRIX_NOFRAME:
+        case OPEN_RAZER_TYPE_MATRIX_STATIC:
             {
                 char update_value = 1;
 
@@ -32,7 +32,7 @@ void RGBController_OpenRazer::DeviceUpdateLEDs()
                     unsigned int output_offset;
                     unsigned int row_offset = (row * matrix_cols);
 
-                    if(matrix_type == RAZER_TYPE_MATRIX_FRAME)
+                    if(matrix_type == OPEN_RAZER_TYPE_MATRIX_FRAME)
                     {
                         output_array_size = 3 + (matrix_cols* 3);
                         output_offset = 3;
@@ -45,7 +45,7 @@ void RGBController_OpenRazer::DeviceUpdateLEDs()
 
                     char* output_array = new char[output_array_size];
 
-                    if(matrix_type == RAZER_TYPE_MATRIX_FRAME)
+                    if(matrix_type == OPEN_RAZER_TYPE_MATRIX_FRAME)
                     {
                         output_array[0] = row;
                         output_array[1] = 0;
@@ -60,12 +60,12 @@ void RGBController_OpenRazer::DeviceUpdateLEDs()
                         output_array[(col * 3) + 2 + output_offset] = (char)RGBGetBValue(colors[color_idx]);
                     }
 
-                    if(matrix_type == RAZER_TYPE_MATRIX_FRAME)
+                    if(matrix_type == OPEN_RAZER_TYPE_MATRIX_FRAME)
                     {
                         matrix_custom_frame.write(output_array, output_array_size);
                         matrix_custom_frame.flush();
                     }
-                    else if(matrix_type == RAZER_TYPE_MATRIX_NOFRAME)
+                    else if(matrix_type == OPEN_RAZER_TYPE_MATRIX_NOFRAME)
                     {
                         matrix_effect_custom.write(output_array, output_array_size);
                         matrix_effect_custom.flush();
@@ -81,7 +81,7 @@ void RGBController_OpenRazer::DeviceUpdateLEDs()
                     std::this_thread::sleep_for(1ms);
                 }
 
-                if(matrix_type == RAZER_TYPE_MATRIX_FRAME)
+                if(matrix_type == OPEN_RAZER_TYPE_MATRIX_FRAME)
                 {
                     matrix_effect_custom.write(&update_value, 1);
                     matrix_effect_custom.flush();
@@ -89,7 +89,7 @@ void RGBController_OpenRazer::DeviceUpdateLEDs()
             }
             break;
 
-        case RAZER_TYPE_NOMATRIX:
+        case OPEN_RAZER_TYPE_NOMATRIX:
             {
                 DeviceUpdateMode();
             }
@@ -113,11 +113,11 @@ void RGBController_OpenRazer::SetupMatrixDevice(unsigned int rows, unsigned int 
     {
         if(!matrix_effect_custom)
         {
-            matrix_type = RAZER_TYPE_MATRIX_STATIC;
+            matrix_type = OPEN_RAZER_TYPE_MATRIX_STATIC;
         }
         else
         {
-            matrix_type = RAZER_TYPE_MATRIX_NOFRAME;
+            matrix_type = OPEN_RAZER_TYPE_MATRIX_NOFRAME;
         }
 
         matrix_rows = 1;
@@ -125,7 +125,7 @@ void RGBController_OpenRazer::SetupMatrixDevice(unsigned int rows, unsigned int 
     }
     else
     {
-        matrix_type = RAZER_TYPE_MATRIX_FRAME;
+        matrix_type = OPEN_RAZER_TYPE_MATRIX_FRAME;
 
         matrix_rows = rows;
         matrix_cols = cols;
@@ -134,7 +134,7 @@ void RGBController_OpenRazer::SetupMatrixDevice(unsigned int rows, unsigned int 
 
 void RGBController_OpenRazer::SetupNonMatrixDevice()
 {
-    matrix_type = RAZER_TYPE_NOMATRIX;
+    matrix_type = OPEN_RAZER_TYPE_NOMATRIX;
 }
 
 void RGBController_OpenRazer::OpenFunctions(std::string dev_path)
@@ -267,7 +267,7 @@ RGBController_OpenRazer::RGBController_OpenRazer(std::string dev_path)
     /*-----------------------------------------------------------------*\
     | Loop through all known devices to look for a name match           |
     \*-----------------------------------------------------------------*/
-    for (std::size_t i = 0; i < RAZER_NUM_DEVICES; i++)
+    for (std::size_t i = 0; i < OPEN_RAZER_NUM_DEVICES; i++)
     {
         if (device_list[i]->name == name)
         {
@@ -288,7 +288,7 @@ RGBController_OpenRazer::RGBController_OpenRazer(std::string dev_path)
             {
                 mode Direct;
                 Direct.name       = "Direct";
-                Direct.value      = RAZER_MODE_CUSTOM;
+                Direct.value      = OPEN_RAZER_MODE_CUSTOM;
                 Direct.flags      = MODE_FLAG_HAS_PER_LED_COLOR;
                 Direct.color_mode = MODE_COLORS_PER_LED;
                 modes.push_back(Direct);
@@ -309,7 +309,7 @@ RGBController_OpenRazer::RGBController_OpenRazer(std::string dev_path)
             {
                 mode Off;
                 Off.name       = "Off";
-                Off.value      = RAZER_MODE_OFF;
+                Off.value      = OPEN_RAZER_MODE_OFF;
                 Off.flags      = 0;
                 Off.color_mode = MODE_COLORS_NONE;
                 modes.push_back(Off);
@@ -330,7 +330,7 @@ RGBController_OpenRazer::RGBController_OpenRazer(std::string dev_path)
             {
                 mode Static;
                 Static.name       = "Static";
-                Static.value      = RAZER_MODE_STATIC;
+                Static.value      = OPEN_RAZER_MODE_STATIC;
                 Static.flags      = MODE_FLAG_HAS_MODE_SPECIFIC_COLOR;
                 Static.colors_min = 1;
                 Static.colors_max = 1;
@@ -350,7 +350,7 @@ RGBController_OpenRazer::RGBController_OpenRazer(std::string dev_path)
             {
                 mode Breathing;
                 Breathing.name       = "Breathing";
-                Breathing.value      = RAZER_MODE_BREATHING;
+                Breathing.value      = OPEN_RAZER_MODE_BREATHING;
                 Breathing.flags      = MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_RANDOM_COLOR;
                 Breathing.colors_min = 1;
                 Breathing.colors_max = 2;
@@ -368,7 +368,7 @@ RGBController_OpenRazer::RGBController_OpenRazer(std::string dev_path)
             {
                 mode Breathing;
                 Breathing.name       = "Breathing";
-                Breathing.value      = RAZER_MODE_BREATHING;
+                Breathing.value      = OPEN_RAZER_MODE_BREATHING;
                 Breathing.flags      = MODE_FLAG_HAS_MODE_SPECIFIC_COLOR;
                 Breathing.colors_min = 1;
                 Breathing.colors_max = 1;
@@ -386,7 +386,7 @@ RGBController_OpenRazer::RGBController_OpenRazer(std::string dev_path)
             {
                 mode Flashing;
                 Flashing.name       = "Flashing";
-                Flashing.value      = RAZER_MODE_FLASHING;
+                Flashing.value      = OPEN_RAZER_MODE_FLASHING;
                 Flashing.flags      = MODE_FLAG_HAS_MODE_SPECIFIC_COLOR;
                 Flashing.colors_min = 1;
                 Flashing.colors_max = 1;
@@ -410,7 +410,7 @@ RGBController_OpenRazer::RGBController_OpenRazer(std::string dev_path)
             {
                 mode SpectrumCycle;
                 SpectrumCycle.name       = "Spectrum Cycle";
-                SpectrumCycle.value      = RAZER_MODE_SPECTRUM_CYCLE;
+                SpectrumCycle.value      = OPEN_RAZER_MODE_SPECTRUM_CYCLE;
                 SpectrumCycle.flags      = 0;
                 SpectrumCycle.color_mode = MODE_COLORS_NONE;
                 modes.push_back(SpectrumCycle);
@@ -425,7 +425,7 @@ RGBController_OpenRazer::RGBController_OpenRazer(std::string dev_path)
             {
                 mode Wave;
                 Wave.name       = "Wave";
-                Wave.value      = RAZER_MODE_WAVE;
+                Wave.value      = OPEN_RAZER_MODE_WAVE;
                 Wave.flags      = MODE_FLAG_HAS_DIRECTION_LR;
                 Wave.direction  = MODE_DIRECTION_RIGHT;
                 Wave.color_mode = MODE_COLORS_NONE;
@@ -443,7 +443,7 @@ RGBController_OpenRazer::RGBController_OpenRazer(std::string dev_path)
             {
                 mode Reactive;
                 Reactive.name       = "Reactive";
-                Reactive.value      = RAZER_MODE_REACTIVE;
+                Reactive.value      = OPEN_RAZER_MODE_REACTIVE;
                 Reactive.flags      = 0;
                 Reactive.color_mode = MODE_COLORS_NONE;
                 modes.push_back(Reactive);
@@ -490,7 +490,7 @@ void RGBController_OpenRazer::SetupZones()
     /*---------------------------------------------------------*\
     | Fill in zone information based on device table            |
     \*---------------------------------------------------------*/
-    for(unsigned int zone_id = 0; zone_id < RAZER_MAX_ZONES; zone_id++)
+    for(unsigned int zone_id = 0; zone_id < OPEN_RAZER_MAX_ZONES; zone_id++)
     {
         if(device_list[device_index]->zones[zone_id] != NULL)
         {
@@ -579,7 +579,7 @@ void RGBController_OpenRazer::SetCustomMode()
     /*---------------------------------------------------------*\
     | If device supports custom mode, it will be mode index 0   |
     \*---------------------------------------------------------*/
-    if(modes[0].value == RAZER_MODE_CUSTOM)
+    if(modes[0].value == OPEN_RAZER_MODE_CUSTOM)
     {
         active_mode = 0;
     }
@@ -590,7 +590,7 @@ void RGBController_OpenRazer::SetCustomMode()
     {
         for(unsigned int i = 0; i < modes.size(); i++)
         {
-            if(modes[i].value == RAZER_MODE_STATIC)
+            if(modes[i].value == OPEN_RAZER_MODE_STATIC)
             {
                 active_mode = i;
                 break;
@@ -608,7 +608,7 @@ void RGBController_OpenRazer::DeviceUpdateMode()
 
     switch(modes[active_mode].value)
     {
-        case RAZER_MODE_CUSTOM:
+        case OPEN_RAZER_MODE_CUSTOM:
             if(matrix_effect_custom)
             {
                 matrix_effect_custom.write(update_value, 1);
@@ -616,7 +616,7 @@ void RGBController_OpenRazer::DeviceUpdateMode()
             }
             break;
 
-        case RAZER_MODE_OFF:
+        case OPEN_RAZER_MODE_OFF:
             if(matrix_effect_none)
             {
                 matrix_effect_none.write(update_value, 1);
@@ -669,7 +669,7 @@ void RGBController_OpenRazer::DeviceUpdateMode()
             }
             break;
 
-        case RAZER_MODE_STATIC:
+        case OPEN_RAZER_MODE_STATIC:
             effect_value[0] = '0';
 
             if(backlight_led_state)
@@ -752,7 +752,7 @@ void RGBController_OpenRazer::DeviceUpdateMode()
             }
             break;
 
-        case RAZER_MODE_FLASHING:
+        case OPEN_RAZER_MODE_FLASHING:
             effect_value[0] = '1';
 
             if(backlight_led_state)
@@ -805,7 +805,7 @@ void RGBController_OpenRazer::DeviceUpdateMode()
             }
             break;
 
-        case RAZER_MODE_BREATHING:
+        case OPEN_RAZER_MODE_BREATHING:
             effect_value[0] = '2';
 
             switch(modes[active_mode].color_mode)
@@ -965,7 +965,7 @@ void RGBController_OpenRazer::DeviceUpdateMode()
             }
             break;
 
-        case RAZER_MODE_SPECTRUM_CYCLE:
+        case OPEN_RAZER_MODE_SPECTRUM_CYCLE:
             effect_value[0] = '4';
 
             if(backlight_led_state)
@@ -1038,7 +1038,7 @@ void RGBController_OpenRazer::DeviceUpdateMode()
             }
             break;
 
-        case RAZER_MODE_WAVE:
+        case OPEN_RAZER_MODE_WAVE:
             switch(modes[active_mode].direction)
             {
                 case MODE_DIRECTION_LEFT:
@@ -1069,7 +1069,7 @@ void RGBController_OpenRazer::DeviceUpdateMode()
             }
             break;
 
-        case RAZER_MODE_REACTIVE:
+        case OPEN_RAZER_MODE_REACTIVE:
             if(matrix_effect_reactive)
             {
                 matrix_effect_reactive.write(update_value, 1);

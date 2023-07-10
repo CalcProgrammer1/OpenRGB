@@ -45,9 +45,9 @@ typedef struct
     const char *        name;
     const unsigned char zone;
     const unsigned char idx;
-} led_type;
+} aw510k_led_type;
 
-static const led_type led_names[] =
+static const aw510k_led_type led_names[] =
 {
     /* Key Label                Zone,                                      Index  */
     { KEY_EN_ESCAPE,            ALIENWARE_AW510K_ZONE_DIRECT_KEYBOARD,     0xB0    },

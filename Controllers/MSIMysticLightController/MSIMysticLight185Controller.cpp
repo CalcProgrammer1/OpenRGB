@@ -34,7 +34,7 @@ using namespace std::chrono_literals;
 #define PER_LED_FULL_SYNC_MODE                  (PER_LED_BASIC_SYNC_MODE | SYNC_SETTING_JRAINBOW1 | SYNC_SETTING_JRAINBOW2 | SYNC_SETTING_JCORSAIR)
 
 
-struct Config
+struct mystic_light_185_config
 {
     unsigned short                           pid;                   // PID of the board
     int                                      numof_onboard_leds;    // number of onboard leds
@@ -210,9 +210,9 @@ const std::vector<MSI_ZONE> zones_set16 =
 | Boards with yet unknown supported zones are configured to support all zones.                                                      |
 \*---------------------------------------------------------------------------------------------------------------------------------*/
 
-#define NUMOF_CONFIGS       (sizeof(board_configs) / sizeof(Config))
+#define NUMOF_CONFIGS       (sizeof(board_configs) / sizeof(mystic_light_185_config))
 
-static const Config board_configs[] =
+static const mystic_light_185_config board_configs[] =
 {
     { 0x7B93, 6,  1,  0, 1, &zones_set3,  MSIMysticLight185Controller::DIRECT_MODE_ZONE_BASED },    // MPG X570 GAMING PRO CARBON WIFI
     { 0x7C34, 0,  1,  1, 1, &zones_set8,  MSIMysticLight185Controller::DIRECT_MODE_ZONE_BASED },    // MEG X570 GODLIKE
@@ -325,7 +325,7 @@ MSIMysticLight185Controller::MSIMysticLight185Controller
     data.save_data = 0;
     data.on_board_led.colorFlags = 0x80 | SYNC_SETTING_ONBOARD; // always enable onboard sync flag to have expected zone control
 
-    const Config* board_config = nullptr;
+    const mystic_light_185_config* board_config = nullptr;
 
     for(std::size_t i = 0; i < NUMOF_CONFIGS; ++i)
     {

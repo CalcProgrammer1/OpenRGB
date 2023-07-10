@@ -44,7 +44,7 @@ static unsigned int falchion_matrix_map[5][16] =
       {   3,  NA,  12,  17,  21,  25,  29,  34,  38,  42,  47,  52,  56,  NA,  61,  66 },
       {   4,   8,  13,  NA,  NA,  NA,  30,  NA,  NA,  NA,  43,  48,  53,  57,  62,  67 } };
 
-static const std::vector<led_type> default_led_names =
+static const std::vector<aura_keyboard_led> default_led_names =
 {
     /* Key Label                Index  */
     { KEY_EN_ESCAPE,            0x00    },
@@ -153,7 +153,7 @@ static const std::vector<led_type> default_led_names =
     { KEY_EN_NUMPAD_ENTER,      0xB4    },
 };
 
-static const std::vector<led_type> default_tkl_led_names =
+static const std::vector<aura_keyboard_led> default_tkl_led_names =
 {
     /* Key Label                Index  */
     { KEY_EN_ESCAPE,            0x00    },
@@ -270,7 +270,7 @@ static const std::vector<led_type> default_tkl_led_names =
     { "Underglow 26",           0xCE    },
 };
 
-static const std::vector<led_type> default_65pct_led_names =
+static const std::vector<aura_keyboard_led> default_65pct_led_names =
 {
     /* Key Label                Index  */
     { KEY_EN_ESCAPE,            0x00    },
@@ -395,7 +395,7 @@ void RGBController_AuraKeyboard::SetupZones()
     | Set up zones                                              |
     \*---------------------------------------------------------*/
     std::vector<led_zone> led_zones;
-    std::vector<led_type> led_names;
+    std::vector<aura_keyboard_led> led_names;
 
     switch(layout)
     {

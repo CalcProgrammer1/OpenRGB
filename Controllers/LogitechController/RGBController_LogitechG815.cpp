@@ -46,9 +46,9 @@ typedef struct
     const char *        name;
     const unsigned char zone;
     const unsigned char idx;
-} led_type;
+} logitech_g815_led;
 
-static const led_type led_names[] =
+static const logitech_g815_led led_names[] =
 {
     /* Key Label                Zone,                                   Index  */
     { KEY_EN_A,                 LOGITECH_G815_ZONE_DIRECT_KEYBOARD,     0x04    },

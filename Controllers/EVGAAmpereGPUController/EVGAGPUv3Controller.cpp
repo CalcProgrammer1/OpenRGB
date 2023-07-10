@@ -130,7 +130,7 @@ EVGAv3_config EVGAGPUv3Controller::GetZoneConfig(uint8_t zone, uint8_t mode)
                 }
             }
             break;
-        
+
         case EVGA_GPU_V3_MODE_BREATHING:
             {
                 uint8_t result = bus->i2c_smbus_read_i2c_block_data(dev, EVGA_GPU_V3_REG_BREATHING + zone, 10, data_pkt);
@@ -147,8 +147,8 @@ EVGAv3_config EVGAGPUv3Controller::GetZoneConfig(uint8_t zone, uint8_t mode)
                     uint8_t blue2               = data_pkt[7];
                     zone_config.colors[1]       = ToRGBColor(red2, green2, blue2);
                     zone_config.numberOfColors= (zone_config.colors[1] != 0 ) ? 2 : 1 ;
-                    speed16.LSB                 = data_pkt[8];
-                    speed16.MSB                 = data_pkt[9];
+                    speed16.lsb                 = data_pkt[8];
+                    speed16.msb                 = data_pkt[9];
                     zone_config.speed           = speed16.u16;
                     zone_config.direction       = 0;
                 }
@@ -169,8 +169,8 @@ EVGAv3_config EVGAGPUv3Controller::GetZoneConfig(uint8_t zone, uint8_t mode)
                     //Load data
                     zone_config.brightness      = data_pkt[1];
                     zone_config.numberOfColors  = 0;
-                    speed16.LSB                 = data_pkt[2];
-                    speed16.MSB                 = data_pkt[3];
+                    speed16.lsb                 = data_pkt[2];
+                    speed16.msb                 = data_pkt[3];
                     zone_config.speed           = speed16.u16;
                 }
                 else
@@ -192,8 +192,8 @@ EVGAv3_config EVGAGPUv3Controller::GetZoneConfig(uint8_t zone, uint8_t mode)
                     uint8_t blue                = data_pkt[4];
                     zone_config.colors[0]       = ToRGBColor(red, green, blue);
                     zone_config.numberOfColors  = 1;
-                    speed16.LSB                 = data_pkt[5];
-                    speed16.MSB                 = data_pkt[6];
+                    speed16.lsb                 = data_pkt[5];
+                    speed16.msb                 = data_pkt[6];
                     zone_config.speed           = speed16.u16;
                 }
                 else
@@ -230,7 +230,7 @@ EVGAv3_config EVGAGPUv3Controller::GetZoneConfig(uint8_t zone, uint8_t mode)
                     {
                         readFail = true;
                     }
-                    
+
                 }
                 else
                 {
@@ -257,11 +257,11 @@ EVGAv3_config EVGAGPUv3Controller::GetZoneConfig(uint8_t zone, uint8_t mode)
                         uint8_t blue            = data_pkt[(color_index * 4) + 4];
                         zone_config.colors[color_index] = ToRGBColor(red, green, blue);
                     }
-                    speed16.LSB                 = data_pkt[29];
-                    speed16.MSB                 = data_pkt[30];
+                    speed16.lsb                 = data_pkt[29];
+                    speed16.msb                 = data_pkt[30];
                     zone_config.speed           = speed16.u16;
                 }
-                else 
+                else
                 {
                     readFail = true;
                 }
@@ -288,7 +288,7 @@ EVGAv3_config EVGAGPUv3Controller::GetZoneConfig(uint8_t zone, uint8_t mode)
         for(uint8_t i = 0; i < 7; i++)
         {
             zone_config.colors[i] = 0;
-        } 
+        }
         LOG_DEBUG("[%s] Failed while loading Zone %1d configuration from HW", evgaGPUName, zone);
     }
     return zone_config;
@@ -423,8 +423,8 @@ void EVGAGPUv3Controller::SetZone(uint8_t zone, uint8_t mode, EVGAv3_config zone
             zone_pkt[5]             = RGBGetRValue(zone_config.colors[1]);
             zone_pkt[6]             = RGBGetGValue(zone_config.colors[1]);
             zone_pkt[7]             = RGBGetBValue(zone_config.colors[1]);
-            zone_pkt[8]             = speed16.LSB;
-            zone_pkt[9]             = speed16.MSB;
+            zone_pkt[8]             = speed16.lsb;
+            zone_pkt[9]             = speed16.msb;
 
             bus->i2c_smbus_write_i2c_block_data(dev, EVGA_GPU_V3_REG_STATIC + ((mode -1) * 4) + zone, sizeof(zone_pkt), zone_pkt);
         }
@@ -439,8 +439,8 @@ void EVGAGPUv3Controller::SetZone(uint8_t zone, uint8_t mode, EVGAv3_config zone
 
             zone_pkt[0]             = sizeof(zone_pkt) - 1;
             zone_pkt[1]             = zone_config.brightness;
-            zone_pkt[2]             = speed16.LSB;
-            zone_pkt[3]             = speed16.MSB;
+            zone_pkt[2]             = speed16.lsb;
+            zone_pkt[3]             = speed16.msb;
 
             bus->i2c_smbus_write_i2c_block_data(dev, EVGA_GPU_V3_REG_STATIC + ((mode -1) * 4) + zone, sizeof(zone_pkt), zone_pkt);
         }
@@ -456,8 +456,8 @@ void EVGAGPUv3Controller::SetZone(uint8_t zone, uint8_t mode, EVGAv3_config zone
             zone_pkt[2]             = RGBGetRValue(zone_config.colors[0]);
             zone_pkt[3]             = RGBGetGValue(zone_config.colors[0]);
             zone_pkt[4]             = RGBGetBValue(zone_config.colors[0]);
-            zone_pkt[5]             = speed16.LSB;
-            zone_pkt[6]             = speed16.MSB;
+            zone_pkt[5]             = speed16.lsb;
+            zone_pkt[6]             = speed16.msb;
 
             bus->i2c_smbus_write_i2c_block_data(dev, EVGA_GPU_V3_REG_STATIC + ((mode -1) * 4) + zone, sizeof(zone_pkt), zone_pkt);
         }
@@ -480,8 +480,8 @@ void EVGAGPUv3Controller::SetZone(uint8_t zone, uint8_t mode, EVGAv3_config zone
                 zone_pkt[3 + color_index * 4] = RGBGetGValue(zone_config.colors[color_index]);
                 zone_pkt[4 + color_index * 4] = RGBGetBValue(zone_config.colors[color_index]);
             }
-            zone_pkt[29] = speed16.LSB;
-            zone_pkt[30] = speed16.MSB;
+            zone_pkt[29] = speed16.lsb;
+            zone_pkt[30] = speed16.msb;
 
             // Color Count packet construction
             color_cnt_pkt[0]                = sizeof(color_cnt_pkt) - 1;

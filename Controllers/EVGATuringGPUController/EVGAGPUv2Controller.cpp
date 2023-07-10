@@ -70,7 +70,7 @@ unsigned char EVGAGPUv2Controller::GetMode()
                 return_mode = EVGA_GPU_V2_RGB_MODE_OFF;
             }
             break;
-        
+
         case EVGA_GPU_V2_MODE_STATIC:
             {
                 return_mode = EVGA_GPU_V2_RGB_MODE_STATIC;
@@ -87,8 +87,8 @@ unsigned char EVGAGPUv2Controller::GetMode()
             {
                 u16_to_u8 speed_16 = { (uint16_t) 0 };
 
-                speed_16.LSB = bus->i2c_smbus_read_byte_data(dev, EVGA_GPU_V2_REG_B_TO_A_SPEED_LSB);
-                speed_16.MSB = bus->i2c_smbus_read_byte_data(dev, EVGA_GPU_V2_REG_B_TO_A_SPEED_MSB);
+                speed_16.lsb = bus->i2c_smbus_read_byte_data(dev, EVGA_GPU_V2_REG_B_TO_A_SPEED_LSB);
+                speed_16.msb = bus->i2c_smbus_read_byte_data(dev, EVGA_GPU_V2_REG_B_TO_A_SPEED_MSB);
 
                 if (speed_16.u16 == 0)
                 {
@@ -112,8 +112,8 @@ unsigned char EVGAGPUv2Controller::GetSpeed()
 {
     u16_to_u8 speed_16 = { (uint16_t) 0 };
 
-    speed_16.LSB = bus->i2c_smbus_read_byte_data(dev, EVGA_GPU_V2_REG_COLOR_A_ONTIME_LSB);
-    speed_16.MSB = bus->i2c_smbus_read_byte_data(dev, EVGA_GPU_V2_REG_COLOR_A_ONTIME_MSB);
+    speed_16.lsb = bus->i2c_smbus_read_byte_data(dev, EVGA_GPU_V2_REG_COLOR_A_ONTIME_LSB);
+    speed_16.msb = bus->i2c_smbus_read_byte_data(dev, EVGA_GPU_V2_REG_COLOR_A_ONTIME_MSB);
 
     speed_16.u16 /= SPEED_MULTIPLIER;
 
@@ -235,16 +235,16 @@ void EVGAGPUv2Controller::SendMode(uint8_t mode)
 
 void EVGAGPUv2Controller::SendSpeed(u16_to_u8 aOnTime, u16_to_u8 bOnTime, u16_to_u8 b2a, u16_to_u8 a2b, u16_to_u8 speed_un)
 {
-    bus->i2c_smbus_write_byte_data(dev, EVGA_GPU_V2_REG_COLOR_B_UN_LSB,     (unsigned char) speed_un.LSB );
-    bus->i2c_smbus_write_byte_data(dev, EVGA_GPU_V2_REG_COLOR_B_UN_MSB,     (unsigned char) speed_un.MSB );
-    bus->i2c_smbus_write_byte_data(dev, EVGA_GPU_V2_REG_B_TO_A_SPEED_LSB,   (unsigned char) b2a.LSB );
-    bus->i2c_smbus_write_byte_data(dev, EVGA_GPU_V2_REG_B_TO_A_SPEED_MSB,   (unsigned char) b2a.MSB );
-    bus->i2c_smbus_write_byte_data(dev, EVGA_GPU_V2_REG_COLOR_B_ONTIME_LSB, (unsigned char) bOnTime.LSB );
-    bus->i2c_smbus_write_byte_data(dev, EVGA_GPU_V2_REG_COLOR_B_ONTIME_MSB, (unsigned char) bOnTime.MSB );
-    bus->i2c_smbus_write_byte_data(dev, EVGA_GPU_V2_REG_A_TO_B_SPEED_LSB,   (unsigned char) a2b.LSB );
-    bus->i2c_smbus_write_byte_data(dev, EVGA_GPU_V2_REG_A_TO_B_SPEED_MSB,   (unsigned char) a2b.MSB );
-    bus->i2c_smbus_write_byte_data(dev, EVGA_GPU_V2_REG_COLOR_A_ONTIME_LSB, (unsigned char) aOnTime.LSB );
-    bus->i2c_smbus_write_byte_data(dev, EVGA_GPU_V2_REG_COLOR_A_ONTIME_MSB, (unsigned char) aOnTime.MSB );
+    bus->i2c_smbus_write_byte_data(dev, EVGA_GPU_V2_REG_COLOR_B_UN_LSB,     (unsigned char) speed_un.lsb );
+    bus->i2c_smbus_write_byte_data(dev, EVGA_GPU_V2_REG_COLOR_B_UN_MSB,     (unsigned char) speed_un.msb );
+    bus->i2c_smbus_write_byte_data(dev, EVGA_GPU_V2_REG_B_TO_A_SPEED_LSB,   (unsigned char) b2a.lsb );
+    bus->i2c_smbus_write_byte_data(dev, EVGA_GPU_V2_REG_B_TO_A_SPEED_MSB,   (unsigned char) b2a.msb );
+    bus->i2c_smbus_write_byte_data(dev, EVGA_GPU_V2_REG_COLOR_B_ONTIME_LSB, (unsigned char) bOnTime.lsb );
+    bus->i2c_smbus_write_byte_data(dev, EVGA_GPU_V2_REG_COLOR_B_ONTIME_MSB, (unsigned char) bOnTime.msb );
+    bus->i2c_smbus_write_byte_data(dev, EVGA_GPU_V2_REG_A_TO_B_SPEED_LSB,   (unsigned char) a2b.lsb );
+    bus->i2c_smbus_write_byte_data(dev, EVGA_GPU_V2_REG_A_TO_B_SPEED_MSB,   (unsigned char) a2b.msb );
+    bus->i2c_smbus_write_byte_data(dev, EVGA_GPU_V2_REG_COLOR_A_ONTIME_LSB, (unsigned char) aOnTime.lsb );
+    bus->i2c_smbus_write_byte_data(dev, EVGA_GPU_V2_REG_COLOR_A_ONTIME_MSB, (unsigned char) aOnTime.msb );
 }
 
 void EVGAGPUv2Controller::SetColor(RGBColor colorA, RGBColor colorB, uint8_t brightness)

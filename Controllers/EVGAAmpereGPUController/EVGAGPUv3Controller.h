@@ -27,8 +27,8 @@ union u16_to_u8
     uint16_t   u16;
     struct
     {
-        uint8_t LSB;
-        uint8_t MSB;
+        uint8_t lsb;
+        uint8_t msb;
     };
 };
 
@@ -67,7 +67,7 @@ enum //Control registers and offsets
 enum //Mode values for EVGA_GPU_V3_REG_MODE
 {
     EVGA_GPU_V3_MODE_OFF                    = 0x00,
-    EVGA_GPU_V3_MODE_STATIC                 = 0x01, 
+    EVGA_GPU_V3_MODE_STATIC                 = 0x01,
     EVGA_GPU_V3_MODE_BREATHING              = 0x02,
     EVGA_GPU_V3_MODE_RAINBOW                = 0x03,
     EVGA_GPU_V3_MODE_COLOR_CYCLE            = 0x04,

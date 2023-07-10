@@ -40,9 +40,9 @@ typedef struct
 {
     const char *        name;
     const unsigned char idx;
-} led_type;
+} annepro2_led_type;
 
-static const led_type led_names[] =
+static const annepro2_led_type led_names[] =
 {
     /* Key Label                Index  */
     { KEY_EN_ESCAPE,            0       },

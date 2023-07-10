@@ -26,8 +26,8 @@ union u16_to_u8
     uint16_t   u16;
     struct
     {
-        uint8_t LSB;
-        uint8_t MSB;
+        uint8_t lsb;
+        uint8_t msb;
     };
 };
 
@@ -66,7 +66,7 @@ enum
 enum
 {
     EVGA_GPU_V2_MODE_OFF                    = 0x00,
-    EVGA_GPU_V2_MODE_STATIC                 = 0x01, 
+    EVGA_GPU_V2_MODE_STATIC                 = 0x01,
     EVGA_GPU_V2_MODE_RAINBOW                = 0x0F,
     EVGA_GPU_V2_MODE_BREATHING              = 0x22,
 };
