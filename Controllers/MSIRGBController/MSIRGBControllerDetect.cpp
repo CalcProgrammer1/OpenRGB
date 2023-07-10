@@ -75,6 +75,7 @@ static msi_device compatible_devices[] =
     {"7C39", true },
     {"7B86", true },
     {"7B87", true },
+    {"7D95", false}
 };
 
 void DetectMSIRGBControllers()
