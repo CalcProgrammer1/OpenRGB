@@ -17,6 +17,9 @@ Ui::OpenRGBHardwareIDsDialog::OpenRGBHardwareIDsDialog(QWidget *parent) :
     ui(new Ui::OpenRGBHardwareIDsDialogUi)
 {
     ui->setupUi(this);
+    ui->HardwareIdsList->header()->resizeSection(0 /*column index*/, 300 /*width*/);
+    ui->HardwareIdsList->header()->resizeSection(1 /*column index*/, 200 /*width*/);
+    ui->HardwareIdsList->header()->resizeSection(2 /*column index*/, 100 /*width*/);
 }
 
 Ui::OpenRGBHardwareIDsDialog::~OpenRGBHardwareIDsDialog()
@@ -121,6 +124,10 @@ int Ui::OpenRGBHardwareIDsDialog::show()
     {
         libusb_free_device_list(devices, 1);
     }
+
+    i2c_top->setExpanded(true);
+    hid_top->setExpanded(true);
+    libusb_top->setExpanded(true);
 
     return this->exec();
 }
