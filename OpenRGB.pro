@@ -36,7 +36,7 @@ greaterThan(QT_MAJOR_VERSION, 4) {
 #-----------------------------------------------------------------------------------------------#
 MAJOR       = 0
 MINOR       = 9
-REVISION    =
+REVISION    = 1
 VERSION     = $$MAJOR"."$$MINOR$$REVISION
 TARGET      = OpenRGB
 TEMPLATE    = app
