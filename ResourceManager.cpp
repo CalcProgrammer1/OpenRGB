@@ -37,6 +37,24 @@ const hidapi_wrapper default_wrapper =
     (hidapi_wrapper_error)                      hid_error
 };
 
+bool BasicHIDBlock::compare(hid_device_info* info)
+{
+    return ( (vid == info->vendor_id)
+        && (pid == info->product_id)
+#ifdef USE_HID_USAGE
+        && ( (usage_page == HID_USAGE_PAGE_ANY)
+            || (usage_page == info->usage_page) )
+        && ( (usage      == HID_USAGE_ANY)
+            || (usage      == info->usage) )
+        && ( (interface  == HID_INTERFACE_ANY)
+            || (interface  == info->interface_number ) )
+#else
+        && ( (interface  == HID_INTERFACE_ANY)
+            || (interface  == info->interface_number ) )
+#endif
+            );
+}
+
 ResourceManager* ResourceManager::instance;
 
 using namespace std::chrono_literals;
@@ -270,7 +288,8 @@ void ResourceManager::RegisterHIDDeviceDetector(std::string name,
     HIDDeviceDetectorBlock block;
 
     block.name          = name;
-    block.address       = (vid << 16) | pid;
+    block.vid           = vid;
+    block.pid           = pid;
     block.function      = detector;
     block.interface     = interface;
     block.usage_page    = usage_page;
@@ -290,7 +309,8 @@ void ResourceManager::RegisterHIDWrappedDeviceDetector(std::string name,
     HIDWrappedDeviceDetectorBlock block;
 
     block.name          = name;
-    block.address       = (vid << 16) | pid;
+    block.vid           = vid;
+    block.pid           = pid;
     block.function      = detector;
     block.interface     = interface;
     block.usage_page    = usage_page;
@@ -1051,31 +1071,19 @@ void ResourceManager::DetectDevicesThreadFunction()
         \*-----------------------------------------------------------------------------*/
         for(unsigned int hid_detector_idx = 0; hid_detector_idx < hid_device_detectors.size() && detection_is_required.load(); hid_detector_idx++)
         {
-            hid_devices = hid_enumerate(hid_device_detectors[hid_detector_idx].address >> 16, hid_device_detectors[hid_detector_idx].address & 0x0000FFFF);
+            HIDDeviceDetectorBlock & detector = hid_device_detectors[hid_detector_idx];
+            hid_devices = hid_enumerate(detector.vid, detector.pid);
 
-            LOG_VERBOSE("Trying to run detector for [%s] (for 0x%08hx)", hid_device_detectors[hid_detector_idx].name.c_str(), hid_device_detectors[hid_detector_idx].address);
+            LOG_VERBOSE("Trying to run detector for [%s] (for %04x:%04x)", detector.name.c_str(), detector.vid, detector.pid);
 
             current_hid_device = hid_devices;
 
             while(current_hid_device)
             {
-                unsigned int addr = (current_hid_device->vendor_id << 16) | current_hid_device->product_id;
 
-                if(( (     hid_device_detectors[hid_detector_idx].address    == addr                                 ) )
-#ifdef USE_HID_USAGE
-                && ( (     hid_device_detectors[hid_detector_idx].usage_page == HID_USAGE_PAGE_ANY                   )
-                  || (     hid_device_detectors[hid_detector_idx].usage_page == current_hid_device->usage_page       ) )
-                && ( (     hid_device_detectors[hid_detector_idx].usage      == HID_USAGE_ANY                        )
-                  || (     hid_device_detectors[hid_detector_idx].usage      == current_hid_device->usage            ) )
-                && ( (     hid_device_detectors[hid_detector_idx].interface  == HID_INTERFACE_ANY                    )
-                  || (     hid_device_detectors[hid_detector_idx].interface  == current_hid_device->interface_number ) )
-#else
-                && ( (     hid_device_detectors[hid_detector_idx].interface  == HID_INTERFACE_ANY                    )
-                  || (     hid_device_detectors[hid_detector_idx].interface  == current_hid_device->interface_number ) )
-#endif
-                )
+                if(detector.compare(current_hid_device))
                 {
-                    detection_string = hid_device_detectors[hid_detector_idx].name.c_str();
+                    detection_string = detector.name.c_str();
 
                     /*-------------------------------------------------*\
                     | Check if this detector is enabled or needs to be  |
@@ -1093,7 +1101,7 @@ void ResourceManager::DetectDevicesThreadFunction()
                     {
                         DetectionProgressChanged();
 
-                        hid_device_detectors[hid_detector_idx].function(current_hid_device, hid_device_detectors[hid_detector_idx].name);
+                        detector.function(current_hid_device, hid_device_detectors[hid_detector_idx].name);
 
                         LOG_TRACE("[%s] detection end", detection_string);
                     }
@@ -1124,29 +1132,16 @@ void ResourceManager::DetectDevicesThreadFunction()
             detection_string = "";
             DetectionProgressChanged();
 
-            unsigned int addr = (current_hid_device->vendor_id << 16) | current_hid_device->product_id;
-
             /*-----------------------------------------------------------------------------*\
             | Loop through all available detectors.  If all required information matches,   |
             | run the detector                                                              |
             \*-----------------------------------------------------------------------------*/
             for(unsigned int hid_detector_idx = 0; hid_detector_idx < hid_device_detectors.size() && detection_is_required.load(); hid_detector_idx++)
             {
-                if(( (     hid_device_detectors[hid_detector_idx].address    == addr                                 ) )
-#ifdef USE_HID_USAGE
-                && ( (     hid_device_detectors[hid_detector_idx].usage_page == HID_USAGE_PAGE_ANY                   )
-                  || (     hid_device_detectors[hid_detector_idx].usage_page == current_hid_device->usage_page       ) )
-                && ( (     hid_device_detectors[hid_detector_idx].usage      == HID_USAGE_ANY                        )
-                  || (     hid_device_detectors[hid_detector_idx].usage      == current_hid_device->usage            ) )
-                && ( (     hid_device_detectors[hid_detector_idx].interface  == HID_INTERFACE_ANY                    )
-                  || (     hid_device_detectors[hid_detector_idx].interface  == current_hid_device->interface_number ) )
-#else
-                && ( (     hid_device_detectors[hid_detector_idx].interface  == HID_INTERFACE_ANY                    )
-                  || (     hid_device_detectors[hid_detector_idx].interface  == current_hid_device->interface_number ) )
-#endif
-                )
+                HIDDeviceDetectorBlock & detector = hid_device_detectors[hid_detector_idx];
+                if(detector.compare(current_hid_device))
                 {
-                    detection_string = hid_device_detectors[hid_detector_idx].name.c_str();
+                    detection_string = detector.name.c_str();
 
                     /*-------------------------------------------------*\
                     | Check if this detector is enabled or needs to be  |
@@ -1164,7 +1159,7 @@ void ResourceManager::DetectDevicesThreadFunction()
                     {
                         DetectionProgressChanged();
 
-                        hid_device_detectors[hid_detector_idx].function(current_hid_device, hid_device_detectors[hid_detector_idx].name);
+                        detector.function(current_hid_device, hid_device_detectors[hid_detector_idx].name);
                     }
                 }
             }
@@ -1175,21 +1170,10 @@ void ResourceManager::DetectDevicesThreadFunction()
             \*-----------------------------------------------------------------------------*/
             for(unsigned int hid_detector_idx = 0; hid_detector_idx < hid_wrapped_device_detectors.size() && detection_is_required.load(); hid_detector_idx++)
             {
-                if(( (     hid_wrapped_device_detectors[hid_detector_idx].address    == addr                                 ) )
-#ifdef USE_HID_USAGE
-                && ( (     hid_wrapped_device_detectors[hid_detector_idx].usage_page == HID_USAGE_PAGE_ANY                   )
-                  || (     hid_wrapped_device_detectors[hid_detector_idx].usage_page == current_hid_device->usage_page       ) )
-                && ( (     hid_wrapped_device_detectors[hid_detector_idx].usage      == HID_USAGE_ANY                        )
-                  || (     hid_wrapped_device_detectors[hid_detector_idx].usage      == current_hid_device->usage            ) )
-                && ( (     hid_wrapped_device_detectors[hid_detector_idx].interface  == HID_INTERFACE_ANY                    )
-                  || (     hid_wrapped_device_detectors[hid_detector_idx].interface  == current_hid_device->interface_number ) )
-#else
-                && ( (     hid_wrapped_device_detectors[hid_detector_idx].interface  == HID_INTERFACE_ANY                    )
-                  || (     hid_wrapped_device_detectors[hid_detector_idx].interface  == current_hid_device->interface_number ) )
-#endif
-                )
+                HIDWrappedDeviceDetectorBlock & detector = hid_wrapped_device_detectors[hid_detector_idx];
+                if(detector.compare(current_hid_device))
                 {
-                    detection_string = hid_wrapped_device_detectors[hid_detector_idx].name.c_str();
+                    detection_string = detector.name.c_str();
 
                     /*-------------------------------------------------*\
                     | Check if this detector is enabled or needs to be  |
@@ -1207,7 +1191,7 @@ void ResourceManager::DetectDevicesThreadFunction()
                     {
                         DetectionProgressChanged();
 
-                        hid_wrapped_device_detectors[hid_detector_idx].function(default_wrapper, current_hid_device, hid_wrapped_device_detectors[hid_detector_idx].name);
+                        detector.function(default_wrapper, current_hid_device, hid_wrapped_device_detectors[hid_detector_idx].name);
                     }
                 }
             }
@@ -1293,24 +1277,16 @@ void ResourceManager::DetectDevicesThreadFunction()
             detection_string = "";
             DetectionProgressChanged();
 
-            unsigned int addr = (current_hid_device->vendor_id << 16) | current_hid_device->product_id;
-
             /*-----------------------------------------------------------------------------*\
             | Loop through all available wrapped HID detectors.  If all required            |
             | information matches, run the detector                                         |
             \*-----------------------------------------------------------------------------*/
             for(unsigned int hid_detector_idx = 0; hid_detector_idx < hid_wrapped_device_detectors.size() && detection_is_required.load(); hid_detector_idx++)
             {
-                if(( (     hid_wrapped_device_detectors[hid_detector_idx].address    == addr                                 ) )
-                && ( (     hid_wrapped_device_detectors[hid_detector_idx].usage_page == HID_USAGE_PAGE_ANY                   )
-                    || (     hid_wrapped_device_detectors[hid_detector_idx].usage_page == current_hid_device->usage_page       ) )
-                && ( (     hid_wrapped_device_detectors[hid_detector_idx].usage      == HID_USAGE_ANY                        )
-                    || (     hid_wrapped_device_detectors[hid_detector_idx].usage      == current_hid_device->usage            ) )
-                && ( (     hid_wrapped_device_detectors[hid_detector_idx].interface  == HID_INTERFACE_ANY                    )
-                    || (     hid_wrapped_device_detectors[hid_detector_idx].interface  == current_hid_device->interface_number ) )
-                )
+                HIDWrappedDeviceDetectorBlock & detector = hid_wrapped_device_detectors[hid_detector_idx];
+                if(detector.compare(current_hid_device))
                 {
-                    detection_string = hid_wrapped_device_detectors[hid_detector_idx].name.c_str();
+                    detection_string = detector.name.c_str();
 
                     /*-------------------------------------------------*\
                     | Check if this detector is enabled or needs to be  |
@@ -1328,7 +1304,7 @@ void ResourceManager::DetectDevicesThreadFunction()
                     {
                         DetectionProgressChanged();
 
-                        hid_wrapped_device_detectors[hid_detector_idx].function(wrapper, current_hid_device, hid_wrapped_device_detectors[hid_detector_idx].name);
+                        detector.function(wrapper, current_hid_device, detector.name);
                     }
                 }
             }

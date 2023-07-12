@@ -43,25 +43,30 @@ typedef std::function<void(hidapi_wrapper wrapper, hid_device_info*, const std::
 typedef std::function<void()>                                                               DynamicDetectorFunction;
 typedef std::function<void()>                                                               PreDetectionHookFunction;
 
-typedef struct
+class BasicHIDBlock
 {
-    std::string                 name;
-    HIDDeviceDetectorFunction   function;
-    unsigned int                address;
-    int                         interface;
-    int                         usage_page;
-    int                         usage;
-} HIDDeviceDetectorBlock;
+public:
+    std::string  name;
+    uint16_t     vid;
+    uint16_t     pid;
+    int          interface;
+    int          usage_page;
+    int          usage;
 
-typedef struct
+    bool compare(hid_device_info* info);
+};
+
+class HIDDeviceDetectorBlock : public BasicHIDBlock
 {
-    std::string                         name;
+public:
+    HIDDeviceDetectorFunction   function;
+};
+
+class HIDWrappedDeviceDetectorBlock : public BasicHIDBlock
+{
+public:
     HIDWrappedDeviceDetectorFunction    function;
-    unsigned int                        address;
-    int                                 interface;
-    int                                 usage_page;
-    int                                 usage;
-} HIDWrappedDeviceDetectorBlock;
+};
 
 typedef struct
 {
