@@ -259,6 +259,7 @@
 #define ASUS_TUF_RX_6900XT_T16G_GAMING                  0x04FE
 #define ASUS_TUF_RX_6950XT_016G_GAMING                  0x0504
 #define ASUS_ROG_STRIX_LC_RX_6950XT_O16G_GAMING         0x05E9
+#define ASUS_TUF_RTX_4070_O12G_GAMING                   0x88DF
 #define ASUS_TUF_RTX_4070TI_12G_GAMING                  0x88A4
 #define ASUS_TUF_RTX_4070TI_O12G_GAMING                 0x88A3
 #define ASUS_TUF_RTX_4080_16G_GAMING                    0x88A2
