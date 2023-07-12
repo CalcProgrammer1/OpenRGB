@@ -564,7 +564,7 @@ void RGBController_AuraTUFKeyboard::DeviceUpdateMode()
             color_mode = 1;
         }
 
-        if(modes[active_mode].value == AURA_KEYBOARD_MODE_WAVE)
+        if(modes[active_mode].value == AURA_KEYBOARD_MODE_WAVE || modes[active_mode].value == AURA_KEYBOARD_MODE_QUICKSAND)
         {
             /*----------------------------------------------------------*\
             | converting openrgb direction value to keyboard directions  |
