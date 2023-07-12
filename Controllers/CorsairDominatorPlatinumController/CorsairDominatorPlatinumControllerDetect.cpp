@@ -2,9 +2,11 @@
 #include "CorsairDominatorPlatinumController.h"
 #include "RGBController.h"
 #include "RGBController_CorsairDominatorPlatinum.h"
+#include "SettingsManager.h"
+#include "LogManager.h"
+
 #include "i2c_smbus.h"
 #include "pci_ids.h"
-#include "LogManager.h"
 #include <vector>
 #include <stdio.h>
 #include <stdlib.h>

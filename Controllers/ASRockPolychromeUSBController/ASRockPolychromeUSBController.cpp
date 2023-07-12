@@ -12,6 +12,7 @@
 
 #include "RGBController.h"
 #include "ResourceManager.h"
+#include "SettingsManager.h"
 #include "ASRockPolychromeUSBController.h"
 #include "dependencies/dmiinfo.h"
 

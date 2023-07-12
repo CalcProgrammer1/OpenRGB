@@ -3,6 +3,8 @@
 #include "ui_OpenRGBSettingsPage.h"
 #include "LogManager.h"
 #include "ResourceManager.h"
+#include "SettingsManager.h"
+#include "ProfileManager.h"
 #include <QUrl>
 #include <QDesktopServices>
 

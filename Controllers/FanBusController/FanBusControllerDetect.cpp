@@ -1,6 +1,7 @@
 #include "Detector.h"
 #include "FanBusController.h"
 #include "RGBController_FanBus.h"
+#include "SettingsManager.h"
 
 void DetectFanBusControllers()
 {

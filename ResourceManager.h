@@ -19,11 +19,6 @@
 
 #include "hidapi_wrapper.h"
 #include "i2c_smbus.h"
-#include "NetworkClient.h"
-#include "NetworkServer.h"
-#include "ProfileManager.h"
-#include "RGBController.h"
-#include "SettingsManager.h"
 #include "filesystem.h"
 
 #define HID_INTERFACE_ANY   -1
@@ -33,6 +28,11 @@
 #define CONTROLLER_LIST_HID 0
 
 struct hid_device_info;
+class NetworkClient;
+class NetworkServer;
+class ProfileManager;
+class RGBController;
+class SettingsManager;
 
 typedef std::function<bool()>                                                               I2CBusDetectorFunction;
 typedef std::function<void()>                                                               DeviceDetectorFunction;

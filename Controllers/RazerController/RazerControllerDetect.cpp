@@ -8,6 +8,8 @@
 #include "RGBController_Razer.h"
 #include "RGBController_RazerAddressable.h"
 #include "RGBController_RazerKraken.h"
+#include "SettingsManager.h"
+
 #include <hidapi/hidapi.h>
 
 #include <unordered_set>

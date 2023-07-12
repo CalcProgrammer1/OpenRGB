@@ -9,6 +9,7 @@
 #include "OpenRGBPluginContainer.h"
 #include "OpenRGBProfileSaveDialog.h"
 #include "ResourceManager.h"
+#include "SettingsManager.h"
 #include "TabLabel.h"
 #include "OpenRGBZonesBulkResizer.h"
 #include "OpenRGBThemeManager.h"

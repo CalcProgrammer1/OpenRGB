@@ -7,6 +7,7 @@
 #include "Bridge.h"
 #include "EntertainmentMode.h"
 #include "Group.h"
+#include "RGBController.h"
 
 #include <string>
 #include <vector>

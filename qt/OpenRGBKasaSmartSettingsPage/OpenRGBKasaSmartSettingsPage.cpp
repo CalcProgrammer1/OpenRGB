@@ -1,6 +1,7 @@
 #include "OpenRGBKasaSmartSettingsPage.h"
 #include "ui_OpenRGBKasaSmartSettingsPage.h"
 #include "ResourceManager.h"
+#include "SettingsManager.h"
 
 using namespace Ui;
 

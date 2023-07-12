@@ -10,6 +10,7 @@
 #include "OlsApi.h"
 #include "LogManager.h"
 #include "ResourceManager.h"
+#include "SettingsManager.h"
 
 using namespace std::chrono_literals;
 

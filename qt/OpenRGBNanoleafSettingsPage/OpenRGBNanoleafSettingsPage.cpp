@@ -1,7 +1,8 @@
 #include "OpenRGBNanoleafSettingsPage.h"
 #include "ui_OpenRGBNanoleafSettingsPage.h"
 #include "ResourceManager.h"
-#include "json.hpp"
+#include "SettingsManager.h"
+
 using json = nlohmann::json;
 
 using namespace Ui;

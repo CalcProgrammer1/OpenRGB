@@ -1,4 +1,5 @@
 #include "OpenRGBFont.h"
+#include <QStringList>
 #include <QFontDatabase>
 
 OpenRGBFont* OpenRGBFont::instance;

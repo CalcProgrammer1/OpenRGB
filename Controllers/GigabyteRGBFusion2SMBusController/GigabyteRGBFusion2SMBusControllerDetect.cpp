@@ -3,6 +3,8 @@
 #include "LogManager.h"
 #include "RGBController.h"
 #include "RGBController_GigabyteRGBFusion2SMBus.h"
+#include "SettingsManager.h"
+
 #include "i2c_smbus.h"
 #include "pci_ids.h"
 #include <vector>

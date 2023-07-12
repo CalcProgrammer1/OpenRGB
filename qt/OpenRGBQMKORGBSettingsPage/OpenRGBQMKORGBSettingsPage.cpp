@@ -1,6 +1,7 @@
 #include "OpenRGBQMKORGBSettingsPage.h"
 #include "ui_OpenRGBQMKORGBSettingsPage.h"
 #include "ResourceManager.h"
+#include "SettingsManager.h"
 
 using namespace Ui;
 

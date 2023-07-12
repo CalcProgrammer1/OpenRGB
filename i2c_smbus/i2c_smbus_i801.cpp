@@ -18,6 +18,7 @@
 #endif
 
 #include "LogManager.h"
+#include "SettingsManager.h"
 
 using namespace std::chrono_literals;
 

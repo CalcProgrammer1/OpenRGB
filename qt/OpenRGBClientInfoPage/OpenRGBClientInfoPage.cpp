@@ -2,6 +2,7 @@
 #include <QCheckBox>
 #include "OpenRGBClientInfoPage.h"
 #include "ResourceManager.h"
+#include "SettingsManager.h"
 
 #include <iostream>
 using namespace Ui;

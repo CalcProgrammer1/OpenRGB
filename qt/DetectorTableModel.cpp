@@ -1,5 +1,7 @@
 #include "DetectorTableModel.h"
 
+#include "SettingsManager.h"
+
 DetectorTableModel::DetectorTableModel(QObject* parent) : QAbstractTableModel(parent)
 {
     detectors.clear();

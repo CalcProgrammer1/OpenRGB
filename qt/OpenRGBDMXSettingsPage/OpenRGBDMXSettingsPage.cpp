@@ -1,6 +1,7 @@
 #include "OpenRGBDMXSettingsPage.h"
 #include "ui_OpenRGBDMXSettingsPage.h"
 #include "ResourceManager.h"
+#include "SettingsManager.h"
 
 using namespace Ui;
 

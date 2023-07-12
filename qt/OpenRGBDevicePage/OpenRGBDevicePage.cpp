@@ -2,6 +2,7 @@
 #include "OpenRGBDevicePage.h"
 #include "OpenRGBZoneResizeDialog.h"
 #include "ResourceManager.h"
+#include "SettingsManager.h"
 #include "hsv.h"
 
 using namespace Ui;

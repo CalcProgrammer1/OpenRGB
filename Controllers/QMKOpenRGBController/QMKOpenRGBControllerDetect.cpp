@@ -20,6 +20,7 @@
 #include "RGBController_QMKOpenRGBRevD.h"
 #include "RGBController_QMKOpenRGBRevE.h"
 #include "LogManager.h"
+#include "SettingsManager.h"
 #include <hidapi/hidapi.h>
 
 /*-----------------------------------------------------*\

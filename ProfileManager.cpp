@@ -2,6 +2,7 @@
 #include "ResourceManager.h"
 #include "RGBController_Dummy.h"
 #include "LogManager.h"
+#include "NetworkProtocol.h"
 #include "filesystem.h"
 #include <fstream>
 #include <iostream>

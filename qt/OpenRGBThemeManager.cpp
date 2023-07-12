@@ -1,6 +1,7 @@
 #include "OpenRGBThemeManager.h"
 #include "ResourceManager.h"
 #include "PluginManager.h"
+#include "SettingsManager.h"
 #include <QApplication>
 #include <QWidget>
 #include <QStyle>

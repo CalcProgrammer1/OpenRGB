@@ -5,6 +5,7 @@
 
 #include "filesystem.h"
 #include "LogManager.h"
+#include "SettingsManager.h"
 #include "OpenRGBPluginsPage.h"
 #include "ui_OpenRGBPluginsPage.h"
 

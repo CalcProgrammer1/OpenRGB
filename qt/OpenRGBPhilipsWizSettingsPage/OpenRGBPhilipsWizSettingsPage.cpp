@@ -1,6 +1,7 @@
 #include "OpenRGBPhilipsWizSettingsPage.h"
 #include "ui_OpenRGBPhilipsWizSettingsPage.h"
 #include "ResourceManager.h"
+#include "SettingsManager.h"
 
 using namespace Ui;
 

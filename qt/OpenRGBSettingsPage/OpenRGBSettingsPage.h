@@ -6,7 +6,9 @@
 #include <QDirIterator>
 #include <QTranslator>
 #include <QWidget>
-#include "ResourceManager.h"
+
+#include <json.hpp>
+using json = nlohmann::json;
 
 namespace Ui {
 class OpenRGBSettingsPage;

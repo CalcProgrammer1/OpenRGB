@@ -1,6 +1,7 @@
 #include "OpenRGBZonesBulkResizer.h"
 #include "ui_OpenRGBZonesBulkResizer.h"
 #include "ResourceManager.h"
+#include "SettingsManager.h"
 #include "LogManager.h"
 #include "OpenRGBDialog2.h"
 #include <QDialog>

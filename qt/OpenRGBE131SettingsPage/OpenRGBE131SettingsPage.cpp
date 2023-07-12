@@ -1,6 +1,7 @@
 #include "OpenRGBE131SettingsPage.h"
 #include "ui_OpenRGBE131SettingsPage.h"
 #include "ResourceManager.h"
+#include "SettingsManager.h"
 
 using namespace Ui;
 

@@ -12,6 +12,7 @@
 #include "OlsApi.h"
 #include "LogManager.h"
 #include "ResourceManager.h"
+#include "SettingsManager.h"
 
 i2c_smbus_piix4::i2c_smbus_piix4()
 {

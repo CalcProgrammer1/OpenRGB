@@ -1,6 +1,7 @@
 #include "OpenRGBYeelightSettingsPage.h"
 #include "ui_OpenRGBYeelightSettingsPage.h"
 #include "ResourceManager.h"
+#include "SettingsManager.h"
 
 using namespace Ui;
 

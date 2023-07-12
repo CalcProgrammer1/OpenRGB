@@ -12,6 +12,9 @@
 #include "ResourceManager.h"
 #include "ProfileManager.h"
 #include "LogManager.h"
+#include "SettingsManager.h"
+#include "NetworkClient.h"
+#include "NetworkServer.h"
 #include "filesystem.h"
 #include "StringUtils.h"
 

@@ -1,6 +1,7 @@
 #include "OpenRGBLIFXSettingsPage.h"
 #include "ui_OpenRGBLIFXSettingsPage.h"
 #include "ResourceManager.h"
+#include "SettingsManager.h"
 
 using namespace Ui;
 

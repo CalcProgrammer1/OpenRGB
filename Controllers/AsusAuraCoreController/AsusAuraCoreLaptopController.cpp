@@ -9,6 +9,8 @@
 
 #include "AsusAuraCoreLaptopController.h"
 
+#include "SettingsManager.h"
+
 static uint8_t packet_map[ASUSAURACORELAPTOP_KEYCOUNT       +
                           ASUSAURACORELAPTOP_LIGHTBARCOUNT  +
                           ASUSAURACORELAPTOP_LIDCOUNT       ] =

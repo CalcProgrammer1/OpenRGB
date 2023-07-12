@@ -1,6 +1,7 @@
 #include "OpenRGBSerialSettingsPage.h"
 #include "ui_OpenRGBSerialSettingsPage.h"
 #include "ResourceManager.h"
+#include "SettingsManager.h"
 
 using namespace Ui;
 

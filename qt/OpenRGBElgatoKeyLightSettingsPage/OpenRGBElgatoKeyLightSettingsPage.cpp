@@ -1,6 +1,7 @@
 #include "OpenRGBElgatoKeyLightSettingsPage.h"
 #include "ui_OpenRGBElgatoKeyLightSettingsPage.h"
 #include "ResourceManager.h"
+#include "SettingsManager.h"
 
 using namespace Ui;
 

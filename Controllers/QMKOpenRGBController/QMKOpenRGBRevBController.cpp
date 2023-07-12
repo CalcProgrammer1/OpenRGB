@@ -9,6 +9,7 @@
 
 #include "RGBControllerKeyNames.h"
 #include "QMKOpenRGBRevBController.h"
+#include "SettingsManager.h"
 
 using namespace std::chrono_literals;
 

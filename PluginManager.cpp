@@ -2,6 +2,7 @@
 #include "filesystem.h"
 #include "PluginManager.h"
 #include "OpenRGBThemeManager.h"
+#include "SettingsManager.h"
 
 PluginManager::PluginManager()
 {
