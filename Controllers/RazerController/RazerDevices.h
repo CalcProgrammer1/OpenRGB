@@ -238,15 +238,6 @@ typedef struct
 
 typedef struct
 {
-    unsigned int                        zone;
-    unsigned int                        row;
-    unsigned int                        col;
-    const char*                         name;
-    unsigned char                       layout = RAZER_LAYOUT_TYPE_ALL;
-} razer_key;
-
-typedef struct
-{
     std::string                         name;
     unsigned short                      pid;
     device_type                         type;
@@ -255,8 +246,6 @@ typedef struct
     unsigned int                        rows;
     unsigned int                        cols;
     const razer_zone*                   zones[RAZER_MAX_ZONES];
-    const razer_key*                    keymap;
-    unsigned int                        keymap_size;
     keyboard_keymap_overlay_values*     layout;
 } razer_device;
 

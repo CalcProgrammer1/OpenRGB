@@ -1032,8 +1032,6 @@ static const razer_device blackwidow_2019_device =
         NULL,
         NULL
     },
-    NULL,
-    0,
     &razer_blackwidow_2019_layout
 };
 
@@ -1069,8 +1067,6 @@ static const razer_device blackwidow_chroma_device =
         NULL,
         NULL
     },
-    NULL,
-    0,
     &razer_blackwidow_chroma_layout
 };
 
@@ -1106,8 +1102,6 @@ static const razer_device blackwidow_chroma_overwatch_device =
         NULL,
         NULL
     },
-    NULL,
-    0,
     NULL
 };
 
@@ -1143,8 +1137,6 @@ static const razer_device blackwidow_v3_device =
         NULL,
         NULL
     },
-    NULL,
-    0,
     &razer_blackwidow_v3_layout
 };
 
@@ -1180,8 +1172,6 @@ static const razer_device blackwidow_chroma_te_device =
         NULL,
         NULL
     },
-    NULL,
-    0,
     &razer_blackwidow_chroma_te_layout
 };
 
@@ -1217,8 +1207,6 @@ static const razer_device blackwidow_elite_device =
         NULL,
         NULL
     },
-    NULL,
-    0,
     &razer_blackwidow_elite_layout
 };
 
@@ -1254,8 +1242,6 @@ static const razer_device blackwidow_chroma_v2_device =
         NULL,
         NULL
     },
-    NULL,
-    0,
     &razer_blackwidow_chroma_v2_layout
 };
 
@@ -1291,8 +1277,6 @@ static const razer_device blackwidow_v3_pro_wired_device =
         NULL,
         NULL
     },
-    NULL,
-    0,
     &razer_blackwidow_v3_pro_layout
 };
 
@@ -1328,8 +1312,6 @@ static const razer_device blackwidow_v3_pro_bluetooth_device =
         NULL,
         NULL
     },
-    NULL,
-    0,
     &razer_blackwidow_v3_pro_layout
 };
 
@@ -1365,8 +1347,6 @@ static const razer_device blackwidow_v3_pro_wireless_device =
         NULL,
         NULL
     },
-    NULL,
-    0,
     &razer_blackwidow_v3_pro_layout
 };
 
@@ -1402,8 +1382,6 @@ static const razer_device blackwidow_v3_tkl_device =
         NULL,
         NULL
     },
-    NULL,
-    0,
     &razer_blackwidow_v3_tkl_layout
 };
 
@@ -1439,8 +1417,6 @@ static const razer_device blackwidow_v3_mini_wired_device =
         NULL,
         NULL
     },
-    NULL,
-    0,
     &razer_blackwidow_v3_mini_layout
 };
 
@@ -1468,8 +1444,6 @@ static const razer_device blackwidow_v3_mini_wireless_device =
         NULL,
         NULL
     },
-    NULL,
-    0,
     &razer_blackwidow_v3_mini_layout
 };
 
@@ -1505,8 +1479,6 @@ static const razer_device blackwidow_x_chroma_device =
         NULL,
         NULL
     },
-    NULL,
-    0,
     NULL
 };
 
@@ -1542,8 +1514,6 @@ static const razer_device blackwidow_x_chroma_te_device =
         NULL,
         NULL
     },
-    NULL,
-    0,
     &razer_blackwidow_x_chroma_te_layout
 };
 
@@ -1579,8 +1549,6 @@ static const razer_device cynosa_chroma_device =
         NULL,
         NULL
     },
-    NULL,
-    0,
     &razer_cynosa_chroma_layout
 };
 
@@ -1616,8 +1584,6 @@ static const razer_device cynosa_v2_device =
         NULL,
         NULL
     },
-    NULL,
-    0,
     &razer_cynosa_chroma_v2_layout
 };
 
@@ -1653,8 +1619,6 @@ static const razer_device cynosa_lite_device =
         NULL,
         NULL
     },
-    NULL,
-    0,
     NULL
 };
 
@@ -1690,8 +1654,6 @@ static const razer_device ornata_chroma_device =
         NULL,
         NULL
     },
-    NULL,
-    0,
     &razer_full_size_shifted_layout
 };
 
@@ -1727,8 +1689,6 @@ static const razer_device ornata_chroma_v2_device =
         NULL,
         NULL
     },
-    NULL,
-    0,
     &razer_ornata_chroma_v2_layout
 };
 
@@ -1764,8 +1724,6 @@ static const razer_device ornata_v3_device =
         NULL,
         NULL
     },
-    NULL,
-    0,
     NULL
 };
 
@@ -1801,8 +1759,6 @@ static const razer_device ornata_v3_rev2_device =
         NULL,
         NULL
     },
-    NULL,
-    0,
     NULL
 };
 
@@ -1838,8 +1794,6 @@ static const razer_device ornata_v3_x_device =
         NULL,
         NULL
     },
-    NULL,
-    0,
     NULL
 };
 
@@ -1876,8 +1830,6 @@ static const razer_device deathstalker_chroma_device =
         NULL,
         NULL
     },
-    NULL,
-    0,
     NULL
 };
 
@@ -1913,8 +1865,6 @@ static const razer_device deathstalker_v2_device =
         NULL,
         NULL
     },
-    NULL,
-    0,
     &razer_deathstalker_v2_layout
 };
 
@@ -1950,8 +1900,6 @@ static const razer_device deathstalker_v2_pro_wireless_device =
         NULL,
         NULL
     },
-    NULL,
-    0,
     &razer_deathstalker_v2_pro_layout
 };
 
@@ -1987,8 +1935,6 @@ static const razer_device deathstalker_v2_pro_wired_device =
         NULL,
         NULL
     },
-    NULL,
-    0,
     &razer_deathstalker_v2_pro_layout
 };
 
@@ -2024,8 +1970,6 @@ static const razer_device huntsman_device =
         NULL,
         NULL
     },
-    NULL,
-    0,
     &razer_full_size_shifted_layout
 };
 
@@ -2073,8 +2017,6 @@ static const razer_device huntsman_elite_device =
         NULL,
         NULL
     },
-    NULL,
-    0,
     &razer_huntsman_common_layout
 };
 
@@ -2122,8 +2064,6 @@ static const razer_device huntsman_v2_analog_device =
         NULL,
         NULL
     },
-    NULL,
-    0,
     &razer_huntsman_common_layout
 };
 
@@ -2159,8 +2099,6 @@ static const razer_device huntsman_mini_device =
         NULL,
         NULL
     },
-    NULL,
-    0,
     &razer_huntsman_mini_layout
 };
 
@@ -2196,8 +2134,6 @@ static const razer_device huntsman_te_device =
         NULL,
         NULL
     },
-    NULL,
-    0,
     &razer_huntsman_te_layout
 };
 
@@ -2233,8 +2169,6 @@ static const razer_device huntsman_v2_tkl_device =
         NULL,
         NULL
     },
-    NULL,
-    0,
     &razer_huntsman_v2_tkl_layout
 };
 
@@ -2270,8 +2204,6 @@ static const razer_device huntsman_v2_device =
         NULL,
         NULL
     },
-    NULL,
-    0,
     &razer_huntsman_v2_layout
 };
 
@@ -2311,8 +2243,6 @@ static const razer_device blade_2016_device =
         NULL,
         NULL
     },
-    NULL,
-    0,
     NULL
 };
 
@@ -2348,8 +2278,6 @@ static const razer_device blade_late_2016_device =
         NULL,
         NULL
     },
-    NULL,
-    0,
     NULL
 };
 
@@ -2385,8 +2313,6 @@ static const razer_device blade_15_2018_advanced_device =
         NULL,
         NULL
     },
-    NULL,
-    0,
     NULL
 };
 
@@ -2422,8 +2348,6 @@ static const razer_device blade_15_2018_base_device =
         NULL,
         NULL
     },
-    NULL,
-    0,
     NULL
 };
 
@@ -2459,8 +2383,6 @@ static const razer_device blade_15_2018_mercury_device =
         NULL,
         NULL
     },
-    NULL,
-    0,
     NULL
 };
 
@@ -2496,8 +2418,6 @@ static const razer_device blade_15_2019_advanced_device =
         NULL,
         NULL
     },
-    NULL,
-    0,
     NULL
 };
 
@@ -2533,8 +2453,6 @@ static const razer_device blade_15_2019_base_device =
         NULL,
         NULL
     },
-    NULL,
-    0,
     NULL
 };
 
@@ -2570,8 +2488,6 @@ static const razer_device blade_15_2019_mercury_device =
         NULL,
         NULL
     },
-    NULL,
-    0,
     NULL
 };
 
@@ -2607,8 +2523,6 @@ static const razer_device blade_15_2019_studio_device =
         NULL,
         NULL
     },
-    NULL,
-    0,
     NULL
 };
 
@@ -2644,8 +2558,6 @@ static const razer_device blade_15_2020_advanced_device =
         NULL,
         NULL
     },
-    NULL,
-    0,
     NULL
 };
 
@@ -2681,8 +2593,6 @@ static const razer_device blade_15_2020_base_device =
         NULL,
         NULL
     },
-    NULL,
-    0,
     NULL
 };
 
@@ -2718,8 +2628,6 @@ static const razer_device blade_late_2020_device =
         NULL,
         NULL
     },
-    NULL,
-    0,
     NULL
 };
 
@@ -2755,8 +2663,6 @@ static const razer_device blade_15_2021_advanced_device =
         NULL,
         NULL
     },
-    NULL,
-    0,
     NULL
 };
 
@@ -2792,8 +2698,6 @@ static const razer_device blade_15_2021_base_device =
         NULL,
         NULL
     },
-    NULL,
-    0,
     NULL
 };
 
@@ -2829,8 +2733,6 @@ static const razer_device blade_15_2021_base_v2_device =
         NULL,
         NULL
     },
-    NULL,
-    0,
     NULL
 };
 
@@ -2866,8 +2768,6 @@ static const razer_device blade_15_late_2021_advanced_device =
         NULL,
         NULL
     },
-    NULL,
-    0,
     &razer_blade_15_2021_advanced_layout
 };
 
@@ -2903,8 +2803,6 @@ static const razer_device blade_14_2021_device =
         NULL,
         NULL
     },
-    NULL,
-    0,
     &razer_laptop_common_layout
 };
 
@@ -2940,8 +2838,6 @@ static const razer_device blade_14_2022_device =
         NULL,
         NULL
     },
-    NULL,
-    0,
     &razer_laptop_with_spacebar_layout
 };
 
@@ -2977,8 +2873,6 @@ static const razer_device blade_15_2022_device =
         NULL,
         NULL
     },
-    NULL,
-    0,
     &razer_blade_15_2022_layout
 };
 
@@ -3014,8 +2908,6 @@ static const razer_device book_13_2020_device =
         NULL,
         NULL
     },
-    NULL,
-    0,
     &razer_laptop_common_layout
 };
 
@@ -3051,8 +2943,6 @@ static const razer_device blade_pro_2016_device =
         NULL,
         NULL
     },
-    NULL,
-    0,
     NULL
 };
 
@@ -3088,8 +2978,6 @@ static const razer_device blade_pro_2017_device =
         NULL,
         NULL
     },
-    NULL,
-    0,
     &razer_blade_pro_2017_layout
 };
 
@@ -3125,8 +3013,6 @@ static const razer_device blade_pro_2017_fullhd_device =
         NULL,
         NULL
     },
-    NULL,
-    0,
     NULL
 };
 
@@ -3161,8 +3047,6 @@ static const razer_device blade_pro_2019_device =
         NULL,
         NULL
     },
-    NULL,
-    0,
     NULL
 };
 
@@ -3198,8 +3082,6 @@ static const razer_device blade_pro_late_2019_device =
         NULL,
         NULL
     },
-    NULL,
-    0,
     NULL
 };
 
@@ -3235,8 +3117,6 @@ static const razer_device blade_pro_17_2020_device =
         NULL,
         NULL
     },
-    NULL,
-    0,
     NULL
 };
 
@@ -3272,8 +3152,6 @@ static const razer_device blade_pro_17_2021_device =
         NULL,
         NULL
     },
-    NULL,
-    0,
     &razer_blade_17_pro_2021_layout
 };
 
@@ -3309,8 +3187,6 @@ static const razer_device blade_stealth_2016_device =
         NULL,
         NULL
     },
-    NULL,
-    0,
     &razer_blade_stealth_2016_layout
 };
 
@@ -3346,8 +3222,6 @@ static const razer_device blade_stealth_late_2016_device =
         NULL,
         NULL
     },
-    NULL,
-    0,
     NULL
 };
 
@@ -3383,8 +3257,6 @@ static const razer_device blade_stealth_2017_device =
         NULL,
         NULL
     },
-    NULL,
-    0,
     NULL
 };
 
@@ -3420,8 +3292,6 @@ static const razer_device blade_stealth_late_2017_device =
         NULL,
         NULL
     },
-    NULL,
-    0,
     NULL
 };
 
@@ -3457,8 +3327,6 @@ static const razer_device blade_stealth_2019_device =
         NULL,
         NULL
     },
-    NULL,
-    0,
     NULL
 };
 
@@ -3494,8 +3362,6 @@ static const razer_device blade_stealth_late_2019_device =
         NULL,
         NULL
     },
-    NULL,
-    0,
     NULL
 };
 
@@ -3531,8 +3397,6 @@ static const razer_device blade_stealth_2020_device =
         NULL,
         NULL
     },
-    NULL,
-    0,
     NULL
 };
 
@@ -3568,8 +3432,6 @@ static const razer_device blade_stealth_late_2020_device =
         NULL,
         NULL
     },
-    NULL,
-    0,
     NULL
 };
 
@@ -3609,8 +3471,6 @@ static const razer_device abyssus_elite_dva_edition_device =
         NULL,
         NULL
     },
-    NULL,
-    0,
     NULL
 };
 
@@ -3646,8 +3506,6 @@ static const razer_device abyssus_essential_device =
         NULL,
         NULL
     },
-    NULL,
-    0,
     NULL
 };
 
@@ -3695,8 +3553,6 @@ static const razer_device basilisk_device =
         NULL,
         NULL
     },
-    NULL,
-    0,
     NULL
 };
 
@@ -3732,8 +3588,6 @@ static const razer_device basilisk_essential_device =
         NULL,
         NULL
     },
-    NULL,
-    0,
     NULL
 };
 
@@ -3805,8 +3659,6 @@ static const razer_device basilisk_ultimate_wired_device =
         NULL,
         NULL
     },
-    NULL,
-    0,
     NULL
 };
 
@@ -3878,8 +3730,6 @@ static const razer_device basilisk_ultimate_wireless_device =
         NULL,
         NULL
     },
-    NULL,
-    0,
     NULL
 };
 
@@ -3927,8 +3777,6 @@ static const razer_device basilisk_v2_device =
         NULL,
         NULL
     },
-    NULL,
-    0,
     NULL
 };
 
@@ -3988,8 +3836,6 @@ static const razer_device basilisk_v3_device =
         NULL,
         NULL
     },
-    NULL,
-    0,
     NULL
 };
 
@@ -4049,8 +3895,6 @@ static const razer_device basilisk_v3_pro_wired_device =
         NULL,
         NULL
     },
-    NULL,
-    0,
     NULL
 };
 
@@ -4110,8 +3954,6 @@ static const razer_device basilisk_v3_pro_wireless_device =
         NULL,
         NULL
     },
-    NULL,
-    0,
     NULL
 };
 
@@ -4171,8 +4013,6 @@ static const razer_device basilisk_v3_pro_bluetooth_device =
         NULL,
         NULL
     },
-    NULL,
-    0,
     NULL
 };
 
@@ -4220,8 +4060,6 @@ static const razer_device deathadder_chroma_device =
         NULL,
         NULL
     },
-    NULL,
-    0,
     NULL
 };
 
@@ -4269,8 +4107,6 @@ static const razer_device deathadder_elite_device =
         NULL,
         NULL
     },
-    NULL,
-    0,
     NULL
 };
 
@@ -4318,8 +4154,6 @@ static const razer_device deathadder_essential_device =
         NULL,
         NULL
     },
-    NULL,
-    0,
     NULL
 };
 
@@ -4367,8 +4201,6 @@ static const razer_device deathadder_essential_v2_device =
         NULL,
         NULL
     },
-    NULL,
-    0,
     NULL
 };
 
@@ -4416,8 +4248,6 @@ static const razer_device deathadder_essential_white_edition_device =
         NULL,
         NULL
     },
-    NULL,
-    0,
     NULL
 };
 
@@ -4465,8 +4295,6 @@ static const razer_device deathadder_v2_device =
         NULL,
         NULL
     },
-    NULL,
-    0,
     NULL
 };
 
@@ -4502,8 +4330,6 @@ static const razer_device deathadder_v2_mini_device =
         NULL,
         NULL
     },
-    NULL,
-    0,
     NULL
 };
 
@@ -4539,8 +4365,6 @@ static const razer_device deathadder_v2_pro_wired_device =
         NULL,
         NULL
     },
-    NULL,
-    0,
     NULL
 };
 
@@ -4576,8 +4400,6 @@ static const razer_device deathadder_v2_pro_wireless_device =
         NULL,
         NULL
     },
-    NULL,
-    0,
     NULL
 };
 
@@ -4637,8 +4459,6 @@ static const razer_device diamondback_chroma_device =
         NULL,
         NULL
     },
-    NULL,
-    0,
     NULL
 };
 
@@ -4710,8 +4530,6 @@ static const razer_device lancehead_2017_wired_device =
         NULL,
         NULL
     },
-    NULL,
-    0,
     NULL
 };
 
@@ -4783,8 +4601,6 @@ static const razer_device lancehead_2017_wireless_device =
         NULL,
         NULL
     },
-    NULL,
-    0,
     NULL
 };
 
@@ -4856,8 +4672,6 @@ static const razer_device lancehead_2019_wired_device =
         NULL,
         NULL
     },
-    NULL,
-    0,
     NULL
 };
 
@@ -4929,8 +4743,6 @@ static const razer_device lancehead_2019_wireless_device =
         NULL,
         NULL
     },
-    NULL,
-    0,
     NULL
 };
 
@@ -5002,8 +4814,6 @@ static const razer_device lancehead_te_device =
         NULL,
         NULL
     },
-    NULL,
-    0,
     NULL
 };
 
@@ -5039,8 +4849,6 @@ static const razer_device leviathan_v2x_device =
         NULL,
         NULL
     },
-    NULL,
-    0,
     NULL
 };
 
@@ -5076,8 +4884,6 @@ static const razer_device mamba_2012_wired_device =
         NULL,
         NULL
     },
-    NULL,
-    0,
     NULL
 };
 
@@ -5113,8 +4919,6 @@ static const razer_device mamba_2012_wireless_device =
         NULL,
         NULL
     },
-    NULL,
-    0,
     NULL
 };
 
@@ -5150,8 +4954,6 @@ static const razer_device mamba_2015_wired_device =
         NULL,
         NULL
     },
-    NULL,
-    0,
     NULL
 };
 
@@ -5187,8 +4989,6 @@ static const razer_device mamba_2015_wireless_device =
         NULL,
         NULL
     },
-    NULL,
-    0,
     NULL
 };
 
@@ -5236,8 +5036,6 @@ static const razer_device mamba_2018_wired_device =
         NULL,
         NULL
     },
-    NULL,
-    0,
     NULL
 };
 
@@ -5286,8 +5084,6 @@ static const razer_device mamba_2018_wireless_device =
         NULL,
         NULL
     },
-    NULL,
-    0,
     NULL
 };
 
@@ -5360,8 +5156,6 @@ static const razer_device mamba_elite_device =
         NULL,
         NULL
     },
-    NULL,
-    0,
     NULL
 };
 
@@ -5433,8 +5227,6 @@ static const razer_device mamba_te_device =
         NULL,
         NULL
     },
-    NULL,
-    0,
     NULL
 };
 
@@ -5494,8 +5286,6 @@ static const razer_device naga_chroma_device =
         NULL,
         NULL
     },
-    NULL,
-    0,
     NULL
 };
 
@@ -5555,8 +5345,6 @@ static const razer_device naga_classic_device =
         NULL,
         NULL
     },
-    NULL,
-    0,
     NULL
 };
 
@@ -5616,8 +5404,6 @@ static const razer_device naga_hex_v2_device =
         NULL,
         NULL
     },
-    NULL,
-    0,
     NULL
 };
 
@@ -5677,8 +5463,6 @@ static const razer_device naga_left_handed_device =
         NULL,
         NULL
     },
-    NULL,
-    0,
     NULL
 };
 
@@ -5738,8 +5522,6 @@ static const razer_device naga_trinity_device =
         NULL,
         NULL
     },
-    NULL,
-    0,
     NULL
 };
 
@@ -5799,8 +5581,6 @@ static const razer_device naga_pro_wired_device =
         NULL,
         NULL
     },
-    NULL,
-    0,
     NULL
 };
 
@@ -5821,8 +5601,6 @@ static const razer_device naga_pro_wireless_device =
         NULL,
         NULL
     },
-    NULL,
-    0,
     NULL
 };
 
@@ -5858,8 +5636,6 @@ static const razer_device viper_8khz_device =
         NULL,
         NULL
     },
-    NULL,
-    0,
     NULL
 };
 
@@ -5895,8 +5671,6 @@ static const razer_device viper_mini_device =
         NULL,
         NULL
     },
-    NULL,
-    0,
     NULL
 };
 
@@ -5932,8 +5706,6 @@ static const razer_device viper_ultimate_wired_device =
         NULL,
         NULL
     },
-    NULL,
-    0,
     NULL
 };
 
@@ -5969,8 +5741,6 @@ static const razer_device viper_ultimate_wireless_device =
         NULL,
         NULL
     },
-    NULL,
-    0,
     NULL
 };
 
@@ -6006,8 +5776,6 @@ static const razer_device viper_device =
         NULL,
         NULL
     },
-    NULL,
-    0,
     NULL
 };
 
@@ -6055,8 +5823,6 @@ static const razer_device naga_epic_chroma_device =
         NULL,
         NULL
     },
-    NULL,
-    0,
     NULL
 };
 
@@ -6096,8 +5862,6 @@ static const razer_device orbweaver_chroma_device =
         NULL,
         NULL
     },
-    NULL,
-    0,
     NULL
 };
 
@@ -6133,8 +5897,6 @@ static const razer_device tartarus_chroma_device =
         NULL,
         NULL
     },
-    NULL,
-    0,
     NULL
 };
 
@@ -6178,13 +5940,6 @@ static const razer_device tartarus_pro_device =
         NULL,
         NULL
     },
-    /*-------------------------------------------------------------*\
-    Need to be Implemented to read upper defined keymap(Not working now)
-    tartarus_pro_keymap,
-    TARTARUS_PRO_KEYMAP_SIZE
-    \*-------------------------------------------------------------*/
-    NULL,
-    0,
     NULL
 };
 
@@ -6220,8 +5975,6 @@ static const razer_device tartarus_v2_device =
         NULL,
         NULL
     },
-    NULL,
-    0,
     &razer_tartarus_v2_layout
 };
 
@@ -6261,8 +6014,6 @@ static const razer_device firefly_device =
         NULL,
         NULL
     },
-    NULL,
-    0,
     NULL
 };
 
@@ -6298,8 +6049,6 @@ static const razer_device firefly_hyperflux_device =
         NULL,
         NULL
     },
-    NULL,
-    0,
     NULL
 };
 
@@ -6335,8 +6084,6 @@ static const razer_device firefly_v2_device =
         NULL,
         NULL
     },
-    NULL,
-    0,
     NULL
 };
 
@@ -6372,8 +6119,6 @@ static const razer_device goliathus_device =
         NULL,
         NULL
     },
-    NULL,
-    0,
     NULL
 };
 
@@ -6409,8 +6154,6 @@ static const razer_device goliathus_extended_device =
         NULL,
         NULL
     },
-    NULL,
-    0,
     NULL
 };
 
@@ -6446,8 +6189,6 @@ static const razer_device strider_chroma_device =
         NULL,
         NULL
     },
-    NULL,
-    0,
     NULL
 };
 
@@ -6487,8 +6228,6 @@ static const razer_device kraken_chroma_device =
         NULL,
         NULL
     },
-    NULL,
-    0,
     NULL
 };
 
@@ -6524,8 +6263,6 @@ static const razer_device kraken_v2_device =
         NULL,
         NULL
     },
-    NULL,
-    0,
     NULL
 };
 
@@ -6561,8 +6298,6 @@ static const razer_device kraken_ultimate_device =
         NULL,
         NULL
     },
-    NULL,
-    0,
     NULL
 };
 
@@ -6598,8 +6333,6 @@ static const razer_device kraken_kitty_device =
         NULL,
         NULL
     },
-    NULL,
-    0,
     NULL
 };
 
@@ -6659,8 +6392,6 @@ static const razer_device tiamat_71_v2_device =
         NULL,
         NULL
     },
-    NULL,
-    0,
     NULL
 };
 
@@ -6712,8 +6443,6 @@ static const razer_device core_device =
         NULL,
         NULL
     },
-    NULL,
-    0,
     NULL
 };
 
@@ -6761,8 +6490,6 @@ static const razer_device core_x_device =
         NULL,
         NULL
     },
-    NULL,
-    0,
     NULL
 };
 
@@ -6798,8 +6525,6 @@ static const razer_device mug_holder_device =
         NULL,
         NULL
     },
-    NULL,
-    0,
     NULL
 };
 
@@ -6895,8 +6620,6 @@ static const razer_device chromaargb_device =
         &chromaargb_zone_5,
         &chromaargb_zone_6
     },
-    NULL,
-    0,
     NULL
 };
 
@@ -6968,8 +6691,6 @@ static const razer_device chromahdk_device =
         NULL,
         NULL
     },
-    NULL,
-    0,
     NULL
 };
 
@@ -7017,8 +6738,6 @@ static const razer_device chroma_pc_case_lighting_kit_device =
         NULL,
         NULL
     },
-    NULL,
-    0,
     NULL
 };
 
@@ -7054,8 +6773,6 @@ static const razer_device base_station_device =
         NULL,
         NULL
     },
-    NULL,
-    0,
     NULL
 };
 
@@ -7091,8 +6808,6 @@ static const razer_device mouse_bungee_device =
         NULL,
         NULL
     },
-    NULL,
-    0,
     NULL
 };
 
@@ -7128,8 +6843,6 @@ static const razer_device base_station_v2_device =
         NULL,
         NULL
     },
-    NULL,
-    0,
     NULL
 };
 
@@ -7165,8 +6878,6 @@ static const razer_device laptop_stand_chroma_device =
         NULL,
         NULL
     },
-    NULL,
-    0,
     NULL
 };
 
@@ -7202,8 +6913,6 @@ static const razer_device laptop_stand_chroma_v2_device =
         NULL,
         NULL
     },
-    NULL,
-    0,
     NULL
 };
 
@@ -7239,8 +6948,6 @@ static const razer_device mouse_dock_chroma_device =
         NULL,
         NULL
     },
-    NULL,
-    0,
     NULL
 };
 
@@ -7276,8 +6983,6 @@ static const razer_device mouse_dock_pro_device =
         NULL,
         NULL
     },
-    NULL,
-    0,
     NULL
 };
 
@@ -7326,8 +7031,6 @@ static const razer_device nommo_pro_device =
         NULL,
         NULL
     },
-    NULL,
-    0,
     NULL
 };
 
@@ -7376,8 +7079,6 @@ static const razer_device nommo_chroma_device =
         NULL,
         NULL
     },
-    NULL,
-    0,
     NULL
 };
 
@@ -7414,8 +7115,6 @@ static const razer_device charging_pad_chroma_device =
         NULL,
         NULL
     },
-    NULL,
-    0,
     NULL
 };
 
@@ -7452,8 +7151,6 @@ static const razer_device o11_dynamic_device =
         NULL,
         NULL
     },
-    NULL,
-    0,
     NULL
 };
 
@@ -7490,8 +7187,6 @@ static const razer_device seiren_emote_device =
         NULL,
         NULL
     },
-    NULL,
-    0,
     NULL
 };
 
@@ -7528,8 +7223,6 @@ static const razer_device thunderbolt_4_dock_chroma_device =
         NULL,
         NULL
     },
-    NULL,
-    0,
     NULL
 };
 
