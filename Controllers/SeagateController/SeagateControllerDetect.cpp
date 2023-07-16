@@ -106,7 +106,7 @@ static HANDLE OpenDevice(wchar_t buff[MAX_PATH])
 *                                                                                          *
 \******************************************************************************************/
 
-void DetectSeagateControllers(std::vector<RGBController*>& rgb_controllers)
+void DetectSeagateControllers()
 {
     /*-------------------------------------------------------------------------------------------------*\
     | https://docs.microsoft.com/en-us/windows-hardware/drivers/install/identifiers-for-scsi-devices    |
@@ -122,7 +122,7 @@ void DetectSeagateControllers(std::vector<RGBController*>& rgb_controllers)
             SeagateController*     controller     = new SeagateController(fd, dev_name);
             RGBController_Seagate* rgb_controller = new RGBController_Seagate(controller);
 
-            rgb_controllers.push_back(rgb_controller);
+            ResourceManager::get()->RegisterRGBController(rgb_controller);
         }
     }
 }   /* DetectSpectrixS40GControllers() */

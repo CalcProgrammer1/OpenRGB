@@ -78,7 +78,7 @@ void SeagateController::SendPacket
     | Size must be enough for the SCSI_PASS_THROUGH_DIRECT struct plus the sense    |
     | data.  Size of 80 bytes taken from captured data                              |
     \*-----------------------------------------------------------------------------*/
-    unsigned char buffer[80]                = {0};
+    unsigned char buffer[sizeof(SCSI_PASS_THROUGH_DIRECT) + 32] = {0};
 
     /*-----------------------------------------------------------------------------*\
     | Create PSCSI_PASS_THROUGH_DIRECT pointer and point it to the buffer           |
@@ -99,7 +99,7 @@ void SeagateController::SendPacket
     command->DataTransferLength             = packet_sz;
     command->TimeOutValue                   = 0x00000014;
     command->DataBuffer                     = packet;
-    command->SenseInfoOffset                = 0x0000002E;
+    command->SenseInfoOffset                = sizeof(SCSI_PASS_THROUGH_DIRECT);
 
     command->Cdb[0]                         = 0xD2;
     command->Cdb[1]                         = 0x53;
@@ -117,5 +117,5 @@ void SeagateController::SendPacket
     /*-----------------------------------------------------------------------------*\
     | Send pass through command                                                     |
     \*-----------------------------------------------------------------------------*/
-    DeviceIoControl(fd, IOCTL_SCSI_PASS_THROUGH_DIRECT, command, 80, command, 80, NULL, NULL);
+    DeviceIoControl(fd, IOCTL_SCSI_PASS_THROUGH_DIRECT, command, sizeof(buffer), command, sizeof(buffer), NULL, NULL);
 }
