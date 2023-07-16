@@ -15,6 +15,7 @@ AuraMainboardController::AuraMainboardController(hid_device* dev_handle, const c
     unsigned char num_total_mainboard_leds  = config_table[0x1B];
     unsigned char num_rgb_headers           = config_table[0x1D];
     unsigned char num_addressable_headers   = config_table[0x02];
+    unsigned char effect_channel            = 0;
 
     if(num_total_mainboard_leds < num_rgb_headers)
     {
@@ -24,14 +25,18 @@ AuraMainboardController::AuraMainboardController(hid_device* dev_handle, const c
     /*-----------------------------------------------------*\
     | Add mainboard device                                  |
     \*-----------------------------------------------------*/
-    device_info.push_back({0x00, 0x04, num_total_mainboard_leds, num_rgb_headers, AuraDeviceType::FIXED});
+    if(num_total_mainboard_leds > 0)
+    {
+        device_info.push_back({effect_channel, 0x04, num_total_mainboard_leds, num_rgb_headers, AuraDeviceType::FIXED});
+        effect_channel++;
+    }
 
     /*-----------------------------------------------------*\
     | Add addressable devices                               |
     \*-----------------------------------------------------*/
     for(int i = 0; i < num_addressable_headers; i++)
     {
-        device_info.push_back({0x01, (unsigned char)i, 0x01, 0, AuraDeviceType::ADDRESSABLE});
+        device_info.push_back({effect_channel, (unsigned char)i, 0x01, 0, AuraDeviceType::ADDRESSABLE});
     }
 }
 
