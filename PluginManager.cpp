@@ -109,6 +109,11 @@ void PluginManager::AddPlugin(const filesystem::path& path)
         QPluginLoader*  loader      = new QPluginLoader(QString::fromStdString(path_string));
         QObject*        instance    = loader->instance();
 
+        if(!loader->isLoaded())
+        {
+            LOG_WARNING("[PluginManager] Plugin %s cannot be loaded: %s", path.c_str(), loader->errorString().toStdString().c_str());
+        }
+
         /*-----------------------------------------------------------------*\
         | Check that the plugin is valid, then check the API version        |
         \*-----------------------------------------------------------------*/
