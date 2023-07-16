@@ -206,6 +206,7 @@ INCLUDEPATH +=                                                                  
     Controllers/RedSquareKeyroxController/                                                      \
     Controllers/RoccatController/                                                               \
     Controllers/SapphireGPUController/                                                          \
+    Controllers/SeagateController/                                                              \
     Controllers/SinowealthController/                                                           \
     Controllers/SonyGamepadController/                                                          \
     Controllers/SRGBmodsController/                                                             \
@@ -688,6 +689,8 @@ HEADERS +=                                                                      
     Controllers/SapphireGPUController/SapphireNitroGlowV3Controller.h                           \
     Controllers/SapphireGPUController/RGBController_SapphireNitroGlowV1.h                       \
     Controllers/SapphireGPUController/RGBController_SapphireNitroGlowV3.h                       \
+    Controllers/SeagateController/SeagateController.h                                           \
+    Controllers/SeagateController/RGBController_Seagate.h                                       \
     Controllers/SinowealthController/SinowealthController.h                                     \
     Controllers/SinowealthController/SinowealthController1007.h                                 \
     Controllers/SinowealthController/SinowealthGMOWController.h                                 \
@@ -1377,6 +1380,9 @@ SOURCES +=                                                                      
     Controllers/SapphireGPUController/SapphireGPUControllerDetect.cpp                           \
     Controllers/SapphireGPUController/RGBController_SapphireNitroGlowV1.cpp                     \
     Controllers/SapphireGPUController/RGBController_SapphireNitroGlowV3.cpp                     \
+    Controllers/SeagateController/SeagateController.cpp                                         \
+    Controllers/SeagateController/SeagateControllerDetect.cpp                                   \
+    Controllers/SeagateController/RGBController_Seagate.cpp                                     \
     Controllers/SinowealthController/SinowealthController.cpp                                   \
     Controllers/SinowealthController/SinowealthController1007.cpp                               \
     Controllers/SinowealthController/SinowealthGMOWController.cpp                               \

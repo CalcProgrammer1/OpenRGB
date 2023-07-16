@@ -27,7 +27,7 @@
 *                                                                                          *
 \******************************************************************************************/
 
-int Search(wchar_t *dev_name)
+static int Search(wchar_t *dev_name)
 {
     wchar_t buff[DEVBUFSIZE]  = L"";
     int wchar_count;
@@ -62,7 +62,7 @@ int Search(wchar_t *dev_name)
 *                                                                                          *
 \******************************************************************************************/
 
-HANDLE OpenDevice(wchar_t buff[MAX_PATH])
+static HANDLE OpenDevice(wchar_t buff[MAX_PATH])
 {
     wchar_t path[MAX_PATH];
 
