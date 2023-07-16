@@ -47,7 +47,7 @@ void RGBController_Seagate::SetupZones()
 {
     zone led_zone;
     led_zone.name       = "LED Strip";
-    led_zone.type       = ZONE_TYPE_SINGLE;
+    led_zone.type       = ZONE_TYPE_LINEAR;
     led_zone.leds_min   = 6;
     led_zone.leds_max   = 6;
     led_zone.leds_count = 6;
