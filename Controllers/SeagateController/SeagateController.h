@@ -22,8 +22,15 @@ public:
 
     std::string GetLocation();
 
+    void SetLED
+        (
+        unsigned char led_id,
+        unsigned char r,
+        unsigned char g,
+        unsigned char b
+        );
+
 private:
-    HANDLE       nvme_fd;
+    HANDLE       fd;
     std::wstring path;
-    int          a;
 };

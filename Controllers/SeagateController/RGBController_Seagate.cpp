@@ -29,7 +29,7 @@ RGBController_Seagate::RGBController_Seagate(SeagateController* controller_ptr)
     location    = controller->GetLocation();
 
     mode Direct;
-    Direct.name       = "Direct";
+    Direct.name       = "Custom";
     Direct.value      = 0;
     Direct.flags      = MODE_FLAG_HAS_PER_LED_COLOR;
     Direct.color_mode = MODE_COLORS_PER_LED;
@@ -46,18 +46,21 @@ RGBController_Seagate::~RGBController_Seagate()
 void RGBController_Seagate::SetupZones()
 {
     zone led_zone;
-    led_zone.name       = "RGB Light";
+    led_zone.name       = "LED Strip";
     led_zone.type       = ZONE_TYPE_SINGLE;
-    led_zone.leds_min   = 1;
-    led_zone.leds_max   = 1;
-    led_zone.leds_count = 1;
+    led_zone.leds_min   = 6;
+    led_zone.leds_max   = 6;
+    led_zone.leds_count = 6;
     led_zone.matrix_map = NULL;
     zones.push_back(led_zone);
 
-    led new_led;
-    new_led.name        = "RGB Light";
+    for(unsigned int led_idx = 0; led_idx < zones[0].leds_count; led_idx++)
+    {
+        led new_led;
+        new_led.name        = "LED Strip LED";
 
-    leds.push_back(new_led);
+        leds.push_back(new_led);
+    }
 
     SetupColors();
 }
@@ -71,11 +74,10 @@ void RGBController_Seagate::ResizeZone(int /*zone*/, int /*new_size*/)
 
 void RGBController_Seagate::DeviceUpdateLEDs()
 {
-    unsigned char red = RGBGetRValue(colors[0]);
-    unsigned char grn = RGBGetGValue(colors[0]);
-    unsigned char blu = RGBGetBValue(colors[0]);
-
-    //controller->SetRGB(red, grn, blu);
+    for(unsigned int led_idx = 0; led_idx < leds.size(); led_idx++)
+    {
+        UpdateSingleLED(led_idx);
+    }
 }
 
 void RGBController_Seagate::UpdateZoneLEDs(int /*zone*/)
@@ -83,12 +85,16 @@ void RGBController_Seagate::UpdateZoneLEDs(int /*zone*/)
     DeviceUpdateLEDs();
 }
 
-void RGBController_Seagate::UpdateSingleLED(int /*led*/)
+void RGBController_Seagate::UpdateSingleLED(int led)
 {
-    DeviceUpdateLEDs();
+    unsigned char red = RGBGetRValue(colors[led]);
+    unsigned char grn = RGBGetGValue(colors[led]);
+    unsigned char blu = RGBGetBValue(colors[led]);
+
+    controller->SetLED(led, red, grn, blu);
 }
 
 void RGBController_Seagate::DeviceUpdateMode()
 {
-
+    
 }
