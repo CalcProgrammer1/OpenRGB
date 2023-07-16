@@ -29,9 +29,9 @@ RGBController_Seagate::RGBController_Seagate(SeagateController* controller_ptr)
     location    = controller->GetLocation();
 
     mode Direct;
-    Direct.name       = "Custom";
+    Direct.name       = "Direct";
     Direct.value      = 0;
-    Direct.flags      = MODE_FLAG_HAS_PER_LED_COLOR;
+    Direct.flags      = MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_MANUAL_SAVE;
     Direct.color_mode = MODE_COLORS_PER_LED;
     modes.push_back(Direct);
 
@@ -91,10 +91,21 @@ void RGBController_Seagate::UpdateSingleLED(int led)
     unsigned char grn = RGBGetGValue(colors[led]);
     unsigned char blu = RGBGetBValue(colors[led]);
 
-    controller->SetLED(led, red, grn, blu);
+    controller->SetLED(led, red, grn, blu, false);
 }
 
 void RGBController_Seagate::DeviceUpdateMode()
 {
-    
+}
+
+void RGBController_Seagate::DeviceSaveMode()
+{
+    for(unsigned int led_idx = 0; led_idx < leds.size(); led_idx++)
+    {
+        unsigned char red = RGBGetRValue(colors[led_idx]);
+        unsigned char grn = RGBGetGValue(colors[led_idx]);
+        unsigned char blu = RGBGetBValue(colors[led_idx]);
+
+        controller->SetLED(led_idx, red, grn, blu, true);
+    }
 }

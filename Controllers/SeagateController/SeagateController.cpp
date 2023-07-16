@@ -31,10 +31,46 @@ std::string SeagateController::GetLocation()
 
 void SeagateController::SetLED
     (
-    unsigned char led_id,
-    unsigned char r,
-    unsigned char g,
-    unsigned char b
+    unsigned char   led_id,
+    unsigned char   r,
+    unsigned char   g,
+    unsigned char   b,
+    bool            save
+    )
+{
+    /*-----------------------------------------------------------------------------*\
+    | Create buffer to hold RGB control data                                        |
+    \*-----------------------------------------------------------------------------*/
+    unsigned char data[14]                  = {0};
+    data[0]                                 = 0x0E; // size of data packet
+    data[1]                                 = 0x00;
+    data[2]                                 = 0x01;
+    data[3]                                 = 0x09;
+    data[4]                                 = 0x01;
+    data[5]                                 = 0x06;
+    data[6]                                 = led_id;
+    data[7]                                 = 0x01;
+    if(save)
+    {
+        data[8]                             = 0x03; // 0x00 for no save, 0x03 for save
+    }
+    else
+    {
+        data[8]                             = 0x00;
+    }
+    data[9]                                 = r;
+    data[10]                                = g;
+    data[11]                                = b;
+    data[12]                                = 0xFF;
+    data[13]                                = 0xFF;
+
+    SendPacket(data, 14);
+}
+
+void SeagateController::SendPacket
+    (
+    void *          packet,
+    unsigned char   packet_sz
     )
 {
     /*-----------------------------------------------------------------------------*\
@@ -43,25 +79,6 @@ void SeagateController::SetLED
     | data.  Size of 80 bytes taken from captured data                              |
     \*-----------------------------------------------------------------------------*/
     unsigned char buffer[80]                = {0};
-
-    /*-----------------------------------------------------------------------------*\
-    | Create buffer to hold RGB control data                                        |
-    \*-----------------------------------------------------------------------------*/
-    unsigned char data[14]                  = {0};
-    data[0]                                 = 0x0E;
-    data[1]                                 = 0x00;
-    data[2]                                 = 0x01;
-    data[3]                                 = 0x09;
-    data[4]                                 = 0x01;
-    data[5]                                 = 0x06;
-    data[6]                                 = led_id;
-    data[7]                                 = 0x01;
-    data[8]                                 = 0x03;
-    data[9]                                 = r;
-    data[10]                                = g;
-    data[11]                                = b;
-    data[12]                                = 0x00;
-    data[13]                                = 0xFF;
 
     /*-----------------------------------------------------------------------------*\
     | Create PSCSI_PASS_THROUGH_DIRECT pointer and point it to the buffer           |
@@ -79,9 +96,9 @@ void SeagateController::SetLED
     command->CdbLength                      = 0x0C;
     command->SenseInfoLength                = 0x20;
     command->DataIn                         = SCSI_IOCTL_DATA_OUT;
-    command->DataTransferLength             = 0x0000000E;
+    command->DataTransferLength             = packet_sz;
     command->TimeOutValue                   = 0x00000014;
-    command->DataBuffer                     = &data;
+    command->DataBuffer                     = packet;
     command->SenseInfoOffset                = 0x0000002E;
 
     command->Cdb[0]                         = 0xD2;
@@ -94,7 +111,7 @@ void SeagateController::SetLED
     command->Cdb[7]                         = 0x00;
     command->Cdb[8]                         = 0x00;
     command->Cdb[9]                         = 0x30;
-    command->Cdb[10]                        = 0x0E;
+    command->Cdb[10]                        = packet_sz;
     command->Cdb[11]                        = 0x00;
 
     /*-----------------------------------------------------------------------------*\

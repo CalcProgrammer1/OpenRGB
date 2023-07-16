@@ -26,6 +26,8 @@ public:
 
     void        DeviceUpdateMode();
 
+    void        DeviceSaveMode();
+
 private:
     SeagateController* controller;
 };

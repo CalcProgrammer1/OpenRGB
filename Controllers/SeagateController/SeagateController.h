@@ -24,13 +24,20 @@ public:
 
     void SetLED
         (
-        unsigned char led_id,
-        unsigned char r,
-        unsigned char g,
-        unsigned char b
+        unsigned char   led_id,
+        unsigned char   r,
+        unsigned char   g,
+        unsigned char   b,
+        bool            save
         );
 
 private:
     HANDLE       fd;
     std::wstring path;
+
+    void SeagateController::SendPacket
+        (
+        void *          packet,
+        unsigned char   packet_sz
+        );
 };
