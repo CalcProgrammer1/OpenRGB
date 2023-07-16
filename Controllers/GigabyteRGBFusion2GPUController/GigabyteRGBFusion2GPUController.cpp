@@ -71,6 +71,7 @@ void RGBFusion2GPUController::SetZone(uint8_t zone, uint8_t mode, fusion2_config
 
         case RGB_FUSION2_GPU_MODE_BREATHING:
             {
+                zone_config.brightness = RGB_FUSION2_GPU_BRIGHTNESS_MAX;
                 SetMode(zone, mode, zone_config, mystery_flag);
             }
             break;
