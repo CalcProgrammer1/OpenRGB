@@ -206,7 +206,6 @@ INCLUDEPATH +=                                                                  
     Controllers/RedSquareKeyroxController/                                                      \
     Controllers/RoccatController/                                                               \
     Controllers/SapphireGPUController/                                                          \
-    Controllers/SeagateController/                                                              \
     Controllers/SinowealthController/                                                           \
     Controllers/SonyGamepadController/                                                          \
     Controllers/SRGBmodsController/                                                             \
@@ -689,8 +688,6 @@ HEADERS +=                                                                      
     Controllers/SapphireGPUController/SapphireNitroGlowV3Controller.h                           \
     Controllers/SapphireGPUController/RGBController_SapphireNitroGlowV1.h                       \
     Controllers/SapphireGPUController/RGBController_SapphireNitroGlowV3.h                       \
-    Controllers/SeagateController/SeagateController.h                                           \
-    Controllers/SeagateController/RGBController_Seagate.h                                       \
     Controllers/SinowealthController/SinowealthController.h                                     \
     Controllers/SinowealthController/SinowealthController1007.h                                 \
     Controllers/SinowealthController/SinowealthGMOWController.h                                 \
@@ -1380,9 +1377,6 @@ SOURCES +=                                                                      
     Controllers/SapphireGPUController/SapphireGPUControllerDetect.cpp                           \
     Controllers/SapphireGPUController/RGBController_SapphireNitroGlowV1.cpp                     \
     Controllers/SapphireGPUController/RGBController_SapphireNitroGlowV3.cpp                     \
-    Controllers/SeagateController/SeagateController.cpp                                         \
-    Controllers/SeagateController/SeagateControllerDetect.cpp                                   \
-    Controllers/SeagateController/RGBController_Seagate.cpp                                     \
     Controllers/SinowealthController/SinowealthController.cpp                                   \
     Controllers/SinowealthController/SinowealthController1007.cpp                               \
     Controllers/SinowealthController/SinowealthGMOWController.cpp                               \
@@ -1572,6 +1566,8 @@ win32:INCLUDEPATH +=                                                            
     wmi/                                                                                        \
     Controllers/AsusTUFLaptopController                                                         \
     Controllers/NVIDIAIlluminationController                                                    \
+    Controllers/SeagateController/                                                              \
+    Controllers/SeagateController/SeagateControllerWindows                                      \
 
 win32:SOURCES +=                                                                                \
 #   dependencies/hidapi/hidapi.c                                                                \
@@ -1680,6 +1676,9 @@ win32:SOURCES +=                                                                
     Controllers/NVIDIAIlluminationController/RGBController_NVIDIAIllumination.cpp               \
     Controllers/OpenRazerController/OpenRazerWindowsDetect.cpp                                  \
     Controllers/OpenRazerController/RGBController_OpenRazerWindows.cpp                          \
+    Controllers/SeagateController/SeagateControllerWindows/SeagateController.cpp                \
+    Controllers/SeagateController/SeagateControllerWindows/SeagateControllerDetect.cpp          \
+    Controllers/SeagateController/RGBController_Seagate.cpp                                     \
 
 win32:HEADERS +=                                                                                \
     dependencies/display-library/include/adl_defines.h                                          \
@@ -1700,6 +1699,8 @@ win32:HEADERS +=                                                                
     Controllers/NVIDIAIlluminationController/NVIDIAIlluminationV1Controller.h                   \
     Controllers/NVIDIAIlluminationController/RGBController_NVIDIAIllumination.h                 \
     Controllers/OpenRazerController/RGBController_OpenRazerWindows.h                            \
+    Controllers/SeagateController/SeagateControllerWindows/SeagateController.h                  \
+    Controllers/SeagateController/RGBController_Seagate.h                                       \
 
 win32:contains(QMAKE_TARGET.arch, x86_64) {
     LIBS +=                                                                                     \
@@ -1788,6 +1789,8 @@ contains(QMAKE_PLATFORM, linux) {
     INCLUDEPATH +=                                                                              \
     Controllers/FaustusController                                                               \
     Controllers/LinuxLEDController                                                              \
+    Controllers/SeagateController/                                                              \
+    Controllers/SeagateController/SeagateControllerLinux/                                       \
 
     HEADERS +=                                                                                  \
     i2c_smbus/i2c_smbus_linux.h                                                                 \
@@ -1799,6 +1802,8 @@ contains(QMAKE_PLATFORM, linux) {
     Controllers/LinuxLEDController/LinuxLEDController.h                                         \
     Controllers/LinuxLEDController/RGBController_LinuxLED.h                                     \
     Controllers/OpenRazerController/RGBController_OpenRazer.h                                   \
+    Controllers/SeagateController/SeagateControllerLinux/SeagateController.h                    \
+    Controllers/SeagateController/RGBController_Seagate.h                                       \
 
     LIBS +=                                                                                     \
     -lusb-1.0                                                                                   \
@@ -1853,6 +1858,9 @@ contains(QMAKE_PLATFORM, linux) {
     Controllers/LinuxLEDController/RGBController_LinuxLED.cpp                                   \
     Controllers/OpenRazerController/OpenRazerDetect.cpp                                         \
     Controllers/OpenRazerController/RGBController_OpenRazer.cpp                                 \
+    Controllers/SeagateController/SeagateControllerLinux/SeagateController.cpp                  \
+    Controllers/SeagateController/SeagateControllerLinux/SeagateControllerDetect.cpp            \
+    Controllers/SeagateController/RGBController_Seagate.cpp                                     \
 
     #-------------------------------------------------------------------------------------------#
     # Set up install paths                                                                      #
