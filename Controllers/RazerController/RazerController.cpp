@@ -1208,6 +1208,12 @@ void RazerController::razer_set_custom_frame(unsigned char row_index, unsigned c
                     razer_usb_send(&report);
                     break;
 
+                case RAZER_MAMBA_2012_WIRED_PID:
+                case RAZER_MAMBA_2012_WIRELESS_PID:
+                    report                  = razer_create_set_led_rgb_report(RAZER_STORAGE_NO_SAVE, RAZER_LED_ID_SCROLL_WHEEL, rgb_data);
+                    razer_usb_send(&report);
+                    break;
+
                 /*-------------------------------------------------*\
                 | The Orbweaver Chroma has an unusual matrix layout |
                 | and the following code allows it to present as a  |
@@ -1318,6 +1324,14 @@ void RazerController::razer_set_mode_breathing_one_color(unsigned char red, unsi
                     std::this_thread::sleep_for(1ms);
 
                     report                  = razer_create_set_led_effect_report(RAZER_STORAGE_NO_SAVE, RAZER_LED_ID_BACKLIGHT, 2);
+                    razer_usb_send(&report);
+                    break;
+
+                case RAZER_MAMBA_2012_WIRED_PID:
+                case RAZER_MAMBA_2012_WIRELESS_PID:
+                    report                  = razer_create_set_led_rgb_report(RAZER_STORAGE_NO_SAVE, RAZER_LED_ID_SCROLL_WHEEL, rgb_data);
+                    razer_usb_send(&report);
+                    report                  = razer_create_set_led_effect_report(RAZER_STORAGE_NO_SAVE, RAZER_LED_ID_SCROLL_WHEEL, 2);
                     razer_usb_send(&report);
                     break;
 
@@ -1445,6 +1459,12 @@ void RazerController::razer_set_mode_custom()
                     std::this_thread::sleep_for(1ms);
 
                     report                  = razer_create_set_led_effect_report(RAZER_STORAGE_NO_SAVE, RAZER_LED_ID_BACKLIGHT, 0);
+                    razer_usb_send(&report);
+                    break;
+
+                case RAZER_MAMBA_2012_WIRED_PID:
+                case RAZER_MAMBA_2012_WIRELESS_PID:
+                    report                  = razer_create_set_led_effect_report(RAZER_STORAGE_NO_SAVE, RAZER_LED_ID_SCROLL_WHEEL, 0);
                     razer_usb_send(&report);
                     break;
 
