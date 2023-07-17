@@ -110,6 +110,7 @@ void RGBController_IntelArcA770LE::SetupZones()
     logo.leds_min           = 1;
     logo.leds_max           = 1;
     logo.leds_count         = 1;
+    logo.matrix_map         = NULL;
     zones.push_back(logo);
 
     for(unsigned int led_idx = 0; led_idx < 16; led_idx++)
