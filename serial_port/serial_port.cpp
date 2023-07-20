@@ -219,7 +219,7 @@ bool serial_port::serial_open()
     /*-----------------------------------------*\
     | Open the port read/write with no delay    |
     \*-----------------------------------------*/
-    file_descriptor = open(port_name, O_RDWR | O_NOCTTY | O_NDELAY);
+    file_descriptor = open(port_name, O_RDWR | O_NOCTTY | O_DSYNC);
 
     if(file_descriptor < 0)
     {
@@ -566,9 +566,9 @@ int serial_port::serial_write(char * buffer, int length)
     \*-----------------------------------------------------*/
 #ifdef __linux__
     int byteswritten;
-    tcdrain(file_descriptor);
+    //tcdrain(file_descriptor);
     byteswritten = write(file_descriptor, buffer, length);
-    tcdrain(file_descriptor);
+    //tcdrain(file_descriptor);
     return byteswritten;
 #endif
 
