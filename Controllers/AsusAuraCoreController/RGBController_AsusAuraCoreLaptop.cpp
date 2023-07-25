@@ -406,6 +406,8 @@ void RGBController_AsusAuraCoreLaptop::Init_Controller()
     lightbar.leds_min           = ASUSAURACORELAPTOP_LIGHTBARCOUNT;
     lightbar.leds_max           = ASUSAURACORELAPTOP_LIGHTBARCOUNT;
     lightbar.leds_count         = ASUSAURACORELAPTOP_LIGHTBARCOUNT;
+    lightbar.matrix_map         = NULL;
+
     zones.push_back(lightbar);
 
     zone lid;
@@ -414,6 +416,8 @@ void RGBController_AsusAuraCoreLaptop::Init_Controller()
     lid.leds_min                = ASUSAURACORELAPTOP_LIDCOUNT;
     lid.leds_max                = ASUSAURACORELAPTOP_LIDCOUNT;
     lid.leds_count              = ASUSAURACORELAPTOP_LIDCOUNT;
+    lid.matrix_map              = NULL;
+
     zones.push_back(lid);
 }
 
