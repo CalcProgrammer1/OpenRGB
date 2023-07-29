@@ -11,10 +11,7 @@
 *                                                                                          *
 *   DetectSeagateControllers                                                               *
 *                                                                                          *
-*           Detects ENE SMBus controllers on XPG Spectrix S40G NVMe devices                *
-*                                                                                          *
-*           Tests for the existance of a file descriptor matching                          *
-*           SCSI#Disk&Ven_NVMe&Prod_XPG_SPECTRIX_S40# on Windows machines                  *
+*           Detects Seagate FireCuda HDD devices                                           *
 *                                                                                          *
 \******************************************************************************************/
 
@@ -38,6 +35,6 @@ void DetectSeagateControllers()
 
     scsi_free_enumeration(info);
 
-}   /* DetectSpectrixS40GControllers() */
+}   /* DetectSeagateControllers() */
 
-REGISTER_DETECTOR(    "Seagate Firecuda HDD", DetectSeagateControllers);
+REGISTER_DETECTOR("Seagate Firecuda HDD", DetectSeagateControllers);

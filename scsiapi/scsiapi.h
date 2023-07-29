@@ -17,9 +17,10 @@
 | Platform-specific Includes                                |
 \*---------------------------------------------------------*/
 #ifdef WIN32
+#include <windows.h>
 #include <fileapi.h>
 #include <ntddscsi.h>
-#include <windows.h>
+#include "WinIoCtl.h"
 #else
 #include <fcntl.h>
 #include <errno.h>

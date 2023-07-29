@@ -1567,7 +1567,7 @@ win32:INCLUDEPATH +=                                                            
     Controllers/AsusTUFLaptopController                                                         \
     Controllers/NVIDIAIlluminationController                                                    \
     Controllers/SeagateController/                                                              \
-    Controllers/SeagateController/SeagateControllerWindows                                      \
+    scsiapi/                                                                                    \
 
 win32:SOURCES +=                                                                                \
 #   dependencies/hidapi/hidapi.c                                                                \
@@ -1676,9 +1676,10 @@ win32:SOURCES +=                                                                
     Controllers/NVIDIAIlluminationController/RGBController_NVIDIAIllumination.cpp               \
     Controllers/OpenRazerController/OpenRazerWindowsDetect.cpp                                  \
     Controllers/OpenRazerController/RGBController_OpenRazerWindows.cpp                          \
-    Controllers/SeagateController/SeagateControllerWindows/SeagateController.cpp                \
-    Controllers/SeagateController/SeagateControllerWindows/SeagateControllerDetect.cpp          \
+    Controllers/SeagateController/SeagateController.cpp                                         \
+    Controllers/SeagateController/SeagateControllerDetect.cpp                                   \
     Controllers/SeagateController/RGBController_Seagate.cpp                                     \
+    scsiapi/scsiapi_windows.c                                                                   \
 
 win32:HEADERS +=                                                                                \
     dependencies/display-library/include/adl_defines.h                                          \
@@ -1699,8 +1700,9 @@ win32:HEADERS +=                                                                
     Controllers/NVIDIAIlluminationController/NVIDIAIlluminationV1Controller.h                   \
     Controllers/NVIDIAIlluminationController/RGBController_NVIDIAIllumination.h                 \
     Controllers/OpenRazerController/RGBController_OpenRazerWindows.h                            \
-    Controllers/SeagateController/SeagateControllerWindows/SeagateController.h                  \
+    Controllers/SeagateController/SeagateController.h                                           \
     Controllers/SeagateController/RGBController_Seagate.h                                       \
+    scsiapi\scsiapi.h                                                                           \
 
 win32:contains(QMAKE_TARGET.arch, x86_64) {
     LIBS +=                                                                                     \
@@ -1790,7 +1792,6 @@ contains(QMAKE_PLATFORM, linux) {
     Controllers/FaustusController                                                               \
     Controllers/LinuxLEDController                                                              \
     Controllers/SeagateController/                                                              \
-    Controllers/SeagateController/SeagateControllerLinux/                                       \
     scsiapi/                                                                                    \
 
     HEADERS +=                                                                                  \
@@ -1803,7 +1804,7 @@ contains(QMAKE_PLATFORM, linux) {
     Controllers/LinuxLEDController/LinuxLEDController.h                                         \
     Controllers/LinuxLEDController/RGBController_LinuxLED.h                                     \
     Controllers/OpenRazerController/RGBController_OpenRazer.h                                   \
-    Controllers/SeagateController/SeagateControllerLinux/SeagateController.h                    \
+    Controllers/SeagateController/SeagateController.h                                           \
     Controllers/SeagateController/RGBController_Seagate.h                                       \
     scsiapi/scsiapi.h                                                                           \
 
@@ -1860,8 +1861,8 @@ contains(QMAKE_PLATFORM, linux) {
     Controllers/LinuxLEDController/RGBController_LinuxLED.cpp                                   \
     Controllers/OpenRazerController/OpenRazerDetect.cpp                                         \
     Controllers/OpenRazerController/RGBController_OpenRazer.cpp                                 \
-    Controllers/SeagateController/SeagateControllerLinux/SeagateController.cpp                  \
-    Controllers/SeagateController/SeagateControllerLinux/SeagateControllerDetect.cpp            \
+    Controllers/SeagateController/SeagateController.cpp                                         \
+    Controllers/SeagateController/SeagateControllerDetect.cpp                                   \
     Controllers/SeagateController/RGBController_Seagate.cpp                                     \
     scsiapi/scsiapi.c                                                                           \
 
