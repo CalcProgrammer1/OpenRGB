@@ -179,6 +179,7 @@ INCLUDEPATH +=                                                                  
     Controllers/HYTEMousematController/                                                         \
     Controllers/IntelArcA770LEController/                                                       \
     Controllers/IonicoController/                                                               \
+    Controllers/JginYueInternalUSBController/                                                   \
     Controllers/LEDStripController/                                                             \
     Controllers/LegoDimensionsToypadBaseController/                                             \
     Controllers/LenovoControllers/                                                              \
@@ -568,6 +569,8 @@ HEADERS +=                                                                      
     Controllers/IntelArcA770LEController/RGBController_IntelArcA770LE.h                         \
     Controllers/IonicoController/IonicoController.h                                             \
     Controllers/IonicoController/RGBController_Ionico.h                                         \
+    Controllers/JginYueInternalUSBController/JginYueInternalUSBController.h                     \
+    Controllers/JginYueInternalUSBController/RGBController_JginYueInternalUSB.h                 \
     Controllers/KasaSmartController/KasaSmartController.h                                       \
     Controllers/KasaSmartController/RGBController_KasaSmart.h                                   \
     Controllers/KeychronKeyboardController/KeychronKeyboardController.h                         \
@@ -1262,6 +1265,9 @@ SOURCES +=                                                                      
     Controllers/IonicoController/IonicoControllerDetect.cpp                                     \
     Controllers/IonicoController/RGBController_Ionico.cpp                                       \
     Controllers/IntelArcA770LEController/RGBController_IntelArcA770LE.cpp                       \
+    Controllers/JginYueInternalUSBController/RGBController_JginYueInternalUSB.cpp               \
+    Controllers/JginYueInternalUSBController/JginYueInternalUSBController.cpp                   \
+    Controllers/JginYueInternalUSBController/JginYueInternalUSBControllerDetect.cpp             \
     Controllers/KasaSmartController/KasaSmartController.cpp                                     \
     Controllers/KasaSmartController/KasaSmartControllerDetect.cpp                               \
     Controllers/KasaSmartController/RGBController_KasaSmart.cpp                                 \
