@@ -2,6 +2,7 @@
 | scsiapi.c                                                 |
 |                                                           |
 |   Cross-platform SCSI access library                      |
+|   Windows implementation                                  |
 |                                                           |
 |   Adam Honse <calcprogrammer1@gmail.com>      7/28/2023   |
 \*---------------------------------------------------------*/
@@ -164,9 +165,15 @@ void scsi_free_enumeration(struct scsi_device_info * devs)
 
 struct scsi_device * scsi_open_path(const char *path)
 {
-    struct scsi_device * device = malloc(sizeof(struct scsi_device));
+    HANDLE device_fd = CreateFile(path, GENERIC_READ | GENERIC_WRITE, FILE_SHARE_READ | FILE_SHARE_WRITE, (LPSECURITY_ATTRIBUTES)0x0, OPEN_EXISTING, 0x0, (HANDLE)0x0);
 
-    device->fd                  = CreateFile(path, GENERIC_READ | GENERIC_WRITE, FILE_SHARE_READ | FILE_SHARE_WRITE, (LPSECURITY_ATTRIBUTES)0x0, OPEN_EXISTING, 0x0, (HANDLE)0x0);
+    struct scsi_device * device = NULL;
+
+    if(device_fd != INVALID_HANDLE_VALUE)
+    {
+        device      = malloc(sizeof(struct scsi_device));
+        device->fd  = device_fd;
+    }
 
     return(device);
 }

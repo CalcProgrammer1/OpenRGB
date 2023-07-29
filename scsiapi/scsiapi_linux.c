@@ -1,7 +1,8 @@
 /*---------------------------------------------------------*\
-| scsiapi.c                                                 |
+| scsiapi_linux.c                                           |
 |                                                           |
 |   Cross-platform SCSI access library                      |
+|   Linux implementation                                    |
 |                                                           |
 |   Adam Honse <calcprogrammer1@gmail.com>      7/28/2023   |
 \*---------------------------------------------------------*/
@@ -178,9 +179,15 @@ void scsi_free_enumeration(struct scsi_device_info * devs)
 
 struct scsi_device * scsi_open_path(const char *path)
 {
-    struct scsi_device * device = malloc(sizeof(struct scsi_device));
+    int device_fd = open(path, O_RDWR);
 
-    device->fd                  = open(path, O_RDWR);
+    struct scsi_device * device = NULL;
+
+    if(device_fd > 0)
+    {
+        device      = malloc(sizeof(struct scsi_device));
+        device->fd  = device_fd;
+    }
 
     return(device);
 }

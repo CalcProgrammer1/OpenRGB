@@ -21,7 +21,9 @@
 #include <fileapi.h>
 #include <ntddscsi.h>
 #include "WinIoCtl.h"
-#else
+#endif
+
+#ifdef __linux__
 #include <fcntl.h>
 #include <errno.h>
 #include <getopt.h>
@@ -30,6 +32,9 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <unistd.h>
+#endif
+
+#ifdef __APPLE__
 #endif
 
 #ifdef __cplusplus
@@ -57,8 +62,6 @@ struct scsi_device
 #else
     int         fd;
 #endif
-    char *      vendor;
-    char *      product;
 
 };
 

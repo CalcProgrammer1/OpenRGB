@@ -25,10 +25,13 @@ void DetectSeagateControllers()
         {
             scsi_device * dev = scsi_open_path(info->path);
 
-            SeagateController*     controller     = new SeagateController(dev, info->path);
-            RGBController_Seagate* rgb_controller = new RGBController_Seagate(controller);
+            if(dev)
+            {
+                SeagateController*     controller     = new SeagateController(dev, info->path);
+                RGBController_Seagate* rgb_controller = new RGBController_Seagate(controller);
 
-            ResourceManager::get()->RegisterRGBController(rgb_controller);
+                ResourceManager::get()->RegisterRGBController(rgb_controller);
+            }
         }
         info = info->next;
     }
