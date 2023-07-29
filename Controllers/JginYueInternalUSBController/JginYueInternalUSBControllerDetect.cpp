@@ -1,0 +1,10 @@
+#include "RGBController_JginYueInternalUSB.h"
+#include "JginYueInternalUSBController.h"
+#include "RGBController.h"
+#include "Detector.h"
+#include "i2c_smbus.h"
+#include "pci_ids.h"
+#include <vector>
+#include <stdio.h>
+#include <stdlib.h>
+#include <hidapi/hidapi.h>
