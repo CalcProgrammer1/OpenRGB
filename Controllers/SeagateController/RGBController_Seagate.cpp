@@ -23,7 +23,8 @@ RGBController_Seagate::RGBController_Seagate(SeagateController* controller_ptr)
 {
     controller  = controller_ptr;
 
-    name        = "Seagate";
+    name        = "Seagate Device";
+    vendor      = "Seagate";
     type        = DEVICE_TYPE_STORAGE;
     description = "Seagate Device";
     location    = controller->GetLocation();

@@ -10,19 +10,12 @@
 #pragma once
 
 #include <string>
-
-#include <stdio.h>
-#include <unistd.h>
-#include <string.h>
-#include <fcntl.h>
-#include <errno.h>
-#include <scsi/sg.h>
-#include <sys/ioctl.h>
+#include "scsiapi.h"
 
 class SeagateController
 {
 public:
-    SeagateController(int fd, char* path);
+    SeagateController(scsi_device* dev_handle, char* path);
     ~SeagateController();
 
     std::string GetLocation();
@@ -37,8 +30,8 @@ public:
         );
 
 private:
-    int         fd;
-    std::string path;
+    scsi_device*    dev;
+    std::string     path;
 
     void SendPacket
         (

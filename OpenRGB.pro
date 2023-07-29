@@ -1791,6 +1791,7 @@ contains(QMAKE_PLATFORM, linux) {
     Controllers/LinuxLEDController                                                              \
     Controllers/SeagateController/                                                              \
     Controllers/SeagateController/SeagateControllerLinux/                                       \
+    scsiapi/                                                                                    \
 
     HEADERS +=                                                                                  \
     i2c_smbus/i2c_smbus_linux.h                                                                 \
@@ -1804,6 +1805,7 @@ contains(QMAKE_PLATFORM, linux) {
     Controllers/OpenRazerController/RGBController_OpenRazer.h                                   \
     Controllers/SeagateController/SeagateControllerLinux/SeagateController.h                    \
     Controllers/SeagateController/RGBController_Seagate.h                                       \
+    scsiapi/scsiapi.h                                                                           \
 
     LIBS +=                                                                                     \
     -lusb-1.0                                                                                   \
@@ -1861,6 +1863,7 @@ contains(QMAKE_PLATFORM, linux) {
     Controllers/SeagateController/SeagateControllerLinux/SeagateController.cpp                  \
     Controllers/SeagateController/SeagateControllerLinux/SeagateControllerDetect.cpp            \
     Controllers/SeagateController/RGBController_Seagate.cpp                                     \
+    scsiapi/scsiapi.c                                                                           \
 
     #-------------------------------------------------------------------------------------------#
     # Set up install paths                                                                      #

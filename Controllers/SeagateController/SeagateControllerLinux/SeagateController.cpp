@@ -9,15 +9,15 @@
 
 #include "SeagateController.h"
 
-SeagateController::SeagateController(int fd, char* path)
+SeagateController::SeagateController(scsi_device* dev_handle, char* path)
 {
-    this->fd    = fd;
+    this->dev   = dev_handle;
 	this->path  = path;
 }
 
 SeagateController::~SeagateController()
 {
-
+    scsi_close(dev);
 }
 
 std::string SeagateController::GetLocation()
@@ -61,52 +61,5 @@ void SeagateController::SetLED
     data[12]                                = 0xFF;
     data[13]                                = 0xFF;
 
-    SendPacket(data, 14);
-}
-
-void SeagateController::SendPacket
-    (
-    void *          packet,
-    unsigned char   packet_sz
-    )
-{
-    /*-----------------------------------------------------------------------------*\
-    | Create buffers to hold header, cdb, and sense                                 |
-    \*-----------------------------------------------------------------------------*/
-    unsigned char cdb[12];
-    unsigned char sense[32];
-    sg_io_hdr header;
-
-    /*-----------------------------------------------------------------------------*\
-    | Set up pass through command                                                   |
-    \*-----------------------------------------------------------------------------*/
-    header.interface_id                     = 'S';
-    header.dxfer_direction                  = SG_DXFER_TO_DEV;
-    header.cmd_len                          = sizeof(cdb);
-    header.mx_sb_len                        = sizeof(sense);
-    header.iovec_count                      = 0;
-    header.dxfer_len                        = packet_sz;
-    header.dxferp                           = packet;
-    header.cmdp                             = cdb;
-    header.sbp                              = sense;
-    header.timeout                          = 20000;
-    header.flags                            = 0;
-
-    cdb[0]                                  = 0xD2;
-    cdb[1]                                  = 0x53;
-    cdb[2]                                  = 0x65;
-    cdb[3]                                  = 0x74;
-    cdb[4]                                  = 0x4C;
-    cdb[5]                                  = 0x65;
-    cdb[6]                                  = 0x64;
-    cdb[7]                                  = 0x00;
-    cdb[8]                                  = 0x00;
-    cdb[9]                                  = 0x30;
-    cdb[10]                                 = packet_sz;
-    cdb[11]                                 = 0x00;
-
-    /*-----------------------------------------------------------------------------*\
-    | Send pass through command                                                     |
-    \*-----------------------------------------------------------------------------*/
-    ioctl(fd, SG_IO, &header);
+    scsi_write(dev, data, 14);
 }
