@@ -58,7 +58,7 @@ struct scsi_device * scsi_open_path(const char *path)
     return(NULL);
 }
 
-int scsi_write(struct scsi_device * dev, const unsigned char * data, size_t length)
+int scsi_write(struct scsi_device * dev, const unsigned char * data, size_t data_length, const unsigned char * cdb, size_t cdb_length, unsigned char * sense, size_t sense_length)
 {
 
 }

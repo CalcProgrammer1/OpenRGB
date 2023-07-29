@@ -192,13 +192,11 @@ struct scsi_device * scsi_open_path(const char *path)
     return(device);
 }
 
-int scsi_write(struct scsi_device * dev, const unsigned char * data, size_t length)
+int scsi_write(struct scsi_device * dev, const unsigned char * data, size_t data_length, const unsigned char * cdb, size_t cdb_length, unsigned char * sense, size_t sense_length)
 {
     /*-----------------------------------------------------*\
-    | Create buffers to hold header, cdb, and sense         |
+    | Create buffer to hold header                          |
     \*-----------------------------------------------------*/
-    unsigned char       cdb[12];
-    unsigned char       sense[32];
     struct sg_io_hdr    header;
 
     /*-----------------------------------------------------*\
@@ -206,34 +204,22 @@ int scsi_write(struct scsi_device * dev, const unsigned char * data, size_t leng
     \*-----------------------------------------------------*/
     header.interface_id                     = 'S';
     header.dxfer_direction                  = SG_DXFER_TO_DEV;
-    header.cmd_len                          = sizeof(cdb);
-    header.mx_sb_len                        = sizeof(sense);
+    header.cmd_len                          = cdb_length;
+    header.mx_sb_len                        = sense_length;
     header.iovec_count                      = 0;
-    header.dxfer_len                        = length;
+    header.dxfer_len                        = data_length;
     header.dxferp                           = data;
     header.cmdp                             = cdb;
     header.sbp                              = sense;
     header.timeout                          = 20000;
     header.flags                            = 0;
 
-    cdb[0]                                  = 0xD2;
-    cdb[1]                                  = 0x53;
-    cdb[2]                                  = 0x65;
-    cdb[3]                                  = 0x74;
-    cdb[4]                                  = 0x4C;
-    cdb[5]                                  = 0x65;
-    cdb[6]                                  = 0x64;
-    cdb[7]                                  = 0x00;
-    cdb[8]                                  = 0x00;
-    cdb[9]                                  = 0x30;
-    cdb[10]                                 = length;
-    cdb[11]                                 = 0x00;
-
     /*-----------------------------------------------------*\
     | Send pass through command                             |
     \*-----------------------------------------------------*/
     ioctl(dev->fd, SG_IO, &header);
 }
+
 #ifdef __cplusplus
 }
 #endif

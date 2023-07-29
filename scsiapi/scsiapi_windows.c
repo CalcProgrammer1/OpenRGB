@@ -30,14 +30,14 @@ extern "C" {
 
 void scsi_close(struct scsi_device * dev)
 {
-    
+
 }
 
 struct scsi_device_info * scsi_enumerate(const char * vendor, const char * product)
 {
     struct scsi_device_info * ret_ptr  = NULL;
     struct scsi_device_info * last_ptr = NULL;
-    
+
     char buff[DEVBUFSIZE]  = "";
     int char_count;
 
@@ -178,15 +178,20 @@ struct scsi_device * scsi_open_path(const char *path)
     return(device);
 }
 
-int scsi_write(struct scsi_device * dev, const unsigned char * data, size_t length)
+int scsi_write(struct scsi_device * dev, const unsigned char * data, size_t data_length, const unsigned char * cdb, size_t cdb_length, unsigned char * sense, size_t sense_length)
 {
     /*-----------------------------------------------------*\
     | Create buffer to hold SCSI_PASS_THROUGH_DIRECT        |
     | Size must be enough for the SCSI_PASS_THROUGH_DIRECT  |
-    | struct plus the sense data.  Size of 80 bytes taken   |
-    | from captured data                                    |
+    | struct plus the sense data.                           |
     \*-----------------------------------------------------*/
-    unsigned char buffer[sizeof(SCSI_PASS_THROUGH_DIRECT) + 32] = {0};
+    int buffer_length                       = (sizeof(SCSI_PASS_THROUGH_DIRECT) + sense_length);
+    unsigned char * buffer                  = malloc(buffer_length);
+
+    /*-----------------------------------------------------*\
+    | Zero out the buffer                                   |
+    \*-----------------------------------------------------*/
+    memset(buffer, 0, buffer_length);
 
     /*-----------------------------------------------------*\
     | Create PSCSI_PASS_THROUGH_DIRECT pointer and point it |
@@ -202,31 +207,34 @@ int scsi_write(struct scsi_device * dev, const unsigned char * data, size_t leng
     command->PathId                         = 0x00;
     command->TargetId                       = 0x00;
     command->Lun                            = 0x00;
-    command->CdbLength                      = 0x0C;
-    command->SenseInfoLength                = 0x20;
+    command->CdbLength                      = cdb_length;
+    command->SenseInfoLength                = sense_length;
     command->DataIn                         = SCSI_IOCTL_DATA_OUT;
-    command->DataTransferLength             = length;
+    command->DataTransferLength             = data_length;
     command->TimeOutValue                   = 0x00000014;
     command->DataBuffer                     = data;
     command->SenseInfoOffset                = sizeof(SCSI_PASS_THROUGH_DIRECT);
 
-    command->Cdb[0]                         = 0xD2;
-    command->Cdb[1]                         = 0x53;
-    command->Cdb[2]                         = 0x65;
-    command->Cdb[3]                         = 0x74;
-    command->Cdb[4]                         = 0x4C;
-    command->Cdb[5]                         = 0x65;
-    command->Cdb[6]                         = 0x64;
-    command->Cdb[7]                         = 0x00;
-    command->Cdb[8]                         = 0x00;
-    command->Cdb[9]                         = 0x30;
-    command->Cdb[10]                        = length;
-    command->Cdb[11]                        = 0x00;
+    /*-----------------------------------------------------*\
+    | Copy CDB and sense data into buffer                   |
+    \*-----------------------------------------------------*/
+    memcpy(command->Cdb, cdb, cdb_length);
+    memcpy(&buffer[sizeof(SCSI_PASS_THROUGH_DIRECT)], sense, sense_length);
 
     /*-----------------------------------------------------*\
     | Send pass through command                             |
     \*-----------------------------------------------------*/
-    DeviceIoControl(dev->fd, IOCTL_SCSI_PASS_THROUGH_DIRECT, command, sizeof(buffer), command, sizeof(buffer), NULL, NULL);
+    DeviceIoControl(dev->fd, IOCTL_SCSI_PASS_THROUGH_DIRECT, command, buffer_length, command, buffer_length, NULL, NULL);
+
+    /*-----------------------------------------------------*\
+    | Copy sense data out of buffer                         |
+    \*-----------------------------------------------------*/
+    memcpy(sense, &buffer[sizeof(SCSI_PASS_THROUGH_DIRECT)], sense_length);
+
+    /*-----------------------------------------------------*\
+    | Free the buffer                                       |
+    \*-----------------------------------------------------*/
+    free(buffer);
 }
 #ifdef __cplusplus
 }
