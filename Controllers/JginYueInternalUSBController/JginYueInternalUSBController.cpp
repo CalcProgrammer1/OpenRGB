@@ -141,7 +141,7 @@ void JginYueInternalUSBController::WriteZoneMode
     usb_buf[0x03]   = device_config[Active_zone].RG_Swap;
     usb_buf[0x04]   = device_config[Active_zone].Direction;
     usb_buf[0x05]   = device_config[Active_zone].Direct_Mode_control;
-    hid_write(dev, usb_buf ,302);
+    hid_write(dev, usb_buf ,65);
 
     memset(usb_buf, 0x00, sizeof(usb_buf));
 
@@ -153,7 +153,7 @@ void JginYueInternalUSBController::WriteZoneMode
     usb_buf[0x05]   = device_config[Active_zone].Color_B;
     usb_buf[0x06]   = device_config[Active_zone].Brightness;
     usb_buf[0x07]   = device_config[Active_zone].Speed;
-    hid_write(dev, usb_buf ,302);
+    hid_write(dev, usb_buf ,65);
 }
 
 void JginYueInternalUSBController::DirectLEDControl
@@ -200,4 +200,46 @@ void JginYueInternalUSBController::DirectLEDControl
         usb_buf[color_idx * 3 + 5]  = RGBGetBValue(colors[color_idx]);
     }
     hid_write(dev,usb_buf,302);
+}
+
+
+void JginYueInternalUSBController::Area_resize(unsigned char led_numbers,unsigned char zone)
+{
+    unsigned char usb_buf[65];
+    int Active_zone;
+    switch (zone)
+    {
+    case 0x01:
+        Active_zone=1;
+        break;
+    case 0x02:
+        Active_zone=2;
+        break;
+    default:
+        break;
+    }
+    device_config[Active_zone].LED_numbers=led_numbers;
+
+    memset(usb_buf, 0x00, sizeof(usb_buf));
+
+    usb_buf[0x00]   = JGINYUE_USB_LED_STRIPE_SET_COMMAND_HEADER;
+    usb_buf[0x01]   = zone;
+    usb_buf[0x02]   = device_config[Active_zone].LED_numbers;
+    usb_buf[0x03]   = device_config[Active_zone].RG_Swap;
+    usb_buf[0x04]   = device_config[Active_zone].Direction;
+    usb_buf[0x05]   = device_config[Active_zone].Direct_Mode_control;
+    hid_write(dev, usb_buf ,65);
+}
+
+void JginYueInternalUSBController::SetRGSwap(unsigned char RGSwap)
+{
+    if((RGSwap!=0x00)&&(RGSwap!=0x01))
+    {
+        return;
+    }
+
+    for(int index_config=1; index_config <=JGINYUE_MAX_ZONES; index_config++)
+    {
+        device_config[index_config].RG_Swap = RGSwap;
+    }
 }

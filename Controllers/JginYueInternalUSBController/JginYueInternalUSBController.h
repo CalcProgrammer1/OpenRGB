@@ -97,6 +97,7 @@ public:
 
     void                                        SetRGSwap(unsigned char RGSwap);
     void                                        Init_device(AreaConfiguration* ptr_device_cfg);
+    void                                        Area_resize(unsigned char led_numbers,unsigned char zone);
 
 
 
