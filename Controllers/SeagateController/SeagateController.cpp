@@ -118,6 +118,33 @@ void SeagateController::SetLEDBreathing
     SendPacket(data, 0x14);
 }
 
+void SeagateController::SetLEDsSpectrum
+    (
+    unsigned char   led_id,
+    bool            save
+    )
+{
+    /*-----------------------------------------------------------------------------*\
+    | Create buffer to hold RGB control data                                        |
+    \*-----------------------------------------------------------------------------*/
+    unsigned char data[0x0A]                = {0};
+    data[0]                                 = 0x0A; /* size of data packet         */
+    data[1]                                 = 0x00;
+    data[2]                                 = 0x01;
+    data[3]                                 = 0x09;
+    data[4]                                 = 0x01;
+    data[5]                                 = 0x06;
+    data[6]                                 = led_id;
+    data[7]                                 = SEAGATE_MODE_SPECTRUM;
+    data[8]                                 = 0x02;
+    data[9]                                 = 0xB4;
+
+    /*-----------------------------------------------------------------------------*\
+    | Send packet                                                                   |
+    \*-----------------------------------------------------------------------------*/
+    SendPacket(data, 0x0A);
+}
+
 void SeagateController::SetLEDStatic
     (
     unsigned char   led_id,

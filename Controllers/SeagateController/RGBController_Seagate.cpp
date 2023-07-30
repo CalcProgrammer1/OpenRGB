@@ -11,10 +11,10 @@
 /**------------------------------------------------------------------*\
     @name Seagate
     @category Storage
-    @type USB
-    @save :x:
-    @direct :x:
-    @effects :x:
+    @type SCSI
+    @save :white_check_mark:
+    @direct :white_check_mark:
+    @effects :white_check_mark:
     @detectors DetectSeagateControllers
     @comment
 \*-------------------------------------------------------------------*/
@@ -49,6 +49,13 @@ RGBController_Seagate::RGBController_Seagate(SeagateController* controller_ptr)
     Breathing.flags         = MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_MANUAL_SAVE;
     Breathing.color_mode    = MODE_COLORS_PER_LED;
     modes.push_back(Breathing);
+
+    mode Spectrum;
+    Spectrum.name           = "Spectrum Cycle";
+    Spectrum.value          = SEAGATE_MODE_SPECTRUM;
+    Spectrum.flags          = MODE_FLAG_HAS_RANDOM_COLOR | MODE_FLAG_MANUAL_SAVE;
+    Spectrum.color_mode     = MODE_COLORS_RANDOM;
+    modes.push_back(Spectrum);
 
     SetupZones();
 }
@@ -119,11 +126,16 @@ void RGBController_Seagate::UpdateSingleLED(int led)
         case SEAGATE_MODE_BREATHING:
             controller->SetLEDBreathing(led, red, grn, blu, false);
             break;
+        
+        case SEAGATE_MODE_SPECTRUM:
+            controller->SetLEDsSpectrum(led, false);
+            break;
     }
 }
 
 void RGBController_Seagate::DeviceUpdateMode()
 {
+    DeviceUpdateLEDs();
 }
 
 void RGBController_Seagate::DeviceSaveMode()
@@ -146,6 +158,10 @@ void RGBController_Seagate::DeviceSaveMode()
 
             case SEAGATE_MODE_BREATHING:
                 controller->SetLEDBreathing(led_idx, red, grn, blu, true);
+                break;
+
+            case SEAGATE_MODE_SPECTRUM:
+                controller->SetLEDsSpectrum(led_idx, true);
                 break;
         }
     }

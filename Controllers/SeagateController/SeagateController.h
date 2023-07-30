@@ -17,6 +17,7 @@ enum
     SEAGATE_MODE_STATIC     = 0x01,     /* Static mode      */
     SEAGATE_MODE_BLINK      = 0x02,     /* Blink mode       */
     SEAGATE_MODE_BREATHING  = 0x03,     /* Breathing mode   */
+    SEAGATE_MODE_SPECTRUM   = 0x05,     /* Spectrum mode    */
 };
 
 class SeagateController
@@ -42,6 +43,12 @@ public:
         unsigned char   r,
         unsigned char   g,
         unsigned char   b,
+        bool            save
+        );
+
+    void SetLEDsSpectrum
+        (
+        unsigned char   led_id,
         bool            save
         );
 
