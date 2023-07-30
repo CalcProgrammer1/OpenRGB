@@ -39,6 +39,11 @@ enum
     JGINYUE_USB_SPEED_DEFAULT                  =0x80
 };
 
+enum
+{
+    JGINYUE_DIRECTION_RIGHT        = 0x00,
+    JGINYUE_DIRECTION_LEFT         = 0x01
+};
 
 
 enum
