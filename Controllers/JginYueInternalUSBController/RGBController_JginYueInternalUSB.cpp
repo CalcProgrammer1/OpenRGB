@@ -292,5 +292,53 @@ void RGBController_JginYueInternalUSB::UpdateSingleLED(int led)
 
 void RGBController_JginYueInternalUSB::DeviceUpdateMode()
 {
+    unsigned char area;
 
+
+    if(modes[active_mode].value == JGINYUE_USB_MODE_DIRECT)
+    {
+        DeviceUpdateLEDs();
+    }
+    else
+    {
+        unsigned char aim_direction = JGINYUE_DIRECTION_RIGHT;
+        unsigned char aim_speed = JGINYUE_USB_SPEED_DEFAULT;
+        unsigned char aim_brightness = JGINYUE_USB_BRIGHTNESS_DEFAULT;
+        RGBColor aim_rgb = 0x00FFFFFF;
+
+        if((modes[active_mode].flags & MODE_FLAG_HAS_DIRECTION_LR) )
+        {
+            aim_direction = modes[active_mode].direction;
+        }
+
+        if((modes[active_mode].flags & MODE_FLAG_HAS_SPEED) )
+        {
+            aim_speed = modes[active_mode].speed;
+        }
+
+        if((modes[active_mode].flags & MODE_FLAG_HAS_BRIGHTNESS) )
+        {
+            aim_brightness = modes[active_mode].brightness;
+        }
+
+        if((modes[active_mode].flags & MODE_FLAG_HAS_MODE_SPECIFIC_COLOR) )
+        {
+            aim_rgb = modes[active_mode].colors[0];
+        }
+        for (int zone_index = 0; zone_index < JGINYUE_MAX_ZONES; zone_index++)
+        {
+            switch (zone_index)
+                {
+                case 0:
+                    area = 0x01;
+                    break;
+                case 1:
+                    area = 0x02;
+                    break;
+                default:
+                    break;
+                }
+        controller->WriteZoneMode(area,active_mode,aim_rgb,aim_speed,aim_brightness,aim_direction);
+        }
+    }
 }
