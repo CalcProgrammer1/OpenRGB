@@ -238,6 +238,26 @@ void RGBController_Razer::SetupZones()
 
                     continue;
                 }
+                else
+                {
+                    /*---------------------------------------------------------*\
+                    | Handle all other matrix type zones by filling in all      |
+                    | entries                                                   |
+                    \*---------------------------------------------------------*/
+                    matrix_map_type * new_map   = new matrix_map_type;
+                    new_zone.matrix_map         = new_map;
+                    new_map->height             = device_list[device_index]->zones[zone_id]->rows;
+                    new_map->width              = device_list[device_index]->zones[zone_id]->cols;
+                    new_map->map                = new unsigned int[new_map->height * new_map->width];
+
+                    for(unsigned int y = 0; y < new_map->height; y++)
+                    {
+                        for(unsigned int x = 0; x < new_map->width; x++)
+                        {
+                            new_map->map[(y * new_map->width) + x] = (y * new_map->width) + x;
+                        }
+                    }
+                }
             }
             else
             {
