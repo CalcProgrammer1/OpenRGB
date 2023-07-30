@@ -41,6 +41,7 @@ RGBController_JginYueInternalUSB::RGBController_JginYueInternalUSB(JginYueIntern
     vendor                          ="JGINYUE";
     type                            =DEVICE_TYPE_MOTHERBOARD;
     location                        =controller->GetDeviceLocation();
+    version                         =controller->GetDeviceFWVirson();
 
     mode Off;
     Off.name                        ="Off";
@@ -207,10 +208,6 @@ void RGBController_JginYueInternalUSB::UpdateSingleLED(int /*led*/)
 
 }
 
-void RGBController_JginYueInternalUSB::SetCustomMode()
-{
-
-}
 
 void RGBController_JginYueInternalUSB::DeviceUpdateMode()
 {

@@ -13,7 +13,8 @@
 #include <string>
 
 #pragma once
-
+#define JGINYUE_MAX_ZONES               2
+#define JGINYUE_ADDRESSABLE_MAX_LEDS    100
 
 enum
 {
@@ -48,6 +49,19 @@ enum
 };
 
 
+struct AreaConfiguration
+{
+    unsigned char LED_numbers;
+    unsigned char RG_Swap;
+    unsigned char Direction;
+    unsigned char Direct_Mode_control;                      /*0x00 = Disabled 0x01 = Enabled*/
+    unsigned char Mode_active;
+    unsigned char Color_R;
+    unsigned char Color_G;
+    unsigned char Color_B;
+    unsigned char Brightness;
+    unsigned char Speed;
+};
 
 
 
@@ -64,14 +78,28 @@ public:
     std::string                                 GetDeviceLocation();
     std::string                                 GetDeviceName();
     std::string                                 GetSerialString();
+    std::string                                 GetDeviceFWVirson();
 
+    void WriteZoneMode
+        (
+        unsigned char   zone,
+        unsigned char   mode,
+        RGBColor        rgb,
+        unsigned char   speed,
+        unsigned char   brightness,
+        unsigned char   direction
+        );
 
+    void DirectLEDControl
+        (
+        std::vector<RGBColor>  colors,
+        unsigned char          zone
+        );
 
 
 
 private:
-
-
-protected:
-
+    bool                                         RGSwap;
+    AreaConfiguration                            device_config[JGINYUE_MAX_ZONES];
+    void                                         Init_device(AreaConfiguration* ptr_device_cfg);
 };

@@ -24,5 +24,14 @@
 #define JGINYUE_USB_GET_FW_VERSION                      0xA0
 #define JGINYUE_USB_GET_FW_REPLY                        0x5A
 
-#define JGINYUE_MAX_ZONES               2
-#define JGINYUE_ADDRESSABLE_MAX_LEDS    100
+
+
+JginYueInternalUSBController::JginYueInternalUSBController(hid_device* dev_handle, const char* path)
+{
+
+}
+
+JginYueInternalUSBController::~JginYueInternalUSBController()
+{
+
+}
