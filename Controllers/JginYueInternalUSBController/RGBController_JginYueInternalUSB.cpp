@@ -185,12 +185,75 @@ RGBController_JginYueInternalUSB::RGBController_JginYueInternalUSB(JginYueIntern
 
 void RGBController_JginYueInternalUSB::SetupZones()
 {
+    bool first_run = false;
 
+    if(zones.size() == 0)
+    {
+        first_run = true;
+    }
+
+    leds.clear();
+    colors.clear();
+    zones.resize(JGINYUE_MAX_ZONES);
+
+
+    zones[0].name       = "ARGB_Header_1";
+    zones[0].type       = ZONE_TYPE_LINEAR;
+    zones[0].leds_min   = 1;
+    zones[0].leds_max   = 100;
+    zones[0].matrix_map = NULL;
+
+    zones[1].name       = "ARGB_Header_2";
+    zones[1].type       = ZONE_TYPE_LINEAR;
+    zones[1].leds_min   = 1;
+    zones[1].leds_max   = 100;
+    zones[1].matrix_map = NULL;
+
+    if(first_run)
+    {
+        zones[0].leds_count=100;
+        zones[1].leds_count=100;
+    }
+
+    for (int led_idx = 0; led_idx < zones[0].leds_count + zones[1].leds_count ; led_idx++)
+    {
+        int j=1;
+        if(led_idx==zones[0].leds_count) j=1;
+
+        if (led_idx<zones[0].leds_count)
+        {
+            led ARGB_1_HEADER;
+            ARGB_1_HEADER.name    = "ARGB_HEADER_1_LED No." + std::to_string(j);
+            ARGB_1_HEADER.value   = 0;
+            leds.push_back(ARGB_1_HEADER);
+        }
+        else
+        {
+            led ARGB_2_HEADER;
+            ARGB_2_HEADER.name    = "ARGB_HEADER_2_LED No." + std::to_string(j);
+            ARGB_2_HEADER.value   = 0;
+            leds.push_back(ARGB_2_HEADER);
+        }
+    }
+    SetupColors();
 }
 
-void RGBController_JginYueInternalUSB::ResizeZone(int /*zone*/, int /*new_size*/)
+void RGBController_JginYueInternalUSB::ResizeZone(int zone, int new_size)
 {
-
+     unsigned char area;
+    switch (zone)
+    {
+    case 0:
+        area = 0x01;
+        break;
+    case 1:
+        area = 0x02;
+        break;
+    default:
+        break;
+    }
+    SetupZones();
+    controller->Area_resize(new_size,area);
 }
 
 void RGBController_JginYueInternalUSB::DeviceUpdateLEDs()
@@ -204,8 +267,19 @@ void RGBController_JginYueInternalUSB::DeviceUpdateLEDs()
 
 void RGBController_JginYueInternalUSB::UpdateZoneLEDs(int zone)
 {
-
-    controller->DirectLEDControl(,zone);
+    unsigned char area;
+    switch (zone)
+    {
+    case 0:
+        area = 0x01;
+        break;
+    case 1:
+        area = 0x02;
+        break;
+    default:
+        break;
+    }
+    controller->DirectLEDControl(zones[zone].colors,area);
 }
 
 void RGBController_JginYueInternalUSB::UpdateSingleLED(int led)

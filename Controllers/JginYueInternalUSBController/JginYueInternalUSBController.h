@@ -91,8 +91,8 @@ public:
 
     void DirectLEDControl
         (
-        std::vector<RGBColor>  colors,
-        unsigned char          zone
+        RGBColor*       colors,
+        unsigned char   zone
         );
 
     void                                        SetRGSwap(unsigned char RGSwap);

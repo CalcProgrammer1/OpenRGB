@@ -158,7 +158,7 @@ void JginYueInternalUSBController::WriteZoneMode
 
 void JginYueInternalUSBController::DirectLEDControl
     (
-    std::vector<RGBColor>  colors,
+    RGBColor*              colors,
     unsigned char          zone
     )
 {
