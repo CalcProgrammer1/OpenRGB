@@ -1168,7 +1168,7 @@ const lenovo_led legion_Y740_15_ansi_leds[]
     {0x79, KEY_EN_F10},              //10
     {0x7A, KEY_EN_F11},              //11
     {0x7B, KEY_EN_F12},              //12
-    {0x7D, KEY_EN_DELETE},           //13
+    {0x4C, KEY_EN_DELETE},           //13
 
     //Row 2
     {0x01, KEY_EN_BACK_TICK},        //14
@@ -1244,7 +1244,7 @@ const lenovo_led legion_Y740_15_ansi_leds[]
     {0x3D, KEY_EN_SPACE},            //76
     {0x91, KEY_EN_SPACE},            //77
     {0x3E, KEY_EN_RIGHT_ALT},        //78
-    {0x81, KEY_EN_RIGHT_CONTROL},    //79
+    {0x40, KEY_EN_RIGHT_CONTROL},    //79
     {0x53, KEY_EN_UP_ARROW},         //80
 
     //Row 7
@@ -1253,12 +1253,12 @@ const lenovo_led legion_Y740_15_ansi_leds[]
     {0x59, KEY_EN_RIGHT_ARROW},      //83
 
     //Left Column
-    {0x40, "Key: Vantage"},          //84
-    {0x92, "Key: Capture"},          //85
-    {0x86, "Key: M1"},               //86
-    {0x81, "Key: M2"},               //87
-    {0x53, "Key: Kb Brightness Up"}, //88
-    {0x54, "Key: Kb Brightness Down"}, //89
+    {0xC1, "Key: Vantage"},          //84
+    {0xC2, "Key: Capture"},          //85
+    {0xC3, "Key: M1"},               //86
+    {0xC4, "Key: M2"},               //87
+    {0xC5, "Key: Kb Brightness Up"}, //88
+    {0xC6, "Key: Kb Brightness Down"}, //89
 };
 
 const lenovo_led legion_Y740_15_iso_leds[]
@@ -1351,7 +1351,7 @@ const lenovo_led legion_Y740_15_iso_leds[]
     {0x3D, KEY_EN_SPACE},            //75
     {0x91, KEY_EN_SPACE},            //76
     {0x3E, KEY_EN_RIGHT_ALT},        //77
-    {0x81, KEY_EN_RIGHT_CONTROL},    //78
+    {0x40, KEY_EN_RIGHT_CONTROL},    //78
     {0x53, KEY_EN_UP_ARROW},         //79
 
     //Row 7
@@ -1360,12 +1360,12 @@ const lenovo_led legion_Y740_15_iso_leds[]
     {0x59, KEY_EN_RIGHT_ARROW},      //82
 
     //Left Column
-    {0x40, "Key: Vantage"},          //83
-    {0x92, "Key: Capture"},          //84
-    {0x86, "Key: M1"},               //85
-    {0x81, "Key: M2"},               //86
-    {0x53, "Key: Kb Brightness Up"}, //87
-    {0x54, "Key: Kb Brightness Down"}, //88
+    {0xC1, "Key: Vantage"},          //83
+    {0xC2, "Key: Capture"},          //84
+    {0xC3, "Key: M1"},               //85
+    {0xC4, "Key: M2"},               //86
+    {0xC5, "Key: Kb Brightness Up"}, //87
+    {0xC6, "Key: Kb Brightness Down"}, //88
 };
 
 /*--------------------------------------------------------*\
