@@ -69,12 +69,11 @@ struct AreaConfiguration
 class JginYueInternalUSBController
 {
 public:
-   unsigned char   zone_led_count[8];
 
     JginYueInternalUSBController(hid_device* dev_handle, const char* path);
     ~JginYueInternalUSBController();
 
-    unsigned int                                GetChannelCount();
+    unsigned int                                GetZoneCount();
     std::string                                 GetDeviceLocation();
     std::string                                 GetDeviceName();
     std::string                                 GetSerialString();
@@ -96,10 +95,14 @@ public:
         unsigned char          zone
         );
 
+    void                                        SetRGSwap(unsigned char RGSwap);
+    void                                        Init_device(AreaConfiguration* ptr_device_cfg);
+
 
 
 private:
-    bool                                         RGSwap;
-    AreaConfiguration                            device_config[JGINYUE_MAX_ZONES];
-    void                                         Init_device(AreaConfiguration* ptr_device_cfg);
+    AreaConfiguration                           device_config[8];
+    hid_device*                                 dev;
+    std::string                                 location;
+    std::string                                 device_name;
 };
