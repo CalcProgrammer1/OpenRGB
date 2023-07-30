@@ -193,7 +193,7 @@ void JginYueInternalUSBController::DirectLEDControl
     usb_buf[0x00]   = JGINYUE_USB_PER_LED_SET_COMMAND_HEADER;
     usb_buf[0x01]   = zone;
 
-    for(unsigned int color_idx = 0; color_idx < colors.size(); color_idx++)
+    for(unsigned int color_idx = 0; color_idx < device_config[Active_zone].LED_numbers; color_idx++)
     {
         usb_buf[color_idx * 3 + 3]  = RGBGetRValue(colors[color_idx]);
         usb_buf[color_idx * 3 + 4]  = RGBGetGValue(colors[color_idx]);
