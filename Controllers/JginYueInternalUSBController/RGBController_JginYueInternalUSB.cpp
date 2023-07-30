@@ -195,17 +195,24 @@ void RGBController_JginYueInternalUSB::ResizeZone(int /*zone*/, int /*new_size*/
 
 void RGBController_JginYueInternalUSB::DeviceUpdateLEDs()
 {
+    for (int i = 1; i <= JGINYUE_MAX_ZONES; i++)
+    {
+        UpdateZoneLEDs(i);
+    }
 
 }
 
-void RGBController_JginYueInternalUSB::UpdateZoneLEDs(int /*zone*/)
+void RGBController_JginYueInternalUSB::UpdateZoneLEDs(int zone)
 {
 
+    controller->DirectLEDControl(,zone);
 }
 
-void RGBController_JginYueInternalUSB::UpdateSingleLED(int /*led*/)
+void RGBController_JginYueInternalUSB::UpdateSingleLED(int led)
 {
-
+    int zone;
+    zone = leds[led].value;
+    UpdateZoneLEDs(zone);
 }
 
 
