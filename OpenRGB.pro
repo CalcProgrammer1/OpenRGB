@@ -79,6 +79,7 @@ INCLUDEPATH +=                                                                  
     i2c_tools/                                                                                  \
     net_port/                                                                                   \
     pci_ids/                                                                                    \
+    scsiapi/                                                                                    \
     serial_port/                                                                                \
     super_io/                                                                                   \
     AutoStart/                                                                                  \
@@ -206,6 +207,7 @@ INCLUDEPATH +=                                                                  
     Controllers/RedSquareKeyroxController/                                                      \
     Controllers/RoccatController/                                                               \
     Controllers/SapphireGPUController/                                                          \
+    Controllers/SeagateController/                                                              \
     Controllers/SinowealthController/                                                           \
     Controllers/SonyGamepadController/                                                          \
     Controllers/SRGBmodsController/                                                             \
@@ -300,6 +302,7 @@ HEADERS +=                                                                      
     qt/OpenRGBYeelightSettingsPage/OpenRGBYeelightSettingsPage.h                                \
     qt/OpenRGBZoneResizeDialog/OpenRGBZoneResizeDialog.h                                        \
     qt/OpenRGBZonesBulkResizer/OpenRGBZonesBulkResizer.h                                        \
+    scsiapi/scsiapi.h                                                                           \
     serial_port/find_usb_serial_port.h                                                          \
     serial_port/serial_port.h                                                                   \
     StringUtils.h                                                                               \
@@ -688,6 +691,8 @@ HEADERS +=                                                                      
     Controllers/SapphireGPUController/SapphireNitroGlowV3Controller.h                           \
     Controllers/SapphireGPUController/RGBController_SapphireNitroGlowV1.h                       \
     Controllers/SapphireGPUController/RGBController_SapphireNitroGlowV3.h                       \
+    Controllers/SeagateController/SeagateController.h                                           \
+    Controllers/SeagateController/RGBController_Seagate.h                                       \
     Controllers/SinowealthController/SinowealthController.h                                     \
     Controllers/SinowealthController/SinowealthController1007.h                                 \
     Controllers/SinowealthController/SinowealthGMOWController.h                                 \
@@ -1377,6 +1382,9 @@ SOURCES +=                                                                      
     Controllers/SapphireGPUController/SapphireGPUControllerDetect.cpp                           \
     Controllers/SapphireGPUController/RGBController_SapphireNitroGlowV1.cpp                     \
     Controllers/SapphireGPUController/RGBController_SapphireNitroGlowV3.cpp                     \
+    Controllers/SeagateController/SeagateController.cpp                                         \
+    Controllers/SeagateController/SeagateControllerDetect.cpp                                   \
+    Controllers/SeagateController/RGBController_Seagate.cpp                                     \
     Controllers/SinowealthController/SinowealthController.cpp                                   \
     Controllers/SinowealthController/SinowealthController1007.cpp                               \
     Controllers/SinowealthController/SinowealthGMOWController.cpp                               \
@@ -1660,6 +1668,7 @@ win32:SOURCES +=                                                                
     i2c_smbus/i2c_smbus_nct6775.cpp                                                             \
     i2c_smbus/i2c_smbus_nvapi.cpp                                                               \
     i2c_smbus/i2c_smbus_piix4.cpp                                                               \
+    scsiapi/scsiapi_windows.c                                                                   \
     serial_port/find_usb_serial_port_win.cpp                                                    \
     wmi/wmi.cpp                                                                                 \
     AutoStart/AutoStart-Windows.cpp                                                             \
@@ -1834,6 +1843,7 @@ contains(QMAKE_PLATFORM, linux) {
     SOURCES +=                                                                                  \
     dependencies/hueplusplus-1.0.0/src/LinHttpHandler.cpp                                       \
     i2c_smbus/i2c_smbus_linux.cpp                                                               \
+    scsiapi/scsiapi_linux.c                                                                     \
     serial_port/find_usb_serial_port_linux.cpp                                                  \
     AutoStart/AutoStart-Linux.cpp                                                               \
     Controllers/AsusTUFLaptopController/AsusTUFLaptopLinuxController.cpp                   \
@@ -2039,6 +2049,9 @@ macx:contains(QMAKE_HOST.arch, arm64) {
     INCLUDEPATH +=                                                                              \
     /opt/homebrew/include                                                                       \
 
+    SOURCES +=                                                                                  \
+    scsiapi/scsiapi_macos.c                                                                     \
+
     LIBS +=                                                                                     \
     -L/opt/homebrew/lib                                                                         \
 }
@@ -2054,6 +2067,7 @@ macx:contains(QMAKE_HOST.arch, x86_64) {
 
     SOURCES +=                                                                                  \
     i2c_smbus/i2c_smbus_i801.cpp                                                                \
+    scsiapi/scsiapi_macos.c                                                                     \
 
     HEADERS +=                                                                                  \
     dependencies/macUSPCIO/macUSPCIOAccess.h                                                    \
