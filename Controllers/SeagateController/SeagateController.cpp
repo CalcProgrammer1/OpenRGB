@@ -26,7 +26,7 @@ std::string SeagateController::GetLocation()
     return("SCSI: " + str);
 }
 
-void SeagateController::SetLED
+void SeagateController::SetLEDBlink
     (
     unsigned char   led_id,
     unsigned char   r,
@@ -38,7 +38,99 @@ void SeagateController::SetLED
     /*-----------------------------------------------------------------------------*\
     | Create buffer to hold RGB control data                                        |
     \*-----------------------------------------------------------------------------*/
-    unsigned char data[14]                  = {0};
+    unsigned char data[0x10]                = {0};
+    data[0]                                 = 0x10; /* size of data packet         */
+    data[1]                                 = 0x00;
+    data[2]                                 = 0x01;
+    data[3]                                 = 0x09;
+    data[4]                                 = 0x01;
+    data[5]                                 = 0x06;
+    data[6]                                 = led_id;
+    data[7]                                 = SEAGATE_MODE_BLINK;
+    if(save)
+    {
+        data[8]                             = 0x03; /* 0x00 for no save, 0x03 for */
+                                                    /* save                       */
+    }
+    else
+    {
+        data[8]                             = 0x00;
+    }
+    data[9]                                 = 0x10;
+    data[10]                                = 0x10;
+    data[11]                                = r;
+    data[12]                                = g;
+    data[13]                                = b;
+    data[14]                                = 0xFF;
+    data[15]                                = 0xFF;
+
+    /*-----------------------------------------------------------------------------*\
+    | Send packet                                                                   |
+    \*-----------------------------------------------------------------------------*/
+    SendPacket(data, 0x10);
+}
+
+void SeagateController::SetLEDBreathing
+    (
+    unsigned char   led_id,
+    unsigned char   r,
+    unsigned char   g,
+    unsigned char   b,
+    bool            save
+    )
+{
+    /*-----------------------------------------------------------------------------*\
+    | Create buffer to hold RGB control data                                        |
+    \*-----------------------------------------------------------------------------*/
+    unsigned char data[0x14]                = {0};
+    data[0]                                 = 0x14; /* size of data packet         */
+    data[1]                                 = 0x00;
+    data[2]                                 = 0x01;
+    data[3]                                 = 0x09;
+    data[4]                                 = 0x01;
+    data[5]                                 = 0x06;
+    data[6]                                 = led_id;
+    data[7]                                 = SEAGATE_MODE_BREATHING;
+    if(save)
+    {
+        data[8]                             = 0x03; /* 0x00 for no save, 0x03 for */
+                                                    /* save                       */
+    }
+    else
+    {
+        data[8]                             = 0x00;
+    }
+    data[9]                                 = 0x0F;
+    data[10]                                = 0x0F;
+    data[11]                                = 0x0F;
+    data[12]                                = 0x0F;
+    data[13]                                = r;
+    data[14]                                = g;
+    data[15]                                = b;
+    data[16]                                = 0xFF;
+    data[17]                                = 0xFF;
+    data[18]                                = 0xFF;
+    data[19]                                = 0x00;
+
+    /*-----------------------------------------------------------------------------*\
+    | Send packet                                                                   |
+    \*-----------------------------------------------------------------------------*/
+    SendPacket(data, 0x14);
+}
+
+void SeagateController::SetLEDStatic
+    (
+    unsigned char   led_id,
+    unsigned char   r,
+    unsigned char   g,
+    unsigned char   b,
+    bool            save
+    )
+{
+    /*-----------------------------------------------------------------------------*\
+    | Create buffer to hold RGB control data                                        |
+    \*-----------------------------------------------------------------------------*/
+    unsigned char data[0x0E]                = {0};
     data[0]                                 = 0x0E; /* size of data packet         */
     data[1]                                 = 0x00;
     data[2]                                 = 0x01;
@@ -46,7 +138,7 @@ void SeagateController::SetLED
     data[4]                                 = 0x01;
     data[5]                                 = 0x06;
     data[6]                                 = led_id;
-    data[7]                                 = 0x01;
+    data[7]                                 = SEAGATE_MODE_STATIC;
     if(save)
     {
         data[8]                             = 0x03; /* 0x00 for no save, 0x03 for */
@@ -63,6 +155,18 @@ void SeagateController::SetLED
     data[13]                                = 0xFF;
 
     /*-----------------------------------------------------------------------------*\
+    | Send packet                                                                   |
+    \*-----------------------------------------------------------------------------*/
+    SendPacket(data, 0x0E);
+}
+
+void SeagateController::SendPacket
+    (
+    unsigned char * packet,
+    unsigned char   packet_sz
+    )
+{
+    /*-----------------------------------------------------------------------------*\
     | Create buffer to hold CDB                                                     |
     \*-----------------------------------------------------------------------------*/
     unsigned char cdb[12]                   = {0};
@@ -76,7 +180,7 @@ void SeagateController::SetLED
     cdb[7]                                  = 0x00;
     cdb[8]                                  = 0x00;
     cdb[9]                                  = 0x30;
-    cdb[10]                                 = 14;   /* length of data packet       */
+    cdb[10]                                 = packet_sz;
     cdb[11]                                 = 0x00;
 
     /*-----------------------------------------------------------------------------*\
@@ -84,5 +188,8 @@ void SeagateController::SetLED
     \*-----------------------------------------------------------------------------*/
     unsigned char sense[32]                 = {0};
 
-    scsi_write(dev, data, 14, cdb, 12, sense, 32);
+    /*-----------------------------------------------------------------------------*\
+    | Write SCSI packet                                                             |
+    \*-----------------------------------------------------------------------------*/
+    scsi_write(dev, packet, packet_sz, cdb, 12, sense, 32);
 }

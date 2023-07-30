@@ -30,11 +30,25 @@ RGBController_Seagate::RGBController_Seagate(SeagateController* controller_ptr)
     location    = controller->GetLocation();
 
     mode Direct;
-    Direct.name       = "Direct";
-    Direct.value      = 0;
-    Direct.flags      = MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_MANUAL_SAVE;
-    Direct.color_mode = MODE_COLORS_PER_LED;
+    Direct.name             = "Direct";
+    Direct.value            = SEAGATE_MODE_STATIC;
+    Direct.flags            = MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_MANUAL_SAVE;
+    Direct.color_mode       = MODE_COLORS_PER_LED;
     modes.push_back(Direct);
+
+    mode Blink;
+    Blink.name              = "Flashing";
+    Blink.value             = SEAGATE_MODE_BLINK;
+    Blink.flags             = MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_MANUAL_SAVE;
+    Blink.color_mode        = MODE_COLORS_PER_LED;
+    modes.push_back(Blink);
+
+    mode Breathing;
+    Breathing.name          = "Breathing";
+    Breathing.value         = SEAGATE_MODE_BREATHING;
+    Breathing.flags         = MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_MANUAL_SAVE;
+    Breathing.color_mode    = MODE_COLORS_PER_LED;
+    modes.push_back(Breathing);
 
     SetupZones();
 }
@@ -92,7 +106,20 @@ void RGBController_Seagate::UpdateSingleLED(int led)
     unsigned char grn = RGBGetGValue(colors[led]);
     unsigned char blu = RGBGetBValue(colors[led]);
 
-    controller->SetLED(led, red, grn, blu, false);
+    switch(modes[active_mode].value)
+    {
+        case SEAGATE_MODE_STATIC:
+            controller->SetLEDStatic(led, red, grn, blu, false);
+            break;
+        
+        case SEAGATE_MODE_BLINK:
+            controller->SetLEDBlink(led, red, grn, blu, false);
+            break;
+        
+        case SEAGATE_MODE_BREATHING:
+            controller->SetLEDBreathing(led, red, grn, blu, false);
+            break;
+    }
 }
 
 void RGBController_Seagate::DeviceUpdateMode()
@@ -107,6 +134,19 @@ void RGBController_Seagate::DeviceSaveMode()
         unsigned char grn = RGBGetGValue(colors[led_idx]);
         unsigned char blu = RGBGetBValue(colors[led_idx]);
 
-        controller->SetLED(led_idx, red, grn, blu, true);
+        switch(modes[active_mode].value)
+        {
+            case SEAGATE_MODE_STATIC:
+                controller->SetLEDStatic(led_idx, red, grn, blu, true);
+                break;
+            
+            case SEAGATE_MODE_BLINK:
+                controller->SetLEDBlink(led_idx, red, grn, blu, true);
+                break;
+
+            case SEAGATE_MODE_BREATHING:
+                controller->SetLEDBreathing(led_idx, red, grn, blu, true);
+                break;
+        }
     }
 }

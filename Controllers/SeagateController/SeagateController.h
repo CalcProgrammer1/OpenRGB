@@ -12,6 +12,13 @@
 #include <string>
 #include "scsiapi.h"
 
+enum
+{
+    SEAGATE_MODE_STATIC     = 0x01,     /* Static mode      */
+    SEAGATE_MODE_BLINK      = 0x02,     /* Blink mode       */
+    SEAGATE_MODE_BREATHING  = 0x03,     /* Breathing mode   */
+};
+
 class SeagateController
 {
 public:
@@ -20,7 +27,25 @@ public:
 
     std::string GetLocation();
 
-    void SetLED
+    void SetLEDBlink
+        (
+        unsigned char   led_id,
+        unsigned char   r,
+        unsigned char   g,
+        unsigned char   b,
+        bool            save
+        );
+
+    void SetLEDBreathing
+        (
+        unsigned char   led_id,
+        unsigned char   r,
+        unsigned char   g,
+        unsigned char   b,
+        bool            save
+        );
+
+    void SetLEDStatic
         (
         unsigned char   led_id,
         unsigned char   r,
@@ -35,7 +60,7 @@ private:
 
     void SendPacket
         (
-        void *          packet,
+        unsigned char * packet,
         unsigned char   packet_sz
         );
 };
