@@ -231,7 +231,7 @@ void RGBController_JginYueInternalUSB::SetupZones()
         {
             led ARGB_2_HEADER;
             ARGB_2_HEADER.name    = "ARGB_HEADER_2_LED No." + std::to_string(j);
-            ARGB_2_HEADER.value   = 0;
+            ARGB_2_HEADER.value   = 1;
             leds.push_back(ARGB_2_HEADER);
         }
     }
@@ -240,7 +240,7 @@ void RGBController_JginYueInternalUSB::SetupZones()
 
 void RGBController_JginYueInternalUSB::ResizeZone(int zone, int new_size)
 {
-     unsigned char area;
+    unsigned char area;
     switch (zone)
     {
     case 0:
