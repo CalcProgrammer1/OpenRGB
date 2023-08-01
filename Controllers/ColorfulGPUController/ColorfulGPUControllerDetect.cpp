@@ -1,4 +1,5 @@
 ﻿#include "Detector.h"
+#include "LogManager.h"
 #include "ColorfulGPUController.h"
 #include "RGBController.h"
 #include "RGBController_ColorfulGPU.h"
@@ -22,7 +23,9 @@ bool TestForColorfulGPU(i2c_smbus_interface* bus, uint8_t i2c_addr)
 
     int res = bus->i2c_read_block(i2c_addr, &pktsz, read_pkt);
 
-    return res == 0 && (read_pkt[0] == 0xAA && read_pkt[1] == 0xEF && read_pkt[2] == 0x81);
+    LOG_DEBUG("[ColorfulGPUController] Handshake: res: %d. Expected 0xAA, 0xEF, 0x81. Received: 0x%02X, 0x%02X, 0x%02X.", res, read_pkt[0], read_pkt[1], read_pkt[2]);
+
+    return res >= 0 && (read_pkt[0] == 0xAA && read_pkt[1] == 0xEF && read_pkt[2] == 0x81);
 }
 
 void DetectColorfulGPUControllers(i2c_smbus_interface* bus, uint8_t i2c_addr, const std::string& name)
