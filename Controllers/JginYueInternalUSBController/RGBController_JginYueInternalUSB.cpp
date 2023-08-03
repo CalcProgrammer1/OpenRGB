@@ -338,7 +338,7 @@ void RGBController_JginYueInternalUSB::DeviceUpdateMode()
                 default:
                     break;
                 }
-        controller->WriteZoneMode(area,active_mode,aim_rgb,aim_speed,aim_brightness,aim_direction);
+        controller->WriteZoneMode(area,modes[active_mode].value,aim_rgb,aim_speed,aim_brightness,aim_direction);
         }
     }
 }

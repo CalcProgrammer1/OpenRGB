@@ -77,12 +77,14 @@ std::string JginYueInternalUSBController::GetDeviceFWVirson()
 
     if((usb_buf[0x00]!=JGINYUE_USB_GENERAL_COMMAND_HEADER)||(usb_buf[0x01]!=JGINYUE_USB_GET_FW_REPLY))
     {
-        return "";
+        return ("");
     }
 
     std::string     Major_virson =  std::to_string(usb_buf[0x02]);
     std::string     Minor_virson =  std::to_string(usb_buf[0x03]);
+
     return ("Major_virson " + Major_virson + "Minor_virson " + Minor_virson);
+
 }
 
 
@@ -122,6 +124,8 @@ void JginYueInternalUSBController::WriteZoneMode
         Active_zone=2;
         break;
     default:
+        Active_zone=0;
+        return;
         break;
     }
     device_config[Active_zone].Mode_active = mode;
@@ -129,9 +133,9 @@ void JginYueInternalUSBController::WriteZoneMode
     device_config[Active_zone].Speed = speed;
     device_config[Active_zone].Brightness = brightness;
     device_config[Active_zone].Direction = direction;
-    device_config[Active_zone].Color_B = RGBGetBValue(colors[0]);
-    device_config[Active_zone].Color_G = RGBGetGValue(colors[0]);
-    device_config[Active_zone].Color_R = RGBGetRValue(colors[0]);
+    device_config[Active_zone].Color_B = RGBGetBValue(rgb);
+    device_config[Active_zone].Color_G = RGBGetGValue(rgb);
+    device_config[Active_zone].Color_R = RGBGetRValue(rgb);
 
     memset(usb_buf, 0x00, sizeof(usb_buf));
 
@@ -141,7 +145,7 @@ void JginYueInternalUSBController::WriteZoneMode
     usb_buf[0x03]   = device_config[Active_zone].RG_Swap;
     usb_buf[0x04]   = device_config[Active_zone].Direction;
     usb_buf[0x05]   = device_config[Active_zone].Direct_Mode_control;
-    hid_write(dev, usb_buf ,65);
+    hid_write(dev, usb_buf ,16);
 
     memset(usb_buf, 0x00, sizeof(usb_buf));
 
@@ -153,7 +157,7 @@ void JginYueInternalUSBController::WriteZoneMode
     usb_buf[0x05]   = device_config[Active_zone].Color_B;
     usb_buf[0x06]   = device_config[Active_zone].Brightness;
     usb_buf[0x07]   = device_config[Active_zone].Speed;
-    hid_write(dev, usb_buf ,65);
+    hid_write(dev, usb_buf ,16);
 }
 
 void JginYueInternalUSBController::DirectLEDControl
@@ -188,7 +192,7 @@ void JginYueInternalUSBController::DirectLEDControl
     usb_buf[0x04]   = device_config[Active_zone].Direction;
     usb_buf[0x05]   = device_config[Active_zone].Direct_Mode_control;
 
-    hid_write(dev, usb_buf ,302);
+    hid_write(dev, usb_buf ,16);
     memset(usb_buf, 0x00, sizeof(usb_buf));
     usb_buf[0x00]   = JGINYUE_USB_PER_LED_SET_COMMAND_HEADER;
     usb_buf[0x01]   = zone;
@@ -199,7 +203,7 @@ void JginYueInternalUSBController::DirectLEDControl
         usb_buf[color_idx * 3 + 4]  = RGBGetGValue(colors[color_idx]);
         usb_buf[color_idx * 3 + 5]  = RGBGetBValue(colors[color_idx]);
     }
-    hid_write(dev,usb_buf,302);
+    hid_send_feature_report(dev,usb_buf,302);
 }
 
 
@@ -228,7 +232,7 @@ void JginYueInternalUSBController::Area_resize(unsigned char led_numbers,unsigne
     usb_buf[0x03]   = device_config[Active_zone].RG_Swap;
     usb_buf[0x04]   = device_config[Active_zone].Direction;
     usb_buf[0x05]   = device_config[Active_zone].Direct_Mode_control;
-    hid_write(dev, usb_buf ,65);
+    hid_write(dev, usb_buf ,16);
 }
 
 void JginYueInternalUSBController::SetRGSwap(unsigned char RGSwap)
