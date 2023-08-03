@@ -250,6 +250,7 @@
 #define ASUS_TUF_RTX_3090_O24G_OC                       0x87B3
 #define ASUS_TUF_RTX_3090TI_24G_GAMING                  0x8875
 #define ASUS_TUF_RTX_3090TI_O24G_OC_GAMING              0x8874
+#define ASUS_ROG_STRIX_RTX_4070TI_O12G_GAMING           0x88E5
 #define ASUS_TUF_RX_6700XT_O12G_GAMING                  0x05C9
 #define ASUS_ROG_STRIX_RX_6700XT_O12G_GAMING            0x05C7
 #define ASUS_ROG_STRIX_RX_6750XT_O12G_GAMING            0x05E5
