@@ -61,7 +61,8 @@ enum KEYBOARD_OPCODE
     KEYBOARD_OPCODE_SWAP_ONLY           = 1,
     KEYBOARD_OPCODE_REMOVE_SHIFT_LEFT   = 2,
     KEYBOARD_OPCODE_INS_SHFT_ADJACENT   = 3,
-    KEYBOARD_OPCODE_REMOVE_ROW          = 4,
+    KEYBOARD_OPCODE_INSERT_ROW          = 4,
+    KEYBOARD_OPCODE_REMOVE_ROW          = 5,
 };
 
 typedef struct
@@ -131,6 +132,7 @@ private:
     void                        OpCodeSwitch(key_set change_keys);
     void                        InsertKey(keyboard_led key);
     void                        InsertKeys(std::vector<keyboard_led> keys);
+    bool                        InsertRow(uint8_t row);
     void                        SwapKey(keyboard_led keys);
     void                        SwapKeys(std::vector<keyboard_led> keys);
     void                        RemoveKey(keyboard_led keys);

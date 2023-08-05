@@ -474,6 +474,13 @@ void KeyboardLayoutManager::OpCodeSwitch(key_set change_keys)
                 //SwapKey(change_keys[chg_key_idx]);
                 break;
 
+            case KEYBOARD_OPCODE_INSERT_ROW:
+                if(InsertRow(change_keys[chg_key_idx].row))
+                {
+                    SwapKey(change_keys[chg_key_idx]);
+                }
+                break;
+
             case KEYBOARD_OPCODE_REMOVE_ROW:
                 RemoveRow(change_keys[chg_key_idx].row);
                 break;
@@ -731,6 +738,47 @@ void KeyboardLayoutManager::RemoveKey(keyboard_led rmv_key)
             break;
         }
     }
+}
+
+bool KeyboardLayoutManager::InsertRow(uint8_t ins_row)
+{
+    /*---------------------------------------------------------------------*\
+    | Check row is valid to Insert                                          |
+    \*---------------------------------------------------------------------*/
+    if(ins_row >= rows)
+    {
+        LOG_DEBUG("[%s] Inserting row %d failed as rows currently = %d", KLM_CLASS_NAME, ins_row, rows);
+        return false;
+    }
+
+    /*---------------------------------------------------------------------*\
+    | Loop through to find the first key in the row to insert               |
+    \*---------------------------------------------------------------------*/
+    unsigned int key_idx = 0;
+
+    for(/*key_idx*/; key_idx < keymap.size(); key_idx++)
+    {
+        if(ins_row > keymap[key_idx].row)
+        {
+            break;
+        }
+    }
+
+    LOG_DEBUG("[%s] Attempting to insert row %d before %s at index %d",
+              KLM_CLASS_NAME, ins_row, keymap[key_idx].name, key_idx);
+    /*---------------------------------------------------------------------*\
+    | Loop through the remaining rows and adjust row number                 |
+    \*---------------------------------------------------------------------*/
+    if(ins_row <= keymap[key_idx].row)
+    {
+        for(/*key_idx*/; key_idx < keymap.size(); key_idx++)
+        {
+            keymap[key_idx].row++;
+        }
+
+        LOG_DEBUG("[%s] Insert row %d successful", KLM_CLASS_NAME, ins_row);
+    }
+    return true;
 }
 
 void KeyboardLayoutManager::RemoveRow(uint8_t rmv_row)
