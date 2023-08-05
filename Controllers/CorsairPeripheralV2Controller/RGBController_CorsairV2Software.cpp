@@ -133,7 +133,6 @@ void RGBController_CorsairV2SW::SetupZones()
                     /*---------------------------------------------------------*\
                     | Minor adjustments to keyboard layout                      |
                     \*---------------------------------------------------------*/
-                    new_zone.leds_count                     = new_kb.GetKeyCount();
                     keyboard_keymap_overlay_values* temp    = corsair->layout_new;
                     new_kb.ChangeKeys(*temp);
 
@@ -147,6 +146,10 @@ void RGBController_CorsairV2SW::SetupZones()
                     | Create LEDs for the Matrix zone                           |
                     |   Place keys in the layout to populate the matrix         |
                     \*---------------------------------------------------------*/
+                    new_zone.leds_count                     = new_kb.GetKeyCount();
+                    LOG_DEBUG("[%s] Created KB matrix with %d rows and %d columns containing %d keys",
+                              controller->GetName().c_str(), new_kb.GetRowCount(), new_kb.GetColumnCount(), new_zone.leds_count);
+
                     for(size_t led_idx = 0; led_idx < new_zone.leds_count; led_idx++)
                     {
                         led new_led;

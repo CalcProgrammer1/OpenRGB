@@ -4,6 +4,22 @@
 |  Corsair Key Values                                                       |
 \*-------------------------------------------------------------------------*/
 
+std::vector<unsigned int> corsair_tkl_values =
+{
+    /* ESC          F1    F2    F3    F4    F5    F6    F7    F8    F9   F10   F11   F12   PRSC  SCLK  PSBK  */
+        41,         58,   59,   60,   61,   62,   63,   64,   65,   66,   67,   68,   69,   70,   71,   72,
+    /* BKTK    1     2     3     4     5     6     7     8     9     0     -     =   BSPC  INS   HOME  PGUP  */
+        53,   30,   31,   32,   33,   34,   35,   36,   37,   38,   39,   45,   46,   42,   73,   74,   75,
+    /* TAB     Q     W     E     R     T     Y     U     I     O     P     [     ]     \   DEL   END   PGDN  */
+        43,   20,   26,    8,   21,   23,   28,   24,   12,   18,   19,   47,   48,   49,   76,   77,   78,
+    /* CPLK    A     S     D     F     G     H     J     K     L     ;     "     #   ENTR                    */
+        57,    4,   22,    7,    9,   10,   11,   13,   14,   15,   51,   52,   50,   40,
+    /* LSFT  ISO\    Z     X     C     V     B     N     M     ,     .     /   RSFT              ARWU        */
+       106,  100,   29,   27,    6,   25,    5,   17,   16,   54,   55,   56,  110,               82,
+    /* LCTL  LWIN  LALT               SPC              RALT  RFNC  RMNU  RCTL              ARWR  ARWD  ARWR  */
+       105,  108,  107,               44,              111,  122,  101,  109,               80,   81,   79,
+};
+
 std::vector<unsigned int> corsair_full_size_values =
 {
     /* ESC          F1    F2    F3    F4    F5    F6    F7    F8    F9   F10   F11   F12   PRSC  SCLK  PSBK                         */
@@ -37,6 +53,33 @@ keyboard_keymap_overlay_values corsair_K60_layout
         | Edit Keys                                                                                                 |
         |   Zone,   Row,    Column,     Value,      Key,                        OpCode,                             |
         \*---------------------------------------------------------------------------------------------------------*/
+    }
+};
+
+keyboard_keymap_overlay_values corsair_K70_TKL_cs_layout
+{
+    KEYBOARD_SIZE::KEYBOARD_SIZE_TKL,
+    {
+        corsair_tkl_values,
+        {
+            /* Add more regional layout fixes here */
+        }
+    },
+    {
+        /*---------------------------------------------------------------------------------------------------------*\
+        | Edit Keys                                                                                                 |
+        |   Zone,   Row,    Column,     Value,      Key,                        OpCode,                             |
+        \*---------------------------------------------------------------------------------------------------------*/
+        {   0,      0,       1,         123,        KEY_EN_MEDIA_STOP,          KEYBOARD_OPCODE_INSERT_ROW,         },  // Insert Stop Key into new media keys row
+        {   0,      0,       2,         126,        KEY_EN_MEDIA_PREVIOUS,      KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Insert Previous Track Key
+        {   0,      0,       3,         124,        KEY_EN_MEDIA_PLAY_PAUSE,    KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Insert Play Pause Key
+        {   0,      0,       4,         125,        KEY_EN_MEDIA_NEXT,          KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Insert Next Tack Key
+        {   0,      0,       7,           1,        "Logo L",                   KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Insert 'Logo Left'
+        {   0,      0,       8,           3,        "Logo R",                   KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Insert 'Logo Right'
+        {   0,      0,      11,         128,        "Profile",                  KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Insert Profile
+        {   0,      0,      12,         113,        "Light",                    KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Insert Light key
+        {   0,      0,      13,         114,        "Lock",                     KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Insert Lock Key
+        {   0,      0,      14,         102,        KEY_EN_MEDIA_MUTE,          KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Insert Mute Key
     }
 };
 
@@ -382,6 +425,70 @@ static const corsair_v2_device k60_rgb_pro_lp_device =
 };
 
 /*-------------------------------------------------------------*\
+|  Corsair K70 RGB TKL 1B1C:1B73                                |
+|                                                               |
+|  Zone "Keyboard"                                              |
+|       Matrix                                                  |
+|       7 Rows, 17 Columns                                      |
+\*-------------------------------------------------------------*/
+static const corsair_v2_zone k70_rgb_tkl_zone =
+{
+    ZONE_EN_KEYBOARD,
+    ZONE_TYPE_MATRIX,
+    7,
+    17
+};
+
+static const corsair_v2_device k70_rgb_tkl_device =
+{
+    CORSAIR_K70_RGB_TKL_PID,
+    DEVICE_TYPE_KEYBOARD,
+    7,
+    17,
+    {
+        &k70_rgb_tkl_zone,
+        nullptr,
+        nullptr,
+        nullptr,
+        nullptr,
+        nullptr
+    },
+    &corsair_K70_TKL_cs_layout
+};
+
+/*-------------------------------------------------------------*\
+|  Corsair K70 RGB TKL Champion Series 1B1C:1BB9                |
+|                                                               |
+|  Zone "Keyboard"                                              |
+|       Matrix                                                  |
+|       7 Rows, 17 Columns                                      |
+\*-------------------------------------------------------------*/
+static const corsair_v2_zone k70_rgb_tkl_cs_zone =
+{
+    ZONE_EN_KEYBOARD,
+    ZONE_TYPE_MATRIX,
+    7,
+    17
+};
+
+static const corsair_v2_device k70_rgb_tkl_cs_device =
+{
+    CORSAIR_K70_RGB_TKL_CS_PID,
+    DEVICE_TYPE_KEYBOARD,
+    7,
+    17,
+    {
+        &k70_rgb_tkl_cs_zone,
+        nullptr,
+        nullptr,
+        nullptr,
+        nullptr,
+        nullptr
+    },
+    &corsair_K70_TKL_cs_layout
+};
+
+/*-------------------------------------------------------------*\
 |  Corsair M55 1B1C:1B70                                        |
 |                                                               |
 |  Zone "Logo"                                                  |
@@ -452,9 +559,7 @@ static const corsair_v2_zone m65_ultra_rgb_dpi_zone =
 static const corsair_v2_device m65_ultra_rgb_device =
 {
     CORSAIR_M65_ULTRA_RGB_PID,
-    //false,
     DEVICE_TYPE_MOUSE,
-    //CORSAIR_V2_TYPE_SW_COLOUR_BLOCK,
     1,
     2,
     {
@@ -530,6 +635,8 @@ const corsair_v2_device* corsair_v2_device_list_data[] =
     &k55_rgb_pro_device,
     &k60_rgb_pro_device,
     &k60_rgb_pro_lp_device,
+    &k70_rgb_tkl_device,
+    &k70_rgb_tkl_cs_device,
 
 /*-----------------------------------------------------------------*\
 |  MICE                                                             |
