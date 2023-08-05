@@ -9,11 +9,12 @@
 
 #include "RGBController_AsusAuraMouse.h"
 
-static std::string aura_mouse_zone_names[4]
+static std::string aura_mouse_zone_names[5]
 {
     "Logo",
     "Scroll Wheel",
     "Underglow",
+    "All",
     "Dock"
 };
 
