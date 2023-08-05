@@ -199,9 +199,9 @@ void JginYueInternalUSBController::DirectLEDControl
 
     for(unsigned int color_idx = 0; color_idx < device_config[Active_zone].LED_numbers; color_idx++)
     {
-        usb_buf[color_idx * 3 + 3]  = RGBGetRValue(colors[color_idx]);
-        usb_buf[color_idx * 3 + 4]  = RGBGetGValue(colors[color_idx]);
-        usb_buf[color_idx * 3 + 5]  = RGBGetBValue(colors[color_idx]);
+        usb_buf[color_idx * 3 + 2]  = RGBGetRValue(colors[color_idx]);
+        usb_buf[color_idx * 3 + 3]  = RGBGetGValue(colors[color_idx]);
+        usb_buf[color_idx * 3 + 4]  = RGBGetBValue(colors[color_idx]);
     }
     hid_send_feature_report(dev,usb_buf,302);
 }

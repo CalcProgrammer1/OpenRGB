@@ -215,9 +215,8 @@ void RGBController_JginYueInternalUSB::SetupZones()
         zones[1].leds_count=100;
     }
 
-    for (int led_idx = 0; led_idx < zones[0].leds_count + zones[1].leds_count ; led_idx++)
+    for (unsigned int led_idx = 0 , j=1; led_idx < zones[0].leds_count + zones[1].leds_count ; led_idx++)
     {
-        int j=1;
         if(led_idx==zones[0].leds_count) j=1;
 
         if (led_idx<zones[0].leds_count)
@@ -234,6 +233,7 @@ void RGBController_JginYueInternalUSB::SetupZones()
             ARGB_2_HEADER.value   = 1;
             leds.push_back(ARGB_2_HEADER);
         }
+        j++;
     }
     SetupColors();
 }
@@ -250,15 +250,17 @@ void RGBController_JginYueInternalUSB::ResizeZone(int zone, int new_size)
         area = 0x02;
         break;
     default:
+        area = 0x01;
         break;
     }
+    zones[zone].leds_count=new_size;
     SetupZones();
     controller->Area_resize(new_size,area);
 }
 
 void RGBController_JginYueInternalUSB::DeviceUpdateLEDs()
 {
-    for (int i = 1; i <= JGINYUE_MAX_ZONES; i++)
+    for (int i = 0; i < JGINYUE_MAX_ZONES; i++)
     {
         UpdateZoneLEDs(i);
     }
@@ -277,6 +279,7 @@ void RGBController_JginYueInternalUSB::UpdateZoneLEDs(int zone)
         area = 0x02;
         break;
     default:
+        area = 0x01;
         break;
     }
     controller->DirectLEDControl(zones[zone].colors,area);
@@ -336,6 +339,7 @@ void RGBController_JginYueInternalUSB::DeviceUpdateMode()
                     area = 0x02;
                     break;
                 default:
+                    area = 0x01;
                     break;
                 }
         controller->WriteZoneMode(area,modes[active_mode].value,aim_rgb,aim_speed,aim_brightness,aim_direction);
