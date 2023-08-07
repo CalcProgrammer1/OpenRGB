@@ -124,7 +124,7 @@ void JginYueInternalUSBController::WriteZoneMode
         Active_zone=2;
         break;
     default:
-        Active_zone=0;
+        Active_zone=1;
         return;
         break;
     }
@@ -177,6 +177,8 @@ void JginYueInternalUSBController::DirectLEDControl
         Active_zone=2;
         break;
     default:
+        Active_zone=1;
+        return;
         break;
     }
     device_config[Active_zone].Mode_active=JGINYUE_USB_MODE_DIRECT;
@@ -220,6 +222,8 @@ void JginYueInternalUSBController::Area_resize(unsigned char led_numbers,unsigne
         Active_zone=2;
         break;
     default:
+        Active_zone=1;
+        return;
         break;
     }
     device_config[Active_zone].LED_numbers=led_numbers;
