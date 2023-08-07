@@ -337,6 +337,50 @@ static const corsair_v2_device m55_device =
 };
 
 /*-------------------------------------------------------------*\
+|  Corsair M65 Ultra RGB 1B1C:1BB5                              |
+|                                                               |
+|  Zone "Logo"                                                  |
+|       Single                                                  |
+|                                                               |
+|  Zone "DPI"                                                   |
+|       Single                                                  |
+\*-------------------------------------------------------------*/
+static const corsair_v2_zone m65_ultra_rgb_logo_zone =
+{
+    "Logo",
+    ZONE_TYPE_SINGLE,
+    1,
+    1
+};
+
+static const corsair_v2_zone m65_ultra_rgb_dpi_zone =
+{
+    "DPI",
+    ZONE_TYPE_SINGLE,
+    1,
+    1
+};
+
+static const corsair_v2_device m65_ultra_rgb_device =
+{
+    CORSAIR_M65_ULTRA_RGB_PID,
+    //false,
+    DEVICE_TYPE_MOUSE,
+    //CORSAIR_V2_TYPE_SW_COLOUR_BLOCK,
+    1,
+    2,
+    {
+        &m65_ultra_rgb_logo_zone,
+        &m65_ultra_rgb_dpi_zone,
+        nullptr,
+        nullptr,
+        nullptr,
+        nullptr
+    },
+    nullptr
+};
+
+/*-------------------------------------------------------------*\
 |  Corsair MM700 1B1C:1B9B                                      |
 |                                                               |
 |  Zone "Logo"                                                  |
@@ -405,6 +449,7 @@ const corsair_v2_device* corsair_v2_device_list_data[] =
     &dark_core_pro_se_device,
     &ironclaw_wireless_device,
     &m55_device,
+    &m65_ultra_rgb_device,
 
 /*-----------------------------------------------------------------*\
 |  MOUSEMATS                                                        |
