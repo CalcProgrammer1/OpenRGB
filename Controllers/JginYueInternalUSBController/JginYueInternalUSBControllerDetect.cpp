@@ -17,7 +17,7 @@
 /*---------------------------------------------------------*\
 | JGINYUE product ID                                         |
 \*---------------------------------------------------------*/
-#define JGINYUE_MOTHERBOARD_PID                     0x0125
+#define JGINYUE_MOTHERBOARD_PID                     0xA125
 
 void DetectJginYueInternalUSBController(hid_device_info* info,const std::string& /*name*/)
 {

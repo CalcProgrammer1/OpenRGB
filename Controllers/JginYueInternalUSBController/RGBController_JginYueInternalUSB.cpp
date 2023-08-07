@@ -128,19 +128,19 @@ RGBController_JginYueInternalUSB::RGBController_JginYueInternalUSB(JginYueIntern
     Wave.speed_min                  =JGINYUE_USB_SPEED_MIN;
     modes.push_back(Wave);
 
-    mode Spring;
-    Spring.name                     ="Spring";
-    Spring.value                    =JGINYUE_USB_MODE_SPRING;
-    Spring.flags                    =MODE_FLAG_HAS_SPEED|MODE_FLAG_HAS_BRIGHTNESS|MODE_FLAG_HAS_DIRECTION_LR;
-    Spring.color_mode               =MODE_COLORS_NONE;
-    Spring.brightness               =JGINYUE_USB_BRIGHTNESS_DEFAULT;
-    Spring.brightness_max           =JGINYUE_USB_BRIGHTNESS_MAX;
-    Spring.brightness_min           =JGINYUE_USB_BRIGHTNESS_MIN;
-    Spring.speed                    =JGINYUE_USB_SPEED_DEFAULT;
-    Spring.speed_max                =JGINYUE_USB_SPEED_MAX;
-    Spring.speed_min                =JGINYUE_USB_SPEED_MIN;
-    Spring.direction                =0x00;
-    modes.push_back(Spring);
+    //mode Spring;
+    //Spring.name                     ="Spring";
+    //Spring.value                    =JGINYUE_USB_MODE_SPRING;
+    //Spring.flags                    =MODE_FLAG_HAS_SPEED|MODE_FLAG_HAS_BRIGHTNESS|MODE_FLAG_HAS_DIRECTION_LR;
+    //Spring.color_mode               =MODE_COLORS_NONE;
+    //Spring.brightness               =JGINYUE_USB_BRIGHTNESS_DEFAULT;
+    //Spring.brightness_max           =JGINYUE_USB_BRIGHTNESS_MAX;
+    //Spring.brightness_min           =JGINYUE_USB_BRIGHTNESS_MIN;
+    //Spring.speed                    =JGINYUE_USB_SPEED_DEFAULT;
+    //Spring.speed_max                =JGINYUE_USB_SPEED_MAX;
+    //Spring.speed_min                =JGINYUE_USB_SPEED_MIN;
+    //Spring.direction                =0x00;
+    //modes.push_back(Spring);
 
     mode Water;
     Water.name                      ="Water";
@@ -156,19 +156,19 @@ RGBController_JginYueInternalUSB::RGBController_JginYueInternalUSB(JginYueIntern
     Water.direction                 =MODE_DIRECTION_RIGHT;
     modes.push_back(Water);
 
-    mode Rainbow;
-    Rainbow.name                    ="Rainbow";
-    Rainbow.value                   =JGINYUE_USB_MODE_RAINBOW;
-    Rainbow.flags                   =MODE_FLAG_HAS_SPEED|MODE_FLAG_HAS_BRIGHTNESS|MODE_FLAG_HAS_DIRECTION_LR;
-    Rainbow.color_mode              =MODE_COLORS_NONE;
-    Rainbow.brightness              =JGINYUE_USB_BRIGHTNESS_DEFAULT;
-    Rainbow.brightness_max          =JGINYUE_USB_BRIGHTNESS_MAX;
-    Rainbow.brightness_min          =JGINYUE_USB_BRIGHTNESS_MIN;
-    Rainbow.speed                   =JGINYUE_USB_SPEED_DEFAULT;
-    Rainbow.speed_max               =JGINYUE_USB_SPEED_MAX;
-    Rainbow.speed_min               =JGINYUE_USB_SPEED_MIN;
-    Rainbow.direction               =MODE_DIRECTION_RIGHT;
-    modes.push_back(Rainbow);
+    //mode Rainbow;
+    //Rainbow.name                    ="Rainbow";
+    //Rainbow.value                   =JGINYUE_USB_MODE_RAINBOW;
+    //Rainbow.flags                   =MODE_FLAG_HAS_SPEED|MODE_FLAG_HAS_BRIGHTNESS|MODE_FLAG_HAS_DIRECTION_LR;
+    //Rainbow.color_mode              =MODE_COLORS_NONE;
+    //Rainbow.brightness              =JGINYUE_USB_BRIGHTNESS_DEFAULT;
+    //Rainbow.brightness_max          =JGINYUE_USB_BRIGHTNESS_MAX;
+    //Rainbow.brightness_min          =JGINYUE_USB_BRIGHTNESS_MIN;
+    //Rainbow.speed                   =JGINYUE_USB_SPEED_DEFAULT;
+    //Rainbow.speed_max               =JGINYUE_USB_SPEED_MAX;
+    //Rainbow.speed_min               =JGINYUE_USB_SPEED_MIN;
+    //Rainbow.direction               =MODE_DIRECTION_RIGHT;
+    //modes.push_back(Rainbow);
 
     mode Direct;
     Direct.name                     ="Direct";

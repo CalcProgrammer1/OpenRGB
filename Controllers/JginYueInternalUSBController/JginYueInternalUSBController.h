@@ -26,9 +26,9 @@ enum
     JGINYUE_USB_MODE_RANDOM                    =0x15,
     JGINYUE_USB_MODE_MUSIC                     =0x16,       /*music mode,not support yet                                    */
     JGINYUE_USB_MODE_WAVE                      =0x17,
-    JGINYUE_USB_MODE_SPRING                    =0x18,
+    JGINYUE_USB_MODE_SPRING                    =0x18,       /*spring mode,not support yet                                   */
     JGINYUE_USB_MODE_WATER                     =0x19,
-    JGINYUE_USB_MODE_RAINBOW                   =0x1A,
+    JGINYUE_USB_MODE_RAINBOW                   =0x1A,       /*rainbow mode,not support yet                                  */
     JGINYUE_USB_MODE_DIRECT                    =0x20,       /*Not the exact USB protrol  - but need a way to differentiate  */
 };
 

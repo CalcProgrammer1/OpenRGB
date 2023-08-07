@@ -18,14 +18,14 @@
 #include "dependencies/dmiinfo.h"
 
 #define JGINYUE_USB_GENERAL_COMMAND_HEADER              0x01
-#define JGINYUE_USB_LED_STRIPE_SET_COMMAND_HEADER       0x02
-#define JGINYUE_USB_MODE_SET_COMMAND_HEADER             0x03
+#define JGINYUE_USB_LED_STRIPE_SET_COMMAND_HEADER       0x05
+#define JGINYUE_USB_MODE_SET_COMMAND_HEADER             0x06
 #define JGINYUE_USB_PER_LED_SET_COMMAND_HEADER          0x04
 
 #define JGINYUE_USB_GET_FW_VERSION                      0xA0
 #define JGINYUE_USB_GET_FW_REPLY                        0x5A
-#define JGINYUE_RG_DEFAULT                              0x00
-#define JGINYUE_RG_SWAP                                 0x01
+#define JGINYUE_RG_DEFAULT                              0x01
+#define JGINYUE_RG_SWAP                                 0x00
 
 
 JginYueInternalUSBController::JginYueInternalUSBController(hid_device* dev_handle, const char* path)
@@ -83,7 +83,7 @@ std::string JginYueInternalUSBController::GetDeviceFWVirson()
     std::string     Major_virson =  std::to_string(usb_buf[0x02]);
     std::string     Minor_virson =  std::to_string(usb_buf[0x03]);
 
-    return ("Major_virson " + Major_virson + "Minor_virson " + Minor_virson);
+    return ("Major_virson " + Major_virson + " Minor_virson " + Minor_virson);
 
 }
 
