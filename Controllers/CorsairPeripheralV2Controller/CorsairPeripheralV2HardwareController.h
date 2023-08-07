@@ -21,7 +21,7 @@
 class CorsairPeripheralV2HWController : public CorsairPeripheralV2Controller
 {
 public:
-    CorsairPeripheralV2HWController(hid_device* dev_handle, const char* path, std::string name, uint16_t pid);
+    CorsairPeripheralV2HWController(hid_device* dev_handle, const char* path, std::string name);
     ~CorsairPeripheralV2HWController();
 
     void    SetLedsDirect(std::vector<RGBColor *> colors);

@@ -49,9 +49,7 @@ typedef struct
 typedef struct
 {
     uint16_t                            pid;
-    bool                                wireless;
     device_type                         type;
-    corsair_v2_supports                 protocol;
     uint8_t                             rows;
     uint8_t                             cols;
     const corsair_v2_zone*              zones[CORSAIR_ZONES_MAX];
@@ -68,9 +66,10 @@ typedef struct
 /*-----------------------------------------------------*\
 | Corsair V2 Protocol Mice                              |
 \*-----------------------------------------------------*/
-#define CORSAIR_IRONCLAW_WIRELESS_PID               0x1BA6
-#define CORSAIR_IRONCLAW_WIRELESS_WIRED_PID         0x1B4C
+#define CORSAIR_DARK_CORE_RGB_PRO_PID               0x1B7E
+#define CORSAIR_IRONCLAW_WIRELESS_PID               0x1B4C
 #define CORSAIR_M55_RGB_PRO_PID                     0x1B70
+#define CORSAIR_SLIPSTREAM_WIRELESS_PID             0x1BA6
 
 /*-----------------------------------------------------*\
 | Corsair V2 Protocol Mousemats                         |

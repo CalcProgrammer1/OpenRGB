@@ -25,6 +25,12 @@
 #define CORSAIR_V2_WRITE_WIRED_ID       8
 #define CORSAIR_V2_WRITE_WIRELESS_ID    9
 #define CORSAIR_V2_WRITE_SIZE           65
+#define CORSAIR_V2_PACKET_SIZE          1024
+
+#define CORSAIR_V2_LIGHT_CTRL1          1
+#define CORSAIR_V2_LIGHT_CTRL2          34          /* 0x22                             */
+#define CORSAIR_V2_UPDATE_PERIOD        30000
+#define CORSAIR_V2_SLEEP_PERIOD         12500ms
 
 #define CORSAIR_V2_BRIGHTNESS_MIN       0
 #define CORSAIR_V2_BRIGHTNESS_MAX       0xFF
@@ -67,10 +73,11 @@ enum corsair_v2_color
 class CorsairPeripheralV2Controller
 {
 public:
-    CorsairPeripheralV2Controller(hid_device* dev_handle, const char* path, std::string name, uint16_t pid);
+    CorsairPeripheralV2Controller(hid_device* dev_handle, const char* path, std::string name);
     virtual ~CorsairPeripheralV2Controller();
 
     std::string                     GetDeviceLocation();
+    std::string                     GetErrorString(uint8_t err);
     std::string                     GetFirmwareString();
     std::string                     GetName();
     std::string                     GetSerialString();
@@ -78,7 +85,7 @@ public:
     unsigned int                    GetKeyboardLayout();
 
     void                            SetRenderMode(corsair_v2_device_mode mode);
-    void                            LightingControl(uint8_t opt1, uint8_t opt2);
+    void                            LightingControl(uint8_t opt1);
     void                            SetLEDs(uint8_t *data, uint16_t data_size);
     void                            UpdateHWMode(uint16_t mode, corsair_v2_color color_mode, uint8_t speed,
                                                  uint8_t direction, uint8_t brightness, std::vector<RGBColor> colors);
@@ -88,15 +95,18 @@ public:
 protected:
     uint16_t                        device_index;
     std::string                     device_name;
+    uint8_t                         light_ctrl          = CORSAIR_V2_LIGHT_CTRL2;
 
 private:
+    void                            ClearPacketBuffer();
     unsigned int                    GetAddress(uint8_t address);
-    void                            StartTransaction(uint8_t opt1);
+    unsigned char                   StartTransaction(uint8_t opt1);
     void                            StopTransaction(uint8_t opt1);
 
     hid_device*                     dev;
 
     uint8_t                         write_cmd           = CORSAIR_V2_WRITE_WIRED_ID;
+    uint16_t                        pkt_sze             = CORSAIR_V2_WRITE_SIZE;
     std::string                     firmware_version;
     std::string                     location;
 };

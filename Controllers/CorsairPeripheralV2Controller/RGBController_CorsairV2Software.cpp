@@ -35,28 +35,12 @@ RGBController_CorsairV2SW::RGBController_CorsairV2SW(CorsairPeripheralV2Controll
     location                            = controller->GetDeviceLocation();
     serial                              = controller->GetSerialString();
 
-    if(corsair->protocol & CORSAIR_V2_TYPE_SW_COLOUR_BLOCK)
-    {
-        mode Direct;
-        Direct.name                     = "Direct";
-        Direct.value                    = CORSAIR_V2_MODE_DIRECT;
-        Direct.flags                    = MODE_FLAG_HAS_PER_LED_COLOR;
-        Direct.color_mode               = MODE_COLORS_PER_LED;
-        modes.push_back(Direct);
-
-        mode Static;
-        Static.name                     = "Static";
-        Static.value                    = CORSAIR_V2_MODE_STATIC;
-        Static.flags                    = MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_BRIGHTNESS;
-        Static.colors_min               = 1;
-        Static.colors_max               = 1;
-        Static.colors.resize(Static.colors_max);
-        Static.brightness_min           = CORSAIR_V2_BRIGHTNESS_MIN;
-        Static.brightness_max           = CORSAIR_V2_BRIGHTNESS_MAX;
-        Static.brightness               = CORSAIR_V2_BRIGHTNESS_MAX;
-        Static.color_mode               = MODE_COLORS_MODE_SPECIFIC;
-        modes.push_back(Static);
-    }
+    mode Direct;
+    Direct.name                     = "Direct";
+    Direct.value                    = CORSAIR_V2_MODE_DIRECT;
+    Direct.flags                    = MODE_FLAG_HAS_PER_LED_COLOR;
+    Direct.color_mode               = MODE_COLORS_PER_LED;
+    modes.push_back(Direct);
 
     SetupZones();
     /*-----------------------------------------------------*\
@@ -201,7 +185,10 @@ void RGBController_CorsairV2SW::SetupZones()
                 max_led_value                   = std::max(max_led_value, (unsigned int)leds.size());
             }
 
-            LOG_DEBUG("[%s] Creating a %s zone: %s with %d LEDs", name.c_str(),
+            /*---------------------------------------------------------*\
+            | name is not set yet so description is used instead        |
+            \*---------------------------------------------------------*/
+            LOG_DEBUG("[%s] Creating a %s zone: %s with %d LEDs", description.c_str(),
                       ((new_zone.type == ZONE_TYPE_MATRIX) ? "matrix": "linear"),
                       new_zone.name.c_str(), new_zone.leds_count);
             new_zone.leds_min                   = new_zone.leds_count;
@@ -262,11 +249,12 @@ void RGBController_CorsairV2SW::KeepaliveThread()
     {
         if(active_mode == 0)
         {
-            if((std::chrono::steady_clock::now() - last_update_time) > std::chrono::milliseconds(50000))
+            if((std::chrono::steady_clock::now() - last_update_time) >
+                std::chrono::milliseconds(CORSAIR_V2_UPDATE_PERIOD))
             {
                 DeviceUpdateLEDs();
             }
         }
-        std::this_thread::sleep_for(30000ms);
+        std::this_thread::sleep_for(CORSAIR_V2_SLEEP_PERIOD);
     }
 }
