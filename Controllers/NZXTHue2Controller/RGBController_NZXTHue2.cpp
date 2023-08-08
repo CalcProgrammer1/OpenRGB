@@ -305,6 +305,10 @@ void RGBController_NZXTHue2::SetupZones()
                 device_name = "Kraken X3 logo";
                 break;
 
+            case 0x13: //F120 RGB fan (120mm)
+                device_name = "F120 fan (120mm)";
+                break;
+
             case 0x14: //F140 RGB fan (140mm)
                 device_name = "F140 fan (140mm)";
                 break;
