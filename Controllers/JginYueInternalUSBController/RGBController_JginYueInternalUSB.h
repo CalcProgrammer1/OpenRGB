@@ -1,10 +1,12 @@
-/*-----------------------------------------------*\
-|  RGBController_JginYueInternalUSB.h             |
-|                                                 |
-|  Generic RGB Interface JginYueInternalUSB Class |
-|                                                 |
-|  Adam Honse (CalcProgrammer1) 2/25/2020         |
-\*-----------------------------------------------*/
+/*------------------------------------------------*\
+|  RGBController_JginYueInternalUSB.h              |
+|                                                  |
+|  Generic RGB Interface JginYueInternalUSB Class  |
+|                                                  |
+|  Tong R    (tcr020)  2023/08/09                  |
+|                                                  |
+|  Dongguan Yonghang Electronic Technology Co., Ltd|
+\*------------------------------------------------*/
 
 #pragma once
 

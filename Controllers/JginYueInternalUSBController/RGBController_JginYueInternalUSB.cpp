@@ -3,8 +3,9 @@
 |                                                  |
 |  Generic RGB Interface JginYueInternalUSB Class  |
 |                                                  |
-|  Adam Honse (CalcProgrammer1) 2/25/2020          |
-|  Adam Honse (CalcProgrammer1) 2/25/2020          |
+|  Tong R    (tcr020)  2023/08/09                  |
+|                                                  |
+|  Dongguan Yonghang Electronic Technology Co., Ltd|
 \*------------------------------------------------*/
 
 #include "RGBController_JginYueInternalUSB.h"
@@ -14,22 +15,13 @@
 #define JGINYUE_ADDRESSABLE_MAX_LEDS    100
 /**------------------------------------------------------------------*\
     @name JginYueInternalUSB
-    @category JginYue devices
+    @category MotherBoard
     @type  USB
-    @save :white_check_mark: or :robot: or :o: or :x:
-    @direct :white_check_mark: or :rotating_light: or :o: or :x:
-    @effects :white_check_mark: or :rotating_light: or :tools: or :o: or :x:
-    @detectors DetectJginYueInternalUSB,DetectJginYueInternalUSB2
+    @save  :x:
+    @direct :white_check_mark:
+    @effects :white_check_mark:
+    @detectors DetectJginYueInternalUSB
     @comment Insert multiline JginYueInternalUSB comment here
-
-        | Symbol | Meaning |
-        | :---: | :--- |
-        | :white_check_mark: | Fully supported by OpenRGB |
-        | :rotating_light: | Support is problematic |
-        | :robot: | Feature is automatic and can not be turned off |
-        | :tools: | Partially supported by OpenRGB |
-        | :o: | Not currently supported by OpenRGB |
-        | :x: | Not applicable for this device |
 */
 
 RGBController_JginYueInternalUSB::RGBController_JginYueInternalUSB(JginYueInternalUSBController* controller_ptr)
