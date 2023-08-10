@@ -178,6 +178,9 @@ RGBController_JginYueInternalUSB::RGBController_JginYueInternalUSB(JginYueIntern
 
 void RGBController_JginYueInternalUSB::SetupZones()
 {
+    /*-------------------------------------------------*\
+    | Only set LED count on the first run               |
+    \*-------------------------------------------------*/
     bool first_run = false;
 
     if(zones.size() == 0)
@@ -185,11 +188,16 @@ void RGBController_JginYueInternalUSB::SetupZones()
         first_run = true;
     }
 
+    /*-------------------------------------------------*\
+    | Clear any existing color/LED configuration        |
+    \*-------------------------------------------------*/
     leds.clear();
     colors.clear();
     zones.resize(JGINYUE_MAX_ZONES);
 
-
+    /*-------------------------------------------------*\
+    | Set zones and leds                                |
+    \*-------------------------------------------------*/
     zones[0].name       = "ARGB_Header_1";
     zones[0].type       = ZONE_TYPE_LINEAR;
     zones[0].leds_min   = 1;
