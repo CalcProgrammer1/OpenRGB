@@ -31,4 +31,5 @@ public:
 
 private:
     JginYueInternalUSBController*        controller;
+    bool                        initializedMode;
 };
