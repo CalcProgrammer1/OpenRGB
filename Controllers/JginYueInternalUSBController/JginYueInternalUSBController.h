@@ -5,6 +5,7 @@
 |  lighting controller                      |
 |                                           |
 |  Tong R    (tcr020)  2023/08/09           |
+|  Liu  ShiMeng(Moon dream stars) 2003/08/09|
 |                                           |
 |        Dongguan Yonghang Electronic       |
 |           Technology Co., Ltd             |

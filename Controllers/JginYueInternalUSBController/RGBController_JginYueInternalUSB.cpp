@@ -265,7 +265,6 @@ void RGBController_JginYueInternalUSB::DeviceUpdateLEDs()
     {
         UpdateZoneLEDs(i);
     }
-
 }
 
 void RGBController_JginYueInternalUSB::UpdateZoneLEDs(int zone)
@@ -297,7 +296,6 @@ void RGBController_JginYueInternalUSB::UpdateSingleLED(int led)
 void RGBController_JginYueInternalUSB::DeviceUpdateMode()
 {
     unsigned char area;
-
 
     if(modes[active_mode].value == JGINYUE_USB_MODE_DIRECT)
     {
