@@ -56,6 +56,7 @@ bool ZotacV2GPUController::ReadVersion()
     }
 
     version = std::string((char*)rdata_pkt);
+
     return true;
 }
 
@@ -158,16 +159,6 @@ bool ZotacV2GPUController::SendCommand(bool on, bool reset, int zone, int idleAc
         (u8)RGBGetGValue(zoneConfig.color2),
         (u8)RGBGetBValue(zoneConfig.color2),
         (u8)zoneConfig.colorPreset,
-        0x00,
-        0x00,
-        0x00,
-        0x00,
-        0x00,
-        0x00,
-        0x00,
-        0x00,
-        0x00,
-        0x00,
     };
 
     if(bus->i2c_write_block(dev, sizeof(data_pkt), data_pkt) < 0)
