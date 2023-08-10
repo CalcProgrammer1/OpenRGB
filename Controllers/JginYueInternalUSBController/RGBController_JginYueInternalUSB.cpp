@@ -4,6 +4,7 @@
 |  Generic RGB Interface JginYueInternalUSB Class  |
 |                                                  |
 |  Tong R    (tcr020)  2023/08/09                  |
+|  Liu  ShiMeng   (Moon dream stars)   2003/08/09  |
 |                                                  |
 |  Dongguan Yonghang Electronic Technology Co., Ltd|
 \*------------------------------------------------*/
@@ -22,7 +23,7 @@
     @effects :white_check_mark:
     @detectors DetectJginYueInternalUSB
     @comment Insert multiline JginYueInternalUSB comment here
-*/
+\*--------------------------------------------------------------------*/
 
 RGBController_JginYueInternalUSB::RGBController_JginYueInternalUSB(JginYueInternalUSBController* controller_ptr)
 {
@@ -177,6 +178,9 @@ RGBController_JginYueInternalUSB::RGBController_JginYueInternalUSB(JginYueIntern
 
 void RGBController_JginYueInternalUSB::SetupZones()
 {
+    /*-------------------------------------------------*\
+    | Only set LED count on the first run               |
+    \*-------------------------------------------------*/
     bool first_run = false;
 
     if(zones.size() == 0)
@@ -184,11 +188,16 @@ void RGBController_JginYueInternalUSB::SetupZones()
         first_run = true;
     }
 
+    /*-------------------------------------------------*\
+    | Clear any existing color/LED configuration        |
+    \*-------------------------------------------------*/
     leds.clear();
     colors.clear();
     zones.resize(JGINYUE_MAX_ZONES);
 
-
+    /*-------------------------------------------------*\
+    | Set zones and leds                                |
+    \*-------------------------------------------------*/
     zones[0].name       = "ARGB_Header_1";
     zones[0].type       = ZONE_TYPE_LINEAR;
     zones[0].leds_min   = 1;
@@ -256,7 +265,6 @@ void RGBController_JginYueInternalUSB::DeviceUpdateLEDs()
     {
         UpdateZoneLEDs(i);
     }
-
 }
 
 void RGBController_JginYueInternalUSB::UpdateZoneLEDs(int zone)
@@ -288,7 +296,6 @@ void RGBController_JginYueInternalUSB::UpdateSingleLED(int led)
 void RGBController_JginYueInternalUSB::DeviceUpdateMode()
 {
     unsigned char area;
-
 
     if(modes[active_mode].value == JGINYUE_USB_MODE_DIRECT)
     {
