@@ -1001,77 +1001,60 @@ void OpenRGBDialog2::AddPlugin(OpenRGBPluginEntry* plugin)
 void OpenRGBDialog2::RemovePlugin(OpenRGBPluginEntry* plugin)
 {
     /*-----------------------------------------------------*\
-    | Place plugin as its own top level tab                 |
+    | Remove plugin's tray menu                             |
     \*-----------------------------------------------------*/
-    if(plugin->info.Location == OPENRGB_PLUGIN_LOCATION_TOP)
-    {
-        for(int tab_idx = 0; tab_idx < ui->MainTabBar->count(); tab_idx++)
-        {
-            if(dynamic_cast<OpenRGBPluginContainer*>(ui->MainTabBar->widget(tab_idx)) != nullptr)
-            {
-                if(dynamic_cast<OpenRGBPluginContainer*>(ui->MainTabBar->widget(tab_idx))->plugin_widget == plugin->widget)
-                {
-                    ui->MainTabBar->removeTab(tab_idx);
-                    delete plugin->widget;
-                }
-            }
-        }
-    }
-    /*-----------------------------------------------------*\
-    | Place plugin in the Devices tab                       |
-    \*-----------------------------------------------------*/
-    else if(plugin->info.Location == OPENRGB_PLUGIN_LOCATION_DEVICES)
-    {
-        for(int tab_idx = 0; tab_idx < ui->DevicesTabBar->count(); tab_idx++)
-        {
-            if(dynamic_cast<OpenRGBPluginContainer*>(ui->DevicesTabBar->widget(tab_idx)) != nullptr)
-            {
-                if(dynamic_cast<OpenRGBPluginContainer*>(ui->DevicesTabBar->widget(tab_idx))->plugin_widget == plugin->widget)
-                {
-                    ui->DevicesTabBar->removeTab(tab_idx);
-                    delete plugin->widget;
-                }
-            }
-        }
-    }
-    /*-----------------------------------------------------*\
-    | Place plugin in the Information tab                   |
-    \*-----------------------------------------------------*/
-    else if(plugin->info.Location == OPENRGB_PLUGIN_LOCATION_INFORMATION)
-    {
-        for(int tab_idx = 0; tab_idx < ui->InformationTabBar->count(); tab_idx++)
-        {
-            if(dynamic_cast<OpenRGBPluginContainer*>(ui->InformationTabBar->widget(tab_idx)) != nullptr)
-            {
-                if(dynamic_cast<OpenRGBPluginContainer*>(ui->InformationTabBar->widget(tab_idx))->plugin_widget == plugin->widget)
-                {
-                    ui->InformationTabBar->removeTab(tab_idx);
-                    delete plugin->widget;
-                }
-            }
-        }
-    }
-    /*-----------------------------------------------------*\
-    | Place plugin in the Settings tab                      |
-    \*-----------------------------------------------------*/
-    else if(plugin->info.Location == OPENRGB_PLUGIN_LOCATION_SETTINGS)
-    {
-        for(int tab_idx = 0; tab_idx < ui->SettingsTabBar->count(); tab_idx++)
-        {
-            if(dynamic_cast<OpenRGBPluginContainer*>(ui->SettingsTabBar->widget(tab_idx)) != nullptr)
-            {
-                if(dynamic_cast<OpenRGBPluginContainer*>(ui->SettingsTabBar->widget(tab_idx))->plugin_widget == plugin->widget)
-                {
-                    ui->SettingsTabBar->removeTab(tab_idx);
-                    delete plugin->widget;
-                }
-            }
-        }
-    }
-
     if(plugin->traymenu)
     {
-        trayIconMenu->removeAction(plugin->traymenu->menuAction());
+        QWidget* plugin_tray_entry = trayIconMenu->find(plugin->traymenu->winId());
+
+        if(plugin_tray_entry)
+        {
+            trayIconMenu->removeAction(plugin->traymenu->menuAction());
+        }
+
+        //delete plugin->traymenu;
+    }
+
+    /*-----------------------------------------------------*\
+    | Find plugin's container                               |
+    \*-----------------------------------------------------*/
+    QTabWidget *plugin_parent_widget = nullptr;
+
+    switch(plugin->info.Location)
+    {
+        case OPENRGB_PLUGIN_LOCATION_TOP:
+            plugin_parent_widget = ui->MainTabBar;
+            break;
+        case OPENRGB_PLUGIN_LOCATION_DEVICES:
+            plugin_parent_widget = ui->DevicesTabBar;
+            break;
+        case OPENRGB_PLUGIN_LOCATION_INFORMATION:
+            plugin_parent_widget = ui->InformationTabBar;
+            break;
+        case OPENRGB_PLUGIN_LOCATION_SETTINGS:
+            plugin_parent_widget = ui->InformationTabBar;
+            break;
+        default:
+            break;
+    }
+
+    /*-----------------------------------------------------*\
+    | Remove plugin from its container                      |
+    \*-----------------------------------------------------*/
+    if(plugin_parent_widget != nullptr)
+    {
+        for(int tab_idx = 0; tab_idx < plugin_parent_widget->count(); tab_idx++)
+        {
+            if(dynamic_cast<OpenRGBPluginContainer*>(plugin_parent_widget->widget(tab_idx)) != nullptr)
+            {
+                if(dynamic_cast<OpenRGBPluginContainer*>(plugin_parent_widget->widget(tab_idx))->plugin_widget == plugin->widget)
+                {
+                    plugin_parent_widget->removeTab(tab_idx);
+                    //delete plugin->widget;
+                    break;
+                }
+            }
+        }
     }
 }
 

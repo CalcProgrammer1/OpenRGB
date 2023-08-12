@@ -44,25 +44,25 @@ void Ui::OpenRGBPluginsPage::RefreshList()
     ui->PluginsList->clear();
     entries.clear();
 
-    for(unsigned int plugin_idx = 0; plugin_idx < plugin_manager->ActivePlugins.size(); plugin_idx++)
+    for(const OpenRGBPluginEntry& plugin: plugin_manager->ActivePlugins)
     {
         OpenRGBPluginsEntry* entry = new OpenRGBPluginsEntry();
 
         /*---------------------------------------------------------*\
         | Fill in plugin information fields                         |
         \*---------------------------------------------------------*/
-        entry->ui->NameValue->setText(QString::fromStdString(plugin_manager->ActivePlugins[plugin_idx].info.Name));
-        entry->ui->DescriptionValue->setText(QString::fromStdString(plugin_manager->ActivePlugins[plugin_idx].info.Description));
-        entry->ui->VersionValue->setText(QString::fromStdString(plugin_manager->ActivePlugins[plugin_idx].info.Version));
-        entry->ui->CommitValue->setText(QString::fromStdString(plugin_manager->ActivePlugins[plugin_idx].info.Commit));
-        entry->ui->URLValue->setText(QString::fromStdString(plugin_manager->ActivePlugins[plugin_idx].info.URL));
-        entry->ui->APIVersionValue->setText(QString::number(plugin_manager->ActivePlugins[plugin_idx].api_version));
+        entry->ui->NameValue->setText(QString::fromStdString(plugin.info.Name));
+        entry->ui->DescriptionValue->setText(QString::fromStdString(plugin.info.Description));
+        entry->ui->VersionValue->setText(QString::fromStdString(plugin.info.Version));
+        entry->ui->CommitValue->setText(QString::fromStdString(plugin.info.Commit));
+        entry->ui->URLValue->setText(QString::fromStdString(plugin.info.URL));
+        entry->ui->APIVersionValue->setText(QString::number(plugin.api_version));
 
         /*---------------------------------------------------------*\
         | If the plugin is incompatible, highlight the API version  |
         | in red and disable the enable checkbox                    |
         \*---------------------------------------------------------*/
-        if(plugin_manager->ActivePlugins[plugin_idx].incompatible)
+        if(plugin.incompatible)
         {
             entry->ui->APIVersionValue->setStyleSheet("QLabel { color : red; }");
             entry->ui->EnabledCheckBox->setEnabled(false);
@@ -71,7 +71,7 @@ void Ui::OpenRGBPluginsPage::RefreshList()
         /*---------------------------------------------------------*\
         | Fill in plugin icon                                       |
         \*---------------------------------------------------------*/
-        QPixmap pixmap(QPixmap::fromImage(plugin_manager->ActivePlugins[plugin_idx].info.Icon));
+        QPixmap pixmap(QPixmap::fromImage(plugin.info.Icon));
 
         entry->ui->IconView->setPixmap(pixmap);
         entry->ui->IconView->setScaledContents(true);
@@ -79,12 +79,12 @@ void Ui::OpenRGBPluginsPage::RefreshList()
         /*---------------------------------------------------------*\
         | Fill in plugin path                                       |
         \*---------------------------------------------------------*/
-        entry->ui->PathValue->setText(QString::fromStdString(plugin_manager->ActivePlugins[plugin_idx].path));
+        entry->ui->PathValue->setText(QString::fromStdString(plugin.path));
 
         /*---------------------------------------------------------*\
         | Fill in plugin enabled status                             |
         \*---------------------------------------------------------*/
-        entry->ui->EnabledCheckBox->setChecked((plugin_manager->ActivePlugins[plugin_idx].enabled));
+        entry->ui->EnabledCheckBox->setChecked((plugin.enabled));
 
         entry->RegisterEnableClickCallback(EnableClickCallbackFunction, this);
 
@@ -261,7 +261,7 @@ void Ui::OpenRGBPluginsPage::on_EnableButton_clicked(OpenRGBPluginsEntry* entry)
     \*-----------------------------------------------------*/
     std::string     name        = "";
     std::string     description = "";
-    bool            enabled     = true;
+    bool            enabled     = entry->ui->EnabledCheckBox->isChecked();
     bool            found       = false;
     unsigned int    plugin_ct   = 0;
     unsigned int    plugin_idx  = 0;
@@ -269,15 +269,6 @@ void Ui::OpenRGBPluginsPage::on_EnableButton_clicked(OpenRGBPluginsEntry* entry)
     std::string     entry_name  = entry->ui->NameValue->text().toStdString();
     std::string     entry_desc  = entry->ui->DescriptionValue->text().toStdString();
     std::string     entry_path  = entry->ui->PathValue->text().toStdString();
-
-    if(entry->ui->EnabledCheckBox->isChecked())
-    {
-        enabled                 = true;
-    }
-    else
-    {
-        enabled                 = false;
-    }
 
     if(plugin_settings.contains("plugins"))
     {
