@@ -130,5 +130,8 @@ void RGBController_LegoDimensionsToypadBase::UpdateSingleLED(int /*led*/)
 
 void RGBController_LegoDimensionsToypadBase::DeviceUpdateMode()
 {
-    controller->SetMode(0, modes[active_mode].value, modes[active_mode].speed, modes[active_mode].colors[0]);
+    if(modes[active_mode].color_mode == MODE_COLORS_MODE_SPECIFIC)
+    {
+        controller->SetMode(0, modes[active_mode].value, modes[active_mode].speed, modes[active_mode].colors[0]);
+    }
 }
