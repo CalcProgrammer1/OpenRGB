@@ -66,6 +66,7 @@ typedef struct
 /*-----------------------------------------------------*\
 | Corsair V2 Protocol Mice                              |
 \*-----------------------------------------------------*/
+#define CORSAIR_DARK_CORE_RGB_PID                   0x1B4B
 #define CORSAIR_DARK_CORE_RGB_PRO_PID               0x1B7E
 #define CORSAIR_IRONCLAW_WIRELESS_PID               0x1B4C
 #define CORSAIR_M55_RGB_PRO_PID                     0x1B70

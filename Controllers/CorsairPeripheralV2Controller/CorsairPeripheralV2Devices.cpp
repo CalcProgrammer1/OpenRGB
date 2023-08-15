@@ -45,6 +45,94 @@ keyboard_keymap_overlay_values corsair_K60_layout
 \*-------------------------------------------------------------------------*/
 
 /*-------------------------------------------------------------*\
+|  Corsair Dark Core SE 1B1C:1B4B                               |
+|                                                               |
+|  Zone "Scroll Wheel"                                          |
+|       Single                                                  |
+|                                                               |
+|  Zone "Side Buttons"                                          |
+|       Linear                                                  |
+|       1 Row, 4 Columns                                        |
+|                                                               |
+|  Zone "Rear Left"                                             |
+|       Single                                                  |
+|                                                               |
+|  Zone "Logo"                                                  |
+|       Single                                                  |
+|                                                               |
+|  Zone "Rear Right"                                            |
+|       Single                                                  |
+|                                                               |
+|  Zone "DPI & Indicator"                                       |
+|       Linear                                                  |
+|       1 Row, 4 Columns                                        |
+\*-------------------------------------------------------------*/
+static const corsair_v2_zone dark_core_se_scroll_zone =
+{
+    "Scroll Wheel",
+    ZONE_TYPE_SINGLE,
+    1,
+    1
+};
+
+static const corsair_v2_zone dark_core_se_button_zone =
+{
+    "Side Buttons",
+    ZONE_TYPE_LINEAR,
+    1,
+    4
+};
+
+static const corsair_v2_zone dark_core_se_left_zone =
+{
+    "Rear Left",
+    ZONE_TYPE_SINGLE,
+    1,
+    1
+};
+
+static const corsair_v2_zone dark_core_se_logo_zone =
+{
+    "Logo",
+    ZONE_TYPE_SINGLE,
+    1,
+    1
+};
+
+static const corsair_v2_zone dark_core_se_right_zone =
+{
+    "Rear Right",
+    ZONE_TYPE_SINGLE,
+    1,
+    1
+};
+
+static const corsair_v2_zone dark_core_se_dpi_zone =
+{
+    "DPI & Indicator Zone",
+    ZONE_TYPE_LINEAR,
+    1,
+    4
+};
+
+static const corsair_v2_device dark_core_se_device =
+{
+    CORSAIR_DARK_CORE_RGB_PID,
+    DEVICE_TYPE_MOUSE,
+    1,
+    12,
+    {
+        &dark_core_se_scroll_zone,
+        &dark_core_se_button_zone,
+        &dark_core_se_left_zone,
+        &dark_core_se_logo_zone,
+        &dark_core_se_right_zone,
+        &dark_core_se_dpi_zone
+    },
+    nullptr
+};
+
+/*-------------------------------------------------------------*\
 |  Corsair Dark Core Pro SE 1B1C:1B7E                           |
 |                                                               |
 |  Zone "Scroll Wheel"                                          |
@@ -446,6 +534,7 @@ const corsair_v2_device* corsair_v2_device_list_data[] =
 /*-----------------------------------------------------------------*\
 |  MICE                                                             |
 \*-----------------------------------------------------------------*/
+    &dark_core_se_device,
     &dark_core_pro_se_device,
     &ironclaw_wireless_device,
     &m55_device,
