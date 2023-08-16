@@ -43,6 +43,36 @@ std::vector<std::pair<RGBColor, RGBColor>> ZOTAC_V2_GPU_DUET_PRESETS =
         the synchronized mode is supported for now. Sound based
         effects are not supported. Idle/active config is not
         supported.
+
+        To add new cards, in addition to entries in `pci_ids/pci_ids.h`
+        and `Controllers/ZotacV2GPUController/ZotacV2GPUControllerDetect.cpp`
+        an entry associating the controller version with the LED
+        configuration must be added to the [ZotacV2GPUConfig map](https://gitlab.com/CalcProgrammer1/OpenRGB/-/blob/master/Controllers/ZotacV2GPUController/RGBController_ZotacV2GPU.cpp?ref_type=heads#L14) in
+        `Controllers/ZotacV2GPUController/RGBController_ZotacV2GPU.cpp`.
+
+        Controller version is identified by polling the controller on address
+        0x49 (so far for all known cards) at register 0xA0 with the following
+        packet `0xF1 0x00 0x00 0x00 0x00 0x00 0x00`
+
+        The first ten bytes when read back from that address are the version,
+        this must be converted into Unicode.
+
+        The polling and reading is done by the ZOTAC Firestorm app on startup
+        and can be monitored using NvAPIspy on Windows.
+
+        For RTX 3080 Trinity OC LHR 12GB the relevant NvAPISpy log entries are:
+
+        > ```plaintext
+        > NvAPI_I2CWrite:  Dev: 0x49 RegSize: 0x00 Reg: Size: 0x08 Data: 0xA0 0xF1 0x00 0x00 0x00 0x00 0x00 0x00
+        > NvAPI_I2CRead:  Dev: 0x49 RegSize: 0x01 Reg: 0xA0 Size: 0x20 Data: 0x4E 0x36 0x31 0x32 0x45 0x2D 0x31 0x30 0x31 0x31 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00
+        > ```
+
+        The read data `0x4E 0x36 0x31 0x32 0x45 0x2D 0x31 0x30 0x31 0x31` converts
+        to Unicode `N612E-1011`
+
+        The LED configuration is the number of independently configurable
+        zones followed by a bool representing support for external led stip.
+        These can be determined by looking at the Spectra tab in Firestorm.
 \*-------------------------------------------------------------------*/
 
 RGBController_ZotacV2GPU::RGBController_ZotacV2GPU(ZotacV2GPUController* controller_ptr)
