@@ -24,6 +24,7 @@
 #define LEGION_Y750S                            0xC957
 #define LEGION_Y760                             0xC968
 #define LEGION_Y760S                            0xC967
+#define LEGION_7GEN7                            0xC978
 
 enum LENOVO_KEYBOARD
 {
@@ -268,7 +269,7 @@ const lenovo_led legion_Y760_ansi_leds[]
     {0x75, "Key: >"},//107
     {0x76, "Key: ?"},//108
     {0x8D, KEY_EN_RIGHT_SHIFT},//109
-    {0xa2, KEY_EN_RIGHT_SHIFT},//110
+    {0xA2, KEY_EN_RIGHT_SHIFT},//110
     {0x79, KEY_EN_NUMPAD_4},//111
     {0x7A, "Key: Number Pad Right Arrow"},//112
     {0x7B, KEY_EN_NUMPAD_5},//113
@@ -285,7 +286,7 @@ const lenovo_led legion_Y760_ansi_leds[]
     {0x91, "Key: Number Pad Down Arrow"},//122
     {0x92, KEY_EN_NUMPAD_3},//123
     {0x93, "Key: Number Pad Page Down"},//124
-    {0xa7, KEY_EN_NUMPAD_ENTER},//125
+    {0xA7, KEY_EN_NUMPAD_ENTER},//125
 
     //row 8
     {0x7F, KEY_EN_LEFT_CONTROL},//126
@@ -434,7 +435,7 @@ const lenovo_led legion_Y760_iso_leds[]
     {0x75, "Key: >"},//105
     {0x76, "Key: ?"},//106
     {0x8D, KEY_EN_RIGHT_SHIFT},//107
-    {0xa2, KEY_EN_RIGHT_SHIFT},//108
+    {0xA2, KEY_EN_RIGHT_SHIFT},//108
     {0x79, KEY_EN_NUMPAD_4},//109
     {0x7A, "Key: Number Pad Right Arrow"},//110
     {0x7B, KEY_EN_NUMPAD_5},//111
@@ -451,7 +452,7 @@ const lenovo_led legion_Y760_iso_leds[]
     {0x91, "Key: Number Pad Down Arrow"},//120
     {0x92, KEY_EN_NUMPAD_3},//121
     {0x93, "Key: Number Pad Page Down"},//122
-    {0xa7, KEY_EN_NUMPAD_ENTER},//123
+    {0xA7, KEY_EN_NUMPAD_ENTER},//123
 
     //row 8
     {0x7F, KEY_EN_LEFT_CONTROL},//124
@@ -607,7 +608,7 @@ const lenovo_led legion_Y760_jp_leds[]
     {0x8B, KEY_EN_FORWARD_SLASH}, //112
     {0x8C, KEY_JP_RO}, //113
     {0x8D, KEY_EN_RIGHT_SHIFT}, //114
-    {0xa2, KEY_EN_RIGHT_SHIFT}, //115
+    {0xA2, KEY_EN_RIGHT_SHIFT}, //115
     {0x79, KEY_EN_NUMPAD_4}, //116
     {0x7A, "Key: Number Pad Right Arrow"}, //117
     {0x7B, KEY_EN_NUMPAD_5}, //118
@@ -621,7 +622,7 @@ const lenovo_led legion_Y760_jp_leds[]
     {0x91, "Key: Number Pad Down Arrow"}, //124
     {0x92, KEY_EN_NUMPAD_3}, //125
     {0x93, "Key: Number Pad Page Down"}, //126
-    {0xa7, KEY_EN_NUMPAD_ENTER}, //127
+    {0xA7, KEY_EN_NUMPAD_ENTER}, //127
 
     //row 8
     {0x7F, KEY_EN_LEFT_CONTROL}, //128
@@ -1703,6 +1704,235 @@ static lenovo_zone lenovo_legion_Y740_15_kbd_iso
     legion_Y740_15_iso_leds,
     0,
     88,
+};
+
+/*--------------------------------------------------------*\
+| Legion 7 gen7: 4 zones                                   |
+\*--------------------------------------------------------*/
+
+static const unsigned int legion_7gen7_ansi_leds_map[] =
+    {    0,   1,   2,   3,   4,   5,   6,   7,   8,   9,  10,  11,  12,  13,  14,  15,  16,  17,  18,  19,
+        20,  21,  22,  23,  24,  25,  26,  27,  28,  29,  NA,  30,  31,  32,  33,  NA,  34,  35,  36,  37,
+        38,  39,  40,  41,  NA,  42,  43,  44,  45,  46,  47,  48,  49,  50,  NA,  51,  52,  53,  54,  NA,
+        55,  56,  NA,  57,  58,  59,  60,  61,  62,  63,  64,  65,  NA,  66,  67,  NA,  68,  69,  70,  71,
+        72,  NA,  73,  74,  75,  NA,  76,  77,  78,  79,  80,  81,  82,  NA,  83,  NA,  84,  85,  86,  NA,
+        87,  88,  89,  90,  91,  NA,  NA,  NA,  NA,  NA,  92,  93,  NA,  94,  NA,  NA,  95,  NA,  96,  97,
+        NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  98,  99,  NA, 100,  NA,  NA,  NA,  NA};
+
+/*---------------------*\
+| zone 1, keyboard ANSI |
+\*---------------------*/
+const lenovo_led legion_7gen7_ansi_leds[]
+{
+    //row 1
+    {0x01, KEY_EN_ESCAPE},//0
+    {0x02, KEY_EN_F1},//1
+    {0x03, KEY_EN_F2},//2
+    {0x04, KEY_EN_F3},//3
+    {0x05, KEY_EN_F4},//4
+    {0x06, KEY_EN_F5},//5
+    {0x07, KEY_EN_F6},//6
+    {0x08, KEY_EN_F7},//7
+    {0x09, KEY_EN_F8},//8
+    {0x0A, KEY_EN_F9},//9
+    {0x0B, KEY_EN_F10},//10
+    {0x0C, KEY_EN_F11},//11
+    {0x0D, KEY_EN_F12},//12
+    {0x0E, KEY_EN_INSERT},//13
+    {0x0F, KEY_EN_PRINT_SCREEN},//14
+    {0x10, KEY_EN_DELETE},//15
+    {0x11, KEY_EN_HOME},//16
+    {0x12, KEY_EN_END},//17
+    {0x13, KEY_EN_PAGE_UP},//18
+    {0x14, KEY_EN_PAGE_DOWN},//19
+
+    //row 2
+    {0x16, KEY_EN_BACK_TICK},//20
+    {0x17, KEY_EN_1},//21
+    {0x18, KEY_EN_2},//22
+    {0x19, KEY_EN_3},//23
+    {0x1A, KEY_EN_4},//24
+    {0x1B, KEY_EN_5},//25
+    {0x1C, KEY_EN_6},//26
+    {0x1D, KEY_EN_7},//27
+    {0x1E, KEY_EN_8},//28
+    {0x1F, KEY_EN_9},//29
+    {0x20, KEY_EN_0},//30
+    {0x21, KEY_EN_MINUS},//31
+    {0x22, KEY_EN_EQUALS},//32
+    {0x38, KEY_EN_BACKSPACE},//33
+    {0x26, KEY_EN_NUMPAD_LOCK},//34
+    {0x27, KEY_EN_NUMPAD_DIVIDE},//35
+    {0x28, KEY_EN_NUMPAD_TIMES},//36
+    {0x29, KEY_EN_NUMPAD_MINUS},//37
+
+    //row 3
+    {0x40, KEY_EN_TAB},//38
+    {0x42, KEY_EN_Q},//39
+    {0x43, KEY_EN_W},//40
+    {0x44, KEY_EN_E},//41
+    {0x45, KEY_EN_R},//42
+    {0x46, KEY_EN_T},//43
+    {0x47, KEY_EN_Y},//44
+    {0x48, KEY_EN_U},//45
+    {0x49, KEY_EN_I},//46
+    {0x4A, KEY_EN_O},//47
+    {0x4B, KEY_EN_P},//48
+    {0x4C, KEY_EN_LEFT_BRACKET},//49
+    {0x4D, KEY_EN_RIGHT_BRACKET},//50
+    {0x4E, KEY_EN_ANSI_BACK_SLASH},//51
+    {0x4F, KEY_EN_NUMPAD_7},//52
+    {0x50, KEY_EN_NUMPAD_8},//53
+    {0x51, KEY_EN_NUMPAD_9},//54
+
+    //row 4
+    {0x55, KEY_EN_CAPS_LOCK},//55
+    {0x6D, KEY_EN_A},//56
+    {0x6E, KEY_EN_S},//57
+    {0x58, KEY_EN_D},//58
+    {0x59, KEY_EN_F},//59
+    {0x5A, KEY_EN_G},//60
+    {0x71, KEY_EN_H},//61
+    {0x72, KEY_EN_J},//62
+    {0x5B, KEY_EN_K},//63
+    {0x5C, KEY_EN_L},//64
+    {0x5D, KEY_EN_SEMICOLON},//65
+    {0x5F, KEY_EN_QUOTE},//66
+    {0x77, KEY_EN_ANSI_ENTER},//67
+    {0x79, KEY_EN_NUMPAD_4},//68
+    {0x7B, KEY_EN_NUMPAD_5},//69
+    {0x7C, KEY_EN_NUMPAD_6},//70
+    {0x68, KEY_EN_NUMPAD_PLUS},//71
+
+    //row 5
+    {0x6A, KEY_EN_LEFT_SHIFT},//72
+    {0x82, KEY_EN_Z},//73
+    {0x83, KEY_EN_X},//74
+    {0x6F, KEY_EN_C},//75
+    {0x70, KEY_EN_V},//76
+    {0x87, KEY_EN_B},//77
+    {0x88, KEY_EN_N},//78
+    {0x73, KEY_EN_M},//79
+    {0x74, KEY_EN_COMMA},//80
+    {0x75, KEY_EN_PERIOD},//81
+    {0x76, KEY_EN_FORWARD_SLASH},//82
+    {0x8D, KEY_EN_RIGHT_SHIFT},//83
+    {0x8E, KEY_EN_NUMPAD_1},//84
+    {0x90, KEY_EN_NUMPAD_2},//85
+    {0x92, KEY_EN_NUMPAD_3},//86
+
+    //row 6
+    {0x7F, KEY_EN_LEFT_CONTROL},//87
+    {0x80, KEY_EN_LEFT_FUNCTION},//88
+    {0x96, KEY_EN_LEFT_WINDOWS},//89
+    {0x97, KEY_EN_LEFT_ALT},//90
+    {0x98, KEY_EN_SPACE},//91
+    {0x9A, KEY_EN_RIGHT_ALT},//92
+    {0x9B, KEY_EN_RIGHT_CONTROL},//93
+    {0x9D, KEY_EN_UP_ARROW},//94
+    {0xA3, KEY_EN_NUMPAD_0},//95
+    {0xA5, KEY_EN_NUMPAD_PERIOD},//96
+    {0xA7, KEY_EN_NUMPAD_ENTER},//97
+
+    //row 7
+    {0x9C, KEY_EN_LEFT_ARROW},//98
+    {0x9F, KEY_EN_DOWN_ARROW},//99
+    {0xA1, KEY_EN_RIGHT_ARROW},//100
+};
+
+const lenovo_led legion_7gen7_neon_leds[]
+{
+    {0xF5, "Neon group 1"},//0
+    {0xF6, "Neon group 2"},//1
+    {0xF7, "Neon group 3"},//2
+    {0xF8, "Neon group 4"},//3
+    {0xF9, "Neon group 5"},//4
+    {0xFA, "Neon group 6"},//5
+    {0xFB, "Neon group 7"},//6
+    {0xFC, "Neon group 8"},//7
+    {0xFD, "Neon group 9"},//8
+    {0xFE, "Neon group 10"},//9
+};
+
+const lenovo_led legion_7gen7_vents_leds[]
+{
+    {0xE9, "Vent group 1"},//0
+    {0xEA, "Vent group 2"},//1
+    {0xEB, "Vent group 3"},//2
+    {0xEC, "Vent group 4"},//3
+    {0xED, "Vent group 5"},//4
+    {0xEE, "Vent group 6"},//5
+    {0xEF, "Vent group 7"},//6
+    {0xF0, "Vent group 8"},//7
+};
+
+const lenovo_led legion_7gen7_logo_leds[]
+{
+    {0xDD, "Logo"},//0
+};
+
+/*------*\
+|keyboard|
+\*------*/
+static lenovo_zone lenovo_legion_7gen7_kbd_ansi
+{
+    "Keyboard",
+    ZONE_TYPE_MATRIX,
+    0,
+    7,
+    20,
+    legion_7gen7_ansi_leds_map,
+    legion_7gen7_ansi_leds,
+    0,
+    100,
+};
+
+/*------*\
+|logo    |
+\*------*/
+static lenovo_zone lenovo_legion_7gen7_logo
+{
+    "Logo",
+    ZONE_TYPE_LINEAR,
+    5,
+    1,
+    1,
+    NULL,
+    legion_7gen7_logo_leds,
+    0,
+    0,
+};
+
+/*------*\
+|vents   |
+\*------*/
+static lenovo_zone lenovo_legion_7gen7_vents
+{
+    "Vents",
+    ZONE_TYPE_LINEAR,
+    3,
+    1,
+    8,
+    NULL,
+    legion_7gen7_vents_leds,
+    0,
+    7,
+};
+
+/*------*\
+|neon    |
+\*------*/
+static lenovo_zone lenovo_legion_7gen7_neon
+{
+    "Neon",
+    ZONE_TYPE_LINEAR,
+    1,
+    1,
+    10,
+    NULL,
+    legion_7gen7_neon_leds,
+    0,
+    9,
 };
 
 #endif

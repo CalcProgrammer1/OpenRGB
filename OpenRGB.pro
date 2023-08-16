@@ -551,12 +551,14 @@ HEADERS +=                                                                      
     Controllers/LEDStripController/RGBController_LEDStrip.h                                     \
     Controllers/LegoDimensionsToypadBaseController/LegoDimensionsToypadBaseController.h         \
     Controllers/LegoDimensionsToypadBaseController/RGBController_LegoDimensionsToypadBase.h     \
+    Controllers/LenovoControllers/Lenovo4ZoneUSBController.h                                    \
     Controllers/LenovoControllers/LenovoDevices.h                                               \
     Controllers/LenovoControllers/LenovoDevices4Zone.h                                          \
+    Controllers/LenovoControllers/LenovoGen7USBController.h                                     \
     Controllers/LenovoControllers/LenovoUSBController.h                                         \
-    Controllers/LenovoControllers/Lenovo4ZoneUSBController.h                                    \
-    Controllers/LenovoControllers/RGBController_LenovoUSB.h                                     \
     Controllers/LenovoControllers/RGBController_Lenovo4ZoneUSB.h                                \
+    Controllers/LenovoControllers/RGBController_LenovoUSB.h                                     \
+    Controllers/LenovoControllers/RGBController_Lenovo_Gen7USB.h                                \
     Controllers/LenovoMotherboardController/LenovoMotherboardController.h                       \
     Controllers/LenovoMotherboardController/RGBController_LenovoMotherboard.h                   \
     Controllers/LexipMouseController/LexipMouseController.h                                     \
@@ -1210,12 +1212,14 @@ SOURCES +=                                                                      
     Controllers/LegoDimensionsToypadBaseController/LegoDimensionsToypadBaseController.cpp       \
     Controllers/LegoDimensionsToypadBaseController/LegoDimensionsToypadBaseControllerDetect.cpp \
     Controllers/LegoDimensionsToypadBaseController/RGBController_LegoDimensionsToypadBase.cpp   \
-    Controllers/LenovoControllers/LenovoUSBController.cpp                                       \
     Controllers/LenovoControllers/Lenovo4ZoneUSBController.cpp                                  \
-    Controllers/LenovoControllers/LenovoUSBDetect.cpp                                           \
     Controllers/LenovoControllers/Lenovo4ZoneUSBDetect.cpp                                      \
-    Controllers/LenovoControllers/RGBController_LenovoUSB.cpp                                   \
+    Controllers/LenovoControllers/LenovoGen7USBController.cpp                                   \
+    Controllers/LenovoControllers/LenovoUSBController.cpp                                       \
+    Controllers/LenovoControllers/LenovoUSBDetect.cpp                                           \
     Controllers/LenovoControllers/RGBController_Lenovo4ZoneUSB.cpp                              \
+    Controllers/LenovoControllers/RGBController_LenovoUSB.cpp                                   \
+    Controllers/LenovoControllers/RGBController_Lenovo_Gen7USB.cpp                              \
     Controllers/LenovoMotherboardController/LenovoMotherboardController.cpp                     \
     Controllers/LenovoMotherboardController/LenovoMotherboardControllerDetect.cpp               \
     Controllers/LenovoMotherboardController/RGBController_LenovoMotherboard.cpp                 \
