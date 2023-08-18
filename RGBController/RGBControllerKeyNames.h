@@ -155,14 +155,14 @@ extern const char* KEY_JP_COLON;
 extern const char* KEY_KR_HAN;
 extern const char* KEY_KR_HANJA;
 
-extern const char* KEY_NORD_OE;
-extern const char* KEY_NORD_AE;
 extern const char* KEY_NORD_AAL;
+extern const char* KEY_NORD_A_OE;
+extern const char* KEY_NORD_O_AE;
 extern const char* KEY_NORD_HALF;
 extern const char* KEY_NORD_HYPHEN;
-extern const char* KEY_NORD_PLUS;
-extern const char* KEY_NORD_BACKSLASH;
-extern const char* KEY_NORD_CHEVRON;
+extern const char* KEY_NORD_PLUS_QUESTION;
+extern const char* KEY_NORD_ACUTE_GRAVE;
+extern const char* KEY_NORD_DOTS_CARET;
 extern const char* KEY_NORD_QUOTE;
 extern const char* KEY_NORD_ANGLE_BRACKET;
 

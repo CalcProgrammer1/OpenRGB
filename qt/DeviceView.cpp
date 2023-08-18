@@ -191,19 +191,19 @@ static const std::map<std::string, led_label> led_label_lookup =
                                             "\xEC\x98\x81",     }}, // 한/영
     { KEY_KR_HANJA,             { "Haja"  , "\xED\x95\x9C\xEC"
                                             "\x9E\x90",         }}, // 한자
-    { KEY_NORD_OE,              { "oe"    , "\xC3\x98\x2F\xC3"
-                                            "\x84"              }}, // Ø/Ä
-    { KEY_NORD_AE,              { "ae"    , "\xC3\x86\x2F\xC3"
-                                            "\x96"              }}, // Æ/Ö
-    { KEY_NORD_AAL,             { "Aal"   , "\xC3\x85",         }}, // Å
-    { KEY_NORD_HALF,            { "1/2"   , "\xC2\xBD\x2F\xC2"
-                                            "\xA7"              }}, // ½/§
-    { KEY_NORD_HYPHEN,          { "-/_"   , "-/_"               }},
-    { KEY_NORD_PLUS,            { "+/?"   , "+/?",              }},
-    { KEY_NORD_BACKSLASH,       { "\\"    , "\\",               }},
-    { KEY_NORD_CHEVRON,         { "^/~"   , "^/~",              }},
-    { KEY_NORD_QUOTE,           { "'/*"   , "'/*",              }},
-    { KEY_NORD_ANGLE_BRACKET,   { "</>"   , "</>"               }},
+    { KEY_NORD_AAL,             { "Å"     , "\xC3\x85",         }}, // Å
+    { KEY_NORD_A_OE,            { "Ä Ø"   , "\xC3\x84\x20\xC3"
+                                            "\x98"              }}, // Ä Ø
+    { KEY_NORD_O_AE,            { "Ö Æ"   , "\xC3\x96\x20\xC3"
+                                            "\x86"              }}, // Ö Æ
+    { KEY_NORD_HALF,            { "§ ½"   , "\xC2\xA7\x20\xC2"
+                                            "\xBD"              }}, // § ½
+    { KEY_NORD_HYPHEN,          { "- _"   , "- _"               }},
+    { KEY_NORD_PLUS_QUESTION,   { "+ ?"   , "+ ?",              }},
+    { KEY_NORD_ACUTE_GRAVE,     { "´ `"   , "\xC2\xB4\x20\x60", }}, // ´ `
+    { KEY_NORD_DOTS_CARET,      { "¨ ^"   , "\xC2\xA8\x20\x5E", }}, // ¨ ^
+    { KEY_NORD_QUOTE,           { "' *"   , "' *",              }},
+    { KEY_NORD_ANGLE_BRACKET,   { "< >"   , "< >"               }},
     { KEY_DE_ESZETT,            { "ß"     , "\xc3\x9F",         }},
     { KEY_DE_DIAERESIS_A,       { "Ä"     , "\xC3\x84",         }},
     { KEY_DE_DIAERESIS_O,       { "Ö"     , "\xC3\x96",         }},

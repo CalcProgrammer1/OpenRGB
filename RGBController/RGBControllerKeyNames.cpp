@@ -155,16 +155,16 @@ const char* KEY_JP_COLON             = "Key: :";
 const char* KEY_KR_HAN               = "Key: 한/영";
 const char* KEY_KR_HANJA             = "Key: 한자";
 
-const char* KEY_NORD_OE              = "Key: Ø/Ä";
-const char* KEY_NORD_AE              = "Key: Æ/Ö";
 const char* KEY_NORD_AAL             = "Key: Å";
-const char* KEY_NORD_HALF            = "Key: ½/§";
-const char* KEY_NORD_HYPHEN          = "Key: -/_";
-const char* KEY_NORD_PLUS            = "Key: +/?";
-const char* KEY_NORD_BACKSLASH       = "Key: \\/`/´";
-const char* KEY_NORD_CHEVRON         = "Key: ^/~";
-const char* KEY_NORD_QUOTE           = "Key: '/*";
-const char* KEY_NORD_ANGLE_BRACKET   = "Key: </>";
+const char* KEY_NORD_A_OE            = "Key: Ä Ø";
+const char* KEY_NORD_O_AE            = "Key: Ö Æ";
+const char* KEY_NORD_HALF            = "Key: § ½";
+const char* KEY_NORD_HYPHEN          = "Key: - _";
+const char* KEY_NORD_PLUS_QUESTION   = "Key: + ?";
+const char* KEY_NORD_ACUTE_GRAVE     = "Key: ´ `";
+const char* KEY_NORD_DOTS_CARET      = "Key: ¨ ^";
+const char* KEY_NORD_QUOTE           = "Key: ' *";
+const char* KEY_NORD_ANGLE_BRACKET   = "Key: < >";
 
 const char* KEY_DE_ESZETT            = "Key: ß";
 const char* KEY_DE_DIAERESIS_A       = "Key: Ä";

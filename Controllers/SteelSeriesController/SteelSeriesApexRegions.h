@@ -288,13 +288,13 @@ static const std::map<int, std::string> apex_uk_keyname_lookup =
 static const std::map<int, std::string> apex_nor_keyname_lookup =
 {
     {36, KEY_EN_ISO_ENTER},
-    {41, KEY_NORD_PLUS},
-    {42, KEY_NORD_BACKSLASH},
+    {41, KEY_NORD_PLUS_QUESTION},
+    {42, KEY_NORD_ACUTE_GRAVE},
     {43, KEY_NORD_AAL},
-    {44, KEY_NORD_CHEVRON},
+    {44, KEY_NORD_DOTS_CARET},
     {45, KEY_NORD_QUOTE},
-    {46, KEY_NORD_OE},
-    {47, KEY_NORD_AE},
+    {46, KEY_NORD_A_OE},
+    {47, KEY_NORD_O_AE},
     {48, KEY_NORD_HALF},
     {51, KEY_NORD_HYPHEN},
     {78, KEY_NORD_ANGLE_BRACKET},
