@@ -23,7 +23,7 @@
     @effects :white_check_mark:
     @detectors DetectJginYueInternalUSB
     @comment Insert multiline JginYueInternalUSB comment here
-*/
+\*--------------------------------------------------------------------*/
 
 RGBController_JginYueInternalUSB::RGBController_JginYueInternalUSB(JginYueInternalUSBController* controller_ptr)
 {
