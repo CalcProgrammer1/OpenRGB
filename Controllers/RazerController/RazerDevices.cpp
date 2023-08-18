@@ -3852,9 +3852,9 @@ static const razer_device basilisk_v3_device =
 |                                                               |
 |  Zone "LED Strip"                                             |
 |       Linear                                                  |
-|       9 LED                                                   |
+|       11 LED                                                  |
 \*-------------------------------------------------------------*/
-static const razer_zone basilisk_v3_scroll_pro_wired_wheel_zone =
+static const razer_zone basilisk_v3_pro_wired_scroll_wheel_zone =
 {
     "Scroll Wheel",
     ZONE_TYPE_SINGLE,
@@ -3875,7 +3875,7 @@ static const razer_zone basilisk_v3_pro_wired_ledstrip_zone =
     "LED Strip",
     ZONE_TYPE_LINEAR,
     1,
-    9
+    11
 };
 
 static const razer_device basilisk_v3_pro_wired_device =
@@ -3886,11 +3886,11 @@ static const razer_device basilisk_v3_pro_wired_device =
     RAZER_MATRIX_TYPE_EXTENDED,
     0x1F,
     1,
-    11,
+    13,
     {
-        &basilisk_v3_logo_zone,
-        &basilisk_v3_scroll_wheel_zone,
-        &basilisk_v3_ledstrip_zone,
+        &basilisk_v3_pro_wired_scroll_wheel_zone,
+        &basilisk_v3_pro_wired_logo_zone,
+        &basilisk_v3_pro_wired_ledstrip_zone,
         NULL,
         NULL,
         NULL
@@ -3911,9 +3911,9 @@ static const razer_device basilisk_v3_pro_wired_device =
 |                                                               |
 |  Zone "LED Strip"                                             |
 |       Linear                                                  |
-|       9 LED                                                   |
+|       11 LED                                                  |
 \*-------------------------------------------------------------*/
-static const razer_zone basilisk_v3_scroll_pro_wireless_wheel_zone =
+static const razer_zone basilisk_v3_pro_wireless_scroll_wheel_zone =
 {
     "Scroll Wheel",
     ZONE_TYPE_SINGLE,
@@ -3934,7 +3934,7 @@ static const razer_zone basilisk_v3_pro_wireless_ledstrip_zone =
     "LED Strip",
     ZONE_TYPE_LINEAR,
     1,
-    9
+    11
 };
 
 static const razer_device basilisk_v3_pro_wireless_device =
@@ -3945,11 +3945,11 @@ static const razer_device basilisk_v3_pro_wireless_device =
     RAZER_MATRIX_TYPE_EXTENDED,
     0x1F,
     1,
-    11,
+    13,
     {
-        &basilisk_v3_logo_zone,
-        &basilisk_v3_scroll_wheel_zone,
-        &basilisk_v3_ledstrip_zone,
+        &basilisk_v3_pro_wireless_scroll_wheel_zone,
+        &basilisk_v3_pro_wireless_logo_zone,
+        &basilisk_v3_pro_wireless_ledstrip_zone,
         NULL,
         NULL,
         NULL
@@ -3970,9 +3970,9 @@ static const razer_device basilisk_v3_pro_wireless_device =
 |                                                               |
 |  Zone "LED Strip"                                             |
 |       Linear                                                  |
-|       9 LED                                                   |
+|       11 LED                                                  |
 \*-------------------------------------------------------------*/
-static const razer_zone basilisk_v3_scroll_pro_bluetooth_wheel_zone =
+static const razer_zone basilisk_v3_pro_bluetooth_scroll_wheel_zone =
 {
     "Scroll Wheel",
     ZONE_TYPE_SINGLE,
@@ -3993,7 +3993,7 @@ static const razer_zone basilisk_v3_pro_bluetooth_ledstrip_zone =
     "LED Strip",
     ZONE_TYPE_LINEAR,
     1,
-    9
+    11
 };
 
 static const razer_device basilisk_v3_pro_bluetooth_device =
@@ -4004,11 +4004,11 @@ static const razer_device basilisk_v3_pro_bluetooth_device =
     RAZER_MATRIX_TYPE_EXTENDED,
     0x1F,
     1,
-    11,
+    13,
     {
-        &basilisk_v3_logo_zone,
-        &basilisk_v3_scroll_wheel_zone,
-        &basilisk_v3_ledstrip_zone,
+        &basilisk_v3_pro_bluetooth_scroll_wheel_zone,
+        &basilisk_v3_pro_bluetooth_logo_zone,
+        &basilisk_v3_pro_bluetooth_ledstrip_zone,
         NULL,
         NULL,
         NULL
