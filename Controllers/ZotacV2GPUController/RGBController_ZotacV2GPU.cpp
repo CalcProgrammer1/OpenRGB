@@ -14,11 +14,12 @@
 std::map<std::string, ZotacV2GPUConfig> ZOTAC_V2_GPU_CONFIG =
 {
     { "N653E-1013", { 2, false } },  // ZOTAC GAMING GeForce RTX 3070 Ti Trinity OC
-    { "N612E-1011", { 2, false } },  // ZOTAC GAMING GeForce RTX 3080 Trinity OC LHR 12GB
+    { "N612E-1011", { 2, false } },  // ZOTAC GAMING GeForce RTX 3080 Trinity OC LHR 12GB & 3090 Trinity
     { "N612A-1012", { 2, false } },  // ZOTAC GAMING GeForce RTX 3080 Ti AMP Holo
     { "N618A-1015", { 4, true  } },  // ZOTAC GAMING GeForce RTX 3090 AMP Extreme Holo
     { "N696E-1040", { 1, false } },  // ZOTAC GAMING GeForce RTX 4070 Ti Trinity OC
     { "N675E-1019", { 1, true  } },  // ZOTAC GAMING GeForce RTX 4090 Trinity OC
+    { "N675E-1062", { 1, true  } },  // ZOTAC GAMING GeForce RTX 4090 Trinity OC Alternate Controller Version
     { "N675A-1019", { 5, true  } },  // ZOTAC GAMING GeForce RTX 4090 AMP Extreme AIRO & 4080 16GB AMP Extreme AIRO
 };
 
@@ -70,6 +71,10 @@ std::vector<std::pair<RGBColor, RGBColor>> ZOTAC_V2_GPU_DUET_PRESETS =
         The read data `0x4E 0x36 0x31 0x32 0x45 0x2D 0x31 0x30 0x31 0x31` converts
         to Unicode `N612E-1011`
 
+        Cards with correct entries in `pci_ids/pci_ids.h` and `Controllers/ZotacV2GPUController/ZotacV2GPUControllerDetect.cpp`
+        but not in `Controllers/ZotacV2GPUController/RGBController_ZotacV2GPU.cpp`
+        should produce a log error with the controller version read from the card.
+
         The LED configuration is the number of independently configurable
         zones followed by a bool representing support for external led stip.
         These can be determined by looking at the Spectra tab in Firestorm.
@@ -85,7 +90,16 @@ RGBController_ZotacV2GPU::RGBController_ZotacV2GPU(ZotacV2GPUController* control
     location    = controller->GetDeviceLocation();
     type        = DEVICE_TYPE_GPU;
 
-    config = ZOTAC_V2_GPU_CONFIG.at(controller->GetVersion());
+    if(ZOTAC_V2_GPU_CONFIG.count(controller->GetVersion()) > 0)
+    {
+        config = ZOTAC_V2_GPU_CONFIG.at(controller->GetVersion());
+    }
+    else
+    {
+        LOG_ERROR("[%s] Unrecognized controller version %s", name.c_str(), controller->GetVersion().c_str());
+        config = { 0, false };
+    }
+
 
     version += std::to_string(config.numberOfZones) + " zones, "
             + (config.supportsExternalLEDStrip ? "with" : "without") + " external LED strip support";

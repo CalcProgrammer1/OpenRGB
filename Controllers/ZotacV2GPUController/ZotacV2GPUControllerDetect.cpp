@@ -4,6 +4,7 @@
 #include "RGBController_ZotacV2GPU.h"
 #include "i2c_smbus.h"
 #include "pci_ids.h"
+#include "LogManager.h"
 
 /******************************************************************************************\
 *                                                                                          *
@@ -31,6 +32,10 @@ void DetectZotacV2GPUControllers(i2c_smbus_interface* bus, u8 i2c_addr, const st
         {
             ResourceManager::get()->RegisterRGBController(rgb_controller);
         }
+        else
+        {
+            LOG_ERROR("[%s] RGB controller not registered.", name.c_str());
+        }
     }
 }
 
@@ -38,6 +43,7 @@ REGISTER_I2C_PCI_DETECTOR("ZOTAC GAMING GeForce RTX 3070 Ti Trinity OC",        
 REGISTER_I2C_PCI_DETECTOR("ZOTAC GAMING GeForce RTX 3080 Trinity OC LHR 12GB",    DetectZotacV2GPUControllers, NVIDIA_VEN, NVIDIA_RTX3080_12G_LHR_DEV, ZOTAC_SUB_VEN, ZOTAC_RTX3080_12G_LHR_TRINITY_SUB_DEV, 0x49);
 REGISTER_I2C_PCI_DETECTOR("ZOTAC GAMING GeForce RTX 3080 Ti AMP Holo",            DetectZotacV2GPUControllers, NVIDIA_VEN, NVIDIA_RTX3080TI_DEV, ZOTAC_SUB_VEN, ZOTAC_RTX3080TI_AMP_SUB_DEV, 0x49);
 REGISTER_I2C_PCI_DETECTOR("ZOTAC GAMING GeForce RTX 3090 AMP Extreme Holo",       DetectZotacV2GPUControllers, NVIDIA_VEN, NVIDIA_RTX3090_DEV, ZOTAC_SUB_VEN, ZOTAC_RTX3090_AMP_SUB_DEV, 0x49);
+REGISTER_I2C_PCI_DETECTOR("ZOTAC GAMING GeForce RTX 3090 Trinity",                DetectZotacV2GPUControllers, NVIDIA_VEN, NVIDIA_RTX3090_DEV, ZOTAC_SUB_VEN, ZOTAC_RTX3090_TRINITY_SUB_DEV, 0x49);
 REGISTER_I2C_PCI_DETECTOR("ZOTAC GAMING GeForce RTX 4070 Ti Trinity OC",          DetectZotacV2GPUControllers, NVIDIA_VEN, NVIDIA_RTX4070TI_DEV, ZOTAC_SUB_VEN, ZOTAC_RTX4070TI_TRINITY_SUB_DEV, 0x49);
 REGISTER_I2C_PCI_DETECTOR("ZOTAC GAMING GeForce RTX 4080 16GB AMP Extreme AIRO",  DetectZotacV2GPUControllers, NVIDIA_VEN, NVIDIA_RTX4080_DEV, ZOTAC_SUB_VEN, ZOTAC_RTX4080_AMP_SUB_DEV, 0x49);
 REGISTER_I2C_PCI_DETECTOR("ZOTAC GAMING GeForce RTX 4090 Trinity OC",             DetectZotacV2GPUControllers, NVIDIA_VEN, NVIDIA_RTX4090_DEV, ZOTAC_SUB_VEN, ZOTAC_RTX4090_TRINITY_SUB_DEV, 0x49);
