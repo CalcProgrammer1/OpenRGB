@@ -29,6 +29,7 @@
 #define AURA_ROG_CHAKRAM_X_2_4_PID                  0x1A1A
 #define AURA_ROG_SPATHA_X_USB_PID                   0x1977
 #define AURA_ROG_SPATHA_X_2_4_PID                   0x1979
+#define AURA_ROG_SPATHA_X_DOCK_PID                  0x1979
 #define AURA_ROG_PUGIO_PID                          0x1846
 #define AURA_ROG_PUGIO_II_WIRED_PID                 0x1906
 #define AURA_ROG_PUGIO_II_WIRELESS_PID              0x1908

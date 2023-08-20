@@ -186,19 +186,11 @@ void DetectAsusAuraUSBMice(hid_device_info* info, const std::string& name)
 
     if(dev)
     {
-        AuraMouseController*     controller                 = new AuraMouseController(dev, info->path, info->product_id);
+        uint16_t pid = (name == "Asus ROG Spatha X Dock") ? AURA_ROG_SPATHA_X_DOCK_FAKE_PID : info->product_id;
+        AuraMouseController*     controller                 = new AuraMouseController(dev, info->path, pid);
         RGBController_AuraMouse* rgb_controller             = new RGBController_AuraMouse(controller);
         rgb_controller->name                                = name;
         ResourceManager::get()->RegisterRGBController(rgb_controller);
-
-        // adding the mouse dock for the ASUS ROG Spatha X
-        if(info->product_id == AURA_ROG_SPATHA_X_2_4_PID)
-        {
-            AuraMouseController*     dock_controller            = new AuraMouseController(dev, info->path, AURA_ROG_SPATHA_X_DOCK_FAKE_PID);
-            RGBController_AuraMouse* rgb_controller_dock        = new RGBController_AuraMouse(dock_controller);
-            rgb_controller_dock->name                           = "Asus ROG Spatha X Dock";
-            ResourceManager::get()->RegisterRGBController(rgb_controller_dock);
-        }
     }
 }
 
@@ -358,6 +350,7 @@ REGISTER_HID_DETECTOR_IP("Asus ROG Chakram X USB",                      DetectAs
 REGISTER_HID_DETECTOR_IP("Asus ROG Chakram X 2.4GHz",                   DetectAsusAuraUSBMice,          AURA_USB_VID, AURA_ROG_CHAKRAM_X_2_4_PID,                   0,  0xFF01);
 REGISTER_HID_DETECTOR_IP("Asus ROG Spatha X USB",                       DetectAsusAuraUSBMice,          AURA_USB_VID, AURA_ROG_SPATHA_X_USB_PID,                    0,  0xFF01);
 REGISTER_HID_DETECTOR_IP("Asus ROG Spatha X 2.4GHz",                    DetectAsusAuraUSBMice,          AURA_USB_VID, AURA_ROG_SPATHA_X_2_4_PID,                    0,  0xFF01);
+REGISTER_HID_DETECTOR_IP("Asus ROG Spatha X Dock",                      DetectAsusAuraUSBMice,          AURA_USB_VID, AURA_ROG_SPATHA_X_DOCK_PID,                   0,  0xFF01);
 REGISTER_HID_DETECTOR_IP("ASUS ROG Pugio",                              DetectAsusAuraUSBMice,          AURA_USB_VID, AURA_ROG_PUGIO_PID,                           2,  0xFF01);
 REGISTER_HID_DETECTOR_IP("ASUS ROG Pugio II (Wired)",                   DetectAsusAuraUSBMice,          AURA_USB_VID, AURA_ROG_PUGIO_II_WIRED_PID,                  0,  0xFF01);
 REGISTER_HID_DETECTOR_IP("ASUS ROG Pugio II (Wireless)",                DetectAsusAuraUSBMice,          AURA_USB_VID, AURA_ROG_PUGIO_II_WIRELESS_PID,               0,  0xFF01);
