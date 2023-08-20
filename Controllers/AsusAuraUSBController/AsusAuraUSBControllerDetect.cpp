@@ -26,76 +26,77 @@
 #include <hidapi/hidapi.h>
 #include "dependencies/dmiinfo.h"
 
-#define AURA_USB_VID                            0x0B05
+#define AURA_USB_VID                                  0x0B05
 
 /*-----------------------------------------------------------------*\
 |  MOTHERBOARDS                                                     |
 \*-----------------------------------------------------------------*/
-#define AURA_ADDRESSABLE_1_PID                  0x1867
-#define AURA_ADDRESSABLE_2_PID                  0x1872
-#define AURA_ADDRESSABLE_3_PID                  0x18A3
-#define AURA_ADDRESSABLE_4_PID                  0x18A5
-#define AURA_MOTHERBOARD_1_PID                  0x18F3
-#define AURA_MOTHERBOARD_2_PID                  0x1939
-#define AURA_MOTHERBOARD_3_PID                  0x19AF
+#define AURA_ADDRESSABLE_1_PID                        0x1867
+#define AURA_ADDRESSABLE_2_PID                        0x1872
+#define AURA_ADDRESSABLE_3_PID                        0x18A3
+#define AURA_ADDRESSABLE_4_PID                        0x18A5
+#define AURA_MOTHERBOARD_1_PID                        0x18F3
+#define AURA_MOTHERBOARD_2_PID                        0x1939
+#define AURA_MOTHERBOARD_3_PID                        0x19AF
 
 /*-----------------------------------------------------------------*\
 |  KEYBOARDS                                                        |
 \*-----------------------------------------------------------------*/
-#define AURA_ROG_FALCHION_WIRED_PID             0x193C
-#define AURA_ROG_FALCHION_WIRELESS_PID          0x193E
-#define AURA_ROG_STRIX_FLARE_PID                0x1875
-#define AURA_ROG_STRIX_FLARE_PNK_LTD_PID        0x18CF
-#define AURA_ROG_STRIX_FLARE_COD_BO4_PID        0x18AF
-#define AURA_ROG_STRIX_FLARE_II_ANIMATE_PID     0x19FC
-#define AURA_ROG_STRIX_SCOPE_PID                0x18F8
-#define AURA_ROG_STRIX_SCOPE_RX_PID             0x1951
-#define AURA_ROG_STRIX_SCOPE_TKL_PID            0x190C
-#define AURA_ROG_STRIX_SCOPE_RX_TKL_DELUXE_PID  0x1A05
-#define AURA_ROG_STRIX_SCOPE_TKL_PNK_LTD_PID    0x1954
-#define AURA_ROG_CLAYMORE_PID                   0x184D
-#define AURA_TUF_K1_GAMING_PID                  0x1945
-#define AURA_TUF_K3_GAMING_PID                  0x194B
-#define AURA_TUF_K5_GAMING_PID                  0x1899
-#define AURA_TUF_K7_GAMING_PID                  0x18AA
+#define AURA_ROG_FALCHION_WIRED_PID                   0x193C
+#define AURA_ROG_FALCHION_WIRELESS_PID                0x193E
+#define AURA_ROG_STRIX_FLARE_PID                      0x1875
+#define AURA_ROG_STRIX_FLARE_PNK_LTD_PID              0x18CF
+#define AURA_ROG_STRIX_FLARE_COD_BO4_PID              0x18AF
+#define AURA_ROG_STRIX_FLARE_II_ANIMATE_PID           0x19FC
+#define AURA_ROG_STRIX_SCOPE_PID                      0x18F8
+#define AURA_ROG_STRIX_SCOPE_RX_PID                   0x1951
+#define AURA_ROG_STRIX_SCOPE_TKL_PID                  0x190C
+#define AURA_ROG_STRIX_SCOPE_RX_TKL_DELUXE_PID        0x1A05
+#define AURA_ROG_STRIX_SCOPE_TKL_PNK_LTD_PID          0x1954
+#define AURA_ROG_STRIX_SCOPE_II_96_WIRELESS_USB_PID   0x1AAE
+#define AURA_ROG_CLAYMORE_PID                         0x184D
+#define AURA_TUF_K1_GAMING_PID                        0x1945
+#define AURA_TUF_K3_GAMING_PID                        0x194B
+#define AURA_TUF_K5_GAMING_PID                        0x1899
+#define AURA_TUF_K7_GAMING_PID                        0x18AA
 
 /*-----------------------------------------------------------------*\
 |  MICE - defined in AsusAuraMouseDevices.h                         |
 \*-----------------------------------------------------------------*/
 
-#define AURA_ROG_STRIX_EVOLVE_PID               0x185B
+#define AURA_ROG_STRIX_EVOLVE_PID                     0x185B
 
 /*-----------------------------------------------------------------*\
 | MOUSEMATS                                                         |
 \*-----------------------------------------------------------------*/
-#define AURA_ROG_BALTEUS_PID                    0x1891
-#define AURA_ROG_BALTEUS_QI_PID                 0x1890
+#define AURA_ROG_BALTEUS_PID                          0x1891
+#define AURA_ROG_BALTEUS_QI_PID                       0x1890
 
 /*-----------------------------------------------------------------*\
 | MONITORS                                                          |
 \*-----------------------------------------------------------------*/
 
-#define AURA_ROG_STRIX_XG27AQ_PID               0x198C
-#define AURA_ROG_STRIX_XG27AQM_PID              0x19BB
-#define AURA_ROG_STRIX_XG279Q_PID               0x1919
-#define AURA_ROG_STRIX_XG27W_PID                0x1933
-#define AURA_ROG_PG32UQ_PID                     0x19B9
+#define AURA_ROG_STRIX_XG27AQ_PID                     0x198C
+#define AURA_ROG_STRIX_XG27AQM_PID                    0x19BB
+#define AURA_ROG_STRIX_XG279Q_PID                     0x1919
+#define AURA_ROG_STRIX_XG27W_PID                      0x1933
+#define AURA_ROG_PG32UQ_PID                           0x19B9
 
 /*-----------------------------------------------------------------*\
 | HEADSETSTANDS                                                     |
 \*-----------------------------------------------------------------*/
 
-#define AURA_ROG_THRONE_PID                     0x18D9
-#define AURA_ROG_THRONE_QI_PID                  0x18C5
-#define AURA_ROG_THRONE_QI_GUNDAM_PID           0x1994
+#define AURA_ROG_THRONE_PID                           0x18D9
+#define AURA_ROG_THRONE_QI_PID                        0x18C5
+#define AURA_ROG_THRONE_QI_GUNDAM_PID                 0x1994
 
 /*-----------------------------------------------------------------*\
 |  OTHER                                                            |
 \*-----------------------------------------------------------------*/
-#define AURA_TERMINAL_PID                       0x1889
-#define ROG_STRIX_LC120_PID                     0x879E
-#define AURA_RYUO_AIO_PID                       0x1887
-#define ASUS_ROG_ALLY_PID                       0x1ABE
+#define AURA_TERMINAL_PID                             0x1889
+#define ROG_STRIX_LC120_PID                           0x879E
+#define AURA_RYUO_AIO_PID                             0x1887
+#define ASUS_ROG_ALLY_PID                             0x1ABE
 
 AuraKeyboardMappingLayoutType GetKeyboardMappingLayoutType(int pid)
 {
@@ -328,6 +329,7 @@ REGISTER_HID_DETECTOR_IP("ASUS TUF Gaming K5",                          DetectAs
 REGISTER_HID_DETECTOR_IP("ASUS ROG Strix Scope",                        DetectAsusAuraTUFUSBKeyboard,   AURA_USB_VID, AURA_ROG_STRIX_SCOPE_PID,                     1,  0xFF00);
 REGISTER_HID_DETECTOR_IP("ASUS ROG Strix Scope RX",                     DetectAsusAuraTUFUSBKeyboard,   AURA_USB_VID, AURA_ROG_STRIX_SCOPE_RX_PID,                  1,  0xFF00);
 REGISTER_HID_DETECTOR_IP("ASUS TUF Gaming K7",                          DetectAsusAuraTUFUSBKeyboard,   AURA_USB_VID, AURA_TUF_K7_GAMING_PID,                       1,  0xFF00);
+REGISTER_HID_DETECTOR_IP("ASUS ROG Strix Scope II 96 Wireless USB",     DetectAsusAuraTUFUSBKeyboard,   AURA_USB_VID, AURA_ROG_STRIX_SCOPE_II_96_WIRELESS_USB_PID,  1,  0xFF00);
 
 /*-----------------------------------------------------------------*\
 |  MICE                                                             |

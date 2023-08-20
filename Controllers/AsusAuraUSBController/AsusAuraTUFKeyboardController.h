@@ -33,19 +33,20 @@ enum
 
 enum
 {
-    AURA_ROG_STRIX_FLARE_PID                = 0x1875,
-    AURA_ROG_STRIX_FLARE_PNK_LTD_PID        = 0x18CF,
-    AURA_ROG_STRIX_FLARE_COD_BO4_PID        = 0x18AF,
-    AURA_ROG_FALCHION_WIRED_PID             = 0x193C,
-    AURA_ROG_FALCHION_WIRELESS_PID          = 0x193E,
-    AURA_ROG_STRIX_SCOPE_PID                = 0x18F8,
-    AURA_ROG_STRIX_SCOPE_RX_PID             = 0x1951,
-    AURA_ROG_STRIX_FLARE_II_ANIMATE_PID     = 0x19FC,
-    AURA_TUF_K1_GAMING_PID                  = 0x1945,
-    AURA_TUF_K3_GAMING_PID                  = 0x194B,
-    AURA_TUF_K5_GAMING_PID                  = 0x1899,
-    AURA_TUF_K7_GAMING_PID                  = 0x18AA,
-    AURA_ROG_CLAYMORE_PID                   = 0x184D,
+    AURA_ROG_STRIX_FLARE_PID                     = 0x1875,
+    AURA_ROG_STRIX_FLARE_PNK_LTD_PID             = 0x18CF,
+    AURA_ROG_STRIX_FLARE_COD_BO4_PID             = 0x18AF,
+    AURA_ROG_FALCHION_WIRED_PID                  = 0x193C,
+    AURA_ROG_FALCHION_WIRELESS_PID               = 0x193E,
+    AURA_ROG_STRIX_SCOPE_PID                     = 0x18F8,
+    AURA_ROG_STRIX_SCOPE_RX_PID                  = 0x1951,
+    AURA_ROG_STRIX_SCOPE_II_96_WIRELESS_USB_PID  = 0x1AAE,
+    AURA_ROG_STRIX_FLARE_II_ANIMATE_PID          = 0x19FC,
+    AURA_TUF_K1_GAMING_PID                       = 0x1945,
+    AURA_TUF_K3_GAMING_PID                       = 0x194B,
+    AURA_TUF_K5_GAMING_PID                       = 0x1899,
+    AURA_TUF_K7_GAMING_PID                       = 0x18AA,
+    AURA_ROG_CLAYMORE_PID                        = 0x184D,
 };
 
 struct led_color
