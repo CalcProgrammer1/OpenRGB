@@ -60,7 +60,7 @@ struct layout_info
     std::vector<led_value>      led_names;
 };
 
-static unsigned int ASUS_TUF_K7_LAYOUT_KEYS_US[6][24] =
+static unsigned int ASUS_TUF_K7_LAYOUT_KEYS_ANSI[6][24] =
 {
     {   0,  NA,   8,  14,  19,  24,  NA,  34,  39,  44,  49,  55,  61,  66,  70,  NA,  74,  78,  83,  NA,  NA,  NA,  NA,  NA },
     {   1,   6,   9,  15,  20,  25,  29,  35,  40,  45,  50,  56,  62,  67,  NA,  NA,  75,  79,  84,  NA,  87,  92,  96, 101 },
@@ -70,7 +70,7 @@ static unsigned int ASUS_TUF_K7_LAYOUT_KEYS_US[6][24] =
     {   5,   7,  13,  NA,  NA,  NA,  33,  NA,  NA,  NA,  54,  60,  65,  NA,  73,  NA,  77,  82,  86,  NA,  91,  NA, 100,  NA }
 };
 
-static unsigned int ASUS_TUF_K7_LAYOUT_KEYS_UK[6][24] =
+static unsigned int ASUS_TUF_K7_LAYOUT_KEYS_ISO[6][24] =
 {
     {   0,  NA,   9,  15,  20,  25,  NA,  35,  40,  45,  50,  56,  62,  67,  72,  NA,  75,  79,  84,  NA,  NA,  NA,  NA,  NA },
     {   1,   6,  10,  16,  21,  26,  30,  36,  41,  46,  51,  57,  63,  68,  NA,  NA,  76,  80,  85,  NA,  88,  93,  97, 102 },
@@ -80,7 +80,7 @@ static unsigned int ASUS_TUF_K7_LAYOUT_KEYS_UK[6][24] =
     {   5,   8,  14,  NA,  NA,  NA,  34,  NA,  NA,  NA,  55,  61,  66,  NA,  74,  NA,  78,  83,  87,  NA,  92,  NA, 101,  NA }
 };
 
-static unsigned int ASUS_ROG_STRIX_SCOPE_LAYOUT_KEYS_US[6][24] =
+static unsigned int ASUS_ROG_STRIX_SCOPE_LAYOUT_KEYS_ANSI[6][24] =
 {
     {   0,  NA,   8,  14,  19,  24,  NA,  34,  39,  44,  49,  55,  61,  66,  70,  NA,  74,  78,  83,  NA,  NA,  NA, 104, 105 },
     {   1,   6,   9,  15,  20,  25,  29,  35,  40,  45,  50,  56,  62,  67,  NA,  NA,  75,  79,  84,  NA,  87,  92,  96, 101 },
@@ -91,7 +91,7 @@ static unsigned int ASUS_ROG_STRIX_SCOPE_LAYOUT_KEYS_US[6][24] =
 };
 
 
-static unsigned int ASUS_ROG_STRIX_SCOPE_LAYOUT_KEYS_UK[6][24] =
+static unsigned int ASUS_ROG_STRIX_SCOPE_LAYOUT_KEYS_ISO[6][24] =
 {
     {   0,  NA,   9,  15,  20,  25,  NA,  35,  40,  45,  50,  56,  62,  67,  72,  NA,  75,  79,  84,  NA,  NA,  NA, 105, 106 },
     {   1,   6,  10,  16,  21,  26,  30,  36,  41,  46,  51,  57,  63,  68,  NA,  NA,  76,  80,  85,  NA,  88,  93,  97, 102 },
@@ -101,7 +101,7 @@ static unsigned int ASUS_ROG_STRIX_SCOPE_LAYOUT_KEYS_UK[6][24] =
     {   5,   8,  14,  NA,  NA,  NA,  34,  NA,  NA,  NA,  55,  61,  66,  NA,  74,  NA,  78,  83,  87,  NA,  92,  NA, 101,  NA }
 };
 
-static unsigned int ASUS_ROG_STRIX_SCOPE_II_96_WIRELESS_LAYOUT_KEYS_US[6][19] =
+static unsigned int ASUS_ROG_STRIX_SCOPE_II_96_WIRELESS_LAYOUT_KEYS_ANSI[6][19] =
 {
     {   0,   6,  11,  17,  22,  27,  33,  39,  45,  50,  55,  61,  67,  72,  77,  80,  86,  NA,  97 },
     {   1,   7,  12,  18,  23,  28,  34,  40,  46,  51,  56,  62,  68,  73,  NA,  81,  87,  92,  98 },
@@ -111,7 +111,7 @@ static unsigned int ASUS_ROG_STRIX_SCOPE_II_96_WIRELESS_LAYOUT_KEYS_US[6][19] =
     {   5,  10,  16,  NA,  NA,  32,  38,  44,  NA,  NA,  60,  66,  71,  76,  79,  85,  91,  96,  NA }
 };
 
-static unsigned int ASUS_ROG_STRIX_SCOPE_II_96_WIRELESS_LAYOUT_KEYS_UK[6][19] =
+static unsigned int ASUS_ROG_STRIX_SCOPE_II_96_WIRELESS_LAYOUT_KEYS_ISO[6][19] =
 {
     {   0,   6,  12,  18,  23,  28,  34,  40,  46,  51,  56,  62,  68,  74,  78,  81,  87,  NA,  98 },
     {   1,   7,  13,  19,  24,  29,  35,  41,  47,  52,  57,  63,  69,  75,  NA,  82,  88,  93,  99 },
@@ -121,7 +121,7 @@ static unsigned int ASUS_ROG_STRIX_SCOPE_II_96_WIRELESS_LAYOUT_KEYS_UK[6][19] =
     {   5,  11,  17,  NA,  NA,  33,  39,  45,  NA,  NA,  61,  67,  73,  77,  80,  86,  92,  97,  NA }
 };
 
-static unsigned int ASUS_ROG_STRIX_FLARE_LAYOUT_KEYS_US[6][26] =
+static unsigned int ASUS_ROG_STRIX_FLARE_LAYOUT_KEYS_ANSI[6][26] =
 {
     {   NA,  0,  NA,   8,  14,  19,  24,  NA,  34,  39,  44,  49,  55,  61,  66,  70,  NA,  74,  78,  83,  NA, 104,  NA,  NA,  NA,  NA },
     {   NA,  1,   6,   9,  15,  20,  25,  29,  35,  40,  45,  50,  56,  62,  67,  NA,  NA,  75,  79,  84,  NA,  87,  92,  96, 101,  NA },
@@ -131,7 +131,7 @@ static unsigned int ASUS_ROG_STRIX_FLARE_LAYOUT_KEYS_US[6][26] =
     {   NA,  5,   7,  13,  NA,  NA,  NA,  33,  NA,  NA,  NA,  54,  60,  65,  NA,  73,  NA,  77,  82,  86,  NA,  91,  NA, 100,  NA,  NA }
 };
 
-static unsigned int ASUS_ROG_STRIX_FLARE_LAYOUT_KEYS_UK[6][26] =
+static unsigned int ASUS_ROG_STRIX_FLARE_LAYOUT_KEYS_ISO[6][26] =
 {
     {    NA,  0,  NA,   9,  15,  20,  25,  NA,  35,  40,  45,  50,  56,  62,  67,  72,  NA,  75,  79,  84,  NA, 105,  NA,  NA,  NA,  NA },
     {    NA,  1,   6,  10,  16,  21,  26,  30,  36,  41,  46,  51,  57,  63,  68,  NA,  NA,  76,  80,  85,  NA,  88,  93,  97, 102,  NA },
@@ -141,7 +141,7 @@ static unsigned int ASUS_ROG_STRIX_FLARE_LAYOUT_KEYS_UK[6][26] =
     {    NA,  5,   8,  14,  NA,  NA,  NA,  34,  NA,  NA,  NA,  55,  61,  66,  NA,  74,  NA,  78,  83,  87,  NA,  92,  NA, 101,  NA,  NA }
 };
 
-static unsigned int ASUS_ROG_STRIX_FLARE_II_LAYOUT_KEYS_US[7][30] =
+static unsigned int ASUS_ROG_STRIX_FLARE_II_LAYOUT_KEYS_ANSI[7][30] =
 {
     {   0,  NA,   8,  14,  19,  24,  NA,  34,  39,  44,  49,  55,  61,  66,  70,  NA,  NA,  NA,  NA,  74,  78,  83,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA },
     {   1,   6,   9,  15,  20,  25,  29,  35,  40,  45,  50,  56,  62,  67,  NA,  NA,  NA,  NA,  NA,  75,  79,  84,  NA,  NA,  NA,  NA,  87,  92,  96, 101 },
@@ -152,7 +152,7 @@ static unsigned int ASUS_ROG_STRIX_FLARE_II_LAYOUT_KEYS_US[7][30] =
     { 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123, 124, 125, 126, 127, 128, 129, 130, 131, 132, 133 }
 };
 
-static unsigned int ASUS_ROG_STRIX_FLARE_II_LAYOUT_KEYS_UK[7][30] =
+static unsigned int ASUS_ROG_STRIX_FLARE_II_LAYOUT_KEYS_ISO[7][30] =
 {
     {   0,  NA,   9,  15,  20,  25,  NA,  35,  40,  45,  50,  56,  62,  67,  72,  NA,  NA,  NA,  NA,  75,  79,  84,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA },
     {   1,   6,  10,  16,  21,  26,  30,  36,  41,  46,  51,  57,  63,  68,  NA,  NA,  NA,  NA,  NA,  76,  80,  85,  NA,  NA,  NA,  NA,  88,  93,  97, 102 },
@@ -163,25 +163,25 @@ static unsigned int ASUS_ROG_STRIX_FLARE_II_LAYOUT_KEYS_UK[7][30] =
     { 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123, 124, 125, 126, 127, 128, 129, 130, 131, 132, 133, 134 }
 };
 
-static unsigned int ASUS_FALCHION_LAYOUT_KEYS_US[5][16] =
+static unsigned int ASUS_FALCHION_LAYOUT_KEYS_ANSI[5][16] =
 {
     {   0,   5,   7,  12,  16,  20,  24,  29,  33,  37,  41,  46,  51,  56,  NA,  63 },
     {   1,  NA,   8,  13,  17,  21,  25,  30,  34,  38,  42,  47,  52,  57,  59,  64 },
-    {   2,  NA,   9,  14,  18,  22,  26,  31,  35,  39,  43,  48,  53,  NA,  60,  65 }, 
+    {   2,  NA,   9,  14,  18,  22,  26,  31,  35,  39,  43,  48,  53,  NA,  60,  65 },
     {   3,  NA,  10,  15,  19,  23,  27,  32,  36,  40,  44,  49,  54,  NA,  61,  66 },
     {   4,   6,  11,  NA,  NA,  NA,  28,  NA,  NA,  NA,  45,  50,  55,  58,  62,  67 }
 };
 
-static unsigned int ASUS_FALCHION_LAYOUT_KEYS_UK[5][16] =
+static unsigned int ASUS_FALCHION_LAYOUT_KEYS_ISO[5][16] =
 {
     {   0,   5,   8,  13,  17,  21,  25,  30,  34,  38,  42,  47,  52,  57,  NA,  64 },
     {   1,  NA,   9,  14,  18,  22,  26,  31,  35,  39,  43,  48,  53,  58,  61,  65 },
-    {   2,  NA,  10,  15,  19,  23,  27,  32,  36,  40,  44,  49,  54,  59,  NA,  66 }, 
+    {   2,  NA,  10,  15,  19,  23,  27,  32,  36,  40,  44,  49,  54,  59,  NA,  66 },
     {   3,   6,  11,  16,  20,  24,  28,  33,  37,  41,  45,  50,  55,  NA,  62,  67 },
     {   4,   7,  12,  NA,  NA,  NA,  29,  NA,  NA,  NA,  46,  51,  56,  60,  63,  68 }
 };
 
-static unsigned int ASUS_CLAYMORE_NO_NUMPAD_LAYOUT_KEYS_US[7][19] =
+static unsigned int ASUS_CLAYMORE_NO_NUMPAD_LAYOUT_KEYS_ANSI[7][19] =
 {
     {   0,  NA,   8,  14,  19,  24,  NA,  34,  39,  45,  50,  56,  62,  67,  71,  NA,  75,  79,  84 },
     {   1,   6,   9,  15,  20,  25,  29,  35,  40,  46,  51,  57,  63,  68,  NA,  NA,  76,  80,  85 },
@@ -192,7 +192,7 @@ static unsigned int ASUS_CLAYMORE_NO_NUMPAD_LAYOUT_KEYS_US[7][19] =
     {  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  44,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA }
 };
 
-static unsigned int ASUS_CLAYMORE_NO_NUMPAD_LAYOUT_KEYS_UK[7][19] =
+static unsigned int ASUS_CLAYMORE_NO_NUMPAD_LAYOUT_KEYS_ISO[7][19] =
 {
     {   0,  NA,   9,  15,  20,  25,  NA,  35,  40,  46,  51,  57,  63,  68,  73,  NA,  76,  80,  85 },
     {   1,   6,  10,  16,  21,  26,  30,  36,  41,  47,  52,  58,  64,  69,  NA,  NA,  77,  81,  86 },
@@ -203,7 +203,7 @@ static unsigned int ASUS_CLAYMORE_NO_NUMPAD_LAYOUT_KEYS_UK[7][19] =
     {  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  45,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA }
 };
 
-static unsigned int ASUS_CLAYMORE_NUMPAD_RIGHT_LAYOUT_KEYS_US[7][24] =
+static unsigned int ASUS_CLAYMORE_NUMPAD_RIGHT_LAYOUT_KEYS_ANSI[7][24] =
 {
     {   0,  NA,   8,  14,  19,  24,  NA,  34,  39,  45,  50,  56,  62,  67,  71,  NA,  75,  79,  84,  NA,  NA,  NA,  NA,  NA },
     {   1,   6,   9,  15,  20,  25,  29,  35,  40,  46,  51,  57,  63,  68,  NA,  NA,  76,  80,  85,  NA,  88,  93,  97, 102 },
@@ -214,7 +214,7 @@ static unsigned int ASUS_CLAYMORE_NUMPAD_RIGHT_LAYOUT_KEYS_US[7][24] =
     {  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  44,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA }
 };
 
-static unsigned int ASUS_CLAYMORE_NUMPAD_RIGHT_LAYOUT_KEYS_UK[7][24] =
+static unsigned int ASUS_CLAYMORE_NUMPAD_RIGHT_LAYOUT_KEYS_ISO[7][24] =
 {
     {   0,  NA,   9,  15,  20,  25,  NA,  35,  40,  46,  51,  57,  63,  68,  73,  NA,  76,  80,  85,  NA,  NA,  NA,  NA,  NA },
     {   1,   6,  10,  16,  21,  26,  30,  36,  41,  47,  52,  58,  64,  69,  NA,  NA,  77,  81,  86,  NA,  89,  94,  98, 103 },
@@ -225,7 +225,7 @@ static unsigned int ASUS_CLAYMORE_NUMPAD_RIGHT_LAYOUT_KEYS_UK[7][24] =
     {  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  45,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA }
 };
 
-static unsigned int ASUS_CLAYMORE_NUMPAD_LEFT_LAYOUT_KEYS_US[7][24] =
+static unsigned int ASUS_CLAYMORE_NUMPAD_LEFT_LAYOUT_KEYS_ANSI[7][24] =
 {
     {  NA,  NA,  NA,  NA,  NA,  17,  NA,  25,  31,  36,  41,  NA,  51,  56,  62,  67,  73,  79,  84,  88,  NA,  92,  96, 101 },
     {   0,   5,   9,  14,  NA,  18,  23,  26,  32,  37,  42,  46,  52,  57,  63,  68,  74,  80,  85,  NA,  NA,  93,  97, 102 },
@@ -236,7 +236,7 @@ static unsigned int ASUS_CLAYMORE_NUMPAD_LEFT_LAYOUT_KEYS_US[7][24] =
     {  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  61,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA }
 };
 
-static unsigned int ASUS_CLAYMORE_NUMPAD_LEFT_LAYOUT_KEYS_UK[7][24] =
+static unsigned int ASUS_CLAYMORE_NUMPAD_LEFT_LAYOUT_KEYS_ISO[7][24] =
 {
     {  NA,  NA,  NA,  NA,  NA,  17,  NA,  26,  32,  37,  42,  NA,  52,  57,  63,  68,  74,  80,  85,  90,  NA,  93,  97, 102 },
     {   0,   5,   9,  14,  NA,  18,  23,  27,  33,  38,  43,  47,  53,  58,  64,  69,  75,  81,  86,  NA,  NA,  94,  98, 103 },
@@ -257,7 +257,7 @@ static std::map<int,layout_info> AsusTUFK7Layouts =
     {
         ASUS_TUF_K7_LAYOUT_UK,
         {
-            *ASUS_TUF_K7_LAYOUT_KEYS_UK,
+            *ASUS_TUF_K7_LAYOUT_KEYS_ISO,
             105,
             6,
             24,
@@ -291,7 +291,7 @@ static std::map<int,layout_info> AsusTUFK7Layouts =
                 { KEY_EN_E,                   0x22 },
                 { KEY_EN_D,                   0x23 },
                 { KEY_EN_C,                   0x24 },
-                
+
                 { KEY_EN_F4,                  0x30 },
                 { KEY_EN_5,                   0x31 },
                 { KEY_EN_R,                   0x2A },
@@ -394,7 +394,7 @@ static std::map<int,layout_info> AsusTUFK7Layouts =
     {
         ASUS_TUF_K7_LAYOUT_US,
         {
-            *ASUS_TUF_K7_LAYOUT_KEYS_US,
+            *ASUS_TUF_K7_LAYOUT_KEYS_ANSI,
             104,
             6,
             24,
@@ -534,7 +534,7 @@ static std::map<int,layout_info> AsusROGStrixScopeLayouts =
     {
         ASUS_TUF_K7_LAYOUT_UK,
         {
-            *ASUS_ROG_STRIX_SCOPE_LAYOUT_KEYS_UK,
+            *ASUS_ROG_STRIX_SCOPE_LAYOUT_KEYS_ISO,
             107,
             6,
             24,
@@ -568,7 +568,7 @@ static std::map<int,layout_info> AsusROGStrixScopeLayouts =
                 { KEY_EN_E,                   0x22 },
                 { KEY_EN_D,                   0x23 },
                 { KEY_EN_C,                   0x24 },
-                
+
                 { KEY_EN_F4,                  0x30 },
                 { KEY_EN_5,                   0x31 },
                 { KEY_EN_R,                   0x2A },
@@ -674,7 +674,7 @@ static std::map<int,layout_info> AsusROGStrixScopeLayouts =
     {
         ASUS_TUF_K7_LAYOUT_US,
         {
-            *ASUS_ROG_STRIX_SCOPE_LAYOUT_KEYS_US,
+            *ASUS_ROG_STRIX_SCOPE_LAYOUT_KEYS_ANSI,
             106,
             6,
             24,
@@ -817,7 +817,7 @@ static std::map<int,layout_info> AsusROGStrixScopeII96WirelessLayouts =
     {
         ASUS_TUF_K7_LAYOUT_NO,
         {
-            *ASUS_ROG_STRIX_SCOPE_II_96_WIRELESS_LAYOUT_KEYS_UK,
+            *ASUS_ROG_STRIX_SCOPE_II_96_WIRELESS_LAYOUT_KEYS_ISO,
             102,
             6,
             19,
@@ -948,7 +948,7 @@ static std::map<int,layout_info> AsusROGStrixScopeII96WirelessLayouts =
     {
         ASUS_TUF_K7_LAYOUT_UK,
         {
-            *ASUS_ROG_STRIX_SCOPE_II_96_WIRELESS_LAYOUT_KEYS_UK,
+            *ASUS_ROG_STRIX_SCOPE_II_96_WIRELESS_LAYOUT_KEYS_ISO,
             102,
             6,
             19,
@@ -1079,7 +1079,7 @@ static std::map<int,layout_info> AsusROGStrixScopeII96WirelessLayouts =
     {
         ASUS_TUF_K7_LAYOUT_US,
         {
-            *ASUS_ROG_STRIX_SCOPE_II_96_WIRELESS_LAYOUT_KEYS_US,
+            *ASUS_ROG_STRIX_SCOPE_II_96_WIRELESS_LAYOUT_KEYS_ANSI,
             101,
             6,
             19,
@@ -1213,7 +1213,7 @@ static std::map<int,layout_info> AsusROGStrixFlareLayouts =
     {
         ASUS_TUF_K7_LAYOUT_UK,
         {
-            *ASUS_ROG_STRIX_FLARE_LAYOUT_KEYS_UK,
+            *ASUS_ROG_STRIX_FLARE_LAYOUT_KEYS_ISO,
             108,
             6,
             26,
@@ -1247,7 +1247,7 @@ static std::map<int,layout_info> AsusROGStrixFlareLayouts =
                 { KEY_EN_E,                   0x22 },
                 { KEY_EN_D,                   0x23 },
                 { KEY_EN_C,                   0x24 },
-                
+
                 { KEY_EN_F4,                  0x30 },
                 { KEY_EN_5,                   0x31 },
                 { KEY_EN_R,                   0x2A },
@@ -1354,7 +1354,7 @@ static std::map<int,layout_info> AsusROGStrixFlareLayouts =
     {
         ASUS_TUF_K7_LAYOUT_US,
         {
-            *ASUS_ROG_STRIX_FLARE_LAYOUT_KEYS_US,
+            *ASUS_ROG_STRIX_FLARE_LAYOUT_KEYS_ANSI,
             107,
             6,
             26,
@@ -1498,7 +1498,7 @@ static std::map<int,layout_info> AsusROGStrixFlareIILayouts =
     {
         ASUS_TUF_K7_LAYOUT_UK,
         {
-            *ASUS_ROG_STRIX_FLARE_II_LAYOUT_KEYS_UK,
+            *ASUS_ROG_STRIX_FLARE_II_LAYOUT_KEYS_ISO,
             135,
             7,
             30,
@@ -1532,7 +1532,7 @@ static std::map<int,layout_info> AsusROGStrixFlareIILayouts =
                 { KEY_EN_E,                   0x22 },
                 { KEY_EN_D,                   0x23 },
                 { KEY_EN_C,                   0x24 },
-                
+
                 { KEY_EN_F4,                  0x30 },
                 { KEY_EN_5,                   0x31 },
                 { KEY_EN_R,                   0x2A },
@@ -1666,7 +1666,7 @@ static std::map<int,layout_info> AsusROGStrixFlareIILayouts =
     {
         ASUS_TUF_K7_LAYOUT_US,
         {
-            *ASUS_ROG_STRIX_FLARE_II_LAYOUT_KEYS_US,
+            *ASUS_ROG_STRIX_FLARE_II_LAYOUT_KEYS_ANSI,
             134,
             7,
             30,
@@ -1837,7 +1837,7 @@ static std::map<int,layout_info> AsusFalchionLayouts =
     {
         ASUS_TUF_K7_LAYOUT_UK,
         {
-            *ASUS_FALCHION_LAYOUT_KEYS_UK,
+            *ASUS_FALCHION_LAYOUT_KEYS_ISO,
             69,
             5,
             16,
@@ -1932,7 +1932,7 @@ static std::map<int,layout_info> AsusFalchionLayouts =
     {
         ASUS_TUF_K7_LAYOUT_US,
         {
-            *ASUS_FALCHION_LAYOUT_KEYS_US,
+            *ASUS_FALCHION_LAYOUT_KEYS_ANSI,
             68,
             5,
             16,
@@ -2031,7 +2031,7 @@ static std::map<int,layout_info> AsusClaymoreNoNumpadLayouts =
     {
         ASUS_TUF_K7_LAYOUT_UK,
         {
-            *ASUS_CLAYMORE_NO_NUMPAD_LAYOUT_KEYS_UK,
+            *ASUS_CLAYMORE_NO_NUMPAD_LAYOUT_KEYS_ISO,
             89,
             7,
             19,
@@ -2131,7 +2131,7 @@ static std::map<int,layout_info> AsusClaymoreNoNumpadLayouts =
     {
         ASUS_TUF_K7_LAYOUT_US,
         {
-            *ASUS_CLAYMORE_NO_NUMPAD_LAYOUT_KEYS_US,
+            *ASUS_CLAYMORE_NO_NUMPAD_LAYOUT_KEYS_ANSI,
             88,
             7,
             19,
@@ -2234,7 +2234,7 @@ static std::map<int,layout_info> AsusClaymoreNumpadRightLayouts =
     {
         ASUS_TUF_K7_LAYOUT_UK,
         {
-            *ASUS_CLAYMORE_NUMPAD_RIGHT_LAYOUT_KEYS_UK,
+            *ASUS_CLAYMORE_NUMPAD_RIGHT_LAYOUT_KEYS_ISO,
             106,
             7,
             24,
@@ -2351,7 +2351,7 @@ static std::map<int,layout_info> AsusClaymoreNumpadRightLayouts =
     {
         ASUS_TUF_K7_LAYOUT_US,
         {
-            *ASUS_CLAYMORE_NUMPAD_RIGHT_LAYOUT_KEYS_US,
+            *ASUS_CLAYMORE_NUMPAD_RIGHT_LAYOUT_KEYS_ANSI,
             105,
             7,
             24,
@@ -2471,7 +2471,7 @@ static std::map<int,layout_info> AsusClaymoreNumpadLeftLayouts =
     {
         ASUS_TUF_K7_LAYOUT_UK,
         {
-            *ASUS_CLAYMORE_NUMPAD_LEFT_LAYOUT_KEYS_UK,
+            *ASUS_CLAYMORE_NUMPAD_LEFT_LAYOUT_KEYS_ISO,
             106,
             7,
             24,
@@ -2588,7 +2588,7 @@ static std::map<int,layout_info> AsusClaymoreNumpadLeftLayouts =
     {
         ASUS_TUF_K7_LAYOUT_US,
         {
-            *ASUS_CLAYMORE_NUMPAD_LEFT_LAYOUT_KEYS_US,
+            *ASUS_CLAYMORE_NUMPAD_LEFT_LAYOUT_KEYS_ANSI,
             105,
             7,
             24,
