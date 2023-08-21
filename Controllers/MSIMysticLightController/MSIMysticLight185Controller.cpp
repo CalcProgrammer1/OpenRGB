@@ -222,7 +222,7 @@ static const mystic_light_185_config board_configs[] =
     { 0x7C56, 6,  0,  0, 1, &zones_set2,  MSIMysticLight185Controller::DIRECT_MODE_PER_LED },       // MPG B550 GAMING PLUS
     { 0x7C59, 0,  8,  0, 1, &zones_set9,  MSIMysticLight185Controller::DIRECT_MODE_DISABLED },      // CREATOR TRX40
     { 0x7C60, 6,  0,  0, 1, &zones_set1,  MSIMysticLight185Controller::DIRECT_MODE_PER_LED },       // TRX40-A PRO
-    { 0x7C67, 6,  0,  0, 1, &zones_set5,  MSIMysticLight185Controller::DIRECT_MODE_DISABLED },      // MAG B365M MORTAR
+    { 0x7C67, 6,  0,  0, 1, &zones_set5,  MSIMysticLight185Controller::DIRECT_MODE_PER_LED },      // MAG B365M MORTAR
     { 0x7C71, 6,  6,  0, 1, &zones_set3,  MSIMysticLight185Controller::DIRECT_MODE_PER_LED },       // MEG Z490 ACE
     { 0x7C73, 6,  4,  0, 1, &zones_set3,  MSIMysticLight185Controller::DIRECT_MODE_PER_LED },       // MPG Z490 GAMING CARBON WIFI
     { 0x7C75, 6,  0,  0, 1, &zones_set2,  MSIMysticLight185Controller::DIRECT_MODE_PER_LED },       // MPG Z490 GAMING PLUS
