@@ -37,6 +37,26 @@ std::string AuraTUFKeyboardController::GetDeviceLocation()
     return("HID: " + location);
 }
 
+std::string clean_serial(const std::wstring& wstr)
+{
+    // Skip non-ASCII, trailing garbage in serial numbers. Required by the
+    // Scope II 96, whose original firmware outputs garbage, which even differs
+    // after computer reboots and therefore breaks OpenRGB profile matching.
+    std::string result;
+    for(auto c : wstr)
+    {
+        // Forbid control chars and anything above final printable low-ASCII.
+        if(c < 32 || c > 126)
+        {
+            break;
+        }
+
+        result += c;
+    }
+
+    return(result);
+}
+
 std::string AuraTUFKeyboardController::GetSerialString()
 {
     wchar_t serial_string[128];
@@ -47,8 +67,8 @@ std::string AuraTUFKeyboardController::GetSerialString()
         return("");
     }
 
-    std::wstring return_wstring = serial_string;
-    std::string return_string(return_wstring.begin(), return_wstring.end());
+    std::wstring serial_wstring = serial_string;
+    std::string return_string = clean_serial(serial_wstring);
 
     return(return_string);
 }
