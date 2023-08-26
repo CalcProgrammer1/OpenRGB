@@ -74,6 +74,7 @@
 #define STEELSERIES_QCK_PRISM_CLOTH_XL_PID                  0x150D
 #define STEELSERIES_QCK_PRISM_CLOTH_XL_DESTINY_PID          0x151E
 #define STEELSERIES_QCK_PRISM_CLOTH_XL_CSGO_NEON_RIDER_PID  0x1514
+#define STEELSERIES_QCK_PRISM_CLOTH_XL_CSGO_NEO_NOIR_PID    0x151C
 #define STEELSERIES_QCK_PRISM_CLOTH_3XL_PID                 0x1516
 #define STEELSERIES_QCK_PRISM_CLOTH_4XL_PID                 0x1518
 /*-----------------------------------------------------*\
@@ -341,6 +342,7 @@ REGISTER_HID_DETECTOR_I("SteelSeries QCK Prism Cloth Medium",                   
 REGISTER_HID_DETECTOR_I("SteelSeries QCK Prism Cloth XL",                           DetectSteelSeriesMousemat,  STEELSERIES_VID, STEELSERIES_QCK_PRISM_CLOTH_XL_PID,                    0  );
 REGISTER_HID_DETECTOR_I("SteelSeries QCK Prism Cloth XL Destiny Ed.",               DetectSteelSeriesMousemat,  STEELSERIES_VID, STEELSERIES_QCK_PRISM_CLOTH_XL_DESTINY_PID,            0  );
 REGISTER_HID_DETECTOR_I("SteelSeries QCK Prism Cloth XL CS:GO Neon Rider Ed.",      DetectSteelSeriesMousemat,  STEELSERIES_VID, STEELSERIES_QCK_PRISM_CLOTH_XL_CSGO_NEON_RIDER_PID,    0  );
+REGISTER_HID_DETECTOR_I("SteelSeries QCK Prism Cloth XL CS:GO Neo Noir Ed.",        DetectSteelSeriesMousemat,  STEELSERIES_VID, STEELSERIES_QCK_PRISM_CLOTH_XL_CSGO_NEO_NOIR_PID,      0  );
 REGISTER_HID_DETECTOR_I("SteelSeries QCK Prism Cloth 3XL",                          DetectSteelSeriesMousemat,  STEELSERIES_VID, STEELSERIES_QCK_PRISM_CLOTH_3XL_PID,                   0  );
 REGISTER_HID_DETECTOR_I("SteelSeries QCK Prism Cloth 4XL",                          DetectSteelSeriesMousemat,  STEELSERIES_VID, STEELSERIES_QCK_PRISM_CLOTH_4XL_PID,                   0  );
 /*-------------------------------------------------------------------------------------------------------------------------------------------------------------------------*\
