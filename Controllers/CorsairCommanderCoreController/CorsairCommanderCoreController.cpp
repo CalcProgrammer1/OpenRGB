@@ -23,6 +23,9 @@ CorsairCommanderCoreController::CorsairCommanderCoreController(hid_device* dev_h
     packet_size             = CORSAIR_COMMANDER_CORE_PACKET_SIZE_V2;
     command_res_size        = packet_size - 4;
     this->pid               = pid;
+#ifdef _WIN32
+    global_corsair_access_handle = CreateMutexA(NULL, FALSE, GLOBAL_CORSAIR_MUTEX_NAME);
+#endif
 
     /*-----------------------------------------------------*\
     | Initialize controller                                 |
@@ -40,6 +43,12 @@ CorsairCommanderCoreController::~CorsairCommanderCoreController()
     /*-----------------------------------------------------*\
     | Close keepalive thread                                |
     \*-----------------------------------------------------*/
+#ifdef _WIN32
+    if(global_corsair_access_handle != NULL)
+    {
+        CloseHandle(global_corsair_access_handle);
+    }
+#endif
     keepalive_thread_run = 0;
     keepalive_thread->join();
     delete keepalive_thread;
@@ -57,18 +66,19 @@ void CorsairCommanderCoreController::InitController()
     \*-----------------------------------------------------*/
     unsigned char command[2] = {0x02, 0x13};
     unsigned char* res = new unsigned char[command_res_size];
+
     SendCommand(command, NULL, 0, res);
     version[0] = res[0];
     version[1] = res[1];
     version[2] = res[2];
     delete[] res;
 
-    if (pid == 0x0C1C && version[0] == 1)
+    if(pid == 0x0C1C && version[0] == 1)
     {
         packet_size = CORSAIR_COMMANDER_CORE_PACKET_SIZE_V1;
         command_res_size = packet_size - 4;
     }
-    else if (pid == 0x0C32)
+    else if(pid == 0x0C32)
     {
         packet_size = CORSAIR_COMMANDER_CORE_PACKET_SIZE_V3;
     }
@@ -98,7 +108,7 @@ void CorsairCommanderCoreController::KeepaliveThread()
 {
     while(keepalive_thread_run.load())
     {
-        if (controller_ready)
+        if(controller_ready)
         {
             if((std::chrono::steady_clock::now() - last_commit_time) > std::chrono::seconds(10))
             {
@@ -143,6 +153,13 @@ void CorsairCommanderCoreController::SendCommand(unsigned char command[2], unsig
     \*---------------------------------------------------------*/
     unsigned char* buf = new unsigned char[packet_size];
 
+#ifdef _WIN32
+    if(global_corsair_access_handle != NULL)
+    {
+        WaitForSingleObject(global_corsair_access_handle, INFINITE);
+    }
+#endif
+
     memset(buf, 0, packet_size);
     buf[0] = 0x00;
     buf[1] = 0x08;
@@ -165,6 +182,13 @@ void CorsairCommanderCoreController::SendCommand(unsigned char command[2], unsig
         memcpy(res, &buf[3], command_res_size);
     }
 
+#ifdef _WIN32
+    if(global_corsair_access_handle != NULL)
+    {
+        ReleaseMutex(global_corsair_access_handle);
+    }
+#endif
+
     delete[] buf;
 }
 
@@ -177,6 +201,13 @@ void CorsairCommanderCoreController::WriteData(unsigned char endpoint[2], unsign
     /*---------------------------------------------------------*\
     | Open endpoint                                             |
     \*---------------------------------------------------------*/
+#ifdef _WIN32
+    if(global_corsair_access_handle != NULL)
+    {
+        WaitForSingleObject(global_corsair_access_handle, INFINITE);
+    }
+#endif
+
     unsigned char command[2] = {0x0d, 0x00};
     SendCommand(command, endpoint, 2, NULL);
 
@@ -240,6 +271,13 @@ void CorsairCommanderCoreController::WriteData(unsigned char endpoint[2], unsign
     command[0] = 0x05;
     command[1] = 0x01;
     SendCommand(command, NULL, 0, NULL);
+
+#ifdef _WIN32
+    if(global_corsair_access_handle != NULL)
+    {
+        ReleaseMutex(global_corsair_access_handle);
+    }
+#endif
 }
 
 void CorsairCommanderCoreController::SetDirectColor

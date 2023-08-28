@@ -9,9 +9,14 @@
 \*---------------------------------------------------------*/
 
 #include "RGBController.h"
+
 #include <vector>
 #include <chrono>
 #include <hidapi/hidapi.h>
+
+#ifdef _WIN32
+#include <Windows.h>
+#endif
 
 #pragma once
 
@@ -22,6 +27,10 @@
 #define CORSAIR_COMMANDER_CORE_RGB_DATA_LENGTH  699
 #define CORSAIR_QL_FAN_ZONE_OFFSET              102
 #define CORSAIR_COMMANDER_CORE_NUM_CHANNELS     6
+
+#ifdef _WIN32
+#define GLOBAL_CORSAIR_MUTEX_NAME "Global\\CorsairLinkReadWriteGuardMutex"
+#endif
 
 enum
 {
@@ -60,6 +69,10 @@ private:
     int                     pid;
     std::chrono::time_point<std::chrono::steady_clock> last_commit_time;
 
+#ifdef _WIN32
+    HANDLE                  global_corsair_access_handle = NULL;
+#endif
+    
     void        SendCommand(unsigned char command[2], unsigned char data[], unsigned short int data_len, unsigned char res[]);
     void        WriteData(unsigned char endpoint[2], unsigned char data_type[2], unsigned char data[], unsigned short int data_len);
 
