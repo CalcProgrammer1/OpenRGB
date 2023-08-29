@@ -337,6 +337,8 @@ HEADERS +=                                                                      
     Controllers/AOCMouseController/RGBController_AOCMouse.h                                     \
     Controllers/AOCMousematController/AOCMousematController.h                                   \
     Controllers/AOCMousematController/RGBController_AOCMousemat.h                               \
+    Controllers/ArcticController/ArcticController.h                                             \
+    Controllers/ArcticController/RGBController_Arctic.h                                         \
     Controllers/ASRockPolychromeUSBController/ASRockPolychromeUSBController.h                   \
     Controllers/ASRockPolychromeUSBController/RGBController_ASRockPolychromeUSB.h               \
     Controllers/ASRockSMBusController/ASRockASRRGBSMBusController.h                             \
@@ -935,6 +937,9 @@ SOURCES +=                                                                      
     Controllers/AOCMousematController/AOCMousematController.cpp                                 \
     Controllers/AOCMousematController/AOCMousematControllerDetect.cpp                           \
     Controllers/AOCMousematController/RGBController_AOCMousemat.cpp                             \
+    Controllers/ArcticController/ArcticController.cpp                                           \
+    Controllers/ArcticController/ArcticControllerDetect.cpp                                     \
+    Controllers/ArcticController/RGBController_Arctic.cpp                                       \
     Controllers/ASRockPolychromeUSBController/ASRockPolychromeUSBController.cpp                 \
     Controllers/ASRockPolychromeUSBController/ASRockPolychromeUSBControllerDetect.cpp           \
     Controllers/ASRockPolychromeUSBController/RGBController_ASRockPolychromeUSB.cpp             \
