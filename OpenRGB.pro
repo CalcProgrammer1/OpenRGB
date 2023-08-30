@@ -71,6 +71,7 @@ INCLUDEPATH +=                                                                  
     dependencies/json/                                                                          \
     dependencies/libe131/src/                                                                   \
     dependencies/libcmmk/include/                                                               \
+    dependencies/libcmmk/src/mappings/                                                          \
     dependencies/libusb-1.0.22/include/                                                         \
     dependencies/mdns                                                                           \
     dependencies/mbedtls-2.24.0/include/                                                        \
@@ -240,6 +241,16 @@ HEADERS +=                                                                      
     dependencies/hidapi/hidapi/hidapi.h                                                         \
     dependencies/json/json.hpp                                                                  \
     dependencies/libcmmk/include/libcmmk/libcmmk.h                                              \
+    dependencies/libcmmk/src/mappings/ansi/pro_s.h                                              \
+    dependencies/libcmmk/src/mappings/ansi/pro_l.h                                              \
+    dependencies/libcmmk/src/mappings/ansi/mk750.h                                              \
+    dependencies/libcmmk/src/mappings/ansi/sk630.h                                              \
+    dependencies/libcmmk/src/mappings/ansi/sk650.h                                              \
+    dependencies/libcmmk/src/mappings/iso/pro_s.h                                               \
+    dependencies/libcmmk/src/mappings/iso/pro_l.h                                               \
+    dependencies/libcmmk/src/mappings/iso/mk750.h                                               \
+    dependencies/libcmmk/src/mappings/iso/sk630.h                                               \
+    dependencies/libcmmk/src/mappings/iso/sk650.h                                               \
     LogManager.h                                                                                \
     NetworkClient.h                                                                             \
     NetworkProtocol.h                                                                           \

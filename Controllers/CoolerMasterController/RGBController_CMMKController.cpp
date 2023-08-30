@@ -34,7 +34,6 @@ using namespace std::chrono_literals;
 RGBController_CMMKController::RGBController_CMMKController(CMMKController* controller_ptr)
 {
     controller                  = controller_ptr;
-
     name                        = controller->GetDeviceName();
     vendor                      = controller->GetDeviceVendor();
     type                        = DEVICE_TYPE_KEYBOARD;
@@ -187,68 +186,48 @@ RGBController_CMMKController::~RGBController_CMMKController()
     delete controller;
 }
 
-void RGBController_CMMKController::SetupMatrixMap()
-{
-    for(int y = 0; y < CMMK_ROWS_MAX; y++)
-    {
-        for(int x = 0; x < CMMK_COLS_MAX; x++)
-        {
-            matrix_map[y][x] = 0xFFFFFFFF;
-        }
-    }
-
-    for(size_t i = 0; i < leds.size(); i++)
-    {
-        led& l  = leds[i];
-
-        int y   = (l.value & 0xFF00) >> 8;
-        int x   = (l.value & 0xFF);
-
-        matrix_map[y][x] = i;
-    }
-}
-
 void RGBController_CMMKController::SetupZones()
 {
-    uint8_t row_count       = controller->GetRowCount();
-    uint8_t column_count    = controller->GetColumnCount();
+    /*---------------------------------------------------------*\
+    | Create the keyboard zone usiung Keyboard Layout Manager   |
+    \*---------------------------------------------------------*/
+    zone new_zone;
+    new_zone.name           = ZONE_EN_KEYBOARD;
+    new_zone.type           = ZONE_TYPE_MATRIX;
 
-    for(int y = 0; y < row_count; y++)
+    layoutManager = new KeyboardLayoutManager(controller->GetLayout(), controller->GetSize(), controller->GetLayoutValues());
+
+    matrix_map_type * new_map   = new matrix_map_type;
+    new_zone.matrix_map         = new_map;
+    new_zone.matrix_map->height = layoutManager->GetRowCount();
+    new_zone.matrix_map->width  = layoutManager->GetColumnCount();
+
+    new_zone.matrix_map->map    = new unsigned int[new_map->height * new_map->width];
+    new_zone.leds_count         = layoutManager->GetKeyCount();
+    new_zone.leds_min           = new_zone.leds_count;
+    new_zone.leds_max           = new_zone.leds_count;
+
+    /*---------------------------------------------------------*\
+    | Matrix map still uses declared zone rows and columns      |
+    |   as the packet structure depends on the matrix map       |
+    \*---------------------------------------------------------*/
+    layoutManager->GetKeyMap(new_map->map, KEYBOARD_MAP_FILL_TYPE_COUNT, new_map->height, new_map->width);
+
+    /*---------------------------------------------------------*\
+    | Create LEDs for the Matrix zone                           |
+    |   Place keys in the layout to populate the matrix         |
+    \*---------------------------------------------------------*/
+    for(size_t led_idx = 0; led_idx < new_zone.leds_count; led_idx++)
     {
-        for(int x = 0; x < column_count; x++)
-        {
-            if(!controller->PositionValid(y, x))
-            {
-                continue;
-            }
+        led new_led;
 
-            std::stringstream namestrm;
-
-            led key;
-
-            namestrm << "Key @ Row " << (y + 1) << ", Column" << (x + 1);
-
-            key.name = namestrm.str();
-            key.value = (y & 0xFF) << 8 | (x & 0xFF);
-
-            leds.push_back(key);
-        }
+        new_led.name                = layoutManager->GetKeyNameAt(led_idx);
+        new_led.value               = layoutManager->GetKeyValueAt(led_idx);
+        leds.push_back(new_led);
     }
 
-    zone KeyboardZone;
-    KeyboardZone.name               = "Keyboard";
-    KeyboardZone.type               = ZONE_TYPE_MATRIX;
-    KeyboardZone.leds_min           = leds.size();
-    KeyboardZone.leds_max           = leds.size();
-    KeyboardZone.leds_count         = leds.size();
-    KeyboardZone.matrix_map         = new matrix_map_type;
-    KeyboardZone.matrix_map->height = row_count;
-    KeyboardZone.matrix_map->width  = column_count;
-    KeyboardZone.matrix_map->map    = (unsigned int *)&matrix_map;
+    zones.push_back(new_zone);
 
-    zones.push_back(KeyboardZone);
-
-    SetupMatrixMap();
     SetupColors();
 }
 
@@ -290,32 +269,40 @@ enum cmmk_wave_direction map_to_cmmk_dir(int input)
     }
 }
 
-void copy_buffers(led* buf,  RGBColor* colbuf, size_t n, struct cmmk_color_matrix& mat, std::atomic<bool>& dirty)
+
+void RGBController_CMMKController::copy_buffers(std::vector<RGBColor> &in_colors, struct cmmk_color_matrix& mat, std::atomic<bool>& dirty)
 {
     dirty.store(false);
 
-    for(size_t i = 0; i < n; i++)
+    keyboard_layout * transform = controller->GetTransform();
+
+    if(0 == transform)
     {
-        led const& selected_led = buf[i];
+        return;
+    }
 
-        int y = (selected_led.value & 0xFF00) >> 8;
-        int x = selected_led.value & 0xFF;
-
-        struct rgb col = map_to_cmmk_rgb(colbuf[i]);
-        struct rgb ecol = mat.data[y][x];
-
-        if(ecol.R != col.R || ecol.G != col.G || ecol.B != col.B)
+    for(int row = 0; row < controller->GetRowCount(); row++)
+    {
+        for(int col = 0; col < controller->GetColumnCount(); col++)
         {
-            dirty.store(true);
+            int key_idx = (*transform)[row][col];
 
-            mat.data[y][x] = col;
+            if(-1 == key_idx)
+            {
+                continue;
+            }
+
+            struct rgb color = map_to_cmmk_rgb(in_colors[key_idx]);
+
+            dirty.store(true);
+            mat.data[row][col] = color;
         }
     }
 }
 
 void RGBController_CMMKController::DeviceUpdateLEDs()
 {
-    copy_buffers(leds.data(), colors.data(), leds.size(), current_matrix, dirty);
+    copy_buffers(colors, current_matrix, dirty);
 
     if(force_update.load() || dirty.load())
     {
@@ -327,29 +314,47 @@ void RGBController_CMMKController::DeviceUpdateLEDs()
 
 void RGBController_CMMKController::UpdateZoneLEDs(int zone_idx)
 {
-    zone& z = zones[zone_idx];
+    /*---------------------------------------------------------*\
+    | This device only supports a single zone, as a result we  |
+    | update all LEDs.                                         |
+    \*---------------------------------------------------------*/
+    DeviceUpdateLEDs();
+}
 
-    copy_buffers(z.leds, z.colors, z.leds_count, current_matrix, dirty);
+void RGBController_CMMKController::UpdateSingleLED(int led_idx, RGBColor color)
+{
+    keyboard_layout * transform = controller->GetTransform();
+    led selected_led = leds[led_idx];
 
-    if(force_update.load() || dirty.load())
+    if(0 == transform)
     {
-        controller->SetAll(current_matrix);
-
-        force_update.store(false);
+        return;
     }
+
+    // this is really expensive
+    for(int row = 0; row < controller->GetRowCount(); row++)
+    {
+        for(int col = 0; col < controller->GetColumnCount(); col++)
+        {
+            int val = (*transform)[row][col];
+
+            if(val != (int)selected_led.value)
+            {
+                continue;
+            }
+
+            controller->SetSingle(row, col, map_to_cmmk_rgb(color));
+            dirty.store(false);
+
+            return;
+        }
+    }
+
 }
 
 void RGBController_CMMKController::UpdateSingleLED(int led_idx)
 {
-    led& selected_led = leds[led_idx];
-
-    int y = (selected_led.value & 0xFF00) >> 8;
-    int x = selected_led.value & 0xFF;
-
-    current_matrix.data[y][x] = map_to_cmmk_rgb(colors[led_idx]);
-
-    controller->SetSingle(y, x, map_to_cmmk_rgb(colors[led_idx]));
-    dirty.store(false);
+    UpdateSingleLED(led_idx, colors[led_idx]);
 }
 
 void RGBController_CMMKController::SetCustomMode()

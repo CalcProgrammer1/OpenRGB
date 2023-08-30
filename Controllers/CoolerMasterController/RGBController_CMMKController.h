@@ -10,8 +10,11 @@
 
 #pragma once
 
+#include <cstring>
 #include "RGBController.h"
 #include "CMMKController.h"
+#include "RGBControllerKeyNames.h"
+#include "KeyboardLayoutManager.h"
 
 class RGBController_CMMKController : public RGBController
 {
@@ -23,19 +26,20 @@ public:
     void ResizeZone(int zone, int new_size);
 
     void DeviceUpdateLEDs();
-    void UpdateZoneLEDs(int zone);
+    void UpdateSingleLED(int led, RGBColor color);
     void UpdateSingleLED(int led);
+    void UpdateZoneLEDs(int zone_idx);
 
     void SetCustomMode();
     void DeviceUpdateMode();
 
 private:
-    void SetupMatrixMap();
+    void copy_buffers(std::vector<RGBColor> &in_colors, struct cmmk_color_matrix& mat, std::atomic<bool>& dirty);
 
     CMMKController*             controller;
+    KeyboardLayoutManager*      layoutManager;
 
-    int                         matrix_map[CMMK_ROWS_MAX][CMMK_COLS_MAX];
-    struct cmmk_color_matrix    current_matrix;
+    struct cmmk_color_matrix current_matrix;
 
     std::atomic<bool>           dirty;
     std::atomic<bool>           force_update;
