@@ -63,12 +63,19 @@ const static zoneinfo gpuzoneinfos[]
         0x00
     },
     {
-        "Backplate",
+        "Backplate", // for 1080Ti K|NGP|N
         0x2A,
         {0x30, 0x31, 0x32},
         0xE9,
         0xE0
-    }
+    },
+    {
+        "Backplate", // for 1080Ti FTW3
+        0x4F,
+        {0x30, 0x31, 0x32},
+        0x03,
+        0x00
+    },
 };
 
 class EVGAGP102Controller

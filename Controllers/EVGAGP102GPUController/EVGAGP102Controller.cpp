@@ -62,8 +62,8 @@ bool EVGAGP102Controller::IsValid()
 {
     for (int i = 0; i < 3; i++)
     {
-        char res = bus->i2c_smbus_read_byte_data(zi.dev_addr, EVGA_GP102_REG_VALID);
-        if (res == 0x1F)
+        unsigned char res = bus->i2c_smbus_read_byte_data(zi.dev_addr, EVGA_GP102_REG_VALID);
+        if (res == 0x1F || res == 0x91)
         {
             LOG_TRACE("[%s] Zone discovery successful on address: 0x%02X.", EVGA_GP102_CONTROLLER_NAME, zi.dev_addr);
             return true;
