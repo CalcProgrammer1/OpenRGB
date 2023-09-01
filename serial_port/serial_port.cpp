@@ -660,6 +660,53 @@ void serial_port::serial_break()
 #endif
 }
 
+void serial_port::serial_set_dtr(bool dtr)
+{
+    /*-----------------------------------------------------*\
+    | Windows-specific code path for serial set DTR         |
+    \*-----------------------------------------------------*/
+#ifdef _WIN32
+    if(dtr)
+    {
+        EscapeCommFunction(file_descriptor, SETDTR);
+    }
+    else
+    {
+        EscapeCommFunction(file_descriptor, CLRDTR);
+    }
+#endif
+
+    /*-----------------------------------------------------*\
+    | Linux-specific code path for serial set DTR           |
+    \*-----------------------------------------------------*/
+#ifdef __linux__
+    const int DTRFLAG = TIOCM_DTR;
+    if(dtr)
+    {
+        ioctl(file_descriptor, TIOCMBIS, &DTRFLAG);
+    }
+    else
+    {
+        ioctl(file_descriptor, TIOCMBIC, &DTRFLAG);
+    }
+#endif
+
+    /*-----------------------------------------------------*\
+    | MacOS-specific code path for serial set DTR           |
+    \*-----------------------------------------------------*/
+#ifdef __APPLE__
+    const int DTRFLAG = TIOCM_DTR;
+    if(dtr)
+    {
+        ioctl(file_descriptor, TIOCMBIS, &DTRFLAG);
+    }
+    else
+    {
+        ioctl(file_descriptor, TIOCMBIC, &DTRFLAG);
+    }
+#endif
+}
+
 void serial_port::serial_set_rts(bool rts)
 {
     /*-----------------------------------------------------*\

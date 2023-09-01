@@ -126,6 +126,7 @@ public:
     void serial_flush_tx();
     void serial_break();
 
+    void serial_set_dtr(bool dtr);
     void serial_set_rts(bool rts);
 
     int serial_available();
