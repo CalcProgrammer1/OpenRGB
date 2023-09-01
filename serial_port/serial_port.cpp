@@ -318,9 +318,12 @@ bool serial_port::serial_open()
     options.c_lflag &= ~ECHOE;                                              // Disable erasure
     options.c_lflag &= ~ECHONL;                                             // Disable new-line echo
     options.c_lflag &= ~ISIG;                                               // Disable interpretation of INTR, QUIT and SUSP
+    options.c_lflag &= ~IEXTEN;                                             // Disable input processing
 
     options.c_iflag &= ~(IXON | IXOFF | IXANY);                             // Turn off s/w flow ctrl
     options.c_iflag &= ~(IGNBRK|BRKINT|PARMRK|ISTRIP|INLCR|IGNCR|ICRNL);    // Disable any special handling of received bytes
+
+    options.c_oflag &= ~OPOST;                                              // Disable output processing;
 
     /*-----------------------------------------*\
     | Set the port configuration options        |
@@ -420,7 +423,7 @@ bool serial_port::serial_open()
     /*-----------------------------------------*\
     | Configure additional parameters           |
     \*-----------------------------------------*/
-    options.c_lflag &= ~(ICANON | ISIG | ECHO);
+    options.c_lflag &= ~(ICANON | IEXTEN | ISIG | ECHO);
 
     options.c_iflag &= ~(INLCR | ICRNL);
     options.c_iflag |= IGNPAR | IGNBRK;
