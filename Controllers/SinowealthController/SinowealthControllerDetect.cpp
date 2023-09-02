@@ -26,10 +26,11 @@
 #define Glorious_Model_DW_PID1              0x2023 // Wireless
 #define Glorious_Model_DW_PID2              0x2012 // When connected via cable
 #define Everest_GT100_PID                   0x0029
-#define ZET_FURY_PRO_GENESIS_XENON_200_PID  0x1007
+#define ZET_FURY_PRO_PID                    0x1007
 #define Fl_Esports_F11_PID                  0x0049
 #define RGB_KEYBOARD_0016PID                0x0016
 #define GENESIS_THOR_300_PID                0x0090
+#define GENESIS_XENON_200_PID               0x1007
 
 /******************************************************************************************\
 *                                                                                          *
@@ -410,12 +411,12 @@ static void DetectSinowealthGenesisKeyboard(hid_device_info* info, const std::st
 REGISTER_HID_DETECTOR_P("Glorious Model O / O-",            DetectSinowealthMouse,              SINOWEALTH_VID, Glorious_Model_O_PID,                   0xFF00          );
 REGISTER_HID_DETECTOR_P("Glorious Model D / D-",            DetectSinowealthMouse,              SINOWEALTH_VID, Glorious_Model_D_PID,                   0xFF00          );
 REGISTER_HID_DETECTOR_P("Everest GT-100 RGB",               DetectSinowealthMouse,              SINOWEALTH_VID, Everest_GT100_PID,                      0xFF00          );
-REGISTER_HID_DETECTOR_IPU("ZET Fury Pro",                   DetectZetFuryPro,                   SINOWEALTH_VID, ZET_FURY_PRO_GENESIS_XENON_200_PID, 1,  0xFF00, 1       );
+REGISTER_HID_DETECTOR_IPU("ZET Fury Pro",                   DetectZetFuryPro,                   SINOWEALTH_VID, ZET_FURY_PRO_PID,                   1,  0xFF00, 1       );
 REGISTER_HID_DETECTOR_PU("Glorious Model O / O- Wireless",  DetectGMOW_Dongle,                  SINOWEALTH_VID, Glorious_Model_OW_PID1,                 0xFFFF, 1       );
 REGISTER_HID_DETECTOR_PU("Glorious Model O / O- Wireless",  DetectGMOW_Cable,                   SINOWEALTH_VID, Glorious_Model_OW_PID2,                 0xFFFF, 0x0000  );
 REGISTER_HID_DETECTOR_PU("Glorious Model D / D- Wireless",  DetectGMOW_Dongle,                  SINOWEALTH_VID, Glorious_Model_DW_PID1,                 0xFFFF, 0x0000  );
 REGISTER_HID_DETECTOR_PU("Glorious Model D / D- Wireless",  DetectGMOW_Cable,                   SINOWEALTH_VID, Glorious_Model_DW_PID2,                 0xFFFF, 0x0000  );
-REGISTER_HID_DETECTOR_PU("Genesis Xenon 200",               DetectGenesisXenon200,              SINOWEALTH_VID, ZET_FURY_PRO_GENESIS_XENON_200_PID,     0xFF00, 1       );
+REGISTER_HID_DETECTOR_PU("Genesis Xenon 200",               DetectGenesisXenon200,              SINOWEALTH_VID, GENESIS_XENON_200_PID,                  0xFF00, 1       );
 REGISTER_HID_DETECTOR_IPU("Genesis Thor 300",               DetectSinowealthGenesisKeyboard,    SINOWEALTH_VID, GENESIS_THOR_300_PID,               1,  0xFF00, 1       );
 
 // Sinowealth keyboards are disabled due to VID/PID pairs being reused from Redragon keyboards, which ended up in bricking the latter
@@ -425,12 +426,12 @@ REGISTER_HID_DETECTOR_IPU("Genesis Thor 300",               DetectSinowealthGene
 REGISTER_HID_DETECTOR_I("Glorious Model O / O-",            DetectSinowealthMouse,              SINOWEALTH_VID, Glorious_Model_O_PID,               1);
 REGISTER_HID_DETECTOR_I("Glorious Model D / D-",            DetectSinowealthMouse,              SINOWEALTH_VID, Glorious_Model_D_PID,               1);
 REGISTER_HID_DETECTOR_I("Everest GT-100 RGB",               DetectSinowealthMouse,              SINOWEALTH_VID, Everest_GT100_PID,                  1);
-REGISTER_HID_DETECTOR_I("ZET Fury Pro/Genesis Xenon 200",   DetectZetFuryPro,                   SINOWEALTH_VID, ZET_FURY_PRO_GENESIS_XENON_200_PID, 1);
+REGISTER_HID_DETECTOR_I("ZET Fury Pro",                     DetectZetFuryPro,                   SINOWEALTH_VID, ZET_FURY_PRO_PID,                   1);
 REGISTER_HID_DETECTOR_I("Glorious Model O / O- Wireless",   DetectGMOW_Dongle,                  SINOWEALTH_VID, Glorious_Model_OW_PID1,             1);
 REGISTER_HID_DETECTOR_I("Glorious Model O / O- Wireless",   DetectGMOW_Cable,                   SINOWEALTH_VID, Glorious_Model_OW_PID2,             2);
 REGISTER_HID_DETECTOR_I("Glorious Model D / D- Wireless",   DetectGMOW_Dongle,                  SINOWEALTH_VID, Glorious_Model_DW_PID1,             2);
 REGISTER_HID_DETECTOR_I("Glorious Model D / D- Wireless",   DetectGMOW_Cable,                   SINOWEALTH_VID, Glorious_Model_DW_PID2,             2);
-REGISTER_HID_DETECTOR_I("Genesis Xenon 200",                DetectGenesisXenon200,              SINOWEALTH_VID, ZET_FURY_PRO_GENESIS_XENON_200_PID, 1);
+REGISTER_HID_DETECTOR_I("Genesis Xenon 200",                DetectGenesisXenon200,              SINOWEALTH_VID, GENESIS_XENON_200_PID,              1);
 REGISTER_HID_DETECTOR_I("Genesis Thor 300",                 DetectSinowealthGenesisKeyboard,    SINOWEALTH_VID, GENESIS_THOR_300_PID,               1);
 
 //REGISTER_HID_DETECTOR_I("FL ESPORTS F11",                   DetectSinowealthKeyboard,   SINOWEALTH_VID, Fl_Esports_F11_PID,                         1);
