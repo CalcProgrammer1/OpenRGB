@@ -13,9 +13,9 @@
     @name Asus ROG Ally
     @category Gamepad
     @type USB
-    @save :x:
+    @save :white_check_mark:
     @direct :white_check_mark:
-    @effects :x:
+    @effects :white_check_mark:
     @detectors DetectAsusROGAlly
     @comment
 \*-------------------------------------------------------------------*/
