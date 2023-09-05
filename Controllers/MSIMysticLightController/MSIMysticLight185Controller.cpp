@@ -262,6 +262,7 @@ static const mystic_light_185_config board_configs[] =
     { 0x7D32, 1,  0,  0, 1, &zones_set10, MSIMysticLight185Controller::DIRECT_MODE_PER_LED },       // MAG Z690 TOMAHAWK WIFI DDR4
     { 0x7D36, 6,  0,  0, 2, &zones_set5,  MSIMysticLight185Controller::DIRECT_MODE_PER_LED },       // PRO Z690-P DDR4
     { 0x7D38, 0,  0,  0, 1, &zones_set1,  MSIMysticLight185Controller::DIRECT_MODE_PER_LED },       // MEG Z590 UNIFY-X
+    { 0x7D40, 0,  0,  0, 1, &zones_set5,  MSIMysticLight185Controller::DIRECT_MODE_PER_LED },       // MPG B760i EDGE WIFI DDR4
     { 0x7D41, 6,  0,  0, 2, &zones_set13, MSIMysticLight185Controller::DIRECT_MODE_PER_LED },       // MAG B660M TOMAHAWK WIFI DDR4
     { 0x7D42, 6,  0,  0, 2, &zones_set11, MSIMysticLight185Controller::DIRECT_MODE_PER_LED },       // MAG B660 MORTAR WIFI DDR4
     { 0x7D43, 0,  0,  0, 2, &zones_set11, MSIMysticLight185Controller::DIRECT_MODE_PER_LED },       // PRO B660M-A WIFI DDR4
@@ -526,7 +527,7 @@ void MSIMysticLight185Controller::SetMode
 
     ZoneData* on_board_zone = GetZoneData(data, MSI_ZONE_ON_BOARD_LED_0);
 
-    if(no_onboards && ((zone == MSI_ZONE_J_RGB_1) || (zone == MSI_ZONE_J_RGB_1) || (zone == MSI_ZONE_J_PIPE_1) || (zone == MSI_ZONE_J_PIPE_2)))
+    if(no_onboards && ((zone == MSI_ZONE_J_RGB_1) || (zone == MSI_ZONE_J_RGB_2) || (zone == MSI_ZONE_J_PIPE_1) || (zone == MSI_ZONE_J_PIPE_2)))
     {
         on_board_zone->effect                  =  zone_data->effect;
         on_board_zone->speedAndBrightnessFlags =  zone_data->speedAndBrightnessFlags;
@@ -669,7 +670,7 @@ void MSIMysticLight185Controller::SetZoneColor
     zone_data->color2.G = grn2;
     zone_data->color2.B = blu2;
 
-    if(no_onboards && ((zone == MSI_ZONE_J_RGB_1) || (zone == MSI_ZONE_J_RGB_1) || (zone == MSI_ZONE_J_PIPE_1) || (zone == MSI_ZONE_J_PIPE_2)))
+    if(no_onboards && ((zone == MSI_ZONE_J_RGB_1) || (zone == MSI_ZONE_J_RGB_2) || (zone == MSI_ZONE_J_PIPE_1) || (zone == MSI_ZONE_J_PIPE_2)))
     {
         ZoneData* on_board_zone = GetZoneData(data, MSI_ZONE_ON_BOARD_LED_0);
 
