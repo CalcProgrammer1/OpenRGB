@@ -53,7 +53,7 @@ There have been two instances of hardware damage in OpenRGB's development and we
          and [Qt Creator](https://www.qt.io/download-thank-you).
       2. When [installing the QT toolset](https://gitlab.com/OpenRGBDevelopers/OpenRGB-Wiki/-/blob/stable/Downloading%20Qt%20and%20building%20OpenRGB.md)
          select the latest revision of Qt 5.15.x as OpenRGB is not yet compatible with QT6
-      3. Optionally [install Git](https://git-scm.com/download) if you intend to 
+      3. Optionally [install Git](https://git-scm.com/download) if you intend to
          [contribute your changes](https://gitlab.com/CalcProgrammer1/OpenRGB/-/blob/master/CONTRIBUTING.md)
          to the mainline codebase.
       4. Open the OpenRGB.pro project in Qt Creator.
@@ -96,7 +96,7 @@ There have been two instances of hardware damage in OpenRGB's development and we
 ##### Compiling
 
    1.  Install build dependencies
-       - `sudo apt install git build-essential qtcreator qtbase5-dev qtchooser qt5-qmake qtbase5-dev-tools libusb-1.0-0-dev libhidapi-dev pkgconf libmbedtls-dev`
+       - `sudo apt install git build-essential qtcreator qtbase5-dev qtchooser qt5-qmake qtbase5-dev-tools libusb-1.0-0-dev libhidapi-dev pkgconf libmbedtls-dev qttools5-dev-tools`
    2.  git clone https://gitlab.com/CalcProgrammer1/OpenRGB
    3.  cd OpenRGB
    4.  qmake OpenRGB.pro
