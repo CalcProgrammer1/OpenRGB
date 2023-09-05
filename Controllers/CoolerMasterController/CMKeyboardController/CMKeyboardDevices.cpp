@@ -280,7 +280,7 @@ keyboard_keymap_overlay_values mk_pro_s_layout
     {
         /*---------------------------------------------------------------------------------------------------------*\
         | Edit Keys                                                                                                 |
-        |   Zone,   Row,    Column,     Value,      Key,                        OpCode,                             |
+        |   Zone,   Row,    Column,     Value,      Key,        Alternate Name,     OpCode,                         |
         \*---------------------------------------------------------------------------------------------------------*/
     },
 };
@@ -297,12 +297,12 @@ keyboard_keymap_overlay_values mk_pro_l_layout
     {
         /*---------------------------------------------------------------------------------------------------------*\
         | Edit Keys                                                                                                 |
-        |   Zone,   Row,    Column,     Value,      Key,                        OpCode,                             |
+        |   Zone,   Row,    Column,     Value,      Name,       Alternate Name,     OpCode,                         |
         \*---------------------------------------------------------------------------------------------------------*/
-        {   0,      0,      17,         101,          "Key: P1",                  KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      0,      18,         109,          "Key: P2",                  KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      0,      19,         117,          "Key: P3",                  KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      0,      20,         119,          "Key: P4",                  KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      0,      17,         101,        "Key: P1",  KEY_EN_UNUSED,      KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      0,      18,         109,        "Key: P2",  KEY_EN_UNUSED,      KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      0,      19,         117,        "Key: P3",  KEY_EN_UNUSED,      KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      0,      20,         119,        "Key: P4",  KEY_EN_UNUSED,      KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
     },
 };
 
@@ -322,16 +322,16 @@ keyboard_keymap_overlay_values mk850_layout
     {
         /*---------------------------------------------------------------------------------------------------------*\
         | Edit Keys                                                                                                 |
-        |   Zone,   Row,    Column,     Value,      Key,                        OpCode,                             |
+        |   Zone,   Row,    Column,     Value,      Name,           Alternate Name,     OpCode,                     |
         \*---------------------------------------------------------------------------------------------------------*/
-        {   0,      0,      17,       146,          "Key: Aim <|>",             KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, }, // aimpad <|>
-        {   0,      0,      18,       153,          "Key: Aim -",               KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, }, // aimpad +
-        {   0,      0,      19,       160,          "Key: Aim +",               KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, }, // aimpad -
-        {   0,      1,       0,         0,          "Key: M5",                  KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      2,       0,         1,          "Key: M4",                  KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      3,       0,         2,          "Key: M3",                  KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      4,       0,         3,          "Key: M2",                  KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      5,       0,         4,          "Key: M1",                  KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      0,      17,       146,          "Key: Aim <|>", KEY_EN_UNUSED,      KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, }, // aimpad <|>
+        {   0,      0,      18,       153,          "Key: Aim -",   KEY_EN_UNUSED,      KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, }, // aimpad +
+        {   0,      0,      19,       160,          "Key: Aim +",   KEY_EN_UNUSED,      KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, }, // aimpad -
+        {   0,      1,       0,         0,          "Key: M5",      KEY_EN_UNUSED,      KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      2,       0,         1,          "Key: M4",      KEY_EN_UNUSED,      KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      3,       0,         2,          "Key: M3",      KEY_EN_UNUSED,      KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      4,       0,         3,          "Key: M2",      KEY_EN_UNUSED,      KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      5,       0,         4,          "Key: M1",      KEY_EN_UNUSED,      KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
     },
 };
 
@@ -345,51 +345,51 @@ keyboard_keymap_overlay_values sk620_layout
         }
     },
     {
-        /*---------------------------------------------------------------------------------------------------------*\
-        | Edit Keys                                                                                                 |
-        |   Zone,   Row,    Column,     Value,      Key,                        OpCode,                             |
-        \*---------------------------------------------------------------------------------------------------------*/
-        {   0,      0,      0,          7,         "Light: Top 1",              KEYBOARD_OPCODE_INSERT_ROW, },
-        {   0,      0,      1,         14,         "Light: Top 2",              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      0,      2,         21,         "Light: Top 3",              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      0,      3,         28,         "Light: Top 4",              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      0,      4,         35,         "Light: Top 5",              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      0,      5,         42,         "Light: Top 6",              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      0,      6,         49,         "Light: Top 7",              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      0,      7,         56,         "Light: Top 8",              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      0,      8,         63,         "Light: Top 9",              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      0,      9,         70,         "Light: Top 10",             KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      0,      10,        77,         "Light: Top 11",             KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      0,      11,        84,         "Light: Top 12",             KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      0,      12,        91,         "Light: Top 13",             KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      0,      13,        98,         "Light: Top 14",             KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      0,      14,       105,         "Light: Top 14",             KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      1,      0,          0,         "Light: Left 1",             KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      2,      0,          1,         "Light: Left 2",             KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      3,      0,          2,         "Light: Left 3",             KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      4,      0,          3,         "Light: Left 4",             KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      5,      0,          4,         "Light: Left 5",             KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      1,      16,       112,         "Light: Right 1",            KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      2,      16,       113,         "Light: Right 2",            KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      3,      16,       114,         "Light: Right 3",            KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      4,      16,       115,         "Light: Right 4",            KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      5,      16,       116,         "Light: Right 5",            KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      6,       0,         6,         "Light: Bottom 1",           KEYBOARD_OPCODE_INSERT_ROW, },
-        {   0,      6,       1,        20,         "Light: Bottom 2",           KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      6,       2,        27,         "Light: Bottom 3",           KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      6,       3,        34,         "Light: Bottom 4",           KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      6,       4,        41,         "Light: Bottom 5",           KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      6,       5,        48,         "Light: Bottom 6",           KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      6,       6,        55,         "Light: Bottom 7",           KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      6,       7,        62,         "Light: Bottom 8",           KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      6,       8,        69,         "Light: Bottom 9",           KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      6,       9,        76,         "Light: Bottom 10",          KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      6,       10,       83,         "Light: Bottom 11",          KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      6,       11,       90,         "Light: Bottom 12",          KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      6,       12,       97,         "Light: Bottom 13",          KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      6,       13,      104,         "Light: Bottom 14",          KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      6,       14,      111,         "Light: Bottom 15",          KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      6,       14,      118,         "Light: Bottom 16",          KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        /*-----------------------------------------------------------------------------------------------------------------------------*\
+        | Edit Keys                                                                                                                     |
+        |   Zone,   Row,    Column,     Value,      Key,                        Alternate Name,     OpCode,                             |
+        \*-----------------------------------------------------------------------------------------------------------------------------*/
+        {   0,      0,      0,          7,         "Light: Top 1",              KEY_EN_UNUSED,      KEYBOARD_OPCODE_INSERT_ROW,         },
+        {   0,      0,      1,         14,         "Light: Top 2",              KEY_EN_UNUSED,      KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      0,      2,         21,         "Light: Top 3",              KEY_EN_UNUSED,      KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      0,      3,         28,         "Light: Top 4",              KEY_EN_UNUSED,      KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      0,      4,         35,         "Light: Top 5",              KEY_EN_UNUSED,      KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      0,      5,         42,         "Light: Top 6",              KEY_EN_UNUSED,      KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      0,      6,         49,         "Light: Top 7",              KEY_EN_UNUSED,      KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      0,      7,         56,         "Light: Top 8",              KEY_EN_UNUSED,      KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      0,      8,         63,         "Light: Top 9",              KEY_EN_UNUSED,      KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      0,      9,         70,         "Light: Top 10",             KEY_EN_UNUSED,      KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      0,      10,        77,         "Light: Top 11",             KEY_EN_UNUSED,      KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      0,      11,        84,         "Light: Top 12",             KEY_EN_UNUSED,      KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      0,      12,        91,         "Light: Top 13",             KEY_EN_UNUSED,      KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      0,      13,        98,         "Light: Top 14",             KEY_EN_UNUSED,      KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      0,      14,       105,         "Light: Top 14",             KEY_EN_UNUSED,      KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      1,      0,          0,         "Light: Left 1",             KEY_EN_UNUSED,      KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      2,      0,          1,         "Light: Left 2",             KEY_EN_UNUSED,      KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      3,      0,          2,         "Light: Left 3",             KEY_EN_UNUSED,      KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      4,      0,          3,         "Light: Left 4",             KEY_EN_UNUSED,      KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      5,      0,          4,         "Light: Left 5",             KEY_EN_UNUSED,      KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      1,      16,       112,         "Light: Right 1",            KEY_EN_UNUSED,      KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      2,      16,       113,         "Light: Right 2",            KEY_EN_UNUSED,      KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      3,      16,       114,         "Light: Right 3",            KEY_EN_UNUSED,      KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      4,      16,       115,         "Light: Right 4",            KEY_EN_UNUSED,      KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      5,      16,       116,         "Light: Right 5",            KEY_EN_UNUSED,      KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      6,       0,         6,         "Light: Bottom 1",           KEY_EN_UNUSED,      KEYBOARD_OPCODE_INSERT_ROW,         },
+        {   0,      6,       1,        20,         "Light: Bottom 2",           KEY_EN_UNUSED,      KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      6,       2,        27,         "Light: Bottom 3",           KEY_EN_UNUSED,      KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      6,       3,        34,         "Light: Bottom 4",           KEY_EN_UNUSED,      KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      6,       4,        41,         "Light: Bottom 5",           KEY_EN_UNUSED,      KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      6,       5,        48,         "Light: Bottom 6",           KEY_EN_UNUSED,      KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      6,       6,        55,         "Light: Bottom 7",           KEY_EN_UNUSED,      KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      6,       7,        62,         "Light: Bottom 8",           KEY_EN_UNUSED,      KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      6,       8,        69,         "Light: Bottom 9",           KEY_EN_UNUSED,      KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      6,       9,        76,         "Light: Bottom 10",          KEY_EN_UNUSED,      KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      6,       10,       83,         "Light: Bottom 11",          KEY_EN_UNUSED,      KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      6,       11,       90,         "Light: Bottom 12",          KEY_EN_UNUSED,      KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      6,       12,       97,         "Light: Bottom 13",          KEY_EN_UNUSED,      KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      6,       13,      104,         "Light: Bottom 14",          KEY_EN_UNUSED,      KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      6,       14,      111,         "Light: Bottom 15",          KEY_EN_UNUSED,      KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      6,       14,      118,         "Light: Bottom 16",          KEY_EN_UNUSED,      KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
     },
 };
 
@@ -405,49 +405,49 @@ keyboard_keymap_overlay_values sk622_layout
     {
         /*---------------------------------------------------------------------------------------------------------*\
         | Edit Keys                                                                                                 |
-        |   Zone,   Row,    Column,     Value,      Key,                        OpCode,                             |
+        |   Zone,   Row,    Column,     Value,      Name,               Alternate Name,     OpCode,                 |
         \*---------------------------------------------------------------------------------------------------------*/
-        {   0,      0,      0,          7,         "Light: Top 1",              KEYBOARD_OPCODE_INSERT_ROW, },
-        {   0,      0,      1,         14,         "Light: Top 2",              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      0,      2,         21,         "Light: Top 3",              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      0,      3,         28,         "Light: Top 4",              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      0,      4,         35,         "Light: Top 5",              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      0,      5,         42,         "Light: Top 6",              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      0,      6,         49,         "Light: Top 7",              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      0,      7,         56,         "Light: Top 8",              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      0,      8,         63,         "Light: Top 9",              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      0,      9,         70,         "Light: Top 10",             KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      0,      10,        77,         "Light: Top 11",             KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      0,      11,        84,         "Light: Top 12",             KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      0,      12,        91,         "Light: Top 13",             KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      0,      13,        98,         "Light: Top 14",             KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      0,      14,       105,         "Light: Top 14",             KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      1,      0,          0,         "Light: Left 1",             KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      2,      0,          1,         "Light: Left 2",             KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      3,      0,          2,         "Light: Left 3",             KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      4,      0,          3,         "Light: Left 4",             KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      5,      0,          4,         "Light: Left 5",             KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      1,      16,       112,         "Light: Right 1",            KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      2,      16,       113,         "Light: Right 2",            KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      3,      16,       114,         "Light: Right 3",            KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      4,      16,       115,         "Light: Right 4",            KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      5,      16,       116,         "Light: Right 5",            KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      6,       0,         6,         "Light: Bottom 1",           KEYBOARD_OPCODE_INSERT_ROW, },
-        {   0,      6,       1,        20,         "Light: Bottom 2",           KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      6,       2,        27,         "Light: Bottom 3",           KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      6,       3,        34,         "Light: Bottom 4",           KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      6,       4,        41,         "Light: Bottom 5",           KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      6,       5,        48,         "Light: Bottom 6",           KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      6,       6,        55,         "Light: Bottom 7",           KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      6,       7,        62,         "Light: Bottom 8",           KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      6,       8,        69,         "Light: Bottom 9",           KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      6,       9,        76,         "Light: Bottom 10",          KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      6,       10,       83,         "Light: Bottom 11",          KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      6,       11,       90,         "Light: Bottom 12",          KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      6,       12,       97,         "Light: Bottom 13",          KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      6,       13,      104,         "Light: Bottom 14",          KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      6,       14,      111,         "Light: Bottom 15",          KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      6,       14,      118,         "Light: Bottom 16",          KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      0,      0,          7,          "Light: Top 1",     KEY_EN_UNUSED,      KEYBOARD_OPCODE_INSERT_ROW, },
+        {   0,      0,      1,         14,          "Light: Top 2",     KEY_EN_UNUSED,      KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      0,      2,         21,          "Light: Top 3",     KEY_EN_UNUSED,      KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      0,      3,         28,          "Light: Top 4",     KEY_EN_UNUSED,      KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      0,      4,         35,          "Light: Top 5",     KEY_EN_UNUSED,      KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      0,      5,         42,          "Light: Top 6",     KEY_EN_UNUSED,      KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      0,      6,         49,          "Light: Top 7",     KEY_EN_UNUSED,      KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      0,      7,         56,          "Light: Top 8",     KEY_EN_UNUSED,      KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      0,      8,         63,          "Light: Top 9",     KEY_EN_UNUSED,      KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      0,      9,         70,          "Light: Top 10",    KEY_EN_UNUSED,      KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      0,      10,        77,          "Light: Top 11",    KEY_EN_UNUSED,      KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      0,      11,        84,          "Light: Top 12",    KEY_EN_UNUSED,      KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      0,      12,        91,          "Light: Top 13",    KEY_EN_UNUSED,      KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      0,      13,        98,          "Light: Top 14",    KEY_EN_UNUSED,      KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      0,      14,       105,          "Light: Top 14",    KEY_EN_UNUSED,      KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      1,      0,          0,          "Light: Left 1",    KEY_EN_UNUSED,      KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      2,      0,          1,          "Light: Left 2",    KEY_EN_UNUSED,      KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      3,      0,          2,          "Light: Left 3",    KEY_EN_UNUSED,      KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      4,      0,          3,          "Light: Left 4",    KEY_EN_UNUSED,      KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      5,      0,          4,          "Light: Left 5",    KEY_EN_UNUSED,      KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      1,      16,       112,          "Light: Right 1",   KEY_EN_UNUSED,      KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      2,      16,       113,          "Light: Right 2",   KEY_EN_UNUSED,      KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      3,      16,       114,          "Light: Right 3",   KEY_EN_UNUSED,      KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      4,      16,       115,          "Light: Right 4",   KEY_EN_UNUSED,      KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      5,      16,       116,          "Light: Right 5",   KEY_EN_UNUSED,      KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      6,       0,         6,          "Light: Bottom 1",  KEY_EN_UNUSED,      KEYBOARD_OPCODE_INSERT_ROW, },
+        {   0,      6,       1,        20,          "Light: Bottom 2",  KEY_EN_UNUSED,      KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      6,       2,        27,          "Light: Bottom 3",  KEY_EN_UNUSED,      KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      6,       3,        34,          "Light: Bottom 4",  KEY_EN_UNUSED,      KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      6,       4,        41,          "Light: Bottom 5",  KEY_EN_UNUSED,      KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      6,       5,        48,          "Light: Bottom 6",  KEY_EN_UNUSED,      KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      6,       6,        55,          "Light: Bottom 7",  KEY_EN_UNUSED,      KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      6,       7,        62,          "Light: Bottom 8",  KEY_EN_UNUSED,      KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      6,       8,        69,          "Light: Bottom 9",  KEY_EN_UNUSED,      KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      6,       9,        76,          "Light: Bottom 10", KEY_EN_UNUSED,      KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      6,       10,       83,          "Light: Bottom 11", KEY_EN_UNUSED,      KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      6,       11,       90,          "Light: Bottom 12", KEY_EN_UNUSED,      KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      6,       12,       97,          "Light: Bottom 13", KEY_EN_UNUSED,      KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      6,       13,      104,          "Light: Bottom 14", KEY_EN_UNUSED,      KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      6,       14,      111,          "Light: Bottom 15", KEY_EN_UNUSED,      KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      6,       14,      118,          "Light: Bottom 16", KEY_EN_UNUSED,      KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
     },
 };
 
@@ -534,30 +534,30 @@ keyboard_keymap_overlay_values mk730_layout
     {
         /*---------------------------------------------------------------------------------------------------------*\
         | Edit Keys                                                                                                 |
-        |   Zone,   Row,    Column,     Value,      Key,                        OpCode,                             |
+        |   Zone,   Row,    Column,     Value,      Name,               Alternate Name,     OpCode,                 |
         \*---------------------------------------------------------------------------------------------------------*/
-        {   0,      1,      0,          1,         "Light: Left 1",             KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      2,      0,          2,         "Light: Left 2",             KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      3,      0,          3,         "Light: Left 3",             KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      4,      0,          4,         "Light: Left 4",             KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      1,      18,       141,         "Light: Right 1",            KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      2,      18,       142,         "Light: Right 2",            KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      3,      18,       143,         "Light: Right 3",            KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      4,      18,       144,         "Light: Right 4",            KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      6,       1,        13,         "Light: Bottom 1",           KEYBOARD_OPCODE_INSERT_ROW, },
-        {   0,      6,       2,        20,         "Light: Bottom 2",           KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      6,       3,        27,         "Light: Bottom 3",           KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      6,       4,        34,         "Light: Bottom 4",           KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      6,       5,        41,         "Light: Bottom 5",           KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      6,       6,        55,         "Light: Bottom 6",           KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      6,       7,        62,         "Light: Bottom 7",           KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      6,       8,        69,         "Light: Logo",               KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      6,      10,        76,         "Light: Bottom 8",           KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      6,      11,        90,         "Light: Bottom 9",           KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      6,      12,       104,         "Light: Bottom 10",          KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      6,      13,       111,         "Light: Bottom 11",          KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      6,      14,       118,         "Light: Bottom 12",          KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      6,      15,       125,         "Light: Bottom 13",          KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      1,      0,          1,          "Light: Left 1",    KEY_EN_UNUSED,      KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      2,      0,          2,          "Light: Left 2",    KEY_EN_UNUSED,      KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      3,      0,          3,          "Light: Left 3",    KEY_EN_UNUSED,      KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      4,      0,          4,          "Light: Left 4",    KEY_EN_UNUSED,      KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      1,      18,       141,          "Light: Right 1",   KEY_EN_UNUSED,      KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      2,      18,       142,          "Light: Right 2",   KEY_EN_UNUSED,      KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      3,      18,       143,          "Light: Right 3",   KEY_EN_UNUSED,      KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      4,      18,       144,          "Light: Right 4",   KEY_EN_UNUSED,      KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      6,       1,        13,          "Light: Bottom 1",  KEY_EN_UNUSED,      KEYBOARD_OPCODE_INSERT_ROW, },
+        {   0,      6,       2,        20,          "Light: Bottom 2",  KEY_EN_UNUSED,      KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      6,       3,        27,          "Light: Bottom 3",  KEY_EN_UNUSED,      KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      6,       4,        34,          "Light: Bottom 4",  KEY_EN_UNUSED,      KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      6,       5,        41,          "Light: Bottom 5",  KEY_EN_UNUSED,      KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      6,       6,        55,          "Light: Bottom 6",  KEY_EN_UNUSED,      KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      6,       7,        62,          "Light: Bottom 7",  KEY_EN_UNUSED,      KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      6,       8,        69,          "Light: Logo",      KEY_EN_UNUSED,      KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      6,      10,        76,          "Light: Bottom 8",  KEY_EN_UNUSED,      KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      6,      11,        90,          "Light: Bottom 9",  KEY_EN_UNUSED,      KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      6,      12,       104,          "Light: Bottom 10", KEY_EN_UNUSED,      KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      6,      13,       111,          "Light: Bottom 11", KEY_EN_UNUSED,      KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      6,      14,       118,          "Light: Bottom 12", KEY_EN_UNUSED,      KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      6,      15,       125,          "Light: Bottom 13", KEY_EN_UNUSED,      KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
     }
 };
 
@@ -582,38 +582,38 @@ keyboard_keymap_overlay_values mk750_layout
     {
         /*---------------------------------------------------------------------------------------------------------*\
         | Edit Keys                                                                                                 |
-        |   Zone,   Row,    Column,     Value,      Key,                        OpCode,                             |
+        |   Zone,   Row,    Column,     Value,      Name,                       Alternate Name,     OpCode,         |
         \*---------------------------------------------------------------------------------------------------------*/
-        {   0,      0,      17,       140,         KEY_EN_MEDIA_MUTE,           KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      0,      18,       147,         KEY_EN_MEDIA_PLAY_PAUSE,     KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      0,      19,       154,         KEY_EN_MEDIA_PREVIOUS,       KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      0,      20,       161,         KEY_EN_MEDIA_NEXT,           KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      1,      0,          1,         "Light: Left 1",             KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      2,      0,          2,         "Light: Left 2",             KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      3,      0,          3,         "Light: Left 3",             KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      4,      0,          4,         "Light: Left 4",             KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      1,      22,       170,         "Light: Right 1",            KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      2,      22,       171,         "Light: Right 2",            KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      3,      22,       172,         "Light: Right 3",            KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      4,      22,       173,         "Light: Right 4",            KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      6,       1,        20,         "Light: Bottom 1",           KEYBOARD_OPCODE_INSERT_ROW, },
-        {   0,      6,       2,        27,         "Light: Bottom 2",           KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      6,       3,        34,         "Light: Bottom 3",           KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      6,       4,        41,         "Light: Bottom 4",           KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      6,       5,        55,         "Light: Bottom 5",           KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      6,       6,        62,         "Light: Bottom 6",           KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      6,       7,        69,         "Light: Bottom 7",           KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      6,       8,        76,         "Light: Bottom 8",           KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      6,       9,        83,         "Light: Bottom 9",           KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      6,      10,        90,         "Light: Bottom 10",          KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      6,      11,       104,         "Light: Bottom 11",          KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      6,      12,       111,         "Light: Bottom 12",          KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      6,      13,       118,         "Light: Bottom 13",          KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      6,      14,       125,         "Light: Bottom 14",          KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      6,      15,       132,         "Light: Bottom 15",          KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      6,      16,       146,         "Light: Bottom 16",          KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      6,      17,       153,         "Light: Bottom 17",          KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      6,      18,       160,         "Light: Bottom 18",          KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      0,      17,       140,          KEY_EN_MEDIA_MUTE,          KEY_EN_UNUSED,      KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      0,      18,       147,          KEY_EN_MEDIA_PLAY_PAUSE,    KEY_EN_UNUSED,      KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      0,      19,       154,          KEY_EN_MEDIA_PREVIOUS,      KEY_EN_UNUSED,      KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      0,      20,       161,          KEY_EN_MEDIA_NEXT,          KEY_EN_UNUSED,      KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      1,      0,          1,          "Light: Left 1",            KEY_EN_UNUSED,      KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      2,      0,          2,          "Light: Left 2",            KEY_EN_UNUSED,      KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      3,      0,          3,          "Light: Left 3",            KEY_EN_UNUSED,      KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      4,      0,          4,          "Light: Left 4",            KEY_EN_UNUSED,      KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      1,      22,       170,          "Light: Right 1",           KEY_EN_UNUSED,      KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      2,      22,       171,          "Light: Right 2",           KEY_EN_UNUSED,      KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      3,      22,       172,          "Light: Right 3",           KEY_EN_UNUSED,      KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      4,      22,       173,          "Light: Right 4",           KEY_EN_UNUSED,      KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      6,       1,        20,          "Light: Bottom 1",          KEY_EN_UNUSED,      KEYBOARD_OPCODE_INSERT_ROW, },
+        {   0,      6,       2,        27,          "Light: Bottom 2",          KEY_EN_UNUSED,      KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      6,       3,        34,          "Light: Bottom 3",          KEY_EN_UNUSED,      KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      6,       4,        41,          "Light: Bottom 4",          KEY_EN_UNUSED,      KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      6,       5,        55,          "Light: Bottom 5",          KEY_EN_UNUSED,      KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      6,       6,        62,          "Light: Bottom 6",          KEY_EN_UNUSED,      KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      6,       7,        69,          "Light: Bottom 7",          KEY_EN_UNUSED,      KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      6,       8,        76,          "Light: Bottom 8",          KEY_EN_UNUSED,      KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      6,       9,        83,          "Light: Bottom 9",          KEY_EN_UNUSED,      KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      6,      10,        90,          "Light: Bottom 10",         KEY_EN_UNUSED,      KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      6,      11,       104,          "Light: Bottom 11",         KEY_EN_UNUSED,      KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      6,      12,       111,          "Light: Bottom 12",         KEY_EN_UNUSED,      KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      6,      13,       118,          "Light: Bottom 13",         KEY_EN_UNUSED,      KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      6,      14,       125,          "Light: Bottom 14",         KEY_EN_UNUSED,      KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      6,      15,       132,          "Light: Bottom 15",         KEY_EN_UNUSED,      KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      6,      16,       146,          "Light: Bottom 16",         KEY_EN_UNUSED,      KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      6,      17,       153,          "Light: Bottom 17",         KEY_EN_UNUSED,      KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      6,      18,       160,          "Light: Bottom 18",         KEY_EN_UNUSED,      KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
     }
 };
 
@@ -670,11 +670,11 @@ keyboard_keymap_overlay_values ck550v2_layout
     {
         /*---------------------------------------------------------------------------------------------------------*\
         | Edit Keys                                                                                                 |
-        |   Zone,   Row,    Column,     Value,      Key,                        OpCode,                             |
+        |   Zone,   Row,    Column,     Value,      Name,           Alternate Name,     OpCode,                             |
         \*---------------------------------------------------------------------------------------------------------*/
-        {   0,      0,      17,        120,        "Indicator: N",                          KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      0,      18,        126,        "Indicator: C",                          KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      0,      19,        132,        "Indicator: S",                          KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      0,      17,        120,         "Indicator: N", KEY_EN_UNUSED,      KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      0,      18,        126,         "Indicator: C", KEY_EN_UNUSED,      KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      0,      19,        132,         "Indicator: S", KEY_EN_UNUSED,      KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
     },
 };
 
