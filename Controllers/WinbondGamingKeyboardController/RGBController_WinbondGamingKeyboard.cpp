@@ -41,6 +41,7 @@ static std::vector<keyboard_led> additional_mm_leds =
         17,      // col
         KV(1,0), // value
         KEY_EN_MEDIA_VOLUME_UP, // name
+        KEY_EN_UNUSED, // translated name
         KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT // opcode
     },
     {
@@ -49,6 +50,7 @@ static std::vector<keyboard_led> additional_mm_leds =
         18,      // col
         KV(1,1), // value
         KEY_EN_MEDIA_VOLUME_DOWN, // name
+        KEY_EN_UNUSED, // translated name
         KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT // opcode
     },
     {
@@ -57,6 +59,7 @@ static std::vector<keyboard_led> additional_mm_leds =
         19,      // col
         KV(1,2), // value
         KEY_EN_MEDIA_MUTE, // name
+        KEY_EN_UNUSED, // translated name
         KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT // opcode
     },
     {
@@ -65,6 +68,7 @@ static std::vector<keyboard_led> additional_mm_leds =
         20,      // col
         KV(1,3), // value
         "Key: Cylinder?!",   // name; TODO: no idea what the symbol meant, was a cylinder..
+        KEY_EN_UNUSED, // translated name
         KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT // opcode
     }
 };
@@ -85,6 +89,7 @@ static layout_values winbond_gaming_keyboard_full_layouts =
                 12,           // col
                 KV(4,7),      // value
                 KEY_EN_POUND, // name
+                KEY_EN_UNUSED, // translated name
                 KEYBOARD_OPCODE_SWAP_ONLY // opcode
             },
             {
@@ -93,6 +98,7 @@ static layout_values winbond_gaming_keyboard_full_layouts =
                 1,            // col
                 KV(4,17),     // value
                 KEY_EN_ISO_BACK_SLASH, // name
+                KEY_EN_UNUSED, // translated name
                 KEYBOARD_OPCODE_SWAP_ONLY // opcode
             },
         }
@@ -108,6 +114,7 @@ static layout_values winbond_gaming_keyboard_full_layouts =
                 13,           // col
                 KV(1,17),     // value
                 KEY_JP_YEN,   // name
+                KEY_EN_UNUSED, // translated name
                 KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT // opcode
             }
         }
@@ -134,6 +141,7 @@ static layout_values winbond_gaming_keyboard_tkl_layouts =
                 12,           // col
                 KV(4,7),      // value
                 KEY_EN_POUND, // name
+                KEY_EN_UNUSED, // translated name
                 KEYBOARD_OPCODE_SWAP_ONLY // opcode
             },
             {
@@ -142,6 +150,7 @@ static layout_values winbond_gaming_keyboard_tkl_layouts =
                 1,            // col
                 KV(4,17),     // value
                 KEY_EN_ISO_BACK_SLASH, // name
+                KEY_EN_UNUSED, // translated name
                 KEYBOARD_OPCODE_SWAP_ONLY // opcode
             },
         }
@@ -157,6 +166,7 @@ static layout_values winbond_gaming_keyboard_tkl_layouts =
                 13,           // col
                 KV(1,17),     // value
                 KEY_JP_YEN,   // name
+                KEY_EN_UNUSED, // translated name
                 KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT // opcode
             }
         }
@@ -183,6 +193,7 @@ static layout_values winbond_gaming_keyboard_60_layouts =
                 12,           // col
                 KV(4,7),      // value
                 KEY_EN_POUND, // name
+                KEY_EN_UNUSED, // translated name
                 KEYBOARD_OPCODE_SWAP_ONLY // opcode
             },
             {
@@ -191,6 +202,7 @@ static layout_values winbond_gaming_keyboard_60_layouts =
                 1,            // col
                 KV(4,17),     // value
                 KEY_EN_ISO_BACK_SLASH, // name
+                KEY_EN_UNUSED, // translated name
                 KEYBOARD_OPCODE_SWAP_ONLY // opcode
             },
         }
@@ -206,6 +218,7 @@ static layout_values winbond_gaming_keyboard_60_layouts =
                 13,           // col
                 KV(1,17),     // value
                 KEY_JP_YEN,   // name
+                KEY_EN_UNUSED, // translated name
                 KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT // opcode
             }
         }
