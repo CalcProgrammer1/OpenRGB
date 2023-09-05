@@ -413,6 +413,7 @@ void DetectDebugControllers()
                     led dummy_keyboard_led;
                     dummy_keyboard_led.name = new_kb.GetKeyNameAt(led_idx);
                     dummy_keyboard->leds.push_back(dummy_keyboard_led);
+                    dummy_keyboard->led_alt_names.push_back(new_kb.GetKeyAltNameAt(led_idx));
                 }
 
                 /*-----------------------------------------------------------------*\
@@ -446,6 +447,7 @@ void DetectDebugControllers()
                         dummy_keyboard_led.name = dummy_keyboard_underglow_matrix_zone.name + " LED ";
                         dummy_keyboard_led.name.append(std::to_string(led_idx));
                         dummy_keyboard->leds.push_back(dummy_keyboard_led);
+                        dummy_keyboard->led_alt_names.push_back("");
                     }
                 }
 
@@ -477,6 +479,7 @@ void DetectDebugControllers()
                         dummy_keyboard_led.name = "RGB Strip ";
                         dummy_keyboard_led.name.append(std::to_string(led_idx));
                         dummy_keyboard->leds.push_back(dummy_keyboard_led);
+                        dummy_keyboard->led_alt_names.push_back("");
                     }
                 }
 

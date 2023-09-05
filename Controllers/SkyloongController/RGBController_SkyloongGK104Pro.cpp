@@ -92,10 +92,10 @@ void RGBController_SkyloongGK104Pro::SetupZones()
 
     new_kb.ChangeKeys(
     {
-        {   0,     4,      12,     0,      KEY_EN_RIGHT_SHIFT,     KEYBOARD_OPCODE_REMOVE_SHIFT_LEFT   },
-        {   0,     4,      14,     0,      KEY_EN_UNUSED,          KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT  },
-        {   0,     5,      4,      114,    "Key: Left Space",      KEYBOARD_OPCODE_SWAP_ONLY           },
-        {   0,     5,      8,      118,    "Key: Right Space",     KEYBOARD_OPCODE_SWAP_ONLY           }
+        {   0,     4,      12,     0,      KEY_EN_RIGHT_SHIFT,     KEY_EN_UNUSED,   KEYBOARD_OPCODE_REMOVE_SHIFT_LEFT   },
+        {   0,     4,      14,     0,      KEY_EN_UNUSED,          KEY_EN_UNUSED,   KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT  },
+        {   0,     5,      4,      114,    "Key: Left Space",      KEY_EN_UNUSED,   KEYBOARD_OPCODE_SWAP_ONLY           },
+        {   0,     5,      8,      118,    "Key: Right Space",     KEY_EN_UNUSED,   KEYBOARD_OPCODE_SWAP_ONLY           }
     }
     );
 
