@@ -222,18 +222,29 @@ enum
 |   resized to match the modes/zones/leds vectors in the main class  |
 \*------------------------------------------------------------------*/
 
-typedef struct
+class translation_data
 {
-    std::string                 name;       /* controller name          */
-    std::string                 vendor;     /* controller vendor        */
-    std::string                 description;/* controller description   */
-    std::string                 version;    /* controller version       */
-    std::string                 serial;     /* controller serial number */
-    std::string                 location;   /* controller location      */
-    std::vector<std::string>    modes;      /* mode names               */
-    std::vector<std::string>    zones;      /* zone names               */
-    std::vector<std::string>    leds;       /* led names                */
-} translation_data;
+public:
+    translation_data()
+    {
+        name        = "";
+        vendor      = "";
+        description = "";
+        version     = "";
+        location    = "";
+    };
+
+    std::string                             name;       /* controller name          */
+    std::string                             vendor;     /* controller vendor        */
+    std::string                             description;/* controller description   */
+    std::string                             version;    /* controller version       */
+    std::string                             serial;     /* controller serial number */
+    std::string                             location;   /* controller location      */
+    std::vector<std::string>                modes;      /* mode names               */
+    std::vector<std::string>                zones;      /* zone names               */
+    std::vector<std::vector<std::string>>   segments;   /* segment names            */
+    std::vector<std::string>                leds;       /* led names                */
+};
 
 /*------------------------------------------------------------------*\
 | RGBController Callback Types                                       |

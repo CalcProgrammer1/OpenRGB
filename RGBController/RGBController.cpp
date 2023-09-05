@@ -157,9 +157,12 @@ std::string RGBController::GetModeName(unsigned int mode)
 {
     if(translation != NULL)
     {
-        if(translation->modes[mode] != "")
+        if(mode < translation->modes.size())
         {
-            return(translation->modes[mode]);
+            if(translation->modes[mode] != "")
+            {
+                return(translation->modes[mode]);
+            }
         }
     }
 
@@ -170,9 +173,12 @@ std::string RGBController::GetZoneName(unsigned int zone)
 {
     if(translation != NULL)
     {
-        if(translation->zones[zone] != "")
+        if(zone < translation->zones.size())
         {
-            return(translation->zones[zone]);
+            if(translation->zones[zone] != "")
+            {
+                return(translation->zones[zone]);
+            }
         }
     }
 
@@ -183,9 +189,12 @@ std::string RGBController::GetLEDName(unsigned int led)
 {
     if(translation != NULL)
     {
-        if(translation->leds[led] != "")
+        if(led < translation->leds.size())
         {
-            return(translation->leds[led]);
+            if(translation->leds[led] != "")
+            {
+                return(translation->leds[led]);
+            }
         }
     }
 
