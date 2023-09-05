@@ -34,22 +34,26 @@ layout_values mintaka_offset_values =
     },
     {
         { KEYBOARD_LAYOUT_ISO_QWERTY, {
-            {   0,      1,      11,         0,          KEY_EN_QUOTE,                    KEYBOARD_OPCODE_SWAP_ONLY,          },
-            {   0,      1,      12,         0,          KEY_ES_OPEN_QUESTION_MARK,       KEYBOARD_OPCODE_SWAP_ONLY,          },
+            /*-------------------------------------------------------------------------------------------------------------------------------------*\
+            | Edit Keys                                                                                                                             |
+            |   Zone,   Row,    Column,     Value,      Name,                       Alternate Name,             OpCode                              |
+            \*-------------------------------------------------------------------------------------------------------------------------------------*/
+            {   0,      1,      11,         0,          KEY_EN_QUOTE,               KEY_EN_UNUSED,              KEYBOARD_OPCODE_SWAP_ONLY,          },
+            {   0,      1,      12,         0,          KEY_ES_OPEN_QUESTION_MARK,  KEY_EN_UNUSED,              KEYBOARD_OPCODE_SWAP_ONLY,          },
 
-            {   0,      2,      11,         0,          KEY_ES_TILDE,                    KEYBOARD_OPCODE_SWAP_ONLY,          },
-            {   0,      2,      12,         0,          KEY_EN_PLUS,                     KEYBOARD_OPCODE_SWAP_ONLY,          },
+            {   0,      2,      11,         0,          KEY_ES_TILDE,               KEY_EN_UNUSED,              KEYBOARD_OPCODE_SWAP_ONLY,          },
+            {   0,      2,      12,         0,          KEY_EN_PLUS,                KEY_EN_UNUSED,              KEYBOARD_OPCODE_SWAP_ONLY,          },
 
-            {   0,      3,      10,         0,          KEY_ES_ENIE,                     KEYBOARD_OPCODE_SWAP_ONLY,          },
-            {   0,      3,      11,         0,          KEY_EN_LEFT_BRACKET,             KEYBOARD_OPCODE_SWAP_ONLY,          },
-            {   0,      3,      12,         0,          KEY_EN_RIGHT_BRACKET,            KEYBOARD_OPCODE_SWAP_ONLY,          },
+            {   0,      3,      10,         0,          KEY_ES_ENIE,                KEY_EN_UNUSED,              KEYBOARD_OPCODE_SWAP_ONLY,          },
+            {   0,      3,      11,         0,          KEY_EN_LEFT_BRACKET,        KEY_EN_UNUSED,              KEYBOARD_OPCODE_SWAP_ONLY,          },
+            {   0,      3,      12,         0,          KEY_EN_RIGHT_BRACKET,       KEY_EN_UNUSED,              KEYBOARD_OPCODE_SWAP_ONLY,          },
 
-            {   0,      4,       1,         0,          KEY_NORD_ANGLE_BRACKET,          KEYBOARD_OPCODE_SWAP_ONLY,          },
-            {   0,      4,      11,         0,          KEY_NORD_HYPHEN,                 KEYBOARD_OPCODE_SWAP_ONLY,          },
+            {   0,      4,       1,         0,          KEY_NORD_ANGLE_BRACKET,     KEY_EN_UNUSED,              KEYBOARD_OPCODE_SWAP_ONLY,          },
+            {   0,      4,      11,         0,          KEY_NORD_HYPHEN,            KEY_EN_UNUSED,              KEYBOARD_OPCODE_SWAP_ONLY,          },
 
-            {   0,      5,      11,         0,          KEY_EN_MENU,                     KEYBOARD_OPCODE_SWAP_ONLY,          },
-            {   0,      5,      12,         0,          KEY_EN_RIGHT_CONTROL,            KEYBOARD_OPCODE_SWAP_ONLY,          },
-            {   0,      5,      13,         0,          KEY_EN_RIGHT_FUNCTION,           KEYBOARD_OPCODE_SWAP_ONLY,          },
+            {   0,      5,      11,         0,          KEY_EN_MENU,                KEY_EN_UNUSED,              KEYBOARD_OPCODE_SWAP_ONLY,          },
+            {   0,      5,      12,         0,          KEY_EN_RIGHT_CONTROL,       KEY_EN_UNUSED,              KEYBOARD_OPCODE_SWAP_ONLY,          },
+            {   0,      5,      13,         0,          KEY_EN_RIGHT_FUNCTION,      KEY_EN_UNUSED,              KEYBOARD_OPCODE_SWAP_ONLY,          },
         }}
     }
 };

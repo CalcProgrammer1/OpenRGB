@@ -41,19 +41,19 @@ keyboard_keymap_overlay_values hyte_keeb_tkl_layout =
         }
     },
     {
-        /*---------------------------------------------------------------------------------------------------------*\
-        | Edit Keys - Add additional LEDs for space bar underglow and media keys                                    |
-        |   Zone,   Row,    Column,     Value,      Key,                        OpCode,                             |
-        \*---------------------------------------------------------------------------------------------------------*/
-        {   0,      5,      4,          109,        KEY_EN_SPACE,               KEYBOARD_OPCODE_SWAP_ONLY,          },
-        {   0,      5,      5,          110,        KEY_EN_SPACE,               KEYBOARD_OPCODE_SWAP_ONLY,          },
-        {   0,      5,      7,          112,        KEY_EN_SPACE,               KEYBOARD_OPCODE_SWAP_ONLY,          },
-        {   0,      5,      8,          113,        KEY_EN_SPACE,               KEYBOARD_OPCODE_SWAP_ONLY,          },
-        {   0,      0,      0,          77,         KEY_EN_MEDIA_STOP,          KEYBOARD_OPCODE_INSERT_ROW,         },
-        {   0,      0,      1,          78,         KEY_EN_MEDIA_PREVIOUS,      KEYBOARD_OPCODE_SWAP_ONLY,          },
-        {   0,      0,      2,          79,         KEY_EN_MEDIA_PLAY_PAUSE,    KEYBOARD_OPCODE_SWAP_ONLY,          },
-        {   0,      0,      3,          98,         KEY_EN_MEDIA_NEXT,          KEYBOARD_OPCODE_SWAP_ONLY,          },
-        {   0,      0,      4,          100,        KEY_EN_MEDIA_MUTE,          KEYBOARD_OPCODE_SWAP_ONLY,          },
+        /*-------------------------------------------------------------------------------------------------------------------------------------*\
+        | Edit Keys - Add additional LEDs for space bar underglow and media keys                                                                |
+        |   Zone,   Row,    Column,     Value,      Name,                       Alternate Name,             OpCode                              |
+        \*-------------------------------------------------------------------------------------------------------------------------------------*/
+        {   0,      5,      4,          109,        KEY_EN_SPACE,               KEY_EN_UNUSED,              KEYBOARD_OPCODE_SWAP_ONLY,          },
+        {   0,      5,      5,          110,        KEY_EN_SPACE,               KEY_EN_UNUSED,              KEYBOARD_OPCODE_SWAP_ONLY,          },
+        {   0,      5,      7,          112,        KEY_EN_SPACE,               KEY_EN_UNUSED,              KEYBOARD_OPCODE_SWAP_ONLY,          },
+        {   0,      5,      8,          113,        KEY_EN_SPACE,               KEY_EN_UNUSED,              KEYBOARD_OPCODE_SWAP_ONLY,          },
+        {   0,      0,      0,          77,         KEY_EN_MEDIA_STOP,          KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_ROW,         },
+        {   0,      0,      1,          78,         KEY_EN_MEDIA_PREVIOUS,      KEY_EN_UNUSED,              KEYBOARD_OPCODE_SWAP_ONLY,          },
+        {   0,      0,      2,          79,         KEY_EN_MEDIA_PLAY_PAUSE,    KEY_EN_UNUSED,              KEYBOARD_OPCODE_SWAP_ONLY,          },
+        {   0,      0,      3,          98,         KEY_EN_MEDIA_NEXT,          KEY_EN_UNUSED,              KEYBOARD_OPCODE_SWAP_ONLY,          },
+        {   0,      0,      4,          100,        KEY_EN_MEDIA_MUTE,          KEY_EN_UNUSED,              KEYBOARD_OPCODE_SWAP_ONLY,          },
     }
 };
 
