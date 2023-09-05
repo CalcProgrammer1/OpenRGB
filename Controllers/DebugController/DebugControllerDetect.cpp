@@ -312,6 +312,9 @@ void DetectDebugControllers()
                 RGBController_Dummy* dummy_keyboard = new RGBController_Dummy();
                 KeyboardLayoutManager new_kb(layout, size);
 
+                translation_data* dummy_keyboard_translation_data = new translation_data;
+                dummy_keyboard->translation = dummy_keyboard_translation_data;
+
                 /*---------------------------------------------------------*\
                 | Check for custom key inserts and swaps                    |
                 \*---------------------------------------------------------*/
@@ -388,6 +391,7 @@ void DetectDebugControllers()
                 dummy_keyboard_direct_mode.color_mode            = MODE_COLORS_PER_LED;
 
                 dummy_keyboard->modes.push_back(dummy_keyboard_direct_mode);
+                dummy_keyboard_translation_data->modes.push_back("");
 
                 /*---------------------------------------------------------*\
                 | Create a matrix zone for the debug Keyboard               |
@@ -407,12 +411,14 @@ void DetectDebugControllers()
                 new_kb.GetKeyMap(dummy_keyboard_matrix_zone.matrix_map->map, KEYBOARD_MAP_FILL_TYPE_COUNT);
 
                 dummy_keyboard->zones.push_back(dummy_keyboard_matrix_zone);
+                dummy_keyboard_translation_data->zones.push_back("");
 
                 for(unsigned int led_idx = 0; led_idx < dummy_keyboard_matrix_zone.leds_count; led_idx++)
                 {
                     led dummy_keyboard_led;
                     dummy_keyboard_led.name = new_kb.GetKeyNameAt(led_idx);
                     dummy_keyboard->leds.push_back(dummy_keyboard_led);
+                    dummy_keyboard_translation_data->leds.push_back(new_kb.GetTranslatedKeyNameAt(led_idx));
                 }
 
                 /*-----------------------------------------------------------------*\
@@ -439,6 +445,7 @@ void DetectDebugControllers()
                     dummy_keyboard_underglow_matrix_zone.matrix_map->map    = (unsigned int*)&dummy_keyboard_underglow_map;
 
                     dummy_keyboard->zones.push_back(dummy_keyboard_underglow_matrix_zone);
+                    dummy_keyboard_translation_data->zones.push_back("");
 
                     for(std::size_t led_idx = 0; led_idx < dummy_keyboard_underglow_matrix_zone.leds_count; led_idx++)
                     {
@@ -446,6 +453,7 @@ void DetectDebugControllers()
                         dummy_keyboard_led.name = dummy_keyboard_underglow_matrix_zone.name + " LED ";
                         dummy_keyboard_led.name.append(std::to_string(led_idx));
                         dummy_keyboard->leds.push_back(dummy_keyboard_led);
+                        dummy_keyboard_translation_data->leds.push_back("");
                     }
                 }
 
@@ -470,6 +478,7 @@ void DetectDebugControllers()
                     dummy_keyboard_linear_zone.matrix_map            = NULL;
 
                     dummy_keyboard->zones.push_back(dummy_keyboard_linear_zone);
+                    dummy_keyboard_translation_data->zones.push_back("");
 
                     for(std::size_t led_idx = 0; led_idx < dummy_keyboard_linear_zone.leds_count; led_idx++)
                     {
@@ -477,6 +486,7 @@ void DetectDebugControllers()
                         dummy_keyboard_led.name = "RGB Strip ";
                         dummy_keyboard_led.name.append(std::to_string(led_idx));
                         dummy_keyboard->leds.push_back(dummy_keyboard_led);
+                        dummy_keyboard_translation_data->leds.push_back("");
                     }
                 }
 
