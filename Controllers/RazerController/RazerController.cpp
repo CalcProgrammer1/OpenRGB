@@ -356,6 +356,7 @@ bool RazerController::SupportsWave()
         case RAZER_BLACKWIDOW_V3_TKL_PID:
         case RAZER_BLACKWIDOW_V3_MINI_WIRED_PID:
         case RAZER_BLACKWIDOW_V3_MINI_WIRELESS_PID:
+        case RAZER_BLACKWIDOW_V4_X_PID:
         case RAZER_BLACKWIDOW_X_CHROMA_PID:
         case RAZER_BLACKWIDOW_X_CHROMA_TE_PID:
         case RAZER_BLADE_2016_PID:

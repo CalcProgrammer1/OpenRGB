@@ -276,6 +276,29 @@ keyboard_keymap_overlay_values razer_blackwidow_v3_tkl_layout
     }
 };
 
+keyboard_keymap_overlay_values razer_blackwidow_v4_x_layout
+{
+    KEYBOARD_SIZE::KEYBOARD_SIZE_FULL,
+    {
+        {   /* ANSI Value set not used */   },
+        {
+            /* Add more regional layout fixes here */
+        }
+    },
+    {
+        /*---------------------------------------------------------------------------------------------------------*\
+        | Edit Keys                                                                                                 |
+        |   Zone,   Row,    Column,     Value,      Key,                        OpCode,                             |
+        \*---------------------------------------------------------------------------------------------------------*/
+        {   0,      0,      0,          0,          "Key: M6",                  KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Insert M6 macro key (Shifts row)
+        {   0,      1,      0,          0,          "Key: M5",                  KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Insert M5 macro key (Shifts row)
+        {   0,      2,      0,          0,          "Key: M4",                  KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Insert M4 macro key (Shifts row)
+        {   0,      3,      0,          0,          "Key: M3",                  KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Insert M3 macro key (Shifts row)
+        {   0,      4,      0,          0,          "Key: M2",                  KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Insert M2 macro key (Shifts row)
+        {   0,      5,      0,          0,          "Key: M1",                  KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Insert M1 macro key (Shifts row)
+    }
+};
+
 keyboard_keymap_overlay_values razer_blackwidow_x_chroma_te_layout
 {
     KEYBOARD_SIZE::KEYBOARD_SIZE_TKL,
@@ -1445,6 +1468,41 @@ static const razer_device blackwidow_v3_mini_wireless_device =
         NULL
     },
     &razer_blackwidow_v3_mini_layout
+};
+
+/*-------------------------------------------------------------*\
+|  Razer Blackwidow V4 X 1532:0293                              |
+|                                                               |
+|  Zone "Keyboard"                                              |
+|       Matrix                                                  |
+|       6 Rows, 22 Columns                                      |
+\*-------------------------------------------------------------*/
+static const razer_zone blackwidow_v4_x_zone =
+{
+    ZONE_EN_KEYBOARD,
+    ZONE_TYPE_MATRIX,
+    6,
+    22
+};
+
+static const razer_device blackwidow_v4_x_device =
+{
+    "Razer Blackwidow V4 X",
+    RAZER_BLACKWIDOW_V4_X_PID,
+    DEVICE_TYPE_KEYBOARD,
+    RAZER_MATRIX_TYPE_EXTENDED,
+    0x1F,
+    6,
+    22,
+    {
+        &blackwidow_v4_x_zone,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL
+    },
+    &razer_blackwidow_v4_x_layout
 };
 
 /*-------------------------------------------------------------*\
@@ -7247,6 +7305,7 @@ const razer_device* razer_device_list[] =
     &blackwidow_v3_tkl_device,
     &blackwidow_v3_mini_wired_device,
     &blackwidow_v3_mini_wireless_device,
+    &blackwidow_v4_x_device,
     &blackwidow_x_chroma_device,
     &blackwidow_x_chroma_te_device,
     &cynosa_chroma_device,
