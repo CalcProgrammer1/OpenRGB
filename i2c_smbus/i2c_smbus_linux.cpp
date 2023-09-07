@@ -94,15 +94,7 @@ bool i2c_smbus_linux_detect()
     }
 
     // Loop through all entries in i2c-adapter list
-    ent = readdir(dir);
-
-    if(ent == NULL)
-    {
-        closedir(dir);
-        return(false);
-    }
-
-    while(ent != NULL)
+    while((ent = readdir(dir)) != NULL)
     {
         if(ent->d_type == DT_DIR || ent->d_type == DT_LNK)
         {
@@ -229,7 +221,6 @@ bool i2c_smbus_linux_detect()
 
                     if (test_fd < 0)
                     {
-                        ent = readdir(dir);
                         ret = false;
                     }
 
@@ -249,7 +240,6 @@ bool i2c_smbus_linux_detect()
                 }
             }
         }
-        ent = readdir(dir);
     }
     closedir(dir);
 
