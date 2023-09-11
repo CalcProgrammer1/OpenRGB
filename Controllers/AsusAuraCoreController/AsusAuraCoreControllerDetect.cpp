@@ -55,3 +55,4 @@ REGISTER_HID_DETECTOR   ("ASUS Aura Core",              DetectAsusAuraCoreContro
 REGISTER_HID_DETECTOR   ("ASUS Aura Core",              DetectAsusAuraCoreControllers,          AURA_CORE_VID, 0x1866);
 REGISTER_HID_DETECTOR   ("ASUS Aura Core",              DetectAsusAuraCoreControllers,          AURA_CORE_VID, 0x1869);
 REGISTER_HID_DETECTOR_PU("ASUS ROG Strix SCAR 15",      DetectAsusAuraCoreLaptopControllers,    AURA_CORE_VID, AURA_STRIX_SCAR_15_PID,  0xFF31, 0x79);
+REGISTER_HID_DETECTOR_PU("ASUS ROG Strix SCAR 17",      DetectAsusAuraCoreLaptopControllers,    AURA_CORE_VID, 0x1866,                  0xFF31, 0x79);
