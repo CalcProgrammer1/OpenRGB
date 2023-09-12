@@ -271,6 +271,7 @@
 #define ASUS_TUF_RTX_4090_O24G_OC_GAMING                0x889A
 #define ASUS_TUF_RTX_4090_O24G_GAMING                   0x889B
 #define ASUS_TUF_RTX_4090_O24G_GAMING_2                 0x88E2
+#define ASUS_TUF_RTX_4090_O24G_OG_OC_GAMING             0x88E6
 #define ASUS_ROG_STRIX_RTX_4080_16G_GAMING              0x88C0
 #define ASUS_ROG_STRIX_RTX_4080_O16G_GAMING             0x88BF
 #define ASUS_ROG_STRIX_RTX_4080_O16G_GAMING_2           0x889F
