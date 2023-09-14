@@ -417,8 +417,17 @@ KeyboardLayoutManager::KeyboardLayoutManager(KEYBOARD_LAYOUT layout, KEYBOARD_SI
             name = KEYBOARD_NAME_TKL;
             break;
 
-        default:
+        case KEYBOARD_SIZE::KEYBOARD_SIZE_FULL:
             name = KEYBOARD_NAME_FULL;
+            break;
+
+        default:
+            /*-------------------------------------------------------------*\
+            | If the keyboard size is not a standard size output            |
+            |   the combined number as a string                             |
+            \*-------------------------------------------------------------*/
+            name = "Size (";
+            name.append(std::to_string(size) + ") ");
     }
 
     /*---------------------------------------------------------------------*\
@@ -618,6 +627,9 @@ void KeyboardLayoutManager::SwapKey(keyboard_led swp_key)
         \*---------------------------------------------------------------------*/
         if((swp_row == keymap[key_idx].row) && (swp_col == keymap[key_idx].col))
         {
+            std::string tmp_name = (strlen(swp_name) == 0) ? LOG_MSG_UNUSED_KEY : swp_name;
+            LOG_DEBUG("[%s] Swapping in %s and %s out @ %02d, %02d", KLM_CLASS_NAME, tmp_name.c_str(), keymap[key_idx].name, swp_row, swp_col);
+
             /*---------------------------------------------------------------------*\
             | If the key to be swapped in is an unused key, we want to remove the   |
             | entry from the keymap rather than perform a swap                      |
@@ -632,8 +644,6 @@ void KeyboardLayoutManager::SwapKey(keyboard_led swp_key)
             \*---------------------------------------------------------------------*/
             else
             {
-                std::string swap_name = (strlen(swp_name) == 0) ? LOG_MSG_UNUSED_KEY : swp_name;
-                LOG_DEBUG("[%s] Swapping in %s and %s out @ %02d, %02d", KLM_CLASS_NAME, swap_name.c_str(), keymap[key_idx].name, swp_row, swp_col);
                 keymap[key_idx].name    = swp_name;
                 keymap[key_idx].value   = swp_value;
             }
@@ -758,7 +768,7 @@ bool KeyboardLayoutManager::InsertRow(uint8_t ins_row)
 
     for(/*key_idx*/; key_idx < keymap.size(); key_idx++)
     {
-        if(ins_row > keymap[key_idx].row)
+        if(ins_row <= keymap[key_idx].row)
         {
             break;
         }
@@ -797,12 +807,16 @@ void KeyboardLayoutManager::RemoveRow(uint8_t rmv_row)
     \*---------------------------------------------------------------------*/
     unsigned int key_idx = 0;
 
-    for(/*key_idx*/; key_idx < keymap.size() && rmv_row > keymap[key_idx].row; key_idx++)
+    while(key_idx < keymap.size() && rmv_row >= keymap[key_idx].row)
     {
         if(rmv_row == keymap[key_idx].row)
         {
             LOG_DEBUG("[%s] Removing %s @ %02d, %02d from row %d", KLM_CLASS_NAME, keymap[key_idx].name, keymap[key_idx].row, keymap[key_idx].col, rmv_row);
             keymap.erase(keymap.begin() + key_idx);
+        }
+        else
+        {
+            key_idx++;
         }
     }
 
