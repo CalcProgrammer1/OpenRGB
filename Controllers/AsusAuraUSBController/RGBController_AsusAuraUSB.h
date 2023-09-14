@@ -29,8 +29,10 @@ public:
 
     void        DeviceUpdateMode();
 
-private:
+protected:
     AuraUSBController*          controller;
+
+private:
     std::vector<unsigned int>   leds_channel;
     std::vector<unsigned int>   zones_channel;
     bool                        initializedMode;

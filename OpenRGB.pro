@@ -367,6 +367,7 @@ HEADERS +=                                                                      
     Controllers/AsusAuraUSBController/AsusAuraTUFKeyboardLayouts.h                              \
     Controllers/AsusAuraUSBController/RGBController_AsusAuraHeadsetStand.h                      \
     Controllers/AsusAuraUSBController/RGBController_AsusAuraKeyboard.h                          \
+    Controllers/AsusAuraUSBController/RGBController_AsusAuraMainboard.h                         \
     Controllers/AsusAuraUSBController/RGBController_AsusAuraMonitor.h                           \
     Controllers/AsusAuraUSBController/RGBController_AsusAuraMouse.h                             \
     Controllers/AsusAuraUSBController/RGBController_AsusAuraMousemat.h                          \
@@ -968,6 +969,7 @@ SOURCES +=                                                                      
     Controllers/AsusAuraUSBController/AsusAuraUSBControllerDetect.cpp                           \
     Controllers/AsusAuraUSBController/RGBController_AsusAuraHeadsetStand.cpp                    \
     Controllers/AsusAuraUSBController/RGBController_AsusAuraKeyboard.cpp                        \
+    Controllers/AsusAuraUSBController/RGBController_AsusAuraMainboard.cpp                       \
     Controllers/AsusAuraUSBController/RGBController_AsusAuraMonitor.cpp                         \
     Controllers/AsusAuraUSBController/RGBController_AsusAuraMouse.cpp                           \
     Controllers/AsusAuraUSBController/RGBController_AsusAuraMousemat.cpp                        \

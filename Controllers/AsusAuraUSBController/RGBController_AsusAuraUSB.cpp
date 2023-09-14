@@ -16,9 +16,9 @@
     @save :x:
     @direct :white_check_mark:
     @effects :white_check_mark:
-    @detectors DetectAsusAuraUSBTerminal,DetectAsusAuraUSBAddressable,DetectAsusAuraUSBMotherboards
+    @detectors DetectAsusAuraUSBTerminal,DetectAsusAuraUSBAddressable
     @comment The Asus Aura USB controller applies to most AMD and
-        Intel mainboards from the x470 and z390 chipsets onwards.
+        Intel mainboards from the x470 and z390 chipset generations.
 \*-------------------------------------------------------------------*/
 
 RGBController_AuraUSB::RGBController_AuraUSB(AuraUSBController* controller_ptr) :

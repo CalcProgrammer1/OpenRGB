@@ -87,10 +87,23 @@ void AuraMainboardController::SetMode
     unsigned char   blu
     )
 {
+    SetMode(channel, mode, red, grn, blu, false);
+}
+
+void AuraMainboardController::SetMode
+    (
+    unsigned char   channel,
+    unsigned char   mode,
+    unsigned char   red,
+    unsigned char   grn,
+    unsigned char   blu,
+    bool            shutdown_effect
+    )
+{
     this->mode = mode;
     RGBColor color = ToRGBColor(red, grn, blu);
 
-    SendEffect(device_info[channel].effect_channel, mode);
+    SendEffect(device_info[channel].effect_channel, mode, shutdown_effect);
     if(mode == AURA_MODE_DIRECT)
     {
         return;
@@ -116,7 +129,8 @@ void AuraMainboardController::SetMode
         channel,
         start_led,
         device_info[channel].num_leds,
-        led_data
+        led_data,
+        shutdown_effect
     );
 }
 
@@ -128,7 +142,8 @@ unsigned short AuraMainboardController::GetMask(int start, int size)
 void AuraMainboardController::SendEffect
     (
     unsigned char   channel,
-    unsigned char   mode
+    unsigned char   mode,
+    bool            shutdown_effect
     )
 {
     unsigned char usb_buf[65];
@@ -145,7 +160,7 @@ void AuraMainboardController::SendEffect
     usb_buf[0x01]   = AURA_MAINBOARD_CONTROL_MODE_EFFECT;
     usb_buf[0x02]   = channel;
     usb_buf[0x03]   = 0x00;
-    usb_buf[0x04]   = 0x00;
+    usb_buf[0x04]   = shutdown_effect ? 0x01 : 0x00;
     usb_buf[0x05]   = mode;
 
     /*-----------------------------------------------------*\
@@ -159,7 +174,8 @@ void AuraMainboardController::SendColor
     unsigned char   /*channel*/,
     unsigned char   start_led,
     unsigned char   led_count,
-    unsigned char*  led_data
+    unsigned char*  led_data,
+    bool            shutdown_effect
     )
 {
     unsigned short  mask = GetMask(start_led, led_count);
@@ -177,7 +193,7 @@ void AuraMainboardController::SendColor
     usb_buf[0x01]   = AURA_MAINBOARD_CONTROL_MODE_EFFECT_COLOR;
     usb_buf[0x02]   = mask >> 8;
     usb_buf[0x03]   = mask & 0xff;
-    usb_buf[0x04]   = 0x00;
+    usb_buf[0x04]   = shutdown_effect ? 0x01 : 0x00;
 
     /*-----------------------------------------------------*\
     | Copy in color data bytes                              |

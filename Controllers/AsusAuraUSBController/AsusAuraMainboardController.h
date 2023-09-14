@@ -44,15 +44,28 @@ public:
         unsigned char   blu
         );
 
+    void SetMode
+        (
+        unsigned char   channel,
+        unsigned char   mode,
+        unsigned char   red,
+        unsigned char   grn,
+        unsigned char   blu,
+        bool            shutdown_effect
+        );
+
+    void SendCommit();
+
 private:
     unsigned int mode;
 
     unsigned short GetMask(int start, int size);
-    
+
     void SendEffect
         (
         unsigned char   channel,
-        unsigned char   mode
+        unsigned char   mode,
+        bool            shutdown_effect
         );
 
     void SendColor
@@ -60,8 +73,7 @@ private:
         unsigned char   channel,
         unsigned char   start_led,
         unsigned char   led_count,
-        unsigned char*  led_data
+        unsigned char*  led_data,
+        bool            shutdown_effect
         );
-
-    void SendCommit();
 };

@@ -15,6 +15,7 @@
 #include "RGBController_AsusAuraHeadsetStand.h"
 #include "RGBController_AsusAuraKeyboard.h"
 #include "RGBController_AsusAuraTUFKeyboard.h"
+#include "RGBController_AsusAuraMainboard.h"
 #include "RGBController_AsusAuraMouse.h"
 #include "RGBController_AsusAuraMousemat.h"
 #include "RGBController_AsusROGAlly.h"
@@ -155,7 +156,7 @@ void DetectAsusAuraUSBMotherboards(hid_device_info* info, const std::string& /*n
         {
             DMIInfo dmi;
             AuraMainboardController* controller             = new AuraMainboardController(dev, info->path);
-            RGBController_AuraUSB*   rgb_controller         = new RGBController_AuraUSB(controller);
+            RGBController_AuraMainboard*   rgb_controller   = new RGBController_AuraMainboard(controller);
             rgb_controller->name                            = "ASUS " + dmi.getMainboard();
             ResourceManager::get()->RegisterRGBController(rgb_controller);
         }
