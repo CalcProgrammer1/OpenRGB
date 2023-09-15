@@ -66,6 +66,7 @@ static const nv_gpu_pci_device device_list[] =
     {NVIDIA_VEN,    NVIDIA_RTX3090TI_DEV,           NVIDIA_VEN,     NVIDIA_RTX3090TI_FE_SUB_DEV,                    NVIDIA_ILLUMINATION_V1,     TREATS_RGBW_AS_RGBW,    "NVIDIA RTX 3090 Ti FE"                     },
     {NVIDIA_VEN,    NVIDIA_RTX4070_DEV,             PALIT_SUB_VEN,  PALIT_RTX4070_SUB_DEV,                          NVIDIA_ILLUMINATION_V1,     TREATS_RGBW_AS_RGB,     "Palit RTX 4070"                            },
     {NVIDIA_VEN,    NVIDIA_RTX4070S_DEV,            PALIT_SUB_VEN,  PALIT_RTX4070S_SUB_DEV,                         NVIDIA_ILLUMINATION_V1,     TREATS_RGBW_AS_RGB,     "Palit RTX 4070 SUPER Dual"                 },
+    {NVIDIA_VEN,    NVIDIA_RTX4070_DEV,             GAINWARD_SUB_VEN, GAINWARD_RTX_4070_GHOST_SUB_DEV,              NVIDIA_ILLUMINATION_V1,     TREATS_RGBW_AS_RGBW,    "Gainward 4070 Ghost"                       },
     {NVIDIA_VEN,    NVIDIA_RTX4080_DEV,             NVIDIA_VEN,     NVIDIA_RTX4080_FE_SUB_DEV,                      NVIDIA_ILLUMINATION_V1,     TREATS_RGBW_AS_RGBW,    "NVIDIA RTX 4080 FE"                        },
     {NVIDIA_VEN,    NVIDIA_RTX4080_DEV,             NVIDIA_VEN,     NVIDIA_RTX4080_FE_SUB_DEV2,                     NVIDIA_ILLUMINATION_V1,     TREATS_RGBW_AS_RGBW,    "NVIDIA RTX 4080 FE"                        },
     {NVIDIA_VEN,    NVIDIA_RTX4080S_DEV,            NVIDIA_VEN,     NVIDIA_RTX4080S_FE_SUB_DEV,                     NVIDIA_ILLUMINATION_V1,     TREATS_RGBW_AS_RGBW,    "NVIDIA RTX 4080 SUPER FE"                  },
