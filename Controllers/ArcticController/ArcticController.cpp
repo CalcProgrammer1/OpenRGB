@@ -46,9 +46,9 @@ const unsigned char identify_payload[] =
 };
 
 ArcticController::ArcticController(const std::string &portname)
-: port_name(portname),
-  serialport(portname.c_str(), 250000, SERIAL_PORT_PARITY_NONE, SERIAL_PORT_SIZE_8, SERIAL_PORT_STOP_BITS_2, false)
+: serialport(portname.c_str(), 250000, SERIAL_PORT_PARITY_NONE, SERIAL_PORT_SIZE_8, SERIAL_PORT_STOP_BITS_2, false)
 {
+    port_name = portname;
     serialport.serial_set_dtr(true);
 }
 
@@ -65,7 +65,7 @@ static void FormatCommandBuffer(char *buffer, char command)
 
 void ArcticController::SetChannels(std::vector<RGBColor> colors)
 {
-    char buffer[ARCTIC_COMMAND_BUFFER_LENGTH(colors.size() * 3)];
+    char* buffer = new char[ARCTIC_COMMAND_BUFFER_LENGTH(colors.size() * 3)];
 
     FormatCommandBuffer(buffer, ARCTIC_COMMAND_SET_RGB);
 
@@ -79,6 +79,8 @@ void ArcticController::SetChannels(std::vector<RGBColor> colors)
     }
 
     serialport.serial_write(buffer, sizeof(buffer));
+
+    delete[] buffer;
 }
 
 static char XORChecksum(char *data, int length)
