@@ -309,37 +309,53 @@ void DetectDebugControllers()
                 | Check for custom key inserts and swaps                    |
                 \*---------------------------------------------------------*/
                 std::vector<keyboard_led> change;
+                const char* change_keys = "change_keys";
 
-                if(json_kbd.contains("insert"))
+                const char* ins_key     = "ins_key";
+                const char* ins_row     = "ins_row";
+                const char* rmv_key     = "rmv_key";
+                const char* rmv_row     = "rmv_row";
+                const char* swp_key     = "swp_key";
+
+                const char* dbg_zone    = "Zone";
+                const char* dbg_row     = "Row";
+                const char* dbg_col     = "Col";
+                const char* dbg_val     = "Val";
+                const char* dbg_name    = "Name";
+                const char* dbg_opcode  = "Opcode";
+
+                if(json_kbd.contains(change_keys))
                 {
-
-                    for(size_t i = 0; i < json_kbd["insert"].size(); i++)
+                    for(size_t i = 0; i < json_kbd[change_keys].size(); i++)
                     {
                         keyboard_led* key = new keyboard_led;
 
-                        key->zone    = json_kbd["insert"][i]["Zone"];
-                        key->row     = json_kbd["insert"][i]["Row"];
-                        key->col     = json_kbd["insert"][i]["Col"];
-                        key->value   = json_kbd["insert"][i]["Val"];
-                        key->name    = json_kbd["insert"][i]["Name"].get_ref<const std::string&>().c_str();
-                        key->opcode  = KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT;
+                        key->zone    = json_kbd[change_keys][i][dbg_zone];
+                        key->row     = json_kbd[change_keys][i][dbg_row];
+                        key->col     = json_kbd[change_keys][i][dbg_col];
+                        key->value   = json_kbd[change_keys][i][dbg_val];
+                        key->name    = json_kbd[change_keys][i][dbg_name].get_ref<const std::string&>().c_str();
 
-                        change.push_back(*key);
-                    }
-                }
-
-                if(json_kbd.contains("swap"))
-                {
-                    for(size_t i = 0; i < json_kbd["swap"].size(); i++)
-                    {
-                        keyboard_led* key = new keyboard_led;
-
-                        key->zone   = json_kbd["swap"][i]["Zone"];
-                        key->row    = json_kbd["swap"][i]["Row"];
-                        key->col    = json_kbd["swap"][i]["Col"];
-                        key->value  = json_kbd["swap"][i]["Val"];
-                        key->name   = json_kbd["swap"][i]["Name"].get_ref<const std::string&>().c_str();
-                        key->opcode = KEYBOARD_OPCODE_SWAP_ONLY;
+                        if(json_kbd[change_keys][i][dbg_opcode] == ins_row)
+                        {
+                            key->opcode  = KEYBOARD_OPCODE_INSERT_ROW;
+                        }
+                        else if(json_kbd[change_keys][i][dbg_opcode] == rmv_key)
+                        {
+                            key->opcode  = KEYBOARD_OPCODE_REMOVE_SHIFT_LEFT;
+                        }
+                        else if(json_kbd[change_keys][i][dbg_opcode] == rmv_row)
+                        {
+                            key->opcode  = KEYBOARD_OPCODE_REMOVE_ROW;
+                        }
+                        else if(json_kbd[change_keys][i][dbg_opcode] == swp_key)
+                        {
+                            key->opcode  = KEYBOARD_OPCODE_SWAP_ONLY;
+                        }
+                        else
+                        {
+                            key->opcode  = KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT;
+                        }
 
                         change.push_back(*key);
                     }
