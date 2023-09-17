@@ -92,6 +92,7 @@
 #define NVIDIA_RTX3080TI_DEV                            0x2208
 #define NVIDIA_RTX3090_DEV                              0x2204
 #define NVIDIA_RTX3090TI_DEV                            0x2203
+#define NVIDIA_RTX4060TI_DEV                            0x2803
 #define NVIDIA_RTX4070_DEV                              0x2786
 #define NVIDIA_RTX4070TI_DEV                            0x2782
 #define NVIDIA_RTX4080_DEV                              0x2704
@@ -262,6 +263,7 @@
 #define ASUS_TUF_RX_6950XT_016G_GAMING                  0x0504
 #define ASUS_TUF_RX_7900XTX_O24G_GAMING                 0x0506
 #define ASUS_ROG_STRIX_LC_RX_6950XT_O16G_GAMING         0x05E9
+#define ASUS_TUF_RTX_4060TI_O8G_GAMING                  0x88F6
 #define ASUS_TUF_RTX_4070_12G_GAMING                    0x88DE
 #define ASUS_TUF_RTX_4070_O12G_GAMING                   0x88DF
 #define ASUS_TUF_RTX_4070TI_12G_GAMING                  0x88A4
@@ -299,7 +301,6 @@
 #define COLORFUL_IGAME_RTX_4070_TI_ADVANCED_OCV         0x1400
 #define COLORFUL_IGAME_RTX_4080_ULTRAW_OCV2             0x1500
 #define COLORFUL_IGAME_RTX_4090_ADVANCED_OCV            0x1400
-
 
 /*-----------------------------------------------------*\
 | EVGA Sub-Device IDs                                   |
