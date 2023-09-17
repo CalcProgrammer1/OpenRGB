@@ -30,6 +30,7 @@
 #define AMD_NAVI22_DEV                                  0x73DF
 #define AMD_NAVI23_DEV                                  0x73FF
 #define AMD_NAVI31_DEV                                  0x744C
+#define AMD_NAVI32_DEV                                  0x747E
 
 /*-----------------------------------------------------*\
 | Intel Device IDs                                      |
@@ -279,6 +280,7 @@
 #define ASUS_ROG_STRIX_RTX_4090_24G_GAMING              0x889D
 #define ASUS_ROG_STRIX_RTX_4090_O24G_GAMING             0x889C
 #define ASUS_ROG_STRIX_RTX_4090_O24G_GAMING_213S        0x88EF
+#define ASUS_TUF_RX7800XT_O16G_GAMING                   0x05FD
 
 /*-----------------------------------------------------*\
 | Colorful Sub-Device IDs                               |
