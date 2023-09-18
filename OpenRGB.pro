@@ -400,6 +400,7 @@ HEADERS +=                                                                      
     Controllers/CoolerMasterController/CMMKController.h                                         \
     Controllers/CoolerMasterController/CMMMController.h                                         \
     Controllers/CoolerMasterController/CMMM711Controller.h                                      \
+    Controllers/CoolerMasterController/CMMonitorController.h                                    \
     Controllers/CoolerMasterController/CMMP750Controller.h                                      \
     Controllers/CoolerMasterController/CMR6000Controller.h                                      \
     Controllers/CoolerMasterController/CMRGBController.h                                        \
@@ -409,6 +410,7 @@ HEADERS +=                                                                      
     Controllers/CoolerMasterController/RGBController_CMMKController.h                           \
     Controllers/CoolerMasterController/RGBController_CMMMController.h                           \
     Controllers/CoolerMasterController/RGBController_CMMM711Controller.h                        \
+    Controllers/CoolerMasterController/RGBController_CMMonitorController.h                      \
     Controllers/CoolerMasterController/RGBController_CMMP750Controller.h                        \
     Controllers/CoolerMasterController/RGBController_CMR6000Controller.h                        \
     Controllers/CoolerMasterController/RGBController_CMRGBController.h                          \
@@ -1015,6 +1017,7 @@ SOURCES +=                                                                      
     Controllers/CoolerMasterController/CMMKController.cpp                                       \
     Controllers/CoolerMasterController/CMMMController.cpp                                       \
     Controllers/CoolerMasterController/CMMM711Controller.cpp                                    \
+    Controllers/CoolerMasterController/CMMonitorController.cpp                                  \
     Controllers/CoolerMasterController/CMMP750Controller.cpp                                    \
     Controllers/CoolerMasterController/CMR6000Controller.cpp                                    \
     Controllers/CoolerMasterController/CMRGBController.cpp                                      \
@@ -1025,6 +1028,7 @@ SOURCES +=                                                                      
     Controllers/CoolerMasterController/RGBController_CMMKController.cpp                         \
     Controllers/CoolerMasterController/RGBController_CMMMController.cpp                         \
     Controllers/CoolerMasterController/RGBController_CMMM711Controller.cpp                      \
+    Controllers/CoolerMasterController/RGBController_CMMonitorController.cpp                    \
     Controllers/CoolerMasterController/RGBController_CMMP750Controller.cpp                      \
     Controllers/CoolerMasterController/RGBController_CMR6000Controller.cpp                      \
     Controllers/CoolerMasterController/RGBController_CMRGBController.cpp                        \

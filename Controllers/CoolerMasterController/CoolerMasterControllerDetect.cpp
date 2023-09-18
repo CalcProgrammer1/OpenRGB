@@ -18,7 +18,7 @@
 #include "RGBController_CMRGBController.h"
 #include "RGBController_CMR6000Controller.h"
 #include "RGBController_CMMKController.h"
-
+#include "RGBController_CMMonitorController.h"
 /*-----------------------------------------------------*\
 | Coolermaster USB vendor ID                            |
 \*-----------------------------------------------------*/
@@ -63,6 +63,11 @@
 #define COOLERMASTER_MP750_XL_PID                   0x0109
 #define COOLERMASTER_MP750_L_PID                    0x0107
 #define COOLERMASTER_MP750_MEDIUM_PID               0x0105
+
+/*-----------------------------------------------------*\
+| Coolermaster Monitors                                 |
+\*-----------------------------------------------------*/
+#define COOLERMASTER_GM27_FQS_PID                   0x01BB
 
 /******************************************************************************************\
 *                                                                                          *
@@ -207,6 +212,19 @@ void DetectCoolerMasterSmallARGB(hid_device_info* info, const std::string&)
     }
 }
 
+void DetectCoolerMasterMonitor(hid_device_info* info, const std::string& name)
+{
+    hid_device* dev = hid_open_path(info->path);
+
+    if(dev)
+    {
+        CMMonitorController*               controller     = new CMMonitorController(dev, *info);
+        RGBController_CMMonitorController* rgb_controller = new RGBController_CMMonitorController(controller);
+        rgb_controller->name                                = name;
+        ResourceManager::get()->RegisterRGBController(rgb_controller);
+    }
+}
+
 /*-----------------------------------------------------*\
 | Coolermaster Keyboards                                |
 \*-----------------------------------------------------*/
@@ -248,3 +266,8 @@ REGISTER_HID_DETECTOR_PU ("Cooler Master MP750 Medium",             DetectCooler
 \*-----------------------------------------------------*/
 REGISTER_HID_DETECTOR_I  ("Cooler Master Radeon 6000 GPU",          DetectCoolerMasterGPU,          COOLERMASTER_VID,   COOLERMASTER_RADEON_6000_PID,               1                );
 REGISTER_HID_DETECTOR_I  ("Cooler Master Radeon 6900 GPU",          DetectCoolerMasterGPU,          COOLERMASTER_VID,   COOLERMASTER_RADEON_6900_PID,               1                );
+
+/*-----------------------------------------------------*\
+| Coolermaster Monitors                                 |
+\*-----------------------------------------------------*/
+REGISTER_HID_DETECTOR_IPU("Cooler Master GM27-FQS ARGB Monitor",    DetectCoolerMasterMonitor,      COOLERMASTER_VID,   COOLERMASTER_GM27_FQS_PID,                   0,      0xFF00, 1);
