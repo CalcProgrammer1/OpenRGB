@@ -7,6 +7,8 @@
 \*-----------------------------------------*/
 
 #pragma once
+#include <algorithm>
+
 #include "RGBController.h"
 #include "serial_port.h"
 
