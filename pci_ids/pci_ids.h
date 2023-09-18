@@ -235,6 +235,7 @@
 #define ASUS_TUF_RTX_3080_10G_GAMING                    0x87B2
 #define ASUS_TUF_RTX_3080_O10G_OC                       0x87B0
 #define ASUS_TUF_RTX_3080_O10G_V2_GAMING_8822           0x8822
+#define ASUS_TUF_RTX_3080_O10G_V2_GAMING_882B           0x882B
 #define ASUS_TUF_RTX_3080_O10G_V2_GAMING                0x8823
 #define ASUS_TUF_RTX_3080_O12G_GAMING                   0x886E
 #define ASUS_ROG_STRIX_RTX_3080_10G_V2_GAMING           0x882F
