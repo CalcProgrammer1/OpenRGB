@@ -18,11 +18,12 @@ public:
     ENESMBusInterface_i2c_smbus(i2c_smbus_interface* bus);
     ~ENESMBusInterface_i2c_smbus();
 
-    std::string   GetLocation();
-    int           GetMaxBlock();
-    unsigned char ENERegisterRead(ene_dev_id dev, ene_register reg);
-    void          ENERegisterWrite(ene_dev_id dev, ene_register reg, unsigned char val);
-    void          ENERegisterWriteBlock(ene_dev_id dev, ene_register reg, unsigned char * data, unsigned char sz);
+    ene_interface_type  GetInterfaceType();
+    std::string         GetLocation();
+    int                 GetMaxBlock();
+    unsigned char       ENERegisterRead(ene_dev_id dev, ene_register reg);
+    void                ENERegisterWrite(ene_dev_id dev, ene_register reg, unsigned char val);
+    void                ENERegisterWriteBlock(ene_dev_id dev, ene_register reg, unsigned char * data, unsigned char sz);
 
 private:
     i2c_smbus_interface *   bus;

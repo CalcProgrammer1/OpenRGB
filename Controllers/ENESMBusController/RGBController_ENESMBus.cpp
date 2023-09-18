@@ -56,6 +56,12 @@ RGBController_ENESMBus::RGBController_ENESMBus(ENESMBusController * controller_p
         name    = "ENE DRAM";
         vendor  = "ENE";
     }
+    else if(version.find("ROG STRIX ARION") != std::string::npos)
+    {
+        type    = DEVICE_TYPE_STORAGE;
+        name    = "ASUS ROG Strix Arion";
+        vendor  = "ASUS";
+    }
     else
     {
         type    = DEVICE_TYPE_MOTHERBOARD;

@@ -110,6 +110,11 @@ ENESMBusInterface_SpectrixS40G::~ENESMBusInterface_SpectrixS40G()
 
 }
 
+ene_interface_type ENESMBusInterface_SpectrixS40G::GetInterfaceType()
+{
+    return(ENE_INTERFACE_TYPE_SPECTRIX_S40G);
+}
+
 std::string ENESMBusInterface_SpectrixS40G::GetLocation()
 {
     return("NVMe: " + path);

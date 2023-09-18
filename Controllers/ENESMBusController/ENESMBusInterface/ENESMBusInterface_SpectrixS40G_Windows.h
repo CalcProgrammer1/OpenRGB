@@ -19,11 +19,12 @@ public:
     ENESMBusInterface_SpectrixS40G(HANDLE fd, wchar_t* path);
     ~ENESMBusInterface_SpectrixS40G();
 
-    std::string   GetLocation();
-    int           GetMaxBlock();
-    unsigned char ENERegisterRead(ene_dev_id dev, ene_register reg);
-    void          ENERegisterWrite(ene_dev_id dev, ene_register reg, unsigned char val);
-    void          ENERegisterWriteBlock(ene_dev_id dev, ene_register reg, unsigned char * data, unsigned char sz);
+    ene_interface_type  GetInterfaceType();
+    std::string         GetLocation();
+    int                 GetMaxBlock();
+    unsigned char       ENERegisterRead(ene_dev_id dev, ene_register reg);
+    void                ENERegisterWrite(ene_dev_id dev, ene_register reg, unsigned char val);
+    void                ENERegisterWriteBlock(ene_dev_id dev, ene_register reg, unsigned char * data, unsigned char sz);
 
 private:
     HANDLE       nvme_fd;

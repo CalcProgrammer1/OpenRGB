@@ -475,6 +475,7 @@ HEADERS +=                                                                      
     Controllers/ENESMBusController/RGBController_ENESMBus.h                                     \
     Controllers/ENESMBusController/ENESMBusInterface/ENESMBusInterface.h                        \
     Controllers/ENESMBusController/ENESMBusInterface/ENESMBusInterface_i2c_smbus.h              \
+    Controllers/ENESMBusController/ENESMBusInterface/ENESMBusInterface_ROGArion.h               \
     Controllers/EpomakerController/EpomakerController.h                                         \
     Controllers/EpomakerController/RGBController_EpomakerController.h                           \
     Controllers/EspurnaController/EspurnaController.h                                           \
@@ -1110,8 +1111,10 @@ SOURCES +=                                                                      
     Controllers/ElgatoKeyLightController/RGBController_ElgatoKeyLight.cpp                       \
     Controllers/ENESMBusController/ENESMBusController.cpp                                       \
     Controllers/ENESMBusController/ENESMBusControllerDetect.cpp                                 \
+    Controllers/ENESMBusController/ROGArionDetect.cpp                                           \
     Controllers/ENESMBusController/RGBController_ENESMBus.cpp                                   \
     Controllers/ENESMBusController/ENESMBusInterface/ENESMBusInterface_i2c_smbus.cpp            \
+    Controllers/ENESMBusController/ENESMBusInterface/ENESMBusInterface_ROGArion.cpp             \
     Controllers/EpomakerController/EpomakerController.cpp                                       \
     Controllers/EpomakerController/EpomakerControllerDetect.cpp                                 \
     Controllers/EpomakerController/RGBController_EpomakerController.cpp                         \
