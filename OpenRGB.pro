@@ -159,6 +159,7 @@ INCLUDEPATH +=                                                                  
     Controllers/GaiZongGaiKeyboardController/                                                   \
     Controllers/GalaxGPUController/                                                             \
     Controllers/GigabyteAorusCPUCoolerController/                                               \
+    Controllers/GigabyteAorusLaptopController/                                                  \
     Controllers/GigabyteAorusMouseController/                                                   \
     Controllers/GigabyteRGBFusion2DRAMController/                                               \
     Controllers/GigabyteRGBFusion2SMBusController/                                              \
@@ -509,6 +510,8 @@ HEADERS +=                                                                      
     Controllers/GalaxGPUController/RGBController_GalaxGPU.h                                     \
     Controllers/GigabyteAorusCPUCoolerController/ATC800Controller.h                             \
     Controllers/GigabyteAorusCPUCoolerController/RGBController_AorusATC800.h                    \
+    Controllers/GigabyteAorusLaptopController/GigabyteAorusLaptopController.h                   \
+    Controllers/GigabyteAorusLaptopController/RGBController_GigabyteAorusLaptop.h               \
     Controllers/GigabyteAorusMouseController/GigabyteAorusMouseController.h                     \
     Controllers/GigabyteAorusMouseController/RGBController_GigabyteAorusMouse.h                 \
     Controllers/GigabyteRGBFusion2DRAMController/GigabyteRGBFusion2DRAMController.h             \
@@ -1161,6 +1164,9 @@ SOURCES +=                                                                      
     Controllers/GigabyteAorusCPUCoolerController/ATC800Controller.cpp                           \
     Controllers/GigabyteAorusCPUCoolerController/GigabyteAorusCPUCoolerControllerDetect.cpp     \
     Controllers/GigabyteAorusCPUCoolerController/RGBController_AorusATC800.cpp                  \
+    Controllers/GigabyteAorusLaptopController/GigabyteAorusLaptopController.cpp                 \
+    Controllers/GigabyteAorusLaptopController/GigabyteAorusLaptopControllerDetect.cpp           \
+    Controllers/GigabyteAorusLaptopController/RGBController_GigabyteAorusLaptop.cpp             \
     Controllers/GigabyteAorusMouseController/GigabyteAorusMouseController.cpp                   \
     Controllers/GigabyteAorusMouseController/GigabyteAorusMouseControllerDetect.cpp             \
     Controllers/GigabyteAorusMouseController/RGBController_GigabyteAorusMouse.cpp               \
