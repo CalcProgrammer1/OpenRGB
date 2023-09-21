@@ -43,11 +43,6 @@ RGBController_AuraMainboard::RGBController_AuraMainboard(AuraMainboardController
     }
 }
 
-RGBController_AuraMainboard::~RGBController_AuraMainboard()
-{
-    delete controller;
-}
-
 void RGBController_AuraMainboard::DeviceUpdateShutdownEffect()
 {
     unsigned char red = 0;

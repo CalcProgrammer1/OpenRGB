@@ -17,7 +17,6 @@ class RGBController_AuraMainboard : public RGBController_AuraUSB
 {
 public:
     RGBController_AuraMainboard(AuraMainboardController* controller_ptr);
-    ~RGBController_AuraMainboard();
 
     void        DeviceSaveMode();
 
