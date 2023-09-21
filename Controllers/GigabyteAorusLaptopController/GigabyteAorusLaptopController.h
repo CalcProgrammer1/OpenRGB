@@ -56,7 +56,7 @@ public:
 
     void        SetDirect(uint8_t brightness, RGBColor color);
     void        SetMode(uint8_t mode_value, uint8_t speed,  uint8_t brightness, uint8_t direction, RGBColor color);
-    void        SetCustom(std::vector<RGBColor> colors, std::vector<unsigned int> positions);
+    void        SetCustom(std::vector<RGBColor> colors, std::vector<unsigned int> positions, unsigned char brightness);
 
 protected:
     hid_device* dev;

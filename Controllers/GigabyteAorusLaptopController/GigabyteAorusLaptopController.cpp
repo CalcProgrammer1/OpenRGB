@@ -185,7 +185,7 @@ unsigned int GigabyteAorusLaptopController::GetLargestColour(unsigned int red, u
     return (largest == 0) ? 1 : largest;
 }
 
-void GigabyteAorusLaptopController::SetCustom(std::vector<RGBColor> colors, std::vector<unsigned int> positions)
+void GigabyteAorusLaptopController::SetCustom(std::vector<RGBColor> colors, std::vector<unsigned int> positions, unsigned char brightness)
 {
     /*---------------------------------------------------------*\
     | Custom mode protocol                                      |
@@ -207,7 +207,7 @@ void GigabyteAorusLaptopController::SetCustom(std::vector<RGBColor> colors, std:
     usb_buf[1] = GIGABYTE_AORUS_LAPTOP_REPORT_ID;
     usb_buf[3] = GIGABYTE_AORUS_LAPTOP_CUSTOM_MODE_VALUE;
     usb_buf[4] = 0x01;
-    usb_buf[5] = 0x32;
+    usb_buf[5] = brightness;
     usb_buf[6] = 0x05;
     usb_buf[7] = 0x01;
 

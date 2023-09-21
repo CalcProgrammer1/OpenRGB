@@ -22,6 +22,8 @@
              big led, only custom mode can do real per key lightning.
              This is impossible to determine if it auto saves to flash
              (the battery cannot be removed) then we assume it does.
+             This device has 5 onboard memory profiles, we only use
+             the first one.
 \*-------------------------------------------------------------------*/
 
 #define NA      0xFFFFFFFF
@@ -337,7 +339,7 @@ RGBController_GigabyteAorusLaptop::RGBController_GigabyteAorusLaptop(GigabyteAor
         mode Custom;
         Custom.name                         = "Custom";
         Custom.value                        = GIGABYTE_AORUS_LAPTOP_CUSTOM_MODE_VALUE;
-        Custom.flags                        = MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_AUTOMATIC_SAVE;
+        Custom.flags                        = MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_AUTOMATIC_SAVE;
         Custom.color_mode                   = MODE_COLORS_PER_LED;
         Custom.brightness_min               = GIGABYTE_AORUS_LAPTOP_BRIGHTNESS_MIN;
         Custom.brightness_max               = GIGABYTE_AORUS_LAPTOP_BRIGHTNESS_MAX;
@@ -464,7 +466,7 @@ void RGBController_GigabyteAorusLaptop::DeviceUpdateLEDs()
             layout_zone_colors.push_back(colors[i]);
         }
 
-        controller->SetCustom(layout_zone_colors, aorus_laptop_default_keyboard_layout.led_sequence_positions);
+        controller->SetCustom(layout_zone_colors, aorus_laptop_default_keyboard_layout.led_sequence_positions, modes[active_mode].brightness);
     }
 }
 
