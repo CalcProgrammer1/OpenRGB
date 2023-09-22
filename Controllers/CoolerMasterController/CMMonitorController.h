@@ -52,6 +52,5 @@ private:
     std::string     location;
     hid_device*     dev;
     bool            software_mode_enabled = false;
-    void            EnableSoftwareMode();
-    void            DisableSoftwareMode();
+    void            SetSoftwareModeEnabled(bool value);
 };

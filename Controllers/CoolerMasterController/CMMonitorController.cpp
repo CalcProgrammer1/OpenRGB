@@ -50,7 +50,7 @@ void CMMonitorController::SetMode(uint8_t mode_value, const RGBColor& color, uin
 {
     if(software_mode_enabled)
     {
-        DisableSoftwareMode();
+        SetSoftwareModeEnabled(false);
     }
 
     uint8_t usb_buf[CM_MONITOR_PACKET_LENGTH];
@@ -61,7 +61,7 @@ void CMMonitorController::SetMode(uint8_t mode_value, const RGBColor& color, uin
     usb_buf[3]  = 0x02;
     usb_buf[4]  = 0x02;
     usb_buf[5]  = mode_value;
-    usb_buf[6]  = (mode_value == CM_MONITOR_OFF_MODE) ? 0x00 : 0x08;;
+    usb_buf[6]  = (mode_value == CM_MONITOR_OFF_MODE) ? 0x00 : 0x08;
     usb_buf[7]  = speed;
     usb_buf[8]  = brightness;
     usb_buf[9]  = RGBGetRValue(color);
@@ -75,7 +75,7 @@ void CMMonitorController::SetCustomMode(const std::vector<RGBColor>& colors, uin
 {
     if(software_mode_enabled)
     {
-        DisableSoftwareMode();
+        SetSoftwareModeEnabled(false);
     }
 
     /*---------------------------------------------------------*\
@@ -94,7 +94,7 @@ void CMMonitorController::SetCustomMode(const std::vector<RGBColor>& colors, uin
     }
 
     /*---------------------------------------------------------*\
-    | Sends the 8 sequence packets                              |
+    | Sends the 7 sequence packets                              |
     \*---------------------------------------------------------*/
     uint8_t usb_buf[CM_MONITOR_PACKET_LENGTH];
 
@@ -118,12 +118,12 @@ void CMMonitorController::SetCustomMode(const std::vector<RGBColor>& colors, uin
             usb_buf[6] = brightnesss;
 
             memcpy(&usb_buf[7], &color_data[offset], CM_MONITOR_PACKET_LENGTH - 7);
-            offset += 58;
+            offset += CM_MONITOR_PACKET_LENGTH - 7;
         }
         else
         {
             memcpy(&usb_buf[2], &color_data[offset], CM_MONITOR_PACKET_LENGTH - 2);
-            offset += (CM_MONITOR_PACKET_LENGTH -2);
+            offset += (CM_MONITOR_PACKET_LENGTH - 2);
         }
 
         hid_write(dev, usb_buf, CM_MONITOR_PACKET_LENGTH);
@@ -134,7 +134,7 @@ void CMMonitorController::SendDirect(const std::vector<RGBColor>& colors)
 {
     if(!software_mode_enabled)
     {
-        EnableSoftwareMode();
+        SetSoftwareModeEnabled(true);
     }
 
     /*---------------------------------------------------------*\
@@ -153,43 +153,41 @@ void CMMonitorController::SendDirect(const std::vector<RGBColor>& colors)
     }
 
     /*---------------------------------------------------------*\
-    | Sends the 14 sequence packets                             |
+    | Sends the 7 sequence packets                              |
     \*---------------------------------------------------------*/
     uint8_t usb_buf[CM_MONITOR_PACKET_LENGTH];
 
-    for(unsigned int p = 0; p < 2; p++)
+    offset = 0;
+
+    for(unsigned int i = 0; i < 7; i++)
     {
-        offset = 0;
+        memset(usb_buf, 0x00, CM_MONITOR_PACKET_LENGTH);
 
-        for(unsigned int i = 0; i < 7; i++)
+        usb_buf[1] = i < 6 ? i : 0x86;
+
+        if(i == 0)
         {
-            memset(usb_buf, 0x00, CM_MONITOR_PACKET_LENGTH);
+            usb_buf[2] = 0x07;
+            usb_buf[3] = 0x02;
+            usb_buf[4] = 0x02;
+            usb_buf[5] = 0x01;
+            usb_buf[6] = 0x80;
 
-            usb_buf[1] = i < 6 ? i : 0x86;
-
-            if(i == 0)
-            {
-                usb_buf[2] = 0x07;
-                usb_buf[3] = 0x02;
-                usb_buf[4] = p + 1;
-                usb_buf[5] = 0x01;
-                usb_buf[6] = 0x80;
-
-                memcpy(&usb_buf[7], &color_data[offset], CM_MONITOR_PACKET_LENGTH - 7);
-                offset += CM_MONITOR_PACKET_LENGTH - 7;
-            }
-            else
-            {
-                memcpy(&usb_buf[2], &color_data[offset], CM_MONITOR_PACKET_LENGTH - 2);
-                offset += (CM_MONITOR_PACKET_LENGTH -2);
-            }
-
-            hid_write(dev, usb_buf, CM_MONITOR_PACKET_LENGTH);
+            memcpy(&usb_buf[7], &color_data[offset], CM_MONITOR_PACKET_LENGTH - 7);
+            offset += CM_MONITOR_PACKET_LENGTH - 7;
         }
+        else
+        {
+            memcpy(&usb_buf[2], &color_data[offset], CM_MONITOR_PACKET_LENGTH - 2);
+            offset += (CM_MONITOR_PACKET_LENGTH - 2);
+        }
+
+        hid_write(dev, usb_buf, CM_MONITOR_PACKET_LENGTH);
     }
+
 }
 
-void CMMonitorController::EnableSoftwareMode()
+void CMMonitorController::SetSoftwareModeEnabled(bool value)
 {
     uint8_t usb_buf[CM_MONITOR_PACKET_LENGTH];
     memset(usb_buf, 0x00, CM_MONITOR_PACKET_LENGTH);
@@ -197,61 +195,10 @@ void CMMonitorController::EnableSoftwareMode()
     usb_buf[1]  = 0x80;
     usb_buf[2]  = 0x07;
     usb_buf[3]  = 0x02;
-    usb_buf[4]  = 0x01;
-    usb_buf[6]  = 0x01;
-    hid_write(dev, usb_buf, CM_MONITOR_PACKET_LENGTH);
-
     usb_buf[4]  = 0x02;
+    usb_buf[6]  = value;
+
     hid_write(dev, usb_buf, CM_MONITOR_PACKET_LENGTH);
 
-    uint8_t read_buf[CM_MONITOR_PACKET_LENGTH];
-
-    /*---------------------------------------------------------*\
-    | We have to send a few black packets, with some read ones  |
-    \*---------------------------------------------------------*/
-    for(unsigned int p = 0; p < 4; p++)
-    {
-        for(unsigned int i = 0; i < 7; i++)
-        {
-            memset(usb_buf, 0x00, CM_MONITOR_PACKET_LENGTH);
-
-            usb_buf[1] = i < 6 ? i : 0x86;
-
-            if(i == 0)
-            {
-                usb_buf[2] = 0x07;
-                usb_buf[3] = 0x02;
-                usb_buf[4] = (p == 0 || p == 0 ) ? 0x01 : 0x02;
-                usb_buf[5] = 0x01;
-                usb_buf[6] = 0x80;
-            }
-
-            hid_write(dev, usb_buf, CM_MONITOR_PACKET_LENGTH);
-
-            if(p ==0 && (i == 2 || i == 4))
-            {
-                memset(read_buf, 0x00, CM_MONITOR_PACKET_LENGTH);
-                hid_read(dev, usb_buf, CM_MONITOR_PACKET_LENGTH);
-            }
-        }
-    }
-
-    software_mode_enabled = true;
-}
-
-void CMMonitorController::DisableSoftwareMode()
-{
-    uint8_t usb_buf[CM_MONITOR_PACKET_LENGTH];
-    memset(usb_buf, 0x00, CM_MONITOR_PACKET_LENGTH);
-
-    usb_buf[1]  = 0x80;
-    usb_buf[2]  = 0x07;
-    usb_buf[3]  = 0x02;
-    usb_buf[4]  = 0x01;
-    hid_write(dev, usb_buf, CM_MONITOR_PACKET_LENGTH);
-
-    usb_buf[4]  = 0x02;
-    hid_write(dev, usb_buf, CM_MONITOR_PACKET_LENGTH);
-
-    software_mode_enabled = false;
+    software_mode_enabled = value;
 }
