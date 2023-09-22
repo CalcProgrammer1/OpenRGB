@@ -9,6 +9,7 @@
 #define ANNE_PRO_2_PID_2 0x8009
 #define ANNE_PRO_2_PID_3 0xA292
 #define ANNE_PRO_2_PID_4 0xA293
+#define ANNE_PRO_2_PID_5 0xA297
 
 /******************************************************************************************\
 *                                                                                          *
@@ -34,3 +35,4 @@ REGISTER_HID_DETECTOR_I("Anne Pro 2", DetectAnnePro2Controllers, ANNE_PRO_2_VID,
 REGISTER_HID_DETECTOR_I("Anne Pro 2", DetectAnnePro2Controllers, ANNE_PRO_2_VID, ANNE_PRO_2_PID_2, 1);
 REGISTER_HID_DETECTOR_I("Anne Pro 2", DetectAnnePro2Controllers, ANNE_PRO_2_VID, ANNE_PRO_2_PID_3, 1);
 REGISTER_HID_DETECTOR_I("Anne Pro 2", DetectAnnePro2Controllers, ANNE_PRO_2_VID, ANNE_PRO_2_PID_4, 1);
+REGISTER_HID_DETECTOR_I("Anne Pro 2", DetectAnnePro2Controllers, ANNE_PRO_2_VID, ANNE_PRO_2_PID_5, 1);
