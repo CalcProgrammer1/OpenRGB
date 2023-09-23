@@ -222,21 +222,71 @@ void ColorWheel::mouseMoveEvent(QMouseEvent *event)
     }
     else
     {
-        // TODO: due with cursor out of region after press
-        //        int length = qMin(width(), height());
-        //        QPoint center(length/2, length/2);
-        //        int R = qSqrt(qPow(qAbs(lastPos.x()), 2)
-        //                      + qPow(qAbs(lastPos.y()), 2));
-        //        if(inWheel){
-        //            int r =  length / 2;
-        //            r += qSqrt(qPow(center.x(), 2) + qPow(center.y(), 2));
-        //            int x0 = r/R * qAbs(lastPos.x());
-        //            int y0 = r/R * qAbs(lastPos.y());
-        //            QColor color = posColor(QPoint(x0, y0));
-        //            hueChanged(color.hue());
-        //        }else if(inSquare){
-        //            //
-        //        }
+        /*-----------------------------------------------------*\
+        | If mouse is outside of wheel region, set lastPos to   |
+        | corresponding values inside the wheel region          |
+        \*-----------------------------------------------------*/
+        if(inWheel)
+        {
+            QPoint center = wheelRegion.boundingRect().center();
+
+            int radius = center.x() - wheelRegion.boundingRect().bottomLeft().x();
+
+            int xInWheel = lastPos.x() - center.x();
+            int yInWheel = lastPos.y() - center.y();
+
+            int centerToMouse = sqrt
+            (
+                qPow((int)xInWheel, 2) +
+                qPow((int)yInWheel, 2)
+                +1 //the sqrt function causes a crash when it's 0, so +1 prevents this with no noticeable precision difference and no performance penalty
+            );
+
+            xInWheel = radius * xInWheel / centerToMouse;
+            yInWheel = radius * yInWheel / centerToMouse;
+
+            lastPos.setX(xInWheel + center.x());
+            lastPos.setY(yInWheel + center.y());
+
+            QColor color = posColor(lastPos);
+            hueChanged(color.hue());
+        }
+        else
+
+        /*-----------------------------------------------------*\
+        | If mouse is outside of square region, set lastPos to  |
+        | corresponding values inside the square region         |
+        \*-----------------------------------------------------*/
+        if(inSquare)
+        {
+
+            int xInSquare = lastPos.x() - squareRegion.boundingRect().bottomLeft().x();
+            int maxX = squareRegion.boundingRect().topRight().x() - squareRegion.boundingRect().bottomLeft().x();
+
+            int yInSquare = lastPos.y() - squareRegion.boundingRect().topRight().y();
+            int maxY = squareRegion.boundingRect().bottomLeft().y() - squareRegion.boundingRect().topRight().y();
+
+            if(xInSquare < 0)
+            {
+                lastPos.setX(squareRegion.boundingRect().bottomLeft().x());
+            }
+            else if(xInSquare >= maxX)
+            {
+                lastPos.setX(squareRegion.boundingRect().topRight().x());
+            }
+
+            if(yInSquare < 0)
+            {
+                lastPos.setY(squareRegion.boundingRect().topRight().y());
+            }
+            else if (yInSquare >= maxY)
+            {
+                lastPos.setY(squareRegion.boundingRect().bottomLeft().y());
+            }
+
+            QColor color = posColor(lastPos);
+            svChanged(color);
+        }
     }
 }
 
