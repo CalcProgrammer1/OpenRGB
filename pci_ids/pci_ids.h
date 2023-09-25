@@ -549,6 +549,7 @@
 #define MSI_RTX3060_GAMING_X_8G_SUB_DEV                 0xC979
 #define MSI_RTX3060_GAMING_X_12G_SUB_DEV                0x3976
 #define MSI_RTX3060TI_GAMING_X_SUB_DEV                  0x3973
+#define MSI_RTX3060TI_SUPER_3X_OC_SUB_DEV               0x505A
 #define MSI_RTX3070_GAMING_TRIO_SUB_DEV                 0x3904
 #define MSI_RTX3070_GAMING_X_TRIO_SUB_DEV               0x3903
 #define MSI_RTX3080_GAMING_Z_TRIO_SUB_DEV               0x389B
