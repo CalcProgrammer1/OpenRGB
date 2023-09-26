@@ -36,7 +36,10 @@ CMARGBController::CMARGBController(hid_device* dev_handle, char *_path, unsigned
 
 CMARGBController::~CMARGBController()
 {
-    hid_close(dev);
+    if(mutex_ptr.use_count() <= 1)
+    {
+        hid_close(dev);
+    }
 }
 
 void CMARGBController::GetStatus()
