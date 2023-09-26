@@ -263,6 +263,8 @@
 #define ASUS_TUF_RX_6900XT_O16G_GAMING                  0x04FA
 #define ASUS_TUF_RX_6900XT_T16G_GAMING                  0x04FE
 #define ASUS_TUF_RX_6950XT_016G_GAMING                  0x0504
+#define ASUS_TUF_RX_7800XT_O16G_GAMING                  0x05FD
+#define ASUS_TUF_RX_7800XT_O16G_WHITE_GAMING            0x0601
 #define ASUS_TUF_RX_7900XTX_O24G_GAMING                 0x0506
 #define ASUS_ROG_STRIX_LC_RX_6950XT_O16G_GAMING         0x05E9
 #define ASUS_TUF_RTX_4060TI_O8G_GAMING                  0x88F6
@@ -287,7 +289,7 @@
 #define ASUS_ROG_STRIX_RTX_4090_24G_GAMING              0x889D
 #define ASUS_ROG_STRIX_RTX_4090_O24G_GAMING             0x889C
 #define ASUS_ROG_STRIX_RTX_4090_O24G_GAMING_213S        0x88EF
-#define ASUS_TUF_RX7800XT_O16G_GAMING                   0x05FD
+
 
 /*-----------------------------------------------------*\
 | Colorful Sub-Device IDs                               |
