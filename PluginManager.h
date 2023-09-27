@@ -21,6 +21,8 @@ typedef struct
     QMenu*                      traymenu;
     std::string                 path;
     bool                        enabled;
+    bool                        incompatible;
+    int                         api_version;
 } OpenRGBPluginEntry;
 
 typedef void (*AddPluginCallback)(void *, OpenRGBPluginEntry* plugin);

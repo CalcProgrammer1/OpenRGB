@@ -56,6 +56,17 @@ void Ui::OpenRGBPluginsPage::RefreshList()
         entry->ui->VersionValue->setText(QString::fromStdString(plugin_manager->ActivePlugins[plugin_idx].info.Version));
         entry->ui->CommitValue->setText(QString::fromStdString(plugin_manager->ActivePlugins[plugin_idx].info.Commit));
         entry->ui->URLValue->setText(QString::fromStdString(plugin_manager->ActivePlugins[plugin_idx].info.URL));
+        entry->ui->APIVersionValue->setText(QString::number(plugin_manager->ActivePlugins[plugin_idx].api_version));
+
+        /*---------------------------------------------------------*\
+        | If the plugin is incompatible, highlight the API version  |
+        | in red and disable the enable checkbox                    |
+        \*---------------------------------------------------------*/
+        if(plugin_manager->ActivePlugins[plugin_idx].incompatible)
+        {
+            entry->ui->APIVersionValue->setStyleSheet("QLabel { color : red; }");
+            entry->ui->EnabledCheckBox->setEnabled(false);
+        }
 
         /*---------------------------------------------------------*\
         | Fill in plugin icon                                       |

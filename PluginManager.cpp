@@ -197,13 +197,15 @@ void PluginManager::AddPlugin(const filesystem::path& path)
                     \*-----------------------------------------------------*/
                     OpenRGBPluginEntry entry;
 
-                    entry.info    = info;
-                    entry.plugin  = plugin;
-                    entry.loader  = loader;
-                    entry.loaded  = false;
-                    entry.path    = path_string;
-                    entry.enabled = enabled;
-                    entry.widget  = nullptr;
+                    entry.info          = info;
+                    entry.plugin        = plugin;
+                    entry.loader        = loader;
+                    entry.loaded        = false;
+                    entry.path          = path_string;
+                    entry.enabled       = enabled;
+                    entry.widget        = nullptr;
+                    entry.incompatible  = false;
+                    entry.api_version   = plugin->GetPluginAPIVersion();
 
                     loader->unload();
 
@@ -216,6 +218,35 @@ void PluginManager::AddPlugin(const filesystem::path& path)
                 }
                 else
                 {
+                    /*-----------------------------------------------------*\
+                    | Fill in a plugin information object with text showing |
+                    | the plugin is incompatible                            |
+                    \*-----------------------------------------------------*/
+                    OpenRGBPluginInfo info;
+
+                    info.Name           = "Incompatible Plugin";
+                    info.Description    = "This plugin is not compatible with this version of OpenRGB.";
+
+                    /*-----------------------------------------------------*\
+                    | Add the plugin to the PluginManager active plugins    |
+                    | but mark it as incompatible                           |
+                    \*-----------------------------------------------------*/
+                    OpenRGBPluginEntry entry;
+
+                    entry.info          = info;
+                    entry.plugin        = plugin;
+                    entry.loader        = loader;
+                    entry.loaded        = false;
+                    entry.path          = path_string;
+                    entry.enabled       = false;
+                    entry.widget        = nullptr;
+                    entry.incompatible  = true;
+                    entry.api_version   = plugin->GetPluginAPIVersion();
+
+                    loader->unload();
+
+                    PluginManager::ActivePlugins.push_back(entry);
+
                     loader->unload();
                     LOG_WARNING("[PluginManager] Plugin %s has an incompatible API version", path.c_str());
                 }
@@ -284,6 +315,14 @@ void PluginManager::LoadPlugin(const filesystem::path& path)
     | If the plugin path does not exist in the active plugins list, return  |
     \*---------------------------------------------------------------------*/
     if(plugin_idx == ActivePlugins.size())
+    {
+        return;
+    }
+
+    /*---------------------------------------------------------------------*\
+    | If the plugin is in the list but is incompatible, return              |
+    \*---------------------------------------------------------------------*/
+    if(ActivePlugins[plugin_idx].incompatible)
     {
         return;
     }
