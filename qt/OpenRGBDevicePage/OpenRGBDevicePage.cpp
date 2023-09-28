@@ -114,6 +114,7 @@ OpenRGBDevicePage::OpenRGBDevicePage(RGBController *dev, QWidget *parent) :
     updateColorUi();
 
     ui->ApplyColorsButton->setDisabled(autoUpdateEnabled());
+    ui->SetAllButton->setDisabled(device->modes[0].name != "Direct" && device->modes[0].name != "Custom" && device->modes[0].name != "Static");
 }
 
 OpenRGBDevicePage::~OpenRGBDevicePage()
@@ -680,7 +681,7 @@ void Ui::OpenRGBDevicePage::on_LEDBox_currentIndexChanged(int index)
 
 }
 
-void Ui::OpenRGBDevicePage::on_ModeBox_currentIndexChanged(int /*index*/)
+void Ui::OpenRGBDevicePage::on_ModeBox_currentIndexChanged(int index)
 {
     /*-----------------------------------------------------*\
     | Update mode user interface elements                   |
@@ -696,6 +697,8 @@ void Ui::OpenRGBDevicePage::on_ModeBox_currentIndexChanged(int /*index*/)
     | Disable the button if we can safely auto apply colors |
     \*-----------------------------------------------------*/
     ui->ApplyColorsButton->setDisabled(autoUpdateEnabled());
+    ui->SetAllButton->setDisabled(device->modes[index].name != "Direct" && device->modes[index].name != "Custom" && device->modes[index].name != "Static");
+
 }
 
 void Ui::OpenRGBDevicePage::on_PerLEDCheck_clicked()
