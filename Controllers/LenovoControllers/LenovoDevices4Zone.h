@@ -15,8 +15,12 @@
 | Keyboard product IDs                                  |
 \*-----------------------------------------------------*/
 #define IDEAPAD_315ACH6                         0xC963
+#define LEGION_5_2023_PID                       0xC985
+#define LEGION_5_2023_IDEAPAD_PID               0xC984
 #define LEGION_5_2022_PID                       0xC975
+#define LEGION_5_2022_IDEAPAD_PID               0xC973
 #define LEGION_5_2021_PID                       0xC965
+#define LEGION_5_2021_IDEAPAD_PID               0xC963
 #define LEGION_5_2020_PID                       0xC955
 
 enum LENOVO_4_ZONE_EFFECT
