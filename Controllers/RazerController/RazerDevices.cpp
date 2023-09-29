@@ -276,6 +276,39 @@ keyboard_keymap_overlay_values razer_blackwidow_v3_tkl_layout
     }
 };
 
+keyboard_keymap_overlay_values razer_blackwidow_v4_pro_layout
+{
+    KEYBOARD_SIZE::KEYBOARD_SIZE_FULL,
+    {
+        {   /* ANSI Value set not used */   },
+        {
+            /* Add more regional layout fixes here */
+        }
+    },
+    {
+        /*---------------------------------------------------------------------------------------------------------*\
+        | Edit Keys                                                                                                 |
+        |   Zone,   Row,    Column,     Value,      Key,                        OpCode,                             |
+        \*---------------------------------------------------------------------------------------------------------*/
+        {   0,      0,      0,          0,          KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Move 'Esc' 1 right (Shifts row)
+        {   0,      0,      1,          0,          "Key: Dial",                KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Insert Command Dial (Shifts row)
+        {   0,      0,      19,         0,          KEY_EN_MEDIA_PREVIOUS,      KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      0,      20,         0,          KEY_EN_MEDIA_PLAY_PAUSE,    KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      0,      21,         0,          KEY_EN_MEDIA_NEXT,          KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      0,      22,         0,          KEY_EN_MEDIA_MUTE,          KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      1,      0,          0,          KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Move Backtick 1 right (Shifts row)
+        {   0,      1,      1,          0,          "Key: M5",                  KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Insert M5 macro key (Shifts row)
+        {   0,      2,      0,          0,          KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Move Tab 1 right (Shifts row)
+        {   0,      2,      1,          0,          "Key: M4",                  KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Insert M4 macro key (Shifts row)
+        {   0,      3,      0,          0,          KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Move Caps 1 right (Shifts row)
+        {   0,      3,      1,          0,          "Key: M3",                  KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Insert M3 macro key (Shifts row)
+        {   0,      4,      0,          0,          KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Move LFT_SHFT 1 right (Shifts row)
+        {   0,      4,      1,          0,          "Key: M2",                  KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Insert M2 macro key (Shifts row)
+        {   0,      5,      0,          0,          KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Move LFT_CTRL 1 right (Shifts row)
+        {   0,      5,      1,          0,          "Key: M1",                  KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Insert M1 macro key (Shifts row)
+    }
+};
+
 keyboard_keymap_overlay_values razer_blackwidow_v4_x_layout
 {
     KEYBOARD_SIZE::KEYBOARD_SIZE_FULL,
@@ -1509,6 +1542,88 @@ static const razer_device blackwidow_v3_mini_wireless_device =
         NULL
     },
     &razer_blackwidow_v3_mini_layout
+};
+/*-------------------------------------------------------------*\
+|  Razer Blackwidow V4 Pro 1532:028D                            |
+|                                                               |
+|  Zone "Keyboard"                                              |
+|       Matrix                                                  |
+|       6 Rows, 23 Columns                                      |
+|                                                               |
+|  Zone "Underglow Left"                                        |
+|       Linear                                                  |
+|       1 Row, 9 Columns                                        |
+|                                                               |
+|  Zone "Underglow right"                                       |
+|       Linear                                                  |
+|       1 Row, 9 Columns                                        |
+|                                                               |
+|  Zone "Void" - In testing these LEDs were not connected       |
+|       Linear                                                  |
+|       1 Row, 5 Columns                                        |
+|                                                               |
+|  Zone "Underglow Wrist Rest"                                  |
+|       Linear                                                  |
+|       1 Rows, 20 Columns                                      |
+\*-------------------------------------------------------------*/
+static const razer_zone blackwidow_v4_pro_zone =
+{
+    ZONE_EN_KEYBOARD,
+    ZONE_TYPE_MATRIX,
+    6,
+    23
+};
+
+static const razer_zone blackwidow_v4_pro_lbl_zone =
+{
+    "Underglow Left",
+    ZONE_TYPE_LINEAR,
+    1,
+    9
+};
+
+static const razer_zone blackwidow_v4_pro_lbr_zone =
+{
+    "Underglow Right",
+    ZONE_TYPE_LINEAR,
+    1,
+    9
+};
+
+static const razer_zone blackwidow_v4_pro_void_zone =
+{
+    "Void",
+    ZONE_TYPE_LINEAR,
+    1,
+    5
+};
+
+static const razer_zone blackwidow_v4_pro_lbwr_zone =
+{
+    "Underglow Wrist Rest",
+    ZONE_TYPE_LINEAR,
+    1,
+    20
+};
+
+static const razer_device blackwidow_v4_pro_device =
+{
+    "Razer Blackwidow V4 Pro",
+    RAZER_BLACKWIDOW_V4_PRO_PID,
+    DEVICE_TYPE_KEYBOARD,
+    RAZER_MATRIX_TYPE_EXTENDED,
+    0x1F,
+    8,
+    23,
+    {
+        &blackwidow_v4_pro_zone,
+        &blackwidow_v4_pro_lbl_zone,
+        &blackwidow_v4_pro_lbr_zone,
+        &blackwidow_v4_pro_void_zone,
+        &blackwidow_v4_pro_lbwr_zone,
+        NULL
+    },
+    &razer_blackwidow_v4_pro_layout
 };
 
 /*-------------------------------------------------------------*\
@@ -7476,6 +7591,7 @@ const razer_device* razer_device_list[] =
     &blackwidow_v3_tkl_device,
     &blackwidow_v3_mini_wired_device,
     &blackwidow_v3_mini_wireless_device,
+    &blackwidow_v4_pro_device,
     &blackwidow_v4_x_device,
     &blackwidow_x_chroma_device,
     &blackwidow_x_chroma_te_device,

@@ -45,6 +45,7 @@
 #define RAZER_BLACKWIDOW_V3_PRO_BLUETOOTH_PID           0x025B
 #define RAZER_BLACKWIDOW_V3_PRO_WIRELESS_PID            0x025C
 #define RAZER_BLACKWIDOW_V3_TKL_PID                     0x0A24
+#define RAZER_BLACKWIDOW_V4_PRO_PID                     0x028D
 #define RAZER_BLACKWIDOW_V4_X_PID                       0x0293
 #define RAZER_BLACKWIDOW_X_CHROMA_PID                   0x0216
 #define RAZER_BLACKWIDOW_X_CHROMA_TE_PID                0x021A
