@@ -28,7 +28,7 @@
 enum
 {
     LENOVO_PAGE   = 0xFF89,
-    LENOVO_USEAGE = 0x07
+    LENOVO_USAGE = 0x07
 };
 
 void DetectLenovoLegionUSBControllers(hid_device_info* info, const std::string& name)
@@ -59,9 +59,9 @@ void DetectLenovoLegionUSBControllersGen7(hid_device_info* info, const std::stri
     }
 }
 
-REGISTER_HID_DETECTOR_PU("Lenovo Legion Y740",                DetectLenovoLegionUSBControllers,      ITE_VID,  LEGION_Y740,           LENOVO_PAGE, LENOVO_USEAGE);
-REGISTER_HID_DETECTOR_PU("Lenovo Legion 7 gen 5",             DetectLenovoLegionUSBControllers,      ITE_VID,  LEGION_Y750,           LENOVO_PAGE, LENOVO_USEAGE);
-REGISTER_HID_DETECTOR_PU("Lenovo Legion 7S gen 5",            DetectLenovoLegionUSBControllers,      ITE_VID,  LEGION_Y750S,          LENOVO_PAGE, LENOVO_USEAGE);
-REGISTER_HID_DETECTOR_PU("Lenovo Legion 7 gen 6",             DetectLenovoLegionUSBControllers,      ITE_VID,  LEGION_Y760,           LENOVO_PAGE, LENOVO_USEAGE);
-REGISTER_HID_DETECTOR_PU("Lenovo Legion 7S gen 6",            DetectLenovoLegionUSBControllers,      ITE_VID,  LEGION_Y760S,          LENOVO_PAGE, LENOVO_USEAGE);
-REGISTER_HID_DETECTOR_PU("Lenovo Legion 7 gen 7",             DetectLenovoLegionUSBControllersGen7,  ITE_VID,  LEGION_7GEN7,          LENOVO_PAGE, LENOVO_USEAGE);
+REGISTER_HID_DETECTOR_PU("Lenovo Legion Y740",      DetectLenovoLegionUSBControllers,       ITE_VID, LEGION_Y740,   LENOVO_PAGE, LENOVO_USAGE);
+REGISTER_HID_DETECTOR_PU("Lenovo Legion 7 gen 5",   DetectLenovoLegionUSBControllers,       ITE_VID, LEGION_Y750,   LENOVO_PAGE, LENOVO_USAGE);
+REGISTER_HID_DETECTOR_PU("Lenovo Legion 7S gen 5",  DetectLenovoLegionUSBControllers,       ITE_VID, LEGION_Y750S,  LENOVO_PAGE, LENOVO_USAGE);
+REGISTER_HID_DETECTOR_PU("Lenovo Legion 7 gen 6",   DetectLenovoLegionUSBControllers,       ITE_VID, LEGION_Y760,   LENOVO_PAGE, LENOVO_USAGE);
+REGISTER_HID_DETECTOR_PU("Lenovo Legion 7S gen 6",  DetectLenovoLegionUSBControllers,       ITE_VID, LEGION_Y760S,  LENOVO_PAGE, LENOVO_USAGE);
+REGISTER_HID_DETECTOR_PU("Lenovo Legion 7 gen 7",   DetectLenovoLegionUSBControllersGen7,   ITE_VID, LEGION_7GEN7,  LENOVO_PAGE, LENOVO_USAGE);
