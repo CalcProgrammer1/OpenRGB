@@ -266,7 +266,7 @@ void NetworkServer::StartServer()
     for(res = result; res && socket_count < MAXSOCK; res = res->ai_next)
     {
         server_sock[socket_count] = socket(res->ai_family, res->ai_socktype, res->ai_protocol);
-        
+
         if(server_sock[socket_count] == INVALID_SOCKET)
         {
             printf("Error: network socket could not be created\n");
@@ -320,7 +320,7 @@ void NetworkServer::StartServer()
 
     freeaddrinfo(result);
     server_online = true;
-    
+
     /*-------------------------------------------------*\
     | Start the connection thread                       |
     \*-------------------------------------------------*/
@@ -430,7 +430,7 @@ void NetworkServer::ConnectionThreadFunction(int socket_idx)
         socklen_t len;
         len = sizeof(tmp_addr);
         getpeername(client_info->client_sock, (struct sockaddr*)&tmp_addr, &len);
-        
+
         if(tmp_addr.ss_family == AF_INET)
         {
             struct sockaddr_in *s_4 = (struct sockaddr_in *)&tmp_addr;
@@ -780,7 +780,10 @@ void NetworkServer::ListenThreadFunction(NetworkClientInfo * client_info)
 
                 if(profile_manager)
                 {
-                    profile_manager->SaveProfile(data);
+                    std::string profile_name;
+                    profile_name.assign(data, header.pkt_size);
+
+                    profile_manager->SaveProfile(profile_name);
                 }
 
                 break;
@@ -793,7 +796,10 @@ void NetworkServer::ListenThreadFunction(NetworkClientInfo * client_info)
 
                 if(profile_manager)
                 {
-                    profile_manager->LoadProfile(data);
+                    std::string profile_name;
+                    profile_name.assign(data, header.pkt_size);
+
+                    profile_manager->LoadProfile(profile_name);
                 }
 
                 for(RGBController* controller : controllers)
@@ -811,7 +817,10 @@ void NetworkServer::ListenThreadFunction(NetworkClientInfo * client_info)
 
                 if(profile_manager)
                 {
-                    profile_manager->DeleteProfile(data);
+                    std::string profile_name;
+                    profile_name.assign(data, header.pkt_size);
+
+                    profile_manager->DeleteProfile(profile_name);
                 }
 
                 break;
@@ -897,14 +906,14 @@ void NetworkServer::ProcessRequest_ClientProtocolVersion(SOCKET client_sock, uns
     ClientInfoChanged();
 }
 
-void NetworkServer::ProcessRequest_ClientString(SOCKET client_sock, unsigned int /*data_size*/, char * data)
+void NetworkServer::ProcessRequest_ClientString(SOCKET client_sock, unsigned int data_size, char * data)
 {
     ServerClientsMutex.lock();
     for(unsigned int this_idx = 0; this_idx < ServerClients.size(); this_idx++)
     {
         if(ServerClients[this_idx]->client_sock == client_sock)
         {
-            ServerClients[this_idx]->client_string = data;
+            ServerClients[this_idx]->client_string.assign(data, data_size);
             break;
         }
     }
@@ -1028,7 +1037,7 @@ void NetworkServer::SendReply_PluginList(SOCKET client_sock)
 {
     unsigned int data_size = 0;
     unsigned int data_ptr = 0;
-    
+
     /*---------------------------------------------------------*\
     | Calculate data size                                       |
     \*---------------------------------------------------------*/
@@ -1045,12 +1054,12 @@ void NetworkServer::SendReply_PluginList(SOCKET client_sock)
         data_size += strlen(plugins[i].version.c_str()) + 1;
         data_size += sizeof(unsigned int) * 2;
     }
-    
+
     /*---------------------------------------------------------*\
     | Create data buffer                                        |
     \*---------------------------------------------------------*/
     unsigned char *data_buf = new unsigned char[data_size];
-    
+
     /*---------------------------------------------------------*\
     | Copy in data size                                         |
     \*---------------------------------------------------------*/
@@ -1103,14 +1112,14 @@ void NetworkServer::SendReply_PluginList(SOCKET client_sock)
         \*---------------------------------------------------------*/
         memcpy(&data_buf[data_ptr], &i, sizeof(unsigned int));
         data_ptr += sizeof(unsigned int);
-        
+
         /*---------------------------------------------------------*\
         | Copy in plugin sdk version (data)                         |
         \*---------------------------------------------------------*/
         memcpy(&data_buf[data_ptr], &plugins[i].protocol_version, sizeof(int));
         data_ptr += sizeof(int);
     }
-    
+
     NetPacketHeader reply_hdr;
     unsigned int reply_size;
 
