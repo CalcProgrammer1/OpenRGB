@@ -2,8 +2,6 @@
 
 ![Visitors](https://visitor-badge.glitch.me/badge?page_id=org.openrgb.readme) ![Pipeline Status](https://gitlab.com/CalcProgrammer1/OpenRGB/badges/master/pipeline.svg)
 
-Visit our website at https://openrgb.org!
-
 One of the biggest complaints about RGB is the software ecosystem surrounding it.  Every manufacturer has their own app, their own brand, their own style.  If you want to mix and match devices, you end up with a ton of conflicting, functionally identical apps competing for your background resources.  On top of that, these apps are proprietary and Windows-only.  Some even require online accounts.  What if there was a way to control all of your RGB devices from a single app, on both Windows and Linux, without any nonsense?  That is what OpenRGB sets out to achieve.  One app to rule them all.
 
 [[_TOC_]]
@@ -20,13 +18,17 @@ One of the biggest complaints about RGB is the software ecosystem surrounding it
 * No official/manufacturer software required
 * Graphical view of device LEDs makes creating custom patterns easy
 
+## Website
+
+* Check out our website at [openrgb.org](https://openrgb.org)
+
 ## Supported Devices
 
 * See the [Supported Devices](https://openrgb.org/devices.html) page for the current list of supported devices.
 
-## Configuration
+## Wiki
 
-* See the [OpenRGB Settings](https://gitlab.com/OpenRGBDevelopers/OpenRGB-Wiki/-/blob/stable/OpenRGB-Settings.md) page for information about the configuration file.
+* More information is available on the [OpenRGB Wiki](https://gitlab.com/OpenRGBDevelopers/OpenRGB-Wiki/-/blob/stable/home.md)
 
 ## WARNING!
 
@@ -268,8 +270,8 @@ There have been two instances of hardware damage in OpenRGB's development and we
 
 ## Contributing
 
-* Want to contribute support for a new device?  Check out the [RGBController API](https://gitlab.com/OpenRGBDevelopers/OpenRGB-Wiki/-/blob/stable/The-RGBController-API.md) page for documentation of how OpenRGB implements device control.
-* Want to create a new OpenRGB SDK client implementation?  Check out the [OpenRGB SDK Documentation](Documentation) page for documentation of how the OpenRGB SDK network protocol functions.
+* Want to contribute support for a new device?  Check out the [RGBController API](https://gitlab.com/OpenRGBDevelopers/OpenRGB-Wiki/-/blob/stable/Developer-Documentation/The-RGBController-API.md) page for documentation of how OpenRGB implements device control.
+* Want to create a new OpenRGB SDK client implementation?  Check out the [OpenRGB SDK Documentation](https://gitlab.com/OpenRGBDevelopers/OpenRGB-Wiki/-/blob/stable/Developer-Documentation/OpenRGB-SDK-Documentation.md) page for documentation of how the OpenRGB SDK network protocol functions.
 * Please read the [Contributing Guidelines](https://gitlab.com/CalcProgrammer1/OpenRGB/-/blob/master/CONTRIBUTING.md) before starting work on your new changes.
 
 ## OpenRGB SDK
