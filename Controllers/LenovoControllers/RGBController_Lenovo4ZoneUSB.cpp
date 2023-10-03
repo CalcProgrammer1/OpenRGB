@@ -10,6 +10,18 @@
 #include <sstream>
 #include <iomanip>
 
+/**------------------------------------------------------------------*\
+    @name Lenovo 4 Zone USB
+    @category Keyboard
+    @type USB
+    @save :x:
+    @direct :white_check_mark:
+    @effects :x:
+    @detectors DetectLenovo4ZoneUSBControllers
+    @comment Tested on Lenovo Legion 5 2021
+\*-------------------------------------------------------------------*/
+
+
 #define LENOVO_4_ZONE_NUM_LEDS 4
 
 RGBController_Lenovo4ZoneUSB::RGBController_Lenovo4ZoneUSB(Lenovo4ZoneUSBController* controller_ptr)
