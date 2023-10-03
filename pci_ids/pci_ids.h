@@ -599,6 +599,7 @@
 #define PNY_RTX_3090_XLR8_REVEL_EPIC_X_SUB_DEV          0x136A
 #define PNY_RTX_3060TI_XLR8_REVEL_EPIC_X_SUB_DEV        0x1389
 #define PNY_RTX_2060_XLR8_OC_SUB_DEV                    0x1363
+#define PNY_RTX_4090_XLR8_SUB_DEV                       0x13AE
 
 /*-----------------------------------------------------*\
 | Palit Sub-Device IDs                                    |

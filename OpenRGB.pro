@@ -203,6 +203,7 @@ INCLUDEPATH +=                                                                  
     Controllers/PhilipsHueController/                                                           \
     Controllers/PhilipsWizController/                                                           \
     Controllers/PNYGPUController/                                                               \
+    Controllers/PNYLovelaceGPUController/                                                       \
     Controllers/QMKOpenRGBController/                                                           \
     Controllers/RazerController/                                                                \
     Controllers/RedragonController/                                                             \
@@ -682,6 +683,8 @@ HEADERS +=                                                                      
     Controllers/PhilipsWizController/RGBController_PhilipsWiz.h                                 \
     Controllers/PNYGPUController/PNYGPUController.h                                             \
     Controllers/PNYGPUController/RGBController_PNYGPU.h                                         \
+    Controllers/PNYLovelaceGPUController/PNYLovelaceGPUController.h                             \
+    Controllers/PNYLovelaceGPUController/RGBController_PNYLovelaceGPU.h                         \
     Controllers/QMKOpenRGBController/QMKOpenRGBController.h                                     \
     Controllers/QMKOpenRGBController/QMKOpenRGBRev9Controller.h                                 \
     Controllers/QMKOpenRGBController/QMKOpenRGBRevBController.h                                 \
@@ -1390,6 +1393,9 @@ SOURCES +=                                                                      
     Controllers/PNYGPUController/PNYGPUController.cpp                                           \
     Controllers/PNYGPUController/PNYGPUControllerDetect.cpp                                     \
     Controllers/PNYGPUController/RGBController_PNYGPU.cpp                                       \
+    Controllers/PNYLovelaceGPUController/PNYLovelaceGPUController.cpp                           \
+    Controllers/PNYLovelaceGPUController/PNYLovelaceGPUControllerDetect.cpp                     \
+    Controllers/PNYLovelaceGPUController/RGBController_PNYLovelaceGPU.cpp                       \
     Controllers/QMKOpenRGBController/QMKOpenRGBControllerDetect.cpp                             \
     Controllers/QMKOpenRGBController/QMKOpenRGBRev9Controller.cpp                               \
     Controllers/QMKOpenRGBController/QMKOpenRGBRevBController.cpp                               \
