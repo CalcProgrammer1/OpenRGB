@@ -28,6 +28,32 @@ std::string AuraMouseController::GetDeviceLocation()
     return("HID: " + location);
 }
 
+std::string AuraMouseController::CleanSerial(const std::wstring& wstr)
+{
+    /*---------------------------------------------------------------*\
+    | Cleanes garbage at the end of serial numbers                    |
+    | (apparently 2 characters too much, but maybe variable)          |
+    | Limited to new devices, old ones don't even have serial numbers |
+    \*---------------------------------------------------------------*/
+    std::string result;
+    for(wchar_t c : wstr)
+    {
+        /*-----------------------------------------------------*\
+        | Forbid anything besides digits and upper case letters |
+        \*-----------------------------------------------------*/
+        bool isUpperCaseLetter = (c >= 64 && c <= 90);
+        bool isDigit           = (c >= 48 && c <= 57);
+        if(!isUpperCaseLetter && !isDigit)
+        {
+            break;
+        }
+
+        result += c;
+    }
+
+    return(result);
+}
+
 std::string AuraMouseController::GetSerialString()
 {
     wchar_t serial_string[HID_MAX_STR];
@@ -38,8 +64,8 @@ std::string AuraMouseController::GetSerialString()
         return("");
     }
 
-    std::wstring return_wstring = serial_string;
-    std::string return_string(return_wstring.begin(), return_wstring.end());
+    std::wstring serial_wstring = serial_string;
+    std::string return_string = CleanSerial(serial_wstring);
 
     return(return_string);
 }

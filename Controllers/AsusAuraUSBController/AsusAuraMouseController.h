@@ -25,6 +25,7 @@ public:
     virtual ~AuraMouseController();
 
     std::string GetDeviceLocation();
+    std::string CleanSerial(const std::wstring& wstr);
     std::string GetSerialString();
     std::string GetVersion(bool wireless, int protocol);
 
