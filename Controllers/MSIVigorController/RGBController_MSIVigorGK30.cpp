@@ -101,7 +101,7 @@ RGBController_MSIVigorGK30::RGBController_MSIVigorGK30(MSIVigorGK30Controller* c
     Meteor.speed                        = MSI_VIGOR_GK30_SPEED_MIN;
     Meteor.speed_min                    = MSI_VIGOR_GK30_SPEED_MIN;
     Meteor.speed_max                    = MSI_VIGOR_GK30_SPEED_MAX;
-    Rainbow.direction                   = MODE_DIRECTION_LEFT;
+    Meteor.direction                    = MODE_DIRECTION_LEFT;
     modes.push_back(Meteor);
 
     mode Ripple;
