@@ -564,8 +564,6 @@ HEADERS +=                                                                      
     Controllers/HyperXMouseController/RGBController_HyperXPulsefireRaid.h                       \
     Controllers/HyperXMousematController/HyperXMousematController.h                             \
     Controllers/HyperXMousematController/RGBController_HyperXMousemat.h                         \
-    Controllers/HYTEMousematController/HYTEMousematController.h                                 \
-    Controllers/HYTEMousematController/RGBController_HYTEMousemat.h                             \
     Controllers/IntelArcA770LEController/IntelArcA770LEController.h                             \
     Controllers/IntelArcA770LEController/RGBController_IntelArcA770LE.h                         \
     Controllers/IonicoController/IonicoController.h                                             \
@@ -1239,9 +1237,6 @@ SOURCES +=                                                                      
     Controllers/HyperXMousematController/HyperXMousematController.cpp                           \
     Controllers/HyperXMousematController/HyperXMousematControllerDetect.cpp                     \
     Controllers/HyperXMousematController/RGBController_HyperXMousemat.cpp                       \
-    Controllers/HYTEMousematController/HYTEMousematController.cpp                               \
-    Controllers/HYTEMousematController/HYTEMousematControllerDetect.cpp                         \
-    Controllers/HYTEMousematController/RGBController_HYTEMousemat.cpp                           \
     Controllers/IntelArcA770LEController/IntelArcA770LEController.cpp                           \
     Controllers/IntelArcA770LEController/IntelArcA770LEControllerDetect.cpp                     \
     Controllers/IonicoController/IonicoController.cpp                                           \
@@ -1630,6 +1625,7 @@ win32:INCLUDEPATH +=                                                            
     dependencies/openrazer-win32                                                                \
     wmi/                                                                                        \
     Controllers/AsusTUFLaptopController                                                         \
+    Controllers/HYTEMousematController/HYTEMousematController_serial                            \
     Controllers/NVIDIAIlluminationController                                                    \
 
 win32:SOURCES +=                                                                                \
@@ -1734,6 +1730,9 @@ win32:SOURCES +=                                                                
     Controllers/AsusTUFLaptopController/RGBController_AsusTUFLaptopWMI.cpp                      \
     Controllers/ENESMBusController/XPGSpectrixS40GDetect_Windows.cpp                            \
     Controllers/ENESMBusController/ENESMBusInterface/ENESMBusInterface_SpectrixS40G_Windows.cpp \
+    Controllers/HYTEMousematController/HYTEMousematController_serial/HYTEMousematController.cpp \
+    Controllers/HYTEMousematController/HYTEMousematController_serial/HYTEMousematControllerDetect.cpp \
+    Controllers/HYTEMousematController/RGBController_HYTEMousemat.cpp                           \
     Controllers/NVIDIAIlluminationController/nvapi_accessor.cpp                                 \
     Controllers/NVIDIAIlluminationController/NVIDIAIlluminationV1Controller.cpp                 \
     Controllers/NVIDIAIlluminationController/NVIDIAIlluminationControllerDetect.cpp             \
@@ -1756,6 +1755,8 @@ win32:HEADERS +=                                                                
     Controllers/AsusTUFLaptopController/AsusTUFLaptopController.h                               \
     Controllers/AsusTUFLaptopController/RGBController_AsusTUFLaptopWMI.h                        \
     Controllers/ENESMBusController/ENESMBusInterface/ENESMBusInterface_SpectrixS40G_Windows.h   \
+    Controllers/HYTEMousematController/HYTEMousematController_serial/HYTEMousematController.h   \
+    Controllers/HYTEMousematController/RGBController_HYTEMousemat.h                             \
     Controllers/NVIDIAIlluminationController/nvapi_accessor.h                                   \
     Controllers/NVIDIAIlluminationController/NVIDIAIlluminationV1Controller.h                   \
     Controllers/NVIDIAIlluminationController/RGBController_NVIDIAIllumination.h                 \
@@ -1847,15 +1848,18 @@ contains(QMAKE_PLATFORM, linux) {
 
     INCLUDEPATH +=                                                                              \
     Controllers/FaustusController                                                               \
+    Controllers/HYTEMousematController/HYTEMousematController_libusb                            \
     Controllers/LinuxLEDController                                                              \
 
     HEADERS +=                                                                                  \
     i2c_smbus/i2c_smbus_linux.h                                                                 \
     AutoStart/AutoStart-Linux.h                                                                 \
-    Controllers/AsusTUFLaptopController/AsusTUFLaptopLinuxController.h                     \
-    Controllers/AsusTUFLaptopController/RGBController_AsusTUFLaptopLinux.h                 \
+    Controllers/AsusTUFLaptopController/AsusTUFLaptopLinuxController.h                          \
+    Controllers/AsusTUFLaptopController/RGBController_AsusTUFLaptopLinux.h                      \
     Controllers/ENESMBusController/ENESMBusInterface/ENESMBusInterface_SpectrixS40G.h           \
     Controllers/FaustusController/RGBController_Faustus.h                                       \
+    Controllers/HYTEMousematController/HYTEMousematController_libusb/HYTEMousematController.h   \
+    Controllers/HYTEMousematController/RGBController_HYTEMousemat.h                             \
     Controllers/LinuxLEDController/LinuxLEDController.h                                         \
     Controllers/LinuxLEDController/RGBController_LinuxLED.h                                     \
     Controllers/OpenRazerController/RGBController_OpenRazer.h                                   \
@@ -1903,12 +1907,15 @@ contains(QMAKE_PLATFORM, linux) {
     scsiapi/scsiapi_linux.c                                                                     \
     serial_port/find_usb_serial_port_linux.cpp                                                  \
     AutoStart/AutoStart-Linux.cpp                                                               \
-    Controllers/AsusTUFLaptopController/AsusTUFLaptopLinuxController.cpp                   \
-    Controllers/AsusTUFLaptopController/AsusTUFLaptopLinuxDetect.cpp                       \
-    Controllers/AsusTUFLaptopController/RGBController_AsusTUFLaptopLinux.cpp               \
+    Controllers/AsusTUFLaptopController/AsusTUFLaptopLinuxController.cpp                        \
+    Controllers/AsusTUFLaptopController/AsusTUFLaptopLinuxDetect.cpp                            \
+    Controllers/AsusTUFLaptopController/RGBController_AsusTUFLaptopLinux.cpp                    \
     Controllers/ENESMBusController/XPGSpectrixS40GDetect.cpp                                    \
     Controllers/ENESMBusController/ENESMBusInterface/ENESMBusInterface_SpectrixS40G.cpp         \
     Controllers/FaustusController/RGBController_Faustus.cpp                                     \
+    Controllers/HYTEMousematController/HYTEMousematController_libusb/HYTEMousematController.cpp \
+    Controllers/HYTEMousematController/HYTEMousematController_libusb/HYTEMousematControllerDetect.cpp \
+    Controllers/HYTEMousematController/RGBController_HYTEMousemat.cpp                           \
     Controllers/LinuxLEDController/LinuxLEDController.cpp                                       \
     Controllers/LinuxLEDController/LinuxLEDControllerDetect.cpp                                 \
     Controllers/LinuxLEDController/RGBController_LinuxLED.cpp                                   \

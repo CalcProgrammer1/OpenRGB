@@ -1,0 +1,62 @@
+#include "Detector.h"
+#include "HYTEMousematController.h"
+#include "RGBController.h"
+#include "RGBController_HYTEMousemat.h"
+#include "find_usb_serial_port.h"
+#include <vector>
+
+#define HYTE_VID                0x3402
+
+#define HYTE_CNVS_HW_VER_1_PID  0x0B00
+#define HYTE_CNVS_HW_VER_2_PID  0x0B01
+
+struct hyte_mousemat_type
+{
+    unsigned short  vid;
+    unsigned short  pid;
+    const char *    name;
+};
+
+#define HYTE_MOUSEMAT_NUM_DEVICES   2
+
+static const hyte_mousemat_type hyte_mousemat_devices[] =
+{
+    { HYTE_VID, HYTE_CNVS_HW_VER_1_PID, "HYTE CNVS" },
+    { HYTE_VID, HYTE_CNVS_HW_VER_2_PID, "HYTE CNVS" },
+};
+
+/******************************************************************************************\
+*                                                                                          *
+*   DetectHYTEMousematControllers                                                          *
+*                                                                                          *
+*       Detect devices supported by the HyteMousemat driver                                *
+*                                                                                          *
+\******************************************************************************************/
+
+void DetectHYTEMousematControllers()
+{
+    for(unsigned int device_id = 0; device_id < HYTE_MOUSEMAT_NUM_DEVICES; device_id++)
+    {
+        std::vector<std::string *> ports = find_usb_serial_port(hyte_mousemat_devices[device_id].vid, hyte_mousemat_devices[device_id].pid);
+
+        for(unsigned int i = 0; i < ports.size(); i++)
+        {
+            if(*ports[i] != "")
+            {
+                HYTEMousematController *     controller     = new HYTEMousematController((char *)ports[i]->c_str());
+                RGBController_HYTEMousemat * rgb_controller = new RGBController_HYTEMousemat(controller);
+                rgb_controller->name                        = hyte_mousemat_devices[device_id].name;
+
+                ResourceManager::get()->RegisterRGBController(rgb_controller);
+            }
+        }
+    }
+}   /* DetectHYTEMousematControllers() */
+
+REGISTER_DETECTOR("HYTE Mousemat", DetectHYTEMousematControllers);
+/*---------------------------------------------------------------------------------------------------------*\
+| Entries for dynamic UDEV rules                                                                            |
+|                                                                                                           |
+| DUMMY_DEVICE_DETECTOR("HYTE Mousemat", DetectHYTEMousematControllers, 0x3402, 0x0B00 )                    |
+| DUMMY_DEVICE_DETECTOR("HYTE Mousemat", DetectHYTEMousematControllers, 0x3402, 0x0B01 )                    |
+\*---------------------------------------------------------------------------------------------------------*/
