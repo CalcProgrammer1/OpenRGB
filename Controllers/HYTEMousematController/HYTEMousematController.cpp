@@ -48,6 +48,7 @@ void HYTEMousematController::FirmwareAnimationControl(bool enabled)
 void HYTEMousematController::StreamingCommand(RGBColor* colors)
 {
     unsigned char serial_buf[157];
+    unsigned int max_brightness = 72;
 
     memset(serial_buf, 0, sizeof(serial_buf));
 
@@ -61,9 +62,9 @@ void HYTEMousematController::StreamingCommand(RGBColor* colors)
 
     for(unsigned int color_idx = 0; color_idx < 50; color_idx++)
     {
-        serial_buf[7 + (color_idx * 3)] = RGBGetGValue(colors[color_idx]);
-        serial_buf[8 + (color_idx * 3)] = RGBGetRValue(colors[color_idx]);
-        serial_buf[9 + (color_idx * 3)] = RGBGetBValue(colors[color_idx]);
+        serial_buf[7 + (color_idx * 3)] = ( max_brightness * RGBGetGValue(colors[color_idx]) ) / 100;
+        serial_buf[8 + (color_idx * 3)] = ( max_brightness * RGBGetRValue(colors[color_idx]) ) / 100;
+        serial_buf[9 + (color_idx * 3)] = ( max_brightness * RGBGetBValue(colors[color_idx]) ) / 100;
     }
 
     serialport->serial_write((char *)serial_buf, sizeof(serial_buf));
