@@ -20,10 +20,19 @@ RGBController_HYTEMousemat::RGBController_HYTEMousemat(HYTEMousematController* c
 
     mode Direct;
     Direct.name         = "Direct";
-    Direct.value        = 0;
+    Direct.value        = HYTE_CNVS_MODE_DIRECT;
     Direct.flags        = MODE_FLAG_HAS_PER_LED_COLOR;
     Direct.color_mode   = MODE_COLORS_PER_LED;
     modes.push_back(Direct);
+
+    // HYTE CNVS does not seem to be able to transfer back into firmware animation
+    // after streaming command has been used
+    //mode Rainbow;
+    //Rainbow.name        = "Rainbow Wave";
+    //Rainbow.value       = HYTE_CNVS_MODE_RAINBOW;
+    //Rainbow.flags       = MODE_FLAG_HAS_RANDOM_COLOR;
+    //Rainbow.color_mode  = MODE_COLORS_RANDOM;
+    //modes.push_back(Rainbow);
 
     SetupZones();
 }
@@ -65,7 +74,6 @@ void RGBController_HYTEMousemat::ResizeZone(int /*zone*/, int /*new_size*/)
 
 void RGBController_HYTEMousemat::DeviceUpdateLEDs()
 {
-    printf("DeviceUpdateLEDs called\r\n");
     controller->StreamingCommand(&colors[0]);
 }
 
@@ -81,5 +89,14 @@ void RGBController_HYTEMousemat::UpdateSingleLED(int /*led*/)
 
 void RGBController_HYTEMousemat::DeviceUpdateMode()
 {
+    switch(modes[active_mode].value)
+    {
+        case HYTE_CNVS_MODE_DIRECT:
+            controller->FirmwareAnimationControl(false);
+            break;
 
+        case HYTE_CNVS_MODE_RAINBOW:
+            controller->FirmwareAnimationControl(true);
+            break;
+    }
 }

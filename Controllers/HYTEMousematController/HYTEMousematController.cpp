@@ -17,8 +17,6 @@ HYTEMousematController::HYTEMousematController(char* port)
     | Baud rate doesn't matter for ACM device               |
     \*-----------------------------------------------------*/
     serialport = new serial_port(port_name.c_str(), 2000000);
-
-    FirmwareAnimationControl(false);
 }
 
 HYTEMousematController::~HYTEMousematController()
@@ -35,13 +33,22 @@ void HYTEMousematController::FirmwareAnimationControl(bool enabled)
 {
     unsigned char serial_buf[4];
 
+    /*-----------------------------------------------------*\
+    | Zero out buffer                                       |
+    \*-----------------------------------------------------*/
     memset(serial_buf, 0, sizeof(serial_buf));
 
+    /*-----------------------------------------------------*\
+    | Set up Firmware Animation Control packet              |
+    \*-----------------------------------------------------*/
     serial_buf[0]   = 0xFF;
     serial_buf[1]   = 0xDC;
     serial_buf[2]   = 0x05;
     serial_buf[3]   = enabled;
 
+    /*-----------------------------------------------------*\
+    | Send packet                                           |
+    \*-----------------------------------------------------*/
     serialport->serial_write((char *)serial_buf, sizeof(serial_buf));
 }
 
@@ -50,8 +57,14 @@ void HYTEMousematController::StreamingCommand(RGBColor* colors)
     unsigned char serial_buf[157];
     unsigned int max_brightness = 72;
 
+    /*-----------------------------------------------------*\
+    | Zero out buffer                                       |
+    \*-----------------------------------------------------*/
     memset(serial_buf, 0, sizeof(serial_buf));
 
+    /*-----------------------------------------------------*\
+    | Set up Streaming packet                               |
+    \*-----------------------------------------------------*/
     serial_buf[0]   = 0xFF;
     serial_buf[1]   = 0xEE;
     serial_buf[2]   = 0x02;
@@ -60,6 +73,9 @@ void HYTEMousematController::StreamingCommand(RGBColor* colors)
     serial_buf[5]   = 0x32;
     serial_buf[6]   = 0x00;
 
+    /*-----------------------------------------------------*\
+    | Copy in colors                                        |
+    \*-----------------------------------------------------*/
     for(unsigned int color_idx = 0; color_idx < 50; color_idx++)
     {
         serial_buf[7 + (color_idx * 3)] = ( max_brightness * RGBGetGValue(colors[color_idx]) ) / 100;
@@ -67,6 +83,8 @@ void HYTEMousematController::StreamingCommand(RGBColor* colors)
         serial_buf[9 + (color_idx * 3)] = ( max_brightness * RGBGetBValue(colors[color_idx]) ) / 100;
     }
 
+    /*-----------------------------------------------------*\
+    | Send packet                                           |
+    \*-----------------------------------------------------*/
     serialport->serial_write((char *)serial_buf, sizeof(serial_buf));
-    serialport->serial_flush_tx();
 }

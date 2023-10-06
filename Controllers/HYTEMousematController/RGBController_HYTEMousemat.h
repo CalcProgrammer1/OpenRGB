@@ -12,6 +12,12 @@
 #include "RGBController.h"
 #include "HYTEMousematController.h"
 
+enum
+{
+    HYTE_CNVS_MODE_DIRECT           = 0,    /* Direct (streaming) mode                  */
+    HYTE_CNVS_MODE_RAINBOW          = 1,    /* Rainbow wave (firmware animation) mode   */
+};
+
 class RGBController_HYTEMousemat : public RGBController
 {
 public:
