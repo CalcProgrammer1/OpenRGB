@@ -15,6 +15,7 @@ public:
     void                         UpdateZoneLEDs(int zone);
     void                         UpdateSingleLED(int led);
     void                         DeviceUpdateMode();
+    void                         DeviceSaveMode();
 
 private:
     ColorfulTuringGPUController* controller;

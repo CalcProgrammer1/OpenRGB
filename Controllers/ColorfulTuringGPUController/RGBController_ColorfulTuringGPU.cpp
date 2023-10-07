@@ -31,7 +31,7 @@ RGBController_ColorfulTuringGPU::RGBController_ColorfulTuringGPU(ColorfulTuringG
     mode Direct;
     Direct.name             = "Direct";
     Direct.value            = COLORFUL_TURING_GPU_RGB_MODE_STATIC;
-    Direct.flags            = MODE_FLAG_HAS_PER_LED_COLOR;
+    Direct.flags            = MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_MANUAL_SAVE;
     Direct.color_mode       = MODE_COLORS_PER_LED;
     modes.push_back(Direct);
 
@@ -86,7 +86,7 @@ void RGBController_ColorfulTuringGPU::SetupZones()
     zone new_zone;
 
     new_zone.name       = "GPU";
-    new_zone.type       = ZONE_TYPE_LINEAR;
+    new_zone.type       = ZONE_TYPE_SINGLE;
     new_zone.leds_min   = 1;
     new_zone.leds_max   = 1;
     new_zone.leds_count = 1;
@@ -122,10 +122,10 @@ void RGBController_ColorfulTuringGPU::DeviceUpdateLEDs()
             controller->SetStateDisplay(colors[0]);
             break;
         case COLORFUL_TURING_GPU_RGB_MODE_STATIC:
-            controller->SetDirect(colors[0]);
+            controller->SetDirect(colors[0], false);
             break;
         default:
-            controller->SetDirect(colors[0]);
+            controller->SetDirect(colors[0], false);
     }
 }
 
@@ -142,4 +142,16 @@ void RGBController_ColorfulTuringGPU::UpdateSingleLED(int /*led*/)
 void RGBController_ColorfulTuringGPU::DeviceUpdateMode()
 {
     DeviceUpdateLEDs();
+}
+
+void RGBController_ColorfulTuringGPU::DeviceSaveMode()
+{
+    switch(modes[active_mode].value)
+    {
+        case COLORFUL_TURING_GPU_RGB_MODE_STATIC:
+            controller->SetDirect(colors[0], true);
+            break;
+        default:
+            DeviceUpdateLEDs();
+    }
 }

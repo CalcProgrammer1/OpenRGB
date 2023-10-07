@@ -28,7 +28,7 @@ public:
     std::string             GetDeviceLocation();
     int                     GetMode();
     RGBColor                GetColor();
-    void                    SetDirect(RGBColor color);
+    void                    SetDirect(RGBColor color, bool save);
     void                    SetStateDisplay(RGBColor color);
     void                    SetBreathing(RGBColor color);
     void                    SetOff();

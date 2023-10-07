@@ -65,12 +65,19 @@ void ColorfulTuringGPUController::SetStateDisplay(RGBColor color)
     bus->i2c_write_block(dev, COLORFUL_COLOR_PACKET_LENGTH, data_pkt);
 }
 
-void ColorfulTuringGPUController::SetDirect(RGBColor color)
+void ColorfulTuringGPUController::SetDirect(RGBColor color, bool save)
 {
     uint8_t r = RGBGetRValue(color);
     uint8_t g = RGBGetGValue(color);
     uint8_t b = RGBGetBValue(color);
-    uint8_t data_pkt[COLORFUL_COLOR_PACKET_LENGTH] = { 0x88, 0x02, 0x32, 0x02, r, g, b};
+    uint8_t data_pkt[COLORFUL_COLOR_PACKET_LENGTH] = { 0x08, 0x0, 0x20, 0x10, r, g, b};
+    if(save)
+    {
+        data_pkt[0] = 0x88;
+        data_pkt[1] = 0x02;
+        data_pkt[2] = 0x32;
+        data_pkt[3] = 0x02;
+    }
 
     int crc = 1;
 
