@@ -63,14 +63,7 @@ public:
     RGBFusion2GPUController(i2c_smbus_interface* bus, rgb_fusion_dev_id dev);
     ~RGBFusion2GPUController();
 
-    uint8_t         zone_led_count[4];
-    uint8_t         zone_modes[4];
-
     std::string     GetDeviceLocation();
-
-    void            GetDeviceModes();
-    uint8_t         GetZoneMode(uint8_t zone);
-    fusion2_config  GetZoneConfig(uint8_t zone, uint8_t mode);
     void            SaveConfig();
 
     void            SetZone(uint8_t zone, uint8_t mode, fusion2_config zone_config);

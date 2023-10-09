@@ -13,6 +13,8 @@
 #include "RGBController.h"
 #include "GigabyteRGBFusion2GPUController.h"
 
+#define RGB_FUSION_2_GPU_NUMBER_OF_ZONES 4
+
 class RGBController_RGBFusion2GPU : public RGBController
 {
 public:
@@ -31,8 +33,5 @@ public:
     void        DeviceSaveMode();
 
 private:
-    uint8_t     getModeIndex(uint8_t mode_value);
-    
     RGBFusion2GPUController* controller;
-    std::vector<uint8_t>     zoneIndexMap;
 };
