@@ -61,6 +61,7 @@ RazerController::RazerController(hid_device* dev_handle, hid_device* dev_argb_ha
     {
         case RAZER_CHARGING_PAD_CHROMA_PID:
         case RAZER_CHROMA_MUG_PID:
+        case RAZER_FIREFLY_HYPERFLUX_PID:
             {
             razer_set_device_mode(RAZER_DEVICE_MODE_SOFTWARE);
             }
@@ -89,6 +90,7 @@ RazerController::RazerController(hid_device* dev_handle, hid_device* dev_argb_ha
         case RAZER_DEATHSTALKER_V2_PRO_WIRED_PID:
         case RAZER_DEATHSTALKER_V2_PRO_WIRELESS_PID:
         case RAZER_FIREFLY_V2_PID:
+        case RAZER_FIREFLY_HYPERFLUX_PID:
         case RAZER_GOLIATHUS_CHROMA_EXTENDED_PID:
         case RAZER_GOLIATHUS_CHROMA_PID:
         case RAZER_LAPTOP_STAND_CHROMA_PID:
@@ -446,6 +448,7 @@ bool RazerController::SupportsWave()
         case RAZER_CORE_X_PID:
         case RAZER_FIREFLY_PID:
         case RAZER_FIREFLY_V2_PID:
+        case RAZER_FIREFLY_HYPERFLUX_PID:
         case RAZER_LAPTOP_STAND_CHROMA_PID:
         case RAZER_LAPTOP_STAND_CHROMA_V2_PID:
         case RAZER_LEVIATHAN_V2X_PID:
