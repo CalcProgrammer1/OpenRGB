@@ -6078,16 +6078,41 @@ static const razer_device firefly_device =
 /*-------------------------------------------------------------*\
 |  Razer Firefly Hyperflux                                      |
 |                                                               |
-|  Zone "LED Strip"                                             |
+|  Zone "Scroll Wheel"                                          |
+|       Single                                                  |
+|       1 LED                                                   |
+|                                                               |
+|  Zone "Logo"                                                  |
+|       Single                                                  |
+|       1 LED                                                   |
+|                                                               |
+|  Zone "Mousemat"                                              |
 |       Linear                                                  |
-|       1 LEDs                                                  |
+|       12 LEDs                                                 |
 \*-------------------------------------------------------------*/
-static const razer_zone firefly_hyperflux_zone =
+
+static const razer_zone firefly_hyperflux_scroll_wheel_zone =
 {
-    "LED Strip",
+    "Scroll Wheel",
     ZONE_TYPE_SINGLE,
     1,
     1
+};
+
+static const razer_zone firefly_hyperflux_logo_zone =
+{
+    "Logo",
+    ZONE_TYPE_SINGLE,
+    1,
+    1
+};
+
+static const razer_zone firefly_hyperflux_mousemat_zone =
+{
+    "Mousemat",
+    ZONE_TYPE_LINEAR,
+    1,
+    12
 };
 
 static const razer_device firefly_hyperflux_device =
@@ -6098,11 +6123,11 @@ static const razer_device firefly_hyperflux_device =
     RAZER_MATRIX_TYPE_EXTENDED,
     0x3F,
     1,
-    1,
+    14,
     {
-        &firefly_hyperflux_zone,
-        NULL,
-        NULL,
+        &firefly_hyperflux_scroll_wheel_zone,
+        &firefly_hyperflux_logo_zone,
+        &firefly_hyperflux_mousemat_zone,
         NULL,
         NULL,
         NULL
