@@ -182,6 +182,7 @@ INCLUDEPATH +=                                                                  
     Controllers/LegoDimensionsToypadBaseController/                                             \
     Controllers/LenovoControllers/                                                              \
     Controllers/LenovoMotherboardController/                                                    \
+    Controllers/LGMonitorController/                                                            \
     Controllers/LianLiController/                                                               \
     Controllers/LIFXController/                                                                 \
     Controllers/LogitechController/                                                             \
@@ -587,6 +588,8 @@ HEADERS +=                                                                      
     Controllers/LenovoMotherboardController/RGBController_LenovoMotherboard.h                   \
     Controllers/LexipMouseController/LexipMouseController.h                                     \
     Controllers/LexipMouseController/RGBController_LexipMouse.h                                 \
+    Controllers/LGMonitorController/LGMonitorController.h                                       \
+    Controllers/LGMonitorController/RGBController_LGMonitor.h                                   \
     Controllers/LIFXController/LIFXController.h                                                 \
     Controllers/LIFXController/RGBController_LIFX.h                                             \
     Controllers/LianLiController/LianLiUniHubController.h                                       \
@@ -1267,6 +1270,9 @@ SOURCES +=                                                                      
     Controllers/LexipMouseController/LexipMouseController.cpp                                   \
     Controllers/LexipMouseController/LexipMouseControllerDetect.cpp                             \
     Controllers/LexipMouseController/RGBController_LexipMouse.cpp                               \
+    Controllers/LGMonitorController/LGMonitorController.cpp                                     \
+    Controllers/LGMonitorController/LGMonitorControllerDetect.cpp                               \
+    Controllers/LGMonitorController/RGBController_LGMonitor.cpp                                 \
     Controllers/LIFXController/LIFXController.cpp                                               \
     Controllers/LIFXController/LIFXControllerDetect.cpp                                         \
     Controllers/LIFXController/RGBController_LIFX.cpp                                           \

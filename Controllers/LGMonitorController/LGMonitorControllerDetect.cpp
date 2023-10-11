@@ -1,0 +1,37 @@
+#include "Detector.h"
+#include "LGMonitorController.h"
+#include "RGBController.h"
+#include "RGBController_LGMonitor.h"
+#include "dependencies/dmiinfo.h"
+
+/*---------------------------------------------------------*\
+| vendor ID                                                 |
+\*---------------------------------------------------------*/
+#define LG_MONITOR_VID                                 0x043E
+
+/*---------------------------------------------------------*\
+| Product ID                                                |
+\*---------------------------------------------------------*/
+#define LG_27GN950_B_PID                               0x9A8A
+#define LG_38GL950G_PID                                0x9A57
+
+void DetectLGMonitorControllers(hid_device_info* info, const std::string& name)
+{
+    hid_device* dev = hid_open_path(info->path);
+
+    if(dev)
+    {
+        DMIInfo dmi;
+
+        LGMonitorController*     controller         = new LGMonitorController(dev, *info);
+        RGBController_LGMonitor* rgb_controller     = new RGBController_LGMonitor(controller);
+        rgb_controller->name                        = name;
+
+        ResourceManager::get()->RegisterRGBController(rgb_controller);
+    }
+}
+
+REGISTER_HID_DETECTOR_IPU("LG 27GN950-B Monitor", DetectLGMonitorControllers, LG_MONITOR_VID, LG_27GN950_B_PID, 1, 0xFF01, 0x01);
+
+// Untested
+//REGISTER_HID_DETECTOR("LG 38GL950G Monitor",  DetectLGMonitorControllers, LG_MONITOR_VID, LG_38GL950G_PID);
