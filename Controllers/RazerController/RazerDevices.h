@@ -161,6 +161,7 @@
 #define RAZER_MAMBA_2018_WIRED_PID                      0x0073
 #define RAZER_MAMBA_2018_WIRELESS_PID                   0x0072
 #define RAZER_MAMBA_ELITE_PID                           0x006C
+#define RAZER_MAMBA_HYPERFLUX_PID                       0x0069
 #define RAZER_MAMBA_TE_PID                              0x0046
 #define RAZER_NAGA_2012_PID                             0x002E
 #define RAZER_NAGA_2014_PID                             0x0040

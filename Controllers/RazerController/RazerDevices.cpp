@@ -5289,6 +5289,54 @@ static const razer_device mamba_te_device =
 };
 
 /*-------------------------------------------------------------*\
+|  Razer Mamba Hyperflux (Wired)                                |
+|                                                               |
+|  Zone "Scroll Wheel"                                          |
+|       Single                                                  |
+|       1 LED                                                   |
+|                                                               |
+|  Zone "Logo"                                                  |
+|       Single                                                  |
+|       1 LED                                                   |
+\*-------------------------------------------------------------*/
+
+static const razer_zone mamba_hyperflux_scroll_wheel_zone =
+{
+    "Scroll Wheel",
+    ZONE_TYPE_SINGLE,
+    1,
+    1
+};
+
+static const razer_zone mamba_hyperflux_logo_zone =
+{
+    "Logo",
+    ZONE_TYPE_SINGLE,
+    1,
+    1
+};
+
+static const razer_device mamba_hyperflux_device =
+{
+    "Razer Mamba Hyperflux (Wired)",
+    RAZER_MAMBA_HYPERFLUX_PID,
+    DEVICE_TYPE_MOUSE,
+    RAZER_MATRIX_TYPE_EXTENDED,
+    0x3F,
+    1,
+    2,
+    {
+        &mamba_hyperflux_scroll_wheel_zone,
+        &mamba_hyperflux_logo_zone,
+        NULL,
+        NULL,
+        NULL,
+        NULL
+    },
+    NULL
+};
+
+/*-------------------------------------------------------------*\
 |  Razer Naga Chroma                                            |
 |                                                               |
 |  Zone "Logo"                                                  |
@@ -7428,6 +7476,7 @@ const razer_device* razer_device_list[] =
     &mamba_2018_wireless_device,
     &mamba_te_device,
     &mamba_elite_device,
+    &mamba_hyperflux_device,
     &naga_chroma_device,
     &naga_classic_device,
     &naga_epic_chroma_device,

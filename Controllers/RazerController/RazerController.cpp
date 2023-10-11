@@ -97,6 +97,7 @@ RazerController::RazerController(hid_device* dev_handle, hid_device* dev_argb_ha
         case RAZER_LAPTOP_STAND_CHROMA_V2_PID:
         case RAZER_LEVIATHAN_V2X_PID:
         case RAZER_MAMBA_ELITE_PID:
+        case RAZER_MAMBA_HYPERFLUX_PID:
         case RAZER_MOUSE_BUNGEE_V3_CHROMA_PID:
         case RAZER_MOUSE_DOCK_PRO_PID:
         case RAZER_NAGA_CLASSIC_PID:
