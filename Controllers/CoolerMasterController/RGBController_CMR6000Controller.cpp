@@ -87,7 +87,7 @@ RGBController_CMR6000Controller::RGBController_CMR6000Controller(CMR6000Controll
         Rainbow.speed               = MR6000_RAINBOW_SPEED_NORMAL;
         Rainbow.speed_max           = MR6000_RAINBOW_SPEED_FASTEST;
         Rainbow.color_mode          = MODE_COLORS_NONE;
-        Rainbow.speed               = MR6000_CYCLE_SPEED_NORMAL;
+        Rainbow.speed               = MR6000_RAINBOW_SPEED_NORMAL;
         Rainbow.brightness_min      = 0x00;
         Rainbow.brightness_max      = 0xFF;
         Rainbow.brightness          = 0xFF;

@@ -74,7 +74,7 @@ void SapphireNitroGlowV3Controller::SetExternalControl(bool enabled)
 
 unsigned char SapphireNitroGlowV3Controller::GetBrightness()
 {
-    return(bus->i2c_smbus_read_byte_data(dev, SAPPHIRE_NITRO_GLOW_V3_REG_MODE));
+    return(bus->i2c_smbus_read_byte_data(dev, SAPPHIRE_NITRO_GLOW_V3_REG_BRIGHTNESS));
 }
 
 void SapphireNitroGlowV3Controller::SetBrightness(unsigned char brightness)
