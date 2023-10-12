@@ -22,7 +22,6 @@ Depends:
  ${misc:Depends},
  udev,
 Recommends:
- openrazer-driver-dkms,
  openrgb-dkms-drivers,
 Conflicts:
  openrgb-udev,

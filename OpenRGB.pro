@@ -197,7 +197,6 @@ INCLUDEPATH +=                                                                  
     Controllers/NZXTHue2Controller/                                                             \
     Controllers/NZXTHuePlusController/                                                          \
     Controllers/NZXTKrakenController/                                                           \
-    Controllers/OpenRazerController/                                                            \
     Controllers/PatriotViperController/                                                         \
     Controllers/PatriotViperSteelController/                                                    \
     Controllers/PhilipsHueController/                                                           \
@@ -666,7 +665,6 @@ HEADERS +=                                                                      
     Controllers/NZXTHuePlusController/RGBController_NZXTHuePlus.h                               \
     Controllers/NZXTKrakenController/NZXTKrakenController.h                                     \
     Controllers/NZXTKrakenController/RGBController_NZXTKraken.h                                 \
-    Controllers/OpenRazerController/OpenRazerDevices.h                                          \
     Controllers/OKSController/OKSKeyboardController.h                                           \
     Controllers/OKSController/RGBController_OKSKeyboard.h                                       \
     Controllers/PalitGPUController/PalitGPUController.h                                         \
@@ -1622,7 +1620,6 @@ win32:INCLUDEPATH +=                                                            
     dependencies/libusb-1.0.22/include                                                          \
     dependencies/mbedtls-2.24.0/include                                                         \
     dependencies/NVFC                                                                           \
-    dependencies/openrazer-win32                                                                \
     wmi/                                                                                        \
     Controllers/AsusTUFLaptopController                                                         \
     Controllers/HYTEMousematController/HYTEMousematController_serial                            \
@@ -1737,8 +1734,6 @@ win32:SOURCES +=                                                                
     Controllers/NVIDIAIlluminationController/NVIDIAIlluminationV1Controller.cpp                 \
     Controllers/NVIDIAIlluminationController/NVIDIAIlluminationControllerDetect.cpp             \
     Controllers/NVIDIAIlluminationController/RGBController_NVIDIAIllumination.cpp               \
-    Controllers/OpenRazerController/OpenRazerWindowsDetect.cpp                                  \
-    Controllers/OpenRazerController/RGBController_OpenRazerWindows.cpp                          \
 
 win32:HEADERS +=                                                                                \
     dependencies/display-library/include/adl_defines.h                                          \
@@ -1760,7 +1755,6 @@ win32:HEADERS +=                                                                
     Controllers/NVIDIAIlluminationController/nvapi_accessor.h                                   \
     Controllers/NVIDIAIlluminationController/NVIDIAIlluminationV1Controller.h                   \
     Controllers/NVIDIAIlluminationController/RGBController_NVIDIAIllumination.h                 \
-    Controllers/OpenRazerController/RGBController_OpenRazerWindows.h                            \
 
 win32:contains(QMAKE_TARGET.arch, x86_64) {
     LIBS +=                                                                                     \
@@ -1815,7 +1809,6 @@ win32:UI_DIR      = _intermediate_$$DESTDIR/.ui
 #-----------------------------------------------------------------------------------------------#
 
 win32:contains(QMAKE_TARGET.arch, x86_64) {
-    copydata.commands  = $(COPY_FILE) \"$$shell_path($$PWD/dependencies/openrazer-win32/OpenRazer64.dll      )\" \"$$shell_path($$DESTDIR)\" $$escape_expand(\n\t)
     copydata.commands += $(COPY_FILE) \"$$shell_path($$PWD/dependencies/winring0/x64/WinRing0x64.dll         )\" \"$$shell_path($$DESTDIR)\" $$escape_expand(\n\t)
     copydata.commands += $(COPY_FILE) \"$$shell_path($$PWD/dependencies/winring0/x64/WinRing0x64.sys         )\" \"$$shell_path($$DESTDIR)\" $$escape_expand(\n\t)
     copydata.commands += $(COPY_FILE) \"$$shell_path($$PWD/dependencies/libusb-1.0.22/MS64/dll/libusb-1.0.dll)\" \"$$shell_path($$DESTDIR)\" $$escape_expand(\n\t)
@@ -1827,7 +1820,6 @@ win32:contains(QMAKE_TARGET.arch, x86_64) {
 }
 
 win32:contains(QMAKE_TARGET.arch, x86) {
-    copydata.commands  = $(COPY_FILE) \"$$shell_path($$PWD/dependencies/openrazer-win32/OpenRazer.dll        )\" \"$$shell_path($$DESTDIR)\" $$escape_expand(\n\t)
     copydata.commands += $(COPY_FILE) \"$$shell_path($$PWD/dependencies/winring0/Win32/WinRing0.dll          )\" \"$$shell_path($$DESTDIR)\" $$escape_expand(\n\t)
     copydata.commands += $(COPY_FILE) \"$$shell_path($$PWD/dependencies/winring0/Win32/WinRing0.sys          )\" \"$$shell_path($$DESTDIR)\" $$escape_expand(\n\t)
     copydata.commands += $(COPY_FILE) \"$$shell_path($$PWD/dependencies/winring0/x64/WinRing0x64.sys         )\" \"$$shell_path($$DESTDIR)\" $$escape_expand(\n\t)
@@ -1862,7 +1854,6 @@ contains(QMAKE_PLATFORM, linux) {
     Controllers/HYTEMousematController/RGBController_HYTEMousemat.h                             \
     Controllers/LinuxLEDController/LinuxLEDController.h                                         \
     Controllers/LinuxLEDController/RGBController_LinuxLED.h                                     \
-    Controllers/OpenRazerController/RGBController_OpenRazer.h                                   \
 
     LIBS +=                                                                                     \
     -lusb-1.0                                                                                   \
@@ -1919,8 +1910,6 @@ contains(QMAKE_PLATFORM, linux) {
     Controllers/LinuxLEDController/LinuxLEDController.cpp                                       \
     Controllers/LinuxLEDController/LinuxLEDControllerDetect.cpp                                 \
     Controllers/LinuxLEDController/RGBController_LinuxLED.cpp                                   \
-    Controllers/OpenRazerController/OpenRazerDetect.cpp                                         \
-    Controllers/OpenRazerController/RGBController_OpenRazer.cpp                                 \
 
     #-------------------------------------------------------------------------------------------#
     # Set up install paths                                                                      #
@@ -1988,7 +1977,6 @@ contains(QMAKE_PLATFORM, freebsd) {
     Controllers/FaustusController/RGBController_Faustus.h                                       \
     Controllers/LinuxLEDController/LinuxLEDController.h                                         \
     Controllers/LinuxLEDController/RGBController_LinuxLED.h                                     \
-    Controllers/OpenRazerController/RGBController_OpenRazer.h                                   \
 
     LIBS +=                                                                                     \
     -lusb                                                                                       \
@@ -2034,8 +2022,6 @@ contains(QMAKE_PLATFORM, freebsd) {
     Controllers/LinuxLEDController/LinuxLEDController.cpp                                       \
     Controllers/LinuxLEDController/LinuxLEDControllerDetect.cpp                                 \
     Controllers/LinuxLEDController/RGBController_LinuxLED.cpp                                   \
-    Controllers/OpenRazerController/OpenRazerDetect.cpp                                         \
-    Controllers/OpenRazerController/RGBController_OpenRazer.cpp                                 \
 
     #-------------------------------------------------------------------------------------------#
     # Set up install paths                                                                      #

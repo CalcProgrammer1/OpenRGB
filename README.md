@@ -323,8 +323,6 @@ There have been two instances of hardware damage in OpenRGB's development and we
   * hidapi: https://github.com/libusb/hidapi
   * libe131: https://github.com/hhromic/libe131
   * NVFC: https://github.com/graphitemaster/NVFC
-  * OpenRazer: https://github.com/openrazer/openrazer
-  * OpenRazer-Win32: https://github.com/CalcProgrammer1/openrazer-win32
   * Qt-Plus (ColorWheel): https://github.com/liuyanghejerry/Qt-Plus
   * AMD ADL Libraries: https://github.com/GPUOpen-LibrariesAndSDKs/display-library
   * libcmmk: https://github.com/chmod222/libcmmk
@@ -337,6 +335,8 @@ There have been two instances of hardware damage in OpenRGB's development and we
 
 While no code from these projects directly made its way into OpenRGB, these projects have been invaluable resources for protocol information.
 
+  * OpenRazer: https://github.com/openrazer/openrazer
+  * OpenRazer-Win32: https://github.com/CalcProgrammer1/openrazer-win32
   * ckb-next: https://github.com/ckb-next/ckb-next
   * linux_thermaltake_riing: https://github.com/chestm007/linux_thermaltake_riing
   * Aura Addressable Header Controller: https://gitlab.com/cneil02/aura-addressable-header-controller

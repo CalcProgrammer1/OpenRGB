@@ -74,7 +74,6 @@ CODEOWNERS @Calcprogrammer1
 /Controllers/NZXTHue2Controller/
 /Controllers/NZXTHuePlusController/
 /Controllers/NZXTKrakenController/
-/Controllers/OpenRazerController/
 /Controllers/PNYGPUController/
 /Controllers/PatriotViperController/
 /Controllers/PhilipsHueController/

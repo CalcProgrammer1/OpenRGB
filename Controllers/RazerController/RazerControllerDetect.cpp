@@ -14,9 +14,6 @@
 
 #include <unordered_set>
 
-static bool openrazer_checked = false;
-static bool openrazer_enabled = false;
-
 /******************************************************************************************\
 *                                                                                          *
 *   DetectRazerControllers                                                                 *
@@ -28,52 +25,6 @@ static bool openrazer_enabled = false;
 void DetectRazerControllers(hid_device_info* info, const std::string& name)
 {
     hid_device* dev = hid_open_path(info->path);
-
-    /*-------------------------------------------------*\
-    | If the OpenRazer/OpenRazer-Win32 controller is    |
-    | enabled, don't use this controller.               |
-    \*-------------------------------------------------*/
-    if(!openrazer_checked)
-    {
-        /*-------------------------------------------------*\
-        | Open device disable list and read in disabled     |
-        | device strings                                    |
-        \*-------------------------------------------------*/
-        json detector_settings = ResourceManager::get()->GetSettingsManager()->GetSettings("Detectors");
-
-        /*-------------------------------------------------*\
-        | Check for OpenRazer and OpenRazer-Win32 enable    |
-        \*-------------------------------------------------*/
-        if(detector_settings.contains("detectors"))
-        {
-            if(detector_settings["detectors"].contains("OpenRazer"))
-            {
-                if(detector_settings["detectors"]["OpenRazer"] == true)
-                {
-                    openrazer_enabled = true;
-                }
-            }
-            if(detector_settings["detectors"].contains("OpenRazer-Win32"))
-            {
-                if(detector_settings["detectors"]["OpenRazer-Win32"] == true)
-                {
-                    openrazer_enabled = true;
-                }
-            }
-        }
-
-        /*-------------------------------------------------*\
-        | Set OpenRazer checked flag to prevent having to do|
-        | the settings lookup multiple times                |
-        \*-------------------------------------------------*/
-        openrazer_checked = true;
-    }
-
-    if(openrazer_enabled)
-    {
-        LOG_INFO("[RazerController]: OpenRazer controller currently enabled. Ignoring %s", name.c_str());
-        return;
-    }
 
     if(dev)
     {
@@ -184,52 +135,6 @@ void DetectRazerARGBControllers(hid_device_info* info, const std::string& name)
 void DetectRazerKrakenControllers(hid_device_info* info, const std::string& name)
 {
     hid_device* dev = hid_open_path(info->path);
-
-    /*-------------------------------------------------*\
-    | If the OpenRazer/OpenRazer-Win32 controller is    |
-    | enabled, don't use this controller.               |
-    \*-------------------------------------------------*/
-    if(!openrazer_checked)
-    {
-        /*-------------------------------------------------*\
-        | Open device disable list and read in disabled     |
-        | device strings                                    |
-        \*-------------------------------------------------*/
-        json detector_settings = ResourceManager::get()->GetSettingsManager()->GetSettings("Detectors");
-
-        /*-------------------------------------------------*\
-        | Check for OpenRazer and OpenRazer-Win32 enable    |
-        \*-------------------------------------------------*/
-        if(detector_settings.contains("detectors"))
-        {
-            if(detector_settings["detectors"].contains("OpenRazer"))
-            {
-                if(detector_settings["detectors"]["OpenRazer"] == true)
-                {
-                    openrazer_enabled = true;
-                }
-            }
-            if(detector_settings["detectors"].contains("OpenRazer-Win32"))
-            {
-                if(detector_settings["detectors"]["OpenRazer-Win32"] == true)
-                {
-                    openrazer_enabled = true;
-                }
-            }
-        }
-
-        /*-------------------------------------------------*\
-        | Set OpenRazer checked flag to prevent having to do|
-        | the settings lookup multiple times                |
-        \*-------------------------------------------------*/
-        openrazer_checked = true;
-    }
-
-    if(openrazer_enabled)
-    {
-        LOG_INFO("[RazerController]: OpenRazer controller currently enabled. Ignoring %s", name.c_str());
-        return;
-    }
 
     if(dev)
     {
