@@ -13,7 +13,6 @@
 #include "LogManager.h"
 #include "RGBController.h"
 #include "ResourceManager.h"
-#include "SettingsManager.h"
 #include "RGBControllerKeyNames.h"
 
 #pragma once

@@ -2,7 +2,6 @@
 #include "BlinkyTapeController.h"
 #include "RGBController.h"
 #include "RGBController_BlinkyTape.h"
-#include "SettingsManager.h"
 #include "find_usb_serial_port.h"
 #include <vector>
 #include <stdio.h>

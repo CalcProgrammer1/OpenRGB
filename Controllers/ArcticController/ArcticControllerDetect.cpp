@@ -10,7 +10,6 @@
 #include "ArcticController.h"
 #include "RGBController.h"
 #include "RGBController_Arctic.h"
-#include "SettingsManager.h"
 #include "find_usb_serial_port.h"
 #include <vector>
 #include <stdio.h>
