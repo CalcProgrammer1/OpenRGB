@@ -238,3 +238,6 @@ struct FeaturePacket_PerLED_185
     unsigned char hdr3                                   = 0x00;      // header byte 3
     Color         leds[NUMOF_PER_LED_MODE_LEDS];
 };
+
+
+#define MSI_USB_PID_COMMON  0x0076      // Common PID for a certain set of 185-byte boards

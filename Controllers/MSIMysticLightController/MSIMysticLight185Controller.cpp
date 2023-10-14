@@ -287,6 +287,7 @@ static const mystic_light_185_config board_configs[] =
     { 0x7E01, 0,  0,  0, 1, &zones_set11, MSIMysticLight185Controller::DIRECT_MODE_PER_LED },       // MAG B760M MORTAR MAX
     { 0x7E06, 0,  0,  0, 2, &zones_set11, MSIMysticLight185Controller::DIRECT_MODE_PER_LED },       // PRO Z790-P WIFI DDR4
     { 0x7E07, 0,  0,  0, 2, &zones_set10, MSIMysticLight185Controller::DIRECT_MODE_PER_LED },       // PRO Z790-A WIFI DDR4
+    { 0x7E12, 0,  0,  0, 2, &zones_set13, MSIMysticLight185Controller::DIRECT_MODE_PER_LED },       // MAG X670E TOMAHAWK WIFI
 };
 
 
@@ -318,6 +319,19 @@ MSIMysticLight185Controller::MSIMysticLight185Controller
         ReadSerial();
         ReadFwVersion();
         ReadSettings();
+    }
+
+    if(pid == MSI_USB_PID_COMMON)
+    {
+        std::string pidStr(chip_id.substr(0, 4));
+        pid = std::stoi(pidStr, nullptr, 16);
+    }
+
+    mixed_mode_support = false;
+
+    if(pid >= 0x7D03)
+    {
+        mixed_mode_support = true;
     }
 
     /*---------------------------------------------*\
@@ -784,7 +798,14 @@ ZoneData *MSIMysticLight185Controller::GetZoneData
         case MSI_ZONE_J_RGB_1:
             return &data_packet.j_rgb_1;
         case MSI_ZONE_J_RGB_2:
-            return &data_packet.j_rgb_2;
+            if(mixed_mode_support)
+            {
+                return &data_packet.on_board_led_6;
+            }
+            else
+            {
+                return &data_packet.j_rgb_2;
+            }
         case MSI_ZONE_J_RAINBOW_1:
             return &data_packet.j_rainbow_1;
         case MSI_ZONE_J_RAINBOW_2:
@@ -808,7 +829,14 @@ ZoneData *MSIMysticLight185Controller::GetZoneData
         case MSI_ZONE_ON_BOARD_LED_5:
             return &data_packet.on_board_led_5;
         case MSI_ZONE_ON_BOARD_LED_6:
-            return &data_packet.on_board_led_6;
+            if(mixed_mode_support)
+            {
+                return &data_packet.j_corsair_outerll120;
+            }
+            else
+            {
+                return &data_packet.on_board_led_6;
+            }
         case MSI_ZONE_ON_BOARD_LED_7:
             return &data_packet.on_board_led_7;
         case MSI_ZONE_ON_BOARD_LED_8:

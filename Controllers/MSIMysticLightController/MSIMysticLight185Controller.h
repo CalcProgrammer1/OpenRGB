@@ -142,6 +142,7 @@ private:
     bool                            no_jrainbow1;
     bool                            no_jrainbow2;
     bool                            no_jcorsair;
+    bool                            mixed_mode_support;
     int                             numof_onboard_leds;
     int                             numof_pipe1_leds;
     int                             numof_pipe2_leds;
