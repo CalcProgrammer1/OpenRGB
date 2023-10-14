@@ -34,10 +34,14 @@ HyperXMicrophoneController::HyperXMicrophoneController(hidapi_wrapper hid_wrappe
 
 HyperXMicrophoneController::~HyperXMicrophoneController()
 {
+    lock.lock();
+
     if(dev)
     {
         wrapper.hid_close(dev);
     }
+
+    lock.unlock();
 }
 
 std::string HyperXMicrophoneController::GetDeviceLocation()
