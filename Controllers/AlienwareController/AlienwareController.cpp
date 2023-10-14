@@ -15,6 +15,7 @@
 #include <chrono>
 #include <algorithm>
 #include <sstream>
+#include "LogManager.h"
 
 typedef uint32_t alienware_platform_id;
 
@@ -24,8 +25,10 @@ typedef uint32_t alienware_platform_id;
 \*---------------------------------------------------------*/
 static const std::map<alienware_platform_id, uint8_t> zone_quirks_table =
 {
-    { 0x0C01,   4 }, // Dell G5 SE 5505
-    { 0x0A01,  16 }  // Dell G7 15 7500
+    { 0x0C01,   4 },    // Dell G5 SE 5505
+    { 0x0A01,  16 },    // Dell G7 15 7500
+    { 0x0E03,   4 }     // Dell G15   5511
+
 };
 
 /*---------------------------------------------------------*\
@@ -39,7 +42,8 @@ static const std::map<alienware_platform_id, std::vector<const char*>> zone_name
                   "Light Bar 1",    "Light Bar 2",  "Light Bar 3",
                   "Light Bar 4",    "Light Bar 5",  "Light Bar 6",
                   "Light Bar 7",    "Light Bar 8",  "Light Bar 9",
-                  "Light Bar 10",   "Light Bar 11", "Light Bar 12"              } }
+                  "Light Bar 10",   "Light Bar 11", "Light Bar 12"              } },
+    { 0x0E03,   { "Left",           "Middle",       "Right",        "Numpad"    } }
 };
 
 static void SendHIDReport(hid_device *dev, const unsigned char* usb_buf, size_t usb_buf_size)
@@ -113,10 +117,13 @@ AlienwareController::AlienwareController(hid_device* dev_handle, const hid_devic
 
     if(zone_names_table.count(platform_id))
     {
+        LOG_INFO("[%s] Known platform: %8X, Number of zones: %d", ALIENWARE_CONTROLLER_NAME, platform_id, number_of_zones);
         zone_names = zone_names_table.at(platform_id);
     }
     else
     {
+        LOG_WARNING("[%s] Unknown platform: %8X, Number of zones: %d", ALIENWARE_CONTROLLER_NAME, platform_id, number_of_zones);
+
         /*-------------------------------------------------*\
         | If this is an unknown controller, set the name of |
         | all regions to "Unknown"                          |
