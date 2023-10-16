@@ -3,6 +3,7 @@
 
 #include "ui_OpenRGBSettingsManagerEntry.h"
 #include <QWidget>
+#include <QSignalMapper>
 #include "ResourceManager.h"
 #include "json.hpp"
 
@@ -26,11 +27,12 @@ private slots:
     void onSettingChanged(QObject * arg);
 
 private:
-    std::string key;
-    json        data;
-    json        proto;
+    std::string     key;
+    json            data;
+    json            proto;
+    QSignalMapper * mapper;
 
-    QWidget * CreateWidget(std::string key, json proto, json data);
+    QWidget * CreateWidget(std::string key, json & proto, json & data);
 };
 
 #endif // OPENRGBSETTINGSMANAGERENTRY_H

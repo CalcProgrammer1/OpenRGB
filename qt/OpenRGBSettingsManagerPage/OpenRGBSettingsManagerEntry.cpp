@@ -15,7 +15,13 @@ using namespace Ui;
 class SettingsManagerEntryPointer : public QObject
 {
 public:
+    SettingsManagerEntryPointer(json & proto_ref, json & data_ref) : proto(proto_ref), data(data_ref)
+    {
+        QObject();
+    }
     std::string     key;
+    json &          proto;
+    json &          data;
     QWidget *       widget;
 };
 
@@ -46,8 +52,8 @@ OpenRGBSettingsManagerEntry::OpenRGBSettingsManagerEntry(std::string settings_ke
     /*-----------------------------------------------------*\
     | Set up a signal mapper to handle settings changes     |
     \*-----------------------------------------------------*/
-    QSignalMapper* signalMapper = new QSignalMapper(this);
-    connect(signalMapper, SIGNAL(mapped(QObject *)), this, SLOT(onSettingChanged(QObject *)));
+    mapper = new QSignalMapper(this);
+    connect(mapper, SIGNAL(mapped(QObject *)), this, SLOT(onSettingChanged(QObject *)));
 
     /*-----------------------------------------------------*\
     | Loop through all settings in this key                 |
@@ -74,7 +80,7 @@ OpenRGBSettingsManagerEntry::~OpenRGBSettingsManagerEntry()
     delete ui;
 }
 
-QWidget * OpenRGBSettingsManagerEntry::CreateWidget(std::string key, json proto, json data)
+QWidget * OpenRGBSettingsManagerEntry::CreateWidget(std::string key, json & proto, json & data)
 {
     /*-------------------------------------------------*\
     | Gather information about this setting             |
@@ -91,8 +97,8 @@ QWidget * OpenRGBSettingsManagerEntry::CreateWidget(std::string key, json proto,
     | Create settings manager entry pointer to map      |
     | settings widget events to their keys              |
     \*-------------------------------------------------*/
-    //SettingsManagerEntryPointer * new_arg = new SettingsManagerEntryPointer();
-    //new_arg->key            = it.key();
+    SettingsManagerEntryPointer * new_arg = new SettingsManagerEntryPointer(proto, data);
+    new_arg->key            = key;
 
     /*-------------------------------------------------*\
     | Create widgets for group settings                 |
@@ -151,7 +157,7 @@ QWidget * OpenRGBSettingsManagerEntry::CreateWidget(std::string key, json proto,
         | Boolean settings use a checkbox widget        |
         \*---------------------------------------------*/
         item                = new QCheckBox;
-        //new_arg->widget     = item;
+        new_arg->widget     = item;
 
         /*---------------------------------------------*\
         | Set the checkbox label to the setting name    |
@@ -171,8 +177,8 @@ QWidget * OpenRGBSettingsManagerEntry::CreateWidget(std::string key, json proto,
         | Connect widget to signal mapper to handle     |
         | changes to this setting                       |
         \*---------------------------------------------*/
-        //connect(item, SIGNAL(clicked()), signalMapper, SLOT(map()));
-        //signalMapper->setMapping(item, new_arg);
+        connect(item, SIGNAL(clicked()), mapper, SLOT(map()));
+        mapper->setMapping(item, new_arg);
     }
     /*-------------------------------------------------*\
     | Create widgets for integer settings               |
@@ -290,7 +296,7 @@ void OpenRGBSettingsManagerEntry::onSettingChanged(QObject * arg)
     \*-----------------------------------------------------*/
     SettingsManagerEntryPointer * setting   = (SettingsManagerEntryPointer *)arg;
     std::string item_key                    = setting->key;
-    std::string type                        = proto[item_key]["type"];
+    std::string type                        = setting->proto[item_key]["type"];
 
     /*-----------------------------------------------------*\
     | Handle boolean settings changes                       |
@@ -299,7 +305,7 @@ void OpenRGBSettingsManagerEntry::onSettingChanged(QObject * arg)
     {
         bool value      = ((QCheckBox *)setting->widget)->isChecked();
 
-        data[item_key]  = value;
+        setting->data[item_key]  = value;
     }
 
     /*-----------------------------------------------------*\
