@@ -168,32 +168,65 @@ OpenRGBDialog2::OpenRGBDialog2(QWidget *parent) : QMainWindow(parent), ui(new Op
     setWindowIcon(logo);
 
     /*-----------------------------------------------------*\
+    | Get Settings Manager pointer                          |
+    \*-----------------------------------------------------*/
+    SettingsManager*    settings_manager    = ResourceManager::get()->GetSettingsManager();
+
+    /*-----------------------------------------------------*\
+    | Get UserInterface settings                            |
+    \*-----------------------------------------------------*/
+    std::string         ui_string           = "UserInterface";
+    json                ui_settings;
+    ui_settings = settings_manager->GetSettings(ui_string);
+
+    /*-----------------------------------------------------*\
     | Create UserInterface settings prototype               |
     \*-----------------------------------------------------*/
     json                ui_settings_proto;
 
-    ui_settings_proto["numerical_labels"]["name"]       = "Numerical Labels";
-    ui_settings_proto["numerical_labels"]["type"]       = "boolean";
+    ui_settings_proto["numerical_labels"]["name"]               = "Numerical Labels";
+    ui_settings_proto["numerical_labels"]["type"]               = "boolean";
 
-    ui_settings_proto["disable_key_expansion"]["name"]  = "Disable Key Expansion";
-    ui_settings_proto["disable_key_expansion"]["type"]  = "boolean";
+    ui_settings_proto["disable_key_expansion"]["name"]          = "Disable Key Expansion";
+    ui_settings_proto["disable_key_expansion"]["type"]          = "boolean";
 
-    ui_settings_proto["greyscale_tray_icon"]["name"]    = "Greyscale Tray Icon";
-    ui_settings_proto["greyscale_tray_icon"]["type"]    = "boolean";
+    ui_settings_proto["greyscale_tray_icon"]["name"]            = "Greyscale Tray Icon";
+    ui_settings_proto["greyscale_tray_icon"]["type"]            = "boolean";
 
-    ui_settings_proto["minimize_on_close"]["name"]      = "Minimize On Close";
-    ui_settings_proto["minimize_on_close"]["type"]      = "boolean";
+    ui_settings_proto["minimize_on_close"]["name"]              = "Minimize On Close";
+    ui_settings_proto["minimize_on_close"]["type"]              = "boolean";
+
+    ui_settings_proto["geometry"]["name"]                       = "Geometry";
+    ui_settings_proto["geometry"]["type"]                       = "group";
+
+    ui_settings_proto["geometry"]["load_geometry"]["name"]      = "Load Geometry";
+    ui_settings_proto["geometry"]["load_geometry"]["type"]      = "boolean";
+
+    ui_settings_proto["geometry"]["save_on_exit"]["name"]       = "Save On Exit";
+    ui_settings_proto["geometry"]["save_on_exit"]["type"]       = "boolean";
+
+    ui_settings_proto["geometry"]["x"]["name"]                  = "X";
+    ui_settings_proto["geometry"]["x"]["type"]                  = "integer";
+
+    ui_settings_proto["geometry"]["y"]["name"]                  = "Y";
+    ui_settings_proto["geometry"]["y"]["type"]                  = "integer";
+
+    ui_settings_proto["geometry"]["width"]["name"]              = "Width";
+    ui_settings_proto["geometry"]["width"]["type"]              = "integer";
+
+    ui_settings_proto["geometry"]["height"]["name"]             = "Height";
+    ui_settings_proto["geometry"]["height"]["type"]             = "integer";
+
+    ui_settings_proto["exit_profile"]["name"]                   = "Exit Profile";
+    ui_settings_proto["exit_profile"]["type"]                   = "group";
+
+    ui_settings_proto["exit_profile"]["set_on_exit"]["name"]    = "Set On Exit";
+    ui_settings_proto["exit_profile"]["set_on_exit"]["type"]    = "boolean";
+
+    ui_settings_proto["exit_profile"]["profile_name"]["name"]   = "Profile";
+    ui_settings_proto["exit_profile"]["profile_name"]["type"]   = "string";
 
     settings_manager->RegisterSettingsPrototype(ui_string, ui_settings_proto);
-
-    /*-----------------------------------------------------*\
-    | Set window geometry from config (if available)        |
-    \*-----------------------------------------------------*/
-    SettingsManager*    settings_manager    = ResourceManager::get()->GetSettingsManager();
-    std::string         ui_string           = "UserInterface";
-    json                ui_settings;
-
-    ui_settings = settings_manager->GetSettings(ui_string);
 
     /*-----------------------------------------------------*\
     | If geometry info doesn't exist, write it to config    |

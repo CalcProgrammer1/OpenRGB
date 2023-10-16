@@ -29,6 +29,8 @@ private:
     std::string key;
     json        data;
     json        proto;
+
+    QWidget * CreateWidget(std::string key, json proto, json data);
 };
 
 #endif // OPENRGBSETTINGSMANAGERENTRY_H

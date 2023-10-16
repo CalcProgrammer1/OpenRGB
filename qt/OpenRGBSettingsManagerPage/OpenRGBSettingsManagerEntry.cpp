@@ -5,6 +5,8 @@
 #include <QLabel>
 #include <QSignalMapper>
 #include <QVBoxLayout>
+#include <QHBoxLayout>
+#include <QLineEdit>
 #include <QListWidget>
 #include <QCheckBox>
 
@@ -53,56 +55,12 @@ OpenRGBSettingsManagerEntry::OpenRGBSettingsManagerEntry(std::string settings_ke
     for(json::const_iterator it = proto.begin(); it != proto.end(); it++)
     {
         /*-------------------------------------------------*\
-        | Gather information about this setting             |
-        \*-------------------------------------------------*/
-        std::string item_key    = it.key();
-        std::string name        = proto[it.key()]["name"];
-        std::string type        = proto[it.key()]["type"];
-
-        /*-------------------------------------------------*\
         | Create widget pointer for this setting            |
         \*-------------------------------------------------*/
         QWidget* item;
 
-        /*-------------------------------------------------*\
-        | Create settings manager entry pointer to map      |
-        | settings widget events to their keys              |
-        \*-------------------------------------------------*/
-        SettingsManagerEntryPointer * new_arg = new SettingsManagerEntryPointer();
-        new_arg->key            = it.key();
+        item = CreateWidget(it.key(), proto, data);
 
-        /*-------------------------------------------------*\
-        | Create widgets for boolean settings               |
-        \*-------------------------------------------------*/
-        if(type == "boolean")
-        {
-            /*---------------------------------------------*\
-            | Boolean settings use a checkbox widget        |
-            \*---------------------------------------------*/
-            item                = new QCheckBox;
-            new_arg->widget     = item;
-
-            /*---------------------------------------------*\
-            | Set the checkbox label to the setting name    |
-            \*---------------------------------------------*/
-            ((QCheckBox*)item)->setText(QString::fromStdString(name));
-
-            /*---------------------------------------------*\
-            | Set the checkbox state based on the current   |
-            | value of the setting                          |
-            \*---------------------------------------------*/
-            if(data.contains(item_key))
-            {
-                ((QCheckBox*)item)->setChecked(data[item_key]);
-            }
-
-            /*---------------------------------------------*\
-            | Connect widget to signal mapper to handle     |
-            | changes to this setting                       |
-            \*---------------------------------------------*/
-            connect(item, SIGNAL(clicked()), signalMapper, SLOT(map()));
-            signalMapper->setMapping(item, new_arg);
-        }
 
         /*-------------------------------------------------*\
         | Add widget to the vertical layout                 |
@@ -114,6 +72,207 @@ OpenRGBSettingsManagerEntry::OpenRGBSettingsManagerEntry(std::string settings_ke
 OpenRGBSettingsManagerEntry::~OpenRGBSettingsManagerEntry()
 {
     delete ui;
+}
+
+QWidget * OpenRGBSettingsManagerEntry::CreateWidget(std::string key, json proto, json data)
+{
+    /*-------------------------------------------------*\
+    | Gather information about this setting             |
+    \*-------------------------------------------------*/
+    std::string name        = proto[key]["name"];
+    std::string type        = proto[key]["type"];
+
+    /*-------------------------------------------------*\
+    | Create widget pointer for this setting            |
+    \*-------------------------------------------------*/
+    QWidget* item;
+
+    /*-------------------------------------------------*\
+    | Create settings manager entry pointer to map      |
+    | settings widget events to their keys              |
+    \*-------------------------------------------------*/
+    //SettingsManagerEntryPointer * new_arg = new SettingsManagerEntryPointer();
+    //new_arg->key            = it.key();
+
+    /*-------------------------------------------------*\
+    | Create widgets for group settings                 |
+    | This is a special case that recursively calls     |
+    | CreateWidget to create nested groups of settings  |
+    | under a nested JSON object                        |
+    \*-------------------------------------------------*/
+    if(type == "group")
+    {
+        /*---------------------------------------------*\
+        | Group settings use a groupbox widget          |
+        \*---------------------------------------------*/
+        item                = new QGroupBox;
+
+        ((QGroupBox*)item)->setTitle(QString::fromStdString(name));
+
+        /*---------------------------------------------*\
+        | Create a vertical layout to hold the settings |
+        | controls                                      |
+        \*---------------------------------------------*/
+        QVBoxLayout* layout = new QVBoxLayout;
+        ((QGroupBox*)item)->setLayout(layout);
+
+        /*---------------------------------------------*\
+        | Loop through all settings in this key         |
+        \*---------------------------------------------*/
+        for(json::const_iterator it = proto[key].begin(); it != proto[key].end(); it++)
+        {
+            /*-----------------------------------------*\
+            | Skip reserved keys                        |
+            \*-----------------------------------------*/
+            if(it.key() == "name" || it.key() == "type")
+            {
+                continue;
+            }
+
+            /*-----------------------------------------*\
+            | Create widget pointer for this setting    |
+            \*-----------------------------------------*/
+            QWidget * sub_item;
+
+            sub_item = CreateWidget(it.key(), proto[key], data[key]);
+
+            /*-----------------------------------------*\
+            | Add widget to the vertical layout         |
+            \*-----------------------------------------*/
+            layout->addWidget(sub_item);
+        }
+    }
+    /*-------------------------------------------------*\
+    | Create widgets for boolean settings               |
+    \*-------------------------------------------------*/
+    else if(type == "boolean")
+    {
+        /*---------------------------------------------*\
+        | Boolean settings use a checkbox widget        |
+        \*---------------------------------------------*/
+        item                = new QCheckBox;
+        //new_arg->widget     = item;
+
+        /*---------------------------------------------*\
+        | Set the checkbox label to the setting name    |
+        \*---------------------------------------------*/
+        ((QCheckBox*)item)->setText(QString::fromStdString(name));
+
+        /*---------------------------------------------*\
+        | Set the checkbox state based on the current   |
+        | value of the setting                          |
+        \*---------------------------------------------*/
+        if(data.contains(key))
+        {
+            ((QCheckBox*)item)->setChecked(data[key]);
+        }
+
+        /*---------------------------------------------*\
+        | Connect widget to signal mapper to handle     |
+        | changes to this setting                       |
+        \*---------------------------------------------*/
+        //connect(item, SIGNAL(clicked()), signalMapper, SLOT(map()));
+        //signalMapper->setMapping(item, new_arg);
+    }
+    /*-------------------------------------------------*\
+    | Create widgets for integer settings               |
+    \*-------------------------------------------------*/
+    else if(type == "integer")
+    {
+        /*---------------------------------------------*\
+        | Create a widget to hold the layout            |
+        \*---------------------------------------------*/
+        item                = new QWidget;
+
+        /*---------------------------------------------*\
+        | Create a horizontal layout to hold the        |
+        | settings controls                             |
+        \*---------------------------------------------*/
+        QHBoxLayout * layout = new QHBoxLayout;
+
+        /*---------------------------------------------*\
+        | Integer settings use both a label widget and  |
+        | a line edit widget in a horizontal layout     |
+        \*---------------------------------------------*/
+        QLabel *    label   = new QLabel;
+        QLineEdit * edit    = new QLineEdit;
+
+        /*---------------------------------------------*\
+        | Set the line edit label to the setting name   |
+        \*---------------------------------------------*/
+        ((QLabel*)label)->setText(QString::fromStdString(name));
+
+        /*---------------------------------------------*\
+        | Set the checkbox state based on the current   |
+        | value of the setting                          |
+        \*---------------------------------------------*/
+        if(data.contains(key))
+        {
+            int value = data[key];
+            ((QLineEdit*)edit)->setText(QString::number(value));
+        }
+
+        /*---------------------------------------------*\
+        | Add widgets to the horizontal layout          |
+        \*---------------------------------------------*/
+        layout->addWidget(label);
+        layout->addWidget(edit);
+
+        /*---------------------------------------------*\
+        | Add layout to top level widget                |
+        \*---------------------------------------------*/
+        item->setLayout(layout);
+    }
+    /*-------------------------------------------------*\
+    | Create widgets for string settings                |
+    \*-------------------------------------------------*/
+    else if(type == "string")
+    {
+        /*---------------------------------------------*\
+        | Create a widget to hold the layout            |
+        \*---------------------------------------------*/
+        item                = new QWidget;
+
+        /*---------------------------------------------*\
+        | Create a horizontal layout to hold the        |
+        | settings controls                             |
+        \*---------------------------------------------*/
+        QHBoxLayout * layout = new QHBoxLayout;
+
+        /*---------------------------------------------*\
+        | String settings use both a label widget and   |
+        | a line edit widget in a horizontal layout     |
+        \*---------------------------------------------*/
+        QLabel *    label   = new QLabel;
+        QLineEdit * edit    = new QLineEdit;
+
+        /*---------------------------------------------*\
+        | Set the line edit label to the setting name   |
+        \*---------------------------------------------*/
+        ((QLabel*)label)->setText(QString::fromStdString(name));
+
+        /*---------------------------------------------*\
+        | Set the checkbox state based on the current   |
+        | value of the setting                          |
+        \*---------------------------------------------*/
+        if(data.contains(key))
+        {
+            ((QLineEdit*)edit)->setText(QString::fromStdString(data[key]));
+        }
+
+        /*---------------------------------------------*\
+        | Add widgets to the horizontal layout          |
+        \*---------------------------------------------*/
+        layout->addWidget(label);
+        layout->addWidget(edit);
+
+        /*---------------------------------------------*\
+        | Add layout to top level widget                |
+        \*---------------------------------------------*/
+        item->setLayout(layout);
+    }
+
+    return(item);
 }
 
 void OpenRGBSettingsManagerEntry::changeEvent(QEvent *event)
