@@ -7,6 +7,7 @@
 #include "KasaSmartController.h"
 #include "json.hpp"
 #include "hsv.h"
+#include <cstdint>
 
 using json = nlohmann::json;
 
@@ -251,7 +252,7 @@ bool KasaSmartController::SendCommand(std::string command, std::string &response
     unsigned long response_full_length = 0;
     if(response_length > 0)
     {
-        response_full_length = ntohl(*(unsigned long*)receive_buffer);
+        response_full_length = ntohl(*(uint32_t*)receive_buffer);
     }
 
     if(response_full_length > KASA_SMART_RECEIVE_BUFFER_SIZE) {
@@ -271,7 +272,7 @@ bool KasaSmartController::SendCommand(std::string command, std::string &response
         /*------------------------------------------------*\
         | Decrypt payload data preceeding the payload size |
         \*------------------------------------------------*/
-        KasaSmartController::Decrypt(receive_buffer + sizeof(unsigned long), received_length - sizeof(unsigned long), response);
+        KasaSmartController::Decrypt(receive_buffer + sizeof(uint32_t), received_length - sizeof(uint32_t), response);
     }
     delete[] receive_buffer;
     return true;
@@ -282,7 +283,7 @@ unsigned char* KasaSmartController::Encrypt(const std::string request)
     /*----------------------------------------------------------------*\
     | "Encrypted" payload consists of size as a uint32 + XOR'd payload |
     \*----------------------------------------------------------------*/
-    unsigned long size     = htonl(request.length());
+    uint32_t size          = htonl(request.length());
     int payload_size       = request.length() + sizeof(size);
     unsigned char* payload = new unsigned char[payload_size];
     memcpy(payload, &size, sizeof(size));
