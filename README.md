@@ -108,8 +108,10 @@ There have been two instances of hardware damage in OpenRGB's development and we
 
 ##### Packaging
 
-   *  You can also build a Debian package (.deb) from this source code with `dpkg-buildpackage -us -B`
-      - Building a Debian package requires `debhelper` to be installed: `sudo apt install debhelper`
+   *  You can also build a Debian package (.deb) from this source code with:
+      - `sudo apt install debhelper`
+      - `/scripts/build-package-files.sh debian/changelog`
+      - `dpkg-buildpackage -us -B`
 
    </details>
    <details>
