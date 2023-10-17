@@ -202,6 +202,7 @@ QWidget * OpenRGBSettingsManagerEntry::CreateWidget(std::string key, json & prot
         \*---------------------------------------------*/
         QLabel *    label   = new QLabel;
         QLineEdit * edit    = new QLineEdit;
+        new_arg->widget     = edit;
 
         /*---------------------------------------------*\
         | Set the line edit label to the setting name   |
@@ -228,6 +229,13 @@ QWidget * OpenRGBSettingsManagerEntry::CreateWidget(std::string key, json & prot
         | Add layout to top level widget                |
         \*---------------------------------------------*/
         item->setLayout(layout);
+
+        /*---------------------------------------------*\
+        | Connect widget to signal mapper to handle     |
+        | changes to this setting                       |
+        \*---------------------------------------------*/
+        connect(edit, SIGNAL(editingFinished()), mapper, SLOT(map()));
+        mapper->setMapping(edit, new_arg);
     }
     /*-------------------------------------------------*\
     | Create widgets for string settings                |
@@ -251,6 +259,7 @@ QWidget * OpenRGBSettingsManagerEntry::CreateWidget(std::string key, json & prot
         \*---------------------------------------------*/
         QLabel *    label   = new QLabel;
         QLineEdit * edit    = new QLineEdit;
+        new_arg->widget     = edit;
 
         /*---------------------------------------------*\
         | Set the line edit label to the setting name   |
@@ -276,6 +285,13 @@ QWidget * OpenRGBSettingsManagerEntry::CreateWidget(std::string key, json & prot
         | Add layout to top level widget                |
         \*---------------------------------------------*/
         item->setLayout(layout);
+
+        /*---------------------------------------------*\
+        | Connect widget to signal mapper to handle     |
+        | changes to this setting                       |
+        \*---------------------------------------------*/
+        connect(edit, SIGNAL(editingFinished()), mapper, SLOT(map()));
+        mapper->setMapping(edit, new_arg);
     }
 
     return(item);
@@ -298,14 +314,28 @@ void OpenRGBSettingsManagerEntry::onSettingChanged(QObject * arg)
     std::string item_key                    = setting->key;
     std::string type                        = setting->proto[item_key]["type"];
 
+    printf("updating key %s\r\n", item_key.c_str());
+
     /*-----------------------------------------------------*\
     | Handle boolean settings changes                       |
     \*-----------------------------------------------------*/
     if(type == "boolean")
     {
-        bool value      = ((QCheckBox *)setting->widget)->isChecked();
+        bool value              = ((QCheckBox *)setting->widget)->isChecked();
 
-        setting->data[item_key]  = value;
+        setting->data[item_key] = value;
+    }
+    else if(type == "integer")
+    {
+        int value               = ((QLineEdit *)setting->widget)->text().toInt();
+
+        setting->data[item_key] = value;
+    }
+    else if(type == "string")
+    {
+        std::string value       = ((QLineEdit *)setting->widget)->text().toStdString();
+
+        setting->data[item_key] = value;
     }
 
     /*-----------------------------------------------------*\
