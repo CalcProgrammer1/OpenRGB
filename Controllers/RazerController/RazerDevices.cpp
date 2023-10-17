@@ -2011,6 +2011,40 @@ static const razer_device ornata_v3_x_device =
     NULL
 };
 
+/*-------------------------------------------------------------*\
+|  Razer Ornata V3 X Rev2   1532:02A2                           |
+|                                                               |
+|  Zone "Keyboard"                                              |
+|       Single                                                  |
+|       1 LED                                                   |
+\*-------------------------------------------------------------*/
+static const razer_zone ornata_v3_x_v2_zone =
+{
+    ZONE_EN_KEYBOARD,
+    ZONE_TYPE_SINGLE,
+    1,
+    1
+};
+
+static const razer_device ornata_v3_x_v2_device =
+{
+    "Razer Ornata V3 X Rev2",
+    RAZER_ORNATA_V3_X_REV2_PID,
+    DEVICE_TYPE_KEYBOARD,
+    RAZER_MATRIX_TYPE_EXTENDED,
+    0x1F,
+    1,
+    1,
+    {
+        &ornata_v3_x_v2_zone,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL
+    },
+    NULL
+};
 
 /*-------------------------------------------------------------*\
 |  Razer DeathStalker Chroma                                    |
@@ -7616,6 +7650,7 @@ const razer_device* razer_device_list[] =
     &ornata_v3_device,
     &ornata_v3_rev2_device,
     &ornata_v3_x_device,
+    &ornata_v3_x_v2_device,
 /*-----------------------------------------------------------------*\
 |  LAPTOPS                                                          |
 \*-----------------------------------------------------------------*/
