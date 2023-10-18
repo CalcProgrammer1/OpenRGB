@@ -9,7 +9,6 @@
 
 #pragma once
 #include <vector>
-#include "LogManager.h"
 #include "RGBController.h"
 #include "BloodyMouseController.h"
 

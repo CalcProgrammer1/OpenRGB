@@ -8,6 +8,7 @@
 \*---------------------------------------------------------------------*/
 
 #include "BloodyMouseController.h"
+#include "LogManager.h"
 
 BloodyMouseController::BloodyMouseController(hid_device* dev_handle, const char* path, uint16_t product_id)
 {

@@ -9,7 +9,6 @@
 
 #include <string>
 #include <hidapi/hidapi.h>
-#include "LogManager.h"
 #include "RGBController.h"
 
 #pragma once
@@ -18,6 +17,7 @@
 | Mouse product IDs                                     |
 \*-----------------------------------------------------*/
 #define BLOODY_W60_PRO_PID                          0x37EA
+#define BLOODY_W90_MAX_PID                          0x3666
 
 /*-----------------------------------------------------*\
 | Mousemat product IDs                                  |

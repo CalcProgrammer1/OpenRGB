@@ -3,7 +3,6 @@
 \*-----------------------------------------------------*/
 #include <hidapi/hidapi.h>
 #include "Detector.h"
-#include "LogManager.h"
 #include "RGBController.h"
 
 /*-----------------------------------------------------*\
@@ -31,4 +30,5 @@ void DetectA4TechMouseControllers(hid_device_info* info, const std::string& name
 }
 
 REGISTER_HID_DETECTOR_IPU("Bloody W60 Pro",         DetectA4TechMouseControllers,       A4_TECH_VID,    BLOODY_W60_PRO_PID,     2,      0xFF33,     0x0529);
+REGISTER_HID_DETECTOR_IPU("Bloody W90 Max",         DetectA4TechMouseControllers,       A4_TECH_VID,    BLOODY_W90_MAX_PID,     2,      0xFF33,     0x053D);
 REGISTER_HID_DETECTOR_IPU("Bloody MP 50RS",         DetectA4TechMouseControllers,       A4_TECH_VID,    BLOODY_MP_50RS_PID,     2,      0xFFF2,     0x6009);

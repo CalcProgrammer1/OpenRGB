@@ -25,6 +25,19 @@ static const mouse_layout w60_pro
     }
 };
 
+static const mouse_layout w90_max
+{
+    {
+        "Scroll Wheel", { 14 }
+    },
+    {
+        "Logo",         { 7 }
+    },
+    {
+        "Rear",         { 13, 12, 11, 10, 9, 8, 6, 5, 4, 3, 2, 1, 0 }
+    }
+};
+
 static const mouse_layout mp_50rs
 {
     {
@@ -56,7 +69,6 @@ RGBController_BloodyMouse::RGBController_BloodyMouse(BloodyMouseController *cont
             type                = DEVICE_TYPE_MOUSE;
     }
 
-    name                        = "BloodyMouse";
     vendor                      = "Bloody";
     description                 = "Controller compatible with the Bloody W60 Pro and MP 50RS";
     serial                      = controller->GetSerial();
@@ -89,10 +101,14 @@ void RGBController_BloodyMouse::SetupZones()
     | Select layout from PID                            |
     \*-------------------------------------------------*/
     mouse_layout layout;
+
     switch(controller->GetPid())
     {
         case BLOODY_W60_PRO_PID:
             layout = w60_pro;
+            break;
+        case BLOODY_W90_MAX_PID:
+            layout = w90_max;
             break;
         case BLOODY_MP_50RS_PID:
             layout = mp_50rs;
