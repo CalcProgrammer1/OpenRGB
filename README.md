@@ -1,4 +1,4 @@
-## ![OpenRGB](https://gitlab.com/CalcProgrammer1/OpenRGB/-/wikis/uploads/5b7e633ac9f63b00c8a4c72686206c3f/OpenRGB.png "OpenRGB Logo")
+## ![OpenRGB](https://gitlab.com/OpenRGBDevelopers/OpenRGB-Wiki/-/raw/stable/uploads/5b7e633ac9f63b00c8a4c72686206c3f/OpenRGB.png "OpenRGB Logo")
 
 ![Visitors](https://visitor-badge.glitch.me/badge?page_id=org.openrgb.readme) ![Pipeline Status](https://gitlab.com/CalcProgrammer1/OpenRGB/badges/master/pipeline.svg)
 
@@ -39,7 +39,7 @@ There have been two instances of hardware damage in OpenRGB's development and we
   * The Mystic Light motherboard code bricked the RGB controller of some MSI motherboards.  The code was disabled and reworked.  We have been re-adding these motherboards to the support list as we verify that the new code works with them.  Affected boards can be unbricked with a Nuvoton Nu-Link adapter.
   * There were reports of bricked Gigabyte Aorus Z390 motherboards caused by dumping SMBus address 0x68 in an attempt to reverse engineer the RGB.  Due to this, the SMBus Tools page on OpenRGB is hidden by default now as it has no real use to non-developers.
 
-![OpenRGB_Device_View](https://gitlab.com/CalcProgrammer1/OpenRGB/-/wikis/uploads/e1d8d4603ecdd04f1acbcf6b2314fc66/OpenRGB_0.31_Device_View.PNG "OpenRGB Device View Screenshot")
+![OpenRGB_Device_View](https://gitlab.com/OpenRGBDevelopers/OpenRGB-Wiki/-/raw/stable/uploads/e1d8d4603ecdd04f1acbcf6b2314fc66/OpenRGB_0.31_Device_View.PNG "OpenRGB Device View Screenshot")
 
 ## Windows
 
