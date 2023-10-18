@@ -37,6 +37,7 @@ void DetectMSIGPUv2Controllers(i2c_smbus_interface* bus, uint8_t i2c_addr, const
 
 } /* DetectMSIGPUv2Controllers() */
 
+REGISTER_I2C_PCI_DETECTOR("MSI GeForce RTX 4060Ti 8GB Gaming X",            DetectMSIGPUv2Controllers,    NVIDIA_VEN,     NVIDIA_RTX4060TI_DEV,       MSI_SUB_VEN,    MSI_RTX4060TI_GAMING_X_8G_SUB_DEV,      0x68);
 REGISTER_I2C_PCI_DETECTOR("MSI GeForce RTX 4070 12GB Gaming X Trio",        DetectMSIGPUv2Controllers,    NVIDIA_VEN,     NVIDIA_RTX4070_DEV,         MSI_SUB_VEN,    MSI_RTX4070_GAMING_X_TRIO_SUB_DEV,      0x68);
 REGISTER_I2C_PCI_DETECTOR("MSI GeForce RTX 4070Ti 12GB Gaming X Trio",      DetectMSIGPUv2Controllers,    NVIDIA_VEN,     NVIDIA_RTX4070TI_DEV,       MSI_SUB_VEN,    MSI_RTX4070TI_GAMING_X_TRIO_SUB_DEV,    0x68);
 REGISTER_I2C_PCI_DETECTOR("MSI GeForce RTX 4070Ti 12GB Suprim X Trio",      DetectMSIGPUv2Controllers,    NVIDIA_VEN,     NVIDIA_RTX4070TI_DEV,       MSI_SUB_VEN,    MSI_RTX4070TI_SUPRIM_X_TRIO_SUB_DEV,    0x68);
