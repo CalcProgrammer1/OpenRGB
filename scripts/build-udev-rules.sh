@@ -80,7 +80,7 @@ do
     type=$(printf %s "$DATA" | grep @type |  sed -e 's/@type//g' -e 's/^ *//g')
     detectors=$(printf %s "$DATA" | grep @detectors |  sed -e 's/@detectors *//g' -e 's/^ *//g' -e 's/\,/\n/g')
 
-    if [[ $type = USB || $type = Serial ]]; then    #Check that the type is USB
+    if [[ -n "$detectors" ]] && [[ $type = USB || $type = Serial ]]; then    #Check that the type is USB
         ## Iterate over the comma seperated detector function list
         while read -r detector
         do
