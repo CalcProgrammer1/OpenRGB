@@ -49,8 +49,8 @@ echo -e "$UDEV_HEADER" > "$UDEV_FILE"
 #    | callback_function | VID | PID | Name |                                 #
 #-----------------------------------------------------------------------------#
 echo -e "Creating device list"
-HID_LIST=$(grep -hR -e "static\ HIDDeviceDetector" . | cut -d '(' -f 2- | awk -F , '{ print $2 ":|" $3 "|" $4 "|" $1 "|" }')
-HID_WRAPPER_LIST=$(grep -hR -e "static\ HIDWrappedDeviceDetector" . | cut -d '(' -f 2- | awk -F , '{ print $2 ":|" $3 "|" $4 "|" $1 "|" }')
+HID_LIST=$(grep -hR -e "static HIDDeviceDetector" . | cut -d '(' -f 2- | awk -F , '{ print $2 ":|" $3 "|" $4 "|" $1 "|" }')
+HID_WRAPPER_LIST=$(grep -hR -e "static HIDWrappedDeviceDetector" . | cut -d '(' -f 2- | awk -F , '{ print $2 ":|" $3 "|" $4 "|" $1 "|" }')
 DUMMY_LIST=$( grep -hR -e DUMMY_DEVICE_DETECTOR ${CONTROLLER_PATH} | cut -d '(' -f 2- | cut -d ')' -f 1 | awk -F , '{ print $2 ":|" $3 "|" $4 "|" $1 "|" }')
 
 #Check the output of the hid_list
