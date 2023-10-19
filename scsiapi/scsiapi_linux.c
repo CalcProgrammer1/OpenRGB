@@ -218,6 +218,7 @@ int scsi_write(struct scsi_device * dev, const unsigned char * data, size_t data
     | Send pass through command                             |
     \*-----------------------------------------------------*/
     ioctl(dev->fd, SG_IO, &header);
+    return 0;
 }
 
 #ifdef __cplusplus

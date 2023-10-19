@@ -235,6 +235,7 @@ int scsi_write(struct scsi_device * dev, const unsigned char * data, size_t data
     | Free the buffer                                       |
     \*-----------------------------------------------------*/
     free(buffer);
+    return 0;
 }
 #ifdef __cplusplus
 }
