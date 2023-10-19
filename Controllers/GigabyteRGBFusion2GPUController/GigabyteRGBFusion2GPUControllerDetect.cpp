@@ -53,10 +53,16 @@ bool TestForGigabyteRGBFusion2GPUController(i2c_smbus_interface* bus, unsigned c
     if(res < 0 || data_readpkt[0] != 0xAB)
     {
         // Assemble C-string with respons for debugging
-        char str[32];
+        std::string text = "";
+
         for(int idx = 0; idx < read_sz; ++idx)
-            snprintf(&str[5*idx], 32, " 0x%02X", data_readpkt[idx]);
-        LOG_DEBUG("[%s] at address 0x%02X invalid. Expected 0xAB [0x*] but received:%s", GIGABYTEGPU_CONTROLLER_NAME2, address, str);
+        {
+            char str[6];
+            snprintf(str, 6, " 0x%02X", data_readpkt[idx]);
+            text.append(str);
+        }
+
+        LOG_DEBUG("[%s] at address 0x%02X invalid. Expected 0xAB [0x*] but received:%s", GIGABYTEGPU_CONTROLLER_NAME2, address, text.c_str());
         pass = false;
     }
 
