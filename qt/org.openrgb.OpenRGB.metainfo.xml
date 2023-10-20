@@ -63,7 +63,7 @@
 
   <screenshots>
     <screenshot type="default">
-      <image>https://gitlab.com/CalcProgrammer1/OpenRGB/-/wikis/uploads/e1d8d4603ecdd04f1acbcf6b2314fc66/OpenRGB_0.31_Device_View.PNG</image>
+      <image>https://gitlab.com/OpenRGBDevelopers/OpenRGB-Wiki/-/raw/stable/uploads/e1d8d4603ecdd04f1acbcf6b2314fc66/OpenRGB_0.31_Device_View.PNG</image>
     </screenshot>
   </screenshots>
 
@@ -74,8 +74,8 @@
 
   <url type="bugtracker">https://gitlab.com/CalcProgrammer1/OpenRGB/-/issues</url>
   <url type="contact">https://discord.gg/AQwjJPY</url>
-  <url type="donation">https://gitlab.com/CalcProgrammer1/OpenRGB/-/wikis/home#support-openrgb</url>
-  <url type="faq">https://gitlab.com/CalcProgrammer1/OpenRGB/-/wikis/Frequently-Asked-Questions</url>
-  <url type="help">https://gitlab.com/CalcProgrammer1/OpenRGB/-/wikis/home</url>
+  <url type="donation">https://gitlab.com/CalcProgrammer1/OpenRGB/-/blob/master/README.md#support-openrgb</url>
+  <url type="faq">https://gitlab.com/OpenRGBDevelopers/OpenRGB-Wiki/-/blob/stable/User-Documentation/Frequently-Asked-Questions.md</url>
+  <url type="help">https://gitlab.com/OpenRGBDevelopers/OpenRGB-Wiki/-/blob/stable/home.md</url>
   <url type="homepage">https://openrgb.org</url>
 </component>
