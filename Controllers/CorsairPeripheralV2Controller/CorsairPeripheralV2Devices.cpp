@@ -346,6 +346,92 @@ static const corsair_v2_device ironclaw_wireless_device =
 };
 
 /*-------------------------------------------------------------*\
+|  Corsair Katar Pro 1B1C:1B93                                  |
+|                                                               |
+|  Zone "Scroll Wheel"                                          |
+|       Single                                                  |
+|                                                               |
+|  Zone "DPI"                                                   |
+|       Single                                                  |
+|                                                               |
+\*-------------------------------------------------------------*/
+static const corsair_v2_zone katar_pro_scroll_zone =
+{
+    "Scroll Wheel",
+    ZONE_TYPE_SINGLE,
+    1,
+    1
+};
+
+static const corsair_v2_zone katar_pro_dpi_zone =
+{
+    "DPI",
+    ZONE_TYPE_SINGLE,
+    1,
+    1
+};
+
+static const corsair_v2_device katar_pro_device =
+{
+    CORSAIR_KATAR_PRO_PID,
+    DEVICE_TYPE_MOUSE,
+    1,
+    2,
+    {
+        &katar_pro_scroll_zone,
+        &katar_pro_dpi_zone,
+        nullptr,
+        nullptr,
+        nullptr,
+        nullptr
+    },
+    nullptr
+};
+
+/*-------------------------------------------------------------*\
+|  Corsair Katar Pro XT 1B1C:1BAC                               |
+|                                                               |
+|  Zone "Scroll Wheel"                                          |
+|       Single                                                  |
+|                                                               |
+|  Zone "DPI"                                                   |
+|       Single                                                  |
+|                                                               |
+\*-------------------------------------------------------------*/
+static const corsair_v2_zone katar_pro_xt_scroll_zone =
+{
+    "Scroll Wheel",
+    ZONE_TYPE_SINGLE,
+    1,
+    1
+};
+
+static const corsair_v2_zone katar_pro_xt_dpi_zone =
+{
+    "DPI",
+    ZONE_TYPE_SINGLE,
+    1,
+    1
+};
+
+static const corsair_v2_device katar_pro_xt_device =
+{
+    CORSAIR_KATAR_PRO_XT_PID,
+    DEVICE_TYPE_MOUSE,
+    1,
+    2,
+    {
+        &katar_pro_xt_scroll_zone,
+        &katar_pro_xt_dpi_zone,
+        nullptr,
+        nullptr,
+        nullptr,
+        nullptr
+    },
+    nullptr
+};
+
+/*-------------------------------------------------------------*\
 |  Corsair K55 RGB Pro 1B1C:1BA4                                |
 |                                                               |
 |  Zone "Keyboard"                                              |
@@ -694,6 +780,8 @@ const corsair_v2_device* corsair_v2_device_list_data[] =
     &dark_core_se_device,
     &dark_core_pro_se_device,
     &ironclaw_wireless_device,
+    &katar_pro_device,
+    &katar_pro_xt_device,
     &m55_device,
     &m65_ultra_rgb_device,
 
