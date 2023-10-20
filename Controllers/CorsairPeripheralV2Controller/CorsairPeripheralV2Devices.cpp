@@ -389,6 +389,49 @@ static const corsair_v2_device katar_pro_device =
 };
 
 /*-------------------------------------------------------------*\
+|  Corsair Katar Pro V2 1B1C:1BBA                               |
+|                                                               |
+|  Zone "Scroll Wheel"                                          |
+|       Single                                                  |
+|                                                               |
+|  Zone "DPI"                                                   |
+|       Single                                                  |
+|                                                               |
+\*-------------------------------------------------------------*/
+static const corsair_v2_zone katar_pro_v2_scroll_zone =
+{
+    "Scroll Wheel",
+    ZONE_TYPE_SINGLE,
+    1,
+    1
+};
+
+static const corsair_v2_zone katar_pro_v2_dpi_zone =
+{
+    "DPI",
+    ZONE_TYPE_SINGLE,
+    1,
+    1
+};
+
+static const corsair_v2_device katar_pro_v2_device =
+{
+    CORSAIR_KATAR_PRO_V2_PID,
+    DEVICE_TYPE_MOUSE,
+    1,
+    2,
+    {
+        &katar_pro_v2_scroll_zone,
+        &katar_pro_v2_dpi_zone,
+        nullptr,
+        nullptr,
+        nullptr,
+        nullptr
+    },
+    nullptr
+};
+
+/*-------------------------------------------------------------*\
 |  Corsair Katar Pro XT 1B1C:1BAC                               |
 |                                                               |
 |  Zone "Scroll Wheel"                                          |
@@ -781,6 +824,7 @@ const corsair_v2_device* corsair_v2_device_list_data[] =
     &dark_core_pro_se_device,
     &ironclaw_wireless_device,
     &katar_pro_device,
+    &katar_pro_v2_device,
     &katar_pro_xt_device,
     &m55_device,
     &m65_ultra_rgb_device,
