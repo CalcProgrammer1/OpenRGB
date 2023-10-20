@@ -3,8 +3,10 @@
 #include "ENESMBusInterface_i2c_smbus.h"
 #include "ENESMBusInterface_SpectrixS40G.h"
 #include "LogManager.h"
+#include "ResourceManager.h"
 #include "RGBController.h"
 #include "RGBController_ENESMBus.h"
+#include "SettingsManager.h"
 #include "i2c_smbus.h"
 #include "pci_ids.h"
 #include <vector>
@@ -328,6 +330,22 @@ void DetectENESMBusGPUControllers(i2c_smbus_interface* bus, uint8_t i2c_addr, co
         LOG_DEBUG("[ENE SMBus ASUS GPU] Testing for controller at %d failed", i2c_addr);
     }
 } /* DetectENESMBusGPUControllers() */
+
+void RegisterENESettings()
+{
+    /*-----------------------------------------------------*\
+    | Create ENESMBusSettings settings prototype            |
+    \*-----------------------------------------------------*/
+    std::string         ene_smbus_string        = "ENESMBusSettings";
+    json                ene_smbus_proto;
+
+    ene_smbus_proto["enable_save"]["name"]      = "Enable Save";
+    ene_smbus_proto["enable_save"]["type"]      = "boolean";
+
+    ResourceManager::get()->GetSettingsManager()->RegisterSettingsPrototype(ene_smbus_string, ene_smbus_proto);
+}
+
+REGISTER_DYNAMIC_DETECTOR("ENE Devices",                RegisterENESettings);
 
 REGISTER_I2C_DETECTOR("ENE SMBus DRAM",                 DetectENESMBusDRAMControllers);
 REGISTER_I2C_DETECTOR("ASUS Aura SMBus Motherboard",    DetectENESMBusMotherboardControllers);

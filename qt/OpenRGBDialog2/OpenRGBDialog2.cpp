@@ -229,6 +229,23 @@ OpenRGBDialog2::OpenRGBDialog2(QWidget *parent) : QMainWindow(parent), ui(new Op
     settings_manager->RegisterSettingsPrototype(ui_string, ui_settings_proto);
 
     /*-----------------------------------------------------*\
+    | Get LogManager settings                               |
+    \*-----------------------------------------------------*/
+    std::string         log_manager_string  = "LogManager";
+    json                log_manager_settings;
+    log_manager_settings = settings_manager->GetSettings(log_manager_string);
+
+    /*-----------------------------------------------------*\
+    | Create LogManager settings prototype                  |
+    \*-----------------------------------------------------*/
+    json                log_manager_proto;
+
+    log_manager_proto["log_console"]["name"]                    = "Enable Log Console";
+    log_manager_proto["log_console"]["type"]                    = "boolean";
+
+    settings_manager->RegisterSettingsPrototype(log_manager_string, log_manager_proto);
+
+    /*-----------------------------------------------------*\
     | If geometry info doesn't exist, write it to config    |
     \*-----------------------------------------------------*/
     if(!ui_settings.contains("geometry"))
@@ -550,11 +567,6 @@ OpenRGBDialog2::OpenRGBDialog2(QWidget *parent) : QMainWindow(parent), ui(new Op
     {
         AddI2CToolsPage();
     }
-
-    /*-----------------------------------------------------*\
-    | If log console is enabled in settings, enable it      |
-    \*-----------------------------------------------------*/
-    json log_manager_settings = settings_manager->GetSettings("LogManager");
 
     bool log_console_enabled = false;
     if(log_manager_settings.contains("log_console"))
