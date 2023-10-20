@@ -794,17 +794,6 @@ void OpenRGBDialog2::AddSettingsManagerPage()
 
     ui->SettingsTabBar->addTab(SettingsManagerPage, "");
 
-    QString SettingsLabelString;
-
-    if(OpenRGBThemeManager::IsDarkTheme())
-    {
-        SettingsLabelString = "settings_dark.png";
-    }
-    else
-    {
-        SettingsLabelString = "settings.png";
-    }
-
     /*-----------------------------------------------------*\
     | Create the tab label                                  |
     \*-----------------------------------------------------*/
