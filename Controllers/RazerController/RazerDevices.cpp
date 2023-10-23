@@ -4322,6 +4322,41 @@ static const razer_device basilisk_v3_pro_bluetooth_device =
 };
 
 /*-------------------------------------------------------------*\
+|  Razer Basilisk V3 X HyperSpeed 1532:00B9                     |
+|                                                               |
+|  Zone "Scroll Wheel"                                          |
+|       Single                                                  |
+|       1 LED                                                   |
+\*-------------------------------------------------------------*/
+static const razer_zone basilisk_v3_x_hyperspeed_scroll_wheel_zone =
+{
+    "Scroll Wheel",
+    ZONE_TYPE_SINGLE,
+    1,
+    1
+};
+
+static const razer_device basilisk_v3_x_hyperspeed_device =
+{
+    "Razer Basilisk V3 X HyperSpeed",
+    RAZER_BASILISK_V3_X_HYPERSPEED_PID,
+    DEVICE_TYPE_MOUSE,
+    RAZER_MATRIX_TYPE_EXTENDED,
+    0x1F,
+    1,
+    1,
+    {
+        &basilisk_v3_x_hyperspeed_scroll_wheel_zone,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL
+    },
+    NULL
+};
+
+/*-------------------------------------------------------------*\
 |  Razer DeathAdder Chroma                                      |
 |                                                               |
 |  Zone "Logo"                                                  |
@@ -7704,6 +7739,7 @@ const razer_device* razer_device_list[] =
     &basilisk_v3_pro_wired_device,
     &basilisk_v3_pro_wireless_device,
     &basilisk_v3_pro_bluetooth_device,
+    &basilisk_v3_x_hyperspeed_device,
     &deathadder_chroma_device,
     &deathadder_elite_device,
     &deathadder_essential_device,

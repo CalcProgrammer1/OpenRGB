@@ -74,6 +74,7 @@ RazerController::RazerController(hid_device* dev_handle, hid_device* dev_argb_ha
     switch(dev_pid)
     {
         case RAZER_BASILISK_V3_PID:
+        case RAZER_BASILISK_V3_X_HYPERSPEED_PID:
         case RAZER_BASILISK_V3_PRO_WIRED_PID:
         case RAZER_BASILISK_V3_PRO_WIRELESS_PID:
         case RAZER_BASILISK_V3_PRO_BLUETOOTH_PID:
@@ -961,9 +962,9 @@ std::string RazerController::razer_get_firmware()
     struct razer_report report                  = razer_create_report(0x00, RAZER_COMMAND_ID_GET_FIRMWARE_VERSION, 0x02);
     struct razer_report response_report         = razer_create_response();
 
-    std::this_thread::sleep_for(1ms);
+    std::this_thread::sleep_for(2ms);
     razer_usb_send(&report);
-    std::this_thread::sleep_for(1ms);
+    std::this_thread::sleep_for(5ms);
     razer_usb_receive(&response_report);
 
     firmware_string = "v" + std::to_string(response_report.arguments[0]) + "." + std::to_string(response_report.arguments[1]);
@@ -977,9 +978,9 @@ std::string RazerController::razer_get_serial()
     struct razer_report report              = razer_create_report(0x00, RAZER_COMMAND_ID_GET_SERIAL_STRING, 0x16);
     struct razer_report response_report     = razer_create_response();
 
-    std::this_thread::sleep_for(1ms);
+    std::this_thread::sleep_for(2ms);
     razer_usb_send(&report);
-    std::this_thread::sleep_for(1ms);
+    std::this_thread::sleep_for(5ms);
     razer_usb_receive(&response_report);
 
     strncpy(&serial_string[0], (const char*)&response_report.arguments[0], 22);
