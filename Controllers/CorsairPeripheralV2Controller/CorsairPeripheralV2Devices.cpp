@@ -56,6 +56,23 @@ keyboard_keymap_overlay_values corsair_K60_layout
     }
 };
 
+keyboard_keymap_overlay_values corsair_K60_tkl_layout
+{
+    KEYBOARD_SIZE::KEYBOARD_SIZE_TKL,
+    {
+        corsair_tkl_values,
+        {
+            /* Add more regional layout fixes here */
+        }
+    },
+    {
+        /*---------------------------------------------------------------------------------------------------------*\
+        | Edit Keys                                                                                                 |
+        |   Zone,   Row,    Column,     Value,      Key,                        OpCode,                             |
+        \*---------------------------------------------------------------------------------------------------------*/
+    }
+};
+
 keyboard_keymap_overlay_values corsair_K70_TKL_cs_layout
 {
     KEYBOARD_SIZE::KEYBOARD_SIZE_TKL,
@@ -425,6 +442,38 @@ static const corsair_v2_device k60_rgb_pro_lp_device =
 };
 
 /*-------------------------------------------------------------*\
+|  Corsair K60 RGB Pro TKL 1B1C:1BC7                            |
+|                                                               |
+|  Zone "Keyboard"                                              |
+|       Matrix                                                  |
+|       6 Rows, 21 Columns                                      |
+\*-------------------------------------------------------------*/
+static const corsair_v2_zone k60_rgb_pro_tkl_zone =
+{
+    ZONE_EN_KEYBOARD,
+    ZONE_TYPE_MATRIX,
+    6,
+    21
+};
+
+static const corsair_v2_device k60_rgb_pro_tkl_device =
+{
+    CORSAIR_K60_RGB_PRO_TKL_PID,
+    DEVICE_TYPE_KEYBOARD,
+    6,
+    21,
+    {
+        &k60_rgb_pro_lp_zone,
+        nullptr,
+        nullptr,
+        nullptr,
+        nullptr,
+        nullptr
+    },
+    &corsair_K60_tkl_layout
+};
+
+/*-------------------------------------------------------------*\
 |  Corsair K70 RGB TKL 1B1C:1B73                                |
 |                                                               |
 |  Zone "Keyboard"                                              |
@@ -635,6 +684,7 @@ const corsair_v2_device* corsair_v2_device_list_data[] =
     &k55_rgb_pro_device,
     &k60_rgb_pro_device,
     &k60_rgb_pro_lp_device,
+    &k60_rgb_pro_tkl_device,
     &k70_rgb_tkl_device,
     &k70_rgb_tkl_cs_device,
 
