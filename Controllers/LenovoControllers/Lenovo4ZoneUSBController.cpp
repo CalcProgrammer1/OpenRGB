@@ -33,7 +33,19 @@ Lenovo4ZoneUSBController::~Lenovo4ZoneUSBController()
 
 void Lenovo4ZoneUSBController::setMode(const KeyboardState &in_mode)
 {
-    uint8_t buffer[LENOVO_4_ZONE_HID_PACKET_SIZE] = {in_mode.header[0], in_mode.header[1], in_mode.effect, in_mode.speed, in_mode.brightness, in_mode.zone0_rgb[0], in_mode.zone0_rgb[1], in_mode.zone0_rgb[2], in_mode.zone1_rgb[0], in_mode.zone1_rgb[1], in_mode.zone1_rgb[2], in_mode.zone2_rgb[0], in_mode.zone2_rgb[1], in_mode.zone3_rgb[2], in_mode.zone3_rgb[0], in_mode.zone3_rgb[1], in_mode.zone3_rgb[2], 0x00, in_mode.wave_ltr, in_mode.wave_rtl};
+    uint8_t buffer[LENOVO_4_ZONE_HID_PACKET_SIZE] =
+    {
+        in_mode.header[0], in_mode.header[1],
+        in_mode.effect,
+        in_mode.speed,
+        in_mode.brightness,
+        in_mode.zone0_rgb[0], in_mode.zone0_rgb[1], in_mode.zone0_rgb[2],
+        in_mode.zone1_rgb[0], in_mode.zone1_rgb[1], in_mode.zone1_rgb[2],
+        in_mode.zone2_rgb[0], in_mode.zone2_rgb[1], in_mode.zone2_rgb[2],
+        in_mode.zone3_rgb[0], in_mode.zone3_rgb[1], in_mode.zone3_rgb[2],
+        0x00,
+        in_mode.wave_ltr, in_mode.wave_rtl
+    };
     hid_send_feature_report(dev, buffer, LENOVO_4_ZONE_HID_PACKET_SIZE);
 }
 
