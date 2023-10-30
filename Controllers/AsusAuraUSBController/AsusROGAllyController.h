@@ -45,6 +45,13 @@ public:
     std::string GetSerialString();
     std::string GetVersion();
 
+    void SendInitialization();
+    
+    void UpdateBrightness
+        (
+            unsigned char           brightness
+        );
+
     void UpdateLeds
         (
             std::vector<RGBColor>    colors
@@ -55,7 +62,6 @@ public:
             unsigned char           mode,
             std::vector<RGBColor>   colors,
             unsigned char           speed,
-            unsigned char           brightness,
             unsigned char           direction
             );
 

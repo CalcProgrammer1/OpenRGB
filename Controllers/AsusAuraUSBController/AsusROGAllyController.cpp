@@ -14,6 +14,8 @@ ROGAllyController::ROGAllyController(hid_device* dev_handle, const char* path)
 {
     dev         = dev_handle;
     location    = path;
+
+    SendInitialization();
 }
 
 ROGAllyController::~ROGAllyController()
@@ -47,6 +49,56 @@ std::string ROGAllyController::GetVersion()
     return("");
 }
 
+void ROGAllyController::SendInitialization()
+{
+    unsigned char usb_buf[64];
+
+    memset(usb_buf, 0x00, sizeof(usb_buf));
+
+    usb_buf[0x00]   = 0x5D;
+    usb_buf[0x01]   = 0xB9;
+    
+    hid_send_feature_report(dev, usb_buf, sizeof(usb_buf));
+
+    memset(usb_buf, 0x00, sizeof(usb_buf));
+
+    usb_buf[0x00]   = 0x5D;
+    usb_buf[0x01]   = 0x41;
+    usb_buf[0x02]   = 0x53;
+    usb_buf[0x03]   = 0x55;
+    usb_buf[0x04]   = 0x53;
+    usb_buf[0x05]   = 0x20;
+    usb_buf[0x06]   = 0x54;
+    usb_buf[0x07]   = 0x65;
+    usb_buf[0x08]   = 0x63;
+    usb_buf[0x09]   = 0x68;
+    usb_buf[0x0A]   = 0x2E;
+    usb_buf[0x0B]   = 0x49;
+    usb_buf[0x0C]   = 0x6E;
+    usb_buf[0x0D]   = 0x63;
+    usb_buf[0x0E]   = 0x2E;
+    
+    hid_send_feature_report(dev, usb_buf, sizeof(usb_buf));
+}
+
+void ROGAllyController::UpdateBrightness
+    (
+    unsigned char           brightness
+    )
+{
+    unsigned char usb_buf[64];
+
+    memset(usb_buf, 0x00, sizeof(usb_buf));
+
+    usb_buf[0x00]   = 0x5A;
+    usb_buf[0x01]   = 0xBA;
+    usb_buf[0x02]   = 0xC5;
+    usb_buf[0x03]   = 0xC4;
+    usb_buf[0x04]   = brightness;
+
+    hid_send_feature_report(dev, usb_buf, sizeof(usb_buf));
+}
+
 void ROGAllyController::UpdateLeds
     (
     std::vector<RGBColor>    colors
@@ -76,7 +128,6 @@ void ROGAllyController::UpdateDevice
     unsigned char           mode,
     std::vector<RGBColor>   colors,
     unsigned char           speed,
-    unsigned char           /*brightness*/,
     unsigned char           direction
     )
 {
