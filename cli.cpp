@@ -1014,6 +1014,7 @@ int ProcessOptions(int argc, char* argv[], Options* options, std::vector<RGBCont
                 \*-------------------------------------------------*/
             }
             else if((option == "--server-port")
+                  ||(option == "--server-host")
                   ||(option == "--loglevel")
                   ||(option == "--config")
                   ||(option == "--client")
