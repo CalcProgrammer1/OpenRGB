@@ -35,24 +35,30 @@ RGBController_AsusROGAlly::RGBController_AsusROGAlly(ROGAllyController* controll
     mode Direct;
     Direct.name                 = "Direct";
     Direct.value                = ROG_ALLY_MODE_DIRECT;
-    Direct.flags                = MODE_FLAG_HAS_PER_LED_COLOR;
+    Direct.flags                = MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_HAS_BRIGHTNESS;
     Direct.color_mode           = MODE_COLORS_PER_LED;
+    Direct.brightness_min       = 0;
+    Direct.brightness_max       = 3;
+    Direct.brightness           = 3;
     modes.push_back(Direct);
 
     mode Static;
     Static.name                 = "Static";
     Static.value                = ROG_ALLY_MODE_STATIC;
-    Static.flags                = MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_MANUAL_SAVE;
+    Static.flags                = MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_MANUAL_SAVE | MODE_FLAG_HAS_BRIGHTNESS;
     Static.color_mode           = MODE_COLORS_MODE_SPECIFIC;
     Static.colors_min           = 1;
     Static.colors_max           = 1;
     Static.colors.resize(1);
+    Static.brightness_min       = 0;
+    Static.brightness_max       = 3;
+    Static.brightness           = 3;
     modes.push_back(Static);
 
     mode Breathing;
     Breathing.name              = "Breathing";
     Breathing.value             = ROG_ALLY_MODE_BREATHING;
-    Breathing.flags             = MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_MANUAL_SAVE | MODE_FLAG_HAS_SPEED;
+    Breathing.flags             = MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_MANUAL_SAVE | MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_BRIGHTNESS;
     Breathing.color_mode        = MODE_COLORS_MODE_SPECIFIC;
     Breathing.speed_min         = ROG_ALLY_SPEED_MIN;
     Breathing.speed_max         = ROG_ALLY_SPEED_MAX;
@@ -60,35 +66,47 @@ RGBController_AsusROGAlly::RGBController_AsusROGAlly(ROGAllyController* controll
     Breathing.colors_min        = 2;
     Breathing.colors_max        = 2;
     Breathing.colors.resize(2);
+    Breathing.brightness_min    = 0;
+    Breathing.brightness_max    = 3;
+    Breathing.brightness        = 3;
     modes.push_back(Breathing);
 
     mode ColorCycle;
     ColorCycle.name             = "Spectrum Cycle";
     ColorCycle.value            = ROG_ALLY_MODE_COLOR_CYCLE;
-    ColorCycle.flags            = MODE_FLAG_HAS_RANDOM_COLOR | MODE_FLAG_MANUAL_SAVE | MODE_FLAG_HAS_SPEED;
+    ColorCycle.flags            = MODE_FLAG_HAS_RANDOM_COLOR | MODE_FLAG_MANUAL_SAVE | MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_BRIGHTNESS;
     ColorCycle.color_mode       = MODE_COLORS_RANDOM;
     ColorCycle.speed_min        = ROG_ALLY_SPEED_MIN;
     ColorCycle.speed_max        = ROG_ALLY_SPEED_MAX;
     ColorCycle.speed            = ROG_ALLY_SPEED_MED;
+    ColorCycle.brightness_min   = 0;
+    ColorCycle.brightness_max   = 3;
+    ColorCycle.brightness       = 3;
     modes.push_back(ColorCycle);
 
     mode Rainbow;
     Rainbow.name                = "Rainbow Wave";
     Rainbow.value               = ROG_ALLY_MODE_RAINBOW;
-    Rainbow.flags               = MODE_FLAG_HAS_RANDOM_COLOR | MODE_FLAG_MANUAL_SAVE | MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_DIRECTION_LR;
+    Rainbow.flags               = MODE_FLAG_HAS_RANDOM_COLOR | MODE_FLAG_MANUAL_SAVE | MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_DIRECTION_LR | MODE_FLAG_HAS_BRIGHTNESS;
     Rainbow.color_mode          = MODE_COLORS_RANDOM;
     Rainbow.speed_min           = ROG_ALLY_SPEED_MIN;
     Rainbow.speed_max           = ROG_ALLY_SPEED_MAX;
     Rainbow.speed               = ROG_ALLY_SPEED_MED;
+    Rainbow.brightness_min      = 0;
+    Rainbow.brightness_max      = 3;
+    Rainbow.brightness          = 3;
     modes.push_back(Rainbow);
 
     mode Strobing;
     Strobing.name               = "Strobing";
     Strobing.value              = ROG_ALLY_MODE_STROBING;
-    Strobing.flags              = MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_MANUAL_SAVE;
+    Strobing.flags              = MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_MANUAL_SAVE | MODE_FLAG_HAS_BRIGHTNESS;
     Strobing.color_mode         = MODE_COLORS_MODE_SPECIFIC;
     Strobing.colors_min         = 1;
     Strobing.colors_max         = 1;
+    Strobing.brightness_min     = 0;
+    Strobing.brightness_max     = 3;
+    Strobing.brightness         = 3;
     Strobing.colors.resize(1);
     modes.push_back(Strobing);
 
@@ -172,6 +190,8 @@ void RGBController_AsusROGAlly::UpdateSingleLED(int /*led*/)
 
 void RGBController_AsusROGAlly::DeviceUpdateMode()
 {
+    controller->UpdateBrightness(modes[active_mode].brightness);
+
     if(modes[active_mode].value == ROG_ALLY_MODE_DIRECT)
     {
         DeviceUpdateLEDs();
@@ -185,7 +205,7 @@ void RGBController_AsusROGAlly::DeviceUpdateMode()
             rog_ally_direction = ROG_ALLY_DIRECTION_LEFT;
         }
 
-        controller->UpdateDevice(modes[active_mode].value, modes[active_mode].colors, modes[active_mode].speed, modes[active_mode].brightness, rog_ally_direction);
+        controller->UpdateDevice(modes[active_mode].value, modes[active_mode].colors, modes[active_mode].speed, rog_ally_direction);
     }
 }
 
