@@ -1,0 +1,225 @@
+/*----------------------------------------------*\
+|  LianLiHubSLInfinityController.h               |
+|                                                |
+|  Definitions and types for Lian Li SL Infinity |
+|                                                |
+|  Simon McKenna 2023-20-21                      |
+|  Will Kennedy 01/17/2023                       |
+|  Oliver P 04/26/2022                           |
+|  Credit to Luca Lovisa for original work.      |
+\*----------------------------------------------*/
+
+#include "RGBController.h"
+
+#include <string>
+#include <hidapi/hidapi.h>
+
+#pragma once
+
+/*----------------------------------------------------------------------------*\
+| Global definitions.                                                          |
+\*----------------------------------------------------------------------------*/
+
+/*----------------------------------------------------------------------------*\
+| Definitions related to zone Sizes                                            |
+\*----------------------------------------------------------------------------*/
+
+
+enum
+{
+    UNIHUB_SLINF_CHANNEL_COUNT              = 0x08,   /* Channel count                   */
+    UNIHUB_SLINF_CHAN_LED_COUNT             = 0x10 * 6,   /* Max-LED per channel count - 96  */
+};
+
+/*----------------------------------------------------------------------------*\
+| Definitions related to LED configuration.                                    |
+\*----------------------------------------------------------------------------*/
+
+// Used for sync'd mode between Fan and Edge
+
+enum
+{
+    UNIHUB_SLINF_LED_MODE_STATIC_COLOR   = 0x01, // full data array
+    UNIHUB_SLINF_LED_MODE_BREATHING      = 0x02, // full data array
+    UNIHUB_SLINF_LED_MODE_RAINBOW_MORPH  = 0x04, // no array
+    UNIHUB_SLINF_LED_MODE_RAINBOW        = 0x05, // no array
+    UNIHUB_SLINF_LED_MODE_STAGGERED      = 0x18, // size 2
+    UNIHUB_SLINF_LED_MODE_TIDE           = 0x1A, // size 2
+    UNIHUB_SLINF_LED_MODE_RUNWAY         = 0x1C, // size 2
+    UNIHUB_SLINF_LED_MODE_MIXING         = 0x1E, // size 2
+    UNIHUB_SLINF_LED_MODE_STACK          = 0x20, // size 1
+    UNIHUB_SLINF_LED_MODE_STACK_MULTI_COLOR = 0x21, // no array
+    UNIHUB_SLINF_LED_MODE_NEON           = 0x22, // no array
+    UNIHUB_SLINF_LED_MODE_COLOR_CYCLE    = 0x23, // size 3
+    UNIHUB_SLINF_LED_MODE_METEOR         = 0x24, // size 2
+    UNIHUB_SLINF_LED_MODE_VOICE          = 0x26, // no array
+    UNIHUB_SLINF_LED_MODE_GROOVE         = 0x27, // size 2
+    UNIHUB_SLINF_LED_MODE_RENDER         = 0x28, // size 4
+    UNIHUB_SLINF_LED_MODE_TUNNEL         = 0x29, // size 4
+    // merged modes
+    UNIHUB_SLINF_LED_MODE_METEOR_MERGED  = 0x2A,
+    UNIHUB_SLINF_LED_MODE_RUNWAY_MERGED  = 0x2B,
+    UNIHUB_SLINF_LED_MODE_TIDE_MERGED    = 0x2C,
+    UNIHUB_SLINF_LED_MODE_MIXING_MERGED  = 0x2D,
+    UNIHUB_SLINF_LED_MODE_STACK_MULTI_COLOR_MERGED = 0x2E
+};
+
+enum
+{
+    UNIHUB_SLINF_LED_SPEED_000              = 0x02,   /* Very slow speed         */
+    UNIHUB_SLINF_LED_SPEED_025              = 0x01,   /* Rather slow speed       */
+    UNIHUB_SLINF_LED_SPEED_050              = 0x00,   /* Medium speed            */
+    UNIHUB_SLINF_LED_SPEED_075              = 0xFF,   /* Rather fast speed       */
+    UNIHUB_SLINF_LED_SPEED_100              = 0xFE,   /* Very fast speed         */
+};
+
+enum
+{
+    UNIHUB_SLINF_LED_DIRECTION_LTR          = 0x00,   /* Left-to-Right direction */
+    UNIHUB_SLINF_LED_DIRECTION_RTL          = 0x01,   /* Right-to-Left direction */
+};
+
+enum
+{
+    UNIHUB_SLINF_LED_BRIGHTNESS_000         = 0x08,   /* Very dark (off)         */
+    UNIHUB_SLINF_LED_BRIGHTNESS_025         = 0x03,   /* Rather dark             */
+    UNIHUB_SLINF_LED_BRIGHTNESS_050         = 0x02,   /* Medium bright           */
+    UNIHUB_SLINF_LED_BRIGHTNESS_075         = 0x01,   /* Rather bright           */
+    UNIHUB_SLINF_LED_BRIGHTNESS_100         = 0x00,   /* Very bright             */
+};
+
+enum
+{
+    UNIHUB_SLINF_LED_LIMITER                = 0x01    /* Limit the color white to 999999 as per manufacturer limits */
+};
+
+
+/*----------------------------------------------------------------------------*\
+| Definitions related to packet configuration.                                 |
+\*----------------------------------------------------------------------------*/
+
+enum
+{
+    UNIHUB_SLINF_TRANSACTION_ID            = 0xE0, /* Command value to start all packets */
+};
+
+/*----------------------------------------------------------------------------*\
+| Uni Hub SL Infinity controller.                                              |
+\*----------------------------------------------------------------------------*/
+
+class LianLiUniHubSLInfinityController
+{
+
+
+public:
+    LianLiUniHubSLInfinityController(hid_device* dev_handle, const char* path, std::string dev_name);
+    ~LianLiUniHubSLInfinityController();
+
+    std::string                 GetDeviceLocation();
+    std::string                 GetFirmwareVersionString();
+    std::string                 GetName();
+    std::string                 GetSerialString();
+
+    void                SetChannelMode
+                                (
+                                unsigned char   channel,
+                                const mode active_mode,
+                                unsigned int    num_fans
+                                );
+
+    void                SetChannelLEDs
+                                (
+                                unsigned char   channel,
+                                RGBColor *      colors,
+                                unsigned int    num_colors,
+                                float           brightness
+                                );
+
+    void                SendStartAction
+                                (
+                                unsigned char   channel,
+                                unsigned int    num_fans
+                                );
+
+    void                SendColorData
+                                (
+                                unsigned char   channel,            // Zone index
+                                unsigned int    num_leds,
+                                unsigned char*  led_data            // Color data payload
+                                );
+
+    void                SendCommitAction
+                                (
+                                unsigned char   channel,            // Zone index
+                                unsigned char   effect,
+                                unsigned char   speed,
+                                unsigned int    direction,
+                                unsigned int    brightness
+                                );
+
+private:
+    /* The Uni Hub requires colors in RBG order */
+    struct Color
+    {
+        uint8_t r;
+        uint8_t b;
+        uint8_t g;
+    };
+
+    /* The values correspond to the definitions above */
+    struct Channel
+    {
+        uint8_t  index;
+
+        uint8_t  anyFanCountOffset;
+        uint8_t  anyFanCount;
+
+        uint16_t ledActionAddress;
+        uint16_t ledCommitAddress;
+        uint16_t ledModeAddress;
+        uint16_t ledSpeedAddress;
+        uint16_t ledDirectionAddress;
+        uint16_t ledBrightnessAddress;
+
+        Color    colors[UNIHUB_SLINF_CHAN_LED_COUNT];
+
+        uint8_t  ledMode;
+        uint8_t  ledSpeed;
+        uint8_t  ledDirection;
+        uint8_t  ledBrightness;
+
+        uint16_t fanHubActionAddress;
+        uint16_t fanHubCommitAddress;
+
+        uint16_t fanPwmActionAddress;
+        uint16_t fanPwmCommitAddress;
+        uint16_t fanRpmActionAddress;
+
+        uint16_t fanSpeed;
+    };
+
+private:
+    hid_device*             dev;
+    unsigned short          dev_pid;
+
+    /*---------------------------------------------------------*\
+    | Device-specific protocol settings                         |
+    \*---------------------------------------------------------*/
+    unsigned char           dev_transaction_id;
+    unsigned char           dev_led_id;
+
+    /*---------------------------------------------------------*\
+    | Device information strings                                |
+    \*---------------------------------------------------------*/
+    std::string             firmware_version;
+    std::string             location;
+    std::string             name;
+    device_type             type;
+
+    /*---------------------------------------------------------*\
+    | HID report index for request and response                 |
+    \*---------------------------------------------------------*/
+    unsigned char           report_index;
+    unsigned char           response_index;
+
+};
