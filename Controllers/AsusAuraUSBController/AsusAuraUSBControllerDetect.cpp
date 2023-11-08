@@ -5,9 +5,9 @@
 #include "AsusAuraTUFKeyboardController.h"
 #include "AsusAuraMainboardController.h"
 #include "AsusAuraMouseController.h"
-#include "AsusAuraMousematController.h"
 #include "AsusROGAllyController.h"
-#include "AsusAuraStrixEvolveController.h"
+#include "AsusAuraMouseGen1Controller.h"
+#include "AsusAuraMousematController.h"
 #include "AsusAuraMonitorController.h"
 #include "AsusAuraRyuoAIOController.h"
 #include "RGBController.h"
@@ -20,7 +20,8 @@
 #include "RGBController_AsusAuraMousemat.h"
 #include "RGBController_AsusROGAlly.h"
 #include "RGBController_ROGStrixLC_Controller.h"
-#include "RGBController_AsusAuraStrixEvolve.h"
+#include "RGBController_AsusROGSpatha.h"
+#include "RGBController_AsusROGStrixEvolve.h"
 #include "RGBController_AsusAuraMonitor.h"
 #include "RGBController_AsusAuraRyuoAIO.h"
 #include <stdexcept>
@@ -66,6 +67,8 @@
 \*-----------------------------------------------------------------*/
 
 #define AURA_ROG_STRIX_EVOLVE_PID                     0x185B
+#define AURA_ROG_SPATHA_WIRED_PID                     0x181C
+#define AURA_ROG_SPATHA_WIRELESS_PID                  0x1824
 
 /*-----------------------------------------------------------------*\
 | MOUSEMATS                                                         |
@@ -241,8 +244,21 @@ void DetectAsusAuraUSBStrixEvolve(hid_device_info* info, const std::string& name
 
     if(dev)
     {
-        AuraStrixEvolveController*     controller           = new AuraStrixEvolveController(dev, info->path, info->product_id);
-        RGBController_AuraStrixEvolve* rgb_controller       = new RGBController_AuraStrixEvolve(controller);
+        AsusAuraMouseGen1Controller*     controller         = new AsusAuraMouseGen1Controller(dev, info->path, info->product_id);
+        RGBController_AsusROGStrixEvolve* rgb_controller    = new RGBController_AsusROGStrixEvolve(controller);
+        rgb_controller->name                                = name;
+        ResourceManager::get()->RegisterRGBController(rgb_controller);
+    }
+}
+
+void DetectAsusAuraUSBSpatha(hid_device_info* info, const std::string& name)
+{
+    hid_device* dev = hid_open_path(info->path);
+
+    if(dev)
+    {
+        AsusAuraMouseGen1Controller*     controller         = new AsusAuraMouseGen1Controller(dev, info->path, info->product_id);
+        RGBController_AsusROGSpatha* rgb_controller         = new RGBController_AsusROGSpatha(controller);
         rgb_controller->name                                = name;
         ResourceManager::get()->RegisterRGBController(rgb_controller);
     }
@@ -372,6 +388,8 @@ REGISTER_HID_DETECTOR_IP("ASUS TUF Gaming M3",                          DetectAs
 REGISTER_HID_DETECTOR_IP("ASUS TUF Gaming M5",                          DetectAsusAuraUSBMice,          AURA_USB_VID, AURA_TUF_M5_PID,                              2,  0xFF01);
 
 REGISTER_HID_DETECTOR_IP("ASUS ROG Strix Evolve",                       DetectAsusAuraUSBStrixEvolve,   AURA_USB_VID, AURA_ROG_STRIX_EVOLVE_PID,                    1,  0x0008);
+REGISTER_HID_DETECTOR_IP("ASUS ROG Spatha Wired",                       DetectAsusAuraUSBSpatha,        AURA_USB_VID, AURA_ROG_SPATHA_WIRED_PID,                    1,  0x0008);
+REGISTER_HID_DETECTOR_IP("ASUS ROG Spatha Wireless",                    DetectAsusAuraUSBSpatha,        AURA_USB_VID, AURA_ROG_SPATHA_WIRELESS_PID,                 1,  0x0008);
 
 /*-----------------------------------------------------------------*\
 | MOUSEMATS                                                         |

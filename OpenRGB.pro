@@ -364,9 +364,9 @@ HEADERS +=                                                                      
     Controllers/AsusAuraUSBController/AsusAuraMouseController.h                                 \
     Controllers/AsusAuraUSBController/AsusAuraMousematController.h                              \
     Controllers/AsusAuraUSBController/AsusAuraMouseDevices.h                                    \
+    Controllers/AsusAuraUSBController/AsusAuraMouseGen1Controller.h                             \
     Controllers/AsusAuraUSBController/AsusROGAllyController.h                                   \
     Controllers/AsusAuraUSBController/AsusAuraRyuoAIOController.h                               \
-    Controllers/AsusAuraUSBController/AsusAuraStrixEvolveController.h                           \
     Controllers/AsusAuraUSBController/AsusAuraTUFKeyboardController.h                           \
     Controllers/AsusAuraUSBController/AsusAuraTUFKeyboardLayouts.h                              \
     Controllers/AsusAuraUSBController/RGBController_AsusAuraHeadsetStand.h                      \
@@ -377,9 +377,10 @@ HEADERS +=                                                                      
     Controllers/AsusAuraUSBController/RGBController_AsusAuraMousemat.h                          \
     Controllers/AsusAuraUSBController/RGBController_AsusROGAlly.h                               \
     Controllers/AsusAuraUSBController/RGBController_AsusAuraRyuoAIO.h                           \
-    Controllers/AsusAuraUSBController/RGBController_AsusAuraStrixEvolve.h                       \
     Controllers/AsusAuraUSBController/RGBController_AsusAuraTUFKeyboard.h                       \
     Controllers/AsusAuraUSBController/RGBController_AsusAuraUSB.h                               \
+    Controllers/AsusAuraUSBController/RGBController_AsusROGSpatha.h                             \
+    Controllers/AsusAuraUSBController/RGBController_AsusROGStrixEvolve.h                        \
     Controllers/AsusAuraUSBController/RGBController_ROGStrixLC_Controller.h                     \
     Controllers/AsusAuraUSBController/ROGStrixLC_Controller.h                                   \
     Controllers/AsusLegacyUSBController/AsusCerberusKeyboardController.h                        \
@@ -980,10 +981,10 @@ SOURCES +=                                                                      
     Controllers/AsusAuraUSBController/AsusAuraMainboardController.cpp                           \
     Controllers/AsusAuraUSBController/AsusAuraMonitorController.cpp                             \
     Controllers/AsusAuraUSBController/AsusAuraMouseController.cpp                               \
+    Controllers/AsusAuraUSBController/AsusAuraMouseGen1Controller.cpp                           \
     Controllers/AsusAuraUSBController/AsusAuraMousematController.cpp                            \
     Controllers/AsusAuraUSBController/AsusROGAllyController.cpp                                 \
     Controllers/AsusAuraUSBController/AsusAuraRyuoAIOController.cpp                             \
-    Controllers/AsusAuraUSBController/AsusAuraStrixEvolveController.cpp                         \
     Controllers/AsusAuraUSBController/AsusAuraTUFKeyboardController.cpp                         \
     Controllers/AsusAuraUSBController/AsusAuraUSBControllerDetect.cpp                           \
     Controllers/AsusAuraUSBController/RGBController_AsusAuraHeadsetStand.cpp                    \
@@ -994,9 +995,10 @@ SOURCES +=                                                                      
     Controllers/AsusAuraUSBController/RGBController_AsusAuraMousemat.cpp                        \
     Controllers/AsusAuraUSBController/RGBController_AsusROGAlly.cpp                             \
     Controllers/AsusAuraUSBController/RGBController_AsusAuraRyuoAIO.cpp                         \
-    Controllers/AsusAuraUSBController/RGBController_AsusAuraStrixEvolve.cpp                     \
     Controllers/AsusAuraUSBController/RGBController_AsusAuraTUFKeyboard.cpp                     \
     Controllers/AsusAuraUSBController/RGBController_AsusAuraUSB.cpp                             \
+    Controllers/AsusAuraUSBController/RGBController_AsusROGSpatha.cpp                           \
+    Controllers/AsusAuraUSBController/RGBController_AsusROGStrixEvolve.cpp                      \
     Controllers/AsusAuraUSBController/RGBController_ROGStrixLC_Controller.cpp                   \
     Controllers/AsusAuraUSBController/ROGStrixLC_Controller.cpp                                 \
     Controllers/AsusLegacyUSBController/AsusCerberusKeyboardController.cpp                      \

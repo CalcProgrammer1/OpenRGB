@@ -1,5 +1,5 @@
 /*-----------------------------------------*\
-|  RGBController_AsusAuraStrixEvolve.cpp    |
+|  RGBController_AsusROGStrixEvolve.cpp     |
 |                                           |
 |  Generic RGB Interface for Asus Aura      |
 |  USB controller driver                    |
@@ -7,7 +7,7 @@
 |  Mola19 11/30/2021                        |
 \*-----------------------------------------*/
 
-#include "RGBController_AsusAuraStrixEvolve.h"
+#include "RGBController_AsusROGStrixEvolve.h"
 
 /**------------------------------------------------------------------*\
     @name Asus Aura Strix Evolve
@@ -20,7 +20,7 @@
     @comment
 \*-------------------------------------------------------------------*/
 
-RGBController_AuraStrixEvolve::RGBController_AuraStrixEvolve(AuraStrixEvolveController* controller_ptr)
+RGBController_AsusROGStrixEvolve::RGBController_AsusROGStrixEvolve(AsusAuraMouseGen1Controller* controller_ptr)
 {
     controller                  = controller_ptr;
 
@@ -34,53 +34,53 @@ RGBController_AuraStrixEvolve::RGBController_AuraStrixEvolve(AuraStrixEvolveCont
 
     mode Direct;
     Direct.name                 = "Direct";
-    Direct.value                = 1;
+    Direct.value                = ASUS_ROG_STRIX_EVOLVE_MODE_DIRECT;
     Direct.flags                = MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_MANUAL_SAVE | MODE_FLAG_HAS_BRIGHTNESS;
-    Direct.brightness_min       = AURA_STRIX_EVOLVE_BRIGHTNESS_MIN;
-    Direct.brightness_max       = AURA_STRIX_EVOLVE_BRIGHTNESS_MAX;
-    Direct.brightness           = AURA_STRIX_EVOLVE_BRIGHTNESS_DEFAULT;
+    Direct.brightness_min       = ASUS_ROG_STRIX_EVOLVE_BRIGHTNESS_MIN;
+    Direct.brightness_max       = ASUS_ROG_STRIX_EVOLVE_BRIGHTNESS_MAX;
+    Direct.brightness           = ASUS_ROG_STRIX_EVOLVE_BRIGHTNESS_DEFAULT;
     Direct.color_mode           = MODE_COLORS_PER_LED;
     modes.push_back(Direct);
 
     mode Breathing;
     Breathing.name              = "Breathing";
-    Breathing.value             = 2;
+    Breathing.value             = ASUS_ROG_STRIX_EVOLVE_MODE_BREATHING;
     Breathing.flags             = MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_MANUAL_SAVE | MODE_FLAG_HAS_BRIGHTNESS;
-    Breathing.brightness_min    = AURA_STRIX_EVOLVE_BRIGHTNESS_MIN;
-    Breathing.brightness_max    = AURA_STRIX_EVOLVE_BRIGHTNESS_MAX;
-    Breathing.brightness        = AURA_STRIX_EVOLVE_BRIGHTNESS_DEFAULT;
+    Breathing.brightness_min    = ASUS_ROG_STRIX_EVOLVE_BRIGHTNESS_MIN;
+    Breathing.brightness_max    = ASUS_ROG_STRIX_EVOLVE_BRIGHTNESS_MAX;
+    Breathing.brightness        = ASUS_ROG_STRIX_EVOLVE_BRIGHTNESS_DEFAULT;
     Breathing.color_mode        = MODE_COLORS_PER_LED;
     modes.push_back(Breathing);
 
     mode ColorCycle;
     ColorCycle.name             = "Spectrum Cycle";
-    ColorCycle.value            = 3;
+    ColorCycle.value            = ASUS_ROG_STRIX_EVOLVE_MODE_SPECTRUM_CYCLE;
     ColorCycle.flags            = MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_MANUAL_SAVE;
-    ColorCycle.brightness_min   = AURA_STRIX_EVOLVE_BRIGHTNESS_MIN;
-    ColorCycle.brightness_max   = AURA_STRIX_EVOLVE_BRIGHTNESS_MAX;
-    ColorCycle.brightness       = AURA_STRIX_EVOLVE_BRIGHTNESS_DEFAULT;
+    ColorCycle.brightness_min   = ASUS_ROG_STRIX_EVOLVE_BRIGHTNESS_MIN;
+    ColorCycle.brightness_max   = ASUS_ROG_STRIX_EVOLVE_BRIGHTNESS_MAX;
+    ColorCycle.brightness       = ASUS_ROG_STRIX_EVOLVE_BRIGHTNESS_DEFAULT;
     ColorCycle.color_mode       = MODE_COLORS_NONE;
     modes.push_back(ColorCycle);
 
     mode Reactive;
     Reactive.name               = "Reactive";
-    Reactive.value              = 4;
+    Reactive.value              = ASUS_ROG_STRIX_EVOLVE_MODE_REACTIVE;
     Reactive.flags              = MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_MANUAL_SAVE | MODE_FLAG_HAS_BRIGHTNESS;
-    Reactive.brightness_min     = AURA_STRIX_EVOLVE_BRIGHTNESS_MIN;
-    Reactive.brightness_max     = AURA_STRIX_EVOLVE_BRIGHTNESS_MAX;
-    Reactive.brightness         = AURA_STRIX_EVOLVE_BRIGHTNESS_DEFAULT;
+    Reactive.brightness_min     = ASUS_ROG_STRIX_EVOLVE_BRIGHTNESS_MIN;
+    Reactive.brightness_max     = ASUS_ROG_STRIX_EVOLVE_BRIGHTNESS_MAX;
+    Reactive.brightness         = ASUS_ROG_STRIX_EVOLVE_BRIGHTNESS_DEFAULT;
     Reactive.color_mode         = MODE_COLORS_PER_LED;
     modes.push_back(Reactive);
 
     SetupZones();
 }
 
-RGBController_AuraStrixEvolve::~RGBController_AuraStrixEvolve()
+RGBController_AsusROGStrixEvolve::~RGBController_AsusROGStrixEvolve()
 {
     delete controller;
 }
 
-void RGBController_AuraStrixEvolve::SetupZones()
+void RGBController_AsusROGStrixEvolve::SetupZones()
 {
     zone mouse_zone;
 
@@ -103,58 +103,48 @@ void RGBController_AuraStrixEvolve::SetupZones()
     SetupColors();
 }
 
-void RGBController_AuraStrixEvolve::ResizeZone(int /*zone*/, int /*new_size*/)
+void RGBController_AsusROGStrixEvolve::ResizeZone(int /*zone*/, int /*new_size*/)
 {
 
 }
 
-void RGBController_AuraStrixEvolve::DeviceUpdateLEDs()
+void RGBController_AsusROGStrixEvolve::DeviceUpdateLEDs()
 {
-    unsigned char red = RGBGetRValue(colors[0]);
-    unsigned char grn = RGBGetGValue(colors[0]);
-    unsigned char blu = RGBGetBValue(colors[0]);
-
-    controller->SendUpdate(0x1C, red);
-    controller->SendUpdate(0x1D, grn);
-    controller->SendUpdate(0x1E, blu);
+    UpdateSingleLED(0);
 }
 
-void RGBController_AuraStrixEvolve::UpdateZoneLEDs(int /*zone*/)
+void RGBController_AsusROGStrixEvolve::UpdateZoneLEDs(int zone)
 {
-    DeviceUpdateLEDs();
+    UpdateSingleLED(zone);
 }
 
-void RGBController_AuraStrixEvolve::UpdateSingleLED(int /*led*/)
+void RGBController_AsusROGStrixEvolve::UpdateSingleLED(int led)
 {
-    DeviceUpdateLEDs();
+    controller->SendUpdate(0x1C, RGBGetRValue(colors[0]));
+    controller->SendUpdate(0x1D, RGBGetGValue(colors[0]));
+    controller->SendUpdate(0x1E, RGBGetBValue(colors[0]));
 }
 
-void RGBController_AuraStrixEvolve::DeviceUpdateMode()
+void RGBController_AsusROGStrixEvolve::DeviceUpdateMode()
 {
-    unsigned char red = RGBGetRValue(colors[0]);
-    unsigned char grn = RGBGetGValue(colors[0]);
-    unsigned char blu = RGBGetBValue(colors[0]);
-
     controller->SendUpdate(0x19, modes[active_mode].value);
     controller->SendUpdate(0x1A, modes[active_mode].brightness);
-    controller->SendUpdate(0x1C, red);
-    controller->SendUpdate(0x1D, grn);
-    controller->SendUpdate(0x1E, blu);
 }
 
-void RGBController_AuraStrixEvolve::DeviceSaveMode()
+void RGBController_AsusROGStrixEvolve::DeviceSaveMode()
 {
-    unsigned char red = RGBGetRValue(colors[0]);
-    unsigned char grn = RGBGetGValue(colors[0]);
-    unsigned char blu = RGBGetBValue(colors[0]);
-
     unsigned int profile = controller->GetActiveProfile();
+
 
     controller->UpdateProfile(0x19, profile, modes[active_mode].value);
     controller->UpdateProfile(0x1A, profile, modes[active_mode].brightness);
-    controller->UpdateProfile(0x1C, profile, red);
-    controller->UpdateProfile(0x1D, profile, grn);
-    controller->UpdateProfile(0x1E, profile, blu);
 
-    controller->SendSavePacket();
+    if(modes[active_mode].value != ASUS_ROG_STRIX_EVOLVE_MODE_SPECTRUM_CYCLE)
+    {
+        controller->UpdateProfile(0x1C, profile, RGBGetRValue(colors[0]));
+        controller->UpdateProfile(0x1D, profile, RGBGetGValue(colors[0]));
+        controller->UpdateProfile(0x1E, profile, RGBGetBValue(colors[0]));
+    }
+
+    controller->ResetToSavedLighting();
 }

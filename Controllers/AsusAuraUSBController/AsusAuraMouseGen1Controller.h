@@ -1,5 +1,5 @@
 /*-----------------------------------------*\
-|  AsusAuraStrixEvolveController.h          |
+|  AsusAuraMouseGen1Controller.h            |
 |                                           |
 |  Definitions and types for ASUS Aura      |
 |  USB RGB lighting controller              |
@@ -10,17 +10,18 @@
 #include "RGBController.h"
 
 #include <string>
+#include <vector>
 #include <hidapi/hidapi.h>
 
 #pragma once
 
 #define HID_MAX_STR 255
 
-class AuraStrixEvolveController
+class AsusAuraMouseGen1Controller
 {
 public:
-    AuraStrixEvolveController(hid_device* dev_handle, const char* path, uint16_t pid);
-    virtual ~AuraStrixEvolveController();
+    AsusAuraMouseGen1Controller(hid_device* dev_handle, const char* path, uint16_t pid);
+    virtual ~AsusAuraMouseGen1Controller();
 
     std::string GetDeviceLocation();
     std::string GetSerialString();
@@ -39,8 +40,9 @@ public:
         unsigned char   profile,
         unsigned char   value
         );
+    void SendDirectSpatha(std::vector<RGBColor> colors);
 
-    void SendSavePacket();
+    void ResetToSavedLighting();
 
     uint16_t                    device_pid;
 
