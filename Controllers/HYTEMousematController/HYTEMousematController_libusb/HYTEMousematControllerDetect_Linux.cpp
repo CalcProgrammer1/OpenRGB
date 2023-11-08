@@ -1,5 +1,4 @@
 #include "Detector.h"
-#include "HYTEMousematController.h"
 #include "RGBController.h"
 #include "RGBController_HYTEMousemat.h"
 #include <vector>

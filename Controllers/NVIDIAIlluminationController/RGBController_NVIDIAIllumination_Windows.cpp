@@ -45,8 +45,7 @@
 \*-------------------------------------------------------------------*/
 
 
-#include "RGBController_NVIDIAIllumination.h"
-#include "NVIDIAIlluminationV1Controller.h"
+#include "RGBController_NVIDIAIllumination_Windows.h"
 #include <array>
 
 RGBController_NVIDIAIlluminationV1::RGBController_NVIDIAIlluminationV1(NVIDIAIlluminationV1Controller* controller_ptr)

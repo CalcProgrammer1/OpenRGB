@@ -1,6 +1,6 @@
 #ifdef _WIN32
 
-#include "AsusTUFLaptopController.h"
+#include "AsusTUFLaptopController_Windows.h"
 
 #include <Objbase.h>
 #include <setupapi.h>

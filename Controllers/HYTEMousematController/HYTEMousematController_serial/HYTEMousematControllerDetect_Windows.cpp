@@ -1,5 +1,5 @@
 #include "Detector.h"
-#include "HYTEMousematController.h"
+#include "HYTEMousematController_Windows.h"
 #include "RGBController.h"
 #include "RGBController_HYTEMousemat.h"
 #include "find_usb_serial_port.h"

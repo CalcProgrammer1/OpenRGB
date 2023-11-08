@@ -12,7 +12,7 @@
 #include <string>
 #include <vector>
 #include <cstring>
-#include "nvapi_accessor.h"
+#include "nvapi_accessor_Windows.h"
 #include "RGBController.h"
 #include "LogManager.h"
 

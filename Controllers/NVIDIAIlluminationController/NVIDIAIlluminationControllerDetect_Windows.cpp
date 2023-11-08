@@ -11,7 +11,7 @@
 
 #include "LogManager.h"
 #include "RGBController.h"
-#include "RGBController_NVIDIAIllumination.h"
+#include "RGBController_NVIDIAIllumination_Windows.h"
 
 #include "pci_ids.h"
 #include <vector>

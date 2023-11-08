@@ -7,7 +7,7 @@
 |  Carter Miller (GingerRunner) 6/20/2022   |
 \*-----------------------------------------*/
 
-#include "nvapi_accessor.h"
+#include "nvapi_accessor_Windows.h"
 #include <thread>
 #include <chrono>
 

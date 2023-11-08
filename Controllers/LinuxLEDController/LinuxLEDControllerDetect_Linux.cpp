@@ -1,7 +1,6 @@
 #include "Detector.h"
-#include "LinuxLEDController.h"
 #include "RGBController.h"
-#include "RGBController_LinuxLED.h"
+#include "RGBController_LinuxLED_Linux.h"
 #include "SettingsManager.h"
 #include <vector>
 #include <stdio.h>

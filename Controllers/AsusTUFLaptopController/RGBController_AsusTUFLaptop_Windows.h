@@ -3,7 +3,7 @@
 #ifndef RGBCONTROLLER_ASUSTUFLAPTOPWMI_H
 #define RGBCONTROLLER_ASUSTUFLAPTOPWMI_H
 
-#include "AsusTUFLaptopController.h"
+#include "AsusTUFLaptopController_Windows.h"
 #include "RGBController.h"
 
 class RGBController_AsusTUFLaptopWMI : public RGBController

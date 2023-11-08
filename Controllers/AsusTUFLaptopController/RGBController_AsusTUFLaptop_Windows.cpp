@@ -1,6 +1,6 @@
 #ifdef _WIN32
 
-#include "RGBController_AsusTUFLaptopWMI.h"
+#include "RGBController_AsusTUFLaptop_Windows.h"
 
 using namespace std::chrono_literals;
 

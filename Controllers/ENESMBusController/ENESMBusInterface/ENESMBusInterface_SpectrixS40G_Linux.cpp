@@ -7,7 +7,7 @@
 |  Adam Honse (CalcProgrammer1) 11/21/2021  |
 \*-----------------------------------------*/
 
-#include "ENESMBusInterface_SpectrixS40G.h"
+#include "ENESMBusInterface_SpectrixS40G_Linux.h"
 #include <sys/ioctl.h>
 #include <cstring>
 #include <cstdint>

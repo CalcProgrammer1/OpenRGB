@@ -1,6 +1,6 @@
 #include "Detector.h"
 #include "ENESMBusController.h"
-#include "ENESMBusInterface_SpectrixS40G.h"
+#include "ENESMBusInterface_SpectrixS40G_Linux.h"
 #include "LogManager.h"
 #include "RGBController.h"
 #include "RGBController_ENESMBus.h"

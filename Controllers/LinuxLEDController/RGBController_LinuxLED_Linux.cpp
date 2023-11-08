@@ -6,7 +6,7 @@
 |  Adam Honse (CalcProgrammer1) 9/25/2020   |
 \*-----------------------------------------*/
 
-#include "RGBController_LinuxLED.h"
+#include "RGBController_LinuxLED_Linux.h"
 
 /**------------------------------------------------------------------*\
     @name Dummy

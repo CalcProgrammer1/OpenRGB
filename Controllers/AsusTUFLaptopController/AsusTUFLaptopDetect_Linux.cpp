@@ -1,5 +1,4 @@
-#include "RGBController_AsusTUFLaptopLinux.h"
-#include "AsusTUFLaptopLinuxController.h"
+#include "RGBController_AsusTUFLaptop_Linux.h"
 
 #include <string>
 #include "Detector.h"

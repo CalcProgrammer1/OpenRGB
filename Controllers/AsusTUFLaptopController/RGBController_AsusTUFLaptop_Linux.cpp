@@ -1,4 +1,4 @@
-#include "RGBController_AsusTUFLaptopLinux.h"
+#include "RGBController_AsusTUFLaptop_Linux.h"
 
 /**------------------------------------------------------------------*\
     @name Asus TUF Laptop Linux WMI

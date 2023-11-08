@@ -1,4 +1,4 @@
-#include "RGBController_Faustus.h"
+#include "RGBController_Faustus_Linux.h"
 #include "Detector.h"
 #include <dirent.h>
 #include <string.h>

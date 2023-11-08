@@ -10,7 +10,11 @@
 #pragma once
 
 #include "RGBController.h"
-#include "HYTEMousematController.h"
+#ifdef _WIN32
+#include "HYTEMousematController_Windows.h"
+#else
+#include "HYTEMousematController_Linux.h"
+#endif
 
 enum
 {

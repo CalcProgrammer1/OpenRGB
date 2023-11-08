@@ -8,7 +8,7 @@
 
 #pragma once
 #include "RGBController.h"
-#include "LinuxLEDController.h"
+#include "LinuxLEDController_Linux.h"
 
 class RGBController_LinuxLED : public RGBController
 {

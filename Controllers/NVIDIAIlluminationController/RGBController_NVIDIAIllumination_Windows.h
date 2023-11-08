@@ -11,7 +11,7 @@
 #pragma once
 
 #include "RGBController.h"
-#include "NVIDIAIlluminationV1Controller.h"
+#include "NVIDIAIlluminationV1Controller_Windows.h"
 #include <map>
 
 #define NVIDIA_FOUNDERS_V1_CONTROLLER_NAME   "NVIDIA_FOUNDERS_V1"

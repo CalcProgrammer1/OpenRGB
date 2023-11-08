@@ -6,7 +6,7 @@
 |  Carter Miller (GingerRunner) 1/5/2022          |
 \*-----------------------------------------------*/
 
-#include "NVIDIAIlluminationV1Controller.h"
+#include "NVIDIAIlluminationV1Controller_Windows.h"
 
 NVIDIAIlluminationV1Controller::NVIDIAIlluminationV1Controller(nvapi_accessor* nvapi_ptr, bool treats_rgbw_as_rgb)
 {

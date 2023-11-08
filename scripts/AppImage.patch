@@ -1,14 +1,14 @@
 --- a/OpenRGB.pro	2022-05-02 15:26:15.375947000 +0200
 +++ b/OpenRGB.pro	2022-05-02 15:29:01.997135000 +0200
-@@ -1310,8 +1310,6 @@
+@@ -447,8 +447,6 @@
  # Linux-specific Configuration                                                                  #
  #-----------------------------------------------------------------------------------------------#
  contains(QMAKE_PLATFORM, linux) {
 -    TARGET = $$lower($$TARGET)
 -
-     INCLUDEPATH +=                                                                              \
-     Controllers/FaustusController                                                               \
-     Controllers/LinuxLEDController                                                              \
+     HEADERS -= $$CONTROLLER_H_WIN
+ 
+     HEADERS +=                                                                                  \
 --- a/qt/OpenRGB.desktop	2022-05-02 15:25:52.150332000 +0200
 +++ b/qt/OpenRGB.desktop	2022-05-02 15:28:27.749598000 +0200
 @@ -3,7 +3,7 @@

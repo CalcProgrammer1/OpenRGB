@@ -2,7 +2,7 @@
 #define RGBCONTROLLER_ASUSTUFLAPTOPLINUX_H
 
 #include "RGBController.h"
-#include "AsusTUFLaptopLinuxController.h"
+#include "AsusTUFLaptopController_Linux.h"
 
 
 class RGBController_AsusTUFLaptopLinux : public RGBController
