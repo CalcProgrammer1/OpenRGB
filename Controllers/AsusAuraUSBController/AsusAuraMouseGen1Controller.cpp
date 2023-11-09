@@ -114,6 +114,8 @@ void AsusAuraMouseGen1Controller::SendUpdate
     unsigned char buf_in[9];
     buf_in[0] = 0x0C;
     hid_get_feature_report(dev, buf_in, 9);
+    
+    std::this_thread::sleep_for(std::chrono::milliseconds(15));
 }
 
 
