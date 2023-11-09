@@ -233,6 +233,7 @@ void DetectLianLiGAIITrinity(hid_device_info* info, const std::string& /*name*/)
     {
         LianLiGAIITrinityController*     controller     = new LianLiGAIITrinityController(dev);
         RGBController_LianLiGAIITrinity* rgb_controller = new RGBController_LianLiGAIITrinity(controller);
+        rgb_controller->location                        = "HID: " + std::string(info->path);
         ResourceManager::get()->RegisterRGBController(rgb_controller);
     }
 }

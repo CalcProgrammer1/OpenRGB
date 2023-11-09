@@ -9,11 +9,6 @@
 #include "RGBController.h"
 #include "hidapi/hidapi.h"
 #include <vector>
-#ifdef __FreeBSD__
-#include <libusb.h>
-#else
-#include <libusb-1.0/libusb.h>
-#endif
 
 #pragma once
 
@@ -26,7 +21,6 @@ class LianLiGAIITrinityController
 public:
     struct GAII_Info
     {
-        std::string location;
         std::string serial;
         std::string version;
     };

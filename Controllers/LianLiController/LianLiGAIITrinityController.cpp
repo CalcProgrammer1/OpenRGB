@@ -29,13 +29,12 @@ LianLiGAIITrinityController::GAII_Info LianLiGAIITrinityController::GetControlle
 {
     GAII_Info controllerInfo;
 
-    hid_device_info* hidInfo = hid_get_device_info(dev);
-
-    // get device location
-    controllerInfo.location = "HID: " + std::string(hidInfo->path);
-
     // get serial number
-    std::wstring serialWStr(hidInfo->serial_number);
+    const uint8_t sz    = 255;
+    wchar_t       tmp[sz];
+
+    hid_get_serial_number_string(dev, tmp, sz);
+    std::wstring serialWStr = std::wstring(tmp);
     controllerInfo.serial = std::string(serialWStr.begin(), serialWStr.end());
 
     // get firmware version

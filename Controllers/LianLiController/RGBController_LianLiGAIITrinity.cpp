@@ -31,7 +31,6 @@ RGBController_LianLiGAIITrinity::RGBController_LianLiGAIITrinity(LianLiGAIITrini
 
     LianLiGAIITrinityController::GAII_Info controllerInfo = controller->GetControllerInfo();
     version     = controllerInfo.version;
-    location    = controllerInfo.location;
     serial      = controllerInfo.serial;
 
     mode Rainbow;
