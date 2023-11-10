@@ -4,12 +4,17 @@
 |  Adam Honse (calcprogrammer1@gmail.com), 1/12/2020        |
 \*---------------------------------------------------------*/
 
+#include "DeviceGuardManager.h"
 #include "RGBController.h"
+
 #include <chrono>
 #include <vector>
 #include <hidapi/hidapi.h>
 
 #pragma once
+
+#define CORSAIR_LIGHTING_NODE_WRITE_PACKET_SIZE      65          /* First byte is the report number      */
+#define CORSAIR_LIGHTING_NODE_READ_PACKET_SIZE       17          /* First byte is the report number      */
 
 enum
 {
@@ -89,7 +94,7 @@ public:
     unsigned int    GetStripsOnChannel(unsigned int channel);
 
     void            SetBrightness(unsigned char brightness);
-    
+
     void            SetChannelEffect(unsigned char channel,
                                      unsigned char num_leds,
                                      unsigned char mode,
@@ -112,12 +117,13 @@ public:
     void            KeepaliveThread();
 
 private:
-    hid_device*             dev;
-    std::string             firmware_version;
-    std::string             location;
-    std::thread*            keepalive_thread;
-    std::atomic<bool>       keepalive_thread_run;
-    std::chrono::time_point<std::chrono::steady_clock> last_commit_time;
+    hid_device*                                         dev;
+    std::string                                         firmware_version;
+    std::string                                         location;
+    std::thread*                                        keepalive_thread;
+    std::atomic<bool>                                   keepalive_thread_run;
+    std::chrono::time_point<std::chrono::steady_clock>  last_commit_time;
+    DeviceGuardManager*                                 guard_manager_ptr;
 
     void            SendFirmwareRequest();
 
@@ -182,4 +188,10 @@ private:
     void            SendLEDCount();
 
     void            SendProtocol();
+
+    int             WriteAndRead
+                        (
+                        unsigned char *buf,
+                        int read_timeout_ms = -1
+                        );
 };

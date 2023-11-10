@@ -78,6 +78,7 @@ INCLUDEPATH +=                                                                  
     hidapi_wrapper/                                                                             \
     i2c_smbus/                                                                                  \
     i2c_tools/                                                                                  \
+    interop/                                                                                    \
     net_port/                                                                                   \
     pci_ids/                                                                                    \
     scsiapi/                                                                                    \
@@ -124,6 +125,7 @@ INCLUDEPATH +=                                                                  
     Controllers/AsusAuraUSBController/                                                          \
     Controllers/CherryKeyboardController/                                                       \
     Controllers/CoolerMasterController/                                                         \
+    Controllers/CorsairController/                                                              \
     Controllers/CorsairCommanderCoreController/                                                 \
     Controllers/CorsairDominatorPlatinumController/                                             \
     Controllers/CorsairHydroController/                                                         \
@@ -269,6 +271,9 @@ HEADERS +=                                                                      
     hidapi_wrapper/hidapi_wrapper.h                                                             \
     i2c_smbus/i2c_smbus.h                                                                       \
     i2c_tools/i2c_tools.h                                                                       \
+    interop/DeviceGuard.h                                                                       \
+    interop/DeviceGuardLock.h                                                                   \
+    interop/DeviceGuardManager.h                                                                \
     net_port/net_port.h                                                                         \
     pci_ids/pci_ids.h                                                                           \
     qt/DeviceView.h                                                                             \
@@ -419,6 +424,7 @@ HEADERS +=                                                                      
     Controllers/CoolerMasterController/RGBController_CMSmallARGBController.h                    \
     Controllers/CorsairCommanderCoreController/CorsairCommanderCoreController.h                 \
     Controllers/CorsairCommanderCoreController/RGBController_CorsairCommanderCore.h             \
+    Controllers/CorsairController/CorsairDeviceGuard.h                                          \
     Controllers/CorsairDominatorPlatinumController/CorsairDominatorPlatinumController.h         \
     Controllers/CorsairDominatorPlatinumController/RGBController_CorsairDominatorPlatinum.h     \
     Controllers/CorsairHydroController/CorsairHydroController.h                                 \
@@ -877,6 +883,9 @@ SOURCES +=                                                                      
     qt/DetectorTableModel.cpp                                                                   \
     i2c_smbus/i2c_smbus.cpp                                                                     \
     i2c_tools/i2c_tools.cpp                                                                     \
+    interop/DeviceGuard.cpp                                                                     \
+    interop/DeviceGuardLock.cpp                                                                 \
+    interop/DeviceGuardManager.cpp                                                              \
     net_port/net_port.cpp                                                                       \
     qt/DeviceView.cpp                                                                           \
     qt/hsv.cpp                                                                                  \
@@ -1044,6 +1053,7 @@ SOURCES +=                                                                      
     Controllers/CorsairCommanderCoreController/CorsairCommanderCoreController.cpp               \
     Controllers/CorsairCommanderCoreController/CorsairCommanderCoreControllerDetect.cpp         \
     Controllers/CorsairCommanderCoreController/RGBController_CorsairCommanderCore.cpp           \
+    Controllers/CorsairController/CorsairDeviceGuard.cpp                                        \
     Controllers/CorsairDominatorPlatinumController/CorsairDominatorPlatinumController.cpp       \
     Controllers/CorsairDominatorPlatinumController/CorsairDominatorPlatinumControllerDetect.cpp \
     Controllers/CorsairDominatorPlatinumController/RGBController_CorsairDominatorPlatinum.cpp   \

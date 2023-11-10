@@ -9,14 +9,11 @@
 \*---------------------------------------------------------*/
 
 #include "RGBController.h"
+#include "DeviceGuardManager.h"
 
 #include <vector>
 #include <chrono>
 #include <hidapi/hidapi.h>
-
-#ifdef _WIN32
-#include <Windows.h>
-#endif
 
 #pragma once
 
@@ -27,10 +24,6 @@
 #define CORSAIR_COMMANDER_CORE_RGB_DATA_LENGTH  699
 #define CORSAIR_QL_FAN_ZONE_OFFSET              102
 #define CORSAIR_COMMANDER_CORE_NUM_CHANNELS     6
-
-#ifdef _WIN32
-#define GLOBAL_CORSAIR_MUTEX_NAME "Global\\CorsairLinkReadWriteGuardMutex"
-#endif
 
 enum
 {
@@ -56,23 +49,20 @@ public:
     void        SetFanMode();
 
 private:
-    hid_device*             dev;
-    std::thread*            keepalive_thread;
-    std::atomic<bool>       keepalive_thread_run;
-    std::atomic<bool>       controller_ready;
-    std::string             location;
-    std::vector<RGBColor>   lastcolors;
-    std::vector<zone>       lastzones;
-    unsigned short int      version[3] = {0, 0, 0};
-    int                     packet_size;
-    int                     command_res_size;
-    int                     pid;
-    std::chrono::time_point<std::chrono::steady_clock> last_commit_time;
+    hid_device*                                         dev;
+    std::thread*                                        keepalive_thread;
+    std::atomic<bool>                                   keepalive_thread_run;
+    std::atomic<bool>                                   controller_ready;
+    std::string                                         location;
+    std::vector<RGBColor>                               lastcolors;
+    std::vector<zone>                                   lastzones;
+    unsigned short int                                  version[3] = {0, 0, 0};
+    int                                                 packet_size;
+    int                                                 command_res_size;
+    int                                                 pid;
+    std::chrono::time_point<std::chrono::steady_clock>  last_commit_time;
+    DeviceGuardManager*                                 guard_manager_ptr;
 
-#ifdef _WIN32
-    HANDLE                  global_corsair_access_handle = NULL;
-#endif
-    
     void        SendCommand(unsigned char command[2], unsigned char data[], unsigned short int data_len, unsigned char res[]);
     void        WriteData(unsigned char endpoint[2], unsigned char data_type[2], unsigned char data[], unsigned short int data_len);
 

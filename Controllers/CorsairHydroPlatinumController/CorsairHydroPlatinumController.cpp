@@ -8,6 +8,7 @@
 \*-------------------------------------------------------------------*/
 
 #include "CorsairHydroPlatinumController.h"
+#include "CorsairDeviceGuard.h"
 #include <cstring>
 
 static const uint8_t CRC_TABLE[256] =
@@ -86,6 +87,7 @@ CorsairHydroPlatinumController::CorsairHydroPlatinumController(hid_device* dev_h
 {
     dev         = dev_handle;
     location    = path;
+    guard_manager_ptr = new DeviceGuardManager(new CorsairDeviceGuard());
 
     SendMagic(MAGIC_1, CORSAIR_HYDRO_PLATINUM_MAGIC_1);
     SendMagic(MAGIC_2, CORSAIR_HYDRO_PLATINUM_MAGIC_2);
@@ -95,6 +97,7 @@ CorsairHydroPlatinumController::CorsairHydroPlatinumController(hid_device* dev_h
 CorsairHydroPlatinumController::~CorsairHydroPlatinumController()
 {
     hid_close(dev);
+    delete guard_manager_ptr;
 }
 
 std::string CorsairHydroPlatinumController::GetLocation()
@@ -152,8 +155,18 @@ void CorsairHydroPlatinumController::SendMagic(const uint8_t* magic, unsigned in
     /*-----------------------------------------------------*\
     | Send packet                                           |
     \*-----------------------------------------------------*/
-    hid_write(dev, usb_buf, CORSAIR_HYDRO_PLATINUM_PACKET_SIZE);
-    hid_read(dev, usb_buf, CORSAIR_HYDRO_PLATINUM_PACKET_SIZE);
+    /*---------------------------------------------------------*\
+    | HID I/O start                                             |
+    \*---------------------------------------------------------*/
+    {
+        DeviceGuardLock _ = guard_manager_ptr->AwaitExclusiveAccess();
+
+        hid_write(dev, usb_buf, CORSAIR_HYDRO_PLATINUM_PACKET_SIZE);
+        hid_read(dev, usb_buf, CORSAIR_HYDRO_PLATINUM_PACKET_SIZE);
+    }
+    /*---------------------------------------------------------*\
+    | HID I/O end (lock released)                               |
+    \*---------------------------------------------------------*/
 
     if(firmware_version.empty())
     {
@@ -204,8 +217,17 @@ void CorsairHydroPlatinumController::SendColors(std::vector<RGBColor> colors, un
     checksum_array.insert(checksum_array.begin(), std::begin(usb_buf) + 2, std::end(usb_buf) - 1);
     usb_buf[64] = ComputePEC(static_cast<void*>(checksum_array.data()), 62);
 
-    hid_write(dev, usb_buf, CORSAIR_HYDRO_PLATINUM_PACKET_SIZE);
-    hid_read(dev, usb_buf, CORSAIR_HYDRO_PLATINUM_PACKET_SIZE);
+    /*---------------------------------------------------------*\
+    | HID I/O start                                             |
+    \*---------------------------------------------------------*/
+    {
+        DeviceGuardLock _ = guard_manager_ptr->AwaitExclusiveAccess();
+
+        hid_write(dev, usb_buf, CORSAIR_HYDRO_PLATINUM_PACKET_SIZE);
+    }
+    /*---------------------------------------------------------*\
+    | HID I/O end (lock released)                               |
+    \*---------------------------------------------------------*/
 
     /*-----------------------------------------------------*\
     | This delay prevents the AIO from soft-locking when    |

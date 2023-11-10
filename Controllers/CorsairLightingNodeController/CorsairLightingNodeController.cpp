@@ -5,6 +5,7 @@
 \*---------------------------------------------------------*/
 
 #include "CorsairLightingNodeController.h"
+#include "CorsairDeviceGuard.h"
 
 #include <fstream>
 #include <iostream>
@@ -17,6 +18,7 @@ CorsairLightingNodeController::CorsairLightingNodeController(hid_device* dev_han
 {
     dev         = dev_handle;
     location    = path;
+    guard_manager_ptr = new DeviceGuardManager(new CorsairDeviceGuard());
 
     SendFirmwareRequest();
 
@@ -37,6 +39,7 @@ CorsairLightingNodeController::~CorsairLightingNodeController()
     delete keepalive_thread;
 
     hid_close(dev);
+    delete guard_manager_ptr;
 }
 
 void CorsairLightingNodeController::KeepaliveThread()
@@ -176,7 +179,7 @@ void CorsairLightingNodeController::SetChannelLEDs(unsigned char channel, RGBCol
         {
             pkt_size = 50;
         }
-        
+
         for(int color_idx = 0; color_idx < pkt_size; color_idx++)
         {
             red_color_data[color_idx] = RGBGetRValue(colors[pkt_offset + color_idx]);
@@ -205,7 +208,7 @@ void CorsairLightingNodeController::SetChannelLEDs(unsigned char channel, RGBCol
 void CorsairLightingNodeController::SendFirmwareRequest()
 {
     int             actual;
-    unsigned char   usb_buf[65];
+    unsigned char   usb_buf[CORSAIR_LIGHTING_NODE_WRITE_PACKET_SIZE];
 
     /*-----------------------------------------------------*\
     | Zero out buffer                                       |
@@ -221,8 +224,7 @@ void CorsairLightingNodeController::SendFirmwareRequest()
     /*-----------------------------------------------------*\
     | Send packet                                           |
     \*-----------------------------------------------------*/
-    hid_write(dev, usb_buf, 65);
-    actual = hid_read(dev, usb_buf, 17);
+    actual = WriteAndRead(usb_buf);
 
     if(actual > 0)
     {
@@ -239,7 +241,7 @@ void CorsairLightingNodeController::SendDirect
     unsigned char*  color_data
     )
 {
-    unsigned char   usb_buf[65];
+    unsigned char   usb_buf[CORSAIR_LIGHTING_NODE_WRITE_PACKET_SIZE];
 
     /*-----------------------------------------------------*\
     | Zero out buffer                                       |
@@ -264,13 +266,12 @@ void CorsairLightingNodeController::SendDirect
     /*-----------------------------------------------------*\
     | Send packet                                           |
     \*-----------------------------------------------------*/
-    hid_write(dev, usb_buf, 65);
-    hid_read_timeout(dev, usb_buf, 17, 5);
+    WriteAndRead(usb_buf, 5);
 }
 
 void CorsairLightingNodeController::SendCommit()
 {
-    unsigned char   usb_buf[65];
+    unsigned char   usb_buf[CORSAIR_LIGHTING_NODE_WRITE_PACKET_SIZE];
 
     /*-----------------------------------------------------*\
     | Zero out buffer                                       |
@@ -292,8 +293,7 @@ void CorsairLightingNodeController::SendCommit()
     /*-----------------------------------------------------*\
     | Send packet                                           |
     \*-----------------------------------------------------*/
-    hid_write(dev, usb_buf, 65);
-    hid_read_timeout(dev, usb_buf, 17, 5);
+    WriteAndRead(usb_buf, 5);
 }
 
 void CorsairLightingNodeController::SendBegin
@@ -301,7 +301,7 @@ void CorsairLightingNodeController::SendBegin
     unsigned char   channel
     )
 {
-    unsigned char   usb_buf[65];
+    unsigned char   usb_buf[CORSAIR_LIGHTING_NODE_WRITE_PACKET_SIZE];
 
     /*-----------------------------------------------------*\
     | Zero out buffer                                       |
@@ -318,8 +318,7 @@ void CorsairLightingNodeController::SendBegin
     /*-----------------------------------------------------*\
     | Send packet                                           |
     \*-----------------------------------------------------*/
-    hid_write(dev, usb_buf, 65);
-    hid_read(dev, usb_buf, 17);
+    WriteAndRead(usb_buf);
 }
 
 void CorsairLightingNodeController::SendEffectConfig
@@ -345,7 +344,7 @@ void CorsairLightingNodeController::SendEffectConfig
     unsigned short  temperature_2
     )
 {
-    unsigned char   usb_buf[65];
+    unsigned char   usb_buf[CORSAIR_LIGHTING_NODE_WRITE_PACKET_SIZE];
 
     /*-----------------------------------------------------*\
     | Zero out buffer                                       |
@@ -396,8 +395,7 @@ void CorsairLightingNodeController::SendEffectConfig
     /*-----------------------------------------------------*\
     | Send packet                                           |
     \*-----------------------------------------------------*/
-    hid_write(dev, usb_buf, 65);
-    hid_read(dev, usb_buf, 17);
+    WriteAndRead(usb_buf);
 }
 
 void CorsairLightingNodeController::SendTemperature()
@@ -410,7 +408,7 @@ void CorsairLightingNodeController::SendReset
     unsigned char   channel
     )
 {
-    unsigned char   usb_buf[65];
+    unsigned char   usb_buf[CORSAIR_LIGHTING_NODE_WRITE_PACKET_SIZE];
 
     /*-----------------------------------------------------*\
     | Zero out buffer                                       |
@@ -427,8 +425,7 @@ void CorsairLightingNodeController::SendReset
     /*-----------------------------------------------------*\
     | Send packet                                           |
     \*-----------------------------------------------------*/
-    hid_write(dev, usb_buf, 65);
-    hid_read(dev, usb_buf, 17);
+    WriteAndRead(usb_buf);
 }
 
 void CorsairLightingNodeController::SendPortState
@@ -437,7 +434,7 @@ void CorsairLightingNodeController::SendPortState
     unsigned char   state
     )
 {
-    unsigned char   usb_buf[65];
+    unsigned char   usb_buf[CORSAIR_LIGHTING_NODE_WRITE_PACKET_SIZE];
 
     /*-----------------------------------------------------*\
     | Zero out buffer                                       |
@@ -455,8 +452,7 @@ void CorsairLightingNodeController::SendPortState
     /*-----------------------------------------------------*\
     | Send packet                                           |
     \*-----------------------------------------------------*/
-    hid_write(dev, usb_buf, 65);
-    hid_read_timeout(dev, usb_buf, 17, 5);
+    WriteAndRead(usb_buf, 5);
 }
 
 void CorsairLightingNodeController::SendBrightness
@@ -465,7 +461,7 @@ void CorsairLightingNodeController::SendBrightness
     unsigned char   brightness
     )
 {
-    unsigned char   usb_buf[65];
+    unsigned char   usb_buf[CORSAIR_LIGHTING_NODE_WRITE_PACKET_SIZE];
 
     /*-----------------------------------------------------*\
     | Brightness goes from 0-100                            |
@@ -491,8 +487,7 @@ void CorsairLightingNodeController::SendBrightness
     /*-----------------------------------------------------*\
     | Send packet                                           |
     \*-----------------------------------------------------*/
-    hid_write(dev, usb_buf, 65);
-    hid_read(dev, usb_buf, 17);
+    WriteAndRead(usb_buf);
 }
 
 void CorsairLightingNodeController::SendLEDCount()
@@ -503,4 +498,35 @@ void CorsairLightingNodeController::SendLEDCount()
 void CorsairLightingNodeController::SendProtocol()
 {
 
+}
+
+int CorsairLightingNodeController::WriteAndRead
+    (
+    unsigned char *buf,
+    int read_timeout_ms
+    )
+{
+    int hid_read_ret;
+
+    /*---------------------------------------------------------*\
+    | HID I/O start                                             |
+    \*---------------------------------------------------------*/
+    {
+        DeviceGuardLock _ = guard_manager_ptr->AwaitExclusiveAccess();
+
+        hid_write(dev, buf, CORSAIR_LIGHTING_NODE_WRITE_PACKET_SIZE);
+        if(read_timeout_ms > 0)
+        {
+            hid_read_ret = hid_read_timeout(dev, buf, CORSAIR_LIGHTING_NODE_READ_PACKET_SIZE, read_timeout_ms);
+        }
+        else
+        {
+            hid_read_ret = hid_read(dev, buf, CORSAIR_LIGHTING_NODE_READ_PACKET_SIZE);
+        }
+    }
+    /*---------------------------------------------------------*\
+    | HID I/O end (lock released)                               |
+    \*---------------------------------------------------------*/
+
+    return hid_read_ret;
 }

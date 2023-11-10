@@ -7,6 +7,7 @@
 \*---------------------------------------------------------*/
 
 #include "CorsairCommanderCoreController.h"
+#include "CorsairDeviceGuard.h"
 
 #include <cstring>
 #include <iomanip>
@@ -23,9 +24,7 @@ CorsairCommanderCoreController::CorsairCommanderCoreController(hid_device* dev_h
     packet_size             = CORSAIR_COMMANDER_CORE_PACKET_SIZE_V2;
     command_res_size        = packet_size - 4;
     this->pid               = pid;
-#ifdef _WIN32
-    global_corsair_access_handle = CreateMutexA(NULL, FALSE, GLOBAL_CORSAIR_MUTEX_NAME);
-#endif
+    guard_manager_ptr           = new DeviceGuardManager(new CorsairDeviceGuard());
 
     /*-----------------------------------------------------*\
     | Initialize controller                                 |
@@ -43,12 +42,6 @@ CorsairCommanderCoreController::~CorsairCommanderCoreController()
     /*-----------------------------------------------------*\
     | Close keepalive thread                                |
     \*-----------------------------------------------------*/
-#ifdef _WIN32
-    if(global_corsair_access_handle != NULL)
-    {
-        CloseHandle(global_corsair_access_handle);
-    }
-#endif
     keepalive_thread_run = 0;
     keepalive_thread->join();
     delete keepalive_thread;
@@ -57,6 +50,7 @@ CorsairCommanderCoreController::~CorsairCommanderCoreController()
     | Close HID device                                      |
     \*-----------------------------------------------------*/
     hid_close(dev);
+    delete guard_manager_ptr;
 }
 
 void CorsairCommanderCoreController::InitController()
@@ -153,13 +147,6 @@ void CorsairCommanderCoreController::SendCommand(unsigned char command[2], unsig
     \*---------------------------------------------------------*/
     unsigned char* buf = new unsigned char[packet_size];
 
-#ifdef _WIN32
-    if(global_corsair_access_handle != NULL)
-    {
-        WaitForSingleObject(global_corsair_access_handle, INFINITE);
-    }
-#endif
-
     memset(buf, 0, packet_size);
     buf[0] = 0x00;
     buf[1] = 0x08;
@@ -170,24 +157,27 @@ void CorsairCommanderCoreController::SendCommand(unsigned char command[2], unsig
         memcpy(&buf[4], data, data_len);
     }
 
-    hid_write(dev, buf, packet_size);
-    do
+    /*---------------------------------------------------------*\
+    | HID I/O start                                             |
+    \*---------------------------------------------------------*/
     {
-        hid_read(dev, buf, packet_size);
+        DeviceGuardLock _ = guard_manager_ptr->AwaitExclusiveAccess();
+
+        hid_write(dev, buf, packet_size);
+        do
+        {
+            hid_read(dev, buf, packet_size);
+        }
+        while (buf[0] != 0x00);
     }
-    while (buf[0] != 0x00);
+    /*---------------------------------------------------------*\
+    | HID I/O end (lock released)                               |
+    \*---------------------------------------------------------*/
 
     if(res != NULL)
     {
         memcpy(res, &buf[3], command_res_size);
     }
-
-#ifdef _WIN32
-    if(global_corsair_access_handle != NULL)
-    {
-        ReleaseMutex(global_corsair_access_handle);
-    }
-#endif
 
     delete[] buf;
 }
@@ -201,16 +191,8 @@ void CorsairCommanderCoreController::WriteData(unsigned char endpoint[2], unsign
     /*---------------------------------------------------------*\
     | Open endpoint                                             |
     \*---------------------------------------------------------*/
-#ifdef _WIN32
-    if(global_corsair_access_handle != NULL)
-    {
-        WaitForSingleObject(global_corsair_access_handle, INFINITE);
-    }
-#endif
-
     unsigned char command[2] = {0x0d, 0x00};
     SendCommand(command, endpoint, 2, NULL);
-
 
     /*---------------------------------------------------------*\
     | Write data                                                |
@@ -271,13 +253,6 @@ void CorsairCommanderCoreController::WriteData(unsigned char endpoint[2], unsign
     command[0] = 0x05;
     command[1] = 0x01;
     SendCommand(command, NULL, 0, NULL);
-
-#ifdef _WIN32
-    if(global_corsair_access_handle != NULL)
-    {
-        ReleaseMutex(global_corsair_access_handle);
-    }
-#endif
 }
 
 void CorsairCommanderCoreController::SetDirectColor
@@ -371,6 +346,6 @@ void CorsairCommanderCoreController::SetFanMode()
     }
 
     WriteData(endpoint, data_type, buf, 15);
-    
+
     controller_ready    = 1;
 }

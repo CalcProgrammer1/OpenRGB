@@ -10,6 +10,8 @@
 #pragma once
 
 #include "RGBController.h"
+#include "DeviceGuardManager.h"
+
 #include <vector>
 #include <string>
 #include <hidapi/hidapi.h>
@@ -39,11 +41,11 @@ public:
     void SetupColors(std::vector<RGBColor> colors);
 
 private:
-    hid_device* dev;
-    std::string location;
-    std::string firmware_version;
-
-    std::atomic<unsigned int> sequence_number;
+    hid_device*                 dev;
+    std::string                 location;
+    std::string                 firmware_version;
+    std::atomic<unsigned int>   sequence_number;
+    DeviceGuardManager*         guard_manager_ptr;
 
     void SendMagic(const uint8_t* magic, unsigned int command);
     void SendColors(std::vector<RGBColor> colors, unsigned int start, unsigned int end, unsigned int command);
