@@ -45,6 +45,16 @@ RGBController_AuraMouse::RGBController_AuraMouse(AuraMouseController* controller
 
     std::vector<uint8_t> mm = aura_mouse_devices[pid].mouse_modes;
 
+    if(aura_mouse_devices[pid].direct)
+    {
+        mode Direct;
+        Direct.name                 = "Direct";
+        Direct.value                = 254;
+        Direct.flags                = MODE_FLAG_HAS_PER_LED_COLOR;
+        Direct.color_mode           = MODE_COLORS_PER_LED;
+        modes.push_back(Direct);
+    }
+
     int mode_value          = 0;
 
     for(std::vector<uint8_t>::iterator it = mm.begin(); it != mm.end(); it++)
@@ -52,16 +62,24 @@ RGBController_AuraMouse::RGBController_AuraMouse(AuraMouseController* controller
         switch(*it)
         {
             case AURA_MOUSE_MODE_STATIC:
+                /*-----------------------------------------------------------------*\
+                | If there is no direct mode, this mode can be used as direct       |
+                | (Asus does it the same way).                                      |
+                | The acutal direct mode is only found on new devices and on        |
+                | these devices static can't be used as direct anymore as it is     |
+                | too slow. The Spatha X's dock can't be controlled, because        |
+                | static is too slow and it can't be adressed in direct             |
+                \*-----------------------------------------------------------------*/
                 {
-                    mode Direct;
-                    Direct.name                 = "Direct";
-                    Direct.value                = mode_value;
-                    Direct.flags                = MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_MANUAL_SAVE | MODE_FLAG_HAS_BRIGHTNESS;
-                    Direct.brightness_min       = aura_mouse_devices[pid].brightness_min;
-                    Direct.brightness_max       = aura_mouse_devices[pid].brightness_max;
-                    Direct.brightness           = aura_mouse_devices[pid].brightness_max;
-                    Direct.color_mode           = MODE_COLORS_PER_LED;
-                    modes.push_back(Direct);
+                    mode Static;
+                    Static.name                 = (aura_mouse_devices[pid].direct || pid == AURA_ROG_SPATHA_X_DOCK_FAKE_PID)? "Static" : "Direct";
+                    Static.value                = mode_value;
+                    Static.flags                = MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_MANUAL_SAVE | MODE_FLAG_HAS_BRIGHTNESS;
+                    Static.brightness_min       = aura_mouse_devices[pid].brightness_min;
+                    Static.brightness_max       = aura_mouse_devices[pid].brightness_max;
+                    Static.brightness           = aura_mouse_devices[pid].brightness_max;
+                    Static.color_mode           = MODE_COLORS_PER_LED;
+                    modes.push_back(Static);
                 }
                 break;
 
@@ -201,9 +219,16 @@ void RGBController_AuraMouse::ResizeZone(int /*zone*/, int /*new_size*/)
 
 void RGBController_AuraMouse::DeviceUpdateLEDs()
 {
-    for(unsigned int zone_index = 0; zone_index < zones.size(); zone_index++)
+    if(modes[active_mode].value == AURA_MOUSE_MODE_DIRECT)
     {
-        UpdateSingleLED(zone_index);
+        controller->SendDirect(colors);
+    }
+    else
+    {
+        for(unsigned int zone_index = 0; zone_index < zones.size(); zone_index++)
+        {
+            UpdateSingleLED(zone_index);
+        }
     }
 }
 
@@ -214,6 +239,12 @@ void RGBController_AuraMouse::UpdateZoneLEDs(int /*zone*/)
 
 void RGBController_AuraMouse::UpdateSingleLED(int led)
 {
+    if(modes[active_mode].value == AURA_MOUSE_MODE_DIRECT)
+    {
+        DeviceUpdateLEDs();
+        return;
+    }
+
     uint8_t red = RGBGetRValue(colors[led]);
     uint8_t grn = RGBGetGValue(colors[led]);
     uint8_t blu = RGBGetBValue(colors[led]);
@@ -223,6 +254,11 @@ void RGBController_AuraMouse::UpdateSingleLED(int led)
 
 void RGBController_AuraMouse::DeviceUpdateMode()
 {
+    if(modes[active_mode].value == AURA_MOUSE_MODE_DIRECT)
+    {
+        return;
+    }
+
     if(modes[active_mode].color_mode == MODE_COLORS_PER_LED)
     {
         DeviceUpdateLEDs();

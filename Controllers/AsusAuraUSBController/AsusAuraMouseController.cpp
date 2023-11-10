@@ -210,3 +210,48 @@ void AuraMouseController::SendUpdate
     unsigned char usb_buf_out[ASUS_AURA_MOUSE_PACKET_SIZE];
     hid_read_timeout(dev, usb_buf_out, ASUS_AURA_MOUSE_PACKET_SIZE, 10);
 }
+
+void AuraMouseController::SendDirect
+    (
+    std::vector<RGBColor>   zone_colors
+    )
+{
+    std::vector<RGBColor> colors = {};
+    colors.resize(aura_mouse_led_maps[device_pid].led_amount);
+
+    for(unsigned char zone = 0; zone < zone_colors.size(); zone++)
+    {
+        std::vector<uint8_t> zone_map = aura_mouse_led_maps[device_pid].map[zone];
+        for(unsigned char led = 0; led < zone_map.size(); led++)
+        {
+            colors[zone_map[led]] = zone_colors[zone];
+        }
+    }
+
+    /*-----------------------------------------------------*\
+    | Only 5 colors can be sent in each packet              |
+    \*-----------------------------------------------------*/
+    for(unsigned char led = 0; led < aura_mouse_led_maps[device_pid].led_amount; led += 5)
+    {
+        unsigned char usb_buf[ASUS_AURA_MOUSE_PACKET_SIZE];
+        memset(usb_buf, 0x00, ASUS_AURA_MOUSE_PACKET_SIZE);
+
+        unsigned char colors_in_packet = (aura_mouse_led_maps[device_pid].led_amount >= led + 5) ? 5 : aura_mouse_led_maps[device_pid].led_amount - led;
+
+        usb_buf[0x00]   = 0x00;
+        usb_buf[0x01]   = 0x51;
+        usb_buf[0x02]   = 0x29;
+        usb_buf[0x03]   = colors_in_packet; // colors in this packet
+        usb_buf[0x04]   = 0x00;
+        usb_buf[0x05]   = led; // offset
+
+        for(unsigned char color = 0; color < colors_in_packet; color++)
+        {
+            usb_buf[0x06 + color * 3] = RGBGetRValue(colors[led + color]);
+            usb_buf[0x07 + color * 3] = RGBGetGValue(colors[led + color]);
+            usb_buf[0x08 + color * 3] = RGBGetBValue(colors[led + color]);
+        }
+
+        hid_write(dev, usb_buf, ASUS_AURA_MOUSE_PACKET_SIZE);
+    }
+};

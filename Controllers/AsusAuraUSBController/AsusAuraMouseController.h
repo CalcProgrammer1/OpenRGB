@@ -42,6 +42,10 @@ public:
         unsigned char   speed,
         unsigned char   brightness
         );
+    void SendDirect
+        (
+        std::vector<RGBColor>   zone_colors
+        );
 
     uint16_t                    device_pid;
 
