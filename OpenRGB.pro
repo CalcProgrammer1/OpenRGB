@@ -44,11 +44,12 @@ TEMPLATE    = app
 #-----------------------------------------------------------------------------------------------#
 # Automatically generated build information                                                     #
 #-----------------------------------------------------------------------------------------------#
-win32:BUILDDATE = $$system(date /t)
-unix:BUILDDATE  = $$system(date -R -d "@${SOURCE_DATE_EPOCH:-$(date +%s)}")
-GIT_COMMIT_ID   = $$system(git log -n 1 --pretty=format:"%H")
-GIT_COMMIT_DATE = $$system(git log -n 1 --pretty=format:"%ci")
-GIT_BRANCH      = $$system(git branch --show-current)
+win32:BUILDDATE         = $$system(date /t)
+unix:!macx:BUILDDATE    = $$system(date -R -d "@${SOURCE_DATE_EPOCH:-$(date +%s)}")
+macx:BUILDDATE          = $$system(date -I -r "${SOURCE_DATE_EPOCH:-$(date +%s)}")
+GIT_COMMIT_ID           = $$system(git log -n 1 --pretty=format:"%H")
+GIT_COMMIT_DATE         = $$system(git log -n 1 --pretty=format:"%ci")
+GIT_BRANCH              = $$system(git branch --show-current)
 
 DEFINES +=                                                                                      \
     VERSION_STRING=\\"\"\"$$VERSION\\"\"\"                                                      \
