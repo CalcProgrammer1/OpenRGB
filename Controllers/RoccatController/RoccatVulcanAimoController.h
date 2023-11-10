@@ -26,7 +26,6 @@ struct device_info
 {
     std::string     version;
     int             layout_type;
-    int             layout_variant;
 };
 
 struct led_color

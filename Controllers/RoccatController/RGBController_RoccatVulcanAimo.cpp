@@ -78,15 +78,20 @@ RGBController_RoccatVulcanAimo::~RGBController_RoccatVulcanAimo()
 
 void RGBController_RoccatVulcanAimo::SetupZones()
 {
-    unsigned char layout = controller->GetDeviceInfo().layout_variant;
+    unsigned char layout;
 
-    if(RoccatVulcanLayouts.find(layout) == RoccatVulcanLayouts.end())
+    switch(controller->GetDeviceInfo().layout_type)
     {
-        /*---------------------------------------------------------*\
-        | If Layout not found, take uk or us                        |
-        \*---------------------------------------------------------*/
-        layout = controller->GetDeviceInfo().layout_type == 1 ? ROCCAT_VULCAN_LAYOUT_UK : ROCCAT_VULCAN_LAYOUT_US;
+        case ROCCAT_VULCAN_LAYOUT_DE:
+        case ROCCAT_VULCAN_LAYOUT_UK:
+        case ROCCAT_VULCAN_LAYOUT_FR:
+            layout = ROCCAT_VULCAN_LAYOUT_UK;
+            break;
+        case ROCCAT_VULCAN_LAYOUT_US:
+        default:
+            layout = ROCCAT_VULCAN_LAYOUT_US;
     }
+
 
     zone keyboard_zone;
     keyboard_zone.name               = "Keyboard";

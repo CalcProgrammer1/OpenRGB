@@ -12,6 +12,8 @@
 #include <cstring>
 #include <math.h>
 
+#include "LogManager.h"
+
 RoccatVulcanAimoController::RoccatVulcanAimoController(hid_device* dev_ctrl_handle, hid_device* dev_led_handle, char *path)
 {
     dev_ctrl    = dev_ctrl_handle;
@@ -55,8 +57,8 @@ device_info RoccatVulcanAimoController::InitDeviceInfo()
 
     dev_info.version = std::to_string((int) floor(usb_buf[2] / 100)) + "." + std::to_string(usb_buf[2] % 100);
 
-    dev_info.layout_type    = usb_buf[6];
-    dev_info.layout_variant = usb_buf[7];
+    dev_info.layout_type = usb_buf[6];
+    LOG_DEBUG("[Roccat Vulcan Aimo]: Detected layout '0x%02X'", usb_buf[6]);
 
     return dev_info;
 }

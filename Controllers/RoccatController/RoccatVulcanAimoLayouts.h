@@ -16,9 +16,10 @@
 
 enum
 {
-    ROCCAT_VULCAN_LAYOUT_US    = 6,
-    ROCCAT_VULCAN_LAYOUT_DE    = 7,
-    ROCCAT_VULCAN_LAYOUT_UK    = 0xFF, // this is a placeholder, since the id isn't known 
+    ROCCAT_VULCAN_LAYOUT_US    = 0,
+    ROCCAT_VULCAN_LAYOUT_DE    = 1,
+    ROCCAT_VULCAN_LAYOUT_UK    = 2,
+    ROCCAT_VULCAN_LAYOUT_FR    = 3,
 };
 
 #define NA  0xFFFFFFFF
