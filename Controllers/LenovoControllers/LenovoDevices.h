@@ -25,6 +25,7 @@
 #define LEGION_Y760                             0xC968
 #define LEGION_Y760S                            0xC967
 #define LEGION_7GEN7                            0xC978
+#define LEGION_7GEN8                            0xC988
 
 enum LENOVO_KEYBOARD
 {
@@ -1710,7 +1711,7 @@ static lenovo_zone lenovo_legion_Y740_15_kbd_iso
 | Legion 7 gen7: 4 zones                                   |
 \*--------------------------------------------------------*/
 
-static const unsigned int legion_7gen7_ansi_leds_map[] =
+static const unsigned int legion7_gen7and8_ansi_leds_map[] =
     {    0,   1,   2,   3,   4,   5,   6,   7,   8,   9,  10,  11,  12,  13,  14,  15,  16,  17,  18,  19,
         20,  21,  22,  23,  24,  25,  26,  27,  28,  29,  NA,  30,  31,  32,  33,  NA,  34,  35,  36,  37,
         38,  39,  40,  41,  NA,  42,  43,  44,  45,  46,  47,  48,  49,  50,  NA,  51,  52,  53,  54,  NA,
@@ -1722,7 +1723,7 @@ static const unsigned int legion_7gen7_ansi_leds_map[] =
 /*---------------------*\
 | zone 1, keyboard ANSI |
 \*---------------------*/
-const lenovo_led legion_7gen7_ansi_leds[]
+const lenovo_led legion7_gen7and8_ansi_leds[]
 {
     //row 1
     {0x01, KEY_EN_ESCAPE},//0
@@ -1840,7 +1841,7 @@ const lenovo_led legion_7gen7_ansi_leds[]
     {0xA1, KEY_EN_RIGHT_ARROW},//100
 };
 
-const lenovo_led legion_7gen7_neon_leds[]
+const lenovo_led legion7_gen7and8_neon_leds[]
 {
     {0xF5, "Neon group 1"},//0
     {0xF6, "Neon group 2"},//1
@@ -1874,15 +1875,15 @@ const lenovo_led legion_7gen7_logo_leds[]
 /*------*\
 |keyboard|
 \*------*/
-static lenovo_zone lenovo_legion_7gen7_kbd_ansi
+static lenovo_zone legion7_gen7and8_kbd_ansi
 {
     "Keyboard",
     ZONE_TYPE_MATRIX,
     0,
     7,
     20,
-    legion_7gen7_ansi_leds_map,
-    legion_7gen7_ansi_leds,
+    legion7_gen7and8_ansi_leds_map,
+    legion7_gen7and8_ansi_leds,
     0,
     100,
 };
@@ -1922,7 +1923,7 @@ static lenovo_zone lenovo_legion_7gen7_vents
 /*------*\
 |neon    |
 \*------*/
-static lenovo_zone lenovo_legion_7gen7_neon
+static lenovo_zone legion7_gen7and8_neon
 {
     "Neon",
     ZONE_TYPE_LINEAR,
@@ -1930,9 +1931,8 @@ static lenovo_zone lenovo_legion_7gen7_neon
     1,
     10,
     NULL,
-    legion_7gen7_neon_leds,
+    legion7_gen7and8_neon_leds,
     0,
     9,
 };
-
 #endif

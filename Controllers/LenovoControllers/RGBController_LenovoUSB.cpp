@@ -289,10 +289,14 @@ void RGBController_LenovoUSB::SetupZones()
             lenovo_zones.push_back(lenovo_legion_Y760_neon);
             break;
         case LEGION_7GEN7:
-            lenovo_zones.push_back(lenovo_legion_7gen7_kbd_ansi);
+            lenovo_zones.push_back(legion7_gen7and8_kbd_ansi);
             lenovo_zones.push_back(lenovo_legion_7gen7_logo);
             lenovo_zones.push_back(lenovo_legion_7gen7_vents);
-            lenovo_zones.push_back(lenovo_legion_7gen7_neon);
+            lenovo_zones.push_back(legion7_gen7and8_neon);
+            break;
+        case LEGION_7GEN8:
+            lenovo_zones.push_back(legion7_gen7and8_kbd_ansi);
+            lenovo_zones.push_back(legion7_gen7and8_neon);
             break;
     }
 
