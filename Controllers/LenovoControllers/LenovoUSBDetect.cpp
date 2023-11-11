@@ -10,11 +10,10 @@
 #include "Detector.h"
 #include "LogManager.h"
 #include "RGBController.h"
-#include "LenovoGen7And8USBController.h"
-#include "LenovoUSBController.h"
+
 #include "LenovoDevices.h"
 #include "RGBController_LenovoUSB.h"
-#include "LenovoRGBController_Gen7_8.h"
+#include "RGBController_Lenovo_Gen7_8.h"
 #include <hidapi/hidapi.h>
 
 /*-----------------------------------------------------*\
@@ -51,9 +50,9 @@ void DetectLenovoLegionUSBControllersGen7And8(hid_device_info* info, const std::
 
     if(dev)
     {
-        LenovoGen7And8USBController*      controller      = new LenovoGen7And8USBController(dev, info->path, info->product_id);
-        LenovoRGBController_Gen7_8* rgb_controller    = new LenovoRGBController_Gen7_8(controller);
-        rgb_controller->name                          = name;
+        LenovoGen7And8USBController*    controller      = new LenovoGen7And8USBController(dev, info->path, info->product_id);
+        LenovoRGBController_Gen7_8*     rgb_controller  = new LenovoRGBController_Gen7_8(controller);
+        rgb_controller->name                            = name;
 
         ResourceManager::get()->RegisterRGBController(rgb_controller);
     }

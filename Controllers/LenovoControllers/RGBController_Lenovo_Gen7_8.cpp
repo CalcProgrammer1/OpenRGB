@@ -1,4 +1,4 @@
-#include "LenovoRGBController_Gen7_8.h"
+#include "RGBController_Lenovo_Gen7_8.h"
 #include "LenovoDevices.h"
 #include <vector>
 
@@ -351,7 +351,8 @@ void LenovoRGBController_Gen7_8::UpdateZoneLEDs(int led)
 void LenovoRGBController_Gen7_8::DeviceUpdateMode()
 {
     uint8_t hw_profile_id = controller->getCurrentProfileId();
-    if(hw_profile_id != profile_id) {
+    if(hw_profile_id != profile_id)
+    {
         profile_id = hw_profile_id;
         ReadDeviceSettings();
         last_mode = active_mode;
@@ -367,7 +368,8 @@ void LenovoRGBController_Gen7_8::DeviceUpdateMode()
         }
     }
 
-    if(last_mode != active_mode){
+    if(last_mode != active_mode)
+    {
 
         if(modes[last_mode].value == LENOVO_LEGION_GEN7_8_MODE_DIRECT)
         {
@@ -406,9 +408,10 @@ void LenovoRGBController_Gen7_8::DeviceUpdateLEDs()
 void LenovoRGBController_Gen7_8::ReadDeviceSettings()
 {
     vector<led_group> current_settings = controller->getProfileSettings(profile_id);
-    if(current_settings.size()>0)
+    if(current_settings.size() > 0)
     {
-        for(int i = 0; i<modes.size(); i++){
+        for(int i = 0; i < modes.size(); i++)
+        {
             if(modes[i].value == current_settings[0].mode)
             {
                 switch(current_settings[0].color_mode)
@@ -435,10 +438,13 @@ void LenovoRGBController_Gen7_8::ReadDeviceSettings()
                 switch(modes[i].color_mode)
                 {
                     case MODE_COLORS_PER_LED:
-                        for(size_t j=0; j< colors.size(); j++) colors[j]=0x00;
+                        for(size_t j=0; j < colors.size(); j++)
+                        {
+                            colors[j]=0x00;
+                        }
                         for(const led_group &lg : current_settings)
                         {
-                            if(lg.colors.size()>0)
+                            if(lg.colors.size() > 0)
                             {
                                 for(uint16_t led_id : lg.leds)
                                 {
@@ -452,9 +458,9 @@ void LenovoRGBController_Gen7_8::ReadDeviceSettings()
                         break;
 
                     case MODE_COLORS_MODE_SPECIFIC:
-                        for(size_t j=0; j<modes[i].colors.size(); j++)
+                        for(size_t j=0; j < modes[i].colors.size(); j++)
                         {
-                            if(j<current_settings[0].colors.size())
+                            if(j < current_settings[0].colors.size())
                             {
                                 modes[i].colors[j] = current_settings[0].colors[j];
                             }

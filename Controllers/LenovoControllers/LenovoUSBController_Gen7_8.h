@@ -1,5 +1,5 @@
 /*-------------------------------------------------------------------*\
-|  LenovoGen7And8USBController.h                                          |
+|  LenovoGen7And8USBController.h                                      |
 |                                                                     |
 |  Driver for Lenovo Legion 7 Gen 7                                   |
 |                                                                     |
@@ -54,7 +54,6 @@ class LenovoGen7And8USBController
     |ctor(s) and dtor|
     \*--------------*/
     LenovoGen7And8USBController(hid_device* dev_handle, const char* path, uint16_t in_pid);
-    LenovoGen7And8USBController();
     ~LenovoGen7And8USBController();
 
     /*--------------*\

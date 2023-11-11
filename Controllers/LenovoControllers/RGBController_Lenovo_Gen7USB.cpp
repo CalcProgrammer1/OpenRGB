@@ -263,10 +263,10 @@ RGBController_Lenovo_Gen7USB::~RGBController_Lenovo_Gen7USB()
 void RGBController_Lenovo_Gen7USB::SetupZones()
 {
     vector<lenovo_zone> lenovo_zones;
-    lenovo_zones.push_back(lenovo_legion_7gen7_kbd_ansi);
+    lenovo_zones.push_back(legion7_gen7and8_kbd_ansi);
     lenovo_zones.push_back(lenovo_legion_7gen7_logo);
     lenovo_zones.push_back(lenovo_legion_7gen7_vents);
-    lenovo_zones.push_back(lenovo_legion_7gen7_neon);
+    lenovo_zones.push_back(legion7_gen7and8_neon);
 
     for(unsigned int i = 0; i < lenovo_zones.size(); i++)
     {
@@ -322,12 +322,12 @@ void RGBController_Lenovo_Gen7USB::ResizeZone(int /*zone*/, int /*new_size*/)
     \*---------------------------------------------------------*/
 }
 
-void RGBController_Lenovo_Gen7USB::UpdateSingleLED(int led)
+void RGBController_Lenovo_Gen7USB::UpdateSingleLED(int /*led*/)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_Lenovo_Gen7USB::UpdateZoneLEDs(int led)
+void RGBController_Lenovo_Gen7USB::UpdateZoneLEDs(int /*led*/)
 {
     DeviceUpdateLEDs();
 }
@@ -335,7 +335,8 @@ void RGBController_Lenovo_Gen7USB::UpdateZoneLEDs(int led)
 void RGBController_Lenovo_Gen7USB::DeviceUpdateMode()
 {
     uint8_t hw_profile_id = controller->getCurrentProfileId();
-    if(hw_profile_id != profile_id) {
+    if(hw_profile_id != profile_id)
+    {
         profile_id = hw_profile_id;
         ReadDeviceSettings();
         last_mode = active_mode;
@@ -351,7 +352,8 @@ void RGBController_Lenovo_Gen7USB::DeviceUpdateMode()
         }
     }
 
-    if(last_mode != active_mode){
+    if(last_mode != active_mode)
+    {
 
         if(modes[last_mode].value == LENOVO_LEGION_GEN7_MODE_DIRECT)
         {
@@ -390,9 +392,10 @@ void RGBController_Lenovo_Gen7USB::DeviceUpdateLEDs()
 void RGBController_Lenovo_Gen7USB::ReadDeviceSettings()
 {
     vector<led_group> current_settings = controller->getProfileSettings(profile_id);
-    if(current_settings.size()>0)
+    if(current_settings.size() > 0)
     {
-        for(int i = 0; i<modes.size(); i++){
+        for(int i = 0; i < modes.size(); i++)
+        {
             if(modes[i].value == current_settings[0].mode)
             {
                 switch(current_settings[0].color_mode)
@@ -419,10 +422,13 @@ void RGBController_Lenovo_Gen7USB::ReadDeviceSettings()
                 switch(modes[i].color_mode)
                 {
                     case MODE_COLORS_PER_LED:
-                        for(size_t j=0; j< colors.size(); j++) colors[j]=0x00;
+                        for(size_t j=0; j < colors.size(); j++)
+                        {
+                            colors[j]=0x00;
+                        }
                         for(const led_group &lg : current_settings)
                         {
-                            if(lg.colors.size()>0)
+                            if(lg.colors.size() > 0)
                             {
                                 for(uint16_t led_id : lg.leds)
                                 {
@@ -436,9 +442,9 @@ void RGBController_Lenovo_Gen7USB::ReadDeviceSettings()
                         break;
 
                     case MODE_COLORS_MODE_SPECIFIC:
-                        for(size_t j=0; j<modes[i].colors.size(); j++)
+                        for(size_t j=0; j < modes[i].colors.size(); j++)
                         {
-                            if(j<current_settings[0].colors.size())
+                            if(j < current_settings[0].colors.size())
                             {
                                 modes[i].colors[j] = current_settings[0].colors[j];
                             }
@@ -487,7 +493,7 @@ std::vector<led_group> RGBController_Lenovo_Gen7USB::GetLedGroups()
     std::unordered_map<RGBColor, vector<uint16_t>> led_map;
 
     if(modes[active_mode].color_mode == MODE_COLORS_PER_LED &&
-            modes[active_mode].value != LENOVO_LEGION_GEN7_MODE_DIRECT)
+       modes[active_mode].value      != LENOVO_LEGION_GEN7_MODE_DIRECT)
     {
         for(size_t i = 0; i < leds.size(); i++)
         {
@@ -500,10 +506,10 @@ std::vector<led_group> RGBController_Lenovo_Gen7USB::GetLedGroups()
         size_t end = leds.size();
 
         /*---------------------------------------------------------*\
-        | Riplle and Type only apply to keyboard                    |
+        | Ripple and Type only apply to keyboard                    |
         \*---------------------------------------------------------*/
         if(modes[active_mode].value == LENOVO_LEGION_GEN7_MODE_RIPPLE ||
-                modes[active_mode].value == LENOVO_LEGION_GEN7_MODE_TYPE)
+           modes[active_mode].value == LENOVO_LEGION_GEN7_MODE_TYPE)
         {
             for(const zone &z : zones)
             {

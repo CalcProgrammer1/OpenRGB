@@ -1,6 +1,6 @@
-#include "LenovoUSBController_Gen7_8.h"
-#include <sstream>
 #include <iomanip>
+#include <sstream>
+#include "LenovoUSBController_Gen7_8.h"
 
 using namespace std;
 

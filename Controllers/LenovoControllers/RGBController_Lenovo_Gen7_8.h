@@ -4,7 +4,7 @@
 #pragma once
 
 #include "RGBController.h"
-#include "LenovoGen7And8USBController.h"
+#include "LenovoUSBController_Gen7_8.h"
 
 enum
 {

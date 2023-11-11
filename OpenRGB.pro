@@ -589,8 +589,10 @@ HEADERS +=                                                                      
     Controllers/LenovoControllers/LenovoDevices4Zone.h                                          \
     Controllers/LenovoControllers/LenovoGen7USBController.h                                     \
     Controllers/LenovoControllers/LenovoUSBController.h                                         \
+    Controllers/LenovoControllers/LenovoUSBController_Gen7_8.h                                  \
     Controllers/LenovoControllers/RGBController_Lenovo4ZoneUSB.h                                \
     Controllers/LenovoControllers/RGBController_LenovoUSB.h                                     \
+    Controllers/LenovoControllers/RGBController_Lenovo_Gen7_8.h                                 \
     Controllers/LenovoControllers/RGBController_Lenovo_Gen7USB.h                                \
     Controllers/LenovoMotherboardController/LenovoMotherboardController.h                       \
     Controllers/LenovoMotherboardController/RGBController_LenovoMotherboard.h                   \
@@ -1277,10 +1279,12 @@ SOURCES +=                                                                      
     Controllers/LenovoControllers/Lenovo4ZoneUSBDetect.cpp                                      \
     Controllers/LenovoControllers/LenovoGen7USBController.cpp                                   \
     Controllers/LenovoControllers/LenovoUSBController.cpp                                       \
+    Controllers/LenovoControllers/LenovoUSBController_Gen7_8.cpp                                \
     Controllers/LenovoControllers/LenovoUSBDetect.cpp                                           \
     Controllers/LenovoControllers/RGBController_Lenovo4ZoneUSB.cpp                              \
     Controllers/LenovoControllers/RGBController_LenovoUSB.cpp                                   \
     Controllers/LenovoControllers/RGBController_Lenovo_Gen7USB.cpp                              \
+    Controllers/LenovoControllers/RGBController_Lenovo_Gen7_8.cpp                               \
     Controllers/LenovoMotherboardController/LenovoMotherboardController.cpp                     \
     Controllers/LenovoMotherboardController/LenovoMotherboardControllerDetect.cpp               \
     Controllers/LenovoMotherboardController/RGBController_LenovoMotherboard.cpp                 \
