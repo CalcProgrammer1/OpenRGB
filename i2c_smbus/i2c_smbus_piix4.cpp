@@ -26,7 +26,7 @@ i2c_smbus_piix4::i2c_smbus_piix4()
     if(amd_smbus_reduce_cpu)
     {
         delay_timer = CreateWaitableTimerExW(NULL, NULL, CREATE_WAITABLE_TIMER_MANUAL_RESET | CREATE_WAITABLE_TIMER_HIGH_RESOLUTION, TIMER_ALL_ACCESS);
-        if(!delay_timer) // high resolution timer not supported
+        if(delay_timer == NULL) // high resolution timer not supported
         {
             delay_timer = CreateWaitableTimer(NULL, TRUE, NULL); // create regular timer instead
         }
@@ -45,7 +45,7 @@ i2c_smbus_piix4::i2c_smbus_piix4()
 
 i2c_smbus_piix4::~i2c_smbus_piix4()
 {
-    if(delay_timer)
+    if(delay_timer != NULL)
     {
         CloseHandle(delay_timer);
     }
@@ -84,7 +84,7 @@ int i2c_smbus_piix4::piix4_transaction()
 
     /* We will always wait for a fraction of a second! (See PIIX4 docs errata) */
     temp = 0;
-    if(delay_timer)
+    if(delay_timer != NULL)
     {
         LARGE_INTEGER retry_delay;
         retry_delay.QuadPart = -2500;
