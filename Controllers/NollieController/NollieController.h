@@ -19,10 +19,12 @@ public:
     NollieController(hid_device* dev_handle, const char* path,  unsigned short pid);
     std::string     GetLocationString();
     std::string     GetSerialString();
+    unsigned short  GetUSBPID();
     void            SetMos(bool mos);
     void            SetChannelLEDs(unsigned char channel, RGBColor * colors, unsigned int num_colors);
 private:
     hid_device*     dev;
     std::string     location;
+    unsigned short  usb_pid;
     void            SendPacket(unsigned char   channel,RGBColor * colors,unsigned int num_colors);
 };

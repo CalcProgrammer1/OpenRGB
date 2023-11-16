@@ -13,8 +13,9 @@
 #include <algorithm>
 #include <iostream>
 
-int channel_index[32] = {5, 4, 3, 2, 1, 0, 15, 14, 26, 27, 28, 29, 30, 31, 8, 9, 19, 18, 17, 16, 7, 6, 25, 24, 23, 22, 21, 20, 13, 12, 11, 10};
-
+int channel_index[32] = {0};
+int ch32[32]     = {5, 4, 3, 2, 1, 0, 15, 14, 26, 27, 28, 29, 30, 31, 8, 9, 19, 18, 17, 16, 7, 6, 25, 24, 23, 22, 21, 20, 13, 12, 11, 10};
+int ch16[32]     = {19, 18, 17, 16, 24, 25, 26, 27, 20, 21, 22, 23, 31, 30, 29, 28, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15};
 RGBController_Nollie::RGBController_Nollie(NollieController* controller_ptr)
 {
     controller  = controller_ptr;
@@ -44,14 +45,26 @@ RGBController_Nollie::~RGBController_Nollie()
 void RGBController_Nollie::SetupZones()
 {
     bool first_run = false;
+    unsigned int channels_num = 0;
     if(zones.size() == 0)
     {
         first_run = true;
     }
     leds.clear();
     colors.clear();
-    zones.resize(NOLLIE_CHANNELS_NUM);
-    for(unsigned int channel_idx = 0; channel_idx < NOLLIE_CHANNELS_NUM; channel_idx++)
+    switch(controller->GetUSBPID())
+    {
+        case NOLLIE32_PID:
+            channels_num     = 32;
+            memcpy(channel_index,ch32,sizeof(ch32));
+            break;
+        default:
+            channels_num     = 16;
+            memcpy(channel_index,ch16,sizeof(ch16));
+            break;
+    }
+    zones.resize(channels_num);
+    for(unsigned int channel_idx = 0; channel_idx < channels_num; channel_idx++)
     {
         if(channel_idx > 27 )
         {

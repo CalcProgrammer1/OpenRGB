@@ -11,10 +11,15 @@
 #include "RGBController.h"
 #include "NollieController.h"
 
-#define NOLLIE_CHANNELS_LED_NUM  256
-#define NOLLIE_CHANNELS_NUM      32
-#define NOLLIE_32_PID            0x4714
-#define NOLLIE_32_VID            0x3061
+#define NOLLIE_CHANNELS_LED_NUM    256
+
+#define NOLLIE32_CHANNELS_NUM      32
+#define NOLLIE32_PID               0x4714
+#define NOLLIE32_VID               0x3061
+
+#define NOLLIE16_CHANNELS_NUM      16
+#define NOLLIE16_PID               0x4716
+#define NOLLIE16_VID               0x3061
 
 class RGBController_Nollie : public RGBController
 {

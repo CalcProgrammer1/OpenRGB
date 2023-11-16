@@ -11,14 +11,11 @@
 
 using namespace std::chrono_literals;
 
-NollieController::NollieController(hid_device* dev_handle, const char* path, unsigned short /*pid*/)
+NollieController::NollieController(hid_device* dev_handle, const char* path, unsigned short pid)
 {
-    dev         = dev_handle;
-    location    = path;
-    /*-----------------------------------------------------*\
-    | PID may be used in the future, here is to pass       |
-    | arguments not to do storage                          |
-    \*-----------------------------------------------------*/
+    dev            = dev_handle;
+    location       = path;
+    usb_pid        = pid;
 }
 
 std::string NollieController::GetLocationString()
@@ -40,6 +37,11 @@ std::string NollieController::GetSerialString()
     std::string return_string(return_wstring.begin(), return_wstring.end());
 
     return(return_string);
+}
+
+unsigned short NollieController::GetUSBPID()
+{
+    return(usb_pid);
 }
 
 void NollieController::SetMos(bool mos)

@@ -34,4 +34,5 @@ void DetectNollieControllers(hid_device_info* info, const std::string& name)
     }
 }
 
-REGISTER_HID_DETECTOR("Nollie 32CH", DetectNollieControllers, NOLLIE_32_VID, NOLLIE_32_PID);
+REGISTER_HID_DETECTOR("Nollie 32CH", DetectNollieControllers, NOLLIE32_VID, NOLLIE32_PID);
+REGISTER_HID_DETECTOR("Nollie 16CH", DetectNollieControllers, NOLLIE16_VID, NOLLIE16_PID);
