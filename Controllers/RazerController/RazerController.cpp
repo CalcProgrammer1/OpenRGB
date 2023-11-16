@@ -1087,7 +1087,7 @@ std::string RazerController::GetKeyboardLayoutName()
         case RAZER_KEYBOARD_LAYOUT_ARABIC:                 return "Arabic (ANSI)";                 // Unconfirmed
         default:
             std::string tmp = "Unknown: ";
-            tmp            += layout;
+            tmp.append(std::to_string(layout));
             return tmp;
     }
 }
