@@ -13,9 +13,6 @@
 #include <algorithm>
 #include <iostream>
 
-int channel_index[32] = {0};
-int ch32[32]     = {5, 4, 3, 2, 1, 0, 15, 14, 26, 27, 28, 29, 30, 31, 8, 9, 19, 18, 17, 16, 7, 6, 25, 24, 23, 22, 21, 20, 13, 12, 11, 10};
-int ch16[32]     = {19, 18, 17, 16, 24, 25, 26, 27, 20, 21, 22, 23, 31, 30, 29, 28, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15};
 RGBController_Nollie::RGBController_Nollie(NollieController* controller_ptr)
 {
     controller  = controller_ptr;
@@ -55,12 +52,12 @@ void RGBController_Nollie::SetupZones()
     switch(controller->GetUSBPID())
     {
         case NOLLIE32_PID:
-            channels_num     = 32;
-            memcpy(channel_index,ch32,sizeof(ch32));
+            channels_num  = 32;
+            channel_index = ch32;
             break;
         default:
-            channels_num     = 16;
-            memcpy(channel_index,ch16,sizeof(ch16));
+            channels_num  = 16;
+            channel_index = ch16;
             break;
     }
     zones.resize(channels_num);
