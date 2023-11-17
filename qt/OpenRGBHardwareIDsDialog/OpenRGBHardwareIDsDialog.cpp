@@ -58,7 +58,7 @@ int Ui::OpenRGBHardwareIDsDialog::show()
     current_hid_device  = hid_devices;
 
     QTreeWidgetItem* hid_top = new QTreeWidgetItem(ui->HardwareIdsList, {"HID devices"});
-    strings.push_back("\n[ i2c devices ]");
+    strings.push_back("\n[ HID devices ]");
 
     while(current_hid_device)
     {
