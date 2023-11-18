@@ -2,6 +2,9 @@
 #include "RGBController.h"
 #include "CreativeSoundBlasterXG6Controller.h"
 
+#define XG6_BRIGHTNESS_MIN 0x00
+#define XG6_BRIGHTNESS_MAX 0xFF
+
 class RGBController_CreativeSoundBlasterXG6: public RGBController
 {
 public:

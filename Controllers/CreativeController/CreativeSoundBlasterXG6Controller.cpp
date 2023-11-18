@@ -16,7 +16,10 @@ std::string CreativeSoundBlasterXG6Controller::GetDeviceLocation()
     return("HID " + location);
 }
 
-void CreativeSoundBlasterXG6Controller::SetLedColor (unsigned char red, unsigned char green, unsigned char blue)
+void CreativeSoundBlasterXG6Controller::SetLedColor (unsigned char red,
+                                                     unsigned char green,
+                                                     unsigned char blue,
+                                                     unsigned char brightness)
 {
     unsigned char usb_buf[64];
 
@@ -69,7 +72,7 @@ void CreativeSoundBlasterXG6Controller::SetLedColor (unsigned char red, unsigned
     usb_buf[0x06]           = 0x03;
     usb_buf[0x07]           = 0x01;
     usb_buf[0x08]           = 0x01;
-    usb_buf[0x09]           = 0x0FF;
+    usb_buf[0x09]           = brightness;
 
     usb_buf[0x0A]           = blue;
     usb_buf[0x0B]           = green;

@@ -13,20 +13,23 @@
 
 RGBController_CreativeSoundBlasterXG6::RGBController_CreativeSoundBlasterXG6(CreativeSoundBlasterXG6Controller* controller_ptr)
 {
-    controller  = controller_ptr;
+    controller                  = controller_ptr;
 
-    name        = "Creative SoundBlasterX G6 Device";
-    vendor      = "Creative";
-    type        = DEVICE_TYPE_HEADSET;
-    description = "Creative SoundBlasterX G6 Device";
-    location    = controller->GetDeviceLocation();
-    serial      = "";
+    name                        = "Creative SoundBlasterX G6 Device";
+    vendor                      = "Creative";
+    type                        = DEVICE_TYPE_HEADSET;
+    description                 = "Creative SoundBlasterX G6 Device";
+    location                    = controller->GetDeviceLocation();
+    serial                      = "";
 
     mode Static;
-    Static.name                     = "Direct";
-    Static.value                    = 0;
-    Static.flags                    = MODE_COLORS_PER_LED;
-    Static.color_mode               = MODE_COLORS_PER_LED;
+    Static.name                 = "Direct";
+    Static.value                = 0;
+    Static.flags                = MODE_COLORS_PER_LED | MODE_FLAG_HAS_BRIGHTNESS;
+    Static.color_mode           = MODE_COLORS_PER_LED;
+    Static.brightness_min       = XG6_BRIGHTNESS_MIN;
+    Static.brightness_max       = XG6_BRIGHTNESS_MAX;
+    Static.brightness           = XG6_BRIGHTNESS_MAX;
     modes.push_back(Static);
 
     SetupZones();
@@ -68,7 +71,7 @@ void RGBController_CreativeSoundBlasterXG6::DeviceUpdateLEDs()
     unsigned char grn = RGBGetGValue(colors[0]);
     unsigned char blu = RGBGetBValue(colors[0]);
 
-    controller->SetLedColor(red, grn, blu);
+    controller->SetLedColor(red, grn, blu, modes[active_mode].brightness);
 }
 
 void RGBController_CreativeSoundBlasterXG6::UpdateZoneLEDs(int /*zone*/)

@@ -9,10 +9,14 @@ class CreativeSoundBlasterXG6Controller
 public:
     CreativeSoundBlasterXG6Controller(hid_device* dev_handle, const char* path);
     ~CreativeSoundBlasterXG6Controller();
-    void            SetLedColor (unsigned char red, unsigned char green, unsigned char blue);
 
-    std::string GetDeviceLocation();
-    std::string GetSerialString();
+    void                    SetLedColor(unsigned char red,
+                                        unsigned char green,
+                                        unsigned char blue,
+                                        unsigned char brightness);
+
+    std::string             GetDeviceLocation();
+    std::string             GetSerialString();
 
 private:
     hid_device*             dev;
