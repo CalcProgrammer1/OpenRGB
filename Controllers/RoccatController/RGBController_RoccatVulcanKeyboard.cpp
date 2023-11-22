@@ -47,6 +47,15 @@ RGBController_RoccatVulcanKeyboard::RGBController_RoccatVulcanKeyboard(RoccatVul
     Direct.value      = ROCCAT_VULCAN_MODE_DIRECT;
     Direct.flags      = MODE_FLAG_HAS_PER_LED_COLOR;
     Direct.color_mode = MODE_COLORS_PER_LED;
+
+    if(pid == ROCCAT_VULCAN_TKL)
+    {
+        Direct.flags         |= MODE_FLAG_HAS_BRIGHTNESS;
+        Direct.brightness_min = ROCCAT_VULCAN_BRIGHTNESS_MIN;
+        Direct.brightness_max = ROCCAT_VULCAN_BRIGHTNESS_MAX;
+        Direct.brightness     = ROCCAT_VULCAN_BRIGHTNESS_DEFAULT;
+    }
+    
     modes.push_back(Direct);
 
     mode Static;
