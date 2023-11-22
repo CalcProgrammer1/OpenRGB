@@ -54,7 +54,7 @@ void DetectMSIMysticLightControllers
         }
         else if((packet_length >= sizeof(FeaturePacket_162)) && (packet_length <= (sizeof(FeaturePacket_162) + 1)))
         {
-            MSIMysticLight162Controller*     controller     = new MSIMysticLight162Controller(dev, info->path, info->product_id);
+            MSIMysticLight162Controller*     controller     = new MSIMysticLight162Controller(dev, info->path);
             RGBController_MSIMysticLight162* rgb_controller = new RGBController_MSIMysticLight162(controller);
             rgb_controller->name = "MSI " + dmi.getMainboard();
             ResourceManager::get()->RegisterRGBController(rgb_controller);
