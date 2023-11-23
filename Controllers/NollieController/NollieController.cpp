@@ -7,6 +7,7 @@
 \*-----------------------------------------*/
 
 #include "NollieController.h"
+#include "RGBController_Nollie.h"
 #include <cstring>
 
 using namespace std::chrono_literals;
@@ -55,7 +56,34 @@ void NollieController::SetMos(bool mos)
 
 void NollieController::SetChannelLEDs(unsigned char channel, RGBColor* colors, unsigned int num_colors)
 {
-   SendPacket(channel,&colors[0], num_colors);
+   if(usb_pid == NOLLIE32_PID || usb_pid == NOLLIE16_PID)
+   {
+       SendPacket(channel,&colors[0], num_colors);
+   }
+   else
+   {
+       unsigned int num_packets    = (num_colors / 21) + ((num_colors % 21) > 0);
+       unsigned int color_idx      = 0;
+
+       for(unsigned int packet_idx = 0; packet_idx < num_packets; packet_idx++)
+       {
+           unsigned int colors_in_packet = 21;
+           if(num_colors - color_idx < colors_in_packet)
+           {
+               colors_in_packet = num_colors - color_idx;
+           }
+           SendPacketFS(channel,packet_idx,&colors[color_idx], colors_in_packet);
+           color_idx += colors_in_packet;
+       }
+   }
+}
+
+void NollieController::SendUpdate()
+{
+    unsigned char   usb_buf[65] ;
+    memset(usb_buf, 0x00, sizeof(usb_buf));
+    usb_buf[1] = 0xff;
+    hid_write(dev, usb_buf, 65);
 }
 
 void NollieController::SendPacket(unsigned char channel,RGBColor* colors,unsigned int num_colors)
@@ -84,3 +112,26 @@ void NollieController::SendPacket(unsigned char channel,RGBColor* colors,unsigne
     hid_write(dev, usb_buf, 1025);
 }
 
+void NollieController::SendPacketFS(unsigned char channel,unsigned char packet_id,RGBColor* colors,unsigned int num_colors)
+{
+    unsigned char   usb_buf[65];
+    unsigned int    packet_interval;
+    if (GetUSBPID() == NOLLIE28_12_PID)
+    {
+        packet_interval = 2;
+    }
+    else
+    {
+        packet_interval = 25;
+    }
+    memset(usb_buf, 0x00, sizeof(usb_buf));
+    usb_buf[0x00]   = 0x00;
+    usb_buf[0x01]   = packet_id + channel * packet_interval;
+    for(unsigned int color_idx = 0; color_idx < num_colors; color_idx++)
+    {
+        usb_buf[0x02 + (color_idx * 3)] = RGBGetRValue(colors[color_idx]);
+        usb_buf[0x03 + (color_idx * 3)] = RGBGetGValue(colors[color_idx]);
+        usb_buf[0x04 + (color_idx * 3)] = RGBGetBValue(colors[color_idx]);
+    }
+    hid_write(dev, usb_buf, 65);
+}
