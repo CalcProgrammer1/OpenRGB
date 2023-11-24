@@ -37,6 +37,7 @@
 \*-----------------------------------------------------*/
 #define INTEL_ICH10_SMBUS_DEV                           0x3A30
 #define INTEL_SUNRISE_POINT_H_SMBUS_DEV                 0xA123
+#define INTEL_SKYLAKEX_PCU_SMBUS_DEV                    0x2085
 #define INTEL_KABY_LAKE_H_SMBUS_DEV                     0xA2A3
 #define INTEL_CANNON_LAKE_H_SMBUS_DEV                   0xA323
 #define INTEL_COMET_LAKE_H_SMBUS_DEV                    0x06A3
@@ -697,6 +698,7 @@
     if(((ven == AMD_VEN) && (dev == AMD_FCH_SMBUS_DEV)) ||  \
     ((ven == INTEL_VEN) && (dev == INTEL_ICH10_SMBUS_DEV)) || \
     ((ven == INTEL_VEN) && (dev == INTEL_SUNRISE_POINT_H_SMBUS_DEV)) || \
+    ((ven == INTEL_VEN) && (dev == INTEL_SKYLAKEX_PCU_SMBUS_DEV)) || \
     ((ven == INTEL_VEN) && (dev == INTEL_KABY_LAKE_H_SMBUS_DEV)) || \
     ((ven == INTEL_VEN) && (dev == INTEL_CANNON_LAKE_H_SMBUS_DEV)) || \
     ((ven == INTEL_VEN) && (dev == INTEL_COMET_LAKE_H_SMBUS_DEV)) || \
@@ -710,6 +712,7 @@
     ((ven == AMD_VEN) && (dev == AMD_FCH_SMBUS_DEV)) ||     \
     ((ven == INTEL_VEN) && (dev == INTEL_ICH10_SMBUS_DEV)) || \
     ((ven == INTEL_VEN) && (dev == INTEL_SUNRISE_POINT_H_SMBUS_DEV)) || \
+    ((ven == INTEL_VEN) && (dev == INTEL_SKYLAKEX_PCU_SMBUS_DEV)) || \
     ((ven == INTEL_VEN) && (dev == INTEL_KABY_LAKE_H_SMBUS_DEV)) || \
     ((ven == INTEL_VEN) && (dev == INTEL_CANNON_LAKE_H_SMBUS_DEV)) || \
     ((ven == INTEL_VEN) && (dev == INTEL_COMET_LAKE_H_SMBUS_DEV)) || \
