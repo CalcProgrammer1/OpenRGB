@@ -141,11 +141,12 @@ void RoccatVulcanKeyboardController::SendColors(std::vector<led_color> colors)
     
     unsigned char packet_num = ceil((float) packet_length / 64);
 
-    std::vector<unsigned char[65]> bufs(packet_num);
+    std::vector<std::vector<uint8_t>> bufs(packet_num);
     
     for(int p = 0; p < packet_num; p++)
     {
-        memset(bufs[p], 0x00, 65);
+        bufs[p].resize(65);
+        memset(&bufs[p][0], 0x00, sizeof(bufs[p][0]) * bufs[p].size());
     }
 
     bufs[0][1] = 0xA1;
@@ -183,7 +184,7 @@ void RoccatVulcanKeyboardController::SendColors(std::vector<led_color> colors)
 
     for(int p = 0; p < packet_num; p++)
     {
-        hid_write(dev_led, bufs[p], 65);
+        hid_write(dev_led, &bufs[p][0], 65);
     }
 
     ClearResponses();
