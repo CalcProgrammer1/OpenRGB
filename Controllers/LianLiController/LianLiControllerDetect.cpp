@@ -57,6 +57,7 @@
 #define UNI_HUB_SLV2_PID                            0xA103
 #define UNI_HUB_SLV2_V05_PID                        0xA105
 #define GAII_USB_PID                                0x7373
+#define GAII_Perf_USB_PID                           0x7371
 
 /*----------------------------------------------------------------------------*\
 | The Uni Hub is controlled by sending control transfers to various wIndex     |
@@ -252,3 +253,4 @@ REGISTER_HID_DETECTOR_IPU("Lian Li Uni Hub - SL Infinity", DetectLianLiUniHubSLI
 REGISTER_HID_DETECTOR_IPU("Strimer L Connect",   DetectStrimerControllers,  ENE_USB_VID,  STRIMER_L_CONNECT_PID,      1,  0xFF72, 0xA1);
 
 REGISTER_HID_DETECTOR_I("Lian Li GA II Trinity", DetectLianLiGAIITrinity, NUVOTON_USB_VID, GAII_USB_PID, 0x02);
+REGISTER_HID_DETECTOR_I("Lian Li GA II Trinity Performance", DetectLianLiGAIITrinity, NUVOTON_USB_VID, GAII_Perf_USB_PID, 0x02);
