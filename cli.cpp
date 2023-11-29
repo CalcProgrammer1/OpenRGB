@@ -47,7 +47,7 @@ struct DeviceOptions
     int             zone            = -1;
     std::vector<std::tuple<unsigned char, unsigned char, unsigned char>> colors;
     std::string     mode;
-    unsigned int    brightness;
+    unsigned int    brightness      = 100;
     unsigned int    size;
     bool            random_colors   = false;
     bool            hasSize         = false;

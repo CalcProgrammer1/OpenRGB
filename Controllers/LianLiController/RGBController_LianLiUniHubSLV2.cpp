@@ -43,7 +43,7 @@ RGBController_LianLiUniHubSLV2::RGBController_LianLiUniHubSLV2(LianLiUniHubSLV2C
     Custom.flags                = MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_HAS_PER_LED_COLOR;
     Custom.brightness_min       = 0;
     Custom.brightness_max       = 50;
-    Custom.brightness           = 37;
+    Custom.brightness           = 50;
     Custom.color_mode           = MODE_COLORS_PER_LED;
     modes.push_back(Custom);
 
