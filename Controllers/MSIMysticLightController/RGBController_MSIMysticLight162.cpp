@@ -233,8 +233,8 @@ void RGBController_MSIMysticLight162::SetupModes()
     constexpr unsigned int RANDOM_ONLY  = MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_RANDOM_COLOR | MODE_FLAG_MANUAL_SAVE;
     constexpr unsigned int COMMON       = RANDOM_ONLY | MODE_FLAG_HAS_PER_LED_COLOR;
 
-    SetupMode("Direct",                     MSI_MODE_DIRECT_DUMMY,                  MODE_FLAG_HAS_PER_LED_COLOR);
-    SetupMode("Static",                     MSI_MODE_STATIC,                        MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_MANUAL_SAVE);
+    // SetupMode("Direct",                     MSI_MODE_DIRECT_DUMMY,                  MODE_FLAG_HAS_PER_LED_COLOR);
+    SetupMode("Direct",                     MSI_MODE_STATIC,                        MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_MANUAL_SAVE);
     // SetupMode("Off",                        MSI_MODE_DISABLE,                       0);
     SetupMode("Breathing",                  MSI_MODE_BREATHING,                     PER_LED_ONLY);
     SetupMode("Flashing",                   MSI_MODE_FLASHING,                      COMMON);
