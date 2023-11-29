@@ -211,15 +211,7 @@ void RGBController_MSIMysticLight162::UpdateSingleLED
 
 void RGBController_MSIMysticLight162::DeviceUpdateMode()
 {
-    if(modes[active_mode].value == MSI_MODE_DIRECT_DUMMY)
-    {
-        controller->SetDirectMode(true);
-    }
-    else
-    {
-        controller->SetDirectMode(false);
-        DeviceUpdateLEDs();
-    }
+    DeviceUpdateLEDs();
 }
 
 void RGBController_MSIMysticLight162::DeviceSaveMode()
@@ -233,7 +225,6 @@ void RGBController_MSIMysticLight162::SetupModes()
     constexpr unsigned int RANDOM_ONLY  = MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_RANDOM_COLOR | MODE_FLAG_MANUAL_SAVE;
     constexpr unsigned int COMMON       = RANDOM_ONLY | MODE_FLAG_HAS_PER_LED_COLOR;
 
-    // SetupMode("Direct",                     MSI_MODE_DIRECT_DUMMY,                  MODE_FLAG_HAS_PER_LED_COLOR);
     SetupMode("Direct",                     MSI_MODE_STATIC,                        MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_MANUAL_SAVE);
     // SetupMode("Off",                        MSI_MODE_DISABLE,                       0);
     SetupMode("Breathing",                  MSI_MODE_BREATHING,                     PER_LED_ONLY);
@@ -286,20 +277,13 @@ void RGBController_MSIMysticLight162::UpdateLed
     unsigned char grn = RGBGetGValue(zones[zone].colors[led]);
     unsigned char blu = RGBGetBValue(zones[zone].colors[led]);
 
-    if(controller->IsDirectModeActive())
-    {
-        controller->SetLedColor((MSI_ZONE)zones[zone].leds[led].value, red, grn, blu);
-    }
-    else
-    {
-        bool           random     = modes[active_mode].color_mode == MODE_COLORS_RANDOM;
-        MSI_MODE       mode       = (MSI_MODE)modes[active_mode].value;
-        MSI_SPEED      speed      = (MSI_SPEED)modes[active_mode].speed;
-        MSI_BRIGHTNESS brightness = (MSI_BRIGHTNESS)modes[active_mode].brightness;
+    bool           random     = modes[active_mode].color_mode == MODE_COLORS_RANDOM;
+    MSI_MODE       mode       = (MSI_MODE)modes[active_mode].value;
+    MSI_SPEED      speed      = (MSI_SPEED)modes[active_mode].speed;
+    MSI_BRIGHTNESS brightness = (MSI_BRIGHTNESS)modes[active_mode].brightness;
 
-        controller->SetMode((MSI_ZONE)zones[zone].leds[led].value, mode, speed, brightness, random);
-        controller->SetZoneColor((MSI_ZONE)zones[zone].leds[led].value, red, grn, blu, red, grn, blu);
-    }
+    controller->SetMode((MSI_ZONE)zones[zone].leds[led].value, mode, speed, brightness, random);
+    controller->SetZoneColor((MSI_ZONE)zones[zone].leds[led].value, red, grn, blu, red, grn, blu);
 }
 
 void RGBController_MSIMysticLight162::SetupMode

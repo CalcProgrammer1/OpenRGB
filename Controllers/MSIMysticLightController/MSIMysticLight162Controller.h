@@ -59,14 +59,6 @@ public:
                         unsigned char   blu2
                         );
 
-    void            SetLedColor
-                        (
-                        MSI_ZONE        zone,
-                        unsigned char   red,
-                        unsigned char   grn,
-                        unsigned char   blu
-                        );
-
     bool            Update
                         (
                         bool save
@@ -77,12 +69,6 @@ public:
     std::string     GetFWVersion();
     std::string     GetSerial();
 
-
-    void            SetDirectMode
-                        (
-                        bool mode
-                        );
-    bool            IsDirectModeActive() { return direct_mode; }
     size_t          GetMaxOnboardLeds();
     const std::vector<MSI_ZONE>*
                     GetSupportedZones() { return supported_zones; }
@@ -106,8 +92,6 @@ private:
     std::string                     chip_id;
 
     FeaturePacket_162               data;
-    FeaturePacket_162               zone_based_per_led_data;
-    bool                            direct_mode;
     size_t                          numof_onboard_leds;
     const std::vector<MSI_ZONE>*    supported_zones;
 };
