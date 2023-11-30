@@ -3147,6 +3147,41 @@ static const razer_device blade_14_2022_device =
 };
 
 /*-------------------------------------------------------------*\
+|  Razer Blade 14 (2023) 1532:029D                              |
+|                                                               |
+|   Zone "Keyboard"                                             |
+|       Matrix                                                  |
+|       6 Rows, 16 Columns                                      |
+\*-------------------------------------------------------------*/
+static const razer_zone blade_14_2023_zone =
+{
+    ZONE_EN_KEYBOARD,
+    ZONE_TYPE_MATRIX,
+    6,
+    16
+};
+
+static const razer_device blade_14_2023_device =
+{
+    "Razer Blade 14 (2023)",
+    RAZER_BLADE_14_2023_PID,
+    DEVICE_TYPE_KEYBOARD,
+    RAZER_MATRIX_TYPE_STANDARD,
+    0x1F,
+    6,
+    16,
+    {
+        &blade_14_2023_zone,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL
+    },
+    &razer_laptop_with_spacebar_layout
+};
+
+/*-------------------------------------------------------------*\
 |  Razer Blade 15 (2022) 1532:028A                              |
 |                                                               |
 |   Zone "Keyboard"                                             |
@@ -7707,6 +7742,7 @@ const razer_device* razer_device_list[] =
     &blade_15_late_2021_advanced_device,
     &blade_14_2021_device,
     &blade_14_2022_device,
+    &blade_14_2023_device,
     &blade_15_2022_device,
     &book_13_2020_device,
     &blade_pro_2016_device,
