@@ -6,7 +6,8 @@
 
 typedef unsigned char colorful_gpu_dev_id;
 
-#define COLORFUL_PACKET_LENGTH 11
+#define COLORFUL_PACKET_LENGTH_V1 11
+#define COLORFUL_PACKET_LENGTH_V2 122
 
 class ColorfulGPUController
 {

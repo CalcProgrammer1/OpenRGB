@@ -1,5 +1,7 @@
 #include "ColorfulGPUController.h"
 #include <cstring>
+#include "pci_ids.h"
+#include "LogManager.h"
 
 ColorfulGPUController::ColorfulGPUController(i2c_smbus_interface* bus, colorful_gpu_dev_id dev)
 {
@@ -28,17 +30,40 @@ void ColorfulGPUController::SetDirect(RGBColor color)
     uint8_t g = RGBGetGValue(color);
     uint8_t b = RGBGetBValue(color);
 
-    uint8_t data_pkt[COLORFUL_PACKET_LENGTH] = { 0xAA, 0xEF, 0x12, 0x03, 0x01, 0xFF, r, g, b};
-
-    int crc = 0;
-
-    for (int i = 0; i < COLORFUL_PACKET_LENGTH - 2; ++i)
+    if(this->bus->pci_subsystem_device == COLORFUL_IGAME_RTX_4070_VULCAN_OCV)
     {
-        crc += data_pkt[i];
+        uint8_t data_pkt[COLORFUL_PACKET_LENGTH_V2] = { 0xAA, 0xEF, 0x01, 0x04, 0x88, 0x26 };
+        for(int i=6; i < COLORFUL_PACKET_LENGTH_V2 -2; i = i + 3)
+        {
+            data_pkt[i] = r;
+            data_pkt[i+1] = g;
+            data_pkt[i+2] = b;
+        }
+
+        int crc = 0;
+        for(int i = 0; i < COLORFUL_PACKET_LENGTH_V2 - 2; ++i)
+        {
+            crc += data_pkt[i];
+        }
+
+        data_pkt[COLORFUL_PACKET_LENGTH_V2 - 2] = crc & 0xFF;
+        data_pkt[COLORFUL_PACKET_LENGTH_V2 - 1] = crc >> 8;
+
+        bus->i2c_write_block(dev, COLORFUL_PACKET_LENGTH_V2, data_pkt);
     }
+    else
+    {
+        uint8_t data_pkt[COLORFUL_PACKET_LENGTH_V1] = { 0xAA, 0xEF, 0x12, 0x03, 0x01, 0xFF, r, g, b};
 
-    data_pkt[COLORFUL_PACKET_LENGTH - 2] = crc & 0xFF;
-    data_pkt[COLORFUL_PACKET_LENGTH - 1] = crc >> 8;
+        int crc = 0;
+        for(int i = 0; i < COLORFUL_PACKET_LENGTH_V1 - 2; ++i)
+        {
+            crc += data_pkt[i];
+        }
 
-    bus->i2c_write_block(dev, COLORFUL_PACKET_LENGTH, data_pkt);
+        data_pkt[COLORFUL_PACKET_LENGTH_V1 - 2] = crc & 0xFF;
+        data_pkt[COLORFUL_PACKET_LENGTH_V1 - 1] = crc >> 8;
+
+        bus->i2c_write_block(dev, COLORFUL_PACKET_LENGTH_V1, data_pkt);
+    }
 }
