@@ -38,3 +38,14 @@ const char* StringUtils::wchar_to_char(const wchar_t* pwchar)
 
     return filePathC;
 }
+
+const std::string StringUtils::remove_null_terminating_chars(std::string input)
+{
+    while (!input.empty() && input.back() == 0)
+    {
+        input.pop_back();
+    }
+
+    return input;
+}
+

@@ -7,7 +7,7 @@
 #include <fstream>
 #include <iostream>
 #include <cstring>
-
+#include "StringUtils.h"
 
 #define OPENRGB_PROFILE_HEADER  "OPENRGB_PROFILE"
 #define OPENRGB_PROFILE_VERSION OPENRGB_SDK_PROTOCOL_VERSION
@@ -25,6 +25,8 @@ ProfileManager::~ProfileManager()
 
 bool ProfileManager::SaveProfile(std::string profile_name, bool sizes)
 {
+    profile_name = StringUtils::remove_null_terminating_chars(profile_name);
+
     /*---------------------------------------------------------*\
     | Get the list of controllers from the resource manager     |
     \*---------------------------------------------------------*/
@@ -108,11 +110,13 @@ void ProfileManager::SetConfigurationDirectory(const filesystem::path& directory
 
 bool ProfileManager::LoadProfile(std::string profile_name)
 {
+    profile_name = StringUtils::remove_null_terminating_chars(profile_name);
     return(LoadProfileWithOptions(profile_name, false, true));
 }
 
 bool ProfileManager::LoadSizeFromProfile(std::string profile_name)
 {
+    profile_name = StringUtils::remove_null_terminating_chars(profile_name);
     return(LoadProfileWithOptions(profile_name, true, false));
 }
 
@@ -407,6 +411,8 @@ bool ProfileManager::LoadProfileWithOptions
 
 void ProfileManager::DeleteProfile(std::string profile_name)
 {
+    profile_name = StringUtils::remove_null_terminating_chars(profile_name);
+
     filesystem::path filename = configuration_directory / profile_name;
     filename.concat(".orp");
 
