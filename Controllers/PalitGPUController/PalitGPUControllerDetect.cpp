@@ -46,3 +46,4 @@ void DetectPalitGPUControllers(i2c_smbus_interface* bus, uint8_t i2c_addr, const
 } /* DetectPalitGPUControllers() */
 
 REGISTER_I2C_PCI_DETECTOR("Palit 1080", DetectPalitGPUControllers, NVIDIA_VEN, NVIDIA_GTX1080_DEV, NVIDIA_SUB_VEN, NVIDIA_GTX1080_DEV, 0x08);
+REGISTER_I2C_PCI_DETECTOR("Palit 1080 Ti", DetectPalitGPUControllers, NVIDIA_VEN, NVIDIA_GTX1080TI_DEV, NVIDIA_SUB_VEN, NVIDIA_GTX1080TI_DEV, 0x08);
