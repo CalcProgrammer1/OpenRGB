@@ -71,8 +71,6 @@ INCLUDEPATH +=                                                                  
     dependencies/httplib                                                                        \
     dependencies/json/                                                                          \
     dependencies/libe131/src/                                                                   \
-    dependencies/libcmmk/include/                                                               \
-    dependencies/libcmmk/src/mappings/                                                          \
     dependencies/libusb-1.0.22/include/                                                         \
     dependencies/mdns                                                                           \
     dependencies/mbedtls-2.24.0/include/                                                        \
@@ -245,17 +243,6 @@ HEADERS +=                                                                      
     dependencies/Swatches/swatches.h                                                            \
     dependencies/hidapi/hidapi/hidapi.h                                                         \
     dependencies/json/json.hpp                                                                  \
-    dependencies/libcmmk/include/libcmmk/libcmmk.h                                              \
-    dependencies/libcmmk/src/mappings/ansi/pro_s.h                                              \
-    dependencies/libcmmk/src/mappings/ansi/pro_l.h                                              \
-    dependencies/libcmmk/src/mappings/ansi/mk750.h                                              \
-    dependencies/libcmmk/src/mappings/ansi/sk630.h                                              \
-    dependencies/libcmmk/src/mappings/ansi/sk650.h                                              \
-    dependencies/libcmmk/src/mappings/iso/pro_s.h                                               \
-    dependencies/libcmmk/src/mappings/iso/pro_l.h                                               \
-    dependencies/libcmmk/src/mappings/iso/mk750.h                                               \
-    dependencies/libcmmk/src/mappings/iso/sk630.h                                               \
-    dependencies/libcmmk/src/mappings/iso/sk650.h                                               \
     LogManager.h                                                                                \
     NetworkClient.h                                                                             \
     NetworkProtocol.h                                                                           \
@@ -407,7 +394,10 @@ HEADERS +=                                                                      
     Controllers/ColorfulTuringGPUController/RGBController_ColorfulTuringGPU.h                   \
     Controllers/CoolerMasterController/CMARGBcontroller.h                                       \
     Controllers/CoolerMasterController/CMARGBGen2A1controller.h                                 \
-    Controllers/CoolerMasterController/CMMKController.h                                         \
+    Controllers/CoolerMasterController/CMKeyboardAbstractController.h                           \
+    Controllers/CoolerMasterController/CMKeyboardDevices.h                                      \
+    Controllers/CoolerMasterController/CMKeyboardV1Controller.h                                 \
+    Controllers/CoolerMasterController/CMKeyboardV2Controller.h                                 \
     Controllers/CoolerMasterController/CMMMController.h                                         \
     Controllers/CoolerMasterController/CMMM711Controller.h                                      \
     Controllers/CoolerMasterController/CMMonitorController.h                                    \
@@ -417,7 +407,7 @@ HEADERS +=                                                                      
     Controllers/CoolerMasterController/CMSmallARGBController.h                                  \
     Controllers/CoolerMasterController/RGBController_CMARGBController.h                         \
     Controllers/CoolerMasterController/RGBController_CMARGBGen2A1Controller.h                   \
-    Controllers/CoolerMasterController/RGBController_CMMKController.h                           \
+    Controllers/CoolerMasterController/RGBController_CMKeyboardController.h                   \
     Controllers/CoolerMasterController/RGBController_CMMMController.h                           \
     Controllers/CoolerMasterController/RGBController_CMMM711Controller.h                        \
     Controllers/CoolerMasterController/RGBController_CMMonitorController.h                      \
@@ -875,7 +865,6 @@ SOURCES +=                                                                      
     dependencies/hueplusplus-1.0.0/src/Utils.cpp                                                \
     dependencies/hueplusplus-1.0.0/src/ZLLSensors.cpp                                           \
     dependencies/libe131/src/e131.c                                                             \
-    dependencies/libcmmk/src/libcmmk.c                                                          \
     main.cpp                                                                                    \
     cli.cpp                                                                                     \
     LogManager.cpp                                                                              \
@@ -1038,18 +1027,21 @@ SOURCES +=                                                                      
     Controllers/ColorfulTuringGPUController/RGBController_ColorfulTuringGPU.cpp                 \
     Controllers/CoolerMasterController/CMARGBcontroller.cpp                                     \
     Controllers/CoolerMasterController/CMARGBGen2A1controller.cpp                               \
-    Controllers/CoolerMasterController/CMMKController.cpp                                       \
+    Controllers/CoolerMasterController/CMKeyboardDevices.cpp                                  \
     Controllers/CoolerMasterController/CMMMController.cpp                                       \
     Controllers/CoolerMasterController/CMMM711Controller.cpp                                    \
     Controllers/CoolerMasterController/CMMonitorController.cpp                                  \
     Controllers/CoolerMasterController/CMMP750Controller.cpp                                    \
+    Controllers/CoolerMasterController/CMKeyboardAbstractController.cpp                                   \
+    Controllers/CoolerMasterController/CMKeyboardV1Controller.cpp                               \
+    Controllers/CoolerMasterController/CMKeyboardV2Controller.cpp                               \
     Controllers/CoolerMasterController/CMR6000Controller.cpp                                    \
     Controllers/CoolerMasterController/CMRGBController.cpp                                      \
     Controllers/CoolerMasterController/CMSmallARGBController.cpp                                \
     Controllers/CoolerMasterController/CoolerMasterControllerDetect.cpp                         \
     Controllers/CoolerMasterController/RGBController_CMARGBController.cpp                       \
     Controllers/CoolerMasterController/RGBController_CMARGBGen2A1Controller.cpp                 \
-    Controllers/CoolerMasterController/RGBController_CMMKController.cpp                         \
+    Controllers/CoolerMasterController/RGBController_CMKeyboardController.cpp                 \
     Controllers/CoolerMasterController/RGBController_CMMMController.cpp                         \
     Controllers/CoolerMasterController/RGBController_CMMM711Controller.cpp                      \
     Controllers/CoolerMasterController/RGBController_CMMonitorController.cpp                    \

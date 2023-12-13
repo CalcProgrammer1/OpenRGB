@@ -17,8 +17,9 @@
 #include "RGBController_CMARGBGen2A1Controller.h"
 #include "RGBController_CMRGBController.h"
 #include "RGBController_CMR6000Controller.h"
-#include "RGBController_CMMKController.h"
 #include "RGBController_CMMonitorController.h"
+#include "RGBController_CMKeyboardController.h"
+
 /*-----------------------------------------------------*\
 | Coolermaster USB vendor ID                            |
 \*-----------------------------------------------------*/
@@ -26,13 +27,8 @@
 
 /*-----------------------------------------------------*\
 | Coolermaster Keyboards                                |
+|   PIDs defined in `CMMKControllerV2.h`                |
 \*-----------------------------------------------------*/
-#define COOLERMASTER_MASTERKEYS_PRO_L_PID           0x003B
-#define COOLERMASTER_MASTERKEYS_PRO_L_WHITE_PID     0x0047
-#define COOLERMASTER_MASTERKEYS_PRO_S_PID           0x003C
-#define COOLERMASTER_MASTERKEYS_MK750_PID           0x0067
-#define COOLERMASTER_MASTERKEYS_SK630_PID           0x0089
-#define COOLERMASTER_MASTERKEYS_SK650_PID           0x008D
 
 /*-----------------------------------------------------*\
 | Coolermaster GPUs                                     |
@@ -125,16 +121,75 @@ void DetectCoolerMasterGPU(hid_device_info* info, const std::string&)
     }
 }
 
-void DetectCoolerMasterKeyboards(hid_device_info* info, const std::string&)
+void DetectCoolerMasterV1Keyboards(hid_device_info* info, const std::string& name)
 {
     hid_device* dev = hid_open_path(info->path);
 
     if(dev)
     {
-        CMMKController*               controller     = new CMMKController(dev, info);
-        RGBController_CMMKController* rgb_controller = new RGBController_CMMKController(controller);
-        // Constructor sets the name
-        ResourceManager::get()->RegisterRGBController(rgb_controller);
+        switch(info->product_id)
+        {
+            case COOLERMASTER_KEYBOARD_PRO_L_PID:
+            case COOLERMASTER_KEYBOARD_PRO_L_WHITE_PID:
+            case COOLERMASTER_KEYBOARD_PRO_S_PID:
+            {
+                CMKeyboardV1Controller* controller                 = new CMKeyboardV1Controller(dev, info);
+                controller->SetDeviceName(name);
+                RGBController_CMKeyboardController* rgb_controller = new RGBController_CMKeyboardController(controller);
+                ResourceManager::get()->RegisterRGBController(rgb_controller);
+            }
+            break;
+
+            default:
+
+                LOG_DEBUG("[%s] Controller not created as the product ID %04X is missing from detector switch", name.c_str(), info->product_id);
+            break;
+        }
+    }
+}
+
+void DetectCoolerMasterV2Keyboards(hid_device_info* info, const std::string& name)
+{
+    hid_device* dev = hid_open_path(info->path);
+
+    if(dev)
+    {
+        switch(info->product_id)
+        {
+            case COOLERMASTER_KEYBOARD_PRO_L_PID:
+            case COOLERMASTER_KEYBOARD_PRO_L_WHITE_PID:
+            case COOLERMASTER_KEYBOARD_PRO_S_PID:
+            {
+                CMKeyboardV1Controller* controller                 = new CMKeyboardV1Controller(dev, info);
+                controller->SetDeviceName(name);
+                RGBController_CMKeyboardController* rgb_controller = new RGBController_CMKeyboardController(controller);
+                ResourceManager::get()->RegisterRGBController(rgb_controller);
+            }
+            break;
+
+            case COOLERMASTER_KEYBOARD_SK622B_PID:
+            case COOLERMASTER_KEYBOARD_SK622W_PID:
+            case COOLERMASTER_KEYBOARD_SK630_PID:
+            case COOLERMASTER_KEYBOARD_SK650_PID:
+            case COOLERMASTER_KEYBOARD_SK652_PID:
+            case COOLERMASTER_KEYBOARD_SK653_PID:
+            case COOLERMASTER_KEYBOARD_CK530_PID:
+            case COOLERMASTER_KEYBOARD_CK530_V2_PID:
+            case COOLERMASTER_KEYBOARD_CK550_V2_PID:
+            case COOLERMASTER_KEYBOARD_CK552_V2_PID:
+            case COOLERMASTER_KEYBOARD_MK730_PID:
+            case COOLERMASTER_KEYBOARD_MK750_PID:
+            {
+                CMKeyboardV2Controller* controller                 = new CMKeyboardV2Controller(dev, info);
+                controller->SetDeviceName(name);
+                RGBController_CMKeyboardController* rgb_controller = new RGBController_CMKeyboardController(controller);
+                ResourceManager::get()->RegisterRGBController(rgb_controller);
+            }
+
+            default:
+                LOG_DEBUG("[%s] Controller not created as the product ID %04X is missing from detector switch", name.c_str(), info->product_id);
+            break;
+        }
     }
 }
 
@@ -227,13 +282,24 @@ void DetectCoolerMasterMonitor(hid_device_info* info, const std::string& name)
 
 /*-----------------------------------------------------*\
 | Coolermaster Keyboards                                |
+|   PIDs defined in `CMKeyboardDevices.h`               |
 \*-----------------------------------------------------*/
-REGISTER_HID_DETECTOR_IPU("Cooler Master MasterKeys Pro L",         DetectCoolerMasterKeyboards,    COOLERMASTER_VID,   COOLERMASTER_MASTERKEYS_PRO_L_PID,          1,      0xFF00, 1);
-REGISTER_HID_DETECTOR_IPU("Cooler Master MasterKeys Pro L White",   DetectCoolerMasterKeyboards,    COOLERMASTER_VID,   COOLERMASTER_MASTERKEYS_PRO_L_WHITE_PID,    1,      0xFF00, 1);
-REGISTER_HID_DETECTOR_IPU("Cooler Master MasterKeys Pro S",         DetectCoolerMasterKeyboards,    COOLERMASTER_VID,   COOLERMASTER_MASTERKEYS_PRO_S_PID,          1,      0xFF00, 1);
-REGISTER_HID_DETECTOR_IPU("Cooler Master MK750",                    DetectCoolerMasterKeyboards,    COOLERMASTER_VID,   COOLERMASTER_MASTERKEYS_MK750_PID,          1,      0xFF00, 1);
-REGISTER_HID_DETECTOR_IPU("Cooler Master SK630",                    DetectCoolerMasterKeyboards,    COOLERMASTER_VID,   COOLERMASTER_MASTERKEYS_SK630_PID,          1,      0xFF00, 1);
-REGISTER_HID_DETECTOR_IPU("Cooler Master SK650",                    DetectCoolerMasterKeyboards,    COOLERMASTER_VID,   COOLERMASTER_MASTERKEYS_SK650_PID,          1,      0xFF00, 1);
+REGISTER_HID_DETECTOR_IPU("Cooler Master MasterKeys Pro S",         DetectCoolerMasterV1Keyboards,  COOLERMASTER_VID,   COOLERMASTER_KEYBOARD_PRO_S_PID,          1,      0xFF00, 1);
+REGISTER_HID_DETECTOR_IPU("Cooler Master MasterKeys Pro L",         DetectCoolerMasterV1Keyboards,  COOLERMASTER_VID,   COOLERMASTER_KEYBOARD_PRO_L_PID,          1,      0xFF00, 1);
+REGISTER_HID_DETECTOR_IPU("Cooler Master MasterKeys Pro L White",   DetectCoolerMasterV1Keyboards,  COOLERMASTER_VID,   COOLERMASTER_KEYBOARD_PRO_L_WHITE_PID,    1,      0xFF00, 1);
+REGISTER_HID_DETECTOR_IPU("Cooler Master MK850",                    DetectCoolerMasterV2Keyboards,  COOLERMASTER_VID,   COOLERMASTER_KEYBOARD_MK850_PID,          1,      0xFF00, 1);
+REGISTER_HID_DETECTOR_IPU("Cooler Master SK622 White",              DetectCoolerMasterV2Keyboards,  COOLERMASTER_VID,   COOLERMASTER_KEYBOARD_SK622W_PID,         1,      0xFF00, 1);
+REGISTER_HID_DETECTOR_IPU("Cooler Master SK622 Black",              DetectCoolerMasterV2Keyboards,  COOLERMASTER_VID,   COOLERMASTER_KEYBOARD_SK622B_PID,         1,      0xFF00, 1);
+REGISTER_HID_DETECTOR_IPU("Cooler Master SK630",                    DetectCoolerMasterV2Keyboards,  COOLERMASTER_VID,   COOLERMASTER_KEYBOARD_SK630_PID,          1,      0xFF00, 1);
+REGISTER_HID_DETECTOR_IPU("Cooler Master SK650",                    DetectCoolerMasterV2Keyboards,  COOLERMASTER_VID,   COOLERMASTER_KEYBOARD_SK650_PID,          1,      0xFF00, 1);
+REGISTER_HID_DETECTOR_IPU("Cooler Master SK652",                    DetectCoolerMasterV2Keyboards,  COOLERMASTER_VID,   COOLERMASTER_KEYBOARD_SK652_PID,          1,      0xFF00, 1);
+REGISTER_HID_DETECTOR_IPU("Cooler Master SK653",                    DetectCoolerMasterV2Keyboards,  COOLERMASTER_VID,   COOLERMASTER_KEYBOARD_SK653_PID,          1,      0xFF00, 1);
+REGISTER_HID_DETECTOR_IPU("Cooler Master MK730",                    DetectCoolerMasterV2Keyboards,  COOLERMASTER_VID,   COOLERMASTER_KEYBOARD_MK730_PID,          1,      0xFF00, 1);
+REGISTER_HID_DETECTOR_IPU("Cooler Master MK750",                    DetectCoolerMasterV2Keyboards,  COOLERMASTER_VID,   COOLERMASTER_KEYBOARD_MK750_PID,          1,      0xFF00, 1);
+REGISTER_HID_DETECTOR_IPU("Cooler Master CK530",                    DetectCoolerMasterV2Keyboards,  COOLERMASTER_VID,   COOLERMASTER_KEYBOARD_CK530_PID,          1,      0xFF00, 1);
+REGISTER_HID_DETECTOR_IPU("Cooler Master CK530 V2",                 DetectCoolerMasterV2Keyboards,  COOLERMASTER_VID,   COOLERMASTER_KEYBOARD_CK530_V2_PID,       1,      0xFF00, 1);
+REGISTER_HID_DETECTOR_IPU("Cooler Master CK550 V2",                 DetectCoolerMasterV2Keyboards,  COOLERMASTER_VID,   COOLERMASTER_KEYBOARD_CK550_V2_PID,       1,      0xFF00, 1);
+REGISTER_HID_DETECTOR_IPU("Cooler Master CK550 V1 / CK552",         DetectCoolerMasterV2Keyboards,  COOLERMASTER_VID,   COOLERMASTER_KEYBOARD_CK552_V2_PID,       1,      0xFF00, 1);
 
 /*-----------------------------------------------------*\
 | Coolermaster LEDstrip controllers                     |

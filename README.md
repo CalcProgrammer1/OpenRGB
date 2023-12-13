@@ -327,7 +327,6 @@ There have been two instances of hardware damage in OpenRGB's development and we
   * NVFC: https://github.com/graphitemaster/NVFC
   * Qt-Plus (ColorWheel): https://github.com/liuyanghejerry/Qt-Plus
   * AMD ADL Libraries: https://github.com/GPUOpen-LibrariesAndSDKs/display-library
-  * libcmmk: https://github.com/chmod222/libcmmk
   * hueplusplus: https://github.com/enwi/hueplusplus
   * httplib: https://github.com/yhirose/cpp-httplib
   * mdns: https://github.com/mjansson/mdns
@@ -355,3 +354,6 @@ While no code from these projects directly made its way into OpenRGB, these proj
   * g810-led: https://github.com/MatMoul/g810-led
   * liquidctl: https://github.com/jonasmalacofilho/liquidctl
   * Annemone: https://github.com/manualmanul/Annemone
+  * libcmmk: https://github.com/chmod222/libcmmk
+  * Signal RGB Plugins: https://gitlab.com/signalrgb/signal-plugins/-/tree/master/Plugins
+  * k550-macos https://github.com/vookimedlo/ck550-macos/tree/master
