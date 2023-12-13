@@ -290,6 +290,7 @@ static const mystic_light_185_config board_configs[] =
     { 0x7E07, 0,  0,  0, 2, &zones_set10, MSIMysticLight185Controller::DIRECT_MODE_PER_LED },       // PRO Z790-A WIFI DDR4
     { 0x7E12, 0,  0,  0, 2, &zones_set13, MSIMysticLight185Controller::DIRECT_MODE_PER_LED },       // MAG X670E TOMAHAWK WIFI
     { 0x7E26, 0,  0,  0, 2, &zones_set13, MSIMysticLight185Controller::DIRECT_MODE_PER_LED },       // B650 GAMING PLUS WIFI 
+    { 0x7E10, 0,  6,  0, 1, &zones_set4,  MSIMysticLight185Controller::DIRECT_MODE_PER_LED },       // MPG B650 EDGE WIFI
 };
 
 
