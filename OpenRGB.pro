@@ -794,6 +794,8 @@ HEADERS +=                                                                      
     Controllers/TrustController/TrustGXT180Controller.h                                         \
     Controllers/ViewSonicController/VS_XG270QG_Controller.h                                     \
     Controllers/ViewSonicController/RGBController_XG270QG.h                                     \
+    Controllers/WinbondGamingKeyboardController/RGBController_WinbondGamingKeyboard.h           \
+    Controllers/WinbondGamingKeyboardController/WinbondGamingKeyboardController.h               \
     Controllers/WootingKeyboardController/WootingKeyboardController.h                           \
     Controllers/WootingKeyboardController/WootingOneKeyboardController.h                        \
     Controllers/WootingKeyboardController/WootingTwoKeyboardController.h                        \
@@ -1531,6 +1533,9 @@ SOURCES +=                                                                      
     Controllers/ViewSonicController/ViewSonicControllerDetect.cpp                               \
     Controllers/ViewSonicController/RGBController_XG270QG.cpp                                   \
     Controllers/ViewSonicController/VS_XG270QG_Controller.cpp                                   \
+    Controllers/WinbondGamingKeyboardController/RGBController_WinbondGamingKeyboard.cpp         \
+    Controllers/WinbondGamingKeyboardController/WinbondGamingKeyboardController.cpp             \
+    Controllers/WinbondGamingKeyboardController/WinbondGamingKeyboardControllerDetect.cpp       \
     Controllers/WootingKeyboardController/WootingKeyboardController.cpp                         \
     Controllers/WootingKeyboardController/WootingKeyboardControllerDetect.cpp                   \
     Controllers/WootingKeyboardController/WootingOneKeyboardController.cpp                      \
