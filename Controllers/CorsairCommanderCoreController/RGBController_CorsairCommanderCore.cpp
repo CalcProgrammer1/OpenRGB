@@ -21,7 +21,7 @@
 \*-------------------------------------------------------------------*/
 
 #define NA 0xFFFFFFFF
-static unsigned int matrix_map[7][7] =
+static unsigned int matrix_map29[7][7] =
 {
     { 28,  NA,  27,  NA,  26,  NA,  25 },
     { NA,  16,  NA,  15,  NA,  14,  NA },
@@ -30,6 +30,21 @@ static unsigned int matrix_map[7][7] =
     { 18,  NA,   1,   7,   2,  NA,  23 },
     { NA,  10,  NA,  11,  NA,  12,  NA },
     { 19,  NA,  20,  NA,  21,  NA,  22 },
+};
+
+static unsigned int matrix_map24[11][11] =
+{
+    { NA,  NA,  NA,  NA,  NA,   6,  NA,  NA,  NA,  NA,  NA },
+    { NA,  NA,  NA,   4,   5,  NA,   7,   8,  NA,  NA,  NA },
+    { NA,  NA,   3,  NA,  NA,  NA,  NA,  NA,   9,  NA,  NA },
+    { NA,   2,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  10,  NA },
+    { NA,   1,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  11,  NA },
+    {  0,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  12 },
+    { NA,  23,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  13,  NA },
+    { NA,  22,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  14,  NA },
+    { NA,  NA,  21,  NA,  NA,  NA,  NA,  NA,  15,  NA,  NA },
+    { NA,  NA,  NA,  20,  19,  NA,  17,  16,  NA,  NA,  NA },
+    { NA,  NA,  NA,  NA,  NA,  18,  NA,  NA,  NA,  NA,  NA }
 };
 
 RGBController_CorsairCommanderCore::RGBController_CorsairCommanderCore(CorsairCommanderCoreController* controller_ptr)
@@ -67,16 +82,26 @@ void RGBController_CorsairCommanderCore::SetupZones()
         first_run = 1;
     }
 
+    std::vector<unsigned short int> led_count = controller->GetLedCounts();
     zones.resize(7);
     zones[0].name                   = "Pump";
     zones[0].type                   = ZONE_TYPE_MATRIX;
-    zones[0].leds_min               = 29;
-    zones[0].leds_max               = 29;
-    zones[0].leds_count             = 29;
+    zones[0].leds_min               = led_count.at(0);
+    zones[0].leds_max               = led_count.at(0);
+    zones[0].leds_count             = led_count.at(0);
     zones[0].matrix_map             = new matrix_map_type;
-    zones[0].matrix_map->height     = 7;
-    zones[0].matrix_map->width      = 7;
-    zones[0].matrix_map->map        = (unsigned int *)&matrix_map;
+    if(led_count.at(0) == 24)
+    {
+        zones[0].matrix_map->height     = 11;
+        zones[0].matrix_map->width      = 11;
+        zones[0].matrix_map->map        = (unsigned int *)&matrix_map24;
+    }
+    else
+    {
+        zones[0].matrix_map->height     = 7;
+        zones[0].matrix_map->width      = 7;
+        zones[0].matrix_map->map        = (unsigned int *)&matrix_map29;
+    }
 
     for(unsigned int i = 1; i < (CORSAIR_COMMANDER_CORE_NUM_CHANNELS + 1); i++)
     {
@@ -87,7 +112,7 @@ void RGBController_CorsairCommanderCore::SetupZones()
 
         if(first_run)
         {
-            zones[i].leds_count     = 0;
+            zones[i].leds_count     = (led_count.size() > i) ? led_count.at(i) : 0;
         }
     }
 

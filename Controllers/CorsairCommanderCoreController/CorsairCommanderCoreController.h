@@ -37,6 +37,7 @@ public:
     ~CorsairCommanderCoreController();
 
     std::string GetFirmwareString();
+    std::vector<unsigned short int> GetLedCounts();
     std::string GetLocationString();
 
     void        SetDirectColor
@@ -65,6 +66,7 @@ private:
 
     void        SendCommand(unsigned char command[2], unsigned char data[], unsigned short int data_len, unsigned char res[]);
     void        WriteData(unsigned char endpoint[2], unsigned char data_type[2], unsigned char data[], unsigned short int data_len);
+    void        ReadData(unsigned char endpoint[2], unsigned char data[]);
 
     void        SendCommit();
     void        InitController();

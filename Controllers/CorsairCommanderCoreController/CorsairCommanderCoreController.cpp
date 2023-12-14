@@ -98,6 +98,24 @@ std::string CorsairCommanderCoreController::GetLocationString()
     return("HID: " + location);
 }
 
+std::vector<unsigned short int> CorsairCommanderCoreController::GetLedCounts()
+{
+    /*-----------------------------------------------------*\
+    | Get the LED count per device                          |
+    \*-----------------------------------------------------*/
+    std::vector<unsigned short int> led_counts;
+    unsigned char endpoint[2] = {0x20, 0x00};
+    unsigned char* res = new unsigned char[command_res_size];
+    ReadData(endpoint, res);
+    for(int i = 0; i < res[2]; i++)
+    {
+        led_counts.push_back(res[i*4+6] << 8 | res[i*4+5]);
+    }
+    delete[] res;
+
+    return  led_counts;
+}
+
 void CorsairCommanderCoreController::KeepaliveThread()
 {
     while(keepalive_thread_run.load())
@@ -191,7 +209,7 @@ void CorsairCommanderCoreController::WriteData(unsigned char endpoint[2], unsign
     /*---------------------------------------------------------*\
     | Open endpoint                                             |
     \*---------------------------------------------------------*/
-    unsigned char command[2] = {0x0d, 0x00};
+    unsigned char command[2] = {0x0D, 0x00};
     SendCommand(command, endpoint, 2, NULL);
 
     /*---------------------------------------------------------*\
@@ -255,6 +273,35 @@ void CorsairCommanderCoreController::WriteData(unsigned char endpoint[2], unsign
     SendCommand(command, NULL, 0, NULL);
 }
 
+void CorsairCommanderCoreController::ReadData(unsigned char endpoint[2], unsigned char data[])
+{
+    /*---------------------------------------------------------*\
+    | Private function to read data from an endpoint            |
+    | Note: Right now we only know how to read the first packet.|
+    |       It is not currently know how to read more.          |
+    \*---------------------------------------------------------*/
+
+    /*---------------------------------------------------------*\
+    | Open endpoint                                             |
+    \*---------------------------------------------------------*/
+    unsigned char command[2] = {0x0D, 0x00};
+    SendCommand(command, endpoint, 2, NULL);
+
+    /*---------------------------------------------------------*\
+    | Read data                                                 |
+    \*---------------------------------------------------------*/
+    command[0] = 0x08;
+    command[1] = 0x00;
+    SendCommand(command, NULL, 0, data);
+
+    /*---------------------------------------------------------*\
+    | Close endpoint                                            |
+    \*---------------------------------------------------------*/
+    command[0] = 0x05;
+    command[1] = 0x01;
+    SendCommand(command, NULL, 0, NULL);
+}
+
 void CorsairCommanderCoreController::SetDirectColor
     (
         std::vector<RGBColor> colors,
@@ -282,24 +329,17 @@ void CorsairCommanderCoreController::SetDirectColor
                 usb_buf[packet_offset]   = RGBGetRValue(colors[i]);
                 usb_buf[packet_offset+1] = RGBGetGValue(colors[i]);
                 usb_buf[packet_offset+2] = RGBGetBValue(colors[i]);
-
                 packet_offset += 3;
             }
 
             led_idx = led_idx + zones[zone_idx].leds_count;
 
-            /*-------------------------------------------------*\
-            | Move offset for pump zone with less than 29 LEDs  |
-            \*-------------------------------------------------*/
-            if(zone_idx == 0)
-            {
-                packet_offset += 3 * (29 - zones[zone_idx].leds_count);
-            }
-            else
-            {
+
             /*-------------------------------------------------*\
             | Move offset for fans with less than 34 LEDs       |
             \*-------------------------------------------------*/
+            if(zone_idx != 0)
+            {
                 packet_offset += 3 * (34 - zones[zone_idx].leds_count);
             }
 
