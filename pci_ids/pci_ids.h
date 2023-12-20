@@ -574,6 +574,7 @@
 #define MSI_RTX3070TI_GAMING_X_TRIO_SUB_DEV             0x5052
 #define MSI_RTX3070_SUPRIM_SUB_DEV                      0x390C
 #define MSI_RTX3070_SUPRIM_X_SUB_DEV                    0x3901
+#define MSI_RTX3070_SUPRIM_X_GODZILLA_SUB_DEV           0x3902
 #define MSI_RTX3080_GAMING_X_TRIO_SUB_DEV               0x3892
 #define MSI_RTX3080_SUPRIM_X_SUB_DEV                    0x3897
 #define MSI_RTX3080TI_GAMING_X_TRIO_SUB_DEV             0x389B
