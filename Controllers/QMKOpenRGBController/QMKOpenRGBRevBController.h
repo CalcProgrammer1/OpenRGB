@@ -9,62 +9,21 @@
 
 #pragma once
 
-#include "QMKOpenRGBController.h"
+#include "QMKOpenRGBBaseController.h"
 
-class QMKOpenRGBRevBController
+class QMKOpenRGBRevBController : public QMKOpenRGBBaseController
 {
 public:
     QMKOpenRGBRevBController(hid_device *dev_handle, const char *path);
     ~QMKOpenRGBRevBController();
 
-    std::string     GetLocation();
-    std::string     GetDeviceName();
-    std::string     GetDeviceVendor();
-
-    unsigned int    GetTotalNumberOfLEDs();
-    unsigned int    GetTotalNumberOfLEDsWithEmptySpace();
-    unsigned int    GetMode();
-    unsigned int    GetModeSpeed();
-    unsigned int    GetModeColor();
-
-    std::vector<point_t>        GetLEDPoints();
-    std::vector<unsigned int>   GetLEDFlags();
-    std::vector<std::string>    GetLEDNames();
-    std::vector<RGBColor>       GetLEDColors();
-
-    unsigned int                GetProtocolVersion();
-    std::string                 GetQMKVersion();
-    void                        GetDeviceInfo();
-    void                        GetModeInfo();
-    void                        GetLEDInfo(unsigned int leds_count);
-    std::vector<unsigned int>   GetEnabledModes();
-
-    void            SetMode(hsv_t hsv_color, unsigned char mode, unsigned char speed, bool save);
+    //Virtual function implementations
+    void            GetLEDInfo(unsigned int leds_count);
     void            DirectModeSetSingleLED(unsigned int led, unsigned char red, unsigned char green, unsigned char blue);
     void            DirectModeSetLEDs(std::vector<RGBColor> colors, unsigned int num_colors);
 
-protected:
-    hid_device *dev;
+    //Protocol Specific functions
+    std::vector<unsigned int>   GetEnabledModes();
 
 private:
-    unsigned int    leds_per_update;
-
-    std::string     location;
-
-    std::string     device_name;
-    std::string     device_vendor;
-
-    std::chrono::milliseconds   delay;
-
-    unsigned int    total_number_of_leds;
-    unsigned int    total_number_of_leds_with_empty_space;
-    unsigned int    mode;
-    unsigned int    mode_speed;
-
-    RGBColor        mode_color;
-
-    std::vector<point_t>        led_points;
-    std::vector<unsigned int>   led_flags;
-    std::vector<std::string>    led_names;
-    std::vector<RGBColor>       led_colors;
 };

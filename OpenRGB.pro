@@ -691,6 +691,7 @@ HEADERS +=                                                                      
     Controllers/PNYLovelaceGPUController/PNYLovelaceGPUController.h                             \
     Controllers/PNYLovelaceGPUController/RGBController_PNYLovelaceGPU.h                         \
     Controllers/QMKOpenRGBController/QMKOpenRGBController.h                                     \
+    Controllers/QMKOpenRGBController/QMKOpenRGBBaseController.h                                 \
     Controllers/QMKOpenRGBController/QMKOpenRGBRev9Controller.h                                 \
     Controllers/QMKOpenRGBController/QMKOpenRGBRevBController.h                                 \
     Controllers/QMKOpenRGBController/QMKOpenRGBRevDController.h                                 \
@@ -1419,6 +1420,7 @@ SOURCES +=                                                                      
     Controllers/PNYLovelaceGPUController/PNYLovelaceGPUControllerDetect.cpp                     \
     Controllers/PNYLovelaceGPUController/RGBController_PNYLovelaceGPU.cpp                       \
     Controllers/QMKOpenRGBController/QMKOpenRGBControllerDetect.cpp                             \
+    Controllers/QMKOpenRGBController/QMKOpenRGBBaseController.cpp                               \
     Controllers/QMKOpenRGBController/QMKOpenRGBRev9Controller.cpp                               \
     Controllers/QMKOpenRGBController/QMKOpenRGBRevBController.cpp                               \
     Controllers/QMKOpenRGBController/QMKOpenRGBRevDController.cpp                               \
