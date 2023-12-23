@@ -62,6 +62,7 @@ device_info RoccatVulcanKeyboardController::InitDeviceInfo()
     switch(device_pid)
     {
         case ROCCAT_MAGMA_PID:
+        case ROCCAT_MAGMA_MINI_PID:
             packet_length = 9;
             report_id     = 0x09;
             break;
@@ -81,7 +82,7 @@ device_info RoccatVulcanKeyboardController::InitDeviceInfo()
 
     dev_info.version = version;
 
-    if(device_pid == ROCCAT_MAGMA_PID)
+    if(device_pid == ROCCAT_MAGMA_PID || device_pid == ROCCAT_MAGMA_MINI_PID)
     {
         /*---------------------------------------------------------*\
         | This device doesn't need a layout,                        |
@@ -112,6 +113,7 @@ void RoccatVulcanKeyboardController::EnableDirect(bool on_off_switch)
     switch(device_pid)
     {
         case ROCCAT_MAGMA_PID:
+        case ROCCAT_MAGMA_MINI_PID:
             buf = new uint8_t[5] { 0x0E, 0x05, on_off_switch, 0x00, 0x00 };
             hid_send_feature_report(dev_ctrl, buf, 5);
             break;
@@ -131,6 +133,7 @@ void RoccatVulcanKeyboardController::SendColors(std::vector<led_color> colors)
     switch(device_pid)
     {
         case ROCCAT_MAGMA_PID:
+        case ROCCAT_MAGMA_MINI_PID:
             packet_length = 64;
             column_length = 5;
             break;
@@ -204,6 +207,7 @@ void RoccatVulcanKeyboardController::SendMode(unsigned int mode, unsigned int sp
     switch(device_pid)
     {
         case ROCCAT_MAGMA_PID:
+        case ROCCAT_MAGMA_MINI_PID:
             protocol_version = 2;
             packet_length = 26;
             column_length = 5;
@@ -288,6 +292,7 @@ void RoccatVulcanKeyboardController::WaitUntilReady()
     switch(device_pid)
     {
         case ROCCAT_MAGMA_PID:
+        case ROCCAT_MAGMA_MINI_PID:
             packet_length = 4;
             break;
         default:

@@ -112,6 +112,7 @@ void RGBController_RoccatVulcanKeyboard::SetupZones()
             keyboard_ptr = &RoccatVulcanTKLLayouts;
             break;
         case ROCCAT_MAGMA_PID:
+        case ROCCAT_MAGMA_MINI_PID:
             keyboard_ptr = &RoccatMagmaLayouts;
             break;
         default:
