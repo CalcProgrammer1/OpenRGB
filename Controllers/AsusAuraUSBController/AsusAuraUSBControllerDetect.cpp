@@ -382,6 +382,7 @@ REGISTER_HID_DETECTOR_IP("ASUS ROG Strix Impact II Electro Punk",               
 REGISTER_HID_DETECTOR_IP("ASUS ROG Strix Impact II Moonlight White",            DetectAsusAuraUSBMice,  AURA_USB_VID, AURA_ROG_STRIX_IMPACT_II_WHITE_PID,               0,  0xFF01);
 REGISTER_HID_DETECTOR_IP("ASUS ROG Strix Impact II Wireless USB",               DetectAsusAuraUSBMice,  AURA_USB_VID, AURA_ROG_STRIX_IMPACT_II_WIRELESS_USB_PID,        0,  0xFF01);
 REGISTER_HID_DETECTOR_IP("ASUS ROG Strix Impact II Wireless 2.4 Ghz",           DetectAsusAuraUSBMice,  AURA_USB_VID, AURA_ROG_STRIX_IMPACT_II_WIRELESS_2_4_PID,        0,  0xFF01);
+REGISTER_HID_DETECTOR_IP("ASUS ROG Strix Impact III",                           DetectAsusAuraUSBMice,  AURA_USB_VID, AURA_ROG_STRIX_IMPACT_III_PID,                    0,  0xFF01);
 REGISTER_HID_DETECTOR_IP("ASUS ROG Keris",                                      DetectAsusAuraUSBMice,  AURA_USB_VID, AURA_ROG_KERIS,                                   0,  0xFF01);
 REGISTER_HID_DETECTOR_IP("ASUS ROG Keris Wireless USB",                         DetectAsusAuraUSBMice,  AURA_USB_VID, AURA_ROG_KERIS_WIRELESS_USB_PID,                  0,  0xFF01);
 REGISTER_HID_DETECTOR_IP("ASUS ROG Keris Wireless 2.4Ghz",                      DetectAsusAuraUSBMice,  AURA_USB_VID, AURA_ROG_KERIS_WIRELESS_2_4_PID,                  0,  0xFF01);

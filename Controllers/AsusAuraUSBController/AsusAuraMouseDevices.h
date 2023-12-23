@@ -43,6 +43,7 @@
 #define AURA_ROG_STRIX_IMPACT_II_WHITE_PID              0x19D2
 #define AURA_ROG_STRIX_IMPACT_II_WIRELESS_USB_PID       0x1947
 #define AURA_ROG_STRIX_IMPACT_II_WIRELESS_2_4_PID       0x1949
+#define AURA_ROG_STRIX_IMPACT_III_PID                   0x1A88
 #define AURA_ROG_KERIS                                  0x195C
 #define AURA_ROG_KERIS_WIRELESS_USB_PID                 0x195E
 #define AURA_ROG_KERIS_WIRELESS_2_4_PID                 0x1960
@@ -518,6 +519,20 @@ static std::map<int,mouse_type> aura_mouse_devices =
         }
     },
     {
+        AURA_ROG_STRIX_IMPACT_III_PID, // ROG Strix Impact III
+        {
+            0,
+            0,
+            0,
+            100,
+            false,
+            1,
+            true,
+            { AURA_MOUSE_ZONE_LOGO, AURA_MOUSE_ZONE_SCROLL },
+            { AURA_MOUSE_MODE_STATIC, AURA_MOUSE_MODE_BREATHING, AURA_MOUSE_MODE_SPECTRUM, AURA_MOUSE_MODE_NONE, AURA_MOUSE_MODE_REACTIVE }
+        }
+    },
+    {
         AURA_ROG_KERIS, // ROG Keris
         {
             0,
@@ -693,6 +708,16 @@ static std::map<unsigned short, led_map > aura_mouse_led_maps =
                 { AURA_MOUSE_ZONE_LOGO, { 7 } },
                 { AURA_MOUSE_ZONE_SCROLL, { 8 } },
                 { AURA_MOUSE_ZONE_UNDERGLOW, { 0, 1, 2, 3, 4, 5, 6 } },
+            }
+        }
+    },
+    {
+        AURA_ROG_STRIX_IMPACT_III_PID,
+        {
+            2,
+            {
+                { AURA_MOUSE_ZONE_LOGO, { 0 } },
+                { AURA_MOUSE_ZONE_SCROLL, { 1 } },
             }
         }
     }
