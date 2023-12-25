@@ -253,6 +253,7 @@
 #define ASUS_ROG_STRIX_RTX_3090_O24G_GAMING             0x87AF
 #define ASUS_ROG_STRIX_RTX_3090_O24G_GAMING_WHITE       0x87D9
 #define ASUS_ROG_STRIX_RTX_3090_O24G_EVA                0x8886
+#define ASUS_ROG_STRIX_RTX_3090_GUNDAM_EDITION          0x87CD
 #define ASUS_TUF_RTX_3090_O24G                          0x87B5
 #define ASUS_TUF_RTX_3090_O24G_OC                       0x87B3
 #define ASUS_TUF_RTX_3090TI_24G_GAMING                  0x8875
