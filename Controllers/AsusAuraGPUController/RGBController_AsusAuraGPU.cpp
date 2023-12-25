@@ -45,11 +45,15 @@ int RGBController_AuraGPU::GetDeviceMode()
     @name Asus Aura GPU
     @category GPU
     @type SMBus
-    @save :x:
+    @save :tools:
     @direct :white_check_mark:
     @effects :white_check_mark:
     @detectors DetectAsusAuraGPUControllers
-    @comment
+    @comment On some models save command might function like apply.
+        Known models with correctly working save: ASUS Vega 64 Strix.
+        This may result in changes not applying until user clicks
+        "save to device". Contact OpenRGB developers if you have one
+        of the affected models.
 \*-------------------------------------------------------------------*/
 
 RGBController_AuraGPU::RGBController_AuraGPU(AuraGPUController * controller_ptr)
@@ -69,38 +73,44 @@ RGBController_AuraGPU::RGBController_AuraGPU(AuraGPUController * controller_ptr)
     Direct.color_mode = MODE_COLORS_PER_LED;
     modes.push_back(Direct);
 
+    unsigned int save_flags = 0;
+    if(!controller->SaveOnlyApplies())
+    {
+        save_flags |= MODE_FLAG_MANUAL_SAVE;
+    }
+
     mode Off;
     Off.name       = "Off";
     Off.value      = AURA_GPU_MODE_OFF;
-    Off.flags      = 0;
+    Off.flags      = save_flags;
     Off.color_mode = MODE_COLORS_NONE;
     modes.push_back(Off);
 
     mode Static;
     Static.name       = "Static";
     Static.value      = AURA_GPU_MODE_STATIC;
-    Static.flags      = MODE_FLAG_HAS_PER_LED_COLOR;
+    Static.flags      = MODE_FLAG_HAS_PER_LED_COLOR | save_flags;
     Static.color_mode = MODE_COLORS_PER_LED;
     modes.push_back(Static);
 
     mode Breathing;
     Breathing.name       = "Breathing";
     Breathing.value      = AURA_GPU_MODE_BREATHING;
-    Breathing.flags      = MODE_FLAG_HAS_PER_LED_COLOR;
+    Breathing.flags      = MODE_FLAG_HAS_PER_LED_COLOR | save_flags;
     Breathing.color_mode = MODE_COLORS_PER_LED;
     modes.push_back(Breathing);
 
     mode Flashing;
     Flashing.name       = "Flashing";
     Flashing.value      = AURA_GPU_MODE_FLASHING;
-    Flashing.flags      = MODE_FLAG_HAS_PER_LED_COLOR;
+    Flashing.flags      = MODE_FLAG_HAS_PER_LED_COLOR | save_flags;
     Flashing.color_mode = MODE_COLORS_PER_LED;
     modes.push_back(Flashing);
 
     mode Spectrum_Cycle;
     Spectrum_Cycle.name       = "Spectrum Cycle";
-    Spectrum_Cycle.value      = AURA_GPU_MODE_SPECTRUM_CYCLE;
-    Spectrum_Cycle.flags      = 0;
+    Spectrum_Cycle.value      = AURA_GPU_MODE_SPECTRUM_CYCLE ;
+    Spectrum_Cycle.flags      = save_flags;
     Spectrum_Cycle.color_mode = MODE_COLORS_NONE;
     modes.push_back(Spectrum_Cycle);
 
@@ -162,14 +172,11 @@ void RGBController_AuraGPU::DeviceUpdateLEDs()
         unsigned char grn = RGBGetGValue(colors[led]);
         unsigned char blu = RGBGetBValue(colors[led]);
 
-        if (GetMode() == 0)
-        {
-            controller->SetLEDColorsDirect(red, grn, blu);
-        }
-        else
-        {
-            controller->SetLEDColorsEffect(red, grn, blu);
-        }
+        controller->SetLEDColors(red, grn, blu);
+    }
+    if (controller->SaveOnlyApplies() && GetMode() != 0)
+    {
+        controller->Save();
     }
 }
 
@@ -192,7 +199,7 @@ void RGBController_AuraGPU::DeviceUpdateMode()
     {
         // Set all LEDs to 0 and Mode to static as a workaround for the non existing Off Mode
         case AURA_GPU_MODE_OFF:
-            controller->SetLEDColorsEffect(0, 0, 0);
+            controller->SetLEDColors(0, 0, 0);
             new_mode           = AURA_GPU_MODE_STATIC;
             break;
 
@@ -204,4 +211,13 @@ void RGBController_AuraGPU::DeviceUpdateMode()
     }
 
     controller->SetMode(new_mode);
+    if (controller->SaveOnlyApplies())
+    {
+        controller->Save();
+    }
+}
+
+void RGBController_AuraGPU::DeviceSaveMode()
+{
+    controller->Save();
 }

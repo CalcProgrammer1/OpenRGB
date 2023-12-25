@@ -7,6 +7,7 @@
 \*-----------------------------------------*/
 
 #include "AsusAuraGPUController.h"
+#include "pci_ids.h"
 #include <cstring>
 
 AuraGPUController::AuraGPUController(i2c_smbus_interface* bus, aura_gpu_dev_id dev)
@@ -52,25 +53,16 @@ unsigned char AuraGPUController::GetLEDBlue()
     return(AuraGPURegisterRead(AURA_GPU_REG_BLUE));
 }
 
-void AuraGPUController::SetLEDColorsDirect(unsigned char red, unsigned char green, unsigned char blue)                  // Direct Mode is just Static Mode without applying color changes
+void AuraGPUController::SetLEDColors(unsigned char red, unsigned char green, unsigned char blue)
 {
     AuraGPURegisterWrite(AURA_GPU_REG_RED, red);
     AuraGPURegisterWrite(AURA_GPU_REG_GREEN, green);
     AuraGPURegisterWrite(AURA_GPU_REG_BLUE, blue);
-}
-
-void AuraGPUController::SetLEDColorsEffect(unsigned char red, unsigned char green, unsigned char blue)
-{
-    AuraGPURegisterWrite(AURA_GPU_REG_RED, red);
-    AuraGPURegisterWrite(AURA_GPU_REG_GREEN, green);
-    AuraGPURegisterWrite(AURA_GPU_REG_BLUE, blue);
-    AuraGPURegisterWrite(AURA_GPU_REG_APPLY, AURA_GPU_APPLY_VAL);
 }
 
 void AuraGPUController::SetMode(unsigned char mode)
 {
     AuraGPURegisterWrite(AURA_GPU_REG_MODE, mode);
-    AuraGPURegisterWrite(AURA_GPU_REG_APPLY, AURA_GPU_APPLY_VAL);
 }
 
 unsigned char AuraGPUController::AuraGPURegisterRead(unsigned char reg)
@@ -81,4 +73,21 @@ unsigned char AuraGPUController::AuraGPURegisterRead(unsigned char reg)
 void AuraGPUController::AuraGPURegisterWrite(unsigned char reg, unsigned char val)
 {
     bus->i2c_smbus_write_byte_data(dev, reg, val);
+}
+
+bool AuraGPUController::SaveOnlyApplies()
+{
+    switch (bus->pci_subsystem_device)
+    {
+        case ASUS_VEGA64_STRIX:
+            return false;
+    }
+    // Behavior on other GPU models is unknown and needs to be tested.
+    // Assume the safest option to prevent damaage from excessive writes.
+    return false;
+}
+
+void AuraGPUController::Save()
+{
+    AuraGPURegisterWrite(AURA_GPU_REG_APPLY, AURA_GPU_APPLY_VAL);
 }
