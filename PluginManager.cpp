@@ -107,8 +107,16 @@ void PluginManager::AddPlugin(const filesystem::path& path)
         \*-----------------------------------------------------------------*/
         std::string     path_string = path.generic_u8string();
         QPluginLoader*  loader      = new QPluginLoader(QString::fromStdString(path_string));
-        QObject*        instance    = loader->instance();
 
+        /*-----------------------------------------------------------------*\
+        | Change the loader Hint flag to able to delete the plugin          |
+        | The default value is QLibrary::PreventUnloadHint                  |
+        \*-----------------------------------------------------------------*/
+        loader->setLoadHints(QLibrary::ExportExternalSymbolsHint);
+
+        /*-----------------------------------------------------------------*\
+        | Check if the plugin was loaded                                    |
+        \*-----------------------------------------------------------------*/
         if(!loader->isLoaded())
         {
             LOG_WARNING("[PluginManager] Plugin %s cannot be loaded: %s", path.c_str(), loader->errorString().toStdString().c_str());
@@ -117,6 +125,8 @@ void PluginManager::AddPlugin(const filesystem::path& path)
         /*-----------------------------------------------------------------*\
         | Check that the plugin is valid, then check the API version        |
         \*-----------------------------------------------------------------*/
+        QObject*        instance    = loader->instance();
+        
         if(instance)
         {
             plugin = qobject_cast<OpenRGBPluginInterface*>(instance);
