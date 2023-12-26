@@ -183,6 +183,8 @@
 #define RAZER_NAGA_TRINITY_PID                          0x0067
 #define RAZER_NAGA_PRO_WIRED_PID                        0x008F
 #define RAZER_NAGA_PRO_WIRELESS_PID                     0x0090
+#define RAZER_NAGA_PRO_V2_WIRED_PID                     0x00A7
+#define RAZER_NAGA_PRO_V2_WIRELESS_PID                  0x00A8
 #define RAZER_OROCHI_2011_PID                           0x0013
 #define RAZER_OROCHI_2013_PID                           0x0039
 #define RAZER_OROCHI_CHROMA_PID                         0x0048
