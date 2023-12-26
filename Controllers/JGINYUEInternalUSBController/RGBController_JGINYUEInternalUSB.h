@@ -1,7 +1,7 @@
 /*------------------------------------------------*\
-|  RGBController_JginYueInternalUSB.h              |
+|  RGBController_JGINYUEInternalUSB.h              |
 |                                                  |
-|  Generic RGB Interface JginYueInternalUSB Class  |
+|  Generic RGB Interface JGINYUEInternalUSB Class  |
 |                                                  |
 |  Tong R    (tcr020)  2023/08/09                  |
 |  Liu  ShiMeng    (Moon dream stars)  2003/08/09  |
@@ -12,12 +12,12 @@
 #pragma once
 
 #include "RGBController.h"
-#include "JginYueInternalUSBController.h"
+#include "JGINYUEInternalUSBController.h"
 
-class RGBController_JginYueInternalUSB : public RGBController
+class RGBController_JGINYUEInternalUSB : public RGBController
 {
 public:
-    RGBController_JginYueInternalUSB(JginYueInternalUSBController* controller_ptr);
+    RGBController_JGINYUEInternalUSB(JGINYUEInternalUSBController* controller_ptr);
 
     void        SetupZones();
 
@@ -30,5 +30,5 @@ public:
     void        DeviceUpdateMode();
 
 private:
-    JginYueInternalUSBController*        controller;
+    JGINYUEInternalUSBController*   controller;
 };
