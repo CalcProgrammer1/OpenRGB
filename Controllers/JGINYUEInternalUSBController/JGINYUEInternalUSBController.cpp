@@ -31,6 +31,7 @@
 #define JGINYUE_RG_DEFAULT                              0x01
 #define JGINYUE_RG_SWAP                                 0x00
 
+using namespace std::chrono_literals;
 
 JGINYUEInternalUSBController::JGINYUEInternalUSBController(hid_device* dev_handle, const char* path)
 {
@@ -151,7 +152,9 @@ void JGINYUEInternalUSBController::WriteZoneMode
     usb_buf[0x04]   = device_config[Active_zone].Direction;
     usb_buf[0x05]   = device_config[Active_zone].Direct_Mode_control;
 
-    hid_write(dev, usb_buf ,16);
+    hid_write(dev, usb_buf, 16);
+
+    std::this_thread::sleep_for(5ms);
 
     memset(usb_buf, 0x00, sizeof(usb_buf));
 
@@ -203,6 +206,8 @@ void JGINYUEInternalUSBController::DirectLEDControl
     usb_buf[0x05]   = device_config[Active_zone].Direct_Mode_control;
 
     hid_write(dev, usb_buf, 16);
+
+    std::this_thread::sleep_for(5ms);
 
     memset(usb_buf, 0x00, sizeof(usb_buf));
     
