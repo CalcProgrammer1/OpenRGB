@@ -52,7 +52,6 @@
 #define LOGITECH_CMD_RGB_EFFECTS_SET_STATE              0x50
 #define LOGITECH_CMD_RGB_EFFECTS_GET_CONFIG             0x60
 #define LOGITECH_CMD_RGB_EFFECTS_SET_CONFIG             0x70
-#define LOGITECH_CMD_RGB_EFFECTS_UNKNOWN                0x80    //Used to set "direct" mode
 
 enum LOGITECH_DEVICE_TYPE
 {
@@ -77,6 +76,51 @@ enum LOGITECH_DEVICE_MODE
     LOGITECH_DEVICE_LED_BREATHING       = 0x000A,
     LOGITECH_DEVICE_LED_RIPPLE          = 0x000B,
     LOGITECH_DEVICE_LED_CUSTOM          = 0x000C
+};
+
+enum LOGITECH_FP8070
+{
+    LOGITECH_FP8070_INFO                = 0x00,
+    LOGITECH_FP8070_ZONE_INFO           = 0x10,
+    LOGITECH_FP8070_EFFECT_INFO         = 0x20,
+    LOGITECH_FP8070_SET_EFFECT          = 0x30,
+    LOGITECH_FP8070_SET_CFG             = 0x40,
+    LOGITECH_FP8070_GET_CFG             = 0x50,
+    LOGITECH_FP8070_GET_BIN_INFO        = 0x60,
+    LOGITECH_FP8070_GET_SW_CTL          = 0x70,
+    LOGITECH_FP8070_SET_SW_CTL          = 0x80,
+    LOGITECH_FP8070_GET_STATUS          = 0x90,
+    LOGITECH_FP8070_CLEAR_EFFECT        = 0xA0,
+    LOGITECH_FP8070_SET_DIR             = 0xB0,
+    LOGITECH_FP8070_GET_COLOUR          = 0xC0,
+    LOGITECH_FP8070_SYNC_CFG            = 0xD0,
+    LOGITECH_FP8070_GET_EFFECT          = 0xE0,
+    LOGITECH_FP8070_SET_BIN_INFO        = 0xF0,
+};
+
+enum LOGITECH_FP8071
+{
+    LOGITECH_FP8071_INFO                = 0x00,
+    LOGITECH_FP8071_SET_LED_EFFECT      = 0x10,
+    LOGITECH_FP8071_ZONE_PATTERN        = 0x20,
+    LOGITECH_FP8071_CONFIG              = 0x30,
+    LOGITECH_FP8070_BIN_INFO            = 0x40,
+    LOGITECH_FP8071_CONTROL             = 0x50,
+    LOGITECH_FP8071_SYNC_CFG            = 0x60,
+    LOGITECH_FP8071_PWR_CFG             = 0x70,
+    LOGITECH_FP8071_PWR_MODE            = 0x80,
+    LOGITECH_FP8071_SHUTDOWN            = 0x90
+};
+
+enum LOGITECH_FP8071_FLAGS
+{
+    FP8071_SUPPORTS_GET_STATUS          = 0x01,
+    FP8071_RESERVED                     = 0x02,
+    FP8071_SUPPORTS_SET_BIN_INFO        = 0x04,
+    FP8071_MONOCHROME_ONLY              = 0x08,
+    FP8071_NO_SYNC_SUPPORT              = 0x10,
+    FP8071_SUPPORTS_SHUTDOWN            = 0x20,
+    FP8071_SUPPORTS_CLUSTER_CHANGED     = 0x40,
 };
 
 extern const char* logitech_led_locations[];
@@ -122,7 +166,7 @@ union shortFAPrequest
         this->report_id         = LOGITECH_SHORT_MESSAGE;
         this->device_index      = device_index;
         this->feature_index     = feature_index;
-        this->feature_command   = 0;
+        this->feature_command   = feature_command;
         for(size_t i = 0; i < sizeof(data); i++)
         {
             this->data[i]   = 0;
@@ -258,6 +302,8 @@ public:
     logitech_led                getLED_info(uint8_t LED_num);
     uint8_t                     setDirectMode(bool direct);
     uint8_t                     setMode(uint8_t mode, uint16_t speed, uint8_t zone, uint8_t red, uint8_t green, uint8_t blue, uint8_t brightness);
+    uint8_t                     set8071Effects(uint8_t control);
+    uint8_t                     set8071TimeoutControl(uint8_t control);
     int                         getDeviceName();
 private:
     std::map<uint8_t, logitech_led> leds;

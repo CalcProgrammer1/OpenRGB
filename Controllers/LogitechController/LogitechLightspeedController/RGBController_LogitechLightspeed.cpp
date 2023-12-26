@@ -168,6 +168,7 @@ void RGBController_LogitechLightspeed::SetupZones()
     const std::string led_string    = "LED";
     uint8_t led_count               = controller->lightspeed->getLED_count();
 
+    LOG_DEBUG("[%s] Setting up %d LEDs", name.c_str(), led_count);
     if(led_count > 0)
     {
         for(size_t i = 0; i < led_count; i++)
