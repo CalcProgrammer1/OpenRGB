@@ -20,6 +20,7 @@ enum
     ROCCAT_VULCAN_100_AIMO_PID  = 0x307A,
     ROCCAT_VULCAN_120_AIMO_PID  = 0x3098,
     ROCCAT_VULCAN_TKL_PID       = 0x2FEE,
+    ROCCAT_PYRO_PID             = 0x314C,
     ROCCAT_MAGMA_PID            = 0x3124,
     ROCCAT_MAGMA_MINI_PID       = 0x69A0,
 };
@@ -29,7 +30,13 @@ enum
     ROCCAT_VULCAN_MODE_DIRECT   = 0x0B,
     ROCCAT_VULCAN_MODE_STATIC   = 0x01,
     ROCCAT_VULCAN_MODE_WAVE     = 0x0A,
-    ROCCAT_VULCAN_MODE_DEFAULT  = 0x00,
+    /*-------------------------------------------------------------------*\
+    |  This mode is not a real mode, it's just the default mode when      |
+    |  a mode is software generated, but Swarm is inactive, hence it has  |
+    |  no id. Unfortunately 0 is refused by some keyboards, so 2 seems    |
+    |  like a good choice as it is not used anywhere else                 |
+    \*-------------------------------------------------------------------*/
+    ROCCAT_VULCAN_MODE_DEFAULT  = 0x02,
 };
 
 enum

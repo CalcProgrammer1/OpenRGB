@@ -61,6 +61,7 @@ device_info RoccatVulcanKeyboardController::InitDeviceInfo()
 
     switch(device_pid)
     {
+        case ROCCAT_PYRO_PID:
         case ROCCAT_MAGMA_PID:
         case ROCCAT_MAGMA_MINI_PID:
             packet_length = 9;
@@ -112,6 +113,7 @@ void RoccatVulcanKeyboardController::EnableDirect(bool on_off_switch)
     uint8_t* buf;
     switch(device_pid)
     {
+        case ROCCAT_PYRO_PID:
         case ROCCAT_MAGMA_PID:
         case ROCCAT_MAGMA_MINI_PID:
             buf = new uint8_t[5] { 0x0E, 0x05, on_off_switch, 0x00, 0x00 };
@@ -128,7 +130,7 @@ void RoccatVulcanKeyboardController::SendColors(std::vector<led_color> colors)
 {
     unsigned short packet_length;
     unsigned char  column_length;
-    unsigned char  header_length = 0;
+    unsigned char  protocol_version;
 
     switch(device_pid)
     {
@@ -136,10 +138,17 @@ void RoccatVulcanKeyboardController::SendColors(std::vector<led_color> colors)
         case ROCCAT_MAGMA_MINI_PID:
             packet_length = 64;
             column_length = 5;
+            protocol_version = 2;
+            break;
+        case ROCCAT_PYRO_PID:
+            packet_length = 378;
+            column_length = 1;
+            protocol_version = 2;
             break;
         default:
             packet_length = 436;
             column_length = 12;
+            protocol_version = 1;
     }
     
     unsigned char packet_num = ceil((float) packet_length / 64);
@@ -152,8 +161,19 @@ void RoccatVulcanKeyboardController::SendColors(std::vector<led_color> colors)
         memset(&bufs[p][0], 0x00, sizeof(bufs[p][0]) * bufs[p].size());
     }
 
-    bufs[0][1] = 0xA1;
-    bufs[0][2] = 0x01;
+    if(protocol_version > 1)
+    {
+        for(unsigned int i = 0; i < packet_num; i++)
+        {
+            bufs[i][1] = 0xA1;
+            bufs[i][2] = i + 1;
+        }
+    }
+    else
+    {
+        bufs[0][1] = 0xA1;
+        bufs[0][2] = 0x01;
+    }
 
     unsigned char header_length_first = (packet_length > 255) ? 4 : 3;
 
@@ -163,26 +183,58 @@ void RoccatVulcanKeyboardController::SendColors(std::vector<led_color> colors)
     }
     else
     {
-        bufs[0][3] = packet_length / 256;
-        bufs[0][4] = packet_length % 256;
+        if(protocol_version > 1)
+        {
+            bufs[0][3] = packet_length % 256;
+            bufs[0][4] = packet_length / 256;
+        }
+        else
+        {
+            bufs[0][3] = packet_length / 256;
+            bufs[0][4] = packet_length % 256;
+        }
     }
-
-    unsigned int data_length_packet = 64 - header_length;
 
     for(unsigned int i = 0; i < colors.size(); i++)
     {
         int coloumn = floor(colors[i].value / column_length);
         int row = colors[i].value % column_length;
 
-        int offset = coloumn * 3 * column_length + row + header_length_first;
+        /*-----------------------------------------------------------------------*\
+        |  This has to be split up for readability.                               |
+        |  This assumes that the header for each packet besides the first         |
+        |  is either 0 bytes long (protocol v1) or as long as the first one (v2). |
+        |  This currently covers all keyboards.                                   |
+        |  A solution unified solution that can handle general header length      |
+        |  independent of the first header would be desirable, but seems          |
+        |  too complicated for now.                                               |
+        \*-----------------------------------------------------------------------*/
+        if(protocol_version == 1)
+        {
+            int offset = coloumn * 3 * column_length + row + header_length_first;
 
-        bufs[offset / data_length_packet][offset % data_length_packet + header_length + 1] = RGBGetRValue(colors[i].color);
+            bufs[offset / 64][offset % 64 + 1] = RGBGetRValue(colors[i].color);
 
-        offset += column_length;
-        bufs[offset / data_length_packet][offset % data_length_packet + header_length + 1] = RGBGetGValue(colors[i].color);
+            offset += column_length;
+            bufs[offset / 64][offset % 64 + 1] = RGBGetGValue(colors[i].color);
 
-        offset += column_length;
-        bufs[offset / data_length_packet][offset % data_length_packet + header_length + 1] = RGBGetBValue(colors[i].color);
+            offset += column_length;
+            bufs[offset / 64][offset % 64 + 1] = RGBGetBValue(colors[i].color);
+        }
+        else
+        {
+            unsigned int data_length_packet = 64 - header_length_first;
+
+            int offset = coloumn * 3 * column_length + row;
+
+            bufs[offset / data_length_packet][offset % data_length_packet + header_length_first + 1] = RGBGetRValue(colors[i].color);
+
+            offset += column_length;
+            bufs[offset / data_length_packet][offset % data_length_packet + header_length_first + 1] = RGBGetGValue(colors[i].color);
+
+            offset += column_length;
+            bufs[offset / data_length_packet][offset % data_length_packet + header_length_first + 1] = RGBGetBValue(colors[i].color);
+        }
     }
 
     for(int p = 0; p < packet_num; p++)
@@ -206,6 +258,11 @@ void RoccatVulcanKeyboardController::SendMode(unsigned int mode, unsigned int sp
 
     switch(device_pid)
     {
+        case ROCCAT_PYRO_PID:
+            protocol_version = 2;
+            packet_length = 365;
+            column_length = 1;
+            break;
         case ROCCAT_MAGMA_PID:
         case ROCCAT_MAGMA_MINI_PID:
             protocol_version = 2;
@@ -291,6 +348,7 @@ void RoccatVulcanKeyboardController::WaitUntilReady()
 
     switch(device_pid)
     {
+        case ROCCAT_PYRO_PID:
         case ROCCAT_MAGMA_PID:
         case ROCCAT_MAGMA_MINI_PID:
             packet_length = 4;

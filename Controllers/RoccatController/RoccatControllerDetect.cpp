@@ -94,8 +94,22 @@ void DetectRoccatVulcanKeyboardControllers(hid_device_info* info, const std::str
     std::string dev_ctrl_path;
     std::string dev_led_path;
 
-    int dev_led_page  = (info->product_id == ROCCAT_MAGMA_PID || info->product_id == ROCCAT_MAGMA_MINI_PID) ? 0xFF00 : 0x0001;
-    int dev_ctrl_page = (info->product_id == ROCCAT_MAGMA_PID || info->product_id == ROCCAT_MAGMA_MINI_PID) ? 0xFF01 : 0x000B;
+    int dev_led_page;
+    int dev_ctrl_page;
+
+    switch (info->product_id)
+    {
+        case ROCCAT_PYRO_PID:
+        case ROCCAT_MAGMA_PID:
+        case ROCCAT_MAGMA_MINI_PID:
+            dev_led_page   = 0xFF00;
+            dev_ctrl_page  = 0xFF01;
+            break;
+        default:
+            dev_led_page   = 0x0001;
+            dev_ctrl_page  = 0x000B;
+            break;
+    }
 
     while(info_temp)
     {
@@ -257,6 +271,7 @@ REGISTER_HID_DETECTOR_IPU("Roccat Horde Aimo",              DetectRoccatHordeAim
 
 REGISTER_HID_DETECTOR_IP ("Roccat Magma",                   DetectRoccatVulcanKeyboardControllers,      ROCCAT_VID, ROCCAT_MAGMA_PID,              1,          0xFF01);
 REGISTER_HID_DETECTOR_IP ("Roccat Magma Mini",              DetectRoccatVulcanKeyboardControllers,      ROCCAT_VID, ROCCAT_MAGMA_MINI_PID,         1,          0xFF01);
+REGISTER_HID_DETECTOR_IP ("Roccat Pyro",                    DetectRoccatVulcanKeyboardControllers,      ROCCAT_VID, ROCCAT_PYRO_PID,               1,          0xFF01);
 REGISTER_HID_DETECTOR_IP ("Roccat Vulcan 100 Aimo",         DetectRoccatVulcanKeyboardControllers,      ROCCAT_VID, ROCCAT_VULCAN_100_AIMO_PID,    1,          11);
 REGISTER_HID_DETECTOR_IP ("Roccat Vulcan 120-Series Aimo",  DetectRoccatVulcanKeyboardControllers,      ROCCAT_VID, ROCCAT_VULCAN_120_AIMO_PID,    1,          11);
 REGISTER_HID_DETECTOR_IP ("Roccat Vulcan TKL",              DetectRoccatVulcanKeyboardControllers,      ROCCAT_VID, ROCCAT_VULCAN_TKL_PID,         1,          11);
