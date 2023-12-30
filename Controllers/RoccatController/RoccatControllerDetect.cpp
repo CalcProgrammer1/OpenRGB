@@ -1,5 +1,6 @@
 #include "Detector.h"
 #include "RoccatBurstController.h"
+#include "RoccatBurstProAirController.h"
 #include "RoccatKoneAimoController.h"
 #include "RoccatSenseAimoController.h"
 #include "RoccatVulcanKeyboardController.h"
@@ -7,6 +8,7 @@
 #include "RoccatEloController.h"
 #include "RGBController.h"
 #include "RGBController_RoccatBurst.h"
+#include "RGBController_RoccatBurstProAir.h""
 #include "RGBController_RoccatHordeAimo.h"
 #include "RGBController_RoccatKoneAimo.h"
 #include "RGBController_RoccatSenseAimo.h"
@@ -31,6 +33,7 @@
 #define ROCCAT_ELO_PID              0x3A34
 #define ROCCAT_SENSE_AIMO_MID_PID   0x343A
 #define ROCCAT_SENSE_AIMO_XXL_PID   0x343B
+#define ROCCAT_BURST_PRO_AIR_PID    0x2CA6
 
 void DetectRoccatMouseControllers(hid_device_info* info, const std::string& name)
 {
@@ -165,6 +168,19 @@ void DetectRoccatBurstProControllers(hid_device_info* info, const std::string& n
     }
 }
 
+void DetectRoccatBurstProAirControllers(hid_device_info* info, const std::string& name)
+{
+    hid_device* dev = hid_open_path(info->path);
+
+    if(dev)
+    {
+        RoccatBurstProAirController *     controller      = new RoccatBurstProAirController(dev, *info);
+        RGBController_RoccatBurstProAir * rgb_controller  = new RGBController_RoccatBurstProAir(controller);
+        rgb_controller->name                            = name;
+        ResourceManager::get()->RegisterRGBController(rgb_controller);
+    }
+}
+
 void DetectRoccatKovaControllers(hid_device_info* info, const std::string& name)
 {
     hid_device* dev = hid_open_path(info->path);
@@ -219,3 +235,5 @@ REGISTER_HID_DETECTOR_IPU("Roccat Kova",                    DetectRoccatKovaCont
 REGISTER_HID_DETECTOR_IPU("Roccat Elo 7.1",                 DetectRoccatEloControllers,                 ROCCAT_VID, ROCCAT_ELO_PID,                3, 0x0C,    1 );
 REGISTER_HID_DETECTOR_IPU("Roccat Sense Aimo Mid",          DetectRoccatSenseAimoControllers,           ROCCAT_VID, ROCCAT_SENSE_AIMO_MID_PID,     0, 0xFF01,  1 );
 REGISTER_HID_DETECTOR_IPU("Roccat Sense Aimo XXL",          DetectRoccatSenseAimoControllers,           ROCCAT_VID, ROCCAT_SENSE_AIMO_XXL_PID,     0, 0xFF01,  1 );
+REGISTER_HID_DETECTOR_IPU("Roccat Burst Pro Air",           DetectRoccatBurstProAirControllers,         ROCCAT_VID, ROCCAT_BURST_PRO_AIR_PID,      0, 0x01,    2);
+
