@@ -715,16 +715,16 @@ HEADERS +=                                                                      
     Controllers/RedSquareKeyroxController/RGBController_RedSquareKeyrox.h                       \
     Controllers/RedSquareKeyroxController/RGBController_RedSquareKeyroxTKLClassic.h             \
     Controllers/RoccatController/RGBController_RoccatBurst.h                                    \
-    Controllers/RoccatController/RGBController_RoccatElo.h                                      \
     Controllers/RoccatController/RGBController_RoccatBurstProAir.h                              \
+    Controllers/RoccatController/RGBController_RoccatElo.h                                      \
     Controllers/RoccatController/RGBController_RoccatHordeAimo.h                                \
     Controllers/RoccatController/RGBController_RoccatKoneAimo.h                                 \
     Controllers/RoccatController/RGBController_RoccatKova.h                                     \
     Controllers/RoccatController/RGBController_RoccatSenseAimo.h                                \
     Controllers/RoccatController/RGBController_RoccatVulcanKeyboard.h                           \
     Controllers/RoccatController/RoccatBurstController.h                                        \
-    Controllers/RoccatController/RoccatEloController.h                                          \
     Controllers/RoccatController/RoccatBurstProAirController.h                                  \
+    Controllers/RoccatController/RoccatEloController.h                                          \
     Controllers/RoccatController/RoccatHordeAimoController.h                                    \
     Controllers/RoccatController/RoccatKoneAimoController.h                                     \
     Controllers/RoccatController/RoccatKovaController.h                                         \
@@ -1452,16 +1452,16 @@ SOURCES +=                                                                      
     Controllers/RedSquareKeyroxController/RGBController_RedSquareKeyrox.cpp                     \
     Controllers/RedSquareKeyroxController/RGBController_RedSquareKeyroxTKLClassic.cpp           \
     Controllers/RoccatController/RGBController_RoccatBurst.cpp                                  \
-    Controllers/RoccatController/RGBController_RoccatElo.cpp                                    \
     Controllers/RoccatController/RGBController_RoccatBurstProAir.cpp                            \
+    Controllers/RoccatController/RGBController_RoccatElo.cpp                                    \
     Controllers/RoccatController/RGBController_RoccatHordeAimo.cpp                              \
     Controllers/RoccatController/RGBController_RoccatKoneAimo.cpp                               \
     Controllers/RoccatController/RGBController_RoccatKova.cpp                                   \
     Controllers/RoccatController/RGBController_RoccatSenseAimo.cpp                              \
     Controllers/RoccatController/RGBController_RoccatVulcanKeyboard.cpp                         \
     Controllers/RoccatController/RoccatBurstController.cpp                                      \
-    Controllers/RoccatController/RoccatEloController.cpp                                        \
     Controllers/RoccatController/RoccatBurstProAirController.cpp                                \
+    Controllers/RoccatController/RoccatEloController.cpp                                        \
     Controllers/RoccatController/RoccatHordeAimoController.cpp                                  \
     Controllers/RoccatController/RoccatKoneAimoController.cpp                                   \
     Controllers/RoccatController/RoccatKovaController.cpp                                       \
