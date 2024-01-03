@@ -1977,6 +1977,41 @@ static const razer_device ornata_v3_rev2_device =
 };
 
 /*-------------------------------------------------------------*\
+|  Razer Ornata V3 TKL   1532:02A3                                         |
+|                                                               |
+|  Zone "Keyboard"                                              |
+|       Single                                                  |
+|       1 LED                                                   |
+\*-------------------------------------------------------------*/
+static const razer_zone ornata_v3_tkl_zone =
+{
+    ZONE_EN_KEYBOARD,
+    ZONE_TYPE_SINGLE,
+    1,
+    1
+};
+
+static const razer_device ornata_v3_tkl_device =
+{
+    "Razer Ornata V3 TKL",
+    RAZER_ORNATA_V3_TKL_PID,
+    DEVICE_TYPE_KEYBOARD,
+    RAZER_MATRIX_TYPE_EXTENDED,
+    0x1F,
+    1,
+    1,
+    {
+        &ornata_v3_tkl_zone,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL
+    },
+    NULL
+};
+
+/*-------------------------------------------------------------*\
 |  Razer Ornata V3 X                                            |
 |                                                               |
 |  Zone "Keyboard"                                              |
@@ -7786,6 +7821,7 @@ const razer_device* razer_device_list[] =
     &ornata_chroma_v2_device,
     &ornata_v3_device,
     &ornata_v3_rev2_device,
+    &ornata_v3_tkl_device,
     &ornata_v3_x_device,
     &ornata_v3_x_v2_device,
 /*-----------------------------------------------------------------*\

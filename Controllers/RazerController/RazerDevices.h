@@ -112,6 +112,7 @@
 #define RAZER_ORNATA_CHROMA_V2_PID                      0x025D
 #define RAZER_ORNATA_V3_PID                             0x028F
 #define RAZER_ORNATA_V3_REV2_PID                        0x02A1
+#define RAZER_ORNATA_V3_TKL_PID                         0x02A3
 #define RAZER_ORNATA_V3_X_PID                           0x0294
 #define RAZER_ORNATA_V3_X_REV2_PID                      0x02A2
 #define RAZER_TARTARUS_CHROMA_PID                       0x0208

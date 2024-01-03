@@ -141,6 +141,7 @@ RazerController::RazerController(hid_device* dev_handle, hid_device* dev_argb_ha
         case RAZER_ORNATA_CHROMA_V2_PID:
         case RAZER_ORNATA_V3_PID:
         case RAZER_ORNATA_V3_REV2_PID:
+        case RAZER_ORNATA_V3_TKL_PID:
         case RAZER_ORNATA_V3_X_PID:
         case RAZER_CORE_PID:
         case RAZER_FIREFLY_PID:
@@ -412,6 +413,7 @@ bool RazerController::SupportsWave()
         case RAZER_ORNATA_CHROMA_V2_PID:
         case RAZER_ORNATA_V3_PID:
         case RAZER_ORNATA_V3_REV2_PID:
+        case RAZER_ORNATA_V3_TKL_PID:
         case RAZER_ORNATA_V3_X_PID:
         case RAZER_HUNTSMAN_PID:
         case RAZER_HUNTSMAN_ELITE_PID:
