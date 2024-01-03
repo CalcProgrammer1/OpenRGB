@@ -37,7 +37,7 @@ std::string SteelSeriesAerox9Controller::GetFirmwareVersion()
     uint8_t result      = 0;
     const uint8_t CMD   = 0x90;
     const uint8_t sz    = 16;
-    char version[sz];
+    char version[sz + 1];
 
     uint8_t buffer[STEELSERIES_AEORX9_PACKET_SIZE] = { 0x00, CMD, 0x00 };
 
@@ -45,7 +45,7 @@ std::string SteelSeriesAerox9Controller::GetFirmwareVersion()
     do
     {
         result = hid_read_timeout(dev, buffer, STEELSERIES_AEORX9_PACKET_SIZE, STEELSERIES_AEORX9_TIMEOUT);
-        LOG_DEBUG("[%s] Reading version buffer: Bytes Read %d Buffer %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X", device_name, result,
+        LOG_DEBUG("[%s] Reading version buffer: Bytes Read %d Buffer %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X", STEELSERIES_AEORX9_NAME, result,
                   buffer[0], buffer[1], buffer[2], buffer[3], buffer[4], buffer[5], buffer[6], buffer[7], buffer[8], buffer[9], buffer[10]);
     } while(result > 0 && buffer[0] != CMD);
 
@@ -55,14 +55,15 @@ std::string SteelSeriesAerox9Controller::GetFirmwareVersion()
         | Read the version from the second character                        |
         \*-----------------------------------------------------------------*/
         memcpy(version, &buffer[1], sz);
+        version[sz] = 0;
         std::string tmp = std::string(version);
-        LOG_DEBUG("[%s] Version: %s as string %s", device_name, version, tmp.c_str());
+        LOG_DEBUG("[%s] Version: %s as string %s", STEELSERIES_AEORX9_NAME, version, tmp.c_str());
 
         return tmp;
     }
     else
     {
-        LOG_DEBUG("[%s] Unable to get version: giving up!", device_name);
+        LOG_DEBUG("[%s] Unable to get version: giving up!", STEELSERIES_AEORX9_NAME);
         return "";
     }
 }

@@ -16,6 +16,7 @@
 
 #pragma once
 
+#define STEELSERIES_AEORX3_NAME                     "SteelSeries Aerox 3"
 #define STEELSERIES_AEORX3_PACKET_SIZE              65
 #define STEELSERIES_AEORX3_TIMEOUT                  250
 

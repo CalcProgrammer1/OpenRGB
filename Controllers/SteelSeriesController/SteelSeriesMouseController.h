@@ -49,7 +49,6 @@ public:
     virtual ~SteelSeriesMouseController();
 
     std::string                 GetDeviceLocation();
-    char*                       GetDeviceName();
     std::string                 GetSerialString();
     steelseries_type            GetMouseType();
 
@@ -71,7 +70,6 @@ public:
                                     )                                                               = 0;
 
 protected:
-    char                        device_name[32];
     hid_device*                 dev;
     std::string                 location;
     steelseries_type            proto;

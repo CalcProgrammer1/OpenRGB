@@ -26,11 +26,6 @@ std::string SteelSeriesMouseController::GetDeviceLocation()
     return("HID: " + location);
 }
 
-char* SteelSeriesMouseController::GetDeviceName()
-{
-    return device_name;
-}
-
 std::string SteelSeriesMouseController::GetSerialString()
 {
     wchar_t serial_string[128];
