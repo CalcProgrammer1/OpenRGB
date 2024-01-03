@@ -36,7 +36,8 @@ CorsairPeripheralV2Controller::CorsairPeripheralV2Controller(hid_device* dev_han
 
     switch(pid)
     {
-        case CORSAIR_SLIPSTREAM_WIRELESS_PID:
+        case CORSAIR_SLIPSTREAM_WIRELESS_PID1:
+        case CORSAIR_SLIPSTREAM_WIRELESS_PID2:
             write_cmd   = CORSAIR_V2_WRITE_WIRELESS_ID;
             pid         = GetAddress(0x12);
             break;

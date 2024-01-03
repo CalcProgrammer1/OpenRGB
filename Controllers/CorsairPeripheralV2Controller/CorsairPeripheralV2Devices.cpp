@@ -298,6 +298,48 @@ static const corsair_v2_device dark_core_pro_se_device =
 };
 
 /*-------------------------------------------------------------*\
+|  Corsair Harpoon Wireless 1B1C:1B5E                          |
+|                                                               |
+|  Zone "Logo"                                                  |
+|       Single                                                  |
+|                                                               |
+|  Zone "Scroll Wheel"                                          |
+|       Single                                                  |
+\*-------------------------------------------------------------*/
+static const corsair_v2_zone harpoon_indicator_zone =
+{
+    "Indicator",
+    ZONE_TYPE_SINGLE,
+    1,
+    1
+};
+
+static const corsair_v2_zone harpoon_logo_zone =
+{
+    "Logo",
+    ZONE_TYPE_SINGLE,
+    1,
+    1
+};
+
+static const corsair_v2_device harpoon_wireless_device =
+{
+    CORSAIR_HARPOON_WIRELESS_PID,
+    DEVICE_TYPE_MOUSE,
+    1,
+    2,
+    {
+        &harpoon_indicator_zone,
+        &harpoon_logo_zone,
+        nullptr,
+        nullptr,
+        nullptr,
+        nullptr
+    },
+    nullptr
+};
+
+/*-------------------------------------------------------------*\
 |  Corsair Ironclaw Wireless 1B1C:1B4C                          |
 |                                                               |
 |  Zone "Logo"                                                  |
@@ -872,6 +914,7 @@ const corsair_v2_device* corsair_v2_device_list_data[] =
 \*-----------------------------------------------------------------*/
     &dark_core_se_device,
     &dark_core_pro_se_device,
+    &harpoon_wireless_device,
     &ironclaw_wireless_device,
     &katar_pro_device,
     &katar_pro_v2_device,
