@@ -199,7 +199,7 @@ void RGBController_ValkyrieKeyboard::SetupZones()
 
         switch(controller->GetUSBPID())
         {
-            case Valkyrie_99_Pro_PID:
+            case VALKYRIE_99_PRO_PID:
                 zone_size               = zone_sizes[zone_idx];
                 matrix_width            = 22;
                 matrix_map_ptr          = (unsigned int *)&matrix_map;
