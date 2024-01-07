@@ -58,6 +58,7 @@
 #define AURA_ROG_STRIX_SCOPE_RX_TKL_DELUXE_PID              0x1A05
 #define AURA_ROG_STRIX_SCOPE_NX_WIRELESS_DELUXE_USB_PID     0x19F6
 #define AURA_ROG_STRIX_SCOPE_NX_WIRELESS_DELUXE_2_4_PID     0x19F8
+#define AURA_ROG_STRIX_SCOPE_II_RX_PID                      0x1AB5
 #define AURA_ROG_STRIX_SCOPE_II_96_WIRELESS_USB_PID         0x1AAE
 #define AURA_TUF_K1_GAMING_PID                              0x1945
 #define AURA_TUF_K3_GAMING_PID                              0x194B
@@ -336,16 +337,17 @@ REGISTER_HID_DETECTOR_IP("ASUS ROG Strix Scope TKL",                        Dete
 REGISTER_HID_DETECTOR_IP("ASUS ROG Strix Scope RX TKL Wireless Deluxe",     DetectAsusAuraUSBKeyboards,     AURA_USB_VID, AURA_ROG_STRIX_SCOPE_RX_TKL_DELUXE_PID,           1,  0xFF00);
 REGISTER_HID_DETECTOR_IP("ASUS ROG Strix Scope TKL PNK LTD",                DetectAsusAuraUSBKeyboards,     AURA_USB_VID, AURA_ROG_STRIX_SCOPE_TKL_PNK_LTD_PID,             1,  0xFF00);
 REGISTER_HID_DETECTOR_IP("ASUS ROG Claymore",                               DetectAsusAuraTUFUSBKeyboard,   AURA_USB_VID, AURA_ROG_CLAYMORE_PID,                            1,  0xFF00);
+REGISTER_HID_DETECTOR_IP("ASUS ROG Falchion (Wired)",                       DetectAsusAuraTUFUSBKeyboard,   AURA_USB_VID, AURA_ROG_FALCHION_WIRED_PID,                      1,  0xFF00);
+REGISTER_HID_DETECTOR_IP("ASUS ROG Falchion (Wireless)",                    DetectAsusAuraTUFUSBKeyboard,   AURA_USB_VID, AURA_ROG_FALCHION_WIRELESS_PID,                   1,  0xFF00);
 REGISTER_HID_DETECTOR_IP("ASUS ROG Strix Flare",                            DetectAsusAuraTUFUSBKeyboard,   AURA_USB_VID, AURA_ROG_STRIX_FLARE_PID,                         1,  0xFF00);
 REGISTER_HID_DETECTOR_IP("ASUS ROG Strix Flare PNK LTD",                    DetectAsusAuraTUFUSBKeyboard,   AURA_USB_VID, AURA_ROG_STRIX_FLARE_PNK_LTD_PID,                 1,  0xFF00);
 REGISTER_HID_DETECTOR_IP("ASUS ROG Strix Flare CoD Black Ops 4 Edition",    DetectAsusAuraTUFUSBKeyboard,   AURA_USB_VID, AURA_ROG_STRIX_FLARE_COD_BO4_PID,                 1,  0xFF00);
-REGISTER_HID_DETECTOR_IP("ASUS ROG Falchion (Wired)",                       DetectAsusAuraTUFUSBKeyboard,   AURA_USB_VID, AURA_ROG_FALCHION_WIRED_PID,                      1,  0xFF00);
-REGISTER_HID_DETECTOR_IP("ASUS ROG Falchion (Wireless)",                    DetectAsusAuraTUFUSBKeyboard,   AURA_USB_VID, AURA_ROG_FALCHION_WIRELESS_PID,                   1,  0xFF00);
 REGISTER_HID_DETECTOR_IP("ASUS ROG Strix Flare II Animate",                 DetectAsusAuraTUFUSBKeyboard,   AURA_USB_VID, AURA_ROG_STRIX_FLARE_II_ANIMATE_PID,              1,  0xFF00);
 REGISTER_HID_DETECTOR_IP("ASUS ROG Strix Scope",                            DetectAsusAuraTUFUSBKeyboard,   AURA_USB_VID, AURA_ROG_STRIX_SCOPE_PID,                         1,  0xFF00);
 REGISTER_HID_DETECTOR_IP("ASUS ROG Strix Scope RX",                         DetectAsusAuraTUFUSBKeyboard,   AURA_USB_VID, AURA_ROG_STRIX_SCOPE_RX_PID,                      1,  0xFF00);
 REGISTER_HID_DETECTOR_IP("ASUS ROG Strix Scope NX Wireless Deluxe USB",     DetectAsusAuraTUFUSBKeyboard,   AURA_USB_VID, AURA_ROG_STRIX_SCOPE_NX_WIRELESS_DELUXE_USB_PID,  1,  0xFF00);
 REGISTER_HID_DETECTOR_IP("ASUS ROG Strix Scope NX Wireless Deluxe 2.4GHz",  DetectAsusAuraTUFUSBKeyboard,   AURA_USB_VID, AURA_ROG_STRIX_SCOPE_NX_WIRELESS_DELUXE_2_4_PID,  1,  0xFF00);
+REGISTER_HID_DETECTOR_IP("ASUS ROG Strix Scope II RX",                      DetectAsusAuraTUFUSBKeyboard,   AURA_USB_VID, AURA_ROG_STRIX_SCOPE_II_RX_PID,                   1,  0xFF00);
 REGISTER_HID_DETECTOR_IP("ASUS ROG Strix Scope II 96 Wireless USB",         DetectAsusAuraTUFUSBKeyboard,   AURA_USB_VID, AURA_ROG_STRIX_SCOPE_II_96_WIRELESS_USB_PID,      1,  0xFF00);
 REGISTER_HID_DETECTOR_IP("ASUS TUF Gaming K1",                              DetectAsusAuraTUFUSBKeyboard,   AURA_USB_VID, AURA_TUF_K1_GAMING_PID,                           2,  0xFF00);
 REGISTER_HID_DETECTOR_IP("ASUS TUF Gaming K3",                              DetectAsusAuraTUFUSBKeyboard,   AURA_USB_VID, AURA_TUF_K3_GAMING_PID,                           1,  0xFF00);
