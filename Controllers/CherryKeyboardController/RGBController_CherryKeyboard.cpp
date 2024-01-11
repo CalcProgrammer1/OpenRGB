@@ -299,7 +299,7 @@ void RGBController_CherryKeyboard::ResizeZone(int /*zone*/, int /*new_size*/)
 
 void RGBController_CherryKeyboard::DeviceUpdateLEDs()
 {
-    unsigned char color_data[7*CHERRY_KB_MAX_PACKET_SIZE];
+    unsigned char color_data[6*23*3];
 
     for(int led_idx = 0; led_idx < 126; led_idx++)
     {
@@ -311,7 +311,7 @@ void RGBController_CherryKeyboard::DeviceUpdateLEDs()
     controller->SetKeyboardColors
                     (
                     color_data,
-                    CHERRY_KB_MAX_PACKET_SIZE * 7
+                    6*23*3
                     );
 }
 
