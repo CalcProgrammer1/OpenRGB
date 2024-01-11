@@ -240,12 +240,13 @@ void CherryKeyboardController::SendKeyboardParameter
     memset(usb_buf, 0x00, sizeof(usb_buf));
 
     /*-----------------------------------------------------*\
-    | Set up Keyboard Parameter (0x06) packet               |
+    | Set up Keyboard Parameter (0x08) packet               |
     \*-----------------------------------------------------*/
     usb_buf[0x00]           = 0x04;
     usb_buf[0x03]           = CHERRY_KB_COMMAND_SET_PARAMETER;
     usb_buf[0x04]           = parameter_size;
     usb_buf[0x05]           = parameter;
+    usb_buf[0x07]           = 0x55;
 
     /*-----------------------------------------------------*\
     | Copy in data bytes                                    |
