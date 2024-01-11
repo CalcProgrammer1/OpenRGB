@@ -98,18 +98,19 @@ void CherryKeyboardController::SendKeyboardModeEx
     unsigned char       blue
     )
 {
-    unsigned char parameter_data[8];
+    unsigned char parameter_data[9];
 
-    parameter_data[0]   = mode;
-    parameter_data[1]   = brightness;
-    parameter_data[2]   = speed;
-    parameter_data[3]   = direction;
-    parameter_data[4]   = random_flag;
-    parameter_data[5]   = red;
-    parameter_data[6]   = green;
-    parameter_data[7]   = blue;
+    parameter_data[0]   = 0x0;
+    parameter_data[1]   = mode;
+    parameter_data[2]   = brightness;
+    parameter_data[3]   = speed;
+    parameter_data[4]   = direction;
+    parameter_data[5]   = random_flag;
+    parameter_data[6]   = red;
+    parameter_data[7]   = green;
+    parameter_data[8]   = blue;
 
-    SendKeyboardParameter(0, 8, parameter_data);
+    SendKeyboardParameter(0, 9, parameter_data);
 }
 
 /*-------------------------------------------------------------------------------------------------*\
@@ -251,7 +252,7 @@ void CherryKeyboardController::SendKeyboardParameter
     /*-----------------------------------------------------*\
     | Copy in data bytes                                    |
     \*-----------------------------------------------------*/
-    memcpy(&usb_buf[0x09], parameter_data, parameter_size);
+    memcpy(&usb_buf[0x08], parameter_data, parameter_size);
 
     /*-----------------------------------------------------*\
     | Compute Checksum                                      |
