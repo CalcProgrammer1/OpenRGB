@@ -17,6 +17,16 @@
     @effects :x:
     @detectors DetectCorsairDominatorPlatinumControllers
     @comment
+        The Corsair Dominator controller chip can be found on several
+        Corsair memory sticks which have different LED counts. This can be controlled
+        by editing the Part Number in OpenRGB.json with values in the below table.
+
+        | Part Number | LED Count |
+        | :---------: | --------: |
+        | CMG         |  6        |
+        | CMH         | 10        |
+        | CMN         | 10        |
+        | CMT         | 12        |
 \*-------------------------------------------------------------------*/
 
 RGBController_CorsairDominatorPlatinum::RGBController_CorsairDominatorPlatinum(CorsairDominatorPlatinumController* controller_ptr)
