@@ -10,6 +10,8 @@
 #include "CherryKeyboardController.h"
 
 #include <cstring>
+#include <locale>
+#include <codecvt>
 
 CherryKeyboardController::CherryKeyboardController(hid_device* dev_handle, const char* path)
 {
@@ -38,7 +40,8 @@ std::string CherryKeyboardController::GetSerialString()
     }
 
     std::wstring return_wstring = serial_string;
-    std::string return_string(return_wstring.begin(), return_wstring.end());
+    std::wstring_convert<std::codecvt_utf8<wchar_t>, wchar_t> converter;
+    std::string return_string = converter.to_bytes(serial_string);
 
     return(return_string);
 }
