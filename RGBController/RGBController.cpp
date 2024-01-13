@@ -193,6 +193,14 @@ unsigned char * RGBController::GetDeviceDescription(unsigned int protocol_versio
                 data_size += sizeof(zones[zone_index].segments[segment_index].leds_count);
             }
         }
+
+        /*---------------------------------------------------------*\
+        | Zone flags                                                |
+        \*---------------------------------------------------------*/
+        if(protocol_version >= 5)
+        {
+            data_size += sizeof(unsigned int);
+        }
     }
 
     data_size += sizeof(num_leds);
@@ -431,22 +439,56 @@ unsigned char * RGBController::GetDeviceDescription(unsigned int protocol_versio
         data_ptr += sizeof(zones[zone_index].type);
 
         /*---------------------------------------------------------*\
-        | Copy in zone minimum LED count (data)                     |
+        | Check for resizable effects-only zone.  For protocol      |
+        | versions that do not support this feature, we have to     |
+        | overwrite the leds_min/max/count parameters to 1 so that  |
+        | the zone appears a fixed size to older clients.           |
         \*---------------------------------------------------------*/
-        memcpy(&data_buf[data_ptr], &zones[zone_index].leds_min, sizeof(zones[zone_index].leds_min));
-        data_ptr += sizeof(zones[zone_index].leds_min);
+        if((zones[zone_index].flags & ZONE_FLAG_RESIZE_EFFECTS_ONLY) && (protocol_version < 5))
+        {
+            /*---------------------------------------------------------*\
+            | Create a temporary variable to hold the fixed value of 1  |
+            \*---------------------------------------------------------*/
+            unsigned int tmp_size = 1;
 
-        /*---------------------------------------------------------*\
-        | Copy in zone maximum LED count (data)                     |
-        \*---------------------------------------------------------*/
-        memcpy(&data_buf[data_ptr], &zones[zone_index].leds_max, sizeof(zones[zone_index].leds_max));
-        data_ptr += sizeof(zones[zone_index].leds_max);
+            /*---------------------------------------------------------*\
+            | Copy in temporary minimum LED count (data)                |
+            \*---------------------------------------------------------*/
+            memcpy(&data_buf[data_ptr], &tmp_size, sizeof(tmp_size));
+            data_ptr += sizeof(tmp_size);
 
-        /*---------------------------------------------------------*\
-        | Copy in zone LED count (data)                             |
-        \*---------------------------------------------------------*/
-        memcpy(&data_buf[data_ptr], &zones[zone_index].leds_count, sizeof(zones[zone_index].leds_count));
-        data_ptr += sizeof(zones[zone_index].leds_count);
+            /*---------------------------------------------------------*\
+            | Copy in temporary maximum LED count (data)                |
+            \*---------------------------------------------------------*/
+            memcpy(&data_buf[data_ptr], &tmp_size, sizeof(tmp_size));
+            data_ptr += sizeof(tmp_size);
+
+            /*---------------------------------------------------------*\
+            | Copy in temporary LED count (data)                        |
+            \*---------------------------------------------------------*/
+            memcpy(&data_buf[data_ptr], &tmp_size, sizeof(tmp_size));
+            data_ptr += sizeof(tmp_size);
+        }
+        else
+        {
+            /*---------------------------------------------------------*\
+            | Copy in zone minimum LED count (data)                     |
+            \*---------------------------------------------------------*/
+            memcpy(&data_buf[data_ptr], &zones[zone_index].leds_min, sizeof(zones[zone_index].leds_min));
+            data_ptr += sizeof(zones[zone_index].leds_min);
+
+            /*---------------------------------------------------------*\
+            | Copy in zone maximum LED count (data)                     |
+            \*---------------------------------------------------------*/
+            memcpy(&data_buf[data_ptr], &zones[zone_index].leds_max, sizeof(zones[zone_index].leds_max));
+            data_ptr += sizeof(zones[zone_index].leds_max);
+
+            /*---------------------------------------------------------*\
+            | Copy in zone LED count (data)                             |
+            \*---------------------------------------------------------*/
+            memcpy(&data_buf[data_ptr], &zones[zone_index].leds_count, sizeof(zones[zone_index].leds_count));
+            data_ptr += sizeof(zones[zone_index].leds_count);
+        }
 
         /*---------------------------------------------------------*\
         | Copy in size of zone matrix                               |
@@ -523,11 +565,23 @@ unsigned char * RGBController::GetDeviceDescription(unsigned int protocol_versio
                 data_ptr += sizeof(zones[zone_index].segments[segment_index].start_idx);
 
                 /*---------------------------------------------------------*\
-                | Segment LED count data                                  |
+                | Segment LED count data                                    |
                 \*---------------------------------------------------------*/
                 memcpy(&data_buf[data_ptr], &zones[zone_index].segments[segment_index].leds_count, sizeof(zones[zone_index].segments[segment_index].leds_count));
                 data_ptr += sizeof(zones[zone_index].segments[segment_index].leds_count);
             }
+        }
+
+        /*---------------------------------------------------------*\
+        | Copy in zone flags                                        |
+        \*---------------------------------------------------------*/
+        if(protocol_version >= 5)
+        {
+            /*---------------------------------------------------------*\
+            | Zone flags                                                |
+            \*---------------------------------------------------------*/
+            memcpy(&data_buf[data_ptr], &zones[zone_index].flags, sizeof(zones[zone_index].flags));
+            data_ptr += sizeof(zones[zone_index].flags);
         }
     }
 
@@ -937,6 +991,16 @@ void RGBController::ReadDeviceDescription(unsigned char* data_buf, unsigned int 
                 new_zone.segments.push_back(new_segment);
             }
         }
+
+        /*---------------------------------------------------------*\
+        | Copy in zone flags                                        |
+        \*---------------------------------------------------------*/
+        if(protocol_version >= 5)
+        {
+            memcpy(&new_zone.flags, &data_buf[data_ptr], sizeof(new_zone.flags));
+            data_ptr += sizeof(new_zone.flags);
+        }
+
         zones.push_back(new_zone);
     }
 
