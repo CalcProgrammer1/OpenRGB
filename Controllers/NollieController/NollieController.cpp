@@ -36,7 +36,6 @@ std::string NollieController::GetSerialString()
 
     std::wstring return_wstring = serial_string;
     std::string return_string(return_wstring.begin(), return_wstring.end());
-
     return(return_string);
 }
 
@@ -110,19 +109,28 @@ void NollieController::SendPacket(unsigned char channel,RGBColor* colors,unsigne
     | Send packet                                           |
     \*-----------------------------------------------------*/
     hid_write(dev, usb_buf, 1025);
+    if(channel == NOLLIE32_FLAG1_CHANNEL || channel == NOLLIE32_FLAG2_CHANNEL)
+    {
+        std::this_thread::sleep_for(std::chrono::milliseconds(8));
+    }
 }
 
 void NollieController::SendPacketFS(unsigned char channel,unsigned char packet_id,RGBColor* colors,unsigned int num_colors)
 {
     unsigned char   usb_buf[65];
     unsigned int    packet_interval;
-    if (GetUSBPID() == NOLLIE28_12_PID)
+    unsigned int    dev_pid = GetUSBPID();
+    switch(dev_pid)
     {
-        packet_interval = 2;
-    }
-    else
-    {
-        packet_interval = 25;
+        case NOLLIE28_12_PID:
+            packet_interval = 2;
+            break;
+        case NOLLIE8_PID:
+            packet_interval = 6;
+            break;
+        default:
+            packet_interval = 25;
+            break;
     }
     memset(usb_buf, 0x00, sizeof(usb_buf));
     usb_buf[0x00]   = 0x00;
@@ -132,6 +140,11 @@ void NollieController::SendPacketFS(unsigned char channel,unsigned char packet_i
         usb_buf[0x02 + (color_idx * 3)] = RGBGetRValue(colors[color_idx]);
         usb_buf[0x03 + (color_idx * 3)] = RGBGetGValue(colors[color_idx]);
         usb_buf[0x04 + (color_idx * 3)] = RGBGetBValue(colors[color_idx]);
+        if(dev_pid == NOLLIE8_PID)
+        {
+            usb_buf[0x02 + (color_idx * 3)] = RGBGetGValue(colors[color_idx]);
+            usb_buf[0x03 + (color_idx * 3)] = RGBGetRValue(colors[color_idx]);
+        }
     }
     hid_write(dev, usb_buf, 65);
 }

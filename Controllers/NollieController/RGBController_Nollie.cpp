@@ -66,6 +66,10 @@ void RGBController_Nollie::SetupZones()
             channels_num  = NOLLIE28_12_CHANNELS_NUM;
             ch_led_num    = NOLLIE_12_CH_LED_NUM;
             break;
+        case NOLLIE8_PID:
+            channels_num  = NOLLIE8_CHANNELS_NUM;
+            ch_led_num    = NOLLIE_8_CH_LED_NUM;
+            break;
         default:
             channels_num  = NOLLIE8_CHANNELS_NUM;
             ch_led_num    = NOLLIE_FS_CH_LED_NUM;
@@ -173,7 +177,7 @@ void RGBController_Nollie::DeviceUpdateLEDs()
             {
                 ChSort.push_back(channel);
             }
-            else if(channel == 15 || channel == 31)
+            else if(channel == NOLLIE32_FLAG1_CHANNEL || channel == NOLLIE32_FLAG2_CHANNEL)
             {
                 ChSort.push_back(channel);
             }
@@ -208,7 +212,6 @@ void RGBController_Nollie::UpdateZoneLEDs(int zone)
 void RGBController_Nollie::UpdateSingleLED(int led)
 {
     unsigned int channel = leds_channel[led];
-
     controller->SetChannelLEDs(channel_index[channel], zones[channel].colors, zones[channel].leds_count);
 }
 
