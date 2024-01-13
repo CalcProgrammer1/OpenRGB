@@ -117,6 +117,15 @@ typedef struct
 } led;
 
 /*------------------------------------------------------------------*\
+| Zone Flags                                                         |
+\*------------------------------------------------------------------*/
+enum
+{
+    ZONE_FLAG_RESIZE_EFFECTS_ONLY       = (1 << 0), /* Zone is resizable, but only for  */
+                                                    /* effects - treat as single LED    */
+};
+
+/*------------------------------------------------------------------*\
 | Zone Types                                                         |
 \*------------------------------------------------------------------*/
 typedef int zone_type;
@@ -150,10 +159,11 @@ typedef struct
 } segment;
 
 /*------------------------------------------------------------------*\
-| Zone Struct                                                        |
+| Zone Class                                                         |
 \*------------------------------------------------------------------*/
-typedef struct
+class zone
 {
+public:
     std::string             name;           /* Zone name                */
     zone_type               type;           /* Zone type                */
     led *                   leds;           /* List of LEDs in zone     */
@@ -164,7 +174,14 @@ typedef struct
     unsigned int            leds_max;       /* Maximum number of LEDs   */
     matrix_map_type *       matrix_map;     /* Matrix map pointer       */
 	std::vector<segment>    segments;       /* Segments in zone         */
-} zone;
+    unsigned int            flags;          /* Zone flags bitfield      */
+
+    /*--------------------------------------------------------------*\
+    | Zone Constructor / Destructor                                  |
+    \*--------------------------------------------------------------*/
+    zone();
+    ~zone();
+};
 
 /*------------------------------------------------------------------*\
 | Device Types                                                       |
@@ -209,6 +226,8 @@ class RGBControllerInterface
 {
 public:
     virtual void            SetupColors()                                                                       = 0;
+
+    virtual unsigned int    GetLEDsInZone(unsigned int zone)                                                    = 0;
 
     virtual RGBColor        GetLED(unsigned int led)                                                            = 0;
     virtual void            SetLED(unsigned int led, RGBColor color)                                            = 0;
@@ -290,6 +309,8 @@ public:
     | Generic functions implemented in RGBController.cpp        |
     \*---------------------------------------------------------*/
     void                    SetupColors();
+
+    unsigned int            GetLEDsInZone(unsigned int zone);
 
     RGBColor                GetLED(unsigned int led);
     void                    SetLED(unsigned int led, RGBColor color);

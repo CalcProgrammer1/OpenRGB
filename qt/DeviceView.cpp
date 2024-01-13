@@ -305,7 +305,7 @@ void DeviceView::InitDeviceView()
         }
         else
         {
-            unsigned int count          = controller->zones[zone_idx].leds_count;
+            unsigned int count          = controller->GetLEDsInZone(zone_idx);
             zone_pos[zone_idx].matrix_w = std::min(count, (unsigned int)MAX_COLS);
             totalHeight                += (count / MAX_COLS) + ((count % MAX_COLS) > 0);
         }
@@ -473,7 +473,7 @@ void DeviceView::InitDeviceView()
             /*-----------------------------------------------------*\
             | Calculate LED box positions for single/linear zones   |
             \*-----------------------------------------------------*/
-            unsigned int leds_count = controller->zones[zone_idx].leds_count;
+            unsigned int leds_count = controller->GetLEDsInZone(zone_idx);
 
             for(unsigned int led_idx = 0; led_idx < leds_count; led_idx++)
             {
@@ -1033,7 +1033,7 @@ bool DeviceView::selectZone(int zone, bool add)
 
     int zoneStart = controller->zones[zone].start_idx;
 
-    for(int led_idx = 0; led_idx < (int)controller->zones[zone].leds_count; led_idx++)
+    for(int led_idx = 0; led_idx < controller->GetLEDsInZone(zone); led_idx++)
     {
         if(!selectionFlags[zoneStart + led_idx])
         {
