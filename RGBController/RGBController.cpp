@@ -37,6 +37,25 @@ mode::~mode()
     colors.clear();
 }
 
+zone::zone()
+{
+    name        = "";
+    type        = 0;
+    leds        = NULL;
+    colors      = NULL;
+    start_idx   = 0;
+    leds_count  = 0;
+    leds_min    = 0;
+    leds_max    = 0;
+    matrix_map  = NULL;
+    flags       = 0;
+}
+
+zone::~zone()
+{
+
+}
+
 RGBController::RGBController()
 {
     DeviceThreadRunning = true;
@@ -1515,6 +1534,7 @@ void RGBController::SetSingleLEDColorDescription(unsigned char* data_buf)
 void RGBController::SetupColors()
 {
     unsigned int total_led_count;
+    unsigned int zone_led_count;
 
     /*---------------------------------------------------------*\
     | Determine total number of LEDs on the device              |
@@ -1523,7 +1543,7 @@ void RGBController::SetupColors()
 
     for(std::size_t zone_idx = 0; zone_idx < zones.size(); zone_idx++)
     {
-        total_led_count += zones[zone_idx].leds_count;
+        total_led_count += GetLEDsInZone(zone_idx);
     }
 
     /*---------------------------------------------------------*\
@@ -1538,9 +1558,10 @@ void RGBController::SetupColors()
 
     for(std::size_t zone_idx = 0; zone_idx < zones.size(); zone_idx++)
     {
-        zones[zone_idx].start_idx=total_led_count;
+        zones[zone_idx].start_idx   = total_led_count;
+        zone_led_count              = GetLEDsInZone(zone_idx);
 
-        if((colors.size() > 0) && (zones[zone_idx].leds_count > 0))
+        if((colors.size() > 0) && (zone_led_count > 0))
         {
             zones[zone_idx].colors = &colors[total_led_count];
         }
@@ -1549,7 +1570,7 @@ void RGBController::SetupColors()
             zones[zone_idx].colors = NULL;
         }
 
-        if((leds.size() > 0) && (zones[zone_idx].leds_count > 0))
+        if((leds.size() > 0) && (zone_led_count > 0))
         {
             zones[zone_idx].leds   = &leds[total_led_count];
         }
@@ -1559,8 +1580,23 @@ void RGBController::SetupColors()
         }
 
 
-        total_led_count += zones[zone_idx].leds_count;
+        total_led_count += zone_led_count;
     }
+}
+
+unsigned int RGBController::GetLEDsInZone(unsigned int zone)
+{
+    unsigned int leds_count = zones[zone].leds_count;
+
+    if(zones[zone].flags & ZONE_FLAG_RESIZE_EFFECTS_ONLY)
+    {
+        if(leds_count > 1)
+        {
+            leds_count = 1;
+        }
+    }
+
+    return(leds_count);
 }
 
 RGBColor RGBController::GetLED(unsigned int led)
@@ -1593,7 +1629,7 @@ void RGBController::SetAllLEDs(RGBColor color)
 
 void RGBController::SetAllZoneLEDs(int zone, RGBColor color)
 {
-    for (std::size_t color_idx = 0; color_idx < zones[zone].leds_count; color_idx++)
+    for (std::size_t color_idx = 0; color_idx < GetLEDsInZone(zone); color_idx++)
     {
         zones[zone].colors[color_idx] = color;
     }
