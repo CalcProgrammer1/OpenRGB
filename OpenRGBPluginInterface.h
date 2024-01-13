@@ -25,8 +25,9 @@
 | 1:    OpenRGB 0.61    First versioned API, introduced with plugin settings changes                    |
 | 2:    OpenRGB 0.7     First released versioned API, callback unregister functions in ResourceManager  |
 | 3:    OpenRGB 0.9     Use filesystem::path for paths, Added segments                                  |
+| 4:    OpenRGB 1.0     Resizable effects-only zones, zone flags                                        |
 \*-----------------------------------------------------------------------------------------------------*/
-#define OPENRGB_PLUGIN_API_VERSION  3
+#define OPENRGB_PLUGIN_API_VERSION  4
 
 /*-----------------------------------------------------------------------------------------------------*\
 | Plugin Tab Location Values                                                                            |
