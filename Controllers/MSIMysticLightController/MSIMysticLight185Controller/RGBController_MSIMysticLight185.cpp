@@ -147,23 +147,37 @@ void RGBController_MSIMysticLight185::SetupZones()
             zone new_zone;
 
             new_zone.name           = zd->name;
+            new_zone.flags          = 0;
 
             int maxLeds = (int)controller->GetMaxDirectLeds(zd->zone_type);
 
             /*-------------------------------------------------*\
             | This is a fixed size zone                         |
-            |   Either this is a board which only supports zone |
-            |   control or this is not an ARGB header zone      |
             \*-------------------------------------------------*/
-            if((controller->GetSupportedDirectMode() == MSIMysticLight185Controller::DIRECT_MODE_ZONE_BASED)
-            || ((zd->zone_type != MSI_ZONE_J_RAINBOW_1) && (zd->zone_type != MSI_ZONE_J_RAINBOW_2) && (zd->zone_type != MSI_ZONE_J_RAINBOW_3) && (zd->zone_type != MSI_ZONE_J_CORSAIR)))
+            if(((zd->zone_type != MSI_ZONE_J_RAINBOW_1)
+             && (zd->zone_type != MSI_ZONE_J_RAINBOW_2)
+             && (zd->zone_type != MSI_ZONE_J_RAINBOW_3)
+             && (zd->zone_type != MSI_ZONE_J_CORSAIR)))
             {
                 new_zone.leds_min   = maxLeds;
                 new_zone.leds_max   = maxLeds;
                 new_zone.leds_count = maxLeds;
             }
             /*--------------------------------------------------\
-            | This is a resizable zone on a per-LED board       |
+            | This is a resizable zone on a board that does not |
+            | support per-LED direct mode                       |
+            \*-------------------------------------------------*/
+            else if(controller->GetSupportedDirectMode() == MSIMysticLight185Controller::DIRECT_MODE_ZONE_BASED)
+            {
+                new_zone.leds_min   = 0;
+                new_zone.leds_max   = 30;//maxLeds;
+                new_zone.leds_count = 0;
+                last_resizable_zone = zd->zone_type;
+                new_zone.flags     |= ZONE_FLAG_RESIZE_EFFECTS_ONLY;
+            }
+            /*--------------------------------------------------\
+            | This is a resizable zone on a board that does     |
+            | support per-LED direct mode                       |
             \*-------------------------------------------------*/
             else
             {
@@ -176,7 +190,7 @@ void RGBController_MSIMysticLight185::SetupZones()
             /*-------------------------------------------------*\
             | Determine zone type based on max number of LEDs   |
             \*-------------------------------------------------*/
-            if(new_zone.leds_max == 1)
+            if((new_zone.leds_max == 1) || (new_zone.flags & ZONE_FLAG_RESIZE_EFFECTS_ONLY))
             {
                 new_zone.type       = ZONE_TYPE_SINGLE;
             }
@@ -199,16 +213,28 @@ void RGBController_MSIMysticLight185::SetupZones()
     {
         controller->SetCycleCount(zone_description[zone_idx]->zone_type, zones[zone_idx].leds_count);
 
-        for(std::size_t led_idx = 0; led_idx < zones[zone_idx].leds_count; ++led_idx)
+        if((zones[zone_idx].flags & ZONE_FLAG_RESIZE_EFFECTS_ONLY) == 0)
+        {
+            for(std::size_t led_idx = 0; led_idx < zones[zone_idx].leds_count; ++led_idx)
+            {
+                led new_led;
+
+                new_led.name = zones[zone_idx].name;
+
+                if(zones[zone_idx].leds_count > 1)
+                {
+                    new_led.name.append(" LED " + std::to_string(led_idx + 1));
+                }
+
+                new_led.value = zone_description[zone_idx]->zone_type;
+                leds.push_back(new_led);
+            }
+        }
+        else if(zones[zone_idx].leds_count > 0)
         {
             led new_led;
 
-            new_led.name = zones[zone_idx].name + " LED ";
-
-            if(zones[zone_idx].leds_count > 1)
-            {
-                new_led.name.append(std::to_string(led_idx + 1));
-            }
+            new_led.name = zones[zone_idx].name;
 
             new_led.value = zone_description[zone_idx]->zone_type;
             leds.push_back(new_led);
