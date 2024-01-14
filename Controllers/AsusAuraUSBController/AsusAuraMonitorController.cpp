@@ -49,7 +49,7 @@ void AuraMonitorController::BeginUpdate()
 {
     unsigned char usb_buf[8];
 
-    if (device_pid == AURA_ROG_PG32UQ_PID)
+    if (device_pid == AURA_ROG_PG32UQ_PID || device_pid == AURA_ROG_STRIX_XG32VC_PID)
     {
         memset(usb_buf, 0x00, sizeof(usb_buf));
 
