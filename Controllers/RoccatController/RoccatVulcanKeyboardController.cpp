@@ -64,6 +64,7 @@ device_info RoccatVulcanKeyboardController::InitDeviceInfo()
         case ROCCAT_PYRO_PID:
         case ROCCAT_MAGMA_PID:
         case ROCCAT_MAGMA_MINI_PID:
+        case ROCCAT_VULCAN_PRO_PID:
             packet_length = 9;
             report_id     = 0x09;
             break;
@@ -116,6 +117,7 @@ void RoccatVulcanKeyboardController::EnableDirect(bool on_off_switch)
         case ROCCAT_PYRO_PID:
         case ROCCAT_MAGMA_PID:
         case ROCCAT_MAGMA_MINI_PID:
+        case ROCCAT_VULCAN_PRO_PID:
             buf = new uint8_t[5] { 0x0E, 0x05, on_off_switch, 0x00, 0x00 };
             hid_send_feature_report(dev_ctrl, buf, 5);
             break;
@@ -143,6 +145,11 @@ void RoccatVulcanKeyboardController::SendColors(std::vector<led_color> colors)
         case ROCCAT_PYRO_PID:
             packet_length = 378;
             column_length = 1;
+            protocol_version = 2;
+            break;
+        case ROCCAT_VULCAN_PRO_PID:
+            packet_length = 384;
+            column_length = 12;
             protocol_version = 2;
             break;
         default:
@@ -246,7 +253,6 @@ void RoccatVulcanKeyboardController::SendColors(std::vector<led_color> colors)
     AwaitResponse(20);
 }
 
-
 void RoccatVulcanKeyboardController::SendMode(unsigned int mode, unsigned int speed, unsigned int brightness, std::vector<led_color> colors)
 {
     if(speed      == 0) speed      = ROCCAT_VULCAN_SPEED_DEFAULT;
@@ -268,6 +274,11 @@ void RoccatVulcanKeyboardController::SendMode(unsigned int mode, unsigned int sp
             protocol_version = 2;
             packet_length = 26;
             column_length = 5;
+            break;
+        case ROCCAT_VULCAN_PRO_PID:
+            protocol_version = 2;
+            packet_length = 371;
+            column_length = 12;
             break;
         default:
             protocol_version = 1;
@@ -351,6 +362,7 @@ void RoccatVulcanKeyboardController::WaitUntilReady()
         case ROCCAT_PYRO_PID:
         case ROCCAT_MAGMA_PID:
         case ROCCAT_MAGMA_MINI_PID:
+        case ROCCAT_VULCAN_PRO_PID:
             packet_length = 4;
             break;
         default:

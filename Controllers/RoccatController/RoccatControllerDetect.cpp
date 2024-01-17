@@ -99,6 +99,7 @@ void DetectRoccatVulcanKeyboardControllers(hid_device_info* info, const std::str
 
     switch (info->product_id)
     {
+        case ROCCAT_VULCAN_PRO_PID:
         case ROCCAT_PYRO_PID:
         case ROCCAT_MAGMA_PID:
         case ROCCAT_MAGMA_MINI_PID:
@@ -275,6 +276,7 @@ REGISTER_HID_DETECTOR_IP ("Roccat Pyro",                    DetectRoccatVulcanKe
 REGISTER_HID_DETECTOR_IP ("Roccat Vulcan 100 Aimo",         DetectRoccatVulcanKeyboardControllers,      ROCCAT_VID, ROCCAT_VULCAN_100_AIMO_PID,    1,          11);
 REGISTER_HID_DETECTOR_IP ("Roccat Vulcan 120-Series Aimo",  DetectRoccatVulcanKeyboardControllers,      ROCCAT_VID, ROCCAT_VULCAN_120_AIMO_PID,    1,          11);
 REGISTER_HID_DETECTOR_IP ("Roccat Vulcan TKL",              DetectRoccatVulcanKeyboardControllers,      ROCCAT_VID, ROCCAT_VULCAN_TKL_PID,         1,          11);
+REGISTER_HID_DETECTOR_IP ("Roccat Vulcan Pro",              DetectRoccatVulcanKeyboardControllers,      ROCCAT_VID, ROCCAT_VULCAN_PRO_PID,         1,          0xFF01);
 
 /*-----------------------------------------------------------------*\
 |  MICE                                                             |

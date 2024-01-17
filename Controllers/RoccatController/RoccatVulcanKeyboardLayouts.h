@@ -49,7 +49,6 @@ static unsigned int ROCCAT_VULCAN_120_AIMO_LAYOUT_KEYS_104[6][24] =
     {   5,   7,  13,  NA,  NA,  NA,  33,  NA,  NA,  NA,  54,  60,  65,  NA,  73,  NA,  77,  82,  86,  NA,  91,  NA, 100,  NA }
 };
 
-
 static unsigned int ROCCAT_VULCAN_120_AIMO_LAYOUT_KEYS_105[6][24] =
 {
     {   0,  NA,   9,  15,  20,  25,  NA,  35,  40,  45,  50,  56,  62,  67,  72,  NA,  75,  79,  84,  NA,  NA,  NA,  NA,  NA },
@@ -69,7 +68,6 @@ static unsigned int ROCCAT_VULCAN_TKL_LAYOUT_KEYS_104[6][19] =
     {   4,  NA,  12,  18,  23,  28,  32,  38,  43,  48,  53,  59,  NA,  69,  NA,  NA,  NA,  80,  NA },
     {   5,   7,  13,  NA,  NA,  NA,  33,  NA,  NA,  NA,  54,  60,  65,  NA,  73,  NA,  77,  81,  84 }
 };
-
 
 static unsigned int ROCCAT_VULCAN_TKL_LAYOUT_KEYS_105[6][19] =
 {
