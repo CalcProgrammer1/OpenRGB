@@ -283,6 +283,7 @@
 #define ASUS_TUF_RTX_4070TI_12G_GAMING_88DD             0x88DD
 #define ASUS_TUF_RTX_4070TI_O12G_GAMING                 0x88A3
 #define ASUS_TUF_RTX_4070TI_O12G_GAMING_88DC            0x88DC
+#define ASUS_TUF_RTX_4070TI_O12G_GAMING_WHITE           0x8935
 #define ASUS_TUF_RTX_4080_16G_GAMING                    0x88A2
 #define ASUS_TUF_RTX_4080_16G_GAMING_2                  0x88CB
 #define ASUS_TUF_RTX_4080_O16G_OC_GAMING                0x88A1
