@@ -17,6 +17,34 @@
 #define CHERRY_KB_PACKET_SIZE                        64
 #define CHERRY_KB_MAX_PACKET_SIZE                  ( 0x36 )/* max packet size for color*/
                                                             /* update packets           */
+
+/*-----------------------------------------------------*\
+| Cherry keyboard product IDs                           |
+\*-----------------------------------------------------*/
+#define MX_BOARD_3_0S_FL_NBL_PID        0x0077
+#define MX_BOARD_3_0S_FL_RGB_PID        0x0079
+#define MX_BOARD_3_0S_FL_RGB_KOR_PID    0x0083
+#define MX_1_0_FL_BL_PID                0x00AB
+#define MX_BOARD_1_0_TKL_RGB_PID        0x00AC
+#define MX_BOARD_8_0_TKL_RGB_PID        0x00B7
+#define MX_BOARD_10_0_FL_RGB_PID        0x00BB
+#define G80_3000_TKL_NBL_PID            0x00C3
+#define MX_BOARD_2_0S_FL_RGB_PID        0x00C4
+#define G80_3000_TKL_RGB_PID            0x00C5
+#define MV_BOARD_3_0FL_RGB_PID          0x00C7
+#define CCF_MX_8_0_TKL_BL_PID           0x00C9
+#define CCF_MX_1_0_TKL_BL_PID           0x00CA
+#define CCF_MX_1_0_TKL_NBL_PID          0x00CB
+#define G80_3000_TKL_NBL_KOR_PID        0x00CD
+#define MX_BOARD_2_0S_FL_NBL_PID        0x00CE
+#define MX_1_0_FL_NBL_PID               0x00D2
+#define MX_1_0_FL_RGB_PID               0x00D3
+#define G80_3000N_TKL_RGB_PID           0x00DD
+#define G80_3000N_FL_RGB_PID            0x00DE
+#define MX_BOARD_10_0N_FL_RGB_PID       0x00DF
+#define MX_BOARD_2_0S_FL_RGB_DE_PID     0x01A6
+
+
 enum
 {
     CHERRY_KB_COMMAND_BEGIN                        = 0x01, /* Begin packet command     */

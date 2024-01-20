@@ -14,7 +14,7 @@
 class RGBController_CherryKeyboard : public RGBController
 {
 public:
-    RGBController_CherryKeyboard(CherryKeyboardController* controller_ptr);
+    RGBController_CherryKeyboard(CherryKeyboardController* controller_ptr, uint16_t product_id);
     ~RGBController_CherryKeyboard();
 
     void        SetupZones();
@@ -30,4 +30,6 @@ public:
 
 private:
     CherryKeyboardController*  controller;
+
+    static bool hasUnofficialModeSupport(uint16_t product_id);
 };
