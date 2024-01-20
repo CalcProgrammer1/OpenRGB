@@ -17,7 +17,7 @@
     @save :white_check_mark:
     @direct :white_check_mark:
     @effects :white_check_mark:
-    @detectors DetectAsusAuraUSBMousemats
+    @detectors DetectAsusAuraUSBRyuoAIO
     @category Cooler
     @comment
 \*-------------------------------------------------------------------*/
