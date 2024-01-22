@@ -39,6 +39,7 @@ enum
     AURA_ROG_STRIX_FLARE_PID                            = 0x1875,
     AURA_ROG_STRIX_FLARE_PNK_LTD_PID                    = 0x18CF,
     AURA_ROG_STRIX_FLARE_COD_BO4_PID                    = 0x18AF,
+    AURA_ROG_STRIX_FLARE_II_PID                         = 0x19FE,
     AURA_ROG_STRIX_FLARE_II_ANIMATE_PID                 = 0x19FC,
     AURA_ROG_STRIX_SCOPE_PID                            = 0x18F8,
     AURA_ROG_STRIX_SCOPE_RX_PID                         = 0x1951,
