@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1" language="jp_JP">
+<TS version="2.1" language="ja_JP">
 <context>
     <name>Ambient</name>
     <message>
@@ -3184,7 +3184,7 @@ Using an effect on a device WILL damage the flash or controller</source>
     <message>
         <location filename="../OpenRGBPluginsPage/OpenRGBPluginsPage.cpp" line="98"/>
         <source>Plugin files (*.dll *.dylib *.so *.so.*)</source>
-        <translation >プラグインファイル (*.dll *.dylib *.so *.so.*)</translation>
+        <translation>プラグインファイル (*.dll *.dylib *.so *.so.*)</translation>
     </message>
     <message>
         <location filename="../OpenRGBPluginsPage/OpenRGBPluginsPage.cpp" line="136"/>
@@ -3248,7 +3248,7 @@ Using an effect on a device WILL damage the flash or controller</source>
     <message>
         <location filename="../OpenRGBSettingsPage.cpp" line="45"/>
         <source>System Default</source>
-        <translation >システム</translation>
+        <translation>システム</translation>
     </message>
     <message>
         <location filename="../OpenRGBSettingsPage.cpp" line="650"/>
