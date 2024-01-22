@@ -53,7 +53,7 @@ void InstantMouseController::SendColor(RGBColor color)
 {    
     /*---------------------------------------------------------*\
     | Packet details                                            |
-    | 07 X4 0G RB 00 00 00 00                                   |
+    | 07 14 XG RB 00 00 00 00                                   |
     | where X is the DPI slot                                   |
     \*---------------------------------------------------------*/
 
@@ -86,10 +86,10 @@ void InstantMouseController::SetMode(uint8_t mode_value, uint8_t speed, uint8_t 
     | FF = constant                                             |
     | - = still undiscovered/useless                            |
     | M = mode                                                  |
-    | S = speed 0 -> 5  (6 and more makes the effect static)    |
+    | S = speed 0 -> 5  (6 and above makes the effect static)   |
     | N = number of leds                                        |
     | D = direction (0/1)                                       |
-    | B = brightness (0 full, F off)                            |
+    | B = brightness (0 full, 7 off)                            |
     \*---------------------------------------------------------*/
 
     uint8_t led_mask = 0xB;

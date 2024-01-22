@@ -19,7 +19,7 @@
     @detectors DetectInstantMouseControllers
     @comment This controller should work with all mouse with this chip.
     Identified devices that work with this controller: Advance Gaming
-    GTA 250 (GX72-A725), Anko KM43243952 (GM8-A825)
+    GTA 250 (GX72-A725), Anko KM43243952 (GM8-A825), Anko KM43277483
 \*-------------------------------------------------------------------*/
 
 RGBController_InstantMouse::RGBController_InstantMouse(InstantMouseController* controller_ptr)
