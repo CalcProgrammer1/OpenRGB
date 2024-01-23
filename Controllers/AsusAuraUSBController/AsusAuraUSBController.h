@@ -49,6 +49,8 @@ enum class AuraDeviceType
     ADDRESSABLE,
 };
 
+#define LEDS_PER_PACKET  0x14;
+
 struct AuraDeviceInfo
 {
     unsigned char effect_channel;
@@ -97,10 +99,8 @@ protected:
     void SendDirect
         (
         unsigned char   device,
-        unsigned char   start_led,
         unsigned char   led_count,
-        unsigned char*  led_data,
-        bool apply = false
+        RGBColor *      colors
         );
 private:
     char                        device_name[16];
