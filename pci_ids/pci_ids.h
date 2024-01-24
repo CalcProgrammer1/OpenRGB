@@ -279,7 +279,8 @@
 #define ASUS_TUF_RTX_4060TI_O8G_GAMING                  0x88F6
 #define ASUS_TUF_RTX_4070_12G_GAMING                    0x88DE
 #define ASUS_TUF_RTX_4070_O12G_GAMING                   0x88DF
-#define ASUS_TUF_RTX_4070_O12G_GAMING_2                 0x88EC
+#define ASUS_TUF_RTX_4070_O12G_GAMING_2                 0x88EB
+#define ASUS_TUF_RTX_4070_O12G_GAMING_3                 0x88EC
 #define ASUS_TUF_RTX_4070TI_12G_GAMING                  0x88A4
 #define ASUS_TUF_RTX_4070TI_12G_GAMING_88DD             0x88DD
 #define ASUS_TUF_RTX_4070TI_O12G_GAMING                 0x88A3
