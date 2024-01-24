@@ -722,6 +722,7 @@ HEADERS +=                                                                      
     Controllers/RoccatController/RGBController_RoccatElo.h                                      \
     Controllers/RoccatController/RGBController_RoccatHordeAimo.h                                \
     Controllers/RoccatController/RGBController_RoccatKoneAimo.h                                 \
+    Controllers/RoccatController/RGBController_RoccatKonePro.h                                  \
     Controllers/RoccatController/RGBController_RoccatKova.h                                     \
     Controllers/RoccatController/RGBController_RoccatSenseAimo.h                                \
     Controllers/RoccatController/RGBController_RoccatVulcanKeyboard.h                           \
@@ -730,6 +731,7 @@ HEADERS +=                                                                      
     Controllers/RoccatController/RoccatEloController.h                                          \
     Controllers/RoccatController/RoccatHordeAimoController.h                                    \
     Controllers/RoccatController/RoccatKoneAimoController.h                                     \
+    Controllers/RoccatController/RoccatKoneProController.h                                      \
     Controllers/RoccatController/RoccatKovaController.h                                         \
     Controllers/RoccatController/RoccatSenseAimoController.h                                    \
     Controllers/RoccatController/RoccatVulcanKeyboardController.h                               \
@@ -1464,6 +1466,7 @@ SOURCES +=                                                                      
     Controllers/RoccatController/RGBController_RoccatElo.cpp                                    \
     Controllers/RoccatController/RGBController_RoccatHordeAimo.cpp                              \
     Controllers/RoccatController/RGBController_RoccatKoneAimo.cpp                               \
+    Controllers/RoccatController/RGBController_RoccatKonePro.cpp                                \
     Controllers/RoccatController/RGBController_RoccatKova.cpp                                   \
     Controllers/RoccatController/RGBController_RoccatSenseAimo.cpp                              \
     Controllers/RoccatController/RGBController_RoccatVulcanKeyboard.cpp                         \
@@ -1472,6 +1475,7 @@ SOURCES +=                                                                      
     Controllers/RoccatController/RoccatEloController.cpp                                        \
     Controllers/RoccatController/RoccatHordeAimoController.cpp                                  \
     Controllers/RoccatController/RoccatKoneAimoController.cpp                                   \
+    Controllers/RoccatController/RoccatKoneProController.cpp                                    \
     Controllers/RoccatController/RoccatKovaController.cpp                                       \
     Controllers/RoccatController/RoccatSenseAimoController.cpp                                  \
     Controllers/RoccatController/RoccatVulcanKeyboardController.cpp                             \

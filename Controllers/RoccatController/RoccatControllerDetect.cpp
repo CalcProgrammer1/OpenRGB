@@ -2,6 +2,7 @@
 #include "RoccatBurstController.h"
 #include "RoccatBurstProAirController.h"
 #include "RoccatKoneAimoController.h"
+#include "RoccatKoneProController.h"
 #include "RoccatSenseAimoController.h"
 #include "RoccatVulcanKeyboardController.h"
 #include "RoccatKovaController.h"
@@ -11,6 +12,7 @@
 #include "RGBController_RoccatBurstProAir.h"
 #include "RGBController_RoccatHordeAimo.h"
 #include "RGBController_RoccatKoneAimo.h"
+#include "RGBController_RoccatKonePro.h"
 #include "RGBController_RoccatSenseAimo.h"
 #include "RGBController_RoccatVulcanKeyboard.h"
 #include "RGBController_RoccatKova.h"
@@ -34,6 +36,7 @@
 #define ROCCAT_BURST_PRO_AIR_PID    0x2CA6
 #define ROCCAT_KONE_AIMO_PID        0x2E27
 #define ROCCAT_KONE_AIMO_16K_PID    0x2E2C
+#define ROCCAT_KONE_PRO_PID         0x2C88
 #define ROCCAT_KOVA_PID             0x2CEE
 
 /*-----------------------------------------------------------------*\
@@ -186,9 +189,22 @@ void DetectRoccatBurstProAirControllers(hid_device_info* info, const std::string
 
     if(dev)
     {
-        RoccatBurstProAirController *    controller     = new RoccatBurstProAirController(dev, *info);
-        RGBController_RoccatBurstProAir *rgb_controller = new RGBController_RoccatBurstProAir(controller);
-        rgb_controller->name                            = name;
+        RoccatBurstProAirController *    controller      = new RoccatBurstProAirController(dev, *info);
+        RGBController_RoccatBurstProAir * rgb_controller = new RGBController_RoccatBurstProAir(controller);
+        rgb_controller->name                             = name;
+        ResourceManager::get()->RegisterRGBController(rgb_controller);
+    }
+}
+
+void DetectRoccatKoneProControllers(hid_device_info* info, const std::string& name)
+{
+    hid_device* dev = hid_open_path(info->path);
+
+    if(dev)
+    {
+        RoccatKoneProController *     controller          = new RoccatKoneProController(dev, *info);
+        RGBController_RoccatKonePro * rgb_controller      = new RGBController_RoccatKonePro(controller);
+        rgb_controller->name                              = name;
         ResourceManager::get()->RegisterRGBController(rgb_controller);
     }
 }
@@ -255,6 +271,8 @@ REGISTER_HID_DETECTOR_IPU("Roccat Burst Pro Air",           DetectRoccatBurstPro
 REGISTER_HID_DETECTOR_IPU("Roccat Kone Aimo",               DetectRoccatMouseControllers,               ROCCAT_VID, ROCCAT_KONE_AIMO_PID,          0, 0x0B,    0 );
 REGISTER_HID_DETECTOR_IPU("Roccat Kone Aimo 16K",           DetectRoccatMouseControllers,               ROCCAT_VID, ROCCAT_KONE_AIMO_16K_PID,      0, 0x0B,    0 );
 
+REGISTER_HID_DETECTOR_IPU("Roccat Kone Pro",                DetectRoccatKoneProControllers,             ROCCAT_VID, ROCCAT_KONE_PRO_PID,           3, 0xFF01,  1 );
+
 REGISTER_HID_DETECTOR_IPU("Roccat Kova",                    DetectRoccatKovaControllers,                ROCCAT_VID, ROCCAT_KOVA_PID,               0, 0x0B,    0 );
 
 /*-----------------------------------------------------------------*\
@@ -267,4 +285,3 @@ REGISTER_HID_DETECTOR_IPU("Roccat Sense Aimo XXL",          DetectRoccatSenseAim
 | HEADSETS                                                          |
 \*-----------------------------------------------------------------*/
 REGISTER_HID_DETECTOR_IPU("Roccat Elo 7.1",                 DetectRoccatEloControllers,                 ROCCAT_VID, ROCCAT_ELO_PID,                3, 0x0C,    1 );
-
