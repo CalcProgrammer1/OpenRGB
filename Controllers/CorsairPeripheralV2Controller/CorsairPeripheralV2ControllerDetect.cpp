@@ -65,6 +65,7 @@ REGISTER_HID_DETECTOR_IP("Corsair K60 RGB PRO TKL",                 DetectCorsai
 REGISTER_HID_DETECTOR_IP("Corsair K70 RGB PRO",                     DetectCorsairV2HardwareControllers, CORSAIR_VID,    CORSAIR_K70_RGB_PRO_PID,                1,  0xFF42);
 REGISTER_HID_DETECTOR_IP("Corsair K70 RGB TKL",                     DetectCorsairV2HardwareControllers, CORSAIR_VID,    CORSAIR_K70_RGB_TKL_PID,                1,  0xFF42);
 REGISTER_HID_DETECTOR_IP("Corsair K70 RGB TKL Champion Series",     DetectCorsairV2HardwareControllers, CORSAIR_VID,    CORSAIR_K70_RGB_TKL_CS_PID,             1,  0xFF42);
+REGISTER_HID_DETECTOR_IP("Corsair K100 RGB Optical",                DetectCorsairV2HardwareControllers, CORSAIR_VID,    CORSAIR_K100_OPTICAL_PID,               1,  0xFF42);
 
 /*-----------------------------------------------------------------------------------------------------*\
 | Mice                                                                                                  |
