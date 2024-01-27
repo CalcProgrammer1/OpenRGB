@@ -649,6 +649,7 @@
 #define PNY_RTX_4080_XLR8_UPRISING_SUB_DEV              0x13C2
 #define PNY_RTX_4080S_XLR8_VERTO_SUB_DEV                0x1418
 #define PNY_RTX_4080_XLR8_VERTO_SUB_DEV                 0x13BB
+#define PNY_RTX_4080_XLR8_VERTO_EPIC_X_SUB_DEV          0x13BC
 #define PNY_RTX_4090_XLR8_VERTO_SUB_DEV                 0x13AE
 #define PNY_RTX_4090_VERTO_EPIC_X_SUB_DEV               0x13D8
 #define PNY_RTX_4090_VERTO_EPIC_X_OC_SUB_DEV            0x13D9
