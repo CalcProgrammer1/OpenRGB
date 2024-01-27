@@ -66,7 +66,9 @@ typedef struct
 #define CORSAIR_K70_RGB_PRO_PID                     0x1BC4
 #define CORSAIR_K70_RGB_TKL_PID                     0x1B73
 #define CORSAIR_K70_RGB_TKL_CS_PID                  0x1BB9
-#define CORSAIR_K100_OPTICAL_PID                    0x1BC5
+#define CORSAIR_K100_OPTICAL_V1_PID                 0x1B7C
+#define CORSAIR_K100_OPTICAL_V2_PID                 0x1BC5
+#define CORSAIR_K100_MXRED_PID                      0x1B7D
 
 /*-----------------------------------------------------*\
 | Corsair V2 Protocol Mice                              |

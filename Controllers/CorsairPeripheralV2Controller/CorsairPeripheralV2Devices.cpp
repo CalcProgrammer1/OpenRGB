@@ -820,7 +820,7 @@ static const corsair_v2_device k70_rgb_tkl_cs_device =
 };
 
 /*-------------------------------------------------------------*\
-|  Corsair k70 RGB Pro 1B1C:1BC4                                |
+|  Corsair K70 RGB Pro 1B1C:1BC4                                |
 |                                                               |
 |  Zone "Keyboard"                                              |
 |       Matrix                                                  |
@@ -852,7 +852,40 @@ static const corsair_v2_device k70_rgb_pro_device =
 };
 
 /*-------------------------------------------------------------*\
-|   Corsair k100 RGB Optical 1B1C:1BC5                          |
+|   Corsair K100 MX Red 1B1C:1B7D                               |
+|                                                               |
+|   Zone "Keyboard"                                             |
+|       Matrix                                                  |
+|       12 Rows, 24 Columns                                     |
+\*-------------------------------------------------------------*/
+
+static const corsair_v2_zone k100_mx_red_zone =
+{
+    ZONE_EN_KEYBOARD,
+    ZONE_TYPE_MATRIX,
+    12,
+    24
+};
+
+static const corsair_v2_device k100_mx_red_device =
+{
+    CORSAIR_K100_MXRED_PID,
+    DEVICE_TYPE_KEYBOARD,
+    12,
+    24,
+    {
+        &k100_mx_red_zone,
+        nullptr,
+        nullptr,
+        nullptr,
+        nullptr,
+        nullptr
+    },
+    &corsair_k100_layout
+};
+
+/*-------------------------------------------------------------*\
+|   Corsair K100 RGB Optical V1 1B1C:1B7C                       |
 |                                                               |
 |   Zone "Keyboard"                                             |
 |       Matrix                                                  |
@@ -867,9 +900,34 @@ static const corsair_v2_zone k100_rgb_opt_zone =
     24
 };
 
-static const corsair_v2_device k100_rgb_opt_device =
+static const corsair_v2_device k100_rgb_opt_v1_device =
 {
-    CORSAIR_K100_OPTICAL_PID,
+    CORSAIR_K100_OPTICAL_V1_PID,
+    DEVICE_TYPE_KEYBOARD,
+    12,
+    24,
+    {
+        &k100_rgb_opt_zone,
+        nullptr,
+        nullptr,
+        nullptr,
+        nullptr,
+        nullptr
+    },
+    &corsair_k100_layout
+};
+
+/*-------------------------------------------------------------*\
+|   Corsair K100 RGB Optical V2 1B1C:1BC5                       |
+|                                                               |
+|   Zone "Keyboard"                                             |
+|       Matrix                                                  |
+|       12 Rows, 24 Columns                                     |
+\*-------------------------------------------------------------*/
+
+static const corsair_v2_device k100_rgb_opt_v2_device =
+{
+    CORSAIR_K100_OPTICAL_V2_PID,
     DEVICE_TYPE_KEYBOARD,
     12,
     24,
@@ -1035,7 +1093,9 @@ const corsair_v2_device* corsair_v2_device_list_data[] =
     &k70_rgb_pro_device,
     &k70_rgb_tkl_device,
     &k70_rgb_tkl_cs_device,
-    &k100_rgb_opt_device,
+    &k100_mx_red_device,
+    &k100_rgb_opt_v1_device,
+    &k100_rgb_opt_v2_device,
 
 /*-----------------------------------------------------------------*\
 |  MICE                                                             |
