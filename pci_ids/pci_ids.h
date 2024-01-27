@@ -98,6 +98,7 @@
 #define NVIDIA_RTX4060TI_16G_DEV                        0x2805
 #define NVIDIA_RTX4070_DEV                              0x2786
 #define NVIDIA_RTX4070TI_DEV                            0x2782
+#define NVIDIA_RTX4070TIS_DEV                           0x2705
 #define NVIDIA_RTX4080_DEV                              0x2704
 #define NVIDIA_RTX4090_DEV                              0x2684
 
@@ -287,6 +288,7 @@
 #define ASUS_TUF_RTX_4070TI_O12G_GAMING                 0x88A3
 #define ASUS_TUF_RTX_4070TI_O12G_GAMING_88DC            0x88DC
 #define ASUS_TUF_RTX_4070TI_O12G_GAMING_WHITE           0x8935
+#define ASUS_TUF_RTX_4070TI_SUPER_16G_GAMING            0x8958
 #define ASUS_TUF_RTX_4080_16G_GAMING                    0x88A2
 #define ASUS_TUF_RTX_4080_16G_GAMING_2                  0x88CB
 #define ASUS_TUF_RTX_4080_O16G_OC_GAMING                0x88A1
