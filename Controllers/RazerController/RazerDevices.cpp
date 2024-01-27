@@ -6673,6 +6673,41 @@ static const razer_device goliathus_device =
 };
 
 /*-------------------------------------------------------------*\
+|  Razer Goliathus Chroma 3XL 1532:0C06                         |
+|                                                               |
+|  Zone "LED Strip"                                             |
+|       Single                                                  |
+|       1 LED                                                   |
+\*-------------------------------------------------------------*/
+static const razer_zone goliathus_chroma_3xl_zone =
+{
+    "LED Strip",
+    ZONE_TYPE_SINGLE,
+    1,
+    1
+};
+
+static const razer_device goliathus_chroma_3xl_device =
+{
+    "Razer Goliathus Chroma 3XL",
+    RAZER_GOLIATHUS_CHROMA_3XL_PID,
+    DEVICE_TYPE_MOUSEMAT,
+    RAZER_MATRIX_TYPE_EXTENDED,
+    0x1F,
+    1,
+    1,
+    {
+        &goliathus_chroma_3xl_zone,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL
+    },
+    NULL
+};
+
+/*-------------------------------------------------------------*\
 |  Razer Goliathus Extended                                     |
 |                                                               |
 |  Zone "LED Strip"                                             |
@@ -7931,6 +7966,7 @@ const razer_device* razer_device_list[] =
     &firefly_device,
     &firefly_hyperflux_device,
     &firefly_v2_device,
+    &goliathus_chroma_3xl_device,
     &goliathus_device,
     &goliathus_extended_device,
     &strider_chroma_device,

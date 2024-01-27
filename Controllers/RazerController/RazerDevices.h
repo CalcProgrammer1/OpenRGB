@@ -227,6 +227,7 @@
 #define RAZER_FIREFLY_V2_PID                            0x0C04
 #define RAZER_GOLIATHUS_CHROMA_EXTENDED_PID             0x0C02
 #define RAZER_GOLIATHUS_CHROMA_PID                      0x0C01
+#define RAZER_GOLIATHUS_CHROMA_3XL_PID                  0x0C06
 #define RAZER_LAPTOP_STAND_CHROMA_PID                   0x0F0D
 #define RAZER_LAPTOP_STAND_CHROMA_V2_PID                0x0F2B
 #define RAZER_LEVIATHAN_V2X_PID                         0x054A
