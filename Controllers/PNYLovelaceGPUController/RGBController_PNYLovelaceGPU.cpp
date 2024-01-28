@@ -28,15 +28,7 @@ RGBController_PNYLovelaceGPU::RGBController_PNYLovelaceGPU(PNYLovelaceGPUControl
     vendor                  = "PNY";
     description             = "PNY RGB GPU Device";
     location                = controller->GetDeviceLocation();
-
     type                    = DEVICE_TYPE_GPU;
-
-    mode Off;
-    Off.name                = "Off";
-    Off.value               = PNY_GPU_MODE_OFF;
-    Off.flags               = 0;
-    Off.color_mode          = MODE_COLORS_NONE;
-    modes.push_back(Off);
 
     mode Direct;
     Direct.name             = "Direct";
@@ -46,16 +38,16 @@ RGBController_PNYLovelaceGPU::RGBController_PNYLovelaceGPU(PNYLovelaceGPUControl
     modes.push_back(Direct);
 
     mode Cycle;
-    Cycle.name             = "Cycle";
-    Cycle.value            = PNY_GPU_MODE_CYCLE;
-    Cycle.flags            = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_BRIGHTNESS;
-    Cycle.speed            = 0x89;
-    Cycle.speed_min        = 0;
-    Cycle.speed_max        = 0xB2;
-    Cycle.brightness       = 0xFF;
-    Cycle.brightness_min   = 0;
-    Cycle.brightness_max   = 0xFF;
-    Cycle.color_mode       = MODE_COLORS_NONE;
+    Cycle.name              = "Cycle";
+    Cycle.value             = PNY_GPU_MODE_CYCLE;
+    Cycle.flags             = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_BRIGHTNESS;
+    Cycle.speed             = 0x89;
+    Cycle.speed_min         = 0;
+    Cycle.speed_max         = 0xB2;
+    Cycle.brightness        = 0xFF;
+    Cycle.brightness_min    = 0;
+    Cycle.brightness_max    = 0xFF;
+    Cycle.color_mode        = MODE_COLORS_NONE;
     modes.push_back(Cycle);
 
     mode Breath;
@@ -72,33 +64,40 @@ RGBController_PNYLovelaceGPU::RGBController_PNYLovelaceGPU(PNYLovelaceGPUControl
     modes.push_back(Breath);
 
     mode Wave;
-    Wave.name             = "Wave";
-    Wave.value            = PNY_GPU_MODE_WAVE;
-    Wave.flags            = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_BRIGHTNESS;
-    Wave.speed            = 0x60;
-    Wave.speed_min        = 0;
-    Wave.speed_max        = 0xBF;
-    Wave.brightness       = 0xFF;
-    Wave.brightness_min   = 0;
-    Wave.brightness_max   = 0xFF;
-    Wave.color_mode       = MODE_COLORS_NONE;
+    Wave.name               = "Wave";
+    Wave.value              = PNY_GPU_MODE_WAVE;
+    Wave.flags              = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_BRIGHTNESS;
+    Wave.speed              = 0x60;
+    Wave.speed_min          = 0;
+    Wave.speed_max          = 0xBF;
+    Wave.brightness         = 0xFF;
+    Wave.brightness_min     = 0;
+    Wave.brightness_max     = 0xFF;
+    Wave.color_mode         = MODE_COLORS_NONE;
     modes.push_back(Wave);
 
     mode Flash;
-    Flash.name             = "Flash";
-    Flash.value            = PNY_GPU_MODE_FLASH;
-    Flash.flags            = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_HAS_MODE_SPECIFIC_COLOR;
-    Flash.speed            = 0x27;
-    Flash.speed_min        = 0;
-    Flash.speed_max        = 0x4D;
-    Flash.brightness       = 0xFF;
-    Flash.brightness_min   = 0;
-    Flash.brightness_max   = 0xFF;
-    Flash.colors_min       = 1;
-    Flash.colors_max       = 1;
+    Flash.name              = "Flash";
+    Flash.value             = PNY_GPU_MODE_FLASH;
+    Flash.flags             = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_HAS_MODE_SPECIFIC_COLOR;
+    Flash.speed             = 0x27;
+    Flash.speed_min         = 0;
+    Flash.speed_max         = 0x4D;
+    Flash.brightness        = 0xFF;
+    Flash.brightness_min    = 0;
+    Flash.brightness_max    = 0xFF;
+    Flash.colors_min        = 1;
+    Flash.colors_max        = 1;
     Flash.colors.resize(1);
-    Flash.color_mode       = MODE_COLORS_MODE_SPECIFIC;
+    Flash.color_mode        = MODE_COLORS_MODE_SPECIFIC;
     modes.push_back(Flash);
+
+    mode Off;
+    Off.name                = "Off";
+    Off.value               = PNY_GPU_MODE_OFF;
+    Off.flags               = 0;
+    Off.color_mode          = MODE_COLORS_NONE;
+    modes.push_back(Off);
 
     SetupZones();
 
@@ -115,7 +114,7 @@ void RGBController_PNYLovelaceGPU::SetupZones()
 
     new_zone->name          = "GPU Zone";
     new_zone->type          = ZONE_TYPE_SINGLE;
-    new_zone->leds_min      = 1;
+    new_zone->leds_min      = 3;
     new_zone->leds_max      = 3;
     new_zone->leds_count    = 3;
     new_zone->matrix_map    = NULL;
