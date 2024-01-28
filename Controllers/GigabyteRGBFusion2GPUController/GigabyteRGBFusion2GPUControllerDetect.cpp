@@ -46,7 +46,7 @@ bool TestForGigabyteRGBFusion2GPUController(i2c_smbus_interface* bus, unsigned c
     //GeForce RTX 4080 Gigabyte AORUS MASTER 16G            0xAB 0x10 0x52 0x07
     //Note that GeForce RTX 3080 Ti AORUS XTREME WATERFORCE 12G LHS exposes three i2c buses but only one returns a 0xAB
     //response and controls the RGB lighting. The other buses return 0x00 0x00 0x00 0x00.
-    //Note that GeForce RTX 4080 Gigabyte AORUS MASTER 16G exposes two i2c bus with writable address 0x71 but on respond
+    //Note that GeForce RTX 4080 Gigabyte AORUS MASTER 16G exposes two i2c bus with writable address 0x71 but one respond
     //0x00 0x00 0x00 0x00 so it should be the one controlling the LCD screen. So we skip this bus
 
     //All seen responses start with 0xAB, so we check for this.
