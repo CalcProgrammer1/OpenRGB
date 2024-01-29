@@ -237,7 +237,7 @@ void RGBController_RGBFusion2GPU::UpdateSingleLED(int led)
 
 void RGBController_RGBFusion2GPU::DeviceUpdateMode()
 {
-    LOG_TRACE("[%s] Switching to mode %s @ brightness %d and speed %d", name.c_str(), modes[active_mode].name, modes[active_mode].brightness, modes[active_mode].speed);
+    LOG_TRACE("[%s] Switching to mode %s @ brightness %d and speed %d", name.c_str(), modes[active_mode].name.c_str(), modes[active_mode].brightness, modes[active_mode].speed);
     DeviceUpdateLEDs();
 }
 
