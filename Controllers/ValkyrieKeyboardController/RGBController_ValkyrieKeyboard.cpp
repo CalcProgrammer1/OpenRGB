@@ -268,10 +268,9 @@ static const char *normal_led_names[] =
     @comment
 \*-------------------------------------------------------------------*/
 
-RGBController_ValkyrieKeyboard::RGBController_ValkyrieKeyboard(ValkyrieKeyboardController* controller_ptr, ValkyrieKeyboardMappingLayoutType keyboard_layout)
+RGBController_ValkyrieKeyboard::RGBController_ValkyrieKeyboard(ValkyrieKeyboardController* controller_ptr)
 {
     controller  = controller_ptr;
-    layout      = keyboard_layout;
 
     name        = "Valkyrie Keyboard Device";
     vendor      = "Valkyrie";
@@ -309,6 +308,15 @@ RGBController_ValkyrieKeyboard::~RGBController_ValkyrieKeyboard()
 
 void RGBController_ValkyrieKeyboard::SetupZones()
 {
+    ValkyrieKeyboardMappingLayoutType layout;
+    switch(controller->GetInterfaceNum())
+    {
+        case 3:
+            layout = PRO_LAYOUT;
+        default:
+            layout = NORMAL_LAYOUT;
+    }
+
     /*---------------------------------------------------------*\
     | Set up zones                                              |
     \*---------------------------------------------------------*/

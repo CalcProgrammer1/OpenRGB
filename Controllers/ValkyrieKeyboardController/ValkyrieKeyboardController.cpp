@@ -57,7 +57,6 @@ int ValkyrieKeyboardController::GetInterfaceNum()
 
 void ValkyrieKeyboardController::SendColors(unsigned char*  color_data,unsigned int color_data_size)
 {
-//    unsigned char*  color_data_ptr = color_data;
     unsigned char usb_buf_pro[392];
     unsigned char usb_buf_normal[408];
     int led_num = 0;

@@ -21,7 +21,7 @@ enum ValkyrieKeyboardMappingLayoutType
 class RGBController_ValkyrieKeyboard : public RGBController
 {
 public:
-    RGBController_ValkyrieKeyboard(ValkyrieKeyboardController* controller_ptr, ValkyrieKeyboardMappingLayoutType keyboard_layout);
+    RGBController_ValkyrieKeyboard(ValkyrieKeyboardController* controller_ptr);
     ~RGBController_ValkyrieKeyboard();
 
     void        SetupZones();
@@ -33,5 +33,4 @@ public:
 
 private:
     ValkyrieKeyboardController*         controller;
-    ValkyrieKeyboardMappingLayoutType   layout;
 };
