@@ -6922,6 +6922,57 @@ static const razer_device kraken_kitty_device =
 };
 
 /*-------------------------------------------------------------*\
+|  Razer Kraken Kitty Edition V2 1532:0560                      |
+|                                                               |
+|  Zone "Headset"                                               |
+|       Matrix                                                  |
+|       4 LED                                                   |
+\*-------------------------------------------------------------*/
+static const razer_zone kraken_kitty_black_v2_zone =
+{
+    "Cat ears",
+    ZONE_TYPE_LINEAR,
+    1,
+    2
+};
+
+static const razer_zone kraken_kitty_black_v2_headset_left_zone =
+{
+    "Headset Left",
+    ZONE_TYPE_SINGLE,
+    1,
+    1
+};
+
+static const razer_zone kraken_kitty_black_v2_headset_right_zone =
+{
+    "Headset Right",
+    ZONE_TYPE_SINGLE,
+    1,
+    1
+};
+
+static const razer_device kraken_kitty_black_v2_device =
+{
+    "Razer Kraken Kitty Black Edition V2",
+    RAZER_KRAKEN_KITTY_BLACK_EDITION_V2_PID,
+    DEVICE_TYPE_HEADSET,
+    RAZER_MATRIX_TYPE_EXTENDED,
+    0x3F,
+    1,
+    4,
+    {
+        &kraken_kitty_black_v2_headset_left_zone,
+        &kraken_kitty_black_v2_headset_right_zone,
+        &kraken_kitty_black_v2_zone,
+        NULL,
+        NULL,
+        NULL
+    },
+    NULL
+};
+
+/*-------------------------------------------------------------*\
 |  Razer Tiamat 7.1 V2                                          |
 |                                                               |
 |  Zone "Controller"                                            |
@@ -7977,6 +8028,7 @@ const razer_device* razer_device_list[] =
     &kraken_v2_device,
     &kraken_ultimate_device,
     &kraken_kitty_device,
+    &kraken_kitty_black_v2_device,
     &tiamat_71_v2_device,
 /*-----------------------------------------------------------------*\
 |  OTHER                                                            |

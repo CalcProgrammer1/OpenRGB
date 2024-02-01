@@ -41,6 +41,7 @@ RazerKrakenController::RazerKrakenController(hid_device* dev_handle, const char*
     switch(dev_pid)
     {
         case RAZER_KRAKEN_V2_PID:
+        case RAZER_KRAKEN_KITTY_BLACK_EDITION_V2_PID:
         case RAZER_KRAKEN_ULTIMATE_PID:
             led_mode_address        = 0x172D;
             custom_address          = 0x1189;
@@ -307,6 +308,7 @@ void RazerKrakenController::razer_set_mode_custom(unsigned char red, unsigned ch
     {
         case RAZER_KRAKEN_PID:
         case RAZER_KRAKEN_V2_PID:
+        case RAZER_KRAKEN_KITTY_BLACK_EDITION_V2_PID:
         case RAZER_KRAKEN_ULTIMATE_PID:
             razer_usb_send(&rgb_report);
             break;
@@ -365,6 +367,7 @@ void RazerKrakenController::razer_set_mode_static(unsigned char red, unsigned ch
     {
         case RAZER_KRAKEN_PID:
         case RAZER_KRAKEN_V2_PID:
+        case RAZER_KRAKEN_KITTY_BLACK_EDITION_V2_PID:
         case RAZER_KRAKEN_ULTIMATE_PID:
             razer_usb_send(&rgb_report);
             break;

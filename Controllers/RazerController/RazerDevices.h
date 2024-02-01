@@ -207,6 +207,7 @@
 #define RAZER_KRAKEN_PID                                0x0504
 #define RAZER_KRAKEN_ULTIMATE_PID                       0x0527
 #define RAZER_KRAKEN_V2_PID                             0x0510
+#define RAZER_KRAKEN_KITTY_BLACK_EDITION_V2_PID         0x0560
 #define RAZER_TIAMAT_71_V2_PID                          0x0F03
 
 /*-----------------------------------------------------*\
