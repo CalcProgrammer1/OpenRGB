@@ -8,13 +8,14 @@
 
 #pragma once
 
+#include "pci_ids.h"
 #include "RGBController.h"
 #include "MSIGPUv2Controller.h"
 
 class RGBController_MSIGPUv2 : public RGBController
 {
 public:
-    RGBController_MSIGPUv2(MSIGPUv2Controller* msi_gpu_ptr);
+    RGBController_MSIGPUv2(MSIGPUv2Controller* msi_gpu_ptr, int msi_gpu_id);
     ~RGBController_MSIGPUv2();
 
     void        SetupZones();

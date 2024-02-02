@@ -22,7 +22,7 @@ static const unsigned char speed_values[3]      = { 0x04, 0x02, 0x01 };
     @comment
 \*-------------------------------------------------------------------*/
 
-RGBController_MSIGPUv2::RGBController_MSIGPUv2(MSIGPUv2Controller * msi_gpu_ptr)
+RGBController_MSIGPUv2::RGBController_MSIGPUv2(MSIGPUv2Controller * msi_gpu_ptr, int msi_gpu_id)
 {
     msi_gpu     = msi_gpu_ptr;
 
@@ -161,31 +161,38 @@ RGBController_MSIGPUv2::RGBController_MSIGPUv2(MSIGPUv2Controller * msi_gpu_ptr)
     Meteor.color_mode               = MODE_COLORS_PER_LED;
     modes.push_back(Meteor);
 
-    mode Stack;
-    Stack.name                      = "Stack";
-    Stack.value                     = MSI_GPU_V2_MODE_STACK;
-    Stack.flags                     = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_MANUAL_SAVE;
-    Stack.speed_min                 = MSI_GPU_V2_SPEED_MIN;
-    Stack.speed                     = MSI_GPU_V2_SPEED_MID;
-    Stack.speed_max                 = MSI_GPU_V2_SPEED_MAX;
-    Stack.brightness_min            = MSI_GPU_V2_BRIGHTNESS_MIN;
-    Stack.brightness                = MSI_GPU_V2_BRIGHTNESS_MAX;
-    Stack.brightness_max            = MSI_GPU_V2_BRIGHTNESS_MAX;
-    Stack.color_mode                = MODE_COLORS_PER_LED;
-    modes.push_back(Stack);
+    switch(msi_gpu_id)
+    {
+        case MSI_RTX4070TI_GAMING_X_TRIO_WHITE_SUB_DEV | NVIDIA_RTX4070TIS_DEV << 16:
+            break;
 
-    mode Rhythm;
-    Rhythm.name                     = "Rhythm";
-    Rhythm.value                    = MSI_GPU_V2_MODE_RHYTHM;
-    Rhythm.flags                    = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_MANUAL_SAVE;
-    Rhythm.speed_min                = MSI_GPU_V2_SPEED_MIN;
-    Rhythm.speed                    = MSI_GPU_V2_SPEED_MID;
-    Rhythm.speed_max                = MSI_GPU_V2_SPEED_MAX;
-    Rhythm.brightness_min           = MSI_GPU_V2_BRIGHTNESS_MIN;
-    Rhythm.brightness               = MSI_GPU_V2_BRIGHTNESS_MAX;
-    Rhythm.brightness_max           = MSI_GPU_V2_BRIGHTNESS_MAX;
-    Rhythm.color_mode               = MODE_COLORS_PER_LED;
-    modes.push_back(Rhythm);
+        default:
+            mode Stack;
+            Stack.name                      = "Stack";
+            Stack.value                     = MSI_GPU_V2_MODE_STACK;
+            Stack.flags                     = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_MANUAL_SAVE;
+            Stack.speed_min                 = MSI_GPU_V2_SPEED_MIN;
+            Stack.speed                     = MSI_GPU_V2_SPEED_MID;
+            Stack.speed_max                 = MSI_GPU_V2_SPEED_MAX;
+            Stack.brightness_min            = MSI_GPU_V2_BRIGHTNESS_MIN;
+            Stack.brightness                = MSI_GPU_V2_BRIGHTNESS_MAX;
+            Stack.brightness_max            = MSI_GPU_V2_BRIGHTNESS_MAX;
+            Stack.color_mode                = MODE_COLORS_PER_LED;
+            modes.push_back(Stack);
+
+            mode Rhythm;
+            Rhythm.name                     = "Rhythm";
+            Rhythm.value                    = MSI_GPU_V2_MODE_RHYTHM;
+            Rhythm.flags                    = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_MANUAL_SAVE;
+            Rhythm.speed_min                = MSI_GPU_V2_SPEED_MIN;
+            Rhythm.speed                    = MSI_GPU_V2_SPEED_MID;
+            Rhythm.speed_max                = MSI_GPU_V2_SPEED_MAX;
+            Rhythm.brightness_min           = MSI_GPU_V2_BRIGHTNESS_MIN;
+            Rhythm.brightness               = MSI_GPU_V2_BRIGHTNESS_MAX;
+            Rhythm.brightness_max           = MSI_GPU_V2_BRIGHTNESS_MAX;
+            Rhythm.color_mode               = MODE_COLORS_PER_LED;
+            modes.push_back(Rhythm);
+    }
 
     mode Flowing;
     Flowing.name                    = "Flowing";
