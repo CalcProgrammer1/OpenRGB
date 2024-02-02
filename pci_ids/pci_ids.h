@@ -97,6 +97,7 @@
 #define NVIDIA_RTX4060TI_DEV                            0x2803
 #define NVIDIA_RTX4060TI_16G_DEV                        0x2805
 #define NVIDIA_RTX4070_DEV                              0x2786
+#define NVIDIA_RTX4070S_DEV                             0x2783
 #define NVIDIA_RTX4070TI_DEV                            0x2782
 #define NVIDIA_RTX4070TIS_DEV                           0x2705
 #define NVIDIA_RTX4080_DEV                              0x2704
@@ -535,6 +536,7 @@
 #define GIGABYTE_RTX3090_XTREME_WATERFORCE_WB_SUB_DEV   0x403A
 #define GIGABYTE_RTX4060_GAMING_OC_8G_SUB_DEV           0x4109
 #define GIGABYTE_RTX4070_GAMING_OC_12G                  0x40C6
+#define GIGABYTE_RTX4070S_GAMING_OC_12G                 0x4138
 #define GIGABYTE_RTX4070TI_GAMING_12G                   0x40DF
 #define GIGABYTE_RTX4070TI_GAMING_OC_12G                0x40C6
 #define GIGABYTE_RTX4080_AERO_OC_SUB_DEV                0x40C5
