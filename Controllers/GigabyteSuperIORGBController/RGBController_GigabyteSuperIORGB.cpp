@@ -67,7 +67,7 @@
 
         To add this chipset you will need to first add it to the SuperIO definitions file, which is named super_io.h like below
         ```c++
-        #define SIO_ITE688_ID               0x8688  // Device ID for ITE8688  (8688)
+        #define SIO_ITE8688_ID              0x8688  // Device ID for ITE8688  (8688)
         #define SIO_NEWCHIPSETMODEL_ID      0xFOUNDHEXIDECIMALVALUE  // Device ID for NEWCHIPSETMODEL  (FOUNDHEXIDECIMALVALUE)
         ```
 
@@ -77,7 +77,7 @@
         ```c++
                 switch (val & SIO_ID_MASK)
                 {
-                    case SIO_ITE688_ID:
+                    case SIO_ITE8688_ID:
                     case SIO_NEWCHIPSETMODEL_ID:
         ```
 \*-------------------------------------------------------------------*/
