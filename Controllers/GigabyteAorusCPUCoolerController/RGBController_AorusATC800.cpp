@@ -75,6 +75,56 @@ RGBController_AorusATC800::RGBController_AorusATC800(ATC800Controller* controlle
     Pulsing.speed      = AORUS_ATC800_SPEED_NORMAL;
     modes.push_back(Pulsing);
 
+    mode Gradient;
+    Gradient.name       = "Gradient";
+    Gradient.value      = AORUS_ATC800_MODE_GRADIENT;
+    Gradient.flags      = MODE_FLAG_HAS_SPEED;
+    Gradient.color_mode = MODE_COLORS_NONE;
+    Gradient.speed_min  = AORUS_ATC800_SPEED_SLOWEST;
+    Gradient.speed_max  = AORUS_ATC800_SPEED_FASTEST;
+    Gradient.speed      = AORUS_ATC800_SPEED_NORMAL;
+    modes.push_back(Gradient);
+
+    mode RainbowWave;
+    RainbowWave.name       = "Rainbow Wave";
+    RainbowWave.value      = AORUS_ATC800_MODE_RAINBOW_WAVE;
+    RainbowWave.flags      = MODE_FLAG_HAS_SPEED;
+    RainbowWave.color_mode = MODE_COLORS_NONE;
+    RainbowWave.speed_min  = AORUS_ATC800_SPEED_SLOWEST;
+    RainbowWave.speed_max  = AORUS_ATC800_SPEED_FASTEST;
+    RainbowWave.speed      = AORUS_ATC800_SPEED_NORMAL;
+    modes.push_back(RainbowWave);
+
+    mode RainbowLoop;
+    RainbowLoop.name       = "Rainbow Loop";
+    RainbowLoop.value      = AORUS_ATC800_MODE_RAINBOW_LOOP;
+    RainbowLoop.flags      = MODE_FLAG_HAS_SPEED;
+    RainbowLoop.color_mode = MODE_COLORS_NONE;
+    RainbowLoop.speed_min  = AORUS_ATC800_SPEED_SLOWEST;
+    RainbowLoop.speed_max  = AORUS_ATC800_SPEED_FASTEST;
+    RainbowLoop.speed      = AORUS_ATC800_SPEED_NORMAL;
+    modes.push_back(RainbowLoop);
+
+    mode Tricolor;
+    Tricolor.name       = "Tricolor";
+    Tricolor.value      = AORUS_ATC800_MODE_TRICOLOR;
+    Tricolor.flags      = MODE_FLAG_HAS_SPEED;
+    Tricolor.color_mode = MODE_COLORS_NONE;
+    Tricolor.speed_min  = AORUS_ATC800_SPEED_SLOWEST;
+    Tricolor.speed_max  = AORUS_ATC800_SPEED_FASTEST;
+    Tricolor.speed      = AORUS_ATC800_SPEED_NORMAL;
+    modes.push_back(Tricolor);
+
+    mode SpectrumCycle;
+    SpectrumCycle.name       = "Spectrum Cycle";
+    SpectrumCycle.value      = AORUS_ATC800_MODE_SPECTRUM_CYCLE;
+    SpectrumCycle.flags      = MODE_FLAG_HAS_SPEED;
+    SpectrumCycle.color_mode = MODE_COLORS_NONE;
+    SpectrumCycle.speed_min  = AORUS_ATC800_SPEED_SLOWEST;
+    SpectrumCycle.speed_max  = AORUS_ATC800_SPEED_FASTEST;
+    SpectrumCycle.speed      = AORUS_ATC800_SPEED_NORMAL;
+    modes.push_back(SpectrumCycle);
+
     SetupZones();
 }
 
