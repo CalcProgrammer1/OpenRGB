@@ -61,6 +61,7 @@
 #define AURA_ROG_STRIX_SCOPE_RX_TKL_DELUXE_PID              0x1A05
 #define AURA_ROG_STRIX_SCOPE_NX_WIRELESS_DELUXE_USB_PID     0x19F6
 #define AURA_ROG_STRIX_SCOPE_NX_WIRELESS_DELUXE_2_4_PID     0x19F8
+#define AURA_ROG_STRIX_SCOPE_II_PID                         0x1AB3
 #define AURA_ROG_STRIX_SCOPE_II_RX_PID                      0x1AB5
 #define AURA_ROG_STRIX_SCOPE_II_96_WIRELESS_USB_PID         0x1AAE
 #define AURA_TUF_K1_GAMING_PID                              0x1945
@@ -354,6 +355,7 @@ REGISTER_HID_DETECTOR_IP("ASUS ROG Strix Scope",                            Dete
 REGISTER_HID_DETECTOR_IP("ASUS ROG Strix Scope RX",                         DetectAsusAuraTUFUSBKeyboard,   AURA_USB_VID, AURA_ROG_STRIX_SCOPE_RX_PID,                      1,  0xFF00);
 REGISTER_HID_DETECTOR_IP("ASUS ROG Strix Scope NX Wireless Deluxe USB",     DetectAsusAuraTUFUSBKeyboard,   AURA_USB_VID, AURA_ROG_STRIX_SCOPE_NX_WIRELESS_DELUXE_USB_PID,  1,  0xFF00);
 REGISTER_HID_DETECTOR_IP("ASUS ROG Strix Scope NX Wireless Deluxe 2.4GHz",  DetectAsusAuraTUFUSBKeyboard,   AURA_USB_VID, AURA_ROG_STRIX_SCOPE_NX_WIRELESS_DELUXE_2_4_PID,  1,  0xFF00);
+REGISTER_HID_DETECTOR_IP("ASUS ROG Strix Scope II",                         DetectAsusAuraTUFUSBKeyboard,   AURA_USB_VID, AURA_ROG_STRIX_SCOPE_II_PID,                      1,  0xFF00);
 REGISTER_HID_DETECTOR_IP("ASUS ROG Strix Scope II RX",                      DetectAsusAuraTUFUSBKeyboard,   AURA_USB_VID, AURA_ROG_STRIX_SCOPE_II_RX_PID,                   1,  0xFF00);
 REGISTER_HID_DETECTOR_IP("ASUS ROG Strix Scope II 96 Wireless USB",         DetectAsusAuraTUFUSBKeyboard,   AURA_USB_VID, AURA_ROG_STRIX_SCOPE_II_96_WIRELESS_USB_PID,      1,  0xFF00);
 REGISTER_HID_DETECTOR_IP("ASUS TUF Gaming K1",                              DetectAsusAuraTUFUSBKeyboard,   AURA_USB_VID, AURA_TUF_K1_GAMING_PID,                           2,  0xFF00);

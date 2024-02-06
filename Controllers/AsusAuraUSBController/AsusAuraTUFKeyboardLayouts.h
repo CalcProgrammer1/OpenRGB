@@ -119,7 +119,7 @@ static unsigned int ASUS_ROG_STRIX_SCOPE_LAYOUT_KEYS_ISO[6][24] =
     {   5,   8,  14,  NA,  NA,  NA,  34,  NA,  NA,  NA,  55,  61,  66,  NA,  74,  NA,  78,  83,  87,  NA,  92,  NA, 101,  NA }
 };
 
-static unsigned int ASUS_ROG_STRIX_SCOPE_II_RX_LAYOUT_KEYS_ANSI[6][24] =
+static unsigned int ASUS_ROG_STRIX_SCOPE_II_LAYOUT_KEYS_ANSI[6][24] =
 {
     {   0,  NA,   8,  14,  19,  24,  NA,  35,  41,  46,  51,  57,  63,  68,  72,  NA,  76,  80,  85,  NA,  NA,  94,  NA,  NA },
     {   1,   6,   9,  15,  20,  25,  30,  36,  42,  47,  52,  58,  64,  69,  NA,  NA,  77,  81,  86,  NA,  89,  95,  99, 104 },
@@ -130,7 +130,7 @@ static unsigned int ASUS_ROG_STRIX_SCOPE_II_RX_LAYOUT_KEYS_ANSI[6][24] =
 };
 
 
-static unsigned int ASUS_ROG_STRIX_SCOPE_II_RX_LAYOUT_KEYS_ISO[6][24] =
+static unsigned int ASUS_ROG_STRIX_SCOPE_II_LAYOUT_KEYS_ISO[6][24] =
 {
     {   0,  NA,   9,  15,  20,  25,  NA,  36,  42,  47,  52,  58,  64,  69,  74,  NA,  77,  81,  86,  NA,  NA,  95,  NA,  NA },
     {   1,   6,  10,  16,  21,  26,  31,  37,  43,  48,  53,  59,  65,  70,  NA,  NA,  78,  82,  87,  NA,  90,  96, 100, 105 },
@@ -1092,12 +1092,12 @@ static std::map<int,layout_info> AsusROGStrixScopeLayouts =
     },
 };
 
-static std::map<int,layout_info> AsusROGStrixScopeIIRXLayouts =
+static std::map<int,layout_info> AsusROGStrixScopeIILayouts =
 {
     {
         ASUS_TUF_K7_LAYOUT_UK,
         {
-            *ASUS_ROG_STRIX_SCOPE_II_RX_LAYOUT_KEYS_ISO,
+            *ASUS_ROG_STRIX_SCOPE_II_LAYOUT_KEYS_ISO,
             108,
             6,
             24,
@@ -1238,7 +1238,7 @@ static std::map<int,layout_info> AsusROGStrixScopeIIRXLayouts =
     {
         ASUS_TUF_K7_LAYOUT_US,
         {
-            *ASUS_ROG_STRIX_SCOPE_II_RX_LAYOUT_KEYS_ANSI,
+            *ASUS_ROG_STRIX_SCOPE_II_LAYOUT_KEYS_ANSI,
             107,
             6,
             24,
