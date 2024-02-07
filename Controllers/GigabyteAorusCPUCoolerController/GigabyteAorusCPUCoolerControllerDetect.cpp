@@ -36,4 +36,4 @@ void DetectGigabyteAorusCPUCoolerControllers(hid_device_info* info, const std::s
     }
 }
 
-REGISTER_HID_DETECTOR_IPU("Aorus CPU Coolers", DetectGigabyteAorusCPUCoolerControllers, HOLTEK_VID, ATC_800_CONTROLLER_PID, 0, 0xFF01, 1);
+REGISTER_HID_DETECTOR_IPU("Gigabyte AORUS ATC800", DetectGigabyteAorusCPUCoolerControllers, HOLTEK_VID, ATC_800_CONTROLLER_PID, 0, 0xFF01, 1);
