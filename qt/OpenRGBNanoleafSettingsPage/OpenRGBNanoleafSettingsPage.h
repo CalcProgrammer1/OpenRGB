@@ -21,6 +21,8 @@ public:
 
 private slots:
     void changeEvent(QEvent *event);
+    void on_AddNanoleafDeviceButton_clicked();
+    void on_RemoveNanoleafDeviceButton_clicked();
     void on_ScanForNanoleafDevicesButton_clicked();
     void on_DeviceFound(QString address, int port);
 

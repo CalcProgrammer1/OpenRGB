@@ -287,6 +287,7 @@ HEADERS +=                                                                      
     qt/OpenRGBKasaSmartSettingsPage/OpenRGBKasaSmartSettingsPage.h                              \
     qt/OpenRGBLIFXSettingsPage/OpenRGBLIFXSettingsEntry.h                                       \
     qt/OpenRGBLIFXSettingsPage/OpenRGBLIFXSettingsPage.h                                        \
+    qt/OpenRGBNanoleafSettingsPage/OpenRGBNanoleafNewDeviceDialog.h                             \
     qt/OpenRGBNanoleafSettingsPage/OpenRGBNanoleafSettingsEntry.h                               \
     qt/OpenRGBNanoleafSettingsPage/OpenRGBNanoleafSettingsPage.h                                \
     qt/OpenRGBNanoleafSettingsPage/OpenRGBNanoleafScanningThread.h                              \
@@ -916,6 +917,7 @@ SOURCES +=                                                                      
     qt/OpenRGBKasaSmartSettingsPage/OpenRGBKasaSmartSettingsPage.cpp                            \
     qt/OpenRGBLIFXSettingsPage/OpenRGBLIFXSettingsEntry.cpp                                     \
     qt/OpenRGBLIFXSettingsPage/OpenRGBLIFXSettingsPage.cpp                                      \
+    qt/OpenRGBNanoleafSettingsPage/OpenRGBNanoleafNewDeviceDialog.cpp                           \
     qt/OpenRGBNanoleafSettingsPage/OpenRGBNanoleafSettingsEntry.cpp                             \
     qt/OpenRGBNanoleafSettingsPage/OpenRGBNanoleafSettingsPage.cpp                              \
     qt/OpenRGBNanoleafSettingsPage/OpenRGBNanoleafScanningThread.cpp                            \
@@ -1640,6 +1642,7 @@ FORMS +=                                                                        
     qt/OpenRGBKasaSmartSettingsPage/OpenRGBKasaSmartSettingsPage.ui                             \
     qt/OpenRGBLIFXSettingsPage/OpenRGBLIFXSettingsEntry.ui                                      \
     qt/OpenRGBLIFXSettingsPage/OpenRGBLIFXSettingsPage.ui                                       \
+    qt/OpenRGBNanoleafSettingsPage/OpenRGBNanoleafNewDeviceDialog.ui                            \
     qt/OpenRGBNanoleafSettingsPage/OpenRGBNanoleafSettingsPage.ui                               \
     qt/OpenRGBNanoleafSettingsPage/OpenRGBNanoleafSettingsEntry.ui                              \
     qt/OpenRGBPhilipsHueSettingsPage/OpenRGBPhilipsHueSettingsEntry.ui                          \
