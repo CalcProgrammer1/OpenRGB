@@ -56,7 +56,7 @@ void QMKOpenRGBRevBController::GetLEDInfo(unsigned int leds_count)
 
         for (unsigned int led_idx = 0; led_idx < leds_per_update_info; led_idx++)
         {
-            unsigned int offset = offset;
+            unsigned int offset = led_idx * 7;
 
             if(usb_buf[(offset) + QMK_OPENRGB_FLAG_BYTE] != QMK_OPENRGB_FAILURE)
             {
@@ -67,7 +67,7 @@ void QMKOpenRGBRevBController::GetLEDInfo(unsigned int leds_count)
 
             if(usb_buf[(offset) + QMK_OPENRGB_KEYCODE_BYTE] != 0)
             {
-                if (qmk_keycode_keyname_map.count(usb_buf[(offset) + QMK_OPENRGB_KEYCODE_BYTE]) > 0)
+                if(qmk_keycode_keyname_map.count(usb_buf[(offset) + QMK_OPENRGB_KEYCODE_BYTE]) > 0)
                 {
                     led_names.push_back(qmk_keycode_keyname_map[usb_buf[(offset) + QMK_OPENRGB_KEYCODE_BYTE]]);
                 }
