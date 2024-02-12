@@ -32,7 +32,7 @@
 #define CORSAIR_K65_LUX_RGB_PID         0x1B37
 #define CORSAIR_K65_RGB_RAPIDFIRE_PID   0x1B39
 
-#define CORSAIR_K68_RGB                 0x1B4F
+#define CORSAIR_K68_RGB_PID             0x1B4F
 
 #define CORSAIR_K70_RGB_PID             0x1B13
 #define CORSAIR_K70_LUX_RGB_PID         0x1B33
@@ -52,6 +52,7 @@
 | Non-RGB Keyboard product IDs                          |
 \*-----------------------------------------------------*/
 #define CORSAIR_K70_LUX_PID             0x1B36
+#define CORSAIR_K68_RED_PID             0x1B3F
 
 /*-----------------------------------------------------*\
 | Mouse product IDs                                     |
@@ -182,7 +183,8 @@ REGISTER_HID_DETECTOR_IP("Corsair K55 RGB",                 DetectCorsairPeriphe
 REGISTER_HID_DETECTOR_IP("Corsair K65 RGB",                 DetectCorsairPeripheralControllers, CORSAIR_VID, CORSAIR_K65_RGB_PID,            1, 0xFFC2);
 REGISTER_HID_DETECTOR_IP("Corsair K65 LUX RGB",             DetectCorsairPeripheralControllers, CORSAIR_VID, CORSAIR_K65_LUX_RGB_PID,        1, 0xFFC2);
 REGISTER_HID_DETECTOR_IP("Corsair K65 RGB RAPIDFIRE",       DetectCorsairPeripheralControllers, CORSAIR_VID, CORSAIR_K65_RGB_RAPIDFIRE_PID,  1, 0xFFC2);
-REGISTER_HID_DETECTOR_IP("Corsair K68 RGB",                 DetectCorsairPeripheralControllers, CORSAIR_VID, CORSAIR_K68_RGB,                1, 0xFFC2);
+REGISTER_HID_DETECTOR_IP("Corsair K68 RGB",                 DetectCorsairPeripheralControllers, CORSAIR_VID, CORSAIR_K68_RGB_PID,            1, 0xFFC2);
+REGISTER_HID_DETECTOR_IP("Corsair K68 RED",                 DetectCorsairPeripheralControllers, CORSAIR_VID, CORSAIR_K68_RED_PID,            1, 0xFFC2);
 REGISTER_HID_DETECTOR_IP("Corsair K70 RGB",                 DetectCorsairPeripheralControllers, CORSAIR_VID, CORSAIR_K70_RGB_PID,            1, 0xFFC2);
 REGISTER_HID_DETECTOR_IP("Corsair K70 LUX",                 DetectCorsairPeripheralControllers, CORSAIR_VID, CORSAIR_K70_LUX_PID,            1, 0xFFC2);
 REGISTER_HID_DETECTOR_IP("Corsair K70 LUX RGB",             DetectCorsairPeripheralControllers, CORSAIR_VID, CORSAIR_K70_LUX_RGB_PID,        1, 0xFFC2);
