@@ -162,6 +162,7 @@ INCLUDEPATH +=                                                                  
     Controllers/GigabyteAorusCPUCoolerController/                                               \
     Controllers/GigabyteAorusLaptopController/                                                  \
     Controllers/GigabyteAorusMouseController/                                                   \
+    Controllers/GigabyteAorusPCCaseController/                                                  \
     Controllers/GigabyteRGBFusion2DRAMController/                                               \
     Controllers/GigabyteRGBFusion2SMBusController/                                              \
     Controllers/GigabyteRGBFusion2USBController/                                                \
@@ -518,6 +519,8 @@ HEADERS +=                                                                      
     Controllers/GigabyteAorusLaptopController/RGBController_GigabyteAorusLaptop.h               \
     Controllers/GigabyteAorusMouseController/GigabyteAorusMouseController.h                     \
     Controllers/GigabyteAorusMouseController/RGBController_GigabyteAorusMouse.h                 \
+    Controllers/GigabyteAorusPCCaseController/GigabyteAorusPCCaseController.h                   \
+    Controllers/GigabyteAorusPCCaseController/RGBController_GigabyteAorusPCCase.h               \
     Controllers/GigabyteRGBFusion2DRAMController/GigabyteRGBFusion2DRAMController.h             \
     Controllers/GigabyteRGBFusion2DRAMController/RGBController_GigabyteRGBFusion2DRAM.h         \
     Controllers/GigabyteRGBFusion2SMBusController/GigabyteRGBFusion2SMBusController.h           \
@@ -1204,6 +1207,9 @@ SOURCES +=                                                                      
     Controllers/GigabyteAorusMouseController/GigabyteAorusMouseController.cpp                   \
     Controllers/GigabyteAorusMouseController/GigabyteAorusMouseControllerDetect.cpp             \
     Controllers/GigabyteAorusMouseController/RGBController_GigabyteAorusMouse.cpp               \
+    Controllers/GigabyteAorusPCCaseController/GigabyteAorusPCCaseController.cpp                 \
+    Controllers/GigabyteAorusPCCaseController/GigabyteAorusPCCaseControllerDetect.cpp           \
+    Controllers/GigabyteAorusPCCaseController/RGBController_GigabyteAorusPCCase.cpp             \
     Controllers/GigabyteRGBFusion2DRAMController/GigabyteRGBFusion2DRAMController.cpp           \
     Controllers/GigabyteRGBFusion2DRAMController/GigabyteRGBFusion2DRAMControllerDetect.cpp     \
     Controllers/GigabyteRGBFusion2DRAMController/RGBController_GigabyteRGBFusion2DRAM.cpp       \
