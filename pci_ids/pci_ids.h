@@ -101,6 +101,7 @@
 #define NVIDIA_RTX4070TI_DEV                            0x2782
 #define NVIDIA_RTX4070TIS_DEV                           0x2705
 #define NVIDIA_RTX4080_DEV                              0x2704
+#define NVIDIA_RTX4080S_DEV                             0x2702
 #define NVIDIA_RTX4090_DEV                              0x2684
 
 /*-----------------------------------------------------*\
@@ -544,6 +545,7 @@
 #define GIGABYTE_RTX4080_AERO_OC_SUB_DEV                0x40C5
 #define GIGABYTE_RTX4080_EAGLE_OC_SUB_DEV               0x40BE
 #define GIGABYTE_RTX4080_GAMING_OC_SUB_DEV              0x40BC
+#define GIGABYTE_RTX4080S_GAMING_OC_16GB_SUB_DEV        0x4140
 #define GIGABYTE_AORUS_RTX4080_MASTER_16G_SUB_DEV       0x40BD
 #define GIGABYTE_RTX4090_AERO_OC_24G_SUB_DEV            0x40E4
 #define GIGABYTE_RTX4090_GAMING_OC_24G_SUB_DEV          0x40BF
