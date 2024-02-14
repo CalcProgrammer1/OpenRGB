@@ -718,6 +718,7 @@
 #define ZOTAC_RTX3090_TRINITY_SUB_DEV                   0x1613
 #define ZOTAC_RTX4070TI_TRINITY_SUB_DEV                 0x1696
 #define ZOTAC_RTX4080_AMP_SUB_DEV                       0x1688
+#define ZOTAC_RTX4080_AMP_ALT_SUB_DEV                   0x2688
 #define ZOTAC_RTX4090_TRINITY_SUB_DEV                   0x3675
 #define ZOTAC_RTX4090_AMP_SUB_DEV                       0x4675
 
