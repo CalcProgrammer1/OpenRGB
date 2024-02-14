@@ -8,6 +8,7 @@
 \*-----------------------------------------------------*/
 #define AOC_VID                                     0x3938
 #define AOC_GK500_PID                               0x1178
+#define AOC_GK500_PID_2                             0x1229
 
 /******************************************************************************************\
 *                                                                                          *
@@ -32,3 +33,4 @@ void DetectAOCKeyboardControllers(hid_device_info* info, const std::string& name
 }
 
 REGISTER_HID_DETECTOR_PU("AOC GK500",  DetectAOCKeyboardControllers,   AOC_VID,    AOC_GK500_PID,   0xFF19, 0xFF19);
+REGISTER_HID_DETECTOR_PU("AOC GK500",  DetectAOCKeyboardControllers,   AOC_VID,    AOC_GK500_PID_2,   0xFF19, 0xFF19);
