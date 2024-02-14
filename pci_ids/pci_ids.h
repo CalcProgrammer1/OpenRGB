@@ -97,8 +97,11 @@
 #define NVIDIA_RTX4060TI_DEV                            0x2803
 #define NVIDIA_RTX4060TI_16G_DEV                        0x2805
 #define NVIDIA_RTX4070_DEV                              0x2786
+#define NVIDIA_RTX4070S_DEV                             0x2783
 #define NVIDIA_RTX4070TI_DEV                            0x2782
+#define NVIDIA_RTX4070TIS_DEV                           0x2705
 #define NVIDIA_RTX4080_DEV                              0x2704
+#define NVIDIA_RTX4080S_DEV                             0x2702
 #define NVIDIA_RTX4090_DEV                              0x2684
 
 /*-----------------------------------------------------*\
@@ -201,6 +204,7 @@
 #define ASUS_ROG_STRIX_RTX2080TI_11G_GAMING_866C        0x866C
 #define ASUS_ROG_STRIX_RTX2080TI_O11G_GAMING            0x866A
 #define ASUS_ROG_STRIX_RTX2080TI_A11G_GAMING            0x866B
+#define ASUS_ROG_STRIX_RTX3050_8G_GAMING                0x8872
 #define ASUS_KO_RTX_3060_OC_O12G_GAMING                 0x87FB
 #define ASUS_ROG_STRIX_RTX_3060_O12G_GAMING             0x87F3
 #define ASUS_ROG_STRIX_RTX_3060_12G_GAMING              0x87F4
@@ -226,9 +230,10 @@
 #define ASUS_TUF_RTX_3070_O8G_GAMING                    0x87C1
 #define ASUS_TUF_RTX_3070_O8G_V2_GAMING                 0x8825
 #define ASUS_ROG_STRIX_RTX_3070TI_O8G_GAMING            0x880E
-#define ASUS_TUF_RTX_3070TI_O8G_V2_GAMING               0x8812
 #define ASUS_TUF_RTX_3070TI_O8G_GAMING                  0x8813
+#define ASUS_TUF_RTX_3070TI_O8G_V2_GAMING               0x8812
 #define ASUS_TUF_RTX_3070TI_O8G_V2_GAMING_2             0x88BD
+#define ASUS_TUF_RTX_3070TI_O8G_V2_GAMING_3             0x88BC
 #define ASUS_ROG_STRIX_RTX_3080_10G_GAMING              0x87AA
 #define ASUS_ROG_STRIX_RTX_3080_O10G_GAMING             0x87AC
 #define ASUS_ROG_STRIX_RTX_3080_O10G_WHITE              0x87D1
@@ -278,11 +283,14 @@
 #define ASUS_TUF_RTX_4060TI_O8G_GAMING                  0x88F6
 #define ASUS_TUF_RTX_4070_12G_GAMING                    0x88DE
 #define ASUS_TUF_RTX_4070_O12G_GAMING                   0x88DF
-#define ASUS_TUF_RTX_4070_O12G_GAMING_2                 0x88EC
+#define ASUS_TUF_RTX_4070_O12G_GAMING_2                 0x88EB
+#define ASUS_TUF_RTX_4070_O12G_GAMING_3                 0x88EC
 #define ASUS_TUF_RTX_4070TI_12G_GAMING                  0x88A4
 #define ASUS_TUF_RTX_4070TI_12G_GAMING_88DD             0x88DD
 #define ASUS_TUF_RTX_4070TI_O12G_GAMING                 0x88A3
 #define ASUS_TUF_RTX_4070TI_O12G_GAMING_88DC            0x88DC
+#define ASUS_TUF_RTX_4070TI_O12G_GAMING_WHITE           0x8935
+#define ASUS_TUF_RTX_4070TI_SUPER_16G_GAMING            0x8958
 #define ASUS_TUF_RTX_4080_16G_GAMING                    0x88A2
 #define ASUS_TUF_RTX_4080_16G_GAMING_2                  0x88CB
 #define ASUS_TUF_RTX_4080_O16G_OC_GAMING                0x88A1
@@ -356,6 +364,7 @@
 #define EVGA_RTX2080_XC_BLACK_SUB_DEV                   0x2082
 #define EVGA_RTX2080_XC_GAMING_SUB_DEV                  0x2182
 #define EVGA_RTX2080_XC_ULTRA_GAMING_SUB_DEV            0x2183
+#define EVGA_RTX2080_XC_HYBRID_GAMING_SUB_DEV           0x2184
 #define EVGA_RTX2080S_XC_GAMING_SUB_DEV                 0x3182
 #define EVGA_RTX2080S_XC_ULTRA_SUB_DEV                  0x3183
 #define EVGA_RTX2080S_FTW3_ULTRA_SUB_DEV                0x3287
@@ -373,6 +382,7 @@
 #define EVGA_RTX3070_XC3_GAMING_SUB_DEV                 0x3753
 #define EVGA_RTX3070_XC3_ULTRA_SUB_DEV                  0x3755
 #define EVGA_RTX3070_XC3_ULTRA_LHR_SUB_DEV              0x4755
+#define EVGA_RTX3070_XC3_ULTRA_GAMING_LHR_SUB_DEV       0x4455
 #define EVGA_RTX3070_FTW3_ULTRA_SUB_DEV                 0x3767
 #define EVGA_RTX3070_FTW3_ULTRA_LHR_SUB_DEV             0x4767
 #define EVGA_RTX3070TI_XC3_GAMING_SUB_DEV               0x3783
@@ -529,11 +539,13 @@
 #define GIGABYTE_RTX3090_XTREME_WATERFORCE_WB_SUB_DEV   0x403A
 #define GIGABYTE_RTX4060_GAMING_OC_8G_SUB_DEV           0x4109
 #define GIGABYTE_RTX4070_GAMING_OC_12G                  0x40C6
+#define GIGABYTE_RTX4070S_GAMING_OC_12G                 0x4138
 #define GIGABYTE_RTX4070TI_GAMING_12G                   0x40DF
 #define GIGABYTE_RTX4070TI_GAMING_OC_12G                0x40C6
 #define GIGABYTE_RTX4080_AERO_OC_SUB_DEV                0x40C5
 #define GIGABYTE_RTX4080_EAGLE_OC_SUB_DEV               0x40BE
 #define GIGABYTE_RTX4080_GAMING_OC_SUB_DEV              0x40BC
+#define GIGABYTE_RTX4080S_GAMING_OC_16GB_SUB_DEV        0x4140
 #define GIGABYTE_AORUS_RTX4080_MASTER_16G_SUB_DEV       0x40BD
 #define GIGABYTE_RTX4090_AERO_OC_24G_SUB_DEV            0x40E4
 #define GIGABYTE_RTX4090_GAMING_OC_24G_SUB_DEV          0x40BF
@@ -626,6 +638,7 @@
 #define PNY_RTX_3090_XLR8_REVEL_EPIC_X_SUB_DEV          0x136A
 #define PNY_RTX_3060TI_XLR8_REVEL_EPIC_X_SUB_DEV        0x1389
 #define PNY_RTX_2060_XLR8_OC_SUB_DEV                    0x1363
+#define PNY_RTX_4070TI_XLR8_VERTO_EPIC_X_SUB_DEV        0x13D4
 #define PNY_RTX_4070TI_XLR8_VERTO_REV1_SUB_DEV          0x13B1
 #define PNY_RTX_4070TI_XLR8_VERTO_REV2_SUB_DEV          0x13D5
 #define PNY_RTX_4070TI_XLR8_VERTO_OC_SUB_DEV            0x13B2
@@ -697,8 +710,9 @@
 #define ZOTAC_RTX2080_AMP_SUB_DEV                       0x3500
 #define ZOTAC_RTX3070TI_SUB_DEV                         0xC612
 #define ZOTAC_RTX3070TI_TRINITY_SUB_DEV                 0x1653
+#define ZOTAC_RTX3070_AMP_SUB_DEV                       0x8617
 #define ZOTAC_RTX3080_12G_LHR_TRINITY_SUB_DEV           0xB612
-#define ZOTAC_RTX3080_LHR_TRINITY_SUB_DEV               0x1612
+#define ZOTAC_RTX3080_TRINITY_SUB_DEV                   0x1612
 #define ZOTAC_RTX3080TI_AMP_SUB_DEV                     0x2612
 #define ZOTAC_RTX3090_AMP_SUB_DEV                       0x1619
 #define ZOTAC_RTX3090_TRINITY_SUB_DEV                   0x1613

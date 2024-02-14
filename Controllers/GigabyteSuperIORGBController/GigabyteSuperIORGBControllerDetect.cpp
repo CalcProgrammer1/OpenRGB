@@ -51,7 +51,7 @@ void DetectGigabyteSuperIORGBControllers()
 
         switch(val & SIO_ID_MASK)
         {
-            case SIO_ITE688_ID:
+            case SIO_ITE8688_ID:
                 for(unsigned int i = 0; i < NUM_COMPATIBLE_DEVICES; i++)
                 {
                     if (board_dmi.find(std::string(compatible_devices[i].name)) != std::string::npos)

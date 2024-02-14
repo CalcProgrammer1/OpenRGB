@@ -14,22 +14,41 @@
 
 #pragma once
 
+struct mode_config
+{
+    RGBColor    colors[8];
+    uint8_t     numberOfColors;
+    uint8_t     speed;
+    uint8_t     brightness;
+};
+
 enum
 {
     AORUS_ATC800_MODE_OFF               = 0x00,
-    AORUS_ATC800_MODE_STATIC            = 0x01,
-    AORUS_ATC800_MODE_PULSE             = 0x02,
+    AORUS_ATC800_MODE_CUSTOM            = 0x01,
+    AORUS_ATC800_MODE_BREATHING         = 0x02,
+    AORUS_ATC800_MODE_SPECTRUM_CYCLE    = 0x03,
     AORUS_ATC800_MODE_FLASHING          = 0x04,
-    AORUS_ATC800_MODE_DOUBLE_FLASH      = 0x05,
+    AORUS_ATC800_MODE_DOUBLE_FLASHING   = 0x05,
+    AORUS_ATC800_MODE_GRADIENT          = 0x06,
+    AORUS_ATC800_MODE_COLOR_SHIFT       = 0x07,
+    AORUS_ATC800_MODE_RAINBOW_WAVE      = 0x08,
+    AORUS_ATC800_MODE_RADIATE           = 0x09,
+    AORUS_ATC800_MODE_RAINBOW_LOOP      = 0x0A,
+    AORUS_ATC800_MODE_TRICOLOR          = 0x0B,
 };
 
 enum
 {
     AORUS_ATC800_SPEED_SLOWEST          = 0x00, /* Slowest speed                */
-    AORUS_ATC800_SPEED_SLOW             = 0x01, /* Slow speed                   */
     AORUS_ATC800_SPEED_NORMAL           = 0x02, /* Normal speed                 */
-    AORUS_ATC800_SPEED_FAST             = 0x03, /* Fast speed                   */
-    AORUS_ATC800_SPEED_FASTEST          = 0x04, /* Fastest speed                */
+    AORUS_ATC800_SPEED_FASTEST          = 0x05, /* Fastest speed                */
+};
+
+enum
+{
+    AORUS_ATC800_BRIGHTNESS_MIN         = 0x00,
+    AORUS_ATC800_BRIGHTNESS_MAX         = 0x05
 };
 
 enum
@@ -47,15 +66,12 @@ public:
     std::string GetDeviceLocation();
     std::string GetSerialString();
 
-    void        SendCoolerMode
-                    (
-                    unsigned char       mode,
-                    unsigned short      speed,
-                    unsigned char       channel,
-                    unsigned char       red,
-                    unsigned char       green,
-                    unsigned char       blue
-                    );
+    void        DisableTempRPMIndicator();
+    void        SendMode(uint8_t mode, uint8_t brightness, uint8_t speed, uint8_t mystery_flag, uint8_t zone);
+    void        SendOneColor(uint8_t color_flag, uint8_t red, uint8_t green, uint8_t blue);
+    void        SendMultiColor(uint8_t flag, uint8_t mode, uint8_t red1, uint8_t green1, uint8_t blue1, uint8_t red2, uint8_t green2, uint8_t blue2);
+    void        SendOk();
+    void        SendCoolerMode(uint8_t zone, uint8_t mode, mode_config zone_config);
 
 private:
     hid_device*             dev;

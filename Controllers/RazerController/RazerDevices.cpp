@@ -920,10 +920,10 @@ keyboard_keymap_overlay_values razer_huntsman_v2_layout
         | Edit Keys                                                                                                 |
         |   Zone,   Row,    Column,     Value,      Key,                        OpCode,                             |
         \*---------------------------------------------------------------------------------------------------------*/
-        {   0,      0,      18,         0,          KEY_EN_MEDIA_PREVIOUS,      KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      0,      19,         0,          KEY_EN_MEDIA_PLAY_PAUSE,    KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      0,      20,         0,          KEY_EN_MEDIA_NEXT,          KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      0,      21,         0,          KEY_EN_MEDIA_MUTE,          KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      0,      17,         0,          KEY_EN_MEDIA_PREVIOUS,      KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      0,      18,         0,          KEY_EN_MEDIA_PLAY_PAUSE,    KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      0,      19,         0,          KEY_EN_MEDIA_NEXT,          KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      0,      20,         0,          KEY_EN_MEDIA_MUTE,          KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
     }
 };
 
@@ -6673,6 +6673,41 @@ static const razer_device goliathus_device =
 };
 
 /*-------------------------------------------------------------*\
+|  Razer Goliathus Chroma 3XL 1532:0C06                         |
+|                                                               |
+|  Zone "LED Strip"                                             |
+|       Single                                                  |
+|       1 LED                                                   |
+\*-------------------------------------------------------------*/
+static const razer_zone goliathus_chroma_3xl_zone =
+{
+    "LED Strip",
+    ZONE_TYPE_SINGLE,
+    1,
+    1
+};
+
+static const razer_device goliathus_chroma_3xl_device =
+{
+    "Razer Goliathus Chroma 3XL",
+    RAZER_GOLIATHUS_CHROMA_3XL_PID,
+    DEVICE_TYPE_MOUSEMAT,
+    RAZER_MATRIX_TYPE_EXTENDED,
+    0x1F,
+    1,
+    1,
+    {
+        &goliathus_chroma_3xl_zone,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL
+    },
+    NULL
+};
+
+/*-------------------------------------------------------------*\
 |  Razer Goliathus Extended                                     |
 |                                                               |
 |  Zone "LED Strip"                                             |
@@ -6879,6 +6914,57 @@ static const razer_device kraken_kitty_device =
         &kraken_kitty_zone,
         NULL,
         NULL,
+        NULL,
+        NULL,
+        NULL
+    },
+    NULL
+};
+
+/*-------------------------------------------------------------*\
+|  Razer Kraken Kitty Edition V2 1532:0560                      |
+|                                                               |
+|  Zone "Headset"                                               |
+|       Matrix                                                  |
+|       4 LED                                                   |
+\*-------------------------------------------------------------*/
+static const razer_zone kraken_kitty_black_v2_zone =
+{
+    "Cat ears",
+    ZONE_TYPE_LINEAR,
+    1,
+    2
+};
+
+static const razer_zone kraken_kitty_black_v2_headset_left_zone =
+{
+    "Headset Left",
+    ZONE_TYPE_SINGLE,
+    1,
+    1
+};
+
+static const razer_zone kraken_kitty_black_v2_headset_right_zone =
+{
+    "Headset Right",
+    ZONE_TYPE_SINGLE,
+    1,
+    1
+};
+
+static const razer_device kraken_kitty_black_v2_device =
+{
+    "Razer Kraken Kitty Black Edition V2",
+    RAZER_KRAKEN_KITTY_BLACK_EDITION_V2_PID,
+    DEVICE_TYPE_HEADSET,
+    RAZER_MATRIX_TYPE_EXTENDED,
+    0x3F,
+    1,
+    4,
+    {
+        &kraken_kitty_black_v2_headset_left_zone,
+        &kraken_kitty_black_v2_headset_right_zone,
+        &kraken_kitty_black_v2_zone,
         NULL,
         NULL,
         NULL
@@ -7931,6 +8017,7 @@ const razer_device* razer_device_list[] =
     &firefly_device,
     &firefly_hyperflux_device,
     &firefly_v2_device,
+    &goliathus_chroma_3xl_device,
     &goliathus_device,
     &goliathus_extended_device,
     &strider_chroma_device,
@@ -7941,6 +8028,7 @@ const razer_device* razer_device_list[] =
     &kraken_v2_device,
     &kraken_ultimate_device,
     &kraken_kitty_device,
+    &kraken_kitty_black_v2_device,
     &tiamat_71_v2_device,
 /*-----------------------------------------------------------------*\
 |  OTHER                                                            |

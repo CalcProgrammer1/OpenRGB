@@ -299,6 +299,7 @@ REGISTER_HID_DETECTOR_IPU("Razer Kraken 7.1 Chroma",                         Det
 REGISTER_HID_DETECTOR_IPU("Razer Kraken 7.1 V2",                             DetectRazerKrakenControllers,  RAZER_VID,  RAZER_KRAKEN_V2_PID,                            0x03,   0x0C,   0x01);
 REGISTER_HID_DETECTOR_IPU("Razer Kraken Kitty Edition",                      DetectRazerControllers,        RAZER_VID,  RAZER_KRAKEN_KITTY_EDITION_PID,                 0x01,   0x01,   0x03);
 REGISTER_HID_DETECTOR_IPU("Razer Kraken Kitty Black Edition",                DetectRazerControllers,        RAZER_VID,  RAZER_KRAKEN_KITTY_BLACK_EDITION_PID,           0x01,   0x01,   0x03);
+REGISTER_HID_DETECTOR_IPU("Razer Kraken Kitty Black Edition V2",             DetectRazerKrakenControllers,  RAZER_VID,  RAZER_KRAKEN_KITTY_BLACK_EDITION_V2_PID,        0x03,   0x0C,   0x01);
 REGISTER_HID_DETECTOR_IPU("Razer Kraken Ultimate",                           DetectRazerKrakenControllers,  RAZER_VID,  RAZER_KRAKEN_ULTIMATE_PID,                      0x03,   0x0C,   0x01);
 REGISTER_HID_DETECTOR_I(  "Razer Tiamat 7.1 V2",                             DetectRazerControllers,        RAZER_VID,  RAZER_TIAMAT_71_V2_PID,                         0x00                );
 
@@ -309,6 +310,7 @@ REGISTER_HID_DETECTOR_IPU("Razer Firefly",                                   Det
 REGISTER_HID_DETECTOR_IPU("Razer Firefly V2",                                DetectRazerControllers,        RAZER_VID,  RAZER_FIREFLY_V2_PID,                           0x00,   0x01,   0x02);
 REGISTER_HID_DETECTOR_IPU("Razer Firefly Hyperflux",                         DetectRazerControllers,        RAZER_VID,  RAZER_FIREFLY_HYPERFLUX_PID,                    0x00,   0x01,   0x02);
 REGISTER_HID_DETECTOR_IPU("Razer Goliathus",                                 DetectRazerControllers,        RAZER_VID,  RAZER_GOLIATHUS_CHROMA_PID,                     0x00,   0x01,   0x02);
+REGISTER_HID_DETECTOR_IPU("Razer Goliathus Chroma 3XL",                      DetectRazerControllers,        RAZER_VID,  RAZER_GOLIATHUS_CHROMA_3XL_PID,                 0x00,   0x01,   0x02);
 REGISTER_HID_DETECTOR_IPU("Razer Goliathus Extended",                        DetectRazerControllers,        RAZER_VID,  RAZER_GOLIATHUS_CHROMA_EXTENDED_PID,            0x00,   0x01,   0x02);
 REGISTER_HID_DETECTOR_IPU("Razer Strider Chroma",                            DetectRazerControllers,        RAZER_VID,  RAZER_STRIDER_CHROMA_PID,                       0x00,   0x01,   0x02);
 

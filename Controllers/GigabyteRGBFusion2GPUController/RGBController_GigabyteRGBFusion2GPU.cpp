@@ -9,6 +9,7 @@
 \*-----------------------------------------*/
 
 #include "RGBController_GigabyteRGBFusion2GPU.h"
+#include "LogManager.h"
 
 /**------------------------------------------------------------------*\
     @name Gigabyte Fusion 2 GPU
@@ -144,6 +145,8 @@ RGBController_RGBFusion2GPU::RGBController_RGBFusion2GPU(RGBFusion2GPUController
     Tricolor.speed_max          = RGB_FUSION2_GPU_SPEED_FASTEST;
     Tricolor.speed              = RGB_FUSION2_GPU_SPEED_NORMAL;
     Tricolor.color_mode         = MODE_COLORS_MODE_SPECIFIC;
+    Tricolor.colors_min         = 1;
+    Tricolor.colors_max         = 3;
     Tricolor.colors.resize(3);
     Tricolor.brightness_min     = RGB_FUSION2_GPU_BRIGHTNESS_MIN;
     Tricolor.brightness_max     = RGB_FUSION2_GPU_BRIGHTNESS_MAX;
@@ -220,18 +223,21 @@ void RGBController_RGBFusion2GPU::DeviceUpdateLEDs()
     }
 }
 
-void RGBController_RGBFusion2GPU::UpdateZoneLEDs(int /*zone*/)
+void RGBController_RGBFusion2GPU::UpdateZoneLEDs(int zone)
 {
+    LOG_TRACE("[%s] Update zone #%d", name.c_str(), zone);
     DeviceUpdateLEDs();
 }
 
-void RGBController_RGBFusion2GPU::UpdateSingleLED(int /*led*/)
+void RGBController_RGBFusion2GPU::UpdateSingleLED(int led)
 {
+    LOG_TRACE("[%s] Update single led : %d", name.c_str(), led);
     DeviceUpdateLEDs();
 }
 
 void RGBController_RGBFusion2GPU::DeviceUpdateMode()
 {
+    LOG_TRACE("[%s] Switching to mode %s @ brightness %d and speed %d", name.c_str(), modes[active_mode].name.c_str(), modes[active_mode].brightness, modes[active_mode].speed);
     DeviceUpdateLEDs();
 }
 

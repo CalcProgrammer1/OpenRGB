@@ -60,6 +60,7 @@ RGBController_AuraTUFKeyboard::RGBController_AuraTUFKeyboard(AuraTUFKeyboardCont
                 break;
             case AURA_ROG_FALCHION_WIRED_PID:
             case AURA_ROG_FALCHION_WIRELESS_PID:
+            case AURA_ROG_STRIX_FLARE_II_PID:
             case AURA_ROG_STRIX_FLARE_II_ANIMATE_PID:
             case AURA_ROG_STRIX_SCOPE_RX_PID:
             case AURA_ROG_STRIX_SCOPE_PID:
@@ -423,8 +424,11 @@ void RGBController_AuraTUFKeyboard::SetupZones()
         case AURA_ROG_STRIX_SCOPE_II_96_WIRELESS_USB_PID:
             keyboard_ptr = &AsusROGStrixScopeII96WirelessLayouts;
             break;
-        case AURA_ROG_STRIX_FLARE_II_ANIMATE_PID:
+        case AURA_ROG_STRIX_FLARE_II_PID:
             keyboard_ptr = &AsusROGStrixFlareIILayouts;
+			break;
+        case AURA_ROG_STRIX_FLARE_II_ANIMATE_PID:
+            keyboard_ptr = &AsusROGStrixFlareIIAnimateLayouts;
             break;
         case AURA_ROG_FALCHION_WIRED_PID:
         case AURA_ROG_FALCHION_WIRELESS_PID:

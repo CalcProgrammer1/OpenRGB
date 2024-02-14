@@ -2,6 +2,7 @@
 #include "RoccatBurstController.h"
 #include "RoccatBurstProAirController.h"
 #include "RoccatKoneAimoController.h"
+#include "RoccatKoneProController.h"
 #include "RoccatSenseAimoController.h"
 #include "RoccatVulcanKeyboardController.h"
 #include "RoccatKovaController.h"
@@ -11,6 +12,7 @@
 #include "RGBController_RoccatBurstProAir.h"
 #include "RGBController_RoccatHordeAimo.h"
 #include "RGBController_RoccatKoneAimo.h"
+#include "RGBController_RoccatKonePro.h"
 #include "RGBController_RoccatSenseAimo.h"
 #include "RGBController_RoccatVulcanKeyboard.h"
 #include "RGBController_RoccatKova.h"
@@ -34,6 +36,7 @@
 #define ROCCAT_BURST_PRO_AIR_PID    0x2CA6
 #define ROCCAT_KONE_AIMO_PID        0x2E27
 #define ROCCAT_KONE_AIMO_16K_PID    0x2E2C
+#define ROCCAT_KONE_PRO_PID         0x2C88
 #define ROCCAT_KOVA_PID             0x2CEE
 
 /*-----------------------------------------------------------------*\
@@ -91,8 +94,23 @@ void DetectRoccatVulcanKeyboardControllers(hid_device_info* info, const std::str
     std::string dev_ctrl_path;
     std::string dev_led_path;
 
-    int dev_led_page  = (info->product_id == ROCCAT_MAGMA_PID || info->product_id == ROCCAT_MAGMA_MINI_PID) ? 0xFF00 : 0x0001;
-    int dev_ctrl_page = (info->product_id == ROCCAT_MAGMA_PID || info->product_id == ROCCAT_MAGMA_MINI_PID) ? 0xFF01 : 0x000B;
+    int dev_led_page;
+    int dev_ctrl_page;
+
+    switch (info->product_id)
+    {
+        case ROCCAT_VULCAN_PRO_PID:
+        case ROCCAT_PYRO_PID:
+        case ROCCAT_MAGMA_PID:
+        case ROCCAT_MAGMA_MINI_PID:
+            dev_led_page   = 0xFF00;
+            dev_ctrl_page  = 0xFF01;
+            break;
+        default:
+            dev_led_page   = 0x0001;
+            dev_ctrl_page  = 0x000B;
+            break;
+    }
 
     while(info_temp)
     {
@@ -186,9 +204,22 @@ void DetectRoccatBurstProAirControllers(hid_device_info* info, const std::string
 
     if(dev)
     {
-        RoccatBurstProAirController *    controller     = new RoccatBurstProAirController(dev, *info);
-        RGBController_RoccatBurstProAir *rgb_controller = new RGBController_RoccatBurstProAir(controller);
-        rgb_controller->name                            = name;
+        RoccatBurstProAirController *    controller      = new RoccatBurstProAirController(dev, *info);
+        RGBController_RoccatBurstProAir * rgb_controller = new RGBController_RoccatBurstProAir(controller);
+        rgb_controller->name                             = name;
+        ResourceManager::get()->RegisterRGBController(rgb_controller);
+    }
+}
+
+void DetectRoccatKoneProControllers(hid_device_info* info, const std::string& name)
+{
+    hid_device* dev = hid_open_path(info->path);
+
+    if(dev)
+    {
+        RoccatKoneProController *     controller          = new RoccatKoneProController(dev, *info);
+        RGBController_RoccatKonePro * rgb_controller      = new RGBController_RoccatKonePro(controller);
+        rgb_controller->name                              = name;
         ResourceManager::get()->RegisterRGBController(rgb_controller);
     }
 }
@@ -241,9 +272,11 @@ REGISTER_HID_DETECTOR_IPU("Roccat Horde Aimo",              DetectRoccatHordeAim
 
 REGISTER_HID_DETECTOR_IP ("Roccat Magma",                   DetectRoccatVulcanKeyboardControllers,      ROCCAT_VID, ROCCAT_MAGMA_PID,              1,          0xFF01);
 REGISTER_HID_DETECTOR_IP ("Roccat Magma Mini",              DetectRoccatVulcanKeyboardControllers,      ROCCAT_VID, ROCCAT_MAGMA_MINI_PID,         1,          0xFF01);
+REGISTER_HID_DETECTOR_IP ("Roccat Pyro",                    DetectRoccatVulcanKeyboardControllers,      ROCCAT_VID, ROCCAT_PYRO_PID,               1,          0xFF01);
 REGISTER_HID_DETECTOR_IP ("Roccat Vulcan 100 Aimo",         DetectRoccatVulcanKeyboardControllers,      ROCCAT_VID, ROCCAT_VULCAN_100_AIMO_PID,    1,          11);
 REGISTER_HID_DETECTOR_IP ("Roccat Vulcan 120-Series Aimo",  DetectRoccatVulcanKeyboardControllers,      ROCCAT_VID, ROCCAT_VULCAN_120_AIMO_PID,    1,          11);
 REGISTER_HID_DETECTOR_IP ("Roccat Vulcan TKL",              DetectRoccatVulcanKeyboardControllers,      ROCCAT_VID, ROCCAT_VULCAN_TKL_PID,         1,          11);
+REGISTER_HID_DETECTOR_IP ("Roccat Vulcan Pro",              DetectRoccatVulcanKeyboardControllers,      ROCCAT_VID, ROCCAT_VULCAN_PRO_PID,         1,          0xFF01);
 
 /*-----------------------------------------------------------------*\
 |  MICE                                                             |
@@ -254,6 +287,8 @@ REGISTER_HID_DETECTOR_IPU("Roccat Burst Pro Air",           DetectRoccatBurstPro
 
 REGISTER_HID_DETECTOR_IPU("Roccat Kone Aimo",               DetectRoccatMouseControllers,               ROCCAT_VID, ROCCAT_KONE_AIMO_PID,          0, 0x0B,    0 );
 REGISTER_HID_DETECTOR_IPU("Roccat Kone Aimo 16K",           DetectRoccatMouseControllers,               ROCCAT_VID, ROCCAT_KONE_AIMO_16K_PID,      0, 0x0B,    0 );
+
+REGISTER_HID_DETECTOR_IPU("Roccat Kone Pro",                DetectRoccatKoneProControllers,             ROCCAT_VID, ROCCAT_KONE_PRO_PID,           3, 0xFF01,  1 );
 
 REGISTER_HID_DETECTOR_IPU("Roccat Kova",                    DetectRoccatKovaControllers,                ROCCAT_VID, ROCCAT_KOVA_PID,               0, 0x0B,    0 );
 
@@ -267,4 +302,3 @@ REGISTER_HID_DETECTOR_IPU("Roccat Sense Aimo XXL",          DetectRoccatSenseAim
 | HEADSETS                                                          |
 \*-----------------------------------------------------------------*/
 REGISTER_HID_DETECTOR_IPU("Roccat Elo 7.1",                 DetectRoccatEloControllers,                 ROCCAT_VID, ROCCAT_ELO_PID,                3, 0x0C,    1 );
-

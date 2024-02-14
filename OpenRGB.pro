@@ -162,6 +162,7 @@ INCLUDEPATH +=                                                                  
     Controllers/GigabyteAorusCPUCoolerController/                                               \
     Controllers/GigabyteAorusLaptopController/                                                  \
     Controllers/GigabyteAorusMouseController/                                                   \
+    Controllers/GigabyteAorusPCCaseController/                                                  \
     Controllers/GigabyteRGBFusion2DRAMController/                                               \
     Controllers/GigabyteRGBFusion2SMBusController/                                              \
     Controllers/GigabyteRGBFusion2USBController/                                                \
@@ -177,6 +178,7 @@ INCLUDEPATH +=                                                                  
     Controllers/HyperXMouseController/                                                          \
     Controllers/HyperXMousematController/                                                       \
     Controllers/HYTEMousematController/                                                         \
+    Controllers/InstantMouseController/                                                         \
     Controllers/IntelArcA770LEController/                                                       \
     Controllers/IonicoController/                                                               \
     Controllers/JGINYUEInternalUSBController/                                                   \
@@ -286,6 +288,7 @@ HEADERS +=                                                                      
     qt/OpenRGBKasaSmartSettingsPage/OpenRGBKasaSmartSettingsPage.h                              \
     qt/OpenRGBLIFXSettingsPage/OpenRGBLIFXSettingsEntry.h                                       \
     qt/OpenRGBLIFXSettingsPage/OpenRGBLIFXSettingsPage.h                                        \
+    qt/OpenRGBNanoleafSettingsPage/OpenRGBNanoleafNewDeviceDialog.h                             \
     qt/OpenRGBNanoleafSettingsPage/OpenRGBNanoleafSettingsEntry.h                               \
     qt/OpenRGBNanoleafSettingsPage/OpenRGBNanoleafSettingsPage.h                                \
     qt/OpenRGBNanoleafSettingsPage/OpenRGBNanoleafScanningThread.h                              \
@@ -430,12 +433,10 @@ HEADERS +=                                                                      
     Controllers/CorsairLightingNodeController/CorsairLightingNodeController.h                   \
     Controllers/CorsairLightingNodeController/RGBController_CorsairLightingNode.h               \
     Controllers/CorsairPeripheralController/CorsairPeripheralController.h                       \
-    Controllers/CorsairPeripheralController/CorsairK100Controller.h                             \
     Controllers/CorsairPeripheralController/CorsairK55RGBPROXTController.h                      \
     Controllers/CorsairPeripheralController/CorsairK65MiniController.h                          \
     Controllers/CorsairPeripheralController/CorsairK95PlatinumXTController.h                    \
     Controllers/CorsairPeripheralController/RGBController_CorsairPeripheral.h                   \
-    Controllers/CorsairPeripheralController/RGBController_CorsairK100.h                         \
     Controllers/CorsairPeripheralController/RGBController_CorsairK55RGBPROXT.h                  \
     Controllers/CorsairPeripheralController/RGBController_CorsairK65Mini.h                      \
     Controllers/CorsairPeripheralController/RGBController_CorsairK95PlatinumXT.h                \
@@ -518,6 +519,8 @@ HEADERS +=                                                                      
     Controllers/GigabyteAorusLaptopController/RGBController_GigabyteAorusLaptop.h               \
     Controllers/GigabyteAorusMouseController/GigabyteAorusMouseController.h                     \
     Controllers/GigabyteAorusMouseController/RGBController_GigabyteAorusMouse.h                 \
+    Controllers/GigabyteAorusPCCaseController/GigabyteAorusPCCaseController.h                   \
+    Controllers/GigabyteAorusPCCaseController/RGBController_GigabyteAorusPCCase.h               \
     Controllers/GigabyteRGBFusion2DRAMController/GigabyteRGBFusion2DRAMController.h             \
     Controllers/GigabyteRGBFusion2DRAMController/RGBController_GigabyteRGBFusion2DRAM.h         \
     Controllers/GigabyteRGBFusion2SMBusController/GigabyteRGBFusion2SMBusController.h           \
@@ -565,6 +568,8 @@ HEADERS +=                                                                      
     Controllers/HyperXMouseController/RGBController_HyperXPulsefireRaid.h                       \
     Controllers/HyperXMousematController/HyperXMousematController.h                             \
     Controllers/HyperXMousematController/RGBController_HyperXMousemat.h                         \
+    Controllers/InstantMouseController/InstantMouseController.h                                 \
+    Controllers/InstantMouseController/RGBController_InstantMouse.h                             \
     Controllers/IntelArcA770LEController/IntelArcA770LEController.h                             \
     Controllers/IntelArcA770LEController/RGBController_IntelArcA770LE.h                         \
     Controllers/IonicoController/IonicoController.h                                             \
@@ -719,6 +724,7 @@ HEADERS +=                                                                      
     Controllers/RoccatController/RGBController_RoccatElo.h                                      \
     Controllers/RoccatController/RGBController_RoccatHordeAimo.h                                \
     Controllers/RoccatController/RGBController_RoccatKoneAimo.h                                 \
+    Controllers/RoccatController/RGBController_RoccatKonePro.h                                  \
     Controllers/RoccatController/RGBController_RoccatKova.h                                     \
     Controllers/RoccatController/RGBController_RoccatSenseAimo.h                                \
     Controllers/RoccatController/RGBController_RoccatVulcanKeyboard.h                           \
@@ -727,6 +733,7 @@ HEADERS +=                                                                      
     Controllers/RoccatController/RoccatEloController.h                                          \
     Controllers/RoccatController/RoccatHordeAimoController.h                                    \
     Controllers/RoccatController/RoccatKoneAimoController.h                                     \
+    Controllers/RoccatController/RoccatKoneProController.h                                      \
     Controllers/RoccatController/RoccatKovaController.h                                         \
     Controllers/RoccatController/RoccatSenseAimoController.h                                    \
     Controllers/RoccatController/RoccatVulcanKeyboardController.h                               \
@@ -913,6 +920,7 @@ SOURCES +=                                                                      
     qt/OpenRGBKasaSmartSettingsPage/OpenRGBKasaSmartSettingsPage.cpp                            \
     qt/OpenRGBLIFXSettingsPage/OpenRGBLIFXSettingsEntry.cpp                                     \
     qt/OpenRGBLIFXSettingsPage/OpenRGBLIFXSettingsPage.cpp                                      \
+    qt/OpenRGBNanoleafSettingsPage/OpenRGBNanoleafNewDeviceDialog.cpp                           \
     qt/OpenRGBNanoleafSettingsPage/OpenRGBNanoleafSettingsEntry.cpp                             \
     qt/OpenRGBNanoleafSettingsPage/OpenRGBNanoleafSettingsPage.cpp                              \
     qt/OpenRGBNanoleafSettingsPage/OpenRGBNanoleafScanningThread.cpp                            \
@@ -1080,12 +1088,10 @@ SOURCES +=                                                                      
     Controllers/CorsairLightingNodeController/RGBController_CorsairLightingNode.cpp             \
     Controllers/CorsairPeripheralController/CorsairPeripheralController.cpp                     \
     Controllers/CorsairPeripheralController/CorsairPeripheralControllerDetect.cpp               \
-    Controllers/CorsairPeripheralController/CorsairK100Controller.cpp                           \
     Controllers/CorsairPeripheralController/CorsairK55RGBPROXTController.cpp                    \
     Controllers/CorsairPeripheralController/CorsairK65MiniController.cpp                        \
     Controllers/CorsairPeripheralController/CorsairK95PlatinumXTController.cpp                  \
     Controllers/CorsairPeripheralController/RGBController_CorsairPeripheral.cpp                 \
-    Controllers/CorsairPeripheralController/RGBController_CorsairK100.cpp                       \
     Controllers/CorsairPeripheralController/RGBController_CorsairK55RGBPROXT.cpp                \
     Controllers/CorsairPeripheralController/RGBController_CorsairK65Mini.cpp                    \
     Controllers/CorsairPeripheralController/RGBController_CorsairK95PlatinumXT.cpp              \
@@ -1201,6 +1207,9 @@ SOURCES +=                                                                      
     Controllers/GigabyteAorusMouseController/GigabyteAorusMouseController.cpp                   \
     Controllers/GigabyteAorusMouseController/GigabyteAorusMouseControllerDetect.cpp             \
     Controllers/GigabyteAorusMouseController/RGBController_GigabyteAorusMouse.cpp               \
+    Controllers/GigabyteAorusPCCaseController/GigabyteAorusPCCaseController.cpp                 \
+    Controllers/GigabyteAorusPCCaseController/GigabyteAorusPCCaseControllerDetect.cpp           \
+    Controllers/GigabyteAorusPCCaseController/RGBController_GigabyteAorusPCCase.cpp             \
     Controllers/GigabyteRGBFusion2DRAMController/GigabyteRGBFusion2DRAMController.cpp           \
     Controllers/GigabyteRGBFusion2DRAMController/GigabyteRGBFusion2DRAMControllerDetect.cpp     \
     Controllers/GigabyteRGBFusion2DRAMController/RGBController_GigabyteRGBFusion2DRAM.cpp       \
@@ -1263,6 +1272,9 @@ SOURCES +=                                                                      
     Controllers/HyperXMousematController/HyperXMousematController.cpp                           \
     Controllers/HyperXMousematController/HyperXMousematControllerDetect.cpp                     \
     Controllers/HyperXMousematController/RGBController_HyperXMousemat.cpp                       \
+    Controllers/InstantMouseController/InstantMouseController.cpp                               \
+    Controllers/InstantMouseController/InstantMouseControllerDetect.cpp                         \
+    Controllers/InstantMouseController/RGBController_InstantMouse.cpp                           \
     Controllers/IntelArcA770LEController/IntelArcA770LEController.cpp                           \
     Controllers/IntelArcA770LEController/IntelArcA770LEControllerDetect.cpp                     \
     Controllers/IonicoController/IonicoController.cpp                                           \
@@ -1458,6 +1470,7 @@ SOURCES +=                                                                      
     Controllers/RoccatController/RGBController_RoccatElo.cpp                                    \
     Controllers/RoccatController/RGBController_RoccatHordeAimo.cpp                              \
     Controllers/RoccatController/RGBController_RoccatKoneAimo.cpp                               \
+    Controllers/RoccatController/RGBController_RoccatKonePro.cpp                                \
     Controllers/RoccatController/RGBController_RoccatKova.cpp                                   \
     Controllers/RoccatController/RGBController_RoccatSenseAimo.cpp                              \
     Controllers/RoccatController/RGBController_RoccatVulcanKeyboard.cpp                         \
@@ -1466,6 +1479,7 @@ SOURCES +=                                                                      
     Controllers/RoccatController/RoccatEloController.cpp                                        \
     Controllers/RoccatController/RoccatHordeAimoController.cpp                                  \
     Controllers/RoccatController/RoccatKoneAimoController.cpp                                   \
+    Controllers/RoccatController/RoccatKoneProController.cpp                                    \
     Controllers/RoccatController/RoccatKovaController.cpp                                       \
     Controllers/RoccatController/RoccatSenseAimoController.cpp                                  \
     Controllers/RoccatController/RoccatVulcanKeyboardController.cpp                             \
@@ -1602,18 +1616,18 @@ RESOURCES +=                                                                    
     qt/resources.qrc                                                                            \
 
 TRANSLATIONS +=                                                                                 \
-    qt/i18n/OpenRGB_de.ts                                                                       \
-    qt/i18n/OpenRGB_en.ts                                                                       \
+    qt/i18n/OpenRGB_de_DE.ts                                                                    \
+    qt/i18n/OpenRGB_en_US.ts                                                                    \
     qt/i18n/OpenRGB_en_AU.ts                                                                    \
     qt/i18n/OpenRGB_en_GB.ts                                                                    \
-    qt/i18n/OpenRGB_es.ts                                                                       \
-    qt/i18n/OpenRGB_fr.ts                                                                       \
-    qt/i18n/OpenRGB_hr.ts                                                                       \
+    qt/i18n/OpenRGB_es_ES.ts                                                                    \
+    qt/i18n/OpenRGB_fr_FR.ts                                                                    \
+    qt/i18n/OpenRGB_hr_HR.ts                                                                    \
     qt/i18n/OpenRGB_ms_MY.ts                                                                    \
-    qt/i18n/OpenRGB_pl.ts                                                                       \
+    qt/i18n/OpenRGB_pl_PL.ts                                                                    \
     qt/i18n/OpenRGB_pt_BR.ts                                                                    \
-    qt/i18n/OpenRGB_ru.ts                                                                       \
-    qt/i18n/OpenRGB_zh.ts                                                                       \
+    qt/i18n/OpenRGB_ru_RU.ts                                                                    \
+    qt/i18n/OpenRGB_zh_CN.ts                                                                    \
     qt/i18n/OpenRGB_zh_TW.ts                                                                    \
 
 FORMS +=                                                                                        \
@@ -1634,6 +1648,7 @@ FORMS +=                                                                        
     qt/OpenRGBKasaSmartSettingsPage/OpenRGBKasaSmartSettingsPage.ui                             \
     qt/OpenRGBLIFXSettingsPage/OpenRGBLIFXSettingsEntry.ui                                      \
     qt/OpenRGBLIFXSettingsPage/OpenRGBLIFXSettingsPage.ui                                       \
+    qt/OpenRGBNanoleafSettingsPage/OpenRGBNanoleafNewDeviceDialog.ui                            \
     qt/OpenRGBNanoleafSettingsPage/OpenRGBNanoleafSettingsPage.ui                               \
     qt/OpenRGBNanoleafSettingsPage/OpenRGBNanoleafSettingsEntry.ui                              \
     qt/OpenRGBPhilipsHueSettingsPage/OpenRGBPhilipsHueSettingsEntry.ui                          \

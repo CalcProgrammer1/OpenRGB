@@ -11,7 +11,6 @@
 #include "LogManager.h"
 
 #include <cstring>
-#include <stdexcept>
 
 AuraUSBController::AuraUSBController(hid_device* dev_handle, const char* path)
 {
@@ -144,36 +143,56 @@ void AuraUSBController::GetFirmwareVersion()
 void AuraUSBController::SendDirect
     (
     unsigned char   device,
-    unsigned char   start_led,
     unsigned char   led_count,
-    unsigned char*  led_data,
-    bool apply /* = false */
+    RGBColor*  colors
     )
 {
     unsigned char usb_buf[65];
+    unsigned char offset         =      0x00;
+    unsigned char sent_led_count =      LEDS_PER_PACKET;
+    bool apply                   =      false;
+    while(!apply)
+    {
+        if(offset + sent_led_count > led_count)
+        {
+            sent_led_count = led_count - offset;
+        }
 
-    /*-----------------------------------------------------*\
-    | Zero out buffer                                       |
-    \*-----------------------------------------------------*/
-    memset(usb_buf, 0x00, sizeof(usb_buf));
 
-    /*-----------------------------------------------------*\
-    | Set up message packet                                 |
-    \*-----------------------------------------------------*/
-    usb_buf[0x00]   = 0xEC;
-    usb_buf[0x01]   = AURA_CONTROL_MODE_DIRECT;
-    usb_buf[0x02]   = apply ? 0x80 : 0x00;
-    usb_buf[0x02]  |= device;
-    usb_buf[0x03]   = start_led;
-    usb_buf[0x04]   = led_count;
+        if(offset + sent_led_count == led_count)
+        {
+            apply = true;
+        }
+        /*-----------------------------------------------------*\
+        | Zero out buffer                                       |
+        \*-----------------------------------------------------*/
+        memset(usb_buf, 0x00, sizeof(usb_buf));
 
-    /*-----------------------------------------------------*\
-    | Copy in color data bytes                              |
-    \*-----------------------------------------------------*/
-    memcpy(&usb_buf[0x05], led_data, led_count * 3);
+        /*-----------------------------------------------------*\
+        | Set up message packet                                 |
+        \*-----------------------------------------------------*/
+        usb_buf[0x00]   = 0xEC;
+        usb_buf[0x01]   = AURA_CONTROL_MODE_DIRECT;
+        usb_buf[0x02]   = (apply ? 0x80 : 0x00) | device;
+        usb_buf[0x03]   = offset;
+        usb_buf[0x04]   = sent_led_count;
 
-    /*-----------------------------------------------------*\
-    | Send packet                                           |
-    \*-----------------------------------------------------*/
-    hid_write(dev, usb_buf, 65);
+        /*-----------------------------------------------------*\
+        | Copy in color data bytes                              |
+        \*-----------------------------------------------------*/
+        for(unsigned char led_idx = 0; led_idx < sent_led_count; led_idx++)
+        {
+
+            usb_buf[0x05 + (led_idx * 3)] = RGBGetRValue(colors[offset + led_idx]);
+            usb_buf[0x06 + (led_idx * 3)] = RGBGetGValue(colors[offset + led_idx]);
+            usb_buf[0x07 + (led_idx * 3)] = RGBGetBValue(colors[offset + led_idx]);
+        }
+
+        /*-----------------------------------------------------*\
+        | Send packet                                           |
+        \*-----------------------------------------------------*/
+        hid_write(dev, usb_buf, 65);
+
+        offset += sent_led_count;
+    }
 }

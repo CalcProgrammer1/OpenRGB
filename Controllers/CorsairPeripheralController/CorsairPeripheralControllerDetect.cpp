@@ -3,7 +3,6 @@
 \*-----------------------------------------------------*/
 #include <hidapi/hidapi.h>
 #include "Detector.h"
-#include "CorsairK55RGBPROXTController.h"
 #include "LogManager.h"
 #include "RGBController.h"
 
@@ -11,7 +10,6 @@
 | Corsair Peripheral specific includes                  |
 \*-----------------------------------------------------*/
 #include "RGBController_CorsairPeripheral.h"
-#include "RGBController_CorsairK100.h"
 #include "RGBController_CorsairK55RGBPROXT.h"
 #include "RGBController_CorsairK65Mini.h"
 #include "RGBController_CorsairK95PlatinumXT.h"
@@ -34,7 +32,7 @@
 #define CORSAIR_K65_LUX_RGB_PID         0x1B37
 #define CORSAIR_K65_RGB_RAPIDFIRE_PID   0x1B39
 
-#define CORSAIR_K68_RGB                 0x1B4F
+#define CORSAIR_K68_RGB_PID             0x1B4F
 
 #define CORSAIR_K70_RGB_PID             0x1B13
 #define CORSAIR_K70_LUX_RGB_PID         0x1B33
@@ -54,6 +52,7 @@
 | Non-RGB Keyboard product IDs                          |
 \*-----------------------------------------------------*/
 #define CORSAIR_K70_LUX_PID             0x1B36
+#define CORSAIR_K68_RED_PID             0x1B3F
 
 /*-----------------------------------------------------*\
 | Mouse product IDs                                     |
@@ -86,13 +85,6 @@
 #define CORSAIR_ST100_PID               0x0A34
 
 /*-----------------------------------------------------*\
-| Corsair K100 Keyboard product ID                      |
-| This keyboard uses a separate driver                  |
-\*-----------------------------------------------------*/
-#define CORSAIR_K100_OPTICAL_PID                0x1B7C
-#define CORSAIR_K100_MXRED_PID                  0x1B7D
-
-/*-----------------------------------------------------*\
 | Corsair K55 RGB PRO XT Keyboard product ID            |
 | This keyboard uses a separate driver                  |
 \*-----------------------------------------------------*/
@@ -109,27 +101,6 @@
 | This keyboard uses a separate driver                  |
 \*-----------------------------------------------------*/
 #define CORSAIR_K95_PLATINUM_XT_PID     0x1B89
-
-void DetectCorsairK100Controllers(hid_device_info* info, const std::string& name)
-{
-    hid_device* dev = hid_open_path(info->path);
-
-    if(dev)
-    {
-        CorsairK100Controller* controller = new CorsairK100Controller(dev, info->path);
-        controller->SetName(name);
-
-        if(controller->GetKeyboardType() != CORSAIR_TYPE_UNKNOWN)
-        {
-            RGBController_CorsairK100* rgb_controller = new RGBController_CorsairK100(controller);
-            ResourceManager::get()->RegisterRGBController(rgb_controller);
-        }
-        else
-        {
-            delete controller;
-        }
-    }
-}   /* DetectCorsairPeripheralControllers() */
 
 void DetectCorsairK55RGBPROXTControllers(hid_device_info* info, const std::string& name)
 {
@@ -212,7 +183,8 @@ REGISTER_HID_DETECTOR_IP("Corsair K55 RGB",                 DetectCorsairPeriphe
 REGISTER_HID_DETECTOR_IP("Corsair K65 RGB",                 DetectCorsairPeripheralControllers, CORSAIR_VID, CORSAIR_K65_RGB_PID,            1, 0xFFC2);
 REGISTER_HID_DETECTOR_IP("Corsair K65 LUX RGB",             DetectCorsairPeripheralControllers, CORSAIR_VID, CORSAIR_K65_LUX_RGB_PID,        1, 0xFFC2);
 REGISTER_HID_DETECTOR_IP("Corsair K65 RGB RAPIDFIRE",       DetectCorsairPeripheralControllers, CORSAIR_VID, CORSAIR_K65_RGB_RAPIDFIRE_PID,  1, 0xFFC2);
-REGISTER_HID_DETECTOR_IP("Corsair K68 RGB",                 DetectCorsairPeripheralControllers, CORSAIR_VID, CORSAIR_K68_RGB,                1, 0xFFC2);
+REGISTER_HID_DETECTOR_IP("Corsair K68 RGB",                 DetectCorsairPeripheralControllers, CORSAIR_VID, CORSAIR_K68_RGB_PID,            1, 0xFFC2);
+REGISTER_HID_DETECTOR_IP("Corsair K68 RED",                 DetectCorsairPeripheralControllers, CORSAIR_VID, CORSAIR_K68_RED_PID,            1, 0xFFC2);
 REGISTER_HID_DETECTOR_IP("Corsair K70 RGB",                 DetectCorsairPeripheralControllers, CORSAIR_VID, CORSAIR_K70_RGB_PID,            1, 0xFFC2);
 REGISTER_HID_DETECTOR_IP("Corsair K70 LUX",                 DetectCorsairPeripheralControllers, CORSAIR_VID, CORSAIR_K70_LUX_PID,            1, 0xFFC2);
 REGISTER_HID_DETECTOR_IP("Corsair K70 LUX RGB",             DetectCorsairPeripheralControllers, CORSAIR_VID, CORSAIR_K70_LUX_RGB_PID,        1, 0xFFC2);
@@ -258,12 +230,6 @@ REGISTER_HID_DETECTOR_P("Corsair ST100 RGB",                DetectCorsairPeriphe
 #else
 REGISTER_HID_DETECTOR_I("Corsair ST100 RGB",                DetectCorsairPeripheralControllers, CORSAIR_VID, CORSAIR_ST100_PID,              0);
 #endif
-
-/*-----------------------------------------------------------------------------------------------------*\
-| Corsair K100 Keyboard                                                                                 |
-\*-----------------------------------------------------------------------------------------------------*/
-REGISTER_HID_DETECTOR_IP("Corsair K100",                    DetectCorsairK100Controllers,       CORSAIR_VID, CORSAIR_K100_OPTICAL_PID,       1, 0xFF42);
-REGISTER_HID_DETECTOR_IP("Corsair K100",                    DetectCorsairK100Controllers,       CORSAIR_VID, CORSAIR_K100_MXRED_PID,         1, 0xFF42);
 
 /*-----------------------------------------------------------------------------------------------------*\
 | Corsair K65 Mini Keyboard                                                                             |

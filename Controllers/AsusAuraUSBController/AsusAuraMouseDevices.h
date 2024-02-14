@@ -540,7 +540,7 @@ static std::map<int,mouse_type> aura_mouse_devices =
             0,
             4,
             false,
-            1, // might be the wrong protocol for version
+            1,
             false,
             { AURA_MOUSE_ZONE_LOGO, AURA_MOUSE_ZONE_SCROLL },
             { AURA_MOUSE_MODE_STATIC, AURA_MOUSE_MODE_BREATHING, AURA_MOUSE_MODE_SPECTRUM, AURA_MOUSE_MODE_REACTIVE }
@@ -553,8 +553,8 @@ static std::map<int,mouse_type> aura_mouse_devices =
             0,
             0,
             4,
-            true,
-            1, // might be the wrong protocol for version
+            false,
+            1,
             false,
             { AURA_MOUSE_ZONE_LOGO, AURA_MOUSE_ZONE_SCROLL },
             { AURA_MOUSE_MODE_STATIC, AURA_MOUSE_MODE_BREATHING, AURA_MOUSE_MODE_SPECTRUM, AURA_MOUSE_MODE_NONE, AURA_MOUSE_MODE_REACTIVE, AURA_MOUSE_MODE_NONE, AURA_MOUSE_MODE_BATTERY }
@@ -568,7 +568,7 @@ static std::map<int,mouse_type> aura_mouse_devices =
             0,
             4,
             true,
-            1, // might be the wrong protocol for version
+            1,
             false,
             { AURA_MOUSE_ZONE_LOGO, AURA_MOUSE_ZONE_SCROLL },
             { AURA_MOUSE_MODE_STATIC, AURA_MOUSE_MODE_BREATHING, AURA_MOUSE_MODE_SPECTRUM, AURA_MOUSE_MODE_NONE, AURA_MOUSE_MODE_REACTIVE, AURA_MOUSE_MODE_NONE, AURA_MOUSE_MODE_BATTERY }
@@ -582,7 +582,7 @@ static std::map<int,mouse_type> aura_mouse_devices =
             0,
             4,
             true,
-            1, // might be the wrong protocol for version
+            1,
             false,
             { AURA_MOUSE_ZONE_LOGO, AURA_MOUSE_ZONE_SCROLL },
             { AURA_MOUSE_MODE_STATIC, AURA_MOUSE_MODE_BREATHING, AURA_MOUSE_MODE_SPECTRUM, AURA_MOUSE_MODE_NONE, AURA_MOUSE_MODE_REACTIVE, AURA_MOUSE_MODE_NONE, AURA_MOUSE_MODE_BATTERY }

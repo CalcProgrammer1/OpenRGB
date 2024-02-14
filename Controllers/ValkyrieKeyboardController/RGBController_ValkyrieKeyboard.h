@@ -5,11 +5,18 @@
 |  keyboard devices                         |
 |                                           |
 |  Nollie(Nuonuo)               2023/12/6   |
+|  Bartholomew Ho (imnotmental) 02/01/2024  |
 \*-----------------------------------------*/
 
 #pragma once
 #include "RGBController.h"
 #include "ValkyrieKeyboardController.h"
+
+enum ValkyrieKeyboardMappingLayoutType
+{
+    NORMAL_LAYOUT,
+    PRO_LAYOUT,
+};
 
 class RGBController_ValkyrieKeyboard : public RGBController
 {
@@ -25,5 +32,5 @@ public:
     void        DeviceUpdateMode();
 
 private:
-    ValkyrieKeyboardController* controller;
+    ValkyrieKeyboardController*         controller;
 };

@@ -52,9 +52,4 @@ private:
         unsigned char   grn,
         unsigned char   blu
         );
-
-    void    SendDirectApply
-        (
-        unsigned char   channel
-        );
 };

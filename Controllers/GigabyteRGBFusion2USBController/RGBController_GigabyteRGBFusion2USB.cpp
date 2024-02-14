@@ -35,6 +35,7 @@ static MBName MBName2LayoutLookup
     {"B550I AORUS PRO AX",          "ITX"       },
     {"X570 AORUS ELITE",            "STD_ATX"   },
     {"X570 AORUS MASTER",           "MSTR_ATX_3"},
+    {"X570 AORUS PRO",              "STD_ATX"   },
     {"X570 AORUS ELITE WIFI",       "STD_ATX"   },
     {"X570 AORUS PRO WIFI",         "STD_ATX"   },
     {"X570 AORUS ULTRA",            "STD_ATX"   },

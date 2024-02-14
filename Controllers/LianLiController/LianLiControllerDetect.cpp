@@ -55,6 +55,7 @@
 #define UNI_HUB_AL_PID                              0xA101
 #define UNI_HUB_SLINF_PID                           0xA102
 #define UNI_HUB_SLV2_PID                            0xA103
+#define UNI_HUB_ALV2_PID                            0xA104
 #define UNI_HUB_SLV2_V05_PID                        0xA105
 #define GAII_USB_PID                                0x7373
 #define GAII_Perf_USB_PID                           0x7371
@@ -242,6 +243,7 @@ void DetectLianLiGAIITrinity(hid_device_info* info, const std::string& /*name*/)
 REGISTER_DETECTOR("Lian Li Uni Hub",                            DetectLianLiUniHub);
 REGISTER_HID_DETECTOR_IPU("Lian Li Uni Hub - AL",               DetectLianLiUniHubAL,           ENE_USB_VID,        UNI_HUB_AL_PID,           0x01,   0xFF72, 0xA1);
 REGISTER_HID_DETECTOR_IPU("Lian Li Uni Hub - SL V2",            DetectLianLiUniHubSLV2,         ENE_USB_VID,        UNI_HUB_SLV2_PID,         0x01,   0xFF72, 0xA1);
+REGISTER_HID_DETECTOR_IPU("Lian Li Uni Hub - AL V2",            DetectLianLiUniHubSLV2,         ENE_USB_VID,        UNI_HUB_ALV2_PID,         0x01,   0xFF72, 0xA1);
 REGISTER_HID_DETECTOR_IPU("Lian Li Uni Hub - SL V2 v0.5",       DetectLianLiUniHubSLV2,         ENE_USB_VID,        UNI_HUB_SLV2_V05_PID,     0x01,   0xFF72, 0xA1);
 REGISTER_HID_DETECTOR_IPU("Lian Li Uni Hub - SL Infinity",      DetectLianLiUniHubSLInfinity,   ENE_USB_VID,        UNI_HUB_SLINF_PID,        0x01,   0xFF72, 0xA1);
 /*---------------------------------------------------------------------------------------------------------*\

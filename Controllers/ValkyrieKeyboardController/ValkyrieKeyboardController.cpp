@@ -5,16 +5,18 @@
 |  controller                               |
 |                                           |
 |  Nollie(Nuonuo)               2023/12/6   |
+|  Bartholomew Ho (imnotmental) 02/01/2024  |
 \*-----------------------------------------*/
 
 #include <cstring>
 #include "ValkyrieKeyboardController.h"
 
-ValkyrieKeyboardController::ValkyrieKeyboardController(hid_device* dev_handle, const char* path, const unsigned short pid)
+ValkyrieKeyboardController::ValkyrieKeyboardController(hid_device* dev_handle, const char* path, const unsigned short pid, const int interface)
 {
-    dev         = dev_handle;
-    location    = path;
-    usb_pid     = pid;
+    dev           = dev_handle;
+    location      = path;
+    usb_pid       = pid;
+    interface_num = interface;
 }
 
 ValkyrieKeyboardController::~ValkyrieKeyboardController()
@@ -48,18 +50,41 @@ unsigned short ValkyrieKeyboardController::GetUSBPID()
     return(usb_pid);
 }
 
-void ValkyrieKeyboardController::SendColors(unsigned char*  color_data,unsigned int    color_data_size)
+int ValkyrieKeyboardController::GetInterfaceNum()
 {
-//    unsigned char*  color_data_ptr = color_data;
-    unsigned char usb_buf[392];
-    int led_num = 98;
-    for(int i = 0; i < led_num; i++)
+    return(interface_num);
+}
+
+void ValkyrieKeyboardController::SendColors(unsigned char*  color_data,unsigned int color_data_size)
+{
+    unsigned char usb_buf_pro[392];
+    unsigned char usb_buf_normal[408];
+    int led_num = 0;
+
+    switch(interface_num)
     {
-        usb_buf[i * 4]     = key_code_99[i];
-        usb_buf[i * 4 + 1] = color_data[i * 3];
-        usb_buf[i * 4 + 2] = color_data[i * 3 + 1];
-        usb_buf[i * 4 + 3] = color_data[i * 3 + 2];
+    case 3:
+        led_num = 98;
+        for(int i = 0; i < led_num; i++)
+        {
+            usb_buf_pro[i * 4]     = key_code_99[i];
+            usb_buf_pro[i * 4 + 1] = color_data[i * 3];
+            usb_buf_pro[i * 4 + 2] = color_data[i * 3 + 1];
+            usb_buf_pro[i * 4 + 3] = color_data[i * 3 + 2];
+        }
+        break;
+    default:
+        led_num = 102;
+        for(int i = 0; i < led_num; i++)
+        {
+            usb_buf_normal[i * 4]     = key_code_103[i];
+            usb_buf_normal[i * 4 + 1] = color_data[i * 3];
+            usb_buf_normal[i * 4 + 2] = color_data[i * 3 + 1];
+            usb_buf_normal[i * 4 + 3] = color_data[i * 3 + 2];
+        }
     }
+
+
     SendInitializeColorPacket();
     for(int i = 0; i <= 6; i++)
     {
@@ -71,13 +96,27 @@ void ValkyrieKeyboardController::SendColors(unsigned char*  color_data,unsigned 
         char send_usb_buf[65];
         memset(send_usb_buf, 0x00, sizeof(send_usb_buf));
 
-        for(int index = 0; index < usb_data_num; index++)
+        switch(interface_num)
         {
-            send_usb_buf[index * 4 + 1] = usb_buf[index * 4 + i * 64    ];
-            send_usb_buf[index * 4 + 2] = usb_buf[index * 4 + i * 64 + 1];
-            send_usb_buf[index * 4 + 3] = usb_buf[index * 4 + i * 64 + 2];
-            send_usb_buf[index * 4 + 4] = usb_buf[index * 4 + i * 64 + 3];
+             case 3:
+             for(int index = 0; index < usb_data_num; index++)
+             {
+                 send_usb_buf[index * 4 + 1] = usb_buf_pro[index * 4 + i * 64    ];
+                 send_usb_buf[index * 4 + 2] = usb_buf_pro[index * 4 + i * 64 + 1];
+                 send_usb_buf[index * 4 + 3] = usb_buf_pro[index * 4 + i * 64 + 2];
+                 send_usb_buf[index * 4 + 4] = usb_buf_pro[index * 4 + i * 64 + 3];
+             }
+             break;
+             default:
+             for(int index = 0; index < usb_data_num; index++)
+             {
+                 send_usb_buf[index * 4 + 1] = usb_buf_normal[index * 4 + i * 64    ];
+                 send_usb_buf[index * 4 + 2] = usb_buf_normal[index * 4 + i * 64 + 1];
+                 send_usb_buf[index * 4 + 3] = usb_buf_normal[index * 4 + i * 64 + 2];
+                 send_usb_buf[index * 4 + 4] = usb_buf_normal[index * 4 + i * 64 + 3];
+             }
         }
+
         /*-----------------------------------------------------*\
         | Send packet                                           |
         \*-----------------------------------------------------*/

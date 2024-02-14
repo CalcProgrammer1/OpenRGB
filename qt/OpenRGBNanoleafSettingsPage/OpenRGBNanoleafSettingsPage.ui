@@ -14,7 +14,21 @@
    <string>Form</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
-   <item row="2" column="0" colspan="3">
+   <item row="2" column="0">
+    <widget class="QPushButton" name="AddNanoleafDeviceButton">
+     <property name="text">
+      <string>Add</string>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="1">
+    <widget class="QPushButton" name="RemoveNanoleafDeviceButton">
+     <property name="text">
+      <string>Remove</string>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="2">
     <widget class="QPushButton" name="ScanForNanoleafDevicesButton">
      <property name="text">
       <string>Scan</string>

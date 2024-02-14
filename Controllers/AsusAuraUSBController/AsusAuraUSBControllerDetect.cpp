@@ -51,6 +51,7 @@
 #define AURA_ROG_STRIX_FLARE_PNK_LTD_PID                    0x18CF
 #define AURA_ROG_STRIX_FLARE_COD_BO4_PID                    0x18AF
 #define AURA_ROG_STRIX_FLARE_II_ANIMATE_PID                 0x19FC
+#define AURA_ROG_STRIX_FLARE_II_PID                         0x19FE
 #define AURA_ROG_STRIX_SCOPE_PID                            0x18F8
 #define AURA_ROG_STRIX_SCOPE_TKL_PID                        0x190C
 #define AURA_ROG_STRIX_SCOPE_TKL_PNK_LTD_PID                0x1954
@@ -343,6 +344,7 @@ REGISTER_HID_DETECTOR_IP("ASUS ROG Strix Flare",                            Dete
 REGISTER_HID_DETECTOR_IP("ASUS ROG Strix Flare PNK LTD",                    DetectAsusAuraTUFUSBKeyboard,   AURA_USB_VID, AURA_ROG_STRIX_FLARE_PNK_LTD_PID,                 1,  0xFF00);
 REGISTER_HID_DETECTOR_IP("ASUS ROG Strix Flare CoD Black Ops 4 Edition",    DetectAsusAuraTUFUSBKeyboard,   AURA_USB_VID, AURA_ROG_STRIX_FLARE_COD_BO4_PID,                 1,  0xFF00);
 REGISTER_HID_DETECTOR_IP("ASUS ROG Strix Flare II Animate",                 DetectAsusAuraTUFUSBKeyboard,   AURA_USB_VID, AURA_ROG_STRIX_FLARE_II_ANIMATE_PID,              1,  0xFF00);
+REGISTER_HID_DETECTOR_IP("ASUS ROG Strix Flare II",                         DetectAsusAuraTUFUSBKeyboard,   AURA_USB_VID, AURA_ROG_STRIX_FLARE_II_PID,                      1,  0xFF00);
 REGISTER_HID_DETECTOR_IP("ASUS ROG Strix Scope",                            DetectAsusAuraTUFUSBKeyboard,   AURA_USB_VID, AURA_ROG_STRIX_SCOPE_PID,                         1,  0xFF00);
 REGISTER_HID_DETECTOR_IP("ASUS ROG Strix Scope RX",                         DetectAsusAuraTUFUSBKeyboard,   AURA_USB_VID, AURA_ROG_STRIX_SCOPE_RX_PID,                      1,  0xFF00);
 REGISTER_HID_DETECTOR_IP("ASUS ROG Strix Scope NX Wireless Deluxe USB",     DetectAsusAuraTUFUSBKeyboard,   AURA_USB_VID, AURA_ROG_STRIX_SCOPE_NX_WIRELESS_DELUXE_USB_PID,  1,  0xFF00);
