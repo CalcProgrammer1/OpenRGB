@@ -1623,6 +1623,7 @@ TRANSLATIONS +=                                                                 
     qt/i18n/OpenRGB_es_ES.ts                                                                    \
     qt/i18n/OpenRGB_fr_FR.ts                                                                    \
     qt/i18n/OpenRGB_hr_HR.ts                                                                    \
+    qt/i18n/OpenRGB_ko_KR.ts                                                                    \
     qt/i18n/OpenRGB_ms_MY.ts                                                                    \
     qt/i18n/OpenRGB_pl_PL.ts                                                                    \
     qt/i18n/OpenRGB_pt_BR.ts                                                                    \
