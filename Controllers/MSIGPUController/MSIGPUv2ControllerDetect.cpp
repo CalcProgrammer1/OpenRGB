@@ -34,7 +34,6 @@ void DetectMSIGPUv2Controllers(i2c_smbus_interface* bus, uint8_t i2c_addr, const
         ResourceManager::get()->RegisterRGBController(rgb_controller);
         LOG_TRACE("MSI GPU Controler using ITE9 chip");
 
-
 } /* DetectMSIGPUv2Controllers() */
 
 REGISTER_I2C_PCI_DETECTOR("MSI GeForce RTX 4060 8GB Gaming X",                      DetectMSIGPUv2Controllers,    NVIDIA_VEN,     NVIDIA_RTX4060_DEV,         MSI_SUB_VEN,    MSI_RTX4060_GAMING_X_8G_SUB_DEV,              0x68);
@@ -49,6 +48,7 @@ REGISTER_I2C_PCI_DETECTOR("MSI GeForce RTX 4070Ti Super 16GB Gaming X Trio White
 REGISTER_I2C_PCI_DETECTOR("MSI GeForce RTX 4070Ti Super 16GB Gaming Slim",          DetectMSIGPUv2Controllers,    NVIDIA_VEN,     NVIDIA_RTX4070TIS_DEV,      MSI_SUB_VEN,    MSI_RTX4070TIS_GAMING_SLIM_SUB_DEV,           0x68);
 REGISTER_I2C_PCI_DETECTOR("MSI GeForce RTX 4080 16GB Gaming X Trio",                DetectMSIGPUv2Controllers,    NVIDIA_VEN,     NVIDIA_RTX4080_DEV,         MSI_SUB_VEN,    MSI_RTX4080_GAMING_X_TRIO_SUB_DEV,            0x68);
 REGISTER_I2C_PCI_DETECTOR("MSI GeForce RTX 4080 16GB Suprim X",                     DetectMSIGPUv2Controllers,    NVIDIA_VEN,     NVIDIA_RTX4080_DEV,         MSI_SUB_VEN,    MSI_RTX4080_SUPRIM_X_SUB_DEV,                 0x68);
+REGISTER_I2C_PCI_DETECTOR("MSI GeForce RTX 4080S 16GB Gaming X Slim",               DetectMSIGPUv2Controllers,    NVIDIA_VEN,     NVIDIA_RTX4080S_DEV,        MSI_SUB_VEN,    MSI_RTX4080S_GAMING_X_SLIM_SUB_DEV,           0x68);
 REGISTER_I2C_PCI_DETECTOR("MSI GeForce RTX 4090 24GB Gaming X Trio",                DetectMSIGPUv2Controllers,    NVIDIA_VEN,     NVIDIA_RTX4090_DEV,         MSI_SUB_VEN,    MSI_RTX4090_GAMING_X_TRIO_SUB_DEV,            0x68);
 REGISTER_I2C_PCI_DETECTOR("MSI GeForce RTX 4090 24GB Gaming X Slim",                DetectMSIGPUv2Controllers,    NVIDIA_VEN,     NVIDIA_RTX4090_DEV,         MSI_SUB_VEN,    MSI_RTX4090_GAMING_X_SLIM_SUB_DEV,            0x68);
 REGISTER_I2C_PCI_DETECTOR("MSI GeForce RTX 4090 24GB Suprim Liquid X",              DetectMSIGPUv2Controllers,    NVIDIA_VEN,     NVIDIA_RTX4090_DEV,         MSI_SUB_VEN,    MSI_RTX4090_SUPRIM_LIQUID_X_SUB_DEV,          0x68);

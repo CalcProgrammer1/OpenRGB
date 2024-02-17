@@ -619,6 +619,7 @@
 #define MSI_RTX4070TIS_GAMING_SLIM_SUB_DEV              0xE130
 #define MSI_RTX4080_GAMING_X_TRIO_SUB_DEV               0x5111
 #define MSI_RTX4080_SUPRIM_X_SUB_DEV                    0x5110
+#define MSI_RTX4080S_GAMING_X_SLIM_SUB_DEV              0x5117
 #define MSI_RTX4090_GAMING_X_SLIM_SUB_DEV               0x510B
 #define MSI_RTX4090_GAMING_X_TRIO_SUB_DEV               0x5103
 #define MSI_RTX4090_SUPRIM_LIQUID_X_SUB_DEV             0x5104
