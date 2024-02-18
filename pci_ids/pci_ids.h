@@ -349,6 +349,7 @@
 #define EVGA_GTX1080_FTW_SUB_DEV                        0x6286
 #define EVGA_GTX1080_FTW2_SUB_DEV                       0x6686
 #define EVGA_GTX1080_FTW2_11G_SUB_DEV                   0x6687
+#define EVGA_GTX1080_FTW2_DT_SUB_DEV                    0x6684
 #define EVGA_GTX1080TI_SC2_GAMING_SUB_DEV               0x6593
 #define EVGA_GTX1080TI_FTW3_SUB_DEV                     0x6696
 #define EVGA_GTX1080TI_FTW3_HYBRID_SUB_DEV              0x6698
