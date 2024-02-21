@@ -1616,7 +1616,7 @@
     </message>
     <message>
         <source>English - US</source>
-        <translation>English - US</translation>
+        <translation type="unfinished">한국인</translation>
     </message>
     <message>
         <source>System Default</source>
