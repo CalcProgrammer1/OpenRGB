@@ -243,7 +243,7 @@ RGBController_EVisionKeyboard::RGBController_EVisionKeyboard(EVisionKeyboardCont
     Blooming.brightness_min = EVISION_KB_BRIGHTNESS_LOWEST;
     Blooming.brightness_max = EVISION_KB_BRIGHTNESS_HIGHEST;
     Blooming.brightness     = EVISION_KB_BRIGHTNESS_HIGHEST;
-    Blooming.color_mode     = MODE_FLAG_HAS_MODE_SPECIFIC_COLOR;
+    Blooming.color_mode     = MODE_COLORS_RANDOM;
     modes.push_back(Blooming);
 
     mode Reactive;
