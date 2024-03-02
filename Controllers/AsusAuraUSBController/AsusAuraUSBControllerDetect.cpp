@@ -370,8 +370,8 @@ REGISTER_HID_DETECTOR_IP("ASUS ROG Gladius III",                                
 REGISTER_HID_DETECTOR_IP("ASUS ROG Gladius III Wireless USB",                   DetectAsusAuraUSBMice,  AURA_USB_VID, AURA_ROG_GLADIUS_III_WIRELESS_USB_PID,            0,  0xFF01);
 REGISTER_HID_DETECTOR_IP("ASUS ROG Gladius III Wireless 2.4Ghz",                DetectAsusAuraUSBMice,  AURA_USB_VID, AURA_ROG_GLADIUS_III_WIRELESS_2_4_PID,            0,  0xFF01);
 REGISTER_HID_DETECTOR_IP("ASUS ROG Gladius III Wireless Bluetooth",             DetectAsusAuraUSBMice,  AURA_USB_VID, AURA_ROG_GLADIUS_III_WIRELESS_BT_PID,             0,  0xFF01);
-REGISTER_HID_DETECTOR_IP("ASUS ROG Gladius III Wireless Aimpoint USB",          DetectAsusAuraUSBMice,  AURA_USB_VID, AURA_ROG_GLADIUS_III_WIRELESS_AIMPOINT_USB_PID,   0,  0xFF01);
-REGISTER_HID_DETECTOR_IP("ASUS ROG Gladius III Wireless Aimpoint 2.4Ghz",       DetectAsusAuraUSBMice,  AURA_USB_VID, AURA_ROG_GLADIUS_III_WIRELESS_AIMPOINT_2_4_PID,   0,  0xFF01);
+REGISTER_HID_DETECTOR_IP("ASUS ROG Gladius III Wireless AimPoint USB",          DetectAsusAuraUSBMice,  AURA_USB_VID, AURA_ROG_GLADIUS_III_WIRELESS_AIMPOINT_USB_PID,   0,  0xFF01);
+REGISTER_HID_DETECTOR_IP("ASUS ROG Gladius III Wireless AimPoint 2.4Ghz",       DetectAsusAuraUSBMice,  AURA_USB_VID, AURA_ROG_GLADIUS_III_WIRELESS_AIMPOINT_2_4_PID,   0,  0xFF01);
 REGISTER_HID_DETECTOR_IP("ASUS ROG Chakram (Wireless)",                         DetectAsusAuraUSBMice,  AURA_USB_VID, AURA_ROG_CHAKRAM_WIRELESS_PID,                    0,  0xFF01);
 REGISTER_HID_DETECTOR_IP("Asus ROG Chakram (Wired)",                            DetectAsusAuraUSBMice,  AURA_USB_VID, AURA_ROG_CHAKRAM_WIRED_1_PID,                     0,  0xFF01);
 REGISTER_HID_DETECTOR_IP("Asus ROG Chakram Core",                               DetectAsusAuraUSBMice,  AURA_USB_VID, AURA_ROG_CHAKRAM_CORE_PID,                        0,  0xFF01);
@@ -395,6 +395,8 @@ REGISTER_HID_DETECTOR_IP("ASUS ROG Keris",                                      
 REGISTER_HID_DETECTOR_IP("ASUS ROG Keris Wireless USB",                         DetectAsusAuraUSBMice,  AURA_USB_VID, AURA_ROG_KERIS_WIRELESS_USB_PID,                  0,  0xFF01);
 REGISTER_HID_DETECTOR_IP("ASUS ROG Keris Wireless 2.4Ghz",                      DetectAsusAuraUSBMice,  AURA_USB_VID, AURA_ROG_KERIS_WIRELESS_2_4_PID,                  0,  0xFF01);
 REGISTER_HID_DETECTOR_IP("ASUS ROG Keris Wireless Bluetooth",                   DetectAsusAuraUSBMice,  AURA_USB_VID, AURA_ROG_KERIS_WIRELESS_BT_PID,                   0,  0xFF01);
+REGISTER_HID_DETECTOR_IP("ASUS ROG Keris Wireless AimPoint USB",                DetectAsusAuraUSBMice,  AURA_USB_VID, AURA_ROG_KERIS_WIRELESS_AIMPOINT_USB_PID,         0,  0xFF01);
+REGISTER_HID_DETECTOR_IP("ASUS ROG Keris Wireless AimPoint 2.4Ghz",             DetectAsusAuraUSBMice,  AURA_USB_VID, AURA_ROG_KERIS_WIRELESS_AIMPOINT_2_4_PID,         0,  0xFF01);
 REGISTER_HID_DETECTOR_IP("ASUS TUF Gaming M3",                                  DetectAsusAuraUSBMice,  AURA_USB_VID, AURA_TUF_M3_PID,                                  1,  0xFF01);
 REGISTER_HID_DETECTOR_IP("ASUS TUF Gaming M5",                                  DetectAsusAuraUSBMice,  AURA_USB_VID, AURA_TUF_M5_PID,                                  2,  0xFF01);
 

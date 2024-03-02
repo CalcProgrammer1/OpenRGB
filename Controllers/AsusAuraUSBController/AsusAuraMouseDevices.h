@@ -48,6 +48,9 @@
 #define AURA_ROG_KERIS_WIRELESS_USB_PID                 0x195E
 #define AURA_ROG_KERIS_WIRELESS_2_4_PID                 0x1960
 #define AURA_ROG_KERIS_WIRELESS_BT_PID                  0x1962
+#define AURA_ROG_KERIS_WIRELESS_AIMPOINT_USB_PID        0x1A66
+#define AURA_ROG_KERIS_WIRELESS_AIMPOINT_2_4_PID        0x1A68
+#define AURA_ROG_KERIS_WIRELESS_AIMPOINT_BT_PID         0x1A6A
 #define AURA_TUF_M3_PID                                 0x1910
 #define AURA_TUF_M5_PID                                 0x1898
 
@@ -253,7 +256,7 @@ static std::map<int,mouse_type> aura_mouse_devices =
         }
     },
     {
-        AURA_ROG_GLADIUS_III_WIRELESS_AIMPOINT_USB_PID, // ROG Gladius III Wireless Aimpoint USB
+        AURA_ROG_GLADIUS_III_WIRELESS_AIMPOINT_USB_PID, // ROG Gladius III Wireless AimPoint USB
         {
             255,
             1,
@@ -267,7 +270,7 @@ static std::map<int,mouse_type> aura_mouse_devices =
         }
     },
     {
-        AURA_ROG_GLADIUS_III_WIRELESS_AIMPOINT_2_4_PID, // ROG Gladius III Wireless Aimpoint 2.4 GHz Dongle
+        AURA_ROG_GLADIUS_III_WIRELESS_AIMPOINT_2_4_PID, // ROG Gladius III Wireless AimPoint 2.4 GHz Dongle
         {
             255,
             1,
@@ -589,6 +592,34 @@ static std::map<int,mouse_type> aura_mouse_devices =
         }
     },
     {
+        AURA_ROG_KERIS_WIRELESS_AIMPOINT_USB_PID, // ROG Keris Wireless AimPoint
+        {
+            0,
+            0,
+            0,
+            100,
+            false,
+            1,
+            true,
+            { AURA_MOUSE_ZONE_LOGO },
+            { AURA_MOUSE_MODE_STATIC, AURA_MOUSE_MODE_BREATHING, AURA_MOUSE_MODE_SPECTRUM, AURA_MOUSE_MODE_NONE, AURA_MOUSE_MODE_REACTIVE, AURA_MOUSE_MODE_NONE, AURA_MOUSE_MODE_BATTERY }
+        }
+    },
+    {
+        AURA_ROG_KERIS_WIRELESS_AIMPOINT_2_4_PID, // ROG Keris Wireless AimPoint
+        {
+            0,
+            0,
+            0,
+            100,
+            true,
+            2,
+            true,
+            { AURA_MOUSE_ZONE_LOGO },
+            { AURA_MOUSE_MODE_STATIC, AURA_MOUSE_MODE_BREATHING, AURA_MOUSE_MODE_SPECTRUM, AURA_MOUSE_MODE_NONE, AURA_MOUSE_MODE_REACTIVE, AURA_MOUSE_MODE_NONE, AURA_MOUSE_MODE_BATTERY }
+        }
+    },
+    {
         AURA_TUF_M3_PID, // TUF M3
         {
             0,
@@ -660,6 +691,24 @@ static std::map<unsigned short, led_map > aura_mouse_led_maps =
     },
     {
         AURA_ROG_GLADIUS_III_WIRELESS_AIMPOINT_2_4_PID,
+        {
+            1,
+            {
+                { AURA_MOUSE_ZONE_LOGO, { 0 } },
+            }
+        }
+    },
+    {
+        AURA_ROG_KERIS_WIRELESS_AIMPOINT_USB_PID,
+        {
+            1,
+            {
+                { AURA_MOUSE_ZONE_LOGO, { 0 } },
+            }
+        }
+    },
+    {
+        AURA_ROG_KERIS_WIRELESS_AIMPOINT_2_4_PID,
         {
             1,
             {
