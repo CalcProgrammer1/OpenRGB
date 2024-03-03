@@ -197,7 +197,7 @@ QMKOpenRGBBaseController::~QMKOpenRGBBaseController()
 
 std::string QMKOpenRGBBaseController::GetLocation()
 {
-    return location;
+    return("HID: " + location);
 }
 
 std::string QMKOpenRGBBaseController::GetDeviceName()
