@@ -13,6 +13,7 @@
 
 #define NOLLIE_12_CH_LED_NUM       42
 #define NOLLIE_8_CH_LED_NUM        126
+#define NOLLIE_1_CH_LED_NUM        630
 #define NOLLIE_HS_CH_LED_NUM       256
 #define NOLLIE_FS_CH_LED_NUM       525
 
@@ -27,6 +28,10 @@
 #define NOLLIE8_CHANNELS_NUM       8
 #define NOLLIE8_PID                0x1F01
 #define NOLLIE8_VID                0x16D2
+
+#define NOLLIE1_CHANNELS_NUM       1
+#define NOLLIE1_PID                0x1F11
+#define NOLLIE1_VID                0x16D2
 
 #define NOLLIE28_12_CHANNELS_NUM   12
 #define NOLLIE28_12_VID            0x16D2

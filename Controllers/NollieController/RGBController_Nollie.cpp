@@ -70,6 +70,10 @@ void RGBController_Nollie::SetupZones()
             channels_num  = NOLLIE8_CHANNELS_NUM;
             ch_led_num    = NOLLIE_8_CH_LED_NUM;
             break;
+        case NOLLIE1_PID:
+            channels_num  = NOLLIE1_CHANNELS_NUM;
+            ch_led_num    = NOLLIE_1_CH_LED_NUM;
+            break;
         default:
             channels_num  = NOLLIE8_CHANNELS_NUM;
             ch_led_num    = NOLLIE_FS_CH_LED_NUM;

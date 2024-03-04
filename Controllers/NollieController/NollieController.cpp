@@ -128,6 +128,9 @@ void NollieController::SendPacketFS(unsigned char channel,unsigned char packet_i
         case NOLLIE8_PID:
             packet_interval = 6;
             break;
+        case NOLLIE1_PID:
+            packet_interval = 30;
+            break;
         default:
             packet_interval = 25;
             break;
@@ -140,7 +143,7 @@ void NollieController::SendPacketFS(unsigned char channel,unsigned char packet_i
         usb_buf[0x02 + (color_idx * 3)] = RGBGetRValue(colors[color_idx]);
         usb_buf[0x03 + (color_idx * 3)] = RGBGetGValue(colors[color_idx]);
         usb_buf[0x04 + (color_idx * 3)] = RGBGetBValue(colors[color_idx]);
-        if(dev_pid == NOLLIE8_PID)
+        if(dev_pid == NOLLIE8_PID || dev_pid == NOLLIE1_PID )
         {
             usb_buf[0x02 + (color_idx * 3)] = RGBGetGValue(colors[color_idx]);
             usb_buf[0x03 + (color_idx * 3)] = RGBGetRValue(colors[color_idx]);
