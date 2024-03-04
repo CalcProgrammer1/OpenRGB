@@ -29,6 +29,7 @@
 #define AMD_NAVI21_DEV3                                 0x73A5
 #define AMD_NAVI22_DEV                                  0x73DF
 #define AMD_NAVI23_DEV                                  0x73FF
+#define AMD_NAVI23_DEV1                                 0x73EF
 #define AMD_NAVI31_DEV                                  0x744C
 #define AMD_NAVI32_DEV                                  0x747E
 
