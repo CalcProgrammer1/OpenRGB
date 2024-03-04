@@ -2,23 +2,21 @@
 <!-- Copyright 2021 Artem Polishchuk <ego.cordatus@gmail.com> -->
 <component type="desktop-application">
   <id>org.openrgb.OpenRGB</id>
-  <launchable type="desktop-id">OpenRGB.desktop</launchable>
+  <launchable type="desktop-id">org.openrgb.OpenRGB.desktop</launchable>
   <metadata_license>CC0-1.0</metadata_license>
   <project_license>GPL-2.0-or-later</project_license>
-  <developer_name>OpenRGB Developers and Contributors</developer_name>
+  <developer id="org.openrgb">
+    <name>OpenRGB Developers and Contributors</name>
+  </developer>
 
   <name>OpenRGB</name>
   <provides>
     <binary>openrgb</binary>
   </provides>
 
-  <content_rating type="oars-1.0">
-  </content_rating>
+  <content_rating type="oars-1.0" />
 
-  <summary>
-    Open source RGB lighting control that doesn't depend on manufacturer
-    software.
-  </summary>
+  <summary>Open source RGB lighting control that doesn't depend on manufacturer software</summary>
 
   <description>
     <p>

@@ -29,7 +29,7 @@ cd %{_builddir}
 %make_install INSTALL_ROOT=%{buildroot}
 
 #desktop
-desktop-file-install %{_sourcedir}/%{_name}/qt/%{_name}.desktop
+desktop-file-install %{_sourcedir}/%{_name}/qt/org.%{name}.%{_name}.desktop
 
 %post -n %{name}
 if [ -S /run/udev/control ]; then
@@ -39,8 +39,8 @@ fi
 
 %files
 %{_bindir}/%{name}
-%{_datadir}/icons/hicolor/*/apps/%{_name}.png
-%{_datadir}/applications/%{_name}.desktop
+%{_datadir}/icons/hicolor/*/apps/org.%{name}.%{_name}.png
+%{_datadir}/applications/org.%{name}.%{_name}.desktop
 %{_metainfodir}/org.%{name}.%{_name}.metainfo.xml
 %{_udevrulesdir}/60-%{name}.rules
 %license LICENSE

@@ -545,9 +545,9 @@ contains(QMAKE_PLATFORM, linux) {
     #-------------------------------------------------------------------------------------------#
     target.path=$$PREFIX/bin/
     desktop.path=$$PREFIX/share/applications/
-    desktop.files+=qt/OpenRGB.desktop
+    desktop.files+=qt/org.openrgb.OpenRGB.desktop
     icon.path=$$PREFIX/share/icons/hicolor/128x128/apps/
-    icon.files+=qt/OpenRGB.png
+    icon.files+=qt/org.openrgb.OpenRGB.png
     metainfo.path=$$PREFIX/share/metainfo/
     metainfo.files+=qt/org.openrgb.OpenRGB.metainfo.xml
     INSTALLS += target desktop icon metainfo udev_rules
@@ -642,9 +642,9 @@ contains(QMAKE_PLATFORM, freebsd) {
 
     target.path=$$PREFIX/bin/
     desktop.path=$$PREFIX/share/applications/
-    desktop.files+=qt/OpenRGB.desktop
+    desktop.files+=qt/org.openrgb.OpenRGB.desktop
     icon.path=$$PREFIX/share/icons/hicolor/128x128/apps/
-    icon.files+=qt/OpenRGB.png
+    icon.files+=qt/org.openrgb.OpenRGB.png
     metainfo.path=$$PREFIX/share/metainfo/
     metainfo.files+=qt/org.openrgb.OpenRGB.metainfo.xml
     rules.path=$$PREFIX/lib/udev/rules.d/

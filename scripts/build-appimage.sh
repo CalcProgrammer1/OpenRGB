@@ -74,7 +74,7 @@ make install INSTALL_ROOT=AppDir
 #-----------------------------------------------------------------------#
 export QML_SOURCES_PATHS="$REPO_ROOT"/src
 
-linuxdeploy-"$ARCH".AppImage --appdir AppDir -e "$TARGET" -i "$REPO_ROOT"/qt/OpenRGB.png -d "$REPO_ROOT"/qt/OpenRGB.desktop
+linuxdeploy-"$ARCH".AppImage --appdir AppDir -e "$TARGET" -i "$REPO_ROOT"/qt/org.openrgb.OpenRGB.png -d "$REPO_ROOT"/qt/org.openrgb.OpenRGB.desktop
 linuxdeploy-plugin-qt-"$ARCH".AppImage --appdir AppDir
 linuxdeploy-"$ARCH".AppImage --appdir AppDir --output appimage
 

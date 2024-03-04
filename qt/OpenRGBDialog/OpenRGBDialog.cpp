@@ -6,7 +6,7 @@ OpenRGBDialog::OpenRGBDialog(std::vector<i2c_smbus_interface *>& bus, std::vecto
 {
     ui->setupUi(this);
 
-    QIcon icon(":OpenRGB.png");
+    QIcon icon(":org.openrgb.OpenRGB.png");
     setWindowIcon(icon);
 
     QPalette pal;

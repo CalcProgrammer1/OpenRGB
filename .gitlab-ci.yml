@@ -61,7 +61,7 @@ before_script:
 #-----------------------------------------------------------------------#
 "Linux 32 AppImage":
   <<: *ccache_init
-  image: registry.gitlab.com/openrgbdevelopers/openrgb-linux-ci-deb-builder:bullseye-32
+  image: registry.gitlab.com/openrgbdevelopers/openrgb-linux-ci-deb-builder:bookworm-32
   stage: build
   script:
   - export $(dpkg-architecture)
@@ -87,7 +87,7 @@ before_script:
 #-----------------------------------------------------------------------#
 "Linux 64 AppImage":
   <<: *ccache_init
-  image: registry.gitlab.com/openrgbdevelopers/openrgb-linux-ci-deb-builder:bullseye-64
+  image: registry.gitlab.com/openrgbdevelopers/openrgb-linux-ci-deb-builder:bookworm-64
   stage: build
   script:
   - export $(dpkg-architecture)

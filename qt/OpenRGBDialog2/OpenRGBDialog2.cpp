@@ -164,7 +164,7 @@ OpenRGBDialog2::OpenRGBDialog2(QWidget *parent) : QMainWindow(parent), ui(new Op
     /*-----------------------------------------------------*\
     | Set window icon                                       |
     \*-----------------------------------------------------*/
-    QIcon logo(":OpenRGB.png");
+    QIcon logo(":org.openrgb.OpenRGB.png");
     setWindowIcon(logo);
 
     /*-----------------------------------------------------*\
@@ -1702,7 +1702,7 @@ void OpenRGBDialog2::SetTrayIcon(bool tray_icon)
     }
     else
     {
-        trayIcon->setIcon(QIcon(":OpenRGB.png"));
+        trayIcon->setIcon(QIcon(":org.openrgb.OpenRGB.png"));
     }
 }
 
