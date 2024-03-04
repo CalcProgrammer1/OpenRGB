@@ -29,6 +29,7 @@
 #define HYPERX_QS_PID_HP_3  0x0294
 #define HYPERX_QS_PID_HP_4  0x028C
 #define HYPERX_QS_PID_HP_5  0x048C
+#define HYPERX_QS_PID_HP_6  0x0D8B
 
 #define HYPERX_DUOCAST_PID  0x098C
 
@@ -52,4 +53,5 @@ REGISTER_HID_WRAPPED_DETECTOR_I("HyperX Quadcast S", DetectHyperXMicrophoneContr
 REGISTER_HID_WRAPPED_DETECTOR_I("HyperX Quadcast S", DetectHyperXMicrophoneControllers, HYPERX_HP_VID, HYPERX_QS_PID_HP_3, 0);//, 0xFF90, 0xFF00);
 REGISTER_HID_WRAPPED_DETECTOR_I("HyperX Quadcast S", DetectHyperXMicrophoneControllers, HYPERX_HP_VID, HYPERX_QS_PID_HP_4, 0);//, 0xFF90, 0xFF00);
 REGISTER_HID_WRAPPED_DETECTOR_I("HyperX Quadcast S", DetectHyperXMicrophoneControllers, HYPERX_HP_VID, HYPERX_QS_PID_HP_5, 0);//, 0xFF90, 0xFF00);
+REGISTER_HID_WRAPPED_DETECTOR_I("HyperX Quadcast S", DetectHyperXMicrophoneControllers, HYPERX_HP_VID, HYPERX_QS_PID_HP_6, 0);//, 0xFF90, 0xFF00);
 REGISTER_HID_WRAPPED_DETECTOR_I("HyperX DuoCast",    DetectHyperXMicrophoneControllers, HYPERX_HP_VID, HYPERX_DUOCAST_PID, 0);//, 0xFF90, 0xFF00);
