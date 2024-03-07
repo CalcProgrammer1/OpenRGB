@@ -5228,6 +5228,41 @@ static const razer_device lancehead_te_device =
 };
 
 /*-------------------------------------------------------------*\
+|  Razer Leviathan V2 1532:0532                                 |
+|                                                               |
+|  Zone "Speaker Underglow"                                     |
+|       Linear                                                  |
+|       18 LEDs                                                 |
+\*-------------------------------------------------------------*/
+static const razer_zone leviathan_v2_speaker_zone =
+{
+    "Speaker Underglow",
+    ZONE_TYPE_LINEAR,
+    2,
+    9
+};
+
+static const razer_device leviathan_v2_device =
+{
+    "Razer Leviathan V2",
+    RAZER_LEVIATHAN_V2_PID,
+    DEVICE_TYPE_SPEAKER,
+    RAZER_MATRIX_TYPE_EXTENDED,
+    0x1F,
+    2,
+    9,
+    {
+        &leviathan_v2_speaker_zone,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL
+    },
+    NULL
+};
+
+/*-------------------------------------------------------------*\
 |  Razer Leviathan V2X 1532:054A                                |
 |                                                               |
 |  Zone "Speaker Underglow"                                     |
@@ -8044,6 +8079,7 @@ const razer_device* razer_device_list[] =
     &core_x_device,
     &laptop_stand_chroma_device,
     &laptop_stand_chroma_v2_device,
+    &leviathan_v2_device,
     &leviathan_v2x_device,
     &mug_holder_device,
     &mouse_dock_chroma_device,

@@ -42,6 +42,7 @@ RazerController::RazerController(hid_device* dev_handle, hid_device* dev_argb_ha
     \*-----------------------------------------------------------------*/
     switch(dev_pid)
     {
+        case RAZER_LEVIATHAN_V2_PID:
         case RAZER_LEVIATHAN_V2X_PID:
             report_index    = 0x07;
             response_index  = 0x07;
@@ -100,6 +101,7 @@ RazerController::RazerController(hid_device* dev_handle, hid_device* dev_argb_ha
         case RAZER_GOLIATHUS_CHROMA_3XL_PID:
         case RAZER_LAPTOP_STAND_CHROMA_PID:
         case RAZER_LAPTOP_STAND_CHROMA_V2_PID:
+        case RAZER_LEVIATHAN_V2_PID:
         case RAZER_LEVIATHAN_V2X_PID:
         case RAZER_MAMBA_ELITE_PID:
         case RAZER_MAMBA_HYPERFLUX_PID:
@@ -465,6 +467,7 @@ bool RazerController::SupportsWave()
         case RAZER_FIREFLY_HYPERFLUX_PID:
         case RAZER_LAPTOP_STAND_CHROMA_PID:
         case RAZER_LAPTOP_STAND_CHROMA_V2_PID:
+        case RAZER_LEVIATHAN_V2_PID:
         case RAZER_LEVIATHAN_V2X_PID:
         case RAZER_MOUSE_BUNGEE_V3_CHROMA_PID:
         case RAZER_MOUSE_DOCK_PRO_PID:
