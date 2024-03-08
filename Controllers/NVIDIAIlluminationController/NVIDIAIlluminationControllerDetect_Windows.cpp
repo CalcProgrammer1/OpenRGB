@@ -64,6 +64,7 @@ static const gpu_pci_device device_list[] =
     {NVIDIA_VEN,    NVIDIA_RTX3090_DEV,             NVIDIA_VEN,     NVIDIA_RTX3090_FE_SUB_DEV,                      NVIDIA_ILLUMINATION_V1,     TREATS_RGBW_AS_RGBW,    "NVIDIA 3090 FE"                        },
     {NVIDIA_VEN,    NVIDIA_RTX3090TI_DEV,           NVIDIA_VEN,     NVIDIA_RTX3090TI_FE_SUB_DEV,                    NVIDIA_ILLUMINATION_V1,     TREATS_RGBW_AS_RGBW,    "NVIDIA 3090TI FE"                      },
     {NVIDIA_VEN,    NVIDIA_RTX4070_DEV,             PALIT_SUB_VEN,  PALIT_RTX4070_SUB_DEV,                          NVIDIA_ILLUMINATION_V1,     TREATS_RGBW_AS_RGB,     "Palit 4070"                            },
+    {NVIDIA_VEN,    NVIDIA_RTX4070S_DEV,            PALIT_SUB_VEN,  PALIT_RTX4070S_SUB_DEV,                         NVIDIA_ILLUMINATION_V1,     TREATS_RGBW_AS_RGB,     "Palit 4070 SUPER Dual"                 },
     {NVIDIA_VEN,    NVIDIA_RTX4080_DEV,             NVIDIA_VEN,     NVIDIA_RTX4080_FE_SUB_DEV,                      NVIDIA_ILLUMINATION_V1,     TREATS_RGBW_AS_RGBW,    "NVIDIA 4080 FE"                        },
     {NVIDIA_VEN,    NVIDIA_RTX4080_DEV,             NVIDIA_VEN,     NVIDIA_RTX4080_FE_SUB_DEV2,                     NVIDIA_ILLUMINATION_V1,     TREATS_RGBW_AS_RGBW,    "NVIDIA 4080 FE"                        },
     {NVIDIA_VEN,    NVIDIA_RTX4080S_DEV,            NVIDIA_VEN,     NVIDIA_RTX4080S_FE_SUB_DEV,                     NVIDIA_ILLUMINATION_V1,     TREATS_RGBW_AS_RGBW,    "NVIDIA 4080S FE"                       },
