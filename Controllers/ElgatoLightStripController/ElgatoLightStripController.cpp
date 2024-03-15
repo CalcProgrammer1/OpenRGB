@@ -9,6 +9,7 @@
 #include "json.hpp"
 #include <vector>
 #include <sstream>
+#include <thread>
 #include "LogManager.h"
 
 using json = nlohmann::json;
