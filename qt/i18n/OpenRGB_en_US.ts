@@ -299,6 +299,25 @@
     </message>
 </context>
 <context>
+    <name>OpenRGBDMXSettingsPageUi</name>
+    <message>
+        <source>Add</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Remove</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Save</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>DMX settings page</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>OpenRGBE131SettingsEntryUi</name>
     <message>
         <source>E131 settings entry</source>
@@ -373,6 +392,90 @@
     </message>
 </context>
 <context>
+    <name>OpenRGBKasaSmartSettingsPageUi</name>
+    <message>
+        <source>Add</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Remove</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Save</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Kasa Smart settings page</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>OpenRGBNanoleafSettingsEntryUi</name>
+    <message>
+        <source>Form</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>IP:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Port:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Auth Key:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Unpair</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Pair</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>OpenRGBNanoleafSettingsPageUi</name>
+    <message>
+        <source>Form</source>
+        <translation type="unfinished"></translation>
+    </message>
+	<message>
+        <source>Add</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Remove</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Scan</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>To pair, hold the on-off button down for 5-7 seconds until the LED starts flashing in a pattern, then click the &quot;Pair&quot; button within 30 seconds.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>OpenRGBNanoleafNewDeviceDialogUi</name>
+	<message>
+        <source>New Nanoleaf device</source>
+        <translation type="unfinished"></translation>
+    </message>
+	<message>
+        <source>IP address:</source>
+        <translation type="unfinished"></translation>
+    </message>
+	<message>
+        <source>Port:</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>OpenRGBElgatoKeyLightSettingsEntryUi</name>
     <message>
         <source>Dialog</source>
@@ -385,6 +488,36 @@
 </context>
 <context>
     <name>OpenRGBElgatoKeyLightSettingsPageUi</name>
+    <message>
+        <source>Dialog</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Remove</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Save</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>OpenRGBElgatoLightStripSettingsEntryUi</name>
+    <message>
+        <source>Dialog</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>IP:</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>OpenRGBElgatoLightStripSettingsPageUi</name>
     <message>
         <source>Dialog</source>
         <translation type="unfinished"></translation>
@@ -433,48 +566,6 @@
     </message>
     <message>
         <source>Save</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>OpenRGBNanoleafSettingsEntryUi</name>
-    <message>
-        <source>Form</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>IP:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Port:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Auth Key:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Unpair</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Pair</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>OpenRGBNanoleafSettingsPageUi</name>
-    <message>
-        <source>Form</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Scan</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>To pair, hold the on-off button down for 5-7 seconds until the LED starts flashing in a pattern, then click the &quot;Pair&quot; button within 30 seconds.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1244,8 +1335,16 @@
         <source>General Settings</source>
         <translation type="unfinished"></translation>
     </message>
+	<message>
+        <source>DMX Devices</source>
+        <translation type="unfinished"></translation>
+    </message>
     <message>
         <source>E1.31 Devices</source>
+        <translation type="unfinished"></translation>
+    </message>
+	<message>
+        <source>Kasa Smart Devices</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1302,6 +1401,10 @@
     </message>
     <message>
         <source>Elgato KeyLight Devices</source>
+        <translation type="unfinished"></translation>
+    </message>
+	<message>
+        <source>Elgato LightStrip Devices</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1444,6 +1547,25 @@
     </message>
     <message>
         <source>Size</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>OpenRGBHardwareIDsDialogUi</name>
+    <message>
+        <source>Location</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Device</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Vendor</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Copy to clipboard</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

@@ -497,6 +497,42 @@
     </message>
 </context>
 <context>
+    <name>OpenRGBElgatoLightStripSettingsEntryUi</name>
+    <message>
+        <location filename="../OpenRGBElgatoLightStripSettingsPage/OpenRGBElgatoLightStripSettingsEntry.ui" line="14"/>
+        <source>Dialog</source>
+        <translation>Dialog</translation>
+    </message>
+    <message>
+        <location filename="../OpenRGBElgatoLightStripSettingsPage/OpenRGBElgatoLightStripSettingsEntry.ui" line="26"/>
+        <source>IP:</source>
+        <translation>IP:</translation>
+    </message>
+</context>
+<context>
+    <name>OpenRGBElgatoLightStripSettingsPageUi</name>
+    <message>
+        <location filename="../OpenRGBElgatoLightStripSettingsPage/OpenRGBElgatoKeyLightSettingsPage.ui" line="14"/>
+        <source>Dialog</source>
+        <translation>Dialog</translation>
+    </message>
+    <message>
+        <location filename="../OpenRGBElgatoLightStripSettingsPage/OpenRGBElgatoLightStripSettingsPage.ui" line="23"/>
+        <source>Add</source>
+        <translation>Tambah</translation>
+    </message>
+    <message>
+        <location filename="../OpenRGBElgatoLightStripSettingsPage/OpenRGBElgatoLightStripSettingsPage.ui" line="30"/>
+        <source>Remove</source>
+        <translation>Alih keluar</translation>
+    </message>
+    <message>
+        <location filename="../OpenRGBElgatoLightStripSettingsPage/OpenRGBElgatoLightStripSettingsPage.ui" line="37"/>
+        <source>Save</source>
+        <translation>Simpan</translation>
+    </message>
+</context>
+<context>
     <name>OpenRGBLIFXSettingsEntryUi</name>
     <message>
         <location filename="../OpenRGBLIFXSettingsPage/OpenRGBLIFXSettingsEntry.ui" line="20"/>
@@ -1578,6 +1614,11 @@
         <location filename="../OpenRGBDialog2.cpp" line="988"/>
         <source>Elgato KeyLight Devices</source>
         <translation>Peranti Elgato KeyLight</translation>
+    </message>
+	<message>
+        <location filename="../OpenRGBDialog2.cpp" line="988"/>
+        <source>Elgato LightStrip Devices</source>
+        <translation>Peranti Elgato LightStrip</translation>
     </message>
     <message>
         <location filename="../OpenRGBDialog2.cpp" line="1202"/>

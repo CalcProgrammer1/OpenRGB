@@ -403,6 +403,36 @@
     </message>
 </context>
 <context>
+    <name>OpenRGBElgatoLightStripSettingsEntryUi</name>
+    <message>
+        <source>Dialog</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>IP:</source>
+        <translation type="unfinished">IP:</translation>
+    </message>
+</context>
+<context>
+    <name>OpenRGBElgatoLightStripSettingsPageUi</name>
+    <message>
+        <source>Dialog</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add</source>
+        <translation type="unfinished">Adicionar</translation>
+    </message>
+    <message>
+        <source>Remove</source>
+        <translation type="unfinished">Remover</translation>
+    </message>
+    <message>
+        <source>Save</source>
+        <translation type="unfinished">Salvar</translation>
+    </message>
+</context>
+<context>
     <name>OpenRGBLIFXSettingsEntryUi</name>
     <message>
         <source>Form</source>
@@ -1327,6 +1357,10 @@
     </message>
     <message>
         <source>Elgato KeyLight Devices</source>
+        <translation type="unfinished"></translation>
+    </message>
+	<message>
+        <source>Elgato LightStrip Devices</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

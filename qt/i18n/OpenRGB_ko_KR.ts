@@ -457,6 +457,36 @@
     </message>
 </context>
 <context>
+    <name>OpenRGBElgatoLightStripSettingsEntryUi</name>
+    <message>
+        <source>Dialog</source>
+        <translation>대화 상자</translation>
+    </message>
+    <message>
+        <source>IP:</source>
+        <translation>IP:</translation>
+    </message>
+</context>
+<context>
+    <name>OpenRGBElgatoLightStripSettingsPageUi</name>
+    <message>
+        <source>Dialog</source>
+        <translation>대화 상자</translation>
+    </message>
+    <message>
+        <source>Add</source>
+        <translation>추가</translation>
+    </message>
+    <message>
+        <source>Remove</source>
+        <translation>삭제</translation>
+    </message>
+    <message>
+        <source>Save</source>
+        <translation>저장</translation>
+    </message>
+</context>
+<context>
     <name>OpenRGBHardwareIDsDialogUi</name>
     <message>
         <source>Hardware IDs</source>
@@ -1501,6 +1531,10 @@
     <message>
         <source>Elgato KeyLight Devices</source>
         <translation>Elgato KeyLight 장치</translation>
+    </message>
+	<message>
+        <source>Elgato LightStrip Devices</source>
+        <translation>Elgato LightStrip 장치</translation>
     </message>
     <message>
         <source>Supported Devices</source>

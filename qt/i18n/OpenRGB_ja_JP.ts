@@ -1635,6 +1635,42 @@ Using an effect on a device WILL damage the flash or controller</source>
     </message>
 </context>
 <context>
+    <name>OpenRGBElgatoLightStripSettingsEntryUi</name>
+    <message>
+        <location filename="../OpenRGBElgatoLightStripSettingsPage/OpenRGBElgatoLightStripSettingsPage.ui" line="14"/>
+        <source>Dialog</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../OpenRGBElgatoLightStripSettingsPage/OpenRGBElgatoLightStripSettingsPage.ui" line="26"/>
+        <source>IP:</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>OpenRGBElgatoLightStripSettingsPageUi</name>
+    <message>
+        <location filename="../OpenRGBElgatoLightStripSettingsPage/OpenRGBElgatoLightStripSettingsPage.ui" line="14"/>
+        <source>Dialog</source>
+        <translation>Dialog</translation>
+    </message>
+    <message>
+        <location filename="../OpenRGBElgatoLightStripSettingsPage/OpenRGBElgatoLightStripSettingsPage.ui" line="23"/>
+        <source>Add</source>
+        <translation type="unfinished">追加</translation>
+    </message>
+    <message>
+        <location filename="../OpenRGBElgatoLightStripSettingsPage/OpenRGBElgatoLightStripSettingsPage.ui" line="30"/>
+        <source>Remove</source>
+        <translation type="unfinished">削除</translation>
+    </message>
+    <message>
+        <location filename="../OpenRGBElgatoLightStripSettingsPage/OpenRGBElgatoLightStripSettingsPage.ui" line="37"/>
+        <source>Save</source>
+        <translation type="unfinished">保存</translation>
+    </message>
+</context>
+<context>
     <name>OpenRGBLIFXSettingsEntryUi</name>
     <message>
         <location filename="../OpenRGBLIFXSettingsPage/OpenRGBLIFXSettingsEntry.ui" line="20"/>
@@ -3080,6 +3116,11 @@ Using an effect on a device WILL damage the flash or controller</source>
         <location filename="../OpenRGBDialog2.cpp" line="988"/>
         <source>Elgato KeyLight Devices</source>
         <translation>Elgato KeyLight デバイス</translation>
+    </message>
+	<message>
+        <location filename="../OpenRGBDialog2.cpp" line="988"/>
+        <source>Elgato LightStrip Devices</source>
+        <translation>Elgato LightStrip デバイス</translation>
     </message>
     <message>
         <location filename="../OpenRGBDialog2.cpp" line="1202"/>

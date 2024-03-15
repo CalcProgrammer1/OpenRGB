@@ -487,6 +487,11 @@ OpenRGBDialog2::OpenRGBDialog2(QWidget *parent) : QMainWindow(parent), ui(new Op
     AddElgatoKeyLightSettingsPage();
 
     /*-----------------------------------------------------*\
+    | Add the ElgatoLightStrip settings page                |
+    \*-----------------------------------------------------*/
+    AddElgatoLightStripSettingsPage();
+
+    /*-----------------------------------------------------*\
     | Add the SMBus Tools page if enabled                   |
     \*-----------------------------------------------------*/
     if(ShowI2CTools)
@@ -910,6 +915,23 @@ void OpenRGBDialog2::AddElgatoKeyLightSettingsPage()
     | Create the tab label                                  |
     \*-----------------------------------------------------*/
     TabLabel* SettingsTabLabel = new TabLabel(OpenRGBFont::bulb, tr("Elgato KeyLight Devices"), (char *)"Elgato KeyLight Devices", (char *)context);
+
+    ui->SettingsTabBar->tabBar()->setTabButton(ui->SettingsTabBar->tabBar()->count() - 1, QTabBar::LeftSide, SettingsTabLabel);
+}
+
+void OpenRGBDialog2::AddElgatoLightStripSettingsPage()
+{
+    /*-----------------------------------------------------*\
+    | Create the Settings page                              |
+    \*-----------------------------------------------------*/
+    ElgatoLightStripSettingsPage = new OpenRGBElgatoLightStripSettingsPage();
+
+    ui->SettingsTabBar->addTab(ElgatoLightStripSettingsPage, "");
+
+    /*-----------------------------------------------------*\
+    | Create the tab label                                  |
+    \*-----------------------------------------------------*/
+    TabLabel* SettingsTabLabel = new TabLabel(OpenRGBFont::bulb, tr("Elgato LightStrip Devices"), (char *)"Elgato LightStrip Devices", (char *)context);
 
     ui->SettingsTabBar->tabBar()->setTabButton(ui->SettingsTabBar->tabBar()->count() - 1, QTabBar::LeftSide, SettingsTabLabel);
 }

@@ -572,6 +572,42 @@
     </message>
 </context>
 <context>
+    <name>OpenRGBElgatoLightStripSettingsEntryUi</name>
+    <message>
+        <location filename="../OpenRGBElgatoLightStripSettingsPage/OpenRGBElgatoLightStripSettingsPage.ui" line="14"/>
+        <source>Dialog</source>
+        <translation>Диалоговое окно</translation>
+    </message>
+    <message>
+        <location filename="../OpenRGBElgatoLightStripSettingsPage/OpenRGBElgatoLightStripSettingsPage.ui" line="26"/>
+        <source>IP:</source>
+        <translation>IP:</translation>
+    </message>
+</context>
+<context>
+    <name>OpenRGBElgatoLightStripSettingsPageUi</name>
+    <message>
+        <location filename="../OpenRGBElgatoLightStripSettingsPage/OpenRGBElgatoLightStripSettingsPage.ui" line="14"/>
+        <source>Dialog</source>
+        <translation>Диалоговое окно</translation>
+    </message>
+    <message>
+        <location filename="../OpenRGBElgatoLightStripSettingsPage/OpenRGBElgatoLightStripSettingsPage.ui" line="23"/>
+        <source>Add</source>
+        <translation>Добавить</translation>
+    </message>
+    <message>
+        <location filename="../OpenRGBElgatoLightStripSettingsPage/OpenRGBElgatoLightStripSettingsPage.ui" line="30"/>
+        <source>Remove</source>
+        <translation>Удалить</translation>
+    </message>
+    <message>
+        <location filename="../OpenRGBElgatoLightStripSettingsPage/OpenRGBElgatoLightStripSettingsPage.ui" line="37"/>
+        <source>Save</source>
+        <translation>Сохранить</translation>
+    </message>
+</context>
+<context>
     <name>OpenRGBHardwareIDsDialogUi</name>
     <message>
         <source>Form</source>
@@ -1838,6 +1874,11 @@
         <location filename="../OpenRGBDialog2.cpp" line="1068"/>
         <source>Elgato KeyLight Devices</source>
         <translation>Устройства Elgato KeyLight</translation>
+    </message>
+	<message>
+        <location filename="../OpenRGBDialog2.cpp" line="1068"/>
+        <source>Elgato LightStrip Devices</source>
+        <translation>Устройства Elgato LightStrip</translation>
     </message>
 </context>
 <context>

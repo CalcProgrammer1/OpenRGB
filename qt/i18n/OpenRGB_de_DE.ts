@@ -140,6 +140,10 @@
         <translation>Farbsättigung(S):</translation>
     </message>
     <message>
+        <source>Edit</source>
+        <translation>Bearbeiten</translation>
+    </message>
+    <message>
         <source>Select All</source>
         <translation>Alle auswählen</translation>
     </message>
@@ -220,15 +224,15 @@
     </message>
     <message>
         <source>Save Profile</source>
-        <translation>Profil Speichern</translation>
+        <translation>Profil speichern</translation>
     </message>
     <message>
         <source>Delete Profile</source>
-        <translation>Profil Löschen</translation>
+        <translation>Profil löschen</translation>
     </message>
     <message>
         <source>Load Profile</source>
-        <translation>Profil Laden</translation>
+        <translation>Profil laden</translation>
     </message>
     <message>
         <source>OpenRGB is detecting devices...</source>
@@ -240,11 +244,11 @@
     </message>
     <message>
         <source>Save Profile As...</source>
-        <translation>Profil Speichern Als...</translation>
+        <translation>Profil speichern als...</translation>
     </message>
     <message>
         <source>Save Profile with custom name</source>
-        <translation>Profil mit eigenem Namen Speichern</translation>
+        <translation>Profil mit eigenem Namen speichern</translation>
     </message>
 </context>
 <context>
@@ -275,11 +279,11 @@
     </message>
     <message>
         <source>Set All</source>
-        <translation>Auf Alle Anwenden</translation>
+        <translation>Auf Alle anwenden</translation>
     </message>
     <message>
         <source>Set Device</source>
-        <translation>Auf Gerät Anwenden</translation>
+        <translation>Auf Gerät anwenden</translation>
     </message>
     <message>
         <source>Zone</source>
@@ -287,15 +291,65 @@
     </message>
     <message>
         <source>Set Zone</source>
-        <translation>Auf Zone Anwenden</translation>
+        <translation>Auf Zone anwenden</translation>
     </message>
     <message>
         <source>Set LED</source>
-        <translation>Auf LED Anwenden</translation>
+        <translation>Auf LED anwenden</translation>
     </message>
     <message>
         <source>LED</source>
         <translation>LED</translation>
+    </message>
+</context>
+<context>
+    <name>OpenRGBDMXSettingsPageUi</name>
+    <message>
+        <source>Add</source>
+        <translation>Hinzufügen</translation>
+    </message>
+    <message>
+        <source>Remove</source>
+        <translation>Entfernen</translation>
+    </message>
+    <message>
+        <source>Save</source>
+        <translation>Speichern</translation>
+    </message>
+    <message>
+        <source>DMX settings page</source>
+        <translation>DMX Einstellungen</translation>
+    </message>
+</context>
+<context>
+    <name>OpenRGBDMXSettingsEntryUi</name>
+    <message>
+        <source>Name:</source>
+        <translation>Name:</translation>
+    </message>
+    <message>
+        <source>Port:</source>
+        <translation>Port:</translation>
+    </message>
+    <message>
+        <source>Red Channel:</source>
+        <translation>Roter Kanal:</translation>
+    </message>
+    <message>
+        <source>Green Channel:</source>
+        <translation>Grüner Kanal:</translation>
+    </message>
+    <message>
+        <source>Blue Channel:</source>
+        <translation>Blauer Kanal:</translation>
+    </message>
+    <message>
+        <source>Brightness Channel:</source>
+        <translation>Helligkeits Kanal:</translation>
+    </message>
+    <message>
+        <source>Keepalive Time:</source>
+        <translation>Wachdauer:</translation>
     </message>
 </context>
 <context>
@@ -373,6 +427,101 @@
     </message>
 </context>
 <context>
+    <name>OpenRGBKasaSmartSettingsPageUi</name>
+    <message>
+        <source>Add</source>
+        <translation>Hinzufügen</translation>
+    </message>
+    <message>
+        <source>Remove</source>
+        <translation>Entfernen</translation>
+    </message>
+    <message>
+        <source>Save</source>
+        <translation>Speichern</translation>
+    </message>
+    <message>
+        <source>Kasa Smart settings page</source>
+        <translation>Kasa Smart Einstellungen</translation>
+    </message>
+</context>
+<context>
+    <name>OpenRGBKasaSmartSettingsEntryUi</name>
+    <message>
+        <source>IP:</source>
+        <translation>IP:</translation>
+    </message>
+    <message>
+        <source>Name:</source>
+        <translation>Name:</translation>
+    </message>
+</context>
+<context>
+    <name>OpenRGBNanoleafSettingsEntryUi</name>
+    <message>
+        <source>Form</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>IP:</source>
+        <translation type="unfinished">IP:</translation>
+    </message>
+    <message>
+        <source>Port:</source>
+        <translation type="unfinished">Port:</translation>
+    </message>
+    <message>
+        <source>Auth Key:</source>
+        <translation>Auth-Schlüssel</translation>
+    </message>
+    <message>
+        <source>Unpair</source>
+        <translation>Entkoppeln</translation>
+    </message>
+    <message>
+        <source>Pair</source>
+        <translation>Koppeln</translation>
+    </message>
+</context>
+<context>
+    <name>OpenRGBNanoleafSettingsPageUi</name>
+    <message>
+        <source>Form</source>
+        <translation>Form</translation>
+    </message>
+	<message>
+        <source>Add</source>
+        <translation>Hinzufügen</translation>
+    </message>
+    <message>
+        <source>Remove</source>
+        <translation>Entfernen</translation>
+    </message>
+    <message>
+        <source>Scan</source>
+        <translation>Scannen</translation>
+    </message>
+    <message>
+        <source>To pair, hold the on-off button down for 5-7 seconds until the LED starts flashing in a pattern, then click the &quot;Pair&quot; button within 30 seconds.</source>
+        <translation>Halten Sie zum Koppeln die Ein-/Aus-Taste 5–7 Sekunden lang gedrückt, bis die LED in einem Muster blinkt, und klicken Sie dann, innerhalb von 30 Sekunden, auf &quot;Koppeln&quot;.</translation>
+    </message>
+</context>
+<context>
+    <name>OpenRGBNanoleafNewDeviceDialogUi</name>
+	<message>
+        <source>New Nanoleaf device</source>
+        <translation>Neues Nanoleaf Gerät</translation>
+    </message>
+	<message>
+        <source>IP address:</source>
+        <translation>IP Adresse:</translation>
+    </message>
+	<message>
+        <source>Port:</source>
+        <translation>Port:</translation>
+    </message>
+</context>
+<context>
     <name>OpenRGBElgatoKeyLightSettingsEntryUi</name>
     <message>
         <source>Dialog</source>
@@ -391,15 +540,45 @@
     </message>
     <message>
         <source>Add</source>
-        <translation type="unfinished">Hinzufügen</translation>
+        <translation>Hinzufügen</translation>
     </message>
     <message>
         <source>Remove</source>
-        <translation type="unfinished">Entfernen</translation>
+        <translation>Entfernen</translation>
     </message>
     <message>
         <source>Save</source>
-        <translation type="unfinished">Speichern</translation>
+        <translation>Speichern</translation>
+    </message>
+</context>
+<context>
+    <name>OpenRGBElgatoLightStripSettingsEntryUi</name>
+    <message>
+        <source>Dialog</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>IP:</source>
+        <translation type="unfinished">IP:</translation>
+    </message>
+</context>
+<context>
+    <name>OpenRGBElgatoLightStripSettingsPageUi</name>
+    <message>
+        <source>Dialog</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add</source>
+        <translation>Hinzufügen</translation>
+    </message>
+    <message>
+        <source>Remove</source>
+        <translation>Entfernen</translation>
+    </message>
+    <message>
+        <source>Save</source>
+        <translation>Speichern</translation>
     </message>
 </context>
 <context>
@@ -425,57 +604,15 @@
     </message>
     <message>
         <source>Add</source>
-        <translation type="unfinished">Hinzufügen</translation>
+        <translation>Hinzufügen</translation>
     </message>
     <message>
         <source>Remove</source>
-        <translation type="unfinished">Entfernen</translation>
+        <translation>Entfernen</translation>
     </message>
     <message>
         <source>Save</source>
-        <translation type="unfinished">Speichern</translation>
-    </message>
-</context>
-<context>
-    <name>OpenRGBNanoleafSettingsEntryUi</name>
-    <message>
-        <source>Form</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>IP:</source>
-        <translation type="unfinished">IP:</translation>
-    </message>
-    <message>
-        <source>Port:</source>
-        <translation type="unfinished">Port:</translation>
-    </message>
-    <message>
-        <source>Auth Key:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Unpair</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Pair</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>OpenRGBNanoleafSettingsPageUi</name>
-    <message>
-        <source>Form</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Scan</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>To pair, hold the on-off button down for 5-7 seconds until the LED starts flashing in a pattern, then click the &quot;Pair&quot; button within 30 seconds.</source>
-        <translation type="unfinished"></translation>
+        <translation>Speichern</translation>
     </message>
 </context>
 <context>
@@ -494,11 +631,11 @@
     </message>
     <message>
         <source>Client Key:</source>
-        <translation>Kundenschlüssel:</translation>
+        <translation>Client-Schlüssel:</translation>
     </message>
     <message>
         <source>Unpair Bridge</source>
-        <translation>Brücke Entkoppeln</translation>
+        <translation>Brücke entkoppeln</translation>
     </message>
     <message>
         <source>MAC:</source>
@@ -514,7 +651,7 @@
     </message>
     <message>
         <source>Auto Connect Group:</source>
-        <translation type="unfinished"></translation>
+        <translation>Auto-Connect-Gruppe</translation>
     </message>
 </context>
 <context>
@@ -545,6 +682,14 @@
     <message>
         <source>IP:</source>
         <translation>IP:</translation>
+    </message>
+    <message>
+        <source>Use Cool White</source>
+        <translation>Nutze Kaltweiß</translation>
+    </message>
+    <message>
+        <source>Use Warm White</source>
+        <translation>Nutze Warmweiß</translation>
     </message>
     <message>
         <source>Philips WIZ settings entry</source>
@@ -620,11 +765,11 @@
     <name>OpenRGBPluginsPageUi</name>
     <message>
         <source>Install Plugin</source>
-        <translation>Plugin Installieren</translation>
+        <translation>Plugin installieren</translation>
     </message>
     <message>
         <source>Remove Plugin</source>
-        <translation>Plugin Entfernen</translation>
+        <translation>Plugin entfernen</translation>
     </message>
     <message>
         <source>Plugins page</source>
@@ -632,7 +777,7 @@
     </message>
     <message>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;Looking for plugins? See the official list at &lt;a href=&quot;https://openrgb.org/plugins.html&quot;&gt;OpenRGB.org&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;Suchen Sie nach Plugins? Die offizielle Liste finden Sie unter &lt;a href=&quot;https://openrgb.org/plugins.html&quot;&gt;OpenRGB.org&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
 </context>
 <context>
@@ -734,7 +879,7 @@
     <name>OpenRGBServerInfoPageUi</name>
     <message>
         <source>Stop Server</source>
-        <translation>Server Stoppen</translation>
+        <translation>Server stoppen</translation>
     </message>
     <message>
         <source>Server Port:</source>
@@ -742,7 +887,7 @@
     </message>
     <message>
         <source>Start Server</source>
-        <translation>Server Starten</translation>
+        <translation>Server starten</translation>
     </message>
     <message>
         <source>Server Status:</source>
@@ -781,7 +926,7 @@
     <name>OpenRGBSettingsPageUi</name>
     <message>
         <source>Load Window Geometry</source>
-        <translation>Fenster Geometrie Laden</translation>
+        <translation>Fenster Geometrie laden</translation>
     </message>
     <message>
         <source>90000</source>
@@ -792,8 +937,12 @@
         <translation>Zonen beim erneuten Scannen überprüfen</translation>
     </message>
     <message>
+        <source>Disable key expansion in device view</source>
+        <translation>Deaktivieren Sie die Schlüsselerweiterung in der Geräteansicht</translation>
+    </message>
+    <message>
         <source>Start Server</source>
-        <translation>Server Starten</translation>
+        <translation>Server starten</translation>
     </message>
     <message>
         <source>Start Minimized</source>
@@ -809,7 +958,7 @@
     </message>
     <message>
         <source>Start At Login</source>
-        <translation>Start bei der Anmeldung</translation>
+        <translation>Bei der Anmeldung starten</translation>
     </message>
     <message>
         <source>Set Profile on Exit</source>
@@ -825,11 +974,11 @@
     </message>
     <message>
         <source>Start Client</source>
-        <translation>Client Starten</translation>
+        <translation>Client starten</translation>
     </message>
     <message>
         <source>Load Profile</source>
-        <translation>Profil Laden</translation>
+        <translation>Profil laden</translation>
     </message>
     <message>
         <source>Set Server Port</source>
@@ -837,7 +986,7 @@
     </message>
     <message>
         <source>Theme (restart required)</source>
-        <translation>Design (Programmneustart erforderlich)</translation>
+        <translation>Stil (Programmneustart erforderlich)</translation>
     </message>
     <message>
         <source>Enable Log Console (restart required)</source>
@@ -865,7 +1014,7 @@
     </message>
     <message>
         <source>Start At Login Settings:</source>
-        <translation>Start bei der Anmeldung Einstellungen:</translation>
+        <translation>Start Einstellungen:</translation>
     </message>
     <message>
         <source>Open Settings Folder</source>
@@ -877,15 +1026,15 @@
     </message>
     <message>
         <source>Shared SMBus Access (restart required)</source>
-        <translation type="unfinished"></translation>
+        <translation>Gemeinsamer SMBus-Zugriff (Programmneustart erforderlich)</translation>
     </message>
     <message>
         <source>Set Server Host</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Setze Server Host</translation>
     </message>
     <message>
         <source>Language</source>
-        <translation type="unfinished"></translation>
+        <translation>Sprache</translation>
     </message>
 </context>
 <context>
@@ -916,7 +1065,7 @@
     </message>
     <message>
         <source>Website</source>
-        <translation>Website</translation>
+        <translation>Webseite</translation>
     </message>
     <message>
         <source>&lt;a href=&quot;https://openrgb.org&quot;&gt;https://openrgb.org&lt;/a&gt;</source>
@@ -943,11 +1092,15 @@
     </message>
     <message>
         <source>Enable/Disable all</source>
-        <translation>Alle Aktivieren/Deaktivieren</translation>
+        <translation>Alle aktivieren/deaktivieren</translation>
     </message>
     <message>
         <source>Apply changes</source>
         <translation>Änderungen anwenden</translation>
+    </message>
+    <message>
+        <source>Get hardware IDs</source>
+        <translation>Hardware IDs anzeigen</translation>
     </message>
 </context>
 <context>
@@ -962,7 +1115,7 @@
     </message>
     <message>
         <source>Read Device</source>
-        <translation>Gerät Lesen</translation>
+        <translation>Gerät lesen</translation>
     </message>
     <message>
         <source>SMBus Dumper:</source>
@@ -982,11 +1135,11 @@
     </message>
     <message>
         <source>Detect Devices</source>
-        <translation>Geräte Erkennen</translation>
+        <translation>Geräte erkennen</translation>
     </message>
     <message>
         <source>Dump Device</source>
-        <translation>Dump Device</translation>
+        <translation>Ausgabegerät</translation>
     </message>
     <message>
         <source>SMBus Reader:</source>
@@ -1270,8 +1423,16 @@
         <translation>Allg. Einstellungen</translation>
     </message>
     <message>
+        <source>DMX Devices</source>
+        <translation>DMX Geräte</translation>
+    </message>
+    <message>
         <source>E1.31 Devices</source>
         <translation>E1.31 Geräte</translation>
+    </message>
+    <message>
+        <source>Kasa Smart Devices</source>
+        <translation>Kasa Smart Geräte</translation>
     </message>
     <message>
         <source>Philips Hue Devices</source>
@@ -1319,15 +1480,19 @@
     </message>
     <message>
         <source>LIFX Devices</source>
-        <translation type="unfinished"></translation>
+        <translation>LIFX Geräte</translation>
     </message>
     <message>
         <source>Nanoleaf Devices</source>
-        <translation type="unfinished"></translation>
+        <translation>Nanoleaf Geräte</translation>
     </message>
     <message>
         <source>Elgato KeyLight Devices</source>
-        <translation type="unfinished"></translation>
+        <translation>Elgato KeyLight Geräte</translation>
+    </message>
+    <message>
+        <source>Elgato LightStrip Devices</source>
+        <translation>Elgato LightStrip Geräte</translation>
     </message>
 </context>
 <context>
@@ -1397,7 +1562,7 @@
     </message>
     <message>
         <source>Remove Plugin</source>
-        <translation>Plugin Entfernen</translation>
+        <translation>Plugin entfernen</translation>
     </message>
     <message>
         <source>Are you sure you want to remove this plugin?</source>
@@ -1474,6 +1639,25 @@
     <message>
         <source>Size</source>
         <translation>Größe</translation>
+    </message>
+</context>
+<context>
+    <name>OpenRGBHardwareIDsDialogUi</name>
+    <message>
+        <source>Location</source>
+        <translation>Ort</translation>
+    </message>
+    <message>
+        <source>Device</source>
+        <translation>Gerät</translation>
+    </message>
+    <message>
+        <source>Vendor</source>
+        <translation>Hersteller</translation>
+    </message>
+    <message>
+        <source>Copy to clipboard</source>
+        <translation>In die Zwischenablage kopieren</translation>
     </message>
 </context>
 </TS>
