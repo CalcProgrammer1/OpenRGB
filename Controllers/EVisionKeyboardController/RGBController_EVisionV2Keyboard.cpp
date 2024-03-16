@@ -425,7 +425,7 @@ void RGBController_EVisionV2Keyboard::SetupKeyboardModes()
 
     mode StarlightSlow;
     StarlightSlow.name           = "Starlight slow";
-    StarlightSlow.value          = EVISION_V2_MODE_STARLIGHT_FAST;
+    StarlightSlow.value          = EVISION_V2_MODE_STARLIGHT_SLOW;
     StarlightSlow.flags          = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_RANDOM_COLOR | MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_AUTOMATIC_SAVE;
     StarlightSlow.speed_min      = EVISION_V2_SPEED_SLOWEST;
     StarlightSlow.speed_max      = EVISION_V2_SPEED_FASTEST;
