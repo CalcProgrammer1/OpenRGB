@@ -32,12 +32,14 @@ public:
 private:
     void SetupKeyboardModes();
     void SetupLogoEdgeModes();
+    void SetupEdgeModes();
     void LoadConfig();
 
     void KeepaliveThread();
 
     EVisionV2KeyboardController*                       controller;
     EVisionV2KeyboardPart                              part;
+    EVisionV2KeyboardLayout                            layout;
 
     std::thread*                                       keepalive_thread;
     std::atomic<bool>                                  keepalive_thread_run;

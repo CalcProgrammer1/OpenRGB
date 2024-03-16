@@ -57,6 +57,17 @@ enum
 
 enum
 {
+    /* Official software doesn't support changing edges */
+    ENDORFY_MODE2_FREEZE                          = 0x00,
+    ENDORFY_MODE2_COLOR_WAVE                      = 0x01,
+    ENDORFY_MODE2_SPECTRUM_CYCLE                  = 0x02,
+    ENDORFY_MODE2_BREATHING                       = 0x03,
+    ENDORFY_MODE2_STATIC                          = 0x04,
+    ENDORFY_MODE2_OFF                             = 0x05,
+};
+
+enum
+{
     EVISION_V2_CMD_BEGIN_CONFIGURE                  = 0x01,
     EVISION_V2_CMD_END_CONFIGURE                    = 0x02,
     EVISION_V2_CMD_READ_CAPABILITIES                = 0x03,
@@ -115,11 +126,18 @@ enum
     EVISION_V2_SURMOUNT_MODE_COLOR_CYAN           = 0x03, /* Cyan surmount color      */
 };
 
+enum EVisionV2KeyboardLayout
+{
+    EVISION_V2_KEYBOARD_LAYOUT,
+    ENDORFY_KEYBOARD_LAYOUT,
+};
+
 enum EVisionV2KeyboardPart
 {
     EVISION_V2_KEYBOARD_PART_KEYBOARD,
     EVISION_V2_KEYBOARD_PART_LOGO,
     EVISION_V2_KEYBOARD_PART_EDGE,
+    ENDORFY_KEYBOARD_PART_EDGE,
 };
 
 struct EvisionV2ModeConfig
@@ -136,7 +154,7 @@ struct EvisionV2ModeConfig
 class EVisionV2KeyboardController
 {
 public:
-    EVisionV2KeyboardController(hid_device* dev_handle, const char* path);
+    EVisionV2KeyboardController(hid_device* dev_handle, const char* path, EVisionV2KeyboardLayout layout);
     ~EVisionV2KeyboardController();
 
     std::string GetDeviceName();
@@ -158,6 +176,8 @@ public:
     int  GetLedsCustom(uint8_t colorset, std::vector<RGBColor>& colours);
     void SetLedsCustom(uint8_t colorset, const std::vector<RGBColor>& colours);
 
+    EVisionV2KeyboardLayout  layout;
+
 private:
     std::string device_name;
     std::string serial;
@@ -166,6 +186,9 @@ private:
 
     size_t     map_size;
     size_t     macros_size;
+
+    uint8_t *keyvalue_map;
+    size_t led_count;
 
     std::mutex query_mutex;
 };
