@@ -14,9 +14,10 @@
 /*-----------------------------------------------------*\
 | HyperX mouse vendor IDs                               |
 \*-----------------------------------------------------*/
-#define HYPERX_VID                              0x0951
-#define HYPERX_VID_2                            0x03F0
+#define HYPERX_VID                              0x0951 //Kingston Technology
+#define HYPERX_VID_2                            0x03F0 //HP, Hewlett-Packard Company
 #define HYPERX_PULSEFIRE_SURGE_PID              0x16D3
+#define HYPERX_PULSEFIRE_SURGE_PID_2            0x0490
 #define HYPERX_PULSEFIRE_FPS_PRO_PID            0x16D7
 #define HYPERX_PULSEFIRE_CORE_PID               0x16DE
 #define HYPERX_PULSEFIRE_DART_WIRELESS_PID      0x16E1
@@ -97,7 +98,9 @@ void DetectHyperXPulsefireRaidControllers(hid_device_info* info, const std::stri
     }
 }   /* DetectHyperXPulsefireRaidControllers() */
 
+REGISTER_HID_DETECTOR_IP("HyperX Pulsefire Surge (HP)",         DetectHyperXPulsefireSurgeControllers,  HYPERX_VID_2,   HYPERX_PULSEFIRE_SURGE_PID_2,           1,      0xFF01);
 REGISTER_HID_DETECTOR_IP("HyperX Pulsefire Surge",              DetectHyperXPulsefireSurgeControllers,  HYPERX_VID,     HYPERX_PULSEFIRE_SURGE_PID,             1,      0xFF01);
+REGISTER_HID_DETECTOR_IP("HyperX Pulsefire Surge (HP)",         DetectHyperXPulsefireSurgeControllers,  HYPERX_VID_2,   HYPERX_PULSEFIRE_SURGE_PID_2,           1,      0xFF01);
 REGISTER_HID_DETECTOR_IP("HyperX Pulsefire FPS Pro",            DetectHyperXPulsefireFPSProControllers, HYPERX_VID,     HYPERX_PULSEFIRE_FPS_PRO_PID,           1,      0xFF01);
 REGISTER_HID_DETECTOR_IP("HyperX Pulsefire Core",               DetectHyperXPulsefireFPSProControllers, HYPERX_VID,     HYPERX_PULSEFIRE_CORE_PID,              1,      0xFF01);
 REGISTER_HID_DETECTOR_IP("HyperX Pulsefire Dart (Wireless)",    DetectHyperXPulsefireDartControllers,   HYPERX_VID,     HYPERX_PULSEFIRE_DART_WIRELESS_PID,     2,      0xFF00);
