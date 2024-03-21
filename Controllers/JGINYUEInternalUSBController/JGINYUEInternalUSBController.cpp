@@ -102,7 +102,7 @@ void JGINYUEInternalUSBController::Init_device(AreaConfiguration* ptr_device_cfg
         ptr_device_cfg[index_config].Color_R        = 0xFF;
         ptr_device_cfg[index_config].RG_Swap        = JGINYUE_RG_DEFAULT;
         ptr_device_cfg[index_config].Speed          = JGINYUE_USB_SPEED_DEFAULT;
-        ptr_device_cfg[index_config].LED_numbers    = JGINYUE_ADDRESSABLE_MAX_LEDS;
+        ptr_device_cfg[index_config].LED_numbers    = 0;
         ptr_device_cfg[index_config].Mode_active    = JGINYUE_USB_MODE_STATIC;
     }
 }

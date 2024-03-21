@@ -195,13 +195,13 @@ void RGBController_JGINYUEInternalUSB::SetupZones()
     /*-------------------------------------------------*\
     | Set zones and leds                                |
     \*-------------------------------------------------*/
-    zones[0].name       = "ARGB_Header_1";
+    zones[0].name       = "ARGB Header 1";
     zones[0].type       = ZONE_TYPE_LINEAR;
     zones[0].leds_min   = 0;
     zones[0].leds_max   = 100;
     zones[0].matrix_map = NULL;
 
-    zones[1].name       = "ARGB_Header_2";
+    zones[1].name       = "ARGB Header 2";
     zones[1].type       = ZONE_TYPE_LINEAR;
     zones[1].leds_min   = 0;
     zones[1].leds_max   = 100;
@@ -213,29 +213,15 @@ void RGBController_JGINYUEInternalUSB::SetupZones()
         zones[1].leds_count = 0;
     }
 
-    for(unsigned int led_idx = 0 , j=1; led_idx < zones[0].leds_count + zones[1].leds_count ; led_idx++)
+    for(unsigned int zone_idx = 0; zone_idx < JGINYUE_MAX_ZONES; zone_idx++)
     {
-        if(led_idx==zones[0].leds_count)
+        for(unsigned int led_idx = 0; led_idx < zones[zone_idx].leds_count; led_idx++)
         {
-            j = 1;
+            led new_led;
+            new_led.name    = "ARGB Header " + std::to_string(zone_idx + 1) + " LED " + std::to_string(led_idx + 1);
+            new_led.value   = 0;
+            leds.push_back(new_led);
         }
-
-        if(led_idx<zones[0].leds_count)
-        {
-            led ARGB_1_HEADER;
-            ARGB_1_HEADER.name    = "ARGB Header 1 LED " + std::to_string(j);
-            ARGB_1_HEADER.value   = 0;
-            leds.push_back(ARGB_1_HEADER);
-        }
-        else
-        {
-            led ARGB_2_HEADER;
-            ARGB_2_HEADER.name    = "ARGB Header 2 LED " + std::to_string(j);
-            ARGB_2_HEADER.value   = 1;
-            leds.push_back(ARGB_2_HEADER);
-        }
-
-        j++;
     }
 
     SetupColors();
