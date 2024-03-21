@@ -154,7 +154,7 @@ void JGINYUEInternalUSBController::WriteZoneMode
 
     hid_write(dev, usb_buf, 16);
 
-    std::this_thread::sleep_for(5ms);
+    std::this_thread::sleep_for(20ms);
 
     memset(usb_buf, 0x00, sizeof(usb_buf));
 
@@ -207,7 +207,7 @@ void JGINYUEInternalUSBController::DirectLEDControl
 
     hid_write(dev, usb_buf, 16);
 
-    std::this_thread::sleep_for(5ms);
+    std::this_thread::sleep_for(20ms);
 
     memset(usb_buf, 0x00, sizeof(usb_buf));
     
