@@ -136,6 +136,7 @@ RazerController::RazerController(hid_device* dev_handle, hid_device* dev_argb_ha
         case RAZER_HUNTSMAN_ELITE_PID:
         case RAZER_HUNTSMAN_PID:
         case RAZER_HUNTSMAN_MINI_PID:
+        case RAZER_HUNTSMAN_MINI_ANALOG_PID:
         case RAZER_HUNTSMAN_TE_PID:
         case RAZER_HUNTSMAN_V2_ANALOG_PID:
         case RAZER_HUNTSMAN_V2_TKL_PID:
@@ -422,6 +423,7 @@ bool RazerController::SupportsWave()
         case RAZER_HUNTSMAN_PID:
         case RAZER_HUNTSMAN_ELITE_PID:
         case RAZER_HUNTSMAN_MINI_PID:
+        case RAZER_HUNTSMAN_MINI_ANALOG_PID:
         case RAZER_HUNTSMAN_TE_PID:
         case RAZER_HUNTSMAN_V2_ANALOG_PID:
         case RAZER_HUNTSMAN_V2_TKL_PID:

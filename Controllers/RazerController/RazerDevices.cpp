@@ -2531,6 +2531,41 @@ static const razer_device huntsman_mini_device =
 };
 
 /*-------------------------------------------------------------*\
+|  Razer Huntsman Mini Analog 1532:0282                         |
+|                                                               |
+|  Zone "Keyboard"                                              |
+|       Matrix                                                  |
+|       5 Rows, 15 Columns                                      |
+\*-------------------------------------------------------------*/
+static const razer_zone huntsman_mini_analog_keyboard_zone =
+{
+    ZONE_EN_KEYBOARD,
+    ZONE_TYPE_MATRIX,
+    5,
+    15
+};
+
+static const razer_device huntsman_mini_analog_device =
+{
+    "Razer Huntsman Mini Analog",
+    RAZER_HUNTSMAN_MINI_ANALOG_PID,
+    DEVICE_TYPE_KEYBOARD,
+    RAZER_MATRIX_TYPE_EXTENDED,
+    0x1F,
+    5,
+    15,
+    {
+        &huntsman_mini_analog_keyboard_zone,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL
+    },
+    &razer_huntsman_mini_layout
+};
+
+/*-------------------------------------------------------------*\
 |  Razer Huntsman TE 1532:0243                                  |
 |                                                               |
 |  Zone "Keyboard"                                              |
@@ -8058,6 +8093,7 @@ const razer_device* razer_device_list[] =
     &huntsman_device,
     &huntsman_elite_device,
     &huntsman_mini_device,
+    &huntsman_mini_analog_device,
     &huntsman_te_device,
     &huntsman_v2_device,
     &huntsman_v2_analog_device,

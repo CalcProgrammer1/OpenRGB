@@ -104,6 +104,7 @@
 #define RAZER_HUNTSMAN_ELITE_PID                        0x0226
 #define RAZER_HUNTSMAN_PID                              0x0227
 #define RAZER_HUNTSMAN_MINI_PID                         0x0257
+#define RAZER_HUNTSMAN_MINI_ANALOG_PID                  0x0282
 #define RAZER_HUNTSMAN_TE_PID                           0x0243
 #define RAZER_HUNTSMAN_V2_ANALOG_PID                    0x0266
 #define RAZER_HUNTSMAN_V2_TKL_PID                       0x026B
