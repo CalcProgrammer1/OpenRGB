@@ -10,6 +10,7 @@ Please put "Initial commit for" name of the product, including manufacturer abov
 <!-- For admin purposes: Please leave this section as is -->
 
 # Checklist for Accepting a Merge Request for a New Device
+- [ ] The source branch of the merge request is not protected (`master` is protected by default when creating a fork, so it is recommended to not use it as your source).
 - [ ] The `New Device` issue raised for this device is linked to this MR with a keyword `Closes / Resolves / Implements`
 - [ ] There is a device protocol page in the [Developer Wiki](https://gitlab.com/OpenRGBDevelopers/OpenRGB-Wiki) or there is enough information / captures in the `New Device` issue to provide ongoing support.
 - [ ] The code to be merged follows the style guide and change requirements as [documented in the contributing guide](https://gitlab.com/CalcProgrammer1/OpenRGB/-/blob/master/CONTRIBUTING.md).

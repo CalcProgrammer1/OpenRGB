@@ -11,6 +11,7 @@ To create a merge request, log into GitLab and fork the OpenRGB project.  Push y
 * Mark your merge request as a draft (start title with "Draft:") until it has been tested and verified working.
 * Follow the Style Guidelines below when making your code changes.
 * Avoid using `git merge` when updating your fork.  The OpenRGB project uses a linear git history, meaning all changes are rebased onto the tip of master.  By using `git rebase` to update your fork, you will make it easier to accept merge requests.
+* Do not submit a merge request using your fork's `master` branch as the source.  The `master` branch is protected by default when creating a fork and I cannot manually rebase a protected branch before merging.  If you submit a merge request with a protected `master` branch as the source, it may not get merged until you unprotect it.
 
 ### Pipelines, Shared Runners and Quotas
 
