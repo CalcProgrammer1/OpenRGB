@@ -55,9 +55,9 @@ void NetworkClient::ClientInfoChanged()
     ClientInfoChangeMutex.lock();
     ControllerListMutex.lock();
 
-    /*-------------------------------------------------*\
-    | Client info has changed, call the callbacks       |
-    \*-------------------------------------------------*/
+    /*---------------------------------------------------------*\
+    | Client info has changed, call the callbacks               |
+    \*---------------------------------------------------------*/
     for(unsigned int callback_idx = 0; callback_idx < ClientInfoChangeCallbacks.size(); callback_idx++)
     {
         ClientInfoChangeCallbacks[callback_idx](ClientInfoChangeCallbackArgs[callback_idx]);
@@ -137,7 +137,9 @@ void NetworkClient::SetPort(unsigned short new_port)
 
 void NetworkClient::StartClient()
 {
-    //Start a TCP server and launch threads
+    /*---------------------------------------------------------*\
+    | Start a TCP server and launch threads                     |
+    \*---------------------------------------------------------*/
     char port_str[6];
     snprintf(port_str, 6, "%d", port_num);
 
@@ -145,20 +147,28 @@ void NetworkClient::StartClient()
 
     client_active = true;
 
-    //Start the connection thread
+    /*---------------------------------------------------------*\
+    | Start the connection thread                               |
+    \*---------------------------------------------------------*/
     ConnectionThread = new std::thread(&NetworkClient::ConnectionThreadFunction, this);
 
-    /*-------------------------------------------------*\
-    | Client info has changed, call the callbacks       |
-    \*-------------------------------------------------*/
+    /*---------------------------------------------------------*\
+    | Client info has changed, call the callbacks               |
+    \*---------------------------------------------------------*/
     ClientInfoChanged();
 }
 
 void NetworkClient::StopClient()
 {
+    /*---------------------------------------------------------*\
+    | Disconnect the server and set it as inactive              |
+    \*---------------------------------------------------------*/
     server_connected = false;
     client_active    = false;
 
+    /*---------------------------------------------------------*\
+    | Shut down and close the client socket                     |
+    \*---------------------------------------------------------*/
     if(server_connected)
     {
         shutdown(client_sock, SD_RECEIVE);
@@ -168,12 +178,19 @@ void NetworkClient::StopClient()
     client_active    = false;
     server_connected = false;
 
+    /*---------------------------------------------------------*\
+    | Close the listen thread                                   |
+    \*---------------------------------------------------------*/
     if(ListenThread)
     {
         ListenThread->join();
         delete ListenThread;
         ListenThread = nullptr;
     }
+
+    /*---------------------------------------------------------*\
+    | Close the connection thread                               |
+    \*---------------------------------------------------------*/
     if(ConnectionThread)
     {
         ConnectionThread->join();
@@ -181,9 +198,9 @@ void NetworkClient::StopClient()
         ConnectionThread = nullptr;
     }
 
-    /*-------------------------------------------------*\
-    | Client info has changed, call the callbacks       |
-    \*-------------------------------------------------*/
+    /*---------------------------------------------------------*\
+    | Client info has changed, call the callbacks               |
+    \*---------------------------------------------------------*/
     ClientInfoChanged();
 }
 
@@ -191,32 +208,44 @@ void NetworkClient::ConnectionThreadFunction()
 {
     unsigned int requested_controllers;
 
-    //This thread manages the connection to the server
+    /*---------------------------------------------------------*\
+    | This thread manages the connection to the server          |
+    \*---------------------------------------------------------*/
     while(client_active == true)
     {
         if(server_connected == false)
         {
-            //Connect to server and reconnect if the connection is lost
+            /*---------------------------------------------------------*\
+            | Connect to server and reconnect if the connection is lost |
+            \*---------------------------------------------------------*/
             server_initialized = false;
 
-            //Try to connect to server
+            /*---------------------------------------------------------*\
+            | Try to connect to server                                  |
+            \*---------------------------------------------------------*/
             if(port.tcp_client_connect() == true)
             {
                 client_sock = port.sock;
                 printf( "Connected to server\n" );
 
-                //Server is now connected
+                /*---------------------------------------------------------*\
+                | Server is now connected                                   |
+                \*---------------------------------------------------------*/
                 server_connected = true;
 
-                //Start the listener thread
+                /*---------------------------------------------------------*\
+                | Start the listener thread                                 |
+                \*---------------------------------------------------------*/
                 ListenThread = new std::thread(&NetworkClient::ListenThreadFunction, this);
 
-                //Server is not initialized
+                /*---------------------------------------------------------*\
+                | Server is not initialized                                 |
+                \*---------------------------------------------------------*/
                 server_initialized = false;
 
-                /*-------------------------------------------------*\
-                | Client info has changed, call the callbacks       |
-                \*-------------------------------------------------*/
+                /*---------------------------------------------------------*\
+                | Client info has changed, call the callbacks               |
+                \*---------------------------------------------------------*/
                 ClientInfoChanged();
             }
             else
@@ -233,25 +262,30 @@ void NetworkClient::ConnectionThreadFunction()
             server_controller_count_received = false;
             server_protocol_version_received = false;
 
-            //Wait for server to connect
+            /*---------------------------------------------------------*\
+            | Wait for server to connect                                |
+            \*---------------------------------------------------------*/
             std::this_thread::sleep_for(100ms);
 
-            //Request protocol version
+            /*---------------------------------------------------------*\
+            | Request protocol version                                  |
+            \*---------------------------------------------------------*/
             SendRequest_ProtocolVersion();
 
-            //Wait up to 1s for protocol version reply
-
+            /*---------------------------------------------------------*\
+            | Wait up to 1s for protocol version reply                  |
+            \*---------------------------------------------------------*/
             while(!server_protocol_version_received)
             {
                 std::this_thread::sleep_for(5ms);
 
                 timeout_counter++;
 
-                /*-------------------------------------------------*\
-                | If no protocol version received within 1s, assume |
-                | the server doesn't support protocol versioning    |
-                | and use protocol version 0                        |
-                \*-------------------------------------------------*/
+                /*---------------------------------------------------------*\
+                | If no protocol version received within 1s, assume the     |
+                | server doesn't support protocol versioning and use        |
+                | protocol version 0                                        |
+                \*---------------------------------------------------------*/
                 if(timeout_counter > 200)
                 {
                     server_protocol_version          = 0;
@@ -259,13 +293,19 @@ void NetworkClient::ConnectionThreadFunction()
                 }
             }
 
-            //Once server is connected, send client string
+            /*---------------------------------------------------------*\
+            | Once server is connected, send client string              |
+            \*---------------------------------------------------------*/
             SendData_ClientString();
 
-            //Request number of controllers
+            /*---------------------------------------------------------*\
+            | Request number of controllers                             |
+            \*---------------------------------------------------------*/
             SendRequest_ControllerCount();
 
-            //Wait for server controller count
+            /*---------------------------------------------------------*\
+            | Wait for server controller count                          |
+            \*---------------------------------------------------------*/
             while(!server_controller_count_received)
             {
                 std::this_thread::sleep_for(5ms);
@@ -273,7 +313,9 @@ void NetworkClient::ConnectionThreadFunction()
 
             printf("Client: Received controller count from server: %d\r\n", server_controller_count);
 
-            //Once count is received, request controllers
+            /*---------------------------------------------------------*\
+            | Once count is received, request controllers               |
+            \*---------------------------------------------------------*/
             while(requested_controllers < server_controller_count)
             {
                 printf("Client: Requesting controller %d\r\n", requested_controllers);
@@ -281,7 +323,9 @@ void NetworkClient::ConnectionThreadFunction()
                 controller_data_received = false;
                 SendRequest_ControllerData(requested_controllers);
 
-                //Wait until controller is received
+                /*---------------------------------------------------------*\
+                | Wait until controller is received                         |
+                \*---------------------------------------------------------*/
                 while(controller_data_received == false)
                 {
                     std::this_thread::sleep_for(5ms);
@@ -292,7 +336,9 @@ void NetworkClient::ConnectionThreadFunction()
 
             ControllerListMutex.lock();
 
-            //All controllers received, add them to master list
+            /*---------------------------------------------------------*\
+            | All controllers received, add them to master list         |
+            \*---------------------------------------------------------*/
             printf("Client: All controllers received, adding them to master list\r\n");
             for(std::size_t controller_idx = 0; controller_idx < server_controllers.size(); controller_idx++)
             {
@@ -303,9 +349,9 @@ void NetworkClient::ConnectionThreadFunction()
 
             server_initialized = true;
 
-            /*-------------------------------------------------*\
-            | Client info has changed, call the callbacks       |
-            \*-------------------------------------------------*/
+            /*---------------------------------------------------------*\
+            | Client info has changed, call the callbacks               |
+            \*---------------------------------------------------------*/
             ClientInfoChanged();
         }
 
@@ -323,8 +369,8 @@ int NetworkClient::recv_select(SOCKET s, char *buf, int len, int flags)
         timeout.tv_sec      = 5;
         timeout.tv_usec     = 0;
 
-        FD_ZERO(&set);      /* clear the set */
-        FD_SET(s, &set);    /* add our file descriptor to the set */
+        FD_ZERO(&set);
+        FD_SET(s, &set);
 
         int rv = select(s + 1, &set, NULL, NULL, &timeout);
 
@@ -338,7 +384,6 @@ int NetworkClient::recv_select(SOCKET s, char *buf, int len, int flags)
         }
         else
         {
-            // socket has something to read
             return(recv(s, buf, len, flags));
         }
 
@@ -348,14 +393,19 @@ int NetworkClient::recv_select(SOCKET s, char *buf, int len, int flags)
 void NetworkClient::ListenThreadFunction()
 {
     printf("Network client listener started\n");
-    //This thread handles messages received from the server
+
+    /*---------------------------------------------------------*\
+    | This thread handles messages received from the server     |
+    \*---------------------------------------------------------*/
     while(server_connected == true)
     {
         NetPacketHeader header;
         int             bytes_read  = 0;
         char *          data        = NULL;
 
-        //Read first byte of magic
+        /*---------------------------------------------------------*\
+        | Read first byte of magic                                  |
+        \*---------------------------------------------------------*/
         bytes_read = recv_select(client_sock, &header.pkt_magic[0], 1, 0);
 
         if(bytes_read <= 0)
@@ -363,13 +413,17 @@ void NetworkClient::ListenThreadFunction()
             goto listen_done;
         }
 
-        //Test first character of magic - 'O'
+        /*---------------------------------------------------------*\
+        | Test first character of magic - 'O'                       |
+        \*---------------------------------------------------------*/
         if(header.pkt_magic[0] != 'O')
         {
             continue;
         }
 
-        //Read second byte of magic
+        /*---------------------------------------------------------*\
+        | Read second byte of magic                                 |
+        \*---------------------------------------------------------*/
         bytes_read = recv_select(client_sock, &header.pkt_magic[1], 1, 0);
 
         if(bytes_read <= 0)
@@ -377,13 +431,17 @@ void NetworkClient::ListenThreadFunction()
             goto listen_done;
         }
 
-        //Test second character of magic - 'R'
+        /*---------------------------------------------------------*\
+        | Test second character of magic - 'R'                      |
+        \*---------------------------------------------------------*/
         if(header.pkt_magic[1] != 'R')
         {
             continue;
         }
 
-        //Read third byte of magic
+        /*---------------------------------------------------------*\
+        | Read third byte of magic                                  |
+        \*---------------------------------------------------------*/
         bytes_read = recv_select(client_sock, &header.pkt_magic[2], 1, 0);
 
         if(bytes_read <= 0)
@@ -391,13 +449,17 @@ void NetworkClient::ListenThreadFunction()
             goto listen_done;
         }
 
-        //Test third character of magic - 'G'
+        /*---------------------------------------------------------*\
+        | Test third character of magic - 'G'                       |
+        \*---------------------------------------------------------*/
         if(header.pkt_magic[2] != 'G')
         {
             continue;
         }
 
-        //Read fourth byte of magic
+        /*---------------------------------------------------------*\
+        | Read fourth byte of magic                                 |
+        \*---------------------------------------------------------*/
         bytes_read = recv_select(client_sock, &header.pkt_magic[3], 1, 0);
 
         if(bytes_read <= 0)
@@ -405,13 +467,18 @@ void NetworkClient::ListenThreadFunction()
             goto listen_done;
         }
 
-        //Test fourth character of magic - 'B'
+        /*---------------------------------------------------------*\
+        | Test fourth character of magic - 'B'                      |
+        \*---------------------------------------------------------*/
         if(header.pkt_magic[3] != 'B')
         {
             continue;
         }
 
-        //If we get to this point, the magic is correct.  Read the rest of the header
+        /*---------------------------------------------------------*\
+        | If we get to this point, the magic is correct.  Read the  |
+        | rest of the header                                        |
+        \*---------------------------------------------------------*/
         bytes_read = 0;
         do
         {
@@ -428,7 +495,9 @@ void NetworkClient::ListenThreadFunction()
 
         } while(bytes_read != sizeof(header) - sizeof(header.pkt_magic));
 
-        //Header received, now receive the data
+        /*---------------------------------------------------------*\
+        | Header received, now receive the data                     |
+        \*---------------------------------------------------------*/
         if(header.pkt_size > 0)
         {
             bytes_read = 0;
@@ -450,7 +519,10 @@ void NetworkClient::ListenThreadFunction()
             } while ((unsigned int)bytes_read < header.pkt_size);
         }
 
-        //Entire request received, select functionality based on request ID
+        /*---------------------------------------------------------*\
+        | Entire request received, select functionality based on    |
+        | request ID                                                |
+        \*---------------------------------------------------------*/
         switch(header.pkt_id)
         {
             case NET_PACKET_ID_REQUEST_CONTROLLER_COUNT:
@@ -503,9 +575,9 @@ listen_done:
 
     ControllerListMutex.unlock();
 
-    /*-------------------------------------------------*\
-    | Client info has changed, call the callbacks       |
-    \*-------------------------------------------------*/
+    /*---------------------------------------------------------*\
+    | Client info has changed, call the callbacks               |
+    \*---------------------------------------------------------*/
     ClientInfoChanged();
 }
 
@@ -597,14 +669,14 @@ void NetworkClient::ProcessRequest_DeviceListChanged()
 
     ControllerListMutex.unlock();
 
-    /*-------------------------------------------------*\
-    | Client info has changed, call the callbacks       |
-    \*-------------------------------------------------*/
+    /*---------------------------------------------------------*\
+    | Client info has changed, call the callbacks               |
+    \*---------------------------------------------------------*/
     ClientInfoChanged();
 
-    /*-------------------------------------------------*\
-    | Mark server as uninitialized and delete the list  |
-    \*-------------------------------------------------*/
+    /*---------------------------------------------------------*\
+    | Mark server as uninitialized and delete the list          |
+    \*---------------------------------------------------------*/
     server_initialized = false;
 
     change_in_progress = false;
@@ -938,7 +1010,9 @@ std::vector<std::string> * NetworkClient::ProcessReply_ProfileList(unsigned int 
     {
         profile_list = new std::vector<std::string>(data_size);
 
-        // skip 4 first bytes (data length, unused)
+        /*---------------------------------------------------------*\
+        | Skip 4 first bytes (data length, unused)                  |
+        \*---------------------------------------------------------*/
         unsigned short data_ptr = sizeof(unsigned short);
         unsigned short num_profile;
 
