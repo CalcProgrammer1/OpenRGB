@@ -966,16 +966,9 @@ void NetworkServer::SendReply_ControllerCount(SOCKET client_sock)
     NetPacketHeader reply_hdr;
     unsigned int    reply_data;
 
-    reply_hdr.pkt_magic[0] = 'O';
-    reply_hdr.pkt_magic[1] = 'R';
-    reply_hdr.pkt_magic[2] = 'G';
-    reply_hdr.pkt_magic[3] = 'B';
+    InitNetPacketHeader(&reply_hdr, 0, NET_PACKET_ID_REQUEST_CONTROLLER_COUNT, sizeof(unsigned int));
 
-    reply_hdr.pkt_dev_idx  = 0;
-    reply_hdr.pkt_id       = NET_PACKET_ID_REQUEST_CONTROLLER_COUNT;
-    reply_hdr.pkt_size     = sizeof(unsigned int);
-
-    reply_data             = controllers.size();
+    reply_data = controllers.size();
 
     send(client_sock, (const char *)&reply_hdr, sizeof(NetPacketHeader), 0);
     send(client_sock, (const char *)&reply_data, sizeof(unsigned int), 0);
@@ -991,14 +984,7 @@ void NetworkServer::SendReply_ControllerData(SOCKET client_sock, unsigned int de
 
         memcpy(&reply_size, reply_data, sizeof(reply_size));
 
-        reply_hdr.pkt_magic[0] = 'O';
-        reply_hdr.pkt_magic[1] = 'R';
-        reply_hdr.pkt_magic[2] = 'G';
-        reply_hdr.pkt_magic[3] = 'B';
-
-        reply_hdr.pkt_dev_idx  = dev_idx;
-        reply_hdr.pkt_id       = NET_PACKET_ID_REQUEST_CONTROLLER_DATA;
-        reply_hdr.pkt_size     = reply_size;
+        InitNetPacketHeader(&reply_hdr, dev_idx, NET_PACKET_ID_REQUEST_CONTROLLER_DATA, reply_size);
 
         send(client_sock, (const char *)&reply_hdr, sizeof(NetPacketHeader), 0);
         send(client_sock, (const char *)reply_data, reply_size, 0);
@@ -1012,16 +998,9 @@ void NetworkServer::SendReply_ProtocolVersion(SOCKET client_sock)
     NetPacketHeader reply_hdr;
     unsigned int    reply_data;
 
-    reply_hdr.pkt_magic[0] = 'O';
-    reply_hdr.pkt_magic[1] = 'R';
-    reply_hdr.pkt_magic[2] = 'G';
-    reply_hdr.pkt_magic[3] = 'B';
+    InitNetPacketHeader(&reply_hdr, 0, NET_PACKET_ID_REQUEST_PROTOCOL_VERSION, sizeof(unsigned int));
 
-    reply_hdr.pkt_dev_idx  = 0;
-    reply_hdr.pkt_id       = NET_PACKET_ID_REQUEST_PROTOCOL_VERSION;
-    reply_hdr.pkt_size     = sizeof(unsigned int);
-
-    reply_data             = OPENRGB_SDK_PROTOCOL_VERSION;
+    reply_data = OPENRGB_SDK_PROTOCOL_VERSION;
 
     send(client_sock, (const char *)&reply_hdr, sizeof(NetPacketHeader), 0);
     send(client_sock, (const char *)&reply_data, sizeof(unsigned int), 0);
@@ -1031,14 +1010,7 @@ void NetworkServer::SendRequest_DeviceListChanged(SOCKET client_sock)
 {
     NetPacketHeader pkt_hdr;
 
-    pkt_hdr.pkt_magic[0] = 'O';
-    pkt_hdr.pkt_magic[1] = 'R';
-    pkt_hdr.pkt_magic[2] = 'G';
-    pkt_hdr.pkt_magic[3] = 'B';
-
-    pkt_hdr.pkt_dev_idx  = 0;
-    pkt_hdr.pkt_id       = NET_PACKET_ID_DEVICE_LIST_UPDATED;
-    pkt_hdr.pkt_size     = 0;
+    InitNetPacketHeader(&pkt_hdr, 0, NET_PACKET_ID_DEVICE_LIST_UPDATED, 0);
 
     send(client_sock, (char *)&pkt_hdr, sizeof(NetPacketHeader), 0);
 }
@@ -1056,14 +1028,7 @@ void NetworkServer::SendReply_ProfileList(SOCKET client_sock)
 
     memcpy(&reply_size, reply_data, sizeof(reply_size));
 
-    reply_hdr.pkt_magic[0] = 'O';
-    reply_hdr.pkt_magic[1] = 'R';
-    reply_hdr.pkt_magic[2] = 'G';
-    reply_hdr.pkt_magic[3] = 'B';
-
-    reply_hdr.pkt_dev_idx  = 0;
-    reply_hdr.pkt_id       = NET_PACKET_ID_REQUEST_PROFILE_LIST;
-    reply_hdr.pkt_size     = reply_size;
+    InitNetPacketHeader(&reply_hdr, 0, NET_PACKET_ID_REQUEST_PROFILE_LIST, reply_size);
 
     send(client_sock, (const char *)&reply_hdr, sizeof(NetPacketHeader), 0);
     send(client_sock, (const char *)reply_data, reply_size, 0);
@@ -1161,14 +1126,7 @@ void NetworkServer::SendReply_PluginList(SOCKET client_sock)
 
     memcpy(&reply_size, data_buf, sizeof(reply_size));
 
-    reply_hdr.pkt_magic[0] = 'O';
-    reply_hdr.pkt_magic[1] = 'R';
-    reply_hdr.pkt_magic[2] = 'G';
-    reply_hdr.pkt_magic[3] = 'B';
-
-    reply_hdr.pkt_dev_idx  = 0;
-    reply_hdr.pkt_id       = NET_PACKET_ID_REQUEST_PLUGIN_LIST;
-    reply_hdr.pkt_size     = reply_size;
+    InitNetPacketHeader(&reply_hdr, 0, NET_PACKET_ID_REQUEST_PLUGIN_LIST, reply_size);
 
     send(client_sock, (const char *)&reply_hdr, sizeof(NetPacketHeader), 0);
     send(client_sock, (const char *)data_buf, reply_size, 0);
@@ -1180,14 +1138,7 @@ void NetworkServer::SendReply_PluginSpecific(SOCKET client_sock, unsigned int pk
 {
     NetPacketHeader reply_hdr;
 
-    reply_hdr.pkt_magic[0] = 'O';
-    reply_hdr.pkt_magic[1] = 'R';
-    reply_hdr.pkt_magic[2] = 'G';
-    reply_hdr.pkt_magic[3] = 'B';
-
-    reply_hdr.pkt_dev_idx  = 0;
-    reply_hdr.pkt_id       = NET_PACKET_ID_PLUGIN_SPECIFIC;
-    reply_hdr.pkt_size     = data_size + sizeof(pkt_type);
+    InitNetPacketHeader(&reply_hdr, 0, NET_PACKET_ID_PLUGIN_SPECIFIC, data_size + sizeof(pkt_type));
 
     send(client_sock, (const char *)&reply_hdr, sizeof(NetPacketHeader), 0);
     send(client_sock, (const char *)&pkt_type, sizeof(pkt_type), 0);

@@ -686,14 +686,7 @@ void NetworkClient::SendData_ClientString()
 {
     NetPacketHeader reply_hdr;
 
-    reply_hdr.pkt_magic[0] = 'O';
-    reply_hdr.pkt_magic[1] = 'R';
-    reply_hdr.pkt_magic[2] = 'G';
-    reply_hdr.pkt_magic[3] = 'B';
-
-    reply_hdr.pkt_dev_idx  = 0;
-    reply_hdr.pkt_id       = NET_PACKET_ID_SET_CLIENT_NAME;
-    reply_hdr.pkt_size     = strlen(client_name.c_str()) + 1;
+    InitNetPacketHeader(&reply_hdr, 0, NET_PACKET_ID_SET_CLIENT_NAME, strlen(client_name.c_str()) + 1);
 
     send(client_sock, (char *)&reply_hdr, sizeof(NetPacketHeader), MSG_NOSIGNAL);
     send(client_sock, (char *)client_name.c_str(), reply_hdr.pkt_size, MSG_NOSIGNAL);
@@ -703,14 +696,7 @@ void NetworkClient::SendRequest_ControllerCount()
 {
     NetPacketHeader request_hdr;
 
-    request_hdr.pkt_magic[0] = 'O';
-    request_hdr.pkt_magic[1] = 'R';
-    request_hdr.pkt_magic[2] = 'G';
-    request_hdr.pkt_magic[3] = 'B';
-
-    request_hdr.pkt_dev_idx  = 0;
-    request_hdr.pkt_id       = NET_PACKET_ID_REQUEST_CONTROLLER_COUNT;
-    request_hdr.pkt_size     = 0;
+    InitNetPacketHeader(&request_hdr, 0, NET_PACKET_ID_REQUEST_CONTROLLER_COUNT, 0);
 
     send(client_sock, (char *)&request_hdr, sizeof(NetPacketHeader), MSG_NOSIGNAL);
 }
@@ -722,10 +708,7 @@ void NetworkClient::SendRequest_ControllerData(unsigned int dev_idx)
 
     controller_data_received = false;
 
-    request_hdr.pkt_magic[0] = 'O';
-    request_hdr.pkt_magic[1] = 'R';
-    request_hdr.pkt_magic[2] = 'G';
-    request_hdr.pkt_magic[3] = 'B';
+    memcpy(request_hdr.pkt_magic, openrgb_sdk_magic, sizeof(openrgb_sdk_magic));
 
     request_hdr.pkt_dev_idx  = dev_idx;
     request_hdr.pkt_id       = NET_PACKET_ID_REQUEST_CONTROLLER_DATA;
@@ -763,14 +746,7 @@ void NetworkClient::SendRequest_ProtocolVersion()
     NetPacketHeader request_hdr;
     unsigned int    request_data;
 
-    request_hdr.pkt_magic[0] = 'O';
-    request_hdr.pkt_magic[1] = 'R';
-    request_hdr.pkt_magic[2] = 'G';
-    request_hdr.pkt_magic[3] = 'B';
-
-    request_hdr.pkt_dev_idx  = 0;
-    request_hdr.pkt_id       = NET_PACKET_ID_REQUEST_PROTOCOL_VERSION;
-    request_hdr.pkt_size     = sizeof(unsigned int);
+    InitNetPacketHeader(&request_hdr, 0, NET_PACKET_ID_REQUEST_PROTOCOL_VERSION, sizeof(unsigned int));
 
     request_data             = OPENRGB_SDK_PROTOCOL_VERSION;
 
@@ -788,14 +764,7 @@ void NetworkClient::SendRequest_RGBController_ResizeZone(unsigned int dev_idx, i
     NetPacketHeader request_hdr;
     int             request_data[2];
 
-    request_hdr.pkt_magic[0] = 'O';
-    request_hdr.pkt_magic[1] = 'R';
-    request_hdr.pkt_magic[2] = 'G';
-    request_hdr.pkt_magic[3] = 'B';
-
-    request_hdr.pkt_dev_idx  = dev_idx;
-    request_hdr.pkt_id       = NET_PACKET_ID_RGBCONTROLLER_RESIZEZONE;
-    request_hdr.pkt_size     = sizeof(request_data);
+    InitNetPacketHeader(&request_hdr, dev_idx, NET_PACKET_ID_RGBCONTROLLER_RESIZEZONE, sizeof(request_data));
 
     request_data[0]          = zone;
     request_data[1]          = new_size;
@@ -813,14 +782,7 @@ void NetworkClient::SendRequest_RGBController_UpdateLEDs(unsigned int dev_idx, u
 
     NetPacketHeader request_hdr;
 
-    request_hdr.pkt_magic[0] = 'O';
-    request_hdr.pkt_magic[1] = 'R';
-    request_hdr.pkt_magic[2] = 'G';
-    request_hdr.pkt_magic[3] = 'B';
-
-    request_hdr.pkt_dev_idx  = dev_idx;
-    request_hdr.pkt_id       = NET_PACKET_ID_RGBCONTROLLER_UPDATELEDS;
-    request_hdr.pkt_size     = size;
+    InitNetPacketHeader(&request_hdr, dev_idx, NET_PACKET_ID_RGBCONTROLLER_UPDATELEDS, size);
 
     send(client_sock, (char *)&request_hdr, sizeof(NetPacketHeader), MSG_NOSIGNAL);
     send(client_sock, (char *)data, size, 0);
@@ -835,14 +797,7 @@ void NetworkClient::SendRequest_RGBController_UpdateZoneLEDs(unsigned int dev_id
 
     NetPacketHeader request_hdr;
 
-    request_hdr.pkt_magic[0] = 'O';
-    request_hdr.pkt_magic[1] = 'R';
-    request_hdr.pkt_magic[2] = 'G';
-    request_hdr.pkt_magic[3] = 'B';
-
-    request_hdr.pkt_dev_idx  = dev_idx;
-    request_hdr.pkt_id       = NET_PACKET_ID_RGBCONTROLLER_UPDATEZONELEDS;
-    request_hdr.pkt_size     = size;
+    InitNetPacketHeader(&request_hdr, dev_idx, NET_PACKET_ID_RGBCONTROLLER_UPDATEZONELEDS, size);
 
     send(client_sock, (char *)&request_hdr, sizeof(NetPacketHeader), MSG_NOSIGNAL);
     send(client_sock, (char *)data, size, MSG_NOSIGNAL);
@@ -857,14 +812,7 @@ void NetworkClient::SendRequest_RGBController_UpdateSingleLED(unsigned int dev_i
 
     NetPacketHeader request_hdr;
 
-    request_hdr.pkt_magic[0] = 'O';
-    request_hdr.pkt_magic[1] = 'R';
-    request_hdr.pkt_magic[2] = 'G';
-    request_hdr.pkt_magic[3] = 'B';
-
-    request_hdr.pkt_dev_idx  = dev_idx;
-    request_hdr.pkt_id       = NET_PACKET_ID_RGBCONTROLLER_UPDATESINGLELED;
-    request_hdr.pkt_size     = size;
+    InitNetPacketHeader(&request_hdr, dev_idx, NET_PACKET_ID_RGBCONTROLLER_UPDATESINGLELED, size);
 
     send(client_sock, (char *)&request_hdr, sizeof(NetPacketHeader), MSG_NOSIGNAL);
     send(client_sock, (char *)data, size, MSG_NOSIGNAL);
@@ -879,14 +827,7 @@ void NetworkClient::SendRequest_RGBController_SetCustomMode(unsigned int dev_idx
 
     NetPacketHeader request_hdr;
 
-    request_hdr.pkt_magic[0] = 'O';
-    request_hdr.pkt_magic[1] = 'R';
-    request_hdr.pkt_magic[2] = 'G';
-    request_hdr.pkt_magic[3] = 'B';
-
-    request_hdr.pkt_dev_idx  = dev_idx;
-    request_hdr.pkt_id       = NET_PACKET_ID_RGBCONTROLLER_SETCUSTOMMODE;
-    request_hdr.pkt_size     = 0;
+    InitNetPacketHeader(&request_hdr, dev_idx, NET_PACKET_ID_RGBCONTROLLER_SETCUSTOMMODE, 0);
 
     send(client_sock, (char *)&request_hdr, sizeof(NetPacketHeader), MSG_NOSIGNAL);
 }
@@ -900,14 +841,7 @@ void NetworkClient::SendRequest_RGBController_UpdateMode(unsigned int dev_idx, u
 
     NetPacketHeader request_hdr;
 
-    request_hdr.pkt_magic[0] = 'O';
-    request_hdr.pkt_magic[1] = 'R';
-    request_hdr.pkt_magic[2] = 'G';
-    request_hdr.pkt_magic[3] = 'B';
-
-    request_hdr.pkt_dev_idx  = dev_idx;
-    request_hdr.pkt_id       = NET_PACKET_ID_RGBCONTROLLER_UPDATEMODE;
-    request_hdr.pkt_size     = size;
+    InitNetPacketHeader(&request_hdr, dev_idx, NET_PACKET_ID_RGBCONTROLLER_UPDATEMODE, size);
 
     send(client_sock, (char *)&request_hdr, sizeof(NetPacketHeader), MSG_NOSIGNAL);
     send(client_sock, (char *)data, size, MSG_NOSIGNAL);
@@ -922,14 +856,7 @@ void NetworkClient::SendRequest_RGBController_SaveMode(unsigned int dev_idx, uns
 
     NetPacketHeader request_hdr;
 
-    request_hdr.pkt_magic[0] = 'O';
-    request_hdr.pkt_magic[1] = 'R';
-    request_hdr.pkt_magic[2] = 'G';
-    request_hdr.pkt_magic[3] = 'B';
-
-    request_hdr.pkt_dev_idx  = dev_idx;
-    request_hdr.pkt_id       = NET_PACKET_ID_RGBCONTROLLER_SAVEMODE;
-    request_hdr.pkt_size     = size;
+    InitNetPacketHeader(&request_hdr, dev_idx, NET_PACKET_ID_RGBCONTROLLER_SAVEMODE, size);
 
     send(client_sock, (char *)&request_hdr, sizeof(NetPacketHeader), MSG_NOSIGNAL);
     send(client_sock, (char *)data, size, MSG_NOSIGNAL);
@@ -939,14 +866,7 @@ void NetworkClient::SendRequest_LoadProfile(std::string profile_name)
 {
     NetPacketHeader reply_hdr;
 
-    reply_hdr.pkt_magic[0] = 'O';
-    reply_hdr.pkt_magic[1] = 'R';
-    reply_hdr.pkt_magic[2] = 'G';
-    reply_hdr.pkt_magic[3] = 'B';
-
-    reply_hdr.pkt_dev_idx  = 0;
-    reply_hdr.pkt_id       = NET_PACKET_ID_REQUEST_LOAD_PROFILE;
-    reply_hdr.pkt_size     = strlen(profile_name.c_str()) + 1;
+    InitNetPacketHeader(&reply_hdr, 0, NET_PACKET_ID_REQUEST_LOAD_PROFILE, strlen(profile_name.c_str()) + 1);
 
     send(client_sock, (char *)&reply_hdr, sizeof(NetPacketHeader), MSG_NOSIGNAL);
     send(client_sock, (char *)profile_name.c_str(), reply_hdr.pkt_size, MSG_NOSIGNAL);
@@ -956,14 +876,7 @@ void NetworkClient::SendRequest_SaveProfile(std::string profile_name)
 {
     NetPacketHeader reply_hdr;
 
-    reply_hdr.pkt_magic[0] = 'O';
-    reply_hdr.pkt_magic[1] = 'R';
-    reply_hdr.pkt_magic[2] = 'G';
-    reply_hdr.pkt_magic[3] = 'B';
-
-    reply_hdr.pkt_dev_idx  = 0;
-    reply_hdr.pkt_id       = NET_PACKET_ID_REQUEST_SAVE_PROFILE;
-    reply_hdr.pkt_size     = strlen(profile_name.c_str()) + 1;
+    InitNetPacketHeader(&reply_hdr, 0, NET_PACKET_ID_REQUEST_SAVE_PROFILE, strlen(profile_name.c_str()) + 1);
 
     send(client_sock, (char *)&reply_hdr, sizeof(NetPacketHeader), MSG_NOSIGNAL);
     send(client_sock, (char *)profile_name.c_str(), reply_hdr.pkt_size, MSG_NOSIGNAL);
@@ -973,14 +886,7 @@ void NetworkClient::SendRequest_DeleteProfile(std::string profile_name)
 {
     NetPacketHeader reply_hdr;
 
-    reply_hdr.pkt_magic[0] = 'O';
-    reply_hdr.pkt_magic[1] = 'R';
-    reply_hdr.pkt_magic[2] = 'G';
-    reply_hdr.pkt_magic[3] = 'B';
-
-    reply_hdr.pkt_dev_idx  = 0;
-    reply_hdr.pkt_id       = NET_PACKET_ID_REQUEST_DELETE_PROFILE;
-    reply_hdr.pkt_size     = strlen(profile_name.c_str()) + 1;
+    InitNetPacketHeader(&reply_hdr, 0, NET_PACKET_ID_REQUEST_DELETE_PROFILE, strlen(profile_name.c_str()) + 1);
 
     send(client_sock, (char *)&reply_hdr, sizeof(NetPacketHeader), MSG_NOSIGNAL);
     send(client_sock, (char *)profile_name.c_str(), reply_hdr.pkt_size, MSG_NOSIGNAL);
@@ -990,14 +896,7 @@ void NetworkClient::SendRequest_GetProfileList()
 {
     NetPacketHeader reply_hdr;
 
-    reply_hdr.pkt_magic[0] = 'O';
-    reply_hdr.pkt_magic[1] = 'R';
-    reply_hdr.pkt_magic[2] = 'G';
-    reply_hdr.pkt_magic[3] = 'B';
-
-    reply_hdr.pkt_dev_idx  = 0;
-    reply_hdr.pkt_id       = NET_PACKET_ID_REQUEST_PROFILE_LIST;
-    reply_hdr.pkt_size     = 0;
+    InitNetPacketHeader(&reply_hdr, 0, NET_PACKET_ID_REQUEST_PROFILE_LIST, 0);
 
     send(client_sock, (char *)&reply_hdr, sizeof(NetPacketHeader), MSG_NOSIGNAL);
 }

@@ -30,6 +30,11 @@
 \*-----------------------------------------------------*/
 #define OPENRGB_SDK_PORT 6742
 
+/*-----------------------------------------------------*\
+| OpenRGB SDK Magic Value "ORGB"                        |
+\*-----------------------------------------------------*/
+extern const char * openrgb_sdk_magic;
+
 typedef struct NetPacketHeader
 {
     char                pkt_magic[4];               /* Magic value "ORGB" identifies beginning of packet    */
@@ -73,3 +78,11 @@ enum
     NET_PACKET_ID_RGBCONTROLLER_UPDATEMODE      = 1101, /* RGBController::UpdateMode()                          */
     NET_PACKET_ID_RGBCONTROLLER_SAVEMODE        = 1102, /* RGBController::SaveMode()                            */
 };
+
+void InitNetPacketHeader
+    (
+    NetPacketHeader *   pkt_hdr,
+    unsigned int        pkt_dev_idx,
+    unsigned int        pkt_id,
+    unsigned int        pkt_size
+    );
