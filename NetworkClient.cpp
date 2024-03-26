@@ -403,76 +403,25 @@ void NetworkClient::ListenThreadFunction()
         int             bytes_read  = 0;
         char *          data        = NULL;
 
-        /*---------------------------------------------------------*\
-        | Read first byte of magic                                  |
-        \*---------------------------------------------------------*/
-        bytes_read = recv_select(client_sock, &header.pkt_magic[0], 1, 0);
-
-        if(bytes_read <= 0)
+        for(unsigned int i = 0; i < 4; i++)
         {
-            goto listen_done;
-        }
+            /*---------------------------------------------------------*\
+            | Read byte of magic                                        |
+            \*---------------------------------------------------------*/
+            bytes_read = recv_select(client_sock, &header.pkt_magic[i], 1, 0);
 
-        /*---------------------------------------------------------*\
-        | Test first character of magic - 'O'                       |
-        \*---------------------------------------------------------*/
-        if(header.pkt_magic[0] != 'O')
-        {
-            continue;
-        }
+            if(bytes_read <= 0)
+            {
+                goto listen_done;
+            }
 
-        /*---------------------------------------------------------*\
-        | Read second byte of magic                                 |
-        \*---------------------------------------------------------*/
-        bytes_read = recv_select(client_sock, &header.pkt_magic[1], 1, 0);
-
-        if(bytes_read <= 0)
-        {
-            goto listen_done;
-        }
-
-        /*---------------------------------------------------------*\
-        | Test second character of magic - 'R'                      |
-        \*---------------------------------------------------------*/
-        if(header.pkt_magic[1] != 'R')
-        {
-            continue;
-        }
-
-        /*---------------------------------------------------------*\
-        | Read third byte of magic                                  |
-        \*---------------------------------------------------------*/
-        bytes_read = recv_select(client_sock, &header.pkt_magic[2], 1, 0);
-
-        if(bytes_read <= 0)
-        {
-            goto listen_done;
-        }
-
-        /*---------------------------------------------------------*\
-        | Test third character of magic - 'G'                       |
-        \*---------------------------------------------------------*/
-        if(header.pkt_magic[2] != 'G')
-        {
-            continue;
-        }
-
-        /*---------------------------------------------------------*\
-        | Read fourth byte of magic                                 |
-        \*---------------------------------------------------------*/
-        bytes_read = recv_select(client_sock, &header.pkt_magic[3], 1, 0);
-
-        if(bytes_read <= 0)
-        {
-            goto listen_done;
-        }
-
-        /*---------------------------------------------------------*\
-        | Test fourth character of magic - 'B'                      |
-        \*---------------------------------------------------------*/
-        if(header.pkt_magic[3] != 'B')
-        {
-            continue;
+            /*---------------------------------------------------------*\
+            | Test characters of magic "ORGB"                           |
+            \*---------------------------------------------------------*/
+            if(header.pkt_magic[i] != openrgb_sdk_magic[i])
+            {
+                continue;
+            }
         }
 
         /*---------------------------------------------------------*\
