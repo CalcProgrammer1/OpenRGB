@@ -1,24 +1,51 @@
-/*-----------------------------------------*\
-|  A4TechBloodyB820RController.cpp                |
-|                                           |
-|  Driver for A4Tech Bloody B820R           |
-|  lightning controller                     |
-|                                           |
-|  Zulfikar (o-julfikar) 3/28/2024          |
-\*-----------------------------------------*/
+/*-------------------------------------------------------------------*\
+|  DarkProjectKeyboardController.cpp                                  |
+|                                                                     |
+|  Driver for DarkProjectKeyboard USB Controller                      |
+|                                                                     |
+|  Chris M (DrNo)          8 Apr 2022                                 |
+|                                                                     |
+\*-------------------------------------------------------------------*/
 
+#include "LogManager.h"
 #include "A4TechBloodyB820RController.h"
 
-#include <cstring>
-#include <chrono>
-#include <thread>
+static uint8_t packet_map[88] =
+        {
+/*00        ESC  F1   F2   F3   F4   F5   F6   F7   F8   F9  */
+                5,  11,  17,  23,  29,  35,  41,  47,  53,  59,
 
-using namespace std::chrono_literals;
+/*10        F10  F11  F12  PRT  SLK  PBK   `    1    2    3  */
+                65,  71,  77,  83,  89,  95,   0,   6,  12,  18,
+
+/*20         4    5    6    7    8    9    0    -    =   BSP */
+                24,  30,  36,  42,  48,  54,  60,  66,  72,  78,
+
+/*30        INS  HME  PUP  TAB   Q    W    E    R    T    Y  */
+                84,  90,  96,   1,   7,  13,  19,  25,  31,  37,
+
+/*40         U    I    O    P    [    ]    \   DEL  END  PDN */
+                43,  49,  55,  61,  67,  73,  79,  85,  91,  97,
+
+/*50        CAP   A    S    D    F    G    H    J    K    L  */
+                2,   8,  14,  20,  26,  32,  38,  44,  50,  56,
+
+/*60         ;    '   ENT  LSH   Z    X    C    V    B    N  */
+                62,  68,  80,   3,  15,  21,  27,  33,  39,  45,
+
+/*70         M    ,    .    /   RSH  UP  LCTL LWIN LALT SPC  */
+                51,  57,  63,  69,  81,  93,   4,  10,  16,  34,
+
+/*80       RALT RFNC MENU RCTL  LFT  DWN  RGT                */
+                52,  58,  64,  76,  88,  94, 100
+
+/* Missing Indexes 9, 22, 28, 40, 46, 70, 74, 75, 82, 86, 87, 92, 98, 99, 101 */
+        };
 
 A4TechBloodyB820RController::A4TechBloodyB820RController(hid_device* dev_handle, const char* path)
 {
-    dev         = dev_handle;
-    location    = path;
+    dev                 = dev_handle;
+    location            = path;
 }
 
 A4TechBloodyB820RController::~A4TechBloodyB820RController()
@@ -26,186 +53,58 @@ A4TechBloodyB820RController::~A4TechBloodyB820RController()
     hid_close(dev);
 }
 
-std::string A4TechBloodyB820RController::GetDeviceLocation()
+std::string A4TechBloodyB820RController::GetDeviceName()
 {
-    return("HID " + location);
+    const int szTemp    = HID_MAX_STR;
+    wchar_t tmpName[szTemp];
+
+    hid_get_manufacturer_string(dev, tmpName, szTemp);
+    std::wstring wName  = std::wstring(tmpName);
+    std::string name    = std::string(wName.begin(), wName.end());
+
+    return name;
 }
 
-std::string A4TechBloodyB820RController::GetSerialString()
+std::string A4TechBloodyB820RController::GetSerial()
 {
-    wchar_t serial_string[128];
-    int ret = hid_get_serial_number_string(dev, serial_string, 128);
+    const int szTemp    = HID_MAX_STR;
+    wchar_t   tmpName[szTemp];
 
-    if(ret != 0)
-    {
-        return("");
-    }
+    hid_get_serial_number_string(dev, tmpName, szTemp);
+    std::wstring wName  = std::wstring(tmpName);
+    std::string serial  = std::string(wName.begin(), wName.end());
 
-    std::wstring return_wstring = serial_string;
-    std::string return_string(return_wstring.begin(), return_wstring.end());
-
-    return(return_string);
+    return serial;
 }
 
-void A4TechBloodyB820RController::SetLightingConfig
-    (
-    unsigned char   mode,
-    unsigned char   random,
-    unsigned char   brightness,
-    unsigned char   speed,
-    unsigned char   direction,
-    RGBColor*       color_data
-    )
+std::string A4TechBloodyB820RController::GetLocation()
 {
-    SendStartPacket();
-    std::this_thread::sleep_for(5ms);
-
-    SendLightingConfigPacket(mode, random, brightness, speed, direction, color_data);
-    std::this_thread::sleep_for(5ms);
-
-    SendEndPacket();
-    std::this_thread::sleep_for(10ms);
+    return("HID: " + location);
 }
 
-void A4TechBloodyB820RController::SetCustom
-    (
-    RGBColor*       color_data
-    )
+void A4TechBloodyB820RController::SetLedsDirect(std::vector<RGBColor> colors)
 {
-    SendStartPacket();
-    std::this_thread::sleep_for(5ms);
+    uint8_t keyBuffer[BLOODY_B820R_PACKET_SIZE]           = { 0x07, 0x03, 0x06 };
 
-    SendCustomPacket(color_data);
-    std::this_thread::sleep_for(5ms);
+    uint8_t RBuffer[BLOODY_B820R_PACKET_SIZE] = {  };
+    uint8_t GBuffer[BLOODY_B820R_PACKET_SIZE] = {  };
+    uint8_t BBuffer[BLOODY_B820R_PACKET_SIZE] = {  };
 
-    SendEndPacket();
-    std::this_thread::sleep_for(5ms);
+    /*-----------------------------------------------------------------*\
+    | Set up Direct packet                                              |
+    |   packet_map is the index of the Key from full_matrix_map and     |
+    |   the value is the position in the direct packet buffer           |
+    \*-----------------------------------------------------------------*/
+//    for(size_t i = 0; i < colors.size(); i++)
+//    {
+//        RGBColor key                                            = colors[i];
+//        uint16_t offset                                         = packet_map[i];
+//
+//        RGbuffer[DARKPROJECTKEYBOARD_RED_BLUE_BYTE + offset]    = RGBGetRValue(key);
+//        RGbuffer[DARKPROJECTKEYBOARD_GREEN_BYTE + offset]       = RGBGetGValue(key);
+//        BAbuffer[DARKPROJECTKEYBOARD_RED_BLUE_BYTE + offset]    = RGBGetBValue(key);
+//    }
+
+    hid_write(dev, keyBuffer, BLOODY_B820R_PACKET_SIZE);
 }
 
-/*-------------------------------------------------------------------------------------------------*\
-| Private packet sending functions.                                                                 |
-\*-------------------------------------------------------------------------------------------------*/
-
-void A4TechBloodyB820RController::SendStartPacket()
-{
-    unsigned char buf[64];
-
-    /*-----------------------------------------------------*\
-    | Zero out buffer                                       |
-    \*-----------------------------------------------------*/
-    memset(buf, 0x00, sizeof(buf));
-
-    /*-----------------------------------------------------*\
-    | Set up start packet                                   |
-    \*-----------------------------------------------------*/
-    buf[0x00]   = 0x09;
-    buf[0x01]   = 0x21;
-
-    /*-----------------------------------------------------*\
-    | Send packet                                           |
-    \*-----------------------------------------------------*/
-    hid_write(dev, buf, sizeof(buf));
-}
-
-void A4TechBloodyB820RController::SendEndPacket()
-{
-    unsigned char buf[64];
-
-    /*-----------------------------------------------------*\
-    | Zero out buffer                                       |
-    \*-----------------------------------------------------*/
-    memset(buf, 0x00, sizeof(buf));
-
-    /*-----------------------------------------------------*\
-    | Set up end packet                                     |
-    \*-----------------------------------------------------*/
-    buf[0x00]   = 0x09;
-    buf[0x01]   = 0x22;
-
-    /*-----------------------------------------------------*\
-    | Send packet                                           |
-    \*-----------------------------------------------------*/
-    hid_write(dev, buf, sizeof(buf));
-}
-
-void A4TechBloodyB820RController::SendCustomPacket
-    (
-    RGBColor*       color_data
-    )
-{
-    unsigned char buf[361];
-
-    /*-----------------------------------------------------*\
-    | Zero out buffer                                       |
-    \*-----------------------------------------------------*/
-    memset(buf, 0x00, sizeof(buf));
-
-    /*-----------------------------------------------------*\
-    | Set up custom lighting packet                         |
-    \*-----------------------------------------------------*/
-    buf[0x00]   = 0x20;
-
-    /*-----------------------------------------------------*\
-    | Copy in color data                                    |
-    \*-----------------------------------------------------*/
-    for(unsigned int color_idx = 0; color_idx < 120; color_idx++)
-    {
-        buf[color_idx + 1]      = RGBGetRValue(color_data[color_idx]);
-        buf[color_idx + 121]    = RGBGetGValue(color_data[color_idx]);
-        buf[color_idx + 241]    = RGBGetBValue(color_data[color_idx]);
-    }
-
-    /*-----------------------------------------------------*\
-    | Send packet                                           |
-    \*-----------------------------------------------------*/
-    hid_send_feature_report(dev, buf, sizeof(buf));
-}
-
-void A4TechBloodyB820RController::SendLightingConfigPacket
-    (
-    unsigned char   mode,
-    unsigned char   random,
-    unsigned char   brightness,
-    unsigned char   speed,
-    unsigned char   direction,
-    RGBColor*       color_data
-    )
-{
-    unsigned char buf[117];
-
-    /*-----------------------------------------------------*\
-    | Zero out buffer                                       |
-    \*-----------------------------------------------------*/
-    memset(buf, 0x00, sizeof(buf));
-
-    /*-----------------------------------------------------*\
-    | Set up lighting configuration packet                  |
-    \*-----------------------------------------------------*/
-    buf[0x00]   = 0x14;
-    buf[0x01]   = 0x01;
-
-    buf[0x06]   = mode;
-
-    buf[0x07 + (9 * mode) + 0] = RGBGetRValue(color_data[0]);
-    buf[0x07 + (9 * mode) + 1] = RGBGetGValue(color_data[0]);
-    buf[0x07 + (9 * mode) + 2] = RGBGetBValue(color_data[0]);
-    buf[0x07 + (9 * mode) + 3] = random;
-    buf[0x07 + (9 * mode) + 4] = direction;
-    buf[0x07 + (9 * mode) + 5] = speed;
-    buf[0x07 + (9 * mode) + 6] = brightness;
-
-    unsigned short checksum = 0x4A9E;
-
-    for(unsigned int buf_idx = 0; buf_idx < 115; buf_idx++)
-    {
-        checksum += buf[buf_idx];
-    }
-
-    buf[115]    = checksum & 0xFF;
-    buf[116]    = checksum >> 8;
-
-    /*-----------------------------------------------------*\
-    | Send packet                                           |
-    \*-----------------------------------------------------*/
-    hid_send_feature_report(dev, buf, 117);
-}
