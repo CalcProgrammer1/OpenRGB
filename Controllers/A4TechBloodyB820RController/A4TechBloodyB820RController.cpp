@@ -10,34 +10,53 @@
 #include "LogManager.h"
 #include "A4TechBloodyB820RController.h"
 
-static uint8_t packet_map[88] =
+static uint8_t packet_map1[104] =
         {
-/*00        ESC  F1   F2   F3   F4   F5   F6   F7   F8   F9  */
-                5,  11,  17,  23,  29,  35,  41,  47,  53,  59,
+/*00        ESC     F1      F2      F3      F4      F5      F6      F7      F8      F9      F10     F11     F12  */
+                6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18,
 
-/*10        F10  F11  F12  PRT  SLK  PBK   `    1    2    3  */
-                65,  71,  77,  83,  89,  95,   0,   6,  12,  18,
+/*00        PS      SL      PB  */
+                19, 20, 21,
 
-/*20         4    5    6    7    8    9    0    -    =   BSP */
-                24,  30,  36,  42,  48,  54,  60,  66,  72,  78,
 
-/*30        INS  HME  PUP  TAB   Q    W    E    R    T    Y  */
-                84,  90,  96,   1,   7,  13,  19,  25,  31,  37,
+/*10        `       1       2       3       4       5       6       7       8       9       0       -       =  */
+                22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34,
 
-/*40         U    I    O    P    [    ]    \   DEL  END  PDN */
-                43,  49,  55,  61,  67,  73,  79,  85,  91,  97,
+/*10        BCK     INS     HM      PU      NUM     [N /]   [N *]   [N -]  */
+                35, 36, 37, 38, 39, 40, 41, 42,
 
-/*50        CAP   A    S    D    F    G    H    J    K    L  */
-                2,   8,  14,  20,  26,  32,  38,  44,  50,  56,
 
-/*60         ;    '   ENT  LSH   Z    X    C    V    B    N  */
-                62,  68,  80,   3,  15,  21,  27,  33,  39,  45,
 
-/*70         M    ,    .    /   RSH  UP  LCTL LWIN LALT SPC  */
-                51,  57,  63,  69,  81,  93,   4,  10,  16,  34,
+/*20        TAB     Q       W       E       R       T       Y       U       I       O       P       [       ]  */
+                43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55,
 
-/*80       RALT RFNC MENU RCTL  LFT  DWN  RGT                */
-                52,  58,  64,  76,  88,  94, 100
+/*20        \       DEL     END     PD      [N 7]   [N 8]   [N 9]   [N +]  */
+                56, 57, 58, 59, 60, 61, 62, 63
+        }
+
+static uint16_t packet_map2[58] =
+        {
+
+/*30        LCAPS   A       S       D       F       G       H       J       K       L       ;       '       BRK  */
+            6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18,
+
+/*30        [N 4]   [N 5]   [N 6]  */
+            19, 20, 21,
+
+
+
+
+/*40        LSHIFT  Z       X       C       V       B       N       M       ,       .       /       RSHIFT  */
+            22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33,
+
+/*40        UP      [N 1]   [N 2]   [N 3]   [N BRK]  */
+            34, 35, 36, 37, 38,
+
+
+
+
+/*50        LCTRL   LWIN    LALT    SPC     RALT    RFN     RCNTXT  RCTRL   LEFT    DOWN    RIGHT   [N 0]   [N .]  */
+            39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51,
 
 /* Missing Indexes 9, 22, 28, 40, 46, 70, 74, 75, 82, 86, 87, 92, 98, 99, 101 */
         };
@@ -86,25 +105,40 @@ void A4TechBloodyB820RController::SetLedsDirect(std::vector<RGBColor> colors)
 {
     uint8_t keyBuffer[BLOODY_B820R_PACKET_SIZE]           = { 0x07, 0x03, 0x06 };
 
-    uint8_t RBuffer[BLOODY_B820R_PACKET_SIZE] = {  };
-    uint8_t GBuffer[BLOODY_B820R_PACKET_SIZE] = {  };
-    uint8_t BBuffer[BLOODY_B820R_PACKET_SIZE] = {  };
+    uint8_t R1Buffer[BLOODY_B820R_PACKET_SIZE] = { 0x07, 0x03, 0x06, 0x07, 0x00, 0x00 };
+    uint8_t R2Buffer[BLOODY_B820R_PACKET_SIZE] = { 0x07, 0x03, 0x06, 0x08, 0x00, 0x00 };
+    uint8_t G1Buffer[BLOODY_B820R_PACKET_SIZE] = { 0x07, 0x03, 0x06, 0x09, 0x00, 0x00 };
+    uint8_t G2Buffer[BLOODY_B820R_PACKET_SIZE] = { 0x07, 0x03, 0x06, 0x0a, 0x00, 0x00 };
+    uint8_t B1Buffer[BLOODY_B820R_PACKET_SIZE] = { 0x07, 0x03, 0x06, 0x0b, 0x00, 0x00 };
+    uint8_t B2Buffer[BLOODY_B820R_PACKET_SIZE] = { 0x07, 0x03, 0x06, 0x0c, 0x00, 0x00 };
 
     /*-----------------------------------------------------------------*\
     | Set up Direct packet                                              |
     |   packet_map is the index of the Key from full_matrix_map and     |
     |   the value is the position in the direct packet buffer           |
     \*-----------------------------------------------------------------*/
-//    for(size_t i = 0; i < colors.size(); i++)
-//    {
-//        RGBColor key                                            = colors[i];
-//        uint16_t offset                                         = packet_map[i];
-//
+    for(size_t i = 0; i < colors.size(); i++)
+    {
+        RGBColor key                                            = colors[i];
+        uint16_t offset                                         = packet_map[i];
+
+        R1Buffer[offset] = RGBGetRValue(key);
+        R2Buffer[offset] = RGBGetRValue(key);
+        G1Buffer[offset] = RGBGetGValue(key);
+        G2Buffer[offset] = RGBGetGValue(key);
+        B1Buffer[offset] = RGBGetBValue(key);
+        B2Buffer[offset] = RGBGetBValue(key);
+
 //        RGbuffer[DARKPROJECTKEYBOARD_RED_BLUE_BYTE + offset]    = RGBGetRValue(key);
 //        RGbuffer[DARKPROJECTKEYBOARD_GREEN_BYTE + offset]       = RGBGetGValue(key);
 //        BAbuffer[DARKPROJECTKEYBOARD_RED_BLUE_BYTE + offset]    = RGBGetBValue(key);
-//    }
+    }
 
-    hid_write(dev, keyBuffer, BLOODY_B820R_PACKET_SIZE);
+    hid_write(dev, R1Buffer, BLOODY_B820R_PACKET_SIZE);
+    hid_write(dev, R2Buffer, BLOODY_B820R_PACKET_SIZE);
+    hid_write(dev, G1Buffer, BLOODY_B820R_PACKET_SIZE);
+    hid_write(dev, G2Buffer, BLOODY_B820R_PACKET_SIZE);
+    hid_write(dev, B1Buffer, BLOODY_B820R_PACKET_SIZE);
+    hid_write(dev, B2Buffer, BLOODY_B820R_PACKET_SIZE);
 }
 
