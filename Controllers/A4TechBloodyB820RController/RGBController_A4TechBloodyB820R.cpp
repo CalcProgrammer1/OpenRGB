@@ -10,6 +10,15 @@
 #include "RGBControllerKeyNames.h"
 #include "RGBController_A4TechBloodyB820R.h"
 
+
+//std::string hexArrayToString(const uint8_t* arr, size_t size) {
+//    std::stringstream ss;
+//    for (size_t i = 0; i < size; ++i) {
+//        ss << std::hex << static_cast<int>(arr[i]);
+//    }
+//    return ss.str();
+//}
+
 static unsigned int matrix_map[6][18] =
         {
                 {   0,  NA,   1,   2,   3,   4,   5,   6,   7,   8,  NA,   9,  10,  11,  12,  13,  14,  15 },
@@ -113,7 +122,25 @@ static const char *led_names[] =
                 KEY_EN_RIGHT_CONTROL,
                 KEY_EN_LEFT_ARROW,
                 KEY_EN_DOWN_ARROW,
-                KEY_EN_RIGHT_ARROW
+                KEY_EN_RIGHT_ARROW,
+
+                KEY_EN_NUMPAD_LOCK,
+                KEY_EN_NUMPAD_DIVIDE,
+                KEY_EN_NUMPAD_TIMES,
+                KEY_EN_NUMPAD_MINUS,
+                KEY_EN_NUMPAD_PLUS,
+                KEY_EN_NUMPAD_PERIOD,
+                KEY_EN_NUMPAD_ENTER,
+                KEY_EN_NUMPAD_0,
+                KEY_EN_NUMPAD_1,
+                KEY_EN_NUMPAD_2,
+                KEY_EN_NUMPAD_3,
+                KEY_EN_NUMPAD_4,
+                KEY_EN_NUMPAD_5,
+                KEY_EN_NUMPAD_6,
+                KEY_EN_NUMPAD_7,
+                KEY_EN_NUMPAD_8,
+                KEY_EN_NUMPAD_9
         };
 
 /**------------------------------------------------------------------*\
@@ -162,9 +189,9 @@ void RGBController_A4TechBloodyB820R::SetupZones()
     zone KB_zone;
     KB_zone.name                = ZONE_EN_KEYBOARD;
     KB_zone.type                = ZONE_TYPE_MATRIX;
-    KB_zone.leds_min            = BLOODY_B820R_TKL_KEYCOUNT;
-    KB_zone.leds_max            = BLOODY_B820R_TKL_KEYCOUNT;
-    KB_zone.leds_count          = BLOODY_B820R_TKL_KEYCOUNT;
+    KB_zone.leds_min            = BLOODY_B820R_KEYCOUNT;
+    KB_zone.leds_max            = BLOODY_B820R_KEYCOUNT;
+    KB_zone.leds_count          = BLOODY_B820R_KEYCOUNT;
 
     KB_zone.matrix_map          = new matrix_map_type;
     KB_zone.matrix_map->height  = 6;

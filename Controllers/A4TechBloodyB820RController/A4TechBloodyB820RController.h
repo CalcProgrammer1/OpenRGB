@@ -16,8 +16,10 @@
 #define NA                                      0xFFFFFFFF
 #define HID_MAX_STR                             255
 
-#define BLOODY_B820R_PACKET_SIZE         64
-#define BLOODY_B820R_TKL_KEYCOUNT        87
+#define BLOODY_B820R_PACKET_SIZE        64
+#define BLOODY_B820R_KEYCOUNT           104
+#define BLOODY_B820R_MODE_BYTE           3
+#define BLOODY_B820R_DATA_BYTE           8
 
 enum
 {
@@ -46,4 +48,6 @@ public:
 private:
     std::string     location;
     hid_device*     dev;
+
+    void            InitDevice();
 };
