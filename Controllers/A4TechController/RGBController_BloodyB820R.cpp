@@ -140,9 +140,9 @@ static const char *led_names[] =
     @save :x:
     @direct :white_check_mark:
     @effects :x:
-    @detectors A4TechBloodyB820RControllerDetect
+    @detectors A4TechDetector
     @comment The A4Tech Bloody B820R keyboard controller currently
-        supports the full size KD3B Version 2 (ANSI layout).
+        supports the full size (ANSI layout).
 \*-------------------------------------------------------------------*/
 
 RGBController_BloodyB820R::RGBController_BloodyB820R(BloodyB820RController *controller_ptr)
@@ -152,7 +152,7 @@ RGBController_BloodyB820R::RGBController_BloodyB820R(BloodyB820RController *cont
     name                        = "Bloody B820R";
     vendor                      = "A4Tech";
     type                        = DEVICE_TYPE_KEYBOARD;
-    description                 = controller->GetDeviceName();
+    description                 = "Contributed by Mohammed Julfikar Ali Mahbub (github.com/o-julfikar)";
     serial                      = controller->GetSerial();
     location                    = controller->GetLocation();
 
