@@ -216,6 +216,7 @@
 #define ASUS_ROG_STRIX_RTX_3060_O12G_LHR_GAMING         0x8818
 #define ASUS_KO_RTX_3060_O12G_V2_GAMING                 0x8821
 #define ASUS_KO_RTX3060TI_O8G_GAMING                    0x87CA
+#define ASUS_KO_RTX3060TI_08G_GAMING_2                  0x87CB
 #define ASUS_KO_RTX3060TI_O8G_V2_GAMING                 0x883E
 #define ASUS_TUF_RTX_3060_TI_O8G                        0x88AC
 #define ASUS_TUF_RTX_3060_TI_O8G_OC                     0x87C6
@@ -228,6 +229,7 @@
 #define ASUS_ROG_STRIX_RTX_3070_O8G_V2_GAMING           0x882C
 #define ASUS_ROG_STRIX_RTX_3070_O8G_V2_WHITE            0x8832
 #define ASUS_KO_RTX_3070_O8G_GAMING                     0x8842
+#define ASUS_KO_RTX_3070_08G_GAMING_V1                  0x87BE
 #define ASUS_TUF_RTX_3070_8G_GAMING                     0x87C2
 #define ASUS_TUF_RTX_3070_O8G_GAMING                    0x87C1
 #define ASUS_TUF_RTX_3070_O8G_V2_GAMING                 0x8825
