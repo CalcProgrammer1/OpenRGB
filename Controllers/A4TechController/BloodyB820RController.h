@@ -47,4 +47,5 @@ private:
     hid_device*     dev;
 
     void            InitDevice();
+    void            ReleaseDevice();
 };

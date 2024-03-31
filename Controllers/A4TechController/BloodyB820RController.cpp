@@ -144,6 +144,7 @@ BloodyB820RController::BloodyB820RController(hid_device* dev_handle, const char*
 BloodyB820RController::~BloodyB820RController()
 {
     hid_close(dev);
+    ReleaseDevice();
 }
 
 std::string BloodyB820RController::GetDeviceName()
@@ -183,6 +184,17 @@ void  BloodyB820RController::InitDevice()
 
     buffer[BLOODY_B820R_MODE_BYTE]                   = 0;
     buffer[BLOODY_B820R_DATA_BYTE]                   = 1;
+
+    hid_send_feature_report(dev, buffer, BLOODY_B820R_PACKET_SIZE);
+}
+
+void  BloodyB820RController::ReleaseDevice()
+{
+    uint8_t buffer[BLOODY_B820R_PACKET_SIZE]   = { 0x07, 0x03, 0x06, 0x01, 0x00, 0x00, 0x00, 0x00 };
+
+    hid_send_feature_report(dev, buffer, BLOODY_B820R_PACKET_SIZE);
+
+    buffer[BLOODY_B820R_MODE_BYTE]                   = 0;
 
     hid_send_feature_report(dev, buffer, BLOODY_B820R_PACKET_SIZE);
 }
