@@ -1,32 +1,23 @@
 /*-------------------------------------------------------------------*\
-|  RGBController_DarkProjectKeyboard.cpp                              |
+|  RGBController_BloodyB820R.cpp                                      |
 |                                                                     |
-|  Driver for DarkProjectKeyboard USB Controller                      |
+|  Driver for A4Tech Bloody B820R Keyboard Controller                 |
 |                                                                     |
-|  Zulfikar (o-julfikar)          28 Mar 2024                         |
+|  Mohammed Julfikar Ali Mahbub (o-julfikar)          01 Apr 2024     |
 |                                                                     |
 \*-------------------------------------------------------------------*/
 
 #include "RGBControllerKeyNames.h"
-#include "RGBController_A4TechBloodyB820R.h"
+#include "RGBController_BloodyB820R.h"
 
-
-//std::string hexArrayToString(const uint8_t* arr, size_t size) {
-//    std::stringstream ss;
-//    for (size_t i = 0; i < size; ++i) {
-//        ss << std::hex << static_cast<int>(arr[i]);
-//    }
-//    return ss.str();
-//}
-
-static unsigned int matrix_map[6][18] =
+static unsigned int matrix_map[6][21] =
         {
-                {   0,  NA,   1,   2,   3,   4,   5,   6,   7,   8,  NA,   9,  10,  11,  12,  13,  14,  15 },
-                {  16,  17,  18,  19,  20,  21,  22,  23,  24,  25,  26,  27,  28,  29,  NA,  30,  31,  32 },
-                {  33,  NA,  34,  35,  36,  37,  38,  39,  40,  41,  42,  43,  44,  45,  46,  47,  48,  49 },
-                {  50,  NA,  51,  52,  53,  54,  55,  56,  57,  58,  59,  60,  61,  NA,  62,  NA,  NA,  NA },
-                {  63,  NA,  64,  65,  66,  67,  68,  69,  70,  71,  72,  73,  NA,  74,  NA,  NA,  75,  NA },
-                {  76,  77,  78,  NA,  NA,  NA,  79,  NA,  NA,  NA,  80,  81,  NA,  82,  83,  84,  85,  86 }
+                {0, NA, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, NA, NA, NA, NA, 13, 14, 15},
+                {16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36},
+                {37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57},
+                {58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, NA, NA, NA, NA, 71, 72, 73, NA},
+                {74, NA, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, NA, NA, 86, NA, 87, 88, 89, 90},
+                {91, 92, 93, 94, NA, NA, NA, NA, NA, NA, 95, 96, 97, 98, 99, 100, 101, 102, NA, 103, NA},
         };
 
 static const char *led_names[] =
@@ -65,6 +56,10 @@ static const char *led_names[] =
                 KEY_EN_INSERT,              //30
                 KEY_EN_HOME,
                 KEY_EN_PAGE_UP,
+                KEY_EN_NUMPAD_LOCK,
+                KEY_EN_NUMPAD_DIVIDE,
+                KEY_EN_NUMPAD_TIMES,
+                KEY_EN_NUMPAD_MINUS,
 
                 KEY_EN_TAB,
                 KEY_EN_Q,
@@ -83,6 +78,10 @@ static const char *led_names[] =
                 KEY_EN_DELETE,
                 KEY_EN_END,
                 KEY_EN_PAGE_DOWN,
+                KEY_EN_NUMPAD_7,
+                KEY_EN_NUMPAD_8,
+                KEY_EN_NUMPAD_9,
+                KEY_EN_NUMPAD_PLUS,
 
                 KEY_EN_CAPS_LOCK,           //50
                 KEY_EN_A,
@@ -97,6 +96,9 @@ static const char *led_names[] =
                 KEY_EN_SEMICOLON,           //60
                 KEY_EN_QUOTE,
                 KEY_EN_ANSI_ENTER,
+                KEY_EN_NUMPAD_4,
+                KEY_EN_NUMPAD_5,
+                KEY_EN_NUMPAD_6,
 
                 KEY_EN_LEFT_SHIFT,
                 KEY_EN_Z,
@@ -111,6 +113,10 @@ static const char *led_names[] =
                 KEY_EN_FORWARD_SLASH,
                 KEY_EN_RIGHT_SHIFT,
                 KEY_EN_UP_ARROW,
+                KEY_EN_NUMPAD_1,
+                KEY_EN_NUMPAD_2,
+                KEY_EN_NUMPAD_3,
+                KEY_EN_NUMPAD_ENTER,
 
                 KEY_EN_LEFT_CONTROL,
                 KEY_EN_LEFT_WINDOWS,
@@ -123,24 +129,8 @@ static const char *led_names[] =
                 KEY_EN_LEFT_ARROW,
                 KEY_EN_DOWN_ARROW,
                 KEY_EN_RIGHT_ARROW,
-
-                KEY_EN_NUMPAD_LOCK,
-                KEY_EN_NUMPAD_DIVIDE,
-                KEY_EN_NUMPAD_TIMES,
-                KEY_EN_NUMPAD_MINUS,
-                KEY_EN_NUMPAD_PLUS,
-                KEY_EN_NUMPAD_PERIOD,
-                KEY_EN_NUMPAD_ENTER,
                 KEY_EN_NUMPAD_0,
-                KEY_EN_NUMPAD_1,
-                KEY_EN_NUMPAD_2,
-                KEY_EN_NUMPAD_3,
-                KEY_EN_NUMPAD_4,
-                KEY_EN_NUMPAD_5,
-                KEY_EN_NUMPAD_6,
-                KEY_EN_NUMPAD_7,
-                KEY_EN_NUMPAD_8,
-                KEY_EN_NUMPAD_9
+                KEY_EN_NUMPAD_PERIOD
         };
 
 /**------------------------------------------------------------------*\
@@ -155,11 +145,11 @@ static const char *led_names[] =
         supports the full size KD3B Version 2 (ANSI layout).
 \*-------------------------------------------------------------------*/
 
-RGBController_A4TechBloodyB820R::RGBController_A4TechBloodyB820R(A4TechBloodyB820RController *controller_ptr)
+RGBController_BloodyB820R::RGBController_BloodyB820R(BloodyB820RController *controller_ptr)
 {
     controller                  = controller_ptr;
 
-    name                        = "A4 Tech Bloody B820R";
+    name                        = "Bloody B820R";
     vendor                      = "A4Tech";
     type                        = DEVICE_TYPE_KEYBOARD;
     description                 = controller->GetDeviceName();
@@ -176,12 +166,12 @@ RGBController_A4TechBloodyB820R::RGBController_A4TechBloodyB820R(A4TechBloodyB82
     SetupZones();
 }
 
-RGBController_A4TechBloodyB820R::~RGBController_A4TechBloodyB820R()
+RGBController_BloodyB820R::~RGBController_BloodyB820R()
 {
     delete controller;
 }
 
-void RGBController_A4TechBloodyB820R::SetupZones()
+void RGBController_BloodyB820R::SetupZones()
 {
     /*-------------------------------------------------*\
     | Create the Keyboard zone and add the matrix map   |
@@ -195,7 +185,7 @@ void RGBController_A4TechBloodyB820R::SetupZones()
 
     KB_zone.matrix_map          = new matrix_map_type;
     KB_zone.matrix_map->height  = 6;
-    KB_zone.matrix_map->width   = 18;
+    KB_zone.matrix_map->width   = 21;
     KB_zone.matrix_map->map     = (unsigned int *)&matrix_map;
     zones.push_back(KB_zone);
 
@@ -222,7 +212,7 @@ void RGBController_A4TechBloodyB820R::SetupZones()
     SetupColors();
 }
 
-void RGBController_A4TechBloodyB820R::ResizeZone(int /*zone*/, int /*new_size*/)
+void RGBController_BloodyB820R::ResizeZone(int /*zone*/, int /*new_size*/)
 {
     /*---------------------------------------------------------*\
     | This device does not support resizing zones               |
@@ -230,12 +220,12 @@ void RGBController_A4TechBloodyB820R::ResizeZone(int /*zone*/, int /*new_size*/)
 }
 
 
-void RGBController_A4TechBloodyB820R::DeviceUpdateLEDs()
+void RGBController_BloodyB820R::DeviceUpdateLEDs()
 {
-    controller->SetLedsDirect(colors);
+    controller->SetLEDDirect(colors);
 }
 
-void RGBController_A4TechBloodyB820R::UpdateZoneLEDs(int zone)
+void RGBController_BloodyB820R::UpdateZoneLEDs(int zone)
 {
     std::vector<RGBColor> colour;
     for(size_t i = 0; i < zones[zone].leds_count; i++)
@@ -243,18 +233,18 @@ void RGBController_A4TechBloodyB820R::UpdateZoneLEDs(int zone)
         colour.push_back(zones[zone].colors[i]);
     }
 
-    controller->SetLedsDirect(colour);
+    controller->SetLEDDirect(colour);
 }
 
-void RGBController_A4TechBloodyB820R::UpdateSingleLED(int led)
+void RGBController_BloodyB820R::UpdateSingleLED(int led)
 {
     std::vector<RGBColor> colour;
     colour.push_back(colors[led]);
 
-    controller->SetLedsDirect(colour);
+    controller->SetLEDDirect(colour);
 }
 
-void RGBController_A4TechBloodyB820R::DeviceUpdateMode()
+void RGBController_BloodyB820R::DeviceUpdateMode()
 {
     /*---------------------------------------------------------*\
     | This device only supports `Direct` mode                   |

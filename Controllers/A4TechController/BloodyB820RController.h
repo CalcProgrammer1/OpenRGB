@@ -1,9 +1,9 @@
 /*-------------------------------------------------------------------*\
-|  A4TechBloodyB820RController.h                                    |
+|  BloodyB820RController.h                                            |
 |                                                                     |
-|  Driver for DarkProjectKeyboard USB Controller                      |
+|  Driver for A4Tech Bloody B820R Keyboard Controller                 |
 |                                                                     |
-|  Zulfikar (o-julfikar)          8 Apr 2022                                 |
+|  Mohammed Julfikar Ali Mahbub (o-julfikar)          01 Apr 2024     |
 |                                                                     |
 \*-------------------------------------------------------------------*/
 
@@ -21,30 +21,27 @@
 #define BLOODY_B820R_MODE_BYTE           3
 #define BLOODY_B820R_DATA_BYTE           8
 
+/*---------------------------------------------------------*\
+| Bloody B820R product ID                                    |
+\*---------------------------------------------------------*/
+#define BLOODY_B820R_PID                               0xFA10
+
 enum
 {
     BLOODY_B820R_MODE_DIRECT     = 0x01,   //Direct Led Control - Independently set LEDs in zone
 };
 
-enum
-{
-    BLOODY_B820R_REPORT_BYTE     = 1,
-    BLOODY_B820R_COMMAND_BYTE    = 2,
-    BLOODY_B820R_RED_BLUE_BYTE   = 5,
-    BLOODY_B820R_GREEN_BYTE      = 107
-};
-
-class A4TechBloodyB820RController
+class BloodyB820RController
 {
 public:
-    A4TechBloodyB820RController(hid_device* dev_handle, const char* path);
-    ~A4TechBloodyB820RController();
+    BloodyB820RController(hid_device* dev_handle, const char* path);
+    ~BloodyB820RController();
 
     std::string     GetDeviceName();
     std::string     GetSerial();
     std::string     GetLocation();
 
-    void            SetLedsDirect(std::vector<RGBColor> colors);
+    void            SetLEDDirect(std::vector<RGBColor> colors);
 private:
     std::string     location;
     hid_device*     dev;
