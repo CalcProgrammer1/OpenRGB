@@ -144,7 +144,6 @@ BloodyB820RController::BloodyB820RController(hid_device* dev_handle, const char*
 BloodyB820RController::~BloodyB820RController()
 {
     hid_close(dev);
-    ReleaseDevice();
 }
 
 std::string BloodyB820RController::GetDeviceName()
