@@ -28,7 +28,10 @@
 
 enum
 {
-    BLOODY_B820R_MODE_DIRECT     = 0x01,   //Direct Led Control - Independently set LEDs in zone
+    BLOODY_B820R_MODE_DIRECT     = 0x01,    // Direct LED control - Independently set LEDs in zone
+    BLOODY_B820R_MODE_RELEASE    = 0x02,    // Release the OpenRGB control from the keyboard
+    BLOODY_B820R_MODE_INIT       = 0x03,    // Regain the OpenRGB control of the keyboard
+    BLOODY_B820R_MODE_BREATHING  = 0x04,    // Set breathing RGB effect
 };
 
 class BloodyB820RController
@@ -42,6 +45,7 @@ public:
     std::string     GetLocation();
 
     void            SetLEDDirect(std::vector<RGBColor> colors);
+    void            SetMode(int mode, int speed, unsigned char brightness, unsigned char dir, unsigned char red, unsigned char green, unsigned char blue);
 private:
     std::string     location;
     hid_device*     dev;

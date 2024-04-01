@@ -163,6 +163,20 @@ RGBController_BloodyB820R::RGBController_BloodyB820R(BloodyB820RController *cont
     Direct.color_mode           = MODE_COLORS_PER_LED;
     modes.push_back(Direct);
 
+    mode Init;
+    Init.name                   = "Init";
+    Init.value                  = BLOODY_B820R_MODE_INIT;
+    Init.flags                  = MODE_FLAG_HAS_PER_LED_COLOR;
+    Init.color_mode             = MODE_COLORS_PER_LED;
+    modes.push_back(Init);
+
+    mode Release;
+    Release.name                = "Release Control";
+    Release.value               = BLOODY_B820R_MODE_RELEASE;
+    Release.flags               = 0;
+    Release.color_mode          = MODE_COLORS_NONE;
+    modes.push_back(Release);
+
     SetupZones();
 }
 
@@ -246,7 +260,22 @@ void RGBController_BloodyB820R::UpdateSingleLED(int led)
 
 void RGBController_BloodyB820R::DeviceUpdateMode()
 {
-    /*---------------------------------------------------------*\
-    | This device only supports `Direct` mode                   |
-    \*---------------------------------------------------------*/
+    unsigned char red = 0;
+    unsigned char grn = 0;
+    unsigned char blu = 0;
+    unsigned char dir = 0;
+
+    if(modes[active_mode].color_mode & MODE_COLORS_MODE_SPECIFIC)
+    {
+        red = RGBGetRValue(modes[active_mode].colors[0]);
+        grn = RGBGetGValue(modes[active_mode].colors[0]);
+        blu = RGBGetBValue(modes[active_mode].colors[0]);
+    }
+
+    if(modes[active_mode].flags & MODE_FLAG_HAS_DIRECTION_LR)
+    {
+        dir = (unsigned char)modes[active_mode].direction;
+    }
+
+    controller->SetMode(modes[active_mode].value, modes[active_mode].speed, modes[active_mode].brightness, dir, red, grn, blu);
 }

@@ -198,6 +198,30 @@ void  BloodyB820RController::ReleaseDevice()
     hid_send_feature_report(dev, buffer, BLOODY_B820R_PACKET_SIZE);
 }
 
+void BloodyB820RController::SetMode(
+        int             mode,
+        int             speed,
+        unsigned char   brightness,
+        unsigned char   dir,
+        unsigned char   red,
+        unsigned char   green,
+        unsigned char   blue) {
+
+
+    switch (mode) {
+        case BLOODY_B820R_MODE_DIRECT:
+        case BLOODY_B820R_MODE_INIT:
+            InitDevice();
+            break;
+        case BLOODY_B820R_MODE_RELEASE:
+            ReleaseDevice();
+            break;
+        default:
+            break;
+    }
+
+}
+
 void BloodyB820RController::SetLEDDirect(std::vector<RGBColor> colors)
 {
 
