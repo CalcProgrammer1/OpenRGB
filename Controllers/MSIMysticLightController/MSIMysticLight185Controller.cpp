@@ -299,7 +299,7 @@ static const mystic_light_185_config board_configs[] =
     { 0x7D75, 0,  0,  0, 2, &zones_set13, MSIMysticLight185Controller::DIRECT_MODE_PER_LED },       // MAG B650 TOMAHAWK WIFI
     { 0x7D76, 0,  0,  0, 2, &zones_set13, MSIMysticLight185Controller::DIRECT_MODE_PER_LED },       // MAG B650M MORTAR WIFI
     { 0x7D77, 6,  0,  0, 2, &zones_set13, MSIMysticLight185Controller::DIRECT_MODE_PER_LED },       // PRO B650M-A WIFI
-    { 0x7D78, 6,  0,  0, 2, &zones_set13, MSIMysticLight185Controller::DIRECT_MODE_PER_LED },       // PRO B650-P WIFI
+    { 0x7D78, 0,  0,  0, 2, &zones_set13, MSIMysticLight185Controller::DIRECT_MODE_PER_LED },       // PRO B650-P WIFI
     { 0x7D86, 0, 18,  4, 1, &zones_set16, MSIMysticLight185Controller::DIRECT_MODE_PER_LED },       // MEG Z790 ACE
     { 0x7D89, 0,  6,  0, 1, &zones_set4,  MSIMysticLight185Controller::DIRECT_MODE_PER_LED },       // MPG Z790 CARBON WIFI
     { 0x7D90, 0,  0,  0, 1, &zones_set11, MSIMysticLight185Controller::DIRECT_MODE_PER_LED },       // B760M BOMBER DDR4
@@ -312,7 +312,7 @@ static const mystic_light_185_config board_configs[] =
     { 0x7E07, 0,  0,  0, 2, &zones_set10, MSIMysticLight185Controller::DIRECT_MODE_PER_LED },       // PRO Z790-A WIFI DDR4
     { 0x7E10, 0,  6,  0, 2, &zones_set17, MSIMysticLight185Controller::DIRECT_MODE_PER_LED },       // MPG B650 EDGE WIFI
     { 0x7E12, 0,  0,  0, 2, &zones_set13, MSIMysticLight185Controller::DIRECT_MODE_PER_LED },       // MAG X670E TOMAHAWK WIFI
-    { 0x7E26, 0,  0,  0, 2, &zones_set13, MSIMysticLight185Controller::DIRECT_MODE_PER_LED },       // B650 GAMING PLUS WIFI 
+    { 0x7E26, 0,  0,  0, 2, &zones_set13, MSIMysticLight185Controller::DIRECT_MODE_PER_LED },       // B650 GAMING PLUS WIFI
     { 0x7E27, 0,  0,  0, 2, &zones_set13, MSIMysticLight185Controller::DIRECT_MODE_PER_LED },       // PRO B650M-P
 };
 
