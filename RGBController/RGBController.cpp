@@ -333,6 +333,94 @@ unsigned char * RGBController::GetDeviceDescription(unsigned int protocol_versio
         data_size += sizeof(leds[led_index].value);
     }
 
+    /*---------------------------------------------------------*\
+    | Translation data                                          |
+    \*---------------------------------------------------------*/
+    if(protocol_version >= 5)
+    {
+        /*---------------------------------------------------------*\
+        | Boolean - Is translation data available?                  |
+        \*---------------------------------------------------------*/
+        data_size += sizeof(bool);
+
+        /*---------------------------------------------------------*\
+        | If translation data is available, determine additional    |
+        | size for translation data                                 |
+        \*---------------------------------------------------------*/
+        if(translation != NULL)
+        {
+            /*---------------------------------------------------------*\
+            | Information strings                                       |
+            \*---------------------------------------------------------*/
+            data_size += sizeof(unsigned short);
+            data_size += strlen(translation->name.c_str()) + 1;
+
+            data_size += sizeof(unsigned short);
+            data_size += strlen(translation->vendor.c_str()) + 1;
+
+            data_size += sizeof(unsigned short);
+            data_size += strlen(translation->description.c_str()) + 1;
+
+            data_size += sizeof(unsigned short);
+            data_size += strlen(translation->version.c_str()) + 1;
+
+            data_size += sizeof(unsigned short);
+            data_size += strlen(translation->serial.c_str()) + 1;
+
+            data_size += sizeof(unsigned short);
+            data_size += strlen(translation->location.c_str()) + 1;
+
+            /*---------------------------------------------------------*\
+            | Mode strings                                              |
+            \*---------------------------------------------------------*/
+            data_size += sizeof(unsigned short);
+
+            for(int mode_idx = 0; mode_idx < translation->modes.size(); mode_idx++)
+            {
+                data_size += sizeof(unsigned short);
+                data_size += strlen(translation->modes[mode_idx].c_str()) + 1;
+            }
+
+            /*---------------------------------------------------------*\
+            | Zone strings                                              |
+            \*---------------------------------------------------------*/
+            data_size += sizeof(unsigned short);
+
+            for(int zone_idx = 0; zone_idx < translation->zones.size(); zone_idx++)
+            {
+                data_size += sizeof(unsigned short);
+                data_size += strlen(translation->zones[zone_idx].c_str()) + 1;
+            }
+
+            /*---------------------------------------------------------*\
+            | Segment strings                                           |
+            \*---------------------------------------------------------*/
+            data_size += sizeof(unsigned short);
+
+            for(int zone_idx = 0; zone_idx < translation->segments.size(); zone_idx++)
+            {
+                data_size += sizeof(unsigned short);
+
+                for(int segment_idx = 0; segment_idx < translation->segments[zone_idx].size(); segment_idx++)
+                {
+                    data_size += sizeof(unsigned short);
+                    data_size += strlen(translation->segments[zone_idx][segment_idx].c_str()) + 1;
+                }
+            }
+
+            /*---------------------------------------------------------*\
+            | LED strings                                               |
+            \*---------------------------------------------------------*/
+            data_size += sizeof(unsigned short);
+
+            for(int led_idx = 0; led_idx < translation->leds.size(); led_idx++)
+            {
+                data_size += sizeof(unsigned short);
+                data_size += strlen(translation->leds[led_idx].c_str()) + 1;
+            }
+        }
+    }
+
     data_size += sizeof(num_colors);
     data_size += num_colors * sizeof(RGBColor);
 
@@ -748,6 +836,195 @@ unsigned char * RGBController::GetDeviceDescription(unsigned int protocol_versio
         \*---------------------------------------------------------*/
         memcpy(&data_buf[data_ptr], &colors[color_index], sizeof(colors[color_index]));
         data_ptr += sizeof(colors[color_index]);
+    }
+
+    /*---------------------------------------------------------*\
+    | Translation data                                          |
+    \*---------------------------------------------------------*/
+    if(protocol_version >= 5)
+    {
+        bool translation_available;
+
+        if(translation != NULL)
+        {
+            unsigned short string_length;
+
+            /*---------------------------------------------------------*\
+            | Translation data is available                             |
+            \*---------------------------------------------------------*/
+            translation_available = true;
+
+            memcpy(&data_buf[data_ptr], &translation_available, sizeof(translation_available));
+            data_ptr += sizeof(translation_available);
+
+            /*---------------------------------------------------------*\
+            | Copy in translated name (size+data)                       |
+            \*---------------------------------------------------------*/
+            string_length = strlen(translation->name.c_str()) + 1;
+
+            memcpy(&data_buf[data_ptr], &string_length, sizeof(string_length));
+            data_ptr += sizeof(string_length);
+
+            strcpy((char *)&data_buf[data_ptr], translation->name.c_str());
+            data_ptr += string_length;
+
+            /*---------------------------------------------------------*\
+            | Copy in translated vendor (size+data)                     |
+            \*---------------------------------------------------------*/
+            string_length = strlen(translation->vendor.c_str()) + 1;
+
+            memcpy(&data_buf[data_ptr], &string_length, sizeof(string_length));
+            data_ptr += sizeof(string_length);
+
+            strcpy((char *)&data_buf[data_ptr], translation->vendor.c_str());
+            data_ptr += string_length;
+
+            /*---------------------------------------------------------*\
+            | Copy in translated description (size+data)                |
+            \*---------------------------------------------------------*/
+            string_length = strlen(translation->description.c_str()) + 1;
+
+            memcpy(&data_buf[data_ptr], &string_length, sizeof(string_length));
+            data_ptr += sizeof(string_length);
+
+            strcpy((char *)&data_buf[data_ptr], translation->description.c_str());
+            data_ptr += string_length;
+
+            /*---------------------------------------------------------*\
+            | Copy in translated version (size+data)                    |
+            \*---------------------------------------------------------*/
+            string_length = strlen(translation->version.c_str()) + 1;
+
+            memcpy(&data_buf[data_ptr], &string_length, sizeof(string_length));
+            data_ptr += sizeof(string_length);
+
+            strcpy((char *)&data_buf[data_ptr], translation->version.c_str());
+            data_ptr += string_length;
+
+            /*---------------------------------------------------------*\
+            | Copy in translated serial (size+data)                     |
+            \*---------------------------------------------------------*/
+            string_length = strlen(translation->serial.c_str()) + 1;
+
+            memcpy(&data_buf[data_ptr], &string_length, sizeof(string_length));
+            data_ptr += sizeof(string_length);
+
+            strcpy((char *)&data_buf[data_ptr], translation->serial.c_str());
+            data_ptr += string_length;
+
+            /*---------------------------------------------------------*\
+            | Copy in translated location (size+data)                   |
+            \*---------------------------------------------------------*/
+            string_length = strlen(translation->location.c_str()) + 1;
+
+            memcpy(&data_buf[data_ptr], &string_length, sizeof(string_length));
+            data_ptr += sizeof(string_length);
+
+            strcpy((char *)&data_buf[data_ptr], translation->location.c_str());
+            data_ptr += string_length;
+
+            /*---------------------------------------------------------*\
+            | Mode strings                                              |
+            \*---------------------------------------------------------*/
+            unsigned short translation_mode_cnt = translation->modes.size();
+            memcpy(&data_buf[data_ptr], &translation_mode_cnt, sizeof(translation_mode_cnt));
+            data_ptr += sizeof(translation_mode_cnt);
+
+            for(int mode_idx = 0; mode_idx < translation->modes.size(); mode_idx++)
+            {
+                /*---------------------------------------------------------*\
+                | Copy in translated mode name (size+data)                  |
+                \*---------------------------------------------------------*/
+                string_length = strlen(translation->modes[mode_idx].c_str()) + 1;
+
+                memcpy(&data_buf[data_ptr], &string_length, sizeof(string_length));
+                data_ptr += sizeof(string_length);
+
+                strcpy((char *)&data_buf[data_ptr], translation->modes[mode_idx].c_str());
+                data_ptr += string_length;
+            }
+
+            /*---------------------------------------------------------*\
+            | Zone strings                                              |
+            \*---------------------------------------------------------*/
+            unsigned short translation_zone_cnt = translation->modes.size();
+            memcpy(&data_buf[data_ptr], &translation_zone_cnt, sizeof(translation_zone_cnt));
+            data_ptr += sizeof(translation_zone_cnt);
+
+
+            for(int zone_idx = 0; zone_idx < translation->zones.size(); zone_idx++)
+            {
+                /*---------------------------------------------------------*\
+                | Copy in translated zone name (size+data)                  |
+                \*---------------------------------------------------------*/
+                string_length = strlen(translation->zones[zone_idx].c_str()) + 1;
+
+                memcpy(&data_buf[data_ptr], &string_length, sizeof(string_length));
+                data_ptr += sizeof(string_length);
+
+                strcpy((char *)&data_buf[data_ptr], translation->zones[zone_idx].c_str());
+                data_ptr += string_length;
+            }
+
+            /*---------------------------------------------------------*\
+            | Segment strings                                           |
+            \*---------------------------------------------------------*/
+            unsigned short translation_segment_zone_cnt = translation->segments.size();
+            memcpy(&data_buf[data_ptr], &translation_segment_zone_cnt, sizeof(translation_segment_zone_cnt));
+            data_ptr += sizeof(translation_segment_zone_cnt);
+
+            for(int zone_idx = 0; zone_idx < translation->segments.size(); zone_idx++)
+            {
+                unsigned short translation_segment_cnt = translation->segments[zone_idx].size();
+                memcpy(&data_buf[data_ptr], &translation_segment_cnt, sizeof(translation_segment_cnt));
+                data_ptr += sizeof(translation_segment_cnt);
+
+                for(int segment_idx = 0; segment_idx < translation->segments[zone_idx].size(); segment_idx++)
+                {
+                    /*---------------------------------------------------------*\
+                    | Copy in translated segment name (size+data)               |
+                    \*---------------------------------------------------------*/
+                    string_length = strlen(translation->segments[zone_idx][segment_idx].c_str()) + 1;
+
+                    memcpy(&data_buf[data_ptr], &string_length, sizeof(string_length));
+                    data_ptr += sizeof(string_length);
+
+                    strcpy((char *)&data_buf[data_ptr], translation->segments[zone_idx][segment_idx].c_str());
+                    data_ptr += string_length;
+                }
+            }
+
+            /*---------------------------------------------------------*\
+            | LED strings                                               |
+            \*---------------------------------------------------------*/
+            unsigned short translation_led_cnt = translation->leds.size();
+            memcpy(&data_buf[data_ptr], &translation_led_cnt, sizeof(translation_led_cnt));
+            data_ptr += sizeof(translation_led_cnt);
+
+            for(int led_idx = 0; led_idx < translation->leds.size(); led_idx++)
+            {
+                /*---------------------------------------------------------*\
+                | Copy in translated zone name (size+data)                  |
+                \*---------------------------------------------------------*/
+                string_length = strlen(translation->leds[led_idx].c_str()) + 1;
+
+                memcpy(&data_buf[data_ptr], &string_length, sizeof(string_length));
+                data_ptr += sizeof(string_length);
+
+                strcpy((char *)&data_buf[data_ptr], translation->leds[led_idx].c_str());
+                data_ptr += string_length;
+            }
+        }
+        else
+        {
+            /*---------------------------------------------------------*\
+            | Translation data is available                             |
+            \*---------------------------------------------------------*/
+            translation_available = false;
+
+            memcpy(&data_buf[data_ptr], &translation_available, sizeof(translation_available));
+            data_ptr += sizeof(translation_available);
+        }
     }
 
     delete[] mode_name_len;
@@ -1177,6 +1454,171 @@ void RGBController::ReadDeviceDescription(unsigned char* data_buf, unsigned int 
         data_ptr += sizeof(RGBColor);
 
         colors.push_back(new_color);
+    }
+
+    /*---------------------------------------------------------*\
+    | Copy in translation data                                  |
+    \*---------------------------------------------------------*/
+    if(protocol_version >= 5)
+    {
+        /*---------------------------------------------------------*\
+        | Copy in translation available status                      |
+        \*---------------------------------------------------------*/
+        bool translation_available;
+
+        memcpy(&translation_available, &data_buf[data_ptr], sizeof(translation_available));
+        data_ptr += sizeof(translation_available);
+
+        if(translation_available)
+        {
+            unsigned short string_length;
+
+            translation = new translation_data;
+
+            /*---------------------------------------------------------*\
+            | Copy in translated name (size+data)                       |
+            \*---------------------------------------------------------*/
+            memcpy(&string_length, &data_buf[data_ptr], sizeof(unsigned short));
+            data_ptr += sizeof(unsigned short);
+
+            translation->name = (char *)&data_buf[data_ptr];
+            data_ptr += string_length;
+
+            /*---------------------------------------------------------*\
+            | Copy in translated vendor (size+data)                     |
+            \*---------------------------------------------------------*/
+            memcpy(&string_length, &data_buf[data_ptr], sizeof(unsigned short));
+            data_ptr += sizeof(unsigned short);
+
+            translation->vendor = (char *)&data_buf[data_ptr];
+            data_ptr += string_length;
+
+            /*---------------------------------------------------------*\
+            | Copy in translated description (size+data)                |
+            \*---------------------------------------------------------*/
+            memcpy(&string_length, &data_buf[data_ptr], sizeof(unsigned short));
+            data_ptr += sizeof(unsigned short);
+
+            translation->description = (char *)&data_buf[data_ptr];
+            data_ptr += string_length;
+
+            /*---------------------------------------------------------*\
+            | Copy in translated version (size+data)                    |
+            \*---------------------------------------------------------*/
+            memcpy(&string_length, &data_buf[data_ptr], sizeof(unsigned short));
+            data_ptr += sizeof(unsigned short);
+
+            translation->version = (char *)&data_buf[data_ptr];
+            data_ptr += string_length;
+
+            /*---------------------------------------------------------*\
+            | Copy in translated serial (size+data)                     |
+            \*---------------------------------------------------------*/
+            memcpy(&string_length, &data_buf[data_ptr], sizeof(unsigned short));
+            data_ptr += sizeof(unsigned short);
+
+            translation->serial = (char *)&data_buf[data_ptr];
+            data_ptr += string_length;
+
+            /*---------------------------------------------------------*\
+            | Copy in translated location (size+data)                   |
+            \*---------------------------------------------------------*/
+            memcpy(&string_length, &data_buf[data_ptr], sizeof(unsigned short));
+            data_ptr += sizeof(unsigned short);
+
+            translation->location = (char *)&data_buf[data_ptr];
+            data_ptr += string_length;
+
+            /*---------------------------------------------------------*\
+            | Copy in number of mode strings                            |
+            \*---------------------------------------------------------*/
+            unsigned short mode_cnt;
+            memcpy(&mode_cnt, &data_buf[data_ptr], sizeof(mode_cnt));
+            data_ptr += sizeof(mode_cnt);
+
+            for(int mode_idx = 0; mode_idx < mode_cnt; mode_idx++)
+            {
+                /*---------------------------------------------------------*\
+                | Copy in translated mode (size+data)                       |
+                \*---------------------------------------------------------*/
+                memcpy(&string_length, &data_buf[data_ptr], sizeof(unsigned short));
+                data_ptr += sizeof(unsigned short);
+
+                translation->modes.push_back((char *)&data_buf[data_ptr]);
+                data_ptr += string_length;
+            }
+
+            /*---------------------------------------------------------*\
+            | Copy in number of zone strings                            |
+            \*---------------------------------------------------------*/
+            unsigned short zone_cnt;
+            memcpy(&zone_cnt, &data_buf[data_ptr], sizeof(zone_cnt));
+            data_ptr += sizeof(zone_cnt);
+
+            for(int zone_idx = 0; zone_idx < zone_cnt; zone_idx++)
+            {
+                /*---------------------------------------------------------*\
+                | Copy in translated mode (size+data)                       |
+                \*---------------------------------------------------------*/
+                memcpy(&string_length, &data_buf[data_ptr], sizeof(unsigned short));
+                data_ptr += sizeof(unsigned short);
+
+                translation->zones.push_back((char *)&data_buf[data_ptr]);
+                data_ptr += string_length;
+            }
+
+            /*---------------------------------------------------------*\
+            | Copy in number of segment zone strings                    |
+            \*---------------------------------------------------------*/
+            unsigned short segment_zone_cnt;
+            memcpy(&segment_zone_cnt, &data_buf[data_ptr], sizeof(segment_zone_cnt));
+            data_ptr += sizeof(segment_zone_cnt);
+
+            for(int segment_zone_idx = 0; segment_zone_idx < segment_zone_cnt; segment_zone_idx++)
+            {
+                /*---------------------------------------------------------*\
+                | Copy in number of segment strings                         |
+                \*---------------------------------------------------------*/
+                unsigned short segment_cnt;
+                memcpy(&segment_cnt, &data_buf[data_ptr], sizeof(segment_cnt));
+                data_ptr += sizeof(segment_cnt);
+
+                std::vector<std::string> segment_zone;
+
+                for(int segment_idx = 0; segment_idx < segment_cnt; segment_idx++)
+                {
+                    /*---------------------------------------------------------*\
+                    | Copy in translated segment (size+data)                    |
+                    \*---------------------------------------------------------*/
+                    memcpy(&string_length, &data_buf[data_ptr], sizeof(unsigned short));
+                    data_ptr += sizeof(unsigned short);
+
+                    segment_zone.push_back((char *)&data_buf[data_ptr]);
+                    data_ptr += string_length;
+                }
+
+                translation->segments.push_back(segment_zone);
+            }
+
+            /*---------------------------------------------------------*\
+            | Copy in number of LED strings                             |
+            \*---------------------------------------------------------*/
+            unsigned short led_cnt;
+            memcpy(&led_cnt, &data_buf[data_ptr], sizeof(led_cnt));
+            data_ptr += sizeof(led_cnt);
+
+            for(int led_idx = 0; led_idx < led_cnt; led_idx++)
+            {
+                /*---------------------------------------------------------*\
+                | Copy in translated mode (size+data)                       |
+                \*---------------------------------------------------------*/
+                memcpy(&string_length, &data_buf[data_ptr], sizeof(unsigned short));
+                data_ptr += sizeof(unsigned short);
+
+                translation->leds.push_back((char *)&data_buf[data_ptr]);
+                data_ptr += string_length;
+            }
+        }
     }
 
     /*---------------------------------------------------------*\
