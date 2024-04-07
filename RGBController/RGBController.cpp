@@ -145,6 +145,7 @@ unsigned char * RGBController::GetDeviceDescription(unsigned int protocol_versio
     unsigned short num_zones        = (unsigned short)zones.size();
     unsigned short num_leds         = (unsigned short)leds.size();
     unsigned short num_colors       = (unsigned short)colors.size();
+    unsigned short num_led_alt_names= (unsigned short)led_alt_names.size();
 
     unsigned short *mode_name_len   = new unsigned short[num_modes];
     unsigned short *zone_name_len   = new unsigned short[num_zones];
@@ -265,6 +266,26 @@ unsigned char * RGBController::GetDeviceDescription(unsigned int protocol_versio
         data_size += led_name_len[led_index] + sizeof(led_name_len[led_index]);
 
         data_size += sizeof(leds[led_index].value);
+    }
+
+    /*---------------------------------------------------------*\
+    | LED alternate names                                       |
+    \*---------------------------------------------------------*/
+    if(protocol_version >= 5)
+    {
+        /*-----------------------------------------------------*\
+        | Number of LED alternate names                         |
+        \*-----------------------------------------------------*/
+        data_size += sizeof(num_led_alt_names);
+
+        /*-----------------------------------------------------*\
+        | LED alternate name strings                            |
+        \*-----------------------------------------------------*/
+        for(int led_idx = 0; led_idx < led_alt_names.size(); led_idx++)
+        {
+            data_size += sizeof(unsigned short);
+            data_size += strlen(led_alt_names[led_idx].c_str()) + 1;
+        }
     }
 
     data_size += sizeof(num_colors);
@@ -682,6 +703,32 @@ unsigned char * RGBController::GetDeviceDescription(unsigned int protocol_versio
         \*---------------------------------------------------------*/
         memcpy(&data_buf[data_ptr], &colors[color_index], sizeof(colors[color_index]));
         data_ptr += sizeof(colors[color_index]);
+    }
+
+    /*---------------------------------------------------------*\
+    | LED alternate names data                                  |
+    \*---------------------------------------------------------*/
+    if(protocol_version >= 5)
+    {
+        /*---------------------------------------------------------*\
+        | Number of LED alternate name strings                      |
+        \*---------------------------------------------------------*/
+        memcpy(&data_buf[data_ptr], &num_led_alt_names, sizeof(num_led_alt_names));
+        data_ptr += sizeof(num_led_alt_names);
+
+        for(int led_idx = 0; led_idx < led_alt_names.size(); led_idx++)
+        {
+            /*---------------------------------------------------------*\
+            | Copy in LED alternate name (size+data)                    |
+            \*---------------------------------------------------------*/
+            unsigned short string_length = strlen(led_alt_names[led_idx].c_str()) + 1;
+
+            memcpy(&data_buf[data_ptr], &string_length, sizeof(string_length));
+            data_ptr += sizeof(string_length);
+
+            strcpy((char *)&data_buf[data_ptr], led_alt_names[led_idx].c_str());
+            data_ptr += string_length;
+        }
     }
 
     delete[] mode_name_len;
@@ -1111,6 +1158,34 @@ void RGBController::ReadDeviceDescription(unsigned char* data_buf, unsigned int 
         data_ptr += sizeof(RGBColor);
 
         colors.push_back(new_color);
+    }
+
+    /*---------------------------------------------------------*\
+    | Copy in LED alternate names data                          |
+    \*---------------------------------------------------------*/
+    if(protocol_version >= 5)
+    {
+        /*---------------------------------------------------------*\
+        | Copy in number of LED alternate names                     |
+        \*---------------------------------------------------------*/
+        unsigned short num_led_alt_names;
+
+        memcpy(&num_led_alt_names, &data_buf[data_ptr], sizeof(num_led_alt_names));
+        data_ptr += sizeof(num_led_alt_names);
+
+        for(int led_idx = 0; led_idx < num_led_alt_names; led_idx++)
+        {
+            unsigned short string_length = 0;
+
+            /*---------------------------------------------------------*\
+            | Copy in LED alternate name string (size+data)             |
+            \*---------------------------------------------------------*/
+            memcpy(&string_length, &data_buf[data_ptr], sizeof(string_length));
+            data_ptr += sizeof(string_length);
+
+            led_alt_names.push_back((char *)&data_buf[data_ptr]);
+            data_ptr += string_length;
+        }
     }
 
     /*---------------------------------------------------------*\
