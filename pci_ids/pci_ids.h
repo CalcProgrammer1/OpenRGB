@@ -457,6 +457,7 @@
 \*-----------------------------------------------------*/
 #define GAINWARD_GTX_1080_PHOENIX                       0x1B80
 #define GAINWARD_GTX_1080_TI_PHOENIX                    0x1B06
+#define GAINWARD_RTX3050_SUB_DEV                        0x2507
 #define GAINWARD_RTX_3070_PHANTOM                       0xF279
 
 /*-----------------------------------------------------*\
