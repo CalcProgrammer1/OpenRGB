@@ -42,6 +42,13 @@ json corsair_dominator_models =
             {"name",  "Corsair Vengeance RGB RS"},
             {"leds",  6}
         }
+    },
+    {
+        "CMP",
+        {
+            {"name",  "Corsair Dominator Titanium"},
+            {"leds",  11}
+        }
     }
 };
 
@@ -61,9 +68,9 @@ bool TestForCorsairDominatorPlatinumController(i2c_smbus_interface *bus, unsigne
 
     res = bus->i2c_smbus_read_byte_data(address, 0x43);
 
-    if(res != 0x1b)
+    if(!(res == 0x1A || res == 0x1B))
     {
-        LOG_DEBUG("[%s] Failed: expected 0x1b, got %04X", CORSAIR_DOMINATOR_PLATINUM_NAME, res);
+        LOG_DEBUG("[%s] Failed: expected 0x1a or 0x1b, got %04X", CORSAIR_DOMINATOR_PLATINUM_NAME, res);
         return false;
     }
 
