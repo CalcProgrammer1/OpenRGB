@@ -2076,7 +2076,7 @@ static const razer_zone ornata_v3_tkl_zone =
     ZONE_EN_KEYBOARD,
     ZONE_TYPE_SINGLE,
     1,
-    1
+    8
 };
 
 static const razer_device ornata_v3_tkl_device =
@@ -2087,7 +2087,7 @@ static const razer_device ornata_v3_tkl_device =
     RAZER_MATRIX_TYPE_EXTENDED,
     0x1F,
     1,
-    1,
+    8,
     {
         &ornata_v3_tkl_zone,
         NULL,
