@@ -986,7 +986,61 @@ static const corsair_v2_device m55_device =
 };
 
 /*-------------------------------------------------------------*\
-|  Corsair M65 Ultra RGB 1B1C:1BB5                              |
+|  Corsair M65 RGB Ultra Wired 1B1C:1B9E                        |
+|                                                               |
+|  Zone "Scroll Wheel"                                          |
+|       Single                                                  |
+|                                                               |
+|  Zone "Logo"                                                  |
+|       Single                                                  |
+|                                                               |
+|  Zone "Indicator"                                             |
+|       Single                                                  |
+|                                                               |
+\*-------------------------------------------------------------*/
+static const corsair_v2_zone m65_rgb_ultra_wired_scroll_zone =
+{
+        "Scroll Wheel",
+        ZONE_TYPE_SINGLE,
+        1,
+        1
+};
+
+static const corsair_v2_zone m65_rgb_ultra_wired_logo_zone =
+{
+        "Logo",
+        ZONE_TYPE_SINGLE,
+        1,
+        1
+};
+
+static const corsair_v2_zone m65_rgb_ultra_wired_indicator_zone =
+{
+        "Indicator",
+        ZONE_TYPE_SINGLE,
+        1,
+        1
+};
+
+static const corsair_v2_device m65_rgb_ultra_wired_device =
+{
+        CORSAIR_M65_RGB_ULTRA_WIRED_PID,
+        DEVICE_TYPE_MOUSE,
+        1,
+        3,
+        {
+            &m65_rgb_ultra_wired_logo_zone,
+            &m65_rgb_ultra_wired_scroll_zone,
+            &m65_rgb_ultra_wired_indicator_zone,
+            nullptr,
+            nullptr,
+            nullptr
+        },
+        nullptr
+};
+
+/*-------------------------------------------------------------*\
+|  Corsair M65 RGB Ultra Wireless 1B1C:1BB5                     |
 |                                                               |
 |  Zone "Logo"                                                  |
 |       Single                                                  |
@@ -1012,7 +1066,7 @@ static const corsair_v2_zone m65_ultra_rgb_dpi_zone =
 
 static const corsair_v2_device m65_ultra_rgb_device =
 {
-    CORSAIR_M65_ULTRA_RGB_PID,
+    CORSAIR_M65_RGB_ULTRA_WIRELESS_PID,
     DEVICE_TYPE_MOUSE,
     1,
     2,
@@ -1108,6 +1162,7 @@ const corsair_v2_device* corsair_v2_device_list_data[] =
     &katar_pro_v2_device,
     &katar_pro_xt_device,
     &m55_device,
+    &m65_rgb_ultra_wired_device,
     &m65_ultra_rgb_device,
 
 /*-----------------------------------------------------------------*\
