@@ -270,7 +270,7 @@ RGBController_CMARGBController::RGBController_CMARGBController(CMARGBController*
     SetupZones();
 
     int temp_mode   = controller->GetMode();
-    for(std::size_t mode_idx = 0; mode_idx < modes.size() ; mode_idx++)
+    for(int mode_idx = 0; mode_idx < (int)modes.size() ; mode_idx++)
     {
         if (temp_mode == modes[mode_idx].value)
         {
@@ -382,7 +382,7 @@ void RGBController_CMARGBController::DeviceUpdateLEDs()
 {
     uint8_t end_zone = last_zone(cmargb->GetZoneIndex());
 
-    for(std::size_t zone_idx = first_zone(cmargb->GetZoneIndex()); zone_idx < end_zone; zone_idx++)
+    for(int zone_idx = first_zone(cmargb->GetZoneIndex()); zone_idx < end_zone; zone_idx++)
     {
         UpdateZoneLEDs(zone_idx);
     }
@@ -400,7 +400,7 @@ void RGBController_CMARGBController::UpdateSingleLED(int led)
 
 void RGBController_CMARGBController::SetCustomMode()
 {
-    for(std::size_t mode_idx = 0; mode_idx < modes.size() ; mode_idx++)
+    for(int mode_idx = 0; mode_idx < (int)modes.size() ; mode_idx++)
     {
         if (modes[mode_idx].value == CM_ARGB_MODE_DIRECT)
         {
@@ -423,12 +423,12 @@ int RGBController_CMARGBController::GetLED_Zone(int led_idx)
     /*---------------------------------------------------------*\
     | This may be more useful in the abstract RGBController.cpp |
     \*---------------------------------------------------------*/
-    for(size_t zone_idx = 0; zone_idx < zones.size(); zone_idx++)
+    for(int zone_idx = 0; zone_idx < (int)zones.size(); zone_idx++)
     {
         int zone_start  = zones[zone_idx].start_idx;
         int zone_end    = zone_start + zones[zone_idx].leds_count - 1;
 
-        if( zone_start <= led_idx && zone_end >= led_idx)
+        if(zone_start <= led_idx && zone_end >= led_idx)
         {
             return(zone_idx);
         }

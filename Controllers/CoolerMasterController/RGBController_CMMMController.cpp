@@ -135,7 +135,7 @@ RGBController_CMMMController::RGBController_CMMMController(CMMMController* contr
 
     uint8_t temp_mode               = controller->GetMode();
 
-    for(std::size_t mode_index = 0; mode_index < modes.size(); mode_index++)
+    for(int mode_index = 0; mode_index < (int)modes.size(); mode_index++)
     {
         if(modes[mode_index].value == temp_mode)
         {
@@ -249,7 +249,7 @@ void RGBController_CMMMController::UpdateSingleLED(int /*led*/)
 
 void RGBController_CMMMController::SetCustomMode()
 {
-    for(std::size_t mode_index = 0; mode_index < modes.size(); mode_index++)
+    for(int mode_index = 0; mode_index < (int)modes.size(); mode_index++)
     {
         if(modes[mode_index].value == CM_MM_MODE_CUSTOM)
         {

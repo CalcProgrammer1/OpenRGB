@@ -158,7 +158,7 @@ void RGBController_CMRGBController::ReadAllModeConfigsFromDevice()
 {
     int device_mode = controller->GetMode();
 
-    for(std::size_t mode_idx = 0; mode_idx < modes.size(); mode_idx++)
+    for(int mode_idx = 0; mode_idx < (int)modes.size(); mode_idx++)
     {
         if(device_mode == modes[mode_idx].value)
         {
@@ -188,14 +188,14 @@ void RGBController_CMRGBController::ReadAllModeConfigsFromDevice()
 
 void RGBController_CMRGBController::LoadConfigFromDeviceController(int mode_idx)
 {
-    for(std::size_t color_idx = 0; color_idx < modes[mode_idx].colors.size(); color_idx++)
+    for(int color_idx = 0; color_idx < (int)modes[mode_idx].colors.size(); color_idx++)
     {
         modes[mode_idx].colors[0] = controller->GetModeColor(color_idx);
     }
 
     if(modes[mode_idx].flags & MODE_FLAG_HAS_PER_LED_COLOR)
     {
-        for (std::size_t led_idx = 0; led_idx < leds.size(); led_idx++)
+        for(int led_idx = 0; led_idx < (int)leds.size(); led_idx++)
         {
             SetLED(led_idx, controller->GetPortColor(led_idx));
         }
@@ -248,7 +248,7 @@ void RGBController_CMRGBController::ResizeZone(int /*zone*/, int /*new_size*/)
 
 void RGBController_CMRGBController::DeviceUpdateLEDs()
 {
-    for(size_t zone_idx = 0; zone_idx < zones.size(); zone_idx++)
+    for(int zone_idx = 0; zone_idx < (int)zones.size(); zone_idx++)
     {
         UpdateZoneLEDs(zone_idx);
     }
@@ -265,9 +265,9 @@ void RGBController_CMRGBController::UpdateSingleLED(int /*led*/)
 
 void RGBController_CMRGBController::SetCustomMode()
 {
-    for(std::size_t mode_idx = 0; mode_idx < modes.size() ; mode_idx++)
+    for(int mode_idx = 0; mode_idx < (int)modes.size() ; mode_idx++)
     {
-        if (modes[mode_idx].value == CM_RGBC_MODE_MULTIPLE)
+        if(modes[mode_idx].value == CM_RGBC_MODE_MULTIPLE)
         {
             active_mode = mode_idx;
             break;

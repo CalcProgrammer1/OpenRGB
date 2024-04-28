@@ -107,16 +107,16 @@ RGBController_CMMM711Controller::RGBController_CMMM711Controller(CMMM711Controll
 
     uint8_t temp_mode               = controller->GetMode();
 
-    for(std::size_t mode_index = 0; mode_index < modes.size(); mode_index++)
+    for(int mode_index = 0; mode_index < (int)modes.size(); mode_index++)
     {
-        if (modes[mode_index].value == temp_mode)
+        if(modes[mode_index].value == temp_mode)
         {
             active_mode             = mode_index;
             break;
         }
     }
 
-    if (modes[active_mode].color_mode == MODE_COLORS_MODE_SPECIFIC)
+    if(modes[active_mode].color_mode == MODE_COLORS_MODE_SPECIFIC)
     {
         modes[active_mode].colors[0] = ToRGBColor(controller->GetLedRed(),controller->GetLedGreen(),controller->GetLedBlue());
     }
@@ -184,9 +184,9 @@ void RGBController_CMMM711Controller::UpdateSingleLED(int /*led*/)
 
 void RGBController_CMMM711Controller::SetCustomMode()
 {
-    for(std::size_t mode_index = 0; mode_index < modes.size(); mode_index++)
+    for(int mode_index = 0; mode_index < (int)modes.size(); mode_index++)
     {
-        if (modes[mode_index].value == CM_MM711_MODE_CUSTOM)
+        if(modes[mode_index].value == CM_MM711_MODE_CUSTOM)
         {
             active_mode = mode_index;
             break;
@@ -198,9 +198,9 @@ void RGBController_CMMM711Controller::DeviceUpdateMode()
 {
     RGBColor colour = 0;
 
-    if (modes[active_mode].value != CM_MM711_MODE_CUSTOM)
+    if(modes[active_mode].value != CM_MM711_MODE_CUSTOM)
     {
-        if( modes[active_mode].color_mode == MODE_COLORS_MODE_SPECIFIC )
+        if(modes[active_mode].color_mode == MODE_COLORS_MODE_SPECIFIC )
         {
             colour = modes[active_mode].colors[0];
         }

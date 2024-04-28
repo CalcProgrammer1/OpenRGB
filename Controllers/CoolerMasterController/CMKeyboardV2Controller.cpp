@@ -258,7 +258,7 @@ void CMKeyboardV2Controller::SetLeds(std::vector<led> leds, std::vector<RGBColor
         data.clear();
         data.push_back(0x56);
         data.push_back(0x83);
-        data.push_back(i);
+        data.push_back((uint8_t)i);
         data.push_back(0x00);
 
         for(size_t j = 0; j < 60; j++)

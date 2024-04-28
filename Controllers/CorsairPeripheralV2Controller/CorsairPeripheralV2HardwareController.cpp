@@ -40,7 +40,7 @@ void CorsairPeripheralV2HWController::SetLedsDirect(std::vector<RGBColor *>color
 
 void CorsairPeripheralV2HWController::SetLedsDirectColourBlocks(std::vector<RGBColor *>colors)
 {
-    uint16_t count          = colors.size();
+    uint16_t count          = (uint16_t)colors.size();
     uint16_t green          = count;
     uint16_t blue           = (count * 2);
     uint16_t length         = (count * 3);
@@ -63,7 +63,7 @@ void CorsairPeripheralV2HWController::SetLedsDirectColourBlocks(std::vector<RGBC
 
 void CorsairPeripheralV2HWController::SetLedsDirectTriplets(std::vector<RGBColor *>colors)
 {
-    uint16_t count          = colors.size();
+    uint16_t count          = (uint16_t)colors.size();
     uint16_t length         = (count * 3)   + CORSAIR_V2HW_DATA_OFFSET;
     uint8_t* buffer         = new uint8_t[length];
 

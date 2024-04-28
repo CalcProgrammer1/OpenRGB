@@ -301,7 +301,7 @@ void AlienwareAW410KController::SendDirectOn
 void AlienwareAW410KController::SetMode
     (
     unsigned char   mode,
-    unsigned short  speed,
+    unsigned char   speed,
     unsigned char   direction,
     unsigned char   colorMode,
     unsigned char   red,
@@ -365,7 +365,7 @@ void AlienwareAW410KController::SendMode
     (
     unsigned char   /*zone*/,
     unsigned char   mode,
-    unsigned short  speed,
+    unsigned char   speed,
     unsigned char   direction,
     unsigned char   colorMode,
     unsigned char   red,
@@ -405,7 +405,7 @@ void AlienwareAW410KController::SendMode
 void AlienwareAW410KController::SetMorphMode
     (
     unsigned char   mode,
-    unsigned short  speed,
+    unsigned char   speed,
     unsigned char   red1,
     unsigned char   green1,
     unsigned char   blue1,

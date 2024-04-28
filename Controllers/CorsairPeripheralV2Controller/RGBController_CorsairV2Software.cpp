@@ -180,7 +180,7 @@ void RGBController_CorsairV2SW::SetupZones()
 
                     new_led.name                = new_zone.name + " ";
                     new_led.name.append(std::to_string( led_idx ));
-                    new_led.value               = leds.size();
+                    new_led.value               = (unsigned int)leds.size();
 
                     leds.push_back(new_led);
                 }

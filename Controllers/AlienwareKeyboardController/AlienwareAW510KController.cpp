@@ -215,7 +215,7 @@ void AlienwareAW510KController::SendDirectOn
     std::vector<SelectedKeys>     &frame_data
     )
 {
-    SendfeatureReport(0x0E, frame_data.size(), 0x00, 0x01);
+    SendfeatureReport(0x0E, (unsigned char)frame_data.size(), 0x00, 0x01);
 
     /*-----------------------------------------------*\
     | To Guarantee the data are always %4 =0 append   |
@@ -295,7 +295,7 @@ void AlienwareAW510KController::SendDirectOn
 void AlienwareAW510KController::SetMode
     (
     unsigned char   mode,
-    unsigned short  speed,
+    unsigned char   speed,
     unsigned char   direction,
     unsigned char   colorMode,
     unsigned char   red,
@@ -359,7 +359,7 @@ void AlienwareAW510KController::SendMode
     (
     unsigned char   /*zone*/,
     unsigned char   mode,
-    unsigned short  speed,
+    unsigned char   speed,
     unsigned char   direction,
     unsigned char   colorMode,
     unsigned char   red,
@@ -399,7 +399,7 @@ void AlienwareAW510KController::SendMode
 void AlienwareAW510KController::SetMorphMode
     (
     unsigned char   mode,
-    unsigned short  speed,
+    unsigned char   speed,
     unsigned char   red1,
     unsigned char   green1,
     unsigned char   blue1,

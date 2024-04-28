@@ -155,9 +155,9 @@ RGBController_CMSmallARGBController::RGBController_CMSmallARGBController(CMSmall
 
     int temp_mode               = controller->GetMode();
 
-    for(std::size_t mode_idx = 0; mode_idx < modes.size() ; mode_idx++)
+    for(int mode_idx = 0; mode_idx < (int)modes.size() ; mode_idx++)
     {
-        if (temp_mode == modes[mode_idx].value)
+        if(temp_mode == modes[mode_idx].value)
         {
             active_mode         = mode_idx;
             break;
@@ -259,7 +259,7 @@ void RGBController_CMSmallARGBController::ResizeZone(int zone, int new_size)
 
 void RGBController_CMSmallARGBController::DeviceUpdateLEDs()
 {
-    for(size_t zone_idx = 0; zone_idx < zones.size(); zone_idx++)
+    for(int zone_idx = 0; zone_idx < (int)zones.size(); zone_idx++)
     {
         UpdateZoneLEDs(zone_idx);
     }

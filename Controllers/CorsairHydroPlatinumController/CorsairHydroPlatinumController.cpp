@@ -112,17 +112,17 @@ std::string CorsairHydroPlatinumController::GetFirmwareString()
 
 void CorsairHydroPlatinumController::SetupColors(std::vector<RGBColor> colors)
 {
-    unsigned int end_led = colors.size() >= 20 ? 20 : colors.size();
+    unsigned int end_led = (colors.size() >= 20) ? 20 : (unsigned int)colors.size();
     SendColors(colors, 0, end_led, CORSAIR_HYDRO_PLATINUM_SET_LIGHTING_1);
 
     if(colors.size() > 20)
     {
-        end_led = colors.size() >= 40 ? 40 : colors.size();
+        end_led = (colors.size() >= 40) ? 40 : (unsigned int)colors.size();
         SendColors(colors, 20, end_led, CORSAIR_HYDRO_PLATINUM_SET_LIGHTING_2);
     }
     if(colors.size() > 40)
     {
-        end_led = colors.size() >= 48 ? 48 : colors.size();
+        end_led = (colors.size() >= 48) ? 48 : (unsigned int)colors.size();
         SendColors(colors, 40, end_led, CORSAIR_HYDRO_PLATINUM_SET_LIGHTING_3);
     }
 }

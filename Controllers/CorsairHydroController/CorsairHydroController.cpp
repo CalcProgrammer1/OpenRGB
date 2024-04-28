@@ -68,7 +68,7 @@ void CorsairHydroController::SetFixed
     /*-----------------------------------------------------*\
     | Fixed mode seems to just be shift mode with the same  |
     | value for both colors                                 |
-    \*-----------------------------------------------------*/    
+    \*-----------------------------------------------------*/
     SendApplyShift();
 }
 
@@ -208,7 +208,7 @@ void CorsairHydroController::SendColors
     | Set up Send Colors packet                             |
     \*-----------------------------------------------------*/
     usb_buf[0] = 0x56;
-    usb_buf[1] = colors.size();
+    usb_buf[1] = (unsigned char)colors.size();
 
     /*---------------------------------------------------------*\
     | Fill in colors from vector                                |
@@ -226,7 +226,7 @@ void CorsairHydroController::SendColors
         \*---------------------------------------------------------*/
         if((color_idx == 0) && colors.size() == 1)
         {
-            usb_buf[1]                   = colors.size() + 1;
+            usb_buf[1]                   = (unsigned char)colors.size() + 1;
             usb_buf[(color_idx * 3) + 5] = RGBGetRValue(colors[color_idx]);
             usb_buf[(color_idx * 3) + 6] = RGBGetGValue(colors[color_idx]);
             usb_buf[(color_idx * 3) + 7] = RGBGetBValue(colors[color_idx]);

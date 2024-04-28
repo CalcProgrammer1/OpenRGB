@@ -109,7 +109,7 @@ public:
     void        SetMode
                     (
                     unsigned char   mode,
-                    unsigned short  speed,
+                    unsigned char   speed,
                     unsigned char   direction,
                     unsigned char   colorMode,
                     unsigned char   red,
@@ -120,7 +120,7 @@ public:
     void        SetMorphMode
                     (
                     unsigned char   mode,
-                    unsigned short  speed,
+                    unsigned char   speed,
                     unsigned char   red1,
                     unsigned char   green1,
                     unsigned char   blue1,
@@ -145,7 +145,7 @@ private:
                     (
                     unsigned char   zone,
                     unsigned char   mode,
-                    unsigned short  speed,
+                    unsigned char   speed,
                     unsigned char   direction,
                     unsigned char   colorMode,
                     unsigned char   red,

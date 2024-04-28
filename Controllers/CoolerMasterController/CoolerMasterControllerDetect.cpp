@@ -85,7 +85,7 @@ void DetectCoolerMasterARGB(hid_device_info* info, const std::string&)
         \*-------------------------------------------------*/
         std::shared_ptr<std::mutex>       cm_mutex = std::make_shared<std::mutex>();
 
-        for(std::size_t i = 0; i < CM_ARGB_HEADER_DATA_SIZE; i++)
+        for(unsigned char i = 0; i < CM_ARGB_HEADER_DATA_SIZE; i++)
         {
             CMARGBController*               controller     = new CMARGBController(dev, info->path, i, cm_mutex);
             RGBController_CMARGBController* rgb_controller = new RGBController_CMARGBController(controller);

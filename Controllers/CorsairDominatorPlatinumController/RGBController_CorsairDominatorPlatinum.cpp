@@ -95,7 +95,7 @@ void RGBController_CorsairDominatorPlatinum::ResizeZone(int /*zone*/, int /*new_
 
 void RGBController_CorsairDominatorPlatinum::DeviceUpdateLEDs()
 {
-    for(std::size_t led = 0; led < colors.size(); led++)
+    for(unsigned int led = 0; led < (unsigned int)colors.size(); led++)
     {
         RGBColor color    = colors[led];
         unsigned char red = RGBGetRValue(color);

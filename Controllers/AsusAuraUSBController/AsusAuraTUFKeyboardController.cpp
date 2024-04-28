@@ -427,7 +427,7 @@ void AuraTUFKeyboardController::UpdateScopeIIRainbowRipple
             continue;
         }
 
-        usb_buf[5 + i * 4] = (100.0f / (float)colors.size() * (i + 1 + 6));
+        usb_buf[5 + i * 4] = (unsigned char)(100.0f / (float)colors.size() * (i + 1 + 6));
         usb_buf[6 + i * 4] = RGBGetRValue(colors[i + 6]);
         usb_buf[7 + i * 4] = RGBGetGValue(colors[i + 6]);
         usb_buf[8 + i * 4] = RGBGetBValue(colors[i + 6]);

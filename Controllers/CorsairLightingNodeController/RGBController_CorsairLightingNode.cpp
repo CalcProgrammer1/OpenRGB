@@ -297,7 +297,7 @@ void RGBController_CorsairLightingNode::ResizeZone(int zone, int new_size)
 
 void RGBController_CorsairLightingNode::DeviceUpdateLEDs()
 {
-    for(std::size_t zone_idx = 0; zone_idx < zones.size(); zone_idx++)
+    for(unsigned char zone_idx = 0; zone_idx < (unsigned char)zones.size(); zone_idx++)
     {
         controller->SetChannelLEDs(zone_idx, zones[zone_idx].colors, zones[zone_idx].leds_count);
     }
