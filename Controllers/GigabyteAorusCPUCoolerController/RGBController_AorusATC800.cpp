@@ -241,7 +241,7 @@ void RGBController_AorusATC800::DeviceUpdateLEDs()
 
 void RGBController_AorusATC800::UpdateZoneLEDs(int zone)
 {
-    mode_config zone_config;
+    aorus_atc800_mode_config zone_config;
 
     zone_config.colors[0] = colors[zone];
     zone_config.numberOfColors = (uint8_t)modes[active_mode].colors.size();

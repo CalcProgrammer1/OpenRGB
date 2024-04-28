@@ -73,7 +73,7 @@ void ATC800Controller::SendOk()
     hid_send_feature_report(dev, usb_buf, sizeof(usb_buf));
 }
 
-void ATC800Controller::SendCoolerMode(uint8_t zone, uint8_t mode, mode_config zone_config)
+void ATC800Controller::SendCoolerMode(uint8_t zone, uint8_t mode, aorus_atc800_mode_config zone_config)
 {
     switch (mode)
     {

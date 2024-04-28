@@ -14,7 +14,7 @@
 
 #pragma once
 
-struct mode_config
+struct aorus_atc800_mode_config
 {
     RGBColor    colors[8];
     uint8_t     numberOfColors;
@@ -71,7 +71,7 @@ public:
     void        SendOneColor(uint8_t color_flag, uint8_t red, uint8_t green, uint8_t blue);
     void        SendMultiColor(uint8_t flag, uint8_t mode, uint8_t red1, uint8_t green1, uint8_t blue1, uint8_t red2, uint8_t green2, uint8_t blue2);
     void        SendOk();
-    void        SendCoolerMode(uint8_t zone, uint8_t mode, mode_config zone_config);
+    void        SendCoolerMode(uint8_t zone, uint8_t mode, aorus_atc800_mode_config zone_config);
 
 private:
     hid_device*             dev;

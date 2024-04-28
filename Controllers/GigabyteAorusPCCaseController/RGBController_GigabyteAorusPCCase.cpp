@@ -164,7 +164,7 @@ void RGBController_GigabyteAorusPCCase::UpdateSingleLED(int /*led*/)
 
 void RGBController_GigabyteAorusPCCase::DeviceUpdateMode()
 {
-    mode_config zone_config;
+    aorus_pc_case_mode_config zone_config;
     zone_config.color       = 0x000000;
     zone_config.speed       = modes[active_mode].speed;
     zone_config.brightness  = modes[active_mode].brightness;

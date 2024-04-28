@@ -19,11 +19,11 @@
 #include <QMouseEvent>
 
 #define MAX_COLS    20
-#define PAD_LED     0.1
-#define PAD_TEXT    0.1
-#define PAD_ZONE    1.0
-#define PAD_SEGMENT 0.9
-#define SIZE_TEXT   0.5
+#define PAD_LED     0.1f
+#define PAD_TEXT    0.1f
+#define PAD_ZONE    1.0f
+#define PAD_SEGMENT 0.9f
+#define SIZE_TEXT   0.5f
 
 DeviceView::DeviceView(QWidget *parent) :
     QWidget(parent),
@@ -237,7 +237,7 @@ void DeviceView::InitDeviceView()
     /*-----------------------------------------------------*\
     | Set the size of the selection flags vector            |
     \*-----------------------------------------------------*/
-    selectionFlags.resize(controller->leds.size());
+    selectionFlags.resize((int)controller->leds.size());
 
     /*-----------------------------------------------------*\
     | Set the size of the zone and LED position vectors     |
@@ -251,7 +251,7 @@ void DeviceView::InitDeviceView()
     \*-----------------------------------------------------*/
     unsigned int maxWidth       = 0;
     unsigned int segment_count  = 0;
-    float        totalHeight    = 0;
+    float        totalHeight    = 0.0f;
 
     /*-----------------------------------------------------*\
     | Get device view settings                              |
@@ -330,7 +330,7 @@ void DeviceView::InitDeviceView()
         /*-----------------------------------------------------*\
         | Calculate zone label position and size                |
         \*-----------------------------------------------------*/
-        zone_pos[zone_idx].matrix_x = (maxWidth - zone_pos[zone_idx].matrix_w) / 2.0;
+        zone_pos[zone_idx].matrix_x = (maxWidth - zone_pos[zone_idx].matrix_w) / 2.0f;
         zone_pos[zone_idx].matrix_y = current_y + SIZE_TEXT;
         zone_pos[zone_idx].matrix_h = SIZE_TEXT - PAD_TEXT;
         current_y                  += PAD_ZONE;
@@ -357,8 +357,8 @@ void DeviceView::InitDeviceView()
                         /*-----------------------------------------------------*\
                         | LED is a 1x1 square, minus padding on all sides       |
                         \*-----------------------------------------------------*/
-                        led_pos[color_idx].matrix_w = (1 - (2 * PAD_LED));
-                        led_pos[color_idx].matrix_h = (1 - (2 * PAD_LED));
+                        led_pos[color_idx].matrix_w = (1.0f - (2.0f * PAD_LED));
+                        led_pos[color_idx].matrix_h = (1.0f - (2.0f * PAD_LED));
 
                         if(!disable_expansion)
                         {
@@ -389,7 +389,7 @@ void DeviceView::InitDeviceView()
                                  || ( controller->leds[color_idx].name == KEY_EN_BACKSPACE  )
                                  || ( controller->leds[color_idx].name == KEY_EN_NUMPAD_0   ) )
                                 {
-                                    led_pos[color_idx].matrix_w += 1;
+                                    led_pos[color_idx].matrix_w += 1.0f;
                                 }
                             }
                             if( ( controller->leds[color_idx].name == KEY_EN_NUMPAD_ENTER   )
@@ -397,25 +397,25 @@ void DeviceView::InitDeviceView()
                             {
                                 if(led_y < map->height - 1 && map->map[map_idx + map->width] == 0xFFFFFFFF)
                                 {
-                                    led_pos[color_idx].matrix_h += 1;
+                                    led_pos[color_idx].matrix_h += 1.0f;
                                 }
                                 /* TODO: check if there isn't another widened key above */
                                 else if(led_y > 0 && map->map[map_idx - map->width] == 0xFFFFFFFF)
                                 {
-                                    led_pos[color_idx].matrix_y -= 1;
-                                    led_pos[color_idx].matrix_h += 1;
+                                    led_pos[color_idx].matrix_y -= 1.0f;
+                                    led_pos[color_idx].matrix_h += 1.0f;
                                 }
                             }
                             else if(controller->leds[color_idx].name == KEY_EN_SPACE)
                             {
-                                for(unsigned int map_idx2 = map_idx - 1; map_idx2 > led_y * map->width && map->map[map_idx2] == 0xFFFFFFFF; --map_idx2)
+                                for(unsigned int map_idx2 = map_idx - 1; map_idx2 > led_y * map->width && map->map[map_idx2] == 0xFFFFFFFF; map_idx2--)
                                 {
-                                    led_pos[color_idx].matrix_x -= 1;
-                                    led_pos[color_idx].matrix_w += 1;
+                                    led_pos[color_idx].matrix_x -= 1.0f;
+                                    led_pos[color_idx].matrix_w += 1.0f;
                                 }
-                                for(unsigned int map_idx2 = map_idx + 1; map_idx2 < (led_y + 1) * map->width && map->map[map_idx2] == 0xFFFFFFFF; ++map_idx2)
+                                for(unsigned int map_idx2 = map_idx + 1; map_idx2 < (led_y + 1) * map->width && map->map[map_idx2] == 0xFFFFFFFF; map_idx2++)
                                 {
-                                    led_pos[color_idx].matrix_w += 1;
+                                    led_pos[color_idx].matrix_w += 1.0f;
                                 }
                             }
                         }
@@ -432,7 +432,7 @@ void DeviceView::InitDeviceView()
                 /*-----------------------------------------------------*\
                 | Calculate segment label position and size             |
                 \*-----------------------------------------------------*/
-                segment_pos[segment_count].matrix_x = (maxWidth - zone_pos[zone_idx].matrix_w) / 2.0;
+                segment_pos[segment_count].matrix_x = (maxWidth - zone_pos[zone_idx].matrix_w) / 2.0f;
                 segment_pos[segment_count].matrix_y = current_y + SIZE_TEXT;
                 segment_pos[segment_count].matrix_w = zone_pos[zone_idx].matrix_w;
                 segment_pos[segment_count].matrix_h = SIZE_TEXT - PAD_TEXT;
@@ -455,8 +455,8 @@ void DeviceView::InitDeviceView()
                     /*-----------------------------------------------------*\
                     | LED is a 1x1 square, minus padding on all sides       |
                     \*-----------------------------------------------------*/
-                    led_pos[led_pos_idx].matrix_w = (1 - (2 * PAD_LED));
-                    led_pos[led_pos_idx].matrix_h = (1 - (2 * PAD_LED));
+                    led_pos[led_pos_idx].matrix_w = (1.0f - (2.0f * PAD_LED));
+                    led_pos[led_pos_idx].matrix_h = (1.0f - (2.0f * PAD_LED));
                 }
 
                 current_y += (leds_count / MAX_COLS) + ((leds_count % MAX_COLS) > 0);
@@ -479,8 +479,8 @@ void DeviceView::InitDeviceView()
                 /*-----------------------------------------------------*\
                 | LED is a 1x1 square, minus padding on all sides       |
                 \*-----------------------------------------------------*/
-                led_pos[led_pos_idx].matrix_w = (1 - (2 * PAD_LED));
-                led_pos[led_pos_idx].matrix_h = (1 - (2 * PAD_LED));
+                led_pos[led_pos_idx].matrix_w = (1.0f - (2.0f * PAD_LED));
+                led_pos[led_pos_idx].matrix_h = (1.0f - (2.0f * PAD_LED));
             }
 
             current_y += (leds_count / MAX_COLS) + ((leds_count % MAX_COLS) > 0);
@@ -511,7 +511,7 @@ void DeviceView::InitDeviceView()
     | thing becomes too tall, we ignore it and let the view |
     | widget take care of it                                |
     \*-----------------------------------------------------*/
-    float atom = 1.0 / maxWidth;
+    float atom = 1.0f / maxWidth;
 
     for(std::size_t zone_idx = 0; zone_idx < zone_pos.size(); zone_idx++)
     {
@@ -620,7 +620,7 @@ void DeviceView::mouseMoveEvent(QMouseEvent *event)
             {
                 previousSelection.clear();
                 previousFlags.clear();
-                previousFlags.resize(controller->leds.size());
+                previousFlags.resize((int)controller->leds.size());
             }
             updateSelection();
         }
@@ -651,7 +651,7 @@ void DeviceView::mouseReleaseEvent(QMouseEvent* event)
 
             unsigned int segment_count = 0;
 
-            for(std::size_t zone_idx = 0; zone_idx < controller->zones.size(); zone_idx++)
+            for(int zone_idx = 0; zone_idx < controller->zones.size(); zone_idx++)
             {
                 int posx = zone_pos[zone_idx].matrix_x * size + offset_x + 12;
                 int posy = zone_pos[zone_idx].matrix_y * size;
@@ -665,7 +665,7 @@ void DeviceView::mouseReleaseEvent(QMouseEvent* event)
                     selectZone(zone_idx, ctrlDown);
                 }
 
-                for(std::size_t segment_idx = 0; segment_idx < controller->zones[zone_idx].segments.size(); segment_idx++)
+                for(int segment_idx = 0; segment_idx < controller->zones[zone_idx].segments.size(); segment_idx++)
                 {
                     posx = segment_pos[segment_count].matrix_x * size + offset_x + 12;
                     posy = segment_pos[segment_count].matrix_y * size;
@@ -724,7 +724,7 @@ void DeviceView::paintEvent(QPaintEvent* /* event */)
     /*-----------------------------------------------------*\
     | LED rectangles                                        |
     \*-----------------------------------------------------*/
-    for(std::size_t led_idx = 0; led_idx < controller->leds.size(); led_idx++)
+    for(int led_idx = 0; led_idx < controller->leds.size(); led_idx++)
     {
         int posx = led_pos[led_idx].matrix_x * size + offset_x;
         int posy = led_pos[led_idx].matrix_y * size;
@@ -844,12 +844,12 @@ void DeviceView::updateSelection()
 {
     selectedLeds.clear();
     selectionFlags.clear();
-    selectionFlags.resize(controller->leds.size());
+    selectionFlags.resize((int)controller->leds.size());
 
     QRect sel              = selectionRect.normalized();
     std::vector<led>& leds = controller->leds;
 
-    for(std::size_t led_idx = 0; led_idx < leds.size(); ++led_idx)
+    for(int led_idx = 0; led_idx < leds.size(); ++led_idx)
     {
         /*-----------------------------------------------------*\
         | Check intersection                                    |
@@ -896,7 +896,7 @@ bool DeviceView::selectLed(int target)
     selectedLeds.resize(1);
     selectedLeds[0] = target;
     selectionFlags.clear();
-    selectionFlags.resize(controller->leds.size());
+    selectionFlags.resize((int)controller->leds.size());
     selectionFlags[target] = 1;
 
     update();
@@ -920,7 +920,7 @@ bool DeviceView::selectLeds(QVector<int> target)
     }
 
     selectionFlags.clear();
-    selectionFlags.resize(controller->leds.size());
+    selectionFlags.resize((int)controller->leds.size());
 
     for(int item: target)
     {
@@ -968,13 +968,13 @@ bool DeviceView::selectSegment(int zone, int segment, bool add)
     {
         selectedLeds.clear();
         selectionFlags.clear();
-        selectionFlags.resize(controller->leds.size());
+        selectionFlags.resize((int)controller->leds.size());
     }
 
     int zoneStart = controller->zones[zone].start_idx;
     int segStart = controller->zones[zone].segments[segment].start_idx;
 
-    for(std::size_t led_idx = 0; led_idx < controller->zones[zone].segments[segment].leds_count; ++led_idx)
+    for(int led_idx = 0; led_idx < controller->zones[zone].segments[segment].leds_count; ++led_idx)
     {
         if(!selectionFlags[zoneStart + segStart + led_idx])
         {
@@ -1004,12 +1004,12 @@ bool DeviceView::selectZone(int zone, bool add)
     {
         selectedLeds.clear();
         selectionFlags.clear();
-        selectionFlags.resize(controller->leds.size());
+        selectionFlags.resize((int)controller->leds.size());
     }
 
     int zoneStart = controller->zones[zone].start_idx;
 
-    for(std::size_t led_idx = 0; led_idx < controller->zones[zone].leds_count; ++led_idx)
+    for(int led_idx = 0; led_idx < controller->zones[zone].leds_count; ++led_idx)
     {
         if(!selectionFlags[zoneStart + led_idx])
         {
@@ -1035,7 +1035,7 @@ void DeviceView::clearSelection()
     \*-----------------------------------------------------*/
     selectedLeds.clear();
     selectionFlags.clear();
-    selectionFlags.resize(controller->leds.size());
+    selectionFlags.resize((int)controller->leds.size());
 }
 
 void DeviceView::setSelectionColor(RGBColor color)

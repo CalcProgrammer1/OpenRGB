@@ -61,7 +61,7 @@ void GigabyteAorusPCCaseController::SendOk()
     hid_send_feature_report(dev, usb_buf, sizeof(usb_buf));
 }
 
-void GigabyteAorusPCCaseController::SetMode(uint8_t mode, mode_config zone_config)
+void GigabyteAorusPCCaseController::SetMode(uint8_t mode, aorus_pc_case_mode_config zone_config)
 {
     switch (mode)
     {

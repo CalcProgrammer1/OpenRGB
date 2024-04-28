@@ -27,7 +27,7 @@ DetectorTableModel::DetectorTableModel(QObject* parent) : QAbstractTableModel(pa
     /*-----------------------------------------------------*\
     | If settings contains the detectors list, fill in rows |
     \*-----------------------------------------------------*/
-    beginInsertRows(QModelIndex(), 0, detectors.size());
+    beginInsertRows(QModelIndex(), 0, (int)detectors.size());
     endInsertRows();
 }
 
@@ -36,7 +36,7 @@ int DetectorTableModel::columnCount(const QModelIndex&) const
     /*-----------------------------------------------------*\
     | The table has two columns - detector name and enable  |
     \*-----------------------------------------------------*/
-    return 2;
+    return(2);
 }
 
 int DetectorTableModel::rowCount(const QModelIndex&) const
@@ -44,7 +44,7 @@ int DetectorTableModel::rowCount(const QModelIndex&) const
     /*-----------------------------------------------------*\
     | The number of rows is equal to the number of detectors|
     \*-----------------------------------------------------*/
-    return detectors.size();
+    return((int)detectors.size());
 }
 
 QVariant DetectorTableModel::data(const QModelIndex& index, int role) const
@@ -58,21 +58,21 @@ QVariant DetectorTableModel::data(const QModelIndex& index, int role) const
             switch(index.column())
             {
                 case 0:
-                    return detectors[index.row()].key.c_str();
+                    return(detectors[index.row()].key.c_str());
                 case 1:
-                    return detectors[index.row()].value;
+                    return(detectors[index.row()].value);
             }
-            return QVariant();
+            return(QVariant());
 
         case Qt::CheckStateRole:
             switch(index.column())
             {
                 case 1:
-                    return 2 * detectors[index.row()].value;
+                    return(2 * detectors[index.row()].value);
             }
-            return QVariant();
+            return(QVariant());
     }
-    return QVariant();
+    return(QVariant());
 }
 
 bool DetectorTableModel::setData(const QModelIndex& index, const QVariant& value, int role)
@@ -85,7 +85,7 @@ bool DetectorTableModel::setData(const QModelIndex& index, const QVariant& value
         detectors[index.row()].value = value.toBool();
         emit dataChanged(index, index);
     }
-    return false;
+    return(false);
 }
 
 QVariant DetectorTableModel::headerData(int index, Qt::Orientation orientation, int role) const
@@ -95,19 +95,19 @@ QVariant DetectorTableModel::headerData(int index, Qt::Orientation orientation, 
         switch(orientation)
         {
             case Qt::Vertical:
-                return index + 1;
+                return(index + 1);
 
             case Qt::Horizontal:
                 switch(index)
                 {
                     case 0:
-                        return tr("Name");
+                        return(tr("Name"));
                     case 1:
-                        return tr("Enabled");
+                        return(tr("Enabled"));
                 }
         }
     }
-    return QVariant();
+    return(QVariant());
 }
 
 Qt::ItemFlags DetectorTableModel::flags(const QModelIndex& index) const
@@ -119,7 +119,7 @@ Qt::ItemFlags DetectorTableModel::flags(const QModelIndex& index) const
         fl |= Qt::ItemIsUserCheckable;
     }
 
-    return fl;
+    return(fl);
 }
 
 void DetectorTableModel::applySettings()

@@ -14,7 +14,7 @@
 
 #pragma once
 
-struct mode_config
+struct aorus_pc_case_mode_config
 {
     RGBColor    color;
     uint8_t     speed;
@@ -57,7 +57,7 @@ public:
     void            SendMode(uint8_t mode, uint8_t speed, uint8_t brightness);
     void            SendOk();
 
-    void            SetMode(uint8_t mode, mode_config zone_config);
+    void            SetMode(uint8_t mode, aorus_pc_case_mode_config zone_config);
 
 private:
     hid_device*     dev;
