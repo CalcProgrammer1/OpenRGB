@@ -249,11 +249,11 @@ void RGBController_AuraMousemat::DeviceUpdateMode()
                 }
                 else
                 {
-                    pattern = modes[active_mode].colors.size() - 1;
+                    pattern = (int)modes[active_mode].colors.size() - 1;
                 }
                 break;
             case AURA_MOUSEMAT_MODE_WAVE:
-                pattern = modes[active_mode].colors.size() * 16 + modes[active_mode].direction;
+                pattern = (int)modes[active_mode].colors.size() * 16 + modes[active_mode].direction;
                 break;
             case AURA_MOUSEMAT_MODE_WAVE_PLANE:
                 switch(modes[active_mode].direction)

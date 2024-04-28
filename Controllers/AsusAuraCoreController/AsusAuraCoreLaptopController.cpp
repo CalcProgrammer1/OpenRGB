@@ -169,14 +169,14 @@ void AsusAuraCoreLaptopController::SetLedsDirect(std::vector<RGBColor> colors)
 
     for(size_t i = 0; i < key_set; i+=leds_per_packet)
     {
-        uint8_t leds_remaining  = key_set - i;
+        uint8_t leds_remaining  = key_set - (uint8_t)i;
 
         if(leds_remaining < leds_per_packet)
         {
             buffer[07]          = leds_remaining;
         }
 
-        buffer[06]              = i;
+        buffer[06]              = (uint8_t)i;
         memcpy(&buffer[ASUSAURACORELAPTOP_DATA_BYTE], &key_buf[3 * i], (3 * buffer[07]));
 
         hid_send_feature_report(dev, buffer, ASUSAURACORELAPTOP_WRITE_PACKET_SIZE);

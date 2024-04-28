@@ -55,7 +55,7 @@ PolychromeUSBController::~PolychromeUSBController()
 
 unsigned int PolychromeUSBController::GetChannelCount()
 {
-    return(device_info.size());
+    return((unsigned int)device_info.size());
 }
 
 std::string PolychromeUSBController::GetDeviceLocation()
@@ -381,7 +381,7 @@ void PolychromeUSBController::WriteRGSwap
     bool chnl8
     )
 {
-    unsigned char rgconfig[1] = {static_cast<unsigned char>(((chnl8 << 7) | (pcb << 6) | (io << 5) | (pch << 4) | (ahdr1 << 3) | (ahdr0 << 2) | (hdr1 << 1) | hdr0))};
+    unsigned char rgconfig[1] = {static_cast<unsigned char>((((unsigned char)chnl8 << 7) | ((unsigned char)pcb << 6) | ((unsigned char)io << 5) | ((unsigned char)pch << 4) | ((unsigned char)ahdr1 << 3) | ((unsigned char)ahdr0 << 2) | ((unsigned char)hdr1 << 1) | (unsigned char)hdr0))};
     WriteHeader(POLYCHROME_USB_RGSWAP_CFG, rgconfig, 1);
 }
 

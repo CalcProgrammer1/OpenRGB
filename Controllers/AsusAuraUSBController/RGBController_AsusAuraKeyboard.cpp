@@ -514,7 +514,7 @@ void RGBController_AuraKeyboard::DeviceUpdateLEDs()
         frame_buf[(led_idx * 4) + 3] = RGBGetBValue(colors[led_idx]);
     }
 
-    controller->SendDirect(leds.size(), frame_buf.data());
+    controller->SendDirect((unsigned char)leds.size(), frame_buf.data());
 }
 
 void RGBController_AuraKeyboard::UpdateZoneLEDs(int /*zone*/)

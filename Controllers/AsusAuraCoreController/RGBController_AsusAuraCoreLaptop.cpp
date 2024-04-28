@@ -434,7 +434,7 @@ void RGBController_AsusAuraCoreLaptop::SetupZones()
     \*---------------------------------------------------------*/
     for(std::size_t zone_index = 0; zone_index < zones.size(); zone_index++)
     {
-        int zone_offset = leds.size();
+        int zone_offset = (int)leds.size();
 
         for(unsigned int led_index = 0; led_index < zones[zone_index].leds_count; led_index++)
         {

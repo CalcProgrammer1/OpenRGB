@@ -39,11 +39,13 @@ std::string AuraTUFKeyboardController::GetDeviceLocation()
 
 std::string clean_serial(const std::wstring& wstr)
 {
-    // Skip non-ASCII, trailing garbage in serial numbers. Required by the
-    // Scope II 96, whose original firmware outputs garbage, which even differs
-    // after computer reboots and therefore breaks OpenRGB profile matching.
+    /*-------------------------------------------------------------------------*\
+    | Skip non-ASCII, trailing garbage in serial numbers. Required by the       |
+    | Scope II 96, whose original firmware outputs garbage, which even differs  |
+    | after computer reboots and therefore breaks OpenRGB profile matching.     |
+    \*-------------------------------------------------------------------------*/
     std::string result;
-    for(auto c : wstr)
+    for(wchar_t c : wstr)
     {
         // Forbid control chars and anything above final printable low-ASCII.
         if(c < 32 || c > 126)
@@ -51,7 +53,7 @@ std::string clean_serial(const std::wstring& wstr)
             break;
         }
 
-        result += c;
+        result += (char)c;
     }
 
     return(result);
@@ -92,7 +94,7 @@ std::string AuraTUFKeyboardController::GetVersion()
         hid_read(dev, usb_buf_out, 65);
 
         char version[9];
-        
+
         switch(device_pid)
         {
             case AURA_ROG_AZOTH_USB_PID:
@@ -275,14 +277,14 @@ void AuraTUFKeyboardController::UpdateLeds
     std::vector<led_color>    colors
     )
 {
-    int packets = ceil((float) colors.size() / 15);
+    int packets = (int)ceil((float)colors.size() / 15.0f);
 
     for(int i = 0; i < packets; i++)
     {
         unsigned char usb_buf[65];
         memset(usb_buf, 0x00, sizeof(usb_buf));
 
-        int remaining = colors.size() - i * 15;
+        int remaining = (int)colors.size() - i * 15;
 
         int leds = (remaining > 0x0F) ? 0x0F : remaining;
 
@@ -375,12 +377,16 @@ void AuraTUFKeyboardController::UpdateScopeIIRainbowRipple
     usb_buf[0x07]   = color_mode;
     usb_buf[0x08]   = direction;
     usb_buf[0x09]   = 0x02;
-    usb_buf[0x0A]   = colors.size();
+    usb_buf[0x0A]   = (unsigned char)colors.size();
 
-    for(unsigned int i = 0; i < 2; i ++)
+    for(unsigned int i = 0; i < 2; i++)
     {
-        if (i >= colors.size()) continue;
-        usb_buf[11 + i * 4] = 100/(double)colors.size()*(i+1);
+        if(i >= colors.size())
+        {
+            continue;
+        }
+
+        usb_buf[11 + i * 4] = (unsigned char)(100.0f / (float)colors.size() * (i + 1));
         usb_buf[12 + i * 4] = RGBGetRValue(colors[i]);
         usb_buf[13 + i * 4] = RGBGetGValue(colors[i]);
         usb_buf[14 + i * 4] = RGBGetBValue(colors[i]);
@@ -394,13 +400,16 @@ void AuraTUFKeyboardController::UpdateScopeIIRainbowRipple
 
     usb_buf[0x04] = 0x01;
 
-    for(unsigned int i = 0; i < 4; i ++)
+    for(unsigned int i = 0; i < 4; i++)
     {
-        if (i + 2 >= colors.size()) continue;
-        usb_buf[5 + i * 4] = 100/(double)colors.size()*(i+1+2);
-        usb_buf[6 + i * 4] = RGBGetRValue(colors[i+2]);
-        usb_buf[7 + i * 4] = RGBGetGValue(colors[i+2]);
-        usb_buf[8 + i * 4] = RGBGetBValue(colors[i+2]);
+        if((i + 2) >= colors.size())
+        {
+            continue;
+        }
+        usb_buf[5 + i * 4] = (unsigned char)(100.0f / (float)colors.size() * (i + 1 + 2));
+        usb_buf[6 + i * 4] = RGBGetRValue(colors[i + 2]);
+        usb_buf[7 + i * 4] = RGBGetGValue(colors[i + 2]);
+        usb_buf[8 + i * 4] = RGBGetBValue(colors[i + 2]);
     }
 
     ClearResponses();
@@ -413,11 +422,15 @@ void AuraTUFKeyboardController::UpdateScopeIIRainbowRipple
 
     for(unsigned int i = 0; i < 1; i ++)
     {
-        if (i + 6 >= colors.size()) continue;
-        usb_buf[5 + i * 4] = 100/(double)colors.size()*(i+1+6);
-        usb_buf[6 + i * 4] = RGBGetRValue(colors[i+6]);
-        usb_buf[7 + i * 4] = RGBGetGValue(colors[i+6]);
-        usb_buf[8 + i * 4] = RGBGetBValue(colors[i+6]);
+        if((i + 6) >= colors.size())
+        {
+            continue;
+        }
+
+        usb_buf[5 + i * 4] = (100.0f / (float)colors.size() * (i + 1 + 6));
+        usb_buf[6 + i * 4] = RGBGetRValue(colors[i + 6]);
+        usb_buf[7 + i * 4] = RGBGetGValue(colors[i + 6]);
+        usb_buf[8 + i * 4] = RGBGetBValue(colors[i + 6]);
     }
 
     ClearResponses();
@@ -531,7 +544,7 @@ void AuraTUFKeyboardController::UpdateDevice
 
             if(mode == AURA_KEYBOARD_MODE_WAVE || mode == AURA_KEYBOARD_MODE_RIPPLE)
             {
-                usb_buf[0x0A]   = colors.size();
+                usb_buf[0x0A]   = (unsigned char)colors.size();
 
                 /*-----------------------------------------------------*\
                 | Loop over every color given                           |
@@ -540,7 +553,7 @@ void AuraTUFKeyboardController::UpdateDevice
                 {
                     if(colors[i])
                     {
-                        usb_buf[11 + i * 4] = 100/(double)colors.size()*(i+1);
+                        usb_buf[11 + i * 4] = (unsigned char)(100.0f / (float)colors.size() * (i + 1));
                         usb_buf[12 + i * 4] = RGBGetRValue(colors[i]);
                         usb_buf[13 + i * 4] = RGBGetGValue(colors[i]);
                         usb_buf[14 + i * 4] = RGBGetBValue(colors[i]);
@@ -561,7 +574,7 @@ void AuraTUFKeyboardController::UpdateDevice
                         usb_buf[12 + i * 3] = RGBGetBValue(colors[i]);
                     }
                 }
-                    
+
             }
         }
         else

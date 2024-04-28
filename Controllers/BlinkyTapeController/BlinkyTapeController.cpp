@@ -74,7 +74,7 @@ void BlinkyTapeController::SetLEDs(std::vector<RGBColor> colors)
     |   0-n: Data Byte (0-254)                                      |
     |   n+1: Packet End Byte (0xFF)                                 |
     \*-------------------------------------------------------------*/
-    const unsigned int payload_size     = (colors.size() * 3);
+    const unsigned int payload_size     = ((unsigned int)colors.size() * 3);
     const unsigned int packet_size      = payload_size + 1;
 
     std::vector<unsigned char> serial_buf(packet_size);

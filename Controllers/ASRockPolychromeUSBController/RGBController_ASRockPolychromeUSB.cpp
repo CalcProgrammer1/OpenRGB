@@ -293,7 +293,7 @@ void RGBController_PolychromeUSB::DeviceUpdateLEDs()
             set_mode = active_mode;
         }
 
-        controller->WriteZone(zone_idx, set_mode, zones_info[zone_idx].speed, zones[zone_idx].colors[0], false);
+        controller->WriteZone((unsigned char)zone_idx, set_mode, zones_info[zone_idx].speed, zones[zone_idx].colors[0], false);
     }
 }
 

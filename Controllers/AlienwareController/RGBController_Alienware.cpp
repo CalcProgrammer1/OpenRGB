@@ -213,7 +213,7 @@ void RGBController_Alienware::DeviceUpdateMode()
         /*-----------------------------------------------------*\
         | Setup state per zone                                  |
         \*-----------------------------------------------------*/
-        for(std::size_t zone_idx = 0; zone_idx < zones.size(); zone_idx++)
+        for(uint8_t zone_idx = 0; zone_idx < zones.size(); zone_idx++)
         {
             zone current_zone = zones[zone_idx];
 

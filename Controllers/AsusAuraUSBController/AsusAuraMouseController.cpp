@@ -31,7 +31,7 @@ std::string AuraMouseController::GetDeviceLocation()
 std::string AuraMouseController::CleanSerial(const std::wstring& wstr)
 {
     /*---------------------------------------------------------------*\
-    | Cleanes garbage at the end of serial numbers                    |
+    | Cleans garbage at the end of serial numbers                     |
     | (apparently 2 characters too much, but maybe variable)          |
     | Limited to new devices, old ones don't even have serial numbers |
     \*---------------------------------------------------------------*/
@@ -48,7 +48,7 @@ std::string AuraMouseController::CleanSerial(const std::wstring& wstr)
             break;
         }
 
-        result += c;
+        result += (char)c;
     }
 
     return(result);
@@ -162,7 +162,7 @@ void AuraMouseController::SendUpdate
     /*-----------------------------------------------------*\
     | Set up message packet                                 |
     \*-----------------------------------------------------*/
-    
+
     if (device_pid == AURA_ROG_GLADIUS_II_ORIGIN_PNK_LTD_PID)
     {
         // this device supports 2 color for breathing,

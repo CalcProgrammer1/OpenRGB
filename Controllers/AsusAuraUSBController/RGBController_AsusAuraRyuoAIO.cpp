@@ -12,7 +12,7 @@
 #include "RGBController_AsusAuraRyuoAIO.h"
 
 /**------------------------------------------------------------------*\
-    @name Asus Aura Ryuo AIO 
+    @name Asus Aura Ryuo AIO
     @type USB
     @save :white_check_mark:
     @direct :white_check_mark:
@@ -178,7 +178,7 @@ void RGBController_AsusAuraRyuoAIO::ResizeZone(int /*zone*/, int /*new_size*/)
 
 void RGBController_AsusAuraRyuoAIO::DeviceUpdateLEDs()
 {
-    for(std::size_t zone_idx = 0; zone_idx < zones.size(); zone_idx++)
+    for(int zone_idx = 0; zone_idx < zones.size(); zone_idx++)
     {
         UpdateZoneLEDs(zone_idx);
     }
@@ -203,16 +203,16 @@ void RGBController_AsusAuraRyuoAIO::DeviceUpdateMode()
 
 int RGBController_AsusAuraRyuoAIO::GetLED_Zone(int led_idx)
 {
-    for(size_t zone_idx = 0; zone_idx < zones.size(); zone_idx++)
+    for(int zone_idx = 0; zone_idx < zones.size(); zone_idx++)
     {
         int zone_start = zones[zone_idx].start_idx;
         int zone_end = zone_start + zones[zone_idx].leds_count - 1;
 
-        if( zone_start <= led_idx && zone_end >= led_idx)
+        if(zone_start <= led_idx && zone_end >= led_idx)
         {
             return(zone_idx);
         }
     }
 
-    return -1;
+    return(-1);
 }

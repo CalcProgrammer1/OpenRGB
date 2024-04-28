@@ -288,7 +288,7 @@ void RGBController_AOCKeyboard::SetupZones()
     | Create LEDs for the Matrix zone                           |
     |   Place keys in the layout to populate the matrix         |
     \*---------------------------------------------------------*/
-    for(size_t led_idx = 0; led_idx < new_zone.leds_count; led_idx++)
+    for(unsigned int led_idx = 0; led_idx < new_zone.leds_count; led_idx++)
     {
         led new_led;
 
@@ -298,8 +298,6 @@ void RGBController_AOCKeyboard::SetupZones()
     }
 
     zones.push_back(new_zone);
-
-
 
     SetupColors();
 }

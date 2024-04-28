@@ -974,7 +974,7 @@ bool DeviceView::selectSegment(int zone, int segment, bool add)
     int zoneStart = controller->zones[zone].start_idx;
     int segStart = controller->zones[zone].segments[segment].start_idx;
 
-    for(int led_idx = 0; led_idx < controller->zones[zone].segments[segment].leds_count; ++led_idx)
+    for(int led_idx = 0; led_idx < (int)controller->zones[zone].segments[segment].leds_count; led_idx++)
     {
         if(!selectionFlags[zoneStart + segStart + led_idx])
         {
@@ -1009,7 +1009,7 @@ bool DeviceView::selectZone(int zone, bool add)
 
     int zoneStart = controller->zones[zone].start_idx;
 
-    for(int led_idx = 0; led_idx < controller->zones[zone].leds_count; ++led_idx)
+    for(int led_idx = 0; led_idx < (int)controller->zones[zone].leds_count; led_idx++)
     {
         if(!selectionFlags[zoneStart + led_idx])
         {

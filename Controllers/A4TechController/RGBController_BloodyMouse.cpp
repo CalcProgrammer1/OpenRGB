@@ -125,7 +125,7 @@ void RGBController_BloodyMouse::SetupZones()
 
         zone new_zone;
         new_zone.name           = mz.name;
-        new_zone.leds_min       = mz.zone_leds.size();
+        new_zone.leds_min       = (unsigned int)mz.zone_leds.size();
         new_zone.leds_max       = new_zone.leds_min;
         new_zone.leds_count     = new_zone.leds_min;
         new_zone.type           = bool_single ? ZONE_TYPE_SINGLE : ZONE_TYPE_LINEAR;

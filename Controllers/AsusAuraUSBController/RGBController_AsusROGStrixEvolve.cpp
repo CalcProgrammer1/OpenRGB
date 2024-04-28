@@ -118,7 +118,7 @@ void RGBController_AsusROGStrixEvolve::UpdateZoneLEDs(int zone)
     UpdateSingleLED(zone);
 }
 
-void RGBController_AsusROGStrixEvolve::UpdateSingleLED(int led)
+void RGBController_AsusROGStrixEvolve::UpdateSingleLED(int /*led*/)
 {
     controller->SendUpdate(0x1C, RGBGetRValue(colors[0]));
     controller->SendUpdate(0x1D, RGBGetGValue(colors[0]));

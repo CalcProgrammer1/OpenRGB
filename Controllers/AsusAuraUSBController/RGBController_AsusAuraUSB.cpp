@@ -223,7 +223,7 @@ void RGBController_AuraUSB::DeviceUpdateLEDs()
     }
     for(std::size_t zone_idx = 0; zone_idx < zones.size(); zone_idx++)
     {
-        controller->SetChannelLEDs(zone_idx, zones[zone_idx].colors, zones[zone_idx].leds_count);
+        controller->SetChannelLEDs((unsigned char)zone_idx, zones[zone_idx].colors, zones[zone_idx].leds_count);
     }
 }
 

@@ -47,7 +47,7 @@ std::string AlienwareAW410KController::GetSerialString()
 
 void AlienwareAW410KController::SendCommit()
 {
-    char usb_buf[65];
+    unsigned char usb_buf[65];
 
     /*-----------------------------------------------------*\
     | Zero out buffer                                       |
@@ -69,14 +69,13 @@ void AlienwareAW410KController::SendCommit()
     /*-----------------------------------------------------*\
     | Send packet                                           |
     \*-----------------------------------------------------*/
-    hid_write(dev, (unsigned char *)usb_buf, 65);
+    hid_write(dev, usb_buf, 65);
 
     /*-----------------------------------------------------*\
     | Delay 20 milliseconds                                 |
     \*-----------------------------------------------------*/
     std::this_thread::sleep_for(std::chrono::milliseconds(20));
 }
-
 
 void AlienwareAW410KController::SendfeatureReport
     (
@@ -86,7 +85,7 @@ void AlienwareAW410KController::SendfeatureReport
     unsigned char   forth_byte
     )
 {
-    char usb_buf[65];
+    unsigned char usb_buf[65];
 
     /*-----------------------------------------------------*\
     | Zero out buffer                                       |
@@ -105,7 +104,7 @@ void AlienwareAW410KController::SendfeatureReport
     /*-----------------------------------------------------*\
     | Send Feature report packet                            |
     \*-----------------------------------------------------*/
-    hid_send_feature_report(dev, (unsigned char *)usb_buf, 65);
+    hid_send_feature_report(dev, usb_buf, 65);
 
     /*-----------------------------------------------------*\
     | Delay 10 milliseconds                                 |
@@ -115,7 +114,7 @@ void AlienwareAW410KController::SendfeatureReport
 
 void AlienwareAW410KController::SendEdit()
 {
-    char usb_buf[65];
+    unsigned char usb_buf[65];
 
     /*-----------------------------------------------------*\
     | Zero out buffer                                       |
@@ -133,7 +132,7 @@ void AlienwareAW410KController::SendEdit()
     /*-----------------------------------------------------*\
     | Send packet                                           |
     \*-----------------------------------------------------*/
-    hid_write(dev, (unsigned char *)usb_buf, 65);
+    hid_write(dev, usb_buf, 65);
 
     /*-----------------------------------------------------*\
     | Delay 2 milliseconds                                  |
@@ -143,7 +142,7 @@ void AlienwareAW410KController::SendEdit()
 
 void AlienwareAW410KController::SendInitialize()
 {
-    char usb_buf[65];
+    unsigned char usb_buf[65];
 
     /*-----------------------------------------------------*\
     | Zero out buffer                                       |
@@ -168,7 +167,7 @@ void AlienwareAW410KController::SendInitialize()
     /*-----------------------------------------------------*\
     | Send packet                                           |
     \*-----------------------------------------------------*/
-    hid_write(dev, (unsigned char *)usb_buf, 65);
+    hid_write(dev, usb_buf, 65);
 
     /*-----------------------------------------------------*\
     | Delay 2 milliseconds                                  |
@@ -222,7 +221,7 @@ void AlienwareAW410KController::SendDirectOn
     std::vector<SelectedButtons>     &frame_data
     )
 {
-    SendfeatureReport(0x0E, frame_data.size(), 0x00, 0x01);
+    SendfeatureReport(0x0E, (unsigned char)frame_data.size(), 0x00, 0x01);
 
     /*-----------------------------------------------*\
     | To Guarantee the data are always %4 =0 append   |
@@ -324,7 +323,7 @@ void AlienwareAW410KController::UpdateSingleLED
 {
     SendfeatureReport(0x0E, 0x01, 0x00, 0x01);
 
-    char usb_buf[65];
+    unsigned char usb_buf[65];
 
     /*-----------------------------------------------------*\
     | Zero out buffer                                       |
@@ -354,7 +353,7 @@ void AlienwareAW410KController::UpdateSingleLED
     /*-----------------------------------------------------*\
     | Send packet                                           |
     \*-----------------------------------------------------*/
-    hid_write(dev, (unsigned char *)usb_buf, 65);
+    hid_write(dev, usb_buf, 65);
 
     /*-----------------------------------------------------*\
     | Delay 20 milliseconds                                 |
@@ -374,7 +373,7 @@ void AlienwareAW410KController::SendMode
     unsigned char   blue
     )
 {
-    char usb_buf[65];
+    unsigned char usb_buf[65];
 
     /*-----------------------------------------------------*\
     | Zero out buffer                                       |
@@ -400,7 +399,7 @@ void AlienwareAW410KController::SendMode
     /*-----------------------------------------------------*\
     | Send packet                                           |
     \*-----------------------------------------------------*/
-    hid_write(dev, (unsigned char *)usb_buf, 65);
+    hid_write(dev, usb_buf, 65);
 }
 
 void AlienwareAW410KController::SetMorphMode
@@ -415,7 +414,7 @@ void AlienwareAW410KController::SetMorphMode
     unsigned char   blue2
     )
 {
-    char usb_buf[65];
+    unsigned char usb_buf[65];
 
     /*-----------------------------------------------------*\
     | Zero out buffer                                       |
@@ -444,5 +443,5 @@ void AlienwareAW410KController::SetMorphMode
     /*-----------------------------------------------------*\
     | Send packet                                           |
     \*-----------------------------------------------------*/
-    hid_write(dev, (unsigned char *)usb_buf, 65);
+    hid_write(dev, usb_buf, 65);
 }

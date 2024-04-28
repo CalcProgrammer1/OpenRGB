@@ -195,9 +195,9 @@ void RGBController_AsusSagarisKeyboard::UpdateZoneLEDs(int /*zone*/)
 
 }
 
-void RGBController_AsusSagarisKeyboard::UpdateSingleLED(int led)
+void RGBController_AsusSagarisKeyboard::UpdateSingleLED(int /*led*/)
 {
-    
+
 }
 
 void RGBController_AsusSagarisKeyboard::DeviceUpdateMode()
