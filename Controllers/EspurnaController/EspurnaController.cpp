@@ -26,9 +26,9 @@ void EspurnaController::Initialize(char* ledstring)
     LPSTR   source = NULL;
     LPSTR   udpport_baud = NULL;
     LPSTR   next = NULL;
-    
+
     source = strtok_s(ledstring, ",", &next);
-    
+
     //Check for either the UDP port or the serial baud rate
     if (strlen(next))
     {
@@ -68,7 +68,7 @@ void EspurnaController::SetLEDs(std::vector<RGBColor> colors)
         char get_request[1024];
         snprintf(get_request, 1024, "GET /api/rgb?apikey=%s&value=%%23%02X%02X%02X HTTP/1.1\r\nHost: %s\r\n\r\n", espurna_apikey, RGBGetRValue(color), RGBGetGValue(color), RGBGetBValue(color), client_name.c_str());
         tcpport->tcp_client_connect();
-        tcpport->tcp_client_write(get_request, strlen(get_request));
+        tcpport->tcp_client_write(get_request, (int)strlen(get_request));
         tcpport->tcp_close();
     }
 }

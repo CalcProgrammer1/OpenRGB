@@ -48,7 +48,7 @@ int Search(wchar_t *dev_name)
             return 1;
         }
 
-        i += wcslen(buff + i);
+        i += (int)wcslen(buff + i);
     }
 
     return 0;

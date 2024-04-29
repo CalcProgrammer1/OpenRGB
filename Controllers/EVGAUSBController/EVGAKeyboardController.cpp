@@ -248,7 +248,7 @@ void EVGAKeyboardController::SendColour(uint8_t mode, uint16_t speed, uint8_t br
     | Static, Breathing and Star modes have fixed colour sizes          |
     |   buffer[26] will be overwritten for these modes                  |
     \*-----------------------------------------------------------------*/
-    buffer[EVGA_KB_COLORS_SZ]   = colors.size();
+    buffer[EVGA_KB_COLORS_SZ]   = (uint8_t)colors.size();
 
     switch(mode)
     {
@@ -259,7 +259,7 @@ void EVGAKeyboardController::SendColour(uint8_t mode, uint16_t speed, uint8_t br
         case EVGA_KEYBOARD_CONTROLLER_MODE_BREATHING:
             for(size_t i = 0; i < colors.size(); i++)
             {
-                uint8_t offset      = 26 + (i * 5);
+                uint8_t offset      = (uint8_t)(26 + (i * 5));
 
                 buffer[offset + 0]  = 0x0A;
                 buffer[offset + 1]  = brightness;
@@ -316,7 +316,7 @@ void EVGAKeyboardController::FillColours(uint8_t * buffer, uint8_t brightness, s
 {
     for(size_t i = 0; i < colors.size(); i++)
     {
-        uint8_t offset      = (i * 4);
+        uint8_t offset      = (uint8_t)(i * 4);
 
         buffer[offset + 0]  = brightness;
         buffer[offset + 1]  = RGBGetRValue(colors[i]);
@@ -365,7 +365,7 @@ uint8_t EVGAKeyboardController::FindColours(uint8_t * data, uint8_t count, std::
 
     for(size_t i = 0; i < count; i++)
     {
-        uint8_t offset = (i * 4);
+        uint8_t offset = (uint8_t)(i * 4);
 
         colors.push_back(ToRGBColor(data[offset + 1],data[offset + 2],data[offset + 3]));
     }

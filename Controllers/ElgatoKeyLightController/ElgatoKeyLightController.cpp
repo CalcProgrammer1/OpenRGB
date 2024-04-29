@@ -59,7 +59,7 @@ void ElgatoKeyLightController::SetColor(hsv_t hsv_color)
 
     port.tcp_client_connect();
     std::string buf = GetRequest(hsv_color.value, k_value);
-    port.tcp_client_write((char *)buf.c_str(), buf.length() + 1);
+    port.tcp_client_write((char *)buf.c_str(), (int)buf.length() + 1);
 
     port.tcp_close();
 }

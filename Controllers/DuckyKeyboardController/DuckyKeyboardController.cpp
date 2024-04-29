@@ -74,7 +74,7 @@ void DuckyKeyboardController::SendColors
 
 void DuckyKeyboardController::SendInitialize()
 {
-    char usb_buf[65];
+    unsigned char usb_buf[65];
 
     /*-----------------------------------------------------*\
     | Zero out buffer                                       |
@@ -91,13 +91,13 @@ void DuckyKeyboardController::SendInitialize()
     /*-----------------------------------------------------*\
     | Send packet                                           |
     \*-----------------------------------------------------*/
-    hid_write(dev, (unsigned char *)usb_buf, 65);
+    hid_write(dev, usb_buf, 65);
     std::this_thread::sleep_for(std::chrono::milliseconds(2));
 }
 
 void DuckyKeyboardController::SendInitializeColorPacket()
 {
-    char usb_buf[65];
+    unsigned char usb_buf[65];
 
     /*-----------------------------------------------------*\
     | Zero out buffer                                       |
@@ -120,7 +120,7 @@ void DuckyKeyboardController::SendInitializeColorPacket()
     /*-----------------------------------------------------*\
     | Send packet                                           |
     \*-----------------------------------------------------*/
-    hid_write(dev, (unsigned char *)usb_buf, 65);
+    hid_write(dev, usb_buf, 65);
     std::this_thread::sleep_for(std::chrono::milliseconds(2));
 }
 
@@ -132,7 +132,7 @@ unsigned int DuckyKeyboardController::SendColorDataPacket
     )
 {
     unsigned int bytes_sent;
-    char usb_buf[65];
+    unsigned char usb_buf[65];
 
     /*-----------------------------------------------------*\
     | Zero out buffer                                       |
@@ -188,7 +188,7 @@ unsigned int DuckyKeyboardController::SendColorDataPacket
     /*-----------------------------------------------------*\
     | Send packet                                           |
     \*-----------------------------------------------------*/
-    hid_write(dev, (unsigned char *)usb_buf, 65);
+    hid_write(dev, usb_buf, 65);
     std::this_thread::sleep_for(std::chrono::milliseconds(2));
 
     return(bytes_sent);
@@ -196,7 +196,7 @@ unsigned int DuckyKeyboardController::SendColorDataPacket
 
 void DuckyKeyboardController::SendTerminateColorPacket()
 {
-    char usb_buf[65];
+    unsigned char usb_buf[65];
 
     /*-----------------------------------------------------*\
     | Zero out buffer                                       |
@@ -214,6 +214,6 @@ void DuckyKeyboardController::SendTerminateColorPacket()
     /*-----------------------------------------------------*\
     | Send packet                                           |
     \*-----------------------------------------------------*/
-    hid_write(dev, (unsigned char *)usb_buf, 65);
+    hid_write(dev, usb_buf, 65);
     std::this_thread::sleep_for(std::chrono::milliseconds(2));
 }

@@ -97,7 +97,7 @@ void CorsairWirelessController::SetName(std::string device_name)
 
 void CorsairWirelessController::EnterDirectMode()
 {
-    char usb_buf[65];
+    unsigned char usb_buf[65];
 
     /*-----------------------------------------------------*\
     | Zero out buffer                                       |
@@ -118,13 +118,13 @@ void CorsairWirelessController::EnterDirectMode()
     | Send packet using feature reports, as headset stand   |
     | seems to not update completely using HID writes       |
     \*-----------------------------------------------------*/
-    hid_write(dev, (unsigned char *)usb_buf, 65);
+    hid_write(dev, usb_buf, 65);
 
 }
 
 void CorsairWirelessController::StartDirectMode()
 {
-    char usb_buf[65];
+    unsigned char usb_buf[65];
 
     /*-----------------------------------------------------*\
     | Zero out buffer                                       |
@@ -144,13 +144,13 @@ void CorsairWirelessController::StartDirectMode()
     | Send packet using feature reports, as headset stand   |
     | seems to not update completely using HID writes       |
     \*-----------------------------------------------------*/
-    hid_write(dev, (unsigned char *)usb_buf, 65);
+    hid_write(dev, usb_buf, 65);
 
 }
 
 void CorsairWirelessController::ExitDirectMode()
 {
-    char usb_buf[65];
+    unsigned char usb_buf[65];
 
     /*-----------------------------------------------------*\
     | Zero out buffer                                       |
@@ -171,13 +171,13 @@ void CorsairWirelessController::ExitDirectMode()
     | Send packet using feature reports, as headset stand   |
     | seems to not update completely using HID writes       |
     \*-----------------------------------------------------*/
-    hid_write(dev, (unsigned char *)usb_buf, 65);
+    hid_write(dev, usb_buf, 65);
 
 }
 
 void CorsairWirelessController::SendDirectFrame(bool first_frame, unsigned char* data)
 {
-    char usb_buf[65];
+    unsigned char usb_buf[65];
 
     /*-----------------------------------------------------*\
     | Zero out buffer                                       |
@@ -214,5 +214,5 @@ void CorsairWirelessController::SendDirectFrame(bool first_frame, unsigned char*
     | Send packet using feature reports, as headset stand   |
     | seems to not update completely using HID writes       |
     \*-----------------------------------------------------*/
-    hid_write(dev, (unsigned char *)usb_buf, 65);
+    hid_write(dev, usb_buf, 65);
 }

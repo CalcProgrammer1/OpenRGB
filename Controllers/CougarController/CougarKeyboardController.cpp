@@ -137,11 +137,11 @@ void CougarKeyboardController::SetMode(uint8_t mode, uint8_t speed, uint8_t brig
         case COUGARKEYBOARDCONTROLLER_MODE_RIPPLE:
         case COUGARKEYBOARDCONTROLLER_MODE_SCAN:
             {
-                uint8_t count                                   = colours.size();
+                uint8_t count                                   = (uint8_t)colours.size();
                 uint8_t timer                                   = 100 / count;
                 buffer[COUGARKEYBOARDCONTROLLER_DATA_BYTE + 1]  = count;
 
-                for(size_t i = 0; i < count; i++)
+                for(uint8_t i = 0; i < count; i++)
                 {
                     uint8_t offset                              = 11 + (i * 4);
 
@@ -169,7 +169,7 @@ void CougarKeyboardController::SetMode(uint8_t mode, uint8_t speed, uint8_t brig
 void  CougarKeyboardController::SetLedsDirect(std::vector<RGBColor> colours)
 {
     uint8_t max_leds                                            = 14;
-    uint8_t leds_remaining                                      = colours.size();
+    uint8_t leds_remaining                                      = (uint8_t)colours.size();
     uint8_t packet_flag                                         = COUGARKEYBOARDCONTROLLER_DIRECTION_BYTE;
     uint8_t buffer[COUGARKEYBOARDCONTROLLER_WRITE_PACKET_SIZE]  = { 0x00, 0x14, 0x2C, 0x0B, 0x00, 0xFF, 0x64, 0x00, 0x01 };
 
@@ -177,7 +177,7 @@ void  CougarKeyboardController::SetLedsDirect(std::vector<RGBColor> colours)
     | Set up Direct packet                                              |
     |   keyvalue_map is the index of the Key from full_matrix_map       |
     \*-----------------------------------------------------------------*/
-    for(size_t leds2send = 0; leds2send < leds_remaining; leds2send += max_leds)
+    for(uint8_t leds2send = 0; leds2send < leds_remaining; leds2send += max_leds)
     {
         /*-----------------------------------------------------------------*\
         | Check if there is enough leds for another pass                    |
@@ -192,7 +192,7 @@ void  CougarKeyboardController::SetLedsDirect(std::vector<RGBColor> colours)
             buffer[packet_flag] = 3;
         }
 
-        for(size_t i = 0; i < max_leds; i++)
+        for(uint8_t i = 0; i < max_leds; i++)
         {
             uint8_t offset      = COUGARKEYBOARDCONTROLLER_DATA_BYTE + (i * 4);
             uint8_t led_num     = leds2send + i;

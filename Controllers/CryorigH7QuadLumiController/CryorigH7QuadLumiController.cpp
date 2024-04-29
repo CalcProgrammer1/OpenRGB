@@ -79,12 +79,12 @@ void CryorigH7QuadLumiController::SetChannelEffect
     \*-----------------------------------------------------*/
     else if(num_colors <= 8)
     {
-        for(std::size_t color_idx = 0; color_idx < num_colors; color_idx++)
+        for(unsigned int color_idx = 0; color_idx < num_colors; color_idx++)
         {
             /*-----------------------------------------------------*\
             | Fill in color data (5 entries per color)              |
             \*-----------------------------------------------------*/
-            for (std::size_t idx = 0; idx < 40; idx++)
+            for(int idx = 0; idx < 40; idx++)
             {
                 int pixel_idx = idx * 3;
                 RGBColor color = colors[color_idx];
@@ -96,7 +96,7 @@ void CryorigH7QuadLumiController::SetChannelEffect
             /*-----------------------------------------------------*\
             | Send mode and color data                              |
             \*-----------------------------------------------------*/
-            SendPacket(channel, mode, direction, color_idx, speed, 5, &color_data[0]);
+            SendPacket(channel, mode, direction, (unsigned char)color_idx, speed, 5, &color_data[0]);
         }
     }
     /*-----------------------------------------------------*\
@@ -107,7 +107,7 @@ void CryorigH7QuadLumiController::SetChannelEffect
         /*-----------------------------------------------------*\
         | Fill in color data (up to 40 colors)                  |
         \*-----------------------------------------------------*/
-        for (std::size_t idx = 0; idx < num_colors; idx++)
+        for(int idx = 0; idx < num_colors; idx++)
         {
             int pixel_idx = idx * 3;
             RGBColor color = colors[idx];
@@ -135,7 +135,7 @@ void CryorigH7QuadLumiController::SetChannelLEDs
     /*-----------------------------------------------------*\
     | Fill in color data (up to 40 colors)                  |
     \*-----------------------------------------------------*/
-    for (std::size_t idx = 0; idx < num_colors; idx++)
+    for(int idx = 0; idx < num_colors; idx++)
     {
         int pixel_idx = idx * 3;
         RGBColor color = colors[idx];

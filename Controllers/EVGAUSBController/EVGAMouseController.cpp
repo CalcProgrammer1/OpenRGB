@@ -207,7 +207,7 @@ void EVGAMouseController::SetLed(uint8_t index, uint8_t brightness, uint8_t spee
     /*-----------------------------------------------------------------------*\
     | 7 is the maximum number of colors that can be set from the vendor's UI. |
     \*-----------------------------------------------------------------------*/
-    unsigned char color_count                   = std::min(colors.size(), static_cast<std::vector<RGBColor>::size_type>(7));
+    unsigned char color_count                   = (unsigned char)std::min(colors.size(), static_cast<std::vector<RGBColor>::size_type>(7));
     buffer[EVGA_PERIPHERAL_COLOR_COUNT_BYTE]    = color_count;
     for(unsigned char i = 0; i < color_count; i++)
     {

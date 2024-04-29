@@ -133,15 +133,15 @@ RGBController_EVGAGPUv2::~RGBController_EVGAGPUv2()
 
 int RGBController_EVGAGPUv2::getModeIndex(unsigned char mode_value)
 {
-    for(std::size_t mode_index = 0; mode_index < modes.size(); mode_index++)
+    for(int mode_index = 0; mode_index < (int)modes.size(); mode_index++)
     {
-        if (modes[mode_index].value == mode_value)
+        if(modes[mode_index].value == mode_value)
         {
-            return mode_index;
+            return(mode_index);
         }
     }
 
-    return 0;
+    return(0);
 }
 
 void RGBController_EVGAGPUv2::SetupZones()

@@ -311,7 +311,6 @@ void DetectDebugControllers()
                 std::vector<keyboard_led> change;
                 const char* change_keys = "change_keys";
 
-                const char* ins_key     = "ins_key";
                 const char* ins_row     = "ins_row";
                 const char* rmv_key     = "rmv_key";
                 const char* rmv_row     = "rmv_row";
@@ -402,7 +401,7 @@ void DetectDebugControllers()
 
                 dummy_keyboard->zones.push_back(dummy_keyboard_matrix_zone);
 
-                for(std::size_t led_idx = 0; led_idx < dummy_keyboard_matrix_zone.leds_count; led_idx++)
+                for(unsigned int led_idx = 0; led_idx < dummy_keyboard_matrix_zone.leds_count; led_idx++)
                 {
                     led dummy_keyboard_led;
                     dummy_keyboard_led.name = new_kb.GetKeyNameAt(led_idx);

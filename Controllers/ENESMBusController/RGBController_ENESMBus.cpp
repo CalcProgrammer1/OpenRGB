@@ -235,7 +235,7 @@ int RGBController_ENESMBus::GetDeviceMode()
             break;
     }
 
-    for(std::size_t mode = 0; mode < modes.size(); mode++)
+    for(int mode = 0; mode < (int)modes.size(); mode++)
     {
         if(modes[mode].value == dev_mode)
         {
@@ -342,7 +342,7 @@ void RGBController_ENESMBus::SetupZones()
     | Search through all LEDs and create zones for each channel |
     | type                                                      |
     \*---------------------------------------------------------*/
-    for(std::size_t cfg_zone_idx = 0; cfg_zone_idx < ENE_NUM_ZONES; cfg_zone_idx++)
+    for(unsigned int cfg_zone_idx = 0; cfg_zone_idx < ENE_NUM_ZONES; cfg_zone_idx++)
     {
         /*---------------------------------------------------------*\
         | Get the number of LEDs in the zone                        |
@@ -423,7 +423,7 @@ void RGBController_ENESMBus::SetupZones()
     /*---------------------------------------------------------*\
     | Create LED entries for each zone                          |
     \*---------------------------------------------------------*/
-    std::size_t led_idx = 0;
+    unsigned int led_idx = 0;
     for(std::size_t zone_idx = 0; zone_idx < zones.size(); zone_idx++)
     {
         for(std::size_t zone_led_idx = 0; zone_led_idx < zones[zone_idx].leds_count; zone_led_idx++)

@@ -29,7 +29,7 @@ DasKeyboardController::~DasKeyboardController()
 
 std::string DasKeyboardController::GetDeviceLocation()
 {
-    return "HID: " + location;
+    return("HID: " + location);
 }
 
 std::string DasKeyboardController::GetSerialString()
@@ -49,14 +49,14 @@ std::string DasKeyboardController::GetSerialString()
         return_string = version;
     }
 
-    return return_string;
+    return(return_string);
 }
 
 std::string DasKeyboardController::GetVersionString()
 {
     if(version.length() < 17)
     {
-        return version;
+        return(version);
     }
 
     std::string fw_version  = "V";
@@ -65,7 +65,7 @@ std::string DasKeyboardController::GetVersionString()
     fw_version             += version.substr(15, 2);
     fw_version             += ".0";
 
-    return fw_version;
+    return(fw_version);
 }
 
 std::string DasKeyboardController::GetLayoutString()
@@ -76,16 +76,16 @@ std::string DasKeyboardController::GetLayoutString()
     \*-----------------------------------------------------*/
     if(version.length() < 17)
     {
-        return "NONE";
+        return("NONE");
     }
     std::string layout_id = version.substr(3, 2);
 
     if(layout_id == "16")
     {
-        return "US";
+        return("US");
     }
 
-    return "EU";
+    return("EU");
 }
 
 void DasKeyboardController::SendColors(unsigned char key_id, unsigned char mode,
@@ -322,16 +322,16 @@ int DasKeyboardController::ReceiveData(unsigned char *data, const unsigned int m
     \*-----------------------------------------------------*/
     if(chk_sum)
     {
-        return -1;
+        return(-1);
     }
 
-    size_t response_size = 0;
+    int response_size = 0;
     if(receive_buf.size() > 1)
     {
         response_size = receive_buf.at(1);
         if(response_size + 2 > receive_buf.size())
         {
-            return -1;
+            return(-1);
         }
         if(response_size > max_length)
         {
@@ -347,5 +347,5 @@ int DasKeyboardController::ReceiveData(unsigned char *data, const unsigned int m
         }
     }
 
-    return response_size;
+    return(response_size);
 }

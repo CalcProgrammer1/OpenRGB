@@ -32,7 +32,7 @@ ElgatoLightStripController::ElgatoLightStripController(std::string ip)
     \*-----------------------------------------------------------*/
     port.tcp_client_connect();
     std::string buf = "GET /elgato/accessory-info HTTP/1.1\r\nContent-Type: application/json\r\nConnection: close\r\n\r\n";
-    port.tcp_client_write((char *)buf.c_str(), buf.length() + 1);
+    port.tcp_client_write((char *)buf.c_str(), (int)buf.length() + 1);
 
     char recv_buf[1024];
     int size = port.tcp_listen(recv_buf, sizeof(recv_buf));
@@ -116,7 +116,7 @@ void ElgatoLightStripController::SetColor(hsv_t hsv_color)
 
     port.tcp_client_connect();
     std::string buf = GetRequest(hsv_color.hue, hsv_color.saturation, GetBrightness());
-    port.tcp_client_write((char *)buf.c_str(), buf.length() + 1);
+    port.tcp_client_write((char *)buf.c_str(), (int)buf.length() + 1);
     port.tcp_close();
 }
 
