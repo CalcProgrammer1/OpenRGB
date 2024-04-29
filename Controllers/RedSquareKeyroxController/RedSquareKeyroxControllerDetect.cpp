@@ -16,6 +16,7 @@
 | Red Square product ID                                 |
 \*-----------------------------------------------------*/
 #define RED_SQUARE_KEYROX_TKL_PID                  0x1511
+#define RED_SQUARE_KEYROX_TKL_V2_PID               0x2511
 #define RED_SQUARE_KEYROX_TKL_CLASSIC_PID          0xC345
 
 void DetectRedSquareKeyroxTKL(hid_device_info* info, const std::string& name)
@@ -46,4 +47,5 @@ void DetectRedSquareKeyroxTKLClassic(hid_device_info* info, const std::string& n
 }
 
 REGISTER_HID_DETECTOR_IPU("Red Square Keyrox TKL", DetectRedSquareKeyroxTKL, RED_SQUARE_VID, RED_SQUARE_KEYROX_TKL_PID, 3, 0xFF00, 2);
+REGISTER_HID_DETECTOR_IPU("Red Square Keyrox TKL V2", DetectRedSquareKeyroxTKL, RED_SQUARE_VID, RED_SQUARE_KEYROX_TKL_V2_PID, 3, 0xFF00, 2);
 REGISTER_HID_DETECTOR_I("Red Square Keyrox TKL Classic", DetectRedSquareKeyroxTKLClassic, RED_SQUARE_KEYROX_TKL_CLASSIC_VID, RED_SQUARE_KEYROX_TKL_CLASSIC_PID, 2);
