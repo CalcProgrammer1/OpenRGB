@@ -5882,13 +5882,13 @@ static const razer_device mamba_hyperflux_device =
 };
 
 /*-------------------------------------------------------------*\
-|  Razer Naga Chroma                                            |
+|  Razer Naga Chroma 1532:0053                                  |
 |                                                               |
-|  Zone "Logo"                                                  |
+|  Zone "Scroll Wheel"                                          |
 |       Single                                                  |
 |       1 LED                                                   |
 |                                                               |
-|  Zone "Scroll Wheel"                                          |
+|  Zone "Logo"                                                  |
 |       Single                                                  |
 |       1 LED                                                   |
 |                                                               |
@@ -5930,8 +5930,8 @@ static const razer_device naga_chroma_device =
     1,
     3,
     {
-        &naga_chroma_logo_zone,
         &naga_chroma_scroll_wheel_zone,
+        &naga_chroma_logo_zone,
         &naga_chroma_numpad_zone,
         NULL,
         NULL,
