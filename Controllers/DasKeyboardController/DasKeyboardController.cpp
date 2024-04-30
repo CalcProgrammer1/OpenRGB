@@ -333,9 +333,9 @@ int DasKeyboardController::ReceiveData(unsigned char *data, const unsigned int m
         {
             return(-1);
         }
-        if(response_size > max_length)
+        if(response_size > (int)max_length)
         {
-            response_size = static_cast<int>(max_length);
+            response_size = (int)max_length;
         }
 
         /*-----------------------------------------------------*\

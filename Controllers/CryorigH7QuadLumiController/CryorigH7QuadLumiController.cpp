@@ -107,9 +107,9 @@ void CryorigH7QuadLumiController::SetChannelEffect
         /*-----------------------------------------------------*\
         | Fill in color data (up to 40 colors)                  |
         \*-----------------------------------------------------*/
-        for(int idx = 0; idx < num_colors; idx++)
+        for(unsigned int idx = 0; idx < num_colors; idx++)
         {
-            int pixel_idx = idx * 3;
+            unsigned int pixel_idx = idx * 3;
             RGBColor color = colors[idx];
             color_data[pixel_idx + 0x00] = RGBGetGValue(color);
             color_data[pixel_idx + 0x01] = RGBGetRValue(color);
@@ -135,9 +135,9 @@ void CryorigH7QuadLumiController::SetChannelLEDs
     /*-----------------------------------------------------*\
     | Fill in color data (up to 40 colors)                  |
     \*-----------------------------------------------------*/
-    for(int idx = 0; idx < num_colors; idx++)
+    for(unsigned int idx = 0; idx < num_colors; idx++)
     {
-        int pixel_idx = idx * 3;
+        unsigned int pixel_idx = idx * 3;
         RGBColor color = colors[idx];
         color_data[pixel_idx + 0x00] = RGBGetGValue(color);
         color_data[pixel_idx + 0x01] = RGBGetRValue(color);

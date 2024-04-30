@@ -195,7 +195,7 @@ void LEDStripController::SetLEDsKeyboardVisualizer(std::vector<RGBColor> colors)
     |   n+1: Checksum MSB                                           |
     |   n+2: Checksum LSB                                           |
     \*-------------------------------------------------------------*/
-    unsigned int payload_size   = (colors.size() * 3);
+    unsigned int payload_size   = (unsigned int)(colors.size() * 3);
     unsigned int packet_size    = payload_size + 3;
 
     serial_buf = new unsigned char[packet_size];
@@ -265,7 +265,7 @@ void LEDStripController::SetLEDsAdalight(std::vector<RGBColor> colors)
     |   5: Checksum (MSB xor LSB xor 0x55)                          |
     |   6-n: Data Bytes                                             |
     \*-------------------------------------------------------------*/
-    unsigned int led_count      = colors.size();
+    unsigned int led_count      = (unsigned int)colors.size();
     unsigned int payload_size   = (led_count * 3);
     unsigned int packet_size    = payload_size + 6;
 
@@ -320,7 +320,7 @@ void LEDStripController::SetLEDsTPM2(std::vector<RGBColor> colors)
     |   4-n: Data Bytes                                             |
     |   n+1: Packet End Byte (0x36)                                 |
     \*-------------------------------------------------------------*/
-    unsigned int payload_size   = (colors.size() * 3);
+    unsigned int payload_size   = (unsigned int)(colors.size() * 3);
     unsigned int packet_size    = payload_size + 5;
 
     serial_buf = new unsigned char[packet_size];

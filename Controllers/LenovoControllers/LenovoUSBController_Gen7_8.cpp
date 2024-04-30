@@ -58,7 +58,7 @@ void LenovoGen7And8USBController::setLedsByGroup(uint8_t profile_id, vector<led_
 
     for(size_t group = 0; group < led_groups.size() && i < PACKET_SIZE - 21; group++)
     {
-        buffer[i++] = group + 1;  //Group index
+        buffer[i++] = (uint8_t)group + 1;  //Group index
         buffer[i++] = 0x06;
         buffer[i++] = 0x01;
         buffer[i++] = led_groups[group].mode;
@@ -73,7 +73,7 @@ void LenovoGen7And8USBController::setLedsByGroup(uint8_t profile_id, vector<led_
         buffer[i++] = 0x06;
         buffer[i++] = 0x00;
 
-        buffer[i++] = led_groups[group].colors.size();
+        buffer[i++] = (uint8_t)led_groups[group].colors.size();
         for(RGBColor c : led_groups[group].colors)
         {
             buffer[i++] = RGBGetRValue(c);
@@ -83,13 +83,13 @@ void LenovoGen7And8USBController::setLedsByGroup(uint8_t profile_id, vector<led_
 
         vector<uint16_t> leds = led_groups[group].leds;
         size_t led_count = min(leds.size(), (PACKET_SIZE - i)/2);
-        buffer[i++] = led_count;
+        buffer[i++] = (uint8_t)led_count;
         uint8_t* byte_ptr = reinterpret_cast<uint8_t*>(leds.data());
         std::copy(byte_ptr, byte_ptr + led_count * sizeof(uint16_t), buffer + i);
         i+= led_count * sizeof(uint16_t);
     }
 
-    buffer[2] = i;
+    buffer[2] = (uint8_t)i;
 
     sendFeatureReport(buffer, PACKET_SIZE);
 }

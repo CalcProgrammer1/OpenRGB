@@ -455,7 +455,7 @@ void RGBController_EVGAKeyboard::SetupZones()
     \*---------------------------------------------------------*/
     for(std::size_t zone_index = 0; zone_index < zones.size(); zone_index++)
     {
-        int zone_offset = leds.size();
+        unsigned int zone_offset = (unsigned int)leds.size();
 
         for(unsigned int led_index = 0; led_index < zones[zone_index].leds_count; led_index++)
         {

@@ -162,9 +162,9 @@ unsigned char GigabyteAorusLaptopController::GetColourIndex(unsigned char red, u
     | 0x07 white                                            |
     \*-----------------------------------------------------*/
     unsigned int divisor    = GetLargestColour( red, green, blue);
-    unsigned int r          = round( red / divisor );
-    unsigned int g          = round( green / divisor );
-    unsigned int b          = round( blue / divisor );
+    unsigned int r          = (int)round( red / divisor );
+    unsigned int g          = (int)round( green / divisor );
+    unsigned int b          = (int)round( blue / divisor );
     unsigned char idx       = argb_colour_index_data[r][g][b];
     return idx;
 }

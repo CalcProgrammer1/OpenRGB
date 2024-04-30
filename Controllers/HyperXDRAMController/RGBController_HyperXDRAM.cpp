@@ -168,7 +168,7 @@ void RGBController_HyperXDRAM::SetupZones()
             new_led->name.append(", LED ");
             new_led->name.append(std::to_string(led_idx + 1));
 
-            new_led->value      = leds.size();
+            new_led->value      = (unsigned int)leds.size();
 
             leds.push_back(*new_led);
         }
@@ -188,7 +188,7 @@ void RGBController_HyperXDRAM::DeviceUpdateLEDs()
 {
     if(controller->GetMode() == HYPERX_MODE_DIRECT)
     {
-        for (std::size_t led_idx = 0; led_idx < colors.size(); led_idx++ )
+        for(unsigned int led_idx = 0; led_idx < (unsigned int)colors.size(); led_idx++ )
         {
             RGBColor      color = colors[led_idx];
             unsigned char red   = RGBGetRValue(color);
@@ -213,7 +213,7 @@ void RGBController_HyperXDRAM::UpdateZoneLEDs(int zone)
 {
     if(controller->GetMode() == HYPERX_MODE_DIRECT)
     {
-        for (std::size_t led_idx = 0; led_idx < zones[zone].leds_count; led_idx++ )
+        for(std::size_t led_idx = 0; led_idx < zones[zone].leds_count; led_idx++ )
         {
             unsigned int  led   = zones[zone].leds[led_idx].value;
             RGBColor      color = colors[led];

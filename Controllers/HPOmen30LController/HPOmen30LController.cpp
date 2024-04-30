@@ -155,9 +155,9 @@ void HPOmen30LController::SendZoneUpdate(int zone, std::vector<RGBColor> colors)
     }
     else
     {
-        usb_buf[0x04] = colors.size();
+        usb_buf[0x04] = (unsigned char)colors.size();
 
-        for(unsigned int i = 0; i < colors.size(); i++)
+        for(unsigned int i = 0; i < (unsigned int)colors.size(); i++)
         {
             usb_buf[0x05] = i + 1;
 

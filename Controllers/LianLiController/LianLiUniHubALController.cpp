@@ -105,18 +105,18 @@ void LianLiUniHubALController::SetChannelLEDs(unsigned char channel, RGBColor * 
             //Determine current position of led_data array from colors array
             cur_led_idx = ((mod_led_idx + (fan_idx * 8)) * 3);
 
-            fan_led_data[cur_led_idx + 0] = RGBGetRValue(colors[led_idx]) * brightness;
-            fan_led_data[cur_led_idx + 1] = RGBGetBValue(colors[led_idx]) * brightness;
-            fan_led_data[cur_led_idx + 2] = RGBGetGValue(colors[led_idx]) * brightness;
+            fan_led_data[cur_led_idx + 0] = (unsigned char)RGBGetRValue(colors[led_idx]) * brightness;
+            fan_led_data[cur_led_idx + 1] = (unsigned char)RGBGetBValue(colors[led_idx]) * brightness;
+            fan_led_data[cur_led_idx + 2] = (unsigned char)RGBGetGValue(colors[led_idx]) * brightness;
         }
         else                        // Edge LEDs, 12 LEDs per fan
         {
             //Determine current position of led_data array from colors array
             cur_led_idx = (((mod_led_idx - 8) + (fan_idx * 12)) * 3);
 
-            edge_led_data[cur_led_idx + 0]  = RGBGetRValue(colors[led_idx]) * brightness;
-            edge_led_data[cur_led_idx + 1]  = RGBGetBValue(colors[led_idx]) * brightness;
-            edge_led_data[cur_led_idx + 2]  = RGBGetGValue(colors[led_idx]) * brightness;
+            edge_led_data[cur_led_idx + 0]  = (unsigned char)RGBGetRValue(colors[led_idx]) * brightness;
+            edge_led_data[cur_led_idx + 1]  = (unsigned char)RGBGetBValue(colors[led_idx]) * brightness;
+            edge_led_data[cur_led_idx + 2]  = (unsigned char)RGBGetGValue(colors[led_idx]) * brightness;
         }
     }
 
@@ -228,17 +228,17 @@ void LianLiUniHubALController::SetChannelMode(unsigned char channel, unsigned in
                     for(unsigned int led_idx = 0; led_idx < 22; led_idx += 3)
                     {
                         cur_led_idx = (i * 8 * 3) + led_idx;
-                        fan_led_data[cur_led_idx + 0] = (RGBGetRValue(colors[i]) * brightness_scale);
-                        fan_led_data[cur_led_idx + 1] = (RGBGetBValue(colors[i]) * brightness_scale);
-                        fan_led_data[cur_led_idx + 2] = (RGBGetGValue(colors[i]) * brightness_scale);
+                        fan_led_data[cur_led_idx + 0] = (unsigned char)(RGBGetRValue(colors[i]) * brightness_scale);
+                        fan_led_data[cur_led_idx + 1] = (unsigned char)(RGBGetBValue(colors[i]) * brightness_scale);
+                        fan_led_data[cur_led_idx + 2] = (unsigned char)(RGBGetGValue(colors[i]) * brightness_scale);
                     }
 
                     for(unsigned int led_idx = 0; led_idx < 34; led_idx += 3)
                     {
                         cur_led_idx = (i * 12 * 3) + led_idx;
-                        edge_led_data[cur_led_idx + 0] = (RGBGetRValue(colors[i]) * brightness_scale);
-                        edge_led_data[cur_led_idx + 1] = (RGBGetBValue(colors[i]) * brightness_scale);
-                        edge_led_data[cur_led_idx + 2] = (RGBGetGValue(colors[i]) * brightness_scale);
+                        edge_led_data[cur_led_idx + 0] = (unsigned char)(RGBGetRValue(colors[i]) * brightness_scale);
+                        edge_led_data[cur_led_idx + 1] = (unsigned char)(RGBGetBValue(colors[i]) * brightness_scale);
+                        edge_led_data[cur_led_idx + 2] = (unsigned char)(RGBGetGValue(colors[i]) * brightness_scale);
                     }
                 }
                 break;

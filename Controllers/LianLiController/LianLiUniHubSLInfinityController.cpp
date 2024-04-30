@@ -109,9 +109,9 @@ void LianLiUniHubSLInfinityController::SetChannelLEDs(unsigned char channel, RGB
         //Determine current position of led_data array from colors array
         cur_led_idx = ((mod_led_idx + (fan_idx * 16)) * 3);
 
-        led_data[cur_led_idx + 0] = RGBGetRValue(colors[led_idx]) * brightness_scale;
-        led_data[cur_led_idx + 1] = RGBGetBValue(colors[led_idx]) * brightness_scale;
-        led_data[cur_led_idx + 2] = RGBGetGValue(colors[led_idx]) * brightness_scale;
+        led_data[cur_led_idx + 0] = (unsigned char)(RGBGetRValue(colors[led_idx]) * brightness_scale);
+        led_data[cur_led_idx + 1] = (unsigned char)(RGBGetBValue(colors[led_idx]) * brightness_scale);
+        led_data[cur_led_idx + 2] = (unsigned char)(RGBGetGValue(colors[led_idx]) * brightness_scale);
     }
 
     /*---------------------------------------------------------*\
@@ -185,9 +185,9 @@ void LianLiUniHubSLInfinityController::SetChannelMode(unsigned char channel, con
                 for(unsigned int led_idx = 0; led_idx < 16 * 3; led_idx += 3)
                 {
                     cur_led_idx = (i * 16 * 3) + led_idx;
-                    fan_led_data[cur_led_idx + 0] = (RGBGetRValue(colors[i]) * brightness_scale);
-                    fan_led_data[cur_led_idx + 1] = (RGBGetBValue(colors[i]) * brightness_scale);
-                    fan_led_data[cur_led_idx + 2] = (RGBGetGValue(colors[i]) * brightness_scale);
+                    fan_led_data[cur_led_idx + 0] = (unsigned char)(RGBGetRValue(colors[i]) * brightness_scale);
+                    fan_led_data[cur_led_idx + 1] = (unsigned char)(RGBGetBValue(colors[i]) * brightness_scale);
+                    fan_led_data[cur_led_idx + 2] = (unsigned char)(RGBGetGValue(colors[i]) * brightness_scale);
                 }
             }
         }
@@ -206,9 +206,9 @@ void LianLiUniHubSLInfinityController::SetChannelMode(unsigned char channel, con
                 for(unsigned int i = 0; i < 6; i++)
                 {
                     cur_led_idx = (i * 12) + (j * 3);
-                    fan_led_data[cur_led_idx + 0] = RGBGetRValue(colors[j]) * brightness_scale;
-                    fan_led_data[cur_led_idx + 1] = RGBGetBValue(colors[j]) * brightness_scale;
-                    fan_led_data[cur_led_idx + 2] = RGBGetGValue(colors[j]) * brightness_scale;
+                    fan_led_data[cur_led_idx + 0] = (unsigned char)(RGBGetRValue(colors[j]) * brightness_scale);
+                    fan_led_data[cur_led_idx + 1] = (unsigned char)(RGBGetBValue(colors[j]) * brightness_scale);
+                    fan_led_data[cur_led_idx + 2] = (unsigned char)(RGBGetGValue(colors[j]) * brightness_scale);
                 }
             }
         }
@@ -217,28 +217,28 @@ void LianLiUniHubSLInfinityController::SetChannelMode(unsigned char channel, con
 
     SendStartAction
     (
-        channel,                        // Current channel
-        (num_fans + 1)                  // Number of fans
+        channel,                                // Current channel
+        (num_fans + 1)                          // Number of fans
     );
 
     SendColorData
     (
-        channel,                        // Channel
+        channel,                                // Channel
         (num_fans + 1)*16,
-        fan_led_data                        // Data
+        fan_led_data                            // Data
     );
 
     SendCommitAction
     (
-        channel,                        // Channel
-        active_mode.value,                     // Effect
-        speed_code[active_mode.speed],              // Speed
-        active_mode.direction,                      // Direction
-        brightness_code[active_mode.brightness]     // Brightness
+        channel,                                // Channel
+        active_mode.value,                      // Effect
+        speed_code[active_mode.speed],          // Speed
+        active_mode.direction,                  // Direction
+        brightness_code[active_mode.brightness] // Brightness
     );
 }
 
-void LianLiUniHubSLInfinityController::SendStartAction(unsigned char channel, unsigned int num_fans)
+void LianLiUniHubSLInfinityController::SendStartAction(unsigned char channel, unsigned int /*num_fans*/)
 {
     unsigned char usb_buf[65];
 

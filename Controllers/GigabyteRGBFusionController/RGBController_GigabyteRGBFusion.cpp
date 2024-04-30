@@ -126,7 +126,7 @@ void RGBController_RGBFusion::ResizeZone(int /*zone*/, int /*new_size*/)
 
 void RGBController_RGBFusion::DeviceUpdateLEDs()
 {
-    for (std::size_t led = 0; led < colors.size(); led++)
+    for(unsigned int led = 0; led < (unsigned int)colors.size(); led++)
     {
         RGBColor      color = colors[led];
         unsigned char red   = RGBGetRValue(color);
@@ -156,7 +156,7 @@ int RGBController_RGBFusion::GetDeviceMode()
 {
     int dev_mode = controller->GetMode();
 
-    for(std::size_t mode = 0; mode < modes.size(); mode++)
+    for(int mode = 0; mode < (int)modes.size(); mode++)
     {
         if(modes[mode].value == dev_mode)
         {

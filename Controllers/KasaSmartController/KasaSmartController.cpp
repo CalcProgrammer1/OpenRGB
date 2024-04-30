@@ -236,7 +236,7 @@ void KasaSmartController::TurnOff()
 bool KasaSmartController::SendCommand(std::string command, std::string &response)
 {
     const unsigned char* encrypted_payload = KasaSmartController::Encrypt(command);
-    port.tcp_client_write((char*)encrypted_payload, command.length() + sizeof(unsigned long));
+    port.tcp_client_write((char*)encrypted_payload, (int)(command.length() + sizeof(unsigned long)));
     delete[] encrypted_payload;
 
     unsigned char* receive_buffer = new unsigned char[KASA_SMART_RECEIVE_BUFFER_SIZE];
@@ -283,13 +283,13 @@ unsigned char* KasaSmartController::Encrypt(const std::string request)
     /*----------------------------------------------------------------*\
     | "Encrypted" payload consists of size as a uint32 + XOR'd payload |
     \*----------------------------------------------------------------*/
-    uint32_t size          = htonl(request.length());
-    int payload_size       = request.length() + sizeof(size);
+    uint32_t size          = htonl((uint32_t)request.length());
+    int payload_size       = (int)(request.length() + sizeof(size));
     unsigned char* payload = new unsigned char[payload_size];
     memcpy(payload, &size, sizeof(size));
     unsigned char* request_data = new unsigned char[request.length()];
     memcpy(request_data, request.data(), request.length());
-    KasaSmartController::XorPayload(request_data, request.length());
+    KasaSmartController::XorPayload(request_data, (int)request.length());
     memcpy(payload + sizeof(size), request_data, request.length());
     delete[] request_data;
     return payload;

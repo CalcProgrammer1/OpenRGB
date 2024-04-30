@@ -49,7 +49,7 @@ void HyperXAlloyOrigins60and65Controller::SetLEDsDirect(std::vector<RGBColor> co
     | Set up variables to track progress of color transmit  |
     | Do this after inserting blanks                        |
     \*-----------------------------------------------------*/
-    int colors_to_send = colors.size();
+    int colors_to_send = (int)colors.size();
     int colors_sent    = 0;
 
     SendDirectInitialization();

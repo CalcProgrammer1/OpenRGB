@@ -18,20 +18,20 @@ FanBusInterface::FanBusInterface(const char* portname)
     /*-----------------------------------------------------*\
     | Flush any data in the receive queue                   |
     \*-----------------------------------------------------*/
-    char read_buf[6];
+    unsigned char read_buf[6];
 
-    while(serialport->serial_read(read_buf, 6) > 0)
+    while(serialport->serial_read((char *)read_buf, 6) > 0)
     {
 
     }
 
     read_buf[0] = 0xFF;
 
-    serialport->serial_write(read_buf, 1);
+    serialport->serial_write((char *)read_buf, 1);
 
     std::this_thread::sleep_for(10ms);
 
-    int test = serialport->serial_read(read_buf, 1);
+    int test = serialport->serial_read((char *)read_buf, 1);
 
     if(test > 0)
     {
@@ -121,10 +121,10 @@ void FanBusInterface::write_queue
 
 int FanBusInterface::process_queue()
 {
-    int return_val = serialport->serial_write((char *)&fanbus_msg_queued[0], fanbus_msg_queued.size());
+    int return_val = serialport->serial_write((char *)&fanbus_msg_queued[0], (int)fanbus_msg_queued.size());
 
     fanbus_msg_queued.clear();
-    
+
     return(return_val);
 }
 

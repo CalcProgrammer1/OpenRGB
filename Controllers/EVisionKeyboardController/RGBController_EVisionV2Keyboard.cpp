@@ -819,7 +819,7 @@ void RGBController_EVisionV2Keyboard::LoadConfig()
     config.direction = (config.direction == 0) ? 0 : 1;
 
     // Define default colors
-    for(std::size_t mode_index = 0; mode_index < modes.size(); mode_index++)
+    for(int mode_index = 0; mode_index < (int)modes.size(); mode_index++)
     {
         if(config.random_colours)
         {

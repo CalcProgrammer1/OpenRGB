@@ -583,7 +583,7 @@ void RGBController_RGBFusion2USB::ResizeZone(int zone, int new_size)
 
 void RGBController_RGBFusion2USB::DeviceUpdateLEDs()
 {
-    for(size_t zone_idx = 0; zone_idx < zones.size(); zone_idx++)
+    for(int zone_idx = 0; zone_idx < (int)zones.size(); zone_idx++)
     {
         UpdateZoneLEDs(zone_idx);
     }
@@ -750,7 +750,7 @@ void RGBController_RGBFusion2USB::DeviceUpdateMode()
 
 int RGBController_RGBFusion2USB::GetLED_Zone(int led_idx)
 {
-    for(size_t zone_idx = 0; zone_idx < zones.size(); zone_idx++)
+    for(int zone_idx = 0; zone_idx < (int)zones.size(); zone_idx++)
     {
         int zone_start  = zones[zone_idx].start_idx;
         int zone_end    = zone_start + zones[zone_idx].leds_count - 1;

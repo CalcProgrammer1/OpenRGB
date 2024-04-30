@@ -246,7 +246,7 @@ void RGBController_RGBFusion2SMBus::ResizeZone(int /*zone*/, int /*new_size*/)
 
 void RGBController_RGBFusion2SMBus::DeviceUpdateLEDs()
 {
-    for (std::size_t led = 0; led < colors.size(); led++)
+    for(unsigned int led = 0; led < (unsigned int)colors.size(); led++)
     {
         RGBColor      color     = colors[led];
         unsigned char red       = RGBGetRValue(color);

@@ -84,7 +84,7 @@ void RGBFusion2SMBusController::WriteLED(int led)
     std::cout << std::endl;
     #endif
 
-    bus->i2c_smbus_write_block_data(RGB_FUSION_2_SMBUS_ADDR, write_register, 32, led_data[led]);
+    bus->i2c_smbus_write_block_data(RGB_FUSION_2_SMBUS_ADDR, (u8)write_register, 32, led_data[led]);
 }
 
 void RGBFusion2SMBusController::Apply()

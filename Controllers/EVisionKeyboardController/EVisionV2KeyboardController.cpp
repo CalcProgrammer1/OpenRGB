@@ -37,10 +37,10 @@ static uint8_t endorfy_map[EVISION_V2_MATRIX_WIDTH * EVISION_V2_MATRIX_HEIGHT] =
 {
  /*   0    1    2    3    4    5    6    7    8    9   10   11   12   13   14   15   16   17   19   19   20   */
       0,        2,   3,   4,   5,   6,   7,   8,   9,  10,  11,  12,  13,  14,  15,  16,
-     21,  22,  23,  24,  25,  26,  27,  28,  29,  30,  31,  32,  33,  34,  35,  36,  37,  38,  39,  40,  41, 
+     21,  22,  23,  24,  25,  26,  27,  28,  29,  30,  31,  32,  33,  34,  35,  36,  37,  38,  39,  40,  41,
      42,  43,  44,  45,  46,  47,  48,  49,  50,  51,  52,  53,  54,  55,  56,  57,  58,  59,  60,  61,  62,
      63,  64,  65,  66,  67,  68,  69,  70,  71,  72,  73,  74,       76,                 80,  81,  82,
-     84,       86,  87,  88,  89,  90,  91,  92,  93,  94,  95,       97,       99,      101, 102, 103, 104, 
+     84,       86,  87,  88,  89,  90,  91,  92,  93,  94,  95,       97,       99,      101, 102, 103, 104,
     105, 106, 107,                111,                115, 116, 117, 118, 119, 120, 121, 123,      124,
 };
 
@@ -73,7 +73,7 @@ EVisionV2KeyboardController::EVisionV2KeyboardController(hid_device* dev_handle,
 
     map_size = buffer[5];
     macros_size = buffer[6] * 0x80;
-    
+
     switch(layout)
     {
         case EVISION_V2_KEYBOARD_LAYOUT:
@@ -197,7 +197,7 @@ int EVisionV2KeyboardController::Read(uint8_t cmd, uint16_t offset, uint16_t siz
 {
     while(size > 0)
     {
-        uint8_t pktsz = std::min<size_t>(size, EVISION_V2_PACKET_SIZE - 8);
+        uint8_t pktsz = (uint8_t)std::min<size_t>(size, EVISION_V2_PACKET_SIZE - 8);
         int result = Query(cmd, offset, nullptr, pktsz, odata);
         if(result <= 0)
         {
@@ -218,7 +218,7 @@ int EVisionV2KeyboardController::Write(uint8_t cmd, uint16_t offset, const uint8
 {
     while(size > 0)
     {
-        uint8_t pktsz = std::min<size_t>(size, EVISION_V2_PACKET_SIZE - 8);
+        uint8_t pktsz = (uint8_t)std::min<size_t>(size, EVISION_V2_PACKET_SIZE - 8);
         int result = Query(cmd, offset, idata, pktsz);
         if(result <= 0)
         {
@@ -387,7 +387,7 @@ void EVisionV2KeyboardController::SetLedsDirect(const std::vector<RGBColor>& col
         buffer[j + 2] = RGBGetBValue(colours[i]);
     }
 
-    Write(EVISION_V2_CMD_SEND_DYNAMIC_COLORS, 0, buffer, 3 * map_size);
+    Write(EVISION_V2_CMD_SEND_DYNAMIC_COLORS, 0, buffer, (uint16_t)(3 * map_size));
 
     delete[] buffer;
 }
@@ -425,7 +425,7 @@ int EVisionV2KeyboardController::GetLedsCustom(uint8_t colorset, std::vector<RGB
     uint8_t* buffer = new uint8_t[3 * map_size];
     memset(buffer, 0, 3 * map_size);
 
-    int ret = Read(EVISION_V2_CMD_READ_CUSTOM_COLORS, 512 * colorset, 3 * map_size, buffer);
+    int ret = Read(EVISION_V2_CMD_READ_CUSTOM_COLORS, 512 * colorset, (uint16_t)(3 * map_size), buffer);
     if(ret < 0)
     {
         return ret;
@@ -462,7 +462,7 @@ void EVisionV2KeyboardController::SetLedsCustom(uint8_t colorset, const std::vec
     }
 
     BeginConfigure();
-    Write(EVISION_V2_CMD_WRITE_CUSTOM_COLORS, 512 * colorset, buffer, 3 * map_size);
+    Write(EVISION_V2_CMD_WRITE_CUSTOM_COLORS, 512 * colorset, buffer, (uint16_t)(3 * map_size));
     EndConfigure();
 
     delete[] buffer;

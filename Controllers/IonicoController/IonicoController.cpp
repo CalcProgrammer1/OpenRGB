@@ -76,7 +76,7 @@ void IonicoController::SetColors(int device, std::vector<RGBColor> array_colors,
         for(size_t i = 0; i < array_colors.size(); i++)
         {
             usb_buf[1] = IONICO_DIRECT_CMD;
-            usb_buf[3] = i+1;
+            usb_buf[3] = (uint8_t)(i + 1);
             usb_buf[4] = RGBGetRValue(array_colors[i]);
             usb_buf[5] = RGBGetGValue(array_colors[i]);
             usb_buf[6] = RGBGetBValue(array_colors[i]);

@@ -338,12 +338,12 @@ void LenovoRGBController_Gen7_8::ResizeZone(int /*zone*/, int /*new_size*/)
     \*---------------------------------------------------------*/
 }
 
-void LenovoRGBController_Gen7_8::UpdateSingleLED(int led)
+void LenovoRGBController_Gen7_8::UpdateSingleLED(int /*led*/)
 {
     DeviceUpdateLEDs();
 }
 
-void LenovoRGBController_Gen7_8::UpdateZoneLEDs(int led)
+void LenovoRGBController_Gen7_8::UpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateLEDs();
 }
