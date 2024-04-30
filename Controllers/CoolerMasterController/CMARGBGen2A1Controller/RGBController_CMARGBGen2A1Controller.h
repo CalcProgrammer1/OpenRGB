@@ -9,7 +9,7 @@
 
 #pragma once
 #include "RGBController.h"
-#include "CMARGBGen2A1controller.h"
+#include "CMARGBGen2A1Controller.h"
 #include <vector>
 
 class RGBController_CMARGBGen2A1Controller : public RGBController
@@ -27,6 +27,6 @@ public:
     void DeviceUpdateMode();
     void DeviceSaveMode();
 
-private:   
+private:
     CMARGBGen2A1controller*   controller;
 };

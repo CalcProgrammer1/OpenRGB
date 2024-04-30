@@ -1,5 +1,5 @@
 /*-------------------------------------------------------------------*\
-|  ROGStrixLC_Controller.h                                            |
+|  AsusROGStrixLCController.h                                         |
 |                                                                     |
 |  Driver for the ASUS Aura Liquid Cooler (LC) series                 |
 |    of lighting controllers                                          |
@@ -54,11 +54,11 @@ enum
     ROGSTRIXLC_CONTROLLER_SPEED_FASTEST     = 0x00, // Fastest speed
 };
 
-class ROGStrixLC_Controller : public AuraUSBController
+class AsusROGStrixLCController : public AuraUSBController
 {
 public:
-    ROGStrixLC_Controller(hid_device* dev_handle, const char* path);
-    ~ROGStrixLC_Controller();
+    AsusROGStrixLCController(hid_device* dev_handle, const char* path);
+    ~AsusROGStrixLCController();
 
     std::string             GetLocation();
 

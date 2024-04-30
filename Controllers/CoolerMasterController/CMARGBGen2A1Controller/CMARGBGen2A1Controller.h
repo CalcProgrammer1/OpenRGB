@@ -1,5 +1,5 @@
 /*-------------------------------------------------------------------*\
-|  CMARGBGen2A1controller.h                                           |
+|  CMARGBGen2A1Controller.h                                           |
 |                                                                     |
 |  Driver for Coolermaster ARGB Gen 2 A1 USB Controller               |
 |                                                                     |

@@ -9,7 +9,7 @@
 
 #pragma once
 #include "RGBController.h"
-#include "CMARGBcontroller.h"
+#include "CMARGBController.h"
 #include <vector>
 
 #define first_zone(zn)          ((zones.size() > 1) ? 1 : 0)

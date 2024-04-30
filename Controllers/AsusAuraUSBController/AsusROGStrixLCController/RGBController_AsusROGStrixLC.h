@@ -1,5 +1,5 @@
 /*-------------------------------------------------------------------*\
-|  RGBController_ROGStrixLC_Controller.h                              |
+|  RGBController_AsusROGStrixLC.h                                     |
 |                                                                     |
 |  Driver for the ASUS Aura Liquid Cooler (LC) series                 |
 |    of lighting controllers                                          |
@@ -11,14 +11,14 @@
 #pragma once
 #include "LogManager.h"
 #include "RGBController.h"
-#include "ROGStrixLC_Controller.h"
+#include "AsusROGStrixLCController.h"
 #include <vector>
 
-class RGBController_ROGStrixLC_Controller : public RGBController
+class RGBController_AsusROGStrixLC : public RGBController
 {
 public:
-    RGBController_ROGStrixLC_Controller(ROGStrixLC_Controller* controller_ptr);
-    ~RGBController_ROGStrixLC_Controller();
+    RGBController_AsusROGStrixLC(AsusROGStrixLCController* controller_ptr);
+    ~RGBController_AsusROGStrixLC();
 
     void                SetupZones();
     void                ResizeZone(int zone, int new_size);
@@ -32,5 +32,5 @@ private:
     int                 GetDeviceMode();
     int                 GetLED_Zone(int led_idx);
 
-    ROGStrixLC_Controller* controller;
+    AsusROGStrixLCController* controller;
 };

@@ -1,5 +1,5 @@
 /*-------------------------------------------------------------------*\
-|  CMARGBGen2A1controller.cpp                                         |
+|  CMARGBGen2A1Controller.cpp                                         |
 |                                                                     |
 |  Driver for Coolermaster ARGB Gen 2 A1 USB Controller               |
 |                                                                     |
@@ -7,7 +7,7 @@
 |                                                                     |
 \*-------------------------------------------------------------------*/
 
-#include "CMARGBGen2A1controller.h"
+#include "CMARGBGen2A1Controller.h"
 #include <cstring>
 
 CMARGBGen2A1controller::CMARGBGen2A1controller(hid_device* dev_handle, const hid_device_info& info)

@@ -1,5 +1,5 @@
 /*-------------------------------------------------------------------*\
-|  ROGStrixLC_Controller.cpp                                          |
+|  AsusROGStrixLCController.cpp                                       |
 |                                                                     |
 |  Driver for the ASUS Aura Liquid Cooler (LC) series                 |
 |    of lighting controllers                                          |
@@ -8,9 +8,9 @@
 |                                                                     |
 \*-------------------------------------------------------------------*/
 
-#include "ROGStrixLC_Controller.h"
+#include "AsusROGStrixLCController.h"
 
-ROGStrixLC_Controller::ROGStrixLC_Controller(hid_device* dev_handle, const char* path) : AuraUSBController(dev_handle, path)
+AsusROGStrixLCController::AsusROGStrixLCController(hid_device* dev_handle, const char* path) : AuraUSBController(dev_handle, path)
 {
     /*-----------------------------------------------------*\
     | Add addressable devices                               |
@@ -21,17 +21,17 @@ ROGStrixLC_Controller::ROGStrixLC_Controller(hid_device* dev_handle, const char*
     device_info.push_back({0x00, 0x00, 4, 0, AuraDeviceType::FIXED});
 }
 
-ROGStrixLC_Controller::~ROGStrixLC_Controller()
+AsusROGStrixLCController::~AsusROGStrixLCController()
 {
     // Device will close at AuraUSBController destructor
 }
 
-std::string ROGStrixLC_Controller::GetLocation()
+std::string AsusROGStrixLCController::GetLocation()
 {
     return("HID: " + location);
 }
 
-void ROGStrixLC_Controller::SetMode(unsigned char /*channel*/, unsigned char /*mode*/, unsigned char /*red*/, unsigned char /*grn*/, unsigned char /*blu*/)
+void AsusROGStrixLCController::SetMode(unsigned char /*channel*/, unsigned char /*mode*/, unsigned char /*red*/, unsigned char /*grn*/, unsigned char /*blu*/)
 {
     /*---------------------------------------------------------*\
     | This interface is not used in this controller however is  |
@@ -39,7 +39,7 @@ void ROGStrixLC_Controller::SetMode(unsigned char /*channel*/, unsigned char /*m
     \*---------------------------------------------------------*/
 }
 
-void ROGStrixLC_Controller::SetMode(unsigned char mode, unsigned char speed, unsigned char direction, RGBColor colour)
+void AsusROGStrixLCController::SetMode(unsigned char mode, unsigned char speed, unsigned char direction, RGBColor colour)
 {
     bool needs_update       = !( (current_mode == mode) && (ToRGBColor(current_red, current_green, current_blue) == colour) && (current_speed == speed) && (current_direction == direction));
 
@@ -55,7 +55,7 @@ void ROGStrixLC_Controller::SetMode(unsigned char mode, unsigned char speed, uns
     }
 }
 
-void ROGStrixLC_Controller::SetChannelLEDs(unsigned char /*channel*/, RGBColor* /*colors*/, unsigned int /*num_colors*/)
+void AsusROGStrixLCController::SetChannelLEDs(unsigned char /*channel*/, RGBColor* /*colors*/, unsigned int /*num_colors*/)
 {
     /*---------------------------------------------------------*\
     | This interface is not used in this controller however is  |
@@ -63,7 +63,7 @@ void ROGStrixLC_Controller::SetChannelLEDs(unsigned char /*channel*/, RGBColor* 
     \*---------------------------------------------------------*/
 }
 
-void ROGStrixLC_Controller::SetLedsDirect(RGBColor * led_colours, uint8_t led_count)
+void AsusROGStrixLCController::SetLedsDirect(RGBColor * led_colours, uint8_t led_count)
 {
     uint8_t buffer[write_packet_size]   = { 0xEC, 0x40, 0x00, 0xFF, led_count };
 
@@ -90,7 +90,7 @@ void ROGStrixLC_Controller::SetLedsDirect(RGBColor * led_colours, uint8_t led_co
     hid_write(dev, buffer, write_packet_size);
 }
 
-void ROGStrixLC_Controller::GetStatus()
+void AsusROGStrixLCController::GetStatus()
 {
     uint8_t buffer[write_packet_size]   = { 0xEC, 0x01, 0x02 };
 
@@ -102,7 +102,7 @@ void ROGStrixLC_Controller::GetStatus()
     current_blue            = buffer[ROGSTRIXLC_BLUE_BYTE - 1];
 }
 
-void ROGStrixLC_Controller::SendUpdate()
+void AsusROGStrixLCController::SendUpdate()
 {
     uint8_t buffer[write_packet_size];
 

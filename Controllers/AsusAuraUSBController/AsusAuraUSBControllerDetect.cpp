@@ -6,6 +6,7 @@
 #include "AsusAuraMainboardController.h"
 #include "AsusAuraMouseController.h"
 #include "AsusROGAllyController.h"
+#include "AsusROGStrixLCController.h"
 #include "AsusAuraMouseGen1Controller.h"
 #include "AsusAuraMousematController.h"
 #include "AsusAuraMonitorController.h"
@@ -19,7 +20,7 @@
 #include "RGBController_AsusAuraMouse.h"
 #include "RGBController_AsusAuraMousemat.h"
 #include "RGBController_AsusROGAlly.h"
-#include "RGBController_ROGStrixLC_Controller.h"
+#include "RGBController_AsusROGStrixLC.h"
 #include "RGBController_AsusROGSpatha.h"
 #include "RGBController_AsusROGStrixEvolve.h"
 #include "RGBController_AsusAuraMonitor.h"
@@ -226,9 +227,9 @@ void DetectAsusAuraUSBROGStrixLC(hid_device_info* info, const std::string& name)
 
     if(dev)
     {
-        ROGStrixLC_Controller* controller                   = new ROGStrixLC_Controller(dev, info->path);
-        RGBController_ROGStrixLC_Controller* rgb_controller = new RGBController_ROGStrixLC_Controller(controller);
-        rgb_controller->name                                = name;
+        AsusROGStrixLCController*     controller     = new AsusROGStrixLCController(dev, info->path);
+        RGBController_AsusROGStrixLC* rgb_controller = new RGBController_AsusROGStrixLC(controller);
+        rgb_controller->name                         = name;
         ResourceManager::get()->RegisterRGBController(rgb_controller);
     }
 }

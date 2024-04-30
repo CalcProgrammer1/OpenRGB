@@ -7,7 +7,7 @@
 |                                                                     |
 \*-------------------------------------------------------------------*/
 
-#include "CMARGBcontroller.h"
+#include "CMARGBController.h"
 
 CMARGBController::CMARGBController(hid_device* dev_handle, char *_path, unsigned char _zone_idx, std::shared_ptr<std::mutex> cm_mutex)
 {

@@ -1,5 +1,5 @@
 /*-------------------------------------------------------------------*\
-|  RGBController_ROGStrixLC_Controller.cpp                            |
+|  RGBController_AsusROGStrixLC.cpp                                   |
 |                                                                     |
 |  Driver for the ASUS Aura Liquid Cooler (LC) series                 |
 |    of lighting controllers                                          |
@@ -9,7 +9,7 @@
 \*-------------------------------------------------------------------*/
 
 #include "RGBControllerKeyNames.h"
-#include "RGBController_ROGStrixLC_Controller.h"
+#include "RGBController_AsusROGStrixLC.h"
 
 /**------------------------------------------------------------------*\
     @name Asus ROG Strix Liquid Cooler
@@ -22,7 +22,7 @@
     @comment
 \*-------------------------------------------------------------------*/
 
-RGBController_ROGStrixLC_Controller::RGBController_ROGStrixLC_Controller(ROGStrixLC_Controller *controller_ptr)
+RGBController_AsusROGStrixLC::RGBController_AsusROGStrixLC(AsusROGStrixLCController *controller_ptr)
 {
     controller                  = controller_ptr;
     uint8_t speed               = ROGSTRIXLC_CONTROLLER_SPEED_NORMAL;
@@ -126,12 +126,12 @@ RGBController_ROGStrixLC_Controller::RGBController_ROGStrixLC_Controller(ROGStri
     SetupZones();
 }
 
-RGBController_ROGStrixLC_Controller::~RGBController_ROGStrixLC_Controller()
+RGBController_AsusROGStrixLC::~RGBController_AsusROGStrixLC()
 {
     delete controller;
 }
 
-void RGBController_ROGStrixLC_Controller::SetupZones()
+void RGBController_AsusROGStrixLC::SetupZones()
 {
     /*-------------------------------------------------*\
     | Set up zones                                      |
@@ -171,14 +171,14 @@ void RGBController_ROGStrixLC_Controller::SetupZones()
     SetupColors();
 }
 
-void RGBController_ROGStrixLC_Controller::ResizeZone(int /*zone*/, int /*new_size*/)
+void RGBController_AsusROGStrixLC::ResizeZone(int /*zone*/, int /*new_size*/)
 {
     /*---------------------------------------------------------*\
     | This device does not support resizing zones               |
     \*---------------------------------------------------------*/
 }
 
-void RGBController_ROGStrixLC_Controller::DeviceUpdateLEDs()
+void RGBController_AsusROGStrixLC::DeviceUpdateLEDs()
 {
     for(int zone_idx = 0; zone_idx < zones.size(); zone_idx++)
     {
@@ -186,24 +186,24 @@ void RGBController_ROGStrixLC_Controller::DeviceUpdateLEDs()
     }
 }
 
-void RGBController_ROGStrixLC_Controller::UpdateZoneLEDs(int zone)
+void RGBController_AsusROGStrixLC::UpdateZoneLEDs(int zone)
 {
     controller->SetLedsDirect( zones[zone].colors, zones[zone].leds_count );
 }
 
-void RGBController_ROGStrixLC_Controller::UpdateSingleLED(int led)
+void RGBController_AsusROGStrixLC::UpdateSingleLED(int led)
 {
     UpdateZoneLEDs(GetLED_Zone(led));
 }
 
-void RGBController_ROGStrixLC_Controller::DeviceUpdateMode()
+void RGBController_AsusROGStrixLC::DeviceUpdateMode()
 {
     RGBColor colour         = (modes[active_mode].color_mode == MODE_COLORS_MODE_SPECIFIC) ? modes[active_mode].colors[0] : 0;
 
     controller->SetMode( modes[active_mode].value, modes[active_mode].speed, modes[active_mode].direction, colour );
 }
 
-int RGBController_ROGStrixLC_Controller::GetLED_Zone(int led_idx)
+int RGBController_AsusROGStrixLC::GetLED_Zone(int led_idx)
 {
     for(int zone_idx = 0; zone_idx < zones.size(); zone_idx++)
     {
