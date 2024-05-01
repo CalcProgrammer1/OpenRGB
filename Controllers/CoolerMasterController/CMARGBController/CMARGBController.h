@@ -9,14 +9,14 @@
 |                                                                     |
 \*-------------------------------------------------------------------*/
 
+#pragma once
+
 #include <string>
 #include <cstring>
 #include <array>
 #include <memory>
 #include <hidapi/hidapi.h>
 #include "RGBController.h"  //Needed to set the direct mode
-
-#pragma once
 
 #define CM_ARGB_COLOUR_MODE_DATA_SIZE (sizeof(colour_mode_data[0]) / sizeof(colour_mode_data[0][0]))
 #define CM_ARGB_HEADER_DATA_SIZE (sizeof(argb_header_data) / sizeof(argb_headers) )

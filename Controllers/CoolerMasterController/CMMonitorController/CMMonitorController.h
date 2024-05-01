@@ -7,11 +7,11 @@
 |                                                                     |
 \*-------------------------------------------------------------------*/
 
-#include "RGBController.h"
+#pragma once
+
 #include <string>
 #include <hidapi/hidapi.h>
-
-#pragma once
+#include "RGBController.h"
 
 #define CM_MONITOR_PACKET_LENGTH     65
 #define CM_MONITOR_COLOR_DATA_LENGTH 436

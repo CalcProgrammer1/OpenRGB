@@ -6,12 +6,11 @@
 |  Matt Mets (matt@blinkinlabs.com), 07/01/2021             |
 \*---------------------------------------------------------*/
 
-#include "BlinkyTapeController.h"
-
 #include <algorithm>
 #include <fstream>
 #include <iostream>
 #include <string>
+#include "BlinkyTapeController.h"
 
 #ifndef WIN32
 #define LPSTR           char *

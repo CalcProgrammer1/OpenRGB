@@ -7,10 +7,9 @@
 |                                                                     |
 \*-------------------------------------------------------------------*/
 
-#include "RGBController_CMMonitorController.h"
-
-#include <thread>
 #include <chrono>
+#include <thread>
+#include "RGBController_CMMonitorController.h"
 
 /**------------------------------------------------------------------*\
     @name Coolermaster Gaming Monitor
@@ -175,7 +174,7 @@ void RGBController_CMMonitorController::ResizeZone(int /*zone*/, int /*new_size*
 }
 
 void RGBController_CMMonitorController::DeviceUpdateLEDs()
-{   
+{
     if(modes[active_mode].value == CM_MONITOR_DIRECT_MODE)
     {
         controller->SendDirect(colors);
@@ -187,12 +186,12 @@ void RGBController_CMMonitorController::DeviceUpdateLEDs()
 }
 
 void RGBController_CMMonitorController::UpdateZoneLEDs(int /*zone*/)
-{    
+{
     DeviceUpdateLEDs();
 }
 
 void RGBController_CMMonitorController::UpdateSingleLED(int /*led*/)
-{    
+{
     DeviceUpdateLEDs();
 }
 

@@ -7,8 +7,8 @@
 |                                                                     |
 \*-------------------------------------------------------------------*/
 
-#include "CMMonitorController.h"
 #include <cstring>
+#include "CMMonitorController.h"
 
 using namespace std::chrono_literals;
 

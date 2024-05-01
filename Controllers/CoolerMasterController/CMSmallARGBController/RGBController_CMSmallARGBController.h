@@ -8,9 +8,10 @@
 \*-------------------------------------------------------------------*/
 
 #pragma once
+
+#include <vector>
 #include "RGBController.h"
 #include "CMSmallARGBController.h"
-#include <vector>
 
 #define CM_SMALL_ARGB_MIN_LEDS          4
 #define CM_SMALL_ARGB_MAX_LEDS          48

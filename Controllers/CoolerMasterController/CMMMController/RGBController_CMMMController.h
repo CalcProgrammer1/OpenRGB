@@ -9,9 +9,10 @@
 \*-------------------------------------------------------------------*/
 
 #pragma once
+
+#include <vector>
 #include "RGBController.h"
 #include "CMMMController.h"
-#include <vector>
 
 #define CM_MM_ARGB_BRIGHTNESS_MIN           0x00
 #define CM_MM_ARGB_BRIGHTNESS_MAX_DEFAULT   0xFF

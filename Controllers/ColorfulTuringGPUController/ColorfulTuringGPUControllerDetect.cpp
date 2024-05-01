@@ -1,12 +1,12 @@
-﻿#include "Detector.h"
+﻿#include <stdio.h>
+#include <stdlib.h>
+#include <vector>
+#include "Detector.h"
 #include "ColorfulTuringGPUController.h"
 #include "RGBController.h"
 #include "RGBController_ColorfulTuringGPU.h"
 #include "i2c_smbus.h"
 #include "pci_ids.h"
-#include <vector>
-#include <stdio.h>
-#include <stdlib.h>
 
 void DetectColorfulTuringGPUControllers(i2c_smbus_interface* bus, uint8_t i2c_addr, const std::string& name)
 {

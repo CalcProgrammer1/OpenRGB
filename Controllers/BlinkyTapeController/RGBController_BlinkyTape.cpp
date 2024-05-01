@@ -21,19 +21,19 @@
 
 RGBController_BlinkyTape::RGBController_BlinkyTape(BlinkyTapeController* controller_ptr)
 {
-    controller  = controller_ptr;
+    controller          = controller_ptr;
 
-    name        = "BlinkyTape";
-    vendor      = "Blinkinlabs";
-    type        = DEVICE_TYPE_LEDSTRIP;
-    description = "BlinkyTape Controller Device";
-    location    = controller->GetLocation();
+    name                = "BlinkyTape";
+    vendor              = "Blinkinlabs";
+    type                = DEVICE_TYPE_LEDSTRIP;
+    description         = "BlinkyTape Controller Device";
+    location            = controller->GetLocation();
 
     mode Direct;
-    Direct.name       = "Direct";
-    Direct.value      = 0;
-    Direct.flags      = MODE_FLAG_HAS_PER_LED_COLOR;
-    Direct.color_mode = MODE_COLORS_PER_LED;
+    Direct.name         = "Direct";
+    Direct.value        = 0;
+    Direct.flags        = MODE_FLAG_HAS_PER_LED_COLOR;
+    Direct.color_mode   = MODE_COLORS_PER_LED;
     modes.push_back(Direct);
 
     SetupZones();

@@ -6,6 +6,7 @@
 |  Tam D (too.manyhobbies)      30th Nov 2023                         |
 |                                                                     |
 \*-------------------------------------------------------------------*/
+
 #pragma once
 
 #include "RGBController.h"

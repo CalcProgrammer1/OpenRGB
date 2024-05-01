@@ -7,9 +7,9 @@
 |                                                                     |
 \*-------------------------------------------------------------------*/
 
+#include <cstring>
 #include "RGBController_CMRGBController.h"
 #include "CMRGBController.h"
-#include <cstring>
 
 CMRGBController::CMRGBController(hid_device* dev_handle, char* path)
 {
@@ -328,10 +328,10 @@ RGBColor CMRGBController::GetModeColor(int color_number)
     {
         case 0:
             return(current_mode_color_1);
-        
+
         case 1:
             return(current_mode_color_2);
-        
+
         default:
             return(ToRGBColor(0, 0, 0));
     }
@@ -343,16 +343,16 @@ RGBColor CMRGBController::GetPortColor(int port_number)
     {
         case 0:
             return(current_port1_color);
-        
+
         case 1:
             return(current_port2_color);
-        
+
         case 2:
             return(current_port3_color);
-        
+
         case 3:
             return(current_port4_color);
-        
+
         default:
             return(ToRGBColor(0, 0, 0));
     }

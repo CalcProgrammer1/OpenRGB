@@ -6,12 +6,12 @@
 |  Eric S (edbgon)          2nd Feb 2021                              |
 \*-------------------------------------------------------------------*/
 
-#include <string>
+#pragma once
+
 #include <array>
+#include <string>
 #include <hidapi/hidapi.h>
 #include "RGBController.h"
-
-#pragma once
 
 #define COOLERMASTER_RADEON_6000_PID            0x014D
 #define COOLERMASTER_RADEON_6900_PID            0x015B

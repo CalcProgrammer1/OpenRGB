@@ -8,9 +8,10 @@
 \*-------------------------------------------------------------------*/
 
 #pragma once
+
+#include <vector>
 #include "RGBController.h"
 #include "CMARGBGen2A1Controller.h"
-#include <vector>
 
 class RGBController_CMARGBGen2A1Controller : public RGBController
 {

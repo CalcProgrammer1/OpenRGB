@@ -4,8 +4,7 @@
 |  Matt Mets (matt@blinkinlabs.com), 07/01/2021             |
 \*---------------------------------------------------------*/
 
-#ifndef BLINKYTAPE_H
-#define BLINKYTAPE_H
+#pragma once
 
 #include "RGBController.h"
 #include "serial_port.h"
@@ -34,5 +33,3 @@ private:
     std::string port_name;
     serial_port *serialport = nullptr;
 };
-
-#endif

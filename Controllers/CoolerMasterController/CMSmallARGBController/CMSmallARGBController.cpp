@@ -9,8 +9,8 @@
 |                                                                     |
 \*-------------------------------------------------------------------*/
 
-#include "CMSmallARGBController.h"
 #include <cstring>
+#include "CMSmallARGBController.h"
 
 cm_small_argb_headers cm_small_argb_header_data[1] =
 {

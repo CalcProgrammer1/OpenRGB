@@ -1,5 +1,5 @@
-#include "ColorfulTuringGPUController.h"
 #include <cstring>
+#include "ColorfulTuringGPUController.h"
 
 ColorfulTuringGPUController::ColorfulTuringGPUController(i2c_smbus_interface* bus, colorful_gpu_dev_id dev)
 {

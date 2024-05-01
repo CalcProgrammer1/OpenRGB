@@ -8,9 +8,10 @@
 \*-------------------------------------------------------------------*/
 
 #pragma once
+
+#include <vector>
 #include "RGBController.h"
 #include "CMARGBController.h"
-#include <vector>
 
 #define first_zone(zn)          ((zones.size() > 1) ? 1 : 0)
 #define last_zone(zn)           ((zones.size() > 1) ? 4 : 1)

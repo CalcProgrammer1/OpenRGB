@@ -1,14 +1,17 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <vector>
 #include "Detector.h"
 #include "BlinkyTapeController.h"
 #include "RGBController.h"
 #include "RGBController_BlinkyTape.h"
 #include "find_usb_serial_port.h"
-#include <vector>
-#include <stdio.h>
-#include <stdlib.h>
 
-#define BLINKINLABS_VID     0x1D50
-#define BLINKYTAPE_PID      0x605E
+/*-----------------------------------------------------*\
+| BlinkyTape VID and PID                                |
+\*-----------------------------------------------------*/
+#define BLINKINLABS_VID                         0x1D50
+#define BLINKYTAPE_PID                          0x605E
 
 /******************************************************************************************\
 *                                                                                          *

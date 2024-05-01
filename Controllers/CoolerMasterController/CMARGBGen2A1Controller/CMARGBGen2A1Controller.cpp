@@ -7,8 +7,8 @@
 |                                                                     |
 \*-------------------------------------------------------------------*/
 
-#include "CMARGBGen2A1Controller.h"
 #include <cstring>
+#include "CMARGBGen2A1Controller.h"
 
 CMARGBGen2A1controller::CMARGBGen2A1controller(hid_device* dev_handle, const hid_device_info& info)
 {
@@ -288,7 +288,7 @@ std::vector<unsigned char> CMARGBGen2A1controller::CreateColorData(std::vector<R
         color_data.push_back(RGBGetBValue(colors[c]));
     }
 
-    return color_data;
+    return(color_data);
 }
 
 

@@ -7,9 +7,8 @@
 |  Sebastian Kraus 12/25/2021               |
 \*-----------------------------------------*/
 
-#include "CherryKeyboardController.h"
-
 #include <cstring>
+#include "CherryKeyboardController.h"
 
 CherryKeyboardController::CherryKeyboardController(hid_device* dev_handle, const char* path)
 {
@@ -62,7 +61,7 @@ void CherryKeyboardController::SetKeyboardColors
         {
             packet_size     = size;
         }
-        
+
         SendKeyboardData
             (
             &color_data[packet_offset],
@@ -148,7 +147,7 @@ void CherryKeyboardController::SendKeyboardBegin()
     usb_buf[0x01]           = CHERRY_KB_COMMAND_BEGIN;
     usb_buf[0x02]           = 0x00;
     usb_buf[0x03]           = CHERRY_KB_COMMAND_BEGIN;
-    
+
     /*-----------------------------------------------------*\
     | Send packet                                           |
     \*-----------------------------------------------------*/
@@ -174,7 +173,7 @@ void CherryKeyboardController::SendKeyboardEnd()
     usb_buf[0x01]           = CHERRY_KB_COMMAND_END;
     usb_buf[0x02]           = 0x00;
     usb_buf[0x03]           = CHERRY_KB_COMMAND_END;
-    
+
     /*-----------------------------------------------------*\
     | Send packet                                           |
     \*-----------------------------------------------------*/
@@ -210,7 +209,7 @@ void CherryKeyboardController::SendKeyboardData
     | Copy in data bytes                                    |
     \*-----------------------------------------------------*/
     memcpy(&usb_buf[0x08], data, data_size);
-    
+
     /*-----------------------------------------------------*\
     | Compute Checksum                                      |
     \*-----------------------------------------------------*/

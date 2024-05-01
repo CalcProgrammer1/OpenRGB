@@ -9,12 +9,12 @@
 |                                                                     |
 \*-------------------------------------------------------------------*/
 
-#include <string>
+#pragma once
+
 #include <array>
+#include <string>
 #include <hidapi/hidapi.h>
 #include "RGBController.h"  //Needed to set the direct mode
-
-#pragma once
 
 #define CM_SMALL_ARGB_PACKET_SIZE       65
 #define CM_SMALL_ARGB_INTERRUPT_TIMEOUT 250

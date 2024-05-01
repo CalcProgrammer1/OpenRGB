@@ -85,12 +85,12 @@ void CMARGBController::GetStatus()
 
 std::string CMARGBController::GetDeviceName()
 {
-    return device_name;
+    return(device_name);
 }
 
 std::string CMARGBController::GetSerial()
 {
-    return serial;
+    return(serial);
 }
 
 std::string CMARGBController::GetLocation()
@@ -100,37 +100,37 @@ std::string CMARGBController::GetLocation()
 
 unsigned char CMARGBController::GetZoneIndex()
 {
-    return zone_index;
+    return(zone_index);
 }
 
 unsigned char CMARGBController::GetMode()
 {
-    return current_mode;
+    return(current_mode);
 }
 
 unsigned char CMARGBController::GetLedRed()
 {
-    return current_red;
+    return(current_red);
 }
 
 unsigned char CMARGBController::GetLedGreen()
 {
-    return current_green;
+    return(current_green);
 }
 
 unsigned char CMARGBController::GetLedBlue()
 {
-    return current_blue;
+    return(current_blue);
 }
 
 unsigned char CMARGBController::GetLedSpeed()
 {
-    return current_speed;
+    return(current_speed);
 }
 
 bool CMARGBController::GetRandomColours()
 {
-    return bool_random;
+    return(bool_random);
 }
 
 void CMARGBController::SetLedCount(int zone, int led_count)

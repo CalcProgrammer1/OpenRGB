@@ -6,8 +6,8 @@
 |  Eric S (edbgon)          2nd Feb 2021                              |
 \*-------------------------------------------------------------------*/
 
-#include "CMR6000Controller.h"
 #include <cstring>
+#include "CMR6000Controller.h"
 
 CMR6000Controller::CMR6000Controller(hid_device* dev_handle, char *_path, uint16_t _pid)
 {

@@ -6,6 +6,7 @@
 |  Tam D (too.manyhobbies)      30th Nov 2023                         |
 |                                                                     |
 \*-------------------------------------------------------------------*/
+
 #include "CMKeyboardAbstractController.h"
 
 CMKeyboardAbstractController::CMKeyboardAbstractController(hid_device* dev_handle, hid_device_info* dev_info)
@@ -31,16 +32,15 @@ CMKeyboardAbstractController::CMKeyboardAbstractController(hid_device* dev_handl
     {
         if(cm_kb_device_list[i]->product_id == m_productId)
         {
-            bNotFound = false;
-            m_deviceIndex = i;
+            bNotFound       = false;
+            m_deviceIndex   = i;
             break;
         }
     }
 
     if(bNotFound)
     {
-        LOG_ERROR("[%s] device capabilities not found. Please creata a new device request.",
-                m_deviceName.c_str());
+        LOG_ERROR("[%s] device capabilities not found. Please creata a new device request.", m_deviceName.c_str());
     }
 };
 
@@ -54,7 +54,7 @@ CMKeyboardAbstractController::~CMKeyboardAbstractController()
 
 std::string CMKeyboardAbstractController::GetDeviceName()
 {
-    return m_deviceName;
+    return(m_deviceName);
 }
 
 void CMKeyboardAbstractController::SetDeviceName(std::string name)
@@ -64,32 +64,32 @@ void CMKeyboardAbstractController::SetDeviceName(std::string name)
 
 std::string CMKeyboardAbstractController::GetDeviceVendor()
 {
-    return m_vendorName;
+    return(m_vendorName);
 }
 
 std::string CMKeyboardAbstractController::GetDeviceSerial()
 {
-    return m_serialNumber;
+    return(m_serialNumber);
 }
 
 const cm_kb_device* CMKeyboardAbstractController::GetDeviceData()
 {
-    return cm_kb_device_list[m_deviceIndex];
+    return(cm_kb_device_list[m_deviceIndex]);
 }
 
 std::string CMKeyboardAbstractController::GetLocation()
 {
-    return m_sLocation;
+    return(m_sLocation);
 }
 
 std::string CMKeyboardAbstractController::GetFirmwareVersion()
 {
-    return m_sFirmwareVersion;
+    return(m_sFirmwareVersion);
 }
 
 int CMKeyboardAbstractController::GetProductID()
 {
-    return m_productId;
+    return(m_productId);
 }
 
 std::vector<uint8_t> CMKeyboardAbstractController::SendCommand(std::vector<uint8_t> buf, uint8_t fill)
@@ -112,7 +112,7 @@ std::vector<uint8_t> CMKeyboardAbstractController::SendCommand(std::vector<uint8
     if(status < 0)
     {
         LOG_ERROR("[%s] SendCommand() failed code %d.", m_deviceName.c_str(), status);
-        return read;
+        return(read);
     }
 
     memset(data, 0, CM_KEYBOARD_WRITE_SIZE);
@@ -121,7 +121,7 @@ std::vector<uint8_t> CMKeyboardAbstractController::SendCommand(std::vector<uint8
     if(status < 0)
     {
         LOG_ERROR("[%s] SendCommand() failed code %d.", m_deviceName.c_str(), status);
-        return read;
+        return(read);
     }
 
     for(i = 0; i < (size_t)status; i++)
@@ -129,7 +129,7 @@ std::vector<uint8_t> CMKeyboardAbstractController::SendCommand(std::vector<uint8
         read.push_back(data[i]);
     }
 
-    return read;
+    return(read);
 }
 
 /*---------------------------------------------------------*\
@@ -158,10 +158,10 @@ uint8_t CMKeyboardAbstractController::GetActiveProfile()
 
     if(data.size() > 4)
     {
-        return (int)data[4];
+        return((int)data[4]);
     }
 
-    return 0xFF; // error
+    return(0xFF); // error
 }
 
 /*---------------------------------------------------------*\
@@ -187,7 +187,8 @@ void CMKeyboardAbstractController::SaveProfile()
 uint8_t CMKeyboardAbstractController::GetModeStatus()
 {
     std::vector<uint8_t> data = SendCommand({0x52, 0x28});
-    return data[4];
+
+    return(data[4]);
 };
 
 std::string CMKeyboardAbstractController::GetHexString(std::vector<uint8_t> buf)
@@ -199,5 +200,5 @@ std::string CMKeyboardAbstractController::GetHexString(std::vector<uint8_t> buf)
         hexss << std::hex << b << " ";
     }
 
-    return hexss.str();
+    return(hexss.str());
 }

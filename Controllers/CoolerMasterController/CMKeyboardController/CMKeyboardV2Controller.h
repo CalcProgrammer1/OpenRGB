@@ -6,6 +6,9 @@
 |  Tam D (too.manyhobbies)      30th Nov 2023                         |
 |                                                                     |
 \*-------------------------------------------------------------------*/
+
+#pragma once
+
 #include "CMKeyboardAbstractController.h"
 
 struct stCMKeyboardV2_mode

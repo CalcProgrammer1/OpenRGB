@@ -15,14 +15,11 @@
 #include <sstream>
 #include <map>
 #include <vector>
-
 #include <hidapi/hidapi.h>
-
 #include "CMKeyboardDevices.h"
 #include "KeyboardLayoutManager.h"
 #include "RGBController.h"
 #include "LogManager.h"
-
 
 #define HID_MAX_STR                         255
 #define CM_KEYBOARD_WRITE_SIZE              65

@@ -1,13 +1,13 @@
-﻿#include "Detector.h"
+﻿#include <stdio.h>
+#include <stdlib.h>
+#include <vector>
+#include "Detector.h"
 #include "LogManager.h"
 #include "ColorfulGPUController.h"
 #include "RGBController.h"
 #include "RGBController_ColorfulGPU.h"
 #include "i2c_smbus.h"
 #include "pci_ids.h"
-#include <vector>
-#include <stdio.h>
-#include <stdlib.h>
 
 bool TestForColorfulGPU(i2c_smbus_interface* bus, uint8_t i2c_addr)
 {

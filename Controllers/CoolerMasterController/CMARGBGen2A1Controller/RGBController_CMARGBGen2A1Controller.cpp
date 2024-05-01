@@ -7,10 +7,9 @@
 |                                                                     |
 \*-------------------------------------------------------------------*/
 
-#include "RGBController_CMARGBGen2A1Controller.h"
-
-#include <thread>
 #include <chrono>
+#include <thread>
+#include "RGBController_CMARGBGen2A1Controller.h"
 
 /**------------------------------------------------------------------*\
     @name Coolermaster ARGB A1
@@ -245,7 +244,7 @@ void RGBController_CMARGBGen2A1Controller::DeviceUpdateLEDs()
 }
 
 void RGBController_CMARGBGen2A1Controller::UpdateZoneLEDs(int zone)
-{    
+{
     if(zones[zone].leds_count > 0)
     {
         unsigned int start = zones[zone].start_idx;
@@ -265,7 +264,7 @@ void RGBController_CMARGBGen2A1Controller::UpdateZoneLEDs(int zone)
 }
 
 void RGBController_CMARGBGen2A1Controller::UpdateSingleLED(int /*led*/)
-{    
+{
     DeviceUpdateLEDs();
 }
 

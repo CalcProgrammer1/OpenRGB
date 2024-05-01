@@ -7,8 +7,8 @@
 |                                                                     |
 \*-------------------------------------------------------------------*/
 
-#include "CMMM711Controller.h"
 #include <cstring>
+#include "CMMM711Controller.h"
 
 CMMM711Controller::CMMM711Controller(hid_device* dev_handle, char *_path)
 {
@@ -87,12 +87,12 @@ void CMMM711Controller::GetModeStatus()
 
 std::string CMMM711Controller::GetDeviceName()
 {
-    return device_name;
+    return(device_name);
 }
 
 std::string CMMM711Controller::GetSerial()
 {
-    return serial;
+    return(serial);
 }
 
 std::string CMMM711Controller::GetLocation()
@@ -102,37 +102,37 @@ std::string CMMM711Controller::GetLocation()
 
 unsigned char CMMM711Controller::GetMode()
 {
-    return current_mode;
+    return(current_mode);
 }
 
 unsigned char CMMM711Controller::GetLedRed()
 {
-    return current_red;
+    return(current_red);
 }
 
 unsigned char CMMM711Controller::GetLedGreen()
 {
-    return current_green;
+    return(current_green);
 }
 
 unsigned char CMMM711Controller::GetLedBlue()
 {
-    return current_blue;
+    return(current_blue);
 }
 
 unsigned char CMMM711Controller::GetLedSpeed()
 {
-    return current_speed;
+    return(current_speed);
 }
 
 RGBColor CMMM711Controller::GetWheelColour()
 {
-    return wheel_colour;
+    return(wheel_colour);
 }
 
 RGBColor CMMM711Controller::GetLogoColour()
 {
-    return logo_colour;
+    return(logo_colour);
 }
 
 void CMMM711Controller::SetLedsDirect(RGBColor wheel_colour, RGBColor logo_colour)

@@ -6,10 +6,12 @@
 |  morg (Morgan Guimard) 9/18/2023                                    |
 |                                                                     |
 \*-------------------------------------------------------------------*/
+
 #pragma once
+
+#include <vector>
 #include "RGBController.h"
 #include "CMMonitorController.h"
-#include <vector>
 
 class RGBController_CMMonitorController : public RGBController
 {
@@ -25,6 +27,6 @@ public:
     void SetCustomMode();
     void DeviceUpdateMode();
 
-private:   
+private:
     CMMonitorController*   controller;
 };

@@ -1,5 +1,5 @@
-#include "ColorfulGPUController.h"
 #include <cstring>
+#include "ColorfulGPUController.h"
 #include "pci_ids.h"
 #include "LogManager.h"
 

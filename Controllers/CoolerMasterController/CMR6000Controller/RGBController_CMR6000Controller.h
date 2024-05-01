@@ -7,6 +7,7 @@
 \*-------------------------------------------------------------------*/
 
 #pragma once
+
 #include "RGBController.h"
 #include "CMR6000Controller.h"
 

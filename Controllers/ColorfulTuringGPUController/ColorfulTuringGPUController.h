@@ -1,8 +1,8 @@
+#pragma once
+
 #include <string>
 #include "i2c_smbus.h"
 #include "RGBController.h"
-
-#pragma once
 
 typedef unsigned char colorful_gpu_dev_id;
 

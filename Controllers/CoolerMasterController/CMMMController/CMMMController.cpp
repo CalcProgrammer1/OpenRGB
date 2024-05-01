@@ -8,8 +8,8 @@
 |                                                                     |
 \*-------------------------------------------------------------------*/
 
-#include "CMMMController.h"
 #include <cstring>
+#include "CMMMController.h"
 
 CMMMController::CMMMController(hid_device* dev_handle, char *_path, uint16_t pid) : product_id(pid)
 {
@@ -60,8 +60,8 @@ CMMMController::CMMMController(hid_device* dev_handle, char *_path, uint16_t pid
         wheel_bytes[0]                   = CM_MM_MODE_BYTE;
         wheel_bytes[1]                   = CM_MM_SPEED_BYTE;
         wheel_bytes[2]                   = CM_MM_NFI_1;
-    }                                    
-                                         
+    }
+
     logo_bytes[0]                        = CM_MM_NFI_2;
     logo_bytes[1]                        = CM_MM_NFI_3;
     logo_bytes[2]                        = CM_MM_BRIGHTNESS_BYTE;

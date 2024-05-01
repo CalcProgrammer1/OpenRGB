@@ -6,9 +6,10 @@
 |  Tam D (too.manyhobbies)      30th Nov 2023                         |
 |                                                                     |
 \*-------------------------------------------------------------------*/
+
+#include <cmath>
 #include "CMKeyboardV1Controller.h"
 #include "LogManager.h"
-#include <cmath>
 
 CMKeyboardV1Controller::CMKeyboardV1Controller(hid_device* dev_handle, hid_device_info* dev_info) : CMKeyboardAbstractController(dev_handle, dev_info)
 {

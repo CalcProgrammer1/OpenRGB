@@ -7,11 +7,12 @@
 |                                                                     |
 \*-------------------------------------------------------------------*/
 
+#pragma once
+
 #include <string>
 #include <hidapi/hidapi.h>
 #include "RGBController.h"
 
-#pragma once
 #define CM_RGBC_NUM_LEDS 4
 
 #define REPORT_ID_OFFSET                        1

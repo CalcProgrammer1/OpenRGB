@@ -7,12 +7,11 @@
 |  Sebastian Kraus 12/25/2021               |
 \*-----------------------------------------*/
 
-#include "RGBController.h"
+#pragma once
 
 #include <string>
 #include <hidapi/hidapi.h>
-
-#pragma once
+#include "RGBController.h"
 
 #define CHERRY_KB_PACKET_SIZE                        64
 #define CHERRY_KB_MAX_PACKET_SIZE                  ( 0x36 )/* max packet size for color*/
@@ -85,7 +84,7 @@ enum
     CHERRY_KB_MODE_RADIATION                       = 0x12,
     CHERRY_KB_MODE_RIPPLES                         = 0x13,
     CHERRY_KB_MODE_SINGLE_KEY                      = 0x15,
-    
+
 };
 
 enum

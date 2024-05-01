@@ -7,11 +7,11 @@
 |                                                                     |
 \*-------------------------------------------------------------------*/
 
-#include "RGBController.h"
+#pragma once
+
 #include <string>
 #include <hidapi/hidapi.h>
-
-#pragma once
+#include "RGBController.h"
 
 #define CM_ARGB_GEN2_A1_PACKET_LENGTH 65
 #define CM_ARGB_GEN2_A1_CHANNEL_MAX_SIZE 48

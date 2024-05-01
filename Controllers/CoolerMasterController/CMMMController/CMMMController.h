@@ -8,12 +8,12 @@
 |                                                                     |
 \*-------------------------------------------------------------------*/
 
-#include <string>
+#pragma once
+
 #include <array>
+#include <string>
 #include <hidapi/hidapi.h>
 #include "RGBController.h"
-
-#pragma once
 
 #define CM_MM_PACKET_SIZE 65
 #define CM_MM_COLOUR_MODE_DATA_SIZE (sizeof(colour_mode_data[0]) / sizeof(colour_mode_data[0][0]))

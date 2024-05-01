@@ -20,7 +20,6 @@ public:
 private:
     ColorfulTuringGPUController* controller;
     int                          getModeIndex(int mode_value);
-
 };
 
 

@@ -1,15 +1,15 @@
+#include <vector>
+#include <hidapi/hidapi.h>
 #include "Detector.h"
 #include "CherryKeyboardController.h"
 #include "RGBController.h"
 #include "RGBController_CherryKeyboard.h"
-#include <vector>
-#include <hidapi/hidapi.h>
 
 /*-----------------------------------------------------*\
 | Cherry keyboard VID and usage page                    |
 \*-----------------------------------------------------*/
-#define CHERRY_KEYBOARD_VID             0x046A
-#define CHERRY_KEYBOARD_USAGE_PAGE      0xFF1C
+#define CHERRY_KEYBOARD_VID                     0x046A
+#define CHERRY_KEYBOARD_USAGE_PAGE              0xFF1C
 
 /******************************************************************************************\
 *                                                                                          *

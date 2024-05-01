@@ -1,5 +1,5 @@
-#include "RGBController_ColorfulTuringGPU.h"
 #include <array>
+#include "RGBController_ColorfulTuringGPU.h"
 
 /**------------------------------------------------------------------*\
     @name Colorful GPU

@@ -6,6 +6,9 @@
 |  Tam D (too.manyhobbies)      30th Nov 2023                         |
 |                                                                     |
 \*-------------------------------------------------------------------*/
+
+#pragma once
+
 #include "CMKeyboardAbstractController.h"
 
 class CMKeyboardV1Controller : public CMKeyboardAbstractController
@@ -35,5 +38,4 @@ public:
 
 private:
     std::string                 _GetFirmwareVersion();
-
 };
