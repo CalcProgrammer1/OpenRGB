@@ -1,11 +1,18 @@
+#include <hidapi/hidapi.h>
 #include "Detector.h"
 #include "AMDWraithPrismController.h"
 #include "RGBController.h"
 #include "RGBController_AMDWraithPrism.h"
-#include <hidapi/hidapi.h>
 
-#define AMD_WRAITH_PRISM_VID 0x2516
-#define AMD_WRAITH_PRISM_PID 0x0051
+/*---------------------------------------------------------*\
+| AMD Wraith Prism vendor ID                                |
+\*---------------------------------------------------------*/
+#define AMD_WRAITH_PRISM_VID                        0x2516
+
+/*---------------------------------------------------------*\
+| AMD Wraith Prism product ID                               |
+\*---------------------------------------------------------*/
+#define AMD_WRAITH_PRISM_PID                        0x0051
 
 /******************************************************************************************\
 *                                                                                          *

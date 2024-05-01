@@ -7,9 +7,9 @@
 |  Mohamad Sallal - msallal      05/22/2021 |
 \*-----------------------------------------*/
 
+#include <iterator>
 #include "RGBControllerKeyNames.h"
 #include "RGBController_AlienwareAW510K.h"
-#include <iterator>
 
 //0xFFFFFFFF indicates an unused entry in matrix
 #define NA  0xFFFFFFFF

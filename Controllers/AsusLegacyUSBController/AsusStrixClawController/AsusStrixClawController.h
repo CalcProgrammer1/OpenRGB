@@ -7,12 +7,11 @@
 |  Mola19 08/06/2022                        |
 \*-----------------------------------------*/
 
-#include "RGBController.h"
+#pragma once
 
 #include <string>
 #include <hidapi/hidapi.h>
-
-#pragma once
+#include "RGBController.h"
 
 #define HID_MAX_STR 255
 

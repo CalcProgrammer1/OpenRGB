@@ -7,12 +7,11 @@
 |  Adam Honse (CalcProgrammer1) 12/6/2019   |
 \*-----------------------------------------*/
 
+#pragma once
+
 #include <string>
 #include <hidapi/hidapi.h>
-
 #include "RGBController.h"
-
-#pragma once
 
 #define AMD_WRAITH_PRISM_FAN_BRIGHTNESS_DEFAULT_MAX     0xFF
 #define AMD_WRAITH_PRISM_FAN_BRIGHTNESS_CYCLE_MAX       0x7F

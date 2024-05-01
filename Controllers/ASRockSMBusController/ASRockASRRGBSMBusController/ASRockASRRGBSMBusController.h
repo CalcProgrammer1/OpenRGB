@@ -1,5 +1,5 @@
 /*-----------------------------------------*\
-|  ASRockASRRGBSMBusController.h        |
+|  ASRockASRRGBSMBusController.h            |
 |                                           |
 |  Definitions and types for ASRock         |
 |  ASR LED and Polychrome RGB lighting      |
@@ -8,10 +8,10 @@
 |  Adam Honse (CalcProgrammer1) 12/13/2019  |
 \*-----------------------------------------*/
 
-#include "i2c_smbus.h"
-#include <string>
-
 #pragma once
+
+#include <string>
+#include "i2c_smbus.h"
 
 typedef uint8_t	polychrome_dev_id;
 
@@ -63,7 +63,7 @@ public:
     uint8_t                 GetMode();
     void                    SetColorsAndSpeed(uint8_t led, uint8_t red, uint8_t green, uint8_t blue);
     void                    SetMode(uint8_t zone, uint8_t mode, uint8_t speed);
-    
+
     uint16_t                fw_version;
 
 private:

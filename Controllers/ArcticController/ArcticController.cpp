@@ -6,8 +6,8 @@
 |  Armin Wolf (Wer-Wolf) 01/09/2023         |
 \*-----------------------------------------*/
 
-#include "ArcticController.h"
 #include <cstring>
+#include "ArcticController.h"
 
 using namespace std::chrono_literals;
 

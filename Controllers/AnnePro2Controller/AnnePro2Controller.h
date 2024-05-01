@@ -7,13 +7,11 @@
 \*-----------------------------------------*/
 
 #pragma once
-#include "RGBController.h"
 
 #include <string>
 #include <vector>
 #include <hidapi/hidapi.h>
-
-#pragma once
+#include "RGBController.h"
 
 class AnnePro2Controller
 {

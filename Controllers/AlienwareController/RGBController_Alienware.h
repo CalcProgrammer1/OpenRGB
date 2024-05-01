@@ -9,10 +9,9 @@
 
 #pragma once
 
+#include <chrono>
 #include "RGBController.h"
 #include "AlienwareController.h"
-
-#include <chrono>
 
 class RGBController_Alienware : public RGBController
 {

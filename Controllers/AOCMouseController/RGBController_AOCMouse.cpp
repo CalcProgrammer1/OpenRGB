@@ -21,14 +21,14 @@
 
 RGBController_AOCMouse::RGBController_AOCMouse(AOCMouseController* controller_ptr)
 {
-    controller  = controller_ptr;
+    controller                      = controller_ptr;
 
-    name        = "AOC Mouse Device";
-    vendor      = "AOC";
-    type        = DEVICE_TYPE_MOUSE;
-    description = "AOC Mouse Device";
-    location    = controller->GetDeviceLocation();
-    serial      = controller->GetSerialString();
+    name                            = "AOC Mouse Device";
+    vendor                          = "AOC";
+    type                            = DEVICE_TYPE_MOUSE;
+    description                     = "AOC Mouse Device";
+    location                        = controller->GetDeviceLocation();
+    serial                          = controller->GetSerialString();
 
     mode Direct;
     Direct.name                     = "Direct";

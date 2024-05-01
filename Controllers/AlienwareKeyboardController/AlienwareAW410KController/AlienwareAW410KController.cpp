@@ -9,8 +9,8 @@
 |  Dominik Mikolajczyk - dmiko 23/10/2023                |
 \*------------------------------------------------------*/
 
-#include "AlienwareAW410KController.h"
 #include <cstring>
+#include "AlienwareAW410KController.h"
 
 AlienwareAW410KController::AlienwareAW410KController(hid_device* dev_handle, const char* path)
 {

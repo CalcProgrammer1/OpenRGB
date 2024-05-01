@@ -7,10 +7,9 @@
 |  Gabriel Marcano (gemarcano) 4/19/2021    |
 \*-----------------------------------------*/
 
-#include "RGBController_Alienware.h"
-
 #include <thread>
 #include <chrono>
+#include "RGBController_Alienware.h"
 
 /**------------------------------------------------------------------*\
     @name Alienware

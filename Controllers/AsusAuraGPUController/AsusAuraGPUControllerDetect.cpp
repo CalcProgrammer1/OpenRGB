@@ -6,6 +6,9 @@
 |  Jan Rettig (Klapstuhl) 14.02.2020        |
 \*-----------------------------------------*/
 
+#include <stdio.h>
+#include <stdlib.h>
+#include <vector>
 #include "Detector.h"
 #include "AsusAuraGPUController.h"
 #include "LogManager.h"
@@ -13,9 +16,6 @@
 #include "RGBController_AsusAuraGPU.h"
 #include "i2c_smbus.h"
 #include "pci_ids.h"
-#include <vector>
-#include <stdio.h>
-#include <stdlib.h>
 
 #define ASUSGPU_CONTROLLER_NAME "ASUS Aura GPU"
 

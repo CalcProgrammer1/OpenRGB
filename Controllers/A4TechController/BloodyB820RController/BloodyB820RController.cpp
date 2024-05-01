@@ -40,7 +40,7 @@ std::string BloodyB820RController::GetSerial()
     std::wstring wName  = std::wstring(tmpName);
     std::string serial  = std::string(wName.begin(), wName.end());
 
-    return serial;
+    return(serial);
 }
 
 std::string BloodyB820RController::GetLocation()
@@ -50,12 +50,12 @@ std::string BloodyB820RController::GetLocation()
 
 void  BloodyB820RController::SendControlPacket(uint8_t data)
 {
-    uint8_t buffer[BLOODY_B820R_PACKET_SIZE]   = { 0x07, 0x03, 0x06, 0x01, 0x00, 0x00, 0x00, 0x00 };
+    uint8_t buffer[BLOODY_B820R_PACKET_SIZE]    = { 0x07, 0x03, 0x06, 0x01, 0x00, 0x00, 0x00, 0x00 };
 
     hid_send_feature_report(dev, buffer, BLOODY_B820R_PACKET_SIZE);
 
-    buffer[BLOODY_B820R_MODE_BYTE]                   = 0;
-    buffer[BLOODY_B820R_DATA_BYTE]                   = data;
+    buffer[BLOODY_B820R_MODE_BYTE]              = 0;
+    buffer[BLOODY_B820R_DATA_BYTE]              = data;
 
     hid_send_feature_report(dev, buffer, BLOODY_B820R_PACKET_SIZE);
 }
@@ -75,14 +75,12 @@ void BloodyB820RController::SetLEDDirect(std::vector<RGBColor> colors)
     |   packet_map is the index of the Key from full_matrix_map and     |
     |   the value is the position in the direct packet buffer           |
     \*-----------------------------------------------------------------*/
-
-
     for(size_t i = 0; i < colors.size(); i++)
     {
-        RGBColor    color                     = colors[i];
-        uint8_t     offset                    = BLOODY_B820R_RGB_OFFSET;
-        uint8_t     buffer_idx                = offset + i % BLOODY_B820R_RGB_BUFFER_SIZE;
-        uint8_t*    buffers[2][3]             =
+        RGBColor    color                       = colors[i];
+        uint8_t     offset                      = BLOODY_B820R_RGB_OFFSET;
+        uint8_t     buffer_idx                  = offset + i % BLOODY_B820R_RGB_BUFFER_SIZE;
+        uint8_t*    buffers[2][3]               =
                 {
                         {r1_buffer, g1_buffer, b1_buffer},
                         {r2_buffer, g2_buffer, b2_buffer}

@@ -7,15 +7,14 @@
 |  Mola19 05/28/2022                        |
 \*-----------------------------------------*/
 
-#include "AsusCerberusKeyboardController.h"
-
+#include <cmath>
 #include <cstring>
-#include <string>
-#include <vector>
 #include <math.h>
 #include <stdio.h>
+#include <string>
 #include <string.h>
-#include <cmath>
+#include <vector>
+#include "AsusCerberusKeyboardController.h"
 
 #define ASUS_CERBERUS_KB_PACKET_SIZE 8
 

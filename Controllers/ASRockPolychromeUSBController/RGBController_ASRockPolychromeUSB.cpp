@@ -8,8 +8,8 @@
 |  Shady Nawara (ShadyNawara) 01/16/2023    |
 \*-----------------------------------------*/
 
-#include "RGBController_ASRockPolychromeUSB.h"
 #include <string.h>
+#include "RGBController_ASRockPolychromeUSB.h"
 
 #define ASROCK_USB_MAX_ZONES        8
 #define ASROCK_ADDRESSABLE_MAX_LEDS 100

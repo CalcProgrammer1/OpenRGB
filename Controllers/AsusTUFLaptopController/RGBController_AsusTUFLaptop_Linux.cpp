@@ -16,13 +16,13 @@
 
 RGBController_AsusTUFLaptopLinux::RGBController_AsusTUFLaptopLinux(AsusTUFLaptopLinuxController* controller_ptr)
 {
-    controller  = controller_ptr;
+    controller                      = controller_ptr;
 
-    name        = "ASUS TUF Keyboard";
-    vendor      = "ASUS";
-    type        = DEVICE_TYPE_KEYBOARD;
-    description = "Asus TUF Device";
-    location    = ASUS_KBD_BACKLIGHT_BASE_PATH;
+    name                            = "ASUS TUF Keyboard";
+    vendor                          = "ASUS";
+    type                            = DEVICE_TYPE_KEYBOARD;
+    description                     = "Asus TUF Device";
+    location                        = ASUS_KBD_BACKLIGHT_BASE_PATH;
 
     mode Direct;
     Direct.name                     = "Direct";

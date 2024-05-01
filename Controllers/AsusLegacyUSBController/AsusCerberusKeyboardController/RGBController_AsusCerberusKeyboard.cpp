@@ -7,10 +7,10 @@
 |  Mola19 05/28/2022                        |
 \*-----------------------------------------*/
 
-#include "RGBController_AsusCerberusKeyboard.h"
-#include <vector>
 #include <cmath>
+#include <vector>
 #include "RGBControllerKeyNames.h"
+#include "RGBController_AsusCerberusKeyboard.h"
 
 /**------------------------------------------------------------------*\
     @name Asus Cerberus Mech Keyboard

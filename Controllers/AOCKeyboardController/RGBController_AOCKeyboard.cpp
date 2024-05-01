@@ -47,14 +47,14 @@ layout_values aoc_keyboard_offset_values =
 
 RGBController_AOCKeyboard::RGBController_AOCKeyboard(AOCKeyboardController* controller_ptr)
 {
-    controller  = controller_ptr;
+    controller                      = controller_ptr;
 
-    name        = "AOC Keyboard Device";
-    vendor      = "AOC";
-    type        = DEVICE_TYPE_KEYBOARD;
-    description = "AOC Keyboard Device";
-    location    = controller->GetDeviceLocation();
-    serial      = controller->GetSerialString();
+    name                            = "AOC Keyboard Device";
+    vendor                          = "AOC";
+    type                            = DEVICE_TYPE_KEYBOARD;
+    description                     = "AOC Keyboard Device";
+    location                        = controller->GetDeviceLocation();
+    serial                          = controller->GetSerialString();
 
     mode Static;
     Static.name                     = "Static";

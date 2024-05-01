@@ -1,3 +1,5 @@
+#include <stdexcept>
+#include <hidapi/hidapi.h>
 #include "Detector.h"
 #include "AsusCerberusKeyboardController.h"
 #include "AsusSagarisKeyboardController.h"
@@ -6,8 +8,6 @@
 #include "RGBController_AsusCerberusKeyboard.h"
 #include "RGBController_AsusSagarisKeyboard.h"
 #include "RGBController_AsusStrixClaw.h"
-#include <stdexcept>
-#include <hidapi/hidapi.h>
 #include "dependencies/dmiinfo.h"
 
 #define ASUS_LEGACY_USB_VID         0x195D

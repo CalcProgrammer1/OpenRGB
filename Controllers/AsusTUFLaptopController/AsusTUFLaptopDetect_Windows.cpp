@@ -1,10 +1,9 @@
 #ifdef _WIN32
 
-#include "RGBController_AsusTUFLaptop_Windows.h"
-
-#include "Detector.h"
-#include "wmi.h"
 #include <string>
+#include "Detector.h"
+#include "RGBController_AsusTUFLaptop_Windows.h"
+#include "wmi.h"
 
 static void DetectAsusTUFLaptopWMIControllers()
 {

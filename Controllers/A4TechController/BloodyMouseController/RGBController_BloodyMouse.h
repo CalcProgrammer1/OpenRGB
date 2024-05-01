@@ -8,6 +8,7 @@
 \*---------------------------------------------------------------------*/
 
 #pragma once
+
 #include <vector>
 #include "RGBController.h"
 #include "BloodyMouseController.h"

@@ -1,19 +1,18 @@
 /*-----------------------------------------*\
-|  AsusSagarisKeyboardController.h         |
+|  AsusSagarisKeyboardController.h          |
 |                                           |
-|  Definitions and types for ASUS Sagaris  |
+|  Definitions and types for ASUS Sagaris   |
 |  USB RGB lighting controller              |
 |                                           |
 |  Mola19 08/20/2023                        |
 \*-----------------------------------------*/
 
-#include "RGBController.h"
+#pragma once
 
 #include <string>
 #include <vector>
 #include <hidapi/hidapi.h>
-
-#pragma once
+#include "RGBController.h"
 
 enum
 {

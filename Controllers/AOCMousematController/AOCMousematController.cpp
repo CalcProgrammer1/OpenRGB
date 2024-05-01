@@ -7,9 +7,8 @@
 |  Adam Honse (CalcProgrammer1) 4/15/2023   |
 \*-----------------------------------------*/
 
-#include "AOCMousematController.h"
-
 #include <cstring>
+#include "AOCMousematController.h"
 
 AOCMousematController::AOCMousematController(hid_device* dev_handle, const char* path)
 {

@@ -7,9 +7,8 @@
 |  Mola19 06/04/2021                        |
 \*-----------------------------------------*/
 
-#include "AsusAuraHeadsetStandController.h"
-
 #include <cstring>
+#include "AsusAuraHeadsetStandController.h"
 
 AuraHeadsetStandController::AuraHeadsetStandController(hid_device* dev_handle, const char* path)
 {

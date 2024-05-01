@@ -7,8 +7,9 @@
 |  Mola19 08/20/2023                        |
 \*-----------------------------------------*/
 
-#include "RGBController_AsusSagarisKeyboard.h"
+#include <iostream>
 #include <vector>
+#include "RGBController_AsusSagarisKeyboard.h"
 
 /**------------------------------------------------------------------*\
     @name Asus Sagaris Keyboard
@@ -20,8 +21,6 @@
     @detectors DetectAsusSagarisKeyboard
     @comment Missing controls for modifier keys, as they have independent lighting
 \*-------------------------------------------------------------------*/
-
-#include <iostream>
 
 RGBController_AsusSagarisKeyboard::RGBController_AsusSagarisKeyboard(AsusSagarisKeyboardController* controller_ptr)
 {

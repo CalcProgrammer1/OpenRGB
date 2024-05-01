@@ -1,9 +1,7 @@
-#ifndef RGBCONTROLLER_ASUSTUFLAPTOPLINUX_H
-#define RGBCONTROLLER_ASUSTUFLAPTOPLINUX_H
+#pragma once
 
 #include "RGBController.h"
 #include "AsusTUFLaptopController_Linux.h"
-
 
 class RGBController_AsusTUFLaptopLinux : public RGBController
 {
@@ -23,5 +21,3 @@ public:
 private:
     AsusTUFLaptopLinuxController* controller;
 };
-
-#endif // RGBCONTROLLER_ASUSTUFLAPTOPLINUX_H

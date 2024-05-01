@@ -21,14 +21,14 @@
 
 RGBController_AOCMousemat::RGBController_AOCMousemat(AOCMousematController* controller_ptr)
 {
-    controller  = controller_ptr;
+    controller                      = controller_ptr;
 
-    name        = "AOC Mousemat Device";
-    vendor      = "AOC";
-    type        = DEVICE_TYPE_MOUSEMAT;
-    description = "AOC Mousemat Device";
-    location    = controller->GetDeviceLocation();
-    serial      = controller->GetSerialString();
+    name                            = "AOC Mousemat Device";
+    vendor                          = "AOC";
+    type                            = DEVICE_TYPE_MOUSEMAT;
+    description                     = "AOC Mousemat Device";
+    location                        = controller->GetDeviceLocation();
+    serial                          = controller->GetSerialString();
 
     mode Direct;
     Direct.name                     = "Direct";

@@ -7,11 +7,12 @@
 \*-----------------------------------------*/
 
 #pragma once
+
+#include <chrono>
+#include <thread>
 #include "ArcticController.h"
 #include "RGBController.h"
 #include "serial_port.h"
-#include <chrono>
-#include <thread>
 
 class RGBController_Arctic : public RGBController
 {

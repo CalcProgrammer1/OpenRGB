@@ -7,11 +7,11 @@
 |  Adam Honse (CalcProgrammer1) 4/15/2023   |
 \*-----------------------------------------*/
 
-#include "RGBController.h"
-#include <hidapi/hidapi.h>
-#include <string>
-
 #pragma once
+
+#include <string>
+#include <hidapi/hidapi.h>
+#include "RGBController.h"
 
 /*-----------------------------------------*\
 | AOC Mousemat Modes                        |

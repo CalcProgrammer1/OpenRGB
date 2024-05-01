@@ -7,10 +7,9 @@
 |  Mola19 08/06/2022                        |
 \*-----------------------------------------*/
 
-#include "AsusStrixClawController.h"
-
 #include <cstring>
 #include <string>
+#include "AsusStrixClawController.h"
 
 StrixClawController::StrixClawController(hid_device* dev_handle, const char* path)
 {

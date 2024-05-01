@@ -1,20 +1,18 @@
 /*-----------------------------------------*\
-|  AsusSagarisKeyboardController.cpp       |
+|  AsusSagarisKeyboardController.cpp        |
 |                                           |
-|  Driver for ASUS Sagaris USB lighting    |
+|  Driver for ASUS Sagaris USB lighting     |
 |  controller                               |
 |                                           |
 |  Mola19 08/20/2023                        |
 \*-----------------------------------------*/
 
-#include "AsusSagarisKeyboardController.h"
-
 #include <cstring>
-#include <string>
 #include <math.h>
-#include <vector>
+#include <string>
 #include <string.h>
-
+#include <vector>
+#include "AsusSagarisKeyboardController.h"
 #include "LogManager.h"
 
 #define ASUS_SAGARIS_KB_PACKET_SIZE 65

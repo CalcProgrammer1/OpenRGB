@@ -1,21 +1,21 @@
+#include <hidapi/hidapi.h>
 #include "Detector.h"
 #include "AlienwareAW510KController.h"
 #include "AlienwareAW410KController.h"
 #include "RGBController.h"
 #include "RGBController_AlienwareAW510K.h"
 #include "RGBController_AlienwareAW410K.h"
-#include <hidapi/hidapi.h>
 
 /*-----------------------------------------------------*\
 | Alienware vendor ID                                   |
 \*-----------------------------------------------------*/
-#define ALIENWARE_VID           0x04F2
+#define ALIENWARE_VID                           0x04F2
 
 /*-----------------------------------------------------*\
 | Keyboard product IDs                                  |
 \*-----------------------------------------------------*/
-#define ALIENWARE_AW510K_PID    0x1830
-#define ALIENWARE_AW410K_PID    0x1968
+#define ALIENWARE_AW510K_PID                    0x1830
+#define ALIENWARE_AW410K_PID                    0x1968
 
 /******************************************************************************************\
 *                                                                                          *

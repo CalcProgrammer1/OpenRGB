@@ -11,7 +11,7 @@
 /*---------------------------------------------------------*\
 | Alienware product ID                                      |
 \*---------------------------------------------------------*/
-#define ALIENWARE_G_SERIES_PID                         0x0550
+#define ALIENWARE_G_SERIES_PID                      0x0550
 
 void DetectAlienwareControllers(hid_device_info* info, const std::string& name)
 {

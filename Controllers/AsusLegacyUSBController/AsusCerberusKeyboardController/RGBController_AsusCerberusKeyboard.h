@@ -8,6 +8,7 @@
 \*-----------------------------------------*/
 
 #pragma once
+
 #include "RGBController.h"
 #include "AsusCerberusKeyboardController.h"
 

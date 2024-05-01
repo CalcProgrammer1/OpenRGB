@@ -7,6 +7,8 @@
 |                                                                       |
 \*---------------------------------------------------------------------*/
 
+#pragma once
+
 #include <string>
 #include <vector>
 #include <hidapi/hidapi.h>
@@ -14,8 +16,6 @@
 #include "RGBController.h"
 #include "ResourceManager.h"
 #include "RGBControllerKeyNames.h"
-
-#pragma once
 
 #define NA                                      0xFFFFFFFF
 #define HID_MAX_STR                             255

@@ -6,8 +6,6 @@
 |  Gabriel Marcano (gemarcano) 4/21/2021    |
 \*-----------------------------------------*/
 
-#include "RGBController.h"
-#include "AlienwareController.h"
 #include <cstring>
 #include <cstdint>
 #include <map>
@@ -15,6 +13,8 @@
 #include <chrono>
 #include <algorithm>
 #include <sstream>
+#include "RGBController.h"
+#include "AlienwareController.h"
 #include "LogManager.h"
 
 typedef uint32_t alienware_platform_id;

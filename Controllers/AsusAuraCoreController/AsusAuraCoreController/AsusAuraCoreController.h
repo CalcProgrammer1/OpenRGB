@@ -7,12 +7,11 @@
 |  Adam Honse (CalcProgrammer1) 4/13/2020   |
 \*-----------------------------------------*/
 
-#include "RGBController.h"
+#pragma once
 
 #include <string>
 #include <hidapi/hidapi.h>
-
-#pragma once
+#include "RGBController.h"
 
 enum AuraCoreDeviceType
 {

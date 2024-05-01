@@ -6,9 +6,8 @@
 |  Adam Honse (CalcProgrammer1) 4/20/2023   |
 \*-----------------------------------------*/
 
-#include "AOCMouseController.h"
-
 #include <cstring>
+#include "AOCMouseController.h"
 
 AOCMouseController::AOCMouseController(hid_device* dev_handle, const char* path)
 {

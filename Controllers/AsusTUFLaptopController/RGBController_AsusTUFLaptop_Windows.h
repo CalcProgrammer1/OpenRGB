@@ -1,7 +1,4 @@
-#ifdef _WIN32
-
-#ifndef RGBCONTROLLER_ASUSTUFLAPTOPWMI_H
-#define RGBCONTROLLER_ASUSTUFLAPTOPWMI_H
+#pragma once
 
 #include "AsusTUFLaptopController_Windows.h"
 #include "RGBController.h"
@@ -29,7 +26,3 @@ private:
     void ReadConfiguration();
     void ControllerSetMode(bool save);
 };
-
-#endif // RGBCONTROLLER_ASUSTUFLAPTOPWMI_H
-
-#endif // _WIN32

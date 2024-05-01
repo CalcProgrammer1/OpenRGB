@@ -1,7 +1,4 @@
-#ifndef ASUSTUFLAPTOPCONTROLLER_H
-#define ASUSTUFLAPTOPCONTROLLER_H
-
-#ifdef _WIN32
+#pragma once
 
 #include <windows.h>
 
@@ -76,7 +73,3 @@ public:
 
     void            setFanMode(int mode);
 };
-
-#endif
-
-#endif // ASUSTUFLAPTOPCONTROLLER_H

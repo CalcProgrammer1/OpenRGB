@@ -7,11 +7,11 @@
 |                                                                       |
 \*---------------------------------------------------------------------*/
 
+#pragma once
+
 #include <string>
 #include <hidapi/hidapi.h>
 #include "RGBController.h"
-
-#pragma once
 
 /*-----------------------------------------------------*\
 | Mouse product IDs                                     |
@@ -24,7 +24,7 @@
 \*-----------------------------------------------------*/
 #define BLOODY_MP_50RS_PID                          0xFA60
 
-#define HID_MAX_STR 255
+#define HID_MAX_STR                     255
 #define BLOODYMOUSE_WRITE_PACKET_SIZE   64
 
 #define BLOODYMOUSE_BRIGHTNESS_MIN      0
@@ -54,6 +54,7 @@ public:
     std::string     GetLocation();
 
     void            SetLedsDirect(std::vector<RGBColor> colors);
+
 private:
     uint16_t        pid;
     std::string     location;

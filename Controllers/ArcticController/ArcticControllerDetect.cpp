@@ -6,14 +6,14 @@
 |  Armin Wolf (Wer-Wolf) 01/09/2023         |
 \*-----------------------------------------*/
 
+#include <stdio.h>
+#include <stdlib.h>
+#include <vector>
 #include "Detector.h"
 #include "ArcticController.h"
 #include "RGBController.h"
 #include "RGBController_Arctic.h"
 #include "find_usb_serial_port.h"
-#include <vector>
-#include <stdio.h>
-#include <stdlib.h>
 
 #define CH341_VID   0x1A86
 #define CH341_PID   0x7523

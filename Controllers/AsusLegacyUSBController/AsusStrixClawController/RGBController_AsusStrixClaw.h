@@ -8,9 +8,9 @@
 \*-----------------------------------------*/
 
 #pragma once
+
 #include "RGBController.h"
 #include "AsusStrixClawController.h"
-
 
 class RGBController_StrixClaw : public RGBController
 {

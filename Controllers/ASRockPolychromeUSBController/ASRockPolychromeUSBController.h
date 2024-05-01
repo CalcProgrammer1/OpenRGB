@@ -8,11 +8,11 @@
 |  Shady Nawara (ShadyNawara) 01/16/2023    |
 \*-----------------------------------------*/
 
-#include "RGBController.h"
-#include <hidapi/hidapi.h>
-#include <string>
-
 #pragma once
+
+#include <string>
+#include <hidapi/hidapi.h>
+#include "RGBController.h"
 
 /*----------------------------------------------------------------------------------------------*\
 | Definitions for Polychrome USB                                                                 |
@@ -159,7 +159,7 @@ private:
     unsigned char configtable[12];
     bool          rgswapconfig[8] = { 0 };
 
-    void SetDeviceInfo();    
+    void SetDeviceInfo();
     void ReadConfigTables();
     void Commit();
 };

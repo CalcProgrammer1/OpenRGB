@@ -9,9 +9,9 @@
 |  Dominik Mikolajczyk - dmiko 23/10/2023                |
 \*------------------------------------------------------*/
 
+#include <iterator>
 #include "RGBControllerKeyNames.h"
 #include "RGBController_AlienwareAW410K.h"
-#include <iterator>
 
 //0xFFFFFFFF indicates an unused entry in matrix
 #define NA  0xFFFFFFFF
@@ -410,7 +410,7 @@ void RGBController_AlienwareAW410K::DeviceUpdateMode()
             | Load LEDs again in case of profile load etc.                  |
             \*-------------------------------------------------------------*/
             DeviceUpdateLEDs();
-            break;  
+            break;
         case ALIENWARE_AW410K_MODE_MORPH:
             /*-------------------------------------------------------------*\
             | In case of morph it requires two colors (color1 and color2)   |

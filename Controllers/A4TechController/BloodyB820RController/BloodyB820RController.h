@@ -7,13 +7,13 @@
 |                                                                     |
 \*-------------------------------------------------------------------*/
 
+#pragma once
+
 #include <string>
 #include <hidapi/hidapi.h>
 #include "RGBController.h"
 
-#pragma once
-#define NA                                      0xFFFFFFFF
-#define HID_MAX_STR                             255
+#define HID_MAX_STR                     255
 
 #define BLOODY_B820R_RGB_BUFFER_SIZE    58
 #define BLOODY_B820R_RGB_OFFSET         6

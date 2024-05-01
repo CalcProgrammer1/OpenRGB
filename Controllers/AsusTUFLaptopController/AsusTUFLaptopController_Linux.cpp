@@ -1,16 +1,15 @@
+#include <string>
 #include "AsusTUFLaptopController_Linux.h"
 
-#include <string>
-
 void AsusTUFLaptopLinuxController::SendUpdate
-(
+    (
     unsigned char   mode,
     unsigned char   speed,
     unsigned char   save,
     unsigned char   red,
     unsigned char   green,
     unsigned char   blue
-)
+    )
 {
     std::string s = "";
     s.append(ASUS_KBD_BACKLIGHT_BASE_PATH);
@@ -36,9 +35,9 @@ void AsusTUFLaptopLinuxController::SendUpdate
 }
 
 void AsusTUFLaptopLinuxController::SendBrightness
-(
+    (
     unsigned char   brightness
-)
+    )
 {
     std::string s = "";
     s.append(ASUS_KBD_BACKLIGHT_BASE_PATH);

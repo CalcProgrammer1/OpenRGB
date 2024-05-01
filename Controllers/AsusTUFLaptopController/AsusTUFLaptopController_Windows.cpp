@@ -1,15 +1,11 @@
-#ifdef _WIN32
-
-#include "AsusTUFLaptopController_Windows.h"
-
+#include <cstdint>
+#include <cstring>
+#include <cstdio>
 #include <Objbase.h>
 #include <setupapi.h>
 #include <comdef.h>
 #include <Wbemidl.h>
-
-#include <cstdint>
-#include <cstring>
-#include <cstdio>
+#include "AsusTUFLaptopController_Windows.h"
 
 static bool coInitialized = 0;
 
@@ -324,6 +320,3 @@ void AsusTUFLaptopController::setFanMode(int mode)
 {
     deviceControl(ASUS_WMI_DEVID_FAN_BOOST_MODE, mode);
 }
-
-
-#endif

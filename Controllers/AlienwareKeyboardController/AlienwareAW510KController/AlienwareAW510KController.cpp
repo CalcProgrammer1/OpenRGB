@@ -7,8 +7,8 @@
 |  Mohamad Sallal - msallal      05/22/2021 |
 \*-----------------------------------------*/
 
-#include "AlienwareAW510KController.h"
 #include <cstring>
+#include "AlienwareAW510KController.h"
 
 AlienwareAW510KController::AlienwareAW510KController(hid_device* dev_handle, const char* path)
 {

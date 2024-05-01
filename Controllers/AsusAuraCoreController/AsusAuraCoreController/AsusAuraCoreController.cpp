@@ -1,5 +1,5 @@
 /*-----------------------------------------*\
-|  AsusAuraCoreController.cpp               | 
+|  AsusAuraCoreController.cpp               |
 |                                           |
 |  Driver for ASUS ROG Aura Core RGB        |
 |  lighting controller                      |
@@ -7,8 +7,8 @@
 |  Adam Honse (CalcProgrammer1) 4/13/2020   |
 \*-----------------------------------------*/
 
-#include "AsusAuraCoreController.h"
 #include <cstring>
+#include "AsusAuraCoreController.h"
 
 #define AURA_CORE_MAX_MESSAGE_SIZE  64
 

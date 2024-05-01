@@ -7,8 +7,8 @@
 |  Adam Honse (CalcProgrammer1) 12/14/2019  |
 \*-----------------------------------------*/
 
-#include "ASRockPolychromeV2SMBusController.h"
 #include <cstring>
+#include "ASRockPolychromeV2SMBusController.h"
 #include "dependencies/dmiinfo.h"
 #include "LogManager.h"
 

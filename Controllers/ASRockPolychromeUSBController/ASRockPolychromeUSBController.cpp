@@ -7,9 +7,9 @@
 |  Ed Kambulow (dredvard) 12/20/2020        |
 |  Shady Nawara (ShadyNawara) 01/16/2023    |
 \*-----------------------------------------*/
+
 #include <cstring>
 #include <stdio.h>
-
 #include "RGBController.h"
 #include "ResourceManager.h"
 #include "SettingsManager.h"

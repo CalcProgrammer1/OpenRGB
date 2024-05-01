@@ -1,8 +1,7 @@
-#include "RGBController_AsusTUFLaptop_Linux.h"
-
 #include <string>
-#include "Detector.h"
 #include <unistd.h>
+#include "Detector.h"
+#include "RGBController_AsusTUFLaptop_Linux.h"
 
 static void DetectAsusTUFLaptopLinuxControllers()
 {

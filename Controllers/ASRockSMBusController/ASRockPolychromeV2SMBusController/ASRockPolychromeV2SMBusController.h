@@ -8,10 +8,10 @@
 |  Adam Honse (CalcProgrammer1) 12/13/2019  |
 \*-----------------------------------------*/
 
-#include "i2c_smbus.h"
-#include <string>
-
 #pragma once
+
+#include <string>
+#include "i2c_smbus.h"
 
 typedef uint8_t polychrome_dev_id;
 
@@ -132,7 +132,7 @@ public:
 
     uint8_t                 zone_led_count[6];
     uint16_t                fw_version;
-    
+
 private:
     std::string             device_name;
     uint8_t                 active_zone;

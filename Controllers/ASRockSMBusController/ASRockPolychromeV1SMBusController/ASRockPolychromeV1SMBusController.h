@@ -8,11 +8,11 @@
 |  Adam Honse (CalcProgrammer1) 12/13/2019  |
 \*-----------------------------------------*/
 
+#pragma once
+
+#include <string>
 #include "i2c_smbus.h"
 #include "RGBController.h"
-#include <string>
-
-#pragma once
 
 typedef uint8_t	polychrome_dev_id;
 

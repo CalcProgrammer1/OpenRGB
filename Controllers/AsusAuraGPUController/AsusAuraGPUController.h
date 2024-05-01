@@ -6,10 +6,10 @@
 |  Jan Rettig (Klapstuhl) 14.02.2020        |
 \*-----------------------------------------*/
 
+#pragma once
+
 #include <string>
 #include "i2c_smbus.h"
-
-#pragma once
 
 typedef unsigned char aura_gpu_dev_id;
 

@@ -1,13 +1,14 @@
 /*-----------------------------------------*\
-|  RGBController_AsusSagarisKeyboard.h     |
+|  RGBController_AsusSagarisKeyboard.h      |
 |                                           |
-|  Generic RGB Interface for Asus Sagaris  |
+|  Generic RGB Interface for Asus Sagaris   |
 |  USB controller driver                    |
 |                                           |
 |  Mola19 08/20/2023                        |
 \*-----------------------------------------*/
 
 #pragma once
+
 #include "RGBController.h"
 #include "AsusSagarisKeyboardController.h"
 

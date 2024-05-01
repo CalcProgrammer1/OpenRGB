@@ -7,12 +7,11 @@
 |  Mohamad Sallal - msallal      05/22/2021 |
 \*-----------------------------------------*/
 
-#include "RGBController.h"
+#pragma once
 
 #include <string>
 #include <hidapi/hidapi.h>
-
-#pragma once
+#include "RGBController.h"
 
 enum
 {

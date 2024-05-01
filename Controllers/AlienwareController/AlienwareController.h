@@ -7,11 +7,11 @@
 |  Gabriel Marcano (gemarcano) 4/19/2021    |
 \*-----------------------------------------*/
 
-#include "RGBController.h"
-#include <hidapi/hidapi.h>
-#include <string>
-
 #pragma once
+
+#include <string>
+#include <hidapi/hidapi.h>
+#include "RGBController.h"
 
 /*----------------------------------------------------------------------------------------------*\
 | Definitions for Alienware Controller                                                           |

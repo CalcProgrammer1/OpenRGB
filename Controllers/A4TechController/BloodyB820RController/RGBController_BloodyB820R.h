@@ -1,16 +1,17 @@
 /*-------------------------------------------------------------------*\
-|  RGBController_BloodyB820R.h                                |
+|  RGBController_BloodyB820R.h                                        |
 |                                                                     |
-|  Driver for A4Tech Bloody B820R Keyboard Controller                   |
+|  Driver for A4Tech Bloody B820R Keyboard Controller                 |
 |                                                                     |
 |  Mohammed Julfikar Ali Mahbub (o-julfikar)          01 Apr 2024     |
 |                                                                     |
 \*-------------------------------------------------------------------*/
 
 #pragma once
+
+#include <vector>
 #include "RGBController.h"
 #include "BloodyB820RController.h"
-#include <vector>
 
 class RGBController_BloodyB820R : public RGBController
 {

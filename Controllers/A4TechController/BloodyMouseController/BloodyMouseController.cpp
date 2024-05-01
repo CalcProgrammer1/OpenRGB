@@ -26,7 +26,7 @@ BloodyMouseController::~BloodyMouseController()
 
 uint16_t BloodyMouseController::GetPid()
 {
-    return pid;
+    return(pid);
 }
 
 std::string BloodyMouseController::GetSerial()
@@ -45,7 +45,7 @@ std::string BloodyMouseController::GetSerial()
     std::wstring w_tmp  = std::wstring(tmp);
     std::string serial  = std::string(w_tmp.begin(), w_tmp.end());
 
-    return serial;
+    return(serial);
 }
 
 std::string BloodyMouseController::GetLocation()
@@ -53,7 +53,7 @@ std::string BloodyMouseController::GetLocation()
     return("HID: " + location);
 }
 
-void  BloodyMouseController::InitDevice()
+void BloodyMouseController::InitDevice()
 {
     uint8_t buffer[BLOODYMOUSE_WRITE_PACKET_SIZE]   = { 0x07, 0x03, 0x06, 0x01, 0x00, 0x00, 0x00, 0x00 };
 
@@ -65,7 +65,7 @@ void  BloodyMouseController::InitDevice()
     hid_send_feature_report(dev, buffer, BLOODYMOUSE_WRITE_PACKET_SIZE);
 }
 
-void  BloodyMouseController::SetLedsDirect(std::vector<RGBColor> colors)
+void BloodyMouseController::SetLedsDirect(std::vector<RGBColor> colors)
 {
     uint8_t buffer[BLOODYMOUSE_WRITE_PACKET_SIZE]   = { 0x07, 0x03, 0x06, 0x02, 0x00, 0x00, 0x00, 0x00 };
 

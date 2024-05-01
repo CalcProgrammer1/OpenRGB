@@ -1,3 +1,6 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <vector>
 #include "Detector.h"
 #include "ASRockASRRGBSMBusController.h"
 #include "ASRockPolychromeV1SMBusController.h"
@@ -9,9 +12,6 @@
 #include "RGBController_ASRockPolychromeV2SMBus.h"
 #include "i2c_smbus.h"
 #include "pci_ids.h"
-#include <vector>
-#include <stdio.h>
-#include <stdlib.h>
 
 /*******************************************************************************************\
 *                                                                                           *

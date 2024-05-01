@@ -6,8 +6,8 @@
 |  Armin Wolf (Wer-Wolf) 01/09/2023         |
 \*-----------------------------------------*/
 
-#include "RGBController_Arctic.h"
 #include <math.h>
+#include "RGBController_Arctic.h"
 
 using namespace std::chrono_literals;
 

@@ -9,12 +9,11 @@
 |  Dominik Mikolajczyk - dmiko 23/10/2023                |
 \*------------------------------------------------------*/
 
-#include "RGBController.h"
+#pragma once
 
 #include <string>
 #include <hidapi/hidapi.h>
-
-#pragma once
+#include "RGBController.h"
 
 enum
 {
