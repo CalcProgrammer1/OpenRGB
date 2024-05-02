@@ -797,6 +797,13 @@ void ResourceManager::DetectDevices()
         UpdateDeviceList();
 
         /*-------------------------------------------------*\
+        | Initialize HID interface for detection            |
+        \*-------------------------------------------------*/
+        int hid_status = hid_init();
+
+        LOG_INFO("Initializing HID interfaces: %s", ((hid_status == 0) ? "Success" : "Failed"));
+
+        /*-------------------------------------------------*\
         | Start the device detection thread                 |
         \*-------------------------------------------------*/
         detection_is_required = true;
@@ -862,13 +869,6 @@ void ResourceManager::DetectDevicesThreadFunction()
     | device strings                                    |
     \*-------------------------------------------------*/
     detector_settings = settings_manager->GetSettings("Detectors");
-
-    /*-------------------------------------------------*\
-    | Initialize HID interface for detection            |
-    \*-------------------------------------------------*/
-    int hid_status = hid_init();
-
-    LOG_INFO("Initializing HID interfaces: %s", ((hid_status == 0) ? "Success" : "Failed"));
 
     /*-------------------------------------------------*\
     | Check HID safe mode setting                       |
