@@ -46,6 +46,7 @@ private slots:
     void on_SatSpinBox_valueChanged(int sat);
     void on_BlueSpinBox_valueChanged(int blue);
     void on_ValSpinBox_valueChanged(int val);
+    void on_HexLineEdit_textChanged(const QString &arg1);
     void on_DeviceViewBox_selectionChanged(QVector<int>);
 
     void on_SetAllButton_clicked();
@@ -68,6 +69,7 @@ private:
     bool InvertedBrightness = false;
     bool MultipleSelected   = false;
     bool DeviceViewShowing  = false;
+    bool UpdateHex          = true;
 
     QColor current_color;
     void updateColorUi();

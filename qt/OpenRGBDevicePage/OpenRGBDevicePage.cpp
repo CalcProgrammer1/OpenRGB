@@ -1360,6 +1360,38 @@ void Ui::OpenRGBDevicePage::on_ValSpinBox_valueChanged(int val)
     colorChanged();
 }
 
+void Ui::OpenRGBDevicePage::on_HexLineEdit_textChanged(const QString &arg1)
+{
+    /*-----------------------------------------------------*\
+    | Make an editable copy of the string                   |
+    \*-----------------------------------------------------*/
+    QString temp = arg1;
+
+    /*-----------------------------------------------------*\
+    | Remove # character so that #XXXXXX color codes are    |
+    | acceptable.  0xXXXXXX codes are already accepted by   |
+    | toInt().  Convert into an RGBColor.  Mask off the     |
+    | unused bits.                                          |
+    \*-----------------------------------------------------*/
+    RGBColor color = (RGBColor)(0x00FFFFFF & temp.replace("#", "").toInt(NULL, 16));
+
+    /*-----------------------------------------------------*\
+    | Store new color into the current color QColor         |
+    \*-----------------------------------------------------*/
+    current_color.setRed(RGBGetRValue(color));
+    current_color.setGreen(RGBGetGValue(color));
+    current_color.setBlue(RGBGetBValue(color));
+
+    /*-----------------------------------------------------*\
+    | Update the color UI, but set the UpdateHex flag to    |
+    | false so the hex edit box isn't updated while the user|
+    | is in the middle of typing a value.                   |
+    \*-----------------------------------------------------*/
+    UpdateHex = false;
+    colorChanged();
+    UpdateHex = true;
+}
+
 void Ui::OpenRGBDevicePage::on_DeviceViewBox_selectionChanged(QVector<int> indices)
 {
     if(device->modes[device->active_mode].color_mode == MODE_COLORS_PER_LED)
@@ -1694,4 +1726,14 @@ void Ui::OpenRGBDevicePage::updateColorUi()
     ui->ValSpinBox->blockSignals(true);
     ui->ValSpinBox->setValue(current_color.value());
     ui->ValSpinBox->blockSignals(false);
+
+    /*-----------------------------------------------------*\
+    | Update Hex edit box                                   |
+    \*-----------------------------------------------------*/
+    if(UpdateHex)
+    {
+        ui->HexLineEdit->blockSignals(true);
+        ui->HexLineEdit->setText(QString().asprintf("%06X", (0x00FFFFFF & current_color.rgb())));
+        ui->HexLineEdit->blockSignals(false);
+    }
 }
