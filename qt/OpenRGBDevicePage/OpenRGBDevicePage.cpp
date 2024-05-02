@@ -137,6 +137,9 @@ OpenRGBDevicePage::~OpenRGBDevicePage()
 
 void OpenRGBDevicePage::changeEvent(QEvent *event)
 {
+    /*-----------------------------------------------------*\
+    | Retranslate the UI when a language change event occurs|
+    \*-----------------------------------------------------*/
     if(event->type() == QEvent::LanguageChange)
     {
         ui->retranslateUi(this);
@@ -1239,6 +1242,10 @@ void Ui::OpenRGBDevicePage::UpdateMode()
 void Ui::OpenRGBDevicePage::SetDevice(unsigned char red, unsigned char green, unsigned char blue)
 {
     current_color.setRgb(red, green, blue);
+
+    /*-----------------------------------------------------*\
+    | Update the color UI                                   |
+    \*-----------------------------------------------------*/
     colorChanged();
 }
 
@@ -1300,13 +1307,27 @@ void Ui::OpenRGBDevicePage::SetCustomMode(unsigned char red, unsigned char green
 
 void Ui::OpenRGBDevicePage::on_SwatchBox_swatchChanged(const QColor color)
 {
+    /*-----------------------------------------------------*\
+    | Store the swatch color to the current color QColor    |
+    \*-----------------------------------------------------*/
     current_color = color;
+
+    /*-----------------------------------------------------*\
+    | Update the color UI                                   |
+    \*-----------------------------------------------------*/
     colorChanged();
 }
 
 void Ui::OpenRGBDevicePage::on_ColorWheelBox_colorChanged(const QColor color)
 {
+    /*-----------------------------------------------------*\
+    | Store the wheel color to the current color QColor     |
+    \*-----------------------------------------------------*/
     current_color = color;
+
+    /*-----------------------------------------------------*\
+    | Update the color UI                                   |
+    \*-----------------------------------------------------*/
     colorChanged();
 }
 
@@ -1317,46 +1338,97 @@ bool Ui::OpenRGBDevicePage::autoUpdateEnabled()
 
 void Ui::OpenRGBDevicePage::on_RedSpinBox_valueChanged(int red)
 {
+    /*-----------------------------------------------------*\
+    | Update the current color QColor red channel           |
+    \*-----------------------------------------------------*/
     current_color.setRed(red);
+
+    /*-----------------------------------------------------*\
+    | Update the color UI                                   |
+    \*-----------------------------------------------------*/
     colorChanged();
 }
 
 void Ui::OpenRGBDevicePage::on_HueSpinBox_valueChanged(int hue)
 {
+    /*-----------------------------------------------------*\
+    | Read the saturation and value box values              |
+    \*-----------------------------------------------------*/
     int sat = current_color.saturation();
     int val = current_color.value();
+
+    /*-----------------------------------------------------*\
+    | Update the current color QColor using HSV             |
+    \*-----------------------------------------------------*/
     current_color.setHsv(hue, sat, val);
 
+    /*-----------------------------------------------------*\
+    | Update the color UI                                   |
+    \*-----------------------------------------------------*/
     colorChanged();
 }
 
 void Ui::OpenRGBDevicePage::on_GreenSpinBox_valueChanged(int green)
 {
+    /*-----------------------------------------------------*\
+    | Update the current color QColor green channel         |
+    \*-----------------------------------------------------*/
     current_color.setGreen(green);
+
+    /*-----------------------------------------------------*\
+    | Update the color UI                                   |
+    \*-----------------------------------------------------*/
     colorChanged();
 }
 
 void Ui::OpenRGBDevicePage::on_SatSpinBox_valueChanged(int sat)
 {
+    /*-----------------------------------------------------*\
+    | Read the hue and value box values                     |
+    \*-----------------------------------------------------*/
     int hue = current_color.hue();
     int val = current_color.value();
+
+    /*-----------------------------------------------------*\
+    | Update the current color QColor using HSV             |
+    \*-----------------------------------------------------*/
     current_color.setHsv(hue, sat, val);
 
+    /*-----------------------------------------------------*\
+    | Update the color UI                                   |
+    \*-----------------------------------------------------*/
     colorChanged();
 }
 
 void Ui::OpenRGBDevicePage::on_BlueSpinBox_valueChanged(int blue)
 {
+    /*-----------------------------------------------------*\
+    | Update the current color QColor blue channel          |
+    \*-----------------------------------------------------*/
     current_color.setBlue(blue);
+
+    /*-----------------------------------------------------*\
+    | Update the color UI                                   |
+    \*-----------------------------------------------------*/
     colorChanged();
 }
 
 void Ui::OpenRGBDevicePage::on_ValSpinBox_valueChanged(int val)
 {
+    /*-----------------------------------------------------*\
+    | Read the hue and saturation box values                |
+    \*-----------------------------------------------------*/
     int hue = current_color.hue();
     int sat = current_color.saturation();
+
+    /*-----------------------------------------------------*\
+    | Update the current color QColor using HSV             |
+    \*-----------------------------------------------------*/
     current_color.setHsv(hue, sat, val);
 
+    /*-----------------------------------------------------*\
+    | Update the color UI                                   |
+    \*-----------------------------------------------------*/
     colorChanged();
 }
 
@@ -1580,8 +1652,15 @@ void Ui::OpenRGBDevicePage::ShowDeviceView()
     \*-----------------------------------------------------*/
     unsigned int selected_mode = (unsigned int)ui->ModeBox->currentIndex();
 
+    /*-----------------------------------------------------*\
+    | Set device view showing flag to True                  |
+    \*-----------------------------------------------------*/
     DeviceViewShowing = true;
 
+    /*-----------------------------------------------------*\
+    | Only show device view if active mode is Per-LED and   |
+    | device contains at least one LED                      |
+    \*-----------------------------------------------------*/
     if(device->modes[selected_mode].flags & MODE_FLAG_HAS_PER_LED_COLOR && device->leds.size() >= 1)
     {
         ui->DeviceViewBoxFrame->show();
@@ -1590,7 +1669,14 @@ void Ui::OpenRGBDevicePage::ShowDeviceView()
 
 void Ui::OpenRGBDevicePage::HideDeviceView()
 {
+    /*-----------------------------------------------------*\
+    | Set device view showing flag to False                 |
+    \*-----------------------------------------------------*/
     DeviceViewShowing = false;
+
+    /*-----------------------------------------------------*\
+    | Hide device view                                      |
+    \*-----------------------------------------------------*/
     ui->DeviceViewBoxFrame->hide();
 }
 
