@@ -1,5 +1,17 @@
-#include "RGBController.h"
+/*---------------------------------------------------------*\
+| RGBController.cpp                                         |
+|                                                           |
+|   OpenRGB's RGB controller hardware abstration layer,     |
+|   provides a generic representation of an RGB device      |
+|                                                           |
+|   Adam Honse (CalcProgrammer1)                02 Jun 2019 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
 #include <cstring>
+#include "RGBController.h"
 
 using namespace std::chrono_literals;
 

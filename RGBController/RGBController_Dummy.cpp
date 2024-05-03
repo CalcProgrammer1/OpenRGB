@@ -1,10 +1,14 @@
-/*-----------------------------------------*\
-|  RGBController_Dummy.cpp                  |
-|                                           |
-|  Generic RGB Interface Dummy Class        |
-|                                           |
-|  Adam Honse (CalcProgrammer1) 2/25/2020   |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_Dummy.cpp                                   |
+|                                                           |
+|   Dummy RGBController that can mimic various devices for  |
+|   development and test purposes                           |
+|                                                           |
+|   Adam Honse (CalcProgrammer1)                25 Feb 2020 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #include "RGBController_Dummy.h"
 

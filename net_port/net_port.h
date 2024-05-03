@@ -1,14 +1,17 @@
 /*---------------------------------------------------------*\
-|  Cross Platform Network Library for Windows and Linux     |
-|  This library provides access to TCP and UDP ports with   |
-|  a common API for both Windows and Linux systems.  It     |
-|  features read and write                                  |
+| net_port.h                                                |
 |                                                           |
-|  Adam Honse (calcprogrammer1@gmail.com), 12/15/2016       |
+|   Cross Platform Network Library for Windows and Linux    |
+|   This library provides access to TCP and UDP ports with  |
+|   a common API for both Windows and Linux systems         |
+|                                                           |
+|   Adam Honse (calcprogrammer1@gmail.com)      15 Dec 2016 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
 \*---------------------------------------------------------*/
 
-#ifndef NET_PORT_H
-#define NET_PORT_H
+#pragma once
 
 #include <vector>
 
@@ -88,5 +91,3 @@ private:
     sockaddr addrDest;
     addrinfo*   result_list;
 };
-
-#endif

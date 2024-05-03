@@ -1,10 +1,14 @@
-/*-----------------------------------------*\
-|  RGBController_Network.cpp                |
-|                                           |
-|  Generic RGB Interface Network Class      |
-|                                           |
-|  Adam Honse (CalcProgrammer1) 4/11/2020   |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_Network.cpp                                 |
+|                                                           |
+|   RGBController implementation that represents a remote   |
+|   RGBController instance from a connected OpenRGB server  |
+|                                                           |
+|   Adam Honse (CalcProgrammer1)                11 Apr 2020 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #include <cstring>
 

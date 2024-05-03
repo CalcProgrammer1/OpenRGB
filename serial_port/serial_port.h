@@ -1,10 +1,14 @@
 /*---------------------------------------------------------*\
-|  Cross Platform Serial COM Library for Windows and Linux  |
-|  This library provides access to serial ports with a      |
-|  common API for both Windows and Linux systems.  It       |
-|  features read and write as well as tx/rx buffer flush.   |
+| serial_port.h                                             |
 |                                                           |
-|  Adam Honse (calcprogrammer1@gmail.com), 1/21/2013        |
+|   Cross Platform Serial COM Library for Windows and Linux |
+|   This library provides access to serial ports with a     |
+|   common API for both Windows and Linux systems           |
+|                                                           |
+|   Adam Honse (calcprogrammer1@gmail.com)      21 Jan 2013 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
 \*---------------------------------------------------------*/
 
 #ifndef SERIAL_PORT_H

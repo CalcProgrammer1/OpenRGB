@@ -1,11 +1,14 @@
-/*-----------------------------------------*\
-|  RGBController.h                          |
-|                                           |
-|  Definitions and types for generic RGB    |
-|  lighting controller interface            |
-|                                           |
-|  Adam Honse (CalcProgrammer1) 6/2/2019    |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController.h                                           |
+|                                                           |
+|   OpenRGB's RGB controller hardware abstration layer,     |
+|   provides a generic representation of an RGB device      |
+|                                                           |
+|   Adam Honse (CalcProgrammer1)                02 Jun 2019 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #pragma once
 

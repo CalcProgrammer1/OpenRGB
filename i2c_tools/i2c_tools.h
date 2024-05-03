@@ -1,3 +1,13 @@
+/*---------------------------------------------------------*\
+| i2c_tools.h                                               |
+|                                                           |
+|   Utility functions for communicating with and reverse    |
+|   engineering i2c devices                                 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
 #include <string>
 #include "i2c_smbus.h"
 

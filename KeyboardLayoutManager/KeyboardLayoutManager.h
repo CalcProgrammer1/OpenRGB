@@ -1,11 +1,14 @@
-/*---------------------------------------------------------------------*\
-|  KeyboardLayoutManager.h                                              |
-|                                                                       |
-|  Helper library to produce keyboard layouts                           |
-|                                                                       |
-|  Chris M (Dr_No)          04 Feb 2023                                 |
-|                                                                       |
-\*---------------------------------------------------------------------*/
+/*---------------------------------------------------------*\
+| KeyboardLayoutManager.h                                   |
+|                                                           |
+|   Helper library to produce keyboard layouts              |
+|                                                           |
+|   Chris M (Dr_No)                             04 Feb 2023 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
 #pragma once
 
 #include <map>

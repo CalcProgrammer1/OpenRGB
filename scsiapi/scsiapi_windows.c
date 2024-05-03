@@ -4,7 +4,10 @@
 |   Cross-platform SCSI access library                      |
 |   Windows implementation                                  |
 |                                                           |
-|   Adam Honse <calcprogrammer1@gmail.com>      7/28/2023   |
+|   Adam Honse (calcprogrammer1@gmail.com)      28 Jul 2023 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
 \*---------------------------------------------------------*/
 
 #pragma once

@@ -1,10 +1,13 @@
-/*-----------------------------------------*\
-|  super_io.h                               |
-|                                           |
-|  Functions for interfacing with Super-IO  |
-|                                           |
-|  Adam Honse (CalcProgrammer1) 2/11/2020   |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| super_io.cpp                                              |
+|                                                           |
+|   Functions for interfacing with Super-IO                 |
+|                                                           |
+|   Adam Honse (CalcProgrammer1)                11 Feb 2020 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 /******************************************************************************************\
 *                                                                                          *

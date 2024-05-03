@@ -1,3 +1,13 @@
+/*---------------------------------------------------------*\
+| find_usb_serial_port_win.cpp                              |
+|                                                           |
+|   Finds the serial port path(s) of USB serial port devices|
+|   given the USB VID and PID of the device                 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
 #include "find_usb_serial_port.h"
 
 #include <initguid.h>
@@ -115,7 +125,7 @@ std::vector<std::string *> find_usb_serial_port(unsigned short vid, unsigned sho
         }
     }
 
-    if (DeviceInfoSet) 
+    if (DeviceInfoSet)
     {
         SetupDiDestroyDeviceInfoList(DeviceInfoSet);
     }

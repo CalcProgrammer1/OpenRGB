@@ -1,12 +1,14 @@
 /*---------------------------------------------------------*\
-|  DeviceGuardManager.cpp                                   |
+| DeviceGuardManager.cpp                                    |
 |                                                           |
-|  Responsible for managing a DeviceGuard implementation,   |
-|  allowing clients to wait for exclusive access to a       |
-|  device using the DeviceGuardLock it provides.            |
+|   Responsible for managing a DeviceGuard implementation,  |
+|   allowing clients to wait for exclusive access to a      |
+|   device using the DeviceGuardLock it provides            |
 |                                                           |
-|  Evan Mulawski, 2023-09-05                                |
+|   Evan Mulawski                               09 May 2023 |
 |                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
 \*---------------------------------------------------------*/
 
 #include "DeviceGuardManager.h"

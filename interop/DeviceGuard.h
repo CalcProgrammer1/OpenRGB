@@ -1,12 +1,14 @@
 /*---------------------------------------------------------*\
-|  DeviceGuard.h                                            |
+| DeviceGuard.h                                             |
 |                                                           |
-|  An abstract interface for acquiring and releasing        |
-|  a guard on a device, serving as a foundation for         |
-|  implementing device-specific synchronization mechanisms. |
+|   An abstract interface for acquiring and releasing       |
+|   a guard on a device, serving as a foundation for        |
+|   implementing device-specific synchronization mechanisms |
 |                                                           |
-|  Evan Mulawski, 2023-09-05                                |
+|   Evan Mulawski                               09 May 2023 |
 |                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
 \*---------------------------------------------------------*/
 
 #pragma once

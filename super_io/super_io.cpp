@@ -1,10 +1,14 @@
-/*-----------------------------------------*\
-|  super_io.cpp                             |
-|                                           |
-|  Functions for interfacing with Super-IO  |
-|                                           |
-|  Adam Honse (CalcProgrammer1) 2/11/2020   |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| super_io.cpp                                              |
+|                                                           |
+|   Functions for interfacing with Super-IO                 |
+|                                                           |
+|   Adam Honse (CalcProgrammer1)                11 Feb 2020 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
 #include "super_io.h"
 
 #ifdef WIN32
@@ -35,7 +39,7 @@ void superio_enter(int ioreg)
 #else
     unsigned char temp = 0x87;
     dev_port_fd = open("/dev/port", O_RDWR, "rw");
-    
+
     if (dev_port_fd >= 0)
     {
         lseek(dev_port_fd, ioreg, SEEK_SET);
@@ -49,9 +53,9 @@ void superio_enter(int ioreg)
         {
             return;
         }
-        
+
         close(dev_port_fd);
-    } 
+    }
 #endif
 }
 
@@ -71,7 +75,7 @@ void superio_outb(int ioreg, int reg, int val)
     WriteIoPortByte(ioreg + 1, val);
 #else
     dev_port_fd = open("/dev/port", O_RDWR, "rw");
-    
+
     if (dev_port_fd >= 0)
     {
         lseek(dev_port_fd, ioreg, SEEK_SET);
@@ -108,7 +112,7 @@ int superio_inb(int ioreg, int reg)
     unsigned char temp = 0;
     dev_port_fd = open("/dev/port", O_RDWR, "rw");
 
-    if (dev_port_fd >= 0)  
+    if (dev_port_fd >= 0)
     {
         lseek(dev_port_fd, ioreg, SEEK_SET);
         if(write(dev_port_fd, &reg, 1) == -1)
@@ -122,7 +126,7 @@ int superio_inb(int ioreg, int reg)
         }
 
         close(dev_port_fd);
-        
+
         return((int)temp);
     }
     else

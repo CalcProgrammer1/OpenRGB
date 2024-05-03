@@ -1,13 +1,14 @@
-/*-------------------------------------------------------------------*\
-|  RGBControllerKeyNames.h                                            |
-|                                                                     |
-|  This is the canonical list of Key Names to be used in              |
-|    keyboard and other device initialisations to avoid redundant     |
-|    string literal declarations                                      |
-|                                                                     |
-|  Chris M (Dr_No)          25 Jan 2022                               |
-|                                                                     |
-\*-------------------------------------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBControllerKeyNames.h                                   |
+|                                                           |
+|   List of standardized names to represent keyboard keys   |
+|   when naming LEDs on keyboard devices                    |
+|                                                           |
+|   Chris M (Dr_No)                             25 Jan 2022 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #pragma once
 
