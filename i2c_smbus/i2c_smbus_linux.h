@@ -1,11 +1,13 @@
-/*-----------------------------------------*\
-|  i2c_smbus_linux.h                        |
-|                                           |
-|  Definitions and types for Linux i2c/smbus|
-|  driver                                   |
-|                                           |
-|  Adam Honse (CalcProgrammer1) 2/14/2019   |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| i2c_smbus_linux.h                                         |
+|                                                           |
+|   Linux i2c/smbus driver                                  |
+|                                                           |
+|   Adam Honse (CalcProgrammer1)                14 Feb 2019 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #include "i2c_smbus.h"
 

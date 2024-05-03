@@ -1,11 +1,13 @@
-/*-----------------------------------------*\
-|  i2c_smbus_amdadl.cpp                     |
-|                                           |
-|  Definitions and types for AMD ADL I2C    |
-|  functions                                |
-|                                           |
-|  Niels Westphal (crashniels) 05/30/2020   |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| i2c_smbus_amdadl.cpp                                      |
+|                                                           |
+|   Definitions and types for AMD ADL I2C functions         |
+|                                                           |
+|   Niels Westphal (crashniels)                 30 May 2020 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #include "i2c_smbus_amdadl.h"
 #include "LogManager.h"

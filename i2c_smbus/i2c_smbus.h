@@ -1,12 +1,14 @@
-/*-----------------------------------------*\
-|  i2c_smbus.h                              |
-|                                           |
-|  Definitions and types for SMBUS drivers  |
-|                                           |
-|  Adam Honse (CalcProgrammer1) 8/8/2018    |
-|  Portions based on Linux source code      |
-|  GNU GPL v2                               |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| i2c_smbus.h                                               |
+|                                                           |
+|   Device-independent i2c/SMBus communication functions    |
+|                                                           |
+|   Adam Honse (CalcProgrammer1)                08 Aug 2018 |
+|   Portions based on Linux source code                     |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #ifndef I2C_SMBUS_H
 #define I2C_SMBUS_H

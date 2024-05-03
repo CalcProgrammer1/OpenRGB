@@ -1,16 +1,18 @@
-/*-----------------------------------------*\
-|  i2c_smbus_nvapi.h                        |
-|                                           |
-|  Definitions and types for NVidia NvAPI   |
-|  I2C driver                               |
-|                                           |
-|  Adam Honse (CalcProgrammer1) 2/21/2020   |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| i2c_smbus_nvapi.h                                         |
+|                                                           |
+|   NVidia NvAPI I2C driver                                 |
+|                                                           |
+|   Adam Honse (CalcProgrammer1)                21 Feb 2020 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
+#pragma once
 
 #include "i2c_smbus.h"
 #include "nvapi.h"
-
-#pragma once
 
 class i2c_smbus_nvapi : public i2c_smbus_interface
 {

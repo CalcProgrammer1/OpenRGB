@@ -1,18 +1,19 @@
-/*-----------------------------------------*\
-|  i2c_smbus_piix4.h                        |
-|                                           |
-|  Definitions and types for PIIX4 SMBUS    |
-|  driver                                   |
-|                                           |
-|  Adam Honse (CalcProgrammer1) 8/8/2018    |
-|  Portions based on Linux source code      |
-|  GNU GPL v2                               |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| i2c_smbus_piix4.h                                         |
+|                                                           |
+|   PIIX4 SMBUS driver for Windows                          |
+|                                                           |
+|   Adam Honse (CalcProgrammer1)                08 Aug 2018 |
+|   Portions based on Linux source code                     |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
+#pragma once
 
 #include "i2c_smbus.h"
 #include "windows.h"
-
-#pragma once
 
 // PIIX4 SMBus address offsets
 #define SMBHSTSTS (0 + piix4_smba)

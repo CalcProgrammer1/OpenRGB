@@ -1,20 +1,22 @@
-/*-----------------------------------------*\
-|  i2c_smbus_i801.h                         |
-|                                           |
-|  i801 SMBUS driver for Windows            |
-|                                           |
-|  Adam Honse (CalcProgrammer1) 1/29/2019   |
-|  Portions based on Linux source code      |
-|  GNU GPL v2                               |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| i2c_smbus_i801.h                                          |
+|                                                           |
+|   i801 SMBUS driver for Windows                           |
+|                                                           |
+|   Adam Honse (CalcProgrammer1)                29 Jan 2019 |
+|   Portions based on Linux source code                     |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
+#pragma once
 
 #include "i2c_smbus.h"
 
 #ifdef _WIN32
 #include <Windows.h>
 #endif
-
-#pragma once
 
 /* BIT shifting macro */
 #define BIT(x)          ( 1 << x )

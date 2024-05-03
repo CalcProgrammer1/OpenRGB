@@ -1,10 +1,13 @@
-/*-----------------------------------------*\
-|  i2c_smbus_nct6775.cpp                    |
-|                                           |
-|  Nuvoton NCT67xx SMBUS driver for Windows |
-|                                           |
-|  Adam Honse (CalcProgrammer1) 5/19/2019   |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| i2c_smbus_nct6775.cpp                                     |
+|                                                           |
+|   Nuvoton NCT67xx SMBUS driver for Windows                |
+|                                                           |
+|   Adam Honse (CalcProgrammer1)                19 May 2019 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #include "i2c_smbus_nct6775.h"
 #include "OlsApi.h"

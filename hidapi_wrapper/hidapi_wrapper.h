@@ -1,12 +1,15 @@
-/*-----------------------------------------*\
-|  hidapi_wrapper.h                         |
-|                                           |
-|  Wrapper for hidapi that can select from  |
-|  default or libusb backends on Linux      |
-|                                           |
-|  Matt Silva (thesilvanator) 2022          |
-|  Adam Honse (calcprogrammer1) 2023        |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| hidapi_wrapper.h                                          |
+|                                                           |
+|   Wrapper for hidapi that can select from default or      |
+|   libusb backends on Linux                                |
+|                                                           |
+|   Matt Silva (thesilvanator)                  2022        |
+|   Adam Honse (CalcProgrammer1)                2023        |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #pragma once
 

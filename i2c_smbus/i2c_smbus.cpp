@@ -1,10 +1,14 @@
-/******************************************************************************************\
-*                                                                                          *
-*   i2c_smbus.cpp                                                                          *
-*                                                                                          *
-*       Device-independent i2c/SMBus communication functions                               *
-*                                                                                          *
-\******************************************************************************************/
+/*---------------------------------------------------------*\
+| i2c_smbus.cpp                                             |
+|                                                           |
+|   Device-independent i2c/SMBus communication functions    |
+|                                                           |
+|   Adam Honse (CalcProgrammer1)                08 Aug 2018 |
+|   Portions based on Linux source code                     |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #include "i2c_smbus.h"
 #include <string.h>

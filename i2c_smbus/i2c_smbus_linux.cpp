@@ -1,20 +1,21 @@
-/*-----------------------------------------*\
-|  i2c_smbus_linux.cpp                      |
-|                                           |
-|  Linux i2c/smbus driver                   |
-|                                           |
-|  Adam Honse (CalcProgrammer1) 2/14/2019   |
-\*-----------------------------------------*/
-
-#include "LogManager.h"
-
-#include "i2c_smbus.h"
-#include "i2c_smbus_linux.h"
+/*---------------------------------------------------------*\
+| i2c_smbus_linux.cpp                                       |
+|                                                           |
+|   Linux i2c/smbus driver                                  |
+|                                                           |
+|   Adam Honse (CalcProgrammer1)                14 Feb 2019 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #include <linux/i2c-dev.h>
 #include <linux/i2c.h>
 #include <sys/ioctl.h>
 #include <cstring>
+#include "LogManager.h"
+#include "i2c_smbus.h"
+#include "i2c_smbus_linux.h"
 
 s32 i2c_smbus_linux::i2c_smbus_xfer(u8 addr, char read_write, u8 command, int size, union i2c_smbus_data* data)
 {
