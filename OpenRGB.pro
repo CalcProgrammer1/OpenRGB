@@ -665,8 +665,6 @@ unix:!macx:CONFIG(asan) {
 #-----------------------------------------------------------------------------------------------#
 QMAKE_MACOSX_DEPLOYMENT_TARGET = 10.15
 
-macx:ICON = qt/OpenRGB.icns
-
 #-------------------------------------------------------------------------------------------#
 # Common MacOS definitions                                                                  #
 #-------------------------------------------------------------------------------------------#
@@ -703,7 +701,14 @@ macx {
     -lmbedx509                                                                                  \
     -lmbedcrypto                                                                                \
     -lmbedtls                                                                                   \
-    -L$$MBEDTLS_PREFIX/lib                                                                      \
+    -L$$MBEDTLS_PREFIX/lib
+
+    ICON = qt/OpenRGB.icns
+
+    info_plist.input = mac/Info.plist.in
+    info_plist.output = $$OUT_PWD/Info.plist
+    QMAKE_SUBSTITUTES += info_plist
+    QMAKE_INFO_PLIST = $$OUT_PWD/Info.plist
 }
 
 #-------------------------------------------------------------------------------------------#
