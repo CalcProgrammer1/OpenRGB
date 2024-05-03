@@ -1,21 +1,23 @@
-/*-------------------------------------------------------------------*\
-|  BloodyB820RController.cpp                                          |
-|                                                                     |
-|  Driver for A4Tech Bloody B820R Keyboard Controller                 |
-|                                                                     |
-|  Mohammed Julfikar Ali Mahbub (o-julfikar)          01 Apr 2024     |
-|                                                                     |
-\*-------------------------------------------------------------------*/
+/*---------------------------------------------------------*\
+| BloodyB820RController.cpp                                 |
+|                                                           |
+|   Driver for A4Tech Bloody B820R Keyboard                 |
+|                                                           |
+|   Mohammed Julfikar Ali Mahbub (o-julfikar)   01 Apr 2024 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #include "BloodyB820RController.h"
 
-/*--------------------------------------------------------------------------------------*\
- * The controller for this device should pass a packet of 64 bytes where the subsequent *
- * two packets are for RED, GREEN, and BLUE respectively. The first 6 bytes are control *
- * or information bytes and colors bytes starts from index 6. Moreover, the first pack- *
- * et of each RGB contains color for 58 keys and the rest (104 - 58 == 46) are send on  *
- * the second packet.                                                                   *
-\*--------------------------------------------------------------------------------------*/
+/*-------------------------------------------------------------------------------------*\
+| The controller for this device should pass a packet of 64 bytes where the subsequent  |
+| two packets are for RED, GREEN, and BLUE respectively. The first 6 bytes are control  |
+| or information bytes and colors bytes starts from index 6. Moreover, the first pack-  |
+| et of each RGB contains color for 58 keys and the rest (104 - 58 == 46) are send on   |
+| the second packet.                                                                    |
+\*-------------------------------------------------------------------------------------*/
 
 BloodyB820RController::BloodyB820RController(hid_device* dev_handle, const char* path)
 {

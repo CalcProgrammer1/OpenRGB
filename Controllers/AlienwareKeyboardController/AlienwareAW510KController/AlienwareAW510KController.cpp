@@ -1,11 +1,13 @@
-/*-----------------------------------------*\
-|  AlienwareAW510KController.cpp            |
-|                                           |
-|  Driver for Alienware AW510K              |
-|  keyboard light controller                |
-|                                           |
-|  Mohamad Sallal - msallal      05/22/2021 |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| AlienwareAW510KController.cpp                             |
+|                                                           |
+|   Driver for Alienware AW510K keyboard                    |
+|                                                           |
+|   Mohamad Sallal (msallal)                    22 May 2021 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #include <cstring>
 #include "AlienwareAW510KController.h"

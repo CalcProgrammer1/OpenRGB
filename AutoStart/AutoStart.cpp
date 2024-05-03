@@ -1,9 +1,13 @@
-#include "AutoStart.h"
+/*---------------------------------------------------------*\
+| AutoStart.cpp                                             |
+|                                                           |
+|   Autostart common implementation                         |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
-/*-----------------------------------------------------*\
-| Common AutoStart Implementation                       |
-| Public Methods                                        |
-\*-----------------------------------------------------*/
+#include "AutoStart.h"
 
 std::string AutoStartInterface::GetAutoStartFile()
 {

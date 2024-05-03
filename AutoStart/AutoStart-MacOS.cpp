@@ -1,18 +1,20 @@
-#include "AutoStart-MacOS.h"
-#include "LogManager.h"
-#include "filesystem.h"
+/*---------------------------------------------------------*\
+| AutoStart-MacOS.cpp                                       |
+|                                                           |
+|   Autostart implementation for MacOS                      |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #include <fstream>
 #include <sstream>
 #include <iostream>
 #include <unistd.h>
-
 #include <mach-o/dyld.h>
-
-/*-----------------------------------------------------*\
-| MacOS AutoStart Implementation                        |
-| Public Methods                                        |
-\*-----------------------------------------------------*/
+#include "AutoStart-MacOS.h"
+#include "LogManager.h"
+#include "filesystem.h"
 
 AutoStart::AutoStart(std::string name)
 {
@@ -152,7 +154,7 @@ std::string AutoStart::GenerateLaunchAgentFile(AutoStartInfo autostart_info)
     fileContents << "    <key>ProgramArguments</key>"                                                                               << std::endl;
     fileContents << "    <array>"                                                                                                   << std::endl;
     fileContents << "        <string>" << autostart_info.path << "</string>"                                                        << std::endl;
-    
+
     if(autostart_info.args != "")
     {
         std::istringstream arg_parser(autostart_info.args);
@@ -163,12 +165,12 @@ std::string AutoStart::GenerateLaunchAgentFile(AutoStartInfo autostart_info)
             fileContents << "        <string>" << arg << "</string>"                                                                << std::endl;
         }
     }
-    
+
     fileContents << "    </array>"                                                                                                  << std::endl;
     fileContents << "    <key>RunAtLoad</key><true/>"                                                                               << std::endl;
     fileContents << "</dict>"                                                                                                       << std::endl;
     fileContents << "</plist>"                                                                                                      << std::endl;
-    
+
     return(fileContents.str());
 }
 
@@ -193,7 +195,7 @@ void AutoStart::InitAutoStart(std::string name)
         std::error_code ec;
 
         bool success = true;
-        
+
         if(!filesystem::exists(autostart_dir))
         {
             success = filesystem::create_directories(autostart_dir, ec);

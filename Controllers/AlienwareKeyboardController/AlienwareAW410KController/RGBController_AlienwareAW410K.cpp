@@ -1,13 +1,14 @@
-/*------------------------------------------------------*\
-|  RGBController_AlienwareAW410K.cpp                     |
-|                                                        |
-|  Generic RGB Interface for alienware                   |
-|  AW410K Keyboard                                       |
-|                                                        |
-|  based on AW510K controller by Mohamad Sallal - msallal|
-|                                                        |
-|  Dominik Mikolajczyk - dmiko 23/10/2023                |
-\*------------------------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_AlienwareAW410K.cpp                         |
+|                                                           |
+|   RGBController for Alienware AW410K keyboard             |
+|                                                           |
+|   based on AW510K controller by Mohamad Sallal (msallal)  |
+|   Dominik Mikolajczyk (dmiko)                 23 Oct 2023 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #include <iterator>
 #include "RGBControllerKeyNames.h"

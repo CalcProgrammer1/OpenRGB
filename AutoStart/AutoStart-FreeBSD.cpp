@@ -1,17 +1,20 @@
-#include "AutoStart-FreeBSD.h"
-#include "LogManager.h"
-#include "filesystem.h"
+/*---------------------------------------------------------*\
+| AutoStart-FreeBSD.cpp                                     |
+|                                                           |
+|   Autostart implementation for FreeBSD                    |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #include <fstream>
 #include <iostream>
 #include <limits.h>
 #include <unistd.h>
 #include <sstream>
-
-/*-----------------------------------------------------*\
-| FreeBSD AutoStart Implementation                      |
-| Public Methods                                        |
-\*-----------------------------------------------------*/
+#include "AutoStart-FreeBSD.h"
+#include "LogManager.h"
+#include "filesystem.h"
 
 AutoStart::AutoStart(std::string name)
 {

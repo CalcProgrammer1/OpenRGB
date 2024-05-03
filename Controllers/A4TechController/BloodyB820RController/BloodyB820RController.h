@@ -1,11 +1,13 @@
-/*-------------------------------------------------------------------*\
-|  BloodyB820RController.h                                            |
-|                                                                     |
-|  Driver for A4Tech Bloody B820R Keyboard Controller                 |
-|                                                                     |
-|  Mohammed Julfikar Ali Mahbub (o-julfikar)          01 Apr 2024     |
-|                                                                     |
-\*-------------------------------------------------------------------*/
+/*---------------------------------------------------------*\
+| BloodyB820RController.h                                   |
+|                                                           |
+|   Driver for A4Tech Bloody B820R Keyboard                 |
+|                                                           |
+|   Mohammed Julfikar Ali Mahbub (o-julfikar)   01 Apr 2024 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #pragma once
 
@@ -25,9 +27,9 @@
 #define BLOODY_B820R_RELEASE_CONTROL    0x00
 
 /*---------------------------------------------------------*\
-| Bloody B820R product ID                                    |
+| Bloody B820R product ID                                   |
 \*---------------------------------------------------------*/
-#define BLOODY_B820R_PID                               0xFA10
+#define BLOODY_B820R_PID                            0xFA10
 
 enum
 {

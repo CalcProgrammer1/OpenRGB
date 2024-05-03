@@ -1,11 +1,13 @@
-/*-----------------------------------------*\
-|  RGBController_Alienware.h                |
-|                                           |
-|  Generic RGB Interface for OpenRGB        |
-|  Alienware RGB USB Driver                 |
-|                                           |
-|  Gabriel Marcano (gemarcano) 4/19/2021    |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_Alienware.h                                 |
+|                                                           |
+|   RGBController for Dell Alienware RGB USB controller     |
+|                                                           |
+|   Gabriel Marcano (gemarcano)                 19 Apr 2021 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #pragma once
 

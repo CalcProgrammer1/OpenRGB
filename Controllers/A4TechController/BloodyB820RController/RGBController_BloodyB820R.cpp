@@ -1,11 +1,13 @@
-/*-------------------------------------------------------------------*\
-|  RGBController_BloodyB820R.cpp                                      |
-|                                                                     |
-|  Driver for A4Tech Bloody B820R Keyboard Controller                 |
-|                                                                     |
-|  Mohammed Julfikar Ali Mahbub (o-julfikar)          01 Apr 2024     |
-|                                                                     |
-\*-------------------------------------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_BloodyB820R.cpp                             |
+|                                                           |
+|   RGBController for A4Tech Bloody B820R Keyboard          |
+|                                                           |
+|   Mohammed Julfikar Ali Mahbub (o-julfikar)   01 Apr 2024 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #include "RGBControllerKeyNames.h"
 #include "RGBController_BloodyB820R.h"

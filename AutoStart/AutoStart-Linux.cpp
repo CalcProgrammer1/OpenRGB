@@ -1,17 +1,20 @@
-#include "AutoStart-Linux.h"
-#include "LogManager.h"
-#include "filesystem.h"
+/*---------------------------------------------------------*\
+| AutoStart-Linux.cpp                                       |
+|                                                           |
+|   Autostart implementation for Linux                      |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #include <fstream>
 #include <iostream>
 #include <sstream>
 #include <unistd.h>
 #include <linux/limits.h>
-
-/*-----------------------------------------------------*\
-| Linux AutoStart Implementation                        |
-| Public Methods                                        |
-\*-----------------------------------------------------*/
+#include "AutoStart-Linux.h"
+#include "LogManager.h"
+#include "filesystem.h"
 
 AutoStart::AutoStart(std::string name)
 {
@@ -122,7 +125,7 @@ std::string AutoStart::GetExePath()
     char exepath[ PATH_MAX ];
 
     ssize_t count = readlink("/proc/self/exe", exepath, PATH_MAX);
-    
+
     return(std::string(exepath, (count > 0) ? count : 0));
 }
 
@@ -159,7 +162,7 @@ std::string AutoStart::GenerateDesktopFile(AutoStartInfo autostart_info)
     }
 
     fileContents << std::endl;
-    
+
     return(fileContents.str());
 }
 
@@ -198,7 +201,7 @@ void AutoStart::InitAutoStart(std::string name)
         std::error_code ec;
 
         bool success = true;
-        
+
         if(!filesystem::exists(autostart_dir))
         {
             success = filesystem::create_directories(autostart_dir, ec);

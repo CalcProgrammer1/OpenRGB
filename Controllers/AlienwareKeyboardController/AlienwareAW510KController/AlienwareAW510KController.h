@@ -1,11 +1,13 @@
-/*-----------------------------------------*\
-|  AlienwareAW510KController.h              |
-|                                           |
-|  Definitions and types for alienware      |
-|  AW510K Keyboard                          |
-|                                           |
-|  Mohamad Sallal - msallal      05/22/2021 |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| AlienwareAW510KController.h                               |
+|                                                           |
+|   Driver for Alienware AW510K keyboard                    |
+|                                                           |
+|   Mohamad Sallal (msallal)                    22 May 2021 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #pragma once
 

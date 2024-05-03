@@ -1,10 +1,13 @@
-/*-----------------------------------------*\
-|  AlienwareController.cpp                  |
-|                                           |
-|  Driver for Alienware lighting controller |
-|                                           |
-|  Gabriel Marcano (gemarcano) 4/21/2021    |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| AlienwareController.cpp                                   |
+|                                                           |
+|   Driver for Dell Alienware RGB USB controller            |
+|                                                           |
+|   Gabriel Marcano (gemarcano)                 21 Apr 2021 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #include <cstring>
 #include <cstdint>

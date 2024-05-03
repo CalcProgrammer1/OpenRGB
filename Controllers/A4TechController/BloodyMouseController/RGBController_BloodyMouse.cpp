@@ -1,11 +1,13 @@
-/*---------------------------------------------------------------------*\
-|  RGBController_BloodyMouse.cpp                                        |
-|                                                                       |
-|  Driver for BloodyMouse USB Controller                                |
-|                                                                       |
-|  Chris M (Dr_No)          30 Jun 2022                                 |
-|                                                                       |
-\*---------------------------------------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_BloodyMouse.cpp                             |
+|                                                           |
+|   RGBController for A4Tech Bloody Mouse                   |
+|                                                           |
+|   Chris M (Dr_No)                             30 Jun 2022 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #include "RGBController_BloodyMouse.h"
 

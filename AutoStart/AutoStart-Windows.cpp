@@ -1,17 +1,19 @@
-#include "AutoStart-Windows.h"
-#include "LogManager.h"
-#include "filesystem.h"
+/*---------------------------------------------------------*\
+| AutoStart-Windows.cpp                                     |
+|                                                           |
+|   Autostart implementation for Windows                    |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #include <fstream>
 #include <iostream>
-
-#include "windows.h"
 #include <shlobj.h>
-
-/*-----------------------------------------------------*\
-| Windows AutoStart Implementation                      |
-| Public Methods                                        |
-\*-----------------------------------------------------*/
+#include "AutoStart-Windows.h"
+#include "LogManager.h"
+#include "filesystem.h"
+#include "windows.h"
 
 AutoStart::AutoStart(std::string name)
 {
@@ -41,7 +43,7 @@ bool AutoStart::DisableAutoStart()
         else
         {
             success = filesystem::remove(autostart_file, autostart_file_remove_errcode);
-            
+
             if(!success)
             {
                 LOG_ERROR("An error occurred removing the auto start file.");
@@ -97,11 +99,11 @@ bool AutoStart::EnableAutoStart(AutoStartInfo autostart_info)
             shellLink->SetArguments(argumentsw.c_str());
             shellLink->SetDescription(descriptionw.c_str());
             shellLink->SetIconLocation(iconw.c_str(), 0);
-            
+
             IPersistFile* persistFile;
-            
+
             result                                  = shellLink->QueryInterface(IID_IPersistFile, (void**)&persistFile);
-            
+
             if(SUCCEEDED(result))
             {
                 result                              = persistFile->Save(startupfilepathw.c_str(), TRUE);
@@ -151,7 +153,7 @@ std::string AutoStart::GetExePath()
     char exepath[MAX_PATH] = "";
 
     DWORD count = GetModuleFileNameA(NULL, exepath, MAX_PATH);
-    
+
     return(std::string(exepath, (count > 0) ? count : 0));
 }
 
@@ -197,8 +199,8 @@ std::wstring AutoStart::utf8_decode(const std::string& str)
     int size_needed = MultiByteToWideChar(CP_UTF8, 0, &str[0], (int) str.size(), nullptr, 0);
 
     std::wstring wstrTo(size_needed, 0);
-    
+
     MultiByteToWideChar(CP_UTF8, 0, &str[0], (int) str.size(), &wstrTo[0], size_needed);
-    
+
     return(wstrTo);
 }

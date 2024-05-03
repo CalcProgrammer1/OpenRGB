@@ -1,3 +1,12 @@
+/*---------------------------------------------------------*\
+| AutoStart-Linux.h                                         |
+|                                                           |
+|   Autostart implementation for Linux                      |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
 #pragma once
 
 #include <string>

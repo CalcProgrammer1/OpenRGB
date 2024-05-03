@@ -1,12 +1,14 @@
-/*-------------------------------------------------------------------*\
-|  A4TechDetector.cpp                                                 |
-|                                                                     |
-|  Driver for A4Tech Devices Detector                                 |
-|                                                                     |
-|  Chris M (Dr_No)                              30 Jun 2022           |
-|  Mohammed Julfikar Ali Mahbub (o-julfikar)    01 Apr 2024           |
-|                                                                     |
-\*-------------------------------------------------------------------*/
+/*---------------------------------------------------------*\
+| A4TechDetector.cpp                                        |
+|                                                           |
+|   Detector for A4Tech Devices                             |
+|                                                           |
+|   Chris M (Dr_No)                             30 Jun 2022 |
+|   Mohammed Julfikar Ali Mahbub (o-julfikar)   01 Apr 2024 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 /*-----------------------------------------------------*\
 | OpenRGB includes                                      |

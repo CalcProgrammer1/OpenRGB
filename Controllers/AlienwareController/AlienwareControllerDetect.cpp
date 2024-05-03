@@ -1,3 +1,12 @@
+/*---------------------------------------------------------*\
+| AlienwareControllerDetect.cpp                             |
+|                                                           |
+|   Detector for Dell Alienware RGB USB controller          |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
 #include "Detector.h"
 #include "AlienwareController.h"
 #include "RGBController.h"

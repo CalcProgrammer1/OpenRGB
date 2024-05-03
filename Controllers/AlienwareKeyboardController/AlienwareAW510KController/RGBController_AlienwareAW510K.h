@@ -1,11 +1,13 @@
-/*-----------------------------------------*\
-|  RGBController_AlienwareAW510K.h          |
-|                                           |
-|  Generic RGB Interface for Alienware      |
-|  AW510K keyboard                          |
-|                                           |
-|  Mohamad Sallal - msallal      05/22/2021 |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_AlienwareAW510K.h                           |
+|                                                           |
+|   RGBController for Alienware AW510K keyboard             |
+|                                                           |
+|   Mohamad Sallal (msallal)                    22 May 2021 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #pragma once
 
@@ -21,7 +23,7 @@ public:
     void        SetupZones();
 
     void        ResizeZone(int zone, int new_size);
-    
+
     void        DeviceUpdateLEDs();
     void        UpdateZoneLEDs(int zone);
     void        UpdateSingleLED(int led);
