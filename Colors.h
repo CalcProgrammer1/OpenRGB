@@ -1,3 +1,12 @@
+/*---------------------------------------------------------*\
+| Colors.h                                                  |
+|                                                           |
+|   List of named color constants                           |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
 #ifndef COLORS_H
 #define COLORS_H
 

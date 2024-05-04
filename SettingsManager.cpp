@@ -1,19 +1,20 @@
-/*-----------------------------------------*\
-|  SettingsManager.cpp                      |
-|                                           |
-|  OpenRGB Settings Manager maintains a list|
-|  of application settings in JSON format.  |
-|  Other components may register settings   |
-|  with this class and store/load values.   |
-|                                           |
-|  Adam Honse (CalcProgrammer1) 11/4/2020   |
-\*-----------------------------------------*/
-
-#include "SettingsManager.h"
-#include "LogManager.h"
+/*---------------------------------------------------------*\
+| SettingsManager.cpp                                       |
+|                                                           |
+|   OpenRGB Settings Manager maintains a list of application|
+|   settings in JSON format.  Other components may register |
+|   settings with this class and store/load values.         |
+|                                                           |
+|   Adam Honse (CalcProgrammer1)                04 Nov 2020 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #include <fstream>
 #include <iostream>
+#include "SettingsManager.h"
+#include "LogManager.h"
 
 SettingsManager::SettingsManager()
 {

@@ -1,3 +1,12 @@
+/*---------------------------------------------------------*\
+| StringUtils.h                                             |
+|                                                           |
+|   String utility functions                                |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
 #ifndef STRING_UTILS_H
 #define STRING_UTILS_H
 

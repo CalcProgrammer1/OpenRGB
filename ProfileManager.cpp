@@ -1,12 +1,21 @@
+/*---------------------------------------------------------*\
+| ProfileManager.cpp                                        |
+|                                                           |
+|   OpenRGB profile manager                                 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
+#include <fstream>
+#include <iostream>
+#include <cstring>
 #include "ProfileManager.h"
 #include "ResourceManager.h"
 #include "RGBController_Dummy.h"
 #include "LogManager.h"
 #include "NetworkProtocol.h"
 #include "filesystem.h"
-#include <fstream>
-#include <iostream>
-#include <cstring>
 #include "StringUtils.h"
 
 #define OPENRGB_PROFILE_HEADER  "OPENRGB_PROFILE"

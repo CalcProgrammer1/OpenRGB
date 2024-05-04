@@ -1,14 +1,17 @@
-/*-----------------------------------------*\
-|  NetworkClient.cpp                        |
-|                                           |
-|  Client code for OpenRGB SDK              |
-|                                           |
-|  Adam Honse (CalcProgrammer1) 5/9/2020    |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| NetworkClient.cpp                                         |
+|                                                           |
+|   OpenRGB SDK network client                              |
+|                                                           |
+|   Adam Honse (CalcProgrammer1)                09 May 2020 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
+#include <cstring>
 #include "NetworkClient.h"
 #include "RGBController_Network.h"
-#include <cstring>
 
 #ifdef _WIN32
 #include <Windows.h>

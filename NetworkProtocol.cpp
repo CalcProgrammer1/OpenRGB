@@ -1,5 +1,16 @@
-#include "NetworkProtocol.h"
+/*---------------------------------------------------------*\
+| NetworkProtocol.cpp                                       |
+|                                                           |
+|   OpenRGB SDK network protocol                            |
+|                                                           |
+|   Adam Honse (CalcProgrammer1)                09 May 2020 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
 #include <cstring>
+#include "NetworkProtocol.h"
 
 /*-----------------------------------------------------*\
 | OpenRGB SDK Magic Value "ORGB"                        |

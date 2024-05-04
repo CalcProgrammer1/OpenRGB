@@ -1,21 +1,23 @@
-/*-----------------------------------------*\
-|  NetworkServer.h                          |
-|                                           |
-|  Server header for OpenRGB SDK            |
-|                                           |
-|  Adam Honse (CalcProgrammer1) 5/9/2020    |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| NetworkServer.h                                           |
+|                                                           |
+|   OpenRGB SDK network server                              |
+|                                                           |
+|   Adam Honse (CalcProgrammer1)                09 May 2020 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
-#include "RGBController.h"
-#include "NetworkProtocol.h"
-#include "net_port.h"
-#include "ProfileManager.h"
+#pragma once
 
 #include <mutex>
 #include <thread>
 #include <chrono>
-
-#pragma once
+#include "RGBController.h"
+#include "NetworkProtocol.h"
+#include "net_port.h"
+#include "ProfileManager.h"
 
 #define MAXSOCK 32
 #define TCP_TIMEOUT_SECONDS 5

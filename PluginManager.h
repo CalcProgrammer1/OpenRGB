@@ -1,14 +1,21 @@
+/*---------------------------------------------------------*\
+| PluginManager.h                                           |
+|                                                           |
+|   OpenRGB plugin manager                                  |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
 #pragma once
 
-#include "OpenRGBPluginInterface.h"
-
+#include <string>
+#include <iostream>
 #include <QPluginLoader>
 #include <QLabel>
 #include <QtPlugin>
 #include <QDir>
-
-#include <string>
-#include <iostream>
+#include "OpenRGBPluginInterface.h"
 
 typedef struct
 {

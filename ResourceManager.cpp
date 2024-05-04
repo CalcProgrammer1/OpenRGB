@@ -1,22 +1,15 @@
-/*-----------------------------------------*\
-|  ResourceManager.cpp                      |
-|                                           |
-|  OpenRGB Resource Manager controls access |
-|  to application components including      |
-|  RGBControllers, I2C interfaces, and      |
-|  network SDK components                   |
-|                                           |
-|  Adam Honse (CalcProgrammer1) 9/27/2020   |
-\*-----------------------------------------*/
-
-#include "ResourceManager.h"
-#include "ProfileManager.h"
-#include "LogManager.h"
-#include "SettingsManager.h"
-#include "NetworkClient.h"
-#include "NetworkServer.h"
-#include "filesystem.h"
-#include "StringUtils.h"
+/*---------------------------------------------------------*\
+| ResourceManager.cpp                                       |
+|                                                           |
+|   OpenRGB Resource Manager controls access to application |
+|   components including RGBControllers, I2C interfaces,    |
+|   and network SDK components                              |
+|                                                           |
+|   Adam Honse (CalcProgrammer1)                27 Sep 2020 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #ifdef _WIN32
 #include <codecvt>
@@ -26,6 +19,14 @@
 #include <stdlib.h>
 #include <string>
 #include <hidapi/hidapi.h>
+#include "ResourceManager.h"
+#include "ProfileManager.h"
+#include "LogManager.h"
+#include "SettingsManager.h"
+#include "NetworkClient.h"
+#include "NetworkServer.h"
+#include "filesystem.h"
+#include "StringUtils.h"
 
 const hidapi_wrapper default_wrapper =
 {

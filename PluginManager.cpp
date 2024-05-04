@@ -1,3 +1,12 @@
+/*---------------------------------------------------------*\
+| PluginManager.cpp                                         |
+|                                                           |
+|   OpenRGB plugin manager                                  |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
 #include "LogManager.h"
 #include "filesystem.h"
 #include "PluginManager.h"

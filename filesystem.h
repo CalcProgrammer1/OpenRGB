@@ -1,3 +1,12 @@
+/*---------------------------------------------------------*\
+| filesystem.h                                              |
+|                                                           |
+|   Selects between std and experimental filesystem library |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
 #ifndef FILESYSTEM_H
 #define FILESYSTEM_H
 

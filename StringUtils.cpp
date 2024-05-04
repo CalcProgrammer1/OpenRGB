@@ -1,5 +1,14 @@
-#include "StringUtils.h"
+/*---------------------------------------------------------*\
+| StringUtils.cpp                                           |
+|                                                           |
+|   String utility functions                                |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
 #include <string>
+#include "StringUtils.h"
 
 const char* StringUtils::wchar_to_char(const wchar_t* pwchar)
 {

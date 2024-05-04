@@ -1,11 +1,16 @@
-/******************************************************************************************\
-*                                                                                          *
-*   main.cpp                                                                               *
-*                                                                                          *
-*       Main function for OpenAuraSDK GUI project                                          *
-*                                                                                          *
-\******************************************************************************************/
+/*---------------------------------------------------------*\
+| main.cpp                                                  |
+|                                                           |
+|   Entry point for the OpenRGB application                 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
+#include <vector>
+#include <stdio.h>
+#include <stdlib.h>
+#include <thread>
 #include "ResourceManager.h"
 #include "NetworkClient.h"
 #include "NetworkServer.h"
@@ -13,10 +18,6 @@
 #include "RGBController.h"
 #include "i2c_smbus.h"
 #include "LogManager.h"
-#include <vector>
-#include <stdio.h>
-#include <stdlib.h>
-#include <thread>
 
 #ifdef _MACOSX_X86_X64
 #include "macUSPCIOAccess.h"

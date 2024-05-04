@@ -1,13 +1,15 @@
-/*-----------------------------------------*\
-|  ResourceManager.h                        |
-|                                           |
-|  OpenRGB Resource Manager controls access |
-|  to application components including      |
-|  RGBControllers, I2C interfaces, and      |
-|  network SDK components                   |
-|                                           |
-|  Adam Honse (CalcProgrammer1) 9/27/2020   |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| ResourceManager.h                                         |
+|                                                           |
+|   OpenRGB Resource Manager controls access to application |
+|   components including RGBControllers, I2C interfaces,    |
+|   and network SDK components                              |
+|                                                           |
+|   Adam Honse (CalcProgrammer1)                27 Sep 2020 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #pragma once
 
@@ -16,7 +18,6 @@
 #include <functional>
 #include <thread>
 #include <string>
-
 #include "hidapi_wrapper.h"
 #include "i2c_smbus.h"
 #include "filesystem.h"

@@ -1,19 +1,21 @@
-/*-----------------------------------------*\
-|  NetworkClient.h                          |
-|                                           |
-|  Client header for OpenRGB SDK            |
-|                                           |
-|  Adam Honse (CalcProgrammer1) 5/9/2020    |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| NetworkClient.h                                           |
+|                                                           |
+|   OpenRGB SDK network client                              |
+|                                                           |
+|   Adam Honse (CalcProgrammer1)                09 May 2020 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
-#include "RGBController.h"
-#include "NetworkProtocol.h"
-#include "net_port.h"
+#pragma once
 
 #include <mutex>
 #include <thread>
-
-#pragma once
+#include "RGBController.h"
+#include "NetworkProtocol.h"
+#include "net_port.h"
 
 typedef void (*NetClientCallback)(void *);
 

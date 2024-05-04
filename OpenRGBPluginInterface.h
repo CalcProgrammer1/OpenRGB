@@ -1,19 +1,21 @@
-/*-----------------------------------------*\
-|  OpenRGBPluginInterface.h                 |
-|                                           |
-|  OpenRGB Plugin Interface Class           |
-|                                           |
-|  herosilas12 (CoffeeIsLife)   12/11/2020  |
-|  Adam Honse (CalcProgrammer1) 1/5/2021    |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| OpenRGBPluginInterface.h                                  |
+|                                                           |
+|   OpenRGB SDK network protocol                            |
+|                                                           |
+|   herosilas12 (CoffeeIsLife)                  11 Dec 2020 |
+|   Adam Honse (CalcProgrammer1)                05 Jan 2021 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #pragma once
-
-#include "ResourceManager.h"
 
 #include <QtPlugin>
 #include <QLabel>
 #include <QMenu>
+#include "ResourceManager.h"
 
 #define OpenRGBPluginInterface_IID  "com.OpenRGBPluginInterface"
 

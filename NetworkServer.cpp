@@ -1,14 +1,17 @@
-/*-----------------------------------------*\
-|  NetworkServer.cpp                        |
-|                                           |
-|  Server code for OpenRGB SDK              |
-|                                           |
-|  Adam Honse (CalcProgrammer1) 5/9/2020    |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| NetworkServer.cpp                                         |
+|                                                           |
+|   OpenRGB SDK network server                              |
+|                                                           |
+|   Adam Honse (CalcProgrammer1)                09 May 2020 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
+#include <cstring>
 #include "NetworkServer.h"
 #include "LogManager.h"
-#include <cstring>
 
 #ifndef WIN32
 #include <sys/ioctl.h>

@@ -1,10 +1,13 @@
-/*-----------------------------------------*\
-|  NetworkProtocol.h                        |
-|                                           |
-|  Protocol header for OpenRGB SDK          |
-|                                           |
-|  Adam Honse (CalcProgrammer1) 5/9/2020    |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| NetworkProtocol.h                                         |
+|                                                           |
+|   OpenRGB SDK network protocol                            |
+|                                                           |
+|   Adam Honse (CalcProgrammer1)                09 May 2020 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #pragma once
 
