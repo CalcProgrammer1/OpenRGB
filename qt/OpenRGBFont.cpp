@@ -1,10 +1,21 @@
-#include "OpenRGBFont.h"
+/*---------------------------------------------------------*\
+| OpenRGBFont.cpp                                           |
+|                                                           |
+|   Functionality for OpenRGB custom font icons             |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
 #include <QStringList>
 #include <QFontDatabase>
+#include "OpenRGBFont.h"
 
 OpenRGBFont* OpenRGBFont::instance;
 
-OpenRGBFont::OpenRGBFont(){}
+OpenRGBFont::OpenRGBFont()
+{
+}
 
 OpenRGBFont *OpenRGBFont::Get()
 {

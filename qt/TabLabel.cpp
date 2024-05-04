@@ -1,5 +1,14 @@
-#include "TabLabel.h"
+/*---------------------------------------------------------*\
+| TabLabel.cpp                                              |
+|                                                           |
+|   Qt widget for OpenRGB tab label                         |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
 #include <QFontMetrics>
+#include "TabLabel.h"
 #include "OpenRGBFont.h"
 
 Ui::TabLabel::TabLabel(int icon, QString name, char* original, char* context) :

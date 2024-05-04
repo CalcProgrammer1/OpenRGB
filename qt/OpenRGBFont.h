@@ -1,5 +1,13 @@
-#ifndef OPENRGBFONT_H
-#define OPENRGBFONT_H
+/*---------------------------------------------------------*\
+| OpenRGBFont.h                                             |
+|                                                           |
+|   Functionality for OpenRGB custom font icons             |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
+#pragma once
 
 #include <QFont>
 #include <QString>
@@ -9,7 +17,8 @@ class OpenRGBFont
 public:
     static OpenRGBFont* Get();
 
-    enum Glyph {
+    enum Glyph
+    {
         bulb                = 0xF001,
         controller          = 0xF002,
         cooler              = 0xF003,
@@ -50,5 +59,3 @@ private:
     int fontId = -1;
     QFont font;
 };
-
-#endif // OPENRGBFONT_H

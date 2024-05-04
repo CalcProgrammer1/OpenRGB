@@ -1,5 +1,13 @@
-#ifndef OPENRGBTHEMEMANAGER_H
-#define OPENRGBTHEMEMANAGER_H
+/*---------------------------------------------------------*\
+| OpenRGBThemeManager.h                                     |
+|                                                           |
+|   Functionality for managing dark theme mode              |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
+#pragma once
 
 #include <string>
 
@@ -10,5 +18,3 @@ public:
     static void SetDarkTheme();
     static bool IsDarkTheme();
 };
-
-#endif // OPENRGBTHEMEMANAGER_H

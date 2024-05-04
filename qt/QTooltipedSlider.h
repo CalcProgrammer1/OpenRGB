@@ -1,5 +1,13 @@
-#ifndef QTOOLTIPEDSLIDER_H
-#define QTOOLTIPEDSLIDER_H
+/*---------------------------------------------------------*\
+| QTooltipedSlider.h                                        |
+|                                                           |
+|   Qt widget for OpenRGB tooltiped slider                  |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
+#pragma once
 
 #include <QSlider>
 
@@ -10,5 +18,3 @@ class QTooltipedSlider : public QSlider
 public:
     explicit QTooltipedSlider(QWidget *parent = nullptr);
 };
-
-#endif // QTOOLTIPEDSLIDER_H

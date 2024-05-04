@@ -1,22 +1,25 @@
-/*-----------------------------------------------------*\
-| DeviceView.cpp                                        |
-|                                                       |
-|  OpenRGB Device view widget for Qt                    |
-|                                                       |
-| Adam Honse (calcprogrammer1@gmail.com)                |
-\*-----------------------------------------------------*/
+/*---------------------------------------------------------*\
+| DeviceView.cpp                                            |
+|                                                           |
+|   OpenRGB Device view widget for Qt                       |
+|                                                           |
+|   Adam Honse (calcprogrammer1@gmail.com)                  |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
-#include "DeviceView.h"
-#include "ResourceManager.h"
-#include "RGBControllerKeyNames.h"
-#include "RGBController.h"
-#include "SettingsManager.h"
 #include <QPainter>
 #include <QResizeEvent>
 #include <QStyleOption>
 #include <QtCore/qmath.h>
 #include <QDebug>
 #include <QMouseEvent>
+#include "DeviceView.h"
+#include "ResourceManager.h"
+#include "RGBControllerKeyNames.h"
+#include "RGBController.h"
+#include "SettingsManager.h"
 
 #define MAX_COLS    20
 #define PAD_LED     0.1f

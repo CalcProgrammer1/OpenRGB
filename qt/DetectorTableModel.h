@@ -1,5 +1,13 @@
-#ifndef DETECTORTABLEMODEL_H
-#define DETECTORTABLEMODEL_H
+/*---------------------------------------------------------*\
+| DetectorTableModel.h                                      |
+|                                                           |
+|   Table model for detector list                           |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
+#pragma once
 
 #include <QSortFilterProxyModel>
 #include <QAbstractTableModel>
@@ -31,5 +39,3 @@ public slots:
     void applySettings();
     void toggleAll(const bool state, QSortFilterProxyModel* detectorSortModel);
 };
-
-#endif // DETECTORTABLEMODEL_H

@@ -1,5 +1,13 @@
-#include "DetectorTableModel.h"
+/*---------------------------------------------------------*\
+| DetectorTableModel.cpp                                    |
+|                                                           |
+|   Table model for detector list                           |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
+#include "DetectorTableModel.h"
 #include "SettingsManager.h"
 
 DetectorTableModel::DetectorTableModel(QObject* parent) : QAbstractTableModel(parent)

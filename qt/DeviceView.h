@@ -1,5 +1,15 @@
-#ifndef DEVICEVIEW_H
-#define DEVICEVIEW_H
+/*---------------------------------------------------------*\
+| DeviceView.h                                              |
+|                                                           |
+|   OpenRGB Device view widget for Qt                       |
+|                                                           |
+|   Adam Honse (calcprogrammer1@gmail.com)                  |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
+#pragma once
 
 #include <QWidget>
 #include "RGBController.h"
@@ -74,5 +84,3 @@ public slots:
     void clearSelection(); // Same as selecting the entire device
     void setSelectionColor(RGBColor);
 };
-
-#endif // DEVICEVIEW_H
