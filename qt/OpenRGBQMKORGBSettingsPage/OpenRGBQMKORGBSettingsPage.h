@@ -1,13 +1,21 @@
-#ifndef OPENRGBQMKORGBSETTINGSPAGE_H
-#define OPENRGBQMKORGBSETTINGSPAGE_H
+/*---------------------------------------------------------*\
+| OpenRGBQMKORGBSettingsPage.h                              |
+|                                                           |
+|   User interface for OpenRGB QMK device configuration page|
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
-#include "ui_OpenRGBQMKORGBSettingsPage.h"
+#pragma once
+
 #include <QWidget>
-
+#include "ui_OpenRGBQMKORGBSettingsPage.h"
 #include "OpenRGBQMKORGBSettingsEntry.h"
 
-namespace Ui {
-class OpenRGBQMKORGBSettingsPage;
+namespace Ui
+{
+    class OpenRGBQMKORGBSettingsPage;
 }
 
 class Ui::OpenRGBQMKORGBSettingsPage : public QWidget
@@ -31,5 +39,3 @@ private:
     std::vector<OpenRGBQMKORGBSettingsEntry*> entries;
 
 };
-
-#endif // OPENRGBQMKORGBSETTINGSPAGE_H

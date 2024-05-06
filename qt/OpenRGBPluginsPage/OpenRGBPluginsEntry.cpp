@@ -1,3 +1,12 @@
+/*---------------------------------------------------------*\
+| OpenRGBPluginsEntry.cpp                                   |
+|                                                           |
+|   User interface entry for OpenRGB plugin entry widget    |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
 #include "OpenRGBPluginsEntry.h"
 #include "ui_OpenRGBPluginsEntry.h"
 
@@ -42,4 +51,3 @@ void Ui::OpenRGBPluginsEntry::on_EnabledCheckBox_stateChanged(int /*checked*/)
         EnableClickCallbackVal(EnableClickCallbackArg, this);
     }
 }
-

@@ -1,13 +1,21 @@
-#ifndef OPENRGBLIFXSETTINGSPAGE_H
-#define OPENRGBLIFXSETTINGSPAGE_H
+/*---------------------------------------------------------*\
+| OpenRGBLIFXSettingsPage.h                                 |
+|                                                           |
+|   User interface for OpenRGB LIFX settings page           |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
-#include "ui_OpenRGBLIFXSettingsPage.h"
+#pragma once
+
 #include <QWidget>
-
+#include "ui_OpenRGBLIFXSettingsPage.h"
 #include "OpenRGBLIFXSettingsEntry.h"
 
-namespace Ui {
-class OpenRGBLIFXSettingsPage;
+namespace Ui
+{
+    class OpenRGBLIFXSettingsPage;
 }
 
 class Ui::OpenRGBLIFXSettingsPage : public QWidget
@@ -31,5 +39,3 @@ private:
     std::vector<OpenRGBLIFXSettingsEntry*> entries;
 
 };
-
-#endif // OPENRGBLIFXSETTINGSPAGE_H

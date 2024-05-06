@@ -1,11 +1,18 @@
-#ifndef OPENRGBLIFXSETTINGSENTRY_H
-#define OPENRGBLIFXSETTINGSENTRY_H
+/*---------------------------------------------------------*\
+| OpenRGBLIFXSettingsEntry.h                                |
+|                                                           |
+|   User interface for OpenRGB LIFX settings entry          |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
-#include "ui_OpenRGBLIFXSettingsEntry.h"
 #include <QWidget>
+#include "ui_OpenRGBLIFXSettingsEntry.h"
 
-namespace Ui {
-class OpenRGBLIFXSettingsEntry;
+namespace Ui
+{
+    class OpenRGBLIFXSettingsEntry;
 }
 
 class Ui::OpenRGBLIFXSettingsEntry : public QWidget
@@ -20,5 +27,3 @@ public:
 private slots:
     void changeEvent(QEvent *event);
 };
-
-#endif // OPENRGBLIFXSETTINGSENTRY_H

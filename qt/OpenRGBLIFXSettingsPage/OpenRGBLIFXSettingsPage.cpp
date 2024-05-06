@@ -1,3 +1,12 @@
+/*---------------------------------------------------------*\
+| OpenRGBLIFXSettingsPage.cpp                               |
+|                                                           |
+|   User interface for OpenRGB LIFX settings page           |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
 #include "OpenRGBLIFXSettingsPage.h"
 #include "ui_OpenRGBLIFXSettingsPage.h"
 #include "ResourceManager.h"

@@ -1,3 +1,12 @@
+/*---------------------------------------------------------*\
+| OpenRGBYeelightSettingsPage.cpp                           |
+|                                                           |
+|   User interface for configuring Yeelight settings        |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
 #include "OpenRGBYeelightSettingsPage.h"
 #include "ui_OpenRGBYeelightSettingsPage.h"
 #include "ResourceManager.h"

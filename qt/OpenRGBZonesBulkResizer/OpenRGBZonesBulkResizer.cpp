@@ -1,11 +1,20 @@
+/*---------------------------------------------------------*\
+| OpenRGBZonesBulkResizer.cpp                               |
+|                                                           |
+|   User interface for bulk resizing zones                  |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
+#include <QDialog>
+#include <QFile>
 #include "OpenRGBZonesBulkResizer.h"
 #include "ui_OpenRGBZonesBulkResizer.h"
 #include "ResourceManager.h"
 #include "SettingsManager.h"
 #include "LogManager.h"
 #include "OpenRGBDialog2.h"
-#include <QDialog>
-#include <QFile>
 
 using namespace Ui;
 

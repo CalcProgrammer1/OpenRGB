@@ -1,13 +1,22 @@
-#ifndef OPENRGBSERVERINFOPAGE_H
-#define OPENRGBSERVERINFOPAGE_H
+/*---------------------------------------------------------*\
+| OpenRGBServerInfoPage.h                                   |
+|                                                           |
+|   User interface for server information page              |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
+#pragma once
 
 #include <QFrame>
 #include "RGBController.h"
 #include "ui_OpenRGBServerInfoPage.h"
 #include "NetworkServer.h"
 
-namespace Ui {
-class OpenRGBServerInfoPage;
+namespace Ui
+{
+    class OpenRGBServerInfoPage;
 }
 
 class Ui::OpenRGBServerInfoPage : public QFrame
@@ -31,5 +40,3 @@ private:
 
     NetworkServer* network_server;
 };
-
-#endif // OPENRGBSERVERINFOPAGE_H

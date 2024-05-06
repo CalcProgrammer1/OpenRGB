@@ -1,3 +1,12 @@
+/*---------------------------------------------------------*\
+| OpenRGBSerialSettingsEntry.cpp                            |
+|                                                           |
+|   User interface entry for serial device configuration    |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
 #include "OpenRGBSerialSettingsEntry.h"
 #include "ui_OpenRGBSerialSettingsEntry.h"
 
@@ -39,4 +48,3 @@ void Ui::OpenRGBSerialSettingsEntry::on_ProtocolComboBox_currentIndexChanged(int
         ui->BaudLabel->setText("Baud:");
     }
 }
-

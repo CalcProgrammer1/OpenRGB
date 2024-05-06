@@ -1,3 +1,12 @@
+/*---------------------------------------------------------*\
+| OpenRGBKasaSmartSettingsPage.cpp                          |
+|                                                           |
+|   User interface for OpenRGB Kasa Smart settings page     |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
 #include "OpenRGBKasaSmartSettingsPage.h"
 #include "ui_OpenRGBKasaSmartSettingsPage.h"
 #include "ResourceManager.h"

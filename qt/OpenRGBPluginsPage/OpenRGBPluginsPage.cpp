@@ -1,8 +1,16 @@
+/*---------------------------------------------------------*\
+| OpenRGBPluginsPage.cpp                                    |
+|                                                           |
+|   User interface entry for OpenRGB plugin settings        |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
 #include <QFileDialog>
 #include <QMessageBox>
 #include <QGraphicsPixmapItem>
 #include <QGraphicsScene>
-
 #include "filesystem.h"
 #include "LogManager.h"
 #include "SettingsManager.h"

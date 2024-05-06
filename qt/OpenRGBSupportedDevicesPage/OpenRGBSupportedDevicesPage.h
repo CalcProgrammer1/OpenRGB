@@ -1,13 +1,22 @@
-#ifndef SUPPORTEDDEVICESPAGE_H
-#define SUPPORTEDDEVICESPAGE_H
+/*---------------------------------------------------------*\
+| OpenRGBSupportedDevicePage.h                              |
+|                                                           |
+|   User interface for enabling and disabling devices       |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
-#include "DetectorTableModel.h"
-#include "ui_OpenRGBSupportedDevicesPage.h"
+#pragma once
+
 #include <QWidget>
 #include <QSortFilterProxyModel>
+#include "DetectorTableModel.h"
+#include "ui_OpenRGBSupportedDevicesPage.h"
 
-namespace Ui {
-class OpenRGBSupportedDevicesPage;
+namespace Ui
+{
+    class OpenRGBSupportedDevicesPage;
 }
 
 class Ui::OpenRGBSupportedDevicesPage : public QWidget
@@ -32,5 +41,3 @@ private slots:
 private:
     Ui::OpenRGBSupportedDevicesPageUi *ui;
 };
-
-#endif // SUPPORTEDDEVICESPAGE_H

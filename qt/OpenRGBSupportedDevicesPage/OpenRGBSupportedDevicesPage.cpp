@@ -1,3 +1,12 @@
+/*---------------------------------------------------------*\
+| OpenRGBSupportedDevicePage.cpp                            |
+|                                                           |
+|   User interface for enabling and disabling devices       |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
 #include "OpenRGBSupportedDevicesPage.h"
 #include "ui_OpenRGBSupportedDevicesPage.h"
 #include "ResourceManager.h"

@@ -1,3 +1,12 @@
+/*---------------------------------------------------------*\
+| OpenRGBSystemInfoPage.cpp                                 |
+|                                                           |
+|   User interface entry for OpenRGB system information page|
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
 #include "OpenRGBSystemInfoPage.h"
 #include "ResourceManager.h"
 #include "i2c_tools.h"

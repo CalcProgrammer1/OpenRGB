@@ -1,14 +1,21 @@
-#ifndef OPENRGBNanoleafSETTINGSPAGE_H
-#define OPENRGBNanoleafSETTINGSPAGE_H
+/*---------------------------------------------------------*\
+| OpenRGBNanoleafSettingsPage.h                             |
+|                                                           |
+|   User interface for OpenRGB Nanoleaf settings page       |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
-#include "ui_OpenRGBNanoleafSettingsPage.h"
+#pragma once
+
 #include <QWidget>
-
+#include "ui_OpenRGBNanoleafSettingsPage.h"
 #include "OpenRGBNanoleafSettingsEntry.h"
 
 namespace Ui
 {
-class OpenRGBNanoleafSettingsPage;
+    class OpenRGBNanoleafSettingsPage;
 }
 
 class Ui::OpenRGBNanoleafSettingsPage : public QWidget
@@ -30,5 +37,3 @@ private:
     Ui::OpenRGBNanoleafSettingsPageUi *ui;
     std::map<std::string, OpenRGBNanoleafSettingsEntry*> entries;
 };
-
-#endif // OPENRGBNanoleafSETTINGSPAGE_H

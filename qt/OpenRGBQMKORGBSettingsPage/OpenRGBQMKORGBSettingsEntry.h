@@ -1,11 +1,20 @@
-#ifndef OPENRGBQMKORGBSETTINGSENTRY_H
-#define OPENRGBQMKORGBSETTINGSENTRY_H
+/*---------------------------------------------------------*\
+| OpenRGBQMKORGBSettingsEntry.h                             |
+|                                                           |
+|   User interface entry for OpenRGB QMK configuration      |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
-#include "ui_OpenRGBQMKORGBSettingsEntry.h"
+#pragma once
+
 #include <QWidget>
+#include "ui_OpenRGBQMKORGBSettingsEntry.h"
 
-namespace Ui {
-class OpenRGBQMKORGBSettingsEntry;
+namespace Ui
+{
+    class OpenRGBQMKORGBSettingsEntry;
 }
 
 class Ui::OpenRGBQMKORGBSettingsEntry : public QWidget
@@ -20,5 +29,3 @@ public:
     ~OpenRGBQMKORGBSettingsEntry();
     Ui::OpenRGBQMKORGBSettingsEntryUi *ui;
 };
-
-#endif // OPENRGBQMKORGBSETTINGSENTRY_H

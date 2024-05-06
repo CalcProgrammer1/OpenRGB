@@ -1,5 +1,13 @@
-#ifndef OPENRGBPLUGINSPAGE_H
-#define OPENRGBPLUGINSPAGE_H
+/*---------------------------------------------------------*\
+| OpenRGBPluginsPage.h                                      |
+|                                                           |
+|   User interface entry for OpenRGB plugin settings        |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
+#pragma once
 
 #include <QWidget>
 #include "OpenRGBPluginsEntry.h"
@@ -8,7 +16,7 @@
 
 namespace Ui
 {
-class OpenRGBPluginsPage;
+    class OpenRGBPluginsPage;
 }
 
 class Ui::OpenRGBPluginsPage : public QWidget
@@ -39,5 +47,3 @@ private:
     bool InstallPlugin(std::string path);
     void RefreshList();
 };
-
-#endif // OPENRGBPLUGINSPAGE_H

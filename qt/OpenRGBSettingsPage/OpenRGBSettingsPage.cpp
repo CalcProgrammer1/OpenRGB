@@ -1,3 +1,14 @@
+/*---------------------------------------------------------*\
+| OpenRGBSettingsPage.cpp                                   |
+|                                                           |
+|   User interface for general settings page                |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
+#include <QUrl>
+#include <QDesktopServices>
 #include "AutoStart.h"
 #include "OpenRGBSettingsPage.h"
 #include "ui_OpenRGBSettingsPage.h"
@@ -5,8 +16,6 @@
 #include "ResourceManager.h"
 #include "SettingsManager.h"
 #include "ProfileManager.h"
-#include <QUrl>
-#include <QDesktopServices>
 
 using namespace Ui;
 

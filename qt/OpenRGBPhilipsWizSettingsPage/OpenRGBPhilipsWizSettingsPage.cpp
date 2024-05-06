@@ -1,3 +1,12 @@
+/*---------------------------------------------------------*\
+| OpenRGBPhilipsWizSettingsPage.cpp                         |
+|                                                           |
+|   User interface for OpenRGB Philips Wiz settings page    |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
 #include "OpenRGBPhilipsWizSettingsPage.h"
 #include "ui_OpenRGBPhilipsWizSettingsPage.h"
 #include "ResourceManager.h"

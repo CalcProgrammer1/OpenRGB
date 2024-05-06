@@ -1,7 +1,16 @@
+/*---------------------------------------------------------*\
+| OpenRGBYeelightSettingsEntry.cpp                          |
+|                                                           |
+|   User interface for Yeelight settings entry              |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
+#include <QInputDialog>
 #include "OpenRGBYeelightSettingsEntry.h"
 #include "ui_OpenRGBYeelightSettingsEntry.h"
 #include "net_port.h"
-#include <QInputDialog>
 
 using namespace Ui;
 

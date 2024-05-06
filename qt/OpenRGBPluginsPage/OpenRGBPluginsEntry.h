@@ -1,8 +1,16 @@
-#ifndef OPENRGBPLUGINSENTRY_H
-#define OPENRGBPLUGINSENTRY_H
+/*---------------------------------------------------------*\
+| OpenRGBPluginsEntry.h                                     |
+|                                                           |
+|   User interface entry for OpenRGB plugin entry widget    |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
-#include "ui_OpenRGBPluginsEntry.h"
+#pragma once
+
 #include <QWidget>
+#include "ui_OpenRGBPluginsEntry.h"
 
 namespace Ui
 {
@@ -30,5 +38,3 @@ private:
     EnableClickCallback EnableClickCallbackVal;
     void *              EnableClickCallbackArg;
 };
-
-#endif // OPENRGBPLUGINSENTRY_H

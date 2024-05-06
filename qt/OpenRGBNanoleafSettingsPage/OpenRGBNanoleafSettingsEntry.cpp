@@ -1,3 +1,12 @@
+/*---------------------------------------------------------*\
+| OpenRGBNanoleafSettingsEntry.cpp                          |
+|                                                           |
+|   User interface for OpenRGB Nanoleaf settings entry      |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
 #include "OpenRGBNanoleafSettingsEntry.h"
 #include "ui_OpenRGBNanoleafSettingsEntry.h"
 #include "ResourceManager.h"
@@ -97,4 +106,3 @@ void OpenRGBNanoleafSettingsEntry::on_UnpairButton_clicked()
     ui->PairButton->show();
     ui->UnpairButton->hide();
 }
-

@@ -1,12 +1,21 @@
-#ifndef OPENRGBZONESBULKRESIZER_H
-#define OPENRGBZONESBULKRESIZER_H
+/*---------------------------------------------------------*\
+| OpenRGBZonesBulkResizer.h                                 |
+|                                                           |
+|   User interface for bulk resizing zones                  |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
+#pragma once
+
+#include <QWidget>
 #include "ui_OpenRGBZonesBulkResizer.h"
 #include "RGBController.h"
-#include <QWidget>
 
-namespace Ui {
-class OpenRGBZonesBulkResizer;
+namespace Ui
+{
+    class OpenRGBZonesBulkResizer;
 }
 
 class Ui::OpenRGBZonesBulkResizer : public QWidget
@@ -37,5 +46,3 @@ private slots:
     void on_ignore_button_clicked();
 
 };
-
-#endif // OPENRGBZONESBULKRESIZER_H

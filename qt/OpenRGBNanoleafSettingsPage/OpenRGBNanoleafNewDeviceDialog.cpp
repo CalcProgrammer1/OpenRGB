@@ -1,3 +1,12 @@
+/*---------------------------------------------------------*\
+| OpenRGBNanoleafNewDeviceDialog.cpp                        |
+|                                                           |
+|   User interface for OpenRGB Nanoleaf dialog              |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
 #include <QCloseEvent>
 #include "ResourceManager.h"
 #include "OpenRGBNanoleafNewDeviceDialog.h"

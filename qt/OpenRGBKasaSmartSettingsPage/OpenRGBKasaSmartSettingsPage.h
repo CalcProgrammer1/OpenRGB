@@ -1,13 +1,19 @@
-#ifndef OPENRGBKASASMARTSETTINGSPAGE_H
-#define OPENRGBKASASMARTSETTINGSPAGE_H
+/*---------------------------------------------------------*\
+| OpenRGBKasaSmartSettingsPage.h                            |
+|                                                           |
+|   User interface for OpenRGB Kasa Smart settings page     |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
-#include "ui_OpenRGBKasaSmartSettingsPage.h"
 #include <QWidget>
-
+#include "ui_OpenRGBKasaSmartSettingsPage.h"
 #include "OpenRGBKasaSmartSettingsEntry.h"
 
-namespace Ui {
-class OpenRGBKasaSmartSettingsPage;
+namespace Ui
+{
+    class OpenRGBKasaSmartSettingsPage;
 }
 
 class Ui::OpenRGBKasaSmartSettingsPage : public QWidget
@@ -31,5 +37,3 @@ private:
     std::vector<OpenRGBKasaSmartSettingsEntry*> entries;
 
 };
-
-#endif // OPENRGBKASASMARTSETTINGSPAGE_H

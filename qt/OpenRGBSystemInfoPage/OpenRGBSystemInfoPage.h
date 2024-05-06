@@ -1,12 +1,21 @@
-#ifndef OPENRGBSYSTEMINFOPAGE_H
-#define OPENRGBSYSTEMINFOPAGE_H
+/*---------------------------------------------------------*\
+| OpenRGBSystemInfoPage.h                                   |
+|                                                           |
+|   User interface entry for OpenRGB system information page|
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
+#pragma once
 
 #include <QFrame>
 #include "ui_OpenRGBSystemInfoPage.h"
 #include "i2c_smbus.h"
 
-namespace Ui {
-class OpenRGBSystemInfoPage;
+namespace Ui
+{
+    class OpenRGBSystemInfoPage;
 }
 
 class Ui::OpenRGBSystemInfoPage : public QFrame
@@ -32,5 +41,3 @@ private:
     Ui::OpenRGBSystemInfoPageUi *ui;
     std::vector<i2c_smbus_interface *>& busses;
 };
-
-#endif // OPENRGBSYSTEMINFOPAGE_H

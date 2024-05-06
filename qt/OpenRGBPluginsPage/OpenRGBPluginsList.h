@@ -1,5 +1,13 @@
-#ifndef OPENRGBPLUGINSLIST_H
-#define OPENRGBPLUGINSLIST_H
+/*---------------------------------------------------------*\
+| OpenRGBPluginsList.h                                      |
+|                                                           |
+|   User interface entry for OpenRGB plugin list widget     |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
+#pragma once
 
 #include <QListWidget>
 #include <QDropEvent>
@@ -20,5 +28,3 @@ protected:
     void dragEnterEvent(QDragEnterEvent *event) override;
     void dragMoveEvent(QDragMoveEvent *event) override;
 };
-
-#endif // OPENRGBPLUGINSLIST_H

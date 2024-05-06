@@ -1,6 +1,14 @@
-#include "OpenRGBZoneResizeDialog.h"
+/*---------------------------------------------------------*\
+| OpenRGBZoneResizeDialog.cpp                               |
+|                                                           |
+|   User interface for resizing zones                       |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #include <QLineEdit>
+#include "OpenRGBZoneResizeDialog.h"
 
 using namespace Ui;
 

@@ -1,5 +1,13 @@
-#ifndef OPENRGBPROFILESAVEDIALOG_H
-#define OPENRGBPROFILESAVEDIALOG_H
+/*---------------------------------------------------------*\
+| OpenRGBProfileSaveDialog.h                                |
+|                                                           |
+|   User interface entry for OpenRGB profile save dialog    |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
+#pragma once
 
 #include <QDialog>
 #include "ui_OpenRGBProfileSaveDialog.h"
@@ -7,7 +15,7 @@
 
 namespace Ui
 {
-class OpenRGBProfileSaveDialog;
+    class OpenRGBProfileSaveDialog;
 }
 
 class Ui::OpenRGBProfileSaveDialog : public QDialog
@@ -26,5 +34,3 @@ private:
 private slots:
     void changeEvent(QEvent *event);
 };
-
-#endif // OPENRGBPROFILESAVEDIALOG_H

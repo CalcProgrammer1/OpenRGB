@@ -1,5 +1,11 @@
-#ifndef OPENRGBNanoleafScanningThread_H
-#define OPENRGBNanoleafScanningThread_H
+/*---------------------------------------------------------*\
+| OpenRGBNanoleafScanningThread.h                           |
+|                                                           |
+|   OpenRGB Nanoleaf scanning thread                        |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #include <QThread>
 
@@ -17,5 +23,3 @@ signals:
 public:
     void EmitDeviceFound(QString address, int port);
 };
-
-#endif // OPENRGBNanoleafScanningThread_H

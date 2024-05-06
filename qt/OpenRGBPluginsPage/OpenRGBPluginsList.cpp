@@ -1,6 +1,15 @@
-#include "OpenRGBPluginsList.h"
+/*---------------------------------------------------------*\
+| OpenRGBPluginsList.cpp                                    |
+|                                                           |
+|   User interface entry for OpenRGB plugin list widget     |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
 #include <QMimeData>
 #include <QUrl>
+#include "OpenRGBPluginsList.h"
 
 OpenRGBPluginsList::OpenRGBPluginsList(QWidget *parent) : QListWidget (parent)
 {
@@ -24,7 +33,6 @@ void OpenRGBPluginsList::dropEvent(QDropEvent *event)
 
         emit PluginsDropped(path_list);
     }
-
 }
 
 void OpenRGBPluginsList::dragEnterEvent(QDragEnterEvent *event)

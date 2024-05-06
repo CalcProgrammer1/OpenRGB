@@ -1,13 +1,22 @@
-#ifndef OPENRGBZONERESIZEDIALOG_H
-#define OPENRGBZONERESIZEDIALOG_H
+/*---------------------------------------------------------*\
+| OpenRGBZoneResizeDialog.h                                 |
+|                                                           |
+|   User interface for resizing zones                       |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
+#pragma once
 
 #include <QDialog>
 #include "ui_OpenRGBZoneResizeDialog.h"
 
 #include "RGBController.h"
 
-namespace Ui {
-class OpenRGBZoneResizeDialog;
+namespace Ui
+{
+    class OpenRGBZoneResizeDialog;
 }
 
 class Ui::OpenRGBZoneResizeDialog : public QDialog
@@ -42,5 +51,3 @@ private:
 
     void CheckSegmentsValidity();
 };
-
-#endif // OPENRGBZONERESIZEDIALOG_H

@@ -1,13 +1,21 @@
-#ifndef OPENRGBYEELIGHTSETTINGSPAGE_H
-#define OPENRGBYEELIGHTSETTINGSPAGE_H
+/*---------------------------------------------------------*\
+| OpenRGBYeelightSettingsPage.h                             |
+|                                                           |
+|   User interface for configuring Yeelight settings        |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
-#include "ui_OpenRGBYeelightSettingsPage.h"
+#pragma once
+
 #include <QWidget>
-
+#include "ui_OpenRGBYeelightSettingsPage.h"
 #include "OpenRGBYeelightSettingsEntry.h"
 
-namespace Ui {
-class OpenRGBYeelightSettingsPage;
+namespace Ui
+{
+    class OpenRGBYeelightSettingsPage;
 }
 
 class Ui::OpenRGBYeelightSettingsPage : public QWidget
@@ -29,7 +37,4 @@ private slots:
 private:
     Ui::OpenRGBYeelightSettingsPageUi *ui;
     std::vector<OpenRGBYeelightSettingsEntry*> entries;
-
 };
-
-#endif // OPENRGBYEELIGHTSETTINGSPAGE_H

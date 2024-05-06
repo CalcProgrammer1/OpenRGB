@@ -1,3 +1,12 @@
+/*---------------------------------------------------------*\
+| OpenRGBProfileSaveDialog.cpp                              |
+|                                                           |
+|   User interface entry for OpenRGB profile save dialog    |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
 #include <QCloseEvent>
 #include "ResourceManager.h"
 #include "OpenRGBDialog2.h"

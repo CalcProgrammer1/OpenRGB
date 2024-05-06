@@ -1,3 +1,12 @@
+/*---------------------------------------------------------*\
+| OpenRGBNanoleafScanningThread.cpp                         |
+|                                                           |
+|   OpenRGB Nanoleaf scanning thread                        |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
 #ifdef _WIN32
 #define _CRT_SECURE_NO_WARNINGS 1
 #endif
@@ -43,7 +52,7 @@ static mdns_string_t ipv4_address_to_string(char* buffer, size_t capacity, const
 	mdns_string_t str;
 	str.str = buffer;
 	str.length = len;
-	
+
 	return str;
 }
 
@@ -136,7 +145,7 @@ static int open_client_sockets(int* sockets, int max_sockets, int port)
 		{
 			continue;
 		}
-		
+
 		for(IP_ADAPTER_UNICAST_ADDRESS* unicast = adapter->FirstUnicastAddress; unicast; unicast = unicast->Next)
         {
 			if(unicast->Address.lpSockaddr->sa_family == AF_INET)

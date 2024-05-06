@@ -1,3 +1,12 @@
+/*---------------------------------------------------------*\
+| OpenRGBPhilipsHueSettingsPage.cpp                         |
+|                                                           |
+|   User interface for OpenRGB Philips Hue settings page    |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
 #include "OpenRGBPhilipsHueSettingsPage.h"
 #include "ui_OpenRGBPhilipsHueSettingsPage.h"
 #include "ResourceManager.h"

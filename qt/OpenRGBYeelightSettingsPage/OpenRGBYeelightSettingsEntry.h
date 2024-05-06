@@ -1,11 +1,20 @@
-#ifndef OPENRGBYEELIGHTSETTINGSENTRY_H
-#define OPENRGBYEELIGHTSETTINGSENTRY_H
+/*---------------------------------------------------------*\
+| OpenRGBYeelightSettingsEntry.h                            |
+|                                                           |
+|   User interface for Yeelight settings entry              |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
-#include "ui_OpenRGBYeelightSettingsEntry.h"
+#pragma once
+
 #include <QWidget>
+#include "ui_OpenRGBYeelightSettingsEntry.h"
 
-namespace Ui {
-class OpenRGBYeelightSettingsEntry;
+namespace Ui
+{
+    class OpenRGBYeelightSettingsEntry;
 }
 
 class Ui::OpenRGBYeelightSettingsEntry : public QWidget
@@ -20,7 +29,4 @@ public:
 private slots:
     void changeEvent(QEvent *event);
     void on_HostIPChooserButton_clicked();
-
 };
-
-#endif // OPENRGBYeelightSETTINGSENTRY_H

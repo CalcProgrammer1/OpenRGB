@@ -1,3 +1,12 @@
+/*---------------------------------------------------------*\
+| OpenRGBNanoleafSettingsPage.cpp                           |
+|                                                           |
+|   User interface for OpenRGB Nanoleaf settings page       |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
 #include "OpenRGBNanoleafSettingsPage.h"
 #include "ui_OpenRGBNanoleafSettingsPage.h"
 #include "OpenRGBNanoleafNewDeviceDialog.h"

@@ -1,13 +1,22 @@
-#ifndef OPENRGBSERIALSETTINGSPAGE_H
-#define OPENRGBSERIALSETTINGSPAGE_H
+/*---------------------------------------------------------*\
+| OpenRGBSerialSettingsPage.h                               |
+|                                                           |
+|   User interface for serial device configuration page     |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
-#include "ui_OpenRGBSerialSettingsPage.h"
+#pragma once
+
 #include <QWidget>
 
+#include "ui_OpenRGBSerialSettingsPage.h"
 #include "OpenRGBSerialSettingsEntry.h"
 
-namespace Ui {
-class OpenRGBSerialSettingsPage;
+namespace Ui
+{
+    class OpenRGBSerialSettingsPage;
 }
 
 class Ui::OpenRGBSerialSettingsPage : public QWidget
@@ -31,5 +40,3 @@ private:
     std::vector<OpenRGBSerialSettingsEntry*> entries;
 
 };
-
-#endif // OPENRGBSERIALSETTINGSPAGE_H

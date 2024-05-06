@@ -1,9 +1,16 @@
-#ifndef OPENRGBPLUGINCONTAINER_H
-#define OPENRGBPLUGINCONTAINER_H
+/*---------------------------------------------------------*\
+| OpenRGBPluginContainer.h                                  |
+|                                                           |
+|   User interface entry for OpenRGB plugin container widget|
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
-#include "ui_OpenRGBPluginContainer.h"
+#pragma once
 
 #include <QWidget>
+#include "ui_OpenRGBPluginContainer.h"
 
 namespace Ui
 {
@@ -28,5 +35,3 @@ private:
 private slots:
     void changeEvent(QEvent *event);
 };
-
-#endif // OPENRGBPLUGINCONTAINER_H

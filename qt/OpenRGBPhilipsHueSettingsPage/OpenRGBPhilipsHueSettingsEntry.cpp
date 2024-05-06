@@ -1,3 +1,12 @@
+/*---------------------------------------------------------*\
+| OpenRGBPhilipsHueSettingsEntry.cpp                        |
+|                                                           |
+|   User interface for OpenRGB Philips Hue settings entry   |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
 #include "OpenRGBPhilipsHueSettingsEntry.h"
 #include "ui_OpenRGBPhilipsHueSettingsEntry.h"
 
@@ -28,4 +37,3 @@ void Ui::OpenRGBPhilipsHueSettingsEntry::on_UnpairButton_clicked()
     ui->UsernameValue->setText("");
     ui->ClientKeyValue->setText("");
 }
-

@@ -1,3 +1,12 @@
+/*---------------------------------------------------------*\
+| OpenRGBSoftwareInfoPage.cpp                               |
+|                                                           |
+|   User interface for software information page            |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
 #include "OpenRGBSoftwareInfoPage.h"
 #include "OpenRGBPluginInterface.h"
 #include "NetworkProtocol.h"

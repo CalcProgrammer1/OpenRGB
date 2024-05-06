@@ -1,13 +1,21 @@
-#ifndef OPENRGBPHILIPSWIZSETTINGSPAGE_H
-#define OPENRGBPHILIPSWIZSETTINGSPAGE_H
+/*---------------------------------------------------------*\
+| OpenRGBPhilipsWizSettingsPage.h                           |
+|                                                           |
+|   User interface for OpenRGB Philips Wiz settings page    |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
-#include "ui_OpenRGBPhilipsWizSettingsPage.h"
+#pragma once
+
 #include <QWidget>
-
+#include "ui_OpenRGBPhilipsWizSettingsPage.h"
 #include "OpenRGBPhilipsWizSettingsEntry.h"
 
-namespace Ui {
-class OpenRGBPhilipsWizSettingsPage;
+namespace Ui
+{
+    class OpenRGBPhilipsWizSettingsPage;
 }
 
 class Ui::OpenRGBPhilipsWizSettingsPage : public QWidget
@@ -31,5 +39,3 @@ private:
     std::vector<OpenRGBPhilipsWizSettingsEntry*> entries;
 
 };
-
-#endif // OPENRGBPHILIPSWIZSETTINGSPAGE_H

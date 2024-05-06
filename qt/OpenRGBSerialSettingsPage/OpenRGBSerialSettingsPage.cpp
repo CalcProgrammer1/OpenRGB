@@ -1,3 +1,12 @@
+/*---------------------------------------------------------*\
+| OpenRGBSerialSettingsPage.cpp                             |
+|                                                           |
+|   User interface for serial device configuration page     |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
 #include "OpenRGBSerialSettingsPage.h"
 #include "ui_OpenRGBSerialSettingsPage.h"
 #include "ResourceManager.h"

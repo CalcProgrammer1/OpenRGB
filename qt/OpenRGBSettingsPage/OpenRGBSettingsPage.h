@@ -1,17 +1,26 @@
-#ifndef SETTINGSPAGE_H
-#define SETTINGSPAGE_H
+/*---------------------------------------------------------*\
+| OpenRGBSettingsPage.h                                     |
+|                                                           |
+|   User interface for general settings page                |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
-#include "ui_OpenRGBSettingsPage.h"
+#pragma once
+
 #include <QCoreApplication>
 #include <QDirIterator>
 #include <QTranslator>
 #include <QWidget>
-
 #include <json.hpp>
+#include "ui_OpenRGBSettingsPage.h"
+
 using json = nlohmann::json;
 
-namespace Ui {
-class OpenRGBSettingsPage;
+namespace Ui
+{
+    class OpenRGBSettingsPage;
 }
 
 class Ui::OpenRGBSettingsPage : public QWidget
@@ -74,5 +83,3 @@ private slots:
     void on_ComboBoxExitProfile_currentTextChanged(const QString exit_profile_name);
     void on_CheckboxDisableKeyExpansion_clicked();
 };
-
-#endif // OPENRGBSETTINGSPAGE_H

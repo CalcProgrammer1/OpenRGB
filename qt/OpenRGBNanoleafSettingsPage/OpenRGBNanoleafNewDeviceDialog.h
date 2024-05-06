@@ -1,5 +1,11 @@
-#ifndef OPENRGBNANOLEAFNEWDEVICEDIALOG_H
-#define OPENRGBNANOLEAFNEWDEVICEDIALOG_H
+/*---------------------------------------------------------*\
+| OpenRGBNanoleafNewDeviceDialog.h                          |
+|                                                           |
+|   User interface for OpenRGB Nanoleaf dialog              |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #include <QDialog>
 #include "ui_OpenRGBNanoleafNewDeviceDialog.h"
@@ -32,5 +38,3 @@ private:
 private slots:
     void changeEvent(QEvent *event);
 };
-
-#endif // OPENRGBNANOLEAFNEWDEVICEDIALOG_H

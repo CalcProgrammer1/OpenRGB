@@ -1,3 +1,12 @@
+/*---------------------------------------------------------*\
+| OpenRGBQMKORGBSettingsPage.cpp                            |
+|                                                           |
+|   User interface for OpenRGB QMK device configuration page|
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
 #include "OpenRGBQMKORGBSettingsPage.h"
 #include "ui_OpenRGBQMKORGBSettingsPage.h"
 #include "ResourceManager.h"

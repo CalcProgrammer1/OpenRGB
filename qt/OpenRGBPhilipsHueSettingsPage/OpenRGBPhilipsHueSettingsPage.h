@@ -1,13 +1,21 @@
-#ifndef OPENRGBPHILIPSHUESETTINGSPAGE_H
-#define OPENRGBPHILIPSHUESETTINGSPAGE_H
+/*---------------------------------------------------------*\
+| OpenRGBPhilipsHueSettingsPage.h                           |
+|                                                           |
+|   User interface for OpenRGB Philips Hue settings page    |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
-#include "ui_OpenRGBPhilipsHueSettingsPage.h"
+#pragma once
+
 #include <QWidget>
-
+#include "ui_OpenRGBPhilipsHueSettingsPage.h"
 #include "OpenRGBPhilipsHueSettingsEntry.h"
 
-namespace Ui {
-class OpenRGBPhilipsHueSettingsPage;
+namespace Ui
+{
+    class OpenRGBPhilipsHueSettingsPage;
 }
 
 class Ui::OpenRGBPhilipsHueSettingsPage : public QWidget
@@ -29,7 +37,4 @@ private slots:
 private:
     Ui::OpenRGBPhilipsHueSettingsPageUi *ui;
     std::vector<OpenRGBPhilipsHueSettingsEntry*> entries;
-
 };
-
-#endif // OPENRGBPHILIPSHUESETTINGSPAGE_H
