@@ -1,12 +1,16 @@
-/*-----------------------------------------------------*\
-|  RGBController_HIDLampArray.h                         |
-|                                                       |
-|  Generic RGB Interface HID LampArray Devices          |
-|                                                       |
-|  Adam Honse <calcprogrammer1@gmail.com>   3/26/2024   |
-\*-----------------------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_HIDLampArray.h                              |
+|                                                           |
+|   RGBController for HID LampArray Devices                 |
+|                                                           |
+|   Adam Honse (calcprogrammer1@gmail.com)      26 Mar 2024 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #pragma once
+
 #include "RGBController.h"
 #include "HIDLampArrayController.h"
 
