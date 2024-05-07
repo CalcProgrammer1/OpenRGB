@@ -147,7 +147,7 @@ void HIDLampArrayController::SetLampAttributesRequestReport(unsigned short LampI
     hid_send_feature_report(devs->hid_dev_LampAttributesRequestReport, usb_buf, sizeof(usb_buf));
 }
 
-void HIDLampArrayController::SetLampMultiUpdateReport(unsigned char LampCount, unsigned char LampUpdateFlags, unsigned char * LampIds, LampArrayColor * UpdateColors)
+void HIDLampArrayController::SetLampMultiUpdateReport(unsigned char LampCount, unsigned char LampUpdateFlags, unsigned short * LampIds, LampArrayColor * UpdateColors)
 {
     unsigned char   usb_buf[sizeof(LampMultiUpdate) + 1];
 
