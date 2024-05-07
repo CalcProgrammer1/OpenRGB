@@ -83,11 +83,12 @@ PACK(struct LampAttributesRequest
 });
 
 #define LAMP_MULTI_UPDATE_LAMP_COUNT 8
+#define LAMP_UPDATE_FLAG_UPDATE_COMPLETE 1
 PACK(struct LampMultiUpdate
 {
     unsigned char   LampCount;
     unsigned char   LampUpdateFlags;
-    unsigned char   LampIds[LAMP_MULTI_UPDATE_LAMP_COUNT];
+    unsigned short  LampIds[LAMP_MULTI_UPDATE_LAMP_COUNT];
     LampArrayColor  UpdateColors[LAMP_MULTI_UPDATE_LAMP_COUNT];
 });
 
@@ -125,14 +126,14 @@ public:
     std::string GetSerialString();
 
     unsigned int GetLampCount();
-
+void SetLampMultiUpdateReport(unsigned char LampCount, unsigned char LampUpdateFlags, unsigned short * LampIds, LampArrayColor * UpdateColors);
 private:
 
     void GetLampArrayAttributesReport();
     void GetLampAttributesResponseReport();
     void SetLampArrayControlReport(unsigned char AutonomousMode);
     void SetLampAttributesRequestReport(unsigned short LampId);
-    void SetLampMultiUpdateReport(unsigned char LampCount, unsigned char LampUpdateFlags, unsigned char * LampIds, LampArrayColor * UpdateColors);
+
 
     lamparray_hid_devs * devs;
     std::string location;
