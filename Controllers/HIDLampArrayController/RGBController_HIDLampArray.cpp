@@ -65,7 +65,39 @@ void RGBController_HIDLampArray::ResizeZone(int /*zone*/, int /*new_size*/)
 
 void RGBController_HIDLampArray::DeviceUpdateLEDs()
 {
+    unsigned int leds_to_go = leds.size();
 
+    while(leds_to_go > 0)
+    {
+        unsigned int leds_this_frame = LAMP_MULTI_UPDATE_LAMP_COUNT;
+        unsigned short LampIds[LAMP_MULTI_UPDATE_LAMP_COUNT];
+        LampArrayColor UpdateColors[LAMP_MULTI_UPDATE_LAMP_COUNT];
+        unsigned char LampUpdateFlags = 0;
+
+        if(leds_to_go < leds_this_frame)
+        {
+            leds_to_go = leds_this_frame;
+        }
+
+        for(unsigned int led_frame_idx = 0; led_frame_idx < leds_this_frame; led_frame_idx++)
+        {
+            unsigned short led_idx = (leds.size() - leds_to_go) + led_frame_idx;
+            LampIds[led_frame_idx] = led_idx;
+            UpdateColors[led_frame_idx].RedChannel = RGBGetRValue(colors[led_idx]);
+            UpdateColors[led_frame_idx].GreenChannel = RGBGetGValue(colors[led_idx]);
+            UpdateColors[led_frame_idx].BlueChannel = RGBGetBValue(colors[led_idx]);
+            UpdateColors[led_frame_idx].IntensityChannel = 255;
+        }
+
+        leds_to_go -= leds_this_frame;
+
+        if(leds_to_go <= 0)
+        {
+            LampUpdateFlags = LAMP_UPDATE_FLAG_UPDATE_COMPLETE;
+        }
+
+        controller->SetLampMultiUpdateReport(leds_this_frame, LampUpdateFlags, LampIds, UpdateColors);
+    }
 }
 
 void RGBController_HIDLampArray::UpdateZoneLEDs(int /*zone*/)
