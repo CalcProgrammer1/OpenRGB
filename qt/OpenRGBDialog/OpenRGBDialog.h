@@ -1,16 +1,22 @@
-#ifndef OPENRGBDIALOG_H
-#define OPENRGBDIALOG_H
+/*---------------------------------------------------------*\
+| OpenRGBDialog.h                                           |
+|                                                           |
+|   User interface for OpenRGB main window                  |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
-#include "ui_OpenRGBDialog.h"
+#pragma once
 
 #include <vector>
-#include "i2c_smbus.h"
-#include "RGBController.h"
-
 #include <QMainWindow>
 #include <QTimer>
 #include <QSystemTrayIcon>
 #include <QMenu>
+#include "ui_OpenRGBDialog.h"
+#include "i2c_smbus.h"
+#include "RGBController.h"
 
 namespace Ui
 {
@@ -55,5 +61,3 @@ private slots:
 private:
     Ui::OpenRGBDialogUi *ui;
 };
-
-#endif // OPENRGBDIALOG_H

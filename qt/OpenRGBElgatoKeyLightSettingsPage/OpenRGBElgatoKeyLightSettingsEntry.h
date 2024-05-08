@@ -1,11 +1,20 @@
-#ifndef OPENRGBELGATOKEYLIGHTSETTINGSENTRY_H
-#define OPENRGBELGATOKEYLIGHTSETTINGSENTRY_H
+/*---------------------------------------------------------*\
+| OpenRGBElgatoKeyLightSettingsEntry.h                      |
+|                                                           |
+|   User interface for OpenRGB Elgato Key Light entry       |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
-#include "ui_OpenRGBElgatoKeyLightSettingsEntry.h"
+#pragma once
+
 #include <QDialog>
+#include "ui_OpenRGBElgatoKeyLightSettingsEntry.h"
 
-namespace Ui {
-class OpenRGBElgatoKeyLightSettingsEntry;
+namespace Ui
+{
+    class OpenRGBElgatoKeyLightSettingsEntry;
 }
 
 class Ui::OpenRGBElgatoKeyLightSettingsEntry : public QDialog
@@ -20,5 +29,3 @@ public:
 private slots:
     void changeEvent(QEvent *event);
 };
-
-#endif // OPENRGBELGATOKEYLIGHTSETTINGSENTRY_H

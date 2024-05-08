@@ -1,8 +1,16 @@
-#ifndef OPENRGBELGATOLIGHTSTRIPSETTINGSENTRY_H
-#define OPENRGBELGATOLIGHTSTRIPSETTINGSENTRY_H
+/*---------------------------------------------------------*\
+| OpenRGBElgatoLightStripSettingsEntry.h                    |
+|                                                           |
+|   User interface for OpenRGB Elgato Light Strips entry    |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
-#include "ui_OpenRGBElgatoLightStripSettingsEntry.h"
+#pragma once
+
 #include <QDialog>
+#include "ui_OpenRGBElgatoLightStripSettingsEntry.h"
 
 namespace Ui
 {
@@ -21,5 +29,3 @@ class Ui::OpenRGBElgatoLightStripSettingsEntry : public QDialog
     private slots:
         void changeEvent(QEvent *event);
 };
-
-#endif // OPENRGBELGATOLIGHTSTRIPSETTINGSENTRY_H

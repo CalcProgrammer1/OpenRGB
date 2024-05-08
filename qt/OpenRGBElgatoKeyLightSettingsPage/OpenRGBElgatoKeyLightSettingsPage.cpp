@@ -1,3 +1,12 @@
+/*---------------------------------------------------------*\
+| OpenRGBElgatoKeyLightSettingsPage.cpp                     |
+|                                                           |
+|   User interface for OpenRGB Elgato Key Light page        |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
 #include "OpenRGBElgatoKeyLightSettingsPage.h"
 #include "ui_OpenRGBElgatoKeyLightSettingsPage.h"
 #include "ResourceManager.h"
@@ -106,4 +115,3 @@ void Ui::OpenRGBElgatoKeyLightSettingsPage::on_SaveElgatoKeyLightConfigurationBu
     ResourceManager::get()->GetSettingsManager()->SetSettings("ElgatoKeyLightDevices", elgato_keylight_settings);
     ResourceManager::get()->GetSettingsManager()->SaveSettings();
 }
-

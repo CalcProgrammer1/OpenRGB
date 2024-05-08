@@ -1,13 +1,21 @@
-#ifndef OPENRGBELGATOKEYLIGHTSETTINGSPAGE_H
-#define OPENRGBELGATOKEYLIGHTSETTINGSPAGE_H
+/*---------------------------------------------------------*\
+| OpenRGBElgatoKeyLightSettingsPage.h                       |
+|                                                           |
+|   User interface for OpenRGB Elgato Key Light page        |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
-#include "ui_OpenRGBElgatoKeyLightSettingsPage.h"
+#pragma once
+
 #include <QWidget>
-
+#include "ui_OpenRGBElgatoKeyLightSettingsPage.h"
 #include "OpenRGBElgatoKeyLightSettingsEntry.h"
 
-namespace Ui {
-class OpenRGBElgatoKeyLightSettingsPage;
+namespace Ui
+{
+    class OpenRGBElgatoKeyLightSettingsPage;
 }
 
 class Ui::OpenRGBElgatoKeyLightSettingsPage : public QWidget
@@ -29,7 +37,4 @@ private slots:
 private:
     Ui::OpenRGBElgatoKeyLightSettingsPageUi *ui;
     std::vector<OpenRGBElgatoKeyLightSettingsEntry*> entries;
-
 };
-
-#endif // OPENRGBELGATOKEYLIGHTSETTINGSPAGE_H

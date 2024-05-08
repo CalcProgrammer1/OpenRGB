@@ -1,4 +1,13 @@
-﻿#include <functional>
+﻿/*---------------------------------------------------------*\
+| OpenRGBDialog2.cpp                                        |
+|                                                           |
+|   User interface for OpenRGB main window                  |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
+#include <functional>
 #include "OpenRGBDialog2.h"
 #include "LogManager.h"
 #include "PluginManager.h"
@@ -858,7 +867,7 @@ void OpenRGBDialog2::AddSerialSettingsPage()
     \*-----------------------------------------------------*/
     SerialSettingsPage = new OpenRGBSerialSettingsPage();
 
-    ui->SettingsTabBar->addTab(SerialSettingsPage, "");    
+    ui->SettingsTabBar->addTab(SerialSettingsPage, "");
 
     /*-----------------------------------------------------*\
     | Create the tab label                                  |

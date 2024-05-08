@@ -1,3 +1,12 @@
+/*---------------------------------------------------------*\
+| OpenRGBDMXSettingsPage.cpp                                |
+|                                                           |
+|   User interface for OpenRGB DMX settings page            |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
 #include "OpenRGBDMXSettingsPage.h"
 #include "ui_OpenRGBDMXSettingsPage.h"
 #include "ResourceManager.h"

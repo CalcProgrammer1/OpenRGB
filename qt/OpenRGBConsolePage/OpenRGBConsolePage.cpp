@@ -1,6 +1,15 @@
+/*---------------------------------------------------------*\
+| OpenRGBConsolePage.cpp                                    |
+|                                                           |
+|   User interface for OpenRGB console page                 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
+#include <stdio.h>
 #include "OpenRGBConsolePage.h"
 #include "LogManager.h"
-#include <stdio.h>
 
 using namespace Ui;
 

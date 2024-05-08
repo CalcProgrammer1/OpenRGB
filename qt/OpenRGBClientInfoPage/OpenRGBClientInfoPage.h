@@ -1,13 +1,22 @@
-#ifndef OPENRGBCLIENTINFOPAGE_H
-#define OPENRGBCLIENTINFOPAGE_H
+/*---------------------------------------------------------*\
+| OpenRGBClientInfoPage.h                                   |
+|                                                           |
+|   User interface for OpenRGB client information page      |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
+#pragma once
 
 #include <QFrame>
 #include "RGBController.h"
 #include "ui_OpenRGBClientInfoPage.h"
 #include "NetworkClient.h"
 
-namespace Ui {
-class OpenRGBClientInfoPage;
+namespace Ui
+{
+    class OpenRGBClientInfoPage;
 }
 
 class Ui::OpenRGBClientInfoPage : public QFrame
@@ -32,5 +41,3 @@ private slots:
 private:
     Ui::OpenRGBClientInfoPageUi *ui;
 };
-
-#endif // OPENRGBCLIENTINFOPAGE_H

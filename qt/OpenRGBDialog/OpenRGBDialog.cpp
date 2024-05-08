@@ -1,3 +1,12 @@
+/*---------------------------------------------------------*\
+| OpenRGBDialog.cpp                                         |
+|                                                           |
+|   User interface for OpenRGB main window                  |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
 #include "OpenRGBDialog.h"
 
 using namespace Ui;

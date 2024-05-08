@@ -1,11 +1,20 @@
-#ifndef OPENRGBDMXSETTINGSENTRY_H
-#define OPENRGBDMXSETTINGSENTRY_H
+/*---------------------------------------------------------*\
+| OpenRGBDMXSettingsEntry.h                                 |
+|                                                           |
+|   User interface for OpenRGB DMX settings entry           |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
-#include "ui_OpenRGBDMXSettingsEntry.h"
+#pragma once
+
 #include <QWidget>
+#include "ui_OpenRGBDMXSettingsEntry.h"
 
-namespace Ui {
-class OpenRGBDMXSettingsEntry;
+namespace Ui
+{
+    class OpenRGBDMXSettingsEntry;
 }
 
 class Ui::OpenRGBDMXSettingsEntry : public QWidget
@@ -20,5 +29,3 @@ public:
 private slots:
     void changeEvent(QEvent *event);
 };
-
-#endif // OPENRGBDMXSETTINGSENTRY_H

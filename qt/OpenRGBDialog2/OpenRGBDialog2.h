@@ -1,5 +1,20 @@
-#ifndef OPENRGBDIALOG2_H
-#define OPENRGBDIALOG2_H
+/*---------------------------------------------------------*\
+| OpenRGBDialog2.h                                          |
+|                                                           |
+|   User interface for OpenRGB main window                  |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
+#pragma once
+
+#include <vector>
+#include <QMainWindow>
+#include <QTimer>
+#include <QSystemTrayIcon>
+#include <QMenu>
+#include <QSlider>
 
 #include "ui_OpenRGBDialog2.h"
 
@@ -23,19 +38,12 @@
 #include "OpenRGBNanoleafSettingsPage/OpenRGBNanoleafSettingsPage.h"
 #include "PluginManager.h"
 
-#include <vector>
 #include "i2c_smbus.h"
 #include "LogManager.h"
 #include "RGBController.h"
 #include "ProfileManager.h"
 #include "NetworkClient.h"
 #include "NetworkServer.h"
-
-#include <QMainWindow>
-#include <QTimer>
-#include <QSystemTrayIcon>
-#include <QMenu>
-#include <QSlider>
 
 namespace Ui
 {
@@ -182,5 +190,3 @@ private slots:
     void on_SettingsTabBar_currentChanged(int);
 
 };
-
-#endif // OPENRGBDIALOG2_H

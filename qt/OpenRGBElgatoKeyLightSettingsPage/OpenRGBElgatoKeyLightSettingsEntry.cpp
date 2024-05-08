@@ -1,3 +1,12 @@
+/*---------------------------------------------------------*\
+| OpenRGBElgatoKeyLightSettingsEntry.cpp                    |
+|                                                           |
+|   User interface for OpenRGB Elgato Key Light entry       |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
 #include "OpenRGBElgatoKeyLightSettingsEntry.h"
 #include "ui_OpenRGBElgatoKeyLightSettingsEntry.h"
 

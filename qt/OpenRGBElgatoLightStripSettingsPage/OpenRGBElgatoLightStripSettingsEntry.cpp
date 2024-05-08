@@ -1,3 +1,12 @@
+/*---------------------------------------------------------*\
+| OpenRGBElgatoLightStripSettingsEntry.cpp                  |
+|                                                           |
+|   User interface for OpenRGB Elgato Light Strips entry    |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
 #include "OpenRGBElgatoLightStripSettingsEntry.h"
 #include "ui_OpenRGBElgatoLightStripSettingsEntry.h"
 

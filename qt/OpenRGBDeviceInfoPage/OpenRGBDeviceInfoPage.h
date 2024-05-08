@@ -1,12 +1,21 @@
-#ifndef OPENRGBDEVICEINFOPAGE_H
-#define OPENRGBDEVICEINFOPAGE_H
+/*---------------------------------------------------------*\
+| OpenRGBDeviceInfoPage.h                                   |
+|                                                           |
+|   User interface for OpenRGB device information page      |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
+#pragma once
 
 #include <QFrame>
 #include "RGBController.h"
 #include "ui_OpenRGBDeviceInfoPage.h"
 
-namespace Ui {
-class OpenRGBDeviceInfoPage;
+namespace Ui
+{
+    class OpenRGBDeviceInfoPage;
 }
 
 class Ui::OpenRGBDeviceInfoPage : public QFrame
@@ -26,5 +35,3 @@ private:
 private slots:
     void changeEvent(QEvent *event);
 };
-
-#endif // OPENRGBDEVICEINFOPAGE_H

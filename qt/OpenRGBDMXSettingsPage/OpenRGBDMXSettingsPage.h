@@ -1,13 +1,21 @@
-#ifndef OPENRGBDMXSETTINGSPAGE_H
-#define OPENRGBDMXSETTINGSPAGE_H
+/*---------------------------------------------------------*\
+| OpenRGBDMXSettingsPage.h                                  |
+|                                                           |
+|   User interface for OpenRGB DMX settings page            |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
-#include "ui_OpenRGBDMXSettingsPage.h"
+#pragma once
+
 #include <QWidget>
-
+#include "ui_OpenRGBDMXSettingsPage.h"
 #include "OpenRGBDMXSettingsEntry.h"
 
-namespace Ui {
-class OpenRGBDMXSettingsPage;
+namespace Ui
+{
+    class OpenRGBDMXSettingsPage;
 }
 
 class Ui::OpenRGBDMXSettingsPage : public QWidget
@@ -31,5 +39,3 @@ private:
     std::vector<OpenRGBDMXSettingsEntry*>   entries;
 
 };
-
-#endif // OPENRGBDMXSETTINGSPAGE_H

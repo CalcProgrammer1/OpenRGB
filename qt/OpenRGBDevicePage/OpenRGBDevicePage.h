@@ -1,13 +1,21 @@
-#ifndef OPENRGBDEVICEPAGE_H
-#define OPENRGBDEVICEPAGE_H
+/*---------------------------------------------------------*\
+| OpenRGBDevicePage.h                                       |
+|                                                           |
+|   User interface for OpenRGB device page                  |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
+#pragma once
+
+#include <QFrame>
 #include "ui_OpenRGBDevicePage.h"
 #include "RGBController.h"
 
-#include <QFrame>
-
-namespace Ui {
-class OpenRGBDevicePage;
+namespace Ui
+{
+    class OpenRGBDevicePage;
 }
 
 class Ui::OpenRGBDevicePage : public QFrame
@@ -83,5 +91,3 @@ signals:
     void SetAllDevices(unsigned char red, unsigned char green, unsigned char blue);
     void SaveSizeProfile();
 };
-
-#endif // OPENRGBDEVICEPAGE_H

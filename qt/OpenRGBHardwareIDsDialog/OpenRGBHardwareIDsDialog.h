@@ -1,9 +1,16 @@
-#ifndef OPENRGBHARDWAREIDSDIALOG_H
-#define OPENRGBHARDWAREIDSDIALOG_H
+/*---------------------------------------------------------*\
+| OpenRGBHardwareIDsDialog.h                                |
+|                                                           |
+|   User interface for OpenRGB Hardware IDs dialog          |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
-#include "ui_OpenRGBHardwareIDsDialog.h"
+#pragma once
 
 #include <QDialog>
+#include "ui_OpenRGBHardwareIDsDialog.h"
 
 namespace Ui
 {
@@ -27,5 +34,3 @@ private:
     Ui::OpenRGBHardwareIDsDialogUi *ui;
     QStringList strings;
 };
-
-#endif // OPENRGBHARDWAREIDSDIALOG_H

@@ -1,10 +1,19 @@
+/*---------------------------------------------------------*\
+| OpenRGBClientInfoPage.cpp                                 |
+|                                                           |
+|   User interface for OpenRGB client information page      |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
+#include <iostream>
 #include <QSignalMapper>
 #include <QCheckBox>
 #include "OpenRGBClientInfoPage.h"
 #include "ResourceManager.h"
 #include "SettingsManager.h"
 
-#include <iostream>
 using namespace Ui;
 
 static void UpdateInfoCallback(void * this_ptr)

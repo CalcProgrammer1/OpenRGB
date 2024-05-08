@@ -1,16 +1,26 @@
-#include "OpenRGBHardwareIDsDialog.h"
-#include "ui_OpenRGBHardwareIDsDialog.h"
-#include <hidapi/hidapi.h>
-#include "ResourceManager.h"
-#include "StringUtils.h"
+/*---------------------------------------------------------*\
+| OpenRGBHardwareIDsDialog.cpp                              |
+|                                                           |
+|   User interface for OpenRGB Hardware IDs dialog          |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
 #include <QString>
 #include <QClipboard>
+#include <hidapi/hidapi.h>
 
 #ifdef __FreeBSD__
 #include <libusb.h>
 #else
 #include <libusb-1.0/libusb.h>
 #endif
+
+#include "OpenRGBHardwareIDsDialog.h"
+#include "ui_OpenRGBHardwareIDsDialog.h"
+#include "ResourceManager.h"
+#include "StringUtils.h"
 
 Ui::OpenRGBHardwareIDsDialog::OpenRGBHardwareIDsDialog(QWidget *parent) :
     QDialog(parent),

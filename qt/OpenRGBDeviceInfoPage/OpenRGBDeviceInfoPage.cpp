@@ -1,3 +1,12 @@
+/*---------------------------------------------------------*\
+| OpenRGBDeviceInfoPage.cpp                                 |
+|                                                           |
+|   User interface for OpenRGB device information page      |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
 #include "OpenRGBDeviceInfoPage.h"
 
 using namespace Ui;

@@ -1,11 +1,20 @@
-#ifndef OPENRGBE131SETTINGSENTRY_H
-#define OPENRGBE131SETTINGSENTRY_H
+/*---------------------------------------------------------*\
+| OpenRGBE131SettingsEntry.h                                |
+|                                                           |
+|   User interface for OpenRGB E1.31 settings entry         |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
-#include "ui_OpenRGBE131SettingsEntry.h"
+#pragma once
+
 #include <QWidget>
+#include "ui_OpenRGBE131SettingsEntry.h"
 
-namespace Ui {
-class OpenRGBE131SettingsEntry;
+namespace Ui
+{
+    class OpenRGBE131SettingsEntry;
 }
 
 class Ui::OpenRGBE131SettingsEntry : public QWidget
@@ -25,5 +34,3 @@ private slots:
     void changeEvent(QEvent *event);
     void on_TypeComboBox_currentIndexChanged(int index);
 };
-
-#endif // OPENRGBE131SETTINGSENTRY_H

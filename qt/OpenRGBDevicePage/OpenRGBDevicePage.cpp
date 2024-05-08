@@ -1,3 +1,12 @@
+/*---------------------------------------------------------*\
+| OpenRGBDevicePage.cpp                                     |
+|                                                           |
+|   User interface for OpenRGB device page                  |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
 #include "OpenRGBDialog2.h"
 #include "OpenRGBDevicePage.h"
 #include "OpenRGBZoneResizeDialog.h"

@@ -1,13 +1,21 @@
-#ifndef OPENRGBE131SETTINGSPAGE_H
-#define OPENRGBE131SETTINGSPAGE_H
+/*---------------------------------------------------------*\
+| OpenRGBE131SettingsPage.h                                 |
+|                                                           |
+|   User interface for OpenRGB E1.31 settings page          |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
-#include "ui_OpenRGBE131SettingsPage.h"
+#pragma once
+
 #include <QWidget>
-
+#include "ui_OpenRGBE131SettingsPage.h"
 #include "OpenRGBE131SettingsEntry.h"
 
-namespace Ui {
-class OpenRGBE131SettingsPage;
+namespace Ui
+{
+    class OpenRGBE131SettingsPage;
 }
 
 class Ui::OpenRGBE131SettingsPage : public QWidget
@@ -29,7 +37,4 @@ private slots:
 private:
     Ui::OpenRGBE131SettingsPageUi *ui;
     std::vector<OpenRGBE131SettingsEntry*> entries;
-
 };
-
-#endif // OPENRGBE131SETTINGSPAGE_H
