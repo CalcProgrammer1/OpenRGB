@@ -7,7 +7,7 @@
 #include "RGBController_MSIMysticLight112.h"
 #include "RGBController_MSIMysticLight162.h"
 #include "RGBController_MSIMysticLight185.h"
-#include "dependencies/dmiinfo.h"
+#include "dmiinfo.h"
 #include "LogManager.h"
 
 

@@ -10,7 +10,7 @@
 \*-----------------------------------------*/
 
 #include "MSIRGBController.h"
-#include "dependencies/dmiinfo.h"
+#include "dmiinfo.h"
 #include "super_io.h"
 
 MSIRGBController::MSIRGBController(int sioaddr, bool invert)
@@ -29,7 +29,7 @@ MSIRGBController::MSIRGBController(int sioaddr, bool invert)
     val_at_2c |= 0b00010000;
 
     superio_outb(msi_sioaddr, 0x2C, val_at_2c);
-    
+
 
     /*-----------------------------------------------------*\
     | Set logical device register to RGB controller         |

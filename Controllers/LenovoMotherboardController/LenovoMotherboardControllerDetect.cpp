@@ -2,7 +2,7 @@
 #include "LenovoMotherboardController.h"
 #include "RGBController.h"
 #include "RGBController_LenovoMotherboard.h"
-#include "dependencies/dmiinfo.h"
+#include "dmiinfo.h"
 
 /*---------------------------------------------------------*\
 | vendor ID                                                 |

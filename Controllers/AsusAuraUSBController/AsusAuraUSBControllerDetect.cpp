@@ -27,7 +27,7 @@
 #include "RGBController_AsusAuraRyuoAIO.h"
 #include <stdexcept>
 #include <hidapi/hidapi.h>
-#include "dependencies/dmiinfo.h"
+#include "dmiinfo.h"
 
 #define AURA_USB_VID                                  0x0B05
 

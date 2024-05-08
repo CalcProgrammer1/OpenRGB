@@ -9,7 +9,7 @@
 
 #include "ASRockPolychromeV1SMBusController.h"
 #include <cstring>
-#include "dependencies/dmiinfo.h"
+#include "dmiinfo.h"
 #include "LogManager.h"
 
 #define ASROCK_ZONE_LED_COUNT_MESSAGE_EN    "[%s] Zone %i LED count: %02d"

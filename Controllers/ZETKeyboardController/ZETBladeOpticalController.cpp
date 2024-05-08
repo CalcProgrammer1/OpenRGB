@@ -12,7 +12,6 @@
 #include "ZETBladeOpticalController.h"
 
 #include <cstring>
-#include "dependencies/dmiinfo.h"
 
 using namespace std::chrono_literals;
 

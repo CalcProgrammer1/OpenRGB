@@ -9,7 +9,7 @@
 
 #include "ASRockASRRGBSMBusController.h"
 #include <cstring>
-#include "dependencies/dmiinfo.h"
+#include "dmiinfo.h"
 #include "LogManager.h"
 
 #define ASROCK_ZONE_LED_COUNT_MESSAGE_EN    "[%s] Zone %i LED count: %02d"
@@ -64,7 +64,7 @@ void ASRockASRRGBSMBusController::SetColorsAndSpeed(uint8_t led, uint8_t red, ui
 {
     uint8_t color_speed_pkt[4] = { red, green, blue, active_speed };
     uint8_t select_led_pkt[1]  = { led };
-    
+
     /*-----------------------------------------------------*\
     | Select LED                                            |
     \*-----------------------------------------------------*/

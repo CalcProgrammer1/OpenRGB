@@ -8,7 +8,6 @@
 #include "RGBController_AsusCerberusKeyboard.h"
 #include "RGBController_AsusSagarisKeyboard.h"
 #include "RGBController_AsusStrixClaw.h"
-#include "dependencies/dmiinfo.h"
 
 #define ASUS_LEGACY_USB_VID         0x195D
 #define ASUS_USB_VID                0x0B05

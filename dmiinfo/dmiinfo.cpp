@@ -1,11 +1,13 @@
-/*-------------------------------------------------------------------*\
-|  dmiinfo.cpp                                                        |
-|                                                                     |
-|  Read DMI information for motherboard vendor and name               |
-|                                                                     |
-|  Chris M (Dr_No)          30th Jun 2020                             |
-|                                                                     |
-\*-------------------------------------------------------------------*/
+/*---------------------------------------------------------*\
+| dmiinfo.h                                                 |
+|                                                           |
+|   Read DMI information for motherboard vendor and name    |
+|                                                           |
+|   Chris M (Dr_No)                             30 Jun 2020 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #include "dmiinfo.h"
 #include "LogManager.h"

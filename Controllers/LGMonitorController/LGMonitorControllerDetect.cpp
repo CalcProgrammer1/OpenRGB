@@ -2,7 +2,7 @@
 #include "LGMonitorController.h"
 #include "RGBController.h"
 #include "RGBController_LGMonitor.h"
-#include "dependencies/dmiinfo.h"
+#include "dmiinfo.h"
 
 /*---------------------------------------------------------*\
 | vendor ID                                                 |

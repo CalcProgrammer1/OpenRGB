@@ -3,7 +3,7 @@
 #include "RGBController.h"
 #include "RGBController_MSIRGB.h"
 #include "super_io.h"
-#include "dependencies/dmiinfo.h"
+#include "dmiinfo.h"
 #include <vector>
 #include <stdio.h>
 #include <stdlib.h>

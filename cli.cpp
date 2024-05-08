@@ -1,3 +1,17 @@
+/*---------------------------------------------------------*\
+| cli.cpp                                                   |
+|                                                           |
+|   OpenRGB command line interface                          |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
+#include <vector>
+#include <cstring>
+#include <string>
+#include <tuple>
+#include <iostream>
 #include "AutoStart.h"
 #include "filesystem.h"
 #include "ProfileManager.h"
@@ -8,12 +22,6 @@
 #include "NetworkServer.h"
 #include "LogManager.h"
 #include "Colors.h"
-
-#include <vector>
-#include <cstring>
-#include <string>
-#include <tuple>
-#include <iostream>
 
 /*-------------------------------------------------------------*\
 | Quirk for MSVC; which doesn't support this case-insensitive   |

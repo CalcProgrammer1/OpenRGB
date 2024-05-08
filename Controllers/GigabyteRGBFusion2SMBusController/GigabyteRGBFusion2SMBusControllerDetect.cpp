@@ -11,7 +11,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string>
-#include "dependencies/dmiinfo.h"
+#include "dmiinfo.h"
 
 #define DETECTOR_NAME                       "Gigabyte RGB Fusion 2 SMBus"
 #define VENDOR_NAME                         "Gigabyte Technology Co., Ltd."

@@ -19,7 +19,7 @@
 #include "ResourceManager.h"
 #include "SettingsManager.h"
 #include "JGINYUEInternalUSBController.h"
-#include "dependencies/dmiinfo.h"
+#include "dmiinfo.h"
 
 #define JGINYUE_USB_GENERAL_COMMAND_HEADER              0x01
 #define JGINYUE_USB_LED_STRIPE_SET_COMMAND_HEADER       0x05
@@ -166,7 +166,7 @@ void JGINYUEInternalUSBController::WriteZoneMode
     usb_buf[0x05]   = device_config[Active_zone].Color_B;
     usb_buf[0x06]   = device_config[Active_zone].Brightness;
     usb_buf[0x07]   = device_config[Active_zone].Speed;
-    
+
     hid_write(dev, usb_buf, 16);
 }
 
@@ -210,7 +210,7 @@ void JGINYUEInternalUSBController::DirectLEDControl
     std::this_thread::sleep_for(20ms);
 
     memset(usb_buf, 0x00, sizeof(usb_buf));
-    
+
     usb_buf[0x00]   = JGINYUE_USB_PER_LED_SET_COMMAND_HEADER;
     usb_buf[0x01]   = zone;
 

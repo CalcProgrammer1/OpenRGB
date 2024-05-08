@@ -91,7 +91,6 @@ INCLUDEPATH +=                                                                  
     $$CONTROLLER_INCLUDES                                                                       \
     $$GUI_INCLUDES                                                                              \
     dependencies/ColorWheel                                                                     \
-    dependencies/Swatches/                                                                      \
     dependencies/CRCpp/                                                                         \
     dependencies/hidapi/                                                                        \
     dependencies/hueplusplus-1.0.0/include                                                      \
@@ -102,6 +101,7 @@ INCLUDEPATH +=                                                                  
     dependencies/libusb-1.0.22/include/                                                         \
     dependencies/mdns                                                                           \
     dependencies/mbedtls-2.24.0/include/                                                        \
+    dmiinfo/                                                                                    \
     hidapi_wrapper/                                                                             \
     i2c_smbus/                                                                                  \
     i2c_tools/                                                                                  \
@@ -121,7 +121,6 @@ HEADERS +=                                                                      
     $$CONTROLLER_H                                                                              \
     Colors.h                                                                                    \
     dependencies/ColorWheel/ColorWheel.h                                                        \
-    dependencies/Swatches/swatches.h                                                            \
     dependencies/hidapi/hidapi/hidapi.h                                                         \
     dependencies/json/json.hpp                                                                  \
     LogManager.h                                                                                \
@@ -135,6 +134,7 @@ HEADERS +=                                                                      
     SettingsManager.h                                                                           \
     Detector.h                                                                                  \
     DeviceDetector.h                                                                            \
+    dmiinfo/dmiinfo.h                                                                           \
     filesystem.h                                                                                \
     hidapi_wrapper/hidapi_wrapper.h                                                             \
     i2c_smbus/i2c_smbus.h                                                                       \
@@ -159,8 +159,6 @@ HEADERS +=                                                                      
 SOURCES +=                                                                                      \
     $$GUI_CPP                                                                                   \
     $$CONTROLLER_CPP                                                                            \
-    dependencies/Swatches/swatches.cpp                                                          \
-    dependencies/dmiinfo.cpp                                                                    \
     dependencies/ColorWheel/ColorWheel.cpp                                                      \
     dependencies/hueplusplus-1.0.0/src/Action.cpp                                               \
     dependencies/hueplusplus-1.0.0/src/APICache.cpp                                             \
@@ -194,6 +192,7 @@ SOURCES +=                                                                      
     dependencies/libe131/src/e131.c                                                             \
     main.cpp                                                                                    \
     cli.cpp                                                                                     \
+    dmiinfo/dmiinfo.cpp                                                                         \
     LogManager.cpp                                                                              \
     NetworkClient.cpp                                                                           \
     NetworkProtocol.cpp                                                                         \

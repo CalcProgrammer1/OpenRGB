@@ -1,7 +1,7 @@
 #include "Detector.h"
 #include "GigabyteRGBFusion2USBController.h"
 #include "RGBController_GigabyteRGBFusion2USB.h"
-#include "dependencies/dmiinfo.h"
+#include "dmiinfo.h"
 #define DETECTOR_NAME "Gigabyte RGB Fusion 2 USB"
 
 #define IT8297_VID              0x048D

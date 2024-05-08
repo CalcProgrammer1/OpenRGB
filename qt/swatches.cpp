@@ -1,16 +1,19 @@
-/*-------------------------------------------------------------------*\
-|  Swatches.cpp                                                       |
-|                                                                     |
-|  Custom Colour Swatch widget that allows for adding user colours    |
-|                                                                     |
-|  Chris M (Dr_No)          23rd April 2021                           |
-|                                                                     |
-\*-------------------------------------------------------------------*/
+/*---------------------------------------------------------*\
+| swatches.cpp                                              |
+|                                                           |
+|   Custom Colour Swatch widget that allows for adding user |
+|   colours                                                 |
+|                                                           |
+|   Chris M (Dr_No)                             23 Apr 2021 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
-#include "swatches.h"
 #include <QPainter>
 #include <QResizeEvent>
 #include <QStyleOption>
+#include "swatches.h"
 
 Swatches::Swatches(QWidget *parent) :
     QWidget(parent),
@@ -30,23 +33,23 @@ Swatches::Swatches(QWidget *parent) :
     swatch red_swatch;
     red_swatch.color.setRgb(255, 0, 0, 255);
     swatch_list.push_back(red_swatch);
-    
+
     swatch yellow_swatch;
     yellow_swatch.color.setRgb(255, 255, 0, 255);
     swatch_list.push_back(yellow_swatch);
-    
+
     swatch green_swatch;
     green_swatch.color.setRgb( 0, 255, 0, 255);
     swatch_list.push_back(green_swatch);
-    
+
     swatch cyan_swatch;
     cyan_swatch.color.setRgb( 0, 255, 255, 255);
     swatch_list.push_back(cyan_swatch);
-    
+
     swatch blue_swatch;
     blue_swatch.color.setRgb( 0, 0, 255, 255);
     swatch_list.push_back(blue_swatch);
-    
+
     swatch magenta_swatch;
     magenta_swatch.color.setRgb(255, 0, 255, 255);
     swatch_list.push_back(magenta_swatch);

@@ -10,7 +10,7 @@
 #include "RGBController.h"
 #include "RGBController_GigabyteSuperIORGB.h"
 #include "super_io.h"
-#include "dependencies/dmiinfo.h"
+#include "dmiinfo.h"
 #include <iostream>
 #include <vector>
 #include <stdio.h>

@@ -9,7 +9,7 @@
 #include <vector>
 #include <stdio.h>
 #include <stdlib.h>
-#include "dependencies/dmiinfo.h"
+#include "dmiinfo.h"
 
 #define DETECTOR_NAME   "ENE (ASUS Aura) SMBus Controller"
 #define VENDOR_NAME     "ASUS"                                  //This should match the Vendor name from DMI

@@ -1,14 +1,16 @@
-/*-------------------------------------------------------------------*\
-|  Swatches.cpp                                                       |
-|                                                                     |
-|  Custom Colour Swatch widget that allows for adding user colours    |
-|                                                                     |
-|  Chris M (Dr_No)          23rd April 2021                           |
-|                                                                     |
-\*-------------------------------------------------------------------*/
+/*---------------------------------------------------------*\
+| swatches.h                                                |
+|                                                           |
+|   Custom Colour Swatch widget that allows for adding user |
+|   colours                                                 |
+|                                                           |
+|   Chris M (Dr_No)                             23 Apr 2021 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
-#ifndef SWATCHES_H
-#define SWATCHES_H
+#pragma once
 
 #include <QWidget>
 #include <QVector>
@@ -67,5 +69,3 @@ private:
 
     void            drawSwatches(const QSize &newSize);
 };
-
-#endif // SWATCHES_H

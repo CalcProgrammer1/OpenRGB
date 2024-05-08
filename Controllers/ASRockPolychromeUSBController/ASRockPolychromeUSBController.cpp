@@ -14,7 +14,7 @@
 #include "ResourceManager.h"
 #include "SettingsManager.h"
 #include "ASRockPolychromeUSBController.h"
-#include "dependencies/dmiinfo.h"
+#include "dmiinfo.h"
 
 #define POLYCHROME_USB_READ_ZONE_CONFIG 0x11
 #define POLYCHROME_USB_READ_HEADER      0x14
