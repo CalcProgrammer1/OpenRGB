@@ -1,14 +1,17 @@
-/*-----------------------------------------*\
-|  AsusAuraGPUController.cpp                |
-|                                           |
-|  Driver for ASUS Aura RGB on GPUs         |
-|                                           |
-|  Jan Rettig (Klapstuhl) 14.02.2020        |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| AsusAuraGPUController.cpp                                 |
+|                                                           |
+|   Driver for ASUS Aura GPU                                |
+|                                                           |
+|   Jan Rettig (Klapstuhl)                      14 Feb 2020 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
+#include <cstring>
 #include "AsusAuraGPUController.h"
 #include "pci_ids.h"
-#include <cstring>
 
 AuraGPUController::AuraGPUController(i2c_smbus_interface* bus, aura_gpu_dev_id dev)
 {

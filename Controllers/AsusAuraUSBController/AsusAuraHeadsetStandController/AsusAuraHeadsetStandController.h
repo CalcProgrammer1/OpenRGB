@@ -1,11 +1,13 @@
-/*-----------------------------------------*\
-|  AsusAuraHeadsetStandController.h         |
-|                                           |
-|  Definitions and types for ASUS Aura      |
-|  USB RGB lighting controller              |
-|                                           |
-|  Mola19 06/04/2021                        |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| AsusAuraHeadsetStandController.h                          |
+|                                                           |
+|   Driver for ASUS Aura headset stand                      |
+|                                                           |
+|   Mola19                                      06 Apr 2021 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #pragma once
 

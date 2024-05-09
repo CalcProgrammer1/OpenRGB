@@ -1,11 +1,13 @@
-/*-----------------------------------------*\
-|  RGBController_AsusAuraMonitor.cpp        |
-|                                           |
-|  Generic RGB Interface for Asus Aura      |
-|  USB controller driver                    |
-|                                           |
-|  Mola19 08/03/2022                        |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_AsusAuraMonitor.cpp                         |
+|                                                           |
+|   RGBController for ASUS Aura monitor                     |
+|                                                           |
+|   Mola19                                      08 Mar 2022 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #include "RGBController_AsusAuraMonitor.h"
 

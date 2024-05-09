@@ -1,13 +1,16 @@
-/*-----------------------------------------*\
-|  RGBController_AsusAuraKeyboard.h         |
-|                                           |
-|  Generic RGB Interface for Asus Aura      |
-|  USB controller driver                    |
-|                                           |
-|  Adam Honse (CalcProgrammer1) 3/19/2021   |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_AsusAuraKeyboard.h                          |
+|                                                           |
+|   RGBController for ASUS Aura keyboard                    |
+|                                                           |
+|   Adam Honse (CalcProgrammer1)                19 Mar 2020 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #pragma once
+
 #include "RGBController.h"
 #include "AsusAuraKeyboardController.h"
 

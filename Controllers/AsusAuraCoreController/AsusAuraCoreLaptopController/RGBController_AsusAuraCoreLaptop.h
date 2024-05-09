@@ -1,11 +1,13 @@
-/*---------------------------------------------------------------------*\
-|  RGBController_AsusAuraCoreLaptop.h                                   |
-|                                                                       |
-|  Driver for AsusAuraCoreLaptop USB Controller                         |
-|                                                                       |
-|  Chris M (Dr_No)          28 Jul 2022                                 |
-|                                                                       |
-\*---------------------------------------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_AsusAuraCoreLaptop.h                        |
+|                                                           |
+|   RGBController for ASUS ROG Aura Core Laptop             |
+|                                                           |
+|   Chris M (Dr_No)                             28 Jul 2022 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #pragma once
 

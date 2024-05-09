@@ -1,11 +1,13 @@
-/*-----------------------------------------*\
-|  RGBController_AsusROGStrixEvolve.cpp     |
-|                                           |
-|  Generic RGB Interface for Asus Aura      |
-|  USB controller driver                    |
-|                                           |
-|  Mola19 11/30/2021                        |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_AsusROGStrixEvolve.cpp                      |
+|                                                           |
+|   RGBController for ASUS ROG Evolve                       |
+|                                                           |
+|   Mola19                                      30 Nov 2021 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #include "RGBController_AsusROGStrixEvolve.h"
 

@@ -1,11 +1,13 @@
-/*---------------------------------------------------------------------*\
-|  AsusAuraCoreLaptopController.cpp                                     |
-|                                                                       |
-|  Driver for Asus Aura Core Laptop USB Controller                      |
-|                                                                       |
-|  Chris M (Dr_No)          28 Jul 2022                                 |
-|                                                                       |
-\*---------------------------------------------------------------------*/
+/*---------------------------------------------------------*\
+| AsusAuraCoreLaptopController.cpp                          |
+|                                                           |
+|   Driver for ASUS ROG Aura Core Laptop                    |
+|                                                           |
+|   Chris M (Dr_No)                             28 Jul 2022 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #include "AsusAuraCoreLaptopController.h"
 #include "SettingsManager.h"

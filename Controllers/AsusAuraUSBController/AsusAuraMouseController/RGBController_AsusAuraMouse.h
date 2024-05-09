@@ -1,13 +1,16 @@
-/*-----------------------------------------*\
-|  RGBController_AsusAuraMouse.h            |
-|                                           |
-|  Generic RGB Interface for Asus Aura      |
-|  USB controller driver                    |
-|                                           |
-|  Adam Honse (CalcProgrammer1) 10/25/2020  |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_AsusAuraMouse.h                             |
+|                                                           |
+|   RGBController for ASUS Aura mouse                       |
+|                                                           |
+|   Adam Honse (CalcProgrammer1)                25 Oct 2020 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #pragma once
+
 #include "RGBController.h"
 #include "AsusAuraMouseController.h"
 

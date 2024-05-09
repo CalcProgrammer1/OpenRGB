@@ -1,11 +1,13 @@
-/*-----------------------------------------*\
-|  AsusAuraCoreController.h                 |
-|                                           |
-|  Definitions and types for ASUS ROG Aura  |
-|  Core RGB lighting controller             |
-|                                           |
-|  Adam Honse (CalcProgrammer1) 4/13/2020   |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| AsusAuraCoreController.h                                  |
+|                                                           |
+|   Driver for ASUS ROG Aura Core                           |
+|                                                           |
+|   Adam Honse (CalcProgrammer1)                13 Apr 2020 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #pragma once
 
@@ -118,5 +120,4 @@ private:
     void    Handshake();
     void    SendIdString();
     void    SendQuery();
-
 };

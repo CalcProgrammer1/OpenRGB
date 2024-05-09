@@ -1,15 +1,16 @@
-/*-----------------------------------------*\
-|  AsusAuraMouseController.cpp              |
-|                                           |
-|  Driver for ASUS Aura RGB USB             |
-|  lighting controller                      |
-|                                           |
-|  Adam Honse (CalcProgrammer1) 10/23/2020  |
-\*-----------------------------------------*/
-
-#include "AsusAuraMouseController.h"
+/*---------------------------------------------------------*\
+| AsusAuraMouseController.cpp                               |
+|                                                           |
+|   Driver for ASUS Aura mouse                              |
+|                                                           |
+|   Adam Honse (CalcProgrammer1)                23 Oct 2020 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #include <cstring>
+#include "AsusAuraMouseController.h"
 
 AuraMouseController::AuraMouseController(hid_device* dev_handle, const char* path, uint16_t pid)
 {

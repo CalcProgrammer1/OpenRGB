@@ -1,3 +1,15 @@
+/*---------------------------------------------------------*\
+| AsusAuraCoreControllerDetect.cpp                          |
+|                                                           |
+|   Detector for ASUS ROG Aura Core                         |
+|                                                           |
+|   Adam Honse (CalcProgrammer1)                13 Apr 2020 |
+|   Chris M (Dr_No)                             28 Jul 2022 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
 #include "Detector.h"
 #include "AsusAuraCoreController.h"
 #include "RGBController.h"

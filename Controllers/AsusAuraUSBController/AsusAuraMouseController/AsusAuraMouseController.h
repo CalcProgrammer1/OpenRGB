@@ -1,19 +1,20 @@
-/*-----------------------------------------*\
-|  AsusAuraMouseController.h                |
-|                                           |
-|  Definitions and types for ASUS Aura      |
-|  USB RGB lighting controller              |
-|                                           |
-|  Adam Honse (CalcProgrammer1) 10/23/2020  |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| AsusAuraMouseController.h                                 |
+|                                                           |
+|   Driver for ASUS Aura mouse                              |
+|                                                           |
+|   Adam Honse (CalcProgrammer1)                23 Oct 2020 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
-#include "RGBController.h"
-#include "AsusAuraMouseDevices.h"
+#pragma once
 
 #include <string>
 #include <hidapi/hidapi.h>
-
-#pragma once
+#include "RGBController.h"
+#include "AsusAuraMouseDevices.h"
 
 #define ASUS_AURA_MOUSE_PACKET_SIZE 65
 #define HID_MAX_STR 255

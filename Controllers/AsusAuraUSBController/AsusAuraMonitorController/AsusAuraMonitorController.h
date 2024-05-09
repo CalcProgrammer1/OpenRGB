@@ -1,17 +1,18 @@
-/*-----------------------------------------*\
-|  AsusAuraMonitorController.h              |
-|                                           |
-|  Definitions and types for ASUS Aura      |
-|  USB RGB lighting controller              |
-|                                           |
-|  Mola19 08/03/2023                        |
-\*-----------------------------------------*/
-
-#include "RGBController.h"
-
-#include <hidapi/hidapi.h>
+/*---------------------------------------------------------*\
+| AsusAuraMonitorController.h                               |
+|                                                           |
+|   Driver for ASUS Aura monitor                            |
+|                                                           |
+|   Mola19                                      08 Mar 2022 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #pragma once
+
+#include <hidapi/hidapi.h>
+#include "RGBController.h"
 
 enum
 {
@@ -22,7 +23,6 @@ enum
     AURA_ROG_STRIX_XG32VC_PID   = 0x1968,
     AURA_ROG_PG32UQ_PID         = 0x19B9,
 };
-
 
 class AuraMonitorController
 {

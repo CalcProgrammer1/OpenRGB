@@ -1,17 +1,18 @@
-/*-----------------------------------------*\
-|  AsusAuraMouseGen1Controller.cpp          |
-|                                           |
-|  Driver for ASUS Aura RGB USB             |
-|  lighting controller                      |
-|                                           |
-|  Mola19 11/30/2021                        |
-\*-----------------------------------------*/
-
-#include "AsusAuraMouseGen1Controller.h"
+/*---------------------------------------------------------*\
+| AsusAuraMouseGen1Controller.cpp                           |
+|                                                           |
+|   Driver for ASUS Aura gen 1 mouse                        |
+|                                                           |
+|   Mola19                                      30 Nov 2021 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #include <cstring>
 #include <chrono>
 #include <thread>
+#include "AsusAuraMouseGen1Controller.h"
 
 AsusAuraMouseGen1Controller::AsusAuraMouseGen1Controller(hid_device* dev_handle, const char* path, uint16_t pid)
 {
@@ -114,7 +115,7 @@ void AsusAuraMouseGen1Controller::SendUpdate
     unsigned char buf_in[9];
     buf_in[0] = 0x0C;
     hid_get_feature_report(dev, buf_in, 9);
-    
+
     std::this_thread::sleep_for(std::chrono::milliseconds(15));
 }
 
@@ -152,7 +153,7 @@ void AsusAuraMouseGen1Controller::SendDirectSpatha(std::vector<RGBColor> colors)
     usb_buf[0x01]   = 0x00;
     usb_buf[0x02]   = 0xF0;
     usb_buf[0x03]   = 0x00;
-    
+
     for(unsigned char i = 0; i < 3; i++)
     {
         usb_buf[4 + i * 3] = RGBGetRValue(colors[i]);

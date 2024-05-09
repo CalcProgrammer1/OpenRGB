@@ -1,10 +1,13 @@
-/*-----------------------------------------*\
-|  RGBController_AsusAuraCore.cpp           |
-|                                           |
-|  Generic RGB Interface for ROG Aura Core  |
-|                                           |
-|  Adam Honse (CalcProgrammer1) 4/17/2020   |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_AsusAuraCore.cpp                            |
+|                                                           |
+|   RGBController for ASUS ROG Aura Core                    |
+|                                                           |
+|   Adam Honse (CalcProgrammer1)                13 Apr 2020 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #include "RGBController_AsusAuraCore.h"
 

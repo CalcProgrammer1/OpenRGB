@@ -1,15 +1,16 @@
-/*-----------------------------------------*\
-|  AsusAuraMonitorController.cpp            |
-|                                           |
-|  Driver for ASUS Aura RGB USB             |
-|  lighting controller                      |
-|                                           |
-|  Mola19 08/03/2021                        |
-\*-----------------------------------------*/
-
-#include "AsusAuraMonitorController.h"
+/*---------------------------------------------------------*\
+| AsusAuraMonitorController.cpp                             |
+|                                                           |
+|   Driver for ASUS Aura monitor                            |
+|                                                           |
+|   Mola19                                      08 Mar 2022 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #include <cstring>
+#include "AsusAuraMonitorController.h"
 #include "LogManager.h"
 
 AuraMonitorController::AuraMonitorController(hid_device* dev_handle, const char* path, uint16_t pid)
@@ -87,17 +88,17 @@ void AuraMonitorController::UpdateLed
 
     usb_buf[0x04]   = offset + led * 3;
     usb_buf[0x05]   = red;
-    
+
     hid_send_feature_report(dev, usb_buf, 8);
 
     usb_buf[0x04]   = offset + led * 3 + 1;
     usb_buf[0x05]   = blue;
-    
+
     hid_send_feature_report(dev, usb_buf, 8);
 
     usb_buf[0x04]   = offset + led * 3 + 2;
     usb_buf[0x05]   = green;
-    
+
     hid_send_feature_report(dev, usb_buf, 8);
 }
 
@@ -113,6 +114,6 @@ void AuraMonitorController::ApplyChanges()
     usb_buf[0x03]   = 0x80;
     usb_buf[0x04]   = 0xA0;
     usb_buf[0x05]   = 0x01;
-    
+
     hid_send_feature_report(dev, usb_buf, 8);
 }

@@ -1,15 +1,18 @@
-/*-------------------------------------------------------------------*\
-|  AsusAuraMouseDevices.h                                             |
-|                                                                     |
-|  Asus Aura Mouse definitions and mapping                            |
-|                                                                     |
-|  Chris M (Dr_No)         11th July 2021                             |
-\*-------------------------------------------------------------------*/
+/*---------------------------------------------------------*\
+| AsusAuraMouseDevices.h                                    |
+|                                                           |
+|   Device list for ASUS Aura mouse                         |
+|                                                           |
+|   Chris M (Dr_No)                             11 Jul 2021 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
+#pragma once
 
 #include <vector>
 #include <map>
-
-#pragma once
 
 #define AURA_ROG_GLADIUS_II_CORE_PID                    0x18DD
 #define AURA_ROG_GLADIUS_II_PID                         0x1845

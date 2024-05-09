@@ -1,11 +1,13 @@
-/*-----------------------------------------*\
-|  RGBController_AsusROGSpatha.cpp          |
-|                                           |
-|  Generic RGB Interface for Asus Aura      |
-|  USB controller driver                    |
-|                                           |
-|  Mola19 11/05/2023                        |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_AsusROGSpatha.cpp                           |
+|                                                           |
+|   RGBController for ASUS ROG Spatha                       |
+|                                                           |
+|   Mola19                                      05 Nov 2023 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #include "RGBController_AsusROGSpatha.h"
 
@@ -197,7 +199,7 @@ void RGBController_AsusROGSpatha::DeviceUpdateMode()
     {
         return;
     }
-    
+
     /*-----------------------------------------------------*\
     | Needed to overwrite direct                            |
     \*-----------------------------------------------------*/
@@ -216,7 +218,7 @@ void RGBController_AsusROGSpatha::DeviceUpdateMode()
         | OpenRGB misses that feature, hence both are the same               |
         \*------------------------------------------------------------------*/
         controller->SendUpdate(0x12 + i * 38, (modes[active_mode].brightness << 4) + modes[active_mode].brightness);
-        
+
         if(modes[active_mode].value == ASUS_ROG_SPATHA_MODE_SPECTRUM_CYCLE || modes[active_mode].value == ASUS_ROG_SPATHA_MODE_BREATHING)
         {
             for(int j = 0; j < modes[active_mode].colors.size(); j++)
@@ -237,7 +239,7 @@ void RGBController_AsusROGSpatha::DeviceSaveMode()
     }
 
     unsigned int profile = controller->GetActiveProfile();
-    
+
     /*-----------------------------------------------------*\
     | Send data to all 3 zones                              |
     \*-----------------------------------------------------*/
@@ -250,7 +252,7 @@ void RGBController_AsusROGSpatha::DeviceSaveMode()
         | OpenRGB misses that feature, hence both are the same               |
         \*------------------------------------------------------------------*/
         controller->UpdateProfile(0x12 + i * 38, profile, (modes[active_mode].brightness << 4) + modes[active_mode].brightness);
-        
+
         if(modes[active_mode].value == ASUS_ROG_SPATHA_MODE_SPECTRUM_CYCLE || modes[active_mode].value == ASUS_ROG_SPATHA_MODE_BREATHING)
         {
             for(int j = 0; j < modes[active_mode].colors.size(); j++)
