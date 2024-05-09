@@ -1,3 +1,14 @@
+/*---------------------------------------------------------*\
+| AOCMousematControllerDetect.cpp                           |
+|                                                           |
+|   Detector for AOC mousemat                               |
+|                                                           |
+|   Adam Honse (CalcProgrammer1)                15 Apr 2023 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
 #include "Detector.h"
 #include "AOCMousematController.h"
 #include "RGBController.h"

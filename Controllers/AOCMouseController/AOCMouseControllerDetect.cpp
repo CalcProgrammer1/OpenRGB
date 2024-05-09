@@ -1,10 +1,21 @@
+/*---------------------------------------------------------*\
+| AOCMouseControllerDetect.cpp                              |
+|                                                           |
+|   Detector for AOC mouse                                  |
+|                                                           |
+|   Adam Honse (CalcProgrammer1)                20 Apr 2023 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
 #include "Detector.h"
 #include "AOCMouseController.h"
 #include "RGBController.h"
 #include "RGBController_AOCMouse.h"
 
 /*-----------------------------------------------------*\
-| AOC Mousemat IDs                                      |
+| AOC Mouse IDs                                         |
 \*-----------------------------------------------------*/
 #define AOC_VID                                     0x3938
 #define AOC_GM500_PID                               0x1179

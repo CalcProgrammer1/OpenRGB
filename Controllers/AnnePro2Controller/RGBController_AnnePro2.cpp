@@ -1,11 +1,13 @@
-/*-----------------------------------------*\
-|  RGBController_AnnePro2.cpp               |
-|                                           |
-|  Generic RGB Interface for Obins Lab      |
-|  AnnePro2 keyboard                        |
-|                                           |
-|  Sergey Gavrilov (DrZlo13) 06/06/2021     |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_AnnePro2.cpp                                |
+|                                                           |
+|   RGBController for Obins Lab AnnePro2 keyboard           |
+|                                                           |
+|   Sergey Gavrilov (DrZlo13)                   06 Jun 2021 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #include "RGBControllerKeyNames.h"
 #include "RGBController_AnnePro2.h"

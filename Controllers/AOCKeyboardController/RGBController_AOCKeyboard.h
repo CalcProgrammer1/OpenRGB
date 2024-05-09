@@ -1,10 +1,13 @@
-/*-----------------------------------------*\
-|  RGBController_AOCKeyboard.h              |
-|                                           |
-|  Generic RGB Interface for AOC keyboard   |
-|                                           |
-|  Adam Honse (CalcProgrammer1) 5/10/2023   |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_AOCKeyboard.h                               |
+|                                                           |
+|   RGBController for AOC keyboard                          |
+|                                                           |
+|   Adam Honse (CalcProgrammer1)                10 May 2023 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #pragma once
 

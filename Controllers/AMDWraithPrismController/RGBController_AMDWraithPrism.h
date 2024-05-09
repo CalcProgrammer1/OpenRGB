@@ -1,11 +1,13 @@
-/*-----------------------------------------*\
-|  RGBController_AMDWraithPrism.h           |
-|                                           |
-|  Generic RGB Interface for AMD Wraith     |
-|  Prism                                    |
-|                                           |
-|  Adam Honse (CalcProgrammer1) 12/25/2019  |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_AMDWraithPrism.h                            |
+|                                                           |
+|   RGBController for AMD Wraith Prism                      |
+|                                                           |
+|   Adam Honse (CalcProgrammer1)                25 Dec 2019 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #pragma once
 

@@ -1,3 +1,14 @@
+/*---------------------------------------------------------*\
+| AnnePro2ControllerDetect.cpp                              |
+|                                                           |
+|   Detector for Obins Lab AnnePro2 keyboard                |
+|                                                           |
+|   Sergey Gavrilov (DrZlo13)                   06 Jun 2021 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
 #include "Detector.h"
 #include "AnnePro2Controller.h"
 #include "RGBController.h"

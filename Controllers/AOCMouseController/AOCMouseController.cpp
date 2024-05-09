@@ -1,10 +1,13 @@
-/*-----------------------------------------*\
-|  AOCMouseController.cpp                   |
-|                                           |
-|  Driver for AOC Mouse lighting controller |
-|                                           |
-|  Adam Honse (CalcProgrammer1) 4/20/2023   |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| AOCMouseController.cpp                                    |
+|                                                           |
+|   Driver for AOC mouse                                    |
+|                                                           |
+|   Adam Honse (CalcProgrammer1)                20 Apr 2023 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #include <cstring>
 #include "AOCMouseController.h"

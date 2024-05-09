@@ -1,32 +1,35 @@
-/*-----------------------------------------*\
-|  AnnePro2Controller.cpp                   |
-|                                           |
-|  Driver for Obins Lab AnnePro2 keyboard   |
-|                                           |
-|  Sergey Gavrilov (DrZlo13) 06/06/2021     |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| AnnePro2Controller.cpp                                    |
+|                                                           |
+|   Driver for Obins Lab AnnePro2 keyboard                  |
+|                                                           |
+|   Sergey Gavrilov (DrZlo13)                   06 Jun 2021 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #include "AnnePro2Controller.h"
 
 using namespace std::chrono_literals;
 
-AnnePro2Controller::AnnePro2Controller(hid_device* dev_handle, const char* path) 
+AnnePro2Controller::AnnePro2Controller(hid_device* dev_handle, const char* path)
 {
     dev         = dev_handle;
     location    = path;
 }
 
-AnnePro2Controller::~AnnePro2Controller() 
+AnnePro2Controller::~AnnePro2Controller()
 {
     hid_close(dev);
 }
 
-std::string AnnePro2Controller::GetDeviceLocation() 
+std::string AnnePro2Controller::GetDeviceLocation()
 {
     return("HID: " + location);
 }
 
-std::string AnnePro2Controller::GetSerialString() 
+std::string AnnePro2Controller::GetSerialString()
 {
     wchar_t serial_string[128];
     int ret = hid_get_serial_number_string(dev, serial_string, 128);
@@ -42,7 +45,7 @@ std::string AnnePro2Controller::GetSerialString()
     return(return_string);
 }
 
-void AnnePro2Controller::SendDirect(unsigned char frame_count, unsigned char * frame_data) 
+void AnnePro2Controller::SendDirect(unsigned char frame_count, unsigned char * frame_data)
 {
     /*-------------------------------------------------------------*\
     | Reverse engineered by https://github.com/manualmanul/Annemone |
@@ -74,7 +77,7 @@ void AnnePro2Controller::SendDirect(unsigned char frame_count, unsigned char * f
     {
         const unsigned char e = (messages_to_send_amount << 4) + p;
         const unsigned char a = ((messages_to_send_amount - 1) == p) ? val_2 + real_command_info_length : max_message_length + real_command_info_length;
-        
+
         /*---------------------------------------------------------*\
         | Service data                                              |
         \*---------------------------------------------------------*/

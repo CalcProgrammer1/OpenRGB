@@ -1,11 +1,13 @@
-/*-----------------------------------------*\
-|  AOCKeyboardController.h                  |
-|                                           |
-|  Definitions and types for AOC keyboard   |
-|  lighting controller                      |
-|                                           |
-|  Adam Honse (CalcProgrammer1) 5/10/2023   |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| AOCKeyboardController.h                                   |
+|                                                           |
+|   Driver for AOC keyboard                                 |
+|                                                           |
+|   Adam Honse (CalcProgrammer1)                10 May 2023 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #pragma once
 

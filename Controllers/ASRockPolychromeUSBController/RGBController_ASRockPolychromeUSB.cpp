@@ -1,12 +1,14 @@
-/*-----------------------------------------*\
-|  RGBController_ASRockPolychromeUSB.cpp    |
-|                                           |
-|  Generic RGB Interface for OpenRGB        |
-|  ASRock Polychrome USB Driver             |
-|                                           |
-|  Ed Kambulow (Dredvard) 12/26/2020        |
-|  Shady Nawara (ShadyNawara) 01/16/2023    |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_ASRockPolychromeUSB.cpp                     |
+|                                                           |
+|   RGBController for ASRock Polychrome USB motherboards    |
+|                                                           |
+|   Ed Kambulow (dredvard)                      20 Dec 2020 |
+|   Shady Nawara (ShadyNawara)                  16 Jan 2023 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #include <string.h>
 #include "RGBController_ASRockPolychromeUSB.h"

@@ -1,10 +1,13 @@
-/*-----------------------------------------*\
-|  RGBController_AOCMouse.h                 |
-|                                           |
-|  Generic RGB Interface for AOC mouse      |
-|                                           |
-|  Adam Honse (CalcProgrammer1) 4/20/2023   |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_AOCMouse.h                                  |
+|                                                           |
+|   RGBController for AOC mouse                             |
+|                                                           |
+|   Adam Honse (CalcProgrammer1)                20 Apr 2023 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #pragma once
 

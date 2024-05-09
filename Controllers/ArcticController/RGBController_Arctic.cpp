@@ -1,10 +1,13 @@
-/*-----------------------------------------*\
-|  RGBController_Arctic.h                   |
-|                                           |
-|  Generic RGB Interface for Arctic devices |
-|                                           |
-|  Armin Wolf (Wer-Wolf) 01/09/2023         |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_Arctic.cpp                                  |
+|                                                           |
+|   RGBController for Arctic devices                        |
+|                                                           |
+|   Armin Wolf (Wer-Wolf)                       09 Jan 2023 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #include <math.h>
 #include "RGBController_Arctic.h"

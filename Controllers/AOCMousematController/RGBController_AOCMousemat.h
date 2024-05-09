@@ -1,10 +1,13 @@
-/*-----------------------------------------*\
-|  RGBController_AOCMousemat.h              |
-|                                           |
-|  Generic RGB Interface for AOC mousemat   |
-|                                           |
-|  Adam Honse (CalcProgrammer1) 4/15/2023   |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_AOCMousemat.h                               |
+|                                                           |
+|   RGBController for AOC mousemat                          |
+|                                                           |
+|   Adam Honse (CalcProgrammer1)                15 Apr 2023 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #pragma once
 

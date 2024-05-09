@@ -1,12 +1,14 @@
-/*-----------------------------------------*\
-|  ASRockPolychromeUSBController.h          |
-|                                           |
-|  Driver for ASRock Polychrome USB         |
-|  lighting controller                      |
-|                                           |
-|  Ed Kambulow (dredvard) 12/20/2020        |
-|  Shady Nawara (ShadyNawara) 01/16/2023    |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| ASRockPolychromeUSBController.h                           |
+|                                                           |
+|   Driver for ASRock Polychrome USB motherboards           |
+|                                                           |
+|   Ed Kambulow (dredvard)                      20 Dec 2020 |
+|   Shady Nawara (ShadyNawara)                  16 Jan 2023 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #pragma once
 

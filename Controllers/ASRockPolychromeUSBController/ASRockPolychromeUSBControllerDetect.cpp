@@ -1,3 +1,15 @@
+/*---------------------------------------------------------*\
+| ASRockPolychromeUSBControllerDetect.cpp                   |
+|                                                           |
+|   Detector for ASRock Polychrome USB motherboards         |
+|                                                           |
+|   Ed Kambulow (dredvard)                      20 Dec 2020 |
+|   Shady Nawara (ShadyNawara)                  16 Jan 2023 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <vector>
@@ -8,7 +20,6 @@
 #include "RGBController_ASRockPolychromeUSB.h"
 #include "i2c_smbus.h"
 #include "pci_ids.h"
-
 
 /*---------------------------------------------------------*\
 | ASRock vendor ID                                          |
@@ -33,5 +44,5 @@ void DetectPolychromeUSBControllers(hid_device_info* info, const std::string& /*
     }
 }
 
-REGISTER_HID_DETECTOR("ASRock Polychrome USB", DetectPolychromeUSBControllers, ASROCK_VID, ASROCK_MOTHERBOARD_1_PID);
-REGISTER_HID_DETECTOR("ASRock Deskmini Addressable LED Strip", DetectPolychromeUSBControllers, ASROCK_VID, ASROCK_DESKMINI_ADDRESSABLE_LED_STRIP_PID);
+REGISTER_HID_DETECTOR("ASRock Polychrome USB",                  DetectPolychromeUSBControllers, ASROCK_VID, ASROCK_MOTHERBOARD_1_PID);
+REGISTER_HID_DETECTOR("ASRock Deskmini Addressable LED Strip",  DetectPolychromeUSBControllers, ASROCK_VID, ASROCK_DESKMINI_ADDRESSABLE_LED_STRIP_PID);

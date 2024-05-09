@@ -1,3 +1,14 @@
+/*---------------------------------------------------------*\
+| AMDWraithPrismControllerDetect.cpp                        |
+|                                                           |
+|   Detector for AMD Wraith Prism                           |
+|                                                           |
+|   Adam Honse (CalcProgrammer1)                06 Dec 2019 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
 #include <hidapi/hidapi.h>
 #include "Detector.h"
 #include "AMDWraithPrismController.h"
