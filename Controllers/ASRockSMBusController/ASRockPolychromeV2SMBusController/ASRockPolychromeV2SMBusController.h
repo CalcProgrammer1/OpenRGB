@@ -1,12 +1,13 @@
-/*-----------------------------------------*\
-|  ASRockPolychromeSMBusController.h        |
-|                                           |
-|  Definitions and types for ASRock         |
-|  ASR LED and Polychrome RGB lighting      |
-|  controller                               |
-|                                           |
-|  Adam Honse (CalcProgrammer1) 12/13/2019  |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| ASRockPolychromeV2SMBusController.h                       |
+|                                                           |
+|   Driver for SMBus ASRock Polychrome V2 motherboards      |
+|                                                           |
+|   Adam Honse (CalcProgrammer1)                13 Dec 2019 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #pragma once
 

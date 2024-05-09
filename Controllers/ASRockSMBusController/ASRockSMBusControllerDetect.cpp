@@ -1,3 +1,15 @@
+/*---------------------------------------------------------*\
+| ASRockSMBusControllerDetect.cpp                           |
+|                                                           |
+|   Detector for SMBus ASRock ASR RGB and Polychrome        |
+|   motherboards                                            |
+|                                                           |
+|   Adam Honse (CalcProgrammer1)                14 Dec 2019 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <vector>

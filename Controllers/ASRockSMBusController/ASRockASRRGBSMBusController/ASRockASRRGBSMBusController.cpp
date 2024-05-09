@@ -1,11 +1,13 @@
-/*-----------------------------------------*\
-|  ASRockPolychromeSMBusController.cpp      |
-|                                           |
-|  Driver for for ASRock ASR LED and        |
-|  Polychrome RGB lighting controller       |
-|                                           |
-|  Adam Honse (CalcProgrammer1) 12/14/2019  |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| ASRockASRRGBSMBusController.cpp                           |
+|                                                           |
+|   Driver for SMBus ASRock ASR RGB motherboards            |
+|                                                           |
+|   Adam Honse (CalcProgrammer1)                14 Dec 2019 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #include "ASRockASRRGBSMBusController.h"
 #include <cstring>
