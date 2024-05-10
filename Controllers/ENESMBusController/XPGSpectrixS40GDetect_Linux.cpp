@@ -1,30 +1,21 @@
+#include <vector>
+#include <stdio.h>
+#include <stdlib.h>
+#include <fcntl.h>
+#include <unistd.h>
+#include <dirent.h>
 #include "Detector.h"
 #include "ENESMBusController.h"
 #include "ENESMBusInterface_SpectrixS40G_Linux.h"
 #include "LogManager.h"
 #include "RGBController.h"
 #include "RGBController_ENESMBus.h"
-#include <vector>
-#include <stdio.h>
-#include <stdlib.h>
 
-#include <fcntl.h>
-#include <unistd.h>
-#include <dirent.h>
-
-/******************************************************************************************\
-*                                                                                          *
-*   DetectSpectrixS40GControllers                                                          *
-*                                                                                          *
-*           Detects ENE SMBus controllers on XPG Spectrix S40G NVMe devices                *
-*                                                                                          *
-\******************************************************************************************/
-
-void DetectSpectrixS40GControllers()
+void DetectSpectrixControllers(char * model)
 {
-    /*---------------------------------------------------------------------*\
-    | Search for /dev/nvmeX nodes with model matching "XPG SPECTRIX S40G"   |
-    \*---------------------------------------------------------------------*/
+    /*-----------------------------------------------------*\
+    | Search for /dev/nvmeX nodes with given model          |
+    \*-----------------------------------------------------*/
     unsigned int nvme_idx = 0;
 
     while(1)
@@ -50,19 +41,19 @@ void DetectSpectrixS40GControllers()
 
         if(read(nvme_model_fd, nvme_dev_buf, 1024) < 0)
         {
-            LOG_WARNING("[XPG Spectrix S40G] Probing %d, failed to read NVMe model", nvme_idx);
+            LOG_WARNING("[XPG Spectrix SSD] Probing %d, failed to read NVMe model", nvme_idx);
         }
         else
         {
-            LOG_DEBUG("[XPG Spectrix S40G] Probing %d, model: %s", nvme_idx, nvme_dev_buf);
+            LOG_DEBUG("[XPG Spectrix SSD] Probing %d, model: %s", nvme_idx, nvme_dev_buf);
         }
 
         close(nvme_model_fd);
 
         /*-------------------------------------------------*\
-        | Check if this NVMe device is a SPECTRIX S40G      |
+        | Check if this NVMe device is the right model      |
         \*-------------------------------------------------*/
-        if(strncmp(nvme_dev_buf, "XPG SPECTRIX S40G", 17) == 0)
+        if(strncmp(nvme_dev_buf, model, strlen(model)) == 0)
         {
             snprintf(nvme_dev_buf, 1024, "/dev/nvme%d", nvme_idx);
 
@@ -84,6 +75,33 @@ void DetectSpectrixS40GControllers()
 
         nvme_idx++;
     }
-}   /* DetectSpectrixS40GControllers() */
+}   /* DetectSpectrixControllers() */
 
-REGISTER_DETECTOR(    "XPG Spectrix S40G",              DetectSpectrixS40GControllers);
+/******************************************************************************************\
+*                                                                                          *
+*   DetectSpectrixS20GControllers                                                          *
+*                                                                                          *
+*           Detects ENE SMBus controllers on XPG Spectrix S20G NVMe devices                *
+*                                                                                          *
+\******************************************************************************************/
+
+void DetectSpectrixS20GControllers()
+{
+    DetectSpectrixControllers("XPG SPECTRIX S20G");
+}
+
+/******************************************************************************************\
+*                                                                                          *
+*   DetectSpectrixS40GControllers                                                          *
+*                                                                                          *
+*           Detects ENE SMBus controllers on XPG Spectrix S40G NVMe devices                *
+*                                                                                          *
+\******************************************************************************************/
+
+void DetectSpectrixS40GControllers()
+{
+    DetectSpectrixControllers("XPG SPECTRIX S40G");
+}
+
+REGISTER_DETECTOR("XPG Spectrix S20G",  DetectSpectrixS20GControllers);
+REGISTER_DETECTOR("XPG Spectrix S40G",  DetectSpectrixS40GControllers);

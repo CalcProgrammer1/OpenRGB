@@ -27,7 +27,7 @@
 *                                                                                          *
 \******************************************************************************************/
 
-int Search(wchar_t *dev_name)
+int Search(wchar_t *dev_name, const wchar_t *dev_identifier)
 {
     wchar_t buff[DEVBUFSIZE]  = L"";
     int wchar_count;
@@ -41,7 +41,7 @@ int Search(wchar_t *dev_name)
 
     for(int i = 0; i < wchar_count; i++)
     {
-        if(wcsstr(buff + i, L"SCSI#Disk&Ven_NVMe&Prod_XPG_SPECTRIX_S40#"))
+        if(wcsstr(buff + i, dev_identifier))
         {
             wcsncpy(dev_name, buff + i, MAX_PATH);
             (dev_name)[MAX_PATH - 1] = '\0';
@@ -83,6 +83,43 @@ HANDLE OpenDevice(wchar_t buff[MAX_PATH])
 
 /******************************************************************************************\
 *                                                                                          *
+*   DetectSpectrixS42GControllers                                                          *
+*                                                                                          *
+*           Detects ENE SMBus controllers on XPG Spectrix S20G NVMe devices                *
+*                                                                                          *
+*           Tests for the existance of a file descriptor matching                          *
+*           SCSI#Disk&Ven_NVMe&Prod_XPG_SPECTRIX_S20# on Windows machines                  *
+*                                                                                          *
+\******************************************************************************************/
+
+void DetectSpectrixS20GControllers()
+{
+    /*-------------------------------------------------------------------------------------------------*\
+    | https://docs.microsoft.com/en-us/windows-hardware/drivers/install/identifiers-for-scsi-devices    |
+    \*-------------------------------------------------------------------------------------------------*/
+    wchar_t dev_name[MAX_PATH];
+
+    if(Search(dev_name, L"SCSI#Disk&Ven_NVMe&Prod_XPG_SPECTRIX_S20#"))
+    {
+        HANDLE nvme_fd = OpenDevice(dev_name);
+
+        if(nvme_fd != INVALID_HANDLE_VALUE)
+        {
+            ENESMBusInterface_SpectrixS40G* interface      = new ENESMBusInterface_SpectrixS40G(nvme_fd, dev_name);
+            ENESMBusController*             controller     = new ENESMBusController(interface, 0x67);
+            RGBController_ENESMBus*         rgb_controller = new RGBController_ENESMBus(controller);
+
+            rgb_controller->name                           = "XPG Spectrix S20G";
+            rgb_controller->type                           = DEVICE_TYPE_STORAGE;
+            rgb_controller->vendor                         = "XPG";
+
+            ResourceManager::get()->RegisterRGBController(rgb_controller);
+        }
+    }
+}   /* DetectSpectrixS20GControllers() */
+
+/******************************************************************************************\
+*                                                                                          *
 *   DetectSpectrixS40GControllers                                                          *
 *                                                                                          *
 *           Detects ENE SMBus controllers on XPG Spectrix S40G NVMe devices                *
@@ -99,7 +136,7 @@ void DetectSpectrixS40GControllers()
     \*-------------------------------------------------------------------------------------------------*/
     wchar_t dev_name[MAX_PATH];
 
-    if(Search(dev_name))
+    if(Search(dev_name, L"SCSI#Disk&Ven_NVMe&Prod_XPG_SPECTRIX_S40#"))
     {
         HANDLE nvme_fd = OpenDevice(dev_name);
 
@@ -119,4 +156,5 @@ void DetectSpectrixS40GControllers()
 }   /* DetectSpectrixS40GControllers() */
 
 
-REGISTER_DETECTOR(    "XPG Spectrix S40G",              DetectSpectrixS40GControllers);
+REGISTER_DETECTOR("XPG Spectrix S20G",  DetectSpectrixS20GControllers);
+REGISTER_DETECTOR("XPG Spectrix S40G",  DetectSpectrixS40GControllers);
