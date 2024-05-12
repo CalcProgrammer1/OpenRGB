@@ -1,14 +1,16 @@
-/*-----------------------------------------*\
-|  AsusAuraMousematController.cpp           |
-|                                           |
-|  Driver for ASUS Aura RGB USB             |
-|  lighting controller                      |
-|                                           |
-|  Adam Honse (CalcProgrammer1) 1/10/2022   |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| AsusAuraMousematController.cpp                            |
+|                                                           |
+|   Driver for ASUS Aura mousemat                           |
+|                                                           |
+|   Adam Honse (CalcProgrammer1)                10 Jan 2022 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
-#include "AsusAuraMousematController.h"
 #include <cstring>
+#include "AsusAuraMousematController.h"
 
 AuraMousematController::AuraMousematController(hid_device* dev_handle, const char* path)
 {

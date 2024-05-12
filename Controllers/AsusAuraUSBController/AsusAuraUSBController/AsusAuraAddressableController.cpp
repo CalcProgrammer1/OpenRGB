@@ -1,14 +1,16 @@
-/*-----------------------------------------*\
-|  AsusAuraAddressableController.cpp        |
-|                                           |
-|  Driver for ASUS Aura RGB Addressable     |
-|  lighting controller                      |
-|                                           |
-|  Adam Honse (CalcProgrammer1) 1/18/2020   |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| AsusAuraAddressableController.cpp                         |
+|                                                           |
+|   Driver for ASUS Aura addressable controller             |
+|                                                           |
+|   Adam Honse (CalcProgrammer1)                18 Jan 2020 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
-#include "AsusAuraAddressableController.h"
 #include <cstring>
+#include "AsusAuraAddressableController.h"
 
 AuraAddressableController::AuraAddressableController(hid_device* dev_handle, const char* path) : AuraUSBController(dev_handle, path)
 {

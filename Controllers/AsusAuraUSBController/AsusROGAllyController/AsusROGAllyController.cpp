@@ -1,14 +1,16 @@
-/*-----------------------------------------*\
-|  AsusROGAllyController.cpp                |
-|                                           |
-|  Driver for ASUS ROG Ally lighting        |
-|  controller                               |
-|                                           |
-|  Adam Honse (CalcProgrammer1) 6/12/2023   |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| AsusROGAllyController.cpp                                 |
+|                                                           |
+|   Driver for ASUS ROG Ally                                |
+|                                                           |
+|   Adam Honse (CalcProgrammer1)                12 Jul 2023 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
-#include "AsusROGAllyController.h"
 #include <cstring>
+#include "AsusROGAllyController.h"
 
 ROGAllyController::ROGAllyController(hid_device* dev_handle, const char* path)
 {
@@ -57,7 +59,7 @@ void ROGAllyController::SendInitialization()
 
     usb_buf[0x00]   = 0x5D;
     usb_buf[0x01]   = 0xB9;
-    
+
     hid_send_feature_report(dev, usb_buf, sizeof(usb_buf));
 
     memset(usb_buf, 0x00, sizeof(usb_buf));
@@ -77,7 +79,7 @@ void ROGAllyController::SendInitialization()
     usb_buf[0x0C]   = 0x6E;
     usb_buf[0x0D]   = 0x63;
     usb_buf[0x0E]   = 0x2E;
-    
+
     hid_send_feature_report(dev, usb_buf, sizeof(usb_buf));
 }
 
@@ -175,4 +177,3 @@ void ROGAllyController::SaveMode()
 
     hid_send_feature_report(dev, usb_buf, sizeof(usb_buf));
 }
-

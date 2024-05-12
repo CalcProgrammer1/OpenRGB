@@ -1,3 +1,14 @@
+/*---------------------------------------------------------*\
+| AsusAuraUSBControllerDetect.cpp                           |
+|                                                           |
+|   Detector for ASUS Aura USB devices                      |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
+#include <stdexcept>
+#include <hidapi/hidapi.h>
 #include "Detector.h"
 #include "AsusAuraAddressableController.h"
 #include "AsusAuraHeadsetStandController.h"
@@ -25,8 +36,6 @@
 #include "RGBController_AsusROGStrixEvolve.h"
 #include "RGBController_AsusAuraMonitor.h"
 #include "RGBController_AsusAuraRyuoAIO.h"
-#include <stdexcept>
-#include <hidapi/hidapi.h>
 #include "dmiinfo.h"
 
 #define AURA_USB_VID                                  0x0B05

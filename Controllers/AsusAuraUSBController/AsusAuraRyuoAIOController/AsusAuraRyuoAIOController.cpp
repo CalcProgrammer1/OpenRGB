@@ -1,12 +1,14 @@
-/*-------------------------------------------------------------------*\
-|  AsusAuraRyuoAIOController.cpp                                      |
-|                                                                     |
-|  Driver for the ASUS Aura Ryuo AIO                                  |
-|    lighting controller                                              |
-|                                                                     |
-|  Cooper Hall (geobot19 / Geo_bot)          08 Apr 2022              |
-|  using snipets from Chris M (Dr.No)                                 |
-\*-------------------------------------------------------------------*/
+/*---------------------------------------------------------*\
+| AsusAuraRyuoAIOController.cpp                             |
+|                                                           |
+|   Driver for ASUS Aura Ryuo                               |
+|                                                           |
+|   Cooper Hall (geobot19 / Geo_bot)            08 Apr 2022 |
+|   using snipets from Chris M (Dr.No)                      |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #include "AsusAuraRyuoAIOController.h"
 

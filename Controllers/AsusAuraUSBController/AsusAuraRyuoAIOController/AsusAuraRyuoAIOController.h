@@ -1,19 +1,21 @@
-/*-------------------------------------------------------------------*\
-|  AsusAuraRyuoAIOController.h                                        |
-|                                                                     |
-|  Driver for the ASUS Aura Ryuo AIO                                  |
-|    lighting controller                                              |
-|                                                                     |
-|  Cooper Hall (geobot19 / Geo_bot)          08 Apr 2022              |
-|  using snipets from Chris M (Dr.No)                                 |
-\*-------------------------------------------------------------------*/
+/*---------------------------------------------------------*\
+| AsusAuraRyuoAIOController.h                               |
+|                                                           |
+|   Driver for ASUS Aura Ryuo                               |
+|                                                           |
+|   Cooper Hall (geobot19 / Geo_bot)            08 Apr 2022 |
+|   using snipets from Chris M (Dr.No)                      |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
+#pragma once
 
 #include <string>
 #include <hidapi/hidapi.h>
 #include "RGBController.h"
 #include "AsusAuraUSBController.h"
-
-#pragma once
 
 #define ASUSAURARYUOAIOCONTROLLER_TIMEOUT        250
 #define ASUSAURARYUOAIOCONTROLLER_HID_MAX_STR    255

@@ -1,16 +1,18 @@
-/*-----------------------------------------*\
-|  AsusROGAllyController.h                  |
-|                                           |
-|  Definitions and types for ASUS ROG Ally  |
-|  lighting controller                      |
-|                                           |
-|  Adam Honse (CalcProgrammer1) 6/12/2023   |
-\*-----------------------------------------*/
-
-#include "RGBController.h"
-#include <hidapi/hidapi.h>
+/*---------------------------------------------------------*\
+| AsusROGAllyController.h                                   |
+|                                                           |
+|   Driver for ASUS ROG Ally                                |
+|                                                           |
+|   Adam Honse (CalcProgrammer1)                12 Jul 2023 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #pragma once
+
+#include <hidapi/hidapi.h>
+#include "RGBController.h"
 
 enum
 {
@@ -46,7 +48,7 @@ public:
     std::string GetVersion();
 
     void SendInitialization();
-    
+
     void UpdateBrightness
         (
             unsigned char           brightness

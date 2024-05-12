@@ -1,19 +1,20 @@
-/*-----------------------------------------*\
-|  AsusAuraMainboardController.h            |
-|                                           |
-|  Definitions and types for ASUS Aura      |
-|  USB Mainboard RGB lighting controller    |
-|                                           |
-|  Martin Hartl (inlart) 4/25/2020          |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| AsusAuraMainboardController.h                             |
+|                                                           |
+|   Driver for ASUS Aura mainboard                          |
+|                                                           |
+|   Martin Hartl (inlart)                       25 Apr 2020 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
-#include "RGBController.h"
-#include "AsusAuraUSBController.h"
+#pragma once
 
 #include <string>
 #include <hidapi/hidapi.h>
-
-#pragma once
+#include "RGBController.h"
+#include "AsusAuraUSBController.h"
 
 enum
 {

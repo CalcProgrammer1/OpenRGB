@@ -1,19 +1,20 @@
-/*-------------------------------------------------------------------*\
-|  AsusROGStrixLCController.h                                         |
-|                                                                     |
-|  Driver for the ASUS Aura Liquid Cooler (LC) series                 |
-|    of lighting controllers                                          |
-|                                                                     |
-|  Chris M (Dr_No)          17 Jan 2022                               |
-|                                                                     |
-\*-------------------------------------------------------------------*/
+/*---------------------------------------------------------*\
+| AsusROGStrixLCController.h                                |
+|                                                           |
+|   Driver for ASUS Aura liquid cooler                      |
+|                                                           |
+|   Chris M (Dr_No)                             17 Jan 2022 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
+#pragma once
 
 #include <string>
 #include <hidapi/hidapi.h>
 #include "RGBController.h"
 #include "AsusAuraUSBController.h"
-
-#pragma once
 
 #define ROGSTRIXLC_CONTROLLER_TIMEOUT 250
 #define HID_MAX_STR 255

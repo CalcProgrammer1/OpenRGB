@@ -1,15 +1,17 @@
-/*-----------------------------------------*\
-|  RGBController_AsusAuraTUFKeyboard.cpp    |
-|                                           |
-|  Generic RGB Interface for Asus Aura      |
-|  USB controller driver                    |
-|                                           |
-|  Mola19 03/03/2020                        |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_AsusAuraTUFKeyboard.cpp                     |
+|                                                           |
+|   RGBController for ASUS Aura TUF keyboard                |
+|                                                           |
+|   Mola19                                      03 Mar 2021 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
-#include "RGBController_AsusAuraTUFKeyboard.h"
-#include <vector>
 #include <cmath>
+#include <vector>
+#include "RGBController_AsusAuraTUFKeyboard.h"
 
 /**------------------------------------------------------------------*\
     @name Asus Aura TUF Keyboard
@@ -138,7 +140,7 @@ RGBController_AuraTUFKeyboard::RGBController_AuraTUFKeyboard(AuraTUFKeyboardCont
         Wave.value                  = AURA_KEYBOARD_MODE_WAVE;
         Wave.flags                  = MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_DIRECTION_LR | MODE_FLAG_HAS_DIRECTION_HV | MODE_FLAG_MANUAL_SAVE | MODE_FLAG_HAS_BRIGHTNESS;
         if(controller->is_per_led_keyboard) Wave.flags |= MODE_FLAG_HAS_DIRECTION_UD;
-        
+
         Wave.speed_min              = AURA_KEYBOARD_SPEED_MIN;
         Wave.speed_max              = AURA_KEYBOARD_SPEED_MAX;
         Wave.speed                  = AURA_KEYBOARD_SPEED_DEFAULT;

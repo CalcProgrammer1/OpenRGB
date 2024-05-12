@@ -1,17 +1,18 @@
-/*-----------------------------------------*\
-|  AsusAuraMousematController.h             |
-|                                           |
-|  Definitions and types for ASUS Aura      |
-|  USB RGB lighting controller              |
-|                                           |
-|  Adam Honse (CalcProgrammer1) 1/10/2022   |
-\*-----------------------------------------*/
-
-#include "RGBController.h"
-#include <hidapi/hidapi.h>
+/*---------------------------------------------------------*\
+| AsusAuraMousematController.h                              |
+|                                                           |
+|   Driver for ASUS Aura mousemat                           |
+|                                                           |
+|   Adam Honse (CalcProgrammer1)                10 Jan 2022 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #pragma once
 
+#include <hidapi/hidapi.h>
+#include "RGBController.h"
 
 enum
 {

@@ -1,13 +1,13 @@
-/*-----------------------------------------*\
-|  RGBController_AsusAuraMainboard.cpp      |
-|                                           |
-|  RGB controller for Asus Aura USB         |
-|  mainboards                               |
-|                                           |
-|  rytypete 8/30/2023                       |
-|  based on RGBController_AsusAuraUSB.cpp   |
-|  code                                     |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_AsusAuraMainboard.cpp                       |
+|                                                           |
+|   RGBController for ASUS Aura mainboard                   |
+|                                                           |
+|   rytypete                                    30 Aug 2023 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #include "RGBController_AsusAuraMainboard.h"
 

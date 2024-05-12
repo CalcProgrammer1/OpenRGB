@@ -1,21 +1,22 @@
-/*-----------------------------------------*\
-|  AsusAuraTUFKeyboardController.cpp        |
-|                                           |
-|  Driver for ASUS Aura RGB USB             |
-|  lighting controller                      |
-|                                           |
-|  Mola19 03/03/2021                        |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| AsusAuraTUFKeyboardController.cpp                         |
+|                                                           |
+|   Driver for ASUS Aura TUF keyboard                       |
+|                                                           |
+|   Mola19                                      03 Mar 2021 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
-#include "AsusAuraTUFKeyboardController.h"
-
+#include <cmath>
 #include <cstring>
-#include <string>
-#include <vector>
 #include <math.h>
+#include <string>
 #include <stdio.h>
 #include <string.h>
-#include <cmath>
+#include <vector>
+#include "AsusAuraTUFKeyboardController.h"
 
 AuraTUFKeyboardController::AuraTUFKeyboardController(hid_device* dev_handle, const char* path, uint16_t pid, unsigned short version)
 {

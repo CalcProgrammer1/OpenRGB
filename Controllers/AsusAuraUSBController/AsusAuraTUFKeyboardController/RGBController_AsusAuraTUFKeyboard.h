@@ -1,13 +1,16 @@
-/*-----------------------------------------*\
-|  RGBController_AsusAuraTUFKeyboard.h      |
-|                                           |
-|  Generic RGB Interface for Asus Aura      |
-|  USB controller driver                    |
-|                                           |
-|  Mola19 03/03/2021                        |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_AsusAuraTUFKeyboard.h                       |
+|                                                           |
+|   RGBController for ASUS Aura TUF keyboard                |
+|                                                           |
+|   Mola19                                      03 Mar 2021 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #pragma once
+
 #include "RGBController.h"
 #include "AsusAuraTUFKeyboardController.h"
 

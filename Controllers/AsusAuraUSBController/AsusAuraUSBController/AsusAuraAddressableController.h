@@ -1,19 +1,20 @@
-/*-----------------------------------------*\
-|  AsusAuraAddressableController.h          |
-|                                           |
-|  Definitions and types for ASUS Aura      |
-|  Addressable RGB lighting controller      |
-|                                           |
-|  Adam Honse (CalcProgrammer1) 1/18/2020   |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| AsusAuraAddressableController.h                           |
+|                                                           |
+|   Driver for ASUS Aura addressable controller             |
+|                                                           |
+|   Adam Honse (CalcProgrammer1)                18 Jan 2020 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
-#include "RGBController.h"
-#include "AsusAuraUSBController.h"
+#pragma once
 
 #include <string>
 #include <hidapi/hidapi.h>
-
-#pragma once
+#include "RGBController.h"
+#include "AsusAuraUSBController.h"
 
 enum
 {

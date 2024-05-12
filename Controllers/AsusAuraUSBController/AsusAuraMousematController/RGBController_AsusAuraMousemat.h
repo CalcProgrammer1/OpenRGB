@@ -1,13 +1,16 @@
-/*-----------------------------------------*\
-|  RGBController_AsusAuraMousemat.h         |
-|                                           |
-|  Generic RGB Interface for Asus Aura      |
-|  USB controller driver                    |
-|                                           |
-|  Mola19 06/04/2021                        |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_AsusAuraMousemat.h                          |
+|                                                           |
+|   RGBController for ASUS Aura mousemat                    |
+|                                                           |
+|   Mola19                                      06 Apr 2021 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #pragma once
+
 #include "RGBController.h"
 #include "AsusAuraMousematController.h"
 

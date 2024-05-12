@@ -1,11 +1,13 @@
-/*-----------------------------------------*\
-|  RGBController_AsusROGAlly.cpp            |
-|                                           |
-|  Generic RGB Interface for Asus ROG Ally  |
-|  controller driver                        |
-|                                           |
-|  Adam Honse (CalcProgrammer1) 6/12/2023   |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_AsusROGAlly.h                               |
+|                                                           |
+|   RGBController for ASUS ROG Ally                         |
+|                                                           |
+|   Adam Honse (CalcProgrammer1)                12 Jul 2023 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #pragma once
 

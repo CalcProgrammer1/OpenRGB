@@ -1,18 +1,20 @@
-/*-----------------------------------------*\
-|  AsusAuraTUFKeyboardController.h          |
-|                                           |
-|  Definitions and types for ASUS Aura      |
-|  USB RGB lighting controller              |
-|                                           |
-|  Mola19 10/02/2021                        |
-\*-----------------------------------------*/
-
-#include "RGBControllerKeyNames.h"
-#include <vector>
-#include <map>
-#include "RGBController.h"
+/*---------------------------------------------------------*\
+| AsusAuraTUFKeyboardLayouts.h                              |
+|                                                           |
+|   Layouts for ASUS Aura TUF keyboard                      |
+|                                                           |
+|   Mola19                                      02 Nov 2021 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #pragma once
+
+#include <map>
+#include <vector>
+#include "RGBControllerKeyNames.h"
+#include "RGBController.h"
 
 enum
 {

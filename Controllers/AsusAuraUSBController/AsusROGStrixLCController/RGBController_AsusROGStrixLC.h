@@ -1,18 +1,20 @@
-/*-------------------------------------------------------------------*\
-|  RGBController_AsusROGStrixLC.h                                     |
-|                                                                     |
-|  Driver for the ASUS Aura Liquid Cooler (LC) series                 |
-|    of lighting controllers                                          |
-|                                                                     |
-|  Chris M (Dr_No)          17 Jan 2022                               |
-|                                                                     |
-\*-------------------------------------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_AsusROGStrixLC.h                            |
+|                                                           |
+|   RGBController for ASUS Aura liquid cooler               |
+|                                                           |
+|   Chris M (Dr_No)                             17 Jan 2022 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #pragma once
+
+#include <vector>
 #include "LogManager.h"
 #include "RGBController.h"
 #include "AsusROGStrixLCController.h"
-#include <vector>
 
 class RGBController_AsusROGStrixLC : public RGBController
 {

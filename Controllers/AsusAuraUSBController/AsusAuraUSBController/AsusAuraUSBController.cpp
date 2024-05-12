@@ -1,16 +1,17 @@
-/*-----------------------------------------*\
-|  AsusAuraUSBController.cpp                |
-|                                           |
-|  Driver for ASUS Aura RGB USB             |
-|  lighting controller                      |
-|                                           |
-|  Martin Hartl (inlart) 4/25/2020          |
-\*-----------------------------------------*/
-
-#include "AsusAuraUSBController.h"
-#include "LogManager.h"
+/*---------------------------------------------------------*\
+| AsusAuraUSBController.cpp                                 |
+|                                                           |
+|   Driver for ASUS Aura USB device                         |
+|                                                           |
+|   Martin Hartl (inlart)                       25 Apr 2020 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #include <cstring>
+#include "AsusAuraUSBController.h"
+#include "LogManager.h"
 
 AuraUSBController::AuraUSBController(hid_device* dev_handle, const char* path)
 {
