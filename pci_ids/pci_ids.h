@@ -156,14 +156,17 @@
 #define ASUS_RX5600XT_STRIX_O6G_GAMING                  0x04EC
 #define ASUS_RX5700XT_STRIX_GAMING_OC                   0x04E2
 #define ASUS_RX5700XT_STRIX_O8G_GAMING                  0x05C1
+#define ASUS_RX5700XT_STRIX_O8G_GAMING_05C3             0x05C3
 #define ASUS_RX6800_TUF_GAMING_OC                       0x04F6
 #define ASUS_RX470_STRIX_O4G_GAMING                     0x04B0
 #define ASUS_RX480_STRIX_GAMING_OC                      0x04FB
 #define ASUS_RX560_STRIX_4G_GAMING                      0x04BC
+#define ASUS_RX560_STRIX_4G_GAMING_04BE                 0x04BE
 #define ASUS_RX570_STRIX_O4G_GAMING_OC                  0x04C2
 #define ASUS_RX570_STRIX_O8G_GAMING_OC                  0x0588
 #define ASUS_RX580_STRIX_GAMING_OC                      0x0517
 #define ASUS_RX580_STRIX_GAMING_TOP                     0x0519
+#define ASUS_RX590_STRIX_GAMING                         0x056A
 #define ASUS_GTX1050_STRIX_O2G_GAMING                   0x85D8
 #define ASUS_ROG_STRIX_GTX1050TI_4G_GAMING              0x8611
 #define ASUS_ROG_STRIX_GTX1050TI_O4G_GAMING             0x85CD
