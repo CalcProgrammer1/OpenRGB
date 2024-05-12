@@ -1,7 +1,12 @@
 /*---------------------------------------------------------*\
-|  Definitions for BlinkyTape Interface                     |
+| BlinkyTapeController.h                                    |
 |                                                           |
-|  Matt Mets (matt@blinkinlabs.com), 07/01/2021             |
+|   Driver for BlinkyTape                                   |
+|                                                           |
+|   Matt Mets (matt@blinkinlabs.com)            01 Jul 2021 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
 \*---------------------------------------------------------*/
 
 #pragma once

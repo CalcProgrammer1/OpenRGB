@@ -1,9 +1,12 @@
 /*---------------------------------------------------------*\
-|  RGBController_BlinkyTape.cpp                             |
+| RGBController_BlinkyTape.cpp                              |
 |                                                           |
-|  Generic RGB Interface for BlinkyTape Led controller      |
+|   RGBController for BlinkyTape                            |
 |                                                           |
-|  Matt Mets (matt@blinkinlabs.com), 07/01/2021             |
+|   Matt Mets (matt@blinkinlabs.com)            01 Jul 2021 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
 \*---------------------------------------------------------*/
 
 #include "RGBController_BlinkyTape.h"
