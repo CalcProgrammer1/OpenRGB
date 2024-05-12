@@ -1,3 +1,12 @@
+/*---------------------------------------------------------*\
+| ColorfulGPUController.cpp                                 |
+|                                                           |
+|   Driver for Colorful GPU                                 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
 #include <cstring>
 #include "ColorfulGPUController.h"
 #include "pci_ids.h"

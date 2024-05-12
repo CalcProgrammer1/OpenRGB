@@ -1,13 +1,13 @@
-/*-------------------------------------------------------------------*\
-|  CMSmallARGBController.h                                            |
-|                                                                     |
-|  Driver for Coolermaster Small ARGB USB Controller                  |
-|                                                                     |
-|  Chris M (Dr_No)          31st Jan 2021                             |
-|                                                                     |
-|  Simple RGB device with 5 modes                                     |
-|                                                                     |
-\*-------------------------------------------------------------------*/
+/*---------------------------------------------------------*\
+| CMSmallARGBController.h                                   |
+|                                                           |
+|   Driver for Cooler Master Small ARGB controller          |
+|                                                           |
+|   Chris M (Dr_No)                             31 Jan 2021 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #pragma once
 
@@ -15,6 +15,10 @@
 #include <string>
 #include <hidapi/hidapi.h>
 #include "RGBController.h"  //Needed to set the direct mode
+
+/*---------------------------------------------------------*\
+|  Simple RGB device with 5 modes                           |
+\*---------------------------------------------------------*/
 
 #define CM_SMALL_ARGB_PACKET_SIZE       65
 #define CM_SMALL_ARGB_INTERRUPT_TIMEOUT 250

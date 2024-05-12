@@ -1,3 +1,12 @@
+/*---------------------------------------------------------*\
+| ColorfulGPUController.h                                   |
+|                                                           |
+|   Driver for Colorful GPU                                 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
 #pragma once
 
 #include <string>
@@ -17,7 +26,6 @@ public:
 
     std::string GetDeviceLocation();
     void        SetDirect(RGBColor color);
-
 
 private:
     i2c_smbus_interface *   bus;

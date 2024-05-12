@@ -1,11 +1,13 @@
-/*-------------------------------------------------------------------*\
-|  CMMonitorController.cpp                                            |
-|                                                                     |
-|  Driver for Coolermaster Gaming Monitor                             |
-|                                                                     |
-|  morg (Morgan Guimard) 9/18/2023                                    |
-|                                                                     |
-\*-------------------------------------------------------------------*/
+/*---------------------------------------------------------*\
+| CMMonitorController.h                                     |
+|                                                           |
+|   Driver for Cooler Master monitor                        |
+|                                                           |
+|   Morgan Guimard (morg)                       18 Sep 2023 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #pragma once
 

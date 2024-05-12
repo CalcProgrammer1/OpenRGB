@@ -1,10 +1,14 @@
-/*-------------------------------------------------------------------*\
-|  RGBController_CMR6000Controller.cpp                                |
-|                                                                     |
-|  Driver for Coolermaster based AMD Radeon GPU (6000 series)         |
-|                                                                     |
-|  Eric S (edbgon)          2nd Feb 2021                              |
-\*-------------------------------------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_CMR6000Controller.cpp                       |
+|                                                           |
+|   RGBController for Cooler Master AMD Radeon 6000 series  |
+|   GPU                                                     |
+|                                                           |
+|   Eric S (edbgon)                             02 Feb 2021 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #include "RGBController_CMR6000Controller.h"
 

@@ -1,13 +1,13 @@
-/*-------------------------------------------------------------------*\
-|  CMSmallARGBController.cpp                                          |
-|                                                                     |
-|  Driver for Coolermaster Small ARGB USB Controller                  |
-|                                                                     |
-|  Chris M (Dr_No)          31st Jan 2021                             |
-|                                                                     |
-|  Simple RGB device with 5 modes                                     |
-|                                                                     |
-\*-------------------------------------------------------------------*/
+/*---------------------------------------------------------*\
+| CMSmallARGBController.cpp                                 |
+|                                                           |
+|   Driver for Cooler Master Small ARGB controller          |
+|                                                           |
+|   Chris M (Dr_No)                             31 Jan 2021 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #include <cstring>
 #include "CMSmallARGBController.h"

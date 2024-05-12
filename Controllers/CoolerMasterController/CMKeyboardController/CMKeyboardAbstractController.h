@@ -1,11 +1,13 @@
-/*-------------------------------------------------------------------*\
-|  CMKeyboardAbstractController.h                                     |
-|                                                                     |
-|  Abstract driver for Coolermaster keyboards                         |
-|                                                                     |
-|  Tam D (too.manyhobbies)      30th Nov 2023                         |
-|                                                                     |
-\*-------------------------------------------------------------------*/
+/*---------------------------------------------------------*\
+| CMKeyboardAbstractController.h                            |
+|                                                           |
+|   Driver for Cooler Master keyboards                      |
+|                                                           |
+|   Tam D (too.manyhobbies)                     30 Nov 2023 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #pragma once
 

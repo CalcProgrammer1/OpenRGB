@@ -1,4 +1,13 @@
-﻿#include <stdio.h>
+﻿/*---------------------------------------------------------*\
+| ColorfulTuringGPUControllerDetect.cpp                     |
+|                                                           |
+|   Driver for Colorful Turing GPU                          |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
+#include <stdio.h>
 #include <stdlib.h>
 #include <vector>
 #include "Detector.h"

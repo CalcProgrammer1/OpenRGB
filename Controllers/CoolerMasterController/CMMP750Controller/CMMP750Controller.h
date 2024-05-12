@@ -1,18 +1,13 @@
-/*-------------------------------------------------------------------*\
-|  CMMP750Controller.h                                                |
-|                                                                     |
-|  Driver for Coolermaster MP750 mousepad                             |
-|                                                                     |
-|  Chris M (Dr_No)          16th Apr 2020                             |
-|                                                                     |
-|  Simple RGB device with 5 modes                                     |
-|  BYTE0 = Mode (0x01 thru 0x05                                       |
-|  BYTE1 = ?? Must be set to 0x04 for colour modes otherwise ignored  |
-|  BYTE2 = Colour Modes: RED    else Cycle SPEED                      |
-|  BYTE3 = Colour Modes: GREEN  else ignored                          |
-|  BYTE4 = Colour Modes: BLUE   else ignored                          |
-|  BYTE5 = Colour Modes: SPEED  else ignored                          |
-\*-------------------------------------------------------------------*/
+/*---------------------------------------------------------*\
+| CMMP750Controller.h                                       |
+|                                                           |
+|   Driver for Cooler Master MP750 mousemat                 |
+|                                                           |
+|   Chris M (Dr_No)                             16 Apr 2020 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #pragma once
 
@@ -25,6 +20,16 @@
 #define CM_DEVICE_NAME_SIZE (sizeof(device_name) / sizeof(device_name[ 0 ]))
 #define CM_SERIAL_SIZE (sizeof(serial) / sizeof(serial[ 0 ]))
 #define HID_MAX_STR 255
+
+/*-------------------------------------------------------------------*\
+|  Simple RGB device with 5 modes                                     |
+|  BYTE0 = Mode (0x01 thru 0x05                                       |
+|  BYTE1 = ?? Must be set to 0x04 for colour modes otherwise ignored  |
+|  BYTE2 = Colour Modes: RED    else Cycle SPEED                      |
+|  BYTE3 = Colour Modes: GREEN  else ignored                          |
+|  BYTE4 = Colour Modes: BLUE   else ignored                          |
+|  BYTE5 = Colour Modes: SPEED  else ignored                          |
+\*-------------------------------------------------------------------*/
 
 enum
 {

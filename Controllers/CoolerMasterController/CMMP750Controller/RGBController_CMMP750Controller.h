@@ -1,11 +1,13 @@
-/*-------------------------------------------------------------------*\
-|  RGBController_CMMP750Controller.h                                  |
-|                                                                     |
-|  Driver for Coolermaster MP750 mousepad                             |
-|                                                                     |
-|  Chris M (Dr_No)          18th Apr 2020                             |
-|                                                                     |
-\*-------------------------------------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_CMMP750Controller.h                         |
+|                                                           |
+|   RGBController for Cooler Master MP750 mousemat          |
+|                                                           |
+|   Chris M (Dr_No)                             18 Apr 2020 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #pragma once
 

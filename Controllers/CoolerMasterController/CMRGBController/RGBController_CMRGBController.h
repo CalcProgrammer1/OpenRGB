@@ -1,11 +1,13 @@
-/*-------------------------------------------------------------------*\
-|  RGBController_CMRGBController.h                                    |
-|                                                                     |
-|  Driver for Coolermaster RGB USB Controller                         |
-|                                                                     |
-|  Nic W (midgetspy)        13th Apr 2021                             |
-|                                                                     |
-\*-------------------------------------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_CMRGBController.h                           |
+|                                                           |
+|   RGBController for Cooler Master RGB controller          |
+|                                                           |
+|   Nic W (midgetspy)                           13 Apr 2021 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #pragma once
 

@@ -1,11 +1,13 @@
-/*-------------------------------------------------------------------*\
-|  RGBController_CMARGBGen2A1Controller.h                             |
-|                                                                     |
-|  Driver for Coolermaster ARGB Controller                            |
-|                                                                     |
-|  morg (Morgan Guimard) 6/26/2022                                    |
-|                                                                     |
-\*-------------------------------------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_CMARGBGen2A1Controller.h                    |
+|                                                           |
+|   Driver for Cooler Master ARGB Gen 2 A1 controller       |
+|                                                           |
+|   Morgan Guimard (morg)                       26 Jun 2022 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #pragma once
 

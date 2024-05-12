@@ -1,11 +1,13 @@
-/*-------------------------------------------------------------------*\
-|  RGBController_CMARGBController.h                                   |
-|                                                                     |
-|  Driver for Coolermaster ARGB Controller                            |
-|                                                                     |
-|  Chris M (Dr_No)          14th Oct 2020                             |
-|                                                                     |
-\*-------------------------------------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_CMARGBController.h                          |
+|                                                           |
+|   RGBController for Cooler Master ARGB controller         |
+|                                                           |
+|   Chris M (Dr_No)                             14 Oct 2020 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #pragma once
 

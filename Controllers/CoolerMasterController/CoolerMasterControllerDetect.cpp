@@ -1,3 +1,12 @@
+/*---------------------------------------------------------*\
+| CoolerMasterControllerDetect.cpp                          |
+|                                                           |
+|   Detector for Cooler Master devices                      |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
 /*-----------------------------------------------------*\
 | OpenRGB includes                                      |
 \*-----------------------------------------------------*/

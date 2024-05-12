@@ -1,3 +1,12 @@
+/*---------------------------------------------------------*\
+| RGBController_ColorfulGPU.h                               |
+|                                                           |
+|   RGBController for Colorful GPU                          |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
 #pragma once
 
 #include "RGBController.h"
@@ -20,7 +29,4 @@ public:
 
 private:
     ColorfulGPUController* controller;
-
 };
-
-

@@ -1,3 +1,12 @@
+/*---------------------------------------------------------*\
+| RGBController_ColorfulTuringGPU.cpp                       |
+|                                                           |
+|   RGBController for Colorful Turing GPU                   |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
 #include <array>
 #include "RGBController_ColorfulTuringGPU.h"
 

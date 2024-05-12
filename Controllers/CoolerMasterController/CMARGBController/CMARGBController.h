@@ -1,13 +1,13 @@
-/*-------------------------------------------------------------------*\
-|  CMARGBController.h                                                 |
-|                                                                     |
-|  Driver for Coolermaster ARGB USB Controller                        |
-|                                                                     |
-|  Chris M (Dr_No)          10th Oct 2020                             |
-|                                                                     |
-|  Simple RGB device with 5 modes                                     |
-|                                                                     |
-\*-------------------------------------------------------------------*/
+/*---------------------------------------------------------*\
+| CMARGBController.h                                        |
+|                                                           |
+|   Driver for Cooler Master ARGB controller                |
+|                                                           |
+|   Chris M (Dr_No)                             10 Oct 2020 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #pragma once
 

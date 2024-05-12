@@ -1,11 +1,13 @@
-/*-------------------------------------------------------------------*\
-|  CMMP750Controller.cpp                                              |
-|                                                                     |
-|  Driver for Coolermaster MP750 mousepad                             |
-|                                                                     |
-|  Chris M (Dr_No)          16th Apr 2020                             |
-|                                                                     |
-\*-------------------------------------------------------------------*/
+/*---------------------------------------------------------*\
+| CMMP750Controller.cpp                                     |
+|                                                           |
+|   Driver for Cooler Master MP750 mousemat                 |
+|                                                           |
+|   Chris M (Dr_No)                             16 Apr 2020 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #include "CMMP750Controller.h"
 
@@ -152,12 +154,12 @@ void CMMP750Controller::SendUpdate()
     }
 
    if(current_mode > CM_MP750_MODE_BREATHING)
-    { 
+    {
         //If the mode is random colours set SPEED at BYTE2
         buffer[CM_RED_BYTE]     = speed_mode_data[current_speed];
     }
     else
-    { 
+    {
         //Otherwise SPEED is BYTE5
         buffer[CM_RED_BYTE]     = current_red;
         buffer[CM_GREEN_BYTE]   = current_green;

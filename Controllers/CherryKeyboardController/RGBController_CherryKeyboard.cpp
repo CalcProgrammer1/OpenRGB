@@ -1,11 +1,13 @@
-/*-----------------------------------------*\
-|  RGBController_CherryKeyboard.cpp         |
-|                                           |
-|  Generic RGB Interface for Cherry RGB     |
-|  Keyboard                                 |
-|                                           |
-|  Sebastian Kraus 12/25/2021               |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_CherryKeyboard.cpp                          |
+|                                                           |
+|   RGBController for Cherry keyboard                       |
+|                                                           |
+|   Sebastian Kraus                             25 Dec 2021 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #include "RGBController_CherryKeyboard.h"
 
@@ -212,7 +214,7 @@ RGBController_CherryKeyboard::RGBController_CherryKeyboard(CherryKeyboardControl
     Rolling.brightness     = CHERRY_KB_BRIGHTNESS_HIGHEST;
     Rolling.color_mode     = MODE_COLORS_NONE;
     modes.push_back(Rolling);
-    
+
     mode Curve;
     Curve.name           = "Curve";
     Curve.value          = CHERRY_KB_MODE_CURVE;
@@ -337,7 +339,7 @@ void RGBController_CherryKeyboard::SetupZones()
     new_zone.matrix_map->height = CHERRY_MATRIX_MAP_HEIGHT;
     new_zone.matrix_map->width  = CHERRY_MATRIX_MAP_WIDTH;
     new_zone.matrix_map->map    = (unsigned int *)&matrix_map;
-    
+
     zones.push_back(new_zone);
 
     for(int led_idx = 0; led_idx < CHERRY_MATRIX_CELL_COUNT; led_idx++)

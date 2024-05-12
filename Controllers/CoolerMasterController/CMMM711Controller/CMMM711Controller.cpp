@@ -1,11 +1,13 @@
-/*-------------------------------------------------------------------*\
-|  CMMM711Controller.cpp                                              |
-|                                                                     |
-|  Driver for Coolermaster Master Mouse 711                           |
-|                                                                     |
-|  Chris M (Dr_No)          14th Feb 2021                             |
-|                                                                     |
-\*-------------------------------------------------------------------*/
+/*---------------------------------------------------------*\
+| CMMM711Controller.cpp                                     |
+|                                                           |
+|   Driver for Cooler Master M711 mouse                     |
+|                                                           |
+|   Chris M (Dr_No)                             14 Feb 2021 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #include <cstring>
 #include "CMMM711Controller.h"

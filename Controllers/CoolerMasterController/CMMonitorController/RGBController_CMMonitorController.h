@@ -1,11 +1,13 @@
-/*-------------------------------------------------------------------*\
-|  RGBController_CMMonitorController.cpp                              |
-|                                                                     |
-|  Driver for Coolermaster Gaming Monitor USB Controller              |
-|                                                                     |
-|  morg (Morgan Guimard) 9/18/2023                                    |
-|                                                                     |
-\*-------------------------------------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_CMMonitorController.h                       |
+|                                                           |
+|   RGBController for Cooler Master monitor                 |
+|                                                           |
+|   Morgan Guimard (morg)                       18 Sep 2023 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #pragma once
 

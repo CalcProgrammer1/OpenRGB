@@ -1,11 +1,13 @@
-/*-------------------------------------------------------------------*\
-|  CMKeyboardV1Controller.h                                           |
-|                                                                     |
-|  Driver for Coolermaster MasterKeys keyboards (V1)                  |
-|                                                                     |
-|  Tam D (too.manyhobbies)      30th Nov 2023                         |
-|                                                                     |
-\*-------------------------------------------------------------------*/
+/*---------------------------------------------------------*\
+| CMKeyboardV1Controller.h                                  |
+|                                                           |
+|   Driver for Cooler Master MasterKeys (V1) keyboards      |
+|                                                           |
+|   Tam D (too.manyhobbies)                     30 Nov 2023 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #pragma once
 
