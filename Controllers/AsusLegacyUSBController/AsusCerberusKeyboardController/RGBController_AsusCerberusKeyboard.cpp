@@ -1,11 +1,13 @@
-/*-----------------------------------------*\
-|  RGBController_AsusCerberusKeyboard.cpp   |
-|                                           |
-|  Generic RGB Interface for Asus Cerberus  |
-|  USB controller driver                    |
-|                                           |
-|  Mola19 05/28/2022                        |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_AsusCerberusKeyboard.cpp                    |
+|                                                           |
+|   RGBController for ASUS Cerberus keyboard                |
+|                                                           |
+|   Mola19                                      28 May 2022 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #include <cmath>
 #include <vector>
@@ -23,12 +25,11 @@
     @comment
 \*-------------------------------------------------------------------*/
 
-
 //0xFFFFFFFF indicates an unused entry in matrix
 #define NA  0xFFFFFFFF
 
-
-static unsigned int matrix_map[6][24] = {
+static unsigned int matrix_map[6][24] =
+{
     {   0,  NA,   9,  15,  20,  25,  NA,  35,  40,  45,  50,  56,  62,  67,  72,  NA,  75,  79,  84,  NA,  NA,  NA,  NA,  NA },
     {   1,   6,  10,  16,  21,  26,  30,  36,  41,  46,  51,  57,  63,  68,  NA,  NA,  76,  80,  85,  NA,  88,  93,  97, 102 },
     {   2,  NA,  11,  17,  22,  27,  31,  37,  42,  47,  52,  58,  64,  69,  NA,  NA,  77,  81,  86,  NA,  89,  94,  98, 103 },

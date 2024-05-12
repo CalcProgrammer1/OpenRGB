@@ -1,3 +1,12 @@
+/*---------------------------------------------------------*\
+| AsusLegacyUSBControllerDetect.cpp                         |
+|                                                           |
+|   Detector for ASUS legacy USB devices                    |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
 #include <stdexcept>
 #include <hidapi/hidapi.h>
 #include "Detector.h"
@@ -55,7 +64,6 @@ void DetectAsusStrixClaw(hid_device_info* info, const std::string& name)
     }
 }
 
-REGISTER_HID_DETECTOR_IPU("ASUS Cerberus Mech",  DetectAsusCerberusMech,  ASUS_LEGACY_USB_VID, ASUS_CERBERUS_MECH_PID,  1, 0xFF01, 1);
-REGISTER_HID_DETECTOR_IPU("ASUS Sagaris GK1100", DetectAsusSagarisKeyboard,       ASUS_USB_VID,        ASUS_SAGARIS_GK1100_PID, 1, 0xFF02, 2);
-
-REGISTER_HID_DETECTOR_IPU("ASUS ROG Strix Claw", DetectAsusStrixClaw,     ASUS_LEGACY_USB_VID, ASUS_ROG_STRIX_CLAW_PID, 0, 0xFF01, 1);
+REGISTER_HID_DETECTOR_IPU("ASUS Cerberus Mech",  DetectAsusCerberusMech,    ASUS_LEGACY_USB_VID, ASUS_CERBERUS_MECH_PID,  1, 0xFF01, 1);
+REGISTER_HID_DETECTOR_IPU("ASUS Sagaris GK1100", DetectAsusSagarisKeyboard, ASUS_USB_VID,        ASUS_SAGARIS_GK1100_PID, 1, 0xFF02, 2);
+REGISTER_HID_DETECTOR_IPU("ASUS ROG Strix Claw", DetectAsusStrixClaw,       ASUS_LEGACY_USB_VID, ASUS_ROG_STRIX_CLAW_PID, 0, 0xFF01, 1);

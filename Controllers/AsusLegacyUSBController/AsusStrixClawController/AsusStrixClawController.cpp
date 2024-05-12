@@ -1,11 +1,13 @@
-/*-----------------------------------------*\
-|  AsusStrixClawController.cpp              |
-|                                           |
-|  Driver for ASUS Strix USB                |
-|  lighting controller                      |
-|                                           |
-|  Mola19 08/06/2022                        |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| AsusStrixClawController.cpp                               |
+|                                                           |
+|   Driver for ASUS Strix Claw mouse                        |
+|                                                           |
+|   Mola19                                      06 Aug 2022 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #include <cstring>
 #include <string>

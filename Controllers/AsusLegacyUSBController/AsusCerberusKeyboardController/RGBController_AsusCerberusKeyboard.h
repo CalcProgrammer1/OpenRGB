@@ -1,11 +1,13 @@
-/*-----------------------------------------*\
-|  RGBController_AsusCerberusKeyboard.h     |
-|                                           |
-|  Generic RGB Interface for Asus Cerberus  |
-|  USB controller driver                    |
-|                                           |
-|  Mola19 03/03/2021                        |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_AsusCerberusKeyboard.h                      |
+|                                                           |
+|   RGBController for ASUS Cerberus keyboard                |
+|                                                           |
+|   Mola19                                      03 Mar 2021 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #pragma once
 

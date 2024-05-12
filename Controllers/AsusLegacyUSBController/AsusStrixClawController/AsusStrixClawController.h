@@ -1,11 +1,13 @@
-/*-----------------------------------------*\
-|  AsusStrixClawController.h                |
-|                                           |
-|  Definitions and types for ASUS           |
-|  Legacy USB RGB lighting controller       |
-|                                           |
-|  Mola19 08/06/2022                        |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| AsusStrixClawController.h                                 |
+|                                                           |
+|   Driver for ASUS Strix Claw mouse                        |
+|                                                           |
+|   Mola19                                      06 Aug 2022 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #pragma once
 

@@ -1,11 +1,13 @@
-/*-----------------------------------------*\
-|  RGBController_AsusSagarisKeyboard.cpp    |
-|                                           |
-|  Generic RGB Interface for Asus Sagaris   |
-|  USB controller driver                    |
-|                                           |
-|  Mola19 08/20/2023                        |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_AsusSagarisKeyboard.cpp                     |
+|                                                           |
+|   RGBController for ASUS Sagaris keyboard                 |
+|                                                           |
+|   Mola19                                      20 Aug 2023 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #include <iostream>
 #include <vector>

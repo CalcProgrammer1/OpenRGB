@@ -1,11 +1,13 @@
-/*-----------------------------------------*\
-|  AsusCerberusKeyboardController.h         |
-|                                           |
-|  Definitions and types for ASUS Cerberus  |
-|  USB RGB lighting controller              |
-|                                           |
-|  Mola19 03/03/2021                        |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| AsusCerberusKeyboardController.h                          |
+|                                                           |
+|   Driver for ASUS Cerberus keyboard                       |
+|                                                           |
+|   Mola19                                      03 Mar 2021 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #pragma once
 
@@ -24,7 +26,6 @@ enum
     CERBERUS_KEYBOARD_MODE_WAVE         = 6,
     CERBERUS_KEYBOARD_MODE_CUSTOM       = 7,
 };
-
 
 class AsusCerberusKeyboardController
 {

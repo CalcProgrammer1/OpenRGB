@@ -1,11 +1,13 @@
-/*-----------------------------------------*\
-|  AsusCerberusKeyboardController.cpp       |
-|                                           |
-|  Driver for ASUS Cerberus USB lighting    |
-|  controller                               |
-|                                           |
-|  Mola19 05/28/2022                        |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| AsusCerberusKeyboardController.cpp                        |
+|                                                           |
+|   Driver for ASUS Cerberus keyboard                       |
+|                                                           |
+|   Mola19                                      28 May 2022 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #include <cmath>
 #include <cstring>

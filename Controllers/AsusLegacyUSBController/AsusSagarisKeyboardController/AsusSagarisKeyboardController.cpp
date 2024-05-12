@@ -1,11 +1,13 @@
-/*-----------------------------------------*\
-|  AsusSagarisKeyboardController.cpp        |
-|                                           |
-|  Driver for ASUS Sagaris USB lighting     |
-|  controller                               |
-|                                           |
-|  Mola19 08/20/2023                        |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| AsusSagarisKeyboardController.cpp                         |
+|                                                           |
+|   Driver for ASUS Sagaris keyboard                        |
+|                                                           |
+|   Mola19                                      20 Aug 2023 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #include <cstring>
 #include <math.h>
