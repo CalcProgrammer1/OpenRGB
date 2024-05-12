@@ -1,3 +1,12 @@
+/*---------------------------------------------------------*\
+| AsusTUFLaptopController_Windows.cpp                       |
+|                                                           |
+|   Driver for ASUS TUF laptop                              |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
 #include <cstdint>
 #include <cstring>
 #include <cstdio>

@@ -1,4 +1,11 @@
-#ifdef _WIN32
+/*---------------------------------------------------------*\
+| RGBController_AsusTUFLaptop_Windows.cpp                   |
+|                                                           |
+|   RGBController for ASUS TUF laptop                       |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #include "RGBController_AsusTUFLaptop_Windows.h"
 
@@ -172,5 +179,3 @@ void RGBController_AsusTUFLaptopWMI::DeviceSaveMode()
 {
     ControllerSetMode(true);
 }
-
-#endif

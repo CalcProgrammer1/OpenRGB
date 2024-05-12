@@ -1,3 +1,12 @@
+/*---------------------------------------------------------*\
+| AsusTUFLaptopController_Windows.h                         |
+|                                                           |
+|   Driver for ASUS TUF laptop                              |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
 #pragma once
 
 #include <windows.h>

@@ -1,3 +1,12 @@
+/*---------------------------------------------------------*\
+| AsusTUFLaptopDetect_Linux.cpp                             |
+|                                                           |
+|   Detector for ASUS TUF laptop                            |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
 #include <string>
 #include <unistd.h>
 #include "Detector.h"

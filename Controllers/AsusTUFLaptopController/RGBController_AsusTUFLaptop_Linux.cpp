@@ -1,3 +1,12 @@
+/*---------------------------------------------------------*\
+| RGBController_AsusTUFLaptop_Linux.cpp                     |
+|                                                           |
+|   RGBController for ASUS TUF laptop                       |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
 #include "RGBController_AsusTUFLaptop_Linux.h"
 
 /**------------------------------------------------------------------*\
