@@ -96,6 +96,8 @@ void Ui::OpenRGBPluginsPage::RefreshList()
 
         entry->RegisterEnableClickCallback(EnableClickCallbackFunction, this);
 
+        entry->is_system = plugin.is_system;
+
         /*---------------------------------------------------------*\
         | Add the entry to the plugin list                          |
         \*---------------------------------------------------------*/
@@ -171,7 +173,7 @@ bool Ui::OpenRGBPluginsPage::InstallPlugin(std::string install_file)
         LOG_TRACE("[OpenRGBPluginsPage] Copying from %s to %s", from_path.c_str(), to_path.c_str());
         filesystem::copy(from_path, to_path, filesystem::copy_options::overwrite_existing);
 
-        plugin_manager->AddPlugin(to_path);
+        plugin_manager->AddPlugin(to_path, false);
 
         return true;
     }
@@ -203,6 +205,14 @@ void Ui::OpenRGBPluginsPage::on_RemovePluginButton_clicked()
     int cur_row = ui->PluginsList->currentRow();
 
     if(cur_row < 0)
+    {
+        return;
+    }
+
+    /*-----------------------------------------------------*\
+    | Don't allow removing system plugins                   |
+    \*-----------------------------------------------------*/
+    if(entries[cur_row]->is_system)
     {
         return;
     }
@@ -336,9 +346,18 @@ void Ui::OpenRGBPluginsPage::on_EnableButton_clicked(OpenRGBPluginsEntry* entry)
 void Ui::OpenRGBPluginsPage::on_PluginsList_itemSelectionChanged()
 {
     /*-----------------------------------------------------*\
-    | Enable the remove button when there's a selected item |
+    | Get index of selected plugin entry                    |
     \*-----------------------------------------------------*/
-    ui->RemovePluginButton->setEnabled(!ui->PluginsList->selectedItems().empty());
+    int cur_row = ui->PluginsList->currentRow();
+
+    /*-----------------------------------------------------*\
+    | Enable the remove button when there's a selected item |
+    | and the selected item is not a system plugin          |
+    \*-----------------------------------------------------*/
+    if(!entries[cur_row]->is_system)
+    {
+        ui->RemovePluginButton->setEnabled(!ui->PluginsList->selectedItems().empty());
+    }
 }
 
 void Ui::OpenRGBPluginsPage::on_PluginsList_PluginsDropped(std::vector<std::string> path_list)

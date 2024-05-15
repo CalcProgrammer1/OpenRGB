@@ -27,6 +27,7 @@ typedef struct
     std::string                 path;
     bool                        enabled;
     bool                        incompatible;
+    bool                        is_system;
     int                         api_version;
 } OpenRGBPluginEntry;
 
@@ -43,7 +44,7 @@ public:
 
     void ScanAndLoadPlugins();
 
-    void AddPlugin(const filesystem::path& path);
+    void AddPlugin(const filesystem::path& path, bool is_system);
     void RemovePlugin(const filesystem::path& path);
 
     void LoadPlugin(const filesystem::path& path);
@@ -54,7 +55,7 @@ public:
     std::vector<OpenRGBPluginEntry> ActivePlugins;
 
 private:
-    void ScanAndLoadPluginsFrom(const filesystem::path & plugins_dir);
+    void ScanAndLoadPluginsFrom(const filesystem::path & plugins_dir, bool is_system);
 
     AddPluginCallback       AddPluginCallbackVal;
     void *                  AddPluginCallbackArg;

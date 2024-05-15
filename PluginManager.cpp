@@ -46,26 +46,36 @@ void PluginManager::RegisterRemovePluginCallback(RemovePluginCallback new_callba
 void PluginManager::ScanAndLoadPlugins()
 {
     /*---------------------------------------------------------*\
-    | Get the plugins directory                                 |
+    | Get the user plugins directory                            |
     |                                                           |
-    | The plugins directory is a directory named "plugins" in   |
-    | the configuration directory                               |
+    | The user plugins directory is a directory named "plugins" |
+    | in the configuration directory                            |
     \*---------------------------------------------------------*/
     filesystem::path plugins_dir = ResourceManager::get()->GetConfigurationDirectory() / plugins_path;
-    ScanAndLoadPluginsFrom(plugins_dir);
+    ScanAndLoadPluginsFrom(plugins_dir, false);
 
-#ifdef OPENRGB_EXTRA_PLUGIN_DIRECTORY
-    /*-----------------------------------------------------------------*\
-    | An additional plugin directory can be set during build time, e.g. |
-    | by the Linux distro to load plugins installed via package manager |
-    \*-----------------------------------------------------------------*/
-    ScanAndLoadPluginsFrom(OPENRGB_EXTRA_PLUGIN_DIRECTORY);
+#ifdef OPENRGB_SYSTEM_PLUGIN_DIRECTORY
+    /*---------------------------------------------------------*\
+    | Get the system plugins directory                          |
+    |                                                           |
+    | The system plugin directory can be set during build time, |
+    | e.g. by the package maintainer to load plugins installed  |
+    | via package manager                                       |
+    \*---------------------------------------------------------*/
+    ScanAndLoadPluginsFrom(OPENRGB_SYSTEM_PLUGIN_DIRECTORY, true);
 #endif
 }
 
-void PluginManager::ScanAndLoadPluginsFrom(const filesystem::path & plugins_dir)
+void PluginManager::ScanAndLoadPluginsFrom(const filesystem::path & plugins_dir, bool is_system)
 {
-    LOG_TRACE("[PluginManager] Scanning plugin directory: %s", plugins_dir.generic_u8string().c_str());
+    if(is_system)
+    {
+        LOG_TRACE("[PluginManager] Scanning system plugin directory: %s", plugins_dir.generic_u8string().c_str());
+    }
+    else
+    {
+        LOG_TRACE("[PluginManager] Scanning user plugin directory: %s", plugins_dir.generic_u8string().c_str());
+    }
 
     if(!filesystem::is_directory(plugins_dir))
     {
@@ -85,11 +95,11 @@ void PluginManager::ScanAndLoadPluginsFrom(const filesystem::path & plugins_dir)
 
         filesystem::path plugin_path = entry.path();
         LOG_TRACE("[PluginManager] Found plugin file %s", plugin_path.filename().generic_u8string().c_str());
-        AddPlugin(plugin_path);
+        AddPlugin(plugin_path, is_system);
     }
 }
 
-void PluginManager::AddPlugin(const filesystem::path& path)
+void PluginManager::AddPlugin(const filesystem::path& path, bool is_system)
 {
     OpenRGBPluginInterface* plugin = nullptr;
 
@@ -214,6 +224,7 @@ void PluginManager::AddPlugin(const filesystem::path& path)
                     entry.widget        = nullptr;
                     entry.incompatible  = false;
                     entry.api_version   = plugin->GetPluginAPIVersion();
+                    entry.is_system     = is_system;
 
                     loader->unload();
 

@@ -26,7 +26,9 @@ class Ui::OpenRGBPluginsEntry : public QWidget
 public:
     explicit OpenRGBPluginsEntry(QWidget *parent = nullptr);
     ~OpenRGBPluginsEntry();
-    Ui::OpenRGBPluginsEntryUi *ui;
+
+    Ui::OpenRGBPluginsEntryUi * ui;
+    bool                        is_system;
 
     void RegisterEnableClickCallback(EnableClickCallback new_callback, void * new_callback_arg);
 
