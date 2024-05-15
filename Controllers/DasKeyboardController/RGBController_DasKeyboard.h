@@ -1,11 +1,13 @@
-/*-----------------------------------------*\
-|  RGBController_DasKeyboard.h              |
-|                                           |
-|  Generic RGB Interface for Das Keyboard   |
-|  RGB keyboard devices                     |
-|                                           |
-|  Frank Niessen (denk_mal) 12/16/2020      |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_DasKeyboard.h                               |
+|                                                           |
+|   RGBController for Das Keyboard keyboard                 |
+|                                                           |
+|   Frank Niessen (denk_mal)                    16 Dec 2020 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #pragma once
 
@@ -19,7 +21,6 @@ enum
     DAS_KEYBOARD_MODE_BREATHING      = 0x08,
     DAS_KEYBOARD_MODE_SPECTRUM_CYCLE = 0x14
 };
-
 
 class RGBController_DasKeyboard : public RGBController
 {

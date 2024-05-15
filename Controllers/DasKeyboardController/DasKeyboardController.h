@@ -1,18 +1,19 @@
-/*-----------------------------------------*\
-|  DasKeyboardController.h                  |
-|                                           |
-|  Definitions and types for Das Keyboard   |
-|  RGB keyboard lighting controller         |
-|                                           |
-|  Frank Niessen (denk_mal) 12/16/2020      |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| DasKeyboardController.h                                   |
+|                                                           |
+|   Driver for Das Keyboard keyboard                        |
+|                                                           |
+|   Frank Niessen (denk_mal)                    16 Dec 2020 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
-#include "RGBController.h"
+#pragma once
 
 #include <string>
 #include <hidapi/hidapi.h>
-
-#pragma once
+#include "RGBController.h"
 
 class DasKeyboardController
 {

@@ -1,11 +1,13 @@
-/*-----------------------------------------*\
-|  RGBController_DasKeyboard.cpp            |
-|                                           |
-|  Generic RGB Interface for Das Keyboard   |
-|  RGB keyboard devices                     |
-|                                           |
-|  Frank Niessen (denk_mal) 12/16/2020      |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_DasKeyboard.cpp                             |
+|                                                           |
+|   RGBController for Das Keyboard keyboard                 |
+|                                                           |
+|   Frank Niessen (denk_mal)                    16 Dec 2020 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #include "RGBControllerKeyNames.h"
 #include "RGBController_DasKeyboard.h"
