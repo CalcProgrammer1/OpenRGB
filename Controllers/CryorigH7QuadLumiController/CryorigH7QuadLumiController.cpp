@@ -1,16 +1,20 @@
 /*---------------------------------------------------------*\
-|  Processing Code for Cryorig H7 Quad Lumi                 |
+| CryorigH7QuadLumiController.cpp                           |
 |                                                           |
-|  Adam Honse (calcprogrammer1@gmail.com), 4/15/2023        |
+|   Driver for Cryorig H7 Quad Lumi                         |
+|                                                           |
+|   Adam Honse (calcprogrammer1@gmail.com)      15 Apr 2023 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
 \*---------------------------------------------------------*/
 
-#include "CryorigH7QuadLumiController.h"
-#include "LogManager.h"
-
+#include <cstring>
 #include <fstream>
 #include <iostream>
 #include <string>
-#include <cstring>
+#include "CryorigH7QuadLumiController.h"
+#include "LogManager.h"
 
 CryorigH7QuadLumiController::CryorigH7QuadLumiController(hid_device* dev_handle, const char* path)
 {

@@ -1,15 +1,20 @@
 /*---------------------------------------------------------*\
-|  Definitions for Cryorig H7 Quad Lumi                     |
+| CryorigH7QuadLumiController.h                             |
 |                                                           |
-|  Adam Honse (calcprogrammer1@gmail.com), 4/15/2023        |
+|   Driver for Cryorig H7 Quad Lumi                         |
+|                                                           |
+|   Adam Honse (calcprogrammer1@gmail.com)      15 Apr 2023 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
 \*---------------------------------------------------------*/
 
-#include "RGBController.h"
+#pragma once
+
 #include <string>
 #include <vector>
 #include <hidapi/hidapi.h>
-
-#pragma once
+#include "RGBController.h"
 
 enum
 {

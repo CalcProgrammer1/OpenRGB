@@ -1,11 +1,13 @@
-/*-----------------------------------------*\
-|  RGBController_CryorigH7QuadLumi.cpp      |
-|                                           |
-|  Generic RGB Interface for Cryorig H7     |
-|  Quad Lumi                                |
-|                                           |
-|  Adam Honse (CalcProgrammer1) 4/15/2023   |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_CryorigH7QuadLumi.cpp                       |
+|                                                           |
+|   RGBController for Cryorig H7 Quad Lumi                  |
+|                                                           |
+|   Adam Honse (CalcProgrammer1)                15 Apr 2023 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #include "RGBController_CryorigH7QuadLumi.h"
 

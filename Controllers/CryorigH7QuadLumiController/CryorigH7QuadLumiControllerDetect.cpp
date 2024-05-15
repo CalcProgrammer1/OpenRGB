@@ -1,8 +1,19 @@
+/*---------------------------------------------------------*\
+| CryorigH7QuadLumiControllerDetect.cpp                     |
+|                                                           |
+|   Detector for Cryorig H7 Quad Lumi                       |
+|                                                           |
+|   Adam Honse (calcprogrammer1@gmail.com)      15 Apr 2023 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
+#include <hidapi/hidapi.h>
 #include "Detector.h"
 #include "CryorigH7QuadLumiController.h"
 #include "RGBController.h"
 #include "RGBController_CryorigH7QuadLumi.h"
-#include <hidapi/hidapi.h>
 
 /*-----------------------------------------------------*\
 | CRYORIG/NZXT USB IDs                                  |
