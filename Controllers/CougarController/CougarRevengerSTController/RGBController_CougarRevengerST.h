@@ -1,11 +1,13 @@
-/*-----------------------------------------*\
-|  RGBController_CougarRevengerST.h         |
-|                                           |
-|  Generic RGB Interface for OpenRGB        |
-|  Cougar Revenger ST USB Driver            |
-|                                           |
-|  Guimard Morgan (morg) 3/17/2022          |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_CougarRevengerST.h                          |
+|                                                           |
+|   RGBController for Cougar Revenger ST                    |
+|                                                           |
+|   Morgan Guimard (morg)                       17 Mar 2022 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #pragma once
 
@@ -20,7 +22,7 @@ public:
 
     void SetupZones();
     void ResizeZone(int zone, int new_size);
-    
+
     void DeviceUpdateLEDs();
     void UpdateZoneLEDs(int zone);
     void UpdateSingleLED(int led);

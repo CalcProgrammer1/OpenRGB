@@ -1,16 +1,20 @@
-/*-------------------------------------------------------------------*\
-|  RGBController_CougarKeyboardController.h                           |
-|                                                                     |
-|  Driver for CougarKeyboard USB Controller                           |
-|                                                                     |
-|  Chris M (DrNo)          5 Apr 2022                                 |
-\*-------------------------------------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_CougarKeyboard.h                            |
+|                                                           |
+|   RGBController for Cougar keyboard                       |
+|                                                           |
+|   Chris M (DrNo)                              05 Apr 2022 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #pragma once
+
+#include <vector>
 #include "LogManager.h"
 #include "RGBController.h"
 #include "CougarKeyboardController.h"
-#include <vector>
 
 class RGBController_CougarKeyboard : public RGBController
 {

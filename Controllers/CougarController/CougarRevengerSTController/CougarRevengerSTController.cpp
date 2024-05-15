@@ -1,13 +1,16 @@
-/*-----------------------------------------*\
-|  CougarRevengerSTController.cpp           |
-|                                           |
-|  Driver for Cougar Revenger ST lighting   |
-|  controller                               |
-|                                           |
-|  Guimard Morgan (morg) 3/17/2022          |
-\*-----------------------------------------*/
-#include "CougarRevengerSTController.h"
+/*---------------------------------------------------------*\
+| CougarRevengerSTController.cpp                            |
+|                                                           |
+|   Driver for Cougar Revenger ST                           |
+|                                                           |
+|   Morgan Guimard (morg)                       17 Mar 2022 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
 #include <string.h>
+#include "CougarRevengerSTController.h"
 
 CougarRevengerSTController::CougarRevengerSTController(hid_device* dev_handle, const hid_device_info& info)
 {
@@ -81,7 +84,7 @@ void CougarRevengerSTController::SetDirect(unsigned char zone, RGBColor color, u
 }
 
 void CougarRevengerSTController::SetModeData(unsigned char zone, unsigned char mode_value, std::vector<RGBColor> colors, unsigned char brightness, unsigned char speed)
-{    
+{
     unsigned char usb_buf[PACKET_DATA_LENGTH];
 
     const cougar_mode& m = modes_mapping.at(mode_value);
@@ -195,7 +198,7 @@ void CougarRevengerSTController::ActivateMode(unsigned char zone, unsigned char 
 }
 
 void CougarRevengerSTController::Apply()
-{   
+{
     unsigned char usb_buf[PACKET_DATA_LENGTH];
     memset(usb_buf, 0x00, PACKET_DATA_LENGTH);
 

@@ -1,11 +1,14 @@
-/*-----------------------------------------*\
-|  CougarRevengerSTController.h             |
-|                                           |
-|  Driver for Cougar Revenger ST lighting   |
-|  controller - header file                 |
-|                                           |
-|  Guimard Morgan (morg) 3/17/2022          |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| CougarRevengerSTController.h                              |
+|                                                           |
+|   Driver for Cougar Revenger ST                           |
+|                                                           |
+|   Morgan Guimard (morg)                       17 Mar 2022 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
 #pragma once
 
 #include "RGBController.h"

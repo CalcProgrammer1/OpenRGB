@@ -1,16 +1,19 @@
-/*-------------------------------------------------------------------*\
-|  CougarKeyboardController.h                                         |
-|                                                                     |
-|  Driver for CougarKeyboard USB Controller                           |
-|                                                                     |
-|  Chris M (DrNo)          5 Apr 2022                                 |
-\*-------------------------------------------------------------------*/
+/*---------------------------------------------------------*\
+| CougarKeyboardController.h                                |
+|                                                           |
+|   Driver for Cougar keyboard                              |
+|                                                           |
+|   Chris M (DrNo)                              05 Apr 2022 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
+#pragma once
 
 #include <string>
 #include <hidapi/hidapi.h>
 #include "RGBController.h"
-
-#pragma once
 
 #define COUGARKEYBOARDCONTROLLER_WRITE_PACKET_SIZE  65      //Buffer requires a prepended ReportID hence + 1
 #define HID_MAX_STR                                 255
