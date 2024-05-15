@@ -1,17 +1,19 @@
-/*-----------------------------------------*\
-|  CrucialController.h                      |
-|                                           |
-|  Definitions and types for Crucial        |
-|  Ballistix RGB lighting controller        |
-|                                           |
-|  Adam Honse (CalcProgrammer1) 1/19/2020   |
-\*-----------------------------------------*/
-
-#include "RGBController.h"
-#include <string>
-#include "i2c_smbus.h"
+/*---------------------------------------------------------*\
+| CrucialController.h                                       |
+|                                                           |
+|   Driver for Crucial Ballistix RAM                        |
+|                                                           |
+|   Adam Honse (CalcProgrammer1)                19 Jan 2020 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #pragma once
+
+#include <string>
+#include "RGBController.h"
+#include "i2c_smbus.h"
 
 typedef unsigned char	crucial_dev_id;
 typedef unsigned short	crucial_register;
@@ -68,7 +70,7 @@ private:
                         unsigned int    green,
                         unsigned int    blue
                         );
-    
+
     void            SendDirectColors(RGBColor* color_buf);
     void            SendBrightness(unsigned char brightness);
     void            SendEffectMode(unsigned char mode, unsigned char speed);

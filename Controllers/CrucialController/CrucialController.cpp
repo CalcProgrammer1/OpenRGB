@@ -1,15 +1,17 @@
-/*-----------------------------------------*\
-|  CrucialController.cpp                    |
-|                                           |
-|  Driver for Crucial Ballistix RGB lighting|
-|  controller                               |
-|                                           |
-|  Adam Honse (CalcProgrammer1) 1/19/2020   |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| CrucialController.cpp                                     |
+|                                                           |
+|   Driver for Crucial Ballistix RAM                        |
+|                                                           |
+|   Adam Honse (CalcProgrammer1)                19 Jan 2020 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
+#include <cstring>
 #include "RGBController.h"
 #include "CrucialController.h"
-#include <cstring>
 
 CrucialController::CrucialController(i2c_smbus_interface* bus, crucial_dev_id dev)
 {
@@ -94,7 +96,7 @@ void CrucialController::SendDirectColors(RGBColor* color_buf)
     {
         color_blk[led] = RGBGetGValue(color_buf[led]);
     }
-    
+
     //Green Channels
     CrucialRegisterWriteBlock(0x8340, color_blk, 8);
 
@@ -102,7 +104,7 @@ void CrucialController::SendDirectColors(RGBColor* color_buf)
     {
         color_blk[led] = RGBGetBValue(color_buf[led]);
     }
-    
+
     //Blue Channels
     CrucialRegisterWriteBlock(0x8380, color_blk, 8);
 }
