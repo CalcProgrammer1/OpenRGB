@@ -1,17 +1,20 @@
-/*-------------------------------------------------------------------*\
-|  RGBController_DarkProjectKeyboard.h                                |
-|                                                                     |
-|  Driver for DarkProjectKeyboard USB Controller                      |
-|                                                                     |
-|  Chris M (DrNo)          8 Apr 2022                                 |
-|                                                                     |
-\*-------------------------------------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_DarkProjectKeyboard.h                       |
+|                                                           |
+|   RGBController for Dark Project keyboard                 |
+|                                                           |
+|   Chris M (DrNo)                              08 Apr 2022 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #pragma once
+
+#include <vector>
 #include "LogManager.h"
 #include "RGBController.h"
 #include "DarkProjectKeyboardController.h"
-#include <vector>
 
 class RGBController_DarkProjectKeyboard : public RGBController
 {

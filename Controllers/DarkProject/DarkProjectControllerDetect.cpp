@@ -1,6 +1,16 @@
+/*---------------------------------------------------------*\
+| DarkProjectControllerDetect.cpp                           |
+|                                                           |
+|   Detector for Dark Project devices                       |
+|                                                           |
+|   Chris M (DrNo)                              08 Apr 2022 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
 #include "Detector.h"
 #include "RGBController.h"
-
 #include "RGBController_DarkProjectKeyboard.h"
 
 /*---------------------------------------------------------*\

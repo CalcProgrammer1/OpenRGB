@@ -1,17 +1,19 @@
-/*-------------------------------------------------------------------*\
-|  DarkProjectKeyboardController.h                                    |
-|                                                                     |
-|  Driver for DarkProjectKeyboard USB Controller                      |
-|                                                                     |
-|  Chris M (DrNo)          8 Apr 2022                                 |
-|                                                                     |
-\*-------------------------------------------------------------------*/
+/*---------------------------------------------------------*\
+| DarkProjectKeyboardController.h                           |
+|                                                           |
+|   Driver for Dark Project keyboard                        |
+|                                                           |
+|   Chris M (DrNo)                              08 Apr 2022 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
+#pragma once
 
 #include <string>
 #include <hidapi/hidapi.h>
 #include "RGBController.h"
-
-#pragma once
 
 #define NA                                      0xFFFFFFFF
 #define HID_MAX_STR                             255
