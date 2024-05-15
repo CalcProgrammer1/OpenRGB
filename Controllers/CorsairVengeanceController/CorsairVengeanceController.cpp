@@ -1,14 +1,16 @@
-/*-----------------------------------------*\
-|  CorsairVengeanceController.h             |
-|                                           |
-|  Driver for Corsair Vengeance RGB RAM     |
-|  lighting controller                      |
-|                                           |
-|  Adam Honse (CalcProgrammer1) 3/8/2019    |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| CorsairVengeanceController.cpp                            |
+|                                                           |
+|   Driver for Corsair Vengeance RGB RAM                    |
+|                                                           |
+|   Adam Honse (CalcProgrammer1)                08 Mar 2019 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
-#include "CorsairVengeanceController.h"
 #include <cstring>
+#include "CorsairVengeanceController.h"
 
 CorsairVengeanceController::CorsairVengeanceController(i2c_smbus_interface* bus, corsair_dev_id dev)
 {

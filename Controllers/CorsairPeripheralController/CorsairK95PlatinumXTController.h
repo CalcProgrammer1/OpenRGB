@@ -1,16 +1,19 @@
-/*-----------------------------------------*\
-|  CorsairK95PlatinumXTController.h         |
-|                                           |
-|  Driver for Corsair K95 Platinum XT       |
-|  Keyboard                                 |
-|                                           |
-|  Guimard Morgan (morg) 6/07/2022          |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| CorsairK95PlatinumXTController.h                          |
+|                                                           |
+|   Driver for Corsair K95 Platinum XT keyboard             |
+|                                                           |
+|   Morgan Guimard (morg)                       07 Jun 2022 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
 #pragma once
 
-#include "RGBController.h"
 #include <string.h>
 #include <hidapi/hidapi.h>
+#include "RGBController.h"
 
 #define K95_PLATINUM_XT_REPORT_LENGTH           65
 #define K95_PLATINUM_XT_COLOR_DATA_LENGTH       488

@@ -1,8 +1,11 @@
-/*--------------------------------------------*\
-|  RGBController_CorsairK55RGBPROXT.cpp        |
-|                                              |
-|  Driver for Corsair K55 RGB PRO XT Keyboard  |
-\*--------------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_CorsairK55RGBPROXT.cpp                      |
+|                                                           |
+|   RGBController for Corsair K55 RGB PRO XT keyboard       |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #include "RGBController_CorsairK55RGBPROXT.h"
 #include "RGBControllerKeyNames.h"

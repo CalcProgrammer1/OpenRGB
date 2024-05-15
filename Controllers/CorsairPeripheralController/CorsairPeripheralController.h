@@ -1,19 +1,19 @@
-/*-----------------------------------------*\
-|  CorsairPeripheralController.h            |
-|                                           |
-|  Definitions and types for Corsair RGB    |
-|  keyboard, mouse, and mousemat lighting   |
-|  controller                               |
-|                                           |
-|  Adam Honse (CalcProgrammer1) 1/9/2020    |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| CorsairPeripheralController.h                             |
+|                                                           |
+|   Driver for Corsair peripherals                          |
+|                                                           |
+|   Adam Honse (CalcProgrammer1)                09 Jan 2020 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
-#include "RGBController.h"
+#pragma once
 
 #include <string>
 #include <hidapi/hidapi.h>
-
-#pragma once
+#include "RGBController.h"
 
 #define CORSAIR_PERIPHERAL_PACKET_LENGTH 65
 
@@ -139,7 +139,7 @@ private:
     void    SpecialFunctionControl();
 
     void    ReadFirmwareInfo();
-    
+
     void    StreamPacket
                 (
                 unsigned char   packet_id,

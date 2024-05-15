@@ -1,10 +1,13 @@
-/*-----------------------------------------*\
-|  RGBController_CorsairHydro2.cpp          |
-|                                           |
-|  RGB Controller for Corsair H100i v2      |
-|                                           |
-|  Tim Demand (tim.dmd) 1/10/2023           |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_CorsairHydro2.cpp                           |
+|                                                           |
+|   RGBController for Corsair H100i v2                      |
+|                                                           |
+|   Tim Demand (tim.dmd)                        10 Jan 2023 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #include "RGBController_CorsairHydro2.h"
 

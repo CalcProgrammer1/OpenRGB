@@ -1,17 +1,17 @@
-/*--------------------------------------------*\
-|  CorsairK55RGBPROXTController.h              |
-|                                              |
-|  Driver for Corsair K55 RGB PRO XT Keyboard  |
-\*--------------------------------------------*/
+/*---------------------------------------------------------*\
+| CorsairK55RGBPROXTController.h                            |
+|                                                           |
+|   Driver for Corsair K55 RGB PRO XT keyboard              |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
-#ifndef CORSAIRK55RGBPROXTCONTROLLER_H
-#define CORSAIRK55RGBPROXTCONTROLLER_H
-
-#include "RGBController.h"
+#pragma once
 
 #include <string>
 #include <hidapi/hidapi.h>
-
+#include "RGBController.h"
 
 class CorsairK55RGBPROXTController
 {
@@ -86,5 +86,3 @@ private:
 
     void LightingControl();
 };
-
-#endif // CORSAIRK55RGBPROXTCONTROLLER_H

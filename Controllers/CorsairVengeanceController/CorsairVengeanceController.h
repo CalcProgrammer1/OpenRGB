@@ -1,16 +1,18 @@
-/*-----------------------------------------*\
-|  CorsairVengeanceController.h             |
-|                                           |
-|  Definitions and types for Corsair        |
-|  Vengeance RGB RAM lighting controller    |
-|                                           |
-|  Adam Honse (CalcProgrammer1) 3/8/2019    |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| CorsairVengeanceController.h                              |
+|                                                           |
+|   Driver for Corsair Vengeance RGB RAM                    |
+|                                                           |
+|   Adam Honse (CalcProgrammer1)                08 Mar 2019 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
+#pragma once
 
 #include <string>
 #include "i2c_smbus.h"
-
-#pragma once
 
 typedef unsigned char	corsair_dev_id;
 typedef unsigned char   corsair_cmd;

@@ -1,15 +1,16 @@
-/*-----------------------------------------*\
-|  CorsairWirelessController.cpp            |
-|                                           |
-|  Driver for Corsair RGB wireless keyboard |
-|  lighting controller                      |
-|                                           |
-|  Adam Honse (CalcProgrammer1) 5/8/2021    |
-\*-----------------------------------------*/
-
-#include "CorsairWirelessController.h"
+/*---------------------------------------------------------*\
+| CorsairWirelessController.cpp                             |
+|                                                           |
+|   Driver for Corsair wireless keyboard                    |
+|                                                           |
+|   Adam Honse (CalcProgrammer1)                08 May 2021 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #include <cstring>
+#include "CorsairWirelessController.h"
 
 using namespace std::chrono_literals;
 

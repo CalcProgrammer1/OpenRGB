@@ -1,15 +1,16 @@
-/*------------------------------------------*\
-|  CorsairDominatorPlatinumController.cpp    |  
-|                                            |
-|  Drover for Corsair Domintator Platinum    |
-|  RGB RAM lighting controller               |
-|                                            |
-|  Erik Gilling (konkers)       9/25/2020    |
-\*------------------------------------------*/
-
-#include "CorsairDominatorPlatinumController.h"
+/*---------------------------------------------------------*\
+| CorsairDominatorPlatinumController.cpp                    |
+|                                                           |
+|   Driver for Corsair Dominator Platinum RAM               |
+|                                                           |
+|   Erik Gilling (konkers)                      25 Sep 2020 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #include <cstring>
+#include "CorsairDominatorPlatinumController.h"
 
 using namespace std::chrono_literals;
 

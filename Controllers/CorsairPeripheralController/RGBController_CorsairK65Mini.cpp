@@ -1,10 +1,13 @@
-#include "RGBController_CorsairK65Mini.h"
-/*-----------------------------------------*\
-|  RGBController_CorsairK65Mini.cpp         |
-|                                           |
-|  Driver for Corsair K65 Mini Keyboard     |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_CorsairK65Mini.cpp                          |
+|                                                           |
+|   RGBController for Corsair K65 Mini keyboard             |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
+#include "RGBController_CorsairK65Mini.h"
 #include "LogManager.h"
 #include "RGBControllerKeyNames.h"
 

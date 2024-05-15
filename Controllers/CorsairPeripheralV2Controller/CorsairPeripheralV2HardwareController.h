@@ -1,11 +1,14 @@
-/*---------------------------------------------------------------------*\
-|  CorsairPeripheralV2HardwareController.h                              |
-|                                                                       |
-|  Driver for the newer Corsair peripherals that use the '08'           |
-|    based USB protocol and support hardware lighting modes.            |
-|                                                                       |
-|  Chris M (Dr_No)          07 Dec 2022                                 |
-\*---------------------------------------------------------------------*/
+/*---------------------------------------------------------*\
+| CorsairPeripheralV2HardwareController.h                   |
+|                                                           |
+|   Driver for Corsair V2 peripherals - hardware modes      |
+|                                                           |
+|   Chris M (Dr_No)                             07 Dec 2022 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
 #pragma once
 
 #include "RGBController.h"

@@ -1,11 +1,13 @@
-/*-----------------------------------------*\
-|  RGBController_CorsairCapellix.cpp        |
-|                                           |
-|  Generic RGB Interface for Corsair        |
-|  Commander Core                           |
-|                                           |
-|  Jeff P.                                  |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_CorsairCCommanderCore.cpp                   |
+|                                                           |
+|   RGBController for Corsair Commander Core                |
+|                                                           |
+|   Jeff P.                                                 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #include "RGBController_CorsairCommanderCore.h"
 

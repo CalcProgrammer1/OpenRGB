@@ -1,18 +1,23 @@
 /*---------------------------------------------------------*\
-|  Definitions for Corsair Hydro Series                     |
+| CorsairHydroController.h                                  |
 |                                                           |
-|  Adam Honse (calcprogrammer1@gmail.com), 8/17/2020        |
+|   Driver for Corsair Hydro Series coolers                 |
+|                                                           |
+|   Adam Honse (calcprogrammer1@gmail.com)      17 Aug 2020 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
 \*---------------------------------------------------------*/
 
-#include "RGBController.h"
+#pragma once
+
 #include <vector>
 #ifdef __FreeBSD__
 #include <libusb.h>
 #else
 #include <libusb-1.0/libusb.h>
 #endif
-
-#pragma once
+#include "RGBController.h"
 
 enum
 {
@@ -66,7 +71,7 @@ public:
                         (
                             std::vector<RGBColor> & colors,
                             unsigned char           speed
-                        );    
+                        );
 
 private:
     libusb_device_handle*   dev;

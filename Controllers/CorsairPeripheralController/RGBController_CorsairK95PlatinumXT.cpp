@@ -1,9 +1,13 @@
-/*-----------------------------------------*\
-|  RGBController_CorsairK95PlatinumXT.h     |
-|                                           |
-|                                           |
-|  Guimard Morgan (morg) 6/07/2022          |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_CorsairK95PlatinumXT.cpp                    |
+|                                                           |
+|   RGBController for Corsair K95 Platinum XT keyboard      |
+|                                                           |
+|   Morgan Guimard (morg)                       07 Jun 2022 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #include "RGBControllerKeyNames.h"
 #include "RGBController_CorsairK95PlatinumXT.h"
@@ -251,7 +255,7 @@ RGBController_CorsairK95PlatinumXT::RGBController_CorsairK95PlatinumXT(CorsairK9
 }
 
 RGBController_CorsairK95PlatinumXT::~RGBController_CorsairK95PlatinumXT()
-{    
+{
     /*---------------------------------------------------------*\
     | Delete the matrix map                                     |
     \*---------------------------------------------------------*/

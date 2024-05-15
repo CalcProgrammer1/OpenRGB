@@ -1,9 +1,20 @@
+/*---------------------------------------------------------*\
+| CorsairLightingNodeControllerDetect.cpp                   |
+|                                                           |
+|   Detector for Corsair Lighting Node devices              |
+|                                                           |
+|   Adam Honse (calcprogrammer1@gmail.com)      12 Jan 2020 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
+#include <vector>
+#include <hidapi/hidapi.h>
 #include "Detector.h"
 #include "CorsairLightingNodeController.h"
 #include "RGBController.h"
 #include "RGBController_CorsairLightingNode.h"
-#include <vector>
-#include <hidapi/hidapi.h>
 
 #define CORSAIR_VID                     0x1B1C
 #define CORSAIR_LIGHTING_NODE_CORE_PID  0x0C1A

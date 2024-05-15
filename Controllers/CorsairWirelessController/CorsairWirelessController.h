@@ -1,18 +1,19 @@
-/*-----------------------------------------*\
-|  CorsairWirelessController.h              |
-|                                           |
-|  Definitions and types for Corsair RGB    |
-|  wireless keyboard lighting controller    |
-|                                           |
-|  Adam Honse (CalcProgrammer1) 5/8/2021    |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| CorsairWirelessController.h                               |
+|                                                           |
+|   Driver for Corsair wireless keyboard                    |
+|                                                           |
+|   Adam Honse (CalcProgrammer1)                08 May 2021 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
-#include "RGBController.h"
+#pragma once
 
 #include <string>
 #include <hidapi/hidapi.h>
-
-#pragma once
+#include "RGBController.h"
 
 class CorsairWirelessController
 {

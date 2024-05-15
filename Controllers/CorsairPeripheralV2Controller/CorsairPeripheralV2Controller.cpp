@@ -1,11 +1,13 @@
-/*---------------------------------------------------------------------*\
-|  CorsairPeripheralV2Controller.cpp                                    |
-|                                                                       |
-|  Base class for the 08 based Corsair protocol                         |
-|                                                                       |
-|  Chris M (Dr_No)          07 Aug 2022                                 |
-|                                                                       |
-\*---------------------------------------------------------------------*/
+/*---------------------------------------------------------*\
+| CorsairPeripheralV2Controller.cpp                         |
+|                                                           |
+|   Driver for Corsair V2 peripherals                       |
+|                                                           |
+|   Chris M (Dr_No)                             07 Aug 2022 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #include "CorsairPeripheralV2Controller.h"
 

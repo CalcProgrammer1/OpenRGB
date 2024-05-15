@@ -1,14 +1,16 @@
-/*-----------------------------------------*\
-|  CorsairVengeanceProController.cpp        |
-|                                           |
-|  Definitions and types for Corsair        |
-|  Vengeance Pro RGB RAM lighting controller|
-|                                           |
-|  Adam Honse (CalcProgrammer1) 6/30/2019   |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| CorsairVengeanceProController.cpp                         |
+|                                                           |
+|   Driver for Corsair Vengeance Pro RGB RAM                |
+|                                                           |
+|   Adam Honse (CalcProgrammer1)                30 Jun 2019 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
-#include "CorsairVengeanceProController.h"
 #include <cstring>
+#include "CorsairVengeanceProController.h"
 
 using namespace std::chrono_literals;
 
@@ -22,7 +24,7 @@ CorsairVengeanceProController::CorsairVengeanceProController(i2c_smbus_interface
 
     direct_mode = false;
     effect_mode = CORSAIR_PRO_MODE_STATIC;
-    
+
     for (unsigned int i = 0; i < led_count; i++)
     {
         led_red[i]      = 0;

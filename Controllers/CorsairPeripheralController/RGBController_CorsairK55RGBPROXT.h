@@ -1,11 +1,13 @@
-/*--------------------------------------------*\
-|  RGBController_CorsairK55RGBPROXT.cpp        |
-|                                              |
-|  Driver for Corsair K55 RGB PRO XT Keyboard  |
-\*--------------------------------------------*/
+/*---------------------------------------------------------*\
+| CorsairK55RGBPROXTController.h                            |
+|                                                           |
+|   Driver for Corsair K55 RGB PRO XT keyboard              |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
-#ifndef RGBCONTROLLER_CORSAIRK55RGBPROXT_H
-#define RGBCONTROLLER_CORSAIRK55RGBPROXT_H
+#pragma once
 
 #include "RGBController.h"
 #include "CorsairK55RGBPROXTController.h"
@@ -33,5 +35,3 @@ private:
     std::atomic<bool>                                   keepalive_thread_run;
     std::chrono::time_point<std::chrono::steady_clock>  last_update_time;
 };
-
-#endif // RGBCONTROLLER_CORSAIRK55RGBPROXT_H

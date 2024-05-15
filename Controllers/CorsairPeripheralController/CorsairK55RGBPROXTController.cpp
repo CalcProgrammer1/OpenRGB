@@ -1,18 +1,19 @@
-/*--------------------------------------------*\
-|  CorsairK55RGBPROXTController.cpp            |
-|                                              |
-|  Driver for Corsair K55 RGB PRO XT Keyboard  |
-\*--------------------------------------------*/
+/*---------------------------------------------------------*\
+| CorsairK55RGBPROXTController.cpp                          |
+|                                                           |
+|   Driver for Corsair K55 RGB PRO XT keyboard              |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #include "CorsairK55RGBPROXTController.h"
 #include "LogManager.h"
-
 
 #define COLOR_BANK_SIZE     137
 #define HID_PACKET_LENGTH   65
 #define HID_PAYLOAD_SIZE1   (HID_PACKET_LENGTH - 12)
 #define HID_PAYLOAD_SIZE2   (HID_PACKET_LENGTH - 4)
-
 
 static const unsigned int keys[] =
     { 127, 128, 129, 130, 131, 132,  37,  49,  39,  53, 102, 101,  26,  96, 104,  54,  27,  16,   0,  25,

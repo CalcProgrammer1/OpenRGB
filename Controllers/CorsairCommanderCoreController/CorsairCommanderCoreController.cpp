@@ -1,17 +1,19 @@
 /*---------------------------------------------------------*\
-|  CorsairCommanderCoreController.cpp                       |
+| CorsairCommanderCoreController.cpp                        |
 |                                                           |
-|  Processing Code for Corsair Commander Core               |
+|   Driver for Corsair Commander Core                       |
 |                                                           |
-|  Jeff P.                                                  |
+|   Jeff P.                                                 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
 \*---------------------------------------------------------*/
-
-#include "CorsairCommanderCoreController.h"
-#include "CorsairDeviceGuard.h"
 
 #include <cstring>
 #include <iomanip>
 #include <iostream>
+#include "CorsairCommanderCoreController.h"
+#include "CorsairDeviceGuard.h"
 
 using namespace std::chrono_literals;
 
@@ -24,7 +26,7 @@ CorsairCommanderCoreController::CorsairCommanderCoreController(hid_device* dev_h
     packet_size             = CORSAIR_COMMANDER_CORE_PACKET_SIZE_V2;
     command_res_size        = packet_size - 4;
     this->pid               = pid;
-    guard_manager_ptr           = new DeviceGuardManager(new CorsairDeviceGuard());
+    guard_manager_ptr       = new DeviceGuardManager(new CorsairDeviceGuard());
 
     /*-----------------------------------------------------*\
     | Initialize controller                                 |

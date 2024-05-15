@@ -1,9 +1,20 @@
+/*---------------------------------------------------------*\
+| CorsairCommanderCoreControllerDetect.cpp                  |
+|                                                           |
+|   Detector for Corsair Commander Core                     |
+|                                                           |
+|   Jeff P.                                                 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
+#include <vector>
+#include <hidapi/hidapi.h>
 #include "Detector.h"
 #include "CorsairCommanderCoreController.h"
 #include "RGBController.h"
 #include "RGBController_CorsairCommanderCore.h"
-#include <vector>
-#include <hidapi/hidapi.h>
 
 /*-----------------------------------------------------*\
 | Corsair vendor ID                                     |

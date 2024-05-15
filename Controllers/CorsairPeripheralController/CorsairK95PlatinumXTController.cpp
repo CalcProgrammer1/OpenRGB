@@ -1,10 +1,14 @@
-﻿/*-----------------------------------------*\
-|  CorsairK195PlatinumXTController.h        |
-|                                           |
-|  Driver for Corsair K95 Platinum XT       |
-|  Keyboard                                 |
-|  Guimard Morgan (morg) 6/07/2022          |
-\*-----------------------------------------*/
+﻿/*---------------------------------------------------------*\
+| CorsairK95PlatinumXTController.cpp                        |
+|                                                           |
+|   Driver for Corsair K95 Platinum XT keyboard             |
+|                                                           |
+|   Morgan Guimard (morg)                       07 Jun 2022 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
 #include "CorsairK95PlatinumXTController.h"
 
 CorsairK95PlatinumXTController::CorsairK95PlatinumXTController(hid_device* dev_handle, const char* path)
@@ -117,7 +121,7 @@ void CorsairK95PlatinumXTController::SendDirect(const std::vector<RGBColor>& col
     usb_buf[0x03] = 0x01;
 
     for(unsigned int i = 0; i < K95_PLATINUM_XT_NUMBER_OF_PAGES; i++)
-    {        
+    {
         /*-----------------------------------------------------*\
         | Copy colors in current page                           |
         \*-----------------------------------------------------*/

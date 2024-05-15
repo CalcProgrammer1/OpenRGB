@@ -1,10 +1,13 @@
-/*--------------------------------------------*\
-|  RGBController_CorsairDominatorPlatinum.h    |
-|                                              |
-|  Corsair Dominator Platinum RGB driver       |
-|                                              |
-|  Erik Gilling (konkers)       9/25/2020      |
-\*--------------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_CorsairDominatorPlatinum.h                  |
+|                                                           |
+|   RGBController for Corsair Dominator Platinum RAM        |
+|                                                           |
+|   Erik Gilling (konkers)                      25 Sep 2020 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #pragma once
 

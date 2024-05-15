@@ -1,11 +1,13 @@
-/*-----------------------------------------*\
-|  RGBController_CorsairWireless.cpp        |
-|                                           |
-|  Generic RGB Interface for Corsair RGB    |
-|  wireless keyboard devices                |
-|                                           |
-|  Adam Honse (CalcProgrammer1) 5/8/2021    |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_CorsairWireless.cpp                         |
+|                                                           |
+|   RGBController for Corsair wireless keyboard             |
+|                                                           |
+|   Adam Honse (CalcProgrammer1)                08 May 2021 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #include "RGBControllerKeyNames.h"
 #include "RGBController_CorsairWireless.h"

@@ -1,13 +1,24 @@
-#include "Detector.h"
-#include "CorsairHydroController.h"
-#include "RGBController.h"
-#include "RGBController_CorsairHydro.h"
+/*---------------------------------------------------------*\
+| CorsairHydroControllerDetect.cpp                          |
+|                                                           |
+|   Detector for Corsair Hydro Series coolers               |
+|                                                           |
+|   Adam Honse (calcprogrammer1@gmail.com)      17 Aug 2020 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
 #include <vector>
 #ifdef __FreeBSD__
 #include <libusb.h>
 #else
 #include <libusb-1.0/libusb.h>
 #endif
+#include "Detector.h"
+#include "CorsairHydroController.h"
+#include "RGBController.h"
+#include "RGBController_CorsairHydro.h"
 
 /*-----------------------------------------------------*\
 | Corsair vendor ID                                     |

@@ -1,12 +1,12 @@
 /*---------------------------------------------------------*\
-|  CorsairDeviceGuard.h                                     |
+| CorsairDeviceGuard.cpp                                    |
 |                                                           |
-|  A DeviceGuard implementation for Corsair devices.        |
+|   DeviceGuard for Corsair devices                         |
 |                                                           |
-|  On Windows platforms, a global mutex is used.            |
+|   Evan Mulawski                               04 Sep 2023 |
 |                                                           |
-|  Evan Mulawski, 2023-09-04                                |
-|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
 \*---------------------------------------------------------*/
 
 #include "CorsairDeviceGuard.h"

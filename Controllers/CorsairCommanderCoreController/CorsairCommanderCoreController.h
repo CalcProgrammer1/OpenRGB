@@ -1,21 +1,21 @@
 /*---------------------------------------------------------*\
-|  CorsairCommanderCoreController.h                         |
+| CorsairCommanderCoreController.h                          |
 |                                                           |
-|  Definitions for Corsair Commander Core                   |
-|  Based on code by:                                        |
-|  Adam Honse (calcprogrammer1@gmail.com), 8/17/2020        |
+|   Driver for Corsair Commander Core                       |
 |                                                           |
-|  Jeff P.                                                  |
+|   Jeff P.                                                 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
 \*---------------------------------------------------------*/
 
+#pragma once
+
+#include <chrono>
+#include <vector>
+#include <hidapi/hidapi.h>
 #include "RGBController.h"
 #include "DeviceGuardManager.h"
-
-#include <vector>
-#include <chrono>
-#include <hidapi/hidapi.h>
-
-#pragma once
 
 #define CORSAIR_COMMANDER_CORE_PACKET_SIZE_V1   1025 // First bit is the report bit
 #define CORSAIR_COMMANDER_CORE_PACKET_SIZE_V2   97   // First bit is the report bit

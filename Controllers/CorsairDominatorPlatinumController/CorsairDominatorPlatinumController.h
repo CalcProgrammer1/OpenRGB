@@ -1,18 +1,20 @@
-/*-----------------------------------------*\
-|  CorsairDominatorPlatinumController.h     |
-|                                           |
-|  Definitions and types for Corsair        |
-|  Domintator Platinum RGB RAM lighting     |
-|   controller                              |
-|                                           |
-|  Erik Gilling (konkers)       9/25/2020   |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| CorsairDominatorPlatinumController.h                      |
+|                                                           |
+|   Driver for Corsair Dominator Platinum RAM               |
+|                                                           |
+|   Erik Gilling (konkers)                      25 Sep 2020 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
+#pragma once
 
 #include <string>
 #include "i2c_smbus.h"
-#define CORSAIR_DOMINATOR_PLATINUM_DATA_SIZE 38
 
-#pragma once
+#define CORSAIR_DOMINATOR_PLATINUM_DATA_SIZE 38
 
 typedef unsigned char corsair_dev_id;
 

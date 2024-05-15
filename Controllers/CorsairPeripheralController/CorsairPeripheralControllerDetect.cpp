@@ -1,3 +1,12 @@
+/*---------------------------------------------------------*\
+| CorsairPeripheralControllerDetect.cpp                     |
+|                                                           |
+|   Driver for Corsair peripherals                          |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
 /*-----------------------------------------------------*\
 | OpenRGB includes                                      |
 \*-----------------------------------------------------*/

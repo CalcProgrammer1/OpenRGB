@@ -1,13 +1,16 @@
-/*-----------------------------------------*\
-|  RGBController_CorsairPeripheral.h        |
-|                                           |
-|  Generic RGB Interface for Corsair RGB    |
-|  keyboard, mouse, and mousemat devices    |
-|                                           |
-|  Adam Honse (CalcProgrammer1) 1/9/2020    |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_CorsairPeripheral.h                         |
+|                                                           |
+|   RGBController for Corsair peripherals                   |
+|                                                           |
+|   Adam Honse (CalcProgrammer1)                09 Jan 2020 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #pragma once
+
 #include "RGBController.h"
 #include "CorsairPeripheralController.h"
 
@@ -23,7 +26,7 @@ public:
     void        SetupZones();
 
     void        ResizeZone(int zone, int new_size);
-    
+
     void        DeviceUpdateLEDs();
     void        UpdateZoneLEDs(int zone);
     void        UpdateSingleLED(int led);

@@ -1,21 +1,24 @@
-/*-----------------------------------------*\
-|  CorsairHydro2ControllerDetect.cpp        |
-|                                           |
-|  Detector for Corsair H100i v2            |
-|                                           |
-|  Tim Demand (tim.dmd) 1/10/2023           |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| CorsairHydro2ControllerDetect.cpp                         |
+|                                                           |
+|   Detector for Corsair H100i v2                           |
+|                                                           |
+|   Tim Demand (tim.dmd)                        10 Jan 2023 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
-#include "Detector.h"
-#include "CorsairHydro2Controller.h"
-#include "RGBController.h"
-#include "RGBController_CorsairHydro2.h"
 #include <vector>
 #ifdef __FreeBSD__
 #include <libusb.h>
 #else
 #include <libusb-1.0/libusb.h>
 #endif
+#include "Detector.h"
+#include "CorsairHydro2Controller.h"
+#include "RGBController.h"
+#include "RGBController_CorsairHydro2.h"
 
 #define CORSAIR_VID     0x1B1C
 #define H100I_V2_PID    0x0C09

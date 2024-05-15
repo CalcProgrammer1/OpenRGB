@@ -1,13 +1,16 @@
-/*-------------------------------------------------------------------*\
-|  RGBController_CorsairHydroPlatinum.h                               |
-|                                                                     |
-|  Driver for Corsair Hydro Platinum AIO Coolers                      |
-|                                                                     |
-|  Kasper         28th March 2021                                     |
-|                                                                     |
-\*-------------------------------------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_CorsairHydroPlatinum.h                      |
+|                                                           |
+|   RGBController for Corsair Hydro Platinum coolers        |
+|                                                           |
+|   Kasper                                      28 Mar 2021 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #pragma once
+
 #include "RGBController.h"
 #include "CorsairHydroPlatinumController.h"
 

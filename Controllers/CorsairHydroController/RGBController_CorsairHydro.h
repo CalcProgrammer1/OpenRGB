@@ -1,13 +1,16 @@
-/*-----------------------------------------*\
-|  RGBController_CorsairHydro.h             |
-|                                           |
-|  Generic RGB Interface for Corsair        |
-|  Hydro Series                             |
-|                                           |
-|  Adam Honse (CalcProgrammer1) 8/17/2020   |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_CorsairHydro.h                              |
+|                                                           |
+|   RGBController for Corsair Hydro Series coolers          |
+|                                                           |
+|   Adam Honse (calcprogrammer1@gmail.com)      17 Aug 2020 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #pragma once
+
 #include "RGBController.h"
 #include "CorsairHydroController.h"
 

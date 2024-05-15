@@ -1,17 +1,21 @@
 /*---------------------------------------------------------*\
-|  Definitions for Corsair Lighting Node Pro                |
+| CorsairLightingNodeController.h                           |
 |                                                           |
-|  Adam Honse (calcprogrammer1@gmail.com), 1/12/2020        |
+|   Driver for Corsair Lighting Node devices                |
+|                                                           |
+|   Adam Honse (calcprogrammer1@gmail.com)      12 Jan 2020 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
 \*---------------------------------------------------------*/
 
-#include "DeviceGuardManager.h"
-#include "RGBController.h"
+#pragma once
 
 #include <chrono>
 #include <vector>
 #include <hidapi/hidapi.h>
-
-#pragma once
+#include "DeviceGuardManager.h"
+#include "RGBController.h"
 
 #define CORSAIR_LIGHTING_NODE_WRITE_PACKET_SIZE      65          /* First byte is the report number      */
 #define CORSAIR_LIGHTING_NODE_READ_PACKET_SIZE       17          /* First byte is the report number      */

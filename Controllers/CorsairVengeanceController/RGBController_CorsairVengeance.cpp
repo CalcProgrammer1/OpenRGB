@@ -1,11 +1,13 @@
-/*-----------------------------------------*\
-|  RGBController_CorsairVengeance.cpp       |
-|                                           |
-|  Generic RGB Interface for OpenAuraSDK    |
-|  Corsair Vengeance RGB driver             |
-|                                           |
-|  Adam Honse (CalcProgrammer1) 6/13/2019   |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_CorsairVengeance.cpp                        |
+|                                                           |
+|   RGBController for Corsair Vengeance RGB RAM             |
+|                                                           |
+|   Adam Honse (CalcProgrammer1)                16 Jun 2019 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #include "RGBController_CorsairVengeance.h"
 

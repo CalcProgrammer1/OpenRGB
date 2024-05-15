@@ -1,17 +1,19 @@
-/*-------------------------------------------------------------------*\
-|  CorsairHydroPlatinumControllerDetect.cpp                           |
-|                                                                     |
-|  Driver for Corsair Hydro Platinum AIO Coolers                      |
-|                                                                     |
-|  Kasper         28th March 2021                                     |
-|                                                                     |
-\*-------------------------------------------------------------------*/
+/*---------------------------------------------------------*\
+| CorsairHydroPlatinumControllerDetect.cpp                  |
+|                                                           |
+|   Detector for Corsair Hydro Platinum coolers             |
+|                                                           |
+|   Kasper                                      28 Mar 2021 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
+#include <hidapi/hidapi.h>
 #include "Detector.h"
 #include "CorsairHydroPlatinumController.h"
 #include "RGBController.h"
 #include "RGBController_CorsairHydroPlatinum.h"
-#include <hidapi/hidapi.h>
 
 /*-----------------------------------------------------*\
 | Corsair vendor ID                                     |

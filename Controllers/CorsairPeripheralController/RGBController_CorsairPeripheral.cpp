@@ -1,11 +1,13 @@
-﻿/*-----------------------------------------*\
-|  RGBController_CorsairPeripheral.cpp      |
-|                                           |
-|  Generic RGB Interface for Corsair RGB    |
-|  keyboard, mouse, and mousemat devices    |
-|                                           |
-|  Adam Honse (CalcProgrammer1) 1/9/2020    |
-\*-----------------------------------------*/
+﻿/*---------------------------------------------------------*\
+| RGBController_CorsairPeripheral.cpp                       |
+|                                                           |
+|   RGBController for Corsair peripherals                   |
+|                                                           |
+|   Adam Honse (CalcProgrammer1)                09 Jan 2020 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #include "RGBControllerKeyNames.h"
 #include "RGBController_CorsairPeripheral.h"

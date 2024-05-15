@@ -1,9 +1,17 @@
-#pragma once
+/*---------------------------------------------------------*\
+| CorsairK65MiniController.cpp                              |
+|                                                           |
+|   Driver for Corsair K65 Mini keyboard                    |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
-#include "RGBController.h"
+#pragma once
 
 #include <string>
 #include <hidapi/hidapi.h>
+#include "RGBController.h"
 
 #define PACKET_LENGTH 1025
 #define K65_WRITE_COMMAND 0x08

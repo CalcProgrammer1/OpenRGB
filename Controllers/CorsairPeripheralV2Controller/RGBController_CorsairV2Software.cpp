@@ -1,11 +1,14 @@
-/*---------------------------------------------------------------------*\
-|  RGBController_CorsairV2SoftwareController.cpp                        |
-|                                                                       |
-|  Common driver for the newer Corsair peripherals that use             |
-|    the `08` based USB protocol                                        |
-|                                                                       |
-|  Chris M (Dr_No)          11 Aug 2022                                 |
-\*---------------------------------------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_CorsairV2SoftwareController.cpp             |
+|                                                           |
+|   RGBController for Corsair V2 peripherals - software     |
+|   modes                                                   |
+|                                                           |
+|   Chris M (Dr_No)                             11 Aug 2022 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #include "LogManager.h"
 #include "RGBController_CorsairV2Software.h"

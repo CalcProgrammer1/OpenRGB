@@ -1,12 +1,23 @@
+/*---------------------------------------------------------*\
+| CorsairVengeanceControllerDetect.cpp                      |
+|                                                           |
+|   Detector for Corsair Vengeance RGB RAM                  |
+|                                                           |
+|   Adam Honse (CalcProgrammer1)                08 Mar 2019 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <vector>
 #include "Detector.h"
 #include "CorsairVengeanceController.h"
 #include "RGBController.h"
 #include "RGBController_CorsairVengeance.h"
 #include "i2c_smbus.h"
 #include "pci_ids.h"
-#include <vector>
-#include <stdio.h>
-#include <stdlib.h>
 
 /******************************************************************************************\
 *                                                                                          *
@@ -64,7 +75,7 @@ void DetectCorsairVengeanceControllers(std::vector<i2c_smbus_interface*> &busses
                 {
                     CorsairVengeanceController*     new_controller    = new CorsairVengeanceController(busses[bus], addr);
                     RGBController_CorsairVengeance* new_rgbcontroller = new RGBController_CorsairVengeance(new_controller);
-                    
+
                     ResourceManager::get()->RegisterRGBController(new_rgbcontroller);
                 }
             }
@@ -74,7 +85,7 @@ void DetectCorsairVengeanceControllers(std::vector<i2c_smbus_interface*> &busses
                 {
                     CorsairVengeanceController*     new_controller    = new CorsairVengeanceController(busses[bus], addr);
                     RGBController_CorsairVengeance* new_rgbcontroller = new RGBController_CorsairVengeance(new_controller);
-                    
+
                     ResourceManager::get()->RegisterRGBController(new_rgbcontroller);
                 }
             }
