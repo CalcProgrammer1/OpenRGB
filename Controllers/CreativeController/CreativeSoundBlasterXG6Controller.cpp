@@ -1,3 +1,12 @@
+/*---------------------------------------------------------*\
+| CreativeSoundBlasterXG6Controller.cpp                     |
+|                                                           |
+|   Driver for Creative SoundBlaster XG6                    |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
 #include "CreativeSoundBlasterXG6Controller.h"
 
 CreativeSoundBlasterXG6Controller::CreativeSoundBlasterXG6Controller(hid_device* dev_handle, const char* path)

@@ -1,4 +1,14 @@
+/*---------------------------------------------------------*\
+| RGBController_CreativeSoundBlasterXG6.h                   |
+|                                                           |
+|   RGBController for Creative SoundBlaster XG6             |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
 #pragma once
+
 #include "RGBController.h"
 #include "CreativeSoundBlasterXG6Controller.h"
 
