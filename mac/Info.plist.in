@@ -11,7 +11,7 @@
     <key>CFBundleIdentifier</key>
         <string>${PRODUCT_BUNDLE_IDENTIFIER}</string>
     <key>CFBundleName</key>
-        <string>${PRODUCT_NAME}</string>
+        <string>OpenRGB</string>
     <key>CFBundlePackageType</key>
         <string>APPL</string>
     <key>CFBundleShortVersionString</key>
