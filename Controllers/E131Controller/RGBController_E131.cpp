@@ -1,15 +1,17 @@
-/*-----------------------------------------*\
-|  RGBController_LEDStrip.cpp               |
-|                                           |
-|  Generic RGB Interface for OpenAuraSDK    |
-|  E1.31 Streaming ACN interface            |
-|                                           |
-|  Adam Honse (CalcProgrammer1) 10/18/2019  |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_E131.cpp                                    |
+|                                                           |
+|   RGBController for E1.31 devices                         |
+|                                                           |
+|   Adam Honse (CalcProgrammer1)                18 Oct 2019 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
-#include "RGBController_E131.h"
 #include <e131.h>
 #include <math.h>
+#include "RGBController_E131.h"
 
 using namespace std::chrono_literals;
 

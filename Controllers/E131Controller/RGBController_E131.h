@@ -1,17 +1,20 @@
-/*-----------------------------------------*\
-|  RGBController_E131.h                     |
-|                                           |
-|  Generic RGB Interface for OpenAuraSDK    |
-|  E1.31 Streaming ACN interface            |
-|                                           |
-|  Adam Honse (CalcProgrammer1) 10/18/2019  |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_E131.h                                      |
+|                                                           |
+|   RGBController for E1.31 devices                         |
+|                                                           |
+|   Adam Honse (CalcProgrammer1)                18 Oct 2019 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #pragma once
-#include "RGBController.h"
-#include <e131.h>
+
 #include <chrono>
 #include <thread>
+#include <e131.h>
+#include "RGBController.h"
 
 typedef unsigned int e131_rgb_order;
 
