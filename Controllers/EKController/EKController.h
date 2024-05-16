@@ -1,14 +1,15 @@
-/*-------------------------------------------------------------------*\
-|  EKController.h                                                     |
-|                                                                     |
-|  Driver for EK Loop Connect                                         |
-|                                                                     |
-|  Chris M (Dr_No)          16th Jul 2020                             |
-|                                                                     |
-\*-------------------------------------------------------------------*/
+/*---------------------------------------------------------*\
+| EKController.h                                            |
+|                                                           |
+|   Driver for EK Loop Connect                              |
+|                                                           |
+|   Chris M (Dr_No)                             16 Jul 2020 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
-#ifndef EKCONTROLLER_H
-#define EKCONTROLLER_H
+#pragma once
 
 #include <string>
 #include <hidapi/hidapi.h>
@@ -80,5 +81,3 @@ private:
 
     void SendUpdate();
 };
-
-#endif // EKCONTROLLER_H

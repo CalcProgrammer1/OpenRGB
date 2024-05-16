@@ -1,17 +1,18 @@
-/*-------------------------------------------------------------------*\
-|  RGBController_EKController.h                                       |
-|                                                                     |
-|  Driver for EK Loop Connect                                         |
-|                                                                     |
-|  Chris M (Dr_No)          16th Jul 2020                             |
-|                                                                     |
-\*-------------------------------------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_EKController.h                              |
+|                                                           |
+|   RGBController for EK Loop Connect                       |
+|                                                           |
+|   Chris M (Dr_No)                             16 Jul 2020 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
-#ifndef RGBCONTROLLER_EKCONTROLLER_H
-#define RGBCONTROLLER_EKCONTROLLER_H
+#pragma once
 
 #include "RGBController.h"
-#include "Controllers/EKController/EKController.h"
+#include "EKController.h"
 
 class RGBController_EKController : public RGBController
 {
@@ -31,5 +32,3 @@ public:
 private:
     EKController* controller;
 };
-
-#endif // RGBCONTROLLER_EKCONTROLLER_H
