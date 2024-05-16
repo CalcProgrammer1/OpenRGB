@@ -1,16 +1,17 @@
-/*-----------------------------------------*\
-|  RGBController_DMX.cpp                    |
-|                                           |
-|  Generic RGB Interface for OpenAuraSDK    |
-|  DMX interface                            |
-|                                           |
-|  Adam Honse (CalcProgrammer1) 4/30/2023   |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_DMX.cpp                                     |
+|                                                           |
+|   RGBController for DMX devices                           |
+|                                                           |
+|   Adam Honse (CalcProgrammer1)                30 Apr 2023 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
-#include "RGBController_DMX.h"
 #include <math.h>
-
 #include "LogManager.h"
+#include "RGBController_DMX.h"
 
 using namespace std::chrono_literals;
 

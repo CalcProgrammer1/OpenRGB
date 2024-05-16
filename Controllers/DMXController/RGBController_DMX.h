@@ -1,18 +1,20 @@
-/*-----------------------------------------*\
-|  RGBController_DMX.h                      |
-|                                           |
-|  Generic RGB Interface for OpenAuraSDK    |
-|  DMX interface                            |
-|                                           |
-|  Adam Honse (CalcProgrammer1) 4/30/2023   |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_DMX.h                                       |
+|                                                           |
+|   RGBController for DMX devices                           |
+|                                                           |
+|   Adam Honse (CalcProgrammer1)                30 Apr 2023 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #pragma once
-#include "RGBController.h"
-#include "serial_port.h"
+
 #include <chrono>
 #include <thread>
-
+#include "RGBController.h"
+#include "serial_port.h"
 struct DMXDevice
 {
     std::string name;
