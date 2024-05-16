@@ -1,12 +1,17 @@
 /*---------------------------------------------------------*\
-|  Driver for Elgato Key Light                              |
+| ElgatoKeyLightController.cpp                              |
 |                                                           |
-|  Monks (imtherealestmonkey@gmail.com),   11/03/2021       |
+|   Driver for Elgato Key Light                             |
+|                                                           |
+|   Monks (imtherealestmonkey@gmail.com),       03 Nov 2021 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
 \*---------------------------------------------------------*/
 
+#include <iostream>
 #include "ElgatoKeyLightController.h"
 #include "json.hpp"
-#include <iostream>
 
 using json = nlohmann::json;
 

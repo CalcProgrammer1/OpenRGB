@@ -1,12 +1,16 @@
-/*--------------------------------------------------*\
-|  RGBController_ElgatoKeyLight.h                   |
-|                                                   |
-|  Generic RGB Interface for Elgato KeyLight        |
-|                                                   |
-|  Monks (imtherealestmonkey@gmail.com) 11/1/2021   |
-\*--------------------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_ElgatoKeyLight.h                            |
+|                                                           |
+|   RGBController for Elgato Key Light                      |
+|                                                           |
+|   Monks (@iamtherealestmonkey)                01 Nov 2021 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #pragma once
+
 #include "RGBController.h"
 #include "ElgatoKeyLightController.h"
 
