@@ -1,10 +1,13 @@
-/*-----------------------------------------*\
-|  RGBController_DygmaRaise.cpp             |
-|                                           |
-|  RGB Interface DygmaRaise keyboard        |
-|                                           |
-|  Timo Schlegel (@eispalast) 12/12/2021    |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_DygmaRaise.cpp                              |
+|                                                           |
+|   RGBController for Dygma Raise keyboard                  |
+|                                                           |
+|   Timo Schlegel (@eispalast)                  Dec 12 2021 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #include "RGBControllerKeyNames.h"
 #include "RGBController_DygmaRaise.h"
@@ -33,7 +36,6 @@ static unsigned int underglow_matrix[11][14] =
       { 24, NA, NA, NA, NA, 15, NA, 46, NA, NA, NA, NA, NA, 56  },
       { 23, NA, NA, NA, NA, 16, NA, 47, NA, NA, NA, NA, NA, 55  },
       { 22, 21, 20, 19, 18, 17, NA, 48, 49, 50, 51, 52, 53, 54, } };
-
 
 static const char* zone_names[] =
 {
@@ -233,7 +235,6 @@ void RGBController_DygmaRaise::ResizeZone(int /*zone*/, int /*new_size*/)
     | This device does not support resizing zones               |
     \*---------------------------------------------------------*/
 }
-
 
 void RGBController_DygmaRaise::DeviceUpdateLEDs()
 {

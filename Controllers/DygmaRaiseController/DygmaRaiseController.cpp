@@ -1,10 +1,13 @@
-/*-----------------------------------------*\
-|  DygmaRaiseController.cpp                 |
-|                                           |
-|  Driver for Dygma Raise keyboard          |
-|                                           |
-|  Timo Schlegel (@eispalast) 12/12/2021    |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| DygmaRaiseController.cpp                                  |
+|                                                           |
+|   Driver for Dygma Raise keyboard                         |
+|                                                           |
+|   Timo Schlegel (@eispalast)                  Dec 12 2021 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #include "DygmaRaiseController.h"
 
@@ -27,13 +30,13 @@ static int val_char_len(int number)
     }
 }
 
-DygmaRaiseController::DygmaRaiseController() 
+DygmaRaiseController::DygmaRaiseController()
 {
-   
+
 }
 
-DygmaRaiseController::~DygmaRaiseController() 
-{   
+DygmaRaiseController::~DygmaRaiseController()
+{
     serialport->serial_close();
     delete serialport;
 }
@@ -41,17 +44,17 @@ DygmaRaiseController::~DygmaRaiseController()
 void DygmaRaiseController::Initialize(char* port)
 {
     port_name = port;
-    
+
     serialport = new serial_port(port_name.c_str(), DYGMA_RAISE_BAUD);
 }
 
-std::string DygmaRaiseController::GetDeviceLocation() 
+std::string DygmaRaiseController::GetDeviceLocation()
 {
     return("COM: " + port_name);
 }
 
 void DygmaRaiseController::SendDirect(std::vector<RGBColor>colors, size_t led_num)
-{    
+{
     char serial_buf[MAX_LEN];
 
     /*-----------------------------------------------------*\
@@ -76,7 +79,7 @@ void DygmaRaiseController::SendDirect(std::vector<RGBColor>colors, size_t led_nu
 
         sprintf(serial_buf+actual_length," %d",r);
         actual_length += val_char_len(r) + 1;
-        
+
         sprintf(serial_buf+actual_length," %d",g);
         actual_length += val_char_len(g) + 1;
 
@@ -88,7 +91,7 @@ void DygmaRaiseController::SendDirect(std::vector<RGBColor>colors, size_t led_nu
     | Add the final newline                                 |
     \*-----------------------------------------------------*/
     sprintf(serial_buf+actual_length,"\n");
-    actual_length++;    
+    actual_length++;
 
     /*-----------------------------------------------------*\
     | Send packet                                           |

@@ -1,12 +1,16 @@
-/*-----------------------------------------*\
-|  RGBController_DygmaRaise.h               |
-|                                           |
-|  RGB Interface for  DygmaRaise keyboard   |
-|                                           |
-|   Timo Schlegel (@eispalast) 12/12/2021   |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_DygmaRaise.h                                |
+|                                                           |
+|   RGBController for Dygma Raise keyboard                  |
+|                                                           |
+|   Timo Schlegel (@eispalast)                  Dec 12 2021 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #pragma once
+
 #include "RGBController.h"
 #include "DygmaRaiseController.h"
 
