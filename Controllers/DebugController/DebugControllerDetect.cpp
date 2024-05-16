@@ -1,3 +1,20 @@
+/*---------------------------------------------------------*\
+| DebugControllerDetect.cpp                                 |
+|                                                           |
+|   Detector for debug devices                              |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
+#include <fcntl.h>
+#include <fstream>
+#include <iostream>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string>
+#include <string.h>
+#include <vector>
 #include "Detector.h"
 #include "RGBController.h"
 #include "RGBController_Debug.h"
@@ -5,16 +22,6 @@
 #include "RGBControllerKeyNames.h"
 #include "KeyboardLayoutManager.h"
 #include "SettingsManager.h"
-#include <vector>
-#include <stdio.h>
-#include <stdlib.h>
-
-#include <fcntl.h>
-#include <string.h>
-#include <fstream>
-#include <iostream>
-#include <string>
-
 
 //0xFFFFFFFF indicates an unused entry in matrix
 #define NA  0xFFFFFFFF

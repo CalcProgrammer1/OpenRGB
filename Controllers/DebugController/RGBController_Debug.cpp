@@ -1,7 +1,15 @@
-#include "RGBController_Debug.h"
+/*---------------------------------------------------------*\
+| RGBController_Debug.cpp                                   |
+|                                                           |
+|   RGBController for debug devices                         |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #include <algorithm>
 #include <cstring>
+#include "RGBController_Debug.h"
 
 /**------------------------------------------------------------------*\
     @name Debug
