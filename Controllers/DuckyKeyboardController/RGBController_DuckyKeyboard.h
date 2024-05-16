@@ -1,13 +1,16 @@
-/*-----------------------------------------*\
-|  RGBController_DuckyKeyboard.h            |
-|                                           |
-|  Generic RGB Interface for Ducky RGB      |
-|  keyboard devices                         |
-|                                           |
-|  Adam Honse (CalcProgrammer1) 7/4/2020    |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_DuckyKeyboard.h                             |
+|                                                           |
+|   RGBController for Ducky keyboard                        |
+|                                                           |
+|   Adam Honse (CalcProgrammer1)                04 Jul 2020 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #pragma once
+
 #include "RGBController.h"
 #include "DuckyKeyboardController.h"
 
@@ -20,7 +23,7 @@ public:
     void        SetupZones();
 
     void        ResizeZone(int zone, int new_size);
-    
+
     void        DeviceUpdateLEDs();
     void        UpdateZoneLEDs(int zone);
     void        UpdateSingleLED(int led);

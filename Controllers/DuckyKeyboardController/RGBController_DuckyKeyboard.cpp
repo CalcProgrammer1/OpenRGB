@@ -1,11 +1,13 @@
-/*-----------------------------------------*\
-|  RGBController_DuckyKeyboard.cpp          |
-|                                           |
-|  Generic RGB Interface for Ducky RGB      |
-|  keyboard devices                         |
-|                                           |
-|  Adam Honse (CalcProgrammer1) 7/4/2020    |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_DuckyKeyboard.cpp                           |
+|                                                           |
+|   RGBController for Ducky keyboard                        |
+|                                                           |
+|   Adam Honse (CalcProgrammer1)                04 Jul 2020 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #include "RGBControllerKeyNames.h"
 #include "RGBController_DuckyKeyboard.h"

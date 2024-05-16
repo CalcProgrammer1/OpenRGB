@@ -1,18 +1,19 @@
-/*-----------------------------------------*\
-|  DuckyKeyboardController.h                |
-|                                           |
-|  Definitions and types for Ducky RGB      |
-|  keyboard lighting controller             |
-|                                           |
-|  Adam Honse (CalcProgrammer1) 7/4/2020    |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| DuckyKeyboardController.h                                 |
+|                                                           |
+|   Driver for Ducky keyboard                               |
+|                                                           |
+|   Adam Honse (CalcProgrammer1)                04 Jul 2020 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
-#include "RGBController.h"
+#pragma once
 
 #include <string>
 #include <hidapi/hidapi.h>
-
-#pragma once
+#include "RGBController.h"
 
 /*-----------------------------------------------------*\
 | Ducky vendor ID                                       |
@@ -34,7 +35,7 @@ public:
     std::string     GetDeviceLocation();
     std::string     GetSerialString();
     unsigned short  GetUSBPID();
-    
+
     void SendColors
             (
             unsigned char*  color_data,

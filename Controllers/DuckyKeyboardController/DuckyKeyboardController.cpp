@@ -1,11 +1,13 @@
-/*-----------------------------------------*\
-|  DuckyKeyboardController.cpp              |
-|                                           |
-|  Driver for Ducky RGB keyboardlighting    |
-|  controller                               |
-|                                           |
-|  Adam Honse (CalcProgrammer1) 7/4/2020    |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| DuckyKeyboardController.cpp                               |
+|                                                           |
+|   Driver for Ducky keyboard                               |
+|                                                           |
+|   Adam Honse (CalcProgrammer1)                04 Jul 2020 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #include <cstring>
 #include "DuckyKeyboardController.h"

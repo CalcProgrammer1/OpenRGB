@@ -1,3 +1,14 @@
+/*---------------------------------------------------------*\
+| DuckyKeyboardControllerDetect.cpp                         |
+|                                                           |
+|   Detector for Ducky keyboard                             |
+|                                                           |
+|   Adam Honse (CalcProgrammer1)                04 Jul 2020 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
 #include "Detector.h"
 #include "DuckyKeyboardController.h"
 #include "RGBController.h"
