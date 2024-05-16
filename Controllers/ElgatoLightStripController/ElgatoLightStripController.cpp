@@ -1,15 +1,20 @@
-﻿/*--------------------------------------------------------*\
-|  Driver for Elgato Light Strip                           |
-|                                                          |
-|  Monks (imtherealestmonkey@gmail.com),        11/03/2021 |
-|  Edit by DomePlaysHD                          14/03/2024 |
-\*--------------------------------------------------------*/
+﻿/*---------------------------------------------------------*\
+| ElgatoLightStripController.cpp                            |
+|                                                           |
+|   Driver for Elgato Light Strip                           |
+|                                                           |
+|   Monks (@iamtherealestmonkey)                03 Nov 2021 |
+|   DomePlaysHD                                 14 Mar 2024 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
-#include "ElgatoLightStripController.h"
-#include "json.hpp"
-#include <vector>
 #include <sstream>
 #include <thread>
+#include <vector>
+#include "ElgatoLightStripController.h"
+#include "json.hpp"
 #include "LogManager.h"
 
 using json = nlohmann::json;

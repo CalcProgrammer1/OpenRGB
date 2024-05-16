@@ -1,11 +1,14 @@
-/*--------------------------------------------------------*\
-|  RGBController_ElgatoLightStrip.cpp                      |
-|                                                          |
-|  Generic RGB Interface for ElgatoLightStrip              |
-|                                                          |
-|  Monks (@iamtherealestmonkey)                 11/03/2021 |
-|  Edit by DomePlaysHD                          12/03/2024 |
-\*-------------------------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_ElgatoLightStrip.cpp                        |
+|                                                           |
+|   RGBController for Elgato Light Strip                    |
+|                                                           |
+|   Monks (@iamtherealestmonkey)                03 Nov 2021 |
+|   DomePlaysHD                                 12 Mar 2024 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #include "RGBController_ElgatoLightStrip.h"
 #include "hsv.h"

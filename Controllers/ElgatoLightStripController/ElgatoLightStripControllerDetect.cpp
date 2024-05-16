@@ -1,3 +1,12 @@
+/*---------------------------------------------------------*\
+| ElgatoLightStripControllerDetect.cpp                      |
+|                                                           |
+|   Detector for Elgato Light Strip                         |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
 #include "Detector.h"
 #include "ElgatoLightStripController.h"
 #include "RGBController_ElgatoLightStrip.h"

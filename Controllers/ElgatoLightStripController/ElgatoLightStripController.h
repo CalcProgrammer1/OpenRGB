@@ -1,15 +1,20 @@
-/*--------------------------------------------------------*\
-|  Definitions for Elgato Light Strip                      |
-|                                                          |
-|  Monks (imtherealestmonkey@gmail.com),        11/03/2021 |
-|  Edit by DomePlaysHD                          12/03/2024 |
-\*--------------------------------------------------------*/
-
-#include "net_port.h"
-#include "hsv.h"
-#include <string>
+/*---------------------------------------------------------*\
+| ElgatoLightStripController.h                              |
+|                                                           |
+|   Driver for Elgato Light Strip                           |
+|                                                           |
+|   Monks (@iamtherealestmonkey)                03 Nov 2021 |
+|   DomePlaysHD                                 12 Mar 2024 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #pragma once
+
+#include <string>
+#include "net_port.h"
+#include "hsv.h"
 
 class ElgatoLightStripController
 {
