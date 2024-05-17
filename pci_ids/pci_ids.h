@@ -343,6 +343,7 @@
 #define ASUS_ROG_STRIX_RTX_4090_24G_GAMING_WHITE        0x88C4
 #define ASUS_ROG_STRIX_RTX_4090_O24G_GAMING_WHITE       0x88C3
 #define ASUS_ROG_STRIX_RTX_4090_O24G_GAMING_WHITE_2     0x88F1
+#define ASUS_ROG_MATRIX_PLATINUM_RTX_4090_24G           0x8934
 
 
 /*-----------------------------------------------------*\
