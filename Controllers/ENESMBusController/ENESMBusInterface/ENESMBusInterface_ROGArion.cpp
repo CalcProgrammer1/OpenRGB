@@ -1,10 +1,13 @@
-/*-----------------------------------------*\
-|  ENESMBusInterface_ROGArion.cpp           |
-|                                           |
-|  Code for ENE ASUS ROG Arion interface    |
-|                                           |
-|  Adam Honse (CalcProgrammer1) 9/17/2023   |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| ENESMBusInterface_ROGArion.cpp                            |
+|                                                           |
+|   ENE SMBus interface for ASUS ROG Arion                  |
+|                                                           |
+|   Adam Honse (CalcProgrammer1)                17 Sep 2023 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #include "ENESMBusInterface_ROGArion.h"
 

@@ -1,24 +1,24 @@
-/*-----------------------------------------*\
-|  ENESMBusController.h                     |
-|                                           |
-|  Definitions and types for ENE SMBus RGB  |
-|  lighting controller                      |
-|                                           |
-|  Formerly known as ASUS Aura SMBus. ASUS  |
-|  AURA chips are rebranded ENE controllers |
-|                                           |
-|  Adam Honse (CalcProgrammer1) 8/19/2018   |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| ENESMBusController.h                                      |
+|                                                           |
+|   Driver for ENE SMBus devices                            |
+|                                                           |
+|   Adam Honse (CalcProgrammer1)                19 Aug 2018 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
+#pragma once
 
 #include <string>
 #include "ENESMBusInterface.h"
 #include "RGBController.h"
 
-#pragma once
-
 #define ENE_APPLY_VAL                   0x01        /* Value for Apply Changes Register     */
 #define ENE_SAVE_VAL                    0xAA        /* Value for Save Changes               */
 #define ENE_NUM_ZONES                   8           /* Number of ENE config table zones     */
+
 enum
 {
     ENE_REG_DEVICE_NAME                 = 0x1000,   /* Device String 16 bytes               */

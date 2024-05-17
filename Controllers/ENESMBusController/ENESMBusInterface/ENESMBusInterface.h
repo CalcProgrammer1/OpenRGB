@@ -1,14 +1,17 @@
-/*-----------------------------------------*\
-|  ENESMBusInterface.h                      |
-|                                           |
-|  Definitions and types for ENE interface  |
-|                                           |
-|  Adam Honse (CalcProgrammer1) 11/21/2021  |
-\*-----------------------------------------*/
-
-#include <string>
+/*---------------------------------------------------------*\
+| ENESMBusInterface.h                                       |
+|                                                           |
+|   ENE SMBus interface                                     |
+|                                                           |
+|   Adam Honse (CalcProgrammer1)                21 Nov 2021 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #pragma once
+
+#include <string>
 
 typedef unsigned short	ene_register;
 typedef unsigned char	ene_dev_id;

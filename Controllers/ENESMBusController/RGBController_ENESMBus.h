@@ -1,10 +1,13 @@
-/*-----------------------------------------*\
-|  RGBController_ENESMBus.h                 |
-|                                           |
-|  Generic RGB Interface for ENE SMBus      |
-|                                           |
-|  Adam Honse (CalcProgrammer1) 6/13/2019   |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_ENESMBus.h                                  |
+|                                                           |
+|   RGBController for ENE SMBus devices                     |
+|                                                           |
+|   Adam Honse (CalcProgrammer1)                13 Jun 2019 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #pragma once
 

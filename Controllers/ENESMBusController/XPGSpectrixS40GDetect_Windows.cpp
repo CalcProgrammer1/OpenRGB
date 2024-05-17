@@ -1,16 +1,25 @@
+/*---------------------------------------------------------*\
+| XPGSpectrixS40GDetect_Windows.cpp                         |
+|                                                           |
+|   Detector for XPG Spectrix S40G (Windows)                |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
+#include <fileapi.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <vector>
+#include <windows.h>
 #include "Detector.h"
 #include "ENESMBusController.h"
 #include "ENESMBusInterface_SpectrixS40G_Windows.h"
 #include "LogManager.h"
 #include "RGBController.h"
 #include "RGBController_ENESMBus.h"
-#include <vector>
-#include <stdio.h>
-#include <stdlib.h>
 
 #define DEVBUFSIZE (128 * 1024)
-#include <windows.h>
-#include <fileapi.h>
 
 /*----------------------------------------------------------------------*\
 | Windows defines "interface" for some reason.  Work around this         |

@@ -1,15 +1,17 @@
-/*-----------------------------------------*\
-|  ENESMBusInterface_SpectrixS40G.h         |
-|                                           |
-|  Definitions and types for ENE XPG        |
-|  Spectrix S40G NVMe interface             |
-|                                           |
-|  Adam Honse (CalcProgrammer1) 11/21/2021  |
-\*-----------------------------------------*/
-
-#include "ENESMBusInterface.h"
+/*---------------------------------------------------------*\
+| ENESMBusInterface_SpectrixS40G_Linux.h                    |
+|                                                           |
+|   ENE SMBus interface for XPG Spectrix S40G (Linux)       |
+|                                                           |
+|   Adam Honse (CalcProgrammer1)                21 Nov 2021 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #pragma once
+
+#include "ENESMBusInterface.h"
 
 class ENESMBusInterface_SpectrixS40G : public ENESMBusInterface
 {

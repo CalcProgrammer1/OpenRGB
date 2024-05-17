@@ -1,16 +1,18 @@
-/*-----------------------------------------*\
-|  ENESMBusInterface_i2c_smbus.h            |
-|                                           |
-|  Definitions and types for ENE I2C/SMBus  |
-|  interface                                |
-|                                           |
-|  Adam Honse (CalcProgrammer1) 11/21/2021  |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| ENESMBusInterface_i2c_smbus.h                             |
+|                                                           |
+|   ENE SMBus interface for I2C/SMBus                       |
+|                                                           |
+|   Adam Honse (CalcProgrammer1)                21 Nov 2021 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
+#pragma once
 
 #include "ENESMBusInterface.h"
 #include "i2c_smbus.h"
-
-#pragma once
 
 class ENESMBusInterface_i2c_smbus : public ENESMBusInterface
 {

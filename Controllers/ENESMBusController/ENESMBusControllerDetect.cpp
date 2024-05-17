@@ -1,3 +1,15 @@
+/*---------------------------------------------------------*\
+| ENESMBusControllerDetect.cpp                              |
+|                                                           |
+|   Detector for ENE SMBus devices                          |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <vector>
 #include "Detector.h"
 #include "ENESMBusController.h"
 #include "ENESMBusInterface_i2c_smbus.h"
@@ -6,9 +18,6 @@
 #include "RGBController_ENESMBus.h"
 #include "i2c_smbus.h"
 #include "pci_ids.h"
-#include <vector>
-#include <stdio.h>
-#include <stdlib.h>
 #include "dmiinfo.h"
 
 #define DETECTOR_NAME   "ENE (ASUS Aura) SMBus Controller"

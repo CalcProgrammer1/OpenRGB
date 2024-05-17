@@ -1,16 +1,24 @@
+/*---------------------------------------------------------*\
+| XPGSpectrixS40GDetect_Linux.cpp                           |
+|                                                           |
+|   Detector for XPG Spectrix S40G (Linux)                  |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
+#include <dirent.h>
+#include <fcntl.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <vector>
 #include "Detector.h"
 #include "ENESMBusController.h"
 #include "ENESMBusInterface_SpectrixS40G_Linux.h"
 #include "LogManager.h"
 #include "RGBController.h"
 #include "RGBController_ENESMBus.h"
-#include <vector>
-#include <stdio.h>
-#include <stdlib.h>
-
-#include <fcntl.h>
-#include <unistd.h>
-#include <dirent.h>
 
 /******************************************************************************************\
 *                                                                                          *

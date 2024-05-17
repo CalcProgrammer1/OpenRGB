@@ -1,18 +1,17 @@
-/*-----------------------------------------*\
-|  ENESMBusController.cpp                   |
-|                                           |
-|  Driver for ENE SMBus RGB lighting        |
-|  controller                               |
-|                                           |
-|  Formerly known as ASUS Aura SMBus. ASUS  |
-|  AURA chips are rebranded ENE controllers |
-|                                           |
-|  Adam Honse (CalcProgrammer1) 8/19/2018   |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| ENESMBusController.cpp                                    |
+|                                                           |
+|   Driver for ENE SMBus devices                            |
+|                                                           |
+|   Adam Honse (CalcProgrammer1)                19 Aug 2018 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
+#include <cstring>
 #include "ENESMBusController.h"
 #include "LogManager.h"
-#include <cstring>
 
 static const char* ene_channels[] =                 /* ENE channel strings                  */
 {

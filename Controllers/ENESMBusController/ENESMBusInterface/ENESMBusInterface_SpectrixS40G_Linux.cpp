@@ -1,16 +1,18 @@
-/*-----------------------------------------*\
-|  ENESMBusInterface_SpectrixS40G.cpp       |
-|                                           |
-|  Code for ENE XPG Spectrix S40G NVMe      |
-|  interface                                |
-|                                           |
-|  Adam Honse (CalcProgrammer1) 11/21/2021  |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| ENESMBusInterface_SpectrixS40G_Linux.cpp                  |
+|                                                           |
+|   ENE SMBus interface for XPG Spectrix S40G (Linux)       |
+|                                                           |
+|   Adam Honse (CalcProgrammer1)                21 Nov 2021 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
-#include "ENESMBusInterface_SpectrixS40G_Linux.h"
-#include <sys/ioctl.h>
-#include <cstring>
 #include <cstdint>
+#include <cstring>
+#include <sys/ioctl.h>
+#include "ENESMBusInterface_SpectrixS40G_Linux.h"
 
 /*---------------------------------------------------------------------*\
 | Functions for submitting NVME admin passthrough command taken from    |

@@ -1,17 +1,18 @@
-/*-----------------------------------------*\
-|  ENESMBusInterface_SpectrixS40G_Windows.h |
-|                                           |
-|  Definitions and types for ENE XPG        |
-|  Spectrix S40G NVMe interface             |
-|  Windows implementation                   |
-|                                           |
-|  Adam Honse (CalcProgrammer1) 11/21/2021  |
-\*-----------------------------------------*/
-
-#include "ENESMBusInterface.h"
-#include <windows.h>
+/*---------------------------------------------------------*\
+| ENESMBusInterface_SpectrixS40G_Windows.h                  |
+|                                                           |
+|   ENE SMBus interface for XPG Spectrix S40G (Windows)     |
+|                                                           |
+|   Adam Honse (CalcProgrammer1)                21 Nov 2021 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #pragma once
+
+#include <windows.h>
+#include "ENESMBusInterface.h"
 
 class ENESMBusInterface_SpectrixS40G : public ENESMBusInterface
 {

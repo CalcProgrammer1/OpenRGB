@@ -1,11 +1,19 @@
+/*---------------------------------------------------------*\
+| ROGArionDetect.cpp                                        |
+|                                                           |
+|   Detector for ASUS ROG Arion                             |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
+#include <vector>
 #include "Detector.h"
 #include "ENESMBusController.h"
 #include "ENESMBusInterface_ROGArion.h"
 #include "LogManager.h"
 #include "RGBController.h"
 #include "RGBController_ENESMBus.h"
-#include <vector>
-
 #include "scsiapi.h"
 
 /******************************************************************************************\
