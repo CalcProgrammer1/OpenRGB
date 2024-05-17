@@ -1,8 +1,19 @@
+/*---------------------------------------------------------*\
+| EpomakerControllerDetect.cpp                              |
+|                                                           |
+|   Detector for Epomaker keyboard                          |
+|                                                           |
+|   Alvaro Munoz (alvaromunoz)                  05 Jun 2023 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
+#include <hidapi/hidapi.h>
 #include "Detector.h"
 #include "EpomakerController.h"
 #include "RGBController.h"
 #include "RGBController_EpomakerController.h"
-#include <hidapi/hidapi.h>
 
 #define EPOMAKER_VID                    0x3151
 #define EPOMAKER_TH80_Pro_USB_PID       0x4010

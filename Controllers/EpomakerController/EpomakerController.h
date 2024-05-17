@@ -1,22 +1,23 @@
-/*-------------------------------------------------------------------*\
-|  EpomakerController.h                                               |
-|                                                                     |
-|  Driver for Epomaker Keyboard                                       |
-|                                                                     |
-|  Alvaro Munoz (alvaromunoz)          2023-06-05                     |
-|                                                                     |
-\*-------------------------------------------------------------------*/
+/*---------------------------------------------------------*\
+| EpomakerController.h                                      |
+|                                                           |
+|   Driver for Epomaker keyboard                            |
+|                                                           |
+|   Alvaro Munoz (alvaromunoz)                  05 Jun 2023 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
-#ifndef EpomakerCONTROLLER_H
-#define EpomakerCONTROLLER_H
+#pragma once
 
 #include <string>
 #include <hidapi/hidapi.h>
 
-#define EPOMAKER_PACKET_LENGTH 0x40
-#define EPOMAKER_COMMAND_RGB   0x07
-#define EPOMAKER_COMMAND_SET   0xf60a
-#define EPOMAKER_COMMAND_PING  0xf7
+#define EPOMAKER_PACKET_LENGTH                      0x40
+#define EPOMAKER_COMMAND_RGB                        0x07
+#define EPOMAKER_COMMAND_SET                        0xF60A
+#define EPOMAKER_COMMAND_PING                       0xF7
 
 enum
 {
@@ -122,5 +123,3 @@ private:
 
     void SendUpdate();
 };
-
-#endif // EpomakerCONTROLLER_H

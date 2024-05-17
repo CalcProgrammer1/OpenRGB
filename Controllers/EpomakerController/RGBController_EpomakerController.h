@@ -1,17 +1,18 @@
-/*-------------------------------------------------------------------*\
-|  RGBController_EpomakerController.h                                 |
-|                                                                     |
-|  Driver for Epomaker Keyboard                                       |
-|                                                                     |
-|  Alvaro Munoz (alvaromunoz)          2023-06-05                     |
-|                                                                     |
-\*-------------------------------------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_EpomakerController.h                        |
+|                                                           |
+|   RGBController for Epomaker keyboard                     |
+|                                                           |
+|   Alvaro Munoz (alvaromunoz)                  05 Jun 2023 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
-#ifndef RGBCONTROLLER_EpomakerCONTROLLER_H
-#define RGBCONTROLLER_EpomakerCONTROLLER_H
+#pragma once
 
 #include "RGBController.h"
-#include "Controllers/EpomakerController/EpomakerController.h"
+#include "EpomakerController.h"
 
 class RGBController_EpomakerController : public RGBController
 {
@@ -32,5 +33,3 @@ public:
 private:
     EpomakerController* controller;
 };
-
-#endif // RGBCONTROLLER_EpomakerCONTROLLER_H
