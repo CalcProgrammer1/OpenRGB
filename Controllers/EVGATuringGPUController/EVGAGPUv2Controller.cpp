@@ -1,11 +1,13 @@
-/*-----------------------------------------*\
-|  EVGAGPUv2Controller.cpp                  |
-|                                           |
-|  Driver for EVGA GPU RGB V2 (Turing)      |
-|  lighting controller                      |
-|                                           |
-|  TheRogueZeta                 4/15/2021   |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| EVGAGPUv2Controller.cpp                                   |
+|                                                           |
+|   Driver for EVGA V2 (Turing) GPU                         |
+|                                                           |
+|   TheRogueZeta                                15 Apr 2021 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #include "EVGAGPUv2Controller.h"
 

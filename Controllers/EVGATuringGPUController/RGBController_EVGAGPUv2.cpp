@@ -1,11 +1,13 @@
-/*-----------------------------------------*\
-|  RGBController_EVGAGPUv2.cpp              |
-|                                           |
-|  Generic RGB Interface for OpenRGB EVGA   |
-|  GPU V2 (Turing) Driver                   |
-|                                           |
-|  TheRogueZeta                 4/15/2021   |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_EVGAGPUv2.cpp                               |
+|                                                           |
+|   RGBController for EVGA V2 (Turing) GPU                  |
+|                                                           |
+|   TheRogueZeta                                15 Apr 2021 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #include "RGBController_EVGAGPUv2.h"
 
