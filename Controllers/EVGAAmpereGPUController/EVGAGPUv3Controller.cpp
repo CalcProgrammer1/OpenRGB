@@ -1,11 +1,13 @@
-/*-----------------------------------------*\
-|  EVGAGPUv3Controller.cpp                  |
-|                                           |
-|  Driver for EVGA GPU RGB V3 (Ampere)      |
-|  lighting controller                      |
-|                                           |
-|  TheRogueZeta                 7/15/2021   |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| EVGAGPUv3Controller.cpp                                   |
+|                                                           |
+|   Driver for EVGA V3 (Ampere) GPU                         |
+|                                                           |
+|   TheRogueZeta                                15 Jul 2021 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #include "EVGAGPUv3Controller.h"
 #include "LogManager.h"

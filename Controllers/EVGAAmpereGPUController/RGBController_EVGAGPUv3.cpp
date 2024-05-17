@@ -1,11 +1,13 @@
-/*-----------------------------------------*\
-|  RGBController_EVGAGPUv3.cpp              |
-|                                           |
-|  Generic RGB Interface for OpenRGB EVGA   |
-|  GPU V3 (Ampere) Driver                   |
-|                                           |
-|  TheRogueZeta                 7/15/2021   |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_EVGAGPUv3.cpp                               |
+|                                                           |
+|   RGBController for EVGA V3 (Ampere) GPU                  |
+|                                                           |
+|   TheRogueZeta                                15 Jul 2021 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #include "RGBController_EVGAGPUv3.h"
 #include "LogManager.h"
