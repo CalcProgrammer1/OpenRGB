@@ -1,16 +1,19 @@
 /*---------------------------------------------------------*\
-|  Definitions for Espurna Interface                        |
+| EspurnaController.h                                       |
 |                                                           |
-|  Adam Honse (calcprogrammer1@gmail.com), 9/11/2020        |
+|   Driver for Espurna                                      |
+|                                                           |
+|   Adam Honse (calcprogrammer1@gmail.com)      11 Sep 2020 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
 \*---------------------------------------------------------*/
 
-#ifndef ESPURNA_H
-#define ESPURNA_H
+#pragma once
 
+#include <vector>
 #include "RGBController.h"
 #include "net_port.h"
-#include <vector>
-
 
 #ifndef TRUE
 #define TRUE true
@@ -45,5 +48,3 @@ private:
 
     net_port *tcpport;
 };
-
-#endif

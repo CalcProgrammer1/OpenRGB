@@ -1,15 +1,19 @@
 /*---------------------------------------------------------*\
-|  Processing Code for Espurna Interface                    |
+| EspurnaController.cpp                                     |
 |                                                           |
-|  Adam Honse (calcprogrammer1@gmail.com), 9/11/2020        |
+|   Driver for Espurna                                      |
+|                                                           |
+|   Adam Honse (calcprogrammer1@gmail.com)      11 Sep 2020 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
 \*---------------------------------------------------------*/
-
-#include "EspurnaController.h"
 
 #include <fstream>
 #include <iostream>
 #include <string>
 #include <string.h>
+#include "EspurnaController.h"
 
 EspurnaController::EspurnaController()
 {

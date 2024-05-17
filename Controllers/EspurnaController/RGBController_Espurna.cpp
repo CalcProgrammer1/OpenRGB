@@ -1,10 +1,13 @@
-/*-----------------------------------------*\
-|  RGBController_Espurna.cpp                |
-|                                           |
-|  Generic RGB Interface for Espurna        |
-|                                           |
-|  Adam Honse (CalcProgrammer1) 6/20/2019   |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_Espurna.cpp                                 |
+|                                                           |
+|   RGBController for Espurna                               |
+|                                                           |
+|   Adam Honse (calcprogrammer1@gmail.com)      11 Sep 2020 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #include "RGBController_Espurna.h"
 
