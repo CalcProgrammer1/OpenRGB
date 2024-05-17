@@ -1,12 +1,13 @@
-/*-----------------------------------------*\
-|  EVGAGP102Controller.cpp                  |
-|                                           |
-|  Driver for EVGA GP102-based Nvidia GPUs  |
-|  RGB controller for use with GeForce      |
-|  GTX 1080 Ti FTW3 and K|NGP|N.            |
-|                                           |
-|  Fabricio Murta (avengerx) 1/31/2021      |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| EVGAGP102Controller.cpp                                   |
+|                                                           |
+|   Driver for EVGA GP102 GPU                               |
+|                                                           |
+|   Fabricio Murta (avengerx)                   31 Jan 2021 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #include "EVGAGP102Controller.h"
 #include "LogManager.h"

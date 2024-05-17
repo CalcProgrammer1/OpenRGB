@@ -1,14 +1,16 @@
-/*-----------------------------------------*\
-|  RGBController_EVGAGPUv1.cpp              |
-|                                           |
-|  Generic RGB Interface for OpenRGB EVGA   |
-|  GP102-based Nvidia GPUs.                 |
-|                                           |
-|  Fabricio Murta (avengerx) 1/31/2021      |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_EVGAGP102.cpp                               |
+|                                                           |
+|   RGBController for EVGA GP102 GPU                        |
+|                                                           |
+|   Fabricio Murta (avengerx)                   31 Jan 2021 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
-#include "RGBController_EVGAGP102.h"
 #include <array>
+#include "RGBController_EVGAGP102.h"
 
 /**------------------------------------------------------------------*\
     @name EVGA GP102 GPU

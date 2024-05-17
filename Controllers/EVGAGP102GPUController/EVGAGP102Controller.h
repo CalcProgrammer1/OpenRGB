@@ -1,18 +1,19 @@
-/*-----------------------------------------*\
-|  EVGAGP102Controller.h                    |
-|                                           |
-|  Definitions and types for EVGA           |
-|  GP102-based Nvidia GPUs' RGB controller  |
-|  GeForce GTX 1080 Ti K|NGP|N and FTW3.    |
-|                                           |
-|  Fabricio Murta (avengerx) 1/31/2021      |
-\*-----------------------------------------*/
-
-#include <string>
-#include "i2c_smbus.h"
-#include <vector>
+/*---------------------------------------------------------*\
+| EVGAGP102Controller.h                                     |
+|                                                           |
+|   Driver for EVGA GP102 GPU                               |
+|                                                           |
+|   Fabricio Murta (avengerx)                   31 Jan 2021 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #pragma once
+
+#include <string>
+#include <vector>
+#include "i2c_smbus.h"
 
 #define EVGA_GP102_CONTROLLER_NAME "EVGA GP102 Nvidia GPU"
 
