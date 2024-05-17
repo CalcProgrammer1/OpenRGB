@@ -235,12 +235,17 @@ void Ui::OpenRGBPluginsPage::on_RemovePluginButton_clicked()
                 if((plugin_settings["plugins"][plugin_idx]["name"] == entries[cur_row]->ui->NameValue->text().toStdString())
                  &&(plugin_settings["plugins"][plugin_idx]["description"] == entries[cur_row]->ui->DescriptionValue->text().toStdString()))
                 {
-                    plugin_settings["plugins"].erase(plugin_idx);
+                    /*-----------------------------------------------------*\
+                    | Mark plugin to be removed on next restart             |
+                    \*-----------------------------------------------------*/
+                    plugin_settings["plugins_remove"][plugin_settings["plugins_remove"].size()] = entries[cur_row]->ui->PathValue->text().toStdString();
 
                     ResourceManager::get()->GetSettingsManager()->SetSettings("Plugins", plugin_settings);
                     ResourceManager::get()->GetSettingsManager()->SaveSettings();
 
-                    break;
+                    QMessageBox::information(this, tr("Restart Needed"), tr("The plugin will be fully removed after restarting OpenRGB."), QMessageBox::Ok);
+
+                    return;
                 }
             }
         }

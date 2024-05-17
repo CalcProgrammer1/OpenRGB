@@ -128,6 +128,38 @@ void PluginManager::AddPlugin(const filesystem::path& path, bool is_system)
     unsigned int plugin_idx;
 
     /*---------------------------------------------------------------------*\
+    | Open plugin settings                                                  |
+    \*---------------------------------------------------------------------*/
+    json plugin_settings = ResourceManager::get()->GetSettingsManager()->GetSettings("Plugins");
+
+    /*---------------------------------------------------------------------*\
+    | Check if this plugin is on the remove list                            |
+    \*---------------------------------------------------------------------*/
+    if(plugin_settings.contains("plugins_remove"))
+    {
+        for(unsigned int plugin_remove_idx = 0; plugin_remove_idx < plugin_settings["plugins_remove"].size(); plugin_remove_idx++)
+        {
+            LOG_WARNING("[PluginManager] Checking remove %d, %s", plugin_remove_idx, to_string(plugin_settings["plugins_remove"][plugin_remove_idx]).c_str());
+
+            if(plugin_settings["plugins_remove"][plugin_remove_idx] == path.generic_u8string())
+            {
+                /*---------------------------------------------------------*\
+                | Delete the plugin file                                    |
+                \*---------------------------------------------------------*/
+                filesystem::remove(path);
+            }
+
+            /*-----------------------------------------------------------------*\
+            | Erase the plugin from the remove list                             |
+            \*-----------------------------------------------------------------*/
+            plugin_settings["plugins_remove"].erase(plugin_remove_idx);
+
+            ResourceManager::get()->GetSettingsManager()->SetSettings("Plugins", plugin_settings);
+            ResourceManager::get()->GetSettingsManager()->SaveSettings();
+        }
+    }
+
+    /*---------------------------------------------------------------------*\
     | Search active plugins to see if this path already exists              |
     \*---------------------------------------------------------------------*/
     for(plugin_idx = 0; plugin_idx < ActivePlugins.size(); plugin_idx++)
@@ -181,11 +213,6 @@ void PluginManager::AddPlugin(const filesystem::path& path, bool is_system)
                     bool            enabled     = true;
                     bool            found       = false;
                     unsigned int    plugin_ct   = 0;
-
-                    /*-----------------------------------------------------*\
-                    | Open plugin list and check if plugin is in the list   |
-                    \*-----------------------------------------------------*/
-                    json plugin_settings = ResourceManager::get()->GetSettingsManager()->GetSettings("Plugins");
 
                     if(plugin_settings.contains("plugins"))
                     {
