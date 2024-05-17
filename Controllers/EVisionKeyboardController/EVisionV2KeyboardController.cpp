@@ -1,10 +1,13 @@
-/*-------------------------------------------------------------------*\
-|  EVisionV2KeyboardController.cpp                                    |
-|                                                                     |
-|  Driver for recent EVision RGB keyboard lighting controller         |
-|                                                                     |
-|  Le Philousophe         25 Dec 2022                                 |
-\*-------------------------------------------------------------------*/
+/*---------------------------------------------------------*\
+| EVisionV2KeyboardController.cpp                           |
+|                                                           |
+|   Driver for EVision V2 keyboard                          |
+|                                                           |
+|   Le Philousophe                              25 Dec 2022 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #include <cstring>
 #include "LogManager.h"

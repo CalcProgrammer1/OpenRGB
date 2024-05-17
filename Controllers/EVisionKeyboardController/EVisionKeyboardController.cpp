@@ -1,18 +1,17 @@
-/*-----------------------------------------*\
-|  EVisionKeyboardController.cpp            |
-|                                           |
-|  Driver for EVision RGB keyboard lighting |
-|  controller                               |
-|                                           |
-|  EVision is used by Redragon, Glorious,   |
-|  Ajazz, Tecware, and many other brands    |
-|                                           |
-|  Adam Honse (CalcProgrammer1) 3/15/2020   |
-\*-----------------------------------------*/
-
-#include "EVisionKeyboardController.h"
+/*---------------------------------------------------------*\
+| EVisionKeyboardController.cpp                             |
+|                                                           |
+|   Driver for EVision keyboard (Redragon, Glorious, Ajazz, |
+|   Tecware, and many other brands)                         |
+|                                                           |
+|   Adam Honse (CalcProgrammer1)                15 Mar 2020 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #include <cstring>
+#include "EVisionKeyboardController.h"
 
 EVisionKeyboardController::EVisionKeyboardController(hid_device* dev_handle, const char* path)
 {

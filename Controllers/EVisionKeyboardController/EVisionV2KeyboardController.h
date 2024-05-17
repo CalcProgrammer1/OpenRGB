@@ -1,16 +1,19 @@
-/*-------------------------------------------------------------------*\
-|  EVisionV2KeyboardController.h                                      |
-|                                                                     |
-|  Definitions and types for EVision RGB keyboard lighting controller |
-|                                                                     |
-|  Le Philousophe          25 Dec 2022                                |
-\*-------------------------------------------------------------------*/
+/*---------------------------------------------------------*\
+| EVisionV2KeyboardController.h                             |
+|                                                           |
+|   Driver for EVision V2 keyboard                          |
+|                                                           |
+|   Le Philousophe                              25 Dec 2022 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
+#pragma once
 
 #include <string>
 #include <hidapi/hidapi.h>
 #include "RGBController.h"
-
-#pragma once
 
 #define EVISION_V2_PACKET_SIZE                       64
 #define HID_MAX_STR                                 255

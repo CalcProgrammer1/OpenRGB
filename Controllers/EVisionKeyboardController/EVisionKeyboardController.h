@@ -1,21 +1,20 @@
-/*-----------------------------------------*\
-|  EVisionKeyboardController.h              |
-|                                           |
-|  Definitions and types for EVision RGB    |
-|  keyboard lighting controller             |
-|                                           |
-|  EVision is used by Redragon, Glorious,   |
-|  Ajazz, Tecware, and many other brands    |
-|                                           |
-|  Adam Honse (CalcProgrammer1) 3/15/2020   |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| EVisionKeyboardController.h                               |
+|                                                           |
+|   Driver for EVision keyboard (Redragon, Glorious, Ajazz, |
+|   Tecware, and many other brands)                         |
+|                                                           |
+|   Adam Honse (CalcProgrammer1)                15 Mar 2020 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
-#include "RGBController.h"
+#pragma once
 
 #include <string>
 #include <hidapi/hidapi.h>
-
-#pragma once
+#include "RGBController.h"
 
 #define EVISION_KB_MAX_PACKET_SIZE                  ( 0x36 )/* max packet size for color*/
                                                             /* update packets           */

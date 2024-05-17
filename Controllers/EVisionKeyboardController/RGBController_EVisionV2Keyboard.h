@@ -1,16 +1,20 @@
-/*-------------------------------------------------------------------*\
-|  RGBController_EVisionV2KeyboardController.h                        |
-|                                                                     |
-|  Generic RGB Interface for EVision V2 RGB Keyboard                  |
-|                                                                     |
-|  Le Philousophe          25 Dec 2022                                |
-\*-------------------------------------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_EVisionV2Keyboard.h                         |
+|                                                           |
+|   RGBController for EVision V2 keyboard                   |
+|                                                           |
+|   Le Philousophe                              25 Dec 2022 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #pragma once
+
+#include <vector>
 #include "LogManager.h"
 #include "RGBController.h"
 #include "EVisionV2KeyboardController.h"
-#include <vector>
 
 class RGBController_EVisionV2Keyboard : public RGBController
 {

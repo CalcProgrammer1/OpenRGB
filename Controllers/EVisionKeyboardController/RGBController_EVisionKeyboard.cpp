@@ -1,11 +1,14 @@
-/*-----------------------------------------*\
-|  RGBController_EVisionKeyboard.cpp        |
-|                                           |
-|  Generic RGB Interface for EVision RGB    |
-|  Keyboard                                 |
-|                                           |
-|  Adam Honse (CalcProgrammer1) 3/25/2020   |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_EVisionKeyboard.cpp                         |
+|                                                           |
+|   RGBController for EVision keyboard (Redragon, Glorious, |
+|   Ajazz, Tecware, and many other brands)                  |
+|                                                           |
+|   Adam Honse (CalcProgrammer1)                25 Mar 2020 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #include "RGBController_EVisionKeyboard.h"
 

@@ -1,3 +1,14 @@
+/*---------------------------------------------------------*\
+| EVisionKeyboardControllerDetect.cpp                       |
+|                                                           |
+|   Detector for EVision keyboards                          |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
+#include <vector>
+#include <hidapi/hidapi.h>
 #include "Detector.h"
 #include "EVisionKeyboardController.h"
 #include "EVisionV2KeyboardController.h"
@@ -5,8 +16,6 @@
 #include "RGBController_EVisionKeyboard.h"
 #include "RGBController_EVisionV2Keyboard.h"
 #include "SettingsManager.h"
-#include <vector>
-#include <hidapi/hidapi.h>
 
 /*-----------------------------------------------------*\
 | Keyboard product IDs                                  |
