@@ -17,6 +17,7 @@ QT +=                                                                           
 CONFIG +=   c++17                                                                               \
             lrelease                                                                            \
             embed_translations                                                                  \
+            silent                                                                              \
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
