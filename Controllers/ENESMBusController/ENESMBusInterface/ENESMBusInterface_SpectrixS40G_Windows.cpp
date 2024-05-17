@@ -9,6 +9,7 @@
 |   SPDX-License-Identifier: GPL-2.0-only                   |
 \*---------------------------------------------------------*/
 
+#include <windows.h>
 #include <fileapi.h>
 #include <nvme.h>
 #include <winioctl.h>

@@ -7,11 +7,11 @@
 |   SPDX-License-Identifier: GPL-2.0-only                   |
 \*---------------------------------------------------------*/
 
+#include <windows.h>
 #include <fileapi.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <vector>
-#include <windows.h>
 #include "Detector.h"
 #include "ENESMBusController.h"
 #include "ENESMBusInterface_SpectrixS40G_Windows.h"
