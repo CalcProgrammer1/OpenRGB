@@ -159,21 +159,21 @@ void PluginManager::AddPlugin(const filesystem::path& path)
                     {
                         plugin_ct = plugin_settings["plugins"].size();
 
-                        for(unsigned int plugin_idx = 0; plugin_idx < plugin_settings["plugins"].size(); plugin_idx++)
+                        for(unsigned int plugin_settings_idx = 0; plugin_settings_idx < plugin_settings["plugins"].size(); plugin_settings_idx++)
                         {
-                            if(plugin_settings["plugins"][plugin_idx].contains("name"))
+                            if(plugin_settings["plugins"][plugin_settings_idx].contains("name"))
                             {
-                                name        = plugin_settings["plugins"][plugin_idx]["name"];
+                                name        = plugin_settings["plugins"][plugin_settings_idx]["name"];
                             }
 
-                            if(plugin_settings["plugins"][plugin_idx].contains("description"))
+                            if(plugin_settings["plugins"][plugin_settings_idx].contains("description"))
                             {
-                                description = plugin_settings["plugins"][plugin_idx]["description"];
+                                description = plugin_settings["plugins"][plugin_settings_idx]["description"];
                             }
 
-                            if(plugin_settings["plugins"][plugin_idx].contains("enabled"))
+                            if(plugin_settings["plugins"][plugin_settings_idx].contains("enabled"))
                             {
-                                enabled     = plugin_settings["plugins"][plugin_idx]["enabled"];
+                                enabled     = plugin_settings["plugins"][plugin_settings_idx]["enabled"];
                             }
 
                             if((info.Name == name)
