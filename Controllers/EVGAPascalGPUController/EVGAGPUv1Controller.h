@@ -1,16 +1,18 @@
-/*-----------------------------------------*\
-|  EVGAGPUv1Controller.h                    |
-|                                           |
-|  Definitions and types for EVGA GPU RGB   |
-|  V1 (Pascal) lighting controller          |
-|                                           |
-|  Adam Honse (CalcProgrammer1) 9/11/2020   |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| EVGAGPUv1Controller.h                                     |
+|                                                           |
+|   Driver for EVGA V1 (Pascal) GPU                         |
+|                                                           |
+|   Adam Honse (CalcProgrammer1)                11 Sep 2020 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
+#pragma once
 
 #include <string>
 #include "i2c_smbus.h"
-
-#pragma once
 
 typedef unsigned char	evga_dev_id;
 
@@ -52,5 +54,4 @@ public:
 private:
     i2c_smbus_interface*    bus;
     evga_dev_id             dev;
-
 };

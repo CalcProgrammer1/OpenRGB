@@ -1,11 +1,13 @@
-/*-----------------------------------------*\
-|  RGBController_EVGAGPUv1.h                |
-|                                           |
-|  Generic RGB Interface for OpenRGB        |
-|  EVGA GPU RGB V1 (Pascal) Driver          |
-|                                           |
-|  Adam Honse (CalcProgrammer1) 9/11/2020   |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_EVGAGPUv1.h                                 |
+|                                                           |
+|   RGBController for EVGA V1 (Pascal) GPU                  |
+|                                                           |
+|   Adam Honse (CalcProgrammer1)                11 Sep 2020 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #pragma once
 
