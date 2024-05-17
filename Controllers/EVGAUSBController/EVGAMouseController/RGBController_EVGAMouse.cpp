@@ -1,10 +1,13 @@
-/*----------------------------------------------*\
-|  RGBController_EVGAMouse.cpp         |
-|                                                |
-|  RGB Implementation for EVGA X20 Gaming Mouse. |
-|                                                |
-|  Cooper Knaak 1/23/2022                        |
-\*----------------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_EVGAMouse.cpp                               |
+|                                                           |
+|   RGBController for EVGA mouse                            |
+|                                                           |
+|   Cooper Knaak                                23 Jan 2022 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #include "RGBController_EVGAMouse.h"
 #include "Colors.h"

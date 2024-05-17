@@ -1,11 +1,13 @@
-/*-------------------------------------------------------------------*\
-|  RGBController_EVGAKeyboard.cpp                                     |
-|                                                                     |
-|  Driver for EVGA Z15 Keyboard                                       |
-|                                                                     |
-|  Chris M (Dr_No)          25 Nov 2021                               |
-|                                                                     |
-\*-------------------------------------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_EVGAKeyboard.cpp                            |
+|                                                           |
+|   RGBController for EVGA keyboard                         |
+|                                                           |
+|   Chris M (Dr_No)                             25 Nov 2021 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #include <time.h>
 #include "Colors.h"

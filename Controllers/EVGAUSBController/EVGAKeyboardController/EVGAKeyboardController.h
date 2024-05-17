@@ -1,18 +1,20 @@
-/*-------------------------------------------------------------------*\
-|  EVGAKeyboardController.h                                           |
-|                                                                     |
-|  Driver for EVGA Z15 Keyboard                                       |
-|                                                                     |
-|  Chris M (Dr_No)          25 Nov 2021                               |
-|                                                                     |
-\*-------------------------------------------------------------------*/
+/*---------------------------------------------------------*\
+| EVGAKeyboardController.h                                  |
+|                                                           |
+|   Driver for EVGA keyboard                                |
+|                                                           |
+|   Chris M (Dr_No)                             25 Nov 2021 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
+#pragma once
 
 #include <string>
 #include <hidapi/hidapi.h>
 #include "LogManager.h"
 #include "RGBController.h"
-
-#pragma once
 
 #define NA                                          0xFFFFFFFF
 #define HID_MAX_STR                                 255

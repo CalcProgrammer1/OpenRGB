@@ -1,9 +1,18 @@
+/*---------------------------------------------------------*\
+| EVGAUSBControllerDetect.cpp                               |
+|                                                           |
+|   Detector for EVGA USB devices                           |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
+#include <hidapi/hidapi.h>
 #include "Detector.h"
 #include "LogManager.h"
 #include "RGBController.h"
 #include "RGBController_EVGAKeyboard.h"
 #include "RGBController_EVGAMouse.h"
-#include <hidapi/hidapi.h>
 
 /*-----------------------------------------------------*\
 | EVGA USB vendor ID                                    |

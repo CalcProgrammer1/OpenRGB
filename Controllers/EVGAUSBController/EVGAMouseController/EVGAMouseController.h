@@ -1,16 +1,18 @@
-/*-----------------------------------*\
-|  EVGAMouseController.h              |
-|                                     |
-|  Definitions and types for EVGA X20 |
-|  Gaming Mouse.                      |
-|                                     |
-|  Cooper Knaak 1/23/2022             |
-\*-----------------------------------*/
+/*---------------------------------------------------------*\
+| EVGAMouseController.h                                     |
+|                                                           |
+|   Driver for EVGA mouse                                   |
+|                                                           |
+|   Cooper Knaak                                23 Jan 2022 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #pragma once
 
-#include <string>
 #include <array>
+#include <string>
 #include <hidapi/hidapi.h>
 #include "RGBController.h"
 

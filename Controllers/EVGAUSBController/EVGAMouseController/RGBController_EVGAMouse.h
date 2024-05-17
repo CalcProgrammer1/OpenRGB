@@ -1,16 +1,19 @@
-/*-----------------------------------------*\
-|  RGBController_EVGAMouse.h                |
-|                                           |
-|  RGB Interface for EVGA X20 Gaming Mouse. |
-|                                           |
-|  Cooper Knaak 1/23/2022                   |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_EVGAMouse.h                                 |
+|                                                           |
+|   RGBController for EVGA mouse                            |
+|                                                           |
+|   Cooper Knaak                                23 Jan 2022 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #pragma once
 
+#include <vector>
 #include "RGBController.h"
 #include "EVGAMouseController.h"
-#include <vector>
 
 #define EVGA_PERIPHERAL_BRIGHTNESS_MIN 0
 #define EVGA_PERIPHERAL_BRIGHTNESS_MAX 100
@@ -38,6 +41,4 @@ private:
     int         GetDeviceMode();
 
     EVGAMouseController* controller;
-
 };
-

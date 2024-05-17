@@ -1,19 +1,20 @@
-/*-------------------------------------------------*\
-|  EVGAMouseController.cpp                          |
-|                                                   |
-|  Driver for EVGA X20 Gaming Mouse RGB Controller. |
-|                                                   |
-|  Cooper Knaak 1/23/2022                           |
-\*-------------------------------------------------*/
-
-#include "EVGAMouseController.h"
-#include "LogManager.h"
+/*---------------------------------------------------------*\
+| EVGAMouseController.cpp                                   |
+|                                                           |
+|   Driver for EVGA mouse                                   |
+|                                                           |
+|   Cooper Knaak                                23 Jan 2022 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #include <algorithm>
+#include <chrono>
 #include <iostream>
 #include <thread>
-#include <chrono>
-
+#include "EVGAMouseController.h"
+#include "LogManager.h"
 
 #define HID_MAX_STR 255
 #define EVGA_PERIPHERAL_LED_SOURCE_OF_TRUTH EVGA_PERIPHERAL_LED_LOGO
