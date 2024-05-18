@@ -1,12 +1,16 @@
 /*---------------------------------------------------------*\
-|  FanBus Interface                                         |
+| FanBusInterface.cpp                                       |
 |                                                           |
-|  Adam Honse (calcprogrammer1@gmail.com), 1/12/2021        |
+|   Interface for FanBus devices                            |
+|                                                           |
+|   Adam Honse (calcprogrammer1@gmail.com)      12 Jan 2021 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
 \*---------------------------------------------------------*/
 
-#include "FanBusInterface.h"
-
 #include <thread>
+#include "FanBusInterface.h"
 
 using namespace std::chrono_literals;
 

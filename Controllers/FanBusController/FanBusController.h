@@ -1,15 +1,19 @@
 /*---------------------------------------------------------*\
-|  Definitions for FanBus RGB Controller Interface          |
+| FanBusController.h                                        |
 |                                                           |
-|  Adam Honse (calcprogrammer1@gmail.com), 1/12/2021        |
+|   Driver for FanBus devices                               |
+|                                                           |
+|   Adam Honse (calcprogrammer1@gmail.com)      12 Jan 2021 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
 \*---------------------------------------------------------*/
 
 #pragma once
 
+#include <vector>
 #include "FanBusInterface.h"
 #include "RGBController.h"
-
-#include <vector>
 
 class FanBusController
 {

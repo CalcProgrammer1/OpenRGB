@@ -1,12 +1,16 @@
-/*-----------------------------------------*\
-|  RGBController_FanBus.h                   |
-|                                           |
-|  Generic RGB Interface for FanBus devices |
-|                                           |
-|  Adam Honse (CalcProgrammer1) 1/12/2021   |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_FanBus.h                                    |
+|                                                           |
+|   RGBController for FanBus devices                        |
+|                                                           |
+|   Adam Honse (calcprogrammer1@gmail.com)      12 Jan 2021 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #pragma once
+
 #include "RGBController.h"
 #include "FanBusController.h"
 

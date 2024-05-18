@@ -1,7 +1,12 @@
 /*---------------------------------------------------------*\
-|  FanBus RGB Controller Interface                          |
+| FanBusController.cpp                                      |
 |                                                           |
-|  Adam Honse (calcprogrammer1@gmail.com), 1/12/2021        |
+|   Driver for FanBus devices                               |
+|                                                           |
+|   Adam Honse (calcprogrammer1@gmail.com)      12 Jan 2021 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
 \*---------------------------------------------------------*/
 
 #include "FanBusController.h"
@@ -41,7 +46,7 @@ void FanBusController::SetLEDs(std::vector<RGBColor> colors)
         bus->write_queue(dev, 0x11 + (led_idx * 3), grn);
         bus->write_queue(dev, 0x12 + (led_idx * 3), blu);
     }
-    
+
     bus->write_queue(dev, 0x0C,  0x01);
 
     bus->process_queue();
