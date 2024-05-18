@@ -1,7 +1,16 @@
-#include "RGBController_Faustus_Linux.h"
-#include "Detector.h"
+/*---------------------------------------------------------*\
+| RGBController_Faustus_Linux.cpp                           |
+|                                                           |
+|   RGBController for Faustus devices                       |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
 #include <dirent.h>
 #include <string.h>
+#include "RGBController_Faustus_Linux.h"
+#include "Detector.h"
 
 /**------------------------------------------------------------------*\
     @name ASUS TUF Keyboard (Faustus)

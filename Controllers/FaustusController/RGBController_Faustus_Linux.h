@@ -1,8 +1,16 @@
-#ifndef RGBCONTROLLER_FAUSTUS_H
-#define RGBCONTROLLER_FAUSTUS_H
+/*---------------------------------------------------------*\
+| RGBController_Faustus_Linux.h                             |
+|                                                           |
+|   RGBController for Faustus devices                       |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
-#include "RGBController.h"
+#pragma once
+
 #include <fstream>
+#include "RGBController.h"
 
 enum
 {
@@ -34,12 +42,10 @@ class RGBController_Faustus : public RGBController
         void        SetupZones();
 
         void        ResizeZone(int zone, int new_size);
-        
+
         void        DeviceUpdateLEDs();
         void        UpdateZoneLEDs(int zone);
         void        UpdateSingleLED(int led);
 
         void        DeviceUpdateMode();
 };
-
-#endif // RGBCONTROLLER_FAUSTUS_H
