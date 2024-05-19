@@ -1,18 +1,19 @@
-/*-----------------------------------------*\
-|  ATC800Controller.h                       |
-|                                           |
-|  Definitions and types for ATC800 CPU     |
-|  Cooler                                   |
-|                                           |
-|  Felipe Cavalcanti     08/13/2020         |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| ATC800Controller.h                                        |
+|                                                           |
+|   Driver for Aorus ATC800 cooler                          |
+|                                                           |
+|   Felipe Cavalcanti                           13 Aug 2020 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
-#include "RGBController.h"
+#pragma once
 
 #include <string>
 #include <hidapi/hidapi.h>
-
-#pragma once
+#include "RGBController.h"
 
 struct aorus_atc800_mode_config
 {

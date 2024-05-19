@@ -1,13 +1,16 @@
-/*-----------------------------------------*\
-|  RGBController_AorusATC800.h              |
-|                                           |
-|  Generic RGB Interface for Aorus ATC 800  |
-|  CPU Cooler                               |
-|                                           |
-|  Felipe Cavalcanti 08/13/2020             |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_AorusATC800.h                               |
+|                                                           |
+|   RGBController for Aorus ATC800 cooler                   |
+|                                                           |
+|   Felipe Cavalcanti                           13 Aug 2020 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #pragma once
+
 #include "RGBController.h"
 #include "ATC800Controller.h"
 

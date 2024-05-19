@@ -1,15 +1,16 @@
-/*-----------------------------------------*\
-|  ATC800Controller.cpp                     |
-|                                           |
-|  Driver for Aorus ATC800 CPU Cooler       |
-|                                           |
-|                                           |
-|  Felipe Cavalcanti    08/13/2020          |
-\*-----------------------------------------*/
-
-#include "ATC800Controller.h"
+/*---------------------------------------------------------*\
+| ATC800Controller.cpp                                      |
+|                                                           |
+|   Driver for Aorus ATC800 cooler                          |
+|                                                           |
+|   Felipe Cavalcanti                           13 Aug 2020 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #include <cstring>
+#include "ATC800Controller.h"
 
 ATC800Controller::ATC800Controller(hid_device* dev_handle, const char* path)
 {
