@@ -1,16 +1,18 @@
-/*-----------------------------------------*\
-|  GigabyteRGBFusionController.h            |
-|                                           |
-|  Definitions and types for Gigabyte Aorus |
-|  RGB Fusion lighting controller           |
-|                                           |
-|  Adam Honse (CalcProgrammer1) 12/10/2019  |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| GigabyteRGBFusionController.h                             |
+|                                                           |
+|   Driver for Gigabyte Aorus RGB Fusion SMBus motherboard  |
+|                                                           |
+|   Adam Honse (CalcProgrammer1)                10 Dec 2019 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
+#pragma once
 
 #include <string>
 #include "i2c_smbus.h"
-
-#pragma once
 
 typedef unsigned char	rgb_fusion_dev_id;
 

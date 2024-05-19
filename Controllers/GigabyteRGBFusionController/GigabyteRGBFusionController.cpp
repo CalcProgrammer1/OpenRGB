@@ -1,16 +1,18 @@
-/*-----------------------------------------*\
-|  GigabyteRGBFusionController.cpp          |
-|                                           |
-|  Driver for Gigabyte Aorus RGB Fusion     |
-|  lighting controller                      |
-|                                           |
-|  Adam Honse (CalcProgrammer1) 12/10/2019  |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| GigabyteRGBFusionController.cpp                           |
+|                                                           |
+|   Driver for Gigabyte Aorus RGB Fusion SMBus motherboard  |
+|                                                           |
+|   Adam Honse (CalcProgrammer1)                10 Dec 2019 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
-#include "GigabyteRGBFusionController.h"
 #include <cstring>
 #include <stdio.h>
 #include <stdlib.h>
+#include "GigabyteRGBFusionController.h"
 
 RGBFusionController::RGBFusionController(i2c_smbus_interface* bus, rgb_fusion_dev_id dev)
 {
@@ -63,7 +65,7 @@ void RGBFusionController::SetAllColors(unsigned char red, unsigned char green, u
 {
     unsigned char mode_ch_0;
     unsigned char mode_ch_1;
-    
+
     switch_bank(1);
     set_color_ch_0(red, green, blue);
     set_color_ch_1(red, green, blue);

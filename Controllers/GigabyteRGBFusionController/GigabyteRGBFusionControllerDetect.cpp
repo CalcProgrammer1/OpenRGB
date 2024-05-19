@@ -1,3 +1,18 @@
+/*---------------------------------------------------------*\
+| GigabyteRGBFusionControllerDetect.cpp                     |
+|                                                           |
+|   Detector for Gigabyte Aorus RGB Fusion SMBus            |
+|   motherboard                                             |
+|                                                           |
+|   Adam Honse (CalcProgrammer1)                10 Dec 2019 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <vector>
 #include "Detector.h"
 #include "GigabyteRGBFusionController.h"
 #include "LogManager.h"
@@ -5,9 +20,6 @@
 #include "RGBController_GigabyteRGBFusion.h"
 #include "i2c_smbus.h"
 #include "pci_ids.h"
-#include <vector>
-#include <stdio.h>
-#include <stdlib.h>
 
 #define DETECTOR_NAME   "Gigabyte RGB Fusion SMBus"
 #define VENDOR_NAME     "Gigabyte Technology Co., Ltd."
