@@ -1,12 +1,11 @@
-/*-----------------------------------------*\
-|  RGBController_GigabyteRGBFusion2GPU.h    |
-|                                           |
-|  Generic RGB Interface for OpenRGB        |
-|  Gigabyte RGB Fusion2 GPU Driver          |
-|                                           |
-|  based on original by                     |
-|  Adam Honse (CalcProgrammer1) 2/23/2020   |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_GigabyteRGBFusion2GPU.h                     |
+|                                                           |
+|   RGBController for Gigabyte Aorus RGB Fusion 2 GPU       |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #pragma once
 

@@ -1,3 +1,15 @@
+/*---------------------------------------------------------*\
+| GigabyteRGBFusion2GPUControllerDetect.cpp                 |
+|                                                           |
+|   Detector for Gigabyte Aorus RGB Fusion 2 GPU            |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <vector>
 #include "Detector.h"
 #include "GigabyteRGBFusion2GPUController.h"
 #include "LogManager.h"
@@ -5,9 +17,6 @@
 #include "RGBController_GigabyteRGBFusion2GPU.h"
 #include "i2c_smbus.h"
 #include "pci_ids.h"
-#include <vector>
-#include <stdio.h>
-#include <stdlib.h>
 
 #define GIGABYTEGPU_CONTROLLER_NAME2    "Gigabyte RGB Fusion2 GPU"
 

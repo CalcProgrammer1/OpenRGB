@@ -1,12 +1,11 @@
-/*-----------------------------------------*\
-|  GigabyteRGBFusion2GPUController.cpp      |
-|                                           |
-|  Driver for Gigabyte Aorus RGB Fusion2 GPU|
-|  lighting controller                      |
-|                                           |
-|  based on original by                     |
-|  Adam Honse (CalcProgrammer1)             |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| GigabyteRGBFusion2GPUController.cpp                       |
+|                                                           |
+|   Driver for Gigabyte Aorus RGB Fusion 2 GPU              |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #include <chrono>
 #include <thread>

@@ -1,18 +1,17 @@
-/*------------------------------------------*\
-|  GigabyteRGBFusion2GPUController.h         |
-|                                            |
-|  Definitions and types for Gigabyte Aorus  |
-|  RGB Fusion2 GPU lighting controller       |
-|                                            |
-|  based on original by                      |
-|  Adam Honse (CalcProgrammer1) 2/20/2020    |
-\*------------------------------------------*/
+/*---------------------------------------------------------*\
+| GigabyteRGBFusion2GPUController.h                         |
+|                                                           |
+|   Driver for Gigabyte Aorus RGB Fusion 2 GPU              |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
+#pragma once
 
 #include <string>
 #include "i2c_smbus.h"
 #include "RGBController.h"
-
-#pragma once
 
 typedef unsigned char   rgb_fusion_dev_id;
 
