@@ -1,14 +1,17 @@
-﻿/*-----------------------------------------*\
-|  GigabyteAorusLaptopController.h          |
-|                                           |
-|  Driver for Gigabyte Aorus Laptop         |
-|  controller                               |
-|                                           |
-|  Guimard Morgan (morg) 06/05/2023         |
-\*-----------------------------------------*/
-#include "GigabyteAorusLaptopController.h"
-#include <string.h>
+﻿/*---------------------------------------------------------*\
+| GigabyteAorusLaptopController.cpp                         |
+|                                                           |
+|   Driver for Gigabyte Aorus laptop                        |
+|                                                           |
+|   Morgan Guimard (morg)                       05 Jun 2023 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
 #include <cmath>
+#include <string.h>
+#include "GigabyteAorusLaptopController.h"
 
 /*---------------------------------------------------------*\
 | Indexed colors mapping                                    |

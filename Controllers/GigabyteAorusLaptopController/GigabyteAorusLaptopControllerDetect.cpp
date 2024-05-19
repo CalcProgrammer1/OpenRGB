@@ -1,4 +1,15 @@
-﻿#include "Detector.h"
+﻿/*---------------------------------------------------------*\
+| GigabyteAorusLaptopControllerDetect.cpp                   |
+|                                                           |
+|   Detector for Gigabyte Aorus laptop                      |
+|                                                           |
+|   Morgan Guimard (morg)                       05 Jun 2023 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
+#include "Detector.h"
 #include "GigabyteAorusLaptopController.h"
 #include "RGBController.h"
 #include "RGBController_GigabyteAorusLaptop.h"

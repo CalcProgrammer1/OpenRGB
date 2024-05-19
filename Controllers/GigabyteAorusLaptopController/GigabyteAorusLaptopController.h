@@ -1,16 +1,19 @@
-/*-----------------------------------------*\
-|  GigabyteAorusLaptopController.cpp        |
-|                                           |
-|  Driver for Gigabyte Aorus Laptop         |
-|  controller                               |
-|                                           |
-|  Guimard Morgan (morg) 06/05/2023         |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| GigabyteAorusLaptopController.h                           |
+|                                                           |
+|   Driver for Gigabyte Aorus laptop                        |
+|                                                           |
+|   Morgan Guimard (morg)                       05 Jun 2023 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
 #pragma once
 
-#include "RGBController.h"
 #include <string>
 #include <hidapi/hidapi.h>
+#include "RGBController.h"
 
 #define GIGABYTE_AORUS_LAPTOP_REPORT_SIZE      8
 #define GIGABYTE_AORUS_LAPTOP_REPORT_ID        0x08

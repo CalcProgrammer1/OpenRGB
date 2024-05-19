@@ -1,11 +1,13 @@
-/*-----------------------------------------*\
-|  RGBController_GigabyteAorusLaptop.h      |
-|                                           |
-|  Generic RGB Interface for OpenRGB        |
-|  Gigabyte Aorus Laptop USB Driver         |
-|                                           |
-|  Guimard Morgan (morg) 06/05/2023         |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_GigabyteAorusLaptop.h                       |
+|                                                           |
+|   RGBController for Gigabyte Aorus laptop                 |
+|                                                           |
+|   Morgan Guimard (morg)                       05 Jun 2023 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #pragma once
 
@@ -34,6 +36,6 @@ public:
     void DeviceUpdateMode();
 
 private:
-    GigabyteAorusLaptopController* controller;    
+    GigabyteAorusLaptopController* controller;
     GIGABYTE_AORUS_LAPTOP_DEV_TYPE dev_type;
 };
