@@ -1,13 +1,16 @@
-/*-----------------------------------------*\
-|  GainwardGPUv2Controller.cpp              |
-|                                           |
-|  Driver for Gainward RGB v2 on GPUs       |
-|                                           |
-|  KundaPanda 01/04/2021                    |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| GainwardGPUv2Controller.cpp                               |
+|                                                           |
+|   Driver for Gainward v2 GPU                              |
+|                                                           |
+|   KundaPanda                                  04 Jan 2021 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
-#include "GainwardGPUv2Controller.h"
 #include <cstring>
+#include "GainwardGPUv2Controller.h"
 
 GainwardGPUv2Controller::GainwardGPUv2Controller(i2c_smbus_interface* bus, gainward_gpu_dev_id dev)
 {

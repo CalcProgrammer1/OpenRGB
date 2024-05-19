@@ -1,10 +1,13 @@
-/*-----------------------------------------*\
-|  RGBController_GainwardGPUv2.cpp          |
-|                                           |
-|  Driver for Gainward RGB v2 on GPUs       |
-|                                           |
-|  KundaPanda 01/04/2021                    |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_GainwardGPUv2.cpp                           |
+|                                                           |
+|   RGBController for Gainward v2 GPU                       |
+|                                                           |
+|   KundaPanda                                  04 Jan 2021 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #include "RGBController_GainwardGPUv2.h"
 

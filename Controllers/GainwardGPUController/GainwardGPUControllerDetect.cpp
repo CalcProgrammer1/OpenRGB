@@ -1,11 +1,18 @@
-/*-----------------------------------------*\
-|  GainwardGPUControllerDetect.cpp          |
-|                                           |
-|  Driver for Gainward RGB on GPUs          |
-|                                           |
-|  TheRogueZeta 11/05/2020                  |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| GainwardGPUControllerDetect.cpp                           |
+|                                                           |
+|   Detector for Gainward GPU                               |
+|                                                           |
+|   TheRogueZeta                                05 Nov 2020 |
+|   KundaPanda                                  04 Jan 2021 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
+#include <stdio.h>
+#include <stdlib.h>
+#include <vector>
 #include "Detector.h"
 #include "GainwardGPUv1Controller.h"
 #include "GainwardGPUv2Controller.h"
@@ -15,9 +22,6 @@
 #include "RGBController_GainwardGPUv2.h"
 #include "i2c_smbus.h"
 #include "pci_ids.h"
-#include <vector>
-#include <stdio.h>
-#include <stdlib.h>
 
 /******************************************************************************************\
 *                                                                                          *
@@ -94,7 +98,7 @@ void DetectGainwardGPUControllers(i2c_smbus_interface* bus, uint8_t i2c_addr, co
                     GainwardGPUv2Controller*     controller     = new GainwardGPUv2Controller(bus, i2c_addr);
                     RGBController_GainwardGPUv2* rgb_controller = new RGBController_GainwardGPUv2(controller);
                     rgb_controller->name                        = name;
-                    
+
                     ResourceManager::get()->RegisterRGBController(rgb_controller);
                 }
                 break;

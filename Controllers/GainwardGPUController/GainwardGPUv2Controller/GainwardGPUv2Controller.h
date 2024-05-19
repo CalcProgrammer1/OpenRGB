@@ -1,15 +1,18 @@
-/*-----------------------------------------*\
-|  GainwardGPUv2Controller.h                |
-|                                           |
-|  Driver for Gainward RGB v2 on GPUs       |
-|                                           |
-|  KundaPanda 01/04/2021                    |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| GainwardGPUv2Controller.h                                 |
+|                                                           |
+|   Driver for Gainward v2 GPU                              |
+|                                                           |
+|   KundaPanda                                  04 Jan 2021 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
+#pragma once
 
 #include <string>
 #include "i2c_smbus.h"
-
-#pragma once
 
 typedef unsigned char gainward_gpu_dev_id;
 
