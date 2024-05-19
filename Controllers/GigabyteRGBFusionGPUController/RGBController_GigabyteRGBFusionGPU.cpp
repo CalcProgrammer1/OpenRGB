@@ -1,11 +1,13 @@
-/*-----------------------------------------*\
-|  RGBController_GigabyteRGBFusionGPU.cpp   |
-|                                           |
-|  Generic RGB Interface for OpenRGB        |
-|  Gigabyte RGB Fusion GPU Driver           |
-|                                           |
-|  Adam Honse (CalcProgrammer1) 2/23/2020   |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_GigabyteRGBFusionGPU.cpp                    |
+|                                                           |
+|   RGBController for Gigabyte Aorus RGB Fusion GPU         |
+|                                                           |
+|   Adam Honse (CalcProgrammer1)                23 Feb 2020 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #include "RGBController_GigabyteRGBFusionGPU.h"
 

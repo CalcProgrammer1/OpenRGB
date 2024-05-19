@@ -1,3 +1,17 @@
+/*---------------------------------------------------------*\
+| GigabyteRGBFusionGPUControllerDetect.cpp                  |
+|                                                           |
+|   Detector for Gigabyte Aorus RGB Fusion GPU              |
+|                                                           |
+|   Adam Honse (CalcProgrammer1)                20 Feb 2020 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <vector>
 #include "Detector.h"
 #include "GigabyteRGBFusionGPUController.h"
 #include "LogManager.h"
@@ -5,9 +19,6 @@
 #include "RGBController_GigabyteRGBFusionGPU.h"
 #include "i2c_smbus.h"
 #include "pci_ids.h"
-#include <vector>
-#include <stdio.h>
-#include <stdlib.h>
 
 #define GIGABYTEGPU_CONTROLLER_NAME "Gigabyte RGB Fusion GPU"
 
