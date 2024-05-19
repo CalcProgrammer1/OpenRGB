@@ -1,16 +1,18 @@
-/*-----------------------------------------*\
-|  GigabyteRGBFusion2DRAMController.h       |
-|                                           |
-|  Definitions and types for Gigabyte Aorus |
-|  RGB Fusion 2 DRAM lighting controller    |
-|                                           |
-|  Adam Honse (CalcProgrammer1) 6/7/2020    |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| GigabyteRGBFusion2DRAMController.cpp                      |
+|                                                           |
+|   Driver for Gigabyte Aorus RGB Fusion 2 RAM              |
+|                                                           |
+|   Adam Honse (CalcProgrammer1)                07 Jun 2020 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
+#pragma once
 
 #include <string>
 #include "i2c_smbus.h"
-
-#pragma once
 
 typedef unsigned char   rgb_fusion_dev_id;
 
@@ -61,7 +63,7 @@ public:
     std::string     GetDeviceLocation();
     unsigned int    GetLEDCount();
     void	        Apply();
-    
+
     void            SetLEDEffect
                         (
                         unsigned int    led,

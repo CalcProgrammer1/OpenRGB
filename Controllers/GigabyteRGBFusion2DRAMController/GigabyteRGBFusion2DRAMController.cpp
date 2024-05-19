@@ -1,17 +1,18 @@
-/*-----------------------------------------*\
-|  GigabyteRGBFusion2DRAMController.cpp     |
-|                                           |
-|  Driver for Gigabyte Aorus RGB Fusion 2   |
-|  DRAM lighting controller                 |
-|                                           |
-|  Adam Honse (CalcProgrammer1) 6/7/2020    |
-\*-----------------------------------------*/
-
-#include "GigabyteRGBFusion2DRAMController.h"
+/*---------------------------------------------------------*\
+| GigabyteRGBFusion2DRAMController.cpp                      |
+|                                                           |
+|   Driver for Gigabyte Aorus RGB Fusion 2 RAM              |
+|                                                           |
+|   Adam Honse (CalcProgrammer1)                07 Jun 2020 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #include <cstring>
 #include <stdio.h>
 #include <stdlib.h>
+#include "GigabyteRGBFusion2DRAMController.h"
 
 RGBFusion2DRAMController::RGBFusion2DRAMController(i2c_smbus_interface* bus, rgb_fusion_dev_id dev)
 {

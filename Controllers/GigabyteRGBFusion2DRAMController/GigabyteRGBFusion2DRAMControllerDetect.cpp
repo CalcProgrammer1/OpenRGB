@@ -1,3 +1,18 @@
+/*---------------------------------------------------------*\
+| GigabyteRGBFusion2DRAMControllerDetect.cpp                |
+|                                                           |
+|   Detector for Gigabyte Aorus RGB Fusion 2 RAM            |
+|                                                           |
+|   Adam Honse (CalcProgrammer1)                07 Jun 2020 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string>
+#include <vector>
 #include "Detector.h"
 #include "LogManager.h"
 #include "GigabyteRGBFusion2DRAMController.h"
@@ -5,10 +20,6 @@
 #include "RGBController_GigabyteRGBFusion2DRAM.h"
 #include "i2c_smbus.h"
 #include "pci_ids.h"
-#include <vector>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string>
 
 /******************************************************************************************\
 *                                                                                          *
@@ -54,7 +65,7 @@ bool TestForGigabyteRGBFusion2DRAMController(i2c_smbus_interface* bus, unsigned 
 *                                                                                               *
 *   DetectGigabyteRGBFusion2DRAMControllers                                                     *
 *                                                                                               *
-*       Detect Gigabyte RGB Fusion 2 controllers on the enumerated I2C buses at address 0x67.   * 
+*       Detect Gigabyte RGB Fusion 2 controllers on the enumerated I2C buses at address 0x67.   *
 *                                                                                               *
 *           bus - pointer to i2c_smbus_interface where RGB Fusion device is connected           *
 *           dev - I2C address of RGB Fusion device                                              *

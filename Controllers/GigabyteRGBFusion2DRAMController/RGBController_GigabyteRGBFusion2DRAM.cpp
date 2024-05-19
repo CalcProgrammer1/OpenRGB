@@ -1,11 +1,13 @@
-/*-----------------------------------------*\
-|  GigabyteRGBController_RGBFusion2DRAM.cpp |
-|                                           |
-|  Generic RGB Interface for OpenRGB        |
-|  Gigabyte RGB Fusion 2 DRAM Driver        |
-|                                           |
-|  Adam Honse (CalcProgrammer1) 6/7/2020    |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| GigabyteRGBController_RGBFusion2DRAM.cpp                  |
+|                                                           |
+|   RGBController for Gigabyte Aorus RGB Fusion 2 RAM       |
+|                                                           |
+|   Adam Honse (CalcProgrammer1)                07 Jun 2020 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #include "RGBController_GigabyteRGBFusion2DRAM.h"
 
