@@ -1,18 +1,19 @@
-/*------------------------------------------*\
-|  GigabyteAorusPCCaseController.h           |
-|                                            |
-|  Definitions and types for Gigabyte Aorus  |
-|  PC Case lighting controller               |
-|                                            |
-|  Denis Nazarov (nenderus) 2/10/2024        |
-\*------------------------------------------*/
+/*---------------------------------------------------------*\
+| GigabyteAorusPCCaseController.h                           |
+|                                                           |
+|   Driver for Gigabyte Aorus case                          |
+|                                                           |
+|   Denis Nazarov (nenderus)                    10 Feb 2024 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
+#pragma once
 
 #include <string>
 #include <hidapi/hidapi.h>
-
 #include "RGBController.h"
-
-#pragma once
 
 struct aorus_pc_case_mode_config
 {

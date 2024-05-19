@@ -1,8 +1,17 @@
-#include <hidapi/hidapi.h>
+/*---------------------------------------------------------*\
+| GigabyteAorusPCCaseControllerDetect.cpp                   |
+|                                                           |
+|   Detector for Gigabyte Aorus case                        |
+|                                                           |
+|   Denis Nazarov (nenderus)                    10 Feb 2024 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
+#include <hidapi/hidapi.h>
 #include "Detector.h"
 #include "RGBController.h"
-
 #include "GigabyteAorusPCCaseController.h"
 #include "RGBController_GigabyteAorusPCCase.h"
 

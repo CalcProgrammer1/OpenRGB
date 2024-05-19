@@ -1,11 +1,13 @@
-/*------------------------------------------*\
-|  RGBController_GigabyteAorusPCCase.h       |
-|                                            |
-|  Generic RGB Interface for for Gigabyte    |
-|  Aorus PC Case driver                      |
-|                                            |
-|  Denis Nazarov (nenderus) 2/10/2024        |
-\*------------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_GigabyteAorusPCCase.h                       |
+|                                                           |
+|   RGBController for Gigabyte Aorus case                   |
+|                                                           |
+|   Denis Nazarov (nenderus)                    10 Feb 2024 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #pragma once
 

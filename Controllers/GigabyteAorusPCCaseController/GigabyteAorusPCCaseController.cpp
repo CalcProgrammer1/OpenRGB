@@ -1,14 +1,15 @@
-/*------------------------------------------*\
-|  GigabyteAorusPCCaseController.cpp         |
-|                                            |
-|  Driver for Gigabyte Aorus PC Case         |
-|  lighting controller                       |
-|                                            |
-|  Denis Nazarov (nenderus) 2/10/2024        |
-\*------------------------------------------*/
+/*---------------------------------------------------------*\
+| GigabyteAorusPCCaseController.cpp                         |
+|                                                           |
+|   Driver for Gigabyte Aorus case                          |
+|                                                           |
+|   Denis Nazarov (nenderus)                    10 Feb 2024 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #include <cstring>
-
 #include "GigabyteAorusPCCaseController.h"
 
 GigabyteAorusPCCaseController::GigabyteAorusPCCaseController(hid_device *dev_handle, const char *path)
