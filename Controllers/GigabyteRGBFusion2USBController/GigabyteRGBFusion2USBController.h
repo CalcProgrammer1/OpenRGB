@@ -1,23 +1,24 @@
-/*-----------------------------------------*\
-|  GigabyteRGBFusion2USBController.h        |
-|                                           |
-|  Definitions and types for Gigabyte Aorus |
-|  RGB Fusion 2.0 USB lighting controller   |
-|                                           |
-|  Author:     jackun 1/8/2020              |
-|  Maintainer: Chris M (Dr_No)              |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| GigabyteRGBFusion2USBController.h                         |
+|                                                           |
+|   Driver for Gigabyte Aorus RGB Fusion 2 USB motherboard  |
+|                                                           |
+|   jackun                                      08 Jan 2020 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
-#include "RGBController.h"
+#pragma once
+
 #include <algorithm>
 #include <array>
 #include <chrono>
 #include <cstring>
-#include <hidapi/hidapi.h>
 #include <map>
 #include <thread>
-
-#pragma once
+#include <hidapi/hidapi.h>
+#include "RGBController.h"
 
 #define GB_CALIBRATION_SIZE (sizeof(GB_Calibrations) / sizeof(GB_Calibrations[0]))
 

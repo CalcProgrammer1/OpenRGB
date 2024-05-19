@@ -1,12 +1,13 @@
-/*-----------------------------------------*\
-|  GigabyteRGBFusion2USBController.cpp      |
-|                                           |
-|  Driver for Gigabyte Aorus RGB Fusion 2.0 |
-|  USB lighting controller                  |
-|                                           |
-|  Author:     jackun 1/8/2020              |
-|  Maintainer: Chris M (Dr_No)              |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| GigabyteRGBFusion2USBController.cpp                       |
+|                                                           |
+|   Driver for Gigabyte Aorus RGB Fusion 2 USB motherboard  |
+|                                                           |
+|   jackun                                      08 Jan 2020 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #include "GigabyteRGBFusion2USBController.h"
 #include "ResourceManager.h"
@@ -271,7 +272,7 @@ void RGBFusion2USBController::SetStripColors
     | FIXME assuming that LED strips ports are 0x58/0x59 for all boards         |
     \*-------------------------------------------------------------------------*/
     uint32_t byteorder;
-    
+
     if(hdr == HDR_D_LED1_RGB)
     {
         byteorder       = report.byteorder0;

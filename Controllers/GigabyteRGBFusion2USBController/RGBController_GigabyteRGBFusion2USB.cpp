@@ -1,18 +1,20 @@
-/*-----------------------------------------*\
-|  RGBController_GigabyteRGBFusion2USB.cpp  |
-|                                           |
-|  Generic RGB Interface for OpenRGB        |
-|  Gigabyte RGB Fusion 2.0 USB Driver       |
-|                                           |
-|  Author:     jackun 1/8/2020              |
-|  Maintainer: Chris M (Dr_No)              |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_GigabyteRGBFusion2USB.cpp                   |
+|                                                           |
+|   RGBController for Gigabyte Aorus RGB Fusion 2 USB       |
+|   motherboard                                             |
+|                                                           |
+|   jackun                                      08 Jan 2020 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
+#include <array>
+#include <sstream>
 #include "RGBController_GigabyteRGBFusion2USB.h"
 #include "ResourceManager.h"
 #include "SettingsManager.h"
-#include <sstream>
-#include <array>
 
 /*-------------------------------------------------*\
 | LedHeaders is a map of the led header addresses   |

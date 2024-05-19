@@ -1,7 +1,20 @@
+/*---------------------------------------------------------*\
+| GigabyteRGBFusion2USBControllerDetect.cpp                 |
+|                                                           |
+|   Detector for Gigabyte Aorus RGB Fusion 2 USB            |
+|   motherboard                                             |
+|                                                           |
+|   jackun                                      08 Jan 2020 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
 #include "Detector.h"
 #include "GigabyteRGBFusion2USBController.h"
 #include "RGBController_GigabyteRGBFusion2USB.h"
 #include "dmiinfo.h"
+
 #define DETECTOR_NAME "Gigabyte RGB Fusion 2 USB"
 
 #define IT8297_VID              0x048D

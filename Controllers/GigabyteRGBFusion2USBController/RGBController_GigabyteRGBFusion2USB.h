@@ -1,18 +1,21 @@
-/*-----------------------------------------*\
-|  RGBController_GigabyteRGBFusion2USB.h    |
-|                                           |
-|  Generic RGB Interface for OpenRGB        |
-|  Gigabyte RGB Fusion 2.0 USB Driver       |
-|                                           |
-|  Author:     jackun 1/8/2020              |
-|  Maintainer: Chris M (Dr_No)              |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_GigabyteRGBFusion2USB.h                     |
+|                                                           |
+|   RGBController for Gigabyte Aorus RGB Fusion 2 USB       |
+|   motherboard                                             |
+|                                                           |
+|   jackun                                      08 Jan 2020 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #pragma once
-#include "RGBController.h"
-#include "GigabyteRGBFusion2USBController.h"
+
 #include <map>
 #include <vector>
+#include "RGBController.h"
+#include "GigabyteRGBFusion2USBController.h"
 
 #define RGBFusion2_Digital_LEDS_Min         0;
 #define RGBFusion2_Digital_LEDS_Max         1024;
