@@ -1,11 +1,14 @@
-/*-----------------------------------------*\
-|  RGBController_GigabyteRGBFusion2SMBus.cpp|
-|                                           |
-|  Generic RGB Interface for OpenRGB        |
-|  Gigabyte RGB Fusion 2 SMBUS Driver       |
-|                                           |
-|  Matt Harper (5/5/2020)		            |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_GigabyteRGBFusion2SMBus.cpp                 |
+|                                                           |
+|   RGBController for Gigabyte Aorus RGB Fusion 2 SMBus     |
+|   motherboard                                             |
+|                                                           |
+|   Matt Harper                                 05 May 2020 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #include "RGBController_GigabyteRGBFusion2SMBus.h"
 

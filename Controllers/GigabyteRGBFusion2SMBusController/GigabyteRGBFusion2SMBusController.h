@@ -1,16 +1,20 @@
-/*-----------------------------------------*\
-|  GigabyteRGBFusion2SMBusController.h      |
-|                                           |
-|  Definitions and types for Gigabyte Aorus |
-|  RGB Fusion 2 SMBus lighting controller   |
-|                                           |
-|  Adam Honse (CalcProgrammer1) 3/12/2020   |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| GigabyteRGBFusion2SMBusController.h                       |
+|                                                           |
+|   Driver for Gigabyte Aorus RGB Fusion 2 SMBus            |
+|   motherboard                                             |
+|                                                           |
+|   Adam Honse (CalcProgrammer1)                12 Mar 2020 |
+|   Matt Harper                                 05 May 2020 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
+#pragma once
 
 #include <string>
 #include "i2c_smbus.h"
-
-#pragma once
 
 typedef unsigned char	rgb_fusion_dev_id;
 
@@ -92,7 +96,7 @@ public:
     std::string     GetDeviceLocation();
     unsigned int    GetLEDCount();
     void	        Apply();
-    
+
     void            SetLEDEffect
                         (
                         unsigned int    led,

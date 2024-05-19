@@ -1,22 +1,20 @@
-/*-----------------------------------------*\
-|  GigabyteRGBFusion2SMBusController.cpp    |
-|                                           |
-|  Driver for Gigabyte Aorus RGB Fusion 2   |
-|  SMBus lighting controller                |
-|                                           |
-|  Adam Honse (CalcProgrammer1) 3/12/2020   |
-|  Matt Harper                  5/5/2020    |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| GigabyteRGBFusion2SMBusController.cpp                     |
+|                                                           |
+|   Driver for Gigabyte Aorus RGB Fusion 2 SMBus            |
+|   motherboard                                             |
+|                                                           |
+|   Adam Honse (CalcProgrammer1)                12 Mar 2020 |
+|   Matt Harper                                 05 May 2020 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
-#include "GigabyteRGBFusion2SMBusController.h"
 #include <cstring>
 #include <stdio.h>
 #include <stdlib.h>
-
-#ifdef DEBUG
-#include <iostream>
-#include <iomanip>
-#endif
+#include "GigabyteRGBFusion2SMBusController.h"
 
 RGBFusion2SMBusController::RGBFusion2SMBusController(i2c_smbus_interface* bus, rgb_fusion_dev_id dev, std::string mb_name)
 {
@@ -70,19 +68,6 @@ void RGBFusion2SMBusController::WriteLED(int led)
     {
         led -= 1;
     }
-
-    #ifdef DEBUG
-    std::cout << std::hex << write_register << "\t";
-    for(int i = 0; i < 2; i++)
-    {
-        for(int j = 0; j < 16; j++)
-        {
-            std::cout << std::setw(2) << std::setfill('0') << std::hex << (int)led_data[led+i][j] << " ";
-        }
-        std::cout << " ";
-    }
-    std::cout << std::endl;
-    #endif
 
     bus->i2c_smbus_write_block_data(RGB_FUSION_2_SMBUS_ADDR, (u8)write_register, 32, led_data[led]);
 }
