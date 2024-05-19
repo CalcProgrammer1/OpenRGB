@@ -1,10 +1,13 @@
-/*-----------------------------------------*\
-|  RGBController_GalaxGPU.cpp               |
-|                                           |
-|  Driver for Galax / KFA2 RGB on GPUs      |
-|                                           |
-|  Niels Westphal (crashniels)  12.07.2020  |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_GalaxGPU.cpp                                |
+|                                                           |
+|   RGBController for Galax/KFA2 GPU                        |
+|                                                           |
+|   Niels Westphal (crashniels)                 12 Jul 2020 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #include "RGBController_GalaxGPU.h"
 

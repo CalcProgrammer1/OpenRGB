@@ -1,11 +1,17 @@
-/*-----------------------------------------*\
-|  GalaxGPUControllerDetect.cpp             |
-|                                           |
-|  Driver for Galax / KFA2 RGB on GPUs      |
-|                                           |
-|  Niels Westphal (crashniels)  12.07.2020  |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| GalaxGPUControllerDetect.cpp                              |
+|                                                           |
+|   Detector for Galax/KFA2 GPU                             |
+|                                                           |
+|   Niels Westphal (crashniels)                 12 Jul 2020 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
+#include <stdio.h>
+#include <stdlib.h>
+#include <vector>
 #include "Detector.h"
 #include "GalaxGPUController.h"
 #include "LogManager.h"
@@ -13,9 +19,6 @@
 #include "RGBController_GalaxGPU.h"
 #include "i2c_smbus.h"
 #include "pci_ids.h"
-#include <vector>
-#include <stdio.h>
-#include <stdlib.h>
 
 /******************************************************************************************\
 *                                                                                          *
@@ -31,7 +34,7 @@ bool TestForGalaxGPUController(i2c_smbus_interface* bus, unsigned char address)
 
     unsigned char res  = bus->i2c_smbus_read_byte_data(address, 0x00);
     unsigned char res2 = bus->i2c_smbus_read_byte_data(address, 0x01);
-    
+
     if(res == 0x27 && res2 == 0x10)
     {
         pass = true;
