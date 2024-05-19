@@ -1,21 +1,19 @@
-/*---------------------------------------------------------------*\
-|  GaiZhongGaiController.h                                        |
-|                                                                 |
-| https://oshwlab.com/yangdsada/GaiZhongGai-Keyboard-68-4PRO      |
-| https://oshwhub.com/myng/42-jian-pan                            |
-| https://oshwhub.com/hivisme/17jian-shuo-zi-xiao-jian-pan        |
-| https://oshwhub.com/yangzen/xing-huo-2-qi-guang-ban-qu-dong-    |
-| https://oshwhub.com/morempty/CH552gyin-liang-xuan-niu           |
-|                                                                 |
-| An Yang     2023/6/24                                           |
-\*---------------------------------------------------------------*/
+/*---------------------------------------------------------*\
+| GaiZhongGaiController.h                                   |
+|                                                           |
+|   Driver for GaiZhongGai keyboard                         |
+|                                                           |
+|   An Yang                                     24 Jun 2023 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
-#include "RGBController.h"
+#pragma once
 
 #include <string>
 #include <hidapi/hidapi.h>
-
-#pragma once
+#include "RGBController.h"
 
 /*-----------------------------------------------------*\
 | GaiZhongGai vendor ID                                 |
@@ -52,7 +50,7 @@ public:
     uint8_t*        GetDataFlash();
     uint16_t        GetChannelLen(uint8_t ch);
     void            SetChannelLen(uint8_t ch , uint16_t len);
-    
+
     void SendColors
     (
     unsigned char*  color_data,

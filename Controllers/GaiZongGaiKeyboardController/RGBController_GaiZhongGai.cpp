@@ -1,18 +1,18 @@
-/*---------------------------------------------------------------*\
-|  RGBController_GaiZhongGai.cpp                                  |
-|                                                                 |
-| https://oshwlab.com/yangdsada/GaiZhongGai-Keyboard-68-4PRO      |
-| https://oshwhub.com/myng/42-jian-pan                            |
-| https://oshwhub.com/hivisme/17jian-shuo-zi-xiao-jian-pan        |
-| https://oshwhub.com/yangzen/xing-huo-2-qi-guang-ban-qu-dong-    |
-| https://oshwhub.com/morempty/CH552gyin-liang-xuan-niu           |
-|                                                                 |
-| An Yang     2023/6/24                                           |
-\*---------------------------------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_GaiZhongGai.cpp                             |
+|                                                           |
+|   RGBController for GaiZhongGai keyboard                  |
+|                                                           |
+|   An Yang                                     24 Jun 2023 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
+#include <math.h>
 #include "RGBController_GaiZhongGai.h"
 #include "RGBControllerKeyNames.h"
-#include <math.h>
+
 using namespace std;
 
 //0xFFFFFFFF indicates an unused entry in matrix

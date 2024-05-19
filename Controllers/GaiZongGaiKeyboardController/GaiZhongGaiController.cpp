@@ -1,18 +1,25 @@
+/*---------------------------------------------------------*\
+| GaiZhongGaiController.cpp                                 |
+|                                                           |
+|   Driver for GaiZhongGai keyboard                         |
+|                                                           |
+|   An Yang                                     24 Jun 2023 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
+#include <cstring>
+#include <thread>
+#include "GaiZhongGaiController.h"
+
 /*---------------------------------------------------------------*\
-|  GaiZhongGaiController.cpp                                      |
-|                                                                 |
 | https://oshwlab.com/yangdsada/GaiZhongGai-Keyboard-68-4PRO      |
 | https://oshwhub.com/myng/42-jian-pan                            |
 | https://oshwhub.com/hivisme/17jian-shuo-zi-xiao-jian-pan        |
 | https://oshwhub.com/yangzen/xing-huo-2-qi-guang-ban-qu-dong-    |
 | https://oshwhub.com/morempty/CH552gyin-liang-xuan-niu           |
-|                                                                 |
-| An Yang     2023/6/24                                           |
 \*---------------------------------------------------------------*/
-
-#include <cstring>
-#include "GaiZhongGaiController.h"
-#include <thread>
 
 GaiZhongGaiKeyboardController::GaiZhongGaiKeyboardController(hid_device* dev_handle, hid_device_info* info)
 {
