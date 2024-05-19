@@ -1,17 +1,17 @@
-﻿/*-----------------------------------------*\
-|  RGBController_GigabyteAorusMouse.cpp     |
-|                                           |
-|  Generic RGB Interface for OpenRGB        |
-|  Gigabyte Aorus Mouse lighting            |
-|  USB Driver                               |
-|                                           |
-|  Guimard Morgan (morg) 12/29/2022         |
-\*-----------------------------------------*/
+﻿/*---------------------------------------------------------*\
+| RGBController_GigabyteAorusMouse.cpp                      |
+|                                                           |
+|   RGBController for Gigabyte Aorus mouse                  |
+|                                                           |
+|   Morgan Guimard (morg)                       29 Dec 2022 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
-#include "RGBController_GigabyteAorusMouse.h"
-
-#include <thread>
 #include <chrono>
+#include <thread>
+#include "RGBController_GigabyteAorusMouse.h"
 
 /**------------------------------------------------------------------*\
     @name Gigabyte Aorus mouse
@@ -166,7 +166,7 @@ void RGBController_GigabyteAorusMouse::UpdateSingleLED(int /*led*/)
 }
 
 void RGBController_GigabyteAorusMouse::DeviceUpdateMode()
-{    
+{
     /*---------------------------------------------------------*\
     | Brightness cannot be updated in the direct mode packet    |
     \*---------------------------------------------------------*/

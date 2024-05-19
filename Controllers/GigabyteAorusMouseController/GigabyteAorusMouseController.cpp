@@ -1,13 +1,16 @@
-/*-----------------------------------------*\
-|  GigabyteAorusMouseController.cpp         |
-|                                           |
-|  Driver for Gigabyte Aorus Mouse lighting |
-|  controller                               |
-|                                           |
-|  Guimard Morgan (morg) 12/29/2022         |
-\*-----------------------------------------*/
-#include "GigabyteAorusMouseController.h"
+/*---------------------------------------------------------*\
+| GigabyteAorusMouseController.cpp                          |
+|                                                           |
+|   Driver for Gigabyte Aorus mouse                         |
+|                                                           |
+|   Morgan Guimard (morg)                       29 Dec 2022 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
 #include <string.h>
+#include "GigabyteAorusMouseController.h"
 
 GigabyteAorusMouseController::GigabyteAorusMouseController(hid_device* dev_handle, const hid_device_info& info)
 {

@@ -1,3 +1,14 @@
+/*---------------------------------------------------------*\
+| GigabyteAorusMouseControllerDetect.cpp                    |
+|                                                           |
+|   Detector for Gigabyte Aorus mouse                       |
+|                                                           |
+|   Morgan Guimard (morg)                       29 Dec 2022 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
 #include "Detector.h"
 #include "RGBController.h"
 #include "hidapi/hidapi.h"

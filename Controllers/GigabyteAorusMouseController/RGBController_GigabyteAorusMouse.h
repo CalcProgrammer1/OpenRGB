@@ -1,12 +1,13 @@
-/*-----------------------------------------*\
-|  RGBController_GigabyteAorusMouse.h       |
-|                                           |
-|  Generic RGB Interface for OpenRGB        |
-|  Gigabyte Aorus Mouse lighting            |
-|  USB Driver                               |
-|                                           |
-|  Guimard Morgan (morg) 12/29/2022         |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_GigabyteAorusMouse.h                        |
+|                                                           |
+|   RGBController for Gigabyte Aorus mouse                  |
+|                                                           |
+|   Morgan Guimard (morg)                       29 Dec 2022 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #pragma once
 
