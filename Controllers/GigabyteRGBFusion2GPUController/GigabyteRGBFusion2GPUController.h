@@ -28,7 +28,9 @@ struct fusion2_config
 enum
 {
     RGB_FUSION2_GPU_REG_COLOR            = 0x40,
-    RGB_FUSION2_GPU_REG_MODE             = 0x88
+    RGB_FUSION2_GPU_REG_MODE             = 0x88,
+    RGB_FUSION2_GPU_REG_COLOR_LEFT_MID   = 0xB0,
+    RGB_FUSION2_GPU_REG_COLOR_RIGHT      = 0xB1
 };
 
 enum
@@ -62,6 +64,8 @@ class RGBFusion2GPUController
 public:
     RGBFusion2GPUController(i2c_smbus_interface* bus, rgb_fusion_dev_id dev);
     ~RGBFusion2GPUController();
+
+    RGBColor        zone_color[4];
 
     std::string     GetDeviceLocation();
     void            SaveConfig();

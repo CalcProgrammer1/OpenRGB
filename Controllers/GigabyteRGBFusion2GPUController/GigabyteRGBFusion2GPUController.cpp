@@ -44,10 +44,43 @@ void RGBFusion2GPUController::SaveConfig()
 
 void RGBFusion2GPUController::SetMode(uint8_t zone, uint8_t mode, fusion2_config zone_config, uint8_t mystery_flag)
 {
+    if(zone < 4)
+    {
+        this->zone_color[zone] = zone_config.colors[0];
+    }
+
     uint8_t zone_pkt[8] = { RGB_FUSION2_GPU_REG_MODE, mode, zone_config.speed, zone_config.brightness, mystery_flag, (uint8_t)(zone + 1), 0x00, 0x00 };
     bus->i2c_write_block(dev, sizeof(zone_pkt), zone_pkt);
 
-    uint8_t zone_pkt2[8] = { RGB_FUSION2_GPU_REG_COLOR, (uint8_t)RGBGetRValue(zone_config.colors[0]), (uint8_t)RGBGetGValue(zone_config.colors[0]), (uint8_t)RGBGetBValue(zone_config.colors[0]), (uint8_t)(zone + 1), 0x00, 0x00, 0x00 };
+    uint8_t zone_pkt2[8] = { 0 };
+    switch(zone)
+    {
+        case 0:
+        case 1:
+            zone_pkt2[0] = RGB_FUSION2_GPU_REG_COLOR_LEFT_MID;
+            zone_pkt2[1] = mode;
+            zone_pkt2[2] = (uint8_t)RGBGetRValue(this->zone_color[0]);
+            zone_pkt2[3] = (uint8_t)RGBGetGValue(this->zone_color[0]);
+            zone_pkt2[4] = (uint8_t)RGBGetBValue(this->zone_color[0]);
+            zone_pkt2[5] = (uint8_t)RGBGetRValue(this->zone_color[1]);
+            zone_pkt2[6] = (uint8_t)RGBGetGValue(this->zone_color[1]);
+            zone_pkt2[7] = (uint8_t)RGBGetBValue(this->zone_color[1]);
+            break;
+        case 2:
+            zone_pkt2[0] = RGB_FUSION2_GPU_REG_COLOR_RIGHT;
+            zone_pkt2[1] = mode;
+            zone_pkt2[2] = (uint8_t)RGBGetRValue(this->zone_color[2]);
+            zone_pkt2[3] = (uint8_t)RGBGetGValue(this->zone_color[2]);
+            zone_pkt2[4] = (uint8_t)RGBGetBValue(this->zone_color[2]);
+            break;
+        default:
+            zone_pkt2[0] = RGB_FUSION2_GPU_REG_COLOR;
+            zone_pkt2[1] = (uint8_t)RGBGetRValue(zone_config.colors[0]);
+            zone_pkt2[2] = (uint8_t)RGBGetGValue(zone_config.colors[0]);
+            zone_pkt2[3] = (uint8_t)RGBGetBValue(zone_config.colors[0]);
+            zone_pkt2[4] = (uint8_t)(zone + 1);
+            break;
+    }
     bus->i2c_write_block(dev, sizeof(zone_pkt2), zone_pkt2);
 }
 
