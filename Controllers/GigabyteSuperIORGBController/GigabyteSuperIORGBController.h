@@ -1,14 +1,17 @@
-/*-----------------------------------------------*\
-|  GigabyteSuperIORGBController.h                 |
-|                                                 |
-|  Definitions and types for Gigabyte SuperIO RGB |
-|  lighting controller                            |
-|                                                 |
-|  Ryan Frankcombe (422gRdHuX5uk) 9/11/2022       |
-\*-----------------------------------------------*/
+/*---------------------------------------------------------*\
+| GigabyteSuperIORGBController.h                            |
+|                                                           |
+|   Driver for Gigabyte Aorus Super IO motherboard          |
+|                                                           |
+|   Ryan Frankcombe (422gRdHuX5uk)              11 Sep 2022 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
+#pragma once
 
 #include <string>
-#pragma once
 
 enum
 {

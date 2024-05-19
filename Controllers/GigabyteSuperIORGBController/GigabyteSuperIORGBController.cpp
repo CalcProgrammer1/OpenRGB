@@ -1,8 +1,13 @@
-/*------------------------------------------*\
-|  GigabyteSuperIORGBController.cpp          |
-|                                            |
-|  Ryan Frankcombe (422gRdHuX5uk) 2/11/2020  |
-\*------------------------------------------*/
+/*---------------------------------------------------------*\
+| GigabyteSuperIORGBController.cpp                          |
+|                                                           |
+|   Driver for Gigabyte Aorus Super IO motherboard          |
+|                                                           |
+|   Ryan Frankcombe (422gRdHuX5uk)              11 Sep 2022 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #include "GigabyteSuperIORGBController.h"
 #include "super_io.h"

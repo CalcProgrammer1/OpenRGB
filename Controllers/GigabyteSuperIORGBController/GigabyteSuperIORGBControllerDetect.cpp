@@ -1,20 +1,24 @@
-/*-----------------------------------------------*\
-|  RGBController_GigabyteSuperIORGB.cpp           |
-|                                                 |
-|  Detect Gigabyte RGB compatible Super-IO chips  |
-|                                                 |
-|  Ryan Frankcombe (422gRdHuX5uk ) 9/11/2022      |
-\*-----------------------------------------------*/
+/*---------------------------------------------------------*\
+| GigabyteSuperIORGBControllerDetect.cpp                    |
+|                                                           |
+|   Detector for Gigabyte Aorus Super IO motherboard        |
+|                                                           |
+|   Ryan Frankcombe (422gRdHuX5uk)              11 Sep 2022 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
+#include <iostream>
+#include <stdio.h>
+#include <stdlib.h>
+#include <vector>
 #include "Detector.h"
 #include "GigabyteSuperIORGBController.h"
 #include "RGBController.h"
 #include "RGBController_GigabyteSuperIORGB.h"
 #include "super_io.h"
 #include "dmiinfo.h"
-#include <iostream>
-#include <vector>
-#include <stdio.h>
-#include <stdlib.h>
 
 #define NUM_COMPATIBLE_DEVICES (sizeof(compatible_devices) / sizeof(compatible_devices[0]))
 
