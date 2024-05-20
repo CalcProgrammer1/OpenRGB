@@ -1,19 +1,20 @@
-/*-----------------------------------------*\
-|  HyperXMicrophoneControllerDetect.cpp     |
-|                                           |
-|  Implementation for the HyperX            |
-|  Quadcast S RGB microphone                |
-|                                           |
-|  Matt Silva (thesilvanator) 2022          |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| HyperXMicrophoneControllerDetect.cpp                      |
+|                                                           |
+|   Detector for HyperX microphone                          |
+|                                                           |
+|   Matt Silva (thesilvanator)                              |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
+#include <vector>
+#include "LogManager.h"
 #include "Detector.h"
 #include "HyperXMicrophoneController.h"
 #include "RGBController.h"
 #include "RGBController_HyperXMicrophone.h"
-#include <vector>
-#include <LogManager.h>
-
 #include "hidapi_wrapper.h"
 
 /*-----------------------------------------------------*\

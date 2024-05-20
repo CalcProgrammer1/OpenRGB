@@ -1,11 +1,13 @@
-/*-----------------------------------------*\
-|  RGBController_HyperXMicrophone.cpp        |
-|                                           |
-|  Implementation for the HyperX            |
-|  Quadcast S RGB microphone                |
-|                                           |
-|  Matt Silva (thesilvanator) 2022          |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_HyperXMicrophone.cpp                        |
+|                                                           |
+|   RGBController for HyperX microphone                     |
+|                                                           |
+|   Matt Silva (thesilvanator)                              |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 /**------------------------------------------------------------------*\
     @name HyperX Quadcast S
