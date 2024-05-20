@@ -1,3 +1,17 @@
+/*---------------------------------------------------------*\
+| HyperXDRAMControllerDetect.cpp                            |
+|                                                           |
+|   Driver for HyperX/Kingston Fury RAM                     |
+|                                                           |
+|   Adam Honse (CalcProgrammer1)                19 Jun 2019 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <vector>
 #include "Detector.h"
 #include "HyperXDRAMController.h"
 #include "LogManager.h"
@@ -5,9 +19,6 @@
 #include "RGBController_HyperXDRAM.h"
 #include "i2c_smbus.h"
 #include "pci_ids.h"
-#include <vector>
-#include <stdio.h>
-#include <stdlib.h>
 
 using namespace std::chrono_literals;
 
@@ -79,7 +90,7 @@ void DetectHyperXDRAMControllers(std::vector<i2c_smbus_interface*> &busses)
                 busses[bus]->i2c_smbus_write_byte_data(0x37, 0x00, 0xFF);
 
                 std::this_thread::sleep_for(1ms);
-                
+
                 for(int slot_addr = 0x50; slot_addr <= 0x57; slot_addr++)
                 {
                     // Test for HyperX SPD at slot_addr

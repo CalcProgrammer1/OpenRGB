@@ -1,16 +1,18 @@
-/*-----------------------------------------*\
-|  HyperXDRAMController.h                   |
-|                                           |
-|  Definitions and types for HyperX Predator|
-|  and Fury RGB RAM lighting controller     |
-|                                           |
-|  Adam Honse (CalcProgrammer1) 6/29/2019   |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| HyperXDRAMController.h                                    |
+|                                                           |
+|   Driver for HyperX/Kingston Fury RAM                     |
+|                                                           |
+|   Adam Honse (CalcProgrammer1)                19 Jun 2019 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
+#pragma once
 
 #include <string>
 #include "i2c_smbus.h"
-
-#pragma once
 
 typedef unsigned char	hyperx_dev_id;
 typedef unsigned short	hyperx_register;

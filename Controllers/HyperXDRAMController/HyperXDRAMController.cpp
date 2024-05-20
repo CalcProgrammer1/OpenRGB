@@ -1,14 +1,16 @@
-/*-----------------------------------------*\
-|  HyperXDRAMController.cpp                 |
-|                                           |
-|  Definitions and types for HyperX Predator|
-|  and Fury RGB RAM lighting controller     |
-|                                           |
-|  Adam Honse (CalcProgrammer1) 6/29/2019   |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| HyperXDRAMController.cpp                                  |
+|                                                           |
+|   Driver for HyperX/Kingston Fury RAM                     |
+|                                                           |
+|   Adam Honse (CalcProgrammer1)                19 Jun 2019 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
-#include "HyperXDRAMController.h"
 #include <cstring>
+#include "HyperXDRAMController.h"
 
 HyperXDRAMController::HyperXDRAMController(i2c_smbus_interface* bus, hyperx_dev_id dev, unsigned char slots)
 {
@@ -188,7 +190,7 @@ void HyperXDRAMController::SetMode(unsigned char new_mode, bool random, unsigned
 {
     mode  = new_mode;
     speed = new_speed;
-    
+
     bus->i2c_smbus_write_byte_data(dev, HYPERX_REG_APPLY, 0x01);
 
     /*-----------------------------------------------------*\
@@ -206,7 +208,7 @@ void HyperXDRAMController::SetMode(unsigned char new_mode, bool random, unsigned
     {
         mode_reg = HYPERX_REG_MODE_CUSTOM;
     }
-    
+
     switch (mode)
     {
     case HYPERX_MODE_DIRECT:

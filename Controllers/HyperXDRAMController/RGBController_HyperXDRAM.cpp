@@ -1,11 +1,13 @@
-/*-----------------------------------------*\
-|  RGBController_HyperXDRAM.cpp             |
-|                                           |
-|  Generic RGB Interface for OpenAuraSDK    |
-|  HyperX Predator and Fury RGB interface   |
-|                                           |
-|  Adam Honse (CalcProgrammer1) 6/29/2019   |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_HyperXDRAM.cpp                              |
+|                                                           |
+|   RGBController for HyperX/Kingston Fury RAM              |
+|                                                           |
+|   Adam Honse (CalcProgrammer1)                29 Jun 2019 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #include "RGBController_HyperXDRAM.h"
 
