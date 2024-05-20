@@ -1,17 +1,19 @@
-/*---------------------------------------------------------------*\
-|  HoltekA070Controller.h                                         |
-|                                                                 |
-|  Definitions and types for Holtek USB Gaming Mouse [04d9:a070]  |
-|                                                                 |
-|  Santeri Pikarinen (santeri3700) 8/01/2020                      |
-\*---------------------------------------------------------------*/
+/*---------------------------------------------------------*\
+| HoltekA070Controller.h                                    |
+|                                                           |
+|   Driver for Holtek mouse                                 |
+|                                                           |
+|   Santeri Pikarinen (santeri3700)             01 Aug 2020 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
-#include "RGBController.h"
+#pragma once
 
 #include <string>
 #include <hidapi/hidapi.h>
-
-#pragma once
+#include "RGBController.h"
 
 enum
 {

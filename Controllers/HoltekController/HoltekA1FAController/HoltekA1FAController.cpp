@@ -1,14 +1,16 @@
-/*-----------------------------------------------*\
-|  HoltekA1FAController.cpp                       |
-|                                                 |
-|  Driver for Holtek based Mousemat [04d9:a1fa]   |
-|                                                 |
-|  Edoardo Ridolfi (edo2313) 26/12/2020           |
-\*-----------------------------------------------*/
-
-#include "HoltekA1FAController.h"
+/*---------------------------------------------------------*\
+| HoltekA1FAController.cpp                                  |
+|                                                           |
+|   Driver for Holtek mousemat                              |
+|                                                           |
+|   Edoardo Ridolfi (edo2313)                   26 Dec 2020 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #include <cstring>
+#include "HoltekA1FAController.h"
 
 HoltekA1FAController::HoltekA1FAController(hid_device *dev_handle, const char *path)
 {
@@ -20,7 +22,6 @@ HoltekA1FAController::~HoltekA1FAController()
 {
     hid_close(dev);
 }
-
 
 std::string HoltekA1FAController::GetDeviceLocation()
 {

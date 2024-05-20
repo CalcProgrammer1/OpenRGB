@@ -1,10 +1,13 @@
-/*--------------------------------------------------------------*\
-|  RGBController_HoltekA070.cpp                                  |
-|                                                                |
-|  Generic RGB Interface for Holtek USB Gaming Mouse [04d9:a070] |
-|                                                                |
-|  Santeri Pikarinen (santeri3700) 8/01/2020                     |
-\*--------------------------------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_HoltekA070.cpp                              |
+|                                                           |
+|   RGBController for Holtek mouse                          |
+|                                                           |
+|   Santeri Pikarinen (santeri3700)             01 Aug 2020 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #include "RGBController_HoltekA070.h"
 

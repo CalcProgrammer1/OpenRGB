@@ -1,10 +1,13 @@
-/*--------------------------------------------------------------*\
-|  RGBController_HoltekA1FA.cpp                                  |
-|                                                                |
-|  Generic RGB Interface for Holtek based Mousemat [04d9:a1fa]   |
-|                                                                |
-|  Edoardo Ridolfi (edo2313) 26/12/2020                          |
-\*--------------------------------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_HoltekA1FA.cpp                              |
+|                                                           |
+|   RGBController for Holtek mousemat                       |
+|                                                           |
+|   Edoardo Ridolfi (edo2313)                   26 Dec 2020 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #include "RGBController_HoltekA1FA.h"
 

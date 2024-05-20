@@ -1,14 +1,16 @@
-/*-----------------------------------------------*\
-|  HoltekA070Controller.cpp                       |
-|                                                 |
-|  Driver for Holtek USB Gaming Mouse [04d9:a070] |
-|                                                 |
-|  Santeri Pikarinen (santeri3700) 8/01/2020      |
-\*-----------------------------------------------*/
-
-#include "HoltekA070Controller.h"
+/*---------------------------------------------------------*\
+| HoltekA070Controller.cpp                                  |
+|                                                           |
+|   Driver for Holtek mouse                                 |
+|                                                           |
+|   Santeri Pikarinen (santeri3700)             01 Aug 2020 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #include <cstring>
+#include "HoltekA070Controller.h"
 
 HoltekA070Controller::HoltekA070Controller(hid_device* dev_handle, const char* path)
 {

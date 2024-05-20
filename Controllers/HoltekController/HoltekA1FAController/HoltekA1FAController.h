@@ -1,17 +1,19 @@
-/*---------------------------------------------------------------*\
-|  HoltekA1FAController.h                                         |
-|                                                                 |
-|  Definitions and types for Holtek based Mousemat [04d9:a1fa]    |
-|                                                                 |
-|  Edoardo Ridolfi (edo2313) 26/12/2020                           |
-\*---------------------------------------------------------------*/
+/*---------------------------------------------------------*\
+| HoltekA1FAController.h                                    |
+|                                                           |
+|   Driver for Holtek mousemat                              |
+|                                                           |
+|   Edoardo Ridolfi (edo2313)                   26 Dec 2020 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
-#include "RGBController.h"
+#pragma once
 
 #include <string>
 #include <hidapi/hidapi.h>
-
-#pragma once
+#include "RGBController.h"
 
 enum
 {
