@@ -9,6 +9,17 @@
 
 #include "RGBController_HYTEMousemat.h"
 
+/**------------------------------------------------------------------*\
+    @name HYTE Mousemat
+    @category Mousemat
+    @type USB
+    @save :x:
+    @direct :white_check_mark:
+    @effects :x:
+    @detectors DetectHYTEMousematControllers
+    @comment
+\*-------------------------------------------------------------------*/
+
 RGBController_HYTEMousemat::RGBController_HYTEMousemat(HYTEMousematController* controller_ptr)
 {
     controller          = controller_ptr;
