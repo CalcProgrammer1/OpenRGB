@@ -1,19 +1,19 @@
-/*------------------------------------------*\
-|  HyperXAlloyOriginsCoreController.h        |
-|                                            |
-|  Definitions and types for HyperX Alloy    |
-|  Origins Core RGB Keyboard lighting        |
-|  controller                                |
-|                                            |
-|  Volodymyr Nazarchuk (Vavooon) 4/28/2021   |
-\*------------------------------------------*/
+/*---------------------------------------------------------*\
+| HyperXAlloyOriginsCoreController.h                        |
+|                                                           |
+|   Driver for HyperX Alloy Origins Core keyboard           |
+|                                                           |
+|   Volodymyr Nazarchuk (Vavooon)               28 Apr 2021 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
-#include "RGBController.h"
+#pragma once
 
 #include <string>
 #include <hidapi/hidapi.h>
-
-#pragma once
+#include "RGBController.h"
 
 class HyperXAlloyOriginsCoreController
 {

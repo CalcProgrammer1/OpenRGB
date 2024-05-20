@@ -1,18 +1,19 @@
-/*-----------------------------------------*\
-|  HyperXAlloyFPSController.h               |
-|                                           |
-|  Definitions and types for HyperX Alloy   |
-|  Elite Keyboard lighting controller       |
-|                                           |
-|  Adam Honse (CalcProgrammer1) 1/30/2020   |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| HyperXAlloyFPSController.h                                |
+|                                                           |
+|   Driver for HyperX Alloy FPS keyboard                    |
+|                                                           |
+|   Adam Honse (CalcProgrammer1)                30 Jan 2020 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
-#include "RGBController.h"
+#pragma once
 
 #include <string>
 #include <hidapi/hidapi.h>
-
-#pragma once
+#include "RGBController.h"
 
 enum
 {

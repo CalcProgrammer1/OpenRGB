@@ -1,11 +1,13 @@
-/*-----------------------------------------*\
-|  RGBController_HyperXAlloyFPS.cpp         |
-|                                           |
-|  Generic RGB Interface for HyperX Alloy   |
-|  FPS Keyboard                             |
-|                                           |
-|  Adam Honse (CalcProgrammer1) 2/2/2020    |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_HyperXAlloyFPS.cpp                          |
+|                                                           |
+|   RGBController for HyperX Alloy FPS keyboard             |
+|                                                           |
+|   Adam Honse (CalcProgrammer1)                02 Feb 2020 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #include "RGBControllerKeyNames.h"
 #include "RGBController_HyperXAlloyFPS.h"

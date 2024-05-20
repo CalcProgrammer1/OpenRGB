@@ -1,15 +1,18 @@
-/*-------------------------------------------*\
-|  RGBController_HyperXAlloyOrigins60and65.h  |
-|                                             |
-|  Generic RGB Interface for HyperX Alloy     |
-|  Origins 60 and 65 RGB Keyboards            |
-|                                             |
-|  Derek Huber 03/18/2023                     |
-\*-------------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_HyperXAlloyOrigins60and65.h                 |
+|                                                           |
+|   RGBController for HyperX Alloy Origins 60 and 65        |
+|   keyboard                                                |
+|                                                           |
+|   Derek Huber                                 18 Mar 2023 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #pragma once
-#include <chrono>
 
+#include <chrono>
 #include "RGBController.h"
 #include "HyperXAlloyOrigins60and65Controller.h"
 

@@ -1,11 +1,13 @@
-/*-----------------------------------------*\
-|  RGBController_HyperXAlloyOrigins.cpp     |
-|                                           |
-|  Generic RGB Interface for HyperX Alloy   |
-|  Origins RGB Keyboard                     |
-|                                           |
-|  Adam Honse (CalcProgrammer1) 7/11/2020   |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_HyperXAlloyOrigins.cpp                      |
+|                                                           |
+|   RGBController for HyperX Alloy Origins keyboard         |
+|                                                           |
+|   Adam Honse (CalcProgrammer1)                11 Jul 2020 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #include "RGBControllerKeyNames.h"
 #include "RGBController_HyperXAlloyOrigins.h"

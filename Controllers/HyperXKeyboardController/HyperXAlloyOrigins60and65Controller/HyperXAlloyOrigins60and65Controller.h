@@ -1,19 +1,19 @@
-/*---------------------------------------*\
-|  HyperXAlloyOrigins60and65Controller.h  |
-|                                         |
-|  Definitions and types for HyperX       |
-|  Alloy Origins 60 and 65 RGB Keyboards  |
-|  lighting controller                    |
-|                                         |
-|  Derek Huber 03/18/2023                 |
-\*---------------------------------------*/
+/*---------------------------------------------------------*\
+| HyperXAlloyOrigins60and65Controller.h                     |
+|                                                           |
+|   Driver for HyperX Alloy Origins 60 and 65 keyboard      |
+|                                                           |
+|   Derek Huber                                 18 Mar 2023 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
-#include "RGBController.h"
+#pragma once
 
 #include <string>
 #include <hidapi/hidapi.h>
-
-#pragma once
+#include "RGBController.h"
 
 class HyperXAlloyOrigins60and65Controller
 {

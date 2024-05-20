@@ -1,15 +1,16 @@
-/*-----------------------------------------*\
-|  HyperXAlloyElite2Controller.cpp          |
-|                                           |
-|  Driver for HyperX Alloy Elite2 RGB       |
-|  Keyboard lighting controller             |
-|                                           |
-|  KundaPanda (vojdo) 02/04/2021            |
-\*-----------------------------------------*/
-
-#include "HyperXAlloyElite2Controller.h"
+/*---------------------------------------------------------*\
+| HyperXAlloyElite2Controller.cpp                           |
+|                                                           |
+|   Driver for HyperX Alloy Elite 2 keyboard                |
+|                                                           |
+|   KundaPanda (vojdo)                          02 Apr 2021 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #include <cstring>
+#include "HyperXAlloyElite2Controller.h"
 
 /*-----------------------------------------*\
 | Skip these indices in the color output    |
@@ -131,7 +132,7 @@ void HyperXAlloyElite2Controller::SetLEDsDirect(const std::vector<RGBColor>& col
             | Send packet                                   |
             \*---------------------------------------------*/
             hid_send_feature_report(dev, buf, sizeof(buf));
-            
+
             /*---------------------------------------------*\
             | Zero out buffer and reset index               |
             \*---------------------------------------------*/

@@ -1,16 +1,17 @@
-/*------------------------------------------*\
-|  HyperXAlloyOriginsCoreController.cpp      |
-|                                            |
-|  Driver for HyperX Alloy Origins Core      |
-|  RGB Keyboard lighting controller          |
-|                                            |
-|  Volodymyr Nazarchuk (Vavooon) 4/28/2021   |
-|  mike white (kamaaina)          6/9/2021   |
-\*------------------------------------------*/
-
-#include "HyperXAlloyOriginsCoreController.h"
+/*---------------------------------------------------------*\
+| HyperXAlloyOriginsCoreController.cpp                      |
+|                                                           |
+|   Driver for HyperX Alloy Origins Core keyboard           |
+|                                                           |
+|   Volodymyr Nazarchuk (Vavooon)               28 Apr 2021 |
+|   Mike White (kamaaina)                       09 Jun 2021 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #include <cstring>
+#include "HyperXAlloyOriginsCoreController.h"
 
 // Skip these indices in the color output
 static unsigned int skip_idx[] = {6, 7, 14, 15, 22, 23, 30, 31, 38, 39, 44, 46, 47, 54, 55, 58, 60, 61, 62, 63, 70, 71, 78, 79, 86, 87, 94, 95, 101, 102, 103, 109, 110, 111, 118, 119};

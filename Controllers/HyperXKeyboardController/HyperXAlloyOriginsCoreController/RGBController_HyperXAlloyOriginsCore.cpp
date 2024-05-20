@@ -1,17 +1,18 @@
-/*------------------------------------------*\
-|  RGBController_HyperXAlloyOriginsCore.cpp  |
-|                                            |
-|  Generic RGB Interface for HyperX Alloy    |
-|  Origins Core RGB Keyboard                 |
-|                                            |
-|  Volodymyr Nazarchuk (Vavooon) 4/28/2021   |
-\*------------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_HyperXAlloyOriginsCore.cpp                  |
+|                                                           |
+|   RGBController for HyperX Alloy Origins Core keyboard    |
+|                                                           |
+|   Volodymyr Nazarchuk (Vavooon)               28 Apr 2021 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #include "RGBControllerKeyNames.h"
 #include "RGBController_HyperXAlloyOriginsCore.h"
 
 using namespace std::chrono_literals;
-
 
 #define HYPERX_MIN_BRIGHTNESS   0
 #define HYPERX_MAX_BRIGHTNESS 255

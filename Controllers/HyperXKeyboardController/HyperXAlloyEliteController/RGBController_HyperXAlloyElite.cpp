@@ -1,11 +1,13 @@
-/*-----------------------------------------*\
-|  RGBController_HyperXAlloyElite.cpp       |
-|                                           |
-|  Generic RGB Interface for HyperX Alloy   |
-|  Elite Keyboard                           |
-|                                           |
-|  Adam Honse (CalcProgrammer1) 2/2/2020    |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_HyperXAlloyElite.cpp                        |
+|                                                           |
+|   RGBController for HyperX Alloy Elite keyboard           |
+|                                                           |
+|   Adam Honse (CalcProgrammer1)                02 Feb 2020 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #include "RGBControllerKeyNames.h"
 #include "RGBController_HyperXAlloyElite.h"

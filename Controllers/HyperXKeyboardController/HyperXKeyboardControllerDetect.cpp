@@ -1,3 +1,13 @@
+/*---------------------------------------------------------*\
+| HyperXKeyboardControllerDetect.cpp                        |
+|                                                           |
+|   Driver for HyperX keyboards                             |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
+#include <hidapi/hidapi.h>
 #include "Detector.h"
 #include "HyperXAlloyEliteController.h"
 #include "HyperXAlloyElite2Controller.h"
@@ -12,7 +22,6 @@
 #include "RGBController_HyperXAlloyOrigins.h"
 #include "RGBController_HyperXAlloyOriginsCore.h"
 #include "RGBController_HyperXAlloyOrigins60and65.h"
-#include <hidapi/hidapi.h>
 
 /*-----------------------------------------------------*\
 | HyperX keyboard vendor and product IDs                |

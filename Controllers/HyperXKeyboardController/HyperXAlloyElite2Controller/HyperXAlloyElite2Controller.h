@@ -1,18 +1,19 @@
-/*-----------------------------------------*\
-|  HyperXAlloyElite2Controller.h            |
-|                                           |
-|  Definitions and types for HyperX Alloy   |
-|  Elite2 RGB Keyboard lighting controller  |
-|                                           |
-|  KundaPanda (vojdo) 02/04/2021            |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| HyperXAlloyElite2Controller.h                             |
+|                                                           |
+|   Driver for HyperX Alloy Elite 2 keyboard                |
+|                                                           |
+|   KundaPanda (vojdo)                          02 Apr 2021 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
-#include "RGBController.h"
+#pragma once
 
 #include <string>
 #include <hidapi/hidapi.h>
-
-#pragma once
+#include "RGBController.h"
 
 class HyperXAlloyElite2Controller
 {
