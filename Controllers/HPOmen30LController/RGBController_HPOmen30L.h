@@ -1,11 +1,14 @@
-/*-----------------------------------------*\
-|  RGBController_HPOmen30L.h                |
-|                                           |
-|  Generic RGB Interface for HP Omen 30L    |
-|                                           |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_HPOmen30L.h                                 |
+|                                                           |
+|   RGBController for HP Omen 30L                           |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #pragma once
+
 #include "RGBController.h"
 #include "HPOmen30LController.h"
 

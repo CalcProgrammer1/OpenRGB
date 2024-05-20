@@ -1,14 +1,16 @@
-/*-----------------------------------------*\
-|  HPOmen30LController.cpp                  |
-|                                           |
-|  Driver for HP Omen 30L RGB lighting      |
-|  controller                               |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| HPOmen30LController.cpp                                   |
+|                                                           |
+|   Driver for HP Omen 30L                                  |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
-#include "HPOmen30LController.h"
 #include <cstring>
 #include <stdio.h>
 #include <stdlib.h>
+#include "HPOmen30LController.h"
 
 HPOmen30LController::HPOmen30LController(hid_device* dev_handle, const char* path)
 {

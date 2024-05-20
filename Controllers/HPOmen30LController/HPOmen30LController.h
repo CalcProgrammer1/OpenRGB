@@ -1,16 +1,18 @@
-/*-----------------------------------------*\
-|  HPOmen30LController.h                    |
-|                                           |
-|  Driver for HP Omen 30L RGB lighting      |
-|  controller                               |
-\*-----------------------------------------*/
-
-#include "RGBController.h"
-#include <string>
-#include <hidapi/hidapi.h>
-#include <vector>
+/*---------------------------------------------------------*\
+| HPOmen30LController.h                                     |
+|                                                           |
+|   Driver for HP Omen 30L                                  |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #pragma once
+
+#include <string>
+#include <vector>
+#include <hidapi/hidapi.h>
+#include "RGBController.h"
 
 typedef struct
 {
@@ -27,7 +29,6 @@ enum
     HP_OMEN_30L_BREATHING   = 0x06, /* Breathing effect channel     */
     HP_OMEN_30L_COLOR_CYCLE = 0x07, /* Color cycle effect channel   */
     HP_OMEN_30L_BLINKING    = 0x08, /* Led blink                    */
-
 };
 
 enum
@@ -70,5 +71,4 @@ private:
     std::vector<hp_zone>    hp_zones;
 
     void SendZoneUpdate(int zone, std::vector<RGBColor> colors);
-
 };
