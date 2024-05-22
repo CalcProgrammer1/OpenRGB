@@ -43,6 +43,7 @@ CODEOWNERS @Calcprogrammer1
 /Controllers/EVGAGP102GPUController/
 /Controllers/EVGAPascalGPUController/
 /Controllers/EVGATuringGPUController/                       @TheRogueZeta
+/Controllers/EVGASMBusController/                           @balika011
 /Controllers/EVGAUSBController/                             @Dr_No
 /Controllers/EVisionKeyboardController/
 /Controllers/EspurnaController/
