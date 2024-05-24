@@ -1,14 +1,17 @@
 /*---------------------------------------------------------*\
-|  HYTEMousematController.h                                 |
+| HYTEMousematController_Linux.h                            |
 |                                                           |
-|  Definitions for HYTE CNVS RGB mousemat controller        |
+|   Driver for HYTE mousemat (libusb implementation for     |
+|   Linux)                                                  |
 |                                                           |
-|  Adam Honse (calcprogrammer1@gmail.com), 7/18/2023        |
+|   Adam Honse (calcprogrammer1@gmail.com)      18 Jul 2023 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
 \*---------------------------------------------------------*/
 
 #pragma once
 
-#include "RGBController.h"
 #include <vector>
 
 #ifdef __FreeBSD__
@@ -16,6 +19,8 @@
 #else
 #include <libusb-1.0/libusb.h>
 #endif
+
+#include "RGBController.h"
 
 /*---------------------------------------------------------*\
 | HYTE CNVS endpoint values                                 |

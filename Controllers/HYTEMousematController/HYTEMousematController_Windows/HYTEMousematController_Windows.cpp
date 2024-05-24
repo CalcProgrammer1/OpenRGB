@@ -1,9 +1,13 @@
 /*---------------------------------------------------------*\
-|  HYTEMousematController.cpp                               |
+| HYTEMousematController_Windows.cpp                        |
 |                                                           |
-|  Driver for HYTE CNVS RGB mousemat controller             |
+|   Driver for HYTE mousemat (Serial implementation for     |
+|   Windows)                                                |
 |                                                           |
-|  Adam Honse (calcprogrammer1@gmail.com), 7/18/2023        |
+|   Adam Honse (calcprogrammer1@gmail.com)      18 Jul 2023 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
 \*---------------------------------------------------------*/
 
 #include "HYTEMousematController_Windows.h"

@@ -1,6 +1,15 @@
-#include "Detector.h"
-#include "RGBController.h"
-#include "RGBController_HYTEMousemat.h"
+/*---------------------------------------------------------*\
+| HYTEMousematControllerDetect_Linux.cpp                    |
+|                                                           |
+|   Detector for HYTE mousemat (libusb implementation for   |
+|   Linux)                                                  |
+|                                                           |
+|   Adam Honse (calcprogrammer1@gmail.com)      18 Jul 2023 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
 #include <vector>
 
 #ifdef __FreeBSD__
@@ -8,6 +17,10 @@
 #else
 #include <libusb-1.0/libusb.h>
 #endif
+
+#include "Detector.h"
+#include "RGBController.h"
+#include "RGBController_HYTEMousemat.h"
 
 /*-----------------------------------------------------*\
 | HYTE vendor ID                                        |

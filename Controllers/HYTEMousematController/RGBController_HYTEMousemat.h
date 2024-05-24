@@ -1,11 +1,13 @@
-/*-----------------------------------------*\
-|  RGBController_HYTEMousemat.h             |
-|                                           |
-|  Generic RGB Interface for HYTE CNVS RGB  |
-|  mousemat                                 |
-|                                           |
-|  Adam Honse (CalcProgrammer1) 7/18/2023   |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_HYTEMousemat.h                              |
+|                                                           |
+|   RGBController for HYTE mousemat                         |
+|                                                           |
+|   Adam Honse (calcprogrammer1@gmail.com)      18 Jul 2023 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #pragma once
 

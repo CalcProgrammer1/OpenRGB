@@ -1,9 +1,21 @@
+/*---------------------------------------------------------*\
+| HYTEMousematControllerDetect_Windows.cpp                  |
+|                                                           |
+|   Detector for HYTE mousemat (Serial implementation for   |
+|   Windows)                                                |
+|                                                           |
+|   Adam Honse (calcprogrammer1@gmail.com)      18 Jul 2023 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
+#include <vector>
 #include "Detector.h"
 #include "HYTEMousematController_Windows.h"
 #include "RGBController.h"
 #include "RGBController_HYTEMousemat.h"
 #include "find_usb_serial_port.h"
-#include <vector>
 
 #define HYTE_VID                0x3402
 
