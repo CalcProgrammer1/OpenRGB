@@ -1,15 +1,16 @@
-/*-----------------------------------------*\
-|  HyperXPulsefireFPSProController.cpp      |
-|                                           |
-|  Driver for HyperX Pulsefire FPS Pro      |
-|  lighting controller                      |
-|                                           |
-|  Adam Honse (CalcProgrammer1) 12/26/2020  |
-\*-----------------------------------------*/
-
-#include "HyperXPulsefireFPSProController.h"
+/*---------------------------------------------------------*\
+| HyperXPulsefireFPSProController.cpp                       |
+|                                                           |
+|   Driver for HyperX Pulsefire FPS Pro                     |
+|                                                           |
+|   Adam Honse (CalcProgrammer1)                26 Dec 2020 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #include <cstring>
+#include "HyperXPulsefireFPSProController.h"
 
 HyperXPulsefireFPSProController::HyperXPulsefireFPSProController(hid_device* dev_handle, const char* path)
 {
@@ -64,13 +65,13 @@ void HyperXPulsefireFPSProController::SendDirect
     \*-----------------------------------------------------*/
     buf[0x00]   = 0x07;
     buf[0x01]   = HYPERX_PULSEFIRE_FPS_PRO_PACKET_ID_DIRECT;
-    
+
     buf[0x02]   = RGBGetRValue(color_data[0]);
     buf[0x03]   = RGBGetGValue(color_data[0]);
     buf[0x04]   = RGBGetBValue(color_data[0]);
 
     buf[0x08]   = 0xA0;
-    
+
     /*-----------------------------------------------------*\
     | Send packet                                           |
     \*-----------------------------------------------------*/

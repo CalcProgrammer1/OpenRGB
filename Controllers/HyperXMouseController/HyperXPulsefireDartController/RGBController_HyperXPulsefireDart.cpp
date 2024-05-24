@@ -1,11 +1,13 @@
-/*-------------------------------------------*\
-|  RGBController_HyperXPulsefireDart.cpp      |
-|                                             |
-|  Generic RGB Interface for HyperX           |
-|  Pulsefire Dart                             |
-|                                             |
-|  Santeri Pikarinen (santeri3700) 12/26/2020 |
-\*-------------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_HyperXPulsefireDart.cpp                     |
+|                                                           |
+|   RGBController for HyperX Pulsefire Dart                 |
+|                                                           |
+|   Santeri Pikarinen (santeri3700)             26 Dec 2020 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #include "RGBController_HyperXPulsefireDart.h"
 

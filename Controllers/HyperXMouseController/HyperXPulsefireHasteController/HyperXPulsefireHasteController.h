@@ -1,18 +1,19 @@
-/*-----------------------------------------*\
-|  HyperXPulsefireHasteController.h         |
-|                                           |
-|  Definitions and types for HyperX         |
-|  Pulsefire FPS Pro lighting controller    |
-|                                           |
-|  Adam Honse (CalcProgrammer1) 8/19/2021   |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| HyperXPulsefireHasteController.h                          |
+|                                                           |
+|   Driver for HyperX Pulsefire Haste                       |
+|                                                           |
+|   Adam Honse (CalcProgrammer1)                19 Aug 2020 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
-#include "RGBController.h"
+#pragma once
 
 #include <string>
 #include <hidapi/hidapi.h>
-
-#pragma once
+#include "RGBController.h"
 
 enum
 {

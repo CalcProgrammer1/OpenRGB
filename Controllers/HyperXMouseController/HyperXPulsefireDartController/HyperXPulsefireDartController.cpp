@@ -1,15 +1,16 @@
-/*-------------------------------------------*\
-|  HyperXPulsefireDartController.cpp          |
-|                                             |
-|  Driver for HyperX Pulsefire Dart           |
-|  lighting controller                        |
-|                                             |
-|  Santeri Pikarinen (santeri3700) 12/26/2020 |
-\*-------------------------------------------*/
-
-#include "HyperXPulsefireDartController.h"
+/*---------------------------------------------------------*\
+| HyperXPulsefireDartController.cpp                         |
+|                                                           |
+|   Driver for HyperX Pulsefire Dart                        |
+|                                                           |
+|   Santeri Pikarinen (santeri3700)             26 Dec 2020 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #include <cstring>
+#include "HyperXPulsefireDartController.h"
 
 HyperXPulsefireDartController::HyperXPulsefireDartController(hid_device* dev_handle, const char* path)
 {
@@ -71,7 +72,7 @@ void HyperXPulsefireDartController::SendDirect
     buf[0x02]   = led;
     buf[0x03]   = mode;
     buf[0x04]   = 0x08; // 8 bytes after buffer index 0x04
-    
+
     buf[0x05]   = RGBGetRValue(color);
     buf[0x06]   = RGBGetGValue(color);
     buf[0x07]   = RGBGetBValue(color);
@@ -82,7 +83,7 @@ void HyperXPulsefireDartController::SendDirect
 
     buf[0x0b]   = brightness;
     buf[0x0c]   = speed;
-    
+
     /*-----------------------------------------------------*\
     | Send packet                                           |
     \*-----------------------------------------------------*/

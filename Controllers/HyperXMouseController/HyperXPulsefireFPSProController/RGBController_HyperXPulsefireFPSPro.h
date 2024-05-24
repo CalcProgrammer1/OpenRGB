@@ -1,15 +1,17 @@
-/*-----------------------------------------*\
-|  RGBController_HyperXPulsefireFPSPro.h    |
-|                                           |
-|  Generic RGB Interface for HyperX         |
-|  Pulsefire FPS Pro                        |
-|                                           |
-|  Adam Honse (CalcProgrammer1) 12/26/2020  |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_HyperXPulsefireFPSPro.h                     |
+|                                                           |
+|   RGBController for HyperX Pulsefire FPS Pro              |
+|                                                           |
+|   Adam Honse (CalcProgrammer1)                26 Dec 2020 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #pragma once
-#include <chrono>
 
+#include <chrono>
 #include "RGBController.h"
 #include "HyperXPulsefireFPSProController.h"
 
@@ -22,7 +24,7 @@ public:
     void        SetupZones();
 
     void        ResizeZone(int zone, int new_size);
-    
+
     void        DeviceUpdateLEDs();
     void        UpdateZoneLEDs(int zone);
     void        UpdateSingleLED(int led);
@@ -30,7 +32,7 @@ public:
     void        DeviceUpdateMode();
 
     void        KeepaliveThread();
-    
+
 private:
     HyperXPulsefireFPSProController*                    controller;
     std::thread*                                        keepalive_thread;

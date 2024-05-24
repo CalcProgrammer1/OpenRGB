@@ -1,14 +1,16 @@
-/*-------------------------------------------*\
-|  HyperXPulsefireRaidController.cpp          |
-|                                             |
-|  Driver for HyperX Pulsefire Raid           |
-|  lighting controller                        |
-|                                             |
-|  Morgan Guimard (morg) 04/06/2022           |
-\*-------------------------------------------*/
+/*---------------------------------------------------------*\
+| HyperXPulsefireRaidController.cpp                         |
+|                                                           |
+|   Driver for HyperX Pulsefire Raid                        |
+|                                                           |
+|   Morgan Guimard (morg)                       06 Apr 2022 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
-#include "HyperXPulsefireRaidController.h"
 #include <cstring>
+#include "HyperXPulsefireRaidController.h"
 
 using namespace std::chrono_literals;
 
@@ -76,6 +78,6 @@ void HyperXPulsefireRaidController::SendColors(std::vector<RGBColor> colors)
 
 void HyperXPulsefireRaidController::Send(unsigned char* packet)
 {
-    hid_send_feature_report(dev, packet, HYPERX_PULSFIRE_RAID_PACKET_DATA_LENGTH);    
+    hid_send_feature_report(dev, packet, HYPERX_PULSFIRE_RAID_PACKET_DATA_LENGTH);
     std::this_thread::sleep_for(10ms);
 }

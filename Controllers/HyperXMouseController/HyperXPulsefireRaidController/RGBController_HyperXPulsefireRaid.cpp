@@ -1,11 +1,13 @@
-/*-------------------------------------------*\
-|  RGBController_HyperXPulsefireRaid.cpp      |
-|                                             |
-|  Generic RGB Interface for HyperX           |
-|  Pulsefire Raid                             |
-|                                             |
-|  Morgan Guimard (morg) 04/06/2022           |
-\*-------------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_HyperXPulsefireRaid.cpp                     |
+|                                                           |
+|   RGBController for HyperX Pulsefire Raid                 |
+|                                                           |
+|   Morgan Guimard (morg)                       06 Apr 2022 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #include "RGBController_HyperXPulsefireRaid.h"
 
@@ -61,7 +63,7 @@ RGBController_HyperXPulsefireRaid::~RGBController_HyperXPulsefireRaid()
 }
 
 void RGBController_HyperXPulsefireRaid::SetupZones()
-{    
+{
     std::string led_names[HYPERX_PULSFIRE_RAID_LEDS_COUNT] =
     {
         "Scroll Wheel", "Logo"

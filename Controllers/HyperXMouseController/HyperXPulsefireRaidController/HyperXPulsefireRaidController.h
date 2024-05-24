@@ -1,18 +1,19 @@
-/*-------------------------------------------*\
-|  HyperXPulsefireRaidController.h            |
-|                                             |
-|  Definitions and types for HyperX           |
-|  Pulsefire Raid lighting controller         |
-|                                             |
-|  Morgan Guimard (morg) 04/06/2022           |
-\*-------------------------------------------*/
+/*---------------------------------------------------------*\
+| HyperXPulsefireRaidController.h                           |
+|                                                           |
+|   Driver for HyperX Pulsefire Raid                        |
+|                                                           |
+|   Morgan Guimard (morg)                       06 Apr 2022 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
-#include "RGBController.h"
+#pragma once
 
 #include <string>
 #include <hidapi/hidapi.h>
-
-#pragma once
+#include "RGBController.h"
 
 #define HYPERX_PULSFIRE_RAID_PACKET_DATA_LENGTH         264
 #define HYPERX_PULSFIRE_RAID_REPORT_ID                  0x07
@@ -30,7 +31,7 @@ class HyperXPulsefireRaidController
 {
 public:
     HyperXPulsefireRaidController(hid_device* dev_handle, const hid_device_info& info);
-    ~HyperXPulsefireRaidController();    
+    ~HyperXPulsefireRaidController();
 
     std::string GetSerialString();
     std::string GetDeviceLocation();

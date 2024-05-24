@@ -1,11 +1,13 @@
-/*-----------------------------------------*\
-|  RGBController_HyperXPulsefireHaste.cpp   |
-|                                           |
-|  Generic RGB Interface for HyperX         |
-|  Pulsefire Haste                          |
-|                                           |
-|  Adam Honse (CalcProgrammer1) 8/19/2021   |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_HyperXPulsefireHaste.cpp                    |
+|                                                           |
+|   RGBController for HyperX Pulsefire Haste                |
+|                                                           |
+|   Adam Honse (CalcProgrammer1)                19 Aug 2020 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #include "RGBController_HyperXPulsefireHaste.h"
 

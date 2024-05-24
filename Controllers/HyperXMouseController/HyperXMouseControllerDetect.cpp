@@ -1,3 +1,13 @@
+/*---------------------------------------------------------*\
+| HyperXMouseControllerDetect.cpp                           |
+|                                                           |
+|   Detector for HyperX mouse                               |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
+#include <hidapi/hidapi.h>
 #include "Detector.h"
 #include "HyperXPulsefireFPSProController.h"
 #include "HyperXPulsefireSurgeController.h"
@@ -9,7 +19,6 @@
 #include "RGBController_HyperXPulsefireSurge.h"
 #include "RGBController_HyperXPulsefireDart.h"
 #include "RGBController_HyperXPulsefireRaid.h"
-#include <hidapi/hidapi.h>
 
 /*-----------------------------------------------------*\
 | HyperX mouse vendor IDs                               |

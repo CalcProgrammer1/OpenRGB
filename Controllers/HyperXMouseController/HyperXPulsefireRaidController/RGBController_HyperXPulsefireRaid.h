@@ -1,15 +1,17 @@
-/*-------------------------------------------*\
-|  RGBController_HyperXPulsefireRaid.h        |
-|                                             |
-|  Generic RGB Interface for HyperX           |
-|  Pulsefire Raid                             |
-|                                             |
-|  Morgan Guimard (morg) 04/06/2022           |
-\*-------------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_HyperXPulsefireRaid.h                       |
+|                                                           |
+|   RGBController for HyperX Pulsefire Raid                 |
+|                                                           |
+|   Morgan Guimard (morg)                       06 Apr 2022 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #pragma once
-#include <chrono>
 
+#include <chrono>
 #include "RGBController.h"
 #include "HyperXPulsefireRaidController.h"
 
@@ -21,14 +23,14 @@ public:
 
     void SetupZones();
     void ResizeZone(int zone, int new_size);
-    
+
     void DeviceUpdateLEDs();
     void UpdateZoneLEDs(int zone);
     void UpdateSingleLED(int led);
 
     void DeviceUpdateMode();
     void DeviceSaveMode();
-    
+
 private:
     HyperXPulsefireRaidController*                      controller;
     std::thread*                                        keepalive_thread;

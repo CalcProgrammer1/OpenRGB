@@ -1,11 +1,13 @@
-/*-----------------------------------------*\
-|  RGBController_HyperXPulsefireFPSPro.cpp  |
-|                                           |
-|  Generic RGB Interface for HyperX         |
-|  Pulsefire Surge                          |
-|                                           |
-|  Adam Honse (CalcProgrammer1) 2/2/2020    |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_HyperXPulsefireFPSPro.cpp                   |
+|                                                           |
+|   RGBController for HyperX Pulsefire FPS Pro              |
+|                                                           |
+|   Adam Honse (CalcProgrammer1)                26 Dec 2020 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #include "RGBController_HyperXPulsefireFPSPro.h"
 

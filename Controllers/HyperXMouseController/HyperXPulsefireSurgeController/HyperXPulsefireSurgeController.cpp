@@ -1,15 +1,16 @@
-/*-----------------------------------------*\
-|  HyperXPulsefireSurgeController.cpp       |
-|                                           |
-|  Driver for HyperX Pulsefire Surge        |
-|  lighting controller                      |
-|                                           |
-|  Adam Honse (CalcProgrammer1) 7/25/2020   |
-\*-----------------------------------------*/
-
-#include "HyperXPulsefireSurgeController.h"
+/*---------------------------------------------------------*\
+| HyperXPulsefireSurgeController.cpp                        |
+|                                                           |
+|   Driver for HyperX Pulsefire Surge                       |
+|                                                           |
+|   Adam Honse (CalcProgrammer1)                25 Jul 2020 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #include <cstring>
+#include "HyperXPulsefireSurgeController.h"
 
 HyperXPulsefireSurgeController::HyperXPulsefireSurgeController(hid_device* dev_handle, const char* path)
 {

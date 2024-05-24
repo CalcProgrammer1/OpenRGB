@@ -1,18 +1,19 @@
-/*-------------------------------------------*\
-|  HyperXPulsefireDartController.h            |
-|                                             |
-|  Definitions and types for HyperX           |
-|  Pulsefire Dart lighting controller         |
-|                                             |
-|  Santeri Pikarinen (santeri3700) 12/26/2020 |
-\*-------------------------------------------*/
+/*---------------------------------------------------------*\
+| HyperXPulsefireDartController.h                           |
+|                                                           |
+|   Driver for HyperX Pulsefire Dart                        |
+|                                                           |
+|   Santeri Pikarinen (santeri3700)             26 Dec 2020 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
-#include "RGBController.h"
+#pragma once
 
 #include <string>
 #include <hidapi/hidapi.h>
-
-#pragma once
+#include "RGBController.h"
 
 enum
 {

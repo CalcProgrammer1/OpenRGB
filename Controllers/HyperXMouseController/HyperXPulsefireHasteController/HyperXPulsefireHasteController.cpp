@@ -1,15 +1,16 @@
-/*-----------------------------------------*\
-|  HyperXPulsefireHasteController.cpp       |
-|                                           |
-|  Driver for HyperX Pulsefire Haste        |
-|  lighting controller                      |
-|                                           |
-|  Adam Honse (CalcProgrammer1) 8/19/2021   |
-\*-----------------------------------------*/
-
-#include "HyperXPulsefireHasteController.h"
+/*---------------------------------------------------------*\
+| HyperXPulsefireHasteController.cpp                        |
+|                                                           |
+|   Driver for HyperX Pulsefire Haste                       |
+|                                                           |
+|   Adam Honse (CalcProgrammer1)                19 Aug 2020 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #include <cstring>
+#include "HyperXPulsefireHasteController.h"
 
 HyperXPulsefireHasteController::HyperXPulsefireHasteController(hid_device* dev_handle, const char* path)
 {
@@ -97,13 +98,13 @@ void HyperXPulsefireHasteController::SendDirectColor
     \*-----------------------------------------------------*/
     buf[0x00]   = 0x00;
     buf[0x01]   = HYPERX_PULSEFIRE_HASTE_PACKET_ID_COLOR;
-    
+
     buf[0x02]   = RGBGetRValue(color_data[0]);
     buf[0x03]   = RGBGetGValue(color_data[0]);
     buf[0x04]   = RGBGetBValue(color_data[0]);
 
     buf[0x08]   = 0x02;
-    
+
     /*-----------------------------------------------------*\
     | Send packet                                           |
     \*-----------------------------------------------------*/

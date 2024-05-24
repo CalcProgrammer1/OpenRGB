@@ -1,18 +1,19 @@
-/*-----------------------------------------*\
-|  HyperXPulsefireSurgeController.h         |
-|                                           |
-|  Definitions and types for HyperX         |
-|  Pulsefire Surge lighting controller      |
-|                                           |
-|  Adam Honse (CalcProgrammer1) 7/25/2020   |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| HyperXPulsefireSurgeController.h                          |
+|                                                           |
+|   Driver for HyperX Pulsefire Surge                       |
+|                                                           |
+|   Adam Honse (CalcProgrammer1)                25 Jul 2020 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
-#include "RGBController.h"
+#pragma once
 
 #include <string>
 #include <hidapi/hidapi.h>
-
-#pragma once
+#include "RGBController.h"
 
 enum
 {
