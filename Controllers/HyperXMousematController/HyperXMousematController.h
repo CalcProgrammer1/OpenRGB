@@ -1,19 +1,19 @@
-/*-----------------------------------------*\
-|  HyperXMousematController.h               |
-|                                           |
-|  Definitions and types for HyperX         |
-|  mousemat lighting controller             |
-|                                           |
-|  Adam Honse (CalcProgrammer1) 10/25/2020  |
-\*-----------------------------------------*/
-
-#include "RGBController.h"
-
-#include <string>
-
-#include "hidapi_wrapper.h"
+/*---------------------------------------------------------*\
+| HyperXMousematController.h                                |
+|                                                           |
+|   Driver for HyperX mousemat                              |
+|                                                           |
+|   Adam Honse (CalcProgrammer1)                25 Oct 2020 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #pragma once
+
+#include <string>
+#include "RGBController.h"
+#include "hidapi_wrapper.h"
 
 class HyperXMousematController
 {

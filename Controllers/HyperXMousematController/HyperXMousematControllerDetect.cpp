@@ -1,9 +1,19 @@
+/*---------------------------------------------------------*\
+| HyperXMousematControllerDetect.cpp                        |
+|                                                           |
+|   Detector for HyperX mousemat                            |
+|                                                           |
+|   Adam Honse (CalcProgrammer1)                25 Oct 2020 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
+#include <vector>
 #include "Detector.h"
 #include "HyperXMousematController.h"
 #include "RGBController.h"
 #include "RGBController_HyperXMousemat.h"
-#include <vector>
-
 #include "hidapi_wrapper.h"
 
 /*-----------------------------------------------------*\

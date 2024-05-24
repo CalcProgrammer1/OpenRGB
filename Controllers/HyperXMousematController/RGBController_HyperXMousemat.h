@@ -1,15 +1,17 @@
-/*-----------------------------------------*\
-|  RGBController_HyperXMousemat.h           |
-|                                           |
-|  Generic RGB Interface for HyperX         |
-|  mousemat                                 |
-|                                           |
-|  Adam Honse (CalcProgrammer1) 10/25/2020  |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_HyperXMousemat.h                            |
+|                                                           |
+|   RGBController for HyperX mousemat                       |
+|                                                           |
+|   Adam Honse (CalcProgrammer1)                25 Oct 2020 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #pragma once
-#include <chrono>
 
+#include <chrono>
 #include "RGBController.h"
 #include "HyperXMousematController.h"
 
@@ -22,7 +24,7 @@ public:
     void        SetupZones();
 
     void        ResizeZone(int zone, int new_size);
-    
+
     void        DeviceUpdateLEDs();
     void        UpdateZoneLEDs(int zone);
     void        UpdateSingleLED(int led);
@@ -30,7 +32,7 @@ public:
     void        DeviceUpdateMode();
 
     void        KeepaliveThread();
-    
+
 private:
     HyperXMousematController*                           controller;
     std::thread*                                        keepalive_thread;

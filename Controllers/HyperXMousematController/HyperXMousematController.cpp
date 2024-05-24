@@ -1,15 +1,16 @@
-/*-----------------------------------------*\
-|  HyperXMousematController.cpp             |
-|                                           |
-|  Driver for HyperX Mousemat lighting      |
-|  controller                               |
-|                                           |
-|  Adam Honse (CalcProgrammer1) 10/25/2020  |
-\*-----------------------------------------*/
-
-#include "HyperXMousematController.h"
+/*---------------------------------------------------------*\
+| HyperXMousematController.cpp                              |
+|                                                           |
+|   Driver for HyperX mousemat                              |
+|                                                           |
+|   Adam Honse (CalcProgrammer1)                25 Oct 2020 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #include <cstring>
+#include "HyperXMousematController.h"
 
 HyperXMousematController::HyperXMousematController(hidapi_wrapper hid_wrapper, hid_device* dev_handle, const char* path)
 {
@@ -83,7 +84,7 @@ void HyperXMousematController::SendDirect
     | Set up Select Profile packet                          |
     \*-----------------------------------------------------*/
     buf[0x00]   = 0x00;
-    
+
     for(int i = 0; i < 16; i++)
     {
         buf[(i * 4) + 1] = 0x81;
@@ -106,7 +107,7 @@ void HyperXMousematController::SendDirect
     | Set up Select Profile packet                          |
     \*-----------------------------------------------------*/
     buf[0x00]   = 0x00;
-    
+
     for(int i = 0; i < 16; i++)
     {
         buf[(i * 4) + 1] = 0x81;

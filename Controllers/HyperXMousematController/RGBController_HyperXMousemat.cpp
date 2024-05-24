@@ -1,11 +1,13 @@
-/*-----------------------------------------*\
-|  RGBController_HyperXMousemat.cpp         |
-|                                           |
-|  Generic RGB Interface for HyperX         |
-|  mousemat                                 |
-|                                           |
-|  Adam Honse (CalcProgrammer1) 10/25/2020  |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_HyperXMousemat.cpp                          |
+|                                                           |
+|   RGBController for HyperX mousemat                       |
+|                                                           |
+|   Adam Honse (CalcProgrammer1)                25 Oct 2020 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #include "RGBController_HyperXMousemat.h"
 
