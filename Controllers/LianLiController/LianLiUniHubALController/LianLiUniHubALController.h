@@ -1,18 +1,20 @@
-/*-----------------------------------------*\
-|  LianLiHubALController.h                  |
-|                                           |
-|  Definitions and types for Lian Li AL120  |
-|                                           |
-|  Oliver P 04/26/2022                      |
-|  Credit to Luca Lovisa for original work. |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| LianLiUniHubALController.h                                |
+|                                                           |
+|   Driver for Lian Li AL Uni Hub                           |
+|                                                           |
+|   Oliver P                                    26 Apr 2022 |
+|   Credit to Luca Lovisa for original work                 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
-#include "RGBController.h"
+#pragma once
 
 #include <string>
 #include <hidapi/hidapi.h>
-
-#pragma once
+#include "RGBController.h"
 
 /*----------------------------------------------------------------------------*\
 | Global definitions.                                                          |

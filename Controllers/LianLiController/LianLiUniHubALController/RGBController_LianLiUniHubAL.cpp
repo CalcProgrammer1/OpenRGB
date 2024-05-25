@@ -1,16 +1,17 @@
-/*-----------------------------------------*\
-|  RGBController_LianLiUniHubAL.cpp         |
-|                                           |
-|  Generic RGB Interface for Lian Li Uni    |
-|  Hub AL USB controller driver             |
-|                                           |
-|  Oliver P 04/26/2022                      |
-|  Credit to Luca Lovisa for original work. |
-\*-----------------------------------------*/
-
-#include "RGBController_LianLiUniHubAL.h"
+/*---------------------------------------------------------*\
+| RGBController_LianLiUniHubAL.cpp                          |
+|                                                           |
+|   RGBController for Lian Li AL Uni Hub                    |
+|                                                           |
+|   Oliver P                                    26 Apr 2022 |
+|   Credit to Luca Lovisa for original work                 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #include <string>
+#include "RGBController_LianLiUniHubAL.h"
 
 //0xFFFFFFFF indicates an unused entry in matrix
 #define NA  0xFFFFFFFF

@@ -1,7 +1,7 @@
 /*---------------------------------------------------------*\
 | RGBController_LianLiUniHub_AL10.h                         |
 |                                                           |
-|   RGBController for Lian Li AL10 Uni Hub                  |
+|   RGBController for Lian Li AL Uni Hub                    |
 |                                                           |
 |   Oliver P                                    05 May 2022 |
 |   Credit to Luca Lovisa for original work                 |
