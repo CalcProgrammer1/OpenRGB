@@ -1,16 +1,19 @@
-/*-----------------------------------------*\
-|  LegoDimensionsToypadBaseController.h     |
-|                                           |
-|  Driver for Lego Dimensions ToypadBase    |
-|  controller - header file                 |
-|                                           |
-|  Guimard Morgan (morg) 06/02/2023         |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| LegoDimensionsToypadBaseController.h                      |
+|                                                           |
+|   Driver for Lego Dimensions Toypad Base                  |
+|                                                           |
+|   Morgan Guimard (morg)                       02 Jun 2023 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
 #pragma once
 
-#include "RGBController.h"
 #include <string>
 #include <hidapi/hidapi.h>
+#include "RGBController.h"
 
 #define LEGO_DIMENSIONS_TOYPAD_BASE_REPORT_ID       0x55
 #define LEGO_DIMENSIONS_TOYPAD_BASE_PACKET_LENGTH   32

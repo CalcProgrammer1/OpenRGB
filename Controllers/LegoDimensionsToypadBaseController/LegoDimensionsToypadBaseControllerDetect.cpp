@@ -1,3 +1,14 @@
+/*---------------------------------------------------------*\
+| LegoDimensionsToypadBaseControllerDetect.cpp              |
+|                                                           |
+|   Detector for Lego Dimensions Toypad Base                |
+|                                                           |
+|   Morgan Guimard (morg)                       02 Jun 2023 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
 #include "Detector.h"
 #include "LegoDimensionsToypadBaseController.h"
 #include "RGBController.h"

@@ -1,13 +1,16 @@
-/*-----------------------------------------*\
-|  LegoDimensionsToypadBaseController.h     |
-|                                           |
-|  Driver for Lego Dimensions ToypadBase    |
-|  controller                               |
-|                                           |
-|  Guimard Morgan (morg) 06/02/2023         |
-\*-----------------------------------------*/
-#include "LegoDimensionsToypadBaseController.h"
+/*---------------------------------------------------------*\
+| LegoDimensionsToypadBaseController.cpp                    |
+|                                                           |
+|   Driver for Lego Dimensions Toypad Base                  |
+|                                                           |
+|   Morgan Guimard (morg)                       02 Jun 2023 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
 #include <string.h>
+#include "LegoDimensionsToypadBaseController.h"
 
 LegoDimensionsToypadBaseController::LegoDimensionsToypadBaseController(hid_device* dev_handle, const hid_device_info& info)
 {

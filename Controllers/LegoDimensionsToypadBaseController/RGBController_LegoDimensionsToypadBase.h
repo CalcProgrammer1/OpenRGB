@@ -1,11 +1,13 @@
-/*-----------------------------------------*\
-|  RGBController_LegoDimensionsToypadBase.h |
-|                                           |
-|  Generic RGB Interface for OpenRGB        |
-|  Lego Dimensions Toypad Base USB Driver   |
-|                                           |
-|  Guimard Morgan (morg) 06/02/2023         |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_LegoDimensionsToypadBase.h                  |
+|                                                           |
+|   RGBController for Lego Dimensions Toypad Base           |
+|                                                           |
+|   Morgan Guimard (morg)                       02 Jun 2023 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #pragma once
 
