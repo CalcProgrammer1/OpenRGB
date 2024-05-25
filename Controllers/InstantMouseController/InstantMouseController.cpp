@@ -1,13 +1,16 @@
-/*-----------------------------------------*\
-|  InstantMouseController.cpp               |
-|                                           |
-|  Driver for Instant mouse lighting        |
-|  controller                               |
-|                                           |
-|  Guimard Morgan (morg) 1/19/2024          |
-\*-----------------------------------------*/
-#include "InstantMouseController.h"
+/*---------------------------------------------------------*\
+| InstantMouseController.cpp                                |
+|                                                           |
+|   Driver for Instant mouse                                |
+|                                                           |
+|   Morgan Guimard (morg)                       19 Jan 2024 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
 #include <string.h>
+#include "InstantMouseController.h"
 
 InstantMouseController::InstantMouseController(hid_device* dev_handle, const hid_device_info& info)
 {
@@ -50,7 +53,7 @@ std::string InstantMouseController::GetFirmwareVersion()
 }
 
 void InstantMouseController::SendColor(RGBColor color)
-{    
+{
     /*---------------------------------------------------------*\
     | Packet details                                            |
     | 07 14 XG RB 00 00 00 00                                   |
@@ -76,7 +79,7 @@ void InstantMouseController::SendColor(RGBColor color)
 }
 
 void InstantMouseController::SetMode(uint8_t mode_value, uint8_t speed, uint8_t brightness, uint8_t direction)
-{    
+{
     /*---------------------------------------------------------*\
     | Packet details:                                           |
     | 07 13 FF MS DN -B -- --                                   |
@@ -100,7 +103,7 @@ void InstantMouseController::SetMode(uint8_t mode_value, uint8_t speed, uint8_t 
     pkt[1] = INSTANT_MOUSE_SET_MODE;
     pkt[2] = 0xFF;
 
-    pkt[3] = (mode_value << 4) | (speed & 0xF);    
+    pkt[3] = (mode_value << 4) | (speed & 0xF);
     pkt[4] = (direction << 4) | led_mask;
     pkt[5] = 0xF - (brightness & 0xF);
 

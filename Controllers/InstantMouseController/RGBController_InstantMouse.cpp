@@ -1,11 +1,13 @@
-/*-----------------------------------------*\
-|  RGBController_InstantMouse.cpp           |
-|                                           |
-|  Generic RGB Interface for OpenRGB        |
-|  Instant mouse RGB USB Driver             |
-|                                           |
-|  Guimard Morgan (morg) 1/19/2024          |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_InstantMouse.cpp                            |
+|                                                           |
+|   RGBController for Instant mouse                         |
+|                                                           |
+|   Morgan Guimard (morg)                       19 Jan 2024 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #include "RGBController_InstantMouse.h"
 
@@ -24,7 +26,7 @@
 
 RGBController_InstantMouse::RGBController_InstantMouse(InstantMouseController* controller_ptr)
 {
-    controller                          = controller_ptr;    
+    controller                          = controller_ptr;
     vendor                              = "Instant Microelectronics";
     type                                = DEVICE_TYPE_MOUSE;
     description                         = "Instant USB Gaming Mouse";

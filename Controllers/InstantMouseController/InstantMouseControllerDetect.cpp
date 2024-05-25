@@ -1,3 +1,14 @@
+/*---------------------------------------------------------*\
+| InstantMouseControllerDetect.cpp                          |
+|                                                           |
+|   Detector for Instant mouse                              |
+|                                                           |
+|   Morgan Guimard (morg)                       19 Jan 2024 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
 #include "Detector.h"
 #include "InstantMouseController.h"
 #include "RGBController.h"

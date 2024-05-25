@@ -1,16 +1,19 @@
-﻿/*-----------------------------------------*\
-|  InstantMouseController.h                 |
-|                                           |
-|  Driver for Instant mouse lighting        |
-|  controller - header file                 |
-|                                           |
-|  Guimard Morgan (morg) 1/19/2024          |
-\*-----------------------------------------*/
+﻿/*---------------------------------------------------------*\
+| InstantMouseController.h                                  |
+|                                                           |
+|   Driver for Instant mouse                                |
+|                                                           |
+|   Morgan Guimard (morg)                       19 Jan 2024 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
 #pragma once
 
-#include "RGBController.h"
 #include <string>
 #include <hidapi/hidapi.h>
+#include "RGBController.h"
 
 #define INSTANT_MOUSE_REPORT_ID                 0x07
 #define INSTANT_MOUSE_REPORT_SIZE               8
