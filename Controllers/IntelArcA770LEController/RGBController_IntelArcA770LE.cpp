@@ -1,11 +1,13 @@
-/*-----------------------------------------*\
-|  RGBController_IntelArcA770LE.cpp         |
-|                                           |
-|  Generic RGB Interface for Intel Arc A770 |
-|  LE                                       |
-|                                           |
-|  Adam Honse (CalcProgrammer1) 11/2/2022   |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_IntelArcA770LE.cpp                          |
+|                                                           |
+|   RGBController for Intel Arc A770 LE                     |
+|                                                           |
+|   Adam Honse (CalcProgrammer1)                01 Nov 2022 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #include "RGBController_IntelArcA770LE.h"
 

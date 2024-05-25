@@ -1,8 +1,19 @@
+/*---------------------------------------------------------*\
+| IntelArcA770LEControllerDetect.cpp                        |
+|                                                           |
+|   Detector for Intel Arc A770 LE                          |
+|                                                           |
+|   Adam Honse (CalcProgrammer1)                01 Nov 2022 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
+#include <hidapi/hidapi.h>
 #include "Detector.h"
 #include "IntelArcA770LEController.h"
 #include "RGBController.h"
 #include "RGBController_IntelArcA770LE.h"
-#include <hidapi/hidapi.h>
 
 #define INTEL_ARC_A770_LIMITED_EDITION_VID  0x2516
 #define INTEL_ARC_A770_LIMITED_EDITION_PID  0x01B5

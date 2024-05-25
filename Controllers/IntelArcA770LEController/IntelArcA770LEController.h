@@ -1,18 +1,19 @@
-/*-----------------------------------------*\
-|  IntelArcA770LEController.h               |
-|                                           |
-|  Definitions and types for Intel Arc A770 |
-|  LE lighting controller                   |
-|                                           |
-|  Adam Honse (CalcProgrammer1) 11/1/2022   |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| IntelArcA770LEController.h                                |
+|                                                           |
+|   Driver for Intel Arc A770 LE                            |
+|                                                           |
+|   Adam Honse (CalcProgrammer1)                01 Nov 2022 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
+#pragma once
 
 #include <string>
 #include <hidapi/hidapi.h>
-
 #include "RGBController.h"
-
-#pragma once
 
 class IntelArcA770LEController
 {
