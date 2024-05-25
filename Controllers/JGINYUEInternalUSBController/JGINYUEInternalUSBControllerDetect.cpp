@@ -1,11 +1,24 @@
+/*---------------------------------------------------------*\
+| JGINYUEInternalUSBControllerDetect.cpp                    |
+|                                                           |
+|   Detector for JGINYUE USB motherboard                    |
+|                                                           |
+|   Tong R (tcr020)                             09 Aug 2023 |
+|   Liu ShiMeng(Moon dream stars)               09 Aug 2023 |
+|   Dongguan Yonghang Electronic Technology Co., Ltd        |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <vector>
+#include <hidapi/hidapi.h>
 #include "RGBController_JGINYUEInternalUSB.h"
 #include "JGINYUEInternalUSBController.h"
 #include "RGBController.h"
 #include "Detector.h"
-#include <vector>
-#include <stdio.h>
-#include <stdlib.h>
-#include <hidapi/hidapi.h>
 
 /*---------------------------------------------------------*\
 | JGINYUE vendor ID                                         |

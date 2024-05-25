@@ -1,20 +1,19 @@
-/*-----------------------------------------*\
-|  JGINYUEInternalUSBController.cpp         |
-|                                           |
-|  Driver for JGINYUE internal USB          |
-|  lighting controller                      |
-|                                           |
-|  Tong R    (tcr020)  2023/08/09           |
-|  Liu  ShiMeng(Moon dream stars) 2003/08/09|
-|                                           |
-|        Dongguan Yonghang Electronic       |
-|           Technology Co., Ltd             |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| JGINYUEInternalUSBController.cpp                          |
+|                                                           |
+|   Driver for JGINYUE USB motherboard                      |
+|                                                           |
+|   Tong R (tcr020)                             09 Aug 2023 |
+|   Liu ShiMeng(Moon dream stars)               09 Aug 2023 |
+|   Dongguan Yonghang Electronic Technology Co., Ltd        |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #include <cstring>
 #include <string>
 #include <stdio.h>
-
 #include "RGBController.h"
 #include "ResourceManager.h"
 #include "SettingsManager.h"

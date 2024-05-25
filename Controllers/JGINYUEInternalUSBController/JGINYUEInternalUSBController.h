@@ -1,21 +1,21 @@
-/*-----------------------------------------*\
-|  JGINYUEInternalUSBController.h           |
-|                                           |
-|  Driver for JGINYUE internal USB          |
-|  lighting controller                      |
-|                                           |
-|  Tong R    (tcr020)  2023/08/09           |
-|  Liu  ShiMeng(Moon dream stars) 2003/08/09|
-|                                           |
-|        Dongguan Yonghang Electronic       |
-|           Technology Co., Ltd             |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| JGINYUEInternalUSBController.h                            |
+|                                                           |
+|   Driver for JGINYUE USB motherboard                      |
+|                                                           |
+|   Tong R (tcr020)                             09 Aug 2023 |
+|   Liu ShiMeng(Moon dream stars)               09 Aug 2023 |
+|   Dongguan Yonghang Electronic Technology Co., Ltd        |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #pragma once
 
-#include "RGBController.h"
-#include <hidapi/hidapi.h>
 #include <string>
+#include <hidapi/hidapi.h>
+#include "RGBController.h"
 
 #define JGINYUE_MAX_ZONES               2
 #define JGINYUE_ADDRESSABLE_MAX_LEDS    100

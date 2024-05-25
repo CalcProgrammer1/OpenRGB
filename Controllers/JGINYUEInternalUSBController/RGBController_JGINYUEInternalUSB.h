@@ -1,13 +1,15 @@
-/*------------------------------------------------*\
-|  RGBController_JGINYUEInternalUSB.h              |
-|                                                  |
-|  Generic RGB Interface JGINYUEInternalUSB Class  |
-|                                                  |
-|  Tong R    (tcr020)  2023/08/09                  |
-|  Liu  ShiMeng    (Moon dream stars)  2003/08/09  |
-|                                                  |
-|  Dongguan Yonghang Electronic Technology Co., Ltd|
-\*------------------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_JGINYUEInternalUSB.h                        |
+|                                                           |
+|   RGBController for JGINYUE USB motherboard               |
+|                                                           |
+|   Tong R (tcr020)                             09 Aug 2023 |
+|   Liu ShiMeng(Moon dream stars)               09 Aug 2023 |
+|   Dongguan Yonghang Electronic Technology Co., Ltd        |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #pragma once
 
