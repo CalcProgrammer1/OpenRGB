@@ -1,6 +1,15 @@
+/*---------------------------------------------------------*\
+| RGBController_Lenovo_Gen7_8.cpp                           |
+|                                                           |
+|   RGBController for Lenovo Gen7 and Gen8 devices          |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
+#include <vector>
 #include "RGBController_Lenovo_Gen7_8.h"
 #include "LenovoDevices.h"
-#include <vector>
 
 using namespace std;
 

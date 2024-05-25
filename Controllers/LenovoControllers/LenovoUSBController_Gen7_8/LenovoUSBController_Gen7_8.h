@@ -1,27 +1,25 @@
-/*-------------------------------------------------------------------*\
-|  LenovoGen7And8USBController.h                                      |
-|                                                                     |
-|  Driver for Lenovo Legion 7 Gen 7                                   |
-|                                                                     |
-|  Peter Vazny                     15 Nov 2022                        |
-|                                                                     |
-\*-------------------------------------------------------------------*/
+/*---------------------------------------------------------*\
+| LenovoUSBController_Gen7_8.h                              |
+|                                                           |
+|   Driver for Lenovo Gen7 and Gen8 devices                 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
+#pragma once
+
+#include <array>
+#include <string>
+#include <utility>
+#include <vector>
+#include <hidapi/hidapi.h>
 #include "RGBController.h"
 #include "LogManager.h"
-
-#include <string>
-#include <array>
-#include <vector>
-#include <utility>
-#include <hidapi/hidapi.h>
 
 #ifndef HID_MAX_STR
 #define HID_MAX_STR                255
 #endif
-
-#ifndef LENOVOGEN7AND8USBCONTROLLER_H
-#define LENOVOGEN7AND8USBCONTROLLER_H
 
 #define PACKET_SIZE                960
 #define REPORT_ID                 0x07
@@ -92,5 +90,3 @@ class LenovoGen7And8USBController
     std::string ConvertBytesToHex(uint8_t packet[], size_t packet_size);
     std::string ConvertBytesToHex(const std::vector<uint8_t> &input);
 };
-
-#endif // LENOVOGEN7AND8USBCONTROLLER_H

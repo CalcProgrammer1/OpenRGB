@@ -1,3 +1,12 @@
+/*---------------------------------------------------------*\
+| LenovoUSBController_Gen7_8.cpp                            |
+|                                                           |
+|   Driver for Lenovo Gen7 and Gen8 devices                 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
 #include <iomanip>
 #include <sstream>
 #include "LenovoUSBController_Gen7_8.h"

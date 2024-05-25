@@ -1,21 +1,28 @@
+/*---------------------------------------------------------*\
+| LenovoDevices.h                                           |
+|                                                           |
+|   Device list for Lenovo USB devices                      |
+|                                                           |
+|   Cooper Hall (geobot19)                      17 Apr 2022 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
+#pragma once
+
+#include <string>
+#include "RGBControllerKeyNames.h"
+#include "RGBController.h"
+
+#define NA 0xFFFFFFFF
+
 /*-------------------------------------------------------------------*\
-|  LenovoDevices.h                                                    |
-|                                                                     |
-|  Describes zones for various Lenovo Legion Devices                  |
-|                                                                     |
-|  Cooper Hall (geobot19)          17 Apr 2022                        |
-|                                                                     |
 | Note: additions here must be adeed to RGBController_LenovoUSB.cpp in|
 | the switch statements which are on lines 28 and 60 at time of       |
 | writing                                                             |
 \*-------------------------------------------------------------------*/
- #include <string>
- #include "RGBControllerKeyNames.h"
- #include "RGBController.h"
 
-#define NA 0xFFFFFFFF
-#ifndef LENOVODEVICES_H
-#define LENOVODEVICES_H
 /*-----------------------------------------------------*\
 | Keyboard product IDs                                  |
 \*-----------------------------------------------------*/
@@ -1935,4 +1942,3 @@ static lenovo_zone legion7_gen7and8_neon
     0,
     9,
 };
-#endif

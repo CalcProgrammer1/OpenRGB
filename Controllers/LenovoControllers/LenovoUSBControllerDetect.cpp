@@ -1,20 +1,21 @@
-/*-------------------------------------------------------------------*\
-|  LenovoUSBDetect.h                                                  |
-|                                                                     |
-|  Describes zones for various Lenovo Legion Devices                  |
-|                                                                     |
-|  Cooper Hall (geobot19)          17 Apr 2022                        |
-|                                                                     |
-\*-------------------------------------------------------------------*/
+/*---------------------------------------------------------*\
+| LenovoUSBControllerDetect.cpp                             |
+|                                                           |
+|   Detector for Lenovo USB devices                         |
+|                                                           |
+|   Cooper Hall (geobot19)                      17 Apr 2022 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
+#include <hidapi/hidapi.h>
 #include "Detector.h"
 #include "LogManager.h"
 #include "RGBController.h"
-
 #include "LenovoDevices.h"
 #include "RGBController_LenovoUSB.h"
 #include "RGBController_Lenovo_Gen7_8.h"
-#include <hidapi/hidapi.h>
 
 /*-----------------------------------------------------*\
 | vendor IDs                                            |

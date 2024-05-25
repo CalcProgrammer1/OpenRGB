@@ -1,5 +1,11 @@
-#ifndef RGBCONTROLLER_LENOVO_GEN7USB_H
-#define RGBCONTROLLER_LENOVO_GEN7USB_H
+/*---------------------------------------------------------*\
+| RGBController_Lenovo_Gen7_8.h                             |
+|                                                           |
+|   RGBController for Lenovo Gen7 and Gen8 devices          |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #pragma once
 
@@ -48,5 +54,3 @@ private:
     uint8_t brightness = 0x00;
     uint8_t profile_id = 0x01;
 };
-
-#endif // RGBCONTROLLER_LENOVO_GEN7USB_H
