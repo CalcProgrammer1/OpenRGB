@@ -1,13 +1,16 @@
-/*-----------------------------------------*\
-|  LexipMouseController.cpp                 |
-|                                           |
-|  Driver for Lexip mouse lighting          |
-|  controller                               |
-|                                           |
-|  Guimard Morgan (morg) 2/21/2022          |
-\*-----------------------------------------*/
-#include "LexipMouseController.h"
+/*---------------------------------------------------------*\
+| LexipMouseController.cpp                                  |
+|                                                           |
+|   Driver for Lexip mouse                                  |
+|                                                           |
+|   Morgan Guimard (morg)                       21 Feb 2022 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
 #include <string.h>
+#include "LexipMouseController.h"
 
 LexipMouseController::LexipMouseController(hid_device* dev_handle, const hid_device_info& info)
 {

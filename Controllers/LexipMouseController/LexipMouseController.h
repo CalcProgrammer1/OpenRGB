@@ -1,16 +1,19 @@
-/*-----------------------------------------*\
-|  LexipMouseController.h                   |
-|                                           |
-|  Driver for Lexip mouse lighting          |
-|  controller - header file                 |
-|                                           |
-|  Guimard Morgan (morg) 2/21/2022          |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| LexipMouseController.h                                    |
+|                                                           |
+|   Driver for Lexip mouse                                  |
+|                                                           |
+|   Morgan Guimard (morg)                       21 Feb 2022 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
 #pragma once
 
-#include "RGBController.h"
 #include <string>
 #include <hidapi/hidapi.h>
+#include "RGBController.h"
 
 #define PACKET_DATA_LENGTH 64
 

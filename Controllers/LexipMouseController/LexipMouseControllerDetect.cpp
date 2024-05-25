@@ -1,3 +1,14 @@
+/*---------------------------------------------------------*\
+| LexipMouseControllerDetect.cpp                            |
+|                                                           |
+|   Detector for Lexip mouse                                |
+|                                                           |
+|   Morgan Guimard (morg)                       21 Feb 2022 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
 #include "Detector.h"
 #include "LexipMouseController.h"
 #include "RGBController.h"
