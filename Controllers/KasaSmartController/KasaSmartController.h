@@ -1,17 +1,21 @@
 /*---------------------------------------------------------*\
-|  Definitions for Kasa Smart                               |
+| KasaSmartController.h                                     |
 |                                                           |
-|  Devin Wendt (umbreon222@gmail.com), 2/16/2023            |
+|   Driver for Kasa Smart bulbs                             |
+|                                                           |
+|   Devin Wendt (umbreon222@gmail.com)          16 Feb 2023 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
 \*---------------------------------------------------------*/
 
-#include "RGBController.h"
-#include "net_port.h"
+#pragma once
 
 #include <string>
 #include <thread>
 #include <vector>
-
-#pragma once
+#include "RGBController.h"
+#include "net_port.h"
 
 enum
 {

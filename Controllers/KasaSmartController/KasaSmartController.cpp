@@ -1,13 +1,18 @@
-/*----------------------------------------------*\
-|  Driver for Kasa Smart light bulbs             |
-|                                                |
-|  Devin Wendt (umbreon222@gmail.com), 2/16/2023 |
-\*----------------------------------------------*/
+/*---------------------------------------------------------*\
+| KasaSmartController.cpp                                   |
+|                                                           |
+|   Driver for Kasa Smart bulbs                             |
+|                                                           |
+|   Devin Wendt (umbreon222@gmail.com)          16 Feb 2023 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
+#include <cstdint>
 #include "KasaSmartController.h"
 #include "json.hpp"
 #include "hsv.h"
-#include <cstdint>
 
 using json = nlohmann::json;
 

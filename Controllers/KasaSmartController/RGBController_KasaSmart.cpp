@@ -1,10 +1,13 @@
-/*-----------------------------------------*\
-|  RGBController_KasaSmart.cpp              |
-|                                           |
-|  Generic RGB Interface for KasaSmart      |
-|                                           |
-|  Devin Wendt (umbreon222) 2/16/2023       |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_KasaSmart.cpp                               |
+|                                                           |
+|   RGBController for Kasa Smart bulbs                      |
+|                                                           |
+|   Devin Wendt (umbreon222)                    16 Feb 2023 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #include "RGBController_KasaSmart.h"
 
