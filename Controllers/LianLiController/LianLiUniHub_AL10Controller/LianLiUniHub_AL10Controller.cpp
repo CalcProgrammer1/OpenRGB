@@ -1,16 +1,17 @@
-/*-----------------------------------------*\
-|  LianLiUniHub_AL10Controller.cpp          |
-|                                           |
-|  Driver for Lian Li Uni Hub USB           |
-|  lighting controller                      |
-|                                           |
-|  Oliver P 05/05/2022                      |
-|  Credit to Luca Lovisa for original work. |
-\*-----------------------------------------*/
-
-#include "LianLiUniHub_AL10Controller.h"
+/*---------------------------------------------------------*\
+| LianLiUniHub_AL10Controller.cpp                           |
+|                                                           |
+|   Driver for Lian Li AL10 Uni Hub                         |
+|                                                           |
+|   Oliver P                                    05 May 2022 |
+|   Credit to Luca Lovisa for original work                 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #include <cstring>
+#include "LianLiUniHub_AL10Controller.h"
 
 using namespace std::chrono_literals;
 

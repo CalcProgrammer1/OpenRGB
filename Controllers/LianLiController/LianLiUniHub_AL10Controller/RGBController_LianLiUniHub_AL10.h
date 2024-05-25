@@ -1,18 +1,19 @@
-/*-----------------------------------------*\
-|  RGBController_LianLiUniHub_AL10.h        |
-|                                           |
-|  Generic RGB Interface for Lian Li Uni    |
-|  Hub USB controller driver                |
-|                                           |
-|  Oliver P 05/05/2022                      |
-|  Credit to Luca Lovisa for original work. |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_LianLiUniHub_AL10.h                         |
+|                                                           |
+|   RGBController for Lian Li AL10 Uni Hub                  |
+|                                                           |
+|   Oliver P                                    05 May 2022 |
+|   Credit to Luca Lovisa for original work                 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #pragma once
 
 #include <cstdint>
 #include <vector>
-
 #include "LianLiUniHub_AL10Controller.h"
 #include "RGBController.h"
 

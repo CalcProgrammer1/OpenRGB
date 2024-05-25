@@ -1,22 +1,22 @@
-/*-----------------------------------------*\
-|  LianLiUniHub_AL10Controller.h            |
-|                                           |
-|  Definitions and types for Lian Li Uni    |
-|  Hub USB RGB lighting controller          |
-|                                           |
-|  Oliver P 05/05/2022                      |
-|  Credit to Luca Lovisa for original work. |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| LianLiUniHub_AL10Controller.h                             |
+|                                                           |
+|   Driver for Lian Li AL10 Uni Hub                         |
+|                                                           |
+|   Oliver P                                    05 May 2022 |
+|   Credit to Luca Lovisa for original work                 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #pragma once
 
 #include <cstdint>
 #include <mutex>
 #include <string>
-
-#include "RGBController.h"
-
 #include <libusb-1.0/libusb.h>
+#include "RGBController.h"
 
 /*----------------------------------------------------------------------------*\
 | Global definitions.                                                          |
