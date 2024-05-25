@@ -1,20 +1,22 @@
-/*----------------------------------------------*\
-|  LianLiHubSLInfinityController.h               |
-|                                                |
-|  Definitions and types for Lian Li SL Infinity |
-|                                                |
-|  Simon McKenna 2023-20-21                      |
-|  Will Kennedy 01/17/2023                       |
-|  Oliver P 04/26/2022                           |
-|  Credit to Luca Lovisa for original work.      |
-\*----------------------------------------------*/
+/*---------------------------------------------------------*\
+| LianLiUniHubSLInfinityController.h                        |
+|                                                           |
+|   Driver for Lian Li SL Infinity Uni Hub                  |
+|                                                           |
+|   Simon McKenna                               21 Oct 2023 |
+|   Will Kennedy                                17 Jan 2023 |
+|   Oliver P                                    26 Apr 2022 |
+|   Credit to Luca Lovisa for original work.                |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
-#include "RGBController.h"
+#pragma once
 
 #include <string>
 #include <hidapi/hidapi.h>
-
-#pragma once
+#include "RGBController.h"
 
 /*----------------------------------------------------------------------------*\
 | Global definitions.                                                          |
@@ -23,7 +25,6 @@
 /*----------------------------------------------------------------------------*\
 | Definitions related to zone Sizes                                            |
 \*----------------------------------------------------------------------------*/
-
 
 enum
 {

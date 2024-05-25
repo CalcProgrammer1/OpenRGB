@@ -1,20 +1,21 @@
-/*-----------------------------------------*\
-|  RGBController_LianLiUniHubSLInfinity.h   |
-|                                           |
-|  Generic RGB Interface for Lian Li Uni    |
-|  Hub SL Infinity USB controller driver    |
-|                                           |
-|  Simon McKenna 2023-20-21                 |
-|  Will Kennedy 01/17/2023                  |
-|  Oliver P 04/26/2022                      |
-|  Credit to Luca Lovisa for original work. |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_LianLiUniHubSLInfinity.h                    |
+|                                                           |
+|   RGBController for Lian Li SL Infinity Uni Hub           |
+|                                                           |
+|   Simon McKenna                               21 Oct 2023 |
+|   Will Kennedy                                17 Jan 2023 |
+|   Oliver P                                    26 Apr 2022 |
+|   Credit to Luca Lovisa for original work.                |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #pragma once
 
 #include <cstdint>
 #include <vector>
-
 #include "LianLiUniHubSLInfinityController.h"
 #include "RGBController.h"
 
