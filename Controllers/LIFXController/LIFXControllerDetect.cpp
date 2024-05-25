@@ -1,11 +1,22 @@
+/*---------------------------------------------------------*\
+| LIFXControllerDetect.cpp                                  |
+|                                                           |
+|   Detector for LIFX                                       |
+|                                                           |
+|   Adam Honse (calcprogrammer1@gmail.com)      05 Feb 2022 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <vector>
 #include "Detector.h"
 #include "LIFXController.h"
 #include "RGBController.h"
 #include "RGBController_LIFX.h"
 #include "SettingsManager.h"
-#include <vector>
-#include <stdio.h>
-#include <stdlib.h>
 
 /******************************************************************************************\
 *                                                                                          *

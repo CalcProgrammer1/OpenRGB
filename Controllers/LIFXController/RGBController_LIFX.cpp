@@ -1,10 +1,13 @@
-/*-----------------------------------------*\
-|  RGBController_LIFX.cpp                   |
-|                                           |
-|  Generic RGB Interface for LIFX           |
-|                                           |
-|  Adam Honse (CalcProgrammer1) 2/5/2022    |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_LIFX.cpp                                    |
+|                                                           |
+|   RGBController for LIFX                                  |
+|                                                           |
+|   Adam Honse (calcprogrammer1@gmail.com)      05 Feb 2022 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #include "RGBController_LIFX.h"
 
