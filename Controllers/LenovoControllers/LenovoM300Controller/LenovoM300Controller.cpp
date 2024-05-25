@@ -1,14 +1,16 @@
-/*-----------------------------------*\
-|  LenovoM300Controller.cpp           |
-|                                     |
-|  Controller For Lenovo Legion M300  |
-|  Mouse                              |
-|                                     |
-|  Wayne Riordan          9 Jan 2024  |
-\*-----------------------------------*/
+/*---------------------------------------------------------*\
+| LenovoM300Controller.cpp                                  |
+|                                                           |
+|   Driver for Lenovo Legion M300 mouse                     |
+|                                                           |
+|   Wayne Riordan                               09 Jan 2024 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
-#include "LenovoM300Controller.h"
 #include <cstring>
+#include "LenovoM300Controller.h"
 
 using namespace std;
 

@@ -1,11 +1,13 @@
-/*-----------------------------------*\
-|  RGBController_LenovoM300.h         |
-|                                     |
-|  Header file for Lenovo M300 Mouse  |
-|  RGB Controller                     |
-|                                     |
-|  Wayne Riordan          9 Jan 2024  |
-\*-----------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_LenovoM300.h                                |
+|                                                           |
+|   RGBController for Lenovo Legion M300 mouse              |
+|                                                           |
+|   Wayne Riordan                               09 Jan 2024 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #pragma once
 

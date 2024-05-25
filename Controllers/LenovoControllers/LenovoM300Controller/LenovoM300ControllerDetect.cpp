@@ -1,10 +1,13 @@
-/*-----------------------------------*\
-|  LenovoMouseDetect.h                |
-|                                     |
-|  Detect Lenovo Mouse                |
-|                                     |
-|  Wayne Riordan          9 Jan 2024  |
-\*-----------------------------------*/
+/*---------------------------------------------------------*\
+| LenovoM300ControllerDetect.cpp                            |
+|                                                           |
+|   Detector for Lenovo Legion M300 mouse                   |
+|                                                           |
+|   Wayne Riordan                               09 Jan 2024 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #include "Detector.h"
 #include "RGBController_LenovoM300.h"

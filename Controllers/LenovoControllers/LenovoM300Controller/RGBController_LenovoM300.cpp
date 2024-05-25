@@ -1,11 +1,14 @@
-/*-----------------------------------*\
-|  RGBController_LenovoM300.cpp       |
-|                                     |
-|  RGB Controller For Lenovo M300     |
-|  Mouse                              |
-|                                     |
-|  Wayne Riordan          9 Jan 2024  |
-\*-----------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_LenovoM300.cpp                              |
+|                                                           |
+|   RGBController for Lenovo Legion M300 mouse              |
+|                                                           |
+|   Wayne Riordan                               09 Jan 2024 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
 #include "RGBController_LenovoM300.h"
 
 /**------------------------------------------------------------------*\
@@ -22,6 +25,7 @@
 RGBController_LenovoM300::RGBController_LenovoM300(LenovoM300Controller* controller_ptr)
 {
     controller                  = controller_ptr;
+
     name                        = "Lenovo Legion M300";
     vendor                      = "Lenovo";
     type                        = DEVICE_TYPE_MOUSE;
