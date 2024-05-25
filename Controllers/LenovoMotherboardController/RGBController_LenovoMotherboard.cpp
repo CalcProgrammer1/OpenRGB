@@ -1,16 +1,17 @@
-/*-----------------------------------------*\
-|  RGBController_LenovoMotherboard.h        |
-|                                           |
-|  Generic RGB Interface for OpenRGB        |
-|  Lenovo motherboards RGB USB Driver       |
-|                                           |
-|  Guimard Morgan (morg) 12/26/2022         |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_LenovoMotherboard.cpp                       |
+|                                                           |
+|   RGBController for Lenovo motherboard                    |
+|                                                           |
+|   Morgan Guimard (morg)                       26 Dec 2022 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
-#include "RGBController_LenovoMotherboard.h"
-
-#include <thread>
 #include <chrono>
+#include <thread>
+#include "RGBController_LenovoMotherboard.h"
 
 /**------------------------------------------------------------------*\
     @name LenovoMotherboard mouse
@@ -198,6 +199,6 @@ void RGBController_LenovoMotherboard::UpdateSingleLED(int /*led*/)
 }
 
 void RGBController_LenovoMotherboard::DeviceUpdateMode()
-{    
+{
     DeviceUpdateLEDs();
 }

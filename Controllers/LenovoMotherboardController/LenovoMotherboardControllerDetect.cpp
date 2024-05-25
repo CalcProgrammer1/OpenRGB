@@ -1,3 +1,14 @@
+/*---------------------------------------------------------*\
+| LenovoMotherboardControllerDetect.cpp                     |
+|                                                           |
+|   Detector for Lenovo motherboard                         |
+|                                                           |
+|   Morgan Guimard (morg)                       26 Dec 2022 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
 #include "Detector.h"
 #include "LenovoMotherboardController.h"
 #include "RGBController.h"

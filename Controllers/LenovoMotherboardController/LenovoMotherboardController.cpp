@@ -1,13 +1,16 @@
-/*-----------------------------------------*\
-|  LenovoMotherboardController.cpp          |
-|                                           |
-|  Driver for Lenovo motherboards lighting  |
-|  controller                               |
-|                                           |
-|  Guimard Morgan (morg) 12/26/2022         |
-\*-----------------------------------------*/
-#include "LenovoMotherboardController.h"
+/*---------------------------------------------------------*\
+| LenovoMotherboardController.cpp                           |
+|                                                           |
+|   Driver for Lenovo motherboard                           |
+|                                                           |
+|   Morgan Guimard (morg)                       26 Dec 2022 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
 #include <string.h>
+#include "LenovoMotherboardController.h"
 
 LenovoMotherboardController::LenovoMotherboardController(hid_device* dev_handle, const hid_device_info& info)
 {

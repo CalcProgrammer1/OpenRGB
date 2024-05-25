@@ -1,11 +1,13 @@
-/*-----------------------------------------*\
-|  RGBController_LenovoMotherboard.h        |
-|                                           |
-|  Generic RGB Interface for OpenRGB        |
-|  Lenovo motherboards RGB USB Driver       |
-|                                           |
-|  Guimard Morgan (morg) 12/26/2022         |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_LenovoMotherboard.h                         |
+|                                                           |
+|   RGBController for Lenovo motherboard                    |
+|                                                           |
+|   Morgan Guimard (morg)                       26 Dec 2022 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #pragma once
 
