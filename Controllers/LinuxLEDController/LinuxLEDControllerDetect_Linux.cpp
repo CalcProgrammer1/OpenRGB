@@ -1,13 +1,22 @@
+/*---------------------------------------------------------*\
+| LinuxLEDControllerDetect_Linux.cpp                        |
+|                                                           |
+|   Detector for Linux sysfs LEDs                           |
+|                                                           |
+|   Adam Honse (calcprogrammer1@gmail.com)      25 Sep 2020 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string>
+#include <vector>
 #include "Detector.h"
 #include "RGBController.h"
 #include "RGBController_LinuxLED_Linux.h"
 #include "SettingsManager.h"
-#include <vector>
-#include <stdio.h>
-#include <stdlib.h>
-
-#include <string>
-
 
 /******************************************************************************************\
 *                                                                                          *

@@ -1,12 +1,16 @@
-/*-----------------------------------------*\
-|  RGBController_LinuxLED.h                 |
-|                                           |
-|  Generic RGB Interface for Linux LED      |
-|                                           |
-|  Adam Honse (CalcProgrammer1) 9/25/2020   |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_LinuxLED.h                                  |
+|                                                           |
+|   RGBController for Linux sysfs LEDs                      |
+|                                                           |
+|   Adam Honse (calcprogrammer1@gmail.com)      25 Sep 2020 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #pragma once
+
 #include "RGBController.h"
 #include "LinuxLEDController_Linux.h"
 
