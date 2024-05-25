@@ -1,17 +1,14 @@
-/*-----------------------------------------*\
-|  LianLiControllerDetect.cpp               |
-|                                           |
-|  Detector for Lian Li Uni Hub USB         |
-|  lighting controller                      |
-|                                           |
-|  Luca Lovisa 2/20/2021                    |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| LianLiControllerDetect.cpp                                |
+|                                                           |
+|   Detector for Lian Li devices                            |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #include <string>
 #include <vector>
-
-#include "Detector.h"
-#include "ResourceManager.h"
 
 #ifdef __FreeBSD__
 #include <libusb.h>
@@ -19,11 +16,14 @@
 #include <libusb-1.0/libusb.h>
 #endif
 
+#include "Detector.h"
+#include "ResourceManager.h"
+
 /*-----------------------------------------------------*\
 | LianLi USB Controller specific includes               |
 \*-----------------------------------------------------*/
 #include "RGBController_LianLiUniHub.h"
-#include "RGBController_StrimerLConnect.h"
+#include "RGBController_LianLiStrimerLConnect.h"
 #include "LianLiUniHubController.h"
 #include "RGBController_LianLiUniHub.h"
 #include "LianLiUniHubALController.h"
@@ -213,14 +213,14 @@ void DetectLianLiUniHubSLInfinity(hid_device_info* info, const std::string& name
     }
 }   /* DetectLianLiUniHubSLInfinity() */
 
-void DetectStrimerControllers(hid_device_info* info, const std::string& name)
+void DetectLianLiStrimerControllers(hid_device_info* info, const std::string& name)
 {
     hid_device* dev = hid_open_path(info->path);
 
     if(dev)
     {
-        StrimerLConnectController* controller           = new StrimerLConnectController(dev, info->path);
-        RGBController_StrimerLConnect* rgb_controller   = new RGBController_StrimerLConnect(controller);
+        LianLiStrimerLConnectController*     controller       = new LianLiStrimerLConnectController(dev, info->path);
+        RGBController_LianLiStrimerLConnect* rgb_controller   = new RGBController_LianLiStrimerLConnect(controller);
         rgb_controller->name                            = name;
 
         ResourceManager::get()->RegisterRGBController(rgb_controller);
@@ -252,6 +252,6 @@ REGISTER_HID_DETECTOR_IPU("Lian Li Uni Hub - SL Infinity",      DetectLianLiUniH
 | DUMMY_DEVICE_DETECTOR("Lian Li Uni Hub", DetectLianLiUniHub, 0x0CF2, 0x7750 )                             |
 \*---------------------------------------------------------------------------------------------------------*/
 
-REGISTER_HID_DETECTOR_IPU("Strimer L Connect",                  DetectStrimerControllers,       ENE_USB_VID,        STRIMER_L_CONNECT_PID,       1,   0xFF72, 0xA1);
+REGISTER_HID_DETECTOR_IPU("Strimer L Connect",                  DetectLianLiStrimerControllers, ENE_USB_VID,        STRIMER_L_CONNECT_PID,       1,   0xFF72, 0xA1);
 REGISTER_HID_DETECTOR_I("Lian Li GA II Trinity",                DetectLianLiGAIITrinity,        NUVOTON_USB_VID,    GAII_USB_PID,                             0x02);
 REGISTER_HID_DETECTOR_I("Lian Li GA II Trinity Performance",    DetectLianLiGAIITrinity,        NUVOTON_USB_VID,    GAII_Perf_USB_PID,                        0x02);

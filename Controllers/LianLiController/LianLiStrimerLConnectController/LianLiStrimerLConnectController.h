@@ -1,18 +1,20 @@
-/*---------------------------------------------------------------------*\
-|  StrimerLConnectController.h                                          |
-|                                                                       |
-|  Driver for StrimerLConnect USB Controller                            |
-|                                                                       |
-|  Chris M (Dr_No)          03 Jul 2022                                 |
-|                                                                       |
-\*---------------------------------------------------------------------*/
+/*---------------------------------------------------------*\
+| LianLiStrimerLConnectController.h                         |
+|                                                           |
+|   Driver for Lian Li Strimer L Connect                    |
+|                                                           |
+|   Chris M (Dr_No)                             03 Jul 2022 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
+#pragma once
 
 #include <string>
 #include <hidapi/hidapi.h>
 #include "LogManager.h"
 #include "RGBController.h"
-
-#pragma once
 
 #define HID_MAX_STR 255
 #define STRIMERLCONNECT_PACKET_SIZE     255 //Buffer requires a prepended ReportID hence + 1
@@ -73,11 +75,11 @@ enum
     STRIMERLCONNECT_SPEED_FASTEST       = 4,
 };
 
-class StrimerLConnectController
+class LianLiStrimerLConnectController
 {
 public:
-    StrimerLConnectController(hid_device* dev_handle, const char* path);
-    ~StrimerLConnectController();
+    LianLiStrimerLConnectController(hid_device* dev_handle, const char* path);
+    ~LianLiStrimerLConnectController();
 
     std::string     GetDeviceName();
     std::string     GetSerial();

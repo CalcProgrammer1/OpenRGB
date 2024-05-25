@@ -1,13 +1,15 @@
-/*---------------------------------------------------------------------*\
-|  RGBController_StrimerLConnect.cpp                                    |
-|                                                                       |
-|  Driver for StrimerLConnect USB Controller                            |
-|                                                                       |
-|  Chris M (Dr_No)          03 Jul 2022                                 |
-|                                                                       |
-\*---------------------------------------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_LianLiStrimerLConnect.cpp                   |
+|                                                           |
+|   RGBController for Lian Li Strimer L Connect             |
+|                                                           |
+|   Chris M (Dr_No)                             03 Jul 2022 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
-#include "RGBController_StrimerLConnect.h"
+#include "RGBController_LianLiStrimerLConnect.h"
 
 /**------------------------------------------------------------------*\
     @name Lian Li Strimer L Connect
@@ -16,12 +18,12 @@
     @save :x:
     @direct :rotating_light:
     @effects :white_check_mark:
-    @detectors DetectStrimerControllers
+    @detectors DetectLianLiStrimerControllers
     @comment The Lian Li Strimer L Connect `Direct` mode stutters at high frame rates and
         and has been rate limited to ~10FPS.
 \*-------------------------------------------------------------------*/
 
-RGBController_StrimerLConnect::RGBController_StrimerLConnect(StrimerLConnectController *controller_ptr)
+RGBController_LianLiStrimerLConnect::RGBController_LianLiStrimerLConnect(LianLiStrimerLConnectController *controller_ptr)
 {
     controller                  = controller_ptr;
 
@@ -143,12 +145,12 @@ RGBController_StrimerLConnect::RGBController_StrimerLConnect(StrimerLConnectCont
     SetupZones();
 }
 
-RGBController_StrimerLConnect::~RGBController_StrimerLConnect()
+RGBController_LianLiStrimerLConnect::~RGBController_LianLiStrimerLConnect()
 {
     delete controller;
 }
 
-void RGBController_StrimerLConnect::Init_Controller()
+void RGBController_LianLiStrimerLConnect::Init_Controller()
 {
     const uint8_t zone_split = STRIMERLCONNECT_STRIP_COUNT / 2;
 
@@ -182,7 +184,7 @@ void RGBController_StrimerLConnect::Init_Controller()
     }
 }
 
-void RGBController_StrimerLConnect::SetupZones()
+void RGBController_LianLiStrimerLConnect::SetupZones()
 {
     /*-------------------------------------------------*\
     | Clear any existing color/LED configuration        |
@@ -209,14 +211,14 @@ void RGBController_StrimerLConnect::SetupZones()
     SetupColors();
 }
 
-void RGBController_StrimerLConnect::ResizeZone(int /*zone*/, int /*new_size*/)
+void RGBController_LianLiStrimerLConnect::ResizeZone(int /*zone*/, int /*new_size*/)
 {
     /*---------------------------------------------------------*\
     | This device does not support resizing zones               |
     \*---------------------------------------------------------*/
 }
 
-bool RGBController_StrimerLConnect::TimeToSend()
+bool RGBController_LianLiStrimerLConnect::TimeToSend()
 {
     /*-----------------------------------------------------*\
     | Rate limit is 1000(ms) / wait_time in Frames Per Sec  |
@@ -226,7 +228,7 @@ bool RGBController_StrimerLConnect::TimeToSend()
     return (std::chrono::steady_clock::now() - last_commit_time) > std::chrono::milliseconds(wait_time);
 }
 
-void RGBController_StrimerLConnect::DeviceUpdateLEDs()
+void RGBController_LianLiStrimerLConnect::DeviceUpdateLEDs()
 {
     if(TimeToSend())
     {
@@ -245,7 +247,7 @@ void RGBController_StrimerLConnect::DeviceUpdateLEDs()
     }
 }
 
-void RGBController_StrimerLConnect::UpdateZoneLEDs(int zone)
+void RGBController_LianLiStrimerLConnect::UpdateZoneLEDs(int zone)
 {
     mode current_mode = modes[active_mode];
 
@@ -253,13 +255,13 @@ void RGBController_StrimerLConnect::UpdateZoneLEDs(int zone)
     controller->SetMode(current_mode.value, zone, current_mode.speed, current_mode.brightness, current_mode.direction, false);
 }
 
-void RGBController_StrimerLConnect::UpdateSingleLED(int led)
+void RGBController_LianLiStrimerLConnect::UpdateSingleLED(int led)
 {
     UpdateZoneLEDs(GetLED_Zone(led));
     controller->SendApply();
 }
 
-void RGBController_StrimerLConnect::DeviceUpdateMode()
+void RGBController_LianLiStrimerLConnect::DeviceUpdateMode()
 {
     if(TimeToSend())
     {
@@ -297,7 +299,7 @@ void RGBController_StrimerLConnect::DeviceUpdateMode()
     }
 }
 
-int RGBController_StrimerLConnect::GetLED_Zone(int led_idx)
+int RGBController_LianLiStrimerLConnect::GetLED_Zone(int led_idx)
 {
     for(size_t zone_idx = 0; zone_idx < zones.size(); zone_idx++)
     {
@@ -313,7 +315,7 @@ int RGBController_StrimerLConnect::GetLED_Zone(int led_idx)
     return -1;
 }
 
-mode RGBController_StrimerLConnect::CreateMode(std::string name, int value, uint8_t colour_count, uint8_t colour_mode)
+mode RGBController_LianLiStrimerLConnect::CreateMode(std::string name, int value, uint8_t colour_count, uint8_t colour_mode)
 {
     mode new_mode;
     new_mode.name               = name;
