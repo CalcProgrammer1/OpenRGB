@@ -1,16 +1,19 @@
-/*-----------------------------------------*\
-|  LianLiGAIITrinityController.h            |
-|                                           |
-|  Controller for Lian Li GAII Trinity      |
-|                                           |
-|  Michael Losert 2023-10-27                |
-\*-----------------------------------------*/
-
-#include "RGBController.h"
-#include "hidapi/hidapi.h"
-#include <vector>
+/*---------------------------------------------------------*\
+| LianLiGAIITrinityController.h                             |
+|                                                           |
+|   Driver for Lian Li GAII Trinity                         |
+|                                                           |
+|   Michael Losert                              27 Oct 2023 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #pragma once
+
+#include <vector>
+#include <hidapi/hidapi.h>
+#include "RGBController.h"
 
 /*----------------------------------------------------------------------------*\
 | Definitions related to LED configuration.                                    |

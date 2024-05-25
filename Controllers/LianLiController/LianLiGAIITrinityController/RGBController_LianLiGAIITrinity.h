@@ -1,10 +1,13 @@
-/*-----------------------------------------*\
-|  RGBController_LianLiGAIITrinity.h        |
-|                                           |
-|  Lian Li GAII Trinity AIO LED Driver      |
-|                                           |
-|  Michael Losert   2023-10-27              |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_LianLiGAIITrinity.h                         |
+|                                                           |
+|   RGBController for Lian Li GAII Trinity                  |
+|                                                           |
+|   Michael Losert                              27 Oct 2023 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #pragma once
 

@@ -1,16 +1,19 @@
-/*-----------------------------------------*\
-|  LianLiGAIITrinityController.cpp          |
-|                                           |
-|  Controller for Lian Li GAII Trinity      |
-|                                           |
-|  Michael Losert 2023-10-27                |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| LianLiGAIITrinityController.cpp                           |
+|                                                           |
+|   Driver for Lian Li GAII Trinity                         |
+|                                                           |
+|   Michael Losert                              27 Oct 2023 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
-#include "LianLiGAIITrinityController.h"
 #include <algorithm>
 #include <cstring>
 #include <iomanip>
 #include <sstream>
+#include "LianLiGAIITrinityController.h"
 
 LianLiGAIITrinityController::LianLiGAIITrinityController(hid_device* dev_handle)
 {
