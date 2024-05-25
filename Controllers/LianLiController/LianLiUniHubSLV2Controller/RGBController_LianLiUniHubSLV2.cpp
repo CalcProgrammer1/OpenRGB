@@ -1,17 +1,18 @@
-/*-----------------------------------------*\
-|  RGBController_LianLiUniHubSLV2.cpp       |
-|                                           |
-|  Generic RGB Interface for Lian Li Uni    |
-|  Hub SLV2 USB controller driver           |
-|                                           |
-|  Will Kennedy 01/17/2023					|
-|  Oliver P 04/26/2022                      |
-|  Credit to Luca Lovisa for original work. |
-\*-----------------------------------------*/
-
-#include "RGBController_LianLiUniHubSLV2.h"
+/*---------------------------------------------------------*\
+| RGBController_LianLiUniHubSLV2.cpp                        |
+|                                                           |
+|   RGBController for Lian Li SLV2 Uni Hub                  |
+|                                                           |
+|   Will Kennedy                                17 Jan 2023 |
+|   Oliver P                                    26 Apr 2022 |
+|   Credit to Luca Lovisa for original work.                |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #include <string>
+#include "RGBController_LianLiUniHubSLV2.h"
 
 /**------------------------------------------------------------------*\
     @name Lian Li Uni Hub SLV2

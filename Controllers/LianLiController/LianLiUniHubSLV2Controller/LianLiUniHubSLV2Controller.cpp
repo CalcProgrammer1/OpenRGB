@@ -1,17 +1,18 @@
-/*-----------------------------------------*\
-|  LianLiUniHubSLV2Controller.cpp           |
-|                                           |
-|  Driver for Lian Li Uni Hub SLV2 USB      |
-|  lighting controller                      |
-|                                           |
-|  Will Kennedy 01/17/2023					|
-|  Oliver P 04/26/2022                      |
-|  Credit to Luca Lovisa for original work. |
-\*-----------------------------------------*/
-
-#include "LianLiUniHubSLV2Controller.h"
+/*---------------------------------------------------------*\
+| LianLiUniHubSLV2Controller.cpp                            |
+|                                                           |
+|   Driver for Lian Li SLV2 Uni Hub                         |
+|                                                           |
+|   Will Kennedy                                17 Jan 2023 |
+|   Oliver P                                    26 Apr 2022 |
+|   Credit to Luca Lovisa for original work.                |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #include <string.h>
+#include "LianLiUniHubSLV2Controller.h"
 
 using namespace std::chrono_literals;
 

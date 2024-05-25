@@ -1,19 +1,21 @@
-/*-----------------------------------------*\
-|  LianLiHubSLV2Controller.h                |
-|                                           |
-|  Definitions and types for Lian Li SLV2120|
-|                                           |
-|  Will Kennedy 01/17/2023					|
-|  Oliver P 04/26/2022                      |
-|  Credit to Luca Lovisa for original work. |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| LianLiUniHubSLV2Controller.h                              |
+|                                                           |
+|   Driver for Lian Li SLV2 Uni Hub                         |
+|                                                           |
+|   Will Kennedy                                17 Jan 2023 |
+|   Oliver P                                    26 Apr 2022 |
+|   Credit to Luca Lovisa for original work.                |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
-#include "RGBController.h"
+#pragma once
 
 #include <string>
 #include <hidapi/hidapi.h>
-
-#pragma once
+#include "RGBController.h"
 
 /*----------------------------------------------------------------------------*\
 | Global definitions.                                                          |
