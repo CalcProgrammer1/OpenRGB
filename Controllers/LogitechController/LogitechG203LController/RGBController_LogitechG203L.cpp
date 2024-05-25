@@ -1,3 +1,12 @@
+/*---------------------------------------------------------*\
+| RGBController_LogitechG203L.cpp                           |
+|                                                           |
+|   Driver for Logitech G203L                               |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
 #include "RGBController_LogitechG203L.h"
 
 /**------------------------------------------------------------------*\

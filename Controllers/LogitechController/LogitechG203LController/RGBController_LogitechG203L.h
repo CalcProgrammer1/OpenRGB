@@ -1,4 +1,14 @@
+/*---------------------------------------------------------*\
+| RGBController_LogitechG203L.h                             |
+|                                                           |
+|   Driver for Logitech G203L                               |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
 #pragma once
+
 #include "RGBController.h"
 #include "LogitechG203LController.h"
 
@@ -9,7 +19,7 @@ public:
     ~RGBController_LogitechG203L();
 
     void        SetupZones();
-    
+
     void        ResizeZone(int zone, int new_size);
 
     void        DeviceUpdateLEDs();

@@ -1,9 +1,16 @@
-#include "LogitechG203LController.h"
+/*---------------------------------------------------------*\
+| LogitechG203LController.cpp                               |
+|                                                           |
+|   Driver for Logitech G203L                               |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #include <cstring>
+#include "LogitechG203LController.h"
 
 #define PACKET_SIZE     20
-
 
 LogitechG203LController::LogitechG203LController(hid_device* dev_handle, const char* path)
 {
@@ -149,7 +156,7 @@ void LogitechG203LController::SetMode(
         usb_buf[0x0D] = (unsigned char)((speed>>8) & 0x000000FF);
         usb_buf[0x0E] = brightness;
     }
-    
+
     //END BYTE
     usb_buf[0x10] = 0x01;
 
@@ -181,7 +188,7 @@ void LogitechG203LController::SetDevice(std::vector<RGBColor> colors)
     usb_buf[0x0D] = RGBGetRValue(colors[2]);
     usb_buf[0x0E] = RGBGetGValue(colors[2]);
     usb_buf[0x0F] = RGBGetBValue(colors[2]);
-    
+
     usb_buf[0x10] = 0xFF;
 
     SendPacket(usb_buf);
