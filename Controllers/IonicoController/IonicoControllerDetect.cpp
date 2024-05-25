@@ -1,11 +1,13 @@
-/*-----------------------------------------*\
-|  IonicoControllerDetect.cpp               |
-|                                           |
-|  Driver for the Ionico-II-17 lighting     |
-|  controller                               |
-|                                           |
-|  Lucas Strafe 31/12/2022                  |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| IonicoControllerDetect.cpp                                |
+|                                                           |
+|   Detector for Ionico-II-17                               |
+|                                                           |
+|   Lucas Strafe                                31 Dec 2022 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #include "Detector.h"
 #include "RGBController.h"

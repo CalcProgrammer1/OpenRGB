@@ -1,8 +1,19 @@
+/*---------------------------------------------------------*\
+| IonicoController.h                                        |
+|                                                           |
+|   Driver for Ionico-II-17                                 |
+|                                                           |
+|   Lucas Strafe                                31 Dec 2022 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
 #pragma once
 
-#include "RGBController.h"
 #include <string>
 #include <hidapi/hidapi.h>
+#include "RGBController.h"
 
 #define IONICO_REPORT_SIZE                9
 #define IONICO_DIRECT_REPORT_SIZE         65
