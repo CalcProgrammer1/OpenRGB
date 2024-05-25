@@ -1,15 +1,16 @@
-/*-----------------------------------------*\
-|  LianLiUniHubController.cpp               |
-|                                           |
-|  Driver for Lian Li Uni Hub USB           |
-|  lighting controller                      |
-|                                           |
-|  Luca Lovisa 2/20/2021                    |
-\*-----------------------------------------*/
-
-#include "LianLiUniHubController.h"
+/*---------------------------------------------------------*\
+| LianLiUniHubController.cpp                                |
+|                                                           |
+|   Driver for Lian Li Uni Hub                              |
+|                                                           |
+|   Luca Lovisa                                 20 Feb 2021 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #include <cstring>
+#include "LianLiUniHubController.h"
 
 using namespace std::chrono_literals;
 

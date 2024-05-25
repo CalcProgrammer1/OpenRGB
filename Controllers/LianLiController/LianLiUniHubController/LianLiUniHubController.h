@@ -1,11 +1,13 @@
-/*-----------------------------------------*\
-|  LianLiUniHubController.h                 |
-|                                           |
-|  Definitions and types for Lian Li Uni    |
-|  Hub USB RGB lighting controller          |
-|                                           |
-|  Luca Lovisa 2/20/2021                    |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| LianLiUniHubController.h                                  |
+|                                                           |
+|   Driver for Lian Li Uni Hub                              |
+|                                                           |
+|   Luca Lovisa                                 20 Feb 2021 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #pragma once
 
@@ -13,13 +15,13 @@
 #include <mutex>
 #include <string>
 
-#include "RGBController.h"
-
 #ifdef __FreeBSD__
 #include <libusb.h>
 #else
 #include <libusb-1.0/libusb.h>
 #endif
+
+#include "RGBController.h"
 
 /*----------------------------------------------------------------------------*\
 | Global definitions.                                                          |

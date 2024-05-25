@@ -1,17 +1,18 @@
-/*-----------------------------------------*\
-|  RGBController_LianLiUniHub.h             |
-|                                           |
-|  Generic RGB Interface for Lian Li Uni    |
-|  Hub USB controller driver                |
-|                                           |
-|  Luca Lovisa 2/20/2021                    |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_LianLiUniHub.h                              |
+|                                                           |
+|   RGBController for Lian Li Uni Hub                       |
+|                                                           |
+|   Luca Lovisa                                 20 Feb 2021 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #pragma once
 
 #include <cstdint>
 #include <vector>
-
 #include "LianLiUniHubController.h"
 #include "RGBController.h"
 
