@@ -1,17 +1,19 @@
-/*-----------------------------------------*\
-|  RGBController_LGMonitor.h                |
-|                                           |
-|  Generic RGB Interface for OpenRGB        |
-|  LG monitor RGB USB Driver                |
-|                                           |
-|  Guimard Morgan (morg) 10/11/2023         |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_LGMonitor.h                                 |
+|                                                           |
+|   RGBController for LG monitor                            |
+|                                                           |
+|   Morgan Guimard (morg)                       11 Oct 2023 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #pragma once
 
+#include <chrono>
 #include "RGBController.h"
 #include "LGMonitorController.h"
-#include <chrono>
 
 class RGBController_LGMonitor : public RGBController
 {

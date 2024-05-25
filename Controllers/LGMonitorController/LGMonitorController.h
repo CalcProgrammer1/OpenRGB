@@ -1,11 +1,14 @@
-/*-----------------------------------------*\
-|  LGMonitorController.h                    |
-|                                           |
-|  Driver for LG monitor lighting           |
-|  controller - header file                 |
-|                                           |
-|  Guimard Morgan (morg) 10/11/2023         |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| LGMonitorController.h                                     |
+|                                                           |
+|   Driver for LG monitor                                   |
+|                                                           |
+|   Morgan Guimard (morg)                       11 Oct 2023 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
 #pragma once
 
 #include <string>

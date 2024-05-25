@@ -1,13 +1,16 @@
-/*-----------------------------------------*\
-|  LGMonitorController.cpp                  |
-|                                           |
-|  Driver for LG monitor lighting           |
-|  controller                               |
-|                                           |
-|  Guimard Morgan (morg) 10/11/2023         |
-\*-----------------------------------------*/
-#include "LGMonitorController.h"
+/*---------------------------------------------------------*\
+| LGMonitorController.cpp                                   |
+|                                                           |
+|   Driver for LG monitor                                   |
+|                                                           |
+|   Morgan Guimard (morg)                       11 Oct 2023 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
 #include <string.h>
+#include "LGMonitorController.h"
 
 LGMonitorController::LGMonitorController(hid_device* dev_handle, const hid_device_info& info)
 {
@@ -127,7 +130,7 @@ void LGMonitorController::SetMode(uint8_t mode_value, uint8_t brightness, const 
             /*---------------------------------------------------------*\
             | Send color in slot 1                                      |
             \*---------------------------------------------------------*/
-            SetSlotColor(LG_MONITOR_STATIC_SLOT_1_MODE_VALUE, colors[0]);            
+            SetSlotColor(LG_MONITOR_STATIC_SLOT_1_MODE_VALUE, colors[0]);
 
             break;
 

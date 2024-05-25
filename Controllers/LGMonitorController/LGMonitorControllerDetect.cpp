@@ -1,3 +1,14 @@
+/*---------------------------------------------------------*\
+| LGMonitorControllerDetect.cpp                             |
+|                                                           |
+|   Detector for LG monitor                                 |
+|                                                           |
+|   Morgan Guimard (morg)                       11 Oct 2023 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
 #include "Detector.h"
 #include "LGMonitorController.h"
 #include "RGBController.h"
