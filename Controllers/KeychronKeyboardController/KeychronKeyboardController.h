@@ -1,11 +1,14 @@
-/*-----------------------------------------*\
-|  KeychronKeyboardController.h             |
-|                                           |
-|  Driver for Keychron Keyboard lighting    |
-|  controller - header file                 |
-|                                           |
-|  Guimard Morgan (morg) 2/20/2022          |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| KeychronKeyboardController.h                              |
+|                                                           |
+|   Driver for Keychron keyboard                            |
+|                                                           |
+|   Morgan Guimard (morg)                       20 Feb 2022 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
 #pragma once
 
 #include "RGBController.h"
@@ -104,7 +107,7 @@ protected:
 private:
     std::string                 location;
     std::string                 serial_number;
-    std::string                 version;   
+    std::string                 version;
     std::vector<unsigned int>   led_sequence_positions;
 
     void                        SetCustomization(bool state);

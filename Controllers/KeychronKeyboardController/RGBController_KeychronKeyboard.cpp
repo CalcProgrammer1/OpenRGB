@@ -1,16 +1,18 @@
-/*-----------------------------------------*\
-|  RGBController_KeychronKeyboard.cpp       |
-|                                           |
-|  Generic RGB Interface for OpenRGB        |
-|  Keychron Keyboard USB Driver             |
-|                                           |
-|  Guimard Morgan (morg) 2/20/2022          |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_KeychronKeyboard.cpp                        |
+|                                                           |
+|   RGBController for Keychron keyboard                     |
+|                                                           |
+|   Morgan Guimard (morg)                       20 Feb 2022 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
+#include <chrono>
+#include <thread>
 #include "RGBControllerKeyNames.h"
 #include "RGBController_KeychronKeyboard.h"
-
-#include <thread>
-#include <chrono>
 
 #define NA      0xFFFFFFFF
 

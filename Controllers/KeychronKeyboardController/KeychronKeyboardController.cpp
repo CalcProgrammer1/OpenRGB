@@ -1,13 +1,16 @@
-﻿/*-----------------------------------------*\
-|  KeychronKeyboardController.cpp           |
-|                                           |
-|  Driver for Keychron Keyboard lighting    |
-|  controller                               |
-|                                           |
-|  Guimard Morgan (morg) 2/20/2022          |
-\*-----------------------------------------*/
-#include "KeychronKeyboardController.h"
+﻿/*---------------------------------------------------------*\
+| KeychronKeyboardController.cpp                            |
+|                                                           |
+|   Driver for Keychron keyboard                            |
+|                                                           |
+|   Morgan Guimard (morg)                       20 Feb 2022 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
 #include <string.h>
+#include "KeychronKeyboardController.h"
 
 using namespace std::chrono_literals;
 
