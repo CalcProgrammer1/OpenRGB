@@ -1,11 +1,13 @@
-/*-------------------------------------------------------------------*\
-|  LenovoUSBController.cpp                                            |
-|                                                                     |
-|  Driver for various Lenovo Devices                                  |
-|                                                                     |
-|  Cooper Hall (geobot19)          17 Apr 2022                        |
-|                                                                     |
-\*-------------------------------------------------------------------*/
+/*---------------------------------------------------------*\
+| LenovoUSBController.cpp                                   |
+|                                                           |
+|   Driver for Lenovo USB devices                           |
+|                                                           |
+|   Cooper Hall (geobot19)                      17 Apr 2022 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #include "LenovoUSBController.h"
 #include "LogManager.h"

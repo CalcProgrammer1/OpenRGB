@@ -1,20 +1,21 @@
-/*-------------------------------------------------------------------*\
-|  LenovoUSBController.h                                              |
-|                                                                     |
-|  Driver for various Lenovo Devices                                  |
-|                                                                     |
-|  Cooper Hall (geobot19)          17 Apr 2022                        |
-|                                                                     |
-\*-------------------------------------------------------------------*/
+/*---------------------------------------------------------*\
+| LenovoUSBController.h                                     |
+|                                                           |
+|   Driver for Lenovo USB devices                           |
+|                                                           |
+|   Cooper Hall (geobot19)                      17 Apr 2022 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
+#include <array>
+#include <string>
+#include <utility>
+#include <vector>
+#include <hidapi/hidapi.h>
 #include "RGBController.h"
 #include "LogManager.h"
-
-#include <string>
-#include <array>
-#include <vector>
-#include <utility>
-#include <hidapi/hidapi.h>
 
 #ifndef HID_MAX_STR
 #define HID_MAX_STR                255

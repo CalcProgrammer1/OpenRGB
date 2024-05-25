@@ -1,20 +1,20 @@
-/*-------------------------------------------------------------------*\
-|  RGBController_LenovoUSB.h                                          |
-|                                                                     |
-|  interface for various Lenovo Legion Devices                        |
-|                                                                     |
-|  Cooper Hall (geobot19)          17 Apr 2022                        |
-|                                                                     |
-\*-------------------------------------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_Lenovo_USB.h                                |
+|                                                           |
+|   RGBController for Lenovo USB devices                    |
+|                                                           |
+|   Cooper Hall (geobot19)                      17 Apr 2022 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
+#pragma once
+
+#include <vector>
 #include "LenovoDevices.h"
 #include "LenovoUSBController.h"
 #include "RGBController.h"
-
-#include <vector>
-
-#ifndef RGBCONTROLLER_LENOVOUSB_H
-#define RGBCONTROLLER_LENOVOUSB_H
 
 #define NA 0xFFFFFFFF
 
@@ -45,5 +45,3 @@ private:
 
     LenovoUSBController *controller;
 };
-
-#endif

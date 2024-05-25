@@ -1,12 +1,23 @@
+/*---------------------------------------------------------*\
+| RGBController_Lenovo_USB.cpp                              |
+|                                                           |
+|   RGBController for Lenovo USB devices                    |
+|                                                           |
+|   Cooper Hall (geobot19)                      17 Apr 2022 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
+#include <iomanip>
+#include <sstream>
+#include <string>
+#include <utility>
+#include <vector>
 #include "LenovoDevices.h"
 #include "RGBController_LenovoUSB.h"
 #include "LogManager.h"
 
-#include <vector>
-#include <string>
-#include <utility>
-#include <sstream>
-#include <iomanip>
 using namespace std;
 
 /*--------------------------------------------------------------------------------------*\
