@@ -1,15 +1,19 @@
 /*---------------------------------------------------------*\
-|  Processing Code for Generic LED Strip Interface          |
+| LEDStripController.cpp                                    |
 |                                                           |
-|  Adam Honse (calcprogrammer1@gmail.com), 12/11/2016       |
+|   Driver for serial LED strips                            |
+|                                                           |
+|   Adam Honse (calcprogrammer1@gmail.com)      11 Dec 2016 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
 \*---------------------------------------------------------*/
-
-#include "LEDStripController.h"
-#include "ResourceManager.h"
 
 #include <fstream>
 #include <iostream>
 #include <string>
+#include "LEDStripController.h"
+#include "ResourceManager.h"
 
 LEDStripController::LEDStripController()
 {

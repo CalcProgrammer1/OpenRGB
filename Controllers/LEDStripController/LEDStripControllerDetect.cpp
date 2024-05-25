@@ -1,11 +1,22 @@
+/*---------------------------------------------------------*\
+| LEDStripControllerDetect.cpp                              |
+|                                                           |
+|   Detector for serial LED strips                          |
+|                                                           |
+|   Adam Honse (calcprogrammer1@gmail.com)      11 Dec 2016 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <vector>
 #include "Detector.h"
 #include "LEDStripController.h"
 #include "RGBController.h"
 #include "RGBController_LEDStrip.h"
 #include "SettingsManager.h"
-#include <vector>
-#include <stdio.h>
-#include <stdlib.h>
 
 /******************************************************************************************\
 *                                                                                          *
