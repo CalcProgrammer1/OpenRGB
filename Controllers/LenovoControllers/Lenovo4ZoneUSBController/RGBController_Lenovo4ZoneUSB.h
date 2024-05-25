@@ -1,16 +1,18 @@
-/*-------------------------------------------------------------------*\
-|  RGBController_Lenovo4ZoneUSB.h                                     |
-|                                                                     |
-|  interface for Lenovo 4-Zones Devices                               |
-\*-------------------------------------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_Lenovo4ZoneUSB.h                            |
+|                                                           |
+|   RGBController for Lenovo 4-Zone devices                 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #pragma once
 
+#include <vector>
 #include "LenovoDevices.h"
 #include "Lenovo4ZoneUSBController.h"
 #include "RGBController.h"
-
-#include <vector>
 
 #define NA 0xFFFFFFFF
 

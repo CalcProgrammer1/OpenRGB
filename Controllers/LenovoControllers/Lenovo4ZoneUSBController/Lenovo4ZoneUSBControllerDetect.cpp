@@ -1,16 +1,19 @@
-/*-------------------------------------------------------------------*\
-|  Lenovo4ZoneUSBDetect.h                                             |
-|                                                                     |
-|  Describes zones for Lenovo 4-Zone Device                           |
-\*-------------------------------------------------------------------*/
+/*---------------------------------------------------------*\
+| Lenovo4ZoneUSBControllerDetect.cpp                        |
+|                                                           |
+|   Detector for Lenovo 4-Zone devices                      |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
+#include <hidapi/hidapi.h>
 #include "Detector.h"
 #include "LogManager.h"
 #include "RGBController.h"
 #include "Lenovo4ZoneUSBController.h"
 #include "LenovoDevices4Zone.h"
 #include "RGBController_Lenovo4ZoneUSB.h"
-#include <hidapi/hidapi.h>
 
 /*-----------------------------------------------------*\
 | vendor IDs                                            |

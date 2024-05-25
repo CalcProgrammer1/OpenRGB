@@ -1,20 +1,22 @@
-/*-------------------------------------------------------------------*\
-|  Lenovo4ZoneUSBController.h                                         |
-|                                                                     |
-|  interface for Lenovo 4-Zones Devices                               |
-\*-------------------------------------------------------------------*/
+/*---------------------------------------------------------*\
+| Lenovo4ZoneUSBController.h                                |
+|                                                           |
+|   Driver for Lenovo 4-Zone devices                        |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #pragma once
 
+#include <array>
+#include <string>
+#include <utility>
+#include <vector>
+#include <hidapi/hidapi.h>
 #include "RGBController.h"
 #include "LogManager.h"
 #include "LenovoDevices4Zone.h"
-
-#include <string>
-#include <array>
-#include <vector>
-#include <utility>
-#include <hidapi/hidapi.h>
 
 #ifndef HID_MAX_STR
 #define HID_MAX_STR                255

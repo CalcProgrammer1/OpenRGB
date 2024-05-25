@@ -1,14 +1,22 @@
+/*---------------------------------------------------------*\
+| RGBController_Lenovo4ZoneUSB.cpp                          |
+|                                                           |
+|   Device list for Lenovo 4-Zone devices                   |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
+#include <iomanip>
+#include <iostream>
+#include <sstream>
+#include <string>
+#include <utility>
+#include <vector>
 #include "Lenovo4ZoneUSBController.h"
 #include "LenovoDevices4Zone.h"
 #include "RGBController_Lenovo4ZoneUSB.h"
 #include "LogManager.h"
-
-#include <iostream>
-#include <vector>
-#include <string>
-#include <utility>
-#include <sstream>
-#include <iomanip>
 
 /**------------------------------------------------------------------*\
     @name Lenovo 4 Zone USB

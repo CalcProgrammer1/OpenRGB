@@ -1,9 +1,12 @@
-/*-------------------------------------------------------------------*\
-|  LenovoDevices4Zone.h                                               |
-|                                                                     |
-|  Describes zones for Lenovo 4-Zone Device                           |
-|                                                                     |
-\*-------------------------------------------------------------------*/
+/*---------------------------------------------------------*\
+| LenovoDevices4Zone.h                                      |
+|                                                           |
+|   Device list for Lenovo 4-Zone devices                   |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
 #pragma once
 
 #include <string>
@@ -102,4 +105,3 @@ static const lenovo_led lenovo_4_zone_leds[]
     {0x02, "Right center"},
     {0x03, "Right side"},
 };
-

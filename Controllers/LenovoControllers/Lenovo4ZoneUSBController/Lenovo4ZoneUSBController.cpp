@@ -1,8 +1,11 @@
-/*-------------------------------------------------------------------*\
-|  Lenovo4ZoneUSBController.cpp                                       |
-|                                                                     |
-|  interface for Lenovo 4-Zones Devices                               |
-\*-------------------------------------------------------------------*/
+/*---------------------------------------------------------*\
+| Lenovo4ZoneUSBController.cpp                              |
+|                                                           |
+|   Driver for Lenovo 4-Zone devices                        |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #include <iostream>
 #include "Lenovo4ZoneUSBController.h"
