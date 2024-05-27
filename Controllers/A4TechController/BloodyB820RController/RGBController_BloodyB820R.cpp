@@ -145,7 +145,7 @@ static const char *led_names[] =
     @save :x:
     @direct :white_check_mark:
     @effects :x:
-    @detectors A4TechDetector
+    @detectors DetectBloodyB820R
     @comment The A4Tech Bloody B820R keyboard controller currently
         supports the full size (ANSI layout).
 \*-------------------------------------------------------------------*/

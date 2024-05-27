@@ -19,7 +19,7 @@
     @save :robot:
     @direct :white_check_mark:
     @effects :white_check_mark:
-    @detectors DetectGigabyteAorusLaptopControllers
+    @detectors DetectGigabyteAorusLaptopKeyboardControllers,DetectGigabyteAorusLaptopBacklightControllers
     @comment Direct mode will only exposes the whole keyboard as one
              big led, only custom mode can do real per key lightning.
              This is impossible to determine if it auto saves to flash

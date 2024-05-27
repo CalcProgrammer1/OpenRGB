@@ -19,7 +19,7 @@
     @save :robot:
     @direct :x:
     @effects :white_check_mark:
-    @detectors EpomakerControllerDetect
+    @detectors DetectEpomakerControllers
     @comment
 \*-------------------------------------------------------------------*/
 
