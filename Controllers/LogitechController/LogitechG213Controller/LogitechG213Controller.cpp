@@ -1,13 +1,16 @@
-/*-----------------------------------------*\
-|  LogitechG213Controller.cpp               |
-|                                           |
-|  Generic RGB Interface for Logitech G213  |
-|                                           |
-|  Eric Samuelson (edbgon) 10/06/2020       |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| LogitechG203LController.cpp                               |
+|                                                           |
+|   Driver for Logitech G203L                               |
+|                                                           |
+|   Eric Samuelson (edbgon)                     06 Oct 2020 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
-#include "LogitechG213Controller.h"
 #include <cstring>
+#include "LogitechG213Controller.h"
 
 LogitechG213Controller::LogitechG213Controller(hid_device* dev_handle, const char* path)
 {
