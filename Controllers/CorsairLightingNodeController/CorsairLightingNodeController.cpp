@@ -270,7 +270,7 @@ void CorsairLightingNodeController::SendDirect
     /*-----------------------------------------------------*\
     | Send packet                                           |
     \*-----------------------------------------------------*/
-    WriteAndRead(usb_buf, 5);
+    WriteAndRead(usb_buf, CORSAIR_LIGHTING_NODE_READ_TIMEOUT);
 }
 
 void CorsairLightingNodeController::SendCommit()
@@ -297,7 +297,7 @@ void CorsairLightingNodeController::SendCommit()
     /*-----------------------------------------------------*\
     | Send packet                                           |
     \*-----------------------------------------------------*/
-    WriteAndRead(usb_buf, 5);
+    WriteAndRead(usb_buf, CORSAIR_LIGHTING_NODE_READ_TIMEOUT);
 }
 
 void CorsairLightingNodeController::SendBegin
@@ -456,7 +456,7 @@ void CorsairLightingNodeController::SendPortState
     /*-----------------------------------------------------*\
     | Send packet                                           |
     \*-----------------------------------------------------*/
-    WriteAndRead(usb_buf, 5);
+    WriteAndRead(usb_buf, CORSAIR_LIGHTING_NODE_READ_TIMEOUT);
 }
 
 void CorsairLightingNodeController::SendBrightness
