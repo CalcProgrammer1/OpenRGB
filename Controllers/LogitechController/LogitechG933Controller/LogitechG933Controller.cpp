@@ -1,17 +1,19 @@
-/*-----------------------------------------*\
-|  LogitechG933Controller.cpp               |
-|                                           |
-|  Driver for Logitech G933 RGB Headset     |
-|                                           |
-|  Edbgon        06/21/2021                 |
-|  Based on                                 |
-|  TheRogueZeta   8/31/2020                 |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| LogitechG933Controller.cpp                                |
+|                                                           |
+|   Driver for Logitech G933                                |
+|                                                           |
+|   Edbgon                                      21 Jun 2021 |
+|   Based on TheRogueZeta                       31 Aug 2020 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
-#include "LogitechG933Controller.h"
 #include <cstring>
 #include <stdio.h>
 #include <stdlib.h>
+#include "LogitechG933Controller.h"
 
 using namespace std::chrono_literals;
 

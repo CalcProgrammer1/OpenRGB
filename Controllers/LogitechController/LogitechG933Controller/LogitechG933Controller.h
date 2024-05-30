@@ -1,19 +1,20 @@
-/*-----------------------------------------*\
-|  LogitechG933Controller.h                 |
-|                                           |
-|  Definitions and types for                |
-|  Logitech G933 RGB Headset                |
-|                                           |
-|  Edbgon        06/21/2021                 |
-|  Based on                                 |
-|  TheRogueZeta   8/31/2020                 |
-\*-----------------------------------------*/
-#include "RGBController.h"
+/*---------------------------------------------------------*\
+| LogitechG933Controller.h                                  |
+|                                                           |
+|   Driver for Logitech G933                                |
+|                                                           |
+|   Edbgon                                      21 Jun 2021 |
+|   Based on TheRogueZeta                       31 Aug 2020 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
+#pragma once
 
 #include <string>
 #include <hidapi/hidapi.h>
-
-#pragma once
+#include "RGBController.h"
 
 #define LOGI_G933_LED_PACKET_SIZE               20
 #define LOGI_G933_LED_COMMAND_SEND_RETRIES      3
