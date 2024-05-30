@@ -1,14 +1,16 @@
-/*-----------------------------------------*\
-|  LogitechG815Controller.cpp               |
-|                                           |
-|  Generic RGB Interface for Logitech G815  |
-|  RGB Mechanical Gaming Keyboard           |
-|                                           |
-|  Cheerpipe      3/20/2021                 |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| LogitechG815Controller.cpp                                |
+|                                                           |
+|   Driver for Logitech G815                                |
+|                                                           |
+|   Cheerpipe                                   20 Mar 2021 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
-#include "LogitechG815Controller.h"
 #include <cstring>
+#include "LogitechG815Controller.h"
 
 LogitechG815Controller::LogitechG815Controller(hid_device* dev_handle_0x11, hid_device* dev_handle_0x12)
 {

@@ -1,21 +1,22 @@
-/*-----------------------------------------*\
-|  LogitechG815Controller.h                 |
-|                                           |
-|  Generic RGB Interface for Logitech G815  |
-|  RGB Mechanical Gaming Keyboard           |
-|                                           |
-|  Cheerpipe      3/20/2021                 |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| LogitechG815Controller.h                                  |
+|                                                           |
+|   Driver for Logitech G815                                |
+|                                                           |
+|   Cheerpipe                                   20 Mar 2021 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
-#include "RGBController.h"
+#pragma once
 
 #include <string>
 #include <hidapi/hidapi.h>
+#include "RGBController.h"
 
 #define LOGITECH_G815_COMMIT_BYTE       0x7F
 #define LOGITECH_READ_TIMEOUT           300     //Timeout in ms
-
-#pragma once
 
 enum
 {
