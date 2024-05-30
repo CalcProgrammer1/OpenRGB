@@ -1,11 +1,13 @@
-/*-----------------------------------------*\
-|  RGBController_LogitechGPowerPlay.cpp     |
-|                                           |
-|  Generic RGB Interface for                |
-|  Logitech G PowerPlay Wireless Mousemat   |
-|                                           |
-|  TheRogueZeta   8/31/2020                 |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_LogitechGPowerPlay.cpp                      |
+|                                                           |
+|   RGBController for Logitech G PowerPlay                  |
+|                                                           |
+|   TheRogueZeta                                31 Aug 2020 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #include "RGBController_LogitechGPowerPlay.h"
 

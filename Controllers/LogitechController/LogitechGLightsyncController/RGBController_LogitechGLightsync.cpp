@@ -1,33 +1,35 @@
-/*-----------------------------------------*\
-|  RGBController_LogitechGLightsync1zone.cpp|
-|                                           |
-|  Generic RGB Interface for single zone    |
-|  Logitech G Lightsync Devices             |
-|                                           |
-|  TheRogueZeta   04/21/2021                |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_LogitechGLightsync.cpp                      |
+|                                                           |
+|   RGBController for Logitech Lightsync                    |
+|                                                           |
+|   TheRogueZeta                                21 Apr 2021 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
-#include "RGBController_LogitechGLightsync1zone.h"
+#include "RGBController_LogitechGLightsync.h"
 
 /**------------------------------------------------------------------*\
-    @name Logitech Lightsync Mouse (1 Zone)
+    @name Logitech Lightsync Mouse
     @category Mouse
     @type USB
     @save :robot:
     @direct :white_check_mark:
     @effects :white_check_mark:
-    @detectors DetectLogitechMouseG203, DetectLogitechMouseGPRO
+    @detectors DetectLogitechMouseG303, DetectLogitechMouseG403
     @comment
 \*-------------------------------------------------------------------*/
 
-RGBController_LogitechGLightsync1zone::RGBController_LogitechGLightsync1zone(LogitechGLightsyncController* controller_ptr)
+RGBController_LogitechGLightsync::RGBController_LogitechGLightsync(LogitechGLightsyncController* controller_ptr)
 {
     controller              = controller_ptr;
 
-    name                    = "Logitech G Lightsync Mouse Single Zone";
+    name                    = "Logitech G Lightsync Mouse";
     vendor                  = "Logitech";
     type                    = DEVICE_TYPE_MOUSE;
-    description             = "Logitech G Lightsync Mouse Single Zone";
+    description             = "Logitech G Lightsync Mouse";
     location                = controller->GetDeviceLocation();
     serial                  = controller->GetSerialString();
 
@@ -81,13 +83,26 @@ RGBController_LogitechGLightsync1zone::RGBController_LogitechGLightsync1zone(Log
     SetupZones();
 }
 
-RGBController_LogitechGLightsync1zone::~RGBController_LogitechGLightsync1zone()
+RGBController_LogitechGLightsync::~RGBController_LogitechGLightsync()
 {
     delete controller;
 }
 
-void RGBController_LogitechGLightsync1zone::SetupZones()
+void RGBController_LogitechGLightsync::SetupZones()
 {
+    zone GLightsync_primary_zone;
+    GLightsync_primary_zone.name            = "DPI";
+    GLightsync_primary_zone.type            = ZONE_TYPE_SINGLE;
+    GLightsync_primary_zone.leds_min        = 1;
+    GLightsync_primary_zone.leds_max        = 1;
+    GLightsync_primary_zone.leds_count      = 1;
+    GLightsync_primary_zone.matrix_map      = NULL;
+    zones.push_back(GLightsync_primary_zone);
+
+    led GLightsync_primary_led;
+    GLightsync_primary_led.name             = "DPI";
+    leds.push_back(GLightsync_primary_led);
+
     zone GLightsync_logo_zone;
     GLightsync_logo_zone.name               = "Logo";
     GLightsync_logo_zone.type               = ZONE_TYPE_SINGLE;
@@ -104,19 +119,20 @@ void RGBController_LogitechGLightsync1zone::SetupZones()
     SetupColors();
 }
 
-void RGBController_LogitechGLightsync1zone::ResizeZone(int /*zone*/, int /*new_size*/)
+void RGBController_LogitechGLightsync::ResizeZone(int /*zone*/, int /*new_size*/)
 {
     /*---------------------------------------------------------*\
     | This device does not support resizing zones               |
     \*---------------------------------------------------------*/
 }
 
-void RGBController_LogitechGLightsync1zone::DeviceUpdateLEDs()
+void RGBController_LogitechGLightsync::DeviceUpdateLEDs()
 {
     UpdateZoneLEDs(0);
+    UpdateZoneLEDs(1);
 }
 
-void RGBController_LogitechGLightsync1zone::UpdateZoneLEDs(int zone)
+void RGBController_LogitechGLightsync::UpdateZoneLEDs(int zone)
 {
     unsigned char red = RGBGetRValue(colors[zone]);
     unsigned char grn = RGBGetGValue(colors[zone]);
@@ -130,12 +146,12 @@ void RGBController_LogitechGLightsync1zone::UpdateZoneLEDs(int zone)
     controller->UpdateMouseLED(temp_mode, modes[active_mode].speed, zone, red, grn, blu, modes[active_mode].brightness);
 }
 
-void RGBController_LogitechGLightsync1zone::UpdateSingleLED(int led)
+void RGBController_LogitechGLightsync::UpdateSingleLED(int led)
 {
     UpdateZoneLEDs(led);
 }
 
-void RGBController_LogitechGLightsync1zone::DeviceUpdateMode()
+void RGBController_LogitechGLightsync::DeviceUpdateMode()
 {
     /*---------------------------------------------------------*\
     | If direct mode is true, then sent the packet to put the   |

@@ -1,15 +1,16 @@
-/*-----------------------------------------*\
-|  LogitechGLightsyncController.cpp         |
-|                                           |
-|  Driver for Logitech G Lightsync          |
-|  lighting controllers                     |
-|                                           |
-|  TheRogueZeta   04/21/2021                |
-\*-----------------------------------------*/
-
-#include "LogitechGLightsyncController.h"
+/*---------------------------------------------------------*\
+| LogitechGLightsyncController.cpp                          |
+|                                                           |
+|   Driver for Logitech Lightsync                           |
+|                                                           |
+|   TheRogueZeta                                21 Apr 2021 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #include <cstring>
+#include "LogitechGLightsyncController.h"
 
 LogitechGLightsyncController::LogitechGLightsyncController(hid_device* dev_cmd_handle, hid_device *dev_handle, const char *path, unsigned char hid_dev_index, unsigned char hid_feature_index, unsigned char hid_fctn_ase_id)
 {

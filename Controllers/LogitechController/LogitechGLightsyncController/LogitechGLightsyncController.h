@@ -1,19 +1,20 @@
-/*-----------------------------------------*\
-|  LogitechGLightsyncController.h           |
-|                                           |
-|  Definitions and types for Logitech       |
-|  Lightsync lighting controllers           |
-|                                           |
-|  TheRogueZeta   04/21/2021                |
-\*-----------------------------------------*/
-
-#include "RGBController.h"
-
-#include <string>
-#include <hidapi/hidapi.h>
-#include <memory>
+/*---------------------------------------------------------*\
+| LogitechGLightsyncController.h                            |
+|                                                           |
+|   Driver for Logitech Lightsync                           |
+|                                                           |
+|   TheRogueZeta                                21 Apr 2021 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #pragma once
+
+#include <memory>
+#include <string>
+#include <hidapi/hidapi.h>
+#include "RGBController.h"
 
 enum
 {
@@ -28,7 +29,7 @@ enum
 | Values are multiplied by 100 later to give lots of GUI steps.                                 |
 \*---------------------------------------------------------------------------------------------*/
 enum
-{   
+{
     LOGITECH_G_LIGHTSYNC_SPEED_SLOWEST          = 0xC8,  /* Slowest speed                   */
     LOGITECH_G_LIGHTSYNC_SPEED_NORMAL           = 0x32,  /* Normal speed                    */
     LOGITECH_G_LIGHTSYNC_SPEED_FASTEST          = 0x0A,  /* Fastest speed                   */
@@ -39,10 +40,10 @@ class LogitechGLightsyncController
 public:
     LogitechGLightsyncController(
             hid_device* dev_cmd_handle,
-            hid_device* dev_handle, 
-            const char* path, 
-            unsigned char hid_dev_index, 
-            unsigned char hid_feature_index, 
+            hid_device* dev_handle,
+            const char* path,
+            unsigned char hid_dev_index,
+            unsigned char hid_feature_index,
             unsigned char hid_fctn_ase_id);
     LogitechGLightsyncController(
             hid_device* dev_cmd_handle,
