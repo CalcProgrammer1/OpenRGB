@@ -1,11 +1,13 @@
-/*-----------------------------------------*\
-|  RGBController_LogitechG810.cpp           |
-|                                           |
-|  Generic RGB Interface for Logitech G810  |
-|  Orion Spectrum Keyboard                  |
-|                                           |
-|  Adam Honse (CalcProgrammer1) 6/12/2020   |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_LogitechG810.cpp                            |
+|                                                           |
+|   RGBController for Logitech G810 Orion Spectrum          |
+|                                                           |
+|   Adam Honse (CalcProgrammer1)                12 Jun 2020 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #include "RGBControllerKeyNames.h"
 #include "RGBController_LogitechG810.h"
