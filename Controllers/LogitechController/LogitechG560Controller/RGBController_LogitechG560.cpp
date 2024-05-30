@@ -1,13 +1,14 @@
-/*-----------------------------------------*\
-|  RGBController_LogitechG560.cpp           |
-|                                           |
-|  Generic RGB Interface for                |
-|  Logitech G560 RGB Speaker                |
-|                                           |
-|  Cheerpipe     10/28/2020                 |
-|  Based on                                 |
-|  TheRogueZeta   8/31/2020                 |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_LogitechG560.cpp                            |
+|                                                           |
+|   RGBController for Logitech G560                         |
+|                                                           |
+|   Cheerpipe                                   28 Oct 2020 |
+|   based on TheRogueZeta                       31 Aug 2020 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #include "RGBController_LogitechG560.h"
 

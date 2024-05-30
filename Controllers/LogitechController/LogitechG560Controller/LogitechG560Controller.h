@@ -1,20 +1,20 @@
-/*-----------------------------------------*\
-|  LogitechG560Controller.h                 |
-|                                           |
-|  Definitions and types for Logitech G560  |
-|  RGB Speaker                              |
-|                                           |
-|  Cheerpipe     10/28/2020                 |
-|  Based on                                 |
-|  TheRogueZeta   8/31/2020                 |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| LogitechG560Controller.h                                  |
+|                                                           |
+|   Driver for Logitech G560                                |
+|                                                           |
+|   Cheerpipe                                   28 Oct 2020 |
+|   based on TheRogueZeta                       31 Aug 2020 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
-#include "RGBController.h"
+#pragma once
 
 #include <string>
 #include <hidapi/hidapi.h>
-
-#pragma once
+#include "RGBController.h"
 
 #define LOGI_G560_LED_PACKET_SIZE               20
 #define LOGI_G560_LED_COMMAND_SEND_RETRIES      3

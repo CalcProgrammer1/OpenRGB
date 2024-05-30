@@ -1,18 +1,19 @@
-/*-----------------------------------------*\
-|  LogitechG560Controller.cpp               |
-|                                           |
-|  Driver for Logitech G560 RGB Speaker     |
-|  Charging System                          |
-|                                           |
-|  Cheerpipe     10/28/2020                 |
-|  Based on                                 |
-|  TheRogueZeta   8/31/2020                 |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| LogitechG560Controller.cpp                                |
+|                                                           |
+|   Driver for Logitech G560                                |
+|                                                           |
+|   Cheerpipe                                   28 Oct 2020 |
+|   based on TheRogueZeta                       31 Aug 2020 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
-#include "LogitechG560Controller.h"
 #include <cstring>
 #include <stdio.h>
 #include <stdlib.h>
+#include "LogitechG560Controller.h"
 
 using namespace std::chrono_literals;
 
