@@ -1,14 +1,16 @@
-/*-----------------------------------------*\
-|  LogitechG915Controller.cpp               |
-|                                           |
-|  Generic RGB Interface for Logitech G915  |
-|  RGB Mechanical Gaming Keyboard           |
-|                                           |
-|  Cheerpipe      3/20/2021                 |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| LogitechG915Controller.cpp                                |
+|                                                           |
+|   Driver for Logitech G915                                |
+|                                                           |
+|   Cheerpipe                                   20 Mar 2021 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
-#include "LogitechG915Controller.h"
 #include <cstring>
+#include "LogitechG915Controller.h"
 
 LogitechG915Controller::LogitechG915Controller(hid_device* dev_handle, bool wired)
 {
