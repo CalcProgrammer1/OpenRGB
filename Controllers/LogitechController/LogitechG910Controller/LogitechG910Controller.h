@@ -1,18 +1,19 @@
-/*-----------------------------------------*\
-|  LogitechG910Controller.h                 |
-|                                           |
-|  Definitions and types for Logitech G910  |
-|  Orion Spectrum keyboard light controller |
-|                                           |
-|  Adam Honse (CalcProgrammer1) 6/11/2020   |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| LogitechG910Controller.h                                  |
+|                                                           |
+|   Driver for Logitech G910 Orion Spectrum                 |
+|                                                           |
+|   Adam Honse (CalcProgrammer1)                11 Jun 2020 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
-#include "RGBController.h"
+#pragma once
 
 #include <string>
 #include <hidapi/hidapi.h>
-
-#pragma once
+#include "RGBController.h"
 
 enum
 {
@@ -57,7 +58,7 @@ public:
     std::string GetSerialString();
 
     void        Commit();
-    
+
     void        SetDirect
                     (
                     unsigned char       zone,

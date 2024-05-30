@@ -1,14 +1,16 @@
-/*-----------------------------------------*\
-|  LogitechG910Controller.cpp               |
-|                                           |
-|  Driver for Logitech G910 Orion Spectrum  |
-|  keyboard light controller                |
-|                                           |
-|  Adam Honse (CalcProgrammer1) 6/11/2020   |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| LogitechG910Controller.cpp                                |
+|                                                           |
+|   Driver for Logitech G910 Orion Spectrum                 |
+|                                                           |
+|   Adam Honse (CalcProgrammer1)                11 Jun 2020 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
-#include "LogitechG910Controller.h"
 #include <cstring>
+#include "LogitechG910Controller.h"
 
 LogitechG910Controller::LogitechG910Controller(hid_device* dev_handle_0x11, hid_device* dev_handle_0x12)
 {
