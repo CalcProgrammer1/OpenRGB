@@ -1,14 +1,16 @@
-/*-----------------------------------------*\
-|  MSIGPUController.h                       |
-|                                           |
-|  Definitions for MSI GPUs                 |
-|                                           |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| MSIGPUController.h                                        |
+|                                                           |
+|   Driver for MSI GPU                                      |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
+#pragma once
 
 #include <string>
 #include "i2c_smbus.h"
-
-#pragma once
 
 typedef unsigned char msi_gpu_dev_id;
 

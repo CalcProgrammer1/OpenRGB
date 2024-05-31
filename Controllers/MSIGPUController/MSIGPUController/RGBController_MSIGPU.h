@@ -1,9 +1,11 @@
-/*-----------------------------------------*\
-|  RGBController_MSIGPU.h                  |
-|                                           |
-|  Generic RGB Interface for MSI GPU        |
-|                                           |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_MSIGPU.h                                    |
+|                                                           |
+|   RGBController for MSI GPU                               |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #pragma once
 
