@@ -1,9 +1,10 @@
 /*---------------------------------------------------------*\
-| RGBController_LinuxLED.h                                  |
+| RGBController_LogitechG933.h                              |
 |                                                           |
-|   RGBController for Linux sysfs LEDs                      |
+|   RGBController for Logitech G933                         |
 |                                                           |
-|   Adam Honse (calcprogrammer1@gmail.com)      25 Sep 2020 |
+|   Edbgon                                      21 Jun 2021 |
+|   Based on TheRogueZeta                       31 Aug 2020 |
 |                                                           |
 |   This file is part of the OpenRGB project                |
 |   SPDX-License-Identifier: GPL-2.0-only                   |
@@ -12,13 +13,12 @@
 #pragma once
 
 #include "RGBController.h"
-#include "LinuxLEDController_Linux.h"
+#include "LogitechG933Controller.h"
 
-class RGBController_LinuxLED : public RGBController
+class RGBController_LogitechG933 : public RGBController
 {
 public:
-    RGBController_LinuxLED(LinuxLEDController* controller_ptr);
-    ~RGBController_LinuxLED();
+    RGBController_LogitechG933(LogitechG933Controller* controller_ptr);
 
     void        SetupZones();
 
@@ -31,5 +31,5 @@ public:
     void        DeviceUpdateMode();
 
 private:
-    LinuxLEDController* controller;
+    LogitechG933Controller* controller;
 };

@@ -1,9 +1,9 @@
 /*---------------------------------------------------------*\
-| RGBController_LIFX.cpp                                    |
+| RGBController_LogitechGPowerPlay.h                        |
 |                                                           |
-|   RGBController for LIFX                                  |
+|   RGBController for Logitech G PowerPlay                  |
 |                                                           |
-|   Adam Honse (calcprogrammer1@gmail.com)      05 Feb 2022 |
+|   TheRogueZeta                                31 Aug 2020 |
 |                                                           |
 |   This file is part of the OpenRGB project                |
 |   SPDX-License-Identifier: GPL-2.0-only                   |
@@ -12,13 +12,13 @@
 #pragma once
 
 #include "RGBController.h"
-#include "LIFXController.h"
+#include "LogitechGLightsyncController.h"
 
-class RGBController_LIFX : public RGBController
+class RGBController_LogitechGPowerPlay : public RGBController
 {
 public:
-    RGBController_LIFX(LIFXController* controller_ptr);
-    ~RGBController_LIFX();
+    RGBController_LogitechGPowerPlay(LogitechGLightsyncController* controller_ptr);
+    ~RGBController_LogitechGPowerPlay();
 
     void        SetupZones();
 
@@ -31,5 +31,5 @@ public:
     void        DeviceUpdateMode();
 
 private:
-    LIFXController* controller;
+    LogitechGLightsyncController* controller;
 };

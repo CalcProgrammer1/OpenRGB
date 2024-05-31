@@ -1,9 +1,9 @@
 /*---------------------------------------------------------*\
-| RGBController_LIFX.cpp                                    |
+| RGBController_LogitechG213.h                              |
 |                                                           |
-|   RGBController for LIFX                                  |
+|   RGBController for Logitech G203L                        |
 |                                                           |
-|   Adam Honse (calcprogrammer1@gmail.com)      05 Feb 2022 |
+|   Eric Samuelson (edbgon)                     06 Oct 2020 |
 |                                                           |
 |   This file is part of the OpenRGB project                |
 |   SPDX-License-Identifier: GPL-2.0-only                   |
@@ -12,13 +12,13 @@
 #pragma once
 
 #include "RGBController.h"
-#include "LIFXController.h"
+#include "LogitechG213Controller.h"
 
-class RGBController_LIFX : public RGBController
+class RGBController_LogitechG213 : public RGBController
 {
 public:
-    RGBController_LIFX(LIFXController* controller_ptr);
-    ~RGBController_LIFX();
+    RGBController_LogitechG213(LogitechG213Controller* controller_ptr);
+    ~RGBController_LogitechG213();
 
     void        SetupZones();
 
@@ -31,5 +31,5 @@ public:
     void        DeviceUpdateMode();
 
 private:
-    LIFXController* controller;
+    LogitechG213Controller* controller;
 };

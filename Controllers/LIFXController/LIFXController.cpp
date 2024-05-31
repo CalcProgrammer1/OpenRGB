@@ -1,7 +1,12 @@
 /*---------------------------------------------------------*\
-|  Driver for LIFX                                          |
+| LIFXController.cpp                                        |
 |                                                           |
-|  Adam Honse (calcprogrammer1@gmail.com), 2/5/2022         |
+|   Driver for LIFX                                         |
+|                                                           |
+|   Adam Honse (calcprogrammer1@gmail.com)      05 Feb 2022 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
 \*---------------------------------------------------------*/
 
 #include "LIFXController.h"

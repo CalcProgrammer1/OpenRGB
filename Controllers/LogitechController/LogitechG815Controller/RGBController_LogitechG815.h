@@ -1,9 +1,9 @@
 /*---------------------------------------------------------*\
-| RGBController_LIFX.cpp                                    |
+| RGBController_LogitechG815.h                              |
 |                                                           |
-|   RGBController for LIFX                                  |
+|   RGBController for Logitech G815                         |
 |                                                           |
-|   Adam Honse (calcprogrammer1@gmail.com)      05 Feb 2022 |
+|   Cheerpipe                                   20 Mar 2021 |
 |                                                           |
 |   This file is part of the OpenRGB project                |
 |   SPDX-License-Identifier: GPL-2.0-only                   |
@@ -12,13 +12,13 @@
 #pragma once
 
 #include "RGBController.h"
-#include "LIFXController.h"
+#include "LogitechG815Controller.h"
 
-class RGBController_LIFX : public RGBController
+class RGBController_LogitechG815 : public RGBController
 {
 public:
-    RGBController_LIFX(LIFXController* controller_ptr);
-    ~RGBController_LIFX();
+    RGBController_LogitechG815(LogitechG815Controller* controller_ptr);
+    ~RGBController_LogitechG815();
 
     void        SetupZones();
 
@@ -31,5 +31,6 @@ public:
     void        DeviceUpdateMode();
 
 private:
-    LIFXController* controller;
+    LogitechG815Controller* controller;
+    std::vector<RGBColor>   current_colors;
 };

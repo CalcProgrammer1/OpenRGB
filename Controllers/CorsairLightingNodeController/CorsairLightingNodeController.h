@@ -19,7 +19,7 @@
 
 #define CORSAIR_LIGHTING_NODE_WRITE_PACKET_SIZE      65          /* First byte is the report number      */
 #define CORSAIR_LIGHTING_NODE_READ_PACKET_SIZE       17          /* First byte is the report number      */
-
+#define CORSAIR_LIGHTING_NODE_READ_TIMEOUT           15          /* Timeout in milliseconds              */
 enum
 {
     CORSAIR_LIGHTING_NODE_PACKET_ID_FIRMWARE         = 0x02,     /* Get firmware version                 */

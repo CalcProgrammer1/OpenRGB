@@ -15,7 +15,7 @@
     @save :robot:
     @direct :white_check_mark:
     @effects :white_check_mark:
-    @detectors DetectNZXTHue2,DetectNZXTHue2Ambient,DetectNZXTHue2Motherboard,DetectNZXTSmartDeviceV2,DetectNZXTKrakenX3,DetectNZXTFanController
+    @detectors DetectNZXTFanController,DetectNZXTFanController6Channel,DetectNZXTHue2,DetectNZXTHue2Ambient,DetectNZXTHue2Motherboard,DetectNZXTKrakenX3,DetectNZXTRGBController,DetectNZXTSmartDeviceV2
     @comment
 \*-------------------------------------------------------------------*/
 

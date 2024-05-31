@@ -1,9 +1,7 @@
 /*---------------------------------------------------------*\
-| RGBController_LIFX.cpp                                    |
+| RGBController_LogitechG203L.h                             |
 |                                                           |
-|   RGBController for LIFX                                  |
-|                                                           |
-|   Adam Honse (calcprogrammer1@gmail.com)      05 Feb 2022 |
+|   Driver for Logitech G203L                               |
 |                                                           |
 |   This file is part of the OpenRGB project                |
 |   SPDX-License-Identifier: GPL-2.0-only                   |
@@ -12,13 +10,13 @@
 #pragma once
 
 #include "RGBController.h"
-#include "LIFXController.h"
+#include "LogitechG203LController.h"
 
-class RGBController_LIFX : public RGBController
+class RGBController_LogitechG203L : public RGBController
 {
 public:
-    RGBController_LIFX(LIFXController* controller_ptr);
-    ~RGBController_LIFX();
+    RGBController_LogitechG203L(LogitechG203LController* controller_ptr);
+    ~RGBController_LogitechG203L();
 
     void        SetupZones();
 
@@ -31,5 +29,5 @@ public:
     void        DeviceUpdateMode();
 
 private:
-    LIFXController* controller;
+    LogitechG203LController* controller;
 };

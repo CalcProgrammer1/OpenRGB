@@ -77,20 +77,20 @@ void DetectNZXTRGBController(hid_device_info* info, const std::string& name)
     spawn_hue(info, name, 3, 0);
 }
 
-REGISTER_HID_DETECTOR("NZXT Hue 2",                DetectNZXTHue2,                  NZXT_VID, NZXT_HUE_2_PID);
-REGISTER_HID_DETECTOR("NZXT Hue 2 Ambient",        DetectNZXTHue2Ambient,           NZXT_VID, NZXT_HUE_2_AMBIENT_PID);
-REGISTER_HID_DETECTOR("NZXT Hue 2 Motherboard",    DetectNZXTHue2Motherboard,       NZXT_VID, NZXT_MOTHERBOARD_DEVICE_PID);
-REGISTER_HID_DETECTOR("NZXT Hue 2 Motherboard",    DetectNZXTHue2Motherboard,       NZXT_VID, NZXT_MOTHERBOARD_DEVICE_2_PID);
-REGISTER_HID_DETECTOR("NZXT Smart Device V2",      DetectNZXTSmartDeviceV2,         NZXT_VID, NZXT_SMART_DEVICE_V2_PID);
-REGISTER_HID_DETECTOR("NZXT Kraken X3 Series",     DetectNZXTKrakenX3,              NZXT_VID, NZXT_KRAKEN_X3_SERIES_PID);
-REGISTER_HID_DETECTOR("NZXT Kraken X3 Series RGB", DetectNZXTKrakenX3,              NZXT_VID, NZXT_KRAKEN_X3_SERIES_RGB_PID);
 REGISTER_HID_DETECTOR("NZXT RGB & Fan Controller", DetectNZXTFanController,         NZXT_VID, NZXT_RGB_FAN_CONTROLLER_PID);
 REGISTER_HID_DETECTOR("NZXT RGB & Fan Controller", DetectNZXTFanController,         NZXT_VID, NZXT_RGB_FAN_CONTROLLER2_PID);
 REGISTER_HID_DETECTOR("NZXT RGB & Fan Controller", DetectNZXTFanController,         NZXT_VID, NZXT_RGB_FAN_CONTROLLER3_PID);
 REGISTER_HID_DETECTOR("NZXT RGB & Fan Controller", DetectNZXTFanController6Channel, NZXT_VID, NZXT_RGB_FAN_CONTROLLER4_PID);
 REGISTER_HID_DETECTOR("NZXT RGB & Fan Controller", DetectNZXTFanController6Channel, NZXT_VID, NZXT_RGB_FAN_CONTROLLER5_PID);
 REGISTER_HID_DETECTOR("NZXT RGB & Fan Controller", DetectNZXTFanController6Channel, NZXT_VID, NZXT_RGB_FAN_CONTROLLER6_PID);
+REGISTER_HID_DETECTOR("NZXT Hue 2",                DetectNZXTHue2,                  NZXT_VID, NZXT_HUE_2_PID);
+REGISTER_HID_DETECTOR("NZXT Hue 2 Ambient",        DetectNZXTHue2Ambient,           NZXT_VID, NZXT_HUE_2_AMBIENT_PID);
+REGISTER_HID_DETECTOR("NZXT Hue 2 Motherboard",    DetectNZXTHue2Motherboard,       NZXT_VID, NZXT_MOTHERBOARD_DEVICE_PID);
+REGISTER_HID_DETECTOR("NZXT Hue 2 Motherboard",    DetectNZXTHue2Motherboard,       NZXT_VID, NZXT_MOTHERBOARD_DEVICE_2_PID);
+REGISTER_HID_DETECTOR("NZXT Kraken X3 Series",     DetectNZXTKrakenX3,              NZXT_VID, NZXT_KRAKEN_X3_SERIES_PID);
+REGISTER_HID_DETECTOR("NZXT Kraken X3 Series RGB", DetectNZXTKrakenX3,              NZXT_VID, NZXT_KRAKEN_X3_SERIES_RGB_PID);
 REGISTER_HID_DETECTOR("NZXT RGB Controller",       DetectNZXTRGBController,         NZXT_VID, NZXT_RGB_CONTROLLER_1_PID);
 REGISTER_HID_DETECTOR("NZXT RGB Controller",       DetectNZXTRGBController,         NZXT_VID, NZXT_RGB_CONTROLLER_2_PID);
+REGISTER_HID_DETECTOR("NZXT Smart Device V2",      DetectNZXTSmartDeviceV2,         NZXT_VID, NZXT_SMART_DEVICE_V2_PID);
 REGISTER_HID_DETECTOR("NZXT Smart Device V2",      DetectNZXTSmartDeviceV2,         NZXT_VID, NZXT_SMART_DEVICE_V2_1_PID);
 REGISTER_HID_DETECTOR("NZXT Smart Device V2",      DetectNZXTSmartDeviceV2,         NZXT_VID, NZXT_SMART_DEVICE_V2_2_PID);
