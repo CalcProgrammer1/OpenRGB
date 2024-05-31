@@ -1,11 +1,13 @@
-/*-----------------------------------------*\
-|  RGBController_MSI3Zone.cpp               |
-|                                           |
-|  Generic RGB Interface for MSI/Steelseries|
-|  3-Zone Keyboard                          |
-|                                           |
-|  Adam Honse (CalcProgrammer1) 12/25/2019  |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_MSI3Zone.cpp                                |
+|                                                           |
+|   RGBController for MSI/SteelSeries 3-Zone keyboard       |
+|                                                           |
+|   Adam Honse (CalcProgrammer1)                25 Dec 2019 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #include "RGBController_MSI3Zone.h"
 

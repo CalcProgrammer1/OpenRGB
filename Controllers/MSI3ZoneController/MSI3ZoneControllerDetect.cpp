@@ -1,8 +1,19 @@
+/*---------------------------------------------------------*\
+| MSI3ZoneControllerDetect.cpp                              |
+|                                                           |
+|   Detector for MSI/SteelSeries 3-Zone keyboard            |
+|                                                           |
+|   Adam Honse (CalcProgrammer1)                25 Dec 2019 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
+#include <hidapi/hidapi.h>
 #include "Detector.h"
 #include "MSI3ZoneController.h"
 #include "RGBController.h"
 #include "RGBController_MSI3Zone.h"
-#include <hidapi/hidapi.h>
 
 #define MSI_3_ZONE_KEYBOARD_VID 0x1770
 #define MSI_3_ZONE_KEYBOARD_PID 0xFF00
@@ -25,7 +36,7 @@ void DetectMSI3ZoneControllers(hid_device_info* info, const std::string&)
         MSI3ZoneController*     controller     = new MSI3ZoneController(dev, info->path);
         RGBController_MSI3Zone* rgb_controller = new RGBController_MSI3Zone(controller);
         // Constructor sets the name
-        
+
         ResourceManager::get()->RegisterRGBController(rgb_controller);
     }
 }   /* DetectMSI3ZoneControllers() */
