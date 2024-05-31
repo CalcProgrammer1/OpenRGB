@@ -9,16 +9,17 @@
 
 #include "LogManager.h"
 
-#include <stdarg.h>
-#include <iostream>
-#include <iomanip>
 #include <chrono>
+#include <iomanip>
+#include <iostream>
+#include <stdarg.h>
 
 #include "ResourceManager.h"
 
 #include "filesystem.h"
 
-const char* LogManager::log_codes[] = {"FATAL:", "ERROR:", "Warning:", "Info:", "Verbose:", "Debug:", "Trace:", "Dialog:"};
+const char *LogManager::log_codes[]
+    = {"FATAL:", "ERROR:", "Warning:", "Info:", "Verbose:", "Debug:", "Trace:", "Dialog:"};
 
 LogManager::LogManager()
 {
@@ -26,58 +27,50 @@ LogManager::LogManager()
     log_console_enabled = false;
 }
 
-LogManager* LogManager::get()
+LogManager *LogManager::get()
 {
-    static LogManager* _instance = nullptr;
+    static LogManager *_instance = nullptr;
     static std::mutex instance_mutex;
     std::lock_guard<std::mutex> grd(instance_mutex);
 
     /*-------------------------------------------------*\
     | Create a new instance if one does not exist       |
     \*-------------------------------------------------*/
-    if(!_instance)
-    {
+    if (!_instance) {
         _instance = new LogManager();
     }
-    
+
     return _instance;
 }
 
 unsigned int LogManager::getLoglevel()
 {
-    if(log_console_enabled)
-    {
-        return(LL_TRACE);
-    }
-    else
-    {
-        return(loglevel);
+    if (log_console_enabled) {
+        return (LL_TRACE);
+    } else {
+        return (loglevel);
     }
 }
 
-void LogManager::configure(json config, const filesystem::path& defaultDir)
+void LogManager::configure(json config, const filesystem::path &defaultDir)
 {
     std::lock_guard<std::mutex> grd(entry_mutex);
 
     /*-------------------------------------------------*\
     | If the log is not open, create a new log file     |
     \*-------------------------------------------------*/
-    if(!log_stream.is_open())
-    {
+    if (!log_stream.is_open()) {
         std::string logname = "OpenRGB_#.log";
 
         /*-------------------------------------------------*\
         | If the logfile is defined in the configuration,   |
         | use the configured name                           |
         \*-------------------------------------------------*/
-        if(config.contains("logfile"))
-        {
-            const json& logfile_obj = config["logfile"];
-            if(logfile_obj.is_string())
-            {
+        if (config.contains("logfile")) {
+            const json &logfile_obj = config["logfile"];
+            if (logfile_obj.is_string()) {
                 std::string tmpname = config["logfile"];
-                if(!tmpname.empty())
-                {
+                if (!tmpname.empty()) {
                     logname = tmpname;
                 }
             }
@@ -88,13 +81,20 @@ void LogManager::configure(json config, const filesystem::path& defaultDir)
         | replace it with a timestamp                       |
         \*-------------------------------------------------*/
         time_t t = time(0);
-        struct tm* tmp = localtime(&t);
+        struct tm *tmp = localtime(&t);
         char time_string[64];
-        snprintf(time_string, 64, "%04d%02d%02d_%02d%02d%02d", 1900 + tmp->tm_year, tmp->tm_mon + 1, tmp->tm_mday, tmp->tm_hour, tmp->tm_min, tmp->tm_sec);
+        snprintf(time_string,
+                 64,
+                 "%04d%02d%02d_%02d%02d%02d",
+                 1900 + tmp->tm_year,
+                 tmp->tm_mon + 1,
+                 tmp->tm_mday,
+                 tmp->tm_hour,
+                 tmp->tm_min,
+                 tmp->tm_sec);
 
         size_t oct = logname.find("#");
-        if(oct != logname.npos)
-        {
+        if (oct != logname.npos) {
             logname.replace(oct, 1, time_string);
         }
 
@@ -102,8 +102,7 @@ void LogManager::configure(json config, const filesystem::path& defaultDir)
         | If the path is relative, use logs dir             |
         \*-------------------------------------------------*/
         filesystem::path p = filesystem::u8path(logname);
-        if(p.is_relative())
-        {
+        if (p.is_relative()) {
             p = defaultDir / "logs" / logname;
         }
         filesystem::create_directories(p.parent_path());
@@ -119,22 +118,22 @@ void LogManager::configure(json config, const filesystem::path& defaultDir)
         log_stream << "    OpenRGB v" << VERSION_STRING << std::endl;
         log_stream << "    Commit: " << GIT_COMMIT_ID << " from " << GIT_COMMIT_DATE << std::endl;
         log_stream << "    Launched: " << time_string << std::endl;
-        log_stream << "====================================================================================================" << std::endl;
+        log_stream << "============================================================================"
+                      "========================"
+                   << std::endl;
         log_stream << std::endl;
     }
 
     /*-------------------------------------------------*\
     | Check loglevel configuration                      |
     \*-------------------------------------------------*/
-    if(config.contains("loglevel"))
-    {
-        const json& loglevel_obj = config["loglevel"];
+    if (config.contains("loglevel")) {
+        const json &loglevel_obj = config["loglevel"];
 
         /*-------------------------------------------------*\
         | Set the log level if configured                   |
         \*-------------------------------------------------*/
-        if(loglevel_obj.is_number_integer())
-        {
+        if (loglevel_obj.is_number_integer()) {
             loglevel = loglevel_obj;
         }
     }
@@ -142,8 +141,7 @@ void LogManager::configure(json config, const filesystem::path& defaultDir)
     /*-------------------------------------------------*\
     | Check log console configuration                   |
     \*-------------------------------------------------*/
-    if(config.contains("log_console"))
-    {
+    if (config.contains("log_console")) {
         log_console_enabled = config["log_console"];
     }
 
@@ -158,23 +156,22 @@ void LogManager::_flush()
     /*-------------------------------------------------*\
     | If the log is open, write out buffered messages   |
     \*-------------------------------------------------*/
-    if(log_stream.is_open())
-    {
-        for(size_t msg = 0; msg < temp_messages.size(); ++msg)
-        {
-            if(temp_messages[msg]->level <= loglevel || temp_messages[msg]->level == LL_DIALOG)
-            {
+    if (log_stream.is_open()) {
+        for (size_t msg = 0; msg < temp_messages.size(); ++msg) {
+            if (temp_messages[msg]->level <= loglevel || temp_messages[msg]->level == LL_DIALOG) {
                 // Put the timestamp here
-                std::chrono::milliseconds counter = std::chrono::duration_cast<std::chrono::milliseconds>(temp_messages[msg]->counted_second);
-                log_stream << std::left << std::setw(6) << counter.count()  << "|";
+                std::chrono::milliseconds counter
+                    = std::chrono::duration_cast<std::chrono::milliseconds>(
+                        temp_messages[msg]->counted_second);
+                log_stream << std::left << std::setw(6) << counter.count() << "|";
                 log_stream << std::left << std::setw(9) << log_codes[temp_messages[msg]->level];
                 log_stream << temp_messages[msg]->buffer;
-         
-                if(print_source)
-                {
-                    log_stream << " [" << temp_messages[msg]->filename << ":" << temp_messages[msg]->line << "]";
+
+                if (print_source) {
+                    log_stream << " [" << temp_messages[msg]->filename << ":"
+                               << temp_messages[msg]->line << "]";
                 }
-                
+
                 log_stream << std::endl;
             }
         }
@@ -197,14 +194,14 @@ void LogManager::flush()
     _flush();
 }
 
-void LogManager::_append(const char* filename, int line, unsigned int level, const char* fmt, va_list va)
+void LogManager::_append(
+    const char *filename, int line, unsigned int level, const char *fmt, va_list va)
 {
     /*-------------------------------------------------*\
     | If a critical message occurs, enable source       |
     | printing and set loglevel and verbosity to highest|
     \*-------------------------------------------------*/
-    if(level == LL_FATAL)
-    {
+    if (level == LL_FATAL) {
         print_source = true;
         loglevel = LL_DEBUG;
         verbosity = LL_DEBUG;
@@ -228,19 +225,17 @@ void LogManager::_append(const char* filename, int line, unsigned int level, con
     /*-------------------------------------------------*\
     | Fill in message information                       |
     \*-------------------------------------------------*/
-    mes->level          = level;
-    mes->filename       = filename;
-    mes->line           = line;
+    mes->level = level;
+    mes->filename = filename;
+    mes->line = line;
     mes->counted_second = std::chrono::steady_clock::now() - base_clock;
 
     /*-------------------------------------------------*\
     | If this is a dialog message, call the dialog show |
     | callback                                          |
     \*-------------------------------------------------*/
-    if(level == LL_DIALOG)
-    {
-        for(size_t idx = 0; idx < dialog_show_callbacks.size(); idx++)
-        {
+    if (level == LL_DIALOG) {
+        for (size_t idx = 0; idx < dialog_show_callbacks.size(); idx++) {
             dialog_show_callbacks[idx](dialog_show_callback_args[idx], mes);
         }
     }
@@ -250,11 +245,9 @@ void LogManager::_append(const char* filename, int line, unsigned int level, con
     | print it on the screen                            |
     | TODO: Put the timestamp here                      |
     \*-------------------------------------------------*/
-    if(level <= verbosity || level == LL_DIALOG)
-    {
+    if (level <= verbosity || level == LL_DIALOG) {
         std::cout << mes->buffer;
-        if(print_source)
-        {
+        if (print_source) {
             std::cout << " [" << mes->filename << ":" << mes->line << "]";
         }
         std::cout << std::endl;
@@ -265,8 +258,7 @@ void LogManager::_append(const char* filename, int line, unsigned int level, con
     \*-------------------------------------------------*/
     temp_messages.push_back(mes);
 
-    if(log_console_enabled)
-    {
+    if (log_console_enabled) {
         all_messages.push_back(mes);
     }
 
@@ -286,7 +278,7 @@ void LogManager::clearMessages()
     all_messages.clear();
 }
 
-void LogManager::append(const char* filename, int line, unsigned int level, const char* fmt, ...)
+void LogManager::append(const char *filename, int line, unsigned int level, const char *fmt, ...)
 {
     va_list va;
     va_start(va, fmt);
@@ -303,8 +295,7 @@ void LogManager::setLoglevel(unsigned int level)
     | Check that the new log level is valid, otherwise  |
     | set it within the valid range                     |
     \*-------------------------------------------------*/
-    if(level > LL_TRACE)
-    {
+    if (level > LL_TRACE) {
         level = LL_TRACE;
     }
 
@@ -323,8 +314,7 @@ void LogManager::setVerbosity(unsigned int level)
     | set it within the valid range                     |
     \*-------------------------------------------------*/
 
-    if(level > LL_TRACE)
-    {
+    if (level > LL_TRACE) {
         level = LL_TRACE;
     }
 
@@ -342,19 +332,17 @@ void LogManager::setPrintSource(bool v)
     print_source = v;
 }
 
-void LogManager::RegisterDialogShowCallback(LogDialogShowCallback callback, void* receiver)
+void LogManager::RegisterDialogShowCallback(LogDialogShowCallback callback, void *receiver)
 {
     LOG_DEBUG("dialog show callback registered");
     dialog_show_callbacks.push_back(callback);
     dialog_show_callback_args.push_back(receiver);
 }
 
-void LogManager::UnregisterDialogShowCallback(LogDialogShowCallback callback, void* receiver)
+void LogManager::UnregisterDialogShowCallback(LogDialogShowCallback callback, void *receiver)
 {
-    for(size_t idx = 0; idx < dialog_show_callbacks.size(); idx++)
-    {
-        if(dialog_show_callbacks[idx] == callback && dialog_show_callback_args[idx] == receiver)
-        {
+    for (size_t idx = 0; idx < dialog_show_callbacks.size(); idx++) {
+        if (dialog_show_callbacks[idx] == callback && dialog_show_callback_args[idx] == receiver) {
             dialog_show_callbacks.erase(dialog_show_callbacks.begin() + idx);
             dialog_show_callback_args.erase(dialog_show_callback_args.begin() + idx);
         }

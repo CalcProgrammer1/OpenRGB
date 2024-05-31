@@ -1,3 +1,5 @@
+
+
 diff --git a/drivers/i2c/busses/Kconfig b/drivers/i2c/busses/Kconfig
 index 2ddca08f8a76..72647850f08e 100644
 --- a/drivers/i2c/busses/Kconfig
@@ -35,7 +37,7 @@ new file mode 100644
 index 000000000000..0462f0952043
 --- /dev/null
 +++ b/drivers/i2c/busses/i2c-nct6775.c
-@@ -0,0 +1,647 @@
+@@ -0,0 +1,648 @@
 +/*
 + * i2c-nct6775 - Driver for the SMBus master functionality of
 + *	       Nuvoton NCT677x Super-I/O chips
@@ -683,6 +685,7 @@ index 000000000000..0462f0952043
 +
 +module_init(i2c_nct6775_init);
 +module_exit(i2c_nct6775_exit);
++
 diff --git a/drivers/i2c/busses/i2c-piix4.c b/drivers/i2c/busses/i2c-piix4.c
 index 30ded6422e7b..e25ce84c26af 100644
 --- a/drivers/i2c/busses/i2c-piix4.c

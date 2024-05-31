@@ -11,104 +11,112 @@
 
 #pragma once
 
+#include "NetworkProtocol.h"
+#include "RGBController.h"
+#include "net_port.h"
 #include <mutex>
 #include <thread>
-#include "RGBController.h"
-#include "NetworkProtocol.h"
-#include "net_port.h"
 
 typedef void (*NetClientCallback)(void *);
 
 class NetworkClient
 {
 public:
-    NetworkClient(std::vector<RGBController *>& control);
+    NetworkClient(std::vector<RGBController *> &control);
     ~NetworkClient();
 
-    void            ClientInfoChanged();
+    void ClientInfoChanged();
 
-    bool            GetConnected();
-    std::string     GetIP();
-    unsigned short  GetPort();
-    unsigned int    GetProtocolVersion();
-    bool            GetOnline();
+    bool GetConnected();
+    std::string GetIP();
+    unsigned short GetPort();
+    unsigned int GetProtocolVersion();
+    bool GetOnline();
 
-    void            ClearCallbacks();
-    void            RegisterClientInfoChangeCallback(NetClientCallback new_callback, void * new_callback_arg);
+    void ClearCallbacks();
+    void RegisterClientInfoChangeCallback(NetClientCallback new_callback, void *new_callback_arg);
 
-    void            SetIP(std::string new_ip);
-    void            SetName(std::string new_name);
-    void            SetPort(unsigned short new_port);
+    void SetIP(std::string new_ip);
+    void SetName(std::string new_name);
+    void SetPort(unsigned short new_port);
 
-    void            StartClient();
-    void            StopClient();
+    void StartClient();
+    void StopClient();
 
-    void            ConnectionThreadFunction();
-    void            ListenThreadFunction();
+    void ConnectionThreadFunction();
+    void ListenThreadFunction();
 
-    void            WaitOnControllerData();
-    
-    void        ProcessReply_ControllerCount(unsigned int data_size, char * data);
-    void        ProcessReply_ControllerData(unsigned int data_size, char * data, unsigned int dev_idx);
-    void        ProcessReply_ProtocolVersion(unsigned int data_size, char * data);
+    void WaitOnControllerData();
 
-    void        ProcessRequest_DeviceListChanged();
+    void ProcessReply_ControllerCount(unsigned int data_size, char *data);
+    void ProcessReply_ControllerData(unsigned int data_size, char *data, unsigned int dev_idx);
+    void ProcessReply_ProtocolVersion(unsigned int data_size, char *data);
 
-    void        SendData_ClientString();
+    void ProcessRequest_DeviceListChanged();
 
-    void        SendRequest_ControllerCount();
-    void        SendRequest_ControllerData(unsigned int dev_idx);
-    void        SendRequest_ProtocolVersion();
+    void SendData_ClientString();
 
-    void        SendRequest_RGBController_ResizeZone(unsigned int dev_idx, int zone, int new_size);
+    void SendRequest_ControllerCount();
+    void SendRequest_ControllerData(unsigned int dev_idx);
+    void SendRequest_ProtocolVersion();
 
-    void        SendRequest_RGBController_UpdateLEDs(unsigned int dev_idx, unsigned char * data, unsigned int size);
-    void        SendRequest_RGBController_UpdateZoneLEDs(unsigned int dev_idx, unsigned char * data, unsigned int size);
-    void        SendRequest_RGBController_UpdateSingleLED(unsigned int dev_idx, unsigned char * data, unsigned int size);
+    void SendRequest_RGBController_ResizeZone(unsigned int dev_idx, int zone, int new_size);
 
-    void        SendRequest_RGBController_SetCustomMode(unsigned int dev_idx);
+    void SendRequest_RGBController_UpdateLEDs(unsigned int dev_idx,
+                                              unsigned char *data,
+                                              unsigned int size);
+    void SendRequest_RGBController_UpdateZoneLEDs(unsigned int dev_idx,
+                                                  unsigned char *data,
+                                                  unsigned int size);
+    void SendRequest_RGBController_UpdateSingleLED(unsigned int dev_idx,
+                                                   unsigned char *data,
+                                                   unsigned int size);
 
-    void        SendRequest_RGBController_UpdateMode(unsigned int dev_idx, unsigned char * data, unsigned int size);
-    void        SendRequest_RGBController_SaveMode(unsigned int dev_idx, unsigned char * data, unsigned int size);
+    void SendRequest_RGBController_SetCustomMode(unsigned int dev_idx);
 
+    void SendRequest_RGBController_UpdateMode(unsigned int dev_idx,
+                                              unsigned char *data,
+                                              unsigned int size);
+    void SendRequest_RGBController_SaveMode(unsigned int dev_idx,
+                                            unsigned char *data,
+                                            unsigned int size);
 
-    std::vector<std::string> * ProcessReply_ProfileList(unsigned int data_size, char * data);
+    std::vector<std::string> *ProcessReply_ProfileList(unsigned int data_size, char *data);
 
-    void        SendRequest_GetProfileList();
-    void        SendRequest_LoadProfile(std::string profile_name);
-    void        SendRequest_SaveProfile(std::string profile_name);
-    void        SendRequest_DeleteProfile(std::string profile_name);
+    void SendRequest_GetProfileList();
+    void SendRequest_LoadProfile(std::string profile_name);
+    void SendRequest_SaveProfile(std::string profile_name);
+    void SendRequest_DeleteProfile(std::string profile_name);
 
-    std::vector<RGBController *>  server_controllers;
+    std::vector<RGBController *> server_controllers;
 
-    std::mutex                          ControllerListMutex;
+    std::mutex ControllerListMutex;
 
 protected:
-    std::vector<RGBController *>& controllers;
-
+    std::vector<RGBController *> &controllers;
 
 private:
-    SOCKET          client_sock;
-    std::string     client_name;
-    net_port        port;
-    std::string     port_ip;
-    unsigned short  port_num;
-    bool            client_active;
-    bool            controller_data_received;
-    bool            server_connected;
-    bool            server_initialized;
-    unsigned int    server_controller_count;
-    bool            server_controller_count_received;
-    unsigned int    server_protocol_version;
-    bool            server_protocol_version_received;
-    bool            change_in_progress;
+    SOCKET client_sock;
+    std::string client_name;
+    net_port port;
+    std::string port_ip;
+    unsigned short port_num;
+    bool client_active;
+    bool controller_data_received;
+    bool server_connected;
+    bool server_initialized;
+    unsigned int server_controller_count;
+    bool server_controller_count_received;
+    unsigned int server_protocol_version;
+    bool server_protocol_version_received;
+    bool change_in_progress;
 
-    std::thread *   ConnectionThread;
-    std::thread *   ListenThread;
+    std::thread *ConnectionThread;
+    std::thread *ListenThread;
 
-    std::mutex                          ClientInfoChangeMutex;
-    std::vector<NetClientCallback>      ClientInfoChangeCallbacks;
-    std::vector<void *>                 ClientInfoChangeCallbackArgs;
+    std::mutex ClientInfoChangeMutex;
+    std::vector<NetClientCallback> ClientInfoChangeCallbacks;
+    std::vector<void *> ClientInfoChangeCallbackArgs;
 
     int recv_select(SOCKET s, char *buf, int len, int flags);
 };

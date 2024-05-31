@@ -160,6 +160,7 @@ HEADERS +=                                                                      
 SOURCES +=                                                                                      \
     $$GUI_CPP                                                                                   \
     $$CONTROLLER_CPP                                                                            \
+    Controllers/XPGKeyboardController/XPGSummonerController/XPGSummonerControllerDetect.cpp \
     dependencies/ColorWheel/ColorWheel.cpp                                                      \
     dependencies/hueplusplus-1.0.0/src/Action.cpp                                               \
     dependencies/hueplusplus-1.0.0/src/APICache.cpp                                             \
