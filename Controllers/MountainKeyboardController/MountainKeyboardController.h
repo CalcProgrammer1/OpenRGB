@@ -1,17 +1,19 @@
-/*-----------------------------------------*\
-|  MountainKeyboardController.h             |
-|                                           |
-|  Definitions and types for Mountain RGB   |
-|  keyboard lighting controller             |
-|                                           |
-|  Wojciech Lazarski             01/2023    |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| MountainKeyboardController.h                              |
+|                                                           |
+|   Driver for Mountain keyboard                            |
+|                                                           |
+|   Wojciech Lazarski                              Jan 2023 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
+#pragma once
 
 #include <string>
 #include <hidapi/hidapi.h>
 
-#pragma once
 /*-----------------------------------------------------*\
 | Mountain vendor ID                                    |
 \*-----------------------------------------------------*/

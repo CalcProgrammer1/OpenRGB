@@ -1,17 +1,18 @@
-/*------------------------------------------*\
-|  MountainKeyboardController.cpp            |
-|                                            |
-|  Driver for Mountain RGB keyboard lighting |
-|  controller                                |
-|                                            |
-|  Wojciech Lazarski             01/2023     |
-|                                            |
-\*------------------------------------------*/
+/*---------------------------------------------------------*\
+| MountainKeyboardController.cpp                            |
+|                                                           |
+|   Driver for Mountain keyboard                            |
+|                                                           |
+|   Wojciech Lazarski                              Jan 2023 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
-#include "MountainKeyboardController.h"
+#include <chrono>
 #include <cstring>
 #include <thread>
-#include <chrono>
+#include "MountainKeyboardController.h"
 
 using namespace std::chrono_literals;
 
