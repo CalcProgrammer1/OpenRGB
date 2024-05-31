@@ -1,18 +1,20 @@
-/*-------------------------------------------------------------------*\
-|  LogitechProtocolCommon.h                                           |
-|                                                                     |
-|  Common Logitech RAP and FAP protocol calls                         |
-|                                                                     |
-|  Chris M (Dr_No)          4th May 2021                              |
-|                                                                     |
-\*-------------------------------------------------------------------*/
+/*---------------------------------------------------------*\
+| LogitechProtocolCommon.h                                  |
+|                                                           |
+|   Common functionality for Logitech RAP and FAP protocols |
+|                                                           |
+|   Chris M (Dr_No)                             04 May 2021 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
+#pragma once
 
 #include <map>
 #include <vector>
 #include <hidapi/hidapi.h>
 #include "LogManager.h"
-
-#pragma once
 
 #define LOGITECH_PROTOCOL_TIMEOUT                       300     //Timeout in ms
 #define LOGITECH_HEADER_SIZE                            3
