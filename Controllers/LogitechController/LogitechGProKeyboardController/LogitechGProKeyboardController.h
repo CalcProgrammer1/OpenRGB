@@ -1,18 +1,19 @@
-/*-----------------------------------------*\
-|  LogitechGProController.h                 |
-|                                           |
-|  Definitions and types for Logitech G Pro |
-|  keyboard light controller                |
-|                                           |
-|  sanchezzzs                   20/10/2021  |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| LogitechGProController.h                                  |
+|                                                           |
+|   Driver for Logitech G Pro keyboard                      |
+|                                                           |
+|   sanchezzzs                                  20 Oct 2021 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
-#include "RGBController.h"
+#pragma once
 
 #include <string>
 #include <hidapi/hidapi.h>
-
-#pragma once
+#include "RGBController.h"
 
 enum
 {

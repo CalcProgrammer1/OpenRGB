@@ -1,14 +1,16 @@
-/*-----------------------------------------*\
-|  LogitechGProController.cpp               |
-|                                           |
-|  Driver for Logitech G Pro                |
-|  keyboard light controller                |
-|                                           |
-|  sanchezzzs                   20/10/2021  |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| LogitechGProController.cpp                                |
+|                                                           |
+|   Driver for Logitech G Pro keyboard                      |
+|                                                           |
+|   sanchezzzs                                  20 Oct 2021 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
-#include "LogitechGProKeyboardController.h"
 #include <cstring>
+#include "LogitechGProKeyboardController.h"
 
 LogitechGProKeyboardController::LogitechGProKeyboardController(hid_device* dev_handle_0x11, hid_device* dev_handle_0x12)
 {
