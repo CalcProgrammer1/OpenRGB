@@ -1,13 +1,16 @@
-/*-----------------------------------------*\
-|  RGBController_LogitechLightspeed.h       |
-|                                           |
-|  Generic RGB Interface for                |
-|  Logitech Lightspeed Gaming Mice          |
-|                                           |
-|  TheRogueZeta   8/5/2020                  |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_LogitechLightspeed.h                        |
+|                                                           |
+|   RGBController for Logitech Lightspeed                   |
+|                                                           |
+|   TheRogueZeta                                05 Aug 2020 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #pragma once
+
 #include "RGBController.h"
 #include "LogitechLightspeedController.h"
 

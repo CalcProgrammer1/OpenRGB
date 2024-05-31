@@ -1,15 +1,16 @@
-/*-----------------------------------------*\
-|  LogitechLightspeedController.cpp         |
-|                                           |
-|  Driver for Logitech Lightspeed Wireless  |
-|  Gaming Mice lighting controller          |
-|                                           |
-|  TheRogueZeta   8/5/2020                  |
-\*-----------------------------------------*/
-
-#include "LogitechLightspeedController.h"
+/*---------------------------------------------------------*\
+| LogitechLightspeedController.cpp                          |
+|                                                           |
+|   Driver for Logitech Lightspeed                          |
+|                                                           |
+|   TheRogueZeta                                05 Aug 2020 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #include <cstring>
+#include "LogitechLightspeedController.h"
 
 LogitechLightspeedController::LogitechLightspeedController(hid_device* dev_handle, const char* path)
 {

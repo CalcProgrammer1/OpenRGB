@@ -1,21 +1,22 @@
-/*-----------------------------------------*\
-|  LogitechLightspeedController.h           |
-|                                           |
-|  Definitions and types for Logitech G     |
-|  Lightsync Wireless Gaming Mice lighting  |
-|  controller                               |
-|                                           |
-|  TheRogueZeta   8/5/2020                  |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| LogitechLightspeedController.h                            |
+|                                                           |
+|   Driver for Logitech Lightspeed                          |
+|                                                           |
+|   TheRogueZeta                                05 Aug 2020 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
+#pragma once
+
+#include <string>
+#include <hidapi/hidapi.h>
 #include "RGBController.h"
 #include "LogManager.h"
 #include "LogitechProtocolCommon.h"
 
-#include <string>
-#include <hidapi/hidapi.h>
-
-#pragma once
 #define LOGITECH_G_PRO_WIRELESS_BRIGHTNESS_MIN      0x01
 #define LOGITECH_G_PRO_WIRELESS_BRIGHTNESS_MAX      0x64
 
