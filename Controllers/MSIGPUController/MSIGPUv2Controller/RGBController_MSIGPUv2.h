@@ -1,10 +1,13 @@
-/*-----------------------------------------*\
-|  RGBController_MSIGPUv2.h                 |
-|                                           |
-|  ITE9 RGB Interface for MSI GPU           |
-|  Wojciech Lazarski 03/Jan/2023            |
-|                                           |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_MSIGPUv2.h                                  |
+|                                                           |
+|   RGBController for MSI V2 GPU (ITE9)                     |
+|                                                           |
+|   Wojciech Lazarski                           03 Jan 2023 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #pragma once
 

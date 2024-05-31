@@ -1,15 +1,18 @@
-/*-------------------------------------------------*\
-|  MSIGPUControllerv2.h                             |
-|                                                   |
-|  Definitions for MSI GPUs for new ITE9 controller |
-|  Wojciech Lazarski 03/Jan/2023                    |
-|                                                   |
-\*-------------------------------------------------*/
+/*---------------------------------------------------------*\
+| MSIGPUv2Controller.h                                      |
+|                                                           |
+|   Driver for MSI V2 GPU (ITE9)                            |
+|                                                           |
+|   Wojciech Lazarski                           03 Jan 2023 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
+#pragma once
 
 #include <string>
 #include "i2c_smbus.h"
-
-#pragma once
 
 typedef unsigned char msi_gpu_dev_id;
 

@@ -1,13 +1,16 @@
-/*-----------------------------------------*\
-|  RGBController_MSIGPUv2.cpp               |
-|                                           |
-|  ITE9 RGB Interface for MSI GPU           |
-|  Wojciech Lazarski 03/Jan/2023            |
-|                                           |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_MSIGPUv2.cpp                                |
+|                                                           |
+|   RGBController for MSI V2 GPU (ITE9)                     |
+|                                                           |
+|   Wojciech Lazarski                           03 Jan 2023 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
-#include "RGBController_MSIGPUv2.h"
 #include <array>
+#include "RGBController_MSIGPUv2.h"
 
 static const unsigned char speed_values[3]      = { 0x04, 0x02, 0x01 };
 
@@ -210,7 +213,7 @@ RGBController_MSIGPUv2::RGBController_MSIGPUv2(MSIGPUv2Controller * msi_gpu_ptr,
     Flowing.brightness_max          = MSI_GPU_V2_BRIGHTNESS_MAX;
     Flowing.color_mode              = MODE_COLORS_PER_LED;
     modes.push_back(Flowing);
- 
+
     mode Whirling;
     Whirling.name                   = "Whirling";
     Whirling.value                  = MSI_GPU_V2_MODE_WHIRLING;
