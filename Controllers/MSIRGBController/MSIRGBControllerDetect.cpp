@@ -1,12 +1,23 @@
+/*---------------------------------------------------------*\
+| MSIRGBControllerDetect.cpp                                |
+|                                                           |
+|   Detector for MSI-RGB motherboard                        |
+|                                                           |
+|   Adam Honse (CalcProgrammer1)                11 Feb 2020 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <vector>
 #include "Detector.h"
 #include "MSIRGBController.h"
 #include "RGBController.h"
 #include "RGBController_MSIRGB.h"
 #include "super_io.h"
 #include "dmiinfo.h"
-#include <vector>
-#include <stdio.h>
-#include <stdlib.h>
 
 /******************************************************************************************\
 *                                                                                          *
