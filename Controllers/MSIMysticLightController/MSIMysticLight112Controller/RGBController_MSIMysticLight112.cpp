@@ -1,14 +1,15 @@
-/*-----------------------------------------*\
-|  RGBController_MSIMysticLight112.cpp      |
-|                                           |
-|  Generic RGB Interface for OpenRGB        |
-|  MSI Mystic Light (112-byte) USB Driver   |
-|                                           |
-|  thombo 12/17/2022                        |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_MSIMysticLight112.cpp                       |
+|                                                           |
+|   RGBController for MSI Mystic Light 112-byte motherboard |
+|                                                           |
+|   thombo                                      17 Dec 2022 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #include "RGBController_MSIMysticLight112.h"
-
 
 struct ZoneDescription
 {
