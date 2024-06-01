@@ -1,3 +1,16 @@
+/*---------------------------------------------------------*\
+| RGBController_MSIMysticLight64.cpp                        |
+|                                                           |
+|   RGBController for MSI Mystic Light 64-byte motherboard  |
+|                                                           |
+|   T-bond                                      03 Apr 2020 |
+|   Adam Honse                                  06 Mar 2021 |
+|   Elchanan Haas                               23 Aug 2022 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
 #include "RGBController_MSIMysticLight64.h"
 
 /**------------------------------------------------------------------*\

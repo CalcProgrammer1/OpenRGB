@@ -1,18 +1,20 @@
-/*-----------------------------------------*\
-|  MSIMysticLight64Controller.cpp           |
-|                                           |
-|  Driver for MSI Mystic Light (64-byte)    |
-|  USB lighting controller                  |
-|                                           |
-|  T-bond 3/4/2020                          |
-|  Adam Honse 3/6/2021                      |
-|  Elchanan Haas 8/23/2022                  |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| MSIMysticLight64Controller.cpp                            |
+|                                                           |
+|   Driver for MSI Mystic Light 64-byte motherboard         |
+|                                                           |
+|   T-bond                                      03 Apr 2020 |
+|   Adam Honse                                  06 Mar 2021 |
+|   Elchanan Haas                               23 Aug 2022 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
-#include "MSIMysticLight64Controller.h"
 #include <algorithm>
 #include <array>
 #include <bitset>
+#include "MSIMysticLight64Controller.h"
 
 MSIMysticLight64Controller::MSIMysticLight64Controller
 (
