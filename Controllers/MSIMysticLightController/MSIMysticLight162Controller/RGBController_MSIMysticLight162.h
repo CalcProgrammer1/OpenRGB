@@ -1,16 +1,20 @@
-/*-----------------------------------------*\
-|  RGBController_MSIMysticLight162.h        |
-|                                           |
-|  Generic RGB Interface for OpenRGB        |
-|  MSI Mystic Light (162-byte) USB Driver   |
-|                                           |
-|  T-bond 3/4/2020                          |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_MSIMysticLight162.h                         |
+|                                                           |
+|   RGBController for MSI Mystic Light 162-byte motherboard |
+|                                                           |
+|   T-bond                                      03 Apr 2020 |
+|   Adam Honse                                  06 Mar 2021 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #pragma once
+
+#include <vector>
 #include "RGBController.h"
 #include "MSIMysticLight162Controller.h"
-#include <vector>
 
 class RGBController_MSIMysticLight162: public RGBController
 {
