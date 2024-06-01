@@ -1,10 +1,13 @@
-/*-----------------------------------------*\
-|  NanoleafController.cpp                   |
-|                                           |
-|  API Interface for Nanoleaf devices       |
-|                                           |
-|  Nikita Rushmanov 01/13/2022              |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| NanoleafController.cpp                                    |
+|                                                           |
+|   Driver for Nanoleaf                                     |
+|                                                           |
+|   Nikita Rushmanov                            13 Jan 2022 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #include "NanoleafController.h"
 #include "LogManager.h"

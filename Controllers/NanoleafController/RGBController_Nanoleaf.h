@@ -1,12 +1,16 @@
-/*-----------------------------------------*\
-|  RGBController_Nanoleaf.h                 |
-|                                           |
-|  Generic RGB Interface for Nanoleaf       |
-|                                           |
-|  Nikita Rushmanov 01/13/2022              |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_Nanoleaf.h                                  |
+|                                                           |
+|   RGBController for Nanoleaf                              |
+|                                                           |
+|   Nikita Rushmanov                            13 Jan 2022 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #pragma once
+
 #include "RGBController.h"
 #include "NanoleafController.h"
 
