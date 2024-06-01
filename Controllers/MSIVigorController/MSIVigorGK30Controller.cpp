@@ -1,14 +1,17 @@
-/*-----------------------------------------*\
-|  MSIVigorGK30Controller.cpp               |
-|                                           |
-|  Driver for MSI Vigor GK 30 keyboard      |
-|  controller                               |
-|                                           |
-|  Guimard Morgan (morg) 6/01/2022          |
-\*-----------------------------------------*/
-#include "MSIVigorGK30Controller.h"
-#include <string.h>
+/*---------------------------------------------------------*\
+| MSIVigorGK30Controller.cpp                                |
+|                                                           |
+|   Driver for MSI Vigor GK30                               |
+|                                                           |
+|   Morgan Guimard (morg)                       01 Jun 2022 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
 #include <cmath>
+#include <string.h>
+#include "MSIVigorGK30Controller.h"
 
 static unsigned char argb_colour_index_data[2][2][2] =
 {     //B0    B1
