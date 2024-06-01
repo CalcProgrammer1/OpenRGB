@@ -1,4 +1,19 @@
-﻿/**------------------------------------------------------------------*\
+﻿/*---------------------------------------------------------*\
+| RGBController_Nollie.cpp                                  |
+|                                                           |
+|   RGBController for Nollie                                |
+|                                                           |
+|   Name (cnn1236661)                           25 Jun 2023 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
+#include <algorithm>
+#include <iostream>
+#include "RGBController_Nollie.h"
+
+/**------------------------------------------------------------------*\
     @name Nollie Controller
     @category LEDStrip
     @type USB
@@ -8,10 +23,6 @@
     @detectors DetectNollieControllers
     @comment
 \*-------------------------------------------------------------------*/
-
-#include "RGBController_Nollie.h"
-#include <algorithm>
-#include <iostream>
 
 RGBController_Nollie::RGBController_Nollie(NollieController* controller_ptr)
 {

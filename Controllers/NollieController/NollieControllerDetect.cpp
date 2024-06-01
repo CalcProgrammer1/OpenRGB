@@ -1,17 +1,20 @@
-﻿/*-----------------------------------------*\
-|  NollieControllerDetect.cpp               |
-|                                           |
-|  Driver for Nollie32 LED strip controller |
-|                                           |
-|  Name (cnn1236661)          25th Jun 2023 |
-\*-----------------------------------------*/
+﻿/*---------------------------------------------------------*\
+| NollieControllerDetect.cpp                                |
+|                                                           |
+|   Detector for Nollie                                     |
+|                                                           |
+|   Name (cnn1236661)                           25 Jun 2023 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
+#include <vector>
+#include <hidapi/hidapi.h>
 #include "Detector.h"
 #include "NollieController.h"
 #include "RGBController.h"
 #include "RGBController_Nollie.h"
-#include <vector>
-#include <hidapi/hidapi.h>
 
 void DetectNollieControllers(hid_device_info* info, const std::string& name)
 {
