@@ -1,13 +1,16 @@
-/*-----------------------------------------*\
-|  N5312AController.cpp                     |
-|                                           |
-|  Driver for N5312A lighting               |
-|  controller                               |
-|                                           |
-|  Guimard Morgan (morg) 4/02/2022          |
-\*-----------------------------------------*/
-#include "N5312AController.h"
+/*---------------------------------------------------------*\
+| N5312AController.cpp                                      |
+|                                                           |
+|   Driver for N5312A                                       |
+|                                                           |
+|   Morgan Guimard (morg)                       02 Apr 2022 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
 #include <string.h>
+#include "N5312AController.h"
 #include "LogManager.h"
 
 N5312AController::N5312AController(hid_device* dev_handle, const hid_device_info& info)

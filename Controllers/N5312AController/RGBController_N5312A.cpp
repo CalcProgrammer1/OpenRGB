@@ -1,16 +1,17 @@
-/*-----------------------------------------*\
-|  RGBController_N5312A.cpp                 |
-|                                           |
-|  Generic RGB Interface for OpenRGB        |
-|  N5312A RGB USB Driver                    |
-|                                           |
-|  Guimard Morgan (morg) 4/02/2022          |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_N5312A.cpp                                  |
+|                                                           |
+|   RGBController for N5312A                                |
+|                                                           |
+|   Morgan Guimard (morg)                       02 Apr 2022 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
-#include "RGBController_N5312A.h"
-
-#include <thread>
 #include <chrono>
+#include <thread>
+#include "RGBController_N5312A.h"
 
 /**------------------------------------------------------------------*\
     @name N5312A mouse
@@ -24,6 +25,7 @@
     Identified devices that work with this controller: ANT Esports KM540 Mouse,
     Marvo M115
 \*-------------------------------------------------------------------*/
+
 RGBController_N5312A::RGBController_N5312A(N5312AController* controller_ptr)
 {
     controller                          = controller_ptr;
@@ -132,7 +134,7 @@ void RGBController_N5312A::UpdateSingleLED(int led)
 }
 
 void RGBController_N5312A::DeviceUpdateMode()
-{    
+{
     const RGBColor& color = modes[active_mode].value == N5312A_OFF_MODE_VALUE ? 0 : colors[0];
     controller->SetMode(color, modes[active_mode].value, modes[active_mode].brightness, modes[active_mode].speed);
 }
