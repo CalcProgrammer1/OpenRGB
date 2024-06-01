@@ -1,3 +1,14 @@
+/*---------------------------------------------------------*\
+| MSIOptixControllerDetect.cpp                              |
+|                                                           |
+|   Detector for MSI Optix                                  |
+|                                                           |
+|   Morgan Guimard (morg)                       10 Jan 2022 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
 #include "Detector.h"
 #include "MSIOptixController.h"
 #include "RGBController.h"

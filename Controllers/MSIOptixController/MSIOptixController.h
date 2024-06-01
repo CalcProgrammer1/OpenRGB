@@ -1,16 +1,19 @@
-/*-----------------------------------------*\
-|  MSIOptixController.h                     |
-|                                           |
-|  Driver for MSI Optix monitor lighting    |
-|  controller - header file                 |
-|                                           |
-|  Guimard Morgan (morg) 1/10/2022          |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| MSIOptixController.h                                      |
+|                                                           |
+|   Driver for MSI Optix                                    |
+|                                                           |
+|   Morgan Guimard (morg)                       10 Jan 2022 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
 #pragma once
 
-#include "RGBController.h"
 #include <string>
 #include <hidapi/hidapi.h>
+#include "RGBController.h"
 
 #define MSI_OPTIX_REPORT_SIZE 168
 #define MSI_OPTIX_COLOR_PACKET_SIZE 48

@@ -1,16 +1,17 @@
-/*-----------------------------------------*\
-|  RGBController_MSIOptix.cpp               |
-|                                           |
-|  Generic RGB Interface for OpenRGB        |
-|  MSIOptix USB Driver                      |
-|                                           |
-|  Guimard Morgan (morg) 1/10/2022          |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_MSIOptix.cpp                                |
+|                                                           |
+|   RGBController for MSI Optix                             |
+|                                                           |
+|   Morgan Guimard (morg)                       10 Jan 2022 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
-#include "RGBController_MSIOptix.h"
-
-#include <thread>
 #include <chrono>
+#include <thread>
+#include "RGBController_MSIOptix.h"
 
 /**------------------------------------------------------------------*\
     @name MSI Optix
