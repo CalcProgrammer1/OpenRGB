@@ -1,16 +1,17 @@
-/*-----------------------------------------*\
-|  RGBController_MSIMysticLight185.cpp      |
-|                                           |
-|  Generic RGB Interface for OpenRGB        |
-|  MSI Mystic Light (185-byte) USB Driver   |
-|                                           |
-|  T-bond 3/4/2020                          |
-|  Adam Honse 3/6/2021                      |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_MSIMysticLight185.cpp                       |
+|                                                           |
+|   RGBController for MSI Mystic Light 185-byte motherboard |
+|                                                           |
+|   T-bond                                      03 Apr 2020 |
+|   Adam Honse                                  06 Mar 2021 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #include "RGBController_MSIMysticLight185.h"
 #include "LogManager.h"
-
 
 struct ZoneDescription
 {
@@ -33,7 +34,6 @@ const ZoneDescription led_zones[] =
     ZoneDescription{ "ONBOARD",   MSI_ZONE_ON_BOARD_LED_0 }
 };
 
-
 static std::vector<const ZoneDescription*> zone_description;
 
 /*---------------------------------------------------------------------------------------------------------*\
@@ -52,7 +52,6 @@ static int IndexOfZoneForType(MSI_ZONE zone_type)
 
     return -1;
 }
-
 
 /**------------------------------------------------------------------*\
     @name MSI Mystic Light (185 Byte)

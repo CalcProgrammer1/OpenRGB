@@ -1,22 +1,24 @@
-/*---------------------------------------------*\
-|  MSIMysticLight185Controller.cpp              |
-|                                               |
-|  Driver for MSI Mystic Light (185-byte)       |
-|  USB lighting controller                      |
-|                                               |
-|  T-bond 3/4/2020                              |
-|  Adam Honse 3/6/2021                          |
-|                                               |
-| The direct mode part has been implemented     |
-| based on the mystic-why project provided by   |
-| Aleksandr Garashchenko                        |
-| (https://github.com/garashchenko/mystic-why)  |
-\*---------------------------------------------*/
+/*---------------------------------------------------------*\
+| MSIMysticLight185Controller.cpp                           |
+|                                                           |
+|   Driver for MSI Mystic Light 185-byte motherboard        |
+|                                                           |
+|   Direct mode functionality has been implemented based on |
+|   the mystic-why project provided by Aleksandr            |
+|   Garashchenko                                            |
+|   (https://github.com/garashchenko/mystic-why)            |
+|                                                           |
+|   T-bond                                      03 Apr 2020 |
+|   Adam Honse                                  06 Mar 2021 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
-#include "MSIMysticLight185Controller.h"
 #include <algorithm>
 #include <array>
 #include <bitset>
+#include "MSIMysticLight185Controller.h"
 
 using namespace std::chrono_literals;
 
@@ -32,7 +34,6 @@ using namespace std::chrono_literals;
 #define MSI_DIRECT_MODE                         0x25
 #define PER_LED_BASIC_SYNC_MODE                 (0x80 | SYNC_SETTING_ONBOARD | SYNC_SETTING_JPIPE1 | SYNC_SETTING_JPIPE2)
 #define PER_LED_FULL_SYNC_MODE                  (PER_LED_BASIC_SYNC_MODE | SYNC_SETTING_JRAINBOW1 | SYNC_SETTING_JRAINBOW2 | SYNC_SETTING_JCORSAIR)
-
 
 struct mystic_light_185_config
 {
