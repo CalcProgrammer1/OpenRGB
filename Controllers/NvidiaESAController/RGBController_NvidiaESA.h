@@ -1,11 +1,13 @@
-/*-----------------------------------------*\
-|  RGBController_NvidiaESA.h                |
-|                                           |
-|  Generic RGB Interface for OpenRGB        |
-|  Nvidia ESA RGB USB Driver                |
-|                                           |
-|  Guimard Morgan (morg) 2/18/2022          |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_NvidiaESA.h                                 |
+|                                                           |
+|   RGBController for NVIDIA ESA                            |
+|                                                           |
+|   Morgan Guimard (morg)                       18 Feb 2022 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #pragma once
 
