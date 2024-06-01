@@ -1,11 +1,13 @@
-/*-----------------------------------------*\
-|  MSIMysticLightCommon.h                   |
-|                                           |
-|  Common definitions and types for all MSI |
-|  Mystic Light variants                    |
-|                                           |
-|  Adam Honse 3/6/2021                      |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| MSIMysticLightCommon.h                                    |
+|                                                           |
+|   Common definitions for MSI Mystic Light motherboards    |
+|                                                           |
+|   Adam Honse                                  06 Mar 2021 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #pragma once
 
@@ -107,7 +109,7 @@ enum MSI_BRIGHTNESS
     MSI_BRIGHTNESS_LEVEL_70             = 7,
     MSI_BRIGHTNESS_LEVEL_80             = 8,
     MSI_BRIGHTNESS_LEVEL_90             = 9,
-    MSI_BRIGHTNESS_LEVEL_100            = 10, 
+    MSI_BRIGHTNESS_LEVEL_100            = 10,
 };
 
 #define NUMOF_PER_LED_MODE_LEDS                  240
@@ -157,7 +159,7 @@ struct RainbowZoneData : ZoneData
 struct FeaturePacket_64
 {
     const unsigned char report_id                 = 0x02; // Report ID
-    const unsigned char second_byte               = 0x00; 
+    const unsigned char second_byte               = 0x00;
     unsigned char       mode                      = 0x00;
     unsigned char       speed                     = 0x00;
     unsigned char       brightness                = 0x00;
@@ -238,6 +240,5 @@ struct FeaturePacket_PerLED_185
     unsigned char hdr3                                   = 0x00;      // header byte 3
     Color         leds[NUMOF_PER_LED_MODE_LEDS];
 };
-
 
 #define MSI_USB_PID_COMMON  0x0076      // Common PID for a certain set of 185-byte boards

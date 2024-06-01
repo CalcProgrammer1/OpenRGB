@@ -1,3 +1,12 @@
+/*---------------------------------------------------------*\
+| MSIMysticLightControllerDetect.cpp                        |
+|                                                           |
+|   Detector for MSI Mystic Light motherboards              |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
 #include "Detector.h"
 #include "MSIMysticLight64Controller.h"
 #include "MSIMysticLight112Controller.h"
@@ -10,10 +19,8 @@
 #include "dmiinfo.h"
 #include "LogManager.h"
 
-
 #define MSI_USB_VID         0x1462
 #define MSI_USB_VID_COMMON  0x0DB0
-
 
 /*---------------------------------------------------------------------------------*\
 | WARNING!                                                                          |
@@ -30,7 +37,7 @@
 |                                                                                          |
 |       Detect MSI Mystic Light devices                                                    |
 |                                                                                          |
-\*-----------------------------------------------------------------------------------------*/
+\*----------------------------------------------------------------------------------------*/
 void DetectMSIMysticLightControllers
     (
     hid_device_info*    info,
