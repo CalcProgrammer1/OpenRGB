@@ -1,10 +1,13 @@
-/*-----------------------------------------*\
-|  RGBController_NZXTMouse.cpp              |
-|                                           |
-|  Generic RGB Interface for NZXT Mouse     |
-|                                           |
-|  Adam Honse (CalcProgrammer1) 12/16/2023  |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_NZXTMouse.cpp                               |
+|                                                           |
+|   RGBController for NZXT Mouse                            |
+|                                                           |
+|   Adam Honse (calcprogrammer1@gmail.com)      16 Dec 2023 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #include "RGBController_NZXTMouse.h"
 

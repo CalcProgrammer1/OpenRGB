@@ -1,8 +1,19 @@
+/*---------------------------------------------------------*\
+| NZXTMouseControllerDetect.cpp                             |
+|                                                           |
+|   Detector for NZXT Mouse                                 |
+|                                                           |
+|   Adam Honse (calcprogrammer1@gmail.com)      13 Dec 2023 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
+#include <hidapi/hidapi.h>
 #include "Detector.h"
 #include "NZXTMouseController.h"
 #include "RGBController.h"
 #include "RGBController_NZXTMouse.h"
-#include <hidapi/hidapi.h>
 
 /*-----------------------------------------------------*\
 | NZXT USB IDs                                          |
