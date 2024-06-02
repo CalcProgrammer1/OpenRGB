@@ -1,16 +1,19 @@
 /*---------------------------------------------------------*\
-|  Definitions for NZXT Hue+                                |
+| NZXTHuePlusController.h                                   |
 |                                                           |
-|  Adam Honse (calcprogrammer1@gmail.com), 12/11/2016       |
+|   Driver for NZXT Hue Plus                                |
+|                                                           |
+|   Adam Honse (calcprogrammer1@gmail.com)      27 Aug 2019 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
 \*---------------------------------------------------------*/
 
-#ifndef LED_STRIP_H
-#define LED_STRIP_H
+#pragma once
 
+#include <vector>
 #include "RGBController.h"
 #include "serial_port.h"
-#include <vector>
-
 
 #ifndef TRUE
 #define TRUE true
@@ -109,5 +112,3 @@ private:
                         unsigned char*  color_data
                         );
 };
-
-#endif

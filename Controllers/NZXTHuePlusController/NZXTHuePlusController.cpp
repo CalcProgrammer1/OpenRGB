@@ -1,15 +1,19 @@
 /*---------------------------------------------------------*\
-|  Processing Code for NZXT Hue+                            |
+| NZXTHuePlusController.cpp                                 |
 |                                                           |
-|  Adam Honse (calcprogrammer1@gmail.com), 12/11/2016       |
+|   Driver for NZXT Hue Plus                                |
+|                                                           |
+|   Adam Honse (calcprogrammer1@gmail.com)      27 Aug 2019 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
 \*---------------------------------------------------------*/
 
-#include "NZXTHuePlusController.h"
-
+#include <cstring>
 #include <fstream>
 #include <iostream>
 #include <string>
-#include <cstring>
+#include "NZXTHuePlusController.h"
 
 using namespace std::chrono_literals;
 
@@ -26,7 +30,7 @@ HuePlusController::~HuePlusController()
 void HuePlusController::Initialize(char* port)
 {
     port_name = port;
-    
+
     serialport = new serial_port(port_name.c_str(), HUE_PLUS_BAUD);
 
     channel_leds[HUE_PLUS_CHANNEL_1_IDX] = GetLEDsOnChannel(HUE_PLUS_CHANNEL_1);
