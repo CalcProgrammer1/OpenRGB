@@ -28,11 +28,20 @@ RGBController_KasaSmart::RGBController_KasaSmart(KasaSmartController* controller
 
     name        = controller->GetManufacturer() + " " + controller->GetName();
     vendor      = controller->GetManufacturer();
-    type        = DEVICE_TYPE_LIGHT;
     version     = controller->GetVersion();
     description = "Kasa Smart Device";
     serial      = controller->GetUniqueID();
     location    = controller->GetLocation();
+
+    if(controller->GetKasaType() == KASA_SMART_TYPE_LIGHT)
+    {
+        type = DEVICE_TYPE_LIGHT;
+    }
+    else if(controller->GetKasaType() == KASA_SMART_TYPE_OTHER_LEDSTRIP
+         || controller->GetKasaType() == KASA_SMART_TYPE_KL420)
+    {
+        type = DEVICE_TYPE_LEDSTRIP;
+    }
 
     mode Direct;
     Direct.name       = "Direct";
@@ -40,6 +49,16 @@ RGBController_KasaSmart::RGBController_KasaSmart(KasaSmartController* controller
     Direct.flags      = MODE_FLAG_HAS_PER_LED_COLOR;
     Direct.color_mode = MODE_COLORS_PER_LED;
     modes.push_back(Direct);
+
+    if(controller->GetKasaType() == KASA_SMART_TYPE_KL420)
+    {
+        mode Rainbow;
+        Rainbow.name       = "Rainbow";
+        Rainbow.value      = KASA_SMART_MODE_RAINBOW;
+        Rainbow.flags      = MODE_FLAG_HAS_PER_LED_COLOR;
+        Rainbow.color_mode = MODE_COLORS_PER_LED;
+        modes.push_back(Rainbow);
+    }
 
     mode Off;
     Off.name       = "Off";
@@ -93,7 +112,7 @@ void RGBController_KasaSmart::DeviceUpdateLEDs()
     unsigned char grn = RGBGetGValue(colors[0]);
     unsigned char blu = RGBGetBValue(colors[0]);
 
-    controller->SetColor(red, grn, blu);
+    controller->SetColor(red, grn, blu, type);
 }
 
 void RGBController_KasaSmart::UpdateZoneLEDs(int /*zone*/)
@@ -108,9 +127,13 @@ void RGBController_KasaSmart::UpdateSingleLED(int /*led*/)
 
 void RGBController_KasaSmart::DeviceUpdateMode()
 {
-    if(modes[active_mode].value == KASA_SMART_MODE_OFF)
+    switch(modes[active_mode].value)
     {
-        controller->TurnOff();
-        return;
+        case KASA_SMART_MODE_OFF:
+            controller->TurnOff(type);
+            break;
+        case KASA_SMART_MODE_RAINBOW:
+            controller->SetEffect(KASA_SMART_EFFECT_RAINBOW_COMMAND);
+            break;
     }
 }
