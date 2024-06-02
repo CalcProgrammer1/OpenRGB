@@ -1,12 +1,16 @@
-/*-----------------------------------------*\
-|  RGBController_NZXTHue1.h                 |
-|                                           |
-|  Generic RGB Interface for NZXT Hue+      |
-|                                           |
-|  Adam Honse (CalcProgrammer1) 6/20/2019   |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_NZXTHue1.h                                  |
+|                                                           |
+|   RGBController for NZXT Hue 1 (Smart Device V1)          |
+|                                                           |
+|   Adam Honse (calcprogrammer1@gmail.com)      16 Apr 2023 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #pragma once
+
 #include "RGBController.h"
 #include "NZXTHue1Controller.h"
 

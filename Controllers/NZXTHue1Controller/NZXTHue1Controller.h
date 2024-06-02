@@ -1,13 +1,18 @@
 /*---------------------------------------------------------*\
-|  Definitions for NZXT Hue 1 (Smart Device V1)             |
+| NZXTHue1Controller.h                                      |
 |                                                           |
-|  Adam Honse (calcprogrammer1@gmail.com), 4/16/2023        |
+|   Driver for NZXT Hue 1 (Smart Device V1)                 |
+|                                                           |
+|   Adam Honse (calcprogrammer1@gmail.com)      16 Apr 2023 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
 \*---------------------------------------------------------*/
 
-#include "RGBController.h"
-#include <hidapi/hidapi.h>
-
 #pragma once
+
+#include <hidapi/hidapi.h>
+#include "RGBController.h"
 
 enum
 {

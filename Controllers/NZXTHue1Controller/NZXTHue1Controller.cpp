@@ -1,11 +1,16 @@
 /*---------------------------------------------------------*\
-|  Processing Code for NZXT Hue 1 (Smart Device V1)         |
+| NZXTHue1Controller.cpp                                    |
 |                                                           |
-|  Adam Honse (calcprogrammer1@gmail.com), 4/16/2023        |
+|   Driver for NZXT Hue 1 (Smart Device V1)                 |
+|                                                           |
+|   Adam Honse (calcprogrammer1@gmail.com)      16 Apr 2023 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
 \*---------------------------------------------------------*/
 
-#include "NZXTHue1Controller.h"
 #include <cstring>
+#include "NZXTHue1Controller.h"
 
 NZXTHue1Controller::NZXTHue1Controller(hid_device* dev_handle, unsigned int /*fan_channels*/, const char* path)
 {
