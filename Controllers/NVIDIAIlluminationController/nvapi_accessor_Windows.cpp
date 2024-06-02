@@ -1,15 +1,17 @@
-/*-----------------------------------------*\
-|  nvapi_accessor.cpp                       |
-|                                           |
-|  Definitions and for Nvidia NvAPI         |
-|  direct access class                      |
-|                                           |
-|  Carter Miller (GingerRunner) 6/20/2022   |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| nvapi_accessor_Windows.cpp                                |
+|                                                           |
+|   NVAPI accessor for NVIDIA NVAPI illumination API        |
+|                                                           |
+|   Carter Miller (GingerRunner)                20 Jun 2022 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
-#include "nvapi_accessor_Windows.h"
-#include <thread>
 #include <chrono>
+#include <thread>
+#include "nvapi_accessor_Windows.h"
 
 nvapi_accessor::nvapi_accessor(NV_PHYSICAL_GPU_HANDLE handle)
 {

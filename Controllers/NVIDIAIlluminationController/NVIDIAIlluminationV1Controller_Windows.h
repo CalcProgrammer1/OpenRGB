@@ -1,22 +1,22 @@
-/*-----------------------------------------*\
-|  NVIDIAIlluminationV1Controller.h         |
-|                                           |
-|  Definitions and types for direct NVIDIA  |
-|  Illumination-based NVIDIA GPUs' RGB      |
-|  controller                               |
-|                                           |
-|  Carter Miller (GingerRunner) 1/4/2022    |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| NVIDIAIlluminationV1Controller_Windows.h                  |
+|                                                           |
+|   Driver for NVIDIA Illumination V1 GPU                   |
+|                                                           |
+|   Carter Miller (GingerRunner)                04 Jan 2022 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
+#pragma once
 
+#include <cstring>
 #include <string>
 #include <vector>
-#include <cstring>
 #include "nvapi_accessor_Windows.h"
 #include "RGBController.h"
 #include "LogManager.h"
-
-#pragma once
 
 #define NVIDIA_ILLUMINATION_V1_CONTROLLER_NAME   "NVIDIA_ILLUMINATION_V1"
 #define NVAPI_OK                                 0
@@ -56,5 +56,4 @@ class NVIDIAIlluminationV1Controller
         NV_GPU_CLIENT_ILLUM_ZONE_CONTROL_PARAMS zone_params;
         NV_STATUS nvapi_return = 0;
         const std::array<uint8_t, 4> all_zeros = {0, 0, 0, 0};
-
 };

@@ -1,18 +1,19 @@
-/*-----------------------------------------*\
-|  RGBController_NVIDIAIllumination.h       |
-|                                           |
-|  NVIDIA Illumination Generic RGB Interface|
-|  for OpenRGB                              |
-|                                           |
-|  Carter Miller (GingerRunner) 1/4/2022    |
-\*-----------------------------------------*/
-
+/*---------------------------------------------------------*\
+| RGBController_NVIDIAIllumination.h                        |
+|                                                           |
+|   RGBController for NVIDIA Illumination GPU               |
+|                                                           |
+|   Carter Miller (GingerRunner)                04 Jan 2022 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #pragma once
 
+#include <map>
 #include "RGBController.h"
 #include "NVIDIAIlluminationV1Controller_Windows.h"
-#include <map>
 
 #define NVIDIA_FOUNDERS_V1_CONTROLLER_NAME   "NVIDIA_FOUNDERS_V1"
 

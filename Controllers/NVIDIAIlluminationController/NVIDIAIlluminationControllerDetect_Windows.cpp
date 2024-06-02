@@ -1,22 +1,22 @@
-/*----------------------------------------------*\
-|  NVIDIAIlluminationControllerDetect.cpp        |
-|                                                |
-|  Detect GPUS that are controlled by the direct |
-|  NVIDIA Illumination controller.               |
-|                                                |
-|  Carter Miller (GingerRunner) 1/4/2022         |
-\*----------------------------------------------*/
+/*---------------------------------------------------------*\
+| NVIDIAIlluminationControllerDetect_Windows.cpp            |
+|                                                           |
+|   Detector for NVIDIA Illumination GPU                    |
+|                                                           |
+|   Carter Miller (GingerRunner)                04 Jan 2022 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
+#include <stdio.h>
+#include <stdlib.h>
+#include <vector>
 #include "Detector.h"
-
 #include "LogManager.h"
 #include "RGBController.h"
 #include "RGBController_NVIDIAIllumination_Windows.h"
-
 #include "pci_ids.h"
-#include <vector>
-#include <stdio.h>
-#include <stdlib.h>
 
 enum
 {
