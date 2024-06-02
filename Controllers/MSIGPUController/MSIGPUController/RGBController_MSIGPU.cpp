@@ -1,12 +1,14 @@
-/*-----------------------------------------*\
-|  RGBController_MSIGPU.h                   |
-|                                           |
-|  Generic RGB Interface for MSI GPU        |
-|                                           |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_MSIGPU.cpp                                  |
+|                                                           |
+|   RGBController for MSI GPU                               |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
-#include "RGBController_MSIGPU.h"
 #include <array>
+#include "RGBController_MSIGPU.h"
 
 static const std::array<unsigned char, 3> speed_values      = { 0x04, 0x02, 0x01 };
 
@@ -424,7 +426,7 @@ void RGBController_MSIGPU::UpdateSingleLED(int /*led*/)
 void RGBController_MSIGPU::DeviceUpdateMode()
 {
     if(TimeToSend())
-    {    
+    {
         if(modes[active_mode].flags & MODE_FLAG_HAS_BRIGHTNESS)
         {
             msi_gpu->MSIGPURegisterWrite(MSI_GPU_REG_BRIGHTNESS, modes[active_mode].brightness * MSI_GPU_BRIGHTNESS_MULTI);

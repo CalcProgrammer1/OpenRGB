@@ -1,13 +1,15 @@
-/*-----------------------------------------*\
-|  MSIRGBController.cpp                     |
-|                                           |
-|  Driver for MSI-RGB lighting controller   |
-|                                           |
-|  Logic adapted from:                      |
-|     https://github.com/nagisa/msi-rgb     |
-|                                           |
-|  Adam Honse (CalcProgrammer1) 2/11/2020   |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| MSIRGBController.cpp                                      |
+|                                                           |
+|   Driver for MSI-RGB motherboard                          |
+|                                                           |
+|   Logic adapted from https://github.com/nagisa/msi-rgb    |
+|                                                           |
+|   Adam Honse (CalcProgrammer1)                11 Feb 2020 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #include "MSIRGBController.h"
 #include "dmiinfo.h"
@@ -29,7 +31,6 @@ MSIRGBController::MSIRGBController(int sioaddr, bool invert)
     val_at_2c |= 0b00010000;
 
     superio_outb(msi_sioaddr, 0x2C, val_at_2c);
-
 
     /*-----------------------------------------------------*\
     | Set logical device register to RGB controller         |

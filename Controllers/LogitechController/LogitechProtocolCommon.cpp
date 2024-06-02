@@ -1,11 +1,13 @@
-/*-------------------------------------------------------------------*\
-|  LogitechProtocolCommon.cpp                                         |
-|                                                                     |
-|  Common Logitech RAP and FAP protocol calls                         |
-|                                                                     |
-|  Chris M (Dr_No)          4th May 2021                              |
-|                                                                     |
-\*-------------------------------------------------------------------*/
+/*---------------------------------------------------------*\
+| LogitechProtocolCommon.cpp                                |
+|                                                           |
+|   Common functionality for Logitech RAP and FAP protocols |
+|                                                           |
+|   Chris M (Dr_No)                             04 May 2021 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #include <LogitechProtocolCommon.h>
 

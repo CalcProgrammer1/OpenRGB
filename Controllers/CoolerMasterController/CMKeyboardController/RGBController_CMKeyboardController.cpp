@@ -19,7 +19,7 @@
     @save :robot:
     @direct :white_check_mark:
     @effects :white_check_mark:
-    @detectors DetectCoolerMasterKeyboards
+    @detectors DetectCoolerMasterV1Keyboards,DetectCoolerMasterV2Keyboards
     @comment
     In CMKeyboardV1Controller brightness control not supported.
     Supported effects differ between CMKeyboardV1Controller and

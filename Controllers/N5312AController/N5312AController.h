@@ -1,16 +1,19 @@
-/*-----------------------------------------*\
-|  N5312AController.h                       |
-|                                           |
-|  Driver for N5312A lighting               |
-|  controller - header file                 |
-|                                           |
-|  Guimard Morgan (morg) 4/02/2022          |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| N5312AController.h                                        |
+|                                                           |
+|   Driver for N5312A                                       |
+|                                                           |
+|   Morgan Guimard (morg)                       02 Apr 2022 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
 #pragma once
 
-#include "RGBController.h"
 #include <string>
 #include <hidapi/hidapi.h>
+#include "RGBController.h"
 
 #define N5312A_REPORT_ID           0x07
 #define N5312A_PACKET_DATA_LENGTH  8

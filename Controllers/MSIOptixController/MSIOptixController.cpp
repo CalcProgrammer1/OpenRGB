@@ -1,13 +1,16 @@
-/*-----------------------------------------*\
-|  MSIOptixController.cpp                   |
-|                                           |
-|  Driver for MSI Optix monitor lighting    |
-|  controller                               |
-|                                           |
-|  Guimard Morgan (morg) 1/10/2022          |
-\*-----------------------------------------*/
-#include "MSIOptixController.h"
+/*---------------------------------------------------------*\
+| MSIOptixController.cpp                                    |
+|                                                           |
+|   Driver for MSI Optix                                    |
+|                                                           |
+|   Morgan Guimard (morg)                       10 Jan 2022 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
 #include <string.h>
+#include "MSIOptixController.h"
 
 MSIOptixController::MSIOptixController(hid_device* dev_handle, const hid_device_info& info)
 {
@@ -205,7 +208,7 @@ void MSIOptixController::SetMode(std::vector<RGBColor> colors, unsigned char bri
     }
 
     else if(mode_flags & MODE_FLAG_HAS_MODE_SPECIFIC_COLOR)
-    {        
+    {
         for(unsigned int i = 0; i < MSI_OPTIX_COLOR_PACKET_SIZE; i++)
         {
             usb_buf[++offset] =  red;

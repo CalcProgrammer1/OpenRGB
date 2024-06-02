@@ -1,13 +1,16 @@
-/*-----------------------------------------*\
-|  RGBController_MountainKeyboard.h         |
-|                                           |
-|  Generic RGB Interface for Mountain RGB   |
-|  keyboard devices                         |
-|                                           |
-|  Wojciech Lazarski             01/2023    |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_MountainKeyboard.h                          |
+|                                                           |
+|   RGBController for Mountain keyboard                     |
+|                                                           |
+|   Wojciech Lazarski                              Jan 2023 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #pragma once
+
 #include "RGBController.h"
 #include "MountainKeyboardController.h"
 
@@ -39,7 +42,7 @@ public:
     void        SetupZones();
 
     void        ResizeZone(int zone, int new_size);
-    
+
     void        DeviceUpdateLEDs();
     void        UpdateZoneLEDs(int zone);
     void        UpdateSingleLED(int led);

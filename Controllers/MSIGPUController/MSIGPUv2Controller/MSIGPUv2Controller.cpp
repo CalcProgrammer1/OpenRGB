@@ -1,13 +1,16 @@
-/*-----------------------------------------*\
-|  MSIGPUController.cpp                     |
-|                                           |
-|  Driver for MSI GPUs                      |
-|  Wojciech Lazarski 03/Jan/2023            |
-|                                           |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| MSIGPUv2Controller.cpp                                    |
+|                                                           |
+|   Driver for MSI V2 GPU (ITE9)                            |
+|                                                           |
+|   Wojciech Lazarski                           03 Jan 2023 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
-#include "MSIGPUv2Controller.h"
 #include <cstring>
+#include "MSIGPUv2Controller.h"
 
 using namespace std::chrono_literals;
 

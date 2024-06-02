@@ -313,7 +313,8 @@
 #define ASUS_TUF_RTX_4070TI_SUPER_16G_GAMING            0x8958
 #define ASUS_TUF_RTX_4070TI_SUPER_O16G_GAMING           0x8957
 #define ASUS_TUF_RTX_4070TI_SUPER_O16G_GAMING_WHITE     0x895B
-#define ASUS_ROG_STRIX_RTX_4070TI_SUPER_O16G_GAMING     0x896B
+#define ASUS_ROG_STRIX_RTX_4070TI_SUPER_16G_GAMING      0x896B
+#define ASUS_ROG_STRIX_RTX_4070TI_SUPER_O16G_GAMING     0x896D
 #define ASUS_TUF_RTX_4080_16G_GAMING                    0x88A2
 #define ASUS_TUF_RTX_4080_16G_GAMING_2                  0x88CB
 #define ASUS_TUF_RTX_4080_O16G_OC_GAMING                0x88A1
@@ -349,8 +350,8 @@
 /*-----------------------------------------------------*\
 | Colorful Sub-Device IDs                               |
 \*-----------------------------------------------------*/
-#define COLORFUL_IGAME_RTX_2070_SUPER_ADVANCED_OCV      0X1401
-#define COLORFUL_IGAME_RTX_2070_SUPER_ADVANCED_OCV2     0X140A
+#define COLORFUL_IGAME_RTX_2070_SUPER_ADVANCED_OCV      0x1401
+#define COLORFUL_IGAME_RTX_2070_SUPER_ADVANCED_OCV2     0x140A
 #define COLORFUL_IGAME_RTX_3060_ADVANCED_OC_12G_LV      0x140A
 #define COLORFUL_IGAME_RTX_3060_ULTRAW_OC_12G           0x150A
 #define COLORFUL_IGAME_RTX_3060_ULTRAW_OC_12G_2         0x1501
@@ -614,7 +615,7 @@
 #define MSI_RTX2070S_ARMOR_OC_SUB_DEV                   0xC730
 #define MSI_RTX2070S_GAMING_TRIO_SUB_DEV                0xC727
 #define MSI_RTX2070S_GAMING_Z_TRIO_SUB_DEV              0x37B6
-#define MSI_RTX2070S_GAMING_X_SUB_DEV                   0x373e
+#define MSI_RTX2070S_GAMING_X_SUB_DEV                   0x373E
 #define MSI_RTX2070S_GAMING_X_TRIO_SUB_DEV              0xC726
 #define MSI_RTX2080_GAMING_TRIO_SUB_DEV                 0x372E
 #define MSI_RTX2080_GAMING_X_TRIO_SUB_DEV               0x3726

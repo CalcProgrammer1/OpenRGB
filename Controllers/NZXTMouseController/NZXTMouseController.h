@@ -1,17 +1,20 @@
 /*---------------------------------------------------------*\
-|  NZXTMouseController.h                                    |
+| NZXTMouseController.h                                     |
 |                                                           |
-|  Definitions for NZXT Mouse                               |
+|   Driver for NZXT Mouse                                   |
 |                                                           |
-|  Adam Honse (calcprogrammer1@gmail.com), 12/13/2023       |
+|   Adam Honse (calcprogrammer1@gmail.com)      13 Dec 2023 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
 \*---------------------------------------------------------*/
 
 #pragma once
 
-#include "RGBController.h"
 #include <string>
 #include <vector>
 #include <hidapi/hidapi.h>
+#include "RGBController.h"
 
 class NZXTMouseController
 {

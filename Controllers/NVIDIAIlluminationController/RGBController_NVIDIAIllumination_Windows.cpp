@@ -1,12 +1,16 @@
-/*--------------------------------------------*\
-|  RGBController_NVIDIAIllumination.cpp        |
-|                                              |
-|  Generic RGB Interface for OpenRGB direct    |
-|  NVIDIA Illumination controller NVIDIA GPUs. |
-|  Note that this works for Windows only.      |
-|                                              |
-|  Carter Miller (GingerRunner) 1/4/2022       |
-\*--------------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_NVIDIAIllumination.cpp                      |
+|                                                           |
+|   RGBController for NVIDIA Illumination GPU               |
+|                                                           |
+|   Carter Miller (GingerRunner)                04 Jan 2022 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
+#include <array>
+#include "RGBController_NVIDIAIllumination_Windows.h"
 
 /**------------------------------------------------------------------*\
     @name NVIDIA Illumination
@@ -43,10 +47,6 @@
         and attach the relevant details to request support for your device (try various modes in each color, especially white and shades around it, since some cards treat RGBW as
         standard RGB).
 \*-------------------------------------------------------------------*/
-
-
-#include "RGBController_NVIDIAIllumination_Windows.h"
-#include <array>
 
 RGBController_NVIDIAIlluminationV1::RGBController_NVIDIAIlluminationV1(NVIDIAIlluminationV1Controller* controller_ptr)
 {

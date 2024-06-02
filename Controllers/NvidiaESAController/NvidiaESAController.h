@@ -1,17 +1,19 @@
-/*-----------------------------------------*\
-|  NvidiaESAController.h                    |
-|                                           |
-|  Driver for Nvidia ESA lighting           |
-|  controller - header file                 |
-|                                           |
-|  Guimard Morgan (morg) 2/18/2022          |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| NvidiaESAController.h                                     |
+|                                                           |
+|   Driver for NVIDIA ESA                                   |
+|                                                           |
+|   Morgan Guimard (morg)                       18 Feb 2022 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
 #pragma once
 
-#include "RGBController.h"
 #include <string>
 #include <hidapi/hidapi.h>
-
+#include "RGBController.h"
 
 class NvidiaESAController
 {

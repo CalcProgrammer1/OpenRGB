@@ -1,15 +1,19 @@
-/*-----------------------------------------*\
-|  RGBController_Nanoleaf.cpp               |
-|                                           |
-|  Generic RGB Interface for Nanoleaf       |
-|                                           |
-|  Nikita Rushmanov 01/13/2022              |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_Nanoleaf.cpp                                |
+|                                                           |
+|   RGBController for Nanoleaf                              |
+|                                                           |
+|   Nikita Rushmanov                            13 Jan 2022 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #include "RGBController_Nanoleaf.h"
 #include "ResourceManager.h"
 #include "LogManager.h"
 #include "json.hpp"
+
 using json = nlohmann::json;
 
 /**------------------------------------------------------------------*\

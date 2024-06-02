@@ -1,11 +1,13 @@
-/*-----------------------------------------*\
-|  MSI3ZoneController.cpp                   |
-|                                           |
-|  Driver for MSI/Steelseries 3-Zone        |
-|  Keyboard lighting controller             |
-|                                           |
-|  Adam Honse (CalcProgrammer1) 12/25/2019  |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| MSI3ZoneController.cpp                                    |
+|                                                           |
+|   Driver for MSI/SteelSeries 3-Zone keyboard              |
+|                                                           |
+|   Adam Honse (CalcProgrammer1)                25 Dec 2019 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #include "MSI3ZoneController.h"
 

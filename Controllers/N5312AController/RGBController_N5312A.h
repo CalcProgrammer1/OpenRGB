@@ -1,11 +1,13 @@
-/*-----------------------------------------*\
-|  RGBController_N5312A.h                   |
-|                                           |
-|  Generic RGB Interface for OpenRGB        |
-|  N5312A RGB USB Driver                    |
-|                                           |
-|  Guimard Morgan (morg) 4/02/2022          |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_N5312A.h                                    |
+|                                                           |
+|   RGBController for N5312A                                |
+|                                                           |
+|   Morgan Guimard (morg)                       02 Apr 2022 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #pragma once
 

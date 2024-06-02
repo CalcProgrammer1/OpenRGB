@@ -1,9 +1,20 @@
+/*---------------------------------------------------------*\
+| NZXTHuePlusControllerDetect.cpp                           |
+|                                                           |
+|   Detector for NZXT Hue Plus                              |
+|                                                           |
+|   Adam Honse (calcprogrammer1@gmail.com)      27 Aug 2019 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
+#include <vector>
 #include "Detector.h"
 #include "NZXTHuePlusController.h"
 #include "RGBController.h"
 #include "RGBController_NZXTHuePlus.h"
 #include "find_usb_serial_port.h"
-#include <vector>
 
 #define NZXT_HUE_PLUS_VID 0x04D8
 #define NZXT_HUE_PLUS_PID 0x00DF

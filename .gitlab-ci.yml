@@ -42,11 +42,7 @@ before_script:
   artifacts:
     name: "${CI_PROJECT_NAME}_Supported_Devices_${CI_COMMIT_SHORT_SHA}"
     paths:
-    - ./*.md
     - Supported Devices.csv
-    exclude:
-    - README.md
-    - CONTRIBUTING.md
     expire_in: 30 days
 
   rules:

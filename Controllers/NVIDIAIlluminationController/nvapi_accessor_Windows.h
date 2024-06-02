@@ -1,11 +1,13 @@
-/*-----------------------------------------*\
-|  nvapi_accessor.h                         |
-|                                           |
-|  Definitions and types for Nvidia NvAPI   |
-|  direct access class                      |
-|                                           |
-|  Carter Miller (GingerRunner) 6/20/2022   |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| nvapi_accessor_Windows.h                                  |
+|                                                           |
+|   NVAPI accessor for NVIDIA NVAPI illumination API        |
+|                                                           |
+|   Carter Miller (GingerRunner)                20 Jun 2022 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #include "nvapi.h"
 

@@ -1,3 +1,14 @@
+/*---------------------------------------------------------*\
+| N5312AControllerDetect.cpp                                |
+|                                                           |
+|   Detector for N5312A                                     |
+|                                                           |
+|   Morgan Guimard (morg)                       02 Apr 2022 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
 #include "Detector.h"
 #include "N5312AController.h"
 #include "RGBController.h"

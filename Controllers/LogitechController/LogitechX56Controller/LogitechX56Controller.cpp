@@ -1,14 +1,16 @@
-/*-----------------------------------------*\
-|  LogitechX56Controller.cpp                |
-|                                           |
-|  Generic RGB Interface Logitech X56       |
-|  Class                                    |
-|                                           |
-|  Edbgon 11/06/2021                        |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| LogitechX56Controller.cpp                                 |
+|                                                           |
+|   Driver for Logitech X56                                 |
+|                                                           |
+|   Edbgon                                      11 Jun 2021 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
-#include "LogitechX56Controller.h"
 #include <cstring>
+#include "LogitechX56Controller.h"
 
 LogitechX56Controller::LogitechX56Controller(hid_device* dev_handle, const char* path)
 {

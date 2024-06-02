@@ -1,20 +1,22 @@
-/*-----------------------------------------*\
-|  MSIMysticLight162Controller.h            |
-|                                           |
-|  Definitions and types for MSI Mystic     |
-|  Light (162-byte) USB lighting controllers|
-|                                           |
-|  T-bond 3/4/2020                          |
-|  Adam Honse 3/6/2021                      |
-\*-----------------------------------------*/
-
-#include "MSIMysticLightCommon.h"
-#include "RGBController.h"
-#include <cstring>
-#include <hidapi/hidapi.h>
-#include <limits>
+/*---------------------------------------------------------*\
+| MSIMysticLight162Controller.h                             |
+|                                                           |
+|   Driver for MSI Mystic Light 162-byte motherboard        |
+|                                                           |
+|   T-bond                                      03 Apr 2020 |
+|   Adam Honse                                  06 Mar 2021 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #pragma once
+
+#include <cstring>
+#include <limits>
+#include <hidapi/hidapi.h>
+#include "MSIMysticLightCommon.h"
+#include "RGBController.h"
 
 class MSIMysticLight162Controller
 {

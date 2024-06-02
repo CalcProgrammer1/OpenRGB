@@ -1,11 +1,13 @@
-/*-----------------------------------------*\
-|  RGBController_LogitechGPro.cpp           |
-|                                           |
-|  Generic RGB Interface for Logitech G Pro |
-|  Keyboard                                 |
-|                                           |
-|  sanchezzzs                   20/10/2021  |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_LogitechGPro.cpp                            |
+|                                                           |
+|   RGBController for Logitech G Pro keyboard               |
+|                                                           |
+|   sanchezzzs                                  20 Oct 2021 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #include "RGBControllerKeyNames.h"
 #include "RGBController_LogitechGProKeyboard.h"

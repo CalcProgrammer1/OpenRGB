@@ -1,10 +1,13 @@
-/*-----------------------------------------------*\
-|  NVIDIAIlluminationV1Controller.cpp             |
-|                                                 |
-|  Driver for NVIDIA Illumination controlled GPUs |
-|                                                 |
-|  Carter Miller (GingerRunner) 1/5/2022          |
-\*-----------------------------------------------*/
+/*---------------------------------------------------------*\
+| NVIDIAIlluminationV1Controller_Windows.cpp                |
+|                                                           |
+|   Driver for NVIDIA Illumination V1 GPU                   |
+|                                                           |
+|   Carter Miller (GingerRunner)                05 Jan 2022 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #include "NVIDIAIlluminationV1Controller_Windows.h"
 
@@ -126,17 +129,17 @@ void NVIDIAIlluminationV1Controller::setZone(uint8_t zone, uint8_t mode, NVIDIAI
                 \*----------------------------------------------------------------------------------------------------*/
                 if(!_treats_rgbw_as_rgb)
                 {
-                    uint8_t min_rgb_value = 0xFF; 
+                    uint8_t min_rgb_value = 0xFF;
                     uint8_t max_rgb_value = 0;
-                    min_rgb_value = ((red < 0xFF) ? red : min_rgb_value); 
-                    min_rgb_value = ((green < min_rgb_value) ? green : min_rgb_value); 
-                    min_rgb_value = ((blue < min_rgb_value) ? blue : min_rgb_value); 
-                    max_rgb_value = ((red > 0) ? red : max_rgb_value); 
-                    max_rgb_value = ((green > max_rgb_value) ? green : max_rgb_value); 
-                    max_rgb_value = ((blue > max_rgb_value) ? blue : max_rgb_value); 
+                    min_rgb_value = ((red < 0xFF) ? red : min_rgb_value);
+                    min_rgb_value = ((green < min_rgb_value) ? green : min_rgb_value);
+                    min_rgb_value = ((blue < min_rgb_value) ? blue : min_rgb_value);
+                    max_rgb_value = ((red > 0) ? red : max_rgb_value);
+                    max_rgb_value = ((green > max_rgb_value) ? green : max_rgb_value);
+                    max_rgb_value = ((blue > max_rgb_value) ? blue : max_rgb_value);
                     /*---------------------------------------------------------------------------------------------------*\
                     | If difference between the highest and lowest RGB values is 10 or lower, set the white value only,   |
-                    | zero out the rest, this logic was found via tedious examination                                     | 
+                    | zero out the rest, this logic was found via tedious examination                                     |
                     \*---------------------------------------------------------------------------------------------------*/
                     if (max_rgb_value - min_rgb_value <= 10)
                     {

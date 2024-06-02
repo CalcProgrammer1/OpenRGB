@@ -1,14 +1,17 @@
-﻿/*-----------------------------------------*\
-|  NollieController.cpp                     |
-|                                           |
-|  Driver for Nollie32 LED strip controller |
-|                                           |
-|  Name (cnn1236661)          25th Jun 2023 |
-\*-----------------------------------------*/
+﻿/*---------------------------------------------------------*\
+| NollieController.cpp                                      |
+|                                                           |
+|   Driver for Nollie                                       |
+|                                                           |
+|   Name (cnn1236661)                           25 Jun 2023 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
+#include <cstring>
 #include "NollieController.h"
 #include "RGBController_Nollie.h"
-#include <cstring>
 
 using namespace std::chrono_literals;
 

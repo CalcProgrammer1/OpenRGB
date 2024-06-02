@@ -1,3 +1,16 @@
+/*---------------------------------------------------------*\
+| LogitechControllerDetect.cpp                              |
+|                                                           |
+|   Detector for Logitech devices                           |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
+#include <chrono>
+#include <thread>
+#include <vector>
+#include <hidapi/hidapi.h>
 #include "Detector.h"
 #include "LogManager.h"
 #include "LogitechProtocolCommon.h"
@@ -28,10 +41,6 @@
 #include "RGBController_LogitechLightspeed.h"
 #include "RGBController_LogitechGPowerPlay.h"
 #include "RGBController_LogitechX56.h"
-#include <chrono>
-#include <thread>
-#include <vector>
-#include <hidapi/hidapi.h>
 
 using namespace std::chrono_literals;
 

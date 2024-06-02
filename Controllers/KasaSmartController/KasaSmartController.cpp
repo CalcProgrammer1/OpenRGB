@@ -111,6 +111,32 @@ bool KasaSmartController::Initialize()
         return is_initialized;
     }
 
+    std::string model;
+    if(system_information["system"]["get_sysinfo"].contains("model"))
+    {
+        model = system_information["system"]["get_sysinfo"]["model"];
+    }
+    else
+    {
+        /*-----------------------*\
+        | Can't find device model |
+        \*-----------------------*/
+        return is_initialized;
+    }
+
+    if(model.find("KL420") != std::string::npos)
+    {
+        kasa_type = KASA_SMART_TYPE_KL420;
+    }
+    else if(model.find("KL4") != std::string::npos)
+    {
+        kasa_type = KASA_SMART_TYPE_OTHER_LEDSTRIP;
+    }
+    else
+    {
+        kasa_type = KASA_SMART_TYPE_LIGHT;
+    }
+
     firmware_version = system_information["system"]["get_sysinfo"]["sw_ver"];
     module_name      = system_information["system"]["get_sysinfo"]["model"];
     device_id        = system_information["system"]["get_sysinfo"]["deviceId"];
@@ -152,7 +178,12 @@ std::string KasaSmartController::GetUniqueID()
     return(device_id);
 }
 
-void KasaSmartController::SetColor(unsigned char red, unsigned char green, unsigned char blue)
+int KasaSmartController::GetKasaType()
+{
+    return(kasa_type);
+}
+
+void KasaSmartController::SetColor(unsigned char red, unsigned char green, unsigned char blue, int device_type)
 {
     if(!is_initialized)
     {
@@ -192,14 +223,22 @@ void KasaSmartController::SetColor(unsigned char red, unsigned char green, unsig
     \*----------------------------*/
     if(normalized_saturation == 0 && normalized_value == 0)
     {
-        TurnOff();
+        TurnOff(device_type);
         return;
     }
 
     /*------------------------------*\
     | Format set light state command |
     \*------------------------------*/
-    const std::string set_lightstate_command_format(KASA_SMART_SET_LIGHT_STATE_COMMAND_FORMAT);
+    std::string set_lightstate_command_format;
+    if(device_type == DEVICE_TYPE_LIGHT)
+    {
+        set_lightstate_command_format = KASA_SMART_LIGHT_SET_LIGHT_STATE_COMMAND_FORMAT;
+    }
+    else if(device_type == DEVICE_TYPE_LEDSTRIP)
+    {
+        set_lightstate_command_format = KASA_SMART_LEDSTRIP_SET_LIGHT_STATE_COMMAND_FORMAT;
+    }
     int size = std::snprintf(nullptr, 0, set_lightstate_command_format.c_str(), normalized_hue, normalized_saturation, normalized_value) + 1;
     if(size <= 0)
     {
@@ -219,14 +258,43 @@ void KasaSmartController::SetColor(unsigned char red, unsigned char green, unsig
     port.tcp_close();
 }
 
-void KasaSmartController::TurnOff()
+void KasaSmartController::SetEffect(std::string effect)
 {
     if(!is_initialized)
     {
         return;
     }
 
-    const std::string turn_off_command(KASA_SMART_OFF_COMMAND);
+    /*-------------------*\
+    | Open TCP connection |
+    \*-------------------*/
+    if(!port.connected && !port.tcp_client_connect() && ++retry_count >= KASA_SMART_MAX_CONNECTION_ATTEMPTS)
+    {
+        is_initialized = false;
+        return;
+    }
+    
+    std::string response;
+    KasaSmartController::SendCommand(effect, response);
+    port.tcp_close();
+}
+
+void KasaSmartController::TurnOff(int device_type)
+{
+    if(!is_initialized)
+    {
+        return;
+    }
+
+    std::string turn_off_command;
+    if(device_type == DEVICE_TYPE_LIGHT)
+    {
+        turn_off_command = KASA_SMART_LIGHT_OFF_COMMAND;
+    }
+    else if(device_type == DEVICE_TYPE_LEDSTRIP)
+    {
+        turn_off_command = KASA_SMART_LEDSTRIP_OFF_COMMAND;
+    }
 
     if(!port.connected && !port.tcp_client_connect() && ++retry_count >= KASA_SMART_MAX_CONNECTION_ATTEMPTS)
     {

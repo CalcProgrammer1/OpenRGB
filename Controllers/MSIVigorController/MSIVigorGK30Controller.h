@@ -1,16 +1,19 @@
-/*-----------------------------------------*\
-|  MSIVigorGK30Controller.h                 |
-|                                           |
-|  Driver for MSI Vigor GK 30 keyboard      |
-|  controller - header file                 |
-|                                           |
-|  Guimard Morgan (morg) 6/01/2022          |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| MSIVigorGK30Controller.h                                  |
+|                                                           |
+|   Driver for MSI Vigor GK30                               |
+|                                                           |
+|   Morgan Guimard (morg)                       01 Jun 2022 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
 #pragma once
 
-#include "RGBController.h"
 #include <string>
 #include <hidapi/hidapi.h>
+#include "RGBController.h"
 
 #define MSI_VIGOR_GK30_REPORT_SIZE  8
 #define MSI_VIGOR_GK30_LEDS_COUNT   6

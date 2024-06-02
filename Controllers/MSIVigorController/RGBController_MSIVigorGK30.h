@@ -1,11 +1,13 @@
-/*-----------------------------------------*\
-|  RGBController_MSIVigorGK30.h             |
-|                                           |
-|  Generic RGB Interface for OpenRGB        |
-|  MIS Vigor GK30 RGB USB Driver            |
-|                                           |
-|  Guimard Morgan (morg) 6/01/2022          |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_MSIVigorGK30.h                              |
+|                                                           |
+|   RGBController for MSI Vigor GK30                        |
+|                                                           |
+|   Morgan Guimard (morg)                       01 Jun 2022 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #pragma once
 

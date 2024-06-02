@@ -1,14 +1,18 @@
 /*---------------------------------------------------------*\
-|  Driver for NZXT Kraken                                   |
+| NZXTKrakenController.cpp                                  |
 |                                                           |
-|  Martin Hartl (inlart), 04/04/2020                        |
+|   Driver for NZXT Kraken                                  |
+|                                                           |
+|   Martin Hartl (inlart)                       04 Apr 2020 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
 \*---------------------------------------------------------*/
 
-#include "NZXTKrakenController.h"
-
+#include <cstring>
 #include <string>
 #include <sstream>
-#include <cstring>
+#include "NZXTKrakenController.h"
 
 static void SetColor(const std::vector<RGBColor>& colors, unsigned char* color_data)
 {

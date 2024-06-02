@@ -1,9 +1,9 @@
 /*---------------------------------------------------------*\
-| RGBController_NZXTMouse.h                                 |
+| RGBController_LogitechGPro.h                              |
 |                                                           |
-|   RGBController for NZXT Mouse                            |
+|   RGBController for Logitech G Pro keyboard               |
 |                                                           |
-|   Adam Honse (calcprogrammer1@gmail.com)      16 Dec 2023 |
+|   sanchezzzs                                  20 Oct 2021 |
 |                                                           |
 |   This file is part of the OpenRGB project                |
 |   SPDX-License-Identifier: GPL-2.0-only                   |
@@ -12,17 +12,18 @@
 #pragma once
 
 #include "RGBController.h"
-#include "NZXTMouseController.h"
+#include "LogitechGProKeyboardController.h"
 
-class RGBController_NZXTMouse : public RGBController
+class RGBController_LogitechGProKeyboard : public RGBController
 {
 public:
-    RGBController_NZXTMouse(NZXTMouseController* controller_ptr);
-    ~RGBController_NZXTMouse();
+    RGBController_LogitechGProKeyboard(LogitechGProKeyboardController* controller_ptr);
+    ~RGBController_LogitechGProKeyboard();
 
     void        SetupZones();
-    void        ResizeZone(int zone, int new_size);
 
+    void        ResizeZone(int zone, int new_size);
+    
     void        DeviceUpdateLEDs();
     void        UpdateZoneLEDs(int zone);
     void        UpdateSingleLED(int led);
@@ -30,7 +31,5 @@ public:
     void        DeviceUpdateMode();
 
 private:
-    NZXTMouseController*        controller;
-    std::vector<unsigned int>   leds_channel;
-    std::vector<unsigned int>   zones_channel;
+    LogitechGProKeyboardController* controller;
 };

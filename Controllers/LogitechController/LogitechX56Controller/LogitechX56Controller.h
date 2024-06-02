@@ -1,9 +1,9 @@
 /*---------------------------------------------------------*\
-| MSI3ZoneController.h                                      |
+| LogitechX56Controller.h                                   |
 |                                                           |
-|   Driver for MSI/SteelSeries 3-Zone keyboard              |
+|   Driver for Logitech X56                                 |
 |                                                           |
-|   Adam Honse (CalcProgrammer1)                25 Dec 2019 |
+|   Edbgon                                      11 Jun 2021 |
 |                                                           |
 |   This file is part of the OpenRGB project                |
 |   SPDX-License-Identifier: GPL-2.0-only                   |
@@ -15,17 +15,21 @@
 #include <hidapi/hidapi.h>
 #include "RGBController.h"
 
-class MSI3ZoneController
+#define X56_CONTROLLER_PACKET_SIZE          64
+
+class LogitechX56Controller
 {
 public:
-    MSI3ZoneController(hid_device* dev_handle, const char* path);
-    ~MSI3ZoneController();
+    LogitechX56Controller(hid_device* dev_handle, const char* path);
 
-    char*       GetDeviceName();
+    ~LogitechX56Controller();
+
     std::string GetDeviceLocation();
+    char*       GetDeviceName();
     std::string GetSerialString();
 
-    void SetLEDs(std::vector<RGBColor> colors);
+    void SetColor(RGBColor colors, uint8_t brightness);
+    void Save();
 
 private:
     char                    device_name[32];

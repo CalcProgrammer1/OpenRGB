@@ -1,10 +1,13 @@
-/*-----------------------------------------*\
-|  RGBController_MSIRGB.cpp                 |
-|                                           |
-|  Generic RGB Interface for MSI-RGB        |
-|                                           |
-|  Adam Honse (CalcProgrammer1) 2/14/2020   |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_MSIRGB.cpp                                  |
+|                                                           |
+|   RGBController for MSI-RGB motherboard                   |
+|                                                           |
+|   Adam Honse (CalcProgrammer1)                14 Feb 2020 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #include "RGBController_MSIRGB.h"
 

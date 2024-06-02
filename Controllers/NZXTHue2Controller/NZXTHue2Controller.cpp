@@ -1,16 +1,20 @@
 /*---------------------------------------------------------*\
-|  Processing Code for NZXT Hue 2                           |
+| NZXTHue2Controller.cpp                                    |
 |                                                           |
-|  Adam Honse (calcprogrammer1@gmail.com), 12/29/2016       |
+|   Driver for NZXT Hue 2                                   |
+|                                                           |
+|   Adam Honse (calcprogrammer1@gmail.com)      29 Dec 2019 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
 \*---------------------------------------------------------*/
 
-#include "NZXTHue2Controller.h"
-#include "LogManager.h"
-
+#include <cstring>
 #include <fstream>
 #include <iostream>
 #include <string>
-#include <cstring>
+#include "NZXTHue2Controller.h"
+#include "LogManager.h"
 
 NZXTHue2Controller::NZXTHue2Controller(hid_device* dev_handle, unsigned int rgb_channels, unsigned int fan_channels, const char* path)
 {

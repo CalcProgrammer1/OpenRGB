@@ -1,20 +1,23 @@
-/*-----------------------------------------*\
-|  MSIMysticLight64Controller.h             |
-|                                           |
-|  Definitions and types for MSI Mystic     |
-|  Light (64-byte) USB lighting controllers |
-|                                           |
-|  T-bond 3/4/2020                          |
-|  Adam Honse 3/6/2021                      |
-\*-----------------------------------------*/
-
-#include "MSIMysticLightCommon.h"
-#include "RGBController.h"
-#include <cstring>
-#include <hidapi/hidapi.h>
-#include <limits>
+/*---------------------------------------------------------*\
+| MSIMysticLight64Controller.h                              |
+|                                                           |
+|   Driver for MSI Mystic Light 64-byte motherboard         |
+|                                                           |
+|   T-bond                                      03 Apr 2020 |
+|   Adam Honse                                  06 Mar 2021 |
+|   Elchanan Haas                               23 Aug 2022 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #pragma once
+
+#include <cstring>
+#include <limits>
+#include <hidapi/hidapi.h>
+#include "MSIMysticLightCommon.h"
+#include "RGBController.h"
 
 enum MSI_64_MODE
 {
@@ -42,7 +45,7 @@ public:
                         MSI_64_MODE        mode,
                         MSI_SPEED       speed,
                         MSI_BRIGHTNESS  brightness,
-                        unsigned int num_colors, 
+                        unsigned int num_colors,
                         Color colors[]
                         );
 

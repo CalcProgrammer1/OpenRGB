@@ -1,20 +1,20 @@
-/*-----------------------------------------*\
-|  MSIMysticLight112Controller.cpp          |
-|                                           |
-|  Driver for MSI Mystic Light (112-byte)   |
-|  USB lighting controller                  |
-|                                           |
-|  thombo 12/17/2022                        |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| MSIMysticLight112Controller.cpp                           |
+|                                                           |
+|   Driver for MSI Mystic Light 112-byte motherboard        |
+|                                                           |
+|   thombo                                      17 Dec 2022 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
-#include "MSIMysticLight112Controller.h"
 #include <algorithm>
 #include <array>
 #include <bitset>
-
+#include "MSIMysticLight112Controller.h"
 
 #define BITSET(val, bit, pos)       ((unsigned char)std::bitset<8>(val).set((pos), (bit)).to_ulong())
-
 
 struct Config
 {

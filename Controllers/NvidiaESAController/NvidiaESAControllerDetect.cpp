@@ -1,3 +1,14 @@
+/*---------------------------------------------------------*\
+| NvidiaESAControllerDetect.cpp                             |
+|                                                           |
+|   Detector for NVIDIA ESA                                 |
+|                                                           |
+|   Morgan Guimard (morg)                       18 Feb 2022 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
 #include "Detector.h"
 #include "NvidiaESAController.h"
 #include "RGBController.h"
