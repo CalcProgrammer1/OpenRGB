@@ -1,9 +1,20 @@
+/*---------------------------------------------------------*\
+| NZXTKrakenControllerDetect.cpp                            |
+|                                                           |
+|   Detector for NZXT Kraken                                |
+|                                                           |
+|   Martin Hartl (inlart)                       04 Apr 2020 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
+#include <vector>
+#include <hidapi/hidapi.h>
 #include "Detector.h"
 #include "NZXTKrakenController.h"
 #include "RGBController.h"
 #include "RGBController_NZXTKraken.h"
-#include <vector>
-#include <hidapi/hidapi.h>
 
 #define NZXT_KRAKEN_VID     0x1E71
 #define NZXT_KRAKEN_X2_PID  0x170E

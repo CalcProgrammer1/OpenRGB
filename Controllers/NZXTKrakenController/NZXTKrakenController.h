@@ -1,15 +1,20 @@
 /*---------------------------------------------------------*\
-|  Definitions for NZXT Kraken                              |
+| NZXTKrakenController.h                                    |
 |                                                           |
-|  Martin Hartl (inlart), 04/04/2020                        |
+|   Driver for NZXT Kraken                                  |
+|                                                           |
+|   Martin Hartl (inlart)                       04 Apr 2020 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
 \*---------------------------------------------------------*/
 
 #pragma once
 
-#include "RGBController.h"
-#include <vector>
 #include <string>
+#include <vector>
 #include <hidapi/hidapi.h>
+#include "RGBController.h"
 
 enum NZXTKrakenChannel_t
 {

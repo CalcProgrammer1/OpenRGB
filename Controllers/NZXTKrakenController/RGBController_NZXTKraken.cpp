@@ -1,14 +1,16 @@
-/*-----------------------------------------*\
-|  RGBController_NZXTKraken.cpp             |
-|                                           |
-|  Generic RGB Interface for NZXT Kraken    |
-|                                           |
-|  Martin Hartl (inlart) 04/04/2020         |
-\*-----------------------------------------*/
-
-#include "RGBController_NZXTKraken.h"
+/*---------------------------------------------------------*\
+| RGBController_NZXTKraken.cpp                              |
+|                                                           |
+|   RGBController for NZXT Kraken                           |
+|                                                           |
+|   Martin Hartl (inlart)                       04 Apr 2020 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #include <iostream>
+#include "RGBController_NZXTKraken.h"
 
 /**------------------------------------------------------------------*\
     @name NZXT Kraken
