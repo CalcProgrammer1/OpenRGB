@@ -1,12 +1,16 @@
-/*-----------------------------------------*\
-|  RGBController_NZXTHue2.h                 |
-|                                           |
-|  Generic RGB Interface for NZXT Hue 2     |
-|                                           |
-|  Adam Honse (CalcProgrammer1) 12/29/2019  |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_NZXTHue2.h                                  |
+|                                                           |
+|   RGBController for NZXT Hue 2                            |
+|                                                           |
+|   Adam Honse (calcprogrammer1@gmail.com)      29 Dec 2019 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #pragma once
+
 #include "RGBController.h"
 #include "NZXTHue2Controller.h"
 

@@ -1,8 +1,19 @@
+/*---------------------------------------------------------*\
+| NZXTHue2ControllerDetect.cpp                              |
+|                                                           |
+|   Detector for NZXT Hue 2                                 |
+|                                                           |
+|   Adam Honse (calcprogrammer1@gmail.com)      29 Dec 2019 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
+#include <hidapi/hidapi.h>
 #include "Detector.h"
 #include "NZXTHue2Controller.h"
 #include "RGBController.h"
 #include "RGBController_NZXTHue2.h"
-#include <hidapi/hidapi.h>
 
 #define NZXT_VID                        0x1E71
 #define NZXT_HUE_2_PID                  0x2001

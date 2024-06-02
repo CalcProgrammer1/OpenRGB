@@ -1,15 +1,20 @@
 /*---------------------------------------------------------*\
-|  Definitions for NZXT Hue 2                               |
+| NZXTHue2Controller.h                                      |
 |                                                           |
-|  Adam Honse (calcprogrammer1@gmail.com), 12/29/2016       |
+|   Driver for NZXT Hue 2                                   |
+|                                                           |
+|   Adam Honse (calcprogrammer1@gmail.com)      29 Dec 2019 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
 \*---------------------------------------------------------*/
 
-#include "RGBController.h"
+#pragma once
+
 #include <string>
 #include <vector>
 #include <hidapi/hidapi.h>
-
-#pragma once
+#include "RGBController.h"
 
 enum
 {
