@@ -47,5 +47,5 @@ REGISTER_DETECTOR("Arctic RGB controller", DetectArcticControllers);
 /*---------------------------------------------------------------------------------------------------------*\
 | Entries for dynamic UDEV rules                                                                            |
 |                                                                                                           |
-| DUMMY_DEVICE_DETECTOR("Arctic RGB controller", DetectArcticControllers, 0x1a86, 0x7523 )                  |
+| DUMMY_DEVICE_DETECTOR("Arctic RGB controller", DetectArcticControllers, 0x1A86, 0x7523 )                  |
 \*---------------------------------------------------------------------------------------------------------*/

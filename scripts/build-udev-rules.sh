@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 #-----------------------------------------------------------------------------#
 #  This script relies on the preprocessed *.ii and *.s files from             #
 #    all "RGBController_" .cpp files and the detectors that call them         #
@@ -48,10 +48,11 @@ echo -e "$UDEV_HEADER" > "$UDEV_FILE"
 #                                                                             #
 #    | callback_function | VID | PID | Name |                                 #
 #-----------------------------------------------------------------------------#
+DLM=$'\x01'
 echo -e "Creating device list"
-HID_LIST=$(grep -hR -e "static HIDDeviceDetector" . | cut -d '(' -f 2- | awk -F , '{ print $2 ":|" $3 "|" $4 "|" $1 "|" }')
-HID_WRAPPER_LIST=$(grep -hR -e "static HIDWrappedDeviceDetector" . | cut -d '(' -f 2- | awk -F , '{ print $2 ":|" $3 "|" $4 "|" $1 "|" }')
-DUMMY_LIST=$( grep -hR -e DUMMY_DEVICE_DETECTOR ${CONTROLLER_PATH} | cut -d '(' -f 2- | cut -d ')' -f 1 | awk -F , '{ print $2 ":|" $3 "|" $4 "|" $1 "|" }')
+HID_LIST=$(grep -hR -e "static HIDDeviceDetector" . | sed -e "s/^.*\(\".*\"\), \(.*\), \([0-9ABCDEFx]*\), \([0-9ABCDEFx]*\),.*,.*,.*;$/\2${DLM}\3${DLM}\4${DLM}\1/g")
+HID_WRAPPER_LIST=$(grep -hR -e "static HIDWrappedDeviceDetector" . | sed -e "s/^.*\(\".*\"\), \(.*\), \([0-9ABCDEFx]*\), \([0-9ABCDEFx]*\).*,.*,.*,.*;$/\2${DLM}\3${DLM}\4${DLM}\1/")
+DUMMY_LIST=$(grep -hR -e DUMMY_DEVICE_DETECTOR\( ${CONTROLLER_PATH} | sed -e "s/^.*\(\".*\"\), \(.*\), \([0-9ABCDEFx]*\), \([0-9ABCDEFx]*\) ).*/\2${DLM}\3${DLM}\4${DLM}\1/")
 
 #Check the output of the hid_list
 # echo -e "$HID_LIST\n$DUMMY_LIST" >> "hid_list.txt"
@@ -85,16 +86,16 @@ do
         while read -r detector
         do
             #Filter the list for all devices that use this detector
-            text=$(printf '%s\n%s\n%s' "$HID_LIST" "$HID_WRAPPER_LIST" "$DUMMY_LIST" | grep ${detector} | cut -d: -f 2- | sed -e 's/"//g')
+            text=$(printf '%s\n%s\n%s' "$HID_LIST" "$HID_WRAPPER_LIST" "$DUMMY_LIST" | grep ${detector} | sed -e 's/"//g')
 
             #Replace the detector string with the list of devices
             detectors=${detectors/${detector}/${text}}
 
             #Add a section heading for each RGBcontroller_
-            printf "#---------------------------------------------------------------#\n# %s - %s\n#---------------------------------------------------------------#\n" "$name" "$detector" >> "$UDEV_FILE"
+            printf "${UDEV_LINE}# %s - %s\n${UDEV_LINE}" "$name" "$detector" >> "$UDEV_FILE"
             while read -r device
             do
-                IFS='|' read null vid pid device_name null <<<"$device"
+                IFS="${DLM}" read null vid pid device_name null <<<"$device"
 
                 #Remove leading hex signifier from $vid and $pid
                 vid=${vid/0x/}
