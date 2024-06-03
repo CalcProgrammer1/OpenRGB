@@ -1,3 +1,15 @@
+/*---------------------------------------------------------*\
+| PatriotViperSteelControllerDetect.cpp                     |
+|                                                           |
+|   Detector for Patriot Viper Steel RAM                    |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <vector>
 #include "Detector.h"
 #include "PatriotViperSteelController.h"
 #include "LogManager.h"
@@ -5,9 +17,6 @@
 #include "RGBController_PatriotViperSteel.h"
 #include "i2c_smbus.h"
 #include "pci_ids.h"
-#include <vector>
-#include <stdio.h>
-#include <stdlib.h>
 
 using namespace std::chrono_literals;
 #define PATRIOT_CONTROLLER_NAME "Patriot Viper Steel"

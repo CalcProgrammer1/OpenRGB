@@ -1,14 +1,16 @@
-/*-----------------------------------------*\
-|  PatriotViperController.h                 |
-|                                           |
-|  Definitions and types for Patriot Viper  |
-|  RGB RAM lighting controller              |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| PatriotViperSteelController.h                             |
+|                                                           |
+|   Driver for Patriot Viper Steel RAM                      |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
+#pragma once
 
 #include <string>
 #include "i2c_smbus.h"
-
-#pragma once
 
 typedef unsigned char viper_dev_id;
 typedef unsigned short viper_register;

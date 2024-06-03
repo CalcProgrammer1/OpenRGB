@@ -1,9 +1,11 @@
-/*-----------------------------------------*\
-|  RGBController_PatriotViperSteel.cpp      |
-|                                           |
-|  Generic RGB Interface for OpenRGB        |
-|  Patriot Viper Steel RGB interface        |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_PatriotViperSteel.cpp                       |
+|                                                           |
+|   RGBController for Patriot Viper Steel RAM               |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #include "RGBController_PatriotViperSteel.h"
 

@@ -1,12 +1,14 @@
-/*-----------------------------------------*\
-|  PatriotViperSteelController.cpp          |
-|                                           |
-|  Definitions and types for Patriot Viper  |
-|  Steel RGB RAM lighting controller        |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| PatriotViperSteelController.cpp                           |
+|                                                           |
+|   Driver for Patriot Viper Steel RAM                      |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
-#include "PatriotViperSteelController.h"
 #include <cstring>
+#include "PatriotViperSteelController.h"
 
 PatriotViperSteelController::PatriotViperSteelController(i2c_smbus_interface *bus, viper_dev_id dev)
 {
