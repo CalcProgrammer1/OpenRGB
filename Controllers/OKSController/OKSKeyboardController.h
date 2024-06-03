@@ -1,37 +1,38 @@
-/*-----------------------------------------*\
-|  OKSKeyboardController.h                  |
-|                                           |
-|  Definitions and types for OKS RGB        |
-|  keyboard lighting controller             |
-|                                           |
-|  Merafour (OKS) 2/24/2023                 |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| OKSKeyboardController.h                                   |
+|                                                           |
+|   Driver for OKS keyboard                                 |
+|                                                           |
+|   Merafour (OKS)                              24 Feb 2023 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
-#include "RGBController.h"
+#pragma once
 
 #include <stdint.h>
 #include <string>
 #include <hidapi/hidapi.h>
-
-#pragma once
+#include "RGBController.h"
 
 /*-----------------------------------------------------*\
-| OKS vendor ID                                       |
+| OKS vendor ID                                         |
 \*-----------------------------------------------------*/
-#define OKS_VID                       0x1C4F
+#define OKS_VID                                 0x1C4F
 
 /*-----------------------------------------------------*\
 | Keyboard product IDs                                  |
 \*-----------------------------------------------------*/
-#define OKS_OPTICAL_RGB_PID         0xEE88
+#define OKS_OPTICAL_RGB_PID                     0xEE88
 
 /*-----------------------------------------------------*\
-| communication protocol                                |
+| Communication protocol                                |
 \*-----------------------------------------------------*/
-#define   KB2_PACK_HEAD              (0x5C&0xFF)
-#define   KB2_HEAD_SIZE    4
-#define   KB2_PORT_SIZE    (64*4)
-#define   KB2_DATA_SIZE    (KB2_PORT_SIZE-KB2_HEAD_SIZE)
+#define KB2_PACK_HEAD       (0x5C&0xFF)
+#define KB2_HEAD_SIZE       4
+#define KB2_PORT_SIZE       (64*4)
+#define KB2_DATA_SIZE       (KB2_PORT_SIZE-KB2_HEAD_SIZE)
 union kb2_port_t
 {
     uint8_t bin[KB2_PORT_SIZE];
@@ -72,10 +73,9 @@ public:
     std::string     GetDeviceLocation();
     std::string     GetSerialString();
     unsigned short  GetUSBPID();
-    
+
     void SendColors(unsigned char* color_data, unsigned int color_data_size);
     void SendKeyboardModeEx(const mode &m, unsigned char red, unsigned char green, unsigned char blue);
-
 
 private:
     hid_device*             dev;

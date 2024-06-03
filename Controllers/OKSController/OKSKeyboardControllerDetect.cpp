@@ -1,10 +1,21 @@
+/*---------------------------------------------------------*\
+| OKSKeyboardControllerDetect.cpp                           |
+|                                                           |
+|   Detector for OKS keyboard                               |
+|                                                           |
+|   Merafour (OKS)                              24 Feb 2023 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
+#include <hidapi/hidapi.h>
 #include "Detector.h"
 #include "OKSKeyboardController.h"
 #include "RGBController.h"
 #include "RGBController_OKSKeyboard.h"
-#include <hidapi/hidapi.h>
+
 /******************************************************************************************\
-*                                                                                          *
 *  DetectOKSKeyboardControllers                                                            *
 *  Reference: DuckyKeyboardController                                                      *
 *  Tests the USB address to see if a OKS Optical Axis RGB Keyboard controller exists there.*

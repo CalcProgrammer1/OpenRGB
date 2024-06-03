@@ -1,11 +1,13 @@
-/*-----------------------------------------*\
-|  OKSKeyboardController.cpp                |
-|                                           |
-|  Driver for OKS RGB keyboardlighting      |
-|  controller                               |
-|                                           |
-|  Merafour (OKS) 2/24/2023                 |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| OKSKeyboardController.cpp                                 |
+|                                                           |
+|   Driver for OKS keyboard                                 |
+|                                                           |
+|   Merafour (OKS)                              24 Feb 2023 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #include <cstring>
 #include "OKSKeyboardController.h"

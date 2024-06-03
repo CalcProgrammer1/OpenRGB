@@ -1,11 +1,13 @@
-/*-----------------------------------------*\
-|  RGBController_OKSKeyboard.cpp            |
-|                                           |
-|  Generic RGB Interface for OKS RGB        |
-|  keyboard devices                         |
-|                                           |
-|  Merafour (OKS) 2/24/2023                 |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_OKSKeyboard.cpp                             |
+|                                                           |
+|   RGBController for OKS keyboard                          |
+|                                                           |
+|   Merafour (OKS)                              24 Feb 2023 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #include "RGBControllerKeyNames.h"
 #include "RGBController_OKSKeyboard.h"
