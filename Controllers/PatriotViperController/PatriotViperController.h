@@ -1,17 +1,19 @@
-/*-----------------------------------------*\
-|  PatriotViperController.h                 |
-|                                           |
-|  Definitions and types for Patriot Viper  |
-|  RGB RAM lighting controller              |
-|                                           |
-|  Adam Honse (CalcProgrammer1) 1/1/2020    |
-\*-----------------------------------------*/
-
-#include <string>
-#include <map>
-#include "i2c_smbus.h"
+/*---------------------------------------------------------*\
+| PatriotViperController.h                                  |
+|                                                           |
+|   Driver for Patriot Viper RAM                            |
+|                                                           |
+|   Adam Honse (CalcProgrammer1)                01 Jan 2020 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #pragma once
+
+#include <map>
+#include <string>
+#include "i2c_smbus.h"
 
 typedef unsigned char	viper_dev_id;
 typedef unsigned short	viper_register;
@@ -94,7 +96,7 @@ private:
     viper_dev_id            dev;
     unsigned char           mode;
     unsigned char           speed;
-    
+
     std::thread*            keepalive_thread;
     std::atomic<bool>       keepalive_thread_run;
     std::atomic<int>        step;
@@ -108,7 +110,7 @@ private:
     | and the Keepalive thread is not needed                  |
     \*-------------------------------------------------------*/
 
-    std::map <int, int> mode_steps = 
+    std::map <int, int> mode_steps =
     {
         {VIPER_MODE_DARK, -1},
         {VIPER_MODE_BREATHING, 4},
@@ -120,7 +122,7 @@ private:
         {VIPER_MODE_NEON, 0},
     };
 
-    std::map <int, int> mode_sub_steps = 
+    std::map <int, int> mode_sub_steps =
     {
         {VIPER_MODE_DARK, -1},
         {VIPER_MODE_BREATHING, 1},
@@ -132,7 +134,7 @@ private:
         {VIPER_MODE_NEON, 5},
     };
 
-    std::map <int, int> mode_speed = 
+    std::map <int, int> mode_speed =
     {
         {VIPER_MODE_DARK, -1},
         {VIPER_MODE_BREATHING, 0x06},
