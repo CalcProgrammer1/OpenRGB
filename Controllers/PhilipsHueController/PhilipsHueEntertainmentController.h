@@ -1,18 +1,22 @@
 /*---------------------------------------------------------*\
-|  Definitions for Philips Hue Entertainment Mode           |
+| PhilipsHueEntertainmentController.h                       |
 |                                                           |
-|  Adam Honse (calcprogrammer1@gmail.com), 11/6/2020        |
+|   Detector for Philips Hue Entertainment Mode             |
+|                                                           |
+|   Adam Honse (calcprogrammer1@gmail.com)      06 Nov 2020 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
 \*---------------------------------------------------------*/
 
+#pragma once
+
+#include <string>
+#include <vector>
 #include "Bridge.h"
 #include "EntertainmentMode.h"
 #include "Group.h"
 #include "RGBController.h"
-
-#include <string>
-#include <vector>
-
-#pragma once
 
 #define HUE_ENTERTAINMENT_HEADER_SIZE   16
 #define HUE_ENTERTAINMENT_LIGHT_SIZE    9

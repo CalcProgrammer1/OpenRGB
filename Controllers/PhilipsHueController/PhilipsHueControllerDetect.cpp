@@ -1,3 +1,14 @@
+/*---------------------------------------------------------*\
+| PhilipsHueControllerDetect.cpp                            |
+|                                                           |
+|   Detector for Philips Hue                                |
+|                                                           |
+|   Adam Honse (calcprogrammer1@gmail.com)      15 Sep 2020 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
 #include "Bridge.h"
 #include "HueDeviceTypes.h"
 

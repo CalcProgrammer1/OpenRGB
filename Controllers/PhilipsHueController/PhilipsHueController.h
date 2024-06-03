@@ -1,15 +1,19 @@
 /*---------------------------------------------------------*\
-|  Definitions for Philips Hue                              |
+| PhilipsHueController.h                                    |
 |                                                           |
-|  Adam Honse (calcprogrammer1@gmail.com), 9/15/2020        |
+|   Driver for Philips Hue                                  |
+|                                                           |
+|   Adam Honse (calcprogrammer1@gmail.com)      15 Sep 2020 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
 \*---------------------------------------------------------*/
 
-#include "HueDeviceTypes.h"
+#pragma once
 
 #include <string>
 #include <vector>
-
-#pragma once
+#include "HueDeviceTypes.h"
 
 class PhilipsHueController
 {

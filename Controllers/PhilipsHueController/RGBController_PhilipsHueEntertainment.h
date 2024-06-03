@@ -1,18 +1,20 @@
-/*-----------------------------------------*\
-|  RGBController_PhilipsHueEntertainment.h  |
-|                                           |
-|  Generic RGB Interface for Philips Hue    |
-|  Entertainment Mode                       |
-|                                           |
-|  Adam Honse (CalcProgrammer1) 11/7/2020   |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_PhilipsHueEntertainment.h                   |
+|                                                           |
+|   RGBController for Philips Hue Entertainment Mode        |
+|                                                           |
+|   Adam Honse (calcprogrammer1@gmail.com)      07 Nov 2020 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #pragma once
-#include "RGBController.h"
-#include "PhilipsHueEntertainmentController.h"
 
 #include <atomic>
 #include <thread>
+#include "RGBController.h"
+#include "PhilipsHueEntertainmentController.h"
 
 class RGBController_PhilipsHueEntertainment : public RGBController
 {

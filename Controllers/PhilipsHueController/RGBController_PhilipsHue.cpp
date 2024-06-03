@@ -1,10 +1,13 @@
-/*-----------------------------------------*\
-|  RGBController_PhilipsHue.cpp             |
-|                                           |
-|  Generic RGB Interface for Philips Hue    |
-|                                           |
-|  Adam Honse (CalcProgrammer1) 9/15/2020   |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_PhilipsHue.cpp                              |
+|                                                           |
+|   RGBController for Philips Hue                           |
+|                                                           |
+|   Adam Honse (calcprogrammer1@gmail.com)      15 Sep 2020 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #include "RGBController_PhilipsHue.h"
 

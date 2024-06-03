@@ -1,7 +1,12 @@
 /*---------------------------------------------------------*\
-|  Driver for Philips Hue Entertainment Mode                |
+| PhilipsHueEntertainmentController.cpp                     |
 |                                                           |
-|  Adam Honse (calcprogrammer1@gmail.com), 11/6/2020        |
+|   Detector for Philips Hue Entertainment Mode             |
+|                                                           |
+|   Adam Honse (calcprogrammer1@gmail.com)      06 Nov 2020 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
 \*---------------------------------------------------------*/
 
 #include "RGBController.h"
@@ -81,7 +86,7 @@ void PhilipsHueEntertainmentController::Connect()
         | Create Entertainment Mode from bridge and group   |
         \*-------------------------------------------------*/
         entertainment = new hueplusplus::EntertainmentMode(bridge, group);
-        
+
         /*-------------------------------------------------*\
         | Connect Hue Entertainment Mode                    |
         \*-------------------------------------------------*/
