@@ -1,16 +1,18 @@
-/*-----------------------------------------*\
-|  PalitGPUController.h                     |
-|                                           |
-|  Definitions and types for Palit GPU RGB  |
-|  lighting controller                      |
-|                                           |
-|  Manatsawin Hanmongkolchai  04/11/2023    |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| PalitGPUController.h                                      |
+|                                                           |
+|   Driver for Palit GPU                                    |
+|                                                           |
+|   Manatsawin Hanmongkolchai                   11 Apr 2023 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
+#pragma once
 
 #include <string>
 #include "i2c_smbus.h"
-
-#pragma once
 
 typedef unsigned char   palit_dev_id;
 

@@ -1,11 +1,13 @@
-/*-----------------------------------------*\
-|  RGBController_PalitGPU.cpp               |
-|                                           |
-|  Generic RGB Interface for OpenRGB        |
-|  Palit GPU RGB Driver                     |
-|                                           |
-|  Manatsawin Hanmongkolchai  04/11/2023    |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_PalitGPU.cpp                                |
+|                                                           |
+|   RGBController for Palit GPU                             |
+|                                                           |
+|   Manatsawin Hanmongkolchai                   11 Apr 2023 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #include "RGBController_PalitGPU.h"
 
