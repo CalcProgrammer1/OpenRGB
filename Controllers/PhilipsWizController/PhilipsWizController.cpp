@@ -1,7 +1,12 @@
 /*---------------------------------------------------------*\
-|  Driver for Philips Wiz                                   |
+| PhilipsWizController.cpp                                  |
 |                                                           |
-|  Adam Honse (calcprogrammer1@gmail.com), 9/15/2020        |
+|   Driver for Philips Wiz                                  |
+|                                                           |
+|   Adam Honse (calcprogrammer1@gmail.com)      03 Nov 2020 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
 \*---------------------------------------------------------*/
 
 #include "PhilipsWizController.h"

@@ -1,12 +1,16 @@
-/*-----------------------------------------*\
-|  RGBController_PhilipsWiz.h               |
-|                                           |
-|  Generic RGB Interface for Philips Wiz    |
-|                                           |
-|  Adam Honse (CalcProgrammer1) 11/3/2020   |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_PhilipsWiz.h                                |
+|                                                           |
+|   RGBController for Philips Wiz                           |
+|                                                           |
+|   Adam Honse (calcprogrammer1@gmail.com)      03 Nov 2020 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #pragma once
+
 #include "RGBController.h"
 #include "PhilipsWizController.h"
 

@@ -1,11 +1,22 @@
+/*---------------------------------------------------------*\
+| PhilipsWizControllerDetect.cpp                            |
+|                                                           |
+|   Detector for Philips Wiz                                |
+|                                                           |
+|   Adam Honse (calcprogrammer1@gmail.com)      03 Nov 2020 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <vector>
 #include "Detector.h"
 #include "PhilipsWizController.h"
 #include "RGBController.h"
 #include "RGBController_PhilipsWiz.h"
 #include "SettingsManager.h"
-#include <vector>
-#include <stdio.h>
-#include <stdlib.h>
 
 /******************************************************************************************\
 *                                                                                          *

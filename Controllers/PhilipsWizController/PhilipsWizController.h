@@ -1,17 +1,21 @@
 /*---------------------------------------------------------*\
-|  Definitions for Philips Wiz                              |
+| PhilipsWizController.h                                    |
 |                                                           |
-|  Adam Honse (calcprogrammer1@gmail.com), 11/3/2020        |
+|   Driver for Philips Wiz                                  |
+|                                                           |
+|   Adam Honse (calcprogrammer1@gmail.com)      03 Nov 2020 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
 \*---------------------------------------------------------*/
 
-#include "RGBController.h"
-#include "net_port.h"
+#pragma once
 
 #include <string>
 #include <thread>
 #include <vector>
-
-#pragma once
+#include "RGBController.h"
+#include "net_port.h"
 
 #define PHILIPSWIZ_BRIGHTNESS_MAX   100
 #define PHILIPSWIZ_BRIGHTNESS_MIN   10
