@@ -1,13 +1,15 @@
-/*-------------------------------------------------------------------*\
-|  QMKOpenRGBRev9Controller.cpp                                       |
-|                                                                     |
-|  Driver for QMK keyboards using OpenRGB Protocol (Revision 9)       |
-|                                                                     |
-|  Revision 9 was the initial protocol supported by OpenRGB 0.6.      |
-|                                                                     |
-|  Kasper       10th Octobber 2020                                    |
-|  Jath03       28th May 2021                                         |
-\*-------------------------------------------------------------------*/
+/*---------------------------------------------------------*\
+| QMKOpenRGBRev9Controller.cpp                              |
+|                                                           |
+|   Driver for OpenRGB QMK Keyboard Protocol Revision 9     |
+|   Revision 9 was initially supported by OpenRGB 0.6       |
+|                                                           |
+|   Kasper                                      10 Oct 2020 |
+|   Jath03                                      28 May 2021 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #include "QMKOpenRGBRev9Controller.h"
 
