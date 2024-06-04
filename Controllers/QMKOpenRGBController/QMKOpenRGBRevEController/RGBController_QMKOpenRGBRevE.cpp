@@ -1,12 +1,15 @@
-/*-------------------------------------------------------------------*\
-|  RGBController_QMKOpenRGBRevE.cpp                                   |
-|                                                                     |
-|  Driver for QMK keyboards using OpenRGB Protocol (Revision E)       |
-|                                                                     |
-|  Kasper       10th Octobber 2020                                    |
-|  Jath03       28th May 2021                                         |
-|  HorrorTroll  11th July 2022                                        |
-\*-------------------------------------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_QMKOpenRGBRevE.cpp                          |
+|                                                           |
+|   RGBController for OpenRGB QMK Keyboard Protocol         |
+|   Revision E                                              |
+|                                                           |
+|   Neneya                                      26 Dec 2021 |
+|   HorrorTroll                                 11 Jul 2022 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #include "hsv.h"
 #include "LogManager.h"
