@@ -1,11 +1,13 @@
-/*-----------------------------------------*\
-|  PNYGPUController.cpp                     |
-|                                           |
-|  Driver for PNY GPU RGB (Turing)          |
-|  lighting controller                      |
-|                                           |
-|  KendallMorgan   10/17/2021               |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| PNYGPUController.cpp                                      |
+|                                                           |
+|   Driver for PNY Turing GPU                               |
+|                                                           |
+|   KendallMorgan                               17 Oct 2021 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #include "PNYGPUController.h"
 

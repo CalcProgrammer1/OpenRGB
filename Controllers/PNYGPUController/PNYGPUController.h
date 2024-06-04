@@ -1,16 +1,18 @@
-/*-----------------------------------------*\
-|  PNYGPUController.h                       |
-|                                           |
-|  Definitions and types for PNY GPU RGB    |
-|  (Turing) lighting controller             |
-|                                           |
-|  KendallMorgan   10/17/2021               |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| PNYGPUController.h                                        |
+|                                                           |
+|   Driver for PNY Turing GPU                               |
+|                                                           |
+|   KendallMorgan                               17 Oct 2021 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
+#pragma once
 
 #include <string>
 #include "i2c_smbus.h"
-
-#pragma once
 
 typedef unsigned char   pny_dev_id;
 
