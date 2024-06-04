@@ -1,15 +1,18 @@
-/*-------------------------------------------------------------------*\
-|  QMKOpenRGBControllerDetect.cpp                                     |
-|                                                                     |
-|  Driver for QMK keyboards using OpenRGB Protocol                    |
-|                                                                     |
-|  Kasper       10th Octobber 2020                                    |
-|  Jath03       28th May 2021                                         |
-\*-------------------------------------------------------------------*/
+/*---------------------------------------------------------*\
+| QMKOpenRGBControllerDetect.cpp                            |
+|                                                           |
+|   Detector for OpenRGB QMK Keyboard Protocol              |
+|                                                           |
+|   Kasper                                      10 Oct 2020 |
+|   Jath03                                      28 May 2021 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #include <iostream>
 #include <string>
-
+#include <hidapi/hidapi.h>
 #include "Detector.h"
 #include "QMKOpenRGBRev9Controller.h"
 #include "QMKOpenRGBRevBController.h"
@@ -21,7 +24,6 @@
 #include "RGBController_QMKOpenRGBRevE.h"
 #include "LogManager.h"
 #include "SettingsManager.h"
-#include <hidapi/hidapi.h>
 
 /*-----------------------------------------------------*\
 | Protocol version                                      |

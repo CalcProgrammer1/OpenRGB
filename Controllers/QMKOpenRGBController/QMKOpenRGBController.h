@@ -1,20 +1,23 @@
-/*-------------------------------------------------------------------*\
-|  QMKOpenRGBController.h                                             |
-|                                                                     |
-|  Common definitions for QMK OpenRGB Controller                      |
-|                                                                     |
-|  Kasper       10th Octobber 2020                                    |
-|  Jath03       28th May 2021                                         |
-\*-------------------------------------------------------------------*/
+/*---------------------------------------------------------*\
+| QMKOpenRGBController.h                                    |
+|                                                           |
+|   Driver for OpenRGB QMK Keyboard Protocol                |
+|                                                           |
+|   Kasper                                      10 Oct 2020 |
+|   Jath03                                      28 May 2021 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #pragma once
 
+#include <cstring>
+#include <map>
+#include <hidapi/hidapi.h>
 #include "ResourceManager.h"
 #include "RGBController.h"
 #include "hsv.h"
-#include <hidapi/hidapi.h>
-#include <cstring>
-#include <map>
 
 #define QMK_OPENRGB_PACKET_SIZE         65
 #define QMK_OPENRGB_HID_READ_TIMEOUT    50

@@ -1,9 +1,12 @@
 /*---------------------------------------------------------*\
-|  QMKOpenRGBBaseController.cpp                             |
+| QMKOpenRGBBaseController.h                                |
 |                                                           |
-|  Base class for QMK keyboards using OpenRGB Protocol      |
+|   Common Driver for OpenRGB QMK Keyboard Protocol         |
 |                                                           |
-|  ChrisM       20th December 2023                          |
+|   ChrisM                                      20 Dec 2023 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
 \*---------------------------------------------------------*/
 
 #pragma once
@@ -12,7 +15,6 @@
 #include "RGBController.h"
 #include "RGBControllerKeyNames.h"
 #include "SettingsManager.h"
-
 #include "QMKOpenRGBController.h"
 
 typedef std::map<uint8_t, std::string>  qmk_keycodes;
