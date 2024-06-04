@@ -1,3 +1,17 @@
+/*---------------------------------------------------------*\
+| PNYLovelaceGPUControllerDetect.cpp                        |
+|                                                           |
+|   Detector for PNY Lovelace GPU                           |
+|                                                           |
+|   yufan                                       01 Oct 2023 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <vector>
 #include "Detector.h"
 #include "LogManager.h"
 #include "PNYLovelaceGPUController.h"
@@ -5,9 +19,6 @@
 #include "RGBController_PNYLovelaceGPU.h"
 #include "i2c_smbus.h"
 #include "pci_ids.h"
-#include <vector>
-#include <stdio.h>
-#include <stdlib.h>
 
 /*-----------------------------------------------------------------------------------------*\
 | DetectPNYLovelaceGPUControllers                                                           |

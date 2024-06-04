@@ -1,16 +1,18 @@
-/*-----------------------------------------*\
-|  PNYLovelaceGPUController.h               |
-|                                           |
-|  Definitions and types for PNY GPU RGB    |
-|  (Lovelace) lighting controller           |
-|                                           |
-|  yufan   10/1/2023                        |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| PNYLovelaceGPUController.h                                |
+|                                                           |
+|   Driver for PNY Lovelace GPU                             |
+|                                                           |
+|   yufan                                       01 Oct 2023 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
+#pragma once
 
 #include <string>
 #include "i2c_smbus.h"
-
-#pragma once
 
 typedef unsigned char   pny_dev_id;
 

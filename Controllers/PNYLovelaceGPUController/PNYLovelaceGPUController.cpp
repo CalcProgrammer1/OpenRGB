@@ -1,11 +1,13 @@
-/*-----------------------------------------*\
-|  PNYLovelaceGPUController.cpp             |
-|                                           |
-|  Driver for PNY GPU RGB (Lovelace)        |
-|  lighting controller                      |
-|                                           |
-|  yufan   10/1/2023                        |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| PNYLovelaceGPUController.cpp                              |
+|                                                           |
+|   Driver for PNY Lovelace GPU                             |
+|                                                           |
+|   yufan                                       01 Oct 2023 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #include "PNYLovelaceGPUController.h"
 
