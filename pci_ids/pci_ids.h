@@ -619,6 +619,7 @@
 #define MSI_RTX2070S_GAMING_X_TRIO_SUB_DEV              0xC726
 #define MSI_RTX2080_GAMING_TRIO_SUB_DEV                 0x372E
 #define MSI_RTX2080_GAMING_X_TRIO_SUB_DEV               0x3726
+#define MSI_RTX2080_GAMING_X_TRIO_SUB_DEV_2             0x3727
 #define MSI_RTX2080_SEA_HAWK_EK_X_SUB_DEV               0x3728
 #define MSI_RTX2080_DUKE_OC_SUB_DEV                     0x3721
 #define MSI_RTX2080S_GAMING_X_TRIO_SUB_DEV              0xC724
