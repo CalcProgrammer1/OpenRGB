@@ -1,11 +1,15 @@
-/*-------------------------------------------------------------------*\
-|  RGBController_QMKOpenRGBRevB.cpp                                   |
-|                                                                     |
-|  Driver for QMK keyboards using OpenRGB Protocol (Revision B)       |
-|                                                                     |
-|  Kasper       10th Octobber 2020                                    |
-|  Jath03       28th May 2021                                         |
-\*-------------------------------------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_QMKOpenRGBRevB.cpp                          |
+|                                                           |
+|   RGBController for OpenRGB QMK Keyboard Protocol         |
+|   Revision B                                              |
+|                                                           |
+|   Kasper                                      28 Jun 2021 |
+|   Jath03                                      28 May 2021 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #include "hsv.h"
 #include "LogManager.h"
