@@ -1,11 +1,13 @@
-/*-------------------------------------------------------------------*\
-|  QMKOpenRGBRevDController.h                                         |
-|                                                                     |
-|  Driver for QMK keyboards using OpenRGB Protocol (Revision D)       |
-|                                                                     |
-|  Kasper       10th Octobber 2020                                    |
-|  Jath03       28th May 2021                                         |
-\*-------------------------------------------------------------------*/
+/*---------------------------------------------------------*\
+| QMKOpenRGBRevDController.h                                |
+|                                                           |
+|   Driver for OpenRGB QMK Keyboard Protocol Revision D     |
+|                                                           |
+|   Neneya                                      26 Dec 2021 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #pragma once
 
