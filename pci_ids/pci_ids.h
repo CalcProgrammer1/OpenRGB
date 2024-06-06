@@ -773,6 +773,7 @@
 #define ZOTAC_RTX3070_AMP_SUB_DEV                       0x8617
 #define ZOTAC_RTX3080_12G_LHR_TRINITY_SUB_DEV           0xB612
 #define ZOTAC_RTX3080_TRINITY_SUB_DEV                   0x1612
+#define ZOTAC_RTX3080_AMP_LHR_SUB_DEV                   0x3612
 #define ZOTAC_RTX3080TI_AMP_SUB_DEV                     0x2612
 #define ZOTAC_RTX3090_AMP_SUB_DEV                       0x1619
 #define ZOTAC_RTX3090_TRINITY_SUB_DEV                   0x1613
