@@ -39,9 +39,9 @@ declare -a UNICODE=($WHITE_CHECK_MARK $ROTATING_LIGHT $ROBOT $TOOLS $NO_ENTRY $C
 ## The HID list is produced from each "REGISTER_DETECTOR" macro replacement.
 DLM=$'\x01'
 ## | callback_function | VID | PID | Name |
-HID_LIST=$(grep -hR -e "static\ HIDDeviceDetector" . | sed -e "s/^.*\(\".*\"\), \(.*\), \([0-9ABCDEFx]*\), \([0-9ABCDEFx]*\).*,.*,.*,.*;$/\2${DLM}\3${DLM}\4${DLM}\1/p")
-I2C_LIST=$(grep -hR -e "static\ I2CPCIDeviceDetector" . | sed -e "s/^.*\(\".*\"\), \(.*\), \([0-9ABCDEFx]*\), \([0-9ABCDEFx]*\), \([0-9ABCDEFx]*\), \([0-9ABCDEFx]*\),.*;$/\2${DLM}\3${DLM}\4${DLM}\5${DLM}\6${DLM}\1/p")
-DUMMY_LIST=$(grep -hR -e DUMMY_DEVICE_DETECTOR\( ${CONTROLLER_PATH} | sed -e "s/^.*\(\".*\"\), \(.*\), \([0-9ABCDEFx]*\), \([0-9ABCDEFx]*\) ).*/\2${DLM}\3${DLM}\4${DLM}\1/p")
+HID_LIST=$(grep -hR -e "static\ HIDDeviceDetector" . | sed -e "s/^.*\(\".*\"\), \(.*\), \([0-9ABCDEFx]*\), \([0-9ABCDEFx]*\).*,.*,.*,.*;$/\2${DLM}\3${DLM}\4${DLM}\1/g")
+I2C_LIST=$(grep -hR -e "static\ I2CPCIDeviceDetector" . | sed -e "s/^.*\(\".*\"\), \(.*\), \([0-9ABCDEFx]*\), \([0-9ABCDEFx]*\), \([0-9ABCDEFx]*\), \([0-9ABCDEFx]*\),.*;$/\2${DLM}\3${DLM}\4${DLM}\5${DLM}\6${DLM}\1/")
+DUMMY_LIST=$(grep -hR -e DUMMY_DEVICE_DETECTOR\( ${CONTROLLER_PATH} | sed -e "s/^.*\(\".*\"\), \(.*\), \([0-9ABCDEFx]*\), \([0-9ABCDEFx]*\) ).*/\2${DLM}\3${DLM}\4${DLM}\1/")
 
 printf "%s\n%s\n%s" "$HID_LIST" "$I2C_LIST" "$DUMMY_LIST" > "device.list"
 
