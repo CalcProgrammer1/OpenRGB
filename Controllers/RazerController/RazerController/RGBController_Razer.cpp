@@ -1,3 +1,14 @@
+/*---------------------------------------------------------*\
+| RGBController_Razer.cpp                                   |
+|                                                           |
+|   RGBController for Razer devices                         |
+|                                                           |
+|   Adam Honse (CalcProgrammer1)                22 Jan 2021 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
 #include "RGBController_Razer.h"
 #include "RazerDevices.h"
 #include "LogManager.h"

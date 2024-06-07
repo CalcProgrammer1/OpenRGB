@@ -1,17 +1,19 @@
-/*-----------------------------------------*\
-|  RazerController.h                        |
-|                                           |
-|  Definitions and types for Razer devices  |
-|                                           |
-|  Adam Honse (CalcProgrammer1) 1/22/2021   |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| RazerController.h                                         |
+|                                                           |
+|   Driver for Razer devices                                |
+|                                                           |
+|   Adam Honse (CalcProgrammer1)                22 Jan 2021 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
-#include "RGBController.h"
+#pragma once
 
 #include <string>
 #include <hidapi/hidapi.h>
-
-#pragma once
+#include "RGBController.h"
 
 /*---------------------------------------------------------*\
 | Struct packing macro for GCC and MSVC                     |

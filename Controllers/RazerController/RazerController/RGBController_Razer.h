@@ -1,12 +1,16 @@
-/*-----------------------------------------*\
-|  RGBController_Razer.h                    |
-|                                           |
-|  Generic RGB Interface for Razer devices  |
-|                                           |
-|  Adam Honse (CalcProgrammer1) 1/22/2021   |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_Razer.h                                     |
+|                                                           |
+|   RGBController for Razer devices                         |
+|                                                           |
+|   Adam Honse (CalcProgrammer1)                22 Jan 2021 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #pragma once
+
 #include "RGBController.h"
 #include "RazerController.h"
 

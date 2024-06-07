@@ -1,12 +1,16 @@
-/*-----------------------------------------*\
-|  RGBController_RazerAddressable.h         |
-|                                           |
-|  Generic RGB Interface for Razer devices  |
-|                                           |
-|  Adam Honse (CalcProgrammer1) 4/11/2021   |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_RazerAddressable.h                          |
+|                                                           |
+|   RGBController for Razer ARGB Controller                 |
+|                                                           |
+|   Adam Honse (CalcProgrammer1)                11 Apr 2021 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #pragma once
+
 #include "RGBController.h"
 #include "RazerController.h"
 
@@ -30,7 +34,7 @@ public:
     void        SetupZones();
 
     void        ResizeZone(int zone, int new_size);
-    
+
     void        DeviceUpdateLEDs();
     void        UpdateZoneLEDs(int zone);
     void        UpdateSingleLED(int led);
