@@ -1,6 +1,16 @@
-#include "RedragonMouseController.h"
+/*---------------------------------------------------------*\
+| RedragonMouseController.cpp                               |
+|                                                           |
+|   Driver for Redragon mouse                               |
+|                                                           |
+|   Adam Honse (CalcProgrammer1)                15 Mar 2020 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #include <cstring>
+#include "RedragonMouseController.h"
 
 RedragonMouseController::RedragonMouseController(hid_device* dev_handle, const char* path)
 {
@@ -111,7 +121,7 @@ void RedragonMouseController::SendMouseApply()
     usb_buf[0x01]           = 0xF1;
     usb_buf[0x02]           = 0x02;
     usb_buf[0x03]           = 0x04;
-    
+
     /*-----------------------------------------------------*\
     | Send packet                                           |
     \*-----------------------------------------------------*/
@@ -145,7 +155,7 @@ void RedragonMouseController::SendWritePacket
     | Copy in data bytes                                    |
     \*-----------------------------------------------------*/
     memcpy(&usb_buf[0x08], data, data_size);
-    
+
     /*-----------------------------------------------------*\
     | Send packet                                           |
     \*-----------------------------------------------------*/

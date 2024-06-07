@@ -1,11 +1,14 @@
-/*-----------------------------------------*\
-|  RedragonMouseController.h                |
-|                                           |
-|  Definitions and types for Redragon Mouse |
-|  lighting controller                      |
-|                                           |
-|  Adam Honse (CalcProgrammer1) 3/15/2020   |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| RedragonMouseController.h                                 |
+|                                                           |
+|   Driver for Redragon mouse                               |
+|                                                           |
+|   Adam Honse (CalcProgrammer1)                15 Mar 2020 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
 #pragma once
 
 #include <string>

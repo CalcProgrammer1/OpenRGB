@@ -1,10 +1,14 @@
-/*-----------------------------------------*\
-|  RGBController_RedragonMouse.h            |
-|                                           |
-|  Generic RGB Interface for Redragon Mouse |
-|                                           |
-|  Adam Honse (CalcProgrammer1) 3/25/2020   |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_RedragonMouse.h                             |
+|                                                           |
+|   RGBController for Redragon mouse                        |
+|                                                           |
+|   Adam Honse (CalcProgrammer1)                25 Mar 2020 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
 #pragma once
 
 #include "RGBController.h"
@@ -18,7 +22,7 @@ public:
 
     void        SetupZones();
     void        ResizeZone(int zone, int new_size);
-    
+
     void        DeviceUpdateLEDs();
     void        UpdateZoneLEDs(int zone);
     void        UpdateSingleLED(int led);
