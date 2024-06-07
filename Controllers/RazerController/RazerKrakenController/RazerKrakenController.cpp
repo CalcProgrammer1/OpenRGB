@@ -1,15 +1,17 @@
-/*-----------------------------------------*\
-|  RazerKrakenController.cpp                |
-|                                           |
-|  Driver for Razer Kraken devices          |
-|                                           |
-|  Adam Honse (CalcProgrammer1) 2/28/2021   |
-\*-----------------------------------------*/
-
-#include "RazerKrakenController.h"
-#include "RazerDevices.h"
+/*---------------------------------------------------------*\
+| RazerKrakenController.cpp                                 |
+|                                                           |
+|   Driver for Razer Kraken                                 |
+|                                                           |
+|   Adam Honse (CalcProgrammer1)                28 Feb 2021 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #include <string.h>
+#include "RazerKrakenController.h"
+#include "RazerDevices.h"
 
 using namespace std::chrono_literals;
 

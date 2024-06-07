@@ -1,18 +1,19 @@
-/*-----------------------------------------*\
-|  RazerKrakenController.h                  |
-|                                           |
-|  Definitions and types for Razer Kraken   |
-|  devices                                  |
-|                                           |
-|  Adam Honse (CalcProgrammer1) 2/28/2021   |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| RazerKrakenController.h                                   |
+|                                                           |
+|   Driver for Razer Kraken                                 |
+|                                                           |
+|   Adam Honse (CalcProgrammer1)                28 Feb 2021 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
-#include "RGBController.h"
+#pragma once
 
 #include <string>
 #include <hidapi/hidapi.h>
-
-#pragma once
+#include "RGBController.h"
 
 /*---------------------------------------------------------*\
 | Struct packing macro for GCC and MSVC                     |
@@ -115,10 +116,10 @@ private:
     \*---------------------------------------------------------*/
     razer_kraken_request_report razer_kraken_create_report(unsigned char report_id, unsigned char destination, unsigned char length, unsigned short address);
     razer_kraken_effect_byte    razer_kraken_create_effect_byte();
-    
+
     std::string                 razer_get_firmware();
     std::string                 razer_get_serial();
-    
+
     void                        razer_set_mode_breathing_one_color(unsigned char red, unsigned char grn, unsigned char blu);
     void                        razer_set_mode_breathing_two_colors(unsigned char r1, unsigned char g1, unsigned char b1, unsigned char r2, unsigned char g2, unsigned char b2);
     void                        razer_set_mode_breathing_three_colors(unsigned char r1, unsigned char g1, unsigned char b1, unsigned char r2, unsigned char g2, unsigned char b2, unsigned char r3, unsigned char g3, unsigned char b3);

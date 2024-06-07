@@ -1,3 +1,14 @@
+/*---------------------------------------------------------*\
+| RGBController_RazerKraken.cpp                             |
+|                                                           |
+|   RGBController for Razer Kraken                          |
+|                                                           |
+|   Adam Honse (CalcProgrammer1)                28 Feb 2021 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
 #include "RGBController_RazerKraken.h"
 #include "RazerDevices.h"
 
