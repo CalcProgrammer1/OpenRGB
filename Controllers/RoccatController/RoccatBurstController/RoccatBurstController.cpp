@@ -1,15 +1,16 @@
-/*-------------------------------------------------------------------*\
-|  RoccatBurstController.cpp                                          |
-|                                                                     |
-|  Driver for Roccat Burst Core and Pro Mouse                         |
-|                                                                     |
-|  Morgan Guimard (morg)          2/24/2022                           |
-|                                                                     |
-\*-------------------------------------------------------------------*/
-
-#include "RoccatBurstController.h"
+/*---------------------------------------------------------*\
+| RoccatBurstController.cpp                                 |
+|                                                           |
+|   Driver for Roccat Burst                                 |
+|                                                           |
+|   Morgan Guimard (morg)                       24 Feb 2022 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #include <cstring>
+#include "RoccatBurstController.h"
 
 RoccatBurstController::RoccatBurstController(hid_device* dev_handle, const hid_device_info& info)
 {

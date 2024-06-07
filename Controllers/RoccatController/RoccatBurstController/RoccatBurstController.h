@@ -1,10 +1,13 @@
-/*-------------------------------------------------------------------*\
-|  RoccatBurstController.h                                            |
-|                                                                     |
-|  Driver for Roccat Burst Core and Pro Mouse                         |
-|                                                                     |
-|  Morgan Guimard (morg)   6/01/2022                                  |
-\*-------------------------------------------------------------------*/
+/*---------------------------------------------------------*\
+| RoccatBurstController.h                                   |
+|                                                           |
+|   Driver for Roccat Burst                                 |
+|                                                           |
+|   Morgan Guimard (morg)                       01 Jun 2022 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #pragma once
 
@@ -19,6 +22,7 @@
 #define ROCCAT_BURST_DIRECT_MODE_BYTE              0x0B
 #define ROCCAT_BURST_CORE_NUMBER_OF_LEDS           1
 #define ROCCAT_BURST_PRO_NUMBER_OF_LEDS            2
+
 enum
 {
     ROCCAT_BURST_DIRECT_MODE_VALUE     = 0x00,
