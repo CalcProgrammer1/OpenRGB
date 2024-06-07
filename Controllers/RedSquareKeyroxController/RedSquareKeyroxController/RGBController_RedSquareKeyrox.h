@@ -1,12 +1,16 @@
-/*---------------------------------------------*\
-|  RGBController_RedSquareKeyrox.h              |
-|                                               |
-|  Driver for Red Square Keyrox USB Controller  |
-|                                               |
-|  cafeed28          3 Nov 2022                 |
-\*---------------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_RedSquareKeyrox.h                           |
+|                                                           |
+|   RGBController for Red Square Keyrox                     |
+|                                                           |
+|   cafeed28                                    03 Nov 2022 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #pragma once
+
 #include "RGBController.h"
 #include "RedSquareKeyroxController.h"
 

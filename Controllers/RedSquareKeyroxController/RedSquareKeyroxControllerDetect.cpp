@@ -1,10 +1,21 @@
+/*---------------------------------------------------------*\
+| RedSquareKeyroxControllerDetect.cpp                       |
+|                                                           |
+|   Detector for Red Square Keyrox                          |
+|                                                           |
+|   cafeed28                                    03 Nov 2022 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
+#include <hidapi/hidapi.h>
 #include "Detector.h"
 #include "RedSquareKeyroxController.h"
 #include "RedSquareKeyroxTKLClassicController.h"
 #include "RGBController.h"
 #include "RGBController_RedSquareKeyrox.h"
 #include "RGBController_RedSquareKeyroxTKLClassic.h"
-#include <hidapi/hidapi.h>
 
 /*-----------------------------------------------------*\
 | Red Square vendor ID                                  |

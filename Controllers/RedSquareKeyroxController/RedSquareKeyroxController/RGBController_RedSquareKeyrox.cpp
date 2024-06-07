@@ -1,11 +1,14 @@
-/*-------------------------------------------------------*\
-|  RGBController_RedSquareKeyrox.cpp                      |
-|                                                         |
-|  Driver for Red Square Keyrox USB Controller            |
-|  Based on Keychron Controller by Guimard Morgan (morg)  |
-|                                                         |
-|  cafeed28          3 Nov 2022                           |
-\*-------------------------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_RedSquareKeyrox.cpp                         |
+|                                                           |
+|   RGBController for Red Square Keyrox                     |
+|                                                           |
+|   cafeed28                                    03 Nov 2022 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
 #include "RGBControllerKeyNames.h"
 #include "RGBController_RedSquareKeyrox.h"
 
