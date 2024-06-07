@@ -1,10 +1,15 @@
-/*-----------------------------------------*\
-|  RazerDevices.h                           |
-|                                           |
-|  Razer device table definitions           |
-|                                           |
-|  Adam Honse (CalcProgrammer1) 9/4/2021    |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| RazerDevices.h                                            |
+|                                                           |
+|   Device list for Razer devices                           |
+|                                                           |
+|   Adam Honse (CalcProgrammer1)                04 Sep 2021 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
+#pragma once
 
 #include <string>
 #include "RGBController.h"

@@ -1,3 +1,16 @@
+/*---------------------------------------------------------*\
+| RazerControllerDetect.cpp                                 |
+|                                                           |
+|   Detector for Razer devices                              |
+|                                                           |
+|   Adam Honse (CalcProgrammer1)                22 Jan 2021 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
+#include <unordered_set>
+#include <hidapi/hidapi.h>
 #include "Detector.h"
 #include "LogManager.h"
 #include "RazerController.h"
@@ -8,10 +21,6 @@
 #include "RGBController_Razer.h"
 #include "RGBController_RazerAddressable.h"
 #include "RGBController_RazerKraken.h"
-
-#include <hidapi/hidapi.h>
-
-#include <unordered_set>
 
 /******************************************************************************************\
 *                                                                                          *
