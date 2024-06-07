@@ -1,15 +1,18 @@
-/*---------------------------------------------*\
-|  RedSquareKeyroxTKLClassicController.h        |
-|                                               |
-|  Driver for Red Square Keyrox USB Controller  |
-|                                               |
-|  vlack             3 May 2023                 |
-\*---------------------------------------------*/
+/*---------------------------------------------------------*\
+| RedSquareKeyroxTKLClassicController.h                     |
+|                                                           |
+|   Driver for Red Square Keyrox TKL Classic                |
+|                                                           |
+|   vlack                                       03 May 2023 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #pragma once
+
 #include <string>
 #include <hidapi/hidapi.h>
-
 #include "RGBController.h"
 
 #define CLASSIC_PACKET_DATA_LENGTH      64

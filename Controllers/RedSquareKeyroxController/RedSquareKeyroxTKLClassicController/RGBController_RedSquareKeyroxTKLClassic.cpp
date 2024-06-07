@@ -1,11 +1,13 @@
-/*-------------------------------------------------------*\
-|  RGBController_RedSquareKeyroxTKLClassic.cpp            |
-|                                                         |
-|  Driver for Red Square Keyrox USB Controller            |
-|  Based on Keyrox TKL Controller by cafeed28             |
-|                                                         |
-|  vlack          3 May 2023                              |
-\*-------------------------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_RedSquareKeyroxTKLClassic.cpp               |
+|                                                           |
+|   RGBController for Red Square Keyrox TKL Classic         |
+|                                                           |
+|   vlack                                       03 May 2023 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #include "RGBController_RedSquareKeyroxTKLClassic.h"
 
