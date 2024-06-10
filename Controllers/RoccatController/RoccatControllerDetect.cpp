@@ -1,8 +1,18 @@
+/*---------------------------------------------------------*\
+| RoccatControllerDetect.cpp                                |
+|                                                           |
+|   Detector for Roccat devices                             |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
 #include "Detector.h"
 #include "RoccatBurstController.h"
 #include "RoccatBurstProAirController.h"
 #include "RoccatKoneAimoController.h"
 #include "RoccatKoneProController.h"
+#include "RoccatKoneProAirController.h"
 #include "RoccatSenseAimoController.h"
 #include "RoccatVulcanKeyboardController.h"
 #include "RoccatKovaController.h"
@@ -13,6 +23,7 @@
 #include "RGBController_RoccatHordeAimo.h"
 #include "RGBController_RoccatKoneAimo.h"
 #include "RGBController_RoccatKonePro.h"
+#include "RGBController_RoccatKoneProAir.h"
 #include "RGBController_RoccatSenseAimo.h"
 #include "RGBController_RoccatVulcanKeyboard.h"
 #include "RGBController_RoccatKova.h"
@@ -31,13 +42,15 @@
 /*-----------------------------------------------------------------*\
 |  MICE                                                             |
 \*-----------------------------------------------------------------*/
-#define ROCCAT_BURST_CORE_PID       0x2DE6
-#define ROCCAT_BURST_PRO_PID        0x2DE1
-#define ROCCAT_BURST_PRO_AIR_PID    0x2CA6
-#define ROCCAT_KONE_AIMO_PID        0x2E27
-#define ROCCAT_KONE_AIMO_16K_PID    0x2E2C
-#define ROCCAT_KONE_PRO_PID         0x2C88
-#define ROCCAT_KOVA_PID             0x2CEE
+#define ROCCAT_BURST_CORE_PID           0x2DE6
+#define ROCCAT_BURST_PRO_PID            0x2DE1
+#define ROCCAT_BURST_PRO_AIR_PID        0x2CA6
+#define ROCCAT_KONE_AIMO_PID            0x2E27
+#define ROCCAT_KONE_AIMO_16K_PID        0x2E2C
+#define ROCCAT_KONE_PRO_PID             0x2C88
+#define ROCCAT_KONE_PRO_AIR_PID         0x2C8E
+#define ROCCAT_KONE_PRO_AIR_WIRED_PID   0x2C92
+#define ROCCAT_KOVA_PID                 0x2CEE
 
 /*-----------------------------------------------------------------*\
 | MOUSEMATS                                                         |
@@ -224,6 +237,19 @@ void DetectRoccatKoneProControllers(hid_device_info* info, const std::string& na
     }
 }
 
+void DetectRoccatKoneProAirControllers(hid_device_info* info, const std::string& name)
+{
+    hid_device* dev = hid_open_path(info->path);
+
+    if(dev)
+    {
+        RoccatKoneProAirController *     controller       = new RoccatKoneProAirController(dev, *info);
+        RGBController_RoccatKoneProAir * rgb_controller   = new RGBController_RoccatKoneProAir(controller);
+        rgb_controller->name                              = name;
+        ResourceManager::get()->RegisterRGBController(rgb_controller);
+    }
+}
+
 void DetectRoccatKovaControllers(hid_device_info* info, const std::string& name)
 {
     hid_device* dev = hid_open_path(info->path);
@@ -289,6 +315,8 @@ REGISTER_HID_DETECTOR_IPU("Roccat Kone Aimo",               DetectRoccatMouseCon
 REGISTER_HID_DETECTOR_IPU("Roccat Kone Aimo 16K",           DetectRoccatMouseControllers,               ROCCAT_VID, ROCCAT_KONE_AIMO_16K_PID,      0, 0x0B,    0 );
 
 REGISTER_HID_DETECTOR_IPU("Roccat Kone Pro",                DetectRoccatKoneProControllers,             ROCCAT_VID, ROCCAT_KONE_PRO_PID,           3, 0xFF01,  1 );
+REGISTER_HID_DETECTOR_IPU("Roccat Kone Pro Air",            DetectRoccatKoneProAirControllers,          ROCCAT_VID, ROCCAT_KONE_PRO_AIR_PID,       2, 0xFF00,  1 );
+REGISTER_HID_DETECTOR_IPU("Roccat Kone Pro Air (Wired)",    DetectRoccatKoneProAirControllers,          ROCCAT_VID, ROCCAT_KONE_PRO_AIR_WIRED_PID, 1, 0xFF13,  1 );
 
 REGISTER_HID_DETECTOR_IPU("Roccat Kova",                    DetectRoccatKovaControllers,                ROCCAT_VID, ROCCAT_KOVA_PID,               0, 0x0B,    0 );
 
