@@ -1,6 +1,17 @@
-#include "RoccatEloController.h"
-#include <string.h>
+/*---------------------------------------------------------*\
+| RoccatEloController.cpp                                   |
+|                                                           |
+|   Driver for Roccat Elo                                   |
+|                                                           |
+|   Flora Aubry                                 02 Jan 2023 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
 #include <cmath>
+#include <string.h>
+#include "RoccatEloController.h"
 
 RoccatEloController::RoccatEloController(hid_device* dev_handle, const hid_device_info& info)
 {

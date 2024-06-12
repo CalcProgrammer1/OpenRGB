@@ -1,7 +1,17 @@
-#include "RGBController_RoccatElo.h"
+/*---------------------------------------------------------*\
+| RGBController_RoccatElo.cpp                               |
+|                                                           |
+|   RGBController for Roccat Elo                            |
+|                                                           |
+|   Flora Aubry                                 02 Jan 2023 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
-#include <thread>
 #include <chrono>
+#include <thread>
+#include "RGBController_RoccatElo.h"
 
 /**------------------------------------------------------------------*\
     @name Roccat Elo 7.1
