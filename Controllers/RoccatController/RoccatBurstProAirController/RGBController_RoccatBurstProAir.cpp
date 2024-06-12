@@ -1,11 +1,13 @@
-/*-----------------------------------------*\
-|  RGBController_RoccatBurstProAir.cpp      |
-|                                           |
-|  Generic RGB Interface for OpenRGB        |
-|                                           |
-|                                           |
-|  Morgan Guimard (morg) 6/16/2022          |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_RoccatBurstProAir.cpp                       |
+|                                                           |
+|   RGBController for Roccat Burst Pro Air                  |
+|                                                           |
+|   Morgan Guimard (morg)                       16 Jun 2022 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #include "RGBController_RoccatBurstProAir.h"
 

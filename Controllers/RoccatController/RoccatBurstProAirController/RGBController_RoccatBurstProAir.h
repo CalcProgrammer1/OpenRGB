@@ -1,13 +1,16 @@
-/*-----------------------------------------*\
-|  RGBController_RoccatBurstProAir.h        |
-|                                           |
-|  Generic RGB Interface for Roccat Burst   |
-|  Pro Air Mouse controller                 |
-|                                           |
-|  Morgan Guimard (morg)     6/16/2022      |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_RoccatBurstProAir.h                         |
+|                                                           |
+|   RGBController for Roccat Burst Pro Air                  |
+|                                                           |
+|   Morgan Guimard (morg)                       16 Jun 2022 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #pragma once
+
 #include "RGBController.h"
 #include "RoccatBurstProAirController.h"
 
