@@ -1,15 +1,18 @@
-/*-------------------------------------------------------------------*\
-|  RoccatSenseAimoController.cpp                                      |
-|                                                                     |
-|  Driver for Roccat Sense Aimo                                       |
-|                                                                     |
-|  Mola19 08/09/2023                                                  |
-\*-------------------------------------------------------------------*/
+/*---------------------------------------------------------*\
+| RoccatSenseAimoController.h                               |
+|                                                           |
+|   Driver for Roccat Sense Aimo                            |
+|                                                           |
+|   Mola19                                      09 Aug 2023 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #pragma once
 
-#include "RGBController.h"
 #include <hidapi/hidapi.h>
+#include "RGBController.h"
 
 enum
 {

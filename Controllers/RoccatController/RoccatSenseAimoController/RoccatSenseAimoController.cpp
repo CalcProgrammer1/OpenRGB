@@ -1,16 +1,17 @@
-/*-------------------------------------------------------------------*\
-|  RoccatSenseAimoController.cpp                                      |
-|                                                                     |
-|  Driver for Roccat Sense Aimo                                       |
-|                                                                     |
-|  Mola19 08/09/2023                                                  |
-\*-------------------------------------------------------------------*/
-
-#include "RoccatSenseAimoController.h"
+/*---------------------------------------------------------*\
+| RoccatSenseAimoController.cpp                             |
+|                                                           |
+|   Driver for Roccat Sense Aimo                            |
+|                                                           |
+|   Mola19                                      09 Aug 2023 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #include <cstring>
-
 #include "LogManager.h"
+#include "RoccatSenseAimoController.h"
 
 RoccatSenseAimoController::RoccatSenseAimoController(hid_device* dev_handle, char *path)
 {
@@ -78,7 +79,7 @@ mode_struct RoccatSenseAimoController::GetMode()
         default_mode.brightness = ROCCAT_SENSE_AIMO_BRIGHTNESS_DEFAULT;
         default_mode.left = ToRGBColor(0, 0, 0);
         default_mode.right = ToRGBColor(0, 0, 0);
-        
+
         return default_mode;
     }
 
@@ -114,7 +115,7 @@ void RoccatSenseAimoController::SetMode(uint8_t profile, uint8_t mode, uint8_t s
         buf[0x09 + i * 8] = 0xFF; // this device uses RGBA, but OpenRGB doesn't allow it, so it is always max
     }
 
-    buf[0x12] = 0x00; // this stores the swarm theme and first bit is a flag if custom is active in swarm. No usage outside Swarm 
+    buf[0x12] = 0x00; // this stores the swarm theme and first bit is a flag if custom is active in swarm. No usage outside Swarm
 
     int return_length = hid_send_feature_report(dev, buf, 19);
 

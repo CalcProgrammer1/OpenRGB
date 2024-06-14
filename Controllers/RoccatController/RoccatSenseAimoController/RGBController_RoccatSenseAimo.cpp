@@ -1,10 +1,13 @@
-/*-----------------------------------------*\
-|  RGBController_RoccatSenseAimo.cpp        |
-|                                           |
-|  Generic RGB Interface for OpenRGB        |
-|                                           |
-|  Mola19 08/09/2023                        |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_RoccatSenseAimo.cpp                         |
+|                                                           |
+|   RGBController for Roccat Sense Aimo                     |
+|                                                           |
+|   Mola19                                      09 Aug 2023 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #include "RGBController_RoccatSenseAimo.h"
 
