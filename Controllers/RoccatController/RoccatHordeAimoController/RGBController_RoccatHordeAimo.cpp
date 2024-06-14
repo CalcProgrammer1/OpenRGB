@@ -1,11 +1,13 @@
-/*-----------------------------------------*\
-|  RGBController_RoccatHordeAimo.cpp        |
-|                                           |
-|  Generic RGB Interface for OpenRGB        |
-|                                           |
-|                                           |
-|  Morgan Guimard (morg) 2/24/2022          |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_RoccatHordeAimo.cpp                         |
+|                                                           |
+|   RGBController for Roccat Horde Aimo                     |
+|                                                           |
+|   Morgan Guimard (morg)                       24 Feb 2022 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #include "RGBController_RoccatHordeAimo.h"
 

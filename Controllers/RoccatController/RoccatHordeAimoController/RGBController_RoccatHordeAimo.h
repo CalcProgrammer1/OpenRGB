@@ -1,13 +1,16 @@
-/*-----------------------------------------*\
-|  RGBController_RoccatHordeAimo.h          |
-|                                           |
-|  Generic RGB Interface for Roccat Horde   |
-|  Aimo Keyboard controller                 |
-|                                           |
-|  Morgan Guimard (morg)     2/24/2022      |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_RoccatHordeAimo.h                           |
+|                                                           |
+|   RGBController for Roccat Horde Aimo                     |
+|                                                           |
+|   Morgan Guimard (morg)                       24 Feb 2022 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #pragma once
+
 #include "RGBController.h"
 #include "RoccatHordeAimoController.h"
 

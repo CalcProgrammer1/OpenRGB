@@ -1,15 +1,16 @@
-/*-------------------------------------------------------------------*\
-|  RoccatHordeAimoController.cpp                                      |
-|                                                                     |
-|  Driver for Roccat Horde Aimo Keyboard                              |
-|                                                                     |
-|  Morgan Guimard (morg)          2/24/2022                           |
-|                                                                     |
-\*-------------------------------------------------------------------*/
-
-#include "RoccatHordeAimoController.h"
+/*---------------------------------------------------------*\
+| RoccatHordeAimoController.cpp                             |
+|                                                           |
+|   Driver for Roccat Horde Aimo                            |
+|                                                           |
+|   Morgan Guimard (morg)                       24 Feb 2022 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #include <cstring>
+#include "RoccatHordeAimoController.h"
 
 RoccatHordeAimoController::RoccatHordeAimoController(hid_device* dev_handle, const hid_device_info& info)
 {
