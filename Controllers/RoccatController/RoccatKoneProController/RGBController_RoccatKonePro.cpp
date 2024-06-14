@@ -1,10 +1,13 @@
-/*---------------------------------------------*\
-|  RGBController_RoccatKonePro.cpp              |
-|                                               |
-|  RGB Controller for Roccat Kone Pro           |
-|                                               |
-|  Garrett Denham (GardenOfWyers) 01/12/2024    |
-\*---------------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_RoccatKonePro.cpp                           |
+|                                                           |
+|   RGBController for Roccat Kone Pro                       |
+|                                                           |
+|   Garrett Denham (GardenOfWyers)              12 Jan 2024 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #include "RGBController_RoccatKonePro.h"
 
@@ -164,7 +167,7 @@ void RGBController_RoccatKonePro::DeviceUpdateLEDs()
 }
 
 void RGBController_RoccatKonePro::UpdateZoneLEDs(int /*zone_idx*/)
-{   
+{
     DeviceUpdateLEDs();
 }
 

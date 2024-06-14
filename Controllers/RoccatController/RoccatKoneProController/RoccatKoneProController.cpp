@@ -1,14 +1,16 @@
-/*-------------------------------------------------------------------*\
-|  RoccatKoneProController.cpp                                        |
-|                                                                     |
-|  Driver for Roccat Kone Pro Mouse                                   |
-|                                                                     |
-|  Garrett Denham (GardenOfWyers)          01/12/2024                 |
-\*-------------------------------------------------------------------*/
-
-#include "RoccatKoneProController.h"
+/*---------------------------------------------------------*\
+| RoccatKoneProController.cpp                               |
+|                                                           |
+|   Driver for Roccat Kone Pro                              |
+|                                                           |
+|   Garrett Denham (GardenOfWyers)              12 Jan 2024 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #include <cstring>
+#include "RoccatKoneProController.h"
 
 RoccatKoneProController::RoccatKoneProController(hid_device* dev_handle, const hid_device_info& info)
 {
