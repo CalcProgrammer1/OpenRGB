@@ -1,10 +1,13 @@
-/*-----------------------------------------*\
-|  RGBController_RoccatKova.h               |
-|                                           |
-|  RGB Controller for Roccat Kova           |
-|                                           |
-|  Gustash 01/12/2022                       |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_RoccatKova.h                                |
+|                                                           |
+|   RGBController for Roccat Kova                           |
+|                                                           |
+|   Gustash                                     01 Dec 2022 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #pragma once
 

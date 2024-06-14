@@ -1,15 +1,18 @@
-/*-----------------------------------------*\
-|  RoccatKovaController.h                   |
-|                                           |
-|  Controller for Roccat Kova               |
-|                                           |
-|  Gustash 01/12/2022                       |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| RoccatKovaController.h                                    |
+|                                                           |
+|   Driver for Roccat Kova                                  |
+|                                                           |
+|   Gustash                                     01 Dec 2022 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #pragma once
 
-#include "RGBController.h"
 #include <hidapi/hidapi.h>
+#include "RGBController.h"
 
 #define ROCCAT_KOVA_HID_MAX_STR               255
 #define ROCCAT_KOVA_LED_COUNT                 2
