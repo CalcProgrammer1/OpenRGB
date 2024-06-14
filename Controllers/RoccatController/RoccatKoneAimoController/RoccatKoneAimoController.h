@@ -1,20 +1,22 @@
-/*-------------------------------------------------------------------*\
-|  RoccatKoneAimoController.h                                         |
-|                                                                     |
-|  Driver for Roccat Kone Aimo Mouse                                  |
-|                                                                     |
-|  Thibaud M (enlight3d)          17th Nov 2020                       |
-|                                                                     |
-\*-------------------------------------------------------------------*/
+/*---------------------------------------------------------*\
+| RoccatKoneAimoController.h                                |
+|                                                           |
+|   Driver for Roccat Kone Aimo                             |
+|                                                           |
+|   Thibaud M (enlight3d)                       17 Nov 2020 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #pragma once
 
-#include "RGBController.h"
-#include <string>
 #include <array>
 #include <map>
+#include <string>
 #include <vector>
 #include <hidapi/hidapi.h>
+#include "RGBController.h"
 
 #define NUM_LEDS            11
 

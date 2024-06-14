@@ -1,13 +1,16 @@
-/*-----------------------------------------*\
-|  RGBController_RoccatKoneAimo.h           |
-|                                           |
-|  Generic RGB Interface for Roccat Kone    |
-|  Aimo  controller                         |
-|                                           |
-|  Thibaud M (enlight3d)     17/11/2020     |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_RoccatKoneAimo.h                            |
+|                                                           |
+|   RGBController for Roccat Kone Aimo                      |
+|                                                           |
+|   Thibaud M (enlight3d)                       17 Nov 2020 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #pragma once
+
 #include "RGBController.h"
 #include "RoccatKoneAimoController.h"
 
