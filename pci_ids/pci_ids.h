@@ -186,6 +186,7 @@
 #define ASUS_ROG_STRIX_GTX1080TI_GAMING                 0x85EB
 #define ASUS_ROG_STRIX_GTX1080TI_11G_GAMING             0x85F1
 #define ASUS_ROG_STRIX_GTX1650S_OC                      0x874F
+#define ASUS_ROG_STRIX_GTX1650S_A4G_GAMING              0x8750
 #define ASUS_ROG_STRIX_GTX1660S_O6G_GAMING              0x8752
 #define ASUS_ROG_STRIX_GTX1660S_6G_GAMING               0x8754
 #define ASUS_ROG_STRIX_LC_RX6800XT_O16G_GAMING          0x04F0
@@ -292,6 +293,7 @@
 #define ASUS_TUF_RX_6900XT_O16G_GAMING                  0x04FA
 #define ASUS_TUF_RX_6900XT_T16G_GAMING                  0x04FE
 #define ASUS_TUF_RX_6950XT_016G_GAMING                  0x0504
+#define ASUS_TUF_RX_7700XT_012G_GAMING                  0x0512
 #define ASUS_TUF_RX_7800XT_O16G_GAMING                  0x05FD
 #define ASUS_TUF_RX_7800XT_O16G_WHITE_GAMING            0x0601
 #define ASUS_TUF_RX_7900XT_020G_GAMING                  0x05ED
