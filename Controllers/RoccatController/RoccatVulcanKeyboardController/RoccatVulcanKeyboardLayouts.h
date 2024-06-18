@@ -1,18 +1,20 @@
-/*-----------------------------------------*\
-|  RoccatVulcanKeyboardLayouts.h            |
-|                                           |
-|  Keyboard Layouts for Roccat Vulcan       |
-|  Keyboard USB RGB lighting controller     |
-|                                           |
-|  Mola19 09/29/2022                        |
-\*-----------------------------------------*/
-
-#include "RGBControllerKeyNames.h"
-#include <vector>
-#include <map>
-#include "RGBController.h"
+/*---------------------------------------------------------*\
+| RoccatVulcanKeyboardLayouts.h                             |
+|                                                           |
+|   Layouts for Roccat Vulcan keyboard                      |
+|                                                           |
+|   Mola19                                      29 Sep 2022 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #pragma once
+
+#include <map>
+#include <vector>
+#include "RGBControllerKeyNames.h"
+#include "RGBController.h"
 
 enum
 {

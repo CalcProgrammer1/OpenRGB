@@ -1,20 +1,20 @@
-/*-------------------------------------------------------------------*\
-|  RoccatVulcanKeyboardController.cpp                                 |
-|                                                                     |
-|  Driver for Roccat Vulcan Keyboard                                  |
-|                                                                     |
-|  Mola19 17/12/2021                                                  |
-|                                                                     |
-\*-------------------------------------------------------------------*/
+/*---------------------------------------------------------*\
+| RoccatVulcanKeyboardController.cpp                        |
+|                                                           |
+|   Driver for Roccat Vulcan keyboard                       |
+|                                                           |
+|   Mola19                                      17 Dec 2021 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
-#include "RoccatVulcanKeyboardController.h"
-
+#include <chrono>
 #include <cstring>
 #include <math.h>
-#include <chrono>
 #include <thread>
 #include <vector>
-
+#include "RoccatVulcanKeyboardController.h"
 #include "LogManager.h"
 
 RoccatVulcanKeyboardController::RoccatVulcanKeyboardController(hid_device* dev_ctrl_handle, hid_device* dev_led_handle, char *path, uint16_t pid)
@@ -157,11 +157,11 @@ void RoccatVulcanKeyboardController::SendColors(std::vector<led_color> colors)
             column_length = 12;
             protocol_version = 1;
     }
-    
+
     unsigned char packet_num = ceil((float) packet_length / 64);
 
     std::vector<std::vector<uint8_t>> bufs(packet_num);
-    
+
     for(int p = 0; p < packet_num; p++)
     {
         bufs[p].resize(65);

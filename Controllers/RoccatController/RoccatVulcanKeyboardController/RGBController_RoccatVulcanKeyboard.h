@@ -1,13 +1,16 @@
-/*-----------------------------------------*\
-|  RGBController_RoccatVulcanKeyboard.h     |
-|                                           |
-|  Generic RGB Interface for Roccat Vulcan  |
-|  Keyboard controller                      |
-|                                           |
-|  Mola19 17/12/2021                        |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_RoccatVulcanKeyboard.h                      |
+|                                                           |
+|   RGBController for Roccat Vulcan keyboard                |
+|                                                           |
+|   Mola19                                      17 Dec 2021 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #pragma once
+
 #include "RGBController.h"
 #include "RoccatVulcanKeyboardController.h"
 

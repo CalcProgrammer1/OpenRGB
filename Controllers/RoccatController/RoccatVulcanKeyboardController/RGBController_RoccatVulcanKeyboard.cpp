@@ -1,15 +1,17 @@
-/*-----------------------------------------*\
-|  RGBController_RoccatVulcanKeyboard.cpp   |
-|                                           |
-|  Generic RGB Interface for OpenRGB        |
-|                                           |
-|                                           |
-|  Mola19 17/12/2021                        |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_RoccatVulcanKeyboard.cpp                    |
+|                                                           |
+|   RGBController for Roccat Vulcan keyboard                |
+|                                                           |
+|   Mola19                                      17 Dec 2021 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
+#include <vector>
 #include "RGBControllerKeyNames.h"
 #include "RGBController_RoccatVulcanKeyboard.h"
-#include <vector>
 
 #define NA  0xFFFFFFFF
 
@@ -21,7 +23,7 @@
     @direct :white_check_mark:
     @effects :white_check_mark:
     @detectors DetectRoccatVulcanKeyboardControllers
-    @comment The mode "Default" differs from device to device and 
+    @comment The mode "Default" differs from device to device and
     and sometimes also based on which profile you are on.
     Often it is very close to the rainbow mode.
 \*-------------------------------------------------------------------*/
@@ -55,7 +57,7 @@ RGBController_RoccatVulcanKeyboard::RGBController_RoccatVulcanKeyboard(RoccatVul
         Direct.brightness_max = ROCCAT_VULCAN_BRIGHTNESS_MAX;
         Direct.brightness     = ROCCAT_VULCAN_BRIGHTNESS_DEFAULT;
     }
-    
+
     modes.push_back(Direct);
 
     mode Static;
