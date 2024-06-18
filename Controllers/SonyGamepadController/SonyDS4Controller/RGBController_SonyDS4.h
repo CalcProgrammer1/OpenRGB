@@ -1,10 +1,15 @@
-/*-----------------------------------------*\
-|  RGBController_SonyDS4.h                  |
-|                                           |
-|  Controller for Sony Dualshock 4          |
-|                                           |
-|  Pol Rius (alpemwarrior) 24/09/2020       |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_SonyDS4.h                                   |
+|                                                           |
+|   RGBController for Sony Dualshock 4                      |
+|                                                           |
+|   Pol Rius (alpemwarrior)                     24 Sep 2020 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
+#pragma once
 
 #include "RGBController.h"
 #include "SonyDS4Controller.h"
