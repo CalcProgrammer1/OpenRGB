@@ -1,11 +1,13 @@
-/*-----------------------------------------*\
-|  RGBController_SapphireNitroGlowV3.h      |
-|                                           |
-|  Generic RGB Interface for OpenRGB        |
-|  Sapphire Nitro Glow V3 GPU RGB Driver    |
-|                                           |
-|  K900 2/3/2021                            |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_SapphireNitroGlowV3.h                       |
+|                                                           |
+|   RGBController for Sapphire Nitro Glow V3                |
+|                                                           |
+|   K900                                        03 Feb 2021 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #pragma once
 
