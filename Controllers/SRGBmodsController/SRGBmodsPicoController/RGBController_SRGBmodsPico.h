@@ -1,11 +1,14 @@
-/*-----------------------------------------*\
-|  RGBController_SRGBmodsPico.h             |
-|                                           |
-|  Generic RGB Interface for SRGBmods       |
-|  Raspberry Pi Pico LED Controller         |
-|                                           |
-|  Adam Honse (CalcProgrammer1) 7/21/2022   |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_SRGBmodsPico.h                              |
+|                                                           |
+|   RGBController for SRGBmods Raspberry Pi Pico LED        |
+|   Controller                                              |
+|                                                           |
+|   Adam Honse (CalcProgrammer1)                21 Jul 2022 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #pragma once
 
