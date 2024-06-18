@@ -1,11 +1,23 @@
+/*---------------------------------------------------------*\
+| ThermaltakeRiingControllerDetect.cpp                      |
+|                                                           |
+|   Detector for Thermaltake Riing devices                  |
+|                                                           |
+|   Adam Honse (CalcProgrammer1)                07 Feb 2020 |
+|   Chris M (Dr_No)                             15 Feb 2021 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
+#include <vector>
+#include <hidapi/hidapi.h>
 #include "Detector.h"
 #include "ThermaltakeRiingController.h"
 #include "ThermaltakeRiingQuadController.h"
 #include "RGBController.h"
 #include "RGBController_ThermaltakeRiing.h"
 #include "RGBController_ThermaltakeRiingQuad.h"
-#include <vector>
-#include <hidapi/hidapi.h>
 
 #define THERMALTAKE_RIING_VID       0x264A
 #define THERMALTAKE_RIING_PID_BEGIN 0x1FA5
