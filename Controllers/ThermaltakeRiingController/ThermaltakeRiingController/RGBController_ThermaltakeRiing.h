@@ -1,13 +1,16 @@
-/*-----------------------------------------*\
-|  RGBController_ThermaltakeRiing.h         |
-|                                           |
-|  Generic RGB Interface for Thermaltake    |
-|  Riing controller                         |
-|                                           |
-|  Adam Honse (CalcProgrammer1) 2/9/2020    |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_ThermaltakeRiing.h                          |
+|                                                           |
+|   RGBController for Thermaltake Riing                     |
+|                                                           |
+|   Adam Honse (CalcProgrammer1)                09 Feb 2020 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #pragma once
+
 #include "RGBController.h"
 #include "ThermaltakeRiingController.h"
 

@@ -1,15 +1,16 @@
-/*-----------------------------------------*\
-|  ThermaltakeRiingController.cpp           |
-|                                           |
-|  Definitions and types for Thermaltake    |
-|  Riing Plus lighting controller           |
-|                                           |
-|  Adam Honse (CalcProgrammer1) 2/7/2020    |
-\*-----------------------------------------*/
-
-#include "ThermaltakeRiingController.h"
+/*---------------------------------------------------------*\
+| ThermaltakeRiingController.cpp                            |
+|                                                           |
+|   Driver for Thermaltake Riing                            |
+|                                                           |
+|   Adam Honse (CalcProgrammer1)                07 Feb 2020 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #include <cstring>
+#include "ThermaltakeRiingController.h"
 
 ThermaltakeRiingController::ThermaltakeRiingController(hid_device* dev_handle, const char* path)
 {
