@@ -1,18 +1,20 @@
-/*-----------------------------------------*\
-|  SRGBmodsLEDControllerV1.h                |
-|                                           |
-|  Definitions and types for SRGBmods       |
-|  LED Controller V1                        |
-|                                           |
-|  Adam Honse (CalcProgrammer1) 6/30/2023   |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| SRGBmodsLEDControllerV1.h                                 |
+|                                                           |
+|   Driver for SRGBmods LED Controller V1                   |
+|                                                           |
+|   Adam Honse (CalcProgrammer1)                30 Jun 2023 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
-#include "RGBController.h"
+#pragma once
+
 #include <chrono>
 #include <vector>
 #include <hidapi/hidapi.h>
-
-#pragma once
+#include "RGBController.h"
 
 enum
 {

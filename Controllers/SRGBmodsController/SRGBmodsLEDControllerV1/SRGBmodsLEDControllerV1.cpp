@@ -1,13 +1,16 @@
-/*-----------------------------------------*\
-|  SRGBmodsLEDControllerV1.cpp              |
-|                                           |
-|  Driver for SRGBmods LED Controller V1    |
-|                                           |
-|  Adam Honse (CalcProgrammer1) 6/30/2023   |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| SRGBmodsLEDControllerV1.cpp                               |
+|                                                           |
+|   Driver for SRGBmods LED Controller V1                   |
+|                                                           |
+|   Adam Honse (CalcProgrammer1)                30 Jun 2023 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
-#include "SRGBmodsLEDControllerV1.h"
 #include <cstring>
+#include "SRGBmodsLEDControllerV1.h"
 
 using namespace std::chrono_literals;
 
