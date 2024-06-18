@@ -1,10 +1,20 @@
+/*---------------------------------------------------------*\
+| SeagateControllerDetect.cpp                               |
+|                                                           |
+|   Detector for Seagate                                    |
+|                                                           |
+|   Adam Honse (CalcProgrammer1)                15 Jun 2023 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
+#include <vector>
 #include "Detector.h"
 #include "LogManager.h"
 #include "SeagateController.h"
 #include "RGBController.h"
 #include "RGBController_Seagate.h"
-#include <vector>
-
 #include "scsiapi.h"
 
 /******************************************************************************************\

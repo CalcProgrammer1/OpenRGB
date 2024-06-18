@@ -1,10 +1,13 @@
-/*-----------------------------------------*\
-|  RGBController_Seagate.cpp                |
-|                                           |
-|  Generic RGB Interface for Seagate        |
-|                                           |
-|  Adam Honse (CalcProgrammer1) 11/8/2022   |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_Seagate.cpp                                 |
+|                                                           |
+|   RGBController for Seagate                               |
+|                                                           |
+|   Adam Honse (CalcProgrammer1)                08 Nov 2022 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #include "RGBController_Seagate.h"
 
@@ -118,15 +121,15 @@ void RGBController_Seagate::UpdateSingleLED(int led)
         case SEAGATE_MODE_STATIC:
             controller->SetLEDStatic(led, red, grn, blu, false);
             break;
-        
+
         case SEAGATE_MODE_BLINK:
             controller->SetLEDBlink(led, red, grn, blu, false);
             break;
-        
+
         case SEAGATE_MODE_BREATHING:
             controller->SetLEDBreathing(led, red, grn, blu, false);
             break;
-        
+
         case SEAGATE_MODE_SPECTRUM:
             controller->SetLEDsSpectrum(led, false);
             break;
@@ -151,7 +154,7 @@ void RGBController_Seagate::DeviceSaveMode()
             case SEAGATE_MODE_STATIC:
                 controller->SetLEDStatic(led_idx, red, grn, blu, true);
                 break;
-            
+
             case SEAGATE_MODE_BLINK:
                 controller->SetLEDBlink(led_idx, red, grn, blu, true);
                 break;

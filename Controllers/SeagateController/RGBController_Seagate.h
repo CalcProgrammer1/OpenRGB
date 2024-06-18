@@ -1,12 +1,16 @@
-/*-----------------------------------------*\
-|  RGBController_Seagate.h                  |
-|                                           |
-|  Generic RGB Interface for Seagate        |
-|                                           |
-|  Adam Honse (CalcProgrammer1) 11/8/2022   |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_Seagate.h                                   |
+|                                                           |
+|   RGBController for Seagate                               |
+|                                                           |
+|   Adam Honse (CalcProgrammer1)                08 Nov 2022 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #pragma once
+
 #include "RGBController.h"
 #include "SeagateController.h"
 
