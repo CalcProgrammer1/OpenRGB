@@ -1,12 +1,16 @@
-/*-----------------------------------------*\
-|  RGBController_SonyDualSense.h            |
-|                                           |
-|  Controller for Sony DualSense            |
-|                                           |
-|  by flora             01/07/2022          |
-\*-----------------------------------------*/
-#include <CRC.h>
+/*---------------------------------------------------------*\
+| SonyDualSenseController.cpp                               |
+|                                                           |
+|   Driver for Sony DualSense                               |
+|                                                           |
+|   Flora Aubry                                 01 Jul 2022 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
 #include <cstring>
+#include <CRC.h>
 #include <hidapi/hidapi.h>
 #include "SonyDualSenseController.h"
 
