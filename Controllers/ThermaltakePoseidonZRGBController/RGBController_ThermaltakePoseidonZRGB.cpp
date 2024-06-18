@@ -1,11 +1,13 @@
-/*-----------------------------------------*\
-|  RGBController_ThermaltakePoseidonZRGB.cpp|
-|                                           |
-|  Generic RGB Interface for Thermaltake    |
-|  Poseidon Z RGB Keyboard                  |
-|                                           |
-|  Adam Honse (CalcProgrammer1) 12/25/2019  |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_ThermaltakePoseidonZRGB.cpp                 |
+|                                                           |
+|   RGBController for Thermaltake Poseidon Z RGB            |
+|                                                           |
+|   Adam Honse (CalcProgrammer1)                25 Dec 2019 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #include "RGBControllerKeyNames.h"
 #include "RGBController_ThermaltakePoseidonZRGB.h"

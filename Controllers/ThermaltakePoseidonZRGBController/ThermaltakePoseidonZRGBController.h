@@ -1,19 +1,19 @@
-/*-----------------------------------------*\
-|  ThermaltakePoseidonZRGBController.h      |
-|                                           |
-|  Definitions and types for Thermaltake    |
-|  Poseidon Z RGB Keyboard lighting         |
-|  controller                               |
-|                                           |
-|  Adam Honse (CalcProgrammer1) 12/25/2019  |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| ThermaltakePoseidonZRGBController.h                       |
+|                                                           |
+|   Driver for Thermaltake Poseidon Z RGB                   |
+|                                                           |
+|   Adam Honse (CalcProgrammer1)                25 Dec 2019 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
-#include "RGBController.h"
+#pragma once
 
 #include <string>
 #include <hidapi/hidapi.h>
-
-#pragma once
+#include "RGBController.h"
 
 #define POSEIDONZ_START       0x07
 #define POSEIDONZ_PROFILE     0x01
@@ -83,7 +83,7 @@ public:
     void SetMode(unsigned char mode, unsigned char direction, unsigned char speed);
     void SetLEDsDirect(std::vector<RGBColor> colors);
     void SetLEDs(std::vector<RGBColor> colors);
-    
+
 private:
     hid_device*             dev;
     unsigned char           active_mode;
@@ -100,7 +100,7 @@ private:
         unsigned char   brightness,
         unsigned char   speed
         );
-    
+
     void SendColor
         (
         unsigned char   profile_to_edit,
