@@ -1,14 +1,15 @@
-/*-------------------------------------------------------------------*\
-|  RGBController_Tecknet.h                                            |
-|                                                                     |
-|  Driver for Tecknet Devices                                         |
-|                                                                     |
-|  Chris M (Dr_No)          29th Jul 2020                             |
-|                                                                     |
-\*-------------------------------------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_Tecknet.h                                   |
+|                                                           |
+|   RGBController for Tecknet devices                       |
+|                                                           |
+|   Chris M (Dr_No)                             29 Jul 2020 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
-#ifndef RGBCONTROLLER_TECKNET_H
-#define RGBCONTROLLER_TECKNET_H
+#pragma once
 
 #include "RGBController.h"
 #include "TecknetController.h"
@@ -31,5 +32,3 @@ public:
 private:
     TecknetController* controller;
 };
-
-#endif // RGBCONTROLLER_TECKNET_H

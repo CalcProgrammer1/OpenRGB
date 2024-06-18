@@ -1,17 +1,19 @@
-/*-------------------------------------------------------------------*\
-|  TecknetControllerDetect.cpp                                        |
-|                                                                     |
-|  Driver for Tecknet Devices                                         |
-|                                                                     |
-|  Chris M (Dr_No)          29th Jul 2020                             |
-|                                                                     |
-\*-------------------------------------------------------------------*/
+/*---------------------------------------------------------*\
+| TecknetControllerDetect.cpp                               |
+|                                                           |
+|   Detector for Tecknet devices                            |
+|                                                           |
+|   Chris M (Dr_No)                             29 Jul 2020 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
+#include <hidapi/hidapi.h>
 #include "Detector.h"
 #include "TecknetController.h"
 #include "RGBController.h"
 #include "RGBController_Tecknet.h"
-#include <hidapi/hidapi.h>
 
 #define TECKNET_VID             0x04D9
 

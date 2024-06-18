@@ -1,11 +1,13 @@
-/*-------------------------------------------------------------------*\
-|  RGBController_Tecknet.cpp                                          |
-|                                                                     |
-|  Driver for Tecknet Devices                                         |
-|                                                                     |
-|  Chris M (Dr_No)          29th Jul 2020                             |
-|                                                                     |
-\*-------------------------------------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_Tecknet.cpp                                 |
+|                                                           |
+|   RGBController for Tecknet devices                       |
+|                                                           |
+|   Chris M (Dr_No)                             29 Jul 2020 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #include "RGBController_Tecknet.h"
 

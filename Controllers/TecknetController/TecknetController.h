@@ -1,14 +1,15 @@
-/*-------------------------------------------------------------------*\
-|  TecknetController.h                                                |
-|                                                                     |
-|  Driver for Tecknet Devices                                         |
-|                                                                     |
-|  Chris M (Dr_No)          29th Jul 2020                             |
-|                                                                     |
-\*-------------------------------------------------------------------*/
+/*---------------------------------------------------------*\
+| TecknetController.h                                       |
+|                                                           |
+|   Driver for Tecknet devices                              |
+|                                                           |
+|   Chris M (Dr_No)                             29 Jul 2020 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
-#ifndef TECKNETCONTROLLER_H
-#define TECKNETCONTROLLER_H
+#pragma once
 
 #include <string>
 #include <hidapi/hidapi.h>
@@ -78,5 +79,3 @@ private:
 
     void SendUpdate();
 };
-
-#endif // TECKNETCONTROLLER_H
