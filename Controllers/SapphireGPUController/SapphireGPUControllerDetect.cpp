@@ -1,3 +1,13 @@
+/*---------------------------------------------------------*\
+| SapphireGPUControllerDetect.cpp                           |
+|                                                           |
+|   Detector for Sapphire Nitro Glow                        |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
+#include <vector>
 #include "Detector.h"
 #include "RGBController.h"
 #include "SapphireNitroGlowV1Controller.h"
@@ -6,7 +16,6 @@
 #include "RGBController_SapphireNitroGlowV3.h"
 #include "i2c_smbus.h"
 #include "pci_ids.h"
-#include <vector>
 
 /*-----------------------------------------------------*\
 | I2C Addresses for Sapphire Nitro Glow RGB             |
