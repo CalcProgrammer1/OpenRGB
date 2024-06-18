@@ -1,11 +1,22 @@
+/*---------------------------------------------------------*\
+| SRGBModsControllerDetect.cpp                              |
+|                                                           |
+|   Detector for SRGBmods devices                           |
+|                                                           |
+|   Adam Honse (CalcProgrammer1)                21 Jul 2022 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
+#include <vector>
+#include <hidapi/hidapi.h>
 #include "Detector.h"
 #include "SRGBmodsLEDControllerV1.h"
 #include "SRGBmodsPicoController.h"
 #include "RGBController.h"
 #include "RGBController_SRGBmodsLEDControllerV1.h"
 #include "RGBController_SRGBmodsPico.h"
-#include <vector>
-#include <hidapi/hidapi.h>
 
 #define SRGBMODS_VID                    0x16D0
 
