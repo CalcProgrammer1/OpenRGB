@@ -1,15 +1,16 @@
-/*-------------------------------------------------------------------*\
-|  ThermaltakeRiingQuadController.cpp                                 |
-|                                                                     |
-|  Driver for Thermaltake Riing Quad Controller                       |
-|                                                                     |
-|  Chris M (Dr_No)          15th Feb 2021                             |
-|                                                                     |
-\*-------------------------------------------------------------------*/
-
-#include "ThermaltakeRiingQuadController.h"
+/*---------------------------------------------------------*\
+| ThermaltakeRiingQuadController.cpp                        |
+|                                                           |
+|   Driver for Thermaltake Riing Quad                       |
+|                                                           |
+|   Chris M (Dr_No)                             15 Feb 2021 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #include <cstring>
+#include "ThermaltakeRiingQuadController.h"
 
 ThermaltakeRiingQuadController::ThermaltakeRiingQuadController(hid_device* dev_handle, const char* path)
 {
@@ -104,7 +105,7 @@ void ThermaltakeRiingQuadController::SetChannelLEDs(unsigned char channel, RGBCo
     tt_quad_buffer[channel][THERMALTAKE_QUAD_ZONE_BYTE]     = channel + 1;
     tt_quad_buffer[channel][THERMALTAKE_QUAD_MODE_BYTE]     = current_mode + ( current_speed & 0x03 );
     memcpy(&tt_quad_buffer[channel][THERMALTAKE_QUAD_DATA_BYTE], color_data, (num_colors * 3));
-   
+
     hid_write(dev, tt_quad_buffer[channel], THERMALTAKE_QUAD_PACKET_SIZE);
 
     delete[] color_data;

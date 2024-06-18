@@ -1,13 +1,16 @@
-/*-------------------------------------------------------------------*\
-|  RGBController_ThermaltakeRiingQuad.cpp                             |
-|                                                                     |
-|  Driver for Thermaltake Riing Quad Controller                       |
-|                                                                     |
-|  Chris M (Dr_No)          15th Feb 2021                             |
-|                                                                     |
-\*-------------------------------------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_ThermaltakeRiingQuad.h                      |
+|                                                           |
+|   RGBController for Thermaltake Riing Quad                |
+|                                                           |
+|   Chris M (Dr_No)                             15 Feb 2021 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #pragma once
+
 #include "RGBController.h"
 #include "ThermaltakeRiingQuadController.h"
 
