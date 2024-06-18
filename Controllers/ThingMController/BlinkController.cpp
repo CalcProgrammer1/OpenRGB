@@ -1,13 +1,16 @@
-/*-------------------------------------------------------------------*\
-|  BlinkController.cpp                                                |
-|                                                                     |
-|  Driver for ThingM Blink device                                     |
-|                                                                     |
-|  Eric S (edbgon)          1st Oct 2021                              |
-\*-------------------------------------------------------------------*/
+/*---------------------------------------------------------*\
+| BlinkController.cpp                                       |
+|                                                           |
+|   Driver for ThingM Blink                                 |
+|                                                           |
+|   Eric S (edbgon)                             01 Oct 2021 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
-#include "BlinkController.h"
 #include <cstring>
+#include "BlinkController.h"
 
 BlinkController::BlinkController(hid_device* dev_handle, char *_path)
 {
@@ -55,7 +58,7 @@ std::string BlinkController::GetLocation()
 }
 
 void BlinkController::SendUpdate(unsigned char led, unsigned char red, unsigned char green, unsigned char blue, unsigned int speed)
-{    
+{
 
         unsigned char buffer[BLINK_PACKET_SIZE] = { 0x00 };
         memset(buffer, 0x00, BLINK_PACKET_SIZE);

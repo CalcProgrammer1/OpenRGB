@@ -1,16 +1,19 @@
-/*-------------------------------------------------------------------*\
-|  BlinkController.h                                                  |
-|                                                                     |
-|  Driver for ThingM Blink device                                     |
-|                                                                     |
-|  Eric S (edbgon)          1st Oct 2021                              |
-\*-------------------------------------------------------------------*/
-
-#include <string>
-#include <array>
-#include <hidapi/hidapi.h>
+/*---------------------------------------------------------*\
+| BlinkController.h                                         |
+|                                                           |
+|   Driver for ThingM Blink                                 |
+|                                                           |
+|   Eric S (edbgon)                             01 Oct 2021 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #pragma once
+
+#include <array>
+#include <string>
+#include <hidapi/hidapi.h>
 
 #define BLINK_PACKET_SIZE       9  //Includes extra first byte for non HID Report packets
 
