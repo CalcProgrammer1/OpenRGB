@@ -1,16 +1,18 @@
-/*-----------------------------------------*\
-|  SapphireNitroGlowV1Controller.h          |
-|                                           |
-|  Definitions and types for Sapphire Nitro |
-|  Glow V1 GPU RGB lighting controller      |
-|                                           |
-|  Adam Honse (CalcProgrammer1) 7/15/2020   |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| SapphireNitroGlowV1Controller.h                           |
+|                                                           |
+|   Driver for Sapphire Nitro Glow V1                       |
+|                                                           |
+|   Adam Honse (CalcProgrammer1)                15 Jul 2020 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
+#pragma once
 
 #include <string>
 #include "i2c_smbus.h"
-
-#pragma once
 
 #define SAPPHITE_NITRO_GLOW_V1_BRIGHTNESS_MIN 2;
 #define SAPPHITE_NITRO_GLOW_V1_BRIGHTNESS_MAX 0;

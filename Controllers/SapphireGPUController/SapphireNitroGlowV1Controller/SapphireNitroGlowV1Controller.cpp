@@ -1,11 +1,13 @@
-/*-----------------------------------------*\
-|  SapphireNitroGlowV1Controller.cpp        |
-|                                           |
-|  Driver for Sapphire Nitro Glow V1 GPU    |
-|  RGB lighting controller                  |
-|                                           |
-|  Adam Honse (CalcProgrammer1) 7/15/2020   |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| SapphireNitroGlowV1Controller.cpp                         |
+|                                                           |
+|   Driver for Sapphire Nitro Glow V1                       |
+|                                                           |
+|   Adam Honse (CalcProgrammer1)                15 Jul 2020 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #include "SapphireNitroGlowV1Controller.h"
 
