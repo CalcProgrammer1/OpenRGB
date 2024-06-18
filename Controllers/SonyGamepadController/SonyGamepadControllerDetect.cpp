@@ -1,14 +1,17 @@
-/*-----------------------------------------*\
-|  SonyDS4Controller.h                      |
-|                                           |
-|  Detector for Sony Dualshock 4            |
-|                                           |
-|  Pol Rius (alpemwarrior) 24/09/2020       |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| SonyGamepadControllerDetect.cpp                           |
+|                                                           |
+|   Detector for Sony Gamepads                              |
+|                                                           |
+|   Pol Rius (alpemwarrior)                     24 Sep 2020 |
+|   Flora Aubry                                 01 Jul 2022 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #include <vector>
 #include <hidapi/hidapi.h>
-
 #include "RGBController_SonyDS4.h"
 #include "RGBController_SonyDualSense.h"
 #include "Detector.h"
