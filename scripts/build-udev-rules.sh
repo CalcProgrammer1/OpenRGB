@@ -30,14 +30,14 @@ UDEV_HEADER+=${UDEV_LINE}'#  Super I/O Access                                   
 ASUS_TUF_DEVICES=('blue' 'flags' 'green' 'mode' 'red' 'set' 'speed')
 UDEV_HEADER+=${UDEV_LINE}'#  ASUS TUF Laptops (faustus)                                   #\n'${UDEV_LINE}
 for DEV in ${ASUS_TUF_DEVICES[@]}; do
-  UDEV_HEADER+='ACTION=="add", SUBSYSTEM=="platform", KERNEL=="faustus", RUN+="/bin/chmod a+w /sys/bus/platform/devices/%k/kbbl/kbbl_'${DEV}'"\n'
+  UDEV_HEADER+='ACTION=="add", SUBSYSTEM=="platform", KERNEL=="faustus", RUN+="/usr/bin/env chmod a+w /sys/bus/platform/devices/%k/kbbl/kbbl_'${DEV}'"\n'
 done
 
 # asus-wmi rules
 ASUS_WMI_DEVICES=('kbd_rgb_mode' 'brightness')
 UDEV_HEADER+='\n'${UDEV_LINE}'#  ASUS TUF Laptops (asus-wmi)                                  #\n'${UDEV_LINE}
 for DEV in ${ASUS_WMI_DEVICES[@]}; do
-  UDEV_HEADER+='ACTION=="add", SUBSYSTEM=="leds", KERNEL=="asus::kbd_backlight", RUN+="/bin/chmod a+w /sys%p/'${DEV}'"\n'
+  UDEV_HEADER+='ACTION=="add", SUBSYSTEM=="leds", KERNEL=="asus::kbd_backlight", RUN+="/usr/bin/env chmod a+w /sys%p/'${DEV}'"\n'
 done
 
 echo -e "$UDEV_HEADER" > "$UDEV_FILE"

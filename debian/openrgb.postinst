@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # -e is not set should this step fail for whatever reason the installation is still valid
 set -u -o pipefail

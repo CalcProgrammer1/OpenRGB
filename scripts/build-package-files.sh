@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 PROJECT_FILE="OpenRGB.pro"
 VERSION_PATTERN="__VERSION__"
 INFILE_SUFFIX=".in"
