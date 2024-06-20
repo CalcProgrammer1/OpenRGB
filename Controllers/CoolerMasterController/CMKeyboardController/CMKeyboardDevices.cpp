@@ -198,6 +198,22 @@ const std::vector<unsigned int> ck530_keymap =
     11,   12,   19,               46,                    74,   81,    88,  109,         116,  123,  130,
 };
 
+const std::vector<unsigned int> ck530_v2_keymap =
+{
+/*  ESC   F1    F2    F3    F4    F5    F6    F7    F8    F9    F10   F11   F12   PRSC  SCLK  PSBK        */
+    7,	  28,   35,   42,   49,   63,   70,   77,   84,   91,   98,  105,  112,   119,  126,  133,
+/*  BKTK  1     2     3     4     5     6     7     8     9     0     -     =     BPSC  INS   HOME  PGUP  */
+    8,    22,   29,   36,   43,   50,   57,   64,   71,   78,   85,   92,   99,   113,  120,  127,  134,
+/*  TAB   Q     W     E     R     T     Y     U     I     O     P     [     ]     \     DEL   END   PGDN  */
+    9,    23,   30,   37,   44,   51,   58,   65,   72,   79,   86,   93,  100,   114,  121,  128,  135,
+/*  CPLK  A     S     D     F     G     H     J     K     L     ;     "     #     ENTR                    */
+    10,   24,   31,   38,   45,   52,   59,   66,   73,   80,   87,   94,  108,   115,
+/*  LSFT  ISO\  Z     X     C     V     B     N     M     ,     .     /           RSFT        ARWU        */
+    11,   18,   25,   32,   39,   46,   53,   60,   67,   74,   88,   81,         116,        130, 
+/*  LCTL  LWIN  LALT              SPC                     RALT  RFNC  RMNU  RCTL        ARWL  ARWD  ARWR  */
+    12,   19,   26,               54,                     82,   89,   96,   117,        124,  131,  138,
+};
+
 const std::vector<unsigned int> ck550_v2_keymap =
 {
 /*  ESC         F1    F2    F3    F4    F5    F6    F7    F8    F9    F10   F11   F12   PRSC  SCLK  PSBK                         */
@@ -541,6 +557,24 @@ keyboard_keymap_overlay_values ck530_layout
     }
 };
 
+keyboard_keymap_overlay_values ck530_v2_layout
+{
+    KEYBOARD_SIZE::KEYBOARD_SIZE_TKL,
+    {
+        ck530_v2_keymap,
+        {
+            /* Add more regional layout fixes here */
+        }
+    },
+    {
+        /*---------------------------------------------------------------------------------------------------------*\
+        | Edit Keys                                                                                                 |
+        |   Zone,   Row,    Column,     Value,      Key,                        OpCode,                             |
+        \*---------------------------------------------------------------------------------------------------------*/
+    }
+};
+
+
 keyboard_keymap_overlay_values ck550v2_layout
 {
     KEYBOARD_SIZE::KEYBOARD_SIZE_FULL,
@@ -714,7 +748,7 @@ cm_kb_device ck530_v2_device
     {
         &cm_generic_zone,
     },
-    &ck530_layout,
+    &ck530_v2_layout,
 };
 
 cm_kb_device ck550_v2_device
