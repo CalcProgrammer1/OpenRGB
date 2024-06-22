@@ -1,17 +1,19 @@
-/*-----------------------------------------*\
-|  TrustGXT114Controller.h                  |
-|                                           |
-|  Driver for Trust GXT 114                 |
-|  controller - header file                 |
-|                                           |
-|  Guimard Morgan (morg) 1/24/2022          |
-\*-----------------------------------------*/
-
-#include "RGBController.h"
-#include <string>
-#include <hidapi/hidapi.h>
+/*---------------------------------------------------------*\
+| TrustGXT114Controller.h                                   |
+|                                                           |
+|   Driver for Trust GXT 114                                |
+|                                                           |
+|   Morgan Guimard (morg)                       24 Jan 2022 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #pragma once
+
+#include <string>
+#include <hidapi/hidapi.h>
+#include "RGBController.h"
 
 #define TRUST_GXT_114_REPORT_SIZE       154
 #define TRUST_GXT_114_NUMBER_OF_LEDS    1

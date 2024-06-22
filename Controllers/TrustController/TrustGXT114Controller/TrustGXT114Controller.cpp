@@ -1,12 +1,16 @@
-/*-----------------------------------------*\
-|  TrustGXT114Controller.cpp                |
-|                                           |
-|  Driver for Trust GXT 114 controller      |
-|                                           |
-|  Guimard Morgan (morg) 1/24/2022          |
-\*-----------------------------------------*/
-#include "TrustGXT114Controller.h"
+/*---------------------------------------------------------*\
+| TrustGXT114Controller.cpp                                 |
+|                                                           |
+|   Driver for Trust GXT 114                                |
+|                                                           |
+|   Morgan Guimard (morg)                       24 Jan 2022 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
 #include <string.h>
+#include "TrustGXT114Controller.h"
 
 TrustGXT114Controller::TrustGXT114Controller(hid_device* dev_handle, const hid_device_info& info)
 {
@@ -61,7 +65,7 @@ bool TrustGXT114Controller::Test()
 
 void TrustGXT114Controller::SetMode(RGBColor color, unsigned char brightness, unsigned char speed, unsigned char mode_value)
 {
-    unsigned char speed_bright = mode_value == STATIC_MODE_VALUE ? brightness : speed;    
+    unsigned char speed_bright = mode_value == STATIC_MODE_VALUE ? brightness : speed;
 
     /*-----------------------------------------*\
     | Create and zero out the buffer            |

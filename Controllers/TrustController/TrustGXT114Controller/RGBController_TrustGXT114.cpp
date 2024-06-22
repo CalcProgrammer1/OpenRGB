@@ -1,16 +1,17 @@
-/*-----------------------------------------*\
-|  RGBController_TrustGXT114.cpp            |
-|                                           |
-|  Generic RGB Interface for OpenRGB        |
-|  Trust GXT 114 USB Driver                 |
-|                                           |
-|  Guimard Morgan (morg) 1/24/2022          |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_TrustGXT114.cpp                             |
+|                                                           |
+|   RGBController for Trust GXT 114                         |
+|                                                           |
+|   Morgan Guimard (morg)                       24 Jan 2022 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
-#include "RGBController_TrustGXT114.h"
-
-#include <thread>
 #include <chrono>
+#include <thread>
+#include "RGBController_TrustGXT114.h"
 
 /**------------------------------------------------------------------*\
     @name Trust GXT 114

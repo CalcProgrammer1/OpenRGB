@@ -1,11 +1,13 @@
-/*-----------------------------------------*\
-|  RGBController_TrustGXT114.h              |
-|                                           |
-|  Generic RGB Interface for OpenRGB        |
-|  Trust GXT 114 USB Driver                 |
-|                                           |
-|  Guimard Morgan (morg) 1/24/2022          |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_TrustGXT114.h                               |
+|                                                           |
+|   RGBController for Trust GXT 114                         |
+|                                                           |
+|   Morgan Guimard (morg)                       24 Jan 2022 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #pragma once
 
@@ -20,7 +22,7 @@ public:
 
     void SetupZones();
     void ResizeZone(int zone, int new_size);
-    
+
     void DeviceUpdateLEDs();
     void UpdateZoneLEDs(int zone);
     void UpdateSingleLED(int led);
