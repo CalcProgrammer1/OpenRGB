@@ -1,4 +1,16 @@
-﻿#include <hidapi/hidapi.h>
+﻿/*---------------------------------------------------------*\
+| ValkyrieKeyboardControllerDetect.cpp                      |
+|                                                           |
+|   Detector for Valkyrie keyboard                          |
+|                                                           |
+|   Nollie (Nuonuo)                             06 Dec 2023 |
+|   Bartholomew Ho (imnotmental)                01 Feb 2024 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
+#include <hidapi/hidapi.h>
 #include "Detector.h"
 #include "RGBController.h"
 #include "RGBController_ValkyrieKeyboard.h"

@@ -1,12 +1,14 @@
-﻿/*-----------------------------------------*\
-|  RGBController_ValkyrieKeyboard.cpp       |
-|                                           |
-|  Generic RGB Interface for Valkyrie RGB   |
-|  keyboard devices                         |
-|                                           |
-|  Nollie(Nuonuo)               2023/12/6   |
-|  Bartholomew Ho (imnotmental) 02/01/2024  |
-\*-----------------------------------------*/
+﻿/*---------------------------------------------------------*\
+| RGBController_ValkyrieKeyboard.cpp                        |
+|                                                           |
+|   RGBController for Valkyrie keyboard                     |
+|                                                           |
+|   Nollie (Nuonuo)                             06 Dec 2023 |
+|   Bartholomew Ho (imnotmental)                01 Feb 2024 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #include "RGBControllerKeyNames.h"
 #include "RGBController_ValkyrieKeyboard.h"

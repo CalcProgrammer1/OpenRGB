@@ -1,12 +1,14 @@
-﻿/*-----------------------------------------*\
-|  ValkyrieKeyboardController.cpp           |
-|                                           |
-|  Driver for Valkyrie RGB keyboardlighting |
-|  controller                               |
-|                                           |
-|  Nollie(Nuonuo)               2023/12/6   |
-|  Bartholomew Ho (imnotmental) 02/01/2024  |
-\*-----------------------------------------*/
+﻿/*---------------------------------------------------------*\
+| ValkyrieKeyboardController.cpp                            |
+|                                                           |
+|   Driver for Valkyrie keyboard                            |
+|                                                           |
+|   Nollie (Nuonuo)                             06 Dec 2023 |
+|   Bartholomew Ho (imnotmental)                01 Feb 2024 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #include <cstring>
 #include "ValkyrieKeyboardController.h"

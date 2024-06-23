@@ -1,17 +1,20 @@
-﻿/*-----------------------------------------*\
-|  ValkyrieKeyboardController.h             |
-|                                           |
-|  Definitions and types for Valkyrie RGB   |
-|  keyboard lighting controller             |
-|                                           |
-|  Nollie(Nuonuo)               2023/12/6   |
-|  Bartholomew Ho (imnotmental) 02/01/2024  |
-\*-----------------------------------------*/
+﻿/*---------------------------------------------------------*\
+| ValkyrieKeyboardController.h                              |
+|                                                           |
+|   Driver for Valkyrie keyboard                            |
+|                                                           |
+|   Nollie (Nuonuo)                             06 Dec 2023 |
+|   Bartholomew Ho (imnotmental)                01 Feb 2024 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
 #pragma once
 
-#include "RGBController.h"
 #include <string>
 #include <hidapi/hidapi.h>
+#include "RGBController.h"
 
 /*-----------------------------------------------------*\
 | Valkyrie vendor ID                                   |
@@ -34,7 +37,7 @@ public:
     std::string     GetSerialString();
     unsigned short  GetUSBPID();
     int             GetInterfaceNum();
-    
+
     void SendColors
             (
             unsigned char*  color_data,
