@@ -1,12 +1,17 @@
-/*------------------------------------*\
-|  RGBController_XG270QG.cpp           |
-|  Lanzaa 1/23/2022                    |
-\*------------------------------------*/
-
-#include "RGBController_XG270QG.h"
-#include "LogManager.h"
+/*---------------------------------------------------------*\
+| RGBController_XG270QG.cpp                                 |
+|                                                           |
+|   RGBController for ViewSonic XG270QG                     |
+|                                                           |
+|   Lanzaa                                      23 Jan 2022 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #include <string>
+#include "RGBController_XG270QG.h"
+#include "LogManager.h"
 
 /**------------------------------------------------------------------*\
     @name Viewsonic Monitor

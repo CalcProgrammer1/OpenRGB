@@ -1,8 +1,18 @@
+/*---------------------------------------------------------*\
+| ViewSonicControllerDetect.cpp                             |
+|                                                           |
+|   Detector for ViewSonic XG270QG                          |
+|                                                           |
+|   Lanzaa                                      23 Jan 2022 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
+#include <hidapi/hidapi.h>
 #include "Detector.h"
 #include "VS_XG270QG_Controller.h"
 #include "RGBController_XG270QG.h"
-#include <hidapi/hidapi.h>
-
 #include "LogManager.h"
 
 #define VIEWSONIC_VID 0x0416

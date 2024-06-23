@@ -1,13 +1,18 @@
-/*------------------------------------*\
-|  RGBController_XG270QG.h             |
-|  Lanzaa 1/23/2022                    |
-\*------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_XG270QG.h                                   |
+|                                                           |
+|   RGBController for ViewSonic XG270QG                     |
+|                                                           |
+|   Lanzaa                                      23 Jan 2022 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #pragma once
 
 #include <cstdint>
 #include <vector>
-
 #include "VS_XG270QG_Controller.h"
 #include "RGBController.h"
 

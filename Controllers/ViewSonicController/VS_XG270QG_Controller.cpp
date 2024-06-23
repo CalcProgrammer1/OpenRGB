@@ -1,12 +1,17 @@
-/*-----------------------------------*\
-|  VS_XG270QG_Controller.cpp          |
-|  Lanzaa 1/23/2022                   |
-\*-----------------------------------*/
-
-#include "VS_XG270QG_Controller.h"
-#include "LogManager.h"
+/*---------------------------------------------------------*\
+| VS_XG270QG_Controller.cpp                                 |
+|                                                           |
+|   Driver for ViewSonic XG270QG                            |
+|                                                           |
+|   Lanzaa                                      23 Jan 2022 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #include <cstring>
+#include "VS_XG270QG_Controller.h"
+#include "LogManager.h"
 
 VS_XG270QG_Controller::VS_XG270QG_Controller(hid_device* device, const char* path)
 {
