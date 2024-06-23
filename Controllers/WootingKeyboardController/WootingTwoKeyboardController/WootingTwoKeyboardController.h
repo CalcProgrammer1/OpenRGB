@@ -1,15 +1,17 @@
-/*-------------------------------------------------------------------*\
-|  WootingTwoKeyboardController.h                                     |
-|                                                                     |
-|  OpenRGB driver for Wooting RGB keyboardlighting controller         |
-|      https://github.com/WootingKb/wooting-rgb-sdk                   |
-|                                                                     |
-|  Chris M (Dr_No)         9th July 2021                              |
-\*-------------------------------------------------------------------*/
-
-#include "WootingKeyboardController.h"
+/*---------------------------------------------------------*\
+| WootingTwoKeyboardController.h                            |
+|                                                           |
+|   Driver for Wooting Two keyboard                         |
+|                                                           |
+|   Chris M (Dr_No)                             09 Jul 2021 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #pragma once
+
+#include "WootingKeyboardController.h"
 
 class WootingTwoKeyboardController : public WootingKeyboardController
 {

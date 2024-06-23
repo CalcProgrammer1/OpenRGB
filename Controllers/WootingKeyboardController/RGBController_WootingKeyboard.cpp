@@ -1,11 +1,13 @@
-/*-----------------------------------------*\
-|  RGBController_WootingKeyboard.cpp        |
-|                                           |
-|  Generic RGB Interface for Wooting RGB    |
-|  keyboard devices                         |
-|                                           |
-|  Diogo Trindade (diogotr7)    3/4/2021    |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_WootingKeyboard.cpp                         |
+|                                                           |
+|   RGBController for Wooting keyboard                      |
+|                                                           |
+|   Diogo Trindade (diogotr7)                   04 Mar 2021 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #include "RGBControllerKeyNames.h"
 #include "RGBController_WootingKeyboard.h"

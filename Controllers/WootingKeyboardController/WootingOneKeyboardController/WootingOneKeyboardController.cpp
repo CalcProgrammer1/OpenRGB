@@ -1,11 +1,13 @@
-/*-----------------------------------------*\
-|  WootingKeyboardController.cpp            |
-|                                           |
-|  Driver for Wooting RGB keyboardlighting  |
-|  controller                               |
-|                                           |
-|  Diogo Trindade (diogotr7)    3/4/2021    |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| WootingOneKeyboardController.cpp                          |
+|                                                           |
+|   Driver for Wooting One keyboard                         |
+|                                                           |
+|   Diogo Trindade (diogotr7)                   04 Mar 2021 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #include <cstring>
 #include "WootingOneKeyboardController.h"

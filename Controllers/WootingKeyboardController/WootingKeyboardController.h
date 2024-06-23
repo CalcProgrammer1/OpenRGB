@@ -1,18 +1,20 @@
-/*-------------------------------------------------------------------*\
-|  WootingKeyboardController.h                                        |
-|                                                                     |
-|  OpenRGB driver for Wooting RGB keyboardlighting controller         |
-|      https://github.com/WootingKb/wooting-rgb-sdk                   |
-|                                                                     |
-|  Chris M (Dr_No)         9th July 2021                              |
-\*-------------------------------------------------------------------*/
-
-#include "RGBController.h"
-#include "LogManager.h"
-#include <string>
-#include <hidapi/hidapi.h>
+/*---------------------------------------------------------*\
+| WootingKeyboardController.h                               |
+|                                                           |
+|   Driver for Wooting keyboard                             |
+|                                                           |
+|   Chris M (Dr_No)                             09 Jul 2021 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #pragma once
+
+#include <string>
+#include <hidapi/hidapi.h>
+#include "RGBController.h"
+#include "LogManager.h"
 
 #define WOOTING_COMMAND_SIZE            8
 #define WOOTING_REPORT_SIZE             129

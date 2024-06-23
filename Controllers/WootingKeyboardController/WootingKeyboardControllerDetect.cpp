@@ -1,11 +1,22 @@
+/*---------------------------------------------------------*\
+| WootingKeyboardControllerDetect.cpp                       |
+|                                                           |
+|   Detector for Wooting keyboard                           |
+|                                                           |
+|   Diogo Trindade (diogotr7)                   04 Mar 2021 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
+#include <vector>
+#include <hidapi/hidapi.h>
 #include "Detector.h"
 #include "WootingOneKeyboardController.h"
 #include "WootingTwoKeyboardController.h"
 #include "RGBController.h"
 #include "RGBController_WootingKeyboard.h"
 #include "LogManager.h"
-#include <vector>
-#include <hidapi/hidapi.h>
 
 /*-----------------------------------------------------*\
 | Wooting vendor ID                                     |
