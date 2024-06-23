@@ -1,11 +1,13 @@
-/*-----------------------------------------*\
-|  RGBController_TrustGXT180.h              |
-|                                           |
-|  Generic RGB Interface for OpenRGB        |
-|  Trust GXT 180 USB Driver                 |
-|                                           |
-|  Guimard Morgan (morg) 3/24/2022          |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_TrustGXT180.h                               |
+|                                                           |
+|   RGBController for Trust GXT 180                         |
+|                                                           |
+|   Morgan Guimard (morg)                       24 Mar 2022 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #pragma once
 

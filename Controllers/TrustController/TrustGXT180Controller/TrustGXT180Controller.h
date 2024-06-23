@@ -1,17 +1,19 @@
-/*-----------------------------------------*\
-|  TrustGXT180Controller.h                  |
-|                                           |
-|  Driver for Trust GXT 180                 |
-|  controller - header file                 |
-|                                           |
-|  Guimard Morgan (morg) 3/24/2022          |
-\*-----------------------------------------*/
-
-#include "RGBController.h"
-#include <string>
-#include <hidapi/hidapi.h>
+/*---------------------------------------------------------*\
+| TrustGXT180Controller.h                                   |
+|                                                           |
+|   Driver for Trust GXT 180                                |
+|                                                           |
+|   Morgan Guimard (morg)                       24 Mar 2022 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #pragma once
+
+#include <string>
+#include <hidapi/hidapi.h>
+#include "RGBController.h"
 
 #define TRUST_GXT_180_REPORT_SIZE       64
 #define TRUST_GXT_180_NUMBER_OF_LEDS    1
