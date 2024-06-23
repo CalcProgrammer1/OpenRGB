@@ -1,16 +1,17 @@
-/*---------------------------------------------*\
-|  RGBController_WinbondGamingKeyboard.cpp      |
-|                                               |
-|  Driver for "Winbond Gaming Keyboard" boards, |
-|  like Pulsar PCMK TKL Keyboard                |
-|                                               |
-|  Daniel Gibson  3 December 2023               |
-\*---------------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_WinbondGamingKeyboard.cpp                   |
+|                                                           |
+|   RGBController for Winbond Gaming Keyboard               |
+|                                                           |
+|   Daniel Gibson                               03 Dec 2023 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #include "RGBController_WinbondGamingKeyboard.h"
 #include "RGBControllerKeyNames.h"
 #include "KeyboardLayoutManager.h"
-
 #include "LogManager.h"
 
 /**------------------------------------------------------------------*\

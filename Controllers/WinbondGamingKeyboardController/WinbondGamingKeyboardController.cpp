@@ -1,18 +1,19 @@
-/*---------------------------------------------*\
-|  WinbondGamingKeyboardController.cpp          |
-|                                               |
-|  Driver for "Winbond Gaming Keyboard" boards, |
-|  like Pulsar PCMK TKL Keyboard                |
-|                                               |
-|  Daniel Gibson  3 December 2023               |
-\*---------------------------------------------*/
-
-#include "WinbondGamingKeyboardController.h"
-#include "RGBController_WinbondGamingKeyboard.h"
-#include "LogManager.h"
+/*---------------------------------------------------------*\
+| WinbondGamingKeyboardController.cpp                       |
+|                                                           |
+|   Driver for Winbond Gaming Keyboard                      |
+|                                                           |
+|   Daniel Gibson                               03 Dec 2023 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #include <algorithm>
 #include <string.h>
+#include "WinbondGamingKeyboardController.h"
+#include "RGBController_WinbondGamingKeyboard.h"
+#include "LogManager.h"
 
 #define WINBOND_HID_DATA_LEN 64
 
@@ -282,7 +283,7 @@ void WinbondGamingKeyboardController::SetLEDsData(const std::vector<RGBColor>& c
         {
             continue;
         }
-        
+
         /*--------------------------------------------------------------------------------------------------*\
         | the following two lines are the inverse of the KV() macro in RGBController_WinbondGamingKeyboard.h |
         \*--------------------------------------------------------------------------------------------------*/
@@ -300,7 +301,7 @@ void WinbondGamingKeyboardController::SetLEDsData(const std::vector<RGBColor>& c
         }
 
         msg_num &= 7; // 0..7
-        
+
         /*----------------------------*\
         | transform 0..0xFF to 0..0xC1 |
         \*----------------------------*/

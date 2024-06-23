@@ -1,30 +1,28 @@
-/*---------------------------------------------*\
-|  WinbondGamingKeyboardControllerDetect.cpp    |
-|                                               |
-|  Driver for "Winbond Gaming Keyboard" boards, |
-|  like Pulsar PCMK TKL Keyboard                |
-|                                               |
-|  Daniel Gibson  3 December 2023               |
-\*---------------------------------------------*/
+/*---------------------------------------------------------*\
+| WinbondGamingKeyboardControllerDetect.cpp                 |
+|                                                           |
+|   Detector for Winbond Gaming Keyboard                    |
+|                                                           |
+|   Daniel Gibson                               03 Dec 2023 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
+#include <hidapi/hidapi.h>
 #include "Detector.h"
 #include "RGBController_WinbondGamingKeyboard.h"
-#include <hidapi/hidapi.h>
-
 #include "LogManager.h"
-
 
 /*-----------------------------------------------------*\
 | Winbond vendor ID                                     |
 \*-----------------------------------------------------*/
 #define WINBOND_VID 0x0416
 
-
 /*-----------------------------------------------------*\
 | Winbond product ID                                    |
 \*-----------------------------------------------------*/
 #define WINBOND_GAMING_KEYBOARD_PID 0xB23C
-
 
 void DetectWinbondGamingKeyboard(hid_device_info* info, const std::string& name)
 {
