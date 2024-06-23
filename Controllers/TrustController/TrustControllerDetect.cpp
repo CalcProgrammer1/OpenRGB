@@ -1,3 +1,14 @@
+/*---------------------------------------------------------*\
+| TrustControllerDetect.cpp                                 |
+|                                                           |
+|   Detector for Trust devices                              |
+|                                                           |
+|   Morgan Guimard (morg)                       24 Jan 2022 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
 #include "Detector.h"
 #include "TrustGXT114Controller.h"
 #include "TrustGXT180Controller.h"
