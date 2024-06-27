@@ -49,12 +49,25 @@ RGBController_CMKeyboardController::RGBController_CMKeyboardController(CMKeyboar
 
 RGBController_CMKeyboardController::~RGBController_CMKeyboardController()
 {
-    for(size_t i = 0; i < m_pUnknownKeyNames.size(); i++)
+    /*---------------------------------------------------------*\
+    | Delete the matrix map                                     |
+    \*---------------------------------------------------------*/
+    for(unsigned int zone_index = 0; zone_index < zones.size(); zone_index++)
     {
-        if(m_pUnknownKeyNames[i])
+        if(zones[zone_index].matrix_map != NULL)
         {
-            delete(m_pUnknownKeyNames[i]);
+            if(zones[zone_index].matrix_map->map != NULL)
+            {
+                delete zones[zone_index].matrix_map->map;
+            }
+
+            delete zones[zone_index].matrix_map;
         }
+    }
+
+    if(m_pController)
+    {
+        delete m_pController;
     }
 }
 
@@ -88,8 +101,6 @@ void RGBController_CMKeyboardController::SetupZones()
                 matrix_map_type * new_map   = new matrix_map_type;
                 new_zone.matrix_map         = new_map;
 
-                new_map->map                = new unsigned int[new_map->height * new_map->width];
-
                 if(coolermaster->layout_new->base_size != KEYBOARD_SIZE_EMPTY)
                 {
                     /*---------------------------------------------------------*\
@@ -100,6 +111,7 @@ void RGBController_CMKeyboardController::SetupZones()
 
                     new_map->height             = new_kb.GetRowCount();
                     new_map->width              = new_kb.GetColumnCount();
+                    new_map->map                = new unsigned int[new_map->height * new_map->width];
 
                     /*---------------------------------------------------------*\
                     | Matrix map still uses declared zone rows and columns      |

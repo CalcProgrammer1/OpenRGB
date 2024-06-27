@@ -48,10 +48,7 @@ CMKeyboardAbstractController::CMKeyboardAbstractController(hid_device* dev_handl
 
 CMKeyboardAbstractController::~CMKeyboardAbstractController()
 {
-    if(m_pDev)
-    {
-        hid_close(m_pDev);
-    }
+    hid_close(m_pDev);
 };
 
 std::string CMKeyboardAbstractController::GetDeviceName()

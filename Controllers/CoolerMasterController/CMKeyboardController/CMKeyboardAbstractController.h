@@ -57,7 +57,7 @@ class CMKeyboardAbstractController
 {
 public:
     CMKeyboardAbstractController(hid_device* dev_handle, hid_device_info* dev_info);
-    ~CMKeyboardAbstractController();
+    virtual ~CMKeyboardAbstractController();
 
     /*---------------------------------------------------------*\
     | Common USB controller fuctions                            |

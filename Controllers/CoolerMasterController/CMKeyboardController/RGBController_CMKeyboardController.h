@@ -38,7 +38,5 @@ private:
     CMKeyboardAbstractController*   m_pController;;
     KeyboardLayoutManager*          m_pLayoutManager;
     KEYBOARD_LAYOUT                 m_keyboardLayout;
-    KEYBOARD_SIZE                   m_keyboardSize;
     layout_values                   m_layoutValues;
-    std::vector<char *>             m_pUnknownKeyNames;
 };
