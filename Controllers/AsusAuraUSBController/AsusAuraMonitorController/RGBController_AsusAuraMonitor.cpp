@@ -13,7 +13,7 @@
 
 /**------------------------------------------------------------------*\
     @name Asus Aura Monitor
-    @category LEDStrip
+    @category Accessory
     @type USB
     @save :x:
     @direct :white_check_mark:
@@ -28,7 +28,7 @@ RGBController_AuraMonitor::RGBController_AuraMonitor(AuraMonitorController* cont
 
     name        = "ASUS Aura Monitor";
     vendor      = "ASUS";
-    type        = DEVICE_TYPE_LEDSTRIP;
+    type        = DEVICE_TYPE_ACCESSORY;
     description = "ASUS Aura Monitor Device";
     location    = controller->GetDeviceLocation();
     serial      = controller->GetSerialString();

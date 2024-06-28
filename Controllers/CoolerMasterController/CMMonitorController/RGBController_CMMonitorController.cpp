@@ -15,7 +15,7 @@
 
 /**------------------------------------------------------------------*\
     @name Coolermaster Gaming Monitor
-    @category LEDStrip
+    @category Accessory
     @type USB
     @save :robot:
     @direct :white_check_mark:
@@ -29,7 +29,7 @@ RGBController_CMMonitorController::RGBController_CMMonitorController(CMMonitorCo
     controller                  = controller_ptr;
     name                        = "CoolerMaster LED Controller A1";
     vendor                      = "CoolerMaster";
-    type                        = DEVICE_TYPE_LEDSTRIP;
+    type                        = DEVICE_TYPE_ACCESSORY;
     description                 = name;
     location                    = controller->GetDeviceLocation();
     serial                      = controller->GetSerialString();

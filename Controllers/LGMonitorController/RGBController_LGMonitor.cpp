@@ -17,7 +17,7 @@ using namespace std::chrono_literals;
 
 /**------------------------------------------------------------------*\
     @name LGMonitor
-    @category Monitor
+    @category Accessory
     @type USB
     @save :robot:
     @direct :white_check_mark:
@@ -29,7 +29,7 @@ RGBController_LGMonitor::RGBController_LGMonitor(LGMonitorController* controller
 {
     controller                          = controller_ptr;
     vendor                              = "LG";
-    type                                = DEVICE_TYPE_LEDSTRIP;
+    type                                = DEVICE_TYPE_ACCESSORY;
     description                         = "LG Monitor";
     location                            = controller->GetDeviceLocation();
     serial                              = controller->GetSerialString();
