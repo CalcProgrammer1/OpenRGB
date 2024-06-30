@@ -1,3 +1,14 @@
+/*---------------------------------------------------------*\
+| ZETEdgeAirProControllerDetect.cpp                         |
+|                                                           |
+|   Detector for ZET Edge Air Pro                           |
+|                                                           |
+|   Morgan Guimard (morg)                       29 Jan 2022 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
 #include "Detector.h"
 #include "ZETEdgeAirProController.h"
 #include "RGBController.h"

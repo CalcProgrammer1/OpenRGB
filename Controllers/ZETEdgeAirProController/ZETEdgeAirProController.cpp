@@ -1,13 +1,16 @@
-/*-----------------------------------------*\
-|  ZETEdgeAirProController.cpp              |
-|                                           |
-|  Driver for ZET Edge Air Pro mouse        |
-|  lighting  controller                     |
-|                                           |
-|  Guimard Morgan (morg) 1/29/2022          |
-\*-----------------------------------------*/
-#include "ZETEdgeAirProController.h"
+/*---------------------------------------------------------*\
+| ZETEdgeAirProController.cpp                               |
+|                                                           |
+|   Driver for ZET Edge Air Pro                             |
+|                                                           |
+|   Morgan Guimard (morg)                       29 Jan 2022 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
 #include <string.h>
+#include "ZETEdgeAirProController.h"
 
 ZETEdgeAirProController::ZETEdgeAirProController(hid_device* dev_handle, const hid_device_info& info)
 {

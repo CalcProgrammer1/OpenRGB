@@ -1,16 +1,19 @@
-/*-----------------------------------------*\
-|  ZETEdgeAirProController.h                |
-|                                           |
-|  Driver for ZET Edge Air Pro mouse        |
-|  lighting  controller - header file       |
-|                                           |
-|  Guimard Morgan (morg) 1/29/2022          |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| ZETEdgeAirProController.h                                 |
+|                                                           |
+|   Driver for ZET Edge Air Pro                             |
+|                                                           |
+|   Morgan Guimard (morg)                       29 Jan 2022 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
 #pragma once
 
-#include "RGBController.h"
 #include <string>
 #include <hidapi/hidapi.h>
+#include "RGBController.h"
 
 #define ZET_EDGE_AIR_PRO_PACKET_SIZE    17
 #define ZET_EDGE_AIR_PRO_REPORT_ID      0x08

@@ -1,15 +1,17 @@
-/*-----------------------------------------*\
-|  RGBController_ZETEdgeAirPro.cpp          |
-|                                           |
-|  Generic RGB Interface for OpenRGB        |
-|  ZET Edge Air Pro RGB USB Driver          |
-|                                           |
-|  Guimard Morgan (morg) 1/29/2022          |
-\*-----------------------------------------*/
-#include "RGBController_ZETEdgeAirPro.h"
+/*---------------------------------------------------------*\
+| RGBController_ZETEdgeAirPro.cpp                           |
+|                                                           |
+|   RGBController for ZET Edge Air Pro                      |
+|                                                           |
+|   Morgan Guimard (morg)                       29 Jan 2022 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
-#include <thread>
 #include <chrono>
+#include <thread>
+#include "RGBController_ZETEdgeAirPro.h"
 
 /**------------------------------------------------------------------*\
     @name ZET Edge Air Pro
