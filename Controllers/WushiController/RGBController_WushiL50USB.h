@@ -1,15 +1,17 @@
-/*-------------------------------------*\
-|  RGBController_WushiL50USB.h          |
-|                                       |
-|  interface for Wushi L50 Devices      |
-\*-------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_WushiL50USB.h                               |
+|                                                           |
+|   RGBController for Wushi L50                             |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #pragma once
 
+#include <vector>
 #include "WushiL50USBController.h"
 #include "RGBController.h"
-
-#include <vector>
 
 class RGBController_WushiL50USB : public RGBController
 {

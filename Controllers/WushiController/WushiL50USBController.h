@@ -1,16 +1,17 @@
-/*-------------------------------------*\
-|  WushiL50USBController.h              |
-|                                       |
-|  interface for Wushi L50 Devices      |
-\*-------------------------------------*/
+/*---------------------------------------------------------*\
+| WushiL50USBController.h                                   |
+|                                                           |
+|   Driver for Wushi L50                                    |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #pragma once
 
-#include "RGBController.h"
-
 #include <string>
 #include <hidapi/hidapi.h>
-
+#include "RGBController.h"
 #include "hidapi_wrapper.h"
 
 #ifndef HID_MAX_STR
