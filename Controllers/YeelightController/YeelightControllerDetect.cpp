@@ -1,11 +1,22 @@
+/*---------------------------------------------------------*\
+| YeelightControllerDetect.cpp                              |
+|                                                           |
+|   Detector for Yeelight                                   |
+|                                                           |
+|   Adam Honse (CalcProgrammer1)                18 Jan 2021 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <vector>
 #include "Detector.h"
 #include "YeelightController.h"
 #include "RGBController.h"
 #include "RGBController_Yeelight.h"
 #include "SettingsManager.h"
-#include <vector>
-#include <stdio.h>
-#include <stdlib.h>
 
 /******************************************************************************************\
 *                                                                                          *

@@ -1,10 +1,13 @@
-/*-----------------------------------------*\
-|  RGBController_Yeelight.cpp               |
-|                                           |
-|  Generic RGB Interface for Yeelight       |
-|                                           |
-|  Adam Honse (CalcProgrammer1) 1/18/2021   |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_Yeelight.cpp                                |
+|                                                           |
+|   RGBController for Yeelight                              |
+|                                                           |
+|   Adam Honse (CalcProgrammer1)                18 Jan 2021 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #include "RGBController_Yeelight.h"
 

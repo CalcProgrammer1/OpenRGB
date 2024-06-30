@@ -1,7 +1,12 @@
 /*---------------------------------------------------------*\
-|  Driver for Yeelight                                      |
+| YeelightController.cpp                                    |
 |                                                           |
-|  Adam Honse (calcprogrammer1@gmail.com), 1/18/2021        |
+|   Driver for Yeelight                                     |
+|                                                           |
+|   Adam Honse (CalcProgrammer1)                18 Jan 2021 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
 \*---------------------------------------------------------*/
 
 #include "YeelightController.h"

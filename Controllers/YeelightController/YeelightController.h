@@ -1,17 +1,21 @@
 /*---------------------------------------------------------*\
-|  Definitions for Yeelight                                 |
+| YeelightController.h                                      |
 |                                                           |
-|  Adam Honse (calcprogrammer1@gmail.com), 1/18/2021        |
+|   Driver for Yeelight                                     |
+|                                                           |
+|   Adam Honse (CalcProgrammer1)                18 Jan 2021 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
 \*---------------------------------------------------------*/
 
-#include "RGBController.h"
-#include "net_port.h"
+#pragma once
 
 #include <string>
 #include <thread>
 #include <vector>
-
-#pragma once
+#include "RGBController.h"
+#include "net_port.h"
 
 class YeelightController
 {
