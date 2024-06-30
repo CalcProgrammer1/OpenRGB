@@ -1,25 +1,23 @@
-/*-----------------------------------------*\
-|  ZalmanZSyncController.cpp                |
-|                                           |
-|  Definitions and types for Zalman Z Sync  |
-|  lighting controller                      |
-|                                           |
-|  The Zalman Z Sync device uses the same   |
-|  protocol as the Corsair Lighting Node    |
-|  devices except supports 8 channels.      |
-|                                           |
-|  This code copied from the                |
-|  CorsairLightingNodeController files      |
-|                                           |
-|  Adam Honse (CalcProgrammer1) 1/30/2021   |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| ZalmanZSyncController.cpp                                 |
+|                                                           |
+|   Driver for Zalman Z Sync                                |
+|                                                           |
+|   Based on CorsairLightingNodeConroller, the protocol is  |
+|   the same as the Corsair Lighting Node except with 8     |
+|   channels                                                |
+|                                                           |
+|   Adam Honse (CalcProgrammer1)                30 Jan 2021 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
-#include "ZalmanZSyncController.h"
-
+#include <cstring>
 #include <fstream>
 #include <iostream>
 #include <string>
-#include <cstring>
+#include "ZalmanZSyncController.h"
 
 using namespace std::chrono_literals;
 
@@ -178,7 +176,7 @@ void ZalmanZSyncController::SetChannelLEDs(unsigned char channel, RGBColor * col
         {
             pkt_size = 50;
         }
-        
+
         for(int color_idx = 0; color_idx < pkt_size; color_idx++)
         {
             red_color_data[color_idx] = RGBGetRValue(colors[pkt_offset + color_idx]);

@@ -1,25 +1,24 @@
-/*-----------------------------------------*\
-|  ZalmanZSyncController.h                  |
-|                                           |
-|  Definitions and types for Zalman Z Sync  |
-|  lighting controller                      |
-|                                           |
-|  The Zalman Z Sync device uses the same   |
-|  protocol as the Corsair Lighting Node    |
-|  devices except supports 8 channels.      |
-|                                           |
-|  This code copied from the                |
-|  CorsairLightingNodeController files      |
-|                                           |
-|  Adam Honse (CalcProgrammer1) 1/30/2021   |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| ZalmanZSyncController.h                                   |
+|                                                           |
+|   Driver for Zalman Z Sync                                |
+|                                                           |
+|   Based on CorsairLightingNodeConroller, the protocol is  |
+|   the same as the Corsair Lighting Node except with 8     |
+|   channels                                                |
+|                                                           |
+|   Adam Honse (CalcProgrammer1)                30 Jan 2021 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
-#include "RGBController.h"
+#pragma once
+
 #include <chrono>
 #include <vector>
 #include <hidapi/hidapi.h>
-
-#pragma once
+#include "RGBController.h"
 
 enum
 {
