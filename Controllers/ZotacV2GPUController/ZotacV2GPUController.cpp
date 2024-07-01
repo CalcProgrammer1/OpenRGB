@@ -1,11 +1,13 @@
-/*------------------------------------------*\
-|  ZotacV2GPUController.cpp                  |
-|                                            |
-|  Driver for ZOTAC GeForce RTX 30/40 series |
-|  GPU lighting controller                   |
-|                                            |
-|  Krzysztof Haładyn (krzys_h)   3/16/2023   |
-\*------------------------------------------*/
+/*---------------------------------------------------------*\
+| ZotacV2GPUController.cpp                                  |
+|                                                           |
+|   Driver for Zotac V2 GPU                                 |
+|                                                           |
+|   Krzysztof Haładyn (krzys_h)                 16 Mar 2023 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #include "ZotacV2GPUController.h"
 #include "LogManager.h"

@@ -1,3 +1,14 @@
+/*---------------------------------------------------------*\
+| ZotacV2GPUControllerDetect.cpp                            |
+|                                                           |
+|   Detector for Zotac V2 GPU                               |
+|                                                           |
+|   Krzysztof Haładyn (krzys_h)                 16 Mar 2023 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
 #include "Detector.h"
 #include "ZotacV2GPUController.h"
 #include "RGBController.h"

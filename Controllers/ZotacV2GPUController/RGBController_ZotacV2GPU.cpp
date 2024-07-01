@@ -1,15 +1,17 @@
-/*-----------------------------------------*\
-|  RGBController_ZotacV2GPU.cpp             |
-|                                           |
-|  Generic RGB Interface for OpenRGB        |
-|  ZOTAC RTX 30/40 series GPU Driver        |
-|                                           |
-|  Krzysztof Haładyn (krzys_h)  3/16/2023   |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_ZotacV2GPU.cpp                              |
+|                                                           |
+|   RGBController for Zotac V2 GPU                          |
+|                                                           |
+|   Krzysztof Haładyn (krzys_h)                 16 Mar 2023 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
+#include <map>
 #include "RGBController_ZotacV2GPU.h"
 #include "LogManager.h"
-#include <map>
 
 std::map<std::string, ZotacV2GPUConfig> ZOTAC_V2_GPU_CONFIG =
 {
