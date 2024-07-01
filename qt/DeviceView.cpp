@@ -654,7 +654,7 @@ void DeviceView::mouseReleaseEvent(QMouseEvent* event)
 
             unsigned int segment_count = 0;
 
-            for(int zone_idx = 0; zone_idx < controller->zones.size(); zone_idx++)
+            for(unsigned int zone_idx = 0; zone_idx < controller->zones.size(); zone_idx++)
             {
                 int posx = zone_pos[zone_idx].matrix_x * size + offset_x + 12;
                 int posy = zone_pos[zone_idx].matrix_y * size;
@@ -668,7 +668,7 @@ void DeviceView::mouseReleaseEvent(QMouseEvent* event)
                     selectZone(zone_idx, ctrlDown);
                 }
 
-                for(int segment_idx = 0; segment_idx < controller->zones[zone_idx].segments.size(); segment_idx++)
+                for(unsigned int segment_idx = 0; segment_idx < controller->zones[zone_idx].segments.size(); segment_idx++)
                 {
                     posx = segment_pos[segment_count].matrix_x * size + offset_x + 12;
                     posy = segment_pos[segment_count].matrix_y * size;
@@ -727,7 +727,7 @@ void DeviceView::paintEvent(QPaintEvent* /* event */)
     /*-----------------------------------------------------*\
     | LED rectangles                                        |
     \*-----------------------------------------------------*/
-    for(int led_idx = 0; led_idx < controller->leds.size(); led_idx++)
+    for(unsigned int led_idx = 0; led_idx < controller->leds.size(); led_idx++)
     {
         int posx = led_pos[led_idx].matrix_x * size + offset_x;
         int posy = led_pos[led_idx].matrix_y * size;
@@ -852,7 +852,7 @@ void DeviceView::updateSelection()
     QRect sel              = selectionRect.normalized();
     std::vector<led>& leds = controller->leds;
 
-    for(int led_idx = 0; led_idx < leds.size(); ++led_idx)
+    for(unsigned int led_idx = 0; led_idx < leds.size(); led_idx++)
     {
         /*-----------------------------------------------------*\
         | Check intersection                                    |
