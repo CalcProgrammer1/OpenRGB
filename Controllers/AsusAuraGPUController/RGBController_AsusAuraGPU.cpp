@@ -32,7 +32,7 @@ int RGBController_AuraGPU::GetDeviceMode()
         break;
     }
 
-    for(int mode = 0; mode < modes.size(); mode++)
+    for(unsigned int mode = 0; mode < modes.size(); mode++)
     {
         if(modes[mode].value == dev_mode)
         {
