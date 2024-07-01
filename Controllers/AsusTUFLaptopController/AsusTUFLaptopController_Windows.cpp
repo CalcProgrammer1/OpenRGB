@@ -29,28 +29,30 @@ int AsusTUFLaptopController::checkWMIType()
     wchar_t PropertyBuffer[bufsize];
 
     HDEVINFO devinfo = SetupDiGetClassDevsW(&CLSID_GUID_DEVCLASS_SYSTEM, 0, 0, 2u);
-    if ( devinfo == HDEVINFO(-1) )
+
+    if(devinfo == HDEVINFO(-1))
     {
         return 0;
     }
+
     n = 0;
     DeviceInfoData.cbSize = sizeof(DeviceInfoData);
 
-    while ( SetupDiEnumDeviceInfo(devinfo, n, &DeviceInfoData) ) // Invalid buffer
+    while(SetupDiEnumDeviceInfo(devinfo, n, &DeviceInfoData)) // Invalid buffer
     {
-        if ( SetupDiGetDeviceRegistryPropertyW(devinfo,
-                                               &DeviceInfoData,
-                                               SPDRP_ENUMERATOR_NAME,
-                                               NULL,
-                                               PBYTE(PropertyBuffer),
-                                               sizeof(PropertyBuffer),
-                                               0) )
+        if(SetupDiGetDeviceRegistryPropertyW(devinfo,
+                                             &DeviceInfoData,
+                                             SPDRP_ENUMERATOR_NAME,
+                                             NULL,
+                                             PBYTE(PropertyBuffer),
+                                             sizeof(PropertyBuffer),
+                                             0))
         {
             // If we found property "ACPI"
             if(!wcscmp(PropertyBuffer, L"ACPI"))
             {
                 memset(PropertyBuffer, 0, sizeof(PropertyBuffer));
-                if ( SetupDiGetDeviceInstanceIdW(devinfo, &DeviceInfoData, PropertyBuffer, bufsize, 0) )
+                if(SetupDiGetDeviceInstanceIdW(devinfo, &DeviceInfoData, PropertyBuffer, bufsize, 0))
                 {
                     _wcsupr_s(PropertyBuffer, bufsize);
                     if(wcsstr(PropertyBuffer, L"ACPI\\ATK0100"))
@@ -66,10 +68,12 @@ int AsusTUFLaptopController::checkWMIType()
                 }
             }
         }
-        ++n;
+
+        n++;
     }
     SetupDiDestroyDeviceInfoList(devinfo);
-    return result;
+
+    return(result);
 }
 
 AsusTUFLaptopController::AsusTUFLaptopController()
@@ -81,37 +85,45 @@ AsusTUFLaptopController* AsusTUFLaptopController::checkAndCreate()
 {
     // This might cause issues when coInitialize() is used in multiple places
     HRESULT init = CoInitializeEx(0, COINIT_APARTMENTTHREADED);
-    if ( init < 0 && init != 0x80010106 )
-        return 0;
+
+    if(init < 0 && init != 0x80010106)
+    {
+        return(0);
+    }
+
     coInitialized = 1;
 
     int type = checkWMIType();
-    if ( type == 2 )
+    if(type == 2)
     {
         AsusTUFLaptopController* controller = new AsusTUFLaptopController();
         if(controller->hDevice != HANDLE(-1))
         {
-            return controller;
+            return(controller);
         }
         delete controller;
     }
-    return nullptr;
+
+    return(nullptr);
 }
 
 AsusTUFLaptopController::~AsusTUFLaptopController()
 {
-    if ( hDevice && hDevice != HANDLE(-1) )
+    if(hDevice && hDevice != HANDLE(-1))
     {
         CloseHandle(hDevice);
         hDevice = 0;
     }
-    // This might cause issues when coInitialize() is used in multiple places
-    if ( coInitialized )
+
+    /*-----------------------------------------------------*\
+    | This might cause issues when coInitialize() is used   |
+    | in multiple places                                    |
+    \*-----------------------------------------------------*/
+    if(coInitialized)
     {
         CoUninitialize();
         coInitialized = 0;
     }
-
 }
 
 bool AsusTUFLaptopController::deviceIoControlWrapper(const void *dataIn, int commandIndex, int dataSizeIn, void *dataOut, int *dataSizeOut)
@@ -135,40 +147,42 @@ bool AsusTUFLaptopController::deviceIoControlWrapper(const void *dataIn, int com
                 bufsize,
                 LPDWORD(&BytesReturned),
                 0);
-    if ( result )
+    if(result)
     {
-        if ( *dataSizeOut < BytesReturned )
+        if(*dataSizeOut < BytesReturned)
         {
             BytesReturned = *dataSizeOut;
         }
         memmove(dataOut, outBuffer, BytesReturned);
     }
     free(inBuffer);
-    return result;
+
+    return(result);
 }
 
 bool AsusTUFLaptopController::deviceControl(int a1, int a2)
 {
-    if ( hDevice && hDevice != HANDLE(-1) )
+    if(hDevice && hDevice != HANDLE(-1))
     {
         int data[2];
         data[0] = a1;
         data[1] = a2;
         int result;
         int outBufSize = 4;
-        if ( deviceIoControlWrapper(&data, 1398162756, 8, &result, &outBufSize) )
+
+        if(deviceIoControlWrapper(&data, 1398162756, 8, &result, &outBufSize))
         {
             if(outBufSize < 4)
             {
                 result = 0;
             }
-            if ( result == 1 )
+            if(result == 1)
             {
-                return 1;
+                return(1);
             }
         }
     }
-    return 0;
+    return(0);
 }
 
 bool AsusTUFLaptopController::deviceControl(int a1, int a2, int a3)
@@ -180,21 +194,21 @@ bool AsusTUFLaptopController::deviceControl(int a1, int a2, int a3)
     int outBuf;
     int outBufSize = 4;
 
-    if ( hDevice && hDevice != HANDLE(-1) )
+    if(hDevice && hDevice != HANDLE(-1))
     {
-        if ( deviceIoControlWrapper(data, 0x53564544, 12, &outBuf, &outBufSize) )
+        if(deviceIoControlWrapper(data, 0x53564544, 12, &outBuf, &outBufSize))
         {
             if(outBufSize < 4)
             {
                 outBuf = 0;
             }
-            if ( outBuf == 1 )
+            if(outBuf == 1)
             {
-                return 1;
+                return(1);
             }
         }
     }
-    return 0;
+    return(0);
 }
 
 bool AsusTUFLaptopController::getStatus(int a1, int *out)
@@ -202,16 +216,18 @@ bool AsusTUFLaptopController::getStatus(int a1, int *out)
     int status;
     int statusSize = 4;
 
-    if ( !hDevice || hDevice == HANDLE(-1) || (!deviceIoControlWrapper(&a1, 1398035268, 4, &status, &statusSize)) )
+    if(!hDevice || hDevice == HANDLE(-1) || (!deviceIoControlWrapper(&a1, 1398035268, 4, &status, &statusSize)))
     {
-        return 0;
+        return(0);
     }
     if(statusSize < 4)
     {
         status = 0;
     }
+
     *out = status;
-    return 1;
+
+    return(1);
 }
 
 bool AsusTUFLaptopController::getStatusExtended(int a1, int a2, int *status1, int *status2, int* status3)
@@ -222,17 +238,17 @@ bool AsusTUFLaptopController::getStatusExtended(int a1, int a2, int *status1, in
     int statusBuffer[3];
     int statusSize = 12;
 
-    if ( hDevice && hDevice != HANDLE(-1)
-         && deviceIoControlWrapper(commandData, 1398035268, 8, statusBuffer, &statusSize) )
+    if(hDevice && hDevice != HANDLE(-1) && deviceIoControlWrapper(commandData, 1398035268, 8, statusBuffer, &statusSize))
     {
         *status1 = statusBuffer[0];
         *status2 = statusBuffer[1];
         *status3 = statusBuffer[2];
-        return 1;
+
+        return(1);
     }
     else
     {
-        return 0;
+        return(0);
     }
 }
 
@@ -243,7 +259,6 @@ void AsusTUFLaptopController::setMode(unsigned char red,
                                       unsigned char speed,
                                       bool save)
 {
-
     /*--------------------------------------------------------*\
     | Use switch case since our speed values are magic numbers |
     | Default to Medium/Normal speed                           |
@@ -252,26 +267,25 @@ void AsusTUFLaptopController::setMode(unsigned char red,
 
     switch(speed)
     {
-    case(1):
-        speed_val = ASUS_WMI_KEYBOARD_SPEED_SLOW;
-        break;
-    default:
-    case(2):
-        speed_val = ASUS_WMI_KEYBOARD_SPEED_NORMAL;
-        break;
-    case(3):
-        speed_val = ASUS_WMI_KEYBOARD_SPEED_FAST;
-        break;
+        case(1):
+            speed_val = ASUS_WMI_KEYBOARD_SPEED_SLOW;
+            break;
+        default:
+        case(2):
+            speed_val = ASUS_WMI_KEYBOARD_SPEED_NORMAL;
+            break;
+        case(3):
+            speed_val = ASUS_WMI_KEYBOARD_SPEED_FAST;
+            break;
     }
-
 
     /*----------------------------------------------------------*\
     | We need to use a magic value to save to firmware in order  |
     | To persist reboots. Save is normal op with different magic |
-    \*---------------------------------------------------------*/
+    \*----------------------------------------------------------*/
     unsigned char save_val = ASUS_WMI_KEYBOARD_MAGIC_USE;
 
-    if (save)
+    if(save)
     {
         save_val = ASUS_WMI_KEYBOARD_MAGIC_SAVE;
     }
@@ -281,7 +295,6 @@ void AsusTUFLaptopController::setMode(unsigned char red,
     unsigned int low  = blue | (speed_val<<8);
 
     deviceControl(ASUS_WMI_DEVID_TUF_RGB_MODE, high, low);
-
 }
 
 unsigned char AsusTUFLaptopController::getBrightness()
@@ -289,9 +302,9 @@ unsigned char AsusTUFLaptopController::getBrightness()
     int backlight_state = 0;
     getStatus(ASUS_WMI_DEVID_KBD_BACKLIGHT, &backlight_state);
 
-    /*----------------------------------------------*\
-    | Only lowest two bits indicate brightness level |
-    \*----------------------------------------------*/
+    /*-----------------------------------------------------*\
+    | Only lowest two bits indicate brightness level        |
+    \*-----------------------------------------------------*/
     return backlight_state & 0x7F;
 }
 
@@ -315,12 +328,11 @@ void AsusTUFLaptopController::setPowerState(bool boot,
 {
     unsigned int state = 0xBD;
 
-    if (boot)     state = state | ASUS_WMI_KEYBOARD_POWER_BOOT;
-    if (awake)    state = state | ASUS_WMI_KEYBOARD_POWER_AWAKE;
-    if (sleep)    state = state | ASUS_WMI_KEYBOARD_POWER_SLEEP;
-    if (shutdown) state = state | ASUS_WMI_KEYBOARD_POWER_SHUTDOWN;
-
-    if (save)     state = state | ASUS_WMI_KEYBOARD_POWER_SAVE;
+    if(boot)     state = state | ASUS_WMI_KEYBOARD_POWER_BOOT;
+    if(awake)    state = state | ASUS_WMI_KEYBOARD_POWER_AWAKE;
+    if(sleep)    state = state | ASUS_WMI_KEYBOARD_POWER_SLEEP;
+    if(shutdown) state = state | ASUS_WMI_KEYBOARD_POWER_SHUTDOWN;
+    if(save)     state = state | ASUS_WMI_KEYBOARD_POWER_SAVE;
 
     deviceControl(ASUS_WMI_DEVID_TUF_RGB_STATE, state);
 }
