@@ -1,20 +1,22 @@
-/*-----------------------------------------*\
-|  ZETBladeOpticalController.h              |
-|                                           |
-|  Definitions and types for ZET Blade      |
-|  Optical Keyboard lighting controller     |
-|                                           |
-|  Based on HyperX Alloy Elite2 impl by     |
-|                            KundaPanda     |
-|                                           |
-|  Moon_darker (Vaker) 23/01/2022           |
-\*-----------------------------------------*/
-#include "RGBController.h"
+/*---------------------------------------------------------*\
+| ZETBladeOpticalController.h                               |
+|                                                           |
+|   Driver for ZET Blade                                    |
+|                                                           |
+|   Based on HyperX Alloy Elite2 implementation by          |
+|   KundaPanda                                              |
+|                                                           |
+|   Moon_darker (Vaker)                         23 Jan 2022 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
+#pragma once
 
 #include <string>
 #include <hidapi/hidapi.h>
-
-#pragma once
+#include "RGBController.h"
 
 #define ZET_BLADE_OPTICAL_DELAY       12ms
 #define ZET_BLADE_OPTICAL_HEADER_LEN     9

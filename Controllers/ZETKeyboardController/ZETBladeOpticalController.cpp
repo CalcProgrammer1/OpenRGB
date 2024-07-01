@@ -1,17 +1,19 @@
-/*-----------------------------------------*\
-|  ZETBladeOpticalController.cpp            |
-|                                           |
-|  Driver for ZET Blade Optical Keyboard    |
-|                                           |
-|  Based on HyperX Alloy Elite2 impl by     |
-|                            KundaPanda     |
-|                                           |
-|  Moon_darker (Vaker) 23/01/2022           |
-\*-----------------------------------------*/
-
-#include "ZETBladeOpticalController.h"
+/*---------------------------------------------------------*\
+| ZETBladeOpticalController.cpp                             |
+|                                                           |
+|   Driver for ZET Blade                                    |
+|                                                           |
+|   Based on HyperX Alloy Elite2 implementation by          |
+|   KundaPanda                                              |
+|                                                           |
+|   Moon_darker (Vaker)                         23 Jan 2022 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #include <cstring>
+#include "ZETBladeOpticalController.h"
 
 using namespace std::chrono_literals;
 

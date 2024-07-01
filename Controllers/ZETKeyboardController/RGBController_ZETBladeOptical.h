@@ -1,20 +1,22 @@
-/*-----------------------------------------*\
-|  RGBController_ZETBladeOptical.cpp        |
-|                                           |
-|  Generic RGB Interface for ZET Blade      |
-|  Optical Keyboard                         |
-|                                           |
-|  Based on HyperX Alloy Elite2 impl by     |
-|                            KundaPanda     |
-|                                           |
-|  Moon_darker (Vaker) 23/01/2022           |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_ZETBladeOptical.h                           |
+|                                                           |
+|   RGBController for ZET Blade                             |
+|                                                           |
+|   Based on HyperX Alloy Elite2 implementation by          |
+|   KundaPanda                                              |
+|                                                           |
+|   Moon_darker (Vaker)                         23 Jan 2022 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #pragma once
+
 #include <atomic>
 #include <chrono>
 #include <thread>
-
 #include "RGBController.h"
 #include "ZETBladeOpticalController.h"
 
