@@ -1,17 +1,19 @@
-/*-----------------------------------------*\
-|  ZotacTuringGPUController.cpp             |
-|                                           |
-|  Definitions and types for ZOTAC GeForce  |
-|  RTX 20 series GPU lighting controller    |
-|                                           |
-|  David Henry                  1/07/2023   |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| ZotacTuringGPUController.h                                |
+|                                                           |
+|   Driver for Zotac Turing GPU                             |
+|                                                           |
+|   David Henry                                 07 Jan 2023 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
+#pragma once
 
 #include <string>
 #include "i2c_smbus.h"
 #include "RGBController.h"
-
-#pragma once
 
 enum
 {

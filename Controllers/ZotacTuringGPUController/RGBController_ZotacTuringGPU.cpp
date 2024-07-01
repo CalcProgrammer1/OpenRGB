@@ -1,11 +1,13 @@
-/*-----------------------------------------*\
-|  RGBController_ZotacTuringGPU.cpp         |
-|                                           |
-|  Generic RGB Interface for OpenRGB        |
-|  ZOTAC Turing GPU Driver                  |
-|                                           |
-|  David Henry                  1/07/2023   |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_ZotacTuringGPU.cpp                          |
+|                                                           |
+|   RGBController for Zotac Turing GPU                      |
+|                                                           |
+|   David Henry                                 07 Jan 2023 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #include "RGBController_ZotacTuringGPU.h"
 
@@ -122,7 +124,7 @@ void RGBController_ZotacTuringGPU::SetupInitialValues()
 
     controller->GetMode(colors[0], active_mode, speed);
     modes[active_mode].speed = speed;
-    
+
     SignalUpdate();
 }
 

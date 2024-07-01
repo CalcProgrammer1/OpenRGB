@@ -1,3 +1,14 @@
+/*---------------------------------------------------------*\
+| ZotacTuringGPUControllerDetect.cpp                        |
+|                                                           |
+|   Detector for Zotac Turing GPU                           |
+|                                                           |
+|   David Henry                                 07 Jan 2023 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
 #include "Detector.h"
 #include "ZotacTuringGPUController.h"
 #include "RGBController.h"

@@ -1,11 +1,13 @@
-/*-----------------------------------------*\
-|  RGBController_ZotacTuringGPU.h           |
-|                                           |
-|  Generic RGB Interface for OpenRGB        |
-|  ZOTAC Turing GPU Driver                  |
-|                                           |
-|  David Henry                  1/07/2023   |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_ZotacTuringGPU.h                            |
+|                                                           |
+|   RGBController for Zotac Turing GPU                      |
+|                                                           |
+|   David Henry                                 07 Jan 2023 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #pragma once
 
