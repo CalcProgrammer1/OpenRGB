@@ -327,23 +327,24 @@ int DasKeyboardController::ReceiveData(unsigned char *data, const unsigned int m
         return(-1);
     }
 
-    int response_size = 0;
+    unsigned int response_size = 0;
     if(receive_buf.size() > 1)
     {
         response_size = receive_buf.at(1);
+
         if(response_size + 2 > receive_buf.size())
         {
             return(-1);
         }
-        if(response_size > (int)max_length)
+        if(response_size > max_length)
         {
-            response_size = (int)max_length;
+            response_size = max_length;
         }
 
         /*-----------------------------------------------------*\
         | Remove first two bytes (signature?) and content length|
         \*-----------------------------------------------------*/
-        for(size_t ii = 0; ii < response_size - 1; ii++)
+        for(unsigned int ii = 0; ii < response_size - 1; ii++)
         {
             data[ii] = receive_buf.at(ii + 2);
         }
