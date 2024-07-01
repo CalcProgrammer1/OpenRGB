@@ -79,15 +79,15 @@ RGBController_ColorfulTuringGPU::~RGBController_ColorfulTuringGPU()
 
 int RGBController_ColorfulTuringGPU::getModeIndex(int mode_value)
 {
-    for(int mode_index = 0; mode_index < modes.size(); mode_index++)
+    for(unsigned int mode_index = 0; mode_index < modes.size(); mode_index++)
     {
         if(modes[mode_index].value == mode_value)
         {
-            return mode_index;
+            return(mode_index);
         }
     }
 
-    return 0;
+    return(0);
 }
 
 void RGBController_ColorfulTuringGPU::SetupZones()
