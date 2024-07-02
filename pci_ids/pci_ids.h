@@ -242,7 +242,8 @@
 #define ASUS_ROG_STRIX_RTX_3070_O8G_V2_GAMING           0x882C
 #define ASUS_ROG_STRIX_RTX_3070_O8G_V2_WHITE            0x8832
 #define ASUS_KO_RTX_3070_O8G_GAMING                     0x8842
-#define ASUS_KO_RTX_3070_08G_GAMING_V1                  0x87BE
+#define ASUS_KO_RTX_3070_O8G_GAMING_V1                  0x87BE
+#define ASUS_KO_RTX_3070_O8G_GAMING_V2                  0x8843
 #define ASUS_TUF_RTX_3070_8G_GAMING                     0x87C2
 #define ASUS_TUF_RTX_3070_O8G_GAMING                    0x87C1
 #define ASUS_TUF_RTX_3070_O8G_V2_GAMING                 0x8825
