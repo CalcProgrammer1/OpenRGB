@@ -4855,7 +4855,7 @@ static const razer_device deathadder_v2_device =
     RAZER_DEATHADDER_V2_PID,
     DEVICE_TYPE_MOUSE,
     RAZER_MATRIX_TYPE_EXTENDED,
-    0x3F,
+    0x1F,
     1,
     2,
     {
