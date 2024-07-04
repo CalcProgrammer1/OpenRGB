@@ -126,7 +126,7 @@ There have been two instances of hardware damage in OpenRGB's development and we
 ##### Compiling
 
    1.  Install build dependencies
-       - `sudo dnf install automake gcc-c++ qt5-qtbase-devel qt5-linguist hidapi-devel libusbx-devel mbedtls-devel`
+       - `sudo dnf install automake gcc-c++ git hidapi-devel libusbx-devel mbedtls-devel pkgconf qt5-qtbase-devel qt5-linguist`
    2.  git clone https://gitlab.com/CalcProgrammer1/OpenRGB
    3.  cd OpenRGB
    4.  qmake-qt5 OpenRGB.pro
