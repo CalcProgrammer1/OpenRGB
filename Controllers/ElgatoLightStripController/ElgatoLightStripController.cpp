@@ -99,11 +99,6 @@ std::string ElgatoLightStripController::GetUniqueID()
 
 void ElgatoLightStripController::SetColor(hsv_t hsv_color)
 {
-    if(hsv_color.hue < 0)
-    {
-        hsv_color.hue = 0;
-    }
-
     if(hsv_color.hue > 360)
     {
         hsv_color.hue = 360;
