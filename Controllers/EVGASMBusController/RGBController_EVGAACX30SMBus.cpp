@@ -130,7 +130,7 @@ void RGBController_EVGAACX30SMBus::ResizeZone(int /*zone*/, int /*new_size*/)
 
 void RGBController_EVGAACX30SMBus::DeviceUpdateLEDs()
 {
-    for(int led = 0; led < colors.size(); led++)
+    for(unsigned int led = 0; led < colors.size(); led++)
     {
         UpdateSingleLED(led);
     }
