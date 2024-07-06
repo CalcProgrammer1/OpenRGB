@@ -269,6 +269,9 @@ int EVisionV2KeyboardController::GetMode(EVisionV2KeyboardPart part, EvisionV2Mo
             offset += EVISION_V2_PARAMETER_EDGE;
             size = EVISION_V2_PARAMETER_END - EVISION_V2_PARAMETER_EDGE;
             break;
+        default:
+            size = 0;
+            break;
     }
 
     ret = Read(EVISION_V2_CMD_READ_CONFIG, offset, size, buffer);
