@@ -757,6 +757,7 @@ void RGBController_EVisionV2Keyboard::SetupZones()
 
     switch(layout)
     {
+        default:
         case EVISION_V2_KEYBOARD_LAYOUT:
             led_names = led_evisionv2;
             matrix_map = (unsigned int *)evisionv2_matrix;
