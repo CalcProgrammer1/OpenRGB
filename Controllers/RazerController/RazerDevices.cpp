@@ -4149,7 +4149,7 @@ static const razer_device basilisk_ultimate_wired_device =
     RAZER_BASILISK_ULTIMATE_WIRED_PID,
     DEVICE_TYPE_MOUSE,
     RAZER_MATRIX_TYPE_EXTENDED,
-    0x3F,
+    0x1F,
     1,
     14,
     {
@@ -4220,7 +4220,7 @@ static const razer_device basilisk_ultimate_wireless_device =
     RAZER_BASILISK_ULTIMATE_WIRELESS_PID,
     DEVICE_TYPE_MOUSE,
     RAZER_MATRIX_TYPE_EXTENDED,
-    0x3F,
+    0x1F,
     1,
     14,
     {
