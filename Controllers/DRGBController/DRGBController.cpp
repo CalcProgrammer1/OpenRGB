@@ -44,6 +44,11 @@ unsigned short DRGBController::GetDevicePID()
     return(device_pid);
 }
 
+void DRGBController::SetChannelLEDs(unsigned char channel, RGBColor* colors, unsigned int num_colors)
+{
+
+}
+
 void DRGBController::SendPacket(unsigned char* colors, unsigned int buf_packets , unsigned int Array)
 {
     unsigned char   usb_buf[1025];

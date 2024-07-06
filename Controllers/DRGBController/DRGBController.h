@@ -20,7 +20,6 @@ class DRGBController
 {
 public:
     DRGBController(hid_device* dev_handle, const char* path,  unsigned short pid);
-    ~DRGBController();
     std::string     GetLocationString();
     std::string     GetSerialString();
     unsigned short  GetDevicePID();
@@ -29,6 +28,6 @@ public:
     void            SendPacketFS(unsigned char* colors,unsigned int buf_packets ,bool Array);
 private:
     hid_device*             dev;
-    unsigned short          device_pid;
     std::string             location;
+    unsigned short          device_pid;
 };

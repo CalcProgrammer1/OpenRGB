@@ -68,62 +68,66 @@ void RGBController_DRGB::SetupZones()
     switch(controller->GetDevicePID())
     {
         case DRGB_LED_V4_PID:
-            NUM_CHANNELS  = 8;
-            NUM_Channel_led    = 256;
+            NUM_CHANNELS    = 8;
+            NUM_Channel_led = 256;
+            Version         = 4;
             break;
         case DRGB_ULTRA_V4F_PID:
-            NUM_CHANNELS  = 16;
-            NUM_Channel_led    = 256;
+            NUM_CHANNELS    = 16;
+            NUM_Channel_led = 256;
+            Version         = 4;
             break;
         case DRGB_CORE_V4F_PID:
-            NUM_CHANNELS  = 32;
-            NUM_Channel_led    = 256;
+            NUM_CHANNELS    = 32;
+            NUM_Channel_led = 256;
+            Version         = 4;
             break;
         case DRGB_SIG_V4F_PID:
-            NUM_CHANNELS  = 36;
-            NUM_Channel_led    = 256;
+            NUM_CHANNELS    = 36;
+            NUM_Channel_led = 256;
+            Version         = 4;
             break;
 
         case DRGB_LED_V3_PID:
-            NUM_CHANNELS  = 8;
-            NUM_Channel_led    = 256;
-            Version = 3;
+            NUM_CHANNELS    = 8;
+            NUM_Channel_led = 256;
+            Version         = 3;
             break;
         case DRGB_Ultra_V3_PID:
-            NUM_CHANNELS  = 16;
-            NUM_Channel_led    = 256;
-            Version = 3;
+            NUM_CHANNELS    = 16;
+            NUM_Channel_led = 256;
+            Version         = 3;
             break;
         case DRGB_CORE_V3_PID:
-            NUM_CHANNELS  = 30;
-            NUM_Channel_led    = 256;
-            Version = 3;
+            NUM_CHANNELS    = 30;
+            NUM_Channel_led = 256;
+            Version         = 3;
             break;
 
         case DRGB_LED_PID:
-            NUM_CHANNELS  = 8;
-            NUM_Channel_led    = 256;
-            Version = 2;
+            NUM_CHANNELS    = 8;
+            NUM_Channel_led = 256;
+            Version         = 2;
             break;
         case DRGB_ULTRA_PID:
-            NUM_CHANNELS  = 16;
-            NUM_Channel_led    = 256;
-            Version = 2;
+            NUM_CHANNELS    = 16;
+            NUM_Channel_led = 256;
+            Version         = 2;
             break;
         case DRGB_SIG_AB_PID:
-            NUM_CHANNELS  = 16;
-            NUM_Channel_led    = 256;
-            Version = 2;
+            NUM_CHANNELS    = 16;
+            NUM_Channel_led = 256;
+            Version         = 2;
             break;
         case DRGB_SIG_CD_PID:
-            NUM_CHANNELS  = 6;
-            NUM_Channel_led    = 256;
-            Version = 2;
+            NUM_CHANNELS    = 6;
+            NUM_Channel_led = 256;
+            Version         = 2;
             break;
         case DRGB_Strimer_PID:
-            NUM_CHANNELS  = 6;
-            NUM_Channel_led    = 256;
-            Version = 2;
+            NUM_CHANNELS    = 6;
+            NUM_Channel_led = 256;
+            Version         = 2;
             break;
     }
 
@@ -271,15 +275,16 @@ void RGBController_DRGB::DeviceUpdateLEDs()
     switch(Version)
     {
         case 4:
-            unsigned int    led_index               = 0;
-            unsigned char   RGBData [8192*3 + 72]   = {0};
+        {
+            unsigned int    led_index = 0;
+            unsigned char   RGBData[8192*3 + 72] = {0};
             for(std::size_t zone_idx = 0; zone_idx < zones.size(); zone_idx++)
             {
                 unsigned char   LEDnum      = zones[zone_idx].leds_count;
-                unsigned int    QLedCount   = (LEDnum & 0xFFFF)>>8;
-                unsigned int    PLedCount   = LEDnum & 0xFF;
-                RGBData[zone_idx * 2 ]      = QLedCount;
-                RGBData[zone_idx * 2 + 1]   = PLedCount;
+                unsigned int    HighCount   = (LEDnum & 0xFFFF)>>8;
+                unsigned int    LowCount    = LEDnum & 0xFF;
+                RGBData[zone_idx * 2 ]      = HighCount;
+                RGBData[zone_idx * 2 + 1]   = LowCount;
                 for(unsigned int i=0; i<LEDnum;i++)
                 {
                     unsigned int RGBcolors = zones[zone_idx].colors[i];
@@ -293,16 +298,18 @@ void RGBController_DRGB::DeviceUpdateLEDs()
                     break;
                 }
             }
-            unsigned int col_packets  = 1 ; 
+            unsigned int    col_packets = 1 ;
             if(led_index > 316)
             {
                 col_packets = ((led_index - 316) / 340) + (((led_index - 316) % 340) > 0);
             }
             controller->SendPacket(&RGBData[0], col_packets,led_index);
             break;
+        }
 
         case 3:
-            unsigned int    led_index           = 0;
+        {
+            unsigned int    led_index = 0;
             unsigned char   RGBData[1801*3]     = {0};
             unsigned char   ArrayData[64]       = {0};
             ArrayData[0] = 0x60;
@@ -331,11 +338,12 @@ void RGBController_DRGB::DeviceUpdateLEDs()
             controller->SendPacketFS(&ArrayData[0], 1,0);
             controller->SendPacketFS(&RGBData[0], col_packets,1);
             break;
+        }
 
         case 2:
             for(std::size_t zone_idx = 0; zone_idx < zones.size(); zone_idx++)
             {
-                unsigned char   RGBData [256*3] = {0};
+                unsigned char   RGBData[256*3]  = {0};
                 unsigned char   ArrayData[64]   = {0};
                 unsigned char   LEDnum          = zones[zone_idx].leds_count;
                 for(unsigned int i=0; i<LEDnum;i++)
@@ -345,7 +353,7 @@ void RGBController_DRGB::DeviceUpdateLEDs()
                     RGBData[i * 3 +1]   = (RGBcolors >> 8) & 0xFF;
                     RGBData[i * 3 +2]   = (RGBcolors >> 16) & 0xFF;
                 }
-                unsigned char   NumPackets = LEDnum / 20 + (LEDnum % 20) > 0;
+                unsigned char   NumPackets = (LEDnum / 20) + ((LEDnum % 20) > 0);
                 for (unsigned int CurrPacket = 1 ; CurrPacket <= NumPackets; CurrPacket++)
                 {
                     ArrayData[0] = CurrPacket;
