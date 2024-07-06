@@ -123,7 +123,7 @@ void SeagateController::SetLEDBreathing
 void SeagateController::SetLEDsSpectrum
     (
     unsigned char   led_id,
-    bool            save
+    bool            /*save*/
     )
 {
     /*-----------------------------------------------------------------------------*\
