@@ -92,7 +92,9 @@ void LGMonitorController::SetDirect(const std::vector<RGBColor> colors)
         data[offset++] = RGBGetBValue(color);
     }
 
-    data[offset]    = crc(data, 0, offset++);
+    data[offset]    = crc(data, 0, offset);
+    offset++;
+
     data[offset++]  = LG_MONITOR_END_CMD_1;
     data[offset]    = LG_MONITOR_END_CMD_2;
 
