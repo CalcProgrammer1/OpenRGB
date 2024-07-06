@@ -102,12 +102,12 @@ void RGBController_NZXTMouse::DeviceUpdateLEDs()
 controller->SetLEDs(&colors[0]);
 }
 
-void RGBController_NZXTMouse::UpdateZoneLEDs(int zone)
+void RGBController_NZXTMouse::UpdateZoneLEDs(int /*zone*/)
 {
 DeviceUpdateLEDs();
 }
 
-void RGBController_NZXTMouse::UpdateSingleLED(int led)
+void RGBController_NZXTMouse::UpdateSingleLED(int /*led*/)
 {
 DeviceUpdateLEDs();
 }
