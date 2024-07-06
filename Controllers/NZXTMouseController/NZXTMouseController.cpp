@@ -110,7 +110,6 @@ void NZXTMouseController::SetLEDs
 void NZXTMouseController::SendFirmwareRequest()
 {
     unsigned char   usb_buf[64];
-    int             ret_val = 0;
 
     /*-----------------------------------------------------*\
     | Zero out buffer                                       |
@@ -131,7 +130,7 @@ void NZXTMouseController::SendFirmwareRequest()
     \*-----------------------------------------------------*/
     do
     {
-        ret_val = hid_read(dev, usb_buf, sizeof(usb_buf));
+        hid_read(dev, usb_buf, sizeof(usb_buf));
     } while( (usb_buf[0] != 0x43) || (usb_buf[1] != 0x86) );
 
     /*-----------------------------------------------------*\
