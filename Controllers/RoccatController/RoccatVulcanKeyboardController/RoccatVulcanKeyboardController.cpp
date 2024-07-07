@@ -348,7 +348,7 @@ void RoccatVulcanKeyboardController::SendMode(unsigned int mode, unsigned int sp
     buf[packet_length - 2] = total & 0xFF;
     buf[packet_length - 1] = total >> 8;
 
-    int ret = hid_send_feature_report(dev_ctrl, buf, packet_length);
+    hid_send_feature_report(dev_ctrl, buf, packet_length);
 
     delete[] buf;
 }
