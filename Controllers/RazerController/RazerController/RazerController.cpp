@@ -13,17 +13,19 @@
 #include "RazerController.h"
 #include "RazerDevices.h"
 #include "LogManager.h"
+#include "RazerDeviceGuard.h"
 
 using namespace std::chrono_literals;
 
 RazerController::RazerController(hid_device* dev_handle, hid_device* dev_argb_handle, const char* path, unsigned short pid, std::string dev_name)
 {
-    dev             = dev_handle;
-    dev_argb        = dev_argb_handle;
-    dev_pid         = pid;
-    location        = path;
-    name            = dev_name;
-    device_index    = 0;
+    dev               = dev_handle;
+    dev_argb          = dev_argb_handle;
+    dev_pid           = pid;
+    location          = path;
+    name              = dev_name;
+    device_index      = 0;
+    guard_manager_ptr = new DeviceGuardManager(new RazerDeviceGuard());
 
     /*-----------------------------------------------------------------*\
     | Loop through all known devices to look for a name match           |
@@ -168,6 +170,7 @@ RazerController::RazerController(hid_device* dev_handle, hid_device* dev_argb_ha
 RazerController::~RazerController()
 {
     hid_close(dev);
+    delete guard_manager_ptr;
 }
 
 std::string RazerController::GetName()
@@ -1074,7 +1077,7 @@ unsigned char RazerController::GetKeyboardLayoutType()
     }
 }
 
-std::string RazerController::GetKeyboardLayoutName()
+std::string RazerController::GetKeyboardLayoutString()
 {
     unsigned char layout;
     unsigned char variant;
@@ -1802,10 +1805,12 @@ int RazerController::razer_usb_send(razer_report* report)
 {
     report->crc = razer_calculate_crc(report);
 
+    DeviceGuardLock _ = guard_manager_ptr->AwaitExclusiveAccess();
     return hid_send_feature_report(dev, (unsigned char*)report, sizeof(*report));
 }
 
 int RazerController::razer_usb_send_argb(razer_argb_report* report)
 {
+    DeviceGuardLock _ = guard_manager_ptr->AwaitExclusiveAccess();
     return hid_send_feature_report(dev_argb, (unsigned char*)report, sizeof(*report));
 }

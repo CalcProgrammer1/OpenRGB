@@ -40,7 +40,7 @@ RGBController_Razer::RGBController_Razer(RazerController* controller_ptr)
     if(type == DEVICE_TYPE_KEYBOARD)
     {
         LOG_DEBUG("[%s] Checking Keyboard Layout", name.c_str());
-        std::string layout = controller->GetKeyboardLayoutName();
+        std::string layout = controller->GetKeyboardLayoutString();
 
         LOG_DEBUG("[%s] returned: %s", name.c_str(), layout.c_str());
         description.append(", ");

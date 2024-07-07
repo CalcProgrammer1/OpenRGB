@@ -14,6 +14,7 @@
 #include <string>
 #include <hidapi/hidapi.h>
 #include "RGBController.h"
+#include "DeviceGuardManager.h"
 
 /*---------------------------------------------------------*\
 | Struct packing macro for GCC and MSVC                     |
@@ -228,7 +229,7 @@ public:
     unsigned char           GetMaxBrightness();
 
     unsigned char           GetKeyboardLayoutType();
-    std::string             GetKeyboardLayoutName();
+    std::string             GetKeyboardLayoutString();
     std::string             GetVariantName();
 
     void                    SetBrightness(unsigned char brightness);
@@ -282,6 +283,11 @@ private:
     | Matrix type                                               |
     \*---------------------------------------------------------*/
     unsigned char           matrix_type;
+
+    /*---------------------------------------------------------*\
+    | Mutex lock to sync with other softwares                   |
+    \*---------------------------------------------------------*/
+    DeviceGuardManager*     guard_manager_ptr;
 
     /*---------------------------------------------------------*\
     | Private functions based on OpenRazer                      |
