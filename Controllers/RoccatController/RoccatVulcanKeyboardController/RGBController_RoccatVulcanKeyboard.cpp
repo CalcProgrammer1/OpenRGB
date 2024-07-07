@@ -155,7 +155,7 @@ void RGBController_RoccatVulcanKeyboard::SetupZones()
     keyboard_zone.matrix_map->map    = keyboard[layout].matrix_map;
     zones.push_back(keyboard_zone);
 
-    for(unsigned int led_id = 0; led_id < keyboard[layout].size; led_id++)
+    for(int led_id = 0; led_id < keyboard[layout].size; led_id++)
     {
         led new_led;
         new_led.name  = keyboard[layout].led_names[led_id].name;
