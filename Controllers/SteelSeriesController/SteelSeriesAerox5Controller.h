@@ -1,0 +1,60 @@
+/*---------------------------------------------------------*\
+| SteelSeriesAerox5Controller.h                             |
+|                                                           |
+|   Controller for the Steelseries Aerox5 Wired             |
+|                                                           |
+|   Bobby Quantum (BobbyQuantum)                19 May 2024 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
+#include <cstring>
+#include <string>
+#include <hidapi/hidapi.h>
+#include "RGBController.h"
+#include "SteelSeriesGeneric.h"
+#include "SteelSeriesMouseController.h"
+
+#pragma once
+
+#define STEELSERIES_AEROX5_NAME "SteelSeries Aerox 5"
+#define STEELSERIES_AEROX5_PACKET_SIZE 65
+#define STEELSERIES_AEROX5_TIMEOUT 250
+
+static const steelseries_mouse aerox_5 =
+{
+    {   0x04  },
+    {
+        {"Front",           0 },
+        {"Middle",          1 },
+        {"Rear",            2 },
+        {"Reactive",        3 },
+    }
+};
+
+
+class SteelSeriesAerox5Controller : public SteelSeriesMouseController
+{
+public:
+    SteelSeriesAerox5Controller(hid_device *dev_handle,
+                                steelseries_type proto_type,
+                                const char *path);
+    ~SteelSeriesAerox5Controller();
+
+    std::string GetFirmwareVersion();
+    steelseries_mouse GetMouse();
+
+    void Save() override;
+    void SetLightEffectAll(uint8_t effect);
+    void SetColor(unsigned char zone_id,
+                  unsigned char red,
+                  unsigned char green,
+                  unsigned char blue,
+                  unsigned char brightness);
+
+private:
+    void SendInit();
+    void SetBrightness(uint8_t brightness);
+    uint8_t current_brightness;
+};

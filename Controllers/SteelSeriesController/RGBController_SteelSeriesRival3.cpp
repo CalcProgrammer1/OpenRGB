@@ -16,7 +16,7 @@
     @save :white_check_mark:
     @direct :white_check_mark:
     @effects :white_check_mark:
-    @detectors DetectSteelSeriesRival3,DetectSteelSeriesAerox3,DetectSteelSeriesAerox9
+    @detectors DetectSteelSeriesRival3,DetectSteelSeriesAerox3,DetectSteelSeriesAerox5,DetectSteelSeriesAerox9
     @comment
 \*-------------------------------------------------------------------*/
 
