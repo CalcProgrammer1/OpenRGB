@@ -92,8 +92,8 @@ void RoccatKoneProAirController::SetMode(std::vector<RGBColor> colors, unsigned 
     SendRGB(false,
             colors,
             mode_value,
-            mode_flags & MODE_FLAG_HAS_SPEED ? speed : ROCCAT_KONE_PRO_AIR_SPEED_MAX,
-            mode_flags & MODE_FLAG_HAS_BRIGHTNESS ? brightness : ROCCAT_KONE_PRO_AIR_BRIGHTNESS_MAX
+            (mode_flags & MODE_FLAG_HAS_SPEED     ) ? speed      : (unsigned char)ROCCAT_KONE_PRO_AIR_SPEED_MAX,
+            (mode_flags & MODE_FLAG_HAS_BRIGHTNESS) ? brightness : (unsigned char)ROCCAT_KONE_PRO_AIR_BRIGHTNESS_MAX
            );
 }
 
