@@ -419,7 +419,7 @@ void LenovoRGBController_Gen7_8::ReadDeviceSettings()
     vector<led_group> current_settings = controller->getProfileSettings(profile_id);
     if(current_settings.size() > 0)
     {
-        for(int i = 0; i < modes.size(); i++)
+        for(unsigned int i = 0; i < modes.size(); i++)
         {
             if(modes[i].value == current_settings[0].mode)
             {
