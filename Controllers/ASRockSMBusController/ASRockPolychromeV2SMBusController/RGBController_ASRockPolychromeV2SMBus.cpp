@@ -290,7 +290,7 @@ void RGBController_ASRockPolychromeV2SMBus::ResizeZone(int /*zone*/, int /*new_s
 
 void RGBController_ASRockPolychromeV2SMBus::DeviceUpdateLEDs()
 {
-    for(int led = 0; led < colors.size(); led++)
+    for(unsigned int led = 0; led < colors.size(); led++)
     {
         UpdateSingleLED(led);
     }
