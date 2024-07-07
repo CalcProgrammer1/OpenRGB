@@ -26,129 +26,129 @@
 
 RGBController_AsusSagarisKeyboard::RGBController_AsusSagarisKeyboard(AsusSagarisKeyboardController* controller_ptr)
 {
-    controller  = controller_ptr;
+    controller                  = controller_ptr;
 
-    name        = "ASUS Sagaris Keyboard";
-    vendor      = "ASUS";
-    type        = DEVICE_TYPE_KEYBOARD;
-    description = "ASUS Sagaris Keyboard Device";
-    version    = controller->GetVersion();
-    location    = controller->GetDeviceLocation();
-    serial      = controller->GetSerialString();
+    name                        = "ASUS Sagaris Keyboard";
+    vendor                      = "ASUS";
+    type                        = DEVICE_TYPE_KEYBOARD;
+    description                 = "ASUS Sagaris Keyboard Device";
+    version                     = controller->GetVersion();
+    location                    = controller->GetDeviceLocation();
+    serial                      = controller->GetSerialString();
 
     mode Off;
-    Off.name                     = "Off";
-    Off.value                    = SAGARIS_KEYBOARD_MODE_OFF;
-    Off.flags                    = MODE_FLAG_AUTOMATIC_SAVE;
-    Off.color_mode               = MODE_COLORS_NONE;
+    Off.name                    = "Off";
+    Off.value                   = SAGARIS_KEYBOARD_MODE_OFF;
+    Off.flags                   = MODE_FLAG_AUTOMATIC_SAVE;
+    Off.color_mode              = MODE_COLORS_NONE;
     modes.push_back(Off);
 
     mode Static;
-    Static.name                  = "Static";
-    Static.value                 = SAGARIS_KEYBOARD_MODE_STATIC;
-    Static.flags                 = MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_AUTOMATIC_SAVE | MODE_FLAG_HAS_BRIGHTNESS;
-    Static.brightness_min        = SAGARIS_KEYBOARD_BRIGHTNESS_MIN;
-    Static.brightness_max        = SAGARIS_KEYBOARD_BRIGHTNESS_MAX;
-    Static.brightness            = SAGARIS_KEYBOARD_BRIGHTNESS_DEFAULT;
-    Static.color_mode            = MODE_COLORS_MODE_SPECIFIC;
-    Static.colors_min            = 1;
-    Static.colors_max            = 1;
+    Static.name                 = "Static";
+    Static.value                = SAGARIS_KEYBOARD_MODE_STATIC;
+    Static.flags                = MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_AUTOMATIC_SAVE | MODE_FLAG_HAS_BRIGHTNESS;
+    Static.brightness_min       = SAGARIS_KEYBOARD_BRIGHTNESS_MIN;
+    Static.brightness_max       = SAGARIS_KEYBOARD_BRIGHTNESS_MAX;
+    Static.brightness           = SAGARIS_KEYBOARD_BRIGHTNESS_DEFAULT;
+    Static.color_mode           = MODE_COLORS_MODE_SPECIFIC;
+    Static.colors_min           = 1;
+    Static.colors_max           = 1;
     Static.colors.resize(1);
     modes.push_back(Static);
 
     mode Spiral;
-    Spiral.name                  = "Spiral";
-    Spiral.value                 = SAGARIS_KEYBOARD_MODE_SPRIAL;
-    Spiral.flags                 = MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_AUTOMATIC_SAVE | MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_HAS_SPEED;
-    Spiral.brightness_min        = SAGARIS_KEYBOARD_BRIGHTNESS_MIN;
-    Spiral.brightness_max        = SAGARIS_KEYBOARD_BRIGHTNESS_MAX;
-    Spiral.brightness            = SAGARIS_KEYBOARD_BRIGHTNESS_DEFAULT;
-    Spiral.speed_min             = SAGARIS_KEYBOARD_SPEED_MIN;
-    Spiral.speed_max             = SAGARIS_KEYBOARD_SPEED_MAX;
-    Spiral.speed                 = SAGARIS_KEYBOARD_SPEED_DEFAULT;
-    Spiral.color_mode            = MODE_COLORS_MODE_SPECIFIC;
-    Spiral.colors_min            = 7;
-    Spiral.colors_max            = 7;
+    Spiral.name                 = "Spiral";
+    Spiral.value                = SAGARIS_KEYBOARD_MODE_SPRIAL;
+    Spiral.flags                = MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_AUTOMATIC_SAVE | MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_HAS_SPEED;
+    Spiral.brightness_min       = SAGARIS_KEYBOARD_BRIGHTNESS_MIN;
+    Spiral.brightness_max       = SAGARIS_KEYBOARD_BRIGHTNESS_MAX;
+    Spiral.brightness           = SAGARIS_KEYBOARD_BRIGHTNESS_DEFAULT;
+    Spiral.speed_min            = SAGARIS_KEYBOARD_SPEED_MIN;
+    Spiral.speed_max            = SAGARIS_KEYBOARD_SPEED_MAX;
+    Spiral.speed                = SAGARIS_KEYBOARD_SPEED_DEFAULT;
+    Spiral.color_mode           = MODE_COLORS_MODE_SPECIFIC;
+    Spiral.colors_min           = 7;
+    Spiral.colors_max           = 7;
     Spiral.colors.resize(7);
     modes.push_back(Spiral);
 
     mode Custom;
-    Custom.name                  = "Custom";
-    Custom.value                 = SAGARIS_KEYBOARD_MODE_CUSTOM;
-    Custom.flags                 = MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_AUTOMATIC_SAVE | MODE_FLAG_HAS_BRIGHTNESS;
-    Custom.brightness_min        = SAGARIS_KEYBOARD_BRIGHTNESS_MIN;
-    Custom.brightness_max        = SAGARIS_KEYBOARD_BRIGHTNESS_MAX;
-    Custom.brightness            = SAGARIS_KEYBOARD_BRIGHTNESS_DEFAULT;
-    Custom.color_mode            = MODE_COLORS_MODE_SPECIFIC;
-    Custom.colors_min            = 7;
-    Custom.colors_max            = 7;
+    Custom.name                 = "Custom";
+    Custom.value                = SAGARIS_KEYBOARD_MODE_CUSTOM;
+    Custom.flags                = MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_AUTOMATIC_SAVE | MODE_FLAG_HAS_BRIGHTNESS;
+    Custom.brightness_min       = SAGARIS_KEYBOARD_BRIGHTNESS_MIN;
+    Custom.brightness_max       = SAGARIS_KEYBOARD_BRIGHTNESS_MAX;
+    Custom.brightness           = SAGARIS_KEYBOARD_BRIGHTNESS_DEFAULT;
+    Custom.color_mode           = MODE_COLORS_MODE_SPECIFIC;
+    Custom.colors_min           = 7;
+    Custom.colors_max           = 7;
     Custom.colors.resize(7);
     modes.push_back(Custom);
 
     mode Breathing;
-    Breathing.name               = "Breathing";
-    Breathing.value              = SAGARIS_KEYBOARD_MODE_BREATHING;
-    Breathing.flags              = MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_AUTOMATIC_SAVE | MODE_FLAG_HAS_SPEED;
-    Breathing.speed_min          = SAGARIS_KEYBOARD_BRIGHTNESS_MIN;
-    Breathing.speed_max          = SAGARIS_KEYBOARD_BRIGHTNESS_MAX;
-    Breathing.speed              = SAGARIS_KEYBOARD_BRIGHTNESS_DEFAULT;
-    Breathing.color_mode         = MODE_COLORS_MODE_SPECIFIC;
-    Breathing.colors_min         = 7;
-    Breathing.colors_max         = 7;
+    Breathing.name              = "Breathing";
+    Breathing.value             = SAGARIS_KEYBOARD_MODE_BREATHING;
+    Breathing.flags             = MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_AUTOMATIC_SAVE | MODE_FLAG_HAS_SPEED;
+    Breathing.speed_min         = SAGARIS_KEYBOARD_BRIGHTNESS_MIN;
+    Breathing.speed_max         = SAGARIS_KEYBOARD_BRIGHTNESS_MAX;
+    Breathing.speed             = SAGARIS_KEYBOARD_BRIGHTNESS_DEFAULT;
+    Breathing.color_mode        = MODE_COLORS_MODE_SPECIFIC;
+    Breathing.colors_min        = 7;
+    Breathing.colors_max        = 7;
     Breathing.colors.resize(7);
     modes.push_back(Breathing);
 
     mode Reactive;
-    Reactive.name                = "Reactive";
-    Reactive.value               = SAGARIS_KEYBOARD_MODE_REACTIVE;
-    Reactive.flags               = MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_AUTOMATIC_SAVE | MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_HAS_SPEED;
-    Reactive.brightness_min      = SAGARIS_KEYBOARD_BRIGHTNESS_MIN;
-    Reactive.brightness_max      = SAGARIS_KEYBOARD_BRIGHTNESS_MAX;
-    Reactive.brightness          = SAGARIS_KEYBOARD_BRIGHTNESS_DEFAULT;
-    Reactive.speed_min           = SAGARIS_KEYBOARD_SPEED_MIN;
-    Reactive.speed_max           = SAGARIS_KEYBOARD_SPEED_MAX;
-    Reactive.speed               = SAGARIS_KEYBOARD_SPEED_DEFAULT;
-    Reactive.color_mode          = MODE_COLORS_MODE_SPECIFIC;
-    Reactive.colors_min          = 1;
-    Reactive.colors_max          = 1;
+    Reactive.name               = "Reactive";
+    Reactive.value              = SAGARIS_KEYBOARD_MODE_REACTIVE;
+    Reactive.flags              = MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_AUTOMATIC_SAVE | MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_HAS_SPEED;
+    Reactive.brightness_min     = SAGARIS_KEYBOARD_BRIGHTNESS_MIN;
+    Reactive.brightness_max     = SAGARIS_KEYBOARD_BRIGHTNESS_MAX;
+    Reactive.brightness         = SAGARIS_KEYBOARD_BRIGHTNESS_DEFAULT;
+    Reactive.speed_min          = SAGARIS_KEYBOARD_SPEED_MIN;
+    Reactive.speed_max          = SAGARIS_KEYBOARD_SPEED_MAX;
+    Reactive.speed              = SAGARIS_KEYBOARD_SPEED_DEFAULT;
+    Reactive.color_mode         = MODE_COLORS_MODE_SPECIFIC;
+    Reactive.colors_min         = 1;
+    Reactive.colors_max         = 1;
     Reactive.colors.resize(1);
     modes.push_back(Reactive);
 
     mode Starry_Night;
-    Starry_Night.name            = "Starry Night";
-    Starry_Night.value           = SAGARIS_KEYBOARD_MODE_STARRY_NIGHT;
-    Starry_Night.flags           = MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_AUTOMATIC_SAVE | MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_HAS_SPEED;
-    Starry_Night.brightness_min  = SAGARIS_KEYBOARD_SPEED_MIN;
-    Starry_Night.brightness_max  = SAGARIS_KEYBOARD_SPEED_MAX;
-    Starry_Night.brightness      = SAGARIS_KEYBOARD_SPEED_DEFAULT;
-    Starry_Night.speed_min       = SAGARIS_KEYBOARD_BRIGHTNESS_MIN;
-    Starry_Night.speed_max       = SAGARIS_KEYBOARD_BRIGHTNESS_MAX;
-    Starry_Night.speed           = SAGARIS_KEYBOARD_BRIGHTNESS_DEFAULT;
-    Starry_Night.color_mode      = MODE_COLORS_MODE_SPECIFIC;
-    Starry_Night.colors_min      = 7;
-    Starry_Night.colors_max      = 7;
+    Starry_Night.name           = "Starry Night";
+    Starry_Night.value          = SAGARIS_KEYBOARD_MODE_STARRY_NIGHT;
+    Starry_Night.flags          = MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_AUTOMATIC_SAVE | MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_HAS_SPEED;
+    Starry_Night.brightness_min = SAGARIS_KEYBOARD_SPEED_MIN;
+    Starry_Night.brightness_max = SAGARIS_KEYBOARD_SPEED_MAX;
+    Starry_Night.brightness     = SAGARIS_KEYBOARD_SPEED_DEFAULT;
+    Starry_Night.speed_min      = SAGARIS_KEYBOARD_BRIGHTNESS_MIN;
+    Starry_Night.speed_max      = SAGARIS_KEYBOARD_BRIGHTNESS_MAX;
+    Starry_Night.speed          = SAGARIS_KEYBOARD_BRIGHTNESS_DEFAULT;
+    Starry_Night.color_mode     = MODE_COLORS_MODE_SPECIFIC;
+    Starry_Night.colors_min     = 7;
+    Starry_Night.colors_max     = 7;
     Starry_Night.colors.resize(7);
     modes.push_back(Starry_Night);
 
     mode Laser;
-    Laser.name                   = "Laser";
-    Laser.value                  = SAGARIS_KEYBOARD_MODE_LASER;
-    Laser.flags                  = MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_AUTOMATIC_SAVE | MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_HAS_SPEED;
-    Laser.brightness_min         = SAGARIS_KEYBOARD_SPEED_MIN;
-    Laser.brightness_max         = SAGARIS_KEYBOARD_SPEED_MAX;
-    Laser.brightness             = SAGARIS_KEYBOARD_SPEED_DEFAULT;
-    Laser.speed_min              = SAGARIS_KEYBOARD_BRIGHTNESS_MIN;
-    Laser.speed_max              = SAGARIS_KEYBOARD_BRIGHTNESS_MAX;
-    Laser.speed                  = SAGARIS_KEYBOARD_BRIGHTNESS_DEFAULT;
-    Laser.color_mode             = MODE_COLORS_MODE_SPECIFIC;
-    Laser.colors_min             = 7;
-    Laser.colors_max             = 7;
+    Laser.name                  = "Laser";
+    Laser.value                 = SAGARIS_KEYBOARD_MODE_LASER;
+    Laser.flags                 = MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_AUTOMATIC_SAVE | MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_HAS_SPEED;
+    Laser.brightness_min        = SAGARIS_KEYBOARD_SPEED_MIN;
+    Laser.brightness_max        = SAGARIS_KEYBOARD_SPEED_MAX;
+    Laser.brightness            = SAGARIS_KEYBOARD_SPEED_DEFAULT;
+    Laser.speed_min             = SAGARIS_KEYBOARD_BRIGHTNESS_MIN;
+    Laser.speed_max             = SAGARIS_KEYBOARD_BRIGHTNESS_MAX;
+    Laser.speed                 = SAGARIS_KEYBOARD_BRIGHTNESS_DEFAULT;
+    Laser.color_mode            = MODE_COLORS_MODE_SPECIFIC;
+    Laser.colors_min            = 7;
+    Laser.colors_max            = 7;
     Laser.colors.resize(7);
     modes.push_back(Laser);
 
     SetupZones();
 
-    sagaris_mode current_mode = controller->GetMode();
+    sagaris_mode current_mode   = controller->GetMode();
 
     active_mode = current_mode.mode;
     last_mode   = current_mode.mode;
@@ -157,7 +157,7 @@ RGBController_AsusSagarisKeyboard::RGBController_AsusSagarisKeyboard(AsusSagaris
 
     current_colors = controller->GetColors();
 
-    for(int i = 0; i < modes[active_mode].colors.size(); i++)
+    for(unsigned int i = 0; i < modes[active_mode].colors.size(); i++)
     {
         modes[active_mode].colors[i] = current_colors[i];
     }
@@ -206,19 +206,19 @@ void RGBController_AsusSagarisKeyboard::DeviceUpdateMode()
     if(last_mode != active_mode)
     {
         last_mode = active_mode;
-        for(int i = 0; i < modes[active_mode].colors.size(); i++)
+        for(unsigned int i = 0; i < modes[active_mode].colors.size(); i++)
         {
             modes[active_mode].colors[i] = current_colors[i];
         }
     }
     else
     {
-        for(int i = 0; i < modes[active_mode].colors.size(); i++)
+        for(unsigned int i = 0; i < modes[active_mode].colors.size(); i++)
         {
             current_colors[i] = modes[active_mode].colors[i];
         }
 
-        for(int i = 0; i < modes[active_mode].colors.size(); i++)
+        for(unsigned int i = 0; i < modes[active_mode].colors.size(); i++)
         {
             /*-----------------------------------------*\
             | This device uses 4bit colorValues (0-16)  |
@@ -241,7 +241,10 @@ void RGBController_AsusSagarisKeyboard::DeviceUpdateMode()
 
     uint8_t mode = modes[active_mode].value;
 
-    if(mode == SAGARIS_KEYBOARD_MODE_STARRY_NIGHT) colorIndex = 7;
+    if(mode == SAGARIS_KEYBOARD_MODE_STARRY_NIGHT)
+    {
+        colorIndex = 7;
+    }
 
     controller->SetMode(mode, modes[active_mode].brightness, modes[active_mode].speed, colorIndex);
 }
