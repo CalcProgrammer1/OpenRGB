@@ -57,7 +57,7 @@ int ValkyrieKeyboardController::GetInterfaceNum()
     return(interface_num);
 }
 
-void ValkyrieKeyboardController::SendColors(unsigned char*  color_data,unsigned int color_data_size)
+void ValkyrieKeyboardController::SendColors(unsigned char* color_data, unsigned int /*color_data_size*/)
 {
     unsigned char usb_buf_pro[392];
     unsigned char usb_buf_normal[408];
@@ -86,8 +86,8 @@ void ValkyrieKeyboardController::SendColors(unsigned char*  color_data,unsigned 
         }
     }
 
-
     SendInitializeColorPacket();
+
     for(int i = 0; i <= 6; i++)
     {
         unsigned int    usb_data_num = 16;
@@ -100,23 +100,24 @@ void ValkyrieKeyboardController::SendColors(unsigned char*  color_data,unsigned 
 
         switch(interface_num)
         {
-             case 3:
-             for(int index = 0; index < usb_data_num; index++)
-             {
-                 send_usb_buf[index * 4 + 1] = usb_buf_pro[index * 4 + i * 64    ];
-                 send_usb_buf[index * 4 + 2] = usb_buf_pro[index * 4 + i * 64 + 1];
-                 send_usb_buf[index * 4 + 3] = usb_buf_pro[index * 4 + i * 64 + 2];
-                 send_usb_buf[index * 4 + 4] = usb_buf_pro[index * 4 + i * 64 + 3];
-             }
-             break;
-             default:
-             for(int index = 0; index < usb_data_num; index++)
-             {
-                 send_usb_buf[index * 4 + 1] = usb_buf_normal[index * 4 + i * 64    ];
-                 send_usb_buf[index * 4 + 2] = usb_buf_normal[index * 4 + i * 64 + 1];
-                 send_usb_buf[index * 4 + 3] = usb_buf_normal[index * 4 + i * 64 + 2];
-                 send_usb_buf[index * 4 + 4] = usb_buf_normal[index * 4 + i * 64 + 3];
-             }
+            case 3:
+                for(unsigned int index = 0; index < usb_data_num; index++)
+                {
+                    send_usb_buf[index * 4 + 1] = usb_buf_pro[index * 4 + i * 64    ];
+                    send_usb_buf[index * 4 + 2] = usb_buf_pro[index * 4 + i * 64 + 1];
+                    send_usb_buf[index * 4 + 3] = usb_buf_pro[index * 4 + i * 64 + 2];
+                    send_usb_buf[index * 4 + 4] = usb_buf_pro[index * 4 + i * 64 + 3];
+                }
+                break;
+            default:
+                for(unsigned int index = 0; index < usb_data_num; index++)
+                {
+                    send_usb_buf[index * 4 + 1] = usb_buf_normal[index * 4 + i * 64    ];
+                    send_usb_buf[index * 4 + 2] = usb_buf_normal[index * 4 + i * 64 + 1];
+                    send_usb_buf[index * 4 + 3] = usb_buf_normal[index * 4 + i * 64 + 2];
+                    send_usb_buf[index * 4 + 4] = usb_buf_normal[index * 4 + i * 64 + 3];
+                }
+                break;
         }
 
         /*-----------------------------------------------------*\
