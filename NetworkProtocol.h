@@ -36,7 +36,8 @@
 /*-----------------------------------------------------*\
 | OpenRGB SDK Magic Value "ORGB"                        |
 \*-----------------------------------------------------*/
-extern const char * openrgb_sdk_magic;
+#define OPENRGB_SDK_MAGIC_SIZE 4
+extern const char openrgb_sdk_magic[OPENRGB_SDK_MAGIC_SIZE];
 
 typedef struct NetPacketHeader
 {

@@ -15,7 +15,7 @@
 /*-----------------------------------------------------*\
 | OpenRGB SDK Magic Value "ORGB"                        |
 \*-----------------------------------------------------*/
-const char * openrgb_sdk_magic = "ORGB";
+const char openrgb_sdk_magic[OPENRGB_SDK_MAGIC_SIZE] = { 'O', 'R', 'G', 'B' };
 
 void InitNetPacketHeader
     (
