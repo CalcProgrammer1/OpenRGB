@@ -335,63 +335,63 @@ static void DetectGMOW_Dongle(hid_device_info* info, const std::string& name)
     }
 }
 
-static void DetectSinowealthKeyboard16(hid_device_info* info, const std::string& name)
-{
-#ifdef USE_HID_USAGE
-    unsigned char command[6] = {0x05, 0x83, 0x00, 0x00, 0x00, 0x00};
-    expected_reports reports{expected_report(0x06, 1032, command, sizeof(command))};
-    if(!DetectUsages(info, name, 3, reports))
-    {
-        return;
-    }
-    hid_device *dev = reports.at(0).device;
-    hid_device *dev_cmd = reports.at(0).cmd_device;
-#else
-    hid_device* dev = hid_open_path(info->path);
-    hid_device* dev_cmd = dev;
-#endif
-    if(dev && dev_cmd)
-    {
-        SinowealthKeyboard16Controller* controller = new SinowealthKeyboard16Controller(dev_cmd, dev, info->path, name);
-        RGBController *rgb_controller              = new RGBController_SinowealthKeyboard16(controller);
-        rgb_controller->name = name;
+// static void DetectSinowealthKeyboard16(hid_device_info* info, const std::string& name)
+// {
+// #ifdef USE_HID_USAGE
+//     unsigned char command[6] = {0x05, 0x83, 0x00, 0x00, 0x00, 0x00};
+//     expected_reports reports{expected_report(0x06, 1032, command, sizeof(command))};
+//     if(!DetectUsages(info, name, 3, reports))
+//     {
+//         return;
+//     }
+//     hid_device *dev = reports.at(0).device;
+//     hid_device *dev_cmd = reports.at(0).cmd_device;
+// #else
+//     hid_device* dev = hid_open_path(info->path);
+//     hid_device* dev_cmd = dev;
+// #endif
+//     if(dev && dev_cmd)
+//     {
+//         SinowealthKeyboard16Controller* controller = new SinowealthKeyboard16Controller(dev_cmd, dev, info->path, name);
+//         RGBController *rgb_controller              = new RGBController_SinowealthKeyboard16(controller);
+//         rgb_controller->name = name;
+//
+//         ResourceManager::get()->RegisterRGBController(rgb_controller);
+//     }
+// }
 
-        ResourceManager::get()->RegisterRGBController(rgb_controller);
-    }
-}
-
-static void DetectSinowealthKeyboard(hid_device_info* info, const std::string& name)
-{
-#ifdef USE_HID_USAGE
-    unsigned char command[6] = {0x05, 0x83, 0xB6, 0x00, 0x00, 0x00};
-    expected_reports reports{expected_report(0x06, 1032, command, sizeof(command))};
-    if(!DetectUsages(info, name, 3, reports))
-    {
-        return;
-    }
-    hid_device *dev = reports.at(0).device;
-    hid_device *dev_cmd = reports.at(0).cmd_device;
-    if(dev && dev_cmd)
-    {
-        SinowealthKeyboardController* controller = new SinowealthKeyboardController(dev_cmd, dev, info->path);
-        RGBController* rgb_controller            = new RGBController_SinowealthKeyboard(controller);
-        rgb_controller->name = name;
-
-        ResourceManager::get()->RegisterRGBController(rgb_controller);
-    }
-#else
-    // It is unknown why this code used the MOUSE controller here; could it be the reason why it was disabled?
-    hid_device* dev = hid_open_path(info->path);
-    if(dev)
-    {
-        SinowealthController* controller = new SinowealthController(dev, dev, info->path);
-        RGBController* rgb_controller = new RGBController_Sinowealth(controller);
-        rgb_controller->name = name;
-
-        ResourceManager::get()->RegisterRGBController(rgb_controller);
-    }
-#endif
-}
+// static void DetectSinowealthKeyboard(hid_device_info* info, const std::string& name)
+// {
+// #ifdef USE_HID_USAGE
+//     unsigned char command[6] = {0x05, 0x83, 0xB6, 0x00, 0x00, 0x00};
+//     expected_reports reports{expected_report(0x06, 1032, command, sizeof(command))};
+//     if(!DetectUsages(info, name, 3, reports))
+//     {
+//         return;
+//     }
+//     hid_device *dev = reports.at(0).device;
+//     hid_device *dev_cmd = reports.at(0).cmd_device;
+//     if(dev && dev_cmd)
+//     {
+//         SinowealthKeyboardController* controller = new SinowealthKeyboardController(dev_cmd, dev, info->path);
+//         RGBController* rgb_controller            = new RGBController_SinowealthKeyboard(controller);
+//         rgb_controller->name = name;
+//
+//         ResourceManager::get()->RegisterRGBController(rgb_controller);
+//     }
+// #else
+//     // It is unknown why this code used the MOUSE controller here; could it be the reason why it was disabled?
+//     hid_device* dev = hid_open_path(info->path);
+//     if(dev)
+//     {
+//         SinowealthController* controller = new SinowealthController(dev, dev, info->path);
+//         RGBController* rgb_controller = new RGBController_Sinowealth(controller);
+//         rgb_controller->name = name;
+//
+//         ResourceManager::get()->RegisterRGBController(rgb_controller);
+//     }
+// #endif
+// }
 
 static void DetectSinowealthGenesisKeyboard(hid_device_info* info, const std::string& name)
 {
