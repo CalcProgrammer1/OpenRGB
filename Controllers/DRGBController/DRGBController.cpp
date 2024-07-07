@@ -44,7 +44,7 @@ unsigned short DRGBController::GetDevicePID()
     return(device_pid);
 }
 
-void DRGBController::SetChannelLEDs(unsigned char channel, RGBColor* colors, unsigned int num_colors)
+void DRGBController::SetChannelLEDs(unsigned char /*channel*/, RGBColor* /*colors*/, unsigned int /*num_colors*/)
 {
 
 }
@@ -86,7 +86,7 @@ void DRGBController::SendPacketFS(unsigned char* colors, unsigned int buf_packet
     memset(usb_buf, 0x00, sizeof(usb_buf));
     usb_buf[0x00]   = 0x00;
     if(Array)
-    { 
+    {
         for(unsigned int i = 0; i < buf_packets; i++)
         {
             usb_buf[1]  = i == buf_packets - 1 ? 200 + i : 100 + i;
