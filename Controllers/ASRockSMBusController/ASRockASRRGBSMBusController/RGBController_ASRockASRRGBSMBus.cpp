@@ -169,7 +169,7 @@ void RGBController_ASRockASRRGBSMBus::ResizeZone(int /*zone*/, int /*new_size*/)
 
 void RGBController_ASRockASRRGBSMBus::DeviceUpdateLEDs()
 {
-    for(int led = 0; led < colors.size(); led++)
+    for(unsigned int led = 0; led < colors.size(); led++)
     {
         UpdateSingleLED(led);
     }
