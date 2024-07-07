@@ -221,7 +221,7 @@ void RGBController_AsusROGSpatha::DeviceUpdateMode()
 
         if(modes[active_mode].value == ASUS_ROG_SPATHA_MODE_SPECTRUM_CYCLE || modes[active_mode].value == ASUS_ROG_SPATHA_MODE_BREATHING)
         {
-            for(int j = 0; j < modes[active_mode].colors.size(); j++)
+            for(unsigned int j = 0; j < modes[active_mode].colors.size(); j++)
             {
                 controller->SendUpdate(0x13 + j * 3 + i * 38, RGBGetRValue(modes[active_mode].colors[j]));
                 controller->SendUpdate(0x14 + j * 3 + i * 38, RGBGetGValue(modes[active_mode].colors[j]));
@@ -255,7 +255,7 @@ void RGBController_AsusROGSpatha::DeviceSaveMode()
 
         if(modes[active_mode].value == ASUS_ROG_SPATHA_MODE_SPECTRUM_CYCLE || modes[active_mode].value == ASUS_ROG_SPATHA_MODE_BREATHING)
         {
-            for(int j = 0; j < modes[active_mode].colors.size(); j++)
+            for(unsigned int j = 0; j < modes[active_mode].colors.size(); j++)
             {
                 controller->UpdateProfile(0x13 + j * 3 + i * 38, profile, RGBGetRValue(modes[active_mode].colors[j]));
                 controller->UpdateProfile(0x14 + j * 3 + i * 38, profile, RGBGetGValue(modes[active_mode].colors[j]));
