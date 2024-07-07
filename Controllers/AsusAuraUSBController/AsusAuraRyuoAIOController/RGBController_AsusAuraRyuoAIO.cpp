@@ -180,7 +180,7 @@ void RGBController_AsusAuraRyuoAIO::ResizeZone(int /*zone*/, int /*new_size*/)
 
 void RGBController_AsusAuraRyuoAIO::DeviceUpdateLEDs()
 {
-    for(int zone_idx = 0; zone_idx < zones.size(); zone_idx++)
+    for(unsigned int zone_idx = 0; zone_idx < zones.size(); zone_idx++)
     {
         UpdateZoneLEDs(zone_idx);
     }
@@ -205,7 +205,7 @@ void RGBController_AsusAuraRyuoAIO::DeviceUpdateMode()
 
 int RGBController_AsusAuraRyuoAIO::GetLED_Zone(int led_idx)
 {
-    for(int zone_idx = 0; zone_idx < zones.size(); zone_idx++)
+    for(unsigned int zone_idx = 0; zone_idx < zones.size(); zone_idx++)
     {
         int zone_start = zones[zone_idx].start_idx;
         int zone_end = zone_start + zones[zone_idx].leds_count - 1;
