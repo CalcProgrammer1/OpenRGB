@@ -450,13 +450,17 @@ void CMKeyboardV2Controller::SetMode(mode selectedMode)
     std::vector<uint8_t> data1(64, 0);
     std::vector<uint8_t> data2(64, 0);
 
-    uint8_t cColor1_R, cColor1_G, cColor1_B;
-    uint8_t cColor2_R, cColor2_G, cColor2_B;
+    uint8_t cColor1_R   = 0;
+    uint8_t cColor1_G   = 0;
+    uint8_t cColor1_B   = 0;
+    uint8_t cColor2_R   = 0;
+    uint8_t cColor2_G   = 0;
+    uint8_t cColor2_B   = 0;
 
-    RGBColor color1    = 0;
-    RGBColor color2    = 0;
-    uint8_t cSpeed1    = 0;
-    uint8_t cSpeed2    = 0;
+    RGBColor color1     = 0;
+    RGBColor color2     = 0;
+    uint8_t cSpeed1     = 0;
+    uint8_t cSpeed2     = 0;
 
     _UpdateSpeed(selectedMode, cSpeed1, cSpeed2);
 
