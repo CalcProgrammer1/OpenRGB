@@ -27,6 +27,7 @@
 #define ENDORFY_OMNIS_PID           0x0012
 #define GLORIOUS_GMMK_TKL_PID       0x5064
 #define REDRAGON_K550_PID           0x5204
+#define MARS_GAMING_MKMINI_PID      0x5078
 #define REDRAGON_K552_PID           0x5104
 #define REDRAGON_K552_V2_PID        0x5000
 #define REDRAGON_K556_PID           0x5004
@@ -111,6 +112,7 @@ void DetectEndorfyKeyboards(hid_device_info* info, const std::string& name)
 /*---------------------------------------------------------------------------------------------------------------------------------------------*\
 | Keyboards                                                                                                                                     |
 \*---------------------------------------------------------------------------------------------------------------------------------------------*/
+REGISTER_HID_DETECTOR_IP("EVision Keyboard 320F:5078", DetectEVisionKeyboards,   EVISION_KEYBOARD2_VID, MARS_GAMING_MKMINI_PID,    1, EVISION_KEYBOARD_USAGE_PAGE);
 REGISTER_HID_DETECTOR_IP("EVision Keyboard 0C45:5204", DetectEVisionKeyboards,   EVISION_KEYBOARD_VID,  REDRAGON_K550_PID,         1, EVISION_KEYBOARD_USAGE_PAGE);
 REGISTER_HID_DETECTOR_IP("EVision Keyboard 0C45:5104", DetectEVisionKeyboards,   EVISION_KEYBOARD_VID,  REDRAGON_K552_PID,         1, EVISION_KEYBOARD_USAGE_PAGE);
 REGISTER_HID_DETECTOR_IP("EVision Keyboard 320F:5000", DetectEVisionKeyboards,   EVISION_KEYBOARD2_VID, REDRAGON_K552_V2_PID,      1, EVISION_KEYBOARD_USAGE_PAGE);
