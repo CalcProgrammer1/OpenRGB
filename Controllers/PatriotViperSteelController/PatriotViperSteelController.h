@@ -50,5 +50,4 @@ private:
     i2c_smbus_interface *bus;
     viper_dev_id dev;
     unsigned char mode;
-    unsigned char speed;
 };
