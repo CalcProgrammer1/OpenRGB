@@ -73,6 +73,4 @@ private:
     std::string     location;
     std::string     serial_number;
     std::string     version;
-
-    unsigned char color_test = 0x00;
 };
