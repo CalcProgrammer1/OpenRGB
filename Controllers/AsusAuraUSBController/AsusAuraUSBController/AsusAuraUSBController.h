@@ -105,7 +105,6 @@ protected:
         );
 private:
     char                        device_name[16];
-    unsigned int                led_count;
 
     void GetConfigTable();
 
