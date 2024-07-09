@@ -72,7 +72,6 @@ private:
     std::string                 detector_name;
 
     RGBFusion2USBController*    controller;
-    IT8297Report                report;
     ZoneLeds                    layout;
 
     void        Load_Device_Config();
