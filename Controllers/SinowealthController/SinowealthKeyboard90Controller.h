@@ -228,7 +228,6 @@ public:
 
 private:
     hid_device*     dev;
-    device_type     type;
     std::string     name;
     std::string     location;
     unsigned short  usb_pid;
