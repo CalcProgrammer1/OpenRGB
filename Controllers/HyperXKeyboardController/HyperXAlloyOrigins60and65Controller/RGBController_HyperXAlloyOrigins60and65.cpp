@@ -197,11 +197,6 @@ static const char *led_names_65[] =
     KEY_EN_RIGHT_ARROW
 };
 
-static const char* zone_names[] =
-{
-    ZONE_EN_KEYBOARD
-};
-
 /**------------------------------------------------------------------*\
     @name HyperX Alloy Origins 60 and 65
     @category Keyboard
