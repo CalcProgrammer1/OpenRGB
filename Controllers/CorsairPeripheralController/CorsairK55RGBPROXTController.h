@@ -33,7 +33,6 @@ public:
          );
     void SwitchMode(bool software);
 
-
     enum
     {
         CORSAIR_MODE_DIRECT_VALUE           = 0xFFFF,
@@ -82,7 +81,6 @@ private:
 
     std::string firmware_version;
     std::string location;
-    device_type type;
 
     void LightingControl();
 };
