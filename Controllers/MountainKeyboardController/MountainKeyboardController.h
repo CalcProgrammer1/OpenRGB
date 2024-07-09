@@ -151,5 +151,4 @@ private:
 
     hid_device*             dev;
     std::string             location;
-    unsigned short          usb_pid;
 };
