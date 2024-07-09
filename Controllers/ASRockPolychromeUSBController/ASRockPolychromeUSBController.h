@@ -156,7 +156,6 @@ protected:
         );
 
 private:
-    unsigned int  led_count;
     std::string   device_name;
     unsigned char configtable[12];
     bool          rgswapconfig[8] = { 0 };

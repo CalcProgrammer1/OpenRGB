@@ -31,7 +31,6 @@ public:
     void        DeviceUpdateMode();
 
 private:
-    bool                            initializedMode;
     PolychromeUSBController*        controller;
     std::vector<PolychromeZoneInfo> zones_info;
 
