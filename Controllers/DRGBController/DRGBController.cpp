@@ -49,15 +49,15 @@ void DRGBController::SetChannelLEDs(unsigned char /*channel*/, RGBColor* /*color
 
 }
 
-void DRGBController::SendPacket(unsigned char* colors, unsigned int buf_packets , unsigned int Array)
+void DRGBController::SendPacket(unsigned char* colors, unsigned int buf_packets , unsigned int LEDtotal)
 {
     unsigned char   usb_buf[1025];
     unsigned int    buf_idx = 0;
     memset(usb_buf, 0x00, sizeof(usb_buf));
     usb_buf[0x00]   = 0x00;
-    unsigned int    HigCount = Array / 256 >= 1 ? 1 : 0;
-    unsigned int    LowCount = Array >= 316 ? 60 : (Array % 256) ;
-    Array = Array <= 316 ? 0 : (Array-316);
+    unsigned int    HigCount = LEDtotal / 256 >= 1 ? 1 : 0;
+    unsigned int    LowCount = LEDtotal >= DRGB_V4_ONE_PACKAGE_SIZE ? 60 : (LEDtotal % 256) ;
+    LEDtotal = LEDtotal <= DRGB_V4_ONE_PACKAGE_SIZE ? 0 : (LEDtotal-DRGB_V4_ONE_PACKAGE_SIZE);
     for(unsigned int i = 0; i < buf_packets; i++)
     {
         usb_buf[1]  = i + 100 ;
@@ -70,11 +70,11 @@ void DRGBController::SendPacket(unsigned char* colors, unsigned int buf_packets 
             usb_buf[k+5] = colors[buf_idx + k];
         }
         hid_write(dev, usb_buf, 1025);
-        if(Array)
+        if(LEDtotal)
         {
-            HigCount    = Array / 256 >= 1 ? 1 : 0;
-            LowCount    = Array >= 340 ? 84 : (Array % 256) ;
-            Array       = Array <= 340 ? 0 : (Array-316);
+            HigCount    = LEDtotal / 256 >= 1 ? 1 : 0;
+            LowCount    = LEDtotal >= DRGB_V4_PACKAGE_SIZE ? 84 : (LEDtotal % 256) ;
+            LEDtotal    = LEDtotal <= DRGB_V4_PACKAGE_SIZE ? 0 : (LEDtotal-DRGB_V4_PACKAGE_SIZE);
         }
     }
 }

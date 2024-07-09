@@ -299,9 +299,9 @@ void RGBController_DRGB::DeviceUpdateLEDs()
                 }
             }
             unsigned int    col_packets = 1 ;
-            if(led_index > 316)
+            if(led_index > DRGB_V4_ONE_PACKAGE_SIZE)
             {
-                col_packets = ((led_index - 316) / 340) + (((led_index - 316) % 340) > 0);
+                col_packets = 1 + ((led_index - DRGB_V4_ONE_PACKAGE_SIZE) / DRGB_V4_PACKAGE_SIZE) + (((led_index - DRGB_V4_ONE_PACKAGE_SIZE) % DRGB_V4_PACKAGE_SIZE) > 0);
             }
             controller->SendPacket(&RGBData[0], col_packets,led_index);
             break;
@@ -334,7 +334,7 @@ void RGBController_DRGB::DeviceUpdateLEDs()
                     break;
                 }
             }
-            unsigned int col_packets    = (led_index / 21) + ((led_index % 64) > 0);
+            unsigned int    col_packets     = (led_index / DRGB_V3_PACKAGE_SIZE) + ((led_index % DRGB_V3_PACKAGE_SIZE) > 0);
             controller->SendPacketFS(&ArrayData[0], 1,0);
             controller->SendPacketFS(&RGBData[0], col_packets,1);
             break;
@@ -353,7 +353,7 @@ void RGBController_DRGB::DeviceUpdateLEDs()
                     RGBData[i * 3 +1]   = (RGBcolors >> 8) & 0xFF;
                     RGBData[i * 3 +2]   = (RGBcolors >> 16) & 0xFF;
                 }
-                unsigned char   NumPackets = (LEDnum / 20) + ((LEDnum % 20) > 0);
+                unsigned char   NumPackets      = LEDnum / DRGB_V2_PACKAGE_SIZE + ((LEDnum % DRGB_V2_PACKAGE_SIZE) > 0);
                 for (unsigned int CurrPacket = 1 ; CurrPacket <= NumPackets; CurrPacket++)
                 {
                     ArrayData[0] = CurrPacket;
