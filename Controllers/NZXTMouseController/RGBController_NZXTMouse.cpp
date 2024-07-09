@@ -65,7 +65,7 @@ void RGBController_NZXTMouse::SetupZones()
     for(unsigned int led_idx = 0; led_idx < left.leds_count; led_idx++)
     {
         led left_led;
-        left_led.name   = "Left LED " + led_idx;
+        left_led.name   = "Left LED " + std::to_string(led_idx);
 
         leds.push_back(left_led);
     }
@@ -84,7 +84,7 @@ void RGBController_NZXTMouse::SetupZones()
     for(unsigned int led_idx = 0; led_idx < right.leds_count; led_idx++)
     {
         led right_led;
-        right_led.name   = "Right LED " + led_idx;
+        right_led.name   = "Right LED " + std::to_string(led_idx);
 
         leds.push_back(right_led);
     }
