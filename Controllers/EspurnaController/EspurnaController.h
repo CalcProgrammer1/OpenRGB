@@ -39,9 +39,6 @@ public:
     void        SetLEDs(std::vector<RGBColor> colors);
 
 private:
-    int baud_rate;
-
-    char led_string[1024];
     std::string port_name;
     std::string client_name;
     char espurna_apikey[128];
