@@ -91,7 +91,6 @@ private:
     std::string             firmware_version;
     std::string             location;
     std::string             name;
-    device_type             type;
 
     /*---------------------------------------------------------*\
     | Kraken LED/Mode Addresses                                 |
@@ -104,12 +103,6 @@ private:
     | Index of device in Razer device list                      |
     \*---------------------------------------------------------*/
     unsigned int            device_index;
-
-    /*---------------------------------------------------------*\
-    | HID report index for request and response                 |
-    \*---------------------------------------------------------*/
-    unsigned char           report_index;
-    unsigned char           response_index;
 
     /*---------------------------------------------------------*\
     | Private functions based on OpenRazer                      |
