@@ -50,11 +50,6 @@ static zone_type zone_types[] =
 static const unsigned int tkl_led_count = 95;
 static const unsigned int full_led_count = 117;
 
-static const unsigned int zone_sizes[] =
-{
-    117,
-};
-
 typedef struct
 {
     const char *        name;
