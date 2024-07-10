@@ -1,11 +1,13 @@
-/*-------------------------------------------------------------------*\
-|  SteelSeriesApex3Controller.cpp                                     |
-|                                                                     |
-|  Driver for Steelseries Apex3 Controllers                           |
-|       This is the base class for the Ten Zone and 8 Zone keyboards  |
-|                                                                     |
-|  Chris M (Dr_No)          23rd Feb 2022                             |
-\*-------------------------------------------------------------------*/
+/*---------------------------------------------------------*\
+| SteelSeriesApex3Controller.cpp                            |
+|                                                           |
+|   Driver for SteelSeries Apex 3                           |
+|                                                           |
+|   Chris M (Dr_No)                             23 Feb 2022 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #include <cstring>
 #include "SteelSeriesApex3Controller.h"

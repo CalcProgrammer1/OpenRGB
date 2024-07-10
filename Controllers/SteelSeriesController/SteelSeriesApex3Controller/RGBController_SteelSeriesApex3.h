@@ -1,8 +1,13 @@
-/*-----------------------------------------*\
-|  RGBController_SteelSeriesApexTZone.h     |
-|                                           |
-|  Edbgon 06.10.21                          |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_SteelSeriesApex3.h                          |
+|                                                           |
+|   RGBController for SteelSeries Apex 3                    |
+|                                                           |
+|   Chris M (Dr_No)                             23 Feb 2022 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #pragma once
 

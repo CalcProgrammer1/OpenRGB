@@ -1,19 +1,20 @@
-/*-------------------------------------------------------------------*\
-|  SteelSeriesApex3Controller.h                                       |
-|                                                                     |
-|  Driver for Steelseries Apex3 Controllers                           |
-|       This is the base class for the Ten Zone and 8 Zone keyboards  |
-|                                                                     |
-|  Chris M (Dr_No)          23rd Feb 2022                             |
-\*-------------------------------------------------------------------*/
+/*---------------------------------------------------------*\
+| SteelSeriesApex3Controller.h                              |
+|                                                           |
+|   Driver for SteelSeries Apex 3                           |
+|                                                           |
+|   Chris M (Dr_No)                             23 Feb 2022 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
+#pragma once
 
 #include <string>
 #include <hidapi/hidapi.h>
-
 #include "RGBController.h"
 #include "SteelSeriesGeneric.h"
-
-#pragma once
 
 #define STEELSERIES_APEX3_BRIGHTNESS_MIN    0x00
 #define STEELSERIES_APEX3_HID_TIMEOUT       100
