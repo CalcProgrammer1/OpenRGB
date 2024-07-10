@@ -36,11 +36,11 @@ public:
     SteelSeriesAerox3Controller(hid_device* dev_handle, steelseries_type proto_type, const char* path);
     ~SteelSeriesAerox3Controller();
 
-    std::string         GetFirmwareVersion();
-    steelseries_mouse   GetMouse();
+    std::string         GetFirmwareVersion() override;
+    steelseries_mouse   GetMouse() override;
 
     void                Save() override;
-    void                SetLightEffectAll(uint8_t effect);
+    void                SetLightEffectAll(uint8_t effect) override;
     void                SetColor
                             (
                             unsigned char   zone_id,
@@ -48,7 +48,7 @@ public:
                             unsigned char   green,
                             unsigned char   blue,
                             unsigned char   brightness
-                            );
+                            ) override;
 private:
     void                SendInit();
     void                SetBrightness(uint8_t brightness);

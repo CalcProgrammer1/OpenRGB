@@ -42,19 +42,22 @@ public:
                                 const char *path);
     ~SteelSeriesAerox5Controller();
 
-    std::string GetFirmwareVersion();
-    steelseries_mouse GetMouse();
+    std::string         GetFirmwareVersion() override;
+    steelseries_mouse   GetMouse() override;
 
-    void Save() override;
-    void SetLightEffectAll(uint8_t effect);
-    void SetColor(unsigned char zone_id,
-                  unsigned char red,
-                  unsigned char green,
-                  unsigned char blue,
-                  unsigned char brightness);
+    void                Save() override;
+    void                SetLightEffectAll(uint8_t effect) override;
+    void                SetColor
+                            (
+                                unsigned char zone_id,
+                                unsigned char red,
+                                unsigned char green,
+                                unsigned char blue,
+                                unsigned char brightness
+                            ) override;
 
 private:
-    void SendInit();
-    void SetBrightness(uint8_t brightness);
-    uint8_t current_brightness;
+    void                SendInit();
+    void                SetBrightness(uint8_t brightness);
+    uint8_t             current_brightness;
 };
