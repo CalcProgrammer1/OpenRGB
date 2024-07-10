@@ -1,7 +1,7 @@
 /*---------------------------------------------------------*\
 | SteelSeriesAerox5Controller.h                             |
 |                                                           |
-|   Controller for the Steelseries Aerox5 Wired             |
+|   Driver for the Steelseries Aerox 5                      |
 |                                                           |
 |   Bobby Quantum (BobbyQuantum)                19 May 2024 |
 |                                                           |
@@ -9,14 +9,14 @@
 |   SPDX-License-Identifier: GPL-2.0-only                   |
 \*---------------------------------------------------------*/
 
+#pragma once
+
 #include <cstring>
 #include <string>
 #include <hidapi/hidapi.h>
 #include "RGBController.h"
 #include "SteelSeriesGeneric.h"
 #include "SteelSeriesMouseController.h"
-
-#pragma once
 
 #define STEELSERIES_AEROX5_NAME "SteelSeries Aerox 5"
 #define STEELSERIES_AEROX5_PACKET_SIZE 65

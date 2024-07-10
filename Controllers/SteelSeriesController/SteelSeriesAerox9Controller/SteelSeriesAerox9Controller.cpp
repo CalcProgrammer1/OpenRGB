@@ -1,10 +1,13 @@
-/*----------------------------------------------------------------------*\
-|  SteelSeriesAerox9Controller.cpp                                       |
-|                                                                        |
-|  OpenRGB controller driver for the Steelseries Aerox9 Wireless (Wired) |
-|                                                                        |
-|  rom4ster         11th October 2022                                    |
-\*---------------------------------------------------------------------*/
+/*---------------------------------------------------------*\
+| SteelSeriesAerox9Controller.cpp                           |
+|                                                           |
+|   Driver for the Steelseries Aerox 9                      |
+|                                                           |
+|   rom4ster                                    11 Oct 2022 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #include "SteelSeriesAerox9Controller.h"
 #include "LogManager.h"

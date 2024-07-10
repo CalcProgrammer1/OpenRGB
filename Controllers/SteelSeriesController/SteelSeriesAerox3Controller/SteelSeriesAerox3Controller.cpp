@@ -1,10 +1,13 @@
-/*-------------------------------------------------------------------*\
-|  SteelSeriesAerox3Controller.cpp                                    |
-|                                                                     |
-|  OpenRGB controller driver for the Steelseries Aerox3 Wired         |
-|                                                                     |
-|  Chris M (Dr_No)         9th June 2022                              |
-\*-------------------------------------------------------------------*/
+/*---------------------------------------------------------*\
+| SteelSeriesAerox3Controller.cpp                           |
+|                                                           |
+|   Driver for SteelSeries Aerox 3                          |
+|                                                           |
+|   Chris M (Dr_No)                             09 Jun 2022 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #include "SteelSeriesAerox3Controller.h"
 #include "LogManager.h"

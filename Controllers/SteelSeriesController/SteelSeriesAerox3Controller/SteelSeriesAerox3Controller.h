@@ -1,20 +1,22 @@
-/*-------------------------------------------------------------------*\
-|  SteelSeriesAerox3Controller.h                                      |
-|                                                                     |
-|  OpenRGB controller driver for the Steelseries Aerox3 Wired         |
-|                                                                     |
-|  Chris M (Dr_No)         9th June 2022                              |
-\*-------------------------------------------------------------------*/
+/*---------------------------------------------------------*\
+| SteelSeriesAerox3Controller.h                             |
+|                                                           |
+|   Driver for SteelSeries Aerox 3                          |
+|                                                           |
+|   Chris M (Dr_No)                             09 Jun 2022 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
-#include <string>
+#pragma once
+
 #include <cstring>
+#include <string>
 #include <hidapi/hidapi.h>
-
 #include "RGBController.h"
 #include "SteelSeriesGeneric.h"
 #include "SteelSeriesMouseController.h"
-
-#pragma once
 
 #define STEELSERIES_AEORX3_NAME                     "SteelSeries Aerox 3"
 #define STEELSERIES_AEORX3_PACKET_SIZE              65

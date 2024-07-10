@@ -1,7 +1,7 @@
 /*---------------------------------------------------------*\
 | SteelSeriesAerox5Controller.cpp                           |
 |                                                           |
-|   Controller for the Steelseries Aerox5 Wired             |
+|   Driver for the Steelseries Aerox 5                      |
 |                                                           |
 |   Bobby Quantum (BobbyQuantum)                19 May 2024 |
 |                                                           |
