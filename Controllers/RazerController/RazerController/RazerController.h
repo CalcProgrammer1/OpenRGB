@@ -266,7 +266,6 @@ private:
     std::string             firmware_version;
     std::string             location;
     std::string             name;
-    device_type             type;
 
     /*---------------------------------------------------------*\
     | Index of device in Razer device list                      |
