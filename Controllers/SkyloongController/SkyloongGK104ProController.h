@@ -12,7 +12,22 @@
 #pragma once
 
 #include <string>
+#include <vector>
 #include <hidapi/hidapi.h>
+#include "RGBController.h"
+
+#define PACKET_SIZE                 65
+
+#define TOTAL_LED_BYTES             528
+#define LED_BYTES_IN_CHUNK          56
+
+#define SUBCOMMAND_NONE             0x00
+
+#define MODE_OFFLINE                0x04
+#define MODE_ONLINE                 0x05
+
+#define LE_DEFINE_SET               0x01
+#define LE_DEFINE_SAVE              0x02
 
 class SkyloongGK104ProController
 {
