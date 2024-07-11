@@ -1,18 +1,20 @@
-/*-----------------------------------------*\
-|  SteelSeriesApexMController.cpp           |
-|                                           |
-|  Definitions and types for SteelSeries    |
-|  Apex M750 Keyboard lighting controller   |
-|                                           |
-|  Florian Heilmann (FHeilmann) 12/10/2020  |
-\*-----------------------------------------*/
-
-#include "SteelSeriesApexMController.h"
+/*---------------------------------------------------------*\
+| SteelSeriesApexMController.cpp                            |
+|                                                           |
+|   Driver for SteelSeries Apex M750                        |
+|                                                           |
+|   Florian Heilmann (FHeilmann)                12 Oct 2020 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #include <cstring>
+#include "SteelSeriesApexMController.h"
 
 #define SS_APEX_M_PACKET_SIZE 513
 #define NA 0xFF
+
 static unsigned int keys_m[] =
 {
 /*    LCTRL  LWIN  LALT   XXX SPACE   XXX   XXX   XXX   XXX  RALT  RWIN   FNC RCTRL   XXX   XXX  LEFT  DOWN RIGHT   XXX    #0   XXX    #.     */

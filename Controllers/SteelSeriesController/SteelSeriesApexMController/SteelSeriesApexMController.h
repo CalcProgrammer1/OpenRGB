@@ -1,20 +1,21 @@
-/*-----------------------------------------*\
-|  SteelSeriesApexMController.h             |
-|                                           |
-|  Definitions and types for SteelSeries    |
-|  Apex M750 Keyboard lighting controller   |
-|                                           |
-|  Florian Heilmann (FHeilmann) 12/10/2020  |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| SteelSeriesApexMController.cpp                            |
+|                                                           |
+|   Driver for SteelSeries Apex M750                        |
+|                                                           |
+|   Florian Heilmann (FHeilmann)                12 Oct 2020 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
-#include "RGBController.h"
-#include "SteelSeriesGeneric.h"
-#include "SteelSeriesApexBaseController.h"
+#pragma once
 
 #include <string>
 #include <hidapi/hidapi.h>
-
-#pragma once
+#include "RGBController.h"
+#include "SteelSeriesGeneric.h"
+#include "SteelSeriesApexBaseController.h"
 
 class SteelSeriesApexMController : public SteelSeriesApexBaseController
 {
@@ -23,18 +24,18 @@ public:
     ~SteelSeriesApexMController();
 
     void SetMode
-    (
-        unsigned char mode,
-        std::vector<RGBColor> colors
-    );
+        (
+            unsigned char mode,
+            std::vector<RGBColor> colors
+        );
 
     void SetLEDsDirect(std::vector<RGBColor> colors);
 
 private:
 
     void EnableLEDControl();
-    void    SelectProfile
-    (
-        unsigned char   profile
-    );
+    void SelectProfile
+        (
+            unsigned char   profile
+        );
 };
