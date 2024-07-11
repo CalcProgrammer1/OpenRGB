@@ -1,18 +1,21 @@
-/*-------------------------------------------------------------------*\
-|  SteelSeriesMouseController.h                                       |
-|                                                                     |
-|  OpenRGB abstract driver for SteelSeries Mice                       |
-|                                                                     |
-|  Chris M (Dr_No)         9th June 2022                              |
-\*-------------------------------------------------------------------*/
-
-#include <string>
-#include <hidapi/hidapi.h>
-#include <vector>
-#include "SteelSeriesGeneric.h"
-#include <cstdint>
+/*---------------------------------------------------------*\
+| SteelSeriesMouseController.h                              |
+|                                                           |
+|   Driver for SteelSeries Mouse                            |
+|                                                           |
+|   Chris M (Dr_No)                             09 Jun 2022 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #pragma once
+
+#include <cstdint>
+#include <string>
+#include <vector>
+#include <hidapi/hidapi.h>
+#include "SteelSeriesGeneric.h"
 
 #define STEELSERIES_MOUSE_BRIGHTNESS_MAX          0x64
 
