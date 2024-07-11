@@ -1,11 +1,13 @@
-/*-----------------------------------------*\
-|  RGBController_SteelSeriesApex.cpp        |
-|                                           |
-|  Generic RGB Interface for SteelSeries    |
-|  Apex 7 Keyboard                          |
-|                                           |
-|  Eric Samuelson (edbgon) 7/5/2020         |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_SteelSeriesApex.cpp                         |
+|                                                           |
+|   RGBController for SteelSeries Apex 7                    |
+|                                                           |
+|   Eric Samuelson (edbgon)                     05 Jul 2020 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #include "RGBControllerKeyNames.h"
 #include "RGBController_SteelSeriesApex.h"

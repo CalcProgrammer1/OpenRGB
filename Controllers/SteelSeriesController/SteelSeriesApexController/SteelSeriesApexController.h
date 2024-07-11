@@ -1,20 +1,21 @@
-/*-----------------------------------------*\
-|  SteelSeriesApexController.h              |
-|                                           |
-|  Definitions and types for SteelSeries    |
-|  Apex 7 Keyboard lighting controller      |
-|                                           |
-|  Eric Samuelson (edbgon) 7/5/2020         |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| SteelSeriesApexController.h                               |
+|                                                           |
+|   Driver for SteelSeries Apex 7                           |
+|                                                           |
+|   Eric Samuelson (edbgon)                     05 Jul 2020 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
-#include "RGBController.h"
-#include "SteelSeriesGeneric.h"
-#include "SteelSeriesApexBaseController.h"
+#pragma once
 
 #include <string>
 #include <hidapi/hidapi.h>
-
-#pragma once
+#include "RGBController.h"
+#include "SteelSeriesGeneric.h"
+#include "SteelSeriesApexBaseController.h"
 
 enum
 {

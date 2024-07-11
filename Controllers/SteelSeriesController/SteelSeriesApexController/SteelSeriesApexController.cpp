@@ -1,15 +1,16 @@
-/*-----------------------------------------*\
-|  SteelSeriesApexController.cpp            |
-|                                           |
-|  Driver for SteelSeries Apex 7 RGB        |
-|  Keyboard lighting controller             |
-|                                           |
-|  Eric Samuelson (edbgon) 7/5/2020         |
-\*-----------------------------------------*/
-
-#include "SteelSeriesApexController.h"
+/*---------------------------------------------------------*\
+| SteelSeriesApexController.cpp                             |
+|                                                           |
+|   Driver for SteelSeries Apex 7                           |
+|                                                           |
+|   Eric Samuelson (edbgon)                     05 Jul 2020 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #include <cstring>
+#include "SteelSeriesApexController.h"
 
 using namespace std::chrono_literals;
 
