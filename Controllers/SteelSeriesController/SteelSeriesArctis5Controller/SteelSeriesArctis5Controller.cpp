@@ -1,14 +1,16 @@
-/*-----------------------------------------*\
-|  SteelSeriesArctis5Controller.h           |
-|                                           |
-|  Definitions and types for SteelSeries    |
-|  Arctis 5 lighting controller             |
-|                                           |
-|  Morgan Guimard 3/4/2022                  |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| SteelSeriesArctis5Controller.cpp                          |
+|                                                           |
+|   Driver for SteelSeries Arctis 5                         |
+|                                                           |
+|   Morgan Guimard                              04 Mar 2022 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
-#include "SteelSeriesArctis5Controller.h"
 #include <string.h>
+#include "SteelSeriesArctis5Controller.h"
 
 SteelSeriesArctis5Controller::SteelSeriesArctis5Controller(hid_device* dev_handle, const hid_device_info& info)
 {

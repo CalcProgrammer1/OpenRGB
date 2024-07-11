@@ -1,11 +1,13 @@
-/*-----------------------------------------*\
-|  RGBController_SteelSeriesArctis5.cpp     |
-|                                           |
-|  Generic RGB Interface SteelSeriesArctis5 |
-|  Class                                    |
-|                                           |
-|  Morgan Guimard 3/04/2022                 |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_SteelSeriesArctis5.cpp                      |
+|                                                           |
+|   RGBController for SteelSeries Arctis 5                  |
+|                                                           |
+|   Morgan Guimard                              04 Mar 2022 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #include "RGBController_SteelSeriesArctis5.h"
 
