@@ -1,20 +1,22 @@
-/*-------------------------------------------------------------------*\
-|  SteelSeriesApex8ZoneController.cpp                                 |
-|                                                                     |
-|  Driver for Steelseries Apex3 TKL 8 Zone Keyboard                   |
-|                                                                     |
-|  Chris M (Dr_No)          23rd Feb 2022                             |
-|  Paul K. Gerke            27.10.2022                                |
-\*-------------------------------------------------------------------*/
+/*---------------------------------------------------------*\
+| SteelSeriesApex8ZoneController.h                          |
+|                                                           |
+|   Driver for SteelSeries Apex 8 Zone                      |
+|                                                           |
+|   Chris M (Dr_No)                             23 Feb 2022 |
+|   Paul K. Gerke                               27 Oct 2022 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
+#pragma once
 
 #include <string>
 #include <hidapi/hidapi.h>
-
 #include "RGBController.h"
 #include "SteelSeriesGeneric.h"
 #include "SteelSeriesApex3Controller.h"
-
-#pragma once
 
 #define STEELSERIES_8Z_LED_COUNT            8
 #define STEELSERIES_8Z_WRITE_PACKET_SIZE    65

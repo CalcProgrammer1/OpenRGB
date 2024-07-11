@@ -1,16 +1,18 @@
-/*-------------------------------------------------------------------*\
-|  SteelSeriesApex8ZoneController.cpp                                 |
-|                                                                     |
-|  Driver for Steelseries Apex3 TKL 8 Zone Keyboard                   |
-|                                                                     |
-|  Chris M (Dr_No)          23rd Feb 2022                             |
-|  Paul K. Gerke            27.10.2022                                |
-\*-------------------------------------------------------------------*/
-
-#include "LogManager.h"
+/*---------------------------------------------------------*\
+| SteelSeriesApex8ZoneController.cpp                        |
+|                                                           |
+|   Driver for SteelSeries Apex 8 Zone                      |
+|                                                           |
+|   Chris M (Dr_No)                             23 Feb 2022 |
+|   Paul K. Gerke                               27 Oct 2022 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #include <string>
 #include "SteelSeriesApex8ZoneController.h"
+#include "LogManager.h"
 
 SteelSeriesApex8ZoneController::SteelSeriesApex8ZoneController(hid_device* dev_handle, const char* path) : SteelSeriesApex3Controller(dev_handle, path)
 {
