@@ -1,11 +1,16 @@
-/*-----------------------------------------*\
-|  SteelSeriesApexTZoneController.cpp       |
-|                                           |
-|  Edbgon 06.10.21                          |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| SteelSeriesApexTZoneController.cpp                        |
+|                                                           |
+|   Driver for SteelSeries Apex T Zone                      |
+|                                                           |
+|   Edbgon                                      06 Oct 2021 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
-#include "SteelSeriesApexTZoneController.h"
 #include <cstring>
+#include "SteelSeriesApexTZoneController.h"
 
 SteelSeriesApexTZoneController::SteelSeriesApexTZoneController(hid_device* dev_handle, const char* path) : SteelSeriesApex3Controller(dev_handle, path)
 {

@@ -1,17 +1,21 @@
-/*-----------------------------------------*\
-|  SteelSeriesApexTZoneController.h         |
-|                                           |
-|  Edbgon 06.10.21                          |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| SteelSeriesApexTZoneController.h                          |
+|                                                           |
+|   Driver for SteelSeries Apex T Zone                      |
+|                                                           |
+|   Edbgon                                      06 Oct 2021 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
+#pragma once
 
 #include <string>
 #include <hidapi/hidapi.h>
-
 #include "RGBController.h"
 #include "SteelSeriesGeneric.h"
 #include "SteelSeriesApex3Controller.h"
-
-#pragma once
 
 #define STEELSERIES_TZ_LED_COUNT            10
 #define STEELSERIES_TZ_WRITE_PACKET_SIZE    33
