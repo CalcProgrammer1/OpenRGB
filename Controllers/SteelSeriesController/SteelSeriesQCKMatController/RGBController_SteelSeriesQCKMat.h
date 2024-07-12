@@ -1,11 +1,13 @@
-/*-----------------------------------------*\
-|  RGBController_SteelSeriesQCKMat.h        |
-|                                           |
-|  Generic RGB Interface SteelSeriesQCK     |
-|  Class                                    |
-|                                           |
-|  Edbgon 22/05/2021                        |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_SteelSeriesQCKMat.h                         |
+|                                                           |
+|   RGBController for SteelSeries Mouse                     |
+|                                                           |
+|   Edbgon                                      22 May 2021 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #pragma once
 

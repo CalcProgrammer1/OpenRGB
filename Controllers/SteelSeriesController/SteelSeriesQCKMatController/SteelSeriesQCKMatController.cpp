@@ -1,14 +1,16 @@
-/*-----------------------------------------*\
-|  SteelSeriesQCKControllerMat.cpp          |
-|                                           |
-|  Generic RGB Interface SteelSeriesQCK     |
-|  Class                                    |
-|                                           |
-|  Edbgon 22/05/2021                        |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| SteelSeriesQCKControllerMat.cpp                           |
+|                                                           |
+|   Driver for SteelSeries Mouse                            |
+|                                                           |
+|   Edbgon                                      22 May 2021 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
-#include "SteelSeriesQCKMatController.h"
 #include <cstring>
+#include "SteelSeriesQCKMatController.h"
 
 SteelSeriesQCKMatController::SteelSeriesQCKMatController(hid_device* dev_handle, const char* path)
 {
@@ -35,7 +37,7 @@ std::string SteelSeriesQCKMatController::GetSerialString()
 {
     wchar_t serial_string[128];
     int ret = hid_get_serial_number_string(dev, serial_string, 128);
-    
+
     if(ret != 0)
     {
         return("");
@@ -69,7 +71,7 @@ void SteelSeriesQCKMatController::SetColors(std::vector<RGBColor> colors)
     buf[0x09]   = 0x32;
     buf[0x0A]   = 0xC8;
     buf[0x0E]   = 0x01;
-    
+
     buf[0x14]   = 0xFF;
     buf[0x15]   = 0x32;
     buf[0x16]   = 0xC8;
@@ -84,7 +86,7 @@ void SteelSeriesQCKMatController::SetColors(std::vector<RGBColor> colors)
     buf[0x05] = RGBGetRValue(colors[0]);
     buf[0x06] = RGBGetGValue(colors[0]);
     buf[0x07] = RGBGetBValue(colors[0]);
-    
+
     buf[0x11] = RGBGetRValue(colors[1]);
     buf[0x12] = RGBGetGValue(colors[1]);
     buf[0x13] = RGBGetBValue(colors[1]);
