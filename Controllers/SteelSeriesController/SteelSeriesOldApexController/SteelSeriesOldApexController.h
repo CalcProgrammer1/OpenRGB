@@ -1,27 +1,25 @@
-/*-----------------------------------------*\
-|  SteelSeriesOldApexController.h           |
-|                                           |
-|  Definitions and types for SteelSeries    |
-|  older Apex KB lighting controller        |
-|  (Apex, Apex Fnatic, Apex 350)            |
-|                                           |
-|  David Lee (RAMChYLD) 15/11/2020          |
-|                                           |
-|  Based on work for SteelSeries Rival by   |
-|  B Horn    (bahorn)   13/5/2020           |
-|                                           |
-|  Based on findings in ApexCtl by          |
-|  Audrius/tuxmark5, et. al                 |
-|  https://github.com/tuxmark5/ApexCtl      |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| SteelSeriesOldApexController.h                            |
+|                                                           |
+|   Driver for older SteelSeries Apex keyboards             |
+|   (Apex/Apex Fnatic/Apex 350)                             |
+|                                                           |
+|   Based on findings in ApexCtl by Audrius/tuxmark5, et.   |
+|   al, https://github.com/tuxmark5/ApexCtl                 |
+|                                                           |
+|   David Lee (RAMChYLD)                        15 Nov 2020 |
+|   Based on work by B Horn (bahorn)            13 May 2020 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
+#pragma once
 
 #include <string>
 #include <hidapi/hidapi.h>
-
 #include "color32.h"
 #include "SteelSeriesGeneric.h"
-
-#pragma once
 
 /* Mode, we then use these to set actual effect based on speed. */
 enum

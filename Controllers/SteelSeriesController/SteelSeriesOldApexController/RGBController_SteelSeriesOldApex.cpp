@@ -1,20 +1,18 @@
-/*-----------------------------------------*\
-|  RGBController_SteelSeriesOldApex.cpp     |
-|                                           |
-|  Generic RGB Interface older-style        |
-|  SteelSeriesApex Keyboards                |
-|  (APEX/APEX Fnatic/Apex 350)              |
-|  Class                                    |
-|                                           |
-|  David Lee (RAMChYLD) 15/11/2020          |
-|                                           |
-|  Based on work by                         |
-|  B Horn (bahorn) 13/05/2020               |
-|                                           |
-|  Based on findings in ApexCtl by          |
-|  Audrius/tuxmark5, et. al                 |
-|  https://github.com/tuxmark5/ApexCtl      |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_SteelSeriesOldApex.cpp                      |
+|                                                           |
+|   RGBController for older SteelSeries Apex keyboards      |
+|   (Apex/Apex Fnatic/Apex 350)                             |
+|                                                           |
+|   Based on findings in ApexCtl by Audrius/tuxmark5, et.   |
+|   al, https://github.com/tuxmark5/ApexCtl                 |
+|                                                           |
+|   David Lee (RAMChYLD)                        15 Nov 2020 |
+|   Based on work by B Horn (bahorn)            13 May 2020 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #include "RGBController_SteelSeriesOldApex.h"
 

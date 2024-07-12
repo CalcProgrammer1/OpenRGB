@@ -1,38 +1,36 @@
-/*-----------------------------------------*\
-|  SteelSeriesOldApexController.cpp         |
-|                                           |
-|  RGB Lighting Library for SteelSeries     |
-|  older Apex KB lighting controller        |
-|  (Apex, Apex Fnatic, Apex 350)            |
-|                                           |
-|  David Lee (RAMChYLD) 15/11/2020          |
-|                                           |
-|  Based on work for SteelSeries Rival by   |
-|  B Horn    (bahorn)   13/5/2020           |
-|                                           |
-|  Based on findings in ApexCtl by          |
-|  Audrius/tuxmark5, et. al                 |
-|  https://github.com/tuxmark5/ApexCtl      |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| SteelSeriesOldApexController.cpp                          |
+|                                                           |
+|   Driver for older SteelSeries Apex keyboards             |
+|   (Apex/Apex Fnatic/Apex 350)                             |
+|                                                           |
+|   Based on findings in ApexCtl by Audrius/tuxmark5, et.   |
+|   al, https://github.com/tuxmark5/ApexCtl                 |
+|                                                           |
+|   David Lee (RAMChYLD)                        15 Nov 2020 |
+|   Based on work by B Horn (bahorn)            13 May 2020 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
-
-#include "SteelSeriesOldApexController.h"
 #include <cstring>
 #include <stdio.h>
 #include <stdlib.h>
+#include "SteelSeriesOldApexController.h"
 
 static void send_usb_msg(hid_device* dev, char * data_pkt, unsigned int size)
 {
     char* usb_pkt = new char[size + 1];
-    
+
     usb_pkt[0] = 0x00;
     for(unsigned int i = 1; i < size + 1; i++)
     {
         usb_pkt[i] = data_pkt[i-1];
     }
-    
+
     hid_write(dev, (unsigned char *)usb_pkt, size + 1);
-    
+
     delete[] usb_pkt;
 }
 
@@ -67,7 +65,7 @@ std::string SteelSeriesOldApexController::GetSerialString()
 {
     wchar_t serial_string[128];
     int ret = hid_get_serial_number_string(dev, serial_string, 128);
-    
+
     if (ret != 0)
     {
         return("");
