@@ -467,7 +467,7 @@ void RGBController_LogitechG815::DeviceUpdateLEDs()
         /*-----------------------------------------------------*\
         | Zeroing just what is needed                           |
         \*-----------------------------------------------------*/
-        memset(frame_buffer_little_mode + (led_in_little_frame * 4 + 1), 0x00, sizeof(frame_buffer_little_mode) - led_in_little_frame * 4);
+        memset(frame_buffer_little_mode + (led_in_little_frame * 4 - 1), 0x00, sizeof(frame_buffer_little_mode) - led_in_little_frame * 4);
 
         /*-----------------------------------------------------*\
         | Data byte                                             |
