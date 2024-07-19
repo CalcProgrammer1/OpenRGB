@@ -1,16 +1,18 @@
-/*-----------------------------------------*\
-|  SteelSeriesRival3Controller.h            |
-|                                           |
-|  Definitions and types for SteelSeries    |
-|  Rival 3 lighting controller              |
-|                                           |
-|  B Horn (bahorn) 29/8/2021                |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| SteelSeriesRival3Controller.cpp                           |
+|                                                           |
+|   Driver for SteelSeries Rival 3                          |
+|                                                           |
+|   B Horn (bahorn)                             29 Aug 2021 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
-#include "SteelSeriesRival3Controller.h"
 #include <cstring>
 #include <stdio.h>
 #include <stdlib.h>
+#include "SteelSeriesRival3Controller.h"
 
 SteelSeriesRival3Controller::SteelSeriesRival3Controller
     (

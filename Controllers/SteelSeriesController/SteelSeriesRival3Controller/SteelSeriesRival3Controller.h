@@ -1,19 +1,20 @@
-/*-----------------------------------------*\
-|  SteelSeriesRival3Controller.h            |
-|                                           |
-|  Definitions and types for SteelSeries    |
-|  Rival 3 lighting controller              |
-|                                           |
-|  B Horn (bahorn) 29/8/2021                |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| SteelSeriesRival3Controller.h                             |
+|                                                           |
+|   Driver for SteelSeries Rival 3                          |
+|                                                           |
+|   B Horn (bahorn)                             29 Aug 2021 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
+#pragma once
 
 #include <string>
 #include <hidapi/hidapi.h>
-
 #include "SteelSeriesGeneric.h"
 #include "SteelSeriesMouseController.h"
-
-#pragma once
 
 //#define STEELSERIES_RIVAL_3_BRIGHTNESS_MAX          0x64
 
