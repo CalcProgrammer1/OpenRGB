@@ -1,11 +1,13 @@
-/*-----------------------------------------*\
-|  RGBController_SteelSeriesRival.cpp       |
-|                                           |
-|  Generic RGB Interface SteelSeriesRival   |
-|  Class                                    |
-|                                           |
-|  B Horn (bahorn) 13/05/2020               |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_SteelSeriesRival.cpp                        |
+|                                                           |
+|   RGBController for SteelSeries Rival                     |
+|                                                           |
+|   B Horn (bahorn)                             13 May 2020 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #include "RGBController_SteelSeriesRival.h"
 

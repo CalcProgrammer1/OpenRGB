@@ -1,30 +1,32 @@
-/*-----------------------------------------*\
-|  SteelSeriesRivalController.h             |
-|                                           |
-|  Definitions and types for SteelSeries    |
-|  Rival lighting controller                |
-|                                           |
-|  B Horn (bahorn) 13/5/2020                |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| SteelSeriesRivalController.cpp                            |
+|                                                           |
+|   Driver for SteelSeries Rival                            |
+|                                                           |
+|   B Horn (bahorn)                             13 May 2020 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
-#include "SteelSeriesRivalController.h"
+#include <cstdint>
 #include <cstring>
 #include <stdio.h>
 #include <stdlib.h>
-#include <cstdint>
+#include "SteelSeriesRivalController.h"
 
 static void send_usb_msg(hid_device* dev, char * data_pkt, unsigned int size)
 {
     char* usb_pkt = new char[size + 1];
-    
+
     usb_pkt[0] = 0x00;
     for(unsigned int i = 1; i < size + 1; i++)
     {
         usb_pkt[i] = data_pkt[i-1];
     }
-    
+
     hid_write(dev, (unsigned char *)usb_pkt, size + 1);
-    
+
     delete[] usb_pkt;
 }
 
@@ -59,7 +61,7 @@ std::string SteelSeriesRivalController::GetSerialString()
 {
     wchar_t serial_string[128];
     int ret = hid_get_serial_number_string(dev, serial_string, 128);
-    
+
     if (ret != 0)
     {
         return("");

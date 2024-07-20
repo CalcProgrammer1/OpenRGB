@@ -1,18 +1,19 @@
-/*-----------------------------------------*\
-|  SteelSeriesRivalController.h             |
-|                                           |
-|  Definitions and types for SteelSeries    |
-|  Rival lighting controller                |
-|                                           |
-|  B Horn (bahorn) 13/5/2020                |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| SteelSeriesRivalController.h                              |
+|                                                           |
+|   Driver for SteelSeries Rival                            |
+|                                                           |
+|   B Horn (bahorn)                             13 May 2020 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
+#pragma once
 
 #include <string>
 #include <hidapi/hidapi.h>
-
 #include "SteelSeriesGeneric.h"
-
-#pragma once
 
 /* Mode, we then use these to set actual effect based on speed. */
 enum
