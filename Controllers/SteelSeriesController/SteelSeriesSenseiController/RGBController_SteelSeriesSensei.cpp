@@ -1,11 +1,14 @@
-/*------------------------------------------*\
-|  RGBController_SteelSeriesSensei.cpp       |
-|                                            |
-|  Generic RGB Interface SteelSeriesSensei   |
-|  Class                                     |
-|  Based on Rival Controller by              |
-|  B Horn (bahorn) 13/05/2020                |
-\*------------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_SteelSeriesSensei.cpp                       |
+|                                                           |
+|   RGBController for SteelSeries Sensei                    |
+|                                                           |
+|   Based on SteelSeries Rival controller                   |
+|   B Horn (bahorn)                             13 May 2020 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #include "RGBController_SteelSeriesSensei.h"
 

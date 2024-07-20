@@ -1,16 +1,19 @@
-/*-----------------------------------------*\
-|  SteelSeriesSenseiController.h            |
-|                                           |
-|  Definitions and types for SteelSeries    |
-|  Sensei lighting controller               |
-|  Based on Rival controller by             |
-|  B Horn (bahorn) 13/5/2020                |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| SteelSeriesSenseiController.cpp                           |
+|                                                           |
+|   Driver for SteelSeries Sensei                           |
+|                                                           |
+|   Based on SteelSeries Rival controller                   |
+|   B Horn (bahorn)                             13 May 2020 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
-#include "SteelSeriesSenseiController.h"
 #include <cstring>
 #include <stdio.h>
 #include <stdlib.h>
+#include "SteelSeriesSenseiController.h"
 
 static void send_usb_msg(hid_device* dev, char * data_pkt, unsigned int size)
 {
