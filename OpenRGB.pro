@@ -468,6 +468,9 @@ contains(QMAKE_PLATFORM, linux) {
     i2c_smbus/i2c_smbus_linux.h                                                                 \
     AutoStart/AutoStart-Linux.h                                                                 \
 
+    INCLUDEPATH +=                                                                              \
+    dependencies/rpi_ws281x/                                                                    \
+
     LIBS +=                                                                                     \
     -lmbedx509                                                                                  \
     -lmbedtls                                                                                   \
@@ -508,6 +511,12 @@ contains(QMAKE_PLATFORM, linux) {
 
     SOURCES +=                                                                                  \
     dependencies/hueplusplus-1.1.0/src/LinHttpHandler.cpp                                       \
+    dependencies/rpi_ws281x/dma.c                                                               \
+    dependencies/rpi_ws281x/mailbox.c                                                           \
+    dependencies/rpi_ws281x/pcm.c                                                               \
+    dependencies/rpi_ws281x/pwm.c                                                               \
+    dependencies/rpi_ws281x/rpihw.c                                                             \
+    dependencies/rpi_ws281x/ws2811.c                                                            \
     i2c_smbus/i2c_smbus_linux.cpp                                                               \
     scsiapi/scsiapi_linux.c                                                                     \
     serial_port/find_usb_serial_port_linux.cpp                                                  \
