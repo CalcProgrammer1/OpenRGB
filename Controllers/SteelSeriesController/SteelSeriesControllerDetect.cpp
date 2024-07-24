@@ -1,8 +1,16 @@
+/*---------------------------------------------------------*\
+| SteelSeriesControllerDetect.cpp                           |
+|                                                           |
+|   Detector for SteelSeries devices                        |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
 #include <hidapi/hidapi.h>
 #include "Detector.h"
 #include "RGBController.h"
 #include "SteelSeriesGeneric.h"
-
 #include "SteelSeriesAerox5Controller.h"
 #include "SteelSeriesAerox9Controller.h"
 #include "SteelSeriesArctis5Controller.h"
@@ -16,7 +24,6 @@
 #include "SteelSeriesRival3Controller.h"
 #include "SteelSeriesSenseiController.h"
 #include "SteelSeriesSiberiaController.h"
-
 #include "RGBController_SteelSeriesArctis5.h"
 #include "RGBController_SteelSeriesApex.h"
 #include "RGBController_SteelSeriesApex3.h"
@@ -31,6 +38,7 @@
 | Vendor ID                                             |
 \*-----------------------------------------------------*/
 #define STEELSERIES_VID                             0x1038
+
 /*-----------------------------------------------------*\
 | Mouse product IDs                                     |
 \*-----------------------------------------------------*/
@@ -64,11 +72,13 @@
 #define STEELSERIES_SENSEI_TEN_PID                  0x1832
 #define STEELSERIES_SENSEI_TEN_CSGO_NEON_RIDER_PID  0x1834
 #define STEELSERIES_SENSEI_310_PID                  0x1722
+
 /*-----------------------------------------------------*\
 | Headset product IDs                                   |
 \*-----------------------------------------------------*/
 #define STEELSERIES_SIBERIA_350_PID                 0x1229
 #define STEELSERIES_ARCTIS_5_PID                    0x12AA
+
 /*--------------------------------------------------------------*\
 | Mousemat product IDs                                           |
 \*--------------------------------------------------------------*/
@@ -79,6 +89,7 @@
 #define STEELSERIES_QCK_PRISM_CLOTH_XL_CSGO_NEO_NOIR_PID    0x151C
 #define STEELSERIES_QCK_PRISM_CLOTH_3XL_PID                 0x1516
 #define STEELSERIES_QCK_PRISM_CLOTH_4XL_PID                 0x1518
+
 /*-----------------------------------------------------*\
 | Keyboard product IDs                                  |
 \*-----------------------------------------------------*/

@@ -1,16 +1,18 @@
-/*-----------------------------------------*\
-|  SteelSeriesGeneric.h                     |
-|                                           |
-|  Definitions and types for the SteelSeries|
-|  Devices.                                 |
-|                                           |
-|  B Horn (bahorn) 17/5/2020                |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| SteelSeriesGeneric.h                                      |
+|                                                           |
+|   Generic file for SteelSeries devices                    |
+|                                                           |
+|   B Horn (bahorn)                             17 May 2020 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
+#pragma once
 
 #include <string>
 #include <hidapi/hidapi.h>
-
-#pragma once
 
 /* Allows us to handle variation in the protocol.
  * Defined in a single enum so we can keep the device_list struct the same

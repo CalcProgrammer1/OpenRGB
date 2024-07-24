@@ -1,19 +1,20 @@
-/*-----------------------------------------*\
-|  SteelSeriesApexBaseController.h          |
-|                                           |
-|  Base controller for SteelSeries Apex     |
-|  Keyboard lighting controllers            |
-|                                           |
-|  Florian Heilmann (FHeilmann) 19/10/2020  |
-\*-----------------------------------------*/
-
-#include "RGBController.h"
-#include "SteelSeriesGeneric.h"
-
-#include <string>
-#include <cstring>
+/*---------------------------------------------------------*\
+| SteelSeriesApexBaseController.h                           |
+|                                                           |
+|   Driver base for SteelSeries Apex                        |
+|                                                           |
+|   Florian Heilmann (FHeilmann)                19 Oct 2020 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #pragma once
+
+#include <cstring>
+#include <string>
+#include "RGBController.h"
+#include "SteelSeriesGeneric.h"
 
 #define STEELSERIES_PACKET_IN_SIZE 64
 #define STEELSERIES_PACKET_OUT_SIZE STEELSERIES_PACKET_IN_SIZE + 1
