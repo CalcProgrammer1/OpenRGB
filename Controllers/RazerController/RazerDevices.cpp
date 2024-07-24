@@ -4588,6 +4588,124 @@ static const razer_device cobra_device =
 };
 
 /*-------------------------------------------------------------*\
+|  Razer Cobra Pro Wired 1532:00AF                              |
+|                                                               |
+|  Zone "Logo"                                                  |
+|       Single                                                  |
+|       1 LED                                                   |
+|                                                               |
+|  Zone "Scroll Wheel"                                          |
+|       Single                                                  |
+|       1 LED                                                   |
+|                                                               |
+|  Zone "Underglow"                                             |
+|       Linear                                                  |
+|       11 LED                                                  |
+\*-------------------------------------------------------------*/
+static const razer_zone cobra_pro_wired_logo_zone =
+{
+    "Logo",
+    ZONE_TYPE_SINGLE,
+    1,
+    1
+};
+
+static const razer_zone cobra_pro_wired_scroll_wheel_zone =
+{
+    "Scroll Wheel",
+    ZONE_TYPE_SINGLE,
+    1,
+    1
+};
+
+static const razer_zone cobra_pro_wired_underglow_zone =
+{
+    "Underglow",
+    ZONE_TYPE_LINEAR,
+    1,
+    9
+};
+
+static const razer_device cobra_pro_wired_device =
+{
+    "Razer Cobra Pro (Wired)",
+    RAZER_COBRA_PRO_WIRED_PID,
+    DEVICE_TYPE_MOUSE,
+    RAZER_MATRIX_TYPE_EXTENDED,
+    0x1F,
+    1,
+    11,
+    {
+        &cobra_pro_wired_logo_zone,
+        &cobra_pro_wired_scroll_wheel_zone,
+        &cobra_pro_wired_underglow_zone,
+        NULL,
+        NULL,
+        NULL
+    },
+    NULL
+};
+
+/*-------------------------------------------------------------*\
+|  Razer Cobra Pro Wireless 1532:00B0                           |
+|                                                               |
+|  Zone "Logo"                                                  |
+|       Single                                                  |
+|       1 LED                                                   |
+|                                                               |
+|  Zone "Scroll Wheel"                                          |
+|       Single                                                  |
+|       1 LED                                                   |
+|                                                               |
+|  Zone "Underglow"                                             |
+|       Linear                                                  |
+|       11 LED                                                  |
+\*-------------------------------------------------------------*/
+static const razer_zone cobra_pro_wireless_logo_zone =
+{
+    "Logo",
+    ZONE_TYPE_SINGLE,
+    1,
+    1
+};
+
+static const razer_zone cobra_pro_wireless_scroll_wheel_zone =
+{
+    "Scroll Wheel",
+    ZONE_TYPE_SINGLE,
+    1,
+    1
+};
+
+static const razer_zone cobra_pro_wireless_underglow_zone =
+{
+    "Underglow",
+    ZONE_TYPE_LINEAR,
+    1,
+    9
+};
+
+static const razer_device cobra_pro_wireless_device =
+{
+    "Razer Cobra Pro (Wireless)",
+    RAZER_COBRA_PRO_WIRELESS_PID,
+    DEVICE_TYPE_MOUSE,
+    RAZER_MATRIX_TYPE_EXTENDED,
+    0x1F,
+    1,
+    11,
+    {
+        &cobra_pro_wireless_logo_zone,
+        &cobra_pro_wireless_scroll_wheel_zone,
+        &cobra_pro_wireless_underglow_zone,
+        NULL,
+        NULL,
+        NULL
+    },
+    NULL
+};
+
+/*-------------------------------------------------------------*\
 |  Razer DeathAdder Chroma                                      |
 |                                                               |
 |  Zone "Logo"                                                  |
@@ -8164,6 +8282,8 @@ const razer_device* razer_device_list[] =
     &basilisk_v3_pro_bluetooth_device,
     &basilisk_v3_x_hyperspeed_device,
     &cobra_device,
+    &cobra_pro_wired_device,
+    &cobra_pro_wireless_device,
     &deathadder_chroma_device,
     &deathadder_elite_device,
     &deathadder_essential_device,

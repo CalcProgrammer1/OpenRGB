@@ -254,6 +254,8 @@ REGISTER_HID_DETECTOR_IPU("Razer Basilisk V3 Pro (Wireless)",                Det
 // REGISTER_HID_DETECTOR_PU ("Razer Basilisk V3 Pro (Bluetooth)",               DetectRazerControllers,        RAZER_VID,  RAZER_BASILISK_V3_PRO_BLUETOOTH_PID,                    0x01,   0x02);
 REGISTER_HID_DETECTOR_IPU("Razer Basilisk V3 X HyperSpeed",                  DetectRazerControllers,        RAZER_VID,  RAZER_BASILISK_V3_X_HYPERSPEED_PID,             0x00,   0x01,   0x02);
 REGISTER_HID_DETECTOR_IPU("Razer Cobra",                                     DetectRazerControllers,        RAZER_VID,  RAZER_COBRA_PID,                                0x00,   0x01,   0x02);
+REGISTER_HID_DETECTOR_IPU("Razer Cobra Pro (Wired)",                         DetectRazerControllers,        RAZER_VID,  RAZER_COBRA_PRO_WIRED_PID,                      0x00,   0x01,   0x02);
+REGISTER_HID_DETECTOR_IPU("Razer Cobra Pro (Wireless)",                      DetectRazerControllers,        RAZER_VID,  RAZER_COBRA_PRO_WIRELESS_PID,                   0x00,   0x01,   0x02);
 REGISTER_HID_DETECTOR_IPU("Razer Deathadder Chroma",                         DetectRazerControllers,        RAZER_VID,  RAZER_DEATHADDER_CHROMA_PID,                    0x00,   0x01,   0x02);
 REGISTER_HID_DETECTOR_IPU("Razer Deathadder Elite",                          DetectRazerControllers,        RAZER_VID,  RAZER_DEATHADDER_ELITE_PID,                     0x00,   0x01,   0x02);
 REGISTER_HID_DETECTOR_IPU("Razer Deathadder Essential",                      DetectRazerControllers,        RAZER_VID,  RAZER_DEATHADDER_ESSENTIAL_PID,                 0x00,   0x01,   0x02);

@@ -149,6 +149,8 @@
 #define RAZER_BASILISK_V3_PRO_BLUETOOTH_PID             0x00AC
 #define RAZER_BASILISK_V3_X_HYPERSPEED_PID              0x00B9
 #define RAZER_COBRA_PID                                 0x00A3
+#define RAZER_COBRA_PRO_WIRED_PID                       0x00AF
+#define RAZER_COBRA_PRO_WIRELESS_PID                    0x00B0
 #define RAZER_DEATHADDER_1800_PID                       0x0038
 #define RAZER_DEATHADDER_2000_PID                       0x004F
 #define RAZER_DEATHADDER_2013_PID                       0x0037

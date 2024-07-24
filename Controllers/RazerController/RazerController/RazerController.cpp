@@ -92,6 +92,8 @@ RazerController::RazerController(hid_device* dev_handle, hid_device* dev_argb_ha
         case RAZER_BLADE_15_2022_PID:
         case RAZER_CHARGING_PAD_CHROMA_PID:
         case RAZER_CHROMA_HDK_PID:
+        case RAZER_COBRA_PRO_WIRED_PID:
+        case RAZER_COBRA_PRO_WIRELESS_PID:
         case RAZER_CORE_X_PID:
         case RAZER_DEATHADDER_ELITE_PID:
         case RAZER_DEATHADDER_V2_PID:
@@ -449,6 +451,8 @@ bool RazerController::SupportsWave()
         case RAZER_BASILISK_V3_PRO_WIRED_PID:
         case RAZER_BASILISK_V3_PRO_WIRELESS_PID:
         case RAZER_BASILISK_V3_PRO_BLUETOOTH_PID:
+        case RAZER_COBRA_PRO_WIRED_PID:
+        case RAZER_COBRA_PRO_WIRELESS_PID:
         case RAZER_DIAMONDBACK_CHROMA_PID:
         case RAZER_MAMBA_2015_WIRED_PID:
         case RAZER_MAMBA_2015_WIRELESS_PID:
