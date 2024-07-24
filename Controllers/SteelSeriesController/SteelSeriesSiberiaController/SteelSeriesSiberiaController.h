@@ -1,16 +1,18 @@
-/*-----------------------------------------*\
-|  SteelSeriesSiberiaController.h           |
-|                                           |
-|  Definitions and types for SteelSeries    |
-|  Siberia lighting controller              |
-|                                           |
-|  E Karlsson (pilophae) 18/6/2020          |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| SteelSeriesSiberiaController.h                            |
+|                                                           |
+|   Driver for SteelSeries Siberia                          |
+|                                                           |
+|   E Karlsson (pilophae)                       18 Jun 2020 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
+#pragma once
 
 #include <string>
 #include <hidapi/hidapi.h>
-
-#pragma once
 
 class SteelSeriesSiberiaController
 {

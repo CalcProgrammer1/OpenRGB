@@ -1,11 +1,13 @@
-/*-----------------------------------------*\
-|  RGBController_SteelSeriesSiberia.cpp     |
-|                                           |
-|  Generic RGB Interface SteelSeriesSiberia |
-|  Class                                    |
-|                                           |
-|  E Karlsson (pilophae) 18/06/2020         |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_SteelSeriesSiberia.cpp                      |
+|                                                           |
+|   RGBController for SteelSeries Siberia                   |
+|                                                           |
+|   E Karlsson (pilophae)                       18 Jun 2020 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #include "RGBController_SteelSeriesSiberia.h"
 

@@ -1,21 +1,22 @@
-/*-----------------------------------------*\
-|  SteelSeriesSiberiaController.cpp         |
-|                                           |
-|  Definitions and types for SteelSeries    |
-|  Siberia lighting controller              |
-|                                           |
-|  E Karlsson (pilophae) 18/6/2020          |
-|  
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| SteelSeriesSiberiaController.cpp                          |
+|                                                           |
+|   Driver for SteelSeries Siberia                          |
+|                                                           |
+|   E Karlsson (pilophae)                       18 Jun 2020 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
-#include "SteelSeriesSiberiaController.h"
 #include <cstring>
+#include "SteelSeriesSiberiaController.h"
 
 static void send_usb_msg(hid_device* dev, char * data_pkt, unsigned int size)
 {
     unsigned char usb_pkt[16];
     memset(usb_pkt, 0x00, sizeof(usb_pkt));
-    
+
     // Report number
     usb_pkt[0] = 0x01;
     // Magic
@@ -29,7 +30,7 @@ static void send_usb_msg(hid_device* dev, char * data_pkt, unsigned int size)
     {
         usb_pkt[4 + i] = data_pkt[1 + i];
     }
-    
+
     hid_write(dev, usb_pkt, 16);
 }
 
@@ -62,7 +63,7 @@ std::string SteelSeriesSiberiaController::GetSerialString()
 {
     wchar_t serial_string[128];
     int ret = hid_get_serial_number_string(dev, serial_string, 128);
-    
+
     if (ret != 0)
     {
         return("");
@@ -83,7 +84,7 @@ void SteelSeriesSiberiaController::SetColor
 {
     char usb_buf[4];
     memset(usb_buf, 0x00, sizeof(usb_buf));
-    
+
     // Command 1
     usb_buf[0] = 0x95;
     usb_buf[1] = 0x80;
