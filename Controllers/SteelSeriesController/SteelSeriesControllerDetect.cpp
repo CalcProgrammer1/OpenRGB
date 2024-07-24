@@ -77,7 +77,8 @@
 | Headset product IDs                                   |
 \*-----------------------------------------------------*/
 #define STEELSERIES_SIBERIA_350_PID                 0x1229
-#define STEELSERIES_ARCTIS_5_PID                    0x12AA
+#define STEELSERIES_ARCTIS_5_PID                    0x1250
+#define STEELSERIES_ARCTIS_5_V2_PID                 0x12AA
 
 /*--------------------------------------------------------------*\
 | Mousemat product IDs                                           |
@@ -356,11 +357,14 @@ REGISTER_HID_DETECTOR_I("SteelSeries Rival 3",                              Dete
 REGISTER_HID_DETECTOR_I("SteelSeries Sensei TEN",                           DetectSteelSeriesSensei,    STEELSERIES_VID, STEELSERIES_SENSEI_TEN_PID,                    0  );
 REGISTER_HID_DETECTOR_I("SteelSeries Sensei TEN CS:GO Neon Rider Edition",  DetectSteelSeriesSensei,    STEELSERIES_VID, STEELSERIES_SENSEI_TEN_CSGO_NEON_RIDER_PID,    0  );
 REGISTER_HID_DETECTOR_I("SteelSeries Sensei 310",                           DetectSteelSeriesSensei,    STEELSERIES_VID, STEELSERIES_SENSEI_310_PID,                    0  );
+
 /*-------------------------------------------------------------------------------------------------------------------------------------------------------------------------*\
 | Headsets                                                                                                                                                                  |
 \*-------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
-REGISTER_HID_DETECTOR_I("SteelSeries Siberia 350",                          DetectSteelSeriesHeadset,   STEELSERIES_VID, STEELSERIES_SIBERIA_350_PID,                   3  );
-REGISTER_HID_DETECTOR_I("SteelSeries Arctis 5",                             DetectSteelSeriesArctis5,   STEELSERIES_VID, STEELSERIES_ARCTIS_5_PID,                      5  );
+REGISTER_HID_DETECTOR_I("SteelSeries Siberia 350",                          DetectSteelSeriesHeadset,   STEELSERIES_VID, STEELSERIES_SIBERIA_350_PID,               3  );
+REGISTER_HID_DETECTOR_I("SteelSeries Arctis 5",                             DetectSteelSeriesArctis5,   STEELSERIES_VID, STEELSERIES_ARCTIS_5_PID,                  5  );
+REGISTER_HID_DETECTOR_I("SteelSeries Arctis 5",                             DetectSteelSeriesArctis5,   STEELSERIES_VID, STEELSERIES_ARCTIS_5_V2_PID,               5  );
+
 /*-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*\
 | Mousemats                                                                                                                                                                                 |
 \*-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
@@ -371,6 +375,7 @@ REGISTER_HID_DETECTOR_I("SteelSeries QCK Prism Cloth XL CS:GO Neon Rider Ed.",  
 REGISTER_HID_DETECTOR_I("SteelSeries QCK Prism Cloth XL CS:GO Neo Noir Ed.",        DetectSteelSeriesMousemat,  STEELSERIES_VID, STEELSERIES_QCK_PRISM_CLOTH_XL_CSGO_NEO_NOIR_PID,      0  );
 REGISTER_HID_DETECTOR_I("SteelSeries QCK Prism Cloth 3XL",                          DetectSteelSeriesMousemat,  STEELSERIES_VID, STEELSERIES_QCK_PRISM_CLOTH_3XL_PID,                   0  );
 REGISTER_HID_DETECTOR_I("SteelSeries QCK Prism Cloth 4XL",                          DetectSteelSeriesMousemat,  STEELSERIES_VID, STEELSERIES_QCK_PRISM_CLOTH_4XL_PID,                   0  );
+
 /*-------------------------------------------------------------------------------------------------------------------------------------------------------------------------*\
 | Keyboards                                                                                                                                                                 |
 \*-------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
