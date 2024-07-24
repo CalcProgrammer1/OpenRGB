@@ -725,6 +725,24 @@ void DeviceView::paintEvent(QPaintEvent* /* event */)
     }
 
     /*-----------------------------------------------------*\
+    | If segments have resized, reinitialize local data     |
+    \*-----------------------------------------------------*/
+    unsigned int segments = 0;
+
+    for(std::size_t zone_idx = 0; zone_idx < controller->zones.size(); zone_idx++)
+    {
+        for(std::size_t segment_idx = 0; segment_idx < controller->zones[zone_idx].segments.size(); segment_idx++)
+        {
+            segments++;
+        }
+    }
+
+    if(segments != segment_pos.size())
+    {
+        InitDeviceView();
+    }
+
+    /*-----------------------------------------------------*\
     | LED rectangles                                        |
     \*-----------------------------------------------------*/
     for(unsigned int led_idx = 0; led_idx < controller->leds.size(); led_idx++)

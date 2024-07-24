@@ -1616,6 +1616,11 @@ void Ui::OpenRGBDevicePage::on_EditZoneButton_clicked()
                     UpdateModeUi();
 
                     /*-----------------------------------------------------*\
+                    | Update interface to update Device View                |
+                    \*-----------------------------------------------------*/
+                    UpdateInterface();
+
+                    /*-----------------------------------------------------*\
                     | Update LED box                                        |
                     \*-----------------------------------------------------*/
                     on_ZoneBox_currentIndexChanged(selected_zone);
