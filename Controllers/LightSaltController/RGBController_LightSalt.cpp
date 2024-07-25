@@ -396,7 +396,7 @@ void RGBController_LightSalt::DeviceUpdateColors(bool save)
     int rows    = table.led.rows;
     int columns = table.led.columns;
 
-    RGBColor colors_data[sets][rows][columns];
+    RGBColor colors_data[LIGHTSALT_SETS_MAX][LIGHTSALT_ROWS_MAX][LIGHTSALT_COLUMNS_MAX];
     memset(colors_data, 0x00, sizeof(colors_data));
 
     for(int led_idx = 0; led_idx < table.led.count; led_idx++)
