@@ -164,8 +164,8 @@ std::vector<RGBController*> ProfileManager::LoadProfileToList
     /*---------------------------------------------------------*\
     | Read and verify file header                               |
     \*---------------------------------------------------------*/
-    char            profile_string[16];
-    unsigned int    profile_version;
+    char            profile_string[16]  = "";
+    unsigned int    profile_version     = 0;
 
     controller_file.read(profile_string, 16);
     controller_file.read((char *)&profile_version, sizeof(unsigned int));
