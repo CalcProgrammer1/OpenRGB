@@ -556,31 +556,38 @@ void NetworkClient::ProcessReply_ControllerCount(unsigned int data_size, char * 
     }
 }
 
-void NetworkClient::ProcessReply_ControllerData(unsigned int /*data_size*/, char * data, unsigned int dev_idx)
+void NetworkClient::ProcessReply_ControllerData(unsigned int data_size, char * data, unsigned int dev_idx)
 {
-    RGBController_Network * new_controller   = new RGBController_Network(this, dev_idx);
-
-    new_controller->ReadDeviceDescription((unsigned char *)data, GetProtocolVersion());
-
-    ControllerListMutex.lock();
-
-    if(dev_idx >= server_controllers.size())
+    /*---------------------------------------------------------*\
+    | Verify the controller description size (first 4 bytes of  |
+    | data) matches the packet size in the header               |
+    \*---------------------------------------------------------*/
+    if(data_size == *((unsigned int*)data))
     {
-        server_controllers.push_back(new_controller);
-    }
-    else
-    {
-        server_controllers[dev_idx]->active_mode = new_controller->active_mode;
-        for(unsigned int i = 0; i < server_controllers[dev_idx]->zones.size(); i++)
+        RGBController_Network * new_controller   = new RGBController_Network(this, dev_idx);
+
+        new_controller->ReadDeviceDescription((unsigned char *)data, GetProtocolVersion());
+
+        ControllerListMutex.lock();
+
+        if(dev_idx >= server_controllers.size())
         {
-            server_controllers[dev_idx]->zones[i].leds_count = new_controller->zones[i].leds_count;
+            server_controllers.push_back(new_controller);
         }
-        delete new_controller;
+        else
+        {
+            server_controllers[dev_idx]->active_mode = new_controller->active_mode;
+            for(unsigned int i = 0; i < server_controllers[dev_idx]->zones.size(); i++)
+            {
+                server_controllers[dev_idx]->zones[i].leds_count = new_controller->zones[i].leds_count;
+            }
+            delete new_controller;
+        }
+
+        ControllerListMutex.unlock();
+
+        controller_data_received = true;
     }
-
-    ControllerListMutex.unlock();
-
-    controller_data_received = true;
 }
 
 void NetworkClient::ProcessReply_ProtocolVersion(unsigned int data_size, char * data)
