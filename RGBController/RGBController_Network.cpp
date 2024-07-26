@@ -25,6 +25,26 @@ void RGBController_Network::SetupZones()
     //Don't send anything, this function should only process on host
 }
 
+void RGBController_Network::ClearSegments(int zone)
+{
+    client->SendRequest_RGBController_ClearSegments(dev_idx, zone);
+
+    client->SendRequest_ControllerData(dev_idx);
+    client->WaitOnControllerData();
+}
+
+void RGBController_Network::AddSegment(int zone, segment new_segment)
+{
+    unsigned char * data = GetSegmentDescription(zone, (zones[zone].segments.size() - 1));
+    unsigned int size;
+
+    memcpy(&size, &data[0], sizeof(unsigned int));
+
+    client->SendRequest_RGBController_AddSegment(dev_idx, data, size);
+
+    delete[] data;
+}
+
 void RGBController_Network::ResizeZone(int zone, int new_size)
 {
     client->SendRequest_RGBController_ResizeZone(dev_idx, zone, new_size);
