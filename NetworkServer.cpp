@@ -682,10 +682,17 @@ void NetworkServer::ListenThreadFunction(NetworkClientInfo * client_info)
                     break;
                 }
 
-                if(header.pkt_dev_idx < controllers.size())
+                /*---------------------------------------------------------*\
+                | Verify the color description size (first 4 bytes of data) |
+                | matches the packet size in the header                     |
+                \*---------------------------------------------------------*/
+                if(header.pkt_size == *((unsigned int*)data))
                 {
-                    controllers[header.pkt_dev_idx]->SetColorDescription((unsigned char *)data);
-                    controllers[header.pkt_dev_idx]->UpdateLEDs();
+                    if(header.pkt_dev_idx < controllers.size())
+                    {
+                        controllers[header.pkt_dev_idx]->SetColorDescription((unsigned char *)data);
+                        controllers[header.pkt_dev_idx]->UpdateLEDs();
+                    }
                 }
                 break;
 
@@ -695,14 +702,21 @@ void NetworkServer::ListenThreadFunction(NetworkClientInfo * client_info)
                     break;
                 }
 
-                if(header.pkt_dev_idx < controllers.size())
+                /*---------------------------------------------------------*\
+                | Verify the color description size (first 4 bytes of data) |
+                | matches the packet size in the header                     |
+                \*---------------------------------------------------------*/
+                if(header.pkt_size == *((unsigned int*)data))
                 {
-                    int zone;
+                    if(header.pkt_dev_idx < controllers.size())
+                    {
+                        int zone;
 
-                    memcpy(&zone, &data[sizeof(unsigned int)], sizeof(int));
+                        memcpy(&zone, &data[sizeof(unsigned int)], sizeof(int));
 
-                    controllers[header.pkt_dev_idx]->SetZoneColorDescription((unsigned char *)data);
-                    controllers[header.pkt_dev_idx]->UpdateZoneLEDs(zone);
+                        controllers[header.pkt_dev_idx]->SetZoneColorDescription((unsigned char *)data);
+                        controllers[header.pkt_dev_idx]->UpdateZoneLEDs(zone);
+                    }
                 }
                 break;
 
@@ -712,14 +726,21 @@ void NetworkServer::ListenThreadFunction(NetworkClientInfo * client_info)
                     break;
                 }
 
-                if(header.pkt_dev_idx < controllers.size())
+                /*---------------------------------------------------------*\
+                | Verify the single LED color description size (8 bytes)    |
+                | matches the packet size in the header                     |
+                \*---------------------------------------------------------*/
+                if(header.pkt_size == (sizeof(int) + sizeof(RGBColor)))
                 {
-                    int led;
+                    if(header.pkt_dev_idx < controllers.size())
+                    {
+                        int led;
 
-                    memcpy(&led, data, sizeof(int));
+                        memcpy(&led, data, sizeof(int));
 
-                    controllers[header.pkt_dev_idx]->SetSingleLEDColorDescription((unsigned char *)data);
-                    controllers[header.pkt_dev_idx]->UpdateSingleLED(led);
+                        controllers[header.pkt_dev_idx]->SetSingleLEDColorDescription((unsigned char *)data);
+                        controllers[header.pkt_dev_idx]->UpdateSingleLED(led);
+                    }
                 }
                 break;
 
@@ -736,10 +757,17 @@ void NetworkServer::ListenThreadFunction(NetworkClientInfo * client_info)
                     break;
                 }
 
-                if(header.pkt_dev_idx < controllers.size())
+                /*---------------------------------------------------------*\
+                | Verify the mode description size (first 4 bytes of data)  |
+                | matches the packet size in the header                     |
+                \*---------------------------------------------------------*/
+                if(header.pkt_size == *((unsigned int*)data))
                 {
-                    controllers[header.pkt_dev_idx]->SetModeDescription((unsigned char *)data, client_info->client_protocol_version);
-                    controllers[header.pkt_dev_idx]->UpdateMode();
+                    if(header.pkt_dev_idx < controllers.size())
+                    {
+                        controllers[header.pkt_dev_idx]->SetModeDescription((unsigned char *)data, client_info->client_protocol_version);
+                        controllers[header.pkt_dev_idx]->UpdateMode();
+                    }
                 }
                 break;
 
@@ -749,10 +777,17 @@ void NetworkServer::ListenThreadFunction(NetworkClientInfo * client_info)
                     break;
                 }
 
-                if(header.pkt_dev_idx < controllers.size())
+                /*---------------------------------------------------------*\
+                | Verify the mode description size (first 4 bytes of data)  |
+                | matches the packet size in the header                     |
+                \*---------------------------------------------------------*/
+                if(header.pkt_size == *((unsigned int*)data))
                 {
-                    controllers[header.pkt_dev_idx]->SetModeDescription((unsigned char *)data, client_info->client_protocol_version);
-                    controllers[header.pkt_dev_idx]->SaveMode();
+                    if(header.pkt_dev_idx < controllers.size())
+                    {
+                        controllers[header.pkt_dev_idx]->SetModeDescription((unsigned char *)data, client_info->client_protocol_version);
+                        controllers[header.pkt_dev_idx]->SaveMode();
+                    }
                 }
                 break;
 
