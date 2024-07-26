@@ -40,6 +40,8 @@ JGINYUEInternalUSBController::JGINYUEInternalUSBController(hid_device* dev_handl
     location      = path;
     device_name   = "JGINYUE " + dmi.getMainboard();
 
+    memset(&device_config, 0x00, sizeof(device_config));
+
     Init_device(device_config);
 }
 
