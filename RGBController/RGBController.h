@@ -276,6 +276,9 @@ public:
 
     virtual void            DeviceCallThreadFunction()                                                          = 0;
 
+    virtual void            ClearSegments(int zone)                                                             = 0;
+    virtual void            AddSegment(int zone, segment new_segment)                                           = 0;
+
     /*---------------------------------------------------------*\
     | Functions to be implemented in device implementation      |
     \*---------------------------------------------------------*/
@@ -357,6 +360,9 @@ public:
     unsigned char *         GetSingleLEDColorDescription(int led);
     void                    SetSingleLEDColorDescription(unsigned char* data_buf);
 
+    unsigned char *         GetSegmentDescription(int zone, segment new_segment);
+    void                    SetSegmentDescription(unsigned char* data_buf);
+
     void                    RegisterUpdateCallback(RGBControllerCallback new_callback, void * new_callback_arg);
     void                    UnregisterUpdateCallback(void * callback_arg);
     void                    ClearCallbacks();
@@ -370,6 +376,9 @@ public:
     void                    SaveMode();
 
     void                    DeviceCallThreadFunction();
+
+    void                    ClearSegments(int zone);
+    void                    AddSegment(int zone, segment new_segment);
 
     /*---------------------------------------------------------*\
     | Functions to be implemented in device implementation      |

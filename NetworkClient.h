@@ -48,7 +48,7 @@ public:
     void            ListenThreadFunction();
 
     void            WaitOnControllerData();
-    
+
     void        ProcessReply_ControllerCount(unsigned int data_size, char * data);
     void        ProcessReply_ControllerData(unsigned int data_size, char * data, unsigned int dev_idx);
     void        ProcessReply_ProtocolVersion(unsigned int data_size, char * data);
@@ -61,6 +61,8 @@ public:
     void        SendRequest_ControllerData(unsigned int dev_idx);
     void        SendRequest_ProtocolVersion();
 
+    void        SendRequest_RGBController_ClearSegments(unsigned int dev_idx, int zone);
+    void        SendRequest_RGBController_AddSegment(unsigned int dev_idx, unsigned char * data, unsigned int size);
     void        SendRequest_RGBController_ResizeZone(unsigned int dev_idx, int zone, int new_size);
 
     void        SendRequest_RGBController_UpdateLEDs(unsigned int dev_idx, unsigned char * data, unsigned int size);

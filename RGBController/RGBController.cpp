@@ -1723,6 +1723,148 @@ void RGBController::SetSingleLEDColorDescription(unsigned char* data_buf)
     memcpy(&colors[led_idx], &data_buf[sizeof(led_idx)], sizeof(RGBColor));
 }
 
+unsigned char * RGBController::GetSegmentDescription(int zone, segment new_segment)
+{
+    unsigned int data_ptr = 0;
+    unsigned int data_size = 0;
+
+    /*---------------------------------------------------------*\
+    | Length of data size                                       |
+    \*---------------------------------------------------------*/
+    data_size += sizeof(data_size);
+
+    /*---------------------------------------------------------*\
+    | Length of zone index                                      |
+    \*---------------------------------------------------------*/
+    data_size += sizeof(zone);
+
+    /*---------------------------------------------------------*\
+    | Length of segment name string                             |
+    \*---------------------------------------------------------*/
+    data_size += sizeof(unsigned short);
+
+    /*---------------------------------------------------------*\
+    | Segment name string data                                  |
+    \*---------------------------------------------------------*/
+    data_size += strlen(new_segment.name.c_str()) + 1;
+
+    data_size += sizeof(new_segment.type);
+    data_size += sizeof(new_segment.start_idx);
+    data_size += sizeof(new_segment.leds_count);
+
+    /*---------------------------------------------------------*\
+    | Create data buffer                                        |
+    \*---------------------------------------------------------*/
+    unsigned char *data_buf = new unsigned char[data_size];
+
+    /*---------------------------------------------------------*\
+    | Copy in data size                                         |
+    \*---------------------------------------------------------*/
+    memcpy(&data_buf[data_ptr], &data_size, sizeof(data_size));
+    data_ptr += sizeof(data_size);
+
+    /*---------------------------------------------------------*\
+    | Copy in zone index                                        |
+    \*---------------------------------------------------------*/
+    memcpy(&data_buf[data_ptr], &zone, sizeof(zone));
+    data_ptr += sizeof(zone);
+
+    /*---------------------------------------------------------*\
+    | Length of segment name string                             |
+    \*---------------------------------------------------------*/
+    unsigned short segment_name_length = strlen(new_segment.name.c_str()) + 1;
+
+    memcpy(&data_buf[data_ptr], &segment_name_length, sizeof(segment_name_length));
+    data_ptr += sizeof(segment_name_length);
+
+    /*---------------------------------------------------------*\
+    | Segment name string data                                  |
+    \*---------------------------------------------------------*/
+    strcpy((char *)&data_buf[data_ptr], new_segment.name.c_str());
+    data_ptr += segment_name_length;
+
+    /*---------------------------------------------------------*\
+    | Segment type data                                         |
+    \*---------------------------------------------------------*/
+    memcpy(&data_buf[data_ptr], &new_segment.type, sizeof(new_segment.type));
+    data_ptr += sizeof(new_segment.type);
+
+    /*---------------------------------------------------------*\
+    | Segment start index data                                  |
+    \*---------------------------------------------------------*/
+    memcpy(&data_buf[data_ptr], &new_segment.start_idx, sizeof(new_segment.start_idx));
+    data_ptr += sizeof(new_segment.start_idx);
+
+    /*---------------------------------------------------------*\
+    | Segment LED count data                                    |
+    \*---------------------------------------------------------*/
+    memcpy(&data_buf[data_ptr], &new_segment.leds_count, sizeof(new_segment.leds_count));
+    data_ptr += sizeof(new_segment.leds_count);
+
+    return(data_buf);
+}
+
+void RGBController::SetSegmentDescription(unsigned char* data_buf)
+{
+    unsigned int data_ptr = sizeof(unsigned int);
+
+    /*---------------------------------------------------------*\
+    | Copy in zone index                                        |
+    \*---------------------------------------------------------*/
+    unsigned int zone_idx;
+    memcpy(&zone_idx, &data_buf[data_ptr], sizeof(zone_idx));
+    data_ptr += sizeof(zone_idx);
+
+    /*---------------------------------------------------------*\
+    | Length of segment name string                             |
+    \*---------------------------------------------------------*/
+    unsigned short segment_name_length;
+    memcpy(&segment_name_length, &data_buf[data_ptr], sizeof(segment_name_length));
+    data_ptr += sizeof(segment_name_length);
+
+    /*---------------------------------------------------------*\
+    | Segment name string data                                  |
+    \*---------------------------------------------------------*/
+    char * segment_name = new char[segment_name_length];
+    memcpy(segment_name, &data_buf[data_ptr], segment_name_length);
+    data_ptr += segment_name_length;
+
+    /*---------------------------------------------------------*\
+    | Segment type data                                         |
+    \*---------------------------------------------------------*/
+    zone_type segment_type;
+    memcpy(&segment_type, &data_buf[data_ptr], sizeof(segment_type));
+    data_ptr += sizeof(segment_type);
+
+    /*---------------------------------------------------------*\
+    | Segment start index data                                  |
+    \*---------------------------------------------------------*/
+    unsigned int segment_start_idx;
+    memcpy(&segment_start_idx, &data_buf[data_ptr], sizeof(segment_start_idx));
+    data_ptr += sizeof(segment_start_idx);
+
+    /*---------------------------------------------------------*\
+    | Segment LED count data                                    |
+    \*---------------------------------------------------------*/
+    unsigned int segment_leds_count;
+    memcpy(&segment_leds_count, &data_buf[data_ptr], sizeof(segment_leds_count));
+    data_ptr += sizeof(segment_leds_count);
+
+    /*---------------------------------------------------------*\
+    | Add new segment                                           |
+    \*---------------------------------------------------------*/
+    segment new_segment;
+
+    new_segment.name        = segment_name;
+    new_segment.type        = segment_type;
+    new_segment.start_idx   = segment_start_idx;
+    new_segment.leds_count  = segment_leds_count;
+
+    AddSegment(zone_idx, new_segment);
+
+    delete[] segment_name;
+}
+
 void RGBController::SetupColors()
 {
     unsigned int total_led_count;
@@ -1968,6 +2110,16 @@ void RGBController::DeviceSaveMode()
     /*-------------------------------------------------*\
     | If not implemented by controller, does nothing    |
     \*-------------------------------------------------*/
+}
+
+void RGBController::ClearSegments(int zone)
+{
+    zones[zone].segments.clear();
+}
+
+void RGBController::AddSegment(int zone, segment new_segment)
+{
+    zones[zone].segments.push_back(new_segment);
 }
 
 std::string device_type_to_str(device_type type)
