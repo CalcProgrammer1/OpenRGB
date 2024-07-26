@@ -74,6 +74,8 @@ enum
     | RGBController class functions                                                                              |
     \*----------------------------------------------------------------------------------------------------------*/
     NET_PACKET_ID_RGBCONTROLLER_RESIZEZONE      = 1000, /* RGBController::ResizeZone()                          */
+    NET_PACKET_ID_RGBCONTROLLER_CLEARSEGMENTS   = 1001, /* RGBController::ClearSegments()                       */
+    NET_PACKET_ID_RGBCONTROLLER_ADDSEGMENT      = 1002, /* RGBController::AddSegment()                          */
 
     NET_PACKET_ID_RGBCONTROLLER_UPDATELEDS      = 1050, /* RGBController::UpdateLEDs()                          */
     NET_PACKET_ID_RGBCONTROLLER_UPDATEZONELEDS  = 1051, /* RGBController::UpdateZoneLEDs()                      */
