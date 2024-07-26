@@ -932,6 +932,39 @@ void NetworkServer::ListenThreadFunction(NetworkClientInfo * client_info)
                     }
                     break;
                 }
+                break;
+
+            case NET_PACKET_ID_RGBCONTROLLER_CLEARSEGMENTS:
+                if(data == NULL)
+                {
+                    break;
+                }
+
+                if((header.pkt_dev_idx < controllers.size()) && (header.pkt_size == sizeof(int)))
+                {
+                    int zone;
+
+                    memcpy(&zone, data, sizeof(int));
+
+                    controllers[header.pkt_dev_idx]->zones[zone].segments.clear();
+                }
+                break;
+
+            case NET_PACKET_ID_RGBCONTROLLER_ADDSEGMENT:
+                {
+                    /*---------------------------------------------------------*\
+                    | Verify the mode description size (first 4 bytes of data)  |
+                    | matches the packet size in the header                     |
+                    \*---------------------------------------------------------*/
+                    if(header.pkt_size == *((unsigned int*)data))
+                    {
+                        if(header.pkt_dev_idx < controllers.size())
+                        {
+                            controllers[header.pkt_dev_idx]->SetSegmentDescription((unsigned char *)data);
+                        }
+                    }
+                }
+                break;
         }
 
         delete[] data;

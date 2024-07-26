@@ -183,7 +183,7 @@ int Ui::OpenRGBZoneResizeDialog::show()
     {
         edit_dev->ResizeZone(edit_zone_idx, ret_val);
 
-        edit_dev->zones[edit_zone_idx].segments.clear();
+        edit_dev->ClearSegments(edit_zone_idx);
 
         unsigned int start_idx = 0;
 
@@ -195,7 +195,7 @@ int Ui::OpenRGBZoneResizeDialog::show()
             new_segment.start_idx  = start_idx;
             new_segment.leds_count = ((QLineEdit*)ui->SegmentsTreeWidget->itemWidget(ui->SegmentsTreeWidget->topLevelItem(item_idx), 1))->text().toInt();
 
-            edit_dev->zones[edit_zone_idx].segments.push_back(new_segment);
+            edit_dev->AddSegment(edit_zone_idx, new_segment);
 
             start_idx += new_segment.leds_count;
         }
