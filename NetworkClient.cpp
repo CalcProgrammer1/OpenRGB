@@ -609,6 +609,8 @@ void NetworkClient::ProcessReply_ControllerData(unsigned int data_size, char * d
             for(unsigned int i = 0; i < server_controllers[dev_idx]->zones.size(); i++)
             {
                 server_controllers[dev_idx]->zones[i].leds_count = new_controller->zones[i].leds_count;
+                server_controllers[dev_idx]->zones[i].segments.clear();
+                server_controllers[dev_idx]->zones[i].segments = new_controller->zones[i].segments;
             }
             server_controllers[dev_idx]->SetupColors();
 
@@ -752,6 +754,39 @@ void NetworkClient::SendRequest_ProtocolVersion()
     send(client_sock, (char *)&request_hdr, sizeof(NetPacketHeader), MSG_NOSIGNAL);
     send(client_sock, (char *)&request_data, sizeof(unsigned int), MSG_NOSIGNAL);
     send_in_progress.unlock();
+}
+
+void NetworkClient::SendRequest_RGBController_ClearSegments(unsigned int dev_idx, int zone)
+{
+    if(change_in_progress)
+    {
+        return;
+    }
+
+    NetPacketHeader request_hdr;
+    int             request_data[1];
+
+    InitNetPacketHeader(&request_hdr, dev_idx, NET_PACKET_ID_RGBCONTROLLER_CLEARSEGMENTS, sizeof(request_data));
+
+    request_data[0]          = zone;
+
+    send(client_sock, (char *)&request_hdr, sizeof(NetPacketHeader), MSG_NOSIGNAL);
+    send(client_sock, (char *)&request_data, sizeof(request_data), MSG_NOSIGNAL);
+}
+
+void NetworkClient::SendRequest_RGBController_AddSegment(unsigned int dev_idx, unsigned char * data, unsigned int size)
+{
+    if(change_in_progress)
+    {
+        return;
+    }
+
+    NetPacketHeader request_hdr;
+
+    InitNetPacketHeader(&request_hdr, dev_idx, NET_PACKET_ID_RGBCONTROLLER_ADDSEGMENT, size);
+
+    send(client_sock, (char *)&request_hdr, sizeof(NetPacketHeader), MSG_NOSIGNAL);
+    send(client_sock, (char *)data, size, 0);
 }
 
 void NetworkClient::SendRequest_RGBController_ResizeZone(unsigned int dev_idx, int zone, int new_size)
