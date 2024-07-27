@@ -27,6 +27,7 @@ RGBController_HYTEMousemat::RGBController_HYTEMousemat(HYTEMousematController* c
     controller          = controller_ptr;
 
     name                = "HYTE Mousemat";
+    vendor              = "HYTE";
     description         = "HYTE Mousemat Device";
     type                = DEVICE_TYPE_MOUSEMAT;
     location            = controller->GetLocation();
