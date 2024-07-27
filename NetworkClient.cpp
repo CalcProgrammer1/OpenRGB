@@ -577,10 +577,16 @@ void NetworkClient::ProcessReply_ControllerData(unsigned int data_size, char * d
         else
         {
             server_controllers[dev_idx]->active_mode = new_controller->active_mode;
+            server_controllers[dev_idx]->leds.clear();
+            server_controllers[dev_idx]->leds        = new_controller->leds;
+            server_controllers[dev_idx]->colors.clear();
+            server_controllers[dev_idx]->colors      = new_controller->colors;
             for(unsigned int i = 0; i < server_controllers[dev_idx]->zones.size(); i++)
             {
                 server_controllers[dev_idx]->zones[i].leds_count = new_controller->zones[i].leds_count;
             }
+            server_controllers[dev_idx]->SetupColors();
+
             delete new_controller;
         }
 
