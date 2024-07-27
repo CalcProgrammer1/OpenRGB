@@ -102,6 +102,7 @@ private:
     unsigned int    server_protocol_version;
     bool            server_protocol_version_received;
     bool            change_in_progress;
+    std::mutex      send_in_progress;
 
     std::thread *   ConnectionThread;
     std::thread *   ListenThread;
