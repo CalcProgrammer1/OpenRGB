@@ -688,8 +688,15 @@ void NetworkServer::ListenThreadFunction(NetworkClientInfo * client_info)
                 /*---------------------------------------------------------*\
                 | Verify the color description size (first 4 bytes of data) |
                 | matches the packet size in the header                     |
+                |                                                           |
+                | If protocol version is 4 or below, allow the description  |
+                | size to be zero.  This allows backwards compatibility with|
+                | versions of the OpenRGB.NET SDK implementation which had  |
+                | a bug where this field would always be zero.              |
                 \*---------------------------------------------------------*/
-                if(header.pkt_size == *((unsigned int*)data))
+                if((header.pkt_size == *((unsigned int*)data))
+                || ((client_info->client_protocol_version <= 4)
+                 && (*((unsigned int*)data) == 0)))
                 {
                     if(header.pkt_dev_idx < controllers.size())
                     {
@@ -713,8 +720,15 @@ void NetworkServer::ListenThreadFunction(NetworkClientInfo * client_info)
                 /*---------------------------------------------------------*\
                 | Verify the color description size (first 4 bytes of data) |
                 | matches the packet size in the header                     |
+                |                                                           |
+                | If protocol version is 4 or below, allow the description  |
+                | size to be zero.  This allows backwards compatibility with|
+                | versions of the OpenRGB.NET SDK implementation which had  |
+                | a bug where this field would always be zero.              |
                 \*---------------------------------------------------------*/
-                if(header.pkt_size == *((unsigned int*)data))
+                if((header.pkt_size == *((unsigned int*)data))
+                || ((client_info->client_protocol_version <= 4)
+                 && (*((unsigned int*)data) == 0)))
                 {
                     if(header.pkt_dev_idx < controllers.size())
                     {
@@ -778,8 +792,15 @@ void NetworkServer::ListenThreadFunction(NetworkClientInfo * client_info)
                 /*---------------------------------------------------------*\
                 | Verify the mode description size (first 4 bytes of data)  |
                 | matches the packet size in the header                     |
+                |                                                           |
+                | If protocol version is 4 or below, allow the description  |
+                | size to be zero.  This allows backwards compatibility with|
+                | versions of the OpenRGB.NET SDK implementation which had  |
+                | a bug where this field would always be zero.              |
                 \*---------------------------------------------------------*/
-                if(header.pkt_size == *((unsigned int*)data))
+                if((header.pkt_size == *((unsigned int*)data))
+                || ((client_info->client_protocol_version <= 4)
+                 && (*((unsigned int*)data) == 0)))
                 {
                     if(header.pkt_dev_idx < controllers.size())
                     {
@@ -803,8 +824,15 @@ void NetworkServer::ListenThreadFunction(NetworkClientInfo * client_info)
                 /*---------------------------------------------------------*\
                 | Verify the mode description size (first 4 bytes of data)  |
                 | matches the packet size in the header                     |
+                |                                                           |
+                | If protocol version is 4 or below, allow the description  |
+                | size to be zero.  This allows backwards compatibility with|
+                | versions of the OpenRGB.NET SDK implementation which had  |
+                | a bug where this field would always be zero.              |
                 \*---------------------------------------------------------*/
-                if(header.pkt_size == *((unsigned int*)data))
+                if((header.pkt_size == *((unsigned int*)data))
+                || ((client_info->client_protocol_version <= 4)
+                 && (*((unsigned int*)data) == 0)))
                 {
                     if(header.pkt_dev_idx < controllers.size())
                     {
