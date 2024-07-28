@@ -653,7 +653,7 @@ void AlienwareController::UpdateDim()
 
     for(size_t i = 0; i < zones.size(); i++)
     {
-        dim_zone_map[zones[i].dim].emplace_back(i);
+        dim_zone_map[zones[i].dim].emplace_back((uint8_t)i);
     }
 
     for(std::pair<const uint8_t, std::vector<uint8_t>> &pair : dim_zone_map)
