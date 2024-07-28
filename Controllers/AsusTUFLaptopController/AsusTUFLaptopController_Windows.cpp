@@ -149,9 +149,9 @@ bool AsusTUFLaptopController::deviceIoControlWrapper(const void *dataIn, int com
                 0);
     if(result)
     {
-        if(*dataSizeOut < BytesReturned)
+        if((size_t)*dataSizeOut < BytesReturned)
         {
-            BytesReturned = *dataSizeOut;
+            BytesReturned = (size_t)*dataSizeOut;
         }
         memmove(dataOut, outBuffer, BytesReturned);
     }
