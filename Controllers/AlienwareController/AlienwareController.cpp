@@ -680,7 +680,7 @@ bool AlienwareController::UpdateDirect()
 
     for(size_t i = 0; i < zones.size(); i++)
     {
-        color_zone_map[zones[i].color[0]].emplace_back(i);
+        color_zone_map[zones[i].color[0]].emplace_back((uint8_t)i);
     }
 
     for(std::pair<const RGBColor, std::vector<uint8_t>> &pair : color_zone_map)
