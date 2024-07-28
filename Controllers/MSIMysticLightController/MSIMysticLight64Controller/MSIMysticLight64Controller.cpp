@@ -15,6 +15,7 @@
 #include <array>
 #include <bitset>
 #include "MSIMysticLight64Controller.h"
+#include "StringUtils.h"
 
 MSIMysticLight64Controller::MSIMysticLight64Controller
 (
@@ -103,17 +104,13 @@ std::string MSIMysticLight64Controller::GetDeviceLocation()
 
 std::string MSIMysticLight64Controller::GetSerial()
 {
-    wchar_t serial[256];
+    wchar_t serial_string[128];
+    int ret = hid_get_serial_number_string(dev, serial_string, 128);
 
-    /*-----------------------------------------------------*\
-    | Get the serial number string from HID                 |
-    \*-----------------------------------------------------*/
-    hid_get_serial_number_string(dev, serial, 256);
+    if(ret != 0)
+    {
+        return("");
+    }
 
-    /*-----------------------------------------------------*\
-    | Convert wchar_t into std::wstring into std::string    |
-    \*-----------------------------------------------------*/
-    std::wstring wserial = std::wstring(serial);
-
-    return (std::string(wserial.begin(), wserial.end()));
+    return(StringUtils::wstring_to_string(serial_string));
 }

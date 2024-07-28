@@ -34,7 +34,6 @@ private:
     hidapi_wrapper      wrapper;
     hid_device*         dev;
     std::string         location;
-    std::string         serial_number;
     std::mutex          lock;
 
     void                SendEOT(uint8_t frame_count);

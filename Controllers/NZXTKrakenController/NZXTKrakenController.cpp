@@ -13,6 +13,7 @@
 #include <string>
 #include <sstream>
 #include "NZXTKrakenController.h"
+#include "StringUtils.h"
 
 static void SetColor(const std::vector<RGBColor>& colors, unsigned char* color_data)
 {
@@ -67,10 +68,7 @@ std::string NZXTKrakenController::GetSerialString()
         return("");
     }
 
-    std::wstring return_wstring = serial_string;
-    std::string return_string(return_wstring.begin(), return_wstring.end());
-
-    return(return_string);
+    return(StringUtils::wstring_to_string(serial_string));
 }
 
 void NZXTKrakenController::UpdateStatus()

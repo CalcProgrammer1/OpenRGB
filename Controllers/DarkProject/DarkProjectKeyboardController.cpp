@@ -9,8 +9,9 @@
 |   SPDX-License-Identifier: GPL-2.0-only                   |
 \*---------------------------------------------------------*/
 
-#include "LogManager.h"
 #include "DarkProjectKeyboardController.h"
+#include "LogManager.h"
+#include "StringUtils.h"
 
 static uint8_t packet_map[88] =
 {
@@ -57,26 +58,28 @@ DarkProjectKeyboardController::~DarkProjectKeyboardController()
 
 std::string DarkProjectKeyboardController::GetDeviceName()
 {
-    const int szTemp    = HID_MAX_STR;
-    wchar_t tmpName[szTemp];
+    wchar_t name_string[128];
+    int ret = hid_get_manufacturer_string(dev, name_string, 128);
 
-    hid_get_manufacturer_string(dev, tmpName, szTemp);
-    std::wstring wName  = std::wstring(tmpName);
-    std::string name    = std::string(wName.begin(), wName.end());
+    if(ret != 0)
+    {
+        return("");
+    }
 
-    return name;
+    return(StringUtils::wstring_to_string(name_string));
 }
 
 std::string DarkProjectKeyboardController::GetSerial()
 {
-    const int szTemp    = HID_MAX_STR;
-    wchar_t   tmpName[szTemp];
+    wchar_t serial_string[128];
+    int ret = hid_get_serial_number_string(dev, serial_string, 128);
 
-    hid_get_serial_number_string(dev, tmpName, szTemp);
-    std::wstring wName  = std::wstring(tmpName);
-    std::string serial  = std::string(wName.begin(), wName.end());
+    if(ret != 0)
+    {
+        return("");
+    }
 
-    return serial;
+    return(StringUtils::wstring_to_string(serial_string));
 }
 
 std::string DarkProjectKeyboardController::GetLocation()

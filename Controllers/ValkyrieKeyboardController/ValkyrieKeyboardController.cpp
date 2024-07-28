@@ -11,6 +11,7 @@
 \*---------------------------------------------------------*/
 
 #include <cstring>
+#include "StringUtils.h"
 #include "ValkyrieKeyboardController.h"
 
 ValkyrieKeyboardController::ValkyrieKeyboardController(hid_device* dev_handle, const char* path, const unsigned short pid, const int interface)
@@ -41,10 +42,7 @@ std::string ValkyrieKeyboardController::GetSerialString()
         return("");
     }
 
-    std::wstring return_wstring = serial_string;
-    std::string return_string(return_wstring.begin(), return_wstring.end());
-
-    return(return_string);
+    return(StringUtils::wstring_to_string(serial_string));
 }
 
 unsigned short ValkyrieKeyboardController::GetUSBPID()

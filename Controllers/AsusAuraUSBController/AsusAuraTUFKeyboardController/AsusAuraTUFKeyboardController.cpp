@@ -17,6 +17,7 @@
 #include <string.h>
 #include <vector>
 #include "AsusAuraTUFKeyboardController.h"
+#include "StringUtils.h"
 
 AuraTUFKeyboardController::AuraTUFKeyboardController(hid_device* dev_handle, const char* path, uint16_t pid, unsigned short version)
 {
@@ -70,10 +71,7 @@ std::string AuraTUFKeyboardController::GetSerialString()
         return("");
     }
 
-    std::wstring serial_wstring = serial_string;
-    std::string return_string = clean_serial(serial_wstring);
-
-    return(return_string);
+    return(StringUtils::wstring_to_string(serial_string));
 }
 
 std::string AuraTUFKeyboardController::GetVersion()

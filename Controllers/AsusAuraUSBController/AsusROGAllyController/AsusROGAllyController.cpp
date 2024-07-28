@@ -11,6 +11,7 @@
 
 #include <cstring>
 #include "AsusROGAllyController.h"
+#include "StringUtils.h"
 
 ROGAllyController::ROGAllyController(hid_device* dev_handle, const char* path)
 {
@@ -40,10 +41,7 @@ std::string ROGAllyController::GetSerialString()
         return("");
     }
 
-    std::wstring return_wstring = serial_string;
-    std::string return_string(return_wstring.begin(), return_wstring.end());
-
-    return(return_string);
+    return(StringUtils::wstring_to_string(serial_string));
 }
 
 std::string ROGAllyController::GetVersion()

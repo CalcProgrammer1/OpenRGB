@@ -9,6 +9,7 @@
 
 #include "CorsairK55RGBPROXTController.h"
 #include "LogManager.h"
+#include "StringUtils.h"
 
 #define COLOR_BANK_SIZE     137
 #define HID_PACKET_LENGTH   65
@@ -70,10 +71,7 @@ std::string CorsairK55RGBPROXTController::GetSerialString()
         return("");
     }
 
-    std::wstring return_wstring = serial_string;
-    std::string return_string(return_wstring.begin(), return_wstring.end());
-
-    return(return_string);
+    return(StringUtils::wstring_to_string(serial_string));
 }
 
 void CorsairK55RGBPROXTController::LightingControl()

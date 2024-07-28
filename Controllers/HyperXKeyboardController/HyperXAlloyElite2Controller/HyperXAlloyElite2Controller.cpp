@@ -11,6 +11,7 @@
 
 #include <cstring>
 #include "HyperXAlloyElite2Controller.h"
+#include "StringUtils.h"
 
 /*-----------------------------------------*\
 | Skip these indices in the color output    |
@@ -43,10 +44,7 @@ std::string HyperXAlloyElite2Controller::GetSerialString()
         return("");
     }
 
-    std::wstring return_wstring = serial_string;
-    std::string return_string(return_wstring.begin(), return_wstring.end());
-
-    return(return_string);
+    return(StringUtils::wstring_to_string(serial_string));
 }
 
 void HyperXAlloyElite2Controller::SetLEDsDirect(const std::vector<RGBColor>& colors)

@@ -109,5 +109,4 @@ private:
     hidapi_wrapper  wrapper;
     hid_device *    dev;
     std::string     location;
-    std::string     serial_number;
 };

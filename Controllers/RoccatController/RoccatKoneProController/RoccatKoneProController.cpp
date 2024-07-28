@@ -11,25 +11,13 @@
 
 #include <cstring>
 #include "RoccatKoneProController.h"
+#include "StringUtils.h"
 
 RoccatKoneProController::RoccatKoneProController(hid_device* dev_handle, const hid_device_info& info)
 {
     dev                 = dev_handle;
     version             = "";
     location            = info.path;
-
-    wchar_t serial_string[128];
-    int ret = hid_get_serial_number_string(dev, serial_string, 128);
-
-    if(ret != 0)
-    {
-        serial_number = "";
-    }
-    else
-    {
-        std::wstring return_wstring = serial_string;
-        serial_number = std::string(return_wstring.begin(), return_wstring.end());
-    }
 
     SetupDirectMode();
 }
@@ -46,7 +34,15 @@ std::string RoccatKoneProController::GetFirmwareVersion()
 
 std::string RoccatKoneProController::GetSerialString()
 {
-    return serial_number;
+    wchar_t serial_string[128];
+    int ret = hid_get_serial_number_string(dev, serial_string, 128);
+
+    if(ret != 0)
+    {
+        return("");
+    }
+
+    return(StringUtils::wstring_to_string(serial_string));
 }
 
 std::string RoccatKoneProController::GetDeviceLocation()

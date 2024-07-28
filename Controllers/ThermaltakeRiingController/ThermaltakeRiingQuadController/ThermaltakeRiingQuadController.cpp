@@ -10,6 +10,7 @@
 \*---------------------------------------------------------*/
 
 #include <cstring>
+#include "StringUtils.h"
 #include "ThermaltakeRiingQuadController.h"
 
 ThermaltakeRiingQuadController::ThermaltakeRiingQuadController(hid_device* dev_handle, const char* path)
@@ -26,10 +27,6 @@ ThermaltakeRiingQuadController::ThermaltakeRiingQuadController(hid_device* dev_h
     hid_get_product_string(dev, tmpName, HID_MAX_STR);
     wName = std::wstring(tmpName);
     device_name.append(" ").append(std::string(wName.begin(), wName.end()));
-
-    hid_get_serial_number_string(dev, tmpName, HID_MAX_STR);
-    wName = std::wstring(tmpName);
-    serial = std::string(wName.begin(), wName.end());
 
     SendInit();
 
@@ -87,7 +84,15 @@ std::string ThermaltakeRiingQuadController::GetDeviceLocation()
 
 std::string ThermaltakeRiingQuadController::GetSerial()
 {
-    return(serial);
+    wchar_t serial_string[128];
+    int ret = hid_get_serial_number_string(dev, serial_string, 128);
+
+    if(ret != 0)
+    {
+        return("");
+    }
+
+    return(StringUtils::wstring_to_string(serial_string));
 }
 
 void ThermaltakeRiingQuadController::SetChannelLEDs(unsigned char channel, RGBColor * colors, unsigned int num_colors)

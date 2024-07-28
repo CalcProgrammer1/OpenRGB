@@ -26,7 +26,7 @@ public:
     void SetColors(unsigned char red, unsigned char green, unsigned char blue);
 
 private:
-    hid_device*     device_handle;
+    hid_device*     dev;
     bool            is_bluetooth = false;
     std::string     location;
 

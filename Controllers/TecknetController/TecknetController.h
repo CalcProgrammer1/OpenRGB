@@ -65,7 +65,6 @@ public:
 
 private:
     std::string             device_name;
-    std::string             serial;
     std::string             location;
     hid_device*             dev;
 

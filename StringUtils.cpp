@@ -7,6 +7,8 @@
 |   SPDX-License-Identifier: GPL-2.0-only                   |
 \*---------------------------------------------------------*/
 
+#include <codecvt>
+#include <locale>
 #include <string>
 #include "StringUtils.h"
 
@@ -46,6 +48,13 @@ const char* StringUtils::wchar_to_char(const wchar_t* pwchar)
     filePathC -= (sizeof(char) * charCount);
 
     return filePathC;
+}
+
+std::string StringUtils::wstring_to_string(const std::wstring wstring)
+{
+    std::wstring_convert<std::codecvt_utf8<wchar_t>, wchar_t> converter;
+
+    return(converter.to_bytes(wstring));
 }
 
 const std::string StringUtils::remove_null_terminating_chars(std::string input)

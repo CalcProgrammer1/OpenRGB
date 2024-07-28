@@ -11,6 +11,7 @@
 
 #include <cstring>
 #include "BlinkController.h"
+#include "StringUtils.h"
 
 BlinkController::BlinkController(hid_device* dev_handle, char *_path)
 {
@@ -27,11 +28,6 @@ BlinkController::BlinkController(hid_device* dev_handle, char *_path)
     hid_get_product_string(dev, tmpName, szTemp);
     wName  = std::wstring(tmpName);
     device_name.append(" ").append(std::string(wName.begin(), wName.end()));
-
-    hid_get_serial_number_string(dev, tmpName, szTemp);
-    wName  = std::wstring(tmpName);
-    serial = std::string(wName.begin(), wName.end());
-
 }
 
 BlinkController::~BlinkController()
@@ -49,7 +45,15 @@ std::string BlinkController::GetDeviceName()
 
 std::string BlinkController::GetSerial()
 {
-    return serial;
+    wchar_t serial_string[128];
+    int ret = hid_get_serial_number_string(dev, serial_string, 128);
+
+    if(ret != 0)
+    {
+        return("");
+    }
+
+    return(StringUtils::wstring_to_string(serial_string));
 }
 
 std::string BlinkController::GetLocation()

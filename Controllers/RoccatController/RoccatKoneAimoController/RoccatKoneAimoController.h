@@ -50,7 +50,6 @@ public:
 
 private:
     std::string     device_name;
-    std::string     serial;
     std::string     location;
     hid_device*     dev;
     unsigned char   usb_colors_buf[USB_COLOR_BUFF_LEN]; // USB buffer to be sent everytime we update mouse's LEDs

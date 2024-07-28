@@ -11,6 +11,7 @@
 
 #include <cstring>
 #include "NZXTHue1Controller.h"
+#include "StringUtils.h"
 
 NZXTHue1Controller::NZXTHue1Controller(hid_device* dev_handle, unsigned int /*fan_channels*/, const char* path)
 {
@@ -45,10 +46,7 @@ std::string NZXTHue1Controller::GetSerialString()
         return("");
     }
 
-    std::wstring return_wstring = serial_string;
-    std::string return_string(return_wstring.begin(), return_wstring.end());
-
-    return(return_string);
+    return(StringUtils::wstring_to_string(serial_string));
 }
 
 unsigned int NZXTHue1Controller::GetAccessoryType()

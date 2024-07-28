@@ -11,6 +11,7 @@
 
 #include <cstring>
 #include "HyperXAlloyOriginsController.h"
+#include "StringUtils.h"
 
 // Skip these indices in the color output
 static unsigned int skip_idx[] = { 23, 29, 41, 47, 59, 70, 71, 87, 88, 93, 99, 100, 102, 108, 113, 114, 120, 123, 124 };
@@ -41,10 +42,7 @@ std::string HyperXAlloyOriginsController::GetSerialString()
         return("");
     }
 
-    std::wstring return_wstring = serial_string;
-    std::string return_string(return_wstring.begin(), return_wstring.end());
-
-    return(return_string);
+    return(StringUtils::wstring_to_string(serial_string));
 }
 
 void HyperXAlloyOriginsController::SetLEDsDirect(std::vector<RGBColor> colors)

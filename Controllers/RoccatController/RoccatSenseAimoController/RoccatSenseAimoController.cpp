@@ -12,6 +12,7 @@
 #include <cstring>
 #include "LogManager.h"
 #include "RoccatSenseAimoController.h"
+#include "StringUtils.h"
 
 RoccatSenseAimoController::RoccatSenseAimoController(hid_device* dev_handle, char *path)
 {
@@ -51,11 +52,7 @@ std::string RoccatSenseAimoController::GetSerial()
         return("");
     }
 
-    std::wstring return_wstring = serial_string;
-    std::string return_string(return_wstring.begin(), return_wstring.end());
-
-    return(return_string);
-
+    return(StringUtils::wstring_to_string(serial_string));
 }
 
 std::string RoccatSenseAimoController::GetLocation()

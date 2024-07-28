@@ -12,18 +12,19 @@
 #include <CRC.h>
 #include <hidapi/hidapi.h>
 #include "SonyDS4Controller.h"
+#include "StringUtils.h"
 
 SonyDS4Controller::SonyDS4Controller(hid_device * device_handle, const char * device_path)
 {
-    this->device_handle = device_handle;
+    this->dev = device_handle;
     unsigned char readBuffer[64];
     unsigned char reportBuffer[64];
     reportBuffer[0] = 0x02;
 
-    hid_get_feature_report(device_handle, reportBuffer, 64);
+    hid_get_feature_report(dev, reportBuffer, 64);
     for (int i = 0; i < 5; i++)
     {
-        hid_read(device_handle, readBuffer, 64);
+        hid_read(dev, readBuffer, 64);
         if (readBuffer[0] == 17)
         {
             is_bluetooth = true;
@@ -36,7 +37,7 @@ SonyDS4Controller::SonyDS4Controller(hid_device * device_handle, const char * de
 
 SonyDS4Controller::~SonyDS4Controller()
 {
-    hid_close(device_handle);
+    hid_close(dev);
 }
 
 std::string SonyDS4Controller::GetLocation()
@@ -47,16 +48,14 @@ std::string SonyDS4Controller::GetLocation()
 std::string SonyDS4Controller::GetSerialString()
 {
     wchar_t serial_string[128];
-    int ret = hid_get_serial_number_string(device_handle, serial_string, 128);
+    int ret = hid_get_serial_number_string(dev, serial_string, 128);
+
     if(ret != 0)
     {
         return("");
     }
 
-    std::wstring return_wstring = serial_string;
-    std::string return_string(return_wstring.begin(), return_wstring.end());
-
-    return(return_string);
+    return(StringUtils::wstring_to_string(serial_string));
 }
 
 void SonyDS4Controller::SetColors(unsigned char red, unsigned char green, unsigned char blue)
@@ -103,7 +102,7 @@ void SonyDS4Controller::sendReportBT(unsigned char red, unsigned char green, uns
     outbuffer[76] = (0x00FF0000 & crc) >> 16;
     outbuffer[77] = (0xFF000000 & crc) >> 24;
 
-    hid_write(device_handle, outbuffer, 78);
+    hid_write(dev, outbuffer, 78);
 }
 
 void SonyDS4Controller::sendReportUSB(unsigned char red, unsigned char green, unsigned char blue)
@@ -123,5 +122,5 @@ void SonyDS4Controller::sendReportUSB(unsigned char red, unsigned char green, un
         0x00
     };
 
-    hid_write(device_handle, buffer, 11);
+    hid_write(dev, buffer, 11);
 }

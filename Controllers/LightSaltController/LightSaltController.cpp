@@ -11,6 +11,7 @@
 
 #include <cstring>
 #include "LightSaltController.h"
+#include "StringUtils.h"
 
 static const int mode_map[LIGHTSALT_MODE_MAXIMUM][6] =
 {
@@ -40,16 +41,6 @@ LightSaltController::LightSaltController(hid_device* dev_handle, const hid_devic
 
     dev             = dev_handle;
     device_location = info.path;
-
-    if(hid_get_serial_number_string(dev, usb_string, 128) == 0)
-    {
-        std::wstring tmp_wstring = usb_string;
-        serial = std::string(tmp_wstring.begin(), tmp_wstring.end());
-    }
-    else
-    {
-        serial = "";
-    }
 
     if(hid_get_manufacturer_string(dev, usb_string, 128) == 0)
     {
@@ -98,7 +89,15 @@ std::string LightSaltController::GetDeviceLocation()
 
 std::string LightSaltController::GetSerial()
 {
-    return(serial);
+    wchar_t serial_string[128];
+    int ret = hid_get_serial_number_string(dev, serial_string, 128);
+
+    if(ret != 0)
+    {
+        return("");
+    }
+
+    return(StringUtils::wstring_to_string(serial_string));
 }
 
 std::string LightSaltController::GetManufacturer()

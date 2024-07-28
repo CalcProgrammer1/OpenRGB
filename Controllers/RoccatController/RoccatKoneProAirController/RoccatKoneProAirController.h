@@ -56,7 +56,6 @@ public:
 private:
     hid_device*     dev;
     std::string     location;
-    std::string     serial_number;
     std::string     version;
 
     void            SendRGB(bool direct, std::vector<RGBColor> colors, unsigned char mode_value, unsigned char speed, unsigned char brightness);

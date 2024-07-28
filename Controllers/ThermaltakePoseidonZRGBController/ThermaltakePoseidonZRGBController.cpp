@@ -10,6 +10,7 @@
 \*---------------------------------------------------------*/
 
 #include <cstring>
+#include "StringUtils.h"
 #include "ThermaltakePoseidonZRGBController.h"
 
 using namespace std::chrono_literals;
@@ -49,10 +50,7 @@ std::string PoseidonZRGBController::GetSerialString()
         return("");
     }
 
-    std::wstring return_wstring = serial_string;
-    std::string return_string(return_wstring.begin(), return_wstring.end());
-
-    return(return_string);
+    return(StringUtils::wstring_to_string(serial_string));
 }
 
 void PoseidonZRGBController::SetMode(unsigned char mode, unsigned char direction, unsigned char speed)

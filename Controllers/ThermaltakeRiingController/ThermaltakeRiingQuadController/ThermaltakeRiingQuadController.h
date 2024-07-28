@@ -64,7 +64,6 @@ private:
     unsigned char           current_mode;
     unsigned char           current_speed;
     std::string             device_name;
-    std::string             serial;
     std::string             location;
 
     uint8_t                 tt_quad_buffer[THERMALTAKE_QUAD_NUM_CHANNELS][THERMALTAKE_QUAD_PACKET_SIZE];

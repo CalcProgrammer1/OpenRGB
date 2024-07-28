@@ -82,7 +82,6 @@ protected:
 
 private:
     std::string                 location;
-    std::string                 serial_number;
     std::string                 version;
 
     unsigned char               GetMysteriousFlag(unsigned char mode_value);

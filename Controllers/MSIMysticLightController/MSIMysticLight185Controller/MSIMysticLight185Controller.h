@@ -115,7 +115,6 @@ public:
 private:
     bool            ReadSettings();
     bool            ReadFwVersion();
-    void            ReadSerial();
     void            ReadName();
     ZoneData*       GetZoneData
                         (
@@ -134,7 +133,6 @@ private:
     std::string                     location;
     std::string                     version_APROM;
     std::string                     version_LDROM;
-    std::string                     chip_id;
 
     FeaturePacket_185               data;
     FeaturePacket_PerLED_185        per_led_data_onboard_and_sync;

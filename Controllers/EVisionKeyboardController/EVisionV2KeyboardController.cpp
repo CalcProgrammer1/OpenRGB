@@ -12,6 +12,7 @@
 #include <cstring>
 #include "LogManager.h"
 #include "EVisionV2KeyboardController.h"
+#include "StringUtils.h"
 
 #define BLANK_SPACE 6
 #define query_check_buffer(c) \
@@ -102,20 +103,15 @@ std::string EVisionV2KeyboardController::GetDeviceName()
 
 std::string EVisionV2KeyboardController::GetSerial()
 {
-    const uint8_t   sz  = HID_MAX_STR;
-    wchar_t         tmp[sz];
-
-    int ret             = hid_get_serial_number_string(dev, tmp, sz);
+    wchar_t serial_string[128];
+    int ret = hid_get_serial_number_string(dev, serial_string, 128);
 
     if(ret != 0)
     {
         return("");
     }
 
-    std::wstring w_tmp = std::wstring(tmp);
-    std::string serial = std::string(w_tmp.begin(), w_tmp.end());
-
-    return serial;
+    return(StringUtils::wstring_to_string(serial_string));
 }
 
 std::string EVisionV2KeyboardController::GetLocation()

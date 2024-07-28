@@ -15,6 +15,7 @@
 #include <string>
 #include "CryorigH7QuadLumiController.h"
 #include "LogManager.h"
+#include "StringUtils.h"
 
 CryorigH7QuadLumiController::CryorigH7QuadLumiController(hid_device* dev_handle, const char* path)
 {
@@ -49,10 +50,7 @@ std::string CryorigH7QuadLumiController::GetSerialString()
         return("");
     }
 
-    std::wstring return_wstring = serial_string;
-    std::string return_string(return_wstring.begin(), return_wstring.end());
-
-    return(return_string);
+    return(StringUtils::wstring_to_string(serial_string));
 }
 
 void CryorigH7QuadLumiController::SetChannelEffect

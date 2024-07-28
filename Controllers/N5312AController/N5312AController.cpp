@@ -10,27 +10,15 @@
 \*---------------------------------------------------------*/
 
 #include <string.h>
-#include "N5312AController.h"
 #include "LogManager.h"
+#include "N5312AController.h"
+#include "StringUtils.h"
 
 N5312AController::N5312AController(hid_device* dev_handle, const hid_device_info& info)
 {
     dev                 = dev_handle;
     location            = info.path;
     version             = "";
-
-    wchar_t serial_string[128];
-    int ret = hid_get_serial_number_string(dev, serial_string, 128);
-
-    if(ret != 0)
-    {
-        serial_number = "";
-    }
-    else
-    {
-        std::wstring return_wstring = serial_string;
-        serial_number = std::string(return_wstring.begin(), return_wstring.end());
-    }
 
     SendInit();
 }
@@ -47,7 +35,15 @@ std::string N5312AController::GetDeviceLocation()
 
 std::string N5312AController::GetSerialString()
 {
-    return(serial_number);
+    wchar_t serial_string[128];
+    int ret = hid_get_serial_number_string(dev, serial_string, 128);
+
+    if(ret != 0)
+    {
+        return("");
+    }
+
+    return(StringUtils::wstring_to_string(serial_string));
 }
 
 std::string N5312AController::GetFirmwareVersion()

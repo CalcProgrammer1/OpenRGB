@@ -12,6 +12,7 @@
 
 #include <cstring>
 #include "HyperXAlloyOriginsCoreController.h"
+#include "StringUtils.h"
 
 // Skip these indices in the color output
 static unsigned int skip_idx[] = {6, 7, 14, 15, 22, 23, 30, 31, 38, 39, 44, 46, 47, 54, 55, 58, 60, 61, 62, 63, 70, 71, 78, 79, 86, 87, 94, 95, 101, 102, 103, 109, 110, 111, 118, 119};
@@ -53,10 +54,7 @@ std::string HyperXAlloyOriginsCoreController::GetSerialString()
         return("");
     }
 
-    std::wstring return_wstring = serial_string;
-    std::string return_string(return_wstring.begin(), return_wstring.end());
-
-    return(return_string);
+    return(StringUtils::wstring_to_string(serial_string));
 }
 
 std::string HyperXAlloyOriginsCoreController::GetFirmwareVersion()

@@ -13,6 +13,7 @@
 #include <CRC.h>
 #include <hidapi/hidapi.h>
 #include "SonyDualSenseController.h"
+#include "StringUtils.h"
 
 SonyDualSenseController::SonyDualSenseController(hid_device * device_handle, const char * device_path, bool is_bluetooth)
 {
@@ -35,15 +36,13 @@ std::string SonyDualSenseController::GetSerialString()
 {
     wchar_t serial_string[128];
     int ret = hid_get_serial_number_string(dev, serial_string, 128);
+
     if(ret != 0)
     {
         return("");
     }
 
-    std::wstring return_wstring = serial_string;
-    std::string return_string(return_wstring.begin(), return_wstring.end());
-
-    return(return_string);
+    return(StringUtils::wstring_to_string(serial_string));
 }
 
 void SonyDualSenseController::SetColors(std::vector<RGBColor> colors, unsigned char brightness, unsigned char mode_value)

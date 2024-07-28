@@ -106,7 +106,6 @@ protected:
 
 private:
     std::string                 location;
-    std::string                 serial_number;
     std::string                 version;
     std::vector<unsigned int>   led_sequence_positions;
 

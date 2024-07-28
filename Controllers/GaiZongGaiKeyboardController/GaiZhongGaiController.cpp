@@ -12,6 +12,7 @@
 #include <cstring>
 #include <thread>
 #include "GaiZhongGaiController.h"
+#include "StringUtils.h"
 
 /*---------------------------------------------------------------*\
 | https://oshwlab.com/yangdsada/GaiZhongGai-Keyboard-68-4PRO      |
@@ -172,10 +173,7 @@ std::string GaiZhongGaiKeyboardController::GetSerialString()
         return("");
     }
 
-    std::wstring return_wstring = serial_string;
-    std::string return_string(return_wstring.begin(), return_wstring.end());
-
-    return(return_string);
+    return(StringUtils::wstring_to_string(serial_string));
 }
 
 std::string GaiZhongGaiKeyboardController::GetVersion()

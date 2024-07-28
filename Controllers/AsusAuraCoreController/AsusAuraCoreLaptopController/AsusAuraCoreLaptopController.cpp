@@ -11,6 +11,7 @@
 
 #include "AsusAuraCoreLaptopController.h"
 #include "SettingsManager.h"
+#include "StringUtils.h"
 
 static uint8_t packet_map[ASUSAURACORELAPTOP_KEYCOUNT       +
                           ASUSAURACORELAPTOP_LIGHTBARCOUNT  +
@@ -95,21 +96,15 @@ std::string AsusAuraCoreLaptopController::GetDeviceName()
 
 std::string AsusAuraCoreLaptopController::GetSerial()
 {
-    const uint8_t sz    = HID_MAX_STR;
-    wchar_t       tmp[sz];
+    wchar_t serial_string[128];
+    int ret = hid_get_serial_number_string(dev, serial_string, 128);
 
-    int ret             = hid_get_serial_number_string(dev, tmp, sz);
-
-    if (ret != 0)
+    if(ret != 0)
     {
-        LOG_DEBUG("[%s] Get HID Serial string failed", device_name.c_str());
         return("");
     }
 
-    std::wstring w_tmp  = std::wstring(tmp);
-    std::string serial  = std::string(w_tmp.begin(), w_tmp.end());
-
-    return serial;
+    return(StringUtils::wstring_to_string(serial_string));
 }
 
 std::string AsusAuraCoreLaptopController::GetLocation()

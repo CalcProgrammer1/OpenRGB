@@ -96,7 +96,6 @@ private:
     hid_device* dev;
 
     std::string device_location;
-    std::string serial;
     std::string manufacturer;
     std::string product;
     std::string device_model;

@@ -11,6 +11,7 @@
 
 #include <cstring>
 #include "DasKeyboardController.h"
+#include "StringUtils.h"
 
 using namespace std::chrono_literals;
 
@@ -36,22 +37,15 @@ std::string DasKeyboardController::GetDeviceLocation()
 
 std::string DasKeyboardController::GetSerialString()
 {
-    wchar_t serial_string[128] = {};
-    int     err                = hid_get_serial_number_string(dev, serial_string, 128);
+    wchar_t serial_string[128];
+    int ret = hid_get_serial_number_string(dev, serial_string, 128);
 
-    std::string return_string;
-    if(err == 0)
+    if(ret != 0)
     {
-        std::wstring return_wstring = serial_string;
-        return_string = std::string(return_wstring.begin(), return_wstring.end());
+        return("");
     }
 
-    if(return_string.empty())
-    {
-        return_string = version;
-    }
-
-    return(return_string);
+    return(StringUtils::wstring_to_string(serial_string));
 }
 
 std::string DasKeyboardController::GetVersionString()

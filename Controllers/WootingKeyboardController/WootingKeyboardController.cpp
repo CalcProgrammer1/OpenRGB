@@ -10,6 +10,7 @@
 \*---------------------------------------------------------*/
 
 #include <cstring>
+#include "StringUtils.h"
 #include "WootingKeyboardController.h"
 
 WootingKeyboardController::WootingKeyboardController()
@@ -44,7 +45,15 @@ std::string WootingKeyboardController::GetDescription()
 
 std::string WootingKeyboardController::GetSerial()
 {
-    return serial;
+    wchar_t serial_string[128];
+    int ret = hid_get_serial_number_string(dev, serial_string, 128);
+
+    if(ret != 0)
+    {
+        return("");
+    }
+
+    return(StringUtils::wstring_to_string(serial_string));
 }
 
 uint8_t WootingKeyboardController::GetWootingType()

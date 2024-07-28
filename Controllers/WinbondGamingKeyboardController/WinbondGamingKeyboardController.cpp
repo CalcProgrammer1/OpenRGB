@@ -11,9 +11,10 @@
 
 #include <algorithm>
 #include <string.h>
+#include "LogManager.h"
+#include "StringUtils.h"
 #include "WinbondGamingKeyboardController.h"
 #include "RGBController_WinbondGamingKeyboard.h"
-#include "LogManager.h"
 
 #define WINBOND_HID_DATA_LEN 64
 
@@ -202,22 +203,17 @@ void WinbondGamingKeyboardController::SetVersionLayout()
     version = "???";
 }
 
-std::string WinbondGamingKeyboardController::GetSerialString() const
+std::string WinbondGamingKeyboardController::GetSerialString()
 {
-    wchar_t serial_wchar[128] = {};
-    int ret = hid_get_serial_number_string(dev, serial_wchar, 128);
-    if(ret == -1)
-    {
-        return "";
-    }
-    std::wstring serial_wstring(serial_wchar);
-    std::string serial_string;
-    std::transform(serial_wstring.begin(), serial_wstring.end(), std::back_inserter(serial_string), [] (wchar_t i)
-    {
-        return (char)i;
-    });
+    wchar_t serial_string[128];
+    int ret = hid_get_serial_number_string(dev, serial_string, 128);
 
-    return serial_string;
+    if(ret != 0)
+    {
+        return("");
+    }
+
+    return(StringUtils::wstring_to_string(serial_string));
 }
 
 static void setModeImpl(hid_device* dev, bool is_logo, unsigned char effect_mode, unsigned char colors[2][3],

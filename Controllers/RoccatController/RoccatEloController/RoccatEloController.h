@@ -33,7 +33,6 @@ public:
 private:
     hid_device*     dev;
     std::string     location;
-    std::string     serial_number;
     std::string     version;
 
     void            SendInit();

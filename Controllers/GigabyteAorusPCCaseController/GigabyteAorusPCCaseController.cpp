@@ -11,6 +11,7 @@
 
 #include <cstring>
 #include "GigabyteAorusPCCaseController.h"
+#include "StringUtils.h"
 
 GigabyteAorusPCCaseController::GigabyteAorusPCCaseController(hid_device *dev_handle, const char *path)
 {
@@ -38,10 +39,7 @@ std::string GigabyteAorusPCCaseController::GetSerialString()
         return("");
     }
 
-    std::wstring return_wstring = serial_string;
-    std::string return_string(return_wstring.begin(), return_wstring.end());
-
-    return(return_string);
+    return(StringUtils::wstring_to_string(serial_string));
 }
 
 void GigabyteAorusPCCaseController::SendColor(uint8_t red, uint8_t green, uint8_t blue)

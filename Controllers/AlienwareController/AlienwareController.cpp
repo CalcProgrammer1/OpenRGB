@@ -19,6 +19,7 @@
 #include "RGBController.h"
 #include "AlienwareController.h"
 #include "LogManager.h"
+#include "StringUtils.h"
 
 typedef uint32_t alienware_platform_id;
 
@@ -87,9 +88,7 @@ AlienwareController::AlienwareController(hid_device* dev_handle, const hid_devic
     /*-----------------------------------------------------*\
     | Get serial number                                     |
     \*-----------------------------------------------------*/
-    std::wstring tmp_serial_number;
-    tmp_serial_number   = info.serial_number;
-    serial_number       = std::string(tmp_serial_number.begin(), tmp_serial_number.end());
+    serial_number       = StringUtils::wstring_to_string(info.serial_number);
 
     /*-----------------------------------------------------*\
     | Get zone information by checking firmware             |

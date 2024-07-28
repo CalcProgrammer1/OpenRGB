@@ -59,7 +59,6 @@ private:
     std::string description;
     std::string location;
     std::string version;
-    std::string serial_number;
     bool        on = false;
     bool        direct_mode_enabled = false;
 

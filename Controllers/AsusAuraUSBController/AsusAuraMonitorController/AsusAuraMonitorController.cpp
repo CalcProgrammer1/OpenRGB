@@ -12,6 +12,7 @@
 #include <cstring>
 #include "AsusAuraMonitorController.h"
 #include "LogManager.h"
+#include "StringUtils.h"
 
 AuraMonitorController::AuraMonitorController(hid_device* dev_handle, const char* path, uint16_t pid)
 {
@@ -40,10 +41,7 @@ std::string AuraMonitorController::GetSerialString()
         return("");
     }
 
-    std::wstring return_wstring = serial_string;
-    std::string return_string(return_wstring.begin(), return_wstring.end());
-
-    return(return_string);
+    return(StringUtils::wstring_to_string(serial_string));
 }
 
 void AuraMonitorController::BeginUpdate()

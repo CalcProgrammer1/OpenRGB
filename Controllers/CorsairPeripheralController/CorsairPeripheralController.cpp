@@ -12,6 +12,7 @@
 #include <cstring>
 #include "CorsairPeripheralController.h"
 #include "LogManager.h"
+#include "StringUtils.h"
 
 using namespace std::chrono_literals;
 
@@ -133,10 +134,7 @@ std::string CorsairPeripheralController::GetSerialString()
         return("");
     }
 
-    std::wstring return_wstring = serial_string;
-    std::string return_string(return_wstring.begin(), return_wstring.end());
-
-    return(return_string);
+    return(StringUtils::wstring_to_string(serial_string));
 }
 
 void CorsairPeripheralController::SetLEDs(std::vector<RGBColor>colors)

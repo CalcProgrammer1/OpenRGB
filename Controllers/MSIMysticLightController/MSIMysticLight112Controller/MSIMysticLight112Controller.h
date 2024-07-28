@@ -90,7 +90,6 @@ public:
 private:
     bool            ReadSettings();
     bool            ReadFwVersion();
-    void            ReadSerial();
     void            ReadName();
     ZoneData*       GetZoneData
                         (
@@ -103,7 +102,6 @@ private:
     std::string                     location;
     std::string                     version_APROM;
     std::string                     version_LDROM;
-    std::string                     chip_id;
 
     FeaturePacket_112               data;
     FeaturePacket_112               zone_based_per_led_data;

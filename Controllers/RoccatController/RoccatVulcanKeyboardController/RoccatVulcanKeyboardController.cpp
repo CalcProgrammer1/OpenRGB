@@ -14,8 +14,9 @@
 #include <math.h>
 #include <thread>
 #include <vector>
-#include "RoccatVulcanKeyboardController.h"
 #include "LogManager.h"
+#include "RoccatVulcanKeyboardController.h"
+#include "StringUtils.h"
 
 RoccatVulcanKeyboardController::RoccatVulcanKeyboardController(hid_device* dev_ctrl_handle, hid_device* dev_led_handle, char *path, uint16_t pid)
 {
@@ -41,11 +42,7 @@ std::string RoccatVulcanKeyboardController::GetSerial()
         return("");
     }
 
-    std::wstring return_wstring = serial_string;
-    std::string return_string(return_wstring.begin(), return_wstring.end());
-
-    return(return_string);
-
+    return(StringUtils::wstring_to_string(serial_string));
 }
 
 std::string RoccatVulcanKeyboardController::GetLocation()

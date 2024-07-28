@@ -11,6 +11,7 @@
 
 #include <cstring>
 #include "HyperXAlloyOrigins60and65Controller.h"
+#include "StringUtils.h"
 
 HyperXAlloyOrigins60and65Controller::HyperXAlloyOrigins60and65Controller(hid_device* dev_handle, const char* path)
 {
@@ -38,10 +39,7 @@ std::string HyperXAlloyOrigins60and65Controller::GetSerialString()
         return("");
     }
 
-    std::wstring return_wstring = serial_string;
-    std::string return_string(return_wstring.begin(), return_wstring.end());
-
-    return(return_string);
+    return(StringUtils::wstring_to_string(serial_string));
 }
 
 void HyperXAlloyOrigins60and65Controller::SetLEDsDirect(std::vector<RGBColor> colors)

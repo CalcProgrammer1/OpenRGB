@@ -19,6 +19,7 @@
 #include <array>
 #include <bitset>
 #include "MSIMysticLight185Controller.h"
+#include "StringUtils.h"
 
 using namespace std::chrono_literals;
 
@@ -343,14 +344,13 @@ MSIMysticLight185Controller::MSIMysticLight185Controller
         location = path;
 
         ReadName();
-        ReadSerial();
         ReadFwVersion();
         ReadSettings();
     }
 
     if(pid == MSI_USB_PID_COMMON)
     {
-        std::string pidStr(chip_id.substr(0, 4));
+        std::string pidStr(GetSerial().substr(0, 4));
         pid = std::stoi(pidStr, nullptr, 16);
     }
 
@@ -622,7 +622,15 @@ std::string MSIMysticLight185Controller::GetDeviceLocation()
 
 std::string MSIMysticLight185Controller::GetSerial()
 {
-    return chip_id;
+    wchar_t serial_string[128];
+    int ret = hid_get_serial_number_string(dev, serial_string, 128);
+
+    if(ret != 0)
+    {
+        return("");
+    }
+
+    return(StringUtils::wstring_to_string(serial_string));
 }
 
 bool MSIMysticLight185Controller::ReadSettings()
@@ -1032,22 +1040,6 @@ bool MSIMysticLight185Controller::ReadFwVersion()
     | failed                                                |
     \*-----------------------------------------------------*/
     return (ret_val > 0);
-}
-
-void MSIMysticLight185Controller::ReadSerial()
-{
-    wchar_t serial[256];
-
-    /*-----------------------------------------------------*\
-    | Get the serial number string from HID                 |
-    \*-----------------------------------------------------*/
-    hid_get_serial_number_string(dev, serial, 256);
-
-    /*-----------------------------------------------------*\
-    | Convert wchar_t into std::wstring into std::string    |
-    \*-----------------------------------------------------*/
-    std::wstring wserial = std::wstring(serial);
-    chip_id = std::string(wserial.begin(), wserial.end());
 }
 
 void MSIMysticLight185Controller::ReadName()

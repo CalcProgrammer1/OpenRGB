@@ -17,6 +17,7 @@
 #include <fstream>
 #include <iostream>
 #include <string>
+#include "StringUtils.h"
 #include "ZalmanZSyncController.h"
 
 using namespace std::chrono_literals;
@@ -79,10 +80,7 @@ std::string ZalmanZSyncController::GetSerialString()
         return("");
     }
 
-    std::wstring return_wstring = serial_string;
-    std::string return_string(return_wstring.begin(), return_wstring.end());
-
-    return(return_string);
+    return(StringUtils::wstring_to_string(serial_string));
 }
 
 void ZalmanZSyncController::SetChannelEffect(unsigned char channel,

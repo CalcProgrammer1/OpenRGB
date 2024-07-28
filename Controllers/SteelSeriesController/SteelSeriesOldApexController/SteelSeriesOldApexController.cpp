@@ -18,6 +18,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "SteelSeriesOldApexController.h"
+#include "StringUtils.h"
 
 static void send_usb_msg(hid_device* dev, char * data_pkt, unsigned int size)
 {
@@ -66,15 +67,12 @@ std::string SteelSeriesOldApexController::GetSerialString()
     wchar_t serial_string[128];
     int ret = hid_get_serial_number_string(dev, serial_string, 128);
 
-    if (ret != 0)
+    if(ret != 0)
     {
         return("");
     }
 
-    std::wstring return_wstring = serial_string;
-    std::string return_string(return_wstring.begin(), return_wstring.end());
-
-    return(return_string);
+    return(StringUtils::wstring_to_string(serial_string));
 }
 
 steelseries_type SteelSeriesOldApexController::GetKeyboardType()

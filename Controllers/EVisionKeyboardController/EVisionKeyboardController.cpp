@@ -12,6 +12,7 @@
 
 #include <cstring>
 #include "EVisionKeyboardController.h"
+#include "StringUtils.h"
 
 EVisionKeyboardController::EVisionKeyboardController(hid_device* dev_handle, const char* path)
 {
@@ -39,10 +40,7 @@ std::string EVisionKeyboardController::GetSerialString()
         return("");
     }
 
-    std::wstring return_wstring = serial_string;
-    std::string return_string(return_wstring.begin(), return_wstring.end());
-
-    return(return_string);
+    return(StringUtils::wstring_to_string(serial_string));
 }
 
 void EVisionKeyboardController::SetKeyboardColors
@@ -64,7 +62,7 @@ void EVisionKeyboardController::SetKeyboardColors
         {
             packet_size     = size;
         }
-        
+
         SendKeyboardData
             (
             &color_data[packet_offset],
@@ -149,7 +147,7 @@ void EVisionKeyboardController::SendKeyboardBegin()
     usb_buf[0x01]           = EVISION_KB_COMMAND_BEGIN;
     usb_buf[0x02]           = 0x00;
     usb_buf[0x03]           = EVISION_KB_COMMAND_BEGIN;
-    
+
     /*-----------------------------------------------------*\
     | Send packet                                           |
     \*-----------------------------------------------------*/
@@ -175,7 +173,7 @@ void EVisionKeyboardController::SendKeyboardEnd()
     usb_buf[0x01]           = EVISION_KB_COMMAND_END;
     usb_buf[0x02]           = 0x00;
     usb_buf[0x03]           = EVISION_KB_COMMAND_END;
-    
+
     /*-----------------------------------------------------*\
     | Send packet                                           |
     \*-----------------------------------------------------*/
@@ -211,7 +209,7 @@ void EVisionKeyboardController::SendKeyboardData
     | Copy in data bytes                                    |
     \*-----------------------------------------------------*/
     memcpy(&usb_buf[0x08], data, data_size);
-    
+
     /*-----------------------------------------------------*\
     | Compute Checksum                                      |
     \*-----------------------------------------------------*/

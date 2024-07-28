@@ -11,6 +11,7 @@
 
 #include <cstring>
 #include "RedragonMouseController.h"
+#include "StringUtils.h"
 
 RedragonMouseController::RedragonMouseController(hid_device* dev_handle, const char* path)
 {
@@ -43,10 +44,7 @@ std::string RedragonMouseController::GetSerialString()
         return("");
     }
 
-    std::wstring return_wstring = serial_string;
-    std::string return_string(return_wstring.begin(), return_wstring.end());
-
-    return(return_string);
+    return(StringUtils::wstring_to_string(serial_string));
 }
 
 void RedragonMouseController::SendMouseColor

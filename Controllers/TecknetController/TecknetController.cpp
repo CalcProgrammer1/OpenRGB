@@ -9,6 +9,7 @@
 |   SPDX-License-Identifier: GPL-2.0-only                   |
 \*---------------------------------------------------------*/
 
+#include "StringUtils.h"
 #include "TecknetController.h"
 
 static unsigned char tecknet_colour_mode_data[][16] =
@@ -38,10 +39,6 @@ TecknetController::TecknetController(hid_device* dev_handle, char *_path)
     wName = std::wstring(tmpName);
     device_name.append(" ").append(std::string(wName.begin(), wName.end()));
 
-    hid_get_serial_number_string(dev, tmpName, szTemp);
-    wName = std::wstring(tmpName);
-    serial = std::string(wName.begin(), wName.end());
-
     location = _path;
 
     current_mode        = TECKNET_MODE_DIRECT;
@@ -61,7 +58,15 @@ std::string TecknetController::GetDeviceName()
 
 std::string TecknetController::GetSerial()
 {
-    return serial;
+    wchar_t serial_string[128];
+    int ret = hid_get_serial_number_string(dev, serial_string, 128);
+
+    if(ret != 0)
+    {
+        return("");
+    }
+
+    return(StringUtils::wstring_to_string(serial_string));
 }
 
 std::string TecknetController::GetLocation()

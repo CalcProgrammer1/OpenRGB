@@ -11,6 +11,7 @@
 
 #include <cstring>
 #include "HyperXPulsefireRaidController.h"
+#include "StringUtils.h"
 
 using namespace std::chrono_literals;
 
@@ -19,20 +20,6 @@ HyperXPulsefireRaidController::HyperXPulsefireRaidController(hid_device* dev_han
     dev                 = dev_handle;
     location            = info.path;
     version             = "";
-
-    wchar_t serial_string[128];
-    int ret = hid_get_serial_number_string(dev, serial_string, 128);
-
-    if(ret != 0)
-    {
-        serial_number = "";
-    }
-    else
-    {
-        std::wstring return_wstring = serial_string;
-        serial_number = std::string(return_wstring.begin(), return_wstring.end());
-    }
-
 }
 
 HyperXPulsefireRaidController::~HyperXPulsefireRaidController()
@@ -47,7 +34,15 @@ std::string HyperXPulsefireRaidController::GetDeviceLocation()
 
 std::string HyperXPulsefireRaidController::GetSerialString()
 {
-    return(serial_number);
+    wchar_t serial_string[128];
+    int ret = hid_get_serial_number_string(dev, serial_string, 128);
+
+    if(ret != 0)
+    {
+        return("");
+    }
+
+    return(StringUtils::wstring_to_string(serial_string));
 }
 
 std::string HyperXPulsefireRaidController::GetFirmwareVersion()

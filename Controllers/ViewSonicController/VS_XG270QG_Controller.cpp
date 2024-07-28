@@ -10,8 +10,9 @@
 \*---------------------------------------------------------*/
 
 #include <cstring>
-#include "VS_XG270QG_Controller.h"
 #include "LogManager.h"
+#include "StringUtils.h"
+#include "VS_XG270QG_Controller.h"
 
 VS_XG270QG_Controller::VS_XG270QG_Controller(hid_device* device, const char* path)
 {
@@ -39,11 +40,7 @@ std::string VS_XG270QG_Controller::GetSerial()
         return("");
     }
 
-    std::wstring return_wstring = serial_string;
-    std::string return_string(return_wstring.begin(), return_wstring.end());
-
-    return(return_string);
-    return serial;
+    return(StringUtils::wstring_to_string(serial_string));
 }
 
 void VS_XG270QG_Controller::SetMode(uint8_t mode, uint8_t r, uint8_t g, uint8_t b)

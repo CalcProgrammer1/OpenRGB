@@ -55,6 +55,5 @@ protected:
 
 private:
     std::string                 location;
-    std::string                 serial_number;
     std::string                 version;
 };

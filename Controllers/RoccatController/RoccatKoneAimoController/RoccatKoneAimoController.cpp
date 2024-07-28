@@ -11,6 +11,7 @@
 
 #include <cstring>
 #include "RoccatKoneAimoController.h"
+#include "StringUtils.h"
 
 RoccatKoneAimoController::RoccatKoneAimoController(hid_device* dev_handle, char *_path)
 {
@@ -27,10 +28,6 @@ RoccatKoneAimoController::RoccatKoneAimoController(hid_device* dev_handle, char 
     hid_get_product_string(dev, tmpName, szTemp);
     wName = std::wstring(tmpName);
     device_name.append(" ").append(std::string(wName.begin(), wName.end()));
-
-    hid_get_serial_number_string(dev, tmpName, szTemp);
-    wName  = std::wstring(tmpName);
-    serial = std::string(wName.begin(), wName.end());
 
     /*-----------------------------------------------------*\
     | Init usb buffer to 0 and add first two bytes          |
@@ -54,7 +51,15 @@ std::string RoccatKoneAimoController::GetDeviceName()
 
 std::string RoccatKoneAimoController::GetSerial()
 {
-    return serial;
+    wchar_t serial_string[128];
+    int ret = hid_get_serial_number_string(dev, serial_string, 128);
+
+    if(ret != 0)
+    {
+        return("");
+    }
+
+    return(StringUtils::wstring_to_string(serial_string));
 }
 
 std::string RoccatKoneAimoController::GetLocation()

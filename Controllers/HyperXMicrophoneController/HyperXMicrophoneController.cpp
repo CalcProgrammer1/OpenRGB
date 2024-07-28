@@ -11,6 +11,7 @@
 
 #include <cstring>
 #include "HyperXMicrophoneController.h"
+#include "StringUtils.h"
 
 using namespace std::chrono_literals;
 
@@ -19,19 +20,6 @@ HyperXMicrophoneController::HyperXMicrophoneController(hidapi_wrapper hid_wrappe
     wrapper     = hid_wrapper;
     dev         = dev_handle;
     location    = path;
-
-    wchar_t serial_string[128];
-    int ret = wrapper.hid_get_serial_number_string(dev, serial_string, 128);
-
-    if(ret != 0)
-    {
-        serial_number = "";
-    }
-    else
-    {
-        std::wstring return_wstring = serial_string;
-        serial_number = std::string(return_wstring.begin(), return_wstring.end());
-    }
 }
 
 HyperXMicrophoneController::~HyperXMicrophoneController()
@@ -53,7 +41,15 @@ std::string HyperXMicrophoneController::GetDeviceLocation()
 
 std::string HyperXMicrophoneController::GetSerialString()
 {
-    return serial_number;
+    wchar_t serial_string[128];
+    int ret = wrapper.hid_get_serial_number_string(dev, serial_string, 128);
+
+    if(ret != 0)
+    {
+        return("");
+    }
+
+    return(StringUtils::wstring_to_string(serial_string));
 }
 
 void HyperXMicrophoneController::SaveColors(std::vector<RGBColor> colors, unsigned int num_frames)

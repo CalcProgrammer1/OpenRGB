@@ -53,10 +53,6 @@ WootingTwoKeyboardController::WootingTwoKeyboardController(hid_device* dev_handl
     wName = std::wstring(tmpName);
     description = std::string(wName.begin(), wName.end());
 
-    hid_get_serial_number_string(dev, tmpName, szTemp);
-    wName = std::wstring(tmpName);
-    serial = std::string(wName.begin(), wName.end());
-
     SendInitialize();
 }
 

@@ -11,25 +11,13 @@
 
 #include <string.h>
 #include "CougarRevengerSTController.h"
+#include "StringUtils.h"
 
 CougarRevengerSTController::CougarRevengerSTController(hid_device* dev_handle, const hid_device_info& info)
 {
     dev                 = dev_handle;
     location            = info.path;
     version             = "";
-
-    wchar_t serial_string[128];
-    int ret = hid_get_serial_number_string(dev, serial_string, 128);
-
-    if(ret != 0)
-    {
-        serial_number = "";
-    }
-    else
-    {
-        std::wstring return_wstring = serial_string;
-        serial_number = std::string(return_wstring.begin(), return_wstring.end());
-    }
 
     ActivateMode(0, DIRECT_MODE_VALUE);
     ActivateMode(1, DIRECT_MODE_VALUE);
@@ -48,7 +36,15 @@ std::string CougarRevengerSTController::GetDeviceLocation()
 
 std::string CougarRevengerSTController::GetSerialString()
 {
-    return(serial_number);
+    wchar_t serial_string[128];
+    int ret = hid_get_serial_number_string(dev, serial_string, 128);
+
+    if(ret != 0)
+    {
+        return("");
+    }
+
+    return(StringUtils::wstring_to_string(serial_string));
 }
 
 std::string CougarRevengerSTController::GetFirmwareVersion()

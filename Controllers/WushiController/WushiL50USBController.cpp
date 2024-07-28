@@ -8,6 +8,7 @@
 \*---------------------------------------------------------*/
 
 #include <cstring>
+#include "StringUtils.h"
 #include "WushiL50USBController.h"
 
 WushiL50USBController::WushiL50USBController(hidapi_wrapper hid_wrapper, hid_device* dev_handle, const char* path)
@@ -74,5 +75,13 @@ std::string WushiL50USBController::getLocation()
 
 std::string WushiL50USBController::GetSerialString()
 {
-    return(serial_number);
+    wchar_t serial_string[128];
+    int ret = wrapper.hid_get_serial_number_string(dev, serial_string, 128);
+
+    if(ret != 0)
+    {
+        return("");
+    }
+
+    return(StringUtils::wstring_to_string(serial_string));
 }

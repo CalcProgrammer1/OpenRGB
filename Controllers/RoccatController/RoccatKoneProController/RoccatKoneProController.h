@@ -63,7 +63,6 @@ public:
 private:
     hid_device*     dev;
     std::string     location;
-    std::string     serial_number;
     std::string     version;
 
     unsigned int    CalculateCRC(unsigned char* bytes);

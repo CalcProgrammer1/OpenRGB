@@ -10,8 +10,9 @@
 \*---------------------------------------------------------*/
 
 #include <hidapi/hidapi.h>
-#include "RoccatKovaController.h"
 #include "LogManager.h"
+#include "RoccatKovaController.h"
+#include "StringUtils.h"
 
 RoccatKovaController::RoccatKovaController(hid_device* dev_handle, char *path)
 {
@@ -34,21 +35,15 @@ std::string RoccatKovaController::GetLocation()
 
 std::string RoccatKovaController::GetSerial()
 {
-    const uint8_t sz    = ROCCAT_KOVA_HID_MAX_STR;
-    wchar_t tmp[sz];
-
-    uint8_t ret         = hid_get_serial_number_string(dev, tmp, sz);
+    wchar_t serial_string[128];
+    int ret = hid_get_serial_number_string(dev, serial_string, 128);
 
     if(ret != 0)
     {
-        LOG_DEBUG("[Roccat Kova] Get HID Serial string failed");
-        return "";
+        return("");
     }
 
-    std::wstring w_tmp  = std::wstring(tmp);
-    std::string  serial = std::string(w_tmp.begin(), w_tmp.end());
-
-    return serial;
+    return(StringUtils::wstring_to_string(serial_string));
 }
 
 std::string RoccatKovaController::GetFirmwareVersion()

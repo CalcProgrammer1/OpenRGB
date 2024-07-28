@@ -11,25 +11,13 @@
 
 #include <string.h>
 #include "LegoDimensionsToypadBaseController.h"
+#include "StringUtils.h"
 
 LegoDimensionsToypadBaseController::LegoDimensionsToypadBaseController(hid_device* dev_handle, const hid_device_info& info)
 {
     dev                 = dev_handle;
     location            = info.path;
     version             = "";
-
-    wchar_t serial_string[128];
-    int ret = hid_get_serial_number_string(dev, serial_string, 128);
-
-    if(ret != 0)
-    {
-        serial_number = "";
-    }
-    else
-    {
-        std::wstring return_wstring = serial_string;
-        serial_number = std::string(return_wstring.begin(), return_wstring.end());
-    }
 
     Activate();
 }
@@ -46,7 +34,15 @@ std::string LegoDimensionsToypadBaseController::GetDeviceLocation()
 
 std::string LegoDimensionsToypadBaseController::GetSerialString()
 {
-    return(serial_number);
+    wchar_t serial_string[128];
+    int ret = hid_get_serial_number_string(dev, serial_string, 128);
+
+    if(ret != 0)
+    {
+        return("");
+    }
+
+    return(StringUtils::wstring_to_string(serial_string));
 }
 
 std::string LegoDimensionsToypadBaseController::GetFirmwareVersion()

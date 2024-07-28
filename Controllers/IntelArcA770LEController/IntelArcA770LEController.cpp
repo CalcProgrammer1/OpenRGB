@@ -14,6 +14,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "IntelArcA770LEController.h"
+#include "StringUtils.h"
 
 IntelArcA770LEController::IntelArcA770LEController(hid_device* dev_handle, const char* path)
 {
@@ -41,10 +42,7 @@ std::string IntelArcA770LEController::GetSerialString()
         return("");
     }
 
-    std::wstring return_wstring = serial_string;
-    std::string return_string(return_wstring.begin(), return_wstring.end());
-
-    return(return_string);
+    return(StringUtils::wstring_to_string(serial_string));
 }
 
 std::string IntelArcA770LEController::GetFirmwareVersionString()

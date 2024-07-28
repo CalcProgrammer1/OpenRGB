@@ -11,6 +11,7 @@
 
 #include <cstring>
 #include "AsusAuraMouseController.h"
+#include "StringUtils.h"
 
 AuraMouseController::AuraMouseController(hid_device* dev_handle, const char* path, uint16_t pid)
 {
@@ -65,10 +66,7 @@ std::string AuraMouseController::GetSerialString()
         return("");
     }
 
-    std::wstring serial_wstring = serial_string;
-    std::string return_string = CleanSerial(serial_wstring);
-
-    return(return_string);
+    return(StringUtils::wstring_to_string(serial_string));
 }
 
 std::string AuraMouseController::GetVersion(bool wireless, int protocol)
