@@ -9,7 +9,9 @@
 |   SPDX-License-Identifier: GPL-2.0-only                   |
 \*---------------------------------------------------------*/
 
+#include <codecvt>
 #include <cstring>
+#include <locale>
 #include <stdio.h>
 #include <stdlib.h>
 #include "AMDWraithPrismController.h"
@@ -55,10 +57,9 @@ std::string AMDWraithPrismController::GetSerialString()
         return("");
     }
 
-    std::wstring return_wstring = serial_string;
-    std::string return_string(return_wstring.begin(), return_wstring.end());
+    std::wstring_convert<std::codecvt_utf8<wchar_t>, wchar_t> converter;
 
-    return(return_string);
+    return(converter.to_bytes(serial_string));
 }
 
 std::string AMDWraithPrismController::GetFirmwareVersionString()
