@@ -108,7 +108,7 @@ bool serial_port::serial_open()
     \*-----------------------------------------*/
     file_descriptor = CreateFile(full_path, GENERIC_READ | GENERIC_WRITE, 0, NULL, OPEN_EXISTING, 0, NULL);
 
-    if((int)file_descriptor < 0)
+    if(file_descriptor == INVALID_HANDLE_VALUE)
     {
         return false;
     }
