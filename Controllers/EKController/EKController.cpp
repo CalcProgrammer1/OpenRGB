@@ -10,6 +10,7 @@
 \*---------------------------------------------------------*/
 
 #include "EKController.h"
+#include "StringUtils.cpp"
 
 static unsigned char ek_colour_mode_data[][16] =
 {
@@ -48,24 +49,19 @@ static unsigned char ek_speed_mode_data[][9] =
 
 EKController::EKController(hid_device* dev_handle, char *_path)
 {
-    const int szTemp = 256;
-    wchar_t tmpName[szTemp];
+    dev         = dev_handle;
+    location    = _path;
 
-    dev = dev_handle;
+    /*---------------------------------------------------------*\
+    | Get device name from HID manufacturer and product strings |
+    \*---------------------------------------------------------*/
+    wchar_t name_string[HID_MAX_STR];
 
-    hid_get_manufacturer_string(dev, tmpName, szTemp);
-    std::wstring wName = std::wstring(tmpName);
-    device_name = std::string(wName.begin(), wName.end());
+    hid_get_manufacturer_string(dev, name_string, HID_MAX_STR);
+    device_name = StringUtils::wstring_to_string(name_string);
 
-    hid_get_product_string(dev, tmpName, szTemp);
-    wName = std::wstring(tmpName);
-    device_name.append(" ").append(std::string(wName.begin(), wName.end()));
-
-    hid_get_serial_number_string(dev, tmpName, szTemp);
-    wName = std::wstring(tmpName);
-    serial = std::string(wName.begin(), wName.end());
-
-    location = _path;
+    hid_get_product_string(dev, name_string, HID_MAX_STR);
+    device_name.append(" ").append(StringUtils::wstring_to_string(name_string));
 
     current_mode  = EK_MODE_STATIC;
     current_speed = EK_SPEED_NORMAL;
@@ -83,7 +79,15 @@ std::string EKController::GetDeviceName()
 
 std::string EKController::GetSerial()
 {
-    return serial;
+    wchar_t serial_string[128];
+    int ret = hid_get_serial_number_string(dev, serial_string, 128);
+
+    if(ret != 0)
+    {
+        return("");
+    }
+
+    return(StringUtils::wstring_to_string(serial_string));
 }
 
 std::string EKController::GetLocation()
