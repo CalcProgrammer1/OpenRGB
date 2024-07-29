@@ -359,7 +359,7 @@ void RGBController_DRGB::DeviceUpdateLEDs()
                 {
                     ArrayData[0] = CurrPacket;
                     ArrayData[1] = NumPackets;
-                    ArrayData[2] = zone_idx;
+                    ArrayData[2] = (unsigned char)zone_idx;
                     ArrayData[3] = 0xBB;
                     for(unsigned int i=0; i<60;i++)
                     {
