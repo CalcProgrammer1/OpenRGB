@@ -1,10 +1,8 @@
-## ![OpenRGB](https://gitlab.com/OpenRGBDevelopers/OpenRGB-Wiki/-/raw/stable/uploads/5b7e633ac9f63b00c8a4c72686206c3f/OpenRGB.png "OpenRGB Logo")
+## ![OpenRGB](Documentation/Images/OpenRGB.png "OpenRGB Logo")
 
-![Visitors](https://visitor-badge.glitch.me/badge?page_id=org.openrgb.readme) ![Pipeline Status](https://gitlab.com/CalcProgrammer1/OpenRGB/badges/master/pipeline.svg)
+![Pipeline Status](https://gitlab.com/CalcProgrammer1/OpenRGB/badges/master/pipeline.svg)
 
 One of the biggest complaints about RGB is the software ecosystem surrounding it.  Every manufacturer has their own app, their own brand, their own style.  If you want to mix and match devices, you end up with a ton of conflicting, functionally identical apps competing for your background resources.  On top of that, these apps are proprietary and Windows-only.  Some even require online accounts.  What if there was a way to control all of your RGB devices from a single app, on both Windows and Linux, without any nonsense?  That is what OpenRGB sets out to achieve.  One app to rule them all.
-
-[[_TOC_]]
 
 ## Features
 
@@ -18,6 +16,8 @@ One of the biggest complaints about RGB is the software ecosystem surrounding it
 * No official/manufacturer software required
 * Graphical view of device LEDs makes creating custom patterns easy
 
+![OpenRGB_Device_View](Documentation/Images/OpenRGB_Screenshot.png "OpenRGB Device View Screenshot")
+
 ## Website
 
 * Check out our website at [openrgb.org](https://openrgb.org)
@@ -26,225 +26,31 @@ One of the biggest complaints about RGB is the software ecosystem surrounding it
 
 * See the [Supported Devices](https://openrgb.org/devices.html) page for the current list of supported devices.
 
-## Wiki
-
-* More information is available on the [OpenRGB Wiki](https://gitlab.com/OpenRGBDevelopers/OpenRGB-Wiki/-/blob/stable/home.md)
-
 ## WARNING!
 
-This project interacts directly with hardware using reverse engineered protocols.  While we do our best to make sure we're sending the right data, there is always some risk in sending data to hardware when we don't understand exactly how that hardware works.
+This project interacts directly with hardware using reverse engineered protocols.  While we do our best to make sure we're sending the right data, there is always some risk in sending data to hardware when we don't understand exactly how that hardware works.  There have been issues in the past with certain hardware getting damaged/bricked and we have either disabled or fixed the offending code.  That said, with OpenRGB always changing and the landscape of RGB devices being of widely varying quality, we can't guarantee it won't happen again.  By installing and using OpenRGB you accept this risk.
 
-There have been two instances of hardware damage in OpenRGB's development and we've taken precautions to prevent it from happening again.
+## Download OpenRGB
 
-  * The Mystic Light motherboard code bricked the RGB controller of some MSI motherboards.  The code was disabled and reworked.  We have been re-adding these motherboards to the support list as we verify that the new code works with them.  Affected boards can be unbricked with a Nuvoton Nu-Link adapter.
-  * There were reports of bricked Gigabyte Aorus Z390 motherboards caused by dumping SMBus address 0x68 in an attempt to reverse engineer the RGB.  Due to this, the SMBus Tools page on OpenRGB is hidden by default now as it has no real use to non-developers.
+  * Pre-built binaries are available for the following platforms:
+    * Windows
+    * Linux (AppImage, .deb, and .rpm)
+    * MacOS
+  * Released versions are available to download on [OpenRGB.org](https://openrgb.org/releases.html) or under [Releases](https://gitlab.com/CalcProgrammer1/OpenRGB/-/releases/permalink/latest).
+  * Experimental (aka Pipeline) versions are available to download on [OpenRGB.org](https://openrgb.org/index.html#pl).
+  * On Windows, you will need the **Microsoft Visual 2019 C++ runtime** installed.  You can get it [here](https://support.microsoft.com/en-us/help/2977003/the-latest-supported-visual-c-downloads).
+  * An unofficial Flatpak release is [available on Flathub](https://flathub.org/apps/details/org.openrgb.OpenRGB)
+    * Note: If using the AppImage or Flatpak versions, ensure you [install the latest udev rules](Documentation/UdevRules.md).
+  * Released versions are officially packaged for various distributions including Alpine, Fedora, and Arch.
+  * Arch users can also install from the AUR for both the [release](https://aur.archlinux.org/packages/openrgb/) and [pipeline](https://aur.archlinux.org/packages/openrgb-git/) versions.
 
-![OpenRGB_Device_View](https://gitlab.com/OpenRGBDevelopers/OpenRGB-Wiki/-/raw/stable/uploads/e1d8d4603ecdd04f1acbcf6b2314fc66/OpenRGB_0.31_Device_View.PNG "OpenRGB Device View Screenshot")
+## Compile OpenRGB
 
-## Windows
+  * Instructions for compiling from source are [available here](Documentation/Compiling.md).
 
-  *  You will need the **Microsoft Visual 2019 C++ runtime** installed.  You can get it [here](https://support.microsoft.com/en-us/help/2977003/the-latest-supported-visual-c-downloads)
-  *  Pre-built Release binaries are available for Windows 10 / 11 64bit under the [Releases section](https://gitlab.com/CalcProgrammer1/OpenRGB/-/releases/permalink/latest#Windows-64-bit) on GitLab.
-  *  If you want to test the latest (potentially unstable) code you can also get the Windows package from [the pipeline builds](https://gitlab.com/CalcProgrammer1/OpenRGB/-/jobs/artifacts/master/download?job=Windows+64).
+## Setup Device Access
 
-  <details>
-  <summary><h5>Compiling</h5></summary>
-
-   *  To build the application yourself on Windows:
-      1. Download the latest [Visual Studio Community Edition](https://visualstudio.microsoft.com/thank-you-for-downloading-visual-studio-for-cplusplus/?sku=Community)
-         and [Qt Creator](https://www.qt.io/download-thank-you).
-      2. When [installing the QT toolset](https://gitlab.com/OpenRGBDevelopers/OpenRGB-Wiki/-/blob/stable/Downloading%20Qt%20and%20building%20OpenRGB.md)
-         select the latest revision of Qt 5.15.x as OpenRGB is not yet compatible with QT6
-      3. Optionally [install Git](https://git-scm.com/download) if you intend to
-         [contribute your changes](https://gitlab.com/CalcProgrammer1/OpenRGB/-/blob/master/CONTRIBUTING.md)
-         to the mainline codebase.
-      4. Open the OpenRGB.pro project in Qt Creator.
-      5. Use the MSVC compiler kit, either 32- or 64-bit, to build the application.
-      6. Run the project from Qt Creator.  If you want to use your custom build standalone, download the latest matching Release package and replace the OpenRGB.exe in it with your new build.
-
-  </details>
-
-  ----
-
-### SMBus Access
-  *  **You must run the application as Administrator the first time to allow WinRing0 to set up.  It can be run as a normal user afterwards**
-  * Early versions of OpenRGB used InpOut32. This is no longer needed and should be removed to avoid warnings by some anti-cheat software. You can uninstall Inpout32 by following the instructions [here](https://gitlab.com/CalcProgrammer1/OpenRGB/-/issues/669#note_461054255).
-
-### USB Access
-
-  *  Early versions of OpenRGB used the WinUSB driver, installed using Zadig.  This is no longer required, and you need to uninstall the WinUSB driver if you previously installed it.  You can uninstall the WinUSB driver by following [this guide](https://gitlab.com/CalcProgrammer1/OpenRGB/-/wikis/Frequently-Asked-Questions#i-installed-the-winusb-driver-for-a-device-and-i-wish-to-uninstall-it).
-
-## Linux
-
-  *  Pre-built binaries in AppImage format are available under the [Releases](https://gitlab.com/CalcProgrammer1/OpenRGB/-/releases/permalink/latest#Linux-64-bit) section on GitLab.
-  *  There is also a unofficial universal Flatpak build [available on Flathub](https://flathub.org/apps/details/org.openrgb.OpenRGB). Note: To ensure you have device permissions please [install the latest UDEV rules](#installing-udev-rules-manually).
-
-   <details>
-   <summary><h5>Arch</h5></summary>
-
-##### Binaries
-
-   *  OpenRGB is available in the AUR for both the [release](https://aur.archlinux.org/packages/openrgb/) and [pipeline](https://aur.archlinux.org/packages/openrgb-git/) builds
-
-   </details>
-   <details>
-   <summary><h5>Debian / Ubuntu</h5></summary>
-
-##### Binaries
-
-   *  OpenRGB builds an official Debian package for Bullseye and Ubuntu 21.04 onwards for both the 64bit [release](https://gitlab.com/CalcProgrammer1/OpenRGB/-/releases/permalink/latest#Debian-Bullseye-amd64) and [pipeline](https://gitlab.com/CalcProgrammer1/OpenRGB/-/jobs/artifacts/master/download?job=Linux+64+.deb+%28Debian+Bullseye%29) builds
-   *  There is also a legacy package for Debian 64bit Buster and it's derivatives (Ubuntu prior to 21.04) with [release](https://gitlab.com/CalcProgrammer1/OpenRGB/-/releases/permalink/latest#Debian-Buster-amd64) and [pipeline](https://gitlab.com/CalcProgrammer1/OpenRGB/-/jobs/artifacts/master/download?job=Linux+64+.deb+%28Debian+Buster%29) builds
-
-##### Compiling
-
-   1.  Install build dependencies
-       - `sudo apt install git build-essential qtcreator qtbase5-dev qtchooser qt5-qmake qtbase5-dev-tools libusb-1.0-0-dev libhidapi-dev pkgconf libmbedtls-dev qttools5-dev-tools`
-   2.  git clone https://gitlab.com/CalcProgrammer1/OpenRGB
-   3.  cd OpenRGB
-   4.  qmake OpenRGB.pro
-   5.  make -j$(nproc)
-   6.  You can then run the application from the compile directory with `./openrgb` or install with `make install`
-   7.  You will also need to [install the latest UDEV rules](#installing-udev-rules-manually).
-
-##### Packaging
-
-   *  You can also build a Debian package (.deb) from this source code with:
-      - `sudo apt install debhelper`
-      - `/scripts/build-package-files.sh debian/changelog`
-      - `dpkg-buildpackage -us -B`
-
-   </details>
-   <details>
-   <summary><h5>Fedora</h5></summary>
-
-##### Binaries
-
-* OpenRGB builds an official Fedora package for the latest [release](https://gitlab.com/CalcProgrammer1/OpenRGB/-/releases/permalink/latest#Linux-64-bit) of OpenRGB
-* There are also pipeline builds for both [Fedora 35](https://gitlab.com/CalcProgrammer1/OpenRGB/-/jobs/artifacts/master/download?job=Linux+64+f35+rpm) and
-  [Fedora 36](https://gitlab.com/CalcProgrammer1/OpenRGB/-/jobs/artifacts/master/download?job=Linux+64+f36+rpm) available
-
-##### Compiling
-
-   1.  Install build dependencies
-       - `sudo dnf install automake gcc-c++ git hidapi-devel libusbx-devel mbedtls-devel pkgconf qt5-qtbase-devel qt5-linguist`
-   2.  git clone https://gitlab.com/CalcProgrammer1/OpenRGB
-   3.  cd OpenRGB
-   4.  qmake-qt5 OpenRGB.pro
-   5.  make -j$(nproc)
-   6.  You can then run the application from the compile directory with `./openrgb` or install with `make install`
-   7.  You will also need to [install the latest UDEV rules](#installing-udev-rules-manually).
-
-   </details>
-
-   ----
-
-### SMBus Access
-
-  * SMBus access is necessary for controlling RGB RAM and certain motherboard on-board LEDs.
-  * If you are not trying to use OpenRGB to control RGB RAM or motherboard LEDs, you may skip this section.
-  * ASUS and ASRock motherboards have their RGB controller on a secondary SMBus interface and requires a Linux kernel > 5.7 <sup>[commit](https://github.com/torvalds/linux/commit/f27237c174fd9653033330e4e532cd9d153ce824)</sup>
-  * Allowing access to SMBus:
-    1. Install the `i2c-tools` package.
-    2. Load the i2c-dev module: `sudo modprobe i2c-dev`
-    3. Create the i2c group if it does not already exist: `sudo groupadd --system i2c`
-    4. Add yourself to the i2c group: `sudo usermod $USER -aG i2c`
-    5. If you want you can load the i2c-dev module at boot: `sudo touch /etc/modules-load.d/i2c.conf && sudo sh -c 'echo "i2c-dev" >> /etc/modules-load.d/i2c.conf'`
-    6. Load the i2c driver for your chipset:
-    <details>
-    <summary><h6>Intel</h6></summary>
-
-     * `sudo modprobe i2c-i801`
-     * `sudo modprobe i2c-nct6775` - Secondary controller for motherboard LEDs (requires [kernel patch](https://gitlab.com/OpenRGBDevelopers/OpenRGB-Wiki/-/blob/stable/OpenRGB-Kernel-Patch.md))
-
-    </details>
-    <details>
-    <summary><h6>AMD</h6></summary>
-
-     * `sudo modprobe i2c-piix4`
-     * Unmodified kernel will have one interface, patched kernel will have two.  The first at 0x0B00 and the second at 0x0B20.  The 0x0B20 interface is for motherboard LEDs.
-
-    </details>
-
-    * If RGB RAM or certain motherboard on-board LEDs are not loading the profile on startup, you need to add the loading entries to: `/etc/modules-load.d/`
-      - i2c-dev
-      - i2c-i801 or i2c-piix4 (according to your chipset)
-
-     ----
-
-  *  You'll have to enable user access to your SMBus if you don't run as root.
-      - List all SMBus controllers: `sudo i2cdetect -l`
-      - Note the number for PIIX4, I801, and NCT6775 controllers.
-      - Give user access to those controllers. If you have not installed OpenRGB from a package (e.g. deb, RPM or from the AUR) then most likely you need to [install the UDEV rules](#installing-udev-rules-manually).
-  *  The i2c-nct6775 kernel module requires patching, please refer to [instructions here](https://gitlab.com/OpenRGBDevelopers/OpenRGB-Wiki/-/blob/stable/OpenRGB-Kernel-Patch.md)
-  *  Some Gigabyte/Aorus motherboards have an ACPI conflict with the SMBus controller. Please [add a kernel parameter](#kernel-parameters) to resolve this conflict.
-
-### USB Access
-
-  *  USB devices require [udev rules](#installing-udev-rules-manually) to access as a normal user.
-  *  Alternatively you can run OpenRGB as root to detect all USB devices. (Not recommended)
-  *  USB based Gigabyte AORUS motherboards may also have an ACPI conflict. Please [add a kernel parameter](#kernel-parameters) to resolve this conflict.
-
-### Installing UDEV rules manually
-
-  *  If you have installed OpenRGB from a package then latest UDEV rules are installed locally at `/usr/lib/udev/rules.d/60-openrgb.rules`
-  *  Flatpak and Appimage "packages" will need to install this file manually.
-  *  Udev rules are built from the source at compile time. When building locally they are installed with the `make install` step to `/usr/lib/udev/rules.d/60-openrgb.rules`
-  *  If you need to install the UDEV rules file manually you can also download the [latest compiled udev rules](https://gitlab.com/CalcProgrammer1/OpenRGB/-/jobs/artifacts/master/raw/60-openrgb.rules?job=Linux+64+AppImage&inline=false) from Gitlab.
-      - Copy this 60-openrgb.rules file to `/usr/lib/udev/rules.d/`
-      - Then reload rules with `sudo udevadm control --reload-rules && sudo udevadm trigger`
-
-### Kernel Parameters
-
-  *  To resolve an ACPI conflict add the `acpi_enforce_resources=lax` kernel parameter.
-  *  If you want to check if the kernel was loaded with this option you can execute this command from the terminal once you've rebooted.
-     * `cat /proc/cmdline`
-
-     <details>
-     <summary><h5>Arch</h5></summary>
-
-      * Please see [the Arch wiki](https://wiki.archlinux.org/title/kernel_parameters) for details on how to update your bootloader.
-
-     </details>
-     <details>
-     <summary><h5>Debian / Ubuntu</h5></summary>
-
-      * Please see [the Ubuntu Documentation](https://wiki.ubuntu.com/Kernel/KernelBootParameters) for Kernel Parameters for more information on updating your boot parameters.
-
-     </details>
-     <details>
-     <summary><h5>Fedora</h5></summary>
-
-      * On Fedora, install `grubby` and then following command:
-        `grubby --update-kernel=ALL --args="acpi_enforce_resources=lax"`
-      * For more information please refer to the Fedora docs for [grubby](https://docs.fedoraproject.org/en-US/fedora/latest/system-administrators-guide/kernel-module-driver-configuration/Working_with_the_GRUB_2_Boot_Loader/#sec-Making_Persistent_Changes_to_a_GRUB_2_Menu_Using_the_grubby_Tool).
-
-     </details>
-
-     ----
-
-## MacOS
-
-  *  Pre-built binaries in zipped application package format are available under the Releases section on GitLab.
-  *  You can build the project using Qt Creator or on the command line.
-      1.  Install build dependencies with Homebrew
-          - Install Homebrew by following the instructions at https://brew.sh/
-          - brew install git qt5 hidapi libusb mbedtls@2
-          - brew link qt5
-      2.  [Create a local certificate](https://support.apple.com/guide/keychain-access/create-self-signed-certificates-kyca8916/mac) called OpenRGB with code signing capability
-      3.  git clone https://gitlab.com/CalcProgrammer1/OpenRGB
-      4.  cd OpenRGB
-      5.  qmake OpenRGB.pro
-      6.  make -j8
-      7.  macdeployqt OpenRGB.app -codesign=OpenRGB
-      8.  Copy the OpenRGB.app application package to Applications
-
-### SMBus Access
-
-  * For Intel devices using a controller in the I801 family you have to download and install the [macUSPCIO driver](https://github.com/ShadyNawara/macUSPCIO/releases)
-
-### USB Access
-
-  *  USB devices may require the Input Monitoring permission.  You can add OpenRGB in System Preferences > Security & Privacy > Privacy.
+  * After installing OpenRGB, please see the [SMBus Access](Documentation/SMBusAccess.md) and [USB Access](Documentation/USBAccess.md) pages for instructions on setting up access to your RGB devices.
 
 ## Join Our Discord
 
@@ -272,9 +78,9 @@ There have been two instances of hardware damage in OpenRGB's development and we
 
 ## Contributing
 
-* Want to contribute support for a new device?  Check out the [RGBController API](https://gitlab.com/OpenRGBDevelopers/OpenRGB-Wiki/-/blob/stable/Developer-Documentation/The-RGBController-API.md) page for documentation of how OpenRGB implements device control.
-* Want to create a new OpenRGB SDK client implementation?  Check out the [OpenRGB SDK Documentation](https://gitlab.com/OpenRGBDevelopers/OpenRGB-Wiki/-/blob/stable/Developer-Documentation/OpenRGB-SDK-Documentation.md) page for documentation of how the OpenRGB SDK network protocol functions.
-* Please read the [Contributing Guidelines](https://gitlab.com/CalcProgrammer1/OpenRGB/-/blob/master/CONTRIBUTING.md) before starting work on your new changes.
+* Want to contribute support for a new device?  Check out the [RGBController API](Documentation/RGBControllerAPI.md) page for documentation of how OpenRGB implements device control.
+* Want to create a new OpenRGB SDK client implementation?  Check out the [OpenRGB SDK Documentation](Documentation/OpenRGBSDK.md) page for documentation of how the OpenRGB SDK network protocol functions.
+* Please read the [Contributing Guidelines](CONTRIBUTING.md) before starting work on your new changes.
 
 ## OpenRGB SDK
 
