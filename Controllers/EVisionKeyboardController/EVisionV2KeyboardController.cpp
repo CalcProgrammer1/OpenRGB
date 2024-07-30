@@ -50,32 +50,35 @@ static uint8_t endorfy_map[EVISION_V2_MATRIX_WIDTH * EVISION_V2_MATRIX_HEIGHT] =
 
 EVisionV2KeyboardController::EVisionV2KeyboardController(hid_device* dev_handle, const char* path, EVisionV2KeyboardLayout layout_)
 {
-    const uint8_t   sz  = HID_MAX_STR;
-    wchar_t         tmp[sz];
-
     layout              = layout_;
     dev                 = dev_handle;
     location            = path;
 
-    hid_get_manufacturer_string(dev, tmp, sz);
-    std::wstring wName = std::wstring(tmp);
-    device_name = std::string(wName.begin(), wName.end());
+    /*---------------------------------------------------------*\
+    | Get device name from HID manufacturer and product strings |
+    \*---------------------------------------------------------*/
+    wchar_t name_string[HID_MAX_STR];
 
-    hid_get_product_string(dev, tmp, sz);
-    wName = std::wstring(tmp);
-    device_name.append(" ").append(std::string(wName.begin(), wName.end()));
+    hid_get_manufacturer_string(dev, name_string, HID_MAX_STR);
+    device_name = StringUtils::wstring_to_string(name_string);
 
+    hid_get_product_string(dev, name_string, HID_MAX_STR);
+    device_name.append(" ").append(StringUtils::wstring_to_string(name_string));
+
+    /*---------------------------------------------------------*\
+    | Get capabilities and layout                               |
+    \*---------------------------------------------------------*/
     uint8_t buffer[7];
     if(Read(EVISION_V2_CMD_READ_CAPABILITIES, 0, sizeof(buffer), buffer) < 0)
     {
         return;
     }
-    if(buffer[0] != 0xaa && buffer[1] != 0x55)
+    if(buffer[0] != 0xAA && buffer[1] != 0x55)
     {
         return;
     }
 
-    map_size = buffer[5];
+    map_size    = buffer[5];
     macros_size = buffer[6] * 0x80;
 
     switch(layout)
