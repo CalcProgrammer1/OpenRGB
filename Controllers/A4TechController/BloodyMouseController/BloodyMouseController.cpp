@@ -10,7 +10,7 @@
 \*---------------------------------------------------------*/
 
 #include "BloodyMouseController.h"
-#include "LogManager.h"
+#include "StringUtils.h"
 
 BloodyMouseController::BloodyMouseController(hid_device* dev_handle, const char* path, uint16_t product_id)
 {
@@ -33,21 +33,15 @@ uint16_t BloodyMouseController::GetPid()
 
 std::string BloodyMouseController::GetSerial()
 {
-    const uint8_t   sz  = HID_MAX_STR;
-    wchar_t         tmp[sz];
+    wchar_t serial_string[HID_MAX_STR];
+    int ret = hid_get_serial_number_string(dev, serial_string, HID_MAX_STR);
 
-    int ret             = hid_get_serial_number_string(dev, tmp, sz);
-
-    if (ret != 0)
+    if(ret != 0)
     {
-        LOG_DEBUG("[BloodyMouse] Get HID Serial string failed");
         return("");
     }
 
-    std::wstring w_tmp  = std::wstring(tmp);
-    std::string serial  = std::string(w_tmp.begin(), w_tmp.end());
-
-    return(serial);
+    return(StringUtils::wstring_to_string(serial_string));
 }
 
 std::string BloodyMouseController::GetLocation()
