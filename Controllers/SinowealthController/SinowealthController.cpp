@@ -7,22 +7,22 @@
 |  Niels Westphal (crashniels) 20/5/2020    |
 \*-----------------------------------------*/
 
-#include "SinowealthController.h"
 #include <cstring>
-#include <LogManager.h>
+#include "LogManager.h"
+#include "SinowealthController.h"
+#include "StringUtils.h"
 
 SinowealthController::SinowealthController(hid_device* dev_data_handle, hid_device* dev_cmd_handle, char *_path)
 {
     dev_data = dev_data_handle;
     dev_cmd  = dev_cmd_handle;
+    location = _path;
 
     led_count = 1;
 
     current_mode      = GLORIOUS_MODE_STATIC;
     current_speed     = GLORIOUS_SPEED_NORMAL;
     current_direction = GLORIOUS_DIRECTION_UP;
-
-    location = _path;
 }
 
 SinowealthController::~SinowealthController()
@@ -44,17 +44,14 @@ unsigned int SinowealthController::GetLEDCount()
 std::string SinowealthController::GetSerialString()
 {
     wchar_t serial_string[128];
-    int ret = hid_get_serial_number_string(dev_data, serial_string, 128);
+    int ret = hid_get_serial_number_string(dev_cmd, serial_string, 128);
 
     if(ret != 0)
     {
         return("");
     }
 
-    std::wstring return_wstring = serial_string;
-    std::string return_string(return_wstring.begin(), return_wstring.end());
-
-    return(return_string);
+    return(StringUtils::wstring_to_string(serial_string));
 }
 
 std::string SinowealthController::GetFirmwareVersion()
