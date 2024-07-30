@@ -123,7 +123,7 @@ void HuePlusController::SetChannelEffect
             /*-----------------------------------------------------*\
             | Send mode and color data                              |
             \*-----------------------------------------------------*/
-            SendPacket(channel, mode, direction, color_idx, speed, 40, &color_data[0]);
+            SendPacket(channel, mode, direction, (unsigned char)color_idx, speed, 40, &color_data[0]);
         }
     }
     /*-----------------------------------------------------*\
