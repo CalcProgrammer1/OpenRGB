@@ -186,5 +186,5 @@ void RGBController_GMOW::UpdateSingleLED(int /*led*/)
 void RGBController_GMOW::DeviceUpdateMode()
 {
     mode curr = modes[active_mode];
-    controller->SetMode(active_mode, curr.speed,curr.brightness, curr.brightness, curr.colors.data(), curr.colors.size());
+    controller->SetMode(active_mode, curr.speed,curr.brightness, curr.brightness, curr.colors.data(), (unsigned char)curr.colors.size());
 }
