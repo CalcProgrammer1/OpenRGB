@@ -170,7 +170,7 @@ void NanoleafController::UpdateLEDs(std::vector<RGBColor>& colors)
         | 1         W               White channel (ignored)         |
         | 1         transitionTime  Transition time (x 100ms)       |
         \*---------------------------------------------------------*/
-        uint8_t size        = panel_ids.size();
+        std::size_t size    = panel_ids.size();
 
         uint8_t* message    = (uint8_t*)malloc((size * 7) + 1);
 
@@ -208,7 +208,7 @@ void NanoleafController::UpdateLEDs(std::vector<RGBColor>& colors)
         | 1         W               White channel (ignored)         |
         | 2         transitionTime  Transition time (x 100ms)       |
         \*---------------------------------------------------------*/
-        uint8_t size        = panel_ids.size();
+        std::size_t size    = panel_ids.size();
 
         uint8_t* message    = (uint8_t*)malloc((size * 8) + 2);
 
