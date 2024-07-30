@@ -20,12 +20,12 @@ const char* StringUtils::wchar_to_char(const wchar_t* pwchar)
     }
     // get the number of characters in the string.
     int currentCharIndex = 0;
-    char currentChar = pwchar[currentCharIndex];
+    char currentChar = (char)pwchar[currentCharIndex];
 
     while (currentChar != '\0')
     {
         currentCharIndex++;
-        currentChar = pwchar[currentCharIndex];
+        currentChar = (char)pwchar[currentCharIndex];
     }
 
     const int charCount = currentCharIndex + 1;
@@ -36,7 +36,7 @@ const char* StringUtils::wchar_to_char(const wchar_t* pwchar)
     for (int i = 0; i < charCount; i++)
     {
         // convert to char (1 byte)
-        char character = pwchar[i];
+        char character = (char)pwchar[i];
 
         *filePathC = character;
 
