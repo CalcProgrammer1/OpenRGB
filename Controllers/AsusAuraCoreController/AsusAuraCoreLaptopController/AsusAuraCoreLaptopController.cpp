@@ -67,19 +67,19 @@ static std::string power_states[ASUSAURACORELAPTOP_POWER_STATES] =
 
 AsusAuraCoreLaptopController::AsusAuraCoreLaptopController(hid_device* dev_handle, const char* path)
 {
-    const uint8_t sz    = HID_MAX_STR;
-    wchar_t       tmp[sz];
-
     dev                 = dev_handle;
     location            = path;
 
-    hid_get_manufacturer_string(dev, tmp, sz);
-    std::wstring wName = std::wstring(tmp);
-    device_name = std::string(wName.begin(), wName.end());
+    /*---------------------------------------------------------*\
+    | Get device name from HID manufacturer and product strings |
+    \*---------------------------------------------------------*/
+    wchar_t name_string[HID_MAX_STR];
 
-    hid_get_product_string(dev, tmp, sz);
-    wName = std::wstring(tmp);
-    device_name.append(" ").append(std::string(wName.begin(), wName.end()));
+    hid_get_manufacturer_string(dev, name_string, HID_MAX_STR);
+    device_name = StringUtils::wstring_to_string(name_string);
+
+    hid_get_product_string(dev, name_string, HID_MAX_STR);
+    device_name.append(" ").append(StringUtils::wstring_to_string(name_string));
 
     SetPowerConfigFromJSON();
 }
