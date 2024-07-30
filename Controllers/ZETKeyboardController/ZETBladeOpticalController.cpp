@@ -125,7 +125,7 @@ void ZETBladeOpticalController::SetLEDDirect(const std::vector<RGBColor>& colors
         | Packets have colors in groups of 4 bytes, with    |
         | the first byte being key id and then R, G, B.     |
         \*-------------------------------------------------*/
-        buf[buf_idx] = color_idx + skipped + ZET_BLADE_OPTICAL_KEY_OFFSET;
+        buf[buf_idx]        = (unsigned char)(color_idx + skipped + ZET_BLADE_OPTICAL_KEY_OFFSET);
         buf[buf_idx + 1]    = RGBGetRValue(colors[color_idx]);
         buf[buf_idx + 2]    = RGBGetGValue(colors[color_idx]);
         buf[buf_idx + 3]    = RGBGetBValue(colors[color_idx]);
