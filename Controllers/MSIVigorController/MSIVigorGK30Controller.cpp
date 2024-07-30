@@ -87,9 +87,9 @@ unsigned char MSIVigorGK30Controller::GetColourIndex(unsigned char red, unsigned
     | 0x06 white                                            |
     \*-----------------------------------------------------*/
     unsigned int divisor    = GetLargestColour( red, green, blue);
-    unsigned int r          = round( red / divisor );
-    unsigned int g          = round( green / divisor );
-    unsigned int b          = round( blue / divisor );
+    unsigned int r          = (unsigned int)round( red / divisor );
+    unsigned int g          = (unsigned int)round( green / divisor );
+    unsigned int b          = (unsigned int)round( blue / divisor );
     unsigned char idx       = argb_colour_index_data[r][g][b];
     return idx;
 }
