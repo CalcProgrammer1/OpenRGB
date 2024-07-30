@@ -10,6 +10,7 @@
 \*---------------------------------------------------------*/
 
 #include "BloodyB820RController.h"
+#include "StringUtils.h"
 
 /*-------------------------------------------------------------------------------------*\
 | The controller for this device should pass a packet of 64 bytes where the subsequent  |
@@ -35,14 +36,15 @@ BloodyB820RController::~BloodyB820RController()
 
 std::string BloodyB820RController::GetSerial()
 {
-    const int szTemp    = HID_MAX_STR;
-    wchar_t   tmpName[szTemp];
+    wchar_t serial_string[HID_MAX_STR];
+    int ret = hid_get_serial_number_string(dev, serial_string, HID_MAX_STR);
 
-    hid_get_serial_number_string(dev, tmpName, szTemp);
-    std::wstring wName  = std::wstring(tmpName);
-    std::string serial  = std::string(wName.begin(), wName.end());
+    if(ret != 0)
+    {
+        return("");
+    }
 
-    return(serial);
+    return(StringUtils::wstring_to_string(serial_string));
 }
 
 std::string BloodyB820RController::GetLocation()
