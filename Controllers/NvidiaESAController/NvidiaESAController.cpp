@@ -50,9 +50,9 @@ std::string NvidiaESAController::GetFirmwareVersion()
 
 void NvidiaESAController::SetZoneColor(unsigned int zone_idx, RGBColor color)
 {
-    unsigned char red = 0x0F - 0x0F * RGBGetRValue(color) / 255.0;
-    unsigned char grn = 0x0F - 0x0F * RGBGetGValue(color) / 255.0;
-    unsigned char blu = 0x0F - 0x0F * RGBGetBValue(color) / 255.0;
+    unsigned char red = (unsigned char)(0x0F - 0x0F * RGBGetRValue(color) / 255.0f);
+    unsigned char grn = (unsigned char)(0x0F - 0x0F * RGBGetGValue(color) / 255.0f);
+    unsigned char blu = (unsigned char)(0x0F - 0x0F * RGBGetBValue(color) / 255.0f);
 
     unsigned char usb_buf[4];
 
