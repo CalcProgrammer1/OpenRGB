@@ -12,34 +12,29 @@
 #include <math.h>
 #include "EpomakerController.h"
 #include "LogManager.h"
+#include "StringUtils.h"
 
 EpomakerController::EpomakerController(hid_device* dev_handle, char *_path)
 {
-    const int szTemp = 128;
-    wchar_t tmpName[szTemp];
+    dev         = dev_handle;
+    location    = _path;
 
-    dev = dev_handle;
+    /*---------------------------------------------------------*\
+    | Get device name from HID manufacturer and product strings |
+    \*---------------------------------------------------------*/
+    wchar_t name_string[HID_MAX_STR];
 
-    hid_get_manufacturer_string(dev, tmpName, szTemp);
-    std::wstring wName = std::wstring(tmpName);
-    device_name = std::string(wName.begin(), wName.end());
+    hid_get_manufacturer_string(dev, name_string, HID_MAX_STR);
+    device_name = StringUtils::wstring_to_string(name_string);
 
-    hid_get_product_string(dev, tmpName, szTemp);
-    wName = std::wstring(tmpName);
-    device_name.append(" ").append(std::string(wName.begin(), wName.end()));
+    hid_get_product_string(dev, name_string, HID_MAX_STR);
+    device_name.append(" ").append(StringUtils::wstring_to_string(name_string));
 
-    hid_get_serial_number_string(dev, tmpName, szTemp);
-    wName = std::wstring(tmpName);
-    serial = std::string(wName.begin(), wName.end());
-
-    location = _path;
-
-    current_mode  = EPOMAKER_MODE_ALWAYS_ON;
-    current_speed = EPOMAKER_SPEED_DEFAULT;
-    current_brightness = EPOMAKER_BRIGHTNESS_DEFAULT;
-    current_dazzle = EPOMAKER_OPTION_DAZZLE_OFF;
-    current_option = EPOMAKER_OPTION_DEFAULT;
-
+    current_mode        = EPOMAKER_MODE_ALWAYS_ON;
+    current_speed       = EPOMAKER_SPEED_DEFAULT;
+    current_brightness  = EPOMAKER_BRIGHTNESS_DEFAULT;
+    current_dazzle      = EPOMAKER_OPTION_DAZZLE_OFF;
+    current_option      = EPOMAKER_OPTION_DEFAULT;
 }
 
 EpomakerController::~EpomakerController()
@@ -49,17 +44,25 @@ EpomakerController::~EpomakerController()
 
 std::string EpomakerController::GetDeviceName()
 {
-    return (device_name);
+    return(device_name);
 }
 
 std::string EpomakerController::GetSerial()
 {
-    return (serial);
+    wchar_t serial_string[128];
+    int ret = hid_get_serial_number_string(dev, serial_string, 128);
+
+    if(ret != 0)
+    {
+        return("");
+    }
+
+    return(StringUtils::wstring_to_string(serial_string));
 }
 
 std::string EpomakerController::GetLocation()
 {
-    return ("HID: " + location);
+    return("HID: " + location);
 }
 
 void EpomakerController::SetMode(unsigned char mode, unsigned char speed, unsigned char brightness)
