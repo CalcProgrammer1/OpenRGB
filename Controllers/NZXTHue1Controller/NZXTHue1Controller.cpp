@@ -98,7 +98,7 @@ void NZXTHue1Controller::SetEffect
             /*-----------------------------------------------------*\
             | Send mode and color data                              |
             \*-----------------------------------------------------*/
-            SendPacket(mode, direction, color_idx, speed, 40, &color_data[0]);
+            SendPacket(mode, direction, (unsigned char)color_idx, speed, 40, &color_data[0]);
         }
     }
     /*-----------------------------------------------------*\
