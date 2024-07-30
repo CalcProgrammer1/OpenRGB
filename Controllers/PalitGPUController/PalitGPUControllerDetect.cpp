@@ -42,7 +42,7 @@ void DetectPalitGPUControllers(i2c_smbus_interface* bus, uint8_t i2c_addr, const
     const uint8_t palit[] = {'P', 'A', 'L', 'I', 'T'};
     for (size_t i = 0; i < sizeof(palit); i++)
     {
-        int32_t letter = bus->i2c_smbus_read_byte_data(i2c_addr, 0x07 + i);
+        int32_t letter = bus->i2c_smbus_read_byte_data(i2c_addr, 0x07 + (u8)i);
         if (palit[i] != letter)
         {
             return;
