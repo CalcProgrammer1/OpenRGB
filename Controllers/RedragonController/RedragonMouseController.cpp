@@ -105,7 +105,7 @@ void RedragonMouseController::SendMouseMode
 
 void RedragonMouseController::SendMouseApply()
 {
-    char usb_buf[REDRAGON_MOUSE_REPORT_SIZE];
+    unsigned char usb_buf[REDRAGON_MOUSE_REPORT_SIZE];
 
     /*-----------------------------------------------------*\
     | Zero out buffer                                       |
@@ -123,7 +123,7 @@ void RedragonMouseController::SendMouseApply()
     /*-----------------------------------------------------*\
     | Send packet                                           |
     \*-----------------------------------------------------*/
-    hid_send_feature_report(dev, (unsigned char *)usb_buf, REDRAGON_MOUSE_REPORT_SIZE);
+    hid_send_feature_report(dev, usb_buf, REDRAGON_MOUSE_REPORT_SIZE);
 }
 
 void RedragonMouseController::SendWritePacket
@@ -133,7 +133,7 @@ void RedragonMouseController::SendWritePacket
     unsigned char *     data
     )
 {
-    char usb_buf[REDRAGON_MOUSE_REPORT_SIZE];
+    unsigned char usb_buf[REDRAGON_MOUSE_REPORT_SIZE];
 
     /*-----------------------------------------------------*\
     | Zero out buffer                                       |
@@ -157,5 +157,5 @@ void RedragonMouseController::SendWritePacket
     /*-----------------------------------------------------*\
     | Send packet                                           |
     \*-----------------------------------------------------*/
-    hid_send_feature_report(dev, (unsigned char *)usb_buf, REDRAGON_MOUSE_REPORT_SIZE);
+    hid_send_feature_report(dev, usb_buf, REDRAGON_MOUSE_REPORT_SIZE);
 }
