@@ -44,8 +44,7 @@ LightSaltController::LightSaltController(hid_device* dev_handle, const hid_devic
 
     if(hid_get_manufacturer_string(dev, usb_string, 128) == 0)
     {
-        std::wstring tmp_wstring = usb_string;
-        manufacturer = std::string(tmp_wstring.begin(), tmp_wstring.end());
+        manufacturer = StringUtils::wstring_to_string(usb_string);
     }
     else
     {
@@ -54,8 +53,7 @@ LightSaltController::LightSaltController(hid_device* dev_handle, const hid_devic
 
     if(hid_get_product_string(dev, usb_string, 128) == 0)
     {
-        std::wstring tmp_wstring = usb_string;
-        product = std::string(tmp_wstring.begin(), tmp_wstring.end());
+        product = StringUtils::wstring_to_string(usb_string);
     }
     else
     {
@@ -70,10 +68,10 @@ LightSaltController::LightSaltController(hid_device* dev_handle, const hid_devic
     }
     else
     {
-        device_model = "";
-        device_class = "";
+        device_model     = "";
+        device_class     = "";
         firmware_version = "";
-        device_type = LIGHTSALT_TYPE_MAXIMUM;
+        device_type      = LIGHTSALT_TYPE_MAXIMUM;
     }
 }
 
