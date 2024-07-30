@@ -108,9 +108,18 @@ void LIFXController::FrameHeader
     unsigned short protocol = 1024;
     memcpy(&data[LIFX_FRAME_HEADER_OFFSET_SIZE],     &size,     sizeof(unsigned short));
     memcpy(&data[LIFX_FRAME_HEADER_OFFSET_PROTOCOL], &protocol, sizeof(unsigned short));
-    if(addressable) data[LIFX_FRAME_HEADER_OFFSET_FLAGS]       |= (1 << 4);
-    if(tagged)      data[LIFX_FRAME_HEADER_OFFSET_FLAGS]       |= (1 << 5);
-    data[LIFX_FRAME_HEADER_OFFSET_FLAGS]       |= origin << 6;
+
+    if(addressable)
+    {
+        data[LIFX_FRAME_HEADER_OFFSET_FLAGS] |= (1 << 4);
+    }
+    if(tagged)
+    {
+        data[LIFX_FRAME_HEADER_OFFSET_FLAGS] |= (1 << 5);
+    }
+
+    data[LIFX_FRAME_HEADER_OFFSET_FLAGS]     |= (origin << 6);
+
     memcpy(&data[LIFX_FRAME_HEADER_OFFSET_SOURCE],   &source, sizeof(unsigned int));
 }
 
@@ -124,8 +133,18 @@ void LIFXController::FrameAddress
 {
     memcpy(&data[LIFX_FRAME_ADDRESS_OFFSET_TARGET], target, 8);
 
-    data[LIFX_FRAME_ADDRESS_OFFSET_FLAGS]       = (1 << 0) & res_required;
-    data[LIFX_FRAME_ADDRESS_OFFSET_FLAGS]      |= (1 << 1) & ack_required;
+    data[LIFX_FRAME_ADDRESS_OFFSET_FLAGS] = 0;
+
+    if(res_required)
+    {
+        data[LIFX_FRAME_ADDRESS_OFFSET_FLAGS] |= (1 << 0);
+    }
+
+    if(ack_required)
+    {
+        data[LIFX_FRAME_ADDRESS_OFFSET_FLAGS] |= (1 << 1);
+    }
+
     data[LIFX_FRAME_ADDRESS_OFFSET_SEQUENCE]    = sequence;
 }
 
