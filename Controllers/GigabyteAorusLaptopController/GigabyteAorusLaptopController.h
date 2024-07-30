@@ -69,6 +69,5 @@ private:
     unsigned char   GetColourIndex(unsigned char red, unsigned char green, unsigned char blue);
 
     std::string location;
-    std::string serial_number;
     std::string version;
 };

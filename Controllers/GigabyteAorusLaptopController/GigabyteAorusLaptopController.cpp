@@ -12,6 +12,7 @@
 #include <cmath>
 #include <string.h>
 #include "GigabyteAorusLaptopController.h"
+#include "StringUtils.h"
 
 /*---------------------------------------------------------*\
 | Indexed colors mapping                                    |
@@ -36,19 +37,6 @@ GigabyteAorusLaptopController::GigabyteAorusLaptopController(hid_device* dev_han
     dev                 = dev_handle;
     location            = info.path;
     version             = "";
-
-    wchar_t serial_string[128];
-    int ret = hid_get_serial_number_string(dev, serial_string, 128);
-
-    if(ret != 0)
-    {
-        serial_number = "";
-    }
-    else
-    {
-        std::wstring return_wstring = serial_string;
-        serial_number = std::string(return_wstring.begin(), return_wstring.end());
-    }
 }
 
 GigabyteAorusLaptopController::~GigabyteAorusLaptopController()
@@ -63,7 +51,15 @@ std::string GigabyteAorusLaptopController::GetDeviceLocation()
 
 std::string GigabyteAorusLaptopController::GetSerialString()
 {
-    return(serial_number);
+    wchar_t serial_string[128];
+    int ret = hid_get_serial_number_string(dev, serial_string, 128);
+
+    if(ret != 0)
+    {
+        return("");
+    }
+
+    return(StringUtils::wstring_to_string(serial_string));
 }
 
 std::string GigabyteAorusLaptopController::GetFirmwareVersion()
