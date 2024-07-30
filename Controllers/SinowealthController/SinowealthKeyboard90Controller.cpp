@@ -8,9 +8,10 @@
 |  Jan Baier 30/06/2022                      |
 \*-----------------------------------------=*/
 
-#include "SinowealthKeyboard90Controller.h"
-#include "LogManager.h"
 #include <cstring>
+#include "LogManager.h"
+#include "SinowealthKeyboard90Controller.h"
+#include "StringUtils.h"
 
 using namespace thor300;
 
@@ -41,10 +42,7 @@ std::string SinowealthKeyboard90Controller::GetSerialString()
         return("");
     }
 
-    std::wstring return_wstring = serial_string;
-    std::string return_string(return_wstring.begin(), return_wstring.end());
-
-    return(return_string);
+    return(StringUtils::wstring_to_string(serial_string));
 }
 
 unsigned short SinowealthKeyboard90Controller::GetUSBPID()
