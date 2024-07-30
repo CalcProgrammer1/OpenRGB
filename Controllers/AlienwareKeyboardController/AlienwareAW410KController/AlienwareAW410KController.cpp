@@ -12,6 +12,7 @@
 
 #include <cstring>
 #include "AlienwareAW410KController.h"
+#include "StringUtils.h"
 
 AlienwareAW410KController::AlienwareAW410KController(hid_device* dev_handle, const char* path)
 {
@@ -35,15 +36,13 @@ std::string AlienwareAW410KController::GetSerialString()
 {
     wchar_t serial_string[128];
     int ret = hid_get_serial_number_string(dev, serial_string, 128);
+
     if(ret != 0)
     {
         return("");
     }
 
-    std::wstring return_wstring = serial_string;
-    std::string return_string(return_wstring.begin(), return_wstring.end());
-
-    return(return_string);
+    return(StringUtils::wstring_to_string(serial_string));
 }
 
 void AlienwareAW410KController::SendCommit()
