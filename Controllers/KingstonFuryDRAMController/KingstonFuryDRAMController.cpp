@@ -166,7 +166,7 @@ bool KingstonFuryDRAMController::CachedWrite(int slot_idx, unsigned char reg, un
     }
 }
 
-void KingstonFuryDRAMController::SendPreamble(bool synchronize)
+void KingstonFuryDRAMController::SendPreamble(bool /*synchronize*/)
 {
     SendBegin();
 
@@ -239,7 +239,7 @@ void KingstonFuryDRAMController::SetNumSlots()
 {
     if(slots.size() <= 4)
     {
-        SetRegister(FURY_REG_NUM_SLOTS, slots.size());
+        SetRegister(FURY_REG_NUM_SLOTS, (unsigned char)slots.size());
     }
     else
     {
@@ -288,7 +288,7 @@ void KingstonFuryDRAMController::SetModeColors(std::vector<RGBColor> colors)
     {
         return;
     }
-    SetRegister(FURY_REG_NUM_COLORS, colors.size());
+    SetRegister(FURY_REG_NUM_COLORS, (unsigned char)colors.size());
     for(std::size_t idx = 0; idx < colors.size(); idx++)
     {
         RGBColor color = colors[idx];
