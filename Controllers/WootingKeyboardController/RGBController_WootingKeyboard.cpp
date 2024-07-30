@@ -280,7 +280,7 @@ void RGBController_WootingKeyboard::ResizeZone(int /*zone*/, int /*new_size*/)
 
 void RGBController_WootingKeyboard::DeviceUpdateLEDs()
 {
-    controller->SendDirect(&colors[0], colors.size());
+    controller->SendDirect(&colors[0], (uint8_t)colors.size());
 }
 
 void RGBController_WootingKeyboard::UpdateZoneLEDs(int /*zone*/)
