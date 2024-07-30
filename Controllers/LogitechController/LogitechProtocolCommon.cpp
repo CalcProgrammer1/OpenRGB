@@ -257,7 +257,7 @@ bool logitech_device::connected()
 
 uint8_t logitech_device::getLED_count()
 {
-    return leds.size();
+    return((uint8_t)leds.size());
 }
 
 logitech_led logitech_device::getLED_info(uint8_t LED_num)
@@ -416,7 +416,7 @@ int logitech_device::getDeviceFeatureList()
         get_features.init(device_index, feature_index, LOGITECH_CMD_FEATURE_SET_GET_ID);
         for(std::size_t i = 1; feature_list.size() < feature_count; i++ )
         {
-            get_features.data[0] = i;
+            get_features.data[0] = (uint8_t)i;
             hid_write(dev_use2, get_features.buffer, get_features.size());
             hid_read_timeout(dev_use2, response.buffer, response.size(), LOGITECH_PROTOCOL_TIMEOUT);
             LOG_DEBUG("[%s] Feature %04X @ index: %02X", device_name.c_str(), (response.data[0] << 8) | response.data[1], i);
@@ -470,7 +470,7 @@ int logitech_device::getDeviceName()
             get_name.init(device_index, feature_index, LOGITECH_CMD_DEVICE_NAME_TYPE_GET_DEVICE_NAME);
             while(device_name.length() < name_length)
             {
-                get_name.data[0] = device_name.length();   //This sets the character index to get from the device
+                get_name.data[0] = (uint8_t)device_name.length();   //This sets the character index to get from the device
                 hid_write(dev_use2, get_name.buffer, get_name.size());
                 hid_read_timeout(dev_use2, response.buffer, response.size(), LOGITECH_PROTOCOL_TIMEOUT);
                 std::string temp = (char *)&response.data;
@@ -532,7 +532,7 @@ void logitech_device::getRGBconfig()
             get_count.feature_command = LOGITECH_CMD_RGB_EFFECTS_GET_INFO;
             for(size_t i = 0; i < led_response; i++)
             {
-                get_count.data[0] = i;
+                get_count.data[0] = (uint8_t)i;
                 result = hid_write(dev_use2, get_count.buffer, get_count.size());
                 result = hid_read_timeout(dev_use2, response.buffer, response.size(), LOGITECH_PROTOCOL_TIMEOUT);
                 LOG_DEBUG("[%s] FP8070 - LED %02i - %02X %02X %02X %02X %02X %02X %02X %02X   %02X %02X %02X %02X %02X %02X %02X %02X", device_name.c_str(), get_count.data[0],
@@ -597,7 +597,7 @@ void logitech_device::getRGBconfig()
             led_response = response.data[2];
             for(size_t i = 0; i < led_response; i++)
             {
-                get_count.data[0] = i;
+                get_count.data[0] = (uint8_t)i;
                 get_count.data[1] = 0xFF;
                 get_count.data[2] = 0;
 
