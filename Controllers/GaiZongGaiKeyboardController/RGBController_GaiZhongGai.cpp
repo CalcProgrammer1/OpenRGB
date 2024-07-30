@@ -259,7 +259,7 @@ void board_led_xy_self_call
         return;
 
     temp = p_in[*offset];
-    switch (temp >> 5)
+    switch(temp >> 5)
     {
     case 0x07://END
         return;
@@ -272,7 +272,7 @@ void board_led_xy_self_call
     break;
 
     case 0x00://transferred meaning
-        switch (temp >> 3)
+        switch(temp >> 3)
         {
         case 0x01://square
             led_distance = 3.54f;
@@ -281,7 +281,7 @@ void board_led_xy_self_call
             angle_step = pi / 4.0f;
             break;
         case 0x00://transferred meaning
-            if (temp >> 2 == 1)//regular triangle
+            if(temp >> 2 == 1)//regular triangle
             {
                 led_distance = 2.8f;
                 board_distance = 2.9f;
@@ -293,18 +293,23 @@ void board_led_xy_self_call
         break;
     }
     //New center point coordinates
-    new_x = x + cos(angle) * (distance + board_distance);
-    new_y = y + sin(angle) * (distance + board_distance);
+    new_x = x + cosf(angle) * (distance + board_distance);
+    new_y = y + sinf(angle) * (distance + board_distance);
 
     //Rotate 180 degrees
-    if (angle > pi)
+    if(angle > pi)
+    {
         new_angle = angle - pi;
+    }
     else
+    {
         new_angle = angle + pi;
-    for (i = 1; i < range_num; i++)
+    }
+
+    for(i = 1; i < range_num; i++)
     {
         new_angle -= angle_step;//clockwise
-        if (i & 1)//Is led
+        if(i & 1)//Is led
         {
             uint8_t x_u8 = (int16_t)(((new_x + cos(new_angle) * led_distance) *
                             p_in[120] * 0.01f + 0.5f) / 1) -
@@ -320,7 +325,7 @@ void board_led_xy_self_call
         }
         else//Is COM
         {
-            if (temp & (1 << (i / 2 - 1)))//child node
+            if(temp & (1 << (i / 2 - 1)))//child node
             {
                 (*offset)++;
                 board_led_xy_self_call(
@@ -688,7 +693,7 @@ void RGBController_GaiZhongGaiKeyboard::ResizeZone(int zone, int new_size)
 void RGBController_GaiZhongGaiKeyboard::DeviceUpdateLEDs()
 {
     unsigned char colordata[1024 * 3];
-    unsigned int data_size = colors.size();
+    unsigned int data_size = (unsigned int)colors.size();
 
     for(unsigned int color_idx = 0; color_idx < data_size; color_idx++)
     {
