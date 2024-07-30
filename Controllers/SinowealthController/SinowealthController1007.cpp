@@ -7,9 +7,10 @@
 |  Moon_darker (Vaker) 02.02.2022           |
 \*-----------------------------------------*/
 
-#include "SinowealthController1007.h"
 #include <cstring>
-#include <LogManager.h>
+#include "LogManager.h"
+#include "SinowealthController1007.h"
+#include "StringUtils.h"
 
 SinowealthController1007::SinowealthController1007(hid_device* dev, char *_path)
 {
@@ -44,15 +45,12 @@ std::string SinowealthController1007::GetSerialString()
     wchar_t serial_string[128];
     int ret = hid_get_serial_number_string(dev, serial_string, 128);
 
-    if (ret != 0)
+    if(ret != 0)
     {
         return("");
     }
 
-    std::wstring return_wstring = serial_string;
-    std::string return_string(return_wstring.begin(), return_wstring.end());
-
-    return(return_string);
+    return(StringUtils::wstring_to_string(serial_string));
 }
 
 void SinowealthController1007::SetLEDColors(const std::vector<RGBColor>& colors)
