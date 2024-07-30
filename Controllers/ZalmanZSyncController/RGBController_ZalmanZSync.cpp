@@ -268,7 +268,7 @@ void RGBController_ZalmanZSync::DeviceUpdateLEDs()
     {
         if(zones[zone_idx].leds_count > 0)
         {
-            controller->SetChannelLEDs(zone_idx, zones[zone_idx].colors, zones[zone_idx].leds_count);
+            controller->SetChannelLEDs((unsigned char)zone_idx, zones[zone_idx].colors, zones[zone_idx].leds_count);
         }
     }
 }
