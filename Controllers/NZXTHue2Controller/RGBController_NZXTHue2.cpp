@@ -363,7 +363,7 @@ void RGBController_NZXTHue2::DeviceUpdateLEDs()
 {
     for(std::size_t zone_idx = 0; zone_idx < zones.size(); zone_idx++)
     {
-        controller->SetChannelLEDs(zone_idx, zones[zone_idx].colors, zones[zone_idx].leds_count);
+        controller->SetChannelLEDs((unsigned char)zone_idx, zones[zone_idx].colors, zones[zone_idx].leds_count);
     }
 }
 
@@ -404,7 +404,7 @@ void RGBController_NZXTHue2::DeviceUpdateMode()
 
             controller->SetChannelEffect
                     (
-                    zone_idx,
+                    (unsigned char)zone_idx,
                     modes[active_mode].value,
                     modes[active_mode].speed,
                     direction,
