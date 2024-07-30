@@ -63,7 +63,7 @@ void SkyloongGK104ProController::SendColorPacket(std::vector<RGBColor> colors, s
     unsigned char le_data[TOTAL_LED_BYTES];
     memset(le_data, 0x00, TOTAL_LED_BYTES);
 
-    for(int i = 0; i < leds->size(); i++)
+    for(unsigned int i = 0; i < leds->size(); i++)
     {
         int index           = leds->at(i).value * 4;
         le_data[index++]    = RGBGetRValue(colors[i]);
