@@ -8,8 +8,9 @@
 |  Dmitri Kalinichenko (Dima-Kal) 23/06/2021 |
 \*-----------------------------------------=*/
 
-#include "SinowealthKeyboardController.h"
 #include <cstring>
+#include "SinowealthKeyboardController.h"
+#include "StringUtils.h"
 
 static unsigned char send_per_key_part_of_command_packet[]  = { 0x00, 0x00, 0x00, 0x00, 0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
                                                                 0xFF, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00,
@@ -114,10 +115,7 @@ std::string SinowealthKeyboardController::GetSerialString()
         return("");
     }
 
-    std::wstring return_wstring = serial_string;
-    std::string return_string(return_wstring.begin(), return_wstring.end());
-
-    return(return_string);
+    return(StringUtils::wstring_to_string(serial_string));
 }
 
 void SinowealthKeyboardController::SetLEDsDirect(std::vector<RGBColor> colors)
