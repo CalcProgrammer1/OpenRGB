@@ -11,10 +11,11 @@
 |  Dmitri Kalinichenko (Dima-Kal) 23/06/2021 |
 \*-----------------------------------------=*/
 
-#include "SinowealthKeyboard16Controller.h"
-#include "LogManager.h"
-#include <cstring>
 #include <chrono>
+#include <cstring>
+#include "LogManager.h"
+#include "SinowealthKeyboard16Controller.h"
+#include "StringUtils.h"
 
 using namespace std::chrono_literals;
 using namespace kbd16;
@@ -28,7 +29,7 @@ static unsigned char request_per_led_cm5[]  = {0x05, 0x89, 0xB4, 0x00, 0x40, 0x0
 
 
 SinowealthKeyboard16Controller::SinowealthKeyboard16Controller(hid_device* cmd_handle, hid_device* data_handle, char* path, std::string dev_name)
-{       
+{
     dev_cmd         = cmd_handle;
     dev_data        = data_handle;
     name            = dev_name;
@@ -75,10 +76,7 @@ std::string SinowealthKeyboard16Controller::GetSerialString()
         return("");
     }
 
-    std::wstring return_wstring = serial_string;
-    std::string return_string(return_wstring.begin(), return_wstring.end());
-
-    return(return_string);
+    return(StringUtils::wstring_to_string(serial_string));
 }
 
 void SinowealthKeyboard16Controller::SetLEDsDirect(std::vector<RGBColor> colors)
@@ -213,7 +211,7 @@ std::vector<RGBColor> SinowealthKeyboard16Controller::GetPerLedColors()
 
         res[i]          = color;
     }
-    
+
     return res;
 }
 
