@@ -432,7 +432,7 @@ void RGBController_KingstonFuryDRAM::SetupZones()
             new_led->name.append(", LED ");
             new_led->name.append(std::to_string(led_idx + 1));
 
-            new_led->value      = leds.size();
+            new_led->value      = (unsigned int)leds.size();
 
             leds.push_back(*new_led);
         }
