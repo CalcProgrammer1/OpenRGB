@@ -419,7 +419,7 @@ int logitech_device::getDeviceFeatureList()
             hid_write(dev_use2, get_features.buffer, get_features.size());
             hid_read_timeout(dev_use2, response.buffer, response.size(), LOGITECH_PROTOCOL_TIMEOUT);
             LOG_DEBUG("[%s] Feature %04X @ index: %02X", device_name.c_str(), (response.data[0] << 8) | response.data[1], i);
-            feature_list.emplace((response.data[0] << 8) | response.data[1], i);
+            feature_list.emplace((uint16_t)((response.data[0] << 8) | response.data[1]), (uint8_t)i);
         }
     }
     else
