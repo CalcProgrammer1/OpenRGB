@@ -47,14 +47,14 @@ std::string KingstonFuryDRAMController::GetDeviceLocation()
     return("I2C: " + return_string);
 }
 
-unsigned KingstonFuryDRAMController::GetLEDCount()
+unsigned int KingstonFuryDRAMController::GetLEDCount()
 {
-    return GetLEDPerDIMM() * slots.size();
+    return(GetLEDPerDIMM() * (unsigned int)slots.size());
 }
 
 unsigned int KingstonFuryDRAMController::GetSlotCount()
 {
-    return slots.size();
+    return((unsigned int)slots.size());
 }
 
 unsigned char KingstonFuryDRAMController::GetMode()
@@ -198,7 +198,7 @@ void KingstonFuryDRAMController::SendPreamble(bool /*synchronize*/)
         LOG_DEBUG("[%s] %02X writing index %d",
                   FURY_CONTROLLER_NAME, base_addr + slots[idx],
                   written_index);
-        SmbusWrite(idx, FURY_REG_INDEX, written_index);
+        SmbusWrite((int)idx, FURY_REG_INDEX, written_index);
     }
     // The RGB controller is a bit slow and requires delay;
     // however, we can delay once for all of the sticks instead of
@@ -214,7 +214,7 @@ void KingstonFuryDRAMController::SendBegin()
     {
         LOG_DEBUG("[%s] %02X beginning transaction",
                   FURY_CONTROLLER_NAME, base_addr + slots[idx]);
-        SmbusWrite(idx, FURY_REG_APPLY, FURY_BEGIN_TRNSFER);
+        SmbusWrite((int)idx, FURY_REG_APPLY, FURY_BEGIN_TRNSFER);
     }
     std::this_thread::sleep_for(FURY_DELAY);
 }
@@ -225,7 +225,7 @@ void KingstonFuryDRAMController::SendApply()
     {
         LOG_DEBUG("[%s] %02X ending transaction",
                   FURY_CONTROLLER_NAME, base_addr + slots[idx]);
-        SmbusWrite(idx, FURY_REG_APPLY, FURY_END_TRNSFER);
+        SmbusWrite((int)idx, FURY_REG_APPLY, FURY_END_TRNSFER);
     }
     std::this_thread::sleep_for(FURY_DELAY);
 }
@@ -255,7 +255,7 @@ void KingstonFuryDRAMController::SetRegister(int reg, unsigned char val)
     bool write_occurred = false;
     for(std::size_t idx = 0; idx < slots.size(); idx++)
     {
-        write_occurred = CachedWrite(idx, reg, val) || write_occurred;
+        write_occurred = CachedWrite((int)idx, reg, val) || write_occurred;
     }
     if(write_occurred)
     {
@@ -274,7 +274,7 @@ void KingstonFuryDRAMController::SetRegister(int reg, std::vector<unsigned char>
     }
     for(std::size_t idx = 0; idx < slots.size(); idx++)
     {
-        write_occurred = CachedWrite(idx, reg, vals[idx]) || write_occurred;
+        write_occurred = CachedWrite((int)idx, reg, vals[idx]) || write_occurred;
     }
     if(write_occurred)
     {
@@ -284,21 +284,24 @@ void KingstonFuryDRAMController::SetRegister(int reg, std::vector<unsigned char>
 
 void KingstonFuryDRAMController::SetModeColors(std::vector<RGBColor> colors)
 {
-    if(colors.empty() || colors.size() > FURY_MAX_MODE_COLORS)
+    if(colors.empty() || (colors.size() > FURY_MAX_MODE_COLORS))
     {
         return;
     }
+
     SetRegister(FURY_REG_NUM_COLORS, (unsigned char)colors.size());
+
     for(std::size_t idx = 0; idx < colors.size(); idx++)
     {
-        RGBColor color = colors[idx];
-        unsigned char red = RGBGetRValue(color);
+        RGBColor color      = colors[idx];
+        unsigned char red   = RGBGetRValue(color);
         unsigned char green = RGBGetGValue(color);
-        unsigned char blue = RGBGetBValue(color);
+        unsigned char blue  = RGBGetBValue(color);
 
-        int red_idx = FURY_REG_MODE_BASE_RED + idx * 3;
-        int green_idx = FURY_REG_MODE_BASE_GREEN + idx * 3;
-        int blue_idx = FURY_REG_MODE_BASE_BLUE + idx * 3;
+        int red_idx         = FURY_REG_MODE_BASE_RED   + (int)idx * 3;
+        int green_idx       = FURY_REG_MODE_BASE_GREEN + (int)idx * 3;
+        int blue_idx        = FURY_REG_MODE_BASE_BLUE  + (int)idx * 3;
+
         SetRegister(red_idx, red);
         SetRegister(green_idx, green);
         SetRegister(blue_idx, blue);
@@ -315,17 +318,18 @@ void KingstonFuryDRAMController::SetLEDColors(std::vector<RGBColor> colors)
     unsigned int led_per_dimm = GetLEDPerDIMM();
     for(unsigned int led_idx = 0; led_idx < led_per_dimm; led_idx++)
     {
-        int red_register = FURY_REG_BASE_RED + 3 * led_idx;
-        int green_register = FURY_REG_BASE_GREEN + 3 * led_idx;
-        int blue_register = FURY_REG_BASE_BLUE + 3 * led_idx;
+        int red_register    = FURY_REG_BASE_RED   + 3 * led_idx;
+        int green_register  = FURY_REG_BASE_GREEN + 3 * led_idx;
+        int blue_register   = FURY_REG_BASE_BLUE  + 3 * led_idx;
 
         std::vector<unsigned char> reds, greens, blues;
         for(std::size_t slot_idx = 0; slot_idx < GetSlotCount(); slot_idx++)
         {
-            RGBColor color = colors[slot_idx * led_per_dimm + led_idx];
-            unsigned char red = RGBGetRValue(color);
+            RGBColor color      = colors[slot_idx * led_per_dimm + led_idx];
+            unsigned char red   = RGBGetRValue(color);
             unsigned char green = RGBGetGValue(color);
-            unsigned char blue = RGBGetBValue(color);
+            unsigned char blue  = RGBGetBValue(color);
+
             reds.push_back(red);
             greens.push_back(green);
             blues.push_back(blue);
@@ -341,7 +345,7 @@ unsigned int KingstonFuryDRAMController::GetLEDPerDIMM()
 {
     if(base_addr == FURY_BASE_ADDR_DDR4)
     {
-        return FURY_LEDS_PER_DIMM_DDR4;
+        return(FURY_LEDS_PER_DIMM_DDR4);
     }
-    return FURY_LEDS_PER_DIMM_DDR5;
+    return(FURY_LEDS_PER_DIMM_DDR5);
 }
