@@ -117,7 +117,7 @@ int getWirelessDevice(usages device_usages, uint16_t pid, wireless_map *wireless
         }
     }
 
-    return wireless_devices->size();
+    return((int)wireless_devices->size());
 }
 
 logitech_device::logitech_device(char *path, usages _usages, uint8_t _device_index, bool _wireless)
@@ -220,7 +220,7 @@ bool logitech_device::is_valid()
         LOG_INFO("Unable add this Logitech device: Not Connected");
     }
 
-    return valid_test;
+    return(valid_test);
 }
 
 bool logitech_device::connected()
@@ -247,11 +247,11 @@ bool logitech_device::connected()
             LOG_DEBUG("Wireless device index %i is %s - %02X %02X %02X", get_connected_devices.device_index,
                       (test ? "connected" : "disconnected"), get_connected_devices.data[0], get_connected_devices.data[1],  get_connected_devices.data[2]);
         }
-        return test;
+        return(test);
     }
     else
     {
-        return true;
+        return(true);
     }
 }
 
@@ -265,14 +265,13 @@ logitech_led logitech_device::getLED_info(uint8_t LED_num)
     /*-----------------------------------------------------------------*\
     | Get all info about the LEDs and Zones                             |
     \*-----------------------------------------------------------------*/
-
     if(!(LED_num > leds.size()))
     {
-        return leds[LED_num];
+        return(leds[LED_num]);
     }
     else
     {
-        return leds[0];
+        return(leds[0]);
     }
 }
 
@@ -319,11 +318,11 @@ hid_device* logitech_device::getDevice(uint8_t usage_index)
     if (find_usage == device_usages.end())
     {
         LOG_INFO("Unable add this device due to missing FAP Message usage %i", usage_index);
-        return nullptr;
+        return(nullptr);
     }
     else
     {
-        return find_usage->second;
+        return(find_usage->second);
     }
 }
 
@@ -354,7 +353,7 @@ uint8_t logitech_device::getFeatureIndex(uint16_t feature_page)
                 response.data[0], response.data[1],  response.data[2],  response.data[3], response.data[4], response.data[5],  response.data[6],  response.data[7]);
     }
 
-    return feature_index;
+    return(feature_index);
 }
 
 uint16_t logitech_device::getFeaturePage(uint8_t feature_index)
@@ -372,11 +371,11 @@ uint16_t logitech_device::getFeaturePage(uint8_t feature_index)
         LOG_DEBUG("[%s] Feature index %02X not found!", device_name.c_str(), feature_index);
 
         //TODO: Handle cache miss
-        return 0;
+        return(0);
     }
     else
     {
-        return find_page->second;
+        return(find_page->second);
     }
 }
 
@@ -428,7 +427,7 @@ int logitech_device::getDeviceFeatureList()
         LOG_INFO("[%s] Unable get the feature index list - missing FAP Long Message (0x11) usage", device_name.c_str());
     }
 
-    return feature_list.size();
+    return((int)feature_list.size());
 }
 
 int logitech_device::getDeviceName()
@@ -490,7 +489,7 @@ int logitech_device::getDeviceName()
         }
     }
 
-    return device_name.length();
+    return((int)device_name.length());
 }
 
 void logitech_device::getRGBconfig()
@@ -707,7 +706,8 @@ uint8_t logitech_device::setDirectMode(bool direct)
             result = hid_read_timeout(dev_use2, response.buffer, response.size(), LOGITECH_PROTOCOL_TIMEOUT);
         }
     }
-    return result;
+
+    return(result);
 }
 
 uint8_t logitech_device::setMode(uint8_t mode, uint16_t speed, uint8_t zone, uint8_t red, uint8_t green, uint8_t blue, uint8_t brightness)
@@ -794,5 +794,6 @@ uint8_t logitech_device::setMode(uint8_t mode, uint16_t speed, uint8_t zone, uin
             result = hid_read_timeout(dev_use2, response.buffer, response.size(), LOGITECH_PROTOCOL_TIMEOUT);
         }
     }
-    return result;
+
+    return(result);
 }
