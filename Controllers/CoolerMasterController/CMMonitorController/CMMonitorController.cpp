@@ -11,6 +11,7 @@
 
 #include <cstring>
 #include "CMMonitorController.h"
+#include "StringUtils.h"
 
 using namespace std::chrono_literals;
 
@@ -18,19 +19,6 @@ CMMonitorController::CMMonitorController(hid_device* dev_handle, const hid_devic
 {
     dev                 = dev_handle;
     location            = info.path;
-
-    wchar_t serial_string[128];
-    int ret = hid_get_serial_number_string(dev, serial_string, 128);
-
-    if(ret != 0)
-    {
-        serial_number = "";
-    }
-    else
-    {
-        std::wstring return_wstring = serial_string;
-        serial_number = std::string(return_wstring.begin(), return_wstring.end());
-    }
 }
 
 CMMonitorController::~CMMonitorController()
@@ -45,7 +33,15 @@ std::string CMMonitorController::GetDeviceLocation()
 
 std::string CMMonitorController::GetSerialString()
 {
-    return(serial_number);
+    wchar_t serial_string[128];
+    int ret = hid_get_serial_number_string(dev, serial_string, 128);
+
+    if(ret != 0)
+    {
+        return("");
+    }
+
+    return(StringUtils::wstring_to_string(serial_string));
 }
 
 void CMMonitorController::SetMode(uint8_t mode_value, const RGBColor& color, uint8_t speed, uint8_t brightness)

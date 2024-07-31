@@ -10,6 +10,7 @@
 \*---------------------------------------------------------*/
 
 #include "CMMP750Controller.h"
+#include "StringUtils.h"
 
 static unsigned char colour_mode_data[][6] =
 {
@@ -31,20 +32,16 @@ CMMP750Controller::CMMP750Controller(hid_device* dev_handle, char *_path)
     dev             = dev_handle;
     location        = _path;
 
-    const int szTemp = 256;
-    wchar_t tmpName[szTemp];
+    /*---------------------------------------------------------*\
+    | Get device name from HID manufacturer and product strings |
+    \*---------------------------------------------------------*/
+    wchar_t name_string[HID_MAX_STR];
 
-    hid_get_manufacturer_string(dev, tmpName, szTemp);
-    std::wstring wName = std::wstring(tmpName);
-    device_name        = std::string(wName.begin(), wName.end());
+    hid_get_manufacturer_string(dev, name_string, HID_MAX_STR);
+    device_name = StringUtils::wstring_to_string(name_string);
 
-    hid_get_product_string(dev, tmpName, szTemp);
-    wName  = std::wstring(tmpName);
-    device_name.append(" ").append(std::string(wName.begin(), wName.end()));
-
-    hid_get_serial_number_string(dev, tmpName, szTemp);
-    wName  = std::wstring(tmpName);
-    serial = std::string(wName.begin(), wName.end());
+    hid_get_product_string(dev, name_string, HID_MAX_STR);
+    device_name.append(" ").append(StringUtils::wstring_to_string(name_string));
 
     GetStatus();        //When setting up device get current status
 }
@@ -88,12 +85,20 @@ void CMMP750Controller::GetStatus()
 
 std::string CMMP750Controller::GetDeviceName()
 {
-    return device_name;
+    return(device_name);
 }
 
 std::string CMMP750Controller::GetSerial()
 {
-    return serial;
+    wchar_t serial_string[HID_MAX_STR];
+    int ret = hid_get_serial_number_string(dev, serial_string, HID_MAX_STR);
+
+    if(ret != 0)
+    {
+        return("");
+    }
+
+    return(StringUtils::wstring_to_string(serial_string));
 }
 
 std::string CMMP750Controller::GetLocation()
@@ -103,27 +108,27 @@ std::string CMMP750Controller::GetLocation()
 
 unsigned char CMMP750Controller::GetMode()
 {
-    return current_mode;
+    return(current_mode);
 }
 
 unsigned char CMMP750Controller::GetLedRed()
 {
-    return current_red;
+    return(current_red);
 }
 
 unsigned char CMMP750Controller::GetLedGreen()
 {
-    return current_green;
+    return(current_green);
 }
 
 unsigned char CMMP750Controller::GetLedBlue()
 {
-    return current_blue;
+    return(current_blue);
 }
 
 unsigned char CMMP750Controller::GetLedSpeed()
 {
-    return current_speed;
+    return(current_speed);
 }
 
 void CMMP750Controller::SetMode(unsigned char mode, unsigned char speed)

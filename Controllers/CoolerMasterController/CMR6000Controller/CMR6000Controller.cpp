@@ -11,6 +11,7 @@
 
 #include <cstring>
 #include "CMR6000Controller.h"
+#include "StringUtils.h"
 
 CMR6000Controller::CMR6000Controller(hid_device* dev_handle, char *_path, uint16_t _pid)
 {
@@ -18,21 +19,16 @@ CMR6000Controller::CMR6000Controller(hid_device* dev_handle, char *_path, uint16
     location        = _path;
     pid             = _pid;
 
-    const int szTemp = 256;
-    wchar_t tmpName[szTemp];
+    /*---------------------------------------------------------*\
+    | Get device name from HID manufacturer and product strings |
+    \*---------------------------------------------------------*/
+    wchar_t name_string[HID_MAX_STR];
 
-    hid_get_manufacturer_string(dev, tmpName, szTemp);
-    std::wstring wName = std::wstring(tmpName);
-    device_name        = std::string(wName.begin(), wName.end());
+    hid_get_manufacturer_string(dev, name_string, HID_MAX_STR);
+    device_name = StringUtils::wstring_to_string(name_string);
 
-    hid_get_product_string(dev, tmpName, szTemp);
-    wName  = std::wstring(tmpName);
-    device_name.append(" ").append(std::string(wName.begin(), wName.end()));
-
-    hid_get_serial_number_string(dev, tmpName, szTemp);
-    wName  = std::wstring(tmpName);
-    serial = std::string(wName.begin(), wName.end());
-
+    hid_get_product_string(dev, name_string, HID_MAX_STR);
+    device_name.append(" ").append(StringUtils::wstring_to_string(name_string));
 }
 
 CMR6000Controller::~CMR6000Controller()
@@ -45,12 +41,20 @@ CMR6000Controller::~CMR6000Controller()
 
 std::string CMR6000Controller::GetDeviceName()
 {
-    return device_name;
+    return(device_name);
 }
 
 std::string CMR6000Controller::GetSerial()
 {
-    return serial;
+    wchar_t serial_string[HID_MAX_STR];
+    int ret = hid_get_serial_number_string(dev, serial_string, HID_MAX_STR);
+
+    if(ret != 0)
+    {
+        return("");
+    }
+
+    return(StringUtils::wstring_to_string(serial_string));
 }
 
 std::string CMR6000Controller::GetLocation()
@@ -60,27 +64,27 @@ std::string CMR6000Controller::GetLocation()
 
 unsigned char CMR6000Controller::GetMode()
 {
-    return current_mode;
+    return(current_mode);
 }
 
 unsigned char CMR6000Controller::GetLedSpeed()
 {
-    return current_speed;
+    return(current_speed);
 }
 
 unsigned char CMR6000Controller::GetBrightness()
 {
-    return current_brightness;
+    return(current_brightness);
 }
 
 bool CMR6000Controller::GetRandomColours()
 {
-    return current_random;
+    return(current_random);
 }
 
 uint16_t CMR6000Controller::GetPID()
 {
-    return pid;
+    return(pid);
 }
 
 void CMR6000Controller::SetMode(unsigned char mode, unsigned char speed, RGBColor color1, RGBColor color2, unsigned char random, unsigned char brightness)

@@ -11,24 +11,12 @@
 
 #include <cstring>
 #include "CMARGBGen2A1Controller.h"
+#include "StringUtils.h"
 
 CMARGBGen2A1controller::CMARGBGen2A1controller(hid_device* dev_handle, const hid_device_info& info)
 {
     dev                 = dev_handle;
     location            = info.path;
-
-    wchar_t serial_string[128];
-    int ret = hid_get_serial_number_string(dev, serial_string, 128);
-
-    if(ret != 0)
-    {
-        serial_number = "";
-    }
-    else
-    {
-        std::wstring return_wstring = serial_string;
-        serial_number = std::string(return_wstring.begin(), return_wstring.end());
-    }
 
     /*---------------------------------------------*\
     | Setup direct mode on start                    |
@@ -48,7 +36,15 @@ std::string CMARGBGen2A1controller::GetDeviceLocation()
 
 std::string CMARGBGen2A1controller::GetSerialString()
 {
-    return(serial_number);
+    wchar_t serial_string[128];
+    int ret = hid_get_serial_number_string(dev, serial_string, 128);
+
+    if(ret != 0)
+    {
+        return("");
+    }
+
+    return(StringUtils::wstring_to_string(serial_string));
 }
 
 void CMARGBGen2A1controller::SaveToFlash()

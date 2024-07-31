@@ -22,6 +22,7 @@
 
 #define CM_SMALL_ARGB_PACKET_SIZE       65
 #define CM_SMALL_ARGB_INTERRUPT_TIMEOUT 250
+#define HID_MAX_STR                     255
 
 enum
 {
@@ -93,7 +94,6 @@ public:
     void                SetLedsDirect(RGBColor * led_colours, unsigned int led_count);
 private:
     std::string         device_name;
-    std::string         serial;
     std::string         location;
     hid_device*         dev;
 

@@ -10,6 +10,7 @@
 \*---------------------------------------------------------*/
 
 #include "CMKeyboardAbstractController.h"
+#include "StringUtils.h"
 
 CMKeyboardAbstractController::CMKeyboardAbstractController(hid_device* dev_handle, hid_device_info* dev_info)
 {
@@ -20,12 +21,10 @@ CMKeyboardAbstractController::CMKeyboardAbstractController(hid_device* dev_handl
     m_sLocation              = dev_info->path;
 
     hid_get_manufacturer_string(m_pDev, tmp, HID_MAX_STR);
-    std::wstring wVendorName = std::wstring(tmp);
-    m_vendorName             = std::string(wVendorName.begin(), wVendorName.end());
+    m_vendorName             = StringUtils::wstring_to_string(tmp);
 
     hid_get_product_string(m_pDev, tmp, HID_MAX_STR);
-    std::wstring wDeviceName = std::wstring(tmp);
-    m_deviceName             = std::string(wDeviceName.begin(), wDeviceName.end());
+    m_deviceName             = StringUtils::wstring_to_string(tmp);
     m_serialNumber           = m_deviceName;
 
     bool bNotFound           = true;

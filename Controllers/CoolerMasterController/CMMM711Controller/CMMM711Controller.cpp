@@ -11,27 +11,24 @@
 
 #include <cstring>
 #include "CMMM711Controller.h"
+#include "StringUtils.h"
 
 CMMM711Controller::CMMM711Controller(hid_device* dev_handle, char *_path)
 {
-    const int szTemp = HID_MAX_STR;
-    wchar_t tmpName[szTemp];
-
     dev                     = dev_handle;
     location                = _path;
     current_speed           = CM_MM711_SPEED_NORMAL;
 
-    hid_get_manufacturer_string(dev, tmpName, szTemp);
-    std::wstring wName = std::wstring(tmpName);
-    device_name = std::string(wName.begin(), wName.end());
+    /*---------------------------------------------------------*\
+    | Get device name from HID manufacturer and product strings |
+    \*---------------------------------------------------------*/
+    wchar_t name_string[HID_MAX_STR];
 
-    hid_get_product_string(dev, tmpName, szTemp);
-    wName = std::wstring(tmpName);
-    device_name.append(" ").append(std::string(wName.begin(), wName.end()));
+    hid_get_manufacturer_string(dev, name_string, HID_MAX_STR);
+    device_name = StringUtils::wstring_to_string(name_string);
 
-    hid_get_indexed_string(dev, 2, tmpName, szTemp);
-    wName = std::wstring(tmpName);
-    serial = std::string(wName.begin(), wName.end());
+    hid_get_product_string(dev, name_string, HID_MAX_STR);
+    device_name.append(" ").append(StringUtils::wstring_to_string(name_string));
 
     SendInitPacket();
     GetColourStatus();
@@ -94,7 +91,15 @@ std::string CMMM711Controller::GetDeviceName()
 
 std::string CMMM711Controller::GetSerial()
 {
-    return(serial);
+    wchar_t serial_string[HID_MAX_STR];
+    int ret = hid_get_serial_number_string(dev, serial_string, HID_MAX_STR);
+
+    if(ret != 0)
+    {
+        return("");
+    }
+
+    return(StringUtils::wstring_to_string(serial_string));
 }
 
 std::string CMMM711Controller::GetLocation()

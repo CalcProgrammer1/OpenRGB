@@ -121,7 +121,6 @@ public:
 
 private:
     std::string                 device_name;
-    std::string                 serial;
     std::string                 location;
     hid_device*                 dev;
     std::shared_ptr<std::mutex> mutex_ptr;

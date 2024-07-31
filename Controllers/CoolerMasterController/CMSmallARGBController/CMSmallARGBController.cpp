@@ -11,6 +11,7 @@
 
 #include <cstring>
 #include "CMSmallARGBController.h"
+#include "StringUtils.h"
 
 cm_small_argb_headers cm_small_argb_header_data[1] =
 {
@@ -19,25 +20,21 @@ cm_small_argb_headers cm_small_argb_header_data[1] =
 
 CMSmallARGBController::CMSmallARGBController(hid_device* dev_handle, char *_path, unsigned char _zone_idx)
 {
-    const int szTemp = 256;
-    wchar_t tmpName[szTemp];
-
     dev                     = dev_handle;
     location                = _path;
     zone_index              = _zone_idx;
     current_speed           = CM_SMALL_ARGB_SPEED_NORMAL;
 
-    hid_get_manufacturer_string(dev, tmpName, szTemp);
-    std::wstring wName = std::wstring(tmpName);
-    device_name = std::string(wName.begin(), wName.end());
+    /*---------------------------------------------------------*\
+    | Get device name from HID manufacturer and product strings |
+    \*---------------------------------------------------------*/
+    wchar_t name_string[HID_MAX_STR];
 
-    hid_get_product_string(dev, tmpName, szTemp);
-    wName = std::wstring(tmpName);
-    device_name.append(" ").append(std::string(wName.begin(), wName.end()));
+    hid_get_manufacturer_string(dev, name_string, HID_MAX_STR);
+    device_name = StringUtils::wstring_to_string(name_string);
 
-    hid_get_serial_number_string(dev, tmpName, szTemp);
-    wName = std::wstring(tmpName);
-    serial = std::string(wName.begin(), wName.end());
+    hid_get_product_string(dev, name_string, HID_MAX_STR);
+    device_name.append(" ").append(StringUtils::wstring_to_string(name_string));
 
     GetStatus();
 }
@@ -80,12 +77,20 @@ void CMSmallARGBController::GetStatus()
 
 std::string CMSmallARGBController::GetDeviceName()
 {
-    return device_name;
+    return(device_name);
 }
 
 std::string CMSmallARGBController::GetSerial()
 {
-    return serial;
+    wchar_t serial_string[HID_MAX_STR];
+    int ret = hid_get_serial_number_string(dev, serial_string, HID_MAX_STR);
+
+    if(ret != 0)
+    {
+        return("");
+    }
+
+    return(StringUtils::wstring_to_string(serial_string));
 }
 
 std::string CMSmallARGBController::GetLocation()
@@ -95,37 +100,37 @@ std::string CMSmallARGBController::GetLocation()
 
 unsigned char CMSmallARGBController::GetZoneIndex()
 {
-    return zone_index;
+    return(zone_index);
 }
 
 unsigned char CMSmallARGBController::GetMode()
 {
-    return current_mode;
+    return(current_mode);
 }
 
 unsigned char CMSmallARGBController::GetLedRed()
 {
-    return current_red;
+    return(current_red);
 }
 
 unsigned char CMSmallARGBController::GetLedGreen()
 {
-    return current_green;
+    return(current_green);
 }
 
 unsigned char CMSmallARGBController::GetLedBlue()
 {
-    return current_blue;
+    return(current_blue);
 }
 
 unsigned char CMSmallARGBController::GetLedSpeed()
 {
-    return current_speed;
+    return(current_speed);
 }
 
 bool CMSmallARGBController::GetRandomColours()
 {
-    return bool_random;
+    return(bool_random);
 }
 
 void CMSmallARGBController::SetLedCount(int zone, int led_count)

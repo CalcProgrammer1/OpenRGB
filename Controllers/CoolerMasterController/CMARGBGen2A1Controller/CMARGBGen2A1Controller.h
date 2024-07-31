@@ -81,7 +81,6 @@ public:
     void                        SaveToFlash();
 
 private:
-    std::string                 serial_number;
     std::string                 location;
     bool                        software_mode_activated = false;
     hid_device*                 dev;

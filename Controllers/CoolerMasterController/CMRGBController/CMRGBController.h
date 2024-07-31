@@ -37,6 +37,7 @@
 
 #define CM_RGBC_SPEED_NONE                      0x05
 #define CM_RGBC_BRIGHTNESS_OFF                  0x03
+#define HID_MAX_STR                             255
 
 /*-------------------------------------------------*\
 | OP OPCODES                                        |
@@ -123,7 +124,6 @@ public:
 
 private:
     std::string         device_name;
-    std::string         serial;
     std::string         location;
     hid_device*         dev;
 

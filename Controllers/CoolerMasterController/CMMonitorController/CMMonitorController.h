@@ -49,8 +49,8 @@ public:
     void            SendDirect(const std::vector<RGBColor>& colors);
     void            SetMode(uint8_t mode_value, const RGBColor& color, uint8_t speed, uint8_t brightness);
     void            SetCustomMode(const std::vector<RGBColor>& colors, uint8_t brightnesss);
+
 private:
-    std::string     serial_number;
     std::string     location;
     hid_device*     dev;
     bool            software_mode_enabled = false;

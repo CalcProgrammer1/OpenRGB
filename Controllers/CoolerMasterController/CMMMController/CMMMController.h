@@ -114,8 +114,6 @@ public:
     void        SendSavePacket();
 private:
     std::string name;
-    std::string vendor;
-    std::string serial;
     std::string location;
     hid_device* dev;
 
