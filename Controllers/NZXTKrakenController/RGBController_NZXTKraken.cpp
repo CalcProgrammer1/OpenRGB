@@ -256,7 +256,7 @@ void RGBController_NZXTKraken::ResizeZone(int /*zone*/, int /*new_size*/)
 std::vector<std::vector<RGBColor>> RGBController_NZXTKraken::GetColors(int zone, const mode& channel_mode)
 {
     std::vector<std::vector<RGBColor>> result;
-    int length = zone < 0 ? leds.size() : zones[zone].leds_count;
+    int length = zone < 0 ? (int)leds.size() : (int)zones[zone].leds_count;
 
     if(channel_mode.color_mode == MODE_COLORS_NONE)
     {
@@ -313,7 +313,7 @@ void RGBController_NZXTKraken::UpdateChannel(NZXTKrakenChannel_t channel, int zo
             channel_mode.value,
             direction,
             speed,
-            idx,
+            (int)idx,
             update_colors[idx]
         );
     }
