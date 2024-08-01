@@ -117,6 +117,7 @@ unsigned char ENESMBusInterface_SpectrixS40G::ENERegisterRead(ene_dev_id dev, en
         return((unsigned char)ExtraValue[16]);
     }
 
+    return(0);
 }
 
 void ENESMBusInterface_SpectrixS40G::ENERegisterWrite(ene_dev_id dev, ene_register reg, unsigned char val)
