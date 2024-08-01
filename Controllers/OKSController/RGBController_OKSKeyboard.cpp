@@ -260,15 +260,15 @@ void RGBController_OKSKeyboard::DeviceUpdateLEDs()
     \*---------------------------------------------------------*/
     for(std::size_t color_idx = 0; color_idx < colors.size(); color_idx++)
     {
-        row_idx = color_idx/width;
-        col_idx = color_idx%width;
+        row_idx = (unsigned int)(color_idx) / width;
+        col_idx = (unsigned int)(color_idx) % width;
         kb_idx = row_idx*21+col_idx;
         colordata[(kb_idx*3)+0] = RGBGetRValue(colors[color_idx]);
         colordata[(kb_idx*3)+1] = RGBGetGValue(colors[color_idx]);
         colordata[(kb_idx*3)+2] = RGBGetBValue(colors[color_idx]);
     }
 
-    controller->SendColors(colordata, colors.size()*3);
+    controller->SendColors(colordata, (unsigned int)colors.size() * 3);
 }
 
 void RGBController_OKSKeyboard::UpdateZoneLEDs(int /*zone*/)
