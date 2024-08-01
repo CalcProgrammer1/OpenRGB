@@ -12,6 +12,7 @@
 
 #include <string.h>
 #include "LianLiUniHubALController.h"
+#include "StringUtils.h"
 
 using namespace std::chrono_literals;
 
@@ -43,8 +44,7 @@ std::string LianLiUniHubALController::GetFirmwareVersionString()
         return ("");
     }
 
-    std::wstring return_wstring = product_string;
-    std::string return_string(return_wstring.begin(),return_wstring.end());
+    std::string return_string = StringUtils::wstring_to_string(product_string);
 
     return(return_string.substr(return_string.find_last_of("-")+1,4).c_str());
 }
@@ -64,8 +64,7 @@ std::string LianLiUniHubALController::GetSerialString()
         return ("");
     }
 
-    std::wstring return_wstring = serial_string;
-    std::string return_string(return_wstring.begin(), return_wstring.end());
+    std::string return_string = StringUtils::wstring_to_string(serial_string);
 
     return(return_string);
 

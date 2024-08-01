@@ -14,6 +14,7 @@
 #include <iomanip>
 #include <sstream>
 #include "LianLiGAIITrinityController.h"
+#include "StringUtils.h"
 
 LianLiGAIITrinityController::LianLiGAIITrinityController(hid_device* dev_handle)
 {
@@ -37,8 +38,7 @@ LianLiGAIITrinityController::GAII_Info LianLiGAIITrinityController::GetControlle
     wchar_t       tmp[sz];
 
     hid_get_serial_number_string(dev, tmp, sz);
-    std::wstring serialWStr = std::wstring(tmp);
-    controllerInfo.serial = std::string(serialWStr.begin(), serialWStr.end());
+    controllerInfo.serial = StringUtils::wstring_to_string(tmp);
 
     // get firmware version
     unsigned char data[64] = "";
