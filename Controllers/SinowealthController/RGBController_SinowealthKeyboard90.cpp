@@ -72,7 +72,7 @@ RGBController_SinowealthKeyboard90::RGBController_SinowealthKeyboard90(Sinowealt
     Off.color_mode                  = MODE_COLORS_NONE;
     modes.push_back(Off);
 
-    active_mode                     = modes.size() - 1;
+    active_mode                     = (int)modes.size() - 1;
 
     SetupZones();
 }
