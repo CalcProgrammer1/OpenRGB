@@ -295,7 +295,7 @@ void RGBController_NZXTHue1::DeviceUpdateMode()
                 modes[active_mode].speed,
                 direction,
                 colors,
-                modes[active_mode].colors.size()
+                (unsigned int)modes[active_mode].colors.size()
                 );
     }
 }
