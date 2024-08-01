@@ -101,7 +101,7 @@ void LianLiStrimerLConnectController::SetLedsDirect(uint8_t zone, RGBColor * led
 
     for(size_t i = 0; i < led_count; i++)
     {
-        uint8_t offset                          = (3 * i) + STRIMERLCONNECT_DATA_BYTE;
+        uint8_t offset                          = (3 * (uint8_t)i) + STRIMERLCONNECT_DATA_BYTE;
 
         buffer[offset]                          = RGBGetRValue(led_colours[i]);
         buffer[offset + 1]                      = RGBGetBValue(led_colours[i]);

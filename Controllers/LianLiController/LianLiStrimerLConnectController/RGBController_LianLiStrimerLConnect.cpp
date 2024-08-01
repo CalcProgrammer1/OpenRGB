@@ -235,7 +235,7 @@ void RGBController_LianLiStrimerLConnect::DeviceUpdateLEDs()
 
         for(std::size_t zone_idx = 0; zone_idx < zones.size(); zone_idx++)
         {
-            UpdateZoneLEDs(zone_idx);
+            UpdateZoneLEDs((int)zone_idx);
         }
 
         controller->SendApply();
@@ -278,15 +278,15 @@ void RGBController_LianLiStrimerLConnect::DeviceUpdateMode()
         {
             for(std::size_t zone_idx = 0; zone_idx < zones.size(); zone_idx++)
             {
-                controller->SetMode(current_mode.value, zone_idx, current_mode.speed, current_mode.brightness, current_mode.direction, random_colours);
+                controller->SetMode((uint8_t)current_mode.value, (uint8_t)zone_idx, current_mode.speed, current_mode.brightness, current_mode.direction, random_colours);
             }
         }
         else
         {
             for(std::size_t zone_idx = 0; zone_idx < zones.size(); zone_idx++)
             {
-                controller->SetLedsDirect(zone_idx, &current_mode.colors[0], current_mode.colors.size());
-                controller->SetMode(current_mode.value, zone_idx, current_mode.speed, current_mode.brightness, current_mode.direction, random_colours);
+                controller->SetLedsDirect((uint8_t)zone_idx, &current_mode.colors[0], (uint8_t)current_mode.colors.size());
+                controller->SetMode((uint8_t)current_mode.value, (uint8_t)zone_idx, current_mode.speed, current_mode.brightness, current_mode.direction, random_colours);
             }
         }
 
@@ -308,11 +308,11 @@ int RGBController_LianLiStrimerLConnect::GetLED_Zone(int led_idx)
 
         if( zone_start <= led_idx && zone_end >= led_idx)
         {
-            return(zone_idx);
+            return((int)zone_idx);
         }
     }
 
-    return -1;
+    return(-1);
 }
 
 mode RGBController_LianLiStrimerLConnect::CreateMode(std::string name, int value, uint8_t colour_count, uint8_t colour_mode)
