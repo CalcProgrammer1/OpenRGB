@@ -128,7 +128,7 @@ void PhilipsWizController::SetColor(unsigned char red, unsigned char green, unsi
     \*-----------------------------------------------------------------*/
     std::string command_str     = command.dump();
 
-    port.udp_write((char *)command_str.c_str(), command_str.length() + 1);
+    port.udp_write((char *)command_str.c_str(), (int)command_str.length() + 1);
 }
 
 void PhilipsWizController::SetScene(int scene, unsigned char brightness)
@@ -147,7 +147,7 @@ void PhilipsWizController::SetScene(int scene, unsigned char brightness)
     \*------------------------------------------------------------*/
     std::string command_str = command.dump();
 
-    port.udp_write((char*)command_str.c_str(), command_str.length() + 1);
+    port.udp_write((char*)command_str.c_str(), (int)command_str.length() + 1);
 }
 
 void PhilipsWizController::ReceiveThreadFunction()
@@ -224,7 +224,7 @@ void PhilipsWizController::RequestSystemConfig()
     \*-----------------------------------------------------------------*/
     std::string command_str     = command.dump();
 
-    port.udp_write((char *)command_str.c_str(), command_str.length() + 1);
+    port.udp_write((char *)command_str.c_str(), (int)command_str.length() + 1);
 
     /*-----------------------------------------------------------------*\
     | Wait up to 1s to give it time to receive and process response     |
