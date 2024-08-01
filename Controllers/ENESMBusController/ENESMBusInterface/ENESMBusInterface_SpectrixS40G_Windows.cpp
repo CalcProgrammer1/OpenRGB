@@ -15,6 +15,7 @@
 #include <winioctl.h>
 
 #include "ENESMBusInterface_SpectrixS40G_Windows.h"
+#include "StringUtils.h"
 
 ENESMBusInterface_SpectrixS40G::ENESMBusInterface_SpectrixS40G(HANDLE fd, wchar_t* path)
 {
@@ -34,8 +35,7 @@ ene_interface_type ENESMBusInterface_SpectrixS40G::GetInterfaceType()
 
 std::string ENESMBusInterface_SpectrixS40G::GetLocation()
 {
-	std::string str(path.begin(), path.end());
-    return("NVMe: " + str);
+    return("NVMe: " + StringUtils::wstring_to_string(path));
 }
 
 int ENESMBusInterface_SpectrixS40G::GetMaxBlock()
