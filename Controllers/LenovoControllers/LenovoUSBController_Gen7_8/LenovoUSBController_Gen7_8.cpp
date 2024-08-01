@@ -10,25 +10,26 @@
 #include <iomanip>
 #include <sstream>
 #include "LenovoUSBController_Gen7_8.h"
+#include "StringUtils.h"
 
 using namespace std;
 
 LenovoGen7And8USBController::LenovoGen7And8USBController(hid_device* dev_handle, const char* path, uint16_t in_pid)
 {
-    const uint8_t   sz      = HID_MAX_STR;
-    wchar_t         tmp[sz];
-
     dev                     = dev_handle;
     location                = path;
     pid                     = in_pid;
 
-    hid_get_manufacturer_string(dev, tmp, sz);
-    std::wstring w_tmp      = wstring(tmp);
-    name                    = string(w_tmp.begin(), w_tmp.end());
+    /*---------------------------------------------------------*\
+    | Get device name from HID manufacturer and product strings |
+    \*---------------------------------------------------------*/
+    wchar_t name_string[HID_MAX_STR];
 
-    hid_get_product_string(dev, tmp, sz);
-    w_tmp                   = wstring(tmp);
-    name.append(" ").append(string(w_tmp.begin(), w_tmp.end()));
+    hid_get_manufacturer_string(dev, name_string, HID_MAX_STR);
+    name = StringUtils::wstring_to_string(name_string);
+
+    hid_get_product_string(dev, name_string, HID_MAX_STR);
+    name.append(" ").append(StringUtils::wstring_to_string(name_string));
 }
 
 LenovoGen7And8USBController::~LenovoGen7And8USBController()
