@@ -372,7 +372,7 @@ void RGBController_LenovoUSB::UpdateZoneLEDs(int zone)
     {
         int index = zones[zone].start_idx+i;
 
-        color_map.push_back({leds[index].value & 0xFF, colors[index]});
+        color_map.push_back({(uint8_t)leds[index].value & 0xFF, colors[index]});
     }
 
     color_map.shrink_to_fit();
