@@ -187,7 +187,7 @@ void NanoleafController::UpdateLEDs(std::vector<RGBColor>& colors)
             message[(7 * i) + 6 + 1] = (uint8_t)0;                          /* transitionTime   */
         }
 
-        external_control_socket.udp_write((char*)message, (size * 7) + 1);
+        external_control_socket.udp_write((char*)message, ((int)size * 7) + 1);
 
         free(message);
     }
@@ -227,7 +227,7 @@ void NanoleafController::UpdateLEDs(std::vector<RGBColor>& colors)
             message[(8 * i) + 7 + 2] = (uint8_t)0;                          /* transitionTime L */
         }
 
-        external_control_socket.udp_write((char *)message, (size * 8) + 2);
+        external_control_socket.udp_write((char *)message, ((int)size * 8) + 2);
 
         free(message);
     }
