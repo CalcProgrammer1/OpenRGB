@@ -113,7 +113,7 @@ void HuePlusController::SetChannelEffect
             \*-----------------------------------------------------*/
             for (std::size_t idx = 0; idx < 40; idx++)
             {
-                int pixel_idx = idx * 3;
+                int pixel_idx = (int)idx * 3;
                 RGBColor color = colors[color_idx];
                 color_data[pixel_idx + 0x00] = RGBGetGValue(color);
                 color_data[pixel_idx + 0x01] = RGBGetRValue(color);
@@ -136,7 +136,7 @@ void HuePlusController::SetChannelEffect
         \*-----------------------------------------------------*/
         for (std::size_t idx = 0; idx < num_colors; idx++)
         {
-            int pixel_idx = idx * 3;
+            int pixel_idx = (int)idx * 3;
             RGBColor color = colors[idx];
             color_data[pixel_idx + 0x00] = RGBGetGValue(color);
             color_data[pixel_idx + 0x01] = RGBGetRValue(color);
@@ -164,7 +164,7 @@ void HuePlusController::SetChannelLEDs
     \*-----------------------------------------------------*/
     for (std::size_t idx = 0; idx < num_colors; idx++)
     {
-        int pixel_idx = idx * 3;
+        int pixel_idx = (int)idx * 3;
         RGBColor color = colors[idx];
         color_data[pixel_idx + 0x00] = RGBGetGValue(color);
         color_data[pixel_idx + 0x01] = RGBGetRValue(color);
