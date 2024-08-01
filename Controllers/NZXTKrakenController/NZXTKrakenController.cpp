@@ -17,9 +17,9 @@
 
 static void SetColor(const std::vector<RGBColor>& colors, unsigned char* color_data)
 {
-    for (std::size_t idx = 0; idx < colors.size(); idx++)
+    for(std::size_t idx = 0; idx < colors.size(); idx++)
     {
-        int pixel_idx = idx * 3;
+        int pixel_idx = (int)idx * 3;
         RGBColor color = colors[idx];
         color_data[pixel_idx + 0x00] = RGBGetRValue(color);
         color_data[pixel_idx + 0x01] = RGBGetGValue(color);
