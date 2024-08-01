@@ -157,7 +157,7 @@ void YeelightController::SetMusicMode()
     std::string command_str     = command.dump().append("\r\n");
 
     port.tcp_client_connect();
-    port.tcp_client_write((char *)command_str.c_str(), command_str.length() + 1);
+    port.tcp_client_write((char *)command_str.c_str(), (int)command_str.length() + 1);
     port.tcp_close();
 }
 
@@ -183,7 +183,7 @@ void YeelightController::SetPower()
     std::string command_str     = command.dump().append("\r\n");
 
     port.tcp_client_connect();
-    port.tcp_client_write((char *)command_str.c_str(), command_str.length() + 1);
+    port.tcp_client_write((char *)command_str.c_str(), (int)command_str.length() + 1);
     port.tcp_close();
 }
 
@@ -240,12 +240,12 @@ void YeelightController::SetColor(unsigned char red, unsigned char green, unsign
 
     if(music_mode)
     {
-        send(*music_mode_sock, (char *)command_str.c_str(), command_str.length(), 0);
+        send(*music_mode_sock, (char *)command_str.c_str(), (int)command_str.length(), 0);
     }
     else
     {
         port.tcp_client_connect();
-        port.tcp_client_write((char *)command_str.c_str(), command_str.length() + 1);
+        port.tcp_client_write((char *)command_str.c_str(), (int)command_str.length() + 1);
         port.tcp_close();
     }
 }
