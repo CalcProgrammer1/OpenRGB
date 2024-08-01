@@ -201,7 +201,7 @@ RGBController_EVGAKeyboard::RGBController_EVGAKeyboard(EVGAKeyboardController* c
     /*-----------------------------------------------------*\
     | Initialise the random functions from the clock        |
     \*-----------------------------------------------------*/
-    std::srand(time(NULL));
+    std::srand((unsigned int)time(NULL));
 
     controller                      = controller_ptr;
 
