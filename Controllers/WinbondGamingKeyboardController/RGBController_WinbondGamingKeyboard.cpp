@@ -762,8 +762,8 @@ void RGBController_WinbondGamingKeyboard::SetupZones()
     {
         led new_led;
 
-        new_led.name                = new_kb.GetKeyNameAt(led_idx);
-        new_led.value               = new_kb.GetKeyValueAt(led_idx);
+        new_led.name                = new_kb.GetKeyNameAt((unsigned int)led_idx);
+        new_led.value               = new_kb.GetKeyValueAt((unsigned int)led_idx);
 
         leds.push_back(new_led);
     }
