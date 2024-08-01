@@ -105,9 +105,9 @@ void RGBController_BlinkController::ResizeZone(int /*zone*/, int /*new_size*/)
 
 void RGBController_BlinkController::DeviceUpdateLEDs()
 {
-    for (std::size_t led = 0; led < colors.size(); led++)
+    for(std::size_t led = 0; led < colors.size(); led++)
     {
-        UpdateSingleLED(led);
+        UpdateSingleLED((int)led);
     }
 }
 
