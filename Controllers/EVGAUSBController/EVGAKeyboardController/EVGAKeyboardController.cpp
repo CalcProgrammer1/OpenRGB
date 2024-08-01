@@ -10,6 +10,7 @@
 \*---------------------------------------------------------*/
 
 #include "EVGAKeyboardController.h"
+#include "StringUtils.h"
 
 static uint8_t packet_map[EVGA_KEYBOARD_FULL_SIZE_KEYCOUNT + EVGA_KEYBOARD_Z20_EXTRA_KEYS] =
 {
@@ -58,20 +59,20 @@ static uint8_t packet_map[EVGA_KEYBOARD_FULL_SIZE_KEYCOUNT + EVGA_KEYBOARD_Z20_E
 
 EVGAKeyboardController::EVGAKeyboardController(hid_device* dev_handle, const char* path, uint16_t kb_pid)
 {
-    const uint8_t   sz      = HID_MAX_STR;
-    wchar_t         tmp[sz];
-
     dev                     = dev_handle;
     location                = path;
     pid                     = kb_pid;
 
-    hid_get_manufacturer_string(dev, tmp, sz);
-    std::wstring w_tmp      = std::wstring(tmp);
-    device_name             = std::string(w_tmp.begin(), w_tmp.end());
+    /*---------------------------------------------------------*\
+    | Get device name from HID manufacturer and product strings |
+    \*---------------------------------------------------------*/
+    wchar_t name_string[HID_MAX_STR];
 
-    hid_get_product_string(dev, tmp, sz);
-    w_tmp                   = std::wstring(tmp);
-    device_name.append(" ").append(std::string(w_tmp.begin(), w_tmp.end()));
+    hid_get_manufacturer_string(dev, name_string, HID_MAX_STR);
+    device_name = StringUtils::wstring_to_string(name_string);
+
+    hid_get_product_string(dev, name_string, HID_MAX_STR);
+    device_name.append(" ").append(StringUtils::wstring_to_string(name_string));
 
     SetSleepTime();
 }
@@ -83,25 +84,20 @@ EVGAKeyboardController::~EVGAKeyboardController()
 
 std::string EVGAKeyboardController::GetDeviceName()
 {
-    return device_name;
+    return(device_name);
 }
 
 std::string EVGAKeyboardController::GetSerial()
 {
-    const uint8_t   sz  = HID_MAX_STR;
-    wchar_t         tmp[sz];
+    wchar_t serial_string[HID_MAX_STR];
+    int ret = hid_get_serial_number_string(dev, serial_string, HID_MAX_STR);
 
-    int ret             = hid_get_serial_number_string(dev, tmp, sz);
-
-    if (ret != 0)
+    if(ret != 0)
     {
         return("");
     }
 
-    std::wstring w_tmp  = std::wstring(tmp);
-    std::string serial  = std::string(w_tmp.begin(), w_tmp.end());
-
-    return serial;
+    return(StringUtils::wstring_to_string(serial_string));
 }
 
 std::string EVGAKeyboardController::GetLocation()
@@ -111,7 +107,7 @@ std::string EVGAKeyboardController::GetLocation()
 
 uint16_t EVGAKeyboardController::GetPid()
 {
-    return pid;
+    return(pid);
 }
 
 void  EVGAKeyboardController::SetLedsDirect(std::vector<RGBColor> colors)
@@ -336,7 +332,7 @@ uint8_t EVGAKeyboardController::GetChecksum(uint8_t * data, size_t count)
         checksum -= data[i];
     }
 
-    return checksum;
+    return(checksum);
 }
 
 uint8_t EVGAKeyboardController::FindDirection(uint8_t mode, uint8_t direction)
@@ -355,7 +351,7 @@ uint8_t EVGAKeyboardController::FindDirection(uint8_t mode, uint8_t direction)
         }
     }
 
-    return temp;
+    return(temp);
 }
 
 uint8_t EVGAKeyboardController::FindColours(uint8_t * data, uint8_t count, std::vector<RGBColor> &colors)
@@ -372,7 +368,7 @@ uint8_t EVGAKeyboardController::FindColours(uint8_t * data, uint8_t count, std::
         colors.push_back(ToRGBColor(data[offset + 1],data[offset + 2],data[offset + 3]));
     }
 
-    return data[0];
+    return(data[0]);
 }
 
 uint8_t EVGAKeyboardController::GetMode()
@@ -394,12 +390,12 @@ uint8_t EVGAKeyboardController::GetMode()
     if(result > 0)
     {
         LOG_DEBUG("[%s] Returned mode %02X - %02X %02X %02X %02X %02X", device_name.c_str(), buffer[index], buffer[index-2], buffer[index-1], buffer[index], buffer[index+1], buffer[index+2]);
-        return buffer[index];
+        return(buffer[index]);
     }
     else
     {
         LOG_INFO("[%s] An error occured reading current mode", device_name.c_str());
-        return 0;
+        return(0);
     }
 }
 
