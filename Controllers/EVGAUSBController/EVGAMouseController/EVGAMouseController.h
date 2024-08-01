@@ -198,7 +198,6 @@ private:
     bool IsResponseNotReadyPacket(unsigned char *buffer);
 
     std::string device_name;
-    std::string serial;
     std::string location;
     hid_device* dev;
 

@@ -15,6 +15,7 @@
 #include <thread>
 #include "EVGAMouseController.h"
 #include "LogManager.h"
+#include "StringUtils.h"
 
 #define HID_MAX_STR 255
 #define EVGA_PERIPHERAL_LED_SOURCE_OF_TRUTH EVGA_PERIPHERAL_LED_LOGO
@@ -51,20 +52,16 @@ EVGAMouseController::EVGAMouseController(hid_device* dev_handle, char *_path, in
     location                = _path;
     this->connection_type   = connection_type;
 
-    const int szTemp = HID_MAX_STR;
-    wchar_t tmpName[szTemp];
+    /*---------------------------------------------------------*\
+    | Get device name from HID manufacturer and product strings |
+    \*---------------------------------------------------------*/
+    wchar_t name_string[HID_MAX_STR];
 
-    hid_get_manufacturer_string(dev, tmpName, szTemp);
-    std::wstring wName  = std::wstring(tmpName);
-    device_name         = std::string(wName.begin(), wName.end());
+    hid_get_manufacturer_string(dev, name_string, HID_MAX_STR);
+    device_name = StringUtils::wstring_to_string(name_string);
 
-    hid_get_product_string(dev, tmpName, szTemp);
-    wName = std::wstring(tmpName);
-    device_name.append(" ").append(std::string(wName.begin(), wName.end()));
-
-    hid_get_indexed_string(dev, 2, tmpName, szTemp);
-    wName   = std::wstring(tmpName);
-    serial  = std::string(wName.begin(), wName.end());
+    hid_get_product_string(dev, name_string, HID_MAX_STR);
+    device_name.append(" ").append(StringUtils::wstring_to_string(name_string));
 
     led_states.resize(EVGA_PERIPHERAL_LED_COUNT);
     for(EVGAMouseControllerDeviceState &led_state : led_states)
@@ -89,7 +86,15 @@ std::string EVGAMouseController::GetDeviceName()
 
 std::string EVGAMouseController::GetSerial()
 {
-    return serial;
+    wchar_t serial_string[HID_MAX_STR];
+    int ret = hid_get_indexed_string(dev, 2, serial_string, HID_MAX_STR);
+
+    if(ret != 0)
+    {
+        return("");
+    }
+
+    return(StringUtils::wstring_to_string(serial_string));
 }
 
 std::string EVGAMouseController::GetLocation()
