@@ -18,7 +18,7 @@ PhilipsHueEntertainmentController::PhilipsHueEntertainmentController(hueplusplus
     | Fill in location string with bridge IP            |
     \*-------------------------------------------------*/
     location                            = "IP: " + bridge.getBridgeIP();
-    num_leds                            = group.getLightIds().size();
+    num_leds                            = (unsigned int)group.getLightIds().size();
     connected                           = false;
 }
 
