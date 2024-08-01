@@ -201,7 +201,7 @@ void RGBController_Nollie::DeviceUpdateLEDs()
         for(std::size_t i = 0; i < ChSort.size(); i++)
         {
             int* ptr = std::find(channel_index, channel_index + 32, ChSort[i]);
-            int zone_idx = ptr - channel_index;
+            int zone_idx = (int)(ptr - channel_index);
             controller->SetChannelLEDs(ChSort[i], zones[zone_idx].colors, zones[zone_idx].leds_count);
         }
     }
