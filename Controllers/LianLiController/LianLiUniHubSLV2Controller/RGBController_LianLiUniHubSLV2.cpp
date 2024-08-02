@@ -395,7 +395,7 @@ void RGBController_LianLiUniHubSLV2::DeviceUpdateLEDs()
 
     for(std::size_t zone_idx = 0; zone_idx < zones.size(); zone_idx++)
     {
-        controller->SetChannelLEDs(zone_idx, zones[zone_idx].colors, zones[zone_idx].leds_count, brightness_scale);
+        controller->SetChannelLEDs((unsigned char)zone_idx, zones[zone_idx].colors, zones[zone_idx].leds_count, brightness_scale);
     }
 }
 
@@ -436,7 +436,7 @@ void RGBController_LianLiUniHubSLV2::DeviceUpdateMode()
         }
         fan_idx = ((zones[zone_idx].leds_count / 16) - 1);        // Indexes start at 0
 
-        controller->SetChannelMode(zone_idx,
+        controller->SetChannelMode((unsigned char)zone_idx,
                                    modes[active_mode],
                                    fan_idx);
 
