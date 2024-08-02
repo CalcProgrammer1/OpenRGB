@@ -667,14 +667,14 @@ void LianLiUniHubController::SendConfig(uint16_t wIndex, uint8_t  *config, size_
     /*-------------------------------------*\
     | Send packet                           |
     \*-------------------------------------*/
-    size_t ret = libusb_control_transfer(handle,    /* dev_handle       */
-                                         0x40,      /* bmRequestType    */
-                                         0x80,      /* bRequest         */
-                                         0x00,      /* wValue           */
-                                         wIndex,    /* wIndex           */
-                                         config,    /* data             */
-                                         length,    /* wLength          */
-                                         1000);     /* timeout          */
+    size_t ret = libusb_control_transfer(handle,            /* dev_handle       */
+                                         0x40,              /* bmRequestType    */
+                                         0x80,              /* bRequest         */
+                                         0x00,              /* wValue           */
+                                         wIndex,            /* wIndex           */
+                                         config,            /* data             */
+                                         (uint16_t)length,  /* wLength          */
+                                         1000);             /* timeout          */
 
     /*-------------------------------------*\
     | Check for communication error         |
