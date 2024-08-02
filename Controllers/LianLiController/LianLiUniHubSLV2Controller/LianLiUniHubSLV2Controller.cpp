@@ -168,7 +168,7 @@ void LianLiUniHubSLV2Controller::SetChannelMode(unsigned char channel, const mod
     memset(fan_led_data, 0x00, sizeof(fan_led_data));
 
     std::vector<RGBColor> colors = active_mode.colors;
-    unsigned int num_colors = colors.size();
+    unsigned int num_colors = (unsigned int)colors.size();
 
     if(!colors.empty())                                          // Update led_data if there's colors
     {
