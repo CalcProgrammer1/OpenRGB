@@ -1,16 +1,19 @@
-/*-------------------------------------------*\
-|  SinowealthGMOWController.h                 |
-|                                             |
-|  Support for the Glorious Model O Wireless  |
-|                                             |
-|  Matt Silva (thesilvanator) 05/2022         |
-\*-------------------------------------------*/
-
-#include "RGBController.h"
-#include <vector>
-#include <hidapi/hidapi.h>
+/*---------------------------------------------------------*\
+| SinowealthGMOWController.h                                |
+|                                                           |
+|   Driver for Glorious Model O Wireless                    |
+|                                                           |
+|   Matt Silva (thesilvanator)                     May 2022 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #pragma once
+
+#include <vector>
+#include <hidapi/hidapi.h>
+#include "RGBController.h"
 
 #define GMOW_PACKET_SIZE 64 + 1
 
