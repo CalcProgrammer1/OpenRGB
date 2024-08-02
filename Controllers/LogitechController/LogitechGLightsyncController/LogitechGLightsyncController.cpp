@@ -11,6 +11,7 @@
 
 #include <cstring>
 #include "LogitechGLightsyncController.h"
+#include "StringUtils.h"
 
 LogitechGLightsyncController::LogitechGLightsyncController(hid_device* dev_cmd_handle, hid_device *dev_handle, const char *path, unsigned char hid_dev_index, unsigned char hid_feature_index, unsigned char hid_fctn_ase_id)
 {
@@ -54,10 +55,7 @@ std::string LogitechGLightsyncController::GetSerialString()
         return("");
     }
 
-    std::wstring return_wstring = serial_string;
-    std::string return_string(return_wstring.begin(), return_wstring.end());
-
-    return(return_string);
+    return(StringUtils::wstring_to_string(serial_string));
 }
 
 void LogitechGLightsyncController::UpdateMouseLED(

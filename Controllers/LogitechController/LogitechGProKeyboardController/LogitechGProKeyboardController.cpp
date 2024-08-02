@@ -11,6 +11,7 @@
 
 #include <cstring>
 #include "LogitechGProKeyboardController.h"
+#include "StringUtils.h"
 
 LogitechGProKeyboardController::LogitechGProKeyboardController(hid_device* dev_handle_0x11, hid_device* dev_handle_0x12)
 {
@@ -34,10 +35,7 @@ std::string LogitechGProKeyboardController::GetSerialString()
         return("");
     }
 
-    std::wstring return_wstring = serial_string;
-    std::string return_string(return_wstring.begin(), return_wstring.end());
-
-    return(return_string);
+    return(StringUtils::wstring_to_string(serial_string));
 }
 
 void LogitechGProKeyboardController::Commit()

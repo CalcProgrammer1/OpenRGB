@@ -9,6 +9,7 @@
 
 #include <cstring>
 #include "LogitechG203LController.h"
+#include "StringUtils.h"
 
 #define PACKET_SIZE     20
 
@@ -56,10 +57,7 @@ std::string LogitechG203LController::GetSerialString()
         return("");
     }
 
-    std::wstring return_wstring = serial_string;
-    std::string return_string(return_wstring.begin(), return_wstring.end());
-
-    return(return_string);
+    return(StringUtils::wstring_to_string(serial_string));
 }
 
 void LogitechG203LController::SendApply()

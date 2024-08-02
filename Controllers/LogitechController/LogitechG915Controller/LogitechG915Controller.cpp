@@ -11,6 +11,7 @@
 
 #include <cstring>
 #include "LogitechG915Controller.h"
+#include "StringUtils.h"
 
 LogitechG915Controller::LogitechG915Controller(hid_device* dev_handle, bool wired)
 {
@@ -49,10 +50,7 @@ std::string LogitechG915Controller::GetSerialString()
         return("");
     }
 
-    std::wstring return_wstring = serial_string;
-    std::string return_string(return_wstring.begin(), return_wstring.end());
-
-    return(return_string);
+    return(StringUtils::wstring_to_string(serial_string));
 }
 
 void LogitechG915Controller::Commit()

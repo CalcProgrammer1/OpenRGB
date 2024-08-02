@@ -11,6 +11,7 @@
 
 #include <cstring>
 #include "LogitechG213Controller.h"
+#include "StringUtils.h"
 
 LogitechG213Controller::LogitechG213Controller(hid_device* dev_handle, const char* path)
 {
@@ -38,10 +39,7 @@ std::string LogitechG213Controller::GetSerialString()
         return("");
     }
 
-    std::wstring return_wstring = serial_string;
-    std::string return_string(return_wstring.begin(), return_wstring.end());
-
-    return(return_string);
+    return(StringUtils::wstring_to_string(serial_string));
 }
 
 void LogitechG213Controller::SetDirect
