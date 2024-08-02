@@ -169,12 +169,12 @@ void LianLiUniHubSLInfinityController::SetChannelMode(unsigned char channel, con
     memset(fan_led_data, 0x00, sizeof(fan_led_data));
 
     std::vector<RGBColor> colors = active_mode.colors;
-    unsigned int num_colors = colors.size();
+    unsigned int num_colors = (unsigned int)colors.size();
 
     if(!colors.empty())                                          // Update led_data if there's colors
     {
         brightness = static_cast<float>(active_mode.brightness)/4;
-        if (num_colors == 6)
+        if(num_colors == 6)
         {
             for(unsigned int i = 0; i < 6; i++)
             {
