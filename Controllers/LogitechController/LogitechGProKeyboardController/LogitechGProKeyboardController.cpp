@@ -74,7 +74,7 @@ void LogitechGProKeyboardController::SetMode
 
 void LogitechGProKeyboardController::SendCommit()
 {
-    char usb_buf[20];
+    unsigned char usb_buf[20];
 
     /*-----------------------------------------------------*\
     | Zero out buffer                                       |
@@ -92,8 +92,8 @@ void LogitechGProKeyboardController::SendCommit()
     /*-----------------------------------------------------*\
     | Send packet                                           |
     \*-----------------------------------------------------*/
-    hid_write(dev_pkt_0x11, (unsigned char *)usb_buf, 20);
-    hid_read(dev_pkt_0x11, (unsigned char *)usb_buf, 20);
+    hid_write(dev_pkt_0x11, usb_buf, 20);
+    hid_read(dev_pkt_0x11, usb_buf, 20);
 }
 
 void LogitechGProKeyboardController::SendDirectFrame
@@ -103,7 +103,7 @@ void LogitechGProKeyboardController::SendDirectFrame
     unsigned char *     frame_data
     )
 {
-    char usb_buf[64];
+    unsigned char usb_buf[64];
 
     /*-----------------------------------------------------*\
     | Zero out buffer                                       |
@@ -128,8 +128,8 @@ void LogitechGProKeyboardController::SendDirectFrame
     /*-----------------------------------------------------*\
     | Send packet                                           |
     \*-----------------------------------------------------*/
-    hid_write(dev_pkt_0x12, (unsigned char *)usb_buf, 64);
-    hid_read(dev_pkt_0x11, (unsigned char *)usb_buf, 20);
+    hid_write(dev_pkt_0x12, usb_buf, 64);
+    hid_read(dev_pkt_0x11, usb_buf, 20);
 }
 
 void LogitechGProKeyboardController::SendMode
@@ -142,7 +142,7 @@ void LogitechGProKeyboardController::SendMode
     unsigned char       blue
     )
 {
-    char usb_buf[20];
+    unsigned char usb_buf[20];
 
     /*-----------------------------------------------------*\
     | Zero out buffer                                       |
@@ -181,6 +181,6 @@ void LogitechGProKeyboardController::SendMode
     /*-----------------------------------------------------*\
     | Send packet                                           |
     \*-----------------------------------------------------*/
-    hid_write(dev_pkt_0x11, (unsigned char *)usb_buf, 20);
-    hid_read(dev_pkt_0x11, (unsigned char *)usb_buf, 20);
+    hid_write(dev_pkt_0x11, usb_buf, 20);
+    hid_read(dev_pkt_0x11, usb_buf, 20);
 }
