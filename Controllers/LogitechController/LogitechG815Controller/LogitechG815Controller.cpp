@@ -71,7 +71,7 @@ void LogitechG815Controller::SetMode
 
 void LogitechG815Controller::SendCommit()
 {
-    char usb_buf[20];
+    unsigned char usb_buf[20];
 
     /*-----------------------------------------------------*\
     | Zero out buffer                                       |
@@ -89,13 +89,13 @@ void LogitechG815Controller::SendCommit()
     /*-----------------------------------------------------*\
     | Send packet                                           |
     \*-----------------------------------------------------*/
-    hid_write(dev_pkt_0x11, (unsigned char *)usb_buf, 20);
-    hid_read_timeout(dev_pkt_0x11,  (unsigned char *)usb_buf, 20, LOGITECH_READ_TIMEOUT);
+    hid_write(dev_pkt_0x11, usb_buf, 20);
+    hid_read_timeout(dev_pkt_0x11, usb_buf, 20, LOGITECH_READ_TIMEOUT);
 }
 
 void LogitechG815Controller::InitializeDirect()
 {
-    char usb_buf[20];
+    unsigned char usb_buf[20];
 
     /*-----------------------------------------------------*\
     | Zero out buffer                                       |
@@ -113,8 +113,8 @@ void LogitechG815Controller::InitializeDirect()
     /*-----------------------------------------------------*\
     | Send packet                                           |
     \*-----------------------------------------------------*/
-    hid_write(dev_pkt_0x11, (unsigned char *)usb_buf, 20);
-    hid_read(dev_pkt_0x11,  (unsigned char *)usb_buf, 20);
+    hid_write(dev_pkt_0x11, usb_buf, 20);
+    hid_read(dev_pkt_0x11,  usb_buf, 20);
 
     /*-----------------------------------------------------*\
     | Zero out buffer                                       |
@@ -132,8 +132,8 @@ void LogitechG815Controller::InitializeDirect()
     /*-----------------------------------------------------*\
     | Send packet                                           |
     \*-----------------------------------------------------*/
-    hid_write(dev_pkt_0x11, (unsigned char *)usb_buf, 20);
-    hid_read(dev_pkt_0x11,  (unsigned char *)usb_buf, 20);
+    hid_write(dev_pkt_0x11, usb_buf, 20);
+    hid_read(dev_pkt_0x11,  usb_buf, 20);
 
     /*-----------------------------------------------------*\
     | Zero out buffer                                       |
@@ -152,8 +152,8 @@ void LogitechG815Controller::InitializeDirect()
     /*-----------------------------------------------------*\
     | Send packet                                           |
     \*-----------------------------------------------------*/
-    hid_write(dev_pkt_0x11, (unsigned char *)usb_buf, 20);
-    hid_read(dev_pkt_0x11,  (unsigned char *)usb_buf, 20);
+    hid_write(dev_pkt_0x11, usb_buf, 20);
+    hid_read(dev_pkt_0x11,  usb_buf, 20);
 
     /*-----------------------------------------------------*\
     | Zero out buffer                                       |
@@ -173,8 +173,8 @@ void LogitechG815Controller::InitializeDirect()
     /*-----------------------------------------------------*\
     | Send packet                                           |
     \*-----------------------------------------------------*/
-    hid_write(dev_pkt_0x11, (unsigned char *)usb_buf, 20);
-    hid_read(dev_pkt_0x11,  (unsigned char *)usb_buf, 20);
+    hid_write(dev_pkt_0x11, usb_buf, 20);
+    hid_read(dev_pkt_0x11,  usb_buf, 20);
 }
 
 void LogitechG815Controller::SendSingleLed
@@ -185,7 +185,7 @@ void LogitechG815Controller::SendSingleLed
     unsigned char       b
     )
 {
-    char usb_buf[20];
+    unsigned char usb_buf[20];
 
     /*-----------------------------------------------------*\
     | Zero out buffer                                       |
@@ -209,8 +209,8 @@ void LogitechG815Controller::SendSingleLed
     /*-----------------------------------------------------*\
     | Send packet                                           |
     \*-----------------------------------------------------*/
-    hid_write(dev_pkt_0x11, (unsigned char *)usb_buf, 20);
-    hid_read(dev_pkt_0x11, (unsigned char *)usb_buf, 20);
+    hid_write(dev_pkt_0x11, usb_buf, 20);
+    hid_read(dev_pkt_0x11, usb_buf, 20);
 }
 
 void LogitechG815Controller::SendDirectFrame
@@ -219,7 +219,7 @@ void LogitechG815Controller::SendDirectFrame
     unsigned char *     frame_data
     )
 {
-    char usb_buf[20];
+    unsigned char usb_buf[20];
 
     /*-----------------------------------------------------*\
     | Zero out buffer                                       |
@@ -242,8 +242,8 @@ void LogitechG815Controller::SendDirectFrame
     /*-----------------------------------------------------*\
     | Send packet                                           |
     \*-----------------------------------------------------*/
-    hid_write(dev_pkt_0x11, (unsigned char *)usb_buf, 20);
-    hid_read_timeout(dev_pkt_0x11,  (unsigned char *)usb_buf, 20, LOGITECH_READ_TIMEOUT);
+    hid_write(dev_pkt_0x11, usb_buf, 20);
+    hid_read_timeout(dev_pkt_0x11, usb_buf, 20, LOGITECH_READ_TIMEOUT);
 }
 
 void LogitechG815Controller::SendMode
@@ -256,7 +256,7 @@ void LogitechG815Controller::SendMode
     unsigned char       blue
     )
 {
-    char usb_buf[20];
+    unsigned char usb_buf[20];
 
     /*-----------------------------------------------------*\
     | Zero out buffer                                       |
@@ -266,7 +266,6 @@ void LogitechG815Controller::SendMode
     /*-----------------------------------------------------*\
     | Set up Lighting Control packet                        |
     \*-----------------------------------------------------*/
-
     usb_buf[0x00]           = 0x11;
     usb_buf[0x01]           = 0xFF;
     usb_buf[0x02]           = 0x0D;
@@ -301,6 +300,6 @@ void LogitechG815Controller::SendMode
     /*-----------------------------------------------------*\
     | Send packet                                           |
     \*-----------------------------------------------------*/
-    hid_write(dev_pkt_0x11, (unsigned char *)usb_buf, 20);
-    hid_read(dev_pkt_0x11, (unsigned char *)usb_buf, 20);
+    hid_write(dev_pkt_0x11, usb_buf, 20);
+    hid_read(dev_pkt_0x11, usb_buf, 20);
 }
