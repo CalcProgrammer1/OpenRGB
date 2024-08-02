@@ -1,11 +1,13 @@
-/*-------------------------------------------*\
-|  RGBController_GenesisXenon200.h            |
-|                                             |
-|  Definitions and types for Genesis Xenon    |
-|  200                                        |
-|                                             |
-|  chrabonszcz 07/2023                        |
-\*-------------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_GenesisXenon200.cpp                         |
+|                                                           |
+|   RGBController for Genesis Xenon 200 mouse               |
+|                                                           |
+|   chrabonszcz                                    Jul 2023 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 /**------------------------------------------------------------------*\
     @name Genesis Xenon 200

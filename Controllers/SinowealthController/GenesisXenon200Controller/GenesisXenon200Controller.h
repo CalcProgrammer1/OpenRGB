@@ -1,15 +1,18 @@
-/*-------------------------------------------*\
-|  RGBController_GenesisXenon200.h            |
-|                                             |
-|  Definitions and types for Genesis Xenon    |
-|  200 Mouse                                  |
-|                                             |
-|  chrabonszcz 07/2023                        |
-\*-------------------------------------------*/
+/*---------------------------------------------------------*\
+| GenesisXenon200Controller.h                               |
+|                                                           |
+|   Driver for Genesis Xenon 200 mouse                      |
+|                                                           |
+|   chrabonszcz                                    Jul 2023 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
 #pragma once
 
+#include <hidapi/hidapi.h>
 #include "RGBController.h"
-#include "hidapi/hidapi.h"
 
 class GenesisXenon200Controller
 {
