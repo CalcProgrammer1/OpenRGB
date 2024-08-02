@@ -13,6 +13,7 @@
 
 #include <string.h>
 #include "LianLiUniHubSLV2Controller.h"
+#include "StringUtils.h"
 
 using namespace std::chrono_literals;
 
@@ -43,8 +44,7 @@ std::string LianLiUniHubSLV2Controller::GetFirmwareVersionString()
         return ("");
     }
 
-    std::wstring return_wstring = product_string;
-    std::string return_string(return_wstring.begin(),return_wstring.end());
+    std::string return_string = StringUtils::wstring_to_string(product_string);
 
     return(return_string.substr(return_string.find_last_of("-")+1,4).c_str());
 }
@@ -56,19 +56,15 @@ std::string LianLiUniHubSLV2Controller::GetName()
 
 std::string LianLiUniHubSLV2Controller::GetSerialString()
 {
-    wchar_t serial_string[20];
-    int ret = hid_get_serial_number_string(dev, serial_string, 20);
+    wchar_t serial_string[128];
+    int ret = hid_get_serial_number_string(dev, serial_string, 128);
 
-    if (ret != 0)
+    if(ret != 0)
     {
-        return ("");
+        return("");
     }
 
-    std::wstring return_wstring = serial_string;
-    std::string return_string(return_wstring.begin(), return_wstring.end());
-
-    return(return_string);
-
+    return(StringUtils::wstring_to_string(serial_string));
 }
 
 float brightnessLimit(RGBColor color)
