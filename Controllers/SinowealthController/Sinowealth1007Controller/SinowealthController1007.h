@@ -1,18 +1,19 @@
-/*-----------------------------------------*\
-|  SinowealthController1007.h               |
-|                                           |
-|  Definitions and types for Sinowealth     |
-|  mice with PID 1007 and ones with similar |
-|  protocol                                 |
-|                                           |
-|  Moon_darker (Vaker) 25.01.2022           |
-\*-----------------------------------------*/
-
-#include "RGBController.h"
-#include <vector>
-#include <hidapi/hidapi.h>
+/*---------------------------------------------------------*\
+| SinowealthController1007.h                                |
+|                                                           |
+|   Driver for Sinowealth mice with PID 1007                |
+|                                                           |
+|   Moon_darker (Vaker)                         25 Jan 2022 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #pragma once
+
+#include <vector>
+#include <hidapi/hidapi.h>
+#include "RGBController.h"
 
 #define ZET_FURY_PRO_STATE_BUFFER_LENGTH 59
 #define ZET_FURY_PRO_COLOR_BUFFER_LENGTH 21

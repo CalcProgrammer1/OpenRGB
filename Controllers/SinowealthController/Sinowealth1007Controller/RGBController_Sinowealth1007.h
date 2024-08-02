@@ -1,11 +1,13 @@
-/*-------------------------------------------*\
-|  RGBController_Sinowealth1007.h             |
-|                                             |
-|  Generic RGB Interface for Sinowealth       |
-|  mice with PID 1007 and similar controllers |
-|                                             |
-|  Moon_darker (Vaker) 25.01.2022             |
-\*-------------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_Sinowealth1007.h                            |
+|                                                           |
+|   RGBController for Sinowealth mice with PID 1007         |
+|                                                           |
+|   Moon_darker (Vaker)                         25 Jan 2022 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #pragma once
 
@@ -26,7 +28,6 @@ public:
     void        UpdateSingleLED(int led);
 
     void        DeviceUpdateMode();
-
 
 private:
     SinowealthController1007* controller;
