@@ -131,8 +131,8 @@ void LogitechGLightsyncController::UpdateMouseLED(
 
 void LogitechGLightsyncController::SetDirectMode(bool direct)
 {
-    char cmd_buf[7];
-    char usb_buf[20];
+    unsigned char cmd_buf[7];
+    unsigned char usb_buf[20];
 
     /*-----------------------------------------------------*\
     | Zero out buffer                                       |
@@ -169,12 +169,12 @@ void LogitechGLightsyncController::SetDirectMode(bool direct)
     {
         std::lock_guard<std::mutex> guard(*mutex);
 
-        hid_write(cmd_dev, (unsigned char *)cmd_buf, 7);
-        hid_read(dev, (unsigned char *)usb_buf, 20);
+        hid_write(cmd_dev, cmd_buf, 7);
+        hid_read(dev, usb_buf, 20);
     }
     else
     {
-        hid_write(cmd_dev, (unsigned char *)cmd_buf, 7);
-        hid_read(dev, (unsigned char *)usb_buf, 20);
+        hid_write(cmd_dev, cmd_buf, 7);
+        hid_read(dev, usb_buf, 20);
     }
 }
