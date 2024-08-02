@@ -74,8 +74,8 @@ void LogitechG213Controller::SetDirect
     /*-----------------------------------------------------*\
     | Send packet                                           |
     \*-----------------------------------------------------*/
-    hid_write(dev, (unsigned char *)usb_buf, 20);
-    hid_read(dev, (unsigned char *)usb_buf, 20);
+    hid_write(dev, usb_buf, 20);
+    hid_read(dev, usb_buf, 20);
 }
 
 void LogitechG213Controller::SetMode
@@ -102,7 +102,7 @@ void LogitechG213Controller::SendMode
     unsigned char       blue
     )
 {
-    char usb_buf[20];
+    unsigned char usb_buf[20];
 
     /*-----------------------------------------------------*\
     | Zero out buffer                                       |
@@ -149,6 +149,6 @@ void LogitechG213Controller::SendMode
     /*-----------------------------------------------------*\
     | Send packet                                           |
     \*-----------------------------------------------------*/
-    hid_write(dev, (unsigned char *)usb_buf, 20);
-    hid_read(dev, (unsigned char *)usb_buf, 20);
+    hid_write(dev, usb_buf, 20);
+    hid_read(dev, usb_buf, 20);
 }
