@@ -15,7 +15,7 @@
 using json = nlohmann::json;
 using namespace std::chrono_literals;
 
-PhilipsWizController::PhilipsWizController(std::string ip, bool use_cool, bool use_warm)
+PhilipsWizController::PhilipsWizController(std::string ip, bool use_cool, bool use_warm, std::string selected_white_strategy)
 {
     /*-----------------------------------------------------------------*\
     | Fill in location string with device's IP address                  |
@@ -27,6 +27,7 @@ PhilipsWizController::PhilipsWizController(std::string ip, bool use_cool, bool u
     \*-----------------------------------------------------------------*/
     use_cool_white = use_cool;
     use_warm_white = use_warm;
+    white_strategy = selected_white_strategy;
 
     /*-----------------------------------------------------------------*\
     | Open a UDP client sending to the device's IP, port 38899          |
@@ -85,7 +86,51 @@ std::string PhilipsWizController::GetUniqueID()
 void PhilipsWizController::SetColor(unsigned char red, unsigned char green, unsigned char blue, unsigned char brightness)
 {
     json command;
+    unsigned char white;
 
+    /*-----------------------------------------------------------------*\
+    | The official Wiz app also sends a warm white level with its       |
+    | custom colours. Until we can figure out a way to account for it   |
+    | correctly, set the white level based on selected strategy.        |
+    \*-----------------------------------------------------------------*/
+    if(white_strategy == "Average")
+    {
+        white      = (red + green + blue) / 3;
+    }
+    else if(white_strategy == "Minimum")
+    {
+        white      = std::min(std::min(red, green), blue);
+        if(use_cool_white || use_warm_white)
+        {
+            red        = red - white;
+            green      = green - white;
+            blue       = blue - white;
+        }
+    }
+    else
+    {
+        white      = 0;
+    }
+
+    if(use_cool_white)
+    {
+        command["params"]["c"] = white;
+    }
+    else
+    {
+        command["params"]["c"] = 0;
+    }
+
+    if(use_warm_white)
+    {
+        command["params"]["w"] = white;
+    }
+    else
+    {
+        command["params"]["w"] = 0;
+    }
+
+    
     /*-----------------------------------------------------------------*\
     | Fill in the setPilot command with RGB and brightness information. |
     | The bulb will not respond to 0, 0, 0, so if all channels are zero,|
@@ -97,31 +142,7 @@ void PhilipsWizController::SetColor(unsigned char red, unsigned char green, unsi
     command["params"]["g"]       = green;
     command["params"]["b"]       = blue;
     command["params"]["dimming"] = brightness;
-    command["params"]["state"]   = !((red == 0) && (green == 0) && (blue == 0));
-
-    /*-----------------------------------------------------------------*\
-    | The official Wiz app also sends a warm white level with its       |
-    | custom colours. Until we can figure out a way to account for it   |
-    | correctly, set the cool white level to the average of RGB to      |
-    | improve its apparent brightness.                                  |
-    \*-----------------------------------------------------------------*/
-    if(use_warm_white)
-    {
-        command["params"]["w"]      = (red + green + blue) / 3;
-    }
-    else
-    {
-        command["params"]["w"]      = 0;
-    }
-
-    if(use_cool_white)
-    {
-        command["params"]["c"]      = (red + green + blue) / 3;
-    }
-    else
-    {
-        command["params"]["c"]      = 0;
-    }
+    command["params"]["state"]   = !((red == 0) && (green == 0) && (blue == 0) && (white == 0));
 
     /*-----------------------------------------------------------------*\
     | Convert the JSON object to a string and write it                  |

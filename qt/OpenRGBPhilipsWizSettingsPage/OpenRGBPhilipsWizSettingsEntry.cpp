@@ -17,6 +17,9 @@ OpenRGBPhilipsWizSettingsEntry::OpenRGBPhilipsWizSettingsEntry(QWidget *parent) 
     ui(new Ui::OpenRGBPhilipsWizSettingsEntryUi)
 {
     ui->setupUi(this);
+
+    ui->WhiteStrategyComboBox->addItem(tr("Average"));
+    ui->WhiteStrategyComboBox->addItem(tr("Minimum"));
 }
 
 OpenRGBPhilipsWizSettingsEntry::~OpenRGBPhilipsWizSettingsEntry()

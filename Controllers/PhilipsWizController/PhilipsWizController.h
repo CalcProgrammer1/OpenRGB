@@ -60,7 +60,7 @@ enum
 class PhilipsWizController
 {
 public:
-    PhilipsWizController(std::string ip, bool use_cool, bool use_warm);
+    PhilipsWizController(std::string ip, bool use_cool, bool use_warm, std::string selected_white_strategy);
     ~PhilipsWizController();
 
     std::string GetLocation();
@@ -88,6 +88,7 @@ private:
 
     bool                use_cool_white;
     bool                use_warm_white;
+    std::string         white_strategy;
 
     void SendSetPilot();
 };
