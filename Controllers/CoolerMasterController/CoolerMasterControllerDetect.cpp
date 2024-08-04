@@ -150,7 +150,6 @@ void DetectCoolerMasterV1Keyboards(hid_device_info* info, const std::string& nam
             break;
 
             default:
-
                 LOG_DEBUG("[%s] Controller not created as the product ID %04X is missing from detector switch", name.c_str(), info->product_id);
             break;
         }
@@ -194,6 +193,7 @@ void DetectCoolerMasterV2Keyboards(hid_device_info* info, const std::string& nam
                 RGBController_CMKeyboardController* rgb_controller = new RGBController_CMKeyboardController(controller);
                 ResourceManager::get()->RegisterRGBController(rgb_controller);
             }
+            break;
 
             default:
                 LOG_DEBUG("[%s] Controller not created as the product ID %04X is missing from detector switch", name.c_str(), info->product_id);
