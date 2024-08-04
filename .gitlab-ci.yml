@@ -272,45 +272,10 @@ before_script:
     allow_failure: true
 
 #-----------------------------------------------------------------------#
-# Linux (.rpm, f35) 64-bit Build Target                                 #
+# Linux (.rpm, F40) 64-bit Build Target                                 #
 #-----------------------------------------------------------------------#
-"Linux 64 f35 rpm":
-  image: fedora:35
-  stage: build
-  script:
-  - dnf install rpmdevtools dnf-plugins-core -y
-  - rpmdev-setuptree
-  - ./scripts/build-package-files.sh fedora/OpenRGB.spec
-  - ls /root/
-  - cp fedora/OpenRGB.spec /root/rpmbuild/SPECS
-  - cp ../OpenRGB /root/rpmbuild/SOURCES/ -r
-  - cd /root/rpmbuild/SOURCES
-  - tar -cf OpenRGB.tar.gz OpenRGB/
-  - cd ..
-  - dnf builddep SPECS/OpenRGB.spec -y
-  - rpmbuild -ba SPECS/OpenRGB.spec
-  - cd RPMS/x86_64/
-  - mv openrgb*.rpm ${CI_PROJECT_DIR}/
-  - cd ${CI_PROJECT_DIR}
-
-  artifacts:
-    name: "${CI_PROJECT_NAME}_Linux_64_rpm_${CI_COMMIT_SHORT_SHA}"
-    paths:
-    - openrgb*.rpm
-    expire_in: 30 days
-
-  rules:
-  - if: '$CI_PROJECT_PATH == "CalcProgrammer1/OpenRGB"'
-    when: on_success
-  - if: $CI_PIPELINE_SOURCE == "push"
-    when: manual
-    allow_failure: true
-
-#-----------------------------------------------------------------------#
-# Linux (.rpm, f36) 64-bit Build Target                                 #
-#-----------------------------------------------------------------------#
-"Linux 64 f36 rpm":
-  image: fedora:36
+"Linux 64 F40 rpm":
+  image: fedora:40
   stage: build
   script:
   - dnf install rpmdevtools dnf-plugins-core libcurl-devel qt5-qtbase-devel -y
@@ -470,34 +435,19 @@ before_script:
   - "Linux 64 .deb (Debian Bookworm)"
 
 #-----------------------------------------------------------------------#
-# Fedora 64 v35 test                                                    #
+# Fedora 64 v40 test                                                    #
 #-----------------------------------------------------------------------#
-"Fedora 64 v35":
-  image: fedora:35
+"Fedora 64 v40":
+  image: fedora:40
   stage: test
   script:
   - yum -y localinstall ./openrgb*64.rpm
   - openrgb --version
   - yum -y remove openrgb
   dependencies:
-  - "Linux 64 f35 rpm"
+  - "Linux 64 F40 rpm"
   needs:
-  - "Linux 64 f35 rpm"
-
-#-----------------------------------------------------------------------#
-# Fedora 64 v36 test                                                    #
-#-----------------------------------------------------------------------#
-"Fedora 64 v36":
-  image: fedora:36
-  stage: test
-  script:
-  - yum -y localinstall ./openrgb*64.rpm
-  - openrgb --version
-  - yum -y remove openrgb
-  dependencies:
-  - "Linux 64 f36 rpm"
-  needs:
-  - "Linux 64 f36 rpm"
+  - "Linux 64 F40 rpm"
 
 #-----------------------------------------------------------------------#
 # Windows (32-bit) Build Target                                         #

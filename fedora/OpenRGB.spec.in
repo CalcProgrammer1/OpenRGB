@@ -9,7 +9,7 @@ License:        GPLv2
 URL:            https://gitlab.com/CalcProgrammer1/%{_name}
 Source0:        OpenRGB.tar.gz
 
-BuildRequires:  gcc-c++ libusb-devel libstdc++-devel qt5-qtbase-devel qt5-linguist desktop-file-utils hidapi-devel mbedtls-devel systemd-rpm-macros
+BuildRequires:  gcc-c++ libusbx-devel libstdc++-devel qt5-qtbase-devel qt5-linguist desktop-file-utils hidapi-devel mbedtls-devel systemd-rpm-macros
 Requires:       hicolor-icon-theme
 
 %description
