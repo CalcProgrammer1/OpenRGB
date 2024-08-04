@@ -25,6 +25,13 @@ if [ ${DEB_HOST_ARCH:0:1} == ${DEB_HOST_GNU_CPU:0:1} ]; then
 else
     ARCH="$DEB_HOST_GNU_CPU"
 fi
+
+if [ "$ARCH" == "arm64" ]; then
+    ARCH_LINUXDEPLOY="aarch64"
+else
+    ARCH_LINUXDEPLOY="$ARCH"
+fi
+
 echo Inputs: "$DEB_HOST_ARCH" "$DEB_HOST_GNU_CPU"
 echo Calculated: "$ARCH"
 
@@ -74,12 +81,12 @@ make install INSTALL_ROOT=AppDir
 #-----------------------------------------------------------------------#
 export QML_SOURCES_PATHS="$REPO_ROOT"/src
 
-linuxdeploy-"$ARCH".AppImage --appdir AppDir -e "$TARGET" -i "$REPO_ROOT"/qt/org.openrgb.OpenRGB.png -d "$REPO_ROOT"/qt/org.openrgb.OpenRGB.desktop
-linuxdeploy-plugin-qt-"$ARCH".AppImage --appdir AppDir
-linuxdeploy-"$ARCH".AppImage --appdir AppDir --output appimage
+linuxdeploy-"$ARCH_LINUXDEPLOY".AppImage --appdir AppDir -e "$TARGET" -i "$REPO_ROOT"/qt/org.openrgb.OpenRGB.png -d "$REPO_ROOT"/qt/org.openrgb.OpenRGB.desktop
+linuxdeploy-plugin-qt-"$ARCH_LINUXDEPLOY".AppImage --appdir AppDir
+linuxdeploy-"$ARCH_LINUXDEPLOY".AppImage --appdir AppDir --output appimage
 
 #-----------------------------------------------------------------------#
 # Move built AppImage & udev_rules back into original CWD               #
 #-----------------------------------------------------------------------#
 mv -v "$BUILD_DIR"/60-openrgb.rules "$OLD_CWD"
-mv -v "$TARGET"*.AppImage "$OLD_CWD"
+mv -v "$TARGET"*.AppImage "$OLD_CWD/OpenRGB-$ARCH.AppImage"
