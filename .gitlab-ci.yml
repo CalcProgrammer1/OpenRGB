@@ -362,6 +362,22 @@ before_script:
   - "Linux amd64 .deb (Debian Bookworm)"
 
 #-----------------------------------------------------------------------#
+# Ubuntu amd64 24.04 test                                               #
+#-----------------------------------------------------------------------#
+"Ubuntu amd64 24.04LTS":
+  image: ubuntu:noble
+  stage: test
+  script:
+  - apt update
+  - DEBIAN_FRONTEND=noninteractive apt install -yq --no-install-recommends ./openrgb*amd64.deb
+  - openrgb --version
+  - apt remove -y openrgb
+  dependencies:
+  - "Linux amd64 .deb (Debian Bookworm)"
+  needs:
+  - "Linux amd64 .deb (Debian Bookworm)"
+
+#-----------------------------------------------------------------------#
 # Fedora 64 v40 test                                                    #
 #-----------------------------------------------------------------------#
 "Fedora 64 v40":
