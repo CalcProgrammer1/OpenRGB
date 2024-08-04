@@ -315,8 +315,10 @@ void RGBController_ValkyrieKeyboard::SetupZones()
     {
         case 3:
             layout = PRO_LAYOUT;
+            break;
         default:
             layout = NORMAL_LAYOUT;
+            break;
     }
 
     /*---------------------------------------------------------*\
@@ -341,6 +343,7 @@ void RGBController_ValkyrieKeyboard::SetupZones()
                 zone_size               = normal_zone_sizes[zone_idx];
                 matrix_width            = 22;
                 matrix_map_ptr          = (unsigned int *)&normal_matrix_map;
+                break;
         }
 
         zone new_zone;
@@ -369,6 +372,7 @@ void RGBController_ValkyrieKeyboard::SetupZones()
                 break;
             default:
                 new_led.name = normal_led_names[led_idx];
+                break;
         }
 
         leds.push_back(new_led);
