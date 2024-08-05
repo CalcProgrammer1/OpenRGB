@@ -9,7 +9,7 @@ endif()
 # Add cmake dir to module path, so Find*.cmake can be found
 set(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake" ${CMAKE_MODULE_PATH})
 
-project(hueplusplus VERSION 1.0.0 LANGUAGES CXX)
+project(hueplusplus VERSION 1.1.0 LANGUAGES CXX)
 
 # check whether hueplusplus is compiled directly or included as a subdirectory
 if(NOT DEFINED hueplusplus_master_project)

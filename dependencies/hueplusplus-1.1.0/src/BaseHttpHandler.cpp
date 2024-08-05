@@ -56,14 +56,20 @@ std::string BaseHttpHandler::sendHTTPRequest(const std::string& method, const st
     request.append("HTTP/1.0"); // HTTP-Version
     request.append("\r\n"); // Ending
                             // Entities
-    request.append("Content-Type:"); // entity-header
-    request.append(" "); // Separation
-    request.append(contentType); // media-type
-    request.append("\r\n"); // Entity ending
-    request.append("Content-Length:"); // entity-header
-    request.append(" "); // Separation
-    request.append(std::to_string(body.size())); // length
-    request.append("\r\n\r\n"); // Entity ending & Request-Line ending
+    if (!contentType.empty())
+    {
+        request.append("Content-Type:"); // entity-header
+        request.append(" "); // Separation
+        request.append(contentType); // media-type
+        request.append("\r\n"); // Entity ending
+    }
+    if (!body.empty())
+    {
+        request.append("Content-Length:"); // entity-header
+        request.append(" "); // Separation
+        request.append(std::to_string(body.size())); // length
+        request.append("\r\n\r\n"); // Entity ending & Request-Line ending
+    }
     request.append(body); // message-body
     request.append("\r\n\r\n"); // Ending
 

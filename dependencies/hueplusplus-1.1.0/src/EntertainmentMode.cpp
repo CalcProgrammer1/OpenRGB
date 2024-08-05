@@ -21,6 +21,7 @@
 **/
 
 #include "hueplusplus/EntertainmentMode.h"
+#include "mbedtls/certs.h"
 #include "mbedtls/ctr_drbg.h"
 #include "mbedtls/debug.h"
 #include "mbedtls/entropy.h"
@@ -121,12 +122,6 @@ EntertainmentMode::EntertainmentMode(Bridge& b, Group& g)
     | Seed the Deterministic Random Bit Generator (RNG) |
     \*-------------------------------------------------*/
     int ret = mbedtls_ctr_drbg_seed(&tls_context->ctr_drbg, mbedtls_entropy_func, &tls_context->entropy, NULL, 0);
-
-    /*-------------------------------------------------*\
-    | Parse certificate                                 |
-    \*-------------------------------------------------*/
-    //ret = mbedtls_x509_crt_parse(
-    //    &tls_context->cacert, (const unsigned char*)mbedtls_test_cas_pem, mbedtls_test_cas_pem_len);
 }
 
 EntertainmentMode::~EntertainmentMode()

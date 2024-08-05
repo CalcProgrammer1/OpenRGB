@@ -39,7 +39,7 @@ namespace
 class AddrInfoFreer
 {
 public:
-    explicit AddrInfoFreer(addrinfo* p) : p(p) {}
+    explicit AddrInfoFreer(addrinfo* p) : p(p) { }
     ~AddrInfoFreer() { freeaddrinfo(p); }
 
 private:
@@ -48,7 +48,7 @@ private:
 class SocketCloser
 {
 public:
-    explicit SocketCloser(SOCKET s) : s(s) {}
+    explicit SocketCloser(SOCKET s) : s(s) { }
     ~SocketCloser() { closesocket(s); }
 
 private:
@@ -135,15 +135,6 @@ std::string WinHttpHandler::send(const std::string& msg, const std::string& adr,
         throw(std::system_error(err, std::system_category(), "WinHttpHandler: send failed"));
     }
 
-    // shutdown the connection for sending since no more data will be sent
-    // the client can still use the ConnectSocket for receiving data
-    //if (shutdown(connect_socket, SD_SEND) == SOCKET_ERROR)
-    //{
-    //    int err = WSAGetLastError();
-    //    std::cerr << "WinHttpHandler: shutdown failed: " << err << std::endl;
-    //    throw(std::system_error(err, std::system_category(), "WinHttpHandler: shutdown failed"));
-    //}
-
     const int recvbuflen = 128;
     char recvbuf[recvbuflen];
 
@@ -169,6 +160,14 @@ std::string WinHttpHandler::send(const std::string& msg, const std::string& adr,
             throw(std::system_error(err, std::system_category(), "WinHttpHandler: recv failed"));
         }
     } while (res > 0);
+
+    // shutdown the connection
+    if (shutdown(connect_socket, SD_BOTH) == SOCKET_ERROR)
+    {
+        int err = WSAGetLastError();
+        std::cerr << "WinHttpHandler: shutdown failed: " << err << std::endl;
+        throw(std::system_error(err, std::system_category(), "WinHttpHandler: shutdown failed"));
+    }
 
     return response;
 }
@@ -250,7 +249,7 @@ std::vector<std::string> WinHttpHandler::sendMulticast(
     }
 
     // shutdown the connection for sending since no more data will be sent
-    // the client can still use the ConnectSocket for receiving data
+    // the client can still use the ConnectSocket for receiving data (no issue here because this is a UDP socket)
     if (shutdown(connect_socket, SD_SEND) == SOCKET_ERROR)
     {
         int err = WSAGetLastError();
