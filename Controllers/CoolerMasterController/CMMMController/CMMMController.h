@@ -14,7 +14,7 @@
 
 #include <array>
 #include <string>
-#include <hidapi/hidapi.h>
+#include <hidapi.h>
 #include "RGBController.h"
 
 #define CM_MM_PACKET_SIZE 65

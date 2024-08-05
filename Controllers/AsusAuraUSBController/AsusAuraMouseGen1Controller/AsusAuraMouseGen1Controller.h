@@ -13,7 +13,7 @@
 
 #include <string>
 #include <vector>
-#include <hidapi/hidapi.h>
+#include <hidapi.h>
 #include "RGBController.h"
 
 #define HID_MAX_STR 255

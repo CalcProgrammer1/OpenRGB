@@ -13,7 +13,7 @@
 
 #include <cstring>
 #include <string>
-#include <hidapi/hidapi.h>
+#include <hidapi.h>
 #include "RGBController.h"
 #include "SteelSeriesGeneric.h"
 #include "SteelSeriesMouseController.h"

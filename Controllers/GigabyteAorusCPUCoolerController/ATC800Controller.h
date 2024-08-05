@@ -12,7 +12,7 @@
 #pragma once
 
 #include <string>
-#include <hidapi/hidapi.h>
+#include <hidapi.h>
 #include "RGBController.h"
 
 struct aorus_atc800_mode_config

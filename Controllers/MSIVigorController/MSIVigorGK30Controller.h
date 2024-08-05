@@ -12,7 +12,7 @@
 #pragma once
 
 #include <string>
-#include <hidapi/hidapi.h>
+#include <hidapi.h>
 #include "RGBController.h"
 
 #define MSI_VIGOR_GK30_REPORT_SIZE  8

@@ -9,7 +9,7 @@
 |   SPDX-License-Identifier: GPL-2.0-only                   |
 \*---------------------------------------------------------*/
 
-#include <hidapi/hidapi.h>
+#include <hidapi.h>
 #include "LogManager.h"
 #include "RoccatKovaController.h"
 #include "StringUtils.h"

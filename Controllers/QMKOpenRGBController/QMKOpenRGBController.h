@@ -14,7 +14,7 @@
 
 #include <cstring>
 #include <map>
-#include <hidapi/hidapi.h>
+#include <hidapi.h>
 #include "ResourceManager.h"
 #include "RGBController.h"
 #include "hsv.h"

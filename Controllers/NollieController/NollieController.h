@@ -13,7 +13,7 @@
 
 #include <chrono>
 #include <vector>
-#include <hidapi/hidapi.h>
+#include <hidapi.h>
 #include "RGBController.h"
 
 #define NOLLIE_12_CH_LED_NUM       42

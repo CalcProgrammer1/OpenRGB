@@ -12,7 +12,7 @@
 #pragma once
 
 #include <string>
-#include <hidapi/hidapi.h>
+#include <hidapi.h>
 #include "RGBController.h"
 
 #define INSTANT_MOUSE_REPORT_ID                 0x07

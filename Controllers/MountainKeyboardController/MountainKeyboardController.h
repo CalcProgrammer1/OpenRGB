@@ -12,7 +12,7 @@
 #pragma once
 
 #include <string>
-#include <hidapi/hidapi.h>
+#include <hidapi.h>
 
 /*-----------------------------------------------------*\
 | Mountain vendor ID                                    |

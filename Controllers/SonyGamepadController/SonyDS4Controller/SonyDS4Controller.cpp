@@ -10,7 +10,7 @@
 \*---------------------------------------------------------*/
 
 #include <CRC.h>
-#include <hidapi/hidapi.h>
+#include <hidapi.h>
 #include "SonyDS4Controller.h"
 #include "StringUtils.h"
 

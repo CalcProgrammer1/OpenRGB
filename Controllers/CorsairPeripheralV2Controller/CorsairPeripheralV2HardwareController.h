@@ -15,7 +15,7 @@
 #include "CorsairPeripheralV2Controller.h"
 
 #include <string>
-#include <hidapi/hidapi.h>
+#include <hidapi.h>
 
 #undef  CORSAIR_V2_WRITE_SIZE
 #define CORSAIR_V2_WRITE_SIZE       1025

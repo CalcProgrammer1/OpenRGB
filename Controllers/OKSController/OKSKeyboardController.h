@@ -13,7 +13,7 @@
 
 #include <stdint.h>
 #include <string>
-#include <hidapi/hidapi.h>
+#include <hidapi.h>
 #include "RGBController.h"
 
 /*-----------------------------------------------------*\

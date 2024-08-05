@@ -18,7 +18,7 @@
 
 #include <stdlib.h>
 #include <string>
-#include <hidapi/hidapi.h>
+#include <hidapi.h>
 #include "ResourceManager.h"
 #include "ProfileManager.h"
 #include "LogManager.h"

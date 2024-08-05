@@ -12,7 +12,7 @@
 #pragma once
 
 #include <string>
-#include <hidapi/hidapi.h>
+#include <hidapi.h>
 #include "SteelSeriesGeneric.h"
 
 /* Mode, we then use these to set actual effect based on speed. */

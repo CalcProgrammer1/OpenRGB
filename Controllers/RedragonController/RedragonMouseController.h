@@ -12,7 +12,7 @@
 #pragma once
 
 #include <string>
-#include <hidapi/hidapi.h>
+#include <hidapi.h>
 
 #define REDRAGON_MOUSE_REPORT_ID   0x02
 #define REDRAGON_MOUSE_REPORT_SIZE 16

@@ -30,7 +30,7 @@
 #include "RGBController_RoccatVulcanKeyboard.h"
 #include "RGBController_RoccatKova.h"
 #include "RGBController_RoccatElo.h"
-#include <hidapi/hidapi.h>
+#include <hidapi.h>
 #include <unordered_set>
 
 #define ROCCAT_VID                  0x1E7D

@@ -12,7 +12,7 @@
 #include "RGBController.h"
 
 #include <string>
-#include <hidapi/hidapi.h>
+#include <hidapi.h>
 
 #pragma once
 

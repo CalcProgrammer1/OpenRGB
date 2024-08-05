@@ -13,7 +13,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <vector>
-#include <hidapi/hidapi.h>
+#include <hidapi.h>
 #include "Detector.h"
 #include "ASRockPolychromeUSBController.h"
 #include "RGBController.h"

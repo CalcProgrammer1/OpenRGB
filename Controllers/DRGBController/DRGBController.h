@@ -13,7 +13,7 @@
 
 #include <chrono>
 #include <vector>
-#include <hidapi/hidapi.h>
+#include <hidapi.h>
 #include "RGBController.h"
 
 #define DRGB_V4_ONE_PACKAGE_SIZE    316

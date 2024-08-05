@@ -13,7 +13,7 @@
 
 #include <array>
 #include <string>
-#include <hidapi/hidapi.h>
+#include <hidapi.h>
 #include "RGBController.h"
 
 #define COOLERMASTER_RADEON_6000_PID            0x014D

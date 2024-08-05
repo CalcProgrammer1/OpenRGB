@@ -10,7 +10,7 @@
 #pragma once
 
 #include <cstring>
-#include <hidapi/hidapi.h>
+#include <hidapi.h>
 #include "RGBController.h"
 
 class CreativeSoundBlasterXG6Controller

@@ -13,7 +13,7 @@
 #include "DuckyKeyboardController.h"
 #include "RGBController.h"
 #include "RGBController_DuckyKeyboard.h"
-#include <hidapi/hidapi.h>
+#include <hidapi.h>
 
 /******************************************************************************************\
 *                                                                                          *

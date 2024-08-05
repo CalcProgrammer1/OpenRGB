@@ -12,7 +12,7 @@
 #pragma once
 
 #include <string>
-#include <hidapi/hidapi.h>
+#include <hidapi.h>
 #include "RGBController.h"
 
 #define HYPERX_PULSFIRE_RAID_PACKET_DATA_LENGTH         264

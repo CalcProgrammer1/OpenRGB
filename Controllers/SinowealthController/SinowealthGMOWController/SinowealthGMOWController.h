@@ -12,7 +12,7 @@
 #pragma once
 
 #include <vector>
-#include <hidapi/hidapi.h>
+#include <hidapi.h>
 #include "RGBController.h"
 
 #define GMOW_PACKET_SIZE 64 + 1

@@ -12,7 +12,7 @@
 #pragma once
 
 #include <string>
-#include <hidapi/hidapi.h>
+#include <hidapi.h>
 
 #define EPOMAKER_PACKET_LENGTH                      0x40
 #define EPOMAKER_COMMAND_RGB                        0x07

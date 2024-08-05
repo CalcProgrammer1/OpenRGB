@@ -11,7 +11,7 @@
 
 #pragma once
 
-#include <hidapi/hidapi.h>
+#include <hidapi.h>
 #include "RGBController.h"
 
 #define ROCCAT_KONE_PRO_CONTROL_MODE_PACKET_LENGTH    6

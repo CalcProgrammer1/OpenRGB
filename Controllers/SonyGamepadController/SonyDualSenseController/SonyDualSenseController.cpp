@@ -11,7 +11,7 @@
 
 #include <cstring>
 #include <CRC.h>
-#include <hidapi/hidapi.h>
+#include <hidapi.h>
 #include "SonyDualSenseController.h"
 #include "StringUtils.h"
 

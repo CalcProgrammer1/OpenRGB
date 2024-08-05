@@ -12,7 +12,7 @@
 #pragma once
 
 #include <vector>
-#include <hidapi/hidapi.h>
+#include <hidapi.h>
 #include "RGBController.h"
 
 #define SINOWEALTH_CONFIG_SIZE         167

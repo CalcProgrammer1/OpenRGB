@@ -12,7 +12,7 @@
 #pragma once
 
 #include <string>
-#include <hidapi/hidapi.h>
+#include <hidapi.h>
 
 #define EK_COLOUR_MODE_DATA_SIZE    (sizeof(ek_colour_mode_data[0]) / sizeof(ek_colour_mode_data[0][0]))
 #define EK_DEVICE_NAME_SIZE         (sizeof(device_name) / sizeof(device_name[ 0 ]))

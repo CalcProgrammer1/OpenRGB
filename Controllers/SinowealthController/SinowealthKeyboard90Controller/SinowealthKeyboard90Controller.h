@@ -11,7 +11,7 @@
 #include "RGBController.h"
 #include "RGBControllerKeyNames.h"
 #include <vector>
-#include <hidapi/hidapi.h>
+#include <hidapi.h>
 
 #pragma once
 

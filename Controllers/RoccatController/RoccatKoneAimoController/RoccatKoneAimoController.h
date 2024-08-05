@@ -15,7 +15,7 @@
 #include <map>
 #include <string>
 #include <vector>
-#include <hidapi/hidapi.h>
+#include <hidapi.h>
 #include "RGBController.h"
 
 #define NUM_LEDS            11

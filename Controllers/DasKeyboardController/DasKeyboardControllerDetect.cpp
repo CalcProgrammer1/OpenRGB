@@ -13,7 +13,7 @@
 #include "DasKeyboardController.h"
 #include "RGBController.h"
 #include "RGBController_DasKeyboard.h"
-#include <hidapi/hidapi.h>
+#include <hidapi.h>
 
 /*-----------------------------------------------------*\
 | Das Keyboard vendor ID                                |

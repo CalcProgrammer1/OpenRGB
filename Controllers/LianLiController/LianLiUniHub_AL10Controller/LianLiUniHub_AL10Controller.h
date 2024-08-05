@@ -15,7 +15,7 @@
 #include <cstdint>
 #include <mutex>
 #include <string>
-#include <libusb-1.0/libusb.h>
+#include <libusb.h>
 #include "RGBController.h"
 
 /*----------------------------------------------------------------------------*\

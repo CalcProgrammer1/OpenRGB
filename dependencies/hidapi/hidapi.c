@@ -41,9 +41,9 @@
 #include <wchar.h>
 
 /* GNU / LibUSB */
-#include <libusb-1.0/libusb.h>
+#include <libusb.h>
 
-#include "hidapi/hidapi.h"
+#include "hidapi.h"
 
 #ifdef __cplusplus
 extern "C" {

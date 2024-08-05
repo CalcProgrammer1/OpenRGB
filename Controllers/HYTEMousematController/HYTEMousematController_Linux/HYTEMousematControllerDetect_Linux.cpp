@@ -11,13 +11,7 @@
 \*---------------------------------------------------------*/
 
 #include <vector>
-
-#ifdef __FreeBSD__
 #include <libusb.h>
-#else
-#include <libusb-1.0/libusb.h>
-#endif
-
 #include "Detector.h"
 #include "RGBController.h"
 #include "RGBController_HYTEMousemat.h"

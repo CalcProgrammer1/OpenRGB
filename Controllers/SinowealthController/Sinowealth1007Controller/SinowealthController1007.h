@@ -12,7 +12,7 @@
 #pragma once
 
 #include <vector>
-#include <hidapi/hidapi.h>
+#include <hidapi.h>
 #include "RGBController.h"
 
 #define ZET_FURY_PRO_STATE_BUFFER_LENGTH 59

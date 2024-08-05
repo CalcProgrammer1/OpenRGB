@@ -15,7 +15,7 @@
 #include "RGBController.h"
 #include "RGBController_AsusAuraCore.h"
 #include "RGBController_AsusAuraCoreLaptop.h"
-#include <hidapi/hidapi.h>
+#include <hidapi.h>
 
 #define AURA_CORE_VID                   0x0B05
 

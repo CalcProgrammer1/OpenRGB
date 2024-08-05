@@ -14,7 +14,7 @@
 #include "RGBController.h"
 #include <map>
 #include <string>
-#include <hidapi/hidapi.h>
+#include <hidapi.h>
 
 #define PACKET_DATA_LENGTH 9
 

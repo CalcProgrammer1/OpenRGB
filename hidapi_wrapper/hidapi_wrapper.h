@@ -13,7 +13,7 @@
 
 #pragma once
 
-#include <hidapi/hidapi.h>
+#include <hidapi.h>
 
 #ifdef __linux__
 #include <dlfcn.h>

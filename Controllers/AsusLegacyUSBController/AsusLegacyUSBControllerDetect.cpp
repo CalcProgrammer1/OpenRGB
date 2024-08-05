@@ -8,7 +8,7 @@
 \*---------------------------------------------------------*/
 
 #include <stdexcept>
-#include <hidapi/hidapi.h>
+#include <hidapi.h>
 #include "Detector.h"
 #include "AsusCerberusKeyboardController.h"
 #include "AsusSagarisKeyboardController.h"

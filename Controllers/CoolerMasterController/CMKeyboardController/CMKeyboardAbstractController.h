@@ -17,7 +17,7 @@
 #include <sstream>
 #include <map>
 #include <vector>
-#include <hidapi/hidapi.h>
+#include <hidapi.h>
 #include "CMKeyboardDevices.h"
 #include "KeyboardLayoutManager.h"
 #include "RGBController.h"

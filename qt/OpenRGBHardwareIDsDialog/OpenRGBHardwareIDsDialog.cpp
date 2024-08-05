@@ -9,14 +9,8 @@
 
 #include <QString>
 #include <QClipboard>
-#include <hidapi/hidapi.h>
-
-#ifdef __FreeBSD__
+#include <hidapi.h>
 #include <libusb.h>
-#else
-#include <libusb-1.0/libusb.h>
-#endif
-
 #include "OpenRGBHardwareIDsDialog.h"
 #include "ui_OpenRGBHardwareIDsDialog.h"
 #include "ResourceManager.h"

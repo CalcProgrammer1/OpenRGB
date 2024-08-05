@@ -11,7 +11,7 @@
 
 #pragma once
 
-#include <hidapi/hidapi.h>
+#include <hidapi.h>
 #include "RGBController.h"
 
 #define ROCCAT_KOVA_HID_MAX_STR               255

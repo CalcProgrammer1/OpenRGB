@@ -14,7 +14,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <vector>
-#include <hidapi/hidapi.h>
+#include <hidapi.h>
 #include "RGBController_JGINYUEInternalUSB.h"
 #include "JGINYUEInternalUSBController.h"
 #include "RGBController.h"

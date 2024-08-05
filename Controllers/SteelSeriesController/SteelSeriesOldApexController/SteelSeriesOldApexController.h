@@ -17,7 +17,7 @@
 #pragma once
 
 #include <string>
-#include <hidapi/hidapi.h>
+#include <hidapi.h>
 #include "color32.h"
 #include "SteelSeriesGeneric.h"
 

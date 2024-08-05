@@ -13,7 +13,7 @@
 #pragma once
 
 #include <string>
-#include <hidapi/hidapi.h>
+#include <hidapi.h>
 #include "RGBController.h"
 
 #define EVISION_KB_MAX_PACKET_SIZE                  ( 0x36 )/* max packet size for color*/

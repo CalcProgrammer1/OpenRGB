@@ -10,7 +10,7 @@
 \*---------------------------------------------------------*/
 
 #include <unordered_set>
-#include <hidapi/hidapi.h>
+#include <hidapi.h>
 #include "Detector.h"
 #include "LogManager.h"
 #include "RazerController.h"

@@ -12,7 +12,7 @@
 #pragma once
 
 #include <string>
-#include <hidapi/hidapi.h>
+#include <hidapi.h>
 
 /* Allows us to handle variation in the protocol.
  * Defined in a single enum so we can keep the device_list struct the same

@@ -15,7 +15,7 @@
 #include "CorsairPeripheralV2Controller.h"
 
 #include <string>
-#include <hidapi/hidapi.h>
+#include <hidapi.h>
 
 class CorsairPeripheralV2SWController : public CorsairPeripheralV2Controller
 {

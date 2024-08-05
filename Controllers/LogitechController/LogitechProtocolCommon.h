@@ -13,7 +13,7 @@
 
 #include <map>
 #include <vector>
-#include <hidapi/hidapi.h>
+#include <hidapi.h>
 #include "LogManager.h"
 
 #define LOGITECH_PROTOCOL_TIMEOUT                       300     //Timeout in ms

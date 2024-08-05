@@ -14,7 +14,7 @@
 #include "RGBController_SinowealthKeyboard90.h"
 #include "RGBController_SinowealthGMOW.h"
 #include "RGBController_GenesisXenon200.h"
-#include <hidapi/hidapi.h>
+#include <hidapi.h>
 #include "LogManager.h"
 
 #define SINOWEALTH_VID                      0x258A

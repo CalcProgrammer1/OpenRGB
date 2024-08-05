@@ -15,7 +15,7 @@
 #include <cstring>
 #include <array>
 #include <memory>
-#include <hidapi/hidapi.h>
+#include <hidapi.h>
 #include "RGBController.h"  //Needed to set the direct mode
 
 #define CM_ARGB_COLOUR_MODE_DATA_SIZE (sizeof(colour_mode_data[0]) / sizeof(colour_mode_data[0][0]))

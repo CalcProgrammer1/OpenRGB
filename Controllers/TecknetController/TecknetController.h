@@ -12,7 +12,7 @@
 #pragma once
 
 #include <string>
-#include <hidapi/hidapi.h>
+#include <hidapi.h>
 
 #define HID_MAX_STR                   255
 #define TECKNET_COLOUR_MODE_DATA_SIZE (sizeof(tecknet_colour_mode_data[0]) / sizeof(tecknet_colour_mode_data[0][0]))

@@ -12,7 +12,7 @@
 #pragma once
 
 #include <string>
-#include <hidapi/hidapi.h>
+#include <hidapi.h>
 #include "RGBController.h"
 
 #define COUGARKEYBOARDCONTROLLER_WRITE_PACKET_SIZE  65      //Buffer requires a prepended ReportID hence + 1

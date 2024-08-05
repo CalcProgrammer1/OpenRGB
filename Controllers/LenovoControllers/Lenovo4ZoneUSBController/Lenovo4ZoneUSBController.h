@@ -13,7 +13,7 @@
 #include <string>
 #include <utility>
 #include <vector>
-#include <hidapi/hidapi.h>
+#include <hidapi.h>
 #include "RGBController.h"
 #include "LogManager.h"
 #include "LenovoDevices4Zone.h"

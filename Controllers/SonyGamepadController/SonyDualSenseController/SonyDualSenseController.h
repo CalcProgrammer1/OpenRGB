@@ -13,7 +13,7 @@
 
 #include <string>
 #include <vector>
-#include <hidapi/hidapi.h>
+#include <hidapi.h>
 #include "RGBController.h"
 
 #define  SONY_DUALSENSE_LIGHTBAR_LED_COUNT 1

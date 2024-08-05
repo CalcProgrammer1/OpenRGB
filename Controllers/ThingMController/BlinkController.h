@@ -13,7 +13,7 @@
 
 #include <array>
 #include <string>
-#include <hidapi/hidapi.h>
+#include <hidapi.h>
 
 #define BLINK_PACKET_SIZE       9  //Includes extra first byte for non HID Report packets
 

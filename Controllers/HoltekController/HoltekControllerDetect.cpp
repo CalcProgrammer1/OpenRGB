@@ -8,7 +8,7 @@
 \*---------------------------------------------------------*/
 
 #include <vector>
-#include <hidapi/hidapi.h>
+#include <hidapi.h>
 #include "Detector.h"
 #include "HoltekA070Controller.h"
 #include "RGBController.h"

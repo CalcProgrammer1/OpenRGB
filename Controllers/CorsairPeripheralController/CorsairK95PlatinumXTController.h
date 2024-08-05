@@ -12,7 +12,7 @@
 #pragma once
 
 #include <string.h>
-#include <hidapi/hidapi.h>
+#include <hidapi.h>
 #include "RGBController.h"
 
 #define K95_PLATINUM_XT_REPORT_LENGTH           65

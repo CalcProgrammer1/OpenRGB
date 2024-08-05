@@ -13,7 +13,7 @@
 #include "AnnePro2Controller.h"
 #include "RGBController.h"
 #include "RGBController_AnnePro2.h"
-#include <hidapi/hidapi.h>
+#include <hidapi.h>
 
 /*---------------------------------------------------------*\
 | Anne Pro 2 vendor IDs                                     |

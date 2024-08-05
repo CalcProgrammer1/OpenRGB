@@ -1,9 +1,9 @@
---- a/OpenRGB.pro	2022-05-02 15:26:15.375947000 +0200
-+++ b/OpenRGB.pro	2022-05-02 15:29:01.997135000 +0200
-@@ -449,8 +449,6 @@
- # Linux-specific Configuration                                                                  #
- #-----------------------------------------------------------------------------------------------#
- contains(QMAKE_PLATFORM, linux) {
+--- a/OpenRGB.pro
++++ b/OpenRGB.pro
+@@ -443,8 +443,6 @@ contains(QMAKE_PLATFORM, linux) {
+     PKGCONFIG +=                                                                                \
+     libusb-1.0
+ 
 -    TARGET = $$lower($$TARGET)
 -
      HEADERS -= $$CONTROLLER_H_WIN

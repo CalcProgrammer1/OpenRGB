@@ -24,15 +24,6 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 greaterThan(QT_MAJOR_VERSION, 5): DEFINES += _QT6
 
 #-----------------------------------------------------------------------------------------------#
-# pkg-config Configuration                                                                      #
-#-----------------------------------------------------------------------------------------------#
-greaterThan(QT_MAJOR_VERSION, 4) {
-    PKG_CONFIG = $$pkgConfigExecutable()
-} else {
-    PKG_CONFIG = "pkgconf"
-}
-
-#-----------------------------------------------------------------------------------------------#
 # Application Configuration                                                                     #
 #-----------------------------------------------------------------------------------------------#
 MAJOR       = 0
@@ -93,13 +84,11 @@ INCLUDEPATH +=                                                                  
     $$GUI_INCLUDES                                                                              \
     dependencies/ColorWheel                                                                     \
     dependencies/CRCpp/                                                                         \
-    dependencies/hidapi/                                                                        \
     dependencies/hueplusplus-1.0.0/include                                                      \
     dependencies/hueplusplus-1.0.0/include/hueplusplus                                          \
     dependencies/httplib                                                                        \
     dependencies/json/                                                                          \
     dependencies/libe131/src/                                                                   \
-    dependencies/libusb-1.0.22/include/                                                         \
     dependencies/mdns                                                                           \
     dependencies/mbedtls-2.24.0/include/                                                        \
     dmiinfo/                                                                                    \
@@ -122,7 +111,6 @@ HEADERS +=                                                                      
     $$CONTROLLER_H                                                                              \
     Colors.h                                                                                    \
     dependencies/ColorWheel/ColorWheel.h                                                        \
-    dependencies/hidapi/hidapi/hidapi.h                                                         \
     dependencies/json/json.hpp                                                                  \
     LogManager.h                                                                                \
     NetworkClient.h                                                                             \
@@ -249,9 +237,9 @@ TRANSLATIONS +=                                                                 
 win32:QMAKE_CXXFLAGS += /utf-8
 win32:INCLUDEPATH +=                                                                            \
     dependencies/display-library/include                                                        \
-    dependencies/hidapi                                                                         \
+    dependencies/hidapi/hidapi                                                                  \
     dependencies/winring0/include                                                               \
-    dependencies/libusb-1.0.22/include                                                          \
+    dependencies/libusb-1.0.22/include/libusb-1.0                                               \
     dependencies/mbedtls-2.24.0/include                                                         \
     dependencies/NVFC                                                                           \
     wmi/                                                                                        \
@@ -450,6 +438,11 @@ win32:contains(QMAKE_TARGET.arch, x86) {
 # Linux-specific Configuration                                                                  #
 #-----------------------------------------------------------------------------------------------#
 contains(QMAKE_PLATFORM, linux) {
+    CONFIG += link_pkgconfig
+
+    PKGCONFIG +=                                                                                \
+    libusb-1.0
+
     TARGET = $$lower($$TARGET)
 
     HEADERS -= $$CONTROLLER_H_WIN
@@ -459,7 +452,6 @@ contains(QMAKE_PLATFORM, linux) {
     AutoStart/AutoStart-Linux.h                                                                 \
 
     LIBS +=                                                                                     \
-    -lusb-1.0                                                                                   \
     -lmbedx509                                                                                  \
     -lmbedtls                                                                                   \
     -lmbedcrypto                                                                                \
@@ -477,21 +469,20 @@ contains(QMAKE_PLATFORM, linux) {
     #   Prefer hidraw backend, then libusb                                                      #
     #-------------------------------------------------------------------------------------------#
     packagesExist(hidapi-hidraw) {
-        LIBS += -lhidapi-hidraw
+        PKGCONFIG += hidapi-hidraw
 
         #---------------------------------------------------------------------------------------#
         # hidapi-hidraw >= 0.10.1 supports USAGE/USAGE_PAGE                                     #
         # Define USE_HID_USAGE if hidapi-hidraw supports it                                     #
         #---------------------------------------------------------------------------------------#
-        HIDAPI_HIDRAW_VERSION = $$system($$PKG_CONFIG --modversion hidapi-hidraw)
-        if(versionAtLeast(HIDAPI_HIDRAW_VERSION, "0.10.1")) {
+        packagesExist(hidapi-hidraw>=0.10.1) {
             DEFINES += USE_HID_USAGE
         }
     } else {
         packagesExist(hidapi-libusb) {
-            LIBS += -lhidapi-libusb
+            PKGCONFIG += hidapi-libusb
         } else {
-            LIBS += -lhidapi
+            PKGCONFIG += hidapi
         }
     }
 
@@ -558,6 +549,11 @@ contains(QMAKE_PLATFORM, linux) {
 # FreeBSD-specific Configuration                                                                #
 #-----------------------------------------------------------------------------------------------#
 contains(QMAKE_PLATFORM, freebsd) {
+    CONFIG += link_pkgconfig
+
+    PKGCONFIG +=                                                                                \
+    libusb-1.0
+
     TARGET = $$lower($$TARGET)
 
     INCLUDEPATH -=                                                                              \
@@ -579,7 +575,6 @@ contains(QMAKE_PLATFORM, freebsd) {
         Controllers/HoltekController/RGBController_HoltekA1FA.h
 
     LIBS +=                                                                                     \
-    -lusb                                                                                       \
     -lmbedx509                                                                                  \
     -lmbedtls                                                                                   \
     -lmbedcrypto                                                                                \
@@ -594,21 +589,20 @@ contains(QMAKE_PLATFORM, freebsd) {
     #   Prefer hidraw backend, then libusb                                                      #
     #-------------------------------------------------------------------------------------------#
     packagesExist(hidapi-hidraw) {
-        LIBS += -lhidapi-hidraw
+        PKGCONFIG += hidapi-hidraw
 
         #---------------------------------------------------------------------------------------#
         # hidapi-hidraw >= 0.10.1 supports USAGE/USAGE_PAGE                                     #
         # Define USE_HID_USAGE if hidapi-hidraw supports it                                     #
         #---------------------------------------------------------------------------------------#
-        HIDAPI_HIDRAW_VERSION = $$system($$PKG_CONFIG --modversion hidapi-hidraw)
-        if(versionAtLeast(HIDAPI_HIDRAW_VERSION, "0.10.1")) {
+        packagesExist(hidapi-hidraw>=0.10.1) {
             DEFINES += USE_HID_USAGE
         }
     } else {
         packagesExist(hidapi-libusb) {
-            LIBS += -lhidapi-libusb
+            PKGCONFIG += hidapi-libusb
         } else {
-            LIBS += -lhidapi
+            PKGCONFIG += hidapi
         }
     }
 
@@ -669,6 +663,12 @@ QMAKE_MACOSX_DEPLOYMENT_TARGET = 10.15
 # Common MacOS definitions                                                                  #
 #-------------------------------------------------------------------------------------------#
 macx {
+    CONFIG += link_pkgconfig
+
+    PKGCONFIG +=                                                                                \
+    libusb-1.0                                                                                  \
+    hidapi
+
     DEFINES +=                                                                                  \
     USE_HID_USAGE                                                                               \
 
@@ -696,8 +696,6 @@ macx {
     $$MBEDTLS_PREFIX/include                                                                    \
 
     LIBS +=                                                                                     \
-    -lusb-1.0                                                                                   \
-    -lhidapi                                                                                    \
     -lmbedx509                                                                                  \
     -lmbedcrypto                                                                                \
     -lmbedtls                                                                                   \

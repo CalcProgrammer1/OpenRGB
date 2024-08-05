@@ -12,7 +12,7 @@
 #pragma once
 
 #include "RGBController.h"
-#include <hidapi/hidapi.h>
+#include <hidapi.h>
 
 #define ROCCAT_BURST_CONTROL_MODE_PACKET_LENGTH    6
 #define ROCCAT_BURST_DIRECT_MODE_PACKET_LENGTH     11

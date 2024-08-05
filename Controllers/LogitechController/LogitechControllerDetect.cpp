@@ -10,7 +10,7 @@
 #include <chrono>
 #include <thread>
 #include <vector>
-#include <hidapi/hidapi.h>
+#include <hidapi.h>
 #include "Detector.h"
 #include "LogManager.h"
 #include "LogitechProtocolCommon.h"

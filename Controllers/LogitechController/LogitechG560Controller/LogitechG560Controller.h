@@ -13,7 +13,7 @@
 #pragma once
 
 #include <string>
-#include <hidapi/hidapi.h>
+#include <hidapi.h>
 #include "RGBController.h"
 
 #define LOGI_G560_LED_PACKET_SIZE               20

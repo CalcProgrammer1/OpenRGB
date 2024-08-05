@@ -11,7 +11,7 @@
 
 #include "Detector.h"
 #include "RGBController.h"
-#include "hidapi/hidapi.h"
+#include "hidapi.h"
 #include "GigabyteAorusMouseController.h"
 #include "RGBController_GigabyteAorusMouse.h"
 

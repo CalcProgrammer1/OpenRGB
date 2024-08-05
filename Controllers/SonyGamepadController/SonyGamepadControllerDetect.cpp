@@ -11,7 +11,7 @@
 \*---------------------------------------------------------*/
 
 #include <vector>
-#include <hidapi/hidapi.h>
+#include <hidapi.h>
 #include "RGBController_SonyDS4.h"
 #include "RGBController_SonyDualSense.h"
 #include "Detector.h"

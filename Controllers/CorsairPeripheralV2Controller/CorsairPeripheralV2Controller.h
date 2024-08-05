@@ -13,7 +13,7 @@
 
 #include <string>
 #include <vector>
-#include <hidapi/hidapi.h>
+#include <hidapi.h>
 #include "LogManager.h"
 #include "RGBController.h"
 #include "CorsairPeripheralV2Devices.h"

@@ -14,13 +14,7 @@
 #include <cstdint>
 #include <mutex>
 #include <string>
-
-#ifdef __FreeBSD__
 #include <libusb.h>
-#else
-#include <libusb-1.0/libusb.h>
-#endif
-
 #include "RGBController.h"
 
 /*----------------------------------------------------------------------------*\

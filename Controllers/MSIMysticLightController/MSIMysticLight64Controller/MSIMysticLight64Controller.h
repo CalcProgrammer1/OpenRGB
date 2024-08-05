@@ -15,7 +15,7 @@
 
 #include <cstring>
 #include <limits>
-#include <hidapi/hidapi.h>
+#include <hidapi.h>
 #include "MSIMysticLightCommon.h"
 #include "RGBController.h"
 
