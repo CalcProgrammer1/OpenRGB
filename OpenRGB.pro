@@ -237,7 +237,7 @@ TRANSLATIONS +=                                                                 
 win32:QMAKE_CXXFLAGS += /utf-8
 win32:INCLUDEPATH +=                                                                            \
     dependencies/display-library/include                                                        \
-    dependencies/hidapi/hidapi                                                                  \
+    dependencies/hidapi-win/include                                                             \
     dependencies/winring0/include                                                               \
     dependencies/libusb-1.0.27/include                                                          \
     dependencies/mbedtls-2.28.8/include                                                         \
