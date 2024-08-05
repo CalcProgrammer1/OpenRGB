@@ -37,8 +37,9 @@ TEMPLATE    = app
 # Automatically generated build information                                                     #
 #-----------------------------------------------------------------------------------------------#
 win32:BUILDDATE         = $$system(date /t)
-unix:!macx:BUILDDATE    = $$system(date -R -d "@${SOURCE_DATE_EPOCH:-$(date +%s)}")
-macx:BUILDDATE          = $$system(date -I -r "${SOURCE_DATE_EPOCH:-$(date +%s)}")
+linux:BUILDDATE         = $$system(date -R -d "@${SOURCE_DATE_EPOCH:-$(date +%s)}")
+freebsd:BUILDDATE       = $$system(date -j -R -r "${SOURCE_DATE_EPOCH:-$(date +%s)}")
+macx:BUILDDATE          = $$system(date -j -R -r "${SOURCE_DATE_EPOCH:-$(date +%s)}")
 GIT_COMMIT_ID           = $$system(git log -n 1 --pretty=format:"%H")
 GIT_COMMIT_DATE         = $$system(git log -n 1 --pretty=format:"%ci")
 GIT_BRANCH              = $$system(git branch --show-current)
@@ -90,7 +91,6 @@ INCLUDEPATH +=                                                                  
     dependencies/json/                                                                          \
     dependencies/libe131/src/                                                                   \
     dependencies/mdns                                                                           \
-    dependencies/mbedtls-2.24.0/include/                                                        \
     dmiinfo/                                                                                    \
     hidapi_wrapper/                                                                             \
     i2c_smbus/                                                                                  \
@@ -556,23 +556,14 @@ contains(QMAKE_PLATFORM, freebsd) {
 
     TARGET = $$lower($$TARGET)
 
-    INCLUDEPATH -=                                                                              \
-        Controllers/GigabyteRGBFusion2GPUController/                                            \
-
     HEADERS +=                                                                                  \
     AutoStart/AutoStart-FreeBSD.h                                                               \
-    Controllers/ENESMBusController/ENESMBusInterface/ENESMBusInterface_SpectrixS40G.h           \
-    Controllers/FaustusController/RGBController_Faustus.h                                       \
-    Controllers/LinuxLEDController/LinuxLEDController.h                                         \
-    Controllers/LinuxLEDController/RGBController_LinuxLED.h                                     \
 
     HEADERS -=                                                                                  \
-        Controllers/GigabyteRGBFusion2GPUController/GigabyteRGBFusion2GPUController.h           \
-        Controllers/GigabyteRGBFusion2GPUController/RGBController_GigabyteRGBFusion2GPU.h       \
-        Controllers/HoltekController/HoltekA070Controller.h                                     \
-        Controllers/HoltekController/HoltekA1FAController.h                                     \
-        Controllers/HoltekController/RGBController_HoltekA070.h                                 \
-        Controllers/HoltekController/RGBController_HoltekA1FA.h
+    Controllers/SeagateController/RGBController_Seagate.h                                       \
+    Controllers/SeagateController/SeagateController.h                                           \
+    Controllers/ENESMBusController/ENESMBusInterface/ENESMBusInterface_ROGArion.h               \
+    $$CONTROLLER_H_WIN                                                                          \
 
     LIBS +=                                                                                     \
     -lmbedx509                                                                                  \
@@ -610,22 +601,14 @@ contains(QMAKE_PLATFORM, freebsd) {
     dependencies/hueplusplus-1.0.0/src/LinHttpHandler.cpp                                       \
     serial_port/find_usb_serial_port_linux.cpp                                                  \
     AutoStart/AutoStart-FreeBSD.cpp                                                             \
-    Controllers/ENESMBusController/XPGSpectrixS40GDetect.cpp                                    \
-    Controllers/ENESMBusController/ENESMBusInterface/ENESMBusInterface_SpectrixS40G.cpp         \
-    Controllers/FaustusController/RGBController_Faustus.cpp                                     \
-    Controllers/LinuxLEDController/LinuxLEDController.cpp                                       \
-    Controllers/LinuxLEDController/LinuxLEDControllerDetect.cpp                                 \
-    Controllers/LinuxLEDController/RGBController_LinuxLED.cpp                                   \
 
     SOURCES -=                                                                                  \
-        Controllers/GigabyteRGBFusion2GPUController/GigabyteRGBFusion2GPUController.cpp         \
-        Controllers/GigabyteRGBFusion2GPUController/GigabyteRGBFusion2GPUControllerDetect.cpp   \
-        Controllers/GigabyteRGBFusion2GPUController/RGBController_GigabyteRGBFusion2GPU.cpp     \
-        Controllers/HoltekController/HoltekA070Controller.cpp                                   \
-        Controllers/HoltekController/HoltekA1FAController.cpp                                   \
-        Controllers/HoltekController/HoltekControllerDetect.cpp                                 \
-        Controllers/HoltekController/RGBController_HoltekA070.cpp                               \
-        Controllers/HoltekController/RGBController_HoltekA1FA.cpp                               \
+    Controllers/SeagateController/RGBController_Seagate.cpp                                     \
+    Controllers/SeagateController/SeagateController.cpp                                         \
+    Controllers/SeagateController/SeagateControllerDetect.cpp                                   \
+    Controllers/ENESMBusController/ROGArionDetect.cpp                                           \
+    Controllers/ENESMBusController/ENESMBusInterface/ENESMBusInterface_ROGArion.cpp             \
+    $$CONTROLLER_CPP_WIN                                                                        \
 
     #-------------------------------------------------------------------------------------------#
     # Set up install paths                                                                      #
