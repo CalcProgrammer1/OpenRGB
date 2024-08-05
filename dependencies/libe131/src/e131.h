@@ -32,10 +32,10 @@ extern "C" {
 #include <stdbool.h>
 #include <sys/types.h>
 
-#ifndef _WIN32
-#include <netinet/in.h>
-#else
+#ifdef _WIN32
 #include <WinSock2.h>
+#else
+#include <netinet/in.h>
 #endif
 
 #ifdef __GNUC__
@@ -46,7 +46,7 @@ extern "C" {
 #define PACK( __Declaration__ ) __pragma( pack(push, 1) ) __Declaration__ __pragma( pack(pop))
 #endif
 
-#if defined(_MSC_VER)
+#ifdef _MSC_VER
 #include <BaseTsd.h>
 typedef SSIZE_T ssize_t;
 #endif
@@ -132,8 +132,17 @@ extern int e131_multicast_dest(e131_addr_t *dest, const uint16_t universe, const
 /* Describe an E1.31 destination into a string (must be at least 22 bytes) */
 extern int e131_dest_str(char *str, const e131_addr_t *dest);
 
+/* Configure a socket file descriptor to use a specific network interface for outgoing multicast data */
+extern int e131_multicast_iface(int sockfd, const int ifindex);
+
 /* Join a socket file descriptor to an E1.31 multicast group using a universe */
 extern int e131_multicast_join(int sockfd, const uint16_t universe);
+
+/* Join a socket file descriptor to an E1.31 multicast group using a universe and a specific network interface */
+extern int e131_multicast_join_iface(int sockfd, const uint16_t universe, const int ifindex);
+
+/* Join a socket file descriptor to an E1.31 multicast group using a universe and an IP address to bind to */
+extern int e131_multicast_join_ifaddr(int sockfd, const uint16_t universe, const char *ifaddr);
 
 /* Initialize an E1.31 packet using a universe and a number of slots */
 extern int e131_pkt_init(e131_packet_t *packet, const uint16_t universe, const uint16_t num_slots);
