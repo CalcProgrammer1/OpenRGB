@@ -57,6 +57,7 @@ public:
     std::string     GetSerialString();
     unsigned short  GetUSBPID();
     void            SetMos(bool mos);
+    void            InitChLEDs(int *led_num_list,int ch_num);
     void            SendUpdate();
     void            SetChannelLEDs(unsigned char channel, RGBColor * colors, unsigned int num_colors);
 private:

@@ -165,7 +165,12 @@ void RGBController_Nollie::ResizeZone(int zone, int new_size)
             controller->SetMos(true);
         }
     }
-
+    // Nollie1 needs to report the number of LEDs
+    if(controller->GetUSBPID() == NOLLIE1_PID)
+    {
+        controller->InitChLEDs(&new_size,NOLLIE1_CHANNELS_NUM);
+    }
+    
     if((size_t) zone >= zones.size())
     {
         return;
