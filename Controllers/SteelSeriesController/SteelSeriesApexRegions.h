@@ -315,6 +315,7 @@ static const std::map<std::string, sku_patch> patch_lookup =
     { "64739", { apex_tkl_us_region_patch, apex_iso_region_patch, apex_uk_keyname_lookup }},
     { "64738", { apex_tkl_us_region_patch, apex_iso_region_patch, apex_nor_keyname_lookup }},
     { "64737", { apex_tkl_us_region_patch, apex_jp_region_patch, apex_jp_keyname_lookup }},
+    { "64856", { apex_tkl_us_region_patch, apex_iso_region_patch, apex_uk_keyname_lookup }},
     { "64734", { apex_tkl_us_region_patch, {}, {} }},
 
     { "64631", { {}, apex_iso_region_patch, apex_nor_keyname_lookup }},

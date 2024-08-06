@@ -101,6 +101,7 @@
 #define STEELSERIES_APEX_7_TKL_PID                  0x1618
 #define STEELSERIES_APEX_PRO_PID                    0x1610
 #define STEELSERIES_APEX_PRO_TKL_PID                0x1614
+#define STEELSERIES_APEX_PRO_TKL_2023_PID           0x1628
 #define STEELSERIES_APEX_M750_PID                   0x0616
 #define STEELSERIES_APEX_OG_PID                     0x1202
 #define STEELSERIES_APEX_350_PID                    0x1206
@@ -386,6 +387,7 @@ REGISTER_HID_DETECTOR_I  ("SteelSeries Apex 7",                             Dete
 REGISTER_HID_DETECTOR_I  ("SteelSeries Apex 7 TKL",                         DetectSteelSeriesApex,      STEELSERIES_VID, STEELSERIES_APEX_7_TKL_PID,                	1  );
 REGISTER_HID_DETECTOR_I  ("SteelSeries Apex Pro",                           DetectSteelSeriesApex,      STEELSERIES_VID, STEELSERIES_APEX_PRO_PID,                  	1  );
 REGISTER_HID_DETECTOR_I  ("SteelSeries Apex Pro TKL",                       DetectSteelSeriesApex,      STEELSERIES_VID, STEELSERIES_APEX_PRO_TKL_PID,              	1  );
+REGISTER_HID_DETECTOR_I  ("SteelSeries Apex Pro TKL 2023",                  DetectSteelSeriesApex,      STEELSERIES_VID, STEELSERIES_APEX_PRO_TKL_2023_PID,          	1  );
 REGISTER_HID_DETECTOR_I  ("SteelSeries Apex M750",                          DetectSteelSeriesApexM,     STEELSERIES_VID, STEELSERIES_APEX_M750_PID,                 	2  );
 REGISTER_HID_DETECTOR_I  ("SteelSeries Apex (OG)/Apex Fnatic",              DetectSteelSeriesApexOld,   STEELSERIES_VID, STEELSERIES_APEX_OG_PID,                   	0  );
 REGISTER_HID_DETECTOR_I  ("SteelSeries Apex 350",                           DetectSteelSeriesApexOld,   STEELSERIES_VID, STEELSERIES_APEX_350_PID,                  0  );
