@@ -20,6 +20,13 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
+/// \file adl_sdk.h
+/// \brief Contains the definition of the Memory Allocation Callback.\n <b>Included in ADL SDK</b>
+///
+/// \n\n
+/// This file contains the definition of the Memory Allocation Callback.\n
+/// It also includes definitions of the respective structures and constants.\n
+/// <b> This is the only header file to be included in a C/C++ project using ADL </b>
 
 #ifndef ADL_SDK_H_
 #define ADL_SDK_H_
@@ -30,9 +37,10 @@
 #define __stdcall
 #endif /* (LINUX) */
 
+/// Memory Allocation Call back 
 typedef void* ( __stdcall *ADL_MAIN_MALLOC_CALLBACK )( int );
 
 #define ADL_SDK_MAJOR_VERSION 17
-#define ADL_SDK_MINOR_VERSION 0
+#define ADL_SDK_MINOR_VERSION 1
 
 #endif /* ADL_SDK_H_ */
