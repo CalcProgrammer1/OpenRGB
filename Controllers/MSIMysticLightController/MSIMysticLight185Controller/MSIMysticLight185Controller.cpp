@@ -307,6 +307,7 @@ static const mystic_light_185_config board_configs[] =
     { 0x7D90, 0,  0,  0, 1, &zones_set11, MSIMysticLight185Controller::DIRECT_MODE_PER_LED },       // B760M BOMBER DDR4
     { 0x7D91, 1,  0,  0, 1, &zones_set10, MSIMysticLight185Controller::DIRECT_MODE_PER_LED },       // MAG Z790 TOMAHAWK WIFI
     { 0x7D97, 6,  0,  0, 2, &zones_set11, MSIMysticLight185Controller::DIRECT_MODE_PER_LED },       // MAG B660 MORTAR MAX WIFI DDR4
+    { 0x7D98, 6,  0,  0, 1, &zones_set11, MSIMysticLight185Controller::DIRECT_MODE_PER_LED },       // PRO B760-P WIFI DDR4
     { 0x7D99, 6,  0,  0, 1, &zones_set11, MSIMysticLight185Controller::DIRECT_MODE_PER_LED },       // PRO B760M-A WIFI DDR4
     { 0x7E01, 0,  0,  0, 1, &zones_set11, MSIMysticLight185Controller::DIRECT_MODE_PER_LED },       // MAG B760M MORTAR MAX
     { 0x7E03, 6,  0,  0, 0, &zones_set6,  MSIMysticLight185Controller::DIRECT_MODE_PER_LED },       // MPG Z790I EDGE WIFI
