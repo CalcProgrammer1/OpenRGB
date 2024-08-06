@@ -3,11 +3,12 @@
 @@ -443,8 +443,6 @@ contains(QMAKE_PLATFORM, linux) {
      PKGCONFIG +=                                                                                \
      libusb-1.0
- 
+
 -    TARGET = $$lower($$TARGET)
 -
-     HEADERS -= $$CONTROLLER_H_WIN
- 
+     HEADERS -= $$CONTROLLER_H_WINDOWS
+     HEADERS -= $$CONTROLLER_H_MACOS
+
      HEADERS +=                                                                                  \
 --- a/qt/org.openrgb.OpenRGB.desktop
 +++ b/qt/org.openrgb.OpenRGB.desktop

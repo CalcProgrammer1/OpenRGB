@@ -72,10 +72,12 @@ for(iter, $$list($$CONTROLLER_H)) {
 }
 CONTROLLER_INCLUDES = $$unique(CONTROLLER_INCLUDES)
 
-CONTROLLER_H_WIN    = $$files("Controllers/*_Windows.h", true)
-CONTROLLER_CPP_WIN  = $$files("Controllers/*_Windows.cpp", true)
-CONTROLLER_H_LNX    = $$files("Controllers/*_Linux.h", true)
-CONTROLLER_CPP_LNX  = $$files("Controllers/*_Linux.cpp", true)
+CONTROLLER_H_WINDOWS    = $$files("Controllers/*_Windows.h",    true)
+CONTROLLER_CPP_WINDOWS  = $$files("Controllers/*_Windows.cpp",  true)
+CONTROLLER_H_LINUX      = $$files("Controllers/*_Linux.h",      true)
+CONTROLLER_CPP_LINUX    = $$files("Controllers/*_Linux.cpp",    true)
+CONTROLLER_H_MACOS      = $$files("Controllers/*_MacOS.cpp",    true)
+CONTROLLER_CPP_MACOS    = $$files("Controllers/*_MacOS.cpp",    true)
 
 #-----------------------------------------------------------------------------------------------#
 # OpenRGB Common                                                                                #
@@ -244,7 +246,8 @@ win32:INCLUDEPATH +=                                                            
     dependencies/NVFC                                                                           \
     wmi/                                                                                        \
 
-win32:SOURCES -= $$CONTROLLER_CPP_LNX
+win32:SOURCES -= $$CONTROLLER_CPP_LINUX
+win32:SOURCES -= $$CONTROLLER_CPP_MACOS
 
 win32:SOURCES +=                                                                                \
     dependencies/hueplusplus-1.1.0/src/WinHttpHandler.cpp                                       \
@@ -355,7 +358,8 @@ win32:SOURCES +=                                                                
     wmi/wmi.cpp                                                                                 \
     AutoStart/AutoStart-Windows.cpp                                                             \
 
-win32:HEADERS -= $$CONTROLLER_H_LNX
+win32:HEADERS -= $$CONTROLLER_H_LINUX
+win32:HEADERS -= $$CONTROLLER_H_MACOS
 
 win32:HEADERS +=                                                                                \
     dependencies/display-library/include/adl_defines.h                                          \
@@ -457,7 +461,8 @@ contains(QMAKE_PLATFORM, linux) {
 
     TARGET = $$lower($$TARGET)
 
-    HEADERS -= $$CONTROLLER_H_WIN
+    HEADERS -= $$CONTROLLER_H_WINDOWS
+    HEADERS -= $$CONTROLLER_H_MACOS
 
     HEADERS +=                                                                                  \
     i2c_smbus/i2c_smbus_linux.h                                                                 \
@@ -498,7 +503,8 @@ contains(QMAKE_PLATFORM, linux) {
         }
     }
 
-    SOURCES -= $$CONTROLLER_CPP_WIN
+    SOURCES -= $$CONTROLLER_CPP_WINDOWS
+    SOURCES -= $$CONTROLLER_CPP_MACOS
 
     SOURCES +=                                                                                  \
     dependencies/hueplusplus-1.1.0/src/LinHttpHandler.cpp                                       \
@@ -575,7 +581,7 @@ contains(QMAKE_PLATFORM, freebsd) {
     Controllers/SeagateController/RGBController_Seagate.h                                       \
     Controllers/SeagateController/SeagateController.h                                           \
     Controllers/ENESMBusController/ENESMBusInterface/ENESMBusInterface_ROGArion.h               \
-    $$CONTROLLER_H_WIN                                                                          \
+    $$CONTROLLER_H_WINDOWS                                                                      \
 
     LIBS +=                                                                                     \
     -lmbedx509                                                                                  \
@@ -620,7 +626,7 @@ contains(QMAKE_PLATFORM, freebsd) {
     Controllers/SeagateController/SeagateControllerDetect.cpp                                   \
     Controllers/ENESMBusController/ROGArionDetect.cpp                                           \
     Controllers/ENESMBusController/ENESMBusInterface/ENESMBusInterface_ROGArion.cpp             \
-    $$CONTROLLER_CPP_WIN                                                                        \
+    $$CONTROLLER_CPP_WINDOWS                                                                    \
 
     #-------------------------------------------------------------------------------------------#
     # Set up install paths                                                                      #
@@ -674,15 +680,17 @@ macx {
     AutoStart/AutoStart-MacOS.h                                                                 \
     qt/macutils.h                                                                               \
 
-    HEADERS -= $$CONTROLLER_H_WIN
+    HEADERS -= $$CONTROLLER_H_WINDOWS
+    HEADERS -= $$CONTROLLER_H_LINUX
 
     SOURCES +=                                                                                  \
     dependencies/hueplusplus-1.1.0/src/LinHttpHandler.cpp                                       \
-    serial_port/find_usb_serial_port_linux.cpp                                                  \
+    serial_port/find_usb_serial_port_macos.cpp                                                  \
     AutoStart/AutoStart-MacOS.cpp                                                               \
     qt/macutils.mm                                                                              \
 
-    SOURCES -= $$CONTROLLER_CPP_WIN
+    SOURCES -= $$CONTROLLER_CPP_WINDOWS
+    SOURCES -= $$CONTROLLER_CPP_LINUX
 
     # Use mbedtls v2 instead of latest
     MBEDTLS_PREFIX = $$system(brew --prefix mbedtls@2)
