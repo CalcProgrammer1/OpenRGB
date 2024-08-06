@@ -468,7 +468,11 @@ contains(QMAKE_PLATFORM, linux) {
     i2c_smbus/i2c_smbus_linux.h                                                                 \
     AutoStart/AutoStart-Linux.h                                                                 \
 
+    INCLUDEPATH +=                                                                              \
+    /usr/include/mbedtls2/                                                                      \
+
     LIBS +=                                                                                     \
+    -L/usr/lib/mbedtls2/                                                                        \
     -lmbedx509                                                                                  \
     -lmbedtls                                                                                   \
     -lmbedcrypto                                                                                \
