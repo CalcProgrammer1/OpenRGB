@@ -483,7 +483,7 @@ contains(QMAKE_PLATFORM, linux) {
          LIBS += -lstdc++fs
     }
 
-    QMAKE_CXXFLAGS += -Wno-implicit-fallthrough
+    QMAKE_CXXFLAGS += -Wno-implicit-fallthrough -Wno-psabi
 
     DEFINES +=                                                                                  \
         OPENRGB_SYSTEM_PLUGIN_DIRECTORY=\\"\"\"$$PREFIX/lib/openrgb/plugins\\"\"\"              \
