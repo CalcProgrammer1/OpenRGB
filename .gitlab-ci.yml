@@ -177,7 +177,7 @@ before_script:
   script:
   - ./scripts/build-package-files.sh debian/changelog
   - dpkg-architecture -l
-  - dpkg-buildpackage --target-arch i386 -us -B
+  - dpkg-buildpackage -us -B
   - rm -v ../openrgb-dbgsym*.deb
   - mv -v ../openrgb*.deb ./
 
