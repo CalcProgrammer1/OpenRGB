@@ -558,6 +558,7 @@ void RGBController_KingstonFuryDRAM::DeviceUpdateLEDs()
     case FURY_MODE_TELEPORT:
         // between 1 and 12
         controller->SetRegister(FURY_REG_LENGTH, 3);
+        break;
 
     case FURY_MODE_WIND:
         // between 0 and 32
