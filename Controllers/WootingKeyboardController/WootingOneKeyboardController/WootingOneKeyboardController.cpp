@@ -10,6 +10,7 @@
 \*---------------------------------------------------------*/
 
 #include <cstring>
+#include "StringUtils.h"
 #include "WootingOneKeyboardController.h"
 
 #undef  WOOTING_CONTROLLER_NAME
@@ -54,21 +55,22 @@ static uint16_t getCrc16ccitt(const uint8_t* buffer, uint16_t size)
 
 WootingOneKeyboardController::WootingOneKeyboardController(hid_device* dev_handle, const char *path, uint8_t wooting_type)
 {
-    const int szTemp = 256;
-    wchar_t tmpName[szTemp];
-
     dev                 = dev_handle;
     location            = path;
     this->wooting_type  = wooting_type;
     key_code_limit      = (wooting_type == WOOTING_KB_TKL) ? WOOTING_ONE_KEY_CODE_LIMIT : WOOTING_TWO_KEY_CODE_LIMIT;
 
+    /*---------------------------------------------------------*\
+    | Get device HID manufacturer and product strings           |
+    \*---------------------------------------------------------*/
+    const int szTemp = 256;
+    wchar_t tmpName[szTemp];
+
     hid_get_manufacturer_string(dev, tmpName, szTemp);
-    std::wstring wName = std::wstring(tmpName);
-    vendor = std::string(wName.begin(), wName.end());
+    vendor = std::string(StringUtils::wstring_to_string(tmpName));
 
     hid_get_product_string(dev, tmpName, szTemp);
-    wName = std::wstring(tmpName);
-    description = std::string(wName.begin(), wName.end());
+    description = std::string(StringUtils::wstring_to_string(tmpName));
 
     SendInitialize();
 }
