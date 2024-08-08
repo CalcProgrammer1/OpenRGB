@@ -113,12 +113,12 @@ public:
                     );
 
 private:
-    hid_device* dev_handle;
-    char feature_4522_idx;
-    char device_index;
-    char feature_8040_idx;
-    char feature_8071_idx;
-    char feature_8081_idx;
+    hid_device*   dev_handle;
+    unsigned char feature_4522_idx;
+    unsigned char device_index;
+    unsigned char feature_8040_idx;
+    unsigned char feature_8071_idx;
+    unsigned char feature_8081_idx;
 
     void        SendDirectFrame
                     (
