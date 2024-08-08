@@ -18,6 +18,7 @@
 #include <hidapi/hidapi.h>
 #include "RGBController.h"
 
+#define HID_MAX_STR         255
 #define NUM_LEDS            11
 
 #define R_OFFSET            0

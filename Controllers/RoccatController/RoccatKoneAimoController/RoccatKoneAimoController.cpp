@@ -18,16 +18,16 @@ RoccatKoneAimoController::RoccatKoneAimoController(hid_device* dev_handle, char 
     dev                 = dev_handle;
     location            = _path;
 
-    const int szTemp    = 256;
-    wchar_t tmpName[szTemp];
+    /*---------------------------------------------------------*\
+    | Get device name from HID manufacturer and product strings |
+    \*---------------------------------------------------------*/
+    wchar_t name_string[HID_MAX_STR];
 
-    hid_get_manufacturer_string(dev, tmpName, szTemp);
-    std::wstring wName = std::wstring(tmpName);
-    device_name        = std::string(wName.begin(), wName.end());
+    hid_get_manufacturer_string(dev, name_string, HID_MAX_STR);
+    device_name = StringUtils::wstring_to_string(name_string);
 
-    hid_get_product_string(dev, tmpName, szTemp);
-    wName = std::wstring(tmpName);
-    device_name.append(" ").append(std::string(wName.begin(), wName.end()));
+    hid_get_product_string(dev, name_string, HID_MAX_STR);
+    device_name.append(" ").append(StringUtils::wstring_to_string(name_string));
 
     /*-----------------------------------------------------*\
     | Init usb buffer to 0 and add first two bytes          |
