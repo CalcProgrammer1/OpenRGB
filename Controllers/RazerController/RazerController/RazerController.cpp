@@ -1008,7 +1008,7 @@ std::string RazerController::razer_get_serial()
     std::this_thread::sleep_for(5ms);
     razer_usb_receive(&response_report);
 
-    strncpy(&serial_string[0], (const char*)&response_report.arguments[0], 22);
+    memcpy(&serial_string[0], &response_report.arguments[0], 22);
     serial_string[22] = '\0';
 
     for(size_t i = 0; i < 22; i++)
