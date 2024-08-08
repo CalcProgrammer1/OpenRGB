@@ -70,10 +70,9 @@ std::string MSIMysticLight64Controller::GetDeviceName()
     hid_get_manufacturer_string(dev, tname, 256);
 
     /*-----------------------------------------------------*\
-    | Convert wchar_t into std::wstring into std::string    |
+    | Convert to std::string                                |
     \*-----------------------------------------------------*/
-    std::wstring wname = std::wstring(tname);
-    std::string name = std::string(wname.begin(), wname.end());
+    std::string name = StringUtils::wstring_to_string(tname);
 
     /*-----------------------------------------------------*\
     | Get the product string from HID                       |
@@ -83,9 +82,9 @@ std::string MSIMysticLight64Controller::GetDeviceName()
     /*-----------------------------------------------------*\
     | Append the product string to the manufacturer string  |
     \*-----------------------------------------------------*/
-    wname = std::wstring(tname);
-    name.append(" ").append(std::string(wname.begin(), wname.end()));
-    return name;
+    name.append(" ").append(StringUtils::wstring_to_string(tname));
+
+    return(name);
 }
 
 std::string MSIMysticLight64Controller::GetFWVersion()
