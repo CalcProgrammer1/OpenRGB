@@ -1052,10 +1052,9 @@ void MSIMysticLight185Controller::ReadName()
     hid_get_manufacturer_string(dev, tname, 256);
 
     /*-----------------------------------------------------*\
-    | Convert wchar_t into std::wstring into std::string    |
+    | Convert to std::string                                |
     \*-----------------------------------------------------*/
-    std::wstring wname = std::wstring(tname);
-    name = std::string(wname.begin(), wname.end());
+    name = StringUtils::wstring_to_string(tname);
 
     /*-----------------------------------------------------*\
     | Get the product string from HID                       |
@@ -1065,8 +1064,7 @@ void MSIMysticLight185Controller::ReadName()
     /*-----------------------------------------------------*\
     | Append the product string to the manufacturer string  |
     \*-----------------------------------------------------*/
-    wname = std::wstring(tname);
-    name.append(" ").append(std::string(wname.begin(), wname.end()));
+    name.append(" ").append(StringUtils::wstring_to_string(tname));
 }
 
 MSI_MODE MSIMysticLight185Controller::GetMode()
