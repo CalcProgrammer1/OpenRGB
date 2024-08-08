@@ -393,7 +393,7 @@ void RGBController_LogitechG915::DeviceUpdateLEDs()
         zone = ( leds[led_idx].value >> 8 );
         idx  = ( leds[led_idx].value );
 
-        if (current_colors[led_idx]==new_colors[led_idx])
+        if(current_colors[led_idx]==new_colors[led_idx])
         {
             /*-------------------------------------------------*\
             | Don't send if key color is not changed            |
@@ -401,7 +401,7 @@ void RGBController_LogitechG915::DeviceUpdateLEDs()
             continue;
         }
 
-        switch (zone)
+        switch(zone)
         {
             case LOGITECH_G915_ZONE_MODE_GKEYS:
                 idx = ((idx & 0x00ff) + 0xb3);
@@ -426,7 +426,7 @@ void RGBController_LogitechG915::DeviceUpdateLEDs()
 
         colorkey = new_colors[led_idx];
 
-        if (ledsByColors.count(colorkey) == 0)
+        if(ledsByColors.count(colorkey) == 0)
         {
             ledsByColors.insert(std::pair<RGBColor, std::vector<char>>(colorkey, {}));
         }
@@ -462,14 +462,14 @@ void RGBController_LogitechG915::DeviceUpdateLEDs()
 
                 for(uint8_t i = 0; i < max_key_per_color; i++)
                 {
-                    if(bi + i < x.second.size())
+                    if((bi + i) < (uint8_t)x.second.size())
                     {
                         frame_buffer_big_mode[frame_pos] = x.second[bi+i];
                         frame_pos++;
                     }
                 }
 
-                if (frame_pos < data_size)
+                if(frame_pos < data_size)
                 {
                     /*-----------------------------------------*\
                     | Zeroing just what is needed and if needed |
@@ -506,7 +506,7 @@ void RGBController_LogitechG915::DeviceUpdateLEDs()
                 li++;
                 led_in_little_frame++;
 
-                if (led_in_little_frame == 4)
+                if(led_in_little_frame == 4)
                 {
                     /*-----------------------------------------*\
                     | No End of Data byte if the packet is full |
