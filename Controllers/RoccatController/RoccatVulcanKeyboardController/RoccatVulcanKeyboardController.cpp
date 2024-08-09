@@ -155,7 +155,7 @@ void RoccatVulcanKeyboardController::SendColors(std::vector<led_color> colors)
             protocol_version = 1;
     }
 
-    unsigned char packet_num = ceil((float) packet_length / 64);
+    unsigned char packet_num = (unsigned char)(ceil((float)packet_length / 64));
 
     std::vector<std::vector<uint8_t>> bufs(packet_num);
 
@@ -183,7 +183,7 @@ void RoccatVulcanKeyboardController::SendColors(std::vector<led_color> colors)
 
     if(header_length_first == 3)
     {
-        bufs[0][3] = packet_length;
+        bufs[0][3] = (uint8_t)packet_length;
     }
     else
     {
@@ -201,8 +201,8 @@ void RoccatVulcanKeyboardController::SendColors(std::vector<led_color> colors)
 
     for(unsigned int i = 0; i < colors.size(); i++)
     {
-        int coloumn = floor(colors[i].value / column_length);
-        int row = colors[i].value % column_length;
+        int column  = (int)(floor(colors[i].value / column_length));
+        int row     = colors[i].value % column_length;
 
         /*-----------------------------------------------------------------------*\
         |  This has to be split up for readability.                               |
@@ -215,7 +215,7 @@ void RoccatVulcanKeyboardController::SendColors(std::vector<led_color> colors)
         \*-----------------------------------------------------------------------*/
         if(protocol_version == 1)
         {
-            int offset = coloumn * 3 * column_length + row + header_length_first;
+            int offset = column * 3 * column_length + row + header_length_first;
 
             bufs[offset / 64][offset % 64 + 1] = RGBGetRValue(colors[i].color);
 
@@ -229,7 +229,7 @@ void RoccatVulcanKeyboardController::SendColors(std::vector<led_color> colors)
         {
             unsigned int data_length_packet = 64 - header_length_first;
 
-            int offset = coloumn * 3 * column_length + row;
+            int offset = column * 3 * column_length + row;
 
             bufs[offset / data_length_packet][offset % data_length_packet + header_length_first + 1] = RGBGetRValue(colors[i].color);
 
@@ -293,7 +293,7 @@ void RoccatVulcanKeyboardController::SendMode(unsigned int mode, unsigned int sp
 
     if(header_length == 1)
     {
-        buf[1] = packet_length;
+        buf[1] = (uint8_t)packet_length;
     }
     else
     {
@@ -323,10 +323,10 @@ void RoccatVulcanKeyboardController::SendMode(unsigned int mode, unsigned int sp
 
     for(unsigned int i = 0; i < colors.size(); i++)
     {
-        int coloumn = floor(colors[i].value / column_length);
-        int row = colors[i].value % column_length;
+        int column  = (int)(floor(colors[i].value / column_length));
+        int row     = colors[i].value % column_length;
 
-        int offset = coloumn * 3 * column_length + row + 9;
+        int offset = column * 3 * column_length + row + 9;
 
         buf[offset] = RGBGetRValue(colors[i].color);
 
