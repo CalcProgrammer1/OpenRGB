@@ -612,8 +612,8 @@ void RGBController_QMKOpenRGBRevB::PlaceLEDsInMaps
         VectorMatrix&               underglow_map_xl
      )
 {
-    matrix_map_xl                   = MakeEmptyMatrixMap(unique_rows.size(), std::round(255/divisor) + 10);
-    underglow_map_xl                = MakeEmptyMatrixMap(unique_rows.size(), std::round(255/divisor) + 10);
+    matrix_map_xl                   = MakeEmptyMatrixMap(unique_rows.size(), (std::size_t)(std::round(255 / divisor) + 10));
+    underglow_map_xl                = MakeEmptyMatrixMap(unique_rows.size(), (std::size_t)(std::round(255 / divisor) + 10));
 
     unsigned int x                  = 0;
     unsigned int y                  = 0;
@@ -653,14 +653,14 @@ void RGBController_QMKOpenRGBRevB::PlaceLEDsInMaps
 
 VectorMatrix RGBController_QMKOpenRGBRevB::MakeEmptyMatrixMap
     (
-        unsigned int height,
-        unsigned int width
+        std::size_t height,
+        std::size_t width
     )
 {
     std::vector<std::vector<unsigned int> > matrix_map(height);
-    for (unsigned int i = 0; i < height; i++)
+    for(std::size_t i = 0; i < height; i++)
     {
-        for (unsigned int j = 0; j < width; j++)
+        for(std::size_t j = 0; j < width; j++)
         {
             matrix_map[i].push_back(NO_LED);
         }

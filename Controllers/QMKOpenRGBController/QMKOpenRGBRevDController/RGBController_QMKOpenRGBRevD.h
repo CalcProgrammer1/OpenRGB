@@ -81,8 +81,8 @@ private:
 
     VectorMatrix                            MakeEmptyMatrixMap
                                             (
-                                            unsigned int height,
-                                            unsigned int width
+                                                std::size_t height,
+                                                std::size_t width
                                             );
 
     void                                    CleanMatrixMaps
