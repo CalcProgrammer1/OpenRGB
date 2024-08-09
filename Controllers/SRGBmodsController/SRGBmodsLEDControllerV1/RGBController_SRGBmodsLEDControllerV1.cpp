@@ -154,7 +154,7 @@ void RGBController_SRGBmodsLEDControllerV1::SetupZones()
 
 void RGBController_SRGBmodsLEDControllerV1::ResizeZone(int zone, int new_size)
 {
-    if((size_t) zone >= zones.size())
+    if((size_t)zone >= zones.size())
     {
         return;
     }
@@ -175,7 +175,7 @@ void RGBController_SRGBmodsLEDControllerV1::DeviceUpdateLEDs()
         {
             if(zones[zone_idx].leds_count > 0)
             {
-                controller->SetChannelLEDs(zone_idx, zones[zone_idx].colors, zones[zone_idx].leds_count);
+                controller->SetChannelLEDs((unsigned char)zone_idx, zones[zone_idx].colors, zones[zone_idx].leds_count);
             }
         }
     }
