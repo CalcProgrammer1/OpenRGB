@@ -6,8 +6,7 @@
 
 -    TARGET = $$lower($$TARGET)
 -
-     HEADERS -= $$CONTROLLER_H_WINDOWS
-     HEADERS -= $$CONTROLLER_H_MACOS
+     HEADERS += $$CONTROLLER_H_LINUX
 
      HEADERS +=                                                                                  \
 --- a/qt/org.openrgb.OpenRGB.desktop
