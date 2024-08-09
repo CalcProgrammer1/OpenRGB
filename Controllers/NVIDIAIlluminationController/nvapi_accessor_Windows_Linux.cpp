@@ -1,5 +1,5 @@
 /*---------------------------------------------------------*\
-| nvapi_accessor_Windows.cpp                                |
+| nvapi_accessor_Windows_Linux.cpp                          |
 |                                                           |
 |   NVAPI accessor for NVIDIA NVAPI illumination API        |
 |                                                           |
@@ -11,7 +11,7 @@
 
 #include <chrono>
 #include <thread>
-#include "nvapi_accessor_Windows.h"
+#include "nvapi_accessor_Windows_Linux.h"
 
 nvapi_accessor::nvapi_accessor(NV_PHYSICAL_GPU_HANDLE handle)
 {

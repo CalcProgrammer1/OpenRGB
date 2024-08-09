@@ -1,5 +1,5 @@
 /*---------------------------------------------------------*\
-| NVIDIAIlluminationControllerDetect_Windows.cpp            |
+| NVIDIAIlluminationControllerDetect_Windows_Linux.cpp      |
 |                                                           |
 |   Detector for NVIDIA Illumination GPU                    |
 |                                                           |
@@ -15,7 +15,7 @@
 #include "Detector.h"
 #include "LogManager.h"
 #include "RGBController.h"
-#include "RGBController_NVIDIAIllumination_Windows.h"
+#include "RGBController_NVIDIAIllumination_Windows_Linux.h"
 #include "pci_ids.h"
 
 enum
@@ -32,7 +32,7 @@ typedef struct
     int             gpu_rgb_version;
     bool            treats_rgbw_as_rgb;
     const char *    name;
-} gpu_pci_device;
+} nv_gpu_pci_device;
 
 
 #define GPU_NUM_DEVICES (sizeof(device_list) / sizeof(device_list[ 0 ]))
@@ -44,7 +44,7 @@ typedef struct
 #define TREATS_RGBW_AS_RGB  true
 #define TREATS_RGBW_AS_RGBW false
 
-static const gpu_pci_device device_list[] =
+static const nv_gpu_pci_device device_list[] =
 {
     {NVIDIA_VEN,    NVIDIA_RTX2070S_DEV,            NVIDIA_VEN,     NVIDIA_RTX2070_FE_SUPER_SUB_DEV,                NVIDIA_ILLUMINATION_V1,     TREATS_RGBW_AS_RGBW,    "NVIDIA RTX 2070 SUPER FE"                  },
     {NVIDIA_VEN,    NVIDIA_RTX2080_A_DEV,           NVIDIA_VEN,     NVIDIA_RTX2080_FE_SUB_DEV,                      NVIDIA_ILLUMINATION_V1,     TREATS_RGBW_AS_RGBW,    "NVIDIA RTX 2080 FE"                        },

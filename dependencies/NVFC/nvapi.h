@@ -1024,12 +1024,12 @@ NV_STATUS NvAPI_I2CReadEx(
 
 // Interface: 73C01D58
 NV_STATUS NvAPI_GPU_ClientIllumZonesGetControl(
-    __in NV_PHYSICAL_GPU_HANDLE physical_gpu_handle,
-    __inout NV_GPU_CLIENT_ILLUM_ZONE_CONTROL_PARAMS* pIllumZonesControl);
+    NV_PHYSICAL_GPU_HANDLE physical_gpu_handle,
+    NV_GPU_CLIENT_ILLUM_ZONE_CONTROL_PARAMS* pIllumZonesControl);
 
 // Interface: 57024C62
 NV_STATUS NvAPI_GPU_ClientIllumZonesSetControl(
-    __in NV_PHYSICAL_GPU_HANDLE physical_gpu_handle,
-    __inout NV_GPU_CLIENT_ILLUM_ZONE_CONTROL_PARAMS* pIllumZonesControl);
+    NV_PHYSICAL_GPU_HANDLE physical_gpu_handle,
+    NV_GPU_CLIENT_ILLUM_ZONE_CONTROL_PARAMS* pIllumZonesControl);
 
 #endif

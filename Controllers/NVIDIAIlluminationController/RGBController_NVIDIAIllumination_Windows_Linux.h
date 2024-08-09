@@ -1,5 +1,5 @@
 /*---------------------------------------------------------*\
-| RGBController_NVIDIAIllumination.h                        |
+| RGBController_NVIDIAIllumination_Windows_Linux.h          |
 |                                                           |
 |   RGBController for NVIDIA Illumination GPU               |
 |                                                           |
@@ -13,7 +13,7 @@
 
 #include <map>
 #include "RGBController.h"
-#include "NVIDIAIlluminationV1Controller_Windows.h"
+#include "NVIDIAIlluminationV1Controller_Windows_Linux.h"
 
 #define NVIDIA_FOUNDERS_V1_CONTROLLER_NAME   "NVIDIA_FOUNDERS_V1"
 

@@ -1,5 +1,5 @@
 /*---------------------------------------------------------*\
-| RGBController_NVIDIAIllumination.cpp                      |
+| RGBController_NVIDIAIllumination_Windows_Linux.cpp        |
 |                                                           |
 |   RGBController for NVIDIA Illumination GPU               |
 |                                                           |
@@ -10,7 +10,7 @@
 \*---------------------------------------------------------*/
 
 #include <array>
-#include "RGBController_NVIDIAIllumination_Windows.h"
+#include "RGBController_NVIDIAIllumination_Windows_Linux.h"
 
 /**------------------------------------------------------------------*\
     @name NVIDIA Illumination

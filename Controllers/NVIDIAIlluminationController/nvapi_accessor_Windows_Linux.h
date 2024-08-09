@@ -1,5 +1,5 @@
 /*---------------------------------------------------------*\
-| nvapi_accessor_Windows.h                                  |
+| nvapi_accessor_Windows_Linux.h                            |
 |                                                           |
 |   NVAPI accessor for NVIDIA NVAPI illumination API        |
 |                                                           |

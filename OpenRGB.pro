@@ -479,10 +479,12 @@ contains(QMAKE_PLATFORM, linux) {
     HEADERS += $$CONTROLLER_H_LINUX
 
     HEADERS +=                                                                                  \
+    dependencies/NVFC/nvapi.h                                                                   \
     i2c_smbus/i2c_smbus_linux.h                                                                 \
     AutoStart/AutoStart-Linux.h                                                                 \
 
     INCLUDEPATH +=                                                                              \
+    dependencies/NVFC                                                                           \
     /usr/include/mbedtls2/                                                                      \
 
     LIBS +=                                                                                     \
@@ -528,6 +530,7 @@ contains(QMAKE_PLATFORM, linux) {
 
     SOURCES +=                                                                                  \
     dependencies/hueplusplus-1.1.0/src/LinHttpHandler.cpp                                       \
+    dependencies/NVFC/nvapi.cpp                                                                 \
     i2c_smbus/i2c_smbus_linux.cpp                                                               \
     scsiapi/scsiapi_linux.c                                                                     \
     serial_port/find_usb_serial_port_linux.cpp                                                  \

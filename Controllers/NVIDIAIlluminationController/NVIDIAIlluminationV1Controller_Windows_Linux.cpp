@@ -1,5 +1,5 @@
 /*---------------------------------------------------------*\
-| NVIDIAIlluminationV1Controller_Windows.cpp                |
+| NVIDIAIlluminationV1Controller_Windows_Linux.cpp          |
 |                                                           |
 |   Driver for NVIDIA Illumination V1 GPU                   |
 |                                                           |
@@ -9,7 +9,7 @@
 |   SPDX-License-Identifier: GPL-2.0-only                   |
 \*---------------------------------------------------------*/
 
-#include "NVIDIAIlluminationV1Controller_Windows.h"
+#include "NVIDIAIlluminationV1Controller_Windows_Linux.h"
 
 NVIDIAIlluminationV1Controller::NVIDIAIlluminationV1Controller(nvapi_accessor* nvapi_ptr, bool treats_rgbw_as_rgb)
 {

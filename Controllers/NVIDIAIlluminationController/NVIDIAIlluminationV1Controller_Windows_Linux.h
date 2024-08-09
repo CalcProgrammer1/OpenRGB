@@ -1,5 +1,5 @@
 /*---------------------------------------------------------*\
-| NVIDIAIlluminationV1Controller_Windows.h                  |
+| NVIDIAIlluminationV1Controller_Windows_Linux.h            |
 |                                                           |
 |   Driver for NVIDIA Illumination V1 GPU                   |
 |                                                           |
@@ -14,7 +14,7 @@
 #include <cstring>
 #include <string>
 #include <vector>
-#include "nvapi_accessor_Windows.h"
+#include "nvapi_accessor_Windows_Linux.h"
 #include "RGBController.h"
 #include "LogManager.h"
 

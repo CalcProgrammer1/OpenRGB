@@ -1,7 +1,14 @@
-#define _WIN32_LEAN_AND_MEAN
-#include <windows.h>
+#ifdef _WIN32
+    #define _WIN32_LEAN_AND_MEAN
+    #include <windows.h>
+#elif __linux__
+    #include <dlfcn.h>
+#endif
 
 #include "nvapi.h"
+#include <string.h>
+
+typedef void * (*nvapi_QueryInterface_t)(int);
 
 // Constructors for NvAPI structures that just zero the memory and set the right version
 NV_DELTA_ENTRY::NV_DELTA_ENTRY()
@@ -248,7 +255,7 @@ static NV_STATUS(*pNvAPI_GPU_ClientIllumZonesSetControl)(
 	NV_PHYSICAL_GPU_HANDLE physical_gpu_handle, 
 	NV_GPU_CLIENT_ILLUM_ZONE_CONTROL_PARAMS* pIllumZonesControl);
 
-static bool QueryInterfaceOpaque(FARPROC query_interface, NV_U32 id, void **result)
+static bool QueryInterfaceOpaque(nvapi_QueryInterface_t query_interface, NV_U32 id, void **result)
 {
 	void *address = ((void *(*)(NV_U32))query_interface)(id);
 	if (address) {
@@ -259,7 +266,7 @@ static bool QueryInterfaceOpaque(FARPROC query_interface, NV_U32 id, void **resu
 }
 
 template<typename F>
-static void QueryInterfaceCast(FARPROC query_interface, NV_U32 id, const char *function_name, F &function_pointer)
+static void QueryInterfaceCast(nvapi_QueryInterface_t query_interface, NV_U32 id, const char *function_name, F &function_pointer)
 {
 	const bool result = QueryInterfaceOpaque(query_interface, id, (void **)&function_pointer);
     ////Log::write("%s querying interface '0x%08x' '%s'", result ? "success" : "failure", id, function_name);
@@ -268,7 +275,7 @@ static void QueryInterfaceCast(FARPROC query_interface, NV_U32 id, const char *f
 #define QueryInterface(query_interface, id, function) \
 	QueryInterfaceCast((query_interface), (id), #function, p ## function)
 
-static void QueryInterfaces(FARPROC query_interface)
+static void QueryInterfaces(nvapi_QueryInterface_t query_interface)
 {
     //Log::write("querying interfaces with '0x%p'", query_interface);
 
@@ -308,20 +315,35 @@ static void QueryInterfaces(FARPROC query_interface)
 NV_STATUS NvAPI_Initialize()
 {
 	if (!pNvAPI_Initialize) {
+#ifdef _WIN32
 		const char *name = sizeof(void*) == 4 ? "nvapi.dll" : "nvapi64.dll";
 		HMODULE nvapi = LoadLibraryA(name);
 		if (!nvapi) {
             //Log::write("failed to load '%s'", name);
 			return -1;
 		}
-
         //Log::write("loaded '%s' '0x%p'", name, nvapi);
-
-		FARPROC query_interface = GetProcAddress(nvapi, "nvapi_QueryInterface");
+		nvapi_QueryInterface_t query_interface = (nvapi_QueryInterface_t) GetProcAddress(nvapi, "nvapi_QueryInterface");
 		if (!query_interface) {
             //Log::write("failed to find 'nvapi_QueryInterface'");
 			return -1;
 		}
+#elif __linux__
+        void* nvapi;
+        if (!nvapi) nvapi = dlopen("libnvidia-api.so.1", RTLD_LAZY);
+        if (!nvapi) nvapi = dlopen("libnvidia-api.so", RTLD_LAZY);
+        if (!nvapi) {
+            // NVIDIA Driver is not installed
+            //Log::write("failed to load libnvidia-api.so, NVIDIA Driver is not installed");
+            return -1;
+        }
+        nvapi_QueryInterface_t query_interface = (nvapi_QueryInterface_t) dlsym(nvapi, "nvapi_QueryInterface");
+        if (!query_interface) {
+            // NVIDIA Driver is probably not up to date, requires at least driver version 525
+            //Log::write("failed to load QueryInterface from libnvidia-api.so, NVIDIA Driver is not up to date");
+            return -1;
+        }
+#endif
 
 		QueryInterfaces(query_interface);
 	}
