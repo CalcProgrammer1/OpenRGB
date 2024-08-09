@@ -642,8 +642,8 @@ void RGBController_QMKOpenRGBRevE::PlaceLEDsInMaps
         {
             bool underglow          = led_flags[i] & 2;
 
-            x                       = std::round(led_points[i].x/divisor);
-            y                       = std::distance(unique_rows.begin(), unique_rows.find(led_points[i].y));
+            x                       = (unsigned int)(std::round(led_points[i].x / divisor));
+            y                       = (unsigned int)(std::distance(unique_rows.begin(), unique_rows.find(led_points[i].y)));
 
             if(!underglow)
             {
