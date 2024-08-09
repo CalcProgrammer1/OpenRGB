@@ -174,7 +174,7 @@ void RGBController_LogitechLightspeed::SetupZones()
         {
             zone Lightspeed_logo_zone;
             led Lightspeed_logo_led;
-            logitech_led new_led                    = controller->lightspeed->getLED_info(i);
+            logitech_led new_led                    = controller->lightspeed->getLED_info((uint8_t)i);
 
             if(new_led.location < NUM_LOGITECH_LED_LOCATIONS )
             {
