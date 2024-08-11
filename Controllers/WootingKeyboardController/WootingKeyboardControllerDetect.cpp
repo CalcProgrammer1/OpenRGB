@@ -51,6 +51,9 @@
 #define WOOTING_TWO_60_HE_ARM_X_PID           0x1310
 #define WOOTING_TWO_60_HE_ARM_C_PID           0x1311
 #define WOOTING_TWO_60_HE_ARM_N_PID           0x1312
+#define WOOTING_TWO_UWU_RGB_X_PID             0x1510
+#define WOOTING_TWO_UWU_RGB_C_PID             0x1511
+#define WOOTING_TWO_UWU_RGB_N_PID             0x1512
 
 void DetectWootingOneKeyboardControllers(hid_device_info* info, const std::string& name)
 {
@@ -120,3 +123,6 @@ REGISTER_HID_DETECTOR_PU("Wooting Two 60HE (None)",          DetectWootingTwoKey
 REGISTER_HID_DETECTOR_PU("Wooting Two 60HE (ARM) (Xbox)",    DetectWootingTwoKeyboardControllers,  WOOTING_NEW_VID,  WOOTING_TWO_60_HE_ARM_X_PID,     0x1337, 1);
 REGISTER_HID_DETECTOR_PU("Wooting Two 60HE (ARM) (Classic)", DetectWootingTwoKeyboardControllers,  WOOTING_NEW_VID,  WOOTING_TWO_60_HE_ARM_C_PID,     0x1337, 1);
 REGISTER_HID_DETECTOR_PU("Wooting Two 60HE (ARM) (None)",    DetectWootingTwoKeyboardControllers,  WOOTING_NEW_VID,  WOOTING_TWO_60_HE_ARM_N_PID,     0x1337, 1);
+REGISTER_HID_DETECTOR_PU("Wooting Two UwU RGB (Xbox)",       DetectWootingTwoKeyboardControllers,  WOOTING_NEW_VID,  WOOTING_TWO_UWU_RGB_X_PID,       0x1337, 1);
+REGISTER_HID_DETECTOR_PU("Wooting Two UwU RGB (Classic)",    DetectWootingTwoKeyboardControllers,  WOOTING_NEW_VID,  WOOTING_TWO_UWU_RGB_C_PID,       0x1337, 1);
+REGISTER_HID_DETECTOR_PU("Wooting Two UwU RGB (None)",       DetectWootingTwoKeyboardControllers,  WOOTING_NEW_VID,  WOOTING_TWO_UWU_RGB_N_PID,       0x1337, 1);
