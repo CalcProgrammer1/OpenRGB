@@ -30,7 +30,14 @@ SinowealthController::SinowealthController(hid_device* dev_data_handle, hid_devi
 SinowealthController::~SinowealthController()
 {
     hid_close(dev_data);
-    hid_close(dev_cmd);
+    /*---------------------------------------------------------------------*\
+    | If the dev_cmd handle was passed in as the same device as dev_data    |
+    |   then attempting to close it a second time will segfault             |
+    \*---------------------------------------------------------------------*/
+    if(dev_cmd)
+    {
+        hid_close(dev_cmd);
+    }
 }
 
 std::string SinowealthController::GetLocation()
