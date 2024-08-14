@@ -101,7 +101,7 @@ void RoccatKoneAimoController::SetChannelColors(ROCCAT_KONE_AIMO_CHANNEL channel
     for(unsigned char i = 0; i < num_colors; i++)
     {
         std::size_t color   = channel + i;
-        int usb_idx         = 0x02 + (color * 4);
+        int usb_idx         = (int)(0x02 + (color * 4));
 
         usb_colors_buf[usb_idx + R_OFFSET] = RGBGetRValue(colors[i]);
         usb_colors_buf[usb_idx + G_OFFSET] = RGBGetGValue(colors[i]);
