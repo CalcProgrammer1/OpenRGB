@@ -69,7 +69,7 @@ void SteelSeriesApexTZoneController::SetColor(std::vector<RGBColor> colors, uint
     buf[0x01]           = 0x0B;
     for(size_t i = 0; i < colors.size(); i++)
     {
-        uint8_t index   = i * 3;
+        uint8_t index   = (uint8_t)(i * 3);
 
         buf[index + 3]  = RGBGetRValue(colors[i]);;
         buf[index + 4]  = RGBGetGValue(colors[i]);;
