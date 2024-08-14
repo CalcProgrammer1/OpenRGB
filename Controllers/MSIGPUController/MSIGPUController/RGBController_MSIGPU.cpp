@@ -18,9 +18,9 @@ int RGBController_MSIGPU::GetDeviceMode()
 
     for(std::size_t mode = 0; mode < modes.size(); mode++)
     {
-        if (modes[mode].value == dev_mode)
+        if(modes[mode].value == dev_mode)
         {
-            active_mode = mode;
+            active_mode = (int)mode;
             break;
         }
     }
@@ -36,11 +36,11 @@ int RGBController_MSIGPU::GetModeSpeed()
     {
         if(speed_values[speed] == mode_speed)
         {
-            return speed;
+            return((int)speed);
         }
     }
 
-    return 0;
+    return(0);
 }
 
 /**------------------------------------------------------------------*\
