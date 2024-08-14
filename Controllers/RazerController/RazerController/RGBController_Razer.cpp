@@ -240,7 +240,7 @@ void RGBController_Razer::SetupZones()
                             {
                                 led new_led;
 
-                                new_led.name = new_kb.GetKeyNameAt(row, col);
+                                new_led.name = new_kb.GetKeyNameAt((unsigned int)row, (unsigned int)col);
 
                                 leds.push_back(new_led);
                             }
