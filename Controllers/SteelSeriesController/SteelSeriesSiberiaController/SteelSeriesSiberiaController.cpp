@@ -13,7 +13,7 @@
 #include "SteelSeriesSiberiaController.h"
 #include "StringUtils.h"
 
-static void send_usb_msg(hid_device* dev, char * data_pkt, unsigned int size)
+static void send_usb_msg(hid_device* dev, unsigned char * data_pkt, unsigned int size)
 {
     unsigned char usb_pkt[16];
     memset(usb_pkt, 0x00, sizeof(usb_pkt));
@@ -80,7 +80,7 @@ void SteelSeriesSiberiaController::SetColor
     unsigned char   blue
     )
 {
-    char usb_buf[4];
+    unsigned char usb_buf[4];
     memset(usb_buf, 0x00, sizeof(usb_buf));
 
     // Command 1
