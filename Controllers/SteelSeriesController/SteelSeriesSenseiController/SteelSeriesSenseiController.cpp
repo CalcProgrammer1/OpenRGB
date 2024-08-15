@@ -18,7 +18,7 @@
 
 static void send_usb_msg(hid_device* dev, unsigned char * data_pkt, unsigned int size)
 {
-    unsigned char* usb_pkt = new char[size + 1];
+    unsigned char* usb_pkt = new unsigned char[size + 1];
 
     usb_pkt[0] = 0x00;
     for(unsigned int i = 1; i < size + 1; i++)

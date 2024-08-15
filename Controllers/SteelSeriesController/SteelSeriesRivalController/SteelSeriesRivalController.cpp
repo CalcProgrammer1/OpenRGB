@@ -18,7 +18,7 @@
 
 static void send_usb_msg(hid_device* dev, unsigned char * data_pkt, unsigned int size)
 {
-    unsigned char* usb_pkt = new char[size + 1];
+    unsigned char* usb_pkt = new unsigned char[size + 1];
 
     usb_pkt[0] = 0x00;
     for(unsigned int i = 1; i < size + 1; i++)
@@ -167,7 +167,7 @@ void SteelSeriesRivalController::SetRival650Color
     unsigned char   blue
     )
 {
-    unsigmed char usb_buf[60];
+    unsigned char usb_buf[60];
 
     memset(usb_buf, 0x00, sizeof(usb_buf));
 
@@ -261,7 +261,7 @@ void SteelSeriesRivalController::SetRival700Color
     usb_buf[0x0b] = zone_id;
     usb_buf[0x0c] = 0x01;
 
-    unsigned char *usb_pkt = new char[REPORT_SIZE + 1];
+    unsigned char *usb_pkt = new unsigned char[REPORT_SIZE + 1];
 
     usb_pkt[0] = 0x00;
     for (unsigned int i = 1; i < REPORT_SIZE + 1; i++)
