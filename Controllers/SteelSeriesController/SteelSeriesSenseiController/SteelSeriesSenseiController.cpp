@@ -16,9 +16,9 @@
 #include "SteelSeriesSenseiController.h"
 #include "StringUtils.h"
 
-static void send_usb_msg(hid_device* dev, char * data_pkt, unsigned int size)
+static void send_usb_msg(hid_device* dev, unsigned char * data_pkt, unsigned int size)
 {
-    char* usb_pkt = new char[size + 1];
+    unsigned char* usb_pkt = new char[size + 1];
 
     usb_pkt[0] = 0x00;
     for(unsigned int i = 1; i < size + 1; i++)
@@ -26,7 +26,7 @@ static void send_usb_msg(hid_device* dev, char * data_pkt, unsigned int size)
         usb_pkt[i] = data_pkt[i-1];
     }
 
-    hid_write(dev, (unsigned char *)usb_pkt, size + 1);
+    hid_write(dev, usb_pkt, size + 1);
 
     delete[] usb_pkt;
 }
@@ -82,7 +82,7 @@ void SteelSeriesSenseiController::Save()
     /*-----------------------------------------------------*\
     | Saves to the internal configuration                   |
     \*-----------------------------------------------------*/
-    char usb_buf[9];
+    unsigned char usb_buf[9];
 
     /*-----------------------------------------------------*\
     | Zero out buffer                                       |
@@ -111,7 +111,7 @@ void SteelSeriesSenseiController::SetLightEffect
     unsigned char   blue
     )
 {
-    char usb_buf[65];
+    unsigned char usb_buf[65];
 
     /*-----------------------------------------------------*\
     | Zero out buffer                                       |
@@ -250,7 +250,7 @@ void SteelSeriesSenseiController::SetColor
     unsigned char   blue
     )
 {
-    char usb_buf[65];
+    unsigned char usb_buf[65];
 
     /*-----------------------------------------------------*\
     | Zero out buffer                                       |
@@ -293,4 +293,3 @@ void SteelSeriesSenseiController::SetColorAll
     SetColor(0, red, green, blue);
     SetColor(1, red, green, blue);
 }
-
