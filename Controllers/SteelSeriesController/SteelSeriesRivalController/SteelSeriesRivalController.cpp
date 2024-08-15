@@ -16,9 +16,9 @@
 #include "SteelSeriesRivalController.h"
 #include "StringUtils.h"
 
-static void send_usb_msg(hid_device* dev, char * data_pkt, unsigned int size)
+static void send_usb_msg(hid_device* dev, unsigned char * data_pkt, unsigned int size)
 {
-    char* usb_pkt = new char[size + 1];
+    unsigned char* usb_pkt = new char[size + 1];
 
     usb_pkt[0] = 0x00;
     for(unsigned int i = 1; i < size + 1; i++)
@@ -26,7 +26,7 @@ static void send_usb_msg(hid_device* dev, char * data_pkt, unsigned int size)
         usb_pkt[i] = data_pkt[i-1];
     }
 
-    hid_write(dev, (unsigned char *)usb_pkt, size + 1);
+    hid_write(dev, usb_pkt, size + 1);
 
     delete[] usb_pkt;
 }
@@ -75,7 +75,7 @@ std::string SteelSeriesRivalController::GetFirmwareVersion()
 {
     if (proto != RIVAL_300 && proto != RIVAL_700) return "";
 
-    char            usb_buf[2] = { 0x10, 0x00 };
+    unsigned char   usb_buf[2] = { 0x10, 0x00 };
     uint16_t        version;
     std::string     return_string;
 
@@ -94,7 +94,7 @@ steelseries_type SteelSeriesRivalController::GetMouseType()
 /* Saves to the internal configuration */
 void SteelSeriesRivalController::SaveMode()
 {
-    char usb_buf[9];
+    unsigned char usb_buf[9];
     memset(usb_buf, 0x00, sizeof(usb_buf));
     usb_buf[0x00]       = 0x09;
     send_usb_msg(dev, usb_buf, 9);
@@ -106,9 +106,10 @@ void SteelSeriesRivalController::SetLightEffect
     unsigned char   effect
     )
 {
-    char usb_buf[9];
+    unsigned char usb_buf[9];
     memset(usb_buf, 0x00, sizeof(usb_buf));
-    switch (proto)
+
+    switch(proto)
     {
         case RIVAL_100:
             usb_buf[0x00]       = 0x07;
@@ -166,7 +167,7 @@ void SteelSeriesRivalController::SetRival650Color
     unsigned char   blue
     )
 {
-    char usb_buf[60];
+    unsigmed char usb_buf[60];
 
     memset(usb_buf, 0x00, sizeof(usb_buf));
 
@@ -247,7 +248,7 @@ void SteelSeriesRivalController::SetRival700Color
 {
     const uint16_t REPORT_SIZE = 578;
 
-    uint8_t usb_buf[REPORT_SIZE];
+    unsigned char usb_buf[REPORT_SIZE];
     memset(usb_buf, 0x00, sizeof(usb_buf));
 
     usb_buf[0x00] = 0x05;
@@ -260,7 +261,7 @@ void SteelSeriesRivalController::SetRival700Color
     usb_buf[0x0b] = zone_id;
     usb_buf[0x0c] = 0x01;
 
-    char *usb_pkt = new char[REPORT_SIZE + 1];
+    unsigned char *usb_pkt = new char[REPORT_SIZE + 1];
 
     usb_pkt[0] = 0x00;
     for (unsigned int i = 1; i < REPORT_SIZE + 1; i++)
@@ -268,7 +269,7 @@ void SteelSeriesRivalController::SetRival700Color
         usb_pkt[i] = usb_buf[i - 1];
     }
 
-    hid_send_feature_report(dev, (unsigned char *)usb_pkt, REPORT_SIZE + 1);
+    hid_send_feature_report(dev, usb_pkt, REPORT_SIZE + 1);
 
     delete[] usb_pkt;
 }
@@ -281,9 +282,10 @@ void SteelSeriesRivalController::SetColor
     unsigned char   blue
     )
 {
-    char usb_buf[9];
+    unsigned char usb_buf[9];
     memset(usb_buf, 0x00, sizeof(usb_buf));
-    switch (proto)
+
+    switch(proto)
     {
         case RIVAL_100:
             usb_buf[0x00]       = 0x05;
@@ -347,4 +349,3 @@ void SteelSeriesRivalController::SetColorAll
             break;
     }
 }
-
