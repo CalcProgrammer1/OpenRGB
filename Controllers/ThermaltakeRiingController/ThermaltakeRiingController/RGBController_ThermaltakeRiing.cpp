@@ -208,7 +208,7 @@ void RGBController_ThermaltakeRiing::DeviceUpdateLEDs()
 {
     for(std::size_t zone_idx = 0; zone_idx < zones.size(); zone_idx++)
     {
-        controller->SetChannelLEDs(zone_idx, zones[zone_idx].colors, zones[zone_idx].leds_count);
+        controller->SetChannelLEDs((unsigned char)zone_idx, zones[zone_idx].colors, zones[zone_idx].leds_count);
     }
 }
 
@@ -229,6 +229,6 @@ void RGBController_ThermaltakeRiing::DeviceUpdateMode()
     for(std::size_t zone_idx = 0; zone_idx < zones.size(); zone_idx++)
     {
         controller->SetMode(modes[active_mode].value, modes[active_mode].speed);
-        controller->SetChannelLEDs(zone_idx, zones[zone_idx].colors, zones[zone_idx].leds_count);
+        controller->SetChannelLEDs((unsigned char)zone_idx, zones[zone_idx].colors, zones[zone_idx].leds_count);
     }
 }
