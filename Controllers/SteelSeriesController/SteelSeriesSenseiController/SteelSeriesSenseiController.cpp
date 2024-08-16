@@ -121,8 +121,8 @@ void SteelSeriesSenseiController::SetLightEffect
     /*-----------------------------------------------------*\
     | Set up Light Effect packet                            |
     \*-----------------------------------------------------*/
-    char dur1 = 0x27;
-    char dur2 = 0x10;                       //10 sec cycle
+    unsigned char dur1 = 0x27;
+    unsigned char dur2 = 0x10;            	//10 sec cycle
 
     switch(effect)
     {
