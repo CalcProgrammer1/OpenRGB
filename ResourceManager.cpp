@@ -901,7 +901,7 @@ void ResourceManager::DetectDevicesThreadFunction()
         current_hid_device = current_hid_device->next;
     }
 
-    percent_denominator = i2c_device_detectors.size() + i2c_pci_device_detectors.size() + device_detectors.size() + hid_device_count;
+    percent_denominator = (float)(i2c_device_detectors.size() + i2c_pci_device_detectors.size() + device_detectors.size()) + (float)hid_device_count;
 
     /*-------------------------------------------------*\
     | Start at 0% detection progress                    |
@@ -1004,9 +1004,9 @@ void ResourceManager::DetectDevicesThreadFunction()
         /*-------------------------------------------------*\
         | Update detection percent                          |
         \*-------------------------------------------------*/
-        percent = (i2c_detector_idx + 1.0f) / percent_denominator;
+        percent = ((float)i2c_detector_idx + 1.0f) / percent_denominator;
 
-        detection_percent = percent * 100.0f;
+        detection_percent = (unsigned int)(percent * 100.0f);
     }
 
     /*-------------------------------------------------*\
@@ -1052,7 +1052,7 @@ void ResourceManager::DetectDevicesThreadFunction()
         \*-------------------------------------------------*/
         percent = (i2c_device_detectors.size() + i2c_detector_idx + 1.0f) / percent_denominator;
 
-        detection_percent = percent * 100.0f;
+        detection_percent = (unsigned int)(percent * 100.0f);
     }
 
     /*-------------------------------------------------*\
@@ -1207,7 +1207,7 @@ void ResourceManager::DetectDevicesThreadFunction()
 
             percent = (i2c_device_detectors.size() + i2c_pci_device_detectors.size() + hid_device_count) / percent_denominator;
 
-            detection_percent = percent * 100.0f;
+            detection_percent = (unsigned int)(percent * 100.0f);
 
             /*-------------------------------------------------*\
             | Move on to the next HID device                    |
@@ -1372,7 +1372,7 @@ void ResourceManager::DetectDevicesThreadFunction()
         \*-------------------------------------------------*/
         percent = (i2c_device_detectors.size() + hid_device_count + detector_idx + 1.0f) / percent_denominator;
 
-        detection_percent = percent * 100.0f;
+        detection_percent = (unsigned int)(percent * 100.0f);
     }
 
     /*-------------------------------------------------*\
