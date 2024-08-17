@@ -1080,7 +1080,7 @@ void NetworkServer::SendReply_PluginList(SOCKET client_sock)
     /*---------------------------------------------------------*\
     | Calculate data size                                       |
     \*---------------------------------------------------------*/
-    unsigned short num_plugins = plugins.size();
+    unsigned short num_plugins = (unsigned short)plugins.size();
 
     data_size += sizeof(data_size);
     data_size += sizeof(num_plugins);
@@ -1116,7 +1116,7 @@ void NetworkServer::SendReply_PluginList(SOCKET client_sock)
         /*---------------------------------------------------------*\
         | Copy in plugin name (size+data)                           |
         \*---------------------------------------------------------*/
-        unsigned short str_len = strlen(plugins[i].name.c_str()) + 1;
+        unsigned short str_len = (unsigned short)strlen(plugins[i].name.c_str()) + 1;
 
         memcpy(&data_buf[data_ptr], &str_len, sizeof(unsigned short));
         data_ptr += sizeof(unsigned short);
@@ -1127,7 +1127,7 @@ void NetworkServer::SendReply_PluginList(SOCKET client_sock)
         /*---------------------------------------------------------*\
         | Copy in plugin description (size+data)                    |
         \*---------------------------------------------------------*/
-        str_len = strlen(plugins[i].description.c_str()) + 1;
+        str_len = (unsigned short)strlen(plugins[i].description.c_str()) + 1;
 
         memcpy(&data_buf[data_ptr], &str_len, sizeof(unsigned short));
         data_ptr += sizeof(unsigned short);
@@ -1138,7 +1138,7 @@ void NetworkServer::SendReply_PluginList(SOCKET client_sock)
         /*---------------------------------------------------------*\
         | Copy in plugin version (size+data)                        |
         \*---------------------------------------------------------*/
-        str_len = strlen(plugins[i].version.c_str()) + 1;
+        str_len = (unsigned short)strlen(plugins[i].version.c_str()) + 1;
 
         memcpy(&data_buf[data_ptr], &str_len, sizeof(unsigned short));
         data_ptr += sizeof(unsigned short);
