@@ -496,7 +496,7 @@ unsigned char * ProfileManager::GetProfileListDescription()
     /*---------------------------------------------------------*\
     | Calculate data size                                       |
     \*---------------------------------------------------------*/
-     unsigned short num_profiles = profile_list.size();
+     unsigned short num_profiles = (unsigned short)profile_list.size();
 
      data_size += sizeof(data_size);
      data_size += sizeof(num_profiles);
@@ -529,7 +529,7 @@ unsigned char * ProfileManager::GetProfileListDescription()
     \*---------------------------------------------------------*/
     for(unsigned int i = 0; i < num_profiles; i++)
     {
-        unsigned short name_len = strlen(profile_list[i].c_str()) + 1;
+        unsigned short name_len = (unsigned short)strlen(profile_list[i].c_str()) + 1;
 
         memcpy(&data_buf[data_ptr], &name_len, sizeof(name_len));
         data_ptr += sizeof(name_len);
