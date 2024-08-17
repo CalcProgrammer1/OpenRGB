@@ -9,11 +9,13 @@
 |   SPDX-License-Identifier: GPL-2.0-only                   |
 \*---------------------------------------------------------*/
 
+#include "Detector.h"
 #include "i2c_smbus_nct6775.h"
-#include "OlsApi.h"
 #include "LogManager.h"
+#include "OlsApi.h"
 #include "ResourceManager.h"
 #include "SettingsManager.h"
+#include "super_io.h"
 
 using namespace std::chrono_literals;
 
@@ -42,7 +44,7 @@ i2c_smbus_nct6775::~i2c_smbus_nct6775()
 
 s32 i2c_smbus_nct6775::nct6775_access(u16 addr, char read_write, u8 command, int size, i2c_smbus_data *data)
 {
-    int i, len, status, cnt;
+    int i, len, cnt;
     i2c_smbus_data tmp_data;
     int timeout = 0;
 
@@ -228,13 +230,10 @@ s32 i2c_smbus_nct6775::i2c_smbus_xfer(u8 addr, char read_write, u8 command, int 
     return result;
 }
 
-s32 i2c_smbus_nct6775::i2c_xfer(u8 addr, char read_write, int* size, u8* data)
+s32 i2c_smbus_nct6775::i2c_xfer(u8 /*addr*/, char /*read_write*/, int* /*size*/, u8* /*data*/)
 {
     return -1;
 }
-
-#include "Detector.h"
-#include "super_io.h"
 
 bool i2c_smbus_nct6775_detect()
 {
