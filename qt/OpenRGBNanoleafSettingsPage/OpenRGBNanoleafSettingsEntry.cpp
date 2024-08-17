@@ -84,7 +84,7 @@ void OpenRGBNanoleafSettingsEntry::on_PairButton_clicked()
         ui->PairButton->hide();
         ui->UnpairButton->show();
     }
-    catch(const std::exception& e)
+    catch(const std::exception& /*e*/)
     {
         paired = false;
         ui->AuthKeyValue->setText("PAIRING FAILED");
