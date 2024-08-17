@@ -63,16 +63,16 @@ unsigned char * RGBController::GetDeviceDescription(unsigned int protocol_versio
     /*---------------------------------------------------------*\
     | Calculate data size                                       |
     \*---------------------------------------------------------*/
-    unsigned short name_len         = strlen(name.c_str())          + 1;
-    unsigned short vendor_len       = strlen(vendor.c_str())        + 1;
-    unsigned short description_len  = strlen(description.c_str())   + 1;
-    unsigned short version_len      = strlen(version.c_str())       + 1;
-    unsigned short serial_len       = strlen(serial.c_str())        + 1;
-    unsigned short location_len     = strlen(location.c_str())      + 1;
-    unsigned short num_modes        = modes.size();
-    unsigned short num_zones        = zones.size();
-    unsigned short num_leds         = leds.size();
-    unsigned short num_colors       = colors.size();
+    unsigned short name_len         = (unsigned short)strlen(name.c_str())        + 1;
+    unsigned short vendor_len       = (unsigned short)strlen(vendor.c_str())      + 1;
+    unsigned short description_len  = (unsigned short)strlen(description.c_str()) + 1;
+    unsigned short version_len      = (unsigned short)strlen(version.c_str())     + 1;
+    unsigned short serial_len       = (unsigned short)strlen(serial.c_str())      + 1;
+    unsigned short location_len     = (unsigned short)strlen(location.c_str())    + 1;
+    unsigned short num_modes        = (unsigned short)modes.size();
+    unsigned short num_zones        = (unsigned short)zones.size();
+    unsigned short num_leds         = (unsigned short)leds.size();
+    unsigned short num_colors       = (unsigned short)colors.size();
 
     unsigned short *mode_name_len   = new unsigned short[num_modes];
     unsigned short *zone_name_len   = new unsigned short[num_zones];
@@ -100,8 +100,8 @@ unsigned char * RGBController::GetDeviceDescription(unsigned int protocol_versio
 
     for(int mode_index = 0; mode_index < num_modes; mode_index++)
     {
-        mode_name_len[mode_index]   = strlen(modes[mode_index].name.c_str()) + 1;
-        mode_num_colors[mode_index] = modes[mode_index].colors.size();
+        mode_name_len[mode_index]   = (unsigned short)strlen(modes[mode_index].name.c_str()) + 1;
+        mode_num_colors[mode_index] = (unsigned short)modes[mode_index].colors.size();
 
         data_size += mode_name_len[mode_index] + sizeof(mode_name_len[mode_index]);
         data_size += sizeof(modes[mode_index].value);
@@ -130,7 +130,7 @@ unsigned char * RGBController::GetDeviceDescription(unsigned int protocol_versio
 
     for(int zone_index = 0; zone_index < num_zones; zone_index++)
     {
-        zone_name_len[zone_index]   = strlen(zones[zone_index].name.c_str()) + 1;
+        zone_name_len[zone_index]   = (unsigned short)strlen(zones[zone_index].name.c_str()) + 1;
 
         data_size += zone_name_len[zone_index] + sizeof(zone_name_len[zone_index]);
         data_size += sizeof(zones[zone_index].type);
@@ -180,7 +180,7 @@ unsigned char * RGBController::GetDeviceDescription(unsigned int protocol_versio
 
     for(int led_index = 0; led_index < num_leds; led_index++)
     {
-        led_name_len[led_index] = strlen(leds[led_index].name.c_str()) + 1;
+        led_name_len[led_index] = (unsigned short)strlen(leds[led_index].name.c_str()) + 1;
 
         data_size += led_name_len[led_index] + sizeof(led_name_len[led_index]);
 
@@ -467,7 +467,7 @@ unsigned char * RGBController::GetDeviceDescription(unsigned int protocol_versio
         \*---------------------------------------------------------*/
         if(protocol_version >= 4)
         {
-            unsigned short num_segments = zones[zone_index].segments.size();
+            unsigned short num_segments = (unsigned short)zones[zone_index].segments.size();
 
             /*---------------------------------------------------------*\
             | Number of segments in zone                                |
@@ -480,7 +480,7 @@ unsigned char * RGBController::GetDeviceDescription(unsigned int protocol_versio
                 /*---------------------------------------------------------*\
                 | Length of segment name string                             |
                 \*---------------------------------------------------------*/
-                unsigned short segment_name_length = strlen(zones[zone_index].segments[segment_index].name.c_str()) + 1;
+                unsigned short segment_name_length = (unsigned short)strlen(zones[zone_index].segments[segment_index].name.c_str()) + 1;
 
                 memcpy(&data_buf[data_ptr], &segment_name_length, sizeof(segment_name_length));
                 data_ptr += sizeof(segment_name_length);
@@ -526,7 +526,7 @@ unsigned char * RGBController::GetDeviceDescription(unsigned int protocol_versio
         /*---------------------------------------------------------*\
         | Copy in LED name (size+data)                              |
         \*---------------------------------------------------------*/
-        unsigned short ledname_len = strlen(leds[led_index].name.c_str()) + 1;
+        unsigned short ledname_len = (unsigned short)strlen(leds[led_index].name.c_str()) + 1;
         memcpy(&data_buf[data_ptr], &ledname_len, sizeof(unsigned short));
         data_ptr += sizeof(unsigned short);
 
@@ -994,8 +994,8 @@ unsigned char * RGBController::GetModeDescription(int mode, unsigned int protoco
     /*---------------------------------------------------------*\
     | Calculate data size                                       |
     \*---------------------------------------------------------*/
-    mode_name_len   = strlen(modes[mode].name.c_str()) + 1;
-    mode_num_colors = modes[mode].colors.size();
+    mode_name_len   = (unsigned short)strlen(modes[mode].name.c_str()) + 1;
+    mode_num_colors = (unsigned short)modes[mode].colors.size();
 
     data_size += sizeof(data_size);
     data_size += sizeof(mode);
@@ -1289,7 +1289,7 @@ unsigned char * RGBController::GetColorDescription()
     unsigned int data_ptr = 0;
     unsigned int data_size = 0;
 
-    unsigned short num_colors = colors.size();
+    unsigned short num_colors = (unsigned short)colors.size();
 
     /*---------------------------------------------------------*\
     | Calculate data size                                       |
@@ -1344,7 +1344,7 @@ void RGBController::SetColorDescription(unsigned char* data_buf)
     /*---------------------------------------------------------*\
     | Check if we aren't reading beyond the list of colors.     |
     \*---------------------------------------------------------*/
-    if(((size_t) num_colors) > colors.size())
+    if(((size_t)num_colors) > colors.size())
     {
         return;
     }
@@ -1433,7 +1433,7 @@ void RGBController::SetZoneColorDescription(unsigned char* data_buf)
     /*---------------------------------------------------------*\
     | Check if we aren't reading beyond the list of zones.      |
     \*---------------------------------------------------------*/
-    if(((size_t) zone_idx) > zones.size())
+    if(((size_t)zone_idx) > zones.size())
     {
         return;
     }
@@ -1501,7 +1501,7 @@ void RGBController::SetSingleLEDColorDescription(unsigned char* data_buf)
     /*---------------------------------------------------------*\
     | Check if we aren't reading beyond the list of leds.       |
     \*---------------------------------------------------------*/
-    if(((size_t) led_idx) > leds.size())
+    if(((size_t)led_idx) > leds.size())
     {
         return;
     }
