@@ -129,7 +129,7 @@ private:
 
     u8                  i2c_addr;
     char                i2c_read_write;
-    u16                 i2c_command;
+    u8                  i2c_command;
     int                 i2c_size_smbus;
     int*                i2c_size;
     i2c_smbus_data*     i2c_data_smbus;
