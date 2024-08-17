@@ -76,7 +76,7 @@ struct scsi_device_info * scsi_enumerate(const char * vendor, const char * produ
             | undo that                                     |
             | There may be a better way to do this...       |
             \*---------------------------------------------*/
-            for(int pos = 0; pos < strlen(c_vendor); pos++)
+            for(size_t pos = 0; pos < strlen(c_vendor); pos++)
             {
                 if(c_vendor[pos] == '_')
                 {
@@ -84,7 +84,7 @@ struct scsi_device_info * scsi_enumerate(const char * vendor, const char * produ
                 }
             }
 
-            for(int pos = 0; pos < strlen(c_product); pos++)
+            for(size_t pos = 0; pos < strlen(c_product); pos++)
             {
                 if(c_product[pos] == '_')
                 {
@@ -208,12 +208,12 @@ int scsi_write(struct scsi_device * dev, const unsigned char * data, size_t data
     command->PathId                         = 0x00;
     command->TargetId                       = 0x00;
     command->Lun                            = 0x00;
-    command->CdbLength                      = cdb_length;
-    command->SenseInfoLength                = sense_length;
+    command->CdbLength                      = (UCHAR)cdb_length;
+    command->SenseInfoLength                = (UCHAR)sense_length;
     command->DataIn                         = SCSI_IOCTL_DATA_OUT;
     command->DataTransferLength             = data_length;
     command->TimeOutValue                   = 0x00000014;
-    command->DataBuffer                     = data;
+    command->DataBuffer                     = (unsigned char *)data;
     command->SenseInfoOffset                = sizeof(SCSI_PASS_THROUGH_DIRECT);
 
     /*-----------------------------------------------------*\
