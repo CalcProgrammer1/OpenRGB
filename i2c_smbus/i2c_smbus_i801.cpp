@@ -560,7 +560,7 @@ bool i2c_smbus_i801_detect()
     // Query WMI for Win32_PnPSignedDriver entries with names matching "SMBUS" or "SM BUS"
     // These devices may be browsed under Device Manager -> System Devices
     std::vector<QueryObj> q_res_PnPSignedDriver;
-    hres = wmi.query("SELECT * FROM Win32_PnPSignedDriver WHERE Description LIKE '\%SMBUS\%' OR Description LIKE '\%SM BUS\%'", q_res_PnPSignedDriver);
+    hres = wmi.query("SELECT * FROM Win32_PnPSignedDriver WHERE Description LIKE '%SMBUS%' OR Description LIKE '%SM BUS%'", q_res_PnPSignedDriver);
 
     if (hres)
     {
@@ -617,7 +617,7 @@ bool i2c_smbus_i801_detect()
                     continue;
                 }
 
-                uint8_t host_config = ReadPciConfigWord(pciAddress, SMBHSTCFG);
+                uint8_t host_config = (uint8_t)ReadPciConfigWord(pciAddress, SMBHSTCFG);
                 if ((host_config & SMBHSTCFG_HST_EN) == 0)
                 {
                     continue;
