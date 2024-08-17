@@ -247,12 +247,12 @@ static NV_STATUS(*pNvAPI_I2CReadEx)(
 
 // Interface: 3DBF5764
 static NV_STATUS(*pNvAPI_GPU_ClientIllumZonesGetControl)(
-	NV_PHYSICAL_GPU_HANDLE physical_gpu_handle, 
+	NV_PHYSICAL_GPU_HANDLE physical_gpu_handle,
 	NV_GPU_CLIENT_ILLUM_ZONE_CONTROL_PARAMS* pIllumZonesControl);
 
 // Interface: 197D065E
 static NV_STATUS(*pNvAPI_GPU_ClientIllumZonesSetControl)(
-	NV_PHYSICAL_GPU_HANDLE physical_gpu_handle, 
+	NV_PHYSICAL_GPU_HANDLE physical_gpu_handle,
 	NV_GPU_CLIENT_ILLUM_ZONE_CONTROL_PARAMS* pIllumZonesControl);
 
 static bool QueryInterfaceOpaque(nvapi_QueryInterface_t query_interface, NV_U32 id, void **result)
@@ -266,7 +266,7 @@ static bool QueryInterfaceOpaque(nvapi_QueryInterface_t query_interface, NV_U32 
 }
 
 template<typename F>
-static void QueryInterfaceCast(nvapi_QueryInterface_t query_interface, NV_U32 id, const char *function_name, F &function_pointer)
+static void QueryInterfaceCast(nvapi_QueryInterface_t query_interface, NV_U32 id, const char */*function_name*/, F &function_pointer)
 {
 	const bool result = QueryInterfaceOpaque(query_interface, id, (void **)&function_pointer);
     ////Log::write("%s querying interface '0x%08x' '%s'", result ? "success" : "failure", id, function_name);
@@ -291,8 +291,8 @@ static void QueryInterfaces(nvapi_QueryInterface_t query_interface)
 	QueryInterface(query_interface, 0x0CEEE8E9F, NvAPI_GPU_GetFullName);
 	QueryInterface(query_interface, 0x6FF81213, NvAPI_GPU_GetPStates20);
 	QueryInterface(query_interface, 0x0F4DAE6B, NvAPI_GPU_SetPStates20);
-	QueryInterface(query_interface, 0xDCB616C3, NvAPI_GPU_GetAllClockFrequencies); 
-	QueryInterface(query_interface, 0x60DED2ED, NvAPI_GPU_GetDynamicPStates); 
+	QueryInterface(query_interface, 0xDCB616C3, NvAPI_GPU_GetAllClockFrequencies);
+	QueryInterface(query_interface, 0x60DED2ED, NvAPI_GPU_GetDynamicPStates);
 	QueryInterface(query_interface, 0x34206D86, NvAPI_GPU_GetPowerPoliciesInfo);
 	QueryInterface(query_interface, 0x70916171, NvAPI_GPU_GetPowerPoliciesStatus);
 	QueryInterface(query_interface, 0x0C16C7E2C, NvAPI_GPU_GetVoltageDomainStatus);
@@ -303,7 +303,7 @@ static void QueryInterfaces(nvapi_QueryInterface_t query_interface)
 	QueryInterface(query_interface, 0x0E9C425A1, NvAPI_GPU_GetThermalPoliciesStatus);
 	QueryInterface(query_interface, 0x034C0B13D, NvAPI_GPU_SetThermalPoliciesStatus);
 	QueryInterface(query_interface, 0xDA141340, NvAPI_GPU_GetCoolerSettings);
-	QueryInterface(query_interface, 0x891FA0AE, NvAPI_GPU_SetCoolerLevels); 
+	QueryInterface(query_interface, 0x891FA0AE, NvAPI_GPU_SetCoolerLevels);
 	QueryInterface(query_interface, 0x2DDFB66E, NvAPI_GPU_GetPCIIdentifiers);
 
 	QueryInterface(query_interface, 0x283AC65A, NvAPI_I2CWriteEx);
@@ -594,7 +594,7 @@ NV_STATUS NvAPI_I2CReadEx(
 }
 
 NV_STATUS NvAPI_GPU_ClientIllumZonesGetControl(
-	NV_PHYSICAL_GPU_HANDLE physical_gpu_handle, 
+	NV_PHYSICAL_GPU_HANDLE physical_gpu_handle,
 	NV_GPU_CLIENT_ILLUM_ZONE_CONTROL_PARAMS* pIllumZonesControl)
 {
 	return pNvAPI_GPU_ClientIllumZonesGetControl
@@ -603,7 +603,7 @@ NV_STATUS NvAPI_GPU_ClientIllumZonesGetControl(
 }
 
 NV_STATUS NvAPI_GPU_ClientIllumZonesSetControl(
-	NV_PHYSICAL_GPU_HANDLE physical_gpu_handle, 
+	NV_PHYSICAL_GPU_HANDLE physical_gpu_handle,
 	NV_GPU_CLIENT_ILLUM_ZONE_CONTROL_PARAMS* pIllumZonesControl)
 {
 	return pNvAPI_GPU_ClientIllumZonesSetControl
