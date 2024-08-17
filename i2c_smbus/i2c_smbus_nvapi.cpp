@@ -174,7 +174,7 @@ bool i2c_smbus_nvapi_detect()
     NV_U32                          revision_id;
     NV_U32                          sub_system_id;
 
-    NV_STATUS initialize = NvAPI_Initialize();
+    NvAPI_Initialize();
 
     NvAPI_EnumPhysicalGPUs(gpu_handles, &gpu_count);
 
