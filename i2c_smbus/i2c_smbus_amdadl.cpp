@@ -9,9 +9,10 @@
 |   SPDX-License-Identifier: GPL-2.0-only                   |
 \*---------------------------------------------------------*/
 
+#include <string>
+#include "Detector.h"
 #include "i2c_smbus_amdadl.h"
 #include "LogManager.h"
-#include <string>
 
 typedef int ( *ADL2_MAIN_CONTROL_CREATE )(ADL_MAIN_MALLOC_CALLBACK, int, ADL_CONTEXT_HANDLE*);
 typedef int ( *ADL2_MAIN_CONTROL_DESTROY )(ADL_CONTEXT_HANDLE);
@@ -212,15 +213,13 @@ s32 i2c_smbus_amdadl::i2c_smbus_xfer(u8 addr, char read_write, u8 command, int s
         ret = ADL2_Display_WriteAndReadI2C(context, PrimaryDisplay, pI2C);
     }
 
-    return (ret);
+    return(ret);
 };
 
-s32 i2c_smbus_amdadl::i2c_xfer(u8 addr, char read_write, int* size, u8* data)
+s32 i2c_smbus_amdadl::i2c_xfer(u8 /*addr*/, char /*read_write*/, int* /*size*/, u8* /*data*/)
 {
-    return -1;
+    return(-1);
 }
-
-#include "Detector.h"
 
 bool i2c_smbus_amdadl_detect()
 {
