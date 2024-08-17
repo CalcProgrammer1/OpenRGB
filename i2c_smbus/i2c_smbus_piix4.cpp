@@ -275,7 +275,7 @@ bool i2c_smbus_piix4_detect()
     // Query WMI for Win32_PnPSignedDriver entries with names matching "SMBUS" or "SM BUS"
     // These devices may be browsed under Device Manager -> System Devices
     std::vector<QueryObj> q_res_PnPSignedDriver;
-    hres = wmi.query("SELECT * FROM Win32_PnPSignedDriver WHERE Description LIKE '\%SMBUS\%' OR Description LIKE '\%SM BUS\%'", q_res_PnPSignedDriver);
+    hres = wmi.query("SELECT * FROM Win32_PnPSignedDriver WHERE Description LIKE '%SMBUS%' OR Description LIKE '%SM BUS%'", q_res_PnPSignedDriver);
 
     if (hres)
     {
