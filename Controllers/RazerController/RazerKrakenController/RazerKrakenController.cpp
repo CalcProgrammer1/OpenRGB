@@ -207,6 +207,14 @@ std::string RazerKrakenController::razer_get_serial()
         serial_string[22] = '\0';
     }
 
+    for(size_t i = 0; i < 22; i++)
+    {
+        if(serial_string[i] < 30 || serial_string[i] > 126)
+        {
+            serial_string[i] = ' ';
+        }
+    }
+
     std::string ret_string = serial_string;
     return ret_string;
 }
