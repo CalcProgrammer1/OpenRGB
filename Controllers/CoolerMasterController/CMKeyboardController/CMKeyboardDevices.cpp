@@ -66,6 +66,25 @@ const std::vector<unsigned int> mk850_keymap =
 /*-------------------------------------------------------------*\
 | CoolerMaster SK (60%)                                         |
 \*-------------------------------------------------------------*/
+const std::vector<unsigned int> sk620_keymap =
+{
+/*	T1    T2    T3    T4    T5    T6    T7    T8    T9    T10   T11   T12   T13   T14   T15        */
+/*	L1    ESC   1     2     3     4     5     6     7     8     9     0     -     =     BPSC        R1  */
+	   	  8,    15,   22,   29,   36,   43,   50,   57,   64,   71,   78,   85,   92,   106,
+/*  L2    TAB   Q     W     E     R     T     Y     U     I     O     P     [     ]                 R2  */
+	  	  9,    23,   30,   37,   44,   51,   58,   65,   72,   79,   86,   93,   100,
+/*  L3    CPLK  A     S     D     F     G     H     J     K     L     ;     "     \     ENTR        R3  */
+	  	  10,   24,   31,   38,   45,   52,   59,   66,   73,   80,   87,   94,   101,  108,
+/*  L4    LSFT  ISO\  Z     X     C     V     B     N     M     ,     .     #     RSFT  ARWU   DEL  R$  */
+	      11,   18,   25,   32,   39,   46,   53,   60,   67,   74,   81,   88,   95,   102,   109,
+/*  L5    LCTL  LWIN  LALT              SPACE                         RALT  RWFNC ARWL  ARDN  ARWR  R5  */
+	  	  12,   19,   26,               54,                           82,   89,   96,   103,   110,
+/*  B1    B2    B3    B4    B5    B6    B7    B8    B9    B10   B11   B12   B13   B14   B15    B15      */
+};
+
+/*-------------------------------------------------------------*\
+| CoolerMaster SK (60%)                                         |
+\*-------------------------------------------------------------*/
 const std::vector<unsigned int> sk622_keymap =
 {
 /*	T1    T2    T3    T4    T5    T6    T7    T8    T9    T10   T11   T12   T13   T14   T15        */
@@ -209,7 +228,7 @@ const std::vector<unsigned int> ck530_v2_keymap =
 /*  CPLK  A     S     D     F     G     H     J     K     L     ;     "     #     ENTR                    */
     10,   24,   31,   38,   45,   52,   59,   66,   73,   80,   87,   94,  108,   115,
 /*  LSFT  ISO\  Z     X     C     V     B     N     M     ,     .     /           RSFT        ARWU        */
-    11,   18,   25,   32,   39,   46,   53,   60,   67,   74,   88,   81,         116,        130, 
+    11,   18,   25,   32,   39,   46,   53,   60,   67,   74,   88,   81,         116,        130,
 /*  LCTL  LWIN  LALT              SPC                     RALT  RFNC  RMNU  RCTL        ARWL  ARWD  ARWR  */
     12,   19,   26,               54,                     82,   89,   96,   117,        124,  131,  138,
 };
@@ -313,6 +332,64 @@ keyboard_keymap_overlay_values mk850_layout
         {   0,      3,       0,         2,          "Key: M3",                  KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
         {   0,      4,       0,         3,          "Key: M2",                  KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
         {   0,      5,       0,         4,          "Key: M1",                  KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+    },
+};
+
+keyboard_keymap_overlay_values sk620_layout
+{
+    KEYBOARD_SIZE::KEYBOARD_SIZE_SIXTY,
+    {
+        sk620_keymap,
+        {
+            /* Add more regional layout fixes here */
+        }
+    },
+    {
+        /*---------------------------------------------------------------------------------------------------------*\
+        | Edit Keys                                                                                                 |
+        |   Zone,   Row,    Column,     Value,      Key,                        OpCode,                             |
+        \*---------------------------------------------------------------------------------------------------------*/
+        {   0,      0,      0,          7,         "Light: Top 1",              KEYBOARD_OPCODE_INSERT_ROW, },
+        {   0,      0,      1,         14,         "Light: Top 2",              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      0,      2,         21,         "Light: Top 3",              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      0,      3,         28,         "Light: Top 4",              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      0,      4,         35,         "Light: Top 5",              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      0,      5,         42,         "Light: Top 6",              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      0,      6,         49,         "Light: Top 7",              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      0,      7,         56,         "Light: Top 8",              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      0,      8,         63,         "Light: Top 9",              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      0,      9,         70,         "Light: Top 10",             KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      0,      10,        77,         "Light: Top 11",             KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      0,      11,        84,         "Light: Top 12",             KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      0,      12,        91,         "Light: Top 13",             KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      0,      13,        98,         "Light: Top 14",             KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      0,      14,       105,         "Light: Top 14",             KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      1,      0,          0,         "Light: Left 1",             KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      2,      0,          1,         "Light: Left 2",             KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      3,      0,          2,         "Light: Left 3",             KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      4,      0,          3,         "Light: Left 4",             KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      5,      0,          4,         "Light: Left 5",             KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      1,      16,       112,         "Light: Right 1",            KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      2,      16,       113,         "Light: Right 2",            KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      3,      16,       114,         "Light: Right 3",            KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      4,      16,       115,         "Light: Right 4",            KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      5,      16,       116,         "Light: Right 5",            KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      6,       0,         6,         "Light: Bottom 1",           KEYBOARD_OPCODE_INSERT_ROW, },
+        {   0,      6,       1,        20,         "Light: Bottom 2",           KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      6,       2,        27,         "Light: Bottom 3",           KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      6,       3,        34,         "Light: Bottom 4",           KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      6,       4,        41,         "Light: Bottom 5",           KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      6,       5,        48,         "Light: Bottom 6",           KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      6,       6,        55,         "Light: Bottom 7",           KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      6,       7,        62,         "Light: Bottom 8",           KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      6,       8,        69,         "Light: Bottom 9",           KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      6,       9,        76,         "Light: Bottom 10",          KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      6,       10,       83,         "Light: Bottom 11",          KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      6,       11,       90,         "Light: Bottom 12",          KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      6,       12,       97,         "Light: Bottom 13",          KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      6,       13,      104,         "Light: Bottom 14",          KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      6,       14,      111,         "Light: Bottom 15",          KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      6,       14,      118,         "Light: Bottom 16",          KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
     },
 };
 
@@ -657,6 +734,24 @@ cm_kb_device mk850_device
     &mk850_layout,
 };
 
+cm_kb_device sk620w_device
+{
+    COOLERMASTER_KEYBOARD_SK620W_PID,
+    {
+        &cm_generic_zone,
+    },
+    &sk620_layout,
+};
+
+cm_kb_device sk620b_device
+{
+    COOLERMASTER_KEYBOARD_SK620B_PID,
+    {
+        &cm_generic_zone,
+    },
+    &sk620_layout,
+};
+
 cm_kb_device sk622w_device
 {
     COOLERMASTER_KEYBOARD_SK622W_PID,
@@ -786,6 +881,8 @@ const cm_kb_device* cm_kb_devices[] =
     &mk_pro_s_device,
     &mk_pro_l_device,
     &mk850_device,
+    &sk620w_device,
+    &sk622b_device,
     &sk622w_device,
     &sk622b_device,
     &sk630_device,

@@ -106,8 +106,8 @@ typedef struct
 #define COOLERMASTER_KEYBOARD_MK750_PID           0x0067 // fw1.2 [libcmmk #25 !9, !14, signal]
 #define COOLERMASTER_KEYBOARD_MK770_PID           0x01D5 // unsupported
 #define COOLERMASTER_KEYBOARD_MK850_PID           0x0069 // [signal]
-#define COOLERMASTER_KEYBOARD_SK620B_PID          0x0157 // unsupported
-#define COOLERMASTER_KEYBOARD_SK620W_PID          0x0159 // [signal]
+#define COOLERMASTER_KEYBOARD_SK620B_PID          0x0157 // [openrgb #4292]
+#define COOLERMASTER_KEYBOARD_SK620W_PID          0x0159 // [openrgb #4292, signal]
 #define COOLERMASTER_KEYBOARD_SK622B_PID          0x0149 // [openrgb #3110, signal #217(closed)]
 #define COOLERMASTER_KEYBOARD_SK622W_PID          0x014B // [signal]
 #define COOLERMASTER_KEYBOARD_SK630_PID           0x0089 // [openrgb #967, libcmmk !21]
