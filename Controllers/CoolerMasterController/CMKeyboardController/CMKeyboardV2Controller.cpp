@@ -14,7 +14,6 @@
 #include <string>
 #include "CMKeyboardV2Controller.h"
 #include "LogManager.h"
-#include "StringUtils.h"
 
 CMKeyboardV2Controller::CMKeyboardV2Controller(hid_device* dev_handle, hid_device_info* dev_info) : CMKeyboardAbstractController(dev_handle, dev_info)
 {
@@ -98,8 +97,8 @@ std::string CMKeyboardV2Controller::_GetFirmwareVersion()
         cVersionStr[i++] = it;
     }
 
-    std::wstring wsFirmwareVersion(reinterpret_cast<const wchar_t*>(cVersionStr+8));
-    std::string sFirmwareVersion(StringUtils::wstring_to_string(wsFirmwareVersion));
+    std::u16string usFirmwareVersion(reinterpret_cast<const char16_t*>(cVersionStr+8));
+    std::string sFirmwareVersion(usFirmwareVersion.begin(), usFirmwareVersion.end());
 
     LOG_VERBOSE("[%s] GetFirmwareVersion(): [%s]", m_deviceName.c_str(), sFirmwareVersion.c_str());
 
