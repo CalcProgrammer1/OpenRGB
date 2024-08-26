@@ -57,6 +57,13 @@ std::string StringUtils::wstring_to_string(const std::wstring wstring)
     return(converter.to_bytes(wstring));
 }
 
+std::string StringUtils::u16string_to_string(const std::u16string wstring)
+{
+    std::wstring_convert<std::codecvt_utf8_utf16<char16_t>,char16_t> converter;
+
+    return(converter.to_bytes(wstring));
+}
+
 const std::string StringUtils::remove_null_terminating_chars(std::string input)
 {
     while (!input.empty() && input.back() == 0)
