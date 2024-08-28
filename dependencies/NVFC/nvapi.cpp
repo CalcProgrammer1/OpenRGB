@@ -329,7 +329,7 @@ NV_STATUS NvAPI_Initialize()
 			return -1;
 		}
 #elif __linux__
-        void* nvapi;
+        void* nvapi = nullptr;
         if (!nvapi) nvapi = dlopen("libnvidia-api.so.1", RTLD_LAZY);
         if (!nvapi) nvapi = dlopen("libnvidia-api.so", RTLD_LAZY);
         if (!nvapi) {
