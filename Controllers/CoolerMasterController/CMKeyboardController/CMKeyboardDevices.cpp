@@ -882,7 +882,7 @@ const cm_kb_device* cm_kb_devices[] =
     &mk_pro_l_device,
     &mk850_device,
     &sk620w_device,
-    &sk622b_device,
+    &sk620b_device,
     &sk622w_device,
     &sk622b_device,
     &sk630_device,
