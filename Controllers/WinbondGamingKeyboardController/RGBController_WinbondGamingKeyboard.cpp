@@ -72,7 +72,7 @@ static std::vector<keyboard_led> additional_mm_leds =
 
 static layout_values winbond_gaming_keyboard_full_layouts =
 {
-    {}, // "std::vector<unsigned int> ansi"  is set in InitLayouts()
+    {}, // "std::vector<unsigned int> default_values"  is set in InitLayouts()
     { // std::map<KEYBOARD_LAYOUT, std::vector<keyboard_led> > regional_overlay;
       { KEYBOARD_LAYOUT_ISO_QWERTY,
         {
@@ -121,7 +121,7 @@ static layout_values winbond_gaming_keyboard_full_layouts =
 
 static layout_values winbond_gaming_keyboard_tkl_layouts =
 {
-    {}, // "std::vector<unsigned int> ansi"  is set in InitLayouts()
+    {}, // "std::vector<unsigned int> default_values"  is set in InitLayouts()
     { // std::map<KEYBOARD_LAYOUT, std::vector<keyboard_led> > regional_overlay;
       { KEYBOARD_LAYOUT_ISO_QWERTY,
         {
@@ -170,7 +170,7 @@ static layout_values winbond_gaming_keyboard_tkl_layouts =
 
 static layout_values winbond_gaming_keyboard_60_layouts =
 {
-    {}, // "std::vector<unsigned int> ansi"  is set in InitLayouts()
+    {}, // "std::vector<unsigned int> default_values"  is set in InitLayouts()
     { // std::map<KEYBOARD_LAYOUT, std::vector<keyboard_led> > regional_overlay;
       { KEYBOARD_LAYOUT_ISO_QWERTY,
         {
@@ -221,9 +221,10 @@ static void InitLayouts(layout_values& keyboard_layouts, KEYBOARD_SIZE kb_size)
 {
     /*-------------------------------------------------------------------*\
     | using kvs ("keyvals" or sth like that) as an alias for              |
-    | keyboard_layouts.ansi, to make the code below shorter/more readable |
+    | keyboard_layouts.default_values, to make the code below             |
+    | shorter/more readable                                               |
     \*-------------------------------------------------------------------*/
-    std::vector<unsigned int>& kvs = keyboard_layouts.ansi;
+    std::vector<unsigned int>& kvs = keyboard_layouts.default_values;
 
     /*------------------------------------------------------------------------------------*\
     | Message X: what indices the keys have within the USB HID messages to set their color |
@@ -380,7 +381,7 @@ static void InitLayouts(layout_values& keyboard_layouts, KEYBOARD_SIZE kb_size)
         }
 
         // KV(4,7) is the ISO # key that doesn't exist on ANSI (set in overlay)
-        // even though # is no ANSI key, that ansi array expects it to be there..
+        // even though # is no ANSI key, that default_values array expects it to be there..
         kvs.push_back( KV(4,7) );
 
         // Enter - assuming that on ANSI it uses the same LED index
@@ -731,7 +732,7 @@ void RGBController_WinbondGamingKeyboard::SetupZones()
         kb_size = KEYBOARD_SIZE_FULL;
     }
 
-    if(layouts->ansi.empty())
+    if(layouts->default_values.empty())
     {
         InitLayouts(*layouts, kb_size);
     }

@@ -84,7 +84,7 @@ typedef
 
 typedef struct
 {
-    std::vector<unsigned int>               ansi;
+    std::vector<unsigned int>               default_values;
     std::map<KEYBOARD_LAYOUT, key_set>      regional_overlay;
 }   layout_values;
 

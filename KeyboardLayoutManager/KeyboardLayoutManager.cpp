@@ -335,9 +335,9 @@ KeyboardLayoutManager::KeyboardLayoutManager(KEYBOARD_LAYOUT layout, KEYBOARD_SI
     | Add any values passed into the constructor before switching layouts   |
     |   and declare a value set for any changes afterwards                  |
     \*---------------------------------------------------------------------*/
-    for(size_t key_idx = 0; key_idx < values.ansi.size() && key_idx < keymap.size(); key_idx++)
+    for(size_t key_idx = 0; key_idx < values.default_values.size() && key_idx < keymap.size(); key_idx++)
     {
-        keymap[key_idx].value = values.ansi[key_idx];
+        keymap[key_idx].value = values.default_values[key_idx];
     }
 
     /*---------------------------------------------------------------------*\

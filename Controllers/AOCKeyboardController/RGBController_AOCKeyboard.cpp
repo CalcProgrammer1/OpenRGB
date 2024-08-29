@@ -35,10 +35,10 @@ layout_values aoc_keyboard_offset_values =
             75,   76,   91,   62,   48,   64,   50,   65,   66,   67,   97,   68,   84,   70,   59,   74,   89,    58,   73,   88,  103,
         /* TAB     Q     W     E     R     T     Y     U     I     O     P     [     ]     \   DEL   END   PGDN   NP7   NP8   NP9   NP+ */
             60,   61,   47,   78,   33,   49,   35,   80,   51,   52,   53,   69,   99,   25,   44,   29,   14,    43,   28,   13,  102,
-        /* CPLK    A     S     D     F     G     H     J     K     L     ;     "   ENTR                           NP4   NP5   NP6       */
-            45,   46,   32,   93,   18,   34,   20,   95,   36,   37,   38,   54,   10,                            57,   72,   87,
-        /* LSFT    Z     X     C     V     B     N     M     ,     .     /   RSFT                   ARWU          NP1   NP2   NP3  NPEN */
-            30,   31,   17,    2,    3,   19,    5,    6,   21,   22,   23,   39,                     11,          42,   27,   12,  101,
+        /* CPLK    A     S     D     F     G     H     J     K     L     ;     "     #   ENTR                     NP4   NP5   NP6       */
+            45,   46,   32,   93,   18,   34,   20,   95,   36,   37,   38,   54,    0,   10,                      57,   72,   87,
+        /* LSFT    \     Z     X     C     V     B     N     M     ,     .     /   RSFT             ARWU          NP1   NP2   NP3  NPEN */
+            30,    0,   31,   17,    2,    3,   19,    5,    6,   21,   22,   23,   39,               11,          42,   27,   12,  101,
         /* LCTL  LWIN  LALT               SPC              RALT  RFNC  RMNU  RCTL              ARWL ARWD   ARWR   NP0         NP.       */
             15,    0,    1,                4,                7,    8,   24,    9,               26,   41,   56,    71,         86
     },
