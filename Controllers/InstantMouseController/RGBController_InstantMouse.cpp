@@ -10,6 +10,7 @@
 \*---------------------------------------------------------*/
 
 #include "RGBController_InstantMouse.h"
+#include "InstantMouseDevices.h"
 
 /**------------------------------------------------------------------*\
     @name Instant mouse
@@ -21,7 +22,8 @@
     @detectors DetectInstantMouseControllers
     @comment This controller should work with all mouse with this chip.
     Identified devices that work with this controller: Advance Gaming
-    GTA 250 (GX72-A725), Anko KM43243952 (GM8-A825), Anko KM43277483
+    GTA 250 (GX72-A725), Anko KM43243952 (GM8-A825), Anko KM43277483,
+    Ant Esports GM600
 \*-------------------------------------------------------------------*/
 
 RGBController_InstantMouse::RGBController_InstantMouse(InstantMouseController* controller_ptr)
@@ -66,7 +68,10 @@ RGBController_InstantMouse::RGBController_InstantMouse(InstantMouseController* c
 
     mode breathing;
     breathing.name                      = "Breathing";
-    breathing.value                     = INSTANT_MOUSE_BREATHING_MODE;
+    /*------------------------------------------------------------------*\
+    |    ANT ESPORTS GM600 has different mode id for breathing mode.     |
+    \*------------------------------------------------------------------*/
+    breathing.value                     = (controller->GetPID() == ANTESPORTS_GM600_PID ) ? ANT_MOUSE_BREATHING_MODE : INSTANT_MOUSE_BREATHING_MODE;
     breathing.flags                     = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_MODE_SPECIFIC_COLOR;
     breathing.color_mode                = MODE_COLORS_MODE_SPECIFIC;
     breathing.colors.resize(1);
@@ -102,6 +107,47 @@ RGBController_InstantMouse::RGBController_InstantMouse(InstantMouseController* c
     loop.brightness_min                 = INSTANT_MOUSE_BRIGHTNESS_MIN;
     loop.brightness_max                 = INSTANT_MOUSE_BRIGHTNESS_MAX;
     modes.push_back(loop);
+    /*------------------------------------------------------------------*\
+    |    Extra modes for Ant Esports GM600.                              |
+    \*------------------------------------------------------------------*/
+    if(controller->GetPID() == ANTESPORTS_GM600_PID )
+    {
+        mode enraptured;
+        enraptured.name                 = "Enrpatured";
+        enraptured.value                = INSTANT_MOUSE_ENRAPTURED_MODE;
+        enraptured.flags                = MODE_FLAG_HAS_SPEED;
+        enraptured.color_mode           = MODE_COLORS_NONE;
+        enraptured.speed_min            = INSTANT_MOUSE_SPEED_MIN;
+        enraptured.speed_max            = INSTANT_MOUSE_SPEED_MAX;
+        enraptured.speed                = INSTANT_MOUSE_SPEED_MAX/2;
+        modes.push_back(enraptured);
+
+        mode flicker;
+        flicker.name                    = "Flicker";
+        flicker.value                   = INSTANT_MOUSE_FLICKER_MODE;
+        flicker.flags                   = MODE_FLAG_HAS_SPEED;
+        flicker.color_mode              = MODE_COLORS_NONE;
+        flicker.speed_min               = INSTANT_MOUSE_SPEED_MIN;
+        flicker.speed_max               = INSTANT_MOUSE_SPEED_MAX;
+        flicker.speed                   = INSTANT_MOUSE_SPEED_MAX/2;
+        modes.push_back(flicker);
+
+        mode ripple;
+        ripple.name                     = "Ripple";
+        ripple.value                    = INSTANT_MOUSE_RIPPLE_MODE;
+        ripple.flags                    = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_DIRECTION_LR;
+        ripple.color_mode               = MODE_COLORS_NONE;
+        ripple.speed_min                = INSTANT_MOUSE_SPEED_MIN;
+        ripple.speed_max                = INSTANT_MOUSE_SPEED_MAX;
+        ripple.speed                    = INSTANT_MOUSE_SPEED_MAX/2;
+        modes.push_back(ripple);
+
+        mode startreck;
+        startreck.name                  = "Star treck";
+        startreck.value                 = INSTANT_MOUSE_STARTRECK_MODE;
+
+        modes.push_back(startreck);
+    }
 
     mode off;
     off.name                            = "Off";

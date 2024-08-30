@@ -29,7 +29,13 @@ enum
     INSTANT_MOUSE_LOOP_MODE                     = 0x04,
     INSTANT_MOUSE_SPECTRUM_CYCLE_MODE           = 0x06,
     INSTANT_MOUSE_RAINBOW_WAVE_MODE             = 0x07,
-    INSTANT_MOUSE_BREATHING_MODE                = 0x08
+    INSTANT_MOUSE_BREATHING_MODE                = 0x08,
+    ANT_MOUSE_BREATHING_MODE                    = 0x09,
+    INSTANT_MOUSE_ENRAPTURED_MODE               = 0xBB,
+    INSTANT_MOUSE_FLICKER_MODE                  = 0xB8,
+    INSTANT_MOUSE_RIPPLE_MODE                   = 0xBA,
+    INSTANT_MOUSE_STARTRECK_MODE                = 0xB9,
+
 };
 
 enum
@@ -48,6 +54,7 @@ public:
 
     std::string GetSerialString();
     std::string GetDeviceLocation();
+    uint16_t GetPID();
     std::string GetFirmwareVersion();
 
     void SetMode(uint8_t mode_value, uint8_t speed, uint8_t brightness, uint8_t direction);
@@ -57,4 +64,5 @@ private:
     hid_device* dev;
     std::string location;
     std::string version;
+    uint16_t pid;
 };

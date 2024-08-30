@@ -13,11 +13,8 @@
 #include "InstantMouseController.h"
 #include "RGBController.h"
 #include "RGBController_InstantMouse.h"
+#include "InstantMouseDevices.h"
 
-#define INSTANT_MICROELECTRONICS_VID            0x30FA
-#define ADVANCED_GTA_250_PID                    0x1030
-#define ANKO_KM43243952_VID                     0x1440
-#define ANKO_KM43277483_VID                     0x1540
 
 void DetectInstantMouseControllers(hid_device_info* info, const std::string& name)
 {
@@ -35,3 +32,5 @@ void DetectInstantMouseControllers(hid_device_info* info, const std::string& nam
 REGISTER_HID_DETECTOR_IPU("Advanced GTA 250 USB Gaming Mouse",  DetectInstantMouseControllers,  INSTANT_MICROELECTRONICS_VID, ADVANCED_GTA_250_PID, 1, 0xFF01, 0x01);
 REGISTER_HID_DETECTOR_IPU("Anko KM43243952 USB Gaming Mouse",   DetectInstantMouseControllers,  INSTANT_MICROELECTRONICS_VID, ANKO_KM43243952_VID,  1, 0xFF01, 0x01);
 REGISTER_HID_DETECTOR_IPU("Anko KM43277483 USB Gaming Mouse",   DetectInstantMouseControllers,  INSTANT_MICROELECTRONICS_VID, ANKO_KM43277483_VID,  1, 0xFF01, 0x01);
+REGISTER_HID_DETECTOR_IPU("AntEsports GM600 USB Gaming Mouse",  DetectInstantMouseControllers,  INSTANT_MICROELECTRONICS_VID, ANTESPORTS_GM600_PID, 1, 0xFF01, 0001);
+
