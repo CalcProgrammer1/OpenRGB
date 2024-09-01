@@ -39,6 +39,7 @@ AuraMainboardController::AuraMainboardController(hid_device* dev_handle, const c
     for(int i = 0; i < num_addressable_headers; i++)
     {
         device_info.push_back({effect_channel, (unsigned char)i, 0x01, 0, AuraDeviceType::ADDRESSABLE});
+        effect_channel++;
     }
 }
 
