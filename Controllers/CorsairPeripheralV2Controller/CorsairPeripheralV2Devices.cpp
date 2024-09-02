@@ -765,6 +765,38 @@ static const corsair_v2_device k60_rgb_pro_tkl_device =
 };
 
 /*-------------------------------------------------------------*\
+|  Corsair K70 Core RGB 1B1C:1BFD                               |
+|                                                               |
+|  Zone "Keyboard"                                              |
+|       Matrix                                                  |
+|       6 Rows, 21 Columns                                      |
+\*-------------------------------------------------------------*/
+static const corsair_v2_zone k70_core_rgb_zone =
+{
+    ZONE_EN_KEYBOARD,
+    ZONE_TYPE_MATRIX,
+    6,
+    21
+};
+
+static const corsair_v2_device k70_core_rgb_device =
+{
+    CORSAIR_K70_CORE_RGB_PID,
+    DEVICE_TYPE_KEYBOARD,
+    6,
+    21,
+    {
+        &k70_core_rgb_zone,
+        nullptr,
+        nullptr,
+        nullptr,
+        nullptr,
+        nullptr
+    },
+    &corsair_k70_layout
+};
+
+/*-------------------------------------------------------------*\
 |  Corsair K70 RGB TKL 1B1C:1B73                                |
 |                                                               |
 |  Zone "Keyboard"                                              |
@@ -1153,6 +1185,7 @@ const corsair_v2_device* corsair_v2_device_list_data[] =
     &k60_rgb_pro_device,
     &k60_rgb_pro_lp_device,
     &k60_rgb_pro_tkl_device,
+    &k70_core_rgb_device,
     &k70_rgb_pro_device,
     &k70_rgb_tkl_device,
     &k70_rgb_tkl_cs_device,
