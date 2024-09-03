@@ -919,6 +919,30 @@ static const corsair_v2_device k70_rgb_pro_device =
 };
 
 /*-------------------------------------------------------------*\
+|  Corsair K70 RGB Pro V2 1B1C:1BB3                             |
+|                                                               |
+|  Zone "Keyboard"                                              |
+|       Matrix                                                  |
+|       6 Rows, 21 Columns                                      |
+\*-------------------------------------------------------------*/
+static const corsair_v2_device k70_rgb_pro_v2_device =
+    {
+        CORSAIR_K70_RGB_PRO_V2_PID,
+        DEVICE_TYPE_KEYBOARD,
+        7,
+        21,
+        {
+            &k70_rgb_pro_zone,
+            nullptr,
+            nullptr,
+            nullptr,
+            nullptr,
+            nullptr
+        },
+        &corsair_k70_pro_layout
+};
+
+/*-------------------------------------------------------------*\
 |   Corsair K100 MX Red 1B1C:1B7D                               |
 |                                                               |
 |   Zone "Keyboard"                                             |
@@ -1213,6 +1237,7 @@ const corsair_v2_device* corsair_v2_device_list_data[] =
     &k60_rgb_pro_tkl_device,
     &k70_core_rgb_device,
     &k70_rgb_pro_device,
+    &k70_rgb_pro_v2_device,
     &k70_rgb_tkl_device,
     &k70_rgb_tkl_cs_device,
     &k100_mx_red_device,
