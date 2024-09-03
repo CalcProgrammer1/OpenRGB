@@ -67,7 +67,7 @@ CorsairPeripheralV2Controller::CorsairPeripheralV2Controller(hid_device* dev_han
     hid_write(dev, buffer, CORSAIR_V2_WRITE_SIZE);
     uint16_t result = hid_read_timeout(dev, buffer, CORSAIR_V2_PACKET_SIZE, CORSAIR_V2_TIMEOUT);
     result++;
-    pkt_sze = result;
+    pkt_sze = std::max(result, (uint16_t)CORSAIR_V2_WRITE_SIZE);
     LOG_DEBUG("[%s] Packet length set to %d", device_name.c_str(), pkt_sze);
 
     /*---------------------------------------------------------*\
@@ -78,6 +78,8 @@ CorsairPeripheralV2Controller::CorsairPeripheralV2Controller(hid_device* dev_han
 
     for(uint16_t i = 0; i < CORSAIR_V2_DEVICE_COUNT; i++)
     {
+        LOG_DEBUG("[%s] Checking PID %04X against index %d with %04X - %smatch", device_name.c_str(),
+                  pid, i, corsair_v2_device_list[i]->pid, corsair_v2_device_list[i]->pid == pid ? "" : "no ");
         if(corsair_v2_device_list[i]->pid == pid)
         {
             /*---------------------------------------------------------*\
