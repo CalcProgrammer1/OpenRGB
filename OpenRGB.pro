@@ -515,7 +515,8 @@ contains(QMAKE_PLATFORM, linux) {
         # hidapi-hidraw >= 0.10.1 supports USAGE/USAGE_PAGE                                     #
         # Define USE_HID_USAGE if hidapi-hidraw supports it                                     #
         #---------------------------------------------------------------------------------------#
-        packagesExist(hidapi-hidraw>=0.10.1) {
+        HIDAPI_HIDRAW_VERSION = $$system($$PKG_CONFIG --modversion hidapi-hidraw)
+        if(versionAtLeast(HIDAPI_HIDRAW_VERSION, "0.10.1")) {
             DEFINES += USE_HID_USAGE
         }
     } else {
