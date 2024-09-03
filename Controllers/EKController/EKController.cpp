@@ -10,7 +10,7 @@
 \*---------------------------------------------------------*/
 
 #include "EKController.h"
-#include "StringUtils.cpp"
+#include "StringUtils.h"
 
 static unsigned char ek_colour_mode_data[][16] =
 {
