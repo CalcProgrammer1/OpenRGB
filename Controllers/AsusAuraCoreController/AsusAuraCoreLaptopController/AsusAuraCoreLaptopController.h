@@ -18,6 +18,7 @@
 #include "RGBController.h"
 #include "ResourceManager.h"
 #include "RGBControllerKeyNames.h"
+#include "AsusAuraCoreLaptopDevices.h"
 
 #define NA                                      0xFFFFFFFF
 #define HID_MAX_STR                             255
@@ -83,6 +84,7 @@ enum
     ASUSAURACORELAPTOP_CMD_UPDATE               = 0xB3,
     ASUSAURACORELAPTOP_CMD_APPLY                = 0xB4,
     ASUSAURACORELAPTOP_CMD_SET                  = 0xB5,
+    ASUSAURACORELAPTOP_CMD_LAYOUT               = 0x05,
 };
 
 enum
@@ -90,6 +92,12 @@ enum
     ASUSAURACORELAPTOP_SPEED_SLOWEST            = 0xE1, // Slowest speed
     ASUSAURACORELAPTOP_SPEED_NORMAL             = 0xEB, // Normal speed
     ASUSAURACORELAPTOP_SPEED_FASTEST            = 0xF5, // Fastest speed
+};
+
+enum aura_core_laptop_layout
+{
+    ASUSAURACORELAPTOP_LAYOUT_ANSI              = 0x01,     /* US ANSI Layout                   */
+    ASUSAURACORELAPTOP_LAYOUT_ISO               = 0x02,     /* EURO ISO Layout                  */
 };
 
 struct p_state
@@ -104,33 +112,35 @@ public:
     AsusAuraCoreLaptopController(hid_device* dev_handle, const char* path);
     ~AsusAuraCoreLaptopController();
 
-    std::string             GetDeviceName();
-    std::string             GetSerial();
-    std::string             GetLocation();
+    const aura_core_laptop_device*  GetDeviceData();
+    std::string                     GetDeviceDescription();
+    std::string                     GetSerial();
+    unsigned int                    GetKeyboardLayout();
+    std::string                     GetLocation();
 
-    void                    SetMode(uint8_t mode, uint8_t speed, uint8_t brightness, RGBColor color1, RGBColor color2, uint8_t random, uint8_t direction);
-    void                    SetLedsDirect(std::vector<RGBColor> colors);
+    void                            SetMode(uint8_t mode, uint8_t speed, uint8_t brightness, RGBColor color1, RGBColor color2, uint8_t random, uint8_t direction);
+    void                            SetLedsDirect(std::vector<RGBColor *>colors);
 private:
-    std::string             device_name;
-    std::string             location;
-    hid_device*             dev;
+    hid_device*                     dev;
+    uint16_t                        device_index;
+    std::string                     location;
 
-    uint8_t                 current_mode;
-    uint8_t                 current_speed;
-    uint8_t                 current_direction;
+    uint8_t                         current_mode;
+    uint8_t                         current_speed;
+    uint8_t                         current_direction;
 
-    RGBColor                current_c1;
-    RGBColor                current_c2;
-    uint8_t                 current_brightness;
-    uint8_t                 current_random;
+    RGBColor                        current_c1;
+    RGBColor                        current_c2;
+    uint8_t                         current_brightness;
+    uint8_t                         current_random;
 
-    void                    SendApply();
-    void                    SendBrightness();
-    void                    SendSet();
-    void                    SendUpdate();
+    void                            SendApply();
+    void                            SendBrightness();
+    void                            SendSet();
+    void                            SendUpdate();
 
-    void                    SetPowerConfigFromJSON();
-    void                    SendPowerConfig(uint32_t flags);
-    uint32_t                PackPowerFlags(bool flags[]);
-    std::vector<p_state>    PowerConfigArray();
+    void                            SetPowerConfigFromJSON();
+    void                            SendPowerConfig(uint32_t flags);
+    uint32_t                        PackPowerFlags(bool flags[]);
+    std::vector<p_state>            PowerConfigArray();
 };

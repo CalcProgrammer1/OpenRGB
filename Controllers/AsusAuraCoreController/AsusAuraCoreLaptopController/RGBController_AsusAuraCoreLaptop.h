@@ -11,6 +11,7 @@
 
 #pragma once
 
+#include <algorithm>
 #include <vector>
 #include "RGBController.h"
 #include "AsusAuraCoreLaptopController.h"
@@ -31,7 +32,8 @@ public:
     void                DeviceUpdateMode();
 
 private:
-    void                Init_Controller();
+    RGBColor                            null_color              = 0;
+    std::vector<RGBColor *>             buffer_map;
 
-    AsusAuraCoreLaptopController*      controller;
+    AsusAuraCoreLaptopController*       controller;
 };

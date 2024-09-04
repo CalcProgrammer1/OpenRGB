@@ -19,8 +19,6 @@
 
 #define AURA_CORE_VID                   0x0B05
 
-#define AURA_STRIX_SCAR_15_PID          0x19B6
-
 /******************************************************************************************\
 *                                                                                          *
 *   DetectAuraCoreControllers                                                              *

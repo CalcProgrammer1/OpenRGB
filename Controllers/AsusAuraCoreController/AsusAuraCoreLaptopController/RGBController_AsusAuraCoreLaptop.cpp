@@ -11,129 +11,6 @@
 
 #include "RGBController_AsusAuraCoreLaptop.h"
 
-static unsigned int matrix_map[ASUSAURACORELAPTOP_KEY_HEIGHT][ASUSAURACORELAPTOP_KEY_WIDTH] =
-{
-    {  NA,  NA,  86,  87,  88,  89,  90,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA,  NA },
-    {   0,  NA,   1,   2,   3,   4,  NA,   5,   6,   7,   8,  NA,   9,  10,  11,  12,  13,  NA },
-    {  14,  15,  16,  17,  18,  19,  20,  21,  22,  23,  24,  25,  26,  27,  28,  29,  30,  NA },
-    {  31,  NA,  32,  33,  34,  35,  36,  37,  38,  39,  40,  41,  42,  43,  44,  NA,  45,  NA },
-    {  46,  NA,  47,  48,  49,  50,  51,  52,  53,  54,  55,  56,  57,  NA,  58,  NA,  59,  NA },
-    {  60,  NA,  61,  62,  63,  64,  65,  66,  67,  68,  69,  70,  71,  NA,  72,  NA,  73,  NA },
-    {  74,  75,  76,  77,  NA,  NA,  NA,  78,  NA,  NA,  NA,  79,  80,  81,  82,  83,  84,  85 }
-};
-
-static const char *led_names[] =
-{
-    KEY_EN_ESCAPE,              //00
-    KEY_EN_F1,
-    KEY_EN_F2,
-    KEY_EN_F3,
-    KEY_EN_F4,
-    KEY_EN_F5,
-    KEY_EN_F6,
-    KEY_EN_F7,
-    KEY_EN_F8,
-    KEY_EN_F9,
-    KEY_EN_F10,                 //10
-    KEY_EN_F11,
-    KEY_EN_F12,
-    KEY_EN_DELETE,
-
-    KEY_EN_BACK_TICK,
-    KEY_EN_1,
-    KEY_EN_2,
-    KEY_EN_3,
-    KEY_EN_4,
-    KEY_EN_5,
-    KEY_EN_6,                   //20
-    KEY_EN_7,
-    KEY_EN_8,
-    KEY_EN_9,
-    KEY_EN_0,
-    KEY_EN_MINUS,
-    KEY_EN_EQUALS,
-    KEY_EN_BACKSPACE,
-    KEY_EN_BACKSPACE,
-    KEY_EN_BACKSPACE,
-    KEY_EN_MEDIA_PLAY_PAUSE,    //30
-
-    KEY_EN_TAB,
-    KEY_EN_Q,
-    KEY_EN_W,
-    KEY_EN_E,
-    KEY_EN_R,
-    KEY_EN_T,
-    KEY_EN_Y,
-    KEY_EN_U,
-    KEY_EN_I,
-    KEY_EN_O,                   //40
-    KEY_EN_P,
-    KEY_EN_LEFT_BRACKET,
-    KEY_EN_RIGHT_BRACKET,
-    KEY_EN_ANSI_BACK_SLASH,
-    KEY_EN_MEDIA_STOP,
-
-    KEY_EN_CAPS_LOCK,
-    KEY_EN_A,
-    KEY_EN_S,
-    KEY_EN_D,
-    KEY_EN_F,                   //50
-    KEY_EN_G,
-    KEY_EN_H,
-    KEY_EN_J,
-    KEY_EN_K,
-    KEY_EN_L,
-    KEY_EN_SEMICOLON,
-    KEY_EN_QUOTE,
-    KEY_EN_ANSI_ENTER,
-    KEY_EN_MEDIA_PREVIOUS,
-
-    KEY_EN_LEFT_SHIFT,          //60
-    KEY_EN_Z,
-    KEY_EN_X,
-    KEY_EN_C,
-    KEY_EN_V,
-    KEY_EN_B,
-    KEY_EN_N,
-    KEY_EN_M,
-    KEY_EN_COMMA,
-    KEY_EN_PERIOD,
-    KEY_EN_FORWARD_SLASH,       //70
-    KEY_EN_RIGHT_SHIFT,
-    KEY_EN_UP_ARROW,
-    KEY_EN_MEDIA_NEXT,
-
-    KEY_EN_LEFT_CONTROL,
-    KEY_EN_LEFT_FUNCTION,
-    KEY_EN_LEFT_WINDOWS,
-    KEY_EN_LEFT_ALT,
-    KEY_EN_SPACE,
-    KEY_EN_RIGHT_ALT,
-    KEY_EN_RIGHT_CONTROL,       //80
-    KEY_EN_LEFT_ARROW,
-    KEY_EN_DOWN_ARROW,
-    KEY_EN_RIGHT_ARROW,
-    KEY_EN_PRINT_SCREEN,
-    "Asus Keystone",
-
-    KEY_EN_MEDIA_VOLUME_DOWN,
-    KEY_EN_MEDIA_VOLUME_UP,
-    "Key: Mic On/Off",
-    "Key: HyperFan",
-    "Key: Armoury Crate",       //90
-
-    "Lightbar LED 1",
-    "Lightbar LED 2",
-    "Lightbar LED 3",
-    "Lightbar LED 4",
-    "Lightbar LED 5",
-    "Lightbar LED 6",
-
-    "Logo",
-    "Lid Left",
-    "Lid Right",                //99
-};
-
 /**------------------------------------------------------------------*\
     @name AsusAuraCoreLaptop
     @category DEVICE_TYPE_KEYBOARD
@@ -154,14 +31,15 @@ static const char *led_names[] =
 
 RGBController_AsusAuraCoreLaptop::RGBController_AsusAuraCoreLaptop(AsusAuraCoreLaptopController *controller_ptr)
 {
-    controller                  = controller_ptr;
+    controller                              = controller_ptr;
+    const aura_core_laptop_device* aura_dev = controller->GetDeviceData();
 
-    name                        = "Asus Aura Core Laptop";
-    vendor                      = "Asus";
-    type                        = DEVICE_TYPE_KEYBOARD;
-    description                 = controller->GetDeviceName();
-    serial                      = controller->GetSerial();
-    location                    = controller->GetLocation();
+    name                                    = aura_dev->dmi_name;
+    vendor                                  = "Asus";
+    type                                    = DEVICE_TYPE_KEYBOARD;
+    description                             = controller->GetDeviceDescription();
+    serial                                  = controller->GetSerial();
+    location                                = controller->GetLocation();
 
     mode Direct;
     Direct.name                 = "Direct";
@@ -375,7 +253,6 @@ RGBController_AsusAuraCoreLaptop::RGBController_AsusAuraCoreLaptop(AsusAuraCoreL
     Off.color_mode              = MODE_COLORS_NONE;
     modes.push_back(Off);
 
-    Init_Controller();
     SetupZones();
 }
 
@@ -384,70 +261,131 @@ RGBController_AsusAuraCoreLaptop::~RGBController_AsusAuraCoreLaptop()
     delete controller;
 }
 
-void RGBController_AsusAuraCoreLaptop::Init_Controller()
-{
-    /*-------------------------------------------------*\
-    | Create the keyboard zone and add the matix map    |
-    \*-------------------------------------------------*/
-    zone KB_zone;
-    KB_zone.name                = "Keyboard Zone";
-    KB_zone.type                = ZONE_TYPE_MATRIX;
-    KB_zone.leds_min            = ASUSAURACORELAPTOP_KEYCOUNT;
-    KB_zone.leds_max            = ASUSAURACORELAPTOP_KEYCOUNT;
-    KB_zone.leds_count          = ASUSAURACORELAPTOP_KEYCOUNT;
-
-    KB_zone.matrix_map          = new matrix_map_type;
-    KB_zone.matrix_map->height  = ASUSAURACORELAPTOP_KEY_HEIGHT;
-    KB_zone.matrix_map->width   = ASUSAURACORELAPTOP_KEY_WIDTH;
-    KB_zone.matrix_map->map     = (unsigned int *)&matrix_map;
-    zones.push_back(KB_zone);
-
-    zone lightbar;
-    lightbar.name               = "Lightbar Zone";
-    lightbar.type               = ZONE_TYPE_LINEAR;
-    lightbar.leds_min           = ASUSAURACORELAPTOP_LIGHTBARCOUNT;
-    lightbar.leds_max           = ASUSAURACORELAPTOP_LIGHTBARCOUNT;
-    lightbar.leds_count         = ASUSAURACORELAPTOP_LIGHTBARCOUNT;
-    lightbar.matrix_map         = NULL;
-
-    zones.push_back(lightbar);
-
-    zone lid;
-    lid.name                    = "Lid Zone";
-    lid.type                    = ZONE_TYPE_LINEAR;
-    lid.leds_min                = ASUSAURACORELAPTOP_LIDCOUNT;
-    lid.leds_max                = ASUSAURACORELAPTOP_LIDCOUNT;
-    lid.leds_count              = ASUSAURACORELAPTOP_LIDCOUNT;
-    lid.matrix_map              = NULL;
-
-    zones.push_back(lid);
-}
-
 void RGBController_AsusAuraCoreLaptop::SetupZones()
 {
-    /*-------------------------------------------------*\
-    | Clear any existing color/LED configuration        |
-    \*-------------------------------------------------*/
-    leds.clear();
-    colors.clear();
+    std::string physical_size;
+    KEYBOARD_LAYOUT new_layout;
+    unsigned int max_led_value              = 0;
+
+    const aura_core_laptop_device* aura_dev = controller->GetDeviceData();
+    unsigned int layout                     = controller->GetKeyboardLayout();
+
+    switch(layout)
+    {
+        case ASUSAURACORELAPTOP_LAYOUT_ISO:
+            new_layout = KEYBOARD_LAYOUT_ISO_QWERTY;
+            break;
+
+        case ASUSAURACORELAPTOP_LAYOUT_ANSI:
+        default:
+            new_layout = KEYBOARD_LAYOUT_ANSI_QWERTY;
+            break;
+    }
+    LOG_DEBUG("[%s] layout set as %d", description.c_str(), new_layout);
 
     /*---------------------------------------------------------*\
-    | Set up zones                                              |
+    | Fill in zones from the device data                        |
     \*---------------------------------------------------------*/
-    for(std::size_t zone_index = 0; zone_index < zones.size(); zone_index++)
+    for(size_t i = 0; i < AURA_CORE_LAPTOP_ZONES_MAX; i++)
     {
-        int zone_offset = (int)leds.size();
+        LOG_DEBUG("[%s] setting up zone %d", description.c_str(), i);
 
-        for(unsigned int led_index = 0; led_index < zones[zone_index].leds_count; led_index++)
+        if(aura_dev->zones[i] == NULL)
         {
-            led new_led;
-            new_led.value   = led_index + zone_offset;
-            new_led.name    = led_names[new_led.value];
-            leds.push_back(new_led);
+            break;
+        }
+        else
+        {
+            zone new_zone;
+
+            new_zone.name                   = aura_dev->zones[i]->name;
+
+            if(aura_dev->zones[i]->layout_new != NULL)
+            {
+                KeyboardLayoutManager new_kb(new_layout,
+                                             aura_dev->zones[i]->layout_new->base_size,
+                                             aura_dev->zones[i]->layout_new->key_values);
+
+                if(aura_dev->zones[i]->layout_new->base_size != KEYBOARD_SIZE_EMPTY ||
+                   aura_dev->zones[i]->layout_new->edit_keys.size() > 0)
+                {
+                    /*---------------------------------------------------------*\
+                    | Minor adjustments to keyboard layout                      |
+                    \*---------------------------------------------------------*/
+                    keyboard_keymap_overlay_values* temp    = aura_dev->zones[i]->layout_new;
+                    new_kb.ChangeKeys(*temp);
+
+                    if(new_kb.GetRowCount() == 1 || new_kb.GetColumnCount() == 1)
+                    {
+                        if(new_kb.GetKeyCount() == 1)
+                        {
+                            new_zone.type               = ZONE_TYPE_SINGLE;
+                        }
+                        else
+                        {
+                            new_zone.type               = ZONE_TYPE_LINEAR;
+                        }
+                    }
+                    else
+                    {
+                        new_zone.type               = ZONE_TYPE_MATRIX;
+                        matrix_map_type * new_map   = new matrix_map_type;
+                        new_zone.matrix_map         = new_map;
+
+                        /*---------------------------------------------------------*\
+                        | Trusting the layout handed to the KLM is correct use the  |
+                        |   row & column counts to set the matrix height & width    |
+                        \*---------------------------------------------------------*/
+                        new_map->height             = new_kb.GetRowCount();
+                        new_map->width              = new_kb.GetColumnCount();
+                        new_map->map                = new unsigned int[new_map->height * new_map->width];
+
+                        new_kb.GetKeyMap(new_map->map, KEYBOARD_MAP_FILL_TYPE_COUNT);
+                    }
+
+                    /*---------------------------------------------------------*\
+                    | Create LEDs for the Matrix zone                           |
+                    |   Place keys in the layout to populate the matrix         |
+                    \*---------------------------------------------------------*/
+                    new_zone.leds_count             = new_kb.GetKeyCount();
+                    for(size_t led_idx = 0; led_idx < new_zone.leds_count; led_idx++)
+                    {
+                        led new_led;
+
+                        new_led.name                = new_kb.GetKeyNameAt(led_idx);
+                        new_led.value               = new_kb.GetKeyValueAt(led_idx);
+                        max_led_value               = std::max(max_led_value, new_led.value);
+                        leds.push_back(new_led);
+                    }
+                }
+
+                /*---------------------------------------------------------*\
+                | Add 1 the max_led_value to account for the 0th index      |
+                \*---------------------------------------------------------*/
+                max_led_value++;
+            }
+
+            LOG_DEBUG("[%s] Creating a %s zone: %s with %d LEDs", name.c_str(),
+                      ((new_zone.type == ZONE_TYPE_MATRIX) ? "matrix": "linear"),
+                      new_zone.name.c_str(), new_zone.leds_count);
+            new_zone.leds_min                   = new_zone.leds_count;
+            new_zone.leds_max                   = new_zone.leds_count;
+            zones.push_back(new_zone);
         }
     }
 
     SetupColors();
+
+    /*---------------------------------------------------------*\
+    | Create a buffer map of pointers which contains the        |
+    |   layout order of colors the device expects.              |
+    \*---------------------------------------------------------*/
+    buffer_map.resize(max_led_value, &null_color);
+
+    for(size_t led_idx = 0; led_idx < leds.size(); led_idx++)
+    {
+        buffer_map[leds[led_idx].value] = &colors[led_idx];
+    }
 }
 
 void RGBController_AsusAuraCoreLaptop::ResizeZone(int /*zone*/, int /*new_size*/)
@@ -459,26 +397,29 @@ void RGBController_AsusAuraCoreLaptop::ResizeZone(int /*zone*/, int /*new_size*/
 
 void RGBController_AsusAuraCoreLaptop::DeviceUpdateLEDs()
 {
-    controller->SetLedsDirect(colors);
-}
-
-void RGBController_AsusAuraCoreLaptop::UpdateZoneLEDs(int zone)
-{
-    std::vector<RGBColor> colour;
-    for(size_t i = 0; i < zones[zone].leds_count; i++)
+    for(size_t i = 85; i < leds.size(); i++)
     {
-        colour.push_back(zones[zone].colors[i]);
+        LOG_DEBUG("[%s] Setting %s @ LED index %d and buffer index %d to R: %02X G: %02X B: %02X",
+                  name.c_str(),
+                  leds[i].name.c_str(),
+                  i,
+                  leds[i].value,
+                  RGBGetRValue(colors[i]),
+                  RGBGetGValue(colors[i]),
+                  RGBGetBValue(colors[i]));
     }
 
-    controller->SetLedsDirect(colour);
+    controller->SetLedsDirect(buffer_map);
 }
 
-void RGBController_AsusAuraCoreLaptop::UpdateSingleLED(int led)
+void RGBController_AsusAuraCoreLaptop::UpdateZoneLEDs(int /*zone*/)
 {
-    std::vector<RGBColor> colour;
-    colour.push_back(colors[led]);
+    controller->SetLedsDirect(buffer_map);
+}
 
-    controller->SetLedsDirect(colour);
+void RGBController_AsusAuraCoreLaptop::UpdateSingleLED(int /*led*/)
+{
+    controller->SetLedsDirect(buffer_map);
 }
 
 void RGBController_AsusAuraCoreLaptop::DeviceUpdateMode()
