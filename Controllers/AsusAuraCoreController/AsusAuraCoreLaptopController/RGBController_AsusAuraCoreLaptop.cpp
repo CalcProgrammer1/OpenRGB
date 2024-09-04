@@ -27,6 +27,11 @@
         * Awake (Normal Usage)
         * Sleeping
         * Shutdown / Power Off
+
+        MatrixMaps can be found in ArmouryCrate (it needs a chance to download device data)
+        Default path is:
+            C:\ProgramData\ASUS\ROG Live Service\DeviceContent\<Model name>\<Model name>.csv
+        (Model name is the code like G814JV - can be found in the error in logs)
 \*-------------------------------------------------------------------*/
 
 RGBController_AsusAuraCoreLaptop::RGBController_AsusAuraCoreLaptop(AsusAuraCoreLaptopController *controller_ptr)
@@ -428,6 +433,7 @@ void RGBController_AsusAuraCoreLaptop::DeviceUpdateMode()
 
     if(set_mode.value == ASUSAURACORELAPTOP_MODE_DIRECT)
     {
+        controller->SendInitDirectMode();
         return;
     }
     uint8_t random      = (set_mode.color_mode == MODE_COLORS_RANDOM) ? 0xFF : 0;

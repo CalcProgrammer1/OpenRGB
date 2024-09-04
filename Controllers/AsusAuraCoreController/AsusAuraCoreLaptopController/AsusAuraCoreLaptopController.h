@@ -120,6 +120,7 @@ public:
 
     void                            SetMode(uint8_t mode, uint8_t speed, uint8_t brightness, RGBColor color1, RGBColor color2, uint8_t random, uint8_t direction);
     void                            SetLedsDirect(std::vector<RGBColor *>colors);
+    void                            SendInitDirectMode();
 private:
     hid_device*                     dev;
     uint16_t                        device_index;

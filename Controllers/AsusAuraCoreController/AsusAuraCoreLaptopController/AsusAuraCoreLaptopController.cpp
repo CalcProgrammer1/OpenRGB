@@ -181,6 +181,15 @@ void AsusAuraCoreLaptopController::SetMode(uint8_t mode, uint8_t speed, uint8_t 
     }
 }
 
+void AsusAuraCoreLaptopController::SendInitDirectMode()
+{
+    uint8_t buffer[ASUSAURACORELAPTOP_WRITE_PACKET_SIZE]    = { ASUSAURACORELAPTOP_REPORT_ID, ASUSAURACORELAPTOP_CMD_DIRECT };
+    memset(&buffer[2], 0, ASUSAURACORELAPTOP_WRITE_PACKET_SIZE - 2);
+
+    LOG_DEBUG("[%s] Resetting device for direct control", aura_core_laptop_device_list[device_index]->dmi_name.c_str());
+    hid_send_feature_report(dev, buffer, ASUSAURACORELAPTOP_WRITE_PACKET_SIZE);
+}
+
 void AsusAuraCoreLaptopController::SetLedsDirect(std::vector<RGBColor *> colors)
 {
     /*---------------------------------------------------------*\
@@ -376,7 +385,7 @@ void AsusAuraCoreLaptopController::SetPowerConfigFromJSON()
     |   With thanks to AsusCtl for helping to decipher the packet captures          |
     |   https://gitlab.com/asus-linux/asusctl/-/blob/main/rog-aura/src/usb.rs#L150  |
     \*-----------------------------------------------------------------------------*/
-    bool flag_array[] =
+    bool flag_array[32] =
     {
         power_config[0].state,      power_config[4].state,
         power_config[1].state,      power_config[5].state,
