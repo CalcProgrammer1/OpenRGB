@@ -31,7 +31,8 @@ static const std::map<alienware_platform_id, uint8_t> zone_quirks_table =
 {
     { 0x0C01,   4 },    // Dell G5 SE 5505
     { 0x0A01,  16 },    // Dell G7 15 7500
-    { 0x0E03,   4 }     // Dell G15   5511
+    { 0x0E03,   4 },    // Dell G15   5511
+    { 0x0E0A,   4 }     // Dell G15   5530
 
 };
 
@@ -47,7 +48,8 @@ static const std::map<alienware_platform_id, std::vector<const char*>> zone_name
                   "Light Bar 4",    "Light Bar 5",  "Light Bar 6",
                   "Light Bar 7",    "Light Bar 8",  "Light Bar 9",
                   "Light Bar 10",   "Light Bar 11", "Light Bar 12"              } },
-    { 0x0E03,   { "Left",           "Middle",       "Right",        "Numpad"    } }
+    { 0x0E03,   { "Left",           "Middle",       "Right",        "Numpad"    } },
+    { 0x0E0A,   { "Left",           "Middle",       "Right",        "Numpad"    } }
 };
 
 static void SendHIDReport(hid_device *dev, const unsigned char* usb_buf, size_t usb_buf_size)
