@@ -56,6 +56,62 @@ RGBController_Luxafor::RGBController_Luxafor(LuxaforController* controller_ptr)
     // Wave.colors.resize(1);
     // modes.push_back(Wave);
 
+    mode TrafficLights;
+    TrafficLights.name          = "Traffic Lights";
+    TrafficLights.value         = LUXAFOR_MODE_PATTERN_TRAFFIC_LIGHTS;
+    TrafficLights.flags         = 0;
+    TrafficLights.color_mode    = MODE_COLORS_NONE;
+    modes.push_back(TrafficLights);
+
+    mode Pattern2;
+    Pattern2.name               = "Pattern 2";
+    Pattern2.value              = LUXAFOR_MODE_PATTERN_2;
+    Pattern2.flags              = 0;
+    Pattern2.color_mode         = MODE_COLORS_NONE;
+    modes.push_back(Pattern2);
+
+    mode Pattern3;
+    Pattern3.name               = "Pattern 3";
+    Pattern3.value              = LUXAFOR_MODE_PATTERN_3;
+    Pattern3.flags              = 0;
+    Pattern3.color_mode         = MODE_COLORS_NONE;
+    modes.push_back(Pattern3);
+
+    mode Pattern4;
+    Pattern4.name               = "Pattern 4";
+    Pattern4.value              = LUXAFOR_MODE_PATTERN_4;
+    Pattern4.flags              = 0;
+    Pattern4.color_mode         = MODE_COLORS_NONE;
+    modes.push_back(Pattern4);
+
+    mode Police;
+    Police.name                 = "Police";
+    Police.value                = LUXAFOR_MODE_PATTERN_POLICE;
+    Police.flags                = 0;
+    Police.color_mode           = MODE_COLORS_NONE;
+    modes.push_back(Police);
+
+    mode Pattern6;
+    Pattern6.name               = "Pattern 6";
+    Pattern6.value              = LUXAFOR_MODE_PATTERN_6;
+    Pattern6.flags              = 0;
+    Pattern6.color_mode         = MODE_COLORS_NONE;
+    modes.push_back(Pattern6);
+
+    mode Pattern7;
+    Pattern7.name               = "Pattern 7";
+    Pattern7.value              = LUXAFOR_MODE_PATTERN_7;
+    Pattern7.flags              = 0;
+    Pattern7.color_mode         = MODE_COLORS_NONE;
+    modes.push_back(Pattern7);
+
+    mode Pattern8;
+    Pattern8.name               = "Pattern 8";
+    Pattern8.value              = LUXAFOR_MODE_PATTERN_8;
+    Pattern8.flags              = 0;
+    Pattern8.color_mode         = MODE_COLORS_NONE;
+    modes.push_back(Pattern8);
+
     SetupZones();
 }
 
@@ -147,7 +203,7 @@ void RGBController_Luxafor::UpdateSingleLED(int led)
         unsigned char grn = RGBGetGValue(colors[led]);
         unsigned char blu = RGBGetBValue(colors[led]);
 
-        controller->SendPacket(modes[active_mode].value, leds[led].value, red, grn, blu);
+        controller->SendPacket((modes[active_mode].value & 0xFF), leds[led].value, red, grn, blu, 0);
     }
 }
 
@@ -165,8 +221,12 @@ void RGBController_Luxafor::DeviceUpdateMode()
             unsigned char grn = RGBGetGValue(colors[modes[active_mode].colors[0]]);
             unsigned char blu = RGBGetBValue(colors[modes[active_mode].colors[0]]);
 
-            controller->SendPacket(modes[active_mode].value, LUXAFOR_LED_ALL, red, grn, blu);
+            controller->SendPacket((modes[active_mode].value & 0xFF), LUXAFOR_LED_ALL, red, grn, blu, 0);
             }
+            break;
+
+        case MODE_COLORS_NONE:
+            controller->SendPacket((modes[active_mode].value & 0xFF), LUXAFOR_LED_ALL, 0, 0, 0, (modes[active_mode].value >> 8));
             break;
     }
 }

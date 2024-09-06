@@ -29,6 +29,18 @@ enum
     LUXAFOR_MODE_PATTERN    = 6,
 };
 
+enum
+{
+    LUXAFOR_PATTERN_TRAFFIC_LIGHTS  = 1,
+    LUXAFOR_PATTERN_2               = 2,
+    LUXAFOR_PATTERN_3               = 3,
+    LUXAFOR_PATTERN_4               = 4,
+    LUXAFOR_PATTERN_POLICE          = 5,
+    LUXAFOR_PATTERN_6               = 6,
+    LUXAFOR_PATTERN_7               = 7,
+    LUXAFOR_PATTERN_8               = 8,
+};
+
 class LuxaforController
 {
 public:
@@ -38,7 +50,7 @@ public:
     std::string GetDeviceLocation();
     std::string GetSerialString();
 
-    void SendPacket(unsigned char mode, unsigned char led, unsigned char red, unsigned char grn, unsigned char blu);
+    void SendPacket(unsigned char mode, unsigned char led, unsigned char red, unsigned char grn, unsigned char blu, unsigned char type);
 
 private:
     hid_device* dev;
