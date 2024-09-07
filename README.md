@@ -164,4 +164,5 @@ While no code from these projects directly made its way into OpenRGB, these proj
   * Signal RGB Plugins: https://gitlab.com/signalrgb/signal-plugins/-/tree/master/Plugins
   * k550-macos https://github.com/vookimedlo/ck550-macos/tree/master
   * luxafor-python https://github.com/vmitchell85/luxafor-python
+  * dreamcheekyusb https://github.com/gbrayut/dreamcheekyusb
   
