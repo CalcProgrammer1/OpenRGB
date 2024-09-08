@@ -101,25 +101,48 @@ keyboard_keymap_overlay_values g713rw_keyboard_layout
         {   0,      0,       2,           2,        KEY_EN_MEDIA_VOLUME_DOWN,   KEYBOARD_OPCODE_INSERT_ROW,         },  // Insert Row and add Volume Down
         {   0,      0,       3,           3,        KEY_EN_MEDIA_VOLUME_UP,     KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Insert Volume Up
         {   0,      0,       4,           4,        KEY_EN_MEDIA_MUTE,          KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Insert Mute
-        {   0,      0,       5,           5,        "Key: Sun",                 KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Insert "Sun" key
+        {   0,      0,       5,           5,        "Key: Fan",                 KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Insert "Fan" key
         {   0,      0,       6,           6,        "Key: ROG",                 KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Insert "ROG" key
         {   0,      6,       1,         127,        KEY_EN_LEFT_FUNCTION,       KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Insert Left Fuction
-        {   0,      6,      12,         136,        KEY_EN_RIGHT_FUNCTION,      KEYBOARD_OPCODE_REMOVE_SHIFT_LEFT,  },  // Remove Right Fuction
-        {   0,      6,      12,         136,        KEY_EN_RIGHT_WINDOWS,       KEYBOARD_OPCODE_REMOVE_SHIFT_LEFT,  },  // Remove Right Win Key
+        {   0,      6,       8,           0,        KEY_EN_UNUSED,              KEYBOARD_OPCODE_REMOVE_SHIFT_LEFT,  },  // Remove part of Spacebar
+        {   0,      6,       8,           0,        KEY_EN_UNUSED,              KEYBOARD_OPCODE_REMOVE_SHIFT_LEFT,  },  // Remove part of Spacebar
+        {   0,      6,      10,         136,        KEY_EN_RIGHT_FUNCTION,      KEYBOARD_OPCODE_REMOVE_SHIFT_LEFT,  },  // Remove Right Fuction
+        {   0,      6,      10,         136,        KEY_EN_RIGHT_WINDOWS,       KEYBOARD_OPCODE_REMOVE_SHIFT_LEFT,  },  // Remove Right Win Key
+
         {   0,      1,      14,           0,        KEY_EN_UNUSED,              KEYBOARD_OPCODE_SWAP_ONLY,          },
-        {   0,      1,      15,           0,        KEY_EN_UNUSED,              KEYBOARD_OPCODE_SWAP_ONLY,          },
-        {   0,      1,      16,          38,        KEY_EN_DELETE,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Insert a Delete key
-        {   0,      1,      18,          40,        KEY_EN_PRINT_SCREEN,        KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Insert a Print Screen key
-        {   0,      1,      19,          41,        KEY_EN_HOME,                KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Insert a Home key
+        {   0,      1,      15,           0,        KEY_EN_UNUSED,              KEYBOARD_OPCODE_REMOVE_SHIFT_LEFT,  },  // trim extra column before numpad
+        {   0,      1,      15,          38,        KEY_EN_DELETE,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Insert a Delete key
+        {   0,      1,      17,          40,        KEY_EN_PRINT_SCREEN,        KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Insert a Print Screen key
+        {   0,      1,      18,          41,        KEY_EN_HOME,                KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Insert a Home key
         {   0,      2,      14,           0,        KEY_EN_UNUSED,              KEYBOARD_OPCODE_REMOVE_SHIFT_LEFT,  },
-        {   0,      2,      14,           0,        KEY_EN_UNUSED,              KEYBOARD_OPCODE_SWAP_ONLY,          },
-        {   0,      2,      15,           0,        KEY_EN_UNUSED,              KEYBOARD_OPCODE_SWAP_ONLY,          },
+        {   0,      2,      14,           0,        KEY_EN_UNUSED,              KEYBOARD_OPCODE_REMOVE_SHIFT_LEFT,  },
+        {   0,      3,      13,          76,        KEY_EN_ANSI_BACK_SLASH,     KEYBOARD_OPCODE_SWAP_ONLY,          }, // Force ANSI | even on ISO layouts
         {   0,      3,      14,           0,        KEY_EN_UNUSED,              KEYBOARD_OPCODE_REMOVE_SHIFT_LEFT,  },
-        {   0,      3,      14,           0,        KEY_EN_UNUSED,              KEYBOARD_OPCODE_SWAP_ONLY,          },
-        {   0,      3,      15,           0,        KEY_EN_UNUSED,              KEYBOARD_OPCODE_SWAP_ONLY,          },
-        {   0,      4,      16,           0,        KEY_EN_UNUSED,              KEYBOARD_OPCODE_REMOVE_SHIFT_LEFT,  },
+        {   0,      3,      14,           0,        KEY_EN_UNUSED,              KEYBOARD_OPCODE_REMOVE_SHIFT_LEFT,  },
+        {   0,      4,      14,           0,        KEY_EN_UNUSED,              KEYBOARD_OPCODE_REMOVE_SHIFT_LEFT,  },
+        {   0,      4,      14,           0,        KEY_EN_UNUSED,              KEYBOARD_OPCODE_REMOVE_SHIFT_LEFT,  },
+        {   0,      5,      12,           0,        KEY_EN_UNUSED,              KEYBOARD_OPCODE_REMOVE_SHIFT_LEFT,  },  // gap before arrow up key
+        {   0,      5,      13,           0,        KEY_EN_UNUSED,              KEYBOARD_OPCODE_REMOVE_SHIFT_LEFT,  },  // trim extra column before numpad
+
+        {   0,      6,      11,           0,        KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // 1 empty key before arrow keys
+        {   0,      6,      15,           0,        KEY_EN_UNUSED,              KEYBOARD_OPCODE_REMOVE_SHIFT_LEFT,  },  // trim extra column before numpad
+        {   0,      6,      16,           0,        KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // 1 empty key between numpad 0 and .
+
+        // Close numpad gap completely
+        {   0,      1,      14,           0,        KEY_EN_UNUSED,              KEYBOARD_OPCODE_REMOVE_SHIFT_LEFT,  },
+        {   0,      2,      14,           0,        KEY_EN_UNUSED,              KEYBOARD_OPCODE_REMOVE_SHIFT_LEFT,  },
+        {   0,      3,      14,           0,        KEY_EN_UNUSED,              KEYBOARD_OPCODE_REMOVE_SHIFT_LEFT,  },
+        {   0,      4,      14,           0,        KEY_EN_UNUSED,              KEYBOARD_OPCODE_REMOVE_SHIFT_LEFT,  },
         {   0,      5,      14,           0,        KEY_EN_UNUSED,              KEYBOARD_OPCODE_REMOVE_SHIFT_LEFT,  },
-        {   0,      6,      16,           0,        KEY_EN_UNUSED,              KEYBOARD_OPCODE_REMOVE_SHIFT_LEFT,  },
+        {   0,      6,      14,           0,        KEY_EN_UNUSED,              KEYBOARD_OPCODE_REMOVE_SHIFT_LEFT,  },
+
+        // Move Arrow keys
+        {   0,      5,      13,           0,        KEY_EN_UNUSED,              KEYBOARD_OPCODE_SWAP_ONLY,          },  // Remove Arrow Up
+        {   0,      6,      13,           0,        KEY_EN_UNUSED,              KEYBOARD_OPCODE_SWAP_ONLY,          },  // Remove Arrow Down
+        {   0,      6,      12,         139,        KEY_EN_UP_ARROW,            KEYBOARD_OPCODE_SWAP_ONLY,          },  // Shift Arrow Up
+        {   0,      7,      11,         159,        KEY_EN_LEFT_ARROW,          KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      7,      12,         160,        KEY_EN_DOWN_ARROW,          KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      7,      13,         161,        KEY_EN_RIGHT_ARROW,         KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
     }
 };
 
@@ -137,105 +160,12 @@ keyboard_keymap_overlay_values g713rw_lightbar_layout
         | Edit Keys                                                                                                 |
         |   Zone,   Row,    Column,     Value,      Key,                        OpCode,                             |
         \*---------------------------------------------------------------------------------------------------------*/
-        {   0,      0,       0,         126,        "Lightbar L1",              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Insert Lightbar L1
-        {   0,      0,       1,         127,        "Lightbar L2",              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Insert Lightbar L2
-        {   0,      0,       2,         128,        "Lightbar L3",              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Insert Lightbar L3
-        {   0,      0,       3,         144,        "Lightbar R3",              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Insert Lightbar R3
-        {   0,      0,       4,         145,        "Lightbar R2",              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Insert Lightbar R2
-        {   0,      0,       5,         125,        "Lightbar R1",              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Insert Lightbar R1
-    }
-};
-
-keyboard_keymap_overlay_values g713rw_test_layout
-{
-    KEYBOARD_SIZE_EMPTY,
-    {
-        {   /* Values not set in empty keyboard */   },
-        {
-            /* Add more regional layout fixes here */
-        }
-    },
-    {
-        /*---------------------------------------------------------------------------------------------------------*\
-        | Edit Keys                                                                                                 |
-        |   Zone,   Row,    Column,     Value,      Key,                        OpCode,                             |
-        \*---------------------------------------------------------------------------------------------------------*/
-        {   0,      0,       0,           7,        "Test01",                   KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      0,       1,           8,        "Test02",                   KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      0,       2,           9,        "Test03",                   KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      0,       3,          10,        "Test04",                   KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      0,       4,          11,        "Test05",                   KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      0,       5,          12,        "Test06",                   KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      0,       6,          13,        "Test07",                   KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      0,       7,          14,        "Test08",                   KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      0,       8,          15,        "Test09",                   KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      0,       9,          16,        "Test10",                   KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      0,      10,          17,        "Test11",                   KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      0,      11,          18,        "Test12",                   KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      0,      12,          19,        "Test13",                   KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      0,      13,          20,        "Test14",                   KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      0,      14,          22,        "Test15",                   KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      0,      15,          27,        "Test16",                   KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      0,      16,          55,        "Test17",                   KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      0,      17,          57,        "Test18",                   KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      0,      18,          58,        "Test19",                   KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      0,      19,          77,        "Test20",                   KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      0,      20,          78,        "Test21",                   KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      0,      21,          79,        "Test22",                   KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      0,      22,          96,        "Test23",                   KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      0,      23,          97,        "Test24",                   KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      0,      24,          99,        "Test25",                   KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      0,      25,         100,        "Test26",                   KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      0,      26,         104,        "Test27",                   KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      0,      27,         117,        "Test28",                   KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      0,      28,         118,        "Test29",                   KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      0,      29,         120,        "Test30",                   KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      0,      30,         121,        "Test31",                   KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      0,      31,         130,        "Test32",                   KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      0,      32,         132,        "Test33",                   KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      0,      33,         133,        "Test34",                   KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      0,      34,         134,        "Test35",                   KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      0,      35,         138,        "Test36",                   KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      0,      36,         140,        "Test37",                   KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      0,      37,         141,        "Test38",                   KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      0,      38,         142,        "Test39",                   KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      0,      39,         143,        "Test40",                   KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      0,      40,         146,        "Test41",                   KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      0,      41,         147,        "Test42",                   KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      0,      42,         148,        "Test43",                   KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      0,      43,         149,        "Test44",                   KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      0,      44,         150,        "Test45",                   KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      0,      45,         151,        "Test46",                   KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      0,      46,         152,        "Test47",                   KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      0,      47,         153,        "Test48",                   KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      0,      48,         154,        "Test49",                   KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      0,      49,         155,        "Test50",                   KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      0,      50,         156,        "Test51",                   KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      0,      51,         157,        "Test52",                   KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      0,      52,         158,        "Test53",                   KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      0,      53,         162,        "Test54",                   KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      0,      54,         163,        "Test55",                   KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      0,      55,         164,        "Test56",                   KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      0,      56,         165,        "Test57",                   KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      0,      57,         166,        "Test58",                   KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      0,      58,         167,        "Test59",                   KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-    }
-};
-
-keyboard_keymap_overlay_values g733zm_layout
-{
-    KEYBOARD_SIZE_FULL,
-    {
-        aura_core_laptop_17_values,
-        {
-            /* Add more regional layout fixes here */
-        }
-    },
-    {
-        /*---------------------------------------------------------------------------------------------------------*\
-        | Edit Keys                                                                                                 |
-        |   Zone,   Row,    Column,     Value,      Key,                        OpCode,                             |
-        \*---------------------------------------------------------------------------------------------------------*/
+        {   0,      0,       0,         174,        "Lightbar L1",              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Insert Lightbar L1
+        {   0,      0,       1,         173,        "Lightbar L2",              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Insert Lightbar L2
+        {   0,      0,       2,         172,        "Lightbar L3",              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Insert Lightbar L3
+        {   0,      0,       3,         171,        "Lightbar R3",              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Insert Lightbar R3
+        {   0,      0,       4,         170,        "Lightbar R2",              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Insert Lightbar R2
+        {   0,      0,       5,         169,        "Lightbar R1",              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Insert Lightbar R1
     }
 };
 
@@ -270,9 +200,8 @@ keyboard_keymap_overlay_values g814jv_keyboard_layout
      {   0,      2,      14,           0,        KEY_EN_UNUSED,              KEYBOARD_OPCODE_REMOVE_SHIFT_LEFT,  },
      {   0,      2,      14,           0,        KEY_EN_UNUSED,              KEYBOARD_OPCODE_REMOVE_SHIFT_LEFT,  },
      {   0,      2,      14,           0,        KEY_EN_UNUSED,              KEYBOARD_OPCODE_REMOVE_SHIFT_LEFT,  },
+     {   0,      3,      13,          76,        KEY_EN_ANSI_BACK_SLASH,     KEYBOARD_OPCODE_SWAP_ONLY,          }, // Force ANSI | even on ISO layouts
      {   0,      3,      14,           0,        KEY_EN_UNUSED,              KEYBOARD_OPCODE_REMOVE_SHIFT_LEFT,  },
-     {   0,      3,      14,           0,        KEY_EN_UNUSED,              KEYBOARD_OPCODE_SWAP_ONLY,          },
-     {   0,      3,      15,           0,        KEY_EN_UNUSED,              KEYBOARD_OPCODE_SWAP_ONLY,          },
      {   0,      3,      14,           0,        KEY_EN_UNUSED,              KEYBOARD_OPCODE_REMOVE_SHIFT_LEFT,  }, // Numpad gap
      {   0,      3,      14,           0,        KEY_EN_UNUSED,              KEYBOARD_OPCODE_REMOVE_SHIFT_LEFT,  },
      {   0,      4,      14,           0,        KEY_EN_UNUSED,              KEYBOARD_OPCODE_REMOVE_SHIFT_LEFT,  },
@@ -356,19 +285,13 @@ static const aura_core_laptop_zone g713rw_lightbar_zone =
     &g713rw_lightbar_layout
 };
 
-static const aura_core_laptop_zone g713rw_test_zone =
-{
-    "TEST",
-    &g713rw_test_layout
-};
-
 static const aura_core_laptop_device g713rw_device =
 {
     "G713RW",
     {
         &g713rw_keyboard_zone,
         &g713rw_lightbar_zone,
-        &g713rw_test_zone,
+        nullptr,
         nullptr,
         nullptr,
         nullptr

@@ -176,6 +176,12 @@ void AsusAuraCoreLaptopController::SetMode(uint8_t mode, uint8_t speed, uint8_t 
         current_random      = random;
         current_direction   = direction;
 
+        if(current_mode == ASUSAURACORELAPTOP_MODE_DIRECT)
+        {
+            SendInitDirectMode();
+            return;
+        }
+
         SendUpdate();
         SendBrightness();
     }
@@ -267,8 +273,8 @@ void AsusAuraCoreLaptopController::SetLedsDirect(std::vector<RGBColor *> colors)
 
 void AsusAuraCoreLaptopController::SendBrightness()
 {
-    const uint8_t index                                     = 2;
-    uint8_t buffer[ASUSAURACORELAPTOP_WRITE_PACKET_SIZE]    = { ASUSAURACORELAPTOP_REPORT_ID, ASUSAURACORELAPTOP_CMD_BRIGHTNESS };
+    const uint8_t index                                     = 5;
+    uint8_t buffer[ASUSAURACORELAPTOP_WRITE_PACKET_SIZE]    = { ASUSAURACORELAPTOP_REPORT_ID, ASUSAURACORELAPTOP_CMD_BRIGHTNESS, 0xC5, 0xC4};
 
     memset(&buffer[index], 0, ASUSAURACORELAPTOP_WRITE_PACKET_SIZE - index);
     buffer[4] = current_brightness;

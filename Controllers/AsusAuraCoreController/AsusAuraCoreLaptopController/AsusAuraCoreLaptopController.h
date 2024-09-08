@@ -34,7 +34,7 @@
 #define ASUSAURACORELAPTOP_POWER_ZONES          4
 #define ASUSAURACORELAPTOP_POWER_STATES         4
 #define ASUSAURACORELAPTOP_BRIGHTNESS_MIN       0
-#define ASUSAURACORELAPTOP_BRIGHTNESS_MAX       255
+#define ASUSAURACORELAPTOP_BRIGHTNESS_MAX       3 // No device has proven to have 256 keyboard brightness levels, only 0..3
 
 enum
 {

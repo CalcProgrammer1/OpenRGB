@@ -259,6 +259,8 @@ RGBController_AsusAuraCoreLaptop::RGBController_AsusAuraCoreLaptop(AsusAuraCoreL
     modes.push_back(Off);
 
     SetupZones();
+
+    SetMode(active_mode);
 }
 
 RGBController_AsusAuraCoreLaptop::~RGBController_AsusAuraCoreLaptop()
@@ -431,11 +433,6 @@ void RGBController_AsusAuraCoreLaptop::DeviceUpdateMode()
 {
     mode set_mode       = modes[active_mode];
 
-    if(set_mode.value == ASUSAURACORELAPTOP_MODE_DIRECT)
-    {
-        controller->SendInitDirectMode();
-        return;
-    }
     uint8_t random      = (set_mode.color_mode == MODE_COLORS_RANDOM) ? 0xFF : 0;
     RGBColor color1     = (set_mode.colors.size() > 0) ? set_mode.colors[0] : 0;
     RGBColor color2     = (set_mode.colors.size() > 1) ? set_mode.colors[1] : 0;
