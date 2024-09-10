@@ -58,6 +58,7 @@ public:
 
     //Function to open the port
     bool udp_client(const char* client_name, const char * port);
+    bool udp_client(const char * client_name, const char * send_port, const char * recv_port);
     bool tcp_client(const char* client_name, const char * port);
     bool tcp_client_connect();
 
@@ -66,6 +67,8 @@ public:
     std::size_t tcp_server_num_clients();
     SOCKET *    tcp_server_get_client(std::size_t client_idx);
     SOCKET *    tcp_server_listen();
+
+    void udp_join_multicast_group(const char * group_name);
 
     int udp_listen(char * recv_data, int length);
     int udp_listen_timeout(char * recv_data, int length, int sec, int usec);

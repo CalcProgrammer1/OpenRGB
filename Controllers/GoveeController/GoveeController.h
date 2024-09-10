@@ -22,14 +22,34 @@ public:
     ~GoveeController();
 
     std::string GetLocation();
+    std::string GetSku();
     std::string GetVersion();
+
+    void ReceiveThreadFunction();
+
+    void SendRazerData(RGBColor* colors, unsigned int size);
+    void SendRazerDisable();
+    void SendRazerEnable();
+
+    void SendScan();
 
     void SetColor(unsigned char red, unsigned char green, unsigned char blue, unsigned char brightness);
 
 private:
     std::string         firmware_version;
+    std::string         ip_address;
     std::string         module_name;
     std::string         module_mac;
-    std::string         location;
+
+    std::string         sku;
+    std::string         bleVersionHard;
+    std::string         bleVersionSoft;
+    std::string         wifiVersionHard;
+    std::string         wifiVersionSoft;
+
     net_port            port;
+    net_port            broadcast_port;
+
+    std::thread*        ReceiveThread;
+    std::atomic<bool>   ReceiveThreadRun;
 };

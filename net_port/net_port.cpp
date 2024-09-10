@@ -52,7 +52,12 @@ net_port::~net_port()
     }
 }
 
-bool net_port::udp_client(const char * client_name, const char * port)
+bool net_port::udp_client(const char* client_name, const char * port)
+{
+    return(udp_client(client_name, port, "0"));
+}
+
+bool net_port::udp_client(const char * client_name, const char * send_port, const char * recv_port)
 {
     sockaddr_in myAddress;
 
@@ -73,7 +78,7 @@ bool net_port::udp_client(const char * client_name, const char * port)
 
     myAddress.sin_family = AF_INET;
     myAddress.sin_addr.s_addr = inet_addr("0.0.0.0");
-    myAddress.sin_port = htons(0);
+    myAddress.sin_port = htons(atoi(recv_port));
 
     if(bind(sock, (sockaddr*)&myAddress, sizeof(myAddress)) == SOCKET_ERROR)
     {
@@ -85,7 +90,7 @@ bool net_port::udp_client(const char * client_name, const char * port)
     addrinfo hints = {};
     hints.ai_family = AF_INET;
     hints.ai_socktype = SOCK_DGRAM;
-    if(getaddrinfo(client_name, port, &hints, &result_list) == 0)
+    if(getaddrinfo(client_name, send_port, &hints, &result_list) == 0)
     {
         memcpy(&addrDest, result_list->ai_addr, result_list->ai_addrlen);
         freeaddrinfo(result_list);
@@ -97,6 +102,16 @@ bool net_port::udp_client(const char * client_name, const char * port)
         WSACleanup();
         return(false);
     }
+}
+
+void net_port::udp_join_multicast_group(const char * group_name)
+{
+    struct ip_mreq group;
+
+    group.imr_multiaddr.s_addr = inet_addr(group_name);
+    group.imr_interface.s_addr = inet_addr("0.0.0.0");
+
+    setsockopt(sock, IPPROTO_IP, IP_ADD_MEMBERSHIP, (char *)&group, sizeof(group));
 }
 
 int net_port::udp_listen(char * recv_data, int length)
