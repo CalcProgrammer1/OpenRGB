@@ -11,6 +11,7 @@
 #include "Detector.h"
 #include "RGBController.h"
 #include "SteelSeriesGeneric.h"
+#include "SteelSeriesAerox3WirelessController.h"
 #include "SteelSeriesAerox5Controller.h"
 #include "SteelSeriesAerox9Controller.h"
 #include "SteelSeriesArctis5Controller.h"
@@ -43,6 +44,8 @@
 | Mouse product IDs                                     |
 \*-----------------------------------------------------*/
 #define STEELSERIES_AEROX_3_PID                     0x1836
+#define STEELSERIES_AEROX_3_WIRELESS_PID            0x1838
+#define STEELSERIES_AEROX_3_WIRELESS_WIRED_PID      0x183A
 #define STEELSERIES_AEROX_5_PID                     0x1850
 #define STEELSERIES_AEROX_9_PID                     0x185A
 #define STEELSERIES_RIVAL_100_PID                   0x1702
@@ -112,6 +115,30 @@ void DetectSteelSeriesAerox3(hid_device_info* info, const std::string& name)
     if(dev)
     {
         SteelSeriesAerox3Controller* controller             = new SteelSeriesAerox3Controller(dev, AEROX_3, info->path);
+        RGBController_SteelSeriesRival3* rgb_controller     = new RGBController_SteelSeriesRival3(controller);
+        rgb_controller->name                                = name;
+        ResourceManager::get()->RegisterRGBController(rgb_controller);
+    }
+}
+
+void DetectSteelSeriesAerox3Wireless(hid_device_info* info, const std::string& name)
+{
+    hid_device* dev = hid_open_path(info->path);
+    if(dev)
+    {
+        SteelSeriesAerox3WirelessController* controller             = new SteelSeriesAerox3WirelessController(dev, AEROX_3_WIRELESS, info->path);
+        RGBController_SteelSeriesRival3* rgb_controller     = new RGBController_SteelSeriesRival3(controller);
+        rgb_controller->name                                = name;
+        ResourceManager::get()->RegisterRGBController(rgb_controller);
+    }
+}
+
+void DetectSteelSeriesAerox3WirelessWired(hid_device_info* info, const std::string& name)
+{
+    hid_device* dev = hid_open_path(info->path);
+    if(dev)
+    {
+        SteelSeriesAerox3WirelessController* controller             = new SteelSeriesAerox3WirelessController(dev, AEROX_3_WIRELESS_WIRED, info->path);
         RGBController_SteelSeriesRival3* rgb_controller     = new RGBController_SteelSeriesRival3(controller);
         rgb_controller->name                                = name;
         ResourceManager::get()->RegisterRGBController(rgb_controller);
@@ -328,6 +355,8 @@ void DetectSteelSeriesArctis5(hid_device_info* info, const std::string& name)
 /*-------------------------------------------------------------------------------------------------------------------------------------------------------------------------*\
 | Mice                                                                                                                                                                      |
 \*-------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+REGISTER_HID_DETECTOR_IPU("SteelSeries Aerox 3 Wireless",                   DetectSteelSeriesAerox3Wireless,    STEELSERIES_VID, STEELSERIES_AEROX_3_WIRELESS_PID,                       3, 0xFFC0, 1 );
+REGISTER_HID_DETECTOR_IPU("SteelSeries Aerox 3 Wireless Wired",                   DetectSteelSeriesAerox3WirelessWired,    STEELSERIES_VID, STEELSERIES_AEROX_3_WIRELESS_WIRED_PID,                       3, 0xFFC0, 1 );
 REGISTER_HID_DETECTOR_IPU("SteelSeries Aerox 3 Wired",                      DetectSteelSeriesAerox3,    STEELSERIES_VID, STEELSERIES_AEROX_3_PID,                       3, 0xFFC0, 1 );
 REGISTER_HID_DETECTOR_IPU("SteelSeries Aerox 5 Wired",                      DetectSteelSeriesAerox5,    STEELSERIES_VID, STEELSERIES_AEROX_5_PID,                       3, 0xFFC0, 1 );
 REGISTER_HID_DETECTOR_IPU("SteelSeries Aerox 9 Wired",                      DetectSteelSeriesAerox9,    STEELSERIES_VID, STEELSERIES_AEROX_9_PID,                       3, 0xFFC0, 1 );
