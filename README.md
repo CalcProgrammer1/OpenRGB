@@ -108,6 +108,7 @@ This project interacts directly with hardware using reverse engineered protocols
   * OpenRGB-python-FX (by herosilas12): https://github.com/herosilas12/OpenRGB-python-FX
   * AllMyLights (by sparten11740): https://github.com/sparten11740/allmylights
   * OpenRGBRemote (by morg): https://gitlab.com/mguimard/openrgbremote
+  * PiLED (by PolisanTheEasyNick): https://github.com/PolisanTheEasyNick/PiLED
 
 ## OpenRGB Plugins
 
