@@ -110,6 +110,7 @@
 #define NVIDIA_RTX4070S_DEV                             0x2783
 #define NVIDIA_RTX4070TI_DEV                            0x2782
 #define NVIDIA_RTX4070TIS_DEV                           0x2705
+#define NVIDIA_RTX4070TIS_AD102_DEV                     0x2689
 #define NVIDIA_RTX4080_DEV                              0x2704
 #define NVIDIA_RTX4080S_DEV                             0x2702
 #define NVIDIA_RTX4090_DEV                              0x2684
@@ -371,6 +372,7 @@
 #define COLORFUL_IGAME_RTX_3080_ULTRAW_OC_10G           0x1501
 #define COLORFUL_IGAME_RTX_3080_ULTRAW_OC_10G_2         0x150A
 #define COLORFUL_IGAME_RTX_4070_TI_ADVANCED_OCV         0x1400
+#define COLORFUL_IGAME_RTX_4070_TI_SUPER_ADVANCED_OCV2  0x1400
 #define COLORFUL_IGAME_RTX_4070_VULCAN_OCV              0x1200
 #define COLORFUL_IGAME_RTX_4080_ULTRAW_OCV              0x1500
 #define COLORFUL_IGAME_RTX_4080_ULTRAW_OCV2             0x1501
