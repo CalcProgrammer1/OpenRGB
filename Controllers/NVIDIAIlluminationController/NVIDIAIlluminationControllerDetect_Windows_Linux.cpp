@@ -64,6 +64,7 @@ static const nv_gpu_pci_device device_list[] =
     {NVIDIA_VEN,    NVIDIA_RTX3080TI_DEV,           NVIDIA_VEN,       MANLI_RTX3080TI_GALLARDO_SUB_DEV,               NVIDIA_ILLUMINATION_V1,     TREATS_RGBW_AS_RGB,     "MANLI RTX 3080 Ti GALLARDO"                },
     {NVIDIA_VEN,    NVIDIA_RTX3090_DEV,             NVIDIA_VEN,       NVIDIA_RTX3090_FE_SUB_DEV,                      NVIDIA_ILLUMINATION_V1,     TREATS_RGBW_AS_RGBW,    "NVIDIA RTX 3090 FE"                        },
     {NVIDIA_VEN,    NVIDIA_RTX3090TI_DEV,           NVIDIA_VEN,       NVIDIA_RTX3090TI_FE_SUB_DEV,                    NVIDIA_ILLUMINATION_V1,     TREATS_RGBW_AS_RGBW,    "NVIDIA RTX 3090 Ti FE"                     },
+    {NVIDIA_VEN,    NVIDIA_RTX4060_DEV,             PALIT_SUB_VEN,    PALIT_RTX4060_SUB_DEV,                          NVIDIA_ILLUMINATION_V1,     TREATS_RGBW_AS_RGB,     "Palit RTX 4060 Dual"                       },
     {NVIDIA_VEN,    NVIDIA_RTX4070_DEV,             PALIT_SUB_VEN,    PALIT_RTX4070_SUB_DEV,                          NVIDIA_ILLUMINATION_V1,     TREATS_RGBW_AS_RGB,     "Palit RTX 4070"                            },
     {NVIDIA_VEN,    NVIDIA_RTX4070S_DEV,            PALIT_SUB_VEN,    PALIT_RTX4070S_SUB_DEV,                         NVIDIA_ILLUMINATION_V1,     TREATS_RGBW_AS_RGB,     "Palit RTX 4070 SUPER Dual"                 },
     {NVIDIA_VEN,    NVIDIA_RTX4070_DEV,             GAINWARD_SUB_VEN, GAINWARD_RTX_4070_GHOST_SUB_DEV,                NVIDIA_ILLUMINATION_V1,     TREATS_RGBW_AS_RGBW,    "Gainward 4070 Ghost"                       },
