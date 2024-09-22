@@ -415,6 +415,7 @@ REGISTER_HID_DETECTOR_IP("ASUS ROG Keris Wireless Bluetooth",                   
 REGISTER_HID_DETECTOR_IP("ASUS ROG Keris Wireless AimPoint USB",                DetectAsusAuraUSBMice,  AURA_USB_VID, AURA_ROG_KERIS_WIRELESS_AIMPOINT_USB_PID,         0,  0xFF01);
 REGISTER_HID_DETECTOR_IP("ASUS ROG Keris Wireless AimPoint 2.4Ghz",             DetectAsusAuraUSBMice,  AURA_USB_VID, AURA_ROG_KERIS_WIRELESS_AIMPOINT_2_4_PID,         0,  0xFF01);
 REGISTER_HID_DETECTOR_IP("ASUS TUF Gaming M3",                                  DetectAsusAuraUSBMice,  AURA_USB_VID, AURA_TUF_M3_PID,                                  1,  0xFF01);
+REGISTER_HID_DETECTOR_IP("ASUS TUF Gaming M3 Gen II",                           DetectAsusAuraUSBMice,  AURA_USB_VID, AURA_TUF_M3_GEN_II_PID,                           2,  0xFF01);
 REGISTER_HID_DETECTOR_IP("ASUS TUF Gaming M5",                                  DetectAsusAuraUSBMice,  AURA_USB_VID, AURA_TUF_M5_PID,                                  2,  0xFF01);
 
 REGISTER_HID_DETECTOR_IP("ASUS ROG Strix Evolve",                       DetectAsusAuraUSBStrixEvolve,   AURA_USB_VID, AURA_ROG_STRIX_EVOLVE_PID,                    1,  0x0008);
