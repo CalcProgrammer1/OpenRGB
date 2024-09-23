@@ -10,11 +10,7 @@
 \*---------------------------------------------------------*/
 
 #include <cstring>
-#include <iomanip>
-#include <iostream>
 #include "AirgooLustrousCommanderController.h"
-
-using namespace std::chrono_literals;
 
 AirgooLustrousCommanderController::AirgooLustrousCommanderController(hid_device* dev_handle, const char* path)
 {
@@ -71,11 +67,6 @@ std::string AirgooLustrousCommanderController::GetLocationString()
     return("HID: " + location);
 }
 
-void AirgooLustrousCommanderController::SetMode(unsigned char mode)
-{
-    active_mode = mode;
-}
-
 void AirgooLustrousCommanderController::UpdateDevice
     (
     unsigned char   mode,
@@ -96,18 +87,6 @@ void AirgooLustrousCommanderController::UpdateDevice
 
     switch(mode)
     {
-        case 0: //off
-            usb_buf[0x01]       = 0x09; //number of bytes in package
-            usb_buf[0x02]       = 0xFF;
-            usb_buf[0x03]       = 0x00;
-            usb_buf[0x04]       = 0xF0;
-            usb_buf[0x05]       = 0x00; //Red
-            usb_buf[0x06]       = 0x00; //Green
-            usb_buf[0x07]       = 0x00; //Blue
-            usb_buf[0x08]       = 0x05;
-            usb_buf[0x09]       = 0x05;
-            usb_buf[0x0A]       = 0xFE;
-        break;
         case 1: //static
             usb_buf[0x01]       = 0x09; //number of bytes in package
             usb_buf[0x02]       = 0xFF;

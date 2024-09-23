@@ -11,7 +11,6 @@
 
 #pragma once
 
-#include <chrono>
 #include <vector>
 #include <hidapi.h>
 #include "RGBController.h"
@@ -29,7 +28,6 @@ public:
     std::string GetLocationString();
 
     void        SetFanMode();
-    void        SetMode(unsigned char mode);
     void        UpdateDevice
                 (
                 unsigned char   mode,
@@ -41,7 +39,6 @@ public:
 
 private:
     hid_device*             dev;
-    unsigned char           active_mode;
     std::string             location;
 
     void        InitController();

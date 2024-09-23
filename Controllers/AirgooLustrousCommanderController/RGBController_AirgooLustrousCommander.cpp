@@ -15,17 +15,10 @@ RGBController_AirgooLustrousCommander::RGBController_AirgooLustrousCommander(Air
 {
     controller  = controller_ptr;
 
-    vendor      = "Aurgoo";
+    vendor      = "Airgoo";
     description = "Lustrous Commander";
     type        = DEVICE_TYPE_LEDSTRIP;
     location    = controller->GetLocationString();
-
-    mode Off;
-    Off.name       = "Off";
-    Off.value      = 0;
-    Off.flags      = 0;
-    Off.color_mode = MODE_COLORS_NONE;
-    modes.push_back(Off);
 
     mode Static;
     Static.name       = "Static";
@@ -182,11 +175,6 @@ void RGBController_AirgooLustrousCommander::UpdateZoneLEDs(int /*zone*/)
 void RGBController_AirgooLustrousCommander::UpdateSingleLED(int /*led*/)
 {
     DeviceUpdateLEDs();
-}
-
-void RGBController_AirgooLustrousCommander::SetCustomMode()
-{
-    active_mode = 0;
 }
 
 void RGBController_AirgooLustrousCommander::DeviceUpdateMode()
