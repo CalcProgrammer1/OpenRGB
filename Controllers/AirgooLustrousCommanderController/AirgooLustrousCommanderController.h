@@ -1,23 +1,24 @@
 /*---------------------------------------------------------*\
-|  AirgooLustrousCommanderController.h                      |
+| AirgooLustrousCommanderController.h                       |
 |                                                           |
-|  Definitions for Airgoo Lustrous Commander                |
-|  Based on code by:                                        |
-|  Jeff P (@jeffp1), 2020/02/07                             |
+|   Driver for Airgoo Lustrous Commander                    |
 |                                                           |
-|  Zachary G                                                |
+|   Zacahry Guinn                               07 Feb 2022 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
 \*---------------------------------------------------------*/
-
-#include "RGBController.h"
-#include <vector>
-#include <chrono>
-#include <hidapi/hidapi.h>
 
 #pragma once
 
-#define AIRGOO_LUSTROUS_COMMANDER_PACKET_SIZE         65
-#define AIRGOO_LUSTROUS_COMMANDER_NUM_RGB_CHANNELS     2
-#define AIRGOO_LUSTROUS_COMMANDER_NUM_FAN_CHANNELS     4
+#include <chrono>
+#include <vector>
+#include <hidapi.h>
+#include "RGBController.h"
+
+#define AIRGOO_LUSTROUS_COMMANDER_PACKET_SIZE       65
+#define AIRGOO_LUSTROUS_COMMANDER_NUM_RGB_CHANNELS  2
+#define AIRGOO_LUSTROUS_COMMANDER_NUM_FAN_CHANNELS  4
 
 class AirgooLustrousCommanderController
 {
@@ -38,11 +39,9 @@ public:
                 unsigned char   speed
                 );
 
-    
 private:
     hid_device*             dev;
     unsigned char           active_mode;
-    std::atomic<bool>       controller_ready;
     std::string             location;
 
     void        InitController();

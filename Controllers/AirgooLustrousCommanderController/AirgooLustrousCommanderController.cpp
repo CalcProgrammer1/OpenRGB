@@ -1,18 +1,18 @@
 /*---------------------------------------------------------*\
-|  AirgooLustrousCommanderController.cpp                    |
+| AirgooLustrousCommanderController.cpp                     |
 |                                                           |
-|  Processing Code for Airgoo Lustrous Commander            |
-|  Based on code by:                                        |
-|  Jeff P (@jeffp1), 2020/02/07                             |
+|   Driver for Airgoo Lustrous Commander                    |
 |                                                           |
-|  Zacahry G.                                               |
+|   Zacahry Guinn                               07 Feb 2022 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
 \*---------------------------------------------------------*/
-
-#include "AirgooLustrousCommanderController.h"
 
 #include <cstring>
 #include <iomanip>
 #include <iostream>
+#include "AirgooLustrousCommanderController.h"
 
 using namespace std::chrono_literals;
 
@@ -20,14 +20,11 @@ AirgooLustrousCommanderController::AirgooLustrousCommanderController(hid_device*
 {
     dev                     = dev_handle;
     location                = path;
-    controller_ready        = 0;
 
     /*-----------------------------------------------------*\
     | Initialize controller                                 |
     \*-----------------------------------------------------*/
     InitController();
-
-
 }
 
 AirgooLustrousCommanderController::~AirgooLustrousCommanderController()
@@ -41,9 +38,9 @@ AirgooLustrousCommanderController::~AirgooLustrousCommanderController()
 void AirgooLustrousCommanderController::InitController()
 {
     unsigned char   usb_buf[AIRGOO_LUSTROUS_COMMANDER_PACKET_SIZE];
- 
+
     /*-----------------------------------------------------*\
-    | Initialize Controller                                 |
+    | Send initialization packet                            |
     \*-----------------------------------------------------*/
     memset(usb_buf, 0x00, sizeof(usb_buf));
 
@@ -56,7 +53,7 @@ void AirgooLustrousCommanderController::InitController()
 
     //expecting the device to return AA 55 01
     hid_read(dev, usb_buf, AIRGOO_LUSTROUS_COMMANDER_PACKET_SIZE);
-    
+
     usb_buf[0x00]       = 0x00;
     usb_buf[0x01]       = 0x03;
     usb_buf[0x02]       = 0x55;
@@ -67,9 +64,6 @@ void AirgooLustrousCommanderController::InitController()
     hid_write(dev, usb_buf, AIRGOO_LUSTROUS_COMMANDER_PACKET_SIZE);
 
     //device will send aa 55 00 back and it seems that we should be ready to send commands at this point
-
-    controller_ready    = 1;
-
 }
 
 std::string AirgooLustrousCommanderController::GetLocationString()
@@ -82,20 +76,21 @@ void AirgooLustrousCommanderController::SetMode(unsigned char mode)
     active_mode = mode;
 }
 
-
-void AirgooLustrousCommanderController::UpdateDevice(
+void AirgooLustrousCommanderController::UpdateDevice
+    (
     unsigned char   mode,
     unsigned char   red,
     unsigned char   grn,
     unsigned char   blu,
-    unsigned char   speed)
+    unsigned char   speed
+    )
 {
     unsigned char usb_buf[65];
 
     memset(usb_buf, 0x00, sizeof(usb_buf));
 
     /*-----------------------------------------------------*\
-    | Set up message packet with leading 00                  |
+    | Set up message packet with leading 00                 |
     \*-----------------------------------------------------*/
     usb_buf[0x00]       = 0x00;
 

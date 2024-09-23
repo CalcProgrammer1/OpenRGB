@@ -1,12 +1,13 @@
-/*-----------------------------------------*\
-|  RGBController_AirgooLustrousCommander.cpp|
-|                                           |
-|  Generic RGB Interface for Airgoo         |
-|  Based on code by:                        |
-|  Jeff P (@jeffp1), 2020/02/07             |
-|                                           |
-|  Zachary G                                |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_AirgooLustrousCommander.cpp                 |
+|                                                           |
+|   RGBController for Airgoo Lustrous Commander             |
+|                                                           |
+|   Zacahry Guinn                               07 Feb 2022 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #include "RGBController_AirgooLustrousCommander.h"
 
@@ -19,74 +20,6 @@ RGBController_AirgooLustrousCommander::RGBController_AirgooLustrousCommander(Air
     type        = DEVICE_TYPE_LEDSTRIP;
     location    = controller->GetLocationString();
 
-    SetupZones();
-    SetupModes();
-}
-
-RGBController_AirgooLustrousCommander::~RGBController_AirgooLustrousCommander()
-{
-    delete controller;
-}
-
-void RGBController_AirgooLustrousCommander::SetupZones()
-{
-    std::atomic<bool> first_run;
-    first_run = 0;
-
-    if(zones.size() == 0)
-    {
-        first_run = 1;
-    }
-
-    zones.resize(3);
-
-    for(unsigned int i = 1; i < (AIRGOO_LUSTROUS_COMMANDER_NUM_RGB_CHANNELS + 1); i++)
-    {
-        zones[i].name               = "RGB Port " + std::to_string(i);
-        zones[i].type               = ZONE_TYPE_LINEAR;
-        zones[i].leds_min           = 1;
-        zones[i].leds_max           = 34;
-
-        if(first_run)
-        {
-            zones[i].leds_count     = 1;
-        }
-    }
-
-    leds.clear();
-    colors.clear();
-
-    for(unsigned int zone_idx = 0; zone_idx < zones.size(); zone_idx++)
-    {
-        for (unsigned int led_idx = 0; led_idx < zones[zone_idx].leds_count; led_idx++)
-        {
-            led new_led;
-            new_led.name            = zones[zone_idx].name + " LED " + std::to_string(led_idx+1);
-
-            leds.push_back(new_led);
-        }
-    }
-
-    SetupColors();
-}
-
-void RGBController_AirgooLustrousCommander::ResizeZone(int zone, int new_size)
-{
-    if((size_t) zone >= zones.size())
-    {
-        return;
-    }
-
-    if(((unsigned int)new_size >= zones[zone].leds_min) && ((unsigned int)new_size <= zones[zone].leds_max))
-    {
-        zones[zone].leds_count = new_size;
-
-        SetupZones();
-    }
-}
-
-void RGBController_AirgooLustrousCommander::SetupModes()
-{
     mode Off;
     Off.name       = "Off";
     Off.value      = 0;
@@ -171,6 +104,69 @@ void RGBController_AirgooLustrousCommander::SetupModes()
     // ColorMeteor.color_mode = MODE_COLORS_MODE_SPECIFIC;
     // modes.push_back(ColorMeteor);
 
+    SetupZones();
+}
+
+RGBController_AirgooLustrousCommander::~RGBController_AirgooLustrousCommander()
+{
+    delete controller;
+}
+
+void RGBController_AirgooLustrousCommander::SetupZones()
+{
+    std::atomic<bool> first_run;
+    first_run = 0;
+
+    if(zones.size() == 0)
+    {
+        first_run = 1;
+    }
+
+    zones.resize(3);
+
+    for(unsigned int i = 1; i < (AIRGOO_LUSTROUS_COMMANDER_NUM_RGB_CHANNELS + 1); i++)
+    {
+        zones[i].name               = "RGB Port " + std::to_string(i);
+        zones[i].type               = ZONE_TYPE_LINEAR;
+        zones[i].leds_min           = 0;
+        zones[i].leds_max           = 34;
+
+        if(first_run)
+        {
+            zones[i].leds_count     = 0;
+        }
+    }
+
+    leds.clear();
+    colors.clear();
+
+    for(unsigned int zone_idx = 0; zone_idx < zones.size(); zone_idx++)
+    {
+        for (unsigned int led_idx = 0; led_idx < zones[zone_idx].leds_count; led_idx++)
+        {
+            led new_led;
+            new_led.name            = zones[zone_idx].name + " LED " + std::to_string(led_idx+1);
+
+            leds.push_back(new_led);
+        }
+    }
+
+    SetupColors();
+}
+
+void RGBController_AirgooLustrousCommander::ResizeZone(int zone, int new_size)
+{
+    if((size_t) zone >= zones.size())
+    {
+        return;
+    }
+
+    if(((unsigned int)new_size >= zones[zone].leds_min) && ((unsigned int)new_size <= zones[zone].leds_max))
+    {
+        zones[zone].leds_count = new_size;
+
+        SetupZones();
+    }
 }
 
 void RGBController_AirgooLustrousCommander::DeviceUpdateLEDs()

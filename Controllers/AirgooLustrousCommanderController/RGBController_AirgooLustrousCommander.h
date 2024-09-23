@@ -1,15 +1,16 @@
-/*-----------------------------------------*\
-|  RGBController_AirgooLustrousCommander.h  |
-|                                           |
-|  Generic RGB Interface for Airgoo         |
-|  Lustrous Commander                       |
-|  Based on code by:                        |
-|  Jeff P (@jeffp1), 2020/02/07             |
-|                                           |
-|  Zachary G                                |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_AirgooLustrousCommander.cpp                 |
+|                                                           |
+|   RGBController for Airgoo Lustrous Commander             |
+|                                                           |
+|   Zacahry Guinn                               07 Feb 2022 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #pragma once
+
 #include "RGBController.h"
 #include "AirgooLustrousCommanderController.h"
 
@@ -21,8 +22,8 @@ public:
 
     void        SetupZones();
     void        ResizeZone(int zone, int new_size);
+
     void        DeviceUpdateLEDs();
-    void        SetupModes();
     void        UpdateZoneLEDs(int zone);
     void        UpdateSingleLED(int led);
 
@@ -30,6 +31,6 @@ public:
     void        DeviceUpdateMode();
 
 private:
-    AirgooLustrousCommanderController*     controller;
+    AirgooLustrousCommanderController*  controller;
     std::vector<int>                    fanleds{0};
 };
