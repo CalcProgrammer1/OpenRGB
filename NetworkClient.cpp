@@ -11,6 +11,7 @@
 
 #include <cstring>
 #include "NetworkClient.h"
+#include "LogManager.h"
 #include "RGBController_Network.h"
 
 #ifdef _WIN32
@@ -163,6 +164,7 @@ void NetworkClient::StartClient()
 
 void NetworkClient::StopClient()
 {
+    LOG_TRACE("[NetworkClient]: StopClient started");
     /*---------------------------------------------------------*\
     | Disconnect the server and set it as inactive              |
     \*---------------------------------------------------------*/
@@ -181,6 +183,8 @@ void NetworkClient::StopClient()
     client_active    = false;
     server_connected = false;
 
+    LOG_TRACE("[NetworkClient]: Socket shut down");
+
     /*---------------------------------------------------------*\
     | Close the listen thread                                   |
     \*---------------------------------------------------------*/
@@ -191,25 +195,34 @@ void NetworkClient::StopClient()
         ListenThread = nullptr;
     }
 
+    LOG_TRACE("[NetworkClient]: ListenThread stopped");
+
     /*---------------------------------------------------------*\
     | Close the connection thread                               |
     \*---------------------------------------------------------*/
     if(ConnectionThread)
     {
+        connection_cv.notify_all();
         ConnectionThread->join();
         delete ConnectionThread;
         ConnectionThread = nullptr;
     }
 
+    LOG_TRACE("[NetworkClient]: ConnectionThread stopped");
+
     /*---------------------------------------------------------*\
     | Client info has changed, call the callbacks               |
     \*---------------------------------------------------------*/
     ClientInfoChanged();
+
+    LOG_TRACE("[NetworkClient]: ClientInfoChange notified, StopClient finished");
 }
 
 void NetworkClient::ConnectionThreadFunction()
 {
     unsigned int requested_controllers;
+
+    std::unique_lock<std::mutex> lock(connection_mutex);
 
     /*---------------------------------------------------------*\
     | This thread manages the connection to the server          |
@@ -229,6 +242,7 @@ void NetworkClient::ConnectionThreadFunction()
             if(port.tcp_client_connect() == true)
             {
                 client_sock = port.sock;
+                LOG_TRACE("[NetworkClient]: Connected to server [%s]", port_ip.c_str());
                 printf( "Connected to server\n" );
 
                 /*---------------------------------------------------------*\
@@ -253,11 +267,16 @@ void NetworkClient::ConnectionThreadFunction()
             }
             else
             {
+                LOG_TRACE("[NetworkClient]: Connection attempt failed");
                 printf( "Connection attempt failed\n" );
             }
         }
 
-        if(server_initialized == false && server_connected == true)
+        /*-----------------------------------------------------------*\
+        | TIP: we double-check client_active as it could have changed |
+        \*-----------------------------------------------------------*/
+
+        if(client_active && server_initialized == false && server_connected == true)
         {
             unsigned int timeout_counter     = 0;
             requested_controllers            = 0;
@@ -268,7 +287,11 @@ void NetworkClient::ConnectionThreadFunction()
             /*---------------------------------------------------------*\
             | Wait for server to connect                                |
             \*---------------------------------------------------------*/
-            std::this_thread::sleep_for(100ms);
+            connection_cv.wait_for(lock, 100ms);
+            if(!client_active)
+            {
+                break;
+            }
 
             /*---------------------------------------------------------*\
             | Request protocol version                                  |
@@ -280,7 +303,11 @@ void NetworkClient::ConnectionThreadFunction()
             \*---------------------------------------------------------*/
             while(!server_protocol_version_received)
             {
-                std::this_thread::sleep_for(5ms);
+                connection_cv.wait_for(lock, 5ms);
+                if(!client_active)
+                {
+                    break;
+                }
 
                 timeout_counter++;
 
@@ -311,7 +338,11 @@ void NetworkClient::ConnectionThreadFunction()
             \*---------------------------------------------------------*/
             while(!server_controller_count_received)
             {
-                std::this_thread::sleep_for(5ms);
+                connection_cv.wait_for(lock, 5ms);
+                if(!client_active)
+                {
+                    break;
+                }
             }
 
             printf("Client: Received controller count from server: %d\r\n", server_controller_count);
@@ -331,7 +362,11 @@ void NetworkClient::ConnectionThreadFunction()
                 \*---------------------------------------------------------*/
                 while(controller_data_received == false)
                 {
-                    std::this_thread::sleep_for(5ms);
+                    connection_cv.wait_for(lock, 5ms);
+                    if(!client_active)
+                    {
+                        break;
+                    }
                 }
 
                 requested_controllers++;
@@ -358,8 +393,18 @@ void NetworkClient::ConnectionThreadFunction()
             ClientInfoChanged();
         }
 
-        std::this_thread::sleep_for(1s);
+        /*---------------------------------------------------------*\
+        | Wait 1 sec or until the thread is requested to stop       |
+        \*---------------------------------------------------------*/
+
+        LOG_TRACE("[NetworkClient]: Waiting 1s before the next iteration");
+        connection_cv.wait_for(lock, 1s);
     }
+    /*---------------------------------------------------------*\
+    | lock is unlocked automatically                            |
+    \*---------------------------------------------------------*/
+
+    LOG_TRACE("[NetworkClient]: ConnectionThread exited");
 }
 
 int NetworkClient::recv_select(SOCKET s, char *buf, int len, int flags)

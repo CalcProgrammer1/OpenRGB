@@ -13,6 +13,7 @@
 
 #include <mutex>
 #include <thread>
+#include <condition_variable>
 #include "RGBController.h"
 #include "NetworkProtocol.h"
 #include "net_port.h"
@@ -93,7 +94,7 @@ private:
     net_port        port;
     std::string     port_ip;
     unsigned short  port_num;
-    bool            client_active;
+    std::atomic<bool> client_active;
     bool            controller_data_received;
     bool            server_connected;
     bool            server_initialized;
@@ -103,6 +104,9 @@ private:
     bool            server_protocol_version_received;
     bool            change_in_progress;
     std::mutex      send_in_progress;
+
+    std::mutex      connection_mutex;
+    std::condition_variable connection_cv;
 
     std::thread *   ConnectionThread;
     std::thread *   ListenThread;
