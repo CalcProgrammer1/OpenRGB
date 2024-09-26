@@ -38,6 +38,9 @@ static std::string                 profile_save_filename = "";
 const unsigned int                 brightness_percentage = 100;
 const unsigned int                 speed_percentage      = 100;
 
+static int preserve_argc = 0;
+static char** preserve_argv = nullptr;
+
 enum
 {
     RET_FLAG_PRINT_HELP         = 1,
@@ -889,7 +892,7 @@ bool OptionSaveProfile(std::string argument)
     return(true);
 }
 
-int ProcessOptions(int argc, char* argv[], Options* options, std::vector<RGBController *>& rgb_controllers)
+int ProcessOptions(Options* options, std::vector<RGBController *>& rgb_controllers)
 {
     unsigned int ret_flags  = 0;
     int arg_index           = 1;
@@ -903,18 +906,18 @@ int ProcessOptions(int argc, char* argv[], Options* options, std::vector<RGBCont
     wchar_t** argvw = CommandLineToArgvW(GetCommandLineW(), &fake_argc);
 #endif
 
-    while(arg_index < argc)
+    while(arg_index < preserve_argc)
     {
-        std::string option   = argv[arg_index];
+        std::string option   = preserve_argv[arg_index];
         std::string argument = "";
         filesystem::path arg_path;
 
         /*---------------------------------------------------------*\
         | Handle options that take an argument                      |
         \*---------------------------------------------------------*/
-        if(arg_index + 1 < argc)
+        if(arg_index + 1 < preserve_argc)
         {
-            argument = argv[arg_index + 1];
+            argument = preserve_argv[arg_index + 1];
 #ifdef _WIN32
             arg_path = argvw[arg_index + 1];
 #else
@@ -1265,6 +1268,9 @@ unsigned int cli_pre_detection(int argc, char* argv[])
     unsigned short  server_port  = OPENRGB_SDK_PORT;
     bool            server_start = false;
     bool            print_help   = false;
+
+    preserve_argc = argc;
+    preserve_argv = argv;
 
 #ifdef _WIN32
     int fake_argc;
@@ -1697,7 +1703,7 @@ unsigned int cli_pre_detection(int argc, char* argv[])
     return(ret_flags);
 }
 
-unsigned int cli_post_detection(int argc, char *argv[])
+unsigned int cli_post_detection()
 {
     /*---------------------------------------------------------*\
     | Wait for device detection                                 |
@@ -1713,7 +1719,7 @@ unsigned int cli_post_detection(int argc, char *argv[])
     | Process the argument options                              |
     \*---------------------------------------------------------*/
     Options options;
-    unsigned int ret_flags = ProcessOptions(argc, argv, &options, rgb_controllers);
+    unsigned int ret_flags = ProcessOptions(&options, rgb_controllers);
 
     /*---------------------------------------------------------*\
     | If the return flags are set, exit CLI mode without        |

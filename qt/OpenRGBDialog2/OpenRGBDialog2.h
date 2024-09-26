@@ -108,6 +108,7 @@ private:
     OpenRGBNanoleafSettingsPage *NanoleafSettingsPage;
 
     bool ShowI2CTools = false;
+    bool plugins_loaded = false;
 
     /*-------------------------------------*\
     | System tray icon and menu             |
@@ -188,5 +189,4 @@ private slots:
     void on_InformationTabBar_currentChanged(int);
     void on_DevicesTabBar_currentChanged(int);
     void on_SettingsTabBar_currentChanged(int);
-
 };

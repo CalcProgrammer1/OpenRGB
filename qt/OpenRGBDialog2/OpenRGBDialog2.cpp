@@ -433,7 +433,6 @@ OpenRGBDialog2::OpenRGBDialog2(QWidget *parent) : QMainWindow(parent), ui(new Op
     plugin_manager = new PluginManager();
     plugin_manager->RegisterAddPluginCallback(&CreatePluginCallback, this);
     plugin_manager->RegisterRemovePluginCallback(&DeletePluginCallback, this);
-    plugin_manager->ScanAndLoadPlugins();
 
     /*-----------------------------------------------------*\
     | Add the Plugins page                                  |
@@ -1448,10 +1447,19 @@ void OpenRGBDialog2::onDetectionProgressUpdated()
 
 void OpenRGBDialog2::onDetectionEnded()
 {
-    /*-----------------------------------------------------*\
-    | Detect unconfigured zones and prompt for resizing     |
-    \*-----------------------------------------------------*/
+    /*-------------------------------------------------------*\
+    | Detect unconfigured zones and prompt for resizing       |
+    \*-------------------------------------------------------*/
     OpenRGBZonesBulkResizer::RunChecks(this);
+
+    /*-------------------------------------------------------*\
+    | Load plugins after the first detection (ONLY the first) |
+    \*-------------------------------------------------------*/
+    if(!plugins_loaded)
+    {
+        plugin_manager->ScanAndLoadPlugins();
+        plugins_loaded = true;
+    }
 }
 
 void OpenRGBDialog2::on_SetAllDevices(unsigned char red, unsigned char green, unsigned char blue)

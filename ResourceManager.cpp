@@ -19,6 +19,7 @@
 #include <stdlib.h>
 #include <string>
 #include <hidapi.h>
+#include "cli.h"
 #include "ResourceManager.h"
 #include "ProfileManager.h"
 #include "LogManager.h"
@@ -82,6 +83,7 @@ ResourceManager::ResourceManager()
     detection_percent           = 100;
     detection_string            = "";
     detection_is_required       = false;
+    InitThread                  = nullptr;
     DetectDevicesThread         = nullptr;
     dynamic_detectors_processed = false;
 
@@ -168,6 +170,13 @@ ResourceManager::ResourceManager()
 ResourceManager::~ResourceManager()
 {
     Cleanup();
+
+    if(InitThread)
+    {
+        DetectDevicesThread->join();
+        delete DetectDevicesThread;
+        DetectDevicesThread = nullptr;
+    }
 }
 
 void ResourceManager::RegisterI2CBus(i2c_smbus_interface *bus)
@@ -642,6 +651,76 @@ void ResourceManager::UnregisterNetworkClient(NetworkClient* network_client)
     UpdateDeviceList();
 }
 
+
+/******************************************************************************************\
+*                                                                                          *
+*   AttemptLocalConnection                                                                 *
+*                                                                                          *
+*       Attempts an SDK connection to the local server.  Returns true if success           *
+*                                                                                          *
+\******************************************************************************************/
+
+bool ResourceManager::AttemptLocalConnection()
+{
+    detection_percent = 0;
+    detection_string  = "Attempting local server connection...";
+    DetectionProgressChanged();
+
+    LOG_DEBUG("[ResourceManager] Attempting server connection...");
+
+    bool success = false;
+
+    NetworkClient * client = new NetworkClient(ResourceManager::get()->GetRGBControllers());
+
+    std::string titleString = "OpenRGB ";
+    titleString.append(VERSION_STRING);
+
+    client->SetName(titleString.c_str());
+    client->StartClient();
+
+    for(int timeout = 0; timeout < 10; timeout++)
+    {
+        if(client->GetConnected())
+        {
+            break;
+        }
+        std::this_thread::sleep_for(5ms);
+    }
+
+    if(!client->GetConnected())
+    {
+        LOG_TRACE("[main] Client failed to connect");
+        client->StopClient();
+        LOG_TRACE("[main] Client stopped");
+
+        delete client;
+
+        client = NULL;
+    }
+    else
+    {
+        ResourceManager::get()->RegisterNetworkClient(client);
+        LOG_TRACE("[main] Registered network client");
+
+        success = true;
+
+        /*-----------------------------------------------------*\
+        | Wait up to 5 seconds for the client connection to     |
+        | retrieve all controllers                              |
+        \*-----------------------------------------------------*/
+        for(int timeout = 0; timeout < 1000; timeout++)
+        {
+            if(client->GetOnline())
+            {
+                break;
+            }
+            std::this_thread::sleep_for(5ms);
+        }
+    }
+
+    return success;
+}
+
 std::vector<NetworkClient*>& ResourceManager::GetClients()
 {
     return(clients);
@@ -744,7 +823,12 @@ void ResourceManager::ProcessDynamicDetectors()
     dynamic_detectors_processed = true;
 }
 
-void ResourceManager::DetectDevices()
+/*-----------------------------------------------------*\
+| Handle ALL pre-detection routines                     |
+| The system should be ready to start a detection thread|
+| (returns false if detection can not proceed)          |
+\*-----------------------------------------------------*/
+bool ResourceManager::ProcessPreDetection()
 {
     /*-----------------------------------------------------*\
     | Process pre-detection hooks                           |
@@ -773,7 +857,6 @@ void ResourceManager::DetectDevices()
     | Update the detector settings                          |
     \*-----------------------------------------------------*/
     UpdateDetectorSettings();
-
     if(detection_enabled)
     {
         /*-------------------------------------------------*\
@@ -781,7 +864,7 @@ void ResourceManager::DetectDevices()
         \*-------------------------------------------------*/
         if(detection_is_required.load())
         {
-            return;
+            return false;
         }
 
         /*-------------------------------------------------*\
@@ -808,6 +891,16 @@ void ResourceManager::DetectDevices()
         | Start the device detection thread                 |
         \*-------------------------------------------------*/
         detection_is_required = true;
+
+        return true;
+    }
+    return false;
+}
+
+void ResourceManager::DetectDevices()
+{
+    if(ProcessPreDetection())
+    {
         DetectDevicesThread = new std::thread(&ResourceManager::DetectDevicesThreadFunction, this);
 
         /*-------------------------------------------------*\
@@ -816,22 +909,35 @@ void ResourceManager::DetectDevices()
         \*-------------------------------------------------*/
         std::this_thread::sleep_for(1ms);
     }
-    else
-    {
-        /*-------------------------------------------------*\
-        | Signal that detection is complete                 |
-        \*-------------------------------------------------*/
-        detection_percent     = 100;
-        DetectionProgressChanged();
 
-        /*-----------------------------------------------------*\
-        | Call detection end callbacks                          |
-        \*-----------------------------------------------------*/
-        for(unsigned int callback_idx = 0; callback_idx < DetectionEndCallbacks.size(); callback_idx++)
-        {
-            DetectionEndCallbacks[callback_idx](DetectionEndCallbackArgs[callback_idx]);
-        }
+    if(!detection_enabled)
+    {
+        ProcessPostDetection();
     }
+}
+
+void ResourceManager::ProcessPostDetection()
+{
+    /*-------------------------------------------------*\
+    | Signal that detection is complete                 |
+    \*-------------------------------------------------*/
+    detection_percent     = 100;
+    DetectionProgressChanged();
+
+    LOG_INFO("[ResourceManager] Calling Post-detection callbacks");
+    /*-----------------------------------------------------*\
+    | Call detection end callbacks                          |
+    \*-----------------------------------------------------*/
+    for(unsigned int callback_idx = 0; callback_idx < DetectionEndCallbacks.size(); callback_idx++)
+    {
+        DetectionEndCallbacks[callback_idx](DetectionEndCallbackArgs[callback_idx]);
+    }
+
+    detection_is_required = false;
+
+    LOG_INFO("------------------------------------------------------");
+    LOG_INFO("|                Detection completed                 |");
+    LOG_INFO("------------------------------------------------------");
 }
 
 void ResourceManager::DisableDetection()
@@ -1379,25 +1485,9 @@ void ResourceManager::DetectDevicesThreadFunction()
     | Make sure that when the detection is done,        |
     | progress bar is set to 100%                       |
     \*-------------------------------------------------*/
-    detection_is_required = false;
-    detection_percent = 100;
-    detection_string = "";
-
-    DetectionProgressChanged();
+    ProcessPostDetection();
 
     DetectDeviceMutex.unlock();
-
-    /*-----------------------------------------------------*\
-    | Call detection end callbacks                          |
-    \*-----------------------------------------------------*/
-    for(unsigned int callback_idx = 0; callback_idx < DetectionEndCallbacks.size(); callback_idx++)
-    {
-        DetectionEndCallbacks[callback_idx](DetectionEndCallbackArgs[callback_idx]);
-    }
-
-    LOG_INFO("------------------------------------------------------");
-    LOG_INFO("|                Detection completed                 |");
-    LOG_INFO("------------------------------------------------------");
 
 #ifdef __linux__
     /*-------------------------------------------------*\
@@ -1469,6 +1559,79 @@ void ResourceManager::StopDeviceDetection()
     detection_is_required = false;
     detection_percent = 100;
     detection_string = "Stopping";
+}
+
+void ResourceManager::Initialize(bool tryConnect, bool detectDevices, bool startServer, bool applyPostOptions)
+{
+    // Cache the parameters
+    // TODO: Possibly cache them in the CLI file somewhere
+    tryAutoConnect     = tryConnect;
+    detection_enabled  = detectDevices;
+    start_server       = startServer;
+    apply_post_options = applyPostOptions;
+
+    InitThread = new std::thread(&ResourceManager::InitThreadFunction, this);
+}
+
+void ResourceManager::InitThreadFunction()
+{
+    if(tryAutoConnect)
+    {
+        detection_percent = 0;
+        detection_string  = "Attempting server connection...";
+        DetectionProgressChanged();
+
+        // Disable detection if a local server was found
+        if(AttemptLocalConnection())
+        {
+            DisableDetection();
+        }
+        else
+        {
+            LOG_DEBUG("[ResourceManager] Local OpenRGB server connected, running in client mode");
+        }
+        tryAutoConnect = false;
+    }
+
+    /*---------------------------------------------------------*\
+    | Perform actual detection                                  |
+    | Done in the same thread (InitThread), as we need to wait  |
+    | for completion anyway                                     |
+    \*---------------------------------------------------------*/
+    if(detection_enabled)
+    {
+        LOG_DEBUG("[ResourceManager] Running standalone");
+        if(ProcessPreDetection())
+        {
+            DetectDevicesThreadFunction();
+        }
+    }
+    else
+    {
+        ProcessPostDetection();
+    }
+
+    if(start_server)
+    {
+        detection_percent = 100;
+        detection_string = "Starting server";
+        DetectionProgressChanged();
+
+        GetServer()->StartServer();
+        if(!GetServer()->GetOnline())
+        {
+            LOG_DEBUG("[ResourceManager] Server failed to start");
+        }
+    }
+
+    /*---------------------------------------------------------*\
+    | Process command line arguments after detection only if the|
+    | pre-detection parsing indicated it should be run          |
+    \*---------------------------------------------------------*/
+    if(apply_post_options)
+    {
+        cli_post_detection();
+    }
 }
 
 void ResourceManager::UpdateDetectorSettings()
