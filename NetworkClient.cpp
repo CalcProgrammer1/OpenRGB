@@ -11,7 +11,6 @@
 
 #include <cstring>
 #include "NetworkClient.h"
-#include "LogManager.h"
 #include "RGBController_Network.h"
 
 #ifdef _WIN32
@@ -164,7 +163,6 @@ void NetworkClient::StartClient()
 
 void NetworkClient::StopClient()
 {
-    LOG_TRACE("[NetworkClient]: StopClient started");
     /*---------------------------------------------------------*\
     | Disconnect the server and set it as inactive              |
     \*---------------------------------------------------------*/
@@ -183,8 +181,6 @@ void NetworkClient::StopClient()
     client_active    = false;
     server_connected = false;
 
-    LOG_TRACE("[NetworkClient]: Socket shut down");
-
     /*---------------------------------------------------------*\
     | Close the listen thread                                   |
     \*---------------------------------------------------------*/
@@ -194,8 +190,6 @@ void NetworkClient::StopClient()
         delete ListenThread;
         ListenThread = nullptr;
     }
-
-    LOG_TRACE("[NetworkClient]: ListenThread stopped");
 
     /*---------------------------------------------------------*\
     | Close the connection thread                               |
@@ -208,14 +202,10 @@ void NetworkClient::StopClient()
         ConnectionThread = nullptr;
     }
 
-    LOG_TRACE("[NetworkClient]: ConnectionThread stopped");
-
     /*---------------------------------------------------------*\
     | Client info has changed, call the callbacks               |
     \*---------------------------------------------------------*/
     ClientInfoChanged();
-
-    LOG_TRACE("[NetworkClient]: ClientInfoChange notified, StopClient finished");
 }
 
 void NetworkClient::ConnectionThreadFunction()
@@ -242,7 +232,6 @@ void NetworkClient::ConnectionThreadFunction()
             if(port.tcp_client_connect() == true)
             {
                 client_sock = port.sock;
-                LOG_TRACE("[NetworkClient]: Connected to server [%s]", port_ip.c_str());
                 printf( "Connected to server\n" );
 
                 /*---------------------------------------------------------*\
@@ -267,15 +256,13 @@ void NetworkClient::ConnectionThreadFunction()
             }
             else
             {
-                LOG_TRACE("[NetworkClient]: Connection attempt failed");
                 printf( "Connection attempt failed\n" );
             }
         }
 
-        /*-----------------------------------------------------------*\
-        | TIP: we double-check client_active as it could have changed |
-        \*-----------------------------------------------------------*/
-
+        /*-------------------------------------------------------------*\
+        | Double-check client_active as it could have changed           |
+        \*-------------------------------------------------------------*/
         if(client_active && server_initialized == false && server_connected == true)
         {
             unsigned int timeout_counter     = 0;
@@ -396,15 +383,8 @@ void NetworkClient::ConnectionThreadFunction()
         /*---------------------------------------------------------*\
         | Wait 1 sec or until the thread is requested to stop       |
         \*---------------------------------------------------------*/
-
-        LOG_TRACE("[NetworkClient]: Waiting 1s before the next iteration");
         connection_cv.wait_for(lock, 1s);
     }
-    /*---------------------------------------------------------*\
-    | lock is unlocked automatically                            |
-    \*---------------------------------------------------------*/
-
-    LOG_TRACE("[NetworkClient]: ConnectionThread exited");
 }
 
 int NetworkClient::recv_select(SOCKET s, char *buf, int len, int flags)
