@@ -41,8 +41,8 @@ struct LEDStripDevice
 {
     std::string     name;
     std::string     port;
-    unsigned int    baud;
-    unsigned int    num_leds;
+    unsigned int    baud        = 0;
+    unsigned int    num_leds    = 0;
     led_protocol    protocol;
 };
 

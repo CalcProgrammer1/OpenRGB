@@ -13,6 +13,7 @@
 #include "LEDStripController.h"
 #include "RGBController_LEDStrip.h"
 #include "SettingsManager.h"
+#include "LogManager.h"
 
 /******************************************************************************************\
 *                                                                                          *
@@ -39,15 +40,16 @@ void DetectLEDStripControllers()
     {
         for(unsigned int device_idx = 0; device_idx < ledstrip_settings["devices"].size(); device_idx++)
         {
-            /*-------------------------------------------------*\
-            | Default to the Keyboard Visualizer protocol       |
-            \*-------------------------------------------------*/
-            dev.name     = "LED Strip";
-            dev.protocol = LED_PROTOCOL_KEYBOARD_VISUALIZER;
-
             if(ledstrip_settings["devices"][device_idx].contains("name"))
             {
                 dev.name = ledstrip_settings["devices"][device_idx]["name"];
+            }
+            else
+            {
+                /*-------------------------------------------------*\
+                | Default name                                      |
+                \*-------------------------------------------------*/
+                dev.name = "LED Strip";
             }
 
             if(ledstrip_settings["devices"][device_idx].contains("port"))
@@ -85,6 +87,36 @@ void DetectLEDStripControllers()
                 {
                     dev.protocol = LED_PROTOCOL_BASIC_I2C;
                 }
+                else
+                {
+                    LOG_WARNING("[LEDStripController] '%s' is not a valid value for protocol", protocol_string.c_str());
+                    return;
+                }
+            }
+            else
+            {
+                /*-------------------------------------------------*\
+                | Default to the Keyboard Visualizer protocol       |
+                \*-------------------------------------------------*/
+                dev.protocol = LED_PROTOCOL_KEYBOARD_VISUALIZER;
+            }
+
+            if(dev.port.empty())
+            {
+                LOG_WARNING("[LEDStripController] port value cannot be left empty.");
+                return;
+            }
+
+            if(dev.baud <= 0)
+            {
+                LOG_WARNING("[LEDStripController] baud value cannot be left empty.");
+                return;
+            }
+
+            if(dev.num_leds <= 0)
+            {
+                LOG_WARNING("[LEDStripController] num_leds value cannot be left empty.");
+                return;
             }
 
             std::string value = dev.port + "," + std::to_string(dev.baud) + "," + std::to_string(dev.num_leds);
