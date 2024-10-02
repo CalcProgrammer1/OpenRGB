@@ -99,7 +99,7 @@ void RGBController_HyperXMicrophone::SetupZones()
 
     zone Mic;
     Mic.name       = "Microphone";
-    Mic.type       = ZONE_TYPE_LINEAR;
+    Mic.type       = ZONE_TYPE_SINGLE;
     Mic.leds_min   = 2;
     Mic.leds_max   = 2;
     Mic.leds_count = 2;
