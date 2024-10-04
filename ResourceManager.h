@@ -208,6 +208,7 @@ public:
 
     void StopDeviceDetection();
 
+    void WaitForInitialization();
     void WaitForDeviceDetection();
 
 private:
@@ -243,6 +244,10 @@ private:
     | Auto connection permitting flag                                                       |
     \*-------------------------------------------------------------------------------------*/
     bool                                        apply_post_options;
+    /*-------------------------------------------------------------------------------------*\
+    | Initialization completion flag                                                        |
+    \*-------------------------------------------------------------------------------------*/
+    std::atomic<bool>                           init_finished;
 
     /*-------------------------------------------------------------------------------------*\
     | Profile Manager                                                                       |

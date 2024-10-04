@@ -86,6 +86,7 @@ ResourceManager::ResourceManager()
     InitThread                  = nullptr;
     DetectDevicesThread         = nullptr;
     dynamic_detectors_processed = false;
+    init_finished               = false;
 
     SetupConfigurationDirectory();
 
@@ -1632,6 +1633,8 @@ void ResourceManager::InitThreadFunction()
     {
         cli_post_detection();
     }
+
+    init_finished = true;
 }
 
 void ResourceManager::UpdateDetectorSettings()
@@ -1733,6 +1736,19 @@ void ResourceManager::UpdateDetectorSettings()
 
         settings_manager->SaveSettings();
     }
+}
+
+void ResourceManager::WaitForInitialization()
+{
+    /*-------------------------------------------------*\
+    | A reliable sychronization of this kind is         |
+    | impossible without the use of a `barrier`         |
+    | implementation, which is only introduced in C++20 |
+    \*-------------------------------------------------*/
+    while (!init_finished)
+    {
+        std::this_thread::sleep_for(1ms);
+    };
 }
 
 void ResourceManager::WaitForDeviceDetection()

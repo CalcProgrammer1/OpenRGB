@@ -253,7 +253,14 @@ int main(int argc, char* argv[])
     {
         if(ret_flags & RET_FLAG_START_SERVER)
         {
-            if(!ResourceManager::get()->GetServer()->GetOnline())
+            NetworkServer* server = ResourceManager::get()->GetServer();
+            ResourceManager::get()->WaitForInitialization();
+
+            /*---------------------------------------------------------*\
+            | The server is only started after detection finishes and   |
+            | it takes some time to get the server online - we wait     |
+            \*---------------------------------------------------------*/
+            if(!server->GetOnline())
             {
 #ifdef _MACOSX_X86_X64
                 CloseMacUSPCIODriver();
@@ -262,7 +269,7 @@ int main(int argc, char* argv[])
             }
             else
             {
-                WaitWhileServerOnline(ResourceManager::get()->GetServer());
+                WaitWhileServerOnline(server);
 #ifdef _MACOSX_X86_X64
                 CloseMacUSPCIODriver();
 #endif

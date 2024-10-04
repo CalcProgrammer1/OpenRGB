@@ -99,8 +99,8 @@ public:
 protected:
     std::string                         host;
     unsigned short                      port_num;
-    bool                                server_online;
-    bool                                server_listening;
+    std::atomic<bool>                   server_online;
+    std::atomic<bool>                   server_listening;
 
     std::vector<RGBController *>&       controllers;
 
