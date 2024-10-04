@@ -67,6 +67,7 @@ AsusAuraCoreLaptopController::AsusAuraCoreLaptopController(hid_device* dev_handl
     | Only set power config for known devices                   |
     \*---------------------------------------------------------*/
     SetPowerConfigFromJSON();
+    SendInitDirectMode();
 }
 
 AsusAuraCoreLaptopController::~AsusAuraCoreLaptopController()

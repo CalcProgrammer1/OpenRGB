@@ -74,13 +74,93 @@ keyboard_keymap_overlay_values g533zm_layout
         \*---------------------------------------------------------------------------------------------------------*/
         {   0,      0,      15,          37,        KEY_EN_DELETE,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Insert Delete
         {   0,      1,      15,          58,        KEY_EN_MEDIA_PLAY_PAUSE,    KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Insert Play / Pause
-        {   0,      2,      15,          79,        KEY_EN_MEDIA_STOP,          KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Insert Play / Pause
-        {   0,      3,      15,         100,        KEY_EN_MEDIA_PREVIOUS,      KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Insert Play / Pause
+        {   0,      2,      15,          79,        KEY_EN_MEDIA_STOP,          KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Insert Stop
+        {   0,      3,      15,         100,        KEY_EN_MEDIA_PREVIOUS,      KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Insert Previous
         {   0,      4,      13,         139,        KEY_EN_UP_ARROW,            KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Insert Up Arrow
-        {   0,      4,      15,         121,        KEY_EN_MEDIA_NEXT,          KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Insert Play / Pause
+        {   0,      4,      15,         121,        KEY_EN_MEDIA_NEXT,          KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Insert Next
         {   0,      5,      12,         159,        KEY_EN_LEFT_ARROW,          KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Insert Left Arrow
         {   0,      5,      13,         160,        KEY_EN_DOWN_ARROW,          KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Insert Down Arrow
         {   0,      5,      14,         161,        KEY_EN_RIGHT_ARROW,         KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Insert Right Arrow
+    }
+};
+
+keyboard_keymap_overlay_values g533zw_layout
+{
+    KEYBOARD_SIZE_SEVENTY_FIVE,
+    {
+        aura_core_laptop_15_values,
+        {
+            /* Add more regional layout fixes here */
+        }
+    },
+    {
+        /*---------------------------------------------------------------------------------------------------------*\
+        | Edit Keys                                                                                                 |
+        |   Zone,   Row,    Column,     Value,      Key,                        OpCode,                             |
+        \*---------------------------------------------------------------------------------------------------------*/
+        {   0,      0,      15,          37,        KEY_EN_DELETE,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Insert Delete
+        {   0,      1,      15,          58,        KEY_EN_MEDIA_PLAY_PAUSE,    KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Insert Play / Pause
+        {   0,      2,      15,          79,        KEY_EN_MEDIA_STOP,          KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Insert Stop
+        {   0,      3,      15,         100,        KEY_EN_MEDIA_PREVIOUS,      KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Insert Previous
+        {   0,      4,      15,         121,        KEY_EN_MEDIA_NEXT,          KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Insert Media Next
+        {   0,      5,       1,         127,        KEY_EN_LEFT_FUNCTION,       KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Insert Left Function key
+        {   0,      5,       4,           0,        KEY_EN_UNUSED,              KEYBOARD_OPCODE_REMOVE_SHIFT_LEFT,  },  // Remove Unused key
+        {   0,      5,      11,           0,        KEY_EN_UNUSED,              KEYBOARD_OPCODE_REMOVE_SHIFT_LEFT,  },  // Remove Right Func key
+        {   0,      5,      11,           0,        KEY_EN_UNUSED,              KEYBOARD_OPCODE_REMOVE_SHIFT_LEFT,  },  // Remove Right Context key
+        {   0,      5,      13,         139,        KEY_EN_UP_ARROW,            KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Insert Up Arrow
+        {   0,      5,      15,         142,        KEY_EN_PRINT_SCREEN,        KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Insert Print Screen
+        {   0,      5,      16,         175,        "Keystone",                 KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Insert Keystone (Red only)
+        {   0,      6,      12,         159,        KEY_EN_LEFT_ARROW,          KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Insert Left Arrow on new row
+        {   0,      6,      13,         160,        KEY_EN_DOWN_ARROW,          KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Insert Down Arrow
+        {   0,      6,      14,         161,        KEY_EN_RIGHT_ARROW,         KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Insert Right Arrow
+        {   0,      0,       2,           2,        KEY_EN_MEDIA_VOLUME_DOWN,   KEYBOARD_OPCODE_INSERT_ROW,         },  // Insert Row before function keys
+        {   0,      0,       3,           3,        KEY_EN_MEDIA_VOLUME_UP,     KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Insert Vol Up
+        {   0,      0,       4,           4,        "Mic On / Off",             KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Insert Mic On / Off
+        {   0,      0,       5,           5,        "Hyperfan",                 KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Insert Hyperfan
+        {   0,      0,       6,           6,        "Armoury Crate",            KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Insert Armoury Crate
+    }
+};
+
+keyboard_keymap_overlay_values g533zw_lid_layout
+{
+    KEYBOARD_SIZE_EMPTY,
+    {
+        {   /* Values not set in empty keyboard */   },
+        {
+            /* Add more regional layout fixes here */
+        }
+    },
+    {
+    /*---------------------------------------------------------------------------------------------------------*\
+    | Edit Keys                                                                                                 |
+    |   Zone,   Row,    Column,     Value,      Key,                        OpCode,                             |
+    \*---------------------------------------------------------------------------------------------------------*/
+        {   0,      0,       0,         167,        "Logo",                     KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Insert Lightbar L1
+        {   0,      0,       1,         176,        "Vertical Cut Left",        KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Insert Lightbar L2
+        {   0,      0,       2,         177,        "Vertical Cut Right",       KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Insert Lightbar L3
+    }
+};
+
+keyboard_keymap_overlay_values g533zw_lightbar_layout
+{
+    KEYBOARD_SIZE_EMPTY,
+    {
+        {   /* Values not set in empty keyboard */   },
+        {
+            /* Add more regional layout fixes here */
+        }
+    },
+    {
+    /*---------------------------------------------------------------------------------------------------------*\
+    | Edit Keys                                                                                                 |
+    |   Zone,   Row,    Column,     Value,      Key,                        OpCode,                             |
+    \*---------------------------------------------------------------------------------------------------------*/
+        {   0,      0,       0,         174,        "Lightbar L1",              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Insert Lightbar L1
+        {   0,      0,       1,         173,        "Lightbar L2",              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Insert Lightbar L2
+        {   0,      0,       2,         172,        "Lightbar L3",              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Insert Lightbar L3
+        {   0,      0,       3,         171,        "Lightbar R3",              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Insert Lightbar R3
+        {   0,      0,       4,         170,        "Lightbar R2",              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Insert Lightbar R2
+        {   0,      0,       5,         169,        "Lightbar R1",              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Insert Lightbar R1
     }
 };
 
@@ -241,7 +321,7 @@ keyboard_keymap_overlay_values g814jv_lightbar_layout
 \*-------------------------------------------------------------------------*/
 
 /*-------------------------------------------------------------*\
-|  ASUS ROG Strix SCAR 15                                       |
+|  ASUS ROG Strix SCAR 15 G533ZM                                |
 |                                                               |
 |  Zone "Keyboard"                                              |
 |       Matrix                                                  |
@@ -260,6 +340,44 @@ static const aura_core_laptop_device g533zm_device =
         &g533zm_zone,
         nullptr,
         nullptr,
+        nullptr,
+        nullptr,
+        nullptr
+    }
+};
+
+/*-------------------------------------------------------------*\
+|  ASUS ROG Strix SCAR 15 G533ZW                                |
+|                                                               |
+|  Zone "Keyboard"                                              |
+|       Matrix                                                  |
+|       7 Rows, 16 Columns                                      |
+\*-------------------------------------------------------------*/
+static const aura_core_laptop_zone g533zw_lid_zone =
+{
+    "Lid",
+    &g533zw_lid_layout
+};
+
+static const aura_core_laptop_zone g533zw_kb_zone =
+{
+    ZONE_EN_KEYBOARD,
+    &g533zw_layout
+};
+
+static const aura_core_laptop_zone g533zw_lightbar_zone =
+{
+    "Lightbar",
+    &g533zw_lightbar_layout
+};
+
+static const aura_core_laptop_device g533zw_device =
+{
+    "G533ZW",
+    {
+        &g533zw_kb_zone,
+        &g533zw_lid_zone,
+        &g533zw_lightbar_zone,
         nullptr,
         nullptr,
         nullptr
@@ -339,6 +457,7 @@ const aura_core_laptop_device* aura_core_laptop_device_list_data[] =
 |  KEYBOARDS                                                        |
 \*-----------------------------------------------------------------*/
     &g533zm_device,
+    &g533zw_device,
     &g713rw_device,
     &g814jv_device,
 };
