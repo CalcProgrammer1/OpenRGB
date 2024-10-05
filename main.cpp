@@ -251,15 +251,17 @@ int main(int argc, char* argv[])
     }
     else
     {
+        /*---------------------------------------------------------*\
+        | If no GUI is needed, we let the background threads run    |
+        | as long as they need, but we need to AT LEAST wait for    |
+        | initialization to finish                                  |
+        \*---------------------------------------------------------*/
+        ResourceManager::get()->WaitForInitialization();
+
         if(ret_flags & RET_FLAG_START_SERVER)
         {
             NetworkServer* server = ResourceManager::get()->GetServer();
-            ResourceManager::get()->WaitForInitialization();
 
-            /*---------------------------------------------------------*\
-            | The server is only started after detection finishes and   |
-            | it takes some time to get the server online - we wait     |
-            \*---------------------------------------------------------*/
             if(!server->GetOnline())
             {
 #ifdef _MACOSX_X86_X64
