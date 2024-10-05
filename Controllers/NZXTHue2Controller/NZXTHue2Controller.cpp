@@ -30,6 +30,48 @@ NZXTHue2Controller::NZXTHue2Controller(hid_device* dev_handle, unsigned int rgb_
 
     fan_cmd.resize(num_fan_channels);
     fan_rpm.resize(num_fan_channels);
+
+    unsigned char usb_buf[64];
+    unsigned int  ret_val = 0;
+
+    /*-----------------------------------------------------*\
+    | Zero out buffer                                       |
+    \*-----------------------------------------------------*/
+    memset(usb_buf, 0x00, sizeof(usb_buf));
+
+    /*-----------------------------------------------------*\
+    | Set up Fan Reporting Interval packet                  |
+    \*-----------------------------------------------------*/
+    usb_buf[0x00]   = 0x60;
+    usb_buf[0x01]   = 0x02;
+    usb_buf[0x02]   = 0x01;
+    usb_buf[0x03]   = 0xE8;
+    usb_buf[0x04]   = 0x03;
+    usb_buf[0x05]   = 0x01;
+    usb_buf[0x06]   = 0xE8;
+    usb_buf[0x07]   = 0x03;
+
+    /*-----------------------------------------------------*\
+    | Send packet                                           |
+    \*-----------------------------------------------------*/
+    hid_write(dev, usb_buf, 64);
+
+    /*-----------------------------------------------------*\
+    | Zero out buffer                                       |
+    \*-----------------------------------------------------*/
+    memset(usb_buf, 0x00, sizeof(usb_buf));
+
+    /*-----------------------------------------------------*\
+    | Set up Enable Fan Reporting packet                    |
+    \*-----------------------------------------------------*/
+    usb_buf[0x00]   = 0x60;
+    usb_buf[0x01]   = 0x03;
+
+    /*-----------------------------------------------------*\
+    | Send packet                                           |
+    \*-----------------------------------------------------*/
+    hid_write(dev, usb_buf, 64);
+
     UpdateStatus();
 }
 
