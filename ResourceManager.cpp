@@ -1065,6 +1065,7 @@ void ResourceManager::DetectDevicesThreadFunction()
     LOG_INFO("------------------------------------------------------");
     for(unsigned int i2c_detector_idx = 0; i2c_detector_idx < i2c_device_detectors.size() && detection_is_required.load(); i2c_detector_idx++)
     {
+        unsigned int controller_size = rgb_controllers_hw.size();
         detection_string = i2c_device_detector_strings[i2c_detector_idx].c_str();
 
         /*-------------------------------------------------*\
@@ -1088,23 +1089,10 @@ void ResourceManager::DetectDevicesThreadFunction()
         | If the device list size has changed, call the     |
         | device list changed callbacks                     |
         \*-------------------------------------------------*/
-        if(rgb_controllers_hw.size() != detection_prev_size)
-        {
-            /*-------------------------------------------------*\
-            | First, load sizes for the new controllers         |
-            \*-------------------------------------------------*/
-            for(unsigned int controller_size_idx = detection_prev_size; controller_size_idx < rgb_controllers_hw.size(); controller_size_idx++)
-            {
-                profile_manager->LoadDeviceFromListWithOptions(rgb_controllers_sizes, detection_size_entry_used, rgb_controllers_hw[controller_size_idx], true, false);
-            }
-
-            UpdateDeviceList();
-        }
-        else
+        if(rgb_controllers_hw.size() == controller_size)
         {
             LOG_DEBUG("[%s] no devices found", detection_string);
         }
-        detection_prev_size = rgb_controllers_hw.size();
 
         LOG_TRACE("[%s] detection end", detection_string);
 
