@@ -186,3 +186,7 @@ const char* KEY_FR_DOLLAR            = "Key: $";
 const char* KEY_FR_GRAVE_U           = "Key: ù";
 const char* KEY_FR_ASTERIX           = "Key: *";
 const char* KEY_FR_EXCLAIMATION      = "Key: !";
+
+const char* KEY_ES_OPEN_QUESTION_MARK      = "Key: ¿/¡";
+const char* KEY_ES_TILDE      = "Key: ´/¨";
+const char* KEY_ES_ENIE      = "Key: Ñ";
