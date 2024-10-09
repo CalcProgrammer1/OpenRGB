@@ -1,3 +1,14 @@
+/*---------------------------------------------------------*\
+| MintakaKeyboardControllerDetect.cpp                       |
+|                                                           |
+|   Driver for VSG Mintaka Devices keyboard lighting        |
+|   Based on KeychronKeyboardController                     |
+|                                                           |
+|   Federico Scodelaro (pudymody)               08 Oct 2024 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 #include "Detector.h"
 #include "MintakaKeyboardController.h"
 #include "RGBController.h"
