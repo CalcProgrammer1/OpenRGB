@@ -225,6 +225,9 @@ static const std::map<std::string, led_label> led_label_lookup =
     { KEY_FR_GRAVE_U,           { "ù"     , "\xc3\xb9"          }},
     { KEY_FR_ASTERIX,           { "*"     , "*"                 }},
     { KEY_FR_EXCLAIMATION,      { "!"     , "!"                 }},
+    { KEY_ES_OPEN_QUESTION_MARK,{ "¿"     , "¡"                 }},
+    { KEY_ES_TILDE,             { "´"     , "¨"                 }},
+    { KEY_ES_ENIE,              { "ñ"     , "Ñ"                 }},
 };
 
 void DeviceView::setController(RGBController * controller_ptr)
