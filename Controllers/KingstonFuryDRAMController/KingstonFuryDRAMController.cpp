@@ -79,7 +79,7 @@ bool KingstonFuryDRAMController::SmbusRead(int slot_idx, unsigned char reg, unsi
         res = bus->i2c_smbus_read_word_data(device_addr, reg);
         if(res >= 0)
         {
-            *val = (res >> 8) & 0xff;
+            *val = (res >> 8) & 0xFF;
             LOG_DEBUG("[%s] %02X reading register &%02X=%02X; res=%02X",
                       FURY_CONTROLLER_NAME, device_addr, reg, *val, res);
             return true;

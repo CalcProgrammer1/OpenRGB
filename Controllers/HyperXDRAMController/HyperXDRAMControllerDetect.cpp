@@ -87,6 +87,7 @@ void DetectHyperXDRAMControllers(std::vector<i2c_smbus_interface*> &busses)
 
             if(TestForHyperXDRAMController(busses[bus], 0x27))
             {
+                // Switch to 2nd SPD page
                 busses[bus]->i2c_smbus_write_byte_data(0x37, 0x00, 0xFF);
 
                 std::this_thread::sleep_for(1ms);
@@ -127,6 +128,11 @@ void DetectHyperXDRAMControllers(std::vector<i2c_smbus_interface*> &busses)
 
                 LOG_DEBUG("[%s] slots_valid=%d fury_detected=%d pred_detected=%d",
                           HYPERX_CONTROLLER_NAME, slots_valid, fury_detected, pred_detected);
+
+                // Switch back to 1st SPD page
+                busses[bus]->i2c_smbus_write_byte_data(0x36, 0x00, 0xFF);
+
+                std::this_thread::sleep_for(1ms);
 
                 if(slots_valid != 0)
                 {
