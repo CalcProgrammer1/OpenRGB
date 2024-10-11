@@ -9,7 +9,6 @@
 
 #include <hidapi.h>
 #include "Detector.h"
-#include "RGBController.h"
 #include "SteelSeriesGeneric.h"
 #include "SteelSeriesAeroxWirelessController.h"
 #include "SteelSeriesAerox5Controller.h"

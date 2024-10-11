@@ -11,7 +11,6 @@
 
 #include "Detector.h"
 #include "DasKeyboardController.h"
-#include "RGBController.h"
 #include "RGBController_DasKeyboard.h"
 #include <hidapi.h>
 

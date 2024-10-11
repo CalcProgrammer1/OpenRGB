@@ -15,7 +15,6 @@
 #include <hidapi.h>
 #include "Detector.h"
 #include "ZETBladeOpticalController.h"
-#include "RGBController.h"
 #include "RGBController_ZETBladeOptical.h"
 
 /*-----------------------------------------------------*\

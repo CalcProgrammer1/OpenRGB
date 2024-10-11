@@ -9,11 +9,9 @@
 |   SPDX-License-Identifier: GPL-2.0-only                   |
 \*---------------------------------------------------------*/
 
-#include <vector>
 #include <hidapi.h>
 #include "Detector.h"
 #include "ZalmanZSyncController.h"
-#include "RGBController.h"
 #include "RGBController_ZalmanZSync.h"
 
 #define ZALMAN_VID          0x1C57

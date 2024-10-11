@@ -9,7 +9,6 @@
 |   SPDX-License-Identifier: GPL-2.0-only                   |
 \*---------------------------------------------------------*/
 
-#include <cstring>
 #include "RGBController.h"
 #include "CrucialController.h"
 

@@ -9,13 +9,8 @@
 |   SPDX-License-Identifier: GPL-2.0-only                   |
 \*---------------------------------------------------------*/
 
-#include <iostream>
-#include <stdio.h>
-#include <stdlib.h>
-#include <vector>
 #include "Detector.h"
 #include "GigabyteSuperIORGBController.h"
-#include "RGBController.h"
 #include "RGBController_GigabyteSuperIORGB.h"
 #include "super_io.h"
 #include "dmiinfo.h"

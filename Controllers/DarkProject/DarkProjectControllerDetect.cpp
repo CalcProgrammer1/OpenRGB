@@ -10,7 +10,6 @@
 \*---------------------------------------------------------*/
 
 #include "Detector.h"
-#include "RGBController.h"
 #include "RGBController_DarkProjectKeyboard.h"
 
 /*---------------------------------------------------------*\

@@ -13,7 +13,6 @@
 #include "Detector.h"
 #include "RedSquareKeyroxController.h"
 #include "RedSquareKeyroxTKLClassicController.h"
-#include "RGBController.h"
 #include "RGBController_RedSquareKeyrox.h"
 #include "RGBController_RedSquareKeyroxTKLClassic.h"
 

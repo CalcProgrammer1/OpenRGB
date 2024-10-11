@@ -11,7 +11,6 @@
 
 #include "Detector.h"
 #include "KeychronKeyboardController.h"
-#include "RGBController.h"
 #include "RGBController_KeychronKeyboard.h"
 
 /*---------------------------------------------------------*\

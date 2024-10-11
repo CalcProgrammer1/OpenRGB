@@ -12,7 +12,6 @@
 #include <hidapi.h>
 #include "Detector.h"
 #include "AMDWraithPrismController.h"
-#include "RGBController.h"
 #include "RGBController_AMDWraithPrism.h"
 
 /*---------------------------------------------------------*\

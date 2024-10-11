@@ -9,11 +9,9 @@
 |   SPDX-License-Identifier: GPL-2.0-only                   |
 \*---------------------------------------------------------*/
 
-#include <vector>
 #include <hidapi.h>
 #include "Detector.h"
 #include "ThermaltakePoseidonZRGBController.h"
-#include "RGBController.h"
 #include "RGBController_ThermaltakePoseidonZRGB.h"
 
 #define TT_POSEIDON_Z_RGB_VID 0x264A

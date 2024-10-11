@@ -11,7 +11,6 @@
 #include "Detector.h"
 #include "AlienwareAW510KController.h"
 #include "AlienwareAW410KController.h"
-#include "RGBController.h"
 #include "RGBController_AlienwareAW510K.h"
 #include "RGBController_AlienwareAW410K.h"
 

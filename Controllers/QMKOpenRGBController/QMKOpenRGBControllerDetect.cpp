@@ -10,14 +10,12 @@
 |   SPDX-License-Identifier: GPL-2.0-only                   |
 \*---------------------------------------------------------*/
 
-#include <iostream>
 #include <string>
 #include <hidapi.h>
 #include "Detector.h"
 #include "QMKOpenRGBRev9Controller.h"
 #include "QMKOpenRGBRevBController.h"
 #include "QMKOpenRGBRevDController.h"
-#include "RGBController.h"
 #include "RGBController_QMKOpenRGBRev9.h"
 #include "RGBController_QMKOpenRGBRevB.h"
 #include "RGBController_QMKOpenRGBRevD.h"

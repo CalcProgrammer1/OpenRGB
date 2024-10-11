@@ -12,7 +12,6 @@
 #include <hidapi.h>
 #include "Detector.h"
 #include "BlinkController.h"
-#include "RGBController.h"
 #include "RGBController_BlinkController.h"
 
 #define THINGM_VID                              0x27B8

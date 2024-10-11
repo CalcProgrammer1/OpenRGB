@@ -12,7 +12,6 @@
 #include <hidapi.h>
 #include "Detector.h"
 #include "EKController.h"
-#include "RGBController.h"
 #include "RGBController_EKController.h"
 
 #define EK_VID                0x0483

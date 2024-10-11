@@ -7,12 +7,9 @@
 |   SPDX-License-Identifier: GPL-2.0-only                   |
 \*---------------------------------------------------------*/
 
-#include <vector>
 #include "Detector.h"
 #include "ENESMBusController.h"
 #include "ENESMBusInterface_ROGArion.h"
-#include "LogManager.h"
-#include "RGBController.h"
 #include "RGBController_ENESMBus.h"
 #include "scsiapi.h"
 

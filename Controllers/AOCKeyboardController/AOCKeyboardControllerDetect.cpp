@@ -11,7 +11,6 @@
 
 #include "Detector.h"
 #include "AOCKeyboardController.h"
-#include "RGBController.h"
 #include "RGBController_AOCKeyboard.h"
 
 /*-----------------------------------------------------*\

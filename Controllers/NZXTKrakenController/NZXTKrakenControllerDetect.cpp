@@ -9,11 +9,9 @@
 |   SPDX-License-Identifier: GPL-2.0-only                   |
 \*---------------------------------------------------------*/
 
-#include <vector>
 #include <hidapi.h>
 #include "Detector.h"
 #include "NZXTKrakenController.h"
-#include "RGBController.h"
 #include "RGBController_NZXTKraken.h"
 
 #define NZXT_KRAKEN_VID     0x1E71

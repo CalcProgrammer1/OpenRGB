@@ -12,7 +12,6 @@
 
 #pragma once
 
-#include <vector>
 #include <libusb.h>
 #include "RGBController.h"
 

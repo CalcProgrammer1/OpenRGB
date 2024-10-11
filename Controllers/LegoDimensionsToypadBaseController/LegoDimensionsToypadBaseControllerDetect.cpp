@@ -11,7 +11,6 @@
 
 #include "Detector.h"
 #include "LegoDimensionsToypadBaseController.h"
-#include "RGBController.h"
 #include "RGBController_LegoDimensionsToypadBase.h"
 
 /*---------------------------------------------------------*\

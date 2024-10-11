@@ -11,7 +11,6 @@
 
 #include "Detector.h"
 #include "AnnePro2Controller.h"
-#include "RGBController.h"
 #include "RGBController_AnnePro2.h"
 #include <hidapi.h>
 

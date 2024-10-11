@@ -11,7 +11,6 @@
 
 #include "Detector.h"
 #include "MSIVigorGK30Controller.h"
-#include "RGBController.h"
 #include "RGBController_MSIVigorGK30.h"
 
 /*---------------------------------------------------------*\

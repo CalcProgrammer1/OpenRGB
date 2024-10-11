@@ -9,7 +9,6 @@
 |   SPDX-License-Identifier: GPL-2.0-only                   |
 \*---------------------------------------------------------*/
 
-#include <iostream>
 #include "RGBController.h"
 #include "RGBController_SonyDS4.h"
 

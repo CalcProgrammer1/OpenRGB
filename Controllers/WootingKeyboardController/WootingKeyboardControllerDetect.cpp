@@ -9,12 +9,10 @@
 |   SPDX-License-Identifier: GPL-2.0-only                   |
 \*---------------------------------------------------------*/
 
-#include <vector>
 #include <hidapi.h>
 #include "Detector.h"
 #include "WootingOneKeyboardController.h"
 #include "WootingTwoKeyboardController.h"
-#include "RGBController.h"
 #include "RGBController_WootingKeyboard.h"
 #include "LogManager.h"
 

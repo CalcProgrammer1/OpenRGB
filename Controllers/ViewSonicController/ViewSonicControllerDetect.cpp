@@ -13,7 +13,6 @@
 #include "Detector.h"
 #include "VS_XG270QG_Controller.h"
 #include "RGBController_XG270QG.h"
-#include "LogManager.h"
 
 #define VIEWSONIC_VID 0x0416
 #define VS_XG270QG_PID 0x5020

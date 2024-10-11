@@ -9,11 +9,9 @@
 |   SPDX-License-Identifier: GPL-2.0-only                   |
 \*---------------------------------------------------------*/
 
-#include <vector>
 #include <hidapi.h>
 #include "Detector.h"
 #include "CherryKeyboardController.h"
-#include "RGBController.h"
 #include "RGBController_CherryKeyboard.h"
 
 /*-----------------------------------------------------*\

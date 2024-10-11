@@ -11,7 +11,6 @@
 
 #include "Detector.h"
 #include "NvidiaESAController.h"
-#include "RGBController.h"
 #include "RGBController_NvidiaESA.h"
 
 /*---------------------------------------------------------*\

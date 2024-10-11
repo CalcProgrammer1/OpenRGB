@@ -11,11 +11,9 @@
 
 #include "Detector.h"
 #include "DygmaRaiseController.h"
-#include "RGBController.h"
 #include "RGBController_DygmaRaise.h"
 #include "find_usb_serial_port.h"
 #include <vector>
-#include <stdio.h>
 
 #define DYGMA_RAISE_VID 0x1209
 #define DYGMA_RAISE_PID 0x2201

@@ -10,15 +10,12 @@
 |   SPDX-License-Identifier: GPL-2.0-only                   |
 \*---------------------------------------------------------*/
 
-#include <stdio.h>
-#include <stdlib.h>
 #include <vector>
 #include "Detector.h"
 #include "ASRockASRRGBSMBusController.h"
 #include "ASRockPolychromeV1SMBusController.h"
 #include "ASRockPolychromeV2SMBusController.h"
 #include "LogManager.h"
-#include "RGBController.h"
 #include "RGBController_ASRockASRRGBSMBus.h"
 #include "RGBController_ASRockPolychromeV1SMBus.h"
 #include "RGBController_ASRockPolychromeV2SMBus.h"

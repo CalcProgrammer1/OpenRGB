@@ -22,7 +22,6 @@
 #include "AsusAuraMousematController.h"
 #include "AsusAuraMonitorController.h"
 #include "AsusAuraRyuoAIOController.h"
-#include "RGBController.h"
 #include "RGBController_AsusAuraUSB.h"
 #include "RGBController_AsusAuraHeadsetStand.h"
 #include "RGBController_AsusAuraKeyboard.h"

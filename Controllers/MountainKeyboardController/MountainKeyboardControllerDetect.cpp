@@ -12,7 +12,6 @@
 #include <hidapi.h>
 #include "Detector.h"
 #include "MountainKeyboardController.h"
-#include "RGBController.h"
 #include "RGBController_MountainKeyboard.h"
 
 /*----------------------------------------------------------------------------------------*\

@@ -11,9 +11,6 @@
 
 #pragma once
 
-#include <cstdint>
-#include <vector>
-
 #include "LianLiGAIITrinityController.h"
 #include "RGBController.h"
 

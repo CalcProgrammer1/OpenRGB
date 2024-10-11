@@ -11,13 +11,9 @@
 |   SPDX-License-Identifier: GPL-2.0-only                   |
 \*---------------------------------------------------------*/
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <vector>
 #include <hidapi.h>
 #include "RGBController_JGINYUEInternalUSB.h"
 #include "JGINYUEInternalUSBController.h"
-#include "RGBController.h"
 #include "Detector.h"
 
 /*---------------------------------------------------------*\

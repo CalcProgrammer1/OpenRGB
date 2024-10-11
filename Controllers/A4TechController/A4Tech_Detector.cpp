@@ -15,7 +15,6 @@
 \*-----------------------------------------------------*/
 #include <hidapi.h>
 #include "Detector.h"
-#include "RGBController.h"
 
 /*-----------------------------------------------------*\
 | A4 Tech specific includes                             |

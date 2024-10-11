@@ -9,12 +9,9 @@
 |   SPDX-License-Identifier: GPL-2.0-only                   |
 \*---------------------------------------------------------*/
 
-#include <stdio.h>
-#include <stdlib.h>
 #include <vector>
 #include "Detector.h"
 #include "CorsairDominatorPlatinumController.h"
-#include "RGBController.h"
 #include "RGBController_CorsairDominatorPlatinum.h"
 #include "SettingsManager.h"
 #include "LogManager.h"

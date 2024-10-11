@@ -11,7 +11,6 @@
 
 #include "Detector.h"
 #include "DuckyKeyboardController.h"
-#include "RGBController.h"
 #include "RGBController_DuckyKeyboard.h"
 #include <hidapi.h>
 

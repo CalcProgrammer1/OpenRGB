@@ -12,7 +12,6 @@
 #include <hidapi.h>
 #include "Detector.h"
 #include "NZXTHue2Controller.h"
-#include "RGBController.h"
 #include "RGBController_NZXTHue2.h"
 
 #define NZXT_VID                        0x1E71

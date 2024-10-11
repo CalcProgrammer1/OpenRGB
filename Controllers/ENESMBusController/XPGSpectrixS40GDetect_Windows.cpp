@@ -11,11 +11,9 @@
 #include <fileapi.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <vector>
 #include "Detector.h"
 #include "ENESMBusController.h"
 #include "ENESMBusInterface_SpectrixS40G_Windows.h"
-#include "LogManager.h"
 #include "RGBController.h"
 #include "RGBController_ENESMBus.h"
 

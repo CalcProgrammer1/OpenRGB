@@ -12,7 +12,6 @@
 #include <hidapi.h>
 #include "Detector.h"
 #include "TecknetController.h"
-#include "RGBController.h"
 #include "RGBController_Tecknet.h"
 
 #define TECKNET_VID             0x04D9

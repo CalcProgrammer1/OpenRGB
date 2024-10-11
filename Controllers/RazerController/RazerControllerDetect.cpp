@@ -12,12 +12,10 @@
 #include <unordered_set>
 #include <hidapi.h>
 #include "Detector.h"
-#include "LogManager.h"
 #include "RazerController.h"
 #include "RazerKrakenController.h"
 #include "RazerDevices.h"
 #include "ResourceManager.h"
-#include "RGBController.h"
 #include "RGBController_Razer.h"
 #include "RGBController_RazerAddressable.h"
 #include "RGBController_RazerKraken.h"

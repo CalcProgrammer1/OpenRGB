@@ -11,7 +11,6 @@
 
 #include <hidapi.h>
 #include "Detector.h"
-#include "RGBController.h"
 #include "GigabyteAorusPCCaseController.h"
 #include "RGBController_GigabyteAorusPCCase.h"
 

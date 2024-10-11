@@ -9,8 +9,6 @@
 
 #include <hidapi.h>
 #include "Detector.h"
-#include "LogManager.h"
-#include "RGBController.h"
 #include "WushiL50USBController.h"
 #include "RGBController_WushiL50USB.h"
 

@@ -13,10 +13,7 @@
 
 #include <cstring>
 #include <string>
-#include <stdio.h>
 #include "RGBController.h"
-#include "ResourceManager.h"
-#include "SettingsManager.h"
 #include "JGINYUEInternalUSBController.h"
 #include "dmiinfo.h"
 

@@ -12,7 +12,6 @@
 #include <hidapi.h>
 #include "Detector.h"
 #include "NZXTHue1Controller.h"
-#include "RGBController.h"
 #include "RGBController_NZXTHue1.h"
 
 /*-----------------------------------------------------*\

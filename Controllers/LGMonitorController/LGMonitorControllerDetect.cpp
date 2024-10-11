@@ -11,7 +11,6 @@
 
 #include "Detector.h"
 #include "LGMonitorController.h"
-#include "RGBController.h"
 #include "RGBController_LGMonitor.h"
 #include "dmiinfo.h"
 

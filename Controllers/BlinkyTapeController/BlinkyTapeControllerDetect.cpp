@@ -9,12 +9,9 @@
 |   SPDX-License-Identifier: GPL-2.0-only                   |
 \*---------------------------------------------------------*/
 
-#include <stdio.h>
-#include <stdlib.h>
 #include <vector>
 #include "Detector.h"
 #include "BlinkyTapeController.h"
-#include "RGBController.h"
 #include "RGBController_BlinkyTape.h"
 #include "find_usb_serial_port.h"
 

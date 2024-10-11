@@ -11,8 +11,6 @@
 
 #include <hidapi.h>
 #include "Detector.h"
-#include "LogManager.h"
-#include "RGBController.h"
 #include "LenovoDevices.h"
 #include "RGBController_LenovoUSB.h"
 #include "RGBController_Lenovo_Gen7_8.h"

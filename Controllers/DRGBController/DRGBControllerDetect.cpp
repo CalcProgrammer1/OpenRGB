@@ -9,11 +9,9 @@
 |   SPDX-License-Identifier: GPL-2.0-only                   |
 \*---------------------------------------------------------*/
 
-#include <vector>
 #include <hidapi.h>
 #include "Detector.h"
 #include "DRGBController.h"
-#include "RGBController.h"
 #include "RGBController_DRGB.h"
 
 void DetectDRGBControllers(hid_device_info* info, const std::string& name)

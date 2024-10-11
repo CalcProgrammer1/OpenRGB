@@ -9,10 +9,8 @@
 |   SPDX-License-Identifier: GPL-2.0-only                   |
 \*---------------------------------------------------------*/
 
-#include <vector>
 #include "Detector.h"
 #include "HyperXMousematController.h"
-#include "RGBController.h"
 #include "RGBController_HyperXMousemat.h"
 #include "hidapi_wrapper.h"
 

@@ -12,7 +12,6 @@
 #include <hidapi.h>
 #include "Detector.h"
 #include "MSI3ZoneController.h"
-#include "RGBController.h"
 #include "RGBController_MSI3Zone.h"
 
 #define MSI_3_ZONE_KEYBOARD_VID 0x1770

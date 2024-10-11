@@ -7,12 +7,8 @@
 |   SPDX-License-Identifier: GPL-2.0-only                   |
 \*---------------------------------------------------------*/
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <vector>
 #include "Detector.h"
 #include "ColorfulTuringGPUController.h"
-#include "RGBController.h"
 #include "RGBController_ColorfulTuringGPU.h"
 #include "i2c_smbus.h"
 #include "pci_ids.h"

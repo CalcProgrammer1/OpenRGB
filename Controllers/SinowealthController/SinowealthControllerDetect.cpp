@@ -1,16 +1,25 @@
+/*---------------------------------------------------------*\
+| SkyloongControllerDetect.cpp                              |
+|                                                           |
+|   Detector for Sinowealth, Genesis and Everest brand Mice |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
 #include "Detector.h"
 #include "SinowealthController.h"
 #include "SinowealthController1007.h"
-#include "SinowealthKeyboardController.h"
-#include "SinowealthKeyboard16Controller.h"
+#include "SinowealthKeyboardController.h" // Disabled
+#include "SinowealthKeyboard16Controller.h" // Disabled
 #include "SinowealthKeyboard90Controller.h"
 #include "SinowealthGMOWController.h"
 #include "GenesisXenon200Controller.cpp"
 #include "RGBController.h"
 #include "RGBController_Sinowealth.h"
 #include "RGBController_Sinowealth1007.h"
-#include "RGBController_SinowealthKeyboard.h"
-#include "RGBController_SinowealthKeyboard16.h"
+#include "RGBController_SinowealthKeyboard.h" // Disabled
+#include "RGBController_SinowealthKeyboard16.h" // Disabled
 #include "RGBController_SinowealthKeyboard90.h"
 #include "RGBController_SinowealthGMOW.h"
 #include "RGBController_GenesisXenon200.h"

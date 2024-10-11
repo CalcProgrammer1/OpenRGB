@@ -9,11 +9,9 @@
 |   SPDX-License-Identifier: GPL-2.0-only                   |
 \*---------------------------------------------------------*/
 
-#include <vector>
 #include <libusb.h>
 #include "Detector.h"
 #include "CorsairHydroController.h"
-#include "RGBController.h"
 #include "RGBController_CorsairHydro.h"
 
 /*-----------------------------------------------------*\

@@ -11,7 +11,6 @@
 
 #include "Detector.h"
 #include "MSIOptixController.h"
-#include "RGBController.h"
 #include "RGBController_MSIOptix.h"
 
 /*---------------------------------------------------------*\

@@ -7,9 +7,7 @@
 |   SPDX-License-Identifier: GPL-2.0-only                   |
 \*---------------------------------------------------------*/
 
-#include <vector>
 #include "Detector.h"
-#include "RGBController.h"
 #include "SapphireNitroGlowV1Controller.h"
 #include "SapphireNitroGlowV3Controller.h"
 #include "RGBController_SapphireNitroGlowV1.h"

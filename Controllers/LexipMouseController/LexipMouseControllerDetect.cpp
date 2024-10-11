@@ -11,7 +11,6 @@
 
 #include "Detector.h"
 #include "LexipMouseController.h"
-#include "RGBController.h"
 #include "RGBController_LexipMouse.h"
 
 /*---------------------------------------------------------*\

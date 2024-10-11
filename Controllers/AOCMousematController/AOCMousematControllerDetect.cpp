@@ -11,7 +11,6 @@
 
 #include "Detector.h"
 #include "AOCMousematController.h"
-#include "RGBController.h"
 #include "RGBController_AOCMousemat.h"
 
 /*-----------------------------------------------------*\

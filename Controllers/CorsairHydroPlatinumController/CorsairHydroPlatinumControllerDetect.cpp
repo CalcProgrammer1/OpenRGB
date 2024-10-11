@@ -12,7 +12,6 @@
 #include <hidapi.h>
 #include "Detector.h"
 #include "CorsairHydroPlatinumController.h"
-#include "RGBController.h"
 #include "RGBController_CorsairHydroPlatinum.h"
 
 /*-----------------------------------------------------*\

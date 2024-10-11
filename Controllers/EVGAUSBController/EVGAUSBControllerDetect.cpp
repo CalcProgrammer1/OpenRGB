@@ -9,8 +9,6 @@
 
 #include <hidapi.h>
 #include "Detector.h"
-#include "LogManager.h"
-#include "RGBController.h"
 #include "RGBController_EVGAKeyboard.h"
 #include "RGBController_EVGAMouse.h"
 

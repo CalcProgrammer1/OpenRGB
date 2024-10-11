@@ -9,7 +9,6 @@
 
 #include <hidapi.h>
 #include "Detector.h"
-#include "RGBController.h"
 #include "ATC800Controller.h"
 #include "RGBController_AorusATC800.h"
 

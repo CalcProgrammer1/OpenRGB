@@ -9,11 +9,9 @@
 |   SPDX-License-Identifier: GPL-2.0-only                   |
 \*---------------------------------------------------------*/
 
-#include <vector>
 #include <hidapi.h>
 #include "Detector.h"
 #include "CorsairLightingNodeController.h"
-#include "RGBController.h"
 #include "RGBController_CorsairLightingNode.h"
 
 #define CORSAIR_VID                     0x1B1C

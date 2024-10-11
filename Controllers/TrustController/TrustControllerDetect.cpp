@@ -12,7 +12,6 @@
 #include "Detector.h"
 #include "TrustGXT114Controller.h"
 #include "TrustGXT180Controller.h"
-#include "RGBController.h"
 #include "RGBController_TrustGXT114.h"
 #include "RGBController_TrustGXT180.h"
 

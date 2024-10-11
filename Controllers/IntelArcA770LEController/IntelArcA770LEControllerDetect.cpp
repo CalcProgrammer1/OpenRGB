@@ -12,7 +12,6 @@
 #include <hidapi.h>
 #include "Detector.h"
 #include "IntelArcA770LEController.h"
-#include "RGBController.h"
 #include "RGBController_IntelArcA770LE.h"
 
 #define INTEL_ARC_A770_LIMITED_EDITION_VID  0x2516

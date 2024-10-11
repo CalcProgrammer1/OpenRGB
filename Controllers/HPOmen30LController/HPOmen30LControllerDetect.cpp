@@ -10,7 +10,6 @@
 #include <hidapi.h>
 #include "Detector.h"
 #include "HPOmen30LController.h"
-#include "RGBController.h"
 #include "RGBController_HPOmen30L.h"
 
 #define HP_OMEN_30L_VID 0x103C

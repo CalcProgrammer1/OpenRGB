@@ -9,12 +9,8 @@
 |   SPDX-License-Identifier: GPL-2.0-only                   |
 \*---------------------------------------------------------*/
 
-#include <stdio.h>
-#include <stdlib.h>
 #include <string>
-#include <vector>
 #include "Detector.h"
-#include "RGBController.h"
 #include "RGBController_LinuxLED_Linux.h"
 #include "SettingsManager.h"
 

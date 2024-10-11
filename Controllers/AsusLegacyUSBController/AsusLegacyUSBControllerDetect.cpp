@@ -7,13 +7,11 @@
 |   SPDX-License-Identifier: GPL-2.0-only                   |
 \*---------------------------------------------------------*/
 
-#include <stdexcept>
 #include <hidapi.h>
 #include "Detector.h"
 #include "AsusCerberusKeyboardController.h"
 #include "AsusSagarisKeyboardController.h"
 #include "AsusStrixClawController.h"
-#include "RGBController.h"
 #include "RGBController_AsusCerberusKeyboard.h"
 #include "RGBController_AsusSagarisKeyboard.h"
 #include "RGBController_AsusStrixClaw.h"

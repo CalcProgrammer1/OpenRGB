@@ -12,7 +12,6 @@
 #include <hidapi.h>
 #include "Detector.h"
 #include "CryorigH7QuadLumiController.h"
-#include "RGBController.h"
 #include "RGBController_CryorigH7QuadLumi.h"
 
 /*-----------------------------------------------------*\

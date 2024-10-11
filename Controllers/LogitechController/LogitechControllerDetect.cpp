@@ -7,9 +7,7 @@
 |   SPDX-License-Identifier: GPL-2.0-only                   |
 \*---------------------------------------------------------*/
 
-#include <chrono>
 #include <thread>
-#include <vector>
 #include <hidapi.h>
 #include "Detector.h"
 #include "LogManager.h"
@@ -26,7 +24,6 @@
 #include "LogitechGLightsyncController.h"
 #include "LogitechLightspeedController.h"
 #include "LogitechX56Controller.h"
-#include "RGBController.h"
 #include "RGBController_LogitechG203L.h"
 #include "RGBController_LogitechG213.h"
 #include "RGBController_LogitechG560.h"
@@ -39,7 +36,7 @@
 #include "RGBController_LogitechGLightsync.h"
 #include "RGBController_LogitechGLightsync1zone.h"
 #include "RGBController_LogitechLightspeed.h"
-#include "RGBController_LogitechGPowerPlay.h"
+#include "RGBController_LogitechGPowerPlay.h" // Linux-only
 #include "RGBController_LogitechX56.h"
 
 using namespace std::chrono_literals;

@@ -10,14 +10,11 @@
 |   SPDX-License-Identifier: GPL-2.0-only                   |
 \*---------------------------------------------------------*/
 
-#include <stdio.h>
-#include <stdlib.h>
 #include <string>
 #include <vector>
 #include "Detector.h"
 #include "GigabyteRGBFusion2SMBusController.h"
 #include "LogManager.h"
-#include "RGBController.h"
 #include "RGBController_GigabyteRGBFusion2SMBus.h"
 #include "SettingsManager.h"
 #include "i2c_smbus.h"

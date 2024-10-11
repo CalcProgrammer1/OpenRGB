@@ -11,7 +11,6 @@
 
 #include "Detector.h"
 #include "InstantMouseController.h"
-#include "RGBController.h"
 #include "RGBController_InstantMouse.h"
 #include "InstantMouseDevices.h"
 

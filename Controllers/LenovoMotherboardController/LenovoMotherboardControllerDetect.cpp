@@ -11,7 +11,6 @@
 
 #include "Detector.h"
 #include "LenovoMotherboardController.h"
-#include "RGBController.h"
 #include "RGBController_LenovoMotherboard.h"
 #include "dmiinfo.h"
 

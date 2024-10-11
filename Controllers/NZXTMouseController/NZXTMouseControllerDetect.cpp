@@ -12,7 +12,6 @@
 #include <hidapi.h>
 #include "Detector.h"
 #include "NZXTMouseController.h"
-#include "RGBController.h"
 #include "RGBController_NZXTMouse.h"
 
 /*-----------------------------------------------------*\

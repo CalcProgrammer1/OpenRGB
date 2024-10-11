@@ -11,7 +11,6 @@
 
 #include "Detector.h"
 #include "ZotacV2GPUController.h"
-#include "RGBController.h"
 #include "RGBController_ZotacV2GPU.h"
 #include "i2c_smbus.h"
 #include "pci_ids.h"

@@ -9,12 +9,10 @@
 |   SPDX-License-Identifier: GPL-2.0-only                   |
 \*---------------------------------------------------------*/
 
-#include <vector>
 #include <hidapi.h>
 #include "Detector.h"
 #include "SRGBmodsLEDControllerV1.h"
 #include "SRGBmodsPicoController.h"
-#include "RGBController.h"
 #include "RGBController_SRGBmodsLEDControllerV1.h"
 #include "RGBController_SRGBmodsPico.h"
 

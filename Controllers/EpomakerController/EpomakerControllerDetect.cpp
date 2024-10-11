@@ -12,7 +12,6 @@
 #include <hidapi.h>
 #include "Detector.h"
 #include "EpomakerController.h"
-#include "RGBController.h"
 #include "RGBController_EpomakerController.h"
 
 #define EPOMAKER_VID                    0x3151

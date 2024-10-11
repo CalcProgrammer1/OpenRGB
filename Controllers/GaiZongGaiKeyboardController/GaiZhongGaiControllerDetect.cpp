@@ -12,7 +12,6 @@
 #include <hidapi.h>
 #include "Detector.h"
 #include "GaiZhongGaiController.h"
-#include "RGBController.h"
 #include "RGBController_GaiZhongGai.h"
 
 /******************************************************************************************\

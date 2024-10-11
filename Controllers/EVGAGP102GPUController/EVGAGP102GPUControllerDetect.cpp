@@ -9,13 +9,10 @@
 |   SPDX-License-Identifier: GPL-2.0-only                   |
 \*---------------------------------------------------------*/
 
-#include <stdio.h>
-#include <stdlib.h>
 #include <vector>
 #include "Detector.h"
 #include "EVGAGP102Controller.h"
 #include "LogManager.h"
-#include "RGBController.h"
 #include "RGBController_EVGAGP102.h"
 #include "i2c_smbus.h"
 #include "pci_ids.h"

@@ -9,8 +9,6 @@
 
 #include <hidapi.h>
 #include "Detector.h"
-#include "LogManager.h"
-#include "RGBController.h"
 #include "Lenovo4ZoneUSBController.h"
 #include "LenovoDevices4Zone.h"
 #include "RGBController_Lenovo4ZoneUSB.h"

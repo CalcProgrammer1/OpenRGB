@@ -9,7 +9,6 @@
 
 #include "Detector.h"
 #include "AlienwareController.h"
-#include "RGBController.h"
 #include "RGBController_Alienware.h"
 
 /*---------------------------------------------------------*\

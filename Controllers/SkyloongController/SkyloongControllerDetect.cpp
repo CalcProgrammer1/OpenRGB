@@ -12,7 +12,6 @@
 #include <hidapi.h>
 #include "Detector.h"
 #include "SkyloongGK104ProController.h"
-#include "RGBController.h"
 #include "RGBController_SkyloongGK104Pro.h"
 
 /*-----------------------------------------------------*\

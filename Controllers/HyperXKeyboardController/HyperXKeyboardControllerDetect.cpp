@@ -15,7 +15,6 @@
 #include "HyperXAlloyOriginsController.h"
 #include "HyperXAlloyOriginsCoreController.h"
 #include "HyperXAlloyOrigins60and65Controller.h"
-#include "RGBController.h"
 #include "RGBController_HyperXAlloyElite.h"
 #include "RGBController_HyperXAlloyElite2.h"
 #include "RGBController_HyperXAlloyFPS.h"

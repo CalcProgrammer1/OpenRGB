@@ -12,7 +12,6 @@
 #include <vector>
 #include "Detector.h"
 #include "NZXTHuePlusController.h"
-#include "RGBController.h"
 #include "RGBController_NZXTHuePlus.h"
 #include "find_usb_serial_port.h"
 

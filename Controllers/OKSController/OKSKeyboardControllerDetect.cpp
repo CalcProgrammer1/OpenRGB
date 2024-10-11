@@ -12,7 +12,6 @@
 #include <hidapi.h>
 #include "Detector.h"
 #include "OKSKeyboardController.h"
-#include "RGBController.h"
 #include "RGBController_OKSKeyboard.h"
 
 /******************************************************************************************\

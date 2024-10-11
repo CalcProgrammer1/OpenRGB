@@ -8,7 +8,6 @@
 \*---------------------------------------------------------*/
 
 #include "Detector.h"
-#include "RGBController.h"
 #include "RGBController_CougarKeyboard.h"
 #include "RGBController_CougarRevengerST.h"
 

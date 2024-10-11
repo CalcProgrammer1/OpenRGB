@@ -11,7 +11,6 @@
 
 #include "Detector.h"
 #include "N5312AController.h"
-#include "RGBController.h"
 #include "RGBController_N5312A.h"
 
 /*---------------------------------------------------------*\

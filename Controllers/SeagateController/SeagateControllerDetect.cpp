@@ -9,11 +9,8 @@
 |   SPDX-License-Identifier: GPL-2.0-only                   |
 \*---------------------------------------------------------*/
 
-#include <vector>
 #include "Detector.h"
-#include "LogManager.h"
 #include "SeagateController.h"
-#include "RGBController.h"
 #include "RGBController_Seagate.h"
 #include "scsiapi.h"
 

@@ -18,7 +18,6 @@
 #include "RoccatVulcanKeyboardController.h"
 #include "RoccatKovaController.h"
 #include "RoccatEloController.h"
-#include "RGBController.h"
 #include "RGBController_RoccatBurst.h"
 #include "RGBController_RoccatBurstProAir.h"
 #include "RGBController_RoccatHordeAimo.h"

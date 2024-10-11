@@ -11,7 +11,6 @@
 
 #include "Detector.h"
 #include "GigabyteAorusLaptopController.h"
-#include "RGBController.h"
 #include "RGBController_GigabyteAorusLaptop.h"
 
 /*---------------------------------------------------------*\

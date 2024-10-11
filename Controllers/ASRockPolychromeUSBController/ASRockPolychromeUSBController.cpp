@@ -11,7 +11,6 @@
 \*---------------------------------------------------------*/
 
 #include <cstring>
-#include <stdio.h>
 #include "RGBController.h"
 #include "ResourceManager.h"
 #include "SettingsManager.h"

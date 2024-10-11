@@ -8,8 +8,6 @@
 \*---------------------------------------------------------*/
 
 #include <fcntl.h>
-#include <fstream>
-#include <iostream>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string>
@@ -19,7 +17,7 @@
 #include "RGBController.h"
 #include "RGBController_Debug.h"
 #include "RGBController_Dummy.h"
-#include "RGBControllerKeyNames.h"
+#include "RGBControllerKeyNames.h" // Unused?
 #include "KeyboardLayoutManager.h"
 #include "SettingsManager.h"
 

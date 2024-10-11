@@ -13,7 +13,6 @@
 #include "HyperXPulsefireSurgeController.h"
 #include "HyperXPulsefireDartController.h"
 #include "HyperXPulsefireRaidController.h"
-#include "RGBController.h"
 #include "RGBController_HyperXPulsefireFPSPro.h"
 #include "RGBController_HyperXPulsefireHaste.h"
 #include "RGBController_HyperXPulsefireSurge.h"
