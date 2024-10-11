@@ -54,7 +54,7 @@ std::string MintakaKeyboardController::GetFirmwareVersion()
     return(version);
 }
 
-void MintakaKeyboardController:: SetLedSequencePositions(std::vector<unsigned int> positions)
+void MintakaKeyboardController:: SetLedSequencePositions(unsigned int* positions)
 {
     led_sequence_positions = positions;
 }

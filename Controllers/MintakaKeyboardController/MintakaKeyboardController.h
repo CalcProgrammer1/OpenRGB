@@ -98,7 +98,7 @@ public:
     std::string                 GetDeviceLocation();
     std::string                 GetFirmwareVersion();
 
-    void                        SetLedSequencePositions(std::vector<unsigned int> positions);
+    void                        SetLedSequencePositions(unsigned int* positions);
     void                        SetMode(std::vector<mode> modes, int active_mode, std::vector<RGBColor> colors);
 
 protected:
@@ -108,7 +108,7 @@ private:
     std::string                 location;
     std::string                 serial_number;
     std::string                 version;
-    std::vector<unsigned int>   led_sequence_positions;
+    unsigned int*   led_sequence_positions;
 
     void                        SetCustomization(bool state);
     void                        StartEffectPage();

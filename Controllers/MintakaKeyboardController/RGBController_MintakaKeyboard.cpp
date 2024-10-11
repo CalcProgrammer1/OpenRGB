@@ -12,190 +12,48 @@
 #include <chrono>
 #include <thread>
 
-#include "RGBController_MintakaKeyboard.h"
+#include "KeyboardLayoutManager.h"
+#include "LogManager.h"
 #include "RGBControllerKeyNames.h"
-
-#define NA      0xFFFFFFFF
-
-typedef struct
+#include "RGBController_MintakaKeyboard.h"
+/*---------------------------------------------------------------------*\
+|  VSG Keyboard Mintaka Layout                                          |
+\*---------------------------------------------------------------------*/
+/*
+ *  Putting enter on row 2:
+ *      - entr doesnt light up
+ *      - last four from last row doesnt light up (RALT RMNU  RCTL  RFNC)
+ *      - third row is shifted by one: h lights g, a lights caps lock
+ *      - fifth row is shifted by one: win lights left ctrl, right alt turns space
+ *
+ *  Putting enter on row 3:
+ *      - caps lock doesnt light up
+ *      - last four from last row doesnt light up (RALT RMNU  RCTL  RFNC)
+ *      - fifth row is shifted by one: win lights left ctrl, right alt turns space
+ *
+ *  In both cases, the first key of the shifted ones lights nothing.
+ *
+ *  In both cases, esc key  is off, but this is beacause line 411 of KeyboardLayoutManager.cpp.
+ *      SwapKey(keyboard_zone_fn_row[0]);
+ *  If i remove that line everything works ok regarding to the key at (0,0)
+ *  Whatever led i put in that position (0,0) wont turn on
+ */
+layout_values mintaka_offset_values =
 {
-    const unsigned int                      width;                  /* matrix width         */
-    const unsigned int                      height;                 /* matrix height        */
-    std::vector<std::vector<unsigned int>>  matrix_map;             /* matrix map           */
-    std::vector<std::string>                led_names;              /* led names            */
-    std::vector<unsigned int>               led_sequence_positions; /* position in buffers  */
-} mintaka;
-
-/*-----------------------------------------*\
-|  The one that is showed in the original   |
-|  issue                                    |
-\*-----------------------------------------*/
-static mintaka default_mintaka =
-{
-    14,
-    5,
     {
-        {  0,  5,   10, 15, 19, 23, 27, 32, 36, 40, 44, 49, 54, 59},
-        {  1,  6,  11, 16, 20, 24, 28, 33, 37, 41, 45, 50, 55, 60},
-        {  2,  7,  12, 17, 21, 25, 29, 34, 38, 42, 46, 51, 56, NA},
-        {  3,  8, 13, 18, 22, 26, 30, 35, 39, 43, 47, 52, 57, NA},
-        {  4,  9,  14, NA, NA, NA, 31, NA, NA, NA, 48, 53, 58, 61}
+        /* ESC     1     2     3     4     5     6     7     8     9     0     '     ¿   BSPC */
+            19,   20,   21,   22,   23,   24,   25,   26,   27,   28,   29,   30,   31,   103,
+        /* TAB     Q     W     E     R     T     Y     U     I     O     P     ´     +   ENTR */
+            37,   38,   39,   40,   41,   42,   43,   44,   45,   46,   47,   48,   49,    85,
+        /* CPLK    A     S     D     F     G     H     J     K     L     Ñ     {     }        */
+            55,   56,   57,   58,   59,   60,   61,   62,   63,   64,   65,   66,  108,
+        /* LSFT    <     Z     X     C     V     B     N     M     ,     .     -   RSFT       */
+            73,  109,   74,   75,   76,   77,   78,   79,   80,   81,   82,   83,   84,
+        /* LCTL  LWIN  LALT               SPC              RALT RMNU  RCTL  RFNC              */
+            91,   92,   93,                94,               95,  96,   97,   98,
     },
     {
-        KEY_EN_ESCAPE,              //0
-        KEY_EN_TAB,                 //1
-        KEY_EN_CAPS_LOCK,           //2
-        KEY_EN_LEFT_SHIFT,          //3
-        KEY_EN_LEFT_CONTROL,        //4
-
-        KEY_EN_1,                   //5
-        KEY_EN_Q,                   //6
-        KEY_EN_A,                   //7
-        KEY_NORD_ANGLE_BRACKET,     //8
-        KEY_EN_LEFT_WINDOWS,        //9
-
-        KEY_EN_2,                   //10
-        KEY_EN_W,                   //11
-        KEY_EN_S,                   //12
-        KEY_EN_Z,                   //13
-        KEY_EN_LEFT_ALT,            //14
-
-        KEY_EN_3,                   //15
-        KEY_EN_E,                   //16
-        KEY_EN_D,                   //17
-        KEY_EN_X,                   //18
-
-        KEY_EN_4,                   //19
-        KEY_EN_R,                   //20
-        KEY_EN_F,                   //21
-        KEY_EN_C,                   //22
-
-        KEY_EN_5,                   //23
-        KEY_EN_T,                   //24
-        KEY_EN_G,                   //25
-        KEY_EN_V,                   //26
-
-        KEY_EN_6,                   //27
-        KEY_EN_Y,                   //28
-        KEY_EN_H,                   //29
-        KEY_EN_B,                   //30
-        KEY_EN_SPACE,               //31
-
-        KEY_EN_7,                   //32
-        KEY_EN_U,                   //33
-        KEY_EN_J,                   //34
-        KEY_EN_N,                   //35
-
-        KEY_EN_8,                   //36
-        KEY_EN_I,                   //37
-        KEY_EN_K,                   //38
-        KEY_EN_M,                   //39
-
-        KEY_EN_9,                   //40
-        KEY_EN_O,                   //41
-        KEY_EN_L,                   //42
-        KEY_EN_COMMA,               //43
-
-        KEY_EN_0,                   //44
-        KEY_EN_P,                   //45
-        KEY_ES_ENIE,           //46
-        KEY_EN_PERIOD,              //47
-        KEY_EN_RIGHT_ALT,           //48
-
-        KEY_EN_QUOTE,               //49
-        KEY_ES_TILDE,        //50
-        KEY_EN_LEFT_BRACKET,               //51
-        KEY_NORD_HYPHEN,       //52
-        KEY_EN_MENU,          //53
-
-        KEY_ES_OPEN_QUESTION_MARK,              //54
-        KEY_EN_PLUS,       //55
-        KEY_EN_RIGHT_BRACKET,      //56
-        KEY_EN_RIGHT_SHIFT,         //57
-        KEY_EN_RIGHT_CONTROL,       //58
-
-        KEY_EN_BACKSPACE,           //59
-
-        KEY_EN_ISO_ENTER,           //60
-        KEY_EN_RIGHT_FUNCTION,      //61
-    },
-    {
-        19, // KEY_EN_ESCAPE,              //0
-        37, // KEY_EN_TAB,                 //1
-        55, // KEY_EN_CAPS_LOCK,           //2
-        73, // KEY_EN_LEFT_SHIFT,          //3
-        91, // KEY_EN_LEFT_CONTROL,        //4
-
-        20, // KEY_EN_1,                   //5
-        38, // KEY_EN_Q,                   //6
-        56, // KEY_EN_A,                   //7
-        109, // KEY_NORD_ANGLE_BRACKET,     //8
-        92, // KEY_EN_LEFT_WINDOWS,        //9
-
-        21, // KEY_EN_2,                   //10
-        39, // KEY_EN_W,                   //11
-        57, // KEY_EN_S,                   //12
-        74, // KEY_EN_Z,                   //13
-        93, // KEY_EN_LEFT_ALT,            //14
-
-        22, // KEY_EN_3,                   //15
-        40, // KEY_EN_E,                   //16
-        58, // KEY_EN_D,                   //17
-        75, // KEY_EN_X,                   //18
-
-        23, // KEY_EN_4,                   //19
-        41, // KEY_EN_R,                   //20
-        59, // KEY_EN_F,                   //21
-        76, // KEY_EN_C,                   //22
-
-        24, // KEY_EN_5,                   //23
-        42, // KEY_EN_T,                   //24
-        60, // KEY_EN_G,                   //25
-        77, // KEY_EN_V,                   //26
-
-        25, // KEY_EN_6,                   //27
-        43, // KEY_EN_Y,                   //28
-        61, // KEY_EN_H,                   //29
-        78, // KEY_EN_B,                   //30
-        94, // KEY_EN_SPACE,               //31
-
-        26, // KEY_EN_7,                   //32
-        44, // KEY_EN_U,                   //33
-        62, // KEY_EN_J,                   //34
-        79, // KEY_EN_N,                   //35
-
-        27, // KEY_EN_8,                   //36
-        45, // KEY_EN_I,                   //37
-        63, // KEY_EN_K,                   //38
-        80, // KEY_EN_M,                   //39
-
-        28, // KEY_EN_9,                   //40
-        46, // KEY_EN_O,                   //41
-        64, // KEY_EN_L,                   //42
-        81, // KEY_EN_COMMA,               //43
-
-        29, // KEY_EN_0,                   //44
-        47, // KEY_EN_P,                   //45
-        65, // KEY_ES_ENIE,           //46
-        82, // KEY_EN_PERIOD,              //47
-        95, // KEY_EN_RIGHT_ALT,           //48
-
-        30, // KEY_EN_QUOTE,               //49
-        48, // KEY_ES_TILDE,        //50
-        66, // KEY_EN_LEFT_BRACKET,               //51
-        83, // KEY_NORD_HYPHEN,       //52
-        96, // KEY_EN_MENU,          //53
-
-        31, // KEY_ES_OPEN_QUESTION_MARK,              //54
-        49, // KEY_EN_PLUS,       //55
-        108, // KEY_EN_RIGHT_BRACKET,      //56
-        84, // KEY_EN_RIGHT_SHIFT,         //57
-        97, // KEY_EN_RIGHT_CONTROL,       //58
-
-        103, // KEY_EN_BACKSPACE,           //59
-
-        85, // KEY_EN_ISO_ENTER,           //60
-        98, // KEY_EN_RIGHT_FUNCTION,      //61
+        /* Add more regional layout fixes here */
     }
 };
 
@@ -391,51 +249,50 @@ RGBController_MintakaKeyboard::~RGBController_MintakaKeyboard()
 
 void RGBController_MintakaKeyboard::SetupZones()
 {
-    /*-----------------------------------------*\
-    |  TODO: add logical switch here when we    |
-    |        will have to add different layouts |
-    \*-----------------------------------------*/
-    mintaka keyboard = default_mintaka;
 
-    controller->SetLedSequencePositions(keyboard.led_sequence_positions);
+    /*---------------------------------------------------------*\
+    | Create the keyboard zone usiung Keyboard Layout Manager   |
+    \*---------------------------------------------------------*/
+    zone new_zone;
+    new_zone.name               = ZONE_EN_KEYBOARD;
+    new_zone.type               = ZONE_TYPE_MATRIX;
 
-    /*-----------------------------------------*\
-    |  Create the zone                          |
-    \*-----------------------------------------*/
-    unsigned int zone_size = 0;
+    KeyboardLayoutManager new_kb(KEYBOARD_LAYOUT_ISO_QWERTY, KEYBOARD_SIZE_SIXTY, mintaka_offset_values);
 
-    zone keyboard_zone;
-    keyboard_zone.name               = ZONE_EN_KEYBOARD;
-    keyboard_zone.type               = ZONE_TYPE_MATRIX;
+    matrix_map_type * new_map   = new matrix_map_type;
+    new_zone.matrix_map         = new_map;
+    new_zone.matrix_map->height = new_kb.GetRowCount();
+    new_zone.matrix_map->width  = new_kb.GetColumnCount();
 
-    keyboard_zone.matrix_map         = new matrix_map_type;
-    keyboard_zone.matrix_map->height = keyboard.height;
-    keyboard_zone.matrix_map->width  = keyboard.width;
+    new_zone.matrix_map->map    = new unsigned int[new_map->height * new_map->width];
+    new_zone.leds_count         = new_kb.GetKeyCount();
+    new_zone.leds_min           = new_zone.leds_count;
+    new_zone.leds_max           = new_zone.leds_count;
 
-    keyboard_zone.matrix_map->map    = new unsigned int[keyboard.height * keyboard.width];
+    /*---------------------------------------------------------*\
+    | Matrix map still uses declared zone rows and columns      |
+    |   as the packet structure depends on the matrix map       |
+    \*---------------------------------------------------------*/
+    new_kb.GetKeyMap(new_map->map, KEYBOARD_MAP_FILL_TYPE_COUNT, new_map->height, new_map->width);
 
-    for(unsigned int w = 0; w < keyboard.width; w++)
+    unsigned int* sequence_positions    = new unsigned int[new_map->height * new_map->width];
+    new_kb.GetKeyMap(sequence_positions, KEYBOARD_MAP_FILL_TYPE_VALUE, new_map->height, new_map->width);
+    controller->SetLedSequencePositions(sequence_positions);
+
+    /*---------------------------------------------------------*\
+    | Create LEDs for the Matrix zone                           |
+    |   Place keys in the layout to populate the matrix         |
+    \*---------------------------------------------------------*/
+    for(size_t led_idx = 0; led_idx < new_zone.leds_count; led_idx++)
     {
-        for(unsigned int h = 0; h < keyboard.height; h++)
-        {
-            unsigned int key = keyboard.matrix_map[h][w];
-            keyboard_zone.matrix_map->map[h * keyboard.width + w] = key;
+        led new_led;
 
-            if(key != NA)
-            {
-                led new_led;
-                new_led.name = keyboard.led_names[key];
-                leds.push_back(new_led);
-                zone_size++;
-            }
-        }
+        new_led.name                = new_kb.GetKeyNameAt(led_idx);
+        new_led.value               = new_kb.GetKeyValueAt(led_idx);
+        leds.push_back(new_led);
     }
 
-    keyboard_zone.leds_min           = zone_size;
-    keyboard_zone.leds_max           = zone_size;
-    keyboard_zone.leds_count         = zone_size;
-
-    zones.push_back(keyboard_zone);
+    zones.push_back(new_zone);
 
     SetupColors();
 }
