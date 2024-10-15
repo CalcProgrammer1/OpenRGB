@@ -501,9 +501,6 @@ contains(QMAKE_PLATFORM, linux) {
 
     QMAKE_CXXFLAGS += -Wno-implicit-fallthrough -Wno-psabi
 
-    DEFINES +=                                                                                  \
-        OPENRGB_SYSTEM_PLUGIN_DIRECTORY=\\"\"\"$$PREFIX/lib/openrgb/plugins\\"\"\"              \
-
     #-------------------------------------------------------------------------------------------#
     # Determine which hidapi to use based on availability                                       #
     #   Prefer hidraw backend, then libusb                                                      #
@@ -544,6 +541,12 @@ contains(QMAKE_PLATFORM, linux) {
     isEmpty(PREFIX) {
         PREFIX = /usr
     }
+
+    !defined(OPENRGB_SYSTEM_PLUGIN_DIRECTORY, var):OPENRGB_SYSTEM_PLUGIN_DIRECTORY =            \
+        "$$PREFIX/lib/openrgb/plugins"                                                          \
+
+    DEFINES +=                                                                                  \
+        OPENRGB_SYSTEM_PLUGIN_DIRECTORY=\\"\"\"$$OPENRGB_SYSTEM_PLUGIN_DIRECTORY\\"\"\"         \
 
     #-------------------------------------------------------------------------------------------#
     # Custom target for dynamically created udev_rules                                          #
