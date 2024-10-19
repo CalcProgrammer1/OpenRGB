@@ -13,7 +13,6 @@
 #include <thread>
 
 #include "KeyboardLayoutManager.h"
-#include "LogManager.h"
 #include "RGBControllerKeyNames.h"
 #include "RGBController_MintakaKeyboard.h"
 /*---------------------------------------------------------------------*\
