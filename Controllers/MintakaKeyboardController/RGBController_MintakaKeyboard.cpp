@@ -19,25 +19,6 @@
 /*---------------------------------------------------------------------*\
 |  VSG Keyboard Mintaka Layout                                          |
 \*---------------------------------------------------------------------*/
-/*
- *  Putting enter on row 2:
- *      - entr doesnt light up
- *      - last four from last row doesnt light up (RALT RMNU  RCTL  RFNC)
- *      - third row is shifted by one: h lights g, a lights caps lock
- *      - fifth row is shifted by one: win lights left ctrl, right alt turns space
- *
- *  Putting enter on row 3:
- *      - caps lock doesnt light up
- *      - last four from last row doesnt light up (RALT RMNU  RCTL  RFNC)
- *      - fifth row is shifted by one: win lights left ctrl, right alt turns space
- *
- *  In both cases, the first key of the shifted ones lights nothing.
- *
- *  In both cases, esc key  is off, but this is beacause line 411 of KeyboardLayoutManager.cpp.
- *      SwapKey(keyboard_zone_fn_row[0]);
- *  If i remove that line everything works ok regarding to the key at (0,0)
- *  Whatever led i put in that position (0,0) wont turn on
- */
 layout_values mintaka_offset_values =
 {
     {
