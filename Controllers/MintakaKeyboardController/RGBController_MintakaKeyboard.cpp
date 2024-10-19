@@ -43,17 +43,34 @@ layout_values mintaka_offset_values =
     {
         /* ESC     1     2     3     4     5     6     7     8     9     0     '     ¿   BSPC */
             19,   20,   21,   22,   23,   24,   25,   26,   27,   28,   29,   30,   31,   103,
-        /* TAB     Q     W     E     R     T     Y     U     I     O     P     ´     +   ENTR */
-            37,   38,   39,   40,   41,   42,   43,   44,   45,   46,   47,   48,   49,    85,
-        /* CPLK    A     S     D     F     G     H     J     K     L     Ñ     {     }        */
-            55,   56,   57,   58,   59,   60,   61,   62,   63,   64,   65,   66,  108,
+        /* TAB     Q     W     E     R     T     Y     U     I     O     P     ´     +        */
+            37,   38,   39,   40,   41,   42,   43,   44,   45,   46,   47,   48,   49,
+        /* CPLK    A     S     D     F     G     H     J     K     L     Ñ     {     }   ENTR */
+            55,   56,   57,   58,   59,   60,   61,   62,   63,   64,   65,   66,  108,    85,
         /* LSFT    <     Z     X     C     V     B     N     M     ,     .     -   RSFT       */
             73,  109,   74,   75,   76,   77,   78,   79,   80,   81,   82,   83,   84,
         /* LCTL  LWIN  LALT               SPC              RALT RMNU  RCTL  RFNC              */
-            91,   92,   93,                94,               95,  96,   97,   98,
+            91,   92,   93,               94,                95,  96,   97,   98,
     },
     {
-        /* Add more regional layout fixes here */
+        { KEYBOARD_LAYOUT_ISO_QWERTY, {
+            {   0,      1,      11,         0,          KEY_EN_QUOTE,                    KEYBOARD_OPCODE_SWAP_ONLY,          },
+            {   0,      1,      12,         0,          KEY_ES_OPEN_QUESTION_MARK,       KEYBOARD_OPCODE_SWAP_ONLY,          },
+
+            {   0,      2,      11,         0,          KEY_ES_TILDE,                    KEYBOARD_OPCODE_SWAP_ONLY,          },
+            {   0,      2,      12,         0,          KEY_EN_PLUS,                     KEYBOARD_OPCODE_SWAP_ONLY,          },
+
+            {   0,      3,      10,         0,          KEY_ES_ENIE,                     KEYBOARD_OPCODE_SWAP_ONLY,          },
+            {   0,      3,      11,         0,          KEY_EN_LEFT_BRACKET,             KEYBOARD_OPCODE_SWAP_ONLY,          },
+            {   0,      3,      12,         0,          KEY_EN_RIGHT_BRACKET,            KEYBOARD_OPCODE_SWAP_ONLY,          },
+
+            {   0,      4,       1,         0,          KEY_NORD_ANGLE_BRACKET,          KEYBOARD_OPCODE_SWAP_ONLY,          },
+            {   0,      4,      11,         0,          KEY_NORD_HYPHEN,                 KEYBOARD_OPCODE_SWAP_ONLY,          },
+
+            {   0,      5,      11,         0,          KEY_EN_MENU,                     KEYBOARD_OPCODE_SWAP_ONLY,          },
+            {   0,      5,      12,         0,          KEY_EN_RIGHT_CONTROL,            KEYBOARD_OPCODE_SWAP_ONLY,          },
+            {   0,      5,      13,         0,          KEY_EN_RIGHT_FUNCTION,           KEYBOARD_OPCODE_SWAP_ONLY,          },
+        }}
     }
 };
 
@@ -274,10 +291,7 @@ void RGBController_MintakaKeyboard::SetupZones()
     |   as the packet structure depends on the matrix map       |
     \*---------------------------------------------------------*/
     new_kb.GetKeyMap(new_map->map, KEYBOARD_MAP_FILL_TYPE_COUNT, new_map->height, new_map->width);
-
-    unsigned int* sequence_positions    = new unsigned int[new_map->height * new_map->width];
-    new_kb.GetKeyMap(sequence_positions, KEYBOARD_MAP_FILL_TYPE_VALUE, new_map->height, new_map->width);
-    controller->SetLedSequencePositions(sequence_positions);
+    controller->SetLedSequencePositions(mintaka_offset_values.default_values);
 
     /*---------------------------------------------------------*\
     | Create LEDs for the Matrix zone                           |
