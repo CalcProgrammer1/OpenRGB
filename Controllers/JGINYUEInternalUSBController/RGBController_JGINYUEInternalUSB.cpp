@@ -222,7 +222,7 @@ void RGBController_JGINYUEInternalUSB::SetupZones()
         {
             led new_led;
             new_led.name    = "ARGB Header " + std::to_string(zone_idx + 1) + " LED " + std::to_string(led_idx + 1);
-            new_led.value   = 0;
+            new_led.value   = led_idx;
             leds.push_back(new_led);
         }
     }
