@@ -13,7 +13,7 @@
 
 #include "RGBController.h"
 #include <string>
-#include <hidapi/hidapi.h>
+#include <hidapi.h>
 
 #define REPORT_ID                   0x00
 #define PACKET_DATA_LENGTH          64
