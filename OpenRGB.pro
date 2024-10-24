@@ -108,7 +108,6 @@ INCLUDEPATH +=                                                                  
     dependencies/hueplusplus-1.1.0/include/hueplusplus                                          \
     dependencies/httplib                                                                        \
     dependencies/json/                                                                          \
-    dependencies/libe131/src/                                                                   \
     dependencies/mdns                                                                           \
     dmiinfo/                                                                                    \
     hidapi_wrapper/                                                                             \
@@ -197,7 +196,6 @@ SOURCES +=                                                                      
     dependencies/hueplusplus-1.1.0/src/UPnP.cpp                                                 \
     dependencies/hueplusplus-1.1.0/src/Utils.cpp                                                \
     dependencies/hueplusplus-1.1.0/src/ZLLSensors.cpp                                           \
-    dependencies/libe131/src/e131.c                                                             \
     main.cpp                                                                                    \
     cli.cpp                                                                                     \
     dmiinfo/dmiinfo.cpp                                                                         \
@@ -227,6 +225,25 @@ SOURCES +=                                                                      
 
 RESOURCES +=                                                                                    \
     qt/resources.qrc                                                                            \
+
+#-----------------------------------------------------------------------------------------------#
+# General configuration to decide if in-tree dependencies are used or not
+#-----------------------------------------------------------------------------------------------#
+
+!system_libe131:SOURCES += dependencies/libe131/src/e131.c
+!system_libe131:INCLUDEPATH += dependencies/libe131/src/
+
+#-----------------------------------------------------------------------------------------------#
+# General configuration out-of-tree dependencies if in-tree are not used for systems
+# who use pkg-config i.e. Unix-like. Also includes macOS as Homebrew uses pkg-config too.
+#-----------------------------------------------------------------------------------------------#
+
+unix {
+    system_libe131 {
+        CONFIG += link_pkgconfig
+        PKGCONFIG += libe131
+    }
+}
 
 #-----------------------------------------------------------------------------------------------#
 # Translations                                                                                  #
