@@ -17,10 +17,10 @@ using namespace std::chrono_literals;
 //0xFFFFFFFF indicates an unused entry in matrix
 #define NA  0xFFFFFFFF
 
-// US Layout TODO: mus be checked/corrected
+// US Layout
 static unsigned int matrix_map_us[7][21] =
     {
-        {NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA,  NA, 126,  NA,  NA,  NA},
+        {NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA,  NA,  NA,  NA,  NA,  NA},
         { 5, NA, 17, 23, 29, 35, 41, 47, 53, 59, 65, 71, 77, 83, 89, 95, 101, 127, 128, 129, 130},
         { 4, 10, 16, 22, 28, 34, 40, 46, 52, 58, 64, 70, 76, 82, 88, 94, 100, 106, 112, 118, 124},
         { 3,  9, 15, 21, 27, 33, 39, 45, 51, 57, 63, 69, 75,  7, 87, 93,  99, 105, 111, 117, 123},

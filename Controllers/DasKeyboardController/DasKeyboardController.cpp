@@ -66,17 +66,17 @@ std::string DasKeyboardController::GetVersionString()
 
 std::string DasKeyboardController::GetLayoutString()
 {
-    /*-----------------------------------------------------*\
-    | Experimental for now; should be '16' for US and '28'  |
-    | for EU layout                                         |
-    \*-----------------------------------------------------*/
+    /*-----------------------------------------------------------*\
+    | Experimental for now; should be '16 or 63' for US and '28'  |
+    | for EU layout                                               |
+    \*-----------------------------------------------------------*/
     if(version.length() < 17)
     {
         return("NONE");
     }
     std::string layout_id = version.substr(3, 2);
 
-    if(layout_id == "16")
+    if(layout_id == "16" || layout_id == "63")
     {
         return("US");
     }
