@@ -39,6 +39,8 @@ SMBus is generally not meant to be accessed by user applications, but RGB softwa
 
   * Some Gigabyte/Aorus motherboards have an ACPI conflict with the SMBus controller.  You can bypass this conflict by adding the `acpi_enforce_resources=lax` kernel parameter to your kernel command line.  See the [Kernel Parameters](Documentation/KernelParameters.md) page for more information.
 
+  * The [spd5118 kernel driver](https://docs.kernel.org/hwmon/spd5118.html) can claim certain I2C addresses for Kingston Fury DDR5 memory and thus prevent other kernel modules from accessing them. This is the case if the `i2cdetect` command prints the character string `UU` on the I2C bus responsible for the DRAM. A solution to this problem is to unload the `spd5118` kernel driver using `rmmod spd5118`.
+
 ## MacOS
 
   * For Intel devices using a controller in the i801 family you have to download and install the [macUSPCIO driver](https://github.com/ShadyNawara/macUSPCIO/releases)
