@@ -222,6 +222,11 @@ enum
     IDX_KEY_EN_UP_ARROW,
 };
 
+enum
+{
+    IDX_WHEEL
+};
+
 static unsigned int matrix_tkl_map[KEYBOARD_MATRIX_TKL_HEIGHT][KEYBOARD_MATRIX_TKL_WIDTH] =
     { {   0,  NA,   8,  14,  19,  24,  NA,  30,  36,  40,  45,  NA,  53,  59,  65,  70,  74,  78,  83},
       {   1,   6,   9,  15,  20,  25,  29,  31,  37,  41,  46,  NA,  54,  60,  66,  NA,  75,  79,  84},
@@ -269,7 +274,7 @@ static unsigned int matrix_num_map_lut[KEYBOARD_MATRIX_NUM_KEYS_NO] =
     IDX_KEY_EN_NUMPAD_MINUS, IDX_KEY_EN_NUMPAD_PLUS, IDX_KEY_EN_NUMPAD_ENTER
 };
 
-static unsigned int matrix_edge_tkl_map_lut[KEYBOARD_MATRIX_EDGE_TKL_KEYS_NO]=
+static unsigned int matrix_edge_tkl_map_lut[KEYBOARD_MATRIX_EDGE_TKL_KEYS_NO] =
 {
     IDX_EDGE_16, IDX_EDGE_17, IDX_EDGE_18, IDX_EDGE_19,
     IDX_EDGE_13, IDX_EDGE_20,
@@ -294,6 +299,11 @@ static unsigned int matrix_edge_numpad_map_lut[KEYBOARD_MATRIX_EDGE_NUMPAD_KEYS_
     IDX_EDGE_43, IDX_EDGE_36,
     IDX_EDGE_42, IDX_EDGE_37,
     IDX_EDGE_41, IDX_EDGE_40, IDX_EDGE_39, IDX_EDGE_38
+};
+
+static unsigned int single_wheel_lut[1]=
+{
+    IDX_WHEEL
 };
 
 static unsigned int matrix_edge_tkl_map[KEYBOARD_MATRIX_EDGE_TKL_HEIGHT][KEYBOARD_MATRIX_EDGE_TKL_WIDTH] =
@@ -365,6 +375,15 @@ static const mountain_zone_t zone_definitions[] =
         KEYBOARD_MATRIX_EDGE_NUMPAD_KEYS_NO,
         KEYBOARD_MATRIX_EDGE_NUMPAD_HEIGHT,
         KEYBOARD_MATRIX_EDGE_NUMPAD_WIDTH
+    },
+    {
+        "Wheel Selector",
+        ZONE_TYPE_SINGLE,
+        nullptr,
+        (unsigned int *) &single_wheel_lut,
+        1,
+        1,
+        1
     }
 };
 
@@ -512,6 +531,16 @@ static const char *led_names[MOUNTAIN_KEYBOARD_MAX_TRANSFER_COLORS] =
 RGBController_MountainKeyboard::RGBController_MountainKeyboard(MountainKeyboardController* controller_ptr)
 {
     controller  = controller_ptr;
+
+    memset(wheel_color, 0, 3);
+
+    wheel_config * wheel_conf = controller->GetWheelConfig();
+
+    if (wheel_conf != nullptr) {
+        wheel_color[0] = wheel_conf->r;
+        wheel_color[1] = wheel_conf->g;
+        wheel_color[2] = wheel_conf->b;
+    }
 
     name        = "Mountain Everest Keyboard";
     vendor      = "Mountain";
@@ -715,6 +744,11 @@ void RGBController_MountainKeyboard::SetupZones()
                     }
                     break;
 
+                    case 4:
+                    {
+                        new_led->name = zones[zone_idx].name + " LED";
+                    }
+                    break;
                     default:
                     break;
                 }
@@ -770,7 +804,7 @@ void RGBController_MountainKeyboard::DeviceUpdate(const mode& current_mode)
                     color_edge_data[(3 * idx)+1] = RGBGetGValue(colors[led_idx]);
                     color_edge_data[(3 * idx)+2] = RGBGetBValue(colors[led_idx]);
                 }
-                else
+                else if (led_idx < zones[0].leds_count + zones[1].leds_count + zones[2].leds_count + zones[3].leds_count)
                 {
                     unsigned int zone_led_idx = led_idx - zones[0].leds_count - zones[1].leds_count - zones[2].leds_count;
                     unsigned int idx = zone_definitions[3].ptr_lut[zone_led_idx];
@@ -778,6 +812,14 @@ void RGBController_MountainKeyboard::DeviceUpdate(const mode& current_mode)
                     color_edge_data[(3 * idx)+1] = RGBGetGValue(colors[led_idx]);
                     color_edge_data[(3 * idx)+2] = RGBGetBValue(colors[led_idx]);
                 }
+                else
+                {
+                    wheel_color[0] = RGBGetRValue(colors[led_idx]);
+                    wheel_color[1] = RGBGetGValue(colors[led_idx]);
+                    wheel_color[2] = RGBGetBValue(colors[led_idx]);
+                }
+
+
             }
 
             /*---------------------------------------------------------*\
@@ -811,7 +853,12 @@ void RGBController_MountainKeyboard::DeviceUpdate(const mode& current_mode)
             setup.mode.one_color.g  = RGBGetGValue(current_mode.colors[0]);
             setup.mode.one_color.b  = RGBGetBValue(current_mode.colors[0]);
 
+            unsigned char colors [3] = {setup.mode.one_color.r, setup.mode.one_color.g, setup.mode.one_color.b};
             controller->SendColorStaticCmd(setup);
+            wheel_color[0] = colors[0];
+            wheel_color[1] = colors[1];
+            wheel_color[2] = colors[2];
+
         }
         break;
 
@@ -1031,4 +1078,5 @@ unsigned char RGBController_MountainKeyboard::ConvertDirection(unsigned int dire
 void RGBController_MountainKeyboard::DeviceSaveMode()
 {
     controller->SaveData(modes[active_mode].value);
+    controller->SendWheelColorChange(wheel_color);
 }

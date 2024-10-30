@@ -421,6 +421,54 @@ void MountainKeyboardController::SendColorPacketFinishCmd()
     }
 }
 
+void MountainKeyboardController::SendWheelColorChange(unsigned char color_data [3])
+{
+
+    wheel_config * usb_buf = GetWheelConfig();
+    if (usb_buf != nullptr)
+    {
+        usb_buf->fixed_byte_1 = 0x01;
+        usb_buf->fixed_byte_2 = 0x02;
+        usb_buf->zero_byte    = 0x00;
+        usb_buf->r = color_data[0];
+        usb_buf->g = color_data[1];
+        usb_buf->b = color_data[2];
+        hid_write(dev, (unsigned char *) usb_buf, MOUNTAIN_KEYBOARD_WHEEL_CONFIG_BUFFER_SIZE);
+    }
+
+}
+
+wheel_config * MountainKeyboardController::GetWheelConfig()
+{
+
+    unsigned char * usb_buf = new unsigned char [MOUNTAIN_KEYBOARD_WHEEL_CONFIG_BUFFER_SIZE+1];
+    unsigned char * recv_buf = &usb_buf[1];
+
+
+    for (int i =0; i < 1000; i++)
+    {
+
+        memset(usb_buf, 0x00, MOUNTAIN_KEYBOARD_WHEEL_CONFIG_BUFFER_SIZE+1);
+        wheel_config * usb_conf = (wheel_config *) usb_buf;
+        usb_conf->config_start_first = 0x11;
+        usb_conf->config_start_second = 0x14;
+        hid_write(dev, usb_buf, MOUNTAIN_KEYBOARD_WHEEL_CONFIG_BUFFER_SIZE);
+        memset(usb_buf, 0x00, MOUNTAIN_KEYBOARD_WHEEL_CONFIG_BUFFER_SIZE+1);
+        hid_read_timeout(dev, recv_buf, MOUNTAIN_KEYBOARD_WHEEL_CONFIG_BUFFER_SIZE, 1);
+        if (usb_conf->config_start_first == MOUNTAIN_KEYBOARD_WHEEL_CONFIG_FIRST_BYTE &&
+            usb_conf->config_start_second == MOUNTAIN_KEYBOARD_WHEEL_CONFIG_SECOND_BYTE)
+        {
+            return usb_conf;
+        }
+
+    }
+
+    delete[] usb_buf;
+    return nullptr;
+
+}
+
+
 void MountainKeyboardController::SendDirectColorEdgeCmd(bool quick_mode, unsigned char brightness, unsigned char *color_data, unsigned int data_size)
 {
     static bool first_call = true;

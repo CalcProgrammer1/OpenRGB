@@ -54,4 +54,6 @@ private:
     MountainKeyboardController* controller;
     unsigned char ConvertDirection(unsigned int direction, bool rotation);
     void          DeviceUpdate(const mode& current_mode);
+
+    unsigned char wheel_color [3];
 };

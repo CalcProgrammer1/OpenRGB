@@ -34,6 +34,11 @@
 #define MOUNTAIN_KEYBOARD_USB_BUFFER_HEADER_SIZE          8
 #define MOUNTAIN_KEYBOARD_USB_MAX_DIRECT_PAYLOAD_SIZE    \
         (MOUNTAIN_KEYBOARD_USB_BUFFER_SIZE-MOUNTAIN_KEYBOARD_USB_BUFFER_HEADER_SIZE)
+#define MOUNTAIN_KEYBOARD_WHEEL_CONFIG_BUFFER_SIZE 65
+#define MOUNTAIN_KEYBOARD_WHEEL_CONFIG_FIRST_BYTE 0x11
+#define MOUNTAIN_KEYBOARD_WHEEL_CONFIG_SECOND_BYTE 0x14
+#define MOUNTAIN_KEYBOARD_WHEEL_CONFIG_FIXED_BYTE_1 0x01
+#define MOUNTAIN_KEYBOARD_WHEEL_CONFIG_FIXED_BYTE_2 0x02
 
 enum
 {
@@ -120,6 +125,23 @@ typedef struct
     } mode;
 } color_setup;
 
+
+typedef struct
+{
+    unsigned char report_size;
+    unsigned char config_start_first;
+    unsigned char config_start_second;
+    unsigned char zero_byte;
+    unsigned char fixed_byte_1;
+    unsigned char fixed_byte_2;
+    unsigned char config_intermediate_values [2];
+    unsigned char r;
+    unsigned char g;
+    unsigned char b;
+    unsigned char config_end_values [54];
+
+} wheel_config;
+
 class MountainKeyboardController
 {
 public:
@@ -139,6 +161,10 @@ public:
 
     void SendDirectColorCmd(bool quick_mode, unsigned char brightness, unsigned char *color_data, unsigned int color_count);
     void SendDirectColorEdgeCmd(bool quick_mode, unsigned char brightness, unsigned char *color_data, unsigned int data_size);
+
+
+    void SendWheelColorChange(unsigned char color_data [3]);
+    wheel_config * GetWheelConfig();
 
     void SaveData(unsigned char mode_idx);
     void SelectMode(unsigned char mode_idx);
