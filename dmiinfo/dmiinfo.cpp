@@ -76,7 +76,7 @@ std::string DMIInfo::readFilePath(std::string path)
 {
     if(access(path.c_str(), R_OK)!=0)
     {
-        LOG_DEBUG("[DMI Info] Unable to read from %s", path);
+        LOG_DEBUG("[DMI Info] Unable to read from %s", path.c_str());
         return "";
     }
     std::string read_path;
