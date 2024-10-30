@@ -34,8 +34,11 @@ long APIRequest(std::string method, std::string location, std::string URI, json*
     {
         httplib::Result result = client.Get(URI.c_str());
 
-        status  = result->status;
-        body    = result->body;
+        if(httplib::Error::Success == result.error())
+        {
+            status  = result->status;
+            body    = result->body;
+        }
     }
     else if(method == "PUT")
     {
@@ -43,30 +46,42 @@ long APIRequest(std::string method, std::string location, std::string URI, json*
         {
             httplib::Result result = client.Put(URI.c_str(), request_data->dump(), "application/json");
 
-            status  = result->status;
-            body    = result->body;
+            if(httplib::Error::Success == result.error())
+            {
+                status  = result->status;
+                body    = result->body;
+            }
         }
         else
         {
             httplib::Result result = client.Put(URI.c_str());
 
-            status  = result->status;
-            body    = result->body;
+            if(httplib::Error::Success == result.error())
+            {
+                status  = result->status;
+                body    = result->body;
+            }
         }
     }
     else if(method == "DELETE")
     {
         httplib::Result result = client.Delete(URI.c_str());
 
-        status  = result->status;
-        body    = result->body;
+        if(httplib::Error::Success == result.error())
+        {
+            status  = result->status;
+            body    = result->body;
+        }
     }
     else if(method == "POST")
     {
         httplib::Result result = client.Post(URI.c_str());
 
-        status  = result->status;
-        body    = result->body;
+        if(httplib::Error::Success == result.error())
+        {
+            status  = result->status;
+            body    = result->body;
+        }
     }
 
     /*-------------------------------------------------------------*\

@@ -41,7 +41,7 @@ void DetectNanoleafControllers()
                 }
                 catch(...)
                 {
-                    LOG_DEBUG("[Nanoleaf] Could not connect to device at %s:%s using auth_token %s", device["ip"].get<std::string>().c_str(), device["port"].get<std::string>().c_str(), device["auth_token"].get<std::string>().c_str());
+                    LOG_DEBUG("[Nanoleaf] Could not connect to device at %s:%d using auth_token %s", device["ip"].get<std::string>().c_str(), device["port"].get<int>(), device["auth_token"].get<std::string>().c_str());
                 }
             }
         }
