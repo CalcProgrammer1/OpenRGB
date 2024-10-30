@@ -50,6 +50,13 @@ RGBController_HPOmen30L::RGBController_HPOmen30L(HPOmen30LController* controller
     Static.brightness     = 100;
     modes.push_back(Static);
 
+    mode Off;
+    Off.name       = "Off";
+    Off.value      = HP_OMEN_30L_OFF;
+    Off.flags      = 0;
+    Off.color_mode = MODE_COLORS_NONE;
+    modes.push_back(Off);
+
     mode Breathing;
     Breathing.name           = "Breathing";
     Breathing.value          = HP_OMEN_30L_BREATHING;
@@ -97,6 +104,38 @@ RGBController_HPOmen30L::RGBController_HPOmen30L(HPOmen30LController* controller
     Blinking.brightness_max = 100;
     Blinking.brightness     = 100;
     modes.push_back(Blinking);
+
+    mode Wave;
+    Wave.name           = "Wave";
+    Wave.value          = HP_OMEN_30L_WAVE;
+    Wave.flags          = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_BRIGHTNESS;
+    Wave.speed_min      = HP_OMEN_30L_SPEED_SLOW;
+    Wave.speed_max      = HP_OMEN_30L_SPEED_FAST;
+    Wave.speed          = HP_OMEN_30L_SPEED_MED;
+    Wave.color_mode     = MODE_COLORS_MODE_SPECIFIC;
+    Wave.colors_min     = 6;
+    Wave.colors_max     = 6;
+    Wave.colors.resize(6);
+    Wave.brightness_min = 0;
+    Wave.brightness_max = 100;
+    Wave.brightness     = 100;
+    modes.push_back(Wave);
+
+    mode Radial;
+    Radial.name           = "Radial";
+    Radial.value          = HP_OMEN_30L_RADIAL;
+    Radial.flags          = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_BRIGHTNESS;
+    Radial.speed_min      = HP_OMEN_30L_SPEED_SLOW;
+    Radial.speed_max      = HP_OMEN_30L_SPEED_FAST;
+    Radial.speed          = HP_OMEN_30L_SPEED_MED;
+    Radial.color_mode     = MODE_COLORS_MODE_SPECIFIC;
+    Radial.colors_min     = 1;
+    Radial.colors_max     = 6;
+    Radial.colors.resize(4);
+    Radial.brightness_min = 0;
+    Radial.brightness_max = 100;
+    Radial.brightness     = 100;
+    modes.push_back(Radial);
 
     SetupZones();
 }
@@ -147,6 +186,33 @@ void RGBController_HPOmen30L::SetupZones()
     cpu_zone.matrix_map     = NULL;
     zones.push_back(cpu_zone);
 
+    zone bot_fan;
+    bot_fan.name           = "Front Bottom Fan";
+    bot_fan.type           = ZONE_TYPE_SINGLE;
+    bot_fan.leds_min       = 1;
+    bot_fan.leds_max       = 1;
+    bot_fan.leds_count     = 1;
+    bot_fan.matrix_map     = NULL;
+    zones.push_back(bot_fan);
+
+    zone mid_fan;
+    mid_fan.name           = "Front Middle Fan";
+    mid_fan.type           = ZONE_TYPE_SINGLE;
+    mid_fan.leds_min       = 1;
+    mid_fan.leds_max       = 1;
+    mid_fan.leds_count     = 1;
+    mid_fan.matrix_map     = NULL;
+    zones.push_back(mid_fan);
+
+    zone top_fan;
+    top_fan.name           = "Front Top Fan";
+    top_fan.type           = ZONE_TYPE_SINGLE;
+    top_fan.leds_min       = 1;
+    top_fan.leds_max       = 1;
+    top_fan.leds_count     = 1;
+    top_fan.matrix_map     = NULL;
+    zones.push_back(top_fan);
+
     /*---------------------------------------------------------*\
     | Set up LEDs                                               |
     \*---------------------------------------------------------*/
@@ -166,6 +232,18 @@ void RGBController_HPOmen30L::SetupZones()
     cpu_led.name            = "CPU LED";
     leds.push_back(cpu_led);
 
+    led bot_fan_led;
+    bot_fan_led.name        = "Bottom Fan LED";
+    leds.push_back(bot_fan_led);
+
+    led mid_fan_led;
+    bot_fan_led.name        = "Middle Fan LED";
+    leds.push_back(bot_fan_led);
+
+    led top_fan_led;
+    bot_fan_led.name        = "Top Fan LED";
+    leds.push_back(bot_fan_led);
+
     SetupColors();
 }
 
@@ -180,7 +258,9 @@ void RGBController_HPOmen30L::DeviceUpdateLEDs()
 {
     for(unsigned int i = 0; i < zones.size(); i++)
     {
-        if(modes[active_mode].value == HP_OMEN_30L_STATIC || modes[active_mode].value == HP_OMEN_30L_DIRECT)
+        if(modes[active_mode].value == HP_OMEN_30L_STATIC ||
+           modes[active_mode].value == HP_OMEN_30L_DIRECT ||
+           modes[active_mode].value == HP_OMEN_30L_OFF)
         {
             controller->SetZoneColor(i, colors);
         }
