@@ -11,6 +11,7 @@
 
 #pragma once
 
+#include <cstring>
 #include "RGBController.h"
 #include "MountainKeyboardController.h"
 
