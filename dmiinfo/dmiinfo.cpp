@@ -67,8 +67,8 @@ std::string DMIInfo::readWMIQuery(std::string query, std::string key)
 \******************************************************************************************/
 DMIInfo::DMIInfo()
 {
-    mainboard       = readFilePath(SYSFS_MB_DMI "/board_vendor");
-    manufacturer    = readFilePath(SYSFS_MB_DMI "/board_name");
+    mainboard       = readFilePath(SYSFS_MB_DMI "/board_name");
+    manufacturer    = readFilePath(SYSFS_MB_DMI "/board_vendor");
     product_name    = readFilePath(SYSFS_PC_DMI "/product_name");
 }
 
