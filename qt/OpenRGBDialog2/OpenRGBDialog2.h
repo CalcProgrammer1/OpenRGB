@@ -159,6 +159,9 @@ private:
     QAction* actionExit;
     QString dialog_message;
 
+    void ShowLEDView();
+    void HideLEDView();
+
 private slots:
     void on_Exit();
     void on_LightsOff();

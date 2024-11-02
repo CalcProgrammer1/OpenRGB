@@ -185,6 +185,11 @@ OpenRGBDialog2::OpenRGBDialog2(QWidget *parent) : QMainWindow(parent), ui(new Op
 
     ui_settings = settings_manager->GetSettings(ui_string);
 
+    if(ui_settings.contains("show_led_view") && ui_settings["show_led_view"])
+    {
+        ShowLEDView();
+    }
+
     /*-----------------------------------------------------*\
     | If geometry info doesn't exist, write it to config    |
     \*-----------------------------------------------------*/
@@ -1332,6 +1337,11 @@ void OpenRGBDialog2::UpdateDevicesList()
             base_tab += 1;
         }
     }
+
+    if(device_view_showing)
+    {
+        ShowLEDView();
+    }
 }
 
 void OpenRGBDialog2::SetDialogMessage(PLogMessage msg)
@@ -1459,6 +1469,11 @@ void OpenRGBDialog2::onDetectionEnded()
     {
         plugin_manager->ScanAndLoadPlugins();
         plugins_loaded = true;
+    }
+
+    if(device_view_showing)
+    {
+        ShowLEDView();
     }
 }
 
@@ -1664,25 +1679,36 @@ void Ui::OpenRGBDialog2::on_ButtonToggleDeviceView_clicked()
 {
     if(device_view_showing)
     {
-        for(int device = 0; device < ui->DevicesTabBar->count(); device++)
-        {
-            qobject_cast<OpenRGBDevicePage *>(ui->DevicesTabBar->widget(device))->HideDeviceView();
-        }
-        device_view_showing = false;
+        HideLEDView();
     }
     else
     {
-        for(int device = 0; device < ui->DevicesTabBar->count(); device++)
-        {
-            OpenRGBDevicePage* device_page = qobject_cast<OpenRGBDevicePage *>(ui->DevicesTabBar->widget(device));
-            if(device_page) // Check the cast to make sure it is a device and not plugin
-            {
-                device_page->ShowDeviceView();
-            }
-        }
-        device_view_showing = true;
+        ShowLEDView();
     }
 }
+
+void Ui::OpenRGBDialog2::ShowLEDView()
+{
+    for(int device = 0; device < ui->DevicesTabBar->count(); device++)
+    {
+        OpenRGBDevicePage* device_page = qobject_cast<OpenRGBDevicePage *>(ui->DevicesTabBar->widget(device));
+        if(device_page) // Check the cast to make sure it is a device and not plugin
+        {
+            device_page->ShowDeviceView();
+        }
+    }
+    device_view_showing = true;
+}
+
+void Ui::OpenRGBDialog2::HideLEDView()
+{
+    for(int device = 0; device < ui->DevicesTabBar->count(); device++)
+    {
+        qobject_cast<OpenRGBDevicePage *>(ui->DevicesTabBar->widget(device))->HideDeviceView();
+    }
+    device_view_showing = false;
+}
+
 
 void Ui::OpenRGBDialog2::on_ButtonStopDetection_clicked()
 {
@@ -1801,17 +1827,14 @@ void Ui::OpenRGBDialog2::on_ButtonRescan_clicked()
     /*---------------------------------------------------------*\
     | Hide devices view on rescan so it stops handling paint    |
     | events.                                                   |
+    | Memorize previous value of device_view_showing and        |
+    | restore it.                                               |
     \*---------------------------------------------------------*/
-    for(int device = 0; device < ui->DevicesTabBar->count(); device++)
-    {
-        OpenRGBDevicePage* device_page = qobject_cast<OpenRGBDevicePage *>(ui->DevicesTabBar->widget(device));
-        if(device_page) // Check the cast to make sure it is a device and not plugin
-        {
-            device_page->HideDeviceView();
-        }
-    }
+    bool device_view_showing_prev = device_view_showing;
 
-    device_view_showing = false;
+    HideLEDView();
+
+    device_view_showing = device_view_showing_prev;
 
     /*---------------------------------------------------------*\
     | Show the detection progress bar.                          |

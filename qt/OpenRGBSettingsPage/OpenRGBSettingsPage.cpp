@@ -149,6 +149,15 @@ OpenRGBSettingsPage::OpenRGBSettingsPage(QWidget *parent) :
         ui->CheckboxDisableKeyExpansion->setChecked(false);
     }
 
+    if(ui_settings.contains("show_led_view"))
+    {
+        ui->CheckboxShowLEDView->setChecked(ui_settings["show_led_view"]);
+    }
+    else
+    {
+        ui->CheckboxShowLEDView->setChecked(false);
+    }
+
     /*---------------------------------------------------------*\
     | Load LogManager settings                                  |
     \*---------------------------------------------------------*/
@@ -820,6 +829,14 @@ void Ui::OpenRGBSettingsPage::on_CheckboxDisableKeyExpansion_clicked()
 {
     json ui_settings                            = ResourceManager::get()->GetSettingsManager()->GetSettings("UserInterface");
     ui_settings["disable_key_expansion"]        = ui->CheckboxDisableKeyExpansion->isChecked();
+    ResourceManager::get()->GetSettingsManager()->SetSettings("UserInterface", ui_settings);
+    SaveSettings();
+}
+
+void  Ui::OpenRGBSettingsPage::on_CheckboxShowLEDView_clicked()
+{
+    json ui_settings                = ResourceManager::get()->GetSettingsManager()->GetSettings("UserInterface");
+    ui_settings["show_led_view"]    = ui->CheckboxShowLEDView->isChecked();
     ResourceManager::get()->GetSettingsManager()->SetSettings("UserInterface", ui_settings);
     SaveSettings();
 }
