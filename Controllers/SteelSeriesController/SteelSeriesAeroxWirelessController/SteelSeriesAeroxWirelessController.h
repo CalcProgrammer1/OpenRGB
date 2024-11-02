@@ -42,6 +42,17 @@ static const steelseries_mouse aerox_3_wireless =
     }
 };
 
+static const steelseries_mouse aerox_9 =
+{
+    {   0x04, 0x05  },
+    {
+        {"Front",           0 },
+        {"Middle",          1 },
+        {"Rear",            2 },
+        {"Reactive",        3 },
+     }
+};
+
 class SteelSeriesAeroxWirelessController: public SteelSeriesMouseController
 {
 public:

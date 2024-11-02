@@ -132,7 +132,16 @@ std::string SteelSeriesAeroxWirelessController::GetFirmwareVersion()
 
 steelseries_mouse SteelSeriesAeroxWirelessController::GetMouse()
 {
-    return aerox_3_wireless;
+    switch(proto)
+    {
+        case AEROX_9_WIRELESS:
+        case AEROX_9_WIRELESS_WIRED:
+            return aerox_9;
+            break;
+        default:
+            return aerox_3_wireless;
+            break;
+    }
 }
 
 void SteelSeriesAeroxWirelessController::SetLightEffectAll(uint8_t effect)
@@ -155,10 +164,17 @@ void SteelSeriesAeroxWirelessController::SetColor
     )
 {
     uint8_t buffer[STEELSERIES_AEROX_WIRELESS_PACKET_SIZE] = { 0x00, 0x21, 0x01 };
-
-    buffer[0x03]        = zone_id;
     uint8_t offset      = 0x04;
 
+    if (zone_id == 3 && (proto == AEROX_9_WIRELESS_WIRED || proto == AEROX_9_WIRELESS))
+    {
+        buffer[0x03]    = 0x00;
+        buffer[0x01]    = 0x26;
+    }
+    else
+    {
+        buffer[0x03]    = zone_id;
+    }
     buffer[offset]      = red;
     buffer[offset + 1]  = green;
     buffer[offset + 2]  = blue;

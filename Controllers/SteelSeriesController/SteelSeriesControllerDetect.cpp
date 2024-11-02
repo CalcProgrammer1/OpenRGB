@@ -12,7 +12,6 @@
 #include "SteelSeriesGeneric.h"
 #include "SteelSeriesAeroxWirelessController.h"
 #include "SteelSeriesAerox5Controller.h"
-#include "SteelSeriesAerox9Controller.h"
 #include "SteelSeriesArctis5Controller.h"
 #include "SteelSeriesApex8ZoneController.h"
 #include "SteelSeriesApexController.h"
@@ -190,18 +189,6 @@ void DetectSteelSeriesAerox5DiabloWireless(hid_device_info* info, const std::str
 void DetectSteelSeriesAerox5DiabloWirelessWired(hid_device_info* info, const std::string& name)
 {
     DetectSteelSeriesAeroxWireless(info, name, AEROX_5_DIABLO_WIRELESS_WIRED);
-}
-
-void DetectSteelSeriesAerox9(hid_device_info* info, const std::string& name)
-{
-    hid_device* dev = hid_open_path(info->path);
-    if(dev)
-    {
-        SteelSeriesAerox9Controller* controller             = new SteelSeriesAerox9Controller(dev, AEROX_3, info->path);
-        RGBController_SteelSeriesRival3* rgb_controller     = new RGBController_SteelSeriesRival3(controller);
-        rgb_controller->name                                = name;
-        ResourceManager::get()->RegisterRGBController(rgb_controller);
-    }
 }
 
 void DetectSteelSeriesAerox9Wireless(hid_device_info* info, const std::string& name)
@@ -412,7 +399,6 @@ REGISTER_HID_DETECTOR_IPU("SteelSeries Aerox 5 Diablo IV Edition Wireless Wired"
 REGISTER_HID_DETECTOR_IPU("SteelSeries Aerox 5 Wired",                             DetectSteelSeriesAerox5,                      STEELSERIES_VID, STEELSERIES_AEROX_5_PID,                         3, 0xFFC0, 1 );
 REGISTER_HID_DETECTOR_IPU("SteelSeries Aerox 9 Wireless",                          DetectSteelSeriesAerox9Wireless,              STEELSERIES_VID, STEELSERIES_AEROX_9_WIRELESS_PID,                3, 0xFFC0, 1 );
 REGISTER_HID_DETECTOR_IPU("SteelSeries Aerox 9 Wireless Wired",                    DetectSteelSeriesAerox9WirelessWired,         STEELSERIES_VID, STEELSERIES_AEROX_9_WIRELESS_WIRED_PID,          3, 0xFFC0, 1 );
-REGISTER_HID_DETECTOR_IPU("SteelSeries Aerox 9 Wired",                             DetectSteelSeriesAerox9,                      STEELSERIES_VID, STEELSERIES_AEROX_9_PID,                         3, 0xFFC0, 1 );
 REGISTER_HID_DETECTOR_I("SteelSeries Rival 100",                                   DetectSteelSeriesRival100,                    STEELSERIES_VID, STEELSERIES_RIVAL_100_PID,                       0);
 REGISTER_HID_DETECTOR_I("SteelSeries Rival 100 DotA 2 Edition",                    DetectSteelSeriesRival100,                    STEELSERIES_VID, STEELSERIES_RIVAL_100_DOTA_PID,                  0);
 REGISTER_HID_DETECTOR_I("SteelSeries Rival 105",                                   DetectSteelSeriesRival100,                    STEELSERIES_VID, STEELSERIES_RIVAL_105_PID,                       0);
