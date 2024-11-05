@@ -104,7 +104,7 @@ CorsairHydroPlatinumController::~CorsairHydroPlatinumController()
 
 std::string CorsairHydroPlatinumController::GetLocation()
 {
-    return location;
+    return ("HID: " + location);
 }
 
 std::string CorsairHydroPlatinumController::GetFirmwareString()
