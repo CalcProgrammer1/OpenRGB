@@ -173,7 +173,7 @@ void PhilipsWizController::SetScene(int scene, unsigned char brightness)
 
 void PhilipsWizController::ReceiveThreadFunction()
 {
-    char recv_buf[1024];
+    char recv_buf[1025];
 
     while(ReceiveThreadRun.load())
     {
