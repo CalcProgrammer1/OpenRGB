@@ -28,6 +28,7 @@
 #define ROCCAT_PYRO_PID             0x314C
 #define ROCCAT_MAGMA_PID            0x3124
 #define ROCCAT_MAGMA_MINI_PID       0x69A0
+#define TURTLE_BEACH_VULCAN_II_PID  0x501B
 
 enum
 {

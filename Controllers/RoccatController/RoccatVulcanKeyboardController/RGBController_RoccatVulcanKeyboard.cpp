@@ -119,6 +119,7 @@ void RGBController_RoccatVulcanKeyboard::SetupZones()
             keyboard_ptr = &RoccatPyroLayouts;
             break;
         case ROCCAT_VULCAN_II_PID:
+        case TURTLE_BEACH_VULCAN_II_PID:
             keyboard_ptr = &RoccatVulcanIILayouts;
             break;
         case ROCCAT_MAGMA_PID:
