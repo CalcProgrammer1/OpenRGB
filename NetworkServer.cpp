@@ -935,6 +935,7 @@ void NetworkServer::ListenThreadFunction(NetworkClientInfo * client_info)
                     memcpy(&zone, data, sizeof(int));
 
                     controllers[header.pkt_dev_idx]->zones[zone].segments.clear();
+                    profile_manager->SaveProfile("sizes", true);
                 }
                 break;
 
@@ -949,6 +950,7 @@ void NetworkServer::ListenThreadFunction(NetworkClientInfo * client_info)
                         if(header.pkt_dev_idx < controllers.size())
                         {
                             controllers[header.pkt_dev_idx]->SetSegmentDescription((unsigned char *)data);
+                            profile_manager->SaveProfile("sizes", true);
                         }
                     }
                 }
