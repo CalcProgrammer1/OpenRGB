@@ -49,6 +49,7 @@
 #define COOLERMASTER_ARGB_PID                       0x1011
 #define COOLERMASTER_ARGB_GEN2_A1_PID               0x0173
 #define COOLERMASTER_ARGB_GEN2_A1_V2_PID            0x01C9
+#define COOLERMASTER_ARGB_GEN2_A1_MINI_PID          0x01CB
 #define COOLERMASTER_SMALL_ARGB_PID                 0x1000
 #define COOLERMASTER_RGB_PID                        0x004F
 
@@ -317,6 +318,7 @@ REGISTER_HID_DETECTOR_IPU("Cooler Master CK550 V1 / CK552",         DetectCooler
 REGISTER_HID_DETECTOR_IPU("Cooler Master ARGB",                     DetectCoolerMasterARGB,         COOLERMASTER_VID,   COOLERMASTER_ARGB_PID,                      0,      0xFF00, 1);
 REGISTER_HID_DETECTOR_IPU("Cooler Master ARGB Gen 2 A1",            DetectCoolerMasterARGBGen2A1,   COOLERMASTER_VID,   COOLERMASTER_ARGB_GEN2_A1_PID,              1,      0xFF01, 1);
 REGISTER_HID_DETECTOR_IPU("Cooler Master ARGB Gen 2 A1 V2",         DetectCoolerMasterARGBGen2A1,   COOLERMASTER_VID,   COOLERMASTER_ARGB_GEN2_A1_V2_PID,           1,      0xFF01, 1);
+REGISTER_HID_DETECTOR_IPU("Cooler Master ARGB Gen 2 A1 Mini",       DetectCoolerMasterARGBGen2A1,   COOLERMASTER_VID,   COOLERMASTER_ARGB_GEN2_A1_MINI_PID,         1,      0xFF01, 1);
 REGISTER_HID_DETECTOR_IPU("Cooler Master RGB",                      DetectCoolerMasterRGB,          COOLERMASTER_VID,   COOLERMASTER_RGB_PID,                       1,      0xFF00, 1);
 REGISTER_HID_DETECTOR_IPU("Cooler Master Small ARGB",               DetectCoolerMasterSmallARGB,    COOLERMASTER_VID,   COOLERMASTER_SMALL_ARGB_PID,                0,      0xFF00, 1);
 
