@@ -106,6 +106,14 @@ before_script:
     - README.md
     expire_in: 30 days
 
+"Fork Linux amd64 AppImage (gitlab.com quota)":
+  extends: "Linux amd64 AppImage"
+  rules:
+  - if: '$CI_PROJECT_PATH != "CalcProgrammer1/OpenRGB"'
+    when: manual
+  tags:
+  - "saas-linux-small-amd64"
+
 #-----------------------------------------------------------------------#
 # Linux (AppImage) armhf Build Target                                   #
 #-----------------------------------------------------------------------#
@@ -554,6 +562,16 @@ before_script:
     exclude:
     - 'OpenRGB Windows 64-bit\*.qm'
     expire_in: 30 days
+
+"Fork Windows 64 (gitlab.com quota)":
+  extends: "Windows 64"
+  before_script:
+    choco install visualstudio2019-workload-vctools -y # gitlab provides vs2022, so add vs2019
+  rules:
+  - if: '$CI_PROJECT_PATH != "CalcProgrammer1/OpenRGB"'
+    when: manual
+  tags:
+  - "saas-windows-medium-amd64"
 
 #-----------------------------------------------------------------------#
 # MacOS Build Target                                                    #
