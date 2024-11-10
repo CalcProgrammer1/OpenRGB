@@ -78,7 +78,7 @@ OpenRGBDevicePage::OpenRGBDevicePage(RGBController *dev, QWidget *parent) :
 
     /*-----------------------------------------------------*\
     | Get the UserInterface settings and check the          |
-    | numerical labels setting                              |
+    | numerical labels and hex format settings              |
     \*-----------------------------------------------------*/
     SettingsManager*    settings_manager    = ResourceManager::get()->GetSettingsManager();
     std::string         ui_string           = "UserInterface";
@@ -91,6 +91,18 @@ OpenRGBDevicePage::OpenRGBDevicePage(RGBController *dev, QWidget *parent) :
         bool            numerical_labels    = ui_settings["numerical_labels"];
 
         ui->DeviceViewBox->setNumericalLabels(numerical_labels);
+    }
+
+    if(ui_settings.contains("hex_format"))
+    {
+        if(ui_settings["hex_format"] == "RGB")
+        {
+            HexFormatRGB = true;
+        }
+        else if(ui_settings["hex_format"] == "BGR")
+        {
+            HexFormatRGB = false;
+        }
     }
 
     ui->DeviceViewBox->setController(device);
@@ -1458,10 +1470,22 @@ void Ui::OpenRGBDevicePage::on_HexLineEdit_textChanged(const QString &arg1)
 
     /*-----------------------------------------------------*\
     | Store new color into the current color QColor         |
+    | Because RGBColor stores color in BGR format, we have  |
+    | to reverse the R and B channels if the hex format is  |
+    | RGB.                                                  |
     \*-----------------------------------------------------*/
-    current_color.setRed(RGBGetRValue(color));
-    current_color.setGreen(RGBGetGValue(color));
-    current_color.setBlue(RGBGetBValue(color));
+    if(HexFormatRGB)
+    {
+        current_color.setRed(RGBGetBValue(color));
+        current_color.setGreen(RGBGetGValue(color));
+        current_color.setBlue(RGBGetRValue(color));
+    }
+    else
+    {
+        current_color.setRed(RGBGetRValue(color));
+        current_color.setGreen(RGBGetGValue(color));
+        current_color.setBlue(RGBGetBValue(color));
+    }
 
     /*-----------------------------------------------------*\
     | Update the color UI, but set the UpdateHex flag to    |
@@ -1832,8 +1856,21 @@ void Ui::OpenRGBDevicePage::updateColorUi()
     \*-----------------------------------------------------*/
     if(UpdateHex)
     {
+        RGBColor color = (0x00FFFFFF & current_color.rgb());
+
+        /*-------------------------------------------------*\
+        | If the hex format is BGR, swap R and B before     |
+        | displaying as hex                                 |
+        \*-------------------------------------------------*/
+        if(!HexFormatRGB)
+        {
+            color = RGBGetRValue(color) << 16
+                  | RGBGetGValue(color) << 8
+                  | RGBGetBValue(color);
+        }
+
         ui->HexLineEdit->blockSignals(true);
-        ui->HexLineEdit->setText(QString().asprintf("%06X", (0x00FFFFFF & current_color.rgb())));
+        ui->HexLineEdit->setText(QString().asprintf("%06X", color));
         ui->HexLineEdit->blockSignals(false);
     }
 }

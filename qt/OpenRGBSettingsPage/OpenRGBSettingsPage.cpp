@@ -63,6 +63,14 @@ OpenRGBSettingsPage::OpenRGBSettingsPage(QWidget *parent) :
     ui->ComboBoxLanguage->blockSignals(false);
 
     /*---------------------------------------------------------*\
+    | Populate hex format combo box                             |
+    \*---------------------------------------------------------*/
+    ui->ComboBoxHexFormat->addItem("RGB");
+    ui->ComboBoxHexFormat->addItem("BGR");
+
+    hex_format_initialized = true;
+
+    /*---------------------------------------------------------*\
     | Load theme settings                                       |
     \*---------------------------------------------------------*/
     ui->ComboBoxTheme->addItems({"auto", "light", "dark"});
@@ -156,6 +164,18 @@ OpenRGBSettingsPage::OpenRGBSettingsPage(QWidget *parent) :
     else
     {
         ui->CheckboxShowLEDView->setChecked(false);
+    }
+
+    if(ui_settings.contains("hex_format"))
+    {
+        if(ui_settings["hex_format"] == "RGB")
+        {
+            ui->ComboBoxHexFormat->setCurrentIndex(0);
+        }
+        else if(ui_settings["hex_format"] == "BGR")
+        {
+            ui->ComboBoxHexFormat->setCurrentIndex(1);
+        }
     }
 
     /*---------------------------------------------------------*\
@@ -382,6 +402,17 @@ void OpenRGBSettingsPage::on_ComboBoxTheme_currentTextChanged(const QString them
         json theme_settings = ResourceManager::get()->GetSettingsManager()->GetSettings("Theme");
         theme_settings["theme"] = theme.toStdString();
         ResourceManager::get()->GetSettingsManager()->SetSettings("Theme", theme_settings);
+        SaveSettings();
+    }
+}
+
+void OpenRGBSettingsPage::on_ComboBoxHexFormat_currentTextChanged(const QString hex_format)
+{
+    if(hex_format_initialized)
+    {
+        json ui_settings    = ResourceManager::get()->GetSettingsManager()->GetSettings("UserInterface");
+        ui_settings["hex_format"] = hex_format.toStdString();
+        ResourceManager::get()->GetSettingsManager()->SetSettings("UserInterface",ui_settings);
         SaveSettings();
     }
 }

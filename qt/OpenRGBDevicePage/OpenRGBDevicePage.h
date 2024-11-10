@@ -78,6 +78,7 @@ private:
     bool MultipleSelected   = false;
     bool DeviceViewShowing  = false;
     bool UpdateHex          = true;
+    bool HexFormatRGB       = true;
 
     QColor current_color;
     void updateColorUi();

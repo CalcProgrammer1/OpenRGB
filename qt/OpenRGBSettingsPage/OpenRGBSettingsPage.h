@@ -50,12 +50,14 @@ private:
 
     bool theme_initialized = false;
     bool autostart_initialized = false;
+    bool hex_format_initialized = false;
     QTranslator translator;
 
 private slots:
     void changeEvent(QEvent *event);
     void on_ComboBoxLanguage_currentTextChanged(const QString);
     void on_ComboBoxTheme_currentTextChanged(const QString);
+    void on_ComboBoxHexFormat_currentTextChanged(const QString);
     void on_CheckboxMinimizeOnClose_clicked();
     void on_CheckboxTrayIconGreyscale_clicked();
     void on_CheckboxLoadGeometry_clicked();
