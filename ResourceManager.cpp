@@ -255,6 +255,12 @@ std::vector<i2c_smbus_interface*> & ResourceManager::GetI2CBusses()
 
 void ResourceManager::RegisterRGBController(RGBController *rgb_controller)
 {
+    /*-------------------------------------------------*\
+    | Mark this controller as locally owned             |
+    \*-------------------------------------------------*/
+    rgb_controller->flags &= ~CONTROLLER_FLAG_REMOTE;
+    rgb_controller->flags |= CONTROLLER_FLAG_LOCAL;
+
     LOG_INFO("[%s] Registering RGB controller", rgb_controller->name.c_str());
     rgb_controllers_hw.push_back(rgb_controller);
 
