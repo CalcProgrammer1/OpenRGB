@@ -106,7 +106,14 @@ before_script:
     - README.md
     expire_in: 30 days
 
-"Fork Linux amd64 AppImage (gitlab.com quota)":
+  rules:
+  - if: '$CI_PROJECT_PATH == "CalcProgrammer1/OpenRGB"'
+    when: on_success
+  - if: $CI_PIPELINE_SOURCE == "push"
+    when: manual
+    allow_failure: true
+
+"Linux amd64 AppImage (gitlab.com runner)":
   extends: "Linux amd64 AppImage"
   rules:
   - if: '$CI_PROJECT_PATH != "CalcProgrammer1/OpenRGB"'
@@ -563,7 +570,14 @@ before_script:
     - 'OpenRGB Windows 64-bit\*.qm'
     expire_in: 30 days
 
-"Fork Windows 64 (gitlab.com quota)":
+  rules:
+  - if: '$CI_PROJECT_PATH == "CalcProgrammer1/OpenRGB"'
+    when: on_success
+  - if: $CI_PIPELINE_SOURCE == "push"
+    when: manual
+    allow_failure: true
+
+"Windows 64 (gitlab.com runner)":
   extends: "Windows 64"
   before_script:
     choco install visualstudio2019-workload-vctools -y # gitlab provides vs2022, so add vs2019
