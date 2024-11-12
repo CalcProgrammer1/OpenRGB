@@ -58,6 +58,7 @@ zone::~zone()
 
 RGBController::RGBController()
 {
+    flags       = 0;
     DeviceThreadRunning = true;
     DeviceCallThread = new std::thread(&RGBController::DeviceCallThreadFunction, this);
 }
@@ -286,6 +287,14 @@ unsigned char * RGBController::GetDeviceDescription(unsigned int protocol_versio
             data_size += sizeof(unsigned short);
             data_size += strlen(led_alt_names[led_idx].c_str()) + 1;
         }
+    }
+
+    /*---------------------------------------------------------*\
+    | Controller flags                                          |
+    \*---------------------------------------------------------*/
+    if(protocol_version >= 5)
+    {
+        data_size += sizeof(flags);
     }
 
     data_size += sizeof(num_colors);
@@ -729,6 +738,15 @@ unsigned char * RGBController::GetDeviceDescription(unsigned int protocol_versio
             strcpy((char *)&data_buf[data_ptr], led_alt_names[led_idx].c_str());
             data_ptr += string_length;
         }
+    }
+
+    /*---------------------------------------------------------*\
+    | Controller flags data                                     |
+    \*---------------------------------------------------------*/
+    if(protocol_version >= 5)
+    {
+        memcpy(&data_buf[data_ptr], &flags, sizeof(flags));
+        data_ptr += sizeof(flags);
     }
 
     delete[] mode_name_len;
@@ -1186,6 +1204,15 @@ void RGBController::ReadDeviceDescription(unsigned char* data_buf, unsigned int 
             led_alt_names.push_back((char *)&data_buf[data_ptr]);
             data_ptr += string_length;
         }
+    }
+
+    /*---------------------------------------------------------*\
+    | Copy in controller flags data                             |
+    \*---------------------------------------------------------*/
+    if(protocol_version >= 5)
+    {
+        memcpy(&flags, &data_buf[data_ptr], sizeof(flags));
+        data_ptr += sizeof(flags);
     }
 
     /*---------------------------------------------------------*\
@@ -2090,13 +2117,29 @@ void RGBController::DeviceCallThreadFunction()
     {
         if(CallFlag_UpdateMode.load() == true)
         {
-            DeviceUpdateMode();
-            CallFlag_UpdateMode = false;
+            if(flags & CONTROLLER_FLAG_RESET_BEFORE_UPDATE)
+            {
+                CallFlag_UpdateMode = false;
+                DeviceUpdateMode();
+            }
+            else
+            {
+                DeviceUpdateMode();
+                CallFlag_UpdateMode = false;
+            }
         }
         if(CallFlag_UpdateLEDs.load() == true)
         {
-            DeviceUpdateLEDs();
-            CallFlag_UpdateLEDs = false;
+            if(flags & CONTROLLER_FLAG_RESET_BEFORE_UPDATE)
+            {
+                CallFlag_UpdateLEDs = false;
+                DeviceUpdateLEDs();
+            }
+            else
+            {
+                DeviceUpdateLEDs();
+                CallFlag_UpdateLEDs = false;
+            }
         }
         else
         {

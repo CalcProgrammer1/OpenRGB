@@ -593,6 +593,12 @@ void NetworkClient::ProcessReply_ControllerData(unsigned int data_size, char * d
 
         new_controller->ReadDeviceDescription((unsigned char *)data, GetProtocolVersion());
 
+        /*-----------------------------------------------------*\
+        | Mark this controller as remote owned                  |
+        \*-----------------------------------------------------*/
+        new_controller->flags &= ~CONTROLLER_FLAG_LOCAL;
+        new_controller->flags |= CONTROLLER_FLAG_REMOTE;
+
         ControllerListMutex.lock();
 
         if(dev_idx >= server_controllers.size())

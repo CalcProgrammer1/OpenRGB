@@ -216,6 +216,19 @@ enum
 };
 
 /*------------------------------------------------------------------*\
+| Controller Flags                                                   |
+\*------------------------------------------------------------------*/
+enum
+{
+    CONTROLLER_FLAG_LOCAL               = (1 << 0), /* Device is local to this instance */
+    CONTROLLER_FLAG_REMOTE              = (1 << 1), /* Device is on a remote instance   */
+    CONTROLLER_FLAG_VIRTUAL             = (1 << 2), /* Device is a virtual device       */
+
+    CONTROLLER_FLAG_RESET_BEFORE_UPDATE = (1 << 8), /* Device resets update flag before */
+                                                    /* calling update function          */
+};
+
+/*------------------------------------------------------------------*\
 | RGBController Callback Types                                       |
 \*------------------------------------------------------------------*/
 typedef void (*RGBControllerCallback)(void *);
@@ -313,6 +326,7 @@ public:
     int                     active_mode = 0;/* active mode              */
     std::vector<std::string>
                             led_alt_names;  /* alternate LED names      */
+    unsigned int            flags;          /* controller flags         */
 
     /*---------------------------------------------------------*\
     | RGBController base class constructor                      |
