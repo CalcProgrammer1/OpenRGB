@@ -335,11 +335,11 @@ void Ui::OpenRGBPluginsPage::on_EnableButton_clicked(OpenRGBPluginsEntry* entry)
 
     if(enabled)
     {
-        plugin_manager->LoadPlugin(entry_path);
+        plugin_manager->EnablePlugin(entry_path);
     }
     else
     {
-        plugin_manager->UnloadPlugin(entry_path);
+        plugin_manager->DisablePlugin(entry_path);
     }
 }
 

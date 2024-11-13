@@ -122,7 +122,8 @@ INCLUDEPATH +=                                                                  
     AutoStart/                                                                                  \
     KeyboardLayoutManager/                                                                      \
     RGBController/                                                                              \
-    qt/
+    qt/                                                                                         \
+    SuspendResume/
 
 HEADERS +=                                                                                      \
     $$GUI_H                                                                                     \
@@ -156,6 +157,7 @@ HEADERS +=                                                                      
     serial_port/serial_port.h                                                                   \
     StringUtils.h                                                                               \
     super_io/super_io.h                                                                         \
+    SuspendResume/SuspendResume.h                                                               \
     AutoStart/AutoStart.h                                                                       \
     KeyboardLayoutManager/KeyboardLayoutManager.h                                               \
     RGBController/RGBController.h                                                               \
@@ -388,6 +390,7 @@ win32:SOURCES +=                                                                
     i2c_smbus/i2c_smbus_piix4.cpp                                                               \
     scsiapi/scsiapi_windows.c                                                                   \
     serial_port/find_usb_serial_port_win.cpp                                                    \
+    SuspendResume/SuspendResume_Windows.cpp                                                     \
     wmi/wmi.cpp                                                                                 \
     AutoStart/AutoStart-Windows.cpp                                                             \
 
@@ -405,6 +408,7 @@ win32:HEADERS +=                                                                
     i2c_smbus/i2c_smbus_piix4.h                                                                 \
     wmi/wmi.h                                                                                   \
     AutoStart/AutoStart-Windows.h                                                               \
+    SuspendResume/SuspendResume_Windows.h                                                       \
 
 win32:contains(QMAKE_TARGET.arch, x86_64) {
     LIBS +=                                                                                     \
@@ -499,6 +503,7 @@ contains(QMAKE_PLATFORM, linux) {
     dependencies/NVFC/nvapi.h                                                                   \
     i2c_smbus/i2c_smbus_linux.h                                                                 \
     AutoStart/AutoStart-Linux.h                                                                 \
+    SuspendResume/SuspendResume_Linux_FreeBSD.h                                                 \
 
     INCLUDEPATH +=                                                                              \
     dependencies/NVFC                                                                           \
@@ -515,6 +520,8 @@ contains(QMAKE_PLATFORM, linux) {
     if (!versionAtLeast(COMPILER_VERSION, "9")) {
          LIBS += -lstdc++fs
     }
+
+    QT += dbus
 
     QMAKE_CXXFLAGS += -Wno-implicit-fallthrough -Wno-psabi
 
@@ -550,6 +557,7 @@ contains(QMAKE_PLATFORM, linux) {
     scsiapi/scsiapi_linux.c                                                                     \
     serial_port/find_usb_serial_port_linux.cpp                                                  \
     AutoStart/AutoStart-Linux.cpp                                                               \
+    SuspendResume/SuspendResume_Linux_FreeBSD.cpp                                               \
 
     #-------------------------------------------------------------------------------------------#
     # Set up install paths                                                                      #
@@ -622,6 +630,7 @@ contains(QMAKE_PLATFORM, freebsd) {
 
     HEADERS +=                                                                                  \
     AutoStart/AutoStart-FreeBSD.h                                                               \
+    SuspendResume/SuspendResume_Linux_FreeBSD.h                                                 \
 
     HEADERS -=                                                                                  \
     Controllers/SeagateController/RGBController_Seagate.h                                       \
@@ -638,6 +647,8 @@ contains(QMAKE_PLATFORM, freebsd) {
     if (!versionAtLeast(COMPILER_VERSION, "9")) {
          LIBS += -lstdc++fs
     }
+
+    QT += dbus
 
     #-------------------------------------------------------------------------------------------#
     # Determine which hidapi to use based on availability                                       #
@@ -667,6 +678,7 @@ contains(QMAKE_PLATFORM, freebsd) {
     dependencies/hueplusplus-1.1.0/src/LinHttpHandler.cpp                                       \
     serial_port/find_usb_serial_port_linux.cpp                                                  \
     AutoStart/AutoStart-FreeBSD.cpp                                                             \
+    SuspendResume/SuspendResume_Linux_FreeBSD.cpp                                               \
 
     SOURCES -=                                                                                  \
     Controllers/SeagateController/RGBController_Seagate.cpp                                     \
@@ -726,6 +738,7 @@ macx {
     HEADERS +=                                                                                  \
     AutoStart/AutoStart-MacOS.h                                                                 \
     qt/macutils.h                                                                               \
+    SuspendResume/SuspendResume_MacOS.h                                                         \
 
     HEADERS += $$CONTROLLER_H_MACOS
 
@@ -734,6 +747,7 @@ macx {
     serial_port/find_usb_serial_port_macos.cpp                                                  \
     AutoStart/AutoStart-MacOS.cpp                                                               \
     qt/macutils.mm                                                                              \
+    SuspendResume/SuspendResume_MacOS.cpp                                                       \
 
     SOURCES += $$CONTROLLER_CPP_MACOS
 

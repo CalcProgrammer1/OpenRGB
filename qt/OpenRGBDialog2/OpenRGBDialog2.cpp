@@ -7,6 +7,7 @@
 |   SPDX-License-Identifier: GPL-2.0-only                   |
 \*---------------------------------------------------------*/
 
+#include <string>
 #include <functional>
 #include "OpenRGBDialog2.h"
 #include "LogManager.h"
@@ -182,6 +183,7 @@ OpenRGBDialog2::OpenRGBDialog2(QWidget *parent) : QMainWindow(parent), ui(new Op
     SettingsManager*    settings_manager    = ResourceManager::get()->GetSettingsManager();
     std::string         ui_string           = "UserInterface";
     json                ui_settings;
+    bool                new_settings_keys   = false;
 
     ui_settings = settings_manager->GetSettings(ui_string);
 
@@ -205,9 +207,7 @@ OpenRGBDialog2::OpenRGBDialog2(QWidget *parent) : QMainWindow(parent), ui(new Op
         geometry_settings["height"]         = 0;
 
         ui_settings["geometry"] = geometry_settings;
-
-        settings_manager->SetSettings(ui_string, ui_settings);
-        settings_manager->SaveSettings();
+        new_settings_keys       = true;
     }
 
     /*-----------------------------------------------------*\
@@ -247,20 +247,47 @@ OpenRGBDialog2::OpenRGBDialog2(QWidget *parent) : QMainWindow(parent), ui(new Op
     }
 
     /*-----------------------------------------------------*\
-    | If set_on_exit doesn't exist, write it to config      |
+    | If autoload_profiles doesn't exist or has missing     |
+    | profiles, write it to config                          |
     \*-----------------------------------------------------*/
-    if(!ui_settings.contains("exit_profile"))
+    json autoload_profiles;
+    if(ui_settings.contains("autoload_profiles"))
     {
-        json on_exit_settings;
-
-        on_exit_settings["set_on_exit"]     = false;
-        on_exit_settings["profile_name"]    = "";
-
-        ui_settings["exit_profile"]         = on_exit_settings;
-
-        settings_manager->SetSettings(ui_string, ui_settings);
-        settings_manager->SaveSettings();
+        autoload_profiles = ui_settings["autoload_profiles"];
     }
+    else
+    {
+        new_settings_keys                = true;
+    }
+
+    if(!autoload_profiles.contains("exit_profile"))
+    {
+        json profile;
+        profile["enabled"]                = false;
+        profile["name"]                   = "";
+        autoload_profiles["exit_profile"] = profile;
+        new_settings_keys                 = true;
+    }
+
+    if(!autoload_profiles.contains("resume_profile"))
+    {
+        json profile;
+        profile["enabled"]                  = false;
+        profile["name"]                     = "";
+        autoload_profiles["resume_profile"] = profile;
+        new_settings_keys                   = true;
+    }
+
+    if(!autoload_profiles.contains("suspend_profile"))
+    {
+        json profile;
+        profile["enabled"]                   = false;
+        profile["name"]                      = "";
+        autoload_profiles["suspend_profile"] = profile;
+        new_settings_keys                    = true;
+    }
+
+    ui_settings["autoload_profiles"] = autoload_profiles;
 
     /*-----------------------------------------------------*\
     | Register detection progress callback with resource    |
@@ -362,9 +389,7 @@ OpenRGBDialog2::OpenRGBDialog2(QWidget *parent) : QMainWindow(parent), ui(new Op
     if(!ui_settings.contains("minimize_on_close"))
     {
         ui_settings["minimize_on_close"] = false;
-
-        settings_manager->SetSettings(ui_string, ui_settings);
-        settings_manager->SaveSettings();
+        new_settings_keys                = true;
     }
 
     connect(trayIcon,SIGNAL(activated(QSystemTrayIcon::ActivationReason)), this, SLOT(on_ReShow(QSystemTrayIcon::ActivationReason)));
@@ -376,9 +401,7 @@ OpenRGBDialog2::OpenRGBDialog2(QWidget *parent) : QMainWindow(parent), ui(new Op
     if(!ui_settings.contains("greyscale_tray_icon"))
     {
         ui_settings["greyscale_tray_icon"] = false;
-
-        settings_manager->SetSettings(ui_string, ui_settings);
-        settings_manager->SaveSettings();
+        new_settings_keys                  = true;
     }
 
     /*-----------------------------------------------------*\
@@ -388,6 +411,16 @@ OpenRGBDialog2::OpenRGBDialog2(QWidget *parent) : QMainWindow(parent), ui(new Op
     if(ui_settings.contains("greyscale_tray_icon"))
     {
         SetTrayIcon(ui_settings["greyscale_tray_icon"].get<bool>());
+    }
+
+    /*-----------------------------------------------------*\
+    | Save the settings if new default values have been     |
+    | inserted                                              |
+    \*-----------------------------------------------------*/
+    if(new_settings_keys)
+    {
+        settings_manager->SetSettings(ui_string, ui_settings);
+        settings_manager->SaveSettings();
     }
 
     trayIcon->setToolTip("OpenRGB");
@@ -616,48 +649,53 @@ void OpenRGBDialog2::closeEvent(QCloseEvent *event)
     else
     {
         plugin_manager->UnloadPlugins();
-        LoadExitProfile();
+
+        if(SelectConfigProfile("exit_profile"))
+        {
+            on_ButtonLoadProfile_clicked();
+
+            /*-----------------------------------------------------*\
+            | Pause briefly to ensure that all profiles are loaded. |
+            \*-----------------------------------------------------*/
+            std::this_thread::sleep_for(std::chrono::milliseconds(250));
+        }
+
         event->accept();
         QApplication::exit(0);
     }
 }
 
-void OpenRGBDialog2::LoadExitProfile()
+bool OpenRGBDialog2::SelectConfigProfile(const std::string name)
 {
     /*-----------------------------------------------------*\
-    | Set Exit Profile (if enabled and valid)               |
+    | Set automatic profile (if enabled and valid)          |
     \*-----------------------------------------------------*/
-    const std::string exit_profile          = "exit_profile";
-    const std::string set_on_exit           = "set_on_exit";
-    const std::string profile_name          = "profile_name";
-    json  ui_settings                       = ResourceManager::get()->GetSettingsManager()->GetSettings("UserInterface");
+    json ui_settings = ResourceManager::get()->GetSettingsManager()->GetSettings("UserInterface");
 
-    if(ui_settings.contains(exit_profile))
+    if(ui_settings.contains("autoload_profiles"))
     {
-        if( ui_settings[exit_profile].contains(set_on_exit)
-         && ui_settings[exit_profile].contains(profile_name) )
+        json autoload_profiles = ui_settings["autoload_profiles"];
+        if(autoload_profiles.contains(name))
         {
-            if(ui_settings[exit_profile][set_on_exit].get<bool>())
+            json profile = autoload_profiles[name];
+            if (profile.contains("enabled") && profile["enabled"].get<bool>() && profile.contains("name"))
             {
                 /*-----------------------------------------------------*\
                 | Set the profile name from settings and check the      |
                 |   profile combobox for a match                        |
                 \*-----------------------------------------------------*/
-                std::string profile         = ui_settings[exit_profile][profile_name].get<std::string>();
-                int profile_index           = ui->ProfileBox->findText(QString::fromStdString(profile));
+                std::string profile_name = profile["name"].get<std::string>();
+                int profile_index        = ui->ProfileBox->findText(QString::fromStdString(profile_name));
 
                 if(profile_index > -1)
                 {
                     ui->ProfileBox->setCurrentIndex(profile_index);
-                    on_ButtonLoadProfile_clicked();
-                    /*-----------------------------------------------------*\
-                    | Pause briefly to ensure that all profiles are loaded. |
-                    \*-----------------------------------------------------*/
-                    std::this_thread::sleep_for(std::chrono::milliseconds(250));
+                    return true;
                 }
             }
         }
     }
+    return false;
 }
 
 void OpenRGBDialog2::AddPluginsPage()
@@ -1381,6 +1419,24 @@ void OpenRGBDialog2::UpdateProfileList()
     emit ProfileListChanged();
 }
 
+void OpenRGBDialog2::OnSuspend()
+{
+    if(SelectConfigProfile("suspend_profile"))
+    {
+        plugin_manager->UnloadPlugins();
+        on_ButtonLoadProfile_clicked();
+    }
+}
+
+void OpenRGBDialog2::OnResume()
+{
+    if(SelectConfigProfile("resume_profile"))
+    {
+        on_ButtonLoadProfile_clicked();
+    }
+    plugin_manager->LoadPlugins();
+}
+
 void OpenRGBDialog2::on_Exit()
 {
     /*-----------------------------------------------*\
@@ -1506,6 +1562,15 @@ void OpenRGBDialog2::on_ShowHide()
         MacUtils::ToggleApplicationDocklessState(true);
 #endif
         show();
+        if(isMinimized())
+        {
+            bool maximize = isMaximized();
+            showNormal();
+            if(maximize)
+            {
+                showMaximized();
+            }
+        }
     }
     else
     {
@@ -1592,6 +1657,15 @@ void OpenRGBDialog2::on_ReShow(QSystemTrayIcon::ActivationReason reason)
         if (isHidden())
         {
             show();
+            if(isMinimized())
+            {
+                bool maximize = isMaximized();
+                showNormal();
+                if(maximize)
+                {
+                    showMaximized();
+                }
+            }
         }
     }
 }

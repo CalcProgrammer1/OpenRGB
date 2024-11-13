@@ -47,14 +47,18 @@ public:
     void AddPlugin(const filesystem::path& path, bool is_system);
     void RemovePlugin(const filesystem::path& path);
 
-    void LoadPlugin(const filesystem::path& path);
-    void UnloadPlugin(const filesystem::path& path);
+    void EnablePlugin(const filesystem::path& path);
+    void DisablePlugin(const filesystem::path& path);
 
+    void LoadPlugins();
     void UnloadPlugins();
 
     std::vector<OpenRGBPluginEntry> ActivePlugins;
 
 private:
+    void LoadPlugin(OpenRGBPluginEntry* plugin_entry);
+    void UnloadPlugin(OpenRGBPluginEntry* plugin_entry);
+
     void ScanAndLoadPluginsFrom(const filesystem::path & plugins_dir, bool is_system);
 
     AddPluginCallback       AddPluginCallbackVal;

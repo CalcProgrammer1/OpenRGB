@@ -232,7 +232,7 @@ void PluginManager::AddPlugin(const filesystem::path& path, bool is_system)
 
                     if(entry.enabled)
                     {
-                        LoadPlugin(path);
+                        LoadPlugin(&ActivePlugins.back());
                     }
                 }
                 else
@@ -319,7 +319,7 @@ void PluginManager::RemovePlugin(const filesystem::path& path)
     if(ActivePlugins[plugin_idx].loader->isLoaded())
     {
         LOG_TRACE("[PluginManager] Plugin %s is active, unloading", path.c_str());
-        UnloadPlugin(path);
+        UnloadPlugin(&ActivePlugins[plugin_idx]);
     }
 
     /*---------------------------------------------------------------------*\
@@ -328,7 +328,7 @@ void PluginManager::RemovePlugin(const filesystem::path& path)
     ActivePlugins.erase(ActivePlugins.begin() + plugin_idx);
 }
 
-void PluginManager::LoadPlugin(const filesystem::path& path)
+void PluginManager::EnablePlugin(const filesystem::path& path)
 {
     unsigned int plugin_idx;
 
@@ -351,10 +351,16 @@ void PluginManager::LoadPlugin(const filesystem::path& path)
         return;
     }
 
+    ActivePlugins[plugin_idx].enabled = true;
+    LoadPlugin(&ActivePlugins[plugin_idx]);
+}
+
+void PluginManager::LoadPlugin(OpenRGBPluginEntry* plugin_entry)
+{
     /*---------------------------------------------------------------------*\
     | If the plugin is in the list but is incompatible, return              |
     \*---------------------------------------------------------------------*/
-    if(ActivePlugins[plugin_idx].incompatible)
+    if(plugin_entry->incompatible)
     {
         return;
     }
@@ -362,11 +368,11 @@ void PluginManager::LoadPlugin(const filesystem::path& path)
     /*---------------------------------------------------------------------*\
     | If the selected plugin is in the list but not loaded, load it         |
     \*---------------------------------------------------------------------*/
-    if(!ActivePlugins[plugin_idx].loader->isLoaded())
+    if(!plugin_entry->loader->isLoaded())
     {
-        ActivePlugins[plugin_idx].loader->load();
+        plugin_entry->loader->load();
 
-        QObject* instance                = ActivePlugins[plugin_idx].loader->instance();
+        QObject* instance                = plugin_entry->loader->instance();
 
         bool dark_theme = OpenRGBThemeManager::IsDarkTheme();
 
@@ -378,7 +384,7 @@ void PluginManager::LoadPlugin(const filesystem::path& path)
             {
                 if(plugin->GetPluginAPIVersion() == OPENRGB_PLUGIN_API_VERSION)
                 {
-                    ActivePlugins[plugin_idx].plugin = plugin;
+                    plugin_entry->plugin = plugin;
 
                     plugin->Load(dark_theme, ResourceManager::get());
 
@@ -387,7 +393,7 @@ void PluginManager::LoadPlugin(const filesystem::path& path)
                     \*-------------------------------------------------*/
                     if(AddPluginCallbackArg != nullptr)
                     {
-                        AddPluginCallbackVal(AddPluginCallbackArg, &ActivePlugins[plugin_idx]);
+                        AddPluginCallbackVal(AddPluginCallbackArg, plugin_entry);
                     }
                 }
             }
@@ -395,7 +401,7 @@ void PluginManager::LoadPlugin(const filesystem::path& path)
     }
 }
 
-void PluginManager::UnloadPlugin(const filesystem::path& path)
+void PluginManager::DisablePlugin(const filesystem::path& path)
 {
     unsigned int plugin_idx;
 
@@ -418,48 +424,62 @@ void PluginManager::UnloadPlugin(const filesystem::path& path)
         return;
     }
 
+    ActivePlugins[plugin_idx].enabled = false;
+    UnloadPlugin(&ActivePlugins[plugin_idx]);
+}
+
+void PluginManager::UnloadPlugin(OpenRGBPluginEntry* plugin_entry)
+{
     /*---------------------------------------------------------------------*\
     | If the selected plugin is in the list and loaded, unload it           |
     \*---------------------------------------------------------------------*/
-    if(ActivePlugins[plugin_idx].loader->isLoaded())
+    if(plugin_entry->loader->isLoaded())
     {
         /*-------------------------------------------------*\
         | Call plugin's Unload function before GUI removal  |
         \*-------------------------------------------------*/
-        ActivePlugins[plugin_idx].plugin->Unload();
+        plugin_entry->plugin->Unload();
 
         /*-------------------------------------------------*\
         | Call the Remove Plugin callback                   |
         \*-------------------------------------------------*/
         if(RemovePluginCallbackVal != nullptr)
         {
-            RemovePluginCallbackVal(RemovePluginCallbackArg, &ActivePlugins[plugin_idx]);
+            RemovePluginCallbackVal(RemovePluginCallbackArg, plugin_entry);
         }
 
-        bool unloaded = ActivePlugins[plugin_idx].loader->unload();
+        bool unloaded = plugin_entry->loader->unload();
 
         if(!unloaded)
         {
-            LOG_WARNING("[PluginManager] Plugin %s cannot be unloaded", path.c_str());
+            LOG_WARNING("[PluginManager] Plugin %s cannot be unloaded", plugin_entry->path.c_str());
         }
         else
         {
-            LOG_TRACE("[PluginManager] Plugin %s successfully unloaded", path.c_str());
+            LOG_TRACE("[PluginManager] Plugin %s successfully unloaded", plugin_entry->path.c_str());
         }
     }
     else
     {
-        LOG_TRACE("[PluginManager] Plugin %s was already unloaded", path.c_str());
+        LOG_TRACE("[PluginManager] Plugin %s was already unloaded", plugin_entry->path.c_str());
+    }
+}
+
+void PluginManager::LoadPlugins()
+{
+    for(OpenRGBPluginEntry& plugin_entry: ActivePlugins)
+    {
+        if(plugin_entry.enabled)
+        {
+            LoadPlugin(&plugin_entry);
+        }
     }
 }
 
 void PluginManager::UnloadPlugins()
 {
-    for(const OpenRGBPluginEntry& plugin_entry: ActivePlugins)
+    for(OpenRGBPluginEntry& plugin_entry: ActivePlugins)
     {
-        if(plugin_entry.loader->isLoaded())
-        {
-            plugin_entry.plugin->Unload();
-        }
+        UnloadPlugin(&plugin_entry);
     }
 }

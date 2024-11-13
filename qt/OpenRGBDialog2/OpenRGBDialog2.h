@@ -9,6 +9,7 @@
 
 #pragma once
 
+#include <string>
 #include <vector>
 #include <QMainWindow>
 #include <QTimer>
@@ -37,6 +38,7 @@
 #include "OpenRGBYeelightSettingsPage/OpenRGBYeelightSettingsPage.h"
 #include "OpenRGBNanoleafSettingsPage/OpenRGBNanoleafSettingsPage.h"
 #include "PluginManager.h"
+#include "SuspendResume.h"
 
 #include "i2c_smbus.h"
 #include "LogManager.h"
@@ -50,7 +52,7 @@ namespace Ui
     class OpenRGBDialog2;
 }
 
-class Ui::OpenRGBDialog2 : public QMainWindow
+class Ui::OpenRGBDialog2 : public QMainWindow, private SuspendResumeListener
 {
     Q_OBJECT
 
@@ -144,7 +146,7 @@ private:
     void UpdateDevicesList();
     void UpdateProfileList();
     void closeEvent(QCloseEvent *event);
-    void LoadExitProfile();
+    bool SelectConfigProfile(const std::string name);
 
     void SetDetectionViewState(bool detection_showing);
     void SaveProfile();
@@ -161,6 +163,9 @@ private:
 
     void ShowLEDView();
     void HideLEDView();
+
+    void OnSuspend();
+    void OnResume();
 
 private slots:
     void on_Exit();

@@ -236,6 +236,15 @@ int main(int argc, char* argv[])
 
         if(ret_flags & RET_FLAG_START_MINIMIZED)
         {
+#ifdef _WIN32
+            /*---------------------------------------------------------*\
+            | Show the window always, even if it will immediately be    |
+            | hidden.  On Windows, events are not delivered to          |
+            | nativeEventFilter (for SuspendResume) until the window    |
+            | has been shown once.                                      |
+            \*---------------------------------------------------------*/
+            dlg.showMinimized();
+#endif
 #ifdef __APPLE__
             MacUtils::ToggleApplicationDocklessState(false);
 #endif
