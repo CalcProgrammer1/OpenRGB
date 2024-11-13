@@ -7,6 +7,13 @@
 #-----------------------------------------------------------------------#
 # OpenRGB GitLab CI Configuration                                       #
 #-----------------------------------------------------------------------#
+.default_rules:
+  rules:
+  - if: '$CI_PROJECT_PATH == "CalcProgrammer1/OpenRGB"'
+    when: on_success
+  - if: $CI_PIPELINE_SOURCE == "push"
+    when: manual
+    allow_failure: true
 
 .shared_windows_runners:
   tags:
@@ -49,11 +56,7 @@ before_script:
     expire_in: 30 days
 
   rules:
-  - if: '$CI_PROJECT_PATH == "CalcProgrammer1/OpenRGB"'
-    when: on_success
-  - if: $CI_PIPELINE_SOURCE == "push"
-    when: manual
-    allow_failure: true
+    - !reference [.default_rules, rules]
 
 #-----------------------------------------------------------------------#
 # Linux (AppImage) i386 Build Target                                    #
@@ -78,21 +81,14 @@ before_script:
     expire_in: 30 days
 
   rules:
-  - if: '$CI_PROJECT_PATH == "CalcProgrammer1/OpenRGB"'
-    when: on_success
-  - if: $CI_PIPELINE_SOURCE == "push"
-    when: manual
-    allow_failure: true
+    - !reference [.default_rules, rules]
 
 #-----------------------------------------------------------------------#
 # Linux (AppImage) amd64 Build Target                                   #
 #-----------------------------------------------------------------------#
-"Linux amd64 AppImage":
+"Linux amd64 AppImage Base":
   <<: *ccache_init
   image: registry.gitlab.com/openrgbdevelopers/openrgb-linux-ci-deb-builder:bookworm-amd64
-  tags:
-  - linux
-  - amd64
   stage: build
   script:
   - export $(dpkg-architecture)
@@ -107,17 +103,24 @@ before_script:
     expire_in: 30 days
 
   rules:
-  - if: '$CI_PROJECT_PATH == "CalcProgrammer1/OpenRGB"'
-    when: on_success
+  - if: $CI_PIPELINE_SOURCE == "merge_request_event" || $CI_PIPELINE_SOURCE == "push"
+    when: never
+
+"Linux amd64 AppImage":
+  extends: "Linux amd64 AppImage Base"
+  rules:
   - if: $CI_PIPELINE_SOURCE == "push"
-    when: manual
-    allow_failure: true
+    when: on_success
+  tags:
+  - linux
+  - amd64
 
 "Linux amd64 AppImage (gitlab.com runner)":
-  extends: "Linux amd64 AppImage"
+  extends: "Linux amd64 AppImage Base"
   rules:
-  - if: '$CI_PROJECT_PATH != "CalcProgrammer1/OpenRGB"'
+  - if: $CI_PROJECT_PATH != "CalcProgrammer1/OpenRGB" && $CI_PIPELINE_SOURCE == "push"
     when: manual
+    allow_failure: true
   tags:
   - "saas-linux-small-amd64"
 
@@ -144,11 +147,7 @@ before_script:
     expire_in: 30 days
 
   rules:
-  - if: '$CI_PROJECT_PATH == "CalcProgrammer1/OpenRGB"'
-    when: on_success
-  - if: $CI_PIPELINE_SOURCE == "push"
-    when: manual
-    allow_failure: true
+    - !reference [.default_rules, rules]
 
 #-----------------------------------------------------------------------#
 # Linux (AppImage) arm64 Build Target                                   #
@@ -173,11 +172,7 @@ before_script:
     expire_in: 30 days
 
   rules:
-  - if: '$CI_PROJECT_PATH == "CalcProgrammer1/OpenRGB"'
-    when: on_success
-  - if: $CI_PIPELINE_SOURCE == "push"
-    when: manual
-    allow_failure: true
+    - !reference [.default_rules, rules]
 
 #-----------------------------------------------------------------------#
 # Linux (.deb) Debian Bookworm i386 Build Target                        #
@@ -205,11 +200,7 @@ before_script:
     expire_in: 30 days
 
   rules:
-  - if: '$CI_PROJECT_PATH == "CalcProgrammer1/OpenRGB"'
-    when: on_success
-  - if: $CI_PIPELINE_SOURCE == "push"
-    when: manual
-    allow_failure: true
+    - !reference [.default_rules, rules]
 
 #-----------------------------------------------------------------------#
 # Linux (.deb) Debian Bookworm amd64 Build Target                       #
@@ -237,11 +228,7 @@ before_script:
     expire_in: 30 days
 
   rules:
-  - if: '$CI_PROJECT_PATH == "CalcProgrammer1/OpenRGB"'
-    when: on_success
-  - if: $CI_PIPELINE_SOURCE == "push"
-    when: manual
-    allow_failure: true
+    - !reference [.default_rules, rules]
 
 #-----------------------------------------------------------------------#
 # Linux (.deb) Debian Bookworm armhf Build Target                       #
@@ -269,11 +256,7 @@ before_script:
     expire_in: 30 days
 
   rules:
-  - if: '$CI_PROJECT_PATH == "CalcProgrammer1/OpenRGB"'
-    when: on_success
-  - if: $CI_PIPELINE_SOURCE == "push"
-    when: manual
-    allow_failure: true
+    - !reference [.default_rules, rules]
 
 #-----------------------------------------------------------------------#
 # Linux (.deb) Debian Bookworm arm64 Build Target                       #
@@ -301,11 +284,7 @@ before_script:
     expire_in: 30 days
 
   rules:
-  - if: '$CI_PROJECT_PATH == "CalcProgrammer1/OpenRGB"'
-    when: on_success
-  - if: $CI_PIPELINE_SOURCE == "push"
-    when: manual
-    allow_failure: true
+    - !reference [.default_rules, rules]
 
 #-----------------------------------------------------------------------#
 # Linux (.rpm, F40) 64-bit Build Target                                 #
@@ -336,11 +315,7 @@ before_script:
     expire_in: 30 days
 
   rules:
-  - if: '$CI_PROJECT_PATH == "CalcProgrammer1/OpenRGB"'
-    when: on_success
-  - if: $CI_PIPELINE_SOURCE == "push"
-    when: manual
-    allow_failure: true
+    - !reference [.default_rules, rules]
 
 #-----------------------------------------------------------------------#
 # Debian i386 Bookworm test                                             #
@@ -493,16 +468,12 @@ before_script:
     expire_in: 30 days
 
   rules:
-  - if: '$CI_PROJECT_PATH == "CalcProgrammer1/OpenRGB"'
-    when: on_success
-  - if: $CI_PIPELINE_SOURCE == "push"
-    when: manual
-    allow_failure: true
+    - !reference [.default_rules, rules]
 
 #-----------------------------------------------------------------------#
 # Windows (64-bit) Build Target                                         #
 #-----------------------------------------------------------------------#
-"Windows 64":
+"Windows 64 Base":
   extends:
   - .shared_windows_runners
   stage: build
@@ -571,19 +542,24 @@ before_script:
     expire_in: 30 days
 
   rules:
-  - if: '$CI_PROJECT_PATH == "CalcProgrammer1/OpenRGB"'
-    when: on_success
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event" || $CI_PIPELINE_SOURCE == "push"
+      when: never
+
+
+"Windows 64":
+  extends: "Windows 64 Base"
+  rules:
   - if: $CI_PIPELINE_SOURCE == "push"
-    when: manual
-    allow_failure: true
+    when: on_success
 
 "Windows 64 (gitlab.com runner)":
-  extends: "Windows 64"
+  extends: "Windows 64 Base"
   before_script:
     choco install visualstudio2019-workload-vctools -y # gitlab provides vs2022, so add vs2019
   rules:
-  - if: '$CI_PROJECT_PATH != "CalcProgrammer1/OpenRGB"'
+  - if: $CI_PROJECT_PATH != "CalcProgrammer1/OpenRGB" && $CI_PIPELINE_SOURCE == "push"
     when: manual
+    allow_failure: true
   tags:
   - "saas-windows-medium-amd64"
 
