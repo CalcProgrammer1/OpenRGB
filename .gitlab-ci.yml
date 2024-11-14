@@ -109,8 +109,7 @@ before_script:
 "Linux amd64 AppImage":
   extends: "Linux amd64 AppImage Base"
   rules:
-  - if: $CI_PIPELINE_SOURCE == "push"
-    when: on_success
+    - !reference [.default_rules, rules]
   tags:
   - linux
   - amd64
@@ -549,8 +548,7 @@ before_script:
 "Windows 64":
   extends: "Windows 64 Base"
   rules:
-  - if: $CI_PIPELINE_SOURCE == "push"
-    when: on_success
+    - !reference [.default_rules, rules]
 
 "Windows 64 (gitlab.com runner)":
   extends: "Windows 64 Base"
