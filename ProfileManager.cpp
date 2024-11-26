@@ -293,7 +293,7 @@ bool ProfileManager::LoadDeviceFromListWithOptions
                         {
                             if (temp_controller->zones[zone_idx].leds_count != load_controller->zones[zone_idx].leds_count)
                             {
-                                load_controller->ResizeZone(zone_idx, temp_controller->zones[zone_idx].leds_count);
+                                load_controller->ResizeZone((int)zone_idx, temp_controller->zones[zone_idx].leds_count);
                             }
 
                             for(std::size_t segment_idx = 0; segment_idx < temp_controller->zones[zone_idx].segments.size(); segment_idx++)
@@ -504,7 +504,7 @@ unsigned char * ProfileManager::GetProfileListDescription()
     for(unsigned int i = 0; i < num_profiles; i++)
     {
         data_size += sizeof (unsigned short);
-        data_size += strlen(profile_list[i].c_str()) + 1;
+        data_size += (unsigned int)strlen(profile_list[i].c_str()) + 1;
     }
 
     /*---------------------------------------------------------*\
