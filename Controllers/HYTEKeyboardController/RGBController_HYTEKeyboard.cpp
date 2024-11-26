@@ -184,7 +184,7 @@ void RGBController_HYTEKeyboard::UpdateZoneLEDs(int zone)
 
 void RGBController_HYTEKeyboard::UpdateSingleLED(int led)
 {
-    if(led < zones[0].leds_count)
+    if(led < (int)zones[0].leds_count)
     {
         UpdateZoneLEDs(0);
     }
