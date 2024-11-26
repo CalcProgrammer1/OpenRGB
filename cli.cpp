@@ -1196,7 +1196,7 @@ void ApplyOptions(DeviceOptions& options, std::vector<RGBController *>& rgb_cont
                 if(options.zone < 0)
                 {
                     start_from  = &device->colors[0];
-                    led_count   = device->leds.size();
+                    led_count   = (unsigned int)device->leds.size();
                 }
                 else
                 {
