@@ -355,7 +355,7 @@ void RGBController_AsusAuraCoreLaptop::SetupZones()
                     |   Place keys in the layout to populate the matrix         |
                     \*---------------------------------------------------------*/
                     new_zone.leds_count             = new_kb.GetKeyCount();
-                    for(size_t led_idx = 0; led_idx < new_zone.leds_count; led_idx++)
+                    for(unsigned int led_idx = 0; led_idx < new_zone.leds_count; led_idx++)
                     {
                         led new_led;
 

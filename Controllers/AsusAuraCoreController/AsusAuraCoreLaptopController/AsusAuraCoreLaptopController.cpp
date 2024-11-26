@@ -205,7 +205,7 @@ void AsusAuraCoreLaptopController::SetLedsDirect(std::vector<RGBColor *> colors)
     |   zones are sent in one final packet afterwards.          |
     \*---------------------------------------------------------*/
     const uint8_t   key_set                                 = 167;
-    const uint8_t   led_count                               = colors.size();
+    const uint8_t   led_count                               = (uint8_t)colors.size();
     const uint16_t  map_size                                = 3 * led_count;
     const uint8_t   leds_per_packet                         = 16;
     uint8_t buffer[ASUSAURACORELAPTOP_WRITE_PACKET_SIZE]    = { ASUSAURACORELAPTOP_REPORT_ID, ASUSAURACORELAPTOP_CMD_DIRECT,
@@ -214,7 +214,7 @@ void AsusAuraCoreLaptopController::SetLedsDirect(std::vector<RGBColor *> colors)
 
     memset(key_buf, 0, map_size);
 
-    for(size_t led_index = 0; led_index < led_count; led_index++)
+    for(uint8_t led_index = 0; led_index < led_count; led_index++)
     {
         std::size_t buf_idx     = (led_index * 3);
 
@@ -223,9 +223,9 @@ void AsusAuraCoreLaptopController::SetLedsDirect(std::vector<RGBColor *> colors)
         key_buf[buf_idx + 2]    = RGBGetBValue(*colors[led_index]);
     }
 
-    for(size_t i = 0; i < key_set; i+=leds_per_packet)
+    for(uint8_t i = 0; i < key_set; i += leds_per_packet)
     {
-        uint8_t leds_remaining  = key_set - (uint8_t)i;
+        uint8_t leds_remaining  = key_set - i;
 
         if(leds_remaining < leds_per_packet)
         {
@@ -236,7 +236,7 @@ void AsusAuraCoreLaptopController::SetLedsDirect(std::vector<RGBColor *> colors)
                    ASUSAURACORELAPTOP_WRITE_PACKET_SIZE - ASUSAURACORELAPTOP_DATA_BYTE);
         }
 
-        buffer[06]              = (uint8_t)i;
+        buffer[06]              = i;
         memcpy(&buffer[ASUSAURACORELAPTOP_DATA_BYTE], &key_buf[3 * i], (3 * buffer[07]));
 
         LOG_DEBUG("[%s] Sending buffer @ index %d thru index %d",
