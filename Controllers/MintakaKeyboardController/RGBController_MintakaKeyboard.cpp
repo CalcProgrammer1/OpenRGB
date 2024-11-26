@@ -277,12 +277,12 @@ void RGBController_MintakaKeyboard::SetupZones()
     | Create LEDs for the Matrix zone                           |
     |   Place keys in the layout to populate the matrix         |
     \*---------------------------------------------------------*/
-    for(size_t led_idx = 0; led_idx < new_zone.leds_count; led_idx++)
+    for(unsigned int led_idx = 0; led_idx < new_zone.leds_count; led_idx++)
     {
         led new_led;
 
-        new_led.name                = new_kb.GetKeyNameAt(led_idx);
-        new_led.value               = new_kb.GetKeyValueAt(led_idx);
+        new_led.name            = new_kb.GetKeyNameAt(led_idx);
+        new_led.value           = new_kb.GetKeyValueAt(led_idx);
         leds.push_back(new_led);
     }
 

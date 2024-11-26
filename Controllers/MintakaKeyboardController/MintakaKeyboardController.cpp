@@ -9,8 +9,10 @@
 |   This file is part of the OpenRGB project                |
 |   SPDX-License-Identifier: GPL-2.0-only                   |
 \*---------------------------------------------------------*/
-#include "MintakaKeyboardController.h"
+
 #include <string.h>
+#include "MintakaKeyboardController.h"
+#include "StringUtils.h"
 
 using namespace std::chrono_literals;
 
@@ -29,8 +31,7 @@ MintakaKeyboardController::MintakaKeyboardController(hid_device* dev_handle, con
     }
     else
     {
-        std::wstring return_wstring = serial_string;
-        serial_number = std::string(return_wstring.begin(), return_wstring.end());
+        serial_number = StringUtils::wstring_to_string(serial_string);
     }
 }
 
