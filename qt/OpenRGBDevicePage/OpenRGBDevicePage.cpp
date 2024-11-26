@@ -221,7 +221,7 @@ void Ui::OpenRGBDevicePage::on_ZoneBox_currentIndexChanged(int index)
                     {
                         if(index == (int)current_index)
                         {
-                            selected_zone = zone_idx;
+                            selected_zone = (int)zone_idx;
                             break;
                         }
 
@@ -231,8 +231,8 @@ void Ui::OpenRGBDevicePage::on_ZoneBox_currentIndexChanged(int index)
                         {
                             if(index == (int)current_index)
                             {
-                                selected_zone    = zone_idx;
-                                selected_segment = segment_idx;
+                                selected_zone    = (int)zone_idx;
+                                selected_segment = (int)segment_idx;
                                 break;
                             }
 
@@ -464,7 +464,7 @@ void Ui::OpenRGBDevicePage::on_LEDBox_currentIndexChanged(int index)
                     {
                         if(ui->ZoneBox->currentIndex() == (int)current_index)
                         {
-                            selected_zone = zone_idx;
+                            selected_zone = (int)zone_idx;
                             break;
                         }
 
@@ -474,8 +474,8 @@ void Ui::OpenRGBDevicePage::on_LEDBox_currentIndexChanged(int index)
                         {
                             if(ui->ZoneBox->currentIndex() == (int)current_index)
                             {
-                                selected_zone    = zone_idx;
-                                selected_segment = segment_idx;
+                                selected_zone    = (int)zone_idx;
+                                selected_segment = (int)segment_idx;
                                 break;
                             }
 
@@ -1588,7 +1588,7 @@ void Ui::OpenRGBDevicePage::on_EditZoneButton_clicked()
                 {
                     if(ui->ZoneBox->currentIndex() == (int)current_index)
                     {
-                        selected_zone = zone_idx;
+                        selected_zone = (int)zone_idx;
                         break;
                     }
 
@@ -1598,8 +1598,8 @@ void Ui::OpenRGBDevicePage::on_EditZoneButton_clicked()
                     {
                         if(ui->ZoneBox->currentIndex() == (int)current_index)
                         {
-                            selected_zone    = zone_idx;
-                            selected_segment = segment_idx;
+                            selected_zone    = (int)zone_idx;
+                            selected_segment = (int)segment_idx;
                             break;
                         }
 
