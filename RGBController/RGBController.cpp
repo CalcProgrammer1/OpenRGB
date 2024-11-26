@@ -167,7 +167,7 @@ unsigned char * RGBController::GetDeviceDescription(unsigned int protocol_versio
                 /*---------------------------------------------------------*\
                 | Segment name string data                                  |
                 \*---------------------------------------------------------*/
-                data_size += strlen(zones[zone_index].segments[segment_index].name.c_str()) + 1;
+                data_size += (unsigned int)strlen(zones[zone_index].segments[segment_index].name.c_str()) + 1;
 
                 data_size += sizeof(zones[zone_index].segments[segment_index].type);
                 data_size += sizeof(zones[zone_index].segments[segment_index].start_idx);
