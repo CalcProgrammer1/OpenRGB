@@ -335,7 +335,7 @@ KeyboardLayoutManager::KeyboardLayoutManager(KEYBOARD_LAYOUT layout, KEYBOARD_SI
     | Add any values passed into the constructor before switching layouts   |
     |   and declare a value set for any changes afterwards                  |
     \*---------------------------------------------------------------------*/
-    for(size_t key_idx = 0; key_idx < values.default_values.size() && key_idx < keymap.size(); key_idx++)
+    for(size_t key_idx = 0; key_idx < (unsigned int)values.default_values.size() && key_idx < keymap.size(); key_idx++)
     {
         keymap[key_idx].value = values.default_values[key_idx];
     }
@@ -464,7 +464,7 @@ void KeyboardLayoutManager::OpCodeSwitch(key_set change_keys)
 {
     LOG_DEBUG("[%s] %d keys to edit", KLM_CLASS_NAME, change_keys.size());
 
-    for(size_t chg_key_idx = 0; chg_key_idx < change_keys.size(); chg_key_idx++)
+    for(size_t chg_key_idx = 0; chg_key_idx < (unsigned int)change_keys.size(); chg_key_idx++)
     {
         switch(change_keys[chg_key_idx].opcode)
         {
@@ -516,7 +516,7 @@ void KeyboardLayoutManager::InsertKey(keyboard_led ins_key)
 
     unsigned int    key_idx     = 0;
 
-    for(/*key_idx*/; key_idx < keymap.size(); key_idx++)
+    for(/*key_idx*/; key_idx < (unsigned int)keymap.size(); key_idx++)
     {
         /*---------------------------------------------------------------------*\
         | Search through all existing keys and determine where in the list to   |
@@ -536,7 +536,7 @@ void KeyboardLayoutManager::InsertKey(keyboard_led ins_key)
     /*---------------------------------------------------------------------*\
     | If the search reached the end, put the new key at the end of the list |
     \*---------------------------------------------------------------------*/
-    if(key_idx == keymap.size())
+    if(key_idx == (unsigned int)keymap.size())
     {
         LOG_DEBUG(LOG_MSG_INSERT_BEFORE, KLM_CLASS_NAME, ins_name, "the end", ins_row, ins_col, KEY_EN_UNUSED);
         keymap.push_back(ins_key);
@@ -566,7 +566,7 @@ void KeyboardLayoutManager::InsertKey(keyboard_led ins_key)
     \*---------------------------------------------------------------------*/
     if(update_row)
     {
-        for(/*key_idx*/; key_idx < keymap.size(); key_idx++)
+        for(/*key_idx*/; key_idx < (unsigned int)keymap.size(); key_idx++)
         {
             if((keymap[key_idx].row == ins_row) && (keymap[key_idx].col >= ins_col))
             {
@@ -588,7 +588,7 @@ void KeyboardLayoutManager::InsertKeys(std::vector<keyboard_led> ins_keys)
     /*---------------------------------------------------------------------*\
     | Insert new keys one by one                                            |
     \*---------------------------------------------------------------------*/
-    for(unsigned int ins_key_idx = 0; ins_key_idx < ins_keys.size(); ins_key_idx++)
+    for(unsigned int ins_key_idx = 0; ins_key_idx < (unsigned int)ins_keys.size(); ins_key_idx++)
     {
         InsertKey(ins_keys[ins_key_idx]);
     }
@@ -622,7 +622,7 @@ void KeyboardLayoutManager::SwapKey(keyboard_led swp_key)
     | Otherwise, loop through and either swap an existing entry or insert   |
     | a new entry if the given location does not already have a key present |
     \*---------------------------------------------------------------------*/
-    for(unsigned int key_idx = 0; key_idx < keymap.size(); key_idx++)
+    for(unsigned int key_idx = 0; key_idx < (unsigned int)keymap.size(); key_idx++)
     {
         /*---------------------------------------------------------------------*\
         | If the row and column are identical, we've found the swap location    |
@@ -689,7 +689,7 @@ void KeyboardLayoutManager::SwapKeys(std::vector<keyboard_led> swp_keys)
     /*---------------------------------------------------------------------*\
     | Swap keys one by one                                                  |
     \*---------------------------------------------------------------------*/
-    for(unsigned int swp_key_idx = 0; swp_key_idx < swp_keys.size(); swp_key_idx++)
+    for(unsigned int swp_key_idx = 0; swp_key_idx < (unsigned int)swp_keys.size(); swp_key_idx++)
     {
         SwapKey(swp_keys[swp_key_idx]);
     }
@@ -706,7 +706,7 @@ void KeyboardLayoutManager::RemoveKey(keyboard_led rmv_key)
     /*---------------------------------------------------------------------*\
     | Loop through and find the entry to remove                             |
     \*---------------------------------------------------------------------*/
-    for(unsigned int key_idx = 0; key_idx < keymap.size(); key_idx++)
+    for(unsigned int key_idx = 0; key_idx < (unsigned int)keymap.size(); key_idx++)
     {
         /*---------------------------------------------------------------------*\
         | If the row and column are identical, we've found the swap location    |
@@ -716,7 +716,7 @@ void KeyboardLayoutManager::RemoveKey(keyboard_led rmv_key)
             LOG_DEBUG("[%s] Removing %s @ %02d, %02d and shifting keys left", KLM_CLASS_NAME, keymap[key_idx].name, rmv_row, rmv_col);
             keymap.erase(keymap.begin() + key_idx);
 
-            for(/*key_idx*/; key_idx < keymap.size(); key_idx++)
+            for(/*key_idx*/; key_idx < (unsigned int)keymap.size(); key_idx++)
             {
                 if(rmv_row == keymap[key_idx].row)
                 {
@@ -735,7 +735,7 @@ void KeyboardLayoutManager::RemoveKey(keyboard_led rmv_key)
         {
             LOG_DEBUG("[%s] Removing unused key @ %02d, %02d and shifting keys left", KLM_CLASS_NAME, rmv_row, rmv_col);
 
-            for(/*key_idx*/; key_idx < keymap.size(); key_idx++)
+            for(/*key_idx*/; key_idx < (unsigned int)keymap.size(); key_idx++)
             {
                 if(rmv_row == keymap[key_idx].row)
                 {
@@ -768,7 +768,7 @@ bool KeyboardLayoutManager::InsertRow(uint8_t ins_row)
     \*---------------------------------------------------------------------*/
     unsigned int key_idx = 0;
 
-    for(/*key_idx*/; key_idx < keymap.size(); key_idx++)
+    for(/*key_idx*/; key_idx < (unsigned int)keymap.size(); key_idx++)
     {
         if(ins_row <= keymap[key_idx].row)
         {
@@ -783,7 +783,7 @@ bool KeyboardLayoutManager::InsertRow(uint8_t ins_row)
     \*---------------------------------------------------------------------*/
     if(ins_row <= keymap[key_idx].row)
     {
-        for(/*key_idx*/; key_idx < keymap.size(); key_idx++)
+        for(/*key_idx*/; key_idx < (unsigned int)keymap.size(); key_idx++)
         {
             keymap[key_idx].row++;
         }
@@ -809,7 +809,7 @@ void KeyboardLayoutManager::RemoveRow(uint8_t rmv_row)
     \*---------------------------------------------------------------------*/
     unsigned int key_idx = 0;
 
-    while(key_idx < keymap.size() && rmv_row >= keymap[key_idx].row)
+    while(key_idx < (unsigned int)keymap.size() && rmv_row >= keymap[key_idx].row)
     {
         if(rmv_row == keymap[key_idx].row)
         {
@@ -827,7 +827,7 @@ void KeyboardLayoutManager::RemoveRow(uint8_t rmv_row)
     \*---------------------------------------------------------------------*/
     if(rmv_row < keymap[key_idx].row)
     {
-        for(/*key_idx*/; key_idx < keymap.size(); key_idx++)
+        for(/*key_idx*/; key_idx < (unsigned int)keymap.size(); key_idx++)
         {
             keymap[key_idx].row--;
         }
@@ -854,12 +854,12 @@ KEYBOARD_SIZE KeyboardLayoutManager::GetPhysicalSize()
 
 unsigned int KeyboardLayoutManager::GetKeyCount()
 {
-    return keymap.size();
+    return (unsigned int)keymap.size();
 }
 
 std::string KeyboardLayoutManager::GetKeyNameAt(unsigned int key_idx)
 {
-    if(key_idx < keymap.size())
+    if(key_idx < (unsigned int)keymap.size())
     {
         return keymap[key_idx].name;
     }
@@ -929,19 +929,19 @@ void KeyboardLayoutManager::GetKeyMap(unsigned int* map_ptr, KEYBOARD_MAP_FILL_T
     width               = std::max(width, cols);
     height              = std::max(height, rows);
 
-    for(size_t r = 0; r < height; r++)
+    for(unsigned int r = 0; r < height; r++)
     {
-        size_t offset   = r * width;
+        unsigned int offset = r * width;
 
-        for(size_t c = 0; c < width; c++)
+        for(unsigned int c = 0; c < width; c++)
         {
             map_ptr[offset + c] = no_key;
         }
     }
 
-    for(size_t i = 0; i < keymap.size(); i++)
+    for(unsigned int i = 0; i < (unsigned int)keymap.size(); i++)
     {
-        size_t offset   = (keymap[i].row * width) + keymap[i].col;
+        unsigned int offset = (keymap[i].row * width) + keymap[i].col;
         switch(fill_type)
         {
             case KEYBOARD_MAP_FILL_TYPE_COUNT:
@@ -971,7 +971,7 @@ void KeyboardLayoutManager::UpdateDimensions()
     /*---------------------------------------------------------------------*\
     | Search through the keymap and find the maximum row and column values  |
     \*---------------------------------------------------------------------*/
-    for(unsigned int key_idx = 0; key_idx < keymap.size(); key_idx++)
+    for(unsigned int key_idx = 0; key_idx < (unsigned int)keymap.size(); key_idx++)
     {
         if(keymap[key_idx].row > max_row)
         {
