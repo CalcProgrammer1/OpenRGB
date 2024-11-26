@@ -144,7 +144,7 @@ unsigned char * RGBController::GetDeviceDescription(unsigned int protocol_versio
         }
         else
         {
-            zone_matrix_len[zone_index] = (2 * sizeof(unsigned int)) + (zones[zone_index].matrix_map->height * zones[zone_index].matrix_map->width * sizeof(unsigned int));
+            zone_matrix_len[zone_index] = (unsigned short)(2 * sizeof(unsigned int)) + (zones[zone_index].matrix_map->height * zones[zone_index].matrix_map->width * sizeof(unsigned int));
         }
 
         data_size += sizeof(zone_matrix_len[zone_index]);
@@ -1587,7 +1587,7 @@ void RGBController::SetAllLEDs(RGBColor color)
 {
     for(std::size_t zone_idx = 0; zone_idx < zones.size(); zone_idx++)
     {
-        SetAllZoneLEDs(zone_idx, color);
+        SetAllZoneLEDs((int)zone_idx, color);
     }
 }
 
