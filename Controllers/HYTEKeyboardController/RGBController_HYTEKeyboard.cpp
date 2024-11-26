@@ -148,9 +148,11 @@ void RGBController_HYTEKeyboard::SetupZones()
     SetupColors();
 }
 
-void RGBController_HYTEKeyboard::ResizeZone(int zone, int new_size)
+void RGBController_HYTEKeyboard::ResizeZone(int /*zone*/, int /*new_size*/)
 {
-
+    /*---------------------------------------------------------*\
+    | This device does not support resizing zones               |
+    \*---------------------------------------------------------*/
 }
 
 void RGBController_HYTEKeyboard::DeviceUpdateLEDs()
@@ -182,10 +184,17 @@ void RGBController_HYTEKeyboard::UpdateZoneLEDs(int zone)
 
 void RGBController_HYTEKeyboard::UpdateSingleLED(int led)
 {
-
+    if(led < zones[0].leds_count)
+    {
+        UpdateZoneLEDs(0);
+    }
+    else
+    {
+        UpdateZoneLEDs(1);
+    }
 }
 
 void RGBController_HYTEKeyboard::DeviceUpdateMode()
 {
-
+    DeviceUpdateLEDs();
 }
