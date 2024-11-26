@@ -167,7 +167,7 @@ void PluginManager::AddPlugin(const filesystem::path& path, bool is_system)
 
                     if(plugin_settings.contains("plugins"))
                     {
-                        plugin_ct = plugin_settings["plugins"].size();
+                        plugin_ct = (unsigned int)plugin_settings["plugins"].size();
 
                         for(unsigned int plugin_settings_idx = 0; plugin_settings_idx < plugin_settings["plugins"].size(); plugin_settings_idx++)
                         {
