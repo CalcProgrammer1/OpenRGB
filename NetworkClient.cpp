@@ -400,7 +400,7 @@ int NetworkClient::recv_select(SOCKET s, char *buf, int len, int flags)
         FD_ZERO(&set);
         FD_SET(s, &set);
 
-        int rv = select(s + 1, &set, NULL, NULL, &timeout);
+        int rv = select((int)s + 1, &set, NULL, NULL, &timeout);
 
         if(rv == SOCKET_ERROR || server_connected == false)
         {
@@ -676,7 +676,7 @@ void NetworkClient::SendData_ClientString()
 {
     NetPacketHeader reply_hdr;
 
-    InitNetPacketHeader(&reply_hdr, 0, NET_PACKET_ID_SET_CLIENT_NAME, strlen(client_name.c_str()) + 1);
+    InitNetPacketHeader(&reply_hdr, 0, NET_PACKET_ID_SET_CLIENT_NAME, (unsigned int)strlen(client_name.c_str()) + 1);
 
     send_in_progress.lock();
     send(client_sock, (char *)&reply_hdr, sizeof(NetPacketHeader), MSG_NOSIGNAL);
@@ -880,7 +880,7 @@ void NetworkClient::SendRequest_LoadProfile(std::string profile_name)
 {
     NetPacketHeader reply_hdr;
 
-    InitNetPacketHeader(&reply_hdr, 0, NET_PACKET_ID_REQUEST_LOAD_PROFILE, strlen(profile_name.c_str()) + 1);
+    InitNetPacketHeader(&reply_hdr, 0, NET_PACKET_ID_REQUEST_LOAD_PROFILE, (unsigned int)strlen(profile_name.c_str()) + 1);
 
     send_in_progress.lock();
     send(client_sock, (char *)&reply_hdr, sizeof(NetPacketHeader), MSG_NOSIGNAL);
@@ -892,7 +892,7 @@ void NetworkClient::SendRequest_SaveProfile(std::string profile_name)
 {
     NetPacketHeader reply_hdr;
 
-    InitNetPacketHeader(&reply_hdr, 0, NET_PACKET_ID_REQUEST_SAVE_PROFILE, strlen(profile_name.c_str()) + 1);
+    InitNetPacketHeader(&reply_hdr, 0, NET_PACKET_ID_REQUEST_SAVE_PROFILE, (unsigned int)strlen(profile_name.c_str()) + 1);
 
     send_in_progress.lock();
     send(client_sock, (char *)&reply_hdr, sizeof(NetPacketHeader), MSG_NOSIGNAL);
@@ -904,7 +904,7 @@ void NetworkClient::SendRequest_DeleteProfile(std::string profile_name)
 {
     NetPacketHeader reply_hdr;
 
-    InitNetPacketHeader(&reply_hdr, 0, NET_PACKET_ID_REQUEST_DELETE_PROFILE, strlen(profile_name.c_str()) + 1);
+    InitNetPacketHeader(&reply_hdr, 0, NET_PACKET_ID_REQUEST_DELETE_PROFILE, (unsigned int)strlen(profile_name.c_str()) + 1);
 
     send_in_progress.lock();
     send(client_sock, (char *)&reply_hdr, sizeof(NetPacketHeader), MSG_NOSIGNAL);
