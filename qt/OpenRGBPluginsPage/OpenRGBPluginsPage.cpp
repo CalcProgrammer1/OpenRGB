@@ -290,9 +290,9 @@ void Ui::OpenRGBPluginsPage::on_EnableButton_clicked(OpenRGBPluginsEntry* entry)
 
     if(plugin_settings.contains("plugins"))
     {
-        plugin_ct = plugin_settings["plugins"].size();
+        plugin_ct = (unsigned int)plugin_settings["plugins"].size();
 
-        for(plugin_idx = 0; plugin_idx < plugin_settings["plugins"].size(); plugin_idx++)
+        for(plugin_idx = 0; plugin_idx < (unsigned int)plugin_settings["plugins"].size(); plugin_idx++)
         {
             if(plugin_settings["plugins"][plugin_idx].contains("name"))
             {
