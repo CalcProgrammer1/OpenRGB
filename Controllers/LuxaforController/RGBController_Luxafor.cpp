@@ -172,7 +172,7 @@ void RGBController_Luxafor::SetupZones()
     SetupColors();
 }
 
-void RGBController_Luxafor::ResizeZone(int zone, int new_size)
+void RGBController_Luxafor::ResizeZone(int /*zone*/, int /*new_size*/)
 {
     /*-----------------------------------------------------*\
     | This device does not support resizing zones           |
