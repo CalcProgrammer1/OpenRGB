@@ -78,14 +78,14 @@ void QMKOpenRGBRevDController::GetLEDInfo(unsigned int leds_count)
                     underglow_points.push_back(point_t{usb_buf[offset + QMK_OPENRGB_POINT_X_BYTE], usb_buf[offset + QMK_OPENRGB_POINT_Y_BYTE]});
                     underglow_flags.push_back(usb_buf[offset + QMK_OPENRGB_FLAG_BYTE]);
                     underglow_colors.push_back(ToRGBColor(usb_buf[offset + QMK_OPENRGB_R_COLOR_BYTE], usb_buf[offset + QMK_OPENRGB_G_COLOR_BYTE], usb_buf[offset + QMK_OPENRGB_B_COLOR_BYTE]));
-                    underglow_values.push_back(underglow_values.size() + led_values.size());
+                    underglow_values.push_back((unsigned int)(underglow_values.size() + led_values.size()));
                 }
                 else
                 {
                     led_points.push_back(point_t{usb_buf[offset + QMK_OPENRGB_POINT_X_BYTE], usb_buf[offset + QMK_OPENRGB_POINT_Y_BYTE]});
                     led_flags.push_back(usb_buf[offset + QMK_OPENRGB_FLAG_BYTE]);
                     led_colors.push_back(ToRGBColor(usb_buf[offset + QMK_OPENRGB_R_COLOR_BYTE], usb_buf[offset + QMK_OPENRGB_G_COLOR_BYTE], usb_buf[offset + QMK_OPENRGB_B_COLOR_BYTE]));
-                    led_values.push_back(underglow_values.size() + led_values.size());
+                    led_values.push_back((unsigned int)(underglow_values.size() + led_values.size()));
                 }
             }
 
@@ -103,7 +103,8 @@ void QMKOpenRGBRevDController::GetLEDInfo(unsigned int leds_count)
                     led_names.push_back(KEY_EN_UNUSED);
                 }
             }
-            else if(usb_buf[offset + QMK_OPENRGB_FLAG_BYTE] & 2){
+            else if(usb_buf[offset + QMK_OPENRGB_FLAG_BYTE] & 2)
+            {
                 underglow_names.push_back("Underglow: " + std::to_string(underglow_names.size() + led_names.size()));
             }
         }

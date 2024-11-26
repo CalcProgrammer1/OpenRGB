@@ -325,7 +325,7 @@ void RGBController_QMKOpenRGBRevD::SetupZones()
     VectorMatrix underglow_map;
 
     PlaceLEDsInMaps(rows, columns, divisor, led_points, led_flags, matrix_map, underglow_map);
-    CleanMatrixMaps(matrix_map, underglow_map, rows.size(), has_underglow);
+    CleanMatrixMaps(matrix_map, underglow_map, (unsigned int)rows.size(), has_underglow);
 
     /*---------------------------------------------------------*\
     | These vectors are class members because if they go out of |
@@ -345,8 +345,8 @@ void RGBController_QMKOpenRGBRevD::SetupZones()
     keys_zone.leds_max                      = keys_zone.leds_min;
     keys_zone.leds_count                    = keys_zone.leds_min;
     keys_zone.matrix_map                    = new matrix_map_type;
-    keys_zone.matrix_map->width             = matrix_map[0].size();
-    keys_zone.matrix_map->height            = matrix_map.size();
+    keys_zone.matrix_map->width             = (unsigned int)matrix_map[0].size();
+    keys_zone.matrix_map->height            = (unsigned int)matrix_map.size();
     keys_zone.matrix_map->map               = flat_matrix_map.data();
     zones.push_back(keys_zone);
 
@@ -362,8 +362,8 @@ void RGBController_QMKOpenRGBRevD::SetupZones()
         underglow_zone.leds_max             = underglow_zone.leds_min;
         underglow_zone.leds_count           = underglow_zone.leds_min;
         underglow_zone.matrix_map           = new matrix_map_type;
-        underglow_zone.matrix_map->width    = underglow_map[0].size();
-        underglow_zone.matrix_map->height   = underglow_map.size();
+        underglow_zone.matrix_map->width    = (unsigned int)underglow_map[0].size();
+        underglow_zone.matrix_map->height   = (unsigned int)underglow_map.size();
         underglow_zone.matrix_map->map      = flat_underglow_map.data();
         zones.push_back(underglow_zone);
     }
@@ -694,7 +694,7 @@ void RGBController_QMKOpenRGBRevD::CleanMatrixMaps
         can_break               = false;
         can_break_udg           = false;
 
-        for(int j = matrix_map[i].size() - 1; j --> 0; )
+        for(int j = (int)matrix_map[i].size() - 1; j --> 0; )
         {
             if(matrix_map[i][j] != NO_LED && width < (j + 1) && !can_break)
             {
@@ -730,13 +730,13 @@ void RGBController_QMKOpenRGBRevD::CleanMatrixMaps
         }
     }
 
-    unsigned int new_height     = height - empty_rows.size();
+    unsigned int new_height     = height - (unsigned int)empty_rows.size();
     width                       = empty_col ? width - 1 : width;
     width_udg                   = empty_col_udg && empty_col ? width_udg - 1 : width_udg;
     LOG_DEBUG("[%s] Key LED Matrix: %ux%u", name.c_str(), width, new_height);
     LOG_DEBUG("[%s] Underglow LED Matrix: %ux%u", name.c_str(), width_udg, new_height);
 
-    for(unsigned int i = empty_rows.size(); i --> 0; )
+    for(unsigned int i = (unsigned int)empty_rows.size(); i --> 0; )
     {
         matrix_map.erase(matrix_map.begin()+empty_rows[i]);
     }
