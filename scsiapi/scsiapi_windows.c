@@ -141,7 +141,7 @@ struct scsi_device_info * scsi_enumerate(const char * vendor, const char * produ
             }
         }
 
-        i += strlen(buff + i);
+        i += (int)strlen(buff + i);
     }
 
     return(ret_ptr);
@@ -186,7 +186,7 @@ int scsi_write(struct scsi_device * dev, const unsigned char * data, size_t data
     | Size must be enough for the SCSI_PASS_THROUGH_DIRECT  |
     | struct plus the sense data.                           |
     \*-----------------------------------------------------*/
-    int buffer_length                       = (sizeof(SCSI_PASS_THROUGH_DIRECT) + sense_length);
+    int buffer_length                       = (int)(sizeof(SCSI_PASS_THROUGH_DIRECT) + sense_length);
     unsigned char * buffer                  = malloc(buffer_length);
 
     /*-----------------------------------------------------*\
@@ -211,7 +211,7 @@ int scsi_write(struct scsi_device * dev, const unsigned char * data, size_t data
     command->CdbLength                      = (UCHAR)cdb_length;
     command->SenseInfoLength                = (UCHAR)sense_length;
     command->DataIn                         = SCSI_IOCTL_DATA_OUT;
-    command->DataTransferLength             = data_length;
+    command->DataTransferLength             = (ULONG)data_length;
     command->TimeOutValue                   = 0x00000014;
     command->DataBuffer                     = (unsigned char *)data;
     command->SenseInfoOffset                = sizeof(SCSI_PASS_THROUGH_DIRECT);
