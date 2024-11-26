@@ -505,7 +505,7 @@ void ResourceManager::DeviceListChanged()
     \*-------------------------------------------------*/
     LOG_TRACE("[ResourceManager] Calling device list change callbacks.");
 
-    for(unsigned int callback_idx = 0; callback_idx < DeviceListChangeCallbacks.size(); callback_idx++)
+    for(std::size_t callback_idx = 0; callback_idx < (unsigned int)DeviceListChangeCallbacks.size(); callback_idx++)
     {
         ResourceManager::DeviceListChangeCallbacks[callback_idx](DeviceListChangeCallbackArgs[callback_idx]);
     }
@@ -520,7 +520,7 @@ void ResourceManager::DetectionProgressChanged()
     \*-------------------------------------------------*/
     LOG_TRACE("[ResourceManager] Calling detection progress callbacks.");
 
-    for(unsigned int callback_idx = 0; callback_idx < DetectionProgressCallbacks.size(); callback_idx++)
+    for(std::size_t callback_idx = 0; callback_idx < (unsigned int)DetectionProgressCallbacks.size(); callback_idx++)
     {
         DetectionProgressCallbacks[callback_idx](DetectionProgressCallbackArgs[callback_idx]);
     }
@@ -535,7 +535,7 @@ void ResourceManager::I2CBusListChanged()
     /*-------------------------------------------------*\
     | Detection progress has changed, call the callbacks|
     \*-------------------------------------------------*/
-    for(unsigned int callback_idx = 0; callback_idx < I2CBusListChangeCallbacks.size(); callback_idx++)
+    for(std::size_t callback_idx = 0; callback_idx < (unsigned int)I2CBusListChangeCallbacks.size(); callback_idx++)
     {
         I2CBusListChangeCallbacks[callback_idx](I2CBusListChangeCallbackArgs[callback_idx]);
     }
@@ -759,9 +759,9 @@ void ResourceManager::Cleanup()
 
     std::vector<RGBController *> rgb_controllers_hw_copy = rgb_controllers_hw;
 
-    for(unsigned int hw_controller_idx = 0; hw_controller_idx < rgb_controllers_hw.size(); hw_controller_idx++)
+    for(std::size_t hw_controller_idx = 0; hw_controller_idx < rgb_controllers_hw.size(); hw_controller_idx++)
     {
-        for(unsigned int controller_idx = 0; controller_idx < rgb_controllers.size(); controller_idx++)
+        for(std::size_t controller_idx = 0; controller_idx < rgb_controllers.size(); controller_idx++)
         {
             if(rgb_controllers[controller_idx] == rgb_controllers_hw[hw_controller_idx])
             {
@@ -809,7 +809,7 @@ void ResourceManager::Cleanup()
 
 void ResourceManager::ProcessPreDetectionHooks()
 {
-    for(unsigned int hook_idx = 0; hook_idx < pre_detection_hooks.size(); hook_idx++)
+    for(std::size_t hook_idx = 0; hook_idx < pre_detection_hooks.size(); hook_idx++)
     {
         pre_detection_hooks[hook_idx]();
     }
@@ -817,7 +817,7 @@ void ResourceManager::ProcessPreDetectionHooks()
 
 void ResourceManager::ProcessDynamicDetectors()
 {
-    for(unsigned int detector_idx = 0; detector_idx < dynamic_detectors.size(); detector_idx++)
+    for(std::size_t detector_idx = 0; detector_idx < dynamic_detectors.size(); detector_idx++)
     {
         dynamic_detectors[detector_idx]();
     }
@@ -850,7 +850,7 @@ bool ResourceManager::ProcessPreDetection()
     \*-----------------------------------------------------*/
     LOG_TRACE("[ResourceManager] Calling detection start callbacks.");
 
-    for(unsigned int callback_idx = 0; callback_idx < DetectionStartCallbacks.size(); callback_idx++)
+    for(std::size_t callback_idx = 0; callback_idx < DetectionStartCallbacks.size(); callback_idx++)
     {
         DetectionStartCallbacks[callback_idx](DetectionStartCallbackArgs[callback_idx]);
     }
@@ -930,7 +930,7 @@ void ResourceManager::ProcessPostDetection()
     /*-----------------------------------------------------*\
     | Call detection end callbacks                          |
     \*-----------------------------------------------------*/
-    for(unsigned int callback_idx = 0; callback_idx < DetectionEndCallbacks.size(); callback_idx++)
+    for(std::size_t callback_idx = 0; callback_idx < DetectionEndCallbacks.size(); callback_idx++)
     {
         DetectionEndCallbacks[callback_idx](DetectionEndCallbackArgs[callback_idx]);
     }
@@ -968,7 +968,7 @@ void ResourceManager::DetectDevicesThreadFunction()
     \*-------------------------------------------------*/
     detection_size_entry_used.resize(rgb_controllers_sizes.size());
 
-    for(unsigned int size_idx = 0; size_idx < (unsigned int)detection_size_entry_used.size(); size_idx++)
+    for(std::size_t size_idx = 0; size_idx < (unsigned int)detection_size_entry_used.size(); size_idx++)
     {
         detection_size_entry_used[size_idx] = false;
     }
