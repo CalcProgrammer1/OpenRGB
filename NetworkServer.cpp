@@ -138,7 +138,7 @@ bool NetworkServer::GetListening()
 
 unsigned int NetworkServer::GetNumClients()
 {
-    return ServerClients.size();
+    return (unsigned int)ServerClients.size();
 }
 
 const char * NetworkServer::GetClientString(unsigned int client_num)
@@ -411,7 +411,7 @@ void NetworkServer::ConnectionThreadFunction(int socket_idx)
         /*---------------------------------------------------------*\
         | Accept the client connection                              |
         \*---------------------------------------------------------*/
-        client_info->client_sock = accept_select(server_sock[socket_idx]);
+        client_info->client_sock = accept_select((int)server_sock[socket_idx]);
 
         if(client_info->client_sock < 0)
         {
@@ -505,7 +505,7 @@ int NetworkServer::accept_select(int sockfd)
         }
         else
         {
-            return(accept(sockfd, NULL, NULL));
+            return(accept((int)sockfd, NULL, NULL));
         }
     }
 }
@@ -523,7 +523,7 @@ int NetworkServer::recv_select(SOCKET s, char *buf, int len, int flags)
         FD_ZERO(&set);
         FD_SET(s, &set);
 
-        int rv = select(s + 1, &set, NULL, NULL, &timeout);
+        int rv = select((int)s + 1, &set, NULL, NULL, &timeout);
 
         if(rv == SOCKET_ERROR || server_online == false)
         {
@@ -1006,7 +1006,7 @@ void NetworkServer::SendReply_ControllerCount(SOCKET client_sock)
 
     InitNetPacketHeader(&reply_hdr, 0, NET_PACKET_ID_REQUEST_CONTROLLER_COUNT, sizeof(unsigned int));
 
-    reply_data = controllers.size();
+    reply_data = (unsigned int)controllers.size();
 
     send(client_sock, (const char *)&reply_hdr, sizeof(NetPacketHeader), 0);
     send(client_sock, (const char *)&reply_data, sizeof(unsigned int), 0);
@@ -1088,9 +1088,9 @@ void NetworkServer::SendReply_PluginList(SOCKET client_sock)
     for(unsigned int i = 0; i < num_plugins; i++)
     {
         data_size += sizeof(unsigned short) * 3;
-        data_size += strlen(plugins[i].name.c_str()) + 1;
-        data_size += strlen(plugins[i].description.c_str()) + 1;
-        data_size += strlen(plugins[i].version.c_str()) + 1;
+        data_size += (unsigned int)strlen(plugins[i].name.c_str()) + 1;
+        data_size += (unsigned int)strlen(plugins[i].description.c_str()) + 1;
+        data_size += (unsigned int)strlen(plugins[i].version.c_str()) + 1;
         data_size += sizeof(unsigned int) * 2;
     }
 
