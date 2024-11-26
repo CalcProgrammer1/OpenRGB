@@ -423,7 +423,7 @@ void RGBController_JGINYUEInternalUSBV2::DeviceUpdateMode()
         return;
     }
 
-    unsigned char Area_num = 0;
+    unsigned int Area_num = 0;
     if(controller->support_Global_zone == true)
     {
         Area_num = controller->GetZoneCount() - 1;
@@ -432,9 +432,9 @@ void RGBController_JGINYUEInternalUSBV2::DeviceUpdateMode()
     {
         Area_num = controller->GetZoneCount();
     }
-    for(size_t i = 0; i < Area_num; i++)
+    for(unsigned int i = 0; i < Area_num; i++)
     {
-        DeviceUpdateZoneMode(i);
+        DeviceUpdateZoneMode((int)i);
     }
 }
 

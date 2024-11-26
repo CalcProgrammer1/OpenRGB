@@ -88,7 +88,7 @@ void JGINYUEInternalUSBV2Controller::Init_device()
 {
     unsigned char   usb_buf[64];
 
-    memset(usb_buf, 0x00, sizeof(usb_buf));  
+    memset(usb_buf, 0x00, sizeof(usb_buf));
     usb_buf[0] = JGINYUE_V2_HID_GENERAL_COMMAND_HEADER;
     usb_buf[1] = 0x0F;
     hid_write(jy_hid_interface, usb_buf, 64);
@@ -119,7 +119,7 @@ void JGINYUEInternalUSBV2Controller::Init_device()
     if(support_Global_zone == true)
     {
         ZoneCount++;
-        //TODO: Get Global zone information   
+        //TODO: Get Global zone information
     }
 
 }
@@ -144,7 +144,7 @@ void JGINYUEInternalUSBV2Controller::Init_Zone(int zone)
     {
         return;
     }
-    
+
     device_config[zone].Mode_active = usb_buf[3];
     device_config[zone].User_LED_numbers = usb_buf[4];
     unsigned char Color_num = ((usb_buf[5] &0x0F)<8 ? (usb_buf[5] &0x0F): 8);
@@ -169,7 +169,7 @@ void JGINYUEInternalUSBV2Controller::WriteZoneMode
 {
     unsigned char   usb_buf[64];
     memset(usb_buf, 0x00, sizeof(usb_buf));
-    unsigned char   num_color = rgb.size();
+    unsigned char   num_color = (unsigned char)rgb.size();
     num_color = (num_color < 8) ? num_color : 8;
 
     usb_buf[0] = JGINYUE_V2_HID_GENERAL_COMMAND_HEADER;
@@ -180,7 +180,7 @@ void JGINYUEInternalUSBV2Controller::WriteZoneMode
     usb_buf[5] = (num_color&0x0F)|((Direction&0x01)<<4);
     usb_buf[6] = Speed;
     usb_buf[7] = Brightness;
-    
+
     for(unsigned char i = 0; i < num_color; i++)
     {
         RGBColor color = rgb[i];
@@ -217,8 +217,8 @@ void JGINYUEInternalUSBV2Controller::DirectLEDControl
     int TX_len = 10 + num_LEDs*3;
     if(TX_len%64 == 0)
     {
-        TX_len = TX_len+2; 
+        TX_len = TX_len+2;
     }
-    
+
     jy_cdc_interface->serial_write((char*)cdc_buf,TX_len);
 }
