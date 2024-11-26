@@ -257,7 +257,7 @@ RGBController_JGINYUEInternalUSBV2::RGBController_JGINYUEInternalUSBV2(JGINYUEIn
     Cycling_Breathing.speed_min         = JGINYUE_USB_SPEED_MIN;
     Cycling_Breathing.direction         = MODE_DIRECTION_RIGHT;
     Cycling_Breathing.colors.resize(8);
-    modes.push_back(Cycling_Breathing); 
+    modes.push_back(Cycling_Breathing);
 
     mode Raining;
     Raining.name                        = "Raining";
@@ -274,7 +274,7 @@ RGBController_JGINYUEInternalUSBV2::RGBController_JGINYUEInternalUSBV2(JGINYUEIn
     Raining.speed_min                   = JGINYUE_USB_SPEED_MIN;
     Raining.direction                   = MODE_DIRECTION_RIGHT;
     Raining.colors.resize(8);
-    modes.push_back(Raining); 
+    modes.push_back(Raining);
 
     mode MulticolorWater1;
     MulticolorWater1.name               = "Multicolor Water 1";
@@ -291,7 +291,7 @@ RGBController_JGINYUEInternalUSBV2::RGBController_JGINYUEInternalUSBV2(JGINYUEIn
     MulticolorWater1.speed_min          = JGINYUE_USB_SPEED_MIN;
     MulticolorWater1.direction          = JGINYUE_DIRECTION_LEFT;
     MulticolorWater1.colors.resize(8);
-    modes.push_back(MulticolorWater1); 
+    modes.push_back(MulticolorWater1);
 
 
     mode MulticolorWater2;
@@ -309,7 +309,7 @@ RGBController_JGINYUEInternalUSBV2::RGBController_JGINYUEInternalUSBV2(JGINYUEIn
     MulticolorWater2.speed_min          = JGINYUE_USB_SPEED_MIN;
     MulticolorWater2.direction          = JGINYUE_DIRECTION_LEFT;
     MulticolorWater2.colors.resize(8);
-    modes.push_back(MulticolorWater2); 
+    modes.push_back(MulticolorWater2);
 
     mode Hourglass;
     Hourglass.name                      = "Hourglass";
@@ -328,10 +328,7 @@ RGBController_JGINYUEInternalUSBV2::RGBController_JGINYUEInternalUSBV2(JGINYUEIn
     Hourglass.colors.resize(8);
     //modes.push_back(Hourglass);
 
-
-
     InitZones();
-    
 }
 
 void RGBController_JGINYUEInternalUSBV2::SetupZones()
@@ -346,12 +343,12 @@ void RGBController_JGINYUEInternalUSBV2::SetupZones()
     | Set zones and leds                                |
     \*-------------------------------------------------*/
     unsigned char normal_zone_count = controller->GetZoneCount();
-    if((controller->support_Global_zone == true)&&(normal_zone_count>1))
+    if((controller->support_Global_zone == true) && (normal_zone_count > 1))
     {
-        normal_zone_count --;
+        normal_zone_count--;
         //TODO support_Global_zone
     }
-    
+
     for(unsigned int zone_idx = 0; zone_idx < normal_zone_count; zone_idx++)
     {
         for(unsigned int led_idx = 0; led_idx < zones[zone_idx].leds_count; led_idx++)
@@ -359,7 +356,7 @@ void RGBController_JGINYUEInternalUSBV2::SetupZones()
             led new_led;
             new_led.name    = zones[zone_idx].name + " LED#" + std::to_string(led_idx + 1);
             new_led.value   = 0;
-            leds.push_back(new_led);           
+            leds.push_back(new_led);
         }
     }
 
@@ -378,20 +375,21 @@ void RGBController_JGINYUEInternalUSBV2::ResizeZone(int zone, int new_size)
 
     if(modes[active_mode].value == JGINYUE_USB_V2_MODE_DIRECT)
     {
-        controller->DirectLEDControl(zones[zone].colors,new_size,area);   
+        controller->DirectLEDControl(zones[zone].colors, new_size, area);
     }
     else
     {
-        controller->WriteZoneMode(area,modes[active_mode].value,new_size,modes[active_mode].colors,modes[active_mode].speed,modes[active_mode].brightness,modes[active_mode].direction);
-    }    
+        controller->WriteZoneMode(area,modes[active_mode].value, new_size,modes[active_mode].colors, modes[active_mode].speed, modes[active_mode].brightness, modes[active_mode].direction);
+    }
 }
 
 void RGBController_JGINYUEInternalUSBV2::DeviceUpdateLEDs()
 {
     unsigned char normal_zone_count = controller->GetZoneCount();
-    if((controller->support_Global_zone == true)&&(normal_zone_count>1))
+
+    if((controller->support_Global_zone == true) && (normal_zone_count > 1))
     {
-        normal_zone_count --;
+        normal_zone_count--;
         //TODO support_Global_zone
     }
 
@@ -405,20 +403,20 @@ void RGBController_JGINYUEInternalUSBV2::UpdateZoneLEDs(int zone)
 {
     unsigned char area;
     area = controller->device_config[zone].Area_ID;
-    controller->DirectLEDControl(zones[zone].colors,zones[zone].leds_count,area);
+
+    controller->DirectLEDControl(zones[zone].colors, zones[zone].leds_count, area);
 }
 
 void RGBController_JGINYUEInternalUSBV2::UpdateSingleLED(int led)
 {
     int zone;
     zone = leds[led].value;
+
     UpdateZoneLEDs(zone);
 }
 
 void RGBController_JGINYUEInternalUSBV2::DeviceUpdateMode()
 {
-    unsigned char area;
-
     if(modes[active_mode].value == JGINYUE_USB_V2_MODE_DIRECT)
     {
         DeviceUpdateLEDs();
@@ -428,7 +426,7 @@ void RGBController_JGINYUEInternalUSBV2::DeviceUpdateMode()
     unsigned char Area_num = 0;
     if(controller->support_Global_zone == true)
     {
-        Area_num = controller->GetZoneCount()-1;
+        Area_num = controller->GetZoneCount() - 1;
     }
     else
     {
@@ -459,46 +457,49 @@ void RGBController_JGINYUEInternalUSBV2::InitZones()
     zones.clear();
     zones.resize(normal_zone_count);
 
-    if((controller->support_Global_zone == true)&&(normal_zone_count>1))
+    if((controller->support_Global_zone == true) && (normal_zone_count > 1))
     {
-        normal_zone_count --;
+        normal_zone_count--;
         //TODO support_Global_zone
     }
+
     for(size_t i = 0; i < normal_zone_count; i++)
     {
-        zone * zone_to_init = &(zones[i]);
-        AreaConfigurationV2 * cfg = &(controller->device_config[i]);
-        zone_to_init->leds_min = 0;
-        zone_to_init->leds_max = cfg->Max_LED_numbers;
-        zone_to_init->leds_count = 0;
-        zone_to_init->type = ZONE_TYPE_LINEAR;
-        zone_to_init->matrix_map = NULL;
+        zone * zone_to_init         = &(zones[i]);
+        AreaConfigurationV2 * cfg   = &(controller->device_config[i]);
+
+        zone_to_init->leds_min      = 0;
+        zone_to_init->leds_max      = cfg->Max_LED_numbers;
+        zone_to_init->leds_count    = 0;
+        zone_to_init->type          = ZONE_TYPE_LINEAR;
+        zone_to_init->matrix_map    = NULL;
+
         switch(cfg->Area_ID)
         {
-        case JGINYUE_USB_V2_ARGB_STRIP_1:
-            zone_to_init->name = "ARGB Strip Header 1";
-            break;
-        case JGINYUE_USB_V2_ARGB_STRIP_2:
-            zone_to_init->name = "ARGB Strip Header 2";
-            break;
-        case JGINYUE_USB_V2_ARGB_FAN_1:
-            zone_to_init->name = "ARGB Fan Header 1";
-            break;
-        case JGINYUE_USB_V2_ARGB_FAN_2:
-            zone_to_init->name = "ARGB Fan Header 2";
-            break;
-        case JGINYUE_USB_V2_ARGB_FAN_3:
-            zone_to_init->name = "ARGB Fan Header 3";
-            break;
-        case JGINYUE_USB_V2_ARGB_FAN_4:
-            zone_to_init->name = "ARGB Fan Header 4";
-            break;
-        case JGINYUE_USB_V2_ARGB_FAN_5:
-            zone_to_init->name = "ARGB Fan Header 5";
-            break;
-        default:
-            zone_to_init->name = "Unknow Device";
-            break;
+            case JGINYUE_USB_V2_ARGB_STRIP_1:
+                zone_to_init->name = "ARGB Strip Header 1";
+                break;
+            case JGINYUE_USB_V2_ARGB_STRIP_2:
+                zone_to_init->name = "ARGB Strip Header 2";
+                break;
+            case JGINYUE_USB_V2_ARGB_FAN_1:
+                zone_to_init->name = "ARGB Fan Header 1";
+                break;
+            case JGINYUE_USB_V2_ARGB_FAN_2:
+                zone_to_init->name = "ARGB Fan Header 2";
+                break;
+            case JGINYUE_USB_V2_ARGB_FAN_3:
+                zone_to_init->name = "ARGB Fan Header 3";
+                break;
+            case JGINYUE_USB_V2_ARGB_FAN_4:
+                zone_to_init->name = "ARGB Fan Header 4";
+                break;
+            case JGINYUE_USB_V2_ARGB_FAN_5:
+                zone_to_init->name = "ARGB Fan Header 5";
+                break;
+            default:
+                zone_to_init->name = "Unknow Device";
+                break;
         }
     }
     SetupZones();
