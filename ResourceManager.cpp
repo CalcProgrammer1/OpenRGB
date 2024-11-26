@@ -217,7 +217,8 @@ void ResourceManager::RegisterRGBController(RGBController *rgb_controller)
 
         UpdateDeviceList();
     }
-    detection_prev_size = rgb_controllers_hw.size();
+
+    detection_prev_size = (unsigned int)rgb_controllers_hw.size();
 
     UpdateDeviceList();
 }
@@ -967,7 +968,7 @@ void ResourceManager::DetectDevicesThreadFunction()
     \*-------------------------------------------------*/
     detection_size_entry_used.resize(rgb_controllers_sizes.size());
 
-    for(unsigned int size_idx = 0; size_idx < detection_size_entry_used.size(); size_idx++)
+    for(unsigned int size_idx = 0; size_idx < (unsigned int)detection_size_entry_used.size(); size_idx++)
     {
         detection_size_entry_used[size_idx] = false;
     }
@@ -1047,7 +1048,7 @@ void ResourceManager::DetectDevicesThreadFunction()
 
     bool i2c_interface_fail = false;
 
-    for(unsigned int i2c_bus_detector_idx = 0; i2c_bus_detector_idx < i2c_bus_detectors.size() && detection_is_required.load(); i2c_bus_detector_idx++)
+    for(unsigned int i2c_bus_detector_idx = 0; i2c_bus_detector_idx < (unsigned int)i2c_bus_detectors.size() && detection_is_required.load(); i2c_bus_detector_idx++)
     {
         if(i2c_bus_detectors[i2c_bus_detector_idx]() == false)
         {
@@ -1063,7 +1064,7 @@ void ResourceManager::DetectDevicesThreadFunction()
     LOG_INFO("------------------------------------------------------");
     LOG_INFO("|               Detecting I2C devices                |");
     LOG_INFO("------------------------------------------------------");
-    for(unsigned int i2c_detector_idx = 0; i2c_detector_idx < i2c_device_detectors.size() && detection_is_required.load(); i2c_detector_idx++)
+    for(unsigned int i2c_detector_idx = 0; i2c_detector_idx < (unsigned int)i2c_device_detectors.size() && detection_is_required.load(); i2c_detector_idx++)
     {
         unsigned int controller_size = rgb_controllers_hw.size();
         detection_string = i2c_device_detector_strings[i2c_detector_idx].c_str();
@@ -1110,7 +1111,7 @@ void ResourceManager::DetectDevicesThreadFunction()
     LOG_INFO("------------------------------------------------------");
     LOG_INFO("|               Detecting I2C PCI devices            |");
     LOG_INFO("------------------------------------------------------");
-    for(unsigned int i2c_detector_idx = 0; i2c_detector_idx < i2c_pci_device_detectors.size() && detection_is_required.load(); i2c_detector_idx++)
+    for(unsigned int i2c_detector_idx = 0; i2c_detector_idx < (unsigned int)i2c_pci_device_detectors.size() && detection_is_required.load(); i2c_detector_idx++)
     {
         detection_string = i2c_pci_device_detectors[i2c_detector_idx].name.c_str();
 
@@ -1168,7 +1169,7 @@ void ResourceManager::DetectDevicesThreadFunction()
         | Loop through all available detectors.  If all required information matches,   |
         | run the detector                                                              |
         \*-----------------------------------------------------------------------------*/
-        for(unsigned int hid_detector_idx = 0; hid_detector_idx < hid_device_detectors.size() && detection_is_required.load(); hid_detector_idx++)
+        for(unsigned int hid_detector_idx = 0; hid_detector_idx < (unsigned int)hid_device_detectors.size() && detection_is_required.load(); hid_detector_idx++)
         {
             HIDDeviceDetectorBlock & detector = hid_device_detectors[hid_detector_idx];
             hid_devices = hid_enumerate(detector.vid, detector.pid);
@@ -1235,7 +1236,7 @@ void ResourceManager::DetectDevicesThreadFunction()
             | Loop through all available detectors.  If all required information matches,   |
             | run the detector                                                              |
             \*-----------------------------------------------------------------------------*/
-            for(unsigned int hid_detector_idx = 0; hid_detector_idx < hid_device_detectors.size() && detection_is_required.load(); hid_detector_idx++)
+            for(unsigned int hid_detector_idx = 0; hid_detector_idx < (unsigned int)hid_device_detectors.size() && detection_is_required.load(); hid_detector_idx++)
             {
                 HIDDeviceDetectorBlock & detector = hid_device_detectors[hid_detector_idx];
                 if(detector.compare(current_hid_device))
@@ -1267,7 +1268,7 @@ void ResourceManager::DetectDevicesThreadFunction()
             | Loop through all available wrapped HID detectors.  If all required            |
             | information matches, run the detector                                         |
             \*-----------------------------------------------------------------------------*/
-            for(unsigned int hid_detector_idx = 0; hid_detector_idx < hid_wrapped_device_detectors.size() && detection_is_required.load(); hid_detector_idx++)
+            for(unsigned int hid_detector_idx = 0; hid_detector_idx < (unsigned int)hid_wrapped_device_detectors.size() && detection_is_required.load(); hid_detector_idx++)
             {
                 HIDWrappedDeviceDetectorBlock & detector = hid_wrapped_device_detectors[hid_detector_idx];
                 if(detector.compare(current_hid_device))
@@ -1380,7 +1381,7 @@ void ResourceManager::DetectDevicesThreadFunction()
             | Loop through all available wrapped HID detectors.  If all required            |
             | information matches, run the detector                                         |
             \*-----------------------------------------------------------------------------*/
-            for(unsigned int hid_detector_idx = 0; hid_detector_idx < hid_wrapped_device_detectors.size() && detection_is_required.load(); hid_detector_idx++)
+            for(unsigned int hid_detector_idx = 0; hid_detector_idx < (unsigned int)hid_wrapped_device_detectors.size() && detection_is_required.load(); hid_detector_idx++)
             {
                 HIDWrappedDeviceDetectorBlock & detector = hid_wrapped_device_detectors[hid_detector_idx];
                 if(detector.compare(current_hid_device))
@@ -1438,7 +1439,7 @@ void ResourceManager::DetectDevicesThreadFunction()
     LOG_INFO("|              Detecting other devices               |");
     LOG_INFO("------------------------------------------------------");
 
-    for(unsigned int detector_idx = 0; detector_idx < device_detectors.size() && detection_is_required.load(); detector_idx++)
+    for(unsigned int detector_idx = 0; detector_idx < (unsigned int)device_detectors.size() && detection_is_required.load(); detector_idx++)
     {
         detection_string = device_detector_strings[detector_idx].c_str();
 
@@ -1640,7 +1641,7 @@ void ResourceManager::UpdateDetectorSettings()
     | Loop through all I2C detectors and see if any     |
     | need to be saved to the settings                  |
     \*-------------------------------------------------*/
-    for(unsigned int i2c_detector_idx = 0; i2c_detector_idx < i2c_device_detectors.size(); i2c_detector_idx++)
+    for(unsigned int i2c_detector_idx = 0; i2c_detector_idx < (unsigned int)i2c_device_detectors.size(); i2c_detector_idx++)
     {
         detection_string = i2c_device_detector_strings[i2c_detector_idx].c_str();
 
@@ -1655,7 +1656,7 @@ void ResourceManager::UpdateDetectorSettings()
     | Loop through all I2C PCI detectors and see if any |
     | need to be saved to the settings                  |
     \*-------------------------------------------------*/
-    for(unsigned int i2c_pci_detector_idx = 0; i2c_pci_detector_idx < i2c_pci_device_detectors.size(); i2c_pci_detector_idx++)
+    for(unsigned int i2c_pci_detector_idx = 0; i2c_pci_detector_idx < (unsigned int)i2c_pci_device_detectors.size(); i2c_pci_detector_idx++)
     {
         detection_string = i2c_pci_device_detectors[i2c_pci_detector_idx].name.c_str();
 
@@ -1670,7 +1671,7 @@ void ResourceManager::UpdateDetectorSettings()
     | Loop through all HID detectors and see if any     |
     | need to be saved to the settings                  |
     \*-------------------------------------------------*/
-    for(unsigned int hid_detector_idx = 0; hid_detector_idx < hid_device_detectors.size(); hid_detector_idx++)
+    for(unsigned int hid_detector_idx = 0; hid_detector_idx < (unsigned int)hid_device_detectors.size(); hid_detector_idx++)
     {
         detection_string = hid_device_detectors[hid_detector_idx].name.c_str();
 
@@ -1685,7 +1686,7 @@ void ResourceManager::UpdateDetectorSettings()
     | Loop through all HID wrapped detectors and see if |
     | any need to be saved to the settings              |
     \*-------------------------------------------------*/
-    for(unsigned int hid_wrapped_detector_idx = 0; hid_wrapped_detector_idx < hid_wrapped_device_detectors.size(); hid_wrapped_detector_idx++)
+    for(unsigned int hid_wrapped_detector_idx = 0; hid_wrapped_detector_idx < (unsigned int)hid_wrapped_device_detectors.size(); hid_wrapped_detector_idx++)
     {
         detection_string = hid_wrapped_device_detectors[hid_wrapped_detector_idx].name.c_str();
 
@@ -1700,7 +1701,7 @@ void ResourceManager::UpdateDetectorSettings()
     | Loop through remaining detectors and see if any   |
     | need to be saved to the settings                  |
     \*-------------------------------------------------*/
-    for(unsigned int detector_idx = 0; detector_idx < device_detectors.size(); detector_idx++)
+    for(unsigned int detector_idx = 0; detector_idx < (unsigned int)device_detectors.size(); detector_idx++)
     {
         detection_string = device_detector_strings[detector_idx].c_str();
 
