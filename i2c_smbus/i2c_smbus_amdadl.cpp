@@ -13,6 +13,7 @@
 #include "Detector.h"
 #include "i2c_smbus_amdadl.h"
 #include "LogManager.h"
+#include "pci_ids.h"
 
 typedef int ( *ADL2_MAIN_CONTROL_CREATE )(ADL_MAIN_MALLOC_CALLBACK, int, ADL_CONTEXT_HANDLE*);
 typedef int ( *ADL2_MAIN_CONTROL_DESTROY )(ADL_CONTEXT_HANDLE);
@@ -248,6 +249,13 @@ bool i2c_smbus_amdadl_detect()
                     }
                     last_bus_number = current.iBusNumber;
                     i2c_smbus_amdadl * adl_bus = new i2c_smbus_amdadl(context, current.iAdapterIndex);
+
+                    if(adl_bus->pci_vendor != AMD_GPU_VEN)
+                    {
+                        delete adl_bus;
+                        continue;
+                    }
+
                     LOG_INFO("ADL GPU Device %04X:%04X Subsystem: %04X:%04X", adl_bus->pci_vendor, adl_bus->pci_device,adl_bus->pci_subsystem_vendor,adl_bus->pci_subsystem_device);
                     ResourceManager::get()->RegisterI2CBus(adl_bus);
                 }
