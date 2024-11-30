@@ -4,6 +4,7 @@
 |   Driver for Cooler Master ARGB Gen 2 A1 controller       |
 |                                                           |
 |   Morgan Guimard (morg)                       26 Jun 2022 |
+|   Fabian R (kderazorback)                     11 Aug 2023 |
 |                                                           |
 |   This file is part of the OpenRGB project                |
 |   SPDX-License-Identifier: GPL-2.0-only                   |
@@ -21,9 +22,14 @@
     @direct :white_check_mark:
     @effects :white_check_mark:
     @detectors DetectCoolerMasterARGBGen2A1
-    @comment This device does not have Gen 2 support in OpenRGB yet.
+    @comment OpenRGB partially supports Gen 2 protocol for this device.
 
-    Gen2 has auto-resize feature and parallel to serial magical stuff.<
+    Gen2 has auto-resize feature and parallel to serial magical stuff,
+    Strip size is auto detected by the controller but not reported
+    back to OpenRGB. Configure zones and segments for each channel
+    to allow individual addressing.
+    Take note that this controller is extremely slow, using fast
+    update rates may introduce color artifacts.<
 \*-------------------------------------------------------------------*/
 
 RGBController_CMARGBGen2A1Controller::RGBController_CMARGBGen2A1Controller(CMARGBGen2A1controller* controller_ptr)
@@ -217,7 +223,6 @@ void RGBController_CMARGBGen2A1Controller::ResizeZone(int zone, int new_size)
 {
     zones[zone].leds_count = new_size;
 
-    // todo: refactor with above code
     unsigned int total_leds = 0;
 
     for(unsigned int channel = 0; channel < CM_ARGB_GEN2_A1_CHANNEL_COUNT; channel++)
@@ -241,7 +246,18 @@ void RGBController_CMARGBGen2A1Controller::DeviceUpdateLEDs()
 {
     for(unsigned int channel = 0; channel < CM_ARGB_GEN2_A1_CHANNEL_COUNT; channel ++)
     {
-        UpdateZoneLEDs(channel);
+        if (zones[channel].segments.size() > 0)
+        {
+            unsigned int i = 0;
+            for(std::vector<segment>::iterator it = zones[channel].segments.begin(); it != zones[channel].segments.end(); it++)
+            {
+                UpdateSegmentLEDs(channel, i++);
+            }
+        }
+        else
+        {
+            UpdateSegmentLEDs(channel, CM_ARGB_GEN2_A1_SUBCHANNEL_ALL);
+        }
     }
 }
 
@@ -254,15 +270,38 @@ void RGBController_CMARGBGen2A1Controller::UpdateZoneLEDs(int zone)
 
         std::vector<RGBColor> zone_colors(colors.begin() + start , colors.begin() + end);
 
-        if(modes[active_mode].value == CM_ARGB_GEN2_A1_DIRECT_MODE)
-        {
-            controller->SendDirectChannel(zone, zone_colors);
-        }
-        else
-        {
-            controller->SetCustomColors(zone, zone_colors);
-        }
+        controller->SendChannelColors(zone, CM_ARGB_GEN2_A1_SUBCHANNEL_ALL, zone_colors);
     }
+}
+
+void RGBController_CMARGBGen2A1Controller::UpdateSegmentLEDs(int zone, int subchannel)
+{
+    if(zones[zone].leds_count <= 0)
+    {
+        return;
+    }
+
+    unsigned int start = zones[zone].start_idx;
+    unsigned int end = start + zones[zone].leds_count;
+    bool use_direct_mode = modes[active_mode].value == CM_ARGB_GEN2_A1_DIRECT_MODE || modes[active_mode].value == CM_ARGB_GEN2_A1_CUSTOM_MODE;
+
+    std::vector<RGBColor> color_vector(colors.begin() + start, colors.begin() + start + end);
+
+    if(use_direct_mode)
+    {
+        if(zones[zone].segments.size() > 0)
+        {
+            start += zones[zone].segments[subchannel].start_idx;
+            end += zones[zone].segments[subchannel].start_idx + zones[zone].segments[subchannel].leds_count;
+
+            color_vector = std::vector<RGBColor>(colors.begin() + start , colors.begin() + end);
+        }
+
+        controller->SendChannelColors(zone, subchannel, color_vector);
+        return;
+    }
+
+    controller->SendChannelColors(zone, CM_ARGB_GEN2_A1_SUBCHANNEL_ALL, color_vector);
 }
 
 void RGBController_CMARGBGen2A1Controller::UpdateSingleLED(int /*led*/)

@@ -4,6 +4,7 @@
 |   Driver for Cooler Master ARGB Gen 2 A1 controller       |
 |                                                           |
 |   Morgan Guimard (morg)                       26 Jun 2022 |
+|   Fabian R (kderazorback)                     11 Aug 2023 |
 |                                                           |
 |   This file is part of the OpenRGB project                |
 |   SPDX-License-Identifier: GPL-2.0-only                   |
@@ -59,26 +60,45 @@ void CMARGBGen2A1controller::SaveToFlash()
 
     hid_write(dev, usb_buf, CM_ARGB_GEN2_A1_PACKET_LENGTH);
 
-    std::this_thread::sleep_for(std::chrono::milliseconds(10));
+    std::this_thread::sleep_for(std::chrono::milliseconds(CM_ARGB_GEN2_A1_SLEEP_LONG));
 }
 
 void CMARGBGen2A1controller::SetupDirectMode()
 {
+    ResetDevice();
+
     unsigned char usb_buf[CM_ARGB_GEN2_A1_PACKET_LENGTH];
 
     /*---------------------------------------------*\
     | Swith to direct mode                          |
     \*---------------------------------------------*/
-    memset(usb_buf, 0x00, CM_ARGB_GEN2_A1_PACKET_LENGTH);
-
-    usb_buf[1] = CM_ARGB_GEN2_A1_COMMAND;
-    usb_buf[2] = CM_ARGB_GEN2_A1_LIGHTNING_CONTROL;
-    usb_buf[3] = CM_ARGB_GEN2_A1_WRITE;
-    usb_buf[4] = 0x01; // channel???
+    usb_buf[1]  = CM_ARGB_GEN2_A1_COMMAND;
+    usb_buf[2]  = CM_ARGB_GEN2_A1_HW_MODE_SETUP;
+    usb_buf[3]  = CM_ARGB_GEN2_A1_WRITE;
+    usb_buf[4]  = CM_ARGB_GEN2_A1_CHANNEL_ALL;    // CHANNEL
+    usb_buf[5]  = CM_ARGB_GEN2_A1_SUBCHANNEL_ALL; // SUBCHANNEL
+    usb_buf[6]  = CM_ARGB_GEN2_A1_CUSTOM_MODE;
+    usb_buf[7]  = CM_ARGB_GEN2_A1_SPEED_HALF;
+    usb_buf[8]  = CM_ARGB_GEN2_A1_BRIGHTNESS_MAX;
+    usb_buf[9]  = 0xFF; // R
+    usb_buf[10] = 0xFF; // G
+    usb_buf[11] = 0xFF; // B
 
     hid_write(dev, usb_buf, CM_ARGB_GEN2_A1_PACKET_LENGTH);
 
-    std::this_thread::sleep_for(std::chrono::milliseconds(10));
+    std::this_thread::sleep_for(std::chrono::milliseconds(CM_ARGB_GEN2_A1_SLEEP_SHORT));
+
+    std::vector<RGBColor> colorOffChain;
+    colorOffChain.push_back(0);
+    for(unsigned int channel = 0; channel < CM_ARGB_GEN2_A1_CHANNEL_COUNT; channel++)
+    {
+        SendChannelColors(channel, CM_ARGB_GEN2_A1_SUBCHANNEL_ALL, colorOffChain);
+    }
+
+    for(unsigned int channel = 0; channel < CM_ARGB_GEN2_A1_CHANNEL_COUNT; channel++)
+    {
+        SetCustomSequence(channel);
+    }
 
     software_mode_activated = true;
 }
@@ -144,10 +164,19 @@ void CMARGBGen2A1controller::SetupZoneSize(unsigned int zone_id, unsigned int si
 
     hid_write(dev, usb_buf, CM_ARGB_GEN2_A1_PACKET_LENGTH);
 
-    std::this_thread::sleep_for(std::chrono::milliseconds(10));
+    std::this_thread::sleep_for(std::chrono::milliseconds(CM_ARGB_GEN2_A1_SLEEP_LONG));
+
+    /*---------------------------------------------*\
+    | Refresh direct mode to cycle the strips       |
+    | with the new length                           |
+    \*---------------------------------------------*/
+    if(software_mode_activated)
+    {
+        SetupDirectMode();
+    }
 }
 
-void CMARGBGen2A1controller::SendDirectChannel(unsigned int zone_id, std::vector<RGBColor> colors)
+void CMARGBGen2A1controller::SendChannelColors(unsigned int zone_id, unsigned int subchannel_id, std::vector<RGBColor> colors)
 {
     /*---------------------------------------------*\
     | Create the color data array                   |
@@ -160,53 +189,53 @@ void CMARGBGen2A1controller::SendDirectChannel(unsigned int zone_id, std::vector
 
     unsigned int offset;
 
-    unsigned char packet_start[CM_ARGB_GEN2_A1_PACKETS_PER_CHANNEL] =
+    /*----------------------------------------------------*\
+    | Break-up color data in packet/s                      |
+    | Intentionally clearing first packet only             |
+    | Leaving garbage on subsequent packets                |
+    | Original software appears to not clear them anyways. |
+    \*----------------------------------------------------*/
+    memset(usb_buf, 0x00, CM_ARGB_GEN2_A1_PACKET_LENGTH);
+    for(unsigned int p = 0; p < CM_ARGB_GEN2_A1_PACKETS_PER_CHANNEL && it != color_data.end(); p++)
     {
-        0x00, 0x01, 0x82
-    };
+        offset = 1;
 
-    /*---------------------------------------------*\
-    | Send 3 packets for the zone                   |
-    \*---------------------------------------------*/
-    for(unsigned int p = 0; p < CM_ARGB_GEN2_A1_PACKETS_PER_CHANNEL; p++)
-    {
-        memset(usb_buf, 0x00, CM_ARGB_GEN2_A1_PACKET_LENGTH);
+        usb_buf[offset++] = p;
+        usb_buf[offset++] = CM_ARGB_GEN2_A1_SET_RGB_VALUES;
+        usb_buf[offset++] = CM_ARGB_GEN2_A1_WRITE;
+        usb_buf[offset++] = 1 << zone_id;
+        usb_buf[offset++] = 1 << subchannel_id;
 
-        usb_buf[1] = packet_start[p];
-        usb_buf[2] = 0x09;
-
-        if(p == 0)
+        while(it != color_data.end() && offset < CM_ARGB_GEN2_A1_PACKET_LENGTH)
         {
-            usb_buf[3] = 1 << zone_id;
-            usb_buf[5] = 0x3C;
-
-            offset = 6;
-        }
-        else
-        {
-            offset = 3;
-        }
-
-        while(offset < CM_ARGB_GEN2_A1_PACKET_LENGTH && it != color_data.end())
-        {
-            usb_buf[offset] = *it;
-            offset++;
+            usb_buf[offset++] = *it;
             it++;
+        }
+
+        if(p >= CM_ARGB_GEN2_A1_PACKETS_PER_CHANNEL - 1 || it == color_data.end())
+        {
+            /*--------------------------*\
+            | Rewrite as end packet      |
+            \*--------------------------*/
+            usb_buf[1] = p + 0x80;
         }
 
         hid_write(dev, usb_buf, CM_ARGB_GEN2_A1_PACKET_LENGTH);
 
-        /*---------------------------------------------*\
-        | This device needs some delay before we send   |
-        | any other packet                              |
-        \*---------------------------------------------*/
-        std::this_thread::sleep_for(std::chrono::milliseconds(1));
+        /*-----------------------------------------------*\
+        | This device needs some delay before we send     |
+        | any other packet :(                             |
+        | This time is critical since the device is       |
+        | still latching its input buffer.                |
+        | Reducing this may start to introduce artifacts  |
+        \*-----------------------------------------------*/
+        std::this_thread::sleep_for(std::chrono::milliseconds(CM_ARGB_GEN2_A1_SLEEP_MEDIUM));
     }
 
     /*---------------------------------------------*\
     | Next channel needs some delay as well         |
     \*---------------------------------------------*/
-    std::this_thread::sleep_for(std::chrono::milliseconds(2));
+    std::this_thread::sleep_for(std::chrono::milliseconds(CM_ARGB_GEN2_A1_SLEEP_SHORT));
 }
 
 void CMARGBGen2A1controller::SetMode(unsigned int mode_value, unsigned char speed, unsigned char brightness, RGBColor color, bool random)
@@ -228,7 +257,7 @@ void CMARGBGen2A1controller::SetMode(unsigned int mode_value, unsigned char spee
 
         software_mode_activated = false;
 
-        std::this_thread::sleep_for(std::chrono::milliseconds(10));
+        std::this_thread::sleep_for(std::chrono::milliseconds(CM_ARGB_GEN2_A1_SLEEP_LONG));
     }
 
     /*---------------------------------------------*\
@@ -240,16 +269,20 @@ void CMARGBGen2A1controller::SetMode(unsigned int mode_value, unsigned char spee
     usb_buf[2] = CM_ARGB_GEN2_A1_HW_MODE_SETUP;
     usb_buf[3] = CM_ARGB_GEN2_A1_WRITE;
 
-    usb_buf[4] = 0xFF;
-    usb_buf[5] = 0xFF;
+    usb_buf[4] = CM_ARGB_GEN2_A1_CHANNEL_ALL;
+    usb_buf[5] = CM_ARGB_GEN2_A1_SUBCHANNEL_ALL;
 
     usb_buf[6] = mode_value;
 
-    bool is_custom_mode = mode_value == CM_ARGB_GEN2_A1_CUSTOM_MODE;
+    bool is_custom_mode = (mode_value == CM_ARGB_GEN2_A1_CUSTOM_MODE);
 
     if(is_custom_mode)
     {
-        usb_buf[8] = 0xFF;
+        usb_buf[7]  = CM_ARGB_GEN2_A1_SPEED_MAX;
+        usb_buf[8]  = CM_ARGB_GEN2_A1_BRIGHTNESS_MAX;
+        usb_buf[9]  = 0xFF; // R
+        usb_buf[10] = 0xFF; // G
+        usb_buf[11] = 0xFF; // B
     }
     else
     {
@@ -261,10 +294,9 @@ void CMARGBGen2A1controller::SetMode(unsigned int mode_value, unsigned char spee
         usb_buf[12] = random;
     }
 
-
     hid_write(dev, usb_buf, CM_ARGB_GEN2_A1_PACKET_LENGTH);
 
-    std::this_thread::sleep_for(std::chrono::milliseconds(10));
+    std::this_thread::sleep_for(std::chrono::milliseconds(CM_ARGB_GEN2_A1_SLEEP_LONG));
 
     if(is_custom_mode)
     {
@@ -289,83 +321,58 @@ std::vector<unsigned char> CMARGBGen2A1controller::CreateColorData(std::vector<R
     return(color_data);
 }
 
-
-void CMARGBGen2A1controller::SetCustomColors(unsigned int zone_id, std::vector<RGBColor> colors)
-{
-    unsigned char usb_buf[CM_ARGB_GEN2_A1_PACKET_LENGTH];
-
-    /*---------------------------------------------*\
-    | Create the color data array                   |
-    \*---------------------------------------------*/
-    std::vector<unsigned char> color_data = CreateColorData(colors);
-
-    std::vector<unsigned char>::iterator it = color_data.begin();
-
-    unsigned char packet_start[5] =
-    {
-        CM_ARGB_GEN2_A1_COMMAND, 0x00, 0x01, 0x02, 0x83
-    };
-
-    /*---------------------------------------------*\
-    | Send the 5 packets of colors                  |
-    \*---------------------------------------------*/
-    for(unsigned int p = 0; p < 5; p++)
-    {
-        memset(usb_buf, 0x00, CM_ARGB_GEN2_A1_PACKET_LENGTH);
-
-        usb_buf[1] = packet_start[p];
-
-        /*----------------------------------------------*\
-        | This part isnt well understood                 |
-        | 1st packet starts with CM_ARGB_GEN2_A1_COMMAND |
-        | Looks like it is a read command                |
-        \*----------------------------------------------*/
-        usb_buf[2] = p == 0 ? 0x06 : 0x08; // 0x08 custom data, 0x06 sizes?
-        usb_buf[3] = p == 0 ? 0x01 : 0x02; // read/write has no meaning here
-
-        usb_buf[4] = 1 << zone_id;
-
-        unsigned int offset = 6;
-
-        while(p > 0 && offset < CM_ARGB_GEN2_A1_PACKET_LENGTH && it != color_data.end())
-        {
-            usb_buf[offset] = *it;
-            offset++;
-            it++;
-        }
-
-        hid_write(dev, usb_buf, CM_ARGB_GEN2_A1_PACKET_LENGTH);
-
-        std::this_thread::sleep_for(std::chrono::milliseconds(20));
-    }
-
-}
-
 void CMARGBGen2A1controller::SetCustomSequence(unsigned int zone_id)
 {
     unsigned char usb_buf[CM_ARGB_GEN2_A1_PACKET_LENGTH];
 
-    const unsigned char static_seq = 0x01;
-
     /*---------------------------------------------*\
-    | Set the mode sequence to full static          |
-    | (01 for static)                               |
+    | Set custom speed for sequence mode            |
     \*---------------------------------------------*/
     memset(usb_buf, 0x00, CM_ARGB_GEN2_A1_PACKET_LENGTH);
 
+    usb_buf[1] = CM_ARGB_GEN2_A1_COMMAND;
+    usb_buf[2] = CM_ARGB_GEN2_A1_CUSTOM_SPEED;
+    usb_buf[3] = CM_ARGB_GEN2_A1_WRITE;
+    usb_buf[4] = 1 << zone_id; // CHANNEL
+    usb_buf[5] = 0x32;
+
+    hid_write(dev, usb_buf, CM_ARGB_GEN2_A1_PACKET_LENGTH);
+
+    std::this_thread::sleep_for(std::chrono::milliseconds(CM_ARGB_GEN2_A1_SLEEP_SHORT));
+
+    SetPipelineStaticSequence(zone_id);
+}
+
+void CMARGBGen2A1controller::SetPipelineStaticSequence(unsigned int zone_id)
+{
+    /*------------------------------------------------*\
+    | Set the mode sequence to full static             |
+    | All steps on the effect pipeline to 0x01 STATIC  |
+    \*------------------------------------------------*/
+    unsigned char usb_buf[CM_ARGB_GEN2_A1_PACKET_LENGTH];
+    memset(usb_buf, CM_ARGB_GEN2_A1_STATIC_MODE, CM_ARGB_GEN2_A1_PACKET_LENGTH);
+
+    usb_buf[0]  = 0x00;
     usb_buf[1]  = CM_ARGB_GEN2_A1_COMMAND;
     usb_buf[2]  = CM_ARGB_GEN2_A1_CUSTOM_SEQUENCES;
     usb_buf[3]  = CM_ARGB_GEN2_A1_WRITE;
     usb_buf[4]  = 1 << zone_id;
 
-    usb_buf[5]  = static_seq;
-    usb_buf[6]  = static_seq;
-    usb_buf[7]  = static_seq;
-    usb_buf[8]  = static_seq;
-    usb_buf[9]  = static_seq;
-    usb_buf[10] = static_seq;
+    hid_write(dev, usb_buf, CM_ARGB_GEN2_A1_PACKET_LENGTH);
+
+    std::this_thread::sleep_for(std::chrono::milliseconds(CM_ARGB_GEN2_A1_SLEEP_LONG));
+}
+
+void CMARGBGen2A1controller::ResetDevice()
+{
+    unsigned char usb_buf[CM_ARGB_GEN2_A1_PACKET_LENGTH];
+
+    memset(usb_buf, 0x00, CM_ARGB_GEN2_A1_PACKET_LENGTH);
+    usb_buf[1]  = CM_ARGB_GEN2_A1_COMMAND;
+    usb_buf[2]  = CM_ARGB_GEN2_A1_RESET;
+    usb_buf[3]  = CM_ARGB_GEN2_A1_WRITE;
 
     hid_write(dev, usb_buf, CM_ARGB_GEN2_A1_PACKET_LENGTH);
 
-    std::this_thread::sleep_for(std::chrono::milliseconds(10));
+    std::this_thread::sleep_for(std::chrono::milliseconds(CM_ARGB_GEN2_A1_SLEEP_LONG));
 }
