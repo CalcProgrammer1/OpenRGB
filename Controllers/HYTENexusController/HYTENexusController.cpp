@@ -194,7 +194,20 @@ void HYTENexusController::LEDStreaming(unsigned char channel, unsigned short led
         command_buf[9 + offset] = RGBGetBValue(colors[led_idx]);
     }
 
-    serialport->serial_write((char *)command_buf, ((led_count * 3) + 7));
+    /*-----------------------------------------------------*\
+    | The HYTE THICC Q60 requires 90 bytes to be sent for   |
+    | the 4th channel (logo) even though it only has 4 LEDs |
+    \*-----------------------------------------------------*/
+    unsigned char bytes_to_send = ((led_count * 3) + 7);
+
+    if((device_pid == HYTE_THICC_Q60_PID)
+    && (channel == 3)
+    && (bytes_to_send < 90))
+    {
+        bytes_to_send = 90;
+    }
+
+    serialport->serial_write((char *)command_buf, bytes_to_send);
     serialport->serial_flush_tx();
     serialport->serial_flush_rx();
 
