@@ -22,7 +22,6 @@
 #define FURY_BASE_ADDR_DDR4 0x58
 #define FURY_BASE_ADDR_DDR5 0x60
 #define FURY_DELAY std::chrono::milliseconds(10)
-#define FURY_MAX_SLOTS 8
 #define FURY_LEDS_PER_DIMM_DDR4 10
 #define FURY_LEDS_PER_DIMM_DDR5 12
 #define FURY_MAX_MODE_COLORS 10

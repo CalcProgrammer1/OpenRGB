@@ -20,6 +20,7 @@
 #include <string>
 #include <hidapi.h>
 #include "cli.h"
+#include "pci_ids/pci_ids.h"
 #include "ResourceManager.h"
 #include "ProfileManager.h"
 #include "LogManager.h"
@@ -269,6 +270,18 @@ void ResourceManager::RegisterI2CDeviceDetector(std::string name, I2CDeviceDetec
 {
     i2c_device_detector_strings.push_back(name);
     i2c_device_detectors.push_back(detector);
+}
+
+void ResourceManager::RegisterI2CDIMMDeviceDetector(std::string name, I2CDIMMDeviceDetectorFunction detector, uint16_t jedec_id, uint8_t dimm_type)
+{
+    I2CDIMMDeviceDetectorBlock block;
+
+    block.name          = name;
+    block.function      = detector;
+    block.jedec_id      = jedec_id;
+    block.dimm_type     = dimm_type;
+
+    i2c_dimm_device_detectors.push_back(block);
 }
 
 void ResourceManager::RegisterI2CPCIDeviceDetector(std::string name, I2CPCIDeviceDetectorFunction detector, uint16_t ven_id, uint16_t dev_id, uint16_t subven_id, uint16_t subdev_id, uint8_t i2c_addr)
@@ -1009,7 +1022,7 @@ void ResourceManager::DetectDevicesThreadFunction()
         current_hid_device = current_hid_device->next;
     }
 
-    percent_denominator = (float)(i2c_device_detectors.size() + i2c_pci_device_detectors.size() + device_detectors.size()) + (float)hid_device_count;
+    percent_denominator = (float)(i2c_device_detectors.size() + i2c_dimm_device_detectors.size() + i2c_pci_device_detectors.size() + device_detectors.size()) + (float)hid_device_count;
 
     /*-------------------------------------------------*\
     | Start at 0% detection progress                    |
@@ -1103,6 +1116,70 @@ void ResourceManager::DetectDevicesThreadFunction()
         percent = ((float)i2c_detector_idx + 1.0f) / percent_denominator;
 
         detection_percent = (unsigned int)(percent * 100.0f);
+    }
+
+    /*-------------------------------------------------*\
+    | Detect i2c DIMM modules                           |
+    \*-------------------------------------------------*/
+    LOG_INFO("------------------------------------------------------");
+    LOG_INFO("|            Detecting I2C DIMM modules              |");
+    LOG_INFO("------------------------------------------------------");
+    for(unsigned int bus = 0; bus < busses.size(); bus++)
+    {
+        IF_DRAM_SMBUS(busses[bus]->pci_vendor, busses[bus]->pci_device)
+        {
+            std::vector<SPDWrapper> slots;
+            SPDMemoryType dimm_type = SPD_RESERVED;
+
+            for(uint8_t spd_addr = 0x50; spd_addr < 0x58; spd_addr++)
+            {
+                SPDDetector spd(busses[bus], spd_addr, dimm_type);
+                if(spd.is_valid())
+                {
+                    SPDWrapper accessor(spd);
+                    dimm_type = spd.memory_type();
+                    LOG_INFO("Detected occupied slot %d, bus %d, type %s", spd_addr - 0x50 + 1, bus, spd_memory_type_name[dimm_type]);
+                    LOG_DEBUG("Jedec ID: 0x%04x", accessor.jedec_id());
+                    slots.push_back(accessor);
+                }
+            }
+
+            for(unsigned int i2c_detector_idx = 0; i2c_detector_idx < i2c_dimm_device_detectors.size() && detection_is_required.load(); i2c_detector_idx++)
+            {
+                if(i2c_dimm_device_detectors[i2c_detector_idx].dimm_type == dimm_type &&
+                   is_jedec_in_slots(slots, i2c_dimm_device_detectors[i2c_detector_idx].jedec_id))
+                {
+                    detection_string = i2c_dimm_device_detectors[i2c_detector_idx].name.c_str();
+
+                    /*-------------------------------------------------*\
+                    | Check if this detector is enabled                 |
+                    \*-------------------------------------------------*/
+                    bool this_device_enabled = true;
+                    if(detector_settings.contains("detectors") && detector_settings["detectors"].contains(detection_string))
+                    {
+                        this_device_enabled = detector_settings["detectors"][detection_string];
+                    }
+
+                    LOG_DEBUG("[%s] is %s", detection_string, ((this_device_enabled == true) ? "enabled" : "disabled"));
+                    if(this_device_enabled)
+                    {
+                        DetectionProgressChanged();
+
+                        std::vector<SPDWrapper*> matching_slots = slots_with_jedec(slots, i2c_dimm_device_detectors[i2c_detector_idx].jedec_id);
+                        i2c_dimm_device_detectors[i2c_detector_idx].function(busses[bus], matching_slots);
+                    }
+
+                    LOG_TRACE("[%s] detection end", detection_string);
+                }
+
+                /*-------------------------------------------------*\
+                | Update detection percent                          |
+                \*-------------------------------------------------*/
+                percent = ((float)i2c_detector_idx + 1.0f) / percent_denominator;
+
+                detection_percent = (unsigned int)(percent * 100.0f);
+            }
+        }
     }
 
     /*-------------------------------------------------*\

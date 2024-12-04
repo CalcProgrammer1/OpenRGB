@@ -208,6 +208,7 @@ SOURCES +=                                                                      
     PluginManager.cpp                                                                           \
     ProfileManager.cpp                                                                          \
     ResourceManager.cpp                                                                         \
+    SPDAccessor.cpp                                                                             \
     SettingsManager.cpp                                                                         \
     i2c_smbus/i2c_smbus.cpp                                                                     \
     i2c_tools/i2c_tools.cpp                                                                     \

@@ -18,6 +18,8 @@
 #include <functional>
 #include <thread>
 #include <string>
+#include <vector>
+#include "SPDAccessor.h"
 #include "hidapi_wrapper.h"
 #include "i2c_smbus.h"
 #include "filesystem.h"
@@ -38,6 +40,7 @@ class SettingsManager;
 typedef std::function<bool()>                                                               I2CBusDetectorFunction;
 typedef std::function<void()>                                                               DeviceDetectorFunction;
 typedef std::function<void(std::vector<i2c_smbus_interface*>&)>                             I2CDeviceDetectorFunction;
+typedef std::function<void(i2c_smbus_interface*, std::vector<SPDWrapper*>&)>                I2CDIMMDeviceDetectorFunction;
 typedef std::function<void(i2c_smbus_interface*, uint8_t, const std::string&)>              I2CPCIDeviceDetectorFunction;
 typedef std::function<void(hid_device_info*, const std::string&)>                           HIDDeviceDetectorFunction;
 typedef std::function<void(hidapi_wrapper wrapper, hid_device_info*, const std::string&)>   HIDWrappedDeviceDetectorFunction;
@@ -79,6 +82,14 @@ typedef struct
     uint16_t                        subdev_id;
     uint8_t                         i2c_addr;
 } I2CPCIDeviceDetectorBlock;
+
+typedef struct
+{
+    std::string                     name;
+    I2CDIMMDeviceDetectorFunction   function;
+    uint16_t                        jedec_id;
+    uint8_t                         dimm_type;
+} I2CDIMMDeviceDetectorBlock;
 
 typedef void (*DeviceListChangeCallback)(void *);
 typedef void (*DetectionProgressCallback)(void *);
@@ -144,6 +155,7 @@ public:
     void RegisterI2CBusDetector         (I2CBusDetectorFunction     detector);
     void RegisterDeviceDetector         (std::string name, DeviceDetectorFunction     detector);
     void RegisterI2CDeviceDetector      (std::string name, I2CDeviceDetectorFunction  detector);
+    void RegisterI2CDIMMDeviceDetector  (std::string name, I2CDIMMDeviceDetectorFunction detector, uint16_t jedec_id, uint8_t dimm_type);
     void RegisterI2CPCIDeviceDetector   (std::string name, I2CPCIDeviceDetectorFunction detector, uint16_t ven_id, uint16_t dev_id, uint16_t subven_id, uint16_t subdev_id, uint8_t i2c_addr);
     void RegisterHIDDeviceDetector      (std::string name,
                                          HIDDeviceDetectorFunction  detector,
@@ -289,6 +301,7 @@ private:
     std::vector<I2CBusDetectorFunction>         i2c_bus_detectors;
     std::vector<I2CDeviceDetectorFunction>      i2c_device_detectors;
     std::vector<std::string>                    i2c_device_detector_strings;
+    std::vector<I2CDIMMDeviceDetectorBlock>     i2c_dimm_device_detectors;
     std::vector<I2CPCIDeviceDetectorBlock>      i2c_pci_device_detectors;
     std::vector<HIDDeviceDetectorBlock>         hid_device_detectors;
     std::vector<HIDWrappedDeviceDetectorBlock>  hid_wrapped_device_detectors;
