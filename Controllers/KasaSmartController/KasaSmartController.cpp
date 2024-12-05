@@ -314,7 +314,7 @@ bool KasaSmartController::SendCommand(std::string command, std::string &response
 
     unsigned char* receive_buffer = new unsigned char[KASA_SMART_RECEIVE_BUFFER_SIZE];
     int response_length = port.tcp_listen((char*)receive_buffer, KASA_SMART_RECEIVE_BUFFER_SIZE);
-    if(response_length > KASA_SMART_RECEIVE_BUFFER_SIZE) {
+    if(response_length > KASA_SMART_RECEIVE_BUFFER_SIZE || response_length <= 0) {
         /*-------------------------------------------------------------*\
         | Small fail safes to prevent decrypting bad or empty responses |
         \*-------------------------------------------------------------*/
