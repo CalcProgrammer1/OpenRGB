@@ -14,7 +14,7 @@ USB access permissions vary based on the type of device and the operating system
 
 ## Linux
 
-  * USB devices require [udev rules](Documentation/UdevRules.md) to access as a normal user.
+  * USB devices require [udev rules](/Documentation/UdevRules.md) to access as a normal user.
   * Alternatively you can run OpenRGB as root to detect all USB devices. (Not recommended)
   * USB based Gigabyte AORUS motherboards may also have an ACPI conflict. Please [add a kernel parameter](#kernel-parameters) to resolve this conflict.
 
