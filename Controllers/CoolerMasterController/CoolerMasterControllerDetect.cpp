@@ -19,6 +19,7 @@
 \*-----------------------------------------------------*/
 #include "RGBController_CMMMController.h"
 #include "RGBController_CMMM711Controller.h"
+#include "RGBController_CMMM712Controller.h"
 #include "RGBController_CMMP750Controller.h"
 #include "RGBController_CMARGBController.h"
 #include "RGBController_CMSmallARGBController.h"
@@ -59,6 +60,7 @@
 #define COOLERMASTER_MM530_PID                      0x0065
 #define COOLERMASTER_MM531_PID                      0x0097
 #define COOLERMASTER_MM711_PID                      0x0101
+#define COOLERMASTER_MM712_PID                      0x0169
 #define COOLERMASTER_MM720_PID                      0x0141
 #define COOLERMASTER_MM730_PID                      0x0165
 
@@ -231,6 +233,15 @@ void DetectCoolerMasterMouse(hid_device_info* info, const std::string& name)
                 }
                 break;
 
+            case COOLERMASTER_MM712_PID:
+                {
+                    CMMM712Controller*               controller     = new CMMM712Controller(dev, info->path);
+                    RGBController_CMMM712Controller* rgb_controller = new RGBController_CMMM712Controller(controller);
+                    // Constructor sets the name
+                    ResourceManager::get()->RegisterRGBController(rgb_controller);
+                }
+                break;
+
             default:
                 LOG_DEBUG("[%s] Controller not created as the product ID %04X is missing from detector switch", name.c_str(), info->product_id);
          }
@@ -328,6 +339,7 @@ REGISTER_HID_DETECTOR_IPU("Cooler Master Small ARGB",               DetectCooler
 REGISTER_HID_DETECTOR_IPU("Cooler Master MM530",                    DetectCoolerMasterMouse,        COOLERMASTER_VID,   COOLERMASTER_MM530_PID,                     1,      0xFF00, 1);
 //REGISTER_HID_DETECTOR_IPU("Cooler Master MM531",                  DetectCoolerMasterMouse,        COOLERMASTER_VID,   COOLERMASTER_MM531_PID,                     1,      0xFF00, 1);
 REGISTER_HID_DETECTOR_IPU("Cooler Master MM711",                    DetectCoolerMasterMouse,        COOLERMASTER_VID,   COOLERMASTER_MM711_PID,                     1,      0xFF00, 1);
+REGISTER_HID_DETECTOR_IPU("Cooler Master MM712",                    DetectCoolerMasterMouse,        COOLERMASTER_VID,   COOLERMASTER_MM712_PID,                     3,      0xFF0A, 2);
 REGISTER_HID_DETECTOR_IPU("Cooler Master MM720",                    DetectCoolerMasterMouse,        COOLERMASTER_VID,   COOLERMASTER_MM720_PID,                     1,      0xFF00, 1);
 REGISTER_HID_DETECTOR_IPU("Cooler Master MM730",                    DetectCoolerMasterMouse,        COOLERMASTER_VID,   COOLERMASTER_MM730_PID,                     1,      0xFF00, 1);
 

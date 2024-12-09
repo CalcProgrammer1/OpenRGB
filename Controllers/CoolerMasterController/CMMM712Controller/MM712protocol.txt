@@ -1,0 +1,108 @@
+Analysis of the MM712 protocol
+By Frans Meulenbroeks
+PID 0x2516, VID 0x0169
+We must use interface 3
+C = Command, R = Response
+
+Init:
+=====
+C: 0x00 0x44 0x81 0x02
+R: 0x45 0x81 0x02 0x02 0x01
+First byte is second byte of command+1, 2nd and 3rd byte are the 3rd and 4th byte of the command
+No idea what the last two bytes are.
+This init command inits to normal state. 
+After that one can submit all normal commands. These give a response.
+
+C: 0x00 0x5a 0x81 0x02
+R: 0x5b 0x81 0x02
+This init command inits to direct state. 
+After that one can submit all direct state commands. These give no response
+
+Note that you can always change between the two states by giving the appropriate init command.
+
+I have also seen 
+C: 0x00, 0x46, 0x81
+0x46 is command code
+R: 47 81 50 03 00 00 f2 9b 1e 00 64 02 00 00 00 ff 03 06 00 ...
+No idea what the response data is
+This also brought the device to type-4 state.
+
+NORMAL COMMANDS
+===============
+
+Query stored colors:
+====================
+C: 0x00 0x4c 0x81 0x03 0  
+R: 0x4d 0x81 0x03 0x06 0xff 0x00 0xff 0xff 0x00 
+                       Brig Spee Red  Gree Blue  Speed is not really relevant
+These are the settings for the static mode
+
+C: 0x00 0x4c 0x81 0x03 1
+R: 0x4d 0x81 0x03 0xff 0xff 0x04 0xff 0x00 0x00 0xff 
+                       Brig Spee Red  Gree Blue
+These are the settings for the breathing mode
+
+C: 0x00 0x4c 0x81 0x03 2
+R: 0x81 0x03 0x06 0x7f 0x02
+                  Brig Spee
+These are the settings for the cycling mode
+
+C: 0x00 0x4c 0x81 0x03 3
+R: 0x4d 0x81 0x03 0x06 0x00
+This is the response for the off mode
+Other/higher numbers also return this value
+
+Detecting the mode:
+===================
+C: 0x00 0x4c 0x81 0x07
+R: 0x4d 0x81 0x07 0x01
+                  ^ actual mode
+
+Setting the mode:
+=================
+C: 0x00 0x4c 0x81 0x08 0x01
+                       ^ new mode 0=static,1=breathing,2=cycling,3 or higher=off
+R: 0x4d 0x81 0x07 0x01
+   can't explain the 0x07; later calls returned 0x08 in this field
+
+C: 0x00 0x4c 0x81 0x08 0x02
+R: 0x4d 0x81 0x08 0x02
+
+Setting the color:
+==================
+C: 0x00 0x4c 0x81 0x04 0x00 0xff 0xff 0x02 0x00 0xff 0x00
+                  cmd  mode ???? brig spee red  gree blue    Speed is only relevant for breathing and cyclic, color is not relevant for cyclic
+  This sets the color, speed and brightness for the specific mode. 
+  Note that this does not imply a mode switch
+  The first 0xff byte does not seem to do anything. I've changed to a different number but saw no result
+R: 0x47 0x81 0x50 0x03 0x00 0x00 0xf2 0x9b 0x1e 0x00 0x64 0x02 0x00 0x00 0x00 0xff 0x01 0xff 0x00 0x00
+No idea what this means, Reply seems independent of color set
+
+Saving values:
+==============
+C: 0x00 0x54 0x81 0x01
+This saves the actual color for all modes and the mode itself to internal flash
+R: 0x55 0x81 0x01 0x00 
+
+Change Profile
+==============
+C: 0x00 0x44 0x81 0x01 0x02
+                       ^ new profile must be in [0..4] otherwise this is a no-op
+R: 0x45 0x81 0x01 0x02 0x01
+                       ^ it is unclear what this value is, values 0, 1 and 2 are observed
+
+
+DIRECT COMMANDS
+==============
+C: 0x00 0x5a 0x81 0x01
+Leave direct state (return to normal, note that a new init for normal is needed)
+
+C: 0x00 0x5a 0x81 0x03 0xff 0x00 0x25
+                       red  gree blue  This changes the color right away. No response is generated.
+                                       CoolerMaster MasterPlus software uses this to dynamically generate animations
+
+Final notes:
+It is possible to change the mode on the mouse (see mouse doc). 
+This also changes the value in flash
+It is also possible to change the colors in mode 0 and 1 using the mouse.
+8 different colors can be selected. I did not find a way to define these colors from software so I suspect these are hardcoded
