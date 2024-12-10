@@ -13,7 +13,7 @@ and what you expect the correct behavior to be.
 
 ### Attached Log
 <!--
-Please attach a verbose log, you can do it by running the exe from cmd with '--loglevel 6' flag.
+Please attach a verbose log, you can do it by running the exe from cmd with '--loglevel 6' flag or in case of MacOs use the terminal: 'open -a OpenRGB --args --loglevel 6'.
 You can locate them using the Settings tab and click the 'Open Settings Folder' button.
 Important!! Please upload the logs made with the latest pipeline build of OpenRGB.
 -->
