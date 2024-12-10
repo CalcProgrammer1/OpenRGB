@@ -23,6 +23,9 @@
 #include "hidapi_wrapper.h"
 #include "i2c_smbus.h"
 #include "filesystem.h"
+#include "json.hpp"
+
+using json = nlohmann::json;
 
 #define HID_INTERFACE_ANY   -1
 #define HID_USAGE_ANY       -1
@@ -231,6 +234,7 @@ private:
     void InitThreadFunction();
     bool ProcessPreDetection();
     void ProcessPostDetection();
+    bool IsAnyDimmDetectorEnabled(json &detector_settings);
 
     /*-------------------------------------------------------------------------------------*\
     | Static pointer to shared instance of ResourceManager                                  |

@@ -95,7 +95,10 @@ void SPDDetector::detect_memory_type()
         else
         {
             mem_type = (SPDMemoryType) value;
-            valid = true;
+            // We are only interested in DDR4 and DDR5 systems
+            valid = (mem_type == SPD_DDR4_SDRAM || mem_type == SPD_DDR4E_SDRAM ||
+                     mem_type == SPD_LPDDR4_SDRAM || mem_type == SPD_LPDDR4X_SDRAM ||
+                     mem_type == SPD_DDR5_SDRAM || mem_type == SPD_LPDDR5_SDRAM);
         }
         return;
     }
@@ -122,7 +125,10 @@ i2c_smbus_interface *SPDDetector::smbus() const
 
 SPDWrapper::SPDWrapper(const SPDWrapper &wrapper)
 {
-    this->accessor = wrapper.accessor->copy();
+    if(wrapper.accessor != nullptr)
+    {
+        this->accessor = wrapper.accessor->copy();
+    }
     this->address = wrapper.address;
     this->mem_type = wrapper.mem_type;
 }

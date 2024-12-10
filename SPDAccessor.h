@@ -103,7 +103,7 @@ class SPDWrapper
     uint16_t jedec_id();
 
   private:
-    SPDAccessor *accessor;
+    SPDAccessor *accessor = nullptr;
     uint8_t address;
     SPDMemoryType mem_type;
 };

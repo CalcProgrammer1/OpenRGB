@@ -1124,7 +1124,7 @@ void ResourceManager::DetectDevicesThreadFunction()
     LOG_INFO("------------------------------------------------------");
     LOG_INFO("|            Detecting I2C DIMM modules              |");
     LOG_INFO("------------------------------------------------------");
-    for(unsigned int bus = 0; bus < busses.size(); bus++)
+    for(unsigned int bus = 0; bus < busses.size() && IsAnyDimmDetectorEnabled(detector_settings); bus++)
     {
         IF_DRAM_SMBUS(busses[bus]->pci_vendor, busses[bus]->pci_device)
         {
@@ -1175,7 +1175,7 @@ void ResourceManager::DetectDevicesThreadFunction()
                 /*-------------------------------------------------*\
                 | Update detection percent                          |
                 \*-------------------------------------------------*/
-                percent = ((float)i2c_detector_idx + 1.0f) / percent_denominator;
+                percent = (i2c_device_detectors.size() + i2c_detector_idx + 1.0f) / percent_denominator;
 
                 detection_percent = (unsigned int)(percent * 100.0f);
             }
@@ -1223,7 +1223,7 @@ void ResourceManager::DetectDevicesThreadFunction()
         /*-------------------------------------------------*\
         | Update detection percent                          |
         \*-------------------------------------------------*/
-        percent = (i2c_device_detectors.size() + i2c_detector_idx + 1.0f) / percent_denominator;
+        percent = (i2c_device_detectors.size() + i2c_dimm_device_detectors.size() + i2c_detector_idx + 1.0f) / percent_denominator;
 
         detection_percent = (unsigned int)(percent * 100.0f);
     }
@@ -1378,7 +1378,7 @@ void ResourceManager::DetectDevicesThreadFunction()
             \*-------------------------------------------------*/
             hid_device_count++;
 
-            percent = (i2c_device_detectors.size() + i2c_pci_device_detectors.size() + hid_device_count) / percent_denominator;
+            percent = (i2c_device_detectors.size() + i2c_dimm_device_detectors.size() + i2c_pci_device_detectors.size() + hid_device_count) / percent_denominator;
 
             detection_percent = (unsigned int)(percent * 100.0f);
 
@@ -1491,7 +1491,7 @@ void ResourceManager::DetectDevicesThreadFunction()
             \*-------------------------------------------------*/
             hid_device_count++;
 
-            percent = (i2c_device_detectors.size() + i2c_pci_device_detectors.size() + hid_device_count) / percent_denominator;
+            percent = (i2c_device_detectors.size() + i2c_dimm_device_detectors.size() + i2c_pci_device_detectors.size() + hid_device_count) / percent_denominator;
 
             detection_percent = percent * 100.0f;
 
@@ -1730,6 +1730,21 @@ void ResourceManager::UpdateDetectorSettings()
     }
 
     /*-------------------------------------------------*\
+    | Loop through all I2C DIMM detectors and see       |
+    | if any need to be saved to the settings           |
+    \*-------------------------------------------------*/
+    for(unsigned int i2c_detector_idx = 0; i2c_detector_idx < (unsigned int)i2c_dimm_device_detectors.size(); i2c_detector_idx++)
+    {
+        detection_string = i2c_dimm_device_detectors[i2c_detector_idx].name.c_str();
+
+        if(!(detector_settings.contains("detectors") && detector_settings["detectors"].contains(detection_string)))
+        {
+            detector_settings["detectors"][detection_string] = true;
+            save_settings = true;
+        }
+    }
+
+    /*-------------------------------------------------*\
     | Loop through all I2C PCI detectors and see if any |
     | need to be saved to the settings                  |
     \*-------------------------------------------------*/
@@ -1821,4 +1836,21 @@ void ResourceManager::WaitForDeviceDetection()
 {
     DetectDeviceMutex.lock();
     DetectDeviceMutex.unlock();
+}
+
+bool ResourceManager::IsAnyDimmDetectorEnabled(json &detector_settings)
+{
+    for(unsigned int i2c_detector_idx = 0; i2c_detector_idx < i2c_dimm_device_detectors.size() && detection_is_required.load(); i2c_detector_idx++)
+    {
+        detection_string = i2c_dimm_device_detectors[i2c_detector_idx].name.c_str();
+        /*-------------------------------------------------*\
+        | Check if this detector is enabled                 |
+        \*-------------------------------------------------*/
+        if(detector_settings.contains("detectors") && detector_settings["detectors"].contains(detection_string) &&
+           detector_settings["detectors"][detection_string] == false)
+        {
+            return false;
+        }
+    }
+    return true;
 }
