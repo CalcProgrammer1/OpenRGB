@@ -120,6 +120,7 @@ ResourceManager::ResourceManager()
     detection_percent           = 100;
     detection_string            = "";
     detection_is_required       = false;
+    DetectDevicesThread         = nullptr;
     dynamic_detectors_processed = false;
     init_finished               = false;
     background_thread_running    = true;
