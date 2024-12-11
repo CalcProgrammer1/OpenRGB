@@ -123,6 +123,7 @@ INCLUDEPATH +=                                                                  
     KeyboardLayoutManager/                                                                      \
     RGBController/                                                                              \
     qt/                                                                                         \
+    SPDAccessor/                                                                                \
     SuspendResume/
 
 HEADERS +=                                                                                      \
@@ -208,7 +209,12 @@ SOURCES +=                                                                      
     PluginManager.cpp                                                                           \
     ProfileManager.cpp                                                                          \
     ResourceManager.cpp                                                                         \
-    SPDAccessor.cpp                                                                             \
+    SPDAccessor/DDR4DirectAccessor.cpp                                                          \
+    SPDAccessor/DDR5DirectAccessor.cpp                                                          \
+    SPDAccessor/EE1004Accessor_Linux.cpp                                                        \
+    SPDAccessor/SPDAccessor.cpp                                                                 \
+    SPDAccessor/SPDDetector.cpp                                                                 \
+    SPDAccessor/SPDWrapper.cpp                                                                  \
     SettingsManager.cpp                                                                         \
     i2c_smbus/i2c_smbus.cpp                                                                     \
     i2c_tools/i2c_tools.cpp                                                                     \
