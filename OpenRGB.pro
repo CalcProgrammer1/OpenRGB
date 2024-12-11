@@ -123,6 +123,7 @@ INCLUDEPATH +=                                                                  
     KeyboardLayoutManager/                                                                      \
     RGBController/                                                                              \
     qt/                                                                                         \
+    SPDAccessor/                                                                                \
     SuspendResume/
 
 HEADERS +=                                                                                      \
@@ -208,7 +209,11 @@ SOURCES +=                                                                      
     PluginManager.cpp                                                                           \
     ProfileManager.cpp                                                                          \
     ResourceManager.cpp                                                                         \
-    SPDAccessor.cpp                                                                             \
+    SPDAccessor/DDR4DirectAccessor.cpp                                                          \
+    SPDAccessor/DDR5DirectAccessor.cpp                                                          \
+    SPDAccessor/SPDAccessor.cpp                                                                 \
+    SPDAccessor/SPDDetector.cpp                                                                 \
+    SPDAccessor/SPDWrapper.cpp                                                                  \
     SettingsManager.cpp                                                                         \
     i2c_smbus/i2c_smbus.cpp                                                                     \
     i2c_tools/i2c_tools.cpp                                                                     \
@@ -504,6 +509,8 @@ contains(QMAKE_PLATFORM, linux) {
     dependencies/NVFC/nvapi.h                                                                   \
     i2c_smbus/i2c_smbus_linux.h                                                                 \
     AutoStart/AutoStart-Linux.h                                                                 \
+    SPDAccessor/EE1004Accessor_Linux.h                                                          \
+    SPDAccessor/SPD5118Accessor_Linux.h                                                         \
     SuspendResume/SuspendResume_Linux_FreeBSD.h                                                 \
 
     INCLUDEPATH +=                                                                              \
@@ -558,6 +565,8 @@ contains(QMAKE_PLATFORM, linux) {
     scsiapi/scsiapi_linux.c                                                                     \
     serial_port/find_usb_serial_port_linux.cpp                                                  \
     AutoStart/AutoStart-Linux.cpp                                                               \
+    SPDAccessor/EE1004Accessor_Linux.cpp                                                        \
+    SPDAccessor/SPD5118Accessor_Linux.cpp                                                       \
     SuspendResume/SuspendResume_Linux_FreeBSD.cpp                                               \
 
     #-------------------------------------------------------------------------------------------#

@@ -19,7 +19,7 @@
 #include <thread>
 #include <string>
 #include <vector>
-#include "SPDAccessor.h"
+#include "SPDWrapper.h"
 #include "hidapi_wrapper.h"
 #include "i2c_smbus.h"
 #include "filesystem.h"
