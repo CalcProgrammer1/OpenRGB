@@ -415,7 +415,7 @@ void RGBController_EVGAKeyboard::SetupZones()
     /*-------------------------------------------------*\
     | Add configuration for the Z20                     |
     \*-------------------------------------------------*/
-    if(controller->GetPid() == 0x260A)
+    if(controller->GetPid() == 0x260A || controller->GetPid() == 0x2610)
     {
 
         for(uint8_t i = 0; i < EVGA_KEYBOARD_Z20_EXTRA_ZONES; i++)
