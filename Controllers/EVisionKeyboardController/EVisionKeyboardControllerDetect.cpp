@@ -36,6 +36,7 @@
 #define WOMIER_K87_PID              0x502A
 #define WOMIER_K66_PID              0x7698
 #define BYGG_CSB_ICL01_PID          0x5041
+#define GAMEPOWER_OGRE_RGB_PID      0x7672
 
 /******************************************************************************************\
 *                                                                                          *
@@ -126,3 +127,4 @@ REGISTER_HID_DETECTOR_IP("EVision Keyboard 320F:5084", DetectEVisionKeyboards,  
 REGISTER_HID_DETECTOR_IP("EVision Keyboard 320F:505B", DetectEVisionKeyboards,   EVISION_KEYBOARD2_VID, SKILLKORP_K5_PID,          1, EVISION_KEYBOARD_USAGE_PAGE);
 REGISTER_HID_DETECTOR_IP("Endorfy Omnis",              DetectEndorfyKeyboards,   EVISION_KEYBOARD3_VID, ENDORFY_OMNIS_PID,         1, EVISION_KEYBOARD_USAGE_PAGE);
 REGISTER_HID_DETECTOR_IP("CSB/ICL01 Keyboard",         DetectEVisionV2Keyboards, EVISION_KEYBOARD2_VID, BYGG_CSB_ICL01_PID,        1, EVISION_KEYBOARD_USAGE_PAGE);
+REGISTER_HID_DETECTOR_IP("Gamepower Ogre RGB 0C45:7672", DetectEVisionKeyboards,   EVISION_KEYBOARD_VID,  GAMEPOWER_OGRE_RGB_PID,    1, EVISION_KEYBOARD_USAGE_PAGE);
