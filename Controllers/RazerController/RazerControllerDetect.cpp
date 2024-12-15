@@ -323,6 +323,7 @@ REGISTER_HID_DETECTOR_I(  "Razer Tiamat 7.1 V2",                             Det
 \*-----------------------------------------------------------------------------------------------------*/
 REGISTER_HID_DETECTOR_IPU("Razer Firefly",                                   DetectRazerControllers,        RAZER_VID,  RAZER_FIREFLY_PID,                              0x00,   0x01,   0x02);
 REGISTER_HID_DETECTOR_IPU("Razer Firefly V2",                                DetectRazerControllers,        RAZER_VID,  RAZER_FIREFLY_V2_PID,                           0x00,   0x01,   0x02);
+REGISTER_HID_DETECTOR_IPU("Razer Firefly V2 Pro",                            DetectRazerControllers,        RAZER_VID,  RAZER_FIREFLY_V2_PRO_PID,                       0x00,   0x01,   0x02);
 REGISTER_HID_DETECTOR_IPU("Razer Firefly Hyperflux",                         DetectRazerControllers,        RAZER_VID,  RAZER_FIREFLY_HYPERFLUX_PID,                    0x00,   0x01,   0x02);
 REGISTER_HID_DETECTOR_IPU("Razer Goliathus",                                 DetectRazerControllers,        RAZER_VID,  RAZER_GOLIATHUS_CHROMA_PID,                     0x00,   0x01,   0x02);
 REGISTER_HID_DETECTOR_IPU("Razer Goliathus Chroma 3XL",                      DetectRazerControllers,        RAZER_VID,  RAZER_GOLIATHUS_CHROMA_3XL_PID,                 0x00,   0x01,   0x02);

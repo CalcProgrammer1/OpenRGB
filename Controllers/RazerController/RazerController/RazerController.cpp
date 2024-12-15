@@ -107,6 +107,7 @@ RazerController::RazerController(hid_device* dev_handle, hid_device* dev_argb_ha
         case RAZER_DEATHSTALKER_V2_PRO_WIRED_PID:
         case RAZER_DEATHSTALKER_V2_PRO_WIRELESS_PID:
         case RAZER_FIREFLY_V2_PID:
+        case RAZER_FIREFLY_V2_PRO_PID:
         case RAZER_FIREFLY_HYPERFLUX_PID:
         case RAZER_GOLIATHUS_CHROMA_EXTENDED_PID:
         case RAZER_GOLIATHUS_CHROMA_PID:
@@ -488,6 +489,7 @@ bool RazerController::SupportsWave()
         case RAZER_CORE_X_PID:
         case RAZER_FIREFLY_PID:
         case RAZER_FIREFLY_V2_PID:
+        case RAZER_FIREFLY_V2_PRO_PID:
         case RAZER_FIREFLY_HYPERFLUX_PID:
         case RAZER_LAPTOP_STAND_CHROMA_PID:
         case RAZER_LAPTOP_STAND_CHROMA_V2_PID:

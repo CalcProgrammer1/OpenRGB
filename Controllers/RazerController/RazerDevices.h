@@ -239,6 +239,7 @@
 #define RAZER_FIREFLY_HYPERFLUX_PID                     0x0068
 #define RAZER_FIREFLY_PID                               0x0C00
 #define RAZER_FIREFLY_V2_PID                            0x0C04
+#define RAZER_FIREFLY_V2_PRO_PID                        0x0C08
 #define RAZER_GOLIATHUS_CHROMA_EXTENDED_PID             0x0C02
 #define RAZER_GOLIATHUS_CHROMA_PID                      0x0C01
 #define RAZER_GOLIATHUS_CHROMA_3XL_PID                  0x0C06
