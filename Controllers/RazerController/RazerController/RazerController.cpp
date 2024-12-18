@@ -81,9 +81,12 @@ RazerController::RazerController(hid_device* dev_handle, hid_device* dev_argb_ha
         case RAZER_BASILISK_ULTIMATE_WIRED_PID:
         case RAZER_BASILISK_ULTIMATE_WIRELESS_PID:
         case RAZER_BASILISK_V3_PID:
+        case RAZER_BASILISK_V3_35K_PID:
         case RAZER_BASILISK_V3_X_HYPERSPEED_PID:
         case RAZER_BASILISK_V3_PRO_WIRED_PID:
         case RAZER_BASILISK_V3_PRO_WIRELESS_PID:
+        case RAZER_BASILISK_V3_PRO_35K_WIRED_PID:
+        case RAZER_BASILISK_V3_PRO_35K_WIRELESS_PID:
         case RAZER_BASILISK_V3_PRO_BLUETOOTH_PID:
         case RAZER_BASE_STATION_CHROMA_PID:
         case RAZER_BASE_STATION_V2_CHROMA_PID:
@@ -344,8 +347,11 @@ bool RazerController::SupportsBreathing()
         | Mice                                                  |
         \*-----------------------------------------------------*/
         case RAZER_BASILISK_V3_PID:
+        case RAZER_BASILISK_V3_35K_PID:
         case RAZER_BASILISK_V3_PRO_WIRED_PID:
         case RAZER_BASILISK_V3_PRO_WIRELESS_PID:
+        case RAZER_BASILISK_V3_PRO_35K_WIRED_PID:
+        case RAZER_BASILISK_V3_PRO_35K_WIRELESS_PID:
         case RAZER_BASILISK_V3_PRO_BLUETOOTH_PID:
 
             supports_breathing = false;
@@ -448,8 +454,11 @@ bool RazerController::SupportsWave()
         case RAZER_BASILISK_ULTIMATE_WIRED_PID:
         case RAZER_BASILISK_ULTIMATE_WIRELESS_PID:
         case RAZER_BASILISK_V3_PID:
+        case RAZER_BASILISK_V3_35K_PID:
         case RAZER_BASILISK_V3_PRO_WIRED_PID:
         case RAZER_BASILISK_V3_PRO_WIRELESS_PID:
+        case RAZER_BASILISK_V3_PRO_35K_WIRED_PID:
+        case RAZER_BASILISK_V3_PRO_35K_WIRELESS_PID:
         case RAZER_BASILISK_V3_PRO_BLUETOOTH_PID:
         case RAZER_COBRA_PRO_WIRED_PID:
         case RAZER_COBRA_PRO_WIRELESS_PID:
