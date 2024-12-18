@@ -144,8 +144,11 @@
 #define RAZER_BASILISK_X_HYPERSPEED_PID                 0x0083
 #define RAZER_BASILISK_V2_PID                           0x0085
 #define RAZER_BASILISK_V3_PID                           0x0099
+#define RAZER_BASILISK_V3_35K_PID                       0x00CB
 #define RAZER_BASILISK_V3_PRO_WIRED_PID                 0x00AA
 #define RAZER_BASILISK_V3_PRO_WIRELESS_PID              0x00AB
+#define RAZER_BASILISK_V3_PRO_35K_WIRED_PID             0x00CC
+#define RAZER_BASILISK_V3_PRO_35K_WIRELESS_PID          0x00CD
 #define RAZER_BASILISK_V3_PRO_BLUETOOTH_PID             0x00AC
 #define RAZER_BASILISK_V3_X_HYPERSPEED_PID              0x00B9
 #define RAZER_COBRA_PID                                 0x00A3

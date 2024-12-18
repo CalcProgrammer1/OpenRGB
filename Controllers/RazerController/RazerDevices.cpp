@@ -4347,6 +4347,65 @@ static const razer_device basilisk_v3_device =
 };
 
 /*-------------------------------------------------------------*\
+|  Razer Basilisk V3 35K 1532:00CB                              |
+|                                                               |
+|  Zone "Scroll Wheel"                                          |
+|       Single                                                  |
+|       1 LED                                                   |
+|                                                               |
+|  Zone "Logo"                                                  |
+|       Single                                                  |
+|       1 LED                                                   |
+|                                                               |
+|  Zone "LED Strip"                                             |
+|       Linear                                                  |
+|       9 LED                                                   |
+\*-------------------------------------------------------------*/
+static const razer_zone basilisk_v3_35k_scroll_wheel_zone =
+{
+    "Scroll Wheel",
+    ZONE_TYPE_SINGLE,
+    1,
+    1
+};
+
+static const razer_zone basilisk_v3_35k_logo_zone =
+{
+    "Logo",
+    ZONE_TYPE_SINGLE,
+    1,
+    1
+};
+
+static const razer_zone basilisk_v3_35k_ledstrip_zone =
+{
+    "LED Strip",
+    ZONE_TYPE_LINEAR,
+    1,
+    9
+};
+
+static const razer_device basilisk_v3_35k_device =
+{
+    "Razer Basilisk V3 35K",
+    RAZER_BASILISK_V3_35K_PID,
+    DEVICE_TYPE_MOUSE,
+    RAZER_MATRIX_TYPE_EXTENDED,
+    0x1F,
+    1,
+    11,
+    {
+        &basilisk_v3_35k_logo_zone,
+        &basilisk_v3_35k_scroll_wheel_zone,
+        &basilisk_v3_35k_ledstrip_zone,
+        NULL,
+        NULL,
+        NULL
+    },
+    NULL
+};
+
+/*-------------------------------------------------------------*\
 |  Razer Basilisk V3 PRO Wired 1532:00AA                        |
 |                                                               |
 |  Zone "Scroll Wheel"                                          |
@@ -4457,6 +4516,123 @@ static const razer_device basilisk_v3_pro_wireless_device =
         &basilisk_v3_pro_wireless_scroll_wheel_zone,
         &basilisk_v3_pro_wireless_logo_zone,
         &basilisk_v3_pro_wireless_ledstrip_zone,
+        NULL,
+        NULL,
+        NULL
+    },
+    NULL
+};
+/*-------------------------------------------------------------*\
+|  Razer Basilisk V3 PRO 35K Wired 1532:00CC                    |
+|                                                               |
+|  Zone "Scroll Wheel"                                          |
+|       Single                                                  |
+|       1 LED                                                   |
+|                                                               |
+|  Zone "Logo"                                                  |
+|       Single                                                  |
+|       1 LED                                                   |
+|                                                               |
+|  Zone "LED Strip"                                             |
+|       Linear                                                  |
+|       11 LED                                                  |
+\*-------------------------------------------------------------*/
+static const razer_zone basilisk_v3_pro_35k_wired_scroll_wheel_zone =
+{
+    "Scroll Wheel",
+    ZONE_TYPE_SINGLE,
+    1,
+    1
+};
+
+static const razer_zone basilisk_v3_pro_35k_wired_logo_zone =
+{
+    "Logo",
+    ZONE_TYPE_SINGLE,
+    1,
+    1
+};
+
+static const razer_zone basilisk_v3_pro_35k_wired_ledstrip_zone =
+{
+    "LED Strip",
+    ZONE_TYPE_LINEAR,
+    1,
+    11
+};
+
+static const razer_device basilisk_v3_pro_35k_wired_device =
+{
+    "Razer Basilisk V3 Pro 35K (Wired)",
+    RAZER_BASILISK_V3_PRO_35K_WIRED_PID,
+    DEVICE_TYPE_MOUSE,
+    RAZER_MATRIX_TYPE_EXTENDED,
+    0x1F,
+    1,
+    13,
+    {
+        &basilisk_v3_pro_35k_wired_scroll_wheel_zone,
+        &basilisk_v3_pro_35k_wired_logo_zone,
+        &basilisk_v3_pro_35k_wired_ledstrip_zone,
+        NULL,
+        NULL,
+        NULL
+    },
+    NULL
+};
+
+/*-------------------------------------------------------------*\
+|  Razer Basilisk V3 PRO 35K Wireless 1532:00CD                 |
+|                                                               |
+|  Zone "Scroll Wheel"                                          |
+|       Single                                                  |
+|       1 LED                                                   |
+|                                                               |
+|  Zone "Logo"                                                  |
+|       Single                                                  |
+|       1 LED                                                   |
+|                                                               |
+|  Zone "LED Strip"                                             |
+|       Linear                                                  |
+|       11 LED                                                  |
+\*-------------------------------------------------------------*/
+static const razer_zone basilisk_v3_pro_35k_wireless_scroll_wheel_zone =
+{
+    "Scroll Wheel",
+    ZONE_TYPE_SINGLE,
+    1,
+    1
+};
+
+static const razer_zone basilisk_v3_pro_35k_wireless_logo_zone =
+{
+    "Logo",
+    ZONE_TYPE_SINGLE,
+    1,
+    1
+};
+
+static const razer_zone basilisk_v3_pro_35k_wireless_ledstrip_zone =
+{
+    "LED Strip",
+    ZONE_TYPE_LINEAR,
+    1,
+    11
+};
+
+static const razer_device basilisk_v3_pro_35k_wireless_device =
+{
+    "Razer Basilisk V3 Pro 35K (Wireless)",
+    RAZER_BASILISK_V3_PRO_35K_WIRELESS_PID,
+    DEVICE_TYPE_MOUSE,
+    RAZER_MATRIX_TYPE_EXTENDED,
+    0x1F,
+    1,
+    13,
+    {
+        &basilisk_v3_pro_35k_wireless_scroll_wheel_zone,
+        &basilisk_v3_pro_35k_wireless_logo_zone,
+        &basilisk_v3_pro_35k_wireless_ledstrip_zone,
         NULL,
         NULL,
         NULL
@@ -8283,8 +8459,11 @@ const razer_device* razer_device_list[] =
     &basilisk_ultimate_wireless_device,
     &basilisk_v2_device,
     &basilisk_v3_device,
+    &basilisk_v3_35k_device,
     &basilisk_v3_pro_wired_device,
     &basilisk_v3_pro_wireless_device,
+    &basilisk_v3_pro_35k_wired_device,
+    &basilisk_v3_pro_35k_wireless_device,
     &basilisk_v3_pro_bluetooth_device,
     &basilisk_v3_x_hyperspeed_device,
     &cobra_device,
