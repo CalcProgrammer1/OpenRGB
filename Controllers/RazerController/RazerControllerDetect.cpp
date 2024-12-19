@@ -247,8 +247,11 @@ REGISTER_HID_DETECTOR_IPU("Razer Basilisk Ultimate (Wired)",                 Det
 REGISTER_HID_DETECTOR_IPU("Razer Basilisk Ultimate (Wireless)",              DetectRazerControllers,        RAZER_VID,  RAZER_BASILISK_ULTIMATE_WIRELESS_PID,           0x00,   0x01,   0x02);
 REGISTER_HID_DETECTOR_IPU("Razer Basilisk V2",                               DetectRazerControllers,        RAZER_VID,  RAZER_BASILISK_V2_PID,                          0x00,   0x01,   0x02);
 REGISTER_HID_DETECTOR_IPU("Razer Basilisk V3",                               DetectRazerControllers,        RAZER_VID,  RAZER_BASILISK_V3_PID,                          0x03,   0x0C,   0x01);
+REGISTER_HID_DETECTOR_IPU("Razer Basilisk V3 35K",                           DetectRazerControllers,        RAZER_VID,  RAZER_BASILISK_V3_35K_PID,                      0x03,   0x0C,   0x01);
 REGISTER_HID_DETECTOR_IPU("Razer Basilisk V3 Pro (Wired)",                   DetectRazerControllers,        RAZER_VID,  RAZER_BASILISK_V3_PRO_WIRED_PID,                0x00,   0x01,   0x02);
 REGISTER_HID_DETECTOR_IPU("Razer Basilisk V3 Pro (Wireless)",                DetectRazerControllers,        RAZER_VID,  RAZER_BASILISK_V3_PRO_WIRELESS_PID,             0x00,   0x01,   0x02);
+REGISTER_HID_DETECTOR_IPU("Razer Basilisk V3 Pro 35K (Wired)",               DetectRazerControllers,        RAZER_VID,  RAZER_BASILISK_V3_PRO_35K_WIRED_PID,            0x00,   0x01,   0x02);
+REGISTER_HID_DETECTOR_IPU("Razer Basilisk V3 Pro 35K (Wireless)",            DetectRazerControllers,        RAZER_VID,  RAZER_BASILISK_V3_PRO_35K_WIRELESS_PID,         0x00,   0x01,   0x02);
 // REGISTER_HID_DETECTOR_PU ("Razer Basilisk V3 Pro (Bluetooth)",               DetectRazerControllers,        RAZER_VID,  RAZER_BASILISK_V3_PRO_BLUETOOTH_PID,                    0x01,   0x02);
 REGISTER_HID_DETECTOR_IPU("Razer Basilisk V3 X HyperSpeed",                  DetectRazerControllers,        RAZER_VID,  RAZER_BASILISK_V3_X_HYPERSPEED_PID,             0x00,   0x01,   0x02);
 REGISTER_HID_DETECTOR_IPU("Razer Cobra",                                     DetectRazerControllers,        RAZER_VID,  RAZER_COBRA_PID,                                0x00,   0x01,   0x02);
