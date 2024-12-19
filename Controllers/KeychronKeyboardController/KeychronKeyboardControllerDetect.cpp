@@ -16,12 +16,12 @@
 /*---------------------------------------------------------*\
 | KeychronKeyboard vendor ID                                |
 \*---------------------------------------------------------*/
-#define KEYCHRON_KEYBOARD_VID                          0x05AC
+#define KEYCHRON_KEYBOARD_VID                          0x3434
 
 /*---------------------------------------------------------*\
 | Product ID                                                |
 \*---------------------------------------------------------*/
-#define KEYCHRON_K3_V2_OPTICAL_RGB_PID                 0x024F
+#define KEYCHRON_K3_V2_OPTICAL_RGB_PID                 0x0163
 
 void DetectKeychronKeyboardControllers(hid_device_info* info, const std::string& name)
 {
