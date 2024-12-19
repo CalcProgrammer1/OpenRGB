@@ -399,7 +399,9 @@ bool DDR5DirectAccessor::isAvailable(i2c_smbus_interface *bus, uint8_t spd_addr)
 
     while(true)
     {
+        std::this_thread::sleep_for(SPD_IO_DELAY);
         int ddr5Magic = bus->i2c_smbus_read_byte_data(spd_addr, 0x00);
+        std::this_thread::sleep_for(SPD_IO_DELAY);
         int ddr5Sensor = bus->i2c_smbus_read_byte_data(spd_addr, 0x01);
         std::this_thread::sleep_for(SPD_IO_DELAY);
 
