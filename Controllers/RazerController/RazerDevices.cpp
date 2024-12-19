@@ -980,6 +980,33 @@ keyboard_keymap_overlay_values razer_huntsman_v2_tkl_layout
     }
 };
 
+keyboard_keymap_overlay_values razer_huntsman_v3_pro_tkl_layout
+{
+    KEYBOARD_SIZE::KEYBOARD_SIZE_TKL,
+    {
+        {   /* ANSI Value set not used */   },
+        {
+            /* Add more regional layout fixes here */
+        }
+    },
+    {
+        /*---------------------------------------------------------------------------------------------------------*\
+        | Edit Keys                                                                                                 |
+        |   Zone,   Row,    Column,     Value,      Key,                        OpCode,                             |
+        \*---------------------------------------------------------------------------------------------------------*/
+        {   0,      0,      0,          0,          KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      0,      15,         0,          "Xbox Game Bar",            KEYBOARD_OPCODE_SWAP_ONLY,          },
+        {   0,      0,      16,         0,          KEY_EN_MEDIA_PLAY_PAUSE,    KEYBOARD_OPCODE_SWAP_ONLY,          },
+        {   0,      0,      17,         0,          KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      0,      18,         0,          "Media: Volume Dial",       KEYBOARD_OPCODE_SWAP_ONLY,          },
+        {   0,      1,      0,          0,          KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      2,      0,          0,          KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      3,      0,          0,          KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      4,      0,          0,          KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      5,      0,          0,          KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+    }
+};
+
 keyboard_keymap_overlay_values razer_laptop_common_layout
 {
     KEYBOARD_SIZE::KEYBOARD_SIZE_SEVENTY_FIVE,
@@ -2677,6 +2704,41 @@ static const razer_device huntsman_v2_device =
         NULL
     },
     &razer_huntsman_v2_layout
+};
+
+/*-------------------------------------------------------------*\
+|  Razer Huntsman V3 Pro TKL White 1532:02A7                    |
+|                                                               |
+|  Zone "Keyboard"                                              |
+|       Matrix                                                  |
+|       6 Rows, 19 Columns                                      |
+\*-------------------------------------------------------------*/
+static const razer_zone huntsman_v3_pro_tkl_keyboard_zone =
+{
+    ZONE_EN_KEYBOARD,
+    ZONE_TYPE_MATRIX,
+    6,
+    19
+};
+
+static const razer_device huntsman_v3_pro_tkl_device =
+{
+    "Razer Huntsman V3 Pro TKL White",
+    RAZER_HUNTSMAN_V3_PRO_TKL_WHITE_PID,
+    DEVICE_TYPE_KEYBOARD,
+    RAZER_MATRIX_TYPE_EXTENDED,
+    0x3F,
+    6,
+    19,
+    {
+        &huntsman_v3_pro_tkl_keyboard_zone,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL
+    },
+    &razer_huntsman_v3_pro_tkl_layout
 };
 
 /*-------------------------------------------------------------------------*\
@@ -8436,6 +8498,7 @@ const razer_device* razer_device_list[] =
     &huntsman_v2_device,
     &huntsman_v2_analog_device,
     &huntsman_v2_tkl_device,
+    &huntsman_v3_pro_tkl_device,
     &ornata_chroma_device,
     &ornata_chroma_v2_device,
     &ornata_v3_device,
