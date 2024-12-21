@@ -220,6 +220,14 @@ const std::vector<MSI_ZONE> zones_set18 =
     MSI_ZONE_J_PIPE_1
 };
 
+const std::vector<MSI_ZONE> zones_set19 =
+{
+    MSI_ZONE_J_RAINBOW_1,
+    MSI_ZONE_J_RAINBOW_2,
+    MSI_ZONE_J_RAINBOW_3
+};
+
+
 /*---------------------------------------------------------------------------------------------------------------------------------*\
 | Definition of the board sepcific configurations (number of onboard LEDs and supported zones).                                     |
 |                                                                                                                                   |
@@ -315,6 +323,7 @@ static const mystic_light_185_config board_configs[] =
     { 0x7E03, 6,  0,  0, 0, &zones_set6,  MSIMysticLight185Controller::DIRECT_MODE_PER_LED },       // MPG Z790I EDGE WIFI
     { 0x7E06, 0,  0,  0, 2, &zones_set11, MSIMysticLight185Controller::DIRECT_MODE_PER_LED },       // PRO Z790-P WIFI DDR4
     { 0x7E07, 0,  0,  0, 2, &zones_set10, MSIMysticLight185Controller::DIRECT_MODE_PER_LED },       // PRO Z790-A WIFI DDR4
+    { 0x7E09, 0,  0,  0, 0, &zones_set19, MSIMysticLight185Controller::DIRECT_MODE_PER_LED },       // B650M PROJECT ZERO
     { 0x7E10, 0,  6,  0, 2, &zones_set17, MSIMysticLight185Controller::DIRECT_MODE_PER_LED },       // MPG B650 EDGE WIFI
     { 0x7E12, 0,  0,  0, 2, &zones_set13, MSIMysticLight185Controller::DIRECT_MODE_PER_LED },       // MAG X670E TOMAHAWK WIFI
     { 0x7E16, 0,  0,  0, 2, &zones_set13, MSIMysticLight185Controller::DIRECT_MODE_PER_LED },       // X670E GAMING PLUS WIFI
