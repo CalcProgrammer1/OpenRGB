@@ -980,6 +980,32 @@ keyboard_keymap_overlay_values razer_huntsman_v2_tkl_layout
     }
 };
 
+keyboard_keymap_overlay_values razer_huntsman_v3_pro_layout
+{
+    KEYBOARD_SIZE::KEYBOARD_SIZE_FULL,
+    {
+        {   /* ANSI Value set not used */   },
+        {
+            /* Add more regional layout fixes here */
+        }
+    },
+    {
+        /*---------------------------------------------------------------------------------------------------------*\
+        | Edit Keys                                                                                                 |
+        |   Zone,   Row,    Column,     Value,      Key,                        OpCode,                             |
+        \*---------------------------------------------------------------------------------------------------------*/
+        {   0,      0,      0,          0,          KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      0,      18,         0,          "Media group",              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      0,      20,         0,          "Media: Volume Dial",       KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      1,      0,          0,          KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      2,      0,          0,          KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      3,      0,          0,          KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      4,      0,          0,          KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      5,      0,          0,          KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      5,      17,         0,          KEY_EN_UNUSED,              KEYBOARD_OPCODE_REMOVE_SHIFT_LEFT,  },
+    }
+};
+
 keyboard_keymap_overlay_values razer_huntsman_v3_pro_tkl_layout
 {
     KEYBOARD_SIZE::KEYBOARD_SIZE_TKL,
@@ -2704,6 +2730,41 @@ static const razer_device huntsman_v2_device =
         NULL
     },
     &razer_huntsman_v2_layout
+};
+
+/*-------------------------------------------------------------*\
+|  Razer Huntsman V3 Pro 1532:02A6                              |
+|                                                               |
+|  Zone "Keyboard"                                              |
+|       Matrix                                                  |
+|       6 Rows, 22 Columns                                      |
+\*-------------------------------------------------------------*/
+static const razer_zone huntsman_v3_pro_keyboard_zone =
+{
+    ZONE_EN_KEYBOARD,
+    ZONE_TYPE_MATRIX,
+    6,
+    22
+};
+
+static const razer_device huntsman_v3_pro_device =
+{
+    "Razer Huntsman V3 Pro",
+    RAZER_HUNTSMAN_V3_PRO_PID,
+    DEVICE_TYPE_KEYBOARD,
+    RAZER_MATRIX_TYPE_EXTENDED,
+    0x3F,
+    6,
+    22,
+    {
+        &huntsman_v3_pro_keyboard_zone,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL
+    },
+    &razer_huntsman_v3_pro_layout
 };
 
 /*-------------------------------------------------------------*\
@@ -8498,6 +8559,7 @@ const razer_device* razer_device_list[] =
     &huntsman_v2_device,
     &huntsman_v2_analog_device,
     &huntsman_v2_tkl_device,
+    &huntsman_v3_pro_device,
     &huntsman_v3_pro_tkl_device,
     &ornata_chroma_device,
     &ornata_chroma_v2_device,
