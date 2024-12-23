@@ -111,6 +111,15 @@ uint16_t DDR4Accessor::jedec_id()
     return((this->at(0x140) << 8) + (this->at(0x141) & 0x7f) - 1);
 }
 
+uint8_t DDR4Accessor::manufacturer_data(uint16_t index)
+{
+    if(index > 28)
+    {
+        return 0;
+    }
+    return this->at(0x161 + index);
+}
+
 DDR5Accessor::DDR5Accessor(i2c_smbus_interface *bus, uint8_t spd_addr)
   : SPDAccessor(bus, spd_addr)
 {
@@ -128,4 +137,13 @@ SPDMemoryType DDR5Accessor::memory_type()
 uint16_t DDR5Accessor::jedec_id()
 {
     return((this->at(0x200) << 8) + (this->at(0x201) & 0x7f) - 1);
+}
+
+uint8_t DDR5Accessor::manufacturer_data(uint16_t index)
+{
+    if(index > 84)
+    {
+        return 0;
+    }
+    return this->at(0x22B + index);
 }

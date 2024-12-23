@@ -23,6 +23,7 @@ class SPDWrapper
     SPDMemoryType memory_type();
     int index();
     uint16_t jedec_id();
+    uint8_t manufacturer_data(uint16_t index);
 
   private:
     SPDAccessor *accessor = nullptr;

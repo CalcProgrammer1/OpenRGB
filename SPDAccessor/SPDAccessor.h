@@ -21,6 +21,7 @@ class SPDAccessor
 
     virtual SPDMemoryType memory_type() = 0;
     virtual uint16_t jedec_id() = 0;
+    virtual uint8_t manufacturer_data(uint16_t index) = 0;
 
     virtual SPDAccessor *copy() = 0;
 
@@ -42,6 +43,7 @@ class DDR4Accessor : public SPDAccessor
     virtual ~DDR4Accessor();
     virtual SPDMemoryType memory_type();
     virtual uint16_t jedec_id();
+    virtual uint8_t manufacturer_data(uint16_t index);
 };
 
 class DDR5Accessor : public SPDAccessor
@@ -51,4 +53,5 @@ class DDR5Accessor : public SPDAccessor
     virtual ~DDR5Accessor();
     virtual SPDMemoryType memory_type();
     virtual uint16_t jedec_id();
+    virtual uint8_t manufacturer_data(uint16_t index);
 };

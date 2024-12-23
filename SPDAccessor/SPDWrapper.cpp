@@ -52,6 +52,15 @@ uint16_t SPDWrapper::jedec_id()
     return accessor->jedec_id();
 }
 
+uint8_t SPDWrapper::manufacturer_data(uint16_t index)
+{
+    if(accessor == nullptr)
+    {
+        return 0x00;
+    }
+    return accessor->manufacturer_data(index);
+}
+
 /*-------------------------------------------------------------------------*\
 | Helper functions for easier collection handling.                          |
 \*-------------------------------------------------------------------------*/
