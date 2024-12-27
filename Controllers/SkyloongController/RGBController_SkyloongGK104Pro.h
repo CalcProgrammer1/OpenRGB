@@ -15,7 +15,7 @@
 #include "SkyloongGK104ProController.h"
 
 #define BRIGHTNESS_MIN      0
-#define BRIGHTNESS_MAX      134
+#define BRIGHTNESS_MAX      127
 
 class RGBController_SkyloongGK104Pro : public RGBController
 {
