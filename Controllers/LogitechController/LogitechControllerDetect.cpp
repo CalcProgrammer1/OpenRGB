@@ -679,9 +679,9 @@ REGISTER_HID_DETECTOR_IP ("Logitech G203 Prodigy",                          Dete
 REGISTER_HID_DETECTOR_IPU("Logitech G203 Lightsync",                        DetectLogitechMouseG203L,   LOGITECH_VID, LOGITECH_G203_LIGHTSYNC_PID,          1, 0xFF00, 2);
 REGISTER_HID_DETECTOR_IPU("Logitech G203 Lightsync",                        DetectLogitechMouseG203L,   LOGITECH_VID, LOGITECH_G203_LIGHTSYNC_PID_2,        1, 0xFF00, 2);
 REGISTER_HID_DETECTOR_IP ("Logitech G303 Daedalus Apex",                    DetectLogitechMouseG303,    LOGITECH_VID, LOGITECH_G303_PID,                    1, 0xFF00);
-REGISTER_HID_DETECTOR_IP ("Logitech G403 Hero",                             DetectLogitechMouseG403,    LOGITECH_VID, LOGITECH_G403_HERO_PID,               1, 0xFF00);
+REGISTER_HID_DETECTOR_IP ("Logitech G403 HERO",                             DetectLogitechMouseG403,    LOGITECH_VID, LOGITECH_G403_HERO_PID,               1, 0xFF00);
 REGISTER_HID_DETECTOR_IP ("Logitech G Pro Gaming Mouse",                    DetectLogitechMouseGPRO,    LOGITECH_VID, LOGITECH_G_PRO_PID,                   1, 0xFF00);
-REGISTER_HID_DETECTOR_IP ("Logitech G Pro (HERO) Gaming Mouse",             DetectLogitechMouseGPRO,    LOGITECH_VID, LOGITECH_G_PRO_HERO_PID,              1, 0xFF00);
+REGISTER_HID_DETECTOR_IP ("Logitech G Pro HERO Gaming Mouse",             DetectLogitechMouseGPRO,    LOGITECH_VID, LOGITECH_G_PRO_HERO_PID,              1, 0xFF00);
 /*-------------------------------------------------------------------------------------------------------------------------------------------------*\
 | Speakers                                                                                                                                         |
 \*-------------------------------------------------------------------------------------------------------------------------------------------------*/
@@ -899,10 +899,10 @@ void DetectLogitechWireless(hid_device_info* info, const std::string& /*name*/)
 REGISTER_HID_DETECTOR_IPU("Logitech G403 Wireless Gaming Mouse",                DetectLogitechWireless,     LOGITECH_VID, LOGITECH_G403_LIGHTSPEED_VIRTUAL_PID,         2, 0xFF00, 2);
 REGISTER_HID_DETECTOR_IPU("Logitech G502 Wireless Gaming Mouse",                DetectLogitechWireless,     LOGITECH_VID, LOGITECH_G502_LIGHTSPEED_VIRTUAL_PID,         2, 0xFF00, 2);
 REGISTER_HID_DETECTOR_IPU("Logitech G703 Wireless Gaming Mouse",                DetectLogitechWireless,     LOGITECH_VID, LOGITECH_G703_LIGHTSPEED_VIRTUAL_PID,         2, 0xFF00, 2);
-REGISTER_HID_DETECTOR_IPU("Logitech G703 Hero Wireless Gaming Mouse",           DetectLogitechWireless,     LOGITECH_VID, LOGITECH_G703_HERO_LIGHTSPEED_VIRTUAL_PID,    2, 0xFF00, 2);
+REGISTER_HID_DETECTOR_IPU("Logitech G703 HERO Wireless Gaming Mouse",           DetectLogitechWireless,     LOGITECH_VID, LOGITECH_G703_HERO_LIGHTSPEED_VIRTUAL_PID,    2, 0xFF00, 2);
 REGISTER_HID_DETECTOR_IPU("Logitech G900 Wireless Gaming Mouse",                DetectLogitechWireless,     LOGITECH_VID, LOGITECH_G900_LIGHTSPEED_VIRTUAL_PID,         2, 0xFF00, 2);
 REGISTER_HID_DETECTOR_IPU("Logitech G903 Wireless Gaming Mouse",                DetectLogitechWireless,     LOGITECH_VID, LOGITECH_G903_LIGHTSPEED_VIRTUAL_PID,         2, 0xFF00, 2);
-REGISTER_HID_DETECTOR_IPU("Logitech G903 Hero Wireless Gaming Mouse",           DetectLogitechWireless,     LOGITECH_VID, LOGITECH_G903_LIGHTSPEED_VIRTUAL_HERO_PID,    2, 0xFF00, 2);
+REGISTER_HID_DETECTOR_IPU("Logitech G903 HERO Wireless Gaming Mouse",           DetectLogitechWireless,     LOGITECH_VID, LOGITECH_G903_LIGHTSPEED_VIRTUAL_HERO_PID,    2, 0xFF00, 2);
 REGISTER_HID_DETECTOR_IPU("Logitech G Pro Wireless Gaming Mouse",               DetectLogitechWireless,     LOGITECH_VID, LOGITECH_G_PRO_WIRELESS_VIRTUAL_PID,          2, 0xFF00, 2);
 REGISTER_HID_DETECTOR_IPU("Logitech Powerplay Mat",                             DetectLogitechWireless,     LOGITECH_VID, LOGITECH_POWERPLAY_MAT_VIRTUAL_PID,           2, 0xFF00, 2);
 
@@ -912,16 +912,16 @@ REGISTER_HID_DETECTOR_IPU("Logitech Powerplay Mat",                             
 | Lightspeed Wireless Devices (Common Wired)                                                                                                          |
 \*-------------------------------------------------------------------------------------------------------------------------------------------------*/
 REGISTER_HID_DETECTOR_IPU("Logitech G502 Proteus Spectrum Gaming Mouse",        DetectLogitechWired,        LOGITECH_VID, LOGITECH_G502_PROTEUS_SPECTRUM_PID,           1, 0xFF00, 2);
-REGISTER_HID_DETECTOR_IPU("Logitech G502 Hero Gaming Mouse",                    DetectLogitechWired,        LOGITECH_VID, LOGITECH_G502_HERO_PID,                       1, 0xFF00, 2);
+REGISTER_HID_DETECTOR_IPU("Logitech G502 HERO Gaming Mouse",                    DetectLogitechWired,        LOGITECH_VID, LOGITECH_G502_HERO_PID,                       1, 0xFF00, 2);
 
 REGISTER_HID_DETECTOR_IPU("Logitech G403 Prodigy Gaming Mouse",                 DetectLogitechWired,        LOGITECH_VID, LOGITECH_G403_PID,                            1, 0xFF00, 2);
 REGISTER_HID_DETECTOR_IPU("Logitech G403 Wireless Gaming Mouse (wired)",        DetectLogitechWired,        LOGITECH_VID, LOGITECH_G403_LIGHTSPEED_PID,                 1, 0xFF00, 2);
 REGISTER_HID_DETECTOR_IPU("Logitech G502 Wireless Gaming Mouse (wired)",        DetectLogitechWired,        LOGITECH_VID, LOGITECH_G502_LIGHTSPEED_PID,                 1, 0xFF00, 2);
 REGISTER_HID_DETECTOR_IPU("Logitech G703 Wireless Gaming Mouse (wired)",        DetectLogitechWired,        LOGITECH_VID, LOGITECH_G703_LIGHTSPEED_PID,                 1, 0xFF00, 2);
-REGISTER_HID_DETECTOR_IPU("Logitech G703 Hero Wireless Gaming Mouse (wired)",   DetectLogitechWired,        LOGITECH_VID, LOGITECH_G703_HERO_LIGHTSPEED_PID,            1, 0xFF00, 2);
+REGISTER_HID_DETECTOR_IPU("Logitech G703 HERO Wireless Gaming Mouse (wired)",   DetectLogitechWired,        LOGITECH_VID, LOGITECH_G703_HERO_LIGHTSPEED_PID,            1, 0xFF00, 2);
 REGISTER_HID_DETECTOR_IPU("Logitech G900 Wireless Gaming Mouse (wired)",        DetectLogitechWired,        LOGITECH_VID, LOGITECH_G900_LIGHTSPEED_PID,                 1, 0xFF00, 2);
 REGISTER_HID_DETECTOR_IPU("Logitech G903 Wireless Gaming Mouse (wired)",        DetectLogitechWired,        LOGITECH_VID, LOGITECH_G903_LIGHTSPEED_PID,                 1, 0xFF00, 2);
-REGISTER_HID_DETECTOR_IPU("Logitech G903 Hero Wireless Gaming Mouse (wired)",   DetectLogitechWired,        LOGITECH_VID, LOGITECH_G903_LIGHTSPEED_HERO_PID,            1, 0xFF00, 2);
+REGISTER_HID_DETECTOR_IPU("Logitech G903 HERO Wireless Gaming Mouse (wired)",   DetectLogitechWired,        LOGITECH_VID, LOGITECH_G903_LIGHTSPEED_HERO_PID,            1, 0xFF00, 2);
 REGISTER_HID_DETECTOR_IPU("Logitech G Pro Wireless Gaming Mouse (wired)",       DetectLogitechWired,        LOGITECH_VID, LOGITECH_G_PRO_WIRELESS_PID,                  2, 0xFF00, 2);
 REGISTER_HID_DETECTOR_IPU("Logitech G633 Gaming Headset",                       DetectLogitechWired,        LOGITECH_VID, LOGITECH_G633_PID,                            3, 0xFF43, 514);
 REGISTER_HID_DETECTOR_IPU("Logitech G635 Gaming Headset",                       DetectLogitechWired,        LOGITECH_VID, LOGITECH_G635_PID,                            3, 0xFF43, 514);

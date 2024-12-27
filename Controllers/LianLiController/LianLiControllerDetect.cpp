@@ -246,6 +246,6 @@ REGISTER_HID_DETECTOR_IPU("Lian Li Uni Hub - SL Infinity",      DetectLianLiUniH
 | DUMMY_DEVICE_DETECTOR("Lian Li Uni Hub", DetectLianLiUniHub, 0x0CF2, 0x7750 )                             |
 \*---------------------------------------------------------------------------------------------------------*/
 
-REGISTER_HID_DETECTOR_IPU("Strimer L Connect",                  DetectLianLiStrimerControllers, ENE_USB_VID,        STRIMER_L_CONNECT_PID,       1,   0xFF72, 0xA1);
+REGISTER_HID_DETECTOR_IPU("Lian Li Strimer L Connect",          DetectLianLiStrimerControllers, ENE_USB_VID,        STRIMER_L_CONNECT_PID,       1,   0xFF72, 0xA1);
 REGISTER_HID_DETECTOR_I("Lian Li GA II Trinity",                DetectLianLiGAIITrinity,        NUVOTON_USB_VID,    GAII_USB_PID,                             0x02);
 REGISTER_HID_DETECTOR_I("Lian Li GA II Trinity Performance",    DetectLianLiGAIITrinity,        NUVOTON_USB_VID,    GAII_Perf_USB_PID,                        0x02);

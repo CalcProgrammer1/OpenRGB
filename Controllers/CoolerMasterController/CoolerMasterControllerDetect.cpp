@@ -354,8 +354,8 @@ REGISTER_HID_DETECTOR_PU ("Cooler Master MP750 Medium",             DetectCooler
 | Coolermaster GPUs                                     |
 |   PIDs defined in `CMR6000Controller.h`               |
 \*-----------------------------------------------------*/
-REGISTER_HID_DETECTOR_I  ("Cooler Master Radeon 6000 GPU",          DetectCoolerMasterGPU,          COOLERMASTER_VID,   COOLERMASTER_RADEON_6000_PID,               1                );
-REGISTER_HID_DETECTOR_I  ("Cooler Master Radeon 6900 GPU",          DetectCoolerMasterGPU,          COOLERMASTER_VID,   COOLERMASTER_RADEON_6900_PID,               1                );
+REGISTER_HID_DETECTOR_I  ("Cooler Master Radeon RX 6000 GPU",        DetectCoolerMasterGPU,          COOLERMASTER_VID,   COOLERMASTER_RADEON_6000_PID,               1                );
+REGISTER_HID_DETECTOR_I  ("Cooler Master Radeon RX 6900 GPU",        DetectCoolerMasterGPU,          COOLERMASTER_VID,   COOLERMASTER_RADEON_6900_PID,               1                );
 
 /*-----------------------------------------------------*\
 | Coolermaster Monitors                                 |
