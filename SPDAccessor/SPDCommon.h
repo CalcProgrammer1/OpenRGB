@@ -21,7 +21,8 @@ typedef enum
     JEDEC_TEAMGROUP   = 0x046E,
     JEDEC_MUSHKIN     = 0x8313,
     JEDEC_GIGABYTE    = 0x8971,
-    JEDEC_THERMALTAKE = 0x8A41
+    JEDEC_THERMALTAKE = 0x8A41,
+    JEDEC_PATRIOT     = 0x8501
 } JedecIdentifier;
 
 typedef enum

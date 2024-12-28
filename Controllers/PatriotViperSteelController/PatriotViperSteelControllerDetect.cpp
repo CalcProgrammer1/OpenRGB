@@ -55,67 +55,40 @@ bool TestForPatriotViperSteelController(i2c_smbus_interface* bus, unsigned char 
 *                                                                                          *
 \******************************************************************************************/
 
-void DetectPatriotViperSteelControllers(std::vector<i2c_smbus_interface *> &busses)
+void DetectPatriotViperSteelControllers(i2c_smbus_interface* bus, std::vector<SPDWrapper*> &slots)
 {
-    for(unsigned int bus = 0; bus < busses.size(); bus++)
+    unsigned char slots_valid = 0x00;
+
+    // Check for Patriot Viper controller at 0x77
+    LOG_DEBUG("[%s] Testing bus %d at address 0x77", PATRIOT_CONTROLLER_NAME, bus->port_id);
+
+    if(TestForPatriotViperSteelController(bus, 0x77))
     {
-        unsigned char slots_valid = 0x00;
-
-        IF_DRAM_SMBUS(busses[bus]->pci_vendor, busses[bus]->pci_device)
+        for(SPDWrapper *slot : slots)
         {
-            // Check for Patriot Viper Steel controller at 0x77
-            LOG_DEBUG("[%s] Testing bus %d at address 0x77", PATRIOT_CONTROLLER_NAME, bus);
-
-            if(TestForPatriotViperSteelController(busses[bus], 0x77))
+            if((slot->manufacturer_data(0x00) == 0x50)
+            &&(slot->manufacturer_data(0x01) == 0x44)
+            &&(slot->manufacturer_data(0x02) == 0x41)
+            &&(slot->manufacturer_data(0x03) == 0x31)
+            &&(slot->manufacturer_data(0x04) == 0x00)
+            &&(slot->manufacturer_data(0x05) == 0x00)
+            &&(slot->manufacturer_data(0x06) == 0x00)
+            &&(slot->manufacturer_data(0x07) == 0x00))
             {
-                for(int slot_addr = 0x50; slot_addr <= 0x57; slot_addr++)
-                {
-                    // Test for Patriot Viper Steel RGB SPD at slot_addr
-                    // This test was copied from PatriotViperControllerDetect
-                    // Tests SPD addresses in order: 0x00, 0x40, 0x41, 0x61, 0x62, 0x63, 0x64, 0x65, 0x66, 0x67, 0x68
-
-                    busses[bus]->i2c_smbus_write_byte_data(0x36, 0x00, 0xFF);
-
-                    std::this_thread::sleep_for(1ms);
-
-                    int res = busses[bus]->i2c_smbus_read_byte_data(slot_addr, 0x00);
-
-                    LOG_DEBUG("[%s] Trying to read 0x%02X RAM module data at 0x00 expect: 0x23 res: %02X", PATRIOT_CONTROLLER_NAME, slot_addr, res);
-                    if(res == 0x23)
-                    {
-                        busses[bus]->i2c_smbus_write_byte_data(0x37, 0x00, 0xFF);
-
-                        std::this_thread::sleep_for(1ms);
-
-                        if((busses[bus]->i2c_smbus_read_byte_data(slot_addr, 0x40) == 0xFF)
-                        &&(busses[bus]->i2c_smbus_read_byte_data(slot_addr, 0x41) == 0xFF)
-                        &&(busses[bus]->i2c_smbus_read_byte_data(slot_addr, 0x61) == 0x50)
-                        &&(busses[bus]->i2c_smbus_read_byte_data(slot_addr, 0x62) == 0x44)
-                        &&(busses[bus]->i2c_smbus_read_byte_data(slot_addr, 0x63) == 0x41)
-                        &&(busses[bus]->i2c_smbus_read_byte_data(slot_addr, 0x64) == 0x31)
-                        &&(busses[bus]->i2c_smbus_read_byte_data(slot_addr, 0x65) == 0x00)
-                        &&(busses[bus]->i2c_smbus_read_byte_data(slot_addr, 0x66) == 0x00)
-                        &&(busses[bus]->i2c_smbus_read_byte_data(slot_addr, 0x67) == 0x00)
-                        &&(busses[bus]->i2c_smbus_read_byte_data(slot_addr, 0x68) == 0x00))
-                        {
-                            LOG_DEBUG("[%s] The 0x%02X RAM module detected", PATRIOT_CONTROLLER_NAME, slot_addr);
-                            slots_valid |= (1 << (slot_addr - 0x50));
-                        }
-                    }
-
-                    std::this_thread::sleep_for(1ms);
-                }
-
-                if(slots_valid != 0)
-                {
-                    PatriotViperSteelController*     controller     = new PatriotViperSteelController(busses[bus], 0x77);
-                    RGBController_PatriotViperSteel* rgb_controller = new RGBController_PatriotViperSteel(controller);
-                    ResourceManager::get()->RegisterRGBController(rgb_controller);
-                }
+                LOG_DEBUG("[%s] The RAM module detected in slot %d", PATRIOT_CONTROLLER_NAME, slot->index());
+                slots_valid |= (1 << (slot->index()));
             }
+        }
+
+        if(slots_valid != 0)
+        {
+            PatriotViperSteelController*     controller     = new PatriotViperSteelController(bus, 0x77);
+            RGBController_PatriotViperSteel* rgb_controller = new RGBController_PatriotViperSteel(controller);
+            ResourceManager::get()->RegisterRGBController(rgb_controller);
         }
     }
 
 } /* DetectPatriotViperSteelControllers() */
 
-REGISTER_I2C_DETECTOR(PATRIOT_CONTROLLER_NAME, DetectPatriotViperSteelControllers);
+REGISTER_I2C_DIMM_DETECTOR(PATRIOT_CONTROLLER_NAME, DetectPatriotViperSteelControllers, 0xFF7E, SPD_DDR4_SDRAM);
+
