@@ -627,6 +627,7 @@
 #define GIGABYTE_RTX4090_AERO_OC_24G_SUB_DEV            0x40E4
 #define GIGABYTE_RTX4090_GAMING_OC_24G_SUB_DEV          0x40BF
 #define GIGABYTE_AORUS_RTX4090_MASTER_24G_SUB_DEV       0x40C0
+#define GIGABYTE_RX7800XT_GAMING_OC_16G_SUB_DEV         0x2413
 
 /*-----------------------------------------------------*\
 | MSI Sub-Device IDs                                    |
