@@ -303,6 +303,7 @@
 #define ASUS_TUF_RX_7900XTX_O24G_GAMING                 0x0506
 #define ASUS_ROG_STRIX_LC_RX_6950XT_O16G_GAMING         0x05E9
 #define ASUS_TUF_RTX_4060TI_O8G_GAMING                  0x88F6
+#define ASUS_ROG_STRIX_RTX_4060_O8G_GAMING              0x8908
 #define ASUS_ROG_STRIX_RTX_4060TI_O8G_GAMING            0x88FB
 #define ASUS_TUF_RTX_4070_12G_GAMING                    0x88DE
 #define ASUS_TUF_RTX_4070_O12G_GAMING                   0x88DF
