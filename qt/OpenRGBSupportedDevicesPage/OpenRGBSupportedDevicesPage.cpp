@@ -70,7 +70,7 @@ void OpenRGBSupportedDevicesPage::on_GetHardwareIDsButton_clicked()
 
 void OpenRGBSupportedDevicesPage::on_Filter_textChanged(const QString &arg1)
 {
-#ifdef _QT6
+#if (QT_VERSION >= QT_VERSION_CHECK(6, 0, 0))
     detectorSortModel->setFilterRegularExpression(QRegularExpression(arg1 , QRegularExpression::CaseInsensitiveOption));
 #else
     detectorSortModel->setFilterRegExp(QRegExp(arg1, Qt::CaseInsensitive));
