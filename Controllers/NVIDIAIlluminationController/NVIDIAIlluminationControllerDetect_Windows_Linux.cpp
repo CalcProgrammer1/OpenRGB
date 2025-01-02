@@ -42,6 +42,9 @@ typedef struct
 
 static const nv_gpu_pci_device device_list[] =
 {
+    {NVIDIA_VEN,    NVIDIA_RTX2060_TU106_DEV,       NVIDIA_VEN,       NVIDIA_RTX2060_FE_SUB_DEV,                      NVIDIA_ILLUMINATION_V1,     TREATS_RGBW_AS_RGBW,    "NVIDIA GeForce RTX 2060 FE"                  },
+    {NVIDIA_VEN,    NVIDIA_RTX2060S_OC_DEV,         NVIDIA_VEN,       NVIDIA_RTX2060S_FE_SUB_DEV,                     NVIDIA_ILLUMINATION_V1,     TREATS_RGBW_AS_RGBW,    "NVIDIA GeForce RTX 2060 SUPER FE"            },
+    {NVIDIA_VEN,    NVIDIA_RTX2070_OC_DEV,          NVIDIA_VEN,       NVIDIA_RTX2070_FE_SUB_DEV,                      NVIDIA_ILLUMINATION_V1,     TREATS_RGBW_AS_RGBW,    "NVIDIA GeForce RTX 2070 FE"                  },
     {NVIDIA_VEN,    NVIDIA_RTX2070S_DEV,            NVIDIA_VEN,       NVIDIA_RTX2070_FE_SUPER_SUB_DEV,                NVIDIA_ILLUMINATION_V1,     TREATS_RGBW_AS_RGBW,    "NVIDIA GeForce RTX 2070 SUPER FE"            },
     {NVIDIA_VEN,    NVIDIA_RTX2080_A_DEV,           NVIDIA_VEN,       NVIDIA_RTX2080_FE_SUB_DEV,                      NVIDIA_ILLUMINATION_V1,     TREATS_RGBW_AS_RGBW,    "NVIDIA GeForce RTX 2080 FE"                  },
     {NVIDIA_VEN,    NVIDIA_RTX2080S_DEV,            NVIDIA_VEN,       NVIDIA_RTX2080S_FE_SUB_DEV,                     NVIDIA_ILLUMINATION_V1,     TREATS_RGBW_AS_RGBW,    "NVIDIA GeForce RTX 2080 SUPER FE"            },

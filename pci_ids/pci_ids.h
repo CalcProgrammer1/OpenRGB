@@ -119,6 +119,9 @@
 /*-----------------------------------------------------*\
 | Nvidia Sub-Device IDs                                 |
 \*-----------------------------------------------------*/
+#define NVIDIA_RTX2060_FE_SUB_DEV                       0x12FB
+#define NVIDIA_RTX2060S_FE_SUB_DEV                      0x13A2
+#define NVIDIA_RTX2070_FE_SUB_DEV                       0x12AD
 #define NVIDIA_RTX2070_FE_SUPER_SUB_DEV                 0x13AA
 #define NVIDIA_RTX2080_FE_SUB_DEV                       0x12A6
 #define NVIDIA_RTX2080S_FE_SUB_DEV                      0x13A0
