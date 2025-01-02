@@ -58,7 +58,7 @@
 #define INTEL_ARROW_LAKE_SMBUS_DEV                      0x7F23
 
 /*-----------------------------------------------------*\
-| nVidia Device IDs                                     |
+| Nvidia Device IDs                                     |
 \*-----------------------------------------------------*/
 #define NVIDIA_GTX1050_DEV                              0x1C81
 #define NVIDIA_GTX1050TI_DEV                            0x1C82
@@ -117,7 +117,7 @@
 #define NVIDIA_RTX4090_DEV                              0x2684
 
 /*-----------------------------------------------------*\
-| nVidia Sub-Device IDs                                 |
+| Nvidia Sub-Device IDs                                 |
 \*-----------------------------------------------------*/
 #define NVIDIA_RTX2070_FE_SUPER_SUB_DEV                 0x13AA
 #define NVIDIA_RTX2080_FE_SUB_DEV                       0x12A6
@@ -196,9 +196,10 @@
 #define ASUS_ROG_STRIX_LC_RX6900XT_O16G_GAMING          0x04F8
 #define ASUS_ROG_STRIX_LC_RX6900XT_O16G_GAMING_TOP      0x04FC
 #define ASUS_ROG_GTX1660TI_OC                           0x86A5
-#define ASUS_ROG_STRIX_RTX2060_EVO_GAMING               0x86D3
+#define ASUS_ROG_STRIX_RTX2060_6G_GAMING                0x8690
 #define ASUS_ROG_STRIX_RTX2060_O6G_GAMING               0x868E
 #define ASUS_ROG_STRIX_RTX2060_O6G_GAMING_86D2          0x86D2
+#define ASUS_ROG_STRIX_RTX2060_EVO_GAMING               0x86D3
 #define ASUS_ROG_STRIX_RTX2060_O6G_EVO_GAMING           0x8775
 #define ASUS_ROG_STRIX_RTX2060S_A8G_EVO_GAMING          0x8703
 #define ASUS_ROG_STRIX_RTX2060S_8G_GAMING               0x8730
