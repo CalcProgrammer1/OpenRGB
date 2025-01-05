@@ -84,6 +84,9 @@ public slots:
     void SetTrayIcon(bool tray_icon);
     void handleAboutToQuit();
 
+protected:
+    void keyPressEvent(QKeyEvent *event) override;
+
 private:
     const char* context = "Ui::OpenRGBDialog2";
 

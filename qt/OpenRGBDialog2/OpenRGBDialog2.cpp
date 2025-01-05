@@ -28,6 +28,7 @@
 #include <QMessageBox>
 #include <QCloseEvent>
 #include <QStyleFactory>
+#include <QKeyEvent>
 #include "OpenRGBFont.h"
 
 #ifdef __APPLE__
@@ -662,6 +663,26 @@ void OpenRGBDialog2::closeEvent(QCloseEvent *event)
 
         event->accept();
         QApplication::exit(0);
+    }
+}
+
+void OpenRGBDialog2::keyPressEvent(QKeyEvent *event)
+{
+    if(event->key() == Qt::Key_F11)
+    {
+        if(isFullScreen())
+        {
+            showNormal();
+        }
+        else
+        {
+            showFullScreen();
+        }
+        event->accept();
+    }
+    else
+    {
+        QMainWindow::keyPressEvent(event);
     }
 }
 
