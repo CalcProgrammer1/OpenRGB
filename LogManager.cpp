@@ -24,6 +24,7 @@ LogManager::LogManager()
 {
     base_clock = std::chrono::steady_clock::now();
     log_console_enabled = false;
+    log_file_enabled = true;
 }
 
 LogManager* LogManager::get()
@@ -64,63 +65,71 @@ void LogManager::configure(json config, const filesystem::path& defaultDir)
     \*-------------------------------------------------*/
     if(!log_stream.is_open())
     {
-        std::string logname = "OpenRGB_#.log";
-
-        /*-------------------------------------------------*\
-        | If the logfile is defined in the configuration,   |
-        | use the configured name                           |
-        \*-------------------------------------------------*/
-        if(config.contains("logfile"))
+        if(config.contains("log_file"))
         {
-            const json& logfile_obj = config["logfile"];
-            if(logfile_obj.is_string())
+            log_file_enabled = config["log_file"];
+        }
+
+        if(log_file_enabled)
+        {
+            std::string logname = "OpenRGB_#.log";
+
+            /*-------------------------------------------------*\
+            | If the logfile is defined in the configuration,   |
+            | use the configured name                           |
+            \*-------------------------------------------------*/
+            if(config.contains("logfile"))
             {
-                std::string tmpname = config["logfile"];
-                if(!tmpname.empty())
+                const json& logfile_obj = config["logfile"];
+                if(logfile_obj.is_string())
                 {
-                    logname = tmpname;
+                    std::string tmpname = config["logfile"];
+                    if(!tmpname.empty())
+                    {
+                        logname = tmpname;
+                    }
                 }
             }
+
+            /*-------------------------------------------------*\
+            | If the # symbol is found in the log file name,    |
+            | replace it with a timestamp                       |
+            \*-------------------------------------------------*/
+            time_t t = time(0);
+            struct tm* tmp = localtime(&t);
+            char time_string[64];
+            snprintf(time_string, 64, "%04d%02d%02d_%02d%02d%02d", 1900 + tmp->tm_year, tmp->tm_mon + 1, tmp->tm_mday, tmp->tm_hour, tmp->tm_min, tmp->tm_sec);
+
+            size_t oct = logname.find("#");
+            if(oct != logname.npos)
+            {
+                logname.replace(oct, 1, time_string);
+            }
+
+            /*-------------------------------------------------*\
+            | If the path is relative, use logs dir             |
+            \*-------------------------------------------------*/
+            filesystem::path p = filesystem::u8path(logname);
+            if(p.is_relative())
+            {
+                p = defaultDir / "logs" / logname;
+            }
+            filesystem::create_directories(p.parent_path());
+
+            /*-------------------------------------------------*\
+            | Open the logfile                                  |
+            \*-------------------------------------------------*/
+            log_stream.open(p);
+
+            /*-------------------------------------------------*\
+            | Print Git Commit info, version, etc.              |
+            \*-------------------------------------------------*/
+            log_stream << "    OpenRGB v" << VERSION_STRING << std::endl;
+            log_stream << "    Commit: " << GIT_COMMIT_ID << " from " << GIT_COMMIT_DATE << std::endl;
+            log_stream << "    Launched: " << time_string << std::endl;
+            log_stream << "====================================================================================================" << std::endl;
+            log_stream << std::endl;
         }
-
-        /*-------------------------------------------------*\
-        | If the # symbol is found in the log file name,    |
-        | replace it with a timestamp                       |
-        \*-------------------------------------------------*/
-        time_t t = time(0);
-        struct tm* tmp = localtime(&t);
-        char time_string[64];
-        snprintf(time_string, 64, "%04d%02d%02d_%02d%02d%02d", 1900 + tmp->tm_year, tmp->tm_mon + 1, tmp->tm_mday, tmp->tm_hour, tmp->tm_min, tmp->tm_sec);
-
-        size_t oct = logname.find("#");
-        if(oct != logname.npos)
-        {
-            logname.replace(oct, 1, time_string);
-        }
-
-        /*-------------------------------------------------*\
-        | If the path is relative, use logs dir             |
-        \*-------------------------------------------------*/
-        filesystem::path p = filesystem::u8path(logname);
-        if(p.is_relative())
-        {
-            p = defaultDir / "logs" / logname;
-        }
-        filesystem::create_directories(p.parent_path());
-
-        /*-------------------------------------------------*\
-        | Open the logfile                                  |
-        \*-------------------------------------------------*/
-        log_stream.open(p);
-
-        /*-------------------------------------------------*\
-        | Print Git Commit info, version, etc.              |
-        \*-------------------------------------------------*/
-        log_stream << "    OpenRGB v" << VERSION_STRING << std::endl;
-        log_stream << "    Commit: " << GIT_COMMIT_ID << " from " << GIT_COMMIT_DATE << std::endl;
-        log_stream << "    Launched: " << time_string << std::endl;
-        log_stream << "====================================================================================================" << std::endl;
-        log_stream << std::endl;
     }
 
     /*-------------------------------------------------*\
@@ -183,12 +192,12 @@ void LogManager::_flush()
         | Clear temp message buffers after writing them out |
         \*-------------------------------------------------*/
         temp_messages.clear();
-    }
 
-    /*-------------------------------------------------*\
-    | Flush the stream                                  |
-    \*-------------------------------------------------*/
-    log_stream.flush();
+        /*-------------------------------------------------*\
+        | Flush the stream                                  |
+        \*-------------------------------------------------*/
+        log_stream.flush();
+    }
 }
 
 void LogManager::flush()

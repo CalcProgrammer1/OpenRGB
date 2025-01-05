@@ -186,9 +186,22 @@ OpenRGBSettingsPage::OpenRGBSettingsPage(QWidget *parent) :
     /*---------------------------------------------------------*\
     | Checkboxes                                                |
     \*---------------------------------------------------------*/
+    if(log_manager_settings.contains("log_file"))
+    {
+        ui->CheckboxLogFile->setChecked(log_manager_settings["log_file"]);
+    }
+    else
+    {
+        ui->CheckboxLogFile->setChecked(true);
+    }
+
     if(log_manager_settings.contains("log_console"))
     {
         ui->CheckboxLogConsole->setChecked(log_manager_settings["log_console"]);
+    }
+    else
+    {
+        ui->CheckboxLogConsole->setChecked(false);
     }
 
     /*---------------------------------------------------------*\
@@ -942,6 +955,14 @@ void Ui::OpenRGBSettingsPage::on_CheckboxLogConsole_clicked()
 {
     json log_manager_settings = ResourceManager::get()->GetSettingsManager()->GetSettings("LogManager");
     log_manager_settings["log_console"] = ui->CheckboxLogConsole->isChecked();
+    ResourceManager::get()->GetSettingsManager()->SetSettings("LogManager", log_manager_settings);
+    SaveSettings();
+}
+
+void Ui::OpenRGBSettingsPage::on_CheckboxLogFile_clicked()
+{
+    json log_manager_settings = ResourceManager::get()->GetSettingsManager()->GetSettings("LogManager");
+    log_manager_settings["log_file"] = ui->CheckboxLogFile->isChecked();
     ResourceManager::get()->GetSettingsManager()->SetSettings("LogManager", log_manager_settings);
     SaveSettings();
 }

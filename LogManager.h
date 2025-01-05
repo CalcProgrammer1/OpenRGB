@@ -107,6 +107,7 @@ public:
     std::vector<PLogMessage> messages();
 
     bool log_console_enabled;
+    bool log_file_enabled;
     static const char* log_codes[];
 };
 
