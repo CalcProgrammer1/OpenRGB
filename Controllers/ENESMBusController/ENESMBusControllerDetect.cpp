@@ -465,6 +465,7 @@ REGISTER_I2C_PCI_DETECTOR("ASUS ROG MATRIX PLATINUM GeForce RTX 4090",          
 |  AMD GPUs                                 |
 \*-----------------------------------------*/
 
+REGISTER_I2C_PCI_DETECTOR("ASUS ROG STRIX Radeon RX 6650 XT Gaming",                    DetectENESMBusGPUControllers,   AMD_GPU_VEN,    AMD_NAVI23_DEV1,            ASUS_SUB_VEN,   ASUS_ROG_STRIX_RX_6650XT_O8G_GAMING,            0x67);
 REGISTER_I2C_PCI_DETECTOR("ASUS TUF Radeon RX 6700 XT Gaming OC",                       DetectENESMBusGPUControllers,   AMD_GPU_VEN,    AMD_NAVI22_DEV,             ASUS_SUB_VEN,   ASUS_TUF_RX_6700XT_O12G_GAMING,                 0x67);
 REGISTER_I2C_PCI_DETECTOR("ASUS ROG STRIX Radeon RX 6700 XT Gaming OC",                 DetectENESMBusGPUControllers,   AMD_GPU_VEN,    AMD_NAVI22_DEV,             ASUS_SUB_VEN,   ASUS_ROG_STRIX_RX_6700XT_O12G_GAMING,           0x67);
 REGISTER_I2C_PCI_DETECTOR("ASUS ROG STRIX Radeon RX 6750 XT Gaming OC",                 DetectENESMBusGPUControllers,   AMD_GPU_VEN,    AMD_NAVI22_DEV,             ASUS_SUB_VEN,   ASUS_ROG_STRIX_RX_6750XT_O12G_GAMING,           0x67);
@@ -478,6 +479,7 @@ REGISTER_I2C_PCI_DETECTOR("ASUS TUF Radeon RX 6900 XT Gaming OC",               
 REGISTER_I2C_PCI_DETECTOR("ASUS TUF Radeon RX 6900 XT T16G Gaming",                     DetectENESMBusGPUControllers,   AMD_GPU_VEN,    AMD_NAVI21_DEV2,            ASUS_SUB_VEN,   ASUS_TUF_RX_6900XT_T16G_GAMING,                 0x67);
 REGISTER_I2C_PCI_DETECTOR("ASUS TUF Radeon RX 6950 XT Gaming OC",                       DetectENESMBusGPUControllers,   AMD_GPU_VEN,    AMD_NAVI21_DEV3,            ASUS_SUB_VEN,   ASUS_TUF_RX_6950XT_016G_GAMING,                 0x67);
 REGISTER_I2C_PCI_DETECTOR("ASUS ROG STRIX LC Radeon RX 6950 XT Gaming OC",              DetectENESMBusGPUControllers,   AMD_GPU_VEN,    AMD_NAVI21_DEV3,            ASUS_SUB_VEN,   ASUS_ROG_STRIX_LC_RX_6950XT_O16G_GAMING,        0x67);
+REGISTER_I2C_PCI_DETECTOR("ASUS TUF Radeon RX 7600 XT O16G Gaming",                     DetectENESMBusGPUControllers,   AMD_GPU_VEN,    AMD_NAVI33_DEV,             ASUS_SUB_VEN,   ASUS_TUF_RX_7600XT_O16G_GAMING,                 0x67);
 REGISTER_I2C_PCI_DETECTOR("ASUS TUF Radeon RX 7700 XT Gaming OC",                       DetectENESMBusGPUControllers,   AMD_GPU_VEN,    AMD_NAVI32_DEV,             ASUS_SUB_VEN,   ASUS_TUF_RX_7700XT_012G_GAMING,                 0x67);
 REGISTER_I2C_PCI_DETECTOR("ASUS TUF Radeon RX 7800 XT Gaming OC",                       DetectENESMBusGPUControllers,   AMD_GPU_VEN,    AMD_NAVI32_DEV,             ASUS_SUB_VEN,   ASUS_TUF_RX_7800XT_O16G_GAMING,                 0x67);
 REGISTER_I2C_PCI_DETECTOR("ASUS TUF Radeon RX 7800 XT Gaming White OC",                 DetectENESMBusGPUControllers,   AMD_GPU_VEN,    AMD_NAVI32_DEV,             ASUS_SUB_VEN,   ASUS_TUF_RX_7800XT_O16G_WHITE_GAMING,           0x67);

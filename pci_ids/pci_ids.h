@@ -41,6 +41,7 @@
 #define AMD_NAVI23_DEV1                                 0x73EF
 #define AMD_NAVI31_DEV                                  0x744C
 #define AMD_NAVI32_DEV                                  0x747E
+#define AMD_NAVI33_DEV                                  0x7480
 
 /*-----------------------------------------------------*\
 | Intel Device IDs                                      |
@@ -292,6 +293,7 @@
 #define ASUS_TUF_RTX_3090TI_24G_GAMING                  0x8875
 #define ASUS_TUF_RTX_3090TI_O24G_OC_GAMING              0x8874
 #define ASUS_ROG_STRIX_LC_RTX_3090TI_O24G_GAMING        0x8870
+#define ASUS_ROG_STRIX_RX_6650XT_O8G_GAMING             0x05E1
 #define ASUS_TUF_RX_6700XT_O12G_GAMING                  0x05C9
 #define ASUS_ROG_STRIX_RX_6700XT_O12G_GAMING            0x05C7
 #define ASUS_ROG_STRIX_RX_6750XT_O12G_GAMING            0x05E5
@@ -300,6 +302,7 @@
 #define ASUS_TUF_RX_6900XT_O16G_GAMING                  0x04FA
 #define ASUS_TUF_RX_6900XT_T16G_GAMING                  0x04FE
 #define ASUS_TUF_RX_6950XT_016G_GAMING                  0x0504
+#define ASUS_TUF_RX_7600XT_O16G_GAMING                  0x0607
 #define ASUS_TUF_RX_7700XT_012G_GAMING                  0x0512
 #define ASUS_TUF_RX_7800XT_O16G_GAMING                  0x05FD
 #define ASUS_TUF_RX_7800XT_O16G_WHITE_GAMING            0x0601
