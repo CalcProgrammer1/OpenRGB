@@ -28,6 +28,7 @@ public:
     ~OpenRGBPluginsPage();
 
     void on_EnableButton_clicked(OpenRGBPluginsEntry* entry);
+    void RefreshList();
 
 private slots:
     void changeEvent(QEvent *event);
@@ -45,5 +46,4 @@ private:
     std::vector<OpenRGBPluginsEntry*> entries;
 
     bool InstallPlugin(std::string path);
-    void RefreshList();
 };

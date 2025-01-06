@@ -1546,6 +1546,7 @@ void OpenRGBDialog2::onDetectionEnded()
     {
         plugin_manager->ScanAndLoadPlugins();
         plugins_loaded = true;
+        PluginsPage->RefreshList();
     }
 
     if(device_view_showing)
