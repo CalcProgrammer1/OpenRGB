@@ -1,12 +1,14 @@
 #pragma once
 
 #include <vector>
-#include "RGBController.h"
 #include "i2c_smbus.h"
 #include "filesystem.h"
-#include "NetworkClient.h"
-#include "NetworkServer.h"
-#include "SettingsManager.h"
+
+class NetworkClient;
+class NetworkServer;
+class ProfileManager;
+class RGBController;
+class SettingsManager;
 
 typedef void (*DeviceListChangeCallback)(void *);
 typedef void (*DetectionProgressCallback)(void *);
