@@ -179,6 +179,7 @@ void AsusAuraCoreLaptopController::SetMode(uint8_t mode, uint8_t speed, uint8_t 
 
         if(current_mode == ASUSAURACORELAPTOP_MODE_DIRECT)
         {
+            SendBrightness();
             SendInitDirectMode();
             return;
         }

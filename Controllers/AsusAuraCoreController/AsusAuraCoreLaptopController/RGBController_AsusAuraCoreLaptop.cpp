@@ -49,7 +49,10 @@ RGBController_AsusAuraCoreLaptop::RGBController_AsusAuraCoreLaptop(AsusAuraCoreL
     mode Direct;
     Direct.name                 = "Direct";
     Direct.value                = ASUSAURACORELAPTOP_MODE_DIRECT;
-    Direct.flags                = MODE_FLAG_HAS_PER_LED_COLOR;
+    Direct.flags                = MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_HAS_BRIGHTNESS;
+    Direct.brightness_min       = ASUSAURACORELAPTOP_BRIGHTNESS_MIN;
+    Direct.brightness_max       = ASUSAURACORELAPTOP_BRIGHTNESS_MAX;
+    Direct.brightness           = ASUSAURACORELAPTOP_BRIGHTNESS_MAX;
     Direct.color_mode           = MODE_COLORS_PER_LED;
     modes.push_back(Direct);
 

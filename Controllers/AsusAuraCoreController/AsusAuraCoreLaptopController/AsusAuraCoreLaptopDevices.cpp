@@ -271,8 +271,8 @@ keyboard_keymap_overlay_values g814jv_keyboard_layout
      {   0,      6,       8,           0,        KEY_EN_UNUSED,              KEYBOARD_OPCODE_REMOVE_SHIFT_LEFT,  },  // Remove part of Spacebar
      {   0,      6,       8,           0,        KEY_EN_UNUSED,              KEYBOARD_OPCODE_REMOVE_SHIFT_LEFT,  },  // Remove part of Spacebar
      {   0,      6,       1,         127,        KEY_EN_LEFT_FUNCTION,       KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Insert Left Fuction
-     {   0,      6,      11,         136,        KEY_EN_PRINT_SCREEN,        KEYBOARD_OPCODE_SWAP_ONLY,          },  // Replace Right Fuction with PrtSc
-     {   0,      6,      12,         136,        KEY_EN_RIGHT_WINDOWS,       KEYBOARD_OPCODE_REMOVE_SHIFT_LEFT,  },  // Remove Right Win Key
+     {   0,      6,      10,         136,        KEY_EN_PRINT_SCREEN,        KEYBOARD_OPCODE_SWAP_ONLY,          },  // Replace Right Fuction with PrtSc
+     {   0,      6,      11,           0,        KEY_EN_RIGHT_WINDOWS,       KEYBOARD_OPCODE_REMOVE_SHIFT_LEFT,  },  // Remove Right Win Key
      {   0,      1,      14,           0,        KEY_EN_UNUSED,              KEYBOARD_OPCODE_REMOVE_SHIFT_LEFT,  },
      {   0,      1,      14,          38,        KEY_EN_DELETE,              KEYBOARD_OPCODE_SWAP_ONLY,          },  // Insert a Delete key
      {   0,      1,      16,          40,        KEY_EN_PRINT_SCREEN,        KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Insert a Print Screen key
