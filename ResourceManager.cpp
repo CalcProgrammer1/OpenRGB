@@ -84,10 +84,15 @@ ResourceManager::ResourceManager()
     detection_percent           = 100;
     detection_string            = "";
     detection_is_required       = false;
-    InitThread                  = nullptr;
-    DetectDevicesThread         = nullptr;
     dynamic_detectors_processed = false;
     init_finished               = false;
+    background_thread_running    = true;
+
+    /*-------------------------------------------------------------------------*\
+    | Start the background detection thread in advance; it will be suspended    |
+    | until necessary                                                           |
+    \*-------------------------------------------------------------------------*/
+    DetectDevicesThread         = new std::thread(&ResourceManager::BackgroundThreadFunction, this);
 
     SetupConfigurationDirectory();
 
@@ -173,7 +178,13 @@ ResourceManager::~ResourceManager()
 {
     Cleanup();
 
-    if(InitThread)
+    // Mark the background detection thread as not running
+    // And then wake it up so it knows that it has to stop
+    background_thread_running = false;
+    BackgroundFunctionStartTrigger.notify_one();
+
+    // Stop the background thread
+    if(DetectDevicesThread)
     {
         DetectDevicesThread->join();
         delete DetectDevicesThread;
@@ -805,19 +816,7 @@ void ResourceManager::Cleanup()
         delete bus;
     }
 
-    /*-------------------------------------------------*\
-    | Cleanup HID interface                             |
-    \*-------------------------------------------------*/
-    int hid_status = hid_exit();
-
-    LOG_DEBUG("Closing HID interfaces: %s", ((hid_status == 0) ? "Success" : "Failed"));
-
-    if(DetectDevicesThread)
-    {
-        DetectDevicesThread->join();
-        delete DetectDevicesThread;
-        DetectDevicesThread = nullptr;
-    }
+    RunInBackgroundThread(std::bind(&ResourceManager::HidExitCoroutine, this));
 }
 
 void ResourceManager::ProcessPreDetectionHooks()
@@ -903,7 +902,8 @@ bool ResourceManager::ProcessPreDetection()
         LOG_INFO("Initializing HID interfaces: %s", ((hid_status == 0) ? "Success" : "Failed"));
 
         /*-------------------------------------------------*\
-        | Start the device detection thread                 |
+        | Mark the detection as ongoing                     |
+        | So the detection thread may proceed               |
         \*-------------------------------------------------*/
         detection_is_required = true;
 
@@ -916,13 +916,8 @@ void ResourceManager::DetectDevices()
 {
     if(ProcessPreDetection())
     {
-        DetectDevicesThread = new std::thread(&ResourceManager::DetectDevicesThreadFunction, this);
-
-        /*-------------------------------------------------*\
-        | Release the current thread to allow detection     |
-        | thread to start                                   |
-        \*-------------------------------------------------*/
-        std::this_thread::sleep_for(1ms);
+        // Run the detection coroutine
+        RunInBackgroundThread(std::bind(&ResourceManager::DetectDevicesCoroutine, this));
     }
 
     if(!detection_enabled)
@@ -960,7 +955,7 @@ void ResourceManager::DisableDetection()
     detection_enabled = false;
 }
 
-void ResourceManager::DetectDevicesThreadFunction()
+void ResourceManager::DetectDevicesCoroutine()
 {
     DetectDeviceMutex.lock();
 
@@ -1637,10 +1632,10 @@ void ResourceManager::Initialize(bool tryConnect, bool detectDevices, bool start
     start_server       = startServer;
     apply_post_options = applyPostOptions;
 
-    InitThread = new std::thread(&ResourceManager::InitThreadFunction, this);
+    RunInBackgroundThread(std::bind(&ResourceManager::InitCoroutine, this));
 }
 
-void ResourceManager::InitThreadFunction()
+void ResourceManager::InitCoroutine()
 {
     if(tryAutoConnect)
     {
@@ -1670,7 +1665,8 @@ void ResourceManager::InitThreadFunction()
         LOG_DEBUG("[ResourceManager] Running standalone");
         if(ProcessPreDetection())
         {
-            DetectDevicesThreadFunction();
+            // We are currently in a coroutine, so run detection directly with no scheduling
+            DetectDevicesCoroutine();
         }
     }
     else
@@ -1701,6 +1697,74 @@ void ResourceManager::InitThreadFunction()
     }
 
     init_finished = true;
+}
+
+void ResourceManager::HidExitCoroutine()
+{
+    /*-------------------------------------------------*\
+    | Cleanup HID interface                             |
+    | WARNING: may not be ran from any other thread!!!  |
+    \*-------------------------------------------------*/
+    int hid_status = hid_exit();
+
+    LOG_DEBUG("Closing HID interfaces: %s", ((hid_status == 0) ? "Success" : "Failed"));
+}
+
+void ResourceManager::RunInBackgroundThread(std::function<void()> coroutine)
+{
+    if(std::this_thread::get_id() == DetectDevicesThread->get_id())
+    {
+        // We are already in the background thread - don't schedule the call, run it immediately
+        coroutine();
+    }
+    else
+    {
+        BackgroundThreadStateMutex.lock();
+        if(ScheduledBackgroundFunction != nullptr)
+        {
+            LOG_WARNING("Detection coroutine: assigned a new coroutine when one was already scheduled - probably two rescan events sent at once");
+        }
+        ScheduledBackgroundFunction = coroutine;
+        BackgroundThreadStateMutex.unlock();
+        BackgroundFunctionStartTrigger.notify_one();
+    }
+}
+
+void ResourceManager::BackgroundThreadFunction()
+{
+    // The background thread that runs scheduled coroutines when applicable
+    // Stays asleep if nothing is scheduled
+    // NOTE: this thread owns the HIDAPI library internal objects on MacOS
+    // hid_init and hid_exit may not be called outside of this thread
+    // calling hid_exit outside of this thread WILL cause an immediate CRASH on MacOS
+    // BackgroundThreadStateMutex will be UNLOCKED as long as the thread is suspended
+    // It locks automatically when any coroutine is running
+    // However, it seems to be necessary to be separate from the DeviceDetectionMutex, even though their states are nearly identical
+
+    std::unique_lock lock(BackgroundThreadStateMutex);
+    while(background_thread_running)
+    {
+        if(ScheduledBackgroundFunction)
+        {
+            std::function<void()> coroutine = nullptr;
+            std::swap(ScheduledBackgroundFunction, coroutine);
+            try
+            {
+                coroutine();
+            }
+            catch(std::exception& e)
+            {
+                LOG_ERROR("Unhandled exception in coroutine; e.what(): %s", e.what());
+            }
+            catch(...)
+            {
+                LOG_ERROR("Unhandled exception in coroutine");
+            }
+        }
+        // This line will cause the thread to suspend until the condition variable is triggered
+        // NOTE: it may be subject to "spurious wakeups"
+        BackgroundFunctionStartTrigger.wait(lock);
+    }
 }
 
 void ResourceManager::UpdateDetectorSettings()

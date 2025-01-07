@@ -227,14 +227,22 @@ public:
     void WaitForDeviceDetection();
 
 private:
-    void DetectDevicesThreadFunction();
     void UpdateDetectorSettings();
     void SetupConfigurationDirectory();
     bool AttemptLocalConnection();
-    void InitThreadFunction();
     bool ProcessPreDetection();
     void ProcessPostDetection();
     bool IsAnyDimmDetectorEnabled(json &detector_settings);
+    void RunInBackgroundThread(std::function<void()>);
+    void BackgroundThreadFunction();
+
+    /*-------------------------------------------------------------------------------------*\
+    | Functions that must be run in the background thread                                   |
+    | These are not related to STL coroutines, yet this name is the most convenient         |
+    \*-------------------------------------------------------------------------------------*/
+    void InitCoroutine();
+    void DetectDevicesCoroutine();
+    void HidExitCoroutine();
 
     /*-------------------------------------------------------------------------------------*\
     | Static pointer to shared instance of ResourceManager                                  |
@@ -318,10 +326,13 @@ private:
     /*-------------------------------------------------------------------------------------*\
     | Detection Thread and Detection State                                                  |
     \*-------------------------------------------------------------------------------------*/
-    std::thread *                               DetectDevicesThread; // Used for rescan
-    std::thread *                               InitThread; // Used for initial scan, initial network scan, server startup
+    std::thread *                               DetectDevicesThread;
     std::mutex                                  DetectDeviceMutex;
+    std::function<void()>                       ScheduledBackgroundFunction;
+    std::mutex                                  BackgroundThreadStateMutex;
+    std::condition_variable                     BackgroundFunctionStartTrigger; // NOTE: wakes up the background detection thread
 
+    std::atomic<bool>                           background_thread_running;
     std::atomic<bool>                           detection_is_required;
     std::atomic<unsigned int>                   detection_percent;
     std::atomic<unsigned int>                   detection_prev_size;
