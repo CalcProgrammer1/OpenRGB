@@ -16,6 +16,7 @@
 #include "SettingsManager.h"
 #include "OpenRGBPluginsPage.h"
 #include "ui_OpenRGBPluginsPage.h"
+#include "ResourceManager.h"
 
 void EnableClickCallbackFunction(void* this_ptr, void* entry_ptr)
 {

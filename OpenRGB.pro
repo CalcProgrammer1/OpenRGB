@@ -179,6 +179,7 @@ HEADERS +=                                                                      
     PluginManager.h                                                                             \
     ProfileManager.h                                                                            \
     ResourceManager.h                                                                           \
+    ResourceManagerInterface.h                                                                  \
     SettingsManager.h                                                                           \
     Detector.h                                                                                  \
     DeviceDetector.h                                                                            \

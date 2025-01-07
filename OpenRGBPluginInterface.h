@@ -15,7 +15,7 @@
 #include <QtPlugin>
 #include <QLabel>
 #include <QMenu>
-#include "ResourceManager.h"
+#include "ResourceManagerInterface.h"
 
 #define OpenRGBPluginInterface_IID  "com.OpenRGBPluginInterface"
 
@@ -77,7 +77,7 @@ public:
     /*-------------------------------------------------------------------------------------------------*\
     | Plugin Functionality                                                                              |
     \*-------------------------------------------------------------------------------------------------*/
-    virtual void                Load(bool dark_theme, ResourceManager* resource_manager_ptr)        = 0;
+    virtual void                Load(ResourceManagerInterface* resource_manager_ptr)                = 0;
     virtual QWidget*            GetWidget()                                                         = 0;
     virtual QMenu*              GetTrayMenu()                                                       = 0;
     virtual void                Unload()                                                            = 0;
