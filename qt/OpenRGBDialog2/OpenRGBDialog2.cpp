@@ -574,6 +574,12 @@ OpenRGBDialog2::OpenRGBDialog2(QWidget *parent) : QMainWindow(parent), ui(new Op
 
 OpenRGBDialog2::~OpenRGBDialog2()
 {
+    delete ui;
+}
+
+
+void OpenRGBDialog2::handleAboutToQuit()
+{    
     /*-----------------------------------------------------*\
     | Write window geometry to config (if enabled)          |
     \*-----------------------------------------------------*/
@@ -602,12 +608,6 @@ OpenRGBDialog2::~OpenRGBDialog2()
         }
     }
 
-    delete ui;
-}
-
-
-void OpenRGBDialog2::handleAboutToQuit()
-{
     QCloseEvent* closeEvent = new QCloseEvent;
     this->closeEvent(closeEvent);
     delete closeEvent;
