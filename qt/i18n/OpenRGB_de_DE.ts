@@ -32,15 +32,15 @@
     </message>
     <message>
         <source>Connected Clients</source>
-        <translation type="unfinished">Verbundene Clients</translation>
+        <translation>Verbundene Clients</translation>
     </message>
     <message>
         <source>Protocol Version</source>
-        <translation type="unfinished">Protokollversion</translation>
+        <translation>Protokollversion</translation>
     </message>
     <message>
         <source>Save Connection</source>
-        <translation type="unfinished">Verbindung speichern</translation>
+        <translation>Verbindung speichern</translation>
     </message>
 </context>
 <context>
@@ -459,16 +459,12 @@
 <context>
     <name>OpenRGBNanoleafSettingsEntryUi</name>
     <message>
-        <source>Form</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>IP:</source>
-        <translation type="unfinished">IP:</translation>
+        <translation>IP:</translation>
     </message>
     <message>
         <source>Port:</source>
-        <translation type="unfinished">Port:</translation>
+        <translation>Port:</translation>
     </message>
     <message>
         <source>Auth Key:</source>
@@ -503,7 +499,7 @@
     </message>
     <message>
         <source>To pair, hold the on-off button down for 5-7 seconds until the LED starts flashing in a pattern, then click the &quot;Pair&quot; button within 30 seconds.</source>
-        <translation>Halten Sie zum Koppeln die Ein-/Aus-Taste 5–7 Sekunden lang gedrückt, bis die LED in einem Muster blinkt, und klicken Sie dann innerhalb von 30 Sekunden auf &quot;Koppeln&quot;.</translation>
+        <translation>Halte zum Koppeln die Ein-/Aus-Taste 5–7 Sekunden lang gedrückt, bis die LED in einem Muster blinkt, und klicke dann innerhalb von 30 Sekunden auf &quot;Koppeln&quot;.</translation>
     </message>
 </context>
 <context>
@@ -524,20 +520,12 @@
 <context>
     <name>OpenRGBElgatoKeyLightSettingsEntryUi</name>
     <message>
-        <source>Dialog</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>IP:</source>
-        <translation type="unfinished">IP:</translation>
+        <translation>IP:</translation>
     </message>
 </context>
 <context>
     <name>OpenRGBElgatoKeyLightSettingsPageUi</name>
-    <message>
-        <source>Dialog</source>
-        <translation type="unfinished"></translation>
-    </message>
     <message>
         <source>Add</source>
         <translation>Hinzufügen</translation>
@@ -554,20 +542,12 @@
 <context>
     <name>OpenRGBElgatoLightStripSettingsEntryUi</name>
     <message>
-        <source>Dialog</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>IP:</source>
-        <translation type="unfinished">IP:</translation>
+        <translation>IP:</translation>
     </message>
 </context>
 <context>
     <name>OpenRGBElgatoLightStripSettingsPageUi</name>
-    <message>
-        <source>Dialog</source>
-        <translation type="unfinished"></translation>
-    </message>
     <message>
         <source>Add</source>
         <translation>Hinzufügen</translation>
@@ -584,24 +564,16 @@
 <context>
     <name>OpenRGBLIFXSettingsEntryUi</name>
     <message>
-        <source>Form</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>IP:</source>
-        <translation type="unfinished">IP:</translation>
+        <translation>IP:</translation>
     </message>
     <message>
         <source>Name</source>
-        <translation type="unfinished">Name</translation>
+        <translation>Name</translation>
     </message>
 </context>
 <context>
     <name>OpenRGBLIFXSettingsPageUi</name>
-    <message>
-        <source>Form</source>
-        <translation type="unfinished"></translation>
-    </message>
     <message>
         <source>Add</source>
         <translation>Hinzufügen</translation>
@@ -642,14 +614,6 @@
         <translation>MAC:</translation>
     </message>
     <message>
-        <source>Philips Hue settings entry</source>
-        <translation type="vanished">Philips Hue Eintrag</translation>
-    </message>
-    <message>
-        <source>Form</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Auto Connect Group:</source>
         <translation>Auto-Connect-Gruppe</translation>
     </message>
@@ -670,7 +634,7 @@
     </message>
     <message>
         <source>After adding a Hue entry and saving, restart OpenRGB and press the Sync button on your Hue bridge to pair it.</source>
-        <translation>Nachdem Sie einen Hue Eintrag hinzugefügt und gespeichert haben, starten Sie OpenRGB neu und drücken Sie die Sync Taste an Ihrer Hue-Bridge, um sie zu koppeln.</translation>
+        <translation>Nachdem Sie einen Hue Eintrag hinzugefügt und gespeichert haben, starte OpenRGB neu und drücke die Sync Taste an Ihrer Hue-Bridge, um sie zu koppeln.</translation>
     </message>
     <message>
         <source>Philips Hue settings page</source>
@@ -790,6 +754,10 @@
         <source>New Profile Name:</source>
         <translation>Neuer Profil Name:</translation>
     </message>
+    <message>
+        <source>Create a new profile:</source>
+        <translation>Neues Profil erstellen:</translation>
+    </message>
 </context>
 <context>
     <name>OpenRGBQMKORGBSettingsEntryUi</name>
@@ -906,20 +874,16 @@
         <translation>Server Information</translation>
     </message>
     <message>
-        <source>Server Host:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Client IP</source>
-        <translation type="unfinished">Client IP</translation>
+        <translation>Client IP</translation>
     </message>
     <message>
         <source>Protocol Version</source>
-        <translation type="unfinished">Protokollversion</translation>
+        <translation>Protokollversion</translation>
     </message>
     <message>
         <source>Client Name</source>
-        <translation type="unfinished">Client-Name</translation>
+        <translation>Client-Name</translation>
     </message>
 </context>
 <context>
@@ -938,21 +902,19 @@
     </message>
     <message>
         <source>Disable key expansion in device view</source>
-        <translation>Deaktiviere die Schlüsselerweiterung in der Geräteansicht</translation>
+        <translation>Deaktiviere Schlüsselerweiterung in der Geräteansicht</translation>
     </message>
     <message>
         <source>Start Server</source>
         <translation>Server starten</translation>
     </message>
     <message>
-        <location filename="../OpenRGBSettingsPage/OpenRGBSettingsPage.ui" line="211"/>
         <source>Show LED view by default</source>
         <translation>LED anzeige standardmäßig zeigen</translation>
     </message>
     <message>
-        <location filename="../OpenRGBSettingsPage/OpenRGBSettingsPage.ui" line="218"/>
         <source>Set Profile on Suspend</source>
-        <translation>Profil beim Schalfen anwenden</translation>
+        <translation>Profil beim Schlafen anwenden</translation>
     </message>
 
     <message>
@@ -968,7 +930,6 @@
         <translation>Einstellungen der Benutzeroberfläche:</translation>
     </message>
     <message>
-        <location filename="../OpenRGBSettingsPage/OpenRGBSettingsPage.ui" line="259"/>
         <source>Set Profile on Resume</source>
         <translation>Profil beim Aufwachen anwenden</translation>
     </message>
@@ -981,7 +942,6 @@
         <translation>Profil beim Schließen anwenden</translation>
     </message>
     <message>
-        <location filename="../OpenRGBSettingsPage/OpenRGBSettingsPage.ui" line="304"/>
         <source>Enable Log File (restart required)</source>
         <translation>Log Datei aktivieren (Programmneustart erforderlich)</translation>
     </message>
@@ -1051,7 +1011,7 @@
     </message>
     <message>
         <source>Set Server Host</source>
-        <translation type="unfinished">Setze Server Host</translation>
+        <translation>Setze Server Host</translation>
     </message>
     <message>
         <source>Language</source>
@@ -1240,7 +1200,7 @@
     <name>OpenRGBZonesBulkResizerUi</name>
     <message>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;One or more resizable zones have not been configured.  Resizable zones are most commonly used for addressable RGB headers where the size of the connected device cannot be detected automatically.&lt;/p&gt;&lt;p&gt;Please enter the number of LEDs in each zone below.&lt;/p&gt;&lt;p&gt;For more information about calcuating the correct size, please check &lt;a href=&quot;https://openrgb.org/resize&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;this link.&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Eine oder mehrere größenveränderbare Zonen sind nicht konfiguriert worden.  Größenveränderbare Zonen werden am häufigsten für adressierbare RGB-Header verwendet, bei denen die Größe des angeschlossenen Geräts nicht automatisch erkannt werden kann.&lt;/p&gt;&lt;p&gt;Bitte geben Sie unten die Anzahl der LEDs in jeder Zone ein.&lt;/p&gt;&lt;p&gt;Weitere Informationen zur Berechnung der richtigen Größe finden Sie unter &lt;a href=&quot;https://openrgb.org/resize&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;diesem Link.&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Eine oder mehrere größenveränderbare Zonen sind nicht konfiguriert worden.  Größenveränderbare Zonen werden am häufigsten für adressierbare RGB-Header verwendet, bei denen die Größe des angeschlossenen Geräts nicht automatisch erkannt werden kann.&lt;/p&gt;&lt;p&gt;Bitte gebe unten die Anzahl der LEDs in jeder Zone ein.&lt;/p&gt;&lt;p&gt;Weitere Informationen zur Berechnung der richtigen Größe finden Sie unter &lt;a href=&quot;https://openrgb.org/resize&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;diesem Link.&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <source>Do not show again</source>
@@ -1272,18 +1232,6 @@
 </context>
 <context>
     <name>Ui::OpenRGBClientInfoPage</name>
-    <message>
-        <source>Connected Clients</source>
-        <translation type="vanished">Verbundene Clients</translation>
-    </message>
-    <message>
-        <source>Protocol Version</source>
-        <translation type="vanished">Protokollversion</translation>
-    </message>
-    <message>
-        <source>Save Connection</source>
-        <translation type="vanished">Verbindung speichern</translation>
-    </message>
     <message>
         <source>Disconnect</source>
         <translation>Trennen</translation>
@@ -1604,18 +1552,6 @@
         <source>Offline</source>
         <translation>Offline</translation>
     </message>
-    <message>
-        <source>Client IP</source>
-        <translation type="vanished">Client IP</translation>
-    </message>
-    <message>
-        <source>Protocol Version</source>
-        <translation type="vanished">Protokollversion</translation>
-    </message>
-    <message>
-        <source>Client Name</source>
-        <translation type="vanished">Client-Name</translation>
-    </message>
 </context>
 <context>
     <name>Ui::OpenRGBSettingsPage</name>
@@ -1625,11 +1561,11 @@
     </message>
     <message>
         <source>English - US</source>
-        <translation type="unfinished">Deutsch</translation>
+        <translation>Deutsch</translation>
     </message>
     <message>
         <source>System Default</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
 </context>
 <context>
