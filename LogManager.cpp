@@ -14,8 +14,6 @@
 #include <iomanip>
 #include <chrono>
 
-#include "ResourceManager.h"
-
 #include "filesystem.h"
 
 const char* LogManager::log_codes[] = {"FATAL:", "ERROR:", "Warning:", "Info:", "Verbose:", "Debug:", "Trace:", "Dialog:"};
