@@ -111,6 +111,7 @@ void RGBController_BloodyMouse::SetupZones()
             break;
         case BLOODY_W70_MAX_PID:
         case BLOODY_W90_MAX_PID:
+        case BLOODY_W90_PRO_PID:
             layout = w90_max;
             break;
         case BLOODY_MP_50RS_PID:
