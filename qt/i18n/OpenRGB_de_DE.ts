@@ -503,7 +503,7 @@
     </message>
     <message>
         <source>To pair, hold the on-off button down for 5-7 seconds until the LED starts flashing in a pattern, then click the &quot;Pair&quot; button within 30 seconds.</source>
-        <translation>Halten Sie zum Koppeln die Ein-/Aus-Taste 5–7 Sekunden lang gedrückt, bis die LED in einem Muster blinkt, und klicken Sie dann, innerhalb von 30 Sekunden, auf &quot;Koppeln&quot;.</translation>
+        <translation>Halten Sie zum Koppeln die Ein-/Aus-Taste 5–7 Sekunden lang gedrückt, bis die LED in einem Muster blinkt, und klicken Sie dann innerhalb von 30 Sekunden auf &quot;Koppeln&quot;.</translation>
     </message>
 </context>
 <context>
@@ -938,12 +938,23 @@
     </message>
     <message>
         <source>Disable key expansion in device view</source>
-        <translation>Deaktivieren Sie die Schlüsselerweiterung in der Geräteansicht</translation>
+        <translation>Deaktiviere die Schlüsselerweiterung in der Geräteansicht</translation>
     </message>
     <message>
         <source>Start Server</source>
         <translation>Server starten</translation>
     </message>
+    <message>
+        <location filename="../OpenRGBSettingsPage/OpenRGBSettingsPage.ui" line="211"/>
+        <source>Show LED view by default</source>
+        <translation>LED anzeige standardmäßig zeigen</translation>
+    </message>
+    <message>
+        <location filename="../OpenRGBSettingsPage/OpenRGBSettingsPage.ui" line="218"/>
+        <source>Set Profile on Suspend</source>
+        <translation>Profil beim Schalfen anwenden</translation>
+    </message>
+
     <message>
         <source>Start Minimized</source>
         <translation>Minimiert Starten</translation>
@@ -957,12 +968,22 @@
         <translation>Einstellungen der Benutzeroberfläche:</translation>
     </message>
     <message>
+        <location filename="../OpenRGBSettingsPage/OpenRGBSettingsPage.ui" line="259"/>
+        <source>Set Profile on Resume</source>
+        <translation>Profil beim Aufwachen anwenden</translation>
+    </message>
+    <message>
         <source>Start At Login</source>
         <translation>Bei der Anmeldung starten</translation>
     </message>
     <message>
         <source>Set Profile on Exit</source>
         <translation>Profil beim Schließen anwenden</translation>
+    </message>
+    <message>
+        <location filename="../OpenRGBSettingsPage/OpenRGBSettingsPage.ui" line="304"/>
+        <source>Enable Log File (restart required)</source>
+        <translation>Log Datei aktivieren (Programmneustart erforderlich)</translation>
     </message>
     <message>
         <source>Minimize On Close</source>
