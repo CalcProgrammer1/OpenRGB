@@ -1088,17 +1088,17 @@ Using an effect on a device WILL damage the flash or controller</source>
     <message>
         <location filename="../OpenRGBClientInfoPage.ui" line="71"/>
         <source>Connected Clients</source>
-        <translation type="unfinished">連接的用戶端</translation>
+        <translation>已連接的用戶端</translation>
     </message>
     <message>
         <location filename="../OpenRGBClientInfoPage.ui" line="76"/>
         <source>Protocol Version</source>
-        <translation type="unfinished">協議版本</translation>
+        <translation>協議版本</translation>
     </message>
     <message>
         <location filename="../OpenRGBClientInfoPage.ui" line="81"/>
         <source>Save Connection</source>
-        <translation type="unfinished">保存連接</translation>
+        <translation>保存連接</translation>
     </message>
 </context>
 <context>
@@ -1604,12 +1604,12 @@ Using an effect on a device WILL damage the flash or controller</source>
     <message>
         <location filename="../OpenRGBElgatoKeyLightSettingsPage/OpenRGBElgatoKeyLightSettingsEntry.ui" line="14"/>
         <source>Dialog</source>
-        <translation type="unfinished"></translation>
+        <translation>對話框</translation>
     </message>
     <message>
         <location filename="../OpenRGBElgatoKeyLightSettingsPage/OpenRGBElgatoKeyLightSettingsEntry.ui" line="26"/>
         <source>IP:</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -1617,22 +1617,22 @@ Using an effect on a device WILL damage the flash or controller</source>
     <message>
         <location filename="../OpenRGBElgatoKeyLightSettingsPage/OpenRGBElgatoKeyLightSettingsPage.ui" line="14"/>
         <source>Dialog</source>
-        <translation type="unfinished"></translation>
+        <translation>對話框</translation>
     </message>
     <message>
         <location filename="../OpenRGBElgatoKeyLightSettingsPage/OpenRGBElgatoKeyLightSettingsPage.ui" line="23"/>
         <source>Add</source>
-        <translation type="unfinished">添加</translation>
+        <translation>添加</translation>
     </message>
     <message>
         <location filename="../OpenRGBElgatoKeyLightSettingsPage/OpenRGBElgatoKeyLightSettingsPage.ui" line="30"/>
         <source>Remove</source>
-        <translation type="unfinished">移除</translation>
+        <translation>移除</translation>
     </message>
     <message>
         <location filename="../OpenRGBElgatoKeyLightSettingsPage/OpenRGBElgatoKeyLightSettingsPage.ui" line="37"/>
         <source>Save</source>
-        <translation type="unfinished">保存</translation>
+        <translation>保存</translation>
     </message>
 </context>
 <context>
@@ -1640,12 +1640,12 @@ Using an effect on a device WILL damage the flash or controller</source>
     <message>
         <location filename="../OpenRGBElgatoLightStripSettingsPage/OpenRGBElgatoLightStripSettingsPage.ui" line="14"/>
         <source>Dialog</source>
-        <translation type="unfinished"></translation>
+        <translation>對話框</translation>
     </message>
     <message>
         <location filename="../OpenRGBElgatoLightStripSettingsPage/OpenRGBElgatoLightStripSettingsPage.ui" line="26"/>
         <source>IP:</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -1653,22 +1653,22 @@ Using an effect on a device WILL damage the flash or controller</source>
     <message>
         <location filename="../OpenRGBElgatoLightStripSettingsPage/OpenRGBElgatoLightStripSettingsPage.ui" line="14"/>
         <source>Dialog</source>
-        <translation type="unfinished"></translation>
+        <translation>對話框</translation>
     </message>
     <message>
         <location filename="../OpenRGBElgatoLightStripSettingsPage/OpenRGBElgatoLightStripSettingsPage.ui" line="23"/>
         <source>Add</source>
-        <translation type="unfinished">添加</translation>
+        <translation>添加</translation>
     </message>
     <message>
         <location filename="../OpenRGBElgatoLightStripSettingsPage/OpenRGBElgatoLightStripSettingsPage.ui" line="30"/>
         <source>Remove</source>
-        <translation type="unfinished">移除</translation>
+        <translation>移除</translation>
     </message>
     <message>
         <location filename="../OpenRGBElgatoLightStripSettingsPage/OpenRGBElgatoLightStripSettingsPage.ui" line="37"/>
         <source>Save</source>
-        <translation type="unfinished">保存</translation>
+        <translation>保存</translation>
     </message>
 </context>
 <context>
@@ -1686,7 +1686,7 @@ Using an effect on a device WILL damage the flash or controller</source>
     <message>
         <location filename="../OpenRGBLIFXSettingsPage/OpenRGBLIFXSettingsEntry.ui" line="45"/>
         <source>Name</source>
-        <translation type="unfinished">名稱</translation>
+        <translation>名稱</translation>
     </message>
 </context>
 <context>
@@ -1946,7 +1946,7 @@ Using an effect on a device WILL damage the flash or controller</source>
     <message>
         <location filename="../OpenRGBPluginsPage/OpenRGBPluginsPage.ui" line="44"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;Looking for plugins? See the official list at &lt;a href=&quot;https://openrgb.org/plugins.html&quot;&gt;OpenRGB.org&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;正在尋找插件？請參閱官方列表 &lt;a href=&quot;https://openrgb.org/plugins.html&quot;&gt;OpenRGB.org&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
 </context>
 <context>
@@ -2084,17 +2084,17 @@ Using an effect on a device WILL damage the flash or controller</source>
     <message>
         <location filename="../OpenRGBServerInfoPage.ui" line="45"/>
         <source>Client IP</source>
-        <translation type="unfinished">用戶端 IP</translation>
+        <translation>客戶端 IP</translation>
     </message>
     <message>
         <location filename="../OpenRGBServerInfoPage.ui" line="50"/>
         <source>Protocol Version</source>
-        <translation type="unfinished">協議版本</translation>
+        <translation>協議版本</translation>
     </message>
     <message>
         <location filename="../OpenRGBServerInfoPage.ui" line="55"/>
         <source>Client Name</source>
-        <translation type="unfinished">用戶端名稱</translation>
+        <translation>客戶端名稱</translation>
     </message>
     <message>
         <location filename="../OpenRGBServerInfoPage.ui" line="80"/>
@@ -2104,7 +2104,7 @@ Using an effect on a device WILL damage the flash or controller</source>
     <message>
         <location filename="../OpenRGBServerInfoPage.ui" line="107"/>
         <source>Server Host:</source>
-        <translation type="unfinished"></translation>
+        <translation>伺服器主機:</translation>
     </message>
     <message>
         <location filename="../OpenRGBServerInfoPage.ui" line="73"/>
@@ -2192,17 +2192,17 @@ Using an effect on a device WILL damage the flash or controller</source>
     <message>
         <location filename="../OpenRGBSettingsPage.ui" line="198"/>
         <source>Set Profile on Exit</source>
-        <translation type="unfinished"></translation>
+        <translation>退出配置文件</translation>
     </message>
     <message>
         <location filename="../OpenRGBSettingsPage.ui" line="219"/>
         <source>Shared SMBus Access (restart required)</source>
-        <translation type="unfinished"></translation>
+        <translation>共享 SMBus 存取（需要重新啟動）</translation>
     </message>
     <message>
         <location filename="../OpenRGBSettingsPage.ui" line="229"/>
         <source>Set Server Host</source>
-        <translation type="unfinished"></translation>
+        <translation>設定伺服器主機</translation>
     </message>
     <message>
         <location filename="../OpenRGBSettingsPage.ui" line="236"/>
@@ -2212,7 +2212,7 @@ Using an effect on a device WILL damage the flash or controller</source>
     <message>
         <location filename="../OpenRGBSettingsPage.ui" line="250"/>
         <source>Language</source>
-        <translation type="unfinished"></translation>
+        <translation>語言</translation>
     </message>
     <message>
         <location filename="../OpenRGBSettingsPage.ui" line="137"/>
@@ -3081,7 +3081,7 @@ Using an effect on a device WILL damage the flash or controller</source>
     <message>
         <location filename="../OpenRGBDialog2.cpp" line="792"/>
         <source>LIFX Devices</source>
-        <translation type="unfinished"></translation>
+        <translation>LIFX 設備</translation>
     </message>
     <message>
         <location filename="../OpenRGBDialog2.cpp" line="820"/>
@@ -3111,17 +3111,17 @@ Using an effect on a device WILL damage the flash or controller</source>
     <message>
         <location filename="../OpenRGBDialog2.cpp" line="960"/>
         <source>Nanoleaf Devices</source>
-        <translation type="unfinished"></translation>
+        <translation>綠諾設備</translation>
     </message>
     <message>
         <location filename="../OpenRGBDialog2.cpp" line="988"/>
         <source>Elgato KeyLight Devices</source>
-        <translation type="unfinished"></translation>
+        <translation>Elgato KeyLight 設備</translation>
     </message>
-	<message>
+    <message>
         <location filename="../OpenRGBDialog2.cpp" line="988"/>
         <source>Elgato LightStrip Devices</source>
-        <translation type="unfinished"></translation>
+        <translation>Elgato 燈條設備</translation>
     </message>
     <message>
         <location filename="../OpenRGBDialog2.cpp" line="1202"/>
@@ -3226,7 +3226,7 @@ Using an effect on a device WILL damage the flash or controller</source>
     <message>
         <location filename="../OpenRGBPluginsPage/OpenRGBPluginsPage.cpp" line="98"/>
         <source>Plugin files (*.dll *.dylib *.so *.so.*)</source>
-        <translation type="unfinished"></translation>
+        <translation>插件文件 (*.dll *.dylib *.so *.so.*)</translation>
     </message>
     <message>
         <location filename="../OpenRGBPluginsPage/OpenRGBPluginsPage.cpp" line="136"/>
@@ -3285,12 +3285,12 @@ Using an effect on a device WILL damage the flash or controller</source>
         <location filename="../OpenRGBSettingsPage.cpp" line="35"/>
         <location filename="../OpenRGBSettingsPage.cpp" line="41"/>
         <source>English - US</source>
-        <translation type="unfinished">繁體中文</translation>
+        <translation>繁體中文</translation>
     </message>
     <message>
         <location filename="../OpenRGBSettingsPage.cpp" line="45"/>
         <source>System Default</source>
-        <translation type="unfinished"></translation>
+        <translation>系統默認</translation>
     </message>
     <message>
         <location filename="../OpenRGBSettingsPage.cpp" line="650"/>
