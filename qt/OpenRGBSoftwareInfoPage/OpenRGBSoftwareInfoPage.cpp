@@ -37,8 +37,5 @@ void OpenRGBSoftwareInfoPage::changeEvent(QEvent *event)
     if(event->type() == QEvent::LanguageChange)
     {
         ui->retranslateUi(this);
-
-        ui->SDKVersionValue->setText(QString::number(OPENRGB_SDK_PROTOCOL_VERSION));
-        ui->PluginAPIVersionValue->setText(QString::number(OPENRGB_PLUGIN_API_VERSION));
     }
 }

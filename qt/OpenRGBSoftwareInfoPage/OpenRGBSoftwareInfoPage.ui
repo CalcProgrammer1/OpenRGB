@@ -165,14 +165,14 @@
       <item row="1" column="1">
        <widget class="QLabel" name="SDKVersionValue">
         <property name="text">
-         <string>SDK Version Value</string>
+         <string notr="true">SDK Version Value</string>
         </property>
        </widget>
       </item>
       <item row="2" column="1">
        <widget class="QLabel" name="PluginAPIVersionValue">
         <property name="text">
-         <string>Plugin API Version Value</string>
+         <string notr="true">Plugin API Version Value</string>
         </property>
        </widget>
       </item>
