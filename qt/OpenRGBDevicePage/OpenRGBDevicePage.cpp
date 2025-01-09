@@ -7,7 +7,7 @@
 |   SPDX-License-Identifier: GPL-2.0-only                   |
 \*---------------------------------------------------------*/
 
-#include "OpenRGBDialog2.h"
+#include "OpenRGBDialog.h"
 #include "OpenRGBDevicePage.h"
 #include "OpenRGBZoneResizeDialog.h"
 #include "ResourceManager.h"

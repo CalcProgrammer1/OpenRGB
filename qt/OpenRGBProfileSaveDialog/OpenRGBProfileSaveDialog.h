@@ -11,7 +11,7 @@
 
 #include <QDialog>
 #include "ui_OpenRGBProfileSaveDialog.h"
-#include "OpenRGBDialog2.h"
+#include "OpenRGBDialog.h"
 
 namespace Ui
 {

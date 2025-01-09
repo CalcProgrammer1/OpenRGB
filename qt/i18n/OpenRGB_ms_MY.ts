@@ -237,71 +237,71 @@
     </message>
 </context>
 <context>
-    <name>OpenRGBDialog2Ui</name>
+    <name>OpenRGBDialogUi</name>
     <message>
-        <location filename="../OpenRGBDialog2.ui" line="14"/>
+        <location filename="../OpenRGBDialog.ui" line="14"/>
         <source>OpenRGB</source>
         <translation>OpenRGB</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog2.ui" line="34"/>
+        <location filename="../OpenRGBDialog.ui" line="34"/>
         <source>Devices</source>
         <translation>Peranti</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog2.ui" line="48"/>
+        <location filename="../OpenRGBDialog.ui" line="48"/>
         <source>Information</source>
         <translation>Maklumat</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog2.ui" line="65"/>
+        <location filename="../OpenRGBDialog.ui" line="65"/>
         <source>Settings</source>
         <translation>Seting</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog2.ui" line="87"/>
+        <location filename="../OpenRGBDialog.ui" line="87"/>
         <source>Toggle LED View</source>
         <translation>Togol Pandangan LED</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog2.ui" line="94"/>
+        <location filename="../OpenRGBDialog.ui" line="94"/>
         <source>Rescan Devices</source>
         <translation>Imbasan Semula Peranti</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog2.ui" line="107"/>
-        <location filename="../OpenRGBDialog2.ui" line="165"/>
-        <location filename="../OpenRGBDialog2.ui" line="168"/>
+        <location filename="../OpenRGBDialog.ui" line="107"/>
+        <location filename="../OpenRGBDialog.ui" line="165"/>
+        <location filename="../OpenRGBDialog.ui" line="168"/>
         <source>Save Profile</source>
         <translation>Simpan Profil</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog2.ui" line="117"/>
+        <location filename="../OpenRGBDialog.ui" line="117"/>
         <source>Delete Profile</source>
         <translation>Padam Profil</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog2.ui" line="124"/>
+        <location filename="../OpenRGBDialog.ui" line="124"/>
         <source>Load Profile</source>
         <translation>Muat Profil</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog2.ui" line="138"/>
+        <location filename="../OpenRGBDialog.ui" line="138"/>
         <source>OpenRGB is detecting devices...</source>
         <translation>OpenRGB sedang mengesan peranti...</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog2.ui" line="155"/>
+        <location filename="../OpenRGBDialog.ui" line="155"/>
         <source>Cancel</source>
         <translation>Batal</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog2.ui" line="173"/>
+        <location filename="../OpenRGBDialog.ui" line="173"/>
         <source>Save Profile As...</source>
         <translation>Simpan Profil Sebagai...</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog2.ui" line="176"/>
+        <location filename="../OpenRGBDialog.ui" line="176"/>
         <source>Save Profile with custom name</source>
         <translation>Simpan Profil dengan nama tersuai</translation>
     </message>
@@ -1489,164 +1489,164 @@
     </message>
 </context>
 <context>
-    <name>Ui::OpenRGBDialog2</name>
+    <name>Ui::OpenRGBDialog</name>
     <message>
-        <location filename="../OpenRGBDialog2.cpp" line="296"/>
+        <location filename="../OpenRGBDialog.cpp" line="296"/>
         <source>Show/Hide</source>
         <translation>Tunjukkan/Sembunyikan</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog2.cpp" line="300"/>
+        <location filename="../OpenRGBDialog.cpp" line="300"/>
         <source>Profiles</source>
         <translation>Profil</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog2.cpp" line="304"/>
+        <location filename="../OpenRGBDialog.cpp" line="304"/>
         <source>Quick Colors</source>
         <translation>Warna Pantas</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog2.cpp" line="306"/>
+        <location filename="../OpenRGBDialog.cpp" line="306"/>
         <source>Red</source>
         <translation>Merah</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog2.cpp" line="310"/>
+        <location filename="../OpenRGBDialog.cpp" line="310"/>
         <source>Yellow</source>
         <translation>Kuning</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog2.cpp" line="314"/>
+        <location filename="../OpenRGBDialog.cpp" line="314"/>
         <source>Green</source>
         <translation>Hijau</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog2.cpp" line="318"/>
+        <location filename="../OpenRGBDialog.cpp" line="318"/>
         <source>Cyan</source>
         <translation>Sian</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog2.cpp" line="322"/>
+        <location filename="../OpenRGBDialog.cpp" line="322"/>
         <source>Blue</source>
         <translation>Biru</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog2.cpp" line="326"/>
+        <location filename="../OpenRGBDialog.cpp" line="326"/>
         <source>Magenta</source>
         <translation>Magenta</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog2.cpp" line="330"/>
+        <location filename="../OpenRGBDialog.cpp" line="330"/>
         <source>White</source>
         <translation>Putih</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog2.cpp" line="336"/>
+        <location filename="../OpenRGBDialog.cpp" line="336"/>
         <source>Lights Off</source>
         <translation>Lampu padam</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog2.cpp" line="341"/>
+        <location filename="../OpenRGBDialog.cpp" line="341"/>
         <source>Exit</source>
         <translation>Keluar</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog2.cpp" line="645"/>
+        <location filename="../OpenRGBDialog.cpp" line="645"/>
         <source>Plugins</source>
         <translation>Plugin</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog2.cpp" line="673"/>
+        <location filename="../OpenRGBDialog.cpp" line="673"/>
         <source>Software</source>
         <translation>Perisian</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog2.cpp" line="701"/>
+        <location filename="../OpenRGBDialog.cpp" line="701"/>
         <source>Supported Devices</source>
         <translation>Peranti yang Disokong</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog2.cpp" line="730"/>
+        <location filename="../OpenRGBDialog.cpp" line="730"/>
         <source>General Settings</source>
         <translation>Seting Umum</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog2.cpp" line="764"/>
+        <location filename="../OpenRGBDialog.cpp" line="764"/>
         <source>E1.31 Devices</source>
         <translation>Peranti E1.31</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog2.cpp" line="792"/>
+        <location filename="../OpenRGBDialog.cpp" line="792"/>
         <source>LIFX Devices</source>
         <translation>Peranti LIFX</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog2.cpp" line="820"/>
+        <location filename="../OpenRGBDialog.cpp" line="820"/>
         <source>Philips Hue Devices</source>
         <translation>Peranti Philips Hue</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog2.cpp" line="848"/>
+        <location filename="../OpenRGBDialog.cpp" line="848"/>
         <source>Philips Wiz Devices</source>
         <translation>Peranti Philips Wiz</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog2.cpp" line="876"/>
+        <location filename="../OpenRGBDialog.cpp" line="876"/>
         <source>OpenRGB QMK Protocol</source>
         <translation>Protokol QMK OpenRGB</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog2.cpp" line="904"/>
+        <location filename="../OpenRGBDialog.cpp" line="904"/>
         <source>Serial Devices</source>
         <translation>Peranti Bersiri</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog2.cpp" line="932"/>
+        <location filename="../OpenRGBDialog.cpp" line="932"/>
         <source>Yeelight Devices</source>
         <translation>Peranti Yeelight</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog2.cpp" line="960"/>
+        <location filename="../OpenRGBDialog.cpp" line="960"/>
         <source>Nanoleaf Devices</source>
         <translation>Peranti Nanoleaf</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog2.cpp" line="988"/>
+        <location filename="../OpenRGBDialog.cpp" line="988"/>
         <source>Elgato KeyLight Devices</source>
         <translation>Peranti Elgato KeyLight</translation>
     </message>
 	<message>
-        <location filename="../OpenRGBDialog2.cpp" line="988"/>
+        <location filename="../OpenRGBDialog.cpp" line="988"/>
         <source>Elgato LightStrip Devices</source>
         <translation>Peranti Elgato LightStrip</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog2.cpp" line="1202"/>
+        <location filename="../OpenRGBDialog.cpp" line="1202"/>
         <source>SMBus Tools</source>
         <translation>Alat SMBus</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog2.cpp" line="1216"/>
+        <location filename="../OpenRGBDialog.cpp" line="1216"/>
         <source>SDK Client</source>
         <translation>Klient SDK</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog2.cpp" line="1238"/>
+        <location filename="../OpenRGBDialog.cpp" line="1238"/>
         <source>SDK Server</source>
         <translation>Pelayan SDK</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog2.cpp" line="1734"/>
+        <location filename="../OpenRGBDialog.cpp" line="1734"/>
         <source>Delete Profile</source>
         <translation>Padam Profil</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog2.cpp" line="1734"/>
+        <location filename="../OpenRGBDialog.cpp" line="1734"/>
         <source>Do you really want to delete this profile?</source>
         <translation>Adakah anda benar-benar mahu memadamkan profil ini?</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog2.cpp" line="2004"/>
+        <location filename="../OpenRGBDialog.cpp" line="2004"/>
         <source>Log Console</source>
         <translation>Konsol Log</translation>
     </message>

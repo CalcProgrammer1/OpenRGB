@@ -309,71 +309,71 @@
     </message>
 </context>
 <context>
-    <name>OpenRGBDialog2Ui</name>
+    <name>OpenRGBDialogUi</name>
     <message>
-        <location filename="../OpenRGBDialog2/OpenRGBDialog2.ui" line="14"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.ui" line="14"/>
         <source>OpenRGB</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog2/OpenRGBDialog2.ui" line="34"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.ui" line="34"/>
         <source>Devices</source>
         <translation>Устройства</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog2/OpenRGBDialog2.ui" line="48"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.ui" line="48"/>
         <source>Information</source>
         <translation>Информация</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog2/OpenRGBDialog2.ui" line="65"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.ui" line="65"/>
         <source>Settings</source>
         <translation>Настройки</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog2/OpenRGBDialog2.ui" line="108"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.ui" line="108"/>
         <source>Toggle LED View</source>
         <translation>LED View (On/Off)</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog2/OpenRGBDialog2.ui" line="115"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.ui" line="115"/>
         <source>Rescan Devices</source>
         <translation>Обновить список устройств</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog2/OpenRGBDialog2.ui" line="128"/>
-        <location filename="../OpenRGBDialog2/OpenRGBDialog2.ui" line="189"/>
-        <location filename="../OpenRGBDialog2/OpenRGBDialog2.ui" line="192"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.ui" line="128"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.ui" line="189"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.ui" line="192"/>
         <source>Save Profile</source>
         <translation>Сохранить профиль</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog2/OpenRGBDialog2.ui" line="138"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.ui" line="138"/>
         <source>Delete Profile</source>
         <translation>Удалить профиль</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog2/OpenRGBDialog2.ui" line="145"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.ui" line="145"/>
         <source>Load Profile</source>
         <translation>Применить профиль</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog2/OpenRGBDialog2.ui" line="162"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.ui" line="162"/>
         <source>OpenRGB is detecting devices...</source>
         <translation>OpenRGB обнаруживает устройства...</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog2/OpenRGBDialog2.ui" line="179"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.ui" line="179"/>
         <source>Cancel</source>
         <translation>Отменить</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog2/OpenRGBDialog2.ui" line="197"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.ui" line="197"/>
         <source>Save Profile As...</source>
         <translation>Сохранить профиль как...</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog2/OpenRGBDialog2.ui" line="200"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.ui" line="200"/>
         <source>Save Profile with custom name</source>
         <translation>Сохранить профиль с другим названием</translation>
     </message>
@@ -1774,174 +1774,174 @@
     </message>
 </context>
 <context>
-    <name>Ui::OpenRGBDialog2</name>
+    <name>Ui::OpenRGBDialog</name>
     <message>
-        <location filename="../OpenRGBDialog2/OpenRGBDialog2.cpp" line="337"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="337"/>
         <source>Show/Hide</source>
         <translation>Показать/скрыть</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog2/OpenRGBDialog2.cpp" line="341"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="341"/>
         <source>Profiles</source>
         <translation>Профили</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog2/OpenRGBDialog2.cpp" line="345"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="345"/>
         <source>Quick Colors</source>
         <translation>Палитра</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog2/OpenRGBDialog2.cpp" line="347"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="347"/>
         <source>Red</source>
         <translation>Красный</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog2/OpenRGBDialog2.cpp" line="351"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="351"/>
         <source>Yellow</source>
         <translation>Жёлтый</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog2/OpenRGBDialog2.cpp" line="355"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="355"/>
         <source>Green</source>
         <translation>Зелёный</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog2/OpenRGBDialog2.cpp" line="359"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="359"/>
         <source>Cyan</source>
         <translation>Бирюзовый</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog2/OpenRGBDialog2.cpp" line="363"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="363"/>
         <source>Blue</source>
         <translation>Синий</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog2/OpenRGBDialog2.cpp" line="367"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="367"/>
         <source>Magenta</source>
         <translation>Лиловый</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog2/OpenRGBDialog2.cpp" line="371"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="371"/>
         <source>White</source>
         <translation>Белый</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog2/OpenRGBDialog2.cpp" line="377"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="377"/>
         <source>Lights Off</source>
         <translation>Цвета выкл.</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog2/OpenRGBDialog2.cpp" line="382"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="382"/>
         <source>Exit</source>
         <translation>Выход</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog2/OpenRGBDialog2.cpp" line="734"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="734"/>
         <source>Plugins</source>
         <translation>Подключаемые модули</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog2/OpenRGBDialog2.cpp" line="751"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="751"/>
         <source>Software</source>
         <translation>Приложение</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog2/OpenRGBDialog2.cpp" line="768"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="768"/>
         <source>Supported Devices</source>
         <translation>Поддерживаемые устройства</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog2/OpenRGBDialog2.cpp" line="785"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="785"/>
         <source>General Settings</source>
         <translation>Общие настройки</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog2/OpenRGBDialog2.cpp" line="808"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="808"/>
         <source>DMX Devices</source>
         <translation>Устройства DMX</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog2/OpenRGBDialog2.cpp" line="825"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="825"/>
         <source>E1.31 Devices</source>
         <translation>Устройства E1.31</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog2/OpenRGBDialog2.cpp" line="853"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="853"/>
         <source>Kasa Smart Devices</source>
         <translation>Устройства Kasa Smart</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog2/OpenRGBDialog2.cpp" line="887"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="887"/>
         <source>Philips Hue Devices</source>
         <translation>Устройства Philips Hue</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog2/OpenRGBDialog2.cpp" line="904"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="904"/>
         <source>Philips Wiz Devices</source>
         <translation>Устройства Philips Wiz</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog2/OpenRGBDialog2.cpp" line="921"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="921"/>
         <source>OpenRGB QMK Protocol</source>
         <translation>Протокол OpenRGB QMK</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog2/OpenRGBDialog2.cpp" line="938"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="938"/>
         <source>Serial Devices</source>
         <translation>Устройства последовательного порта</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog2/OpenRGBDialog2.cpp" line="955"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="955"/>
         <source>Yeelight Devices</source>
         <translation>Устройства Yeelight</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog2/OpenRGBDialog2.cpp" line="1172"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="1172"/>
         <source>SMBus Tools</source>
         <translation>Инструменты SMBus</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog2/OpenRGBDialog2.cpp" line="1186"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="1186"/>
         <source>SDK Client</source>
         <translation>Клиент SDK</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog2/OpenRGBDialog2.cpp" line="1208"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="1208"/>
         <source>SDK Server</source>
         <translation>Сервер SDK</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog2/OpenRGBDialog2.cpp" line="1760"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="1760"/>
         <source>Delete Profile</source>
         <translation>Удалить профиль</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog2/OpenRGBDialog2.cpp" line="1760"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="1760"/>
         <source>Do you really want to delete this profile?</source>
         <translation>Вы действительно хотите удалить этот профиль?</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog2/OpenRGBDialog2.cpp" line="2029"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="2029"/>
         <source>Log Console</source>
         <translation>Консоль журналирования</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog2/OpenRGBDialog2.cpp" line="870"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="870"/>
         <source>LIFX Devices</source>
         <translation>Устройства LIFX</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog2/OpenRGBDialog2.cpp" line="972"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="972"/>
         <source>Nanoleaf Devices</source>
         <translation>Устройства Nanoleaf</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog2/OpenRGBDialog2.cpp" line="989"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="989"/>
         <source>Elgato KeyLight Devices</source>
         <translation>Устройства Elgato KeyLight</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog2/OpenRGBDialog2.cpp" line="1006"/>
+        <location filename="../OpenRGBDialog/OpenRGBDialog.cpp" line="1006"/>
         <source>Elgato LightStrip Devices</source>
         <translation>Устройства Elgato LightStrip</translation>
     </message>

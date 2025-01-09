@@ -9,7 +9,7 @@
 
 #include <QDialog>
 #include "ui_OpenRGBNanoleafNewDeviceDialog.h"
-#include "OpenRGBDialog2.h"
+#include "OpenRGBDialog.h"
 
 struct NanoleafDevice
 {

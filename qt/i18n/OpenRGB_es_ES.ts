@@ -193,7 +193,7 @@
     </message>
 </context>
 <context>
-    <name>OpenRGBDialog2Ui</name>
+    <name>OpenRGBDialogUi</name>
     <message>
         <source>OpenRGB</source>
         <translation>OpenRGB</translation>
@@ -1235,7 +1235,7 @@
     </message>
 </context>
 <context>
-    <name>Ui::OpenRGBDialog2</name>
+    <name>Ui::OpenRGBDialog</name>
     <message>
         <source>Show/Hide</source>
         <translation>Mostrar/esconder</translation>

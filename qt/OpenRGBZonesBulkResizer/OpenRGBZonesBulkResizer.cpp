@@ -14,7 +14,7 @@
 #include "ResourceManager.h"
 #include "SettingsManager.h"
 #include "LogManager.h"
-#include "OpenRGBDialog2.h"
+#include "OpenRGBDialog.h"
 
 using namespace Ui;
 

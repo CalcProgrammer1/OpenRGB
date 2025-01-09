@@ -25,7 +25,7 @@
 io_connect_t macUSPCIO_driver_connection;
 #endif
 
-#include "OpenRGBDialog2.h"
+#include "OpenRGBDialog.h"
 
 #ifdef __APPLE__
 #include "macutils.h"
@@ -224,7 +224,7 @@ int main(int argc, char* argv[])
         /*---------------------------------------------------------*\
         | Main UI widget                                            |
         \*---------------------------------------------------------*/
-        Ui::OpenRGBDialog2 dlg;
+        Ui::OpenRGBDialog dlg;
         LOG_TRACE("[main] Dialog created");
 
         if(ret_flags & RET_FLAG_I2C_TOOLS)

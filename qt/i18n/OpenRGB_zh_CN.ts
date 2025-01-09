@@ -1286,71 +1286,71 @@ Using an effect on a device WILL damage the flash or controller</source>
     </message>
 </context>
 <context>
-    <name>OpenRGBDialog2Ui</name>
+    <name>OpenRGBDialogUi</name>
     <message>
-        <location filename="../OpenRGBDialog2.ui" line="14"/>
+        <location filename="../OpenRGBDialog.ui" line="14"/>
         <source>OpenRGB</source>
         <translation>OpenRGB (汉化：画板当吃生菜、绿鲤驴与鱼、我唔係MentaL)</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog2.ui" line="34"/>
+        <location filename="../OpenRGBDialog.ui" line="34"/>
         <source>Devices</source>
         <translation>设备</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog2.ui" line="48"/>
+        <location filename="../OpenRGBDialog.ui" line="48"/>
         <source>Information</source>
         <translation>信息</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog2.ui" line="65"/>
+        <location filename="../OpenRGBDialog.ui" line="65"/>
         <source>Settings</source>
         <translation>设置</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog2.ui" line="87"/>
+        <location filename="../OpenRGBDialog.ui" line="87"/>
         <source>Toggle LED View</source>
         <translation>开关 LED 视图</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog2.ui" line="94"/>
+        <location filename="../OpenRGBDialog.ui" line="94"/>
         <source>Rescan Devices</source>
         <translation>重新扫描设备</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog2.ui" line="107"/>
-        <location filename="../OpenRGBDialog2.ui" line="165"/>
-        <location filename="../OpenRGBDialog2.ui" line="168"/>
+        <location filename="../OpenRGBDialog.ui" line="107"/>
+        <location filename="../OpenRGBDialog.ui" line="165"/>
+        <location filename="../OpenRGBDialog.ui" line="168"/>
         <source>Save Profile</source>
         <translation>保存配置文件</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog2.ui" line="117"/>
+        <location filename="../OpenRGBDialog.ui" line="117"/>
         <source>Delete Profile</source>
         <translation>删除配置文件</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog2.ui" line="124"/>
+        <location filename="../OpenRGBDialog.ui" line="124"/>
         <source>Load Profile</source>
         <translation>加载配置文件</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog2.ui" line="138"/>
+        <location filename="../OpenRGBDialog.ui" line="138"/>
         <source>OpenRGB is detecting devices...</source>
         <translation>OpenRGB 正在检测设备...</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog2.ui" line="155"/>
+        <location filename="../OpenRGBDialog.ui" line="155"/>
         <source>Cancel</source>
         <translation>取消</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog2.ui" line="173"/>
+        <location filename="../OpenRGBDialog.ui" line="173"/>
         <source>Save Profile As...</source>
         <translation>保存配置文件为...</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog2.ui" line="176"/>
+        <location filename="../OpenRGBDialog.ui" line="176"/>
         <source>Save Profile with custom name</source>
         <translation>使用自定义名称保存配置文件</translation>
     </message>
@@ -2992,164 +2992,164 @@ Using an effect on a device WILL damage the flash or controller</source>
     </message>
 </context>
 <context>
-    <name>Ui::OpenRGBDialog2</name>
+    <name>Ui::OpenRGBDialog</name>
     <message>
-        <location filename="../OpenRGBDialog2.cpp" line="296"/>
+        <location filename="../OpenRGBDialog.cpp" line="296"/>
         <source>Show/Hide</source>
         <translation>显示/隐藏</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog2.cpp" line="300"/>
+        <location filename="../OpenRGBDialog.cpp" line="300"/>
         <source>Profiles</source>
         <translation>配置文件</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog2.cpp" line="304"/>
+        <location filename="../OpenRGBDialog.cpp" line="304"/>
         <source>Quick Colors</source>
         <translation>快速着色</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog2.cpp" line="306"/>
+        <location filename="../OpenRGBDialog.cpp" line="306"/>
         <source>Red</source>
         <translation>红色</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog2.cpp" line="310"/>
+        <location filename="../OpenRGBDialog.cpp" line="310"/>
         <source>Yellow</source>
         <translation>黄色</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog2.cpp" line="314"/>
+        <location filename="../OpenRGBDialog.cpp" line="314"/>
         <source>Green</source>
         <translation>绿色</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog2.cpp" line="318"/>
+        <location filename="../OpenRGBDialog.cpp" line="318"/>
         <source>Cyan</source>
         <translation>青色</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog2.cpp" line="322"/>
+        <location filename="../OpenRGBDialog.cpp" line="322"/>
         <source>Blue</source>
         <translation>蓝色</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog2.cpp" line="326"/>
+        <location filename="../OpenRGBDialog.cpp" line="326"/>
         <source>Magenta</source>
         <translation>品红</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog2.cpp" line="330"/>
+        <location filename="../OpenRGBDialog.cpp" line="330"/>
         <source>White</source>
         <translation>白</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog2.cpp" line="336"/>
+        <location filename="../OpenRGBDialog.cpp" line="336"/>
         <source>Lights Off</source>
         <translation>关灯</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog2.cpp" line="341"/>
+        <location filename="../OpenRGBDialog.cpp" line="341"/>
         <source>Exit</source>
         <translation>退出</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog2.cpp" line="645"/>
+        <location filename="../OpenRGBDialog.cpp" line="645"/>
         <source>Plugins</source>
         <translation>插件</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog2.cpp" line="673"/>
+        <location filename="../OpenRGBDialog.cpp" line="673"/>
         <source>Software</source>
         <translation>软件</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog2.cpp" line="701"/>
+        <location filename="../OpenRGBDialog.cpp" line="701"/>
         <source>Supported Devices</source>
         <translation>兼容设备选择</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog2.cpp" line="730"/>
+        <location filename="../OpenRGBDialog.cpp" line="730"/>
         <source>General Settings</source>
         <translation>常规设置</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog2.cpp" line="764"/>
+        <location filename="../OpenRGBDialog.cpp" line="764"/>
         <source>E1.31 Devices</source>
         <translation>E1.31 设备</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog2.cpp" line="792"/>
+        <location filename="../OpenRGBDialog.cpp" line="792"/>
         <source>LIFX Devices</source>
         <translation>LIFX 设备</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog2.cpp" line="820"/>
+        <location filename="../OpenRGBDialog.cpp" line="820"/>
         <source>Philips Hue Devices</source>
         <translation>飞利浦 Hue 设备</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog2.cpp" line="848"/>
+        <location filename="../OpenRGBDialog.cpp" line="848"/>
         <source>Philips Wiz Devices</source>
         <translation>飞利浦 Wiz 设备</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog2.cpp" line="876"/>
+        <location filename="../OpenRGBDialog.cpp" line="876"/>
         <source>OpenRGB QMK Protocol</source>
         <translation>OpenRGB QMK 协议</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog2.cpp" line="904"/>
+        <location filename="../OpenRGBDialog.cpp" line="904"/>
         <source>Serial Devices</source>
         <translation>串行设备</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog2.cpp" line="932"/>
+        <location filename="../OpenRGBDialog.cpp" line="932"/>
         <source>Yeelight Devices</source>
         <translation>Yeelight 设备</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog2.cpp" line="960"/>
+        <location filename="../OpenRGBDialog.cpp" line="960"/>
         <source>Nanoleaf Devices</source>
         <translation>绿诺设备</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog2.cpp" line="988"/>
+        <location filename="../OpenRGBDialog.cpp" line="988"/>
         <source>Elgato KeyLight Devices</source>
         <translation>Elgato KeyLight 设备</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog2.cpp" line="988"/>
+        <location filename="../OpenRGBDialog.cpp" line="988"/>
         <source>Elgato LightStrip Devices</source>
         <translation>Elgato 灯条设备</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog2.cpp" line="1202"/>
+        <location filename="../OpenRGBDialog.cpp" line="1202"/>
         <source>SMBus Tools</source>
         <translation>SMBus 工具</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog2.cpp" line="1216"/>
+        <location filename="../OpenRGBDialog.cpp" line="1216"/>
         <source>SDK Client</source>
         <translation>SDK 客户端</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog2.cpp" line="1238"/>
+        <location filename="../OpenRGBDialog.cpp" line="1238"/>
         <source>SDK Server</source>
         <translation>SDK 服务器</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog2.cpp" line="1734"/>
+        <location filename="../OpenRGBDialog.cpp" line="1734"/>
         <source>Delete Profile</source>
         <translation>删除配置文件</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog2.cpp" line="1734"/>
+        <location filename="../OpenRGBDialog.cpp" line="1734"/>
         <source>Do you really want to delete this profile?</source>
         <translation>是否确定删除此配置文件？</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDialog2.cpp" line="2004"/>
+        <location filename="../OpenRGBDialog.cpp" line="2004"/>
         <source>Log Console</source>
         <translation>日志控制台</translation>
     </message>
