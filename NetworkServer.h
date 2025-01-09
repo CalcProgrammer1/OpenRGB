@@ -71,6 +71,7 @@ public:
     void                                RegisterServerListeningChangeCallback(NetServerCallback, void * new_callback_arg);
 
     void                                SetHost(std::string host);
+    void                                SetLegacyWorkaroundEnable(bool enable);
     void                                SetPort(unsigned short new_port);
 
     void                                StartServer();
@@ -92,7 +93,7 @@ public:
     void                                SendReply_PluginSpecific(SOCKET client_sock, unsigned int pkt_type, unsigned char* data, unsigned int data_size);
 
     void                                SetProfileManager(ProfileManagerInterface* profile_manager_pointer);
-    
+
     void                                RegisterPlugin(NetworkPlugin plugin);
     void                                UnregisterPlugin(std::string plugin_name);
 
@@ -125,6 +126,7 @@ private:
     WSADATA     wsa;
 #endif
 
+    bool            legacy_workaround_enabled;
     int             socket_count;
     SOCKET          server_sock[MAXSOCK];
 

@@ -115,6 +115,7 @@ ResourceManager::ResourceManager()
     \*-------------------------------------------------------------------------*/
     json server_settings    = settings_manager->GetSettings("Server");
     bool all_controllers    = false;
+    bool legacy_workaround  = false;
 
     if(server_settings.contains("all_controllers"))
     {
@@ -128,6 +129,19 @@ ResourceManager::ResourceManager()
     else
     {
         server              = new NetworkServer(rgb_controllers_hw);
+    }
+
+    /*-------------------------------------------------------------------------*\
+    | Enable legacy SDK workaround in server if configured                      |
+    \*-------------------------------------------------------------------------*/
+    if(server_settings.contains("legacy_workaround"))
+    {
+        legacy_workaround   = server_settings["legacy_workaround"];
+    }
+
+    if(legacy_workaround)
+    {
+        server->SetLegacyWorkaroundEnable(true);
     }
 
     /*-------------------------------------------------------------------------*\

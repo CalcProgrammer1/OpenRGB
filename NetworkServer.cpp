@@ -58,14 +58,17 @@ NetworkClientInfo::~NetworkClientInfo()
 
 NetworkServer::NetworkServer(std::vector<RGBController *>& control) : controllers(control)
 {
-    host             = OPENRGB_SDK_HOST;
-    port_num         = OPENRGB_SDK_PORT;
-    server_online    = false;
-    server_listening = false;
+    host                        = OPENRGB_SDK_HOST;
+    port_num                    = OPENRGB_SDK_PORT;
+    server_online               = false;
+    server_listening            = false;
+    legacy_workaround_enabled   = false;
+
     for(int i = 0; i < MAXSOCK; i++)
     {
         ConnectionThread[i] = nullptr;
     }
+
     profile_manager  = nullptr;
 }
 
@@ -219,6 +222,11 @@ void NetworkServer::SetHost(std::string new_host)
     {
         host = new_host;
     }
+}
+
+void NetworkServer::SetLegacyWorkaroundEnable(bool enable)
+{
+    legacy_workaround_enabled = enable;
 }
 
 void NetworkServer::SetPort(unsigned short new_port)
@@ -689,14 +697,15 @@ void NetworkServer::ListenThreadFunction(NetworkClientInfo * client_info)
                 | Verify the color description size (first 4 bytes of data) |
                 | matches the packet size in the header                     |
                 |                                                           |
-                | If protocol version is 4 or below, allow the description  |
-                | size to be zero.  This allows backwards compatibility with|
-                | versions of the OpenRGB.NET SDK implementation which had  |
-                | a bug where this field would always be zero.              |
+                | If protocol version is 4 or below and the legacy SDK      |
+                | compatibility workaround is enabled, ignore this check.   |
+                | This allows backwards compatibility with old versions of  |
+                | SDK applications that didn't properly implement the size  |
+                | field.                                                    |
                 \*---------------------------------------------------------*/
                 if((header.pkt_size == *((unsigned int*)data))
                 || ((client_info->client_protocol_version <= 4)
-                 && (*((unsigned int*)data) == 0)))
+                 && (legacy_workaround_enabled)))
                 {
                     if(header.pkt_dev_idx < controllers.size())
                     {
@@ -721,14 +730,15 @@ void NetworkServer::ListenThreadFunction(NetworkClientInfo * client_info)
                 | Verify the color description size (first 4 bytes of data) |
                 | matches the packet size in the header                     |
                 |                                                           |
-                | If protocol version is 4 or below, allow the description  |
-                | size to be zero.  This allows backwards compatibility with|
-                | versions of the OpenRGB.NET SDK implementation which had  |
-                | a bug where this field would always be zero.              |
+                | If protocol version is 4 or below and the legacy SDK      |
+                | compatibility workaround is enabled, ignore this check.   |
+                | This allows backwards compatibility with old versions of  |
+                | SDK applications that didn't properly implement the size  |
+                | field.                                                    |
                 \*---------------------------------------------------------*/
                 if((header.pkt_size == *((unsigned int*)data))
                 || ((client_info->client_protocol_version <= 4)
-                 && (*((unsigned int*)data) == 0)))
+                 && (legacy_workaround_enabled)))
                 {
                     if(header.pkt_dev_idx < controllers.size())
                     {
@@ -793,14 +803,15 @@ void NetworkServer::ListenThreadFunction(NetworkClientInfo * client_info)
                 | Verify the mode description size (first 4 bytes of data)  |
                 | matches the packet size in the header                     |
                 |                                                           |
-                | If protocol version is 4 or below, allow the description  |
-                | size to be zero.  This allows backwards compatibility with|
-                | versions of the OpenRGB.NET SDK implementation which had  |
-                | a bug where this field would always be zero.              |
+                | If protocol version is 4 or below and the legacy SDK      |
+                | compatibility workaround is enabled, ignore this check.   |
+                | This allows backwards compatibility with old versions of  |
+                | SDK applications that didn't properly implement the size  |
+                | field.                                                    |
                 \*---------------------------------------------------------*/
                 if((header.pkt_size == *((unsigned int*)data))
                 || ((client_info->client_protocol_version <= 4)
-                 && (*((unsigned int*)data) == 0)))
+                 && (legacy_workaround_enabled)))
                 {
                     if(header.pkt_dev_idx < controllers.size())
                     {
@@ -825,14 +836,15 @@ void NetworkServer::ListenThreadFunction(NetworkClientInfo * client_info)
                 | Verify the mode description size (first 4 bytes of data)  |
                 | matches the packet size in the header                     |
                 |                                                           |
-                | If protocol version is 4 or below, allow the description  |
-                | size to be zero.  This allows backwards compatibility with|
-                | versions of the OpenRGB.NET SDK implementation which had  |
-                | a bug where this field would always be zero.              |
+                | If protocol version is 4 or below and the legacy SDK      |
+                | compatibility workaround is enabled, ignore this check.   |
+                | This allows backwards compatibility with old versions of  |
+                | SDK applications that didn't properly implement the size  |
+                | field.                                                    |
                 \*---------------------------------------------------------*/
                 if((header.pkt_size == *((unsigned int*)data))
                 || ((client_info->client_protocol_version <= 4)
-                 && (*((unsigned int*)data) == 0)))
+                 && (legacy_workaround_enabled)))
                 {
                     if(header.pkt_dev_idx < controllers.size())
                     {
