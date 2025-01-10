@@ -465,6 +465,7 @@ REGISTER_I2C_PCI_DETECTOR("ASUS ROG MATRIX PLATINUM GeForce RTX 4090",          
 |  AMD GPUs                                 |
 \*-----------------------------------------*/
 
+REGISTER_I2C_PCI_DETECTOR("ASUS ROG STRIX Radeon RX 6600 XT Gaming OC",                 DetectENESMBusGPUControllers,   AMD_GPU_VEN,    AMD_NAVI23_DEV,             ASUS_SUB_VEN,   ASUS_ROG_STRIX_RX_6600XT_O8G_GAMING,            0x67);
 REGISTER_I2C_PCI_DETECTOR("ASUS ROG STRIX Radeon RX 6650 XT Gaming",                    DetectENESMBusGPUControllers,   AMD_GPU_VEN,    AMD_NAVI23_DEV1,            ASUS_SUB_VEN,   ASUS_ROG_STRIX_RX_6650XT_O8G_GAMING,            0x67);
 REGISTER_I2C_PCI_DETECTOR("ASUS TUF Radeon RX 6700 XT Gaming OC",                       DetectENESMBusGPUControllers,   AMD_GPU_VEN,    AMD_NAVI22_DEV,             ASUS_SUB_VEN,   ASUS_TUF_RX_6700XT_O12G_GAMING,                 0x67);
 REGISTER_I2C_PCI_DETECTOR("ASUS ROG STRIX Radeon RX 6700 XT Gaming OC",                 DetectENESMBusGPUControllers,   AMD_GPU_VEN,    AMD_NAVI22_DEV,             ASUS_SUB_VEN,   ASUS_ROG_STRIX_RX_6700XT_O12G_GAMING,           0x67);
