@@ -53,7 +53,7 @@ bool AutoStart::DisableAutoStart()
     }
     else
     {
-        LOG_ERROR("Could not establish correct autostart file path.");
+        LOG_ERROR("[AutoStart] Could not establish correct autostart file path.");
     }
 
     return(success);
@@ -76,7 +76,7 @@ bool AutoStart::EnableAutoStart(AutoStartInfo autostart_info)
         \*---------------------------------------------*/
         if(!autostart_file_stream)
         {
-            LOG_ERROR("Could not open %s for writing.", autostart_file.c_str());
+            LOG_ERROR("[AutoStart] Could not open %s for writing.", autostart_file.c_str());
             success = false;
         }
         /*---------------------------------------------*\
@@ -90,13 +90,13 @@ bool AutoStart::EnableAutoStart(AutoStartInfo autostart_info)
 
             if (!success)
             {
-                LOG_ERROR("An error occurred writing the auto start file.");
+                LOG_ERROR("[AutoStart] An error occurred writing the auto start file.");
             }
         }
     }
     else
     {
-        LOG_ERROR("Could not establish correct autostart file path.");
+        LOG_ERROR("[AutoStart] Could not establish correct autostart file path.");
     }
 
     return(success);

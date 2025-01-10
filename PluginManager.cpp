@@ -209,7 +209,7 @@ void PluginManager::AddPlugin(const filesystem::path& path, bool is_system)
                         ResourceManager::get()->GetSettingsManager()->SaveSettings();
                     }
 
-                    LOG_VERBOSE("Loaded plugin %s", info.Name.c_str());
+                    LOG_VERBOSE("[PluginManager] Loaded plugin %s", info.Name.c_str());
 
                     /*-----------------------------------------------------*\
                     | Add the plugin to the PluginManager active plugins    |

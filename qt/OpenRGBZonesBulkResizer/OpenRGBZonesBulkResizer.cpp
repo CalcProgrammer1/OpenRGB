@@ -36,13 +36,13 @@ void OpenRGBZonesBulkResizer::RunChecks(QWidget *parent)
 
             if(!should_run)
             {
-                LOG_DEBUG("Skipping zones sizes checks.");
+                LOG_DEBUG("[ZonesBulkResizer] Skipping zones sizes checks.");
                 return;
             }
         }
     }
 
-    LOG_DEBUG("Running zones sizes checks...");
+    LOG_DEBUG("[ZonesBulkResizer] Running zones sizes checks...");
 
     /*---------------------------------------------------------*\
     | Collect the unconfigured zones                            |
@@ -64,7 +64,7 @@ void OpenRGBZonesBulkResizer::RunChecks(QWidget *parent)
         }
     }
 
-    LOG_DEBUG("Zones checks finished: %d unconfigured zone(s).", zones.size());
+    LOG_DEBUG("[ZonesBulkResizer] Zones checks finished: %d unconfigured zone(s).", zones.size());
 
     /*---------------------------------------------------------*\
     | Show the configuration tool GUI if we have some           |

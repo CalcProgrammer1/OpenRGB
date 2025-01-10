@@ -403,7 +403,7 @@ bool ProfileManager::LoadProfileWithOptions
     {
         bool temp_ret_val = LoadDeviceFromListWithOptions(temp_controllers, temp_controller_used, controllers[controller_index], load_size, load_settings);
         std::string current_name = controllers[controller_index]->name + " @ " + controllers[controller_index]->location;
-        LOG_INFO("Profile loading: %s for %s", ( temp_ret_val ? "Succeeded" : "FAILED!" ), current_name.c_str());
+        LOG_INFO("[ProfileManager] Profile loading: %s for %s", ( temp_ret_val ? "Succeeded" : "FAILED!" ), current_name.c_str());
         ret_val |= temp_ret_val;
     }
 
@@ -443,7 +443,7 @@ void ProfileManager::UpdateProfileList()
 
         if(filename.find(".orp") != std::string::npos)
         {
-            LOG_INFO("Found file: %s attempting to validate header", filename.c_str());
+            LOG_INFO("[ProfileManager] Found file: %s attempting to validate header", filename.c_str());
 
             /*---------------------------------------------------------*\
             | Open input file in binary mode                            |
@@ -471,16 +471,16 @@ void ProfileManager::UpdateProfileList()
                     filename.erase(filename.length() - 4);
                     profile_list.push_back(filename);
 
-                    LOG_INFO("Valid v%i profile found for %s", profile_version, filename.c_str());
+                    LOG_INFO("[ProfileManager] Valid v%i profile found for %s", profile_version, filename.c_str());
                 }
                 else
                 {
-                    LOG_WARNING("Profile %s isn't valid for current version (v%i, expected v%i at most)", filename.c_str(), profile_version, OPENRGB_PROFILE_VERSION);
+                    LOG_WARNING("[ProfileManager] Profile %s isn't valid for current version (v%i, expected v%i at most)", filename.c_str(), profile_version, OPENRGB_PROFILE_VERSION);
                 }
             }
             else
             {
-                LOG_WARNING("Profile %s isn't valid: header is missing", filename.c_str());
+                LOG_WARNING("[ProfileManager] Profile %s isn't valid: header is missing", filename.c_str());
             }
 
             profile_file.close();

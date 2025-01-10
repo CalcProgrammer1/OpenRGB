@@ -38,7 +38,7 @@ bool DDR5DirectAccessor::isAvailable(i2c_smbus_interface *bus, uint8_t spd_addr)
             break;
         }
 
-        LOG_TRACE("SPD Hub Magic: 0x%02x 0x%02x", ddr5Magic, ddr5Sensor);
+        LOG_TRACE("[DDR5DirectAccessor] SPD Hub Magic: 0x%02x 0x%02x", ddr5Magic, ddr5Sensor);
 
         if(ddr5Magic == 0x51 && (ddr5Sensor & 0xEF) == 0x08)
         {
@@ -48,7 +48,7 @@ bool DDR5DirectAccessor::isAvailable(i2c_smbus_interface *bus, uint8_t spd_addr)
         int page = bus->i2c_smbus_read_byte_data(spd_addr, SPD_DDR5_MREG_VIRTUAL_PAGE);
         std::this_thread::sleep_for(SPD_IO_DELAY);
 
-        LOG_TRACE("SPD Page: 0x%02x", page);
+        LOG_TRACE("[DDR5DirectAccessor] SPD Page: 0x%02x", page);
         if(page < 0)
         {
             break;

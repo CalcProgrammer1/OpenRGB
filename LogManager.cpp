@@ -315,7 +315,7 @@ void LogManager::setLoglevel(unsigned int level)
         level = LL_TRACE;
     }
 
-    LOG_DEBUG("Loglevel set to %d", level);
+    LOG_DEBUG("[LogManager] Loglevel set to %d", level);
 
     /*-------------------------------------------------*\
     | Set the new log level                             |
@@ -335,7 +335,7 @@ void LogManager::setVerbosity(unsigned int level)
         level = LL_TRACE;
     }
 
-    LOG_DEBUG("Verbosity set to %d", level);
+    LOG_DEBUG("[LogManager] Verbosity set to %d", level);
 
     /*-------------------------------------------------*\
     | Set the new verbosity                             |
@@ -345,13 +345,13 @@ void LogManager::setVerbosity(unsigned int level)
 
 void LogManager::setPrintSource(bool v)
 {
-    LOG_DEBUG("Source code location printouts were %s", v ? "enabled" : "disabled");
+    LOG_DEBUG("[LogManager] Source code location printouts were %s", v ? "enabled" : "disabled");
     print_source = v;
 }
 
 void LogManager::RegisterDialogShowCallback(LogDialogShowCallback callback, void* receiver)
 {
-    LOG_DEBUG("dialog show callback registered");
+    LOG_DEBUG("[LogManager] dialog show callback registered");
     dialog_show_callbacks.push_back(callback);
     dialog_show_callback_args.push_back(receiver);
 }

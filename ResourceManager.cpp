@@ -208,7 +208,7 @@ ResourceManager::~ResourceManager()
 
 void ResourceManager::RegisterI2CBus(i2c_smbus_interface *bus)
 {
-    LOG_INFO("Registering I2C interface: %s Device %04X:%04X Subsystem: %04X:%04X", bus->device_name, bus->pci_vendor, bus->pci_device,bus->pci_subsystem_vendor,bus->pci_subsystem_device);
+    LOG_INFO("[ResourceManager] Registering I2C interface: %s Device %04X:%04X Subsystem: %04X:%04X", bus->device_name, bus->pci_vendor, bus->pci_device,bus->pci_subsystem_vendor,bus->pci_subsystem_device);
     busses.push_back(bus);
 }
 
@@ -729,9 +729,9 @@ bool ResourceManager::AttemptLocalConnection()
 
     if(!client->GetConnected())
     {
-        LOG_TRACE("[main] Client failed to connect");
+        LOG_TRACE("[ResourceManager] Client failed to connect");
         client->StopClient();
-        LOG_TRACE("[main] Client stopped");
+        LOG_TRACE("[ResourceManager] Client stopped");
 
         delete client;
 
@@ -740,7 +740,7 @@ bool ResourceManager::AttemptLocalConnection()
     else
     {
         ResourceManager::get()->RegisterNetworkClient(client);
-        LOG_TRACE("[main] Registered network client");
+        LOG_TRACE("[ResourceManager] Registered network client");
 
         success = true;
 
@@ -913,7 +913,7 @@ bool ResourceManager::ProcessPreDetection()
         \*-------------------------------------------------*/
         int hid_status = hid_init();
 
-        LOG_INFO("Initializing HID interfaces: %s", ((hid_status == 0) ? "Success" : "Failed"));
+        LOG_INFO("[ResourceManager] Initializing HID interfaces: %s", ((hid_status == 0) ? "Success" : "Failed"));
 
         /*-------------------------------------------------*\
         | Mark the detection as ongoing                     |
@@ -1147,8 +1147,8 @@ void ResourceManager::DetectDevicesCoroutine()
                 {
                     SPDWrapper accessor(spd);
                     dimm_type = spd.memory_type();
-                    LOG_INFO("Detected occupied slot %d, bus %d, type %s", spd_addr - 0x50 + 1, bus, spd_memory_type_name[dimm_type]);
-                    LOG_DEBUG("Jedec ID: 0x%04x", accessor.jedec_id());
+                    LOG_INFO("[ResourceManager] Detected occupied slot %d, bus %d, type %s", spd_addr - 0x50 + 1, bus, spd_memory_type_name[dimm_type]);
+                    LOG_DEBUG("[ResourceManager] Jedec ID: 0x%04x", accessor.jedec_id());
                     slots.push_back(accessor);
                 }
             }
@@ -1260,7 +1260,7 @@ void ResourceManager::DetectDevicesCoroutine()
             HIDDeviceDetectorBlock & detector = hid_device_detectors[hid_detector_idx];
             hid_devices = hid_enumerate(detector.vid, detector.pid);
 
-            LOG_VERBOSE("Trying to run detector for [%s] (for %04x:%04x)", detector.name.c_str(), detector.vid, detector.pid);
+            LOG_VERBOSE("[ResourceManager] Trying to run detector for [%s] (for %04x:%04x)", detector.name.c_str(), detector.vid, detector.pid);
 
             current_hid_device = hid_devices;
 
@@ -1631,7 +1631,7 @@ void ResourceManager::DetectDevicesCoroutine()
 
 void ResourceManager::StopDeviceDetection()
 {
-    LOG_INFO("Detection abort requested");
+    LOG_INFO("[ResourceManager] Detection abort requested");
     detection_is_required = false;
     detection_percent = 100;
     detection_string = "Stopping";
@@ -1721,7 +1721,7 @@ void ResourceManager::HidExitCoroutine()
     \*-------------------------------------------------*/
     int hid_status = hid_exit();
 
-    LOG_DEBUG("Closing HID interfaces: %s", ((hid_status == 0) ? "Success" : "Failed"));
+    LOG_DEBUG("[ResourceManager] Closing HID interfaces: %s", ((hid_status == 0) ? "Success" : "Failed"));
 }
 
 void ResourceManager::RunInBackgroundThread(std::function<void()> coroutine)
@@ -1736,7 +1736,7 @@ void ResourceManager::RunInBackgroundThread(std::function<void()> coroutine)
         BackgroundThreadStateMutex.lock();
         if(ScheduledBackgroundFunction != nullptr)
         {
-            LOG_WARNING("Detection coroutine: assigned a new coroutine when one was already scheduled - probably two rescan events sent at once");
+            LOG_WARNING("[ResourceManager] Detection coroutine: assigned a new coroutine when one was already scheduled - probably two rescan events sent at once");
         }
         ScheduledBackgroundFunction = coroutine;
         BackgroundThreadStateMutex.unlock();
@@ -1768,11 +1768,11 @@ void ResourceManager::BackgroundThreadFunction()
             }
             catch(std::exception& e)
             {
-                LOG_ERROR("Unhandled exception in coroutine; e.what(): %s", e.what());
+                LOG_ERROR("[ResourceManager] Unhandled exception in coroutine; e.what(): %s", e.what());
             }
             catch(...)
             {
-                LOG_ERROR("Unhandled exception in coroutine");
+                LOG_ERROR("[ResourceManager] Unhandled exception in coroutine");
             }
         }
         // This line will cause the thread to suspend until the condition variable is triggered
@@ -1889,7 +1889,7 @@ void ResourceManager::UpdateDetectorSettings()
     \*-------------------------------------------------*/
     if(save_settings)
     {
-        LOG_INFO("Saving detector settings");
+        LOG_INFO("[ResourceManager] Saving detector settings");
 
         settings_manager->SetSettings("Detectors", detector_settings);
 

@@ -37,7 +37,7 @@ void SPDDetector::detect_memory_type()
 {
     SPDAccessor *accessor;
 
-    LOG_DEBUG("Probing DRAM on address 0x%02x", address);
+    LOG_DEBUG("[SPDDetector] Probing DRAM on address 0x%02x", address);
 
     /*---------------------------------------------------------*\
     | On Linux, attempt to use the ee1004 or spd5118 drivers to |
@@ -80,7 +80,7 @@ void SPDDetector::detect_memory_type()
     \*---------------------------------------------------------*/
     else if(mem_type == SPD_RESERVED)
     {
-        LOG_TRACE("Probing memory type older than DDR4");
+        LOG_TRACE("[SPDDetector] Probing memory type older than DDR4");
 
         int value = bus->i2c_smbus_read_byte_data(address, 0x02);
 

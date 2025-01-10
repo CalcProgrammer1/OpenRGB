@@ -864,12 +864,12 @@ bool OptionProfile(std::string argument, std::vector<RGBController *>& rgb_contr
             RGBController* device = rgb_controllers[controller_idx];
 
             device->DeviceUpdateMode();
-            LOG_DEBUG("Updating mode for %s to %i", device->name.c_str(), device->active_mode);
+            LOG_DEBUG("[CLI] Updating mode for %s to %i", device->name.c_str(), device->active_mode);
 
             if(device->modes[device->active_mode].color_mode == MODE_COLORS_PER_LED)
             {
                 device->DeviceUpdateLEDs();
-                LOG_DEBUG("Mode uses per-LED color, also updating LEDs");
+                LOG_DEBUG("[CLI] Mode uses per-LED color, also updating LEDs");
             }
         }
 
@@ -1282,7 +1282,7 @@ unsigned int cli_pre_detection(int argc, char* argv[])
         std::string option   = argv[arg_index];
         std::string argument = "";
 
-        LOG_DEBUG("Parsing CLI option: %s", option.c_str());
+        LOG_DEBUG("[CLI] Parsing CLI option: %s", option.c_str());
 
         /*---------------------------------------------------------*\
         | Handle options that take an argument                      |
@@ -1317,11 +1317,11 @@ unsigned int cli_pre_detection(int argc, char* argv[])
             if(filesystem::is_directory(config_path))
             {
                 ResourceManager::get()->SetConfigurationDirectory(config_path);
-                LOG_INFO("Setting config directory to %s",argument.c_str()); // TODO: Use config_path in logs somehow
+                LOG_INFO("[CLI] Setting config directory to %s",argument.c_str()); // TODO: Use config_path in logs somehow
             }
             else
             {
-                LOG_ERROR("'%s' is not a valid directory",argument.c_str()); // TODO: Use config_path in logs somehow
+                LOG_ERROR("[CLI] '%s' is not a valid directory",argument.c_str()); // TODO: Use config_path in logs somehow
                 print_help = true;
                 break;
             }
@@ -1474,7 +1474,7 @@ unsigned int cli_pre_detection(int argc, char* argv[])
                     }
                     else
                     {
-                        LOG_ERROR("Loglevel out of range: %d (0-6)", level);
+                        LOG_ERROR("[CLI] Loglevel out of range: %d (0-6)", level);
                         print_help = true;
                         break;
                     }
@@ -1511,7 +1511,7 @@ unsigned int cli_pre_detection(int argc, char* argv[])
                     }
                     else
                     {
-                        LOG_ERROR("Invalid loglevel");
+                        LOG_ERROR("[CLI] Invalid loglevel");
                         print_help = true;
                         break;
                     }
@@ -1519,7 +1519,7 @@ unsigned int cli_pre_detection(int argc, char* argv[])
             }
             else
             {
-                LOG_ERROR("Missing argument for --loglevel");
+                LOG_ERROR("[CLI] Missing argument for --loglevel");
                 print_help = true;
                 break;
             }
@@ -1768,11 +1768,11 @@ unsigned int cli_post_detection()
     {
         if(ResourceManager::get()->GetProfileManager()->SaveProfile(profile_save_filename))
         {
-            LOG_INFO("Profile saved successfully");
+            LOG_INFO("[CLI] Profile saved successfully");
         }
         else
         {
-            LOG_ERROR("Profile saving failed");
+            LOG_ERROR("[CLI] Profile saving failed");
         }
     }
 

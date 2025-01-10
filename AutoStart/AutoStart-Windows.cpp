@@ -46,13 +46,13 @@ bool AutoStart::DisableAutoStart()
 
             if(!success)
             {
-                LOG_ERROR("An error occurred removing the auto start file.");
+                LOG_ERROR("[AutoStart] An error occurred removing the auto start file.");
             }
         }
     }
     else
     {
-        LOG_ERROR("Could not establish correct autostart file path.");
+        LOG_ERROR("[AutoStart] Could not establish correct autostart file path.");
     }
 
     return(success);
@@ -124,7 +124,7 @@ bool AutoStart::EnableAutoStart(AutoStartInfo autostart_info)
     }
     else
     {
-        LOG_ERROR("Could not establish correct autostart file path.");
+        LOG_ERROR("[AutoStart] Could not establish correct autostart file path.");
     }
 
     return success;
