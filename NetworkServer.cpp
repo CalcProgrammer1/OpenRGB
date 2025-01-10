@@ -1167,8 +1167,8 @@ void NetworkServer::SendReply_PluginList(SOCKET client_sock)
         /*---------------------------------------------------------*\
         | Copy in plugin sdk version (data)                         |
         \*---------------------------------------------------------*/
-        memcpy(&data_buf[data_ptr], &plugins[i].protocol_version, sizeof(int));
-        data_ptr += sizeof(int);
+        memcpy(&data_buf[data_ptr], &plugins[i].protocol_version, sizeof(unsigned int));
+        data_ptr += sizeof(unsigned int);
     }
 
     NetPacketHeader reply_hdr;
