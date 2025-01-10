@@ -351,6 +351,15 @@ void Ui::OpenRGBPluginsPage::on_PluginsList_itemSelectionChanged()
     int cur_row = ui->PluginsList->currentRow();
 
     /*-----------------------------------------------------*\
+    | Disable the remove button if no item selected         |
+    \*-----------------------------------------------------*/
+    if(cur_row == -1)
+    {
+        ui->RemovePluginButton->setEnabled(false);
+        return;
+    }
+
+    /*-----------------------------------------------------*\
     | Enable the remove button when there's a selected item |
     | and the selected item is not a system plugin          |
     \*-----------------------------------------------------*/
