@@ -12,7 +12,7 @@ The protocol mimics the [RGBController API](The-RGBController-API) closely.  It 
 | 1                | 0.5             | Add versioning, add vendor string             |
 | 2                | 0.6             | Add profile controls                          |
 | 3                | 0.7             | Add brightness field to modes, add SaveMode() |
-| 4                | 0.9             | Add segments field to zones                   |
+| 4                | 0.9             | Add segments field to zones, plugin interface |
 
 \* Denotes unreleased version, reflects status of current pipeline
 
@@ -49,11 +49,11 @@ The following IDs represent different SDK commands.  Each ID packet has a certai
 | 1     | [NET_PACKET_ID_REQUEST_CONTROLLER_DATA](#net_packet_id_request_controller_data)             | Request RGBController data block                 | 0                |
 | 40    | [NET_PACKET_ID_REQUEST_PROTOCOL_VERSION](#net_packet_id_request_protocol_version)           | Request OpenRGB SDK protocol version from server | 1*               |
 | 50    | [NET_PACKET_ID_SET_CLIENT_NAME](#net_packet_id_set_client_name)                             | Send client name string to server                | 0                |
-| 100   | [NET_PACKET_ID_DEVICE_LIST_UPDATED](#net_packet_id_device_list_updated)                     | Indicate to clients that device list has updated | 0                |
-| 150   | [NET_PACKET_ID_REQUEST_PROFILE_LIST](#net_packet_id_request_profile_list)                   | Request profile list                             | 0                |
-| 151   | [NET_PACKET_ID_REQUEST_SAVE_PROFILE](#net_packet_id_request_save_profile)                   | Save current configuration in a new profile      | 0                |
-| 152   | [NET_PACKET_ID_REQUEST_LOAD_PROFILE](#net_packet_id_request_load_profile)                   | Load a given profile                             | 0                |
-| 153   | [NET_PACKET_ID_REQUEST_DELETE_PROFILE](#net_packet_id_request_delete_profile)               | Delete a given profile                           | 0                |
+| 100   | [NET_PACKET_ID_DEVICE_LIST_UPDATED](#net_packet_id_device_list_updated)                     | Indicate to clients that device list has updated | 1                |
+| 150   | [NET_PACKET_ID_REQUEST_PROFILE_LIST](#net_packet_id_request_profile_list)                   | Request profile list                             | 2                |
+| 151   | [NET_PACKET_ID_REQUEST_SAVE_PROFILE](#net_packet_id_request_save_profile)                   | Save current configuration in a new profile      | 2                |
+| 152   | [NET_PACKET_ID_REQUEST_LOAD_PROFILE](#net_packet_id_request_load_profile)                   | Load a given profile                             | 2                |
+| 153   | [NET_PACKET_ID_REQUEST_DELETE_PROFILE](#net_packet_id_request_delete_profile)               | Delete a given profile                           | 2                |
 | 200   | [NET_PACKET_ID_REQUEST_PLUGIN_LIST](#net_packet_id_request_plugin_list)                     | Request plugin list                              | 4                |
 | 201   | [NET_PACKET_ID_PLUGIN_SPECIFIC](#net_packet_id_plugin_specific)                             | Plugin specific                                  | 4                |
 | 1000  | [NET_PACKET_ID_RGBCONTROLLER_RESIZEZONE](#net_packet_id_rgbcontroller_resizezone)           | RGBController::ResizeZone()                      | 0                |
@@ -62,7 +62,7 @@ The following IDs represent different SDK commands.  Each ID packet has a certai
 | 1052  | [NET_PACKET_ID_RGBCONTROLLER_UPDATESINGLELED](#net_packet_id_rgbcontroller_updatesingleled) | RGBController::UpdateSingleLED()                 | 0                |
 | 1100  | [NET_PACKET_ID_RGBCONTROLLER_SETCUSTOMMODE](#net_packet_id_rgbcontroller_setcustommode)     | RGBController::SetCustomMode()                   | 0                |
 | 1101  | [NET_PACKET_ID_RGBCONTROLLER_UPDATEMODE](#net_packet_id_rgbcontroller_updatemode)           | RGBController::UpdateMode()                      | 0                |
-| 1102  | [NET_PACKET_ID_RGBCONTROLLER_SAVEMODE](#net_packet_id_rgbcontroller_savemode)               | RGBController::SaveMode()                        | 0                |
+| 1102  | [NET_PACKET_ID_RGBCONTROLLER_SAVEMODE](#net_packet_id_rgbcontroller_savemode)               | RGBController::SaveMode()                        | 3                |
         
 \* The NET_PACKET_ID_REQUEST_PROTOCOL_VERSION packet was not present in protocol version 0, but clients supporting protocol versions 1+ should always send this packet.  If no response is received, it should be assumed that the server is using protocol 0.
 
@@ -213,6 +213,21 @@ The client uses this ID to request the server's profile list.  The request conta
 
 The server responds to this request with a data block.  The format of the block is shown below.
 
+| Size     | Format                     | Name         | Protocol Version | Description                                                                      |
+| -------- | -------------------------- | ------------ | ---------------- | -------------------------------------------------------------------------------- |
+| 4        | unsigned int               | data_size    | 2                | Size of all data in packet                                                       |
+| 2        | unsigned short             | num_profiles | 2                | Number of profiles on server                                                     |
+| Variable | Profile Data[num_profiles] | profiles     | 2                | See [Profile Data](#profile-data) block format table.  Repeat num_profiles times |
+
+## Profile Data
+
+The profile data block represents the information of one profile.  This data block was introduced in protocol version 2.
+
+| Size             | Format                 | Name             | Protocol Version | Description                                               |
+| ---------------- | ---------------------- | ---------------- | ---------------- | --------------------------------------------------------- |
+| 2                | unsigned short         | profile_name_len | 2                | Length of profile name string, including null termination |
+| profile_name_len | char[profile_name_len] | profile_name     | 2                | Profile name string value, including null termination     |
+
 ## NET_PACKET_ID_REQUEST_SAVE_PROFILE
 
 ### Client Only [Size: Variable]
@@ -243,30 +258,36 @@ The client uses this ID to request the server's plugin list.  The request contai
 
 The server responds to this request with a data block.  The format of the block is shown below.
 
-| Size     | Format                   | Name        | Description                                                                   |
-| -------- | ------------------------ | ----------- | ----------------------------------------------------------------------------- |
-| 4        | unsigned int             | data_size   | Size of all data in packet                                                    |
-| 2        | unsigned short           | num_plugins | Number of plugins on server                                                   |
-| Variable | Plugin Data[num_plugins] | plugins     | See [Plugin Data](#plugin-data) block format table.  Repeat num_plugins times |
+| Size     | Format                   | Name        | Protocol Version | Description                                                                   |
+| -------- | ------------------------ | ----------- | ---------------- | ----------------------------------------------------------------------------- |
+| 4        | unsigned int             | data_size   | 4                | Size of all data in packet                                                    |
+| 2        | unsigned short           | num_plugins | 4                | Number of plugins on server                                                   |
+| Variable | Plugin Data[num_plugins] | plugins     | 4                | See [Plugin Data](#plugin-data) block format table.  Repeat num_plugins times |
 
 ## Plugin Data
 
 The plugin data block represents the information of one plugin.  This data block was introduced in protocol version 4.
 
-| Size                   | Format                       | Name                    | Description                                                     |
-| ---------------------- | ---------------------------- | ----------------------- | --------------------------------------------------------------- |
-| 2                      | unsigned short               | plugin_name_len         | Length of plugin name string, including null termination        |
-| plugin_name_len        | char[plugin_name_len]        | plugin_name             | Plugin name string value, including null termination            |
-| 2                      | unsigned short               | plugin_description_len  | Length of plugin description string, including null termination |
-| plugin_description_len | char[plugin_description_len] | plugin_description      | Plugin description string value, including null termination     |
-| 2                      | unsigned short               | plugin_version_len      | Length of plugin version string, including null termination     |
-| plugin_version_len     | char[plugin_version_len]     | plugin_version          | Plugin version string value, including null termination         |
-| 4                      | unsigned int                 | plugin_index            | Plugin index value                                              |
-| 4                      | unsigned int                 | plugin_protocol_version | Plugin protocol version value                                   |
+| Size                   | Format                       | Name                    | Protocol Version | Description                                                     |
+| ---------------------- | ---------------------------- | ----------------------- | ---------------- | --------------------------------------------------------------- |
+| 2                      | unsigned short               | plugin_name_len         | 4                | Length of plugin name string, including null termination        |
+| plugin_name_len        | char[plugin_name_len]        | plugin_name             | 4                | Plugin name string value, including null termination            |
+| 2                      | unsigned short               | plugin_description_len  | 4                | Length of plugin description string, including null termination |
+| plugin_description_len | char[plugin_description_len] | plugin_description      | 4                | Plugin description string value, including null termination     |
+| 2                      | unsigned short               | plugin_version_len      | 4                | Length of plugin version string, including null termination     |
+| plugin_version_len     | char[plugin_version_len]     | plugin_version          | 4                | Plugin version string value, including null termination         |
+| 4                      | unsigned int                 | plugin_index            | 4                | Plugin index value                                              |
+| 4                      | unsigned int                 | plugin_protocol_version | 4                | Plugin protocol version value                                   |
 
 ## NET_PACKET_ID_PLUGIN_SPECIFIC
 
-This packet is used to send data to a plugin.
+### Request [Size: Variable]
+
+This packet is used to send data to a plugin.  The `pkt_dev_idx` field in the header specifies which plugin to send to and corresponds to the `plugin_index` field in the plugin list.  The first 4 bytes of the data is the plugin packet type, the rest of the packet is plugin-specific.
+
+### Response [Size: Variable]
+
+The response is optionally generated by the plugin.  The data in the packet is plugin-specific.
 
 ## NET_PACKET_ID_RGBCONTROLLER_RESIZEZONE
 
