@@ -946,7 +946,7 @@ void NetworkServer::ListenThreadFunction(NetworkClientInfo * client_info)
 
                     memcpy(&zone, data, sizeof(int));
 
-                    controllers[header.pkt_dev_idx]->zones[zone].segments.clear();
+                    controllers[header.pkt_dev_idx]->ClearSegments(zone);
                     profile_manager->SaveProfile("sizes", true);
                 }
                 break;
@@ -954,8 +954,8 @@ void NetworkServer::ListenThreadFunction(NetworkClientInfo * client_info)
             case NET_PACKET_ID_RGBCONTROLLER_ADDSEGMENT:
                 {
                     /*---------------------------------------------------------*\
-                    | Verify the mode description size (first 4 bytes of data)  |
-                    | matches the packet size in the header                     |
+                    | Verify the segment description size (first 4 bytes of     |
+                    | data) matches the packet size in the header               |
                     \*---------------------------------------------------------*/
                     if(header.pkt_size == *((unsigned int*)data))
                     {
