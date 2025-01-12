@@ -1,0 +1,21 @@
+name: PR Opened
+
+on:
+  pull_request:
+    types: [opened,reopened]
+
+jobs:
+  pr_greeting:
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+    steps:
+      - name: Greeting
+        run: gh pr comment "$NUMBER" --body "$BODY"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_REPO: ${{ github.repository }}
+          NUMBER: ${{ github.event.pull_request.number }}
+          BODY: >
+            This Github repo is a mirror of the main repository on Gitlab.
+            Please fork https://gitlab.com/CalcProgrammer1/OpenRGB/ and raise the appropriate merge request on Gitlab.

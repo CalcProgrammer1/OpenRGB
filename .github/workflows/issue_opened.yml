@@ -1,0 +1,21 @@
+name: Issue Opened
+
+on:
+  issues:
+    types: [opened,reopened]
+
+jobs:
+  issue_greeting:
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+    steps:
+      - name: Greeting
+        run: gh issue comment "$NUMBER" --body "$BODY"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_REPO: ${{ github.repository }}
+          NUMBER: ${{ github.event.issue.number }}
+          BODY: >
+            This Github repo is a mirror of the main repository on Gitlab.
+            For any new issue please refer to https://gitlab.com/CalcProgrammer1/OpenRGB/-/issues
