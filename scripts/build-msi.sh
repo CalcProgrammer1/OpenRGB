@@ -4,6 +4,8 @@ GITPARAM="?inline=false"
 WEBSITE="www.openrgb.org"
 ICONFILE="qt/OpenRGB.ico"
 LICENSEFILE="scripts/License.rtf"
+BANNERIMAGE="scripts/banner.bmp"
+DIALOGBACKGROUND="scripts/dialog_background.bmp"
 ZIP="/jobs/artifacts/master/download?job=Windows+64"
 
 PRODUCTID=$(uuidgen -n @url -N ${WEBSITE} --sha1 | awk '{ print toupper($0) }')
@@ -29,20 +31,6 @@ echo -e "Product UUID:\t" $PRODUCTID
 echo -e "Product:\t" $PRODUCTNAME
 echo -e "Vendor:\t\t" $VENDOR
 echo -e "Version:\t" $VERSION
-
-ICONID=$(basename "$ICONFILE")
-#echo -e "\n\nGetting ${PRODUCTNAME}'s icon from repo:\t"$ICONID
-#wget -O ${ICONID} "${GITURL}${ICONFILE}${GITPARAM}"
-
-LICENSEID=$(basename "$LICENSEFILE")
-#echo -e "\nGetting ${PRODUCTNAME}'s icon from repo:\t"$LICENSEID
-#wget -O ${LICENSEID} "${GITURL}${LICENSEFILE}${GITPARAM}"
-
-#echo -e "\nProcessing latest Windows 64 package from " $GITURL
-#ZIPFILE=${PRODUCTNAME,,}".zip";
-#echo -e "Zipfile:\t${ZIPFILE}\nZip:\t\t${ZIP}"
-#wget -O ${ZIPFILE} "${GITURL}${ZIP}"
-#unzip ${ZIPFILE}
 
 #Wix and / or Wine have issues with the mixed upper and lower case letters
 WORKING_PATH="orgb/"
@@ -87,17 +75,17 @@ XML_MEDIA="\t<Media Id='1' Cabinet='${PRODUCTNAME,,}.cab' EmbedCab='yes'/>\n"
 XML_CONDITIONS="\t<Condition Message='This package supports Windows 64bit Only'>VersionNT64</Condition>\n"
 XML_ACTION_RUNAS_ADMIN="\t<CustomAction Id='LaunchOpenRGBAdmin' FileKey='${EXE_ID}' ExeCommand='${EXE_FILE} --loglevel 1 --nodetect' Execute='deferred' Return='asyncNoWait' Impersonate='no'/>\n"
 XML_ACTION_FIRSTRUN="\t<CustomAction Id='LaunchOpenRGB' FileKey='${EXE_ID}' ExeCommand='--gui --loglevel 6' Execute='immediate' Return='asyncNoWait' Impersonate='yes'/>\n"
-XML_ICON="\t<Icon Id='${ICONID}' SourceFile='${ICONFILE}'/>\n"
+XML_ICON="\t<Icon Id='OpenRGBIcon' SourceFile='${ICONFILE}'/>\n"
+XML_PROPERTY="\t<Property Id='ARPPRODUCTICON' Value='OpenRGBIcon'/>\n\t<Property Id='ARPURLINFOABOUT' Value='https://www.openrgb.org'/>\n"
 XML_ACTIONS_EXECUTE="\t<InstallExecuteSequence>\n\t\t<Custom Action='LaunchOpenRGBAdmin' After='InstallFiles'>NOT Installed</Custom>\n\t\t<Custom Action='LaunchOpenRGB' After='InstallFinalize'>NOT Installed</Custom>\n\t</InstallExecuteSequence>\n"
-XML_WIX_UI="\t<UIRef Id='WixUI_Minimal'/>\n\t<UIRef Id='WixUI_ErrorProgressText'/>\n\t<WixVariable Id='WixUILicenseRtf' Value='${LICENSEFILE}'/>\n"
-XML_METADATA="$XML_PACKAGE $XML_MEDIA $XML_CONDITIONS $XML_ACTION_RUNAS_ADMIN $XML_ACTION_FIRSTRUN $XML_ICON $XML_ACTIONS_EXECUTE $XML_WIX_UI"
+XML_WIX_UI="\t<Property Id='WIXUI_INSTALLDIR' Value='INSTALLDIR' />\n\t<UIRef Id='WixUI_InstallDir'/>\n\t<UIRef Id='WixUI_ErrorProgressText'/>\n\t<WixVariable Id='WixUILicenseRtf' Value='${LICENSEFILE}'/>\n\t<WixVariable Id='WixUIBannerBmp' Value='${BANNERIMAGE}'/>\n\t<WixVariable Id='WixUIDialogBmp' Value='${DIALOGBACKGROUND}'/>\n"
+XML_METADATA="$XML_PACKAGE $XML_MEDIA $XML_CONDITIONS $XML_ACTION_RUNAS_ADMIN $XML_ACTION_FIRSTRUN $XML_ICON $XML_PROPERTY $XML_ACTIONS_EXECUTE $XML_WIX_UI"
 
-XML_STARTMENU="\t\t<Directory Id='ProgramMenuFolder' Name='Programs'>\n\t\t\t<Directory Id='ProgramMenuDir' Name='${PRODUCTNAME}'>\n\t\t\t\t<Component Id='ProgramMenuDir' Guid='"$(uuidgen -t | awk '{ print toupper($0) }')"'>\n\t\t\t\t\t<RemoveFolder Id='ProgramMenuDir' On='uninstall'/>\n\t\t\t\t\t<RegistryValue Root='HKCU' Key='Software\[Manufacturer]\[ProductName]' Type='string' Value='' KeyPath='yes'/>\n\t\t\t\t</Component>\n\t\t\t</Directory>\n\t\t</Directory>\n"
-XML_SHORTCUT="\t\t\t\t\t<Shortcut Id='startmenu${PRODUCTNAME}' Directory='ProgramMenuDir' Name='${PRODUCTNAME}' Target='[#${EXE_ID}]' WorkingDirectory='INSTALLDIR' Icon='${ICONID}' IconIndex='0' Advertise='no'/>\n"
+XML_STARTMENU="\t\t<Directory Id='ProgramMenuFolder' Name='Programs'>\n\t\t\t<Component Id='ProgramMenuShortcut' Guid='"$(uuidgen -t | awk '{ print toupper($0) }')"'>\n\t\t\t\t<Shortcut Id='startmenu${PRODUCTNAME}' Directory='ProgramMenuFolder' Name='${PRODUCTNAME}' Target='[#${EXE_ID}]' WorkingDirectory='INSTALLDIR' Advertise='no'/>\n\t\t\t\t<RemoveFolder Id='ProgramMenuShortcut' On='uninstall'/>\n\t\t\t\t<RegistryValue Root='HKCU' Key='Software\[Manufacturer]\[ProductName]' Type='string' Value='' KeyPath='yes'/>\n\t\t\t</Component>\n\t\t</Directory>\n"
 XML_ASSOCIATE_FILE="\t\t\t\t\t<ProgId Id='${SAVE_FILE}' Description='${PRODUCTNAME} Profile'>\n\t\t\t\t\t\t<Extension Id='${EXTENSION}' ContentType='application/${EXTENSION}'>\n\t\t\t\t\t\t<Verb Id='open' Command='Open' TargetFile='${EXE_ID}' Argument='-p \"%1\"' />\n\t\t\t\t\t\t</Extension>\n\t\t\t\t\t</ProgId>\n"
 XML_DIRECTORIES="\t<Directory Id='TARGETDIR' Name='SourceDir'>\n\t\t<Directory Id='ProgramFiles64Folder'>\n\t\t\t<Directory Id='INSTALLDIR' Name='${PRODUCTNAME}'>\n\t\t\t\t<Component Id='${PRODUCTNAME}Files' Guid='"$(uuidgen -t | awk '{ print toupper($0) }')"'>\n$FILES\n$XML_SHORTCUT\n$XML_ASSOCIATE_FILE\t\t\t\t</Component>\n$DIRECTORIES\t\t\t</Directory>\n\t\t</Directory>\n$XML_STARTMENU\t</Directory>\n"
 
-XML_COMPONENTS="\t<Feature Id='Complete' Title='${PRODUCTNAME}' Description='Install all ${PRODUCTNAME} files.' Display='expand' Level='1' ConfigurableDirectory='INSTALLDIR'>\n\t\t<Feature Id='${PRODUCTNAME}Complete' Title='${PRODUCTNAME}' Description='The complete package.' Level='1' AllowAdvertise='no' InstallDefault='local'>\n\t\t\t<ComponentRef Id='${PRODUCTNAME}Files'/>\n$COMPONENTS\t\t\t<ComponentRef Id='ProgramMenuDir'/>\n\t\t</Feature>\n\t</Feature>\n"
+XML_COMPONENTS="\t<Feature Id='Complete' Title='${PRODUCTNAME}' Description='Install all ${PRODUCTNAME} files.' Display='expand' Level='1' ConfigurableDirectory='INSTALLDIR'>\n\t\t<Feature Id='${PRODUCTNAME}Complete' Title='${PRODUCTNAME}' Description='The complete package.' Level='1' AllowAdvertise='no' InstallDefault='local'>\n\t\t\t<ComponentRef Id='${PRODUCTNAME}Files'/>\n$COMPONENTS\t\t\t<ComponentRef Id='ProgramMenuShortcut'/>\n\t\t</Feature>\n\t</Feature>\n"
 XML_DATA="$XML_DIRECTORIES $XML_COMPONENTS"
 
 #Wipe out any previous XMLOUTFILE and add the header
@@ -110,4 +98,4 @@ echo -e "\t...Done!\n\n"
 
 #Once the XML file manifest is created create the package
 candle -arch x64 ${PRODUCTNAME,,}.wxs
-light -sval -ext WixUIExtension ${PRODUCTNAME,,}.wixobj
+light -sval -ext WixUIExtension ${PRODUCTNAME,,}.wixobj -out ${PRODUCTNAME}_Windows_64.msi

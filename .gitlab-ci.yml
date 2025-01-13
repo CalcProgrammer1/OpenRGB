@@ -623,7 +623,7 @@ before_script:
 #-----------------------------------------------------------------------#
 # Windows (64-bit) MSI Target                                           #
 #-----------------------------------------------------------------------#
-"Window 64 msi":
+"Window 64 MSI":
   image: registry.gitlab.com/openrgbdevelopers/openrgb-linux-ci-deb-builder:bookworm-i386
   stage: deploy
   tags:
@@ -641,5 +641,5 @@ before_script:
   artifacts:
     name: "${CI_PROJECT_NAME}_Windows_64_msi_${CI_COMMIT_SHORT_SHA}"
     paths:
-    - openrgb.msi
+    - OpenRGB_Windows_64.msi
     expire_in: 30 days
