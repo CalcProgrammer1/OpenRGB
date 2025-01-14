@@ -13,6 +13,10 @@
 #include "OpenRGBThemeManager.h"
 #include "SettingsManager.h"
 
+#ifdef _WIN32
+#include <Windows.h>
+#endif
+
 PluginManager::PluginManager()
 {
     /*---------------------------------------------------------*\
@@ -63,6 +67,24 @@ void PluginManager::ScanAndLoadPlugins()
     | via package manager                                       |
     \*---------------------------------------------------------*/
     ScanAndLoadPluginsFrom(OPENRGB_SYSTEM_PLUGIN_DIRECTORY, true);
+#endif
+
+#ifdef _WIN32
+    /*---------------------------------------------------------*\
+    | Get the exe folder plugins directory (Windows)            |
+    |                                                           |
+    | On Windows, system plugins are located in a folder called |
+    | "plugins" inside the folder where the OpenRGB.exe file is |
+    | installed.  Typically, C:\Program Files\OpenRGB but other |
+    | install paths are allowed.                                |
+    \*---------------------------------------------------------*/
+    char path[MAX_PATH];
+    GetModuleFileName(NULL, path, MAX_PATH);
+
+    filesystem::path exe_dir(path);
+    exe_dir = exe_dir.remove_filename() / plugins_path;
+
+    ScanAndLoadPluginsFrom(exe_dir, true);
 #endif
 }
 
