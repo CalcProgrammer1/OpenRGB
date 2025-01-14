@@ -306,6 +306,7 @@
 #define ASUS_TUF_RX_7600XT_O16G_GAMING                  0x0607
 #define ASUS_TUF_RX_7700XT_012G_GAMING                  0x0512
 #define ASUS_TUF_RX_7800XT_O16G_GAMING                  0x05FD
+#define ASUS_TUF_RX_7800XT_O16G_GAMING_0606             0x0606
 #define ASUS_TUF_RX_7800XT_O16G_WHITE_GAMING            0x0601
 #define ASUS_TUF_RX_7900XT_020G_GAMING                  0x05ED
 #define ASUS_TUF_RX_7900XTX_O24G_GAMING                 0x0506
