@@ -623,7 +623,7 @@ before_script:
 #-----------------------------------------------------------------------#
 # Windows (64-bit) MSI Target                                           #
 #-----------------------------------------------------------------------#
-"Window 64 MSI":
+"Windows 64 MSI":
   image: registry.gitlab.com/openrgbdevelopers/openrgb-linux-ci-deb-builder:bookworm-i386
   stage: deploy
   tags:
