@@ -26,11 +26,44 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 #-----------------------------------------------------------------------------------------------#
 MAJOR       = 0
 MINOR       = 9
-REVISION    = 1
-VERSION     = $$MAJOR"."$$MINOR$$REVISION
+SUFFIX      = git
+
+SHORTHASH   = $$system("git rev-parse --short=7 HEAD")
+LASTTAG     = "release_"$$MAJOR"."$$MINOR
+COMMAND     = "git rev-list --count "$$LASTTAG"..HEAD"
+COMMITS     = $$system($$COMMAND)
+
+VERSION_NUM = $$MAJOR"."$$MINOR"."$$COMMITS
+VERSION_STR = $$MAJOR"."$$MINOR
+
+VERSION_DEB = $$VERSION_NUM
+VERSION_WIX = $$VERSION_NUM".0"
+VERSION_AUR = $$VERSION_NUM
+VERSION_RPM = $$VERSION_NUM
+
+equals(SUFFIX, "git") {
+VERSION_STR = $$VERSION_STR"+ ("$$SUFFIX$$COMMITS")"
+VERSION_DEB = $$VERSION_DEB"~git"$$SHORTHASH
+VERSION_AUR = $$VERSION_AUR"-g"$$SHORTHASH
+VERSION_RPM = $$VERSION_RPM"^git"$$SHORTHASH
+} else {
+    !isEmpty(SUFFIX) {
+VERSION_STR = $$VERSION_STR"+ ("$$SUFFIX")"
+VERSION_DEB = $$VERSION_DEB"~"$$SUFFIX
+VERSION_AUR = $$VERSION_AUR"-"$$SUFFIX
+VERSION_RPM = $$VERSION_RPM"^"$$SUFFIX
+    }
+}
+
 TARGET      = OpenRGB
 TEMPLATE    = app
 
+message("VERSION_NUM: "$$VERSION_NUM)
+message("VERSION_STR: "$$VERSION_STR)
+message("VERSION_DEB: "$$VERSION_DEB)
+message("VERSION_WIX: "$$VERSION_WIX)
+message("VERSION_AUR: "$$VERSION_AUR)
+message("VERSION_RPM: "$$VERSION_RPM)
 #-----------------------------------------------------------------------------------------------#
 # Automatically generated build information                                                     #
 #-----------------------------------------------------------------------------------------------#
@@ -40,10 +73,11 @@ freebsd:BUILDDATE       = $$system(date -j -R -r "${SOURCE_DATE_EPOCH:-$(date +%
 macx:BUILDDATE          = $$system(date -j -R -r "${SOURCE_DATE_EPOCH:-$(date +%s)}")
 GIT_COMMIT_ID           = $$system(git log -n 1 --pretty=format:"%H")
 GIT_COMMIT_DATE         = $$system(git log -n 1 --pretty=format:"%ci")
-GIT_BRANCH              = $$system(git branch --show-current)
+GIT_BRANCH              = $$system(scripts/git-get-branch.sh)
 
+message("GIT_BRANCH: "$$GIT_BRANCH)
 DEFINES +=                                                                                      \
-    VERSION_STRING=\\"\"\"$$VERSION\\"\"\"                                                      \
+    VERSION_STRING=\\"\"\"$$VERSION_STR\\"\"\"                                                  \
     BUILDDATE_STRING=\\"\"\"$$BUILDDATE\\"\"\"                                                  \
     GIT_COMMIT_ID=\\"\"\"$$GIT_COMMIT_ID\\"\"\"                                                 \
     GIT_COMMIT_DATE=\\"\"\"$$GIT_COMMIT_DATE\\"\"\"                                             \

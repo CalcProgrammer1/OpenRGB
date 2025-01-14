@@ -300,15 +300,12 @@ before_script:
   image: fedora:40
   stage: build
   script:
-  - dnf install rpmdevtools dnf-plugins-core libcurl-devel qt5-qtbase-devel -y
+  - dnf install rpmdevtools dnf-plugins-core libcurl-devel qt5-qtbase-devel git -y
   - rpmdev-setuptree
   - ./scripts/build-package-files.sh fedora/OpenRGB.spec
-  - ls /root/
   - cp fedora/OpenRGB.spec /root/rpmbuild/SPECS
-  - cp ../OpenRGB /root/rpmbuild/SOURCES/ -r
-  - cd /root/rpmbuild/SOURCES
-  - tar -cf OpenRGB.tar.gz OpenRGB/
-  - cd ..
+  - cp -rp . /root/rpmbuild/SOURCES/OpenRGB
+  - cd /root/rpmbuild
   - dnf builddep SPECS/OpenRGB.spec -y
   - rpmbuild -ba SPECS/OpenRGB.spec
   - cd RPMS/x86_64/
