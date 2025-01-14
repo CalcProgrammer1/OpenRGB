@@ -371,6 +371,12 @@ void Ui::OpenRGBPluginsPage::on_PluginsList_itemSelectionChanged()
     if(!entries[cur_row]->is_system)
     {
         ui->RemovePluginButton->setEnabled(!ui->PluginsList->selectedItems().empty());
+        ui->RemovePluginButton->setText("Remove Plugin");
+    }
+    else
+    {
+        ui->RemovePluginButton->setEnabled(false);
+        ui->RemovePluginButton->setText("System Plugin - Cannot Remove");
     }
 }
 
