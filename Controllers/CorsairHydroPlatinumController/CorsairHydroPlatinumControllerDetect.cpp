@@ -30,6 +30,7 @@
 #define CORSAIR_HYDRO_H100I_PRO_XT_V2_PID   0x0C2D
 #define CORSAIR_HYDRO_H115I_PRO_XT_PID      0x0C21
 #define CORSAIR_HYDRO_H150I_PRO_XT_PID      0x0C22
+#define CORSAIR_HYDRO_H100I_ELITE_PID       0x0C40
 
 void DetectCorsairHydroPlatinumControllers(hid_device_info* info, const std::string& name)
 {
@@ -52,3 +53,4 @@ REGISTER_HID_DETECTOR("Corsair Hydro H100i Pro XT",         DetectCorsairHydroPl
 REGISTER_HID_DETECTOR("Corsair Hydro H100i Pro XT v2",      DetectCorsairHydroPlatinumControllers, CORSAIR_VID, CORSAIR_HYDRO_H100I_PRO_XT_V2_PID   );
 REGISTER_HID_DETECTOR("Corsair Hydro H115i Pro XT",         DetectCorsairHydroPlatinumControllers, CORSAIR_VID, CORSAIR_HYDRO_H115I_PRO_XT_PID      );
 REGISTER_HID_DETECTOR("Corsair Hydro H150i Pro XT",         DetectCorsairHydroPlatinumControllers, CORSAIR_VID, CORSAIR_HYDRO_H150I_PRO_XT_PID      );
+REGISTER_HID_DETECTOR("Corsair Hydro H100i Elite",          DetectCorsairHydroPlatinumControllers, CORSAIR_VID, CORSAIR_HYDRO_H100I_ELITE_PID       );
