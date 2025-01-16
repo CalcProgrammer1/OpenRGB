@@ -7,7 +7,6 @@ Summary:        Open source RGB lighting control that doesn't depend on manufact
 
 License:        GPLv2
 URL:            https://gitlab.com/CalcProgrammer1/%{_name}
-Source0:        OpenRGB.tar.gz
 
 BuildRequires:  gcc-c++ libusbx-devel libstdc++-devel qt5-qtbase-devel qt5-linguist desktop-file-utils hidapi-devel mbedtls-devel systemd-rpm-macros
 Requires:       hicolor-icon-theme
@@ -18,7 +17,7 @@ Open source RGB lighting control that doesn't depend on manufacturer software. S
 ASUS, ASRock, Corsair, G.Skill, Gigabyte, HyperX, MSI, Razer, ThermalTake, and more supported
 
 %prep
-cp %{_sourcedir}/%{_name}/* %{_builddir} -r
+cp -r %{_sourcedir}/%{_name}/. %{_builddir}
 
 %build
 cd %{_builddir}

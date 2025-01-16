@@ -7,19 +7,14 @@ LICENSEFILE="scripts/License.rtf"
 BANNERIMAGE="scripts/banner.bmp"
 DIALOGBACKGROUND="scripts/dialog_background.bmp"
 ZIP="/jobs/artifacts/master/download?job=Windows+64"
+PROJECT_FILE="OpenRGB.pro"
 
 PRODUCTID=$(uuidgen -n @url -N ${WEBSITE} --sha1 | awk '{ print toupper($0) }')
 PRODUCTNAME="OpenRGB"
 VENDOR=$PRODUCTNAME
 PRODUCTCOMMENT="Open source RGB lighting control that doesn't depend on manufacturer software."
 
-MAJOR=$(grep "MAJOR\ *=" OpenRGB.pro | cut -d= -f 2 | tr -d [:space:])
-MINOR=$(grep "MINOR\ *=" OpenRGB.pro | cut -d= -f 2 | tr -d [:space:])
-REVISION=$(grep "REVISION\ *=" OpenRGB.pro | cut -d= -f 2 | tr -d [:space:])
-#The commit count since last tag. The commit ID can be added with group \3 however Wix only accepts integers
-RELEASE=$(git describe --tags --abbrev=8 | sed -E "s/(.*)-([0-9]*)-g(\w*)/\2/g")
-
-VERSION="${MAJOR}.${MINOR}.${REVISION}.${RELEASE}"
+VERSION=$(qmake ${PROJECT_FILE} 2>&1 | grep VERSION_WIX | cut -d ':' -f 3 | tr -d ' ')
 
 XMLOUTFILE=${PRODUCTNAME,,}".wxs"
 
