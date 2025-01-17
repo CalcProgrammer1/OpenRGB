@@ -348,8 +348,8 @@ void EVisionV2KeyboardController::SetMode(EVisionV2KeyboardPart part, const Evis
         Write(EVISION_V2_CMD_WRITE_CONFIG, EVISION_V2_OFFSET_CURRENT_PROFILE, &current_profile, 1);
     }
 
-    uint16_t offset;
-    uint8_t size;
+    uint16_t offset = 0;
+    uint8_t size    = 0;
 
     offset = current_profile * 0x40 + EVISION_V2_OFFSET_FIRST_PROFILE;
 
