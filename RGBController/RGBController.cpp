@@ -144,7 +144,7 @@ unsigned char * RGBController::GetDeviceDescription(unsigned int protocol_versio
         }
         else
         {
-            zone_matrix_len[zone_index] = (unsigned short)(2 * sizeof(unsigned int)) + (zones[zone_index].matrix_map->height * zones[zone_index].matrix_map->width * sizeof(unsigned int));
+            zone_matrix_len[zone_index] = (unsigned short)((2 * sizeof(unsigned int)) + (zones[zone_index].matrix_map->height * zones[zone_index].matrix_map->width * sizeof(unsigned int)));
         }
 
         data_size += sizeof(zone_matrix_len[zone_index]);
