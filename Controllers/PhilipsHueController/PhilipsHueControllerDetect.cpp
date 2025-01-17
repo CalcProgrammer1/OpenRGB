@@ -24,7 +24,7 @@
 #include "PhilipsHueEntertainmentController.h"
 #include "RGBController_PhilipsHue.h"
 #include "RGBController_PhilipsHueEntertainment.h"
-#include "SettingsManager.h"
+#include "PhilipsHueSettingsHandler.h"
 
 /******************************************************************************************\
 *                                                                                          *
@@ -36,7 +36,7 @@
 
 void DetectPhilipsHueControllers()
 {
-    json                    hue_settings;
+    PhilipsHueSettingsHandler hue_settings;
 
     /*-------------------------------------------------*\
     | Create an HTTP handler                            |
@@ -48,11 +48,6 @@ void DetectPhilipsHueControllers()
 #endif
 
     /*-------------------------------------------------*\
-    | Get Philips Hue settings from settings manager    |
-    \*-------------------------------------------------*/
-    hue_settings = ResourceManager::get()->GetSettingsManager()->GetSettings("PhilipsHueDevices");
-
-    /*-------------------------------------------------*\
     | Create a finder and find bridges                  |
     \*-------------------------------------------------*/
     static hueplusplus::BridgeFinder finder(std::make_shared<SystemHttpHandler>());
@@ -62,24 +57,14 @@ void DetectPhilipsHueControllers()
     | If no bridges were detected, manually add bridge  |
     | IP and MAC (need to get these from file)          |
     \*-------------------------------------------------*/
-    if(bridges.empty())
+    if(hue_settings.GetBridgeCount() > 0)
     {
-        if(hue_settings.contains("bridges"))
-        {
-            hueplusplus::BridgeFinder::BridgeIdentification ident;
+        hueplusplus::BridgeFinder::BridgeIdentification ident;
 
-            if(hue_settings["bridges"][0].contains("ip"))
-            {
-                ident.ip = hue_settings["bridges"][0]["ip"];
-            }
+        ident.ip  = hue_settings.GetBridgeIP(0);
+        ident.mac = hue_settings.GetBridgeMAC(0);
 
-            if(hue_settings["bridges"][0].contains("mac"))
-            {
-                ident.mac = hue_settings["bridges"][0]["mac"];
-            }
-
-            bridges.push_back(ident);
-        }
+        bridges.push_back(ident);
     }
 
     /*-------------------------------------------------*\
@@ -95,22 +80,22 @@ void DetectPhilipsHueControllers()
         /*-------------------------------------------------*\
         | Check if a saved username exists                  |
         \*-------------------------------------------------*/
-        if(hue_settings.contains("bridges"))
+        if(hue_settings.GetBridgeCount() > 0)
         {
             /*-------------------------------------------------*\
             | Add the username if it exists                     |
             \*-------------------------------------------------*/
-            if(hue_settings["bridges"][0].contains("username"))
+            if(hue_settings.BridgeHasUsername(0))
             {
-                finder.addUsername(bridges[0].mac, hue_settings["bridges"][0]["username"]);
+                finder.addUsername(bridges[0].mac, hue_settings.GetBridgeUsername(0));
             }
 
             /*-------------------------------------------------*\
             | Add the client key if it exists                   |
             \*-------------------------------------------------*/
-            if(hue_settings["bridges"][0].contains("clientkey"))
+            if(hue_settings.BridgeHasClientKey(0))
             {
-                finder.addClientKey(bridges[0].mac, hue_settings["bridges"][0]["clientkey"]);
+                finder.addClientKey(bridges[0].mac, hue_settings.GetBridgeClientKey(0));
             }
         }
 
@@ -134,11 +119,11 @@ void DetectPhilipsHueControllers()
             bool use_entertainment = false;
             bool auto_connect = false;
 
-            if(hue_settings.contains("bridges"))
+            if(hue_settings.GetBridgeCount() > 0)
             {
-                if(hue_settings["bridges"][0].contains("username"))
+                if(hue_settings.BridgeHasUsername(0))
                 {
-                    if(hue_settings["bridges"][0]["username"] != bridge.getUsername())
+                    if(hue_settings.GetBridgeUsername(0) != bridge.getUsername())
                     {
                         save_settings = true;
                     }
@@ -148,9 +133,9 @@ void DetectPhilipsHueControllers()
                     save_settings = true;
                 }
 
-                if(hue_settings["bridges"][0].contains("clientkey"))
+                if(hue_settings.BridgeHasClientKey(0))
                 {
-                    if(hue_settings["bridges"][0]["clientkey"] != bridge.getClientKey())
+                    if(hue_settings.GetBridgeClientKey(0) != bridge.getClientKey())
                     {
                         use_entertainment = true;
                         save_settings = true;
@@ -167,28 +152,18 @@ void DetectPhilipsHueControllers()
             \*-------------------------------------------------*/
             if(save_settings)
             {
-                hue_settings["bridges"][0]["username"]       = bridge.getUsername();
-                hue_settings["bridges"][0]["clientkey"]      = bridge.getClientKey();
-                hue_settings["bridges"][0]["entertainment"]  = use_entertainment;
-                hue_settings["bridges"][0]["autoconnect"]    = auto_connect;
-
-                ResourceManager::get()->GetSettingsManager()->SetSettings("PhilipsHueDevices", hue_settings);
-
-                ResourceManager::get()->GetSettingsManager()->SaveSettings();
+                hue_settings.SetBridgeUsername(0, bridge.getUsername());
+                hue_settings.SetBridgeClientKey(0, bridge.getClientKey());
+                hue_settings.SetBridgeUseEntertainment(0, use_entertainment);
+                hue_settings.SetBridgeAutoconnect(0, auto_connect);
+                hue_settings.SaveSettings();
             }
 
             /*-------------------------------------------------*\
-            | Get entertainment mode settings                    |
+            | Get entertainment mode settings                   |
             \*-------------------------------------------------*/
-            if(hue_settings["bridges"][0].contains("entertainment"))
-            {
-                use_entertainment = hue_settings["bridges"][0]["entertainment"];
-            }
-
-            if(hue_settings["bridges"][0].contains("autoconnect"))
-            {
-                auto_connect = hue_settings["bridges"][0]["autoconnect"];
-            }
+            use_entertainment = hue_settings.GetBridgeUseEntertainment(0);
+            auto_connect      = hue_settings.GetBridgeAutoconnect(0);
 
             /*-------------------------------------------------*\
             | Get all groups from the bridge                    |
