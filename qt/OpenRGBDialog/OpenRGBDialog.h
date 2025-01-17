@@ -80,7 +80,7 @@ signals:
     void ProfileListChanged();
 
 public slots:
-    void changeEvent(QEvent *event);
+    void changeEvent(QEvent *event) override;
     void SetTrayIcon(bool tray_icon);
     void handleAboutToQuit();
 
@@ -148,7 +148,7 @@ private:
     void ClearDevicesList();
     void UpdateDevicesList();
     void UpdateProfileList();
-    void closeEvent(QCloseEvent *event);
+    void closeEvent(QCloseEvent *event) override;
     bool SelectConfigProfile(const std::string name);
 
     void SetDetectionViewState(bool detection_showing);
@@ -167,8 +167,8 @@ private:
     void ShowLEDView();
     void HideLEDView();
 
-    void OnSuspend();
-    void OnResume();
+    void OnSuspend() override;
+    void OnResume() override;
 
 private slots:
     void on_Exit();
