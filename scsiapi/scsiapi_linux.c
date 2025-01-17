@@ -81,7 +81,12 @@ struct scsi_device_info * scsi_enumerate(const char * vendor, const char * produ
         /*-------------------------------------------------*\
         | Read the model string and close the model file    |
         \*-------------------------------------------------*/
-        read(sg_model_fd, sg_model_buf, 512);
+        if(read(sg_model_fd, sg_model_buf, 512) < 0)
+        {
+            close(sg_model_fd);
+            close(sg_vendor_fd);
+            break;
+        }
         close(sg_model_fd);
 
         for(unsigned int i = 0; i < strlen(sg_model_buf); i++)
@@ -96,7 +101,11 @@ struct scsi_device_info * scsi_enumerate(const char * vendor, const char * produ
         /*-------------------------------------------------*\
         | Read the vendor string and close the vendor file  |
         \*-------------------------------------------------*/
-        read(sg_vendor_fd, sg_vendor_buf, 512);
+        if(read(sg_vendor_fd, sg_vendor_buf, 512) < 0)
+        {
+            close(sg_vendor_fd);
+            break;
+        }
         close(sg_vendor_fd);
 
         for(unsigned int i = 0; i < strlen(sg_vendor_buf); i++)
