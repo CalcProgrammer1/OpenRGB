@@ -1088,7 +1088,7 @@ void ResourceManager::DetectDevicesCoroutine()
     LOG_INFO("------------------------------------------------------");
     for(unsigned int i2c_detector_idx = 0; i2c_detector_idx < (unsigned int)i2c_device_detectors.size() && detection_is_required.load(); i2c_detector_idx++)
     {
-        unsigned int controller_size = rgb_controllers_hw.size();
+        std::size_t controller_size = rgb_controllers_hw.size();
         detection_string = i2c_device_detector_strings[i2c_detector_idx].c_str();
 
         /*-------------------------------------------------*\
