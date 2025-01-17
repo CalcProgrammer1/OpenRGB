@@ -43,7 +43,7 @@ enum
     JGINYUE_USB_V2_MODE_CYCLING_RAINING    = 0x22,
     JGINYUE_USB_V2_MODE_MULTICOLOR_WATER_2 = 0x23,
     JGINYUE_USB_V2_MODE_MULTICOLOR_WATER_1 = 0x24,
-    JGINYUE_USB_V2_MODE_HOURGLASS          = 0x25    
+    JGINYUE_USB_V2_MODE_HOURGLASS          = 0x25
 };
 
 enum
@@ -79,7 +79,7 @@ enum
 
 struct AreaConfigurationV2
 {
-    unsigned char   Area_ID;                    
+    unsigned char   Area_ID;
     unsigned char   Max_LED_numbers;
     unsigned char   User_LED_numbers;
     unsigned char   Direction;
@@ -120,23 +120,18 @@ public:
         unsigned char   num_LEDs,
         unsigned char   Area
         );
-    
+
     AreaConfigurationV2 device_config[8];
     //TODO,When the perzone mode is supported, these parameters will be used to download device configuartion from the device
     AreaConfigurationV2 device_config_Global;
     //TODO,Can sync its data to other zones,will be used once the perzone mode is supported
-    bool                support_Global_zone;  
-    
+    bool                support_Global_zone;
+
 private:
     void                Init_device();
     void                Init_Zone(int zone);
-    unsigned char       ZoneCount;                       
-    unsigned char       SKUID;
-    unsigned char       Major_version;
-    unsigned char       Minor_version;
-      
-   
-    unsigned char       FPS;                            //0x00 = 120FPS, 0x01 = 60FPS
+    unsigned char       ZoneCount;
+
     hid_device*         jy_hid_interface;
     serial_port*        jy_cdc_interface;
     std::string         location;
