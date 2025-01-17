@@ -749,7 +749,7 @@ uint8_t logitech_device::setMode(uint8_t mode, uint16_t speed, uint8_t zone, uin
         set_mode.init(
             device_index,
             RGB_feature_index,
-            (fp8070 ? LOGITECH_FP8070_SET_EFFECT : LOGITECH_FP8071_SET_LED_EFFECT)
+            (fp8070 ? (uint8_t)LOGITECH_FP8070_SET_EFFECT : (uint8_t)LOGITECH_FP8071_SET_LED_EFFECT)
         );
         set_mode.data[0] = zone;
         set_mode.data[1] = mode;
