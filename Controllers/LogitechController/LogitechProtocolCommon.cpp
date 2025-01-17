@@ -867,7 +867,7 @@ uint8_t logitech_device::set8071Effects(uint8_t control)
     return result;
 }
 
-uint8_t logitech_device::set8071TimeoutControl(uint8_t control)
+uint8_t logitech_device::set8071TimeoutControl(uint8_t /*control*/)
 {
     int result = 0;
 
