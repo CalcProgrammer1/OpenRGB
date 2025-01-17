@@ -640,3 +640,6 @@ before_script:
     paths:
     - OpenRGB_Windows_64.msi
     expire_in: 30 days
+
+  rules:
+    - !reference [.upstream_rules, rules]
