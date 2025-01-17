@@ -1380,7 +1380,7 @@ void OpenRGBDialog::UpdateDevicesList()
         | Remove all remaining device information tabs, leaving |
         | other information tabs alone                          |
         \*-----------------------------------------------------*/
-        for(std::size_t tab_idx = controllers.size(); tab_idx < ui->InformationTabBar->count(); tab_idx++)
+        for(std::size_t tab_idx = controllers.size(); tab_idx < (std::size_t)ui->InformationTabBar->count(); tab_idx++)
         {
             std::string type_str = ui->InformationTabBar->widget(base_tab)->metaObject()->className();
             if(type_str == "Ui::OpenRGBDeviceInfoPage")
