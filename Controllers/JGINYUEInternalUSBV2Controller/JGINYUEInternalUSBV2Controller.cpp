@@ -97,8 +97,8 @@ void JGINYUEInternalUSBV2Controller::Init_device()
     if(usb_buf[1] != 0x0F)
     {
         ZoneCount = 0x00;
-        memset(device_config, 0x00, 8*sizeof(AreaConfigurationV2));
-        memset (&device_config_Global, 0x00, 8*sizeof(AreaConfigurationV2));
+        memset(device_config, 0x00, sizeof(device_config));
+        memset (&device_config_Global, 0x00, sizeof(device_config_Global));
         return;
     }
     unsigned char Zone_Info = usb_buf[4];
