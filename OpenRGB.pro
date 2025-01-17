@@ -73,7 +73,13 @@ freebsd:BUILDDATE       = $$system(date -j -R -r "${SOURCE_DATE_EPOCH:-$(date +%
 macx:BUILDDATE          = $$system(date -j -R -r "${SOURCE_DATE_EPOCH:-$(date +%s)}")
 GIT_COMMIT_ID           = $$system(git log -n 1 --pretty=format:"%H")
 GIT_COMMIT_DATE         = $$system(git log -n 1 --pretty=format:"%ci")
-GIT_BRANCH              = $$system(scripts/git-get-branch.sh)
+
+unix {
+    GIT_BRANCH          = $$system(sh scripts/git-get-branch.sh)
+}
+else {
+    GIT_BRANCH          = $$system(pwsh scripts/git-get-branch.ps1)
+}
 
 message("GIT_BRANCH: "$$GIT_BRANCH)
 DEFINES +=                                                                                      \
