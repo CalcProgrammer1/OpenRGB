@@ -70,7 +70,10 @@ TestResult TestForFurySignature(i2c_smbus_interface *bus, unsigned int slot_addr
         {
             res = bus->i2c_smbus_read_word_data(slot_addr, i);
             std::this_thread::sleep_for(FURY_DELAY);
-            if(res >= 0)
+            LOG_DEBUG("[%s] Testing address %02X register %02X, res=%04X",
+                      FURY_CONTROLLER_NAME, slot_addr, i, res);
+            // retry when there is an error or the returned value is 0xFFFF
+            if((res >= 0) && (res < 0xFFFF))
             {
                 break;
             }
@@ -81,8 +84,6 @@ TestResult TestForFurySignature(i2c_smbus_interface *bus, unsigned int slot_addr
         }
 
         char shifted = (res >> 8) & 0xFF;
-        LOG_DEBUG("[%s] Testing address %02X register %02X, res=%02X",
-                  FURY_CONTROLLER_NAME, slot_addr, i, shifted);
         if(shifted != test_str[i-1])
         {
             passed = false;
