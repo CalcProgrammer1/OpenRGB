@@ -23,6 +23,12 @@
 #include <stdlib.h>
 #include <iostream>
 
+#ifdef _WIN32
+#define connect_socklen_t int
+#else
+#define connect_socklen_t socklen_t
+#endif
+
 const char yes = 1;
 
 net_port::net_port()
@@ -109,7 +115,7 @@ int net_port::udp_listen_timeout(char * recv_data, int length, int sec, int usec
     tv.tv_sec   = sec;
     tv.tv_usec  = usec;
 
-    if(select(sock, &fds, NULL, NULL, &tv) <= 0)
+    if(select((int)sock, &fds, NULL, NULL, &tv) <= 0)
     {
         return(0);
     }
@@ -177,7 +183,7 @@ bool net_port::tcp_client_connect()
             connected = false;
             return(false);
         }
-        connect(sock, res->ai_addr, res->ai_addrlen);
+        connect(sock, res->ai_addr, (connect_socklen_t)res->ai_addrlen);
 
         FD_ZERO(&fdset);
         FD_SET(sock, &fdset);
@@ -334,7 +340,7 @@ int net_port::tcp_write(char * buffer, int length)
         waitd.tv_sec = 5;
         waitd.tv_usec = 0;
 
-        if(select(*(clients[i]) + 1, NULL, &writefd, NULL, &waitd))
+        if(select((int)*(clients[i]) + 1, NULL, &writefd, NULL, &waitd))
         {
             val = send(*(clients[i]), (const char *)&length, sizeof(length), 0);
 
