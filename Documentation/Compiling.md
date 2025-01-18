@@ -6,12 +6,13 @@ This document details the process to compile OpenRGB from source on supported op
 
   *  You will need the **Microsoft Visual 2019 C++ runtime** installed.  You can get it [here](https://support.microsoft.com/en-us/help/2977003/the-latest-supported-visual-c-downloads)
   *  To build the application yourself on Windows:
-      1. Download the latest [Visual Studio Community Edition](https://visualstudio.microsoft.com/thank-you-for-downloading-visual-studio-for-cplusplus/?sku=Community) and [Qt Creator](https://www.qt.io/download-thank-you).
-      2. When [installing the QT toolset](https://gitlab.com/OpenRGBDevelopers/OpenRGB-Wiki/-/blob/stable/Downloading%20Qt%20and%20building%20OpenRGB.md) select the latest revision of Qt 5.15.x as OpenRGB is not yet compatible with QT6.
-      3. Optionally [install Git](https://git-scm.com/download) if you intend to [contribute your changes](https://gitlab.com/CalcProgrammer1/OpenRGB/-/blob/master/CONTRIBUTING.md) to the mainline codebase.
-      4. Open the OpenRGB.pro project in Qt Creator.
-      5. Use the MSVC compiler kit, either 32- or 64-bit, to build the application.
-      6. Run the project from Qt Creator.  If you want to use your custom build standalone, download the latest matching Release package and replace the OpenRGB.exe in it with your new build.
+      1. Download and install [PowerShell](https://learn.microsoft.com/en-us/powershell/scripting/install/installing-powershell-on-windows). Note that it's not the same as Windows Powershell.
+      2. Download the latest [Visual Studio Community Edition](https://visualstudio.microsoft.com/thank-you-for-downloading-visual-studio-for-cplusplus/?sku=Community) and [Qt Creator](https://www.qt.io/download-thank-you).
+      3. When [installing the QT toolset](https://gitlab.com/OpenRGBDevelopers/OpenRGB-Wiki/-/blob/stable/Downloading%20Qt%20and%20building%20OpenRGB.md) select the latest revision of Qt 5.15.x as OpenRGB is not yet compatible with QT6.
+      4. Optionally [install Git](https://git-scm.com/download) if you intend to [contribute your changes](https://gitlab.com/CalcProgrammer1/OpenRGB/-/blob/master/CONTRIBUTING.md) to the mainline codebase.
+      5. Open the OpenRGB.pro project in Qt Creator.
+      6. Use the MSVC compiler kit, either 32- or 64-bit, to build the application.
+      7. Run the project from Qt Creator.  If you want to use your custom build standalone, download the latest matching Release package and replace the OpenRGB.exe in it with your new build.
 
 ## Linux
 
