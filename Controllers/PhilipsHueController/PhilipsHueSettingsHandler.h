@@ -14,6 +14,7 @@
 
 #pragma once
 
+#include <cstddef>
 #include <string>
 
 class PhilipsHueSettingsHandler
@@ -22,7 +23,7 @@ public:
     PhilipsHueSettingsHandler();
     ~PhilipsHueSettingsHandler();
 
-    unsigned int    GetBridgeCount();
+    std::size_t     GetBridgeCount();
 
     std::string     GetBridgeIP(unsigned int bridge_idx);
     std::string     GetBridgeMAC(unsigned int bridge_idx);

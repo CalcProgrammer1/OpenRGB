@@ -30,7 +30,7 @@ PhilipsHueSettingsHandler::~PhilipsHueSettingsHandler()
     delete (hue_settings_type *)hue_settings;
 }
 
-unsigned int PhilipsHueSettingsHandler::GetBridgeCount()
+std::size_t PhilipsHueSettingsHandler::GetBridgeCount()
 {
     if(HUE_SETTINGS.contains("bridges"))
     {
