@@ -73,7 +73,7 @@ OpenRGBSettingsPage::OpenRGBSettingsPage(QWidget *parent) :
     /*---------------------------------------------------------*\
     | Load theme settings                                       |
     \*---------------------------------------------------------*/
-    ui->ComboBoxTheme->addItems({"auto", "light", "dark"});
+    ui->ComboBoxTheme->addItems({"Auto", "Light", "Dark"});
 
     json theme_settings = ResourceManager::get()->GetSettingsManager()->GetSettings("Theme");
 
@@ -84,7 +84,7 @@ OpenRGBSettingsPage::OpenRGBSettingsPage(QWidget *parent) :
     }
     else
     {
-        ui->ComboBoxTheme->setCurrentText(QString::fromStdString(("light")));
+        ui->ComboBoxTheme->setCurrentText(QString::fromStdString(("Light")));
     }
 
     theme_initialized = true;
