@@ -23,11 +23,11 @@ serial_port::serial_port()
     /*-----------------------------------------------------*\
     | Set default port configuration but do not open        |
     \*-----------------------------------------------------*/
-    baud_rate       = 9600;
-    parity          = SERIAL_PORT_PARITY_NONE;
-    size            = SERIAL_PORT_SIZE_8;
-    stop_bits       = SERIAL_PORT_STOP_BITS_1;
-    flow_control    = true;
+    this->baud_rate     = 9600;
+    this->parity        = SERIAL_PORT_PARITY_NONE;
+    this->size          = SERIAL_PORT_SIZE_8;
+    this->stop_bits     = SERIAL_PORT_STOP_BITS_1;
+    this->flow_control  = false;
 }
 
 /*---------------------------------------------------------*\
@@ -40,11 +40,11 @@ serial_port::serial_port(const char * name, unsigned int baud)
     /*-----------------------------------------------------*\
     | Set default port configuration and open               |
     \*-----------------------------------------------------*/
-    baud_rate       = baud;
-    parity          = SERIAL_PORT_PARITY_NONE;
-    size            = SERIAL_PORT_SIZE_8;
-    stop_bits       = SERIAL_PORT_STOP_BITS_1;
-    flow_control    = true;
+    this->baud_rate     = baud;
+    this->parity        = SERIAL_PORT_PARITY_NONE;
+    this->size          = SERIAL_PORT_SIZE_8;
+    this->stop_bits     = SERIAL_PORT_STOP_BITS_1;
+    this->flow_control  = false;
 
     serial_open(name);
 }
@@ -227,6 +227,16 @@ bool serial_port::serial_open()
 
     if(file_descriptor < 0)
     {
+        return false;
+    }
+
+    /*-----------------------------------------*\
+    | Set an advisory lock on the port and      |
+    | abort port setup if already locked        |
+    \*-----------------------------------------*/
+    if(flock(file_descriptor, LOCK_EX | LOCK_NB) < 0)
+    {
+        close(file_descriptor);
         return false;
     }
 
@@ -496,6 +506,7 @@ void serial_port::serial_close()
     | Linux-specific code path for serial close             |
     \*-----------------------------------------------------*/
 #ifdef __linux__
+    flock(file_descriptor, LOCK_UN | LOCK_NB);
     close(file_descriptor);
 #endif
 

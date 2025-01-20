@@ -31,6 +31,7 @@
 #include <fcntl.h>
 #include <unistd.h>
 #include <termios.h>
+#include <sys/file.h>
 #include <sys/ioctl.h>
 
 //these types are redefined in asm/termios.h
