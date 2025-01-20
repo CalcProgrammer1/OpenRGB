@@ -60,6 +60,7 @@ TEMPLATE    = app
 
 message("VERSION_NUM: "$$VERSION_NUM)
 message("VERSION_STR: "$$VERSION_STR)
+message("VERSION_SFX: "$$SUFFIX)
 message("VERSION_DEB: "$$VERSION_DEB)
 message("VERSION_WIX: "$$VERSION_WIX)
 message("VERSION_AUR: "$$VERSION_AUR)

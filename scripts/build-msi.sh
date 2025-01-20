@@ -1,36 +1,53 @@
 #!/usr/bin/env bash
+PRODUCTNAME="OpenRGB"
+
+TLD="org"
+WEBSITE="https://${PRODUCTNAME,,}.${TLD}"
+NAMESPACE=$(uuidgen -n @url -N ${WEBSITE} --sha1 | awk '{ print toupper($0) }')
+VENDOR="${TLD}.${PRODUCTNAME}"
+APPID="${VENDOR}.${PRODUCTNAME,,}"
+
 GITURL="https://gitlab.com/CalcProgrammer1/OpenRGB/-"
 GITPARAM="?inline=false"
-WEBSITE="www.openrgb.org"
 ICONFILE="qt/OpenRGB.ico"
 LICENSEFILE="scripts/License.rtf"
 BANNERIMAGE="scripts/banner.bmp"
 DIALOGBACKGROUND="scripts/dialog_background.bmp"
-ZIP="/jobs/artifacts/master/download?job=Windows+64"
 PROJECT_FILE="OpenRGB.pro"
-
-PRODUCTID=$(uuidgen -n @url -N ${WEBSITE} --sha1 | awk '{ print toupper($0) }')
-PRODUCTNAME="OpenRGB"
-VENDOR=$PRODUCTNAME
-PRODUCTCOMMENT="Open source RGB lighting control that doesn't depend on manufacturer software."
-
-VERSION=$(qmake ${PROJECT_FILE} 2>&1 | grep VERSION_WIX | cut -d ':' -f 3 | tr -d ' ')
-
 XMLOUTFILE=${PRODUCTNAME,,}".wxs"
 
-echo -e "Zip URL:\t" $GITURL$ZIP
+
+VERSION=$(qmake ${PROJECT_FILE} 2>&1 | grep VERSION_WIX | cut -d ':' -f 3 | tr -d ' ')
+#If the suffix is not empty set the channel to "-git"
+CHANNEL=$(grep SUFFIX\  ${PROJECT_FILE} | cut -d= -f 2)
+if [[ -n $CHANNEL ]];
+then
+    CHANNEL="-git"
+fi
+
+
+#The Upgrade code has to be consistent to allow upgrades between channels
+#This value is roughly equivalent to "provides" in Linux packaging
+UPGRADECODE=$(uuidgen -n ${NAMESPACE} -N ${APPID} --sha1 | awk '{ print toupper($0) }')
+#The ProductID will be unique per channel
+PRODUCTID=$(uuidgen -n ${NAMESPACE} -N ${APPID}${CHANNEL} --sha1 | awk '{ print toupper($0) }')
+PRODUCTCOMMENT="Open source RGB lighting control that doesn't depend on manufacturer software."
+
+
+#Print Metadata to the log
 echo -e "Icon URL:\t" $GITURL$ICONFILE
 echo -e "License URL:\t" $GITURL$LICENSEFILE
-
-echo -e "Product UUID:\t" $PRODUCTID
+echo -e "Product ID - UUID:\t" ${APPID}${CHANNEL} " - " $PRODUCTID
+echo -e "Upgrade Code - UUID:\t" ${APPID} " - " $UPGRADECODE
 echo -e "Product:\t" $PRODUCTNAME
 echo -e "Vendor:\t\t" $VENDOR
 echo -e "Version:\t" $VERSION
 
+
 #Wix and / or Wine have issues with the mixed upper and lower case letters
 WORKING_PATH="orgb/"
-ZIP_PATH="OpenRGB Windows 64-bit/"
-mv -T "${ZIP_PATH}" ${WORKING_PATH}
+BUILT_PATH="OpenRGB Windows 64-bit/"
+mv -T "${BUILT_PATH}" ${WORKING_PATH}
 
 EXTENSION="orp"
 SAVE_FILE="${PRODUCTNAME}.${EXTENSION}"
@@ -86,7 +103,7 @@ XML_DATA="$XML_DIRECTORIES $XML_COMPONENTS"
 
 #Wipe out any previous XMLOUTFILE and add the header
 XML_HEADER="<?xml version='1.0' encoding='windows-1252'?>\n<Wix xmlns='http://schemas.microsoft.com/wix/2006/wi'>\n"
-XML_PRODUCT="\t<Product Name='${PRODUCTNAME}' Manufacturer='${VENDOR}'\n\t\tId='${PRODUCTID}'\n\t\tUpgradeCode='"$(uuidgen -t | awk '{ print toupper($0) }')"'\n\t\tLanguage='1033' Codepage='1252' Version='${VERSION}'>\n$XML_METADATA\n$XML_DATA\n\t</Product>\n</Wix>"
+XML_PRODUCT="\t<Product Name='${PRODUCTNAME}' Manufacturer='${VENDOR}'\n\t\tId='${PRODUCTID}'\n\t\tUpgradeCode='"${UPGRADECODE}"'\n\t\tLanguage='1033' Codepage='1252' Version='${VERSION}'>\n$XML_METADATA\n$XML_DATA\n\t</Product>\n</Wix>"
 
 echo -e $XML_HEADER $XML_PRODUCT > $XMLOUTFILE
 echo -e "\t...Done!\n\n"
