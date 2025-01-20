@@ -440,9 +440,9 @@ bool RGBController_CherryKeyboard::hasUnofficialModeSupport(const uint16_t produ
     // RGB keyboards known for not supporting unofficial modes
     case MX_BOARD_3_0S_FL_RGB_PID:
     case MX_BOARD_3_0S_FL_RGB_KOR_PID:
-    case MX_BOARD_2_0S_FL_RGB_PID:
+    case MX_BOARD_2_0S_FL_RGB_US_PID:
     case MX_BOARD_2_0S_FL_NBL_PID:
-    case MX_BOARD_2_0S_FL_RGB_DE_PID:
+    case MX_BOARD_2_0S_FL_RGB_EU_PID:
     case MV_BOARD_3_0FL_RGB_PID:
         return false;
     // RGB keyboards which (probably) support unofficial modes
@@ -451,9 +451,12 @@ bool RGBController_CherryKeyboard::hasUnofficialModeSupport(const uint16_t produ
     case MX_BOARD_10_0_FL_RGB_PID: // unknown (probably yes, related to 10.0N)
     case G80_3000_TKL_RGB_PID: // unknown
     case MX_1_0_FL_RGB_PID: // unkown
-    case G80_3000N_TKL_RGB_PID: // yes
-    case G80_3000N_FL_RGB_PID: // firmware v0102: YES, firmware v0103: NO
-    case MX_BOARD_10_0N_FL_RGB_PID: // yes
+    case G80_3000N_TKL_RGB_EU_PID: // yes
+    case G80_3000N_TKL_RGB_US_PID: // yes
+    case G80_3000N_FL_RGB_EU_PID: // firmware v0102: YES, firmware v0103: NO
+    case G80_3000N_FL_RGB_US_PID: // firmware v0102: YES, firmware v0103: NO
+    case MX_BOARD_10_0N_FL_RGB_EU_PID: // yes
+    case MX_BOARD_10_0N_FL_RGB_US_PID: // yes
     default:
         return true;
     }
