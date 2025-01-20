@@ -1925,10 +1925,10 @@ bool ResourceManager::IsAnyDimmDetectorEnabled(json &detector_settings)
         | Check if this detector is enabled                 |
         \*-------------------------------------------------*/
         if(detector_settings.contains("detectors") && detector_settings["detectors"].contains(detection_string) &&
-           detector_settings["detectors"][detection_string] == false)
+           detector_settings["detectors"][detection_string] == true)
         {
-            return false;
+            return true;
         }
     }
-    return true;
+    return false;
 }
