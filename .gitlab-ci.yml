@@ -35,6 +35,9 @@ stages:
   - test
   - deploy
 
+variables:
+  GIT_DEPTH: 0
+
 before_script:
  - echo "started by ${GITLAB_USER_NAME}"
 
