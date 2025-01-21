@@ -1772,12 +1772,14 @@ std::string device_type_to_str(device_type type)
         return "Light";
     case DEVICE_TYPE_SPEAKER:
         return "Speaker";
-    case DEVICE_TYPE_STORAGE:
-        return "Storage";
     case DEVICE_TYPE_VIRTUAL:
         return "Virtual";
+    case DEVICE_TYPE_STORAGE:
+        return "Storage";
     case DEVICE_TYPE_CASE:
         return "Case";
+    case DEVICE_TYPE_MICROPHONE:
+        return "Microphone";
     case DEVICE_TYPE_ACCESSORY:
         return "Accessory";
     case DEVICE_TYPE_KEYPAD:
