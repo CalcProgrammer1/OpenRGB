@@ -1,11 +1,12 @@
 #!/usr/bin/env bash
 PRODUCTNAME="OpenRGB"
+VENDOR=${PRODUCTNAME}
 
 TLD="org"
 WEBSITE="https://${PRODUCTNAME,,}.${TLD}"
 NAMESPACE=$(uuidgen -n @url -N ${WEBSITE} --sha1 | awk '{ print toupper($0) }')
-VENDOR="${TLD}.${PRODUCTNAME}"
-APPID="${VENDOR}.${PRODUCTNAME,,}"
+VENDOR_ID="${TLD}.${VENDOR}"
+APP_ID="${VENDOR_ID}.${PRODUCTNAME,,}"
 
 GITURL="https://gitlab.com/CalcProgrammer1/OpenRGB/-"
 GITPARAM="?inline=false"
@@ -28,20 +29,18 @@ fi
 
 #The Upgrade code has to be consistent to allow upgrades between channels
 #This value is roughly equivalent to "provides" in Linux packaging
-UPGRADECODE=$(uuidgen -n ${NAMESPACE} -N ${APPID} --sha1 | awk '{ print toupper($0) }')
-#The ProductID will be unique per channel
-PRODUCTID=$(uuidgen -n ${NAMESPACE} -N ${APPID}${CHANNEL} --sha1 | awk '{ print toupper($0) }')
+UPGRADECODE=$(uuidgen -n ${NAMESPACE} -N ${APP_ID} --sha1 | awk '{ print toupper($0) }')
+#The ProductID will be unique per build
 PRODUCTCOMMENT="Open source RGB lighting control that doesn't depend on manufacturer software."
-
 
 #Print Metadata to the log
 echo -e "Icon URL:\t" $GITURL$ICONFILE
 echo -e "License URL:\t" $GITURL$LICENSEFILE
-echo -e "Product ID - UUID:\t" ${APPID}${CHANNEL} " - " $PRODUCTID
-echo -e "Upgrade Code - UUID:\t" ${APPID} " - " $UPGRADECODE
-echo -e "Product:\t" $PRODUCTNAME
-echo -e "Vendor:\t\t" $VENDOR
-echo -e "Version:\t" $VERSION
+echo -e "AppID - Channel:\t" ${APP_ID} " - " ${CHANNEL}
+echo -e "Upgrade UUID:\t" ${UPGRADECODE}
+echo -e "Product Name:\t" ${PRODUCTNAME}
+echo -e "Vendor - VendorID:\t\t" ${VENDOR} " - " ${VENDOR_ID}
+echo -e "Version:\t" ${VERSION}
 
 
 #Wix and / or Wine have issues with the mixed upper and lower case letters
@@ -91,7 +90,7 @@ XML_ICON="\t<Icon Id='OpenRGBIcon' SourceFile='${ICONFILE}'/>\n"
 XML_PROPERTY="\t<Property Id='ARPPRODUCTICON' Value='OpenRGBIcon'/>\n\t<Property Id='ARPURLINFOABOUT' Value='https://www.openrgb.org'/>\n"
 XML_ACTIONS_EXECUTE="\t<InstallExecuteSequence>\n\t\t<Custom Action='LaunchOpenRGBAdmin' After='InstallFiles'>NOT Installed</Custom>\n\t\t<Custom Action='LaunchOpenRGB' After='InstallFinalize'>NOT Installed</Custom>\n\t</InstallExecuteSequence>\n"
 XML_WIX_UI="\t<Property Id='WIXUI_INSTALLDIR' Value='INSTALLDIR' />\n\t<UIRef Id='WixUI_InstallDir'/>\n\t<UIRef Id='WixUI_ErrorProgressText'/>\n\t<WixVariable Id='WixUILicenseRtf' Value='${LICENSEFILE}'/>\n\t<WixVariable Id='WixUIBannerBmp' Value='${BANNERIMAGE}'/>\n\t<WixVariable Id='WixUIDialogBmp' Value='${DIALOGBACKGROUND}'/>\n"
-XML_MAJOR_UPGRADE="\t<MajorUpgrade AllowDowngrades='yes' Schedule='afterInstallInitialize' />\n"
+XML_MAJOR_UPGRADE="\t<MajorUpgrade Schedule='afterInstallInitialize' AllowDowngrades='no' DowngradeErrorMessage='Looks like a newer version is already installed. Exiting'/>\n"
 XML_METADATA="$XML_PACKAGE $XML_MEDIA $XML_CONDITIONS $XML_MAJOR_UPGRADE $XML_ACTION_RUNAS_ADMIN $XML_ACTION_FIRSTRUN $XML_ICON $XML_PROPERTY $XML_ACTIONS_EXECUTE $XML_WIX_UI"
 
 XML_STARTMENU="\t\t<Directory Id='ProgramMenuFolder' Name='Programs'>\n\t\t\t<Component Id='ProgramMenuShortcut' Guid='"$(uuidgen -t | awk '{ print toupper($0) }')"'>\n\t\t\t\t<Shortcut Id='startmenu${PRODUCTNAME}' Directory='ProgramMenuFolder' Name='${PRODUCTNAME}' Target='[#${EXE_ID}]' WorkingDirectory='INSTALLDIR' Advertise='no'/>\n\t\t\t\t<RemoveFolder Id='ProgramMenuShortcut' On='uninstall'/>\n\t\t\t\t<RegistryValue Root='HKCU' Key='Software\[Manufacturer]\[ProductName]' Type='string' Value='' KeyPath='yes'/>\n\t\t\t</Component>\n\t\t</Directory>\n"
@@ -103,7 +102,7 @@ XML_DATA="$XML_DIRECTORIES $XML_COMPONENTS"
 
 #Wipe out any previous XMLOUTFILE and add the header
 XML_HEADER="<?xml version='1.0' encoding='windows-1252'?>\n<Wix xmlns='http://schemas.microsoft.com/wix/2006/wi'>\n"
-XML_PRODUCT="\t<Product Name='${PRODUCTNAME}' Manufacturer='${VENDOR}'\n\t\tId='${PRODUCTID}'\n\t\tUpgradeCode='"${UPGRADECODE}"'\n\t\tLanguage='1033' Codepage='1252' Version='${VERSION}'>\n$XML_METADATA\n$XML_DATA\n\t</Product>\n</Wix>"
+XML_PRODUCT="\t<Product Name='${PRODUCTNAME}' Manufacturer='${VENDOR}'\n\t\tId='*'\n\t\tUpgradeCode='"${UPGRADECODE}"'\n\t\tLanguage='1033' Codepage='1252' Version='${VERSION}'>\n$XML_METADATA\n$XML_DATA\n\t</Product>\n</Wix>"
 
 echo -e $XML_HEADER $XML_PRODUCT > $XMLOUTFILE
 echo -e "\t...Done!\n\n"
