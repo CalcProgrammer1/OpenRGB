@@ -60,7 +60,7 @@ private:
     LogManager(const LogManager&) = delete;
     LogManager(LogManager&&) = delete;
     ~LogManager();
-    std::mutex entry_mutex;
+    std::recursive_mutex entry_mutex;
     std::mutex section_mutex;
     std::ofstream log_stream;
 
@@ -90,6 +90,8 @@ private:
 
     // A non-guarded flush()
     void _flush();
+
+    void rotate_logs(const filesystem::path& folder, const filesystem::path& templ, int max_count);
 
 public:
     static LogManager* get();
