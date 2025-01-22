@@ -114,6 +114,7 @@
 #define STEELSERIES_APEX_M750_PID                   0x0616
 #define STEELSERIES_APEX_OG_PID                     0x1202
 #define STEELSERIES_APEX_350_PID                    0x1206
+#define STEELSERIES_APEX_PRO3_PID                   0x1640
 
 void DetectSteelSeriesAerox3(hid_device_info* info, const std::string& name)
 {
@@ -459,3 +460,4 @@ REGISTER_HID_DETECTOR_I  ("SteelSeries Apex Pro TKL 2023",                  Dete
 REGISTER_HID_DETECTOR_I  ("SteelSeries Apex M750",                          DetectSteelSeriesApexM,     STEELSERIES_VID, STEELSERIES_APEX_M750_PID,                 	2  );
 REGISTER_HID_DETECTOR_I  ("SteelSeries Apex (OG)/Apex Fnatic",              DetectSteelSeriesApexOld,   STEELSERIES_VID, STEELSERIES_APEX_OG_PID,                   	0  );
 REGISTER_HID_DETECTOR_I  ("SteelSeries Apex 350",                           DetectSteelSeriesApexOld,   STEELSERIES_VID, STEELSERIES_APEX_350_PID,                  0  );
+REGISTER_HID_DETECTOR_I  ("SteelSeries Apex Pro 3",                         DetectSteelSeriesApex,      STEELSERIES_VID, STEELSERIES_APEX_PRO3_PID,                 1  );
