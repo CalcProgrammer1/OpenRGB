@@ -1103,12 +1103,12 @@
         <translation>버전:</translation>
     </message>
     <message>
-        <source>Gitlab page</source>
-        <translation>Gitlab 페이지</translation>
+        <source>GitLab:</source>
+        <translation>GitLab 페이지:</translation>
     </message>
     <message>
-        <source>Website</source>
-        <translation>웹사이트</translation>
+        <source>Website:</source>
+        <translation>웹사이트:</translation>
     </message>
     <message>
         <source>&lt;a href=&quot;https://openrgb.org&quot;&gt;https://openrgb.org&lt;/a&gt;</source>

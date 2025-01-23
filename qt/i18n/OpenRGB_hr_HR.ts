@@ -943,12 +943,12 @@
         <translation>Inačica:</translation>
     </message>
     <message>
-        <source>Gitlab page</source>
-        <translation>Gitlab stranica</translation>
+        <source>GitLab:</source>
+        <translation>GitLab stranica:</translation>
     </message>
     <message>
-        <source>Website</source>
-        <translation>Web stranica</translation>
+        <source>Website:</source>
+        <translation>Web stranica:</translation>
     </message>
     <message>
         <source>&lt;a href=&quot;https://openrgb.org&quot;&gt;https://openrgb.org&lt;/a&gt;</source>

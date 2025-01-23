@@ -81,7 +81,7 @@
       <item row="7" column="0">
        <widget class="QLabel" name="GitlabLinkLabel">
         <property name="text">
-         <string>Gitlab page</string>
+         <string>GitLab:</string>
         </property>
        </widget>
       </item>
@@ -109,7 +109,7 @@
       <item row="8" column="0">
        <widget class="QLabel" name="WebsiteLinkLabel">
         <property name="text">
-         <string>Website</string>
+         <string>Website:</string>
         </property>
        </widget>
       </item>

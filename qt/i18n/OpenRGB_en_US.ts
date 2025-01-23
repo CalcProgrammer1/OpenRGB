@@ -1002,11 +1002,11 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Gitlab page</source>
+        <source>GitLab:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Website</source>
+        <source>Website:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>

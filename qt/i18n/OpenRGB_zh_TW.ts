@@ -2294,12 +2294,12 @@ Using an effect on a device WILL damage the flash or controller</source>
     </message>
     <message>
         <location filename="../OpenRGBSoftwareInfoPage.ui" line="114"/>
-        <source>Gitlab page</source>
-        <translation>Gitlab 頁面</translation>
+        <source>GitLab:</source>
+        <translation>GitLab 頁面</translation>
     </message>
     <message>
         <location filename="../OpenRGBSoftwareInfoPage.ui" line="134"/>
-        <source>Website</source>
+        <source>Website:</source>
         <translation>網頁</translation>
     </message>
     <message>

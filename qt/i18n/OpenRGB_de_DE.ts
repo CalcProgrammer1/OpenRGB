@@ -1041,12 +1041,12 @@
         <translation>Version:</translation>
     </message>
     <message>
-        <source>Gitlab page</source>
-        <translation>Gitlab Seite</translation>
+        <source>GitLab:</source>
+        <translation>GitLab Seite:</translation>
     </message>
     <message>
-        <source>Website</source>
-        <translation>Webseite</translation>
+        <source>Website:</source>
+        <translation>Webseite:</translation>
     </message>
     <message>
         <source>&lt;a href=&quot;https://openrgb.org&quot;&gt;https://openrgb.org&lt;/a&gt;</source>

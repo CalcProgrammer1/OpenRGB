@@ -1404,13 +1404,13 @@
     </message>
     <message>
         <location filename="../OpenRGBSoftwareInfoPage/OpenRGBSoftwareInfoPage.ui" line="84"/>
-        <source>Gitlab page</source>
-        <translation>Страница на Gitlab</translation>
+        <source>GitLab:</source>
+        <translation>Страница на GitLab:</translation>
     </message>
     <message>
         <location filename="../OpenRGBSoftwareInfoPage/OpenRGBSoftwareInfoPage.ui" line="112"/>
-        <source>Website</source>
-        <translation>Веб-сайт</translation>
+        <source>Website:</source>
+        <translation>Веб-сайт:</translation>
     </message>
     <message>
         <location filename="../OpenRGBSoftwareInfoPage/OpenRGBSoftwareInfoPage.ui" line="71"/>

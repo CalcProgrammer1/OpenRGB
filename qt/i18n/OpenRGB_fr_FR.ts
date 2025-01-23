@@ -941,12 +941,12 @@
         <translation>Version :</translation>
     </message>
     <message>
-        <source>Gitlab page</source>
-        <translation>Page Gitlab</translation>
+        <source>GitLab:</source>
+        <translation>Page GitLab:</translation>
     </message>
     <message>
-        <source>Website</source>
-        <translation>Site Web</translation>
+        <source>Website:</source>
+        <translation>Site Web:</translation>
     </message>
     <message>
         <source>&lt;a href=&quot;https://openrgb.org&quot;&gt;https://openrgb.org&lt;/a&gt;</source>

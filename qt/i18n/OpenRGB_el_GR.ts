@@ -1003,12 +1003,12 @@
         <translation>Έκδοση:</translation>
     </message>
     <message>
-        <source>Gitlab page</source>
-        <translation>Σελίδα Gitlab</translation>
+        <source>GitLab:</source>
+        <translation>Σελίδα GitLab:</translation>
     </message>
     <message>
-        <source>Website</source>
-        <translation>Ιστοσελίδα</translation>
+        <source>Website:</source>
+        <translation>Ιστοσελίδα:</translation>
     </message>
     <message>
         <source>&lt;a href=&quot;https://openrgb.org&quot;&gt;https://openrgb.org&lt;/a&gt;</source>

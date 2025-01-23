@@ -1150,8 +1150,8 @@
     </message>
     <message>
         <location filename="../OpenRGBSoftwareInfoPage.ui" line="114"/>
-        <source>Gitlab page</source>
-        <translation>Halaman Gitlab</translation>
+        <source>GitLab:</source>
+        <translation>Halaman GitLab:</translation>
     </message>
     <message>
         <location filename="../OpenRGBSoftwareInfoPage.ui" line="121"/>
@@ -1160,8 +1160,8 @@
     </message>
     <message>
         <location filename="../OpenRGBSoftwareInfoPage.ui" line="134"/>
-        <source>Website</source>
-        <translation>Laman Web</translation>
+        <source>Website:</source>
+        <translation>Laman Web:</translation>
     </message>
     <message>
         <location filename="../OpenRGBSoftwareInfoPage.ui" line="141"/>

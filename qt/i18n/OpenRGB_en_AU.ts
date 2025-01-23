@@ -941,11 +941,11 @@
         <translation></translation>
     </message>
     <message>
-        <source>Gitlab page</source>
+        <source>GitLab:</source>
         <translation></translation>
     </message>
     <message>
-        <source>Website</source>
+        <source>Website:</source>
         <translation></translation>
     </message>
     <message>
