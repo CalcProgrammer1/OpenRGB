@@ -4,6 +4,7 @@ Version=1.5
 Name=OpenRGB
 Comment=Control RGB lighting
 Icon=org.openrgb.OpenRGB
+StartupWMClass=openrgb
 TryExec=openrgb
 Exec=openrgb
 Terminal=false
