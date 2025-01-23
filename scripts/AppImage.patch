@@ -11,10 +11,10 @@
      HEADERS +=                                                                                  \
 --- a/qt/org.openrgb.OpenRGB.desktop
 +++ b/qt/org.openrgb.OpenRGB.desktop
-@@ -4,7 +4,7 @@ Version=1.5
- Name=OpenRGB
+@@ -4,7 +4,7 @@ Name=OpenRGB
  Comment=Control RGB lighting
  Icon=org.openrgb.OpenRGB
+ StartupWMClass=openrgb
 -TryExec=openrgb
 -Exec=openrgb
 +TryExec=OpenRGB
