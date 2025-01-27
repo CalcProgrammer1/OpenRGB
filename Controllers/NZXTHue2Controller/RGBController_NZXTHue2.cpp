@@ -332,6 +332,10 @@ void RGBController_NZXTHue2::SetupZones()
                 device_name = "F120 Core fan case version (120mm)";
                 break;
 
+            case 0x1D: //F360 Core fan case version (360mm)
+                device_name = "F360 Core fan case version (360mm)";
+                break;
+
             default:
                 break;
             }
