@@ -17,7 +17,7 @@
    </sizepolicy>
   </property>
   <property name="windowTitle">
-   <string>Nanoleaf Settings Entry</string>
+   <string notr="true">Nanoleaf Settings Entry</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
    <item row="1" column="0" colspan="2">
@@ -36,7 +36,7 @@
       <item row="1" column="1" colspan="4">
        <widget class="QLabel" name="IPValue">
         <property name="text">
-         <string></string>
+         <string/>
         </property>
        </widget>
       </item>
@@ -50,7 +50,7 @@
       <item row="2" column="1">
        <widget class="QLabel" name="PortValue">
         <property name="text">
-         <string></string>
+         <string/>
         </property>
        </widget>
       </item>
@@ -64,7 +64,7 @@
       <item row="3" column="1">
        <widget class="QLabel" name="AuthKeyValue">
         <property name="text">
-         <string></string>
+         <string/>
         </property>
        </widget>
       </item>

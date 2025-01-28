@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Log Console Page</string>
+   <string notr="true">Log Console Page</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
    <item row="1" column="0">

@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Nanoleaf Settings Page</string>
+   <string notr="true">Nanoleaf Settings Page</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
    <item row="2" column="0">
@@ -45,7 +45,7 @@
    <item row="0" column="0" colspan="3">
     <widget class="QLabel" name="SyncLabel">
      <property name="text">
-      <string>To pair, hold the on-off button down for 5-7 seconds until the LED starts flashing in a pattern, then click the "Pair" button within 30 seconds.</string>
+      <string>To pair, hold the on-off button down for 5-7 seconds until the LED starts flashing in a pattern, then click the &quot;Pair&quot; button within 30 seconds.</string>
      </property>
      <property name="alignment">
       <set>Qt::AlignCenter</set>

@@ -32,11 +32,6 @@
         <translation>IP:</translation>
     </message>
     <message>
-        <location filename="../OpenRGBClientInfoPage/OpenRGBClientInfoPage.ui" line="14"/>
-        <source>Client info page</source>
-        <translation>Клиент SDK</translation>
-    </message>
-    <message>
         <location filename="../OpenRGBClientInfoPage/OpenRGBClientInfoPage.ui" line="71"/>
         <source>Connected Clients</source>
         <translation>Подключенные клиенты</translation>
@@ -69,18 +64,12 @@
         <source>Clear log</source>
         <translation>Очистить лог</translation>
     </message>
-    <message>
-        <location filename="../OpenRGBConsolePage/OpenRGBConsolePage.ui" line="14"/>
-        <source>Log console page</source>
-        <translation>Консоль журналирования</translation>
-    </message>
 </context>
 <context>
     <name>OpenRGBDMXSettingsEntryUi</name>
     <message>
-        <location filename="../OpenRGBDMXSettingsPage/OpenRGBDMXSettingsEntry.ui" line="20"/>
         <source>E131 settings entry</source>
-        <translation type="unfinished">Ввод параметров DMX</translation>
+        <translation type="obsolete">Ввод параметров DMX</translation>
     </message>
     <message>
         <location filename="../OpenRGBDMXSettingsPage/OpenRGBDMXSettingsEntry.ui" line="32"/>
@@ -121,9 +110,8 @@
 <context>
     <name>OpenRGBDMXSettingsPageUi</name>
     <message>
-        <location filename="../OpenRGBDMXSettingsPage/OpenRGBDMXSettingsPage.ui" line="14"/>
         <source>E131 settings page</source>
-        <translation type="unfinished">Параметры DMX</translation>
+        <translation type="obsolete">Параметры DMX</translation>
     </message>
     <message>
         <location filename="../OpenRGBDMXSettingsPage/OpenRGBDMXSettingsPage.ui" line="20"/>
@@ -178,134 +166,124 @@
         <source>Serial:</source>
         <translation>Серийный номер:</translation>
     </message>
-    <message>
-        <location filename="../OpenRGBDeviceInfoPage/OpenRGBDeviceInfoPage.ui" line="14"/>
-        <source>Device info page</source>
-        <translation>Информация об устройстве</translation>
-    </message>
 </context>
 <context>
     <name>OpenRGBDevicePageUi</name>
     <message>
-        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.ui" line="87"/>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.ui" line="81"/>
         <source>G:</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.ui" line="73"/>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.ui" line="67"/>
         <source>H:</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.ui" line="211"/>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.ui" line="202"/>
         <source>Speed:</source>
         <translation>Скорость:</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.ui" line="224"/>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.ui" line="215"/>
         <source>Random</source>
         <translation>Случайные</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.ui" line="115"/>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.ui" line="109"/>
         <source>B:</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.ui" line="143"/>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.ui" line="137"/>
         <source>Hex:</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.ui" line="286"/>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.ui" line="273"/>
         <source>LED:</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.ui" line="293"/>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.ui" line="280"/>
         <source>Edit</source>
         <translation>Редактировать</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.ui" line="300"/>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.ui" line="287"/>
         <source>Mode-Specific</source>
         <translatorcomment>Not sure what this setting actually does, temporarily left untranslated</translatorcomment>
         <translation>Опр. режимом</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.ui" line="59"/>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.ui" line="53"/>
         <source>R:</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.ui" line="238"/>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.ui" line="229"/>
         <source>Dir:</source>
         <translation>Направление:</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.ui" line="101"/>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.ui" line="95"/>
         <source>S:</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.ui" line="314"/>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.ui" line="301"/>
         <source>Select All</source>
         <translation>Выделить всё</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.ui" line="259"/>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.ui" line="246"/>
         <source>Per-LED</source>
         <translation>Вручную</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.ui" line="266"/>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.ui" line="253"/>
         <source>Zone:</source>
         <translation>Секция:</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.ui" line="276"/>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.ui" line="263"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;justify&quot;&gt;Sets all devices to&lt;br/&gt;&lt;b&gt;Static&lt;/b&gt; mode and&lt;br/&gt;applies the selected color.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;justify&quot;&gt;Включает на всех устройствах режим&lt;br/&gt;&lt;b&gt;Static&lt;/b&gt; и устанавливает выбранный цвет.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.ui" line="279"/>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.ui" line="266"/>
         <source>Apply All Devices</source>
         <translation>Применить для всех</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.ui" line="252"/>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.ui" line="239"/>
         <source>Colors:</source>
         <translation>Цвета:</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.ui" line="129"/>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.ui" line="123"/>
         <source>V:</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.ui" line="307"/>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.ui" line="294"/>
         <source>Apply Colors To Selection</source>
         <translation>Применить к выделению</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.ui" line="231"/>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.ui" line="222"/>
         <source>Mode:</source>
         <translation>Режим:</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.ui" line="331"/>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.ui" line="314"/>
         <source>Brightness:</source>
         <translation>Яркость:</translation>
     </message>
     <message>
-        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.ui" line="183"/>
+        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.ui" line="177"/>
         <source>Save To Device</source>
         <translation>Сохранить на устройстве</translation>
-    </message>
-    <message>
-        <location filename="../OpenRGBDevicePage/OpenRGBDevicePage.ui" line="14"/>
-        <source>Device page</source>
-        <translation>Устройства</translation>
     </message>
 </context>
 <context>
@@ -333,7 +311,7 @@
     <message>
         <location filename="../OpenRGBDialog/OpenRGBDialog.ui" line="108"/>
         <source>Toggle LED View</source>
-        <translation>LED View (On/Off)</translation>
+        <translation>Предпросмотр устройства (On/Off)</translation>
     </message>
     <message>
         <location filename="../OpenRGBDialog/OpenRGBDialog.ui" line="115"/>
@@ -376,72 +354,6 @@
         <location filename="../OpenRGBDialog/OpenRGBDialog.ui" line="200"/>
         <source>Save Profile with custom name</source>
         <translation>Сохранить профиль с другим названием</translation>
-    </message>
-</context>
-<context>
-    <name>OpenRGBDialogUi</name>
-    <message>
-        <location filename="../OpenRGBDialog/OpenRGBDialog.ui" line="14"/>
-        <source>OpenRGB</source>
-        <translation></translation>
-    </message>
-    <message>
-        <location filename="../OpenRGBDialog/OpenRGBDialog.ui" line="63"/>
-        <source>Device</source>
-        <translation>Устройство</translation>
-    </message>
-    <message>
-        <location filename="../OpenRGBDialog/OpenRGBDialog.ui" line="73"/>
-        <source>Red</source>
-        <translation>Красный</translation>
-    </message>
-    <message>
-        <location filename="../OpenRGBDialog/OpenRGBDialog.ui" line="80"/>
-        <source>Green</source>
-        <translation>Зелёный</translation>
-    </message>
-    <message>
-        <location filename="../OpenRGBDialog/OpenRGBDialog.ui" line="87"/>
-        <source>Blue</source>
-        <translation>Синий</translation>
-    </message>
-    <message>
-        <location filename="../OpenRGBDialog/OpenRGBDialog.ui" line="94"/>
-        <source>Mode</source>
-        <translation>Режим</translation>
-    </message>
-    <message>
-        <location filename="../OpenRGBDialog/OpenRGBDialog.ui" line="113"/>
-        <source>Set All</source>
-        <translation>Применить ко всем</translation>
-    </message>
-    <message>
-        <location filename="../OpenRGBDialog/OpenRGBDialog.ui" line="120"/>
-        <source>Set Device</source>
-        <translatorcomment>Unused</translatorcomment>
-        <translation>Настроить устойство</translation>
-    </message>
-    <message>
-        <location filename="../OpenRGBDialog/OpenRGBDialog.ui" line="127"/>
-        <source>Zone</source>
-        <translation>Область</translation>
-    </message>
-    <message>
-        <location filename="../OpenRGBDialog/OpenRGBDialog.ui" line="137"/>
-        <source>Set Zone</source>
-        <translatorcomment>Unused</translatorcomment>
-        <translation>Задать область</translation>
-    </message>
-    <message>
-        <location filename="../OpenRGBDialog/OpenRGBDialog.ui" line="144"/>
-        <source>Set LED</source>
-        <translatorcomment>Unused</translatorcomment>
-        <translation>Задать светодиод</translation>
-    </message>
-    <message>
-        <location filename="../OpenRGBDialog/OpenRGBDialog.ui" line="151"/>
-        <source>LED</source>
-        <translation>Светодиод</translation>
     </message>
 </context>
 <context>
@@ -507,11 +419,6 @@
         <source>RGB Order:</source>
         <translation>Порядок RGB:</translation>
     </message>
-    <message>
-        <location filename="../OpenRGBE131SettingsPage/OpenRGBE131SettingsEntry.ui" line="20"/>
-        <source>E131 settings entry</source>
-        <translation>Ввод параметров E131</translation>
-    </message>
 </context>
 <context>
     <name>OpenRGBE131SettingsPageUi</name>
@@ -530,19 +437,9 @@
         <source>Save</source>
         <translation>Сохранить</translation>
     </message>
-    <message>
-        <location filename="../OpenRGBE131SettingsPage/OpenRGBE131SettingsPage.ui" line="14"/>
-        <source>E131 settings page</source>
-        <translation>Параметры E131</translation>
-    </message>
 </context>
 <context>
     <name>OpenRGBElgatoKeyLightSettingsEntryUi</name>
-    <message>
-        <location filename="../OpenRGBElgatoKeyLightSettingsPage/OpenRGBElgatoKeyLightSettingsEntry.ui" line="14"/>
-        <source>Dialog</source>
-        <translation>Диалоговое окно</translation>
-    </message>
     <message>
         <location filename="../OpenRGBElgatoKeyLightSettingsPage/OpenRGBElgatoKeyLightSettingsEntry.ui" line="26"/>
         <source>IP:</source>
@@ -551,11 +448,6 @@
 </context>
 <context>
     <name>OpenRGBElgatoKeyLightSettingsPageUi</name>
-    <message>
-        <location filename="../OpenRGBElgatoKeyLightSettingsPage/OpenRGBElgatoKeyLightSettingsPage.ui" line="14"/>
-        <source>Dialog</source>
-        <translation>Диалоговое окно</translation>
-    </message>
     <message>
         <location filename="../OpenRGBElgatoKeyLightSettingsPage/OpenRGBElgatoKeyLightSettingsPage.ui" line="23"/>
         <source>Add</source>
@@ -575,11 +467,6 @@
 <context>
     <name>OpenRGBElgatoLightStripSettingsEntryUi</name>
     <message>
-        <location filename="../OpenRGBElgatoLightStripSettingsPage/OpenRGBElgatoLightStripSettingsEntry.ui" line="14"/>
-        <source>Dialog</source>
-        <translation>Диалоговое окно</translation>
-    </message>
-    <message>
         <location filename="../OpenRGBElgatoLightStripSettingsPage/OpenRGBElgatoLightStripSettingsEntry.ui" line="26"/>
         <source>IP:</source>
         <translation>IP:</translation>
@@ -587,11 +474,6 @@
 </context>
 <context>
     <name>OpenRGBElgatoLightStripSettingsPageUi</name>
-    <message>
-        <location filename="../OpenRGBElgatoLightStripSettingsPage/OpenRGBElgatoLightStripSettingsPage.ui" line="14"/>
-        <source>Dialog</source>
-        <translation>Диалоговое окно</translation>
-    </message>
     <message>
         <location filename="../OpenRGBElgatoLightStripSettingsPage/OpenRGBElgatoLightStripSettingsPage.ui" line="23"/>
         <source>Add</source>
@@ -643,11 +525,6 @@
 <context>
     <name>OpenRGBKasaSmartSettingsEntryUi</name>
     <message>
-        <location filename="../OpenRGBKasaSmartSettingsPage/OpenRGBKasaSmartSettingsEntry.ui" line="20"/>
-        <source>Form</source>
-        <translation>Устройства Kasa Smart</translation>
-    </message>
-    <message>
         <location filename="../OpenRGBKasaSmartSettingsPage/OpenRGBKasaSmartSettingsEntry.ui" line="35"/>
         <source>IP:</source>
         <translation>IP:</translation>
@@ -661,9 +538,8 @@
 <context>
     <name>OpenRGBKasaSmartSettingsPageUi</name>
     <message>
-        <location filename="../OpenRGBKasaSmartSettingsPage/OpenRGBKasaSmartSettingsPage.ui" line="14"/>
         <source>Form</source>
-        <translation type="unfinished">Форма</translation>
+        <translation type="obsolete">Форма</translation>
     </message>
     <message>
         <location filename="../OpenRGBKasaSmartSettingsPage/OpenRGBKasaSmartSettingsPage.ui" line="20"/>
@@ -684,11 +560,6 @@
 <context>
     <name>OpenRGBLIFXSettingsEntryUi</name>
     <message>
-        <location filename="../OpenRGBLIFXSettingsPage/OpenRGBLIFXSettingsEntry.ui" line="20"/>
-        <source>Form</source>
-        <translation>Форма</translation>
-    </message>
-    <message>
         <location filename="../OpenRGBLIFXSettingsPage/OpenRGBLIFXSettingsEntry.ui" line="35"/>
         <source>IP:</source>
         <translation>IP:</translation>
@@ -701,11 +572,6 @@
 </context>
 <context>
     <name>OpenRGBLIFXSettingsPageUi</name>
-    <message>
-        <location filename="../OpenRGBLIFXSettingsPage/OpenRGBLIFXSettingsPage.ui" line="14"/>
-        <source>Form</source>
-        <translation>Форма</translation>
-    </message>
     <message>
         <location filename="../OpenRGBLIFXSettingsPage/OpenRGBLIFXSettingsPage.ui" line="20"/>
         <source>Add</source>
@@ -743,11 +609,6 @@
 <context>
     <name>OpenRGBNanoleafSettingsEntryUi</name>
     <message>
-        <location filename="../OpenRGBNanoleafSettingsPage/OpenRGBNanoleafSettingsEntry.ui" line="20"/>
-        <source>Form</source>
-        <translation>Форма</translation>
-    </message>
-    <message>
         <location filename="../OpenRGBNanoleafSettingsPage/OpenRGBNanoleafSettingsEntry.ui" line="32"/>
         <source>IP:</source>
         <translation>IP:</translation>
@@ -775,11 +636,6 @@
 </context>
 <context>
     <name>OpenRGBNanoleafSettingsPageUi</name>
-    <message>
-        <location filename="../OpenRGBNanoleafSettingsPage/OpenRGBNanoleafSettingsPage.ui" line="14"/>
-        <source>Form</source>
-        <translation>Форма</translation>
-    </message>
     <message>
         <location filename="../OpenRGBNanoleafSettingsPage/OpenRGBNanoleafSettingsPage.ui" line="20"/>
         <source>Add</source>
@@ -834,11 +690,6 @@
         <translation>MAC:</translation>
     </message>
     <message>
-        <location filename="../OpenRGBPhilipsHueSettingsPage/OpenRGBPhilipsHueSettingsEntry.ui" line="20"/>
-        <source>Form</source>
-        <translation>Форма</translation>
-    </message>
-    <message>
         <location filename="../OpenRGBPhilipsHueSettingsPage/OpenRGBPhilipsHueSettingsEntry.ui" line="46"/>
         <source>Auto Connect Group:</source>
         <translation>Автоматически подключаться к этой группе:</translation>
@@ -866,11 +717,6 @@
         <source>After adding a Hue entry and saving, restart OpenRGB and press the Sync button on your Hue bridge to pair it.</source>
         <translation>После добавления устройств Hue и сохранения, перезапустите OpenRGB, затем нажмите кнопку Sync на мосте Hue bridge для установления связи.</translation>
     </message>
-    <message>
-        <location filename="../OpenRGBPhilipsHueSettingsPage/OpenRGBPhilipsHueSettingsPage.ui" line="14"/>
-        <source>Philips Hue settings page</source>
-        <translation>Параметры Philips Hue</translation>
-    </message>
 </context>
 <context>
     <name>OpenRGBPhilipsWizSettingsEntryUi</name>
@@ -892,12 +738,7 @@
     <message>
         <location filename="../OpenRGBPhilipsWizSettingsPage/OpenRGBPhilipsWizSettingsEntry.ui" line="59"/>
         <source>White Strategy:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../OpenRGBPhilipsWizSettingsPage/OpenRGBPhilipsWizSettingsEntry.ui" line="20"/>
-        <source>Philips WIZ settings entry</source>
-        <translation>Параметры Philips WIZ</translation>
+        <translation>Расчёт белого:</translation>
     </message>
 </context>
 <context>
@@ -916,19 +757,6 @@
         <location filename="../OpenRGBPhilipsWizSettingsPage/OpenRGBPhilipsWizSettingsPage.ui" line="34"/>
         <source>Save</source>
         <translation>Сохранить</translation>
-    </message>
-    <message>
-        <location filename="../OpenRGBPhilipsWizSettingsPage/OpenRGBPhilipsWizSettingsPage.ui" line="14"/>
-        <source>Philips WIZ settings page</source>
-        <translation>Параметры Philips WIZ</translation>
-    </message>
-</context>
-<context>
-    <name>OpenRGBPluginContainerUi</name>
-    <message>
-        <location filename="../OpenRGBPluginContainer/OpenRGBPluginContainer.ui" line="20"/>
-        <source>Plugin container</source>
-        <translation>Контейнер подключаемого модуля</translation>
     </message>
 </context>
 <context>
@@ -978,11 +806,6 @@
         <source>Commit:</source>
         <translation>Коммит:</translation>
     </message>
-    <message>
-        <location filename="../OpenRGBPluginsPage/OpenRGBPluginsEntry.ui" line="14"/>
-        <source>Plugins entry</source>
-        <translation>Подключаемые модули</translation>
-    </message>
 </context>
 <context>
     <name>OpenRGBPluginsPageUi</name>
@@ -995,11 +818,6 @@
         <location filename="../OpenRGBPluginsPage/OpenRGBPluginsPage.ui" line="37"/>
         <source>Remove Plugin</source>
         <translation>Удалить подключаемый модуль</translation>
-    </message>
-    <message>
-        <location filename="../OpenRGBPluginsPage/OpenRGBPluginsPage.ui" line="14"/>
-        <source>Plugins page</source>
-        <translation>Подключаемые модули</translation>
     </message>
     <message>
         <location filename="../OpenRGBPluginsPage/OpenRGBPluginsPage.ui" line="44"/>
@@ -1042,11 +860,6 @@
         <source>USB VID:</source>
         <translation></translation>
     </message>
-    <message>
-        <location filename="../OpenRGBQMKORGBSettingsPage/OpenRGBQMKORGBSettingsEntry.ui" line="20"/>
-        <source>QMK settings entry</source>
-        <translation>Параметры QMK</translation>
-    </message>
 </context>
 <context>
     <name>OpenRGBQMKORGBSettingsPageUi</name>
@@ -1064,11 +877,6 @@
         <location filename="../OpenRGBQMKORGBSettingsPage/OpenRGBQMKORGBSettingsPage.ui" line="34"/>
         <source>Save</source>
         <translation>Сохранить</translation>
-    </message>
-    <message>
-        <location filename="../OpenRGBQMKORGBSettingsPage/OpenRGBQMKORGBSettingsPage.ui" line="14"/>
-        <source>QMK Settings page</source>
-        <translation>Параметры QMK</translation>
     </message>
 </context>
 <context>
@@ -1098,11 +906,6 @@
         <source>Protocol:</source>
         <translation>Протокол:</translation>
     </message>
-    <message>
-        <location filename="../OpenRGBSerialSettingsPage/OpenRGBSerialSettingsEntry.ui" line="20"/>
-        <source>Serial settings entry</source>
-        <translation>Параметры последовательного порта</translation>
-    </message>
 </context>
 <context>
     <name>OpenRGBSerialSettingsPageUi</name>
@@ -1120,11 +923,6 @@
         <location filename="../OpenRGBSerialSettingsPage/OpenRGBSerialSettingsPage.ui" line="34"/>
         <source>Save</source>
         <translation>Сохранить</translation>
-    </message>
-    <message>
-        <location filename="../OpenRGBSerialSettingsPage/OpenRGBSerialSettingsPage.ui" line="14"/>
-        <source>Serial settings page</source>
-        <translation>Параметры последовательного порта</translation>
     </message>
 </context>
 <context>
@@ -1158,11 +956,6 @@
         <location filename="../OpenRGBServerInfoPage/OpenRGBServerInfoPage.ui" line="34"/>
         <source>Connected Clients:</source>
         <translation>Список подключенных клиентов:</translation>
-    </message>
-    <message>
-        <location filename="../OpenRGBServerInfoPage/OpenRGBServerInfoPage.ui" line="14"/>
-        <source>Server info page</source>
-        <translation>Информация о сервере</translation>
     </message>
     <message>
         <location filename="../OpenRGBServerInfoPage/OpenRGBServerInfoPage.ui" line="107"/>
@@ -1304,11 +1097,6 @@
         <translation>Открыть папку настроек</translation>
     </message>
     <message>
-        <location filename="../OpenRGBSettingsPage/OpenRGBSettingsPage.ui" line="14"/>
-        <source>Settings page</source>
-        <translation>Настройки программы</translation>
-    </message>
-    <message>
         <location filename="../OpenRGBSettingsPage/OpenRGBSettingsPage.ui" line="266"/>
         <source>Drivers Settings</source>
         <translation>Параметры драйверов</translation>
@@ -1383,16 +1171,6 @@
         <translation>Версия API плагинов:</translation>
     </message>
     <message>
-        <location filename="../OpenRGBSoftwareInfoPage/OpenRGBSoftwareInfoPage.ui" line="168"/>
-        <source>SDK Version Value</source>
-        <translation></translation>
-    </message>
-    <message>
-        <location filename="../OpenRGBSoftwareInfoPage/OpenRGBSoftwareInfoPage.ui" line="175"/>
-        <source>Plugin API Version Value</source>
-        <translation></translation>
-    </message>
-    <message>
         <location filename="../OpenRGBSoftwareInfoPage/OpenRGBSoftwareInfoPage.ui" line="91"/>
         <source>Git Branch:</source>
         <translation>Ветка Git:</translation>
@@ -1422,19 +1200,9 @@
         <source>&lt;a href=&quot;https://gitlab.com/CalcProgrammer1/OpenRGB&quot;&gt;https://gitlab.com/CalcProgrammer1/OpenRGB&lt;/a&gt;</source>
         <translation></translation>
     </message>
-    <message>
-        <location filename="../OpenRGBSoftwareInfoPage/OpenRGBSoftwareInfoPage.ui" line="14"/>
-        <source>Software info page</source>
-        <translation>О программе</translation>
-    </message>
 </context>
 <context>
     <name>OpenRGBSupportedDevicesPageUi</name>
-    <message>
-        <location filename="../OpenRGBSupportedDevicesPage/OpenRGBSupportedDevicesPage.ui" line="14"/>
-        <source>Supported devices</source>
-        <translation>Поддерживаемые устройства</translation>
-    </message>
     <message>
         <location filename="../OpenRGBSupportedDevicesPage/OpenRGBSupportedDevicesPage.ui" line="22"/>
         <source>Filter:</source>
@@ -1525,11 +1293,6 @@
         <source>Size:</source>
         <translation>Размер:</translation>
     </message>
-    <message>
-        <location filename="../OpenRGBSystemInfoPage/OpenRGBSystemInfoPage.ui" line="14"/>
-        <source>System info page</source>
-        <translation>Информация о системе</translation>
-    </message>
 </context>
 <context>
     <name>OpenRGBYeelightSettingsEntryUi</name>
@@ -1558,11 +1321,6 @@
         <source>Left blank for auto discovering host ip</source>
         <translation>Оставьте пустым для автообнаружения IP узла</translation>
     </message>
-    <message>
-        <location filename="../OpenRGBYeelightSettingsPage/OpenRGBYeelightSettingsEntry.ui" line="20"/>
-        <source>Yeelight settings entry</source>
-        <translation>Параметры Yeelight</translation>
-    </message>
 </context>
 <context>
     <name>OpenRGBYeelightSettingsPageUi</name>
@@ -1580,11 +1338,6 @@
         <location filename="../OpenRGBYeelightSettingsPage/OpenRGBYeelightSettingsPage.ui" line="34"/>
         <source>Save</source>
         <translation>Сохранить</translation>
-    </message>
-    <message>
-        <location filename="../OpenRGBYeelightSettingsPage/OpenRGBYeelightSettingsPage.ui" line="14"/>
-        <source>Yeelight settings page</source>
-        <translation>Параметры Yeelight</translation>
     </message>
 </context>
 <context>
@@ -1613,9 +1366,14 @@
 <context>
     <name>OpenRGBZonesBulkResizerUi</name>
     <message>
+        <location filename="../OpenRGBZonesBulkResizer/OpenRGBZonesBulkResizer.ui" line="14"/>
+        <source>Zones Resizer</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../OpenRGBZonesBulkResizer/OpenRGBZonesBulkResizer.ui" line="39"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;One or more resizable zones have not been configured.  Resizable zones are most commonly used for addressable RGB headers where the size of the connected device cannot be detected automatically.&lt;/p&gt;&lt;p&gt;Please enter the number of LEDs in each zone below.&lt;/p&gt;&lt;p&gt;For more information about calcuating the correct size, please check &lt;a href=&quot;https://openrgb.org/resize.html&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;this link.&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Найдена не настроенная зона изменяемого размера. Созы изменяемого размера обычно используются для разъёмов адресной ленты, где размер подключенной ленты не может быть определён автоматически.&lt;/p&gt;&lt;p&gt;Пожалуйста, введите количество светодиодов для каждой такой зоны.&lt;/p&gt;&lt;p&gt;Подробнее о расчёте правильного размера см. &lt;a href=&quot;https://openrgb.org/resize.html&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;здесь.&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Найдена не настроенная зона изменяемого размера. Зоны изменяемого размера обычно используются для разъёмов адресной ленты, где размер подключенной ленты не может быть определён автоматически.&lt;/p&gt;&lt;p&gt;Пожалуйста, введите количество светодиодов для каждой такой зоны.&lt;/p&gt;&lt;p&gt;Подробнее о расчёте правильного размера см. &lt;a href=&quot;https://openrgb.org/resize.html&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;здесь.&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../OpenRGBZonesBulkResizer/OpenRGBZonesBulkResizer.ui" line="49"/>
@@ -1632,11 +1390,6 @@
         <source>Ignore</source>
         <translation>Игнорировать</translation>
     </message>
-    <message>
-        <location filename="../OpenRGBZonesBulkResizer/OpenRGBZonesBulkResizer.ui" line="14"/>
-        <source>Zones resizer</source>
-        <translation>Настройка области</translation>
-    </message>
 </context>
 <context>
     <name>TabLabelUi</name>
@@ -1644,12 +1397,6 @@
         <location filename="../TabLabel.ui" line="92"/>
         <source>device name</source>
         <translation>название устройства</translation>
-    </message>
-    <message>
-        <location filename="../TabLabel.ui" line="20"/>
-        <source>Tab Label</source>
-        <translatorcomment>Default placeholder?</translatorcomment>
-        <translation>Подпись вкладки</translation>
     </message>
 </context>
 <context>
@@ -2009,12 +1756,12 @@
     <message>
         <location filename="../OpenRGBPhilipsWizSettingsPage/OpenRGBPhilipsWizSettingsEntry.cpp" line="21"/>
         <source>Average</source>
-        <translation type="unfinished"></translation>
+        <translation>По среднему</translation>
     </message>
     <message>
         <location filename="../OpenRGBPhilipsWizSettingsPage/OpenRGBPhilipsWizSettingsEntry.cpp" line="22"/>
         <source>Minimum</source>
-        <translation type="unfinished"></translation>
+        <translation>По наименьшему</translation>
     </message>
 </context>
 <context>
@@ -2048,6 +1795,16 @@
         <location filename="../OpenRGBPluginsPage/OpenRGBPluginsPage.cpp" line="195"/>
         <source>Are you sure you want to remove this plugin?</source>
         <translation>Удалить подключаемый модуль?</translation>
+    </message>
+    <message>
+        <location filename="../OpenRGBPluginsPage/OpenRGBPluginsPage.cpp" line="246"/>
+        <source>Restart Needed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../OpenRGBPluginsPage/OpenRGBPluginsPage.cpp" line="246"/>
+        <source>The plugin will be fully removed after restarting OpenRGB.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
