@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Device info page</string>
+   <string>Device Info Page</string>
   </property>
   <property name="autoFillBackground">
    <bool>false</bool>

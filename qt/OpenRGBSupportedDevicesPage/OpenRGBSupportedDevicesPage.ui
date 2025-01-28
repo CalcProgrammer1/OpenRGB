@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Supported devices</string>
+   <string>Supported Devices Page</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>

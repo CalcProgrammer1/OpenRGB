@@ -17,7 +17,7 @@
    </sizepolicy>
   </property>
   <property name="windowTitle">
-   <string>Philips WIZ settings entry</string>
+   <string>Philips Wiz Settings Entry</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
    <item row="0" column="1">
