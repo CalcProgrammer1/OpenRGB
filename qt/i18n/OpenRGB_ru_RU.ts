@@ -74,12 +74,12 @@
     <message>
         <location filename="../OpenRGBDMXSettingsPage/OpenRGBDMXSettingsEntry.ui" line="32"/>
         <source>Brightness Channel:</source>
-        <translation type="unfinished"></translation>
+        <translation>Канал яркости:</translation>
     </message>
     <message>
         <location filename="../OpenRGBDMXSettingsPage/OpenRGBDMXSettingsEntry.ui" line="42"/>
         <source>Blue Channel:</source>
-        <translation type="unfinished"></translation>
+        <translation>Канал синего цвета:</translation>
     </message>
     <message>
         <location filename="../OpenRGBDMXSettingsPage/OpenRGBDMXSettingsEntry.ui" line="55"/>
@@ -89,12 +89,12 @@
     <message>
         <location filename="../OpenRGBDMXSettingsPage/OpenRGBDMXSettingsEntry.ui" line="62"/>
         <source>Green Channel:</source>
-        <translation type="unfinished"></translation>
+        <translation>Канал зелёного цвета:</translation>
     </message>
     <message>
         <location filename="../OpenRGBDMXSettingsPage/OpenRGBDMXSettingsEntry.ui" line="69"/>
         <source>Red Channel:</source>
-        <translation type="unfinished"></translation>
+        <translation>Канал красного цвета:</translation>
     </message>
     <message>
         <location filename="../OpenRGBDMXSettingsPage/OpenRGBDMXSettingsEntry.ui" line="82"/>
@@ -1368,7 +1368,7 @@
     <message>
         <location filename="../OpenRGBZonesBulkResizer/OpenRGBZonesBulkResizer.ui" line="14"/>
         <source>Zones Resizer</source>
-        <translation type="unfinished"></translation>
+        <translation>Изменение размера зон</translation>
     </message>
     <message>
         <location filename="../OpenRGBZonesBulkResizer/OpenRGBZonesBulkResizer.ui" line="39"/>
@@ -1799,12 +1799,12 @@
     <message>
         <location filename="../OpenRGBPluginsPage/OpenRGBPluginsPage.cpp" line="246"/>
         <source>Restart Needed</source>
-        <translation type="unfinished"></translation>
+        <translation>Требуется перезапуск</translation>
     </message>
     <message>
         <location filename="../OpenRGBPluginsPage/OpenRGBPluginsPage.cpp" line="246"/>
         <source>The plugin will be fully removed after restarting OpenRGB.</source>
-        <translation type="unfinished"></translation>
+        <translation>Плагин будет полностью удалён после перезапуска OpenRGB.</translation>
     </message>
 </context>
 <context>
