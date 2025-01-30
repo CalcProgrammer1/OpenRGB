@@ -299,6 +299,7 @@ unix {
 #-----------------------------------------------------------------------------------------------#
 TRANSLATIONS +=                                                                                 \
     qt/i18n/OpenRGB_de_DE.ts                                                                    \
+    qt/i18n/OpenRGB_el_GR.ts                                                                    \
     qt/i18n/OpenRGB_en_US.ts                                                                    \
     qt/i18n/OpenRGB_en_AU.ts                                                                    \
     qt/i18n/OpenRGB_en_GB.ts                                                                    \
@@ -306,6 +307,7 @@ TRANSLATIONS +=                                                                 
     qt/i18n/OpenRGB_fr_FR.ts                                                                    \
     qt/i18n/OpenRGB_hr_HR.ts                                                                    \
     qt/i18n/OpenRGB_it_IT.ts                                                                    \
+    qt/i18n/OpenRGB_ja_JP.ts                                                                    \
     qt/i18n/OpenRGB_ko_KR.ts                                                                    \
     qt/i18n/OpenRGB_ms_MY.ts                                                                    \
     qt/i18n/OpenRGB_pl_PL.ts                                                                    \
