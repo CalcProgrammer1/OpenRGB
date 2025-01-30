@@ -161,6 +161,7 @@
 #define ASUS_AREZ_STRIX_VEGA56_08G_GAMING               0x0555
 #define ASUS_VEGA64_STRIX                               0x04C4
 #define ASUS_RX5600XT_STRIX_O6G_GAMING                  0x04EC
+#define ASUS_RX5700_STRIX_GAMING_OC                     0x04E4
 #define ASUS_RX5700XT_STRIX_GAMING_OC                   0x04E2
 #define ASUS_RX5700XT_STRIX_O8G_GAMING                  0x05C1
 #define ASUS_RX5700XT_STRIX_O8G_GAMING_05C3             0x05C3
