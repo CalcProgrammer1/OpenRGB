@@ -1290,7 +1290,7 @@ Using an effect on a device WILL damage the flash or controller</source>
     <message>
         <location filename="../OpenRGBDialog.ui" line="14"/>
         <source>OpenRGB</source>
-        <translation>OpenRGB(漢化：畫板當吃生菜、綠鯉驢與魚)</translation>
+        <translation>OpenRGB</translation>
     </message>
     <message>
         <location filename="../OpenRGBDialog.ui" line="34"/>

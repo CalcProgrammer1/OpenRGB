@@ -250,7 +250,7 @@
     <name>OpenRGBDialogUi</name>
     <message>
         <source>OpenRGB</source>
-        <translation>OpenRGB (한국어화: OctopusET)</translation>
+        <translation>OpenRGB</translation>
     </message>
     <message>
         <source>Devices</source>
