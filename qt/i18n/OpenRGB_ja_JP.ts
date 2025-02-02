@@ -2,525 +2,6 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="ja_JP">
 <context>
-    <name>Ambient</name>
-    <message>
-        <source>Form</source>
-        <translation type="vanished">フォーム</translation>
-    </message>
-    <message>
-        <source>Select rectangle...</source>
-        <translation type="vanished">矩形選択...</translation>
-    </message>
-    <message>
-        <source>Top</source>
-        <translation type="vanished">Top</translation>
-    </message>
-    <message>
-        <source>Width</source>
-        <translation type="vanished">Width</translation>
-    </message>
-    <message>
-        <source>Left</source>
-        <translation type="vanished">Left</translation>
-    </message>
-    <message>
-        <source>Mode</source>
-        <translation type="vanished">モード</translation>
-    </message>
-    <message>
-        <source>Height</source>
-        <translation type="vanished">高さ</translation>
-    </message>
-    <message>
-        <source>Screen</source>
-        <translation type="vanished">画面</translation>
-    </message>
-</context>
-<context>
-    <name>AudioParty</name>
-    <message>
-        <source>Form</source>
-        <translation type="vanished">フォーム</translation>
-    </message>
-    <message>
-        <source>Device</source>
-        <translation type="vanished">デバイス</translation>
-    </message>
-    <message>
-        <source>Amplitude</source>
-        <translation type="vanished">Amplitude</translation>
-    </message>
-    <message>
-        <source>Divisions</source>
-        <translation type="vanished">Divisions</translation>
-    </message>
-    <message>
-        <source>Effect threshold</source>
-        <translation type="vanished">エフェクト閾値</translation>
-    </message>
-    <message>
-        <source>Zones</source>
-        <translation type="vanished">ゾーン</translation>
-    </message>
-</context>
-<context>
-    <name>AudioSine</name>
-    <message>
-        <source>Form</source>
-        <translation type="vanished">フォーム</translation>
-    </message>
-    <message>
-        <source>Oscillation</source>
-        <translation type="vanished">Oscillation</translation>
-    </message>
-    <message>
-        <source>Color change speed</source>
-        <translation type="vanished">色変更速度</translation>
-    </message>
-    <message>
-        <source>Repeat</source>
-        <translation type="vanished">リピート</translation>
-    </message>
-    <message>
-        <source>Colors</source>
-        <translation type="vanished">色</translation>
-    </message>
-    <message>
-        <source>Average</source>
-        <translation type="vanished">平均</translation>
-    </message>
-    <message>
-        <source>Background</source>
-        <translation type="vanished">背景</translation>
-    </message>
-    <message>
-        <source>Wave color</source>
-        <translation type="vanished">Wave color</translation>
-    </message>
-    <message>
-        <source>Amplitude</source>
-        <translation type="vanished">Amplitude</translation>
-    </message>
-    <message>
-        <source>Glow</source>
-        <translation type="vanished">グロー</translation>
-    </message>
-    <message>
-        <source>Thickness</source>
-        <translation type="vanished">濃度</translation>
-    </message>
-    <message>
-        <source>Device</source>
-        <translation type="vanished">デバイス</translation>
-    </message>
-</context>
-<context>
-    <name>AudioStar</name>
-    <message>
-        <source>Form</source>
-        <translation type="vanished">フォーム</translation>
-    </message>
-    <message>
-        <source>Amplitude</source>
-        <translation type="vanished">Amplitude</translation>
-    </message>
-    <message>
-        <source>Device</source>
-        <translation type="vanished">デバイス</translation>
-    </message>
-    <message>
-        <source>Decay</source>
-        <translation type="vanished">減衰</translation>
-    </message>
-    <message>
-        <source>Edge beat</source>
-        <translation type="vanished">Edge beat</translation>
-    </message>
-</context>
-<context>
-    <name>AudioVUMeter</name>
-    <message>
-        <source>Form</source>
-        <translation type="vanished">フォーム</translation>
-    </message>
-    <message>
-        <source>Audio device</source>
-        <translation type="vanished">オーディオデバイス</translation>
-    </message>
-    <message>
-        <source>Average size</source>
-        <translation type="vanished">平均サイズ</translation>
-    </message>
-    <message>
-        <source>Amplitude</source>
-        <translation type="vanished">Amplitude</translation>
-    </message>
-    <message>
-        <source>Color offset</source>
-        <translation type="vanished">カラーオフセット</translation>
-    </message>
-    <message>
-        <source>Decay</source>
-        <translation type="vanished">減衰</translation>
-    </message>
-    <message>
-        <source>Color spread</source>
-        <translation type="vanished">Color spread</translation>
-    </message>
-</context>
-<context>
-    <name>AudioVisualizerUi</name>
-    <message>
-        <source>Amplitude (%)</source>
-        <translation type="vanished">Amplitude (%)</translation>
-    </message>
-    <message>
-        <source>FFT Window Mode</source>
-        <translation type="vanished">FFT ウインドウ モード</translation>
-    </message>
-    <message>
-        <source>Background Brightness</source>
-        <translation type="vanished">背景の明るさ</translation>
-    </message>
-    <message>
-        <source>Background Mode</source>
-        <translation type="vanished">背景のモード</translation>
-    </message>
-    <message>
-        <source>Average Size</source>
-        <translation type="vanished">平均サイズ</translation>
-    </message>
-    <message>
-        <source>Foreground Mode</source>
-        <translation type="vanished">前面モード</translation>
-    </message>
-    <message>
-        <source>Decay (% per step)</source>
-        <translation type="vanished">衰減(%)</translation>
-    </message>
-    <message>
-        <source>Single Color Mode</source>
-        <translation type="vanished">単色モード</translation>
-    </message>
-    <message>
-        <source>Normalization Offset</source>
-        <translation type="vanished">ノーマライゼーションオフセット</translation>
-    </message>
-    <message>
-        <source>Average Mode</source>
-        <translation type="vanished">平均モード</translation>
-    </message>
-    <message>
-        <source>Normalization Scale</source>
-        <translation type="vanished">ノーマライゼーションオフセット</translation>
-    </message>
-    <message>
-        <source>Audio Device</source>
-        <translation type="vanished">オーディオデバイス</translation>
-    </message>
-    <message>
-        <source>Filter Constant</source>
-        <translation type="vanished">フィルター定数</translation>
-    </message>
-    <message>
-        <source>Animation Speed</source>
-        <translation type="vanished">アニメーション速度</translation>
-    </message>
-    <message>
-        <source>Background Timeout</source>
-        <translation type="vanished">背景タイムアウト</translation>
-    </message>
-    <message>
-        <source>Reactive Background</source>
-        <translation type="vanished">背景反応</translation>
-    </message>
-    <message>
-        <source>Silent Background</source>
-        <translation type="vanished">Silent Background</translation>
-    </message>
-    <message>
-        <source>Visualization Preview</source>
-        <translation type="vanished">映像化プレビュー</translation>
-    </message>
-</context>
-<context>
-    <name>BackgroundApplier</name>
-    <message>
-        <source>Form</source>
-        <translation type="vanished">フォーム</translation>
-    </message>
-    <message>
-        <source>Add background</source>
-        <translation type="vanished">背景追加</translation>
-    </message>
-    <message>
-        <source>Custom</source>
-        <translation type="vanished">Custom</translation>
-    </message>
-    <message>
-        <source>X offset (%)</source>
-        <translation type="vanished">X オフセット (%)</translation>
-    </message>
-    <message>
-        <source>Add color</source>
-        <translation type="vanished">色追加</translation>
-    </message>
-    <message>
-        <source>Y offset (%)</source>
-        <translation type="vanished">Y オフセット (%)</translation>
-    </message>
-    <message>
-        <source>Load</source>
-        <translation type="vanished">ロード</translation>
-    </message>
-    <message>
-        <source>Save</source>
-        <translation type="vanished">保存</translation>
-    </message>
-    <message>
-        <source>Rotate (°)</source>
-        <translation type="vanished">回転(°)</translation>
-    </message>
-    <message>
-        <source>Brightness</source>
-        <translation type="vanished">明るさ</translation>
-    </message>
-    <message>
-        <source>File</source>
-        <translation type="vanished">ファイル</translation>
-    </message>
-    <message>
-        <source>Choose image file</source>
-        <translation type="vanished">画像ファイル選択</translation>
-    </message>
-    <message>
-        <source>Open Image</source>
-        <translation type="vanished">画像を開く</translation>
-    </message>
-    <message>
-        <source>Image Files (*.png *.jpg *.bmp)</source>
-        <translation type="vanished">画像ファイル(*.png *.jpg *.bmp)</translation>
-    </message>
-</context>
-<context>
-    <name>Bloom</name>
-    <message>
-        <source>Form</source>
-        <translation type="vanished">フォーム</translation>
-    </message>
-</context>
-<context>
-    <name>BouncingBall</name>
-    <message>
-        <source>Form</source>
-        <translation type="vanished">フォーム</translation>
-    </message>
-    <message>
-        <source>Spectrum Velocity</source>
-        <translation type="vanished">Spectrum Velocity</translation>
-    </message>
-    <message>
-        <source>How fast the ball moves side to side</source>
-        <translation type="vanished">ボールの左右移動速度</translation>
-    </message>
-    <message>
-        <source>Defaults</source>
-        <translation type="vanished">既定値</translation>
-    </message>
-    <message>
-        <source>Gravity</source>
-        <translation type="vanished">重力</translation>
-    </message>
-    <message>
-        <source>Ball Radius</source>
-        <translation type="vanished">ボールの半径</translation>
-    </message>
-    <message>
-        <source>Drop Height %</source>
-        <translation type="vanished">落下の高さ %</translation>
-    </message>
-    <message>
-        <source>Horizontal Velocity</source>
-        <translation type="vanished">Horizontal Velocity</translation>
-    </message>
-</context>
-<context>
-    <name>BreathingCircle</name>
-    <message>
-        <source>Form</source>
-        <translation type="vanished">フォーム</translation>
-    </message>
-</context>
-<context>
-    <name>Bubbles</name>
-    <message>
-        <source>Form</source>
-        <translation type="vanished">フォーム</translation>
-    </message>
-    <message>
-        <source>Rarity</source>
-        <translation type="vanished">頻度</translation>
-    </message>
-    <message>
-        <source>Bubbles thickness</source>
-        <translation type="vanished">Bubbles thickness</translation>
-    </message>
-    <message>
-        <source>Background</source>
-        <translation type="vanished">背景</translation>
-    </message>
-    <message>
-        <source>Max bubbles</source>
-        <translation type="vanished">Max bubbles</translation>
-    </message>
-    <message>
-        <source>Speed</source>
-        <translation type="vanished">速度</translation>
-    </message>
-    <message>
-        <source>Max expansion</source>
-        <translation type="vanished">Max expansion</translation>
-    </message>
-</context>
-<context>
-    <name>Clock</name>
-    <message>
-        <source>Form</source>
-        <translation type="vanished">フォーム</translation>
-    </message>
-</context>
-<context>
-    <name>ColorPicker</name>
-    <message>
-        <source>Form</source>
-        <translation type="vanished">フォーム</translation>
-    </message>
-</context>
-<context>
-    <name>ColorStop</name>
-    <message>
-        <source>Form</source>
-        <translation type="vanished">フォーム</translation>
-    </message>
-</context>
-<context>
-    <name>ColorWheelEffect</name>
-    <message>
-        <source>Form</source>
-        <translation type="vanished">フォーム</translation>
-    </message>
-    <message>
-        <source>X position</source>
-        <translation type="vanished">X 位置</translation>
-    </message>
-    <message>
-        <source>Direction</source>
-        <translation type="vanished">方向</translation>
-    </message>
-    <message>
-        <source>Y position</source>
-        <translation type="vanished">Y 位置</translation>
-    </message>
-</context>
-<context>
-    <name>Comet</name>
-    <message>
-        <source>Form</source>
-        <translation type="vanished">フォーム</translation>
-    </message>
-</context>
-<context>
-    <name>ControllerZoneList</name>
-    <message>
-        <source>Form</source>
-        <translation type="vanished">フォーム</translation>
-    </message>
-</context>
-<context>
-    <name>CrossingBeams</name>
-    <message>
-        <source>Form</source>
-        <translation type="vanished">フォーム</translation>
-    </message>
-    <message>
-        <source>Glow</source>
-        <translation type="vanished">グロー</translation>
-    </message>
-    <message>
-        <source>Horizontal speed</source>
-        <translation type="vanished">Horizontal speed</translation>
-    </message>
-    <message>
-        <source>Vertical speed</source>
-        <translation type="vanished">Vertical speed</translation>
-    </message>
-    <message>
-        <source>Thickness</source>
-        <translation type="vanished">濃度</translation>
-    </message>
-</context>
-<context>
-    <name>CustomBlink</name>
-    <message>
-        <source>Form</source>
-        <translation type="vanished">フォーム</translation>
-    </message>
-    <message>
-        <source>Remove selected</source>
-        <translation type="vanished">選択箇所を外す</translation>
-    </message>
-    <message>
-        <source>Current pattern:</source>
-        <translation type="vanished">現在のパターン:</translation>
-    </message>
-    <message>
-        <source>Clear list</source>
-        <translation type="vanished">リストをクリア</translation>
-    </message>
-    <message>
-        <source>Add</source>
-        <translation type="vanished">追加</translation>
-    </message>
-    <message>
-        <source>Reset time</source>
-        <translation type="vanished">時間リセット</translation>
-    </message>
-    <message>
-        <source>Interval</source>
-        <translation type="vanished">間隔</translation>
-    </message>
-</context>
-<context>
-    <name>CustomGradientWave</name>
-    <message>
-        <source>Form</source>
-        <translation type="vanished">フォーム</translation>
-    </message>
-    <message>
-        <source>Preset</source>
-        <translation type="vanished">プリセット</translation>
-    </message>
-    <message>
-        <source>Colors</source>
-        <translation type="vanished">色</translation>
-    </message>
-    <message>
-        <source>Spread</source>
-        <translation type="vanished">Spread</translation>
-    </message>
-</context>
-<context>
-    <name>CustomMarquee</name>
-    <message>
-        <source>Form</source>
-        <translation type="vanished">フォーム</translation>
-    </message>
-    <message>
-        <source>Colors</source>
-        <translation type="vanished">色</translation>
-    </message>
-</context>
-<context>
     <name>DetectorTableModel</name>
     <message>
         <location filename="../DetectorTableModel.cpp" line="102"/>
@@ -531,535 +12,6 @@
         <location filename="../DetectorTableModel.cpp" line="104"/>
         <source>Enabled</source>
         <translation>有効</translation>
-    </message>
-</context>
-<context>
-    <name>DeviceList</name>
-    <message>
-        <source>Form</source>
-        <translation type="vanished">フォーム</translation>
-    </message>
-    <message>
-        <source>Select all</source>
-        <translation type="vanished">すべて選択</translation>
-    </message>
-    <message>
-        <source>Deselect all</source>
-        <translation type="vanished">すべて選択解除</translation>
-    </message>
-    <message>
-        <source>Controller</source>
-        <translation type="vanished">コントローラー</translation>
-    </message>
-    <message>
-        <source>Enable</source>
-        <translation type="vanished">有効</translation>
-    </message>
-    <message>
-        <source>Reverse</source>
-        <translation type="vanished">反転</translation>
-    </message>
-</context>
-<context>
-    <name>DeviceListItem</name>
-    <message>
-        <source>Form</source>
-        <translation type="vanished">フォーム</translation>
-    </message>
-    <message>
-        <source>Enable</source>
-        <translation type="vanished">有効</translation>
-    </message>
-    <message>
-        <source>Reverse</source>
-        <translation type="vanished">反転</translation>
-    </message>
-    <message>
-        <source>TextLabel</source>
-        <translation type="vanished">TextLabel</translation>
-    </message>
-    <message>
-        <source>This device doesn&apos;t have direct mode
-Using an effect on a device WILL damage the flash or controller</source>
-        <translation type="vanished">このデバイスはダイレクトモードは対応していません
-デバイスエフェクトを使用すると機器を故障させる原因となります</translation>
-    </message>
-</context>
-<context>
-    <name>DoubleRotatingRainbow</name>
-    <message>
-        <source>Form</source>
-        <translation type="vanished">フォーム</translation>
-    </message>
-    <message>
-        <source>Frequency</source>
-        <translation type="vanished">頻度</translation>
-    </message>
-</context>
-<context>
-    <name>EffectList</name>
-    <message>
-        <source>Form</source>
-        <translation type="vanished">フォーム</translation>
-    </message>
-    <message>
-        <source>Add to the effects list</source>
-        <translation type="vanished">エフェクトリストに追加</translation>
-    </message>
-    <message>
-        <source>Start/Stop all effects</source>
-        <translation type="vanished">全てのエフェクトを開始/停止</translation>
-    </message>
-</context>
-<context>
-    <name>EffectTabHeader</name>
-    <message>
-        <source>Form</source>
-        <translation type="vanished">フォーム</translation>
-    </message>
-    <message>
-        <source>EffectName</source>
-        <translation type="vanished">エフェクト名</translation>
-    </message>
-</context>
-<context>
-    <name>Fill</name>
-    <message>
-        <source>Form</source>
-        <translation type="vanished">フォーム</translation>
-    </message>
-</context>
-<context>
-    <name>FractalMotion</name>
-    <message>
-        <source>Form</source>
-        <translation type="vanished">フォーム</translation>
-    </message>
-    <message>
-        <source>Freq m1</source>
-        <translation type="vanished">頻度 m1</translation>
-    </message>
-    <message>
-        <source>Freq m12</source>
-        <translation type="vanished">頻度 m12</translation>
-    </message>
-    <message>
-        <source>Background color:</source>
-        <translation type="vanished">背景色:</translation>
-    </message>
-    <message>
-        <source>Amplitude</source>
-        <translation type="vanished">Amplitude</translation>
-    </message>
-    <message>
-        <source>Freq m2</source>
-        <translation type="vanished">頻度 m2</translation>
-    </message>
-    <message>
-        <source>Freq m7</source>
-        <translation type="vanished">頻度 m7</translation>
-    </message>
-    <message>
-        <source>Freq m10</source>
-        <translation type="vanished">頻度 m10</translation>
-    </message>
-    <message>
-        <source>Freq m8</source>
-        <translation type="vanished">頻度 m8</translation>
-    </message>
-    <message>
-        <source>Freq m9</source>
-        <translation type="vanished">頻度 m9</translation>
-    </message>
-    <message>
-        <source>Freq m5</source>
-        <translation type="vanished">頻度 m5</translation>
-    </message>
-    <message>
-        <source>Defaults</source>
-        <translation type="vanished">既定値</translation>
-    </message>
-    <message>
-        <source>Freq m4</source>
-        <translation type="vanished">頻度 m4</translation>
-    </message>
-    <message>
-        <source>Freq m3</source>
-        <translation type="vanished">頻度 m3</translation>
-    </message>
-    <message>
-        <source>Freq m6</source>
-        <translation type="vanished">頻度 m6</translation>
-    </message>
-    <message>
-        <source>Frequency</source>
-        <translation type="vanished">頻度</translation>
-    </message>
-    <message>
-        <source>Freq m11</source>
-        <translation type="vanished">頻度 m11</translation>
-    </message>
-    <message>
-        <source>Thickness</source>
-        <translation type="vanished">濃度</translation>
-    </message>
-</context>
-<context>
-    <name>GLSLCodeEditor</name>
-    <message>
-        <source>Form</source>
-        <translation type="vanished">フォーム</translation>
-    </message>
-    <message>
-        <source>Style</source>
-        <translation type="vanished">スタイル</translation>
-    </message>
-    <message>
-        <source>#version </source>
-        <translation type="vanished">#バージョン </translation>
-    </message>
-    <message>
-        <source>Tab 1</source>
-        <translation type="vanished">タブ 1</translation>
-    </message>
-    <message>
-        <source>Tab 2</source>
-        <translation type="vanished">タブ 2</translation>
-    </message>
-    <message>
-        <source>Apply</source>
-        <translation type="vanished">適用</translation>
-    </message>
-</context>
-<context>
-    <name>GifPlayer</name>
-    <message>
-        <source>Form</source>
-        <translation type="vanished">フォーム</translation>
-    </message>
-    <message>
-        <source>Choose GIF file</source>
-        <translation type="vanished">GIFファイルを選択</translation>
-    </message>
-    <message>
-        <source>Open GIF file</source>
-        <translation type="vanished">GIFファイルを開く</translation>
-    </message>
-    <message>
-        <source>GIF Files (*.gif)</source>
-        <translation type="vanished">GIFファイル (*.gif)</translation>
-    </message>
-</context>
-<context>
-    <name>GridOptions</name>
-    <message>
-        <source>Form</source>
-        <translation type="vanished">フォーム</translation>
-    </message>
-    <message>
-        <source>Auto register</source>
-        <translation type="vanished">自動登録</translation>
-    </message>
-    <message>
-        <source>Height</source>
-        <translation type="vanished">高さ</translation>
-    </message>
-    <message>
-        <source>Unregister member controllers</source>
-        <translation type="vanished">メンバーコントローラーの登録解除</translation>
-    </message>
-    <message>
-        <source>Live preview</source>
-        <translation type="vanished">ライブプレビュー</translation>
-    </message>
-    <message>
-        <source>Show bounds</source>
-        <translation type="vanished">境界線を表示</translation>
-    </message>
-    <message>
-        <source>Auto load</source>
-        <translation type="vanished">自動ロード</translation>
-    </message>
-    <message>
-        <source>Grid options</source>
-        <translation type="vanished">グリッドオプション</translation>
-    </message>
-    <message>
-        <source>Show grid</source>
-        <translation type="vanished">グリッド表示</translation>
-    </message>
-    <message>
-        <source>Width</source>
-        <translation type="vanished">Width</translation>
-    </message>
-    <message>
-        <source>Auto resize</source>
-        <translation type="vanished">自動リサイズ</translation>
-    </message>
-</context>
-<context>
-    <name>Hypnotoad</name>
-    <message>
-        <source>Form</source>
-        <translation type="vanished">フォーム</translation>
-    </message>
-    <message>
-        <source>Spacing</source>
-        <translation type="vanished">Spacing</translation>
-    </message>
-    <message>
-        <source>Color rotation speed</source>
-        <translation type="vanished">色変更スピード</translation>
-    </message>
-    <message>
-        <source>Color rotation direction</source>
-        <translation type="vanished">色変更方向</translation>
-    </message>
-    <message>
-        <source>X position</source>
-        <translation type="vanished">X 位置</translation>
-    </message>
-    <message>
-        <source>Animation direction</source>
-        <translation type="vanished">アニメーション方向</translation>
-    </message>
-    <message>
-        <source>Animation speed</source>
-        <translation type="vanished">アニメーション速度</translation>
-    </message>
-    <message>
-        <source>Thickness</source>
-        <translation type="vanished">濃度</translation>
-    </message>
-    <message>
-        <source>Y position</source>
-        <translation type="vanished">Y 位置</translation>
-    </message>
-</context>
-<context>
-    <name>ItemOptions</name>
-    <message>
-        <source>Form</source>
-        <translation type="vanished">フォーム</translation>
-    </message>
-    <message>
-        <source>Item options</source>
-        <translation type="vanished">アイテムオプション</translation>
-    </message>
-    <message>
-        <source>x</source>
-        <translation type="vanished">x</translation>
-    </message>
-    <message>
-        <source>y</source>
-        <translation type="vanished">y</translation>
-    </message>
-    <message>
-        <source>Reverse</source>
-        <translation type="vanished">反転</translation>
-    </message>
-    <message>
-        <source>Shape</source>
-        <translation type="vanished">形状</translation>
-    </message>
-    <message>
-        <source>Led spacing</source>
-        <translation type="vanished">LED間隔</translation>
-    </message>
-    <message>
-        <source>Edit shape</source>
-        <translation type="vanished">形状編集</translation>
-    </message>
-    <message>
-        <source>Identify</source>
-        <translation type="vanished">Identify</translation>
-    </message>
-</context>
-<context>
-    <name>LayerEntry</name>
-    <message>
-        <source>Form</source>
-        <translation type="vanished">フォーム</translation>
-    </message>
-</context>
-<context>
-    <name>LayerGroupEntry</name>
-    <message>
-        <source>Form</source>
-        <translation type="vanished">フォーム</translation>
-    </message>
-    <message>
-        <source>Add layer</source>
-        <translation type="vanished">レイヤー追加</translation>
-    </message>
-    <message>
-        <source>Clear</source>
-        <translation type="vanished">クリア</translation>
-    </message>
-    <message>
-        <source>Delete group</source>
-        <translation type="vanished">グループを削除</translation>
-    </message>
-</context>
-<context>
-    <name>Layers</name>
-    <message>
-        <source>Form</source>
-        <translation type="vanished">フォーム</translation>
-    </message>
-    <message>
-        <source>Add group</source>
-        <translation type="vanished">グループ追加</translation>
-    </message>
-    <message>
-        <source>Clear</source>
-        <translation type="vanished">クリア</translation>
-    </message>
-</context>
-<context>
-    <name>Lightning</name>
-    <message>
-        <source>Form</source>
-        <translation type="vanished">フォーム</translation>
-    </message>
-    <message>
-        <source>Mode</source>
-        <translation type="vanished">モード</translation>
-    </message>
-</context>
-<context>
-    <name>LivePreviewController</name>
-    <message>
-        <source>Form</source>
-        <translation type="vanished">フォーム</translation>
-    </message>
-    <message>
-        <source>Reverse</source>
-        <translation type="vanished">反転</translation>
-    </message>
-    <message>
-        <source>Brightness</source>
-        <translation type="vanished">明るさ</translation>
-    </message>
-    <message>
-        <source>Custom height</source>
-        <translation type="vanished">Custom height</translation>
-    </message>
-    <message>
-        <source>Custom width</source>
-        <translation type="vanished">Custom width</translation>
-    </message>
-    <message>
-        <source>Scale content</source>
-        <translation type="vanished">Scale content</translation>
-    </message>
-</context>
-<context>
-    <name>Marquee</name>
-    <message>
-        <source>Form</source>
-        <translation type="vanished">フォーム</translation>
-    </message>
-</context>
-<context>
-    <name>Mask</name>
-    <message>
-        <source>Form</source>
-        <translation type="vanished">フォーム</translation>
-    </message>
-    <message>
-        <source>width</source>
-        <translation type="vanished">width</translation>
-    </message>
-    <message>
-        <source>height</source>
-        <translation type="vanished">height</translation>
-    </message>
-    <message>
-        <source>Invert colors</source>
-        <translation type="vanished">色反転</translation>
-    </message>
-</context>
-<context>
-    <name>Mosaic</name>
-    <message>
-        <source>Form</source>
-        <translation type="vanished">フォーム</translation>
-    </message>
-</context>
-<context>
-    <name>MotionPoint</name>
-    <message>
-        <source>Form</source>
-        <translation type="vanished">フォーム</translation>
-    </message>
-    <message>
-        <source>Background color:</source>
-        <translation type="vanished">背景色:</translation>
-    </message>
-</context>
-<context>
-    <name>MotionPoints</name>
-    <message>
-        <source>Form</source>
-        <translation type="vanished">フォーム</translation>
-    </message>
-</context>
-<context>
-    <name>MovingPanes</name>
-    <message>
-        <source>Form</source>
-        <translation type="vanished">フォーム</translation>
-    </message>
-</context>
-<context>
-    <name>NewShaderPassTabHeader</name>
-    <message>
-        <source>Form</source>
-        <translation type="vanished">フォーム</translation>
-    </message>
-</context>
-<context>
-    <name>NoiseMap</name>
-    <message>
-        <source>Form</source>
-        <translation type="vanished">フォーム</translation>
-    </message>
-    <message>
-        <source>Amplitude</source>
-        <translation type="vanished">Amplitude</translation>
-    </message>
-    <message>
-        <source>Defaults</source>
-        <translation type="vanished">既定値</translation>
-    </message>
-    <message>
-        <source>Colors</source>
-        <translation type="vanished">色</translation>
-    </message>
-    <message>
-        <source>Octaves</source>
-        <translation type="vanished">Octaves</translation>
-    </message>
-    <message>
-        <source>Persistence</source>
-        <translation type="vanished">Persistence</translation>
-    </message>
-    <message>
-        <source>Lacunarity</source>
-        <translation type="vanished">Lacunarity</translation>
-    </message>
-    <message>
-        <source>Frequency</source>
-        <translation type="vanished">頻度</translation>
-    </message>
-    <message>
-        <source>Motion</source>
-        <translation type="vanished">モーション</translation>
-    </message>
-    <message>
-        <source>Motion speed</source>
-        <translation type="vanished">モーション速度</translation>
     </message>
 </context>
 <context>
@@ -1087,17 +39,17 @@ Using an effect on a device WILL damage the flash or controller</source>
     <message>
         <location filename="../OpenRGBClientInfoPage.ui" line="71"/>
         <source>Connected Clients</source>
-        <translation type="unfinished">接続中のクライアント</translation>
+        <translation>接続中のクライアント</translation>
     </message>
     <message>
         <location filename="../OpenRGBClientInfoPage.ui" line="76"/>
         <source>Protocol Version</source>
-        <translation type="unfinished">プロトコルバージョン</translation>
+        <translation>プロトコルバージョン</translation>
     </message>
     <message>
         <location filename="../OpenRGBClientInfoPage.ui" line="81"/>
         <source>Save Connection</source>
-        <translation type="unfinished">接続を保存</translation>
+        <translation>接続を保存</translation>
     </message>
 </context>
 <context>
@@ -1299,7 +251,7 @@ Using an effect on a device WILL damage the flash or controller</source>
     <message>
         <location filename="../OpenRGBDialog.ui" line="48"/>
         <source>Information</source>
-        <translation>Information</translation>
+        <translation>情報</translation>
     </message>
     <message>
         <location filename="../OpenRGBDialog.ui" line="65"/>
@@ -1418,6 +370,25 @@ Using an effect on a device WILL damage the flash or controller</source>
     </message>
 </context>
 <context>
+    <name>OpenRGBDMXSettingsPageUi</name>
+    <message>
+        <source>Add</source>
+        <translation>追加</translation>
+    </message>
+    <message>
+        <source>Remove</source>
+        <translation>削除</translation>
+    </message>
+    <message>
+        <source>Save</source>
+        <translation>保存</translation>
+    </message>
+    <message>
+        <source>DMX settings page</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>OpenRGBE131SettingsEntryUi</name>
     <message>
         <location filename="../OpenRGBE131SettingsPage/OpenRGBE131SettingsEntry.ui" line="20"/>
@@ -1509,93 +480,22 @@ Using an effect on a device WILL damage the flash or controller</source>
     </message>
 </context>
 <context>
-    <name>OpenRGBEffectPage</name>
+    <name>OpenRGBKasaSmartSettingsPageUi</name>
     <message>
-        <source>Form</source>
-        <translation type="vanished">フォーム</translation>
+        <source>Add</source>
+        <translation>追加</translation>
     </message>
     <message>
-        <source>EffectName</source>
-        <translation type="vanished">エフェクト名</translation>
+        <source>Remove</source>
+        <translation>削除</translation>
     </message>
     <message>
-        <source>EffectDescription</source>
-        <translation type="vanished">エフェクト説明</translation>
+        <source>Save</source>
+        <translation>保存</translation>
     </message>
     <message>
-        <source>Random</source>
-        <translation type="vanished">ランダム</translation>
-    </message>
-    <message>
-        <source>First color</source>
-        <translation type="vanished">最初の色</translation>
-    </message>
-    <message>
-        <source>Slider2Label</source>
-        <translation type="vanished">Slider2Label</translation>
-    </message>
-    <message>
-        <source>Speed</source>
-        <translation type="vanished">速度</translation>
-    </message>
-    <message>
-        <source>Brightness</source>
-        <translation type="vanished">明るさ</translation>
-    </message>
-    <message>
-        <source>Status:</source>
-        <translation type="vanished">状態:</translation>
-    </message>
-    <message>
-        <source>Stopped</source>
-        <translation type="vanished">停止</translation>
-    </message>
-    <message>
-        <source>Start</source>
-        <translation type="vanished">開始</translation>
-    </message>
-    <message>
-        <source>Stop</source>
-        <translation type="vanished">停止</translation>
-    </message>
-    <message>
-        <source>Auto Start</source>
-        <translation type="vanished">自動スタート</translation>
-    </message>
-    <message>
-        <source>Preview</source>
-        <translation type="vanished">プレビュー</translation>
-    </message>
-    <message>
-        <source>Save to file</source>
-        <translation type="vanished">ファイルに保存</translation>
-    </message>
-    <message>
-        <source>Manually edit</source>
-        <translation type="vanished">マニュアル編集</translation>
-    </message>
-    <message>
-        <source>Load from file</source>
-        <translation type="vanished">ファイルからロード</translation>
-    </message>
-</context>
-<context>
-    <name>OpenRGBEffectTab</name>
-    <message>
-        <source>Form</source>
-        <translation type="vanished">フォーム</translation>
-    </message>
-    <message>
-        <source>Save as profile</source>
-        <translation type="vanished">プロファイルとして保存</translation>
-    </message>
-    <message>
-        <source>Load profile</source>
-        <translation type="vanished">プロファイルをロード</translation>
-    </message>
-    <message>
-        <source>Delete profile</source>
-        <translation type="vanished">プロファイル削除</translation>
+        <source>Kasa Smart settings page</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1621,17 +521,17 @@ Using an effect on a device WILL damage the flash or controller</source>
     <message>
         <location filename="../OpenRGBElgatoKeyLightSettingsPage/OpenRGBElgatoKeyLightSettingsPage.ui" line="23"/>
         <source>Add</source>
-        <translation type="unfinished">追加</translation>
+        <translation>追加</translation>
     </message>
     <message>
         <location filename="../OpenRGBElgatoKeyLightSettingsPage/OpenRGBElgatoKeyLightSettingsPage.ui" line="30"/>
         <source>Remove</source>
-        <translation type="unfinished">削除</translation>
+        <translation>削除</translation>
     </message>
     <message>
         <location filename="../OpenRGBElgatoKeyLightSettingsPage/OpenRGBElgatoKeyLightSettingsPage.ui" line="37"/>
         <source>Save</source>
-        <translation type="unfinished">保存</translation>
+        <translation>保存</translation>
     </message>
 </context>
 <context>
@@ -1657,17 +557,17 @@ Using an effect on a device WILL damage the flash or controller</source>
     <message>
         <location filename="../OpenRGBElgatoLightStripSettingsPage/OpenRGBElgatoLightStripSettingsPage.ui" line="23"/>
         <source>Add</source>
-        <translation type="unfinished">追加</translation>
+        <translation>追加</translation>
     </message>
     <message>
         <location filename="../OpenRGBElgatoLightStripSettingsPage/OpenRGBElgatoLightStripSettingsPage.ui" line="30"/>
         <source>Remove</source>
-        <translation type="unfinished">削除</translation>
+        <translation>削除</translation>
     </message>
     <message>
         <location filename="../OpenRGBElgatoLightStripSettingsPage/OpenRGBElgatoLightStripSettingsPage.ui" line="37"/>
         <source>Save</source>
-        <translation type="unfinished">保存</translation>
+        <translation>保存</translation>
     </message>
 </context>
 <context>
@@ -1685,7 +585,7 @@ Using an effect on a device WILL damage the flash or controller</source>
     <message>
         <location filename="../OpenRGBLIFXSettingsPage/OpenRGBLIFXSettingsEntry.ui" line="45"/>
         <source>Name</source>
-        <translation type="unfinished">名前</translation>
+        <translation>名前</translation>
     </message>
 </context>
 <context>
@@ -1750,6 +650,14 @@ Using an effect on a device WILL damage the flash or controller</source>
         <location filename="../OpenRGBNanoleafSettingsPage/OpenRGBNanoleafSettingsPage.ui" line="14"/>
         <source>Form</source>
         <translation>フォーム</translation>
+    </message>
+    <message>
+        <source>Add</source>
+        <translation>追加</translation>
+    </message>
+    <message>
+        <source>Remove</source>
+        <translation>削除</translation>
     </message>
     <message>
         <location filename="../OpenRGBNanoleafSettingsPage/OpenRGBNanoleafSettingsPage.ui" line="20"/>
@@ -2083,17 +991,17 @@ Using an effect on a device WILL damage the flash or controller</source>
     <message>
         <location filename="../OpenRGBServerInfoPage.ui" line="45"/>
         <source>Client IP</source>
-        <translation type="unfinished">クライアントIP</translation>
+        <translation>クライアントIP</translation>
     </message>
     <message>
         <location filename="../OpenRGBServerInfoPage.ui" line="50"/>
         <source>Protocol Version</source>
-        <translation type="unfinished">プロトコルバージョン</translation>
+        <translation>プロトコルバージョン</translation>
     </message>
     <message>
         <location filename="../OpenRGBServerInfoPage.ui" line="55"/>
         <source>Client Name</source>
-        <translation type="unfinished">クライアント名</translation>
+        <translation>クライアント名</translation>
     </message>
     <message>
         <location filename="../OpenRGBServerInfoPage.ui" line="80"/>
@@ -2120,6 +1028,10 @@ Using an effect on a device WILL damage the flash or controller</source>
         <source>Connected Clients:</source>
         <translation>接続中のクライアント:</translation>
     </message>
+    <message>
+        <source>Server Host:</source>
+        <translation>サーバーホスト:</translation>
+    </message>
 </context>
 <context>
     <name>OpenRGBSettingsPageUi</name>
@@ -2129,9 +1041,21 @@ Using an effect on a device WILL damage the flash or controller</source>
         <translation>設定ページ</translation>
     </message>
     <message>
+        <source>Load Window Geometry</source>
+        <translation>ウィンドウジオメトリをロード</translation>
+    </message>
+    <message>
+        <source>Enable Log File (restart required)</source>
+        <translation>ログファイルを有効にする(再起動が必要)</translation>
+    </message>
+    <message>
         <location filename="../OpenRGBSettingsPage.ui" line="212"/>
         <source>Minimize On Close</source>
         <translation>閉じる時は最小化させる</translation>
+    </message>
+    <message>
+        <source>Save Geometry On Close</source>
+        <translation>ウィンドウジオメトリを閉じるときに保存</translation>
     </message>
     <message>
         <location filename="../OpenRGBSettingsPage.ui" line="182"/>
@@ -2252,6 +1176,10 @@ Using an effect on a device WILL damage the flash or controller</source>
         <location filename="../OpenRGBSettingsPage.ui" line="144"/>
         <source>Greyscale Tray Icon</source>
         <translation>トレイアイコンをグレースケールで表示させる</translation>
+    </message>
+    <message>
+        <source>Start At Login Settings:</source>
+        <translation>ログイン時に起動設定:</translation>
     </message>
     <message>
         <location filename="../OpenRGBSettingsPage.ui" line="20"/>
@@ -2411,21 +1339,6 @@ Using an effect on a device WILL damage the flash or controller</source>
     </message>
 </context>
 <context>
-    <name>OpenRGBVisualMapTab</name>
-    <message>
-        <source>Form</source>
-        <translation type="vanished">フォーム</translation>
-    </message>
-    <message>
-        <source>Tab 1</source>
-        <translation type="vanished">タブ 1</translation>
-    </message>
-    <message>
-        <source>Tab 2</source>
-        <translation type="vanished">タブ 2</translation>
-    </message>
-</context>
-<context>
     <name>OpenRGBYeelightSettingsEntryUi</name>
     <message>
         <location filename="../OpenRGBYeelightSettingsPage/OpenRGBYeelightSettingsEntry.ui" line="20"/>
@@ -2519,337 +1432,6 @@ Using an effect on a device WILL damage the flash or controller</source>
     </message>
 </context>
 <context>
-    <name>PluginInfo</name>
-    <message>
-        <source>Form</source>
-        <translation type="vanished">フォーム</translation>
-    </message>
-    <message>
-        <source>Version:</source>
-        <translation type="vanished">バージョン:</translation>
-    </message>
-    <message>
-        <source>Build date:</source>
-        <translation type="vanished">ビルド日付:</translation>
-    </message>
-    <message>
-        <source>Git commit ID:</source>
-        <translation type="vanished">Git commit ID:</translation>
-    </message>
-    <message>
-        <source>Git commit date:</source>
-        <translation type="vanished">Git commit date:</translation>
-    </message>
-    <message>
-        <source>Git branch:</source>
-        <translation type="vanished">Git branch:</translation>
-    </message>
-    <message>
-        <source>Download lastest build</source>
-        <translation type="vanished">最新ビルドをダウンロード</translation>
-    </message>
-    <message>
-        <source>Open plugin folder</source>
-        <translation type="vanished">プラグインフォルダを開く</translation>
-    </message>
-</context>
-<context>
-    <name>RadialRainbow</name>
-    <message>
-        <source>Form</source>
-        <translation type="vanished">フォーム</translation>
-    </message>
-    <message>
-        <source>X position</source>
-        <translation type="vanished">X 位置</translation>
-    </message>
-    <message>
-        <source>Y position</source>
-        <translation type="vanished">Y 位置</translation>
-    </message>
-    <message>
-        <source>Shape</source>
-        <translation type="vanished">形状</translation>
-    </message>
-</context>
-<context>
-    <name>RotatingBeam</name>
-    <message>
-        <source>Form</source>
-        <translation type="vanished">フォーム</translation>
-    </message>
-    <message>
-        <source>Mode</source>
-        <translation type="vanished">模式</translation>
-    </message>
-    <message>
-        <source>Thickness</source>
-        <translation type="vanished">濃度</translation>
-    </message>
-</context>
-<context>
-    <name>RotatingRainbow</name>
-    <message>
-        <source>Form</source>
-        <translation type="vanished">フォーム</translation>
-    </message>
-</context>
-<context>
-    <name>SaveProfilePopup</name>
-    <message>
-        <source>Form</source>
-        <translation type="vanished">フォーム</translation>
-    </message>
-    <message>
-        <source>Save</source>
-        <translation type="vanished">保存</translation>
-    </message>
-    <message>
-        <source>Cancel</source>
-        <translation type="vanished">取消</translation>
-    </message>
-    <message>
-        <source>Load profile at startup</source>
-        <translation type="vanished">起動時にプロファイルをロード</translation>
-    </message>
-    <message>
-        <source>Profile name:</source>
-        <translation type="vanished">プロファイル名:</translation>
-    </message>
-</context>
-<context>
-    <name>Sequence</name>
-    <message>
-        <source>Form</source>
-        <translation type="vanished">フォーム</translation>
-    </message>
-    <message>
-        <source>Colors</source>
-        <translation type="vanished">色:</translation>
-    </message>
-</context>
-<context>
-    <name>ShaderFileTabHeader</name>
-    <message>
-        <source>Form</source>
-        <translation type="vanished">フォーム</translation>
-    </message>
-</context>
-<context>
-    <name>ShaderPassEditor</name>
-    <message>
-        <source>Form</source>
-        <translation type="vanished">フォーム</translation>
-    </message>
-    <message>
-        <source>The audio data will be automatically passed to this shader. Make sure to enabled &quot;Use audio&quot; in the effect page.</source>
-        <translation type="vanished">オーディオデータは、このシェーダーに自動的に引き渡されます。エフェクトページで&quot;オーディオを使用する&quot;を有効にしてください。</translation>
-    </message>
-    <message>
-        <source>Choose texture</source>
-        <translation type="vanished">テクスチャを選択</translation>
-    </message>
-    <message>
-        <source>Open Image</source>
-        <translation type="vanished">画像を開く</translation>
-    </message>
-    <message>
-        <source>Image Files (*.png *.jpg *.bmp)</source>
-        <translation type="vanished">画像ファイル (*.png *.jpg *.bmp)</translation>
-    </message>
-</context>
-<context>
-    <name>Shaders</name>
-    <message>
-        <source>Form</source>
-        <translation type="vanished">フォーム</translation>
-    </message>
-    <message>
-        <source>Width</source>
-        <translation type="vanished">Width</translation>
-    </message>
-    <message>
-        <source>Decay</source>
-        <translation type="vanished">Decay</translation>
-    </message>
-    <message>
-        <source>Amplitude</source>
-        <translation type="vanished">Amplitude</translation>
-    </message>
-    <message>
-        <source>Device</source>
-        <translation type="vanished">デバイス</translation>
-    </message>
-    <message>
-        <source>Average</source>
-        <translation type="vanished">Average</translation>
-    </message>
-    <message>
-        <source>Height</source>
-        <translation type="vanished">高さ</translation>
-    </message>
-    <message>
-        <source>Show rendering</source>
-        <translation type="vanished">Show rendering</translation>
-    </message>
-    <message>
-        <source>Use audio</source>
-        <translation type="vanished">オーディオを使用する</translation>
-    </message>
-    <message>
-        <source>Edit shader</source>
-        <translation type="vanished">シェーダを編集</translation>
-    </message>
-    <message>
-        <source>Reset time</source>
-        <translation type="vanished">時間をリセット</translation>
-    </message>
-    <message>
-        <source>Invert time</source>
-        <translation type="vanished">時間を反転</translation>
-    </message>
-</context>
-<context>
-    <name>SmoothBlink</name>
-    <message>
-        <source>Form</source>
-        <translation type="vanished">フォーム</translation>
-    </message>
-    <message>
-        <source>Pulses (n)</source>
-        <translation type="vanished">パルス (n)</translation>
-    </message>
-    <message>
-        <source>Defaults</source>
-        <translation type="vanished">既定値</translation>
-    </message>
-    <message>
-        <source>Strength (%)</source>
-        <translation type="vanished">強度(%)</translation>
-    </message>
-    <message>
-        <source>Interval (s)</source>
-        <translation type="vanished">間隔(秒)</translation>
-    </message>
-    <message>
-        <source>Pulse duration (s)</source>
-        <translation type="vanished">パルスの持続時間(秒)</translation>
-    </message>
-    <message>
-        <source>Rendering</source>
-        <translation type="vanished">レンダリング</translation>
-    </message>
-    <message>
-        <source>X position</source>
-        <translation type="vanished">X 位置</translation>
-    </message>
-    <message>
-        <source>Y position</source>
-        <translation type="vanished">Y 位置</translation>
-    </message>
-</context>
-<context>
-    <name>Spiral</name>
-    <message>
-        <source>Form</source>
-        <translation type="vanished">フォーム</translation>
-    </message>
-</context>
-<context>
-    <name>Stack</name>
-    <message>
-        <source>Form</source>
-        <translation type="vanished">フォーム</translation>
-    </message>
-    <message>
-        <source>Matrix zone direction</source>
-        <translation type="vanished">Matrix zone direction</translation>
-    </message>
-</context>
-<context>
-    <name>Sunrise</name>
-    <message>
-        <source>Form</source>
-        <translation type="vanished">フォーム</translation>
-    </message>
-    <message>
-        <source>Motion</source>
-        <translation type="vanished">モーション</translation>
-    </message>
-    <message>
-        <source>Intensity</source>
-        <translation type="vanished">強弱</translation>
-    </message>
-    <message>
-        <source>Intensity speed</source>
-        <translation type="vanished">強弱スピード</translation>
-    </message>
-    <message>
-        <source>Radius</source>
-        <translation type="vanished">半径</translation>
-    </message>
-    <message>
-        <source>Grow speed</source>
-        <translation type="vanished">グロー速度</translation>
-    </message>
-    <message>
-        <source>Run only once</source>
-        <translation type="vanished">一度だけ実行</translation>
-    </message>
-</context>
-<context>
-    <name>Swap</name>
-    <message>
-        <source>Form</source>
-        <translation type="vanished">フォーム</translation>
-    </message>
-</context>
-<context>
-    <name>SwirlCircles</name>
-    <message>
-        <source>Form</source>
-        <translation type="vanished">フォーム</translation>
-    </message>
-    <message>
-        <source>Radius</source>
-        <translation type="vanished">半径</translation>
-    </message>
-</context>
-<context>
-    <name>SwirlCirclesAudio</name>
-    <message>
-        <source>Form</source>
-        <translation type="vanished">フォーム</translation>
-    </message>
-    <message>
-        <source>Amplitude</source>
-        <translation type="vanished">Amplitude</translation>
-    </message>
-    <message>
-        <source>Audio device</source>
-        <translation type="vanished">オーディオデバイス</translation>
-    </message>
-    <message>
-        <source>Average</source>
-        <translation type="vanished">Average</translation>
-    </message>
-    <message>
-        <source>Decay</source>
-        <translation type="vanished">減衰</translation>
-    </message>
-    <message>
-        <source>Radius</source>
-        <translation type="vanished">半径</translation>
-    </message>
-</context>
-<context>
-    <name>TabHeader</name>
-    <message>
-        <source>Form</source>
-        <translation type="vanished">フォーム</translation>
-    </message>
-</context>
-<context>
     <name>TabLabelUi</name>
     <message>
         <location filename="../TabLabel.ui" line="20"/>
@@ -2864,18 +1446,6 @@ Using an effect on a device WILL damage the flash or controller</source>
 </context>
 <context>
     <name>Ui::OpenRGBClientInfoPage</name>
-    <message>
-        <source>Connected Clients</source>
-        <translation type="vanished">Connected Clients</translation>
-    </message>
-    <message>
-        <source>Protocol Version</source>
-        <translation type="vanished">プロトコルバージョン</translation>
-    </message>
-    <message>
-        <source>Save Connection</source>
-        <translation type="vanished">Save Connection</translation>
-    </message>
     <message>
         <location filename="../OpenRGBClientInfoPage.cpp" line="167"/>
         <source>Disconnect</source>
@@ -3073,9 +1643,17 @@ Using an effect on a device WILL damage the flash or controller</source>
         <translation>一般設定</translation>
     </message>
     <message>
+        <source>DMX Devices</source>
+        <translation>DMXデバイス</translation>
+    </message>
+    <message>
         <location filename="../OpenRGBDialog.cpp" line="764"/>
         <source>E1.31 Devices</source>
         <translation>E1.31デバイス</translation>
+    </message>
+    <message>
+        <source>Kasa Smart Devices</source>
+        <translation>Kasa Smart デバイス</translation>
     </message>
     <message>
         <location filename="../OpenRGBDialog.cpp" line="792"/>
@@ -3219,10 +1797,6 @@ Using an effect on a device WILL damage the flash or controller</source>
         <translation>OpenRGB用プラグインをインストール</translation>
     </message>
     <message>
-        <source>Plugin files (*.dll; *.dylib; *.so; *.so.*)</source>
-        <translation type="vanished">プラグインファイル(*.dll; *.dylib; *.so; *.so.*)</translation>
-    </message>
-    <message>
         <location filename="../OpenRGBPluginsPage/OpenRGBPluginsPage.cpp" line="98"/>
         <source>Plugin files (*.dll *.dylib *.so *.so.*)</source>
         <translation>プラグインファイル (*.dll *.dylib *.so *.so.*)</translation>
@@ -3265,18 +1839,6 @@ Using an effect on a device WILL damage the flash or controller</source>
         <source>Offline</source>
         <translation>オフライン</translation>
     </message>
-    <message>
-        <source>Client IP</source>
-        <translation type="vanished">クライアントIP</translation>
-    </message>
-    <message>
-        <source>Protocol Version</source>
-        <translation type="vanished">プロトコルバージョン</translation>
-    </message>
-    <message>
-        <source>Client Name</source>
-        <translation type="vanished">クライアント名</translation>
-    </message>
 </context>
 <context>
     <name>Ui::OpenRGBSettingsPage</name>
@@ -3284,7 +1846,7 @@ Using an effect on a device WILL damage the flash or controller</source>
         <location filename="../OpenRGBSettingsPage.cpp" line="35"/>
         <location filename="../OpenRGBSettingsPage.cpp" line="41"/>
         <source>English - US</source>
-        <translation type="unfinished">日本語</translation>
+        <translation>日本語</translation>
     </message>
     <message>
         <location filename="../OpenRGBSettingsPage.cpp" line="45"/>
@@ -3331,193 +1893,6 @@ Using an effect on a device WILL damage the flash or controller</source>
         <location filename="../OpenRGBZonesBulkResizer.cpp" line="104"/>
         <source>Size</source>
         <translation>サイズ</translation>
-    </message>
-</context>
-<context>
-    <name>VirtualControllerTab</name>
-    <message>
-        <source>Form</source>
-        <translation type="vanished">フォーム</translation>
-    </message>
-    <message>
-        <source>Register controller</source>
-        <translation type="vanished">レジスターコントローラー</translation>
-    </message>
-    <message>
-        <source>Infos</source>
-        <translation type="vanished">Infos</translation>
-    </message>
-    <message>
-        <source>Save</source>
-        <translation type="vanished">保存</translation>
-    </message>
-    <message>
-        <source>Load</source>
-        <translation type="vanished">ロード</translation>
-    </message>
-    <message>
-        <source>Clear</source>
-        <translation type="vanished">クリア</translation>
-    </message>
-</context>
-<context>
-    <name>Wavy</name>
-    <message>
-        <source>Will affect how many waves you will see</source>
-        <translation type="vanished">波を見る回数に影響</translation>
-    </message>
-    <message>
-        <source>Wave frequency</source>
-        <translation type="vanished">ウエーブの頻度</translation>
-    </message>
-    <message>
-        <source>Will affect the wave speed (left to right)</source>
-        <translation type="vanished">波の速度に影響（左から右へ）</translation>
-    </message>
-    <message>
-        <source>Wave speed</source>
-        <translation type="vanished">波の速さ</translation>
-    </message>
-    <message>
-        <source>Will affect the wave duration</source>
-        <translation type="vanished">波の持続時間に影響</translation>
-    </message>
-    <message>
-        <source>Oscillation speed</source>
-        <translation type="vanished">発振速度</translation>
-    </message>
-</context>
-<context>
-    <name>WidgetEditor</name>
-    <message>
-        <source>Form</source>
-        <translation type="vanished">フォーム</translation>
-    </message>
-    <message>
-        <source>Width</source>
-        <translation type="vanished">Width</translation>
-    </message>
-    <message>
-        <source>Height</source>
-        <translation type="vanished">高さ</translation>
-    </message>
-    <message>
-        <source>LEDS</source>
-        <translation type="vanished">LEDS</translation>
-    </message>
-    <message>
-        <source>Undo</source>
-        <translation type="vanished">Undo</translation>
-    </message>
-    <message>
-        <source>Rotate</source>
-        <translation type="vanished">回転</translation>
-    </message>
-    <message>
-        <source>H-Flip</source>
-        <translation type="vanished">左右反転</translation>
-    </message>
-    <message>
-        <source>V-Flip</source>
-        <translation type="vanished">上下反転</translation>
-    </message>
-    <message>
-        <source>H-Line</source>
-        <translation type="vanished">H-Line</translation>
-    </message>
-    <message>
-        <source>V-Line</source>
-        <translation type="vanished">V-Line</translation>
-    </message>
-    <message>
-        <source>Square</source>
-        <translation type="vanished">正方形</translation>
-    </message>
-    <message>
-        <source>Circle</source>
-        <translation type="vanished">円形</translation>
-    </message>
-    <message>
-        <source>ZigZag</source>
-        <translation type="vanished">ジグザグ</translation>
-    </message>
-    <message>
-        <source>Sawtooth</source>
-        <translation type="vanished">Sawtooth</translation>
-    </message>
-    <message>
-        <source>Grow</source>
-        <translation type="vanished">グロー</translation>
-    </message>
-    <message>
-        <source>Shrink</source>
-        <translation type="vanished">縮小</translation>
-    </message>
-    <message>
-        <source>Auto resize</source>
-        <translation type="vanished">自動リサイズ</translation>
-    </message>
-    <message>
-        <source>Copy shape</source>
-        <translation type="vanished">形状コピー</translation>
-    </message>
-    <message>
-        <source>Identify</source>
-        <translation type="vanished">Identify</translation>
-    </message>
-    <message>
-        <source>Auto identify</source>
-        <translation type="vanished">Auto identify</translation>
-    </message>
-    <message>
-        <source>Reset</source>
-        <translation type="vanished">Reset</translation>
-    </message>
-    <message>
-        <source>Cancel</source>
-        <translation type="vanished">キャンセル</translation>
-    </message>
-    <message>
-        <source>Save</source>
-        <translation type="vanished">保存</translation>
-    </message>
-    <message>
-        <source>ZigZag size</source>
-        <translation type="vanished">ジグザグのサイズ</translation>
-    </message>
-    <message>
-        <source>Enter a value</source>
-        <translation type="vanished">数値入力</translation>
-    </message>
-    <message>
-        <source>Diagonal size</source>
-        <translation type="vanished">対角線サイズ</translation>
-    </message>
-</context>
-<context>
-    <name>ZigZag</name>
-    <message>
-        <source>Form</source>
-        <translation type="vanished">フォーム</translation>
-    </message>
-</context>
-<context>
-    <name>ZoneListItem</name>
-    <message>
-        <source>Form</source>
-        <translation type="vanished">フォーム</translation>
-    </message>
-    <message>
-        <source>TextLabel</source>
-        <translation type="vanished">TextLabel</translation>
-    </message>
-    <message>
-        <source>Enable</source>
-        <translation type="vanished">有効</translation>
-    </message>
-    <message>
-        <source>Reverse</source>
-        <translation type="vanished">反転</translation>
     </message>
 </context>
 </TS>
