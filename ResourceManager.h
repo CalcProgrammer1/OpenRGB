@@ -100,6 +100,16 @@ typedef void (*DetectionStartCallback)(void *);
 typedef void (*DetectionEndCallback)(void *);
 typedef void (*I2CBusListChangeCallback)(void *);
 
+/*-------------------------------------------------------------------------*\
+| Define a macro for QT lupdate to parse                                    |
+\*-------------------------------------------------------------------------*/
+#define QT_TRANSLATE_NOOP(scope, x) x
+
+extern const char* I2C_ERR_WIN;
+extern const char* I2C_ERR_LINUX;
+extern const char* UDEV_MISSING;
+extern const char* UDEV_MULTI;
+
 class ResourceManagerInterface
 {
 public:

@@ -1635,7 +1635,7 @@ void OpenRGBDialog::onShowDialogMessage()
 
     QMessageBox box;
 
-    box.setInformativeText(dialog_message);
+    box.setInformativeText(QCoreApplication::translate("ResourceManager", dialog_message.toUtf8()));
 
     QCheckBox* CheckBox_DontShowAgain = new QCheckBox("Don't show this message again");
 

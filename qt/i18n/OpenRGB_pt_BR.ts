@@ -27,10 +27,6 @@
         <translation>IP:</translation>
     </message>
     <message>
-        <source>Client info page</source>
-        <translation>Informação do client</translation>
-    </message>
-    <message>
         <source>Connected Clients</source>
         <translation type="unfinished">Client&apos;s conectados</translation>
     </message>
@@ -57,9 +53,51 @@
         <source>Clear log</source>
         <translation>Limpar Logs</translation>
     </message>
+</context>
+<context>
+    <name>OpenRGBDMXSettingsEntryUi</name>
     <message>
-        <source>Log console page</source>
-        <translation>Console Log</translation>
+        <source>Brightness Channel:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Blue Channel:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Name:</source>
+        <translation type="unfinished">Nome:</translation>
+    </message>
+    <message>
+        <source>Green Channel:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Red Channel:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Keepalive Time:</source>
+        <translation type="unfinished">Tempo de atividade:</translation>
+    </message>
+    <message>
+        <source>Port:</source>
+        <translation type="unfinished">Porta:</translation>
+    </message>
+</context>
+<context>
+    <name>OpenRGBDMXSettingsPageUi</name>
+    <message>
+        <source>Add</source>
+        <translation type="unfinished">Adicionar</translation>
+    </message>
+    <message>
+        <source>Remove</source>
+        <translation type="unfinished">Remover</translation>
+    </message>
+    <message>
+        <source>Save</source>
+        <translation type="unfinished">Salvar</translation>
     </message>
 </context>
 <context>
@@ -91,10 +129,6 @@
     <message>
         <source>Serial:</source>
         <translation>Número de série:</translation>
-    </message>
-    <message>
-        <source>Device info page</source>
-        <translation>Informações do dispositivo</translation>
     </message>
 </context>
 <context>
@@ -172,10 +206,6 @@
         <translation>Aplicar cores à seleção</translation>
     </message>
     <message>
-        <source>Resize</source>
-        <translation>Redimensionar</translation>
-    </message>
-    <message>
         <source>Mode:</source>
         <translation>Modo:</translation>
     </message>
@@ -188,8 +218,12 @@
         <translation>Salvar no dispositivo</translation>
     </message>
     <message>
-        <source>Device page</source>
-        <translation>Dispositivo</translation>
+        <source>Hex:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Edit</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -248,57 +282,6 @@
     </message>
 </context>
 <context>
-    <name>OpenRGBDialogUi</name>
-    <message>
-        <source>OpenRGB</source>
-        <translation>OpenRGB</translation>
-    </message>
-    <message>
-        <source>Device</source>
-        <translation>Dispositivo</translation>
-    </message>
-    <message>
-        <source>Red</source>
-        <translation>Vermelho</translation>
-    </message>
-    <message>
-        <source>Green</source>
-        <translation>Verde</translation>
-    </message>
-    <message>
-        <source>Blue</source>
-        <translation>Azul</translation>
-    </message>
-    <message>
-        <source>Mode</source>
-        <translation>Modo</translation>
-    </message>
-    <message>
-        <source>Set All</source>
-        <translation>Definir todos</translation>
-    </message>
-    <message>
-        <source>Set Device</source>
-        <translation>Definir dispositivo</translation>
-    </message>
-    <message>
-        <source>Zone</source>
-        <translation>Zona</translation>
-    </message>
-    <message>
-        <source>Set Zone</source>
-        <translation>Definir zona</translation>
-    </message>
-    <message>
-        <source>Set LED</source>
-        <translation>Definir LED</translation>
-    </message>
-    <message>
-        <source>LED</source>
-        <translation>LED</translation>
-    </message>
-</context>
-<context>
     <name>OpenRGBE131SettingsEntryUi</name>
     <message>
         <source>Start Channel:</source>
@@ -348,10 +331,6 @@
         <source>RGB Order:</source>
         <translation>Ordem do RGB:</translation>
     </message>
-    <message>
-        <source>E131 settings entry</source>
-        <translation>Entrada E1.31</translation>
-    </message>
 </context>
 <context>
     <name>OpenRGBE131SettingsPageUi</name>
@@ -367,17 +346,9 @@
         <source>Save</source>
         <translation>Salvar</translation>
     </message>
-    <message>
-        <source>E131 settings page</source>
-        <translation>Ajustes E1.31</translation>
-    </message>
 </context>
 <context>
     <name>OpenRGBElgatoKeyLightSettingsEntryUi</name>
-    <message>
-        <source>Dialog</source>
-        <translation type="unfinished"></translation>
-    </message>
     <message>
         <source>IP:</source>
         <translation type="unfinished">IP:</translation>
@@ -385,10 +356,6 @@
 </context>
 <context>
     <name>OpenRGBElgatoKeyLightSettingsPageUi</name>
-    <message>
-        <source>Dialog</source>
-        <translation type="unfinished"></translation>
-    </message>
     <message>
         <source>Add</source>
         <translation type="unfinished">Adicionar</translation>
@@ -405,10 +372,6 @@
 <context>
     <name>OpenRGBElgatoLightStripSettingsEntryUi</name>
     <message>
-        <source>Dialog</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>IP:</source>
         <translation type="unfinished">IP:</translation>
     </message>
@@ -416,9 +379,54 @@
 <context>
     <name>OpenRGBElgatoLightStripSettingsPageUi</name>
     <message>
-        <source>Dialog</source>
+        <source>Add</source>
+        <translation type="unfinished">Adicionar</translation>
+    </message>
+    <message>
+        <source>Remove</source>
+        <translation type="unfinished">Remover</translation>
+    </message>
+    <message>
+        <source>Save</source>
+        <translation type="unfinished">Salvar</translation>
+    </message>
+</context>
+<context>
+    <name>OpenRGBHardwareIDsDialogUi</name>
+    <message>
+        <source>Hardware IDs</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Copy to clipboard</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Location</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Device</source>
+        <translation type="unfinished">Dispositivo</translation>
+    </message>
+    <message>
+        <source>Vendor</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>OpenRGBKasaSmartSettingsEntryUi</name>
+    <message>
+        <source>IP:</source>
+        <translation type="unfinished">IP:</translation>
+    </message>
+    <message>
+        <source>Name</source>
+        <translation type="unfinished">Nome</translation>
+    </message>
+</context>
+<context>
+    <name>OpenRGBKasaSmartSettingsPageUi</name>
     <message>
         <source>Add</source>
         <translation type="unfinished">Adicionar</translation>
@@ -435,10 +443,6 @@
 <context>
     <name>OpenRGBLIFXSettingsEntryUi</name>
     <message>
-        <source>Form</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>IP:</source>
         <translation type="unfinished">IP:</translation>
     </message>
@@ -449,10 +453,6 @@
 </context>
 <context>
     <name>OpenRGBLIFXSettingsPageUi</name>
-    <message>
-        <source>Form</source>
-        <translation type="unfinished"></translation>
-    </message>
     <message>
         <source>Add</source>
         <translation type="unfinished">Adicionar</translation>
@@ -467,11 +467,22 @@
     </message>
 </context>
 <context>
-    <name>OpenRGBNanoleafSettingsEntryUi</name>
+    <name>OpenRGBNanoleafNewDeviceDialogUi</name>
     <message>
-        <source>Form</source>
+        <source>New Nanoleaf device</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>IP address:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Port:</source>
+        <translation type="unfinished">Porta:</translation>
+    </message>
+</context>
+<context>
+    <name>OpenRGBNanoleafSettingsEntryUi</name>
     <message>
         <source>IP:</source>
         <translation type="unfinished">IP:</translation>
@@ -496,16 +507,20 @@
 <context>
     <name>OpenRGBNanoleafSettingsPageUi</name>
     <message>
-        <source>Form</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Scan</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <source>To pair, hold the on-off button down for 5-7 seconds until the LED starts flashing in a pattern, then click the &quot;Pair&quot; button within 30 seconds.</source>
         <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add</source>
+        <translation type="unfinished">Adicionar</translation>
+    </message>
+    <message>
+        <source>Remove</source>
+        <translation type="unfinished">Remover</translation>
     </message>
 </context>
 <context>
@@ -535,14 +550,6 @@
         <translation>MAC:</translation>
     </message>
     <message>
-        <source>Philips Hue settings entry</source>
-        <translation type="vanished">Ajustes de entrada Philips Hue</translation>
-    </message>
-    <message>
-        <source>Form</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Auto Connect Group:</source>
         <translation type="unfinished"></translation>
     </message>
@@ -565,10 +572,6 @@
         <source>After adding a Hue entry and saving, restart OpenRGB and press the Sync button on your Hue bridge to pair it.</source>
         <translation>Depois de adicionar e salvar uma entrada Hue, reinicie o OpenRGB e pressione o botão de sincronização em sua ponte Hue para emparelhá-los.</translation>
     </message>
-    <message>
-        <source>Philips Hue settings page</source>
-        <translation>Ajustes Philips Hue</translation>
-    </message>
 </context>
 <context>
     <name>OpenRGBPhilipsWizSettingsEntryUi</name>
@@ -577,8 +580,16 @@
         <translation>IP:</translation>
     </message>
     <message>
-        <source>Philips WIZ settings entry</source>
-        <translation>Entrada Philips WIZ</translation>
+        <source>Use Cool White</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Use Warm White</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>White Strategy:</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -594,17 +605,6 @@
     <message>
         <source>Save</source>
         <translation>Salvar</translation>
-    </message>
-    <message>
-        <source>Philips WIZ settings page</source>
-        <translation>Ajustes Philips WIZ</translation>
-    </message>
-</context>
-<context>
-    <name>OpenRGBPluginContainerUi</name>
-    <message>
-        <source>Plugin container</source>
-        <translation>Plug-ins</translation>
     </message>
 </context>
 <context>
@@ -638,12 +638,12 @@
         <translation>Commit:</translation>
     </message>
     <message>
-        <source>Icon</source>
-        <translation>Ícone</translation>
+        <source>API Version:</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Plugins entry</source>
-        <translation>Plugin</translation>
+        <source>API Version Value</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -657,10 +657,6 @@
         <translation>Remover plugin</translation>
     </message>
     <message>
-        <source>Plugins page</source>
-        <translation>Plugins</translation>
-    </message>
-    <message>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;Looking for plugins? See the official list at &lt;a href=&quot;https://openrgb.org/plugins.html&quot;&gt;OpenRGB.org&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation type="unfinished"></translation>
     </message>
@@ -672,8 +668,12 @@
         <translation>Nome do perfil</translation>
     </message>
     <message>
-        <source>New Profile Name:</source>
-        <translation>Novo nome de perfil:</translation>
+        <source>Save to an existing profile:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Create a new profile:</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -690,10 +690,6 @@
         <source>USB VID:</source>
         <translation>USB VID:</translation>
     </message>
-    <message>
-        <source>QMK settings entry</source>
-        <translation>Entrada QMK</translation>
-    </message>
 </context>
 <context>
     <name>OpenRGBQMKORGBSettingsPageUi</name>
@@ -708,10 +704,6 @@
     <message>
         <source>Save</source>
         <translation>Salvar</translation>
-    </message>
-    <message>
-        <source>QMK Settings page</source>
-        <translation>Ajustes QMK</translation>
     </message>
 </context>
 <context>
@@ -736,10 +728,6 @@
         <source>Protocol:</source>
         <translation>Protocolo:</translation>
     </message>
-    <message>
-        <source>Serial settings entry</source>
-        <translation>Entrada serial</translation>
-    </message>
 </context>
 <context>
     <name>OpenRGBSerialSettingsPageUi</name>
@@ -754,10 +742,6 @@
     <message>
         <source>Save</source>
         <translation>Salvar</translation>
-    </message>
-    <message>
-        <source>Serial settings page</source>
-        <translation>Ajustes serial</translation>
     </message>
 </context>
 <context>
@@ -785,10 +769,6 @@
     <message>
         <source>Connected Clients:</source>
         <translation>Client&apos;s conectados:</translation>
-    </message>
-    <message>
-        <source>Server info page</source>
-        <translation>Informação do servidor</translation>
     </message>
     <message>
         <source>Server Host:</source>
@@ -902,10 +882,6 @@
         <translation>Abrir a pasta de ajustes</translation>
     </message>
     <message>
-        <source>Settings page</source>
-        <translation>Ajustes</translation>
-    </message>
-    <message>
         <source>Shared SMBus Access (restart required)</source>
         <translation type="unfinished"></translation>
     </message>
@@ -915,6 +891,30 @@
     </message>
     <message>
         <source>Language</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Disable key expansion in device view</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Hex Format</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Show LED view by default</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Set Profile on Suspend</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Set Profile on Resume</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Enable Log File (restart required)</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -957,16 +957,16 @@
         <translation>&lt;a href=&quot;https://gitlab.com/CalcProgrammer1/OpenRGB&quot;&gt;https://gitlab.com/CalcProgrammer1/OpenRGB&lt;/a&gt;</translation>
     </message>
     <message>
-        <source>Software info page</source>
-        <translation>Informação do Software</translation>
+        <source>SDK Version:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Plugin API Version:</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>OpenRGBSupportedDevicesPageUi</name>
-    <message>
-        <source>Supported devices</source>
-        <translation>Dispositivos suportados</translation>
-    </message>
     <message>
         <source>Filter:</source>
         <translation>Filtro:</translation>
@@ -978,6 +978,10 @@
     <message>
         <source>Apply changes</source>
         <translation>Aplicar alterações</translation>
+    </message>
+    <message>
+        <source>Get hardware IDs</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1034,10 +1038,6 @@
         <source>Size:</source>
         <translation>Tamanho:</translation>
     </message>
-    <message>
-        <source>System info page</source>
-        <translation>Informação do sistema</translation>
-    </message>
 </context>
 <context>
     <name>OpenRGBYeelightSettingsEntryUi</name>
@@ -1061,10 +1061,6 @@
         <source>Left blank for auto discovering host ip</source>
         <translation>Deixe em branco para detecção automática de IP do host</translation>
     </message>
-    <message>
-        <source>Yeelight settings entry</source>
-        <translation>Entrada Yeelight</translation>
-    </message>
 </context>
 <context>
     <name>OpenRGBYeelightSettingsPageUi</name>
@@ -1080,10 +1076,6 @@
         <source>Save</source>
         <translation>Salvar</translation>
     </message>
-    <message>
-        <source>Yeelight settings page</source>
-        <translation>Ajustes Yeelight</translation>
-    </message>
 </context>
 <context>
     <name>OpenRGBZoneResizeDialogUi</name>
@@ -1091,13 +1083,21 @@
         <source>Resize Zone</source>
         <translation>Redimensionar zona</translation>
     </message>
+    <message>
+        <source>Add Segment</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Remove Segment</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Length</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>OpenRGBZonesBulkResizerUi</name>
-    <message>
-        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;One or more resizable zones have not been configured.  Resizable zones are most commonly used for addressable RGB headers where the size of the connected device cannot be detected automatically.&lt;/p&gt;&lt;p&gt;Please enter the number of LEDs in each zone below.&lt;/p&gt;&lt;p&gt;For more information about calcuating the correct size, please check &lt;a href=&quot;https://openrgb.org/resize&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;this link.&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Uma ou mais zonas não foram configuradas.  As zonas redimensionáveis são mais comumente usadas para headers RGB endereçáveis onde o tamanho do dispositivo conectado não pode ser detectado automaticamente.&lt;/p&gt;&lt;p&gt;Insira o número de LEDs em cada zona abaixo.&lt;/p&gt;&lt;p&gt;Para obter mais informações sobre como calcular o tamanho correto, verifique &lt;a href=&quot;https://openrgb.org/resize&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;diesem Link.&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
-    </message>
     <message>
         <source>Do not show again</source>
         <translation>Não mostrar novamente</translation>
@@ -1111,8 +1111,31 @@
         <translation>Ignorar</translation>
     </message>
     <message>
-        <source>Zones resizer</source>
-        <translation>Redimensionador de zonas</translation>
+        <source>Zones Resizer</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;One or more resizable zones have not been configured.  Resizable zones are most commonly used for addressable RGB headers where the size of the connected device cannot be detected automatically.&lt;/p&gt;&lt;p&gt;Please enter the number of LEDs in each zone below.&lt;/p&gt;&lt;p&gt;For more information about calcuating the correct size, please check &lt;a href=&quot;https://openrgb.org/resize.html&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;this link.&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>ResourceManager</name>
+    <message>
+        <source>&lt;h2&gt;Some internal devices may not be detected:&lt;/h2&gt;&lt;p&gt;One or more I2C or SMBus interfaces failed to initialize.&lt;/p&gt;&lt;p&gt;&lt;b&gt;RGB DRAM modules, some motherboards&apos; onboard RGB lighting, and RGB Graphics Cards, will not be available in OpenRGB&lt;/b&gt; without I2C or SMBus.&lt;/p&gt;&lt;h4&gt;How to fix this:&lt;/h4&gt;&lt;p&gt;On Windows, this is usually caused by a failure to load the WinRing0 driver.&lt;/p&gt;&lt;p&gt;You must run OpenRGB as administrator at least once to allow WinRing0 to set up.&lt;/p&gt;&lt;p&gt;See &lt;a href=&apos;https://help.openrgb.org/&apos;&gt;help.openrgb.org&lt;/a&gt; for additional troubleshooting steps if you keep seeing this message.&lt;br&gt;&lt;/p&gt;&lt;h3&gt;If you are not using internal RGB on a desktop this message is not important to you.&lt;/h3&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;h2&gt;Some internal devices may not be detected:&lt;/h2&gt;&lt;p&gt;One or more I2C or SMBus interfaces failed to initialize.&lt;/p&gt;&lt;p&gt;&lt;b&gt;RGB DRAM modules, some motherboards&apos; onboard RGB lighting, and RGB Graphics Cards, will not be available in OpenRGB&lt;/b&gt; without I2C or SMBus.&lt;/p&gt;&lt;h4&gt;How to fix this:&lt;/h4&gt;&lt;p&gt;On Linux, this is usually because the i2c-dev module is not loaded.&lt;/p&gt;&lt;p&gt;You must load the i2c-dev module along with the correct i2c driver for your motherboard. This is usually i2c-piix4 for AMD systems and i2c-i801 for Intel systems.&lt;/p&gt;&lt;p&gt;See &lt;a href=&apos;https://help.openrgb.org/&apos;&gt;help.openrgb.org&lt;/a&gt; for additional troubleshooting steps if you keep seeing this message.&lt;br&gt;&lt;/p&gt;&lt;h3&gt;If you are not using internal RGB on a desktop this message is not important to you.&lt;/h3&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;h2&gt;WARNING:&lt;/h2&gt;&lt;p&gt;The OpenRGB udev rules are not installed.&lt;/p&gt;&lt;p&gt;Most devices will not be available unless running OpenRGB as root.&lt;/p&gt;&lt;p&gt;If using AppImage, Flatpak, or self-compiled versions of OpenRGB you must install the udev rules manually&lt;/p&gt;&lt;p&gt;See &lt;a href=&apos;https://openrgb.org/udev&apos;&gt;https://openrgb.org/udev&lt;/a&gt; to install the udev rules manually&lt;/p&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;h2&gt;WARNING:&lt;/h2&gt;&lt;p&gt;Multiple OpenRGB udev rules are installed.&lt;/p&gt;&lt;p&gt;The udev rules file 60-openrgb.rules is installed in both /etc/udev/rules.d and /usr/lib/udev/rules.d.&lt;/p&gt;&lt;p&gt;Multiple udev rules files can conflict, it is recommended to remove one of them.&lt;/p&gt;</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1121,25 +1144,9 @@
         <source>device name</source>
         <translation>Nome do dispositivo</translation>
     </message>
-    <message>
-        <source>Tab Label</source>
-        <translation>Etiqueta da guia</translation>
-    </message>
 </context>
 <context>
     <name>Ui::OpenRGBClientInfoPage</name>
-    <message>
-        <source>Connected Clients</source>
-        <translation type="vanished">Client&apos;s conectados</translation>
-    </message>
-    <message>
-        <source>Protocol Version</source>
-        <translation type="vanished">Versão do protocolo</translation>
-    </message>
-    <message>
-        <source>Save Connection</source>
-        <translation type="vanished">Salvar conexão</translation>
-    </message>
     <message>
         <source>Disconnect</source>
         <translation>Desconectar</translation>
@@ -1230,6 +1237,10 @@
     <message>
         <source>Mode Specific</source>
         <translation>Modo específico</translation>
+    </message>
+    <message>
+        <source>Entire Segment</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1359,8 +1370,16 @@
         <source>Elgato KeyLight Devices</source>
         <translation type="unfinished"></translation>
     </message>
-	<message>
+    <message>
         <source>Elgato LightStrip Devices</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>DMX Devices</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Kasa Smart Devices</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1412,6 +1431,17 @@
     </message>
 </context>
 <context>
+    <name>Ui::OpenRGBPhilipsWizSettingsEntry</name>
+    <message>
+        <source>Average</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Minimum</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>Ui::OpenRGBPluginsPage</name>
     <message>
         <source>Install OpenRGB Plugin</source>
@@ -1437,6 +1467,14 @@
         <source>Are you sure you want to remove this plugin?</source>
         <translation>Tem certeza de que deseja remover este plugin?</translation>
     </message>
+    <message>
+        <source>Restart Needed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The plugin will be fully removed after restarting OpenRGB.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>Ui::OpenRGBServerInfoPage</name>
@@ -1451,18 +1489,6 @@
     <message>
         <source>Offline</source>
         <translation>Offline</translation>
-    </message>
-    <message>
-        <source>Client IP</source>
-        <translation type="vanished">IP do Client</translation>
-    </message>
-    <message>
-        <source>Protocol Version</source>
-        <translation type="vanished">Versão do protocolo</translation>
-    </message>
-    <message>
-        <source>Client Name</source>
-        <translation type="vanished">Nome do client</translation>
     </message>
 </context>
 <context>
