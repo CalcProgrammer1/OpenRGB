@@ -336,6 +336,10 @@ void RGBController_NZXTHue2::SetupZones()
                 device_name = "F360 Core fan case version (360mm)";
                 break;
 
+            case 0x1E: //Kraken Elite Ring
+                device_name = "Kraken Elite Ring";
+                break;
+
             default:
                 break;
             }

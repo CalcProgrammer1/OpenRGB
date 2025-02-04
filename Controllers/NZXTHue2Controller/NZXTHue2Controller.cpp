@@ -232,6 +232,10 @@ void NZXTHue2Controller::UpdateDeviceList()
                 num_leds_in_device = 24;
                 break;
 
+            case 0x1E: //Kraken Elite Ring
+                num_leds_in_device = 24;
+                break;
+
             default:
                 break;
             }
