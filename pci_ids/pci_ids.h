@@ -726,6 +726,7 @@
 #define MSI_RTX4090_SUPRIM_LIQUID_X_SUB_DEV             0x5104
 #define MSI_RTX4090_SUPRIM_X_SUB_DEV                    0x5102
 #define MSI_RX6600XT_GAMING_X_SUB_DEV                   0x5020
+#define MSI_RX6650XT_GAMING_X_SUB_DEV                   0x5026
 #define MSI_RX6700XT_GAMING_X_SUB_DEV                   0x3981
 #define MSI_RX6750XT_GAMING_X_TRIO_SUB_DEV              0x3990
 #define MSI_RX6800_GAMING_Z_TRIO_V1_SUB_DEV             0x3956

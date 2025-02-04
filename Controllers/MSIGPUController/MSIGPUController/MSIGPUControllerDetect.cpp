@@ -113,6 +113,7 @@ REGISTER_I2C_PCI_DETECTOR("MSI GeForce RTX 3090 Ti Gaming X Trio",          Dete
 \*-----------------------------------------*/
 
 REGISTER_I2C_PCI_DETECTOR("MSI Radeon RX 6600 XT Gaming X",                 DetectMSIGPUControllers,    AMD_GPU_VEN,    AMD_NAVI23_DEV,             MSI_SUB_VEN,    MSI_RX6600XT_GAMING_X_SUB_DEV,          0x68);
+REGISTER_I2C_PCI_DETECTOR("MSI Radeon RX 6650 XT Gaming X",                 DetectMSIGPUControllers,    AMD_GPU_VEN,    AMD_NAVI23_DEV1,            MSI_SUB_VEN,    MSI_RX6650XT_GAMING_X_SUB_DEV,          0x68);
 REGISTER_I2C_PCI_DETECTOR("MSI Radeon RX 6700 XT Gaming X",                 DetectMSIGPUControllers,    AMD_GPU_VEN,    AMD_NAVI22_DEV,             MSI_SUB_VEN,    MSI_RX6700XT_GAMING_X_SUB_DEV,          0x68);
 REGISTER_I2C_PCI_DETECTOR("MSI Radeon RX 6750 XT Gaming X Trio",            DetectMSIGPUControllers,    AMD_GPU_VEN,    AMD_NAVI22_DEV,             MSI_SUB_VEN,    MSI_RX6750XT_GAMING_X_TRIO_SUB_DEV,     0x68);
 REGISTER_I2C_PCI_DETECTOR("MSI Radeon RX 6800 Gaming Z Trio v1",            DetectMSIGPUControllers,    AMD_GPU_VEN,    AMD_NAVI21_DEV1,            MSI_SUB_VEN,    MSI_RX6800_GAMING_Z_TRIO_V1_SUB_DEV,    0x68);
