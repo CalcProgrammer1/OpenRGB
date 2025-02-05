@@ -24,7 +24,7 @@
     </message>
     <message>
         <source>IP:</source>
-        <translation></translation>
+        <translation>IP:</translation>
     </message>
     <message>
         <source>Connected Clients</source>
@@ -66,7 +66,7 @@
     </message>
     <message>
         <source>Name:</source>
-        <translation type="unfinished">名前:</translation>
+        <translation>名前:</translation>
     </message>
     <message>
         <source>Green Channel:</source>
@@ -82,7 +82,7 @@
     </message>
     <message>
         <source>Port:</source>
-        <translation type="unfinished">ポート:</translation>
+        <translation>ポート:</translation>
     </message>
 </context>
 <context>
@@ -155,7 +155,7 @@
     </message>
     <message>
         <source>LED:</source>
-        <translation></translation>
+        <translation>LED:</translation>
     </message>
     <message>
         <source>Mode-Specific</source>
@@ -167,7 +167,7 @@
     </message>
     <message>
         <source>Dir:</source>
-        <translation></translation>
+        <translation>Dir:</translation>
     </message>
     <message>
         <source>S:</source>
@@ -219,11 +219,11 @@
     </message>
     <message>
         <source>Hex:</source>
-        <translation type="unfinished"></translation>
+        <translation>Hex:</translation>
     </message>
     <message>
         <source>Edit</source>
-        <translation type="unfinished"></translation>
+        <translation>編集</translation>
     </message>
 </context>
 <context>
@@ -351,7 +351,7 @@
     <name>OpenRGBElgatoKeyLightSettingsEntryUi</name>
     <message>
         <source>IP:</source>
-        <translation type="unfinished"></translation>
+        <translation>IP:</translation>
     </message>
 </context>
 <context>
@@ -373,7 +373,7 @@
     <name>OpenRGBElgatoLightStripSettingsEntryUi</name>
     <message>
         <source>IP:</source>
-        <translation type="unfinished"></translation>
+        <translation>IP:</translation>
     </message>
 </context>
 <context>
@@ -395,34 +395,34 @@
     <name>OpenRGBHardwareIDsDialogUi</name>
     <message>
         <source>Hardware IDs</source>
-        <translation type="unfinished"></translation>
+        <translation>ハードウェアID</translation>
     </message>
     <message>
         <source>Copy to clipboard</source>
-        <translation type="unfinished"></translation>
+        <translation>クリップボードにコピー</translation>
     </message>
     <message>
         <source>Location</source>
-        <translation type="unfinished"></translation>
+        <translation>位置</translation>
     </message>
     <message>
         <source>Device</source>
-        <translation type="unfinished">デバイス</translation>
+        <translation>デバイス</translation>
     </message>
     <message>
         <source>Vendor</source>
-        <translation type="unfinished"></translation>
+        <translation>ベンダー</translation>
     </message>
 </context>
 <context>
     <name>OpenRGBKasaSmartSettingsEntryUi</name>
     <message>
         <source>IP:</source>
-        <translation type="unfinished"></translation>
+        <translation>IP:</translation>
     </message>
     <message>
         <source>Name</source>
-        <translation type="unfinished">名前</translation>
+        <translation>名前</translation>
     </message>
 </context>
 <context>
@@ -444,7 +444,7 @@
     <name>OpenRGBLIFXSettingsEntryUi</name>
     <message>
         <source>IP:</source>
-        <translation></translation>
+        <translation>IP:</translation>
     </message>
     <message>
         <source>Name</source>
@@ -470,22 +470,22 @@
     <name>OpenRGBNanoleafNewDeviceDialogUi</name>
     <message>
         <source>New Nanoleaf device</source>
-        <translation type="unfinished"></translation>
+        <translation>新しいNanoleafデバイス</translation>
     </message>
     <message>
         <source>IP address:</source>
-        <translation type="unfinished"></translation>
+        <translation>IPアドレス:</translation>
     </message>
     <message>
         <source>Port:</source>
-        <translation type="unfinished">ポート:</translation>
+        <translation>ポート:</translation>
     </message>
 </context>
 <context>
     <name>OpenRGBNanoleafSettingsEntryUi</name>
     <message>
         <source>IP:</source>
-        <translation></translation>
+        <translation>IP:</translation>
     </message>
     <message>
         <source>Port:</source>
@@ -535,7 +535,7 @@
     </message>
     <message>
         <source>IP:</source>
-        <translation></translation>
+        <translation>IP:</translation>
     </message>
     <message>
         <source>Client Key:</source>
@@ -547,7 +547,7 @@
     </message>
     <message>
         <source>MAC:</source>
-        <translation></translation>
+        <translation>MAC:</translation>
     </message>
     <message>
         <source>Unpair Bridge</source>
@@ -577,7 +577,7 @@
     <name>OpenRGBPhilipsWizSettingsEntryUi</name>
     <message>
         <source>IP:</source>
-        <translation></translation>
+        <translation>IP:</translation>
     </message>
     <message>
         <source>Use Cool White</source>
@@ -623,7 +623,7 @@
     </message>
     <message>
         <source>URL:</source>
-        <translation></translation>
+        <translation>URL:</translation>
     </message>
     <message>
         <source>Path:</source>
@@ -639,11 +639,11 @@
     </message>
     <message>
         <source>API Version:</source>
-        <translation type="unfinished"></translation>
+        <translation>APIバージョン:</translation>
     </message>
     <message>
         <source>API Version Value</source>
-        <translation type="unfinished"></translation>
+        <translation>APIバージョン番号</translation>
     </message>
 </context>
 <context>
@@ -669,11 +669,11 @@
     </message>
     <message>
         <source>Save to an existing profile:</source>
-        <translation type="unfinished"></translation>
+        <translation>既存プロファイルへ保存:</translation>
     </message>
     <message>
         <source>Create a new profile:</source>
-        <translation type="unfinished"></translation>
+        <translation>新規プロファイル作成:</translation>
     </message>
 </context>
 <context>
@@ -684,11 +684,11 @@
     </message>
     <message>
         <source>USB PID:</source>
-        <translation></translation>
+        <translation>USB PID:</translation>
     </message>
     <message>
         <source>USB VID:</source>
-        <translation></translation>
+        <translation>USB VID:</translation>
     </message>
 </context>
 <context>
@@ -772,7 +772,7 @@
     </message>
     <message>
         <source>Server Host:</source>
-        <translation type="unfinished">サーバーホスト:</translation>
+        <translation>サーバーホスト:</translation>
     </message>
     <message>
         <source>Server Status:</source>
@@ -807,7 +807,7 @@
     </message>
     <message>
         <source>90000</source>
-        <translation></translation>
+        <translation>90000</translation>
     </message>
     <message>
         <source>Start Server</source>
@@ -827,7 +827,7 @@
     </message>
     <message>
         <source>Start At Login Settings:</source>
-        <translation>Start At Login Settings:</translation>
+        <translation>ログイン時に起動設定:</translation>
     </message>
     <message>
         <source>Log Manager Settings:</source>
@@ -851,7 +851,7 @@
     </message>
     <message>
         <source>Set Server Host</source>
-        <translation type="unfinished"></translation>
+        <translation>サーバーホストを設定</translation>
     </message>
     <message>
         <source>Set Server Port</source>
@@ -899,23 +899,23 @@
     </message>
     <message>
         <source>Disable key expansion in device view</source>
-        <translation type="unfinished"></translation>
+        <translation>デバイスビューでキー拡張を無効にする</translation>
     </message>
     <message>
         <source>Hex Format</source>
-        <translation type="unfinished"></translation>
+        <translation>Hex フォーマット</translation>
     </message>
     <message>
         <source>Show LED view by default</source>
-        <translation type="unfinished"></translation>
+        <translation>デフォルトでLEDビューを表示する</translation>
     </message>
     <message>
         <source>Set Profile on Suspend</source>
-        <translation type="unfinished"></translation>
+        <translation>スリープ時にプロファイルをセット</translation>
     </message>
     <message>
         <source>Set Profile on Resume</source>
-        <translation type="unfinished"></translation>
+        <translation>復帰時にプロファイルをセット</translation>
     </message>
 </context>
 <context>
@@ -958,11 +958,11 @@
     </message>
     <message>
         <source>SDK Version:</source>
-        <translation type="unfinished"></translation>
+        <translation>SDKバージョン:</translation>
     </message>
     <message>
         <source>Plugin API Version:</source>
-        <translation type="unfinished"></translation>
+        <translation>Plugin APIバージョン:</translation>
     </message>
 </context>
 <context>
@@ -981,7 +981,7 @@
     </message>
     <message>
         <source>Get hardware IDs</source>
-        <translation type="unfinished"></translation>
+        <translation>ハードウェアIDを取得"</translation>
     </message>
 </context>
 <context>
@@ -1000,11 +1000,11 @@
     </message>
     <message>
         <source>SMBus Dumper:</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>0x</source>
-        <translation></translation>
+        <translation>0x</translation>
     </message>
     <message>
         <source>SMBus Detector:</source>
@@ -1043,11 +1043,11 @@
     <name>OpenRGBYeelightSettingsEntryUi</name>
     <message>
         <source>IP:</source>
-        <translation></translation>
+        <translation>IP:</translation>
     </message>
     <message>
         <source>?</source>
-        <translation></translation>
+        <translation>?</translation>
     </message>
     <message>
         <source>Music Mode:</source>
@@ -1085,15 +1085,15 @@
     </message>
     <message>
         <source>Add Segment</source>
-        <translation type="unfinished"></translation>
+        <translation>セグメントを追加</translation>
     </message>
     <message>
         <source>Remove Segment</source>
-        <translation type="unfinished"></translation>
+        <translation>セグメントを削除</translation>
     </message>
     <message>
         <source>Length</source>
-        <translation type="unfinished"></translation>
+        <translation>長さ</translation>
     </message>
 </context>
 <context>
@@ -1112,7 +1112,7 @@
     </message>
     <message>
         <source>Zones Resizer</source>
-        <translation type="unfinished"></translation>
+        <translation>ゾーンリサイザー</translation>
     </message>
     <message>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;One or more resizable zones have not been configured.  Resizable zones are most commonly used for addressable RGB headers where the size of the connected device cannot be detected automatically.&lt;/p&gt;&lt;p&gt;Please enter the number of LEDs in each zone below.&lt;/p&gt;&lt;p&gt;For more information about calcuating the correct size, please check &lt;a href=&quot;https://openrgb.org/resize.html&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;this link.&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
@@ -1240,7 +1240,7 @@
     </message>
     <message>
         <source>Entire Segment</source>
-        <translation type="unfinished"></translation>
+        <translation>セグメント全体</translation>
     </message>
 </context>
 <context>
@@ -1291,7 +1291,7 @@
     </message>
     <message>
         <source>Exit</source>
-        <translation>Exit</translation>
+        <translation>終了</translation>
     </message>
     <message>
         <source>Plugins</source>
@@ -1433,11 +1433,11 @@
     <name>Ui::OpenRGBPhilipsWizSettingsEntry</name>
     <message>
         <source>Average</source>
-        <translation type="unfinished"></translation>
+        <translation>平均 </translation>
     </message>
     <message>
         <source>Minimum</source>
-        <translation type="unfinished"></translation>
+        <translation>最小限</translation>
     </message>
 </context>
 <context>
@@ -1468,11 +1468,11 @@
     </message>
     <message>
         <source>Restart Needed</source>
-        <translation type="unfinished"></translation>
+        <translation>再起動が必要</translation>
     </message>
     <message>
         <source>The plugin will be fully removed after restarting OpenRGB.</source>
-        <translation type="unfinished"></translation>
+        <translation>OpenRGB を再起動すると、プラグインは完全に削除されます。</translation>
     </message>
 </context>
 <context>
