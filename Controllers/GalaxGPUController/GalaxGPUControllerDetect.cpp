@@ -30,7 +30,7 @@ bool TestForGalaxGPUController(i2c_smbus_interface* bus, unsigned char address)
     unsigned char res  = bus->i2c_smbus_read_byte_data(address, 0x00);
     unsigned char res2 = bus->i2c_smbus_read_byte_data(address, 0x01);
 
-    if((res == 0x27 || res == 0x26) && res2 == 0x10)
+    if((res == 0x27 || res == 0x26) && (res2 == 0x10 || res2 == 0x20))
     {
         pass = true;
     }
