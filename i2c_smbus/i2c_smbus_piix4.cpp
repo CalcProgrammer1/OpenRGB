@@ -13,10 +13,16 @@
 #include "Detector.h"
 #include "i2c_smbus_piix4.h"
 #include "LogManager.h"
+#ifdef _WIN32
 #include "OlsApi.h"
+#include "wmi.h"
+#elif _MACOSX_X86_X64
+#include <unistd.h>
+#include "macUSPCIOAccess.h"
+#include "pci_ids.h"
+#endif
 #include "ResourceManager.h"
 #include "SettingsManager.h"
-#include "wmi.h"
 
 i2c_smbus_piix4::i2c_smbus_piix4()
 {
@@ -27,6 +33,7 @@ i2c_smbus_piix4::i2c_smbus_piix4()
     {
         amd_smbus_reduce_cpu = drivers_settings["amd_smbus_reduce_cpu"].get<bool>();
     }
+#ifdef _WIN32
     if(amd_smbus_reduce_cpu)
     {
         delay_timer = CreateWaitableTimerExW(NULL, NULL, CREATE_WAITABLE_TIMER_MANUAL_RESET | CREATE_WAITABLE_TIMER_HIGH_RESOLUTION, TIMER_ALL_ACCESS);
@@ -45,10 +52,14 @@ i2c_smbus_piix4::i2c_smbus_piix4()
     {
         global_smbus_access_handle = CreateMutexA(NULL, FALSE, GLOBAL_SMBUS_MUTEX_NAME);
     }
+#else
+    delay_timer = amd_smbus_reduce_cpu;
+#endif
 }
 
 i2c_smbus_piix4::~i2c_smbus_piix4()
 {
+#ifdef _WIN32
     if(delay_timer != NULL)
     {
         CloseHandle(delay_timer);
@@ -58,6 +69,7 @@ i2c_smbus_piix4::~i2c_smbus_piix4()
     {
         CloseHandle(global_smbus_access_handle);
     }
+#endif
 }
 
 //Logic adapted from piix4_transaction() in i2c-piix4.c
@@ -88,6 +100,7 @@ int i2c_smbus_piix4::piix4_transaction()
 
     /* We will always wait for a fraction of a second! (See PIIX4 docs errata) */
     temp = 0;
+#ifdef _WIN32
     if(delay_timer != NULL)
     {
         LARGE_INTEGER retry_delay;
@@ -104,6 +117,16 @@ int i2c_smbus_piix4::piix4_transaction()
             WaitForSingleObject(delay_timer, INFINITE);
         }
     }
+#else
+    if(delay_timer)
+    {
+        while ((++timeout < MAX_TIMEOUT) && temp <= 1)
+        {
+            temp = ReadIoPortByte(SMBHSTSTS);
+            usleep(250);
+        }
+    }
+#endif
     else
     {
         while ((++timeout < MAX_TIMEOUT) && temp <= 1)
@@ -111,6 +134,7 @@ int i2c_smbus_piix4::piix4_transaction()
             temp = ReadIoPortByte(SMBHSTSTS);
         }
     }
+
     /* If the SMBus is still busy, we give up */
     if (timeout == MAX_TIMEOUT)
     {
@@ -240,17 +264,21 @@ s32 i2c_smbus_piix4::piix4_access(u16 addr, char read_write, u8 command, int siz
 
 s32 i2c_smbus_piix4::i2c_smbus_xfer(u8 addr, char read_write, u8 command, int size, i2c_smbus_data* data)
 {
+#ifdef _WIN32
     if(global_smbus_access_handle != NULL)
     {
         WaitForSingleObject(global_smbus_access_handle, INFINITE);
     }
+#endif
 
     s32 result = piix4_access(addr, read_write, command, size, data);
 
+#ifdef _WIN32
     if(global_smbus_access_handle != NULL)
     {
         ReleaseMutex(global_smbus_access_handle);
     }
+#endif
 
     return result;
 }
@@ -259,7 +287,7 @@ s32 i2c_smbus_piix4::i2c_xfer(u8 /*addr*/, char /*read_write*/, int* /*size*/, u
 {
     return -1;
 }
-
+#ifdef _WIN32
 bool i2c_smbus_piix4_detect()
 {
     if(!InitializeOls() || GetDllStatus())
@@ -331,5 +359,48 @@ bool i2c_smbus_piix4_detect()
 
     return(true);
 }
+#elif _MACOSX_X86_X64
+bool i2c_smbus_piix4_detect()
+{
+    if(!GetMacUSPCIODriverStatus())
+    {
+        LOG_INFO("macUSPCIO is not loaded, piix4 I2C bus detection aborted");
+        return(false);
+    }
+
+    // addresses are referenced from: https://opensource.apple.com/source/IOPCIFamily/IOPCIFamily-146/IOKit/pci/IOPCIDevice.h.auto.html
+    uint16_t vendor_id = ReadConfigPortWord(0x00);
+    uint16_t device_id = ReadConfigPortWord(0x02);
+    uint16_t subsystem_vendor_id = ReadConfigPortWord(0x2c);
+    uint16_t subsystem_device_id = ReadConfigPortWord(0x2e);
+
+    if(vendor_id != AMD_VEN || !device_id || !subsystem_vendor_id || !subsystem_device_id)
+    {
+        return(false);
+    }
+
+    i2c_smbus_interface * bus;
+
+    bus                         = new i2c_smbus_piix4();
+    bus->pci_vendor             = vendor_id;
+    bus->pci_device             = device_id;
+    bus->pci_subsystem_vendor   = subsystem_vendor_id;
+    bus->pci_subsystem_device   = subsystem_device_id;
+    strcpy(bus->device_name, "Advanced Micro Devices, Inc PIIX4 SMBus at 0x0B00");
+    ((i2c_smbus_piix4 *)bus)->piix4_smba = 0x0B00;
+    ResourceManager::get()->RegisterI2CBus(bus);
+
+    bus                         = new i2c_smbus_piix4();
+    bus->pci_vendor             = vendor_id;
+    bus->pci_device             = device_id;
+    bus->pci_subsystem_vendor   = subsystem_vendor_id;
+    bus->pci_subsystem_device   = subsystem_device_id;
+    ((i2c_smbus_piix4 *)bus)->piix4_smba = 0x0B20;
+    strcpy(bus->device_name, "Advanced Micro Devices, Inc PIIX4 SMBus at 0x0B20");
+    ResourceManager::get()->RegisterI2CBus(bus);
+
+    return(true);
+}
+#endif
 
 REGISTER_I2C_BUS_DETECTOR(i2c_smbus_piix4_detect);

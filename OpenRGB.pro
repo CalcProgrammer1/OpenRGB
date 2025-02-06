@@ -847,11 +847,15 @@ macx:contains(QMAKE_HOST.arch, x86_64) {
 
     SOURCES +=                                                                                  \
     i2c_smbus/i2c_smbus_i801.cpp                                                                \
+    i2c_smbus/i2c_smbus_nct6775.cpp                                                             \
+    i2c_smbus/i2c_smbus_piix4.cpp                                                               \
     scsiapi/scsiapi_macos.c                                                                     \
 
     HEADERS +=                                                                                  \
     dependencies/macUSPCIO/macUSPCIOAccess.h                                                    \
     i2c_smbus/i2c_smbus_i801.h                                                                  \
+    i2c_smbus/i2c_smbus_nct6775.h                                                               \
+    i2c_smbus/i2c_smbus_piix4.h                                                                 \
 
     LIBS +=                                                                                     \
     -L/usr/local/lib                                                                            \

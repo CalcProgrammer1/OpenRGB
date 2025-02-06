@@ -205,16 +205,23 @@ OpenRGBSettingsPage::OpenRGBSettingsPage(QWidget *parent) :
     }
 
     /*---------------------------------------------------------*\
-    | Load drivers settings (Windows only)                      |
+    | Load drivers settings (Windows only or Mac)               |
     \*---------------------------------------------------------*/
-#ifdef _WIN32
+#if defined(WIN32) || defined(_MACOSX_X86_X64)
     json drivers_settings = ResourceManager::get()->GetSettingsManager()->GetSettings("Drivers");
 
     if(drivers_settings.contains("amd_smbus_reduce_cpu"))
     {
         ui->CheckboxAMDSMBusReduceCPU->setChecked(drivers_settings["amd_smbus_reduce_cpu"]);
     }
-
+#else
+    ui->DriversSettingsLabel->hide();
+    ui->CheckboxAMDSMBusReduceCPU->hide();
+#endif
+    /*---------------------------------------------------------*\
+    | Load drivers settings (Windows only)                      |
+    \*---------------------------------------------------------*/
+#ifdef _WIN32
     if(drivers_settings.contains("shared_smbus_access"))
     {
         ui->CheckboxSharedSMBusAccess->setChecked(drivers_settings["shared_smbus_access"]);
@@ -224,8 +231,6 @@ OpenRGBSettingsPage::OpenRGBSettingsPage(QWidget *parent) :
         ui->CheckboxSharedSMBusAccess->setChecked(true);
     }
 #else
-    ui->DriversSettingsLabel->hide();
-    ui->CheckboxAMDSMBusReduceCPU->hide();
     ui->CheckboxSharedSMBusAccess->hide();
 #endif
 
