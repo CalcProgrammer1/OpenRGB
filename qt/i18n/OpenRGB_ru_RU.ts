@@ -980,11 +980,11 @@
         <translation>Вкл/откл все</translation>
     </message>
     <message>
-        <source>Apply changes</source>
+        <source>Apply Changes</source>
         <translation>Прменить изменения</translation>
     </message>
     <message>
-        <source>Get hardware IDs</source>
+        <source>Get Hardware IDs</source>
         <translation>Показать идентификаторы устройств</translation>
     </message>
 </context>

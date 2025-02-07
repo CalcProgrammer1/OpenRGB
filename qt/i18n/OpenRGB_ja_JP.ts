@@ -976,11 +976,11 @@
         <translation>全て有効/無効</translation>
     </message>
     <message>
-        <source>Apply changes</source>
+        <source>Apply Changes</source>
         <translation>変更を適用</translation>
     </message>
     <message>
-        <source>Get hardware IDs</source>
+        <source>Get Hardware IDs</source>
         <translation>ハードウェアIDを取得"</translation>
     </message>
 </context>

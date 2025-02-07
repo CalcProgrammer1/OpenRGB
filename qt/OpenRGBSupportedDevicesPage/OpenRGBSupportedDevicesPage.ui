@@ -43,14 +43,14 @@
      <item>
       <widget class="QPushButton" name="SaveButton">
        <property name="text">
-        <string>Apply changes</string>
+        <string>Apply Changes</string>
        </property>
       </widget>
      </item>
      <item>
       <widget class="QPushButton" name="GetHardwareIDsButton">
        <property name="text">
-        <string>Get hardware IDs</string>
+        <string>Get Hardware IDs</string>
        </property>
       </widget>
      </item>

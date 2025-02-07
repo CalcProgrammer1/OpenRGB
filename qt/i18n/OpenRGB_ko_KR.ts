@@ -976,11 +976,11 @@
         <translation>전부 활성화/비활성화</translation>
     </message>
     <message>
-        <source>Apply changes</source>
+        <source>Apply Changes</source>
         <translation>수정사항 적용</translation>
     </message>
     <message>
-        <source>Get hardware IDs</source>
+        <source>Get Hardware IDs</source>
         <translation>하드웨어 ID 얻기</translation>
     </message>
 </context>

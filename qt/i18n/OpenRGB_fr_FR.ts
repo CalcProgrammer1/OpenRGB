@@ -976,7 +976,7 @@
         <translation>Tout activer/désactiver</translation>
     </message>
     <message>
-        <source>Apply changes</source>
+        <source>Apply Changes</source>
         <translation>Appliquer les changements</translation>
     </message>
     <message>

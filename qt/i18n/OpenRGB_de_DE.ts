@@ -976,12 +976,12 @@
         <translation>Alle aktivieren/deaktivieren</translation>
     </message>
     <message>
-        <source>Apply changes</source>
-        <translation>Änderungen anwenden</translation>
+        <source>Apply Changes</source>
+        <translation>Änderungen Anwenden</translation>
     </message>
     <message>
-        <source>Get hardware IDs</source>
-        <translation>Hardware IDs anzeigen</translation>
+        <source>Get Hardware IDs</source>
+        <translation>Hardware IDs Anzeigen</translation>
     </message>
 </context>
 <context>

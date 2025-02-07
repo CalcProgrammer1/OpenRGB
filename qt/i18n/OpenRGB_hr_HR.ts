@@ -978,11 +978,11 @@
         <translation>Omogući/Onemogući sve</translation>
     </message>
     <message>
-        <source>Apply changes</source>
+        <source>Apply Changes</source>
         <translation>Primijeni promjene</translation>
     </message>
     <message>
-        <source>Get hardware IDs</source>
+        <source>Get Hardware IDs</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

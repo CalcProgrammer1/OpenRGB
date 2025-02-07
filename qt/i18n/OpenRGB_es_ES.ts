@@ -978,11 +978,11 @@
         <translation>Habilitar/deshabilitar todos</translation>
     </message>
     <message>
-        <source>Apply changes</source>
-        <translation>Aplicar cambios</translation>
+        <source>Apply Changes</source>
+        <translation>Aplicar Cambios</translation>
     </message>
     <message>
-        <source>Get hardware IDs</source>
+        <source>Get Hardware IDs</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

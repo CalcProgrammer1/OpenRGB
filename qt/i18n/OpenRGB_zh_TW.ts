@@ -976,11 +976,11 @@
         <translation>全部啟用/禁用</translation>
     </message>
     <message>
-        <source>Apply changes</source>
+        <source>Apply Changes</source>
         <translation>應用更改</translation>
     </message>
     <message>
-        <source>Get hardware IDs</source>
+        <source>Get Hardware IDs</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
