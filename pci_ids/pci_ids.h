@@ -769,6 +769,7 @@
 #define PALIT_RTX3060TI_SUB_DEV                         0x2486
 #define PALIT_RTX3070_SUB_DEV                           0x2484
 #define PALIT_RTX3070_LHR_SUB_DEV                       0x2488
+#define PALIT_RTX3070_GAMEROCK_SUB_DEV                  0xF278
 #define PALIT_RTX3070TI_GAMING_PRO_SUB_DEV              0x2482
 #define PALIT_RTX3070TI_SUB_DEV                         0xF278
 #define PALIT_RTX3080_SUB_DEV                           0x2206

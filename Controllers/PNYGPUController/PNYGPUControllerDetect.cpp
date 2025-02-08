@@ -55,6 +55,7 @@ REGISTER_I2C_PCI_DETECTOR("Palit GeForce RTX 3060 Ti LHR",              DetectPN
 REGISTER_I2C_PCI_DETECTOR("Palit GeForce RTX 3060 Ti Dual",             DetectPNYGPUControllers,    NVIDIA_VEN, NVIDIA_RTX3060TI_DEV,       NVIDIA_SUB_VEN, PALIT_RTX3060TI_SUB_DEV,                    0x49);
 REGISTER_I2C_PCI_DETECTOR("Palit GeForce RTX 3070",                     DetectPNYGPUControllers,    NVIDIA_VEN, NVIDIA_RTX3070_DEV,         PALIT_SUB_VEN,  PALIT_RTX3070_SUB_DEV,                      0x49);
 REGISTER_I2C_PCI_DETECTOR("Palit GeForce RTX 3070 LHR",                 DetectPNYGPUControllers,    NVIDIA_VEN, NVIDIA_RTX3070_LHR_DEV,     PALIT_SUB_VEN,  PALIT_RTX3070_LHR_SUB_DEV,                  0x49);
+REGISTER_I2C_PCI_DETECTOR("Palit GeForce RTX 3070 Gamerock LHR",        DetectPNYGPUControllers,    NVIDIA_VEN, NVIDIA_RTX3070_LHR_DEV,     PALIT_SUB_VEN,  PALIT_RTX3070_GAMEROCK_SUB_DEV,             0x49);
 REGISTER_I2C_PCI_DETECTOR("Palit GeForce RTX 3070 Ti",                  DetectPNYGPUControllers,    NVIDIA_VEN, NVIDIA_RTX3070TI_DEV,       PALIT_SUB_VEN,  PALIT_RTX3070TI_SUB_DEV,                    0x49);
 REGISTER_I2C_PCI_DETECTOR("Palit GeForce RTX 3070 Ti GamingPro",        DetectPNYGPUControllers,    NVIDIA_VEN, NVIDIA_RTX3070TI_DEV,       PALIT_SUB_VEN,  PALIT_RTX3070TI_GAMING_PRO_SUB_DEV,         0x49);
 REGISTER_I2C_PCI_DETECTOR("Palit GeForce RTX 3080",                     DetectPNYGPUControllers,    NVIDIA_VEN, NVIDIA_RTX3080_DEV,         PALIT_SUB_VEN,  PALIT_RTX3080_SUB_DEV,                      0x49);
