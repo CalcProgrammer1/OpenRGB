@@ -46,6 +46,7 @@ enum
     AURA_ROG_STRIX_FLARE_II_ANIMATE_PID                 = 0x19FC,
     AURA_ROG_STRIX_SCOPE_PID                            = 0x18F8,
     AURA_ROG_STRIX_SCOPE_RX_PID                         = 0x1951,
+    AURA_ROG_STRIX_SCOPE_RX_EVA_02_PID                  = 0x1B12,
     AURA_ROG_STRIX_SCOPE_NX_WIRELESS_DELUXE_USB_PID     = 0x19F6,
     AURA_ROG_STRIX_SCOPE_NX_WIRELESS_DELUXE_2_4_PID     = 0x19F8,
     AURA_ROG_STRIX_SCOPE_II_PID                         = 0x1AB3,
