@@ -58,46 +58,46 @@
     <name>OpenRGBDMXSettingsEntryUi</name>
     <message>
         <source>Brightness Channel:</source>
-        <translation type="unfinished"></translation>
+        <translation>Canale Luminosità:</translation>
     </message>
     <message>
         <source>Blue Channel:</source>
-        <translation type="unfinished"></translation>
+        <translation>Canale Blu:</translation>
     </message>
     <message>
         <source>Name:</source>
-        <translation type="unfinished">Nome:</translation>
+        <translation>Nome:</translation>
     </message>
     <message>
         <source>Green Channel:</source>
-        <translation type="unfinished"></translation>
+        <translation>Canale Verde:</translation>
     </message>
     <message>
         <source>Red Channel:</source>
-        <translation type="unfinished"></translation>
+        <translation>Canale Rosso:</translation>
     </message>
     <message>
         <source>Keepalive Time:</source>
-        <translation type="unfinished">Tempo Keepalive:</translation>
+        <translation>Tempo Keepalive:</translation>
     </message>
     <message>
         <source>Port:</source>
-        <translation type="unfinished">Porta:</translation>
+        <translation>Porta:</translation>
     </message>
 </context>
 <context>
     <name>OpenRGBDMXSettingsPageUi</name>
     <message>
         <source>Add</source>
-        <translation type="unfinished">Aggiungi</translation>
+        <translation>Aggiungi</translation>
     </message>
     <message>
         <source>Remove</source>
-        <translation type="unfinished">Rimuovi</translation>
+        <translation>Rimuovi</translation>
     </message>
     <message>
         <source>Save</source>
-        <translation type="unfinished">Salva</translation>
+        <translation>Salva</translation>
     </message>
 </context>
 <context>
@@ -219,11 +219,11 @@
     </message>
     <message>
         <source>Hex:</source>
-        <translation type="unfinished"></translation>
+        <translation>Esadecimale:</translation>
     </message>
     <message>
         <source>Edit</source>
-        <translation type="unfinished"></translation>
+        <translation>Modifica</translation>
     </message>
 </context>
 <context>
@@ -395,49 +395,49 @@
     <name>OpenRGBHardwareIDsDialogUi</name>
     <message>
         <source>Hardware IDs</source>
-        <translation type="unfinished"></translation>
+        <translation>ID Hardware</translation>
     </message>
     <message>
         <source>Copy to clipboard</source>
-        <translation type="unfinished"></translation>
+        <translation>Copia negli appunti</translation>
     </message>
     <message>
         <source>Location</source>
-        <translation type="unfinished"></translation>
+        <translation>Posizione</translation>
     </message>
     <message>
         <source>Device</source>
-        <translation type="unfinished">Dispositivo</translation>
+        <translation>Dispositivo</translation>
     </message>
     <message>
         <source>Vendor</source>
-        <translation type="unfinished"></translation>
+        <translation>Produttore</translation>
     </message>
 </context>
 <context>
     <name>OpenRGBKasaSmartSettingsEntryUi</name>
     <message>
         <source>IP:</source>
-        <translation type="unfinished">IP:</translation>
+        <translation>IP:</translation>
     </message>
     <message>
         <source>Name</source>
-        <translation type="unfinished">Nome</translation>
+        <translation>Nome</translation>
     </message>
 </context>
 <context>
     <name>OpenRGBKasaSmartSettingsPageUi</name>
     <message>
         <source>Add</source>
-        <translation type="unfinished">Aggiungi</translation>
+        <translation>Aggiungi</translation>
     </message>
     <message>
         <source>Remove</source>
-        <translation type="unfinished">Rimuovi</translation>
+        <translation>Rimuovi</translation>
     </message>
     <message>
         <source>Save</source>
-        <translation type="unfinished">Salva</translation>
+        <translation>Salva</translation>
     </message>
 </context>
 <context>
@@ -470,15 +470,15 @@
     <name>OpenRGBNanoleafNewDeviceDialogUi</name>
     <message>
         <source>New Nanoleaf device</source>
-        <translation type="unfinished"></translation>
+        <translation>Nuovo dispositivo Nanoleaf</translation>
     </message>
     <message>
         <source>IP address:</source>
-        <translation type="unfinished"></translation>
+        <translation>Indirizzo IP:</translation>
     </message>
     <message>
         <source>Port:</source>
-        <translation type="unfinished">Porta:</translation>
+        <translation>Porta:</translation>
     </message>
 </context>
 <context>
@@ -516,11 +516,11 @@
     </message>
     <message>
         <source>Add</source>
-        <translation type="unfinished">Aggiungi</translation>
+        <translation>Aggiungi</translation>
     </message>
     <message>
         <source>Remove</source>
-        <translation type="unfinished">Rimuovi</translation>
+        <translation>Rimuovi</translation>
     </message>
 </context>
 <context>
@@ -581,15 +581,15 @@
     </message>
     <message>
         <source>Use Cool White</source>
-        <translation type="unfinished"></translation>
+        <translation>Usa Bianco Freddo</translation>
     </message>
     <message>
         <source>Use Warm White</source>
-        <translation type="unfinished"></translation>
+        <translation>Usa Bianco Caldo</translation>
     </message>
     <message>
         <source>White Strategy:</source>
-        <translation type="unfinished"></translation>
+        <translation>Strategia Bianco:</translation>
     </message>
 </context>
 <context>
@@ -639,11 +639,11 @@
     </message>
     <message>
         <source>API Version:</source>
-        <translation type="unfinished"></translation>
+        <translation>Versione API:</translation>
     </message>
     <message>
         <source>API Version Value</source>
-        <translation type="unfinished"></translation>
+        <translation>Versione Valore API</translation>
     </message>
 </context>
 <context>
@@ -669,11 +669,11 @@
     </message>
     <message>
         <source>Save to an existing profile:</source>
-        <translation type="unfinished"></translation>
+        <translation>Salva in un profilo esistente:</translation>
     </message>
     <message>
         <source>Create a new profile:</source>
-        <translation type="unfinished"></translation>
+        <translation>Crea un profilo nuovo:</translation>
     </message>
 </context>
 <context>
@@ -895,27 +895,27 @@
     </message>
     <message>
         <source>Disable key expansion in device view</source>
-        <translation type="unfinished"></translation>
+        <translation>Disabilita espansione chiavi in visuale dispositivi</translation>
     </message>
     <message>
         <source>Hex Format</source>
-        <translation type="unfinished"></translation>
+        <translation>Formato Esadecimale</translation>
     </message>
     <message>
         <source>Show LED view by default</source>
-        <translation type="unfinished"></translation>
+        <translation>Mostra visuale LED come predefinita</translation>
     </message>
     <message>
         <source>Set Profile on Suspend</source>
-        <translation type="unfinished"></translation>
+        <translation>Imposta Profilo alla Sospensione</translation>
     </message>
     <message>
         <source>Set Profile on Resume</source>
-        <translation type="unfinished"></translation>
+        <translation>Imposta Profilo alla Ripresa</translation>
     </message>
     <message>
         <source>Enable Log File (restart required)</source>
-        <translation type="unfinished"></translation>
+        <translation>Abilita File di Registro (riavvio richiesto)</translation>
     </message>
 </context>
 <context>
@@ -958,11 +958,11 @@
     </message>
     <message>
         <source>SDK Version:</source>
-        <translation type="unfinished"></translation>
+        <translation>Versione SDK:</translation>
     </message>
     <message>
         <source>Plugin API Version:</source>
-        <translation type="unfinished"></translation>
+        <translation>Versione API Plugin:</translation>
     </message>
 </context>
 <context>
@@ -977,11 +977,11 @@
     </message>
     <message>
         <source>Apply Changes</source>
-        <translation>Applica modifiche</translation>
+        <translation>Applica Modifiche</translation>
     </message>
     <message>
         <source>Get Hardware IDs</source>
-        <translation type="unfinished"></translation>
+        <translation>Ottieni ID Hardware</translation>
     </message>
 </context>
 <context>
@@ -1085,15 +1085,15 @@
     </message>
     <message>
         <source>Add Segment</source>
-        <translation type="unfinished"></translation>
+        <translation>Aggiungi Segmento</translation>
     </message>
     <message>
         <source>Remove Segment</source>
-        <translation type="unfinished"></translation>
+        <translation>Rimuovi Segmento</translation>
     </message>
     <message>
         <source>Length</source>
-        <translation type="unfinished"></translation>
+        <translation>Lunghezza</translation>
     </message>
 </context>
 <context>
@@ -1112,30 +1112,30 @@
     </message>
     <message>
         <source>Zones Resizer</source>
-        <translation type="unfinished"></translation>
+        <translation>Ridimensionatore Zone</translation>
     </message>
     <message>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;One or more resizable zones have not been configured.  Resizable zones are most commonly used for addressable RGB headers where the size of the connected device cannot be detected automatically.&lt;/p&gt;&lt;p&gt;Please enter the number of LEDs in each zone below.&lt;/p&gt;&lt;p&gt;For more information about calcuating the correct size, please check &lt;a href=&quot;https://openrgb.org/resize.html&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;this link.&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Una o più zone ridimensionabili non sono state configurate.  Le zone ridimensionabili sono comunemente usate per header RGB indirizzabili nei quali la dimensione del dispositivo connesso non può essere riconosciuta automaticamente.&lt;/p&gt;&lt;p&gt;Per favore, inserisci il numero di LED in ciascuna zona qui sotto.&lt;/p&gt;&lt;p&gt;Per ulteriori informazioni riguardo il calcolo della dimensione corretta, recati su &lt;a href=&quot;https://openrgb.org/resize.html&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;this link.&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
 </context>
 <context>
     <name>ResourceManager</name>
     <message>
         <source>&lt;h2&gt;Some internal devices may not be detected:&lt;/h2&gt;&lt;p&gt;One or more I2C or SMBus interfaces failed to initialize.&lt;/p&gt;&lt;p&gt;&lt;b&gt;RGB DRAM modules, some motherboards&apos; onboard RGB lighting, and RGB Graphics Cards, will not be available in OpenRGB&lt;/b&gt; without I2C or SMBus.&lt;/p&gt;&lt;h4&gt;How to fix this:&lt;/h4&gt;&lt;p&gt;On Windows, this is usually caused by a failure to load the WinRing0 driver.&lt;/p&gt;&lt;p&gt;You must run OpenRGB as administrator at least once to allow WinRing0 to set up.&lt;/p&gt;&lt;p&gt;See &lt;a href=&apos;https://help.openrgb.org/&apos;&gt;help.openrgb.org&lt;/a&gt; for additional troubleshooting steps if you keep seeing this message.&lt;br&gt;&lt;/p&gt;&lt;h3&gt;If you are not using internal RGB on a desktop this message is not important to you.&lt;/h3&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;h2&gt;Alcuni dispositivi interni potrebbero non venire riconosciuti:&lt;/h2&gt;&lt;p&gt;Una o più interfacce I2C o SMBus non sono riuscite ad essere lanciate.&lt;/p&gt;&lt;p&gt;&lt;b&gt;I moduli di DRAM RGB, l&apos;illuminazione RGB integrata di alcune schede madri, e le Schede Grafiche RGB, non saranno disponibili in OpenRGB&lt;/b&gt; senza I2C o SMBus.&lt;/p&gt;&lt;h4&gt;Come risolvere questo problema:&lt;/h4&gt;&lt;p&gt;Su Windows, questo è solitamente causato da un caricamento non riuscito del driver WinRing0.&lt;/p&gt;&lt;p&gt;Devi eseguire OpenRGB da amministratore almeno una volta per consentire a WinRing0 di essere impostato.&lt;/p&gt;&lt;p&gt;Vedi &lt;a href=&apos;https://help.openrgb.org/&apos;&gt;help.openrgb.org&lt;/a&gt; per ulteriori passaggi di risoluzione problemi se continui a vedere questo messaggio.&lt;br&gt;&lt;/p&gt;&lt;h3&gt;Se non stai usando gli RGB interni su un fisso questo messaggio non è importante per te.&lt;/h3&gt;</translation>
     </message>
     <message>
         <source>&lt;h2&gt;Some internal devices may not be detected:&lt;/h2&gt;&lt;p&gt;One or more I2C or SMBus interfaces failed to initialize.&lt;/p&gt;&lt;p&gt;&lt;b&gt;RGB DRAM modules, some motherboards&apos; onboard RGB lighting, and RGB Graphics Cards, will not be available in OpenRGB&lt;/b&gt; without I2C or SMBus.&lt;/p&gt;&lt;h4&gt;How to fix this:&lt;/h4&gt;&lt;p&gt;On Linux, this is usually because the i2c-dev module is not loaded.&lt;/p&gt;&lt;p&gt;You must load the i2c-dev module along with the correct i2c driver for your motherboard. This is usually i2c-piix4 for AMD systems and i2c-i801 for Intel systems.&lt;/p&gt;&lt;p&gt;See &lt;a href=&apos;https://help.openrgb.org/&apos;&gt;help.openrgb.org&lt;/a&gt; for additional troubleshooting steps if you keep seeing this message.&lt;br&gt;&lt;/p&gt;&lt;h3&gt;If you are not using internal RGB on a desktop this message is not important to you.&lt;/h3&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;h2&gt;Alcuni dispositivi interni potrebbero non venire riconosciuti:&lt;/h2&gt;&lt;p&gt;Una o più interfacce I2C o SMBus non sono riuscite ad essere lanciate.&lt;/p&gt;&lt;p&gt;&lt;b&gt;I moduli di DRAM RGB, l&apos;illuminazione RGB integrata di alcune schede madri, e le Schede Grafiche RGB, non saranno disponibili in OpenRGB&lt;/b&gt; senza I2C o SMBus.&lt;/p&gt;&lt;h4&gt;Come risolvere questo problema:&lt;/h4&gt;&lt;p&gt;Su Linux, questo avviene solitamente perché il  modulo i2c-dev non è stato caricato.&lt;/p&gt;&lt;p&gt;Devi caricare il modulo i2c-dev insieme al driver i2c corretto per la tua scheda madre. Questo è solitamente i2c-piix4 per i sistemi AMD e i2c-i801 per i sistemi Intel.&lt;/p&gt;&lt;p&gt;Vedi &lt;a href=&apos;https://help.openrgb.org/&apos;&gt;help.openrgb.org&lt;/a&gt; per ulteriori passaggi di risoluzione problemi se continui a vedere questo messaggio.&lt;br&gt;&lt;/p&gt;&lt;h3&gt;Se non stai usando gli RGB interni su un fisso questo messaggio non è importante per te.&lt;/h3&gt;</translation>
     </message>
     <message>
         <source>&lt;h2&gt;WARNING:&lt;/h2&gt;&lt;p&gt;The OpenRGB udev rules are not installed.&lt;/p&gt;&lt;p&gt;Most devices will not be available unless running OpenRGB as root.&lt;/p&gt;&lt;p&gt;If using AppImage, Flatpak, or self-compiled versions of OpenRGB you must install the udev rules manually&lt;/p&gt;&lt;p&gt;See &lt;a href=&apos;https://openrgb.org/udev&apos;&gt;https://openrgb.org/udev&lt;/a&gt; to install the udev rules manually&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;h2&gt;ATTENZIONE:&lt;/h2&gt;&lt;p&gt;Le regole udev di OpenRGB non sono installate.&lt;/p&gt;&lt;p&gt;La maggior parte dei dispositivi non sarà disponibile a meno che OpenRGB non venga eseguito da root.&lt;/p&gt;&lt;p&gt;Se stai usando l&apos;AppImage, il Flatpak, o versioni autocompilate di OpenRGB devi installare le regole udev manualmente&lt;/p&gt;&lt;p&gt;Vedi &lt;a href=&apos;https://openrgb.org/udev&apos;&gt;https://openrgb.org/udev&lt;/a&gt; per installare le regole udev manualmente&lt;/p&gt;</translation>
     </message>
     <message>
         <source>&lt;h2&gt;WARNING:&lt;/h2&gt;&lt;p&gt;Multiple OpenRGB udev rules are installed.&lt;/p&gt;&lt;p&gt;The udev rules file 60-openrgb.rules is installed in both /etc/udev/rules.d and /usr/lib/udev/rules.d.&lt;/p&gt;&lt;p&gt;Multiple udev rules files can conflict, it is recommended to remove one of them.&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;h2&gt;ATTENZIONE:&lt;/h2&gt;&lt;p&gt;Più regole udev di OpenRGB sono installate.&lt;/p&gt;&lt;p&gt;Il file delle regole udev 60-openrgb.rules è installato sia in /etc/udev/rules.d sia in /usr/lib/udev/rules.d.&lt;/p&gt;&lt;p&gt;Molteplici file di regole udev possono andare in conflitto, è consigliato rimuoverne una.&lt;/p&gt;</translation>
     </message>
 </context>
 <context>
@@ -1240,7 +1240,7 @@
     </message>
     <message>
         <source>Entire Segment</source>
-        <translation type="unfinished"></translation>
+        <translation>Intero Segmento</translation>
     </message>
 </context>
 <context>
@@ -1375,11 +1375,11 @@
     </message>
     <message>
         <source>DMX Devices</source>
-        <translation type="unfinished"></translation>
+        <translation>Dispositivi DMX</translation>
     </message>
     <message>
         <source>Kasa Smart Devices</source>
-        <translation type="unfinished"></translation>
+        <translation>Dispositivi Smart Kasa</translation>
     </message>
 </context>
 <context>
@@ -1433,11 +1433,11 @@
     <name>Ui::OpenRGBPhilipsWizSettingsEntry</name>
     <message>
         <source>Average</source>
-        <translation type="unfinished"></translation>
+        <translation>Media</translation>
     </message>
     <message>
         <source>Minimum</source>
-        <translation type="unfinished"></translation>
+        <translation>Minimo</translation>
     </message>
 </context>
 <context>
@@ -1468,11 +1468,11 @@
     </message>
     <message>
         <source>Restart Needed</source>
-        <translation type="unfinished"></translation>
+        <translation>Riavvio Necessario</translation>
     </message>
     <message>
         <source>The plugin will be fully removed after restarting OpenRGB.</source>
-        <translation type="unfinished"></translation>
+        <translation>Il plugin verrà rimosso completamente dopo aver riavviato OpenRGB.</translation>
     </message>
 </context>
 <context>
@@ -1498,7 +1498,7 @@
     </message>
     <message>
         <source>English - US</source>
-        <translation type="unfinished">Italiano</translation>
+        <translation>Italiano</translation>
     </message>
     <message>
         <source>System Default</source>
