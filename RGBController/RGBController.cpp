@@ -282,7 +282,7 @@ unsigned char * RGBController::GetDeviceDescription(unsigned int protocol_versio
         /*-----------------------------------------------------*\
         | LED alternate name strings                            |
         \*-----------------------------------------------------*/
-        for(int led_idx = 0; led_idx < led_alt_names.size(); led_idx++)
+        for(std::size_t led_idx = 0; led_idx < led_alt_names.size(); led_idx++)
         {
             data_size += sizeof(unsigned short);
             data_size += strlen(led_alt_names[led_idx].c_str()) + 1;
@@ -725,7 +725,7 @@ unsigned char * RGBController::GetDeviceDescription(unsigned int protocol_versio
         memcpy(&data_buf[data_ptr], &num_led_alt_names, sizeof(num_led_alt_names));
         data_ptr += sizeof(num_led_alt_names);
 
-        for(int led_idx = 0; led_idx < led_alt_names.size(); led_idx++)
+        for(std::size_t led_idx = 0; led_idx < led_alt_names.size(); led_idx++)
         {
             /*---------------------------------------------------------*\
             | Copy in LED alternate name (size+data)                    |

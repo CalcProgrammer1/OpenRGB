@@ -1033,7 +1033,7 @@ bool DeviceView::selectZone(int zone, bool add)
 
     int zoneStart = controller->zones[zone].start_idx;
 
-    for(int led_idx = 0; led_idx < controller->GetLEDsInZone(zone); led_idx++)
+    for(std::size_t led_idx = 0; led_idx < controller->GetLEDsInZone(zone); led_idx++)
     {
         if(!selectionFlags[zoneStart + led_idx])
         {

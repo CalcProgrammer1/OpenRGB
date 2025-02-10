@@ -852,8 +852,6 @@ void KeyboardLayoutManager::AddAltName(keyboard_led key)
     \*---------------------------------------------------------------------*/
     unsigned int    edit_row        = key.row;
     unsigned int    edit_col        = key.col;
-    const char*     edit_name       = key.name;
-    unsigned int    edit_value      = key.value;
     const char*     edit_alt_name   = key.alt_name;
 
     /*---------------------------------------------------------------------*\
