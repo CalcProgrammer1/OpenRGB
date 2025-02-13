@@ -799,7 +799,7 @@
         <translation>90000</translation>
     </message>
     <message>
-        <source>Run zone checks on rescan</source>
+        <source>Run Zone Checks on Rescan</source>
         <translation>Εκτέλεση ελέγχων ζώνης κατά την εκ νέου σάρωση</translation>
     </message>
     <message>
@@ -815,15 +815,15 @@
         <translation>Ρυθμίσεις διεπαφής χρήστη:</translation>
     </message>
     <message>
-        <source>Start At Login</source>
+        <source>Start at Login</source>
         <translation>Εκκίνηση κατά την είσοδο</translation>
     </message>
     <message>
-        <source>Minimize On Close</source>
+        <source>Minimize on Close</source>
         <translation>Ελαχιστοποίηση στο κλείσιμο</translation>
     </message>
     <message>
-        <source>Save Geometry On Close</source>
+        <source>Save Geometry on Close</source>
         <translation>Αποθήκευση γεωμετρίας στο κλείσιμο</translation>
     </message>
     <message>
@@ -859,7 +859,7 @@
         <translation>Έναρξη από την κατάσταση σύνδεσης</translation>
     </message>
     <message>
-        <source>Start At Login Settings:</source>
+        <source>Start at Login Settings:</source>
         <translation>Έναρξη στις Ρυθμίσεις σύνδεσης:</translation>
     </message>
     <message>
@@ -895,7 +895,7 @@
         <translation>Γλώσσα</translation>
     </message>
     <message>
-        <source>Disable key expansion in device view</source>
+        <source>Disable Key Expansion in Device View</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -903,7 +903,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Show LED view by default</source>
+        <source>Show LED View by Default</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1494,7 +1494,7 @@
 <context>
     <name>Ui::OpenRGBSettingsPage</name>
     <message>
-        <source>A problem occurred enabling Start At Login.</source>
+        <source>A problem occurred enabling Start at Login.</source>
         <translation>Παρουσιάστηκε πρόβλημα με την ενεργοποίηση της εκκίνησης κατά την είσοδο.</translation>
     </message>
     <message>

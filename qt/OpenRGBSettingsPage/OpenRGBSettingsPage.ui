@@ -39,14 +39,14 @@
        <item row="5" column="0">
         <widget class="QCheckBox" name="CheckboxMinimizeOnClose">
          <property name="text">
-          <string>Minimize On Close</string>
+          <string>Minimize on Close</string>
          </property>
         </widget>
        </item>
        <item row="19" column="0">
         <widget class="QLabel" name="AutoStartLabel">
          <property name="text">
-          <string>Start At Login Settings:</string>
+          <string>Start at Login Settings:</string>
          </property>
         </widget>
        </item>
@@ -74,7 +74,7 @@
        <item row="10" column="0">
         <widget class="QCheckBox" name="CheckboxDisableKeyExpansion">
          <property name="text">
-          <string>Disable key expansion in device view</string>
+          <string>Disable Key Expansion in Device View</string>
          </property>
         </widget>
        </item>
@@ -88,7 +88,7 @@
        <item row="8" column="0">
         <widget class="QCheckBox" name="CheckboxSaveGeometry">
          <property name="text">
-          <string>Save Geometry On Close</string>
+          <string>Save Geometry on Close</string>
          </property>
         </widget>
        </item>
@@ -107,7 +107,7 @@
        <item row="9" column="0">
         <widget class="QCheckBox" name="CheckboxRunZoneChecks">
          <property name="text">
-          <string>Run zone checks on rescan</string>
+          <string>Run Zone Checks on Rescan</string>
          </property>
         </widget>
        </item>
@@ -208,7 +208,7 @@
        <item row="11" column="0">
         <widget class="QCheckBox" name="CheckboxShowLEDView">
          <property name="text">
-          <string>Show LED view by default</string>
+          <string>Show LED View by Default</string>
          </property>
         </widget>
        </item>
@@ -294,7 +294,7 @@
        <item row="20" column="0">
         <widget class="QCheckBox" name="CheckboxAutoStart">
          <property name="text">
-          <string>Start At Login</string>
+          <string>Start at Login</string>
          </property>
         </widget>
        </item>

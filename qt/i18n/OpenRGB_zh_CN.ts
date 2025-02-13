@@ -790,7 +790,7 @@
 <context>
     <name>OpenRGBSettingsPageUi</name>
     <message>
-        <source>Minimize On Close</source>
+        <source>Minimize on Close</source>
         <translation>关闭窗口时最小化</translation>
     </message>
     <message>
@@ -810,7 +810,7 @@
         <translation>自定义参数</translation>
     </message>
     <message>
-        <source>Save Geometry On Close</source>
+        <source>Save Geometry on Close</source>
         <translation>关闭时保存几何图形</translation>
     </message>
     <message>
@@ -822,7 +822,7 @@
         <translation>启动客户端</translation>
     </message>
     <message>
-        <source>Start At Login Settings:</source>
+        <source>Start at Login Settings:</source>
         <translation>从登录设置开始：</translation>
     </message>
     <message>
@@ -866,7 +866,7 @@
         <translation>驱动程序设置</translation>
     </message>
     <message>
-        <source>Run zone checks on rescan</source>
+        <source>Run Zone Checks on Rescan</source>
         <translation>重新扫描时运行区域检查</translation>
     </message>
     <message>
@@ -874,7 +874,7 @@
         <translation>用户界面设置：</translation>
     </message>
     <message>
-        <source>Start At Login</source>
+        <source>Start at Login</source>
         <translation>登录时开启</translation>
     </message>
     <message>
@@ -894,7 +894,7 @@
         <translation>打开设置文件夹</translation>
     </message>
     <message>
-        <source>Disable key expansion in device view</source>
+        <source>Disable Key Expansion in Device View</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -902,7 +902,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Show LED view by default</source>
+        <source>Show LED View by Default</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1501,7 +1501,7 @@
         <translation>系统默认</translation>
     </message>
     <message>
-        <source>A problem occurred enabling Start At Login.</source>
+        <source>A problem occurred enabling Start at Login.</source>
         <translation>启用“登录时启动”时出现问题。</translation>
     </message>
 </context>

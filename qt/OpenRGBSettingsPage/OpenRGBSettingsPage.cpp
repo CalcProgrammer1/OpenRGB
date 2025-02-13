@@ -838,7 +838,7 @@ void OpenRGBSettingsPage::ConfigureAutoStart()
 
         if (!auto_start.EnableAutoStart(auto_start_info))
         {
-            ui->AutoStartStatusLabel->setText(tr("A problem occurred enabling Start At Login."));
+            ui->AutoStartStatusLabel->setText(tr("A problem occurred enabling Start at Login."));
             ui->AutoStartStatusLabel->show();
             SetAutoStartVisibility(true);
         }

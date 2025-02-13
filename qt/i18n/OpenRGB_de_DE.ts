@@ -798,11 +798,11 @@
         <translation>90000</translation>
     </message>
     <message>
-        <source>Run zone checks on rescan</source>
+        <source>Run Zone Checks on Rescan</source>
         <translation>Zonen beim erneuten Scannen überprüfen</translation>
     </message>
     <message>
-        <source>Disable key expansion in device view</source>
+        <source>Disable Key Expansion in Device View</source>
         <translation>Deaktiviere Schlüsselerweiterung in der Geräteansicht</translation>
     </message>
     <message>
@@ -810,7 +810,7 @@
         <translation>Server starten</translation>
     </message>
     <message>
-        <source>Show LED view by default</source>
+        <source>Show LED View by Default</source>
         <translation>LED anzeige standardmäßig zeigen</translation>
     </message>
     <message>
@@ -834,7 +834,7 @@
         <translation>Profil beim Aufwachen anwenden</translation>
     </message>
     <message>
-        <source>Start At Login</source>
+        <source>Start at Login</source>
         <translation>Bei der Anmeldung starten</translation>
     </message>
     <message>
@@ -846,11 +846,11 @@
         <translation>Log Datei aktivieren (Programmneustart erforderlich)</translation>
     </message>
     <message>
-        <source>Minimize On Close</source>
+        <source>Minimize on Close</source>
         <translation>Beim Schließen in die Taskleiste minimieren</translation>
     </message>
     <message>
-        <source>Save Geometry On Close</source>
+        <source>Save Geometry on Close</source>
         <translation>Geometrie beim Schließen beibehalten</translation>
     </message>
     <message>
@@ -894,7 +894,7 @@
         <translation>Start bei der Anmeldung Schalter</translation>
     </message>
     <message>
-        <source>Start At Login Settings:</source>
+        <source>Start at Login Settings:</source>
         <translation>Start Einstellungen:</translation>
     </message>
     <message>
@@ -1494,7 +1494,7 @@
 <context>
     <name>Ui::OpenRGBSettingsPage</name>
     <message>
-        <source>A problem occurred enabling Start At Login.</source>
+        <source>A problem occurred enabling Start at Login.</source>
         <translation>Bei der Aktivierung von &quot;Start bei Anmeldung&quot; ist ein Problem aufgetreten.</translation>
     </message>
     <message>

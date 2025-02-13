@@ -798,7 +798,7 @@
         <translation>90000</translation>
     </message>
     <message>
-        <source>Run zone checks on rescan</source>
+        <source>Run Zone Checks on Rescan</source>
         <translation>다시 스캔할 때 구역 검사 진행</translation>
     </message>
     <message>
@@ -814,15 +814,15 @@
         <translation>UI 설정:</translation>
     </message>
     <message>
-        <source>Start At Login</source>
+        <source>Start at Login</source>
         <translation>로그인 시에 시작</translation>
     </message>
     <message>
-        <source>Minimize On Close</source>
+        <source>Minimize on Close</source>
         <translation>종료되지 않고 최소화</translation>
     </message>
     <message>
-        <source>Save Geometry On Close</source>
+        <source>Save Geometry on Close</source>
         <translation>닫을 때 지오메트리 저장</translation>
     </message>
     <message>
@@ -858,7 +858,7 @@
         <translation>로그인 상태에서 시작</translation>
     </message>
     <message>
-        <source>Start At Login Settings:</source>
+        <source>Start at Login Settings:</source>
         <translation>로그인 시에 시작 설정:</translation>
     </message>
     <message>
@@ -894,7 +894,7 @@
         <translation>언어 (Language)</translation>
     </message>
     <message>
-        <source>Disable key expansion in device view</source>
+        <source>Disable Key Expansion in Device View</source>
         <translation>장치 화면에서 키 확장 비활성화</translation>
     </message>
     <message>
@@ -902,7 +902,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Show LED view by default</source>
+        <source>Show LED View by Default</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1493,7 +1493,7 @@
 <context>
     <name>Ui::OpenRGBSettingsPage</name>
     <message>
-        <source>A problem occurred enabling Start At Login.</source>
+        <source>A problem occurred enabling Start at Login.</source>
         <translation>로그인 시에 시작을 활성화 하는 도중에 문제가 발생했습니다.</translation>
     </message>
     <message>

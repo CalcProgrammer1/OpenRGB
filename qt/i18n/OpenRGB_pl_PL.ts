@@ -798,7 +798,7 @@
         <translation></translation>
     </message>
     <message>
-        <source>Run zone checks on rescan</source>
+        <source>Run Zone Checks on Rescan</source>
         <translation>Uruchom sprawdzanie stref skanowania</translation>
     </message>
     <message>
@@ -814,15 +814,15 @@
         <translation>Ustawienia interfejsu użytkownika</translation>
     </message>
     <message>
-        <source>Start At Login</source>
+        <source>Start at Login</source>
         <translation>Start podczas logowania</translation>
     </message>
     <message>
-        <source>Minimize On Close</source>
+        <source>Minimize on Close</source>
         <translation>Zminimalizuj przy wyjściu</translation>
     </message>
     <message>
-        <source>Save Geometry On Close</source>
+        <source>Save Geometry on Close</source>
         <translation>Zapisz pozycję przy wyjściu</translation>
     </message>
     <message>
@@ -858,7 +858,7 @@
         <translation>Status Startu podczas logowania</translation>
     </message>
     <message>
-        <source>Start At Login Settings:</source>
+        <source>Start at Login Settings:</source>
         <translation>Opcje startu podczas logowania</translation>
     </message>
     <message>
@@ -894,7 +894,7 @@
         <translation>Język</translation>
     </message>
     <message>
-        <source>Disable key expansion in device view</source>
+        <source>Disable Key Expansion in Device View</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -902,7 +902,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Show LED view by default</source>
+        <source>Show LED View by Default</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1493,7 +1493,7 @@
 <context>
     <name>Ui::OpenRGBSettingsPage</name>
     <message>
-        <source>A problem occurred enabling Start At Login.</source>
+        <source>A problem occurred enabling Start at Login.</source>
         <translation>Wystąpił problem z Włączeniem Podczas Logowania.</translation>
     </message>
     <message>

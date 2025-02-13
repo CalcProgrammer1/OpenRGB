@@ -798,7 +798,7 @@
         <translation>90000</translation>
     </message>
     <message>
-        <source>Run zone checks on rescan</source>
+        <source>Run Zone Checks on Rescan</source>
         <translation>Esegui controlli sulle zone alla riscansione</translation>
     </message>
     <message>
@@ -814,15 +814,15 @@
         <translation>Impostazioni Interfaccia Utente:</translation>
     </message>
     <message>
-        <source>Start At Login</source>
+        <source>Start at Login</source>
         <translation>Avvia All&apos;Accesso</translation>
     </message>
     <message>
-        <source>Minimize On Close</source>
+        <source>Minimize on Close</source>
         <translation>Riduci a Icona alla Chiusura</translation>
     </message>
     <message>
-        <source>Save Geometry On Close</source>
+        <source>Save Geometry on Close</source>
         <translation>Salva Geometria Alla Chiusura</translation>
     </message>
     <message>
@@ -858,7 +858,7 @@
         <translation>Stato Avvio all&apos;Accesso</translation>
     </message>
     <message>
-        <source>Start At Login Settings:</source>
+        <source>Start at Login Settings:</source>
         <translation>Impostazioni Avvio All&apos;Accesso:</translation>
     </message>
     <message>
@@ -894,7 +894,7 @@
         <translation>Lingua</translation>
     </message>
     <message>
-        <source>Disable key expansion in device view</source>
+        <source>Disable Key Expansion in Device View</source>
         <translation>Disabilita espansione chiavi in visuale dispositivi</translation>
     </message>
     <message>
@@ -902,7 +902,7 @@
         <translation>Formato Esadecimale</translation>
     </message>
     <message>
-        <source>Show LED view by default</source>
+        <source>Show LED View by Default</source>
         <translation>Mostra visuale LED come predefinita</translation>
     </message>
     <message>
@@ -1493,7 +1493,7 @@
 <context>
     <name>Ui::OpenRGBSettingsPage</name>
     <message>
-        <source>A problem occurred enabling Start At Login.</source>
+        <source>A problem occurred enabling Start at Login.</source>
         <translation>Si è verificato un problema nell&apos;attivazione dell&apos;Avvio all&apos;Accesso.</translation>
     </message>
     <message>

@@ -794,15 +794,11 @@
         <translation>ウィンドウジオメトリをロード</translation>
     </message>
     <message>
-        <source>Enable Log File (restart required)</source>
-        <translation>ログファイルを有効にする(再起動が必要)</translation>
-    </message>
-    <message>
-        <source>Minimize On Close</source>
+        <source>Minimize on Close</source>
         <translation>閉じる時は最小化させる</translation>
     </message>
     <message>
-        <source>Save Geometry On Close</source>
+        <source>Save Geometry on Close</source>
         <translation>ウィンドウジオメトリを閉じるときに保存</translation>
     </message>
     <message>
@@ -826,7 +822,7 @@
         <translation>クライアントスタート</translation>
     </message>
     <message>
-        <source>Start At Login Settings:</source>
+        <source>Start at Login Settings:</source>
         <translation>ログイン時に起動設定:</translation>
     </message>
     <message>
@@ -870,7 +866,7 @@
         <translation>ドライバ設定</translation>
     </message>
     <message>
-        <source>Run zone checks on rescan</source>
+        <source>Run Zone Checks on Rescan</source>
         <translation>再スキャン時に動作ゾーンをチェック</translation>
     </message>
     <message>
@@ -878,7 +874,7 @@
         <translation>ユーザーインターフェイス設定:</translation>
     </message>
     <message>
-        <source>Start At Login</source>
+        <source>Start at Login</source>
         <translation>ログイン時に起動</translation>
     </message>
     <message>
@@ -898,7 +894,7 @@
         <translation>設定フォルダを開く</translation>
     </message>
     <message>
-        <source>Disable key expansion in device view</source>
+        <source>Disable Key Expansion in Device View</source>
         <translation>デバイスビューでキー拡張を無効にする</translation>
     </message>
     <message>
@@ -906,7 +902,7 @@
         <translation>Hex フォーマット</translation>
     </message>
     <message>
-        <source>Show LED view by default</source>
+        <source>Show LED View by Default</source>
         <translation>デフォルトでLEDビューを表示する</translation>
     </message>
     <message>
@@ -916,6 +912,10 @@
     <message>
         <source>Set Profile on Resume</source>
         <translation>復帰時にプロファイルをセット</translation>
+    </message>
+    <message>
+        <source>Enable Log File (restart required)</source>
+        <translation>ログファイルを有効にする(再起動が必要)</translation>
     </message>
 </context>
 <context>
@@ -1501,7 +1501,7 @@
         <translation>システム</translation>
     </message>
     <message>
-        <source>A problem occurred enabling Start At Login.</source>
+        <source>A problem occurred enabling Start at Login.</source>
         <translation>Start At Loginを有効にする際に問題が発生しました。</translation>
     </message>
 </context>

@@ -793,7 +793,6 @@
     <name>OpenRGBSettingsPageUi</name>
     <message>
         <source>Load Window Geometry</source>
-        <translatorcomment>What is this for?</translatorcomment>
         <translation>Загружать геометрию окна</translation>
     </message>
     <message>
@@ -801,7 +800,7 @@
         <translation></translation>
     </message>
     <message>
-        <source>Run zone checks on rescan</source>
+        <source>Run Zone Checks on Rescan</source>
         <translation>Проверять области при повторном сканировании</translation>
     </message>
     <message>
@@ -809,7 +808,7 @@
         <translation>Запускать сервер</translation>
     </message>
     <message>
-        <source>Show LED view by default</source>
+        <source>Show LED View by Default</source>
         <translation>Показывать LED View при запуске</translation>
     </message>
     <message>
@@ -829,7 +828,7 @@
         <translation>Установить профиль при пробуждении</translation>
     </message>
     <message>
-        <source>Start At Login</source>
+        <source>Start at Login</source>
         <translation>Запускать при входе в систему</translation>
     </message>
     <message>
@@ -837,11 +836,11 @@
         <translation>Включить ведение лога (потребуется перезапуск)</translation>
     </message>
     <message>
-        <source>Minimize On Close</source>
+        <source>Minimize on Close</source>
         <translation>Сворачивать вместо закрытия</translation>
     </message>
     <message>
-        <source>Save Geometry On Close</source>
+        <source>Save Geometry on Close</source>
         <translation>Сохранять размеры окна при закрытии</translation>
     </message>
     <message>
@@ -877,7 +876,7 @@
         <translation>Состояние автоматического запуска при входе в систему</translation>
     </message>
     <message>
-        <source>Start At Login Settings:</source>
+        <source>Start at Login Settings:</source>
         <translation>Настройки запуска при входе в систему:</translation>
     </message>
     <message>
@@ -897,7 +896,7 @@
         <translation>AMD SMBus: уменьшить загрузку ЦП (потребуется перезапуск)</translation>
     </message>
     <message>
-        <source>Disable key expansion in device view</source>
+        <source>Disable Key Expansion in Device View</source>
         <translation>Отключить расширение клавиш в LED View</translation>
     </message>
     <message>
@@ -1499,7 +1498,7 @@
 <context>
     <name>Ui::OpenRGBSettingsPage</name>
     <message>
-        <source>A problem occurred enabling Start At Login.</source>
+        <source>A problem occurred enabling Start at Login.</source>
         <translation>Проблема при включении автозапуска.</translation>
     </message>
     <message>

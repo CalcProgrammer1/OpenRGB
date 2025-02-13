@@ -800,7 +800,7 @@
         <translation>90000</translation>
     </message>
     <message>
-        <source>Run zone checks on rescan</source>
+        <source>Run Zone Checks on Rescan</source>
         <translation>Comprobar el tamaño de las zonas al escanear</translation>
     </message>
     <message>
@@ -816,15 +816,15 @@
         <translation>Configuración de la interfaz de usuario:</translation>
     </message>
     <message>
-        <source>Start At Login</source>
+        <source>Start at Login</source>
         <translation>Iniciar OpenRGB al iniciar sesión</translation>
     </message>
     <message>
-        <source>Minimize On Close</source>
+        <source>Minimize on Close</source>
         <translation>Minimizar al salir</translation>
     </message>
     <message>
-        <source>Save Geometry On Close</source>
+        <source>Save Geometry on Close</source>
         <translation>Guardar la forma de la ventana al cerrar</translation>
     </message>
     <message>
@@ -860,7 +860,7 @@
         <translation>Estado de iniciar OpenRGB al iniciar sesión</translation>
     </message>
     <message>
-        <source>Start At Login Settings:</source>
+        <source>Start at Login Settings:</source>
         <translation>Configuración para iniciar OpenRGB al iniciar sesión:</translation>
     </message>
     <message>
@@ -896,7 +896,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Disable key expansion in device view</source>
+        <source>Disable Key Expansion in Device View</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -904,7 +904,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Show LED view by default</source>
+        <source>Show LED View by Default</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1495,7 +1495,7 @@
 <context>
     <name>Ui::OpenRGBSettingsPage</name>
     <message>
-        <source>A problem occurred enabling Start At Login.</source>
+        <source>A problem occurred enabling Start at Login.</source>
         <translation>Ha ocurrido un problema al activar el inicio de OpenRGB al iniciar sesión.</translation>
     </message>
     <message>

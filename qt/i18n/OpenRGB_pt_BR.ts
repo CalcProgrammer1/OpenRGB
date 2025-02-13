@@ -798,7 +798,7 @@
         <translation>90000</translation>
     </message>
     <message>
-        <source>Run zone checks on rescan</source>
+        <source>Run Zone Checks on Rescan</source>
         <translation>Verificar zonas ao indentificar dispositivos</translation>
     </message>
     <message>
@@ -818,7 +818,7 @@
         <translation>Ajustes da interface:</translation>
     </message>
     <message>
-        <source>Start At Login</source>
+        <source>Start at Login</source>
         <translation>Iniciar no login</translation>
     </message>
     <message>
@@ -826,11 +826,11 @@
         <translation>Definir perfil ao sair</translation>
     </message>
     <message>
-        <source>Minimize On Close</source>
+        <source>Minimize on Close</source>
         <translation>Minimizar ao fechar</translation>
     </message>
     <message>
-        <source>Save Geometry On Close</source>
+        <source>Save Geometry on Close</source>
         <translation>Preservar a geometria ao fechar</translation>
     </message>
     <message>
@@ -874,7 +874,7 @@
         <translation>Iniciar no login</translation>
     </message>
     <message>
-        <source>Start At Login Settings:</source>
+        <source>Start at Login Settings:</source>
         <translation>Comece nos ajustes de login:</translation>
     </message>
     <message>
@@ -894,7 +894,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Disable key expansion in device view</source>
+        <source>Disable Key Expansion in Device View</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -902,7 +902,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Show LED view by default</source>
+        <source>Show LED View by Default</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1494,7 +1494,7 @@
 <context>
     <name>Ui::OpenRGBSettingsPage</name>
     <message>
-        <source>A problem occurred enabling Start At Login.</source>
+        <source>A problem occurred enabling Start at Login.</source>
         <translation>Ocorreu um problema ao ativar &quot;Iniciar no login&quot;.</translation>
     </message>
     <message>

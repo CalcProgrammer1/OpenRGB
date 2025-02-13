@@ -798,7 +798,7 @@
         <translation>90000</translation>
     </message>
     <message>
-        <source>Run zone checks on rescan</source>
+        <source>Run Zone Checks on Rescan</source>
         <translation>Vérifier les zones après un scan</translation>
     </message>
     <message>
@@ -814,15 +814,15 @@
         <translation>Paramètres d&apos;interface :</translation>
     </message>
     <message>
-        <source>Start At Login</source>
+        <source>Start at Login</source>
         <translation>Démarrer à la connexion</translation>
     </message>
     <message>
-        <source>Minimize On Close</source>
+        <source>Minimize on Close</source>
         <translation>Minimiser lors de la fermeture</translation>
     </message>
     <message>
-        <source>Save Geometry On Close</source>
+        <source>Save Geometry on Close</source>
         <translation>Sauvegarder la géométrie de la fenêtre lors de la fermeture</translation>
     </message>
     <message>
@@ -858,7 +858,7 @@
         <translation>Statut du démmarrage à la connexion</translation>
     </message>
     <message>
-        <source>Start At Login Settings:</source>
+        <source>Start at Login Settings:</source>
         <translation>Paramètres de démarrage à la connexion :</translation>
     </message>
     <message>
@@ -894,7 +894,7 @@
         <translation>Langue</translation>
     </message>
     <message>
-        <source>Disable key expansion in device view</source>
+        <source>Disable Key Expansion in Device View</source>
         <translation>Désactiver le remplissage des touches du clavier dans la vue périphériques</translation>
     </message>
     <message>
@@ -902,7 +902,7 @@
         <translation>Format hexadécimal</translation>
     </message>
     <message>
-        <source>Show LED view by default</source>
+        <source>Show LED View by Default</source>
         <translation>Afficher les LEDs par défaut</translation>
     </message>
     <message>
@@ -942,11 +942,11 @@
     </message>
     <message>
         <source>GitLab:</source>
-        <translation>Page GitLab:</translation>
+        <translation>GitLab :</translation>
     </message>
     <message>
         <source>Website:</source>
-        <translation>Site Web:</translation>
+        <translation>Site Web :</translation>
     </message>
     <message>
         <source>&lt;a href=&quot;https://openrgb.org&quot;&gt;https://openrgb.org&lt;/a&gt;</source>
@@ -1493,7 +1493,7 @@
 <context>
     <name>Ui::OpenRGBSettingsPage</name>
     <message>
-        <source>A problem occurred enabling Start At Login.</source>
+        <source>A problem occurred enabling Start at Login.</source>
         <translation>Un problème est survenu à l&apos;activation du démarrage à la connexion.</translation>
     </message>
     <message>

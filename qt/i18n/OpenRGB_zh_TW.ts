@@ -790,7 +790,7 @@
 <context>
     <name>OpenRGBSettingsPageUi</name>
     <message>
-        <source>Minimize On Close</source>
+        <source>Minimize on Close</source>
         <translation>關閉窗口時最小化</translation>
     </message>
     <message>
@@ -810,7 +810,7 @@
         <translation>自訂參數</translation>
     </message>
     <message>
-        <source>Save Geometry On Close</source>
+        <source>Save Geometry on Close</source>
         <translation>關閉時保存幾何圖形</translation>
     </message>
     <message>
@@ -822,7 +822,7 @@
         <translation>啟動用戶端</translation>
     </message>
     <message>
-        <source>Start At Login Settings:</source>
+        <source>Start at Login Settings:</source>
         <translation>從登錄設置開始：</translation>
     </message>
     <message>
@@ -866,7 +866,7 @@
         <translation>驅動程序設定</translation>
     </message>
     <message>
-        <source>Run zone checks on rescan</source>
+        <source>Run Zone Checks on Rescan</source>
         <translation>重新掃描時運行區域檢查</translation>
     </message>
     <message>
@@ -874,7 +874,7 @@
         <translation>用戶界面設置：</translation>
     </message>
     <message>
-        <source>Start At Login</source>
+        <source>Start at Login</source>
         <translation>登錄時開啟</translation>
     </message>
     <message>
@@ -894,7 +894,7 @@
         <translation>打開設置文件夾</translation>
     </message>
     <message>
-        <source>Disable key expansion in device view</source>
+        <source>Disable Key Expansion in Device View</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -902,7 +902,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Show LED view by default</source>
+        <source>Show LED View by Default</source>
         <translation type="unfinished"></translation>
     </message>
     <message>

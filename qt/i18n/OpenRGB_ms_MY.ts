@@ -810,11 +810,11 @@
         <translation>Mulakan Pelayan</translation>
     </message>
     <message>
-        <source>Start At Login</source>
+        <source>Start at Login</source>
         <translation>Mulakan Pada Log Masuk</translation>
     </message>
     <message>
-        <source>Start At Login Settings:</source>
+        <source>Start at Login Settings:</source>
         <translation>Seting Mulakan Pada Log Masuk:</translation>
     </message>
     <message>
@@ -826,7 +826,7 @@
         <translation>Seting Pemacu</translation>
     </message>
     <message>
-        <source>Save Geometry On Close</source>
+        <source>Save Geometry on Close</source>
         <translation>Simpan Geometri Pada Tutup</translation>
     </message>
     <message>
@@ -870,7 +870,7 @@
         <translation>Argumen Tersuai</translation>
     </message>
     <message>
-        <source>Minimize On Close</source>
+        <source>Minimize on Close</source>
         <translation>Minimumkan Pada Tutup</translation>
     </message>
     <message>
@@ -886,7 +886,7 @@
         <translation>Tetapkan Port Pelayan</translation>
     </message>
     <message>
-        <source>Run zone checks on rescan</source>
+        <source>Run Zone Checks on Rescan</source>
         <translation>Jalankan pemeriksaan zon pada pengimbasan semula</translation>
     </message>
     <message>
@@ -894,7 +894,7 @@
         <translation>Bahasa</translation>
     </message>
     <message>
-        <source>Disable key expansion in device view</source>
+        <source>Disable Key Expansion in Device View</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -902,7 +902,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Show LED view by default</source>
+        <source>Show LED View by Default</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1501,7 +1501,7 @@
         <translation>Lalai Sistem</translation>
     </message>
     <message>
-        <source>A problem occurred enabling Start At Login.</source>
+        <source>A problem occurred enabling Start at Login.</source>
         <translation>Masalah telah berlaku mendayakan Mula Pada Log Masuk.</translation>
     </message>
 </context>

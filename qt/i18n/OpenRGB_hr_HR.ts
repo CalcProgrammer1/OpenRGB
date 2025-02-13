@@ -800,7 +800,7 @@
         <translation>90000</translation>
     </message>
     <message>
-        <source>Run zone checks on rescan</source>
+        <source>Run Zone Checks on Rescan</source>
         <translation>Pokrenute zone se provjeravaju pri pretraživanju</translation>
     </message>
     <message>
@@ -816,15 +816,15 @@
         <translation>Postavke korisničkog sučelja:</translation>
     </message>
     <message>
-        <source>Start At Login</source>
+        <source>Start at Login</source>
         <translation>Pokreni pri prijavi</translation>
     </message>
     <message>
-        <source>Minimize On Close</source>
+        <source>Minimize on Close</source>
         <translation>Smanji u ikonu sustava pri zatvaranju</translation>
     </message>
     <message>
-        <source>Save Geometry On Close</source>
+        <source>Save Geometry on Close</source>
         <translation>Spremi geometriju pri zatvaranju</translation>
     </message>
     <message>
@@ -860,7 +860,7 @@
         <translation>Pokreni pri stanju prijave</translation>
     </message>
     <message>
-        <source>Start At Login Settings:</source>
+        <source>Start at Login Settings:</source>
         <translation>Postavke pokretanja pri prijavi:</translation>
     </message>
     <message>
@@ -896,7 +896,7 @@
         <translation>Jezik</translation>
     </message>
     <message>
-        <source>Disable key expansion in device view</source>
+        <source>Disable Key Expansion in Device View</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -904,7 +904,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Show LED view by default</source>
+        <source>Show LED View by Default</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1495,7 +1495,7 @@
 <context>
     <name>Ui::OpenRGBSettingsPage</name>
     <message>
-        <source>A problem occurred enabling Start At Login.</source>
+        <source>A problem occurred enabling Start at Login.</source>
         <translation>Problem se dogodio pri omogućavanju &apos;Pokreni pri prijavi&apos; mogućnosti.</translation>
     </message>
     <message>
