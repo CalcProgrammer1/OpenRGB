@@ -10,7 +10,7 @@
 \*---------------------------------------------------------*/
 
 #include "PhilipsWizController.h"
-#include "json.hpp"
+#include <nlohmann/json.hpp>
 
 using json = nlohmann::json;
 using namespace std::chrono_literals;
@@ -130,7 +130,7 @@ void PhilipsWizController::SetColor(unsigned char red, unsigned char green, unsi
         command["params"]["w"] = 0;
     }
 
-    
+
     /*-----------------------------------------------------------------*\
     | Fill in the setPilot command with RGB and brightness information. |
     | The bulb will not respond to 0, 0, 0, so if all channels are zero,|

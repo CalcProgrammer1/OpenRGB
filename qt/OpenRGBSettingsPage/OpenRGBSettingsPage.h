@@ -13,7 +13,7 @@
 #include <QDirIterator>
 #include <QTranslator>
 #include <QWidget>
-#include <json.hpp>
+#include <nlohmann/json.hpp>
 #include "ui_OpenRGBSettingsPage.h"
 
 using json = nlohmann::json;

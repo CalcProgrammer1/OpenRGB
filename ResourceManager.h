@@ -24,7 +24,7 @@
 #include "i2c_smbus.h"
 #include "ResourceManagerInterface.h"
 #include "filesystem.h"
-#include "json.hpp"
+#include <nlohmann/json.hpp>
 
 using json = nlohmann::json;
 
