@@ -1,0 +1,72 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - master
+      - development
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+
+    env:
+      LINUX_DIST: bionic
+      DEPS_DIR: ${{ github.workspace }}/deps
+      COMPILER_NAME: gcc
+      CXX: g++
+      CC: gcc
+      RUN_TESTS: true
+      COVERAGE: false
+      CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+      # PATH: ${{ github.workspace }}/deps/cmake/bin:${{ env.PATH }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up dependencies
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y gcc g++ lcov doxygen graphviz python3-yaml
+
+    #   - name: Install CodeCov and LCOV
+    #     run: |
+    #       sudo update-alternatives --install /usr/bin/gcov gcov /usr/bin/gcov-7 90
+    #       wget http://ftp.de.debian.org/debian/pool/main/l/lcov/lcov_1.13.orig.tar.gz
+    #       tar xf lcov_1.13.orig.tar.gz
+    #       make -C lcov-1.13 "PREFIX=${HOME}/.local" install
+    #       echo "${HOME}/.local/bin" >> $GITHUB_PATH
+
+      - name: Show tool versions
+        run: |
+          echo $PATH
+          echo $CXX
+          $CXX --version
+          $CXX -v
+          cmake --version
+          lcov --version
+          gcov --version
+
+      - name: Build project
+        run: |
+          mkdir -p build
+          cd build
+          cmake .. -Dhueplusplus_TESTS=ON -DCMAKE_BUILD_TYPE=Debug -Dhueplusplus_EXAMPLES=ON
+          make hueplusplus_examples hueplusplus_snippets
+          make coveragetest
+          cd ..
+          doxygen Doxyfile
+          touch doc/html/.nojekyll
+
+      - name: Upload coverage to Codecov
+        run: |
+          bash <(curl -s https://codecov.io/bash)
+
+      - name: Deploy documentation to GitHub Pages
+        if: github.ref == 'refs/heads/master'
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./doc/html

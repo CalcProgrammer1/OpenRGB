@@ -10,7 +10,7 @@
 \*---------------------------------------------------------*/
 
 #include "LIFXController.h"
-#include "json.hpp"
+#include <nlohmann/json.hpp>
 #include "hsv.h"
 
 using json = nlohmann::json;

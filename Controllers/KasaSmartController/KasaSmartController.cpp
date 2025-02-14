@@ -11,7 +11,7 @@
 
 #include <cstdint>
 #include "KasaSmartController.h"
-#include "json.hpp"
+#include <nlohmann/json.hpp>
 #include "hsv.h"
 
 using json = nlohmann::json;
@@ -273,7 +273,7 @@ void KasaSmartController::SetEffect(std::string effect)
         is_initialized = false;
         return;
     }
-    
+
     std::string response;
     KasaSmartController::SendCommand(effect, response);
     port.tcp_close();

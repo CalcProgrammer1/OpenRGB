@@ -12,7 +12,7 @@
 #include "RGBController_Nanoleaf.h"
 #include "ResourceManager.h"
 #include "LogManager.h"
-#include "json.hpp"
+#include <nlohmann/json.hpp>
 
 using json = nlohmann::json;
 

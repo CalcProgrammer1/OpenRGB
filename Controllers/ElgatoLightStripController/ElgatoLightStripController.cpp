@@ -14,7 +14,7 @@
 #include <thread>
 #include <vector>
 #include "ElgatoLightStripController.h"
-#include "json.hpp"
+#include <nlohmann/json.hpp>
 #include "LogManager.h"
 
 using json = nlohmann::json;

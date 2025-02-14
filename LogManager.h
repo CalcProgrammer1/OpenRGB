@@ -15,7 +15,7 @@
 #include <vector>
 #include <queue>
 #include <memory>
-#include "json.hpp"
+#include <nlohmann/json.hpp>
 #include "filesystem.h"
 
 /*-------------------------------------------------*\
@@ -78,7 +78,7 @@ private:
 
     // Logfile max level
     unsigned int loglevel = LL_INFO;
-    
+
     // Verbosity (stdout) max level
     unsigned int verbosity = LL_WARNING;
 
