@@ -326,7 +326,7 @@ win32:INCLUDEPATH +=                                                            
     dependencies/hidapi-win/include                                                             \
     dependencies/winring0/include                                                               \
     dependencies/libusb-1.0.27/include                                                          \
-    dependencies/mbedtls-2.28.8/include                                                         \
+    dependencies/mbedtls-3.2.1/include                                                          \
     dependencies/NVFC                                                                           \
     wmi/                                                                                        \
 
@@ -334,102 +334,6 @@ win32:SOURCES += $$CONTROLLER_CPP_WINDOWS
 
 win32:SOURCES +=                                                                                \
     dependencies/hueplusplus-1.2.0/src/WinHttpHandler.cpp                                       \
-    dependencies/mbedtls-2.28.8/library/aes.c                                                   \
-    dependencies/mbedtls-2.28.8/library/aesni.c                                                 \
-    dependencies/mbedtls-2.28.8/library/arc4.c                                                  \
-    dependencies/mbedtls-2.28.8/library/aria.c                                                  \
-    dependencies/mbedtls-2.28.8/library/asn1parse.c                                             \
-    dependencies/mbedtls-2.28.8/library/asn1write.c                                             \
-    dependencies/mbedtls-2.28.8/library/base64.c                                                \
-    dependencies/mbedtls-2.28.8/library/bignum.c                                                \
-    dependencies/mbedtls-2.28.8/library/blowfish.c                                              \
-    dependencies/mbedtls-2.28.8/library/camellia.c                                              \
-    dependencies/mbedtls-2.28.8/library/ccm.c                                                   \
-    dependencies/mbedtls-2.28.8/library/certs.c                                                 \
-    dependencies/mbedtls-2.28.8/library/chacha20.c                                              \
-    dependencies/mbedtls-2.28.8/library/chachapoly.c                                            \
-    dependencies/mbedtls-2.28.8/library/cipher.c                                                \
-    dependencies/mbedtls-2.28.8/library/cipher_wrap.c                                           \
-    dependencies/mbedtls-2.28.8/library/cmac.c                                                  \
-    dependencies/mbedtls-2.28.8/library/constant_time.c                                         \
-    dependencies/mbedtls-2.28.8/library/ctr_drbg.c                                              \
-    dependencies/mbedtls-2.28.8/library/debug.c                                                 \
-    dependencies/mbedtls-2.28.8/library/des.c                                                   \
-    dependencies/mbedtls-2.28.8/library/dhm.c                                                   \
-    dependencies/mbedtls-2.28.8/library/ecdh.c                                                  \
-    dependencies/mbedtls-2.28.8/library/ecdsa.c                                                 \
-    dependencies/mbedtls-2.28.8/library/ecjpake.c                                               \
-    dependencies/mbedtls-2.28.8/library/ecp.c                                                   \
-    dependencies/mbedtls-2.28.8/library/ecp_curves.c                                            \
-    dependencies/mbedtls-2.28.8/library/entropy.c                                               \
-    dependencies/mbedtls-2.28.8/library/entropy_poll.c                                          \
-    dependencies/mbedtls-2.28.8/library/error.c                                                 \
-    dependencies/mbedtls-2.28.8/library/gcm.c                                                   \
-    dependencies/mbedtls-2.28.8/library/havege.c                                                \
-    dependencies/mbedtls-2.28.8/library/hkdf.c                                                  \
-    dependencies/mbedtls-2.28.8/library/hmac_drbg.c                                             \
-    dependencies/mbedtls-2.28.8/library/md2.c                                                   \
-    dependencies/mbedtls-2.28.8/library/md4.c                                                   \
-    dependencies/mbedtls-2.28.8/library/md5.c                                                   \
-    dependencies/mbedtls-2.28.8/library/md.c                                                    \
-    dependencies/mbedtls-2.28.8/library/memory_buffer_alloc.c                                   \
-    dependencies/mbedtls-2.28.8/library/mps_reader.c                                            \
-    dependencies/mbedtls-2.28.8/library/mps_trace.c                                             \
-    dependencies/mbedtls-2.28.8/library/net_sockets.c                                           \
-    dependencies/mbedtls-2.28.8/library/nist_kw.c                                               \
-    dependencies/mbedtls-2.28.8/library/oid.c                                                   \
-    dependencies/mbedtls-2.28.8/library/padlock.c                                               \
-    dependencies/mbedtls-2.28.8/library/pem.c                                                   \
-    dependencies/mbedtls-2.28.8/library/pk.c                                                    \
-    dependencies/mbedtls-2.28.8/library/pkcs11.c                                                \
-    dependencies/mbedtls-2.28.8/library/pkcs12.c                                                \
-    dependencies/mbedtls-2.28.8/library/pkcs5.c                                                 \
-    dependencies/mbedtls-2.28.8/library/pkparse.c                                               \
-    dependencies/mbedtls-2.28.8/library/pk_wrap.c                                               \
-    dependencies/mbedtls-2.28.8/library/pkwrite.c                                               \
-    dependencies/mbedtls-2.28.8/library/platform.c                                              \
-    dependencies/mbedtls-2.28.8/library/platform_util.c                                         \
-    dependencies/mbedtls-2.28.8/library/poly1305.c                                              \
-    dependencies/mbedtls-2.28.8/library/psa_crypto_aead.c                                       \
-    dependencies/mbedtls-2.28.8/library/psa_crypto.c                                            \
-    dependencies/mbedtls-2.28.8/library/psa_crypto_cipher.c                                     \
-    dependencies/mbedtls-2.28.8/library/psa_crypto_client.c                                     \
-    dependencies/mbedtls-2.28.8/library/psa_crypto_driver_wrappers.c                            \
-    dependencies/mbedtls-2.28.8/library/psa_crypto_ecp.c                                        \
-    dependencies/mbedtls-2.28.8/library/psa_crypto_hash.c                                       \
-    dependencies/mbedtls-2.28.8/library/psa_crypto_mac.c                                        \
-    dependencies/mbedtls-2.28.8/library/psa_crypto_rsa.c                                        \
-    dependencies/mbedtls-2.28.8/library/psa_crypto_se.c                                         \
-    dependencies/mbedtls-2.28.8/library/psa_crypto_slot_management.c                            \
-    dependencies/mbedtls-2.28.8/library/psa_crypto_storage.c                                    \
-    dependencies/mbedtls-2.28.8/library/psa_its_file.c                                          \
-    dependencies/mbedtls-2.28.8/library/ripemd160.c                                             \
-    dependencies/mbedtls-2.28.8/library/rsa.c                                                   \
-    dependencies/mbedtls-2.28.8/library/rsa_internal.c                                          \
-    dependencies/mbedtls-2.28.8/library/sha1.c                                                  \
-    dependencies/mbedtls-2.28.8/library/sha256.c                                                \
-    dependencies/mbedtls-2.28.8/library/sha512.c                                                \
-    dependencies/mbedtls-2.28.8/library/ssl_cache.c                                             \
-    dependencies/mbedtls-2.28.8/library/ssl_ciphersuites.c                                      \
-    dependencies/mbedtls-2.28.8/library/ssl_cli.c                                               \
-    dependencies/mbedtls-2.28.8/library/ssl_cookie.c                                            \
-    dependencies/mbedtls-2.28.8/library/ssl_msg.c                                               \
-    dependencies/mbedtls-2.28.8/library/ssl_srv.c                                               \
-    dependencies/mbedtls-2.28.8/library/ssl_ticket.c                                            \
-    dependencies/mbedtls-2.28.8/library/ssl_tls13_keys.c                                        \
-    dependencies/mbedtls-2.28.8/library/ssl_tls.c                                               \
-    dependencies/mbedtls-2.28.8/library/threading.c                                             \
-    dependencies/mbedtls-2.28.8/library/timing.c                                                \
-    dependencies/mbedtls-2.28.8/library/version.c                                               \
-    dependencies/mbedtls-2.28.8/library/version_features.c                                      \
-    dependencies/mbedtls-2.28.8/library/x509.c                                                  \
-    dependencies/mbedtls-2.28.8/library/x509_create.c                                           \
-    dependencies/mbedtls-2.28.8/library/x509_crl.c                                              \
-    dependencies/mbedtls-2.28.8/library/x509_crt.c                                              \
-    dependencies/mbedtls-2.28.8/library/x509_csr.c                                              \
-    dependencies/mbedtls-2.28.8/library/x509write_crt.c                                         \
-    dependencies/mbedtls-2.28.8/library/x509write_csr.c                                         \
-    dependencies/mbedtls-2.28.8/library/xtea.c                                                  \
     dependencies/NVFC/nvapi.cpp                                                                 \
     i2c_smbus/i2c_smbus_amdadl.cpp                                                              \
     i2c_smbus/i2c_smbus_i801.cpp                                                                \
@@ -465,6 +369,7 @@ win32:contains(QMAKE_TARGET.arch, x86_64) {
         -L"$$PWD/dependencies/winring0/x64/" -lWinRing0x64                                      \
         -L"$$PWD/dependencies/libusb-1.0.27/VS2019/MS64/dll" -llibusb-1.0                       \
         -L"$$PWD/dependencies/hidapi-win/x64/" -lhidapi                                         \
+        -L"$$PWD/dependencies/mbedtls-3.2.1/lib/x64/" -lmbedcrypto -lmbedtls -lmbedx509         \
 }
 
 win32:contains(QMAKE_TARGET.arch, x86) {
@@ -474,6 +379,7 @@ win32:contains(QMAKE_TARGET.arch, x86) {
         -L"$$PWD/dependencies/winring0/Win32/" -lWinRing0                                       \
         -L"$$PWD/dependencies/libusb-1.0.27/VS2019/MS32/dll" -llibusb-1.0                       \
         -L"$$PWD/dependencies/hidapi-win/x86/" -lhidapi                                         \
+        -L"$$PWD/dependencies/mbedtls-3.2.1/lib/x86/" -lmbedcrypto -lmbedtls -lmbedx509         \
 }
 
 win32:DEFINES -=                                                                                \
@@ -557,10 +463,10 @@ contains(QMAKE_PLATFORM, linux) {
 
     INCLUDEPATH +=                                                                              \
     dependencies/NVFC                                                                           \
-    /usr/include/mbedtls2/                                                                      \
+    /usr/include/mbedtls/                                                                       \
 
     LIBS +=                                                                                     \
-    -L/usr/lib/mbedtls2/                                                                        \
+    -L/usr/lib/mbedtls/                                                                         \
     -lmbedx509                                                                                  \
     -lmbedtls                                                                                   \
     -lmbedcrypto                                                                                \
@@ -803,8 +709,8 @@ macx {
 
     SOURCES += $$CONTROLLER_CPP_MACOS
 
-    # Use mbedtls v2 instead of latest
-    MBEDTLS_PREFIX = $$system(brew --prefix mbedtls@2)
+    # Use mbedtls
+    MBEDTLS_PREFIX = $$system(brew --prefix mbedtls)
 
     INCLUDEPATH +=                                                                              \
     $$MBEDTLS_PREFIX/include                                                                    \
