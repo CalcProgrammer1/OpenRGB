@@ -408,7 +408,7 @@
     </message>
     <message>
         <source>Device</source>
-        <>Dispositivo</translation>
+        <translation>Dispositivo</translation>
     </message>
     <message>
         <source>Vendor</source>
