@@ -126,7 +126,7 @@ bool i2c_smbus_linux_detect()
                     pci_subsystem_device    = 0;
                     port_id                 = 0;
 
-                    // Get port ID for NVidia GPUs
+                    // Get port ID for Nvidia GPUs
                     sscanf(device_string, "NVIDIA i2c adapter %hu at", &port_id);
 
                     // Get device path

@@ -1,7 +1,7 @@
 /*---------------------------------------------------------*\
 | i2c_smbus_nvapi.cpp                                       |
 |                                                           |
-|   NVidia NvAPI I2C driver                                 |
+|   Nvidia NvAPI I2C driver                                 |
 |                                                           |
 |   Adam Honse (CalcProgrammer1)                21 Feb 2020 |
 |                                                           |
@@ -182,7 +182,7 @@ bool i2c_smbus_nvapi_detect()
     {
         i2c_smbus_nvapi * nvapi_bus = new i2c_smbus_nvapi(gpu_handles[gpu_idx]);
 
-        snprintf(nvapi_bus->device_name, 512, "NVidia NvAPI I2C on GPU %d", gpu_idx);
+        snprintf(nvapi_bus->device_name, 512, "Nvidia NvAPI I2C on GPU %d", gpu_idx);
 
         res = NvAPI_GPU_GetPCIIdentifiers(gpu_handles[gpu_idx], &device_id, &sub_system_id, &revision_id, &ext_device_id);
 

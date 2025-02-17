@@ -23,9 +23,9 @@ Please add a link to the manufacturer's product page beneath this line
 ~"DeviceType::IDK" <!-- I Don't know -->
 ~"DeviceType::USB" <!-- The device connects to an internal header or external usb port -->
 ~"DeviceType::GPU::AMD" <!-- The device is an AMD GPU -->
-~"DeviceType::GPU::NVidia" <!-- The device is a NVidia GPU -->
+~"DeviceType::GPU::Nvidia" <!-- The device is a Nvidia GPU -->
 ~"DeviceType::SMBus" <!-- The device is connected to the SMBus eg. RAM -->
-~"DeviceType::WMI"  <!-- The device is controlled thru Windows Management Instrumentation -->
+~"DeviceType::WMI"  <!-- The device is controlled through Windows Management Instrumentation -->
 
 <!-- Please delete any lines that are not relevant -->
 

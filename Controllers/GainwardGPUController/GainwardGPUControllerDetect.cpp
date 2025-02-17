@@ -102,7 +102,7 @@ void DetectGainwardGPUControllers(i2c_smbus_interface* bus, uint8_t i2c_addr, co
 } /* DetectGainwardGPUControllers() */
 
 REGISTER_I2C_PCI_DETECTOR("Gainward GeForce GTX 1080 Phoenix",          DetectGainwardGPUControllers,   NVIDIA_VEN, NVIDIA_GTX1080_DEV,     GAINWARD_SUB_VEN,   GAINWARD_GTX_1080_PHOENIX,      0x08);
-REGISTER_I2C_PCI_DETECTOR("Gainward GeForce GTX 1080 Ti Phoenix",       DetectGainwardGPUControllers,   NVIDIA_VEN, NVIDIA_GTX1080TI_DEV,   GAINWARD_SUB_VEN,   GAINWARD_GTX_1080_TI_PHOENIX,   0x08);
+REGISTER_I2C_PCI_DETECTOR("Gainward GeForce GTX 1080 Ti Phoenix",       DetectGainwardGPUControllers,   NVIDIA_VEN, NVIDIA_GTX1080TI_DEV,   GAINWARD_SUB_VEN,   GAINWARD_GTX_1080TI_PHOENIX,    0x08);
 REGISTER_I2C_PCI_DETECTOR("Gainward GeForce GTX 1660 SUPER Ghost",      DetectGainwardGPUControllers,   NVIDIA_VEN, NVIDIA_GTX1660S_DEV,    NVIDIA_VEN,         NVIDIA_GTX1660S_DEV,            0x49);
 REGISTER_I2C_PCI_DETECTOR("Gainward GeForce RTX 2070 SUPER Phantom",    DetectGainwardGPUControllers,   NVIDIA_VEN, NVIDIA_RTX2070S_OC_DEV, GAINWARD_SUB_VEN,   NVIDIA_RTX2070S_OC_DEV,         0x49);
 REGISTER_I2C_PCI_DETECTOR("Gainward GeForce RTX 2080 Phoenix GS",       DetectGainwardGPUControllers,   NVIDIA_VEN, NVIDIA_RTX2080_DEV,     GAINWARD_SUB_VEN,   NVIDIA_RTX2080_A_DEV,           0x49);

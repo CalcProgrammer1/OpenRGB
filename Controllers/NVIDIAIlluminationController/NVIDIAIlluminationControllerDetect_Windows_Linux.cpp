@@ -54,7 +54,7 @@ static const nv_gpu_pci_device device_list[] =
     {NVIDIA_VEN,    NVIDIA_RTX3060_LHR_DEV,         NVIDIA_VEN,       NVIDIA_RTX3060_LHR_DEV,                         NVIDIA_ILLUMINATION_V1,     TREATS_RGBW_AS_RGB,     "Palit GeForce RTX 3060 LHR"                  },
     {NVIDIA_VEN,    NVIDIA_RTX3060_LHR_DEV,         PNY_SUB_VEN,      PNY_RTX_3060_XLR8_REVEL_EPIC_X_SUB_DEV,         NVIDIA_ILLUMINATION_V1,     TREATS_RGBW_AS_RGB,     "PNY GeForce RTX 3060 XLR8 REVEL EPIC-X"      },
     {NVIDIA_VEN,    NVIDIA_RTX3060_GA104_DEV,       PNY_SUB_VEN,      PNY_RTX_3060_XLR8_REVEL_EPIC_X_SUB_DEV,         NVIDIA_ILLUMINATION_V1,     TREATS_RGBW_AS_RGB,     "PNY GeForce RTX 3060 XLR8 REVEL EPIC-X"      },
-    {NVIDIA_VEN,    NVIDIA_RTX3060_GA104_DEV,       NVIDIA_VEN,       NVIDIA_RTX3060_GA104_DEV,                       NVIDIA_ILLUMINATION_V1,     TREATS_RGBW_AS_RGB,     "Palit GeForce RTX 3060 LHR (GA104)"          },
+    {NVIDIA_VEN,    NVIDIA_RTX3060_GA104_DEV,       NVIDIA_VEN,       NVIDIA_RTX3060_GA104_DEV,                       NVIDIA_ILLUMINATION_V1,     TREATS_RGBW_AS_RGB,     "Palit GeForce RTX 3060 LHR"                  },
     {NVIDIA_VEN,    NVIDIA_RTX3060TI_LHR_DEV,       PNY_SUB_VEN,      PNY_RTX_3060TI_XLR8_REVEL_EPIC_X_SUB_DEV,       NVIDIA_ILLUMINATION_V1,     TREATS_RGBW_AS_RGB,     "PNY GeForce RTX 3060 Ti XLR8 REVEL EPIC-X"   },
     {NVIDIA_VEN,    NVIDIA_RTX3060TI_LHR_DEV,       NVIDIA_VEN,       PNY_RTX_3060TI_XLR8_REVEL_EPIC_X_SUB_DEV,       NVIDIA_ILLUMINATION_V1,     TREATS_RGBW_AS_RGB,     "PNY GeForce RTX 3060 Ti XLR8 REVEL EPIC-X"   },
     {NVIDIA_VEN,    NVIDIA_RTX3060TI_V1_LHR_DEV,    NVIDIA_VEN,       NVIDIA_RTX3060TI_V1_LHR_DEV,                    NVIDIA_ILLUMINATION_V1,     TREATS_RGBW_AS_RGB,     "NVIDIA GeForce RTX 3060 Ti V1 LHR"           },
@@ -106,7 +106,7 @@ void DetectNVIDIAIllumGPUs()
                    pci_subsystem_vendor == device_list[dev_idx].pci_subsystem_vendor &&
                    pci_subsystem_device == device_list[dev_idx].pci_subsystem_device)
                 {
-                    LOG_DEBUG("[%s] NVidia NvAPI Illumination GPU found", device_list[dev_idx].name);
+                    LOG_DEBUG("[%s] Nvidia NvAPI Illumination GPU found", device_list[dev_idx].name);
                     switch(device_list[dev_idx].gpu_rgb_version)
                     {
                         case NVIDIA_ILLUMINATION_V1:
@@ -126,4 +126,4 @@ void DetectNVIDIAIllumGPUs()
     }
 }
 
-REGISTER_DETECTOR("NVidia NvAPI Illumination", DetectNVIDIAIllumGPUs);
+REGISTER_DETECTOR("Nvidia NvAPI Illumination", DetectNVIDIAIllumGPUs);

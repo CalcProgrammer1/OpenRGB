@@ -14,7 +14,7 @@
 #include "RGBController_NvidiaESA.h"
 
 /**------------------------------------------------------------------*\
-    @name NVidia ESA
+    @name Nvidia ESA
     @category Case
     @type USB
     @save :x:

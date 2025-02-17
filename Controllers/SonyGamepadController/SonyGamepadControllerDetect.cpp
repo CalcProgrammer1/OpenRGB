@@ -48,7 +48,7 @@ void DetectSonyDualSenseControllers(hid_device_info* info, const std::string&)
     }
 }
 
-REGISTER_HID_DETECTOR("Sony PlayStation DualShock 4", DetectSonyDS4Controllers,       SONY_VID, SONY_DS4_V1_PID);
-REGISTER_HID_DETECTOR("Sony PlayStation DualShock 4", DetectSonyDS4Controllers,       SONY_VID, SONY_DS4_V2_PID);
-REGISTER_HID_DETECTOR("Sony PlayStation DualShock 4", DetectSonyDS4Controllers,       SONY_VID, SONY_DS4_RECEIVER_PID);
-REGISTER_HID_DETECTOR("Sony PlayStation DualSense",   DetectSonyDualSenseControllers, SONY_VID, SONY_DUALSENSE_PID);
+REGISTER_HID_DETECTOR("Sony DualShock 4", DetectSonyDS4Controllers,       SONY_VID, SONY_DS4_V1_PID);
+REGISTER_HID_DETECTOR("Sony DualShock 4", DetectSonyDS4Controllers,       SONY_VID, SONY_DS4_V2_PID);
+REGISTER_HID_DETECTOR("Sony DualShock 4", DetectSonyDS4Controllers,       SONY_VID, SONY_DS4_RECEIVER_PID);
+REGISTER_HID_DETECTOR("Sony DualSense",   DetectSonyDualSenseControllers, SONY_VID, SONY_DUALSENSE_PID);

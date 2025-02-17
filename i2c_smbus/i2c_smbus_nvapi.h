@@ -1,7 +1,7 @@
 /*---------------------------------------------------------*\
 | i2c_smbus_nvapi.h                                         |
 |                                                           |
-|   NVidia NvAPI I2C driver                                 |
+|   Nvidia NvAPI I2C driver                                 |
 |                                                           |
 |   Adam Honse (CalcProgrammer1)                21 Feb 2020 |
 |                                                           |
