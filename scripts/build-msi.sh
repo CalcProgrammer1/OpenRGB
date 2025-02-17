@@ -107,6 +107,7 @@ XML_PRODUCT="\t<Product Name='${PRODUCTNAME}' Manufacturer='${VENDOR}'\n\t\tId='
 echo -e $XML_HEADER $XML_PRODUCT > $XMLOUTFILE
 echo -e "\t...Done!\n\n"
 
+cat $XMLOUTFILE
 
 #Once the XML file manifest is created create the package
 candle -arch x64 ${PRODUCTNAME,,}.wxs
