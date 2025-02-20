@@ -48,8 +48,6 @@ WORKING_PATH="orgb/"
 BUILT_PATH="OpenRGB Windows 64-bit/"
 mv -T "${BUILT_PATH}" ${WORKING_PATH}
 
-EXTENSION="orp"
-SAVE_FILE="${PRODUCTNAME}.${EXTENSION}"
 count=1
 
 #############################################################
@@ -125,11 +123,6 @@ XML_FILE+="            <Directory Id='ProgramFiles64Folder'>\r\n"
 XML_FILE+="                <Directory Id='INSTALLDIR' Name='${PRODUCTNAME}'>\r\n"
 XML_FILE+="                    <Component Id='${PRODUCTNAME}Files' Guid='"$(uuidgen -t | awk '{ print toupper($0) }')"'>\r\n"
 XML_FILE+="${FILES}\r\n"
-XML_FILE+="                        <ProgId Id='${SAVE_FILE}' Description='${PRODUCTNAME} Profile'>\r\n"
-XML_FILE+="                            <Extension Id='${EXTENSION}' ContentType='application/${EXTENSION}'>\r\n"
-XML_FILE+="                                <Verb Id='open' Command='Open' TargetFile='${EXE_ID}' Argument='-p \"%1\"' />\r\n"
-XML_FILE+="                            </Extension>\r\n"
-XML_FILE+="                        </ProgId>\r\n"
 XML_FILE+="                    </Component>\r\n"
 XML_FILE+="${DIRECTORIES}\r\n"
 XML_FILE+="                </Directory>\r\n"
