@@ -118,6 +118,7 @@
 #define NVIDIA_RTX4080_DEV                              0x2704
 #define NVIDIA_RTX4080S_DEV                             0x2702
 #define NVIDIA_RTX4090_DEV                              0x2684
+#define NVIDIA_RTX5090_DEV                              0x2B85
 
 /*-----------------------------------------------------*\
 | Nvidia Sub-Device IDs                                 |
@@ -139,6 +140,7 @@
 #define NVIDIA_RTX4080S_FE_SUB_DEV                      0x18CB
 #define NVIDIA_RTX4090_FE_SUB_DEV                       0x165B
 #define NVIDIA_RTX4090_FE_SUB_DEV2                      0x16F4
+#define NVIDIA_RTX5090_FE_SUB_DEV                       0x2057
 
 /*---------------------------------------------------------*\
 | PCI Sub-Vendor IDs                                        |
