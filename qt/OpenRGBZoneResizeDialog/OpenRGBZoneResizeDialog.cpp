@@ -24,6 +24,7 @@ OpenRGBZoneResizeDialog::OpenRGBZoneResizeDialog(RGBController* edit_dev_ptr, un
     unsigned int size_current = edit_dev->zones[edit_zone_idx].leds_count;
 
     ui->setupUi(this);
+    setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
 
     QStringList header_labels;
     header_labels << "Name" << "Size" << "";
@@ -68,6 +69,7 @@ OpenRGBZoneResizeDialog::OpenRGBZoneResizeDialog(unsigned int edit_zone_min_val,
     edit_dev = NULL;
 
     ui->setupUi(this);
+    setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
 
     /*-----------------------------------------------------*\
     | This constructor is used for resizing mode-specific   |

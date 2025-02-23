@@ -17,6 +17,7 @@ OpenRGBElgatoKeyLightSettingsEntry::OpenRGBElgatoKeyLightSettingsEntry(QWidget *
     ui(new Ui::OpenRGBElgatoKeyLightSettingsEntryUi)
 {
     ui->setupUi(this);
+    setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
 }
 
 OpenRGBElgatoKeyLightSettingsEntry::~OpenRGBElgatoKeyLightSettingsEntry()

@@ -21,6 +21,7 @@ Ui::OpenRGBHardwareIDsDialog::OpenRGBHardwareIDsDialog(QWidget *parent) :
     ui(new Ui::OpenRGBHardwareIDsDialogUi)
 {
     ui->setupUi(this);
+    setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
     ui->HardwareIdsList->header()->resizeSection(0 /*column index*/, 300 /*width*/);
     ui->HardwareIdsList->header()->resizeSection(1 /*column index*/, 200 /*width*/);
     ui->HardwareIdsList->header()->resizeSection(2 /*column index*/, 100 /*width*/);

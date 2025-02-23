@@ -17,6 +17,7 @@ OpenRGBElgatoLightStripSettingsEntry::OpenRGBElgatoLightStripSettingsEntry(QWidg
     ui(new Ui::OpenRGBElgatoLightStripSettingsEntryUi)
 {
     ui->setupUi(this);
+    setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
 }
 
 OpenRGBElgatoLightStripSettingsEntry::~OpenRGBElgatoLightStripSettingsEntry()

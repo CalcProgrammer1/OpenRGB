@@ -20,6 +20,7 @@ Ui::OpenRGBNanoleafNewDeviceDialog::OpenRGBNanoleafNewDeviceDialog(QWidget *pare
     QDialog(parent), ui(new Ui::OpenRGBNanoleafNewDeviceDialogUi)
 {
     ui->setupUi(this);
+    setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
     ui->devicePortEdit->setText("16021");
 }
 
