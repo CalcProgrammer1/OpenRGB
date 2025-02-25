@@ -311,6 +311,7 @@ TRANSLATIONS +=                                                                 
     qt/i18n/OpenRGB_ja_JP.ts                                                                    \
     qt/i18n/OpenRGB_ko_KR.ts                                                                    \
     qt/i18n/OpenRGB_ms_MY.ts                                                                    \
+    qt/i18n/OpenRGB_nb_NO.ts                                                                    \
     qt/i18n/OpenRGB_pl_PL.ts                                                                    \
     qt/i18n/OpenRGB_pt_BR.ts                                                                    \
     qt/i18n/OpenRGB_ru_RU.ts                                                                    \
