@@ -379,7 +379,7 @@ static const mountain_zone_t zone_definitions[] =
     {
         "Wheel Selector",
         ZONE_TYPE_SINGLE,
-        nullptr,
+        NULL,
         (unsigned int *) &single_wheel_lut,
         1,
         1,
@@ -713,10 +713,14 @@ void RGBController_MountainKeyboard::SetupZones()
         new_zone.leds_min               = zone_definitions[zone_idx].size;
         new_zone.leds_max               = zone_definitions[zone_idx].size;
         new_zone.leds_count             = zone_definitions[zone_idx].size;
-        new_zone.matrix_map             = new matrix_map_type;
-        new_zone.matrix_map->height     = zone_definitions[zone_idx].height;
-        new_zone.matrix_map->width      = zone_definitions[zone_idx].width;
-        new_zone.matrix_map->map        = zone_definitions[zone_idx].ptr;
+        new_zone.matrix_map             = NULL;
+        if (zone_definitions[zone_idx].type == ZONE_TYPE_MATRIX)
+        {
+            new_zone.matrix_map             = new matrix_map_type;
+            new_zone.matrix_map->height     = zone_definitions[zone_idx].height;
+            new_zone.matrix_map->width      = zone_definitions[zone_idx].width;
+            new_zone.matrix_map->map        = zone_definitions[zone_idx].ptr;
+        }
         zones.push_back(new_zone);
     }
 
