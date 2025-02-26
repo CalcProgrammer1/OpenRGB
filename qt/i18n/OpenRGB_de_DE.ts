@@ -520,7 +520,7 @@
     </message>
     <message>
         <source>To pair, hold the on-off button down for 5-7 seconds until the LED starts flashing in a pattern, then click the &quot;Pair&quot; button within 30 seconds.</source>
-        <translation>Halte zum Koppeln die Ein-/Aus-Taste 5–7 Sekunden lang gedrückt, bis die LED in einem Muster blinkt, und klicke dann innerhalb von 30 Sekunden auf &quot;Koppeln&quot;.</translation>
+        <translation>Halten Sie zum Koppeln die Ein-/Aus-Taste 5–7 Sekunden lang gedrückt, bis die LED in einem Muster blinkt, und klicke dann innerhalb von 30 Sekunden auf &quot;Koppeln&quot;.</translation>
     </message>
 </context>
 <context>
@@ -879,7 +879,7 @@
     </message>
     <message>
         <source>AMD SMBus: Reduce CPU Usage (restart required)</source>
-        <translation>AMD SMBus: CPU-Auslastung reduzieren</translation>
+        <translation>AMD SMBus: CPU-Auslastung reduzieren (Programmneustart erfoderlich)</translation>
     </message>
     <message>
         <source>Custom Arguments</source>
@@ -891,7 +891,7 @@
     </message>
     <message>
         <source>Start at Login Status</source>
-        <translation>Start bei der Anmeldung Schalter</translation>
+        <translation>Start bei der Anmeldung Status</translation>
     </message>
     <message>
         <source>Start at Login Settings:</source>
@@ -1503,7 +1503,7 @@
     </message>
     <message>
         <source>System Default</source>
-        <translation></translation>
+        <translation>Systemstandard</translation>
     </message>
 </context>
 <context>
