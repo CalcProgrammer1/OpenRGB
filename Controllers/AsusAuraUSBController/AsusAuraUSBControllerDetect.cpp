@@ -120,6 +120,7 @@
 #define ROG_STRIX_LC120_PID                           0x879E
 #define AURA_RYUO_AIO_PID                             0x1887
 #define ASUS_ROG_ALLY_PID                             0x1ABE
+#define ASUS_ROG_ALLY_X_PID                           0x1B4C
 
 AuraKeyboardMappingLayoutType GetKeyboardMappingLayoutType(int pid)
 {
@@ -451,3 +452,4 @@ REGISTER_HID_DETECTOR_I  ("ASUS ROG Throne",                            DetectAs
 REGISTER_HID_DETECTOR_I  ("ASUS ROG Throne QI",                         DetectAsusAuraUSBHeadsetStand,  AURA_USB_VID, AURA_ROG_THRONE_QI_PID,                       0);
 REGISTER_HID_DETECTOR_I  ("ASUS ROG Throne QI GUNDAM",                  DetectAsusAuraUSBHeadsetStand,  AURA_USB_VID, AURA_ROG_THRONE_QI_GUNDAM_PID,                0);
 REGISTER_HID_DETECTOR_IPU("ASUS ROG Ally",                              DetectAsusROGAlly,              AURA_USB_VID, ASUS_ROG_ALLY_PID,                            2,  0xFF31, 0x0076);
+REGISTER_HID_DETECTOR_IPU("ASUS ROG Ally X",                            DetectAsusROGAlly,              AURA_USB_VID, ASUS_ROG_ALLY_X_PID,                          2,  0xFF31, 0x0076);
