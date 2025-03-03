@@ -17,6 +17,8 @@
 #include "RGBController.h"
 #include "AsusAuraTUFKeyboardLayouts.h"
 
+#define HID_MAX_STR 128
+
 enum
 {
     AURA_KEYBOARD_MODE_STATIC       =  0,
