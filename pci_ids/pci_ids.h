@@ -822,7 +822,8 @@
 #define SAPPHIRE_NAVI21_TOXIC_SUB_DEV1                  0xF441
 #define SAPPHIRE_NAVI31_NITRO_PLUS_SUB_DEV              0xE471
 #define SAPPHIRE_NAVI31_GRE_NITRO_PLUS_SUB_DEV          0xE475
-#define SAPPHIRE_NAVI32_NITRO_PLUS_SUB_DEV              0xD475
+#define SAPPHIRE_NAVI32_7800XT_NITRO_PLUS_SUB_DEV       0xD475
+#define SAPPHIRE_NAVI32_7700XT_NITRO_PLUS_SUB_DEV       0xF475
 
 /*-----------------------------------------------------*\
 | Zotac Sub-Device IDs                                  |
