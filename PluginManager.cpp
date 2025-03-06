@@ -310,6 +310,7 @@ void PluginManager::AddPlugin(const filesystem::path& path, bool is_system)
                     entry.widget        = nullptr;
                     entry.incompatible  = true;
                     entry.api_version   = plugin->GetPluginAPIVersion();
+                    entry.is_system     = is_system;
 
                     loader->unload();
 

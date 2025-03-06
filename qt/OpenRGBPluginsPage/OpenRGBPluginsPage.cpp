@@ -236,41 +236,24 @@ void Ui::OpenRGBPluginsPage::on_RemovePluginButton_clicked()
                 if((plugin_settings["plugins"][plugin_idx]["name"] == entries[cur_row]->ui->NameValue->text().toStdString())
                  &&(plugin_settings["plugins"][plugin_idx]["description"] == entries[cur_row]->ui->DescriptionValue->text().toStdString()))
                 {
-                    /*-----------------------------------------------------*\
-                    | Mark plugin to be removed on next restart             |
-                    \*-----------------------------------------------------*/
-                    plugin_settings["plugins_remove"][plugin_settings["plugins_remove"].size()] = entries[cur_row]->ui->PathValue->text().toStdString();
-
-                    ResourceManager::get()->GetSettingsManager()->SetSettings("Plugins", plugin_settings);
-                    ResourceManager::get()->GetSettingsManager()->SaveSettings();
-
-                    QMessageBox::information(this, tr("Restart Needed"), tr("The plugin will be fully removed after restarting OpenRGB."), QMessageBox::Ok);
-
-                    return;
+                    /*-------------------------------------*\
+                    | Remove plugin from settings           |
+                    \*-------------------------------------*/
+                    plugin_settings["plugins"].erase(plugin_idx);
                 }
             }
         }
     }
 
     /*-----------------------------------------------------*\
-    | Remove plugin entry from GUI plugin entries list      |
+    | Mark plugin to be removed on next restart             |
     \*-----------------------------------------------------*/
-    QListWidgetItem* item = ui->PluginsList->takeItem(cur_row);
+    plugin_settings["plugins_remove"][plugin_settings["plugins_remove"].size()] = entries[cur_row]->ui->PathValue->text().toStdString();
 
-    ui->PluginsList->removeItemWidget(item);
-    delete item;
+    ResourceManager::get()->GetSettingsManager()->SetSettings("Plugins", plugin_settings);
+    ResourceManager::get()->GetSettingsManager()->SaveSettings();
 
-    /*-----------------------------------------------------*\
-    | Command plugin manager to unload and remove the plugin|
-    \*-----------------------------------------------------*/
-    plugin_manager->RemovePlugin(entries[cur_row]->ui->PathValue->text().toStdString());
-
-    /*-----------------------------------------------------*\
-    | Delete the plugin file and refresh the GUI            |
-    \*-----------------------------------------------------*/
-    filesystem::remove(entries[cur_row]->ui->PathValue->text().toStdString());
-
-    RefreshList();
+    QMessageBox::information(this, tr("Restart Needed"), tr("The plugin will be fully removed after restarting OpenRGB."), QMessageBox::Ok);
 }
 
 void Ui::OpenRGBPluginsPage::on_EnableButton_clicked(OpenRGBPluginsEntry* entry)
