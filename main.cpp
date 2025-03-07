@@ -216,7 +216,20 @@ int main(int argc, char* argv[])
     if(ret_flags & RET_FLAG_START_GUI)
     {
         LOG_TRACE("[main] initializing GUI");
-        QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+
+        /*-----------------------------------------------------*\
+        | Enable high DPI scaling support                       |
+        \*-----------------------------------------------------*/
+        QCoreApplication::setAttribute(Qt::AA_UseHighDpiPixmaps,    true);
+        QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling, true);
+
+        /*-----------------------------------------------------*\
+        | Enable high DPI fractional scaling support on Windows |
+        \*-----------------------------------------------------*/
+        #if QT_VERSION >= QT_VERSION_CHECK(5, 14, 0) && defined(Q_OS_WIN)
+            QGuiApplication::setHighDpiScaleFactorRoundingPolicy(Qt::HighDpiScaleFactorRoundingPolicy::PassThrough);
+        #endif
+
         QApplication a(argc, argv);
         QGuiApplication::setDesktopFileName("org.openrgb.OpenRGB");
         LOG_TRACE("[main] QApplication created");
