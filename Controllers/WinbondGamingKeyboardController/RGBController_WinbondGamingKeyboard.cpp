@@ -230,7 +230,7 @@ static layout_values winbond_gaming_keyboard_60_layouts =
     }
 };
 
-static void InitLayouts(layout_values& keyboard_layouts, KEYBOARD_SIZE kb_size)
+static void InitLayouts(layout_values& keyboard_layouts, KEYBOARD_SIZE kb_size, std::string vendor)
 {
     /*-------------------------------------------------------------------*\
     | using kvs ("keyvals" or sth like that) as an alias for              |
@@ -341,12 +341,21 @@ static void InitLayouts(layout_values& keyboard_layouts, KEYBOARD_SIZE kb_size)
     |    8-1 = (Num7, Num8, Num9, Num+ ?), 12 = CapsLock, ??, 14 = A, S, D, F |
     \*-----------------------------------------------------------------------*/
 
-    // P, Ü/[, +/], US-Backslash
+    // P, Ü/[, +/]
     if(kb_size & KEYBOARD_ZONE_MAIN)
     {
-        for(int i=0; i <= 3; ++i)
+        for(int i=0; i <= 2; ++i)
         {
             kvs.push_back( KV(3,i) );
+        }
+        // Backslash
+        if(vendor != "Hator")
+        {
+            kvs.push_back( KV(3,3) );
+        }
+        else
+        {
+            kvs.push_back( KV(3,4) );
         }
     }
 
@@ -732,6 +741,8 @@ void RGBController_WinbondGamingKeyboard::SetupZones()
 
     layout_values* layouts = &winbond_gaming_keyboard_full_layouts;
     KEYBOARD_SIZE kb_size = controller->GetSize();
+    std::string vendor = controller->GetVendor();
+
     if(kb_size == KEYBOARD_SIZE_TKL)
     {
         layouts = &winbond_gaming_keyboard_tkl_layouts;
@@ -747,7 +758,7 @@ void RGBController_WinbondGamingKeyboard::SetupZones()
 
     if(layouts->default_values.empty())
     {
-        InitLayouts(*layouts, kb_size);
+        InitLayouts(*layouts, kb_size, vendor);
     }
 
     KeyboardLayoutManager new_kb(controller->GetLayout(), kb_size, *layouts);

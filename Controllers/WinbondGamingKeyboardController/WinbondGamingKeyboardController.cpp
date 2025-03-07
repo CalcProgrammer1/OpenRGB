@@ -74,6 +74,15 @@ void WinbondGamingKeyboardController::SetNameVendorDescription(const hid_device_
         }
 
     }
+    else if((name.find("Rockfall") != std::string::npos) || (name.find("Skyfall") != std::string::npos))
+    {
+        vendor      = "Hator";
+        layout      = KEYBOARD_LAYOUT_ANSI_QWERTY;
+        if(name.find("TKL") != std::string::npos)
+        {
+            kb_size = KEYBOARD_SIZE_TKL;
+        }
+    }
     else
     {
         vendor      = "Winbond";
