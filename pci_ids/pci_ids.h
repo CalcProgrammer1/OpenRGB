@@ -118,6 +118,7 @@
 #define NVIDIA_RTX4080_DEV                              0x2704
 #define NVIDIA_RTX4080S_DEV                             0x2702
 #define NVIDIA_RTX4090_DEV                              0x2684
+#define NVIDIA_RTX5080_DEV                              0x2C02
 #define NVIDIA_RTX5090_DEV                              0x2B85
 
 /*-----------------------------------------------------*\
@@ -334,6 +335,7 @@
 #define ASUS_ROG_STRIX_RTX_4090_24G_GAMING_WHITE        0x88C4
 #define ASUS_ROG_STRIX_RTX_4090_O24G_GAMING_WHITE       0x88C3
 #define ASUS_ROG_STRIX_RTX_4090_O24G_GAMING_WHITE_2     0x88F1
+#define ASUS_ROG_ASTRAL_RTX_5080_O16G_GAMING            0x89DE
 #define ASUS_ROG_MATRIX_PLATINUM_RTX_4090_24G           0x8934
 #define ASUS_AREZ_STRIX_VEGA56_08G_GAMING               0x0555
 #define ASUS_VEGA64_STRIX                               0x04C4
