@@ -141,6 +141,7 @@
 #define NVIDIA_RTX4080S_FE_SUB_DEV                      0x18CB
 #define NVIDIA_RTX4090_FE_SUB_DEV                       0x165B
 #define NVIDIA_RTX4090_FE_SUB_DEV2                      0x16F4
+#define NVIDIA_RTX5080_FE_SUB_DEV                       0x2095
 #define NVIDIA_RTX5090_FE_SUB_DEV                       0x2057
 
 /*---------------------------------------------------------*\
