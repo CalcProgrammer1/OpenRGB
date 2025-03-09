@@ -162,6 +162,7 @@ void InstallWinRing0()
 
 int main(int argc, char* argv[])
 {
+    int exitval = EXIT_SUCCESS;
 #ifdef _WIN32
     /*---------------------------------------------------------*\
     | Windows only - Attach console output                      |
@@ -269,7 +270,7 @@ int main(int argc, char* argv[])
         }
 
         LOG_TRACE("[main] Ready to exec() the dialog");
-        return a.exec();
+        exitval = a.exec();
     }
     else
     {
@@ -286,25 +287,18 @@ int main(int argc, char* argv[])
 
             if(!server->GetOnline())
             {
-#ifdef _MACOSX_X86_X64
-                CloseMacUSPCIODriver();
-#endif
-                return 1;
+                exitval = EXIT_FAILURE;
             }
             else
             {
                 WaitWhileServerOnline(server);
-#ifdef _MACOSX_X86_X64
-                CloseMacUSPCIODriver();
-#endif
             }
         }
-        else
-        {
-#ifdef _MACOSX_X86_X64
-            CloseMacUSPCIODriver();
-#endif
-            return 0;
-        }
     }
+    ResourceManager::get()->Cleanup();
+#ifdef _MACOSX_X86_X64
+    CloseMacUSPCIODriver();
+#endif
+    LOG_TRACE("OpenRGB finishing with exit code %d", exitval);
+    return exitval;
 }
