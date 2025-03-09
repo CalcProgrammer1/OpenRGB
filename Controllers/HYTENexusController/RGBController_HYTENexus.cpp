@@ -13,6 +13,22 @@
 
 using namespace std::chrono_literals;
 
+//0xFFFFFFFF indicates an unused entry in matrix
+#define NA  0xFFFFFFFF
+
+static unsigned int thicc_q60_matrix_map[9][5] =
+{
+    {  33,  32,  NA,  17,   0 },
+    {  34,  31,  NA,  16,   1 },
+    {  35,  30,  NA,  15,   2 },
+    {  36,  29,  18,  14,   3 },
+    {  37,  28,  19,  13,   4 },
+    {  38,  27,  20,  12,   5 },
+    {  39,  26,  21,  11,   6 },
+    {  40,  25,  22,  10,   7 },
+    {  41,  24,  23,   9,   8 },
+};
+
 RGBController_HYTENexus::RGBController_HYTENexus(HYTENexusController* controller_ptr)
 {
     controller          = controller_ptr;
@@ -79,8 +95,6 @@ void RGBController_HYTENexus::SetupZones()
         channel_zone.leds_count = channel_leds;
         channel_zone.matrix_map = NULL;
 
-        zones.push_back(channel_zone);
-
         for(unsigned int led_idx = 0; led_idx < channel_leds; led_idx++)
         {
             led channel_led;
@@ -102,7 +116,7 @@ void RGBController_HYTENexus::SetupZones()
             logo_segment.start_idx      = start_idx;
             logo_segment.type           = ZONE_TYPE_SINGLE;
 
-            zones[channel].segments.push_back(logo_segment);
+            channel_zone.segments.push_back(logo_segment);
 
             start_idx                  += logo_segment.leds_count;
         }
@@ -111,12 +125,18 @@ void RGBController_HYTENexus::SetupZones()
         {
             segment lcd_leds_segment;
 
-            lcd_leds_segment.name       = "LCD LED Matrix";
-            lcd_leds_segment.leds_count = 42;
-            lcd_leds_segment.start_idx  = start_idx;
-            lcd_leds_segment.type       = ZONE_TYPE_SINGLE;
+            lcd_leds_segment.name           = "LCD LED Matrix";
+            lcd_leds_segment.leds_count     = 42;
+            lcd_leds_segment.start_idx      = start_idx;
+            lcd_leds_segment.type           = ZONE_TYPE_MATRIX;
 
-            zones[channel].segments.push_back(lcd_leds_segment);
+            channel_zone.type               = ZONE_TYPE_MATRIX;
+            channel_zone.matrix_map         = new matrix_map_type;
+            channel_zone.matrix_map->height = 9;
+            channel_zone.matrix_map->width  = 5;
+            channel_zone.matrix_map->map    = (unsigned int *)&thicc_q60_matrix_map;
+
+            channel_zone.segments.push_back(lcd_leds_segment);
 
             start_idx                  += lcd_leds_segment.leds_count;
         }
@@ -132,11 +152,13 @@ void RGBController_HYTENexus::SetupZones()
                 device_segment.start_idx    = start_idx;
                 device_segment.type         = ZONE_TYPE_LINEAR;
 
-                zones[channel].segments.push_back(device_segment);
+                channel_zone.segments.push_back(device_segment);
 
                 start_idx                  += device_segment.leds_count;
             }
         }
+
+        zones.push_back(channel_zone);
     }
 
     SetupColors();
