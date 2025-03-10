@@ -10,6 +10,7 @@
 \*---------------------------------------------------------*/
 
 #include <cstring>
+#include <chrono>
 #include "CorsairDominatorPlatinumController.h"
 
 using namespace std::chrono_literals;

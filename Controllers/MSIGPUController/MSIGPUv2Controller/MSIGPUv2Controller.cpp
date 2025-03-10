@@ -10,6 +10,7 @@
 \*---------------------------------------------------------*/
 
 #include <cstring>
+#include <chrono>
 #include "MSIGPUv2Controller.h"
 
 using namespace std::chrono_literals;

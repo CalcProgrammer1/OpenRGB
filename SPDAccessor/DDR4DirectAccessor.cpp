@@ -7,6 +7,7 @@
 |   SPDX-License-Identifier: GPL-2.0-only                   |
 \*---------------------------------------------------------*/
 
+#include <chrono>
 #include "DDR4DirectAccessor.h"
 
 using namespace std::chrono_literals;
