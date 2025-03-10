@@ -24,7 +24,7 @@ SuspendResumeListener::~SuspendResumeListener()
     QCoreApplication::instance()->removeNativeEventFilter(this);
 }
 
-bool SuspendResumeListener::nativeEventFilter(const QByteArray &event_type, void *message, long *result)
+bool SuspendResumeListener::nativeEventFilter(const QByteArray &event_type, void *message, NEFResultType *result)
 {
     (void)result;
     if(event_type == "windows_generic_MSG")
