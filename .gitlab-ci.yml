@@ -47,601 +47,624 @@ before_script:
     - export QT_SELECT=qt5
     - export APPIMAGE_EXTRACT_AND_RUN=1
 
-#-----------------------------------------------------------------------#
-# Supported Devices Build Target                                        #
-#-----------------------------------------------------------------------#
-"Supported Devices":
-  <<: *ccache_init
-  image: registry.gitlab.com/openrgbdevelopers/openrgb-linux-ci-deb-builder:bookworm-amd64
-  tags:
-  - linux
-  - amd64
-  stage: build
-  script:
-  - qmake
-  - make -j$(nproc)
-  - ./scripts/build-supported-devices-md.sh $CI_PROJECT_DIR $CI_COMMIT_SHORT_SHA
-
-  artifacts:
-    name: "${CI_PROJECT_NAME}_Supported_Devices_${CI_COMMIT_SHORT_SHA}"
-    paths:
-    - Supported Devices.csv
-    expire_in: 30 days
-
-  rules:
-    - !reference [.upstream_rules, rules]
-
-#-----------------------------------------------------------------------#
-# Linux (AppImage) i386 Build Target                                    #
-#-----------------------------------------------------------------------#
-"Linux i386 AppImage":
-  <<: *ccache_init
-  image: registry.gitlab.com/openrgbdevelopers/openrgb-linux-ci-deb-builder:bookworm-i386
-  tags:
-  - linux
-  - i386
-  stage: build
-  script:
-  - export $(dpkg-architecture)
-  - ./scripts/build-appimage.sh
-
-  artifacts:
-    name: "${CI_PROJECT_NAME}_Linux_i386_${CI_COMMIT_SHORT_SHA}"
-    paths:
-    - OpenRGB-i386.AppImage
-    - 60-openrgb.rules
-    - README.md
-    expire_in: 30 days
-
-  rules:
-    - !reference [.upstream_rules, rules]
-
-#-----------------------------------------------------------------------#
-# Linux (AppImage) amd64 Build Target                                   #
-#-----------------------------------------------------------------------#
-"Linux amd64 AppImage Base":
-  <<: *ccache_init
-  image: registry.gitlab.com/openrgbdevelopers/openrgb-linux-ci-deb-builder:bookworm-amd64
-  stage: build
-  script:
-  - export $(dpkg-architecture)
-  - ./scripts/build-appimage.sh
-
-  artifacts:
-    name: "${CI_PROJECT_NAME}_Linux_amd64_${CI_COMMIT_SHORT_SHA}"
-    paths:
-    - OpenRGB-x86_64.AppImage
-    - 60-openrgb.rules
-    - README.md
-    expire_in: 30 days
-
-  rules:
-  - if: $CI_PIPELINE_SOURCE == "merge_request_event" || $CI_PIPELINE_SOURCE == "push"
-    when: never
-
-"Linux amd64 AppImage":
-  extends: "Linux amd64 AppImage Base"
-  rules:
-  - !reference [.fork_local_runner_rules, rules]
-  tags:
-  - linux
-  - amd64
-
-"Linux amd64 AppImage (gitlab.com runner)":
-  extends: "Linux amd64 AppImage Base"
-  rules:
-  - !reference [.fork_gitlab_runner_rules, rules]
-  tags:
-  - "saas-linux-small-amd64"
-
-#-----------------------------------------------------------------------#
-# Linux (AppImage) armhf Build Target                                   #
-#-----------------------------------------------------------------------#
-"Linux armhf AppImage":
-  <<: *ccache_init
-  image: registry.gitlab.com/openrgbdevelopers/openrgb-linux-ci-deb-builder:bookworm-armhf
-  tags:
-  - linux
-  - armhf
-  stage: build
-  script:
-  - export $(dpkg-architecture)
-  - ./scripts/build-appimage.sh
-
-  artifacts:
-    name: "${CI_PROJECT_NAME}_Linux_armhf_${CI_COMMIT_SHORT_SHA}"
-    paths:
-    - OpenRGB-armhf.AppImage
-    - 60-openrgb.rules
-    - README.md
-    expire_in: 30 days
-
-  rules:
-    - !reference [.upstream_rules, rules]
-
-#-----------------------------------------------------------------------#
-# Linux (AppImage) arm64 Build Target                                   #
-#-----------------------------------------------------------------------#
-"Linux arm64 AppImage":
-  <<: *ccache_init
-  image: registry.gitlab.com/openrgbdevelopers/openrgb-linux-ci-deb-builder:bookworm-arm64
-  tags:
-  - linux
-  - arm64
-  stage: build
-  script:
-  - export $(dpkg-architecture)
-  - ./scripts/build-appimage.sh
-
-  artifacts:
-    name: "${CI_PROJECT_NAME}_Linux_arm64_${CI_COMMIT_SHORT_SHA}"
-    paths:
-    - OpenRGB-arm64.AppImage
-    - 60-openrgb.rules
-    - README.md
-    expire_in: 30 days
-
-  rules:
-    - !reference [.upstream_rules, rules]
-
-#-----------------------------------------------------------------------#
-# Linux (.deb) Debian Bookworm i386 Build Target                        #
-#-----------------------------------------------------------------------#
-"Linux i386 .deb (Debian Bookworm)":
-  <<: *ccache_init
-  image: registry.gitlab.com/openrgbdevelopers/openrgb-linux-ci-deb-builder:bookworm-i386
-  tags:
-  - linux
-  - i386
-  stage: build
-  script:
-  - ./scripts/build-package-files.sh debian/changelog
-  - dpkg-architecture -l
-  - dpkg-buildpackage -us -B
-  - rm -v ../openrgb-dbgsym*.deb
-  - mv -v ../openrgb*.deb ./
-
-  artifacts:
-    name: "${CI_PROJECT_NAME}_Linux_i386_deb_${CI_COMMIT_SHORT_SHA}"
-    paths:
-    - openrgb*.deb
-    exclude:
-    - openrgb-dbgsym*.deb
-    expire_in: 30 days
-
-  rules:
-    - !reference [.upstream_rules, rules]
-
-#-----------------------------------------------------------------------#
-# Linux (.deb) Debian Bookworm amd64 Build Target                       #
-#-----------------------------------------------------------------------#
-"Linux amd64 .deb (Debian Bookworm)":
-  <<: *ccache_init
-  image: registry.gitlab.com/openrgbdevelopers/openrgb-linux-ci-deb-builder:bookworm-amd64
-  tags:
-  - linux
-  - amd64
-  stage: build
-  script:
-  - ./scripts/build-package-files.sh debian/changelog
-  - dpkg-architecture -l
-  - dpkg-buildpackage -us -B
-  - rm -v ../openrgb-dbgsym*.deb
-  - mv -v ../openrgb*.deb ./
-
-  artifacts:
-    name: "${CI_PROJECT_NAME}_Linux_amd64_deb_${CI_COMMIT_SHORT_SHA}"
-    paths:
-    - openrgb*.deb
-    exclude:
-    - openrgb-dbgsym*.deb
-    expire_in: 30 days
-
-  rules:
-    - !reference [.upstream_rules, rules]
-
-#-----------------------------------------------------------------------#
-# Linux (.deb) Debian Bookworm armhf Build Target                       #
-#-----------------------------------------------------------------------#
-"Linux armhf .deb (Debian Bookworm)":
-  <<: *ccache_init
-  image: registry.gitlab.com/openrgbdevelopers/openrgb-linux-ci-deb-builder:bookworm-armhf
-  tags:
-  - linux
-  - armhf
-  stage: build
-  script:
-  - ./scripts/build-package-files.sh debian/changelog
-  - dpkg-architecture -l
-  - dpkg-buildpackage -us -B
-  - rm -v ../openrgb-dbgsym*.deb
-  - mv -v ../openrgb*.deb ./
-
-  artifacts:
-    name: "${CI_PROJECT_NAME}_Linux_armhf_deb_${CI_COMMIT_SHORT_SHA}"
-    paths:
-    - openrgb*.deb
-    exclude:
-    - openrgb-dbgsym*.deb
-    expire_in: 30 days
-
-  rules:
-    - !reference [.upstream_rules, rules]
-
-#-----------------------------------------------------------------------#
-# Linux (.deb) Debian Bookworm arm64 Build Target                       #
-#-----------------------------------------------------------------------#
-"Linux arm64 .deb (Debian Bookworm)":
-  <<: *ccache_init
-  image: registry.gitlab.com/openrgbdevelopers/openrgb-linux-ci-deb-builder:bookworm-arm64
-  tags:
-  - linux
-  - arm64
-  stage: build
-  script:
-  - ./scripts/build-package-files.sh debian/changelog
-  - dpkg-architecture -l
-  - dpkg-buildpackage -us -B
-  - rm -v ../openrgb-dbgsym*.deb
-  - mv -v ../openrgb*.deb ./
-
-  artifacts:
-    name: "${CI_PROJECT_NAME}_Linux_arm64_deb_${CI_COMMIT_SHORT_SHA}"
-    paths:
-    - openrgb*.deb
-    exclude:
-    - openrgb-dbgsym*.deb
-    expire_in: 30 days
-
-  rules:
-    - !reference [.upstream_rules, rules]
-
-#-----------------------------------------------------------------------#
-# Linux (.rpm, F40) 64-bit Build Target                                 #
-#-----------------------------------------------------------------------#
-"Linux 64 F40 rpm":
-  image: fedora:40
-  stage: build
-  script:
-  - dnf install rpmdevtools dnf-plugins-core libcurl-devel qt5-qtbase-devel git -y
-  - rpmdev-setuptree
-  - ./scripts/build-package-files.sh fedora/OpenRGB.spec
-  - cp fedora/OpenRGB.spec /root/rpmbuild/SPECS
-  - cp -rp . /root/rpmbuild/SOURCES/OpenRGB
-  - cd /root/rpmbuild
-  - dnf builddep SPECS/OpenRGB.spec -y
-  - rpmbuild -ba SPECS/OpenRGB.spec
-  - cd RPMS/x86_64/
-  - mv openrgb*.rpm ${CI_PROJECT_DIR}/
-  - cd ${CI_PROJECT_DIR}
-
-  artifacts:
-    name: "${CI_PROJECT_NAME}_Linux_64_rpm_${CI_COMMIT_SHORT_SHA}"
-    paths:
-    - openrgb*.rpm
-    expire_in: 30 days
-
-  rules:
-    - !reference [.upstream_rules, rules]
-
-#-----------------------------------------------------------------------#
-# Debian i386 Bookworm test                                             #
-#-----------------------------------------------------------------------#
-"Debian i386 Bookworm":
-  image: i386/debian:bookworm
-  stage: test
-  script:
-  - apt update
-  - DEBIAN_FRONTEND=noninteractive apt install -yq --no-install-recommends ./openrgb*i386.deb
-  - openrgb --version
-  - apt remove -y openrgb
-  dependencies:
-  - "Linux i386 .deb (Debian Bookworm)"
-  needs:
-  - "Linux i386 .deb (Debian Bookworm)"
-
-#-----------------------------------------------------------------------#
-# Debian amd64 Bookworm test                                            #
-#-----------------------------------------------------------------------#
-"Debian amd64 Bookworm":
-  image: amd64/debian:bookworm
-  stage: test
-  script:
-  - apt update
-  - DEBIAN_FRONTEND=noninteractive apt install -yq --no-install-recommends ./openrgb*amd64.deb
-  - openrgb --version
-  - apt remove -y openrgb
-  dependencies:
-  - "Linux amd64 .deb (Debian Bookworm)"
-  needs:
-  - "Linux amd64 .deb (Debian Bookworm)"
-
-#-----------------------------------------------------------------------#
-# Ubuntu amd64 22.04 test                                               #
-#-----------------------------------------------------------------------#
-"Ubuntu amd64 22.04LTS":
-  image: ubuntu:jammy
-  stage: test
-  script:
-  - apt update
-  - DEBIAN_FRONTEND=noninteractive apt install -yq --no-install-recommends ./openrgb*amd64.deb
-  - openrgb --version
-  - apt remove -y openrgb
-  dependencies:
-  - "Linux amd64 .deb (Debian Bookworm)"
-  needs:
-  - "Linux amd64 .deb (Debian Bookworm)"
-
-#-----------------------------------------------------------------------#
-# Ubuntu amd64 24.04 test                                               #
-#-----------------------------------------------------------------------#
-"Ubuntu amd64 24.04LTS":
-  image: ubuntu:noble
-  stage: test
-  script:
-  - apt update
-  - DEBIAN_FRONTEND=noninteractive apt install -yq --no-install-recommends ./openrgb*amd64.deb
-  - openrgb --version
-  - apt remove -y openrgb
-  dependencies:
-  - "Linux amd64 .deb (Debian Bookworm)"
-  needs:
-  - "Linux amd64 .deb (Debian Bookworm)"
-
-#-----------------------------------------------------------------------#
-# Fedora 64 v40 test                                                    #
-#-----------------------------------------------------------------------#
-"Fedora 64 v40":
-  image: fedora:40
-  stage: test
-  script:
-  - yum -y localinstall ./openrgb*64.rpm
-  - openrgb --version
-  - yum -y remove openrgb
-  dependencies:
-  - "Linux 64 F40 rpm"
-  needs:
-  - "Linux 64 F40 rpm"
-
-#-----------------------------------------------------------------------#
-# Windows (32-bit) Build Target                                         #
-#-----------------------------------------------------------------------#
-"Windows 32":
-  extends:
-  - .shared_windows_runners
-  stage: build
-  script:
-  - $esc = "$([char]27)"
-  - $count = 0
-  - function _unix_tmsec_ { [int64](([datetime]::UtcNow)-(get-date "1/1/1970")).TotalSeconds }
-  - function _fold_start_ { param( [string]$TEXT_TAG ) $t=_unix_tmsec_; $global:count += 1; Write-Host -NoNewLine "`r`n`r`nsection_start:${t}:sect_${count}`r${esc}[0K${esc}[33m${TEXT_TAG}${esc}[39m`r`n"; }
-  - function _fold_final_ {                            $t=_unix_tmsec_;                     Write-Host -NoNewLine   "`r`n`r`nsection_end:${t}:sect_${count}`r${esc}[0K`r`n"           ; }
-
-
-  - _fold_start_ 'configuring the msvc environment variables'
-  - Push-Location "C:/Program Files (x86)/Microsoft Visual Studio/2019/BuildTools/VC/Auxiliary/Build"
-  - '& cmd.exe /C "vcvarsall.bat x86 & set" | Foreach-Object { if ($_ -match "(.*?)=(.*)") { Set-Item -force -path "Env:\$($matches[1])" -value "$($matches[2])" } }'
-  - Pop-Location
-  - _fold_final_
-
-  - _fold_start_ 'downloading precompiled versions of qtbase, qttools (for windeployqt) and jom (for a more parallel nmake)'
-  - mkdir _qt
-  - mkdir _qt_download
-  - Push-Location _qt_download
-  - curl.exe -LJ -o qt-base.7z  'https://gitlab.com/OpenRGBDevelopers/openrgb-linux-ci-deb-builder/-/package_files/55610076/download'
-  - curl.exe -LJ -o qt-tools.7z 'https://gitlab.com/OpenRGBDevelopers/openrgb-linux-ci-deb-builder/-/package_files/55610097/download'
-  - curl.exe -LJ -o qt-jom.zip  'https://gitlab.com/OpenRGBDevelopers/openrgb-linux-ci-deb-builder/-/package_files/55610138/download'
-  - _fold_final_
-
-  - _fold_start_ 'extracting the downloaded qt binaries'
-  - 7z x qt-base.7z  '-o../_qt' -y
-  - 7z x qt-tools.7z '-o../_qt' -y
-  - 7z x qt-jom.zip  '-o../_qt' -y
-  - _fold_final_
-
-  - _fold_start_ 'turn the qt install from enterprise to foss; remove the licensing checks'
-  - ${qconfig-pri-folder} = '..\_qt\5.15.0\msvc2019\mkspecs\qconfig.pri'
-  - (Get-Content ${qconfig-pri-folder}).replace('QT_EDITION = Enterprise', 'QT_EDITION = OpenSource') | Set-Content ${qconfig-pri-folder}
-  - (Get-Content ${qconfig-pri-folder}).replace('QT_LICHECK = licheck.exe', '')                       | Set-Content ${qconfig-pri-folder}
-  - Pop-Location
-  - _fold_final_
-
-  - _fold_start_ 'run qmake and generate the msvc nmake makefile'
-  - mkdir _build; cd _build
-  - ..\_qt\5.15.0\msvc2019\bin\qmake ..\OpenRGB.pro
-  - _fold_final_
-
-  - _fold_start_ 'start the actual build with jom instead of nmake; for speed'
-  - ..\_qt\jom
-  - _fold_final_
-
-  - _fold_start_ 'run windeployqt to automatically copy the needed dll files'
-  - ..\_qt\5.15.0\msvc2019\bin\windeployqt --no-angle --no-translations --no-opengl-sw --no-system-d3d-compiler --no-compiler-runtime --no-webkit2 .\release\
-  - _fold_final_
-
-  - _fold_start_ 'Moving results for upload'
-  - mv release ../'OpenRGB Windows 32-bit'
-  - _fold_final_
-#  cache:
-#    key: same-key
+##-----------------------------------------------------------------------#
+## Supported Devices Build Target                                        #
+##-----------------------------------------------------------------------#
+#"Supported Devices":
+#  <<: *ccache_init
+#  image: registry.gitlab.com/openrgbdevelopers/openrgb-linux-ci-deb-builder:bookworm-amd64
+#  tags:
+#  - linux
+#  - amd64
+#  stage: build
+#  script:
+#  - qmake
+#  - make -j$(nproc)
+#  - ./scripts/build-supported-devices-md.sh $CI_PROJECT_DIR $CI_COMMIT_SHORT_SHA
+#
+#  artifacts:
+#    name: "${CI_PROJECT_NAME}_Supported_Devices_${CI_COMMIT_SHORT_SHA}"
 #    paths:
-#    - C:\vcpkg\installed\
-  artifacts:
-    name: "${CI_PROJECT_NAME}_Windows_32_${CI_COMMIT_SHORT_SHA}"
-    paths:
-    - 'OpenRGB Windows 32-bit'
-    exclude:
-    - 'OpenRGB Windows 32-bit\*.qm'
-    expire_in: 30 days
-
-  rules:
-    - !reference [.upstream_rules, rules]
-
-#-----------------------------------------------------------------------#
-# Windows (64-bit) Build Target                                         #
-#-----------------------------------------------------------------------#
-"Windows 64 Base":
-  extends:
-  - .shared_windows_runners
-  stage: build
-  script:
-  - $esc = "$([char]27)"
-  - $count = 0
-  - function _unix_tmsec_ { [int64](([datetime]::UtcNow)-(get-date "1/1/1970")).TotalSeconds }
-  - function _fold_start_ { param( [string]$TEXT_TAG ) $t=_unix_tmsec_; $global:count += 1; Write-Host -NoNewLine "`r`n`r`nsection_start:${t}:sect_${count}`r${esc}[0K${esc}[33m${TEXT_TAG}${esc}[39m`r`n"; }
-  - function _fold_final_ {                            $t=_unix_tmsec_;                     Write-Host -NoNewLine   "`r`n`r`nsection_end:${t}:sect_${count}`r${esc}[0K`r`n"           ; }
-
-
-  - _fold_start_ 'configuring the msvc environment variables'
-  - Push-Location "C:/Program Files (x86)/Microsoft Visual Studio/2019/BuildTools/VC/Auxiliary/Build"
-  - '& cmd.exe /C "vcvarsall.bat x64 & set" | Foreach-Object { if ($_ -match "(.*?)=(.*)") { Set-Item -force -path "Env:\$($matches[1])" -value "$($matches[2])" } }'
-  - Pop-Location
-  - _fold_final_
-
-  - _fold_start_ 'downloading precompiled versions of qtbase, qttools (for windeployqt) and jom (for a more parallel nmake)'
-  - mkdir _qt
-  - mkdir _qt_download
-  - Push-Location _qt_download
-  - curl.exe -LJ -o qt-base.7z  'https://gitlab.com/OpenRGBDevelopers/openrgb-linux-ci-deb-builder/-/package_files/55610116/download'
-  - curl.exe -LJ -o qt-tools.7z 'https://gitlab.com/OpenRGBDevelopers/openrgb-linux-ci-deb-builder/-/package_files/55610131/download'
-  - curl.exe -LJ -o qt-jom.zip  'https://gitlab.com/OpenRGBDevelopers/openrgb-linux-ci-deb-builder/-/package_files/55610138/download'
-  - _fold_final_
-
-  - _fold_start_ 'extracting the downloaded qt binaries'
-  - 7z x qt-base.7z  '-o../_qt' -y
-  - 7z x qt-tools.7z '-o../_qt' -y
-  - 7z x qt-jom.zip  '-o../_qt' -y
-  - _fold_final_
-
-  - _fold_start_ 'turn the qt install from enterprise to foss; remove the licensing checks'
-  - ${qconfig-pri-folder} = '..\_qt\5.15.0\msvc2019_64\mkspecs\qconfig.pri'
-  - (Get-Content ${qconfig-pri-folder}).replace('QT_EDITION = Enterprise', 'QT_EDITION = OpenSource') | Set-Content ${qconfig-pri-folder}
-  - (Get-Content ${qconfig-pri-folder}).replace('QT_LICHECK = licheck.exe', '')                       | Set-Content ${qconfig-pri-folder}
-  - Pop-Location
-  - _fold_final_
-
-  - _fold_start_ 'run qmake and generate the msvc nmake makefile'
-  - mkdir _build; cd _build
-  - ..\_qt\5.15.0\msvc2019_64\bin\qmake ..\OpenRGB.pro
-  - _fold_final_
-
-  - _fold_start_ 'start the actual build with jom instead of nmake; for speed'
-  - ..\_qt\jom
-  - _fold_final_
-
-  - _fold_start_ 'run windeployqt to automatically copy the needed dll files'
-  - ..\_qt\5.15.0\msvc2019_64\bin\windeployqt --no-angle --no-translations --no-opengl-sw --no-system-d3d-compiler --no-compiler-runtime --no-webkit2 .\release\
-  - _fold_final_
-
-  - _fold_start_ 'Moving results for upload'
-  - mv release ../'OpenRGB Windows 64-bit'
-  - _fold_final_
-#  cache:
-#    key: same-key
+#    - Supported Devices.csv
+#    expire_in: 30 days
+#
+#  rules:
+#    - !reference [.upstream_rules, rules]
+#
+##-----------------------------------------------------------------------#
+## Linux (AppImage) i386 Build Target                                    #
+##-----------------------------------------------------------------------#
+#"Linux i386 AppImage":
+#  <<: *ccache_init
+#  image: registry.gitlab.com/openrgbdevelopers/openrgb-linux-ci-deb-builder:bookworm-i386
+#  tags:
+#  - linux
+#  - i386
+#  stage: build
+#  script:
+#  - export $(dpkg-architecture)
+#  - ./scripts/build-appimage.sh
+#
+#  artifacts:
+#    name: "${CI_PROJECT_NAME}_Linux_i386_${CI_COMMIT_SHORT_SHA}"
 #    paths:
-#    - C:\vcpkg\installed\
-  artifacts:
-    name: "${CI_PROJECT_NAME}_Windows_64_${CI_COMMIT_SHORT_SHA}"
-    paths:
-    - 'OpenRGB Windows 64-bit'
-    exclude:
-    - 'OpenRGB Windows 64-bit\*.qm'
-    expire_in: 30 days
-
-  rules:
-    - if: $CI_PIPELINE_SOURCE == "merge_request_event" || $CI_PIPELINE_SOURCE == "push"
-      when: never
-
-
-"Windows 64":
-  extends: "Windows 64 Base"
-  rules:
-  - !reference [.fork_local_runner_rules, rules]
-
-"Windows 64 (gitlab.com runner)":
-  extends: "Windows 64 Base"
-  before_script:
-    choco install visualstudio2019-workload-vctools -y # gitlab provides vs2022, so add vs2019
-  rules:
-  - !reference [.fork_gitlab_runner_rules, rules]
-  tags:
-  - "saas-windows-medium-amd64"
+#    - OpenRGB-i386.AppImage
+#    - 60-openrgb.rules
+#    - README.md
+#    expire_in: 30 days
+#
+#  rules:
+#    - !reference [.upstream_rules, rules]
+#
+##-----------------------------------------------------------------------#
+## Linux (AppImage) amd64 Build Target                                   #
+##-----------------------------------------------------------------------#
+#"Linux amd64 AppImage Base":
+#  <<: *ccache_init
+#  image: registry.gitlab.com/openrgbdevelopers/openrgb-linux-ci-deb-builder:bookworm-amd64
+#  stage: build
+#  script:
+#  - export $(dpkg-architecture)
+#  - ./scripts/build-appimage.sh
+#
+#  artifacts:
+#    name: "${CI_PROJECT_NAME}_Linux_amd64_${CI_COMMIT_SHORT_SHA}"
+#    paths:
+#    - OpenRGB-x86_64.AppImage
+#    - 60-openrgb.rules
+#    - README.md
+#    expire_in: 30 days
+#
+#  rules:
+#  - if: $CI_PIPELINE_SOURCE == "merge_request_event" || $CI_PIPELINE_SOURCE == "push"
+#    when: never
+#
+#"Linux amd64 AppImage":
+#  extends: "Linux amd64 AppImage Base"
+#  rules:
+#  - !reference [.fork_local_runner_rules, rules]
+#  tags:
+#  - linux
+#  - amd64
+#
+#"Linux amd64 AppImage (gitlab.com runner)":
+#  extends: "Linux amd64 AppImage Base"
+#  rules:
+#  - !reference [.fork_gitlab_runner_rules, rules]
+#  tags:
+#  - "saas-linux-small-amd64"
+#
+##-----------------------------------------------------------------------#
+## Linux (AppImage) armhf Build Target                                   #
+##-----------------------------------------------------------------------#
+#"Linux armhf AppImage":
+#  <<: *ccache_init
+#  image: registry.gitlab.com/openrgbdevelopers/openrgb-linux-ci-deb-builder:bookworm-armhf
+#  tags:
+#  - linux
+#  - armhf
+#  stage: build
+#  script:
+#  - export $(dpkg-architecture)
+#  - ./scripts/build-appimage.sh
+#
+#  artifacts:
+#    name: "${CI_PROJECT_NAME}_Linux_armhf_${CI_COMMIT_SHORT_SHA}"
+#    paths:
+#    - OpenRGB-armhf.AppImage
+#    - 60-openrgb.rules
+#    - README.md
+#    expire_in: 30 days
+#
+#  rules:
+#    - !reference [.upstream_rules, rules]
+#
+##-----------------------------------------------------------------------#
+## Linux (AppImage) arm64 Build Target                                   #
+##-----------------------------------------------------------------------#
+#"Linux arm64 AppImage":
+#  <<: *ccache_init
+#  image: registry.gitlab.com/openrgbdevelopers/openrgb-linux-ci-deb-builder:bookworm-arm64
+#  tags:
+#  - linux
+#  - arm64
+#  stage: build
+#  script:
+#  - export $(dpkg-architecture)
+#  - ./scripts/build-appimage.sh
+#
+#  artifacts:
+#    name: "${CI_PROJECT_NAME}_Linux_arm64_${CI_COMMIT_SHORT_SHA}"
+#    paths:
+#    - OpenRGB-arm64.AppImage
+#    - 60-openrgb.rules
+#    - README.md
+#    expire_in: 30 days
+#
+#  rules:
+#    - !reference [.upstream_rules, rules]
+#
+##-----------------------------------------------------------------------#
+## Linux (.deb) Debian Bookworm i386 Build Target                        #
+##-----------------------------------------------------------------------#
+#"Linux i386 .deb (Debian Bookworm)":
+#  <<: *ccache_init
+#  image: registry.gitlab.com/openrgbdevelopers/openrgb-linux-ci-deb-builder:bookworm-i386
+#  tags:
+#  - linux
+#  - i386
+#  stage: build
+#  script:
+#  - ./scripts/build-package-files.sh debian/changelog
+#  - dpkg-architecture -l
+#  - dpkg-buildpackage -us -B
+#  - rm -v ../openrgb-dbgsym*.deb
+#  - mv -v ../openrgb*.deb ./
+#
+#  artifacts:
+#    name: "${CI_PROJECT_NAME}_Linux_i386_deb_${CI_COMMIT_SHORT_SHA}"
+#    paths:
+#    - openrgb*.deb
+#    exclude:
+#    - openrgb-dbgsym*.deb
+#    expire_in: 30 days
+#
+#  rules:
+#    - !reference [.upstream_rules, rules]
+#
+##-----------------------------------------------------------------------#
+## Linux (.deb) Debian Bookworm amd64 Build Target                       #
+##-----------------------------------------------------------------------#
+#"Linux amd64 .deb (Debian Bookworm)":
+#  <<: *ccache_init
+#  image: registry.gitlab.com/openrgbdevelopers/openrgb-linux-ci-deb-builder:bookworm-amd64
+#  tags:
+#  - linux
+#  - amd64
+#  stage: build
+#  script:
+#  - ./scripts/build-package-files.sh debian/changelog
+#  - dpkg-architecture -l
+#  - dpkg-buildpackage -us -B
+#  - rm -v ../openrgb-dbgsym*.deb
+#  - mv -v ../openrgb*.deb ./
+#
+#  artifacts:
+#    name: "${CI_PROJECT_NAME}_Linux_amd64_deb_${CI_COMMIT_SHORT_SHA}"
+#    paths:
+#    - openrgb*.deb
+#    exclude:
+#    - openrgb-dbgsym*.deb
+#    expire_in: 30 days
+#
+#  rules:
+#    - !reference [.upstream_rules, rules]
+#
+##-----------------------------------------------------------------------#
+## Linux (.deb) Debian Bookworm armhf Build Target                       #
+##-----------------------------------------------------------------------#
+#"Linux armhf .deb (Debian Bookworm)":
+#  <<: *ccache_init
+#  image: registry.gitlab.com/openrgbdevelopers/openrgb-linux-ci-deb-builder:bookworm-armhf
+#  tags:
+#  - linux
+#  - armhf
+#  stage: build
+#  script:
+#  - ./scripts/build-package-files.sh debian/changelog
+#  - dpkg-architecture -l
+#  - dpkg-buildpackage -us -B
+#  - rm -v ../openrgb-dbgsym*.deb
+#  - mv -v ../openrgb*.deb ./
+#
+#  artifacts:
+#    name: "${CI_PROJECT_NAME}_Linux_armhf_deb_${CI_COMMIT_SHORT_SHA}"
+#    paths:
+#    - openrgb*.deb
+#    exclude:
+#    - openrgb-dbgsym*.deb
+#    expire_in: 30 days
+#
+#  rules:
+#    - !reference [.upstream_rules, rules]
+#
+##-----------------------------------------------------------------------#
+## Linux (.deb) Debian Bookworm arm64 Build Target                       #
+##-----------------------------------------------------------------------#
+#"Linux arm64 .deb (Debian Bookworm)":
+#  <<: *ccache_init
+#  image: registry.gitlab.com/openrgbdevelopers/openrgb-linux-ci-deb-builder:bookworm-arm64
+#  tags:
+#  - linux
+#  - arm64
+#  stage: build
+#  script:
+#  - ./scripts/build-package-files.sh debian/changelog
+#  - dpkg-architecture -l
+#  - dpkg-buildpackage -us -B
+#  - rm -v ../openrgb-dbgsym*.deb
+#  - mv -v ../openrgb*.deb ./
+#
+#  artifacts:
+#    name: "${CI_PROJECT_NAME}_Linux_arm64_deb_${CI_COMMIT_SHORT_SHA}"
+#    paths:
+#    - openrgb*.deb
+#    exclude:
+#    - openrgb-dbgsym*.deb
+#    expire_in: 30 days
+#
+#  rules:
+#    - !reference [.upstream_rules, rules]
+#
+##-----------------------------------------------------------------------#
+## Linux (.rpm, F40) 64-bit Build Target                                 #
+##-----------------------------------------------------------------------#
+#"Linux 64 F40 rpm":
+#  image: fedora:40
+#  stage: build
+#  script:
+#  - dnf install rpmdevtools dnf-plugins-core libcurl-devel qt5-qtbase-devel git -y
+#  - rpmdev-setuptree
+#  - ./scripts/build-package-files.sh fedora/OpenRGB.spec
+#  - cp fedora/OpenRGB.spec /root/rpmbuild/SPECS
+#  - cp -rp . /root/rpmbuild/SOURCES/OpenRGB
+#  - cd /root/rpmbuild
+#  - dnf builddep SPECS/OpenRGB.spec -y
+#  - rpmbuild -ba SPECS/OpenRGB.spec
+#  - cd RPMS/x86_64/
+#  - mv openrgb*.rpm ${CI_PROJECT_DIR}/
+#  - cd ${CI_PROJECT_DIR}
+#
+#  artifacts:
+#    name: "${CI_PROJECT_NAME}_Linux_64_rpm_${CI_COMMIT_SHORT_SHA}"
+#    paths:
+#    - openrgb*.rpm
+#    expire_in: 30 days
+#
+#  rules:
+#    - !reference [.upstream_rules, rules]
+#
+##-----------------------------------------------------------------------#
+## Debian i386 Bookworm test                                             #
+##-----------------------------------------------------------------------#
+#"Debian i386 Bookworm":
+#  image: i386/debian:bookworm
+#  stage: test
+#  script:
+#  - apt update
+#  - DEBIAN_FRONTEND=noninteractive apt install -yq --no-install-recommends ./openrgb*i386.deb
+#  - openrgb --version
+#  - apt remove -y openrgb
+#  dependencies:
+#  - "Linux i386 .deb (Debian Bookworm)"
+#  needs:
+#  - "Linux i386 .deb (Debian Bookworm)"
+#
+##-----------------------------------------------------------------------#
+## Debian amd64 Bookworm test                                            #
+##-----------------------------------------------------------------------#
+#"Debian amd64 Bookworm":
+#  image: amd64/debian:bookworm
+#  stage: test
+#  script:
+#  - apt update
+#  - DEBIAN_FRONTEND=noninteractive apt install -yq --no-install-recommends ./openrgb*amd64.deb
+#  - openrgb --version
+#  - apt remove -y openrgb
+#  dependencies:
+#  - "Linux amd64 .deb (Debian Bookworm)"
+#  needs:
+#  - "Linux amd64 .deb (Debian Bookworm)"
+#
+##-----------------------------------------------------------------------#
+## Ubuntu amd64 22.04 test                                               #
+##-----------------------------------------------------------------------#
+#"Ubuntu amd64 22.04LTS":
+#  image: ubuntu:jammy
+#  stage: test
+#  script:
+#  - apt update
+#  - DEBIAN_FRONTEND=noninteractive apt install -yq --no-install-recommends ./openrgb*amd64.deb
+#  - openrgb --version
+#  - apt remove -y openrgb
+#  dependencies:
+#  - "Linux amd64 .deb (Debian Bookworm)"
+#  needs:
+#  - "Linux amd64 .deb (Debian Bookworm)"
+#
+##-----------------------------------------------------------------------#
+## Ubuntu amd64 24.04 test                                               #
+##-----------------------------------------------------------------------#
+#"Ubuntu amd64 24.04LTS":
+#  image: ubuntu:noble
+#  stage: test
+#  script:
+#  - apt update
+#  - DEBIAN_FRONTEND=noninteractive apt install -yq --no-install-recommends ./openrgb*amd64.deb
+#  - openrgb --version
+#  - apt remove -y openrgb
+#  dependencies:
+#  - "Linux amd64 .deb (Debian Bookworm)"
+#  needs:
+#  - "Linux amd64 .deb (Debian Bookworm)"
+#
+##-----------------------------------------------------------------------#
+## Fedora 64 v40 test                                                    #
+##-----------------------------------------------------------------------#
+#"Fedora 64 v40":
+#  image: fedora:40
+#  stage: test
+#  script:
+#  - yum -y localinstall ./openrgb*64.rpm
+#  - openrgb --version
+#  - yum -y remove openrgb
+#  dependencies:
+#  - "Linux 64 F40 rpm"
+#  needs:
+#  - "Linux 64 F40 rpm"
+#
+##-----------------------------------------------------------------------#
+## Windows (32-bit) Build Target                                         #
+##-----------------------------------------------------------------------#
+#"Windows 32":
+#  extends:
+#  - .shared_windows_runners
+#  stage: build
+#  script:
+#  - $esc = "$([char]27)"
+#  - $count = 0
+#  - function _unix_tmsec_ { [int64](([datetime]::UtcNow)-(get-date "1/1/1970")).TotalSeconds }
+#  - function _fold_start_ { param( [string]$TEXT_TAG ) $t=_unix_tmsec_; $global:count += 1; Write-Host -NoNewLine "`r`n`r`nsection_start:${t}:sect_${count}`r${esc}[0K${esc}[33m${TEXT_TAG}${esc}[39m`r`n"; }
+#  - function _fold_final_ {                            $t=_unix_tmsec_;                     Write-Host -NoNewLine   "`r`n`r`nsection_end:${t}:sect_${count}`r${esc}[0K`r`n"           ; }
+#
+#
+#  - _fold_start_ 'configuring the msvc environment variables'
+#  - Push-Location "C:/Program Files (x86)/Microsoft Visual Studio/2019/BuildTools/VC/Auxiliary/Build"
+#  - '& cmd.exe /C "vcvarsall.bat x86 & set" | Foreach-Object { if ($_ -match "(.*?)=(.*)") { Set-Item -force -path "Env:\$($matches[1])" -value "$($matches[2])" } }'
+#  - Pop-Location
+#  - _fold_final_
+#
+#  - _fold_start_ 'downloading precompiled versions of qtbase, qttools (for windeployqt) and jom (for a more parallel nmake)'
+#  - mkdir _qt
+#  - mkdir _qt_download
+#  - Push-Location _qt_download
+#  - curl.exe -LJ -o qt-base.7z  'https://gitlab.com/OpenRGBDevelopers/openrgb-linux-ci-deb-builder/-/package_files/55610076/download'
+#  - curl.exe -LJ -o qt-tools.7z 'https://gitlab.com/OpenRGBDevelopers/openrgb-linux-ci-deb-builder/-/package_files/55610097/download'
+#  - curl.exe -LJ -o qt-jom.zip  'https://gitlab.com/OpenRGBDevelopers/openrgb-linux-ci-deb-builder/-/package_files/55610138/download'
+#  - _fold_final_
+#
+#  - _fold_start_ 'extracting the downloaded qt binaries'
+#  - 7z x qt-base.7z  '-o../_qt' -y
+#  - 7z x qt-tools.7z '-o../_qt' -y
+#  - 7z x qt-jom.zip  '-o../_qt' -y
+#  - _fold_final_
+#
+#  - _fold_start_ 'turn the qt install from enterprise to foss; remove the licensing checks'
+#  - ${qconfig-pri-folder} = '..\_qt\5.15.0\msvc2019\mkspecs\qconfig.pri'
+#  - (Get-Content ${qconfig-pri-folder}).replace('QT_EDITION = Enterprise', 'QT_EDITION = OpenSource') | Set-Content ${qconfig-pri-folder}
+#  - (Get-Content ${qconfig-pri-folder}).replace('QT_LICHECK = licheck.exe', '')                       | Set-Content ${qconfig-pri-folder}
+#  - Pop-Location
+#  - _fold_final_
+#
+#  - _fold_start_ 'run qmake and generate the msvc nmake makefile'
+#  - mkdir _build; cd _build
+#  - ..\_qt\5.15.0\msvc2019\bin\qmake ..\OpenRGB.pro
+#  - _fold_final_
+#
+#  - _fold_start_ 'start the actual build with jom instead of nmake; for speed'
+#  - ..\_qt\jom
+#  - _fold_final_
+#
+#  - _fold_start_ 'run windeployqt to automatically copy the needed dll files'
+#  - ..\_qt\5.15.0\msvc2019\bin\windeployqt --no-angle --no-translations --no-opengl-sw --no-system-d3d-compiler --no-compiler-runtime --no-webkit2 .\release\
+#  - _fold_final_
+#
+#  - _fold_start_ 'Moving results for upload'
+#  - mv release ../'OpenRGB Windows 32-bit'
+#  - _fold_final_
+##  cache:
+##    key: same-key
+##    paths:
+##    - C:\vcpkg\installed\
+#  artifacts:
+#    name: "${CI_PROJECT_NAME}_Windows_32_${CI_COMMIT_SHORT_SHA}"
+#    paths:
+#    - 'OpenRGB Windows 32-bit'
+#    exclude:
+#    - 'OpenRGB Windows 32-bit\*.qm'
+#    expire_in: 30 days
+#
+#  rules:
+#    - !reference [.upstream_rules, rules]
+#
+##-----------------------------------------------------------------------#
+## Windows (64-bit) Build Target                                         #
+##-----------------------------------------------------------------------#
+#"Windows 64 Base":
+#  extends:
+#  - .shared_windows_runners
+#  stage: build
+#  script:
+#  - $esc = "$([char]27)"
+#  - $count = 0
+#  - function _unix_tmsec_ { [int64](([datetime]::UtcNow)-(get-date "1/1/1970")).TotalSeconds }
+#  - function _fold_start_ { param( [string]$TEXT_TAG ) $t=_unix_tmsec_; $global:count += 1; Write-Host -NoNewLine "`r`n`r`nsection_start:${t}:sect_${count}`r${esc}[0K${esc}[33m${TEXT_TAG}${esc}[39m`r`n"; }
+#  - function _fold_final_ {                            $t=_unix_tmsec_;                     Write-Host -NoNewLine   "`r`n`r`nsection_end:${t}:sect_${count}`r${esc}[0K`r`n"           ; }
+#
+#
+#  - _fold_start_ 'configuring the msvc environment variables'
+#  - Push-Location "C:/Program Files (x86)/Microsoft Visual Studio/2019/BuildTools/VC/Auxiliary/Build"
+#  - '& cmd.exe /C "vcvarsall.bat x64 & set" | Foreach-Object { if ($_ -match "(.*?)=(.*)") { Set-Item -force -path "Env:\$($matches[1])" -value "$($matches[2])" } }'
+#  - Pop-Location
+#  - _fold_final_
+#
+#  - _fold_start_ 'downloading precompiled versions of qtbase, qttools (for windeployqt) and jom (for a more parallel nmake)'
+#  - mkdir _qt
+#  - mkdir _qt_download
+#  - Push-Location _qt_download
+#  - curl.exe -LJ -o qt-base.7z  'https://gitlab.com/OpenRGBDevelopers/openrgb-linux-ci-deb-builder/-/package_files/55610116/download'
+#  - curl.exe -LJ -o qt-tools.7z 'https://gitlab.com/OpenRGBDevelopers/openrgb-linux-ci-deb-builder/-/package_files/55610131/download'
+#  - curl.exe -LJ -o qt-jom.zip  'https://gitlab.com/OpenRGBDevelopers/openrgb-linux-ci-deb-builder/-/package_files/55610138/download'
+#  - _fold_final_
+#
+#  - _fold_start_ 'extracting the downloaded qt binaries'
+#  - 7z x qt-base.7z  '-o../_qt' -y
+#  - 7z x qt-tools.7z '-o../_qt' -y
+#  - 7z x qt-jom.zip  '-o../_qt' -y
+#  - _fold_final_
+#
+#  - _fold_start_ 'turn the qt install from enterprise to foss; remove the licensing checks'
+#  - ${qconfig-pri-folder} = '..\_qt\5.15.0\msvc2019_64\mkspecs\qconfig.pri'
+#  - (Get-Content ${qconfig-pri-folder}).replace('QT_EDITION = Enterprise', 'QT_EDITION = OpenSource') | Set-Content ${qconfig-pri-folder}
+#  - (Get-Content ${qconfig-pri-folder}).replace('QT_LICHECK = licheck.exe', '')                       | Set-Content ${qconfig-pri-folder}
+#  - Pop-Location
+#  - _fold_final_
+#
+#  - _fold_start_ 'run qmake and generate the msvc nmake makefile'
+#  - mkdir _build; cd _build
+#  - ..\_qt\5.15.0\msvc2019_64\bin\qmake ..\OpenRGB.pro
+#  - _fold_final_
+#
+#  - _fold_start_ 'start the actual build with jom instead of nmake; for speed'
+#  - ..\_qt\jom
+#  - _fold_final_
+#
+#  - _fold_start_ 'run windeployqt to automatically copy the needed dll files'
+#  - ..\_qt\5.15.0\msvc2019_64\bin\windeployqt --no-angle --no-translations --no-opengl-sw --no-system-d3d-compiler --no-compiler-runtime --no-webkit2 .\release\
+#  - _fold_final_
+#
+#  - _fold_start_ 'Moving results for upload'
+#  - mv release ../'OpenRGB Windows 64-bit'
+#  - _fold_final_
+##  cache:
+##    key: same-key
+##    paths:
+##    - C:\vcpkg\installed\
+#  artifacts:
+#    name: "${CI_PROJECT_NAME}_Windows_64_${CI_COMMIT_SHORT_SHA}"
+#    paths:
+#    - 'OpenRGB Windows 64-bit'
+#    exclude:
+#    - 'OpenRGB Windows 64-bit\*.qm'
+#    expire_in: 30 days
+#
+#  rules:
+#    - if: $CI_PIPELINE_SOURCE == "merge_request_event" || $CI_PIPELINE_SOURCE == "push"
+#      when: never
+#
+#
+#"Windows 64":
+#  extends: "Windows 64 Base"
+#  rules:
+#  - !reference [.fork_local_runner_rules, rules]
+#
+#"Windows 64 (gitlab.com runner)":
+#  extends: "Windows 64 Base"
+#  before_script:
+#    choco install visualstudio2019-workload-vctools -y # gitlab provides vs2022, so add vs2019
+#  rules:
+#  - !reference [.fork_gitlab_runner_rules, rules]
+#  tags:
+#  - "saas-windows-medium-amd64"
+#
+##-----------------------------------------------------------------------#
+## MacOS Build Target                                                    #
+##-----------------------------------------------------------------------#
+#"MacOS ARM64":
+#  tags:
+#  - macos
+#  stage: build
+#  script:
+#  - eval $(/opt/homebrew/bin/brew shellenv)
+#  - qmake OpenRGB.pro
+#  - make -j16
+#  - macdeployqt OpenRGB.app -codesign=OpenRGB
+#
+#  artifacts:
+#    name: "${CI_PROJECT_NAME}_MacOS_ARM64_${CI_COMMIT_SHORT_SHA}"
+#    paths:
+#    - OpenRGB.app
+#    expire_in: 30 days
+#
+#  rules:
+#  - if: '$CI_PROJECT_PATH == "CalcProgrammer1/OpenRGB"'
+#    when: on_success
+#  - if: '$BUILD_MACOS =~ /.+/'
+#    when: on_success
+#  - if: $CI_PIPELINE_SOURCE == "push"
+#    when: manual
+#    allow_failure: true
+#
+#"MacOS Intel":
+#  tags:
+#  - macos
+#  stage: build
+#  script:
+#  - eval $(/usr/local/bin/brew shellenv)
+#  - arch -x86_64 /usr/local/bin/qmake OpenRGB.pro
+#  - arch -x86_64 make -j16
+#  - arch -x86_64 macdeployqt OpenRGB.app -codesign=OpenRGB
+#
+#  artifacts:
+#    name: "${CI_PROJECT_NAME}_MacOS_Intel_${CI_COMMIT_SHORT_SHA}"
+#    paths:
+#    - OpenRGB.app
+#    expire_in: 30 days
+#
+#  rules:
+#  - if: '$CI_PROJECT_PATH == "CalcProgrammer1/OpenRGB"'
+#    when: on_success
+#  - if: '$BUILD_MACOS =~ /.+/'
+#    when: on_success
+#  - if: $CI_PIPELINE_SOURCE == "push"
+#    when: manual
+#    allow_failure: true
+#
+##-----------------------------------------------------------------------#
+## Windows (64-bit) MSI Target                                           #
+##-----------------------------------------------------------------------#
+#"Windows 64 MSI":
+#  image: registry.gitlab.com/openrgbdevelopers/openrgb-linux-ci-deb-builder:bookworm-i386
+#  stage: deploy
+#  tags:
+#  - linux
+#  - i386
+#  script:
+#  -  ls -la
+#  -  ls -la "OpenRGB Windows 64-bit/"
+#  -  ./scripts/build-msi.sh
+#  dependencies:
+#  - "Windows 64"
+#  needs:
+#  - "Windows 64"
+#
+#  artifacts:
+#    name: "${CI_PROJECT_NAME}_Windows_64_msi_${CI_COMMIT_SHORT_SHA}"
+#    paths:
+#    - OpenRGB_Windows_64.msi
+#    expire_in: 30 days
+#
+#  rules:
+#    - !reference [.upstream_rules, rules]
 
 #-----------------------------------------------------------------------#
-# MacOS Build Target                                                    #
-#-----------------------------------------------------------------------#
-"MacOS ARM64":
-  tags:
-  - macos
-  stage: build
-  script:
-  - eval $(/opt/homebrew/bin/brew shellenv)
-  - qmake OpenRGB.pro
-  - make -j16
-  - macdeployqt OpenRGB.app -codesign=OpenRGB
-
-  artifacts:
-    name: "${CI_PROJECT_NAME}_MacOS_ARM64_${CI_COMMIT_SHORT_SHA}"
-    paths:
-    - OpenRGB.app
-    expire_in: 30 days
-
-  rules:
-  - if: '$CI_PROJECT_PATH == "CalcProgrammer1/OpenRGB"'
-    when: on_success
-  - if: '$BUILD_MACOS =~ /.+/'
-    when: on_success
-  - if: $CI_PIPELINE_SOURCE == "push"
-    when: manual
-    allow_failure: true
-
-"MacOS Intel":
-  tags:
-  - macos
-  stage: build
-  script:
-  - eval $(/usr/local/bin/brew shellenv)
-  - arch -x86_64 /usr/local/bin/qmake OpenRGB.pro
-  - arch -x86_64 make -j16
-  - arch -x86_64 macdeployqt OpenRGB.app -codesign=OpenRGB
-
-  artifacts:
-    name: "${CI_PROJECT_NAME}_MacOS_Intel_${CI_COMMIT_SHORT_SHA}"
-    paths:
-    - OpenRGB.app
-    expire_in: 30 days
-
-  rules:
-  - if: '$CI_PROJECT_PATH == "CalcProgrammer1/OpenRGB"'
-    when: on_success
-  - if: '$BUILD_MACOS =~ /.+/'
-    when: on_success
-  - if: $CI_PIPELINE_SOURCE == "push"
-    when: manual
-    allow_failure: true
-
-#-----------------------------------------------------------------------#
-# Windows (64-bit) MSI Target                                           #
+# Windows (64-bit) WinRing0 MSI Target                                  #
 #-----------------------------------------------------------------------#
 "Windows 64 MSI":
   image: registry.gitlab.com/openrgbdevelopers/openrgb-linux-ci-deb-builder:bookworm-i386
-  stage: deploy
+  stage: build
   tags:
   - linux
   - i386
   script:
   -  ls -la
-  -  ls -la "OpenRGB Windows 64-bit/"
-  -  ./scripts/build-msi.sh
-  dependencies:
-  - "Windows 64"
-  needs:
-  - "Windows 64"
+  -  ./scripts/build-winring0-msi.sh
+  -  ls -la
 
   artifacts:
-    name: "${CI_PROJECT_NAME}_Windows_64_msi_${CI_COMMIT_SHORT_SHA}"
+    name: "${CI_PROJECT_NAME}_WinRing0_msi_${CI_COMMIT_SHORT_SHA}"
     paths:
-    - OpenRGB_Windows_64.msi
+    - WinRing0.msi
     expire_in: 30 days
 
   rules:
