@@ -206,6 +206,7 @@ HEADERS +=                                                                      
     RGBController/RGBController_Dummy.h                                                         \
     RGBController/RGBControllerKeyNames.h                                                       \
     RGBController/RGBController_Network.h                                                       \
+    startup/startup.h                                                                           \
 
 SOURCES +=                                                                                      \
     $$GUI_CPP                                                                                   \
@@ -240,7 +241,7 @@ SOURCES +=                                                                      
     dependencies/hueplusplus-1.2.0/src/UPnP.cpp                                                 \
     dependencies/hueplusplus-1.2.0/src/Utils.cpp                                                \
     dependencies/hueplusplus-1.2.0/src/ZLLSensors.cpp                                           \
-    main.cpp                                                                                    \
+    startup/startup.cpp                                                                         \
     cli.cpp                                                                                     \
     dmiinfo/dmiinfo.cpp                                                                         \
     LogManager.cpp                                                                              \
@@ -349,6 +350,7 @@ win32:SOURCES +=                                                                
     SuspendResume/SuspendResume_Windows.cpp                                                     \
     wmi/wmi.cpp                                                                                 \
     AutoStart/AutoStart-Windows.cpp                                                             \
+    startup/main_Windows.cpp                                                                    \
 
 win32:HEADERS += $$CONTROLLER_H_WINDOWS
 
@@ -520,6 +522,7 @@ contains(QMAKE_PLATFORM, linux) {
     SPDAccessor/EE1004Accessor_Linux.cpp                                                        \
     SPDAccessor/SPD5118Accessor_Linux.cpp                                                       \
     SuspendResume/SuspendResume_Linux_FreeBSD.cpp                                               \
+    startup/main_Linux_MacOS.cpp                                                                \
 
     #-------------------------------------------------------------------------------------------#
     # Set up install paths                                                                      #
@@ -710,6 +713,7 @@ macx {
     AutoStart/AutoStart-MacOS.cpp                                                               \
     qt/macutils.mm                                                                              \
     SuspendResume/SuspendResume_MacOS.cpp                                                       \
+    startup/main_Linux_MacOS.cpp                                                                \
 
     SOURCES += $$CONTROLLER_CPP_MACOS
 
