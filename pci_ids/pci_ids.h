@@ -805,6 +805,7 @@
 #define PALIT_RTX4070TI_GAMEROCK_SUB_DEV                0xF294
 #define PALIT_RTX4080_GAMINGPRO_SUB_DEV                 0xF298
 #define PALIT_RTX4090_GAMEROCK_SUB_DEV                  0xF296
+#define PALIT_RTX5070TI_GAMINGPRO_SUB_DEV               0xF322
 #define PALIT_RTX5090_GAMEROCK_SUB_DEV                  0xF318
 
 /*-----------------------------------------------------*\
