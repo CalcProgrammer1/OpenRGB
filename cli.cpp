@@ -29,7 +29,7 @@
 \*-------------------------------------------------------------*/
 #ifdef _WIN32
 #include <shellapi.h>
-    #define strcasecmp strcmpi
+    #define strcasecmp _strcmpi
 #endif
 
 using namespace std::chrono_literals;
