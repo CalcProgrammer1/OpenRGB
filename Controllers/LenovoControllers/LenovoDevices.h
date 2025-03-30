@@ -34,6 +34,8 @@
 #define LEGION_7GEN7                            0xC978
 #define LEGION_7GEN8                            0xC988
 #define LEGION_7GEN9                            0xC997
+#define LEGION_7_PRO_GEN9                       0xC998
+
 
 enum LENOVO_KEYBOARD
 {
