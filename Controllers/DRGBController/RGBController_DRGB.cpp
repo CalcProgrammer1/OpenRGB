@@ -32,6 +32,7 @@ RGBController_DRGB::RGBController_DRGB(DRGBController* controller_ptr)
     vendor      = "DRGB";
     description = "DRGB Controller Device";
     type        = DEVICE_TYPE_LEDSTRIP;
+    version     = controller->GetFirmwareString();
     location    = controller->GetLocationString();
     serial      = controller->GetSerialString();
 
@@ -103,6 +104,21 @@ void RGBController_DRGB::SetupZones()
             NUM_Channel_led = 256;
             Version         = 3;
             break;
+        case DRGB_ELITE_PID:
+            NUM_CHANNELS    = 8;
+            NUM_Channel_led = 132;
+            Version         = 1;
+            break;
+        case DM_10_PID:
+            NUM_CHANNELS    = 10;
+            NUM_Channel_led = 132;
+            Version         = 1;
+            break;
+        case JPU_12_PID:
+            NUM_CHANNELS    = 12;
+            NUM_Channel_led = 60;
+            Version         = 1;
+            break;
 
         case DRGB_LED_PID:
             NUM_CHANNELS    = 8;
@@ -129,13 +145,29 @@ void RGBController_DRGB::SetupZones()
             NUM_Channel_led = 256;
             Version         = 2;
             break;
+
+        case YICO_8_PID:
+            NUM_CHANNELS    = 8;
+            NUM_Channel_led = 256;
+            Version         = 3;
+            break;
+        case YICO_08_PID:
+            NUM_CHANNELS    = 8;
+            NUM_Channel_led = 256;
+            Version         = 3;
+            break;
+        case YICO_08_1_PID:
+            NUM_CHANNELS    = 8;
+            NUM_Channel_led = 132;
+            Version         = 3;
+            break;
     }
 
     zones.resize(NUM_CHANNELS);
 
     for(unsigned int channel_idx = 0; channel_idx < NUM_CHANNELS; channel_idx++)
     {
-        char ch_idx_string[2];
+        char ch_idx_string[4];
         if(NUM_CHANNELS == 6)
         {
             if(channel_idx==0)
@@ -158,6 +190,11 @@ void RGBController_DRGB::SetupZones()
                 snprintf(ch_idx_string, 2, "%d", channel_idx -3);
                 zones[channel_idx].name     = "Channel D";
             }
+        }
+        else if(NUM_CHANNELS == 10 || NUM_CHANNELS == 12)
+        {
+            snprintf(ch_idx_string, 4, "%d", channel_idx+1 );
+            zones[channel_idx].name     = "Channel ";
         }
         else if(channel_idx<8)
         {
@@ -223,37 +260,6 @@ void RGBController_DRGB::SetupZones()
 
     SetupColors();
 
-    /*-----------------------------------------------------*\
-    |  Turn off hardware effects                            |
-    \*-----------------------------------------------------*/
-
-    if(Version > 2)
-    {
-        unsigned char   HWLData[64] = {0};
-        HWLData[0]  = 0x35;
-        HWLData[4]  = 0x00;
-        HWLData[5]  = 0x01;
-        HWLData[6]  = 0x01;
-        HWLData[7]  = 0x00;
-        HWLData[8]  = 0x00;
-        HWLData[9]  = 0xFF;
-        HWLData[10] = 0x00;
-        HWLData[11] = 0x00;
-        HWLData[12] = 0x00;
-        HWLData[13] = 0xFF;
-        HWLData[14] = 0x00;
-        HWLData[20] = 0xF0;
-        HWLData[21] = 0x00;
-
-        if(Version == 4)
-        {
-            controller->SendPacketFS(&HWLData[0], 1,0);
-        }
-        else if(Version == 3)
-        {
-            controller->SendPacketFS(&HWLData[0], 1,0);
-        }
-    }
 }
 
 void RGBController_DRGB::ResizeZone(int zone, int new_size)
@@ -336,7 +342,7 @@ void RGBController_DRGB::DeviceUpdateLEDs()
             }
             unsigned int    col_packets     = (led_index / DRGB_V3_PACKAGE_SIZE) + ((led_index % DRGB_V3_PACKAGE_SIZE) > 0);
             controller->SendPacketFS(&ArrayData[0], 1,0);
-            controller->SendPacketFS(&RGBData[0], col_packets,1);
+            controller->SendPacketFS(&RGBData[0], col_packets,0x64);
             break;
         }
 
@@ -369,6 +375,39 @@ void RGBController_DRGB::DeviceUpdateLEDs()
                 }
             }
             break;
+
+        case 1:
+        {
+            unsigned int    led_index = 0;
+            unsigned char   RGBData[1801*3]     = {0};
+            unsigned char   ArrayData[64]       = {0};
+            ArrayData[0] = 0x46;
+            ArrayData[1] = 0xBB;
+            for(std::size_t zone_idx = 0; zone_idx < zones.size(); zone_idx++)
+            {
+                unsigned char   LEDnum      = zones[zone_idx].leds_count;
+                unsigned int    HighCount   = (LEDnum & 0xFFFF)>>8;
+                unsigned int    LowCount    = LEDnum & 0xFF;
+                ArrayData[zone_idx * 2 + 2] = HighCount;
+                ArrayData[zone_idx * 2 + 3] = LowCount;
+                for(unsigned int i=0; i<LEDnum;i++)
+                {
+                    unsigned int RGBcolors = zones[zone_idx].colors[i];
+                    RGBData[led_index * 3]      = RGBcolors & 0xFF;
+                    RGBData[led_index * 3 +1]   = (RGBcolors >> 8) & 0xFF;
+                    RGBData[led_index * 3 +2]   = (RGBcolors >> 16) & 0xFF;
+                    led_index++;
+                }
+                if(led_index>1800)
+                {
+                    break;
+                }
+            }
+            unsigned int    col_packets     = (led_index / DRGB_V3_PACKAGE_SIZE) + ((led_index % DRGB_V3_PACKAGE_SIZE) > 0);
+            controller->SendPacketFS(&ArrayData[0], 1,0);
+            controller->SendPacketFS(&RGBData[0], col_packets,0x47);
+            break;
+        }
     }
 }
 

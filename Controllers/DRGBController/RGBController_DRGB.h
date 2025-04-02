@@ -24,6 +24,9 @@
 #define DRGB_LED_V3_PID         0x1209
 #define DRGB_Ultra_V3_PID       0x1221
 #define DRGB_CORE_V3_PID        0x1226
+#define DRGB_ELITE_PID          0x1408
+#define DM_10_PID               0x1410
+#define JPU_12_PID              0x1412
 
 #define DRGBV2_VID              0x2023
 #define DRGB_LED_PID            0x1208
@@ -31,6 +34,11 @@
 #define DRGB_SIG_AB_PID         0x1210
 #define DRGB_SIG_CD_PID         0x1211
 #define DRGB_Strimer_PID        0x1215
+
+#define YICO_VID                0x1368
+#define YICO_8_PID              0x6077
+#define YICO_08_PID             0x6078
+#define YICO_08_1_PID           0x6079
 
 class RGBController_DRGB : public RGBController
 {

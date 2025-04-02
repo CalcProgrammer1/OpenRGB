@@ -20,6 +20,63 @@ DRGBController::DRGBController(hid_device* dev_handle, const char* path, unsigne
     dev         = dev_handle;
     location    = path;
     device_pid  = pid;
+
+    /*-----------------------------------------------------*\
+    | Initialize controller                                 |
+    \*-----------------------------------------------------*/
+    InitController();
+
+    /*-----------------------------------------------------*\
+    | Exit hardware effects.  Start a thread to continuously|
+    | send a keepalive packet every 500ms                   |
+    \*-----------------------------------------------------*/
+    keepalive_thread_run = 1;
+    keepalive_thread     = new std::thread(&DRGBController::KeepaliveThread, this);
+}
+
+DRGBController::~DRGBController()
+{
+    keepalive_thread_run = 0;
+    keepalive_thread->join();
+    delete keepalive_thread;
+    hid_close(dev);
+}
+
+void DRGBController::KeepaliveThread()
+{
+    unsigned char   sleep_buf[65];
+    sleep_buf[0] = 0x65;
+    while(keepalive_thread_run.load())
+    {
+        if((std::chrono::steady_clock::now() - last_commit_time) > std::chrono::seconds(1))
+        {
+            SendPacketFS(sleep_buf, 1, 0);
+        }
+        std::this_thread::sleep_for(500ms);
+    }
+}
+
+
+void DRGBController::InitController()
+{
+    /*-----------------------------------------------------*\
+    | Get version                                           |
+    \*-----------------------------------------------------*/
+    unsigned char cmd_data[65];
+    cmd_data[0]=0x00;
+    cmd_data[1]=0x02;
+    cmd_data[2]=0x00;
+    hid_write(dev, cmd_data, 65);
+    hid_read(dev, cmd_data, 6);
+    version[0] = cmd_data[1];
+    version[1] = cmd_data[2];
+    version[2] = cmd_data[3];
+    version[3] = cmd_data[4];
+}
+
+std::string DRGBController::GetFirmwareString()
+{
+    return "v"+std::to_string(version[0]) + "." + std::to_string(version[1]) + "." + std::to_string(version[2]) + "." + std::to_string(version[3]);
 }
 
 std::string DRGBController::GetLocationString()
@@ -80,17 +137,30 @@ void DRGBController::SendPacket(unsigned char* colors, unsigned int buf_packets 
     }
 }
 
-void DRGBController::SendPacketFS(unsigned char* colors, unsigned int buf_packets , bool Array)
+void DRGBController::SendPacketFS(unsigned char* colors, unsigned int buf_packets , unsigned int Array)
 {
     unsigned char   usb_buf[65];
     unsigned int    buf_idx = 0;
     memset(usb_buf, 0x00, sizeof(usb_buf));
     usb_buf[0x00]   = 0x00;
-    if(Array)
+    if(Array == 0x64)
     {
         for(unsigned int i = 0; i < buf_packets; i++)
         {
-            usb_buf[1]  = i == buf_packets - 1 ? 200 + i : 100 + i;
+            usb_buf[1]  = i == buf_packets - 1 ? Array + 100 + i : Array + i;
+            buf_idx     = i*63;
+            for(unsigned int k=0;k<63;k++)
+            {
+                usb_buf[k+2] = colors[buf_idx + k];
+            }
+            hid_write(dev, usb_buf, 65);
+        }
+    }
+    else if(Array == 0x47)
+    {
+        for(unsigned int i = 0; i < buf_packets; i++)
+        {
+            usb_buf[1]  = i == buf_packets - 1 ? Array + 92 + i : Array + i;
             buf_idx     = i*63;
             for(unsigned int k=0;k<63;k++)
             {
