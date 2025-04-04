@@ -199,3 +199,5 @@ void DetectKingstonFuryDDR5Controllers(i2c_smbus_interface* bus, std::vector<SPD
 
 REGISTER_I2C_DIMM_DETECTOR("Kingston Fury DDR4 DRAM", DetectKingstonFuryDDR4Controllers, JEDEC_KINGSTON, SPD_DDR4_SDRAM);
 REGISTER_I2C_DIMM_DETECTOR("Kingston Fury DDR5 DRAM", DetectKingstonFuryDDR5Controllers, JEDEC_KINGSTON, SPD_DDR5_SDRAM);
+REGISTER_I2C_DIMM_DETECTOR("Kingston JEDEC2 Fury DDR4 DRAM", DetectKingstonFuryDDR4Controllers, JEDEC_KINGSTON_2, SPD_DDR4_SDRAM);
+REGISTER_I2C_DIMM_DETECTOR("Kingston JEDEC2 Fury DDR5 DRAM", DetectKingstonFuryDDR5Controllers, JEDEC_KINGSTON_2, SPD_DDR5_SDRAM);

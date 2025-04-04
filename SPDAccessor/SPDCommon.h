@@ -19,6 +19,7 @@ typedef enum
     JEDEC_ADATA       = 0x044A,
     JEDEC_GSKILL      = 0x044C,
     JEDEC_TEAMGROUP   = 0x046E,
+    JEDEC_KINGSTON_2  = 0x300F,
     JEDEC_MUSHKIN     = 0x8313,
     JEDEC_GIGABYTE    = 0x8971,
     JEDEC_THERMALTAKE = 0x8A41,

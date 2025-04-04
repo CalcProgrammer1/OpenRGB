@@ -13,7 +13,7 @@
 
 #define REGISTER_DETECTOR(name, func)                                                   static DeviceDetector           device_detector_obj_##func(name, func)
 #define REGISTER_I2C_DETECTOR(name, func)                                               static I2CDeviceDetector        device_detector_obj_##func(name, func)
-#define REGISTER_I2C_DIMM_DETECTOR(name, func, jedec_id, dimm_type)                     static I2CDIMMDeviceDetector    device_detector_obj_##func(name, func, jedec_id, dimm_type)
+#define REGISTER_I2C_DIMM_DETECTOR(name, func, jedec_id, dimm_type)                     static I2CDIMMDeviceDetector    device_detector_obj_##func##jedec_id(name, func, jedec_id, dimm_type)
 #define REGISTER_I2C_PCI_DETECTOR(name, func, ven, dev, subven, subdev, addr)           static I2CPCIDeviceDetector     device_detector_obj_##ven##dev##subven##subdev##addr##func(name, func, ven, dev, subven, subdev, addr)
 #define REGISTER_I2C_BUS_DETECTOR(func)                                                 static I2CBusDetector           device_detector_obj_##func(func)
 #define REGISTER_HID_DETECTOR(name, func, vid, pid)                                     static HIDDeviceDetector        device_detector_obj_##vid##pid(name, func, vid, pid, HID_INTERFACE_ANY, HID_USAGE_PAGE_ANY, HID_USAGE_ANY)
