@@ -40,7 +40,8 @@
 enum WOOTING_DEVICE_TYPE
 {
     WOOTING_KB_TKL      = 0,
-    WOOTING_KB_FULL     = 1
+    WOOTING_KB_FULL     = 1,
+    WOOTING_80HE        = 2
 };
 
 enum RGB_PARTS

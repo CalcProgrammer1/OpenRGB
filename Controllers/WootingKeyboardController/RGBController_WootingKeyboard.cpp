@@ -27,6 +27,16 @@ static unsigned int matrix_map_tkl[6][17] =
     { 5,  11,  17,  NA,  NA,  NA,  41,  NA,  NA,  NA,  65,  71,  77,  83,  89,  95,  101}
 };
 
+static unsigned int matrix_map_80HE[6][17] =
+{
+    { 0,   6,  12,  18,  24,  30,  36,  42,  48,  NA,  60,  66,  72,  78,  84,  90,  100},
+    { 1,   7,  13,  19,  25,  31,  37,  43,  49,  55,  61,  67,  73,  79,  85,  91,  97},
+    { 2,   8,  14,  20,  26,  32,  38,  44,  50,  56,  62,  68,  74,  80,  86,  92,  98},
+    { 3,   9,  15,  21,  27,  33,  39,  45,  51,  57,  63,  69,  75,  81,  87,  NA,  NA},
+    { 4,  10,  16,  22,  28,  34,  40,  46,  52,  58,  64,  70,  NA,  82,  88,  94,  NA},
+    { 5,  11,  17,  NA,  NA,  NA,  41,  NA,  NA,  NA,  65,  71,  77,  NA,  89,  95,  101}
+};
+
 static unsigned int matrix_map_full[6][21] =
 {
     {  0,  NA,  12,  18,  24,  30,  36,  42,  48,  54,  60,  66,  72,  78,  84,  90, 100, 102, 108, 114, 120},
@@ -40,10 +50,11 @@ static unsigned int matrix_map_full[6][21] =
 static const unsigned int zone_sizes[] =
 {
     102,
-    126
+    126,
+    102
 };
 
-static const char *led_names[] =
+static const char *led_names_default[] =
 {
     KEY_EN_ESCAPE,
     KEY_EN_BACK_TICK,
@@ -173,6 +184,112 @@ static const char *led_names[] =
     KEY_EN_UNUSED
 };
 
+static const char *led_names_80HE[] =
+{
+    KEY_EN_ESCAPE,
+    KEY_EN_BACK_TICK,
+    KEY_EN_TAB,
+    KEY_EN_CAPS_LOCK,
+    KEY_EN_LEFT_SHIFT,
+    KEY_EN_LEFT_CONTROL,
+    KEY_EN_F1,
+    KEY_EN_1,
+    KEY_EN_Q,
+    KEY_EN_A,
+    KEY_EN_ISO_BACK_SLASH,  //iso key - 10
+    KEY_EN_LEFT_WINDOWS,
+    KEY_EN_F2,
+    KEY_EN_2,
+    KEY_EN_W,
+    KEY_EN_S,
+    KEY_EN_Z,
+    KEY_EN_LEFT_ALT,
+    KEY_EN_F3,
+    KEY_EN_3,
+    KEY_EN_E,               //20
+    KEY_EN_D,
+    KEY_EN_X,
+    KEY_EN_UNUSED,          //space
+    KEY_EN_F4,
+    KEY_EN_4,
+    KEY_EN_R,
+    KEY_EN_F,
+    KEY_EN_C,
+    KEY_EN_UNUSED,          //space
+    KEY_EN_F5,              //30
+    KEY_EN_5,
+    KEY_EN_T,
+    KEY_EN_G,
+    KEY_EN_V,
+    KEY_EN_UNUSED,          //space
+    KEY_EN_F6,
+    KEY_EN_6,
+    KEY_EN_Y,
+    KEY_EN_H,
+    KEY_EN_B,               //40
+    KEY_EN_SPACE,
+    KEY_EN_F7,
+    KEY_EN_7,
+    KEY_EN_U,
+    KEY_EN_J,
+    KEY_EN_N,
+    KEY_EN_UNUSED,          //space
+    KEY_EN_F8,
+    KEY_EN_8,
+    KEY_EN_I,               //50
+    KEY_EN_K,
+    KEY_EN_M,
+    KEY_EN_UNUSED,          //space
+    KEY_EN_UNUSED,
+    KEY_EN_9,
+    KEY_EN_O,
+    KEY_EN_L,
+    KEY_EN_COMMA,
+    KEY_EN_UNUSED,          //space
+    KEY_EN_F9,              //60
+    KEY_EN_0,
+    KEY_EN_P,
+    KEY_EN_SEMICOLON,
+    KEY_EN_PERIOD,
+    KEY_EN_RIGHT_ALT,
+    KEY_EN_F10,
+    KEY_EN_MINUS,
+    KEY_EN_LEFT_BRACKET,
+    KEY_EN_QUOTE,
+    KEY_EN_FORWARD_SLASH,      //70
+    KEY_EN_RIGHT_WINDOWS,
+    KEY_EN_F11,
+    KEY_EN_EQUALS,
+    KEY_EN_RIGHT_BRACKET,
+    KEY_EN_POUND,           //iso only
+    KEY_EN_UNUSED,
+    KEY_EN_RIGHT_FUNCTION,
+    KEY_EN_F12,
+    KEY_EN_UNUSED,
+    KEY_EN_ANSI_BACK_SLASH,      //80
+    KEY_EN_UNUSED,
+    KEY_EN_UNUSED,
+    KEY_EN_RIGHT_CONTROL,
+    "Key: Mode",
+    KEY_EN_BACKSPACE,
+    KEY_EN_UNUSED,
+    KEY_EN_ANSI_ENTER,
+    KEY_EN_RIGHT_SHIFT,
+    KEY_EN_LEFT_ARROW,
+    KEY_EN_PRINT_SCREEN,      //90
+    KEY_EN_HOME,
+    KEY_EN_END,
+    KEY_EN_UNUSED,
+    KEY_EN_UP_ARROW,
+    KEY_EN_DOWN_ARROW,
+    KEY_EN_UNUSED,
+    KEY_EN_PAGE_UP,
+    KEY_EN_PAGE_DOWN,
+    KEY_EN_UNUSED,
+    KEY_EN_PAUSE_BREAK,      //100 - Scroll lock for WootingTwo KB's
+    KEY_EN_RIGHT_ARROW
+};
+
 /**------------------------------------------------------------------*\
     @name Wooting Keyboards
     @category Keyboard
@@ -247,6 +364,11 @@ void RGBController_WootingKeyboard::SetupZones()
         new_zone.matrix_map->width  =  WOOTING_ONE_RGB_COLUMNS;
         new_zone.matrix_map->map    = (unsigned int *)&matrix_map_tkl;
     }
+    else if(wooting_type == WOOTING_80HE)
+    {
+        new_zone.matrix_map->width  =  WOOTING_ONE_RGB_COLUMNS;
+        new_zone.matrix_map->map    = (unsigned int *)&matrix_map_80HE;
+    }
     else
     {
         new_zone.matrix_map->width  =  WOOTING_TWO_RGB_COLUMNS;
@@ -256,6 +378,8 @@ void RGBController_WootingKeyboard::SetupZones()
     zones.push_back(new_zone);
 
     LOG_DEBUG("%sCreating LED array - total_led_count %03i", WOOTING_CONTROLLER_NAME, total_led_count);
+
+    static const char **led_names = (wooting_type == WOOTING_80HE) ? led_names_80HE : led_names_default;
     for (unsigned int led_idx = 0; led_idx < total_led_count; led_idx++)
     {
         led new_led;

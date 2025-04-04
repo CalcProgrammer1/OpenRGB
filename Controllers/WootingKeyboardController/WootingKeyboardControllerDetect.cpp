@@ -52,6 +52,7 @@
 #define WOOTING_TWO_UWU_RGB_X_PID             0x1510
 #define WOOTING_TWO_UWU_RGB_C_PID             0x1511
 #define WOOTING_TWO_UWU_RGB_N_PID             0x1512
+#define WOOTING_TWO_80HE_PID                  0x1400
 
 void DetectWootingOneKeyboardControllers(hid_device_info* info, const std::string& name)
 {
@@ -86,8 +87,15 @@ void DetectWootingTwoKeyboardControllers(hid_device_info* info, const std::strin
 
     if(dev)
     {
-        LOG_DEBUG("[%s] Device type %i opened - creating Controller", controller_name, WOOTING_KB_FULL);
-        WootingTwoKeyboardController*  controller       = new WootingTwoKeyboardController(dev, info->path, WOOTING_KB_FULL);
+        uint8_t wooting_type;
+        switch(info->product_id)
+        {
+            case WOOTING_TWO_80HE_PID   :       wooting_type = WOOTING_80HE;    break;
+            default                     :       wooting_type = WOOTING_KB_FULL; break;
+        }
+
+        LOG_DEBUG("[%s] Device type %i opened - creating Controller", controller_name, wooting_type);
+        WootingTwoKeyboardController*  controller       = new WootingTwoKeyboardController(dev, info->path, wooting_type);
 
         LOG_DEBUG("[%s] Controller created - creating RGBController",  controller_name);
         RGBController_WootingKeyboard* rgb_controller   = new RGBController_WootingKeyboard(controller);
@@ -124,3 +132,4 @@ REGISTER_HID_DETECTOR_PU("Wooting Two 60HE (ARM) (None)",    DetectWootingTwoKey
 REGISTER_HID_DETECTOR_PU("Wooting Two UwU RGB (Xbox)",       DetectWootingTwoKeyboardControllers,  WOOTING_NEW_VID,  WOOTING_TWO_UWU_RGB_X_PID,       0x1337, 1);
 REGISTER_HID_DETECTOR_PU("Wooting Two UwU RGB (Classic)",    DetectWootingTwoKeyboardControllers,  WOOTING_NEW_VID,  WOOTING_TWO_UWU_RGB_C_PID,       0x1337, 1);
 REGISTER_HID_DETECTOR_PU("Wooting Two UwU RGB (None)",       DetectWootingTwoKeyboardControllers,  WOOTING_NEW_VID,  WOOTING_TWO_UWU_RGB_N_PID,       0x1337, 1);
+REGISTER_HID_DETECTOR_PU("Wooting Two 80HE",                 DetectWootingTwoKeyboardControllers,  WOOTING_NEW_VID,  WOOTING_TWO_80HE_PID,            0x1337, 1);
