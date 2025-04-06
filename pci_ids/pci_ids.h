@@ -122,6 +122,7 @@
 #define NVIDIA_RTX5070TI_DEV                            0x2C05
 #define NVIDIA_RTX5080_DEV                              0x2C02
 #define NVIDIA_RTX5090_DEV                              0x2B85
+#define NVIDIA_RTX5090D_DEV                             0x2B87
 
 /*-----------------------------------------------------*\
 | Nvidia Sub-Device IDs                                 |
@@ -667,6 +668,7 @@
 #define GIGABYTE_RX7800XT_GAMING_OC_16G_SUB_DEV         0x2413
 #define GIGABYTE_RTX5070TI_EAGLE_OC_16G_SUB_DEV         0x4180
 #define GIGABYTE_AORUS_RTX5090_MASTER_32G_SUB_DEV       0x416E
+#define GIGABYTE_AORUS_RTX5090D_MASTER_32G_SUB_DEV      0x4188
 
 /*-----------------------------------------------------*\
 | MSI Sub-Device IDs                                    |
