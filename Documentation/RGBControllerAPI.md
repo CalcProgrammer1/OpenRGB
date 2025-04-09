@@ -50,20 +50,30 @@ The RGBController class specification contains the following:
 * Device Type (enum)
 * Active mode index
 
-### Device Type Values
+### Device Types
 
-| Device Type Value | Description   |
-| ----------------- | ------------- |
-| 0                 | Motherboard   |
-| 1                 | DRAM          |
-| 2                 | GPU           |
-| 3                 | Cooler        |
-| 4                 | LED Strip     |
-| 5                 | Keyboard      |
-| 6                 | Mouse         |
-| 7                 | Mousemat      |
-| 8                 | Headset       |
-| 9                 | Headset Stand |
+| Value | Description   |
+| ----- | ------------- |
+| 0     | Motherboard   |
+| 1     | DRAM          |
+| 2     | GPU           |
+| 3     | Cooler        |
+| 4     | LED Strip     |
+| 5     | Keyboard      |
+| 6     | Mouse         |
+| 7     | Mousemat      |
+| 8     | Headset       |
+| 9     | Headset Stand |
+| 10    | Gamepad       |
+| 11    | Light         |
+| 12    | Speaker       |
+| 13    | Virtual       |
+| 14    | Storage       |
+| 15    | Case          |
+| 16    | Microphone    |
+| 17    | Accessory     |
+| 18    | Keypad        |
+| 19    | Unknown       |
 
 ## LEDs
 
