@@ -411,61 +411,7 @@ before_script:
   - .shared_windows_runners
   stage: build
   script:
-  - $esc = "$([char]27)"
-  - $count = 0
-  - function _unix_tmsec_ { [int64](([datetime]::UtcNow)-(get-date "1/1/1970")).TotalSeconds }
-  - function _fold_start_ { param( [string]$TEXT_TAG ) $t=_unix_tmsec_; $global:count += 1; Write-Host -NoNewLine "`r`n`r`nsection_start:${t}:sect_${count}`r${esc}[0K${esc}[33m${TEXT_TAG}${esc}[39m`r`n"; }
-  - function _fold_final_ {                            $t=_unix_tmsec_;                     Write-Host -NoNewLine   "`r`n`r`nsection_end:${t}:sect_${count}`r${esc}[0K`r`n"           ; }
-
-
-  - _fold_start_ 'configuring the msvc environment variables'
-  - Push-Location "C:/Program Files (x86)/Microsoft Visual Studio/2019/BuildTools/VC/Auxiliary/Build"
-  - '& cmd.exe /C "vcvarsall.bat x86 & set" | Foreach-Object { if ($_ -match "(.*?)=(.*)") { Set-Item -force -path "Env:\$($matches[1])" -value "$($matches[2])" } }'
-  - Pop-Location
-  - _fold_final_
-
-  - _fold_start_ 'downloading precompiled versions of qtbase, qttools (for windeployqt) and jom (for a more parallel nmake)'
-  - mkdir _qt
-  - mkdir _qt_download
-  - Push-Location _qt_download
-  - curl.exe -LJ -o qt-base.7z  'https://gitlab.com/OpenRGBDevelopers/openrgb-linux-ci-deb-builder/-/package_files/55610076/download'
-  - curl.exe -LJ -o qt-tools.7z 'https://gitlab.com/OpenRGBDevelopers/openrgb-linux-ci-deb-builder/-/package_files/55610097/download'
-  - curl.exe -LJ -o qt-jom.zip  'https://gitlab.com/OpenRGBDevelopers/openrgb-linux-ci-deb-builder/-/package_files/55610138/download'
-  - _fold_final_
-
-  - _fold_start_ 'extracting the downloaded qt binaries'
-  - 7z x qt-base.7z  '-o../_qt' -y
-  - 7z x qt-tools.7z '-o../_qt' -y
-  - 7z x qt-jom.zip  '-o../_qt' -y
-  - _fold_final_
-
-  - _fold_start_ 'turn the qt install from enterprise to foss; remove the licensing checks'
-  - ${qconfig-pri-folder} = '..\_qt\5.15.0\msvc2019\mkspecs\qconfig.pri'
-  - (Get-Content ${qconfig-pri-folder}).replace('QT_EDITION = Enterprise', 'QT_EDITION = OpenSource') | Set-Content ${qconfig-pri-folder}
-  - (Get-Content ${qconfig-pri-folder}).replace('QT_LICHECK = licheck.exe', '')                       | Set-Content ${qconfig-pri-folder}
-  - Pop-Location
-  - _fold_final_
-
-  - _fold_start_ 'run qmake and generate the msvc nmake makefile'
-  - mkdir _build; cd _build
-  - ..\_qt\5.15.0\msvc2019\bin\qmake ..\OpenRGB.pro
-  - _fold_final_
-
-  - _fold_start_ 'start the actual build with jom instead of nmake; for speed'
-  - ..\_qt\jom
-  - _fold_final_
-
-  - _fold_start_ 'run windeployqt to automatically copy the needed dll files'
-  - ..\_qt\5.15.0\msvc2019\bin\windeployqt --no-angle --no-translations --no-opengl-sw --no-system-d3d-compiler --no-compiler-runtime --no-webkit2 .\release\
-  - _fold_final_
-
-  - _fold_start_ 'Moving results for upload'
-  - mv release ../'OpenRGB Windows 32-bit'
-  - _fold_final_
-#  cache:
-#    key: same-key
-#    paths:
-#    - C:\vcpkg\installed\
+  - scripts\build-windows.bat 6.8.3 2022 32
   artifacts:
     name: "${CI_PROJECT_NAME}_Windows_32_${CI_COMMIT_SHORT_SHA}"
     paths:
@@ -485,61 +431,7 @@ before_script:
   - .shared_windows_runners
   stage: build
   script:
-  - $esc = "$([char]27)"
-  - $count = 0
-  - function _unix_tmsec_ { [int64](([datetime]::UtcNow)-(get-date "1/1/1970")).TotalSeconds }
-  - function _fold_start_ { param( [string]$TEXT_TAG ) $t=_unix_tmsec_; $global:count += 1; Write-Host -NoNewLine "`r`n`r`nsection_start:${t}:sect_${count}`r${esc}[0K${esc}[33m${TEXT_TAG}${esc}[39m`r`n"; }
-  - function _fold_final_ {                            $t=_unix_tmsec_;                     Write-Host -NoNewLine   "`r`n`r`nsection_end:${t}:sect_${count}`r${esc}[0K`r`n"           ; }
-
-
-  - _fold_start_ 'configuring the msvc environment variables'
-  - Push-Location "C:/Program Files (x86)/Microsoft Visual Studio/2019/BuildTools/VC/Auxiliary/Build"
-  - '& cmd.exe /C "vcvarsall.bat x64 & set" | Foreach-Object { if ($_ -match "(.*?)=(.*)") { Set-Item -force -path "Env:\$($matches[1])" -value "$($matches[2])" } }'
-  - Pop-Location
-  - _fold_final_
-
-  - _fold_start_ 'downloading precompiled versions of qtbase, qttools (for windeployqt) and jom (for a more parallel nmake)'
-  - mkdir _qt
-  - mkdir _qt_download
-  - Push-Location _qt_download
-  - curl.exe -LJ -o qt-base.7z  'https://gitlab.com/OpenRGBDevelopers/openrgb-linux-ci-deb-builder/-/package_files/55610116/download'
-  - curl.exe -LJ -o qt-tools.7z 'https://gitlab.com/OpenRGBDevelopers/openrgb-linux-ci-deb-builder/-/package_files/55610131/download'
-  - curl.exe -LJ -o qt-jom.zip  'https://gitlab.com/OpenRGBDevelopers/openrgb-linux-ci-deb-builder/-/package_files/55610138/download'
-  - _fold_final_
-
-  - _fold_start_ 'extracting the downloaded qt binaries'
-  - 7z x qt-base.7z  '-o../_qt' -y
-  - 7z x qt-tools.7z '-o../_qt' -y
-  - 7z x qt-jom.zip  '-o../_qt' -y
-  - _fold_final_
-
-  - _fold_start_ 'turn the qt install from enterprise to foss; remove the licensing checks'
-  - ${qconfig-pri-folder} = '..\_qt\5.15.0\msvc2019_64\mkspecs\qconfig.pri'
-  - (Get-Content ${qconfig-pri-folder}).replace('QT_EDITION = Enterprise', 'QT_EDITION = OpenSource') | Set-Content ${qconfig-pri-folder}
-  - (Get-Content ${qconfig-pri-folder}).replace('QT_LICHECK = licheck.exe', '')                       | Set-Content ${qconfig-pri-folder}
-  - Pop-Location
-  - _fold_final_
-
-  - _fold_start_ 'run qmake and generate the msvc nmake makefile'
-  - mkdir _build; cd _build
-  - ..\_qt\5.15.0\msvc2019_64\bin\qmake ..\OpenRGB.pro
-  - _fold_final_
-
-  - _fold_start_ 'start the actual build with jom instead of nmake; for speed'
-  - ..\_qt\jom
-  - _fold_final_
-
-  - _fold_start_ 'run windeployqt to automatically copy the needed dll files'
-  - ..\_qt\5.15.0\msvc2019_64\bin\windeployqt --no-angle --no-translations --no-opengl-sw --no-system-d3d-compiler --no-compiler-runtime --no-webkit2 .\release\
-  - _fold_final_
-
-  - _fold_start_ 'Moving results for upload'
-  - mv release ../'OpenRGB Windows 64-bit'
-  - _fold_final_
-#  cache:
-#    key: same-key
-#    paths:
-#    - C:\vcpkg\installed\
+  - scripts\build-windows.bat 6.8.3 2022 64
   artifacts:
     name: "${CI_PROJECT_NAME}_Windows_64_${CI_COMMIT_SHORT_SHA}"
     paths:
