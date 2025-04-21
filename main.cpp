@@ -43,30 +43,25 @@ using namespace std::chrono_literals;
 *                                                                                          *
 \******************************************************************************************/
 #ifdef _WIN32
-typedef unsigned int NTSTATUS;
-typedef NTSTATUS (*NTSETTIMERRESOLUTION)(ULONG DesiredResolution, BOOLEAN SetResolution, PULONG CurrentResolution);
 
 void InitializeTimerResolution()
 {
-    NTSETTIMERRESOLUTION NtSetTimerResolution;
-    HMODULE              NtDllHandle;
-    ULONG                CurrentResolution;
-
-    NtDllHandle = LoadLibrary("ntdll.dll");
-
-    NtSetTimerResolution = (NTSETTIMERRESOLUTION)GetProcAddress(NtDllHandle, "NtSetTimerResolution");
-
-    NtSetTimerResolution(5000, TRUE, &CurrentResolution);
-}
-
-void InitializeTimerResolutionThreadFunction()
-{
-    while(1)
+    HMODULE ntdll = LoadLibrary("ntdll.dll");
+    if(ntdll != NULL)
     {
-        InitializeTimerResolution();
-
-        std::this_thread::sleep_for(500ms);
+        typedef LONG (*NTSETTIMERRESOLUTION)(ULONG DesiredResolution, BOOLEAN SetResolution, PULONG CurrentResolution);
+        ULONG CurrentResolution;
+        NTSETTIMERRESOLUTION NtSetTimerResolution = (NTSETTIMERRESOLUTION)GetProcAddress(ntdll, "NtSetTimerResolution");
+        if(NtSetTimerResolution != NULL)
+        {
+            NtSetTimerResolution(1000, TRUE, &CurrentResolution);
+        }
     }
+
+    // PROCESS_POWER_THROTTLING_IGNORE_TIMER_RESOLUTION = 4, isn't defined in Win10 headers
+    PROCESS_POWER_THROTTLING_STATE PowerThrottlingState { PROCESS_POWER_THROTTLING_CURRENT_VERSION, 4, 0 };
+    // take care of the slowdown on Windows 11
+    SetProcessInformation(GetCurrentProcess(), ProcessPowerThrottling, &PowerThrottlingState, sizeof(PowerThrottlingState));
 }
 #endif
 
@@ -181,9 +176,7 @@ int main(int argc, char* argv[])
     /*---------------------------------------------------------*\
     | Windows only - Start timer resolution correction thread   |
     \*---------------------------------------------------------*/
-    std::thread * InitializeTimerResolutionThread;
-    InitializeTimerResolutionThread = new std::thread(InitializeTimerResolutionThreadFunction);
-    InitializeTimerResolutionThread->detach();
+    InitializeTimerResolution();
 
     /*---------------------------------------------------------*\
     | Windows only - Install SMBus Driver WinRing0              |
