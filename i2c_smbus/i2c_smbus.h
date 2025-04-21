@@ -84,6 +84,8 @@ public:
     int pci_subsystem_device;
     int pci_subsystem_vendor;
 
+    int bus_id;
+
     i2c_smbus_interface();
     virtual ~i2c_smbus_interface();
 

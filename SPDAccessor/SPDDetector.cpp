@@ -37,7 +37,7 @@ void SPDDetector::detect_memory_type()
 {
     SPDAccessor *accessor;
 
-    LOG_DEBUG("[SPDDetector] Probing DRAM on address 0x%02x", address);
+    LOG_DEBUG("[SPDDetector] Probing DRAM on bus %d address 0x%02x", bus->bus_id, address);
 
     /*---------------------------------------------------------*\
     | On Linux, attempt to use the ee1004 or spd5118 drivers to |

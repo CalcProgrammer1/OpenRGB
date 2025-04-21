@@ -26,9 +26,9 @@ SPD5118Accessor::~SPD5118Accessor()
 
 bool SPD5118Accessor::isAvailable(i2c_smbus_interface *bus, uint8_t spd_addr)
 {
-    int size = snprintf(nullptr, 0, SPD_SPD5118_PATH, bus->port_id, spd_addr);
+    int size = snprintf(nullptr, 0, SPD_SPD5118_PATH, bus->bus_id, spd_addr);
     char *path = new char[size+1];
-    snprintf(path, size+1, SPD_SPD5118_PATH, bus->port_id, spd_addr);
+    snprintf(path, size+1, SPD_SPD5118_PATH, bus->bus_id, spd_addr);
     bool result = std::filesystem::exists(path);
     delete[] path;
     return result;
@@ -53,9 +53,9 @@ uint8_t SPD5118Accessor::at(uint16_t addr)
 
 void SPD5118Accessor::readEEPROM()
 {
-    int size = snprintf(nullptr, 0, SPD_SPD5118_PATH, bus->port_id, address);
+    int size = snprintf(nullptr, 0, SPD_SPD5118_PATH, bus->bus_id, address);
     char *filename = new char[size+1];
-    snprintf(filename, size+1, SPD_SPD5118_PATH, bus->port_id, address);
+    snprintf(filename, size+1, SPD_SPD5118_PATH, bus->bus_id, address);
 
     std::ifstream eeprom_file(filename, std::ios::in | std::ios::binary);
     if(eeprom_file)

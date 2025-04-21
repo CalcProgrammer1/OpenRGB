@@ -82,7 +82,7 @@ bool i2c_smbus_linux_detect()
     char path[1024];
     char buff[100];
     unsigned short pci_device, pci_vendor, pci_subsystem_device, pci_subsystem_vendor;
-    unsigned short port_id;
+    unsigned short port_id, bus_id;
     char *ptr;
 
     // Start looking for I2C adapters in /sys/bus/i2c/devices/
@@ -125,9 +125,13 @@ bool i2c_smbus_linux_detect()
                     pci_subsystem_vendor    = 0;
                     pci_subsystem_device    = 0;
                     port_id                 = 0;
+                    bus_id                  = 0;
 
                     // Get port ID for Nvidia GPUs
                     sscanf(device_string, "NVIDIA i2c adapter %hu at", &port_id);
+
+                    // Get the Linux Bus ID
+                    sscanf(ent->d_name, "i2c-%hu", &bus_id);
 
                     // Get device path
                     strcpy(path, driver_path);
@@ -233,6 +237,7 @@ bool i2c_smbus_linux_detect()
                     bus->pci_subsystem_device = pci_subsystem_device;
                     bus->pci_subsystem_vendor = pci_subsystem_vendor;
                     bus->port_id              = port_id;
+                    bus->bus_id               = bus_id;
                     ResourceManager::get()->RegisterI2CBus(bus);
                 }
                 else
