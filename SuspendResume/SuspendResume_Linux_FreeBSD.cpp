@@ -14,12 +14,12 @@
 
 SuspendResumeLoginManager::SuspendResumeLoginManager(SuspendResumeListener *srl) : srl(srl), bus(QDBusConnection::systemBus())
 {
-    bus.connect("org.freedesktop.login1", "/org/freedesktop/login1", "org.freedesktop.login1.Manager", "PrepareForSleep", this, SLOT(PrepareForSleep()));
+    bus.connect("org.freedesktop.login1", "/org/freedesktop/login1", "org.freedesktop.login1.Manager", "PrepareForSleep", this, SLOT(PrepareForSleep(bool)));
 }
 
 SuspendResumeLoginManager::~SuspendResumeLoginManager()
 {
-    bus.disconnect("org.freedesktop.login1", "/org/freedesktop/login1", "org.freedesktop.login1.Manager", "PrepareForSleep", this, SLOT(PrepareForSleep()));
+    bus.disconnect("org.freedesktop.login1", "/org/freedesktop/login1", "org.freedesktop.login1.Manager", "PrepareForSleep", this, SLOT(PrepareForSleep(bool)));
 }
 
 void SuspendResumeLoginManager::PrepareForSleep(bool mode)
