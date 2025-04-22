@@ -299,6 +299,7 @@ unix {
 #       to add new translations relies on entries here in OpenRGB.pro                           #
 #-----------------------------------------------------------------------------------------------#
 TRANSLATIONS +=                                                                                 \
+    qt/i18n/OpenRGB_be_BY.ts                                                                    \
     qt/i18n/OpenRGB_de_DE.ts                                                                    \
     qt/i18n/OpenRGB_el_GR.ts                                                                    \
     qt/i18n/OpenRGB_en_US.ts                                                                    \
