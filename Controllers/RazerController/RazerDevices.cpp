@@ -8516,6 +8516,78 @@ static const razer_device thunderbolt_4_dock_chroma_device =
     NULL
 };
 
+/*-------------------------------------------------------------*\
+|  Razer Hanbo Chroma                                           |
+|                                                               |
+|  Zone "Pump"                                                  |
+|       Linear                                                  |
+|       16 LEDs                                                 |
+|                                                               |
+|  Zone "Fan 1"                                                 |
+|       Linear                                                  |
+|       18 LEDs                                                 |
+|                                                               |
+|  Zone "Fan 2"                                                 |
+|       Linear                                                  |
+|       18 LEDs                                                 |
+|                                                               |
+|  Zone "Fan 3"                                                 |
+|       Linear                                                  |
+|       18 LEDs                                                 |
+|                                                               |
+\*-------------------------------------------------------------*/
+static const razer_zone hanbo_chroma_pump_zone =
+{
+    "Pump",
+    ZONE_TYPE_LINEAR,
+    1,
+    16
+};
+
+static const razer_zone hanbo_chroma_fan_one_zone =
+{
+    "Fan 1",
+    ZONE_TYPE_LINEAR,
+    1,
+    18
+};
+
+static const razer_zone hanbo_chroma_fan_two_zone =
+{
+    "Fan 2",
+    ZONE_TYPE_LINEAR,
+    1,
+    18
+};
+
+static const razer_zone hanbo_chroma_fan_three_zone =
+{
+    "Fan 3",
+    ZONE_TYPE_LINEAR,
+    1,
+    18
+};
+
+static const razer_device hanbo_chroma_device =
+{
+    "Razer Hanbo Chroma",
+    RAZER_HANBO_CHROMA_PID,
+    DEVICE_TYPE_COOLER,
+    RAZER_MATRIX_TYPE_EXTENDED,
+    0x3F,
+    1,
+    70,
+    {
+        &hanbo_chroma_pump_zone,
+        &hanbo_chroma_fan_one_zone,
+        &hanbo_chroma_fan_two_zone,
+        &hanbo_chroma_fan_three_zone,
+        NULL,
+        NULL
+    },
+    NULL
+};
+
 /*-------------------------------------------------------------------------*\
 |  DEVICE MASTER LIST                                                       |
 \*-------------------------------------------------------------------------*/
@@ -8719,6 +8791,7 @@ const razer_device* razer_device_list[] =
     &o11_dynamic_device,
     &seiren_emote_device,
     &thunderbolt_4_dock_chroma_device,
+    &hanbo_chroma_device
 };
 
 const unsigned int RAZER_NUM_DEVICES = (sizeof(razer_device_list) / sizeof(razer_device_list[ 0 ]));

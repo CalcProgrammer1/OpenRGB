@@ -14,11 +14,13 @@
 #include "Detector.h"
 #include "RazerController.h"
 #include "RazerKrakenController.h"
+#include "RazerHanboController.h"
 #include "RazerDevices.h"
 #include "ResourceManager.h"
 #include "RGBController_Razer.h"
 #include "RGBController_RazerAddressable.h"
 #include "RGBController_RazerKraken.h"
+#include "RGBController_RazerHanbo.h"
 
 /******************************************************************************************\
 *                                                                                          *
@@ -150,6 +152,27 @@ void DetectRazerKrakenControllers(hid_device_info* info, const std::string& name
         ResourceManager::get()->RegisterRGBController(rgb_controller);
     }
 }   /* DetectRazerKrakenControllers() */
+
+/******************************************************************************************\
+*                                                                                          *
+*   DetectRazerHanboController                                                             *
+*                                                                                          *
+*       Tests the USB address to see if a Razer Hanbo controller exists there.             *
+*                                                                                          *
+\******************************************************************************************/
+
+void DetectRazerHanboControllers(hid_device_info* info, const std::string& name)
+{
+    hid_device* dev = hid_open_path(info->path);
+
+    if(dev)
+    {
+        RazerHanboController* controller = new RazerHanboController(dev, info->path, info->product_id, name);
+
+        RGBController_RazerHanbo* rgb_controller = new RGBController_RazerHanbo(controller);
+        ResourceManager::get()->RegisterRGBController(rgb_controller);
+    }
+}   /* DetectRazerHanboControllers() */
 
 /*-----------------------------------------------------------------------------------------------------*\
 | Keyboards                                                                                             |
@@ -354,6 +377,7 @@ REGISTER_HID_DETECTOR_IPU("Razer Mouse Dock Pro",                            Det
 REGISTER_HID_DETECTOR_IPU("Lian Li O11 Dynamic - Razer Edition",             DetectRazerControllers,        RAZER_VID,  RAZER_O11_DYNAMIC_PID,                          0x02,   0x01,   0x02);
 REGISTER_HID_DETECTOR_PU("Razer Seiren Emote",                               DetectRazerControllers,        RAZER_VID,  RAZER_SEIREN_EMOTE_PID,                         0x0C,   0x01        );
 REGISTER_HID_DETECTOR_PU("Razer Thunderbolt 4 Dock Chroma",                  DetectRazerControllers,        RAZER_VID,  RAZER_THUNDERBOLT_4_DOCK_CHROMA_PID,            0x0C,   0x01        );
+REGISTER_HID_DETECTOR_IPU("Razer Hanbo Chroma",                              DetectRazerHanboControllers,   RAZER_VID,  RAZER_HANBO_CHROMA_PID,                         0x00,   0xFF00, 0x01);
 
 /*-----------------------------------------------------------------------------------------------------*\
 | Nommo devices seem to have an issue where interface 1 doesn't show on Linux or MacOS.  Due to the way |
