@@ -56,6 +56,10 @@ This project interacts directly with hardware using reverse engineered protocols
 
 * https://discord.gg/AQwjJPY
 
+## Follow Us On Mastodon
+
+* https://floss.social/@OpenRGB
+
 ## Visit Our Lemmy Community
 
 * https://lemmy.ml/c/OpenRGB
