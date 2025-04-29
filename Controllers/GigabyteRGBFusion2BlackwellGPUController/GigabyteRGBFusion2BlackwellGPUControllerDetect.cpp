@@ -93,6 +93,7 @@ void DetectGigabyteRGBFusion2BlackwellGPUControllers(i2c_smbus_interface* bus, u
 \*-----------------------------------------*/
 
 REGISTER_I2C_PCI_DETECTOR("Gigabyte GeForce RTX 5070 Ti Eagle OC",                     DetectGigabyteRGBFusion2BlackwellGPUControllers, NVIDIA_VEN, NVIDIA_RTX5070TI_DEV,       GIGABYTE_SUB_VEN,   GIGABYTE_RTX5070TI_EAGLE_OC_16G_SUB_DEV,        0x75);
+REGISTER_I2C_PCI_DETECTOR("Gigabyte GeForce RTX 5070 Ti Aero OC",                      DetectGigabyteRGBFusion2BlackwellGPUControllers, NVIDIA_VEN, NVIDIA_RTX5070TI_DEV,       GIGABYTE_SUB_VEN,   GIGABYTE_RTX5070TI_AERO_OC_16G_SUB_DEV,         0x75);
 
 /*-----------------------------------------*\
 |  AMD GPUs                                 |
