@@ -27,7 +27,7 @@ LIFXController::LIFXController(std::string ip, std::string name, bool multizone,
     /*-----------------------------------------------------------------*\
     | Fill in location string with device's IP address                  |
     \*-----------------------------------------------------------------*/
-    location    = "IP: " + ip;
+    location = "IP: " + ip;
 
     /*-----------------------------------------------------------------*\
     | Open a UDP client sending to the device's IP, port 56700          |
@@ -75,7 +75,7 @@ void LIFXController::SetColors(std::vector<RGBColor> colors)
     /*-------------------------*\
     | Non-multizone lifx device |
     \*-------------------------*/
-    if (!multizone)
+    if(!multizone)
     {
         SetColor(colors[0]);
 
@@ -85,7 +85,7 @@ void LIFXController::SetColors(std::vector<RGBColor> colors)
     /*-------------------------------------------*\
     | Multizone lifx device with extended support |
     \*-------------------------------------------*/
-    if (extended_multizone)
+    if(extended_multizone)
     {
         SetZoneColors(colors);
 
@@ -100,7 +100,7 @@ void LIFXController::SetColors(std::vector<RGBColor> colors)
         /*-----------------------------------------------------------------*\
         | Utilize caching to avoid setting all zones when 1 zone is changed |
         \*-----------------------------------------------------------------*/
-        if (cached_colors[i] == colors[i])
+        if(cached_colors[i] == colors[i])
         {
             continue;
         }
@@ -112,7 +112,7 @@ void LIFXController::SetColors(std::vector<RGBColor> colors)
 
 void LIFXController::FetchZoneCount()
 {
-    if (!multizone)
+    if(!multizone)
     {
         return;
     }
@@ -144,7 +144,7 @@ void LIFXController::FetchZoneCount()
     /*-----------------*\
     | Validate response |
     \*-----------------*/
-    if (HeaderPacketGetSize() != data_buf_size || HeaderPacketGetProtocol() != LIFX_PROTOCOL || HeaderPacketGetPacketType() != LIFX_PACKET_TYPE_STATE_ZONE)
+    if(HeaderPacketGetSize() != data_buf_size || HeaderPacketGetProtocol() != LIFX_PROTOCOL || HeaderPacketGetPacketType() != LIFX_PACKET_TYPE_STATE_ZONE)
     {
         return;
     }
@@ -286,7 +286,7 @@ void LIFXController::HeaderPacketSetProtocol(unsigned short protocol)
 
 void LIFXController::HeaderPacketSetAddressable(bool addressable)
 {
-    if (addressable)
+    if(addressable)
         data[LIFX_HEADER_PACKET_OFFSET_ADDRESSABLE_TAGGED_ORIGIN] |= 0x10;
     else
         data[LIFX_HEADER_PACKET_OFFSET_ADDRESSABLE_TAGGED_ORIGIN] &= ~0x10;
@@ -294,7 +294,7 @@ void LIFXController::HeaderPacketSetAddressable(bool addressable)
 
 void LIFXController::HeaderPacketSetTagged(bool tagged)
 {
-    if (tagged)
+    if(tagged)
         data[LIFX_HEADER_PACKET_OFFSET_ADDRESSABLE_TAGGED_ORIGIN] |= 0x20;
     else
         data[LIFX_HEADER_PACKET_OFFSET_ADDRESSABLE_TAGGED_ORIGIN] &= ~0x20;
@@ -318,7 +318,7 @@ void LIFXController::HeaderPacketSetTarget(unsigned char* target)
 
 void LIFXController::HeaderPacketSetResponseRequired(bool response_required)
 {
-    if (response_required)
+    if(response_required)
         data[LIFX_HEADER_PACKET_OFFSET_RESPONSE_REQUIRED_ACKNOWLEDGE_REQUIRED] |= 0x01;
     else
         data[LIFX_HEADER_PACKET_OFFSET_RESPONSE_REQUIRED_ACKNOWLEDGE_REQUIRED] &= ~0x01;
@@ -326,7 +326,7 @@ void LIFXController::HeaderPacketSetResponseRequired(bool response_required)
 
 void LIFXController::HeaderPacketSetAcknowledgeRequired(bool acknowledge_required)
 {
-    if (acknowledge_required)
+    if(acknowledge_required)
         data[LIFX_HEADER_PACKET_OFFSET_RESPONSE_REQUIRED_ACKNOWLEDGE_REQUIRED] |= 0x02;
     else
         data[LIFX_HEADER_PACKET_OFFSET_RESPONSE_REQUIRED_ACKNOWLEDGE_REQUIRED] &= ~0x02;
@@ -444,7 +444,7 @@ void LIFXController::SetExtendedColorZonesPacketSetColors(std::vector<RGBColor> 
     unsigned char colors_count = colors.size();
     memcpy(&data[LIFX_SET_EXTENDED_COLOR_ZONES_PACKET_OFFSET_COLORS_COUNT], &colors_count, sizeof(unsigned char));
 
-    for (size_t i = 0; i < colors.size(); i++)
+    for(size_t i = 0; i < colors.size(); i++)
     {
         hsbk_t hsbk;
         RGBColorToHSBK(colors.at(i), &hsbk);
