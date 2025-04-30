@@ -20,14 +20,14 @@ using namespace std::chrono_literals;
 LIFXController::LIFXController(std::string ip, std::string name, bool multizone, bool extended_multizone)
 {
     this->name               = name;
-    this->zone_count         = 1;
+    zone_count               = 1;
     this->multizone          = multizone;
     this->extended_multizone = extended_multizone;
 
     /*-----------------------------------------------------------------*\
     | Fill in location string with device's IP address                  |
     \*-----------------------------------------------------------------*/
-    location = "IP: " + ip;
+    location                 = "IP: " + ip;
 
     /*-----------------------------------------------------------------*\
     | Open a UDP client sending to the device's IP, port 56700          |
