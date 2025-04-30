@@ -41,17 +41,10 @@ variables:
 before_script:
  - echo "started by ${GITLAB_USER_NAME}"
 
-#reusable templates
-.ccache_init: &ccache_init
-  before_script:
-    - export QT_SELECT=qt5
-    - export APPIMAGE_EXTRACT_AND_RUN=1
-
 #-----------------------------------------------------------------------#
 # Supported Devices Build Target                                        #
 #-----------------------------------------------------------------------#
 "Supported Devices":
-  <<: *ccache_init
   image: registry.gitlab.com/openrgbdevelopers/openrgb-linux-ci-deb-builder:bookworm-amd64
   tags:
   - linux
@@ -75,7 +68,6 @@ before_script:
 # Linux (AppImage) i386 Build Target                                    #
 #-----------------------------------------------------------------------#
 "Linux i386 AppImage":
-  <<: *ccache_init
   image: registry.gitlab.com/openrgbdevelopers/openrgb-linux-ci-deb-builder:bookworm-i386
   tags:
   - linux
@@ -97,10 +89,33 @@ before_script:
     - !reference [.upstream_rules, rules]
 
 #-----------------------------------------------------------------------#
+# Linux (AppImage) Qt6 i386 Build Target                                #
+#-----------------------------------------------------------------------#
+"Linux i386 AppImage Qt6":
+  image: registry.gitlab.com/openrgbdevelopers/openrgb-linux-ci-deb-builder:bookworm-i386
+  tags:
+  - linux
+  - i386
+  stage: build
+  script:
+  - export $(dpkg-architecture)
+  - ./scripts/build-appimage.sh qt6
+
+  artifacts:
+    name: "${CI_PROJECT_NAME}_Linux_i386_Qt6_${CI_COMMIT_SHORT_SHA}"
+    paths:
+    - OpenRGB-i386.AppImage
+    - 60-openrgb.rules
+    - README.md
+    expire_in: 30 days
+
+  rules:
+    - !reference [.upstream_rules, rules]
+
+#-----------------------------------------------------------------------#
 # Linux (AppImage) amd64 Build Target                                   #
 #-----------------------------------------------------------------------#
 "Linux amd64 AppImage Base":
-  <<: *ccache_init
   image: registry.gitlab.com/openrgbdevelopers/openrgb-linux-ci-deb-builder:bookworm-amd64
   stage: build
   script:
@@ -135,10 +150,33 @@ before_script:
   - "saas-linux-small-amd64"
 
 #-----------------------------------------------------------------------#
+# Linux (AppImage) Qt6 amd64 Build Target                               #
+#-----------------------------------------------------------------------#
+"Linux amd64 AppImage Qt6":
+  image: registry.gitlab.com/openrgbdevelopers/openrgb-linux-ci-deb-builder:bookworm-amd64
+  tags:
+  - linux
+  - amd64
+  stage: build
+  script:
+  - export $(dpkg-architecture)
+  - ./scripts/build-appimage.sh qt6
+
+  artifacts:
+    name: "${CI_PROJECT_NAME}_Linux_amd64_Qt6_${CI_COMMIT_SHORT_SHA}"
+    paths:
+    - OpenRGB-amd64.AppImage
+    - 60-openrgb.rules
+    - README.md
+    expire_in: 30 days
+
+  rules:
+    - !reference [.upstream_rules, rules]
+
+#-----------------------------------------------------------------------#
 # Linux (AppImage) armhf Build Target                                   #
 #-----------------------------------------------------------------------#
 "Linux armhf AppImage":
-  <<: *ccache_init
   image: registry.gitlab.com/openrgbdevelopers/openrgb-linux-ci-deb-builder:bookworm-armhf
   tags:
   - linux
@@ -160,10 +198,33 @@ before_script:
     - !reference [.upstream_rules, rules]
 
 #-----------------------------------------------------------------------#
+# Linux (AppImage) Qt6 armhf Build Target                               #
+#-----------------------------------------------------------------------#
+"Linux armhf AppImage Qt6":
+  image: registry.gitlab.com/openrgbdevelopers/openrgb-linux-ci-deb-builder:bookworm-armhf
+  tags:
+  - linux
+  - armhf
+  stage: build
+  script:
+  - export $(dpkg-architecture)
+  - ./scripts/build-appimage.sh qt6
+
+  artifacts:
+    name: "${CI_PROJECT_NAME}_Linux_armhf_Qt6_${CI_COMMIT_SHORT_SHA}"
+    paths:
+    - OpenRGB-armhf.AppImage
+    - 60-openrgb.rules
+    - README.md
+    expire_in: 30 days
+
+  rules:
+    - !reference [.upstream_rules, rules]
+
+#-----------------------------------------------------------------------#
 # Linux (AppImage) arm64 Build Target                                   #
 #-----------------------------------------------------------------------#
 "Linux arm64 AppImage":
-  <<: *ccache_init
   image: registry.gitlab.com/openrgbdevelopers/openrgb-linux-ci-deb-builder:bookworm-arm64
   tags:
   - linux
@@ -185,10 +246,33 @@ before_script:
     - !reference [.upstream_rules, rules]
 
 #-----------------------------------------------------------------------#
+# Linux (AppImage) Qt6 arm64 Build Target                               #
+#-----------------------------------------------------------------------#
+"Linux arm64 AppImage Qt6":
+  image: registry.gitlab.com/openrgbdevelopers/openrgb-linux-ci-deb-builder:bookworm-arm64
+  tags:
+  - linux
+  - arm64
+  stage: build
+  script:
+  - export $(dpkg-architecture)
+  - ./scripts/build-appimage.sh qt6
+
+  artifacts:
+    name: "${CI_PROJECT_NAME}_Linux_arm64_Qt6_${CI_COMMIT_SHORT_SHA}"
+    paths:
+    - OpenRGB-arm64.AppImage
+    - 60-openrgb.rules
+    - README.md
+    expire_in: 30 days
+
+  rules:
+    - !reference [.upstream_rules, rules]
+
+#-----------------------------------------------------------------------#
 # Linux (.deb) Debian Bookworm i386 Build Target                        #
 #-----------------------------------------------------------------------#
 "Linux i386 .deb (Debian Bookworm)":
-  <<: *ccache_init
   image: registry.gitlab.com/openrgbdevelopers/openrgb-linux-ci-deb-builder:bookworm-i386
   tags:
   - linux
@@ -216,7 +300,6 @@ before_script:
 # Linux (.deb) Debian Bookworm amd64 Build Target                       #
 #-----------------------------------------------------------------------#
 "Linux amd64 .deb (Debian Bookworm)":
-  <<: *ccache_init
   image: registry.gitlab.com/openrgbdevelopers/openrgb-linux-ci-deb-builder:bookworm-amd64
   tags:
   - linux
@@ -244,7 +327,6 @@ before_script:
 # Linux (.deb) Debian Bookworm armhf Build Target                       #
 #-----------------------------------------------------------------------#
 "Linux armhf .deb (Debian Bookworm)":
-  <<: *ccache_init
   image: registry.gitlab.com/openrgbdevelopers/openrgb-linux-ci-deb-builder:bookworm-armhf
   tags:
   - linux
@@ -272,7 +354,6 @@ before_script:
 # Linux (.deb) Debian Bookworm arm64 Build Target                       #
 #-----------------------------------------------------------------------#
 "Linux arm64 .deb (Debian Bookworm)":
-  <<: *ccache_init
   image: registry.gitlab.com/openrgbdevelopers/openrgb-linux-ci-deb-builder:bookworm-arm64
   tags:
   - linux

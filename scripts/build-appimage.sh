@@ -16,6 +16,23 @@ TEMP_BASE=/tmp
 BUILD_DIR=$(mktemp -d -p "$TEMP_BASE" appimage-build-XXXXXX)
 
 #-----------------------------------------------------------------------#
+# Setup environment                                                     #
+#-----------------------------------------------------------------------#
+export APPIMAGE_EXTRACT_AND_RUN=1
+
+if [ "$1" = "qt6" ]; then
+    export QT_SELECT=qt6
+else
+    export QT_SELECT=qt5
+fi
+
+if [ "$QT_SELECT" = "qt6" ]; then
+    export QMAKE=qmake6
+else
+    export QMAKE=qmake
+fi
+
+#-----------------------------------------------------------------------#
 # This checks the Architecture of the system to work out if we're       #
 #     building on i386 or x86_64 and saves for later use                #
 #-----------------------------------------------------------------------#
@@ -67,7 +84,7 @@ pushd "$BUILD_DIR"
 # we need to explicitly set the install prefix, as qmake's default is   #
 # /usr/local for some reason...                                         #
 #-----------------------------------------------------------------------#
-qmake "$REPO_ROOT"
+$QMAKE "$REPO_ROOT"
 
 #-----------------------------------------------------------------------#
 # Build project and install files into AppDir                           #

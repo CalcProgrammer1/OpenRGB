@@ -65,6 +65,7 @@ message("VERSION_DEB: "$$VERSION_DEB)
 message("VERSION_WIX: "$$VERSION_WIX)
 message("VERSION_AUR: "$$VERSION_AUR)
 message("VERSION_RPM: "$$VERSION_RPM)
+message("QT_VERSION:  "$$QT_VERSION)
 #-----------------------------------------------------------------------------------------------#
 # Automatically generated build information                                                     #
 #-----------------------------------------------------------------------------------------------#
