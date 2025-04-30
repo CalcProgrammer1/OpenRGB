@@ -17,6 +17,8 @@ OpenRGBLIFXSettingsEntry::OpenRGBLIFXSettingsEntry(QWidget *parent) :
     ui(new Ui::OpenRGBLIFXSettingsEntryUi)
 {
     ui->setupUi(this);
+
+    connect(ui->MultizoneCheckBox, SIGNAL(stateChanged(int)), this, SLOT(onMultizoneCheckStateChanged(int)));
 }
 
 OpenRGBLIFXSettingsEntry::~OpenRGBLIFXSettingsEntry()
@@ -42,13 +44,23 @@ void OpenRGBLIFXSettingsEntry::loadFromSettings(const json& data)
     {
         ui->NameEdit->setText(QString::fromStdString(data["name"]));
     }
+    if(lifx_device_settings.contains("multizone") && lifx_device_settings["multizone"].is_boolean())
+    {
+        ui->MultizoneCheckBox->setCheckState(lifx_device_settings["multizone"] == true ? Qt::CheckState::Checked : Qt::CheckState::Unchecked);
+    }
+    if(lifx_device_settings.contains("extended_multizone") && lifx_device_settings["extended_multizone"].is_boolean())
+    {
+        ui->ExtendedMultizoneCheckBox->setCheckState(lifx_device_settings["extended_multizone"] == true ? Qt::CheckState::Checked : Qt::CheckState::Unchecked);
+    }
 }
 
 json OpenRGBLIFXSettingsEntry::saveSettings()
 {
     json result;
-    result["ip"] = ui->IPEdit->text().toStdString();
-    result["name"] = ui->NameEdit->text().toStdString();
+    result["ip"]                 = ui->IPEdit->text().toStdString();
+    result["name"]               = ui->NameEdit->text().toStdString();
+    result["multizone"]          = entries[device_idx]->ui->MultizoneCheckBox->checkState() == Qt::Checked;
+    result["extended_multizone"] = entries[device_idx]->ui->ExtendedMultizoneCheckBox->checkState() == Qt::Checked;
     return result;
 }
 
@@ -60,4 +72,15 @@ const char* OpenRGBLIFXSettingsEntry::settingsSection()
 void OpenRGBLIFXSettingsEntry::setName(QString name)
 {
     ui->NameEdit->setText(name);
+}
+
+void Ui::OpenRGBLIFXSettingsEntry::on_MultizoneCheckBox_stateChanged(int checkState)
+{
+    if (checkState == Qt::Checked) {
+        ui->ExtendedMultizoneCheckBox->setEnabled(true);
+    }
+    else {
+        ui->ExtendedMultizoneCheckBox->setEnabled(false);
+        ui->ExtendedMultizoneCheckBox->setCheckState(Qt::Unchecked);
+    }
 }

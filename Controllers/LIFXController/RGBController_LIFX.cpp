@@ -51,19 +51,56 @@ RGBController_LIFX::~RGBController_LIFX()
 
 void RGBController_LIFX::SetupZones()
 {
-    zone led_zone;
-    led_zone.name       = "RGB Light";
-    led_zone.type       = ZONE_TYPE_SINGLE;
-    led_zone.leds_min   = 1;
-    led_zone.leds_max   = 1;
-    led_zone.leds_count = 1;
-    led_zone.matrix_map = NULL;
-    zones.push_back(led_zone);
+    unsigned int zone_count = controller->GetZoneCount();
 
-    led new_led;
-    new_led.name = "RGB Light";
+    /*---------------------------------------------------------*\
+    | If there is only one zone, set up a single LED & zone     |
+    \*---------------------------------------------------------*/
+    if (zone_count <= 1)
+    {
+        zone led_zone;
+        led_zone.name       = "RGB Light";
+        led_zone.type       = ZONE_TYPE_SINGLE;
+        led_zone.leds_min   = 1;
+        led_zone.leds_max   = 1;
+        led_zone.leds_count = 1;
+        led_zone.matrix_map = NULL;
+        zones.push_back(led_zone);
 
-    leds.push_back(new_led);
+        led new_led;
+        new_led.name = "RGB Light";
+
+        leds.push_back(new_led);
+    }
+    else
+    {
+        /*---------------------------------------------------------*\
+        | Set up zones                                              |
+        \*---------------------------------------------------------*/
+        for (unsigned int zone_idx = 0; zone_idx < zone_count; zone_idx++)
+        {
+            zone new_zone;
+
+            new_zone.name = "LIFX Zone " + std::to_string(zone_idx + 1);
+            new_zone.type = ZONE_TYPE_LINEAR;
+            new_zone.leds_min = 1;
+            new_zone.leds_max = 1;
+            new_zone.leds_count = 1;
+            new_zone.matrix_map = NULL;
+
+            zones.push_back(new_zone);
+        }
+
+        /*---------------------------------------------------------*\
+        | Set up LEDs                                               |
+        \*---------------------------------------------------------*/
+        for(unsigned int zone_idx = 0; zone_idx < zones.size(); zone_idx++)
+        {
+            led new_led;
+            new_led.name = zones[zone_idx].name + " LED";
+            leds.push_back(new_led);
+        }
+    }
 
     SetupColors();
 }
@@ -77,11 +114,7 @@ void RGBController_LIFX::ResizeZone(int /*zone*/, int /*new_size*/)
 
 void RGBController_LIFX::DeviceUpdateLEDs()
 {
-    unsigned char red = RGBGetRValue(colors[0]);
-    unsigned char grn = RGBGetGValue(colors[0]);
-    unsigned char blu = RGBGetBValue(colors[0]);
-
-    controller->SetColor(red, grn, blu);
+    controller->SetColors(colors);
 }
 
 void RGBController_LIFX::UpdateZoneLEDs(int /*zone*/)

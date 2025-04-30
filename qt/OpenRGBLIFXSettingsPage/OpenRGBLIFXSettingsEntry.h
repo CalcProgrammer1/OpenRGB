@@ -32,4 +32,5 @@ private:
 
 private slots:
     void changeEvent(QEvent *event);
+    void on_MultizoneCheckBox_stateChanged(int arg1);
 };

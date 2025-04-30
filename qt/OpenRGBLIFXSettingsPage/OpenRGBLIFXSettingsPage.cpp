@@ -35,6 +35,7 @@ OpenRGBLIFXSettingsPage::OpenRGBLIFXSettingsPage(QWidget *parent) :
         for(unsigned int device_idx = 0; device_idx < lifx_settings["devices"].size(); device_idx++)
         {
             OpenRGBLIFXSettingsEntry* entry = new OpenRGBLIFXSettingsEntry;
+            nlohmann::basic_json lifx_device_settings = lifx_settings["devices"][device_idx];
 
             entry->loadFromSettings(lifx_settings["devices"][device_idx]);
 

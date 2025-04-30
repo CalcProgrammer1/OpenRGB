@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>190</width>
+    <width>605</width>
     <height>89</height>
    </rect>
   </property>
@@ -26,8 +26,15 @@
       <string/>
      </property>
      <layout class="QGridLayout" name="gridLayout_2">
-      <item row="1" column="5">
-       <widget class="QLineEdit" name="NameEdit"/>
+      <item row="1" column="3">
+       <widget class="QLineEdit" name="IPEdit"/>
+      </item>
+      <item row="1" column="6">
+       <widget class="QCheckBox" name="MultizoneCheckBox">
+        <property name="text">
+         <string>Multizone</string>
+        </property>
+       </widget>
       </item>
       <item row="1" column="0">
        <widget class="QLabel" name="IPLabel">
@@ -36,13 +43,23 @@
         </property>
        </widget>
       </item>
-      <item row="1" column="3">
-       <widget class="QLineEdit" name="IPEdit"/>
-      </item>
       <item row="1" column="4">
        <widget class="QLabel" name="NameLabel">
         <property name="text">
          <string>Name</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="5">
+       <widget class="QLineEdit" name="NameEdit"/>
+      </item>
+      <item row="1" column="7">
+       <widget class="QCheckBox" name="ExtendedMultizoneCheckBox">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
+        <property name="text">
+         <string>Extended Multizone</string>
         </property>
        </widget>
       </item>
