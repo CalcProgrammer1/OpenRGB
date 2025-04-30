@@ -447,7 +447,7 @@ void LIFXController::SetExtendedColorZonesPacketSetColors(std::vector<RGBColor> 
     for(size_t i = 0; i < colors.size(); i++)
     {
         hsbk_t hsbk;
-        RGBColorToHSBK(colors.at(i), &hsbk);
+        RGBColorToHSBK(colors[i], &hsbk);
 
         size_t current_color_offset = LIFX_SET_EXTENDED_COLOR_ZONES_PACKET_OFFSET_COLORS + (i * HSBK_LENGTH);
 

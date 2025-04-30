@@ -56,7 +56,7 @@ void RGBController_LIFX::SetupZones()
     /*---------------------------------------------------------*\
     | If there is only one zone, set up a single LED & zone     |
     \*---------------------------------------------------------*/
-    if (zone_count <= 1)
+    if(zone_count <= 1)
     {
         zone led_zone;
         led_zone.name       = "RGB Light";
@@ -74,11 +74,11 @@ void RGBController_LIFX::SetupZones()
     }
     else
     {
-        /*---------------------------------------------------------*\
-        | Set up zones                                              |
-        \*---------------------------------------------------------*/
-        for (unsigned int zone_idx = 0; zone_idx < zone_count; zone_idx++)
+        for(size_t zone_idx = 0; zone_idx < zone_count; zone_idx++)
         {
+            /*---------------------------------------------------------*\
+            | Set up zones                                              |
+            \*---------------------------------------------------------*/
             zone new_zone;
 
             new_zone.name = "LIFX Zone " + std::to_string(zone_idx + 1);
@@ -89,15 +89,14 @@ void RGBController_LIFX::SetupZones()
             new_zone.matrix_map = NULL;
 
             zones.push_back(new_zone);
-        }
 
-        /*---------------------------------------------------------*\
-        | Set up LEDs                                               |
-        \*---------------------------------------------------------*/
-        for(unsigned int zone_idx = 0; zone_idx < zones.size(); zone_idx++)
-        {
+            /*---------------------------------------------------------*\
+            | Set up LEDs                                               |
+            \*---------------------------------------------------------*/
             led new_led;
+
             new_led.name = zones[zone_idx].name + " LED";
+
             leds.push_back(new_led);
         }
     }
