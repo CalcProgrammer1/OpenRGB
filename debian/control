@@ -6,9 +6,9 @@ Standards-Version: 3.9.2
 Build-Depends:
  debhelper (>= 9),
  pkg-config,
- qtbase5-dev,
- qtbase5-dev-tools,
- qttools5-dev-tools,
+ qt6-base-dev,
+ qt6-base-dev-tools,
+ qt6-tools-dev-tools,
  qt5-qmake,
  libusb-1.0-0-dev,
  libhidapi-dev,
