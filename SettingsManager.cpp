@@ -21,10 +21,7 @@ SettingsManager::SettingsManager()
     config_found = false;
 }
 
-SettingsManager::~SettingsManager()
-{
-
-}
+SettingsManager::~SettingsManager() {}
 
 json SettingsManager::GetSettings(std::string settings_key)
 {
@@ -37,8 +34,7 @@ json SettingsManager::GetSettings(std::string settings_key)
     json result;
 
     mutex.lock();
-    if(settings_data.contains(settings_key))
-    {
+    if (settings_data.contains(settings_key)) {
         result = settings_data[settings_key];
     }
 
@@ -54,7 +50,7 @@ void SettingsManager::SetSettings(std::string settings_key, json new_settings)
     mutex.unlock();
 }
 
-void SettingsManager::LoadSettings(const filesystem::path& filename)
+void SettingsManager::LoadSettings(const filesystem::path &filename)
 {
     /*---------------------------------------------------------*\
     | Clear any stored settings before loading                  |
@@ -72,21 +68,16 @@ void SettingsManager::LoadSettings(const filesystem::path& filename)
     | Open input file in binary mode                            |
     \*---------------------------------------------------------*/
     config_found = filesystem::exists(filename);
-    if(config_found)
-    {
+    if (config_found) {
         std::ifstream settings_file(settings_filename, std::ios::in | std::ios::binary);
 
         /*---------------------------------------------------------*\
         | Read settings into JSON store                             |
         \*---------------------------------------------------------*/
-        if(settings_file)
-        {
-            try
-            {
+        if (settings_file) {
+            try {
                 settings_file >> settings_data;
-            }
-            catch(const std::exception& e)
-            {
+            } catch (const std::exception &e) {
                 /*-------------------------------------------------*\
                 | If an exception was caught, that means the JSON   |
                 | parsing failed.  Clear out any data in the store  |
@@ -110,14 +101,10 @@ void SettingsManager::SaveSettings()
     mutex.lock();
     std::ofstream settings_file(settings_filename, std::ios::out | std::ios::binary);
 
-    if(settings_file)
-    {
-        try
-        {
+    if (settings_file) {
+        try {
             settings_file << settings_data.dump(4);
-        }
-        catch(const std::exception& e)
-        {
+        } catch (const std::exception &e) {
             LOG_ERROR("[SettingsManager] Cannot write to file: %s", e.what());
         }
 

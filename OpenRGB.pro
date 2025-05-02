@@ -170,6 +170,8 @@ HEADERS +=                                                                      
     $$GUI_H                                                                                     \
     $$CONTROLLER_H                                                                              \
     Colors.h                                                                                    \
+    Controllers/MachenikeG5ProController/MachenikeG5ProController.h \
+    Controllers/MachenikeG5ProController/RGBController_MachenikeG5Pro.h \
     dependencies/ColorWheel/ColorWheel.h                                                        \
     dependencies/json/nlohmann/json.hpp                                                         \
     LogManager.h                                                                                \
@@ -210,6 +212,9 @@ HEADERS +=                                                                      
 SOURCES +=                                                                                      \
     $$GUI_CPP                                                                                   \
     $$CONTROLLER_CPP                                                                            \
+    Controllers/MachenikeG5ProController/MachenikeG5ProController.cpp \
+    Controllers/MachenikeG5ProController/MachenikeG5ProControllerDetect.cpp \
+    Controllers/MachenikeG5ProController/RGBController_MachenikeG5Pro.cpp \
     dependencies/ColorWheel/ColorWheel.cpp                                                      \
     dependencies/hueplusplus-1.2.0/src/Action.cpp                                               \
     dependencies/hueplusplus-1.2.0/src/APICache.cpp                                             \

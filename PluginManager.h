@@ -19,36 +19,36 @@
 
 typedef struct
 {
-    OpenRGBPluginInfo           info;
-    OpenRGBPluginInterface*     plugin;
-    QPluginLoader*              loader;
-    QWidget*                    widget;
-    QMenu*                      traymenu;
-    std::string                 path;
-    bool                        enabled;
-    bool                        incompatible;
-    bool                        is_system;
-    int                         api_version;
+    OpenRGBPluginInfo info;
+    OpenRGBPluginInterface *plugin;
+    QPluginLoader *loader;
+    QWidget *widget;
+    QMenu *traymenu;
+    std::string path;
+    bool enabled;
+    bool incompatible;
+    bool is_system;
+    int api_version;
 } OpenRGBPluginEntry;
 
-typedef void (*AddPluginCallback)(void *, OpenRGBPluginEntry* plugin);
-typedef void (*RemovePluginCallback)(void *, OpenRGBPluginEntry* plugin);
+typedef void (*AddPluginCallback)(void *, OpenRGBPluginEntry *plugin);
+typedef void (*RemovePluginCallback)(void *, OpenRGBPluginEntry *plugin);
 
 class PluginManager
 {
 public:
     PluginManager();
 
-    void RegisterAddPluginCallback(AddPluginCallback new_callback, void * new_callback_arg);
-    void RegisterRemovePluginCallback(RemovePluginCallback new_callback, void * new_callback_arg);
+    void RegisterAddPluginCallback(AddPluginCallback new_callback, void *new_callback_arg);
+    void RegisterRemovePluginCallback(RemovePluginCallback new_callback, void *new_callback_arg);
 
     void ScanAndLoadPlugins();
 
-    void AddPlugin(const filesystem::path& path, bool is_system);
-    void RemovePlugin(const filesystem::path& path);
+    void AddPlugin(const filesystem::path &path, bool is_system);
+    void RemovePlugin(const filesystem::path &path);
 
-    void EnablePlugin(const filesystem::path& path);
-    void DisablePlugin(const filesystem::path& path);
+    void EnablePlugin(const filesystem::path &path);
+    void DisablePlugin(const filesystem::path &path);
 
     void LoadPlugins();
     void UnloadPlugins();
@@ -56,16 +56,16 @@ public:
     std::vector<OpenRGBPluginEntry> ActivePlugins;
 
 private:
-    void LoadPlugin(OpenRGBPluginEntry* plugin_entry);
-    void UnloadPlugin(OpenRGBPluginEntry* plugin_entry);
+    void LoadPlugin(OpenRGBPluginEntry *plugin_entry);
+    void UnloadPlugin(OpenRGBPluginEntry *plugin_entry);
 
-    void ScanAndLoadPluginsFrom(const filesystem::path & plugins_dir, bool is_system);
+    void ScanAndLoadPluginsFrom(const filesystem::path &plugins_dir, bool is_system);
 
-    AddPluginCallback       AddPluginCallbackVal;
-    void *                  AddPluginCallbackArg;
+    AddPluginCallback AddPluginCallbackVal;
+    void *AddPluginCallbackArg;
 
-    RemovePluginCallback    RemovePluginCallbackVal;
-    void *                  RemovePluginCallbackArg;
+    RemovePluginCallback RemovePluginCallbackVal;
+    void *RemovePluginCallbackArg;
 
-    const char *            plugins_path = "plugins/";
+    const char *plugins_path = "plugins/";
 };

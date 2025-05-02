@@ -16,7 +16,7 @@
 
 // Debian 10 provides the header, but does not enable the feature, so we additionally check for the feature test macro
 // MSVC below 2017 does not provide feature test macros, so we leave an exception for them
-#if defined(__cpp_lib_filesystem) || defined (_MSC_VER)
+#if defined(__cpp_lib_filesystem) || defined(_MSC_VER)
 namespace filesystem = std::filesystem;
 #define STD_FILESYSTEM_FOUND
 #endif

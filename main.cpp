@@ -47,28 +47,33 @@ using namespace std::chrono_literals;
 void InitializeTimerResolution()
 {
     HMODULE ntdll = LoadLibrary("ntdll.dll");
-    if(ntdll != NULL)
-    {
-        typedef LONG (*NTSETTIMERRESOLUTION)(ULONG DesiredResolution, BOOLEAN SetResolution, PULONG CurrentResolution);
+    if (ntdll != NULL) {
+        typedef LONG (*NTSETTIMERRESOLUTION)(ULONG DesiredResolution,
+                                             BOOLEAN SetResolution,
+                                             PULONG CurrentResolution);
         ULONG CurrentResolution;
-        NTSETTIMERRESOLUTION NtSetTimerResolution = (NTSETTIMERRESOLUTION)GetProcAddress(ntdll, "NtSetTimerResolution");
-        if(NtSetTimerResolution != NULL)
-        {
+        NTSETTIMERRESOLUTION NtSetTimerResolution = (NTSETTIMERRESOLUTION)
+            GetProcAddress(ntdll, "NtSetTimerResolution");
+        if (NtSetTimerResolution != NULL) {
             NtSetTimerResolution(1000, TRUE, &CurrentResolution);
         }
     }
 
     // PROCESS_POWER_THROTTLING_IGNORE_TIMER_RESOLUTION = 4, isn't defined in Win10 headers
-    PROCESS_POWER_THROTTLING_STATE PowerThrottlingState { PROCESS_POWER_THROTTLING_CURRENT_VERSION, 4, 0 };
+    PROCESS_POWER_THROTTLING_STATE PowerThrottlingState{PROCESS_POWER_THROTTLING_CURRENT_VERSION,
+                                                        4,
+                                                        0};
     // take care of the slowdown on Windows 11
-    SetProcessInformation(GetCurrentProcess(), ProcessPowerThrottling, &PowerThrottlingState, sizeof(PowerThrottlingState));
+    SetProcessInformation(GetCurrentProcess(),
+                          ProcessPowerThrottling,
+                          &PowerThrottlingState,
+                          sizeof(PowerThrottlingState));
 }
 #endif
 
-void WaitWhileServerOnline(NetworkServer* srv)
+void WaitWhileServerOnline(NetworkServer *srv)
 {
-    while (srv->GetOnline())
-    {
+    while (srv->GetOnline()) {
         std::this_thread::sleep_for(1s);
     };
 }
@@ -81,65 +86,67 @@ void WaitWhileServerOnline(NetworkServer* srv)
 #ifdef _WIN32
 void InstallWinRing0()
 {
-    TCHAR winring0_install_location[MAX_PATH]; // driver final location usually C:\windows\system32\drivers\WinRing0x64.sys
+    TCHAR winring0_install_location
+        [MAX_PATH]; // driver final location usually C:\windows\system32\drivers\WinRing0x64.sys
     uint system_path_length = GetSystemDirectory(winring0_install_location, MAX_PATH);
     std::string winring0_filename = "WinRing0.sys";
     BOOL bIsWow64 = false;
 #if _WIN64
     winring0_filename = "WinRing0x64.sys";
 #else
-    BOOL (*fnIsWow64Process)(HANDLE, PBOOL) = (BOOL (__cdecl *)(HANDLE, PBOOL))GetProcAddress(GetModuleHandle(TEXT("kernel32")),"IsWow64Process");
-    if (fnIsWow64Process)
-    {
-        fnIsWow64Process(GetCurrentProcess(),&bIsWow64);
+    BOOL (*fnIsWow64Process)(HANDLE, PBOOL) = (BOOL(__cdecl *)(HANDLE, PBOOL))
+        GetProcAddress(GetModuleHandle(TEXT("kernel32")), "IsWow64Process");
+    if (fnIsWow64Process) {
+        fnIsWow64Process(GetCurrentProcess(), &bIsWow64);
     }
-    if(bIsWow64)
-    {
+    if (bIsWow64) {
         winring0_filename = "WinRing0x64.sys";
     }
 #endif
     std::strncat(winring0_install_location, "\\drivers\\", MAX_PATH - system_path_length - 1);
-    std::strncat(winring0_install_location, winring0_filename.c_str(), MAX_PATH - system_path_length - 10);
+    std::strncat(winring0_install_location,
+                 winring0_filename.c_str(),
+                 MAX_PATH - system_path_length - 10);
 
-    std::string driver_name = winring0_filename.substr(0, winring0_filename.size() - 4); // driver name: WinRing0 or WinRing0x64
+    std::string driver_name = winring0_filename
+                                  .substr(0,
+                                          winring0_filename.size()
+                                              - 4); // driver name: WinRing0 or WinRing0x64
     SC_HANDLE manager = OpenSCManager(NULL, NULL, SC_MANAGER_ALL_ACCESS);
-    if (manager)
-    {
+    if (manager) {
         PVOID wow64_fsredirection_OldValue = NULL;
-        if(bIsWow64)
-        {
+        if (bIsWow64) {
             Wow64DisableWow64FsRedirection(&wow64_fsredirection_OldValue);
         }
-        if(INVALID_FILE_ATTRIBUTES == GetFileAttributes(winring0_install_location) && GetLastError()==ERROR_FILE_NOT_FOUND)
-        {
+        if (INVALID_FILE_ATTRIBUTES == GetFileAttributes(winring0_install_location)
+            && GetLastError() == ERROR_FILE_NOT_FOUND) {
             char module_path_buffer[MAX_PATH];
             GetModuleFileNameA(NULL, module_path_buffer, MAX_PATH);
             std::string::size_type exe_loc = std::string(module_path_buffer).find_last_of("\\/");
-            std::string driver_source_path = std::string(module_path_buffer).substr(0, exe_loc + 1) + winring0_filename;
+            std::string driver_source_path = std::string(module_path_buffer).substr(0, exe_loc + 1)
+                                             + winring0_filename;
             CopyFile(driver_source_path.c_str(), winring0_install_location, true);
         }
-        if(bIsWow64)
-        {
+        if (bIsWow64) {
             Wow64RevertWow64FsRedirection(wow64_fsredirection_OldValue);
         }
 
         SC_HANDLE service = OpenService(manager, driver_name.c_str(), SERVICE_ALL_ACCESS);
-        if(!service)
-        {
+        if (!service) {
             std::string service_sys_path = "System32\\Drivers\\" + winring0_filename;
             service = CreateService(manager,
-               driver_name.c_str(),
-               driver_name.c_str(),
-               SERVICE_ALL_ACCESS,
-               SERVICE_KERNEL_DRIVER,
-               SERVICE_AUTO_START,
-               SERVICE_ERROR_NORMAL,
-               service_sys_path.c_str(),
-               NULL,
-               NULL,
-               NULL,
-               NULL,
-               NULL);
+                                    driver_name.c_str(),
+                                    driver_name.c_str(),
+                                    SERVICE_ALL_ACCESS,
+                                    SERVICE_KERNEL_DRIVER,
+                                    SERVICE_AUTO_START,
+                                    SERVICE_ERROR_NORMAL,
+                                    service_sys_path.c_str(),
+                                    NULL,
+                                    NULL,
+                                    NULL,
+                                    NULL,
+                                    NULL);
         }
         CloseServiceHandle(service);
         CloseServiceHandle(manager);
@@ -155,20 +162,19 @@ void InstallWinRing0()
 *                                                                                          *
 \******************************************************************************************/
 
-int main(int argc, char* argv[])
+int main(int argc, char *argv[])
 {
     int exitval = EXIT_SUCCESS;
 #ifdef _WIN32
     /*---------------------------------------------------------*\
     | Windows only - Attach console output                      |
     \*---------------------------------------------------------*/
-    if (AttachConsole(ATTACH_PARENT_PROCESS))
-    {
+    if (AttachConsole(ATTACH_PARENT_PROCESS)) {
         /*---------------------------------------------------------*\
         | We are running under some terminal context; otherwise     |
         | leave the GUI and CRT alone                               |
         \*---------------------------------------------------------*/
-        freopen("CONIN$",  "r", stdin);
+        freopen("CONIN$", "r", stdin);
         freopen("CONOUT$", "w", stdout);
         freopen("CONOUT$", "w", stderr);
     }
@@ -196,35 +202,34 @@ int main(int argc, char* argv[])
     \*---------------------------------------------------------*/
     unsigned int ret_flags = cli_pre_detection(argc, argv);
 
-    ResourceManager::get()->Initialize(
-        !(ret_flags & RET_FLAG_NO_AUTO_CONNECT),
-        !(ret_flags & RET_FLAG_NO_DETECT),
-        ret_flags & RET_FLAG_START_SERVER,
-        ret_flags & RET_FLAG_CLI_POST_DETECTION);
+    ResourceManager::get()->Initialize(!(ret_flags & RET_FLAG_NO_AUTO_CONNECT),
+                                       !(ret_flags & RET_FLAG_NO_DETECT),
+                                       ret_flags & RET_FLAG_START_SERVER,
+                                       ret_flags & RET_FLAG_CLI_POST_DETECTION);
 
     /*---------------------------------------------------------*\
     | If the command line parser indicates that the GUI should  |
     | run, or if there were no command line arguments, start the|
     | GUI.                                                      |
     \*---------------------------------------------------------*/
-    if(ret_flags & RET_FLAG_START_GUI)
-    {
+    if (ret_flags & RET_FLAG_START_GUI) {
         LOG_TRACE("[main] initializing GUI");
 
-        /*-----------------------------------------------------*\
+/*-----------------------------------------------------*\
         | Enable high DPI scaling support                       |
         \*-----------------------------------------------------*/
-        #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
-            QCoreApplication::setAttribute(Qt::AA_UseHighDpiPixmaps,    true);
-            QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling, true);
-        #endif
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+        QCoreApplication::setAttribute(Qt::AA_UseHighDpiPixmaps, true);
+        QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling, true);
+#endif
 
-        /*-----------------------------------------------------*\
+/*-----------------------------------------------------*\
         | Enable high DPI fractional scaling support on Windows |
         \*-----------------------------------------------------*/
-        #if QT_VERSION >= QT_VERSION_CHECK(5, 14, 0) && defined(Q_OS_WIN)
-            QGuiApplication::setHighDpiScaleFactorRoundingPolicy(Qt::HighDpiScaleFactorRoundingPolicy::PassThrough);
-        #endif
+#if QT_VERSION >= QT_VERSION_CHECK(5, 14, 0) && defined(Q_OS_WIN)
+        QGuiApplication::setHighDpiScaleFactorRoundingPolicy(
+            Qt::HighDpiScaleFactorRoundingPolicy::PassThrough);
+#endif
 
         QApplication a(argc, argv);
         QGuiApplication::setDesktopFileName("org.openrgb.OpenRGB");
@@ -236,15 +241,13 @@ int main(int argc, char* argv[])
         Ui::OpenRGBDialog dlg;
         LOG_TRACE("[main] Dialog created");
 
-        if(ret_flags & RET_FLAG_I2C_TOOLS)
-        {
+        if (ret_flags & RET_FLAG_I2C_TOOLS) {
             dlg.AddI2CToolsPage();
         }
 
         dlg.AddClientTab();
 
-        if(ret_flags & RET_FLAG_START_MINIMIZED)
-        {
+        if (ret_flags & RET_FLAG_START_MINIMIZED) {
 #ifdef _WIN32
             /*---------------------------------------------------------*\
             | Show the window always, even if it will immediately be    |
@@ -258,17 +261,13 @@ int main(int argc, char* argv[])
             MacUtils::ToggleApplicationDocklessState(false);
 #endif
             dlg.hide();
-        }
-        else
-        {
+        } else {
             dlg.show();
         }
 
         LOG_TRACE("[main] Ready to exec() the dialog");
         exitval = a.exec();
-    }
-    else
-    {
+    } else {
         /*---------------------------------------------------------*\
         | If no GUI is needed, we let the background threads run    |
         | as long as they need, but we need to AT LEAST wait for    |
@@ -276,16 +275,12 @@ int main(int argc, char* argv[])
         \*---------------------------------------------------------*/
         ResourceManager::get()->WaitForInitialization();
 
-        if(ret_flags & RET_FLAG_START_SERVER)
-        {
-            NetworkServer* server = ResourceManager::get()->GetServer();
+        if (ret_flags & RET_FLAG_START_SERVER) {
+            NetworkServer *server = ResourceManager::get()->GetServer();
 
-            if(!server->GetOnline())
-            {
+            if (!server->GetOnline()) {
                 exitval = EXIT_FAILURE;
-            }
-            else
-            {
+            } else {
                 WaitWhileServerOnline(server);
             }
         }

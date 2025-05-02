@@ -19,35 +19,50 @@ class DeviceDetector
 {
 public:
     DeviceDetector(std::string name, DeviceDetectorFunction detector)
-	{
+    {
         ResourceManager::get()->RegisterDeviceDetector(name, detector);
-	}
+    }
 };
 
 class I2CDeviceDetector
 {
 public:
     I2CDeviceDetector(std::string name, I2CDeviceDetectorFunction detector)
-	{
+    {
         ResourceManager::get()->RegisterI2CDeviceDetector(name, detector);
-	}
+    }
 };
 
 class I2CDIMMDeviceDetector
 {
 public:
-    I2CDIMMDeviceDetector(std::string name, I2CDIMMDeviceDetectorFunction detector, uint16_t jedec_id, uint8_t dimm_type)
-	{
+    I2CDIMMDeviceDetector(std::string name,
+                          I2CDIMMDeviceDetectorFunction detector,
+                          uint16_t jedec_id,
+                          uint8_t dimm_type)
+    {
         ResourceManager::get()->RegisterI2CDIMMDeviceDetector(name, detector, jedec_id, dimm_type);
-	}
+    }
 };
 
 class I2CPCIDeviceDetector
 {
 public:
-    I2CPCIDeviceDetector(std::string name, I2CPCIDeviceDetectorFunction detector, uint16_t ven_id, uint16_t dev_id, uint16_t subven_id, uint16_t subdev_id, uint8_t i2c_addr)
+    I2CPCIDeviceDetector(std::string name,
+                         I2CPCIDeviceDetectorFunction detector,
+                         uint16_t ven_id,
+                         uint16_t dev_id,
+                         uint16_t subven_id,
+                         uint16_t subdev_id,
+                         uint8_t i2c_addr)
     {
-        ResourceManager::get()->RegisterI2CPCIDeviceDetector(name, detector, ven_id, dev_id, subven_id, subdev_id, i2c_addr);
+        ResourceManager::get()->RegisterI2CPCIDeviceDetector(name,
+                                                             detector,
+                                                             ven_id,
+                                                             dev_id,
+                                                             subven_id,
+                                                             subdev_id,
+                                                             i2c_addr);
     }
 };
 
@@ -63,18 +78,37 @@ public:
 class HIDDeviceDetector
 {
 public:
-    HIDDeviceDetector(std::string name, HIDDeviceDetectorFunction detector, uint16_t vid, uint16_t pid, int interface, int usage_page, int usage)
+    HIDDeviceDetector(std::string name,
+                      HIDDeviceDetectorFunction detector,
+                      uint16_t vid,
+                      uint16_t pid,
+                      int interface,
+                      int usage_page,
+                      int usage)
     {
-        ResourceManager::get()->RegisterHIDDeviceDetector(name, detector, vid, pid, interface, usage_page, usage);
+        ResourceManager::get()
+            ->RegisterHIDDeviceDetector(name, detector, vid, pid, interface, usage_page, usage);
     }
 };
 
 class HIDWrappedDeviceDetector
 {
 public:
-    HIDWrappedDeviceDetector(std::string name, HIDWrappedDeviceDetectorFunction detector, uint16_t vid, uint16_t pid, int interface, int usage_page, int usage)
+    HIDWrappedDeviceDetector(std::string name,
+                             HIDWrappedDeviceDetectorFunction detector,
+                             uint16_t vid,
+                             uint16_t pid,
+                             int interface,
+                             int usage_page,
+                             int usage)
     {
-        ResourceManager::get()->RegisterHIDWrappedDeviceDetector(name, detector, vid, pid, interface, usage_page, usage);
+        ResourceManager::get()->RegisterHIDWrappedDeviceDetector(name,
+                                                                 detector,
+                                                                 vid,
+                                                                 pid,
+                                                                 interface,
+                                                                 usage_page,
+                                                                 usage);
     }
 };
 
