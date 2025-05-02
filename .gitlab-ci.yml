@@ -100,19 +100,19 @@ before_script:
 "Linux i386 AppImage":
   variables:
     TGT_ARCH: "i386"
-    TGT_QT: ""
+    TGT_QT: "qt6"
     TGT_NAME: "${TGT_ARCH}"
     TGT_PATH: "${TGT_ARCH}"
   <<: *appimage_script_steps
 
 #-----------------------------------------------------------#
-# Linux (AppImage) Qt6 i386 Build Target                    #
+# Linux (AppImage) Qt5 i386 Build Target                    #
 #-----------------------------------------------------------#
-"Linux i386 AppImage Qt6":
+"Linux i386 AppImage Qt5":
   variables:
     TGT_ARCH: "i386"
-    TGT_QT: "qt6"
-    TGT_NAME: "${TGT_ARCH}_${TGT_QT^}"
+    TGT_QT: ""
+    TGT_NAME: "${TGT_ARCH}_qt5"
     TGT_PATH: "${TGT_ARCH}"
   <<: *appimage_script_steps
 
@@ -122,7 +122,7 @@ before_script:
 "Linux amd64 AppImage":
   variables:
     TGT_ARCH: "amd64"
-    TGT_QT: ""
+    TGT_QT: "qt6"
     TGT_NAME: "${TGT_ARCH}"
     TGT_PATH: "x86_64"
   <<: *appimage_script_steps
@@ -137,13 +137,13 @@ before_script:
   - "saas-linux-small-amd64"
 
 #-----------------------------------------------------------#
-# Linux (AppImage) Qt6 amd64 Build Target                   #
+# Linux (AppImage) Qt5 amd64 Build Target                   #
 #-----------------------------------------------------------#
-"Linux amd64 AppImage Qt6":
+"Linux amd64 AppImage Qt5":
   variables:
     TGT_ARCH: "amd64"
-    TGT_QT: "qt6"
-    TGT_NAME: "${TGT_ARCH}_${TGT_QT^}"
+    TGT_QT: ""
+    TGT_NAME: "${TGT_ARCH}_qt5"
     TGT_PATH: "x86_64"
   <<: *appimage_script_steps
 
@@ -153,19 +153,19 @@ before_script:
 "Linux armhf AppImage":
   variables:
     TGT_ARCH: "armhf"
-    TGT_QT: ""
+    TGT_QT: "qt6"
     TGT_NAME: "${TGT_ARCH}"
     TGT_PATH: "${TGT_ARCH}"
   <<: *appimage_script_steps
 
 #-----------------------------------------------------------#
-# Linux (AppImage) Qt6 armhf Build Target                   #
+# Linux (AppImage) Qt5 armhf Build Target                   #
 #-----------------------------------------------------------#
-"Linux armhf AppImage Qt6":
+"Linux armhf AppImage Qt5":
   variables:
     TGT_ARCH: "armhf"
-    TGT_QT: "qt6"
-    TGT_NAME: "${TGT_ARCH}_${TGT_QT^}"
+    TGT_QT: ""
+    TGT_NAME: "${TGT_ARCH}_qt5"
     TGT_PATH: "${TGT_ARCH}"
   <<: *appimage_script_steps
 
@@ -175,19 +175,19 @@ before_script:
 "Linux arm64 AppImage":
   variables:
     TGT_ARCH: "arm64"
-    TGT_QT: ""
+    TGT_QT: "qt6"
     TGT_NAME: "${TGT_ARCH}"
     TGT_PATH: "${TGT_ARCH}"
   <<: *appimage_script_steps
 
 #-----------------------------------------------------------#
-# Linux (AppImage) Qt6 arm64 Build Target                   #
+# Linux (AppImage) Qt5 arm64 Build Target                   #
 #-----------------------------------------------------------#
-"Linux arm64 AppImage Qt6":
+"Linux arm64 AppImage Qt5":
   variables:
     TGT_ARCH: "arm64"
-    TGT_QT: "qt6"
-    TGT_NAME: "${TGT_ARCH}_${TGT_QT^}"
+    TGT_QT: ""
+    TGT_NAME: "${TGT_ARCH}_qt5"
     TGT_PATH: "${TGT_ARCH}"
   <<: *appimage_script_steps
 
@@ -397,7 +397,7 @@ before_script:
   stage: build
   script:
   - $ErrorActionPreference = "SilentlyContinue" ; Set-MpPreference -DisableRealtimeMonitoring $true ; $ErrorActionPreference = "Stop"
-  - scripts\build-windows.bat 5.15.0 2019 32
+  - scripts\build-windows.bat 6.8.3 2022 32
   artifacts:
     name: "${CI_PROJECT_NAME}_Windows_32_${CI_COMMIT_SHORT_SHA}"
     paths:
@@ -410,17 +410,17 @@ before_script:
     - !reference [.upstream_rules, rules]
 
 #-----------------------------------------------------------#
-# Windows (32-bit) Qt6 Build Target                         #
+# Windows (32-bit) Qt5 Build Target                         #
 #-----------------------------------------------------------#
-"Windows 32 Qt6":
+"Windows 32 Qt5":
   extends:
   - .shared_windows_runners
   stage: build
   script:
   - $ErrorActionPreference = "SilentlyContinue" ; Set-MpPreference -DisableRealtimeMonitoring $true ; $ErrorActionPreference = "Stop"
-  - scripts\build-windows.bat 6.8.3 2022 32
+  - scripts\build-windows.bat 5.15.0 2019 32
   artifacts:
-    name: "${CI_PROJECT_NAME}_Windows_32_Qt6_${CI_COMMIT_SHORT_SHA}"
+    name: "${CI_PROJECT_NAME}_Windows_32_Qt5_${CI_COMMIT_SHORT_SHA}"
     paths:
     - 'OpenRGB Windows 32-bit'
     exclude:
@@ -439,7 +439,7 @@ before_script:
   stage: build
   script:
   - $ErrorActionPreference = "SilentlyContinue" ; Set-MpPreference -DisableRealtimeMonitoring $true ; $ErrorActionPreference = "Stop"
-  - scripts\build-windows.bat 5.15.0 2019 64
+  - scripts\build-windows.bat 6.8.3 2022 64
   artifacts:
     name: "${CI_PROJECT_NAME}_Windows_64_${CI_COMMIT_SHORT_SHA}"
     paths:
@@ -470,17 +470,17 @@ before_script:
   - "saas-windows-medium-amd64"
 
 #-----------------------------------------------------------#
-# Windows (64-bit) Qt6 Build Target                         #
+# Windows (64-bit) Qt5 Build Target                         #
 #-----------------------------------------------------------#
-"Windows 64 Qt6 Base":
+"Windows 64 Qt5 Base":
   extends:
   - .shared_windows_runners
   stage: build
   script:
   - $ErrorActionPreference = "SilentlyContinue" ; Set-MpPreference -DisableRealtimeMonitoring $true ; $ErrorActionPreference = "Stop"
-  - scripts\build-windows.bat 6.8.3 2022 64
+  - scripts\build-windows.bat 5.15.0 2019 64
   artifacts:
-    name: "${CI_PROJECT_NAME}_Windows_64_Qt6_${CI_COMMIT_SHORT_SHA}"
+    name: "${CI_PROJECT_NAME}_Windows_64_Qt5_${CI_COMMIT_SHORT_SHA}"
     paths:
     - 'OpenRGB Windows 64-bit'
     exclude:
@@ -491,13 +491,14 @@ before_script:
     - if: $CI_PIPELINE_SOURCE == "merge_request_event" || $CI_PIPELINE_SOURCE == "push"
       when: never
 
-"Windows 64 Qt6":
-  extends: "Windows 64 Qt6 Base"
+
+"Windows 64 Qt5":
+  extends: "Windows 64 Qt5 Base"
   rules:
   - !reference [.upstream_rules, rules]
 
-"Windows 64 Qt6 (Downstream)":
-  extends: "Windows 64 Qt6 Base"
+"Windows 64 Qt5 (Downstream)":
+  extends: "Windows 64 Qt5 Base"
   before_script:
     - git clone https://gitlab.com/OpenRGBDevelopers/OpenRGB-Qt-Packages
     - cd OpenRGB-Qt-Packages
@@ -517,9 +518,9 @@ before_script:
   stage: build
   script:
   - eval $(/opt/homebrew/bin/brew shellenv)
-  - /opt/homebrew/opt/qt@5/bin/qmake OpenRGB.pro
+  - qmake OpenRGB.pro
   - make -j16
-  - /opt/homebrew/opt/qt@5/bin/macdeployqt OpenRGB.app -codesign=OpenRGB
+  - macdeployqt OpenRGB.app -codesign=OpenRGB
 
   artifacts:
     name: "${CI_PROJECT_NAME}_MacOS_ARM64_${CI_COMMIT_SHORT_SHA}"
@@ -530,18 +531,18 @@ before_script:
   rules:
   - !reference [.upstream_rules, rules]
 
-"MacOS ARM64 Qt6":
+"MacOS ARM64 Qt5":
   tags:
   - macos
   stage: build
   script:
   - eval $(/opt/homebrew/bin/brew shellenv)
-  - qmake OpenRGB.pro
+  - /opt/homebrew/opt/qt@5/bin/qmake OpenRGB.pro
   - make -j16
-  - macdeployqt OpenRGB.app -codesign=OpenRGB
+  - /opt/homebrew/opt/qt@5/bin/macdeployqt OpenRGB.app -codesign=OpenRGB
 
   artifacts:
-    name: "${CI_PROJECT_NAME}_MacOS_ARM64_Qt6_${CI_COMMIT_SHORT_SHA}"
+    name: "${CI_PROJECT_NAME}_MacOS_Qt5_ARM64_${CI_COMMIT_SHORT_SHA}"
     paths:
     - OpenRGB.app
     expire_in: 30 days
@@ -555,9 +556,9 @@ before_script:
   stage: build
   script:
   - eval $(/usr/local/bin/brew shellenv)
-  - arch -x86_64 /usr/local/opt/qt@5/bin/qmake OpenRGB.pro
+  - arch -x86_64 /usr/local/bin/qmake OpenRGB.pro
   - arch -x86_64 make -j16
-  - arch -x86_64 /usr/local/opt/qt@5/bin/macdeployqt OpenRGB.app -codesign=OpenRGB
+  - arch -x86_64 /usr/local/bin/macdeployqt OpenRGB.app -codesign=OpenRGB
 
   artifacts:
     name: "${CI_PROJECT_NAME}_MacOS_Intel_${CI_COMMIT_SHORT_SHA}"
@@ -568,18 +569,18 @@ before_script:
   rules:
   - !reference [.upstream_rules, rules]
 
-"MacOS Intel Qt6":
+"MacOS Intel Qt5":
   tags:
   - macos
   stage: build
   script:
   - eval $(/usr/local/bin/brew shellenv)
-  - arch -x86_64 /usr/local/bin/qmake OpenRGB.pro
+  - arch -x86_64 /usr/local/opt/qt@5/bin/qmake OpenRGB.pro
   - arch -x86_64 make -j16
-  - arch -x86_64 /usr/local/bin/macdeployqt OpenRGB.app -codesign=OpenRGB
+  - arch -x86_64 /usr/local/opt/qt@5/bin/macdeployqt OpenRGB.app -codesign=OpenRGB
 
   artifacts:
-    name: "${CI_PROJECT_NAME}_MacOS_Intel_Qt6_${CI_COMMIT_SHORT_SHA}"
+    name: "${CI_PROJECT_NAME}_MacOS_Intel_Qt5_${CI_COMMIT_SHORT_SHA}"
     paths:
     - OpenRGB.app
     expire_in: 30 days
