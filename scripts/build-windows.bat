@@ -81,6 +81,15 @@ IF %ERRORLEVEL% NEQ 0 (
 )
 
 ::---------------------------------------------------------::
+:: Manually copy Qt6OpenGL.dll and Qt6Core5Compat.dll      ::
+:: (needed by Effects Plugin)                              ::
+::---------------------------------------------------------::
+@if "%QT_VER:~0,1%"=="6" (
+    copy "C:\Qt\%QT_VER%\msvc%MSVC_VER%%QT_PATH%\bin\Qt6Core5Compat.dll" .\release\
+    copy "C:\Qt\%QT_VER%\msvc%MSVC_VER%%QT_PATH%\bin\Qt6OpenGL.dll"      .\release\
+)
+
+::---------------------------------------------------------::
 :: Rename the release folder                               ::
 ::---------------------------------------------------------::
 move "release" "OpenRGB Windows %BITS%-bit"
