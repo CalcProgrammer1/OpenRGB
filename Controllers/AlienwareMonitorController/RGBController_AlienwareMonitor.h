@@ -1,9 +1,9 @@
 /*---------------------------------------------------------*\
-| RGBController_AlienwareAW3423DWF.h                        |
+| RGBController_AlienwareMonitor.h                          |
 |                                                           |
-|   RGBController for the Alienware AW3423DWF monitor       |
+|   RGBController for Alienware monitors                    |
 |                                                           |
-|   Ferréol DUBOIS COLI (Fefe_du_973)           23 Jan 2025 |
+|   Adam Honse (CalcProgrammer1)                08 May 2025 |
 |                                                           |
 |   This file is part of the OpenRGB project                |
 |   SPDX-License-Identifier: GPL-2.0-only                   |
@@ -11,14 +11,14 @@
 
 #pragma once
 
-#include "AlienwareAW3423DWFController.h"
 #include "RGBController.h"
+#include "AlienwareMonitorController.h"
 
-class RGBController_AlienwareAW3423DWF : public RGBController
+class RGBController_AlienwareMonitor : public RGBController
 {
 public:
-    explicit RGBController_AlienwareAW3423DWF(AlienwareAW3423DWFController* controller_ptr);
-    ~RGBController_AlienwareAW3423DWF();
+RGBController_AlienwareMonitor(AlienwareMonitorController* controller_ptr);
+    ~RGBController_AlienwareMonitor();
 
     void        SetupZones();
     void        ResizeZone(int zone, int new_size);
@@ -30,5 +30,5 @@ public:
     void        DeviceUpdateMode();
 
 private:
-    AlienwareAW3423DWFController* controller;
+AlienwareMonitorController* controller;
 };

@@ -1,35 +1,35 @@
 /*---------------------------------------------------------*\
-| RGBController_AlienwareAW3423DWF.cpp                      |
+| RGBController_AlienwareMonitor.cpp                        |
 |                                                           |
-|   RGBController for the Alienware AW3423DWF monitor       |
+|   RGBController for Alienware monitors                    |
 |                                                           |
-|   Ferréol DUBOIS COLI (Fefe_du_973)           23 Jan 2025 |
+|   Adam Honse (CalcProgrammer1)                08 May 2025 |
 |                                                           |
 |   This file is part of the OpenRGB project                |
 |   SPDX-License-Identifier: GPL-2.0-only                   |
 \*---------------------------------------------------------*/
 
-#include "RGBController_AlienwareAW3423DWF.h"
+#include "RGBController_AlienwareMonitor.h"
 
 /**------------------------------------------------------------------*\
-    @name AW3423DWF
+    @name Alienware Monitor
     @category Accessory
     @type USB
     @save :x:
     @direct :white_check_mark:
     @effects :x:
-    @detectors DetectAlienwareAW3423DWFControllers
+    @detectors DetectAlienwareMonitorControllers
     @comment
 \*-------------------------------------------------------------------*/
 
-RGBController_AlienwareAW3423DWF::RGBController_AlienwareAW3423DWF(AlienwareAW3423DWFController* controller_ptr)
+RGBController_AlienwareMonitor::RGBController_AlienwareMonitor(AlienwareMonitorController* controller_ptr)
 {
     controller              = controller_ptr;
 
-    name                    = "Alienware AW3423DWF";
+    name                    = "Alienware Monitor";
+    description             = "Alienware Monitor";
     vendor                  = "Alienware";
     type                    = DEVICE_TYPE_ACCESSORY;
-    description             = "Alienware AW3423DWF Monitor Device";
     location                = controller->GetLocation();
     serial                  = controller->GetSerialString();
 
@@ -44,12 +44,12 @@ RGBController_AlienwareAW3423DWF::RGBController_AlienwareAW3423DWF(AlienwareAW34
     SetupZones();
 }
 
-RGBController_AlienwareAW3423DWF::~RGBController_AlienwareAW3423DWF()
+RGBController_AlienwareMonitor::~RGBController_AlienwareMonitor()
 {
     delete controller;
 }
 
-void RGBController_AlienwareAW3423DWF::SetupZones()
+void RGBController_AlienwareMonitor::SetupZones()
 {
     zone Logo;
     Logo.name               = "Logo";
@@ -96,11 +96,12 @@ void RGBController_AlienwareAW3423DWF::SetupZones()
     SetupColors();
 }
 
-void RGBController_AlienwareAW3423DWF::ResizeZone(int /*zone*/, int /*new_size*/)
+void RGBController_AlienwareMonitor::ResizeZone(int /*zone*/, int /*new_size*/)
 {
+
 }
 
-void RGBController_AlienwareAW3423DWF::DeviceUpdateLEDs()
+void RGBController_AlienwareMonitor::DeviceUpdateLEDs()
 {
     /*-----------------------------------------------------*\
     | If all three colors are the same value, speed up the  |
@@ -123,12 +124,12 @@ void RGBController_AlienwareAW3423DWF::DeviceUpdateLEDs()
     }
 }
 
-void RGBController_AlienwareAW3423DWF::UpdateZoneLEDs(int /*zone*/)
+void RGBController_AlienwareMonitor::UpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_AlienwareAW3423DWF::UpdateSingleLED(int led)
+void RGBController_AlienwareMonitor::UpdateSingleLED(int led)
 {
     unsigned char red = RGBGetRValue(colors[led]);
     unsigned char grn = RGBGetGValue(colors[led]);
@@ -136,6 +137,7 @@ void RGBController_AlienwareAW3423DWF::UpdateSingleLED(int led)
     controller->SendColor(leds[led].value, red, grn, blu);
 }
 
-void RGBController_AlienwareAW3423DWF::DeviceUpdateMode()
+void RGBController_AlienwareMonitor::DeviceUpdateMode()
 {
+
 }

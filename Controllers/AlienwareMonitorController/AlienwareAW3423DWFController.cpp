@@ -9,10 +9,13 @@
 |   SPDX-License-Identifier: GPL-2.0-only                   |
 \*---------------------------------------------------------*/
 
+#include <bitset>
+#include <chrono>
+#include <cstring>
+#include <thread>
+
 #include "AlienwareAW3423DWFController.h"
 #include "StringUtils.h"
-#include <cstring>
-#include <bitset>
 
 AlienwareAW3423DWFController::AlienwareAW3423DWFController(hid_device *dev_handle, const char *path) : dev(dev_handle), location(path){}
 
@@ -37,7 +40,7 @@ std::vector<unsigned char> AlienwareAW3423DWFController::GetReportResponse()
 
 void AlienwareAW3423DWFController::PerformLogin()
 {
-    unsigned char init_packet[64] = 
+    unsigned char init_packet[64] =
     {
         0x40, 0xE1, 0x01
     };
@@ -83,6 +86,8 @@ void AlienwareAW3423DWFController::SendColor(unsigned char led_id, unsigned char
     color_packet[73] = led_id_2;
 
     SendControlPacket(color_packet, 192);
+
+    std::this_thread::sleep_for(std::chrono::milliseconds(200));
 }
 
 std::vector<unsigned char> AlienwareAW3423DWFController::GenerateKey(
@@ -119,10 +124,10 @@ std::vector<unsigned char> AlienwareAW3423DWFController::GenerateKey(
         size_t end = std::min<size_t>(8, response.size());
         out_buffer = std::vector<unsigned char>(response.begin(), response.begin() + end);
 
-        if(response.size() > 14) 
+        if(response.size() > 14)
         {
             unsigned char idx = response[14] & 0x07;
-            if((idx + 8) < response.size()) 
+            if((idx + 8) < response.size())
             {
                 out_buffer[idx] ^= response[idx + 8];
             }
@@ -134,17 +139,17 @@ std::vector<unsigned char> AlienwareAW3423DWFController::GenerateKey(
         size_t end = std::min<size_t>(start + 8, response.size());
         out_buffer = std::vector<unsigned char>(response.begin() + start, response.begin() + end);
 
-        if(response.size() > 6) 
+        if(response.size() > 6)
         {
             unsigned char idx = response[6] & 0x07;
-            if(idx < response.size()) 
+            if(idx < response.size())
             {
                 out_buffer[idx] ^= response[idx];
             }
         }
     }
 
-    for(size_t i = 0; i < 8 && i < out_buffer.size(); i++) 
+    for(size_t i = 0; i < 8 && i < out_buffer.size(); i++)
     {
         syn_key[i] ^= out_buffer[i];
     }
