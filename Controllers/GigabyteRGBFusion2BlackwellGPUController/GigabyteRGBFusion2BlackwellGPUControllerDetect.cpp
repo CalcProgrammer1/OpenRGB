@@ -43,7 +43,9 @@ bool TestForGigabyteRGBFusion2BlackwellGPUController(i2c_smbus_interface* bus, u
     res = bus->i2c_read_block(address, &pktsz, data_readpkt);
 
     //What we have seen returned so far...
-    //GeForce RTX 5070 Ti EAGLE OC 16G                          0x01 0x01 0x01 0x00
+    //GeForce RTX 5070 Ti Eagle OC 16G                          0x01 0x01 0x01 0x00
+    //GeForce RTX 5070 Ti Gaming OC 16G                         0x01 0x01 0x01 0x00
+    //GeForce RTX 5070 Gaming OC 12G                            0x01 0x01 0x01 0x00
 
     if(res < 0 || data_readpkt[0] != 0x01 || data_readpkt[1] != 0x01 || data_readpkt[2] != 0x01)
     {
@@ -66,34 +68,71 @@ bool TestForGigabyteRGBFusion2BlackwellGPUController(i2c_smbus_interface* bus, u
 
 /*******************************************************************************************\
 *                                                                                           *
-*   DetectRGBFusion2BlackwellGPUControllers                                                 *
+*   DetectGigabyteRGBFusion2BlackwellGPUControllers                                         *
 *                                                                                           *
-*       Detect GigabyteRGB Fusion2 controllers on the enumerated I2C busses.                *
+*       Detect GigabyteRGB Fusion2 controllers with a specified layout on the enumerated    *
+*       I2C busses.                                                                         *
 *                                                                                           *
 *           bus - pointer to i2c_smbus_interface where RGB Fusion2 device is connected      *
 *           dev - I2C address of RGB Fusion2 device                                         *
 *                                                                                           *
 \*******************************************************************************************/
 
-void DetectGigabyteRGBFusion2BlackwellGPUControllers(i2c_smbus_interface* bus, uint8_t i2c_addr, const std::string& name)
+void DetectGigabyteRGBFusion2BlackwellGPUControllers(i2c_smbus_interface* bus, uint8_t i2c_addr, const std::string& name, uint8_t led_zones)
 {
     // Check for RGB Fusion2 controller
     if(TestForGigabyteRGBFusion2BlackwellGPUController(bus, i2c_addr))
     {
-        RGBFusion2BlackwellGPUController*     controller     = new RGBFusion2BlackwellGPUController(bus, i2c_addr);
-        RGBController_RGBFusion2BlackwellGPU* rgb_controller = new RGBController_RGBFusion2BlackwellGPU(controller);
-        rgb_controller->name                        = name;
+        RGBFusion2BlackwellGPUController* controller = new RGBFusion2BlackwellGPUController(bus, i2c_addr);
+        RGBController_RGBFusion2BlackwellGPU* rgb_controller = new RGBController_RGBFusion2BlackwellGPU(controller, led_zones);
+        rgb_controller->name = name;
 
         ResourceManager::get()->RegisterRGBController(rgb_controller);
     }
-}   /* DetectGigabyteRGBFusion2BlackwellGPUControllers() */
+}   /* DetectGigabyteRGBFusion2BlackwellMultiZoneGPUControllers() */
+
+/*******************************************************************************************\
+*                                                                                           *
+*   DetectGigabyteRGBFusion2BlackwellSingleZoneGPUControllers                               *
+*                                                                                           *
+*       Detect GigabyteRGB Fusion2 controllers with one zone on the enumerated I2C busses.  *
+*                                                                                           *
+*           bus - pointer to i2c_smbus_interface where RGB Fusion2 device is connected      *
+*           dev - I2C address of RGB Fusion2 device                                         *
+*                                                                                           *
+\*******************************************************************************************/
+
+void DetectGigabyteRGBFusion2BlackwellSingleZoneGPUControllers(i2c_smbus_interface* bus, uint8_t i2c_addr, const std::string& name)
+{
+    DetectGigabyteRGBFusion2BlackwellGPUControllers(bus, i2c_addr, name, RGB_FUSION2_BLACKWELL_GPU_SINGLE_ZONE);
+}   /* DetectGigabyteRGBFusion2BlackwellSingleZoneGPUControllers() */
+
+/*******************************************************************************************\
+*                                                                                           *
+*   DetectGigabyteRGBFusion2BlackwellGamingLayoutGPUControllers                             *
+*                                                                                           *
+*       Detect GigabyteRGB Fusion2 controllers with gaming layouts on the enumerated I2C    *
+*       busses.                                                                             *
+*                                                                                           *
+*           bus - pointer to i2c_smbus_interface where RGB Fusion2 device is connected      *
+*           dev - I2C address of RGB Fusion2 device                                         *
+*                                                                                           *
+\*******************************************************************************************/
+
+void DetectGigabyteRGBFusion2BlackwellGamingLayoutGPUControllers(i2c_smbus_interface* bus, uint8_t i2c_addr, const std::string& name)
+{
+    DetectGigabyteRGBFusion2BlackwellGPUControllers(bus, i2c_addr, name, RGB_FUSION2_BLACKWELL_GPU_GAMING_LAYOUT);
+}   /* DetectGigabyteRGBFusion2BlackwellMultiZoneGPUControllers() */
 
 /*-----------------------------------------*\
 |  Nvidia GPUs                              |
 \*-----------------------------------------*/
 
-REGISTER_I2C_PCI_DETECTOR("Gigabyte GeForce RTX 5070 Ti Eagle OC",                     DetectGigabyteRGBFusion2BlackwellGPUControllers, NVIDIA_VEN, NVIDIA_RTX5070TI_DEV,       GIGABYTE_SUB_VEN,   GIGABYTE_RTX5070TI_EAGLE_OC_16G_SUB_DEV,        0x75);
-REGISTER_I2C_PCI_DETECTOR("Gigabyte GeForce RTX 5070 Ti Aero OC",                      DetectGigabyteRGBFusion2BlackwellGPUControllers, NVIDIA_VEN, NVIDIA_RTX5070TI_DEV,       GIGABYTE_SUB_VEN,   GIGABYTE_RTX5070TI_AERO_OC_16G_SUB_DEV,         0x75);
+REGISTER_I2C_PCI_DETECTOR("Gigabyte GeForce RTX 5070 Gaming OC",                    DetectGigabyteRGBFusion2BlackwellGamingLayoutGPUControllers,    NVIDIA_VEN, NVIDIA_RTX5070_DEV,     GIGABYTE_SUB_VEN, GIGABYTE_RTX5070_GAMING_OC_16G_SUB_DEV,         0x75);
+REGISTER_I2C_PCI_DETECTOR("Gigabyte GeForce RTX 5070 Ti Eagle OC",                  DetectGigabyteRGBFusion2BlackwellSingleZoneGPUControllers,      NVIDIA_VEN, NVIDIA_RTX5070TI_DEV,   GIGABYTE_SUB_VEN, GIGABYTE_RTX5070TI_EAGLE_OC_16G_SUB_DEV,        0x75);
+REGISTER_I2C_PCI_DETECTOR("Gigabyte GeForce RTX 5070 Ti Aero OC",                   DetectGigabyteRGBFusion2BlackwellSingleZoneGPUControllers,      NVIDIA_VEN, NVIDIA_RTX5070TI_DEV,   GIGABYTE_SUB_VEN, GIGABYTE_RTX5070TI_AERO_OC_16G_SUB_DEV,         0x75);
+REGISTER_I2C_PCI_DETECTOR("Gigabyte GeForce RTX 5070 Ti Gaming OC",                 DetectGigabyteRGBFusion2BlackwellGamingLayoutGPUControllers,    NVIDIA_VEN, NVIDIA_RTX5070TI_DEV,   GIGABYTE_SUB_VEN, GIGABYTE_RTX5070TI_GAMING_OC_16G_SUB_DEV,       0x75);
+REGISTER_I2C_PCI_DETECTOR("Gigabyte GeForce RTX 5080 Gaming OC",                    DetectGigabyteRGBFusion2BlackwellGamingLayoutGPUControllers,    NVIDIA_VEN, NVIDIA_RTX5080_DEV,     GIGABYTE_SUB_VEN, GIGABYTE_RTX5080_GAMING_OC_16G_SUB_DEV,       0x75);
 
 /*-----------------------------------------*\
 |  AMD GPUs                                 |

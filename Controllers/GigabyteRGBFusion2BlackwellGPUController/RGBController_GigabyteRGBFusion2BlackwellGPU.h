@@ -15,7 +15,7 @@
 class RGBController_RGBFusion2BlackwellGPU : public RGBController
 {
 public:
-    RGBController_RGBFusion2BlackwellGPU(RGBFusion2BlackwellGPUController* controller_ptr);
+    RGBController_RGBFusion2BlackwellGPU(RGBFusion2BlackwellGPUController* controller_ptr, uint8_t led_layout);
     ~RGBController_RGBFusion2BlackwellGPU();
 
     void        SetupZones();
@@ -31,4 +31,5 @@ public:
 
 private:
     RGBFusion2BlackwellGPUController* controller;
+    uint8_t     gpu_layout;
 };

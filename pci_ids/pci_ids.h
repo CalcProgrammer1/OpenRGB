@@ -119,6 +119,7 @@
 #define NVIDIA_RTX4080_DEV                              0x2704
 #define NVIDIA_RTX4080S_DEV                             0x2702
 #define NVIDIA_RTX4090_DEV                              0x2684
+#define NVIDIA_RTX5070_DEV                              0x2F04
 #define NVIDIA_RTX5070TI_DEV                            0x2C05
 #define NVIDIA_RTX5080_DEV                              0x2C02
 #define NVIDIA_RTX5090_DEV                              0x2B85
@@ -668,8 +669,11 @@
 #define GIGABYTE_RTX4090_GAMING_OC_24G_SUB_DEV          0x40BF
 #define GIGABYTE_AORUS_RTX4090_MASTER_24G_SUB_DEV       0x40C0
 #define GIGABYTE_RX7800XT_GAMING_OC_16G_SUB_DEV         0x2413
+#define GIGABYTE_RTX5070_GAMING_OC_16G_SUB_DEV          0x4174
 #define GIGABYTE_RTX5070TI_EAGLE_OC_16G_SUB_DEV         0x4180
 #define GIGABYTE_RTX5070TI_AERO_OC_16G_SUB_DEV          0x417F
+#define GIGABYTE_RTX5070TI_GAMING_OC_16G_SUB_DEV        0x4181
+#define GIGABYTE_RTX5080_GAMING_OC_16G_SUB_DEV          0x4176
 #define GIGABYTE_AORUS_RTX5090_MASTER_32G_SUB_DEV       0x416E
 #define GIGABYTE_AORUS_RTX5090_MASTER_ICE_32G_SUB_DEV   0x4199
 #define GIGABYTE_AORUS_RTX5090D_MASTER_32G_SUB_DEV      0x4188

@@ -37,7 +37,11 @@ enum
     RGB_FUSION2_BLACKWELL_GPU_MODE_BREATHING       = 0x02,
     RGB_FUSION2_BLACKWELL_GPU_MODE_FLASHING        = 0x03,
     RGB_FUSION2_BLACKWELL_GPU_MODE_DUAL_FLASHING   = 0x04,
-    RGB_FUSION2_BLACKWELL_GPU_MODE_COLOR_CYCLE     = 0x05
+    RGB_FUSION2_BLACKWELL_GPU_MODE_COLOR_CYCLE     = 0x05,
+    RGB_FUSION2_BLACKWELL_GPU_MODE_WAVE            = 0x06, //not available to Eagle/Aero
+    RGB_FUSION2_BLACKWELL_GPU_MODE_GRADIENT        = 0x07, //not available to Eagle/Aero
+    RGB_FUSION2_BLACKWELL_GPU_MODE_COLOR_SHIFT     = 0x08, //not available to Eagle/Aero
+    RGB_FUSION2_BLACKWELL_GPU_MODE_DAZZLE          = 0x0A, //not available to Eagle/Aero
 };
 
 enum
@@ -53,6 +57,12 @@ enum
     RGB_FUSION2_BLACKWELL_GPU_BRIGHTNESS_MAX       = 0x0A
 };
 
+enum
+{
+    RGB_FUSION2_BLACKWELL_GPU_SINGLE_ZONE          = 0,
+    RGB_FUSION2_BLACKWELL_GPU_GAMING_LAYOUT        = 1,
+};
+
 class RGBFusion2BlackwellGPUController
 {
 public:
@@ -65,8 +75,7 @@ public:
     void            SaveConfig();
 
     void            SetZone(uint8_t zone, uint8_t mode, fusion2_config zone_config);
-    void            SetMode(uint8_t zone, uint8_t mode, fusion2_config zone_config, uint8_t mystery_flag);
-
+    void            SetMode(uint8_t zone, uint8_t mode, fusion2_config zone_config);
 private:
     i2c_smbus_interface*    bus;
     rgb_fusion_dev_id       dev;

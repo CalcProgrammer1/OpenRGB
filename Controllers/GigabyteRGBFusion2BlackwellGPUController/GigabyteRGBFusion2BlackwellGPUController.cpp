@@ -42,59 +42,41 @@ void RGBFusion2BlackwellGPUController::SaveConfig()
     bus->i2c_write_block(dev, sizeof(data_pkt), data_pkt);
 }
 
-void RGBFusion2BlackwellGPUController::SetMode(uint8_t zone, uint8_t mode, fusion2_config zone_config, uint8_t mystery_flag)
+void RGBFusion2BlackwellGPUController::SetMode(uint8_t zone, uint8_t mode, fusion2_config zone_config)
 {
-    if (zone < RGB_FUSION_2_BLACKWELL_GPU_NUMBER_OF_ZONES)
-    {
+    if(zone < RGB_FUSION_2_BLACKWELL_GPU_NUMBER_OF_ZONES)
         this->zone_color[zone] = zone_config.colors[0];
+
+    /************************************************************************************\
+    *                                                                                    *
+    *       Packet (total size = 64 bytes)                                               *
+    *           MODE SPD  BRT  R    G    B    0    ZONE SZ0-8                            *
+    * 0x12 0x01 0x08 0x06 0x0A 0xFF 0xFF 0x00 0x00 0x00 0x08 [R] [G] [B] [R] [G] [B] ... *
+    *                                                                                    *
+    * SZ is the amount of colors that will be sent in the format of 3 bytes RGB          *
+    *                                                                                    *
+    \************************************************************************************/
+    uint8_t zone_pkt[64] = {RGB_FUSION2_BLACKWELL_GPU_REG_COLOR, 0x01, mode, zone_config.speed, zone_config.brightness, RGBGetRValue(this->zone_color[zone]), RGBGetGValue(this->zone_color[zone]), RGBGetBValue(this->zone_color[zone]), 0x00, zone, zone_config.numberOfColors, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
+
+    if(zone_config.numberOfColors > 0)
+    {
+        int currentPos = 12;
+        for(uint8_t i = 0; i < zone_config.numberOfColors; i++)
+        {
+            zone_pkt[currentPos + 0] = RGBGetRValue(zone_config.colors[i]);
+            zone_pkt[currentPos + 1] = RGBGetGValue(zone_config.colors[i]);
+            zone_pkt[currentPos + 2] = RGBGetBValue(zone_config.colors[i]);
+            currentPos += 3;
+        }
     }
 
-    uint8_t zone_pkt[64] = {RGB_FUSION2_BLACKWELL_GPU_REG_COLOR, mystery_flag, mode, zone_config.speed, zone_config.brightness, RGBGetRValue(this->zone_color[zone]), RGBGetGValue(this->zone_color[zone]), RGBGetBValue(this->zone_color[zone]), 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
     bus->i2c_write_block(dev, sizeof(zone_pkt), zone_pkt);
 }
 
 void RGBFusion2BlackwellGPUController::SetZone(uint8_t zone, uint8_t mode, fusion2_config zone_config)
 {
-    std::string mode_name;
-    uint8_t mystery_flag = 0x01;
+    if(mode == RGB_FUSION2_BLACKWELL_GPU_MODE_BREATHING)
+        zone_config.brightness = RGB_FUSION2_BLACKWELL_GPU_BRIGHTNESS_MAX;
 
-    switch(mode)
-    {
-        case RGB_FUSION2_BLACKWELL_GPU_MODE_STATIC:
-            {
-                SetMode(zone, mode, zone_config, mystery_flag);
-            }
-            break;
-
-        case RGB_FUSION2_BLACKWELL_GPU_MODE_BREATHING:
-            {
-                zone_config.brightness = RGB_FUSION2_BLACKWELL_GPU_BRIGHTNESS_MAX;
-                SetMode(zone, mode, zone_config, mystery_flag);
-            }
-            break;
-
-        case RGB_FUSION2_BLACKWELL_GPU_MODE_FLASHING:
-            {
-                SetMode(zone, mode, zone_config, mystery_flag);
-            }
-            break;
-
-        case RGB_FUSION2_BLACKWELL_GPU_MODE_DUAL_FLASHING:
-            {
-                SetMode(zone, mode, zone_config, mystery_flag);
-            }
-            break;
-
-        case RGB_FUSION2_BLACKWELL_GPU_MODE_COLOR_CYCLE:
-            {
-                SetMode(zone, mode, zone_config, mystery_flag);
-            }
-            break;
-
-        default:
-            {
-                LOG_TRACE("[%s] Mode %02d not found", "fusion2 blackwell gpu", mode);
-            }
-            break;
-    }
+    SetMode(zone, mode, zone_config);
 }

@@ -22,9 +22,11 @@
     @comment
 \*-------------------------------------------------------------------*/
 
-RGBController_RGBFusion2BlackwellGPU::RGBController_RGBFusion2BlackwellGPU(RGBFusion2BlackwellGPUController* controller_ptr)
+RGBController_RGBFusion2BlackwellGPU::RGBController_RGBFusion2BlackwellGPU(RGBFusion2BlackwellGPUController* controller_ptr, uint8_t led_layout)
 {
     controller  = controller_ptr;
+
+    gpu_layout = led_layout;
 
     name        = "Gigabyte GPU";
     vendor      = "Gigabyte";
@@ -85,7 +87,7 @@ RGBController_RGBFusion2BlackwellGPU::RGBController_RGBFusion2BlackwellGPU(RGBFu
     mode SpectrumCycle;
     SpectrumCycle.name              = "Color Cycle";
     SpectrumCycle.value             = RGB_FUSION2_BLACKWELL_GPU_MODE_COLOR_CYCLE;
-    SpectrumCycle.flags             = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_BRIGHTNESS;
+    SpectrumCycle.flags             = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_MANUAL_SAVE;
     SpectrumCycle.speed_min         = RGB_FUSION2_BLACKWELL_GPU_SPEED_SLOWEST;
     SpectrumCycle.speed_max         = RGB_FUSION2_BLACKWELL_GPU_SPEED_FASTEST;
     SpectrumCycle.speed             = RGB_FUSION2_BLACKWELL_GPU_SPEED_NORMAL;
@@ -94,6 +96,69 @@ RGBController_RGBFusion2BlackwellGPU::RGBController_RGBFusion2BlackwellGPU(RGBFu
     SpectrumCycle.brightness_max    = RGB_FUSION2_BLACKWELL_GPU_BRIGHTNESS_MAX;
     SpectrumCycle.brightness        = RGB_FUSION2_BLACKWELL_GPU_BRIGHTNESS_MAX;
     modes.push_back(SpectrumCycle);
+
+    if(led_layout == RGB_FUSION2_BLACKWELL_GPU_GAMING_LAYOUT)
+    {
+        mode Wave;
+        Wave.name = "Wave";
+        Wave.value = RGB_FUSION2_BLACKWELL_GPU_MODE_WAVE;
+        Wave.flags = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_MANUAL_SAVE;
+        Wave.speed_min = RGB_FUSION2_BLACKWELL_GPU_SPEED_SLOWEST;
+        Wave.speed_max = RGB_FUSION2_BLACKWELL_GPU_SPEED_FASTEST;
+        Wave.speed = RGB_FUSION2_BLACKWELL_GPU_SPEED_NORMAL;
+        Wave.color_mode = MODE_COLORS_NONE;
+        Wave.brightness_min = RGB_FUSION2_BLACKWELL_GPU_BRIGHTNESS_MIN;
+        Wave.brightness_max = RGB_FUSION2_BLACKWELL_GPU_BRIGHTNESS_MAX;
+        Wave.brightness = RGB_FUSION2_BLACKWELL_GPU_BRIGHTNESS_MAX;
+        modes.push_back(Wave);
+
+        mode Gradient;
+        Gradient.name = "Gradient";
+        Gradient.value = RGB_FUSION2_BLACKWELL_GPU_MODE_GRADIENT;
+        Gradient.flags = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_MANUAL_SAVE;
+        Gradient.speed_min = RGB_FUSION2_BLACKWELL_GPU_SPEED_SLOWEST;
+        Gradient.speed_max = RGB_FUSION2_BLACKWELL_GPU_SPEED_FASTEST;
+        Gradient.speed = RGB_FUSION2_BLACKWELL_GPU_SPEED_NORMAL;
+        Gradient.color_mode = MODE_COLORS_PER_LED;
+        Gradient.brightness_min = RGB_FUSION2_BLACKWELL_GPU_BRIGHTNESS_MIN;
+        Gradient.brightness_max = RGB_FUSION2_BLACKWELL_GPU_BRIGHTNESS_MAX;
+        Gradient.brightness = RGB_FUSION2_BLACKWELL_GPU_BRIGHTNESS_MAX;
+        modes.push_back(Gradient);
+
+        mode ColorShift;
+        ColorShift.name = "Color Shift";
+        ColorShift.value = RGB_FUSION2_BLACKWELL_GPU_MODE_COLOR_SHIFT;
+        ColorShift.flags = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_MANUAL_SAVE;
+        ColorShift.speed_min = RGB_FUSION2_BLACKWELL_GPU_SPEED_SLOWEST;
+        ColorShift.speed_max = RGB_FUSION2_BLACKWELL_GPU_SPEED_FASTEST;
+        ColorShift.speed = RGB_FUSION2_BLACKWELL_GPU_SPEED_NORMAL;
+        ColorShift.color_mode = MODE_COLORS_MODE_SPECIFIC;
+        ColorShift.colors_min = 1;
+        ColorShift.colors_max = 8;
+        ColorShift.colors.resize(8);
+        ColorShift.brightness_min = RGB_FUSION2_BLACKWELL_GPU_BRIGHTNESS_MIN;
+        ColorShift.brightness_max = RGB_FUSION2_BLACKWELL_GPU_BRIGHTNESS_MAX;
+        ColorShift.brightness = RGB_FUSION2_BLACKWELL_GPU_BRIGHTNESS_MAX;
+        modes.push_back(ColorShift);
+
+        /* Disabled Dazzle as it seems to only execute once, would need to loop it maybe?
+        * 
+        mode Dazzle;
+        Dazzle.name = "Dazzle";
+        Dazzle.value = RGB_FUSION2_BLACKWELL_GPU_MODE_DAZZLE;
+        Dazzle.flags = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_MANUAL_SAVE;
+        Dazzle.speed_min = RGB_FUSION2_BLACKWELL_GPU_SPEED_SLOWEST;
+        Dazzle.speed_max = RGB_FUSION2_BLACKWELL_GPU_SPEED_FASTEST;
+        Dazzle.speed = RGB_FUSION2_BLACKWELL_GPU_SPEED_NORMAL;
+        Dazzle.color_mode = MODE_COLORS_MODE_SPECIFIC;
+        Dazzle.colors_min = 1;
+        Dazzle.colors_max = 8;
+        Dazzle.colors.resize(8);
+        Dazzle.brightness_min = RGB_FUSION2_BLACKWELL_GPU_BRIGHTNESS_MIN;
+        Dazzle.brightness_max = RGB_FUSION2_BLACKWELL_GPU_BRIGHTNESS_MAX;
+        Dazzle.brightness = RGB_FUSION2_BLACKWELL_GPU_BRIGHTNESS_MAX;
+        modes.push_back(Dazzle);*/
+    }
 
     SetupZones();
 }
@@ -110,24 +175,52 @@ void RGBController_RGBFusion2BlackwellGPU::SetupZones()
     | LED's in the zone and does not allow per LED control.     |
     \*---------------------------------------------------------*/
 
-    for(uint8_t zone_idx = 0; zone_idx < RGB_FUSION_2_BLACKWELL_GPU_NUMBER_OF_ZONES; zone_idx++)
+    if(gpu_layout == RGB_FUSION2_BLACKWELL_GPU_SINGLE_ZONE)
     {
         zone new_zone;
         led  new_led;
 
-        new_zone.name          = "GPU zone " + std::to_string(zone_idx + 1);
-        new_zone.type          = ZONE_TYPE_SINGLE;
-        new_zone.leds_min      = 1;
-        new_zone.leds_max      = 1;
-        new_zone.leds_count    = 1;
-        new_zone.matrix_map    = NULL;
+        new_zone.name = "Side";
+        new_zone.type = ZONE_TYPE_SINGLE;
+        new_zone.leds_min = 1;
+        new_zone.leds_max = 1;
+        new_zone.leds_count = 1;
+        new_zone.matrix_map = NULL;
 
-        new_led.name           = new_zone.name;
+        new_led.name = new_zone.name;
         /*---------------------------------------------------------*\
         | Push the zone and LED on to device vectors                |
         \*---------------------------------------------------------*/
         leds.push_back(new_led);
         zones.push_back(new_zone);
+    }
+    else if(gpu_layout == RGB_FUSION2_BLACKWELL_GPU_GAMING_LAYOUT)
+    {
+        for(uint8_t zone_idx = 0; zone_idx < 4; zone_idx++)
+        {
+            zone new_zone;
+            led  new_led;
+
+            switch(zone_idx)
+            {
+                case 0: new_zone.name = "Right fan"; break;
+                case 1: new_zone.name = "Left fan"; break;
+                case 2: new_zone.name = "Center fan"; break;
+                case 3: new_zone.name = "Side"; break;
+            }
+            new_zone.type = ZONE_TYPE_SINGLE;
+            new_zone.leds_min = 1;
+            new_zone.leds_max = 1;
+            new_zone.leds_count = 1;
+            new_zone.matrix_map = NULL;
+
+            new_led.name = new_zone.name;
+            /*---------------------------------------------------------*\
+            | Push the zone and LED on to device vectors                |
+            \*---------------------------------------------------------*/
+            leds.push_back(new_led);
+            zones.push_back(new_zone);
+        }
     }
 
     SetupColors();
@@ -147,30 +240,47 @@ void RGBController_RGBFusion2BlackwellGPU::DeviceUpdateLEDs()
     zone_config.brightness      = modes[active_mode].brightness;
     zone_config.speed           = modes[active_mode].speed;
     zone_config.direction       = modes[active_mode].direction;
-    zone_config.numberOfColors  = (uint8_t)modes[active_mode].colors.size();
+    zone_config.numberOfColors  = 0;
+    if(modes[active_mode].color_mode == MODE_COLORS_MODE_SPECIFIC)
+        zone_config.numberOfColors = (uint8_t)modes[active_mode].colors.size();
 
-    for(uint8_t zone_idx = 0; zone_idx < RGB_FUSION_2_BLACKWELL_GPU_NUMBER_OF_ZONES; zone_idx++)
+    if(zones.size() == 1)
     {
-        zone_config.colors[0] = colors[zone_idx];
+        zone_config.colors[0] = colors[0];
 
-        if (modes[active_mode].color_mode == MODE_COLORS_MODE_SPECIFIC)
+        for(uint8_t i = 0; i < zone_config.numberOfColors; i++)
         {
-            for (uint8_t i = 0; i < zone_config.numberOfColors; i++)
+            zone_config.colors[i] = modes[active_mode].colors[i];
+        }
+
+        controller->SetZone(0, modes[active_mode].value, zone_config);
+    }
+    else
+    {
+        // replicating GCC that sends up to 0x05 even when there is less zones
+        for(uint8_t zone_idx = 0; zone_idx < RGB_FUSION_2_BLACKWELL_GPU_NUMBER_OF_ZONES; zone_idx++)
+        {
+            if(zone_idx >= zones.size())
+                zone_config.colors[0] = colors.back();
+            else
+                zone_config.colors[0] = colors[zone_idx];
+
+            for(uint8_t i = 0; i < zone_config.numberOfColors; i++)
             {
                 zone_config.colors[i] = modes[active_mode].colors[i];
             }
-        }
 
-        controller->SetZone(zone_idx, modes[active_mode].value, zone_config);
+            controller->SetZone(zone_idx, modes[active_mode].value, zone_config);
+        }
     }
 }
 
-void RGBController_RGBFusion2BlackwellGPU::UpdateZoneLEDs(int zone)
+void RGBController_RGBFusion2BlackwellGPU::UpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_RGBFusion2BlackwellGPU::UpdateSingleLED(int led)
+void RGBController_RGBFusion2BlackwellGPU::UpdateSingleLED(int /*led*/)
 {
     DeviceUpdateLEDs();
 }
