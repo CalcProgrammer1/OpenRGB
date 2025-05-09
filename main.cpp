@@ -35,7 +35,7 @@ using namespace std::chrono_literals;
 
 /******************************************************************************************\
 *                                                                                          *
-*   InitializeTimerResolution (Win32)                                                      *
+*   InitializeTimerResolutionThreadFunction (Win32)                                        *
 *                                                                                          *
 *       On Windows, the default timer resolution is 15.6ms.  For higher accuracy delays,   *
 *       the timer resolution should be set to a shorter interval.  The shortest interval   *
@@ -43,27 +43,43 @@ using namespace std::chrono_literals;
 *                                                                                          *
 \******************************************************************************************/
 #ifdef _WIN32
-typedef unsigned int NTSTATUS;
-typedef NTSTATUS (*NTSETTIMERRESOLUTION)(ULONG DesiredResolution, BOOLEAN SetResolution, PULONG CurrentResolution);
-
-void InitializeTimerResolution()
-{
-    NTSETTIMERRESOLUTION NtSetTimerResolution;
-    HMODULE              NtDllHandle;
-    ULONG                CurrentResolution;
-
-    NtDllHandle = LoadLibrary("ntdll.dll");
-
-    NtSetTimerResolution = (NTSETTIMERRESOLUTION)GetProcAddress(NtDllHandle, "NtSetTimerResolution");
-
-    NtSetTimerResolution(5000, TRUE, &CurrentResolution);
-}
-
 void InitializeTimerResolutionThreadFunction()
 {
+    /*-----------------------------------------------------*\
+    | NtSetTimerResolution function pointer type            |
+    \*-----------------------------------------------------*/
+    typedef unsigned int NTSTATUS;
+    typedef NTSTATUS (*NTSETTIMERRESOLUTION)(ULONG DesiredResolution, BOOLEAN SetResolution, PULONG CurrentResolution);
+
+    /*-----------------------------------------------------*\
+    | PROCESS_POWER_THROTTLING_IGNORE_TIMER_RESOLUTION = 4, |
+    | isn't defined in Win10 headers                        |
+    \*-----------------------------------------------------*/
+    PROCESS_POWER_THROTTLING_STATE PowerThrottlingState { PROCESS_POWER_THROTTLING_CURRENT_VERSION, 4, 0 };
+
+    ULONG                CurrentResolution;
+    HMODULE              NtDllHandle;
+    NTSETTIMERRESOLUTION NtSetTimerResolution;
+
+    /*-----------------------------------------------------*\
+    | Load ntdll.dll and get pointer to NtSetTimerResolution|
+    \*-----------------------------------------------------*/
+    NtDllHandle             = LoadLibrary("ntdll.dll");
+    NtSetTimerResolution    = (NTSETTIMERRESOLUTION)GetProcAddress(NtDllHandle, "NtSetTimerResolution");
+
+    /*-----------------------------------------------------*\
+    | Windows 11 requires                                   |
+    | PROCESS_POWER_THROTTLING_IGNORE_TIMER_RESOLUTION      |
+    \*-----------------------------------------------------*/
+    SetProcessInformation(GetCurrentProcess(), ProcessPowerThrottling, &PowerThrottlingState, sizeof(PowerThrottlingState));
+
+    /*-----------------------------------------------------*\
+    | Call NtSetTimerResolution to set timer resolution to  |
+    | 0.5ms every 500ms                                     |
+    \*-----------------------------------------------------*/
     while(1)
     {
-        InitializeTimerResolution();
+        NtSetTimerResolution(5000, TRUE, &CurrentResolution);
 
         std::this_thread::sleep_for(500ms);
     }
