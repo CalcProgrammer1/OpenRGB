@@ -133,6 +133,7 @@ REGISTER_I2C_PCI_DETECTOR("Gigabyte GeForce RTX 5070 Ti Eagle OC",              
 REGISTER_I2C_PCI_DETECTOR("Gigabyte GeForce RTX 5070 Ti Aero OC",                   DetectGigabyteRGBFusion2BlackwellSingleZoneGPUControllers,      NVIDIA_VEN, NVIDIA_RTX5070TI_DEV,   GIGABYTE_SUB_VEN, GIGABYTE_RTX5070TI_AERO_OC_16G_SUB_DEV,         0x75);
 REGISTER_I2C_PCI_DETECTOR("Gigabyte GeForce RTX 5070 Ti Gaming OC",                 DetectGigabyteRGBFusion2BlackwellGamingLayoutGPUControllers,    NVIDIA_VEN, NVIDIA_RTX5070TI_DEV,   GIGABYTE_SUB_VEN, GIGABYTE_RTX5070TI_GAMING_OC_16G_SUB_DEV,       0x75);
 REGISTER_I2C_PCI_DETECTOR("Gigabyte GeForce RTX 5080 Gaming OC",                    DetectGigabyteRGBFusion2BlackwellGamingLayoutGPUControllers,    NVIDIA_VEN, NVIDIA_RTX5080_DEV,     GIGABYTE_SUB_VEN, GIGABYTE_RTX5080_GAMING_OC_16G_SUB_DEV,       0x75);
+REGISTER_I2C_PCI_DETECTOR("Gigabyte GeForce RTX 5090 Gaming OC",                    DetectGigabyteRGBFusion2BlackwellGamingLayoutGPUControllers,    NVIDIA_VEN, NVIDIA_RTX5090_DEV,     GIGABYTE_SUB_VEN, GIGABYTE_RTX5090_GAMING_OC_32G_SUB_DEV,         0x75);
 
 /*-----------------------------------------*\
 |  AMD GPUs                                 |
