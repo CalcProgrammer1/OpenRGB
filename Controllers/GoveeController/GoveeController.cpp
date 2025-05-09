@@ -6,9 +6,9 @@
 |  Adam Honse (calcprogrammer1@gmail.com), 12/1/2023        |
 \*---------------------------------------------------------*/
 
-#include "GoveeController.h"
+#include <nlohmann/json.hpp>
 #include "base64.hpp"
-#include "json.hpp"
+#include "GoveeController.h"
 
 using json = nlohmann::json;
 using namespace std::chrono_literals;
