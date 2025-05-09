@@ -31,6 +31,10 @@ io_connect_t macUSPCIO_driver_connection;
 #include "macutils.h"
 #endif
 
+#ifdef __linux__
+#include <csignal>
+#endif
+
 using namespace std::chrono_literals;
 
 /******************************************************************************************\
@@ -170,6 +174,19 @@ void InstallWinRing0()
 
 /******************************************************************************************\
 *                                                                                          *
+*   Linux signal handler                                                                   *
+*                                                                                          *
+\******************************************************************************************/
+#ifdef __linux__
+void sigHandler(int s)
+{
+    std::signal(s, SIG_DFL);
+    qApp->quit();
+}
+#endif
+
+/******************************************************************************************\
+*                                                                                          *
 *   main                                                                                   *
 *                                                                                          *
 *       Main function.  Detects busses and Aura controllers, then opens the main window    *
@@ -288,6 +305,10 @@ int main(int argc, char* argv[])
         }
 
         LOG_TRACE("[main] Ready to exec() the dialog");
+#ifdef __linux__
+        std::signal(SIGINT,  sigHandler);
+        std::signal(SIGTERM, sigHandler);
+#endif
         exitval = a.exec();
     }
     else

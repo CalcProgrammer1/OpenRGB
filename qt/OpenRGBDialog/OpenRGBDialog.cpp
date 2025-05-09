@@ -639,7 +639,7 @@ void OpenRGBDialog::closeEvent(QCloseEvent *event)
 {
     ResourceManager::get()->WaitForDeviceDetection();
 
-    if (IsMinimizeOnClose() && !this->isHidden())
+    if (IsMinimizeOnClose() && !this->isHidden() && event->spontaneous())
     {
 #ifdef __APPLE__
         MacUtils::ToggleApplicationDocklessState(false);
