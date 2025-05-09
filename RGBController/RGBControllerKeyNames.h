@@ -190,3 +190,4 @@ extern const char* KEY_FR_EXCLAIMATION;
 extern const char* KEY_ES_OPEN_QUESTION_MARK;
 extern const char* KEY_ES_TILDE;
 extern const char* KEY_ES_ENIE;
+extern const char* KEY_BR_TILDE;

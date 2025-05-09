@@ -24,6 +24,7 @@ public:
     std::string     GetDeviceLocation();
     std::string     GetSerialString();
     std::string     GetFirmwareVersion();
+    unsigned int    GetVariant();
 
     void SetLEDsDirect(std::vector<RGBColor> colors);
     void SetBrightness(unsigned int brightness);
