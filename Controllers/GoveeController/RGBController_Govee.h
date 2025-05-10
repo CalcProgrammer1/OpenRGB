@@ -26,6 +26,11 @@ public:
 
     void        DeviceUpdateMode();
 
+    void        KeepaliveThread();
+
 private:
-    GoveeController* controller;
+    GoveeController*                                    controller;
+    std::thread*                                        keepalive_thread;
+    std::atomic<bool>                                   keepalive_thread_run;
+    std::chrono::time_point<std::chrono::steady_clock>  last_update_time;
 };

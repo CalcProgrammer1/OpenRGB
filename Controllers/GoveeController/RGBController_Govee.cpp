@@ -9,6 +9,8 @@
 #include <map>
 #include "RGBController_Govee.h"
 
+using namespace std::chrono_literals;
+
 static std::map<std::string, unsigned int> govee_led_counts
 {
     { "H619A", 20  },
@@ -44,11 +46,18 @@ RGBController_Govee::RGBController_Govee(GoveeController* controller_ptr)
     modes.push_back(Direct);
 
     SetupZones();
+
+    keepalive_thread_run    = 1;
+    keepalive_thread        = new std::thread(&RGBController_Govee::KeepaliveThread, this);
 }
 
 RGBController_Govee::~RGBController_Govee()
 {
+    keepalive_thread_run = 0;
+    keepalive_thread->join();
+    delete keepalive_thread;
 
+    delete controller;
 }
 
 void RGBController_Govee::SetupZones()
@@ -83,6 +92,8 @@ void RGBController_Govee::ResizeZone(int /*zone*/, int /*new_size*/)
 
 void RGBController_Govee::DeviceUpdateLEDs()
 {
+    last_update_time = std::chrono::steady_clock::now();
+
     if(modes[active_mode].color_mode == MODE_COLORS_PER_LED)
     {
         controller->SendRazerData(&colors[0], colors.size());
@@ -112,5 +123,17 @@ void RGBController_Govee::DeviceUpdateMode()
     {
         controller->SendRazerEnable();
         DeviceUpdateLEDs();
+    }
+}
+
+void RGBController_Govee::KeepaliveThread()
+{
+    while(keepalive_thread_run.load())
+    {
+        if((std::chrono::steady_clock::now() - last_update_time) > std::chrono::milliseconds(500))
+        {
+            DeviceUpdateLEDs();
+        }
+        std::this_thread::sleep_for(100ms);
     }
 }
