@@ -132,8 +132,7 @@ This project interacts directly with hardware using reverse engineered protocols
 ## Projects Used
 
 * OpenRGB directly relies upon these projects.
-
-  * WinRing0: https://openlibsys.org/
+  * PawnIO: https://pawnio.eu/
   * libusb: https://github.com/libusb/libusb
   * hidapi: https://github.com/libusb/hidapi
   * libe131: https://github.com/hhromic/libe131

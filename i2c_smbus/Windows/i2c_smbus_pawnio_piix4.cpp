@@ -1,7 +1,7 @@
 /*---------------------------------------------------------*\
-| i2c_smbus_pawnio_i801.cpp                                 |
+| i2c_smbus_pawnio_piix4.cpp                                |
 |                                                           |
-|   PawnIO i801 SMBUS driver for Windows                    |
+|   PawnIO PIIX4 SMBUS driver for Windows                   |
 |                                                           |
 |   Stephen Horvath (Steve-Tech)                04 May 2025 |
 |                                                           |
@@ -13,25 +13,18 @@
 #include "i2c_smbus_pawnio.h"
 #include "LogManager.h"
 #ifdef _WIN32
-#include "OlsApi.h"
 #include "PawnIOLib.h"
 #include "wmi.h"
 #endif
 #include "ResourceManager.h"
 
 #ifdef _WIN32
-bool i2c_smbus_i801_pawnio_detect()
+bool i2c_smbus_piix4_pawnio_detect()
 {
-    if(InitializeOls() || !GetDllStatus())
-    {
-        LOG_DEBUG("WinRing0 is already loaded, PawnIO i801 I2C bus detection aborted");
-        return(false);
-    }
-
     ULONG dll_version;
     if(pawnio_version(&dll_version))
     {
-        LOG_INFO("PawnIO is not loaded, PawnIO i801 I2C bus detection aborted");
+        LOG_INFO("PawnIO is not loaded, PawnIO piix4 I2C bus detection aborted");
         return(false);
     }
 
@@ -45,21 +38,17 @@ bool i2c_smbus_i801_pawnio_detect()
     std::vector<QueryObj> q_res_PnPSignedDriver;
     hres = wmi.query("SELECT * FROM Win32_PnPSignedDriver WHERE Description LIKE '%SMBUS%' OR Description LIKE '%SM BUS%'", q_res_PnPSignedDriver);
 
-    if (hres)
+    if(hres)
     {
-        LOG_INFO("WMI query failed, i801 I2C bus detection aborted");
+        LOG_INFO("WMI query failed, PawnIO piix4 I2C bus detection aborted");
         return(false);
     }
 
     // For each detected SMBus adapter, try enumerating it as either AMD or Intel
     for (QueryObj &i : q_res_PnPSignedDriver)
     {
-        // Intel SMBus controllers do show I/O resources in Device Manager
-        // Analysis of many Intel boards has shown that Intel SMBus adapter I/O space varies between boards
-        // We can query Win32_PnPAllocatedResource entries and look up the PCI device ID to find the allocated I/O space
-        // Intel SMBus adapters use the i801 driver
-        if ((i["Manufacturer"].find("Intel") != std::string::npos)
-            || (i["Manufacturer"].find("INTEL") != std::string::npos))
+        // AMD SMBus adapters use the PIIX4 driver
+        if(i["Manufacturer"].find("Advanced Micro Devices, Inc") != std::string::npos)
         {
             std::string pnp_str = i["DeviceID"];
 
@@ -77,17 +66,27 @@ bool i2c_smbus_i801_pawnio_detect()
             int sbv_id = (int)std::stoul(sbv_str, nullptr, 16);
             int sbd_id = (int)std::stoul(sbd_str, nullptr, 16);
 
-            if(i2c_smbus_pawnio::start_pawnio("SmbusI801.bin", &pawnio_handle) != S_OK)
+            if(i2c_smbus_pawnio::start_pawnio("SmbusPIIX4.bin", &pawnio_handle) != S_OK)
             {
                 return(false);
             }
 
-            bus                         = new i2c_smbus_pawnio(pawnio_handle, "i801");
+            bus                         = new i2c_smbus_pawnio(pawnio_handle, "piix4", 0);
             bus->pci_vendor             = ven_id;
             bus->pci_device             = dev_id;
             bus->pci_subsystem_vendor   = sbv_id;
             bus->pci_subsystem_device   = sbd_id;
             strncpy(bus->device_name, i["Description"].c_str(), sizeof bus->device_name);
+            strncat(bus->device_name, " port 0", sizeof bus->device_name);
+            ResourceManager::get()->RegisterI2CBus(bus);
+
+            bus                         = new i2c_smbus_pawnio(pawnio_handle, "piix4", 1);
+            bus->pci_vendor             = ven_id;
+            bus->pci_device             = dev_id;
+            bus->pci_subsystem_vendor   = sbv_id;
+            bus->pci_subsystem_device   = sbd_id;
+            strncpy(bus->device_name, i["Description"].c_str(), sizeof bus->device_name);
+            strncat(bus->device_name, " port 1", sizeof bus->device_name);
             ResourceManager::get()->RegisterI2CBus(bus);
         }
     }
@@ -96,4 +95,4 @@ bool i2c_smbus_i801_pawnio_detect()
 }
 #endif
 
-REGISTER_I2C_BUS_DETECTOR(i2c_smbus_i801_pawnio_detect);
+REGISTER_I2C_BUS_DETECTOR(i2c_smbus_piix4_pawnio_detect);
