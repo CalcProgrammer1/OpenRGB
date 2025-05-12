@@ -10,6 +10,7 @@
 \*---------------------------------------------------------*/
 
 #include "super_io.h"
+#include "super_io_pawnio.h"
 
 #ifdef _WIN32
 #include <Windows.h>
@@ -34,7 +35,17 @@ int dev_port_fd;
 
 void superio_enter(int ioreg)
 {
-#if defined(WIN32) || defined(_MACOSX_X86_X64)
+#if defined(WIN32)
+    if (!GetDllStatus())
+    {
+        WriteIoPortByte(ioreg, 0x87);
+        WriteIoPortByte(ioreg, 0x87);
+    }
+    else
+    {
+        pawnio_superio_enter(ioreg);
+    }
+#elif defined(_MACOSX_X86_X64)
     WriteIoPortByte(ioreg, 0x87);
     WriteIoPortByte(ioreg, 0x87);
 #else
@@ -71,7 +82,17 @@ void superio_enter(int ioreg)
 
 void superio_outb(int ioreg, int reg, int val)
 {
-#if defined(WIN32) || defined(_MACOSX_X86_X64)
+#if defined(WIN32)
+    if (!GetDllStatus())
+    {
+        WriteIoPortByte(ioreg, reg);
+        WriteIoPortByte(ioreg + 1, val);
+    }
+    else
+    {
+        pawnio_superio_outb(ioreg, reg, val);
+    }
+#elif defined(_MACOSX_X86_X64)
     WriteIoPortByte(ioreg, reg);
     WriteIoPortByte(ioreg + 1, val);
 #else
@@ -106,7 +127,17 @@ void superio_outb(int ioreg, int reg, int val)
 
 int superio_inb(int ioreg, int reg)
 {
-#if defined(WIN32) || defined(_MACOSX_X86_X64)
+#if defined(WIN32)
+    if (!GetDllStatus())
+    {
+        WriteIoPortByte(ioreg, reg);
+        return ReadIoPortByte(ioreg + 1);
+    }
+    else
+    {
+        return pawnio_superio_inb(ioreg, reg);
+    }
+#elif defined(_MACOSX_X86_X64)
     WriteIoPortByte(ioreg, reg);
     return ReadIoPortByte(ioreg + 1);
 #else
