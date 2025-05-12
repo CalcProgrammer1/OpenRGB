@@ -48,10 +48,21 @@ const uint8_t HDR_D_LED2    = LED7;
 const uint8_t HDR_LED_7     = LED8;
 
 /*-------------------------------------------------------------*\
-| FIXME assuming that it is 0x58 for all boards                 |
+| IT8297/IT5702 ARGB Headers                                    |
 \*-------------------------------------------------------------*/
 const uint8_t HDR_D_LED1_RGB = 0x58;
 const uint8_t HDR_D_LED2_RGB = 0x59;
+/*-------------------------------------------------------------*\
+| 0x62 & 0x90-92 found on the new IT5711 controller chip        |
+\*-------------------------------------------------------------*/
+const uint8_t LED9          = 0x90;
+const uint8_t LED10         = 0x91;
+const uint8_t LED11         = 0x92;
+const uint8_t HDR_D_LED3_RGB = 0x62;
+/*------------------------------------------*\
+|Defines new mapping for third argb header   |
+\*------------------------------------------*/
+const uint8_t HDR_D_LED3    = LED8;
 
 enum EffectType
 {
@@ -173,7 +184,7 @@ union PktEffect
 
         e.zone0             = (uint32_t)(1 << (e.header - 32));
         e.effect_type       = EFFECT_STATIC;
-        e.max_brightness    = 100;
+        e.max_brightness    = 255;
         e.min_brightness    = 0;
         e.color0            = 0x00FF2100;   //orange
         e.period0           = 0;            //Rising Timer - Needs to be 0 for "Direct"
@@ -187,6 +198,17 @@ union PktEffect
     }
 };
 
+/*--------------------------------------------------------------------------------------*\
+| Definitions for Initial controller response struct.                                    |
+| curr_led_count_high and curr_led_count_low contain the numbers of leds in each header. |
+| Byte orders are little endian little-endian 0x00RRGGBB?                                |
+| byteorder0 is location of "Spare" calibration location.                                |
+| byteorder1 is location of "D_LED1" calibration location.                               |
+| byteorder2 is location of "D_LED2/D_LED3" calibration location.                        |
+| byteorder3 is location of "Mainboard" calibration location.                            |
+| byteorder4 is location of fifth calibration location.                                  |
+| *Note that the calibration locations aren't fully understood yet for the IT5711.       |
+\*--------------------------------------------------------------------------------------*/
 struct IT8297Report
 {
     uint8_t report_id;
@@ -194,14 +216,16 @@ struct IT8297Report
     uint8_t device_num;
     uint8_t total_leds;
     uint32_t fw_ver;
-    uint16_t curr_led_count;
+    uint8_t curr_led_count_high;
+    uint8_t curr_led_count_low;
     uint16_t reserved0;
-    char str_product[32];           // might be 28 and an extra byteorder3
-    uint32_t byteorder0;            // is little-endian 0x00RRGGBB ?
+    char str_product[28];
+    uint32_t byteorder0;
     uint32_t byteorder1;
     uint32_t byteorder2;
+    uint32_t byteorder3;
     uint32_t chip_id;
-    uint32_t reserved1;
+    uint32_t byteorder4;
 };
 
 #pragma pack(pop)
@@ -209,7 +233,7 @@ struct IT8297Report
 class RGBFusion2USBController
 {
 public:
-    RGBFusion2USBController(hid_device* handle, const char *path, std::string mb_name);
+    RGBFusion2USBController(hid_device* handle, const char *path, std::string mb_name, uint16_t pid);
     ~RGBFusion2USBController();
 
     void            SetStripColors
@@ -220,6 +244,8 @@ public:
                         int             single_led      = -1
                         );
 
+    void            ResetController(uint16_t pid);
+    uint16_t        GetProductID() const;
     void            SetLEDEffect(unsigned int led, int mode, unsigned int speed, unsigned char brightness, bool random, unsigned char red, unsigned char green, unsigned char blue);
     void            SetLedCount(unsigned int led, unsigned int count);
     void            SetMode(int mode);
@@ -240,6 +266,7 @@ private:
     void            SetCalibrationBuffer(std::string rgb_order, uint8_t* buffer, uint8_t offset);
 
     hid_device*             dev;
+    uint16_t                product_id;
     int                     mode;
     IT8297Report            report;
     std::string             name;
@@ -251,4 +278,5 @@ private:
     int                     report_id = 0xCC;
     LEDCount                D_LED1_count;
     LEDCount                D_LED2_count;
+    LEDCount                D_LED3_count;   //Third ARGB header count
 };

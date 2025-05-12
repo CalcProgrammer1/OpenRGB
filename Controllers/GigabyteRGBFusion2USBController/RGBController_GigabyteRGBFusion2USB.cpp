@@ -21,9 +21,10 @@
 \*-------------------------------------------------*/
 static FwdLedHeaders LedLookup
 {
-    {"LED1",   0x20}, {"LED2",   0x21}, {"LED3", 0x22}, {"LED4", 0x23},
-    {"LED5",   0x24}, {"LED6",   0x25}, {"LED7", 0x26}, {"LED8", 0x27},
-    {"D_LED1", 0x58}, {"D_LED2", 0x59},
+    {"LED1",   0x20}, {"LED2",   0x21}, {"LED3", 0x22},     {"LED4", 0x23},
+    {"LED5",   0x24}, {"LED6",   0x25}, {"LED7", 0x26},     {"LED8", 0x27},
+    {"D_LED1", 0x58}, {"D_LED2", 0x59}, {"D_LED3", 0x62},   {"LED9", 0x90},
+    {"LED10", 0x91},  {"LED11", 0x92},
 };
 
 /*-------------------------------------------------*\
@@ -32,25 +33,39 @@ static FwdLedHeaders LedLookup
 \*-------------------------------------------------*/
 static MBName MBName2LayoutLookup
 {
-    {"B550 AORUS ELITE",            "STD_ATX"   },
-    {"B550 AORUS PRO",              "STD_ATX"   },
-    {"B550I AORUS PRO AX",          "ITX"       },
-    {"X570 AORUS ELITE",            "STD_ATX"   },
-    {"X570 AORUS MASTER",           "MSTR_ATX_3"},
-    {"X570 AORUS PRO",              "STD_ATX"   },
-    {"X570 AORUS ELITE WIFI",       "STD_ATX"   },
-    {"X570 AORUS PRO WIFI",         "STD_ATX"   },
-    {"X570 AORUS ULTRA",            "STD_ATX"   },
-    {"X570 I AORUS PRO WIFI",       "ITX"       },
-    {"X670E AORUS MASTER",          "MSTR_ATX_2"},
-    {"Z390 AORUS MASTER-CF",        "MSTR_ATX"  },
+    {"B550 AORUS ELITE",                    "STD_ATX" },
+    {"B550 AORUS PRO",                      "STD_ATX" },
+    {"B550I AORUS PRO AX",                      "ITX" },
+    {"B650 EAGLE AX",                 "B650-Eagle-AX" },
+    {"B650E AORUS STEALTH",     "B650E-AORUS-STEALTH" },
+    {"B650E AORUS STEALTH ICE", "B650E-AORUS-STEALTH" },
+    {"B650M DS3H",                       "B650M-DS3H" },
+    {"B850 AORUS ELITE WIFI7",           "X870-WIFI7" },
+    {"B850 AORUS ELITE WIFI7 ICE",       "X870-WIFI7" },
+    {"X570 AORUS ELITE",                    "STD_ATX" },
+    {"X570 AORUS ELITE WIFI",               "STD_ATX" },
+    {"X570 AORUS MASTER",                "MSTR_ATX_3" },
+    {"X570 AORUS PRO",                      "STD_ATX" },
+    {"X570 AORUS PRO WIFI",                 "STD_ATX" },
+    {"X570 AORUS ULTRA",                    "STD_ATX" },
+    {"X570 I AORUS PRO WIFI",                   "ITX" },
+    {"X670E AORUS MASTER",               "MSTR_ATX_2" },
+    {"X870 AORUS ELITE WIFI7",           "X870-WIFI7" },
+    {"X870 AORUS ELITE WIFI7 ICE",       "X870-WIFI7" },
+    {"X870E AORUS ELITE WIFI7",         "X870E-WIFI7" },
+    {"X870E AORUS ELITE WIFI7 ICE",     "X870E-WIFI7" },
+    {"X870E AORUS PRO",                   "X870E-PRO" },
+    {"X870E AORUS PRO ICE",               "X870E-PRO" },
+    {"Z390 AORUS MASTER-CF",               "MSTR_ATX" },
+    {"Z890 AORUS ELITE WIFI7",           "Z890-WIFI7" },
+    {"Z890 AORUS ELITE WIFI7 ICE",       "Z890-WIFI7" }
 };
 
 /*-------------------------------------------------*\
 | This is the default Custom layout that will be    |
 | written into config if it doesn't exist           |
 \*-------------------------------------------------*/
-static const KnownLayout HardcodedCustom
+static const KnownLayout HardcodedCustom_Gen1
 {
     {
         "Custom",
@@ -58,12 +73,12 @@ static const KnownLayout HardcodedCustom
             {
                 "Motherboard",
                 {
-                    { "Name for Led 1", LED1, 1 },
-                    { "Name for Led 2", LED2, 1 },
-                    { "Name for Led 3", LED3, 1 },
-                    { "Name for Led 4", LED4, 1 },
-                    { "Name for Led 5", LED5, 1 },
-                    { "Name for Led 8", LED8, 1 },
+                    { "Name for Led 1",     LED1, 1 },
+                    { "Name for Led 2",     LED2, 1 },
+                    { "Name for Led 3",     LED3, 1 },
+                    { "Name for Led 4",     LED4, 1 },
+                    { "Name for Led 5",     LED5, 1 },
+                    { "Name for Led 8",     LED8, 1 },
                 }
             },
             {
@@ -82,6 +97,47 @@ static const KnownLayout HardcodedCustom
     }
 };
 
+static const KnownLayout HardcodedCustom_Gen2
+{
+    {
+        "Custom",
+        {
+            {
+                "Motherboard",
+                {
+                    { "0x20",                   LED1, 1 }, //This one should apply everything globally (testing needed).
+                    { "0x21",                   LED2, 1 },
+                    { "0x22",                   LED3, 1 }, //Confirmed accent Lighting for X870 Aorus Elite Boards.
+                    { "0x23",                   LED4, 1 },
+                    { "0x24",                   LED5, 1 }, //should be LED_C on most if not all models.
+                    { "0x90",                   LED9, 1 },
+                    { "0x91",                   LED10, 1 },//Should be logo on pro models.
+                    { "0x92",                   LED11, 1 },//Should be accent on pro models.
+                }
+            },
+                {
+                "ARGB V2.3",
+                {
+                    { "ARGB V2.3", HDR_D_LED3, 0 },
+                }
+            },
+            {
+                "ARGB V2.1",
+                {
+                    { "ARGB V2.1", HDR_D_LED1, 0 },
+                }
+            },
+            {
+                "ARGB V2.2",
+                {
+                    { "ARGB V2.2", HDR_D_LED2, 0 },
+                }
+            }
+        }
+    },
+};
+
+
 /*-------------------------------------------------*\
 | KnownLayoutsLookup now needs to be variable to    |
 | allow for a custom addition from config           |
@@ -89,7 +145,366 @@ static const KnownLayout HardcodedCustom
 static KnownLayout knownLayoutsLookup
 {
     {
-        "IT8297BX-GBX570",    //Left as a catch all
+        "STD_ATX",
+        {
+            {
+                "Motherboard",
+                {
+                    { "Back I/O",   HDR_BACK_IO, 1 },
+                    { "CPU Header", HDR_CPU, 1 },
+                    { "PCIe",       HDR_PCIE, 1 },
+                    { "LED C1/C2",  HDR_LED_C1C2, 1 },
+                }
+            },
+            {
+                "D_LED1 Bottom",
+                {
+                    { "D_LED1 Bottom", HDR_D_LED1, 0 },
+                }
+            },
+            {
+                "D_LED2 Top",
+                {
+                    { "D_LED2 Top", HDR_D_LED2, 0 },
+                }
+            }
+        }
+    },
+    {
+        "ITX",
+        {
+            {
+                "Motherboard",
+                {
+                    { "LED Group0", HDR_BACK_IO, 1 },
+                    { "LED Group1", HDR_CPU, 1 },
+                    { "LED Group2", HDR_LED_2, 1 },
+                    { "LED Group3", HDR_PCIE, 1 },
+                    { "LED C1/C2",  HDR_LED_C1C2, 1 },
+                }
+            },
+            {
+                "D_LED1",
+                {
+                    { "D_LED1", HDR_D_LED1, 0 },
+                }
+            }
+        }
+    },
+    {
+        "B650-Eagle-AX",
+        {
+            {
+                "Motherboard",
+                {
+                    { "LED_C",          LED5, 1 },
+                }
+            },
+            {
+                "ARGB V2.3",
+                {
+                    { "ARGB V2.3", HDR_D_LED3, 0 },
+                }
+            },
+            {
+                "ARGB V2.1",
+                {
+                    { "ARGB V2.1", HDR_D_LED1, 0 },
+                }
+            },
+            {
+                "ARGB V2.2",
+                {
+                    { "ARGB V2.2", HDR_D_LED2, 0 },
+                }
+            }
+        }
+    },
+    {
+        "B650E-AORUS-STEALTH",
+        {
+            {
+                "Motherboard",
+                {
+                    { "Logo",           LED10, 1 },
+                    { "Accent",         LED11, 1 },
+                    { "LED C",           LED5, 1 },
+                }
+            },
+            {
+                "ARGB V2.1",
+                {
+                    { "ARGB V2.1", HDR_D_LED1, 0 },
+                }
+            },
+            {
+                "ARGB V2.2",
+                {
+                    { "ARGB V2.2", HDR_D_LED2, 0 },
+                }
+            }
+        }
+    },
+    {
+        "B650M-DS3H",
+        {
+            {
+                "Motherboard",
+                {
+                    { "LED_C",           LED5, 1 },
+                }
+            },
+            {
+                "D_LED1",
+                {
+                    { "D_LED1", HDR_D_LED1, 0 },
+                }
+            },
+            {
+                "D_LED2",
+                {
+                    { "D_LED2", HDR_D_LED1, 0 },
+                }
+            }
+        }
+    },
+    {
+        "X870-WIFI7",
+        {
+            {
+                "Motherboard",
+                {
+                    { "Accent",        LED3, 1 },
+                    { "LED C",         LED5, 1 },
+                }
+            },
+            {
+                "ARGB V2.3",
+                {
+                    { "ARGB V2.3", HDR_D_LED3, 0 },
+                }
+            },
+            {
+                "ARGB V2.1",
+                {
+                    { "ARGB V2.1", HDR_D_LED1, 0 },
+                }
+            },
+            {
+                "ARGB V2.2",
+                {
+                    { "ARGB V2.2", HDR_D_LED2, 0 },
+                }
+            }
+        }
+    },
+    {
+        "X870E-WIFI7",
+        {
+            {
+                "Motherboard",
+                {
+                    { "Accent",         LED11, 1 },
+                    { "LED C",           LED5, 1 },
+                }
+            },
+            {
+                "ARGB V2.3",
+                {
+                    { "ARGB V2.3", HDR_D_LED3, 0 },
+                }
+            },
+            {
+                "ARGB V2.1",
+                {
+                    { "ARGB V2.1", HDR_D_LED1, 0 },
+                }
+            },
+            {
+                "ARGB V2.2",
+                {
+                    { "ARGB V2.2", HDR_D_LED2, 0 },
+                }
+            }
+        }
+    },
+    {
+        "X870E-PRO",
+        {
+            {
+                "Motherboard",
+                {
+                    { "Logo",           LED10, 1 },
+                    { "Accent",         LED11, 1 },
+                    { "LED C",           LED5, 1 },
+                }
+            },
+            {
+                "ARGB V2.3",
+                {
+                    { "ARGB V2.3", HDR_D_LED3, 0 },
+                }
+            },
+            {
+                "ARGB V2.1",
+                {
+                    { "ARGB V2.1", HDR_D_LED1, 0 },
+                }
+            },
+            {
+                "ARGB V2.2",
+                {
+                    { "ARGB V2.2", HDR_D_LED2, 0 },
+                }
+            }
+        }
+    },
+    {
+        "MSTR_ATX_2",
+        {
+            {
+                "D_LED1 Bottom",
+                {
+                    { "D_LED1 Bottom", HDR_D_LED2, 0 },
+                }
+            },
+            {
+                "D_LED2 Top",
+                {
+                    { "D_LED2 Top",  HDR_D_LED1, 0 },
+                }
+            },
+            {
+                "Motherboard",
+                {
+                    { "LED C1",         LED2, 1 },
+                    { "LED C2",         LED5, 1 },
+                    { "CPU Header",     LED3, 1 },
+                    { "Cover Left",     LED4, 1 },
+                    { "Cover Right",    LED1, 1 },
+                }
+            }
+        }
+    },
+    {
+        "MSTR_ATX_3",
+        {
+            {
+                "Digital Headers",
+                {
+                    { "D_LED1 / D_LED2", HDR_D_LED1, 0 },
+                }
+            },
+            {
+                "ARGB Strip",
+                {
+                    { "LED C1/C2",  LED5, 1 },
+                }
+            },
+            {
+                "Motherboard",
+                {
+                    { "Aorus Logo", LED7, 1 },
+                    { "ESS Logo",   LED4, 1 },
+                }
+            }
+        }
+    },
+    {
+        "MSTR_ATX",
+        {
+            {
+                "Digital Headers",
+                {
+                    { "D_LED1 / D_LED2", LED6, 0 },
+                }
+            },
+            {
+                "ARGB Strip",
+                {
+                    { "Back IO / VRM",  LED7, 0 },
+                }
+            },
+            {
+                "Motherboard",
+                {
+                    { "XMP Logo",       LED2, 1 },
+                    { "Chipset Logo",   LED3, 1 },
+                    { "PCIe",           LED4, 1 },
+                    { "LED C1/C2",      LED5, 1 },
+                }
+            }
+        }
+    },
+    {
+        "Z890-WIFI7",
+        {
+            {
+                "Motherboard",
+                {
+                    { "Logo",           LED10, 1 },
+                    { "Accent",          LED3, 1 },
+                    { "LED C",           LED5, 1 },
+                }
+            },
+            {
+                "ARGB V2.3",
+                {
+                    { "ARGB V2.3", HDR_D_LED3, 0 },
+                }
+            },
+            {
+                "ARGB V2.1",
+                {
+                    { "ARGB V2.1", HDR_D_LED1, 0 },
+                }
+            },
+            {
+                "ARGB V2.2",
+                {
+                    { "ARGB V2.2", HDR_D_LED2, 0 },
+                }
+            }
+        }
+    },
+    {
+        "IT5711-Generic",
+        {
+            {
+                "Motherboard",
+                {
+                    { "0x20",          LED1, 1 },
+                    { "Ox21",          LED2, 1 },
+                    { "0x22",          LED3, 1 },
+                    { "0x23",          LED4, 1 },
+                    { "0x24",          LED5, 1 },
+                    { "0x90",          LED9, 1 },
+                    { "0x91",          LED10, 1 },
+                    { "0x92",          LED11, 1 },
+                }
+            },
+            {
+                "ARGB V2.3",
+                {
+                    { "ARGB V2.3", HDR_D_LED3, 0 },
+                }
+            },
+            {
+                "ARGB V2.1",
+                {
+                    { "ARGB V2.1", HDR_D_LED1, 0 },
+                }
+            },
+            {
+                "ARGB V2.2",
+                {
+                    { "ARGB V2.2", HDR_D_LED2, 0 },
+                }
+            }
+        }
+    },
+    {
+        "IT8297BX-GBX570",
         {
             {
                 "Motherboard",
@@ -117,132 +532,9 @@ static KnownLayout knownLayoutsLookup
                 }
             }
         }
-    },
-    {
-        "STD_ATX",
-        {
-            {
-                "Motherboard",
-                {
-                    { "Back I/O",   HDR_BACK_IO, 1 },
-                    { "CPU Header", HDR_CPU, 1 },
-                    { "PCIe",       HDR_PCIE, 1},
-                    { "LED C1/C2",  HDR_LED_C1C2, 1 }, // 12VGRB headers seem to be connected
-                }
-            },
-            {
-                "D_LED1 Bottom",
-                {
-                    { "D_LED1 Bottom", HDR_D_LED1, 0 },
-                }
-            },
-            {
-                "D_LED2 Top",
-                {
-                    { "D_LED2 Top", HDR_D_LED2, 0 },
-                }
-            }
-        }
-    },
-    {
-        "ITX",
-        {
-            {
-                "Motherboard",
-                {
-                    { "LED Group0", HDR_BACK_IO, 1 },
-                    { "LED Group1", HDR_CPU, 1 },
-                    { "LED Group2", HDR_LED_2, 1 },
-                    { "LED Group3", HDR_PCIE, 1 },
-                    { "LED C1/C2",  HDR_LED_C1C2, 1 }, // 12VGRB headers seem to be connected
-                }
-            },
-            {
-                "D_LED1",
-                {
-                    { "D_LED1", HDR_D_LED1, 0 },
-                }
-            }
-        }
-    },
-    {
-        "MSTR_ATX",
-        {
-            {
-                "Digital Headers",
-                {
-                    { "D_LED1 / D_LED2", LED6, 0},
-                }
-            },
-            {
-                "ARGB Strip",
-                {
-                    { "Back IO / VRM",  LED7, 0},
-                }
-            },
-            {
-                "Motherboard",
-                {
-                    { "XMP Logo",       LED2, 1},
-                    { "Chipset Logo",   LED3, 1},
-                    { "PCIe",           LED4, 1},
-                    { "LED C1/C2",      LED5, 1},
-                }
-            }
-        }
-    },
-    {
-        "MSTR_ATX_2",
-        {
-            {
-                "D_LED1 Bottom",
-                {
-                    { "D_LED1 Bottom", HDR_D_LED2, 0},
-                }
-            },
-            {
-                "D_LED2 Top",
-                {
-                    { "D_LED2 Top",  HDR_D_LED1, 0},
-                }
-            },
-            {
-                "Motherboard",
-                {
-                    { "LED C1",         LED2, 1},
-                    { "LED C2",         LED5, 1},
-                    { "CPU Header",     LED3, 1},
-                    { "Cover Left",     LED4, 1},
-                    { "Cover Right",    LED1, 1},
-                }
-            }
-        }
-    },
-    {
-        "MSTR_ATX_3",
-        {
-            {
-                "Digital Headers",
-                {
-                    { "D_LED1 / D_LED2", HDR_D_LED1, 0},
-                }
-            },
-            {
-                "ARGB Strip",
-                {
-                    { "LED C1/C2",  LED5, 1},
-                }
-            },
-            {
-                "Motherboard",
-                {
-                    { "Aorus Logo", LED7, 1},
-                    { "ESS Logo",   LED4, 1},
-                }
-            }
-        }
-    },
+    }
 };
+
 
 /**------------------------------------------------------------------*\
     @name Gigabyte RGB Fusion 2 USB
@@ -392,9 +684,20 @@ void RGBController_RGBFusion2USB::Load_Device_Config()
     }
 
     /*-------------------------------------------------*\
-    | Get Custom Layout from the settings manager       |
+    | Get Custom Layout from the settings manager.      |
+    | Selects appropriate layout based on controller.   |
     \*-------------------------------------------------*/
-    layout = HardcodedCustom.find("Custom")->second;
+    uint16_t pid = controller->GetProductID();
+
+    if(pid == 0x5711)
+    {
+        layout = HardcodedCustom_Gen2.find("Custom")->second;
+    }
+    else
+    {
+        layout = HardcodedCustom_Gen1.find("Custom")->second;
+    }
+
     if (!device_settings.contains(SectionCustom))
     {
         /*---------------------------------------------*\
@@ -454,7 +757,10 @@ void RGBController_RGBFusion2USB::Load_Device_Config()
                     \*---------------------------------*/
                     lp.name         = json_vlp["name"].get<std::string>();
                     lp.header       = LedLookup.find(json_vlp["header"].get<std::string>())->second;
-                    lp.count        = ((lp.header == LED6) || (lp.header == LED7)) ? 0 : 1;
+                    if(lp.header == HDR_D_LED1 || lp.header == HDR_D_LED2 || lp.header == HDR_D_LED3)
+                        lp.count = 0;
+                    else
+                        lp.count = 1;
                     v_lp.push_back(lp);
                 }
 
@@ -469,7 +775,7 @@ void RGBController_RGBFusion2USB::Init_Controller()
     /*---------------------------------------------------------*\
     | Look up channel map based on device name                  |
     \*---------------------------------------------------------*/
-    if (!custom_layout)
+    if(!custom_layout)
     {
         /*-----------------------------------------------------*\
         | If the layout is custom then it's loaded and ready,   |
@@ -482,7 +788,24 @@ void RGBController_RGBFusion2USB::Init_Controller()
         }
         else
         {
-            layout = knownLayoutsLookup.find("IT8297BX-GBX570")->second;
+            uint16_t pid = controller->GetProductID();
+            std::string fallback_layout;
+
+            switch(pid)
+            {
+                case 0x5711:
+                    fallback_layout = "IT5711-Generic";
+                    break;
+                case 0x5702:
+                    fallback_layout = "STD_ATX";
+                    break;
+                case 0x8297:
+                    fallback_layout = "STD_ATX";
+                    break;
+                default:
+                    fallback_layout = "IT5711-Generic";  // safest default
+                    break;
+            }
         }
     }
 
@@ -659,8 +982,25 @@ void RGBController_RGBFusion2USB::UpdateZoneLEDs(int zone)
             \*---------------------------------------------------------*/
             if(mode_value == 0xFFFF)
             {
-                hdr += RGBFusion2_Digital_Direct_Offset;
-                controller->DisableBuiltinEffect(1, ((hdr == HDR_D_LED1_RGB) ? 0x01 : 0x02));
+                //Updated: Proper RGB register mapping for each header
+                switch(hdr)
+                {
+                    case HDR_D_LED1:
+                        hdr = HDR_D_LED1_RGB;
+                        controller->DisableBuiltinEffect(1, 0x01);
+                        break;
+                    case HDR_D_LED2:
+                        hdr = HDR_D_LED2_RGB;
+                        controller->DisableBuiltinEffect(1, 0x02);
+                        break;
+                    case HDR_D_LED3:
+                        hdr = HDR_D_LED3_RGB;
+                        controller->DisableBuiltinEffect(1, 0x08);
+                        break;
+                    default:
+                        break;
+                }
+
                 controller->SetStripColors(hdr, zones[zone].colors, zones[zone].leds_count);
             }
             /*---------------------------------------------------------*\
@@ -685,8 +1025,23 @@ void RGBController_RGBFusion2USB::UpdateZoneLEDs(int zone)
                 /*---------------------------------------------------------*\
                 | Apply built-in effects to LED strips                      |
                 \*---------------------------------------------------------*/
-                controller->DisableBuiltinEffect(0, hdr == HDR_D_LED1 ? 0x01 : 0x02);
-                controller->SetLEDEffect(hdr, modes[active_mode].value, modes[active_mode].speed, modes[active_mode].brightness, random, red, grn, blu);
+
+                switch(hdr)
+                {
+                    case HDR_D_LED1:
+                        controller->DisableBuiltinEffect(0, 0x01);
+                        break;
+                    case HDR_D_LED2:
+                        controller->DisableBuiltinEffect(0, 0x02);
+                        break;
+                    case HDR_D_LED3:
+                        controller->DisableBuiltinEffect(0, 0x08);
+                        break;
+                    default:
+                    break;
+                }
+
+                controller->SetLEDEffect(hdr, mode_value, modes[active_mode].speed, modes[active_mode].brightness, random, red, grn, blu);
                 controller->ApplyEffect();
             }
         }

@@ -20,8 +20,7 @@
 #define RGBFusion2_Digital_LEDS_Min         0;
 #define RGBFusion2_Digital_LEDS_Max         1024;
 #define RGBFUSION2_BRIGHTNESS_MIN           0;
-#define RGBFUSION2_BRIGHTNESS_MAX           100;
-#define RGBFusion2_Digital_Direct_Offset    (HDR_D_LED1_RGB - HDR_D_LED1);
+#define RGBFUSION2_BRIGHTNESS_MAX           5;
 
 template<typename K, typename V>
 static std::map<V, K> reverse_map(const std::map<K, V>& map)

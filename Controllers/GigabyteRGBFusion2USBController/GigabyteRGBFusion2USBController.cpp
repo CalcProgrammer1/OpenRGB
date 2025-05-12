@@ -30,10 +30,10 @@ static RGBCalibration GigabyteCalibrationsLookup
 
 static calibration GigabyteBoardCalibration
 {
-    { "D_LED1",     "GRB"   },
-    { "D_LED2",     "GRB"   },
-    { "Mainboard",  "BGR"   },
-    { "Spare",      "BGR"   }
+    { "D_LED1",            "GRB"   },
+    { "D_LED2/D_LED3",     "GRB"   },
+    { "Mainboard",         "BGR"   },
+    { "Spare",             "BGR"   }
 };
 
 static LEDCount LedCountToEnum(unsigned int c)
@@ -60,7 +60,7 @@ static LEDCount LedCountToEnum(unsigned int c)
     }
 }
 
-RGBFusion2USBController::RGBFusion2USBController(hid_device* handle, const char *path, std::string mb_name) : dev(handle)
+RGBFusion2USBController::RGBFusion2USBController(hid_device* handle, const char *path, std::string mb_name, uint16_t pid) : dev(handle), product_id(pid)
 {
     int res                     = 0;
     char text[64]               = { 0x00 };
@@ -69,7 +69,7 @@ RGBFusion2USBController::RGBFusion2USBController(hid_device* handle, const char 
     if(dev)
     {
         SetCalibration();
-
+        
         name = mb_name;
 
         /*---------------------------------------------------------*\
@@ -93,12 +93,14 @@ RGBFusion2USBController::RGBFusion2USBController(hid_device* handle, const char 
             snprintf(text, 11, "0x%08X", report.chip_id);
             chip_id = text;
 
-            D_LED1_count = LedCountToEnum(report.total_leds & 0x0F);
-            D_LED2_count = LedCountToEnum(report.total_leds & 0xF0);
+            D_LED1_count = LedCountToEnum(report.curr_led_count_low & 0x0F);
+            D_LED2_count = LedCountToEnum((report.curr_led_count_low >> 4) & 0x0F);
+            D_LED3_count = LedCountToEnum(report.curr_led_count_high & 0x0F);
         }
 
         location = path;
 
+        ResetController(pid);
         EnableBeat(false);
     }
 }
@@ -160,6 +162,8 @@ void RGBFusion2USBController::SetCalibration()
     | If Calibration settings are not found then write them out |
     | Calibration will only be executed if it is explicitly     |
     | enabled by the user                                       |
+    | *Note IT5711 calibration is only partially functional.    |
+    | *Use Calibration at your own risk.                        |   
     \*---------------------------------------------------------*/
     if(!device_settings.contains(json_cal))
     {
@@ -171,19 +175,19 @@ void RGBFusion2USBController::SetCalibration()
     }
     else if(device_settings[json_cal]["Enabled"])
     {
-        GigabyteBoardCalibration["D_LED1"]      = device_settings[json_cal]["Data"]["D_LED1"];
-        GigabyteBoardCalibration["D_LED2"]      = device_settings[json_cal]["Data"]["D_LED2"];
-        GigabyteBoardCalibration["Mainboard"]   = device_settings[json_cal]["Data"]["Mainboard"];
-        GigabyteBoardCalibration["Spare"]       = device_settings[json_cal]["Data"]["Spare"];
+        GigabyteBoardCalibration["D_LED1"]          = device_settings[json_cal]["Data"]["D_LED1"];
+        GigabyteBoardCalibration["D_LED2/D_LED3"]   = device_settings[json_cal]["Data"]["D_LED2/D_LED3"];
+        GigabyteBoardCalibration["Mainboard"]       = device_settings[json_cal]["Data"]["Mainboard"];
+        GigabyteBoardCalibration["Spare"]           = device_settings[json_cal]["Data"]["Spare"];
 
         uint8_t buffer[64]                      = { 0x00 };
         buffer[0]                               = report_id;
         buffer[1]                               = 0x33;
 
-        SetCalibrationBuffer( GigabyteBoardCalibration.find("D_LED1")->second,      buffer, 2);
-        SetCalibrationBuffer( GigabyteBoardCalibration.find("D_LED2")->second,      buffer, 6);
-        SetCalibrationBuffer( GigabyteBoardCalibration.find("Mainboard")->second,   buffer, 10);
-        SetCalibrationBuffer( GigabyteBoardCalibration.find("Spare")->second,       buffer, 14);
+        SetCalibrationBuffer(GigabyteBoardCalibration["D_LED1"],          buffer, 2);
+        SetCalibrationBuffer(GigabyteBoardCalibration["D_LED2/D_LED3"],   buffer, 6);
+        SetCalibrationBuffer(GigabyteBoardCalibration["Mainboard"],       buffer, 10);
+        SetCalibrationBuffer(GigabyteBoardCalibration["Spare"],           buffer, 14);
 
         SendPacket(buffer);
     }
@@ -192,18 +196,27 @@ void RGBFusion2USBController::SetCalibration()
 void RGBFusion2USBController::SetLedCount(unsigned int led, unsigned int count)
 {
     /*-----------------------------------------------------------------*\
-    | Check which Digital LED we're setting then send the value of both |
+    | Check which Digital LED we're setting then send the value of each |
     \*-----------------------------------------------------------------*/
     if(led == HDR_D_LED1)
     {
         D_LED1_count = LedCountToEnum(count);
     }
-    else
+    else if(led == HDR_D_LED2)
     {
         D_LED2_count = LedCountToEnum(count);
     }
+    else if(led == HDR_D_LED3)
+    {
+        D_LED3_count = LedCountToEnum(count);
+    }
+    unsigned char buffer[64] = { 0 };
+    buffer[0] = report_id;      // 0xCC
+    buffer[1] = 0x34;           // CC34 command
+    buffer[2] = (D_LED2_count << 4) | D_LED1_count;
+    buffer[3] = D_LED3_count;
 
-    SendPacket(0x34, D_LED1_count | (D_LED2_count << 4));
+    SendPacket(buffer);         // Send full HID feature report
 }
 
 bool RGBFusion2USBController::DisableBuiltinEffect(int enable_bit, int mask)
@@ -268,18 +281,19 @@ void RGBFusion2USBController::SetStripColors
     PktRGB pkt;
     pkt.Init(hdr, report_id);
 
-    /*-------------------------------------------------------------------------*\
-    | FIXME assuming that LED strips ports are 0x58/0x59 for all boards         |
-    \*-------------------------------------------------------------------------*/
+    /*------------------------------------------------------------------------------------*\
+    | byte order is correct for it5711 though there is more work to do.                    |
+    | For IT5711 defaults to byteorder1/2 for LED strips (Current Behavior is Functional)  |
+    \*------------------------------------------------------------------------------------*/
     uint32_t byteorder;
 
     if(hdr == HDR_D_LED1_RGB)
     {
-        byteorder       = report.byteorder0;
+        byteorder       = report.byteorder1;
     }
     else
     {
-        byteorder       = report.byteorder1;
+        byteorder       = report.byteorder2;
     }
 
     unsigned char bo_r  = byteorder >> 16;
@@ -338,9 +352,13 @@ void RGBFusion2USBController::SetStripColors
     {
         DisableBuiltinEffect(0x01, 0x01);
     }
-    else
+    else if(hdr == HDR_D_LED2_RGB)
     {
         DisableBuiltinEffect(0x02, 0x02);
+    }
+    else if(hdr == HDR_D_LED3_RGB)
+    {
+        DisableBuiltinEffect(0x08, 0x08);
     }
 }
 
@@ -360,15 +378,57 @@ void RGBFusion2USBController::SetLEDEffect(unsigned int led, int mode, unsigned 
     PktEffect pkt;
 
     pkt.Init(led, report_id);
+    /*-------------------------------------------------------------------------*\
+    | Add handling for different parts of the controller                        |
+    | IT8297, IT5702, and IT5711 seems to only support 5 levels of brightness   |
+    \*-------------------------------------------------------------------------*/
+    if(led >= 0x20 && led <= 0x27)
+    {
+        pkt.e.zone0 = static_cast<uint32_t>(1 << (led - 0x20));
+    }
+    else if(led >= 0x90 && led <= 0x92)
+    {
+        pkt.e.zone0 = static_cast<uint32_t>(1 << (led - 0x90));
+    }
+
     pkt.e.effect_type   = mode;
     pkt.e.color0        = r << 16 | g << 8 | b;
 
-    pkt.e.max_brightness = brightness;
+        /*--------------------------------------------------------------------*\
+        | Adjust brightness for 0x20-0x27 and 0x90-0x92                        |
+        | Brightness values supported are as follows:                          |
+        | 0xFF = Max Brightness                                                |
+        | 0xB3 = -1  Brightness                                                |
+        | 0x80 = -2  Brightness                                                |
+        | 0x4D = -3  Brightness                                                |
+        | 0x1a = -4  Brightness                                                |
+        | 0x00 = Min Brightness                                                |
+        \*--------------------------------------------------------------------*/
+        if(brightness == 0)
+            pkt.e.max_brightness = 0x00;
+        else if(brightness == 1)
+            pkt.e.max_brightness = 0x1A;
+        else if(brightness == 2)
+            pkt.e.max_brightness = 0x4D;
+        else if(brightness == 3)
+            pkt.e.max_brightness = 0x80;
+        else if(brightness == 4)
+            pkt.e.max_brightness = 0xB3;
+        else
+            pkt.e.max_brightness = 0xFF;
 
     switch(mode)
     {
         case 0: // Direct
-        case 1: // Static
+        case 1: // Static zero out other effect parameters (IT5711 needs this)
+            pkt.e.period0 = 0;
+            pkt.e.period1 = 0;
+            pkt.e.period2 = 0;
+            pkt.e.period3 = 0;
+            pkt.e.effect_param0 = 0;
+            pkt.e.effect_param1 = 0;
+            pkt.e.effect_param2 = 0;
+            pkt.e.effect_param3 = 0;
             break;
 
         case 2: //Breathing
@@ -397,19 +457,30 @@ void RGBFusion2USBController::SetLEDEffect(unsigned int led, int mode, unsigned 
             pkt.e.effect_type   = 3;
             pkt.e.effect_param2 = 2; // flash twice
 
-            if (random)
+            if(random)
             {
                 pkt.e.effect_param0 = 7;
             }
             break;
     }
-
+    /*----------------------------------------*\
+    | Adjust offset formatting for 0x90-0x92   |
+    \*----------------------------------------*/
+    if(led >= 0x90 && led <= 0x92)
+    {
+        pkt.buffer[1] = led;
+        pkt.buffer[2] = 0x00;
+        pkt.buffer[3] = 1 << (led - 0x90);
+    }
     SendPacket(pkt.buffer);
 }
-
+/*--------------------------------------------------*\
+| IT8297 and IT5702 seem happy with sending 0x28FF   |
+| IT5711 needs 0x28FF07 to work properly (?)         |
+\*--------------------------------------------------*/
 bool RGBFusion2USBController::ApplyEffect()
 {
-    return SendPacket(0x28, 0xFF);
+    return SendPacket(0x28, 0xFF, 0x07);
 }
 
 bool RGBFusion2USBController::SendPacket(uint8_t a, uint8_t b, uint8_t c)
@@ -427,4 +498,30 @@ bool RGBFusion2USBController::SendPacket(uint8_t a, uint8_t b, uint8_t c)
 int RGBFusion2USBController::SendPacket(unsigned char* packet)
 {
     return hid_send_feature_report(dev, packet, 64);
+}
+
+/*-----------------------------------------------------------------------------------------*\
+| Init routine to zero out all registers before setting up the controllers.                 |
+| This is required to prevent weird behaviors due to an inconsistent controller state.      |
+\*-----------------------------------------------------------------------------------------*/
+void RGBFusion2USBController::ResetController(uint16_t pid)
+{
+    for(uint8_t reg = 0x20; reg <= 0x27; ++reg)
+        SendPacket(reg, 0x00, 0x00);
+
+    SendPacket(0x32, 0x00, 0x00);
+    SendPacket(0x34, 0x00, 0x00);
+
+    if(pid == 0x5711)
+    {
+        for(uint8_t reg = 0x90; reg <= 0x92; ++reg)
+            SendPacket(reg, 0x00, 0x00);
+    }
+
+    SendPacket(0x28, 0xFF, 0x07);
+}
+
+uint16_t RGBFusion2USBController::GetProductID() const
+{
+    return product_id;
 }

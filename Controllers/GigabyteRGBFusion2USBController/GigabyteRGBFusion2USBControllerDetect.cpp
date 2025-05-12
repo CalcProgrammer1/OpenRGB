@@ -37,7 +37,7 @@ void DetectGigabyteRGBFusion2USBControllers(hid_device_info* info, const std::st
 
     if(dev)
     {
-        RGBFusion2USBController*     controller     = new RGBFusion2USBController(dev, info->path, MB_info.getMainboard());
+        RGBFusion2USBController*     controller     = new RGBFusion2USBController(dev, info->path, MB_info.getMainboard(), info->product_id);
         RGBController_RGBFusion2USB* rgb_controller = new RGBController_RGBFusion2USB(controller, DETECTOR_NAME);
         // Constructor sets the name
         ResourceManager::get()->RegisterRGBController(rgb_controller);
@@ -47,8 +47,10 @@ void DetectGigabyteRGBFusion2USBControllers(hid_device_info* info, const std::st
 #ifdef USE_HID_USAGE
 REGISTER_HID_DETECTOR_PU(DETECTOR_NAME, DetectGigabyteRGBFusion2USBControllers, IT8297_VID, 0x8297, IT8297_UPG, IT8297_U);
 REGISTER_HID_DETECTOR_PU(DETECTOR_NAME, DetectGigabyteRGBFusion2USBControllers, IT8297_VID, 0x5702, IT8297_UPG, IT8297_U);
+REGISTER_HID_DETECTOR_PU(DETECTOR_NAME, DetectGigabyteRGBFusion2USBControllers, IT8297_VID, 0x5711, IT8297_UPG, IT8297_U);
 #else
 REGISTER_HID_DETECTOR_I(DETECTOR_NAME, DetectGigabyteRGBFusion2USBControllers, IT8297_VID, 0x8297, IT8297_IFC);
 REGISTER_HID_DETECTOR_I(DETECTOR_NAME, DetectGigabyteRGBFusion2USBControllers, IT8297_VID, 0x5702, IT8297_IFC);
+REGISTER_HID_DETECTOR_I(DETECTOR_NAME, DetectGigabyteRGBFusion2USBControllers, IT8297_VID, 0x5711, IT8297_IFC);
 #endif
 
