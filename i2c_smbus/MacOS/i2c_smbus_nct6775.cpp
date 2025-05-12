@@ -232,12 +232,12 @@ bool i2c_smbus_nct6775_detect()
     case SIO_NCT6793_ID:
     case SIO_NCT6796_ID:
     case SIO_NCT6798_ID:
-        // Create new nct6775 bus and zero out the PCI ID information
+        // Create new nct6775 bus and invalidate the PCI ID information
         bus                         = new i2c_smbus_nct6775();
-        bus->pci_vendor             = 0;
-        bus->pci_device             = 0;
-        bus->pci_subsystem_vendor   = 0;
-        bus->pci_subsystem_device   = 0;
+        bus->pci_vendor             = 0xFFFF;
+        bus->pci_device             = 0xFFFF;
+        bus->pci_subsystem_vendor   = 0xFFFF;
+        bus->pci_subsystem_device   = 0xFFFF;
 
         // Set logical device register to get SMBus base address
         superio_outb(sioaddr, SIO_REG_LOGDEV, SIO_LOGDEV_SMBUS);
