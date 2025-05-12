@@ -332,6 +332,7 @@ win32:INCLUDEPATH +=                                                            
     dependencies/libusb-1.0.27/include                                                          \
     dependencies/mbedtls-3.2.1/include                                                          \
     dependencies/NVFC                                                                           \
+    dependencies/PawnIO                                                                         \
     wmi/                                                                                        \
 
 win32:SOURCES += $$CONTROLLER_CPP_WINDOWS
@@ -344,6 +345,10 @@ win32:SOURCES +=                                                                
     i2c_smbus/i2c_smbus_nct6775.cpp                                                             \
     i2c_smbus/i2c_smbus_nvapi.cpp                                                               \
     i2c_smbus/i2c_smbus_piix4.cpp                                                               \
+    i2c_smbus/i2c_smbus_pawnio.cpp                                                              \
+    i2c_smbus/i2c_smbus_pawnio_i801.cpp                                                         \
+    i2c_smbus/i2c_smbus_pawnio_piix4.cpp                                                        \
+    super_io/super_io_pawnio.cpp                                                                \
     scsiapi/scsiapi_windows.c                                                                   \
     serial_port/find_usb_serial_port_win.cpp                                                    \
     SuspendResume/SuspendResume_Windows.cpp                                                     \
@@ -358,10 +363,13 @@ win32:HEADERS +=                                                                
     dependencies/display-library/include/adl_structures.h                                       \
     dependencies/winring0/include/OlsApi.h                                                      \
     dependencies/NVFC/nvapi.h                                                                   \
+    dependencies/PawnIO/PawnIOLib.h                                                             \
     i2c_smbus/i2c_smbus_i801.h                                                                  \
     i2c_smbus/i2c_smbus_nct6775.h                                                               \
     i2c_smbus/i2c_smbus_nvapi.h                                                                 \
     i2c_smbus/i2c_smbus_piix4.h                                                                 \
+    i2c_smbus/i2c_smbus_pawnio.h                                                                \
+    super_io/super_io_pawnio.h                                                                  \
     wmi/wmi.h                                                                                   \
     AutoStart/AutoStart-Windows.h                                                               \
     SuspendResume/SuspendResume_Windows.h                                                       \
@@ -374,6 +382,7 @@ win32:contains(QMAKE_TARGET.arch, x86_64) {
         -L"$$PWD/dependencies/libusb-1.0.27/VS2019/MS64/dll" -llibusb-1.0                       \
         -L"$$PWD/dependencies/hidapi-win/x64/" -lhidapi                                         \
         -L"$$PWD/dependencies/mbedtls-3.2.1/lib/x64/" -lmbedcrypto -lmbedtls -lmbedx509         \
+        -L"$$PWD/dependencies/PawnIO/" -lPawnIOLib                                              \
 }
 
 win32:contains(QMAKE_TARGET.arch, x86) {
@@ -400,6 +409,11 @@ win32:DEFINES +=                                                                
 win32:RC_ICONS +=                                                                               \
     qt/OpenRGB.ico
 
+win32:DISTFILES += \
+    dependencies/PawnIO/modules/SmbusPIIX4.bin                                                  \
+    dependencies/PawnIO/modules/SmbusI801.bin                                                   \
+    dependencies/PawnIO/modules/LpcIO.bin
+
 #-----------------------------------------------------------------------------------------------#
 # Windows GitLab CI Configuration                                                               #
 #-----------------------------------------------------------------------------------------------#
@@ -425,6 +439,10 @@ win32:contains(QMAKE_TARGET.arch, x86_64) {
     copydata.commands += $(COPY_FILE) \"$$shell_path($$PWD/dependencies/winring0/x64/WinRing0x64.sys                )\" \"$$shell_path($$DESTDIR)\" $$escape_expand(\n\t)
     copydata.commands += $(COPY_FILE) \"$$shell_path($$PWD/dependencies/libusb-1.0.27/VS2019/MS64/dll/libusb-1.0.dll)\" \"$$shell_path($$DESTDIR)\" $$escape_expand(\n\t)
     copydata.commands += $(COPY_FILE) \"$$shell_path($$PWD/dependencies/hidapi-win/x64/hidapi.dll                   )\" \"$$shell_path($$DESTDIR)\" $$escape_expand(\n\t)
+    copydata.commands += $(COPY_FILE) \"$$shell_path($$PWD/dependencies/PawnIO/PawnIOLib.dll                        )\" \"$$shell_path($$DESTDIR)\" $$escape_expand(\n\t)
+    copydata.commands += $(COPY_FILE) \"$$shell_path($$PWD/dependencies/PawnIO/modules/SmbusPIIX4.bin               )\" \"$$shell_path($$DESTDIR)\" $$escape_expand(\n\t)
+    copydata.commands += $(COPY_FILE) \"$$shell_path($$PWD/dependencies/PawnIO/modules/SmbusI801.bin                )\" \"$$shell_path($$DESTDIR)\" $$escape_expand(\n\t)
+    copydata.commands += $(COPY_FILE) \"$$shell_path($$PWD/dependencies/PawnIO/modules/LpcIO.bin                    )\" \"$$shell_path($$DESTDIR)\" $$escape_expand(\n\t)
     first.depends = $(first) copydata
     export(first.depends)
     export(copydata.commands)
