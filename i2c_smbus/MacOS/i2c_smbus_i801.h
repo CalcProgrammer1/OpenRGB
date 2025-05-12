@@ -1,7 +1,7 @@
 /*---------------------------------------------------------*\
 | i2c_smbus_i801.h                                          |
 |                                                           |
-|   i801 SMBUS driver for Windows                           |
+|   i801 SMBUS driver for MacOS                             |
 |                                                           |
 |   Adam Honse (CalcProgrammer1)                29 Jan 2019 |
 |   Portions based on Linux source code                     |
@@ -13,10 +13,6 @@
 #pragma once
 
 #include "i2c_smbus.h"
-
-#ifdef _WIN32
-#include <Windows.h>
-#endif
 
 /* BIT shifting macro */
 #define BIT(x)          ( 1 << x )
@@ -87,10 +83,6 @@
 #define SMBHSTCFG               0x040
 #define SMBHSTCFG_HST_EN        BIT(0)
 
-#ifdef _WIN32
-#define GLOBAL_SMBUS_MUTEX_NAME "Global\\Access_SMBUS.HTP.Method"
-#endif
-
 class i2c_smbus_i801 : public i2c_smbus_interface
 {
 public:
@@ -109,8 +101,4 @@ private:
     int i801_wait_intr();
     s32 i2c_smbus_xfer(u8 addr, char read_write, u8 command, int size, i2c_smbus_data* data);
     s32 i2c_xfer(u8 addr, char read_write, int* size, u8* data);
-
-#ifdef _WIN32
-    HANDLE global_smbus_access_handle = NULL;
-#endif
 };
