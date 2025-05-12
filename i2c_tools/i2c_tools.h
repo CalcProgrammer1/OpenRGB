@@ -11,10 +11,11 @@
 #include <string>
 #include "i2c_smbus.h"
 
-#define MODE_AUTO   0
-#define MODE_QUICK  1
-#define MODE_READ   2
-#define MODE_FUNC   3
+#define MODE_AUTO       0
+#define MODE_QUICK      1
+#define MODE_READ       2
+#define MODE_READ_DATA  3
+#define MODE_FUNC       4
 
 std::string i2c_detect(i2c_smbus_interface * bus, int mode);
 

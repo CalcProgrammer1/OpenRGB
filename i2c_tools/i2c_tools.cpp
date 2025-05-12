@@ -62,6 +62,9 @@ std::string i2c_detect(i2c_smbus_interface * bus, int mode)
             case MODE_READ:
                 res = bus->i2c_smbus_read_byte(slave_addr);
                 break;
+            case MODE_READ_DATA:
+                res = bus->i2c_smbus_read_byte_data(slave_addr, 0);
+                break;
             default:
                 if ((i + j >= 0x30 && i + j <= 0x37)
                  || (i + j >= 0x50 && i + j <= 0x5F))
