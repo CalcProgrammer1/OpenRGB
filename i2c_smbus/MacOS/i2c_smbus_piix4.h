@@ -1,7 +1,7 @@
 /*---------------------------------------------------------*\
 | i2c_smbus_piix4.h                                         |
 |                                                           |
-|   PIIX4 SMBUS driver for Windows                          |
+|   PIIX4 SMBUS driver for MacOS                            |
 |                                                           |
 |   Adam Honse (CalcProgrammer1)                08 Aug 2018 |
 |   Portions based on Linux source code                     |
@@ -13,9 +13,6 @@
 #pragma once
 
 #include "i2c_smbus.h"
-#ifdef _WIN32
-#include "windows.h"
-#endif
 
 // PIIX4 SMBus address offsets
 #define SMBHSTSTS (0 + piix4_smba)
@@ -41,10 +38,6 @@
 #define PIIX4_WORD_DATA         0x0C
 #define PIIX4_BLOCK_DATA        0x14
 
-#ifdef _WIN32
-#define GLOBAL_SMBUS_MUTEX_NAME "Global\\Access_SMBUS.HTP.Method"
-#endif
-
 class i2c_smbus_piix4 : public i2c_smbus_interface
 {
 public:
@@ -57,10 +50,6 @@ private:
     s32 piix4_access(u16 addr, char read_write, u8 command, int size, i2c_smbus_data *data);
     s32 i2c_smbus_xfer(u8 addr, char read_write, u8 command, int size, i2c_smbus_data* data);
     s32 i2c_xfer(u8 addr, char read_write, int* size, u8* data);
-#ifdef _WIN32
-    HANDLE delay_timer = NULL;
-    HANDLE global_smbus_access_handle = NULL;
-#else
+
     bool delay_timer;
-#endif
 };
