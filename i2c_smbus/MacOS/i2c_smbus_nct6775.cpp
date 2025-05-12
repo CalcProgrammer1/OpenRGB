@@ -1,7 +1,7 @@
 /*---------------------------------------------------------*\
 | i2c_smbus_nct6775.cpp                                     |
 |                                                           |
-|   Nuvoton NCT67xx SMBUS driver for Windows                |
+|   Nuvoton NCT67xx SMBUS driver for MacOS                  |
 |                                                           |
 |   Adam Honse (CalcProgrammer1)                19 May 2019 |
 |                                                           |
@@ -9,14 +9,11 @@
 |   SPDX-License-Identifier: GPL-2.0-only                   |
 \*---------------------------------------------------------*/
 
+#include "macUSPCIOAccess.h"
+
 #include "Detector.h"
 #include "i2c_smbus_nct6775.h"
 #include "LogManager.h"
-#ifdef _WIN32
-#include "OlsApi.h"
-#elif _MACOSX_X86_X64
-#include "macUSPCIOAccess.h"
-#endif
 #include "ResourceManager.h"
 #include "SettingsManager.h"
 #include "super_io.h"
@@ -25,29 +22,10 @@ using namespace std::chrono_literals;
 
 i2c_smbus_nct6775::i2c_smbus_nct6775()
 {
-#ifdef _WIN32
-    json drivers_settings = ResourceManager::get()->GetSettingsManager()->GetSettings("Drivers");
-
-    bool shared_smbus_access = true;
-    if(drivers_settings.contains("shared_smbus_access"))
-    {
-        shared_smbus_access = drivers_settings["shared_smbus_access"].get<bool>();
-    }
-    if(shared_smbus_access)
-    {
-        global_smbus_access_handle = CreateMutexA(NULL, FALSE, GLOBAL_SMBUS_MUTEX_NAME);
-    }
-#endif
 }
 
 i2c_smbus_nct6775::~i2c_smbus_nct6775()
 {
-#ifdef _WIN32
-    if(global_smbus_access_handle != NULL)
-    {
-        CloseHandle(global_smbus_access_handle);
-    }
-#endif
 }
 
 s32 i2c_smbus_nct6775::nct6775_access(u16 addr, char read_write, u8 command, int size, i2c_smbus_data *data)
@@ -223,21 +201,7 @@ s32 i2c_smbus_nct6775::nct6775_access(u16 addr, char read_write, u8 command, int
 
 s32 i2c_smbus_nct6775::i2c_smbus_xfer(u8 addr, char read_write, u8 command, int size, i2c_smbus_data* data)
 {
-#ifdef _WIN32
-    if(global_smbus_access_handle != NULL)
-    {
-        WaitForSingleObject(global_smbus_access_handle, INFINITE);
-    }
-#endif
-
     s32 result = nct6775_access(addr, read_write, command, size, data);
-
-#ifdef _WIN32
-    if(global_smbus_access_handle != NULL)
-    {
-        ReleaseMutex(global_smbus_access_handle);
-    }
-#endif
 
     return result;
 }
@@ -249,19 +213,11 @@ s32 i2c_smbus_nct6775::i2c_xfer(u8 /*addr*/, char /*read_write*/, int* /*size*/,
 
 bool i2c_smbus_nct6775_detect()
 {
-#ifdef _WIN32
-    if(!InitializeOls() || GetDllStatus())
-    {
-        LOG_INFO("WinRing0 is not loaded, nct6775 I2C bus detection aborted");
-        return(false);
-    }
-#elif _MACOSX_X86_X64
     if(!GetMacUSPCIODriverStatus())
     {
         LOG_INFO("macUSPCIO is not loaded, nct6775 I2C bus detection aborted");
         return(false);
     }
-#endif
 
     i2c_smbus_interface* bus;
     int sioaddr = 0x2E;

@@ -11,16 +11,15 @@
 \*---------------------------------------------------------*/
 
 #pragma once
+
 #include <string>
 #include <unordered_map>
-#include "i2c_smbus.h"
-#ifdef _WIN32
-#include "windows.h"
-#endif
 
-#ifdef _WIN32
+#include "windows.h"
+
+#include "i2c_smbus.h"
+
 #define GLOBAL_SMBUS_MUTEX_NAME "Global\\Access_SMBUS.HTP.Method"
-#endif
 
 class i2c_smbus_pawnio : public i2c_smbus_interface
 {
@@ -29,9 +28,8 @@ public:
     static std::unordered_map<std::string, int> current_port;
     i2c_smbus_pawnio(void* handle, std::string name, int port = -1);
     ~i2c_smbus_pawnio();
-#ifdef _WIN32
+
     static HRESULT start_pawnio(std::string filename, PHANDLE phandle);
-#endif
 
 private:
     s32 pawnio_port_get();
@@ -40,10 +38,9 @@ private:
     s32 pawnio_write(u8 addr, char read_write, u8 command, int size, i2c_smbus_data *data);
     s32 i2c_smbus_xfer(u8 addr, char read_write, u8 command, int size, i2c_smbus_data* data);
     s32 i2c_xfer(u8 addr, char read_write, int* size, u8* data);
-    int port;
+
+    HANDLE      global_smbus_access_handle = NULL;
     std::string name;
-#ifdef _WIN32
-    HANDLE pawnio_handle = NULL;
-    HANDLE global_smbus_access_handle = NULL;
-#endif
+    HANDLE      pawnio_handle = NULL;
+    int         port;
 };
