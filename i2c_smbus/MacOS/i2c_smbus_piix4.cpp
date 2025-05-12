@@ -1,7 +1,7 @@
 /*---------------------------------------------------------*\
 | i2c_smbus_piix4.cpp                                       |
 |                                                           |
-|   PIIX4 SMBUS driver for Windows                          |
+|   PIIX4 SMBUS driver for MacOS                            |
 |                                                           |
 |   Adam Honse (CalcProgrammer1)                08 Aug 2018 |
 |   Portions based on Linux source code                     |
@@ -10,17 +10,13 @@
 |   SPDX-License-Identifier: GPL-2.0-only                   |
 \*---------------------------------------------------------*/
 
+#include <unistd.h>
+#include "macUSPCIOAccess.h"
+
 #include "Detector.h"
 #include "i2c_smbus_piix4.h"
 #include "LogManager.h"
-#ifdef _WIN32
-#include "OlsApi.h"
-#include "wmi.h"
-#elif _MACOSX_X86_X64
-#include <unistd.h>
-#include "macUSPCIOAccess.h"
 #include "pci_ids.h"
-#endif
 #include "ResourceManager.h"
 #include "SettingsManager.h"
 
@@ -33,43 +29,12 @@ i2c_smbus_piix4::i2c_smbus_piix4()
     {
         amd_smbus_reduce_cpu = drivers_settings["amd_smbus_reduce_cpu"].get<bool>();
     }
-#ifdef _WIN32
-    if(amd_smbus_reduce_cpu)
-    {
-        delay_timer = CreateWaitableTimerExW(NULL, NULL, CREATE_WAITABLE_TIMER_MANUAL_RESET | CREATE_WAITABLE_TIMER_HIGH_RESOLUTION, TIMER_ALL_ACCESS);
-        if(delay_timer == NULL) // high resolution timer not supported
-        {
-            delay_timer = CreateWaitableTimer(NULL, TRUE, NULL); // create regular timer instead
-        }
-    }
 
-    bool shared_smbus_access = true;
-    if(drivers_settings.contains("shared_smbus_access"))
-    {
-        shared_smbus_access = drivers_settings["shared_smbus_access"].get<bool>();
-    }
-    if(shared_smbus_access)
-    {
-        global_smbus_access_handle = CreateMutexA(NULL, FALSE, GLOBAL_SMBUS_MUTEX_NAME);
-    }
-#else
     delay_timer = amd_smbus_reduce_cpu;
-#endif
 }
 
 i2c_smbus_piix4::~i2c_smbus_piix4()
 {
-#ifdef _WIN32
-    if(delay_timer != NULL)
-    {
-        CloseHandle(delay_timer);
-    }
-
-    if(global_smbus_access_handle != NULL)
-    {
-        CloseHandle(global_smbus_access_handle);
-    }
-#endif
 }
 
 //Logic adapted from piix4_transaction() in i2c-piix4.c
@@ -105,21 +70,8 @@ int i2c_smbus_piix4::piix4_transaction()
     | if this bit is set. Note that there may be moderate latency before the transaction begins and the Host Busy bit |
     | gets set.                                                                                                       |
     \*---------------------------------------------------------------------------------------------------------------*/
-#ifdef _WIN32
-    if(delay_timer != NULL)
-    {
-        LARGE_INTEGER retry_delay;
-        retry_delay.QuadPart = RETRY_DELAY_US * -10;
+    temp = 0;
 
-        do
-        {
-            SetWaitableTimer(delay_timer, &retry_delay, 0, NULL, NULL, FALSE);
-            WaitForSingleObject(delay_timer, INFINITE);
-            temp = ReadIoPortByte(SMBHSTSTS);
-        }
-        while((++timeout < MAX_TIMEOUT) && ((temp & 0x03) != 0x02));
-    }
-#else
     if(delay_timer)
     {
         do
@@ -129,7 +81,6 @@ int i2c_smbus_piix4::piix4_transaction()
         }
         while((++timeout < MAX_TIMEOUT) && ((temp & 0x03) != 0x02));
     }
-#endif
     else
     {
         std::chrono::steady_clock::time_point deadline = std::chrono::steady_clock::now() + std::chrono::milliseconds(500);
@@ -282,21 +233,7 @@ s32 i2c_smbus_piix4::piix4_access(u16 addr, char read_write, u8 command, int siz
 
 s32 i2c_smbus_piix4::i2c_smbus_xfer(u8 addr, char read_write, u8 command, int size, i2c_smbus_data* data)
 {
-#ifdef _WIN32
-    if(global_smbus_access_handle != NULL)
-    {
-        WaitForSingleObject(global_smbus_access_handle, INFINITE);
-    }
-#endif
-
     s32 result = piix4_access(addr, read_write, command, size, data);
-
-#ifdef _WIN32
-    if(global_smbus_access_handle != NULL)
-    {
-        ReleaseMutex(global_smbus_access_handle);
-    }
-#endif
 
     return result;
 }
@@ -305,79 +242,7 @@ s32 i2c_smbus_piix4::i2c_xfer(u8 /*addr*/, char /*read_write*/, int* /*size*/, u
 {
     return -1;
 }
-#ifdef _WIN32
-bool i2c_smbus_piix4_detect()
-{
-    if(!InitializeOls() || GetDllStatus())
-    {
-        LOG_INFO("WinRing0 is not loaded, piix4 I2C bus detection aborted");
-        return(false);
-    }
 
-    i2c_smbus_interface * bus;
-    HRESULT hres;
-    Wmi wmi;
-
-    // Query WMI for Win32_PnPSignedDriver entries with names matching "SMBUS" or "SM BUS"
-    // These devices may be browsed under Device Manager -> System Devices
-    std::vector<QueryObj> q_res_PnPSignedDriver;
-    hres = wmi.query("SELECT * FROM Win32_PnPSignedDriver WHERE Description LIKE '%SMBUS%' OR Description LIKE '%SM BUS%'", q_res_PnPSignedDriver);
-
-    if (hres)
-    {
-        LOG_INFO("WMI query failed, piix4 I2C bus detection aborted");
-        return(false);
-    }
-
-    // For each detected SMBus adapter, try enumerating it as either AMD or Intel
-    for (QueryObj &i : q_res_PnPSignedDriver)
-    {
-        // AMD SMBus controllers do not show any I/O resources allocated in Device Manager
-        // Analysis of many AMD boards has shown that AMD SMBus controllers have two adapters with fixed I/O spaces at 0x0B00 and 0x0B20
-        // AMD SMBus adapters use the PIIX4 driver
-        if (i["Manufacturer"].find("Advanced Micro Devices, Inc") != std::string::npos)
-        {
-            std::string pnp_str = i["DeviceID"];
-
-            std::size_t ven_loc = pnp_str.find("VEN_");
-            std::size_t dev_loc = pnp_str.find("DEV_");
-            std::size_t sub_loc = pnp_str.find("SUBSYS_");
-
-            std::string ven_str = pnp_str.substr(ven_loc + 4, 4);
-            std::string dev_str = pnp_str.substr(dev_loc + 4, 4);
-            std::string sbv_str = pnp_str.substr(sub_loc + 11, 4);
-            std::string sbd_str = pnp_str.substr(sub_loc + 7, 4);
-
-            int ven_id = (int)std::stoul(ven_str, nullptr, 16);
-            int dev_id = (int)std::stoul(dev_str, nullptr, 16);
-            int sbv_id = (int)std::stoul(sbv_str, nullptr, 16);
-            int sbd_id = (int)std::stoul(sbd_str, nullptr, 16);
-
-            bus                         = new i2c_smbus_piix4();
-            bus->pci_vendor             = ven_id;
-            bus->pci_device             = dev_id;
-            bus->pci_subsystem_vendor   = sbv_id;
-            bus->pci_subsystem_device   = sbd_id;
-            strcpy(bus->device_name, i["Description"].c_str());
-            strcat(bus->device_name, " at 0x0B00");
-            ((i2c_smbus_piix4 *)bus)->piix4_smba = 0x0B00;
-            ResourceManager::get()->RegisterI2CBus(bus);
-
-            bus                         = new i2c_smbus_piix4();
-            bus->pci_vendor             = ven_id;
-            bus->pci_device             = dev_id;
-            bus->pci_subsystem_vendor   = sbv_id;
-            bus->pci_subsystem_device   = sbd_id;
-            ((i2c_smbus_piix4 *)bus)->piix4_smba = 0x0B20;
-            strcpy(bus->device_name, i["Description"].c_str());
-            strcat(bus->device_name, " at 0x0B20");
-            ResourceManager::get()->RegisterI2CBus(bus);
-        }
-    }
-
-    return(true);
-}
-#elif _MACOSX_X86_X64
 bool i2c_smbus_piix4_detect()
 {
     if(!GetMacUSPCIODriverStatus())
@@ -419,6 +284,5 @@ bool i2c_smbus_piix4_detect()
 
     return(true);
 }
-#endif
 
 REGISTER_I2C_BUS_DETECTOR(i2c_smbus_piix4_detect);
