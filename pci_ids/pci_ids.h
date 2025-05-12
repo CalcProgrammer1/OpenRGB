@@ -948,6 +948,7 @@
 
 #define IF_MOBO_SMBUS(ven, dev)                             \
     if((ven == 0) ||                                        \
+    ((ven == 0xFFFF) && (dev == 0xFFFF)) ||                 \
     ((ven == AMD_VEN) && (dev == AMD_FCH_SMBUS_DEV)) ||     \
     ((ven == INTEL_VEN) && (dev == INTEL_ICH10_SMBUS_DEV)) || \
     ((ven == INTEL_VEN) && (dev == INTEL_SUNRISE_POINT_H_SMBUS_DEV)) || \
