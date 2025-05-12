@@ -11,15 +11,12 @@
 
 #include "super_io_pawnio.h"
 
-#ifdef _WIN32
 #include <Windows.h>
 #include "PawnIOLib.h"
 #include "i2c_smbus_pawnio.h"
-#endif
 
-#if defined(WIN32)
+
 static HANDLE pawnio_handle = NULL;
-#endif
 
 static int pawnio_chip_type = 0;
 
@@ -36,7 +33,6 @@ static int addr_to_pawnio(int addr)
     }
 }
 
-
 /******************************************************************************************\
 *                                                                                          *
 *   pawnio_superio_enter                                                                   *
@@ -45,9 +41,8 @@ static int addr_to_pawnio(int addr)
 *                                                                                          *
 \******************************************************************************************/
 
-void pawnio_superio_enter(int ioreg)
+void superio_enter(int ioreg)
 {
-#if defined(WIN32)
     HRESULT status;
     SIZE_T return_size;
 
@@ -80,11 +75,7 @@ void pawnio_superio_enter(int ioreg)
         pawnio_chip_type = (int)out[0];
     }
 
-    status = pawnio_execute(pawnio_handle, "ioctl_enter", NULL, 0, NULL, 0, &return_size);
-
-    // return status;
-
-#endif
+    pawnio_execute(pawnio_handle, "ioctl_enter", NULL, 0, NULL, 0, &return_size);
 }
 
 
@@ -96,18 +87,12 @@ void pawnio_superio_enter(int ioreg)
 *                                                                                          *
 \******************************************************************************************/
 
-void pawnio_superio_outb([[maybe_unused]] int ioreg, int reg, int val)
+void superio_outb([[maybe_unused]] int ioreg, int reg, int val)
 {
-#if defined(WIN32)
     const SIZE_T in_size = 2;
     ULONG64 in[in_size] = {(ULONG64)reg, (ULONG64)val};
     SIZE_T return_size;
-    HRESULT status = pawnio_execute(pawnio_handle, "ioctl_write", in, in_size, NULL, 0, &return_size);
-    if (status != S_OK)
-    {
-        return;
-    }
-#endif
+    pawnio_execute(pawnio_handle, "ioctl_write", in, in_size, NULL, 0, &return_size);
 }
 
 
@@ -119,9 +104,8 @@ void pawnio_superio_outb([[maybe_unused]] int ioreg, int reg, int val)
 *                                                                                          *
 \******************************************************************************************/
 
-int pawnio_superio_inb([[maybe_unused]] int ioreg, int reg)
+int superio_inb([[maybe_unused]] int ioreg, int reg)
 {
-#if defined(WIN32)
     const SIZE_T in_size = 1;
     ULONG64 in[in_size] = {(ULONG64)reg};
     const SIZE_T out_size = 1;
@@ -133,5 +117,4 @@ int pawnio_superio_inb([[maybe_unused]] int ioreg, int reg)
         return -1;
     }
     return (int)out[0];
-#endif
 }
