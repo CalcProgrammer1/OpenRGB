@@ -836,17 +836,6 @@ void OpenRGBDialog::AddKasaSmartSettingsPage()
 
     ui->SettingsTabBar->addTab(KasaSmartSettingsPage, "");
 
-    QString SettingsLabelString;
-
-    if(OpenRGBThemeManager::IsDarkTheme())
-    {
-        SettingsLabelString = "light_dark.png";
-    }
-    else
-    {
-        SettingsLabelString = "light.png";
-    }
-
     /*-----------------------------------------------------*\
     | Create the tab label                                  |
     \*-----------------------------------------------------*/
