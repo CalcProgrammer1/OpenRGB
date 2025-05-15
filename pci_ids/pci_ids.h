@@ -777,6 +777,7 @@
 #define MSI_RX6800XT_GAMING_Z_TRIO_SUB_DEV              0x3953
 #define MSI_RX6900XT_GAMING_X_TRIO_SUB_DEV              0x3952
 #define MSI_RX6950XT_GAMING_X_TRIO_SUB_DEV              0x3955
+#define MSI_RX7900XT_GAMING_TRIO_CLASSIC_SUB_DEV        0x5201
 
 /*-----------------------------------------------------*\
 | PNY Sub-Device IDs                                    |
