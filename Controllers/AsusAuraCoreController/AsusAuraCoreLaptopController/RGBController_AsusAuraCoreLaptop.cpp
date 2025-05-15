@@ -41,7 +41,7 @@ RGBController_AsusAuraCoreLaptop::RGBController_AsusAuraCoreLaptop(AsusAuraCoreL
 
     name                                    = aura_dev->dmi_name;
     vendor                                  = "Asus";
-    type                                    = DEVICE_TYPE_KEYBOARD;
+    type                                    = DEVICE_TYPE_LAPTOP;
     description                             = controller->GetDeviceDescription();
     serial                                  = controller->GetSerial();
     location                                = controller->GetLocation();

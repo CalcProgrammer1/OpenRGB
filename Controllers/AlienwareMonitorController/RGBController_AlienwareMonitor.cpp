@@ -29,7 +29,7 @@ RGBController_AlienwareMonitor::RGBController_AlienwareMonitor(AlienwareMonitorC
     name                    = "Alienware Monitor";
     description             = "Alienware Monitor";
     vendor                  = "Alienware";
-    type                    = DEVICE_TYPE_ACCESSORY;
+    type                    = DEVICE_TYPE_MONITOR;
     location                = controller->GetLocation();
     serial                  = controller->GetSerialString();
 

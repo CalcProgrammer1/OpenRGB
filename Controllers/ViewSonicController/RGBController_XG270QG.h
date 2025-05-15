@@ -11,8 +11,6 @@
 
 #pragma once
 
-#include <cstdint>
-#include <vector>
 #include "VS_XG270QG_Controller.h"
 #include "RGBController.h"
 

@@ -11,7 +11,6 @@
 
 #include <string>
 #include "RGBController_XG270QG.h"
-#include "LogManager.h"
 
 /**------------------------------------------------------------------*\
     @name Viewsonic Monitor
@@ -30,7 +29,7 @@ RGBController_XG270QG::RGBController_XG270QG(VS_XG270QG_Controller* controller_p
 
     name        = "ViewSonic Elite XG270QG";
     vendor      = "ViewSonic";
-    type        = DEVICE_TYPE_ACCESSORY;
+    type        = DEVICE_TYPE_MONITOR;
     description = "ViewSonic Monitor";
     location    = controller->GetLocation();
     serial      = controller->GetSerial();

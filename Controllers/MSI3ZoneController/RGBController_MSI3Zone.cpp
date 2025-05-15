@@ -28,7 +28,7 @@ RGBController_MSI3Zone::RGBController_MSI3Zone(MSI3ZoneController* controller_pt
 
     name        = "MSI 3-Zone Keyboard";
     vendor      = "MSI";
-    type        = DEVICE_TYPE_KEYBOARD;
+    type        = DEVICE_TYPE_LAPTOP;
     description = "MSI 3-Zone Keyboard Device";
     location    = controller->GetDeviceLocation();
     serial      = controller->GetSerialString();

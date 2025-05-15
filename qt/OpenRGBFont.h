@@ -46,7 +46,9 @@ public:
         toolbox             = 0xF019,
         unknown             = 0xF01A,
         virtual_controller  = 0xF01B,
-        usb                 = 0xF01C
+        usb                 = 0xF01C,
+        laptop              = 0xF01D,
+        monitor             = 0xF01E
     };
 
     static QString icon(int);

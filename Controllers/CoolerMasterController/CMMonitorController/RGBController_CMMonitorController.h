@@ -11,7 +11,6 @@
 
 #pragma once
 
-#include <vector>
 #include "RGBController.h"
 #include "CMMonitorController.h"
 

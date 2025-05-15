@@ -29,7 +29,7 @@ RGBController_CMMonitorController::RGBController_CMMonitorController(CMMonitorCo
     controller                  = controller_ptr;
     name                        = "CoolerMaster LED Controller A1";
     vendor                      = "CoolerMaster";
-    type                        = DEVICE_TYPE_ACCESSORY;
+    type                        = DEVICE_TYPE_MONITOR;
     description                 = name;
     location                    = controller->GetDeviceLocation();
     serial                      = controller->GetSerialString();

@@ -28,7 +28,7 @@ RGBController_AlienwareAW3423DWF::RGBController_AlienwareAW3423DWF(AlienwareAW34
 
     name                    = "Alienware AW3423DWF";
     vendor                  = "Alienware";
-    type                    = DEVICE_TYPE_ACCESSORY;
+    type                    = DEVICE_TYPE_MONITOR;
     description             = "Alienware AW3423DWF Monitor Device";
     location                = controller->GetLocation();
     serial                  = controller->GetSerialString();

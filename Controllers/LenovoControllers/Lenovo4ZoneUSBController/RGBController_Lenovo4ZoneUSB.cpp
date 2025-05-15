@@ -37,7 +37,7 @@ RGBController_Lenovo4ZoneUSB::RGBController_Lenovo4ZoneUSB(Lenovo4ZoneUSBControl
     controller        = controller_ptr;
 
     name    = controller->getName();
-    type    = DEVICE_TYPE_KEYBOARD;
+    type    = DEVICE_TYPE_LAPTOP;
     vendor  = "Lenovo";
 
 

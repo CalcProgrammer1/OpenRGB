@@ -2825,7 +2825,7 @@ static const razer_device blade_2016_device =
 {
     "Razer Blade (2016)",
     RAZER_BLADE_2016_PID,
-    DEVICE_TYPE_KEYBOARD,
+    DEVICE_TYPE_LAPTOP,
     RAZER_MATRIX_TYPE_STANDARD,
     0x3F,
     6,
@@ -2860,7 +2860,7 @@ static const razer_device blade_late_2016_device =
 {
     "Razer Blade (Late 2016)",
     RAZER_BLADE_LATE_2016_PID,
-    DEVICE_TYPE_KEYBOARD,
+    DEVICE_TYPE_LAPTOP,
     RAZER_MATRIX_TYPE_STANDARD,
     0x3F,
     6,
@@ -2895,7 +2895,7 @@ static const razer_device blade_15_2018_advanced_device =
 {
     "Razer Blade 15 (2018 Advanced)",
     RAZER_BLADE_2018_ADVANCED_PID,
-    DEVICE_TYPE_KEYBOARD,
+    DEVICE_TYPE_LAPTOP,
     RAZER_MATRIX_TYPE_STANDARD,
     0x3F,
     6,
@@ -2930,7 +2930,7 @@ static const razer_device blade_15_2018_base_device =
 {
     "Razer Blade 15 (2018 Base)",
     RAZER_BLADE_2018_BASE_PID,
-    DEVICE_TYPE_KEYBOARD,
+    DEVICE_TYPE_LAPTOP,
     RAZER_MATRIX_TYPE_STANDARD,
     0x3F,
     6,
@@ -2965,7 +2965,7 @@ static const razer_device blade_15_2018_mercury_device =
 {
     "Razer Blade 15 (2018 Mercury)",
     RAZER_BLADE_2018_MERCURY_PID,
-    DEVICE_TYPE_KEYBOARD,
+    DEVICE_TYPE_LAPTOP,
     RAZER_MATRIX_TYPE_STANDARD,
     0x3F,
     6,
@@ -3000,7 +3000,7 @@ static const razer_device blade_15_2019_advanced_device =
 {
     "Razer Blade 15 (2019 Advanced)",
     RAZER_BLADE_2019_ADVANCED_PID,
-    DEVICE_TYPE_KEYBOARD,
+    DEVICE_TYPE_LAPTOP,
     RAZER_MATRIX_TYPE_STANDARD,
     0x3F,
     6,
@@ -3035,7 +3035,7 @@ static const razer_device blade_15_2019_base_device =
 {
     "Razer Blade 15 (2019 Base)",
     RAZER_BLADE_2019_BASE_PID,
-    DEVICE_TYPE_KEYBOARD,
+    DEVICE_TYPE_LAPTOP,
     RAZER_MATRIX_TYPE_STANDARD,
     0x3F,
     1,
@@ -3070,7 +3070,7 @@ static const razer_device blade_15_2019_mercury_device =
 {
     "Razer Blade 15 (2019 Mercury)",
     RAZER_BLADE_2019_MERCURY_PID,
-    DEVICE_TYPE_KEYBOARD,
+    DEVICE_TYPE_LAPTOP,
     RAZER_MATRIX_TYPE_STANDARD,
     0x3F,
     6,
@@ -3105,7 +3105,7 @@ static const razer_device blade_15_2019_studio_device =
 {
     "Razer Blade 15 (2019 Studio)",
     RAZER_BLADE_2019_STUDIO_PID,
-    DEVICE_TYPE_KEYBOARD,
+    DEVICE_TYPE_LAPTOP,
     RAZER_MATRIX_TYPE_STANDARD,
     0x3F,
     6,
@@ -3140,7 +3140,7 @@ static const razer_device blade_15_2020_advanced_device =
 {
     "Razer Blade 15 (2020 Advanced)",
     RAZER_BLADE_2020_ADVANCED_PID,
-    DEVICE_TYPE_KEYBOARD,
+    DEVICE_TYPE_LAPTOP,
     RAZER_MATRIX_TYPE_STANDARD,
     0x3F,
     6,
@@ -3175,7 +3175,7 @@ static const razer_device blade_15_2020_base_device =
 {
     "Razer Blade 15 (2020 Base)",
     RAZER_BLADE_2020_BASE_PID,
-    DEVICE_TYPE_KEYBOARD,
+    DEVICE_TYPE_LAPTOP,
     RAZER_MATRIX_TYPE_STANDARD,
     0x3F,
     1,
@@ -3210,7 +3210,7 @@ static const razer_device blade_late_2020_device =
 {
     "Razer Blade (Late 2020)",
     RAZER_BLADE_LATE_2020_PID,
-    DEVICE_TYPE_KEYBOARD,
+    DEVICE_TYPE_LAPTOP,
     RAZER_MATRIX_TYPE_STANDARD,
     0x3F,
     6,
@@ -3245,7 +3245,7 @@ static const razer_device blade_15_2021_advanced_device =
 {
     "Razer Blade 15 (2021 Advanced)",
     RAZER_BLADE_2021_ADVANCED_PID,
-    DEVICE_TYPE_KEYBOARD,
+    DEVICE_TYPE_LAPTOP,
     RAZER_MATRIX_TYPE_STANDARD,
     0x3F,
     6,
@@ -3280,7 +3280,7 @@ static const razer_device blade_15_2021_base_device =
 {
     "Razer Blade 15 (2021 Base)",
     RAZER_BLADE_2021_BASE_PID,
-    DEVICE_TYPE_KEYBOARD,
+    DEVICE_TYPE_LAPTOP,
     RAZER_MATRIX_TYPE_STANDARD,
     0x3F,
     1,
@@ -3315,7 +3315,7 @@ static const razer_device blade_15_2021_base_v2_device =
 {
     "Razer Blade 15 (2021 Base)",
     RAZER_BLADE_2021_BASE_V2_PID,
-    DEVICE_TYPE_KEYBOARD,
+    DEVICE_TYPE_LAPTOP,
     RAZER_MATRIX_TYPE_STANDARD,
     0x1F,
     1,
@@ -3350,7 +3350,7 @@ static const razer_device blade_15_late_2021_advanced_device =
 {
     "Razer Blade 15 (Late 2021 Advanced)",
     RAZER_BLADE_LATE_2021_ADVANCED_PID,
-    DEVICE_TYPE_KEYBOARD,
+    DEVICE_TYPE_LAPTOP,
     RAZER_MATRIX_TYPE_STANDARD,
     0x3F,
     6,
@@ -3385,7 +3385,7 @@ static const razer_device blade_14_2021_device =
 {
     "Razer Blade 14 (2021)",
     RAZER_BLADE_14_2021_PID,
-    DEVICE_TYPE_KEYBOARD,
+    DEVICE_TYPE_LAPTOP,
     RAZER_MATRIX_TYPE_STANDARD,
     0x3F,
     6,
@@ -3420,7 +3420,7 @@ static const razer_device blade_14_2022_device =
 {
     "Razer Blade 14 (2022)",
     RAZER_BLADE_14_2022_PID,
-    DEVICE_TYPE_KEYBOARD,
+    DEVICE_TYPE_LAPTOP,
     RAZER_MATRIX_TYPE_STANDARD,
     0x1F,
     6,
@@ -3455,7 +3455,7 @@ static const razer_device blade_14_2023_device =
 {
     "Razer Blade 14 (2023)",
     RAZER_BLADE_14_2023_PID,
-    DEVICE_TYPE_KEYBOARD,
+    DEVICE_TYPE_LAPTOP,
     RAZER_MATRIX_TYPE_STANDARD,
     0x1F,
     6,
@@ -3490,7 +3490,7 @@ static const razer_device blade_15_2022_device =
 {
     "Razer Blade 15 (2022)",
     RAZER_BLADE_15_2022_PID,
-    DEVICE_TYPE_KEYBOARD,
+    DEVICE_TYPE_LAPTOP,
     RAZER_MATRIX_TYPE_STANDARD,
     0x1F,
     6,
@@ -3525,7 +3525,7 @@ static const razer_device book_13_2020_device =
 {
     "Razer Book 13 (2020)",
     RAZER_BOOK_13_2020_PID,
-    DEVICE_TYPE_KEYBOARD,
+    DEVICE_TYPE_LAPTOP,
     RAZER_MATRIX_TYPE_STANDARD,
     0x3F,
     6,
@@ -3560,7 +3560,7 @@ static const razer_device blade_pro_2016_device =
 {
     "Razer Blade Pro (2016)",
     RAZER_BLADE_PRO_2016_PID,
-    DEVICE_TYPE_KEYBOARD,
+    DEVICE_TYPE_LAPTOP,
     RAZER_MATRIX_TYPE_STANDARD,
     0x3F,
     6,
@@ -3595,7 +3595,7 @@ static const razer_device blade_pro_2017_device =
 {
     "Razer Blade Pro (2017)",
     RAZER_BLADE_PRO_2017_PID,
-    DEVICE_TYPE_KEYBOARD,
+    DEVICE_TYPE_LAPTOP,
     RAZER_MATRIX_TYPE_STANDARD,
     0x3F,
     6,
@@ -3630,7 +3630,7 @@ static const razer_device blade_pro_2017_fullhd_device =
 {
     "Razer Blade Pro (2017 FullHD)",
     RAZER_BLADE_PRO_2017_FULLHD_PID,
-    DEVICE_TYPE_KEYBOARD,
+    DEVICE_TYPE_LAPTOP,
     RAZER_MATRIX_TYPE_STANDARD,
     0x3F,
     6,
@@ -3664,7 +3664,7 @@ static const razer_device blade_pro_2019_device =
 {
     "Razer Blade Pro (2019)",
     RAZER_BLADE_PRO_2019_PID,
-    DEVICE_TYPE_KEYBOARD,
+    DEVICE_TYPE_LAPTOP,
     RAZER_MATRIX_TYPE_STANDARD,
     0x3F,
     6,
@@ -3699,7 +3699,7 @@ static const razer_device blade_pro_late_2019_device =
 {
     "Razer Blade Pro (Late 2019)",
     RAZER_BLADE_PRO_LATE_2019_PID,
-    DEVICE_TYPE_KEYBOARD,
+    DEVICE_TYPE_LAPTOP,
     RAZER_MATRIX_TYPE_STANDARD,
     0x3F,
     6,
@@ -3734,7 +3734,7 @@ static const razer_device blade_pro_17_2020_device =
 {
     "Razer Blade Pro 17 (2020)",
     RAZER_BLADE_PRO_17_2020_PID,
-    DEVICE_TYPE_KEYBOARD,
+    DEVICE_TYPE_LAPTOP,
     RAZER_MATRIX_TYPE_STANDARD,
     0x3F,
     6,
@@ -3769,7 +3769,7 @@ static const razer_device blade_pro_17_2021_device =
 {
     "Razer Blade Pro 17 (2021)",
     RAZER_BLADE_PRO_17_2021_PID,
-    DEVICE_TYPE_KEYBOARD,
+    DEVICE_TYPE_LAPTOP,
     RAZER_MATRIX_TYPE_STANDARD,
     0x3F,
     6,
@@ -3804,7 +3804,7 @@ static const razer_device blade_stealth_2016_device =
 {
     "Razer Blade Stealth (2016)",
     RAZER_BLADE_STEALTH_2016_PID,
-    DEVICE_TYPE_KEYBOARD,
+    DEVICE_TYPE_LAPTOP,
     RAZER_MATRIX_TYPE_STANDARD,
     0x3F,
     6,
@@ -3839,7 +3839,7 @@ static const razer_device blade_stealth_late_2016_device =
 {
     "Razer Blade Stealth (Late 2016)",
     RAZER_BLADE_STEALTH_LATE_2016_PID,
-    DEVICE_TYPE_KEYBOARD,
+    DEVICE_TYPE_LAPTOP,
     RAZER_MATRIX_TYPE_STANDARD,
     0x3F,
     6,
@@ -3874,7 +3874,7 @@ static const razer_device blade_stealth_2017_device =
 {
     "Razer Blade Stealth (2017)",
     RAZER_BLADE_STEALTH_2017_PID,
-    DEVICE_TYPE_KEYBOARD,
+    DEVICE_TYPE_LAPTOP,
     RAZER_MATRIX_TYPE_STANDARD,
     0x3F,
     6,
@@ -3909,7 +3909,7 @@ static const razer_device blade_stealth_late_2017_device =
 {
     "Razer Blade Stealth (Late 2017)",
     RAZER_BLADE_STEALTH_LATE_2017_PID,
-    DEVICE_TYPE_KEYBOARD,
+    DEVICE_TYPE_LAPTOP,
     RAZER_MATRIX_TYPE_STANDARD,
     0x3F,
     6,
@@ -3944,7 +3944,7 @@ static const razer_device blade_stealth_2019_device =
 {
     "Razer Blade Stealth (2019)",
     RAZER_BLADE_STEALTH_2019_PID,
-    DEVICE_TYPE_KEYBOARD,
+    DEVICE_TYPE_LAPTOP,
     RAZER_MATRIX_TYPE_STANDARD,
     0x3F,
     6,
@@ -3979,7 +3979,7 @@ static const razer_device blade_stealth_late_2019_device =
 {
     "Razer Blade Stealth (Late 2019)",
     RAZER_BLADE_STEALTH_LATE_2019_PID,
-    DEVICE_TYPE_KEYBOARD,
+    DEVICE_TYPE_LAPTOP,
     RAZER_MATRIX_TYPE_STANDARD,
     0x3F,
     1,
@@ -4014,7 +4014,7 @@ static const razer_device blade_stealth_2020_device =
 {
     "Razer Blade Stealth (2020)",
     RAZER_BLADE_STEALTH_2020_PID,
-    DEVICE_TYPE_KEYBOARD,
+    DEVICE_TYPE_LAPTOP,
     RAZER_MATRIX_TYPE_STANDARD,
     0x3F,
     1,
@@ -4049,7 +4049,7 @@ static const razer_device blade_stealth_late_2020_device =
 {
     "Razer Blade Stealth (Late 2020)",
     RAZER_BLADE_STEALTH_LATE_2020_PID,
-    DEVICE_TYPE_KEYBOARD,
+    DEVICE_TYPE_LAPTOP,
     RAZER_MATRIX_TYPE_STANDARD,
     0x3F,
     1,
@@ -8671,7 +8671,6 @@ const razer_device* razer_device_list[] =
     &blade_pro_late_2019_device,
     &blade_pro_17_2020_device,
     &blade_pro_17_2021_device,
-    &blade_stealth_2019_device,
     &blade_stealth_2016_device,
     &blade_stealth_late_2016_device,
     &blade_stealth_2017_device,

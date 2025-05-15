@@ -28,7 +28,7 @@ RGBController_AuraMonitor::RGBController_AuraMonitor(AuraMonitorController* cont
 
     name        = "ASUS Aura Monitor";
     vendor      = "ASUS";
-    type        = DEVICE_TYPE_ACCESSORY;
+    type        = DEVICE_TYPE_MONITOR;
     description = "ASUS Aura Monitor Device";
     location    = controller->GetDeviceLocation();
     serial      = controller->GetSerialString();

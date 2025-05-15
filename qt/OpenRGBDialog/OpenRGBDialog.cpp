@@ -104,6 +104,12 @@ static int GetIcon(device_type type)
     case DEVICE_TYPE_KEYPAD:
         icon = OpenRGBFont::keypad;
         break;
+    case DEVICE_TYPE_LAPTOP:
+        icon = OpenRGBFont::laptop;
+        break;
+    case DEVICE_TYPE_MONITOR:
+        icon = OpenRGBFont::monitor;
+        break;
     default:
         icon = OpenRGBFont::unknown;
         break;

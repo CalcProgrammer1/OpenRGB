@@ -24,9 +24,9 @@ using namespace std::chrono_literals;
 
 RGBController_AsusTUFLaptopWMI::RGBController_AsusTUFLaptopWMI(AsusTUFLaptopController* controller_ptr)
 {
-    name                        = "ASUS TUF Keyboard";
+    name                        = "ASUS TUF Laptop Keyboard";
     vendor                      = "ASUS";
-    type                        = DEVICE_TYPE_KEYBOARD;
+    type                        = DEVICE_TYPE_LAPTOP;
     description                 = "WMI Device";
     location                    = "\\\\.\\ATKACPI";
 

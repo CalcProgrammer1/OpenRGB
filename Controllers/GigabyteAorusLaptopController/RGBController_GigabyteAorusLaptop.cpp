@@ -75,7 +75,7 @@ RGBController_GigabyteAorusLaptop::RGBController_GigabyteAorusLaptop(GigabyteAor
     this->dev_type                          = dev_type;
     controller                              = controller_ptr;
     vendor                                  = "Gigabyte";
-    type                                    = DEVICE_TYPE_KEYBOARD;
+    type                                    = DEVICE_TYPE_LAPTOP;
     description                             = "Aorus Laptop";
     location                                = controller->GetDeviceLocation();
     serial                                  = controller->GetSerialString();

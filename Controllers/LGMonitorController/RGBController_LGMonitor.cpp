@@ -29,7 +29,7 @@ RGBController_LGMonitor::RGBController_LGMonitor(LGMonitorController* controller
 {
     controller                          = controller_ptr;
     vendor                              = "LG";
-    type                                = DEVICE_TYPE_ACCESSORY;
+    type                                = DEVICE_TYPE_MONITOR;
     description                         = "LG Monitor";
     location                            = controller->GetDeviceLocation();
     serial                              = controller->GetSerialString();
