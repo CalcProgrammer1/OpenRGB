@@ -175,12 +175,14 @@ void PhilipsWizController::ReceiveThreadFunction()
 {
     char recv_buf[1025];
 
+    port.set_receive_timeout(1, 0);
+
     while(ReceiveThreadRun.load())
     {
         /*-----------------------------------------------------------------*\
         | Receive up to 1024 bytes from the device with a 1s timeout        |
         \*-----------------------------------------------------------------*/
-        int size = port.udp_listen_timeout(recv_buf, 1024, 1, 0);
+        int size = port.udp_listen(recv_buf, 1024);
 
         if(size > 0)
         {

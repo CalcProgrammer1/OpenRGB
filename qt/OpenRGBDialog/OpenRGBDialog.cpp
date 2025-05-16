@@ -495,6 +495,11 @@ OpenRGBDialog::OpenRGBDialog(QWidget *parent) : QMainWindow(parent), ui(new Open
     AddE131SettingsPage();
 
     /*-----------------------------------------------------*\
+    | Add the Govee settings page                           |
+    \*-----------------------------------------------------*/
+    AddGoveeSettingsPage();
+
+    /*-----------------------------------------------------*\
     | Add the Kasa Smart settings page                      |
     \*-----------------------------------------------------*/
     AddKasaSmartSettingsPage();
@@ -829,6 +834,23 @@ void OpenRGBDialog::AddE131SettingsPage()
     | Create the tab label                                  |
     \*-----------------------------------------------------*/
     TabLabel* SettingsTabLabel = new TabLabel(OpenRGBFont::data, tr("E1.31 Devices"), (char *)"E1.31 Devices", (char *)context);
+
+    ui->SettingsTabBar->tabBar()->setTabButton(ui->SettingsTabBar->tabBar()->count() - 1, QTabBar::LeftSide, SettingsTabLabel);
+}
+
+void OpenRGBDialog::AddGoveeSettingsPage()
+{
+    /*-----------------------------------------------------*\
+    | Create the Settings page                              |
+    \*-----------------------------------------------------*/
+    GoveeSettingsPage = new OpenRGBGoveeSettingsPage();
+
+    ui->SettingsTabBar->addTab(GoveeSettingsPage, "");
+
+    /*-----------------------------------------------------*\
+    | Create the tab label                                  |
+    \*-----------------------------------------------------*/
+    TabLabel* SettingsTabLabel = new TabLabel(OpenRGBFont::bulb, tr("Govee Devices"), (char *)"Govee Devices", (char *)context);
 
     ui->SettingsTabBar->tabBar()->setTabButton(ui->SettingsTabBar->tabBar()->count() - 1, QTabBar::LeftSide, SettingsTabLabel);
 }

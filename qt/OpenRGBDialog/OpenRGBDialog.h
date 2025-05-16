@@ -29,6 +29,7 @@
 #include "OpenRGBE131SettingsPage/OpenRGBE131SettingsPage.h"
 #include "OpenRGBElgatoKeyLightSettingsPage/OpenRGBElgatoKeyLightSettingsPage.h"
 #include "OpenRGBElgatoLightStripSettingsPage/OpenRGBElgatoLightStripSettingsPage.h"
+#include "OpenRGBGoveeSettingsPage/OpenRGBGoveeSettingsPage.h"
 #include "OpenRGBKasaSmartSettingsPage/OpenRGBKasaSmartSettingsPage.h"
 #include "OpenRGBLIFXSettingsPage/OpenRGBLIFXSettingsPage.h"
 #include "OpenRGBPhilipsHueSettingsPage/OpenRGBPhilipsHueSettingsPage.h"
@@ -103,6 +104,7 @@ private:
     OpenRGBE131SettingsPage *E131SettingsPage;
     OpenRGBElgatoKeyLightSettingsPage *ElgatoKeyLightSettingsPage;
     OpenRGBElgatoLightStripSettingsPage *ElgatoLightStripSettingsPage;
+    OpenRGBGoveeSettingsPage *GoveeSettingsPage;
     OpenRGBKasaSmartSettingsPage *KasaSmartSettingsPage;
     OpenRGBLIFXSettingsPage *LIFXSettingsPage;
     OpenRGBPhilipsHueSettingsPage *PhilipsHueSettingsPage;
@@ -134,6 +136,7 @@ private:
     void AddE131SettingsPage();
     void AddElgatoKeyLightSettingsPage();
     void AddElgatoLightStripSettingsPage();
+    void AddGoveeSettingsPage();
     void AddKasaSmartSettingsPage();
     void AddLIFXSettingsPage();
     void AddPhilipsHueSettingsPage();
