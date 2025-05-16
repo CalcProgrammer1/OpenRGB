@@ -1,10 +1,13 @@
-/*-----------------------------------------*\
-|  RGBController_Govee.cpp                  |
-|                                           |
-|  Generic RGB Interface for Govee          |
-|                                           |
-|  Adam Honse (CalcProgrammer1) 12/27/2023  |
-\*-----------------------------------------*/
+/*---------------------------------------------------------*\
+| RGBController_Govee.cpp                                   |
+|                                                           |
+|   RGBController for Govee wireless lighting devices       |
+|                                                           |
+|   Adam Honse (calcprogrammer1@gmail.com)      27 Dec 2023 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
 
 #include <map>
 #include "RGBController_Govee.h"
@@ -130,10 +133,10 @@ void RGBController_Govee::KeepaliveThread()
 {
     while(keepalive_thread_run.load())
     {
-        if((std::chrono::steady_clock::now() - last_update_time) > std::chrono::milliseconds(500))
+        if((std::chrono::steady_clock::now() - last_update_time) > std::chrono::seconds(30))
         {
             DeviceUpdateLEDs();
         }
-        std::this_thread::sleep_for(100ms);
+        std::this_thread::sleep_for(10s);
     }
 }

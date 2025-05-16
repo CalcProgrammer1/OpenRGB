@@ -1,9 +1,12 @@
 /*---------------------------------------------------------*\
-|  GoveeController.cpp                                      |
+| GoveeController.cpp                                       |
 |                                                           |
-|  Driver for Govee controller                              |
+|   Driver for Govee wireless lighting devices              |
 |                                                           |
-|  Adam Honse (calcprogrammer1@gmail.com), 12/1/2023        |
+|   Adam Honse (calcprogrammer1@gmail.com)      01 Dec 2023 |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
 \*---------------------------------------------------------*/
 
 #include <nlohmann/json.hpp>
@@ -27,54 +30,46 @@ base64::byte CalculateXorChecksum(std::vector<base64::byte> packet)
 
 GoveeController::GoveeController(std::string ip)
 {
-    /*-----------------------------------------------------------------*\
-    | Fill in location string with device's IP address                  |
-    \*-----------------------------------------------------------------*/
+    /*-----------------------------------------------------*\
+    | Fill in location string with device's IP address      |
+    \*-----------------------------------------------------*/
     ip_address  = ip;
 
-    /*-----------------------------------------------------------------*\
-    | Open a UDP client sending to and receiving from the Govee         |
-    | Multicast IP, send port 4001 and receive port 4002                |
-    \*-----------------------------------------------------------------*/
-    broadcast_port.udp_client("239.255.255.250", "4001", "4002");
-    broadcast_port.udp_join_multicast_group("239.255.255.250");
+    /*-----------------------------------------------------*\
+    | Register callback for receiving broadcasts            |
+    \*-----------------------------------------------------*/
+    RegisterReceiveBroadcastCallback(this);
 
-    /*-----------------------------------------------------------------*\
-    | Start a thread to handle responses received from the Wiz device   |
-    \*-----------------------------------------------------------------*/
-    ReceiveThreadRun = true;
-    ReceiveThread = new std::thread(&GoveeController::ReceiveThreadFunction, this);
+    broadcast_received = false;
 
-    /*-----------------------------------------------------------------*\
-    | Request device information                                        |
-    \*-----------------------------------------------------------------*/
+    /*-----------------------------------------------------*\
+    | Request device information                            |
+    \*-----------------------------------------------------*/
     SendScan();
 
-    /*-----------------------------------------------------------------*\
-    | Wait up to 5s for device information to be received               |
-    \*-----------------------------------------------------------------*/
+    /*-----------------------------------------------------*\
+    | Wait up to 5s for device information to be received   |
+    \*-----------------------------------------------------*/
     for(unsigned int wait_count = 0; wait_count < 500; wait_count++)
     {
-        if(ReceiveThreadRun.load() == false)
+        if(broadcast_received)
         {
-            ReceiveThread->join();
             break;
         }
 
         std::this_thread::sleep_for(10ms);
     }
 
-    /*-----------------------------------------------------------------*\
-    | Open a UDP client sending to the Govee device IP, port 4003       |
-    \*-----------------------------------------------------------------*/
+    /*-----------------------------------------------------*\
+    | Open a UDP client sending to the Govee device IP,     |
+    | port 4003                                             |
+    \*-----------------------------------------------------*/
     port.udp_client(ip_address.c_str(), "4003");
 }
 
 GoveeController::~GoveeController()
 {
-    ReceiveThreadRun = 0;
-    ReceiveThread->join();
-    delete ReceiveThread;
+    UnregisterReceiveBroadcastCallback(this);
 }
 
 std::string GoveeController::GetLocation()
@@ -95,79 +90,70 @@ std::string GoveeController::GetVersion()
            "WiFI Software Version: " + wifiVersionSoft + "\r\n");
 }
 
-void GoveeController::ReceiveThreadFunction()
+void GoveeController::ReceiveBroadcast(char* recv_buf, int size)
 {
-    char recv_buf[1024];
-
-    while(ReceiveThreadRun.load())
+    if(broadcast_received)
     {
-        /*-----------------------------------------------------------------*\
-        | Receive up to 1024 bytes from the device with a 1s timeout        |
-        \*-----------------------------------------------------------------*/
-        int size = broadcast_port.udp_listen(recv_buf, 1024);
+        return;
+    }
 
-        if(size > 0)
+    /*-----------------------------------------------------*\
+    | Responses are not null-terminated, so add termination |
+    \*-----------------------------------------------------*/
+    recv_buf[size] = '\0';
+
+    /*-----------------------------------------------------*\
+    | Convert null-terminated response to JSON              |
+    \*-----------------------------------------------------*/
+    json response = json::parse(recv_buf);
+
+    /*-----------------------------------------------------*\
+    | Check if the response contains the method name        |
+    \*-----------------------------------------------------*/
+    if(response.contains("msg"))
+    {
+        /*-------------------------------------------------*\
+        | Handle responses for scan command                 |
+        | This command's response should contain a msg      |
+        | object containing a data member with ip, device,  |
+        | sku, among others.                                |
+        \*-------------------------------------------------*/
+        if(response["msg"].contains("cmd"))
         {
-            /*-----------------------------------------------------------------*\
-            | Responses are not null-terminated, so add termination             |
-            \*-----------------------------------------------------------------*/
-            recv_buf[size] = '\0';
-
-            printf( "response %s \r\n", recv_buf);
-
-            /*-----------------------------------------------------------------*\
-            | Convert null-terminated response to JSON                          |
-            \*-----------------------------------------------------------------*/
-            json response = json::parse(recv_buf);
-
-            /*-----------------------------------------------------------------*\
-            | Check if the response contains the method name                    |
-            \*-----------------------------------------------------------------*/
-            if(response.contains("msg"))
+            if(response["msg"]["cmd"] == "scan")
             {
-                /*-------------------------------------------------------------*\
-                | Handle responses for scan command                             |
-                | This command's response should contain a msg object           |
-                | containing a data member with ip, device, sku, among others.  |
-                \*-------------------------------------------------------------*/
-                if(response["msg"].contains("cmd"))
+                if(response["msg"].contains("data"))
                 {
-                    if(response["msg"]["cmd"] == "scan")
+                    if(response["msg"]["data"].contains("ip"))
                     {
-                        if(response["msg"].contains("data"))
+                        if(response["msg"]["data"]["ip"] == ip_address)
                         {
-                            if(response["msg"]["data"].contains("ip"))
+                            if(response["msg"]["data"].contains("sku"))
                             {
-                                if(response["msg"]["data"]["ip"] == ip_address)
-                                {
-                                    if(response["msg"]["data"].contains("sku"))
-                                    {
-                                        sku = response["msg"]["data"]["sku"];
-                                    }
-
-                                    if(response["msg"]["data"].contains("bleVersionHard"))
-                                    {
-                                        bleVersionHard = response["msg"]["data"]["bleVersionHard"];
-                                    }
-
-                                    if(response["msg"]["data"].contains("bleVersionSoft"))
-                                    {
-                                        bleVersionSoft = response["msg"]["data"]["bleVersionSoft"];
-                                    }
-
-                                    if(response["msg"]["data"].contains("wifiVersionHard"))
-                                    {
-                                        wifiVersionHard = response["msg"]["data"]["wifiVersionHard"];
-                                    }
-
-                                    if(response["msg"]["data"].contains("wifiVersionSoft"))
-                                    {
-                                        wifiVersionSoft = response["msg"]["data"]["wifiVersionSoft"];
-                                    }
-
-                                    ReceiveThreadRun = false;
-                                }
+                                sku = response["msg"]["data"]["sku"];
                             }
+
+                            if(response["msg"]["data"].contains("bleVersionHard"))
+                            {
+                                bleVersionHard = response["msg"]["data"]["bleVersionHard"];
+                            }
+
+                            if(response["msg"]["data"].contains("bleVersionSoft"))
+                            {
+                                bleVersionSoft = response["msg"]["data"]["bleVersionSoft"];
+                            }
+
+                            if(response["msg"]["data"].contains("wifiVersionHard"))
+                            {
+                                wifiVersionHard = response["msg"]["data"]["wifiVersionHard"];
+                            }
+
+                            if(response["msg"]["data"].contains("wifiVersionSoft"))
+                            {
+                                wifiVersionSoft = response["msg"]["data"]["wifiVersionSoft"];
+                            }
+
+                            broadcast_received = true;
                         }
                     }
                 }
@@ -186,9 +172,9 @@ void GoveeController::SetColor(unsigned char red, unsigned char green, unsigned 
     command["msg"]["data"]["color"]["b"]        = blue;
     command["msg"]["data"]["colorTemInKelvin"]  = "0";
 
-    /*-----------------------------------------------------------------*\
-    | Convert the JSON object to a string and write it                  |
-    \*-----------------------------------------------------------------*/
+    /*-----------------------------------------------------*\
+    | Convert the JSON object to a string and write it      |
+    \*-----------------------------------------------------*/
     std::string command_str                     = command.dump();
 
     port.udp_write((char *)command_str.c_str(), command_str.length() + 1);
@@ -215,9 +201,9 @@ void GoveeController::SendRazerData(RGBColor* colors, unsigned int size)
     command["msg"]["cmd"]                       = "razer";
     command["msg"]["data"]["pt"]                = base64::encode(pkt);
 
-    /*-----------------------------------------------------------------*\
-    | Convert the JSON object to a string and write it                  |
-    \*-----------------------------------------------------------------*/
+    /*-----------------------------------------------------*\
+    | Convert the JSON object to a string and write it      |
+    \*-----------------------------------------------------*/
     std::string command_str                     = command.dump();
 
     port.udp_write((char *)command_str.c_str(), command_str.length() + 1);
@@ -231,9 +217,9 @@ void GoveeController::SendRazerDisable()
     command["msg"]["cmd"]                       = "razer";
     command["msg"]["data"]["pt"]                = base64::encode(pkt);
 
-    /*-----------------------------------------------------------------*\
-    | Convert the JSON object to a string and write it                  |
-    \*-----------------------------------------------------------------*/
+    /*-----------------------------------------------------*\
+    | Convert the JSON object to a string and write it      |
+    \*-----------------------------------------------------*/
     std::string command_str                     = command.dump();
 
     port.udp_write((char *)command_str.c_str(), command_str.length() + 1);
@@ -247,9 +233,9 @@ void GoveeController::SendRazerEnable()
     command["msg"]["cmd"]                       = "razer";
     command["msg"]["data"]["pt"]                = base64::encode(pkt);
 
-    /*-----------------------------------------------------------------*\
-    | Convert the JSON object to a string and write it                  |
-    \*-----------------------------------------------------------------*/
+    /*-----------------------------------------------------*\
+    | Convert the JSON object to a string and write it      |
+    \*-----------------------------------------------------*/
     std::string command_str                     = command.dump();
 
     port.udp_write((char *)command_str.c_str(), command_str.length() + 1);
@@ -262,10 +248,74 @@ void GoveeController::SendScan()
     command["msg"]["cmd"]                       = "scan";
     command["msg"]["data"]["account_topic"]     = "GA/123456789";
 
-    /*-----------------------------------------------------------------*\
-    | Convert the JSON object to a string and write it                  |
-    \*-----------------------------------------------------------------*/
+    /*-----------------------------------------------------*\
+    | Convert the JSON object to a string and write it      |
+    \*-----------------------------------------------------*/
     std::string command_str                     = command.dump();
 
     broadcast_port.udp_write((char *)command_str.c_str(), command_str.length() + 1);
+}
+
+/*---------------------------------------------------------*\
+| Static class members for shared broadcast receiver        |
+\*---------------------------------------------------------*/
+net_port                        GoveeController::broadcast_port;
+std::vector<GoveeController*>   GoveeController::callbacks;
+std::thread*                    GoveeController::ReceiveThread;
+std::atomic<bool>               GoveeController::ReceiveThreadRun;
+
+void GoveeController::ReceiveBroadcastThreadFunction()
+{
+    char recv_buf[1024];
+
+    broadcast_port.set_receive_timeout(1, 0);
+
+    while(ReceiveThreadRun.load())
+    {
+        /*-------------------------------------------------*\
+        | Receive up to 1024 bytes from the device with a   |
+        | 1s timeout                                        |
+        \*-------------------------------------------------*/
+        int size = broadcast_port.udp_listen(recv_buf, 1024);
+
+        /*-------------------------------------------------*\
+        | If data was received, loop through registered     |
+        | callback controllers and call the                 |
+        | ReceiveBroadcast function for the controller      |
+        | matching the received data                        |
+        |                                                   |
+        | NOTE: As implemented, it doesn't actually match   |
+        | the intended controller and just calls all        |
+        | registered controllers.  As they are all called   |
+        | sequence, this should work, but if parallel calls |
+        | are ever needed, receives should be filtered by   |
+        | IP address                                        |
+        \*-------------------------------------------------*/
+        if(size > 0)
+        {
+            for(std::size_t callback_idx = 0; callback_idx < callbacks.size(); callback_idx++)
+            {
+                GoveeController* controller = callbacks[callback_idx];
+
+                controller->ReceiveBroadcast(recv_buf, size);
+            }
+        }
+    }
+}
+
+void GoveeController::RegisterReceiveBroadcastCallback(GoveeController* controller_ptr)
+{
+    callbacks.push_back(controller_ptr);
+}
+
+void GoveeController::UnregisterReceiveBroadcastCallback(GoveeController* controller_ptr)
+{
+    for(std::size_t callback_idx = 0; callback_idx < callbacks.size(); callback_idx++)
+    {
+        if(callbacks[callback_idx] == controller_ptr)
+        {
+            callbacks.erase(callbacks.begin() + callback_idx);
+            break;
+        }
+    }
 }

@@ -119,23 +119,17 @@ int net_port::udp_listen(char * recv_data, int length)
     return(recvfrom(sock, recv_data, length, 0, NULL, NULL));
 }
 
-int net_port::udp_listen_timeout(char * recv_data, int length, int sec, int usec)
+void net_port::set_receive_timeout(int sec, int usec)
 {
-    fd_set fds;
+#ifdef WIN32
+    DWORD tv = ( sec * 1000 ) + ( usec / 1000 );
+#else
     struct timeval tv;
-
-    FD_ZERO(&fds);
-    FD_SET(sock, &fds);
-
     tv.tv_sec   = sec;
     tv.tv_usec  = usec;
+#endif
 
-    if(select((int)sock, &fds, NULL, NULL, &tv) <= 0)
-    {
-        return(0);
-    }
-
-    return(recvfrom(sock, recv_data, length, 0, NULL, NULL));
+    setsockopt(sock, SOL_SOCKET, SO_RCVTIMEO, (const char*)&tv, sizeof tv);
 }
 
 int net_port::udp_write(char * buffer, int length)
