@@ -11,6 +11,7 @@
 
 #include <hidapi.h>
 #include "Detector.h"
+#include "LogManager.h"
 #include "NZXTHue2Controller.h"
 #include "RGBController_NZXTHue2.h"
 
@@ -31,6 +32,7 @@
 #define NZXT_RGB_FAN_CONTROLLER6_PID            0x2020
 #define NZXT_RGB_FAN_CONTROLLER7_PID            0x201F
 #define NZXT_RGB_FAN_CONTROLLER8_PID            0x2022
+#define NZXT_RGB_FAN_CONTROLLER9_PID            0x201B
 #define NZXT_RGB_CONTROLLER_1_PID               0x2012
 #define NZXT_RGB_CONTROLLER_2_PID               0x2021
 #define NZXT_SMART_DEVICE_V2_1_PID              0x200D
@@ -47,6 +49,11 @@ static void spawn_hue(hid_device_info* info, const std::string& name, int rgb_ch
         rgb_controller->name                   = name;
 
         ResourceManager::get()->RegisterRGBController(rgb_controller);
+        LOG_TRACE("[NZXTHue2Controller] NZXT Controller setup: %s", info->path);
+    }
+    else 
+    {
+        LOG_DEBUG("[NZXTHue2Controller] Failed to load device: %s!", info->path);
     }
 }
 
@@ -103,6 +110,7 @@ REGISTER_HID_DETECTOR("NZXT RGB & Fan Controller",          DetectNZXTFanControl
 REGISTER_HID_DETECTOR("NZXT RGB & Fan Controller",          DetectNZXTFanController6Channel, NZXT_VID, NZXT_RGB_FAN_CONTROLLER6_PID);
 REGISTER_HID_DETECTOR("NZXT RGB & Fan Controller",          DetectNZXTFanController6Channel, NZXT_VID, NZXT_RGB_FAN_CONTROLLER7_PID);
 REGISTER_HID_DETECTOR("NZXT RGB & Fan Controller 2024",     DetectNZXTFanController6Channel, NZXT_VID, NZXT_RGB_FAN_CONTROLLER8_PID);
+REGISTER_HID_DETECTOR("NZXT B650E Motherboard",             DetectNZXTFanController6Channel, NZXT_VID, NZXT_RGB_FAN_CONTROLLER9_PID);
 REGISTER_HID_DETECTOR("NZXT Hue 2",                         DetectNZXTHue2,                  NZXT_VID, NZXT_HUE_2_PID);
 REGISTER_HID_DETECTOR("NZXT Hue 2 Ambient",                 DetectNZXTHue2Ambient,           NZXT_VID, NZXT_HUE_2_AMBIENT_PID);
 REGISTER_HID_DETECTOR("NZXT Hue 2 Motherboard",             DetectNZXTHue2Motherboard,       NZXT_VID, NZXT_MOTHERBOARD_DEVICE_PID);
