@@ -32,6 +32,7 @@
 #define SMBSLVDAT (0xC + piix4_smba)
 
 #define MAX_TIMEOUT     5000
+#define RETRY_DELAY_US  250
 
 // PIIX4 constants
 #define PIIX4_QUICK             0x00
