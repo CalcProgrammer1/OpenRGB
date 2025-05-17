@@ -684,6 +684,7 @@
 #define GIGABYTE_AORUS_RTX5090_MASTER_32G_SUB_DEV       0x416E
 #define GIGABYTE_AORUS_RTX5090_MASTER_ICE_32G_SUB_DEV   0x4199
 #define GIGABYTE_AORUS_RTX5090D_MASTER_32G_SUB_DEV      0x4188
+#define GIGABYTE_AORUS_RX_6750_XT_ELITE_12G_SUB_DEV     0x2407
 
 /*-----------------------------------------------------*\
 | MSI Sub-Device IDs                                    |

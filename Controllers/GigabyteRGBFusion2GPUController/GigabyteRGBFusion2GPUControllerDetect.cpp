@@ -176,3 +176,4 @@ REGISTER_I2C_PCI_DETECTOR("Gigabyte AORUS GeForce RTX 5090 D MASTER",           
 \*-----------------------------------------*/
 
 REGISTER_I2C_PCI_DETECTOR("Gigabyte Radeon RX 7800 XT GAMING OC",                      DetectGigabyteRGBFusion2GPUControllers, AMD_GPU_VEN, AMD_NAVI32_DEV,            GIGABYTE_SUB_VEN,   GIGABYTE_RX7800XT_GAMING_OC_16G_SUB_DEV,        0x62);
+REGISTER_I2C_PCI_DETECTOR("Gigabyte AORUS RX 6750 XT ELITE 12G",                       DetectGigabyteRGBFusion2GPUControllers, AMD_GPU_VEN, AMD_NAVI22_DEV,            GIGABYTE_SUB_VEN,   GIGABYTE_AORUS_RX_6750_XT_ELITE_12G_SUB_DEV,    0x70);
