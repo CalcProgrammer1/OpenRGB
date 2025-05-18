@@ -42,7 +42,7 @@ This project interacts directly with hardware using reverse engineered protocols
   * An unofficial Flatpak release is [available on Flathub](https://flathub.org/apps/details/org.openrgb.OpenRGB)
     * Note: If using the AppImage or Flatpak versions, ensure you [install the latest udev rules](Documentation/UdevRules.md).
   * Released versions are officially packaged for various distributions including Alpine, Fedora, and Arch.
-  * Arch users can also install from the AUR for both the [release](https://aur.archlinux.org/packages/openrgb/) and [pipeline](https://aur.archlinux.org/packages/openrgb-git/) versions.
+  * Arch users can also install from the [Extra repository](https://archlinux.org/packages/extra/x86_64/openrgb/) or from the AUR for the [pipeline](https://aur.archlinux.org/packages/openrgb-git/) version.
 
 ## Compile OpenRGB
 
