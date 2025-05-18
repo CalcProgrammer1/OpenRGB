@@ -18,7 +18,6 @@
 
 
 std::unordered_map<std::string, int> i2c_smbus_pawnio::using_handle;
-std::unordered_map<std::string, int> i2c_smbus_pawnio::current_port;
 
 i2c_smbus_pawnio::i2c_smbus_pawnio(void* handle, std::string name, int port)
 {
@@ -38,8 +37,7 @@ i2c_smbus_pawnio::i2c_smbus_pawnio(void* handle, std::string name, int port)
     this->name = name;
     this->port = port;
 
-    // Update current_port
-    pawnio_port_get();
+    pawnio_port_sel();
 
     using_handle[name]++;
 }
@@ -54,33 +52,6 @@ i2c_smbus_pawnio::~i2c_smbus_pawnio()
     if(--using_handle[name] == 0 && pawnio_close(pawnio_handle)) {
         LOG_ERROR("PawnIO failed to close");
     }
-}
-
-s32 i2c_smbus_pawnio::pawnio_port_get()
-{
-    const SIZE_T    in_size         = 1;
-    ULONG64         in[in_size]     = {(ULONG64)-1};
-    const SIZE_T    out_size        = 1;
-    ULONG64         out[out_size];
-    SIZE_T          return_size;
-    HRESULT         status;
-
-    /*-----------------------------------------------------*\
-    | Port selection is only provided for piix4             |
-    \*-----------------------------------------------------*/
-    if(name != "piix4")
-    {
-        return 0;
-    }
-
-    /*-----------------------------------------------------*\
-    | Execute PawnIO port_sel ioctl                         |
-    \*-----------------------------------------------------*/
-    status = pawnio_execute(pawnio_handle, ("ioctl_" + name + "_port_sel").c_str(), in, in_size, out, 1, &return_size);
-
-    current_port[name] = (int)out[0];
-
-    return(status ? -EIO : 0);
 }
 
 s32 i2c_smbus_pawnio::pawnio_port_sel()
@@ -100,17 +71,10 @@ s32 i2c_smbus_pawnio::pawnio_port_sel()
         return 0;
     }
 
-    if(port == current_port[name])
-    {
-        return 0;
-    }
-
     /*-----------------------------------------------------*\
     | Execute PawnIO port_sel ioctl                         |
     \*-----------------------------------------------------*/
     status = pawnio_execute(pawnio_handle, ("ioctl_" + name + "_port_sel").c_str(), in, in_size, out, 1, &return_size);
-
-    current_port[name] = port;
 
     return(status ? -EIO : 0);
 }
@@ -118,11 +82,6 @@ s32 i2c_smbus_pawnio::pawnio_port_sel()
 s32 i2c_smbus_pawnio::pawnio_read(u8 addr, char /*read_write*/, u8 command, int size, i2c_smbus_data* data)
 {
     SIZE_T      return_size;
-
-    if(pawnio_port_sel())
-    {
-        return(-EIO);
-    }
 
     switch(size)
     {
@@ -220,11 +179,6 @@ s32 i2c_smbus_pawnio::pawnio_read(u8 addr, char /*read_write*/, u8 command, int 
 s32 i2c_smbus_pawnio::pawnio_write(u8 addr, char read_write, u8 command, int size, i2c_smbus_data* data)
 {
     SIZE_T  return_size;
-
-    if(pawnio_port_sel())
-    {
-        return -EIO;
-    }
 
     switch(size)
     {
