@@ -32,6 +32,7 @@ bool i2c_smbus_piix4_pawnio_detect()
     HRESULT hres;
     Wmi wmi;
     HANDLE pawnio_handle;
+    HANDLE pawnio_handle_aux;
 
     // Query WMI for Win32_PnPSignedDriver entries with names matching "SMBUS" or "SM BUS"
     // These devices may be browsed under Device Manager -> System Devices
@@ -80,7 +81,12 @@ bool i2c_smbus_piix4_pawnio_detect()
             strncat(bus->device_name, " port 0", sizeof bus->device_name);
             ResourceManager::get()->RegisterI2CBus(bus);
 
-            bus                         = new i2c_smbus_pawnio(pawnio_handle, "piix4", 1);
+            if(i2c_smbus_pawnio::start_pawnio("SmbusPIIX4.bin", &pawnio_handle_aux) != S_OK)
+            {
+                return(false);
+            }
+
+            bus                         = new i2c_smbus_pawnio(pawnio_handle_aux, "piix4", 1);
             bus->pci_vendor             = ven_id;
             bus->pci_device             = dev_id;
             bus->pci_subsystem_vendor   = sbv_id;
