@@ -87,7 +87,7 @@ void RGBController_ThermaltakeRiingQuad::SetupZones()
         | Riing Quad protocol is 54                         |
         \*-------------------------------------------------*/
         zones[channel_idx].leds_min   = 0;
-        zones[channel_idx].leds_max   = 54;
+        zones[channel_idx].leds_max   = 60;
 
         if(first_run)
         {
