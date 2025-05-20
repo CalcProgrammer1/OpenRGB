@@ -100,6 +100,11 @@ AlienwareController::AlienwareController(hid_device* dev_handle, const hid_devic
     alienware_platform_id platform_id = report.data[4] << 8 | report.data[5];
 
     /*-----------------------------------------------------*\
+    | Check if the device reports the wrong number of zones |
+    \*-----------------------------------------------------*/
+    unsigned number_of_zones = zone_quirks_table.count(platform_id) ? zone_quirks_table.at(platform_id) : report.data[6];
+
+    /*-----------------------------------------------------*\
     | Get firmware version                                  |
     \*-----------------------------------------------------*/
     report              = Report(ALIENWARE_COMMAND_REPORT_FIRMWARE);
@@ -108,11 +113,6 @@ AlienwareController::AlienwareController(hid_device* dev_handle, const hid_devic
 
     fw_string << static_cast<unsigned>(report.data[4]) << '.' << static_cast<unsigned>(report.data[5]) << '.' << static_cast<unsigned>(report.data[6]);
     version             = fw_string.str();
-
-    /*-----------------------------------------------------*\
-    | Check if the device reports the wrong number of zones |
-    \*-----------------------------------------------------*/
-    unsigned number_of_zones = zone_quirks_table.count(platform_id) ? zone_quirks_table.at(platform_id) : report.data[6];
 
     /*-----------------------------------------------------*\
     | Initialize Alienware zones                            |
