@@ -139,7 +139,8 @@ void LIFXController::FetchZoneCount()
     data = new unsigned char[data_buf_size];
     memset(data, 0, data_buf_size);
 
-    port.udp_listen_timeout((char*)data, data_buf_size, 5, 0);
+    port.set_receive_timeout(5, 0);
+    port.udp_listen((char*)data, data_buf_size);
 
     /*-----------------*\
     | Validate response |
