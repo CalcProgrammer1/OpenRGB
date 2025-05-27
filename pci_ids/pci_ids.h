@@ -873,6 +873,7 @@
 #define ZOTAC_RTX2060S_AMP_SUB_DEV                      0x5511
 #define ZOTAC_RTX2070S_GAMING_SUB_DEV                   0x7500
 #define ZOTAC_RTX2080_AMP_SUB_DEV                       0x3500
+#define ZOTAC_RTX2080_AMP_TI_SUB_DEV                    0x1503
 #define ZOTAC_RTX2080S_SUB_DEV                          0x9500
 #define ZOTAC_RTX3070TI_SUB_DEV                         0xC612
 #define ZOTAC_RTX3070TI_TRINITY_SUB_DEV                 0x1653
