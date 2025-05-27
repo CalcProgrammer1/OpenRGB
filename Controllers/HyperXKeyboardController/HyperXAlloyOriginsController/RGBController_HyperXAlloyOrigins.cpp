@@ -174,7 +174,7 @@ static const char *led_names[] =
     @name HyperX Alloy Origins
     @category Keyboard
     @type USB
-    @save :x:
+    @save :white_check_mark:
     @direct :white_check_mark:
     @effects :x:
     @detectors DetectHyperXAlloyOrigins
@@ -195,7 +195,7 @@ RGBController_HyperXAlloyOrigins::RGBController_HyperXAlloyOrigins(HyperXAlloyOr
     mode Direct;
     Direct.name       = "Direct";
     Direct.value      = 0xFFFF;
-    Direct.flags      = MODE_FLAG_HAS_PER_LED_COLOR;
+    Direct.flags      = MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_MANUAL_SAVE;
     Direct.color_mode = MODE_COLORS_PER_LED;
     modes.push_back(Direct);
 
@@ -298,6 +298,15 @@ void RGBController_HyperXAlloyOrigins::UpdateSingleLED(int /*led*/)
 void RGBController_HyperXAlloyOrigins::DeviceUpdateMode()
 {
 
+}
+
+void RGBController_HyperXAlloyOrigins::DeviceSaveMode()
+{
+    active_mode = 1;
+    std::this_thread::sleep_for(50ms);;
+    controller->SaveSettings(colors);
+    std::this_thread::sleep_for(50ms);;
+    active_mode = 0;
 }
 
 void RGBController_HyperXAlloyOrigins::KeepaliveThread()
