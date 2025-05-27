@@ -42,21 +42,21 @@ void RGBFusion2BlackwellGPUController::SaveConfig()
     bus->i2c_write_block(dev, sizeof(data_pkt), data_pkt);
 }
 
-void RGBFusion2BlackwellGPUController::SetMode(uint8_t zone, uint8_t mode, fusion2_config zone_config)
+void RGBFusion2BlackwellGPUController::SetMode(uint8_t type, uint8_t zone, uint8_t mode, fusion2_config zone_config)
 {
-    if(zone < RGB_FUSION_2_BLACKWELL_GPU_NUMBER_OF_ZONES)
-        this->zone_color[zone] = zone_config.colors[0];
+    if(zone_config.numberOfColors == 0 && zone < RGB_FUSION_2_BLACKWELL_GPU_NUMBER_OF_ZONES)
+        this->zone_color[zone] = zone_config.colors[zone];
 
     /************************************************************************************\
     *                                                                                    *
     *       Packet (total size = 64 bytes)                                               *
-    *           MODE SPD  BRT  R    G    B    0    ZONE SZ0-8                            *
+    * TYPE      MODE SPD  BRT  R    G    B    0    ZONE SZ0-8                            *
     * 0x12 0x01 0x08 0x06 0x0A 0xFF 0xFF 0x00 0x00 0x00 0x08 [R] [G] [B] [R] [G] [B] ... *
     *                                                                                    *
     * SZ is the amount of colors that will be sent in the format of 3 bytes RGB          *
     *                                                                                    *
     \************************************************************************************/
-    uint8_t zone_pkt[64] = {RGB_FUSION2_BLACKWELL_GPU_REG_COLOR, 0x01, mode, zone_config.speed, zone_config.brightness, RGBGetRValue(this->zone_color[zone]), RGBGetGValue(this->zone_color[zone]), RGBGetBValue(this->zone_color[zone]), 0x00, zone, zone_config.numberOfColors, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
+    uint8_t zone_pkt[64] = {type, 0x01, mode, zone_config.speed, zone_config.brightness, RGBGetRValue(this->zone_color[zone]), RGBGetGValue(this->zone_color[zone]), RGBGetBValue(this->zone_color[zone]), 0x00, zone, zone_config.numberOfColors, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
 
     if(zone_config.numberOfColors > 0)
     {
@@ -78,5 +78,9 @@ void RGBFusion2BlackwellGPUController::SetZone(uint8_t zone, uint8_t mode, fusio
     if(mode == RGB_FUSION2_BLACKWELL_GPU_MODE_BREATHING)
         zone_config.brightness = RGB_FUSION2_BLACKWELL_GPU_BRIGHTNESS_MAX;
 
-    SetMode(zone, mode, zone_config);
+    uint8_t type = RGB_FUSION2_BLACKWELL_GPU_REG_COLOR;
+    if(mode != RGB_FUSION2_BLACKWELL_GPU_MODE_STATIC)
+        type = RGB_FUSION2_BLACKWELL_GPU_REG_MODE;
+
+    SetMode(type, zone, mode, zone_config);
 }

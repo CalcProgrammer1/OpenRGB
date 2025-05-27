@@ -27,8 +27,8 @@ struct fusion2_config
 
 enum
 {
-    RGB_FUSION2_BLACKWELL_GPU_REG_COLOR            = 0x12,
-    RGB_FUSION2_BLACKWELL_GPU_REG_MODE             = 0x16  // Used for 'Intelligent' mode
+    RGB_FUSION2_BLACKWELL_GPU_REG_MODE              = 0x12, // Limits updates to at most 9 per second, required for all modes but static/direct
+    RGB_FUSION2_BLACKWELL_GPU_REG_COLOR             = 0x16, // Used for 'Intelligent' mode, faster updates (used for direct mode)
 };
 
 enum
@@ -38,10 +38,11 @@ enum
     RGB_FUSION2_BLACKWELL_GPU_MODE_FLASHING        = 0x03,
     RGB_FUSION2_BLACKWELL_GPU_MODE_DUAL_FLASHING   = 0x04,
     RGB_FUSION2_BLACKWELL_GPU_MODE_COLOR_CYCLE     = 0x05,
-    RGB_FUSION2_BLACKWELL_GPU_MODE_WAVE            = 0x06, //not available to Eagle/Aero
-    RGB_FUSION2_BLACKWELL_GPU_MODE_GRADIENT        = 0x07, //not available to Eagle/Aero
-    RGB_FUSION2_BLACKWELL_GPU_MODE_COLOR_SHIFT     = 0x08, //not available to Eagle/Aero
-    RGB_FUSION2_BLACKWELL_GPU_MODE_DAZZLE          = 0x0A, //not available to Eagle/Aero
+    RGB_FUSION2_BLACKWELL_GPU_MODE_WAVE            = 0x06, // Not available to Eagle/Aero
+    RGB_FUSION2_BLACKWELL_GPU_MODE_GRADIENT        = 0x07, // Not available to Eagle/Aero
+    RGB_FUSION2_BLACKWELL_GPU_MODE_COLOR_SHIFT     = 0x08, // Not available to Eagle/Aero
+    RGB_FUSION2_BLACKWELL_GPU_MODE_TRICOLOR        = 0x09, // Available to Waterforce
+    RGB_FUSION2_BLACKWELL_GPU_MODE_DAZZLE          = 0x0A, // Not available to Eagle/Aero/Waterforce
 };
 
 enum
@@ -61,6 +62,7 @@ enum
 {
     RGB_FUSION2_BLACKWELL_GPU_SINGLE_ZONE          = 0,
     RGB_FUSION2_BLACKWELL_GPU_GAMING_LAYOUT        = 1,
+    RGB_FUSION2_BLACKWELL_GPU_WATERFORCE_LAYOUT    = 2,
 };
 
 class RGBFusion2BlackwellGPUController
@@ -75,7 +77,7 @@ public:
     void            SaveConfig();
 
     void            SetZone(uint8_t zone, uint8_t mode, fusion2_config zone_config);
-    void            SetMode(uint8_t zone, uint8_t mode, fusion2_config zone_config);
+    void            SetMode(uint8_t type, uint8_t zone, uint8_t mode, fusion2_config zone_config);
 private:
     i2c_smbus_interface*    bus;
     rgb_fusion_dev_id       dev;
