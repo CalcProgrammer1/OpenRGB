@@ -11,6 +11,13 @@
 
 #include "RGBController_HIDLampArray.h"
 
+/**------------------------------------------------------------------*\
+    @name HID LampArray Controllers
+    @category Keyboard
+    @type USB
+    @detectors DetectHIDLampArrayControllers
+\*-------------------------------------------------------------------*/
+
 RGBController_HIDLampArray::RGBController_HIDLampArray(HIDLampArrayController* controller_ptr)
 {
     controller          = controller_ptr;
