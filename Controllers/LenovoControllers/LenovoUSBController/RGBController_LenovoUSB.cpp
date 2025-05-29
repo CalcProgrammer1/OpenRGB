@@ -307,6 +307,7 @@ void RGBController_LenovoUSB::SetupZones()
             break;
         case LEGION_7GEN8:
         case LEGION_7GEN9:
+        case LEGION_7GEN9_H:
             lenovo_zones.push_back(legion7_gen7and8_kbd_ansi);
             lenovo_zones.push_back(legion7_gen7and8_neon);
             break;
