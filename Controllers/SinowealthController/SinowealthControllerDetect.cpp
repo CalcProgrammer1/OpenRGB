@@ -1,5 +1,5 @@
 /*---------------------------------------------------------*\
-| SkyloongControllerDetect.cpp                              |
+| SinowealthControllerDetect.cpp                            |
 |                                                           |
 |   Detector for Sinowealth, Genesis and Everest brand Mice |
 |                                                           |

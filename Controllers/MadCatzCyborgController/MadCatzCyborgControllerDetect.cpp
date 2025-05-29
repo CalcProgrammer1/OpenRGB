@@ -9,7 +9,6 @@
 
 #include "Detector.h"
 #include "MadCatzCyborgController.h"
-#include "RGBController.h"
 #include "RGBController_MadCatzCyborg.h"
 #include <hidapi.h>
 
@@ -27,7 +26,7 @@
 *                                                                                          *
 \******************************************************************************************/
 
-void DetectMadCatzCyborgControllers(hid_device_info* info, const std::string& name)
+void DetectMadCatzCyborgControllers(hid_device_info* info, const std::string&  /*name*/)
 {
     hid_device* dev = hid_open_path(info->path);
     

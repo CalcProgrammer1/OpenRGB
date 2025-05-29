@@ -11,7 +11,6 @@
 \*---------------------------------------------------------*/
 #include "Detector.h"
 #include "MintakaKeyboardController.h"
-#include "RGBController.h"
 #include "RGBController_MintakaKeyboard.h"
 
 /*---------------------------------------------------------*\

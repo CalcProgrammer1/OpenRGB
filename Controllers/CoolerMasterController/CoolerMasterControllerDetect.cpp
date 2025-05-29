@@ -210,45 +210,40 @@ void DetectCoolerMasterMouse(hid_device_info* info, const std::string& name)
 
     if(dev)
     {
-        switch(info->product_id)
-        {
-            case COOLERMASTER_MM530_PID:
-            case COOLERMASTER_MM531_PID:
-            case COOLERMASTER_MM720_PID:
-            case COOLERMASTER_MM730_PID:
-                {
-                    CMMMController*               controller        = new CMMMController(dev, info->path, info->product_id);
-                    RGBController_CMMMController* rgb_controller    = new RGBController_CMMMController(controller);
-                    rgb_controller->name                            = name;
-                    ResourceManager::get()->RegisterRGBController(rgb_controller);
-                }
-                break;
-
-            case COOLERMASTER_MM711_PID:
-                {
-                    CMMM711Controller*               controller     = new CMMM711Controller(dev, info->path);
-                    RGBController_CMMM711Controller* rgb_controller = new RGBController_CMMM711Controller(controller);
-                    // Constructor sets the name
-                    ResourceManager::get()->RegisterRGBController(rgb_controller);
-                }
-                break;
-
-            case COOLERMASTER_MM712_PID:
-                {
-                    CMMM712Controller*               controller     = new CMMM712Controller(dev, info->path);
-                    RGBController_CMMM712Controller* rgb_controller = new RGBController_CMMM712Controller(controller);
-                    // Constructor sets the name
-                    ResourceManager::get()->RegisterRGBController(rgb_controller);
-                }
-                break;
-
-            default:
-                LOG_DEBUG("[%s] Controller not created as the product ID %04X is missing from detector switch", name.c_str(), info->product_id);
-         }
+        CMMMController*               controller        = new CMMMController(dev, info->path, info->product_id);
+        RGBController_CMMMController* rgb_controller    = new RGBController_CMMMController(controller);
+        rgb_controller->name                            = name;
+        ResourceManager::get()->RegisterRGBController(rgb_controller);
     }
 }
 
-void DetectCoolerMasterMousemats(hid_device_info* info, const std::string&)
+void DetectCoolerMasterMouse711(hid_device_info* info, const std::string& /*name*/)
+{
+    hid_device* dev = hid_open_path(info->path);
+
+    if(dev)
+    {
+        CMMM711Controller*               controller     = new CMMM711Controller(dev, info->path);
+        RGBController_CMMM711Controller* rgb_controller = new RGBController_CMMM711Controller(controller);
+        // Constructor sets the name
+        ResourceManager::get()->RegisterRGBController(rgb_controller);
+    }
+}
+
+void DetectCoolerMasterMouse712(hid_device_info* info, const std::string& /*name*/)
+{
+    hid_device* dev = hid_open_path(info->path);
+
+    if(dev)
+    {
+        CMMM712Controller*               controller     = new CMMM712Controller(dev, info->path);
+        RGBController_CMMM712Controller* rgb_controller = new RGBController_CMMM712Controller(controller);
+        // Constructor sets the name
+        ResourceManager::get()->RegisterRGBController(rgb_controller);
+    }
+}
+
+void DetectCoolerMasterMousemats(hid_device_info* info, const std::string& /*name*/)
 {
     hid_device* dev = hid_open_path(info->path);
 
@@ -261,7 +256,7 @@ void DetectCoolerMasterMousemats(hid_device_info* info, const std::string&)
     }
 }
 
-void DetectCoolerMasterRGB(hid_device_info* info, const std::string&)
+void DetectCoolerMasterRGB(hid_device_info* info, const std::string& /*name*/)
 {
     hid_device* dev = hid_open_path(info->path);
 
@@ -274,7 +269,7 @@ void DetectCoolerMasterRGB(hid_device_info* info, const std::string&)
     }
 }
 
-void DetectCoolerMasterSmallARGB(hid_device_info* info, const std::string&)
+void DetectCoolerMasterSmallARGB(hid_device_info* info, const std::string& /*name*/)
 {
     hid_device* dev = hid_open_path(info->path);
 
@@ -338,8 +333,8 @@ REGISTER_HID_DETECTOR_IPU("Cooler Master Small ARGB",               DetectCooler
 \*-----------------------------------------------------*/
 REGISTER_HID_DETECTOR_IPU("Cooler Master MM530",                    DetectCoolerMasterMouse,        COOLERMASTER_VID,   COOLERMASTER_MM530_PID,                     1,      0xFF00, 1);
 //REGISTER_HID_DETECTOR_IPU("Cooler Master MM531",                  DetectCoolerMasterMouse,        COOLERMASTER_VID,   COOLERMASTER_MM531_PID,                     1,      0xFF00, 1);
-REGISTER_HID_DETECTOR_IPU("Cooler Master MM711",                    DetectCoolerMasterMouse,        COOLERMASTER_VID,   COOLERMASTER_MM711_PID,                     1,      0xFF00, 1);
-REGISTER_HID_DETECTOR_IPU("Cooler Master MM712",                    DetectCoolerMasterMouse,        COOLERMASTER_VID,   COOLERMASTER_MM712_PID,                     3,      0xFF0A, 2);
+REGISTER_HID_DETECTOR_IPU("Cooler Master MM711",                    DetectCoolerMasterMouse711,     COOLERMASTER_VID,   COOLERMASTER_MM711_PID,                     1,      0xFF00, 1);
+REGISTER_HID_DETECTOR_IPU("Cooler Master MM712",                    DetectCoolerMasterMouse712,     COOLERMASTER_VID,   COOLERMASTER_MM712_PID,                     3,      0xFF0A, 2);
 REGISTER_HID_DETECTOR_IPU("Cooler Master MM720",                    DetectCoolerMasterMouse,        COOLERMASTER_VID,   COOLERMASTER_MM720_PID,                     1,      0xFF00, 1);
 REGISTER_HID_DETECTOR_IPU("Cooler Master MM730",                    DetectCoolerMasterMouse,        COOLERMASTER_VID,   COOLERMASTER_MM730_PID,                     1,      0xFF00, 1);
 
