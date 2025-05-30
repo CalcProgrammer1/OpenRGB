@@ -14,9 +14,18 @@
 
 HIDLampArrayController::HIDLampArrayController(hid_device *dev_handle, const char *path, std::string dev_name)
 {
-    dev         = dev_handle;
-    location    = path;
-    name        = dev_name;
+    dev                                 = dev_handle;
+    location                            = path;
+    name                                = dev_name;
+
+    /*-----------------------------------------------------*\
+    | Get LampArrayAttributesReport                         |
+    \*-----------------------------------------------------*/
+    ids.LampArrayAttributesReportID     = 0x01;
+    ids.LampAttributesRequestReportID   = 0x02;
+    ids.LampAttributesResponseReportID  = 0x03;
+    ids.LampMultiUpdateReportID         = 0x04;
+    ids.LampArrayControlReportID        = 0x06;
 
     /*-----------------------------------------------------*\
     | Get LampArrayAttributesReport                         |
@@ -79,7 +88,7 @@ void HIDLampArrayController::GetLampArrayAttributesReport()
     /*-----------------------------------------------------*\
     | First byte is the report ID                           |
     \*-----------------------------------------------------*/
-    usb_buf[0]          = HID_LAMPARRAY_LAMP_ARRAY_ATTRIBUTES_REPORT_ID;
+    usb_buf[0]          = ids.LampArrayAttributesReportID;
 
     /*-----------------------------------------------------*\
     | Get the report                                        |
@@ -100,7 +109,7 @@ void HIDLampArrayController::GetLampAttributesResponseReport()
     /*-----------------------------------------------------*\
     | First byte is the report ID                           |
     \*-----------------------------------------------------*/
-    usb_buf[0]      = HID_LAMPARRAY_LAMP_ATTRIBUTES_RESPONSE_REPORT_ID;
+    usb_buf[0]      = ids.LampAttributesResponseReportID;
 
     /*-----------------------------------------------------*\
     | Get the report                                        |
@@ -124,7 +133,7 @@ void HIDLampArrayController::SetLampArrayControlReport(unsigned char AutonomousM
     /*-----------------------------------------------------*\
     | First byte is the report ID                           |
     \*-----------------------------------------------------*/
-    usb_buf[0] = HID_LAMPARRAY_LAMP_ARRAY_CONTROL_REPORT_ID;
+    usb_buf[0] = ids.LampArrayControlReportID;
 
     /*-----------------------------------------------------*\
     | Fill in control data                                  |
@@ -146,7 +155,7 @@ void HIDLampArrayController::SetLampAttributesRequestReport(unsigned short LampI
     /*-----------------------------------------------------*\
     | First byte is the report ID                           |
     \*-----------------------------------------------------*/
-    usb_buf[0] = HID_LAMPARRAY_LAMP_ATTRIBUTES_REQUEST_REPORT_ID;
+    usb_buf[0] = ids.LampAttributesRequestReportID;
 
     /*-----------------------------------------------------*\
     | Fill in request data                                  |
@@ -168,7 +177,7 @@ void HIDLampArrayController::SetLampMultiUpdateReport(unsigned char LampCount, u
     /*-----------------------------------------------------*\
     | First byte is the report ID                           |
     \*-----------------------------------------------------*/
-    usb_buf[0] = HID_LAMPARRAY_LAMP_MULTI_UPDATE_REPORT_ID;
+    usb_buf[0] = ids.LampMultiUpdateReportID;
 
     /*-----------------------------------------------------*\
     | Fill in multi update data                             |
