@@ -81,14 +81,15 @@ PACK(struct LampMultiUpdate
     LampArrayColor  UpdateColors[LAMP_MULTI_UPDATE_LAMP_COUNT];
 });
 
-enum
+typedef struct
 {
-    HID_LAMPARRAY_LAMP_ARRAY_ATTRIBUTES_REPORT_ID       = 0x01, /* LampArrayAttributesReport ID     */
-    HID_LAMPARRAY_LAMP_ATTRIBUTES_REQUEST_REPORT_ID     = 0x02, /* LampAttributesRequestReport ID   */
-    HID_LAMPARRAY_LAMP_ATTRIBUTES_RESPONSE_REPORT_ID    = 0x03, /* LampAttributesResponseReport ID  */
-    HID_LAMPARRAY_LAMP_MULTI_UPDATE_REPORT_ID           = 0x04, /* LampMultiUpdateReport ID         */
-    HID_LAMPARRAY_LAMP_ARRAY_CONTROL_REPORT_ID          = 0x06, /* LampArrayControlReport ID        */
-};
+    unsigned char   LampArrayAttributesReportID;
+    unsigned char   LampAttributesRequestReportID;
+    unsigned char   LampAttributesResponseReportID;
+    unsigned char   LampMultiUpdateReportID;
+    unsigned char   LampRangeUpdateReportID;
+    unsigned char   LampArrayControlReportID;
+} HIDLampArrayReportIDs;
 
 enum
 {
@@ -121,9 +122,10 @@ public:
     void SetLampMultiUpdateReport(unsigned char LampCount, unsigned char LampUpdateFlags, unsigned short * LampIds, LampArrayColor * UpdateColors);
 
 private:
-    hid_device *        dev;
-    std::string         location;
-    std::string         name;
+    hid_device *                dev;
+    HIDLampArrayReportIDs       ids;
+    std::string                 location;
+    std::string                 name;
 
     /*-----------------------------------------------------*\
     | Vector to store lamp attributes for each lamp         |
