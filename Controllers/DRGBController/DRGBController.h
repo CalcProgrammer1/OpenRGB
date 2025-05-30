@@ -28,7 +28,6 @@ public:
     DRGBController(hid_device* dev_handle, const char* path,  unsigned short pid);
     ~DRGBController();
     void            KeepaliveThread();
-    void            InitController();
     std::string     GetFirmwareString();
     std::string     GetLocationString();
     std::string     GetSerialString();

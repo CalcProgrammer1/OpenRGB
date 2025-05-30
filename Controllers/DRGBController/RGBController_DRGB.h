@@ -20,6 +20,13 @@
 #define DRGB_CORE_V4F_PID       0x3628
 #define DRGB_SIG_V4F_PID        0x3636
 
+#define DRGB_LED_V5_PID         0x3208
+#define DRGB_ULTRA_V5_PID       0x3215
+#define DRGB_ULTRA_V5F_PID      0x3217
+#define DRGB_CORE_V5_PID        0x3228
+#define DRGB_CORE_V5F_PID       0x3229
+#define DRGB_SIG_V5F_PID        0x3232
+
 #define DRGBV3_VID              0x2023
 #define DRGB_LED_V3_PID         0x1209
 #define DRGB_Ultra_V3_PID       0x1221

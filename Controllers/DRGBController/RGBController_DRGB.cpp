@@ -70,7 +70,7 @@ void RGBController_DRGB::SetupZones()
     {
         case DRGB_LED_V4_PID:
             NUM_CHANNELS    = 8;
-            NUM_Channel_led = 256;
+            NUM_Channel_led = 512;
             Version         = 4;
             break;
         case DRGB_ULTRA_V4F_PID:
@@ -89,6 +89,37 @@ void RGBController_DRGB::SetupZones()
             Version         = 4;
             break;
 
+        case DRGB_LED_V5_PID:
+            NUM_CHANNELS    = 8;
+            NUM_Channel_led = 512;
+            Version         = 4;
+            break;
+        case DRGB_ULTRA_V5_PID:
+            NUM_CHANNELS    = 16;
+            NUM_Channel_led = 256;
+            Version         = 4;
+            break;
+        case DRGB_ULTRA_V5F_PID:
+            NUM_CHANNELS    = 16;
+            NUM_Channel_led = 256;
+            Version         = 4;
+            break;
+        case DRGB_CORE_V5_PID:
+            NUM_CHANNELS    = 32;
+            NUM_Channel_led = 256;
+            Version         = 4;
+            break;
+        case DRGB_CORE_V5F_PID:
+            NUM_CHANNELS    = 32;
+            NUM_Channel_led = 256;
+            Version         = 4;
+            break;
+        case DRGB_SIG_V5F_PID:
+            NUM_CHANNELS    = 32;
+            NUM_Channel_led = 256;
+            Version         = 4;
+            break;
+            
         case DRGB_LED_V3_PID:
             NUM_CHANNELS    = 8;
             NUM_Channel_led = 256;

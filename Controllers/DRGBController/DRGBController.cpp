@@ -22,11 +22,6 @@ DRGBController::DRGBController(hid_device* dev_handle, const char* path, unsigne
     device_pid  = pid;
 
     /*-----------------------------------------------------*\
-    | Initialize controller                                 |
-    \*-----------------------------------------------------*/
-    InitController();
-
-    /*-----------------------------------------------------*\
     | Exit hardware effects.  Start a thread to continuously|
     | send a keepalive packet every 500ms                   |
     \*-----------------------------------------------------*/
@@ -54,24 +49,6 @@ void DRGBController::KeepaliveThread()
         }
         std::this_thread::sleep_for(500ms);
     }
-}
-
-
-void DRGBController::InitController()
-{
-    /*-----------------------------------------------------*\
-    | Get version                                           |
-    \*-----------------------------------------------------*/
-    unsigned char cmd_data[65];
-    cmd_data[0]=0x00;
-    cmd_data[1]=0x02;
-    cmd_data[2]=0x00;
-    hid_write(dev, cmd_data, 65);
-    hid_read(dev, cmd_data, 6);
-    version[0] = cmd_data[1];
-    version[1] = cmd_data[2];
-    version[2] = cmd_data[3];
-    version[3] = cmd_data[4];
 }
 
 std::string DRGBController::GetFirmwareString()
