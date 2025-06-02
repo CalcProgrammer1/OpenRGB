@@ -12,7 +12,7 @@
 #include "RGBController.h"
 #include "GigabyteRGBFusion2GPUController.h"
 
-#define RGB_FUSION_2_GPU_NUMBER_OF_ZONES 4
+#define RGB_FUSION_2_GPU_NUMBER_OF_ZONES 5
 
 class RGBController_RGBFusion2GPU : public RGBController
 {
