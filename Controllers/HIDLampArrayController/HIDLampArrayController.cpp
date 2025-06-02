@@ -9,7 +9,9 @@
 |   SPDX-License-Identifier: GPL-2.0-only                   |
 \*---------------------------------------------------------*/
 
+#include <cstdio>
 #include <cstring>
+#include "hid_util.h"
 #include "HIDLampArrayController.h"
 
 HIDLampArrayController::HIDLampArrayController(hid_device *dev_handle, const char *path, std::string dev_name)
@@ -19,13 +21,78 @@ HIDLampArrayController::HIDLampArrayController(hid_device *dev_handle, const cha
     name                                = dev_name;
 
     /*-----------------------------------------------------*\
-    | Get LampArrayAttributesReport                         |
+    | Parse report IDs from descriptor                      |
     \*-----------------------------------------------------*/
-    ids.LampArrayAttributesReportID     = 0x01;
-    ids.LampAttributesRequestReportID   = 0x02;
-    ids.LampAttributesResponseReportID  = 0x03;
-    ids.LampMultiUpdateReportID         = 0x04;
-    ids.LampArrayControlReportID        = 0x06;
+    unsigned char data_len              = 0;
+    unsigned char key                   = 0;
+    unsigned char key_cmd               = 0;
+    unsigned char key_size              = 0;
+    unsigned int  pos                   = 0;
+    unsigned char report_descriptor[HID_API_MAX_REPORT_DESCRIPTOR_SIZE];
+    unsigned char report_id             = 0;
+    unsigned int  size                  = hid_get_report_descriptor(dev, report_descriptor, sizeof(report_descriptor));
+    unsigned int  usage                 = 0;
+    unsigned char usage_page            = 0;
+
+    while(pos < size)
+    {
+        get_hid_item_size(report_descriptor, size, pos, &data_len, &key_size);
+
+        key                             = report_descriptor[pos];
+        key_cmd                         = key & 0xFC;
+
+        switch(key_cmd)
+        {
+            case 0x4:
+                usage_page              = get_hid_report_bytes(report_descriptor, size, data_len, pos);
+                break;
+
+            case 0x8:
+                usage                   = get_hid_report_bytes(report_descriptor, size, data_len, pos);
+
+                if(data_len == 4)
+                {
+                    usage_page          = usage >> 16;
+                    usage              &= 0x0000FFFF;
+                }
+                if(usage_page == 0x59 && report_id)
+                {
+                    switch(usage)
+                    {
+                        case 0x02:
+                            ids.LampArrayAttributesReportID     = report_id;
+                            break;
+
+                        case 0x20:
+                            ids.LampAttributesRequestReportID   = report_id;
+                            break;
+
+                        case 0x22:
+                            ids.LampAttributesResponseReportID  = report_id;
+                            break;
+
+                        case 0x50:
+                            ids.LampMultiUpdateReportID         = report_id;
+                            break;
+
+                        case 0x60:
+                            ids.LampRangeUpdateReportID         = report_id;
+                            break;
+
+                        case 0x70:
+                            ids.LampArrayControlReportID        = report_id;
+                            break;
+                    }
+                    report_id = 0;
+                }
+                break;
+
+            case 0x84:
+                report_id               = get_hid_report_bytes(report_descriptor, size, data_len, pos);
+                break;
+        }
+        pos += data_len + key_size;
+    }
 
     /*-----------------------------------------------------*\
     | Get LampArrayAttributesReport                         |
