@@ -9,13 +9,13 @@
 |   SPDX-License-Identifier: GPL-2.0-only                   |
 \*---------------------------------------------------------*/
 
-#include "Bridge.h"
-#include "HueDeviceTypes.h"
+#include "hueplusplus/Bridge.h"
+#include "hueplusplus/HueDeviceTypes.h"
 
 #ifdef _WIN32
-#include "WinHttpHandler.h"
+#include "hueplusplus/WinHttpHandler.h"
 #else
-#include "LinHttpHandler.h"
+#include "hueplusplus/LinHttpHandler.h"
 #endif
 
 #include "Detector.h"

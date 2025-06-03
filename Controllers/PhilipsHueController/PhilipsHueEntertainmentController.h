@@ -13,9 +13,9 @@
 
 #include <string>
 #include <vector>
-#include "Bridge.h"
-#include "EntertainmentMode.h"
-#include "Group.h"
+#include "hueplusplus/Bridge.h"
+#include "hueplusplus/EntertainmentMode.h"
+#include "hueplusplus/Group.h"
 #include "RGBController.h"
 
 #define HUE_ENTERTAINMENT_HEADER_SIZE   16

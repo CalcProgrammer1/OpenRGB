@@ -161,10 +161,17 @@ target_sources(OpenRGB PRIVATE ${CONTROLLER_CPP}            )
 target_include_directories(OpenRGB PRIVATE ${CONTROLLER_INC})
 
 target_include_directories(OpenRGB PRIVATE ${CMAKE_SOURCE_DIR}/AutoStart)
+
 target_include_directories(OpenRGB PRIVATE ${CMAKE_SOURCE_DIR}/dmiinfo)
+target_sources(OpenRGB PRIVATE ${CMAKE_SOURCE_DIR}/dmiinfo/dmiinfo.cpp)
+
 target_include_directories(OpenRGB PRIVATE ${CMAKE_SOURCE_DIR}/hidapi_wrapper)
+
 target_include_directories(OpenRGB PRIVATE ${CMAKE_SOURCE_DIR}/i2c_smbus)
+
 target_include_directories(OpenRGB PRIVATE ${CMAKE_SOURCE_DIR}/i2c_tools)
+target_sources(OpenRGB PRIVATE ${CMAKE_SOURCE_DIR}/i2c_tools/i2c_tools.cpp)
+
 target_include_directories(OpenRGB PRIVATE ${CMAKE_SOURCE_DIR}/interop)
 target_include_directories(OpenRGB PRIVATE ${CMAKE_SOURCE_DIR}/KeyboardLayoutManager)
 target_include_directories(OpenRGB PRIVATE ${CMAKE_SOURCE_DIR}/net_port)
@@ -179,10 +186,41 @@ target_include_directories(OpenRGB PRIVATE ${CMAKE_SOURCE_DIR}/SuspendResume)
 target_include_directories(OpenRGB PRIVATE ${CMAKE_SOURCE_DIR}/wmi)
 
 #-----------------------------------------------------------#
+# CRCpp                                                     #
+#-----------------------------------------------------------#
+set(CRCPP_DIR ${CMAKE_SOURCE_DIR}/dependencies/CRCpp)
+
+add_library(CRCpp INTERFACE)
+target_include_directories(CRCpp INTERFACE ${CRCPP_DIR}/)
+
+target_link_libraries(OpenRGB CRCpp)
+
+#-----------------------------------------------------------#
 # hidapi                                                    #
 #-----------------------------------------------------------#
 find_package(hidapi REQUIRED)
 target_link_libraries(OpenRGB hidapi::hidapi)
+
+#-----------------------------------------------------------#
+# httplib                                                   #
+#-----------------------------------------------------------#
+set(HTTPLIB_DIR ${CMAKE_SOURCE_DIR}/dependencies/httplib)
+
+add_library(httplib INTERFACE)
+target_include_directories(httplib INTERFACE ${HTTPLIB_DIR}/)
+
+target_link_libraries(OpenRGB httplib)
+
+#-----------------------------------------------------------#
+# libe131                                                   #
+#-----------------------------------------------------------#
+set(LIBE131_DIR ${CMAKE_SOURCE_DIR}/dependencies/libe131)
+
+add_library(libe131 STATIC)
+target_include_directories(libe131 PUBLIC ${LIBE131_DIR}/src)
+target_sources(libe131 PRIVATE ${LIBE131_DIR}/src/e131.c)
+
+target_link_libraries(OpenRGB libe131)
 
 #-----------------------------------------------------------#
 # libusb                                                    #
@@ -192,7 +230,14 @@ pkg_check_modules(libusb-1.0 REQUIRED IMPORTED_TARGET GLOBAL libusb-1.0)
 
 target_link_libraries(OpenRGB PkgConfig::libusb-1.0)
 
-target_include_directories(OpenRGB PRIVATE ${CMAKE_SOURCE_DIR}/dependencies/CRCpp)
-target_include_directories(OpenRGB PRIVATE ${CMAKE_SOURCE_DIR}/dependencies/libe131/src)
-target_include_directories(OpenRGB PRIVATE ${CMAKE_SOURCE_DIR}/dependencies/httplib)
-target_include_directories(OpenRGB PRIVATE ${CMAKE_SOURCE_DIR}/dependencies/json/nlohmann)
+#-----------------------------------------------------------#
+# hueplusplus                                               #
+#-----------------------------------------------------------#
+add_subdirectory(${CMAKE_SOURCE_DIR}/dependencies/hueplusplus-1.2.0)
+target_link_libraries(OpenRGB hueplusplusstatic)
+
+#-----------------------------------------------------------#
+# nlohmann_json                                             #
+#-----------------------------------------------------------#
+find_package(nlohmann_json REQUIRED)
+target_link_libraries(OpenRGB nlohmann_json)

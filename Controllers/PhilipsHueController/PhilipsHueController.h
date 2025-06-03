@@ -13,7 +13,7 @@
 
 #include <string>
 #include <vector>
-#include "HueDeviceTypes.h"
+#include "hueplusplus/HueDeviceTypes.h"
 
 class PhilipsHueController
 {
