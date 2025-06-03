@@ -11,6 +11,8 @@
 
 #include "RGBController_HIDLampArray.h"
 
+#include <set>
+
 /**------------------------------------------------------------------*\
     @name HID LampArray Controllers
     @category Keyboard
@@ -47,12 +49,34 @@ RGBController_HIDLampArray::~RGBController_HIDLampArray()
 void RGBController_HIDLampArray::SetupZones()
 {
     zone new_zone;
-    new_zone.name       = "Test Zone";
-    new_zone.type       = ZONE_TYPE_SINGLE;
+    new_zone.name       = "LampArray";
+    new_zone.type       = ZONE_TYPE_MATRIX;
     new_zone.leds_count = controller->GetLampCount();
     new_zone.leds_min   = new_zone.leds_count;
     new_zone.leds_max   = new_zone.leds_count;
-    new_zone.matrix_map = NULL;
+
+    std::set<unsigned int>  columns;
+    std::set<unsigned int>  rows;
+
+    for(std::size_t lamp_idx = 0; lamp_idx < controller->GetLamps().size(); lamp_idx++)
+    {
+        rows.insert(controller->GetLamps()[lamp_idx].PositionYInMillimeters);
+        columns.insert(controller->GetLamps()[lamp_idx].PositionXInMillimeters);
+    }
+
+    new_zone.matrix_map.height  = rows.size();
+    new_zone.matrix_map.width   = columns.size();
+    new_zone.matrix_map.map.resize(rows.size() * columns.size());
+
+    for(std::size_t lamp_idx = 0; lamp_idx < controller->GetLamps().size(); lamp_idx++)
+    {
+        //FIXME this assumes that matrix_size is big enough which is only guaranteed when no key possition is doubled
+        size_t idx      = std::distance(columns.begin(), columns.find(controller->GetLamps()[lamp_idx].PositionXInMillimeters));
+        size_t idy      = std::distance(rows.begin(), rows.find(controller->GetLamps()[lamp_idx].PositionYInMillimeters));
+
+        new_zone.matrix_map.map[idx + idy * new_zone.matrix_map.width] = lamp_idx;
+    }
+
     zones.push_back(new_zone);
 
     for(unsigned int led_idx = 0; led_idx < new_zone.leds_count; led_idx++)

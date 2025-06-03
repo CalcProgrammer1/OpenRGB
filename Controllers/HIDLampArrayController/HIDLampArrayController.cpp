@@ -64,6 +64,11 @@ unsigned int HIDLampArrayController::GetLampCount()
     return(LampArray.LampCount);
 }
 
+std::vector<LampAttributes> HIDLampArrayController::GetLamps()
+{
+    return(Lamps);
+}
+
 void HIDLampArrayController::GetLampArrayAttributesReport()
 {
     unsigned char   usb_buf[sizeof(LampArrayAttributes) + 1];

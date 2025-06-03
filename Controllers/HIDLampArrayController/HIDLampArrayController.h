@@ -116,6 +116,8 @@ public:
     std::string GetSerialString();
 
     unsigned int GetLampCount();
+    std::vector<LampAttributes> GetLamps();
+
     void SetLampMultiUpdateReport(unsigned char LampCount, unsigned char LampUpdateFlags, unsigned short * LampIds, LampArrayColor * UpdateColors);
 
 private:
