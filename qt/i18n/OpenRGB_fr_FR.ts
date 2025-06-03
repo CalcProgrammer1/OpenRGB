@@ -175,7 +175,7 @@
     </message>
     <message>
         <source>Select All</source>
-        <translation>Tout séléctionner</translation>
+        <translation>Tout sélectionner</translation>
     </message>
     <message>
         <source>Per-LED</source>
@@ -223,7 +223,7 @@
     </message>
     <message>
         <source>Edit</source>
-        <translation>Editer</translation>
+        <translation>Éditer</translation>
     </message>
 </context>
 <context>
@@ -266,7 +266,7 @@
     </message>
     <message>
         <source>OpenRGB is detecting devices...</source>
-        <translation>Détection des périphériques ...</translation>
+        <translation>Détection des périphériques…</translation>
     </message>
     <message>
         <source>Cancel</source>
@@ -274,7 +274,7 @@
     </message>
     <message>
         <source>Save Profile As...</source>
-        <translation>Sauvegarder le profil ...</translation>
+        <translation>Sauvegarder le profil…</translation>
     </message>
     <message>
         <source>Save Profile with custom name</source>
@@ -512,7 +512,7 @@
     </message>
     <message>
         <source>To pair, hold the on-off button down for 5-7 seconds until the LED starts flashing in a pattern, then click the &quot;Pair&quot; button within 30 seconds.</source>
-        <translation>Pour appairer, maintenir le bouton on off enfoncé pendant 5 à 7 secondes jusqu&apos;à ce que la LED se mette a clignotter, puis cliquer sur le bouton &quot;Appairer&quot; dans les 30 secondes.</translation>
+        <translation>Pour appairer, maintenir le bouton on-off enfoncé pendant 5 à 7 secondes jusqu&apos;à ce que la LED se mette à clignoter, puis cliquer sur le bouton &quot;Appairer&quot; dans les 30 secondes.</translation>
     </message>
     <message>
         <source>Add</source>
@@ -669,11 +669,11 @@
     </message>
     <message>
         <source>Save to an existing profile:</source>
-        <translation>Sauvegarder dans un profile existant :</translation>
+        <translation>Sauvegarder dans un profil existant :</translation>
     </message>
     <message>
         <source>Create a new profile:</source>
-        <translation>Créer un nouveau profile :</translation>
+        <translation>Créer un nouveau profil :</translation>
     </message>
 </context>
 <context>
@@ -776,7 +776,7 @@
     </message>
     <message>
         <source>Client IP</source>
-        <translation>Ip du client</translation>
+        <translation>IP du client</translation>
     </message>
     <message>
         <source>Protocol Version</source>
@@ -855,7 +855,7 @@
     </message>
     <message>
         <source>Start at Login Status</source>
-        <translation>Statut du démmarrage à la connexion</translation>
+        <translation>Statut du démarrage à la connexion</translation>
     </message>
     <message>
         <source>Start at Login Settings:</source>
@@ -863,7 +863,7 @@
     </message>
     <message>
         <source>Open Settings Folder</source>
-        <translation>Révéler le dossier de configuration</translation>
+        <translation>Ouvrir le dossier de configuration</translation>
     </message>
     <message>
         <source>Drivers Settings</source>
@@ -875,15 +875,15 @@
     </message>
     <message>
         <source>AMD SMBus: Reduce CPU Usage (restart required)</source>
-        <translation>AMD SMBus : Réduire l&apos;utilisation CPU (Redemarrage requis)</translation>
+        <translation>AMD SMBus : réduire l&apos;utilisation CPU (redémarrage requis)</translation>
     </message>
     <message>
         <source>Set Profile on Exit</source>
-        <translation>Appliquer le profile a la fermeture</translation>
+        <translation>Appliquer le profil à la fermeture</translation>
     </message>
     <message>
         <source>Shared SMBus Access (restart required)</source>
-        <translation>Accès SMBus partagé (Redemarrage requis)</translation>
+        <translation>Accès SMBus partagé (redémarrage requis)</translation>
     </message>
     <message>
         <source>Set Server Host</source>
@@ -926,7 +926,7 @@
     </message>
     <message>
         <source>Git Commit ID:</source>
-        <translation>Révision GIT :</translation>
+        <translation>Révision Git :</translation>
     </message>
     <message>
         <source>Git Commit Date:</source>
@@ -934,7 +934,7 @@
     </message>
     <message>
         <source>Git Branch:</source>
-        <translation>Branche GIT :</translation>
+        <translation>Branche Git :</translation>
     </message>
     <message>
         <source>Version:</source>
@@ -981,7 +981,7 @@
     </message>
     <message>
         <source>Get hardware IDs</source>
-        <translation>Obtenir les identifiants matériel</translation>
+        <translation>Obtenir les identifiants du matériel</translation>
     </message>
 </context>
 <context>
@@ -1123,7 +1123,7 @@
     <name>ResourceManager</name>
     <message>
         <source>&lt;h2&gt;Some internal devices may not be detected:&lt;/h2&gt;&lt;p&gt;One or more I2C or SMBus interfaces failed to initialize.&lt;/p&gt;&lt;p&gt;&lt;b&gt;RGB DRAM modules, some motherboards&apos; onboard RGB lighting, and RGB Graphics Cards, will not be available in OpenRGB&lt;/b&gt; without I2C or SMBus.&lt;/p&gt;&lt;h4&gt;How to fix this:&lt;/h4&gt;&lt;p&gt;On Windows, this is usually caused by a failure to load the WinRing0 driver.&lt;/p&gt;&lt;p&gt;You must run OpenRGB as administrator at least once to allow WinRing0 to set up.&lt;/p&gt;&lt;p&gt;See &lt;a href=&apos;https://help.openrgb.org/&apos;&gt;help.openrgb.org&lt;/a&gt; for additional troubleshooting steps if you keep seeing this message.&lt;br&gt;&lt;/p&gt;&lt;h3&gt;If you are not using internal RGB on a desktop this message is not important to you.&lt;/h3&gt;</source>
-        <translation>&lt;h2&gt;Certains périphériques internes ne peuvent être détectés :&lt;/h2&gt;&lt;p&gt;Un ou plusieurs bus I2C ou SMBUS n&apos;ont pas pu être initialisés.&lt;/p&gt;&lt;p&gt;&lt;b&gt;Les modules de RAM, lumières internes sur la carte mère ou carte graphiques ne seront pas utilisables dans OpenRGB.&lt;/b&gt;&lt;/p&gt;&lt;p&gt;Sur Windows, c&apos;est souvent un problème de chargement du driver WinRing0.&lt;/p&gt;&lt;p&gt;Vous devez lancer OpenRGB au moins une fois en tant qu&apos;administrateur.&lt;/p&gt;&lt;p&gt;Voir &lt;a href=&apos;https://help.openrgb.org/&apos;&gt;help.openrgb.org&lt;/a&gt; pour de l&apos;aide additionelle si vous continuez de voir ce message.&lt;br&gt;&lt;/p&gt;&lt;h3&gt;Si vous n&apos;utilisez pas de composants RGB internes, alors vous pouvez ignorer ce message.&lt;/h3&gt;</translation>
+        <translation>&lt;h2&gt;Certains périphériques internes ne peuvent être détectés :&lt;/h2&gt;&lt;p&gt;Un ou plusieurs bus I2C ou SMBUS n&apos;ont pas pu être initialisés.&lt;/p&gt;&lt;p&gt;&lt;b&gt;Les modules de RAM, lumières internes sur la carte mère ou carte graphiques ne seront pas utilisables dans OpenRGB.&lt;/b&gt;&lt;/p&gt;&lt;p&gt;Sur Windows, c&apos;est souvent un problème de chargement du driver WinRing0.&lt;/p&gt;&lt;p&gt;Vous devez lancer OpenRGB au moins une fois en tant qu&apos;administrateur.&lt;/p&gt;&lt;p&gt;Voir &lt;a href=&apos;https://help.openrgb.org/&apos;&gt;help.openrgb.org&lt;/a&gt; pour de l&apos;aide additionnelle si vous continuez de voir ce message.&lt;br&gt;&lt;/p&gt;&lt;h3&gt;Si vous n&apos;utilisez pas de composants RGB internes, alors vous pouvez ignorer ce message.&lt;/h3&gt;</translation>
     </message>
     <message>
         <source>&lt;h2&gt;Some internal devices may not be detected:&lt;/h2&gt;&lt;p&gt;One or more I2C or SMBus interfaces failed to initialize.&lt;/p&gt;&lt;p&gt;&lt;b&gt;RGB DRAM modules, some motherboards&apos; onboard RGB lighting, and RGB Graphics Cards, will not be available in OpenRGB&lt;/b&gt; without I2C or SMBus.&lt;/p&gt;&lt;h4&gt;How to fix this:&lt;/h4&gt;&lt;p&gt;On Linux, this is usually because the i2c-dev module is not loaded.&lt;/p&gt;&lt;p&gt;You must load the i2c-dev module along with the correct i2c driver for your motherboard. This is usually i2c-piix4 for AMD systems and i2c-i801 for Intel systems.&lt;/p&gt;&lt;p&gt;See &lt;a href=&apos;https://help.openrgb.org/&apos;&gt;help.openrgb.org&lt;/a&gt; for additional troubleshooting steps if you keep seeing this message.&lt;br&gt;&lt;/p&gt;&lt;h3&gt;If you are not using internal RGB on a desktop this message is not important to you.&lt;/h3&gt;</source>
@@ -1135,7 +1135,7 @@
     </message>
     <message>
         <source>&lt;h2&gt;WARNING:&lt;/h2&gt;&lt;p&gt;Multiple OpenRGB udev rules are installed.&lt;/p&gt;&lt;p&gt;The udev rules file 60-openrgb.rules is installed in both /etc/udev/rules.d and /usr/lib/udev/rules.d.&lt;/p&gt;&lt;p&gt;Multiple udev rules files can conflict, it is recommended to remove one of them.&lt;/p&gt;</source>
-        <translation>&lt;h2&gt;Attention :&lt;/h2&gt;&lt;p&gt;Plusieurs règles udev pour OpenRGB sont installées.&lt;/p&gt;&lt;p&gt;Le fichier 60-openrgb.rules est installé dans les chemins suivants /etc/udev/rules.d et /usr/lib/udev/rules.d.&lt;/p&gt;&lt;p&gt;Cela peut créer un conflit, il est recommandé de supprimmer une de ces deux entrées.&lt;/p&gt;</translation>
+        <translation>&lt;h2&gt;Attention :&lt;/h2&gt;&lt;p&gt;Plusieurs règles udev pour OpenRGB sont installées.&lt;/p&gt;&lt;p&gt;Le fichier 60-openrgb.rules est installé dans les chemins suivants /etc/udev/rules.d et /usr/lib/udev/rules.d.&lt;/p&gt;&lt;p&gt;Cela peut créer un conflit, il est recommandé de supprimer une de ces deux entrées.&lt;/p&gt;</translation>
     </message>
 </context>
 <context>
@@ -1156,15 +1156,15 @@
     <name>Ui::OpenRGBDevicePage</name>
     <message>
         <source>Set individual LEDs to static colors.  Safe for use with software-driven effects.</source>
-        <translation>Défini individuellement la couleur de chaque LED. Fiable pour utiliser des effets logiciel.</translation>
+        <translation>Défini individuellement la couleur de chaque LED. Fiable pour utiliser des effets logiciels.</translation>
     </message>
     <message>
         <source>Set individual LEDs to static colors.  Not safe for use with software-driven effects.</source>
-        <translation>Défini individuellement la couleur de chaque LED. Non fiable pour utiliser des effets logiciel.</translation>
+        <translation>Défini individuellement la couleur de chaque LED. Non fiable pour utiliser des effets logiciels.</translation>
     </message>
     <message>
         <source>Sets the entire device or a zone to a single color.</source>
-        <translation>Défini la couleur pour un périhpérique ou une zone entière.</translation>
+        <translation>Défini la couleur pour un périphérique ou une zone entière.</translation>
     </message>
     <message>
         <source>Gradually fades between fully off and fully on.</source>
@@ -1247,7 +1247,7 @@
     <name>Ui::OpenRGBDialog</name>
     <message>
         <source>Show/Hide</source>
-        <translation>Afficher/Cacher</translation>
+        <translation>Afficher/cacher</translation>
     </message>
     <message>
         <source>Profiles</source>
@@ -1452,7 +1452,7 @@
     </message>
     <message>
         <source>Replace Plugin</source>
-        <translation>Rempalcer le plugin</translation>
+        <translation>Remplacer le plugin</translation>
     </message>
     <message>
         <source>A plugin with this filename is already installed.  Are you sure you want to replace this plugin?</source>
@@ -1472,14 +1472,14 @@
     </message>
     <message>
         <source>The plugin will be fully removed after restarting OpenRGB.</source>
-        <translation>Ce plugin sera supprimé après redémarrage.</translation>
+        <translation>Ce plugin sera entièrement supprimé aprèsa avoir redémarré OpenRGB.</translation>
     </message>
 </context>
 <context>
     <name>Ui::OpenRGBServerInfoPage</name>
     <message>
         <source>Stopping...</source>
-        <translation>Arrêt en cours ...</translation>
+        <translation>Arrêt en cours…</translation>
     </message>
     <message>
         <source>Online</source>
@@ -1494,7 +1494,7 @@
     <name>Ui::OpenRGBSettingsPage</name>
     <message>
         <source>A problem occurred enabling Start at Login.</source>
-        <translation>Un problème est survenu à l&apos;activation du démarrage à la connexion.</translation>
+        <translation>Un problème est survenu pour l&apos;activation du démarrage à la connexion.</translation>
     </message>
     <message>
         <source>English - US</source>
@@ -1502,14 +1502,14 @@
     </message>
     <message>
         <source>System Default</source>
-        <translation>Par defaut</translation>
+        <translation>Par défaut</translation>
     </message>
 </context>
 <context>
     <name>Ui::OpenRGBYeelightSettingsEntry</name>
     <message>
         <source>Choose an IP...</source>
-        <translation>Choisir une IP ...</translation>
+        <translation>Choisir une IP…</translation>
     </message>
     <message>
         <source>Choose the correct IP for the host</source>
@@ -1524,7 +1524,7 @@
     </message>
     <message>
         <source>Controller</source>
-        <translation>Controleur</translation>
+        <translation>Contrôleur</translation>
     </message>
     <message>
         <source>Zone</source>
