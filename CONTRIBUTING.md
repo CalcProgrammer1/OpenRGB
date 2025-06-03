@@ -2,6 +2,11 @@
 
 The OpenRGB project welcomes contributions from the community.  The project would not support the number of devices it does today without the amazing contributions from community developers.  If you want to add a new device, fix a bug, or add a feature, feel free to open a merge request on the OpenRGB GitLab (https://gitlab.com/CalcProgrammer1/OpenRGB).
 
+## Translating
+
+Translation files are located in [`OpenRGB/qt/i18n/`](https://gitlab.com/CalcProgrammer1/OpenRGB/-/tree/master/qt/i18n), where languages are formatted using ISO 639-1 format: `OpenRGB_xx_XX.ts` — `xx_XX` representing the language code.
+In order to translate a file, you need to [fork](https://gitlab.com/CalcProgrammer1/OpenRGB/-/forks/new) the project, create a new file for your language (or edit an exisiting one), commit, push, and create a merge request.
+
 ## Creating a Merge Request
 
 To create a merge request, log into GitLab and fork the OpenRGB project.  Push your changes to your fork and then use the Create Merge Request option.  Before opening a merge request, please review the following best practices to help your merge request get merged without excessive delay.
