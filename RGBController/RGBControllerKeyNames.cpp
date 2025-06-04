@@ -123,6 +123,7 @@ const char* KEY_EN_NUMPAD_MINUS       = "Key: Number Pad -";
 const char* KEY_EN_NUMPAD_PLUS        = "Key: Number Pad +";
 const char* KEY_EN_NUMPAD_PERIOD      = "Key: Number Pad .";
 const char* KEY_EN_NUMPAD_ENTER       = "Key: Number Pad Enter";
+const char* KEY_EN_NUMPAD_EQUAL       = "Key: Number Pad =";
 const char* KEY_EN_NUMPAD_0           = "Key: Number Pad 0";
 const char* KEY_EN_NUMPAD_1           = "Key: Number Pad 1";
 const char* KEY_EN_NUMPAD_2           = "Key: Number Pad 2";
@@ -142,6 +143,19 @@ const char* KEY_EN_MEDIA_MUTE         = "Key: Media Mute";
 const char* KEY_EN_MEDIA_VOLUME_DOWN  = "Key: Media Volume -";
 const char* KEY_EN_MEDIA_VOLUME_UP    = "Key: Media Volume +";
 
+const char* KEY_EN_F13                = "Key: F13";
+const char* KEY_EN_F14                = "Key: F14";
+const char* KEY_EN_F15                = "Key: F15";
+const char* KEY_EN_F16                = "Key: F16";
+const char* KEY_EN_F17                = "Key: F17";
+const char* KEY_EN_F18                = "Key: F18";
+const char* KEY_EN_F19                = "Key: F19";
+const char* KEY_EN_F20                = "Key: F20";
+const char* KEY_EN_F21                = "Key: F21";
+const char* KEY_EN_F22                = "Key: F22";
+const char* KEY_EN_F23                = "Key: F23";
+const char* KEY_EN_F24                = "Key: F24";
+
 const char* KEY_JP_RO                 = "Key: _";
 const char* KEY_JP_EJ                 = "Key: E/J";
 const char* KEY_JP_ZENKAKU            = "Key: 半角/全角";
@@ -152,6 +166,8 @@ const char* KEY_JP_YEN                = "Key: ¥";
 const char* KEY_JP_AT                 = "Key: @";
 const char* KEY_JP_CHEVRON            = "Key: ^";
 const char* KEY_JP_COLON              = "Key: :";
+const char* KEY_JP_KATAKANA           = "Key: カタカナ";
+const char* KEY_JP_HIRAGANA           = "Key: ひらがな";
 
 const char* KEY_KR_HAN                = "Key: 한/영";
 const char* KEY_KR_HANJA              = "Key: 한자";

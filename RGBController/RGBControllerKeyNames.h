@@ -123,6 +123,7 @@ extern const char* KEY_EN_NUMPAD_MINUS;
 extern const char* KEY_EN_NUMPAD_PLUS;
 extern const char* KEY_EN_NUMPAD_PERIOD;
 extern const char* KEY_EN_NUMPAD_ENTER;
+extern const char* KEY_EN_NUMPAD_EQUAL;
 extern const char* KEY_EN_NUMPAD_0;
 extern const char* KEY_EN_NUMPAD_1;
 extern const char* KEY_EN_NUMPAD_2;
@@ -142,6 +143,19 @@ extern const char* KEY_EN_MEDIA_MUTE;
 extern const char* KEY_EN_MEDIA_VOLUME_DOWN;
 extern const char* KEY_EN_MEDIA_VOLUME_UP;
 
+extern const char* KEY_EN_F13;
+extern const char* KEY_EN_F14;
+extern const char* KEY_EN_F15;
+extern const char* KEY_EN_F16;
+extern const char* KEY_EN_F17;
+extern const char* KEY_EN_F18;
+extern const char* KEY_EN_F19;
+extern const char* KEY_EN_F20;
+extern const char* KEY_EN_F21;
+extern const char* KEY_EN_F22;
+extern const char* KEY_EN_F23;
+extern const char* KEY_EN_F24;
+
 extern const char* KEY_JP_RO;
 extern const char* KEY_JP_EJ;
 extern const char* KEY_JP_ZENKAKU;
@@ -152,6 +166,8 @@ extern const char* KEY_JP_YEN;
 extern const char* KEY_JP_AT;
 extern const char* KEY_JP_CHEVRON;
 extern const char* KEY_JP_COLON;
+extern const char* KEY_JP_KATAKANA;
+extern const char* KEY_JP_HIRAGANA;
 
 extern const char* KEY_KR_HAN;
 extern const char* KEY_KR_HANJA;
