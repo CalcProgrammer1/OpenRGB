@@ -10,11 +10,11 @@
 #pragma once
 
 #include <QFrame>
-#include "ui_OpenRGBSoftwareInfoPage.h"
 
 namespace Ui
 {
     class OpenRGBSoftwareInfoPage;
+    class OpenRGBSoftwareInfoPageUi;
 }
 
 class Ui::OpenRGBSoftwareInfoPage : public QFrame

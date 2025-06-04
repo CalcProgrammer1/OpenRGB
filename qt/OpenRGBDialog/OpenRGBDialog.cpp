@@ -759,7 +759,7 @@ void OpenRGBDialog::AddSoftwareInfoPage()
     /*-----------------------------------------------------*\
     | Create the tab label                                  |
     \*-----------------------------------------------------*/
-    TabLabel* SoftwareTabLabel = new TabLabel(OpenRGBFont::info, tr("Software"), (char *)"Software", (char *)context);
+    TabLabel* SoftwareTabLabel = new TabLabel(OpenRGBFont::info, tr("About OpenRGB"), (char *)"About OpenRGB", (char *)context);
 
     ui->InformationTabBar->tabBar()->setTabButton(ui->InformationTabBar->tabBar()->count() - 1, QTabBar::LeftSide, SoftwareTabLabel);
 }

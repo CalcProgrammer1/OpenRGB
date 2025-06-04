@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>699</width>
-    <height>312</height>
+    <width>502</width>
+    <height>434</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -23,7 +23,7 @@
    <enum>QFrame::Sunken</enum>
   </property>
   <layout class="QGridLayout" name="gridLayout" columnstretch="0">
-   <item row="0" column="0">
+   <item row="2" column="0">
     <widget class="QFrame" name="SoftwareInfoFrame">
      <property name="autoFillBackground">
       <bool>true</bool>
@@ -35,83 +35,21 @@
       <enum>QFrame::Sunken</enum>
      </property>
      <layout class="QGridLayout" name="gridLayout_2" columnstretch="0,1">
-      <item row="2" column="1">
-       <widget class="QLabel" name="PluginAPIVersionValue">
-        <property name="text">
-         <string notr="true">Plugin API Version Value</string>
-        </property>
-       </widget>
-      </item>
       <item row="6" column="1">
-       <widget class="QLabel" name="GitCommitDateValue">
-        <property name="text">
-         <string notr="true">Git Commit Date Value</string>
-        </property>
-       </widget>
-      </item>
-      <item row="6" column="0">
-       <widget class="QLabel" name="GitCommitDateLabel">
-        <property name="text">
-         <string>Git Commit Date:</string>
-        </property>
-       </widget>
-      </item>
-      <item row="9" column="1">
-       <widget class="QLabel" name="WebsiteLinkValue">
-        <property name="text">
-         <string>&lt;a href=&quot;https://openrgb.org&quot;&gt;https://openrgb.org&lt;/a&gt;</string>
-        </property>
-        <property name="textFormat">
-         <enum>Qt::RichText</enum>
-        </property>
-        <property name="openExternalLinks">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="1">
-       <widget class="QLabel" name="VersionValue">
-        <property name="text">
-         <string notr="true">Version Value</string>
-        </property>
-       </widget>
-      </item>
-      <item row="3" column="0">
-       <widget class="QLabel" name="QtVersionLabel">
-        <property name="text">
-         <string>Qt Version:</string>
-        </property>
-       </widget>
-      </item>
-      <item row="4" column="1">
        <widget class="QLabel" name="BuildDateValue">
         <property name="text">
          <string notr="true">Build Date Value</string>
         </property>
        </widget>
       </item>
-      <item row="7" column="0">
-       <widget class="QLabel" name="GitBranchLabel">
-        <property name="text">
-         <string>Git Branch:</string>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="0">
-       <widget class="QLabel" name="PluginAPIVersionLabel">
-        <property name="text">
-         <string>Plugin API Version:</string>
-        </property>
-       </widget>
-      </item>
-      <item row="4" column="0">
-       <widget class="QLabel" name="BuildDateLabel">
-        <property name="text">
-         <string>Build Date:</string>
-        </property>
-       </widget>
-      </item>
       <item row="8" column="1">
+       <widget class="QLabel" name="GitCommitDateValue">
+        <property name="text">
+         <string notr="true">Git Commit Date Value</string>
+        </property>
+       </widget>
+      </item>
+      <item row="10" column="1">
        <widget class="QLabel" name="GitlabLinkValue">
         <property name="text">
          <string>&lt;a href=&quot;https://gitlab.com/CalcProgrammer1/OpenRGB&quot;&gt;https://gitlab.com/CalcProgrammer1/OpenRGB&lt;/a&gt;</string>
@@ -124,21 +62,96 @@
         </property>
        </widget>
       </item>
-      <item row="7" column="1">
+      <item row="2" column="0">
+       <widget class="QLabel" name="SDKVersionLabel">
+        <property name="text">
+         <string>SDK Version:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="12" column="0">
+       <spacer name="verticalSpacer">
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>20</width>
+          <height>40</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item row="11" column="0">
+       <widget class="QLabel" name="WebsiteLinkLabel">
+        <property name="text">
+         <string>Website:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="6" column="0">
+       <widget class="QLabel" name="BuildDateLabel">
+        <property name="text">
+         <string>Build Date:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="7" column="0">
+       <widget class="QLabel" name="GitCommitIDLabel">
+        <property name="text">
+         <string>Git Commit ID:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="8" column="0">
+       <widget class="QLabel" name="GitCommitDateLabel">
+        <property name="text">
+         <string>Git Commit Date:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="1">
+       <widget class="QLabel" name="QtVersionValue">
+        <property name="text">
+         <string>Qt Version Value</string>
+        </property>
+       </widget>
+      </item>
+      <item row="10" column="0">
+       <widget class="QLabel" name="GitlabLinkLabel">
+        <property name="text">
+         <string>GitLab:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="9" column="1">
        <widget class="QLabel" name="GitBranchValue">
         <property name="text">
          <string notr="true">Git Branch Value</string>
         </property>
        </widget>
       </item>
-      <item row="1" column="1">
-       <widget class="QLabel" name="SDKVersionValue">
+      <item row="11" column="1">
+       <widget class="QLabel" name="WebsiteLinkValue">
         <property name="text">
-         <string notr="true">SDK Version Value</string>
+         <string>&lt;a href=&quot;https://openrgb.org&quot;&gt;https://openrgb.org&lt;/a&gt;</string>
+        </property>
+        <property name="textFormat">
+         <enum>Qt::RichText</enum>
+        </property>
+        <property name="openExternalLinks">
+         <bool>true</bool>
         </property>
        </widget>
       </item>
-      <item row="5" column="1">
+      <item row="3" column="1">
+       <widget class="QLabel" name="PluginAPIVersionValue">
+        <property name="text">
+         <string notr="true">Plugin API Version Value</string>
+        </property>
+       </widget>
+      </item>
+      <item row="7" column="1">
        <widget class="QLabel" name="GitCommitIDValue">
         <property name="text">
          <string notr="true">Git Commit ID Value</string>
@@ -148,53 +161,143 @@
         </property>
        </widget>
       </item>
-      <item row="5" column="0">
-       <widget class="QLabel" name="GitCommitIDLabel">
+      <item row="3" column="0">
+       <widget class="QLabel" name="PluginAPIVersionLabel">
         <property name="text">
-         <string>Git Commit ID:</string>
-        </property>
-       </widget>
-      </item>
-      <item row="8" column="0">
-       <widget class="QLabel" name="GitlabLinkLabel">
-        <property name="text">
-         <string>GitLab:</string>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="0">
-       <widget class="QLabel" name="VersionLabel">
-        <property name="text">
-         <string>Version:</string>
+         <string>Plugin API Version:</string>
         </property>
        </widget>
       </item>
       <item row="9" column="0">
-       <widget class="QLabel" name="WebsiteLinkLabel">
+       <widget class="QLabel" name="GitBranchLabel">
         <property name="text">
-         <string>Website:</string>
+         <string>Git Branch:</string>
         </property>
        </widget>
       </item>
-      <item row="1" column="0">
-       <widget class="QLabel" name="SDKVersionLabel">
+      <item row="2" column="1">
+       <widget class="QLabel" name="SDKVersionValue">
         <property name="text">
-         <string>SDK Version:</string>
+         <string notr="true">SDK Version Value</string>
         </property>
        </widget>
       </item>
-      <item row="3" column="1">
-       <widget class="QLabel" name="QtVersionValue">
+      <item row="4" column="0">
+       <widget class="QLabel" name="QtVersionLabel">
         <property name="text">
-         <string>Qt Version Value</string>
+         <string>Qt Version:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="0">
+       <widget class="QLabel" name="OsVersionLabel">
+        <property name="text">
+         <string>OS Version:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="1">
+       <widget class="QLabel" name="OsVersionValue">
+        <property name="text">
+         <string>OS Version Value</string>
         </property>
        </widget>
       </item>
      </layout>
     </widget>
    </item>
+   <item row="0" column="0">
+    <layout class="QGridLayout" name="gridLayout_3">
+     <item row="1" column="1">
+      <widget class="QLabel" name="VersionLabel">
+       <property name="text">
+        <string>Version:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="2">
+      <widget class="QLabel" name="LicenseValue">
+       <property name="text">
+        <string>GNU General Public License, version 2</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="2">
+      <widget class="QLabel" name="VersionValue">
+       <property name="text">
+        <string notr="true">Version Value</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="1">
+      <widget class="QLabel" name="LicenseLabel">
+       <property name="text">
+        <string>License:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="0" rowspan="5">
+      <widget class="QLabel" name="IconLabel">
+       <property name="minimumSize">
+        <size>
+         <width>128</width>
+         <height>128</height>
+        </size>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="pixmap">
+        <pixmap resource="../resources.qrc">:/org.openrgb.OpenRGB.png</pixmap>
+       </property>
+       <property name="scaledContents">
+        <bool>false</bool>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="1">
+      <widget class="QLabel" name="CopyrightLabel">
+       <property name="text">
+        <string>Copyright:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="2">
+      <widget class="QLabel" name="CopyrightValue">
+       <property name="text">
+        <string>Adam Honse, OpenRGB Team</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="3">
+      <spacer name="horizontalSpacer">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item row="0" column="1" colspan="3">
+      <widget class="QLabel" name="ProjectDescriptionLabel">
+       <property name="text">
+        <string>&lt;b&gt;OpenRGB&lt;/b&gt;, an open-source RGB control utility</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
   </layout>
  </widget>
- <resources/>
+ <resources>
+  <include location="../resources.qrc"/>
+ </resources>
  <connections/>
 </ui>
