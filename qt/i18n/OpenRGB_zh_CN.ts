@@ -24,7 +24,7 @@
     </message>
     <message>
         <source>IP:</source>
-        <translation></translation>
+        <translation>IP：</translation>
     </message>
     <message>
         <source>Connected Clients</source>
@@ -58,46 +58,46 @@
     <name>OpenRGBDMXSettingsEntryUi</name>
     <message>
         <source>Brightness Channel:</source>
-        <translation type="unfinished"></translation>
+        <translation>亮度通道：</translation>
     </message>
     <message>
         <source>Blue Channel:</source>
-        <translation type="unfinished"></translation>
+        <translation>蓝色通道：</translation>
     </message>
     <message>
         <source>Name:</source>
-        <translation type="unfinished">名称：</translation>
+        <translation>名称：</translation>
     </message>
     <message>
         <source>Green Channel:</source>
-        <translation type="unfinished"></translation>
+        <translation>绿色通道：</translation>
     </message>
     <message>
         <source>Red Channel:</source>
-        <translation type="unfinished"></translation>
+        <translation>红色通道：</translation>
     </message>
     <message>
         <source>Keepalive Time:</source>
-        <translation type="unfinished">保持活动时间：</translation>
+        <translation>保持活动时间：</translation>
     </message>
     <message>
         <source>Port:</source>
-        <translation type="unfinished">端口：</translation>
+        <translation>端口：</translation>
     </message>
 </context>
 <context>
     <name>OpenRGBDMXSettingsPageUi</name>
     <message>
         <source>Add</source>
-        <translation type="unfinished">添加</translation>
+        <translation>添加</translation>
     </message>
     <message>
         <source>Remove</source>
-        <translation type="unfinished">移除</translation>
+        <translation>移除</translation>
     </message>
     <message>
         <source>Save</source>
-        <translation type="unfinished">保存</translation>
+        <translation>保存</translation>
     </message>
 </context>
 <context>
@@ -108,7 +108,7 @@
     </message>
     <message>
         <source>Vendor:</source>
-        <translation>供应商：</translation>
+        <translation>厂商：</translation>
     </message>
     <message>
         <source>Type:</source>
@@ -143,7 +143,7 @@
     </message>
     <message>
         <source>Speed:</source>
-        <translation>速度:</translation>
+        <translation>速度：</translation>
     </message>
     <message>
         <source>Random</source>
@@ -155,7 +155,7 @@
     </message>
     <message>
         <source>LED:</source>
-        <translation></translation>
+        <translation>LED：</translation>
     </message>
     <message>
         <source>Mode-Specific</source>
@@ -167,7 +167,7 @@
     </message>
     <message>
         <source>Dir:</source>
-        <translation></translation>
+        <translation>方向：</translation>
     </message>
     <message>
         <source>S:</source>
@@ -219,11 +219,11 @@
     </message>
     <message>
         <source>Hex:</source>
-        <translation type="unfinished"></translation>
+        <translation>HEX：</translation>
     </message>
     <message>
         <source>Edit</source>
-        <translation type="unfinished"></translation>
+        <translation>编辑</translation>
     </message>
 </context>
 <context>
@@ -246,7 +246,7 @@
     </message>
     <message>
         <source>Toggle LED View</source>
-        <translation>开关 LED 视图</translation>
+        <translation>切换 LED 视图</translation>
     </message>
     <message>
         <source>Rescan Devices</source>
@@ -285,15 +285,15 @@
     <name>OpenRGBE131SettingsEntryUi</name>
     <message>
         <source>Start Channel:</source>
-        <translation>启动频道：</translation>
+        <translation>启动 Channel：</translation>
     </message>
     <message>
         <source>Number of LEDs:</source>
-        <translation>LED数量：</translation>
+        <translation>LED 数量：</translation>
     </message>
     <message>
         <source>Start Universe:</source>
-        <translation>开启Universe:</translation>
+        <translation>启动 Universe：</translation>
     </message>
     <message>
         <source>Name:</source>
@@ -317,11 +317,11 @@
     </message>
     <message>
         <source>IP (Unicast):</source>
-        <translation></translation>
+        <translation>IP（Unicast）：</translation>
     </message>
     <message>
         <source>Universe Size:</source>
-        <translation>Universe大小:</translation>
+        <translation>Universe 大小：</translation>
     </message>
     <message>
         <source>Keepalive Time:</source>
@@ -329,7 +329,7 @@
     </message>
     <message>
         <source>RGB Order:</source>
-        <translation>RGB顺序:</translation>
+        <translation>RGB 顺序：</translation>
     </message>
 </context>
 <context>
@@ -351,7 +351,7 @@
     <name>OpenRGBElgatoKeyLightSettingsEntryUi</name>
     <message>
         <source>IP:</source>
-        <translation></translation>
+        <translation>IP：</translation>
     </message>
 </context>
 <context>
@@ -373,7 +373,7 @@
     <name>OpenRGBElgatoLightStripSettingsEntryUi</name>
     <message>
         <source>IP:</source>
-        <translation></translation>
+        <translation>IP：</translation>
     </message>
 </context>
 <context>
@@ -395,56 +395,56 @@
     <name>OpenRGBHardwareIDsDialogUi</name>
     <message>
         <source>Hardware IDs</source>
-        <translation type="unfinished"></translation>
+        <translation>硬件 ID</translation>
     </message>
     <message>
         <source>Copy to clipboard</source>
-        <translation type="unfinished"></translation>
+        <translation>复制到剪贴板</translation>
     </message>
     <message>
         <source>Location</source>
-        <translation type="unfinished"></translation>
+        <translation>位置</translation>
     </message>
     <message>
         <source>Device</source>
-        <translation type="unfinished">设备</translation>
+        <translation>设备</translation>
     </message>
     <message>
         <source>Vendor</source>
-        <translation type="unfinished"></translation>
+        <translation>厂商</translation>
     </message>
 </context>
 <context>
     <name>OpenRGBKasaSmartSettingsEntryUi</name>
     <message>
         <source>IP:</source>
-        <translation type="unfinished"></translation>
+        <translation>IP：</translation>
     </message>
     <message>
         <source>Name</source>
-        <translation type="unfinished">名称</translation>
+        <translation>名称</translation>
     </message>
 </context>
 <context>
     <name>OpenRGBKasaSmartSettingsPageUi</name>
     <message>
         <source>Add</source>
-        <translation type="unfinished">添加</translation>
+        <translation>添加</translation>
     </message>
     <message>
         <source>Remove</source>
-        <translation type="unfinished">移除</translation>
+        <translation>移除</translation>
     </message>
     <message>
         <source>Save</source>
-        <translation type="unfinished">保存</translation>
+        <translation>保存</translation>
     </message>
 </context>
 <context>
     <name>OpenRGBLIFXSettingsEntryUi</name>
     <message>
         <source>IP:</source>
-        <translation></translation>
+        <translation>IP：</translation>
     </message>
     <message>
         <source>Name</source>
@@ -470,22 +470,22 @@
     <name>OpenRGBNanoleafNewDeviceDialogUi</name>
     <message>
         <source>New Nanoleaf device</source>
-        <translation type="unfinished"></translation>
+        <translation>新 Nanoleaf 设备</translation>
     </message>
     <message>
         <source>IP address:</source>
-        <translation type="unfinished"></translation>
+        <translation>IP 地址：</translation>
     </message>
     <message>
         <source>Port:</source>
-        <translation type="unfinished">端口：</translation>
+        <translation>端口：</translation>
     </message>
 </context>
 <context>
     <name>OpenRGBNanoleafSettingsEntryUi</name>
     <message>
         <source>IP:</source>
-        <translation></translation>
+        <translation>IP：</translation>
     </message>
     <message>
         <source>Port:</source>
@@ -516,11 +516,11 @@
     </message>
     <message>
         <source>Add</source>
-        <translation type="unfinished">添加</translation>
+        <translation>添加</translation>
     </message>
     <message>
         <source>Remove</source>
-        <translation type="unfinished">移除</translation>
+        <translation>移除</translation>
     </message>
 </context>
 <context>
@@ -535,7 +535,7 @@
     </message>
     <message>
         <source>IP:</source>
-        <translation></translation>
+        <translation>IP：</translation>
     </message>
     <message>
         <source>Client Key:</source>
@@ -547,7 +547,7 @@
     </message>
     <message>
         <source>MAC:</source>
-        <translation></translation>
+        <translation>MAC：</translation>
     </message>
     <message>
         <source>Unpair Bridge</source>
@@ -577,19 +577,19 @@
     <name>OpenRGBPhilipsWizSettingsEntryUi</name>
     <message>
         <source>IP:</source>
-        <translation></translation>
+        <translation>IP：</translation>
     </message>
     <message>
         <source>Use Cool White</source>
-        <translation type="unfinished"></translation>
+        <translation>使用冷白色</translation>
     </message>
     <message>
         <source>Use Warm White</source>
-        <translation type="unfinished"></translation>
+        <translation>使用暖白色</translation>
     </message>
     <message>
         <source>White Strategy:</source>
-        <translation type="unfinished"></translation>
+        <translation>白色方案：</translation>
     </message>
 </context>
 <context>
@@ -623,7 +623,7 @@
     </message>
     <message>
         <source>URL:</source>
-        <translation></translation>
+        <translation>URL：</translation>
     </message>
     <message>
         <source>Path:</source>
@@ -639,11 +639,11 @@
     </message>
     <message>
         <source>API Version:</source>
-        <translation type="unfinished"></translation>
+        <translation>API 版本：</translation>
     </message>
     <message>
         <source>API Version Value</source>
-        <translation type="unfinished"></translation>
+        <translation>API 版本值</translation>
     </message>
 </context>
 <context>
@@ -669,11 +669,11 @@
     </message>
     <message>
         <source>Save to an existing profile:</source>
-        <translation type="unfinished"></translation>
+        <translation>保存到已有配置文件：</translation>
     </message>
     <message>
         <source>Create a new profile:</source>
-        <translation type="unfinished"></translation>
+        <translation>创建新配置文件：</translation>
     </message>
 </context>
 <context>
@@ -684,11 +684,11 @@
     </message>
     <message>
         <source>USB PID:</source>
-        <translation></translation>
+        <translation>USB PID：</translation>
     </message>
     <message>
         <source>USB VID:</source>
-        <translation></translation>
+        <translation>USB VID：</translation>
     </message>
 </context>
 <context>
@@ -710,7 +710,7 @@
     <name>OpenRGBSerialSettingsEntryUi</name>
     <message>
         <source>Baud:</source>
-        <translation>Baud:</translation>
+        <translation>波特率：</translation>
     </message>
     <message>
         <source>Name:</source>
@@ -772,7 +772,7 @@
     </message>
     <message>
         <source>Server Host:</source>
-        <translation>服务器主机:</translation>
+        <translation>服务器主机：</translation>
     </message>
     <message>
         <source>Server Status:</source>
@@ -784,7 +784,7 @@
     </message>
     <message>
         <source>Connected Clients:</source>
-        <translation>连接的客户端：</translation>
+        <translation>已连接客户端：</translation>
     </message>
 </context>
 <context>
@@ -795,7 +795,7 @@
     </message>
     <message>
         <source>90000</source>
-        <translation></translation>
+        <translation>90000</translation>
     </message>
     <message>
         <source>Start Server</source>
@@ -811,11 +811,11 @@
     </message>
     <message>
         <source>Save Geometry on Close</source>
-        <translation>关闭时保存几何图形</translation>
+        <translation>关闭时保存窗口大小及位置</translation>
     </message>
     <message>
         <source>Load Window Geometry</source>
-        <translation>加载窗口几何图形</translation>
+        <translation>加载窗口大小及位置</translation>
     </message>
     <message>
         <source>Start Client</source>
@@ -823,7 +823,7 @@
     </message>
     <message>
         <source>Start at Login Settings:</source>
-        <translation>从登录设置开始：</translation>
+        <translation>登录启动设置：</translation>
     </message>
     <message>
         <source>Log Manager Settings:</source>
@@ -835,7 +835,7 @@
     </message>
     <message>
         <source>Start at Login Status</source>
-        <translation>从登录状态开始</translation>
+        <translation>登录启动状态</translation>
     </message>
     <message>
         <source>Set Profile on Exit</source>
@@ -843,7 +843,7 @@
     </message>
     <message>
         <source>Shared SMBus Access (restart required)</source>
-        <translation>共享 SMBus 访问（需要重启）</translation>
+        <translation>共享 SMBus 访问（需要重新启动）</translation>
     </message>
     <message>
         <source>Set Server Host</source>
@@ -875,11 +875,11 @@
     </message>
     <message>
         <source>Start at Login</source>
-        <translation>登录时开启</translation>
+        <translation>登录时启动</translation>
     </message>
     <message>
         <source>Start Minimized</source>
-        <translation>开启时最小化</translation>
+        <translation>启动时最小化</translation>
     </message>
     <message>
         <source>AMD SMBus: Reduce CPU Usage (restart required)</source>
@@ -895,27 +895,27 @@
     </message>
     <message>
         <source>Disable Key Expansion in Device View</source>
-        <translation type="unfinished"></translation>
+        <translation>在设备视图中禁用快捷键扩展</translation>
     </message>
     <message>
         <source>Hex Format</source>
-        <translation type="unfinished"></translation>
+        <translation>HEX 格式</translation>
     </message>
     <message>
         <source>Show LED View by Default</source>
-        <translation type="unfinished"></translation>
+        <translation>默认显示 LED 视图</translation>
     </message>
     <message>
         <source>Set Profile on Suspend</source>
-        <translation type="unfinished"></translation>
+        <translation>睡眠时设置配置文件</translation>
     </message>
     <message>
         <source>Set Profile on Resume</source>
-        <translation type="unfinished"></translation>
+        <translation>唤醒时设置配置文件</translation>
     </message>
     <message>
         <source>Enable Log File (restart required)</source>
-        <translation type="unfinished"></translation>
+        <translation>启用日志文件（需要重新启动）</translation>
     </message>
 </context>
 <context>
@@ -926,15 +926,15 @@
     </message>
     <message>
         <source>Git Commit ID:</source>
-        <translation>Git Commit ID:</translation>
+        <translation>Git Commit ID：</translation>
     </message>
     <message>
         <source>Git Commit Date:</source>
-        <translation>Git Commit 日期:</translation>
+        <translation>Git Commit 日期：</translation>
     </message>
     <message>
         <source>Git Branch:</source>
-        <translation>Git Branch:</translation>
+        <translation>Git Branch：</translation>
     </message>
     <message>
         <source>Version:</source>
@@ -942,11 +942,11 @@
     </message>
     <message>
         <source>GitLab:</source>
-        <translation>GitLab 页面</translation>
+        <translation>GitLab：</translation>
     </message>
     <message>
         <source>Website:</source>
-        <translation>网页</translation>
+        <translation>网页：</translation>
     </message>
     <message>
         <source>&lt;a href=&quot;https://openrgb.org&quot;&gt;https://openrgb.org&lt;/a&gt;</source>
@@ -958,11 +958,11 @@
     </message>
     <message>
         <source>SDK Version:</source>
-        <translation type="unfinished"></translation>
+        <translation>SDK 版本：</translation>
     </message>
     <message>
         <source>Plugin API Version:</source>
-        <translation type="unfinished"></translation>
+        <translation>插件 API 版本：</translation>
     </message>
 </context>
 <context>
@@ -981,7 +981,7 @@
     </message>
     <message>
         <source>Get Hardware IDs</source>
-        <translation type="unfinished"></translation>
+        <translation>获取硬件 ID</translation>
     </message>
 </context>
 <context>
@@ -1000,11 +1000,11 @@
     </message>
     <message>
         <source>SMBus Dumper:</source>
-        <translation></translation>
+        <translation>SMBus 转储器：</translation>
     </message>
     <message>
         <source>0x</source>
-        <translation></translation>
+        <translation>0x</translation>
     </message>
     <message>
         <source>SMBus Detector:</source>
@@ -1028,7 +1028,7 @@
     </message>
     <message>
         <source>Addr:</source>
-        <translation>地 址：</translation>
+        <translation>地址：</translation>
     </message>
     <message>
         <source>Reg:</source>
@@ -1043,11 +1043,11 @@
     <name>OpenRGBYeelightSettingsEntryUi</name>
     <message>
         <source>IP:</source>
-        <translation></translation>
+        <translation>IP：</translation>
     </message>
     <message>
         <source>?</source>
-        <translation></translation>
+        <translation>？</translation>
     </message>
     <message>
         <source>Music Mode:</source>
@@ -1085,15 +1085,15 @@
     </message>
     <message>
         <source>Add Segment</source>
-        <translation type="unfinished"></translation>
+        <translation>添加区段</translation>
     </message>
     <message>
         <source>Remove Segment</source>
-        <translation type="unfinished"></translation>
+        <translation>移除区段</translation>
     </message>
     <message>
         <source>Length</source>
-        <translation type="unfinished"></translation>
+        <translation>长度</translation>
     </message>
 </context>
 <context>
@@ -1108,34 +1108,34 @@
     </message>
     <message>
         <source>Ignore</source>
-        <translation>忽视</translation>
+        <translation>忽略</translation>
     </message>
     <message>
         <source>Zones Resizer</source>
-        <translation type="unfinished"></translation>
+        <translation>区域大小调整器</translation>
     </message>
     <message>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;One or more resizable zones have not been configured.  Resizable zones are most commonly used for addressable RGB headers where the size of the connected device cannot be detected automatically.&lt;/p&gt;&lt;p&gt;Please enter the number of LEDs in each zone below.&lt;/p&gt;&lt;p&gt;For more information about calcuating the correct size, please check &lt;a href=&quot;https://openrgb.org/resize.html&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;this link.&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;一个或多个可调整大小的区域尚未配置。  可调整大小的区域通常用于连接设备大小无法自动检测的可寻址 RGB 接口。&lt;/p&gt;&lt;p&gt;请在下方输入每个区域中的 LED 数量。&lt;/p&gt;&lt;p&gt;有关计算正确大小的详细信息，请参考链接 &lt;a href=&quot;https://openrgb.org/resize.html&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt; 。&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
 </context>
 <context>
     <name>ResourceManager</name>
     <message>
         <source>&lt;h2&gt;Some internal devices may not be detected:&lt;/h2&gt;&lt;p&gt;One or more I2C or SMBus interfaces failed to initialize.&lt;/p&gt;&lt;p&gt;&lt;b&gt;RGB DRAM modules, some motherboards&apos; onboard RGB lighting, and RGB Graphics Cards, will not be available in OpenRGB&lt;/b&gt; without I2C or SMBus.&lt;/p&gt;&lt;h4&gt;How to fix this:&lt;/h4&gt;&lt;p&gt;On Windows, this is usually caused by a failure to load the WinRing0 driver.&lt;/p&gt;&lt;p&gt;You must run OpenRGB as administrator at least once to allow WinRing0 to set up.&lt;/p&gt;&lt;p&gt;See &lt;a href=&apos;https://help.openrgb.org/&apos;&gt;help.openrgb.org&lt;/a&gt; for additional troubleshooting steps if you keep seeing this message.&lt;br&gt;&lt;/p&gt;&lt;h3&gt;If you are not using internal RGB on a desktop this message is not important to you.&lt;/h3&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;h2&gt;部分内部设备可能未被检测到：&lt;/h2&gt;&lt;p&gt;一个或多个 I2C 或 SMBus 接口未能成功初始化。&lt;/p&gt;&lt;p&gt;&lt;b&gt;RGB 内存模块、部分主板的内置 RGB 灯珠及 RGB 显卡&lt;/b&gt;在没有 I2C 或 SMBus 支持的情况下，将无法在 OpenRGB 中使用&lt;/p&gt;&lt;h4&gt;解决方法：&lt;/h4&gt;&lt;p&gt;在 Windows 系统中，此问题通常由 WinRing0 驱动程序未能加载引起。&lt;/p&gt;&lt;p&gt;您必须以管理员身份运行一次 OpenRGB，以允许 WinRing0 驱动程序进行安装配置。&lt;/p&gt;&lt;p&gt;如果您持续遇到此提示，请参考 &lt;a href=&apos;https://help.openrgb.org/&apos;&gt;help.openrgb.org&lt;/a&gt; 提供的其他故障排除步骤。&lt;br&gt;&lt;/p&gt;&lt;h3&gt;如果您未使用台式机中内置的 RGB，那么本提示对您来说并不重要。&lt;/h3&gt;</translation>
     </message>
     <message>
         <source>&lt;h2&gt;Some internal devices may not be detected:&lt;/h2&gt;&lt;p&gt;One or more I2C or SMBus interfaces failed to initialize.&lt;/p&gt;&lt;p&gt;&lt;b&gt;RGB DRAM modules, some motherboards&apos; onboard RGB lighting, and RGB Graphics Cards, will not be available in OpenRGB&lt;/b&gt; without I2C or SMBus.&lt;/p&gt;&lt;h4&gt;How to fix this:&lt;/h4&gt;&lt;p&gt;On Linux, this is usually because the i2c-dev module is not loaded.&lt;/p&gt;&lt;p&gt;You must load the i2c-dev module along with the correct i2c driver for your motherboard. This is usually i2c-piix4 for AMD systems and i2c-i801 for Intel systems.&lt;/p&gt;&lt;p&gt;See &lt;a href=&apos;https://help.openrgb.org/&apos;&gt;help.openrgb.org&lt;/a&gt; for additional troubleshooting steps if you keep seeing this message.&lt;br&gt;&lt;/p&gt;&lt;h3&gt;If you are not using internal RGB on a desktop this message is not important to you.&lt;/h3&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;h2&gt;部分内部设备可能未被检测到：&lt;/h2&gt;&lt;p&gt;一个或多个 I2C 或 SMBus 接口未能成功初始化。&lt;/p&gt;&lt;p&gt;&lt;b&gt;RGB 内存模块、部分主板的内置 RGB 灯珠及 RGB 显卡&lt;/b&gt;在没有 I2C 或 SMBus 支持的情况下，将无法在 OpenRGB 中使用&lt;/p&gt;&lt;h4&gt;解决方法：&lt;/h4&gt;&lt;p&gt;在 Linux 系统中，此问题通常由 i2c-dev 模块未被加载引起。&lt;/p&gt;&lt;p&gt;您必须加载 i2c-dev 模块，并确保加载了适用于您的主板的正确 I2C 驱动程序。对于 AMD 系统，通常为 i2c-piix4；而对于 Intel 系统，则为 i2c-i801。&lt;/p&gt;&lt;p&gt;如果您持续遇到此提示，请参考 &lt;a href=&apos;https://help.openrgb.org/&apos;&gt;help.openrgb.org&lt;/a&gt; 提供的其他故障排除步骤。&lt;br&gt;&lt;/p&gt;&lt;h3&gt;如果您未使用台式机中内置的 RGB，那么本提示对您来说并不重要。&lt;/h3&gt;</translation>
     </message>
     <message>
-        <source>&lt;h2&gt;WARNING:&lt;/h2&gt;&lt;p&gt;The OpenRGB udev rules are not installed.&lt;/p&gt;&lt;p&gt;Most devices will not be available unless running OpenRGB as root.&lt;/p&gt;&lt;p&gt;If using AppImage, Flatpak, or self-compiled versions of OpenRGB you must install the udev rules manually&lt;/p&gt;&lt;p&gt;See &lt;a href=&apos;https://openrgb.org/udev&apos;&gt;https://openrgb.org/udev&lt;/a&gt; to install the udev rules manually&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
+        <source>&lt;h2&gt;WARNING:&lt;/h2&gt;&lt;p&gt;OpenRGB udev 规则尚未安装。&lt;/p&gt;&lt;p&gt;Most devices will not be available unless running OpenRGB as root.&lt;/p&gt;&lt;p&gt;If using AppImage, Flatpak, or self-compiled versions of OpenRGB you must install the udev rules manually&lt;/p&gt;&lt;p&gt;See &lt;a href=&apos;https://openrgb.org/udev&apos;&gt;https://openrgb.org/udev&lt;/a&gt; to install the udev rules manually&lt;/p&gt;</source>
+        <translation>&lt;h2&gt;警告：&lt;/h2&gt;&lt;p&gt;The OpenRGB udev rules are not installed.&lt;/p&gt;&lt;p&gt;除非以 root 身份运行 OpenRGB，否则大多数设备将无法正常使用。&lt;/p&gt;&lt;p&gt;如果您使用的是 AppImage、Flatpak 或自行编译的 OpenRGB 版本，请务必手动安装 udev 规则。&lt;/p&gt;&lt;p&gt;请访问 &lt;a href=&apos;https://openrgb.org/udev&apos;&gt;https://openrgb.org/udev&lt;/a&gt; 并按照指引手动安装 udev 规则&lt;/p&gt;</translation>
     </message>
     <message>
         <source>&lt;h2&gt;WARNING:&lt;/h2&gt;&lt;p&gt;Multiple OpenRGB udev rules are installed.&lt;/p&gt;&lt;p&gt;The udev rules file 60-openrgb.rules is installed in both /etc/udev/rules.d and /usr/lib/udev/rules.d.&lt;/p&gt;&lt;p&gt;Multiple udev rules files can conflict, it is recommended to remove one of them.&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;h2&gt;警告：&lt;/h2&gt;&lt;p&gt;多个 OpenRGB udev 规则已被安装。&lt;/p&gt;&lt;p&gt;udev 规则文件 60-openrgb.rules 同时存在于 /etc/udev/rules.d 和 /usr/lib/udev/rules.d 目录中。&lt;/p&gt;&lt;p&gt;多个 udev 规则文件可能会发生冲突，建议您删除其中一个以避免潜在问题。&lt;/p&gt;</translation>
     </message>
 </context>
 <context>
@@ -1156,7 +1156,7 @@
     <name>Ui::OpenRGBDevicePage</name>
     <message>
         <source>Set individual LEDs to static colors.  Safe for use with software-driven effects.</source>
-        <translation>将单个 LED 设置为静态颜色。 可安全使用软件驱动效果。</translation>
+        <translation>将单个 LED 设置为静态颜色。 可安全地与软件驱动的效果一起使用。</translation>
     </message>
     <message>
         <source>Set individual LEDs to static colors.  Not safe for use with software-driven effects.</source>
@@ -1220,7 +1220,7 @@
     </message>
     <message>
         <source>Saved To Device</source>
-        <translation>保存到设备</translation>
+        <translation>已保存到设备</translation>
     </message>
     <message>
         <source>Save To Device</source>
@@ -1240,7 +1240,7 @@
     </message>
     <message>
         <source>Entire Segment</source>
-        <translation type="unfinished"></translation>
+        <translation>整个区段</translation>
     </message>
 </context>
 <context>
@@ -1283,7 +1283,7 @@
     </message>
     <message>
         <source>White</source>
-        <translation>白</translation>
+        <translation>白色</translation>
     </message>
     <message>
         <source>Lights Off</source>
@@ -1303,7 +1303,7 @@
     </message>
     <message>
         <source>Supported Devices</source>
-        <translation>兼容设备选择</translation>
+        <translation>兼容设备</translation>
     </message>
     <message>
         <source>General Settings</source>
@@ -1339,7 +1339,7 @@
     </message>
     <message>
         <source>Nanoleaf Devices</source>
-        <translation>绿诺设备</translation>
+        <translation>Nanoleaf 设备</translation>
     </message>
     <message>
         <source>Elgato KeyLight Devices</source>
@@ -1347,7 +1347,7 @@
     </message>
     <message>
         <source>Elgato LightStrip Devices</source>
-        <translation>Elgato 灯条设备</translation>
+        <translation>Elgato LightStrip 设备</translation>
     </message>
     <message>
         <source>SMBus Tools</source>
@@ -1375,11 +1375,11 @@
     </message>
     <message>
         <source>DMX Devices</source>
-        <translation type="unfinished"></translation>
+        <translation>DMX 设备</translation>
     </message>
     <message>
         <source>Kasa Smart Devices</source>
-        <translation type="unfinished"></translation>
+        <translation>Kasa 智能设备</translation>
     </message>
 </context>
 <context>
@@ -1433,11 +1433,11 @@
     <name>Ui::OpenRGBPhilipsWizSettingsEntry</name>
     <message>
         <source>Average</source>
-        <translation type="unfinished"></translation>
+        <translation>平均</translation>
     </message>
     <message>
         <source>Minimum</source>
-        <translation type="unfinished"></translation>
+        <translation>最小</translation>
     </message>
 </context>
 <context>
@@ -1468,18 +1468,18 @@
     </message>
     <message>
         <source>Restart Needed</source>
-        <translation type="unfinished"></translation>
+        <translation>需要重新启动</translation>
     </message>
     <message>
         <source>The plugin will be fully removed after restarting OpenRGB.</source>
-        <translation type="unfinished"></translation>
+        <translation>重新启动 OpenRGB 后，该插件将被完全删除。</translation>
     </message>
 </context>
 <context>
     <name>Ui::OpenRGBServerInfoPage</name>
     <message>
         <source>Stopping...</source>
-        <translation>停止...</translation>
+        <translation>停止中...</translation>
     </message>
     <message>
         <source>Online</source>
