@@ -10,11 +10,15 @@
 #pragma once
 
 #include <QWidget>
-#include "ui_OpenRGBKasaSmartSettingsEntry.h"
+#include <QWidget>
+#include "nlohmann/json.hpp"
+
+using json = nlohmann::json;
 
 namespace Ui
 {
     class OpenRGBKasaSmartSettingsEntry;
+    class OpenRGBKasaSmartSettingsEntryUi;
 }
 
 class Ui::OpenRGBKasaSmartSettingsEntry : public QWidget
@@ -24,6 +28,12 @@ class Ui::OpenRGBKasaSmartSettingsEntry : public QWidget
 public:
     explicit OpenRGBKasaSmartSettingsEntry(QWidget *parent = nullptr);
     ~OpenRGBKasaSmartSettingsEntry();
+    void loadFromSettings(const json& data);
+    json saveSettings();
+    const char* settingsSection();
+    void setName(QString name);
+
+private:
     Ui::OpenRGBKasaSmartSettingsEntryUi *ui;
 
 private slots:

@@ -36,15 +36,7 @@ OpenRGBKasaSmartSettingsPage::OpenRGBKasaSmartSettingsPage(QWidget *parent) :
         {
             OpenRGBKasaSmartSettingsEntry* entry = new OpenRGBKasaSmartSettingsEntry;
 
-            if(KasaSmart_settings["devices"][device_idx].contains("ip"))
-            {
-                entry->ui->IPEdit->setText(QString::fromStdString(KasaSmart_settings["devices"][device_idx]["ip"]));
-            }
-
-            if(KasaSmart_settings["devices"][device_idx].contains("name"))
-            {
-                entry->ui->NameEdit->setText(QString::fromStdString(KasaSmart_settings["devices"][device_idx]["name"]));
-            }
+            entry->loadFromSettings(KasaSmart_settings["devices"][device_idx]);
 
             entries.push_back(entry);
 
@@ -75,7 +67,9 @@ void OpenRGBKasaSmartSettingsPage::changeEvent(QEvent *event)
 void Ui::OpenRGBKasaSmartSettingsPage::on_AddKasaSmartDeviceButton_clicked()
 {
     OpenRGBKasaSmartSettingsEntry* entry = new OpenRGBKasaSmartSettingsEntry;
-    entry->ui->NameEdit->setText(QString("KasaSmart%1").arg(entries.size()));
+
+    entry->setName(QString("KasaSmart%1").arg(entries.size()));
+
     entries.push_back(entry);
 
     QListWidgetItem* item = new QListWidgetItem;
@@ -121,8 +115,7 @@ void Ui::OpenRGBKasaSmartSettingsPage::on_SaveKasaSmartConfigurationButton_click
         /*-------------------------------------------------*\
         | Required parameters                               |
         \*-------------------------------------------------*/
-        KasaSmart_settings["devices"][device_idx]["ip"]      = entries[device_idx]->ui->IPEdit->text().toStdString();
-        KasaSmart_settings["devices"][device_idx]["name"]    = entries[device_idx]->ui->NameEdit->text().toStdString();
+        KasaSmart_settings["devices"][device_idx] = entries[device_idx]->saveSettings();
     }
 
     ResourceManager::get()->GetSettingsManager()->SetSettings("KasaSmartDevices", KasaSmart_settings);

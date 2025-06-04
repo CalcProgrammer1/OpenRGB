@@ -10,12 +10,12 @@
 #pragma once
 
 #include <QWidget>
-#include "ui_OpenRGBElgatoKeyLightSettingsPage.h"
 #include "OpenRGBElgatoKeyLightSettingsEntry.h"
 
 namespace Ui
 {
     class OpenRGBElgatoKeyLightSettingsPage;
+    class OpenRGBElgatoKeyLightSettingsPageUi;
 }
 
 class Ui::OpenRGBElgatoKeyLightSettingsPage : public QWidget

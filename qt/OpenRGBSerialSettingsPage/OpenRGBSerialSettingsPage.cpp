@@ -36,47 +36,7 @@ OpenRGBSerialSettingsPage::OpenRGBSerialSettingsPage(QWidget *parent) :
         {
             OpenRGBSerialSettingsEntry* entry = new OpenRGBSerialSettingsEntry;
 
-            if(ledstrip_settings["devices"][device_idx].contains("name"))
-            {
-                entry->ui->NameEdit->setText(QString::fromStdString(ledstrip_settings["devices"][device_idx]["name"]));
-            }
-
-            if(ledstrip_settings["devices"][device_idx].contains("port"))
-            {
-                entry->ui->PortEdit->setText(QString::fromStdString(ledstrip_settings["devices"][device_idx]["port"]));
-            }
-
-            if(ledstrip_settings["devices"][device_idx].contains("baud"))
-            {
-                entry->ui->BaudEdit->setText(QString::number((int)ledstrip_settings["devices"][device_idx]["baud"]));
-            }
-
-            if(ledstrip_settings["devices"][device_idx].contains("num_leds"))
-            {
-                entry->ui->NumLEDsEdit->setText(QString::number((int)ledstrip_settings["devices"][device_idx]["num_leds"]));
-            }
-
-            if(ledstrip_settings["devices"][device_idx].contains("protocol"))
-            {
-                std::string protocol_string = ledstrip_settings["devices"][device_idx]["protocol"];
-
-                if(protocol_string == "keyboard_visualizer")
-                {
-                    entry->ui->ProtocolComboBox->setCurrentIndex(0);
-                }
-                else if(protocol_string == "adalight")
-                {
-                    entry->ui->ProtocolComboBox->setCurrentIndex(1);
-                }
-                else if(protocol_string == "tpm2")
-                {
-                    entry->ui->ProtocolComboBox->setCurrentIndex(2);
-                }
-                else if(protocol_string == "basic_i2c")
-                {
-                    entry->ui->ProtocolComboBox->setCurrentIndex(3);
-                }
-            }
+            entry->loadFromSettings(ledstrip_settings["devices"][device_idx]);
 
             entries.push_back(entry);
 
@@ -149,29 +109,7 @@ void Ui::OpenRGBSerialSettingsPage::on_SaveSerialConfigurationButton_clicked()
 
     for(unsigned int device_idx = 0; device_idx < entries.size(); device_idx++)
     {
-        /*-------------------------------------------------*\
-        | Required parameters                               |
-        \*-------------------------------------------------*/
-        ledstrip_settings["devices"][device_idx]["name"]            = entries[device_idx]->ui->NameEdit->text().toStdString();
-        ledstrip_settings["devices"][device_idx]["port"]            = entries[device_idx]->ui->PortEdit->text().toStdString();
-        ledstrip_settings["devices"][device_idx]["num_leds"]        = entries[device_idx]->ui->NumLEDsEdit->text().toUInt();
-        ledstrip_settings["devices"][device_idx]["baud"]            = entries[device_idx]->ui->BaudEdit->text().toUInt();
-
-        switch(entries[device_idx]->ui->ProtocolComboBox->currentIndex())
-        {
-            case 0:
-                ledstrip_settings["devices"][device_idx]["protocol"] = "keyboard_visualizer";
-                break;
-            case 1:
-                ledstrip_settings["devices"][device_idx]["protocol"] = "adalight";
-                break;
-            case 2:
-                ledstrip_settings["devices"][device_idx]["protocol"] = "tpm2";
-                break;
-            case 3:
-                ledstrip_settings["devices"][device_idx]["protocol"] = "basic_i2c";
-                break;
-        }
+        ledstrip_settings["devices"][device_idx] = entries[device_idx]->saveSettings();
     }
 
     ResourceManager::get()->GetSettingsManager()->SetSettings("LEDStripDevices", ledstrip_settings);

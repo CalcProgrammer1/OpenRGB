@@ -38,10 +38,7 @@ OpenRGBGoveeSettingsPage::OpenRGBGoveeSettingsPage(QWidget *parent) :
         {
             OpenRGBGoveeSettingsEntry* entry = new OpenRGBGoveeSettingsEntry;
 
-            if(govee_settings["devices"][device_idx].contains("ip"))
-            {
-                entry->ui->IPEdit->setText(QString::fromStdString(govee_settings["devices"][device_idx]["ip"]));
-            }
+            entry->loadFromSettings(govee_settings["devices"][device_idx]);
 
             entries.push_back(entry);
 
@@ -114,10 +111,7 @@ void Ui::OpenRGBGoveeSettingsPage::on_SaveGoveeConfigurationButton_clicked()
 
     for(unsigned int device_idx = 0; device_idx < entries.size(); device_idx++)
     {
-        /*-------------------------------------------------*\
-        | Required parameters                               |
-        \*-------------------------------------------------*/
-        govee_settings["devices"][device_idx]["ip"]             = entries[device_idx]->ui->IPEdit->text().toStdString();
+        govee_settings["devices"][device_idx] = entries[device_idx]->saveSettings();
     }
 
     ResourceManager::get()->GetSettingsManager()->SetSettings("GoveeDevices", govee_settings);

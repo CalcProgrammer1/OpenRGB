@@ -10,11 +10,14 @@
 #pragma once
 
 #include <QDialog>
-#include "ui_OpenRGBElgatoLightStripSettingsEntry.h"
+#include "nlohmann/json.hpp"
+
+using json = nlohmann::json;
 
 namespace Ui
 {
     class OpenRGBElgatoLightStripSettingsEntry;
+    class OpenRGBElgatoLightStripSettingsEntryUi;
 }
 
 class Ui::OpenRGBElgatoLightStripSettingsEntry : public QDialog
@@ -24,6 +27,11 @@ class Ui::OpenRGBElgatoLightStripSettingsEntry : public QDialog
     public:
         explicit OpenRGBElgatoLightStripSettingsEntry(QWidget *parent = nullptr);
         ~OpenRGBElgatoLightStripSettingsEntry();
+        void loadFromSettings(const json& data);
+        json saveSettings();
+        const char* settingsSection();
+
+    private:
         Ui::OpenRGBElgatoLightStripSettingsEntryUi *ui;
 
     private slots:

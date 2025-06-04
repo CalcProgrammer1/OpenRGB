@@ -36,20 +36,7 @@ OpenRGBYeelightSettingsPage::OpenRGBYeelightSettingsPage(QWidget *parent) :
         {
             OpenRGBYeelightSettingsEntry* entry = new OpenRGBYeelightSettingsEntry;
 
-            if(yeelight_settings["devices"][device_idx].contains("ip"))
-            {
-                entry->ui->IPEdit->setText(QString::fromStdString(yeelight_settings["devices"][device_idx]["ip"]));
-            }
-
-            if(yeelight_settings["devices"][device_idx].contains("host_ip"))
-            {
-                entry->ui->HostIPEdit->setText(QString::fromStdString(yeelight_settings["devices"][device_idx]["host_ip"]));
-            }
-
-            if(yeelight_settings["devices"][device_idx].contains("music_mode"))
-            {
-                entry->ui->MusicModeCheckBox->setChecked(yeelight_settings["devices"][device_idx]["music_mode"]);
-            }
+            entry->loadFromSettings(yeelight_settings["devices"][device_idx]);
 
             entries.push_back(entry);
 
@@ -122,12 +109,7 @@ void Ui::OpenRGBYeelightSettingsPage::on_SaveYeelightConfigurationButton_clicked
 
     for(unsigned int device_idx = 0; device_idx < entries.size(); device_idx++)
     {
-        /*-------------------------------------------------*\
-        | Required parameters                               |
-        \*-------------------------------------------------*/
-        yeelight_settings["devices"][device_idx]["ip"]          = entries[device_idx]->ui->IPEdit->text().toStdString();
-        yeelight_settings["devices"][device_idx]["host_ip"]     = entries[device_idx]->ui->HostIPEdit->text().toStdString();
-        yeelight_settings["devices"][device_idx]["music_mode"]  = entries[device_idx]->ui->MusicModeCheckBox->isChecked();
+        yeelight_settings["devices"][device_idx] = entries[device_idx]->saveSettings();
     }
 
     ResourceManager::get()->GetSettingsManager()->SetSettings("YeelightDevices", yeelight_settings);

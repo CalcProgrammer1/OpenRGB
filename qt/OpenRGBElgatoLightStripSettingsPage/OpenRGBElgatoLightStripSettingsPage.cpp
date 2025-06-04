@@ -33,10 +33,7 @@ OpenRGBElgatoLightStripSettingsPage::OpenRGBElgatoLightStripSettingsPage(QWidget
         {
             OpenRGBElgatoLightStripSettingsEntry* entry = new OpenRGBElgatoLightStripSettingsEntry;
 
-            if(elgato_lightstrip_settings["devices"][device_idx].contains("ip"))
-            {
-                entry->ui->IPEdit->setText(QString::fromStdString(elgato_lightstrip_settings["devices"][device_idx]["ip"]));
-            }
+            entry->loadFromSettings(elgato_lightstrip_settings["devices"][device_idx]);
 
             entries.push_back(entry);
 
@@ -106,10 +103,7 @@ void Ui::OpenRGBElgatoLightStripSettingsPage::on_SaveElgatoLightStripConfigurati
 
     for(unsigned int device_idx = 0; device_idx < entries.size(); device_idx++)
     {
-        /*-------------------------------------------------*\
-        | Required parameters                               |
-        \*-------------------------------------------------*/
-        elgato_lightstrip_settings["devices"][device_idx]["ip"] = entries[device_idx]->ui->IPEdit->text().toStdString();
+        elgato_lightstrip_settings["devices"][device_idx] = entries[device_idx]->saveSettings();
     }
 
     ResourceManager::get()->GetSettingsManager()->SetSettings("ElgatoLightStripDevices", elgato_lightstrip_settings);

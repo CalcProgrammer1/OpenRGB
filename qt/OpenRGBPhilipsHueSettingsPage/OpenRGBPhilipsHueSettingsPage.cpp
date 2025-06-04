@@ -36,35 +36,7 @@ OpenRGBPhilipsHueSettingsPage::OpenRGBPhilipsHueSettingsPage(QWidget *parent) :
         {
             OpenRGBPhilipsHueSettingsEntry* entry = new OpenRGBPhilipsHueSettingsEntry;
 
-            if(hue_settings["bridges"][device_idx].contains("ip"))
-            {
-                entry->ui->IPEdit->setText(QString::fromStdString(hue_settings["bridges"][device_idx]["ip"]));
-            }
-
-            if(hue_settings["bridges"][device_idx].contains("mac"))
-            {
-                entry->ui->MACEdit->setText(QString::fromStdString(hue_settings["bridges"][device_idx]["mac"]));
-            }
-
-            if(hue_settings["bridges"][device_idx].contains("entertainment"))
-            {
-                entry->ui->EntertainmentCheckBox->setChecked(hue_settings["bridges"][device_idx]["entertainment"]);
-            }
-
-            if(hue_settings["bridges"][device_idx].contains("autoconnect"))
-            {
-                entry->ui->AutoConnectCheckBox->setChecked(hue_settings["bridges"][device_idx]["autoconnect"]);
-            }
-
-            if(hue_settings["bridges"][device_idx].contains("username"))
-            {
-                entry->ui->UsernameValue->setText(QString::fromStdString(hue_settings["bridges"][device_idx]["username"]));
-            }
-
-            if(hue_settings["bridges"][device_idx].contains("clientkey"))
-            {
-                entry->ui->ClientKeyValue->setText(QString::fromStdString(hue_settings["bridges"][device_idx]["clientkey"]));
-            }
+            entry->loadFromSettings(hue_settings["bridges"][device_idx]);
 
             entries.push_back(entry);
 
@@ -137,23 +109,7 @@ void Ui::OpenRGBPhilipsHueSettingsPage::on_SavePhilipsHueConfigurationButton_cli
 
     for(unsigned int device_idx = 0; device_idx < entries.size(); device_idx++)
     {
-        /*-------------------------------------------------*\
-        | Required parameters                               |
-        \*-------------------------------------------------*/
-        hue_settings["bridges"][device_idx]["ip"]               = entries[device_idx]->ui->IPEdit->text().toStdString();
-        hue_settings["bridges"][device_idx]["mac"]              = entries[device_idx]->ui->MACEdit->text().toStdString();
-        hue_settings["bridges"][device_idx]["entertainment"]    = entries[device_idx]->ui->EntertainmentCheckBox->isChecked();
-        hue_settings["bridges"][device_idx]["autoconnect"]      = entries[device_idx]->ui->AutoConnectCheckBox->isChecked();
-
-        if(entries[device_idx]->ui->UsernameValue->text() != "")
-        {
-            hue_settings["bridges"][device_idx]["username"]     = entries[device_idx]->ui->UsernameValue->text().toStdString();
-        }
-
-        if(entries[device_idx]->ui->ClientKeyValue->text() != "")
-        {
-            hue_settings["bridges"][device_idx]["clientkey"]    = entries[device_idx]->ui->ClientKeyValue->text().toStdString();
-        }
+        hue_settings["bridges"][device_idx] = entries[device_idx]->saveSettings();
     }
 
     ResourceManager::get()->GetSettingsManager()->SetSettings("PhilipsHueDevices", hue_settings);

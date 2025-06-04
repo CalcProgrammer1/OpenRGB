@@ -10,12 +10,12 @@
 #pragma once
 
 #include <QWidget>
-#include "ui_OpenRGBQMKORGBSettingsPage.h"
 #include "OpenRGBQMKORGBSettingsEntry.h"
 
 namespace Ui
 {
     class OpenRGBQMKORGBSettingsPage;
+    class OpenRGBQMKORGBSettingsPageUi;
 }
 
 class Ui::OpenRGBQMKORGBSettingsPage : public QWidget

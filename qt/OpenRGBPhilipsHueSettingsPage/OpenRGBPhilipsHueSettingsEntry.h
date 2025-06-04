@@ -9,12 +9,15 @@
 
 #pragma once
 
-#include "ui_OpenRGBPhilipsHueSettingsEntry.h"
 #include <QWidget>
+#include "nlohmann/json.hpp"
+
+using json = nlohmann::json;
 
 namespace Ui
 {
     class OpenRGBPhilipsHueSettingsEntry;
+    class OpenRGBPhilipsHueSettingsEntryUi;
 }
 
 class Ui::OpenRGBPhilipsHueSettingsEntry : public QWidget
@@ -24,7 +27,13 @@ class Ui::OpenRGBPhilipsHueSettingsEntry : public QWidget
 public:
     explicit OpenRGBPhilipsHueSettingsEntry(QWidget *parent = nullptr);
     ~OpenRGBPhilipsHueSettingsEntry();
+    void loadFromSettings(const json& data);
+    json saveSettings();
+    const char* settingsSection();
+
+private:
     Ui::OpenRGBPhilipsHueSettingsEntryUi *ui;
+
 private slots:
     void changeEvent(QEvent *event);
     void on_UnpairButton_clicked();

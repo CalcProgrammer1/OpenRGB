@@ -12,10 +12,14 @@
 #include <QWidget>
 #include "ui_OpenRGBNanoleafSettingsEntry.h"
 #include "OpenRGBNanoleafScanningThread.h"
+#include "nlohmann/json.hpp"
+
+using json = nlohmann::json;
 
 namespace Ui
 {
     class OpenRGBNanoleafSettingsEntry;
+    class OpenRGBNanoleafSettingsEntryUi;
 }
 
 class Ui::OpenRGBNanoleafSettingsEntry : public QWidget
@@ -26,9 +30,15 @@ public:
     explicit OpenRGBNanoleafSettingsEntry(QWidget *parent = nullptr);
     OpenRGBNanoleafSettingsEntry(QString a_address, int a_port);
     ~OpenRGBNanoleafSettingsEntry();
-    Ui::OpenRGBNanoleafSettingsEntryUi *ui;
+    void loadFromSettings(const json& data);
+    json saveSettings();
+    const char* settingsSection();
+
     QString address;
     int port;
+
+private:
+    Ui::OpenRGBNanoleafSettingsEntryUi *ui;
 
 private slots:
     void changeEvent(QEvent *event);

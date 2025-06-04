@@ -1,3 +1,4 @@
+
 /*---------------------------------------------------------*\
 | OpenRGBNanoleafSettingsEntry.cpp                          |
 |                                                           |
@@ -105,4 +106,47 @@ void OpenRGBNanoleafSettingsEntry::on_UnpairButton_clicked()
     ui->AuthKeyValue->setText("");
     ui->PairButton->show();
     ui->UnpairButton->hide();
+}
+
+void OpenRGBNanoleafSettingsEntry::loadFromSettings(const json& data)
+{
+    address = QString::fromStdString(data["ip"]);
+    port = data["port"];
+
+    ui->IPValue->setText(address);
+    ui->PortValue->setText(QString::fromStdString(std::to_string(port)));
+
+    if(data.contains("auth_token") && data["auth_token"].size())
+    {
+        auth_token = data["auth_token"];
+        ui->AuthKeyValue->setText(QString::fromStdString(auth_token));
+        ui->PairButton->hide();
+    }
+    else
+    {
+        auth_token.clear();
+        ui->UnpairButton->hide();
+    }
+}
+
+json OpenRGBNanoleafSettingsEntry::saveSettings()
+{
+    json result;
+
+    /*-------------------------------------------------*\
+    | Required parameters                               |
+    \*-------------------------------------------------*/
+    result["ip"] = address.toStdString();
+    result["port"] = port;
+    if(!auth_token.empty())
+    {
+        result["auth_token"] = auth_token;
+    }
+
+    return result;
+}
+
+const char* OpenRGBNanoleafSettingsEntry::settingsSection()
+{
+    return "NanoleafDevices";
 }

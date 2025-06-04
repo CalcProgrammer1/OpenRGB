@@ -12,11 +12,14 @@
 #pragma once
 
 #include <QWidget>
-#include "ui_OpenRGBGoveeSettingsEntry.h"
+#include "nlohmann/json.hpp"
+
+using json = nlohmann::json;
 
 namespace Ui
 {
     class OpenRGBGoveeSettingsEntry;
+    class OpenRGBGoveeSettingsEntryUi;
 }
 
 class Ui::OpenRGBGoveeSettingsEntry : public QWidget
@@ -26,6 +29,11 @@ class Ui::OpenRGBGoveeSettingsEntry : public QWidget
 public:
     explicit OpenRGBGoveeSettingsEntry(QWidget *parent = nullptr);
     ~OpenRGBGoveeSettingsEntry();
+    void loadFromSettings(const json& data);
+    json saveSettings();
+    const char* settingsSection();
+
+private:
     Ui::OpenRGBGoveeSettingsEntryUi *ui;
 
 private slots:

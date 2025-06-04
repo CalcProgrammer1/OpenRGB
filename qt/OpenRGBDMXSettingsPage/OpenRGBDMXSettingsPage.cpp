@@ -36,40 +36,7 @@ OpenRGBDMXSettingsPage::OpenRGBDMXSettingsPage(QWidget *parent) :
         {
             OpenRGBDMXSettingsEntry* entry = new OpenRGBDMXSettingsEntry;
 
-            if(dmx_settings["devices"][device_idx].contains("name"))
-            {
-                entry->ui->NameEdit->setText(QString::fromStdString(dmx_settings["devices"][device_idx]["name"]));
-            }
-
-            if(dmx_settings["devices"][device_idx].contains("port"))
-            {
-                entry->ui->PortEdit->setText(QString::fromStdString(dmx_settings["devices"][device_idx]["port"]));
-            }
-
-            if(dmx_settings["devices"][device_idx].contains("red_channel"))
-            {
-                entry->ui->RedEdit->setText(QString::number((int)dmx_settings["devices"][device_idx]["red_channel"]));
-            }
-
-            if(dmx_settings["devices"][device_idx].contains("green_channel"))
-            {
-                entry->ui->GreenEdit->setText(QString::number((int)dmx_settings["devices"][device_idx]["green_channel"]));
-            }
-
-            if(dmx_settings["devices"][device_idx].contains("blue_channel"))
-            {
-                entry->ui->BlueEdit->setText(QString::number((int)dmx_settings["devices"][device_idx]["blue_channel"]));
-            }
-
-            if(dmx_settings["devices"][device_idx].contains("brightness_channel"))
-            {
-                entry->ui->BrightnessEdit->setText(QString::number((int)dmx_settings["devices"][device_idx]["brightness_channel"]));
-            }
-
-            if(dmx_settings["devices"][device_idx].contains("keepalive_time"))
-            {
-                entry->ui->KeepaliveTimeEdit->setText(QString::number((int)dmx_settings["devices"][device_idx]["keepalive_time"]));
-            }
+            entry->loadFromSettings(dmx_settings["devices"][device_idx]);
 
             entries.push_back(entry);
 
@@ -142,27 +109,7 @@ void Ui::OpenRGBDMXSettingsPage::on_SaveDMXConfigurationButton_clicked()
 
     for(unsigned int device_idx = 0; device_idx < entries.size(); device_idx++)
     {
-        /*-------------------------------------------------*\
-        | Required parameters                               |
-        \*-------------------------------------------------*/
-        dmx_settings["devices"][device_idx]["name"]                     = entries[device_idx]->ui->NameEdit->text().toStdString();
-        dmx_settings["devices"][device_idx]["port"]                     = entries[device_idx]->ui->PortEdit->text().toStdString();
-        dmx_settings["devices"][device_idx]["red_channel"]              = entries[device_idx]->ui->RedEdit->text().toUInt();
-        dmx_settings["devices"][device_idx]["green_channel"]            = entries[device_idx]->ui->GreenEdit->text().toUInt();
-        dmx_settings["devices"][device_idx]["blue_channel"]             = entries[device_idx]->ui->BlueEdit->text().toUInt();
-
-        /*-------------------------------------------------*\
-        | Optional parameters                               |
-        \*-------------------------------------------------*/
-        if(entries[device_idx]->ui->BrightnessEdit->text() != "")
-        {
-            dmx_settings["devices"][device_idx]["brightness_channel"]   = entries[device_idx]->ui->BrightnessEdit->text().toUInt();
-        }
-
-        if(entries[device_idx]->ui->KeepaliveTimeEdit->text() != "")
-        {
-            dmx_settings["devices"][device_idx]["keepalive_time"]       = entries[device_idx]->ui->KeepaliveTimeEdit->text().toUInt();
-        }
+        dmx_settings["devices"][device_idx] = entries[device_idx]->saveSettings();
     }
 
     ResourceManager::get()->GetSettingsManager()->SetSettings("DMXDevices", dmx_settings);

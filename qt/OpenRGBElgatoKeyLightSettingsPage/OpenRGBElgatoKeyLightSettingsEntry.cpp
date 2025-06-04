@@ -32,3 +32,23 @@ void OpenRGBElgatoKeyLightSettingsEntry::changeEvent(QEvent *event)
         ui->retranslateUi(this);
     }
 }
+
+void OpenRGBElgatoKeyLightSettingsEntry::loadFromSettings(const json& data)
+{
+    if(data.contains("ip"))
+    {
+        ui->IPEdit->setText(QString::fromStdString(data["ip"]));
+    }
+}
+
+json OpenRGBElgatoKeyLightSettingsEntry::saveSettings()
+{
+    json result;
+    result["ip"] = ui->IPEdit->text().toStdString();
+    return result;
+}
+
+const char* OpenRGBElgatoKeyLightSettingsEntry::settingsSection()
+{
+    return "ElgatoKeyLightDevices";
+}

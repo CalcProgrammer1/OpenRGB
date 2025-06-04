@@ -33,10 +33,7 @@ OpenRGBElgatoKeyLightSettingsPage::OpenRGBElgatoKeyLightSettingsPage(QWidget *pa
         {
             OpenRGBElgatoKeyLightSettingsEntry* entry = new OpenRGBElgatoKeyLightSettingsEntry;
 
-            if(elgato_keylight_settings["devices"][device_idx].contains("ip"))
-            {
-                entry->ui->IPEdit->setText(QString::fromStdString(elgato_keylight_settings["devices"][device_idx]["ip"]));
-            }
+            entry->loadFromSettings(elgato_keylight_settings["devices"][device_idx]);
 
             entries.push_back(entry);
 
@@ -106,10 +103,7 @@ void Ui::OpenRGBElgatoKeyLightSettingsPage::on_SaveElgatoKeyLightConfigurationBu
 
     for(unsigned int device_idx = 0; device_idx < entries.size(); device_idx++)
     {
-        /*-------------------------------------------------*\
-        | Required parameters                               |
-        \*-------------------------------------------------*/
-        elgato_keylight_settings["devices"][device_idx]["ip"]          = entries[device_idx]->ui->IPEdit->text().toStdString();
+        elgato_keylight_settings["devices"][device_idx] = entries[device_idx]->saveSettings();
     }
 
     ResourceManager::get()->GetSettingsManager()->SetSettings("ElgatoKeyLightDevices", elgato_keylight_settings);

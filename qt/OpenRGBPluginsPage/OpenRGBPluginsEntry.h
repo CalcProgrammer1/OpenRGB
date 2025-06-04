@@ -10,14 +10,16 @@
 #pragma once
 
 #include <QWidget>
-#include "ui_OpenRGBPluginsEntry.h"
 
 namespace Ui
 {
     class OpenRGBPluginsEntry;
+    class OpenRGBPluginsEntryUi;
 }
 
 typedef void (*EnableClickCallback)(void *, void *);
+
+struct OpenRGBPluginEntry;
 
 class Ui::OpenRGBPluginsEntry : public QWidget
 {
@@ -26,9 +28,13 @@ class Ui::OpenRGBPluginsEntry : public QWidget
 public:
     explicit OpenRGBPluginsEntry(QWidget *parent = nullptr);
     ~OpenRGBPluginsEntry();
+    void fillFrom(const OpenRGBPluginEntry* plugin);
+    bool isSystem() const;
+    bool isPluginEnabled() const;
+    std::string getName() const;
+    std::string getDescription() const;
+    std::string getPath() const;
 
-    Ui::OpenRGBPluginsEntryUi * ui;
-    bool                        is_system;
 
     void RegisterEnableClickCallback(EnableClickCallback new_callback, void * new_callback_arg);
 
@@ -39,4 +45,6 @@ private slots:
 private:
     EnableClickCallback EnableClickCallbackVal;
     void *              EnableClickCallbackArg;
+    Ui::OpenRGBPluginsEntryUi * ui;
+    bool                        is_system;
 };

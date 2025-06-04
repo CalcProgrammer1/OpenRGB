@@ -64,3 +64,38 @@ void OpenRGBYeelightSettingsEntry::on_HostIPChooserButton_clicked()
     ui->HostIPEdit->setText(inp.textValue());
 }
 
+void OpenRGBYeelightSettingsEntry::loadFromSettings(const json& data)
+{
+    if(data.contains("ip"))
+    {
+        ui->IPEdit->setText(QString::fromStdString(data["ip"]));
+    }
+
+    if(data.contains("host_ip"))
+    {
+        ui->HostIPEdit->setText(QString::fromStdString(data["host_ip"]));
+    }
+
+    if(data.contains("music_mode"))
+    {
+        ui->MusicModeCheckBox->setChecked(data["music_mode"]);
+    }
+}
+
+json OpenRGBYeelightSettingsEntry::saveSettings()
+{
+    json result;
+    /*-------------------------------------------------*\
+    | Required parameters                               |
+    \*-------------------------------------------------*/
+    result["ip"]          = ui->IPEdit->text().toStdString();
+    result["host_ip"]     = ui->HostIPEdit->text().toStdString();
+    result["music_mode"]  = ui->MusicModeCheckBox->isChecked();
+
+    return result;
+}
+
+const char* OpenRGBYeelightSettingsEntry::settingsSection()
+{
+    return "YeelightDevices";
+}

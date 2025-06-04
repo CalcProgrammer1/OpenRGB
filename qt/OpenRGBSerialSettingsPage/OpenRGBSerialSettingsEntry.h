@@ -10,11 +10,14 @@
 #pragma once
 
 #include <QWidget>
-#include "ui_OpenRGBSerialSettingsEntry.h"
+#include "nlohmann/json.hpp"
+
+using json = nlohmann::json;
 
 namespace Ui
 {
     class OpenRGBSerialSettingsEntry;
+    class OpenRGBSerialSettingsEntryUi;
 }
 
 class Ui::OpenRGBSerialSettingsEntry : public QWidget
@@ -29,5 +32,10 @@ private slots:
 public:
     explicit OpenRGBSerialSettingsEntry(QWidget *parent = nullptr);
     ~OpenRGBSerialSettingsEntry();
+    void loadFromSettings(const json& data);
+    json saveSettings();
+    const char* settingsSection();
+
+private:
     Ui::OpenRGBSerialSettingsEntryUi *ui;
 };

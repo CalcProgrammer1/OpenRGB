@@ -8,11 +8,14 @@
 \*---------------------------------------------------------*/
 
 #include <QWidget>
-#include "ui_OpenRGBLIFXSettingsEntry.h"
+#include "nlohmann/json.hpp"
+
+using json = nlohmann::json;
 
 namespace Ui
 {
     class OpenRGBLIFXSettingsEntry;
+    class OpenRGBLIFXSettingsEntryUi;
 }
 
 class Ui::OpenRGBLIFXSettingsEntry : public QWidget
@@ -22,6 +25,12 @@ class Ui::OpenRGBLIFXSettingsEntry : public QWidget
 public:
     explicit OpenRGBLIFXSettingsEntry(QWidget *parent = nullptr);
     ~OpenRGBLIFXSettingsEntry();
+    void loadFromSettings(const json& data);
+    json saveSettings();
+    const char* settingsSection();
+    void setName(QString name);
+
+private:
     Ui::OpenRGBLIFXSettingsEntryUi *ui;
 
 private slots:

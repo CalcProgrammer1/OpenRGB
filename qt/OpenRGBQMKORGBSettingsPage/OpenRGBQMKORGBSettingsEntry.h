@@ -10,11 +10,14 @@
 #pragma once
 
 #include <QWidget>
-#include "ui_OpenRGBQMKORGBSettingsEntry.h"
+#include "nlohmann/json.hpp"
+
+using json = nlohmann::json;
 
 namespace Ui
 {
     class OpenRGBQMKORGBSettingsEntry;
+    class OpenRGBQMKORGBSettingsEntryUi;
 }
 
 class Ui::OpenRGBQMKORGBSettingsEntry : public QWidget
@@ -27,5 +30,10 @@ private slots:
 public:
     explicit OpenRGBQMKORGBSettingsEntry(QWidget *parent = nullptr);
     ~OpenRGBQMKORGBSettingsEntry();
+    void loadFromSettings(const json& data);
+    json saveSettings();
+    const char* settingsSection();
+
+private:
     Ui::OpenRGBQMKORGBSettingsEntryUi *ui;
 };

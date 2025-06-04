@@ -36,15 +36,7 @@ OpenRGBLIFXSettingsPage::OpenRGBLIFXSettingsPage(QWidget *parent) :
         {
             OpenRGBLIFXSettingsEntry* entry = new OpenRGBLIFXSettingsEntry;
 
-            if(lifx_settings["devices"][device_idx].contains("ip"))
-            {
-                entry->ui->IPEdit->setText(QString::fromStdString(lifx_settings["devices"][device_idx]["ip"]));
-            }
-
-            if(lifx_settings["devices"][device_idx].contains("name"))
-            {
-                entry->ui->NameEdit->setText(QString::fromStdString(lifx_settings["devices"][device_idx]["name"]));
-            }
+            entry->loadFromSettings(lifx_settings["devices"][device_idx]);
 
             entries.push_back(entry);
 
@@ -75,7 +67,9 @@ void OpenRGBLIFXSettingsPage::changeEvent(QEvent *event)
 void Ui::OpenRGBLIFXSettingsPage::on_AddLIFXDeviceButton_clicked()
 {
     OpenRGBLIFXSettingsEntry* entry = new OpenRGBLIFXSettingsEntry;
-    entry->ui->NameEdit->setText(QString("LIFX%1").arg(entries.size()));
+
+    entry->setName(QString("LIFX%1").arg(entries.size()));
+
     entries.push_back(entry);
 
     QListWidgetItem* item = new QListWidgetItem;
@@ -118,11 +112,7 @@ void Ui::OpenRGBLIFXSettingsPage::on_SaveLIFXConfigurationButton_clicked()
 
     for(unsigned int device_idx = 0; device_idx < entries.size(); device_idx++)
     {
-        /*-------------------------------------------------*\
-        | Required parameters                               |
-        \*-------------------------------------------------*/
-        lifx_settings["devices"][device_idx]["ip"]      = entries[device_idx]->ui->IPEdit->text().toStdString();
-        lifx_settings["devices"][device_idx]["name"]    = entries[device_idx]->ui->NameEdit->text().toStdString();
+        lifx_settings["devices"][device_idx] = entries[device_idx]->saveSettings();
     }
 
     ResourceManager::get()->GetSettingsManager()->SetSettings("LIFXDevices", lifx_settings);

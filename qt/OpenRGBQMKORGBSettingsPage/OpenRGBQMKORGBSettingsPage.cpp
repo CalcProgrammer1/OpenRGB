@@ -36,20 +36,7 @@ OpenRGBQMKORGBSettingsPage::OpenRGBQMKORGBSettingsPage(QWidget *parent) :
         {
             OpenRGBQMKORGBSettingsEntry* entry = new OpenRGBQMKORGBSettingsEntry;
 
-            if(qmk_settings["devices"][device_idx].contains("name"))
-            {
-                entry->ui->NameEdit->setText(QString::fromStdString(qmk_settings["devices"][device_idx]["name"]));
-            }
-
-            if(qmk_settings["devices"][device_idx].contains("usb_vid"))
-            {
-                entry->ui->USBVIDEdit->setText(QString::fromStdString(qmk_settings["devices"][device_idx]["usb_vid"]));
-            }
-
-            if(qmk_settings["devices"][device_idx].contains("usb_pid"))
-            {
-                entry->ui->USBPIDEdit->setText(QString::fromStdString(qmk_settings["devices"][device_idx]["usb_pid"]));
-            }
+            entry->loadFromSettings(qmk_settings["devices"][device_idx]);
 
             entries.push_back(entry);
 
@@ -125,9 +112,7 @@ void Ui::OpenRGBQMKORGBSettingsPage::on_SaveQMKORGBConfigurationButton_clicked()
         /*-------------------------------------------------*\
         | Required parameters                               |
         \*-------------------------------------------------*/
-        qmk_settings["devices"][device_idx]["name"]     = entries[device_idx]->ui->NameEdit->text().toStdString();
-        qmk_settings["devices"][device_idx]["usb_vid"]  = entries[device_idx]->ui->USBVIDEdit->text().toStdString();
-        qmk_settings["devices"][device_idx]["usb_pid"]  = entries[device_idx]->ui->USBPIDEdit->text().toStdString();
+        qmk_settings["devices"][device_idx] = entries[device_idx]->saveSettings();
     }
 
     ResourceManager::get()->GetSettingsManager()->SetSettings("QMKOpenRGBDevices", qmk_settings);

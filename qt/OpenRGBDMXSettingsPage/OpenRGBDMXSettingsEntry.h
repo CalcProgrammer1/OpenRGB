@@ -10,11 +10,14 @@
 #pragma once
 
 #include <QWidget>
-#include "ui_OpenRGBDMXSettingsEntry.h"
+#include "nlohmann/json.hpp"
+
+using json = nlohmann::json;
 
 namespace Ui
 {
     class OpenRGBDMXSettingsEntry;
+    class OpenRGBDMXSettingsEntryUi;
 }
 
 class Ui::OpenRGBDMXSettingsEntry : public QWidget
@@ -24,6 +27,11 @@ class Ui::OpenRGBDMXSettingsEntry : public QWidget
 public:
     explicit OpenRGBDMXSettingsEntry(QWidget *parent = nullptr);
     ~OpenRGBDMXSettingsEntry();
+    void loadFromSettings(const json& data);
+    json saveSettings();
+    const char* settingsSection();
+
+private:
     Ui::OpenRGBDMXSettingsEntryUi *ui;
 
 private slots:

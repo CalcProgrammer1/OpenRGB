@@ -11,12 +11,12 @@
 
 #include <QWidget>
 #include "OpenRGBPluginsEntry.h"
-#include "ui_OpenRGBPluginsPage.h"
 #include "PluginManager.h"
 
 namespace Ui
 {
     class OpenRGBPluginsPage;
+    class OpenRGBPluginsPageUi;
 }
 
 class Ui::OpenRGBPluginsPage : public QWidget

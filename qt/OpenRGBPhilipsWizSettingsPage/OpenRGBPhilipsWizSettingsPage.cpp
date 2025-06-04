@@ -36,25 +36,7 @@ OpenRGBPhilipsWizSettingsPage::OpenRGBPhilipsWizSettingsPage(QWidget *parent) :
         {
             OpenRGBPhilipsWizSettingsEntry* entry = new OpenRGBPhilipsWizSettingsEntry;
 
-            if(wiz_settings["devices"][device_idx].contains("ip"))
-            {
-                entry->ui->IPEdit->setText(QString::fromStdString(wiz_settings["devices"][device_idx]["ip"]));
-            }
-
-            if(wiz_settings["devices"][device_idx].contains("use_cool_white"))
-            {
-                entry->ui->UseCoolWhiteCheckBox->setChecked(wiz_settings["devices"][device_idx]["use_cool_white"]);
-            }
-
-            if(wiz_settings["devices"][device_idx].contains("use_warm_white"))
-            {
-                entry->ui->UseWarmWhiteCheckBox->setChecked(wiz_settings["devices"][device_idx]["use_warm_white"]);
-            }
-
-            if(wiz_settings["devices"][device_idx].contains("selected_white_strategy"))
-            {
-                entry->ui->WhiteStrategyComboBox->setCurrentText(QString::fromStdString(wiz_settings["devices"][device_idx]["selected_white_strategy"]));
-            }
+            entry->loadFromSettings(wiz_settings["devices"][device_idx]);
 
             entries.push_back(entry);
 
@@ -127,13 +109,7 @@ void Ui::OpenRGBPhilipsWizSettingsPage::on_SavePhilipsWizConfigurationButton_cli
 
     for(unsigned int device_idx = 0; device_idx < entries.size(); device_idx++)
     {
-        /*-------------------------------------------------*\
-        | Required parameters                               |
-        \*-------------------------------------------------*/
-        wiz_settings["devices"][device_idx]["ip"]               = entries[device_idx]->ui->IPEdit->text().toStdString();
-        wiz_settings["devices"][device_idx]["use_cool_white"]   = entries[device_idx]->ui->UseCoolWhiteCheckBox->isChecked();
-        wiz_settings["devices"][device_idx]["use_warm_white"]   = entries[device_idx]->ui->UseWarmWhiteCheckBox->isChecked();
-        wiz_settings["devices"][device_idx]["selected_white_strategy"]   = entries[device_idx]->ui->WhiteStrategyComboBox->currentText().toStdString();
+        wiz_settings["devices"][device_idx] = entries[device_idx]->saveSettings();
     }
 
     ResourceManager::get()->GetSettingsManager()->SetSettings("PhilipsWizDevices", wiz_settings);

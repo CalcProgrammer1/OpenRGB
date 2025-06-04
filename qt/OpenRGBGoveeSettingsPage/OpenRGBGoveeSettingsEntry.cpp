@@ -33,3 +33,23 @@ void OpenRGBGoveeSettingsEntry::changeEvent(QEvent *event)
         ui->retranslateUi(this);
     }
 }
+
+void OpenRGBGoveeSettingsEntry::loadFromSettings(const json& data)
+{
+    if(data.contains("ip"))
+    {
+        ui->IPEdit->setText(QString::fromStdString(data["ip"]));
+    }
+}
+
+json OpenRGBGoveeSettingsEntry::saveSettings()
+{
+    json result;
+    result["ip"] = ui->IPEdit->text().toStdString();
+    return result;
+}
+
+const char* OpenRGBGoveeSettingsEntry::settingsSection()
+{
+    return "GoveeDevices";
+}
