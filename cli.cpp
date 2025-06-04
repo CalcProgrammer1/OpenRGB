@@ -568,6 +568,8 @@ bool OptionDevice(std::vector<DeviceOptions>* current_devices, std::string argum
     {
         int current_device = std::stoi(argument);
 
+        LOG_TRACE("[CLI] using device number %d for argument %s", current_device, argument.c_str());
+
         if((current_device >= static_cast<int>(rgb_controllers.size())) || (current_device < 0))
         {
             throw nullptr;
@@ -589,6 +591,11 @@ bool OptionDevice(std::vector<DeviceOptions>* current_devices, std::string argum
     {
         if(argument.length() > 1)
         {
+            std::string argument_lower = argument;
+            std::transform(argument_lower.begin(), argument_lower.end(), argument_lower.begin(), ::tolower);
+
+            LOG_TRACE("[CLI] Searching for %s", argument_lower.c_str());
+
             for(unsigned int i = 0; i < rgb_controllers.size(); i++)
             {
                 /*---------------------------------------------------------*\
@@ -597,9 +604,9 @@ bool OptionDevice(std::vector<DeviceOptions>* current_devices, std::string argum
                 \*---------------------------------------------------------*/
                 std::string name            = rgb_controllers[i]->name;
                 std::transform(name.begin(), name.end(), name.begin(), ::tolower);
-                std::transform(argument.begin(), argument.end(), argument.begin(), ::tolower);
+                LOG_TRACE("[CLI] Comparing to %s", name.c_str());
 
-                if(name.find(argument) != std::string::npos)
+                if(name.find(argument_lower) != std::string::npos)
                 {
                     found                   = true;
 
@@ -617,9 +624,14 @@ bool OptionDevice(std::vector<DeviceOptions>* current_devices, std::string argum
         }
         else
         {
-            std::cout << "Error: Invalid device ID: " + argument << std::endl;
+            std::cout << "Error: Empty device ID" << std::endl;
             return false;
         }
+    }
+
+    if(!found)
+    {
+        std::cout << "Error: Cannot find device \"" << argument << "\"" << std::endl;
     }
 
     return found;
@@ -729,6 +741,10 @@ bool OptionMode(std::vector<DeviceOptions>* current_devices, std::string argumen
         }
     }
 
+    if(!found)
+    {
+        std::cout << "Error: No devices for mode \"" << argument << "\"" << std::endl;
+    }
     return found;
 }
 
@@ -765,6 +781,10 @@ bool OptionSpeed(std::vector<DeviceOptions>* current_devices, std::string argume
         }
     }
 
+    if(!found)
+    {
+        std::cout << "Error: No devices for speed \"" << argument << "\"" << std::endl;
+    }
     return found;
 }
 
@@ -801,6 +821,10 @@ bool OptionBrightness(std::vector<DeviceOptions>* current_devices, std::string a
         }
     }
 
+    if(!found)
+    {
+        std::cout << "Error: No devices for brightness \"" << argument << "\"" << std::endl;
+    }
     return found;
 }
 
@@ -1731,7 +1755,7 @@ unsigned int cli_post_detection()
             break;
 
         case RET_FLAG_PRINT_HELP:
-            OptionHelp();
+            std::cout << "Run `OpenRGB --help` for syntax" << std::endl;
             exit(-1);
             break;
 
