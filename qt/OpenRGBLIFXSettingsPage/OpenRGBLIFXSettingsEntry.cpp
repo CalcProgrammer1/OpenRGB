@@ -44,13 +44,13 @@ void OpenRGBLIFXSettingsEntry::loadFromSettings(const json& data)
     {
         ui->NameEdit->setText(QString::fromStdString(data["name"]));
     }
-    if(lifx_device_settings.contains("multizone") && lifx_device_settings["multizone"].is_boolean())
+    if(data.contains("multizone") && data["multizone"].is_boolean())
     {
-        ui->MultizoneCheckBox->setCheckState(lifx_device_settings["multizone"] == true ? Qt::CheckState::Checked : Qt::CheckState::Unchecked);
+        ui->MultizoneCheckBox->setCheckState(data["multizone"] == true ? Qt::CheckState::Checked : Qt::CheckState::Unchecked);
     }
-    if(lifx_device_settings.contains("extended_multizone") && lifx_device_settings["extended_multizone"].is_boolean())
+    if(data.contains("extended_multizone") && data["extended_multizone"].is_boolean())
     {
-        ui->ExtendedMultizoneCheckBox->setCheckState(lifx_device_settings["extended_multizone"] == true ? Qt::CheckState::Checked : Qt::CheckState::Unchecked);
+        ui->ExtendedMultizoneCheckBox->setCheckState(data["extended_multizone"] == true ? Qt::CheckState::Checked : Qt::CheckState::Unchecked);
     }
 }
 
@@ -59,8 +59,8 @@ json OpenRGBLIFXSettingsEntry::saveSettings()
     json result;
     result["ip"]                 = ui->IPEdit->text().toStdString();
     result["name"]               = ui->NameEdit->text().toStdString();
-    result["multizone"]          = entries[device_idx]->ui->MultizoneCheckBox->checkState() == Qt::Checked;
-    result["extended_multizone"] = entries[device_idx]->ui->ExtendedMultizoneCheckBox->checkState() == Qt::Checked;
+    result["multizone"]          = ui->MultizoneCheckBox->checkState() == Qt::Checked;
+    result["extended_multizone"] = ui->ExtendedMultizoneCheckBox->checkState() == Qt::Checked;
     return result;
 }
 
