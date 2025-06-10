@@ -13,7 +13,7 @@
 using namespace Ui;
 
 OpenRGBE131SettingsEntry::OpenRGBE131SettingsEntry(QWidget *parent) :
-    QWidget(parent),
+    BaseManualDeviceEntry(parent),
     ui(new Ui::OpenRGBE131SettingsEntryUi)
 {
     ui->setupUi(this);

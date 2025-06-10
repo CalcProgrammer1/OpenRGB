@@ -15,7 +15,7 @@
 using namespace Ui;
 
 OpenRGBGoveeSettingsEntry::OpenRGBGoveeSettingsEntry(QWidget *parent) :
-    QWidget(parent),
+    BaseManualDeviceEntry(parent),
     ui(new Ui::OpenRGBGoveeSettingsEntryUi)
 {
     ui->setupUi(this);

@@ -13,7 +13,7 @@
 using namespace Ui;
 
 OpenRGBPhilipsHueSettingsEntry::OpenRGBPhilipsHueSettingsEntry(QWidget *parent) :
-    QWidget(parent),
+    BaseManualDeviceEntry(parent),
     ui(new Ui::OpenRGBPhilipsHueSettingsEntryUi)
 {
     ui->setupUi(this);

@@ -9,12 +9,9 @@
 
 #pragma once
 
-#include <QWidget>
+#include "BaseManualDeviceEntry.h"
 #include "ui_OpenRGBNanoleafSettingsEntry.h"
 #include "OpenRGBNanoleafScanningThread.h"
-#include "nlohmann/json.hpp"
-
-using json = nlohmann::json;
 
 namespace Ui
 {
@@ -22,7 +19,7 @@ namespace Ui
     class OpenRGBNanoleafSettingsEntryUi;
 }
 
-class Ui::OpenRGBNanoleafSettingsEntry : public QWidget
+class Ui::OpenRGBNanoleafSettingsEntry : public BaseManualDeviceEntry
 {
     Q_OBJECT
 

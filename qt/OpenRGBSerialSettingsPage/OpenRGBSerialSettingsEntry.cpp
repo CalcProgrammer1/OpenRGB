@@ -13,7 +13,7 @@
 using namespace Ui;
 
 OpenRGBSerialSettingsEntry::OpenRGBSerialSettingsEntry(QWidget *parent) :
-    QWidget(parent),
+    BaseManualDeviceEntry(parent),
     ui(new Ui::OpenRGBSerialSettingsEntryUi)
 {
     ui->setupUi(this);

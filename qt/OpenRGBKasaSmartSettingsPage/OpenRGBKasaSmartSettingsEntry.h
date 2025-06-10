@@ -9,11 +9,7 @@
 
 #pragma once
 
-#include <QWidget>
-#include <QWidget>
-#include "nlohmann/json.hpp"
-
-using json = nlohmann::json;
+#include "BaseManualDeviceEntry.h"
 
 namespace Ui
 {
@@ -21,7 +17,7 @@ namespace Ui
     class OpenRGBKasaSmartSettingsEntryUi;
 }
 
-class Ui::OpenRGBKasaSmartSettingsEntry : public QWidget
+class Ui::OpenRGBKasaSmartSettingsEntry : public BaseManualDeviceEntry
 {
     Q_OBJECT
 

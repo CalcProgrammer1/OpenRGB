@@ -7,10 +7,7 @@
 |   SPDX-License-Identifier: GPL-2.0-only                   |
 \*---------------------------------------------------------*/
 
-#include <QWidget>
-#include "nlohmann/json.hpp"
-
-using json = nlohmann::json;
+#include "BaseManualDeviceEntry.h"
 
 namespace Ui
 {
@@ -18,7 +15,7 @@ namespace Ui
     class OpenRGBLIFXSettingsEntryUi;
 }
 
-class Ui::OpenRGBLIFXSettingsEntry : public QWidget
+class Ui::OpenRGBLIFXSettingsEntry : public BaseManualDeviceEntry
 {
     Q_OBJECT
 

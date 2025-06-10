@@ -13,7 +13,7 @@
 using namespace Ui;
 
 OpenRGBLIFXSettingsEntry::OpenRGBLIFXSettingsEntry(QWidget *parent) :
-    QWidget(parent),
+    BaseManualDeviceEntry(parent),
     ui(new Ui::OpenRGBLIFXSettingsEntryUi)
 {
     ui->setupUi(this);

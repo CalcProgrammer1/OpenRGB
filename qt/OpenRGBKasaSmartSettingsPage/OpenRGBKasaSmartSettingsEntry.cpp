@@ -13,7 +13,7 @@
 using namespace Ui;
 
 OpenRGBKasaSmartSettingsEntry::OpenRGBKasaSmartSettingsEntry(QWidget *parent) :
-    QWidget(parent),
+    BaseManualDeviceEntry(parent),
     ui(new Ui::OpenRGBKasaSmartSettingsEntryUi)
 {
     ui->setupUi(this);

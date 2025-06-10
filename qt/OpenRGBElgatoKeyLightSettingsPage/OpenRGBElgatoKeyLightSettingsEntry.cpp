@@ -13,7 +13,7 @@
 using namespace Ui;
 
 OpenRGBElgatoKeyLightSettingsEntry::OpenRGBElgatoKeyLightSettingsEntry(QWidget *parent) :
-    QDialog(parent),
+    BaseManualDeviceEntry(parent),
     ui(new Ui::OpenRGBElgatoKeyLightSettingsEntryUi)
 {
     ui->setupUi(this);

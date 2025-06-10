@@ -17,7 +17,7 @@
 using namespace Ui;
 
 OpenRGBNanoleafSettingsEntry::OpenRGBNanoleafSettingsEntry(QWidget *parent) :
-    QWidget(parent),
+    BaseManualDeviceEntry(parent),
     ui(new Ui::OpenRGBNanoleafSettingsEntryUi),
     paired(false)
 {

@@ -15,7 +15,7 @@
 using namespace Ui;
 
 OpenRGBYeelightSettingsEntry::OpenRGBYeelightSettingsEntry(QWidget *parent) :
-    QWidget(parent),
+    BaseManualDeviceEntry(parent),
     ui(new Ui::OpenRGBYeelightSettingsEntryUi)
 {
     ui->setupUi(this);

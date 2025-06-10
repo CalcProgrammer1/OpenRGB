@@ -13,7 +13,7 @@
 using namespace Ui;
 
 OpenRGBDMXSettingsEntry::OpenRGBDMXSettingsEntry(QWidget *parent) :
-    QWidget(parent),
+    BaseManualDeviceEntry(parent),
     ui(new Ui::OpenRGBDMXSettingsEntryUi)
 {
     ui->setupUi(this);

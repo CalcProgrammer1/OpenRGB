@@ -13,7 +13,7 @@
 using namespace Ui;
 
 OpenRGBQMKORGBSettingsEntry::OpenRGBQMKORGBSettingsEntry(QWidget *parent) :
-    QWidget(parent),
+    BaseManualDeviceEntry(parent),
     ui(new Ui::OpenRGBQMKORGBSettingsEntryUi)
 {
     ui->setupUi(this);

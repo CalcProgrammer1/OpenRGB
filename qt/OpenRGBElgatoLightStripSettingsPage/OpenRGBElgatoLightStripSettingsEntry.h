@@ -9,10 +9,7 @@
 
 #pragma once
 
-#include <QDialog>
-#include "nlohmann/json.hpp"
-
-using json = nlohmann::json;
+#include "BaseManualDeviceEntry.h"
 
 namespace Ui
 {
@@ -20,7 +17,7 @@ namespace Ui
     class OpenRGBElgatoLightStripSettingsEntryUi;
 }
 
-class Ui::OpenRGBElgatoLightStripSettingsEntry : public QDialog
+class Ui::OpenRGBElgatoLightStripSettingsEntry : public BaseManualDeviceEntry
 {
     Q_OBJECT
 

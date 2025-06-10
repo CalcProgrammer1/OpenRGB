@@ -13,7 +13,7 @@
 using namespace Ui;
 
 OpenRGBElgatoLightStripSettingsEntry::OpenRGBElgatoLightStripSettingsEntry(QWidget *parent) :
-    QDialog(parent),
+    BaseManualDeviceEntry(parent),
     ui(new Ui::OpenRGBElgatoLightStripSettingsEntryUi)
 {
     ui->setupUi(this);
