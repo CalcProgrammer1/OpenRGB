@@ -759,7 +759,8 @@ static const corsair_v2_device k60_rgb_pro_lp_device =
 };
 
 /*-------------------------------------------------------------*\
-|  Corsair K60 RGB Pro TKL 1B1C:1BC7                            |
+|  Corsair K60 RGB Pro TKL 1B1C:1BC7 (black)                    |
+|  Corsair K60 RGB Pro TKL 1B1C:1BED (white)                    |
 |                                                               |
 |  Zone "Keyboard"                                              |
 |       Matrix                                                  |
@@ -773,9 +774,9 @@ static const corsair_v2_zone k60_rgb_pro_tkl_zone =
     21
 };
 
-static const corsair_v2_device k60_rgb_pro_tkl_device =
+static const corsair_v2_device k60_rgb_pro_tkl_device_b =
 {
-    CORSAIR_K60_RGB_PRO_TKL_PID,
+    CORSAIR_K60_RGB_PRO_TKL_B_PID,
     DEVICE_TYPE_KEYBOARD,
     6,
     21,
@@ -789,6 +790,24 @@ static const corsair_v2_device k60_rgb_pro_tkl_device =
     },
     &corsair_K60_tkl_layout
 };
+
+static const corsair_v2_device k60_rgb_pro_tkl_device_w =
+{
+    CORSAIR_K60_RGB_PRO_TKL_W_PID,
+    DEVICE_TYPE_KEYBOARD,
+    6,
+    21,
+    {
+        &k60_rgb_pro_lp_zone,
+        nullptr,
+        nullptr,
+        nullptr,
+        nullptr,
+        nullptr
+    },
+    &corsair_K60_tkl_layout
+};
+
 
 /*-------------------------------------------------------------*\
 |  Corsair K70 Core RGB 1B1C:1BFD                               |
@@ -1234,7 +1253,8 @@ const corsair_v2_device* corsair_v2_device_list_data[] =
     &k55_rgb_pro_device,
     &k60_rgb_pro_device,
     &k60_rgb_pro_lp_device,
-    &k60_rgb_pro_tkl_device,
+    &k60_rgb_pro_tkl_device_b,
+    &k60_rgb_pro_tkl_device_w,
     &k70_core_rgb_device,
     &k70_rgb_pro_device,
     &k70_rgb_pro_v2_device,
