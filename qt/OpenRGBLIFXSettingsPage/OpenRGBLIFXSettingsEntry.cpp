@@ -18,7 +18,7 @@ OpenRGBLIFXSettingsEntry::OpenRGBLIFXSettingsEntry(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    connect(ui->MultizoneCheckBox, SIGNAL(stateChanged(int)), this, SLOT(onMultizoneCheckStateChanged(int)));
+    connect(ui->MultizoneCheckBox, SIGNAL(stateChanged(int)), this, SLOT(on_MultizoneCheckBox_stateChanged(int)));
 }
 
 OpenRGBLIFXSettingsEntry::~OpenRGBLIFXSettingsEntry()
