@@ -35,14 +35,25 @@ RGBController_RGBFusion2BlackwellGPU::RGBController_RGBFusion2BlackwellGPU(RGBFu
 
     type = DEVICE_TYPE_GPU;
 
+    mode Static;
+    Static.name                 = "Static";
+    Static.value                = RGB_FUSION2_BLACKWELL_GPU_MODE_STATIC;
+    Static.flags                = MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_MANUAL_SAVE;
+    Static.color_mode           = MODE_COLORS_PER_LED;
+    Static.brightness_min       = RGB_FUSION2_BLACKWELL_GPU_BRIGHTNESS_MIN;
+    Static.brightness_max       = RGB_FUSION2_BLACKWELL_GPU_BRIGHTNESS_MAX;
+    Static.brightness           = RGB_FUSION2_BLACKWELL_GPU_BRIGHTNESS_MAX;
+    modes.push_back(Static);
+
+    // Some GPU models (Gaming) dont maintain the colors but it has faster updates, useful for Effects (and the reason it has to be named Direct)
     mode Direct;
-    Direct.name                 = "Direct";
-    Direct.value                = RGB_FUSION2_BLACKWELL_GPU_MODE_STATIC;
-    Direct.flags                = MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_MANUAL_SAVE;
-    Direct.color_mode           = MODE_COLORS_PER_LED;
-    Direct.brightness_min       = RGB_FUSION2_BLACKWELL_GPU_BRIGHTNESS_MIN;
-    Direct.brightness_max       = RGB_FUSION2_BLACKWELL_GPU_BRIGHTNESS_MAX;
-    Direct.brightness           = RGB_FUSION2_BLACKWELL_GPU_BRIGHTNESS_MAX;
+    Direct.name = "Direct";
+    Direct.value = RGB_FUSION2_BLACKWELL_GPU_MODE_DIRECT;
+    Direct.flags = MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_MANUAL_SAVE;
+    Direct.color_mode = MODE_COLORS_PER_LED;
+    Direct.brightness_min = RGB_FUSION2_BLACKWELL_GPU_BRIGHTNESS_MIN;
+    Direct.brightness_max = RGB_FUSION2_BLACKWELL_GPU_BRIGHTNESS_MAX;
+    Direct.brightness = RGB_FUSION2_BLACKWELL_GPU_BRIGHTNESS_MAX;
     modes.push_back(Direct);
 
     mode Breathing;

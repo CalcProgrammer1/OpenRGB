@@ -27,12 +27,13 @@ struct fusion2_config
 
 enum
 {
-    RGB_FUSION2_BLACKWELL_GPU_REG_MODE              = 0x12, // Limits updates to at most 9 per second, required for all modes but static/direct
+    RGB_FUSION2_BLACKWELL_GPU_REG_MODE              = 0x12, // Limits updates to at most 9 per second
     RGB_FUSION2_BLACKWELL_GPU_REG_COLOR             = 0x16, // Used for 'Intelligent' mode, faster updates (used for direct mode)
 };
 
 enum
 {
+    RGB_FUSION2_BLACKWELL_GPU_MODE_DIRECT          = 0x00, // Used for Intelligent mode (0x16) and Off (0x12)
     RGB_FUSION2_BLACKWELL_GPU_MODE_STATIC          = 0x01,
     RGB_FUSION2_BLACKWELL_GPU_MODE_BREATHING       = 0x02,
     RGB_FUSION2_BLACKWELL_GPU_MODE_FLASHING        = 0x03,

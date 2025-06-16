@@ -79,7 +79,7 @@ void RGBFusion2BlackwellGPUController::SetZone(uint8_t zone, uint8_t mode, fusio
         zone_config.brightness = RGB_FUSION2_BLACKWELL_GPU_BRIGHTNESS_MAX;
 
     uint8_t type = RGB_FUSION2_BLACKWELL_GPU_REG_COLOR;
-    if(mode != RGB_FUSION2_BLACKWELL_GPU_MODE_STATIC)
+    if(mode != RGB_FUSION2_BLACKWELL_GPU_MODE_DIRECT)
         type = RGB_FUSION2_BLACKWELL_GPU_REG_MODE;
 
     SetMode(type, zone, mode, zone_config);
