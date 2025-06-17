@@ -112,3 +112,4 @@ REGISTER_I2C_PCI_DETECTOR("Gainward GeForce RTX 3070 Ti Phoenix",       DetectGa
 REGISTER_I2C_PCI_DETECTOR("Gainward GeForce RTX 3080 Phoenix",          DetectGainwardGPUControllers,   NVIDIA_VEN, NVIDIA_RTX3080_DEV,     GAINWARD_SUB_VEN,   NVIDIA_RTX3080_DEV,             0x49);
 REGISTER_I2C_PCI_DETECTOR("Gainward GeForce RTX 3080 Ti Phoenix",       DetectGainwardGPUControllers,   NVIDIA_VEN, NVIDIA_RTX3080TI_DEV,   GAINWARD_SUB_VEN,   NVIDIA_RTX3080TI_DEV,           0x49);
 REGISTER_I2C_PCI_DETECTOR("Gainward GeForce RTX 3090 Phoenix",          DetectGainwardGPUControllers,   NVIDIA_VEN, NVIDIA_RTX3090_DEV,     GAINWARD_SUB_VEN,   NVIDIA_RTX3090_DEV,             0x49);
+REGISTER_I2C_PCI_DETECTOR("Gainward GeForce RTX 3090 Ti Phantom",       DetectGainwardGPUControllers,   NVIDIA_VEN, NVIDIA_RTX3090TI_DEV,   GAINWARD_SUB_VEN,   GAINWARD_RTX_3090TI_PHANTOM,    0x49);
