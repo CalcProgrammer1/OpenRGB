@@ -10,7 +10,6 @@
 #pragma once
 
 #include <QWidget>
-#include "ui_OpenRGBLIFXSettingsPage.h"
 #include "OpenRGBLIFXSettingsEntry.h"
 
 namespace Ui
@@ -18,7 +17,7 @@ namespace Ui
     class OpenRGBLIFXSettingsPage;
 }
 
-class Ui::OpenRGBLIFXSettingsPage : public QWidget
+class OpenRGBLIFXSettingsPage : public QWidget
 {
     Q_OBJECT
 
@@ -35,7 +34,7 @@ private slots:
     void on_SaveLIFXConfigurationButton_clicked();
 
 private:
-    Ui::OpenRGBLIFXSettingsPageUi *ui;
+    Ui::OpenRGBLIFXSettingsPage *ui;
     std::vector<OpenRGBLIFXSettingsEntry*> entries;
 
 };

@@ -10,11 +10,9 @@
 #include "OpenRGBSerialSettingsEntry.h"
 #include "ui_OpenRGBSerialSettingsEntry.h"
 
-using namespace Ui;
-
 OpenRGBSerialSettingsEntry::OpenRGBSerialSettingsEntry(QWidget *parent) :
     BaseManualDeviceEntry(parent),
-    ui(new Ui::OpenRGBSerialSettingsEntryUi)
+    ui(new Ui::OpenRGBSerialSettingsEntry)
 {
     ui->setupUi(this);
 

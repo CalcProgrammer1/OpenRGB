@@ -18,7 +18,7 @@ namespace Ui
     class OpenRGBE131SettingsPage;
 }
 
-class Ui::OpenRGBE131SettingsPage : public QWidget
+class OpenRGBE131SettingsPage : public QWidget
 {
     Q_OBJECT
 
@@ -35,6 +35,6 @@ private slots:
     void on_SaveE131ConfigurationButton_clicked();
 
 private:
-    Ui::OpenRGBE131SettingsPageUi *ui;
+    Ui::OpenRGBE131SettingsPage *ui;
     std::vector<OpenRGBE131SettingsEntry*> entries;
 };

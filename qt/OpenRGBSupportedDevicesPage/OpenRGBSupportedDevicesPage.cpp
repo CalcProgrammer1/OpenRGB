@@ -12,11 +12,9 @@
 #include "ResourceManager.h"
 #include "OpenRGBHardwareIDsDialog.h"
 
-using namespace Ui;
-
 OpenRGBSupportedDevicesPage::OpenRGBSupportedDevicesPage(QWidget *parent) :
     QWidget(parent),
-    ui(new Ui::OpenRGBSupportedDevicesPageUi)
+    ui(new Ui::OpenRGBSupportedDevicesPage)
 {
     ui->setupUi(this);
 

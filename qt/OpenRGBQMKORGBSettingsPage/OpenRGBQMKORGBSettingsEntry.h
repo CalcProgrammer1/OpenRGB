@@ -14,10 +14,9 @@
 namespace Ui
 {
     class OpenRGBQMKORGBSettingsEntry;
-    class OpenRGBQMKORGBSettingsEntryUi;
 }
 
-class Ui::OpenRGBQMKORGBSettingsEntry : public BaseManualDeviceEntry
+class OpenRGBQMKORGBSettingsEntry : public BaseManualDeviceEntry
 {
     Q_OBJECT
 
@@ -32,5 +31,5 @@ public:
     const char* settingsSection();
 
 private:
-    Ui::OpenRGBQMKORGBSettingsEntryUi *ui;
+    Ui::OpenRGBQMKORGBSettingsEntry *ui;
 };

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>OpenRGBPluginsPageUi</class>
- <widget class="QWidget" name="OpenRGBPluginsPageUi">
+ <class>OpenRGBPluginsPage</class>
+ <widget class="QWidget" name="OpenRGBPluginsPage">
   <property name="geometry">
    <rect>
     <x>0</x>

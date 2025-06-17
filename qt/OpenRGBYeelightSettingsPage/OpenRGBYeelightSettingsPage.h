@@ -10,7 +10,6 @@
 #pragma once
 
 #include <QWidget>
-#include "ui_OpenRGBYeelightSettingsPage.h"
 #include "OpenRGBYeelightSettingsEntry.h"
 
 namespace Ui
@@ -18,7 +17,7 @@ namespace Ui
     class OpenRGBYeelightSettingsPage;
 }
 
-class Ui::OpenRGBYeelightSettingsPage : public QWidget
+class OpenRGBYeelightSettingsPage : public QWidget
 {
     Q_OBJECT
 
@@ -35,6 +34,6 @@ private slots:
     void on_SaveYeelightConfigurationButton_clicked();
 
 private:
-    Ui::OpenRGBYeelightSettingsPageUi *ui;
+    Ui::OpenRGBYeelightSettingsPage *ui;
     std::vector<OpenRGBYeelightSettingsEntry*> entries;
 };

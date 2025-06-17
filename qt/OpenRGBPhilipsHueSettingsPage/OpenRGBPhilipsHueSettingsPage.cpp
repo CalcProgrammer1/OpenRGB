@@ -12,11 +12,9 @@
 #include "ResourceManager.h"
 #include "SettingsManager.h"
 
-using namespace Ui;
-
 OpenRGBPhilipsHueSettingsPage::OpenRGBPhilipsHueSettingsPage(QWidget *parent) :
     QWidget(parent),
-    ui(new Ui::OpenRGBPhilipsHueSettingsPageUi)
+    ui(new Ui::OpenRGBPhilipsHueSettingsPage)
 {
     ui->setupUi(this);
 
@@ -64,7 +62,7 @@ void OpenRGBPhilipsHueSettingsPage::changeEvent(QEvent *event)
     }
 }
 
-void Ui::OpenRGBPhilipsHueSettingsPage::on_AddPhilipsHueDeviceButton_clicked()
+void OpenRGBPhilipsHueSettingsPage::on_AddPhilipsHueDeviceButton_clicked()
 {
     OpenRGBPhilipsHueSettingsEntry* entry = new OpenRGBPhilipsHueSettingsEntry;
     entries.push_back(entry);
@@ -78,7 +76,7 @@ void Ui::OpenRGBPhilipsHueSettingsPage::on_AddPhilipsHueDeviceButton_clicked()
     ui->PhilipsHueDeviceList->show();
 }
 
-void Ui::OpenRGBPhilipsHueSettingsPage::on_RemovePhilipsHueDeviceButton_clicked()
+void OpenRGBPhilipsHueSettingsPage::on_RemovePhilipsHueDeviceButton_clicked()
 {
     int cur_row = ui->PhilipsHueDeviceList->currentRow();
 
@@ -96,7 +94,7 @@ void Ui::OpenRGBPhilipsHueSettingsPage::on_RemovePhilipsHueDeviceButton_clicked(
     entries.erase(entries.begin() + cur_row);
 }
 
-void Ui::OpenRGBPhilipsHueSettingsPage::on_SavePhilipsHueConfigurationButton_clicked()
+void OpenRGBPhilipsHueSettingsPage::on_SavePhilipsHueConfigurationButton_clicked()
 {
     json                hue_settings;
 

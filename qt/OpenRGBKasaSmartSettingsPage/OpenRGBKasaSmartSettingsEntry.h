@@ -14,10 +14,9 @@
 namespace Ui
 {
     class OpenRGBKasaSmartSettingsEntry;
-    class OpenRGBKasaSmartSettingsEntryUi;
 }
 
-class Ui::OpenRGBKasaSmartSettingsEntry : public BaseManualDeviceEntry
+class OpenRGBKasaSmartSettingsEntry : public BaseManualDeviceEntry
 {
     Q_OBJECT
 
@@ -30,7 +29,7 @@ public:
     void setName(QString name);
 
 private:
-    Ui::OpenRGBKasaSmartSettingsEntryUi *ui;
+    Ui::OpenRGBKasaSmartSettingsEntry *ui;
 
 private slots:
     void changeEvent(QEvent *event);

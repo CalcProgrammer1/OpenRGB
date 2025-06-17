@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>OpenRGBE131SettingsPageUi</class>
- <widget class="QWidget" name="OpenRGBE131SettingsPageUi">
+ <class>OpenRGBE131SettingsPage</class>
+ <widget class="QWidget" name="OpenRGBE131SettingsPage">
   <property name="geometry">
    <rect>
     <x>0</x>

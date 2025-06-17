@@ -10,14 +10,13 @@
 #pragma once
 
 #include <QFrame>
-#include "ui_OpenRGBConsolePage.h"
 
 namespace Ui
 {
     class OpenRGBConsolePage;
 }
 
-class Ui::OpenRGBConsolePage : public QFrame
+class OpenRGBConsolePage : public QFrame
 {
     Q_OBJECT
 
@@ -32,7 +31,7 @@ private slots:
     void on_refresh_clicked();
 
 private:
-    Ui::OpenRGBConsolePageUi *ui;
+    Ui::OpenRGBConsolePage *ui;
 
     void Refresh();
 };

@@ -14,11 +14,9 @@
 #include "ui_OpenRGBSoftwareInfoPage.h"
 #include <QSysInfo>
 
-using namespace Ui;
-
 OpenRGBSoftwareInfoPage::OpenRGBSoftwareInfoPage(QWidget *parent) :
     QFrame(parent),
-    ui(new Ui::OpenRGBSoftwareInfoPageUi)
+    ui(new Ui::OpenRGBSoftwareInfoPage)
 {
     ui->setupUi(this);
     ui->SDKVersionValue->setText(QString::number(OPENRGB_SDK_PROTOCOL_VERSION));

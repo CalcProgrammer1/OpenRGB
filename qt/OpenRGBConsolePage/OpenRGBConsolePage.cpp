@@ -7,15 +7,13 @@
 |   SPDX-License-Identifier: GPL-2.0-only                   |
 \*---------------------------------------------------------*/
 
-#include <stdio.h>
 #include "OpenRGBConsolePage.h"
+#include "ui_OpenRGBConsolePage.h"
 #include "LogManager.h"
-
-using namespace Ui;
 
 OpenRGBConsolePage::OpenRGBConsolePage(QWidget *parent) :
     QFrame(parent),
-    ui(new Ui::OpenRGBConsolePageUi)
+    ui(new Ui::OpenRGBConsolePage)
 {
     ui->setupUi(this);
 

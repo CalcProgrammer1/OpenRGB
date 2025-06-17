@@ -10,11 +10,9 @@
 #include "OpenRGBLIFXSettingsEntry.h"
 #include "ui_OpenRGBLIFXSettingsEntry.h"
 
-using namespace Ui;
-
 OpenRGBLIFXSettingsEntry::OpenRGBLIFXSettingsEntry(QWidget *parent) :
     BaseManualDeviceEntry(parent),
-    ui(new Ui::OpenRGBLIFXSettingsEntryUi)
+    ui(new Ui::OpenRGBLIFXSettingsEntry)
 {
     ui->setupUi(this);
 }

@@ -10,7 +10,6 @@
 #pragma once
 
 #include <QDialog>
-#include "ui_OpenRGBZoneResizeDialog.h"
 
 #include "RGBController.h"
 
@@ -19,7 +18,7 @@ namespace Ui
     class OpenRGBZoneResizeDialog;
 }
 
-class Ui::OpenRGBZoneResizeDialog : public QDialog
+class OpenRGBZoneResizeDialog : public QDialog
 {
     Q_OBJECT
 
@@ -45,7 +44,7 @@ private slots:
     void on_segment_lineedit_textChanged();
 
 private:
-    Ui::OpenRGBZoneResizeDialogUi *ui;
+    Ui::OpenRGBZoneResizeDialog *ui;
     RGBController* edit_dev;
     unsigned int edit_zone_idx;
 

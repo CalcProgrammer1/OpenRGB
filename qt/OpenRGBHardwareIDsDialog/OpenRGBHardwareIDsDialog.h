@@ -10,14 +10,13 @@
 #pragma once
 
 #include <QDialog>
-#include "ui_OpenRGBHardwareIDsDialog.h"
 
 namespace Ui
 {
     class OpenRGBHardwareIDsDialog;
 }
 
-class Ui::OpenRGBHardwareIDsDialog : public QDialog
+class OpenRGBHardwareIDsDialog : public QDialog
 {
     Q_OBJECT
 
@@ -31,6 +30,6 @@ private slots:
     void on_CopyToClipboardButton_clicked();
 
 private:
-    Ui::OpenRGBHardwareIDsDialogUi *ui;
+    Ui::OpenRGBHardwareIDsDialog *ui;
     QStringList strings;
 };

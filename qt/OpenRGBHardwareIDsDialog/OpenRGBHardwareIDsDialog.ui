@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>OpenRGBHardwareIDsDialogUi</class>
- <widget class="QWidget" name="OpenRGBHardwareIDsDialogUi">
+ <class>OpenRGBHardwareIDsDialog</class>
+ <widget class="QWidget" name="OpenRGBHardwareIDsDialog">
   <property name="geometry">
    <rect>
     <x>0</x>

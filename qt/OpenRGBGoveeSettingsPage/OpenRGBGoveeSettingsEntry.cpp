@@ -12,11 +12,9 @@
 #include "OpenRGBGoveeSettingsEntry.h"
 #include "ui_OpenRGBGoveeSettingsEntry.h"
 
-using namespace Ui;
-
 OpenRGBGoveeSettingsEntry::OpenRGBGoveeSettingsEntry(QWidget *parent) :
     BaseManualDeviceEntry(parent),
-    ui(new Ui::OpenRGBGoveeSettingsEntryUi)
+    ui(new Ui::OpenRGBGoveeSettingsEntry)
 {
     ui->setupUi(this);
 }

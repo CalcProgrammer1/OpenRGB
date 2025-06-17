@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>OpenRGBElgatoKeyLightSettingsPageUi</class>
- <widget class="QWidget" name="OpenRGBElgatoKeyLightSettingsPageUi">
+ <class>OpenRGBElgatoKeyLightSettingsPage</class>
+ <widget class="QWidget" name="OpenRGBElgatoKeyLightSettingsPage">
   <property name="geometry">
    <rect>
     <x>0</x>

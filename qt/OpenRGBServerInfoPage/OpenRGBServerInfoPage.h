@@ -11,7 +11,6 @@
 
 #include <QFrame>
 #include "RGBController.h"
-#include "ui_OpenRGBServerInfoPage.h"
 #include "NetworkServer.h"
 
 namespace Ui
@@ -19,7 +18,7 @@ namespace Ui
     class OpenRGBServerInfoPage;
 }
 
-class Ui::OpenRGBServerInfoPage : public QFrame
+class OpenRGBServerInfoPage : public QFrame
 {
     Q_OBJECT
 
@@ -36,7 +35,7 @@ private slots:
     void on_ServerStopButton_clicked();
 
 private:
-    Ui::OpenRGBServerInfoPageUi *ui;
+    Ui::OpenRGBServerInfoPage *ui;
 
     NetworkServer* network_server;
 };

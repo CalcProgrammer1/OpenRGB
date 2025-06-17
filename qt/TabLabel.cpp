@@ -10,10 +10,11 @@
 #include <QFontMetrics>
 #include "TabLabel.h"
 #include "OpenRGBFont.h"
+#include "ui_TabLabel.h"
 
-Ui::TabLabel::TabLabel(int icon, QString name, char* original, char* context) :
+TabLabel::TabLabel(int icon, QString name, char* original, char* context) :
     QWidget(nullptr),
-    ui(new Ui::TabLabelUi)
+    ui(new Ui::TabLabel)
 {
     ui->setupUi(this);
 
@@ -29,12 +30,12 @@ Ui::TabLabel::TabLabel(int icon, QString name, char* original, char* context) :
     ctxt    = context;
 }
 
-Ui::TabLabel::~TabLabel()
+TabLabel::~TabLabel()
 {
     delete ui;
 }
 
-void Ui::TabLabel::changeEvent(QEvent *event)
+void TabLabel::changeEvent(QEvent *event)
 {
     if(event->type() == QEvent::LanguageChange)
     {

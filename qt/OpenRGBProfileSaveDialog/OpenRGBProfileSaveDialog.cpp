@@ -18,8 +18,8 @@
 #include <QSettings>
 #endif
 
-Ui::OpenRGBProfileSaveDialog::OpenRGBProfileSaveDialog(QWidget *parent) :
-    QDialog(parent), ui(new Ui::OpenRGBProfileSaveDialogUi)
+OpenRGBProfileSaveDialog::OpenRGBProfileSaveDialog(QWidget *parent) :
+    QDialog(parent), ui(new Ui::OpenRGBProfileSaveDialog)
 {
     ui->setupUi(this);
     setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
@@ -44,12 +44,12 @@ Ui::OpenRGBProfileSaveDialog::OpenRGBProfileSaveDialog(QWidget *parent) :
     }
 }
 
-Ui::OpenRGBProfileSaveDialog::~OpenRGBProfileSaveDialog()
+OpenRGBProfileSaveDialog::~OpenRGBProfileSaveDialog()
 {
     delete ui;
 }
 
-void Ui::OpenRGBProfileSaveDialog::changeEvent(QEvent *event)
+void OpenRGBProfileSaveDialog::changeEvent(QEvent *event)
 {
     if(event->type() == QEvent::LanguageChange)
     {
@@ -57,7 +57,7 @@ void Ui::OpenRGBProfileSaveDialog::changeEvent(QEvent *event)
     }
 }
 
-std::string Ui::OpenRGBProfileSaveDialog::show()
+std::string OpenRGBProfileSaveDialog::show()
 {
     std::string return_string;
 

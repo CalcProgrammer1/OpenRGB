@@ -7,16 +7,17 @@
 |   SPDX-License-Identifier: GPL-2.0-only                   |
 \*---------------------------------------------------------*/
 
-#include <QDialog>
-#include <QFile>
 #include "OpenRGBZonesBulkResizer.h"
-#include "ui_OpenRGBZonesBulkResizer.h"
 #include "ResourceManager.h"
 #include "SettingsManager.h"
 #include "LogManager.h"
 #include "OpenRGBDialog.h"
 
-using namespace Ui;
+#include "ui_OpenRGBZonesBulkResizer.h"
+
+#include <QDialog>
+#include <QFile>
+#include <QSpinBox>
 
 void OpenRGBZonesBulkResizer::RunChecks(QWidget *parent)
 {
@@ -94,7 +95,7 @@ void OpenRGBZonesBulkResizer::RunChecks(QWidget *parent)
 
 OpenRGBZonesBulkResizer::OpenRGBZonesBulkResizer(QWidget *parent,  const std::vector<std::tuple<RGBController*, unsigned int>>& unconfigured_zones) :
     QWidget(parent),
-    ui(new Ui::OpenRGBZonesBulkResizerUi),
+    ui(new Ui::OpenRGBZonesBulkResizer),
     unconfigured_zones(unconfigured_zones)
 {
     ui->setupUi(this);

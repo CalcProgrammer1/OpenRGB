@@ -8,8 +8,7 @@
 \*---------------------------------------------------------*/
 
 #include "OpenRGBServerInfoPage.h"
-
-using namespace Ui;
+#include "ui_OpenRGBServerInfoPage.h"
 
 static void UpdateInfoCallback(void * this_ptr)
 {
@@ -20,7 +19,7 @@ static void UpdateInfoCallback(void * this_ptr)
 
 OpenRGBServerInfoPage::OpenRGBServerInfoPage(NetworkServer * server, QWidget *parent) :
     QFrame(parent),
-    ui(new Ui::OpenRGBServerInfoPageUi)
+    ui(new Ui::OpenRGBServerInfoPage)
 {
     network_server = server;
 
@@ -88,7 +87,7 @@ void OpenRGBServerInfoPage::UpdateInfo()
     }
 }
 
-void Ui::OpenRGBServerInfoPage::on_ServerStartButton_clicked()
+void OpenRGBServerInfoPage::on_ServerStartButton_clicked()
 {
     if(network_server->GetOnline() == false)
     {
@@ -100,7 +99,7 @@ void Ui::OpenRGBServerInfoPage::on_ServerStartButton_clicked()
     }
 }
 
-void Ui::OpenRGBServerInfoPage::on_ServerStopButton_clicked()
+void OpenRGBServerInfoPage::on_ServerStopButton_clicked()
 {
     if(network_server->GetOnline() == true)
     {

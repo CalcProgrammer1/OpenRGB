@@ -11,14 +11,13 @@
 
 #include <QFrame>
 #include "RGBController.h"
-#include "ui_OpenRGBDeviceInfoPage.h"
 
 namespace Ui
 {
     class OpenRGBDeviceInfoPage;
 }
 
-class Ui::OpenRGBDeviceInfoPage : public QFrame
+class OpenRGBDeviceInfoPage : public QFrame
 {
     Q_OBJECT
 
@@ -29,8 +28,8 @@ public:
     RGBController* GetController();
 
 private:
-    RGBController*                  controller;
-    Ui::OpenRGBDeviceInfoPageUi*    ui;
+    RGBController*             controller;
+    Ui::OpenRGBDeviceInfoPage* ui;
 
 private slots:
     void changeEvent(QEvent *event);

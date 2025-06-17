@@ -10,7 +10,6 @@
 #pragma once
 
 #include <QWidget>
-#include "ui_OpenRGBElgatoLightStripSettingsPage.h"
 #include "OpenRGBElgatoLightStripSettingsEntry.h"
 
 namespace Ui
@@ -18,7 +17,7 @@ namespace Ui
     class OpenRGBElgatoLightStripSettingsPage;
 }
 
-class Ui::OpenRGBElgatoLightStripSettingsPage : public QWidget
+class OpenRGBElgatoLightStripSettingsPage : public QWidget
 {
     Q_OBJECT
 
@@ -35,6 +34,6 @@ private slots:
     void on_SaveElgatoLightStripConfigurationButton_clicked();
 
 private:
-    Ui::OpenRGBElgatoLightStripSettingsPageUi *ui;
+    Ui::OpenRGBElgatoLightStripSettingsPage *ui;
     std::vector<OpenRGBElgatoLightStripSettingsEntry*> entries;
 };

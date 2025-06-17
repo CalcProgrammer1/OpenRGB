@@ -20,14 +20,14 @@
 
 void EnableClickCallbackFunction(void* this_ptr, void* entry_ptr)
 {
-    Ui::OpenRGBPluginsPage* this_page = (Ui::OpenRGBPluginsPage*)this_ptr;
+    OpenRGBPluginsPage* this_page = (OpenRGBPluginsPage*)this_ptr;
 
-    this_page->on_EnableButton_clicked((Ui::OpenRGBPluginsEntry*)entry_ptr);
+    this_page->on_EnableButton_clicked((OpenRGBPluginsEntry*)entry_ptr);
 }
 
-Ui::OpenRGBPluginsPage::OpenRGBPluginsPage(PluginManager* plugin_manager_ptr, QWidget *parent) :
+OpenRGBPluginsPage::OpenRGBPluginsPage(PluginManager* plugin_manager_ptr, QWidget *parent) :
     QWidget(parent),
-    ui(new Ui::OpenRGBPluginsPageUi)
+    ui(new Ui::OpenRGBPluginsPage)
 {
     plugin_manager = plugin_manager_ptr;
     ui->setupUi(this);
@@ -35,12 +35,12 @@ Ui::OpenRGBPluginsPage::OpenRGBPluginsPage(PluginManager* plugin_manager_ptr, QW
     RefreshList();
 }
 
-Ui::OpenRGBPluginsPage::~OpenRGBPluginsPage()
+OpenRGBPluginsPage::~OpenRGBPluginsPage()
 {
     delete ui;
 }
 
-void Ui::OpenRGBPluginsPage::changeEvent(QEvent *event)
+void OpenRGBPluginsPage::changeEvent(QEvent *event)
 {
     if(event->type() == QEvent::LanguageChange)
     {
@@ -48,7 +48,7 @@ void Ui::OpenRGBPluginsPage::changeEvent(QEvent *event)
     }
 }
 
-void Ui::OpenRGBPluginsPage::RefreshList()
+void OpenRGBPluginsPage::RefreshList()
 {
     ui->PluginsList->clear();
     entries.clear();
@@ -78,7 +78,7 @@ void Ui::OpenRGBPluginsPage::RefreshList()
     }
 }
 
-void Ui::OpenRGBPluginsPage::on_InstallPluginButton_clicked()
+void OpenRGBPluginsPage::on_InstallPluginButton_clicked()
 {
     /*-----------------------------------------------------*\
     | Open a file selection prompt to choose the plugin file|
@@ -93,7 +93,7 @@ void Ui::OpenRGBPluginsPage::on_InstallPluginButton_clicked()
     }
 }
 
-bool Ui::OpenRGBPluginsPage::InstallPlugin(std::string install_file)
+bool OpenRGBPluginsPage::InstallPlugin(std::string install_file)
 {
     filesystem::path from_path = filesystem::u8path(install_file);
     filesystem::path to_path   = ResourceManager::get()->GetConfigurationDirectory() / "plugins" / from_path.filename();
@@ -151,7 +151,7 @@ bool Ui::OpenRGBPluginsPage::InstallPlugin(std::string install_file)
     return false;
 }
 
-void Ui::OpenRGBPluginsPage::on_RemovePluginButton_clicked()
+void OpenRGBPluginsPage::on_RemovePluginButton_clicked()
 {
     QMessageBox::StandardButton reply;
 
@@ -221,7 +221,7 @@ void Ui::OpenRGBPluginsPage::on_RemovePluginButton_clicked()
     QMessageBox::information(this, tr("Restart Needed"), tr("The plugin will be fully removed after restarting OpenRGB."), QMessageBox::Ok);
 }
 
-void Ui::OpenRGBPluginsPage::on_EnableButton_clicked(OpenRGBPluginsEntry* entry)
+void OpenRGBPluginsPage::on_EnableButton_clicked(OpenRGBPluginsEntry* entry)
 {
     /*-----------------------------------------------------*\
     | Open plugin list and check if plugin is in the list   |
@@ -297,7 +297,7 @@ void Ui::OpenRGBPluginsPage::on_EnableButton_clicked(OpenRGBPluginsEntry* entry)
     }
 }
 
-void Ui::OpenRGBPluginsPage::on_PluginsList_itemSelectionChanged()
+void OpenRGBPluginsPage::on_PluginsList_itemSelectionChanged()
 {
     /*-----------------------------------------------------*\
     | Get index of selected plugin entry                    |
@@ -329,7 +329,7 @@ void Ui::OpenRGBPluginsPage::on_PluginsList_itemSelectionChanged()
     }
 }
 
-void Ui::OpenRGBPluginsPage::on_PluginsList_PluginsDropped(std::vector<std::string> path_list)
+void OpenRGBPluginsPage::on_PluginsList_PluginsDropped(std::vector<std::string> path_list)
 {
     bool installed = false;
 

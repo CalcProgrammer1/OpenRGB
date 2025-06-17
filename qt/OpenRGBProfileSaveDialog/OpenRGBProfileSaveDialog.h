@@ -10,7 +10,6 @@
 #pragma once
 
 #include <QDialog>
-#include "ui_OpenRGBProfileSaveDialog.h"
 #include "OpenRGBDialog.h"
 
 namespace Ui
@@ -18,7 +17,7 @@ namespace Ui
     class OpenRGBProfileSaveDialog;
 }
 
-class Ui::OpenRGBProfileSaveDialog : public QDialog
+class OpenRGBProfileSaveDialog : public QDialog
 {
     Q_OBJECT
 
@@ -29,7 +28,7 @@ public:
     std::string show();
 
 private:
-    Ui::OpenRGBProfileSaveDialogUi *ui;
+    Ui::OpenRGBProfileSaveDialog *ui;
 
 private slots:
     void changeEvent(QEvent *event);

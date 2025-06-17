@@ -273,7 +273,7 @@ int main(int argc, char* argv[])
         /*---------------------------------------------------------*\
         | Main UI widget                                            |
         \*---------------------------------------------------------*/
-        Ui::OpenRGBDialog dlg;
+        OpenRGBDialog dlg;
         LOG_TRACE("[main] Dialog created");
 
         if(ret_flags & RET_FLAG_I2C_TOOLS)

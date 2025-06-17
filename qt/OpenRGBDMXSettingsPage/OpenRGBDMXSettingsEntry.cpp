@@ -10,11 +10,9 @@
 #include "OpenRGBDMXSettingsEntry.h"
 #include "ui_OpenRGBDMXSettingsEntry.h"
 
-using namespace Ui;
-
 OpenRGBDMXSettingsEntry::OpenRGBDMXSettingsEntry(QWidget *parent) :
     BaseManualDeviceEntry(parent),
-    ui(new Ui::OpenRGBDMXSettingsEntryUi)
+    ui(new Ui::OpenRGBDMXSettingsEntry)
 {
     ui->setupUi(this);
 }

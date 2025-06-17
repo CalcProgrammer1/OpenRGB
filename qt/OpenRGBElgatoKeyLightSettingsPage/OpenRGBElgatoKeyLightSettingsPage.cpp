@@ -12,11 +12,9 @@
 #include "ResourceManager.h"
 #include "SettingsManager.h"
 
-using namespace Ui;
-
 OpenRGBElgatoKeyLightSettingsPage::OpenRGBElgatoKeyLightSettingsPage(QWidget *parent) :
     QWidget(parent),
-    ui(new Ui::OpenRGBElgatoKeyLightSettingsPageUi)
+    ui(new Ui::OpenRGBElgatoKeyLightSettingsPage)
 {
     ui->setupUi(this);
 
@@ -61,7 +59,7 @@ void OpenRGBElgatoKeyLightSettingsPage::changeEvent(QEvent *event)
     }
 }
 
-void Ui::OpenRGBElgatoKeyLightSettingsPage::on_AddElgatoKeyLightDeviceButton_clicked()
+void OpenRGBElgatoKeyLightSettingsPage::on_AddElgatoKeyLightDeviceButton_clicked()
 {
     OpenRGBElgatoKeyLightSettingsEntry* entry = new OpenRGBElgatoKeyLightSettingsEntry;
     entries.push_back(entry);
@@ -75,7 +73,7 @@ void Ui::OpenRGBElgatoKeyLightSettingsPage::on_AddElgatoKeyLightDeviceButton_cli
     ui->ElgatoKeyLightDeviceList->show();
 }
 
-void Ui::OpenRGBElgatoKeyLightSettingsPage::on_RemoveElgatoKeyLightDeviceButton_clicked()
+void OpenRGBElgatoKeyLightSettingsPage::on_RemoveElgatoKeyLightDeviceButton_clicked()
 {
     int cur_row = ui->ElgatoKeyLightDeviceList->currentRow();
 
@@ -93,7 +91,7 @@ void Ui::OpenRGBElgatoKeyLightSettingsPage::on_RemoveElgatoKeyLightDeviceButton_
     entries.erase(entries.begin() + cur_row);
 }
 
-void Ui::OpenRGBElgatoKeyLightSettingsPage::on_SaveElgatoKeyLightConfigurationButton_clicked()
+void OpenRGBElgatoKeyLightSettingsPage::on_SaveElgatoKeyLightConfigurationButton_clicked()
 {
     json                elgato_keylight_settings;
 

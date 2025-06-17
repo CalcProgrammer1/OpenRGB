@@ -10,11 +10,9 @@
 #include "OpenRGBElgatoLightStripSettingsEntry.h"
 #include "ui_OpenRGBElgatoLightStripSettingsEntry.h"
 
-using namespace Ui;
-
 OpenRGBElgatoLightStripSettingsEntry::OpenRGBElgatoLightStripSettingsEntry(QWidget *parent) :
     BaseManualDeviceEntry(parent),
-    ui(new Ui::OpenRGBElgatoLightStripSettingsEntryUi)
+    ui(new Ui::OpenRGBElgatoLightStripSettingsEntry)
 {
     ui->setupUi(this);
     setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);

@@ -8,7 +8,6 @@
 \*---------------------------------------------------------*/
 
 #include <QDialog>
-#include "ui_OpenRGBNanoleafNewDeviceDialog.h"
 #include "OpenRGBDialog.h"
 
 struct NanoleafDevice
@@ -22,7 +21,7 @@ namespace Ui
 class OpenRGBNanoleafNewDeviceDialog;
 }
 
-class Ui::OpenRGBNanoleafNewDeviceDialog : public QDialog
+class OpenRGBNanoleafNewDeviceDialog : public QDialog
 {
     Q_OBJECT
 
@@ -33,7 +32,7 @@ public:
     NanoleafDevice show();
 
 private:
-    Ui::OpenRGBNanoleafNewDeviceDialogUi *ui;
+    Ui::OpenRGBNanoleafNewDeviceDialog *ui;
 
 private slots:
     void changeEvent(QEvent *event);

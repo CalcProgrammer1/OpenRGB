@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>OpenRGBSerialSettingsPageUi</class>
- <widget class="QWidget" name="OpenRGBSerialSettingsPageUi">
+ <class>OpenRGBSerialSettingsPage</class>
+ <widget class="QWidget" name="OpenRGBSerialSettingsPage">
   <property name="geometry">
    <rect>
     <x>0</x>

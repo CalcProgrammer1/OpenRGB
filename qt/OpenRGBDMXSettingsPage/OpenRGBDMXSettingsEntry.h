@@ -14,10 +14,9 @@
 namespace Ui
 {
     class OpenRGBDMXSettingsEntry;
-    class OpenRGBDMXSettingsEntryUi;
 }
 
-class Ui::OpenRGBDMXSettingsEntry : public BaseManualDeviceEntry
+class OpenRGBDMXSettingsEntry : public BaseManualDeviceEntry
 {
     Q_OBJECT
 
@@ -29,7 +28,7 @@ public:
     const char* settingsSection();
 
 private:
-    Ui::OpenRGBDMXSettingsEntryUi *ui;
+    Ui::OpenRGBDMXSettingsEntry *ui;
 
 private slots:
     void changeEvent(QEvent *event);

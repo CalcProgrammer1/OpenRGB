@@ -8,7 +8,6 @@
 \*---------------------------------------------------------*/
 
 #include <QWidget>
-#include "ui_OpenRGBKasaSmartSettingsPage.h"
 #include "OpenRGBKasaSmartSettingsEntry.h"
 
 namespace Ui
@@ -16,7 +15,7 @@ namespace Ui
     class OpenRGBKasaSmartSettingsPage;
 }
 
-class Ui::OpenRGBKasaSmartSettingsPage : public QWidget
+class OpenRGBKasaSmartSettingsPage : public QWidget
 {
     Q_OBJECT
 
@@ -33,7 +32,7 @@ private slots:
     void on_SaveKasaSmartConfigurationButton_clicked();
 
 private:
-    Ui::OpenRGBKasaSmartSettingsPageUi *ui;
+    Ui::OpenRGBKasaSmartSettingsPage *ui;
     std::vector<OpenRGBKasaSmartSettingsEntry*> entries;
 
 };

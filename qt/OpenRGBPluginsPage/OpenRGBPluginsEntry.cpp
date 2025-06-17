@@ -11,11 +11,9 @@
 #include "ui_OpenRGBPluginsEntry.h"
 #include "PluginManager.h"
 
-using namespace Ui;
-
 OpenRGBPluginsEntry::OpenRGBPluginsEntry(QWidget *parent) :
     QWidget(parent),
-    ui(new Ui::OpenRGBPluginsEntryUi)
+    ui(new Ui::OpenRGBPluginsEntry)
 {
     ui->setupUi(this);
 
@@ -110,7 +108,7 @@ void OpenRGBPluginsEntry::RegisterEnableClickCallback(EnableClickCallback new_ca
     EnableClickCallbackArg  = new_callback_arg;
 }
 
-void Ui::OpenRGBPluginsEntry::on_EnabledCheckBox_stateChanged(int /*checked*/)
+void OpenRGBPluginsEntry::on_EnabledCheckBox_stateChanged(int /*checked*/)
 {
     /*-------------------------------------------------*\
     | Call the callbacks                                |

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>OpenRGBServerInfoPageUi</class>
- <widget class="QFrame" name="OpenRGBServerInfoPageUi">
+ <class>OpenRGBServerInfoPage</class>
+ <widget class="QFrame" name="OpenRGBServerInfoPage">
   <property name="geometry">
    <rect>
     <x>0</x>

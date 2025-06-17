@@ -10,16 +10,14 @@
 #pragma once
 
 #include "BaseManualDeviceEntry.h"
-#include "ui_OpenRGBNanoleafSettingsEntry.h"
 #include "OpenRGBNanoleafScanningThread.h"
 
 namespace Ui
 {
     class OpenRGBNanoleafSettingsEntry;
-    class OpenRGBNanoleafSettingsEntryUi;
 }
 
-class Ui::OpenRGBNanoleafSettingsEntry : public BaseManualDeviceEntry
+class OpenRGBNanoleafSettingsEntry : public BaseManualDeviceEntry
 {
     Q_OBJECT
 
@@ -35,7 +33,7 @@ public:
     int port;
 
 private:
-    Ui::OpenRGBNanoleafSettingsEntryUi *ui;
+    Ui::OpenRGBNanoleafSettingsEntry *ui;
 
 private slots:
     void changeEvent(QEvent *event);

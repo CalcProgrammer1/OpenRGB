@@ -12,11 +12,9 @@
 #include "ResourceManager.h"
 #include "SettingsManager.h"
 
-using namespace Ui;
-
 OpenRGBSerialSettingsPage::OpenRGBSerialSettingsPage(QWidget *parent) :
     QWidget(parent),
-    ui(new Ui::OpenRGBSerialSettingsPageUi)
+    ui(new Ui::OpenRGBSerialSettingsPage)
 {
     ui->setupUi(this);
 
@@ -64,7 +62,7 @@ void OpenRGBSerialSettingsPage::changeEvent(QEvent *event)
     }
 }
 
-void Ui::OpenRGBSerialSettingsPage::on_AddSerialDeviceButton_clicked()
+void OpenRGBSerialSettingsPage::on_AddSerialDeviceButton_clicked()
 {
     OpenRGBSerialSettingsEntry* entry = new OpenRGBSerialSettingsEntry;
     entries.push_back(entry);
@@ -78,7 +76,7 @@ void Ui::OpenRGBSerialSettingsPage::on_AddSerialDeviceButton_clicked()
     ui->SerialDeviceList->show();
 }
 
-void Ui::OpenRGBSerialSettingsPage::on_RemoveSerialDeviceButton_clicked()
+void OpenRGBSerialSettingsPage::on_RemoveSerialDeviceButton_clicked()
 {
     int cur_row = ui->SerialDeviceList->currentRow();
 
@@ -96,7 +94,7 @@ void Ui::OpenRGBSerialSettingsPage::on_RemoveSerialDeviceButton_clicked()
     entries.erase(entries.begin() + cur_row);
 }
 
-void Ui::OpenRGBSerialSettingsPage::on_SaveSerialConfigurationButton_clicked()
+void OpenRGBSerialSettingsPage::on_SaveSerialConfigurationButton_clicked()
 {
     json                ledstrip_settings;
 

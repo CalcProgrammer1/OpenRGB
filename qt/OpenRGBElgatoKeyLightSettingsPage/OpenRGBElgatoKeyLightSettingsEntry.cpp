@@ -10,11 +10,9 @@
 #include "OpenRGBElgatoKeyLightSettingsEntry.h"
 #include "ui_OpenRGBElgatoKeyLightSettingsEntry.h"
 
-using namespace Ui;
-
 OpenRGBElgatoKeyLightSettingsEntry::OpenRGBElgatoKeyLightSettingsEntry(QWidget *parent) :
     BaseManualDeviceEntry(parent),
-    ui(new Ui::OpenRGBElgatoKeyLightSettingsEntryUi)
+    ui(new Ui::OpenRGBElgatoKeyLightSettingsEntry)
 {
     ui->setupUi(this);
     setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);

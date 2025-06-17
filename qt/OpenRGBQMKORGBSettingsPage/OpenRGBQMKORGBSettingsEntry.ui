@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>OpenRGBQMKORGBSettingsEntryUi</class>
- <widget class="QWidget" name="OpenRGBQMKORGBSettingsEntryUi">
+ <class>OpenRGBQMKORGBSettingsEntry</class>
+ <widget class="QWidget" name="OpenRGBQMKORGBSettingsEntry">
   <property name="geometry">
    <rect>
     <x>0</x>

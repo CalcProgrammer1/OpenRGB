@@ -14,10 +14,9 @@
 namespace Ui
 {
     class OpenRGBSerialSettingsEntry;
-    class OpenRGBSerialSettingsEntryUi;
 }
 
-class Ui::OpenRGBSerialSettingsEntry : public BaseManualDeviceEntry
+class OpenRGBSerialSettingsEntry : public BaseManualDeviceEntry
 {
     Q_OBJECT
 
@@ -34,5 +33,5 @@ public:
     const char* settingsSection();
 
 private:
-    Ui::OpenRGBSerialSettingsEntryUi *ui;
+    Ui::OpenRGBSerialSettingsEntry *ui;
 };

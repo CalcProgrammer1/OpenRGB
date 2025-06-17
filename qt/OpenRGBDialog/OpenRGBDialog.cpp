@@ -7,8 +7,6 @@
 |   SPDX-License-Identifier: GPL-2.0-only                   |
 \*---------------------------------------------------------*/
 
-#include <string>
-#include <functional>
 #include "OpenRGBDialog.h"
 #include "LogManager.h"
 #include "PluginManager.h"
@@ -23,19 +21,25 @@
 #include "TabLabel.h"
 #include "OpenRGBZonesBulkResizer.h"
 #include "OpenRGBThemeManager.h"
+#include "OpenRGBFont.h"
+
+#include "ui_OpenRGBDialog.h"
+
 #include <QLabel>
 #include <QTabBar>
 #include <QMessageBox>
 #include <QCloseEvent>
 #include <QStyleFactory>
 #include <QKeyEvent>
-#include "OpenRGBFont.h"
+#include <QCheckBox>
+#include <QSpinBox>
+
+#include <string>
+#include <functional>
 
 #ifdef __APPLE__
 #include "macutils.h"
 #endif
-
-using namespace Ui;
 
 static int GetIcon(device_type type)
 {
@@ -174,7 +178,7 @@ bool OpenRGBDialog::IsMinimizeOnClose()
     return false;
 }
 
-OpenRGBDialog::OpenRGBDialog(QWidget *parent) : QMainWindow(parent), ui(new OpenRGBDialogUi)
+OpenRGBDialog::OpenRGBDialog(QWidget *parent) : QMainWindow(parent), ui(new Ui::OpenRGBDialog)
 {
     ui->setupUi(this);
 
@@ -1329,7 +1333,7 @@ void OpenRGBDialog::UpdateDevicesList()
             | If type is a device info page, check it               |
             \*-----------------------------------------------------*/
             std::string type_str = ui->InformationTabBar->widget(tab_idx)->metaObject()->className();
-            if(type_str == "Ui::OpenRGBDeviceInfoPage")
+            if(type_str == "OpenRGBDeviceInfoPage")
             {
                 OpenRGBDeviceInfoPage* page = (OpenRGBDeviceInfoPage*) ui->InformationTabBar->widget(tab_idx);
 
@@ -1400,7 +1404,7 @@ void OpenRGBDialog::UpdateDevicesList()
         for(std::size_t tab_idx = controllers.size(); tab_idx < (std::size_t)ui->InformationTabBar->count(); tab_idx++)
         {
             std::string type_str = ui->InformationTabBar->widget(base_tab)->metaObject()->className();
-            if(type_str == "Ui::OpenRGBDeviceInfoPage")
+            if(type_str == "OpenRGBDeviceInfoPage")
             {
                 found = true;
                 QWidget* tab_widget = ui->InformationTabBar->widget(base_tab);
@@ -1713,7 +1717,7 @@ void OpenRGBDialog::on_ReShow(QSystemTrayIcon::ActivationReason reason)
     }
 }
 
-void Ui::OpenRGBDialog::on_ProfileSelected()
+void OpenRGBDialog::on_ProfileSelected()
 {
     ProfileManager* profile_manager = ResourceManager::get()->GetProfileManager();
 
@@ -1739,7 +1743,7 @@ void Ui::OpenRGBDialog::on_ProfileSelected()
     }
 }
 
-void Ui::OpenRGBDialog::on_ButtonLoadProfile_clicked()
+void OpenRGBDialog::on_ButtonLoadProfile_clicked()
 {
     ProfileManager* profile_manager = ResourceManager::get()->GetProfileManager();
 
@@ -1763,7 +1767,7 @@ void Ui::OpenRGBDialog::on_ButtonLoadProfile_clicked()
     }
 }
 
-void Ui::OpenRGBDialog::on_ButtonDeleteProfile_clicked()
+void OpenRGBDialog::on_ButtonDeleteProfile_clicked()
 {
     ProfileManager* profile_manager = ResourceManager::get()->GetProfileManager();
 
@@ -1792,7 +1796,7 @@ void Ui::OpenRGBDialog::on_ButtonDeleteProfile_clicked()
     }
 }
 
-void Ui::OpenRGBDialog::on_ButtonToggleDeviceView_clicked()
+void OpenRGBDialog::on_ButtonToggleDeviceView_clicked()
 {
     if(device_view_showing)
     {
@@ -1804,7 +1808,7 @@ void Ui::OpenRGBDialog::on_ButtonToggleDeviceView_clicked()
     }
 }
 
-void Ui::OpenRGBDialog::ShowLEDView()
+void OpenRGBDialog::ShowLEDView()
 {
     for(int device = 0; device < ui->DevicesTabBar->count(); device++)
     {
@@ -1817,7 +1821,7 @@ void Ui::OpenRGBDialog::ShowLEDView()
     device_view_showing = true;
 }
 
-void Ui::OpenRGBDialog::HideLEDView()
+void OpenRGBDialog::HideLEDView()
 {
     for(int device = 0; device < ui->DevicesTabBar->count(); device++)
     {
@@ -1827,7 +1831,7 @@ void Ui::OpenRGBDialog::HideLEDView()
 }
 
 
-void Ui::OpenRGBDialog::on_ButtonStopDetection_clicked()
+void OpenRGBDialog::on_ButtonStopDetection_clicked()
 {
     /*---------------------------------------------------------*\
     | Notify the detection thread that it has to die            |
@@ -1840,7 +1844,7 @@ void Ui::OpenRGBDialog::on_ButtonStopDetection_clicked()
     SetDetectionViewState(false);
 }
 
-void Ui::OpenRGBDialog::SetDetectionViewState(bool detection_showing)
+void OpenRGBDialog::SetDetectionViewState(bool detection_showing)
 {
     if(detection_showing)
     {
@@ -1939,7 +1943,7 @@ void OpenRGBDialog::SaveProfileAs()
     }
 }
 
-void Ui::OpenRGBDialog::on_ButtonRescan_clicked()
+void OpenRGBDialog::on_ButtonRescan_clicked()
 {
     /*---------------------------------------------------------*\
     | Hide devices view on rescan so it stops handling paint    |
@@ -1964,7 +1968,7 @@ void Ui::OpenRGBDialog::on_ButtonRescan_clicked()
     ResourceManager::get()->DetectDevices();
 }
 
-void Ui::OpenRGBDialog::on_ActionSaveProfile_triggered()
+void OpenRGBDialog::on_ActionSaveProfile_triggered()
 {
     if(ui->ProfileBox->currentIndex() >= 0)
     {
@@ -1976,33 +1980,33 @@ void Ui::OpenRGBDialog::on_ActionSaveProfile_triggered()
     }
 }
 
-void Ui::OpenRGBDialog::on_ActionSaveProfileAs_triggered()
+void OpenRGBDialog::on_ActionSaveProfileAs_triggered()
 {
     SaveProfileAs();
 }
 
 
-void Ui::OpenRGBDialog::on_InformationTabBar_currentChanged(int tab_idx)
+void OpenRGBDialog::on_InformationTabBar_currentChanged(int tab_idx)
 {
     TogglePluginsVisibility(tab_idx, ui->InformationTabBar);
 }
 
-void Ui::OpenRGBDialog::on_DevicesTabBar_currentChanged(int tab_idx)
+void OpenRGBDialog::on_DevicesTabBar_currentChanged(int tab_idx)
 {
     TogglePluginsVisibility(tab_idx, ui->DevicesTabBar);
 }
 
-void Ui::OpenRGBDialog::on_MainTabBar_currentChanged(int tab_idx)
+void OpenRGBDialog::on_MainTabBar_currentChanged(int tab_idx)
 {
     TogglePluginsVisibility(tab_idx, ui->MainTabBar);
 }
 
-void Ui::OpenRGBDialog::on_SettingsTabBar_currentChanged(int tab_idx)
+void OpenRGBDialog::on_SettingsTabBar_currentChanged(int tab_idx)
 {
     TogglePluginsVisibility(tab_idx, ui->SettingsTabBar);
 }
 
-void Ui::OpenRGBDialog::TogglePluginsVisibility(int tab_idx, QTabWidget* tabBar)
+void OpenRGBDialog::TogglePluginsVisibility(int tab_idx, QTabWidget* tabBar)
 {
     /*---------------------------------------------------------*\
     | Hide all plugins                                          |
@@ -2038,7 +2042,7 @@ void Ui::OpenRGBDialog::TogglePluginsVisibility(int tab_idx, QTabWidget* tabBar)
     }
 }
 
-void Ui::OpenRGBDialog::AddConsolePage()
+void OpenRGBDialog::AddConsolePage()
 {
     OpenRGBConsolePage* page = new OpenRGBConsolePage();
 

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>OpenRGBClientInfoPageUi</class>
- <widget class="QFrame" name="OpenRGBClientInfoPageUi">
+ <class>OpenRGBClientInfoPage</class>
+ <widget class="QFrame" name="OpenRGBClientInfoPage">
   <property name="geometry">
    <rect>
     <x>0</x>

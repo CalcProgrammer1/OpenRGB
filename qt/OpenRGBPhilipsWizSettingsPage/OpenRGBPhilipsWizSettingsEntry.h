@@ -14,10 +14,9 @@
 namespace Ui
 {
     class OpenRGBPhilipsWizSettingsEntry;
-    class OpenRGBPhilipsWizSettingsEntryUi;
 }
 
-class Ui::OpenRGBPhilipsWizSettingsEntry : public BaseManualDeviceEntry
+class OpenRGBPhilipsWizSettingsEntry : public BaseManualDeviceEntry
 {
     Q_OBJECT
 
@@ -29,7 +28,7 @@ public:
     const char* settingsSection();
 
 private:
-    Ui::OpenRGBPhilipsWizSettingsEntryUi *ui;
+    Ui::OpenRGBPhilipsWizSettingsEntry *ui;
 
 private slots:
     void changeEvent(QEvent *event);

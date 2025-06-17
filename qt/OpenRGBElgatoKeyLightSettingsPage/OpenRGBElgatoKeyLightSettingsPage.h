@@ -15,10 +15,9 @@
 namespace Ui
 {
     class OpenRGBElgatoKeyLightSettingsPage;
-    class OpenRGBElgatoKeyLightSettingsPageUi;
 }
 
-class Ui::OpenRGBElgatoKeyLightSettingsPage : public QWidget
+class OpenRGBElgatoKeyLightSettingsPage : public QWidget
 {
     Q_OBJECT
 
@@ -35,6 +34,6 @@ private slots:
     void on_SaveElgatoKeyLightConfigurationButton_clicked();
 
 private:
-    Ui::OpenRGBElgatoKeyLightSettingsPageUi *ui;
+    Ui::OpenRGBElgatoKeyLightSettingsPage *ui;
     std::vector<OpenRGBElgatoKeyLightSettingsEntry*> entries;
 };

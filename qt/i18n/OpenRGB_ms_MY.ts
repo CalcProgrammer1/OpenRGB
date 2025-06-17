@@ -13,7 +13,7 @@
     </message>
 </context>
 <context>
-    <name>OpenRGBClientInfoPageUi</name>
+    <name>OpenRGBClientInfoPage</name>
     <message>
         <source>Port:</source>
         <translation>Port:</translation>
@@ -38,9 +38,13 @@
         <source>Save Connection</source>
         <translation>Simpan Sambungan</translation>
     </message>
+    <message>
+        <source>Disconnect</source>
+        <translation>Putuskan sambungan</translation>
+    </message>
 </context>
 <context>
-    <name>OpenRGBConsolePageUi</name>
+    <name>OpenRGBConsolePage</name>
     <message>
         <source>Log level</source>
         <translation>Tahap log</translation>
@@ -55,7 +59,7 @@
     </message>
 </context>
 <context>
-    <name>OpenRGBDMXSettingsEntryUi</name>
+    <name>OpenRGBDMXSettingsEntry</name>
     <message>
         <source>Brightness Channel:</source>
         <translation type="unfinished"></translation>
@@ -86,7 +90,7 @@
     </message>
 </context>
 <context>
-    <name>OpenRGBDMXSettingsPageUi</name>
+    <name>OpenRGBDMXSettingsPage</name>
     <message>
         <source>Add</source>
         <translation type="unfinished">Tambah</translation>
@@ -101,7 +105,7 @@
     </message>
 </context>
 <context>
-    <name>OpenRGBDeviceInfoPageUi</name>
+    <name>OpenRGBDeviceInfoPage</name>
     <message>
         <source>Serial:</source>
         <translation>Siri:</translation>
@@ -130,9 +134,13 @@
         <source>Location:</source>
         <translation>Lokasi:</translation>
     </message>
+    <message>
+        <source>Flags:</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
-    <name>OpenRGBDevicePageUi</name>
+    <name>OpenRGBDevicePage</name>
     <message>
         <source>R:</source>
         <translation>R:</translation>
@@ -225,9 +233,93 @@
         <source>Edit</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Set individual LEDs to static colors.  Safe for use with software-driven effects.</source>
+        <translation>Tetapkan LED individu kepada warna statik. Selamat untuk digunakan dengan kesan dipacu perisian.</translation>
+    </message>
+    <message>
+        <source>Set individual LEDs to static colors.  Not safe for use with software-driven effects.</source>
+        <translation>Tetapkan LED individu kepada warna statik. Tidak selamat untuk digunakan dengan kesan dipacu perisian.</translation>
+    </message>
+    <message>
+        <source>Sets the entire device or a zone to a single color.</source>
+        <translation>Menetapkan keseluruhan peranti atau zon kepada satu warna.</translation>
+    </message>
+    <message>
+        <source>Gradually fades between fully off and fully on.</source>
+        <translation>Secara beransur-ansur pudar antara mati sepenuhnya dan hidup sepenuhnya.</translation>
+    </message>
+    <message>
+        <source>Abruptly changes between fully off and fully on.</source>
+        <translation>Berubah secara mendadak antara mati sepenuhnya dan hidup sepenuhnya.</translation>
+    </message>
+    <message>
+        <source>Gradually cycles through the entire color spectrum.  All lights on the device are the same color.</source>
+        <translation>Secara beransur-ansur kitaran melalui keseluruhan spektrum warna. Semua lampu pada peranti adalah warna yang sama.</translation>
+    </message>
+    <message>
+        <source>Gradually cycles through the entire color spectrum.  Produces a rainbow pattern that moves.</source>
+        <translation>Secara beransur-ansur kitaran melalui keseluruhan spektrum warna. Menghasilkan corak pelangi yang bergerak.</translation>
+    </message>
+    <message>
+        <source>Flashes lights when keys or buttons are pressed.</source>
+        <translation>Berkelip lampu apabila butang ditekan.</translation>
+    </message>
+    <message>
+        <source>Entire Device</source>
+        <translation>Keseluruhan Peranti</translation>
+    </message>
+    <message>
+        <source>Entire Zone</source>
+        <translation>Keseluruhan Zon</translation>
+    </message>
+    <message>
+        <source>Left</source>
+        <translation>Kiri</translation>
+    </message>
+    <message>
+        <source>Right</source>
+        <translation>Kanan</translation>
+    </message>
+    <message>
+        <source>Up</source>
+        <translation>Atas</translation>
+    </message>
+    <message>
+        <source>Down</source>
+        <translation>Bawah</translation>
+    </message>
+    <message>
+        <source>Horizontal</source>
+        <translation>Mendatar</translation>
+    </message>
+    <message>
+        <source>Vertical</source>
+        <translation>Menegak</translation>
+    </message>
+    <message>
+        <source>Saved To Device</source>
+        <translation>Disimpan Ke Peranti</translation>
+    </message>
+    <message>
+        <source>Saving Not Supported</source>
+        <translation>Simpanan Tidak Disokong</translation>
+    </message>
+    <message>
+        <source>All Zones</source>
+        <translation>Semua Zon</translation>
+    </message>
+    <message>
+        <source>Mode Specific</source>
+        <translation>Mod Khusus</translation>
+    </message>
+    <message>
+        <source>Entire Segment</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
-    <name>OpenRGBDialogUi</name>
+    <name>OpenRGBDialog</name>
     <message>
         <source>OpenRGB</source>
         <translation>OpenRGB</translation>
@@ -280,9 +372,149 @@
         <source>Save Profile with custom name</source>
         <translation>Simpan Profil dengan nama tersuai</translation>
     </message>
+    <message>
+        <source>Show/Hide</source>
+        <translation>Tunjukkan/Sembunyikan</translation>
+    </message>
+    <message>
+        <source>Profiles</source>
+        <translation>Profil</translation>
+    </message>
+    <message>
+        <source>Quick Colors</source>
+        <translation>Warna Pantas</translation>
+    </message>
+    <message>
+        <source>Red</source>
+        <translation>Merah</translation>
+    </message>
+    <message>
+        <source>Yellow</source>
+        <translation>Kuning</translation>
+    </message>
+    <message>
+        <source>Green</source>
+        <translation>Hijau</translation>
+    </message>
+    <message>
+        <source>Cyan</source>
+        <translation>Sian</translation>
+    </message>
+    <message>
+        <source>Blue</source>
+        <translation>Biru</translation>
+    </message>
+    <message>
+        <source>Magenta</source>
+        <translation>Magenta</translation>
+    </message>
+    <message>
+        <source>White</source>
+        <translation>Putih</translation>
+    </message>
+    <message>
+        <source>Lights Off</source>
+        <translation>Lampu padam</translation>
+    </message>
+    <message>
+        <source>Exit</source>
+        <translation>Keluar</translation>
+    </message>
+    <message>
+        <source>Plugins</source>
+        <translation>Plugin</translation>
+    </message>
+    <message>
+        <source>Software</source>
+        <translation type="vanished">Perisian</translation>
+    </message>
+    <message>
+        <source>Supported Devices</source>
+        <translation>Peranti yang Disokong</translation>
+    </message>
+    <message>
+        <source>General Settings</source>
+        <translation>Seting Umum</translation>
+    </message>
+    <message>
+        <source>E1.31 Devices</source>
+        <translation>Peranti E1.31</translation>
+    </message>
+    <message>
+        <source>LIFX Devices</source>
+        <translation>Peranti LIFX</translation>
+    </message>
+    <message>
+        <source>Philips Hue Devices</source>
+        <translation>Peranti Philips Hue</translation>
+    </message>
+    <message>
+        <source>Philips Wiz Devices</source>
+        <translation>Peranti Philips Wiz</translation>
+    </message>
+    <message>
+        <source>OpenRGB QMK Protocol</source>
+        <translation>Protokol QMK OpenRGB</translation>
+    </message>
+    <message>
+        <source>Serial Devices</source>
+        <translation>Peranti Bersiri</translation>
+    </message>
+    <message>
+        <source>Yeelight Devices</source>
+        <translation>Peranti Yeelight</translation>
+    </message>
+    <message>
+        <source>Nanoleaf Devices</source>
+        <translation>Peranti Nanoleaf</translation>
+    </message>
+    <message>
+        <source>Elgato KeyLight Devices</source>
+        <translation>Peranti Elgato KeyLight</translation>
+    </message>
+    <message>
+        <source>Elgato LightStrip Devices</source>
+        <translation>Peranti Elgato LightStrip</translation>
+    </message>
+    <message>
+        <source>SMBus Tools</source>
+        <translation>Alat SMBus</translation>
+    </message>
+    <message>
+        <source>SDK Client</source>
+        <translation>Klient SDK</translation>
+    </message>
+    <message>
+        <source>SDK Server</source>
+        <translation>Pelayan SDK</translation>
+    </message>
+    <message>
+        <source>Do you really want to delete this profile?</source>
+        <translation>Adakah anda benar-benar mahu memadamkan profil ini?</translation>
+    </message>
+    <message>
+        <source>Log Console</source>
+        <translation>Konsol Log</translation>
+    </message>
+    <message>
+        <source>DMX Devices</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Kasa Smart Devices</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>About OpenRGB</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Govee Devices</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
-    <name>OpenRGBE131SettingsEntryUi</name>
+    <name>OpenRGBE131SettingsEntry</name>
     <message>
         <source>Start Channel:</source>
         <translation>Saluran Mulakan:</translation>
@@ -331,9 +563,53 @@
         <source>RGB Order:</source>
         <translation>Perintah RGB:</translation>
     </message>
+    <message>
+        <source>Single</source>
+        <translation>Satu</translation>
+    </message>
+    <message>
+        <source>Linear</source>
+        <translation>Linear</translation>
+    </message>
+    <message>
+        <source>Matrix</source>
+        <translation>Matriks</translation>
+    </message>
+    <message>
+        <source>Horizontal Top Left</source>
+        <translation>Mendatar Kiri Atas</translation>
+    </message>
+    <message>
+        <source>Horizontal Top Right</source>
+        <translation>Mendatar Atas Kanan</translation>
+    </message>
+    <message>
+        <source>Horizontal Bottom Left</source>
+        <translation>Mendatar Bawah Kiri</translation>
+    </message>
+    <message>
+        <source>Horizontal Bottom Right</source>
+        <translation>Mendatar Bawah Kanan</translation>
+    </message>
+    <message>
+        <source>Vertical Top Left</source>
+        <translation>Menegak Atas Kiri</translation>
+    </message>
+    <message>
+        <source>Vertical Top Right</source>
+        <translation>Menegak Atas Kanan</translation>
+    </message>
+    <message>
+        <source>Vertical Bottom Left</source>
+        <translation>Menegak Bawah Kiri</translation>
+    </message>
+    <message>
+        <source>Vertical Bottom Right</source>
+        <translation>Menegak Bawah Kanan</translation>
+    </message>
 </context>
 <context>
-    <name>OpenRGBE131SettingsPageUi</name>
+    <name>OpenRGBE131SettingsPage</name>
     <message>
         <source>Add</source>
         <translation>Tambah</translation>
@@ -348,14 +624,14 @@
     </message>
 </context>
 <context>
-    <name>OpenRGBElgatoKeyLightSettingsEntryUi</name>
+    <name>OpenRGBElgatoKeyLightSettingsEntry</name>
     <message>
         <source>IP:</source>
         <translation>IP:</translation>
     </message>
 </context>
 <context>
-    <name>OpenRGBElgatoKeyLightSettingsPageUi</name>
+    <name>OpenRGBElgatoKeyLightSettingsPage</name>
     <message>
         <source>Add</source>
         <translation>Tambah</translation>
@@ -370,14 +646,14 @@
     </message>
 </context>
 <context>
-    <name>OpenRGBElgatoLightStripSettingsEntryUi</name>
+    <name>OpenRGBElgatoLightStripSettingsEntry</name>
     <message>
         <source>IP:</source>
         <translation>IP:</translation>
     </message>
 </context>
 <context>
-    <name>OpenRGBElgatoLightStripSettingsPageUi</name>
+    <name>OpenRGBElgatoLightStripSettingsPage</name>
     <message>
         <source>Add</source>
         <translation>Tambah</translation>
@@ -392,7 +668,29 @@
     </message>
 </context>
 <context>
-    <name>OpenRGBHardwareIDsDialogUi</name>
+    <name>OpenRGBGoveeSettingsEntry</name>
+    <message>
+        <source>IP:</source>
+        <translation type="unfinished">IP:</translation>
+    </message>
+</context>
+<context>
+    <name>OpenRGBGoveeSettingsPage</name>
+    <message>
+        <source>Add</source>
+        <translation type="unfinished">Tambah</translation>
+    </message>
+    <message>
+        <source>Remove</source>
+        <translation type="unfinished">Alih keluar</translation>
+    </message>
+    <message>
+        <source>Save</source>
+        <translation type="unfinished">Simpan</translation>
+    </message>
+</context>
+<context>
+    <name>OpenRGBHardwareIDsDialog</name>
     <message>
         <source>Hardware IDs</source>
         <translation type="unfinished"></translation>
@@ -415,7 +713,7 @@
     </message>
 </context>
 <context>
-    <name>OpenRGBKasaSmartSettingsEntryUi</name>
+    <name>OpenRGBKasaSmartSettingsEntry</name>
     <message>
         <source>IP:</source>
         <translation type="unfinished">IP:</translation>
@@ -426,7 +724,7 @@
     </message>
 </context>
 <context>
-    <name>OpenRGBKasaSmartSettingsPageUi</name>
+    <name>OpenRGBKasaSmartSettingsPage</name>
     <message>
         <source>Add</source>
         <translation type="unfinished">Tambah</translation>
@@ -441,7 +739,7 @@
     </message>
 </context>
 <context>
-    <name>OpenRGBLIFXSettingsEntryUi</name>
+    <name>OpenRGBLIFXSettingsEntry</name>
     <message>
         <source>IP:</source>
         <translation>IP:</translation>
@@ -452,7 +750,7 @@
     </message>
 </context>
 <context>
-    <name>OpenRGBLIFXSettingsPageUi</name>
+    <name>OpenRGBLIFXSettingsPage</name>
     <message>
         <source>Add</source>
         <translation>Tambah</translation>
@@ -467,7 +765,7 @@
     </message>
 </context>
 <context>
-    <name>OpenRGBNanoleafNewDeviceDialogUi</name>
+    <name>OpenRGBNanoleafNewDeviceDialog</name>
     <message>
         <source>New Nanoleaf device</source>
         <translation type="unfinished"></translation>
@@ -482,7 +780,7 @@
     </message>
 </context>
 <context>
-    <name>OpenRGBNanoleafSettingsEntryUi</name>
+    <name>OpenRGBNanoleafSettingsEntry</name>
     <message>
         <source>IP:</source>
         <translation>IP:</translation>
@@ -505,7 +803,7 @@
     </message>
 </context>
 <context>
-    <name>OpenRGBNanoleafSettingsPageUi</name>
+    <name>OpenRGBNanoleafSettingsPage</name>
     <message>
         <source>Scan</source>
         <translation>Scan</translation>
@@ -524,7 +822,7 @@
     </message>
 </context>
 <context>
-    <name>OpenRGBPhilipsHueSettingsEntryUi</name>
+    <name>OpenRGBPhilipsHueSettingsEntry</name>
     <message>
         <source>Entertainment Mode:</source>
         <translation>Mod Hiburan:</translation>
@@ -555,7 +853,7 @@
     </message>
 </context>
 <context>
-    <name>OpenRGBPhilipsHueSettingsPageUi</name>
+    <name>OpenRGBPhilipsHueSettingsPage</name>
     <message>
         <source>Remove</source>
         <translation>Alih keluar</translation>
@@ -574,7 +872,7 @@
     </message>
 </context>
 <context>
-    <name>OpenRGBPhilipsWizSettingsEntryUi</name>
+    <name>OpenRGBPhilipsWizSettingsEntry</name>
     <message>
         <source>IP:</source>
         <translation>IP:</translation>
@@ -591,9 +889,17 @@
         <source>White Strategy:</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Average</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Minimum</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
-    <name>OpenRGBPhilipsWizSettingsPageUi</name>
+    <name>OpenRGBPhilipsWizSettingsPage</name>
     <message>
         <source>Add</source>
         <translation>Tambah</translation>
@@ -608,7 +914,7 @@
     </message>
 </context>
 <context>
-    <name>OpenRGBPluginsEntryUi</name>
+    <name>OpenRGBPluginsEntry</name>
     <message>
         <source>Version:</source>
         <translation>Versi:</translation>
@@ -647,7 +953,7 @@
     </message>
 </context>
 <context>
-    <name>OpenRGBPluginsPageUi</name>
+    <name>OpenRGBPluginsPage</name>
     <message>
         <source>Install Plugin</source>
         <translation>Pasang Plugin</translation>
@@ -660,9 +966,37 @@
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;Looking for plugins? See the official list at &lt;a href=&quot;https://openrgb.org/plugins.html&quot;&gt;OpenRGB.org&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;Sedang mencari plugin? Lihat senarai rasmi di &lt;a href=&quot;https://openrgb.org/plugins.html&quot;&gt;OpenRGB.org&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
+    <message>
+        <source>Install OpenRGB Plugin</source>
+        <translation>Pasang OpenRGB Plugin</translation>
+    </message>
+    <message>
+        <source>Plugin files (*.dll *.dylib *.so *.so.*)</source>
+        <translation>Fail Plugin (*.dll *.dylib *.so *.so.*)</translation>
+    </message>
+    <message>
+        <source>Replace Plugin</source>
+        <translation>Gantikan Plugin</translation>
+    </message>
+    <message>
+        <source>A plugin with this filename is already installed.  Are you sure you want to replace this plugin?</source>
+        <translation>Plugin dengan nama fail ini telah dipasang. Adakah anda pasti mahu menggantikan plugin ini?</translation>
+    </message>
+    <message>
+        <source>Are you sure you want to remove this plugin?</source>
+        <translation>Adakah anda pasti mahu mengalih keluar plugin ini?</translation>
+    </message>
+    <message>
+        <source>Restart Needed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The plugin will be fully removed after restarting OpenRGB.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
-    <name>OpenRGBProfileSaveDialogUi</name>
+    <name>OpenRGBProfileSaveDialog</name>
     <message>
         <source>Profile Name</source>
         <translation>Nama profil</translation>
@@ -677,7 +1011,7 @@
     </message>
 </context>
 <context>
-    <name>OpenRGBQMKORGBSettingsEntryUi</name>
+    <name>OpenRGBQMKORGBSettingsEntry</name>
     <message>
         <source>Name:</source>
         <translation>Nama:</translation>
@@ -692,7 +1026,7 @@
     </message>
 </context>
 <context>
-    <name>OpenRGBQMKORGBSettingsPageUi</name>
+    <name>OpenRGBQMKORGBSettingsPage</name>
     <message>
         <source>Add</source>
         <translation>Tambah</translation>
@@ -707,7 +1041,7 @@
     </message>
 </context>
 <context>
-    <name>OpenRGBSerialSettingsEntryUi</name>
+    <name>OpenRGBSerialSettingsEntry</name>
     <message>
         <source>Baud:</source>
         <translation>Baud:</translation>
@@ -730,7 +1064,7 @@
     </message>
 </context>
 <context>
-    <name>OpenRGBSerialSettingsPageUi</name>
+    <name>OpenRGBSerialSettingsPage</name>
     <message>
         <source>Add</source>
         <translation>Tambah</translation>
@@ -745,7 +1079,7 @@
     </message>
 </context>
 <context>
-    <name>OpenRGBServerInfoPageUi</name>
+    <name>OpenRGBServerInfoPage</name>
     <message>
         <source>Stop Server</source>
         <translation>Berhenti Pelayan</translation>
@@ -786,9 +1120,17 @@
         <source>Server Host:</source>
         <translation>Hos Pelayan:</translation>
     </message>
+    <message>
+        <source>Stopping...</source>
+        <translation>Sedang berhenti...</translation>
+    </message>
+    <message>
+        <source>Online</source>
+        <translation>Dalam talian</translation>
+    </message>
 </context>
 <context>
-    <name>OpenRGBSettingsPageUi</name>
+    <name>OpenRGBSettingsPage</name>
     <message>
         <source>Open Settings Folder</source>
         <translation>Buka Folder Seting</translation>
@@ -917,9 +1259,21 @@
         <source>Enable Log File (restart required)</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>English - US</source>
+        <translation type="unfinished">Melayu</translation>
+    </message>
+    <message>
+        <source>System Default</source>
+        <translation>Lalai Sistem</translation>
+    </message>
+    <message>
+        <source>A problem occurred enabling Start at Login.</source>
+        <translation>Masalah telah berlaku mendayakan Mula Pada Log Masuk.</translation>
+    </message>
 </context>
 <context>
-    <name>OpenRGBSoftwareInfoPageUi</name>
+    <name>OpenRGBSoftwareInfoPage</name>
     <message>
         <source>Version:</source>
         <translation>Versi:</translation>
@@ -964,9 +1318,45 @@
         <source>Plugin API Version:</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Qt Version Value</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Qt Version:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>OS Version:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>OS Version Value</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>GNU General Public License, version 2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>License:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Copyright:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Adam Honse, OpenRGB Team</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;b&gt;OpenRGB&lt;/b&gt;, an open-source RGB control utility</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
-    <name>OpenRGBSupportedDevicesPageUi</name>
+    <name>OpenRGBSupportedDevicesPage</name>
     <message>
         <source>Filter:</source>
         <translation>Penapis:</translation>
@@ -985,7 +1375,7 @@
     </message>
 </context>
 <context>
-    <name>OpenRGBSystemInfoPageUi</name>
+    <name>OpenRGBSystemInfoPage</name>
     <message>
         <source>SMBus Adapters:</source>
         <translation>Penyesuai SMBus:</translation>
@@ -1040,7 +1430,7 @@
     </message>
 </context>
 <context>
-    <name>OpenRGBYeelightSettingsEntryUi</name>
+    <name>OpenRGBYeelightSettingsEntry</name>
     <message>
         <source>IP:</source>
         <translation>IP:</translation>
@@ -1061,9 +1451,17 @@
         <source>Left blank for auto discovering host ip</source>
         <translation>Dibiar kosong untuk auto temui IP hos</translation>
     </message>
+    <message>
+        <source>Choose an IP...</source>
+        <translation>Pilih IP...</translation>
+    </message>
+    <message>
+        <source>Choose the correct IP for the host</source>
+        <translation>Pilih IP yang betul untuk hos</translation>
+    </message>
 </context>
 <context>
-    <name>OpenRGBYeelightSettingsPageUi</name>
+    <name>OpenRGBYeelightSettingsPage</name>
     <message>
         <source>Add</source>
         <translation>Tambah</translation>
@@ -1078,7 +1476,7 @@
     </message>
 </context>
 <context>
-    <name>OpenRGBZoneResizeDialogUi</name>
+    <name>OpenRGBZoneResizeDialog</name>
     <message>
         <source>Resize Zone</source>
         <translation>Ubah saiz Zon</translation>
@@ -1097,7 +1495,7 @@
     </message>
 </context>
 <context>
-    <name>OpenRGBZonesBulkResizerUi</name>
+    <name>OpenRGBZonesBulkResizer</name>
     <message>
         <source>Do not show again</source>
         <translation>Jangan tunjukkan lagi</translation>
@@ -1117,6 +1515,22 @@
     <message>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;One or more resizable zones have not been configured.  Resizable zones are most commonly used for addressable RGB headers where the size of the connected device cannot be detected automatically.&lt;/p&gt;&lt;p&gt;Please enter the number of LEDs in each zone below.&lt;/p&gt;&lt;p&gt;For more information about calcuating the correct size, please check &lt;a href=&quot;https://openrgb.org/resize.html&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;this link.&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Resize the zones</source>
+        <translation>Ubah saiz zon</translation>
+    </message>
+    <message>
+        <source>Controller</source>
+        <translation>Pengawal</translation>
+    </message>
+    <message>
+        <source>Zone</source>
+        <translation>Zon</translation>
+    </message>
+    <message>
+        <source>Size</source>
+        <translation>Saiz</translation>
     </message>
 </context>
 <context>
@@ -1139,400 +1553,10 @@
     </message>
 </context>
 <context>
-    <name>TabLabelUi</name>
+    <name>TabLabel</name>
     <message>
         <source>device name</source>
         <translation>nama peranti</translation>
-    </message>
-</context>
-<context>
-    <name>Ui::OpenRGBClientInfoPage</name>
-    <message>
-        <source>Disconnect</source>
-        <translation>Putuskan sambungan</translation>
-    </message>
-</context>
-<context>
-    <name>Ui::OpenRGBDevicePage</name>
-    <message>
-        <source>Set individual LEDs to static colors.  Safe for use with software-driven effects.</source>
-        <translation>Tetapkan LED individu kepada warna statik. Selamat untuk digunakan dengan kesan dipacu perisian.</translation>
-    </message>
-    <message>
-        <source>Set individual LEDs to static colors.  Not safe for use with software-driven effects.</source>
-        <translation>Tetapkan LED individu kepada warna statik. Tidak selamat untuk digunakan dengan kesan dipacu perisian.</translation>
-    </message>
-    <message>
-        <source>Sets the entire device or a zone to a single color.</source>
-        <translation>Menetapkan keseluruhan peranti atau zon kepada satu warna.</translation>
-    </message>
-    <message>
-        <source>Gradually fades between fully off and fully on.</source>
-        <translation>Secara beransur-ansur pudar antara mati sepenuhnya dan hidup sepenuhnya.</translation>
-    </message>
-    <message>
-        <source>Abruptly changes between fully off and fully on.</source>
-        <translation>Berubah secara mendadak antara mati sepenuhnya dan hidup sepenuhnya.</translation>
-    </message>
-    <message>
-        <source>Gradually cycles through the entire color spectrum.  All lights on the device are the same color.</source>
-        <translation>Secara beransur-ansur kitaran melalui keseluruhan spektrum warna. Semua lampu pada peranti adalah warna yang sama.</translation>
-    </message>
-    <message>
-        <source>Gradually cycles through the entire color spectrum.  Produces a rainbow pattern that moves.</source>
-        <translation>Secara beransur-ansur kitaran melalui keseluruhan spektrum warna. Menghasilkan corak pelangi yang bergerak.</translation>
-    </message>
-    <message>
-        <source>Flashes lights when keys or buttons are pressed.</source>
-        <translation>Berkelip lampu apabila butang ditekan.</translation>
-    </message>
-    <message>
-        <source>Entire Device</source>
-        <translation>Keseluruhan Peranti</translation>
-    </message>
-    <message>
-        <source>Entire Zone</source>
-        <translation>Keseluruhan Zon</translation>
-    </message>
-    <message>
-        <source>Left</source>
-        <translation>Kiri</translation>
-    </message>
-    <message>
-        <source>Right</source>
-        <translation>Kanan</translation>
-    </message>
-    <message>
-        <source>Up</source>
-        <translation>Atas</translation>
-    </message>
-    <message>
-        <source>Down</source>
-        <translation>Bawah</translation>
-    </message>
-    <message>
-        <source>Horizontal</source>
-        <translation>Mendatar</translation>
-    </message>
-    <message>
-        <source>Vertical</source>
-        <translation>Menegak</translation>
-    </message>
-    <message>
-        <source>Saved To Device</source>
-        <translation>Disimpan Ke Peranti</translation>
-    </message>
-    <message>
-        <source>Save To Device</source>
-        <translation>Simpan Ke Peranti</translation>
-    </message>
-    <message>
-        <source>Saving Not Supported</source>
-        <translation>Simpanan Tidak Disokong</translation>
-    </message>
-    <message>
-        <source>All Zones</source>
-        <translation>Semua Zon</translation>
-    </message>
-    <message>
-        <source>Mode Specific</source>
-        <translation>Mod Khusus</translation>
-    </message>
-    <message>
-        <source>Entire Segment</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>Ui::OpenRGBDialog</name>
-    <message>
-        <source>Show/Hide</source>
-        <translation>Tunjukkan/Sembunyikan</translation>
-    </message>
-    <message>
-        <source>Profiles</source>
-        <translation>Profil</translation>
-    </message>
-    <message>
-        <source>Quick Colors</source>
-        <translation>Warna Pantas</translation>
-    </message>
-    <message>
-        <source>Red</source>
-        <translation>Merah</translation>
-    </message>
-    <message>
-        <source>Yellow</source>
-        <translation>Kuning</translation>
-    </message>
-    <message>
-        <source>Green</source>
-        <translation>Hijau</translation>
-    </message>
-    <message>
-        <source>Cyan</source>
-        <translation>Sian</translation>
-    </message>
-    <message>
-        <source>Blue</source>
-        <translation>Biru</translation>
-    </message>
-    <message>
-        <source>Magenta</source>
-        <translation>Magenta</translation>
-    </message>
-    <message>
-        <source>White</source>
-        <translation>Putih</translation>
-    </message>
-    <message>
-        <source>Lights Off</source>
-        <translation>Lampu padam</translation>
-    </message>
-    <message>
-        <source>Exit</source>
-        <translation>Keluar</translation>
-    </message>
-    <message>
-        <source>Plugins</source>
-        <translation>Plugin</translation>
-    </message>
-    <message>
-        <source>Software</source>
-        <translation>Perisian</translation>
-    </message>
-    <message>
-        <source>Supported Devices</source>
-        <translation>Peranti yang Disokong</translation>
-    </message>
-    <message>
-        <source>General Settings</source>
-        <translation>Seting Umum</translation>
-    </message>
-    <message>
-        <source>E1.31 Devices</source>
-        <translation>Peranti E1.31</translation>
-    </message>
-    <message>
-        <source>LIFX Devices</source>
-        <translation>Peranti LIFX</translation>
-    </message>
-    <message>
-        <source>Philips Hue Devices</source>
-        <translation>Peranti Philips Hue</translation>
-    </message>
-    <message>
-        <source>Philips Wiz Devices</source>
-        <translation>Peranti Philips Wiz</translation>
-    </message>
-    <message>
-        <source>OpenRGB QMK Protocol</source>
-        <translation>Protokol QMK OpenRGB</translation>
-    </message>
-    <message>
-        <source>Serial Devices</source>
-        <translation>Peranti Bersiri</translation>
-    </message>
-    <message>
-        <source>Yeelight Devices</source>
-        <translation>Peranti Yeelight</translation>
-    </message>
-    <message>
-        <source>Nanoleaf Devices</source>
-        <translation>Peranti Nanoleaf</translation>
-    </message>
-    <message>
-        <source>Elgato KeyLight Devices</source>
-        <translation>Peranti Elgato KeyLight</translation>
-    </message>
-    <message>
-        <source>Elgato LightStrip Devices</source>
-        <translation>Peranti Elgato LightStrip</translation>
-    </message>
-    <message>
-        <source>SMBus Tools</source>
-        <translation>Alat SMBus</translation>
-    </message>
-    <message>
-        <source>SDK Client</source>
-        <translation>Klient SDK</translation>
-    </message>
-    <message>
-        <source>SDK Server</source>
-        <translation>Pelayan SDK</translation>
-    </message>
-    <message>
-        <source>Delete Profile</source>
-        <translation>Padam Profil</translation>
-    </message>
-    <message>
-        <source>Do you really want to delete this profile?</source>
-        <translation>Adakah anda benar-benar mahu memadamkan profil ini?</translation>
-    </message>
-    <message>
-        <source>Log Console</source>
-        <translation>Konsol Log</translation>
-    </message>
-    <message>
-        <source>DMX Devices</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Kasa Smart Devices</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>Ui::OpenRGBE131SettingsEntry</name>
-    <message>
-        <source>Single</source>
-        <translation>Satu</translation>
-    </message>
-    <message>
-        <source>Linear</source>
-        <translation>Linear</translation>
-    </message>
-    <message>
-        <source>Matrix</source>
-        <translation>Matriks</translation>
-    </message>
-    <message>
-        <source>Horizontal Top Left</source>
-        <translation>Mendatar Kiri Atas</translation>
-    </message>
-    <message>
-        <source>Horizontal Top Right</source>
-        <translation>Mendatar Atas Kanan</translation>
-    </message>
-    <message>
-        <source>Horizontal Bottom Left</source>
-        <translation>Mendatar Bawah Kiri</translation>
-    </message>
-    <message>
-        <source>Horizontal Bottom Right</source>
-        <translation>Mendatar Bawah Kanan</translation>
-    </message>
-    <message>
-        <source>Vertical Top Left</source>
-        <translation>Menegak Atas Kiri</translation>
-    </message>
-    <message>
-        <source>Vertical Top Right</source>
-        <translation>Menegak Atas Kanan</translation>
-    </message>
-    <message>
-        <source>Vertical Bottom Left</source>
-        <translation>Menegak Bawah Kiri</translation>
-    </message>
-    <message>
-        <source>Vertical Bottom Right</source>
-        <translation>Menegak Bawah Kanan</translation>
-    </message>
-</context>
-<context>
-    <name>Ui::OpenRGBPhilipsWizSettingsEntry</name>
-    <message>
-        <source>Average</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Minimum</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>Ui::OpenRGBPluginsPage</name>
-    <message>
-        <source>Install OpenRGB Plugin</source>
-        <translation>Pasang OpenRGB Plugin</translation>
-    </message>
-    <message>
-        <source>Plugin files (*.dll *.dylib *.so *.so.*)</source>
-        <translation>Fail Plugin (*.dll *.dylib *.so *.so.*)</translation>
-    </message>
-    <message>
-        <source>Replace Plugin</source>
-        <translation>Gantikan Plugin</translation>
-    </message>
-    <message>
-        <source>A plugin with this filename is already installed.  Are you sure you want to replace this plugin?</source>
-        <translation>Plugin dengan nama fail ini telah dipasang. Adakah anda pasti mahu menggantikan plugin ini?</translation>
-    </message>
-    <message>
-        <source>Remove Plugin</source>
-        <translation>Alih Keluar Plugin</translation>
-    </message>
-    <message>
-        <source>Are you sure you want to remove this plugin?</source>
-        <translation>Adakah anda pasti mahu mengalih keluar plugin ini?</translation>
-    </message>
-    <message>
-        <source>Restart Needed</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>The plugin will be fully removed after restarting OpenRGB.</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>Ui::OpenRGBServerInfoPage</name>
-    <message>
-        <source>Stopping...</source>
-        <translation>Sedang berhenti...</translation>
-    </message>
-    <message>
-        <source>Online</source>
-        <translation>Dalam talian</translation>
-    </message>
-    <message>
-        <source>Offline</source>
-        <translation>Luar talian</translation>
-    </message>
-</context>
-<context>
-    <name>Ui::OpenRGBSettingsPage</name>
-    <message>
-        <source>English - US</source>
-        <translation type="unfinished">Melayu</translation>
-    </message>
-    <message>
-        <source>System Default</source>
-        <translation>Lalai Sistem</translation>
-    </message>
-    <message>
-        <source>A problem occurred enabling Start at Login.</source>
-        <translation>Masalah telah berlaku mendayakan Mula Pada Log Masuk.</translation>
-    </message>
-</context>
-<context>
-    <name>Ui::OpenRGBYeelightSettingsEntry</name>
-    <message>
-        <source>Choose an IP...</source>
-        <translation>Pilih IP...</translation>
-    </message>
-    <message>
-        <source>Choose the correct IP for the host</source>
-        <translation>Pilih IP yang betul untuk hos</translation>
-    </message>
-</context>
-<context>
-    <name>Ui::OpenRGBZonesBulkResizer</name>
-    <message>
-        <source>Resize the zones</source>
-        <translation>Ubah saiz zon</translation>
-    </message>
-    <message>
-        <source>Controller</source>
-        <translation>Pengawal</translation>
-    </message>
-    <message>
-        <source>Zone</source>
-        <translation>Zon</translation>
-    </message>
-    <message>
-        <source>Size</source>
-        <translation>Saiz</translation>
     </message>
 </context>
 </TS>

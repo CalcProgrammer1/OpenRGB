@@ -14,11 +14,9 @@
 #include "SettingsManager.h"
 #include "NanoleafController.h"
 
-using namespace Ui;
-
 OpenRGBNanoleafSettingsEntry::OpenRGBNanoleafSettingsEntry(QWidget *parent) :
     BaseManualDeviceEntry(parent),
-    ui(new Ui::OpenRGBNanoleafSettingsEntryUi),
+    ui(new Ui::OpenRGBNanoleafSettingsEntry),
     paired(false)
 {
     ui->setupUi(this);

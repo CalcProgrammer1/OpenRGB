@@ -10,11 +10,9 @@
 #include "OpenRGBQMKORGBSettingsEntry.h"
 #include "ui_OpenRGBQMKORGBSettingsEntry.h"
 
-using namespace Ui;
-
 OpenRGBQMKORGBSettingsEntry::OpenRGBQMKORGBSettingsEntry(QWidget *parent) :
     BaseManualDeviceEntry(parent),
-    ui(new Ui::OpenRGBQMKORGBSettingsEntryUi)
+    ui(new Ui::OpenRGBQMKORGBSettingsEntry)
 {
     ui->setupUi(this);
 }

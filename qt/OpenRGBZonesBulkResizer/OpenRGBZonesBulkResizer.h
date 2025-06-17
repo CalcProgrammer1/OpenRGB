@@ -10,7 +10,6 @@
 #pragma once
 
 #include <QWidget>
-#include "ui_OpenRGBZonesBulkResizer.h"
 #include "RGBController.h"
 
 namespace Ui
@@ -18,7 +17,7 @@ namespace Ui
     class OpenRGBZonesBulkResizer;
 }
 
-class Ui::OpenRGBZonesBulkResizer : public QWidget
+class OpenRGBZonesBulkResizer : public QWidget
 {
     Q_OBJECT
 
@@ -29,7 +28,7 @@ public:
     ~OpenRGBZonesBulkResizer();
 
 private:
-    Ui::OpenRGBZonesBulkResizerUi *ui;
+    Ui::OpenRGBZonesBulkResizer *ui;
 
     const std::vector<std::tuple<RGBController*, unsigned int>>& unconfigured_zones;
 

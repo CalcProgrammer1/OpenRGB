@@ -9,12 +9,11 @@
 
 #include <QLineEdit>
 #include "OpenRGBZoneResizeDialog.h"
-
-using namespace Ui;
+#include "ui_OpenRGBZoneResizeDialog.h"
 
 OpenRGBZoneResizeDialog::OpenRGBZoneResizeDialog(RGBController* edit_dev_ptr, unsigned int edit_zone_idx_val, QWidget *parent) :
     QDialog(parent),
-    ui(new Ui::OpenRGBZoneResizeDialogUi)
+    ui(new Ui::OpenRGBZoneResizeDialog)
 {
     edit_dev      = edit_dev_ptr;
     edit_zone_idx = edit_zone_idx_val;
@@ -61,7 +60,7 @@ OpenRGBZoneResizeDialog::OpenRGBZoneResizeDialog(RGBController* edit_dev_ptr, un
 
 OpenRGBZoneResizeDialog::OpenRGBZoneResizeDialog(unsigned int edit_zone_min_val, unsigned int edit_zone_max_val, unsigned int edit_zone_current_val, QWidget *parent) :
     QDialog(parent),
-    ui(new Ui::OpenRGBZoneResizeDialogUi)
+    ui(new Ui::OpenRGBZoneResizeDialog)
 {
     /*-----------------------------------------------------*\
     | This constructor does not use a device pointer.       |
@@ -100,7 +99,7 @@ void OpenRGBZoneResizeDialog::changeEvent(QEvent *event)
     }
 }
 
-void Ui::OpenRGBZoneResizeDialog::on_ResizeSlider_valueChanged(int value)
+void OpenRGBZoneResizeDialog::on_ResizeSlider_valueChanged(int value)
 {
     ui->ResizeBox->blockSignals(true);
     ui->ResizeBox->setValue(value);
@@ -118,7 +117,7 @@ void Ui::OpenRGBZoneResizeDialog::on_ResizeSlider_valueChanged(int value)
     CheckSegmentsValidity();
 }
 
-void Ui::OpenRGBZoneResizeDialog::on_segment_lineedit_textChanged()
+void OpenRGBZoneResizeDialog::on_segment_lineedit_textChanged()
 {
     /*-----------------------------------------------------*\
     | Update the Slider with the LineEdit value for each    |
@@ -133,7 +132,7 @@ void Ui::OpenRGBZoneResizeDialog::on_segment_lineedit_textChanged()
     CheckSegmentsValidity();
 }
 
-void Ui::OpenRGBZoneResizeDialog::on_segment_slider_valueChanged(int)
+void OpenRGBZoneResizeDialog::on_segment_slider_valueChanged(int)
 {
     /*-----------------------------------------------------*\
     | Update the LineEdit with the Slider value for each    |
@@ -148,7 +147,7 @@ void Ui::OpenRGBZoneResizeDialog::on_segment_slider_valueChanged(int)
     CheckSegmentsValidity();
 }
 
-void Ui::OpenRGBZoneResizeDialog::on_ResizeBox_valueChanged(int value)
+void OpenRGBZoneResizeDialog::on_ResizeBox_valueChanged(int value)
 {
     ui->ResizeSlider->blockSignals(true);
     ui->ResizeSlider->setValue(value);
@@ -166,7 +165,7 @@ void Ui::OpenRGBZoneResizeDialog::on_ResizeBox_valueChanged(int value)
     CheckSegmentsValidity();
 }
 
-int Ui::OpenRGBZoneResizeDialog::show()
+int OpenRGBZoneResizeDialog::show()
 {
     int ret_val = 0;
 
@@ -206,7 +205,7 @@ int Ui::OpenRGBZoneResizeDialog::show()
     return(ret_val);
 }
 
-void Ui::OpenRGBZoneResizeDialog::on_AddSegmentButton_clicked()
+void OpenRGBZoneResizeDialog::on_AddSegmentButton_clicked()
 {
     /*---------------------------------------------------------*\
     | Create new line in segments list tree                     |
@@ -251,7 +250,7 @@ void Ui::OpenRGBZoneResizeDialog::on_AddSegmentButton_clicked()
     CheckSegmentsValidity();
 }
 
-void Ui::OpenRGBZoneResizeDialog::CheckSegmentsValidity()
+void OpenRGBZoneResizeDialog::CheckSegmentsValidity()
 {
     bool segments_valid = true;
 
@@ -297,7 +296,7 @@ void Ui::OpenRGBZoneResizeDialog::CheckSegmentsValidity()
     ui->ButtonBox->setEnabled(segments_valid);
 }
 
-void Ui::OpenRGBZoneResizeDialog::on_RemoveSegmentButton_clicked()
+void OpenRGBZoneResizeDialog::on_RemoveSegmentButton_clicked()
 {
     ui->SegmentsTreeWidget->takeTopLevelItem(ui->SegmentsTreeWidget->topLevelItemCount() - 1);
 

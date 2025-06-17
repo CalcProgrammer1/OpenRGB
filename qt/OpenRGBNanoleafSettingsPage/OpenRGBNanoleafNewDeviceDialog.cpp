@@ -16,20 +16,20 @@
 #include <QSettings>
 #endif
 
-Ui::OpenRGBNanoleafNewDeviceDialog::OpenRGBNanoleafNewDeviceDialog(QWidget *parent) :
-    QDialog(parent), ui(new Ui::OpenRGBNanoleafNewDeviceDialogUi)
+OpenRGBNanoleafNewDeviceDialog::OpenRGBNanoleafNewDeviceDialog(QWidget *parent) :
+    QDialog(parent), ui(new Ui::OpenRGBNanoleafNewDeviceDialog)
 {
     ui->setupUi(this);
     setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
     ui->devicePortEdit->setText("16021");
 }
 
-Ui::OpenRGBNanoleafNewDeviceDialog::~OpenRGBNanoleafNewDeviceDialog()
+OpenRGBNanoleafNewDeviceDialog::~OpenRGBNanoleafNewDeviceDialog()
 {
     delete ui;
 }
 
-void Ui::OpenRGBNanoleafNewDeviceDialog::changeEvent(QEvent *event)
+void OpenRGBNanoleafNewDeviceDialog::changeEvent(QEvent *event)
 {
     if(event->type() == QEvent::LanguageChange)
     {
@@ -37,7 +37,7 @@ void Ui::OpenRGBNanoleafNewDeviceDialog::changeEvent(QEvent *event)
     }
 }
 
-NanoleafDevice Ui::OpenRGBNanoleafNewDeviceDialog::show()
+NanoleafDevice OpenRGBNanoleafNewDeviceDialog::show()
 {
     NanoleafDevice return_device;
 

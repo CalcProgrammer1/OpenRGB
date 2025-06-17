@@ -12,11 +12,9 @@
 #include "ui_OpenRGBYeelightSettingsEntry.h"
 #include "net_port.h"
 
-using namespace Ui;
-
 OpenRGBYeelightSettingsEntry::OpenRGBYeelightSettingsEntry(QWidget *parent) :
     BaseManualDeviceEntry(parent),
-    ui(new Ui::OpenRGBYeelightSettingsEntryUi)
+    ui(new Ui::OpenRGBYeelightSettingsEntry)
 {
     ui->setupUi(this);
 }

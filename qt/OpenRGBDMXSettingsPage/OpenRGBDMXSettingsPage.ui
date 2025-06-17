@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>OpenRGBDMXSettingsPageUi</class>
- <widget class="QWidget" name="OpenRGBDMXSettingsPageUi">
+ <class>OpenRGBDMXSettingsPage</class>
+ <widget class="QWidget" name="OpenRGBDMXSettingsPage">
   <property name="geometry">
    <rect>
     <x>0</x>

@@ -12,11 +12,9 @@
 #include "ResourceManager.h"
 #include "SettingsManager.h"
 
-using namespace Ui;
-
 OpenRGBKasaSmartSettingsPage::OpenRGBKasaSmartSettingsPage(QWidget *parent) :
     QWidget(parent),
-    ui(new Ui::OpenRGBKasaSmartSettingsPageUi)
+    ui(new Ui::OpenRGBKasaSmartSettingsPage)
 {
     ui->setupUi(this);
 
@@ -64,7 +62,7 @@ void OpenRGBKasaSmartSettingsPage::changeEvent(QEvent *event)
     }
 }
 
-void Ui::OpenRGBKasaSmartSettingsPage::on_AddKasaSmartDeviceButton_clicked()
+void OpenRGBKasaSmartSettingsPage::on_AddKasaSmartDeviceButton_clicked()
 {
     OpenRGBKasaSmartSettingsEntry* entry = new OpenRGBKasaSmartSettingsEntry;
 
@@ -81,7 +79,7 @@ void Ui::OpenRGBKasaSmartSettingsPage::on_AddKasaSmartDeviceButton_clicked()
     ui->KasaSmartDeviceList->show();
 }
 
-void Ui::OpenRGBKasaSmartSettingsPage::on_RemoveKasaSmartDeviceButton_clicked()
+void OpenRGBKasaSmartSettingsPage::on_RemoveKasaSmartDeviceButton_clicked()
 {
     int cur_row = ui->KasaSmartDeviceList->currentRow();
 
@@ -99,7 +97,7 @@ void Ui::OpenRGBKasaSmartSettingsPage::on_RemoveKasaSmartDeviceButton_clicked()
     entries.erase(entries.begin() + cur_row);
 }
 
-void Ui::OpenRGBKasaSmartSettingsPage::on_SaveKasaSmartConfigurationButton_clicked()
+void OpenRGBKasaSmartSettingsPage::on_SaveKasaSmartConfigurationButton_clicked()
 {
     json                KasaSmart_settings;
 

@@ -14,23 +14,22 @@
 namespace Ui
 {
     class OpenRGBElgatoLightStripSettingsEntry;
-    class OpenRGBElgatoLightStripSettingsEntryUi;
 }
 
-class Ui::OpenRGBElgatoLightStripSettingsEntry : public BaseManualDeviceEntry
+class OpenRGBElgatoLightStripSettingsEntry : public BaseManualDeviceEntry
 {
     Q_OBJECT
 
-    public:
-        explicit OpenRGBElgatoLightStripSettingsEntry(QWidget *parent = nullptr);
-        ~OpenRGBElgatoLightStripSettingsEntry();
-        void loadFromSettings(const json& data);
-        json saveSettings();
-        const char* settingsSection();
+public:
+    explicit OpenRGBElgatoLightStripSettingsEntry(QWidget *parent = nullptr);
+    ~OpenRGBElgatoLightStripSettingsEntry();
+    void loadFromSettings(const json& data);
+    json saveSettings();
+    const char* settingsSection();
 
-    private:
-        Ui::OpenRGBElgatoLightStripSettingsEntryUi *ui;
+private:
+    Ui::OpenRGBElgatoLightStripSettingsEntry *ui;
 
-    private slots:
-        void changeEvent(QEvent *event);
+private slots:
+    void changeEvent(QEvent *event);
 };

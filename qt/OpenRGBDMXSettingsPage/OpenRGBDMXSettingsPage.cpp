@@ -12,11 +12,9 @@
 #include "ResourceManager.h"
 #include "SettingsManager.h"
 
-using namespace Ui;
-
 OpenRGBDMXSettingsPage::OpenRGBDMXSettingsPage(QWidget *parent) :
     QWidget(parent),
-    ui(new Ui::OpenRGBDMXSettingsPageUi)
+    ui(new Ui::OpenRGBDMXSettingsPage)
 {
     ui->setupUi(this);
 
@@ -64,7 +62,7 @@ void OpenRGBDMXSettingsPage::changeEvent(QEvent *event)
     }
 }
 
-void Ui::OpenRGBDMXSettingsPage::on_AddDMXDeviceButton_clicked()
+void OpenRGBDMXSettingsPage::on_AddDMXDeviceButton_clicked()
 {
     OpenRGBDMXSettingsEntry* entry = new OpenRGBDMXSettingsEntry;
     entries.push_back(entry);
@@ -78,7 +76,7 @@ void Ui::OpenRGBDMXSettingsPage::on_AddDMXDeviceButton_clicked()
     ui->DMXDeviceList->show();
 }
 
-void Ui::OpenRGBDMXSettingsPage::on_RemoveDMXDeviceButton_clicked()
+void OpenRGBDMXSettingsPage::on_RemoveDMXDeviceButton_clicked()
 {
     int cur_row = ui->DMXDeviceList->currentRow();
 
@@ -96,7 +94,7 @@ void Ui::OpenRGBDMXSettingsPage::on_RemoveDMXDeviceButton_clicked()
     entries.erase(entries.begin() + cur_row);
 }
 
-void Ui::OpenRGBDMXSettingsPage::on_SaveDMXConfigurationButton_clicked()
+void OpenRGBDMXSettingsPage::on_SaveDMXConfigurationButton_clicked()
 {
     json                dmx_settings;
 

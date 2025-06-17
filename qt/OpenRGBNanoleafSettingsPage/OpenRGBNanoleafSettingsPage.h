@@ -10,7 +10,6 @@
 #pragma once
 
 #include <QWidget>
-#include "ui_OpenRGBNanoleafSettingsPage.h"
 #include "OpenRGBNanoleafSettingsEntry.h"
 
 namespace Ui
@@ -18,7 +17,7 @@ namespace Ui
     class OpenRGBNanoleafSettingsPage;
 }
 
-class Ui::OpenRGBNanoleafSettingsPage : public QWidget
+class OpenRGBNanoleafSettingsPage : public QWidget
 {
     Q_OBJECT
 
@@ -34,6 +33,6 @@ private slots:
     void on_DeviceFound(QString address, int port);
 
 private:
-    Ui::OpenRGBNanoleafSettingsPageUi *ui;
+    Ui::OpenRGBNanoleafSettingsPage *ui;
     std::map<std::string, OpenRGBNanoleafSettingsEntry*> entries;
 };

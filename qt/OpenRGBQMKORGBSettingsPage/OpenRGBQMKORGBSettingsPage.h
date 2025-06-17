@@ -15,10 +15,9 @@
 namespace Ui
 {
     class OpenRGBQMKORGBSettingsPage;
-    class OpenRGBQMKORGBSettingsPageUi;
 }
 
-class Ui::OpenRGBQMKORGBSettingsPage : public QWidget
+class OpenRGBQMKORGBSettingsPage : public QWidget
 {
     Q_OBJECT
 
@@ -35,7 +34,7 @@ private slots:
     void on_SaveQMKORGBConfigurationButton_clicked();
 
 private:
-    Ui::OpenRGBQMKORGBSettingsPageUi *ui;
+    Ui::OpenRGBQMKORGBSettingsPage *ui;
     std::vector<OpenRGBQMKORGBSettingsEntry*> entries;
 
 };

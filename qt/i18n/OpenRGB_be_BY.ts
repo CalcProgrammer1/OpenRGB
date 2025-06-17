@@ -13,7 +13,7 @@
     </message>
 </context>
 <context>
-    <name>OpenRGBClientInfoPageUi</name>
+    <name>OpenRGBClientInfoPage</name>
     <message>
         <source>Port:</source>
         <translation>Порт:</translation>
@@ -38,9 +38,13 @@
         <source>Save Connection</source>
         <translation>Захаваць злучэнне</translation>
     </message>
+    <message>
+        <source>Disconnect</source>
+        <translation>Адлучыць</translation>
+    </message>
 </context>
 <context>
-    <name>OpenRGBConsolePageUi</name>
+    <name>OpenRGBConsolePage</name>
     <message>
         <source>Log level</source>
         <translation>Узровень вядзення журнала</translation>
@@ -55,7 +59,7 @@
     </message>
 </context>
 <context>
-    <name>OpenRGBDMXSettingsEntryUi</name>
+    <name>OpenRGBDMXSettingsEntry</name>
     <message>
         <source>Brightness Channel:</source>
         <translation>Канал яркасці:</translation>
@@ -86,7 +90,7 @@
     </message>
 </context>
 <context>
-    <name>OpenRGBDMXSettingsPageUi</name>
+    <name>OpenRGBDMXSettingsPage</name>
     <message>
         <source>Add</source>
         <translation>Дадаць</translation>
@@ -101,7 +105,7 @@
     </message>
 </context>
 <context>
-    <name>OpenRGBDeviceInfoPageUi</name>
+    <name>OpenRGBDeviceInfoPage</name>
     <message>
         <source>Name:</source>
         <translation>Назва:</translation>
@@ -130,9 +134,13 @@
         <source>Serial:</source>
         <translation>Серыйны нумар:</translation>
     </message>
+    <message>
+        <source>Flags:</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
-    <name>OpenRGBDevicePageUi</name>
+    <name>OpenRGBDevicePage</name>
     <message>
         <source>G:</source>
         <translation></translation>
@@ -225,9 +233,93 @@
         <source>Edit</source>
         <translation>Рэдагаваць</translation>
     </message>
+    <message>
+        <source>Set individual LEDs to static colors.  Safe for use with software-driven effects.</source>
+        <translation>Задае статычны колер для асобных святлодыёдаў. Бяспечны для выкарыстання з праграмнымі эфектамі.</translation>
+    </message>
+    <message>
+        <source>Set individual LEDs to static colors.  Not safe for use with software-driven effects.</source>
+        <translation>Задае статычны колер для асобных святлодыёдаў. Небяспечны для выкарыстання з праграмнымі эфектамі.</translation>
+    </message>
+    <message>
+        <source>Sets the entire device or a zone to a single color.</source>
+        <translation>Задае адзіны колер для ўсёй прылады або зоны.</translation>
+    </message>
+    <message>
+        <source>Gradually fades between fully off and fully on.</source>
+        <translation>Паступова змяняецца паміж поўнасцю ўкл. і поўнасцю выкл.</translation>
+    </message>
+    <message>
+        <source>Abruptly changes between fully off and fully on.</source>
+        <translation>Рэзка змяняецца паміж поўнасцю ўкл. і поўнасцю выкл.</translation>
+    </message>
+    <message>
+        <source>Gradually cycles through the entire color spectrum.  All lights on the device are the same color.</source>
+        <translation>Паступова перабірае ўвесь каляровы спектр. Усе святлодыёды прылады аднолькавага колеру.</translation>
+    </message>
+    <message>
+        <source>Gradually cycles through the entire color spectrum.  Produces a rainbow pattern that moves.</source>
+        <translation>Паступова перабірае ўвесь каляровы спектр. Стварае вясёлкавы ўзор, які рухаецца.</translation>
+    </message>
+    <message>
+        <source>Flashes lights when keys or buttons are pressed.</source>
+        <translation>Мігае святлодыёдамі пры націсканні клавіш або кнопак.</translation>
+    </message>
+    <message>
+        <source>Entire Device</source>
+        <translation>Уся прылада</translation>
+    </message>
+    <message>
+        <source>Entire Zone</source>
+        <translation>Уся зона</translation>
+    </message>
+    <message>
+        <source>Left</source>
+        <translation>Налева</translation>
+    </message>
+    <message>
+        <source>Right</source>
+        <translation>Направа</translation>
+    </message>
+    <message>
+        <source>Up</source>
+        <translation>Уверх</translation>
+    </message>
+    <message>
+        <source>Down</source>
+        <translation>Уніз</translation>
+    </message>
+    <message>
+        <source>Horizontal</source>
+        <translation>Гарызантальна</translation>
+    </message>
+    <message>
+        <source>Vertical</source>
+        <translation>Вертыкальна</translation>
+    </message>
+    <message>
+        <source>Saved To Device</source>
+        <translation>Захавана на прыладзе</translation>
+    </message>
+    <message>
+        <source>Saving Not Supported</source>
+        <translation>Захаванне не падтрымліваецца</translation>
+    </message>
+    <message>
+        <source>All Zones</source>
+        <translation>Усе зоны</translation>
+    </message>
+    <message>
+        <source>Mode Specific</source>
+        <translation>Вызначана рэжымам</translation>
+    </message>
+    <message>
+        <source>Entire Segment</source>
+        <translation>Увесь сегмент</translation>
+    </message>
 </context>
 <context>
-    <name>OpenRGBDialogUi</name>
+    <name>OpenRGBDialog</name>
     <message>
         <source>OpenRGB</source>
         <translation></translation>
@@ -280,9 +372,149 @@
         <source>Save Profile with custom name</source>
         <translation>Захаваць профіль з адмысловай назвай</translation>
     </message>
+    <message>
+        <source>Show/Hide</source>
+        <translation>Паказаць/схаваць</translation>
+    </message>
+    <message>
+        <source>Profiles</source>
+        <translation>Профілі</translation>
+    </message>
+    <message>
+        <source>Quick Colors</source>
+        <translation>Хуткі выбар колераў</translation>
+    </message>
+    <message>
+        <source>Red</source>
+        <translation>Чырвоны</translation>
+    </message>
+    <message>
+        <source>Yellow</source>
+        <translation>Жоўты</translation>
+    </message>
+    <message>
+        <source>Green</source>
+        <translation>Зялёны</translation>
+    </message>
+    <message>
+        <source>Cyan</source>
+        <translation>Бірузовы</translation>
+    </message>
+    <message>
+        <source>Blue</source>
+        <translation>Сіні</translation>
+    </message>
+    <message>
+        <source>Magenta</source>
+        <translation>Маджэнта</translation>
+    </message>
+    <message>
+        <source>White</source>
+        <translation>Белы</translation>
+    </message>
+    <message>
+        <source>Lights Off</source>
+        <translation>Выключыць усе</translation>
+    </message>
+    <message>
+        <source>Exit</source>
+        <translation>Выхад</translation>
+    </message>
+    <message>
+        <source>Plugins</source>
+        <translation>Убудовы</translation>
+    </message>
+    <message>
+        <source>General Settings</source>
+        <translation>Агульныя налады</translation>
+    </message>
+    <message>
+        <source>DMX Devices</source>
+        <translation>Прылады DMX</translation>
+    </message>
+    <message>
+        <source>E1.31 Devices</source>
+        <translation>Прылады E1.31</translation>
+    </message>
+    <message>
+        <source>Kasa Smart Devices</source>
+        <translation>Прылады Kasa Smart</translation>
+    </message>
+    <message>
+        <source>Philips Hue Devices</source>
+        <translation>Прылады Philips Hue</translation>
+    </message>
+    <message>
+        <source>Philips Wiz Devices</source>
+        <translation>Прылады Philips Wiz</translation>
+    </message>
+    <message>
+        <source>OpenRGB QMK Protocol</source>
+        <translation>Пратакол OpenRGB QMK</translation>
+    </message>
+    <message>
+        <source>Serial Devices</source>
+        <translation>Прылады паслядоўнага порта (Serial)</translation>
+    </message>
+    <message>
+        <source>Yeelight Devices</source>
+        <translation>Прылады Yeelight</translation>
+    </message>
+    <message>
+        <source>SMBus Tools</source>
+        <translation>Інструменты SMBus</translation>
+    </message>
+    <message>
+        <source>SDK Client</source>
+        <translation>SDK кліент</translation>
+    </message>
+    <message>
+        <source>SDK Server</source>
+        <translation>SDK сервер</translation>
+    </message>
+    <message>
+        <source>Do you really want to delete this profile?</source>
+        <translation>Вы сапраўды хочаце выдаліць гэты профіль?</translation>
+    </message>
+    <message>
+        <source>Log Console</source>
+        <translation>Кансоль журнала</translation>
+    </message>
+    <message>
+        <source>LIFX Devices</source>
+        <translation>Прылады LIFX</translation>
+    </message>
+    <message>
+        <source>Nanoleaf Devices</source>
+        <translation>Прылады Nanoleaf</translation>
+    </message>
+    <message>
+        <source>Elgato KeyLight Devices</source>
+        <translation>Прылады Elgato KeyLight</translation>
+    </message>
+    <message>
+        <source>Elgato LightStrip Devices</source>
+        <translation>Прылады Elgato LightStrip</translation>
+    </message>
+    <message>
+        <source>Supported Devices</source>
+        <translation>Прылады што падтрымліваюцца</translation>
+    </message>
+    <message>
+        <source>Software</source>
+        <translation type="vanished">Звесткі аб ПЗ</translation>
+    </message>
+    <message>
+        <source>About OpenRGB</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Govee Devices</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
-    <name>OpenRGBE131SettingsEntryUi</name>
+    <name>OpenRGBE131SettingsEntry</name>
     <message>
         <source>Start Channel:</source>
         <translation>Пачатковы канал:</translation>
@@ -331,9 +563,53 @@
         <source>RGB Order:</source>
         <translation>Парадак RGB:</translation>
     </message>
+    <message>
+        <source>Single</source>
+        <translation>Адзіночная зона</translation>
+    </message>
+    <message>
+        <source>Linear</source>
+        <translation>Аднамерная зона</translation>
+    </message>
+    <message>
+        <source>Matrix</source>
+        <translation>Матрыца</translation>
+    </message>
+    <message>
+        <source>Horizontal Top Left</source>
+        <translation>Гарызантальна → ↓</translation>
+    </message>
+    <message>
+        <source>Horizontal Top Right</source>
+        <translation>Гарызантальна ← ↓</translation>
+    </message>
+    <message>
+        <source>Horizontal Bottom Left</source>
+        <translation>Гарызантальна → ↑</translation>
+    </message>
+    <message>
+        <source>Horizontal Bottom Right</source>
+        <translation>Гарызантальна ← ↑</translation>
+    </message>
+    <message>
+        <source>Vertical Top Left</source>
+        <translation>Вертыкальна ↓ →</translation>
+    </message>
+    <message>
+        <source>Vertical Top Right</source>
+        <translation>Вертыкальна ↓ ←</translation>
+    </message>
+    <message>
+        <source>Vertical Bottom Left</source>
+        <translation>Вертыкальна ↑ →</translation>
+    </message>
+    <message>
+        <source>Vertical Bottom Right</source>
+        <translation>Вертыкальна ↑ ←</translation>
+    </message>
 </context>
 <context>
-    <name>OpenRGBE131SettingsPageUi</name>
+    <name>OpenRGBE131SettingsPage</name>
     <message>
         <source>Add</source>
         <translation>Дадаць</translation>
@@ -348,14 +624,14 @@
     </message>
 </context>
 <context>
-    <name>OpenRGBElgatoKeyLightSettingsEntryUi</name>
+    <name>OpenRGBElgatoKeyLightSettingsEntry</name>
     <message>
         <source>IP:</source>
         <translation></translation>
     </message>
 </context>
 <context>
-    <name>OpenRGBElgatoKeyLightSettingsPageUi</name>
+    <name>OpenRGBElgatoKeyLightSettingsPage</name>
     <message>
         <source>Add</source>
         <translation>Дадаць</translation>
@@ -370,14 +646,14 @@
     </message>
 </context>
 <context>
-    <name>OpenRGBElgatoLightStripSettingsEntryUi</name>
+    <name>OpenRGBElgatoLightStripSettingsEntry</name>
     <message>
         <source>IP:</source>
         <translation></translation>
     </message>
 </context>
 <context>
-    <name>OpenRGBElgatoLightStripSettingsPageUi</name>
+    <name>OpenRGBElgatoLightStripSettingsPage</name>
     <message>
         <source>Add</source>
         <translation>Дадаць</translation>
@@ -392,7 +668,29 @@
     </message>
 </context>
 <context>
-    <name>OpenRGBHardwareIDsDialogUi</name>
+    <name>OpenRGBGoveeSettingsEntry</name>
+    <message>
+        <source>IP:</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>OpenRGBGoveeSettingsPage</name>
+    <message>
+        <source>Add</source>
+        <translation type="unfinished">Дадаць</translation>
+    </message>
+    <message>
+        <source>Remove</source>
+        <translation type="unfinished">Выдаліць</translation>
+    </message>
+    <message>
+        <source>Save</source>
+        <translation type="unfinished">Захаваць</translation>
+    </message>
+</context>
+<context>
+    <name>OpenRGBHardwareIDsDialog</name>
     <message>
         <source>Location</source>
         <translation>Размяшчэнне</translation>
@@ -415,7 +713,7 @@
     </message>
 </context>
 <context>
-    <name>OpenRGBKasaSmartSettingsEntryUi</name>
+    <name>OpenRGBKasaSmartSettingsEntry</name>
     <message>
         <source>IP:</source>
         <translation></translation>
@@ -426,7 +724,7 @@
     </message>
 </context>
 <context>
-    <name>OpenRGBKasaSmartSettingsPageUi</name>
+    <name>OpenRGBKasaSmartSettingsPage</name>
     <message>
         <source>Add</source>
         <translation>Дадаць</translation>
@@ -441,7 +739,7 @@
     </message>
 </context>
 <context>
-    <name>OpenRGBLIFXSettingsEntryUi</name>
+    <name>OpenRGBLIFXSettingsEntry</name>
     <message>
         <source>IP:</source>
         <translation></translation>
@@ -452,7 +750,7 @@
     </message>
 </context>
 <context>
-    <name>OpenRGBLIFXSettingsPageUi</name>
+    <name>OpenRGBLIFXSettingsPage</name>
     <message>
         <source>Add</source>
         <translation>Дадаць</translation>
@@ -467,7 +765,7 @@
     </message>
 </context>
 <context>
-    <name>OpenRGBNanoleafNewDeviceDialogUi</name>
+    <name>OpenRGBNanoleafNewDeviceDialog</name>
     <message>
         <source>New Nanoleaf device</source>
         <translation>Дадаць прыладу Nanoleaf</translation>
@@ -482,7 +780,7 @@
     </message>
 </context>
 <context>
-    <name>OpenRGBNanoleafSettingsEntryUi</name>
+    <name>OpenRGBNanoleafSettingsEntry</name>
     <message>
         <source>IP:</source>
         <translation></translation>
@@ -505,7 +803,7 @@
     </message>
 </context>
 <context>
-    <name>OpenRGBNanoleafSettingsPageUi</name>
+    <name>OpenRGBNanoleafSettingsPage</name>
     <message>
         <source>Add</source>
         <translation>Дадаць</translation>
@@ -524,7 +822,7 @@
     </message>
 </context>
 <context>
-    <name>OpenRGBPhilipsHueSettingsEntryUi</name>
+    <name>OpenRGBPhilipsHueSettingsEntry</name>
     <message>
         <source>IP:</source>
         <translation></translation>
@@ -555,7 +853,7 @@
     </message>
 </context>
 <context>
-    <name>OpenRGBPhilipsHueSettingsPageUi</name>
+    <name>OpenRGBPhilipsHueSettingsPage</name>
     <message>
         <source>Remove</source>
         <translation>Выдаліць</translation>
@@ -574,7 +872,7 @@
     </message>
 </context>
 <context>
-    <name>OpenRGBPhilipsWizSettingsEntryUi</name>
+    <name>OpenRGBPhilipsWizSettingsEntry</name>
     <message>
         <source>IP:</source>
         <translation></translation>
@@ -591,9 +889,17 @@
         <source>White Strategy:</source>
         <translation>Вызначэнне белага:</translation>
     </message>
+    <message>
+        <source>Average</source>
+        <translation>Па сярэдняму</translation>
+    </message>
+    <message>
+        <source>Minimum</source>
+        <translation>Па мінімуму</translation>
+    </message>
 </context>
 <context>
-    <name>OpenRGBPhilipsWizSettingsPageUi</name>
+    <name>OpenRGBPhilipsWizSettingsPage</name>
     <message>
         <source>Add</source>
         <translation>Дадаць</translation>
@@ -608,7 +914,7 @@
     </message>
 </context>
 <context>
-    <name>OpenRGBPluginsEntryUi</name>
+    <name>OpenRGBPluginsEntry</name>
     <message>
         <source>Version:</source>
         <translation>Версія:</translation>
@@ -647,7 +953,7 @@
     </message>
 </context>
 <context>
-    <name>OpenRGBPluginsPageUi</name>
+    <name>OpenRGBPluginsPage</name>
     <message>
         <source>Install Plugin</source>
         <translation>Усталяваць убудову</translation>
@@ -660,9 +966,37 @@
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;Looking for plugins? See the official list at &lt;a href=&quot;https://openrgb.org/plugins.html&quot;&gt;OpenRGB.org&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;Глядзіце афіцыйны спіс убудоў на сайце &lt;a href=&quot;https://openrgb.org/plugins.html&quot;&gt;OpenRGB.org&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
+    <message>
+        <source>Install OpenRGB Plugin</source>
+        <translation>Усталяваць убудову OpenRGB</translation>
+    </message>
+    <message>
+        <source>Plugin files (*.dll *.dylib *.so *.so.*)</source>
+        <translation>Файлы ўбудоў (*.dll *.dylib *.so *.so.*)</translation>
+    </message>
+    <message>
+        <source>Replace Plugin</source>
+        <translation>Замяніць убудову</translation>
+    </message>
+    <message>
+        <source>A plugin with this filename is already installed.  Are you sure you want to replace this plugin?</source>
+        <translation>Убудова з такой назвай файла ўжо ўсталявана. Замяніць усталяваную ўбудову?</translation>
+    </message>
+    <message>
+        <source>Are you sure you want to remove this plugin?</source>
+        <translation>Вы сапраўды хочаце выдаліць гэту ўбудову?</translation>
+    </message>
+    <message>
+        <source>Restart Needed</source>
+        <translation>Патрабуецца перазапуск</translation>
+    </message>
+    <message>
+        <source>The plugin will be fully removed after restarting OpenRGB.</source>
+        <translation>Убудова будзе цалкам выдалена пасля перазапуску OpenRGB.</translation>
+    </message>
 </context>
 <context>
-    <name>OpenRGBProfileSaveDialogUi</name>
+    <name>OpenRGBProfileSaveDialog</name>
     <message>
         <source>Profile Name</source>
         <translation>Назва профілю</translation>
@@ -677,7 +1011,7 @@
     </message>
 </context>
 <context>
-    <name>OpenRGBQMKORGBSettingsEntryUi</name>
+    <name>OpenRGBQMKORGBSettingsEntry</name>
     <message>
         <source>Name:</source>
         <translation>Назва:</translation>
@@ -692,7 +1026,7 @@
     </message>
 </context>
 <context>
-    <name>OpenRGBQMKORGBSettingsPageUi</name>
+    <name>OpenRGBQMKORGBSettingsPage</name>
     <message>
         <source>Add</source>
         <translation>Дадаць</translation>
@@ -707,7 +1041,7 @@
     </message>
 </context>
 <context>
-    <name>OpenRGBSerialSettingsEntryUi</name>
+    <name>OpenRGBSerialSettingsEntry</name>
     <message>
         <source>Baud:</source>
         <translation>Baud (хуткасць перадачы):</translation>
@@ -730,7 +1064,7 @@
     </message>
 </context>
 <context>
-    <name>OpenRGBSerialSettingsPageUi</name>
+    <name>OpenRGBSerialSettingsPage</name>
     <message>
         <source>Add</source>
         <translation>Дадаць</translation>
@@ -745,7 +1079,7 @@
     </message>
 </context>
 <context>
-    <name>OpenRGBServerInfoPageUi</name>
+    <name>OpenRGBServerInfoPage</name>
     <message>
         <source>Stop Server</source>
         <translation>Cпыніць сервер</translation>
@@ -786,9 +1120,17 @@
         <source>Client Name</source>
         <translation>Назва кліента</translation>
     </message>
+    <message>
+        <source>Stopping...</source>
+        <translation>Спыненне…</translation>
+    </message>
+    <message>
+        <source>Online</source>
+        <translation>У сетцы</translation>
+    </message>
 </context>
 <context>
-    <name>OpenRGBSettingsPageUi</name>
+    <name>OpenRGBSettingsPage</name>
     <message>
         <source>Load Window Geometry</source>
         <translation>Загружаць геаметрыю акна</translation>
@@ -917,9 +1259,21 @@
         <source>Enable Log File (restart required)</source>
         <translation>Уключыць вядзенне журнала (патрабуецца перазапуск)</translation>
     </message>
+    <message>
+        <source>A problem occurred enabling Start at Login.</source>
+        <translation>Узнікла праблема з уключэннем аўтазапуску пры ўваходзе.</translation>
+    </message>
+    <message>
+        <source>English - US</source>
+        <translation>Беларуская</translation>
+    </message>
+    <message>
+        <source>System Default</source>
+        <translation>Прадвызначана сістэмай</translation>
+    </message>
 </context>
 <context>
-    <name>OpenRGBSoftwareInfoPageUi</name>
+    <name>OpenRGBSoftwareInfoPage</name>
     <message>
         <source>Build Date:</source>
         <translation>Дата зборкі:</translation>
@@ -964,9 +1318,45 @@
         <source>Plugin API Version:</source>
         <translation>Версія API убудоў:</translation>
     </message>
+    <message>
+        <source>Qt Version Value</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Qt Version:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>OS Version:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>OS Version Value</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>GNU General Public License, version 2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>License:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Copyright:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Adam Honse, OpenRGB Team</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;b&gt;OpenRGB&lt;/b&gt;, an open-source RGB control utility</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
-    <name>OpenRGBSupportedDevicesPageUi</name>
+    <name>OpenRGBSupportedDevicesPage</name>
     <message>
         <source>Filter:</source>
         <translation>Фільтр:</translation>
@@ -985,7 +1375,7 @@
     </message>
 </context>
 <context>
-    <name>OpenRGBSystemInfoPageUi</name>
+    <name>OpenRGBSystemInfoPage</name>
     <message>
         <source>SMBus Adapters:</source>
         <translation>Адаптары SMBus:</translation>
@@ -1040,7 +1430,7 @@
     </message>
 </context>
 <context>
-    <name>OpenRGBYeelightSettingsEntryUi</name>
+    <name>OpenRGBYeelightSettingsEntry</name>
     <message>
         <source>IP:</source>
         <translation></translation>
@@ -1061,9 +1451,17 @@
         <source>Left blank for auto discovering host ip</source>
         <translation>Пакіньце пустым для аўтаматычнага выяўлення IP хаста</translation>
     </message>
+    <message>
+        <source>Choose an IP...</source>
+        <translation>Выбраць IP...</translation>
+    </message>
+    <message>
+        <source>Choose the correct IP for the host</source>
+        <translation>Выбраць правільны IP для хаста</translation>
+    </message>
 </context>
 <context>
-    <name>OpenRGBYeelightSettingsPageUi</name>
+    <name>OpenRGBYeelightSettingsPage</name>
     <message>
         <source>Add</source>
         <translation>Дадаць</translation>
@@ -1078,7 +1476,7 @@
     </message>
 </context>
 <context>
-    <name>OpenRGBZoneResizeDialogUi</name>
+    <name>OpenRGBZoneResizeDialog</name>
     <message>
         <source>Resize Zone</source>
         <translation>Змяніць памер зоны</translation>
@@ -1097,7 +1495,7 @@
     </message>
 </context>
 <context>
-    <name>OpenRGBZonesBulkResizerUi</name>
+    <name>OpenRGBZonesBulkResizer</name>
     <message>
         <source>Do not show again</source>
         <translation>Больш не паказваць</translation>
@@ -1117,6 +1515,22 @@
     <message>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;One or more resizable zones have not been configured.  Resizable zones are most commonly used for addressable RGB headers where the size of the connected device cannot be detected automatically.&lt;/p&gt;&lt;p&gt;Please enter the number of LEDs in each zone below.&lt;/p&gt;&lt;p&gt;For more information about calcuating the correct size, please check &lt;a href=&quot;https://openrgb.org/resize.html&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;this link.&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Адна або некалькі зон зменнага памеру не былі сканфігураваны. Зоны зменнага памеру звычайна выкарыстоўваюцца для прылад з адраснымі RGB headers, дзе колькасць святлодыёдаў падключанай прылады не можа быць вызначана аўтаматычна.&lt;/p&gt;&lt;p&gt;Калі ласка, увядзіце колькасць святлодыёдаў для кожнай зоны ніжэй.&lt;/p&gt;&lt;p&gt;Дадатковую інфармацыю аб разліку правільнага памеру зон можна знайсці па &lt;a href=&quot;https://openrgb.org/resize.html&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;гэтай спасылцы&lt;/span&gt;&lt;/a&gt;.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+    </message>
+    <message>
+        <source>Resize the zones</source>
+        <translation>Змена памеру зон</translation>
+    </message>
+    <message>
+        <source>Controller</source>
+        <translation>Кантролер</translation>
+    </message>
+    <message>
+        <source>Zone</source>
+        <translation>Зона</translation>
+    </message>
+    <message>
+        <source>Size</source>
+        <translation>Памер</translation>
     </message>
 </context>
 <context>
@@ -1139,400 +1553,10 @@
     </message>
 </context>
 <context>
-    <name>TabLabelUi</name>
+    <name>TabLabel</name>
     <message>
         <source>device name</source>
         <translation>назва прылады</translation>
-    </message>
-</context>
-<context>
-    <name>Ui::OpenRGBClientInfoPage</name>
-    <message>
-        <source>Disconnect</source>
-        <translation>Адлучыць</translation>
-    </message>
-</context>
-<context>
-    <name>Ui::OpenRGBDevicePage</name>
-    <message>
-        <source>Set individual LEDs to static colors.  Safe for use with software-driven effects.</source>
-        <translation>Задае статычны колер для асобных святлодыёдаў. Бяспечны для выкарыстання з праграмнымі эфектамі.</translation>
-    </message>
-    <message>
-        <source>Set individual LEDs to static colors.  Not safe for use with software-driven effects.</source>
-        <translation>Задае статычны колер для асобных святлодыёдаў. Небяспечны для выкарыстання з праграмнымі эфектамі.</translation>
-    </message>
-    <message>
-        <source>Sets the entire device or a zone to a single color.</source>
-        <translation>Задае адзіны колер для ўсёй прылады або зоны.</translation>
-    </message>
-    <message>
-        <source>Gradually fades between fully off and fully on.</source>
-        <translation>Паступова змяняецца паміж поўнасцю ўкл. і поўнасцю выкл.</translation>
-    </message>
-    <message>
-        <source>Abruptly changes between fully off and fully on.</source>
-        <translation>Рэзка змяняецца паміж поўнасцю ўкл. і поўнасцю выкл.</translation>
-    </message>
-    <message>
-        <source>Gradually cycles through the entire color spectrum.  All lights on the device are the same color.</source>
-        <translation>Паступова перабірае ўвесь каляровы спектр. Усе святлодыёды прылады аднолькавага колеру.</translation>
-    </message>
-    <message>
-        <source>Gradually cycles through the entire color spectrum.  Produces a rainbow pattern that moves.</source>
-        <translation>Паступова перабірае ўвесь каляровы спектр. Стварае вясёлкавы ўзор, які рухаецца.</translation>
-    </message>
-    <message>
-        <source>Flashes lights when keys or buttons are pressed.</source>
-        <translation>Мігае святлодыёдамі пры націсканні клавіш або кнопак.</translation>
-    </message>
-    <message>
-        <source>Entire Device</source>
-        <translation>Уся прылада</translation>
-    </message>
-    <message>
-        <source>Entire Zone</source>
-        <translation>Уся зона</translation>
-    </message>
-    <message>
-        <source>Left</source>
-        <translation>Налева</translation>
-    </message>
-    <message>
-        <source>Right</source>
-        <translation>Направа</translation>
-    </message>
-    <message>
-        <source>Up</source>
-        <translation>Уверх</translation>
-    </message>
-    <message>
-        <source>Down</source>
-        <translation>Уніз</translation>
-    </message>
-    <message>
-        <source>Horizontal</source>
-        <translation>Гарызантальна</translation>
-    </message>
-    <message>
-        <source>Vertical</source>
-        <translation>Вертыкальна</translation>
-    </message>
-    <message>
-        <source>Saved To Device</source>
-        <translation>Захавана на прыладзе</translation>
-    </message>
-    <message>
-        <source>Save To Device</source>
-        <translation>Захаваць на прыладзе</translation>
-    </message>
-    <message>
-        <source>Saving Not Supported</source>
-        <translation>Захаванне не падтрымліваецца</translation>
-    </message>
-    <message>
-        <source>All Zones</source>
-        <translation>Усе зоны</translation>
-    </message>
-    <message>
-        <source>Mode Specific</source>
-        <translation>Вызначана рэжымам</translation>
-    </message>
-    <message>
-        <source>Entire Segment</source>
-        <translation>Увесь сегмент</translation>
-    </message>
-</context>
-<context>
-    <name>Ui::OpenRGBDialog</name>
-    <message>
-        <source>Show/Hide</source>
-        <translation>Паказаць/схаваць</translation>
-    </message>
-    <message>
-        <source>Profiles</source>
-        <translation>Профілі</translation>
-    </message>
-    <message>
-        <source>Quick Colors</source>
-        <translation>Хуткі выбар колераў</translation>
-    </message>
-    <message>
-        <source>Red</source>
-        <translation>Чырвоны</translation>
-    </message>
-    <message>
-        <source>Yellow</source>
-        <translation>Жоўты</translation>
-    </message>
-    <message>
-        <source>Green</source>
-        <translation>Зялёны</translation>
-    </message>
-    <message>
-        <source>Cyan</source>
-        <translation>Бірузовы</translation>
-    </message>
-    <message>
-        <source>Blue</source>
-        <translation>Сіні</translation>
-    </message>
-    <message>
-        <source>Magenta</source>
-        <translation>Маджэнта</translation>
-    </message>
-    <message>
-        <source>White</source>
-        <translation>Белы</translation>
-    </message>
-    <message>
-        <source>Lights Off</source>
-        <translation>Выключыць усе</translation>
-    </message>
-    <message>
-        <source>Exit</source>
-        <translation>Выхад</translation>
-    </message>
-    <message>
-        <source>Plugins</source>
-        <translation>Убудовы</translation>
-    </message>
-    <message>
-        <source>General Settings</source>
-        <translation>Агульныя налады</translation>
-    </message>
-    <message>
-        <source>DMX Devices</source>
-        <translation>Прылады DMX</translation>
-    </message>
-    <message>
-        <source>E1.31 Devices</source>
-        <translation>Прылады E1.31</translation>
-    </message>
-    <message>
-        <source>Kasa Smart Devices</source>
-        <translation>Прылады Kasa Smart</translation>
-    </message>
-    <message>
-        <source>Philips Hue Devices</source>
-        <translation>Прылады Philips Hue</translation>
-    </message>
-    <message>
-        <source>Philips Wiz Devices</source>
-        <translation>Прылады Philips Wiz</translation>
-    </message>
-    <message>
-        <source>OpenRGB QMK Protocol</source>
-        <translation>Пратакол OpenRGB QMK</translation>
-    </message>
-    <message>
-        <source>Serial Devices</source>
-        <translation>Прылады паслядоўнага порта (Serial)</translation>
-    </message>
-    <message>
-        <source>Yeelight Devices</source>
-        <translation>Прылады Yeelight</translation>
-    </message>
-    <message>
-        <source>SMBus Tools</source>
-        <translation>Інструменты SMBus</translation>
-    </message>
-    <message>
-        <source>SDK Client</source>
-        <translation>SDK кліент</translation>
-    </message>
-    <message>
-        <source>SDK Server</source>
-        <translation>SDK сервер</translation>
-    </message>
-    <message>
-        <source>Delete Profile</source>
-        <translation>Выдаліць профіль</translation>
-    </message>
-    <message>
-        <source>Do you really want to delete this profile?</source>
-        <translation>Вы сапраўды хочаце выдаліць гэты профіль?</translation>
-    </message>
-    <message>
-        <source>Log Console</source>
-        <translation>Кансоль журнала</translation>
-    </message>
-    <message>
-        <source>LIFX Devices</source>
-        <translation>Прылады LIFX</translation>
-    </message>
-    <message>
-        <source>Nanoleaf Devices</source>
-        <translation>Прылады Nanoleaf</translation>
-    </message>
-    <message>
-        <source>Elgato KeyLight Devices</source>
-        <translation>Прылады Elgato KeyLight</translation>
-    </message>
-    <message>
-        <source>Elgato LightStrip Devices</source>
-        <translation>Прылады Elgato LightStrip</translation>
-    </message>
-    <message>
-        <source>Supported Devices</source>
-        <translation>Прылады што падтрымліваюцца</translation>
-    </message>
-    <message>
-        <source>Software</source>
-        <translation>Звесткі аб ПЗ</translation>
-    </message>
-</context>
-<context>
-    <name>Ui::OpenRGBE131SettingsEntry</name>
-    <message>
-        <source>Single</source>
-        <translation>Адзіночная зона</translation>
-    </message>
-    <message>
-        <source>Linear</source>
-        <translation>Аднамерная зона</translation>
-    </message>
-    <message>
-        <source>Matrix</source>
-        <translation>Матрыца</translation>
-    </message>
-    <message>
-        <source>Horizontal Top Left</source>
-        <translation>Гарызантальна → ↓</translation>
-    </message>
-    <message>
-        <source>Horizontal Top Right</source>
-        <translation>Гарызантальна ← ↓</translation>
-    </message>
-    <message>
-        <source>Horizontal Bottom Left</source>
-        <translation>Гарызантальна → ↑</translation>
-    </message>
-    <message>
-        <source>Horizontal Bottom Right</source>
-        <translation>Гарызантальна ← ↑</translation>
-    </message>
-    <message>
-        <source>Vertical Top Left</source>
-        <translation>Вертыкальна ↓ →</translation>
-    </message>
-    <message>
-        <source>Vertical Top Right</source>
-        <translation>Вертыкальна ↓ ←</translation>
-    </message>
-    <message>
-        <source>Vertical Bottom Left</source>
-        <translation>Вертыкальна ↑ →</translation>
-    </message>
-    <message>
-        <source>Vertical Bottom Right</source>
-        <translation>Вертыкальна ↑ ←</translation>
-    </message>
-</context>
-<context>
-    <name>Ui::OpenRGBPhilipsWizSettingsEntry</name>
-    <message>
-        <source>Average</source>
-        <translation>Па сярэдняму</translation>
-    </message>
-    <message>
-        <source>Minimum</source>
-        <translation>Па мінімуму</translation>
-    </message>
-</context>
-<context>
-    <name>Ui::OpenRGBPluginsPage</name>
-    <message>
-        <source>Install OpenRGB Plugin</source>
-        <translation>Усталяваць убудову OpenRGB</translation>
-    </message>
-    <message>
-        <source>Plugin files (*.dll *.dylib *.so *.so.*)</source>
-        <translation>Файлы ўбудоў (*.dll *.dylib *.so *.so.*)</translation>
-    </message>
-    <message>
-        <source>Replace Plugin</source>
-        <translation>Замяніць убудову</translation>
-    </message>
-    <message>
-        <source>A plugin with this filename is already installed.  Are you sure you want to replace this plugin?</source>
-        <translation>Убудова з такой назвай файла ўжо ўсталявана. Замяніць усталяваную ўбудову?</translation>
-    </message>
-    <message>
-        <source>Remove Plugin</source>
-        <translation>Выдаліць убудову</translation>
-    </message>
-    <message>
-        <source>Are you sure you want to remove this plugin?</source>
-        <translation>Вы сапраўды хочаце выдаліць гэту ўбудову?</translation>
-    </message>
-    <message>
-        <source>Restart Needed</source>
-        <translation>Патрабуецца перазапуск</translation>
-    </message>
-    <message>
-        <source>The plugin will be fully removed after restarting OpenRGB.</source>
-        <translation>Убудова будзе цалкам выдалена пасля перазапуску OpenRGB.</translation>
-    </message>
-</context>
-<context>
-    <name>Ui::OpenRGBServerInfoPage</name>
-    <message>
-        <source>Stopping...</source>
-        <translation>Спыненне…</translation>
-    </message>
-    <message>
-        <source>Online</source>
-        <translation>У сетцы</translation>
-    </message>
-    <message>
-        <source>Offline</source>
-        <translation>Па-за сеткай</translation>
-    </message>
-</context>
-<context>
-    <name>Ui::OpenRGBSettingsPage</name>
-    <message>
-        <source>A problem occurred enabling Start at Login.</source>
-        <translation>Узнікла праблема з уключэннем аўтазапуску пры ўваходзе.</translation>
-    </message>
-    <message>
-        <source>English - US</source>
-        <translation>Беларуская</translation>
-    </message>
-    <message>
-        <source>System Default</source>
-        <translation>Прадвызначана сістэмай</translation>
-    </message>
-</context>
-<context>
-    <name>Ui::OpenRGBYeelightSettingsEntry</name>
-    <message>
-        <source>Choose an IP...</source>
-        <translation>Выбраць IP...</translation>
-    </message>
-    <message>
-        <source>Choose the correct IP for the host</source>
-        <translation>Выбраць правільны IP для хаста</translation>
-    </message>
-</context>
-<context>
-    <name>Ui::OpenRGBZonesBulkResizer</name>
-    <message>
-        <source>Resize the zones</source>
-        <translation>Змена памеру зон</translation>
-    </message>
-    <message>
-        <source>Controller</source>
-        <translation>Кантролер</translation>
-    </message>
-    <message>
-        <source>Zone</source>
-        <translation>Зона</translation>
-    </message>
-    <message>
-        <source>Size</source>
-        <translation>Памер</translation>
     </message>
 </context>
 </TS>

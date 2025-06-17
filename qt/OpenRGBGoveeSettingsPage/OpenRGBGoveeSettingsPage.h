@@ -12,7 +12,6 @@
 #pragma once
 
 #include <QWidget>
-#include "ui_OpenRGBGoveeSettingsPage.h"
 #include "OpenRGBGoveeSettingsEntry.h"
 
 namespace Ui
@@ -20,7 +19,7 @@ namespace Ui
     class OpenRGBGoveeSettingsPage;
 }
 
-class Ui::OpenRGBGoveeSettingsPage : public QWidget
+class OpenRGBGoveeSettingsPage : public QWidget
 {
     Q_OBJECT
 
@@ -37,7 +36,7 @@ private slots:
     void on_SaveGoveeConfigurationButton_clicked();
 
 private:
-    Ui::OpenRGBGoveeSettingsPageUi *ui;
+    Ui::OpenRGBGoveeSettingsPage *ui;
     std::vector<OpenRGBGoveeSettingsEntry*> entries;
 
 };

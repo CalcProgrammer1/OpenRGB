@@ -10,11 +10,9 @@
 #include "OpenRGBPhilipsWizSettingsEntry.h"
 #include "ui_OpenRGBPhilipsWizSettingsEntry.h"
 
-using namespace Ui;
-
 OpenRGBPhilipsWizSettingsEntry::OpenRGBPhilipsWizSettingsEntry(QWidget *parent) :
     BaseManualDeviceEntry(parent),
-    ui(new Ui::OpenRGBPhilipsWizSettingsEntryUi)
+    ui(new Ui::OpenRGBPhilipsWizSettingsEntry)
 {
     ui->setupUi(this);
 

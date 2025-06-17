@@ -12,14 +12,13 @@
 #include <QWidget>
 #include <QSortFilterProxyModel>
 #include "DetectorTableModel.h"
-#include "ui_OpenRGBSupportedDevicesPage.h"
 
 namespace Ui
 {
     class OpenRGBSupportedDevicesPage;
 }
 
-class Ui::OpenRGBSupportedDevicesPage : public QWidget
+class OpenRGBSupportedDevicesPage : public QWidget
 {
     Q_OBJECT
 
@@ -39,5 +38,5 @@ private slots:
     void on_ToggleAllCheckbox_toggled(const bool checked);
 
 private:
-    Ui::OpenRGBSupportedDevicesPageUi *ui;
+    Ui::OpenRGBSupportedDevicesPage *ui;
 };

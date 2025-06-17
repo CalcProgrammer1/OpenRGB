@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>OpenRGBPhilipsWizSettingsEntryUi</class>
- <widget class="QWidget" name="OpenRGBPhilipsWizSettingsEntryUi">
+ <class>OpenRGBPhilipsWizSettingsEntry</class>
+ <widget class="QWidget" name="OpenRGBPhilipsWizSettingsEntry">
   <property name="geometry">
    <rect>
     <x>0</x>

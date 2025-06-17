@@ -14,7 +14,6 @@
 #include <QTranslator>
 #include <QWidget>
 #include <nlohmann/json.hpp>
-#include "ui_OpenRGBSettingsPage.h"
 
 using json = nlohmann::json;
 
@@ -23,7 +22,7 @@ namespace Ui
     class OpenRGBSettingsPage;
 }
 
-class Ui::OpenRGBSettingsPage : public QWidget
+class OpenRGBSettingsPage : public QWidget
 {
     Q_OBJECT
 
@@ -38,7 +37,7 @@ public slots:
     void UpdateProfiles();
 
 private:
-    Ui::OpenRGBSettingsPageUi *ui;
+    Ui::OpenRGBSettingsPage *ui;
     void SaveSettings();
 
     void CreateAutoStartSettings();

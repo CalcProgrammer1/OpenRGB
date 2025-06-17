@@ -8,10 +8,9 @@
 \*---------------------------------------------------------*/
 
 #include "OpenRGBSystemInfoPage.h"
+#include "ui_OpenRGBSystemInfoPage.h"
 #include "ResourceManager.h"
 #include "i2c_tools.h"
-
-using namespace Ui;
 
 static void UpdateBusListCallback(void * this_ptr)
 {
@@ -22,7 +21,7 @@ static void UpdateBusListCallback(void * this_ptr)
 
 OpenRGBSystemInfoPage::OpenRGBSystemInfoPage(std::vector<i2c_smbus_interface *>& bus, QWidget *parent) :
     QFrame(parent),
-    ui(new Ui::OpenRGBSystemInfoPageUi),
+    ui(new Ui::OpenRGBSystemInfoPage),
     busses(bus)
 {
     ui->setupUi(this);
@@ -64,7 +63,7 @@ void OpenRGBSystemInfoPage::changeEvent(QEvent *event)
     }
 }
 
-void Ui::OpenRGBSystemInfoPage::UpdateBusList()
+void OpenRGBSystemInfoPage::UpdateBusList()
 {
     /*-----------------------------------------------------*\
     | Fill in the combo boxes with device information       |
@@ -79,7 +78,7 @@ void Ui::OpenRGBSystemInfoPage::UpdateBusList()
     ui->SMBusAdaptersBox->setCurrentIndex(0);
 }
 
-void Ui::OpenRGBSystemInfoPage::on_DetectButton_clicked()
+void OpenRGBSystemInfoPage::on_DetectButton_clicked()
 {
     int current_index = ui->SMBusAdaptersBox->currentIndex();
 
@@ -109,7 +108,7 @@ void Ui::OpenRGBSystemInfoPage::on_DetectButton_clicked()
     }
 }
 
-void Ui::OpenRGBSystemInfoPage::on_DumpButton_clicked()
+void OpenRGBSystemInfoPage::on_DumpButton_clicked()
 {
     int current_index = ui->SMBusAdaptersBox->currentIndex();
 
@@ -127,7 +126,7 @@ void Ui::OpenRGBSystemInfoPage::on_DumpButton_clicked()
     }
 }
 
-void Ui::OpenRGBSystemInfoPage::on_ReadButton_clicked()
+void OpenRGBSystemInfoPage::on_ReadButton_clicked()
 {
     int current_index = ui->SMBusAdaptersBox->currentIndex();
 

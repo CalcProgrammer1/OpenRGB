@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>OpenRGBZoneResizeDialogUi</class>
- <widget class="QDialog" name="OpenRGBZoneResizeDialogUi">
+ <class>OpenRGBZoneResizeDialog</class>
+ <widget class="QDialog" name="OpenRGBZoneResizeDialog">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -107,7 +107,7 @@
   <connection>
    <sender>ButtonBox</sender>
    <signal>accepted()</signal>
-   <receiver>OpenRGBZoneResizeDialogUi</receiver>
+   <receiver>OpenRGBZoneResizeDialog</receiver>
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
@@ -123,7 +123,7 @@
   <connection>
    <sender>ButtonBox</sender>
    <signal>rejected()</signal>
-   <receiver>OpenRGBZoneResizeDialogUi</receiver>
+   <receiver>OpenRGBZoneResizeDialog</receiver>
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">

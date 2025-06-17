@@ -10,7 +10,6 @@
 #pragma once
 
 #include <QWidget>
-#include "ui_OpenRGBPhilipsWizSettingsPage.h"
 #include "OpenRGBPhilipsWizSettingsEntry.h"
 
 namespace Ui
@@ -18,7 +17,7 @@ namespace Ui
     class OpenRGBPhilipsWizSettingsPage;
 }
 
-class Ui::OpenRGBPhilipsWizSettingsPage : public QWidget
+class OpenRGBPhilipsWizSettingsPage : public QWidget
 {
     Q_OBJECT
 
@@ -35,7 +34,7 @@ private slots:
     void on_SavePhilipsWizConfigurationButton_clicked();
 
 private:
-    Ui::OpenRGBPhilipsWizSettingsPageUi *ui;
+    Ui::OpenRGBPhilipsWizSettingsPage *ui;
     std::vector<OpenRGBPhilipsWizSettingsEntry*> entries;
 
 };

@@ -14,11 +14,9 @@
 #include "ResourceManager.h"
 #include "SettingsManager.h"
 
-using namespace Ui;
-
 OpenRGBGoveeSettingsPage::OpenRGBGoveeSettingsPage(QWidget *parent) :
     QWidget(parent),
-    ui(new Ui::OpenRGBGoveeSettingsPageUi)
+    ui(new Ui::OpenRGBGoveeSettingsPage)
 {
     ui->setupUi(this);
 
@@ -66,7 +64,7 @@ void OpenRGBGoveeSettingsPage::changeEvent(QEvent *event)
     }
 }
 
-void Ui::OpenRGBGoveeSettingsPage::on_AddGoveeDeviceButton_clicked()
+void OpenRGBGoveeSettingsPage::on_AddGoveeDeviceButton_clicked()
 {
     OpenRGBGoveeSettingsEntry* entry = new OpenRGBGoveeSettingsEntry;
     entries.push_back(entry);
@@ -80,7 +78,7 @@ void Ui::OpenRGBGoveeSettingsPage::on_AddGoveeDeviceButton_clicked()
     ui->GoveeDeviceList->show();
 }
 
-void Ui::OpenRGBGoveeSettingsPage::on_RemoveGoveeDeviceButton_clicked()
+void OpenRGBGoveeSettingsPage::on_RemoveGoveeDeviceButton_clicked()
 {
     int cur_row = ui->GoveeDeviceList->currentRow();
 
@@ -98,7 +96,7 @@ void Ui::OpenRGBGoveeSettingsPage::on_RemoveGoveeDeviceButton_clicked()
     entries.erase(entries.begin() + cur_row);
 }
 
-void Ui::OpenRGBGoveeSettingsPage::on_SaveGoveeConfigurationButton_clicked()
+void OpenRGBGoveeSettingsPage::on_SaveGoveeConfigurationButton_clicked()
 {
     json                govee_settings;
 

@@ -13,7 +13,7 @@
     </message>
 </context>
 <context>
-    <name>OpenRGBClientInfoPageUi</name>
+    <name>OpenRGBClientInfoPage</name>
     <message>
         <source>Port:</source>
         <translation>Puerto de red:</translation>
@@ -38,9 +38,13 @@
         <source>Save Connection</source>
         <translation>Guardar conexión</translation>
     </message>
+    <message>
+        <source>Disconnect</source>
+        <translation>Desconectar</translation>
+    </message>
 </context>
 <context>
-    <name>OpenRGBConsolePageUi</name>
+    <name>OpenRGBConsolePage</name>
     <message>
         <source>Log level</source>
         <translation>Nivel de registro</translation>
@@ -55,7 +59,7 @@
     </message>
 </context>
 <context>
-    <name>OpenRGBDMXSettingsEntryUi</name>
+    <name>OpenRGBDMXSettingsEntry</name>
     <message>
         <source>Brightness Channel:</source>
         <translation>OpenRGBDMX Adjustes de entrada al Ui</translation>
@@ -86,7 +90,7 @@
     </message>
 </context>
 <context>
-    <name>OpenRGBDMXSettingsPageUi</name>
+    <name>OpenRGBDMXSettingsPage</name>
     <message>
         <source>Add</source>
         <translation>Añadir</translation>
@@ -101,7 +105,7 @@
     </message>
 </context>
 <context>
-    <name>OpenRGBDeviceInfoPageUi</name>
+    <name>OpenRGBDeviceInfoPage</name>
     <message>
         <source>Name:</source>
         <translation>Nombre:</translation>
@@ -130,9 +134,13 @@
         <source>Serial:</source>
         <translation>Número de serie:</translation>
     </message>
+    <message>
+        <source>Flags:</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
-    <name>OpenRGBDevicePageUi</name>
+    <name>OpenRGBDevicePage</name>
     <message>
         <source>G:</source>
         <translation>G:</translation>
@@ -225,9 +233,93 @@
         <source>Edit</source>
         <translation>Editar</translation>
     </message>
+    <message>
+        <source>Set individual LEDs to static colors.  Safe for use with software-driven effects.</source>
+        <translation>Aplicar colores estáticos a LEDs individualmente. Compatible con los efectos generados en software.</translation>
+    </message>
+    <message>
+        <source>Set individual LEDs to static colors.  Not safe for use with software-driven effects.</source>
+        <translation>Aplicar colores estáticos a LEDs individualmente. No compatible con los efectos generados en software.</translation>
+    </message>
+    <message>
+        <source>Sets the entire device or a zone to a single color.</source>
+        <translation>Aplica un color a una zona o a todo el dispositivo.</translation>
+    </message>
+    <message>
+        <source>Gradually fades between fully off and fully on.</source>
+        <translation>Alterna gradualmente entre apagado y encendido.</translation>
+    </message>
+    <message>
+        <source>Abruptly changes between fully off and fully on.</source>
+        <translation>Alterna bruscamente entre apagado y encendido.</translation>
+    </message>
+    <message>
+        <source>Gradually cycles through the entire color spectrum.  All lights on the device are the same color.</source>
+        <translation>Rotación entre todos los colores del espectro. Produce un patrón de arcoíris estático.</translation>
+    </message>
+    <message>
+        <source>Gradually cycles through the entire color spectrum.  Produces a rainbow pattern that moves.</source>
+        <translation>Rotación entre todos los colores del espectro. Produce un patrón de arcoíris que se mueve.</translation>
+    </message>
+    <message>
+        <source>Flashes lights when keys or buttons are pressed.</source>
+        <translation>Produce destellos de luz al apretar teclas o botones.</translation>
+    </message>
+    <message>
+        <source>Entire Device</source>
+        <translation>Dispositivo entero</translation>
+    </message>
+    <message>
+        <source>Entire Zone</source>
+        <translation>Zona entera</translation>
+    </message>
+    <message>
+        <source>Left</source>
+        <translation>Izquierda</translation>
+    </message>
+    <message>
+        <source>Right</source>
+        <translation>Derecha</translation>
+    </message>
+    <message>
+        <source>Up</source>
+        <translation>Arriba</translation>
+    </message>
+    <message>
+        <source>Down</source>
+        <translation>Abajo</translation>
+    </message>
+    <message>
+        <source>Horizontal</source>
+        <translation>Horizontal</translation>
+    </message>
+    <message>
+        <source>Vertical</source>
+        <translation>Vertical</translation>
+    </message>
+    <message>
+        <source>Saved To Device</source>
+        <translation>Guardado en dispositivo</translation>
+    </message>
+    <message>
+        <source>Saving Not Supported</source>
+        <translation>El dispositivo no admite guardado</translation>
+    </message>
+    <message>
+        <source>All Zones</source>
+        <translation>Todas las zonas</translation>
+    </message>
+    <message>
+        <source>Mode Specific</source>
+        <translation>Específico al modo</translation>
+    </message>
+    <message>
+        <source>Entire Segment</source>
+        <translation>Segmento completo</translation>
+    </message>
 </context>
 <context>
-    <name>OpenRGBDialogUi</name>
+    <name>OpenRGBDialog</name>
     <message>
         <source>OpenRGB</source>
         <translation>OpenRGB</translation>
@@ -281,9 +373,149 @@
         <source>Save Profile with custom name</source>
         <translation>Guardar perfil con nombre personalizado</translation>
     </message>
+    <message>
+        <source>Show/Hide</source>
+        <translation>Mostrar/esconder</translation>
+    </message>
+    <message>
+        <source>Profiles</source>
+        <translation>Perfiles</translation>
+    </message>
+    <message>
+        <source>Quick Colors</source>
+        <translation>Colores rápidos</translation>
+    </message>
+    <message>
+        <source>Red</source>
+        <translation>Rojo</translation>
+    </message>
+    <message>
+        <source>Yellow</source>
+        <translation>Amarillo</translation>
+    </message>
+    <message>
+        <source>Green</source>
+        <translation>Verde</translation>
+    </message>
+    <message>
+        <source>Cyan</source>
+        <translation>Cian</translation>
+    </message>
+    <message>
+        <source>Blue</source>
+        <translation>Azul</translation>
+    </message>
+    <message>
+        <source>Magenta</source>
+        <translation>Magenta</translation>
+    </message>
+    <message>
+        <source>White</source>
+        <translation>Blanco</translation>
+    </message>
+    <message>
+        <source>Lights Off</source>
+        <translation>Apagar luces</translation>
+    </message>
+    <message>
+        <source>Exit</source>
+        <translation>Salir</translation>
+    </message>
+    <message>
+        <source>Plugins</source>
+        <translation>Plugins</translation>
+    </message>
+    <message>
+        <source>Software</source>
+        <translation type="vanished">Software</translation>
+    </message>
+    <message>
+        <source>Supported Devices</source>
+        <translation>Dispositivos compatibles</translation>
+    </message>
+    <message>
+        <source>General Settings</source>
+        <translation>Configuración general</translation>
+    </message>
+    <message>
+        <source>E1.31 Devices</source>
+        <translation>Dispositivos E1.31</translation>
+    </message>
+    <message>
+        <source>Philips Hue Devices</source>
+        <translation>Dispostivos Philips Hue</translation>
+    </message>
+    <message>
+        <source>Philips Wiz Devices</source>
+        <translation>Dispositivos Philips Wiz</translation>
+    </message>
+    <message>
+        <source>OpenRGB QMK Protocol</source>
+        <translation>Protocolo QMK OpenRGB</translation>
+    </message>
+    <message>
+        <source>Serial Devices</source>
+        <translation>Dispositivos de puerto serie</translation>
+    </message>
+    <message>
+        <source>Yeelight Devices</source>
+        <translation>Dispositivos Yeelight</translation>
+    </message>
+    <message>
+        <source>SMBus Tools</source>
+        <translation>Herramientas SMBus</translation>
+    </message>
+    <message>
+        <source>SDK Client</source>
+        <translation>Cliente del SDK</translation>
+    </message>
+    <message>
+        <source>SDK Server</source>
+        <translation>Servidor del SDK</translation>
+    </message>
+    <message>
+        <source>Do you really want to delete this profile?</source>
+        <translation>¿Seguro que quiere suprimir este perfil?</translation>
+    </message>
+    <message>
+        <source>Log Console</source>
+        <translation>Consola de registro</translation>
+    </message>
+    <message>
+        <source>LIFX Devices</source>
+        <translation>Dispositivos LIFX</translation>
+    </message>
+    <message>
+        <source>Nanoleaf Devices</source>
+        <translation>Dispositivos nanohojas</translation>
+    </message>
+    <message>
+        <source>Elgato KeyLight Devices</source>
+        <translation>Elgato dispositivos luz clave</translation>
+    </message>
+    <message>
+        <source>Elgato LightStrip Devices</source>
+        <translation>Elgato dispositivos tira luminosa</translation>
+    </message>
+    <message>
+        <source>DMX Devices</source>
+        <translation>Dispoditivos DMX</translation>
+    </message>
+    <message>
+        <source>Kasa Smart Devices</source>
+        <translation>Dispositivos inteligente Kasa</translation>
+    </message>
+    <message>
+        <source>About OpenRGB</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Govee Devices</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
-    <name>OpenRGBE131SettingsEntryUi</name>
+    <name>OpenRGBE131SettingsEntry</name>
     <message>
         <source>Start Channel:</source>
         <translation>Iniciar canal:</translation>
@@ -332,9 +564,53 @@
         <source>RGB Order:</source>
         <translation>Orden RGB:</translation>
     </message>
+    <message>
+        <source>Single</source>
+        <translation>Único</translation>
+    </message>
+    <message>
+        <source>Linear</source>
+        <translation>Lineal</translation>
+    </message>
+    <message>
+        <source>Matrix</source>
+        <translation>Matriz</translation>
+    </message>
+    <message>
+        <source>Horizontal Top Left</source>
+        <translation>Horizontal, arriba a la izquierda</translation>
+    </message>
+    <message>
+        <source>Horizontal Top Right</source>
+        <translation>Horizontal, arriba a la derecha</translation>
+    </message>
+    <message>
+        <source>Horizontal Bottom Left</source>
+        <translation>Horizontal, abajo a la izquierda</translation>
+    </message>
+    <message>
+        <source>Horizontal Bottom Right</source>
+        <translation>Horizontal, abajo a la derecha</translation>
+    </message>
+    <message>
+        <source>Vertical Top Left</source>
+        <translation>Vertical, arriba a la izquierda</translation>
+    </message>
+    <message>
+        <source>Vertical Top Right</source>
+        <translation>Vertical, arriba a la derecha</translation>
+    </message>
+    <message>
+        <source>Vertical Bottom Left</source>
+        <translation>Vertical, abajo a la izquierda</translation>
+    </message>
+    <message>
+        <source>Vertical Bottom Right</source>
+        <translation>Vertical, abajo a la derecha</translation>
+    </message>
 </context>
 <context>
-    <name>OpenRGBE131SettingsPageUi</name>
+    <name>OpenRGBE131SettingsPage</name>
     <message>
         <source>Add</source>
         <translation>Añadir</translation>
@@ -349,14 +625,14 @@
     </message>
 </context>
 <context>
-    <name>OpenRGBElgatoKeyLightSettingsEntryUi</name>
+    <name>OpenRGBElgatoKeyLightSettingsEntry</name>
     <message>
         <source>IP:</source>
         <translation>IP:</translation>
     </message>
 </context>
 <context>
-    <name>OpenRGBElgatoKeyLightSettingsPageUi</name>
+    <name>OpenRGBElgatoKeyLightSettingsPage</name>
     <message>
         <source>Add</source>
         <translation>Añadir</translation>
@@ -371,14 +647,14 @@
     </message>
 </context>
 <context>
-    <name>OpenRGBElgatoLightStripSettingsEntryUi</name>
+    <name>OpenRGBElgatoLightStripSettingsEntry</name>
     <message>
         <source>IP:</source>
         <translation>IP:</translation>
     </message>
 </context>
 <context>
-    <name>OpenRGBElgatoLightStripSettingsPageUi</name>
+    <name>OpenRGBElgatoLightStripSettingsPage</name>
     <message>
         <source>Add</source>
         <translation>Añadir</translation>
@@ -393,7 +669,29 @@
     </message>
 </context>
 <context>
-    <name>OpenRGBHardwareIDsDialogUi</name>
+    <name>OpenRGBGoveeSettingsEntry</name>
+    <message>
+        <source>IP:</source>
+        <translation type="unfinished">IP:</translation>
+    </message>
+</context>
+<context>
+    <name>OpenRGBGoveeSettingsPage</name>
+    <message>
+        <source>Add</source>
+        <translation type="unfinished">Añadir</translation>
+    </message>
+    <message>
+        <source>Remove</source>
+        <translation type="unfinished">Suprimir</translation>
+    </message>
+    <message>
+        <source>Save</source>
+        <translation type="unfinished">Guardar</translation>
+    </message>
+</context>
+<context>
+    <name>OpenRGBHardwareIDsDialog</name>
     <message>
         <source>Hardware IDs</source>
         <translation>IDs de equipo</translation>
@@ -416,7 +714,7 @@
     </message>
 </context>
 <context>
-    <name>OpenRGBKasaSmartSettingsEntryUi</name>
+    <name>OpenRGBKasaSmartSettingsEntry</name>
     <message>
         <source>IP:</source>
         <translation>IP:</translation>
@@ -427,7 +725,7 @@
     </message>
 </context>
 <context>
-    <name>OpenRGBKasaSmartSettingsPageUi</name>
+    <name>OpenRGBKasaSmartSettingsPage</name>
     <message>
         <source>Add</source>
         <translation>Añadir</translation>
@@ -442,7 +740,7 @@
     </message>
 </context>
 <context>
-    <name>OpenRGBLIFXSettingsEntryUi</name>
+    <name>OpenRGBLIFXSettingsEntry</name>
     <message>
         <source>IP:</source>
         <translation>IP:</translation>
@@ -453,7 +751,7 @@
     </message>
 </context>
 <context>
-    <name>OpenRGBLIFXSettingsPageUi</name>
+    <name>OpenRGBLIFXSettingsPage</name>
     <message>
         <source>Add</source>
         <translation>Añadir</translation>
@@ -468,7 +766,7 @@
     </message>
 </context>
 <context>
-    <name>OpenRGBNanoleafNewDeviceDialogUi</name>
+    <name>OpenRGBNanoleafNewDeviceDialog</name>
     <message>
         <source>New Nanoleaf device</source>
         <translation>Nuevo despositivo nanohoja</translation>
@@ -483,7 +781,7 @@
     </message>
 </context>
 <context>
-    <name>OpenRGBNanoleafSettingsEntryUi</name>
+    <name>OpenRGBNanoleafSettingsEntry</name>
     <message>
         <source>IP:</source>
         <translation>IP:</translation>
@@ -506,7 +804,7 @@
     </message>
 </context>
 <context>
-    <name>OpenRGBNanoleafSettingsPageUi</name>
+    <name>OpenRGBNanoleafSettingsPage</name>
     <message>
         <source>Scan</source>
         <translation>Escanear</translation>
@@ -525,7 +823,7 @@
     </message>
 </context>
 <context>
-    <name>OpenRGBPhilipsHueSettingsEntryUi</name>
+    <name>OpenRGBPhilipsHueSettingsEntry</name>
     <message>
         <source>IP:</source>
         <translation>IP:</translation>
@@ -556,7 +854,7 @@
     </message>
 </context>
 <context>
-    <name>OpenRGBPhilipsHueSettingsPageUi</name>
+    <name>OpenRGBPhilipsHueSettingsPage</name>
     <message>
         <source>Remove</source>
         <translation>Suprimir</translation>
@@ -576,7 +874,7 @@
     </message>
 </context>
 <context>
-    <name>OpenRGBPhilipsWizSettingsEntryUi</name>
+    <name>OpenRGBPhilipsWizSettingsEntry</name>
     <message>
         <source>IP:</source>
         <translation>IP:</translation>
@@ -593,9 +891,17 @@
         <source>White Strategy:</source>
         <translation>Estrategia Blanco</translation>
     </message>
+    <message>
+        <source>Average</source>
+        <translation>Promedio</translation>
+    </message>
+    <message>
+        <source>Minimum</source>
+        <translation>Minimo</translation>
+    </message>
 </context>
 <context>
-    <name>OpenRGBPhilipsWizSettingsPageUi</name>
+    <name>OpenRGBPhilipsWizSettingsPage</name>
     <message>
         <source>Add</source>
         <translation>Añadir</translation>
@@ -610,7 +916,7 @@
     </message>
 </context>
 <context>
-    <name>OpenRGBPluginsEntryUi</name>
+    <name>OpenRGBPluginsEntry</name>
     <message>
         <source>Version:</source>
         <translation>Versión:</translation>
@@ -649,7 +955,7 @@
     </message>
 </context>
 <context>
-    <name>OpenRGBPluginsPageUi</name>
+    <name>OpenRGBPluginsPage</name>
     <message>
         <source>Install Plugin</source>
         <translation>Instalar plugin</translation>
@@ -662,9 +968,37 @@
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;Looking for plugins? See the official list at &lt;a href=&quot;https://openrgb.org/plugins.html&quot;&gt;OpenRGB.org&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;Buscando por plugins? Ver la lista oficial en &lt;a href=&quot;https://openrgb.org/plugins.html&quot;&gt;OpenRGB.org&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
+    <message>
+        <source>Install OpenRGB Plugin</source>
+        <translation>Instalar plugin de OpenRGB</translation>
+    </message>
+    <message>
+        <source>Plugin files (*.dll *.dylib *.so *.so.*)</source>
+        <translation>Archivos de plugin (*.dll *.dylib *.so *.so.*)</translation>
+    </message>
+    <message>
+        <source>Replace Plugin</source>
+        <translation>Sustituir plugin</translation>
+    </message>
+    <message>
+        <source>A plugin with this filename is already installed.  Are you sure you want to replace this plugin?</source>
+        <translation>Ya existe un plugin con este nombre. ¿Está seguro de que quiere sustituir este plugin?</translation>
+    </message>
+    <message>
+        <source>Are you sure you want to remove this plugin?</source>
+        <translation>¿Está seguro de que quiere suprimir este plugin?</translation>
+    </message>
+    <message>
+        <source>Restart Needed</source>
+        <translation>Reinicio requerido</translation>
+    </message>
+    <message>
+        <source>The plugin will be fully removed after restarting OpenRGB.</source>
+        <translation>Los complementos (plugins) seran suprimidos despues de renicio</translation>
+    </message>
 </context>
 <context>
-    <name>OpenRGBProfileSaveDialogUi</name>
+    <name>OpenRGBProfileSaveDialog</name>
     <message>
         <source>Profile Name</source>
         <translation>Nombre del perfil</translation>
@@ -679,7 +1013,7 @@
     </message>
 </context>
 <context>
-    <name>OpenRGBQMKORGBSettingsEntryUi</name>
+    <name>OpenRGBQMKORGBSettingsEntry</name>
     <message>
         <source>Name:</source>
         <translation>Nombre:</translation>
@@ -694,7 +1028,7 @@
     </message>
 </context>
 <context>
-    <name>OpenRGBQMKORGBSettingsPageUi</name>
+    <name>OpenRGBQMKORGBSettingsPage</name>
     <message>
         <source>Add</source>
         <translation>Añadir</translation>
@@ -709,7 +1043,7 @@
     </message>
 </context>
 <context>
-    <name>OpenRGBSerialSettingsEntryUi</name>
+    <name>OpenRGBSerialSettingsEntry</name>
     <message>
         <source>Baud:</source>
         <translation>Baudios:</translation>
@@ -732,7 +1066,7 @@
     </message>
 </context>
 <context>
-    <name>OpenRGBSerialSettingsPageUi</name>
+    <name>OpenRGBSerialSettingsPage</name>
     <message>
         <source>Add</source>
         <translation>Añadir</translation>
@@ -747,7 +1081,7 @@
     </message>
 </context>
 <context>
-    <name>OpenRGBServerInfoPageUi</name>
+    <name>OpenRGBServerInfoPage</name>
     <message>
         <source>Stop Server</source>
         <translation>Detener servidor</translation>
@@ -788,9 +1122,17 @@
         <source>Client Name</source>
         <translation>Nombre del cliente</translation>
     </message>
+    <message>
+        <source>Stopping...</source>
+        <translation>Deteniendo...</translation>
+    </message>
+    <message>
+        <source>Online</source>
+        <translation>Conectado</translation>
+    </message>
 </context>
 <context>
-    <name>OpenRGBSettingsPageUi</name>
+    <name>OpenRGBSettingsPage</name>
     <message>
         <source>Load Window Geometry</source>
         <translation>Cargar forma de la ventana</translation>
@@ -919,9 +1261,21 @@
         <source>Enable Log File (restart required)</source>
         <translation>Establecer archivo de registro (requiere reiniciar)</translation>
     </message>
+    <message>
+        <source>A problem occurred enabling Start at Login.</source>
+        <translation>Ha ocurrido un problema al activar el inicio de OpenRGB al iniciar sesión.</translation>
+    </message>
+    <message>
+        <source>English - US</source>
+        <translation>Español</translation>
+    </message>
+    <message>
+        <source>System Default</source>
+        <translation>Systema predeterminado</translation>
+    </message>
 </context>
 <context>
-    <name>OpenRGBSoftwareInfoPageUi</name>
+    <name>OpenRGBSoftwareInfoPage</name>
     <message>
         <source>Build Date:</source>
         <translation>Fecha de compilación:</translation>
@@ -966,9 +1320,45 @@
         <source>Plugin API Version:</source>
         <translation>version plugin API</translation>
     </message>
+    <message>
+        <source>Qt Version Value</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Qt Version:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>OS Version:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>OS Version Value</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>GNU General Public License, version 2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>License:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Copyright:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Adam Honse, OpenRGB Team</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;b&gt;OpenRGB&lt;/b&gt;, an open-source RGB control utility</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
-    <name>OpenRGBSupportedDevicesPageUi</name>
+    <name>OpenRGBSupportedDevicesPage</name>
     <message>
         <source>Filter:</source>
         <translation>Filtrar:</translation>
@@ -987,7 +1377,7 @@
     </message>
 </context>
 <context>
-    <name>OpenRGBSystemInfoPageUi</name>
+    <name>OpenRGBSystemInfoPage</name>
     <message>
         <source>SMBus Adapters:</source>
         <translation>Adaptadores de SMBus:</translation>
@@ -1042,7 +1432,7 @@
     </message>
 </context>
 <context>
-    <name>OpenRGBYeelightSettingsEntryUi</name>
+    <name>OpenRGBYeelightSettingsEntry</name>
     <message>
         <source>IP:</source>
         <translation>IP:</translation>
@@ -1063,9 +1453,17 @@
         <source>Left blank for auto discovering host ip</source>
         <translation>Dejar en blanco para detección automática de la IP del anfitrión</translation>
     </message>
+    <message>
+        <source>Choose an IP...</source>
+        <translation>Escoja una IP...</translation>
+    </message>
+    <message>
+        <source>Choose the correct IP for the host</source>
+        <translation>Escoja la IP correcta para el anfitrión</translation>
+    </message>
 </context>
 <context>
-    <name>OpenRGBYeelightSettingsPageUi</name>
+    <name>OpenRGBYeelightSettingsPage</name>
     <message>
         <source>Add</source>
         <translation>Añadir</translation>
@@ -1080,7 +1478,7 @@
     </message>
 </context>
 <context>
-    <name>OpenRGBZoneResizeDialogUi</name>
+    <name>OpenRGBZoneResizeDialog</name>
     <message>
         <source>Resize Zone</source>
         <translation>Redimensionar zona</translation>
@@ -1099,7 +1497,7 @@
     </message>
 </context>
 <context>
-    <name>OpenRGBZonesBulkResizerUi</name>
+    <name>OpenRGBZonesBulkResizer</name>
     <message>
         <source>Do not show again</source>
         <translation>No mostrar de nuevo</translation>
@@ -1119,6 +1517,22 @@
     <message>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;One or more resizable zones have not been configured.  Resizable zones are most commonly used for addressable RGB headers where the size of the connected device cannot be detected automatically.&lt;/p&gt;&lt;p&gt;Please enter the number of LEDs in each zone below.&lt;/p&gt;&lt;p&gt;For more information about calcuating the correct size, please check &lt;a href=&quot;https://openrgb.org/resize.html&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;this link.&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Una o mas zonas Redimensionable no han sido configuradas.  Las zonas redimensionables se utilizan más comúnmente para encabezados RGB direccionables donde el tamaño del dispositivo conectado no se puede detectar automáticamente.&lt;/p&gt;&lt;p&gt;Por favor, introduzca el número de LEDs en cada zona a continuación.&lt;/p&gt;&lt;p&gt;Para obtener más información sobre cómo calcular el tamaño correcto, consulte este enlace.&lt;a href=&quot;https://openrgb.org/resize.html&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;this link.&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+    </message>
+    <message>
+        <source>Resize the zones</source>
+        <translation>Redimensione las zonas</translation>
+    </message>
+    <message>
+        <source>Controller</source>
+        <translation>Controlador</translation>
+    </message>
+    <message>
+        <source>Zone</source>
+        <translation>Zona</translation>
+    </message>
+    <message>
+        <source>Size</source>
+        <translation>Tamaño</translation>
     </message>
 </context>
 <context>
@@ -1141,400 +1555,10 @@
     </message>
 </context>
 <context>
-    <name>TabLabelUi</name>
+    <name>TabLabel</name>
     <message>
         <source>device name</source>
         <translation>nombre de dispositivo</translation>
-    </message>
-</context>
-<context>
-    <name>Ui::OpenRGBClientInfoPage</name>
-    <message>
-        <source>Disconnect</source>
-        <translation>Desconectar</translation>
-    </message>
-</context>
-<context>
-    <name>Ui::OpenRGBDevicePage</name>
-    <message>
-        <source>Set individual LEDs to static colors.  Safe for use with software-driven effects.</source>
-        <translation>Aplicar colores estáticos a LEDs individualmente. Compatible con los efectos generados en software.</translation>
-    </message>
-    <message>
-        <source>Set individual LEDs to static colors.  Not safe for use with software-driven effects.</source>
-        <translation>Aplicar colores estáticos a LEDs individualmente. No compatible con los efectos generados en software.</translation>
-    </message>
-    <message>
-        <source>Sets the entire device or a zone to a single color.</source>
-        <translation>Aplica un color a una zona o a todo el dispositivo.</translation>
-    </message>
-    <message>
-        <source>Gradually fades between fully off and fully on.</source>
-        <translation>Alterna gradualmente entre apagado y encendido.</translation>
-    </message>
-    <message>
-        <source>Abruptly changes between fully off and fully on.</source>
-        <translation>Alterna bruscamente entre apagado y encendido.</translation>
-    </message>
-    <message>
-        <source>Gradually cycles through the entire color spectrum.  All lights on the device are the same color.</source>
-        <translation>Rotación entre todos los colores del espectro. Produce un patrón de arcoíris estático.</translation>
-    </message>
-    <message>
-        <source>Gradually cycles through the entire color spectrum.  Produces a rainbow pattern that moves.</source>
-        <translation>Rotación entre todos los colores del espectro. Produce un patrón de arcoíris que se mueve.</translation>
-    </message>
-    <message>
-        <source>Flashes lights when keys or buttons are pressed.</source>
-        <translation>Produce destellos de luz al apretar teclas o botones.</translation>
-    </message>
-    <message>
-        <source>Entire Device</source>
-        <translation>Dispositivo entero</translation>
-    </message>
-    <message>
-        <source>Entire Zone</source>
-        <translation>Zona entera</translation>
-    </message>
-    <message>
-        <source>Left</source>
-        <translation>Izquierda</translation>
-    </message>
-    <message>
-        <source>Right</source>
-        <translation>Derecha</translation>
-    </message>
-    <message>
-        <source>Up</source>
-        <translation>Arriba</translation>
-    </message>
-    <message>
-        <source>Down</source>
-        <translation>Abajo</translation>
-    </message>
-    <message>
-        <source>Horizontal</source>
-        <translation>Horizontal</translation>
-    </message>
-    <message>
-        <source>Vertical</source>
-        <translation>Vertical</translation>
-    </message>
-    <message>
-        <source>Saved To Device</source>
-        <translation>Guardado en dispositivo</translation>
-    </message>
-    <message>
-        <source>Save To Device</source>
-        <translation>Guardar en dispositivo</translation>
-    </message>
-    <message>
-        <source>Saving Not Supported</source>
-        <translation>El dispositivo no admite guardado</translation>
-    </message>
-    <message>
-        <source>All Zones</source>
-        <translation>Todas las zonas</translation>
-    </message>
-    <message>
-        <source>Mode Specific</source>
-        <translation>Específico al modo</translation>
-    </message>
-    <message>
-        <source>Entire Segment</source>
-        <translation>Segmento completo</translation>
-    </message>
-</context>
-<context>
-    <name>Ui::OpenRGBDialog</name>
-    <message>
-        <source>Show/Hide</source>
-        <translation>Mostrar/esconder</translation>
-    </message>
-    <message>
-        <source>Profiles</source>
-        <translation>Perfiles</translation>
-    </message>
-    <message>
-        <source>Quick Colors</source>
-        <translation>Colores rápidos</translation>
-    </message>
-    <message>
-        <source>Red</source>
-        <translation>Rojo</translation>
-    </message>
-    <message>
-        <source>Yellow</source>
-        <translation>Amarillo</translation>
-    </message>
-    <message>
-        <source>Green</source>
-        <translation>Verde</translation>
-    </message>
-    <message>
-        <source>Cyan</source>
-        <translation>Cian</translation>
-    </message>
-    <message>
-        <source>Blue</source>
-        <translation>Azul</translation>
-    </message>
-    <message>
-        <source>Magenta</source>
-        <translation>Magenta</translation>
-    </message>
-    <message>
-        <source>White</source>
-        <translation>Blanco</translation>
-    </message>
-    <message>
-        <source>Lights Off</source>
-        <translation>Apagar luces</translation>
-    </message>
-    <message>
-        <source>Exit</source>
-        <translation>Salir</translation>
-    </message>
-    <message>
-        <source>Plugins</source>
-        <translation>Plugins</translation>
-    </message>
-    <message>
-        <source>Software</source>
-        <translation>Software</translation>
-    </message>
-    <message>
-        <source>Supported Devices</source>
-        <translation>Dispositivos compatibles</translation>
-    </message>
-    <message>
-        <source>General Settings</source>
-        <translation>Configuración general</translation>
-    </message>
-    <message>
-        <source>E1.31 Devices</source>
-        <translation>Dispositivos E1.31</translation>
-    </message>
-    <message>
-        <source>Philips Hue Devices</source>
-        <translation>Dispostivos Philips Hue</translation>
-    </message>
-    <message>
-        <source>Philips Wiz Devices</source>
-        <translation>Dispositivos Philips Wiz</translation>
-    </message>
-    <message>
-        <source>OpenRGB QMK Protocol</source>
-        <translation>Protocolo QMK OpenRGB</translation>
-    </message>
-    <message>
-        <source>Serial Devices</source>
-        <translation>Dispositivos de puerto serie</translation>
-    </message>
-    <message>
-        <source>Yeelight Devices</source>
-        <translation>Dispositivos Yeelight</translation>
-    </message>
-    <message>
-        <source>SMBus Tools</source>
-        <translation>Herramientas SMBus</translation>
-    </message>
-    <message>
-        <source>SDK Client</source>
-        <translation>Cliente del SDK</translation>
-    </message>
-    <message>
-        <source>SDK Server</source>
-        <translation>Servidor del SDK</translation>
-    </message>
-    <message>
-        <source>Delete Profile</source>
-        <translation>Suprimir perfil</translation>
-    </message>
-    <message>
-        <source>Do you really want to delete this profile?</source>
-        <translation>¿Seguro que quiere suprimir este perfil?</translation>
-    </message>
-    <message>
-        <source>Log Console</source>
-        <translation>Consola de registro</translation>
-    </message>
-    <message>
-        <source>LIFX Devices</source>
-        <translation>Dispositivos LIFX</translation>
-    </message>
-    <message>
-        <source>Nanoleaf Devices</source>
-        <translation>Dispositivos nanohojas</translation>
-    </message>
-    <message>
-        <source>Elgato KeyLight Devices</source>
-        <translation>Elgato dispositivos luz clave</translation>
-    </message>
-    <message>
-        <source>Elgato LightStrip Devices</source>
-        <translation>Elgato dispositivos tira luminosa</translation>
-    </message>
-    <message>
-        <source>DMX Devices</source>
-        <translation>Dispoditivos DMX</translation>
-    </message>
-    <message>
-        <source>Kasa Smart Devices</source>
-        <translation>Dispositivos inteligente Kasa</translation>
-    </message>
-</context>
-<context>
-    <name>Ui::OpenRGBE131SettingsEntry</name>
-    <message>
-        <source>Single</source>
-        <translation>Único</translation>
-    </message>
-    <message>
-        <source>Linear</source>
-        <translation>Lineal</translation>
-    </message>
-    <message>
-        <source>Matrix</source>
-        <translation>Matriz</translation>
-    </message>
-    <message>
-        <source>Horizontal Top Left</source>
-        <translation>Horizontal, arriba a la izquierda</translation>
-    </message>
-    <message>
-        <source>Horizontal Top Right</source>
-        <translation>Horizontal, arriba a la derecha</translation>
-    </message>
-    <message>
-        <source>Horizontal Bottom Left</source>
-        <translation>Horizontal, abajo a la izquierda</translation>
-    </message>
-    <message>
-        <source>Horizontal Bottom Right</source>
-        <translation>Horizontal, abajo a la derecha</translation>
-    </message>
-    <message>
-        <source>Vertical Top Left</source>
-        <translation>Vertical, arriba a la izquierda</translation>
-    </message>
-    <message>
-        <source>Vertical Top Right</source>
-        <translation>Vertical, arriba a la derecha</translation>
-    </message>
-    <message>
-        <source>Vertical Bottom Left</source>
-        <translation>Vertical, abajo a la izquierda</translation>
-    </message>
-    <message>
-        <source>Vertical Bottom Right</source>
-        <translation>Vertical, abajo a la derecha</translation>
-    </message>
-</context>
-<context>
-    <name>Ui::OpenRGBPhilipsWizSettingsEntry</name>
-    <message>
-        <source>Average</source>
-        <translation>Promedio</translation>
-    </message>
-    <message>
-        <source>Minimum</source>
-        <translation>Minimo</translation>
-    </message>
-</context>
-<context>
-    <name>Ui::OpenRGBPluginsPage</name>
-    <message>
-        <source>Install OpenRGB Plugin</source>
-        <translation>Instalar plugin de OpenRGB</translation>
-    </message>
-    <message>
-        <source>Plugin files (*.dll *.dylib *.so *.so.*)</source>
-        <translation>Archivos de plugin (*.dll *.dylib *.so *.so.*)</translation>
-    </message>
-    <message>
-        <source>Replace Plugin</source>
-        <translation>Sustituir plugin</translation>
-    </message>
-    <message>
-        <source>A plugin with this filename is already installed.  Are you sure you want to replace this plugin?</source>
-        <translation>Ya existe un plugin con este nombre. ¿Está seguro de que quiere sustituir este plugin?</translation>
-    </message>
-    <message>
-        <source>Remove Plugin</source>
-        <translation>Suprimir plugin</translation>
-    </message>
-    <message>
-        <source>Are you sure you want to remove this plugin?</source>
-        <translation>¿Está seguro de que quiere suprimir este plugin?</translation>
-    </message>
-    <message>
-        <source>Restart Needed</source>
-        <translation>Reinicio requerido</translation>
-    </message>
-    <message>
-        <source>The plugin will be fully removed after restarting OpenRGB.</source>
-        <translation>Los complementos (plugins) seran suprimidos despues de renicio</translation>
-    </message>
-</context>
-<context>
-    <name>Ui::OpenRGBServerInfoPage</name>
-    <message>
-        <source>Stopping...</source>
-        <translation>Deteniendo...</translation>
-    </message>
-    <message>
-        <source>Online</source>
-        <translation>Conectado</translation>
-    </message>
-    <message>
-        <source>Offline</source>
-        <translation>Desconectado</translation>
-    </message>
-</context>
-<context>
-    <name>Ui::OpenRGBSettingsPage</name>
-    <message>
-        <source>A problem occurred enabling Start at Login.</source>
-        <translation>Ha ocurrido un problema al activar el inicio de OpenRGB al iniciar sesión.</translation>
-    </message>
-    <message>
-        <source>English - US</source>
-        <translation>Español</translation>
-    </message>
-    <message>
-        <source>System Default</source>
-        <translation>Systema predeterminado</translation>
-    </message>
-</context>
-<context>
-    <name>Ui::OpenRGBYeelightSettingsEntry</name>
-    <message>
-        <source>Choose an IP...</source>
-        <translation>Escoja una IP...</translation>
-    </message>
-    <message>
-        <source>Choose the correct IP for the host</source>
-        <translation>Escoja la IP correcta para el anfitrión</translation>
-    </message>
-</context>
-<context>
-    <name>Ui::OpenRGBZonesBulkResizer</name>
-    <message>
-        <source>Resize the zones</source>
-        <translation>Redimensione las zonas</translation>
-    </message>
-    <message>
-        <source>Controller</source>
-        <translation>Controlador</translation>
-    </message>
-    <message>
-        <source>Zone</source>
-        <translation>Zona</translation>
-    </message>
-    <message>
-        <source>Size</source>
-        <translation>Tamaño</translation>
     </message>
 </context>
 </TS>

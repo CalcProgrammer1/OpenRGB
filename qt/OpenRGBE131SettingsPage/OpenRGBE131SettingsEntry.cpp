@@ -10,11 +10,9 @@
 #include "OpenRGBE131SettingsEntry.h"
 #include "ui_OpenRGBE131SettingsEntry.h"
 
-using namespace Ui;
-
 OpenRGBE131SettingsEntry::OpenRGBE131SettingsEntry(QWidget *parent) :
     BaseManualDeviceEntry(parent),
-    ui(new Ui::OpenRGBE131SettingsEntryUi)
+    ui(new Ui::OpenRGBE131SettingsEntry)
 {
     ui->setupUi(this);
 
@@ -54,7 +52,7 @@ void OpenRGBE131SettingsEntry::changeEvent(QEvent *event)
     }
 }
 
-void Ui::OpenRGBE131SettingsEntry::HideMatrixSettings()
+void OpenRGBE131SettingsEntry::HideMatrixSettings()
 {
     ui->MatrixWidthLabel->setDisabled(true);
     ui->MatrixWidthEdit->setDisabled(true);
@@ -66,7 +64,7 @@ void Ui::OpenRGBE131SettingsEntry::HideMatrixSettings()
     ui->MatrixOrderComboBox->setDisabled(true);
 }
 
-void Ui::OpenRGBE131SettingsEntry::ShowMatrixSettings()
+void OpenRGBE131SettingsEntry::ShowMatrixSettings()
 {
     ui->MatrixWidthLabel->setDisabled(false);
     ui->MatrixWidthEdit->setDisabled(false);
@@ -78,7 +76,7 @@ void Ui::OpenRGBE131SettingsEntry::ShowMatrixSettings()
     ui->MatrixOrderComboBox->setDisabled(false);
 }
 
-void Ui::OpenRGBE131SettingsEntry::on_TypeComboBox_currentIndexChanged(int index)
+void OpenRGBE131SettingsEntry::on_TypeComboBox_currentIndexChanged(int index)
 {
     if(index == 2)
     {

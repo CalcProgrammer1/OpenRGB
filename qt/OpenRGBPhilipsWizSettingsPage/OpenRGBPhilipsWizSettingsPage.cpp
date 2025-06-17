@@ -12,11 +12,9 @@
 #include "ResourceManager.h"
 #include "SettingsManager.h"
 
-using namespace Ui;
-
 OpenRGBPhilipsWizSettingsPage::OpenRGBPhilipsWizSettingsPage(QWidget *parent) :
     QWidget(parent),
-    ui(new Ui::OpenRGBPhilipsWizSettingsPageUi)
+    ui(new Ui::OpenRGBPhilipsWizSettingsPage)
 {
     ui->setupUi(this);
 
@@ -64,7 +62,7 @@ void OpenRGBPhilipsWizSettingsPage::changeEvent(QEvent *event)
     }
 }
 
-void Ui::OpenRGBPhilipsWizSettingsPage::on_AddPhilipsWizDeviceButton_clicked()
+void OpenRGBPhilipsWizSettingsPage::on_AddPhilipsWizDeviceButton_clicked()
 {
     OpenRGBPhilipsWizSettingsEntry* entry = new OpenRGBPhilipsWizSettingsEntry;
     entries.push_back(entry);
@@ -78,7 +76,7 @@ void Ui::OpenRGBPhilipsWizSettingsPage::on_AddPhilipsWizDeviceButton_clicked()
     ui->PhilipsWizDeviceList->show();
 }
 
-void Ui::OpenRGBPhilipsWizSettingsPage::on_RemovePhilipsWizDeviceButton_clicked()
+void OpenRGBPhilipsWizSettingsPage::on_RemovePhilipsWizDeviceButton_clicked()
 {
     int cur_row = ui->PhilipsWizDeviceList->currentRow();
 
@@ -96,7 +94,7 @@ void Ui::OpenRGBPhilipsWizSettingsPage::on_RemovePhilipsWizDeviceButton_clicked(
     entries.erase(entries.begin() + cur_row);
 }
 
-void Ui::OpenRGBPhilipsWizSettingsPage::on_SavePhilipsWizConfigurationButton_clicked()
+void OpenRGBPhilipsWizSettingsPage::on_SavePhilipsWizConfigurationButton_clicked()
 {
     json                wiz_settings;
 

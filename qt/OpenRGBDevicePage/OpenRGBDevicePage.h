@@ -10,7 +10,6 @@
 #pragma once
 
 #include <QFrame>
-#include "ui_OpenRGBDevicePage.h"
 #include "RGBController.h"
 
 namespace Ui
@@ -18,7 +17,7 @@ namespace Ui
     class OpenRGBDevicePage;
 }
 
-class Ui::OpenRGBDevicePage : public QFrame
+class OpenRGBDevicePage : public QFrame
 {
     Q_OBJECT
 
@@ -70,7 +69,7 @@ private slots:
     void on_DeviceSaveButton_clicked();
 
 private:
-    Ui::OpenRGBDevicePageUi *ui;
+    Ui::OpenRGBDevicePage *ui;
     RGBController *device;
 
     bool InvertedSpeed      = false;

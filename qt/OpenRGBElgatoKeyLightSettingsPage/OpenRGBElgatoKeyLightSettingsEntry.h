@@ -14,10 +14,9 @@
 namespace Ui
 {
     class OpenRGBElgatoKeyLightSettingsEntry;
-    class OpenRGBElgatoKeyLightSettingsEntryUi;
 }
 
-class Ui::OpenRGBElgatoKeyLightSettingsEntry : public BaseManualDeviceEntry
+class OpenRGBElgatoKeyLightSettingsEntry : public BaseManualDeviceEntry
 {
     Q_OBJECT
 
@@ -29,7 +28,7 @@ public:
     const char* settingsSection();
 
 private:
-    Ui::OpenRGBElgatoKeyLightSettingsEntryUi *ui;
+    Ui::OpenRGBElgatoKeyLightSettingsEntry *ui;
 
 private slots:
     void changeEvent(QEvent *event);

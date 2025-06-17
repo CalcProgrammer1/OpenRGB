@@ -12,11 +12,9 @@
 #include "ResourceManager.h"
 #include "SettingsManager.h"
 
-using namespace Ui;
-
 OpenRGBLIFXSettingsPage::OpenRGBLIFXSettingsPage(QWidget *parent) :
     QWidget(parent),
-    ui(new Ui::OpenRGBLIFXSettingsPageUi)
+    ui(new Ui::OpenRGBLIFXSettingsPage)
 {
     ui->setupUi(this);
 
@@ -64,7 +62,7 @@ void OpenRGBLIFXSettingsPage::changeEvent(QEvent *event)
     }
 }
 
-void Ui::OpenRGBLIFXSettingsPage::on_AddLIFXDeviceButton_clicked()
+void OpenRGBLIFXSettingsPage::on_AddLIFXDeviceButton_clicked()
 {
     OpenRGBLIFXSettingsEntry* entry = new OpenRGBLIFXSettingsEntry;
 
@@ -81,7 +79,7 @@ void Ui::OpenRGBLIFXSettingsPage::on_AddLIFXDeviceButton_clicked()
     ui->LIFXDeviceList->show();
 }
 
-void Ui::OpenRGBLIFXSettingsPage::on_RemoveLIFXDeviceButton_clicked()
+void OpenRGBLIFXSettingsPage::on_RemoveLIFXDeviceButton_clicked()
 {
     int cur_row = ui->LIFXDeviceList->currentRow();
 
@@ -99,7 +97,7 @@ void Ui::OpenRGBLIFXSettingsPage::on_RemoveLIFXDeviceButton_clicked()
     entries.erase(entries.begin() + cur_row);
 }
 
-void Ui::OpenRGBLIFXSettingsPage::on_SaveLIFXConfigurationButton_clicked()
+void OpenRGBLIFXSettingsPage::on_SaveLIFXConfigurationButton_clicked()
 {
     json                lifx_settings;
 

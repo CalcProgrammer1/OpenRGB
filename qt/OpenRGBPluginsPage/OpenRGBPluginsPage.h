@@ -16,10 +16,9 @@
 namespace Ui
 {
     class OpenRGBPluginsPage;
-    class OpenRGBPluginsPageUi;
 }
 
-class Ui::OpenRGBPluginsPage : public QWidget
+class OpenRGBPluginsPage : public QWidget
 {
     Q_OBJECT
 
@@ -41,7 +40,7 @@ private slots:
     void on_PluginsList_PluginsDropped(std::vector<std::string>);
 
 private:
-    Ui::OpenRGBPluginsPageUi*   ui;
+    Ui::OpenRGBPluginsPage*     ui;
     PluginManager*              plugin_manager;
     std::vector<OpenRGBPluginsEntry*> entries;
 

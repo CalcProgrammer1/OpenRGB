@@ -16,9 +16,9 @@
 #include "ResourceManager.h"
 #include "StringUtils.h"
 
-Ui::OpenRGBHardwareIDsDialog::OpenRGBHardwareIDsDialog(QWidget *parent) :
+OpenRGBHardwareIDsDialog::OpenRGBHardwareIDsDialog(QWidget *parent) :
     QDialog(parent),
-    ui(new Ui::OpenRGBHardwareIDsDialogUi)
+    ui(new Ui::OpenRGBHardwareIDsDialog)
 {
     ui->setupUi(this);
     setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
@@ -27,12 +27,12 @@ Ui::OpenRGBHardwareIDsDialog::OpenRGBHardwareIDsDialog(QWidget *parent) :
     ui->HardwareIdsList->header()->resizeSection(2 /*column index*/, 100 /*width*/);
 }
 
-Ui::OpenRGBHardwareIDsDialog::~OpenRGBHardwareIDsDialog()
+OpenRGBHardwareIDsDialog::~OpenRGBHardwareIDsDialog()
 {
     delete ui;
 }
 
-int Ui::OpenRGBHardwareIDsDialog::show()
+int OpenRGBHardwareIDsDialog::show()
 {
     /*---------------------------------------------------------*\
     | Add i2c busses infos                                      |
@@ -137,7 +137,7 @@ int Ui::OpenRGBHardwareIDsDialog::show()
     return this->exec();
 }
 
-void Ui::OpenRGBHardwareIDsDialog::on_CopyToClipboardButton_clicked()
+void OpenRGBHardwareIDsDialog::on_CopyToClipboardButton_clicked()
 {
     QClipboard *clipboard = QGuiApplication::clipboard();
     clipboard->setText(strings.join("\n"));

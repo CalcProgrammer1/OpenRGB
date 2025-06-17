@@ -12,11 +12,9 @@
 #include "ResourceManager.h"
 #include "SettingsManager.h"
 
-using namespace Ui;
-
 OpenRGBElgatoLightStripSettingsPage::OpenRGBElgatoLightStripSettingsPage(QWidget *parent) :
     QWidget(parent),
-    ui(new Ui::OpenRGBElgatoLightStripSettingsPageUi)
+    ui(new Ui::OpenRGBElgatoLightStripSettingsPage)
 {
     ui->setupUi(this);
 
@@ -61,7 +59,7 @@ void OpenRGBElgatoLightStripSettingsPage::changeEvent(QEvent *event)
     }
 }
 
-void Ui::OpenRGBElgatoLightStripSettingsPage::on_AddElgatoLightStripDeviceButton_clicked()
+void OpenRGBElgatoLightStripSettingsPage::on_AddElgatoLightStripDeviceButton_clicked()
 {
     OpenRGBElgatoLightStripSettingsEntry* entry = new OpenRGBElgatoLightStripSettingsEntry;
     entries.push_back(entry);
@@ -75,7 +73,7 @@ void Ui::OpenRGBElgatoLightStripSettingsPage::on_AddElgatoLightStripDeviceButton
     ui->ElgatoLightStripDeviceList->show();
 }
 
-void Ui::OpenRGBElgatoLightStripSettingsPage::on_RemoveElgatoLightStripDeviceButton_clicked()
+void OpenRGBElgatoLightStripSettingsPage::on_RemoveElgatoLightStripDeviceButton_clicked()
 {
     int cur_row = ui->ElgatoLightStripDeviceList->currentRow();
 
@@ -93,7 +91,7 @@ void Ui::OpenRGBElgatoLightStripSettingsPage::on_RemoveElgatoLightStripDeviceBut
     entries.erase(entries.begin() + cur_row);
 }
 
-void Ui::OpenRGBElgatoLightStripSettingsPage::on_SaveElgatoLightStripConfigurationButton_clicked()
+void OpenRGBElgatoLightStripSettingsPage::on_SaveElgatoLightStripConfigurationButton_clicked()
 {
     json elgato_lightstrip_settings;
 

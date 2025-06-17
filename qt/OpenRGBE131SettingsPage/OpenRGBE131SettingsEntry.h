@@ -14,10 +14,9 @@
 namespace Ui
 {
     class OpenRGBE131SettingsEntry;
-    class OpenRGBE131SettingsEntryUi;
 }
 
-class Ui::OpenRGBE131SettingsEntry : public BaseManualDeviceEntry
+class OpenRGBE131SettingsEntry : public BaseManualDeviceEntry
 {
     Q_OBJECT
 
@@ -29,7 +28,7 @@ public:
     const char* settingsSection();
 
 private:
-    Ui::OpenRGBE131SettingsEntryUi *ui;
+    Ui::OpenRGBE131SettingsEntry *ui;
 
 private:
     void HideMatrixSettings();

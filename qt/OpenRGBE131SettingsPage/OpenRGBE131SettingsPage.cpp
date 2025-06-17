@@ -12,11 +12,9 @@
 #include "ResourceManager.h"
 #include "SettingsManager.h"
 
-using namespace Ui;
-
 OpenRGBE131SettingsPage::OpenRGBE131SettingsPage(QWidget *parent) :
     QWidget(parent),
-    ui(new Ui::OpenRGBE131SettingsPageUi)
+    ui(new Ui::OpenRGBE131SettingsPage)
 {
     ui->setupUi(this);
 
@@ -64,7 +62,7 @@ void OpenRGBE131SettingsPage::changeEvent(QEvent *event)
     }
 }
 
-void Ui::OpenRGBE131SettingsPage::on_AddE131DeviceButton_clicked()
+void OpenRGBE131SettingsPage::on_AddE131DeviceButton_clicked()
 {
     OpenRGBE131SettingsEntry* entry = new OpenRGBE131SettingsEntry;
     entries.push_back(entry);
@@ -78,7 +76,7 @@ void Ui::OpenRGBE131SettingsPage::on_AddE131DeviceButton_clicked()
     ui->E131DeviceList->show();
 }
 
-void Ui::OpenRGBE131SettingsPage::on_RemoveE131DeviceButton_clicked()
+void OpenRGBE131SettingsPage::on_RemoveE131DeviceButton_clicked()
 {
     int cur_row = ui->E131DeviceList->currentRow();
 
@@ -96,7 +94,7 @@ void Ui::OpenRGBE131SettingsPage::on_RemoveE131DeviceButton_clicked()
     entries.erase(entries.begin() + cur_row);
 }
 
-void Ui::OpenRGBE131SettingsPage::on_SaveE131ConfigurationButton_clicked()
+void OpenRGBE131SettingsPage::on_SaveE131ConfigurationButton_clicked()
 {
     json                e131_settings;
 

@@ -17,8 +17,6 @@
 #include <QMenu>
 #include <QSlider>
 
-#include "ui_OpenRGBDialog.h"
-
 #include "OpenRGBClientInfoPage.h"
 #include "OpenRGBPluginsPage/OpenRGBPluginsPage.h"
 #include "OpenRGBSoftwareInfoPage.h"
@@ -53,7 +51,7 @@ namespace Ui
     class OpenRGBDialog;
 }
 
-class Ui::OpenRGBDialog : public QMainWindow, private SuspendResumeListener
+class OpenRGBDialog : public QMainWindow, private SuspendResumeListener
 {
     Q_OBJECT
 
@@ -89,7 +87,7 @@ protected:
     void keyPressEvent(QKeyEvent *event) override;
 
 private:
-    const char* context = "Ui::OpenRGBDialog";
+    const char* context = "OpenRGBDialog";
 
     /*-------------------------------------*\
     | Page pointers                         |
@@ -127,7 +125,7 @@ private:
     /*-------------------------------------*\
     | User interface                        |
     \*-------------------------------------*/
-    Ui::OpenRGBDialogUi *ui;
+    Ui::OpenRGBDialog *ui;
 
     void AddSoftwareInfoPage();
     void AddSupportedDevicesPage();

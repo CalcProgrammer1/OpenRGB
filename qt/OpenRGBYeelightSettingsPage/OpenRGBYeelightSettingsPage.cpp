@@ -12,11 +12,9 @@
 #include "ResourceManager.h"
 #include "SettingsManager.h"
 
-using namespace Ui;
-
 OpenRGBYeelightSettingsPage::OpenRGBYeelightSettingsPage(QWidget *parent) :
     QWidget(parent),
-    ui(new Ui::OpenRGBYeelightSettingsPageUi)
+    ui(new Ui::OpenRGBYeelightSettingsPage)
 {
     ui->setupUi(this);
 
@@ -64,7 +62,7 @@ void OpenRGBYeelightSettingsPage::changeEvent(QEvent *event)
     }
 }
 
-void Ui::OpenRGBYeelightSettingsPage::on_AddYeelightDeviceButton_clicked()
+void OpenRGBYeelightSettingsPage::on_AddYeelightDeviceButton_clicked()
 {
     OpenRGBYeelightSettingsEntry* entry = new OpenRGBYeelightSettingsEntry;
     entries.push_back(entry);
@@ -78,7 +76,7 @@ void Ui::OpenRGBYeelightSettingsPage::on_AddYeelightDeviceButton_clicked()
     ui->YeelightDeviceList->show();
 }
 
-void Ui::OpenRGBYeelightSettingsPage::on_RemoveYeelightDeviceButton_clicked()
+void OpenRGBYeelightSettingsPage::on_RemoveYeelightDeviceButton_clicked()
 {
     int cur_row = ui->YeelightDeviceList->currentRow();
 
@@ -96,7 +94,7 @@ void Ui::OpenRGBYeelightSettingsPage::on_RemoveYeelightDeviceButton_clicked()
     entries.erase(entries.begin() + cur_row);
 }
 
-void Ui::OpenRGBYeelightSettingsPage::on_SaveYeelightConfigurationButton_clicked()
+void OpenRGBYeelightSettingsPage::on_SaveYeelightConfigurationButton_clicked()
 {
     json                yeelight_settings;
 

@@ -14,10 +14,9 @@
 namespace Ui
 {
     class OpenRGBSoftwareInfoPage;
-    class OpenRGBSoftwareInfoPageUi;
 }
 
-class Ui::OpenRGBSoftwareInfoPage : public QFrame
+class OpenRGBSoftwareInfoPage : public QFrame
 {
     Q_OBJECT
 
@@ -26,7 +25,7 @@ public:
     ~OpenRGBSoftwareInfoPage();
 
 private:
-    Ui::OpenRGBSoftwareInfoPageUi *ui;
+    Ui::OpenRGBSoftwareInfoPage *ui;
 
 private slots:
     void changeEvent(QEvent *event);

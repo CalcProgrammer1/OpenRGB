@@ -11,7 +11,6 @@
 
 #include <QWidget>
 
-#include "ui_OpenRGBSerialSettingsPage.h"
 #include "OpenRGBSerialSettingsEntry.h"
 
 namespace Ui
@@ -19,7 +18,7 @@ namespace Ui
     class OpenRGBSerialSettingsPage;
 }
 
-class Ui::OpenRGBSerialSettingsPage : public QWidget
+class OpenRGBSerialSettingsPage : public QWidget
 {
     Q_OBJECT
 
@@ -36,7 +35,7 @@ private slots:
     void on_SaveSerialConfigurationButton_clicked();
 
 private:
-    Ui::OpenRGBSerialSettingsPageUi *ui;
+    Ui::OpenRGBSerialSettingsPage *ui;
     std::vector<OpenRGBSerialSettingsEntry*> entries;
 
 };

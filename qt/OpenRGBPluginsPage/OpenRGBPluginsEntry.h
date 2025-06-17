@@ -14,14 +14,13 @@
 namespace Ui
 {
     class OpenRGBPluginsEntry;
-    class OpenRGBPluginsEntryUi;
 }
 
 typedef void (*EnableClickCallback)(void *, void *);
 
 struct OpenRGBPluginEntry;
 
-class Ui::OpenRGBPluginsEntry : public QWidget
+class OpenRGBPluginsEntry : public QWidget
 {
     Q_OBJECT
 
@@ -45,6 +44,6 @@ private slots:
 private:
     EnableClickCallback EnableClickCallbackVal;
     void *              EnableClickCallbackArg;
-    Ui::OpenRGBPluginsEntryUi * ui;
-    bool                        is_system;
+    Ui::OpenRGBPluginsEntry * ui;
+    bool                      is_system;
 };

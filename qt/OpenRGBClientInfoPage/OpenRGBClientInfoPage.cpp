@@ -13,8 +13,7 @@
 #include "OpenRGBClientInfoPage.h"
 #include "ResourceManager.h"
 #include "SettingsManager.h"
-
-using namespace Ui;
+#include "ui_OpenRGBClientInfoPage.h"
 
 static void UpdateInfoCallback(void * this_ptr)
 {
@@ -32,7 +31,7 @@ public:
 
 OpenRGBClientInfoPage::OpenRGBClientInfoPage(QWidget *parent) :
     QFrame(parent),
-    ui(new Ui::OpenRGBClientInfoPageUi)
+    ui(new Ui::OpenRGBClientInfoPage)
 {
     /*-----------------------------------------------------*\
     | Set initial values for GUI fields                     |
@@ -235,7 +234,7 @@ void OpenRGBClientInfoPage::UpdateInfo()
     }
 }
 
-void Ui::OpenRGBClientInfoPage::on_ClientConnectButton_clicked()
+void OpenRGBClientInfoPage::on_ClientConnectButton_clicked()
 {
     /*-----------------------------------------------------*\
     | Read the new client IP and Port values from the UI    |
@@ -265,7 +264,7 @@ void Ui::OpenRGBClientInfoPage::on_ClientConnectButton_clicked()
     rgb_client->RegisterClientInfoChangeCallback(UpdateInfoCallback, this);
 }
 
-void Ui::OpenRGBClientInfoPage::onClientDisconnectButton_clicked(QObject * arg)
+void OpenRGBClientInfoPage::onClientDisconnectButton_clicked(QObject * arg)
 {
     /*-----------------------------------------------------*\
     | Get the pointer to the disconnecting client from args |
@@ -279,7 +278,7 @@ void Ui::OpenRGBClientInfoPage::onClientDisconnectButton_clicked(QObject * arg)
     ResourceManager::get()->UnregisterNetworkClient(disconnect_client);
 }
 
-void Ui::OpenRGBClientInfoPage::onClientSaveCheckBox_clicked(QObject * arg)
+void OpenRGBClientInfoPage::onClientSaveCheckBox_clicked(QObject * arg)
 {
     /*-----------------------------------------------------*\
     | Get the pointer to the client from args               |

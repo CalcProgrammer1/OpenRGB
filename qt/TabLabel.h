@@ -10,14 +10,13 @@
 #pragma once
 
 #include <QWidget>
-#include "ui_TabLabel.h"
 
 namespace Ui
 {
     class TabLabel;
 }
 
-class Ui::TabLabel : public QWidget
+class TabLabel : public QWidget
 {
     Q_OBJECT
 
@@ -26,7 +25,7 @@ public:
     ~TabLabel();
 
 private:
-    Ui::TabLabelUi *ui;
+    Ui::TabLabel *ui;
     char* label;
     char* ctxt;
 

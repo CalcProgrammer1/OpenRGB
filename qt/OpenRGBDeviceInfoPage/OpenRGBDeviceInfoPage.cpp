@@ -8,12 +8,11 @@
 \*---------------------------------------------------------*/
 
 #include "OpenRGBDeviceInfoPage.h"
-
-using namespace Ui;
+#include "ui_OpenRGBDeviceInfoPage.h"
 
 OpenRGBDeviceInfoPage::OpenRGBDeviceInfoPage(RGBController *dev, QWidget *parent) :
     QFrame(parent),
-    ui(new Ui::OpenRGBDeviceInfoPageUi)
+    ui(new Ui::OpenRGBDeviceInfoPage)
 {
     controller = dev;
 

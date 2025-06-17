@@ -10,7 +10,6 @@
 #pragma once
 
 #include <QWidget>
-#include "ui_OpenRGBDMXSettingsPage.h"
 #include "OpenRGBDMXSettingsEntry.h"
 
 namespace Ui
@@ -18,7 +17,7 @@ namespace Ui
     class OpenRGBDMXSettingsPage;
 }
 
-class Ui::OpenRGBDMXSettingsPage : public QWidget
+class OpenRGBDMXSettingsPage : public QWidget
 {
     Q_OBJECT
 
@@ -35,7 +34,7 @@ private slots:
     void on_SaveDMXConfigurationButton_clicked();
 
 private:
-    Ui::OpenRGBDMXSettingsPageUi*           ui;
-    std::vector<OpenRGBDMXSettingsEntry*>   entries;
+    Ui::OpenRGBDMXSettingsPage*           ui;
+    std::vector<OpenRGBDMXSettingsEntry*> entries;
 
 };

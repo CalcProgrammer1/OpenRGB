@@ -12,10 +12,9 @@
 namespace Ui
 {
     class OpenRGBLIFXSettingsEntry;
-    class OpenRGBLIFXSettingsEntryUi;
 }
 
-class Ui::OpenRGBLIFXSettingsEntry : public BaseManualDeviceEntry
+class OpenRGBLIFXSettingsEntry : public BaseManualDeviceEntry
 {
     Q_OBJECT
 
@@ -28,7 +27,7 @@ public:
     void setName(QString name);
 
 private:
-    Ui::OpenRGBLIFXSettingsEntryUi *ui;
+    Ui::OpenRGBLIFXSettingsEntry *ui;
 
 private slots:
     void changeEvent(QEvent *event);

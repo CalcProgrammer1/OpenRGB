@@ -13,7 +13,7 @@
     </message>
 </context>
 <context>
-    <name>OpenRGBClientInfoPageUi</name>
+    <name>OpenRGBClientInfoPage</name>
     <message>
         <source>Port:</source>
         <translation>ポート:</translation>
@@ -38,9 +38,13 @@
         <source>Save Connection</source>
         <translation>接続を保存</translation>
     </message>
+    <message>
+        <source>Disconnect</source>
+        <translation>切断</translation>
+    </message>
 </context>
 <context>
-    <name>OpenRGBConsolePageUi</name>
+    <name>OpenRGBConsolePage</name>
     <message>
         <source>Log level</source>
         <translation>ログレベル</translation>
@@ -55,7 +59,7 @@
     </message>
 </context>
 <context>
-    <name>OpenRGBDMXSettingsEntryUi</name>
+    <name>OpenRGBDMXSettingsEntry</name>
     <message>
         <source>Brightness Channel:</source>
         <translation type="unfinished"></translation>
@@ -86,7 +90,7 @@
     </message>
 </context>
 <context>
-    <name>OpenRGBDMXSettingsPageUi</name>
+    <name>OpenRGBDMXSettingsPage</name>
     <message>
         <source>Add</source>
         <translation>追加</translation>
@@ -101,7 +105,7 @@
     </message>
 </context>
 <context>
-    <name>OpenRGBDeviceInfoPageUi</name>
+    <name>OpenRGBDeviceInfoPage</name>
     <message>
         <source>Name:</source>
         <translation>名前:</translation>
@@ -130,9 +134,13 @@
         <source>Serial:</source>
         <translation>シリアル:</translation>
     </message>
+    <message>
+        <source>Flags:</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
-    <name>OpenRGBDevicePageUi</name>
+    <name>OpenRGBDevicePage</name>
     <message>
         <source>G:</source>
         <translation>緑(G):</translation>
@@ -225,9 +233,93 @@
         <source>Edit</source>
         <translation>編集</translation>
     </message>
+    <message>
+        <source>Set individual LEDs to static colors.  Safe for use with software-driven effects.</source>
+        <translation>個々のLEDを固定に設定する。 ソフトウェア駆動のエフェクトで使用しても安全です。</translation>
+    </message>
+    <message>
+        <source>Set individual LEDs to static colors.  Not safe for use with software-driven effects.</source>
+        <translation>個々のLEDを固定に設定する。 ソフトウェア駆動のエフェクトで使用すると不安定な動作の原因になります。</translation>
+    </message>
+    <message>
+        <source>Sets the entire device or a zone to a single color.</source>
+        <translation>デバイス全体またはゾーンを1色に設定。</translation>
+    </message>
+    <message>
+        <source>Gradually fades between fully off and fully on.</source>
+        <translation>消灯と点灯の間で徐々にフェードイン・オフします。</translation>
+    </message>
+    <message>
+        <source>Abruptly changes between fully off and fully on.</source>
+        <translation>消灯と点灯を繰り返す。</translation>
+    </message>
+    <message>
+        <source>Gradually cycles through the entire color spectrum.  All lights on the device are the same color.</source>
+        <translation>全色を徐々に循環させます。 デバイスのライトはすべて同じ色になります。</translation>
+    </message>
+    <message>
+        <source>Gradually cycles through the entire color spectrum.  Produces a rainbow pattern that moves.</source>
+        <translation>全色のスペクトルを徐々に循環させる。 動く虹のパターンを作り出す。</translation>
+    </message>
+    <message>
+        <source>Flashes lights when keys or buttons are pressed.</source>
+        <translation>キーやボタンが押されると、ライトが点滅します。</translation>
+    </message>
+    <message>
+        <source>Entire Device</source>
+        <translation>LED全て</translation>
+    </message>
+    <message>
+        <source>Entire Zone</source>
+        <translation>ゾーン全て</translation>
+    </message>
+    <message>
+        <source>Left</source>
+        <translation>左</translation>
+    </message>
+    <message>
+        <source>Right</source>
+        <translation>右</translation>
+    </message>
+    <message>
+        <source>Up</source>
+        <translation>上</translation>
+    </message>
+    <message>
+        <source>Down</source>
+        <translation>下</translation>
+    </message>
+    <message>
+        <source>Horizontal</source>
+        <translation>水平</translation>
+    </message>
+    <message>
+        <source>Vertical</source>
+        <translation>垂直</translation>
+    </message>
+    <message>
+        <source>Saved To Device</source>
+        <translation>デバイスに保存しました</translation>
+    </message>
+    <message>
+        <source>Saving Not Supported</source>
+        <translation>設定の保存が非対応です</translation>
+    </message>
+    <message>
+        <source>All Zones</source>
+        <translation>全てのゾーン</translation>
+    </message>
+    <message>
+        <source>Mode Specific</source>
+        <translation>特定のモード</translation>
+    </message>
+    <message>
+        <source>Entire Segment</source>
+        <translation>セグメント全体</translation>
+    </message>
 </context>
 <context>
-    <name>OpenRGBDialogUi</name>
+    <name>OpenRGBDialog</name>
     <message>
         <source>OpenRGB</source>
         <translation>OpenRGB</translation>
@@ -280,9 +372,149 @@
         <source>Save Profile with custom name</source>
         <translation>名前をつけてプロファイルを保存</translation>
     </message>
+    <message>
+        <source>Show/Hide</source>
+        <translation>表示/隠す</translation>
+    </message>
+    <message>
+        <source>Profiles</source>
+        <translation>プロファイル</translation>
+    </message>
+    <message>
+        <source>Quick Colors</source>
+        <translation>簡易色指定</translation>
+    </message>
+    <message>
+        <source>Red</source>
+        <translation>赤</translation>
+    </message>
+    <message>
+        <source>Yellow</source>
+        <translation>黄色</translation>
+    </message>
+    <message>
+        <source>Green</source>
+        <translation>緑</translation>
+    </message>
+    <message>
+        <source>Cyan</source>
+        <translation>シアン</translation>
+    </message>
+    <message>
+        <source>Blue</source>
+        <translation>青</translation>
+    </message>
+    <message>
+        <source>Magenta</source>
+        <translation>マゼンタ</translation>
+    </message>
+    <message>
+        <source>White</source>
+        <translation>白</translation>
+    </message>
+    <message>
+        <source>Lights Off</source>
+        <translation>消灯</translation>
+    </message>
+    <message>
+        <source>Exit</source>
+        <translation>終了</translation>
+    </message>
+    <message>
+        <source>Plugins</source>
+        <translation>プラグイン</translation>
+    </message>
+    <message>
+        <source>Software</source>
+        <translation type="vanished">ソフトウェア</translation>
+    </message>
+    <message>
+        <source>Supported Devices</source>
+        <translation>対応デバイス</translation>
+    </message>
+    <message>
+        <source>General Settings</source>
+        <translation>一般設定</translation>
+    </message>
+    <message>
+        <source>DMX Devices</source>
+        <translation>DMXデバイス</translation>
+    </message>
+    <message>
+        <source>E1.31 Devices</source>
+        <translation>E1.31デバイス</translation>
+    </message>
+    <message>
+        <source>Kasa Smart Devices</source>
+        <translation>Kasa Smart デバイス</translation>
+    </message>
+    <message>
+        <source>LIFX Devices</source>
+        <translation>LIFX デバイス</translation>
+    </message>
+    <message>
+        <source>Philips Hue Devices</source>
+        <translation>フィリップスHueデバイス</translation>
+    </message>
+    <message>
+        <source>Philips Wiz Devices</source>
+        <translation>フィリップスWizデバイス</translation>
+    </message>
+    <message>
+        <source>OpenRGB QMK Protocol</source>
+        <translation>OpenRGB QMK プロトコル</translation>
+    </message>
+    <message>
+        <source>Serial Devices</source>
+        <translation>シリアルデバイス</translation>
+    </message>
+    <message>
+        <source>Yeelight Devices</source>
+        <translation>Yeelightデバイス</translation>
+    </message>
+    <message>
+        <source>Nanoleaf Devices</source>
+        <translation>Nanoleaf デバイス</translation>
+    </message>
+    <message>
+        <source>Elgato KeyLight Devices</source>
+        <translation>Elgato KeyLight デバイス</translation>
+    </message>
+    <message>
+        <source>Elgato LightStrip Devices</source>
+        <translation>Elgato LightStrip デバイス</translation>
+    </message>
+    <message>
+        <source>SMBus Tools</source>
+        <translation>SMBus ツール</translation>
+    </message>
+    <message>
+        <source>SDK Client</source>
+        <translation>SDKクライアント</translation>
+    </message>
+    <message>
+        <source>SDK Server</source>
+        <translation>SDKサーバー</translation>
+    </message>
+    <message>
+        <source>Do you really want to delete this profile?</source>
+        <translation>本当にプロファイルを削除しますか?</translation>
+    </message>
+    <message>
+        <source>Log Console</source>
+        <translation>ログコンソール</translation>
+    </message>
+    <message>
+        <source>About OpenRGB</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Govee Devices</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
-    <name>OpenRGBE131SettingsEntryUi</name>
+    <name>OpenRGBE131SettingsEntry</name>
     <message>
         <source>Start Channel:</source>
         <translation>Start Channel:</translation>
@@ -331,9 +563,53 @@
         <source>RGB Order:</source>
         <translation>RGB順序:</translation>
     </message>
+    <message>
+        <source>Single</source>
+        <translation>Single</translation>
+    </message>
+    <message>
+        <source>Linear</source>
+        <translation>リニア</translation>
+    </message>
+    <message>
+        <source>Matrix</source>
+        <translation>マトリックス</translation>
+    </message>
+    <message>
+        <source>Horizontal Top Left</source>
+        <translation>Horizontal Top Left</translation>
+    </message>
+    <message>
+        <source>Horizontal Top Right</source>
+        <translation>Horizontal Top Right</translation>
+    </message>
+    <message>
+        <source>Horizontal Bottom Left</source>
+        <translation>Horizontal Bottom Left</translation>
+    </message>
+    <message>
+        <source>Horizontal Bottom Right</source>
+        <translation>Horizontal Bottom Right</translation>
+    </message>
+    <message>
+        <source>Vertical Top Left</source>
+        <translation>Vertical Top Left</translation>
+    </message>
+    <message>
+        <source>Vertical Top Right</source>
+        <translation>Vertical Top Right</translation>
+    </message>
+    <message>
+        <source>Vertical Bottom Left</source>
+        <translation>Vertical Bottom Left</translation>
+    </message>
+    <message>
+        <source>Vertical Bottom Right</source>
+        <translation>Vertical Bottom Right</translation>
+    </message>
 </context>
 <context>
-    <name>OpenRGBE131SettingsPageUi</name>
+    <name>OpenRGBE131SettingsPage</name>
     <message>
         <source>Add</source>
         <translation>追加</translation>
@@ -348,14 +624,14 @@
     </message>
 </context>
 <context>
-    <name>OpenRGBElgatoKeyLightSettingsEntryUi</name>
+    <name>OpenRGBElgatoKeyLightSettingsEntry</name>
     <message>
         <source>IP:</source>
         <translation>IP:</translation>
     </message>
 </context>
 <context>
-    <name>OpenRGBElgatoKeyLightSettingsPageUi</name>
+    <name>OpenRGBElgatoKeyLightSettingsPage</name>
     <message>
         <source>Add</source>
         <translation>追加</translation>
@@ -370,14 +646,14 @@
     </message>
 </context>
 <context>
-    <name>OpenRGBElgatoLightStripSettingsEntryUi</name>
+    <name>OpenRGBElgatoLightStripSettingsEntry</name>
     <message>
         <source>IP:</source>
         <translation>IP:</translation>
     </message>
 </context>
 <context>
-    <name>OpenRGBElgatoLightStripSettingsPageUi</name>
+    <name>OpenRGBElgatoLightStripSettingsPage</name>
     <message>
         <source>Add</source>
         <translation>追加</translation>
@@ -392,7 +668,29 @@
     </message>
 </context>
 <context>
-    <name>OpenRGBHardwareIDsDialogUi</name>
+    <name>OpenRGBGoveeSettingsEntry</name>
+    <message>
+        <source>IP:</source>
+        <translation type="unfinished">IP:</translation>
+    </message>
+</context>
+<context>
+    <name>OpenRGBGoveeSettingsPage</name>
+    <message>
+        <source>Add</source>
+        <translation type="unfinished">追加</translation>
+    </message>
+    <message>
+        <source>Remove</source>
+        <translation type="unfinished">削除</translation>
+    </message>
+    <message>
+        <source>Save</source>
+        <translation type="unfinished">保存</translation>
+    </message>
+</context>
+<context>
+    <name>OpenRGBHardwareIDsDialog</name>
     <message>
         <source>Hardware IDs</source>
         <translation>ハードウェアID</translation>
@@ -415,7 +713,7 @@
     </message>
 </context>
 <context>
-    <name>OpenRGBKasaSmartSettingsEntryUi</name>
+    <name>OpenRGBKasaSmartSettingsEntry</name>
     <message>
         <source>IP:</source>
         <translation>IP:</translation>
@@ -426,7 +724,7 @@
     </message>
 </context>
 <context>
-    <name>OpenRGBKasaSmartSettingsPageUi</name>
+    <name>OpenRGBKasaSmartSettingsPage</name>
     <message>
         <source>Add</source>
         <translation>追加</translation>
@@ -441,7 +739,7 @@
     </message>
 </context>
 <context>
-    <name>OpenRGBLIFXSettingsEntryUi</name>
+    <name>OpenRGBLIFXSettingsEntry</name>
     <message>
         <source>IP:</source>
         <translation>IP:</translation>
@@ -452,7 +750,7 @@
     </message>
 </context>
 <context>
-    <name>OpenRGBLIFXSettingsPageUi</name>
+    <name>OpenRGBLIFXSettingsPage</name>
     <message>
         <source>Add</source>
         <translation>追加</translation>
@@ -467,7 +765,7 @@
     </message>
 </context>
 <context>
-    <name>OpenRGBNanoleafNewDeviceDialogUi</name>
+    <name>OpenRGBNanoleafNewDeviceDialog</name>
     <message>
         <source>New Nanoleaf device</source>
         <translation>新しいNanoleafデバイス</translation>
@@ -482,7 +780,7 @@
     </message>
 </context>
 <context>
-    <name>OpenRGBNanoleafSettingsEntryUi</name>
+    <name>OpenRGBNanoleafSettingsEntry</name>
     <message>
         <source>IP:</source>
         <translation>IP:</translation>
@@ -505,7 +803,7 @@
     </message>
 </context>
 <context>
-    <name>OpenRGBNanoleafSettingsPageUi</name>
+    <name>OpenRGBNanoleafSettingsPage</name>
     <message>
         <source>Add</source>
         <translation>追加</translation>
@@ -524,7 +822,7 @@
     </message>
 </context>
 <context>
-    <name>OpenRGBPhilipsHueSettingsEntryUi</name>
+    <name>OpenRGBPhilipsHueSettingsEntry</name>
     <message>
         <source>Entertainment Mode:</source>
         <translation>Entertainment Mode:</translation>
@@ -555,7 +853,7 @@
     </message>
 </context>
 <context>
-    <name>OpenRGBPhilipsHueSettingsPageUi</name>
+    <name>OpenRGBPhilipsHueSettingsPage</name>
     <message>
         <source>Remove</source>
         <translation>削除</translation>
@@ -574,7 +872,7 @@
     </message>
 </context>
 <context>
-    <name>OpenRGBPhilipsWizSettingsEntryUi</name>
+    <name>OpenRGBPhilipsWizSettingsEntry</name>
     <message>
         <source>IP:</source>
         <translation>IP:</translation>
@@ -591,9 +889,17 @@
         <source>White Strategy:</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Average</source>
+        <translation>平均 </translation>
+    </message>
+    <message>
+        <source>Minimum</source>
+        <translation>最小限</translation>
+    </message>
 </context>
 <context>
-    <name>OpenRGBPhilipsWizSettingsPageUi</name>
+    <name>OpenRGBPhilipsWizSettingsPage</name>
     <message>
         <source>Add</source>
         <translation>追加</translation>
@@ -608,7 +914,7 @@
     </message>
 </context>
 <context>
-    <name>OpenRGBPluginsEntryUi</name>
+    <name>OpenRGBPluginsEntry</name>
     <message>
         <source>Version:</source>
         <translation>バージョン:</translation>
@@ -647,7 +953,7 @@
     </message>
 </context>
 <context>
-    <name>OpenRGBPluginsPageUi</name>
+    <name>OpenRGBPluginsPage</name>
     <message>
         <source>Install Plugin</source>
         <translation>プラグインをインストール</translation>
@@ -660,9 +966,37 @@
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;Looking for plugins? See the official list at &lt;a href=&quot;https://openrgb.org/plugins.html&quot;&gt;OpenRGB.org&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;プラグインをお探しですか？ でしたら公式リストをご覧ください。&lt;a href=&quot;https://openrgb.org/plugins.html&quot;&gt;OpenRGB.org&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
+    <message>
+        <source>Install OpenRGB Plugin</source>
+        <translation>OpenRGB用プラグインをインストール</translation>
+    </message>
+    <message>
+        <source>Plugin files (*.dll *.dylib *.so *.so.*)</source>
+        <translation>プラグインファイル (*.dll *.dylib *.so *.so.*)</translation>
+    </message>
+    <message>
+        <source>Replace Plugin</source>
+        <translation>プラグインを入れ替え</translation>
+    </message>
+    <message>
+        <source>A plugin with this filename is already installed.  Are you sure you want to replace this plugin?</source>
+        <translation>このファイル名のプラグインはすでにインストールされています。 本当にこのプラグインを置き換えますか?</translation>
+    </message>
+    <message>
+        <source>Are you sure you want to remove this plugin?</source>
+        <translation>本当にこのプラグインを削除しますか?</translation>
+    </message>
+    <message>
+        <source>Restart Needed</source>
+        <translation>再起動が必要</translation>
+    </message>
+    <message>
+        <source>The plugin will be fully removed after restarting OpenRGB.</source>
+        <translation>OpenRGB を再起動すると、プラグインは完全に削除されます。</translation>
+    </message>
 </context>
 <context>
-    <name>OpenRGBProfileSaveDialogUi</name>
+    <name>OpenRGBProfileSaveDialog</name>
     <message>
         <source>Profile Name</source>
         <translation>プロファイル名</translation>
@@ -677,7 +1011,7 @@
     </message>
 </context>
 <context>
-    <name>OpenRGBQMKORGBSettingsEntryUi</name>
+    <name>OpenRGBQMKORGBSettingsEntry</name>
     <message>
         <source>Name:</source>
         <translation>名前:</translation>
@@ -692,7 +1026,7 @@
     </message>
 </context>
 <context>
-    <name>OpenRGBQMKORGBSettingsPageUi</name>
+    <name>OpenRGBQMKORGBSettingsPage</name>
     <message>
         <source>Add</source>
         <translation>追加</translation>
@@ -707,7 +1041,7 @@
     </message>
 </context>
 <context>
-    <name>OpenRGBSerialSettingsEntryUi</name>
+    <name>OpenRGBSerialSettingsEntry</name>
     <message>
         <source>Baud:</source>
         <translation>Baud:</translation>
@@ -730,7 +1064,7 @@
     </message>
 </context>
 <context>
-    <name>OpenRGBSerialSettingsPageUi</name>
+    <name>OpenRGBSerialSettingsPage</name>
     <message>
         <source>Add</source>
         <translation>追加</translation>
@@ -745,7 +1079,7 @@
     </message>
 </context>
 <context>
-    <name>OpenRGBServerInfoPageUi</name>
+    <name>OpenRGBServerInfoPage</name>
     <message>
         <source>Stop Server</source>
         <translation>サーバー停止</translation>
@@ -786,9 +1120,17 @@
         <source>Connected Clients:</source>
         <translation>接続中のクライアント:</translation>
     </message>
+    <message>
+        <source>Stopping...</source>
+        <translation>停止...</translation>
+    </message>
+    <message>
+        <source>Online</source>
+        <translation>オンライン</translation>
+    </message>
 </context>
 <context>
-    <name>OpenRGBSettingsPageUi</name>
+    <name>OpenRGBSettingsPage</name>
     <message>
         <source>Load Window Geometry</source>
         <translation>ウィンドウジオメトリをロード</translation>
@@ -917,9 +1259,21 @@
         <source>Enable Log File (restart required)</source>
         <translation>ログファイルを有効にする(再起動が必要)</translation>
     </message>
+    <message>
+        <source>English - US</source>
+        <translation>日本語</translation>
+    </message>
+    <message>
+        <source>System Default</source>
+        <translation>システム</translation>
+    </message>
+    <message>
+        <source>A problem occurred enabling Start at Login.</source>
+        <translation>Start At Loginを有効にする際に問題が発生しました。</translation>
+    </message>
 </context>
 <context>
-    <name>OpenRGBSoftwareInfoPageUi</name>
+    <name>OpenRGBSoftwareInfoPage</name>
     <message>
         <source>Build Date:</source>
         <translation>ビルド日付:</translation>
@@ -964,9 +1318,45 @@
         <source>Plugin API Version:</source>
         <translation>Plugin APIバージョン:</translation>
     </message>
+    <message>
+        <source>Qt Version Value</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Qt Version:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>OS Version:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>OS Version Value</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>GNU General Public License, version 2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>License:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Copyright:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Adam Honse, OpenRGB Team</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;b&gt;OpenRGB&lt;/b&gt;, an open-source RGB control utility</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
-    <name>OpenRGBSupportedDevicesPageUi</name>
+    <name>OpenRGBSupportedDevicesPage</name>
     <message>
         <source>Filter:</source>
         <translation>フィルター:</translation>
@@ -981,11 +1371,11 @@
     </message>
     <message>
         <source>Get Hardware IDs</source>
-        <translation>ハードウェアIDを取得"</translation>
+        <translation>ハードウェアIDを取得&quot;</translation>
     </message>
 </context>
 <context>
-    <name>OpenRGBSystemInfoPageUi</name>
+    <name>OpenRGBSystemInfoPage</name>
     <message>
         <source>SMBus Adapters:</source>
         <translation>SMBusアダプター:</translation>
@@ -1040,7 +1430,7 @@
     </message>
 </context>
 <context>
-    <name>OpenRGBYeelightSettingsEntryUi</name>
+    <name>OpenRGBYeelightSettingsEntry</name>
     <message>
         <source>IP:</source>
         <translation>IP:</translation>
@@ -1061,9 +1451,17 @@
         <source>Left blank for auto discovering host ip</source>
         <translation>ホストIPを自動検出する場合は空白にします</translation>
     </message>
+    <message>
+        <source>Choose an IP...</source>
+        <translation>IPを一つ選択...</translation>
+    </message>
+    <message>
+        <source>Choose the correct IP for the host</source>
+        <translation>ホストのIPを正しく選択する</translation>
+    </message>
 </context>
 <context>
-    <name>OpenRGBYeelightSettingsPageUi</name>
+    <name>OpenRGBYeelightSettingsPage</name>
     <message>
         <source>Add</source>
         <translation>追加</translation>
@@ -1078,7 +1476,7 @@
     </message>
 </context>
 <context>
-    <name>OpenRGBZoneResizeDialogUi</name>
+    <name>OpenRGBZoneResizeDialog</name>
     <message>
         <source>Resize Zone</source>
         <translation>ゾーンリサイズ</translation>
@@ -1097,7 +1495,7 @@
     </message>
 </context>
 <context>
-    <name>OpenRGBZonesBulkResizerUi</name>
+    <name>OpenRGBZonesBulkResizer</name>
     <message>
         <source>Do not show again</source>
         <translation>次回から表示しない</translation>
@@ -1117,6 +1515,22 @@
     <message>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;One or more resizable zones have not been configured.  Resizable zones are most commonly used for addressable RGB headers where the size of the connected device cannot be detected automatically.&lt;/p&gt;&lt;p&gt;Please enter the number of LEDs in each zone below.&lt;/p&gt;&lt;p&gt;For more information about calcuating the correct size, please check &lt;a href=&quot;https://openrgb.org/resize.html&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;this link.&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Resize the zones</source>
+        <translation>ゾーンをリサイズ</translation>
+    </message>
+    <message>
+        <source>Controller</source>
+        <translation>コントローラー</translation>
+    </message>
+    <message>
+        <source>Zone</source>
+        <translation>ゾーン</translation>
+    </message>
+    <message>
+        <source>Size</source>
+        <translation>サイズ</translation>
     </message>
 </context>
 <context>
@@ -1139,400 +1553,10 @@
     </message>
 </context>
 <context>
-    <name>TabLabelUi</name>
+    <name>TabLabel</name>
     <message>
         <source>device name</source>
         <translation>デバイス名</translation>
-    </message>
-</context>
-<context>
-    <name>Ui::OpenRGBClientInfoPage</name>
-    <message>
-        <source>Disconnect</source>
-        <translation>切断</translation>
-    </message>
-</context>
-<context>
-    <name>Ui::OpenRGBDevicePage</name>
-    <message>
-        <source>Set individual LEDs to static colors.  Safe for use with software-driven effects.</source>
-        <translation>個々のLEDを固定に設定する。 ソフトウェア駆動のエフェクトで使用しても安全です。</translation>
-    </message>
-    <message>
-        <source>Set individual LEDs to static colors.  Not safe for use with software-driven effects.</source>
-        <translation>個々のLEDを固定に設定する。 ソフトウェア駆動のエフェクトで使用すると不安定な動作の原因になります。</translation>
-    </message>
-    <message>
-        <source>Sets the entire device or a zone to a single color.</source>
-        <translation>デバイス全体またはゾーンを1色に設定。</translation>
-    </message>
-    <message>
-        <source>Gradually fades between fully off and fully on.</source>
-        <translation>消灯と点灯の間で徐々にフェードイン・オフします。</translation>
-    </message>
-    <message>
-        <source>Abruptly changes between fully off and fully on.</source>
-        <translation>消灯と点灯を繰り返す。</translation>
-    </message>
-    <message>
-        <source>Gradually cycles through the entire color spectrum.  All lights on the device are the same color.</source>
-        <translation>全色を徐々に循環させます。 デバイスのライトはすべて同じ色になります。</translation>
-    </message>
-    <message>
-        <source>Gradually cycles through the entire color spectrum.  Produces a rainbow pattern that moves.</source>
-        <translation>全色のスペクトルを徐々に循環させる。 動く虹のパターンを作り出す。</translation>
-    </message>
-    <message>
-        <source>Flashes lights when keys or buttons are pressed.</source>
-        <translation>キーやボタンが押されると、ライトが点滅します。</translation>
-    </message>
-    <message>
-        <source>Entire Device</source>
-        <translation>LED全て</translation>
-    </message>
-    <message>
-        <source>Entire Zone</source>
-        <translation>ゾーン全て</translation>
-    </message>
-    <message>
-        <source>Left</source>
-        <translation>左</translation>
-    </message>
-    <message>
-        <source>Right</source>
-        <translation>右</translation>
-    </message>
-    <message>
-        <source>Up</source>
-        <translation>上</translation>
-    </message>
-    <message>
-        <source>Down</source>
-        <translation>下</translation>
-    </message>
-    <message>
-        <source>Horizontal</source>
-        <translation>水平</translation>
-    </message>
-    <message>
-        <source>Vertical</source>
-        <translation>垂直</translation>
-    </message>
-    <message>
-        <source>Saved To Device</source>
-        <translation>デバイスに保存しました</translation>
-    </message>
-    <message>
-        <source>Save To Device</source>
-        <translation>デバイスに保存する</translation>
-    </message>
-    <message>
-        <source>Saving Not Supported</source>
-        <translation>設定の保存が非対応です</translation>
-    </message>
-    <message>
-        <source>All Zones</source>
-        <translation>全てのゾーン</translation>
-    </message>
-    <message>
-        <source>Mode Specific</source>
-        <translation>特定のモード</translation>
-    </message>
-    <message>
-        <source>Entire Segment</source>
-        <translation>セグメント全体</translation>
-    </message>
-</context>
-<context>
-    <name>Ui::OpenRGBDialog</name>
-    <message>
-        <source>Show/Hide</source>
-        <translation>表示/隠す</translation>
-    </message>
-    <message>
-        <source>Profiles</source>
-        <translation>プロファイル</translation>
-    </message>
-    <message>
-        <source>Quick Colors</source>
-        <translation>簡易色指定</translation>
-    </message>
-    <message>
-        <source>Red</source>
-        <translation>赤</translation>
-    </message>
-    <message>
-        <source>Yellow</source>
-        <translation>黄色</translation>
-    </message>
-    <message>
-        <source>Green</source>
-        <translation>緑</translation>
-    </message>
-    <message>
-        <source>Cyan</source>
-        <translation>シアン</translation>
-    </message>
-    <message>
-        <source>Blue</source>
-        <translation>青</translation>
-    </message>
-    <message>
-        <source>Magenta</source>
-        <translation>マゼンタ</translation>
-    </message>
-    <message>
-        <source>White</source>
-        <translation>白</translation>
-    </message>
-    <message>
-        <source>Lights Off</source>
-        <translation>消灯</translation>
-    </message>
-    <message>
-        <source>Exit</source>
-        <translation>終了</translation>
-    </message>
-    <message>
-        <source>Plugins</source>
-        <translation>プラグイン</translation>
-    </message>
-    <message>
-        <source>Software</source>
-        <translation>ソフトウェア</translation>
-    </message>
-    <message>
-        <source>Supported Devices</source>
-        <translation>対応デバイス</translation>
-    </message>
-    <message>
-        <source>General Settings</source>
-        <translation>一般設定</translation>
-    </message>
-    <message>
-        <source>DMX Devices</source>
-        <translation>DMXデバイス</translation>
-    </message>
-    <message>
-        <source>E1.31 Devices</source>
-        <translation>E1.31デバイス</translation>
-    </message>
-    <message>
-        <source>Kasa Smart Devices</source>
-        <translation>Kasa Smart デバイス</translation>
-    </message>
-    <message>
-        <source>LIFX Devices</source>
-        <translation>LIFX デバイス</translation>
-    </message>
-    <message>
-        <source>Philips Hue Devices</source>
-        <translation>フィリップスHueデバイス</translation>
-    </message>
-    <message>
-        <source>Philips Wiz Devices</source>
-        <translation>フィリップスWizデバイス</translation>
-    </message>
-    <message>
-        <source>OpenRGB QMK Protocol</source>
-        <translation>OpenRGB QMK プロトコル</translation>
-    </message>
-    <message>
-        <source>Serial Devices</source>
-        <translation>シリアルデバイス</translation>
-    </message>
-    <message>
-        <source>Yeelight Devices</source>
-        <translation>Yeelightデバイス</translation>
-    </message>
-    <message>
-        <source>Nanoleaf Devices</source>
-        <translation>Nanoleaf デバイス</translation>
-    </message>
-    <message>
-        <source>Elgato KeyLight Devices</source>
-        <translation>Elgato KeyLight デバイス</translation>
-    </message>
-    <message>
-        <source>Elgato LightStrip Devices</source>
-        <translation>Elgato LightStrip デバイス</translation>
-    </message>
-    <message>
-        <source>SMBus Tools</source>
-        <translation>SMBus ツール</translation>
-    </message>
-    <message>
-        <source>SDK Client</source>
-        <translation>SDKクライアント</translation>
-    </message>
-    <message>
-        <source>SDK Server</source>
-        <translation>SDKサーバー</translation>
-    </message>
-    <message>
-        <source>Delete Profile</source>
-        <translation>プロファイル削除</translation>
-    </message>
-    <message>
-        <source>Do you really want to delete this profile?</source>
-        <translation>本当にプロファイルを削除しますか?</translation>
-    </message>
-    <message>
-        <source>Log Console</source>
-        <translation>ログコンソール</translation>
-    </message>
-</context>
-<context>
-    <name>Ui::OpenRGBE131SettingsEntry</name>
-    <message>
-        <source>Single</source>
-        <translation>Single</translation>
-    </message>
-    <message>
-        <source>Linear</source>
-        <translation>リニア</translation>
-    </message>
-    <message>
-        <source>Matrix</source>
-        <translation>マトリックス</translation>
-    </message>
-    <message>
-        <source>Horizontal Top Left</source>
-        <translation>Horizontal Top Left</translation>
-    </message>
-    <message>
-        <source>Horizontal Top Right</source>
-        <translation>Horizontal Top Right</translation>
-    </message>
-    <message>
-        <source>Horizontal Bottom Left</source>
-        <translation>Horizontal Bottom Left</translation>
-    </message>
-    <message>
-        <source>Horizontal Bottom Right</source>
-        <translation>Horizontal Bottom Right</translation>
-    </message>
-    <message>
-        <source>Vertical Top Left</source>
-        <translation>Vertical Top Left</translation>
-    </message>
-    <message>
-        <source>Vertical Top Right</source>
-        <translation>Vertical Top Right</translation>
-    </message>
-    <message>
-        <source>Vertical Bottom Left</source>
-        <translation>Vertical Bottom Left</translation>
-    </message>
-    <message>
-        <source>Vertical Bottom Right</source>
-        <translation>Vertical Bottom Right</translation>
-    </message>
-</context>
-<context>
-    <name>Ui::OpenRGBPhilipsWizSettingsEntry</name>
-    <message>
-        <source>Average</source>
-        <translation>平均 </translation>
-    </message>
-    <message>
-        <source>Minimum</source>
-        <translation>最小限</translation>
-    </message>
-</context>
-<context>
-    <name>Ui::OpenRGBPluginsPage</name>
-    <message>
-        <source>Install OpenRGB Plugin</source>
-        <translation>OpenRGB用プラグインをインストール</translation>
-    </message>
-    <message>
-        <source>Plugin files (*.dll *.dylib *.so *.so.*)</source>
-        <translation>プラグインファイル (*.dll *.dylib *.so *.so.*)</translation>
-    </message>
-    <message>
-        <source>Replace Plugin</source>
-        <translation>プラグインを入れ替え</translation>
-    </message>
-    <message>
-        <source>A plugin with this filename is already installed.  Are you sure you want to replace this plugin?</source>
-        <translation>このファイル名のプラグインはすでにインストールされています。 本当にこのプラグインを置き換えますか?</translation>
-    </message>
-    <message>
-        <source>Remove Plugin</source>
-        <translation>プラグイン削除</translation>
-    </message>
-    <message>
-        <source>Are you sure you want to remove this plugin?</source>
-        <translation>本当にこのプラグインを削除しますか?</translation>
-    </message>
-    <message>
-        <source>Restart Needed</source>
-        <translation>再起動が必要</translation>
-    </message>
-    <message>
-        <source>The plugin will be fully removed after restarting OpenRGB.</source>
-        <translation>OpenRGB を再起動すると、プラグインは完全に削除されます。</translation>
-    </message>
-</context>
-<context>
-    <name>Ui::OpenRGBServerInfoPage</name>
-    <message>
-        <source>Stopping...</source>
-        <translation>停止...</translation>
-    </message>
-    <message>
-        <source>Online</source>
-        <translation>オンライン</translation>
-    </message>
-    <message>
-        <source>Offline</source>
-        <translation>オフライン</translation>
-    </message>
-</context>
-<context>
-    <name>Ui::OpenRGBSettingsPage</name>
-    <message>
-        <source>English - US</source>
-        <translation>日本語</translation>
-    </message>
-    <message>
-        <source>System Default</source>
-        <translation>システム</translation>
-    </message>
-    <message>
-        <source>A problem occurred enabling Start at Login.</source>
-        <translation>Start At Loginを有効にする際に問題が発生しました。</translation>
-    </message>
-</context>
-<context>
-    <name>Ui::OpenRGBYeelightSettingsEntry</name>
-    <message>
-        <source>Choose an IP...</source>
-        <translation>IPを一つ選択...</translation>
-    </message>
-    <message>
-        <source>Choose the correct IP for the host</source>
-        <translation>ホストのIPを正しく選択する</translation>
-    </message>
-</context>
-<context>
-    <name>Ui::OpenRGBZonesBulkResizer</name>
-    <message>
-        <source>Resize the zones</source>
-        <translation>ゾーンをリサイズ</translation>
-    </message>
-    <message>
-        <source>Controller</source>
-        <translation>コントローラー</translation>
-    </message>
-    <message>
-        <source>Zone</source>
-        <translation>ゾーン</translation>
-    </message>
-    <message>
-        <source>Size</source>
-        <translation>サイズ</translation>
     </message>
 </context>
 </TS>

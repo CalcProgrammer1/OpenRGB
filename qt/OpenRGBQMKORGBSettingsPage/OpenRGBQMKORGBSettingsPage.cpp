@@ -12,11 +12,9 @@
 #include "ResourceManager.h"
 #include "SettingsManager.h"
 
-using namespace Ui;
-
 OpenRGBQMKORGBSettingsPage::OpenRGBQMKORGBSettingsPage(QWidget *parent) :
     QWidget(parent),
-    ui(new Ui::OpenRGBQMKORGBSettingsPageUi)
+    ui(new Ui::OpenRGBQMKORGBSettingsPage)
 {
     ui->setupUi(this);
 
@@ -64,7 +62,7 @@ void OpenRGBQMKORGBSettingsPage::changeEvent(QEvent *event)
     }
 }
 
-void Ui::OpenRGBQMKORGBSettingsPage::on_AddQMKORGBDeviceButton_clicked()
+void OpenRGBQMKORGBSettingsPage::on_AddQMKORGBDeviceButton_clicked()
 {
     OpenRGBQMKORGBSettingsEntry* entry = new OpenRGBQMKORGBSettingsEntry;
     entries.push_back(entry);
@@ -78,7 +76,7 @@ void Ui::OpenRGBQMKORGBSettingsPage::on_AddQMKORGBDeviceButton_clicked()
     ui->QMKORGBDeviceList->show();
 }
 
-void Ui::OpenRGBQMKORGBSettingsPage::on_RemoveQMKORGBDeviceButton_clicked()
+void OpenRGBQMKORGBSettingsPage::on_RemoveQMKORGBDeviceButton_clicked()
 {
     int cur_row = ui->QMKORGBDeviceList->currentRow();
 
@@ -96,7 +94,7 @@ void Ui::OpenRGBQMKORGBSettingsPage::on_RemoveQMKORGBDeviceButton_clicked()
     entries.erase(entries.begin() + cur_row);
 }
 
-void Ui::OpenRGBQMKORGBSettingsPage::on_SaveQMKORGBConfigurationButton_clicked()
+void OpenRGBQMKORGBSettingsPage::on_SaveQMKORGBConfigurationButton_clicked()
 {
     json                qmk_settings;
 

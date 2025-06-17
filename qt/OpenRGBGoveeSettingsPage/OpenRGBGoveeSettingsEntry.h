@@ -16,10 +16,9 @@
 namespace Ui
 {
     class OpenRGBGoveeSettingsEntry;
-    class OpenRGBGoveeSettingsEntryUi;
 }
 
-class Ui::OpenRGBGoveeSettingsEntry : public BaseManualDeviceEntry
+class OpenRGBGoveeSettingsEntry : public BaseManualDeviceEntry
 {
     Q_OBJECT
 
@@ -31,7 +30,7 @@ public:
     const char* settingsSection();
 
 private:
-    Ui::OpenRGBGoveeSettingsEntryUi *ui;
+    Ui::OpenRGBGoveeSettingsEntry *ui;
 
 private slots:
     void changeEvent(QEvent *event);

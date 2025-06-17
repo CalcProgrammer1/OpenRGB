@@ -11,7 +11,6 @@
 
 #include <QFrame>
 #include "RGBController.h"
-#include "ui_OpenRGBClientInfoPage.h"
 #include "NetworkClient.h"
 
 namespace Ui
@@ -19,7 +18,7 @@ namespace Ui
     class OpenRGBClientInfoPage;
 }
 
-class Ui::OpenRGBClientInfoPage : public QFrame
+class OpenRGBClientInfoPage : public QFrame
 {
     Q_OBJECT
 
@@ -39,5 +38,5 @@ private slots:
     void onClientSaveCheckBox_clicked(QObject * arg);
 
 private:
-    Ui::OpenRGBClientInfoPageUi *ui;
+    Ui::OpenRGBClientInfoPage *ui;
 };

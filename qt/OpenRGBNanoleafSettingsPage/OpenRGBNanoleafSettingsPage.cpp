@@ -16,11 +16,9 @@
 
 using json = nlohmann::json;
 
-using namespace Ui;
-
 OpenRGBNanoleafSettingsPage::OpenRGBNanoleafSettingsPage(QWidget *parent) :
     QWidget(parent),
-    ui(new Ui::OpenRGBNanoleafSettingsPageUi)
+    ui(new Ui::OpenRGBNanoleafSettingsPage)
 {
     ui->setupUi(this);
 
@@ -64,7 +62,7 @@ void OpenRGBNanoleafSettingsPage::changeEvent(QEvent *event)
     }
 }
 
-void Ui::OpenRGBNanoleafSettingsPage::on_AddNanoleafDeviceButton_clicked()
+void OpenRGBNanoleafSettingsPage::on_AddNanoleafDeviceButton_clicked()
 {
     /*-----------------------------------------------------*\
     | Open a popup to manually add a device by setting ip   |
@@ -100,7 +98,7 @@ void Ui::OpenRGBNanoleafSettingsPage::on_AddNanoleafDeviceButton_clicked()
     }
 }
 
-void Ui::OpenRGBNanoleafSettingsPage::on_RemoveNanoleafDeviceButton_clicked()
+void OpenRGBNanoleafSettingsPage::on_RemoveNanoleafDeviceButton_clicked()
 {
     /*-------------------------------------------------*\
     | Remove the selected device                        |
@@ -129,7 +127,7 @@ void Ui::OpenRGBNanoleafSettingsPage::on_RemoveNanoleafDeviceButton_clicked()
     ResourceManager::get()->GetSettingsManager()->SaveSettings();
 }
 
-void Ui::OpenRGBNanoleafSettingsPage::on_ScanForNanoleafDevicesButton_clicked()
+void OpenRGBNanoleafSettingsPage::on_ScanForNanoleafDevicesButton_clicked()
 {
     /*-----------------------------------------------------*\
     | Create a worker thread for the mDNS query and hookup  |
@@ -146,7 +144,7 @@ void Ui::OpenRGBNanoleafSettingsPage::on_ScanForNanoleafDevicesButton_clicked()
     scanThread->start();
 }
 
-void Ui::OpenRGBNanoleafSettingsPage::on_DeviceFound(QString address, int port)
+void OpenRGBNanoleafSettingsPage::on_DeviceFound(QString address, int port)
 {
     std::string location = address.toStdString()+":"+std::to_string(port);
 

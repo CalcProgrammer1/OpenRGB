@@ -10,11 +10,9 @@
 #include "OpenRGBPhilipsHueSettingsEntry.h"
 #include "ui_OpenRGBPhilipsHueSettingsEntry.h"
 
-using namespace Ui;
-
 OpenRGBPhilipsHueSettingsEntry::OpenRGBPhilipsHueSettingsEntry(QWidget *parent) :
     BaseManualDeviceEntry(parent),
-    ui(new Ui::OpenRGBPhilipsHueSettingsEntryUi)
+    ui(new Ui::OpenRGBPhilipsHueSettingsEntry)
 {
     ui->setupUi(this);
 }
@@ -32,7 +30,7 @@ void OpenRGBPhilipsHueSettingsEntry::changeEvent(QEvent *event)
     }
 }
 
-void Ui::OpenRGBPhilipsHueSettingsEntry::on_UnpairButton_clicked()
+void OpenRGBPhilipsHueSettingsEntry::on_UnpairButton_clicked()
 {
     ui->UsernameValue->setText("");
     ui->ClientKeyValue->setText("");

@@ -10,11 +10,9 @@
 #include "OpenRGBKasaSmartSettingsEntry.h"
 #include "ui_OpenRGBKasaSmartSettingsEntry.h"
 
-using namespace Ui;
-
 OpenRGBKasaSmartSettingsEntry::OpenRGBKasaSmartSettingsEntry(QWidget *parent) :
     BaseManualDeviceEntry(parent),
-    ui(new Ui::OpenRGBKasaSmartSettingsEntryUi)
+    ui(new Ui::OpenRGBKasaSmartSettingsEntry)
 {
     ui->setupUi(this);
 }

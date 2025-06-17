@@ -10,7 +10,6 @@
 #pragma once
 
 #include <QFrame>
-#include "ui_OpenRGBSystemInfoPage.h"
 #include "i2c_smbus.h"
 
 namespace Ui
@@ -18,7 +17,7 @@ namespace Ui
     class OpenRGBSystemInfoPage;
 }
 
-class Ui::OpenRGBSystemInfoPage : public QFrame
+class OpenRGBSystemInfoPage : public QFrame
 {
     Q_OBJECT
 
@@ -38,6 +37,6 @@ private slots:
     void on_ReadButton_clicked();
 
 private:
-    Ui::OpenRGBSystemInfoPageUi *ui;
+    Ui::OpenRGBSystemInfoPage *ui;
     std::vector<i2c_smbus_interface *>& busses;
 };
