@@ -187,6 +187,11 @@ s32 i2c_smbus_amdadl::i2c_smbus_xfer(u8 addr, char read_write, u8 command, int s
         data_ptr = (char*)&data->block[0];
         break;
 
+    case I2C_SMBUS_I2C_BLOCK_DATA:
+        data_size = data->block[0];
+        data_ptr = (char*)&data->block[1];
+        break;
+
     default:
         return -1;
     }
