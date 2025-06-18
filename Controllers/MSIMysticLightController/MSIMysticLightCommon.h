@@ -35,7 +35,11 @@ enum MSI_ZONE
     MSI_ZONE_ON_BOARD_LED_7         = 17,
     MSI_ZONE_ON_BOARD_LED_8         = 18,
     MSI_ZONE_ON_BOARD_LED_9         = 19,
-    MSI_ZONE_ON_BOARD_LED_10        = 20
+    MSI_ZONE_ON_BOARD_LED_10        = 20,
+    MSI_ZONE_JAF                    = 21,
+    MSI_ZONE_JARGB_1                = 22,
+    MSI_ZONE_JARGB_2                = 23,
+    MSI_ZONE_JARGB_3                = 24,
 };
 
 enum MSI_MODE
@@ -113,6 +117,7 @@ enum MSI_BRIGHTNESS
 };
 
 #define NUMOF_PER_LED_MODE_LEDS                  240
+#define NUM_LEDS_761                             720
 
 #define SYNC_SETTING_ONBOARD        0x01
 #define SYNC_SETTING_JRAINBOW1      0x02
@@ -239,6 +244,32 @@ struct FeaturePacket_PerLED_185
     unsigned char hdr2                                   = 0x00;      // header byte 2
     unsigned char hdr3                                   = 0x00;      // header byte 3
     Color         leds[NUMOF_PER_LED_MODE_LEDS];
+};
+
+struct FeaturePacket_PerLED_761
+{
+    unsigned char report_id                              = 0x51;      // Report ID
+    unsigned char fixed1                                 = 0x09;      // Always 9?
+    unsigned char hdr0;                                               // 0x08 for ez 0x04 for ARGB 0x06 for LED
+    unsigned char hdr1;                                               // 0 for LED/EZ and argb num for ARGB?
+    unsigned char fixed2                                 = 0x00;      // IDK what this is
+    unsigned char fixed3                                 = 0x00;      // IDK what this is
+    unsigned char hdr2;                                               // Led Count
+    unsigned char colors [NUM_LEDS_761];
+};
+
+struct FeaturePacket_Zone_761
+{
+    MSI_ZONE zone;
+    FeaturePacket_PerLED_761 packet;
+};
+
+struct FeaturePacket_761
+{
+    FeaturePacket_Zone_761 jargb1;
+    FeaturePacket_Zone_761 jargb2;
+    FeaturePacket_Zone_761 jargb3;
+    FeaturePacket_Zone_761 jaf;
 };
 
 #define MSI_USB_PID_COMMON  0x0076      // Common PID for a certain set of 185-byte boards
