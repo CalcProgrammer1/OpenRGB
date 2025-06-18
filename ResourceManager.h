@@ -291,6 +291,7 @@ private:
     | Detection Thread and Detection State                                                  |
     \*-------------------------------------------------------------------------------------*/
     std::thread *                               DetectDevicesThread;
+    std::thread *                               DetectDevicesThread; // Used for rescan
     std::mutex                                  DetectDeviceMutex;
     std::function<void()>                       ScheduledBackgroundFunction;
     std::mutex                                  BackgroundThreadStateMutex;
