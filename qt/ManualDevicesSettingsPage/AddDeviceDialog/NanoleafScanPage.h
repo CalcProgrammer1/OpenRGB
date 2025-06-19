@@ -10,7 +10,7 @@
 #pragma once
 
 #include <QWidget>
-#include "OpenRGBNanoleafSettingsEntry.h"
+#include "NanoleafSettingsEntry.h"
 
 namespace Ui
 {
