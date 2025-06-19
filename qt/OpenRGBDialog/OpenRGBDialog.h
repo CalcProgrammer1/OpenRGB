@@ -10,7 +10,6 @@
 #pragma once
 
 #include <string>
-#include <vector>
 #include <QMainWindow>
 #include <QTimer>
 #include <QSystemTrayIcon>
@@ -23,6 +22,9 @@
 #include "OpenRGBSystemInfoPage.h"
 #include "OpenRGBSupportedDevicesPage.h"
 #include "OpenRGBSettingsPage.h"
+#include "ManualDevicesSettingsPage/ManualDevicesSettingsPage.h"
+
+// Manual devices pages - to be removed later
 #include "OpenRGBDMXSettingsPage/OpenRGBDMXSettingsPage.h"
 #include "OpenRGBE131SettingsPage/OpenRGBE131SettingsPage.h"
 #include "OpenRGBElgatoKeyLightSettingsPage/OpenRGBElgatoKeyLightSettingsPage.h"
@@ -36,6 +38,7 @@
 #include "OpenRGBSerialSettingsPage/OpenRGBSerialSettingsPage.h"
 #include "OpenRGBYeelightSettingsPage/OpenRGBYeelightSettingsPage.h"
 #include "OpenRGBNanoleafSettingsPage/OpenRGBNanoleafSettingsPage.h"
+
 #include "PluginManager.h"
 #include "SuspendResume.h"
 
@@ -98,6 +101,9 @@ private:
     OpenRGBSoftwareInfoPage *SoftInfoPage;
     OpenRGBSupportedDevicesPage *SupportedPage;
     OpenRGBSettingsPage *SettingsPage;
+
+    ManualDevicesSettingsPage *manualDevicesPage;
+    // Manual devices pages - to be removed later
     OpenRGBDMXSettingsPage *DMXSettingsPage;
     OpenRGBE131SettingsPage *E131SettingsPage;
     OpenRGBElgatoKeyLightSettingsPage *ElgatoKeyLightSettingsPage;
@@ -130,6 +136,11 @@ private:
     void AddSoftwareInfoPage();
     void AddSupportedDevicesPage();
     void AddSettingsPage();
+    void AddPluginsPage();
+    void AddConsolePage();
+    void AddManualDevicesSettingsPage();
+
+    // Manual devices pages - to be removed later
     void AddDMXSettingsPage();
     void AddE131SettingsPage();
     void AddElgatoKeyLightSettingsPage();
@@ -143,8 +154,6 @@ private:
     void AddSerialSettingsPage();
     void AddYeelightSettingsPage();
     void AddNanoleafSettingsPage();
-    void AddPluginsPage();
-    void AddConsolePage();
 
     void ClearDevicesList();
     void UpdateDevicesList();

@@ -28,12 +28,7 @@ public:
     void loadFromSettings(const json& data);
     json saveSettings();
     const char* settingsSection();
-
-    QString address;
-    int port;
-
-private:
-    Ui::OpenRGBNanoleafSettingsEntry *ui;
+    std::string getLocation();
 
 private slots:
     void changeEvent(QEvent *event);
@@ -41,6 +36,9 @@ private slots:
     void on_PairButton_clicked();
 
 private:
+    Ui::OpenRGBNanoleafSettingsEntry *ui;
+    QString address;
+    int port;
     std::string auth_token;
     bool paired;
 };

@@ -27,7 +27,7 @@ OpenRGBNanoleafSettingsEntry::OpenRGBNanoleafSettingsEntry(QString a_address, in
 {
     address = a_address;
     port = a_port;
-    const std::string location = address.toStdString()+":"+std::to_string(port);
+    const std::string location = getLocation();
 
     ui->IPValue->setText(address);
     ui->PortValue->setText(QString::fromStdString(std::to_string(a_port)));
@@ -69,7 +69,7 @@ void OpenRGBNanoleafSettingsEntry::on_PairButton_clicked()
         auth_token = NanoleafController::Pair(address.toStdString(), port);
 
         // Save auth token.
-        const std::string location = address.toStdString()+":"+std::to_string(port);
+        std::string location = getLocation();
         json nanoleaf_settings = ResourceManager::get()->GetSettingsManager()->GetSettings("NanoleafDevices");
         nanoleaf_settings["devices"][location]["ip"] = address.toStdString();
         nanoleaf_settings["devices"][location]["port"] = port;
@@ -94,7 +94,7 @@ void OpenRGBNanoleafSettingsEntry::on_UnpairButton_clicked()
 {
     NanoleafController::Unpair(address.toStdString(), port, auth_token);
 
-    const std::string location = address.toStdString()+":"+std::to_string(port);
+    std::string location = getLocation();
     json nanoleaf_settings = ResourceManager::get()->GetSettingsManager()->GetSettings("NanoleafDevices");
     nanoleaf_settings["devices"].erase(location);
     ResourceManager::get()->GetSettingsManager()->SetSettings("NanoleafDevices", nanoleaf_settings);
@@ -147,4 +147,9 @@ json OpenRGBNanoleafSettingsEntry::saveSettings()
 const char* OpenRGBNanoleafSettingsEntry::settingsSection()
 {
     return "NanoleafDevices";
+}
+
+std::string OpenRGBNanoleafSettingsEntry::getLocation()
+{
+    return (address.toStdString() + ":" + std::to_string(port));
 }

@@ -489,6 +489,12 @@ OpenRGBDialog::OpenRGBDialog(QWidget *parent) : QMainWindow(parent), ui(new Ui::
     AddPluginsPage();
 
     /*-----------------------------------------------------*\
+    | Add the Manually Added Devices settings page          |
+    | NOTE: The blocks below are to be removed later        |
+    \*-----------------------------------------------------*/
+    AddManualDevicesSettingsPage();
+
+    /*-----------------------------------------------------*\
     | Add the DMX settings page                             |
     \*-----------------------------------------------------*/
     AddDMXSettingsPage();
@@ -807,6 +813,23 @@ void OpenRGBDialog::AddSettingsPage()
     \*-----------------------------------------------------*/
     connect(SettingsPage, SIGNAL(TrayIconChanged(bool)), this, SLOT(SetTrayIcon(bool)));
     connect(this, SIGNAL(ProfileListChanged()), SettingsPage, SLOT(UpdateProfiles()));
+}
+
+void OpenRGBDialog::AddManualDevicesSettingsPage()
+{
+    /*-----------------------------------------------------*\
+    | Create the Settings page                              |
+    \*-----------------------------------------------------*/
+    manualDevicesPage = new ManualDevicesSettingsPage();
+
+    ui->SettingsTabBar->addTab(manualDevicesPage, "");
+
+    /*-----------------------------------------------------*\
+    | Create the tab label                                  |
+    \*-----------------------------------------------------*/
+    TabLabel* SettingsTabLabel = new TabLabel(OpenRGBFont::bulb, tr("Manually Added Devices"), (char *)"Manually Added Devices", (char *)context);
+
+    ui->SettingsTabBar->tabBar()->setTabButton(ui->SettingsTabBar->tabBar()->count() - 1, QTabBar::LeftSide, SettingsTabLabel);
 }
 
 void OpenRGBDialog::AddDMXSettingsPage()

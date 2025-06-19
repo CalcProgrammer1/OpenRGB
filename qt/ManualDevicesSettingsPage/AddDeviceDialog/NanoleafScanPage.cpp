@@ -1,60 +1,34 @@
 /*---------------------------------------------------------*\
-| OpenRGBNanoleafSettingsPage.cpp                           |
+| NanoleafScanPage.cpp                               |
 |                                                           |
-|   User interface for OpenRGB Nanoleaf settings page       |
+|   User interface for OpenRGB Nanoleaf scan & pairing page |
 |                                                           |
 |   This file is part of the OpenRGB project                |
 |   SPDX-License-Identifier: GPL-2.0-only                   |
 \*---------------------------------------------------------*/
 
-#include "OpenRGBNanoleafSettingsPage.h"
-#include "ui_OpenRGBNanoleafSettingsPage.h"
-#include "OpenRGBNanoleafNewDeviceDialog.h"
+#include "NanoleafScanPage.h"
+#include "ui_NanoleafScanPage.h"
+#include "NanoleafNewDeviceDialog.h"
 #include "ResourceManager.h"
 #include "SettingsManager.h"
 #include "LogManager.h"
 
 using json = nlohmann::json;
 
-OpenRGBNanoleafSettingsPage::OpenRGBNanoleafSettingsPage(QWidget *parent) :
+NanoleafScanPage::NanoleafScanPage(QWidget *parent) :
     QWidget(parent),
-    ui(new Ui::OpenRGBNanoleafSettingsPage)
+    ui(new Ui::NanoleafScanPage)
 {
     ui->setupUi(this);
-
-    json nanoleaf_settings = ResourceManager::get()->GetSettingsManager()->GetSettings("NanoleafDevices");
-
-    if(nanoleaf_settings.contains("devices"))
-    {
-        for(json::const_iterator it = nanoleaf_settings["devices"].begin(); it != nanoleaf_settings["devices"].end(); ++it)
-        {
-            const json& device = it.value();
-            const std::string& location = it.key();
-
-            if(device.contains("ip") && device.contains("port"))
-            {
-                OpenRGBNanoleafSettingsEntry* entry = new OpenRGBNanoleafSettingsEntry(QString::fromStdString(device["ip"]), device["port"]);
-
-                entries[location] = entry;
-
-                QListWidgetItem* item = new QListWidgetItem;
-
-                item->setSizeHint(entry->sizeHint());
-
-                ui->NanoleafDeviceList->addItem(item);
-                ui->NanoleafDeviceList->setItemWidget(item, entry);
-                ui->NanoleafDeviceList->show();
-            }
-        }
-    }
 }
 
-OpenRGBNanoleafSettingsPage::~OpenRGBNanoleafSettingsPage()
+NanoleafScanPage::~NanoleafScanPage()
 {
     delete ui;
 }
 
-void OpenRGBNanoleafSettingsPage::changeEvent(QEvent *event)
+void NanoleafScanPage::changeEvent(QEvent *event)
 {
     if(event->type() == QEvent::LanguageChange)
     {
@@ -62,13 +36,13 @@ void OpenRGBNanoleafSettingsPage::changeEvent(QEvent *event)
     }
 }
 
-void OpenRGBNanoleafSettingsPage::on_AddNanoleafDeviceButton_clicked()
+void NanoleafScanPage::on_AddNanoleafDeviceButton_clicked()
 {
     /*-----------------------------------------------------*\
     | Open a popup to manually add a device by setting ip   |
     | and port                                              |
     \*-----------------------------------------------------*/
-    OpenRGBNanoleafNewDeviceDialog dialog;
+    NanoleafNewDeviceDialog dialog;
     NanoleafDevice device = dialog.show();
     if(!device.ip.empty())
     {
@@ -98,7 +72,7 @@ void OpenRGBNanoleafSettingsPage::on_AddNanoleafDeviceButton_clicked()
     }
 }
 
-void OpenRGBNanoleafSettingsPage::on_RemoveNanoleafDeviceButton_clicked()
+void NanoleafScanPage::on_RemoveNanoleafDeviceButton_clicked()
 {
     /*-------------------------------------------------*\
     | Remove the selected device                        |
@@ -112,12 +86,11 @@ void OpenRGBNanoleafSettingsPage::on_RemoveNanoleafDeviceButton_clicked()
 
     QListWidgetItem* item = ui->NanoleafDeviceList->item(cur_row);
     OpenRGBNanoleafSettingsEntry* entry = (OpenRGBNanoleafSettingsEntry*) ui->NanoleafDeviceList->itemWidget(item);
-    std::string location = entry->getLocation();
-    LOG_TRACE("[%s] Remove %s", "Nanoleaf", location.c_str());
 
     ui->NanoleafDeviceList->removeItemWidget(item);
     delete item;
 
+    std::string location = entry->getLocation();
     delete entries[location];
     entries.erase(location);
 
@@ -127,7 +100,7 @@ void OpenRGBNanoleafSettingsPage::on_RemoveNanoleafDeviceButton_clicked()
     ResourceManager::get()->GetSettingsManager()->SaveSettings();
 }
 
-void OpenRGBNanoleafSettingsPage::on_ScanForNanoleafDevicesButton_clicked()
+void NanoleafScanPage::on_ScanForNanoleafDevicesButton_clicked()
 {
     /*-----------------------------------------------------*\
     | Create a worker thread for the mDNS query and hookup  |
@@ -144,7 +117,7 @@ void OpenRGBNanoleafSettingsPage::on_ScanForNanoleafDevicesButton_clicked()
     scanThread->start();
 }
 
-void OpenRGBNanoleafSettingsPage::on_DeviceFound(QString address, int port)
+void NanoleafScanPage::on_DeviceFound(QString address, int port)
 {
     std::string location = address.toStdString()+":"+std::to_string(port);
 
