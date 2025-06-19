@@ -7,18 +7,15 @@
 |   SPDX-License-Identifier: GPL-2.0-only                   |
 \*---------------------------------------------------------*/
 
-#include <vector>
+#include "ResourceManager.h"
+#include "NetworkServer.h"
+#include "LogManager.h"
+#include "cli.h"
+
+#include <QApplication>
 #include <stdio.h>
 #include <stdlib.h>
 #include <thread>
-#include "cli.h"
-#include "ResourceManager.h"
-#include "NetworkClient.h"
-#include "NetworkServer.h"
-#include "ProfileManager.h"
-#include "RGBController.h"
-#include "i2c_smbus.h"
-#include "LogManager.h"
 
 #ifdef _MACOSX_X86_X64
 #include "macUSPCIOAccess.h"

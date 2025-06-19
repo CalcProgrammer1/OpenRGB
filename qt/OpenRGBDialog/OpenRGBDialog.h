@@ -24,21 +24,6 @@
 #include "OpenRGBSettingsPage.h"
 #include "ManualDevicesSettingsPage/ManualDevicesSettingsPage.h"
 
-// Manual devices pages - to be removed later
-#include "OpenRGBDMXSettingsPage/OpenRGBDMXSettingsPage.h"
-#include "OpenRGBE131SettingsPage/OpenRGBE131SettingsPage.h"
-#include "OpenRGBElgatoKeyLightSettingsPage/OpenRGBElgatoKeyLightSettingsPage.h"
-#include "OpenRGBElgatoLightStripSettingsPage/OpenRGBElgatoLightStripSettingsPage.h"
-#include "OpenRGBGoveeSettingsPage/OpenRGBGoveeSettingsPage.h"
-#include "OpenRGBKasaSmartSettingsPage/OpenRGBKasaSmartSettingsPage.h"
-#include "OpenRGBLIFXSettingsPage/OpenRGBLIFXSettingsPage.h"
-#include "OpenRGBPhilipsHueSettingsPage/OpenRGBPhilipsHueSettingsPage.h"
-#include "OpenRGBPhilipsWizSettingsPage/OpenRGBPhilipsWizSettingsPage.h"
-#include "OpenRGBQMKORGBSettingsPage/OpenRGBQMKORGBSettingsPage.h"
-#include "OpenRGBSerialSettingsPage/OpenRGBSerialSettingsPage.h"
-#include "OpenRGBYeelightSettingsPage/OpenRGBYeelightSettingsPage.h"
-#include "OpenRGBNanoleafSettingsPage/OpenRGBNanoleafSettingsPage.h"
-
 #include "PluginManager.h"
 #include "SuspendResume.h"
 
@@ -103,20 +88,6 @@ private:
     OpenRGBSettingsPage *SettingsPage;
 
     ManualDevicesSettingsPage *manualDevicesPage;
-    // Manual devices pages - to be removed later
-    OpenRGBDMXSettingsPage *DMXSettingsPage;
-    OpenRGBE131SettingsPage *E131SettingsPage;
-    OpenRGBElgatoKeyLightSettingsPage *ElgatoKeyLightSettingsPage;
-    OpenRGBElgatoLightStripSettingsPage *ElgatoLightStripSettingsPage;
-    OpenRGBGoveeSettingsPage *GoveeSettingsPage;
-    OpenRGBKasaSmartSettingsPage *KasaSmartSettingsPage;
-    OpenRGBLIFXSettingsPage *LIFXSettingsPage;
-    OpenRGBPhilipsHueSettingsPage *PhilipsHueSettingsPage;
-    OpenRGBPhilipsWizSettingsPage *PhilipsWizSettingsPage;
-    OpenRGBQMKORGBSettingsPage *QMKORGBSettingsPage;
-    OpenRGBSerialSettingsPage *SerialSettingsPage;
-    OpenRGBYeelightSettingsPage *YeelightSettingsPage;
-    OpenRGBNanoleafSettingsPage *NanoleafSettingsPage;
 
     bool ShowI2CTools = false;
     bool plugins_loaded = false;
@@ -139,21 +110,6 @@ private:
     void AddPluginsPage();
     void AddConsolePage();
     void AddManualDevicesSettingsPage();
-
-    // Manual devices pages - to be removed later
-    void AddDMXSettingsPage();
-    void AddE131SettingsPage();
-    void AddElgatoKeyLightSettingsPage();
-    void AddElgatoLightStripSettingsPage();
-    void AddGoveeSettingsPage();
-    void AddKasaSmartSettingsPage();
-    void AddLIFXSettingsPage();
-    void AddPhilipsHueSettingsPage();
-    void AddPhilipsWizSettingsPage();
-    void AddQMKORGBSettingsPage();
-    void AddSerialSettingsPage();
-    void AddYeelightSettingsPage();
-    void AddNanoleafSettingsPage();
 
     void ClearDevicesList();
     void UpdateDevicesList();
