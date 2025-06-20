@@ -1,5 +1,5 @@
 /*---------------------------------------------------------*\
-| OpenRGBPhilipsWizSettingsEntry.h                          |
+| PhilipsWizSettingsEntry.h                                 |
 |                                                           |
 |   User interface for OpenRGB Philips Wiz settings entry   |
 |                                                           |
@@ -13,22 +13,22 @@
 
 namespace Ui
 {
-    class OpenRGBPhilipsWizSettingsEntry;
+    class PhilipsWizSettingsEntry;
 }
 
-class OpenRGBPhilipsWizSettingsEntry : public BaseManualDeviceEntry
+class PhilipsWizSettingsEntry : public BaseManualDeviceEntry
 {
     Q_OBJECT
 
 public:
-    explicit OpenRGBPhilipsWizSettingsEntry(QWidget *parent = nullptr);
-    ~OpenRGBPhilipsWizSettingsEntry();
+    explicit PhilipsWizSettingsEntry(QWidget *parent = nullptr);
+    ~PhilipsWizSettingsEntry();
     void loadFromSettings(const json& data);
     json saveSettings();
     const char* settingsSection();
 
 private:
-    Ui::OpenRGBPhilipsWizSettingsEntry *ui;
+    Ui::PhilipsWizSettingsEntry *ui;
 
 private slots:
     void changeEvent(QEvent *event);

@@ -1,5 +1,5 @@
 /*---------------------------------------------------------*\
-| OpenRGBYeelightSettingsEntry.cpp                          |
+| YeelightSettingsEntry.cpp                                 |
 |                                                           |
 |   User interface for Yeelight settings entry              |
 |                                                           |
@@ -8,23 +8,23 @@
 \*---------------------------------------------------------*/
 
 #include <QInputDialog>
-#include "OpenRGBYeelightSettingsEntry.h"
-#include "ui_OpenRGBYeelightSettingsEntry.h"
+#include "YeelightSettingsEntry.h"
+#include "ui_YeelightSettingsEntry.h"
 #include "net_port.h"
 
-OpenRGBYeelightSettingsEntry::OpenRGBYeelightSettingsEntry(QWidget *parent) :
+YeelightSettingsEntry::YeelightSettingsEntry(QWidget *parent) :
     BaseManualDeviceEntry(parent),
-    ui(new Ui::OpenRGBYeelightSettingsEntry)
+    ui(new Ui::YeelightSettingsEntry)
 {
     ui->setupUi(this);
 }
 
-OpenRGBYeelightSettingsEntry::~OpenRGBYeelightSettingsEntry()
+YeelightSettingsEntry::~YeelightSettingsEntry()
 {
     delete ui;
 }
 
-void OpenRGBYeelightSettingsEntry::changeEvent(QEvent *event)
+void YeelightSettingsEntry::changeEvent(QEvent *event)
 {
     if(event->type() == QEvent::LanguageChange)
     {
@@ -32,7 +32,7 @@ void OpenRGBYeelightSettingsEntry::changeEvent(QEvent *event)
     }
 }
 
-void OpenRGBYeelightSettingsEntry::on_HostIPChooserButton_clicked()
+void YeelightSettingsEntry::on_HostIPChooserButton_clicked()
 {
     char hostname[256];
     gethostname(hostname, 256);
@@ -62,7 +62,7 @@ void OpenRGBYeelightSettingsEntry::on_HostIPChooserButton_clicked()
     ui->HostIPEdit->setText(inp.textValue());
 }
 
-void OpenRGBYeelightSettingsEntry::loadFromSettings(const json& data)
+void YeelightSettingsEntry::loadFromSettings(const json& data)
 {
     if(data.contains("ip"))
     {
@@ -80,7 +80,7 @@ void OpenRGBYeelightSettingsEntry::loadFromSettings(const json& data)
     }
 }
 
-json OpenRGBYeelightSettingsEntry::saveSettings()
+json YeelightSettingsEntry::saveSettings()
 {
     json result;
     /*-------------------------------------------------*\
@@ -93,7 +93,7 @@ json OpenRGBYeelightSettingsEntry::saveSettings()
     return result;
 }
 
-const char* OpenRGBYeelightSettingsEntry::settingsSection()
+const char* YeelightSettingsEntry::settingsSection()
 {
     return "YeelightDevices";
 }

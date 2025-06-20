@@ -1,5 +1,5 @@
 /*---------------------------------------------------------*\
-| OpenRGBQMKORGBSettingsEntry.h                             |
+| QMKORGBSettingsEntry.h                             |
 |                                                           |
 |   User interface entry for OpenRGB QMK configuration      |
 |                                                           |
@@ -13,10 +13,10 @@
 
 namespace Ui
 {
-    class OpenRGBQMKORGBSettingsEntry;
+    class QMKORGBSettingsEntry;
 }
 
-class OpenRGBQMKORGBSettingsEntry : public BaseManualDeviceEntry
+class QMKORGBSettingsEntry : public BaseManualDeviceEntry
 {
     Q_OBJECT
 
@@ -24,12 +24,12 @@ private slots:
     void changeEvent(QEvent *event);
 
 public:
-    explicit OpenRGBQMKORGBSettingsEntry(QWidget *parent = nullptr);
-    ~OpenRGBQMKORGBSettingsEntry();
+    explicit QMKORGBSettingsEntry(QWidget *parent = nullptr);
+    ~QMKORGBSettingsEntry();
     void loadFromSettings(const json& data);
     json saveSettings();
     const char* settingsSection();
 
 private:
-    Ui::OpenRGBQMKORGBSettingsEntry *ui;
+    Ui::QMKORGBSettingsEntry *ui;
 };

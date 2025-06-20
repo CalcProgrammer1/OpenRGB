@@ -1,5 +1,5 @@
 /*---------------------------------------------------------*\
-| OpenRGBLIFXSettingsEntry.h                                |
+| LIFXSettingsEntry.h                                       |
 |                                                           |
 |   User interface for OpenRGB LIFX settings entry          |
 |                                                           |
@@ -11,23 +11,23 @@
 
 namespace Ui
 {
-    class OpenRGBLIFXSettingsEntry;
+    class LIFXSettingsEntry;
 }
 
-class OpenRGBLIFXSettingsEntry : public BaseManualDeviceEntry
+class LIFXSettingsEntry : public BaseManualDeviceEntry
 {
     Q_OBJECT
 
 public:
-    explicit OpenRGBLIFXSettingsEntry(QWidget *parent = nullptr);
-    ~OpenRGBLIFXSettingsEntry();
+    explicit LIFXSettingsEntry(QWidget *parent = nullptr);
+    ~LIFXSettingsEntry();
     void loadFromSettings(const json& data);
     json saveSettings();
     const char* settingsSection();
     void setName(QString name);
 
 private:
-    Ui::OpenRGBLIFXSettingsEntry *ui;
+    Ui::LIFXSettingsEntry *ui;
 
 private slots:
     void changeEvent(QEvent *event);

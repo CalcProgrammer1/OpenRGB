@@ -1,5 +1,5 @@
 /*---------------------------------------------------------*\
-| OpenRGBNanoleafScanPage.h                                 |
+| NanoleafScanPage.h                                        |
 |                                                           |
 |   User interface for OpenRGB Nanoleaf scan & pairing page |
 |                                                           |
@@ -34,5 +34,5 @@ private slots:
 
 private:
     Ui::NanoleafScanPage *ui;
-    std::map<std::string, OpenRGBNanoleafSettingsEntry*> entries;
+    std::map<std::string, NanoleafSettingsEntry*> entries;
 };

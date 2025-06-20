@@ -1,5 +1,5 @@
 /*---------------------------------------------------------*\
-| OpenRGBElgatoLightStripSettingsEntry.h                    |
+| ElgatoLightStripSettingsEntry.h                           |
 |                                                           |
 |   User interface for OpenRGB Elgato Light Strips entry    |
 |                                                           |
@@ -13,22 +13,22 @@
 
 namespace Ui
 {
-    class OpenRGBElgatoLightStripSettingsEntry;
+    class ElgatoLightStripSettingsEntry;
 }
 
-class OpenRGBElgatoLightStripSettingsEntry : public BaseManualDeviceEntry
+class ElgatoLightStripSettingsEntry : public BaseManualDeviceEntry
 {
     Q_OBJECT
 
 public:
-    explicit OpenRGBElgatoLightStripSettingsEntry(QWidget *parent = nullptr);
-    ~OpenRGBElgatoLightStripSettingsEntry();
+    explicit ElgatoLightStripSettingsEntry(QWidget *parent = nullptr);
+    ~ElgatoLightStripSettingsEntry();
     void loadFromSettings(const json& data);
     json saveSettings();
     const char* settingsSection();
 
 private:
-    Ui::OpenRGBElgatoLightStripSettingsEntry *ui;
+    Ui::ElgatoLightStripSettingsEntry *ui;
 
 private slots:
     void changeEvent(QEvent *event);

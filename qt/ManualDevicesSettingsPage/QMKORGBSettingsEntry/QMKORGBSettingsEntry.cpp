@@ -1,5 +1,5 @@
 /*---------------------------------------------------------*\
-| OpenRGBQMKORGBSettingsEntry.cpp                           |
+| QMKORGBSettingsEntry.cpp                                  |
 |                                                           |
 |   User interface entry for OpenRGB QMK configuration      |
 |                                                           |
@@ -7,22 +7,22 @@
 |   SPDX-License-Identifier: GPL-2.0-only                   |
 \*---------------------------------------------------------*/
 
-#include "OpenRGBQMKORGBSettingsEntry.h"
-#include "ui_OpenRGBQMKORGBSettingsEntry.h"
+#include "QMKORGBSettingsEntry.h"
+#include "ui_QMKORGBSettingsEntry.h"
 
-OpenRGBQMKORGBSettingsEntry::OpenRGBQMKORGBSettingsEntry(QWidget *parent) :
+QMKORGBSettingsEntry::QMKORGBSettingsEntry(QWidget *parent) :
     BaseManualDeviceEntry(parent),
-    ui(new Ui::OpenRGBQMKORGBSettingsEntry)
+    ui(new Ui::QMKORGBSettingsEntry)
 {
     ui->setupUi(this);
 }
 
-OpenRGBQMKORGBSettingsEntry::~OpenRGBQMKORGBSettingsEntry()
+QMKORGBSettingsEntry::~QMKORGBSettingsEntry()
 {
     delete ui;
 }
 
-void OpenRGBQMKORGBSettingsEntry::changeEvent(QEvent *event)
+void QMKORGBSettingsEntry::changeEvent(QEvent *event)
 {
     if(event->type() == QEvent::LanguageChange)
     {
@@ -30,7 +30,7 @@ void OpenRGBQMKORGBSettingsEntry::changeEvent(QEvent *event)
     }
 }
 
-void OpenRGBQMKORGBSettingsEntry::loadFromSettings(const json& data)
+void QMKORGBSettingsEntry::loadFromSettings(const json& data)
 {
     if(data.contains("name"))
     {
@@ -48,7 +48,7 @@ void OpenRGBQMKORGBSettingsEntry::loadFromSettings(const json& data)
     }
 }
 
-json OpenRGBQMKORGBSettingsEntry::saveSettings()
+json QMKORGBSettingsEntry::saveSettings()
 {
     json result;
     /*-------------------------------------------------*\
@@ -61,7 +61,7 @@ json OpenRGBQMKORGBSettingsEntry::saveSettings()
     return result;
 }
 
-const char* OpenRGBQMKORGBSettingsEntry::settingsSection()
+const char* QMKORGBSettingsEntry::settingsSection()
 {
     return "QMKOpenRGBDevices";
 }

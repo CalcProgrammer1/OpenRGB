@@ -1,5 +1,5 @@
 /*---------------------------------------------------------*\
-| OpenRGBLIFXSettingsEntry.cpp                              |
+| LIFXSettingsEntry.cpp                                     |
 |                                                           |
 |   User interface for OpenRGB LIFX settings entry          |
 |                                                           |
@@ -7,22 +7,22 @@
 |   SPDX-License-Identifier: GPL-2.0-only                   |
 \*---------------------------------------------------------*/
 
-#include "OpenRGBLIFXSettingsEntry.h"
-#include "ui_OpenRGBLIFXSettingsEntry.h"
+#include "LIFXSettingsEntry.h"
+#include "ui_LIFXSettingsEntry.h"
 
-OpenRGBLIFXSettingsEntry::OpenRGBLIFXSettingsEntry(QWidget *parent) :
+LIFXSettingsEntry::LIFXSettingsEntry(QWidget *parent) :
     BaseManualDeviceEntry(parent),
-    ui(new Ui::OpenRGBLIFXSettingsEntry)
+    ui(new Ui::LIFXSettingsEntry)
 {
     ui->setupUi(this);
 }
 
-OpenRGBLIFXSettingsEntry::~OpenRGBLIFXSettingsEntry()
+LIFXSettingsEntry::~LIFXSettingsEntry()
 {
     delete ui;
 }
 
-void OpenRGBLIFXSettingsEntry::changeEvent(QEvent *event)
+void LIFXSettingsEntry::changeEvent(QEvent *event)
 {
     if(event->type() == QEvent::LanguageChange)
     {
@@ -30,7 +30,7 @@ void OpenRGBLIFXSettingsEntry::changeEvent(QEvent *event)
     }
 }
 
-void OpenRGBLIFXSettingsEntry::loadFromSettings(const json& data)
+void LIFXSettingsEntry::loadFromSettings(const json& data)
 {
     if(data.contains("ip"))
     {
@@ -42,7 +42,7 @@ void OpenRGBLIFXSettingsEntry::loadFromSettings(const json& data)
     }
 }
 
-json OpenRGBLIFXSettingsEntry::saveSettings()
+json LIFXSettingsEntry::saveSettings()
 {
     json result;
     result["ip"] = ui->IPEdit->text().toStdString();
@@ -50,12 +50,12 @@ json OpenRGBLIFXSettingsEntry::saveSettings()
     return result;
 }
 
-const char* OpenRGBLIFXSettingsEntry::settingsSection()
+const char* LIFXSettingsEntry::settingsSection()
 {
     return "LIFXDevices";
 }
 
-void OpenRGBLIFXSettingsEntry::setName(QString name)
+void LIFXSettingsEntry::setName(QString name)
 {
     ui->NameEdit->setText(name);
 }

@@ -1,5 +1,5 @@
 /*---------------------------------------------------------*\
-| OpenRGBKasaSmartSettingsEntry.h                           |
+| KasaSmartSettingsEntry.h                                  |
 |                                                           |
 |   User interface for OpenRGB Kasa Smart settings entry    |
 |                                                           |
@@ -13,23 +13,23 @@
 
 namespace Ui
 {
-    class OpenRGBKasaSmartSettingsEntry;
+    class KasaSmartSettingsEntry;
 }
 
-class OpenRGBKasaSmartSettingsEntry : public BaseManualDeviceEntry
+class KasaSmartSettingsEntry : public BaseManualDeviceEntry
 {
     Q_OBJECT
 
 public:
-    explicit OpenRGBKasaSmartSettingsEntry(QWidget *parent = nullptr);
-    ~OpenRGBKasaSmartSettingsEntry();
+    explicit KasaSmartSettingsEntry(QWidget *parent = nullptr);
+    ~KasaSmartSettingsEntry();
     void loadFromSettings(const json& data);
     json saveSettings();
     const char* settingsSection();
     void setName(QString name);
 
 private:
-    Ui::OpenRGBKasaSmartSettingsEntry *ui;
+    Ui::KasaSmartSettingsEntry *ui;
 
 private slots:
     void changeEvent(QEvent *event);

@@ -1,5 +1,5 @@
 /*---------------------------------------------------------*\
-| OpenRGBNanoleafNewDeviceDialog.cpp                        |
+| NanoleafNewDeviceDialog.cpp                               |
 |                                                           |
 |   User interface for OpenRGB Nanoleaf dialog              |
 |                                                           |
@@ -9,27 +9,27 @@
 
 #include <QCloseEvent>
 #include "ResourceManager.h"
-#include "OpenRGBNanoleafNewDeviceDialog.h"
-#include "ui_OpenRGBNanoleafNewDeviceDialog.h"
+#include "NanoleafNewDeviceDialog.h"
+#include "ui_NanoleafNewDeviceDialog.h"
 
 #ifdef _WIN32
 #include <QSettings>
 #endif
 
-OpenRGBNanoleafNewDeviceDialog::OpenRGBNanoleafNewDeviceDialog(QWidget *parent) :
-    QDialog(parent), ui(new Ui::OpenRGBNanoleafNewDeviceDialog)
+NanoleafNewDeviceDialog::NanoleafNewDeviceDialog(QWidget *parent) :
+    QDialog(parent), ui(new Ui::NanoleafNewDeviceDialog)
 {
     ui->setupUi(this);
     setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
     ui->devicePortEdit->setText("16021");
 }
 
-OpenRGBNanoleafNewDeviceDialog::~OpenRGBNanoleafNewDeviceDialog()
+NanoleafNewDeviceDialog::~NanoleafNewDeviceDialog()
 {
     delete ui;
 }
 
-void OpenRGBNanoleafNewDeviceDialog::changeEvent(QEvent *event)
+void NanoleafNewDeviceDialog::changeEvent(QEvent *event)
 {
     if(event->type() == QEvent::LanguageChange)
     {
@@ -37,7 +37,7 @@ void OpenRGBNanoleafNewDeviceDialog::changeEvent(QEvent *event)
     }
 }
 
-NanoleafDevice OpenRGBNanoleafNewDeviceDialog::show()
+NanoleafDevice NanoleafNewDeviceDialog::show()
 {
     NanoleafDevice return_device;
 

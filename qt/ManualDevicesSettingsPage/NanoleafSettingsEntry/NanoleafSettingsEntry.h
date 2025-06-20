@@ -1,5 +1,5 @@
 /*---------------------------------------------------------*\
-| OpenRGBNanoleafSettingsEntry.h                            |
+| NanoleafSettingsEntry.h                                   |
 |                                                           |
 |   User interface for OpenRGB Nanoleaf settings entry      |
 |                                                           |
@@ -10,21 +10,21 @@
 #pragma once
 
 #include "BaseManualDeviceEntry.h"
-#include "OpenRGBNanoleafScanningThread.h"
+#include "NanoleafScanningThread.h"
 
 namespace Ui
 {
-    class OpenRGBNanoleafSettingsEntry;
+    class NanoleafSettingsEntry;
 }
 
-class OpenRGBNanoleafSettingsEntry : public BaseManualDeviceEntry
+class NanoleafSettingsEntry : public BaseManualDeviceEntry
 {
     Q_OBJECT
 
 public:
-    explicit OpenRGBNanoleafSettingsEntry(QWidget *parent = nullptr);
-    OpenRGBNanoleafSettingsEntry(QString a_address, int a_port);
-    ~OpenRGBNanoleafSettingsEntry();
+    explicit NanoleafSettingsEntry(QWidget *parent = nullptr);
+    NanoleafSettingsEntry(QString a_address, int a_port);
+    ~NanoleafSettingsEntry();
     void loadFromSettings(const json& data);
     json saveSettings();
     const char* settingsSection();
@@ -36,7 +36,7 @@ private slots:
     void on_PairButton_clicked();
 
 private:
-    Ui::OpenRGBNanoleafSettingsEntry *ui;
+    Ui::NanoleafSettingsEntry *ui;
     QString address;
     int port;
     std::string auth_token;

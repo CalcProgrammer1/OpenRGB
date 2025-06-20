@@ -1,5 +1,5 @@
 /*---------------------------------------------------------*\
-| OpenRGBSerialSettingsEntry.cpp                            |
+| SerialSettingsEntry.cpp                                   |
 |                                                           |
 |   User interface entry for serial device configuration    |
 |                                                           |
@@ -7,12 +7,12 @@
 |   SPDX-License-Identifier: GPL-2.0-only                   |
 \*---------------------------------------------------------*/
 
-#include "OpenRGBSerialSettingsEntry.h"
-#include "ui_OpenRGBSerialSettingsEntry.h"
+#include "SerialSettingsEntry.h"
+#include "ui_SerialSettingsEntry.h"
 
-OpenRGBSerialSettingsEntry::OpenRGBSerialSettingsEntry(QWidget *parent) :
+SerialSettingsEntry::SerialSettingsEntry(QWidget *parent) :
     BaseManualDeviceEntry(parent),
-    ui(new Ui::OpenRGBSerialSettingsEntry)
+    ui(new Ui::SerialSettingsEntry)
 {
     ui->setupUi(this);
 
@@ -22,12 +22,12 @@ OpenRGBSerialSettingsEntry::OpenRGBSerialSettingsEntry(QWidget *parent) :
     ui->ProtocolComboBox->addItem("Basic I2C");
 }
 
-OpenRGBSerialSettingsEntry::~OpenRGBSerialSettingsEntry()
+SerialSettingsEntry::~SerialSettingsEntry()
 {
     delete ui;
 }
 
-void OpenRGBSerialSettingsEntry::changeEvent(QEvent *event)
+void SerialSettingsEntry::changeEvent(QEvent *event)
 {
     if(event->type() == QEvent::LanguageChange)
     {
@@ -35,7 +35,7 @@ void OpenRGBSerialSettingsEntry::changeEvent(QEvent *event)
     }
 }
 
-void OpenRGBSerialSettingsEntry::on_ProtocolComboBox_currentIndexChanged(int index)
+void SerialSettingsEntry::on_ProtocolComboBox_currentIndexChanged(int index)
 {
     if(index == 3)
     {
@@ -47,7 +47,7 @@ void OpenRGBSerialSettingsEntry::on_ProtocolComboBox_currentIndexChanged(int ind
     }
 }
 
-void OpenRGBSerialSettingsEntry::loadFromSettings(const json& data)
+void SerialSettingsEntry::loadFromSettings(const json& data)
 {
     if(data.contains("name"))
     {
@@ -92,7 +92,7 @@ void OpenRGBSerialSettingsEntry::loadFromSettings(const json& data)
     }
 }
 
-json OpenRGBSerialSettingsEntry::saveSettings()
+json SerialSettingsEntry::saveSettings()
 {
     json result;
     /*-------------------------------------------------*\
@@ -122,7 +122,7 @@ json OpenRGBSerialSettingsEntry::saveSettings()
     return result;
 }
 
-const char* OpenRGBSerialSettingsEntry::settingsSection()
+const char* SerialSettingsEntry::settingsSection()
 {
     return "LEDStripDevices";
 }

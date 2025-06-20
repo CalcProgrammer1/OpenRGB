@@ -145,47 +145,47 @@ void AddDeviceDialog::configure(QWidget* entry)
 
 void AddDeviceDialog::on_ButtonSerial_clicked()
 {
-    configure(new OpenRGBSerialSettingsEntry);
+    configure(new SerialSettingsEntry);
 }
 
 void AddDeviceDialog::on_ButtonDMX_clicked()
 {
-    configure(new OpenRGBDMXSettingsEntry);
+    configure(new DMXSettingsEntry);
 }
 
 void AddDeviceDialog::on_ButtonQMK_clicked()
 {
-    configure(new OpenRGBQMKORGBSettingsEntry);
+    configure(new QMKORGBSettingsEntry);
 }
 
 void AddDeviceDialog::on_ButtonE131_clicked()
 {
-    configure(new OpenRGBE131SettingsEntry);
+    configure(new E131SettingsEntry);
 }
 
 void AddDeviceDialog::on_ButtonKasaSmart_clicked()
 {
-    configure(new OpenRGBKasaSmartSettingsEntry);
+    configure(new KasaSmartSettingsEntry);
 }
 
 void AddDeviceDialog::on_ButtonLIFX_clicked()
 {
-    configure(new OpenRGBLIFXSettingsEntry);
+    configure(new LIFXSettingsEntry);
 }
 
 void AddDeviceDialog::on_ButtonPhilipsHue_clicked()
 {
-    configure(new OpenRGBPhilipsHueSettingsEntry);
+    configure(new PhilipsHueSettingsEntry);
 }
 
 void AddDeviceDialog::on_ButtonPhilipsWiz_clicked()
 {
-    configure(new OpenRGBPhilipsWizSettingsEntry);
+    configure(new PhilipsWizSettingsEntry);
 }
 
 void AddDeviceDialog::on_ButtonYeelight_clicked()
 {
-    configure(new OpenRGBYeelightSettingsEntry);
+    configure(new YeelightSettingsEntry);
 }
 
 void AddDeviceDialog::on_ButtonNanloeaf_clicked()
@@ -195,17 +195,17 @@ void AddDeviceDialog::on_ButtonNanloeaf_clicked()
 
 void AddDeviceDialog::on_ButtonElgatoKeyLight_clicked()
 {
-    configure(new OpenRGBElgatoKeyLightSettingsEntry);
+    configure(new ElgatoKeyLightSettingsEntry);
 }
 
 void AddDeviceDialog::on_ButtonElgatoLightStrip_clicked()
 {
-    configure(new OpenRGBElgatoLightStripSettingsEntry);
+    configure(new ElgatoLightStripSettingsEntry);
 }
 
 void AddDeviceDialog::on_ButtonGovee_clicked()
 {
-    configure(new OpenRGBGoveeSettingsEntry);
+    configure(new GoveeSettingsEntry);
 }
 
 // ===== CONFIGURE =====
@@ -227,7 +227,7 @@ void AddDeviceDialog::on_ButtonConfigureScan_clicked()
 
         if(!strcmp(section, "NanoleafDevices"))
         {
-            OpenRGBNanoleafSettingsEntry* entry = dynamic_cast<OpenRGBNanoleafSettingsEntry*>(manualEntry);
+            NanoleafSettingsEntry* entry = dynamic_cast<NanoleafSettingsEntry*>(manualEntry);
             if(entry)
             {
                 result["devices"][entry->getLocation()] = manualEntry->saveSettings();

@@ -1,5 +1,5 @@
 /*---------------------------------------------------------*\
-| OpenRGBGoveeSettingsEntry.cpp                             |
+| GoveeSettingsEntry.cpp                                    |
 |                                                           |
 |   User interface for OpenRGB Govee settings entry         |
 |                                                           |
@@ -9,22 +9,22 @@
 |   SPDX-License-Identifier: GPL-2.0-only                   |
 \*---------------------------------------------------------*/
 
-#include "OpenRGBGoveeSettingsEntry.h"
-#include "ui_OpenRGBGoveeSettingsEntry.h"
+#include "GoveeSettingsEntry.h"
+#include "ui_GoveeSettingsEntry.h"
 
-OpenRGBGoveeSettingsEntry::OpenRGBGoveeSettingsEntry(QWidget *parent) :
+GoveeSettingsEntry::GoveeSettingsEntry(QWidget *parent) :
     BaseManualDeviceEntry(parent),
-    ui(new Ui::OpenRGBGoveeSettingsEntry)
+    ui(new Ui::GoveeSettingsEntry)
 {
     ui->setupUi(this);
 }
 
-OpenRGBGoveeSettingsEntry::~OpenRGBGoveeSettingsEntry()
+GoveeSettingsEntry::~GoveeSettingsEntry()
 {
     delete ui;
 }
 
-void OpenRGBGoveeSettingsEntry::changeEvent(QEvent *event)
+void GoveeSettingsEntry::changeEvent(QEvent *event)
 {
     if(event->type() == QEvent::LanguageChange)
     {
@@ -32,7 +32,7 @@ void OpenRGBGoveeSettingsEntry::changeEvent(QEvent *event)
     }
 }
 
-void OpenRGBGoveeSettingsEntry::loadFromSettings(const json& data)
+void GoveeSettingsEntry::loadFromSettings(const json& data)
 {
     if(data.contains("ip"))
     {
@@ -40,14 +40,14 @@ void OpenRGBGoveeSettingsEntry::loadFromSettings(const json& data)
     }
 }
 
-json OpenRGBGoveeSettingsEntry::saveSettings()
+json GoveeSettingsEntry::saveSettings()
 {
     json result;
     result["ip"] = ui->IPEdit->text().toStdString();
     return result;
 }
 
-const char* OpenRGBGoveeSettingsEntry::settingsSection()
+const char* GoveeSettingsEntry::settingsSection()
 {
     return "GoveeDevices";
 }

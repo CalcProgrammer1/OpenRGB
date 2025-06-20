@@ -1,5 +1,5 @@
 /*---------------------------------------------------------*\
-| OpenRGBPhilipsHueSettingsEntry.cpp                        |
+| PhilipsHueSettingsEntry.cpp                               |
 |                                                           |
 |   User interface for OpenRGB Philips Hue settings entry   |
 |                                                           |
@@ -7,22 +7,22 @@
 |   SPDX-License-Identifier: GPL-2.0-only                   |
 \*---------------------------------------------------------*/
 
-#include "OpenRGBPhilipsHueSettingsEntry.h"
-#include "ui_OpenRGBPhilipsHueSettingsEntry.h"
+#include "PhilipsHueSettingsEntry.h"
+#include "ui_PhilipsHueSettingsEntry.h"
 
-OpenRGBPhilipsHueSettingsEntry::OpenRGBPhilipsHueSettingsEntry(QWidget *parent) :
+PhilipsHueSettingsEntry::PhilipsHueSettingsEntry(QWidget *parent) :
     BaseManualDeviceEntry(parent),
-    ui(new Ui::OpenRGBPhilipsHueSettingsEntry)
+    ui(new Ui::PhilipsHueSettingsEntry)
 {
     ui->setupUi(this);
 }
 
-OpenRGBPhilipsHueSettingsEntry::~OpenRGBPhilipsHueSettingsEntry()
+PhilipsHueSettingsEntry::~PhilipsHueSettingsEntry()
 {
     delete ui;
 }
 
-void OpenRGBPhilipsHueSettingsEntry::changeEvent(QEvent *event)
+void PhilipsHueSettingsEntry::changeEvent(QEvent *event)
 {
     if(event->type() == QEvent::LanguageChange)
     {
@@ -30,13 +30,13 @@ void OpenRGBPhilipsHueSettingsEntry::changeEvent(QEvent *event)
     }
 }
 
-void OpenRGBPhilipsHueSettingsEntry::on_UnpairButton_clicked()
+void PhilipsHueSettingsEntry::on_UnpairButton_clicked()
 {
     ui->UsernameValue->setText("");
     ui->ClientKeyValue->setText("");
 }
 
-void OpenRGBPhilipsHueSettingsEntry::loadFromSettings(const json& data)
+void PhilipsHueSettingsEntry::loadFromSettings(const json& data)
 {
     if(data.contains("ip"))
     {
@@ -69,7 +69,7 @@ void OpenRGBPhilipsHueSettingsEntry::loadFromSettings(const json& data)
     }
 }
 
-json OpenRGBPhilipsHueSettingsEntry::saveSettings()
+json PhilipsHueSettingsEntry::saveSettings()
 {
     json result;
     /*-------------------------------------------------*\
@@ -93,7 +93,7 @@ json OpenRGBPhilipsHueSettingsEntry::saveSettings()
     return result;
 }
 
-const char* OpenRGBPhilipsHueSettingsEntry::settingsSection()
+const char* PhilipsHueSettingsEntry::settingsSection()
 {
     return "PhilipsHueDevices";
 }

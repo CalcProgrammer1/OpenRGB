@@ -1,5 +1,5 @@
 /*---------------------------------------------------------*\
-| OpenRGBElgatoKeyLightSettingsEntry.cpp                    |
+| ElgatoKeyLightSettingsEntry.cpp                           |
 |                                                           |
 |   User interface for OpenRGB Elgato Key Light entry       |
 |                                                           |
@@ -7,23 +7,23 @@
 |   SPDX-License-Identifier: GPL-2.0-only                   |
 \*---------------------------------------------------------*/
 
-#include "OpenRGBElgatoKeyLightSettingsEntry.h"
-#include "ui_OpenRGBElgatoKeyLightSettingsEntry.h"
+#include "ElgatoKeyLightSettingsEntry.h"
+#include "ui_ElgatoKeyLightSettingsEntry.h"
 
-OpenRGBElgatoKeyLightSettingsEntry::OpenRGBElgatoKeyLightSettingsEntry(QWidget *parent) :
+ElgatoKeyLightSettingsEntry::ElgatoKeyLightSettingsEntry(QWidget *parent) :
     BaseManualDeviceEntry(parent),
-    ui(new Ui::OpenRGBElgatoKeyLightSettingsEntry)
+    ui(new Ui::ElgatoKeyLightSettingsEntry)
 {
     ui->setupUi(this);
     setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
 }
 
-OpenRGBElgatoKeyLightSettingsEntry::~OpenRGBElgatoKeyLightSettingsEntry()
+ElgatoKeyLightSettingsEntry::~ElgatoKeyLightSettingsEntry()
 {
     delete ui;
 }
 
-void OpenRGBElgatoKeyLightSettingsEntry::changeEvent(QEvent *event)
+void ElgatoKeyLightSettingsEntry::changeEvent(QEvent *event)
 {
     if(event->type() == QEvent::LanguageChange)
     {
@@ -31,7 +31,7 @@ void OpenRGBElgatoKeyLightSettingsEntry::changeEvent(QEvent *event)
     }
 }
 
-void OpenRGBElgatoKeyLightSettingsEntry::loadFromSettings(const json& data)
+void ElgatoKeyLightSettingsEntry::loadFromSettings(const json& data)
 {
     if(data.contains("ip"))
     {
@@ -39,14 +39,14 @@ void OpenRGBElgatoKeyLightSettingsEntry::loadFromSettings(const json& data)
     }
 }
 
-json OpenRGBElgatoKeyLightSettingsEntry::saveSettings()
+json ElgatoKeyLightSettingsEntry::saveSettings()
 {
     json result;
     result["ip"] = ui->IPEdit->text().toStdString();
     return result;
 }
 
-const char* OpenRGBElgatoKeyLightSettingsEntry::settingsSection()
+const char* ElgatoKeyLightSettingsEntry::settingsSection()
 {
     return "ElgatoKeyLightDevices";
 }

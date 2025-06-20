@@ -1,5 +1,5 @@
 /*---------------------------------------------------------*\
-| OpenRGBElgatoKeyLightSettingsEntry.h                      |
+| ElgatoKeyLightSettingsEntry.h                             |
 |                                                           |
 |   User interface for OpenRGB Elgato Key Light entry       |
 |                                                           |
@@ -13,22 +13,22 @@
 
 namespace Ui
 {
-    class OpenRGBElgatoKeyLightSettingsEntry;
+    class ElgatoKeyLightSettingsEntry;
 }
 
-class OpenRGBElgatoKeyLightSettingsEntry : public BaseManualDeviceEntry
+class ElgatoKeyLightSettingsEntry : public BaseManualDeviceEntry
 {
     Q_OBJECT
 
 public:
-    explicit OpenRGBElgatoKeyLightSettingsEntry(QWidget *parent = nullptr);
-    ~OpenRGBElgatoKeyLightSettingsEntry();
+    explicit ElgatoKeyLightSettingsEntry(QWidget *parent = nullptr);
+    ~ElgatoKeyLightSettingsEntry();
     void loadFromSettings(const json& data);
     json saveSettings();
     const char* settingsSection();
 
 private:
-    Ui::OpenRGBElgatoKeyLightSettingsEntry *ui;
+    Ui::ElgatoKeyLightSettingsEntry *ui;
 
 private slots:
     void changeEvent(QEvent *event);

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>OpenRGBNanoleafSettingsEntry</class>
- <widget class="QWidget" name="OpenRGBNanoleafSettingsEntry">
+ <class>NanoleafSettingsEntry</class>
+ <widget class="QWidget" name="NanoleafSettingsEntry">
   <property name="geometry">
    <rect>
     <x>0</x>

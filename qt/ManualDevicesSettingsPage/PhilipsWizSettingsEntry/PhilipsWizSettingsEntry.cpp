@@ -1,5 +1,5 @@
 /*---------------------------------------------------------*\
-| OpenRGBPhilipsWizSettingsEntry.cpp                        |
+| PhilipsWizSettingsEntry.cpp                               |
 |                                                           |
 |   User interface for OpenRGB Philips Wiz settings entry   |
 |                                                           |
@@ -7,12 +7,12 @@
 |   SPDX-License-Identifier: GPL-2.0-only                   |
 \*---------------------------------------------------------*/
 
-#include "OpenRGBPhilipsWizSettingsEntry.h"
-#include "ui_OpenRGBPhilipsWizSettingsEntry.h"
+#include "PhilipsWizSettingsEntry.h"
+#include "ui_PhilipsWizSettingsEntry.h"
 
-OpenRGBPhilipsWizSettingsEntry::OpenRGBPhilipsWizSettingsEntry(QWidget *parent) :
+PhilipsWizSettingsEntry::PhilipsWizSettingsEntry(QWidget *parent) :
     BaseManualDeviceEntry(parent),
-    ui(new Ui::OpenRGBPhilipsWizSettingsEntry)
+    ui(new Ui::PhilipsWizSettingsEntry)
 {
     ui->setupUi(this);
 
@@ -20,12 +20,12 @@ OpenRGBPhilipsWizSettingsEntry::OpenRGBPhilipsWizSettingsEntry(QWidget *parent) 
     ui->WhiteStrategyComboBox->addItem(tr("Minimum"));
 }
 
-OpenRGBPhilipsWizSettingsEntry::~OpenRGBPhilipsWizSettingsEntry()
+PhilipsWizSettingsEntry::~PhilipsWizSettingsEntry()
 {
     delete ui;
 }
 
-void OpenRGBPhilipsWizSettingsEntry::changeEvent(QEvent *event)
+void PhilipsWizSettingsEntry::changeEvent(QEvent *event)
 {
     if(event->type() == QEvent::LanguageChange)
     {
@@ -33,7 +33,7 @@ void OpenRGBPhilipsWizSettingsEntry::changeEvent(QEvent *event)
     }
 }
 
-void OpenRGBPhilipsWizSettingsEntry::loadFromSettings(const json& data)
+void PhilipsWizSettingsEntry::loadFromSettings(const json& data)
 {
     if(data.contains("ip"))
     {
@@ -56,7 +56,7 @@ void OpenRGBPhilipsWizSettingsEntry::loadFromSettings(const json& data)
     }
 }
 
-json OpenRGBPhilipsWizSettingsEntry::saveSettings()
+json PhilipsWizSettingsEntry::saveSettings()
 {
     json result;
     /*-------------------------------------------------*\
@@ -70,7 +70,7 @@ json OpenRGBPhilipsWizSettingsEntry::saveSettings()
     return result;
 }
 
-const char* OpenRGBPhilipsWizSettingsEntry::settingsSection()
+const char* PhilipsWizSettingsEntry::settingsSection()
 {
     return "PhilipsWizDevices";
 }

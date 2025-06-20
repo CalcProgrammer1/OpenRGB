@@ -1,7 +1,7 @@
 /*---------------------------------------------------------*\
 | NanoleafScanPage.cpp                               |
 |                                                           |
-|   User interface for OpenRGB Nanoleaf scan & pairing page |
+|   User interface for  Nanoleaf scan & pairing page |
 |                                                           |
 |   This file is part of the OpenRGB project                |
 |   SPDX-License-Identifier: GPL-2.0-only                   |
@@ -51,7 +51,7 @@ void NanoleafScanPage::on_AddNanoleafDeviceButton_clicked()
 
         if(entries.find(location) == entries.end())
         {
-            OpenRGBNanoleafSettingsEntry* entry = new OpenRGBNanoleafSettingsEntry(QString::fromUtf8(device.ip.c_str()), device.port);
+            NanoleafSettingsEntry* entry = new NanoleafSettingsEntry(QString::fromUtf8(device.ip.c_str()), device.port);
 
             entries[location] = entry;
 
@@ -85,7 +85,7 @@ void NanoleafScanPage::on_RemoveNanoleafDeviceButton_clicked()
     }
 
     QListWidgetItem* item = ui->NanoleafDeviceList->item(cur_row);
-    OpenRGBNanoleafSettingsEntry* entry = (OpenRGBNanoleafSettingsEntry*) ui->NanoleafDeviceList->itemWidget(item);
+    NanoleafSettingsEntry* entry = (NanoleafSettingsEntry*) ui->NanoleafDeviceList->itemWidget(item);
 
     ui->NanoleafDeviceList->removeItemWidget(item);
     delete item;
@@ -106,7 +106,7 @@ void NanoleafScanPage::on_ScanForNanoleafDevicesButton_clicked()
     | Create a worker thread for the mDNS query and hookup  |
     | callbacks for when it finds devices                   |
     \*-----------------------------------------------------*/
-    OpenRGBNanoleafScanningThread *scanThread = new OpenRGBNanoleafScanningThread;
+    NanoleafScanningThread *scanThread = new NanoleafScanningThread;
 
     connect(scanThread, SIGNAL(DeviceFound(QString, int)),
                         SLOT(on_DeviceFound(QString, int)));
@@ -123,7 +123,7 @@ void NanoleafScanPage::on_DeviceFound(QString address, int port)
 
     if(entries.find(location) == entries.end())
     {
-        OpenRGBNanoleafSettingsEntry* entry = new OpenRGBNanoleafSettingsEntry(address, port);
+        NanoleafSettingsEntry* entry = new NanoleafSettingsEntry(address, port);
 
         entries[location] = entry;
 

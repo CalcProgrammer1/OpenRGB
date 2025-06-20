@@ -1,5 +1,5 @@
 /*---------------------------------------------------------*\
-| OpenRGBE131SettingsEntry.h                                |
+| E131SettingsEntry.h                                       |
 |                                                           |
 |   User interface for OpenRGB E1.31 settings entry         |
 |                                                           |
@@ -13,22 +13,22 @@
 
 namespace Ui
 {
-    class OpenRGBE131SettingsEntry;
+    class E131SettingsEntry;
 }
 
-class OpenRGBE131SettingsEntry : public BaseManualDeviceEntry
+class E131SettingsEntry : public BaseManualDeviceEntry
 {
     Q_OBJECT
 
 public:
-    explicit OpenRGBE131SettingsEntry(QWidget *parent = nullptr);
-    ~OpenRGBE131SettingsEntry();
+    explicit E131SettingsEntry(QWidget *parent = nullptr);
+    ~E131SettingsEntry();
     void loadFromSettings(const json& data);
     json saveSettings();
     const char* settingsSection();
 
 private:
-    Ui::OpenRGBE131SettingsEntry *ui;
+    Ui::E131SettingsEntry *ui;
 
 private:
     void HideMatrixSettings();

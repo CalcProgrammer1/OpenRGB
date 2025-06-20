@@ -1,5 +1,5 @@
 /*---------------------------------------------------------*\
-| OpenRGBDMXSettingsEntry.cpp                               |
+| DMXSettingsEntry.cpp                                      |
 |                                                           |
 |   User interface for OpenRGB DMX settings entry           |
 |                                                           |
@@ -7,22 +7,22 @@
 |   SPDX-License-Identifier: GPL-2.0-only                   |
 \*---------------------------------------------------------*/
 
-#include "OpenRGBDMXSettingsEntry.h"
-#include "ui_OpenRGBDMXSettingsEntry.h"
+#include "DMXSettingsEntry.h"
+#include "ui_DMXSettingsEntry.h"
 
-OpenRGBDMXSettingsEntry::OpenRGBDMXSettingsEntry(QWidget *parent) :
+DMXSettingsEntry::DMXSettingsEntry(QWidget *parent) :
     BaseManualDeviceEntry(parent),
-    ui(new Ui::OpenRGBDMXSettingsEntry)
+    ui(new Ui::DMXSettingsEntry)
 {
     ui->setupUi(this);
 }
 
-OpenRGBDMXSettingsEntry::~OpenRGBDMXSettingsEntry()
+DMXSettingsEntry::~DMXSettingsEntry()
 {
     delete ui;
 }
 
-void OpenRGBDMXSettingsEntry::changeEvent(QEvent *event)
+void DMXSettingsEntry::changeEvent(QEvent *event)
 {
     if(event->type() == QEvent::LanguageChange)
     {
@@ -30,7 +30,7 @@ void OpenRGBDMXSettingsEntry::changeEvent(QEvent *event)
     }
 }
 
-void OpenRGBDMXSettingsEntry::loadFromSettings(const json& data)
+void DMXSettingsEntry::loadFromSettings(const json& data)
 {
     if(data.contains("name"))
     {
@@ -68,7 +68,7 @@ void OpenRGBDMXSettingsEntry::loadFromSettings(const json& data)
     }
 }
 
-json OpenRGBDMXSettingsEntry::saveSettings()
+json DMXSettingsEntry::saveSettings()
 {
     json result;
     /*-------------------------------------------------*\
@@ -96,7 +96,7 @@ json OpenRGBDMXSettingsEntry::saveSettings()
     return result;
 }
 
-const char* OpenRGBDMXSettingsEntry::settingsSection()
+const char* DMXSettingsEntry::settingsSection()
 {
     return "DMXDevices";
 }

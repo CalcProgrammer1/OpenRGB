@@ -1,5 +1,5 @@
 /*---------------------------------------------------------*\
-| OpenRGBNanoleafScanningThread.h                           |
+| NanoleafScanningThread.h                                  |
 |                                                           |
 |   OpenRGB Nanoleaf scanning thread                        |
 |                                                           |
@@ -9,7 +9,7 @@
 
 #include <QThread>
 
-class OpenRGBNanoleafScanningThread : public QThread
+class NanoleafScanningThread : public QThread
 {
     Q_OBJECT
 

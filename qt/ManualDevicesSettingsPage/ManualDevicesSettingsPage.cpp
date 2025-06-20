@@ -9,18 +9,18 @@
 
 #include "ManualDevicesSettingsPage.h"
 #include "ui_ManualDevicesSettingsPage.h"
-#include "OpenRGBDMXSettingsEntry.h"
-#include "OpenRGBE131SettingsEntry.h"
-#include "OpenRGBElgatoKeyLightSettingsEntry.h"
-#include "OpenRGBElgatoLightStripSettingsEntry.h"
-#include "OpenRGBKasaSmartSettingsEntry.h"
-#include "OpenRGBLIFXSettingsEntry.h"
-#include "OpenRGBNanoleafSettingsEntry.h"
-#include "OpenRGBPhilipsHueSettingsEntry.h"
-#include "OpenRGBPhilipsWizSettingsEntry.h"
-#include "OpenRGBQMKORGBSettingsEntry.h"
-#include "OpenRGBSerialSettingsEntry.h"
-#include "OpenRGBYeelightSettingsEntry.h"
+#include "DMXSettingsEntry.h"
+#include "E131SettingsEntry.h"
+#include "ElgatoKeyLightSettingsEntry.h"
+#include "ElgatoLightStripSettingsEntry.h"
+#include "KasaSmartSettingsEntry.h"
+#include "LIFXSettingsEntry.h"
+#include "NanoleafSettingsEntry.h"
+#include "PhilipsHueSettingsEntry.h"
+#include "PhilipsWizSettingsEntry.h"
+#include "QMKORGBSettingsEntry.h"
+#include "SerialSettingsEntry.h"
+#include "YeelightSettingsEntry.h"
 #include "ResourceManager.h"
 #include "SettingsManager.h"
 #include "AddDeviceDialog.h"
@@ -98,7 +98,7 @@ void ManualDevicesSettingsPage::on_saveConfigurationButton_clicked()
         std::string section = entries[idx]->settingsSection();
         if(section == "NanoleafDevices")
         {
-            OpenRGBNanoleafSettingsEntry* entry = dynamic_cast<OpenRGBNanoleafSettingsEntry*>(entries[idx]);
+            NanoleafSettingsEntry* entry = dynamic_cast<NanoleafSettingsEntry*>(entries[idx]);
             result[section]["devices"][entry->getLocation()] = entries[idx]->saveSettings();
         }
         else if(section == "PhilipsHueDevices")
@@ -126,18 +126,18 @@ void ManualDevicesSettingsPage::reloadList()
 {
     clearList();
 
-    addEntries("DMXDevices",              [](){return new OpenRGBDMXSettingsEntry();});
-    addEntries("E131Devices",             [](){return new OpenRGBE131SettingsEntry();});
-    addEntries("ElgatoKeyLightDevices",   [](){return new OpenRGBElgatoKeyLightSettingsEntry();});
-    addEntries("ElgatoLightStripDevices", [](){return new OpenRGBElgatoLightStripSettingsEntry();});
-    addEntries("KasaSmartDevices",        [](){return new OpenRGBKasaSmartSettingsEntry();});
-    addEntries("LIFXDevices",             [](){return new OpenRGBLIFXSettingsEntry();});
-    addEntries("NanoleafDevices",         [](){return new OpenRGBNanoleafSettingsEntry();});
-    addEntries("PhilipsHueDevices",       [](){return new OpenRGBPhilipsHueSettingsEntry();});
-    addEntries("PhilipsWizDevices",       [](){return new OpenRGBPhilipsWizSettingsEntry();});
-    addEntries("QMKOpenRGBDevices",       [](){return new OpenRGBQMKORGBSettingsEntry();});
-    addEntries("LEDStripDevices",         [](){return new OpenRGBSerialSettingsEntry();});
-    addEntries("YeelightDevices",         [](){return new OpenRGBYeelightSettingsEntry();});
+    addEntries("DMXDevices",              [](){return new DMXSettingsEntry();});
+    addEntries("E131Devices",             [](){return new E131SettingsEntry();});
+    addEntries("ElgatoKeyLightDevices",   [](){return new ElgatoKeyLightSettingsEntry();});
+    addEntries("ElgatoLightStripDevices", [](){return new ElgatoLightStripSettingsEntry();});
+    addEntries("KasaSmartDevices",        [](){return new KasaSmartSettingsEntry();});
+    addEntries("LIFXDevices",             [](){return new LIFXSettingsEntry();});
+    addEntries("NanoleafDevices",         [](){return new NanoleafSettingsEntry();});
+    addEntries("PhilipsHueDevices",       [](){return new PhilipsHueSettingsEntry();});
+    addEntries("PhilipsWizDevices",       [](){return new PhilipsWizSettingsEntry();});
+    addEntries("QMKOpenRGBDevices",       [](){return new QMKORGBSettingsEntry();});
+    addEntries("LEDStripDevices",         [](){return new SerialSettingsEntry();});
+    addEntries("YeelightDevices",         [](){return new YeelightSettingsEntry();});
 }
 
 void ManualDevicesSettingsPage::clearList()

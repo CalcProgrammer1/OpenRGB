@@ -1,5 +1,5 @@
 /*---------------------------------------------------------*\
-| OpenRGBKasaSmartSettingsEntry.cpp                         |
+| KasaSmartSettingsEntry.cpp                                |
 |                                                           |
 |   User interface for OpenRGB Kasa Smart settings entry    |
 |                                                           |
@@ -7,22 +7,22 @@
 |   SPDX-License-Identifier: GPL-2.0-only                   |
 \*---------------------------------------------------------*/
 
-#include "OpenRGBKasaSmartSettingsEntry.h"
-#include "ui_OpenRGBKasaSmartSettingsEntry.h"
+#include "KasaSmartSettingsEntry.h"
+#include "ui_KasaSmartSettingsEntry.h"
 
-OpenRGBKasaSmartSettingsEntry::OpenRGBKasaSmartSettingsEntry(QWidget *parent) :
+KasaSmartSettingsEntry::KasaSmartSettingsEntry(QWidget *parent) :
     BaseManualDeviceEntry(parent),
-    ui(new Ui::OpenRGBKasaSmartSettingsEntry)
+    ui(new Ui::KasaSmartSettingsEntry)
 {
     ui->setupUi(this);
 }
 
-OpenRGBKasaSmartSettingsEntry::~OpenRGBKasaSmartSettingsEntry()
+KasaSmartSettingsEntry::~KasaSmartSettingsEntry()
 {
     delete ui;
 }
 
-void OpenRGBKasaSmartSettingsEntry::changeEvent(QEvent *event)
+void KasaSmartSettingsEntry::changeEvent(QEvent *event)
 {
     if(event->type() == QEvent::LanguageChange)
     {
@@ -30,7 +30,7 @@ void OpenRGBKasaSmartSettingsEntry::changeEvent(QEvent *event)
     }
 }
 
-void OpenRGBKasaSmartSettingsEntry::loadFromSettings(const json& data)
+void KasaSmartSettingsEntry::loadFromSettings(const json& data)
 {
     if(data.contains("ip"))
     {
@@ -42,7 +42,7 @@ void OpenRGBKasaSmartSettingsEntry::loadFromSettings(const json& data)
     }
 }
 
-json OpenRGBKasaSmartSettingsEntry::saveSettings()
+json KasaSmartSettingsEntry::saveSettings()
 {
     json result;
     result["ip"] = ui->IPEdit->text().toStdString();
@@ -50,12 +50,12 @@ json OpenRGBKasaSmartSettingsEntry::saveSettings()
     return result;
 }
 
-const char* OpenRGBKasaSmartSettingsEntry::settingsSection()
+const char* KasaSmartSettingsEntry::settingsSection()
 {
     return "KasaSmartDevices";
 }
 
-void OpenRGBKasaSmartSettingsEntry::setName(QString name)
+void KasaSmartSettingsEntry::setName(QString name)
 {
     ui->NameEdit->setText(name);
 }

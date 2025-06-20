@@ -1,5 +1,5 @@
 /*---------------------------------------------------------*\
-| OpenRGBNanoleafScanningThread.cpp                         |
+| NanoleafScanningThread.cpp                                |
 |                                                           |
 |   OpenRGB Nanoleaf scanning thread                        |
 |                                                           |
@@ -22,7 +22,7 @@
 
 #include "mdns.h"
 
-#include "OpenRGBNanoleafScanningThread.h"
+#include "NanoleafScanningThread.h"
 
 static char namebuffer[256];
 
@@ -366,13 +366,13 @@ static int query_callback(
 
         mdns_string_t addrstr = ipv4_address_to_string(namebuffer, sizeof(namebuffer), &address, sizeof(address));
 
-        (static_cast<OpenRGBNanoleafScanningThread*>(user_data))->EmitDeviceFound(addrstr.str, address.sin_port);
+        (static_cast<NanoleafScanningThread*>(user_data))->EmitDeviceFound(addrstr.str, address.sin_port);
 	}
 
 	return 0;
 }
 
-void OpenRGBNanoleafScanningThread::EmitDeviceFound(QString address, int port)
+void NanoleafScanningThread::EmitDeviceFound(QString address, int port)
 {
 	emit DeviceFound(address, port);
 }
@@ -380,7 +380,7 @@ void OpenRGBNanoleafScanningThread::EmitDeviceFound(QString address, int port)
 /*-----------------------------------------------------*\
 | Send a mDNS query                                     |
 \*-----------------------------------------------------*/
-int OpenRGBNanoleafScanningThread::SendMDNSQuery()
+int NanoleafScanningThread::SendMDNSQuery()
 {
     const char* service = "_nanoleafapi._tcp.local.";
 	mdns_record_type record = MDNS_RECORDTYPE_PTR;
@@ -471,7 +471,7 @@ int OpenRGBNanoleafScanningThread::SendMDNSQuery()
 	return 0;
 }
 
-void OpenRGBNanoleafScanningThread::run()
+void NanoleafScanningThread::run()
 {
     SendMDNSQuery();
 }

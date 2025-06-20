@@ -1,5 +1,5 @@
 /*---------------------------------------------------------*\
-| OpenRGBE131SettingsEntry.cpp                              |
+| E131SettingsEntry.cpp                                     |
 |                                                           |
 |   User interface for OpenRGB E1.31 settings entry         |
 |                                                           |
@@ -7,12 +7,12 @@
 |   SPDX-License-Identifier: GPL-2.0-only                   |
 \*---------------------------------------------------------*/
 
-#include "OpenRGBE131SettingsEntry.h"
-#include "ui_OpenRGBE131SettingsEntry.h"
+#include "E131SettingsEntry.h"
+#include "ui_E131SettingsEntry.h"
 
-OpenRGBE131SettingsEntry::OpenRGBE131SettingsEntry(QWidget *parent) :
+E131SettingsEntry::E131SettingsEntry(QWidget *parent) :
     BaseManualDeviceEntry(parent),
-    ui(new Ui::OpenRGBE131SettingsEntry)
+    ui(new Ui::E131SettingsEntry)
 {
     ui->setupUi(this);
 
@@ -39,12 +39,12 @@ OpenRGBE131SettingsEntry::OpenRGBE131SettingsEntry(QWidget *parent) :
     HideMatrixSettings();
 }
 
-OpenRGBE131SettingsEntry::~OpenRGBE131SettingsEntry()
+E131SettingsEntry::~E131SettingsEntry()
 {
     delete ui;
 }
 
-void OpenRGBE131SettingsEntry::changeEvent(QEvent *event)
+void E131SettingsEntry::changeEvent(QEvent *event)
 {
     if(event->type() == QEvent::LanguageChange)
     {
@@ -52,7 +52,7 @@ void OpenRGBE131SettingsEntry::changeEvent(QEvent *event)
     }
 }
 
-void OpenRGBE131SettingsEntry::HideMatrixSettings()
+void E131SettingsEntry::HideMatrixSettings()
 {
     ui->MatrixWidthLabel->setDisabled(true);
     ui->MatrixWidthEdit->setDisabled(true);
@@ -64,7 +64,7 @@ void OpenRGBE131SettingsEntry::HideMatrixSettings()
     ui->MatrixOrderComboBox->setDisabled(true);
 }
 
-void OpenRGBE131SettingsEntry::ShowMatrixSettings()
+void E131SettingsEntry::ShowMatrixSettings()
 {
     ui->MatrixWidthLabel->setDisabled(false);
     ui->MatrixWidthEdit->setDisabled(false);
@@ -76,7 +76,7 @@ void OpenRGBE131SettingsEntry::ShowMatrixSettings()
     ui->MatrixOrderComboBox->setDisabled(false);
 }
 
-void OpenRGBE131SettingsEntry::on_TypeComboBox_currentIndexChanged(int index)
+void E131SettingsEntry::on_TypeComboBox_currentIndexChanged(int index)
 {
     if(index == 2)
     {
@@ -88,7 +88,7 @@ void OpenRGBE131SettingsEntry::on_TypeComboBox_currentIndexChanged(int index)
     }
 }
 
-void OpenRGBE131SettingsEntry::loadFromSettings(const json& data)
+void E131SettingsEntry::loadFromSettings(const json& data)
 {
     if(data.contains("name"))
     {
@@ -243,7 +243,7 @@ void OpenRGBE131SettingsEntry::loadFromSettings(const json& data)
     }
 }
 
-json OpenRGBE131SettingsEntry::saveSettings()
+json E131SettingsEntry::saveSettings()
 {
     json result;
     /*-------------------------------------------------*\
@@ -284,7 +284,7 @@ json OpenRGBE131SettingsEntry::saveSettings()
     return result;
 }
 
-const char* OpenRGBE131SettingsEntry::settingsSection()
+const char* E131SettingsEntry::settingsSection()
 {
     return "E131Devices";
 }

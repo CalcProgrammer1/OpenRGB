@@ -1,5 +1,5 @@
 /*---------------------------------------------------------*\
-| OpenRGBDMXSettingsEntry.h                                 |
+| DMXSettingsEntry.h                                        |
 |                                                           |
 |   User interface for OpenRGB DMX settings entry           |
 |                                                           |
@@ -13,22 +13,22 @@
 
 namespace Ui
 {
-    class OpenRGBDMXSettingsEntry;
+    class DMXSettingsEntry;
 }
 
-class OpenRGBDMXSettingsEntry : public BaseManualDeviceEntry
+class DMXSettingsEntry : public BaseManualDeviceEntry
 {
     Q_OBJECT
 
 public:
-    explicit OpenRGBDMXSettingsEntry(QWidget *parent = nullptr);
-    ~OpenRGBDMXSettingsEntry();
+    explicit DMXSettingsEntry(QWidget *parent = nullptr);
+    ~DMXSettingsEntry();
     void loadFromSettings(const json& data);
     json saveSettings();
     const char* settingsSection();
 
 private:
-    Ui::OpenRGBDMXSettingsEntry *ui;
+    Ui::DMXSettingsEntry *ui;
 
 private slots:
     void changeEvent(QEvent *event);

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>OpenRGBElgatoLightStripSettingsEntry</class>
- <widget class="QWidget" name="OpenRGBElgatoLightStripSettingsEntry">
+ <class>ElgatoLightStripSettingsEntry</class>
+ <widget class="QWidget" name="ElgatoLightStripSettingsEntry">
   <property name="geometry">
    <rect>
     <x>0</x>

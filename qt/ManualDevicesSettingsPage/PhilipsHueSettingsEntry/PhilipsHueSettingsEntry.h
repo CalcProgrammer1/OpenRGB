@@ -1,5 +1,5 @@
 /*---------------------------------------------------------*\
-| OpenRGBPhilipsHueSettingsEntry.h                          |
+| PhilipsHueSettingsEntry.h                                 |
 |                                                           |
 |   User interface for OpenRGB Philips Hue settings entry   |
 |                                                           |
@@ -13,22 +13,22 @@
 
 namespace Ui
 {
-    class OpenRGBPhilipsHueSettingsEntry;
+    class PhilipsHueSettingsEntry;
 }
 
-class OpenRGBPhilipsHueSettingsEntry : public BaseManualDeviceEntry
+class PhilipsHueSettingsEntry : public BaseManualDeviceEntry
 {
     Q_OBJECT
 
 public:
-    explicit OpenRGBPhilipsHueSettingsEntry(QWidget *parent = nullptr);
-    ~OpenRGBPhilipsHueSettingsEntry();
+    explicit PhilipsHueSettingsEntry(QWidget *parent = nullptr);
+    ~PhilipsHueSettingsEntry();
     void loadFromSettings(const json& data);
     json saveSettings();
     const char* settingsSection();
 
 private:
-    Ui::OpenRGBPhilipsHueSettingsEntry *ui;
+    Ui::PhilipsHueSettingsEntry *ui;
 
 private slots:
     void changeEvent(QEvent *event);

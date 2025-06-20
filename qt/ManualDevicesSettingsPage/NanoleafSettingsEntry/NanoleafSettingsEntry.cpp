@@ -1,6 +1,5 @@
-
 /*---------------------------------------------------------*\
-| OpenRGBNanoleafSettingsEntry.cpp                          |
+| NanoleafSettingsEntry.cpp                                 |
 |                                                           |
 |   User interface for OpenRGB Nanoleaf settings entry      |
 |                                                           |
@@ -8,22 +7,22 @@
 |   SPDX-License-Identifier: GPL-2.0-only                   |
 \*---------------------------------------------------------*/
 
-#include "OpenRGBNanoleafSettingsEntry.h"
-#include "ui_OpenRGBNanoleafSettingsEntry.h"
+#include "NanoleafSettingsEntry.h"
+#include "ui_NanoleafSettingsEntry.h"
 #include "ResourceManager.h"
 #include "SettingsManager.h"
 #include "NanoleafController.h"
 
-OpenRGBNanoleafSettingsEntry::OpenRGBNanoleafSettingsEntry(QWidget *parent) :
+NanoleafSettingsEntry::NanoleafSettingsEntry(QWidget *parent) :
     BaseManualDeviceEntry(parent),
-    ui(new Ui::OpenRGBNanoleafSettingsEntry),
+    ui(new Ui::NanoleafSettingsEntry),
     paired(false)
 {
     ui->setupUi(this);
 }
 
-OpenRGBNanoleafSettingsEntry::OpenRGBNanoleafSettingsEntry(QString a_address, int a_port) :
-    OpenRGBNanoleafSettingsEntry(nullptr)
+NanoleafSettingsEntry::NanoleafSettingsEntry(QString a_address, int a_port) :
+    NanoleafSettingsEntry(nullptr)
 {
     address = a_address;
     port = a_port;
@@ -49,12 +48,12 @@ OpenRGBNanoleafSettingsEntry::OpenRGBNanoleafSettingsEntry(QString a_address, in
     }
 }
 
-OpenRGBNanoleafSettingsEntry::~OpenRGBNanoleafSettingsEntry()
+NanoleafSettingsEntry::~NanoleafSettingsEntry()
 {
     delete ui;
 }
 
-void OpenRGBNanoleafSettingsEntry::changeEvent(QEvent *event)
+void NanoleafSettingsEntry::changeEvent(QEvent *event)
 {
     if(event->type() == QEvent::LanguageChange)
     {
@@ -62,7 +61,7 @@ void OpenRGBNanoleafSettingsEntry::changeEvent(QEvent *event)
     }
 }
 
-void OpenRGBNanoleafSettingsEntry::on_PairButton_clicked()
+void NanoleafSettingsEntry::on_PairButton_clicked()
 {
     try
     {
@@ -90,7 +89,7 @@ void OpenRGBNanoleafSettingsEntry::on_PairButton_clicked()
     }
 }
 
-void OpenRGBNanoleafSettingsEntry::on_UnpairButton_clicked()
+void NanoleafSettingsEntry::on_UnpairButton_clicked()
 {
     NanoleafController::Unpair(address.toStdString(), port, auth_token);
 
@@ -106,7 +105,7 @@ void OpenRGBNanoleafSettingsEntry::on_UnpairButton_clicked()
     ui->UnpairButton->hide();
 }
 
-void OpenRGBNanoleafSettingsEntry::loadFromSettings(const json& data)
+void NanoleafSettingsEntry::loadFromSettings(const json& data)
 {
     address = QString::fromStdString(data["ip"]);
     port = data["port"];
@@ -127,7 +126,7 @@ void OpenRGBNanoleafSettingsEntry::loadFromSettings(const json& data)
     }
 }
 
-json OpenRGBNanoleafSettingsEntry::saveSettings()
+json NanoleafSettingsEntry::saveSettings()
 {
     json result;
 
@@ -144,12 +143,12 @@ json OpenRGBNanoleafSettingsEntry::saveSettings()
     return result;
 }
 
-const char* OpenRGBNanoleafSettingsEntry::settingsSection()
+const char* NanoleafSettingsEntry::settingsSection()
 {
     return "NanoleafDevices";
 }
 
-std::string OpenRGBNanoleafSettingsEntry::getLocation()
+std::string NanoleafSettingsEntry::getLocation()
 {
     return (address.toStdString() + ":" + std::to_string(port));
 }

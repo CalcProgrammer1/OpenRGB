@@ -1,5 +1,5 @@
 /*---------------------------------------------------------*\
-| OpenRGBNanoleafNewDeviceDialog.h                          |
+| NanoleafNewDeviceDialog.h                                 |
 |                                                           |
 |   User interface for OpenRGB Nanoleaf dialog              |
 |                                                           |
@@ -8,7 +8,6 @@
 \*---------------------------------------------------------*/
 
 #include <QDialog>
-#include "OpenRGBDialog.h"
 
 struct NanoleafDevice
 {
@@ -18,21 +17,21 @@ struct NanoleafDevice
 
 namespace Ui
 {
-class OpenRGBNanoleafNewDeviceDialog;
+	class NanoleafNewDeviceDialog;
 }
 
-class OpenRGBNanoleafNewDeviceDialog : public QDialog
+class NanoleafNewDeviceDialog : public QDialog
 {
     Q_OBJECT
 
 public:
-    explicit OpenRGBNanoleafNewDeviceDialog(QWidget *parent = nullptr);
-    ~OpenRGBNanoleafNewDeviceDialog();
+    explicit NanoleafNewDeviceDialog(QWidget *parent = nullptr);
+    ~NanoleafNewDeviceDialog();
 
     NanoleafDevice show();
 
 private:
-    Ui::OpenRGBNanoleafNewDeviceDialog *ui;
+    Ui::NanoleafNewDeviceDialog *ui;
 
 private slots:
     void changeEvent(QEvent *event);

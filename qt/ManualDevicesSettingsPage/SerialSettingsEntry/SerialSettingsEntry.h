@@ -1,5 +1,5 @@
 /*---------------------------------------------------------*\
-| OpenRGBSerialSettingsEntry.h                              |
+| SerialSettingsEntry.h                                     |
 |                                                           |
 |   User interface entry for serial device configuration    |
 |                                                           |
@@ -13,10 +13,10 @@
 
 namespace Ui
 {
-    class OpenRGBSerialSettingsEntry;
+    class SerialSettingsEntry;
 }
 
-class OpenRGBSerialSettingsEntry : public BaseManualDeviceEntry
+class SerialSettingsEntry : public BaseManualDeviceEntry
 {
     Q_OBJECT
 
@@ -26,12 +26,12 @@ private slots:
     void on_ProtocolComboBox_currentIndexChanged(int index);
 
 public:
-    explicit OpenRGBSerialSettingsEntry(QWidget *parent = nullptr);
-    ~OpenRGBSerialSettingsEntry();
+    explicit SerialSettingsEntry(QWidget *parent = nullptr);
+    ~SerialSettingsEntry();
     void loadFromSettings(const json& data);
     json saveSettings();
     const char* settingsSection();
 
 private:
-    Ui::OpenRGBSerialSettingsEntry *ui;
+    Ui::SerialSettingsEntry *ui;
 };

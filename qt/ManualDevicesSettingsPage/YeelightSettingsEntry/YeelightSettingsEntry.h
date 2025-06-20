@@ -1,5 +1,5 @@
 /*---------------------------------------------------------*\
-| OpenRGBYeelightSettingsEntry.h                            |
+| YeelightSettingsEntry.h                            |
 |                                                           |
 |   User interface for Yeelight settings entry              |
 |                                                           |
@@ -13,22 +13,22 @@
 
 namespace Ui
 {
-    class OpenRGBYeelightSettingsEntry;
+    class YeelightSettingsEntry;
 }
 
-class OpenRGBYeelightSettingsEntry : public BaseManualDeviceEntry
+class YeelightSettingsEntry : public BaseManualDeviceEntry
 {
     Q_OBJECT
 
 public:
-    explicit OpenRGBYeelightSettingsEntry(QWidget *parent = nullptr);
-    ~OpenRGBYeelightSettingsEntry();
+    explicit YeelightSettingsEntry(QWidget *parent = nullptr);
+    ~YeelightSettingsEntry();
     void loadFromSettings(const json& data);
     json saveSettings();
     const char* settingsSection();
 
 private:
-    Ui::OpenRGBYeelightSettingsEntry *ui;
+    Ui::YeelightSettingsEntry *ui;
 
 private slots:
     void changeEvent(QEvent *event);

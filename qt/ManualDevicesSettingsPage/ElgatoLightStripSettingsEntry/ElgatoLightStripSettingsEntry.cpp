@@ -1,5 +1,5 @@
 /*---------------------------------------------------------*\
-| OpenRGBElgatoLightStripSettingsEntry.cpp                  |
+| ElgatoLightStripSettingsEntry.cpp                         |
 |                                                           |
 |   User interface for OpenRGB Elgato Light Strips entry    |
 |                                                           |
@@ -7,23 +7,23 @@
 |   SPDX-License-Identifier: GPL-2.0-only                   |
 \*---------------------------------------------------------*/
 
-#include "OpenRGBElgatoLightStripSettingsEntry.h"
-#include "ui_OpenRGBElgatoLightStripSettingsEntry.h"
+#include "ElgatoLightStripSettingsEntry.h"
+#include "ui_ElgatoLightStripSettingsEntry.h"
 
-OpenRGBElgatoLightStripSettingsEntry::OpenRGBElgatoLightStripSettingsEntry(QWidget *parent) :
+ElgatoLightStripSettingsEntry::ElgatoLightStripSettingsEntry(QWidget *parent) :
     BaseManualDeviceEntry(parent),
-    ui(new Ui::OpenRGBElgatoLightStripSettingsEntry)
+    ui(new Ui::ElgatoLightStripSettingsEntry)
 {
     ui->setupUi(this);
     setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
 }
 
-OpenRGBElgatoLightStripSettingsEntry::~OpenRGBElgatoLightStripSettingsEntry()
+ElgatoLightStripSettingsEntry::~ElgatoLightStripSettingsEntry()
 {
     delete ui;
 }
 
-void OpenRGBElgatoLightStripSettingsEntry::changeEvent(QEvent *event)
+void ElgatoLightStripSettingsEntry::changeEvent(QEvent *event)
 {
     if(event->type() == QEvent::LanguageChange)
     {
@@ -31,7 +31,7 @@ void OpenRGBElgatoLightStripSettingsEntry::changeEvent(QEvent *event)
     }
 }
 
-void OpenRGBElgatoLightStripSettingsEntry::loadFromSettings(const json& data)
+void ElgatoLightStripSettingsEntry::loadFromSettings(const json& data)
 {
     if(data.contains("ip"))
     {
@@ -39,14 +39,14 @@ void OpenRGBElgatoLightStripSettingsEntry::loadFromSettings(const json& data)
     }
 }
 
-json OpenRGBElgatoLightStripSettingsEntry::saveSettings()
+json ElgatoLightStripSettingsEntry::saveSettings()
 {
     json result;
     result["ip"] = ui->IPEdit->text().toStdString();
     return result;
 }
 
-const char* OpenRGBElgatoLightStripSettingsEntry::settingsSection()
+const char* ElgatoLightStripSettingsEntry::settingsSection()
 {
     return "ElgatoLightStripDevices";
 }

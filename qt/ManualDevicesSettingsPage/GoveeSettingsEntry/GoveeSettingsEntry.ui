@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>OpenRGBGoveeSettingsEntry</class>
- <widget class="QWidget" name="OpenRGBGoveeSettingsEntry">
+ <class>GoveeSettingsEntry</class>
+ <widget class="QWidget" name="GoveeSettingsEntry">
   <property name="geometry">
    <rect>
     <x>0</x>

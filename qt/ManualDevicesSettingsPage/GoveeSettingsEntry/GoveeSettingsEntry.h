@@ -1,5 +1,5 @@
 /*---------------------------------------------------------*\
-| OpenRGBGoveeSettingsEntry.h                               |
+| GoveeSettingsEntry.h                                      |
 |                                                           |
 |   User interface for OpenRGB Govee settings entry         |
 |                                                           |
@@ -15,22 +15,22 @@
 
 namespace Ui
 {
-    class OpenRGBGoveeSettingsEntry;
+    class GoveeSettingsEntry;
 }
 
-class OpenRGBGoveeSettingsEntry : public BaseManualDeviceEntry
+class GoveeSettingsEntry : public BaseManualDeviceEntry
 {
     Q_OBJECT
 
 public:
-    explicit OpenRGBGoveeSettingsEntry(QWidget *parent = nullptr);
-    ~OpenRGBGoveeSettingsEntry();
+    explicit GoveeSettingsEntry(QWidget *parent = nullptr);
+    ~GoveeSettingsEntry();
     void loadFromSettings(const json& data);
     json saveSettings();
     const char* settingsSection();
 
 private:
-    Ui::OpenRGBGoveeSettingsEntry *ui;
+    Ui::GoveeSettingsEntry *ui;
 
 private slots:
     void changeEvent(QEvent *event);
