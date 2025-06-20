@@ -201,13 +201,6 @@ Anything not listed here should be detected automatically, if supported</string>
           </widget>
          </item>
          <item>
-          <widget class="QPushButton" name="ButtonScanNotFound">
-           <property name="text">
-            <string>Still not found</string>
-           </property>
-          </widget>
-         </item>
-         <item>
           <widget class="QPushButton" name="ButtonScanBeginning">
            <property name="text">
             <string>Add another device</string>
@@ -256,87 +249,6 @@ Anything not listed here should be detected automatically, if supported</string>
           <widget class="QPushButton" name="ButtonConfigureScan">
            <property name="text">
             <string>Save &amp;&amp; Scan</string>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </item>
-      </layout>
-     </widget>
-     <widget class="QWidget" name="PageHelp">
-      <layout class="QVBoxLayout" name="verticalLayout_9">
-       <item>
-        <widget class="QLabel" name="label_7">
-         <property name="text">
-          <string>&lt;h2&gt;Not the end of the world&lt;/h2&gt;
-The device seems to be unsupported by OpenRGB - yet! With your help, we can fix that.
-First, let's gather some information:</string>
-         </property>
-         <property name="alignment">
-          <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
-         </property>
-         <property name="wordWrap">
-          <bool>true</bool>
-         </property>
-         <property name="margin">
-          <number>5</number>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QPlainTextEdit" name="helpIssueText">
-         <property name="plainText">
-          <string>Sample text for issue
-
-```
-Matching hardware IDs
-```</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QPushButton" name="ButtonClipboard">
-         <property name="text">
-          <string>Copy to Clipboard</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QLabel" name="LabelGitlab">
-         <property name="text">
-          <string>We would really appreciate if you could send us this info, by filing an issue on Gitlab. </string>
-         </property>
-         <property name="alignment">
-          <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
-         </property>
-         <property name="wordWrap">
-          <bool>true</bool>
-         </property>
-         <property name="margin">
-          <number>5</number>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <layout class="QHBoxLayout" name="horizontalLayout_6">
-         <item>
-          <widget class="QPushButton" name="ButtonHelpBack">
-           <property name="text">
-            <string>Back</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QPushButton" name="ButtonHelpIssue">
-           <property name="text">
-            <string>File an issue</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QPushButton" name="ButtonHelpBeginning">
-           <property name="text">
-            <string>Try another device</string>
            </property>
           </widget>
          </item>

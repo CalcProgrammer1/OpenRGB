@@ -65,7 +65,6 @@ void AddDeviceDialog::setScanButtons(bool scan)
 
     ui->ButtonScanBack->setVisible(!scan);
     ui->ButtonScanRescan->setVisible(!scan);
-    ui->ButtonScanNotFound->setVisible(!scan);
     if(scan)
     {
         ui->ButtonScanBeginning->hide();
@@ -102,35 +101,6 @@ void AddDeviceDialog::rescan()
     ui->stackedWidget->slideInWgt(ui->PageScan, SlidingStackedWidget::RIGHT2LEFT);
 
     ResourceManager::get()->DetectDevices();
-}
-
-void AddDeviceDialog::help()
-{
-    if(helpFromPage == -1)
-    {
-        helpFromPage = ui->stackedWidget->currentIndex();
-    }
-
-    // Show the "Nothing we can do" page
-    // The usefulness on it heavily depends on the contents of the "Issue Text" field
-    // The caller must fill it with appropriate text (device IDs, connection type, manufacturer, etc.)
-    if(ui->helpIssueText->toPlainText().isEmpty())
-    {
-        ui->helpIssueText->hide();
-        ui->ButtonClipboard->hide();
-        ui->LabelGitlab->setText(tr("We would really appreciate if you could file an issue on <a href=\"gitlab\">Gitlab</a>, providing the device name and a link to a description on manufacturer's website."));
-    }
-    else
-    {
-        ui->helpIssueText->show();
-        ui->ButtonClipboard->show();
-        ui->LabelGitlab->setText(tr("We would really appreciate if you could send us this info, by filing an issue on Gitlab. "
-                                    "You can do that by clicking the button below (you need to be logged in to Gitlab in your "
-                                    "default web-browser), or by navigating to the <a href=\"gitlab\">Project's page on Gitlab</a>, "
-                                    "then \"Issues\", clicking \"New issue\", and pasting in the text from the field above."));
-    }
-
-    ui->stackedWidget->slideInWgt(ui->PageHelp, SlidingStackedWidget::RIGHT2LEFT);
 }
 
 void AddDeviceDialog::configure(QWidget* entry)
@@ -277,45 +247,6 @@ void AddDeviceDialog::on_ButtonScanBeginning_clicked()
 void AddDeviceDialog::on_ButtonScanClose_clicked()
 {
     close();
-}
-
-// ===== HELP =====
-
-void AddDeviceDialog::on_ButtonHelpBack_clicked()
-{
-    ui->stackedWidget->slideInIdx(helpFromPage, SlidingStackedWidget::LEFT2RIGHT);
-    helpFromPage = -1;
-}
-
-void AddDeviceDialog::on_ButtonHelpIssue_clicked()
-{
-    QByteArray issueText = ui->helpIssueText->toPlainText().toUtf8();
-    QString issueUrl("https://gitlab.com/CalcProgrammer1/OpenRGB/-/issues/new");
-    QByteArray issueTitle = "[New Device][Helper]";
-    if(!title.empty())
-    {
-        issueTitle.append(" ");
-        issueTitle.append(title.c_str());
-    }
-    if(!issueText.isEmpty())
-    {
-        issueUrl.append("?issue[title]=");
-        issueUrl.append(issueTitle.toPercentEncoding());
-        issueUrl.append("&issue[description]=");
-        issueUrl.append(issueText.toPercentEncoding());
-    }
-    QDesktopServices::openUrl (QUrl(issueUrl));
-}
-
-void AddDeviceDialog::on_ButtonHelpBeginning_clicked()
-{
-    home();
-}
-
-void AddDeviceDialog::on_LabelGitlab_linkActivated(const QString &link)
-{
-    QString issueUrl("https://gitlab.com/CalcProgrammer1/OpenRGB/-/issues/new");
-    QDesktopServices::openUrl (QUrl(issueUrl));
 }
 
 void AddDeviceDialog::onDetectionProgressChanged()

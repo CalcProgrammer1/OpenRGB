@@ -48,11 +48,6 @@ private slots:
     void on_ButtonScanBeginning_clicked();
     void on_ButtonScanClose_clicked();
 
-    void on_ButtonHelpBack_clicked();
-    void on_ButtonHelpIssue_clicked();
-    void on_ButtonHelpBeginning_clicked();
-    void on_LabelGitlab_linkActivated(const QString &link);
-
     void onDetectionProgressChanged();
     void onDetectionEnded();
 
@@ -60,16 +55,12 @@ private:
     Ui::AddDeviceDialog *ui;
     void home();
     void rescan();
-    void help();
     void setScanButtons(bool scan);
     void configure(QWidget* entry);
 
     int scanFromPage = -1;
     int helpFromPage = -1;
     int configureFromPage = -1;
-
-    //device_type filterDevType;
-    //connection_type filterConnType;
 
     std::string title; // Cached device name & manufacturer from Hardware IDs
     std::vector<std::string> cachedDevices;
