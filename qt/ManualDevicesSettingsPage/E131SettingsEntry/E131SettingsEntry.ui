@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>531</width>
-    <height>237</height>
+    <height>256</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -23,7 +23,7 @@
    <item row="1" column="0" colspan="2">
     <widget class="QGroupBox" name="groupBox">
      <property name="title">
-      <string/>
+      <string>E1.31 Device</string>
      </property>
      <layout class="QGridLayout" name="gridLayout_2">
       <item row="2" column="5">

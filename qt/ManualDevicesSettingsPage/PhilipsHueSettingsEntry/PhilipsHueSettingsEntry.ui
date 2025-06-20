@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>297</width>
-    <height>228</height>
+    <height>260</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -23,7 +23,7 @@
    <item row="1" column="0" colspan="2">
     <widget class="QGroupBox" name="groupBox">
      <property name="title">
-      <string/>
+      <string>Philips Hue Bridge</string>
      </property>
      <layout class="QGridLayout" name="gridLayout_2">
       <item row="3" column="0">
