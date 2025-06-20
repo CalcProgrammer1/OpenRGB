@@ -40,6 +40,7 @@ ManualDevicesSettingsPage::ManualDevicesSettingsPage(QWidget *parent) :
     ResourceManager::get()->RegisterDetectionEndCallback(&ManualDevicesPageReloadCallback, this);
 
     reloadList();
+    on_deviceList_itemSelectionChanged(); // Refresh button state
 }
 
 ManualDevicesSettingsPage::~ManualDevicesSettingsPage()
@@ -192,3 +193,12 @@ void ManualDevicesSettingsPage::addEntries(const std::string& settingsName, Entr
         }
     }
 }
+
+void ManualDevicesSettingsPage::on_deviceList_itemSelectionChanged()
+{
+    int cur_row = ui->deviceList->currentRow();
+
+    bool anySelected = (cur_row >= 0);
+    ui->removeDeviceButton->setEnabled(anySelected);
+}
+

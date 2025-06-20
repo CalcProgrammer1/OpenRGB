@@ -39,6 +39,8 @@ private slots:
     void on_removeDeviceButton_clicked();
     void on_saveConfigurationButton_clicked();
 
+    void on_deviceList_itemSelectionChanged();
+
 private:
     Ui::ManualDevicesSettingsPage*        ui;
     std::vector<BaseManualDeviceEntry*>   entries;
