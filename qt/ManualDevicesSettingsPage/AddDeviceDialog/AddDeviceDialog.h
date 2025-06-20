@@ -44,7 +44,6 @@ private slots:
 
     void on_ButtonScanBack_clicked();
     void on_ButtonScanRescan_clicked();
-    void on_ButtonScanNotFound_clicked();
     void on_ButtonScanBeginning_clicked();
     void on_ButtonScanClose_clicked();
 

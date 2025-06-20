@@ -234,11 +234,6 @@ void AddDeviceDialog::on_ButtonScanRescan_clicked()
     rescan();
 }
 
-void AddDeviceDialog::on_ButtonScanNotFound_clicked()
-{
-    // TODO: consider planning this stage further
-}
-
 void AddDeviceDialog::on_ButtonScanBeginning_clicked()
 {
     home();
