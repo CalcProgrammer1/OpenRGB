@@ -90,7 +90,7 @@ Anything not listed here should be detected automatically, if supported</string>
          <item row="1" column="1">
           <widget class="QPushButton" name="ButtonE131">
            <property name="text">
-            <string>E1.31</string>
+            <string>E1.31 (including WLED)</string>
            </property>
           </widget>
          </item>
