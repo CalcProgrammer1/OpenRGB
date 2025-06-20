@@ -7,12 +7,10 @@
 |   SPDX-License-Identifier: GPL-2.0-only                   |
 \*---------------------------------------------------------*/
 
-#include "OpenRGBDialog.h"
 #include "OpenRGBDevicePage.h"
 #include "OpenRGBZoneResizeDialog.h"
 #include "ResourceManager.h"
 #include "SettingsManager.h"
-#include "hsv.h"
 #include "ui_OpenRGBDevicePage.h"
 
 static void UpdateCallback(void * this_ptr)
