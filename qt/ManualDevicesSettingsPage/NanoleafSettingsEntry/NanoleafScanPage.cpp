@@ -21,6 +21,7 @@ NanoleafScanPage::NanoleafScanPage(QWidget *parent) :
     ui(new Ui::NanoleafScanPage)
 {
     ui->setupUi(this);
+    on_NanoleafDeviceList_itemSelectionChanged(); // Refresh button state
 }
 
 NanoleafScanPage::~NanoleafScanPage()
@@ -136,3 +137,12 @@ void NanoleafScanPage::on_DeviceFound(QString address, int port)
         ui->NanoleafDeviceList->show();
     }
 }
+
+void NanoleafScanPage::on_NanoleafDeviceList_itemSelectionChanged()
+{
+    int cur_row = ui->NanoleafDeviceList->currentRow();
+
+    bool anySelected = (cur_row >= 0);
+    ui->RemoveNanoleafDeviceButton->setEnabled(anySelected);
+}
+

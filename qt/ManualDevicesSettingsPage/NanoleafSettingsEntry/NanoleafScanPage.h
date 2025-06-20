@@ -32,6 +32,8 @@ private slots:
     void on_ScanForNanoleafDevicesButton_clicked();
     void on_DeviceFound(QString address, int port);
 
+    void on_NanoleafDeviceList_itemSelectionChanged();
+
 private:
     Ui::NanoleafScanPage *ui;
     std::map<std::string, NanoleafSettingsEntry*> entries;
