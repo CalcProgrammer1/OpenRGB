@@ -1197,11 +1197,13 @@ void ResourceManager::DetectDevicesCoroutine()
 
             for(unsigned int i2c_detector_idx = 0; i2c_detector_idx < i2c_dimm_device_detectors.size() && detection_is_required.load(); i2c_detector_idx++)
             {
-                if(i2c_dimm_device_detectors[i2c_detector_idx].dimm_type == dimm_type &&
-                   is_jedec_in_slots(slots, i2c_dimm_device_detectors[i2c_detector_idx].jedec_id))
-                {
-                    detection_string = i2c_dimm_device_detectors[i2c_detector_idx].name.c_str();
+                I2CDIMMDeviceDetectorBlock &detector = i2c_dimm_device_detectors[i2c_detector_idx];
+                detection_string = detector.name.c_str();
 
+                LOG_DEBUG("[%s] Detector %d Jedec ID: 0x%04x", detection_string, i2c_detector_idx, detector.jedec_id);
+
+                if(detector.dimm_type == dimm_type && is_jedec_in_slots(slots, detector.jedec_id))
+                {
                     /*-------------------------------------------------*\
                     | Check if this detector is enabled                 |
                     \*-------------------------------------------------*/
@@ -1216,8 +1218,8 @@ void ResourceManager::DetectDevicesCoroutine()
                     {
                         DetectionProgressChanged();
 
-                        std::vector<SPDWrapper*> matching_slots = slots_with_jedec(slots, i2c_dimm_device_detectors[i2c_detector_idx].jedec_id);
-                        i2c_dimm_device_detectors[i2c_detector_idx].function(busses[bus], matching_slots);
+                        std::vector<SPDWrapper*> matching_slots = slots_with_jedec(slots, detector.jedec_id);
+                        detector.function(busses[bus], matching_slots);
                     }
 
                     LOG_TRACE("[%s] detection end", detection_string);
