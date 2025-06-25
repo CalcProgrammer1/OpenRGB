@@ -1,7 +1,7 @@
 /*---------------------------------------------------------*\
 | AddDeviceDialog.h                                         |
 |                                                           |
-|   Device adding helper window & troubleshooting wizard    |
+|   Device adding helper window                             |
 |                                                           |
 |   This file is part of the OpenRGB project                |
 |   SPDX-License-Identifier: GPL-2.0-only                   |
@@ -12,8 +12,9 @@
 #include <QDialog>
 #include <QSortFilterProxyModel>
 
-namespace Ui {
-class AddDeviceDialog;
+namespace Ui
+{
+    class AddDeviceDialog;
 }
 
 class AddDeviceDialog : public QDialog
