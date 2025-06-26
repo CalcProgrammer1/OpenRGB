@@ -797,7 +797,7 @@ void DeviceView::paintEvent(QPaintEvent* /* event */)
         | Label                                                 |
         | Set the font color so that the text is visible        |
         \*-----------------------------------------------------*/
-        font.setPixelSize(posh / 2);
+        font.setPixelSize(std::max<int>(1, posh / 2));
         painter.setFont(font);
 
         unsigned int luma = (unsigned int)(0.2126f * currentColor.red() + 0.7152f * currentColor.green() + 0.0722f * currentColor.blue());
