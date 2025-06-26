@@ -38,8 +38,4 @@ void DetectJGINYUEInternalUSBController(hid_device_info* info,const std::string&
     }
 }
 
-#ifdef _WIN32
 REGISTER_HID_DETECTOR("JGINYUE Internal USB Controller", DetectJGINYUEInternalUSBController, JGINYUE_VID, JGINYUE_MOTHERBOARD_PID);
-#else
-REGISTER_HID_DETECTOR_IPU("JGINYUE Internal USB Controller", DetectJGINYUEInternalUSBController, JGINYUE_VID, JGINYUE_MOTHERBOARD_PID, 0, 0xFF00, 1);
-#endif
