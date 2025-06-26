@@ -21,9 +21,12 @@ SMBus is generally not meant to be accessed by user applications, but RGB softwa
   3. Load the i2c driver for your chipset:
       * Intel
         * `sudo modprobe i2c-i801`
-        * `sudo modprobe i2c-nct6775` - Secondary controller for motherboard LEDs (requires [kernel patch](https://gitlab.com/OpenRGBDevelopers/OpenRGB-Wiki/-/blob/stable/OpenRGB-Kernel-Patch.md))
       * AMD
         * `sudo modprobe i2c-piix4`
+      * Nuvoton
+        * This interface is used alongside `i2c-i801` on some older ASUS Intel motherboards for the on-board lighting.
+        * `sudo modprobe i2c-nct6793`
+        * Note: The i2c-nct6793 driver must be installed separately, see [i2c-nct6793-dkms](https://gitlab.com/CalcProgrammer1/i2c-nct6793-dkms)
 
   * If you want the i2c modules to load automatically at boot, run the following:
       1. `sudo touch /etc/modules-load.d/i2c.conf`
