@@ -67,7 +67,7 @@ private slots:
     void on_CheckboxAutoStartClient_clicked();
     void on_CheckboxAutoStartProfile_clicked();
     void on_TextServerHost_textChanged(const QString);
-    void on_TextServerPort_textChanged(const QString);
+    void on_TextServerPort_valueChanged(int);
     void on_TextClientHost_textChanged(const QString);
     void on_TextCustomArgs_textChanged(const QString);
     void on_ComboBoxAutoStartProfile_currentTextChanged(const QString);

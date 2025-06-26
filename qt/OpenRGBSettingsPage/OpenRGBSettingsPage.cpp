@@ -252,7 +252,7 @@ OpenRGBSettingsPage::OpenRGBSettingsPage(QWidget *parent) :
     ui->TextServerHost->setText(QString::fromStdString(autostart_settings["host"]));
     ui->TextServerHost->setEnabled(autostart_settings["setserverhost"]);
 
-    ui->TextServerPort->setText(QString::fromStdString(autostart_settings["port"]));
+    ui->TextServerPort->setValue(QString::fromStdString(autostart_settings["port"]).toInt());
     ui->TextServerPort->setEnabled(autostart_settings["setserverport"]);
 
     ui->TextClientHost->setText(QString::fromStdString(autostart_settings["client"]));
@@ -668,9 +668,9 @@ void OpenRGBSettingsPage::on_TextServerHost_textChanged(QString host)
     SaveAutoStartSetting("host", host);
 }
 
-void OpenRGBSettingsPage::on_TextServerPort_textChanged(QString port)
+void OpenRGBSettingsPage::on_TextServerPort_valueChanged(int port)
 {
-    SaveAutoStartSetting("port", port);
+    SaveAutoStartSetting("port", QString::number(port));
 }
 
 void OpenRGBSettingsPage::on_TextClientHost_textChanged(QString client)
