@@ -38,7 +38,8 @@ public:
     std::string GetLocation();
     std::string GetSerial();
 
-    void        SetMode(uint8_t mode, uint8_t r, uint8_t g, uint8_t b);
+    void        SetMode(uint8_t mode1, uint8_t r1, uint8_t g1, uint8_t b1,
+                        uint8_t mode2, uint8_t r2, uint8_t g2, uint8_t b2);
 
 private:
     hid_device* dev;
