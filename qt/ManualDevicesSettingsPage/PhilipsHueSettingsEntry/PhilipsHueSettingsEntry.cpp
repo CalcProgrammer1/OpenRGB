@@ -93,7 +93,17 @@ json PhilipsHueSettingsEntry::saveSettings()
     return result;
 }
 
-const char* PhilipsHueSettingsEntry::settingsSection()
+bool PhilipsHueSettingsEntry::isDataValid()
 {
-    return "PhilipsHueDevices";
+    // stub
+    return true;
 }
+
+static BaseManualDeviceEntry* SpawnPhilipsHueSettingsEntry(const json& data)
+{
+    PhilipsHueSettingsEntry* entry = new PhilipsHueSettingsEntry;
+    entry->loadFromSettings(data);
+    return entry;
+}
+
+REGISTER_MANUAL_DEVICE_TYPE("Philips Hue", "PhilipsHueDevices", SpawnPhilipsHueSettingsEntry);

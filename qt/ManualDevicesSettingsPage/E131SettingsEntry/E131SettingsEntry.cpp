@@ -284,7 +284,17 @@ json E131SettingsEntry::saveSettings()
     return result;
 }
 
-const char* E131SettingsEntry::settingsSection()
+bool E131SettingsEntry::isDataValid()
 {
-    return "E131Devices";
+    // stub
+    return true;
 }
+
+static BaseManualDeviceEntry* SpawnE131Entry(const json& data)
+{
+    E131SettingsEntry* entry = new E131SettingsEntry;
+    entry->loadFromSettings(data);
+    return entry;
+}
+
+REGISTER_MANUAL_DEVICE_TYPE("E1.31 (including WLED)", "E131Devices", SpawnE131Entry);

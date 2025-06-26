@@ -24,13 +24,13 @@ public:
     explicit PhilipsHueSettingsEntry(QWidget *parent = nullptr);
     ~PhilipsHueSettingsEntry();
     void loadFromSettings(const json& data);
-    json saveSettings();
-    const char* settingsSection();
+    json saveSettings() override;
+    bool isDataValid() override;
 
 private:
     Ui::PhilipsHueSettingsEntry *ui;
 
 private slots:
-    void changeEvent(QEvent *event);
+    void changeEvent(QEvent *event) override;
     void on_UnpairButton_clicked();
 };

@@ -24,13 +24,14 @@ public:
     explicit KasaSmartSettingsEntry(QWidget *parent = nullptr);
     ~KasaSmartSettingsEntry();
     void loadFromSettings(const json& data);
-    json saveSettings();
-    const char* settingsSection();
     void setName(QString name);
+
+    json saveSettings() override;
+    bool isDataValid() override;
 
 private:
     Ui::KasaSmartSettingsEntry *ui;
 
 private slots:
-    void changeEvent(QEvent *event);
+    void changeEvent(QEvent *event) override;
 };

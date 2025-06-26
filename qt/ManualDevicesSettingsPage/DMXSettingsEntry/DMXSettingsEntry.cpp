@@ -96,7 +96,17 @@ json DMXSettingsEntry::saveSettings()
     return result;
 }
 
-const char* DMXSettingsEntry::settingsSection()
+bool DMXSettingsEntry::isDataValid()
 {
-    return "DMXDevices";
+    // stub
+    return true;
 }
+
+static BaseManualDeviceEntry* SpawnDMXEntry(const json& data)
+{
+    DMXSettingsEntry* entry = new DMXSettingsEntry;
+    entry->loadFromSettings(data);
+    return entry;
+}
+
+REGISTER_MANUAL_DEVICE_TYPE("DMX", "DMXDevices", SpawnDMXEntry);

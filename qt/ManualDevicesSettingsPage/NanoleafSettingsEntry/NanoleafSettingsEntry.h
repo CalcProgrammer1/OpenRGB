@@ -26,12 +26,13 @@ public:
     NanoleafSettingsEntry(QString a_address, int a_port);
     ~NanoleafSettingsEntry();
     void loadFromSettings(const json& data);
-    json saveSettings();
-    const char* settingsSection();
     std::string getLocation();
 
+    json saveSettings() override;
+    bool isDataValid() override;
+
 private slots:
-    void changeEvent(QEvent *event);
+    void changeEvent(QEvent *event) override;
     void on_UnpairButton_clicked();
     void on_PairButton_clicked();
 

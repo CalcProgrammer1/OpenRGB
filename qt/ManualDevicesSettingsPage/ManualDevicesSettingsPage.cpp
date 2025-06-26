@@ -9,21 +9,10 @@
 
 #include "ManualDevicesSettingsPage.h"
 #include "ui_ManualDevicesSettingsPage.h"
-#include "DMXSettingsEntry.h"
-#include "E131SettingsEntry.h"
-#include "ElgatoKeyLightSettingsEntry.h"
-#include "ElgatoLightStripSettingsEntry.h"
-#include "KasaSmartSettingsEntry.h"
-#include "LIFXSettingsEntry.h"
+
 #include "NanoleafSettingsEntry.h"
-#include "PhilipsHueSettingsEntry.h"
-#include "PhilipsWizSettingsEntry.h"
-#include "QMKORGBSettingsEntry.h"
-#include "SerialSettingsEntry.h"
-#include "YeelightSettingsEntry.h"
 #include "ResourceManager.h"
 #include "SettingsManager.h"
-#include "AddDeviceDialog.h"
 
 static void ManualDevicesPageReloadCallback(void* this_ptr)
 {
@@ -39,6 +28,10 @@ ManualDevicesSettingsPage::ManualDevicesSettingsPage(QWidget *parent) :
     ui->setupUi(this);
     ResourceManager::get()->RegisterDetectionEndCallback(&ManualDevicesPageReloadCallback, this);
 
+    addDeviceMenu = new QMenu();
+    ui->addDeviceButton->setMenu(addDeviceMenu);
+    connect(addDeviceMenu, &QMenu::triggered, this, &ManualDevicesSettingsPage::onAddDeviceItemSelected);
+
     reloadList();
     on_deviceList_itemSelectionChanged(); // Refresh button state
 }
@@ -48,6 +41,7 @@ ManualDevicesSettingsPage::~ManualDevicesSettingsPage()
     ResourceManager::get()->UnregisterDetectionEndCallback(&ManualDevicesPageReloadCallback, this);
     clearList();
     delete ui;
+    delete addDeviceMenu;
 }
 
 void ManualDevicesSettingsPage::changeEvent(QEvent *event)
@@ -56,12 +50,6 @@ void ManualDevicesSettingsPage::changeEvent(QEvent *event)
     {
         ui->retranslateUi(this);
     }
-}
-
-void ManualDevicesSettingsPage::on_addDeviceButton_clicked()
-{
-    AddDeviceDialog dialog(this);
-    dialog.exec();
 }
 
 void ManualDevicesSettingsPage::on_removeDeviceButton_clicked()
@@ -96,7 +84,7 @@ void ManualDevicesSettingsPage::on_saveConfigurationButton_clicked()
     \*-----------------------------------------------------------------------------*/
     for(size_t idx = 0; idx < entries.size(); ++idx)
     {
-        std::string section = entries[idx]->settingsSection();
+        std::string section = entries[idx]->getSettingsSection();
         if(section == "NanoleafDevices")
         {
             NanoleafSettingsEntry* entry = dynamic_cast<NanoleafSettingsEntry*>(entries[idx]);
@@ -123,22 +111,31 @@ void ManualDevicesSettingsPage::on_saveConfigurationButton_clicked()
     sm->SaveSettings();
 }
 
+void ManualDevicesSettingsPage::reloadMenu()
+{
+    std::vector<std::string> names = ManualDevicesTypeManager::get()->getRegisteredTypeNames();
+
+    addDeviceMenu->clear();
+    for(int i = 0; i < names.size(); ++i)
+    {
+        QAction* action = addDeviceMenu->addAction(QString::fromStdString(names[i]));
+        action->setData(QString::fromStdString(names[i]));
+    }
+}
+
 void ManualDevicesSettingsPage::reloadList()
 {
     clearList();
+    addDeviceMenu->clear();
 
-    addEntries("DMXDevices",              [](){return new DMXSettingsEntry();});
-    addEntries("E131Devices",             [](){return new E131SettingsEntry();});
-    addEntries("ElgatoKeyLightDevices",   [](){return new ElgatoKeyLightSettingsEntry();});
-    addEntries("ElgatoLightStripDevices", [](){return new ElgatoLightStripSettingsEntry();});
-    addEntries("KasaSmartDevices",        [](){return new KasaSmartSettingsEntry();});
-    addEntries("LIFXDevices",             [](){return new LIFXSettingsEntry();});
-    addEntries("NanoleafDevices",         [](){return new NanoleafSettingsEntry();});
-    addEntries("PhilipsHueDevices",       [](){return new PhilipsHueSettingsEntry();});
-    addEntries("PhilipsWizDevices",       [](){return new PhilipsWizSettingsEntry();});
-    addEntries("QMKOpenRGBDevices",       [](){return new QMKORGBSettingsEntry();});
-    addEntries("LEDStripDevices",         [](){return new SerialSettingsEntry();});
-    addEntries("YeelightDevices",         [](){return new YeelightSettingsEntry();});
+    std::vector<ManualDeviceTypeBlock> blocks = ManualDevicesTypeManager::get()->getRegisteredTypes();
+    for(int i = 0; i < blocks.size(); ++i)
+    {
+        QAction* action = addDeviceMenu->addAction(QString::fromStdString(blocks[i].name));
+        action->setData(QString::fromStdString(blocks[i].name));
+
+        addEntries(blocks[i]);
+    }
 }
 
 void ManualDevicesSettingsPage::clearList()
@@ -154,11 +151,14 @@ void ManualDevicesSettingsPage::clearList()
     entries_copy.clear();
 }
 
-void ManualDevicesSettingsPage::addEntry(const json& source, EntrySpawnFunction spawn)
+void ManualDevicesSettingsPage::addEntry(BaseManualDeviceEntry* entry)
 {
+	if(!entry)
+	{
+		return;
+	}
+
     QListWidgetItem* item = new QListWidgetItem;
-    BaseManualDeviceEntry* entry = spawn();
-    entry->loadFromSettings(source);
 
     item->setSizeHint(entry->sizeHint());
 
@@ -169,11 +169,11 @@ void ManualDevicesSettingsPage::addEntry(const json& source, EntrySpawnFunction 
     entries.push_back(entry);
 }
 
-void ManualDevicesSettingsPage::addEntries(const std::string& settingsName, EntrySpawnFunction spawn)
+void ManualDevicesSettingsPage::addEntries(const ManualDeviceTypeBlock& block)
 {
-    json settings = ResourceManager::get()->GetSettingsManager()->GetSettings(settingsName);
+    json settings = ResourceManager::get()->GetSettingsManager()->GetSettings(block.settingsSection);
     const char* array_name = "devices";
-    if(settingsName == "PhilipsHueDevices")
+    if(block.settingsSection == "PhilipsHueDevices")
     {
         array_name = "bridges";
     }
@@ -187,10 +187,25 @@ void ManualDevicesSettingsPage::addEntries(const std::string& settingsName, Entr
             return;
         }
         // Nanoleaf stores it's data as objects with location field as "key", everything else is arrays
+        // For uniformity, use iterators, as if it's always an object
         for(json::const_iterator iter = array_ref.begin(); iter != array_ref.end(); ++iter)
         {
-            addEntry(iter.value(), spawn);
+            BaseManualDeviceEntry* entry = block.spawn(iter.value());
+            if(entry)
+            {
+                addEntry(entry);
+            }
         }
+    }
+}
+
+void ManualDevicesSettingsPage::onAddDeviceItemSelected(QAction* action)
+{
+    std::string entryName = action->data().toString().toStdString();
+    BaseManualDeviceEntry* entry = ManualDevicesTypeManager::get()->spawnByTypeName(entryName, json());
+    if(entry)
+    {
+        addEntry(entry);
     }
 }
 
@@ -201,4 +216,3 @@ void ManualDevicesSettingsPage::on_deviceList_itemSelectionChanged()
     bool anySelected = (cur_row >= 0);
     ui->removeDeviceButton->setEnabled(anySelected);
 }
-

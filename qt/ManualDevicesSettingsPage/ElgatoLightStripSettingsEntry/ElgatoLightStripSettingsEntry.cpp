@@ -46,7 +46,18 @@ json ElgatoLightStripSettingsEntry::saveSettings()
     return result;
 }
 
-const char* ElgatoLightStripSettingsEntry::settingsSection()
+bool ElgatoLightStripSettingsEntry::isDataValid()
 {
-    return "ElgatoLightStripDevices";
+    // stub
+    return true;
 }
+
+static BaseManualDeviceEntry* SpawnElgatoLightStripEntry(const json& data)
+{
+    ElgatoLightStripSettingsEntry* entry = new ElgatoLightStripSettingsEntry;
+    entry->loadFromSettings(data);
+    return entry;
+}
+
+REGISTER_MANUAL_DEVICE_TYPE("Elgato Light Strip", "ElgatoLightStripDevices", SpawnElgatoLightStripEntry);
+

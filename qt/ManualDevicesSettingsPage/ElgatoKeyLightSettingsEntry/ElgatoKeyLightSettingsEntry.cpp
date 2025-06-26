@@ -46,7 +46,17 @@ json ElgatoKeyLightSettingsEntry::saveSettings()
     return result;
 }
 
-const char* ElgatoKeyLightSettingsEntry::settingsSection()
+bool ElgatoKeyLightSettingsEntry::isDataValid()
 {
-    return "ElgatoKeyLightDevices";
+    // stub
+    return true;
 }
+
+static BaseManualDeviceEntry* SpawnElgatoKeyLightEntry(const json& data)
+{
+    ElgatoKeyLightSettingsEntry* entry = new ElgatoKeyLightSettingsEntry;
+    entry->loadFromSettings(data);
+    return entry;
+}
+
+REGISTER_MANUAL_DEVICE_TYPE("Elgato Key Light", "ElgatoKeyLightDevices", SpawnElgatoKeyLightEntry);

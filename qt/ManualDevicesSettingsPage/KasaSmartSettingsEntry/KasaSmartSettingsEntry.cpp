@@ -50,12 +50,22 @@ json KasaSmartSettingsEntry::saveSettings()
     return result;
 }
 
-const char* KasaSmartSettingsEntry::settingsSection()
-{
-    return "KasaSmartDevices";
-}
-
 void KasaSmartSettingsEntry::setName(QString name)
 {
     ui->NameEdit->setText(name);
 }
+
+bool KasaSmartSettingsEntry::isDataValid()
+{
+    // stub
+    return true;
+}
+
+static BaseManualDeviceEntry* SpawnKasaSmartSettingsEntry(const json& data)
+{
+    KasaSmartSettingsEntry* entry = new KasaSmartSettingsEntry;
+    entry->loadFromSettings(data);
+    return entry;
+}
+
+REGISTER_MANUAL_DEVICE_TYPE("Kasa Smart", "KasaSmartDevices", SpawnKasaSmartSettingsEntry);

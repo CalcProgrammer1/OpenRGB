@@ -27,8 +27,8 @@ public:
     explicit QMKORGBSettingsEntry(QWidget *parent = nullptr);
     ~QMKORGBSettingsEntry();
     void loadFromSettings(const json& data);
-    json saveSettings();
-    const char* settingsSection();
+    json saveSettings() override;
+    bool isDataValid() override;
 
 private:
     Ui::QMKORGBSettingsEntry *ui;

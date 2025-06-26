@@ -10,8 +10,10 @@
 #pragma once
 
 #include "BaseManualDeviceEntry.h"
+#include "ManualDevicesTypeManager.h"
 #include "nlohmann/json.hpp"
 #include <QWidget>
+#include <QMenu>
 
 using json = nlohmann::json;
 
@@ -19,8 +21,6 @@ namespace Ui
 {
     class ManualDevicesSettingsPage;
 }
-
-typedef std::function<BaseManualDeviceEntry*()> EntrySpawnFunction;
 
 class ManualDevicesSettingsPage : public QWidget
 {
@@ -32,10 +32,11 @@ public:
 
 private slots:
     void reloadList();
+    void reloadMenu();
+    void onAddDeviceItemSelected(QAction* action);
 
     void changeEvent(QEvent *event);
 
-    void on_addDeviceButton_clicked();
     void on_removeDeviceButton_clicked();
     void on_saveConfigurationButton_clicked();
 
@@ -44,8 +45,9 @@ private slots:
 private:
     Ui::ManualDevicesSettingsPage*        ui;
     std::vector<BaseManualDeviceEntry*>   entries;
+    QMenu*                                addDeviceMenu;
 
-    void addEntry(const json& source, EntrySpawnFunction);
-    void addEntries(const std::string& settingsName, EntrySpawnFunction);
+    void addEntry(BaseManualDeviceEntry* entry);
+    void addEntries(const ManualDeviceTypeBlock&);
     void clearList();
 };

@@ -50,12 +50,22 @@ json LIFXSettingsEntry::saveSettings()
     return result;
 }
 
-const char* LIFXSettingsEntry::settingsSection()
-{
-    return "LIFXDevices";
-}
-
 void LIFXSettingsEntry::setName(QString name)
 {
     ui->NameEdit->setText(name);
 }
+
+bool LIFXSettingsEntry::isDataValid()
+{
+    // stub
+    return true;
+}
+
+static BaseManualDeviceEntry* SpawnLIFXSettingsEntry(const json& data)
+{
+    LIFXSettingsEntry* entry = new LIFXSettingsEntry;
+    entry->loadFromSettings(data);
+    return entry;
+}
+
+REGISTER_MANUAL_DEVICE_TYPE("LIFX", "LIFXDevices", SpawnLIFXSettingsEntry);

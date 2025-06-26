@@ -20,7 +20,22 @@ class BaseManualDeviceEntry: public QWidget
 
 public:
     explicit BaseManualDeviceEntry(QWidget *parent = nullptr): QWidget(parent) {}
-	virtual void loadFromSettings(const json& data) = 0;
     virtual json saveSettings() = 0;
-    virtual const char* settingsSection() = 0;
+    virtual bool isDataValid() = 0;
+
+    void setSettingsSection(const std::string& section);
+    std::string getSettingsSection();
+
+private:
+    std::string settingsSection;
 };
+
+typedef std::function<BaseManualDeviceEntry*(const json& data)> ManualDeviceEntrySpawnFunction;
+
+class ManualDeviceTypeRegistrator
+{
+public:
+    ManualDeviceTypeRegistrator(const std::string& name, const std::string& settingsEntry, ManualDeviceEntrySpawnFunction entrySpawnFunction);
+};
+
+#define REGISTER_MANUAL_DEVICE_TYPE(name, settingsEntry, func) static ManualDeviceTypeRegistrator device_detector_obj_##func(name, settingsEntry, func)

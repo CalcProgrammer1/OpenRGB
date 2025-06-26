@@ -24,12 +24,12 @@ public:
     explicit DMXSettingsEntry(QWidget *parent = nullptr);
     ~DMXSettingsEntry();
     void loadFromSettings(const json& data);
-    json saveSettings();
-    const char* settingsSection();
+    json saveSettings() override;
+    bool isDataValid() override;
 
 private:
     Ui::DMXSettingsEntry *ui;
 
 private slots:
-    void changeEvent(QEvent *event);
+    void changeEvent(QEvent *event) override;
 };

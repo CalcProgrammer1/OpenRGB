@@ -9,6 +9,8 @@
 
 #include "NanoleafSettingsEntry.h"
 #include "ui_NanoleafSettingsEntry.h"
+
+#include "NanoleafScanPage.h"
 #include "ResourceManager.h"
 #include "SettingsManager.h"
 #include "NanoleafController.h"
@@ -143,12 +145,34 @@ json NanoleafSettingsEntry::saveSettings()
     return result;
 }
 
-const char* NanoleafSettingsEntry::settingsSection()
-{
-    return "NanoleafDevices";
-}
-
 std::string NanoleafSettingsEntry::getLocation()
 {
     return (address.toStdString() + ":" + std::to_string(port));
 }
+
+bool NanoleafSettingsEntry::isDataValid()
+{
+    // stub
+    return true;
+}
+
+static BaseManualDeviceEntry* SpawnNanoleafSettingsEntry(const json& data)
+{
+    if(data.empty())
+    {
+        // A special case: we open a new scanning dialog instead of returning a new entry
+        // The caller should be able to handle this
+        QWidget* parentWindow = QApplication::activeWindow();
+        NanoleafScanPage scanPage;
+        scanPage.show();
+        return nullptr;
+    }
+    else
+    {
+        NanoleafSettingsEntry* entry = new NanoleafSettingsEntry;
+        entry->loadFromSettings(data);
+        return entry;
+    }
+}
+
+REGISTER_MANUAL_DEVICE_TYPE("Nanoleaf", "NanoleafDevices", SpawnNanoleafSettingsEntry);

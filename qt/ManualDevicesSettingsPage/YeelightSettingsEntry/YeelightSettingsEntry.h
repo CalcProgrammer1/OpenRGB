@@ -24,13 +24,13 @@ public:
     explicit YeelightSettingsEntry(QWidget *parent = nullptr);
     ~YeelightSettingsEntry();
     void loadFromSettings(const json& data);
-    json saveSettings();
-    const char* settingsSection();
+    json saveSettings() override;
+    bool isDataValid() override;
 
 private:
     Ui::YeelightSettingsEntry *ui;
 
 private slots:
-    void changeEvent(QEvent *event);
+    void changeEvent(QEvent *event) override;
     void on_HostIPChooserButton_clicked();
 };

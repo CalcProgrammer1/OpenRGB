@@ -24,8 +24,8 @@ public:
     explicit E131SettingsEntry(QWidget *parent = nullptr);
     ~E131SettingsEntry();
     void loadFromSettings(const json& data);
-    json saveSettings();
-    const char* settingsSection();
+    json saveSettings() override;
+    bool isDataValid() override;
 
 private:
     Ui::E131SettingsEntry *ui;
@@ -35,6 +35,6 @@ private:
     void ShowMatrixSettings();
 
 private slots:
-    void changeEvent(QEvent *event);
+    void changeEvent(QEvent *event) override;
     void on_TypeComboBox_currentIndexChanged(int index);
 };

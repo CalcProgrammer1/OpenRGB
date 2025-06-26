@@ -61,7 +61,17 @@ json QMKORGBSettingsEntry::saveSettings()
     return result;
 }
 
-const char* QMKORGBSettingsEntry::settingsSection()
+bool QMKORGBSettingsEntry::isDataValid()
 {
-    return "QMKOpenRGBDevices";
+    // stub
+    return true;
 }
+
+static BaseManualDeviceEntry* SpawnQMKORGBSettingsEntry(const json& data)
+{
+    QMKORGBSettingsEntry* entry = new QMKORGBSettingsEntry;
+    entry->loadFromSettings(data);
+    return entry;
+}
+
+REGISTER_MANUAL_DEVICE_TYPE("QMK", "QMKOpenRGBDevices", SpawnQMKORGBSettingsEntry);

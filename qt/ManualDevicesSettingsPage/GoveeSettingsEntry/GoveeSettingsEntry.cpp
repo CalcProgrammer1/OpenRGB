@@ -47,7 +47,17 @@ json GoveeSettingsEntry::saveSettings()
     return result;
 }
 
-const char* GoveeSettingsEntry::settingsSection()
+bool GoveeSettingsEntry::isDataValid()
 {
-    return "GoveeDevices";
+    // stub
+    return true;
 }
+
+static BaseManualDeviceEntry* SpawnGoveeSettingsEntry(const json& data)
+{
+    GoveeSettingsEntry* entry = new GoveeSettingsEntry;
+    entry->loadFromSettings(data);
+    return entry;
+}
+
+REGISTER_MANUAL_DEVICE_TYPE("Govee", "GoveeDevices", SpawnGoveeSettingsEntry);

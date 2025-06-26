@@ -93,7 +93,17 @@ json YeelightSettingsEntry::saveSettings()
     return result;
 }
 
-const char* YeelightSettingsEntry::settingsSection()
+bool YeelightSettingsEntry::isDataValid()
 {
-    return "YeelightDevices";
+    // stub
+    return true;
 }
+
+static BaseManualDeviceEntry* SpawnYeelightSettingsEntry(const json& data)
+{
+    YeelightSettingsEntry* entry = new YeelightSettingsEntry;
+    entry->loadFromSettings(data);
+    return entry;
+}
+
+REGISTER_MANUAL_DEVICE_TYPE("Yeelight", "YeelightDevices", SpawnYeelightSettingsEntry);

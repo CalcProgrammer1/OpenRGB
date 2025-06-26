@@ -70,7 +70,17 @@ json PhilipsWizSettingsEntry::saveSettings()
     return result;
 }
 
-const char* PhilipsWizSettingsEntry::settingsSection()
+bool PhilipsWizSettingsEntry::isDataValid()
 {
-    return "PhilipsWizDevices";
+    // stub
+    return true;
 }
+
+static BaseManualDeviceEntry* SpawnPhilipsWizSettingsEntry(const json& data)
+{
+    PhilipsWizSettingsEntry* entry = new PhilipsWizSettingsEntry;
+    entry->loadFromSettings(data);
+    return entry;
+}
+
+REGISTER_MANUAL_DEVICE_TYPE("Philips Wiz", "PhilipsWizDevices", SpawnPhilipsWizSettingsEntry);

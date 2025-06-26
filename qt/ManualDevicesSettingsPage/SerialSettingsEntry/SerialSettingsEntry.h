@@ -21,7 +21,7 @@ class SerialSettingsEntry : public BaseManualDeviceEntry
     Q_OBJECT
 
 private slots:
-    void changeEvent(QEvent *event);
+    void changeEvent(QEvent *event) override;
 
     void on_ProtocolComboBox_currentIndexChanged(int index);
 
@@ -29,8 +29,8 @@ public:
     explicit SerialSettingsEntry(QWidget *parent = nullptr);
     ~SerialSettingsEntry();
     void loadFromSettings(const json& data);
-    json saveSettings();
-    const char* settingsSection();
+    json saveSettings() override;
+    bool isDataValid() override;
 
 private:
     Ui::SerialSettingsEntry *ui;

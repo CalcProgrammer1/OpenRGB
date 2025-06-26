@@ -122,7 +122,17 @@ json SerialSettingsEntry::saveSettings()
     return result;
 }
 
-const char* SerialSettingsEntry::settingsSection()
+bool SerialSettingsEntry::isDataValid()
 {
-    return "LEDStripDevices";
+    // stub
+    return true;
 }
+
+static BaseManualDeviceEntry* SpawnSerialSettingsEntry(const json& data)
+{
+    SerialSettingsEntry* entry = new SerialSettingsEntry;
+    entry->loadFromSettings(data);
+    return entry;
+}
+
+REGISTER_MANUAL_DEVICE_TYPE("Serial Device", "LEDStripDevices", SpawnSerialSettingsEntry);
