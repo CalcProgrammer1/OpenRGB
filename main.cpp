@@ -140,7 +140,9 @@ int main(int argc, char* argv[])
     /*---------------------------------------------------------*\
     | Windows only - Start timer resolution correction thread   |
     \*---------------------------------------------------------*/
-    InitializeTimerResolution();
+    std::thread * InitializeTimerResolutionThread;
+    InitializeTimerResolutionThread = new std::thread(InitializeTimerResolutionThreadFunction);
+    InitializeTimerResolutionThread->detach();
 #endif
 
     /*---------------------------------------------------------*\
