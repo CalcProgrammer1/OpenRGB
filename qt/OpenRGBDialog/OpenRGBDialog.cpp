@@ -623,6 +623,7 @@ void OpenRGBDialog::handleAboutToQuit()
         }
     }
 
+    disconnect(qApp, &QCoreApplication::aboutToQuit, this, &OpenRGBDialog::handleAboutToQuit);
     QCloseEvent* closeEvent = new QCloseEvent;
     this->closeEvent(closeEvent);
     delete closeEvent;
