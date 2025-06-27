@@ -17,6 +17,20 @@ SPDWrapper::SPDWrapper(const SPDWrapper &wrapper)
     }
     this->address = wrapper.address;
     this->mem_type = wrapper.mem_type;
+
+    /*-----------------------------------------------------*\
+    | Read the JEDEC ID and cache its value                 |
+    | This saves a significant amount of time over reading  |
+    | the JEDEC ID each time it is accessed                 |
+    \*-----------------------------------------------------*/
+    if(accessor == nullptr)
+    {
+        jedec_id_val = 0x0000;
+    }
+    else
+    {
+        jedec_id_val = accessor->jedec_id();
+    }
 }
 
 SPDWrapper::SPDWrapper(const SPDDetector &detector)
@@ -24,8 +38,24 @@ SPDWrapper::SPDWrapper(const SPDDetector &detector)
     this->address = detector.spd_address();
     this->mem_type = detector.memory_type();
 
-    // Allocate a new accessor
+    /*-----------------------------------------------------*\
+    | Allocate a new accessor                               |
+    \*-----------------------------------------------------*/
     this->accessor = SPDAccessor::for_memory_type(this->mem_type, detector.smbus(), this->address);
+
+    /*-----------------------------------------------------*\
+    | Read the JEDEC ID and cache its value                 |
+    | This saves a significant amount of time over reading  |
+    | the JEDEC ID each time it is accessed                 |
+    \*-----------------------------------------------------*/
+    if(accessor == nullptr)
+    {
+        jedec_id_val = 0x0000;
+    }
+    else
+    {
+        jedec_id_val = accessor->jedec_id();
+    }
 }
 
 SPDWrapper::~SPDWrapper()
@@ -45,11 +75,7 @@ int SPDWrapper::index()
 
 uint16_t SPDWrapper::jedec_id()
 {
-    if(accessor == nullptr)
-    {
-        return 0x0000;
-    }
-    return accessor->jedec_id();
+    return jedec_id_val;
 }
 
 uint8_t SPDWrapper::manufacturer_data(uint16_t index)
@@ -61,12 +87,16 @@ uint8_t SPDWrapper::manufacturer_data(uint16_t index)
     return accessor->manufacturer_data(index);
 }
 
-/*-------------------------------------------------------------------------*\
-| Helper functions for easier collection handling.                          |
-\*-------------------------------------------------------------------------*/
+/*---------------------------------------------------------*\
+| Helper functions for easier collection handling.          |
+\*---------------------------------------------------------*/
 
 bool is_jedec_in_slots(std::vector<SPDWrapper> &slots, uint16_t jedec_id)
 {
+    /*-----------------------------------------------------*\
+    | Search through all SPD slots to see if any have the   |
+    | desired JEDEC ID                                      |
+    \*-----------------------------------------------------*/
     for(SPDWrapper &slot : slots)
     {
         if(slot.jedec_id() == jedec_id)
@@ -81,6 +111,10 @@ std::vector<SPDWrapper*> slots_with_jedec(std::vector<SPDWrapper> &slots, uint16
 {
     std::vector<SPDWrapper*> matching_slots;
 
+    /*-----------------------------------------------------*\
+    | Search through all SPD slots and build a list of all  |
+    | slots matching the desired JEDEC ID                   |
+    \*-----------------------------------------------------*/
     for(SPDWrapper &slot : slots)
     {
         if(slot.jedec_id() == jedec_id)

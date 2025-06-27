@@ -1197,8 +1197,7 @@ void ResourceManager::DetectDevicesCoroutine()
 
             for(unsigned int i2c_detector_idx = 0; i2c_detector_idx < i2c_dimm_device_detectors.size() && detection_is_required.load(); i2c_detector_idx++)
             {
-                if(i2c_dimm_device_detectors[i2c_detector_idx].dimm_type == dimm_type &&
-                   is_jedec_in_slots(slots, i2c_dimm_device_detectors[i2c_detector_idx].jedec_id))
+                if((i2c_dimm_device_detectors[i2c_detector_idx].dimm_type == dimm_type) && is_jedec_in_slots(slots, i2c_dimm_device_detectors[i2c_detector_idx].jedec_id))
                 {
                     detection_string = i2c_dimm_device_detectors[i2c_detector_idx].name.c_str();
 
