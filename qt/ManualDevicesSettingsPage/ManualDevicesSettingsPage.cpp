@@ -190,10 +190,15 @@ void ManualDevicesSettingsPage::addEntries(const ManualDeviceTypeBlock& block)
         // For uniformity, use iterators, as if it's always an object
         for(json::const_iterator iter = array_ref.begin(); iter != array_ref.end(); ++iter)
         {
-            BaseManualDeviceEntry* entry = block.spawn(iter.value());
-            if(entry)
+            if(!iter.value().empty())
             {
-                addEntry(entry);
+                BaseManualDeviceEntry* entry = block.spawn(iter.value());
+
+                // Note: spawn functions are allowed to return nullptr
+                if(entry)
+                {
+                    addEntry(entry);
+                }
             }
         }
     }
