@@ -10,7 +10,7 @@
 #include "NanoleafSettingsEntry.h"
 #include "ui_NanoleafSettingsEntry.h"
 
-#include "NanoleafScanPage.h"
+#include "NanoleafScanDialog.h"
 #include "ResourceManager.h"
 #include "SettingsManager.h"
 #include "NanoleafController.h"
@@ -162,9 +162,8 @@ static BaseManualDeviceEntry* SpawnNanoleafSettingsEntry(const json& data)
     {
         // A special case: we open a new scanning dialog instead of returning a new entry
         // The caller should be able to handle this
-        QWidget* parentWindow = QApplication::activeWindow();
-        NanoleafScanPage scanPage;
-        scanPage.show();
+        NanoleafScanDialog scanPage;
+        scanPage.exec();
         return nullptr;
     }
     else

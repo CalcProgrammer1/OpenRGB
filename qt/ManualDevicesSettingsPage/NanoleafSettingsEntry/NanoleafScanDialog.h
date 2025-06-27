@@ -1,5 +1,5 @@
 /*---------------------------------------------------------*\
-| NanoleafScanPage.h                                        |
+| NanoleafScanDialog.h                                        |
 |                                                           |
 |   User interface for OpenRGB Nanoleaf scan & pairing page |
 |                                                           |
@@ -9,21 +9,21 @@
 
 #pragma once
 
-#include <QWidget>
+#include <QDialog>
 #include "NanoleafSettingsEntry.h"
 
 namespace Ui
 {
-    class NanoleafScanPage;
+    class NanoleafScanDialog;
 }
 
-class NanoleafScanPage : public QWidget
+    class NanoleafScanDialog : public QDialog
 {
     Q_OBJECT
 
 public:
-    explicit NanoleafScanPage(QWidget *parent = nullptr);
-    ~NanoleafScanPage();
+    explicit NanoleafScanDialog(QWidget *parent = nullptr);
+    ~NanoleafScanDialog();
 
 private slots:
     void changeEvent(QEvent *event);
@@ -35,6 +35,6 @@ private slots:
     void on_NanoleafDeviceList_itemSelectionChanged();
 
 private:
-    Ui::NanoleafScanPage *ui;
+    Ui::NanoleafScanDialog *ui;
     std::map<std::string, NanoleafSettingsEntry*> entries;
 };

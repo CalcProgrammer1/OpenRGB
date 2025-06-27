@@ -1,5 +1,5 @@
 /*---------------------------------------------------------*\
-| NanoleafScanPage.cpp                               |
+| NanoleafScanDialog.cpp                               |
 |                                                           |
 |   User interface for  Nanoleaf scan & pairing page |
 |                                                           |
@@ -7,8 +7,9 @@
 |   SPDX-License-Identifier: GPL-2.0-only                   |
 \*---------------------------------------------------------*/
 
-#include "NanoleafScanPage.h"
-#include "ui_NanoleafScanPage.h"
+#include "NanoleafScanDialog.h"
+#include "ui_NanoleafScanDialog.h"
+
 #include "NanoleafNewDeviceDialog.h"
 #include "ResourceManager.h"
 #include "SettingsManager.h"
@@ -16,20 +17,20 @@
 
 using json = nlohmann::json;
 
-NanoleafScanPage::NanoleafScanPage(QWidget *parent) :
-    QWidget(parent),
-    ui(new Ui::NanoleafScanPage)
+NanoleafScanDialog::NanoleafScanDialog(QWidget *parent) :
+    QDialog(parent),
+    ui(new Ui::NanoleafScanDialog)
 {
     ui->setupUi(this);
     on_NanoleafDeviceList_itemSelectionChanged(); // Refresh button state
 }
 
-NanoleafScanPage::~NanoleafScanPage()
+NanoleafScanDialog::~NanoleafScanDialog()
 {
     delete ui;
 }
 
-void NanoleafScanPage::changeEvent(QEvent *event)
+void NanoleafScanDialog::changeEvent(QEvent *event)
 {
     if(event->type() == QEvent::LanguageChange)
     {
@@ -37,7 +38,7 @@ void NanoleafScanPage::changeEvent(QEvent *event)
     }
 }
 
-void NanoleafScanPage::on_AddNanoleafDeviceButton_clicked()
+void NanoleafScanDialog::on_AddNanoleafDeviceButton_clicked()
 {
     /*-----------------------------------------------------*\
     | Open a popup to manually add a device by setting ip   |
@@ -73,7 +74,7 @@ void NanoleafScanPage::on_AddNanoleafDeviceButton_clicked()
     }
 }
 
-void NanoleafScanPage::on_RemoveNanoleafDeviceButton_clicked()
+void NanoleafScanDialog::on_RemoveNanoleafDeviceButton_clicked()
 {
     /*-------------------------------------------------*\
     | Remove the selected device                        |
@@ -101,7 +102,7 @@ void NanoleafScanPage::on_RemoveNanoleafDeviceButton_clicked()
     ResourceManager::get()->GetSettingsManager()->SaveSettings();
 }
 
-void NanoleafScanPage::on_ScanForNanoleafDevicesButton_clicked()
+void NanoleafScanDialog::on_ScanForNanoleafDevicesButton_clicked()
 {
     /*-----------------------------------------------------*\
     | Create a worker thread for the mDNS query and hookup  |
@@ -118,7 +119,7 @@ void NanoleafScanPage::on_ScanForNanoleafDevicesButton_clicked()
     scanThread->start();
 }
 
-void NanoleafScanPage::on_DeviceFound(QString address, int port)
+void NanoleafScanDialog::on_DeviceFound(QString address, int port)
 {
     std::string location = address.toStdString()+":"+std::to_string(port);
 
@@ -138,7 +139,7 @@ void NanoleafScanPage::on_DeviceFound(QString address, int port)
     }
 }
 
-void NanoleafScanPage::on_NanoleafDeviceList_itemSelectionChanged()
+void NanoleafScanDialog::on_NanoleafDeviceList_itemSelectionChanged()
 {
     int cur_row = ui->NanoleafDeviceList->currentRow();
 
