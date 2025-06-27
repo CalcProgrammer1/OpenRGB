@@ -97,7 +97,7 @@ bool BasicHIDBlock::compare(hid_device_info* info)
             );
 }
 
-ResourceManager* ResourceManager::instance = nullptr;
+ResourceManager* ResourceManager::instance;
 
 using namespace std::chrono_literals;
 
