@@ -110,11 +110,14 @@ void ManualDevicesSettingsPage::saveSettings()
 
     /*---------------------------------------------------------*\
     | Transfer data from the cached object into config sections |
+    | Use ALL possible settings entry names, so that those with |
+    | all entries deleted are cleared properly                  |
     \*---------------------------------------------------------*/
-    json::iterator it;
-    for(it = result.begin(); it != result.end(); ++it)
+
+    std::vector<ManualDeviceTypeBlock> blocks = ManualDevicesTypeManager::get()->getRegisteredTypes();
+    for(int i = 0; i < blocks.size(); ++i)
     {
-        sm->SetSettings(it.key(), it.value());
+        sm->SetSettings(blocks[i].settingsSection, result[blocks[i].settingsSection]);
     }
     sm->SaveSettings();
 
