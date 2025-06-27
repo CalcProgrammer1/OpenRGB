@@ -1175,6 +1175,10 @@ void ResourceManager::DetectDevicesCoroutine()
     LOG_INFO("------------------------------------------------------");
     LOG_INFO("|            Detecting I2C DIMM modules              |");
     LOG_INFO("------------------------------------------------------");
+
+    detection_string = "Reading DRAM SPD Information";
+    DetectionProgressChanged();
+
     for(unsigned int bus = 0; bus < busses.size() && IsAnyDimmDetectorEnabled(detector_settings); bus++)
     {
         IF_DRAM_SMBUS(busses[bus]->pci_vendor, busses[bus]->pci_device)
@@ -1938,12 +1942,12 @@ bool ResourceManager::IsAnyDimmDetectorEnabled(json &detector_settings)
 {
     for(unsigned int i2c_detector_idx = 0; i2c_detector_idx < i2c_dimm_device_detectors.size() && detection_is_required.load(); i2c_detector_idx++)
     {
-        detection_string = i2c_dimm_device_detectors[i2c_detector_idx].name.c_str();
+        std::string detector_name_string = i2c_dimm_device_detectors[i2c_detector_idx].name.c_str();
         /*-------------------------------------------------*\
         | Check if this detector is enabled                 |
         \*-------------------------------------------------*/
-        if(detector_settings.contains("detectors") && detector_settings["detectors"].contains(detection_string) &&
-           detector_settings["detectors"][detection_string] == true)
+        if(detector_settings.contains("detectors") && detector_settings["detectors"].contains(detector_name_string) &&
+           detector_settings["detectors"][detector_name_string] == true)
         {
             return true;
         }
