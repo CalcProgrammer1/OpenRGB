@@ -165,7 +165,7 @@ before_script:
   artifacts:
     name: "${CI_PROJECT_NAME}_Linux_amd64_Qt6_${CI_COMMIT_SHORT_SHA}"
     paths:
-    - OpenRGB-amd64.AppImage
+    - OpenRGB-x86_64.AppImage
     - 60-openrgb.rules
     - README.md
     expire_in: 30 days
