@@ -14,6 +14,7 @@
 #include "nlohmann/json.hpp"
 #include <QWidget>
 #include <QMenu>
+#include <QListWidgetItem>
 
 using json = nlohmann::json;
 
@@ -30,24 +31,31 @@ public:
     explicit ManualDevicesSettingsPage(QWidget *parent = nullptr);
     ~ManualDevicesSettingsPage();
 
-private slots:
+public slots:
     void reloadList();
     void reloadMenu();
+
+private slots:
+    void onTextEditChanged(); // Slot connected to all text edits in all entries; for validation & marking dirty changes
     void onAddDeviceItemSelected(QAction* action);
 
     void changeEvent(QEvent *event);
 
     void on_removeDeviceButton_clicked();
-    void on_saveConfigurationButton_clicked();
-
     void on_deviceList_itemSelectionChanged();
+    void on_ActionSaveNoRescan_triggered();
+    void on_ActionSaveAndRescan_triggered();
 
 private:
     Ui::ManualDevicesSettingsPage*        ui;
     std::vector<BaseManualDeviceEntry*>   entries;
     QMenu*                                addDeviceMenu;
+    bool                                  unsavedChanges;
 
-    void addEntry(BaseManualDeviceEntry* entry);
+    QListWidgetItem* addEntry(BaseManualDeviceEntry* entry);
     void addEntries(const ManualDeviceTypeBlock&);
     void clearList();
+    void saveSettings();
+    void setUnsavedChanges(bool v);
+    bool checkValidToSave();
 };

@@ -14,6 +14,8 @@
 #include "ResourceManager.h"
 #include "SettingsManager.h"
 
+#include <QLineEdit>
+
 static void ManualDevicesPageReloadCallback(void* this_ptr)
 {
     ManualDevicesSettingsPage * this_obj = (ManualDevicesSettingsPage *)this_ptr;
@@ -28,12 +30,17 @@ ManualDevicesSettingsPage::ManualDevicesSettingsPage(QWidget *parent) :
     ui->setupUi(this);
     ResourceManager::get()->RegisterDetectionEndCallback(&ManualDevicesPageReloadCallback, this);
 
-    addDeviceMenu = new QMenu();
+    addDeviceMenu = new QMenu(this);
     ui->addDeviceButton->setMenu(addDeviceMenu);
     connect(addDeviceMenu, &QMenu::triggered, this, &ManualDevicesSettingsPage::onAddDeviceItemSelected);
 
+    QMenu* saveButtonMenu = new QMenu(this);
+    saveButtonMenu->addAction(ui->ActionSaveAndRescan);
+    saveButtonMenu->addAction(ui->ActionSaveNoRescan);
+    ui->saveConfigurationButton->setMenu(saveButtonMenu);
+    ui->saveConfigurationButton->setDefaultAction(ui->ActionSaveAndRescan);
+
     reloadList();
-    on_deviceList_itemSelectionChanged(); // Refresh button state
 }
 
 ManualDevicesSettingsPage::~ManualDevicesSettingsPage()
@@ -41,7 +48,6 @@ ManualDevicesSettingsPage::~ManualDevicesSettingsPage()
     ResourceManager::get()->UnregisterDetectionEndCallback(&ManualDevicesPageReloadCallback, this);
     clearList();
     delete ui;
-    delete addDeviceMenu;
 }
 
 void ManualDevicesSettingsPage::changeEvent(QEvent *event)
@@ -69,9 +75,11 @@ void ManualDevicesSettingsPage::on_removeDeviceButton_clicked()
     BaseManualDeviceEntry* entry = entries[cur_row];
     entries.erase(entries.begin() + cur_row);
     delete entry;
+
+    setUnsavedChanges(true);
 }
 
-void ManualDevicesSettingsPage::on_saveConfigurationButton_clicked()
+void ManualDevicesSettingsPage::saveSettings()
 {
     SettingsManager* sm = ResourceManager::get()->GetSettingsManager();
 
@@ -109,6 +117,8 @@ void ManualDevicesSettingsPage::on_saveConfigurationButton_clicked()
         sm->SetSettings(it.key(), it.value());
     }
     sm->SaveSettings();
+
+    setUnsavedChanges(false);
 }
 
 void ManualDevicesSettingsPage::reloadMenu()
@@ -136,6 +146,17 @@ void ManualDevicesSettingsPage::reloadList()
 
         addEntries(blocks[i]);
     }
+
+    /*--------------------*\
+    | Refresh button state |
+    \*--------------------*/
+    setUnsavedChanges(false);
+    on_deviceList_itemSelectionChanged();
+}
+
+void ManualDevicesSettingsPage::onTextEditChanged()
+{
+    setUnsavedChanges(true);
 }
 
 void ManualDevicesSettingsPage::clearList()
@@ -149,14 +170,52 @@ void ManualDevicesSettingsPage::clearList()
         delete entries_copy[i];
     }
     entries_copy.clear();
+    setUnsavedChanges(true);
 }
 
-void ManualDevicesSettingsPage::addEntry(BaseManualDeviceEntry* entry)
+void ManualDevicesSettingsPage::setUnsavedChanges(bool v)
+{
+    unsavedChanges = v;
+    ui->saveConfigurationButton->setEnabled(v && checkValidToSave());
+    if(v)
+    {
+        ui->saveConfigurationButton->setStyleSheet("font: bold");
+    }
+    else
+    {
+        ui->saveConfigurationButton->setStyleSheet("");
+    }
+}
+
+bool ManualDevicesSettingsPage::checkValidToSave()
+{
+    for(int i = 0; i < entries.size(); ++i)
+    {
+        if(!entries[i]->isDataValid())
+        {
+            return false;
+        }
+    }
+    return true;
+}
+
+QListWidgetItem* ManualDevicesSettingsPage::addEntry(BaseManualDeviceEntry* entry)
 {
 	if(!entry)
 	{
-		return;
+        return nullptr;
 	}
+
+    /*---------------------------------------------------------*\
+    | Find EVERY QLineEdit in the entry and get notified if ANY |
+    | text in them changes - for validation                     |
+    | Validation mostly affects the "Save" button state         |
+    \*---------------------------------------------------------*/
+    QList<QLineEdit*> textEditList = entry->findChildren<QLineEdit*>(QString(), Qt::FindChildrenRecursively);
+    for(int i = 0; i < textEditList.size(); ++i)
+    {
+        connect(textEditList[i], &QLineEdit::textChanged, this, &ManualDevicesSettingsPage::onTextEditChanged);
+    }
 
     QListWidgetItem* item = new QListWidgetItem;
 
@@ -167,10 +226,20 @@ void ManualDevicesSettingsPage::addEntry(BaseManualDeviceEntry* entry)
     ui->deviceList->show();
 
     entries.push_back(entry);
+
+    /*---------------------------------------------------------*\
+    | New entries generally indicate unsaved changes            |
+    \*---------------------------------------------------------*/
+    setUnsavedChanges(true);
+
+    return item;
 }
 
 void ManualDevicesSettingsPage::addEntries(const ManualDeviceTypeBlock& block)
 {
+    /*---------------------------------------------------------*\
+    | Spawn list entries for all config entries of one type     |
+    \*---------------------------------------------------------*/
     json settings = ResourceManager::get()->GetSettingsManager()->GetSettings(block.settingsSection);
     const char* array_name = "devices";
     if(block.settingsSection == "PhilipsHueDevices")
@@ -186,15 +255,20 @@ void ManualDevicesSettingsPage::addEntries(const ManualDeviceTypeBlock& block)
         {
             return;
         }
-        // Nanoleaf stores it's data as objects with location field as "key", everything else is arrays
-        // For uniformity, use iterators, as if it's always an object
+        /*-----------------------------------------------------------------*\
+        | Nanoleaf stores it's data as objects with location field as "key" |
+        | everything else is arrays                                         |
+        | For uniformity, use iterators, as if it's always an object        |
+        \*-----------------------------------------------------------------*/
         for(json::const_iterator iter = array_ref.begin(); iter != array_ref.end(); ++iter)
         {
             if(!iter.value().empty())
             {
                 BaseManualDeviceEntry* entry = block.spawn(iter.value());
 
-                // Note: spawn functions are allowed to return nullptr
+                /*---------------------------------------------------*\
+                | Note: spawn functions are allowed to return nullptr |
+                \*---------------------------------------------------*/
                 if(entry)
                 {
                     addEntry(entry);
@@ -208,9 +282,20 @@ void ManualDevicesSettingsPage::onAddDeviceItemSelected(QAction* action)
 {
     std::string entryName = action->data().toString().toStdString();
     BaseManualDeviceEntry* entry = ManualDevicesTypeManager::get()->spawnByTypeName(entryName, json());
+    /*---------------------------------------------------*\
+    | Note: spawn functions are allowed to return nullptr |
+    \*---------------------------------------------------*/
     if(entry)
     {
-        addEntry(entry);
+        QListWidgetItem* item = addEntry(entry);
+
+        /*-----------------------------------------------------*\
+        | Scroll to the newly added entry (last one in the list |
+        \*-----------------------------------------------------*/
+        if(item)
+        {
+            ui->deviceList->scrollToItem(item);
+        }
     }
 }
 
@@ -221,3 +306,18 @@ void ManualDevicesSettingsPage::on_deviceList_itemSelectionChanged()
     bool anySelected = (cur_row >= 0);
     ui->removeDeviceButton->setEnabled(anySelected);
 }
+
+void ManualDevicesSettingsPage::on_ActionSaveNoRescan_triggered()
+{
+    saveSettings();
+}
+
+void ManualDevicesSettingsPage::on_ActionSaveAndRescan_triggered()
+{
+    saveSettings();
+    /*---------------*\
+    | Trigger rescan |
+    \*--------------*/
+    ResourceManager::get()->DetectDevices();
+}
+
