@@ -55,6 +55,7 @@ void ManualDevicesSettingsPage::changeEvent(QEvent *event)
     if(event->type() == QEvent::LanguageChange)
     {
         ui->retranslateUi(this);
+        reloadMenu();
     }
 }
 
@@ -131,7 +132,7 @@ void ManualDevicesSettingsPage::reloadMenu()
     addDeviceMenu->clear();
     for(int i = 0; i < names.size(); ++i)
     {
-        QAction* action = addDeviceMenu->addAction(QString::fromStdString(names[i]));
+        QAction* action = addDeviceMenu->addAction(qApp->translate("ManualDevice", names[i].c_str()));
         action->setData(QString::fromStdString(names[i]));
     }
 }
@@ -144,10 +145,13 @@ void ManualDevicesSettingsPage::reloadList()
     std::vector<ManualDeviceTypeBlock> blocks = ManualDevicesTypeManager::get()->getRegisteredTypes();
     for(int i = 0; i < blocks.size(); ++i)
     {
-        QAction* action = addDeviceMenu->addAction(QString::fromStdString(blocks[i].name));
-        action->setData(QString::fromStdString(blocks[i].name));
-
         addEntries(blocks[i]);
+
+        /*------------------------------------------------------------*\
+        | While we have all the data at hand, load in the menu as well |
+        \*------------------------------------------------------------*/
+        QAction* action = addDeviceMenu->addAction(qApp->translate("ManualDevice", blocks[i].name.c_str()));
+        action->setData(QString::fromStdString(blocks[i].name));
     }
 
     /*--------------------*\

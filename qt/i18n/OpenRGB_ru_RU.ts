@@ -2,6 +2,41 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="ru_RU">
 <context>
+    <name>DMXSettingsEntry</name>
+    <message>
+        <source>DMX Device</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Brightness Channel:</source>
+        <translation>Канал яркости:</translation>
+    </message>
+    <message>
+        <source>Blue Channel:</source>
+        <translation>Канал синего цвета:</translation>
+    </message>
+    <message>
+        <source>Name:</source>
+        <translation>Название:</translation>
+    </message>
+    <message>
+        <source>Green Channel:</source>
+        <translation>Канал зелёного цвета:</translation>
+    </message>
+    <message>
+        <source>Red Channel:</source>
+        <translation>Канал красного цвета:</translation>
+    </message>
+    <message>
+        <source>Keepalive Time:</source>
+        <translation>Таймаут:</translation>
+    </message>
+    <message>
+        <source>Port:</source>
+        <translation>Порт:</translation>
+    </message>
+</context>
+<context>
     <name>DetectorTableModel</name>
     <message>
         <source>Name</source>
@@ -10,6 +45,263 @@
     <message>
         <source>Enabled</source>
         <translation>Обнаружение</translation>
+    </message>
+</context>
+<context>
+    <name>E131SettingsEntry</name>
+    <message>
+        <source>E1.31 Device</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Start Channel:</source>
+        <translation>Начальный канал:</translation>
+    </message>
+    <message>
+        <source>Number of LEDs:</source>
+        <translation>Количество светодиодов:</translation>
+    </message>
+    <message>
+        <source>Start Universe:</source>
+        <translation type="unfinished">Начальная вселенная:</translation>
+    </message>
+    <message>
+        <source>Name:</source>
+        <translation>Название:</translation>
+    </message>
+    <message>
+        <source>Matrix Order:</source>
+        <translation type="unfinished">Порядок матрицы:</translation>
+    </message>
+    <message>
+        <source>Matrix Height:</source>
+        <translation type="unfinished">Высота матрицы:</translation>
+    </message>
+    <message>
+        <source>Matrix Width:</source>
+        <translation type="unfinished">Ширина матрицы:</translation>
+    </message>
+    <message>
+        <source>Type:</source>
+        <translation type="unfinished">Тип:</translation>
+    </message>
+    <message>
+        <source>IP (Unicast):</source>
+        <translation>IP (одноадресный):</translation>
+    </message>
+    <message>
+        <source>Universe Size:</source>
+        <translation type="unfinished">Размер вселенной:</translation>
+    </message>
+    <message>
+        <source>Keepalive Time:</source>
+        <translation type="unfinished">Таймаут:</translation>
+    </message>
+    <message>
+        <source>RGB Order:</source>
+        <translation type="unfinished">Порядок RGB:</translation>
+    </message>
+    <message>
+        <source>Single</source>
+        <translation>Однородная область</translation>
+    </message>
+    <message>
+        <source>Linear</source>
+        <translation>Линейная область</translation>
+    </message>
+    <message>
+        <source>Matrix</source>
+        <translation>Матрица</translation>
+    </message>
+    <message>
+        <source>Horizontal Top Left</source>
+        <translation>Горизонтально, слева направо и сверху вниз</translation>
+    </message>
+    <message>
+        <source>Horizontal Top Right</source>
+        <translation>Горизонтально, справа налево и сверху вниз</translation>
+    </message>
+    <message>
+        <source>Horizontal Bottom Left</source>
+        <translation>Горизонтально, слева направо и снизу вверх</translation>
+    </message>
+    <message>
+        <source>Horizontal Bottom Right</source>
+        <translation>Горизонтально, справа налево и снизу вверх</translation>
+    </message>
+    <message>
+        <source>Vertical Top Left</source>
+        <translation>Вертикально, сверху вниз и слева направо</translation>
+    </message>
+    <message>
+        <source>Vertical Top Right</source>
+        <translation>Вертикально, сверху вниз и справа налево</translation>
+    </message>
+    <message>
+        <source>Vertical Bottom Left</source>
+        <translation>Вертикально, снизу вверх и слева направо</translation>
+    </message>
+    <message>
+        <source>Vertical Bottom Right</source>
+        <translation>Вертикально, снизу вверх и справа налево</translation>
+    </message>
+</context>
+<context>
+    <name>ElgatoKeyLightSettingsEntry</name>
+    <message>
+        <source>Elgato Key Light</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>IP:</source>
+        <translation>IP:</translation>
+    </message>
+</context>
+<context>
+    <name>ElgatoLightStripSettingsEntry</name>
+    <message>
+        <source>Elgato Light Strip</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>IP:</source>
+        <translation>IP:</translation>
+    </message>
+</context>
+<context>
+    <name>GoveeSettingsEntry</name>
+    <message>
+        <source>Govee Device</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>IP:</source>
+        <translation>IP:</translation>
+    </message>
+</context>
+<context>
+    <name>KasaSmartSettingsEntry</name>
+    <message>
+        <source>Kasa Smart Device</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>IP:</source>
+        <translation>IP:</translation>
+    </message>
+    <message>
+        <source>Name</source>
+        <translation>Название</translation>
+    </message>
+</context>
+<context>
+    <name>LIFXSettingsEntry</name>
+    <message>
+        <source>LIFX Device</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>IP:</source>
+        <translation>IP:</translation>
+    </message>
+    <message>
+        <source>Name</source>
+        <translation>Название</translation>
+    </message>
+</context>
+<context>
+    <name>ManualDevice</name>
+    <message>
+        <source>E1.31 (including WLED)</source>
+        <translation>E1.31 (включая WLED)</translation>
+    </message>
+    <message>
+        <source>QMK (built with ORGB support)</source>
+        <translation>QMK (собранное с поддержкой ORGB)</translation>
+    </message>
+    <message>
+        <source>Serial Device</source>
+        <translation>Устройство последовательного порта (Arduino)</translation>
+    </message>
+</context>
+<context>
+    <name>ManualDevicesSettingsPage</name>
+    <message>
+        <source>Add Device...</source>
+        <translation>Добавить устройство...</translation>
+    </message>
+    <message>
+        <source>Remove</source>
+        <translation>Удалить</translation>
+    </message>
+    <message>
+        <source>Save and Rescan</source>
+        <translation>Сохранить и обновить список устройств</translation>
+    </message>
+    <message>
+        <source>Save without Rescan</source>
+        <translation>Сохранить без обновления</translation>
+    </message>
+</context>
+<context>
+    <name>NanoleafNewDeviceDialog</name>
+    <message>
+        <source>New Nanoleaf device</source>
+        <translation type="unfinished">Добавить устройство Nanoleaf</translation>
+    </message>
+    <message>
+        <source>IP address:</source>
+        <translation>IP:</translation>
+    </message>
+    <message>
+        <source>Port:</source>
+        <translation>Порт:</translation>
+    </message>
+</context>
+<context>
+    <name>NanoleafScanDialog</name>
+    <message>
+        <source>To pair, hold the on-off button down for 5-7 seconds until the LED starts flashing in a pattern, a new entry should appear in the list below, then click the &quot;Pair&quot; button on the entry within 30 seconds.</source>
+        <translation>Для сопряжения, удерживайте кнопку &quot;Вкл-выкл.&quot; 5-7 секунд, пока светодиод не начнёт мигать, после чего в списке ниже появится новая строка, на которой в течение 30 секунд нужно нажать кнопку &quot;Связать&quot;.</translation>
+    </message>
+    <message>
+        <source>Scan</source>
+        <translation>Сканировать</translation>
+    </message>
+    <message>
+        <source>Add manually</source>
+        <translation>Добавить вручную</translation>
+    </message>
+    <message>
+        <source>Remove</source>
+        <translation>Удалить</translation>
+    </message>
+</context>
+<context>
+    <name>NanoleafSettingsEntry</name>
+    <message>
+        <source>Nanoleaf Device</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>IP:</source>
+        <translation>IP:</translation>
+    </message>
+    <message>
+        <source>Port:</source>
+        <translation>Порт:</translation>
+    </message>
+    <message>
+        <source>Auth Key:</source>
+        <translation>Ключ авторизации:</translation>
+    </message>
+    <message>
+        <source>Unpair</source>
+        <translation>Разъединить</translation>
+    </message>
+    <message>
+        <source>Pair</source>
+        <translation>Связать</translation>
     </message>
 </context>
 <context>
@@ -56,52 +348,6 @@
     <message>
         <source>Clear log</source>
         <translation>Очистить лог</translation>
-    </message>
-</context>
-<context>
-    <name>OpenRGBDMXSettingsEntry</name>
-    <message>
-        <source>Brightness Channel:</source>
-        <translation>Канал яркости:</translation>
-    </message>
-    <message>
-        <source>Blue Channel:</source>
-        <translation>Канал синего цвета:</translation>
-    </message>
-    <message>
-        <source>Name:</source>
-        <translation>Название:</translation>
-    </message>
-    <message>
-        <source>Green Channel:</source>
-        <translation>Канал зелёного цвета:</translation>
-    </message>
-    <message>
-        <source>Red Channel:</source>
-        <translation>Канал красного цвета:</translation>
-    </message>
-    <message>
-        <source>Keepalive Time:</source>
-        <translation>Таймаут:</translation>
-    </message>
-    <message>
-        <source>Port:</source>
-        <translation>Порт:</translation>
-    </message>
-</context>
-<context>
-    <name>OpenRGBDMXSettingsPage</name>
-    <message>
-        <source>Add</source>
-        <translation>Добавить</translation>
-    </message>
-    <message>
-        <source>Remove</source>
-        <translation>Удалить</translation>
-    </message>
-    <message>
-        <source>Save</source>
-        <translation>Сохранить</translation>
     </message>
 </context>
 <context>
@@ -426,48 +672,12 @@
         <translation>Подключаемые модули</translation>
     </message>
     <message>
-        <source>Software</source>
-        <translation type="vanished">Приложение</translation>
-    </message>
-    <message>
         <source>Supported Devices</source>
         <translation>Поддерживаемые устройства</translation>
     </message>
     <message>
         <source>General Settings</source>
         <translation>Общие настройки</translation>
-    </message>
-    <message>
-        <source>DMX Devices</source>
-        <translation>Устройства DMX</translation>
-    </message>
-    <message>
-        <source>E1.31 Devices</source>
-        <translation>Устройства E1.31</translation>
-    </message>
-    <message>
-        <source>Kasa Smart Devices</source>
-        <translation>Устройства Kasa Smart</translation>
-    </message>
-    <message>
-        <source>Philips Hue Devices</source>
-        <translation>Устройства Philips Hue</translation>
-    </message>
-    <message>
-        <source>Philips Wiz Devices</source>
-        <translation>Устройства Philips Wiz</translation>
-    </message>
-    <message>
-        <source>OpenRGB QMK Protocol</source>
-        <translation>Протокол OpenRGB QMK</translation>
-    </message>
-    <message>
-        <source>Serial Devices</source>
-        <translation>Устройства последовательного порта</translation>
-    </message>
-    <message>
-        <source>Yeelight Devices</source>
-        <translation>Устройства Yeelight</translation>
     </message>
     <message>
         <source>SMBus Tools</source>
@@ -490,205 +700,12 @@
         <translation>Консоль журналирования</translation>
     </message>
     <message>
-        <source>LIFX Devices</source>
-        <translation>Устройства LIFX</translation>
-    </message>
-    <message>
-        <source>Nanoleaf Devices</source>
-        <translation>Устройства Nanoleaf</translation>
-    </message>
-    <message>
-        <source>Elgato KeyLight Devices</source>
-        <translation>Устройства Elgato KeyLight</translation>
-    </message>
-    <message>
-        <source>Elgato LightStrip Devices</source>
-        <translation>Устройства Elgato LightStrip</translation>
-    </message>
-    <message>
         <source>About OpenRGB</source>
-        <translation type="unfinished"></translation>
+        <translation>О программе OpenRGB</translation>
     </message>
     <message>
-        <source>Govee Devices</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>OpenRGBE131SettingsEntry</name>
-    <message>
-        <source>Start Channel:</source>
-        <translation>Начальный канал:</translation>
-    </message>
-    <message>
-        <source>Number of LEDs:</source>
-        <translation>Количество светодиодов:</translation>
-    </message>
-    <message>
-        <source>Start Universe:</source>
-        <translatorcomment>Not sure if the term should be translated</translatorcomment>
-        <translation>Начальная вселенная:</translation>
-    </message>
-    <message>
-        <source>Name:</source>
-        <translation>Название:</translation>
-    </message>
-    <message>
-        <source>Matrix Order:</source>
-        <translation>Порядок матрицы:</translation>
-    </message>
-    <message>
-        <source>Matrix Height:</source>
-        <translation>Высота матрицы:</translation>
-    </message>
-    <message>
-        <source>Matrix Width:</source>
-        <translation>Ширина матрицы:</translation>
-    </message>
-    <message>
-        <source>Type:</source>
-        <translation>Тип:</translation>
-    </message>
-    <message>
-        <source>IP (Unicast):</source>
-        <translation>IP (одноадресный):</translation>
-    </message>
-    <message>
-        <source>Universe Size:</source>
-        <translation>Размер вселенной:</translation>
-    </message>
-    <message>
-        <source>Keepalive Time:</source>
-        <translation>Таймаут:</translation>
-    </message>
-    <message>
-        <source>RGB Order:</source>
-        <translation>Порядок RGB:</translation>
-    </message>
-    <message>
-        <source>Single</source>
-        <translation>Однородная область</translation>
-    </message>
-    <message>
-        <source>Linear</source>
-        <translation>Линейная область</translation>
-    </message>
-    <message>
-        <source>Matrix</source>
-        <translation>Матрица</translation>
-    </message>
-    <message>
-        <source>Horizontal Top Left</source>
-        <translation>Горизонтально, слева направо и сверху вниз</translation>
-    </message>
-    <message>
-        <source>Horizontal Top Right</source>
-        <translation>Горизонтально, справа налево и сверху вниз</translation>
-    </message>
-    <message>
-        <source>Horizontal Bottom Left</source>
-        <translation>Горизонтально, слева направо и снизу вверх</translation>
-    </message>
-    <message>
-        <source>Horizontal Bottom Right</source>
-        <translation>Горизонтально, справа налево и снизу вверх</translation>
-    </message>
-    <message>
-        <source>Vertical Top Left</source>
-        <translation>Вертикально, сверху вниз и слева направо</translation>
-    </message>
-    <message>
-        <source>Vertical Top Right</source>
-        <translation>Вертикально, сверху вниз и справа налево</translation>
-    </message>
-    <message>
-        <source>Vertical Bottom Left</source>
-        <translation>Вертикально, снизу вверх и слева направо</translation>
-    </message>
-    <message>
-        <source>Vertical Bottom Right</source>
-        <translation>Вертикально, снизу вверх и справа налево</translation>
-    </message>
-</context>
-<context>
-    <name>OpenRGBE131SettingsPage</name>
-    <message>
-        <source>Add</source>
-        <translation>Добавить</translation>
-    </message>
-    <message>
-        <source>Remove</source>
-        <translation>Удалить</translation>
-    </message>
-    <message>
-        <source>Save</source>
-        <translation>Сохранить</translation>
-    </message>
-</context>
-<context>
-    <name>OpenRGBElgatoKeyLightSettingsEntry</name>
-    <message>
-        <source>IP:</source>
-        <translation>IP:</translation>
-    </message>
-</context>
-<context>
-    <name>OpenRGBElgatoKeyLightSettingsPage</name>
-    <message>
-        <source>Add</source>
-        <translation>Добавить</translation>
-    </message>
-    <message>
-        <source>Remove</source>
-        <translation>Удалить</translation>
-    </message>
-    <message>
-        <source>Save</source>
-        <translation>Сохранить</translation>
-    </message>
-</context>
-<context>
-    <name>OpenRGBElgatoLightStripSettingsEntry</name>
-    <message>
-        <source>IP:</source>
-        <translation>IP:</translation>
-    </message>
-</context>
-<context>
-    <name>OpenRGBElgatoLightStripSettingsPage</name>
-    <message>
-        <source>Add</source>
-        <translation>Добавить</translation>
-    </message>
-    <message>
-        <source>Remove</source>
-        <translation>Удалить</translation>
-    </message>
-    <message>
-        <source>Save</source>
-        <translation>Сохранить</translation>
-    </message>
-</context>
-<context>
-    <name>OpenRGBGoveeSettingsEntry</name>
-    <message>
-        <source>IP:</source>
-        <translation type="unfinished">IP:</translation>
-    </message>
-</context>
-<context>
-    <name>OpenRGBGoveeSettingsPage</name>
-    <message>
-        <source>Add</source>
-        <translation type="unfinished">Добавить</translation>
-    </message>
-    <message>
-        <source>Remove</source>
-        <translation type="unfinished">Удалить</translation>
-    </message>
-    <message>
-        <source>Save</source>
-        <translation type="unfinished">Сохранить</translation>
+        <source>Manually Added Devices</source>
+        <translation>Добавляемые вручную устройства</translation>
     </message>
 </context>
 <context>
@@ -712,207 +729,6 @@
     <message>
         <source>Vendor</source>
         <translation>Изготовитель</translation>
-    </message>
-</context>
-<context>
-    <name>OpenRGBKasaSmartSettingsEntry</name>
-    <message>
-        <source>IP:</source>
-        <translation>IP:</translation>
-    </message>
-    <message>
-        <source>Name</source>
-        <translation>Название</translation>
-    </message>
-</context>
-<context>
-    <name>OpenRGBKasaSmartSettingsPage</name>
-    <message>
-        <source>Add</source>
-        <translation>Добавить</translation>
-    </message>
-    <message>
-        <source>Remove</source>
-        <translation>Удалить</translation>
-    </message>
-    <message>
-        <source>Save</source>
-        <translation>Сохранить</translation>
-    </message>
-</context>
-<context>
-    <name>OpenRGBLIFXSettingsEntry</name>
-    <message>
-        <source>IP:</source>
-        <translation>IP:</translation>
-    </message>
-    <message>
-        <source>Name</source>
-        <translation>Название</translation>
-    </message>
-</context>
-<context>
-    <name>OpenRGBLIFXSettingsPage</name>
-    <message>
-        <source>Add</source>
-        <translation>Добавить</translation>
-    </message>
-    <message>
-        <source>Remove</source>
-        <translation>Удалить</translation>
-    </message>
-    <message>
-        <source>Save</source>
-        <translation>Сохранить</translation>
-    </message>
-</context>
-<context>
-    <name>OpenRGBNanoleafNewDeviceDialog</name>
-    <message>
-        <source>New Nanoleaf device</source>
-        <translation>Добавить устройство Nanoleaf</translation>
-    </message>
-    <message>
-        <source>IP address:</source>
-        <translation>IP:</translation>
-    </message>
-    <message>
-        <source>Port:</source>
-        <translation>Порт:</translation>
-    </message>
-</context>
-<context>
-    <name>OpenRGBNanoleafSettingsEntry</name>
-    <message>
-        <source>IP:</source>
-        <translation>IP:</translation>
-    </message>
-    <message>
-        <source>Port:</source>
-        <translation>Порт:</translation>
-    </message>
-    <message>
-        <source>Auth Key:</source>
-        <translation>Ключ авторизации:</translation>
-    </message>
-    <message>
-        <source>Unpair</source>
-        <translation>Разъединить</translation>
-    </message>
-    <message>
-        <source>Pair</source>
-        <translation>Связать</translation>
-    </message>
-</context>
-<context>
-    <name>OpenRGBNanoleafSettingsPage</name>
-    <message>
-        <source>Add</source>
-        <translation>Добавить</translation>
-    </message>
-    <message>
-        <source>Remove</source>
-        <translation>Удалить</translation>
-    </message>
-    <message>
-        <source>Scan</source>
-        <translation>Сканировать</translation>
-    </message>
-    <message>
-        <source>To pair, hold the on-off button down for 5-7 seconds until the LED starts flashing in a pattern, then click the &quot;Pair&quot; button within 30 seconds.</source>
-        <translation>Для выполнения сопряжения, удерживайте кнопку включения/выключения в течение 5-7 секунд пока не начнётся мерцание светодиодов, а затем в течение 30 секунд щёлкните кнопку &quot;Связать&quot; (&quot;Pair&quot;).</translation>
-    </message>
-</context>
-<context>
-    <name>OpenRGBPhilipsHueSettingsEntry</name>
-    <message>
-        <source>IP:</source>
-        <translation>IP:</translation>
-    </message>
-    <message>
-        <source>Entertainment Mode:</source>
-        <translation>Развлекательный режим:</translation>
-    </message>
-    <message>
-        <source>Username:</source>
-        <translation>Имя пользователя:</translation>
-    </message>
-    <message>
-        <source>Client Key:</source>
-        <translation>Ключ клиента:</translation>
-    </message>
-    <message>
-        <source>Unpair Bridge</source>
-        <translation>Разорвать мост</translation>
-    </message>
-    <message>
-        <source>MAC:</source>
-        <translation>MAC:</translation>
-    </message>
-    <message>
-        <source>Auto Connect Group:</source>
-        <translation>Автоматически подключаться к этой группе:</translation>
-    </message>
-</context>
-<context>
-    <name>OpenRGBPhilipsHueSettingsPage</name>
-    <message>
-        <source>Remove</source>
-        <translation>Удалить</translation>
-    </message>
-    <message>
-        <source>Add</source>
-        <translation>Добавить</translation>
-    </message>
-    <message>
-        <source>Save</source>
-        <translation>Сохранить</translation>
-    </message>
-    <message>
-        <source>After adding a Hue entry and saving, restart OpenRGB and press the Sync button on your Hue bridge to pair it.</source>
-        <translation>После добавления устройств Hue и сохранения, перезапустите OpenRGB, затем нажмите кнопку Sync на мосте Hue bridge для установления связи.</translation>
-    </message>
-</context>
-<context>
-    <name>OpenRGBPhilipsWizSettingsEntry</name>
-    <message>
-        <source>Use Cool White</source>
-        <translation>Холодный белый</translation>
-    </message>
-    <message>
-        <source>Use Warm White</source>
-        <translation>Тёплый белый</translation>
-    </message>
-    <message>
-        <source>IP:</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>White Strategy:</source>
-        <translation>Расчёт белого:</translation>
-    </message>
-    <message>
-        <source>Average</source>
-        <translation>По среднему</translation>
-    </message>
-    <message>
-        <source>Minimum</source>
-        <translation>По наименьшему</translation>
-    </message>
-</context>
-<context>
-    <name>OpenRGBPhilipsWizSettingsPage</name>
-    <message>
-        <source>Add</source>
-        <translation>Добавить</translation>
-    </message>
-    <message>
-        <source>Remove</source>
-        <translation>Удалить</translation>
-    </message>
-    <message>
-        <source>Save</source>
-        <translation>Сохранить</translation>
     </message>
 </context>
 <context>
@@ -1013,74 +829,6 @@
     </message>
 </context>
 <context>
-    <name>OpenRGBQMKORGBSettingsEntry</name>
-    <message>
-        <source>Name:</source>
-        <translation>Название:</translation>
-    </message>
-    <message>
-        <source>USB PID:</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>USB VID:</source>
-        <translation></translation>
-    </message>
-</context>
-<context>
-    <name>OpenRGBQMKORGBSettingsPage</name>
-    <message>
-        <source>Add</source>
-        <translation>Добавить</translation>
-    </message>
-    <message>
-        <source>Remove</source>
-        <translation>Удалить</translation>
-    </message>
-    <message>
-        <source>Save</source>
-        <translation>Сохранить</translation>
-    </message>
-</context>
-<context>
-    <name>OpenRGBSerialSettingsEntry</name>
-    <message>
-        <source>Baud:</source>
-        <translation>Бод:</translation>
-    </message>
-    <message>
-        <source>Name:</source>
-        <translation>Название:</translation>
-    </message>
-    <message>
-        <source>Number of LEDs:</source>
-        <translation>Количество светодиодов:</translation>
-    </message>
-    <message>
-        <source>Port:</source>
-        <translation>Порт:</translation>
-    </message>
-    <message>
-        <source>Protocol:</source>
-        <translation>Протокол:</translation>
-    </message>
-</context>
-<context>
-    <name>OpenRGBSerialSettingsPage</name>
-    <message>
-        <source>Add</source>
-        <translation>Добавить</translation>
-    </message>
-    <message>
-        <source>Remove</source>
-        <translation>Удалить</translation>
-    </message>
-    <message>
-        <source>Save</source>
-        <translation>Сохранить</translation>
-    </message>
-</context>
-<context>
     <name>OpenRGBServerInfoPage</name>
     <message>
         <source>Stop Server</source>
@@ -1136,10 +884,6 @@
     <message>
         <source>Load Window Geometry</source>
         <translation>Загружать геометрию окна</translation>
-    </message>
-    <message>
-        <source>90000</source>
-        <translation></translation>
     </message>
     <message>
         <source>Run Zone Checks on Rescan</source>
@@ -1327,11 +1071,11 @@
     </message>
     <message>
         <source>Qt Version:</source>
-        <translation type="unfinished"></translation>
+        <translation>Версия Qt:</translation>
     </message>
     <message>
         <source>OS Version:</source>
-        <translation type="unfinished"></translation>
+        <translation>Версия ОС:</translation>
     </message>
     <message>
         <source>OS Version Value</source>
@@ -1339,23 +1083,23 @@
     </message>
     <message>
         <source>GNU General Public License, version 2</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <source>License:</source>
-        <translation type="unfinished"></translation>
+        <translation>Лицензия:</translation>
     </message>
     <message>
         <source>Copyright:</source>
-        <translation type="unfinished"></translation>
+        <translation>Авторское право:</translation>
     </message>
     <message>
         <source>Adam Honse, OpenRGB Team</source>
-        <translation type="unfinished"></translation>
+        <translation>Adam Honse, команда OpenRGB</translation>
     </message>
     <message>
         <source>&lt;b&gt;OpenRGB&lt;/b&gt;, an open-source RGB control utility</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;b&gt;OpenRGB&lt;/b&gt;, открытый инструментарий управления RGB-подсветкой</translation>
     </message>
 </context>
 <context>
@@ -1433,52 +1177,6 @@
     </message>
 </context>
 <context>
-    <name>OpenRGBYeelightSettingsEntry</name>
-    <message>
-        <source>IP:</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>?</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>Music Mode:</source>
-        <translation>Режим захвата звука:</translation>
-    </message>
-    <message>
-        <source>Override host IP:</source>
-        <translation>Указать IP-адрес узла:</translation>
-    </message>
-    <message>
-        <source>Left blank for auto discovering host ip</source>
-        <translation>Оставьте пустым для автообнаружения IP узла</translation>
-    </message>
-    <message>
-        <source>Choose an IP...</source>
-        <translation>Выберите IP адрес…</translation>
-    </message>
-    <message>
-        <source>Choose the correct IP for the host</source>
-        <translation>Выберите правильный IP адрес узла</translation>
-    </message>
-</context>
-<context>
-    <name>OpenRGBYeelightSettingsPage</name>
-    <message>
-        <source>Add</source>
-        <translation>Добавить</translation>
-    </message>
-    <message>
-        <source>Remove</source>
-        <translation>Удалить</translation>
-    </message>
-    <message>
-        <source>Save</source>
-        <translation>Сохранить</translation>
-    </message>
-</context>
-<context>
     <name>OpenRGBZoneResizeDialog</name>
     <message>
         <source>Resize Zone</source>
@@ -1537,6 +1235,91 @@
     </message>
 </context>
 <context>
+    <name>PhilipsHueSettingsEntry</name>
+    <message>
+        <source>Philips Hue Bridge</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Entertainment Mode:</source>
+        <translation>Развлекательный режим:</translation>
+    </message>
+    <message>
+        <source>Auto Connect Group:</source>
+        <translation>Автоматически подключаться к этой группе:</translation>
+    </message>
+    <message>
+        <source>IP:</source>
+        <translation>IP:</translation>
+    </message>
+    <message>
+        <source>Client Key:</source>
+        <translation>Ключ клиента:</translation>
+    </message>
+    <message>
+        <source>Username:</source>
+        <translation>Имя пользователя:</translation>
+    </message>
+    <message>
+        <source>MAC:</source>
+        <translation>MAC:</translation>
+    </message>
+    <message>
+        <source>Unpair Bridge</source>
+        <translation>Разорвать сопряжение с мостом</translation>
+    </message>
+</context>
+<context>
+    <name>PhilipsWizSettingsEntry</name>
+    <message>
+        <source>Philips Wiz Device</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Use Cool White</source>
+        <translation>Холодный белый</translation>
+    </message>
+    <message>
+        <source>Use Warm White</source>
+        <translation>Тёплый белый</translation>
+    </message>
+    <message>
+        <source>IP:</source>
+        <translation>IP:</translation>
+    </message>
+    <message>
+        <source>White Strategy:</source>
+        <translation>Расчёт белого:</translation>
+    </message>
+    <message>
+        <source>Average</source>
+        <translation>По среднему</translation>
+    </message>
+    <message>
+        <source>Minimum</source>
+        <translation>По наименьшему</translation>
+    </message>
+</context>
+<context>
+    <name>QMKORGBSettingsEntry</name>
+    <message>
+        <source>QMK Device</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Name:</source>
+        <translation>Название:</translation>
+    </message>
+    <message>
+        <source>USB PID:</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>USB VID:</source>
+        <translation></translation>
+    </message>
+</context>
+<context>
     <name>ResourceManager</name>
     <message>
         <source>&lt;h2&gt;Some internal devices may not be detected:&lt;/h2&gt;&lt;p&gt;One or more I2C or SMBus interfaces failed to initialize.&lt;/p&gt;&lt;p&gt;&lt;b&gt;RGB DRAM modules, some motherboards&apos; onboard RGB lighting, and RGB Graphics Cards, will not be available in OpenRGB&lt;/b&gt; without I2C or SMBus.&lt;/p&gt;&lt;h4&gt;How to fix this:&lt;/h4&gt;&lt;p&gt;On Windows, this is usually caused by a failure to load the WinRing0 driver.&lt;/p&gt;&lt;p&gt;You must run OpenRGB as administrator at least once to allow WinRing0 to set up.&lt;/p&gt;&lt;p&gt;See &lt;a href=&apos;https://help.openrgb.org/&apos;&gt;help.openrgb.org&lt;/a&gt; for additional troubleshooting steps if you keep seeing this message.&lt;br&gt;&lt;/p&gt;&lt;h3&gt;If you are not using internal RGB on a desktop this message is not important to you.&lt;/h3&gt;</source>
@@ -1558,10 +1341,72 @@
     </message>
 </context>
 <context>
+    <name>SerialSettingsEntry</name>
+    <message>
+        <source>Serial Device</source>
+        <translation type="unfinished">Устройство последовательного порта (Arduino)</translation>
+    </message>
+    <message>
+        <source>Baud:</source>
+        <translation>Скорость (бод):</translation>
+    </message>
+    <message>
+        <source>Name:</source>
+        <translation>Название:</translation>
+    </message>
+    <message>
+        <source>Number of LEDs:</source>
+        <translation>Количество светодиодов:</translation>
+    </message>
+    <message>
+        <source>Port:</source>
+        <translation>Порт:</translation>
+    </message>
+    <message>
+        <source>Protocol:</source>
+        <translation>Протокол:</translation>
+    </message>
+</context>
+<context>
     <name>TabLabel</name>
     <message>
         <source>device name</source>
         <translation>название устройства</translation>
+    </message>
+</context>
+<context>
+    <name>YeelightSettingsEntry</name>
+    <message>
+        <source>Yeelight Device</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>IP:</source>
+        <translation>IP:</translation>
+    </message>
+    <message>
+        <source>?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Music Mode:</source>
+        <translation>Режим захвата звука:</translation>
+    </message>
+    <message>
+        <source>Override host IP:</source>
+        <translation>Указать IP-адрес узла:</translation>
+    </message>
+    <message>
+        <source>Left blank for auto discovering host ip</source>
+        <translation>Оставьте пустым для автообнаружения IP узла</translation>
+    </message>
+    <message>
+        <source>Choose an IP...</source>
+        <translation>Выберите IP адрес…</translation>
+    </message>
+    <message>
+        <source>Choose the correct IP for the host</source>
+        <translation>Выберите правильный IP адрес узла</translation>
     </message>
 </context>
 </TS>

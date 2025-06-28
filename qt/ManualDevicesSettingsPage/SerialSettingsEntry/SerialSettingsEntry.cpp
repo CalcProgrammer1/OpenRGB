@@ -135,4 +135,6 @@ static BaseManualDeviceEntry* SpawnSerialSettingsEntry(const json& data)
     return entry;
 }
 
-REGISTER_MANUAL_DEVICE_TYPE("Serial Device", "LEDStripDevices", SpawnSerialSettingsEntry);
+static const char* SerialDeviceName = QT_TRANSLATE_NOOP("ManualDevice", "Serial Device");
+
+REGISTER_MANUAL_DEVICE_TYPE(SerialDeviceName, "LEDStripDevices", SpawnSerialSettingsEntry);
