@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>QMKORGBSettingsEntry</class>
+ <widget class="QWidget" name="QMKORGBSettingsEntry">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>531</width>
+    <height>237</height>
+   </rect>
+  </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
+  <property name="windowTitle">
+   <string notr="true"> QMK Settings Entry</string>
+  </property>
+  <layout class="QGridLayout" name="gridLayout">
+   <item row="1" column="0" colspan="2">
+    <widget class="QGroupBox" name="groupBox">
+     <property name="title">
+      <string>QMK Device</string>
+     </property>
+     <layout class="QGridLayout" name="gridLayout_2">
+      <item row="2" column="5">
+       <widget class="QLineEdit" name="USBPIDEdit"/>
+      </item>
+      <item row="1" column="3">
+       <widget class="QLineEdit" name="NameEdit"/>
+      </item>
+      <item row="1" column="0">
+       <widget class="QLabel" name="NameLabel">
+        <property name="text">
+         <string>Name:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="3">
+       <widget class="QLineEdit" name="USBVIDEdit"/>
+      </item>
+      <item row="2" column="4">
+       <widget class="QLabel" name="USBPIDLabel">
+        <property name="text">
+         <string>USB PID:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="0">
+       <widget class="QLabel" name="USBVIDLabel">
+        <property name="text">
+         <string>USB VID:</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <tabstops>
+  <tabstop>NameEdit</tabstop>
+  <tabstop>USBVIDEdit</tabstop>
+  <tabstop>USBPIDEdit</tabstop>
+ </tabstops>
+ <resources/>
+ <connections/>
+</ui>

@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>E131SettingsEntry</class>
+ <widget class="QWidget" name="E131SettingsEntry">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>531</width>
+    <height>256</height>
+   </rect>
+  </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
+  <property name="windowTitle">
+   <string notr="true">E.131 Settings Entry</string>
+  </property>
+  <layout class="QGridLayout" name="gridLayout">
+   <item row="1" column="0" colspan="2">
+    <widget class="QGroupBox" name="groupBox">
+     <property name="title">
+      <string>E1.31 Device</string>
+     </property>
+     <layout class="QGridLayout" name="gridLayout_2">
+      <item row="2" column="5">
+       <widget class="QLineEdit" name="StartChannelEdit"/>
+      </item>
+      <item row="5" column="3">
+       <widget class="QLineEdit" name="NumLEDsEdit"/>
+      </item>
+      <item row="6" column="3">
+       <widget class="QLineEdit" name="MatrixWidthEdit"/>
+      </item>
+      <item row="2" column="4">
+       <widget class="QLabel" name="StartChannelLabel">
+        <property name="text">
+         <string>Start Channel:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="0">
+       <widget class="QLabel" name="NumLEDsLabel">
+        <property name="text">
+         <string>Number of LEDs:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="3">
+       <widget class="QLineEdit" name="StartUniverseEdit"/>
+      </item>
+      <item row="1" column="3">
+       <widget class="QLineEdit" name="NameEdit"/>
+      </item>
+      <item row="7" column="3">
+       <widget class="QComboBox" name="MatrixOrderComboBox"/>
+      </item>
+      <item row="2" column="0">
+       <widget class="QLabel" name="StartUniverseLabel">
+        <property name="text">
+         <string>Start Universe:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="5">
+       <widget class="QLineEdit" name="IPEdit"/>
+      </item>
+      <item row="1" column="0">
+       <widget class="QLabel" name="NameLabel">
+        <property name="text">
+         <string>Name:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="7" column="0">
+       <widget class="QLabel" name="MatrixOrderLabel">
+        <property name="text">
+         <string>Matrix Order:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="5">
+       <widget class="QComboBox" name="TypeComboBox"/>
+      </item>
+      <item row="6" column="5">
+       <widget class="QLineEdit" name="MatrixHeightEdit"/>
+      </item>
+      <item row="6" column="4">
+       <widget class="QLabel" name="MatrixHeightLabel">
+        <property name="text">
+         <string>Matrix Height:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="6" column="0">
+       <widget class="QLabel" name="MatrixWidthLabel">
+        <property name="text">
+         <string>Matrix Width:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="4">
+       <widget class="QLabel" name="TypeLabel">
+        <property name="text">
+         <string>Type:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="4">
+       <widget class="QLabel" name="IPLabel">
+        <property name="text">
+         <string>IP (Unicast):</string>
+        </property>
+       </widget>
+      </item>
+      <item row="8" column="0">
+       <widget class="QLabel" name="UniverseSizeLabel">
+        <property name="text">
+         <string>Universe Size:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="8" column="3">
+       <widget class="QLineEdit" name="UniverseSizeEdit"/>
+      </item>
+      <item row="8" column="4">
+       <widget class="QLabel" name="KeepaliveTimeLabel">
+        <property name="text">
+         <string>Keepalive Time:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="8" column="5">
+       <widget class="QLineEdit" name="KeepaliveTimeEdit"/>
+      </item>
+      <item row="7" column="4">
+       <widget class="QLabel" name="RGBOrderLabel">
+        <property name="text">
+         <string>RGB Order:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="7" column="5">
+       <widget class="QComboBox" name="RGBOrderComboBox"/>
+      </item>
+     </layout>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <tabstops>
+  <tabstop>NameEdit</tabstop>
+  <tabstop>IPEdit</tabstop>
+  <tabstop>StartUniverseEdit</tabstop>
+  <tabstop>StartChannelEdit</tabstop>
+  <tabstop>NumLEDsEdit</tabstop>
+  <tabstop>TypeComboBox</tabstop>
+  <tabstop>MatrixWidthEdit</tabstop>
+  <tabstop>MatrixHeightEdit</tabstop>
+  <tabstop>MatrixOrderComboBox</tabstop>
+  <tabstop>UniverseSizeEdit</tabstop>
+  <tabstop>KeepaliveTimeEdit</tabstop>
+ </tabstops>
+ <resources/>
+ <connections/>
+</ui>
