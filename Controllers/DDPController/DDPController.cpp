@@ -176,7 +176,7 @@ void DDPController::UpdateLEDs(const std::vector<unsigned int>& colors)
             device_data[pixel_offset + 2] = b;
         }
         
-        unsigned int max_data_per_packet = DDP_MAX_PACKET_SIZE - DDP_HEADER_SIZE;
+        unsigned int max_data_per_packet = DDP_MAX_DATA_SIZE;
         unsigned int bytes_sent = 0;
         
         while(bytes_sent < total_bytes)
@@ -225,8 +225,8 @@ bool DDPController::SendDDPPacket(const DDPDevice& device, const unsigned char* 
     
     // CRITICAL FIX: Use 0x41 instead of 0x40 - WLED requires the Push bit to be set
     header->flags = DDP_FLAG_VER_1 | DDP_FLAG_PUSH;
-    header->sequence = sequence_number;
-    header->data_type = 1; // RGB data type
+    header->sequence = sequence_number & 0x0F; // Only use 4-bit nibble (0-15) per DDP spec
+    header->data_type = DDP_TYPE_RGB8; // RGB 8-bit per DDP spec
     header->dest_id = 1;   // Default output device
     header->data_offset = htonl(offset);
     header->data_length = htons(length);
@@ -294,7 +294,7 @@ void DDPController::KeepaliveThreadFunction()
                     device_data[pixel_offset + 2] = b;
                 }
                 
-                unsigned int max_data_per_packet = DDP_MAX_PACKET_SIZE - DDP_HEADER_SIZE;
+                unsigned int max_data_per_packet = DDP_MAX_DATA_SIZE;
                 unsigned int bytes_sent = 0;
                 
                 while(bytes_sent < total_bytes)

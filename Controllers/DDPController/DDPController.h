@@ -22,7 +22,8 @@
 #define DDP_HEADER_SIZE         10
 #define DDP_HEADER_SIZE_TC      14
 #define DDP_VERSION             1
-#define DDP_MAX_PACKET_SIZE     1480
+#define DDP_MAX_PACKET_SIZE     1450
+#define DDP_MAX_DATA_SIZE       1440
 
 #define DDP_FLAG_VER_MASK       0xC0
 #define DDP_FLAG_VER_1          0x40
@@ -31,6 +32,10 @@
 #define DDP_FLAG_REPLY          0x04
 #define DDP_FLAG_QUERY          0x02
 #define DDP_FLAG_PUSH           0x01
+
+// DDP Data Type definitions (bits: C R TTT SSS)
+// C: 0=standard, 1=custom; R: reserved; TTT: data type; SSS: size
+#define DDP_TYPE_RGB8           0x0B  // TTT=001 (RGB), SSS=011 (8-bit)
 
 #pragma pack(push, 1)
 struct ddp_header
