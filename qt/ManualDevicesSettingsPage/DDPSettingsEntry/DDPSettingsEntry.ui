@@ -27,49 +27,32 @@
      </property>
      <layout class="QGridLayout" name="gridLayout_2">
       <item row="0" column="0">
-       <widget class="QLabel" name="NameLabel">
-        <property name="text">
-         <string>Name:</string>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="1">
-       <widget class="QLineEdit" name="NameEdit">
-        <property name="placeholderText">
-         <string>Device Name</string>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="0">
        <widget class="QLabel" name="IPLabel">
         <property name="text">
          <string>IP Address:</string>
         </property>
        </widget>
       </item>
+      <item row="0" column="1">
+       <widget class="QLineEdit" name="IPEdit">
+        <property name="placeholderText">
+         <string>192.168.1.100</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QLabel" name="NameLabel">
+        <property name="text">
+         <string>Name:</string>
+        </property>
+       </widget>
+      </item>
       <item row="1" column="1">
-       <layout class="QHBoxLayout" name="ipLayout">
-        <item>
-         <widget class="QLineEdit" name="IPEdit">
-          <property name="placeholderText">
-           <string>192.168.1.100</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QPushButton" name="QueryButton">
-          <property name="text">
-           <string>Query</string>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>60</width>
-            <height>16777215</height>
-           </size>
-          </property>
-         </widget>
-        </item>
-       </layout>
+       <widget class="QLineEdit" name="NameEdit">
+        <property name="placeholderText">
+         <string>Device Name</string>
+        </property>
+       </widget>
       </item>
       <item row="2" column="0">
        <widget class="QLabel" name="PortLabel">
@@ -108,6 +91,29 @@
         </property>
         <property name="value">
          <number>50</number>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="0">
+       <widget class="QLabel" name="KeepaliveTimeLabel">
+        <property name="text">
+         <string>Keepalive Time (ms):</string>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="1">
+       <widget class="QSpinBox" name="KeepaliveTimeSpinBox">
+        <property name="minimum">
+         <number>0</number>
+        </property>
+        <property name="maximum">
+         <number>10000</number>
+        </property>
+        <property name="value">
+         <number>1000</number>
+        </property>
+        <property name="specialValueText">
+         <string>Disabled</string>
         </property>
        </widget>
       </item>
