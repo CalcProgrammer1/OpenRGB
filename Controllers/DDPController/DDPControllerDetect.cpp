@@ -23,14 +23,8 @@ void DetectDDPControllers()
     json ddp_settings;
     std::vector<std::vector<DDPDevice>> device_lists;
     DDPDevice dev;
-    unsigned int keepalive_time = 1000;
 
     ddp_settings = ResourceManager::get()->GetSettingsManager()->GetSettings("DDPDevices");
-
-    if(ddp_settings.contains("keepalive_time"))
-    {
-        keepalive_time = ddp_settings["keepalive_time"];
-    }
 
     if(ddp_settings.contains("devices"))
     {
@@ -90,7 +84,6 @@ void DetectDDPControllers()
         for(unsigned int list_idx = 0; list_idx < device_lists.size(); list_idx++)
         {
             RGBController_DDP* rgb_controller = new RGBController_DDP(device_lists[list_idx]);
-            rgb_controller->SetKeepaliveTime(keepalive_time);
             ResourceManager::get()->RegisterRGBController(rgb_controller);
         }
     }

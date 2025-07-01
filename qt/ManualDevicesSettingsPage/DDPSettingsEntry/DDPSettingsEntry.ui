@@ -48,11 +48,28 @@
        </widget>
       </item>
       <item row="1" column="1">
-       <widget class="QLineEdit" name="IPEdit">
-        <property name="placeholderText">
-         <string>192.168.1.100</string>
-        </property>
-       </widget>
+       <layout class="QHBoxLayout" name="ipLayout">
+        <item>
+         <widget class="QLineEdit" name="IPEdit">
+          <property name="placeholderText">
+           <string>192.168.1.100</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="QueryButton">
+          <property name="text">
+           <string>Query</string>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>60</width>
+            <height>16777215</height>
+           </size>
+          </property>
+         </widget>
+        </item>
+       </layout>
       </item>
       <item row="2" column="0">
        <widget class="QLabel" name="PortLabel">
@@ -91,32 +108,6 @@
         </property>
         <property name="value">
          <number>50</number>
-        </property>
-       </widget>
-      </item>
-      <item row="4" column="0">
-       <widget class="QLabel" name="KeepaliveLabel">
-        <property name="text">
-         <string>Keepalive Time (ms):</string>
-        </property>
-       </widget>
-      </item>
-      <item row="4" column="1">
-       <widget class="QSpinBox" name="KeepaliveSpinBox">
-        <property name="minimum">
-         <number>0</number>
-        </property>
-        <property name="maximum">
-         <number>60000</number>
-        </property>
-        <property name="value">
-         <number>1000</number>
-        </property>
-        <property name="suffix">
-         <string> ms</string>
-        </property>
-        <property name="specialValueText">
-         <string>Disabled</string>
         </property>
        </widget>
       </item>

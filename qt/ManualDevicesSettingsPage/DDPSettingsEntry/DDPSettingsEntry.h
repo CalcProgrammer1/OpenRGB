@@ -29,6 +29,7 @@ public:
 
 private:
     Ui::DDPSettingsEntry *ui;
+    void queryDevice();
 
 private slots:
     void changeEvent(QEvent *event) override;
