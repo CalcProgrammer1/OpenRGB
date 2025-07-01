@@ -18,12 +18,11 @@ DDPController::DDPController(const std::vector<DDPDevice>& device_list)
     unique_endpoints = NULL;
     num_endpoints   = 0;
     sequence_number = 0;
-    keepalive_time_ms = 1000; // Default to 1 second keepalive as WLED times out quickly
+    keepalive_time_ms = 1000;
     keepalive_thread_run = false;
     
     InitializeNetPorts();
     
-    // Start keepalive thread
     if(!devices.empty())
     {
         keepalive_thread_run = true;
@@ -33,7 +32,6 @@ DDPController::DDPController(const std::vector<DDPDevice>& device_list)
 
 DDPController::~DDPController()
 {
-    // Stop keepalive thread
     keepalive_thread_run = false;
     if(keepalive_thread.joinable())
     {
@@ -146,7 +144,6 @@ void DDPController::UpdateLEDs(const std::vector<unsigned int>& colors)
 {
     if(udp_ports.empty()) return;
 
-    // Store colors and time for keepalive
     {
         std::lock_guard<std::mutex> lock(last_update_mutex);
         last_colors = colors;
@@ -223,11 +220,10 @@ bool DDPController::SendDDPPacket(const DDPDevice& device, const unsigned char* 
     std::vector<unsigned char> packet(DDP_HEADER_SIZE + length);
     ddp_header* header = (ddp_header*)packet.data();
     
-    // CRITICAL FIX: Use 0x41 instead of 0x40 - WLED requires the Push bit to be set
     header->flags = DDP_FLAG_VER_1 | DDP_FLAG_PUSH;
-    header->sequence = sequence_number & 0x0F; // Only use 4-bit nibble (0-15) per DDP spec
-    header->data_type = 1; // RGB data type (keeping simple value for compatibility)
-    header->dest_id = 1;   // Default output device
+    header->sequence = sequence_number & 0x0F;
+    header->data_type = 1;
+    header->dest_id = 1;
     header->data_offset = htonl(offset);
     header->data_length = htons(length);
     
@@ -247,9 +243,9 @@ void DDPController::KeepaliveThreadFunction()
 {
     while(keepalive_thread_run)
     {
-        std::this_thread::sleep_for(std::chrono::milliseconds(100)); // Check every 100ms
+        std::this_thread::sleep_for(std::chrono::milliseconds(100));
         
-        if(keepalive_time_ms == 0) // Keepalive disabled
+        if(keepalive_time_ms == 0)
             continue;
             
         std::vector<unsigned int> colors_to_send;
@@ -264,13 +260,12 @@ void DDPController::KeepaliveThreadFunction()
             {
                 colors_to_send = last_colors;
                 should_send = true;
-                last_update_time = now; // Reset timer
+                last_update_time = now;
             }
         }
         
         if(should_send)
         {
-            // Send keepalive packet with last known colors
             unsigned int color_index = 0;
             
             for(unsigned int dev_idx = 0; dev_idx < devices.size(); dev_idx++)

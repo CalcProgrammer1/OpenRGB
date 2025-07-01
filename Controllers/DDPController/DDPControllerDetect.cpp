@@ -23,11 +23,10 @@ void DetectDDPControllers()
     json ddp_settings;
     std::vector<std::vector<DDPDevice>> device_lists;
     DDPDevice dev;
-    unsigned int keepalive_time = 1000; // Default 1 second
+    unsigned int keepalive_time = 1000;
 
     ddp_settings = ResourceManager::get()->GetSettingsManager()->GetSettings("DDPDevices");
 
-    // Read keepalive setting
     if(ddp_settings.contains("keepalive_time"))
     {
         keepalive_time = ddp_settings["keepalive_time"];

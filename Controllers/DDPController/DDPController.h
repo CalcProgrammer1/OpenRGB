@@ -33,11 +33,8 @@
 #define DDP_FLAG_QUERY          0x02
 #define DDP_FLAG_PUSH           0x01
 
-// DDP Data Type definitions (bits: C R TTT SSS)
-// C: 0=standard, 1=custom; R: reserved; TTT: data type; SSS: size
-// For maximum compatibility, we use simple value 1 instead of proper encoding
-#define DDP_TYPE_RGB8           0x0B  // TTT=001 (RGB), SSS=011 (8-bit) - spec compliant
-#define DDP_TYPE_RGB_SIMPLE     1     // Simple RGB value for compatibility
+#define DDP_TYPE_RGB8           0x0B
+#define DDP_TYPE_RGB_SIMPLE     1
 
 #pragma pack(push, 1)
 struct ddp_header
@@ -81,7 +78,7 @@ private:
     unsigned int            num_endpoints;
     unsigned char           sequence_number;
     
-    // Keepalive functionality
+
     std::atomic<bool>       keepalive_thread_run;
     std::thread             keepalive_thread;
     std::mutex              last_update_mutex;
