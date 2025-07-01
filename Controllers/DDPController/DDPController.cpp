@@ -253,8 +253,8 @@ void DDPController::KeepaliveThreadFunction()
         
         {
             std::lock_guard<std::mutex> lock(last_update_mutex);
-            auto now = std::chrono::steady_clock::now();
-            auto time_since_update = std::chrono::duration_cast<std::chrono::milliseconds>(now - last_update_time).count();
+            std::chrono::steady_clock::time_point now = std::chrono::steady_clock::now();
+            long long time_since_update = std::chrono::duration_cast<std::chrono::milliseconds>(now - last_update_time).count();
             
             if(time_since_update >= keepalive_time_ms && !last_colors.empty())
             {
