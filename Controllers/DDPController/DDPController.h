@@ -35,7 +35,9 @@
 
 // DDP Data Type definitions (bits: C R TTT SSS)
 // C: 0=standard, 1=custom; R: reserved; TTT: data type; SSS: size
-#define DDP_TYPE_RGB8           0x0B  // TTT=001 (RGB), SSS=011 (8-bit)
+// For maximum compatibility, we use simple value 1 instead of proper encoding
+#define DDP_TYPE_RGB8           0x0B  // TTT=001 (RGB), SSS=011 (8-bit) - spec compliant
+#define DDP_TYPE_RGB_SIMPLE     1     // Simple RGB value for compatibility
 
 #pragma pack(push, 1)
 struct ddp_header
