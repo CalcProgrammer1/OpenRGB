@@ -49,7 +49,7 @@ void DDPSettingsEntry::loadFromSettings(const json& data)
     }
     else
     {
-        ui->PortSpinBox->setValue(4048); // DDP default port
+        ui->PortSpinBox->setValue(4048);
     }
     
     if(data.contains("num_leds"))
@@ -63,7 +63,7 @@ void DDPSettingsEntry::loadFromSettings(const json& data)
     }
     else
     {
-        ui->KeepaliveSpinBox->setValue(1000); // Default 1 second
+        ui->KeepaliveSpinBox->setValue(1000);
     }
 }
 
@@ -82,7 +82,6 @@ json DDPSettingsEntry::saveSettings()
 
 bool DDPSettingsEntry::isDataValid()
 {
-    // Check if IP is not empty and num_leds > 0
     return !ui->IPEdit->text().isEmpty() && ui->NumLedsSpinBox->value() > 0;
 }
 
