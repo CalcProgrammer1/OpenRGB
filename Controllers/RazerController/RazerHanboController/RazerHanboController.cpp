@@ -239,9 +239,9 @@ void RazerHanboController::GetFirmware()
         char major = firmware_ret[0];
         char minor = firmware_ret[1] >> 4 & 0x0F;
         char patch = firmware_ret[1] & 0x0F;
-        char ver[6];
+        char ver[12];
 
-        snprintf(ver, sizeof(ver), "%u.%u.%u", major, minor, patch);
+        snprintf(ver, sizeof(ver), "%hhu.%hhu.%hhu", major, minor, patch);
         serial_string    = ret_serial;
         firmware_version = std::string(ver);
     }
