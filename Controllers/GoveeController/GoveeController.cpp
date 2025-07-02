@@ -162,7 +162,7 @@ void GoveeController::ReceiveBroadcast(char* recv_buf, int size)
     }
 }
 
-void GoveeController::SetColor(unsigned char red, unsigned char green, unsigned char blue, unsigned char brightness)
+void GoveeController::SetColor(unsigned char red, unsigned char green, unsigned char blue)
 {
     json command;
 

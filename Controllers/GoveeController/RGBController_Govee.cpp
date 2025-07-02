@@ -120,7 +120,7 @@ void RGBController_Govee::DeviceUpdateMode()
         unsigned char red = RGBGetRValue(modes[active_mode].colors[0]);
         unsigned char grn = RGBGetGValue(modes[active_mode].colors[0]);
         unsigned char blu = RGBGetBValue(modes[active_mode].colors[0]);
-        controller->SetColor(red, grn, blu, 255);
+        controller->SetColor(red, grn, blu);
     }
     else
     {
