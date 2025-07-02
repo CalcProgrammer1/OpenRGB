@@ -127,7 +127,7 @@ std::vector<unsigned char> AlienwareAW3423DWFController::GenerateKey(
         if(response.size() > 14)
         {
             unsigned char idx = response[14] & 0x07;
-            if((idx + 8) < response.size())
+            if((idx + 8) < (unsigned char)response.size())
             {
                 out_buffer[idx] ^= response[idx + 8];
             }
