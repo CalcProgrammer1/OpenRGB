@@ -76,7 +76,7 @@ MSIMysticLight761Controller::MSIMysticLight761Controller
     supported_zones = new std::vector<MSI_ZONE>;
     const mystic_light_761_config * board_config = nullptr;
 
-    for(int i = 0; i < NUM_CONFS; i++)
+    for(std::size_t i = 0; i < NUM_CONFS; i++)
     {
         if(board_configs[i].pid == pid)
         {
@@ -89,7 +89,7 @@ MSIMysticLight761Controller::MSIMysticLight761Controller
     {
         supported_zones = (std::vector<MSI_ZONE>*) board_config->supported_zones;
         unsigned int max = 0;
-        for(int i = 0; i < board_config->supported_zones[0].size(); i++)
+        for(std::size_t i = 0; i < board_config->supported_zones[0].size(); i++)
         {
             unsigned int curr_val = (unsigned int) (board_config->supported_zones[0][i]);
             if( (unsigned int) curr_val > max )
@@ -127,7 +127,6 @@ MSIMysticLight761Controller::MSIMysticLight761Controller
         data->jargb2.packet.hdr0 = 0x04;
         data->jargb3.packet.hdr0 = 0x04;
 
-
         data->jaf.packet.hdr1 = 0x00;
         data->jargb1.packet.hdr1 = 0x00;
         data->jargb2.packet.hdr1 = 0x01;
@@ -137,7 +136,6 @@ MSIMysticLight761Controller::MSIMysticLight761Controller
         init_packet(&data->jargb1);
         init_packet(&data->jargb2);
         init_packet(&data->jargb3);
-
     }
 
 }
@@ -149,12 +147,12 @@ MSIMysticLight761Controller::~MSIMysticLight761Controller()
 
 void MSIMysticLight761Controller::SetMode
     (
-        MSI_ZONE        zone,
-        MSI_MODE        mode,
-        MSI_SPEED       speed,
-        MSI_BRIGHTNESS  brightness,
-        bool            rainbow_color
-        )
+    MSI_ZONE        /*zone*/,
+    MSI_MODE        /*mode*/,
+    MSI_SPEED       /*speed*/,
+    MSI_BRIGHTNESS  /*brightness*/,
+    bool            /*rainbow_color*/
+    )
 {
     return; // Only supporting direct for now
 }
@@ -199,7 +197,7 @@ bool MSIMysticLight761Controller::ReadSettings()
 
 bool MSIMysticLight761Controller::Update
     (
-        bool save
+    bool /*save*/
     )
 {
 
@@ -217,20 +215,18 @@ bool MSIMysticLight761Controller::Update
     return flag;
 }
 
-
-
 void MSIMysticLight761Controller::SetZoneColor
     (
-        MSI_ZONE        zone,
-        unsigned char   red1,
-        unsigned char   grn1,
-        unsigned char   blu1,
-        unsigned char   red2,
-        unsigned char   grn2,
-        unsigned char   blu2
+    MSI_ZONE        zone,
+    unsigned char   red1,
+    unsigned char   grn1,
+    unsigned char   blu1,
+    unsigned char   red2,
+    unsigned char   grn2,
+    unsigned char   blu2
     )
 {
-    for(int i = 0; i < zone_configs.size(); i++)
+    for(std::size_t i = 0; i < zone_configs.size(); i++)
     {
         if(zone_configs[i].msi_zone == zone)
         {
@@ -255,12 +251,12 @@ void set_data_color(FeaturePacket_Zone_761 * packet, int index, unsigned char co
 
 void MSIMysticLight761Controller::SetLedColor
     (
-        MSI_ZONE        zone,
-        int             index,
-        unsigned char   red,
-        unsigned char   grn,
-        unsigned char   blu
-        )
+    MSI_ZONE        zone,
+    int             index,
+    unsigned char   red,
+    unsigned char   grn,
+    unsigned char   blu
+    )
 {
 
     FeaturePacket_Zone_761 * ptr = nullptr;
@@ -282,21 +278,24 @@ void MSIMysticLight761Controller::SetLedColor
             break;
     }
 
-    size_t candidate_index = index*3;
-
-    if(candidate_index + 2 <= GetMaxDirectLeds(zone) && candidate_index >= 0)
+    if(index >= 0)
     {
-        set_data_color(ptr, candidate_index, red);
-        set_data_color(ptr, candidate_index+1, grn);
-        set_data_color(ptr, candidate_index+2, blu);
+        std::size_t candidate_index = (index * 3);
+
+        if((candidate_index + 2) <= GetMaxDirectLeds(zone))
+        {
+            set_data_color(ptr, candidate_index,     red);
+            set_data_color(ptr, candidate_index + 1, grn);
+            set_data_color(ptr, candidate_index + 2, blu);
+        }
     }
 
 }
 
 ZoneData *MSIMysticLight761Controller::GetZoneData
     (
-        FeaturePacket_761&  data_packet,
-        MSI_ZONE            zone
+    FeaturePacket_761&  /*data_packet*/,
+    MSI_ZONE            zone
     )
 {
     for(ZoneConfig zd : zone_configs)
@@ -306,21 +305,22 @@ ZoneData *MSIMysticLight761Controller::GetZoneData
             return zd.zone_data;
         }
     }
+
     return nullptr;
 }
 
 Color *MSIMysticLight761Controller::GetPerLedZoneData
     (
-        MSI_ZONE  zone
-        )
+    MSI_ZONE  zone
+    )
 {
     return &(GetZoneData(*data, zone)->color);
 }
 
 RainbowZoneData *MSIMysticLight761Controller::GetRainbowZoneData
     (
-        MSI_ZONE zone
-        )
+    MSI_ZONE /*zone*/
+    )
 {
     return nullptr;
 }
@@ -329,6 +329,7 @@ bool MSIMysticLight761Controller::ReadFwVersion()
 {
     return true;
 }
+
 void MSIMysticLight761Controller::ReadName()
 {
     wchar_t tname[256];
@@ -361,12 +362,12 @@ MSI_MODE MSIMysticLight761Controller::GetMode()
 
 void MSIMysticLight761Controller::GetMode
     (
-        MSI_ZONE zone,
-        MSI_MODE &mode,
-        MSI_SPEED &speed,
-        MSI_BRIGHTNESS &brightness,
-        bool &rainbow_color,
-        unsigned int &color
+    MSI_ZONE            zone,
+    MSI_MODE &          mode,
+    MSI_SPEED &         speed,
+    MSI_BRIGHTNESS &    brightness,
+    bool &              rainbow_color,
+    unsigned int &      color
     )
 {
     /*-----------------------------------------------------*\
@@ -396,8 +397,8 @@ void MSIMysticLight761Controller::GetMode
 
 void MSIMysticLight761Controller::SetCycleCount
     (
-        MSI_ZONE        zone,
-        unsigned char   cycle_num
+    MSI_ZONE        /*zone*/,
+    unsigned char   /*cycle_num*/
     )
 {
     return;
@@ -405,7 +406,7 @@ void MSIMysticLight761Controller::SetCycleCount
 
 void MSIMysticLight761Controller::SetDirectMode
     (
-        bool mode
+    bool /*mode*/
     )
 {
     SelectPerLedProtocol();
@@ -414,7 +415,7 @@ void MSIMysticLight761Controller::SetDirectMode
 
 size_t MSIMysticLight761Controller::GetMaxDirectLeds
     (
-        MSI_ZONE zone
+    MSI_ZONE zone
     )
 {
     switch(zone)
