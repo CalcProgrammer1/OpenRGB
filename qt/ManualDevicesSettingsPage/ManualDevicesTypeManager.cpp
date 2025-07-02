@@ -13,18 +13,20 @@
 
 ManualDeviceTypeBlock::ManualDeviceTypeBlock(const std::string& _name, const std::string& _settingsSection, ManualDeviceEntrySpawnFunction _entrySpawnFunction)
 {
-    name = _name;
-    settingsSection = _settingsSection;
-    entrySpawnFunction = _entrySpawnFunction;
+    name                = _name;
+    settingsSection     = _settingsSection;
+    entrySpawnFunction  = _entrySpawnFunction;
 }
 
 BaseManualDeviceEntry* ManualDeviceTypeBlock::spawn(const json& data) const
 {
     BaseManualDeviceEntry* result = entrySpawnFunction(data);
+
     if(result)
     {
         result->setSettingsSection(settingsSection);
     }
+
     return result;
 }
 
@@ -42,7 +44,7 @@ ManualDevicesTypeManager *ManualDevicesTypeManager::get()
 
 ManualDevicesTypeManager::ManualDevicesTypeManager()
 {
-    ;
+
 }
 
 void ManualDevicesTypeManager::registerType(const std::string& name, const std::string& settingsSection, ManualDeviceEntrySpawnFunction entrySpawnFunction)
@@ -60,21 +62,23 @@ std::vector<std::string> ManualDevicesTypeManager::getRegisteredTypeNames()
     std::vector<std::string> result;
     result.resize(types.size());
 
-    for(int i = 0; i < types.size(); ++i)
+    for(std::size_t i = 0; i < types.size(); i++)
     {
         result[i] = types[i].name;
     }
+
     return result;
 }
 
 BaseManualDeviceEntry* ManualDevicesTypeManager::spawnByTypeName(const std::string& typeName, const json& data)
 {
-    for(int i = 0; i < types.size(); ++i)
+    for(std::size_t i = 0; i < types.size(); i++)
     {
         if(types[i].name == typeName)
         {
             return types[i].spawn(data);
         }
     }
+
     return nullptr;
 }
