@@ -13,6 +13,8 @@
 #include "AsusAuraMouseController.h"
 #include "StringUtils.h"
 
+#define HID_MAX_STR 255
+
 AuraMouseController::AuraMouseController(hid_device* dev_handle, const char* path, uint16_t pid)
 {
     dev         = dev_handle;

@@ -19,6 +19,8 @@
 #include "AsusAuraTUFKeyboardController.h"
 #include "StringUtils.h"
 
+#define HID_MAX_STR 128
+
 AuraTUFKeyboardController::AuraTUFKeyboardController(hid_device* dev_handle, const char* path, uint16_t pid, unsigned short version)
 {
     dev         = dev_handle;

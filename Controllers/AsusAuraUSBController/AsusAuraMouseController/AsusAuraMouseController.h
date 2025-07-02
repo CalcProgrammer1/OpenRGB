@@ -17,7 +17,6 @@
 #include "AsusAuraMouseDevices.h"
 
 #define ASUS_AURA_MOUSE_PACKET_SIZE 65
-#define HID_MAX_STR 255
 
 class AuraMouseController
 {
