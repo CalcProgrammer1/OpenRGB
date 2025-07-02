@@ -1,4 +1,4 @@
-﻿/*---------------------------------------------------------*\
+/*---------------------------------------------------------*\
 | OpenRGBDialog.cpp                                         |
 |                                                           |
 |   User interface for OpenRGB main window                  |
@@ -388,6 +388,10 @@ OpenRGBDialog::OpenRGBDialog(QWidget *parent) : QMainWindow(parent), ui(new Ui::
     actionLightsOff->setObjectName("ActionLightsOff");
     connect(actionLightsOff, SIGNAL(triggered()), this, SLOT(on_LightsOff()));
     trayIconMenu->addAction(actionLightsOff);
+
+    QAction* actionReScan = new QAction(tr("Rescan Devices"), this);
+    connect(actionReScan, SIGNAL(triggered()), this, SLOT(on_ButtonRescan_clicked()));
+    trayIconMenu->addAction(actionReScan);
 
     actionExit = new QAction(tr("Exit"), this );
     connect( actionExit, SIGNAL( triggered() ), this, SLOT( on_Exit() ));
