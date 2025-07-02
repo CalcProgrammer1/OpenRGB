@@ -222,7 +222,7 @@ QListWidgetItem* ManualDevicesSettingsPage::addEntry(BaseManualDeviceEntry* entr
     | Validation mostly affects the "Save" button state         |
     \*---------------------------------------------------------*/
     QList<QLineEdit*> textEditList = entry->findChildren<QLineEdit*>(QString(), Qt::FindChildrenRecursively);
-    for(std::size_t i = 0; i < textEditList.size(); i++)
+    for(qsizetype i = 0; i < textEditList.size(); i++)
     {
         connect(textEditList[i], &QLineEdit::textChanged, this, &ManualDevicesSettingsPage::onTextEditChanged);
     }
