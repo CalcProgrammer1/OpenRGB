@@ -1,7 +1,8 @@
 /*---------------------------------------------------------*\
 | RGBController_CorsairVengeance.cpp                        |
 |                                                           |
-|   RGBController for Corsair Vengeance RGB RAM             |
+|   RGBController for original single-zone Corsair          |
+|   Vengeance DDR4 RGB RAM                                  |
 |                                                           |
 |   Adam Honse (CalcProgrammer1)                16 Jun 2019 |
 |                                                           |

@@ -1,7 +1,8 @@
 /*---------------------------------------------------------*\
 | CorsairVengeanceController.h                              |
 |                                                           |
-|   Driver for Corsair Vengeance RGB RAM                    |
+|   Driver for original single-zone Corsair Vengeance DDR4  |
+|   RGB RAM                                                 |
 |                                                           |
 |   Adam Honse (CalcProgrammer1)                08 Mar 2019 |
 |                                                           |

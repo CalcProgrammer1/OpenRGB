@@ -1,7 +1,8 @@
 /*---------------------------------------------------------*\
 | CorsairVengeanceControllerDetect.cpp                      |
 |                                                           |
-|   Detector for Corsair Vengeance RGB RAM                  |
+|   Detector for original single-zone Corsair Vengeance     |
+|   DDR4 RGB RAM                                            |
 |                                                           |
 |   Adam Honse (CalcProgrammer1)                08 Mar 2019 |
 |                                                           |
