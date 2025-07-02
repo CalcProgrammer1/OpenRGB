@@ -63,6 +63,8 @@ enum
 
     NET_PACKET_ID_DEVICE_LIST_UPDATED           = 100,  /* Indicate to clients that device list has updated     */
 
+    NET_PACKET_ID_REQUEST_RESCAN_DEVICES        = 140,  /* Request rescan of devices                            */
+
     NET_PACKET_ID_REQUEST_PROFILE_LIST          = 150,  /* Request profile list                                 */
     NET_PACKET_ID_REQUEST_SAVE_PROFILE          = 151,  /* Save current configuration in a new profile          */
     NET_PACKET_ID_REQUEST_LOAD_PROFILE          = 152,  /* Load a given profile                                 */

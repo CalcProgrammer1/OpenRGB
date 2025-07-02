@@ -668,6 +668,10 @@ void NetworkServer::ListenThreadFunction(NetworkClientInfo * client_info)
                 ProcessRequest_ClientString(client_sock, header.pkt_size, data);
                 break;
 
+            case NET_PACKET_ID_REQUEST_RESCAN_DEVICES:
+                ProcessRequest_RescanDevices();
+                break;
+
             case NET_PACKET_ID_RGBCONTROLLER_RESIZEZONE:
                 if(data == NULL)
                 {
@@ -1044,6 +1048,11 @@ void NetworkServer::ProcessRequest_ClientString(SOCKET client_sock, unsigned int
     | Client info has changed, call the callbacks               |
     \*---------------------------------------------------------*/
     ClientInfoChanged();
+}
+
+void NetworkServer::ProcessRequest_RescanDevices()
+{
+    ResourceManager::get()->DetectDevices();
 }
 
 void NetworkServer::SendReply_ControllerCount(SOCKET client_sock)

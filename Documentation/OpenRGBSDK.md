@@ -51,6 +51,7 @@ The following IDs represent different SDK commands.  Each ID packet has a certai
 | 40    | [NET_PACKET_ID_REQUEST_PROTOCOL_VERSION](#net_packet_id_request_protocol_version)           | Request OpenRGB SDK protocol version from server | 1*               |
 | 50    | [NET_PACKET_ID_SET_CLIENT_NAME](#net_packet_id_set_client_name)                             | Send client name string to server                | 0                |
 | 100   | [NET_PACKET_ID_DEVICE_LIST_UPDATED](#net_packet_id_device_list_updated)                     | Indicate to clients that device list has updated | 1                |
+| 140   | [NET_PACKET_ID_REQUEST_RESCAN_DEVICES](#net_packet_id_request_rescan_devices)               | Request server to rescan devices                 | 5                |
 | 150   | [NET_PACKET_ID_REQUEST_PROFILE_LIST](#net_packet_id_request_profile_list)                   | Request profile list                             | 2                |
 | 151   | [NET_PACKET_ID_REQUEST_SAVE_PROFILE](#net_packet_id_request_save_profile)                   | Save current configuration in a new profile      | 2                |
 | 152   | [NET_PACKET_ID_REQUEST_LOAD_PROFILE](#net_packet_id_request_load_profile)                   | Load a given profile                             | 2                |
@@ -217,6 +218,12 @@ The client uses this ID to send the client's null-terminated name string to the 
 ### Server Only [Size: 0]
 
 The server uses this ID to notify a client that the server's device list has been updated.  Upon receiving this packet, clients should synchronize their local device lists with the server by requesting size and controller data again.  This packet contains no data.
+
+## NET_PACKET_ID_REQUEST_RESCAN_DEVICES
+
+### Client Only [Size: 0]
+
+The client uses this ID to request the server rescan its devices.
 
 ## NET_PACKET_ID_REQUEST_PROFILE_LIST
 
