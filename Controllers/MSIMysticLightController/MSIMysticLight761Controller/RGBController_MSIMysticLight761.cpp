@@ -309,18 +309,12 @@ void RGBController_MSIMysticLight761::DeviceSaveMode()
     controller->Update(true);
 }
 
-
 void RGBController_MSIMysticLight761::SetupModes()
 {
-    constexpr unsigned int PER_LED_ONLY = MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_MANUAL_SAVE;
-    constexpr unsigned int RANDOM_ONLY  = MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_RANDOM_COLOR | MODE_FLAG_MANUAL_SAVE;
-    constexpr unsigned int COMMON       = RANDOM_ONLY | MODE_FLAG_HAS_PER_LED_COLOR;
-
     if(controller->GetSupportedDirectMode() != MSIMysticLight761Controller::DIRECT_MODE_DISABLED)
     {
         SetupMode("Direct",                 MSI_MODE_DIRECT_DUMMY,                  MODE_FLAG_HAS_PER_LED_COLOR);
     }
-
 }
 
 void RGBController_MSIMysticLight761::UpdateLed
@@ -463,5 +457,3 @@ void RGBController_MSIMysticLight761::GetDeviceConfig()
         }
     }
 }
-
-
