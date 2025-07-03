@@ -15,6 +15,8 @@ LIFXSettingsEntry::LIFXSettingsEntry(QWidget *parent) :
     ui(new Ui::LIFXSettingsEntry)
 {
     ui->setupUi(this);
+
+    connect(ui->MultizoneCheckBox, SIGNAL(stateChanged(int)), this, SLOT(on_MultizoneCheckBox_stateChanged(int)));
 }
 
 LIFXSettingsEntry::~LIFXSettingsEntry()
@@ -40,19 +42,42 @@ void LIFXSettingsEntry::loadFromSettings(const json& data)
     {
         ui->NameEdit->setText(QString::fromStdString(data["name"]));
     }
+    if(data.contains("multizone") && data["multizone"].is_boolean())
+    {
+        ui->MultizoneCheckBox->setCheckState(data["multizone"] == true ? Qt::CheckState::Checked : Qt::CheckState::Unchecked);
+    }
+    if(data.contains("extended_multizone") && data["extended_multizone"].is_boolean())
+    {
+        ui->ExtendedMultizoneCheckBox->setCheckState(data["extended_multizone"] == true ? Qt::CheckState::Checked : Qt::CheckState::Unchecked);
+    }
 }
 
 json LIFXSettingsEntry::saveSettings()
 {
     json result;
-    result["ip"] = ui->IPEdit->text().toStdString();
-    result["name"] = ui->NameEdit->text().toStdString();
+    result["ip"]                 = ui->IPEdit->text().toStdString();
+    result["name"]               = ui->NameEdit->text().toStdString();
+    result["multizone"]          = ui->MultizoneCheckBox->checkState() == Qt::Checked;
+    result["extended_multizone"] = ui->ExtendedMultizoneCheckBox->checkState() == Qt::Checked;
     return result;
 }
 
 void LIFXSettingsEntry::setName(QString name)
 {
     ui->NameEdit->setText(name);
+}
+
+void LIFXSettingsEntry::on_MultizoneCheckBox_stateChanged(int checkState)
+{
+    if (checkState == Qt::Checked)
+    {
+        ui->ExtendedMultizoneCheckBox->setEnabled(true);
+    }
+    else
+    {
+        ui->ExtendedMultizoneCheckBox->setEnabled(false);
+        ui->ExtendedMultizoneCheckBox->setCheckState(Qt::Unchecked);
+    }
 }
 
 bool LIFXSettingsEntry::isDataValid()
