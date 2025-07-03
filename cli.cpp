@@ -1408,7 +1408,7 @@ unsigned int cli_pre_detection(int argc, char* argv[])
                 std::this_thread::sleep_for(10ms);
             }
 
-            ResourceManager::get()->GetClients().push_back(client);
+            ResourceManager::get()->RegisterNetworkClient(client);
 
             cfg_args++;
             arg_index++;
