@@ -20,6 +20,7 @@ class SPDWrapper
     SPDWrapper(const SPDDetector &detector);
     ~SPDWrapper();
 
+    uint8_t address();
     SPDMemoryType memory_type();
     int index();
     uint16_t jedec_id();
@@ -27,7 +28,7 @@ class SPDWrapper
 
   private:
     SPDAccessor *accessor = nullptr;
-    uint8_t address;
+    uint8_t addr;
     uint16_t jedec_id_val;
     SPDMemoryType mem_type;
 };

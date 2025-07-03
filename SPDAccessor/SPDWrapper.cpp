@@ -15,7 +15,7 @@ SPDWrapper::SPDWrapper(const SPDWrapper &wrapper)
     {
         this->accessor = wrapper.accessor->copy();
     }
-    this->address = wrapper.address;
+    this->addr = wrapper.addr;
     this->mem_type = wrapper.mem_type;
 
     /*-----------------------------------------------------*\
@@ -35,13 +35,13 @@ SPDWrapper::SPDWrapper(const SPDWrapper &wrapper)
 
 SPDWrapper::SPDWrapper(const SPDDetector &detector)
 {
-    this->address = detector.spd_address();
+    this->addr = detector.spd_address();
     this->mem_type = detector.memory_type();
 
     /*-----------------------------------------------------*\
     | Allocate a new accessor                               |
     \*-----------------------------------------------------*/
-    this->accessor = SPDAccessor::for_memory_type(this->mem_type, detector.smbus(), this->address);
+    this->accessor = SPDAccessor::for_memory_type(this->mem_type, detector.smbus(), this->addr);
 
     /*-----------------------------------------------------*\
     | Read the JEDEC ID and cache its value                 |
@@ -68,9 +68,14 @@ SPDMemoryType SPDWrapper::memory_type()
     return mem_type;
 }
 
+uint8_t SPDWrapper::address()
+{
+    return this->addr;
+}
+
 int SPDWrapper::index()
 {
-    return this->address - 0x50;
+    return this->addr - 0x50;
 }
 
 uint16_t SPDWrapper::jedec_id()
