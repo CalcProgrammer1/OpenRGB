@@ -64,7 +64,7 @@
    <item row="1" column="3" colspan="6">
     <widget class="QTreeWidget" name="ClientTree">
      <property name="columnCount">
-      <number>4</number>
+      <number>5</number>
      </property>
      <column>
       <property name="text">
@@ -79,6 +79,11 @@
      <column>
       <property name="text">
        <string>Save Connection</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string/>
       </property>
      </column>
      <column>
