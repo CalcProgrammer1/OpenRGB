@@ -80,7 +80,7 @@ unix {
     GIT_BRANCH          = $$system(sh scripts/git-get-branch.sh)
 }
 else {
-    GIT_BRANCH          = $$system(pwsh scripts/git-get-branch.ps1)
+    GIT_BRANCH          = $$system(powershell -ExecutionPolicy Bypass -File scripts/git-get-branch.ps1)
 }
 
 message("GIT_BRANCH: "$$GIT_BRANCH)
