@@ -116,13 +116,15 @@ ResourceManager::ResourceManager()
     /*-------------------------------------------------------------------------*\
     | Initialize Detection Variables                                            |
     \*-------------------------------------------------------------------------*/
+    auto_connection_client      = NULL;
+    auto_connection_active      = false;
     detection_enabled           = true;
     detection_percent           = 100;
     detection_string            = "";
     detection_is_required       = false;
     dynamic_detectors_processed = false;
     init_finished               = false;
-    background_thread_running    = true;
+    background_thread_running   = true;
 
     /*-------------------------------------------------------------------------*\
     | Start the background detection thread in advance; it will be suspended    |
@@ -748,40 +750,40 @@ bool ResourceManager::AttemptLocalConnection()
     detection_string  = "Attempting local server connection...";
     DetectionProgressChanged();
 
-    LOG_DEBUG("[ResourceManager] Attempting server connection...");
+    LOG_DEBUG("[ResourceManager] Attempting local server connection...");
 
     bool success = false;
 
-    NetworkClient * client = new NetworkClient(ResourceManager::get()->GetRGBControllers());
+    auto_connection_client = new NetworkClient(ResourceManager::get()->GetRGBControllers());
 
     std::string titleString = "OpenRGB ";
     titleString.append(VERSION_STRING);
 
-    client->SetName(titleString.c_str());
-    client->StartClient();
+    auto_connection_client->SetName(titleString.c_str());
+    auto_connection_client->StartClient();
 
     for(int timeout = 0; timeout < 10; timeout++)
     {
-        if(client->GetConnected())
+        if(auto_connection_client->GetConnected())
         {
             break;
         }
         std::this_thread::sleep_for(5ms);
     }
 
-    if(!client->GetConnected())
+    if(!auto_connection_client->GetConnected())
     {
         LOG_TRACE("[ResourceManager] Client failed to connect");
-        client->StopClient();
+        auto_connection_client->StopClient();
         LOG_TRACE("[ResourceManager] Client stopped");
 
-        delete client;
+        delete auto_connection_client;
 
-        client = NULL;
+        auto_connection_client = NULL;
     }
     else
     {
-        ResourceManager::get()->RegisterNetworkClient(client);
+        ResourceManager::get()->RegisterNetworkClient(auto_connection_client);
         LOG_TRACE("[ResourceManager] Registered network client");
 
         success = true;
@@ -792,7 +794,7 @@ bool ResourceManager::AttemptLocalConnection()
         \*-----------------------------------------------------*/
         for(int timeout = 0; timeout < 1000; timeout++)
         {
-            if(client->GetOnline())
+            if(auto_connection_client->GetOnline())
             {
                 break;
             }
@@ -980,6 +982,35 @@ void ResourceManager::DetectDevices()
     {
         ProcessPostDetection();
     }
+}
+
+void ResourceManager::RescanDevices()
+{
+    /*-----------------------------------------------------*\
+    | If automatic local connection is active, the primary  |
+    | instance is the local server, so send rescan requests |
+    | to the automatic local connection client              |
+    \*-----------------------------------------------------*/
+    if(auto_connection_active && auto_connection_client != NULL)
+    {
+        auto_connection_client->SendRequest_RescanDevices();
+    }
+
+    /*-----------------------------------------------------*\
+    | If detection is disabled and there is exactly one     |
+    | client, the primary instance is the connected server, |
+    | so send rescan requests to the first (and only)       |
+    | client                                                |
+    \*-----------------------------------------------------*/
+    else if(!detection_enabled && clients.size() == 1)
+    {
+        clients[0]->SendRequest_RescanDevices();
+    }
+
+    /*-----------------------------------------------------*\
+    | Perform local rescan                                  |
+    \*-----------------------------------------------------*/
+    DetectDevices();
 }
 
 void ResourceManager::ProcessPostDetection()
@@ -1673,26 +1704,36 @@ void ResourceManager::Initialize(bool tryConnect, bool detectDevices, bool start
 
 void ResourceManager::InitCoroutine()
 {
+    /*---------------------------------------------------------*\
+    | If enabled, try connecting to local server instead of     |
+    | detecting devices from this instance of OpenRGB           |
+    \*---------------------------------------------------------*/
     if(tryAutoConnect)
     {
         detection_percent = 0;
         detection_string  = "Attempting server connection...";
         DetectionProgressChanged();
 
-        // Disable detection if a local server was found
+        /*-----------------------------------------------------*\
+        | Attempt connection to local server                    |
+        \*-----------------------------------------------------*/
         if(AttemptLocalConnection())
         {
+            LOG_DEBUG("[ResourceManager] Local OpenRGB server connected, running in client mode");
+
+            /*-------------------------------------------------*\
+            | Set auto connection active flag and disable       |
+            | detection if the local server was connected       |
+            \*-------------------------------------------------*/
+            auto_connection_active = true;
             DisableDetection();
         }
-        else
-        {
-            LOG_DEBUG("[ResourceManager] Local OpenRGB server connected, running in client mode");
-        }
+
         tryAutoConnect = false;
     }
 
     /*---------------------------------------------------------*\
-    | Perform actual detection                                  |
+    | Perform actual detection if enabled                       |
     | Done in the same thread (InitThread), as we need to wait  |
     | for completion anyway                                     |
     \*---------------------------------------------------------*/
@@ -1710,6 +1751,9 @@ void ResourceManager::InitCoroutine()
         ProcessPostDetection();
     }
 
+    /*---------------------------------------------------------*\
+    | Start server if requested                                 |
+    \*---------------------------------------------------------*/
     if(start_server)
     {
         detection_percent = 100;

@@ -185,6 +185,8 @@ public:
 
     void DisableDetection();
 
+    void RescanDevices();
+
     void StopDeviceDetection();
 
     void WaitForInitialization();
@@ -222,6 +224,16 @@ private:
     | Detection enabled flag                                                                |
     \*-------------------------------------------------------------------------------------*/
     bool                                        detection_enabled;
+
+    /*-------------------------------------------------------------------------------------*\
+    | Auto connection active flag                                                           |
+    \*-------------------------------------------------------------------------------------*/
+    bool                                        auto_connection_active;
+
+    /*-------------------------------------------------------------------------------------*\
+    | Auto connection client pointer                                                        |
+    \*-------------------------------------------------------------------------------------*/
+    NetworkClient *                             auto_connection_client;
 
     /*-------------------------------------------------------------------------------------*\
     | Auto connection permitting flag                                                       |

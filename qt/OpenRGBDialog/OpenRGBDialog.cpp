@@ -1714,9 +1714,9 @@ void OpenRGBDialog::SaveProfileAs()
 void OpenRGBDialog::on_ButtonRescan_clicked()
 {
     /*---------------------------------------------------------*\
-    | Show the detection progress bar.                          |
+    | Rescan devices in ResourceManager                         |
     \*---------------------------------------------------------*/
-    ResourceManager::get()->DetectDevices();
+    ResourceManager::get()->RescanDevices();
 }
 
 void OpenRGBDialog::on_ActionSaveProfile_triggered()
