@@ -30,7 +30,8 @@ enum
 enum
 {
     LOGITECH_G915_ZONE_FRAME_TYPE_LITTLE    = 0x1F,
-    LOGITECH_G915_ZONE_FRAME_TYPE_BIG       = 0x6F
+    LOGITECH_G915_ZONE_FRAME_TYPE_BIG       = 0x6F,
+    LOGITECH_G915_ZONE_FRAME_TYPE_MODE      = 0x1E
 };
 
 enum
@@ -93,7 +94,8 @@ public:
     void        SetDirect
                     (
                     unsigned char       frame_type,
-                    unsigned char *     frame_data
+                    unsigned char *     frame_data,
+                    size_t              length
                     );
     void        SendSingleLed
                     (
@@ -123,7 +125,8 @@ private:
     void        SendDirectFrame
                     (
                     unsigned char       frame_type,
-                    unsigned char *     frame_data
+                    unsigned char *     frame_data,
+                    size_t              length
                     );
 
     void        SendMode

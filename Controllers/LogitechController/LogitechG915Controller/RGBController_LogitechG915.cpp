@@ -16,8 +16,9 @@
 #include "RGBController_LogitechG915.h"
 
 #define NA  0xFFFFFFFF
-const size_t max_key_per_color  = 13;
-const size_t data_size          = 16;
+const size_t DATA_FRAME_SIZE        = 16;
+const size_t BIG_FRAME_MAX_KEYS     = 13;
+const size_t LITTLE_FRAME_MAX_KEYS  = 4;
 
 static unsigned int matrix_map[7][27] =
     { {  93, NA,  NA,  NA, NA, NA, NA, NA, NA, NA, 94, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA,  NA,  NA,  NA,  NA },
@@ -178,6 +179,90 @@ static const led_type led_names[] =
     { "Key: G4",                LOGITECH_G915_ZONE_MODE_GKEYS,          0x04    },
     { "Key: G5",                LOGITECH_G915_ZONE_MODE_GKEYS,          0x05    },
 };
+
+/*--------------------------------------*\
+| Small dataframe                        |
+| Contains a max of 4 <key, color> pairs |
+\*--------------------------------------*/
+struct LittleFrame
+{
+    std::pair<RGBColor, char> color_key[LITTLE_FRAME_MAX_KEYS];
+    size_t len = 0;
+};
+
+/*--------------------------------------*\
+| Small dataframe                        |
+| Contains 1 color for max 13 keys       |
+\*--------------------------------------*/
+struct BigFrame
+{
+    RGBColor color;
+    char keys[BIG_FRAME_MAX_KEYS];
+    size_t len = 0;
+};
+
+/*-------------------------------------------*\
+| Add termination byte and zero out rest      |
+\*-------------------------------------------*/
+void terminate_buffer(unsigned char buf[DATA_FRAME_SIZE], size_t idx)
+{
+    memset(&buf[idx], 0x00, DATA_FRAME_SIZE - idx);
+    buf[idx] = 0xFF;
+}
+
+/*-------------------------------------------*\
+| small frame: [KEY, R, G, B]                 |
+| If less than 4 keys, terminate using 0xFF   |
+\*-------------------------------------------*/
+size_t populate_little_frame_data(unsigned char buf[DATA_FRAME_SIZE], const LittleFrame& frame)
+{
+    if(frame.len == 0)
+    {
+        return 0;
+    }
+
+    for(size_t i = 0; i < frame.len && i < LITTLE_FRAME_MAX_KEYS; i++)
+    {
+        buf[4 * i + 0] = frame.color_key[i].second;
+        buf[4 * i + 1] = RGBGetRValue(frame.color_key[i].first);
+        buf[4 * i + 2] = RGBGetGValue(frame.color_key[i].first);
+        buf[4 * i + 3] = RGBGetBValue(frame.color_key[i].first);
+    }
+
+    if(frame.len < LITTLE_FRAME_MAX_KEYS)
+    {
+        terminate_buffer(buf, 4 * frame.len);
+        return 4 * frame.len + 1; // termination byte
+    }
+    return DATA_FRAME_SIZE;
+}
+
+/*-------------------------------------------------*\
+| Large frame: [R, G, B, Key0, Key1, ..., Key12]    |
+| If less than 13 keys, terminate using 0xFF        |
+\*--------------------------------------------------*/
+size_t populate_big_frame_data(unsigned char buf[DATA_FRAME_SIZE], const BigFrame& frame)
+{
+    if(frame.len == 0)
+    {
+        return 0;
+    }
+
+    buf[0] = RGBGetRValue(frame.color);
+    buf[1] = RGBGetGValue(frame.color);
+    buf[2] = RGBGetBValue(frame.color);
+    for(size_t i = 0; i < frame.len && i < BIG_FRAME_MAX_KEYS; i++)
+    {
+        buf[i + 3] = frame.keys[i];
+    }
+
+    if(frame.len < BIG_FRAME_MAX_KEYS)
+    {
+        terminate_buffer(buf, frame.len + 3);
+        return frame.len + 4; // color + termination byte
+    }
+    return DATA_FRAME_SIZE;
+}
 
 /**------------------------------------------------------------------*\
     @name Logitech G915
@@ -375,8 +460,6 @@ void RGBController_LogitechG915::DeviceUpdateLEDs()
     std::vector<RGBColor>   new_colors;
     unsigned char zone      = 0;
     unsigned char idx       = 0;
-    unsigned char frame_buffer_big_mode[data_size];
-    unsigned char frame_buffer_little_mode[data_size];
     RGBColor colorkey;
 
     /*---------------------------------------------------------*\
@@ -434,10 +517,23 @@ void RGBController_LogitechG915::DeviceUpdateLEDs()
         ledsByColors[colorkey].push_back(idx);
     }
 
-    uint8_t led_in_little_frame = 0;
-    uint8_t bi                  = 0;
-    size_t frame_pos            = 3;
-    uint8_t li                  = 0;
+    /*-------------------------------------------------*\
+    | Nothing to do, we can skip rest of work           |
+    \*-------------------------------------------------*/
+    if(ledsByColors.size() == 0)
+    {
+        return;
+    }
+
+    /*-----------------------------------------------------*\
+    | Copy the current color vector to avoid set keys that  |
+    | have not changed                                      |
+    \*-----------------------------------------------------*/
+    std::copy(new_colors.begin(), new_colors.end(),current_colors.begin());
+
+    std::vector<LittleFrame> little_frames;
+    std::vector<BigFrame> big_frames;
+    LittleFrame cur_small;
 
     /*---------------------------------------------------------*\
     | Create frame_buffers of type 1F (Little, up to 4 leds     |
@@ -445,109 +541,71 @@ void RGBController_LogitechG915::DeviceUpdateLEDs()
     \*---------------------------------------------------------*/
     for(std::pair<const RGBColor, std::vector<char>>& x: ledsByColors)
     {
-        /*-----------------------------------------------------*\
-        | For colors with more than 4 keys. Better to use big   |
-        | (6F) packets to save USB transfers.                   |
-        \*-----------------------------------------------------*/
-        if(x.second.size() > 4)
+        for(size_t bi = 0; bi < x.second.size(); bi += BIG_FRAME_MAX_KEYS)
         {
-            bi = 0;
+            size_t n_colors_left = x.second.size() - bi;
 
-            while(bi < x.second.size())
+            /*-----------------------------------------------------*\
+            | For colors with more than 4 keys. Better to use big   |
+            | (6F) packets to save USB transfers.                   |
+            \*-----------------------------------------------------*/
+            if(n_colors_left > 4)
             {
-                frame_buffer_big_mode[0] = RGBGetRValue(x.first);
-                frame_buffer_big_mode[1] = RGBGetGValue(x.first);
-                frame_buffer_big_mode[2] = RGBGetBValue(x.first);
-                frame_pos                = 3;
+                BigFrame b_frame;
+                b_frame.color = x.first;
 
-                for(uint8_t i = 0; i < max_key_per_color; i++)
+                for(size_t i = 0; i < BIG_FRAME_MAX_KEYS && i < n_colors_left; i++)
                 {
-                    if((bi + i) < (uint8_t)x.second.size())
+                    b_frame.keys[i] = x.second[bi + i];
+                    b_frame.len++;
+                }
+                big_frames.push_back(b_frame);
+            }
+            /*-----------------------------------------------------*\
+            | For colors with up to 4 keys. Use 1F packet to send   |
+            | up to 4 colors-keys combinations per packet.          |
+            \*-----------------------------------------------------*/
+            else
+            {
+                for(size_t li = 0; li < n_colors_left; li++)
+                {
+                    cur_small.color_key[cur_small.len] = std::make_pair(x.first, x.second[bi + li]);
+                    cur_small.len++;
+                    /*-------------------------------*\
+                    | Frame is full, create a new one |
+                    \*-------------------------------*/
+                    if(cur_small.len >= LITTLE_FRAME_MAX_KEYS)
                     {
-                        frame_buffer_big_mode[frame_pos] = x.second[bi+i];
-                        frame_pos++;
+                        little_frames.push_back(std::move(cur_small));
+                        cur_small = LittleFrame();
                     }
                 }
-
-                if(frame_pos < data_size)
-                {
-                    /*-----------------------------------------*\
-                    | Zeroing just what is needed and if needed |
-                    \*-----------------------------------------*/
-                    memset(frame_buffer_big_mode + frame_pos, 0x00, sizeof(frame_buffer_big_mode) - frame_pos);
-
-                    /*-----------------------------------------*\
-                    | End of Data byte                          |
-                    \*-----------------------------------------*/
-                    frame_buffer_big_mode[frame_pos] = 0xFF;
-                }
-
-                /*-----------------------------------------------------*\
-                | Zeroing just what is needed                           |
-                \*-----------------------------------------------------*/
-                controller->SetDirect(LOGITECH_G915_ZONE_FRAME_TYPE_BIG, frame_buffer_big_mode);
-                bi = bi + max_key_per_color;
-            }
-        }
-        /*-----------------------------------------------------*\
-        | For colors with up to 4 keys. Use 1F packet to send   |
-        | up to 4 colors-keys combinations per packet.          |
-        \*-----------------------------------------------------*/
-        else
-        {
-            li = 0;
-
-            while(li < x.second.size())
-            {
-                frame_buffer_little_mode[led_in_little_frame*4 + 0] = x.second[li];
-                frame_buffer_little_mode[led_in_little_frame*4 + 1] = RGBGetRValue(x.first);
-                frame_buffer_little_mode[led_in_little_frame*4 + 2] = RGBGetGValue(x.first);
-                frame_buffer_little_mode[led_in_little_frame*4 + 3] = RGBGetBValue(x.first);
-                li++;
-                led_in_little_frame++;
-
-                if(led_in_little_frame == 4)
-                {
-                    /*-----------------------------------------*\
-                    | No End of Data byte if the packet is full |
-                    \*-----------------------------------------*/
-                    controller->SetDirect(LOGITECH_G915_ZONE_FRAME_TYPE_LITTLE, frame_buffer_little_mode);
-                    led_in_little_frame=0;
-                }
             }
         }
     }
 
-    /*---------------------------------------------------------*\
-    | If there is a left 1F packet with less than 4 keys, send  |
-    | it and add an End of Data byte.                           |
-    \*---------------------------------------------------------*/
-    if(led_in_little_frame > 0)
+    /*-------------------------------*\
+    | Move leftover small frame       |
+    \*-------------------------------*/
+    if(cur_small.len > 0)
     {
-        /*-----------------------------------------------------*\
-        | Zeroing just what is needed                           |
-        \*-----------------------------------------------------*/
-        memset(frame_buffer_little_mode + (led_in_little_frame * 4 - 1), 0x00, sizeof(frame_buffer_little_mode) - led_in_little_frame * 4);
-
-        /*-----------------------------------------------------*\
-        | Data byte                                             |
-        \*-----------------------------------------------------*/
-        frame_buffer_little_mode[led_in_little_frame*4 + 0] = 0xFF;
-
-        /*-----------------------------------------------------*\
-        | Send little frame and clear little frame buffer       |
-        \*-----------------------------------------------------*/
-        controller->SetDirect(LOGITECH_G915_ZONE_FRAME_TYPE_LITTLE, frame_buffer_little_mode);
+        little_frames.push_back(std::move(cur_small));
     }
-    if(ledsByColors.size() > 0)
+
+    unsigned char frame_buffer[DATA_FRAME_SIZE];
+    for(const BigFrame& frame : big_frames)
     {
-        /*-----------------------------------------------------*\
-        | Copy the current color vector to avoid set keys that  |
-        | has not being                                         |
-        \*-----------------------------------------------------*/
-        controller->Commit();
-        std::copy(new_colors.begin(), new_colors.end(),current_colors.begin());
+        size_t length = populate_big_frame_data(frame_buffer, frame);
+        controller->SetDirect(LOGITECH_G915_ZONE_FRAME_TYPE_BIG, frame_buffer, length);
     }
+
+    for(const LittleFrame& frame : little_frames)
+    {
+        size_t length = populate_little_frame_data(frame_buffer, frame);
+        controller->SetDirect(LOGITECH_G915_ZONE_FRAME_TYPE_LITTLE, frame_buffer, length);
+    }
+
+    controller->Commit();
 }
 
 void RGBController_LogitechG915::UpdateZoneLEDs(int /*zone*/)
