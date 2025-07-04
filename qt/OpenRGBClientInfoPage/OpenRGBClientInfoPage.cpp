@@ -96,10 +96,10 @@ void OpenRGBClientInfoPage::UpdateInfo()
     ui->ClientTree->setColumnCount(5);
     ui->ClientTree->header()->setStretchLastSection(false);
     ui->ClientTree->header()->setSectionResizeMode(0, QHeaderView::Stretch);
-    ui->ClientTree->setColumnWidth(1, 100);
-    ui->ClientTree->setColumnWidth(2, 100);
-    ui->ClientTree->setColumnWidth(3, 100);
-    ui->ClientTree->setColumnWidth(4, 100);
+    ui->ClientTree->setColumnWidth(1, 140);
+    ui->ClientTree->setColumnWidth(2, 140);
+    ui->ClientTree->setColumnWidth(3, 140);
+    ui->ClientTree->setColumnWidth(4, 140);
 
     /*-----------------------------------------------------*\
     | Set up signal mappers to handle buttons               |
