@@ -150,6 +150,13 @@ static void DeletePluginCallback(void * this_ptr, OpenRGBPluginEntry* plugin)
     this_obj->RemovePlugin(plugin);
 }
 
+static void DetectionStartedCallback(void * this_ptr)
+{
+    OpenRGBDialog * this_obj = (OpenRGBDialog *)this_ptr;
+
+    QMetaObject::invokeMethod(this_obj, "onDetectionStarted", Qt::QueuedConnection);
+}
+
 static void DetectionEndedCallback(void * this_ptr)
 {
     OpenRGBDialog * this_obj = (OpenRGBDialog *)this_ptr;
@@ -164,7 +171,6 @@ static void DialogShowCallback(void * this_ptr, PLogMessage msg)
     this_obj->SetDialogMessage(msg);
     QMetaObject::invokeMethod(this_obj, "onShowDialogMessage", Qt::QueuedConnection);
 }
-
 
 bool OpenRGBDialog::IsMinimizeOnClose()
 {
@@ -306,6 +312,7 @@ OpenRGBDialog::OpenRGBDialog(QWidget *parent) : QMainWindow(parent), ui(new Ui::
     \*-----------------------------------------------------*/
     ResourceManager::get()->RegisterDetectionProgressCallback(UpdateDetectionProgressCallback, this);
     ResourceManager::get()->RegisterDeviceListChangeCallback(UpdateDeviceListCallback, this);
+    ResourceManager::get()->RegisterDetectionStartCallback(DetectionStartedCallback, this);
     ResourceManager::get()->RegisterDetectionEndCallback(DetectionEndedCallback, this);
 
     /*-----------------------------------------------------*\
@@ -1294,6 +1301,26 @@ void OpenRGBDialog::onDetectionProgressUpdated()
     }
 }
 
+void OpenRGBDialog::onDetectionStarted()
+{
+    /*---------------------------------------------------------*\
+    | Hide devices view on rescan so it stops handling paint    |
+    | events.                                                   |
+    | Memorize previous value of device_view_showing and        |
+    | restore it.                                               |
+    \*---------------------------------------------------------*/
+    bool device_view_showing_prev = device_view_showing;
+
+    HideLEDView();
+
+    device_view_showing = device_view_showing_prev;
+
+    /*---------------------------------------------------------*\
+    | Show the detection progress bar.                          |
+    \*---------------------------------------------------------*/
+    SetDetectionViewState(true);
+}
+
 void OpenRGBDialog::onDetectionEnded()
 {
     /*-------------------------------------------------------*\
@@ -1686,23 +1713,6 @@ void OpenRGBDialog::SaveProfileAs()
 
 void OpenRGBDialog::on_ButtonRescan_clicked()
 {
-    /*---------------------------------------------------------*\
-    | Hide devices view on rescan so it stops handling paint    |
-    | events.                                                   |
-    | Memorize previous value of device_view_showing and        |
-    | restore it.                                               |
-    \*---------------------------------------------------------*/
-    bool device_view_showing_prev = device_view_showing;
-
-    HideLEDView();
-
-    device_view_showing = device_view_showing_prev;
-
-    /*---------------------------------------------------------*\
-    | Show the detection progress bar.                          |
-    \*---------------------------------------------------------*/
-    SetDetectionViewState(true);
-
     /*---------------------------------------------------------*\
     | Show the detection progress bar.                          |
     \*---------------------------------------------------------*/

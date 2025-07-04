@@ -148,6 +148,7 @@ private slots:
     void on_QuickWhite();
     void onDeviceListUpdated();
     void onDetectionProgressUpdated();
+    void onDetectionStarted();
     void onDetectionEnded();
     void on_SetAllDevices(unsigned char red, unsigned char green, unsigned char blue);
     void on_SaveSizeProfile();
