@@ -762,6 +762,17 @@ void NetworkClient::SendRequest_ProtocolVersion()
     send_in_progress.unlock();
 }
 
+void NetworkClient::SendRequest_RescanDevices()
+{
+    NetPacketHeader request_hdr;
+
+    InitNetPacketHeader(&request_hdr, 0, NET_PACKET_ID_REQUEST_RESCAN_DEVICES, 0);
+
+    send_in_progress.lock();
+    send(client_sock, (char *)&request_hdr, sizeof(NetPacketHeader), MSG_NOSIGNAL);
+    send_in_progress.unlock();
+}
+
 void NetworkClient::SendRequest_RGBController_ClearSegments(unsigned int dev_idx, int zone)
 {
     if(change_in_progress)
