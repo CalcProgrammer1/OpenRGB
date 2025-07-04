@@ -31,12 +31,18 @@ using namespace std::chrono_literals;
 
 NetworkClient::NetworkClient(std::vector<RGBController *>& control) : controllers(control)
 {
-    port_ip                 = "127.0.0.1";
-    port_num                = OPENRGB_SDK_PORT;
-    client_sock             = -1;
-    server_connected        = false;
-    server_controller_count = 0;
-    change_in_progress      = false;
+    port_ip                             = "127.0.0.1";
+    port_num                            = OPENRGB_SDK_PORT;
+    client_string_sent                  = false;
+    client_sock                         = -1;
+    protocol_initialized                = false;
+    server_connected                    = false;
+    server_controller_count             = 0;
+    server_controller_count_requested   = false;
+    server_controller_count_received    = false;
+    server_protocol_version             = 0;
+    server_reinitialize                 = false;
+    change_in_progress                  = false;
 
     ListenThread            = NULL;
     ConnectionThread        = NULL;
@@ -103,7 +109,7 @@ bool NetworkClient::GetConnected()
 
 bool NetworkClient::GetOnline()
 {
-    return(server_connected && server_initialized);
+    return(server_connected && client_string_sent && protocol_initialized && server_initialized);
 }
 
 void NetworkClient::RegisterClientInfoChangeCallback(NetClientCallback new_callback, void * new_callback_arg)
@@ -210,8 +216,6 @@ void NetworkClient::StopClient()
 
 void NetworkClient::ConnectionThreadFunction()
 {
-    unsigned int requested_controllers;
-
     std::unique_lock<std::mutex> lock(connection_mutex);
 
     /*---------------------------------------------------------*\
@@ -263,127 +267,149 @@ void NetworkClient::ConnectionThreadFunction()
         /*-------------------------------------------------------------*\
         | Double-check client_active as it could have changed           |
         \*-------------------------------------------------------------*/
-        if(client_active && server_initialized == false && server_connected == true)
+        if(client_active && ( protocol_initialized == false || client_string_sent == false || server_initialized == false ) && server_connected == true)
         {
-            unsigned int timeout_counter     = 0;
-            requested_controllers            = 0;
-            server_controller_count          = 0;
-            server_controller_count_received = false;
-            server_protocol_version_received = false;
-
             /*---------------------------------------------------------*\
-            | Wait for server to connect                                |
+            | Initialize protocol version if it hasn't already been     |
+            | initialized                                               |
             \*---------------------------------------------------------*/
-            connection_cv.wait_for(lock, 100ms);
-            if(!client_active)
+            if(!protocol_initialized)
             {
-                break;
-            }
+                /*-----------------------------------------------------*\
+                | Request protocol version                              |
+                \*-----------------------------------------------------*/
+                SendRequest_ProtocolVersion();
 
-            /*---------------------------------------------------------*\
-            | Request protocol version                                  |
-            \*---------------------------------------------------------*/
-            SendRequest_ProtocolVersion();
+                /*-----------------------------------------------------*\
+                | Wait up to 1s for protocol version reply              |
+                \*-----------------------------------------------------*/
+                unsigned int timeout_counter = 0;
 
-            /*---------------------------------------------------------*\
-            | Wait up to 1s for protocol version reply                  |
-            \*---------------------------------------------------------*/
-            while(!server_protocol_version_received)
-            {
-                connection_cv.wait_for(lock, 5ms);
-                if(!client_active)
-                {
-                    break;
-                }
-
-                timeout_counter++;
-
-                /*---------------------------------------------------------*\
-                | If no protocol version received within 1s, assume the     |
-                | server doesn't support protocol versioning and use        |
-                | protocol version 0                                        |
-                \*---------------------------------------------------------*/
-                if(timeout_counter > 200)
-                {
-                    server_protocol_version          = 0;
-                    server_protocol_version_received = true;
-                }
-            }
-
-            /*---------------------------------------------------------*\
-            | Once server is connected, send client string              |
-            \*---------------------------------------------------------*/
-            SendData_ClientString();
-
-            /*---------------------------------------------------------*\
-            | Request number of controllers                             |
-            \*---------------------------------------------------------*/
-            SendRequest_ControllerCount();
-
-            /*---------------------------------------------------------*\
-            | Wait for server controller count                          |
-            \*---------------------------------------------------------*/
-            while(!server_controller_count_received)
-            {
-                connection_cv.wait_for(lock, 5ms);
-                if(!client_active)
-                {
-                    break;
-                }
-            }
-
-            printf("Client: Received controller count from server: %d\r\n", server_controller_count);
-
-            /*---------------------------------------------------------*\
-            | Once count is received, request controllers               |
-            \*---------------------------------------------------------*/
-            while(requested_controllers < server_controller_count)
-            {
-                printf("Client: Requesting controller %d\r\n", requested_controllers);
-
-                controller_data_received = false;
-                SendRequest_ControllerData(requested_controllers);
-
-                /*---------------------------------------------------------*\
-                | Wait until controller is received                         |
-                \*---------------------------------------------------------*/
-                while(controller_data_received == false)
+                while(!server_protocol_version_received)
                 {
                     connection_cv.wait_for(lock, 5ms);
                     if(!client_active)
                     {
                         break;
                     }
+
+                    timeout_counter++;
+
+                    /*-------------------------------------------------*\
+                    | If no protocol version received within 1s, assume |
+                    | the server doesn't support protocol versioning    |
+                    | and use protocol version 0                        |
+                    \*-------------------------------------------------*/
+                    if(timeout_counter > 200)
+                    {
+                        server_protocol_version          = 0;
+                        server_protocol_version_received = true;
+                    }
                 }
 
-                requested_controllers++;
+                protocol_initialized = true;
             }
 
-            ControllerListMutex.lock();
-
             /*---------------------------------------------------------*\
-            | All controllers received, add them to master list         |
+            | Send client string if it hasn't already been sent         |
             \*---------------------------------------------------------*/
-            printf("Client: All controllers received, adding them to master list\r\n");
-            for(std::size_t controller_idx = 0; controller_idx < server_controllers.size(); controller_idx++)
+            if(!client_string_sent)
             {
-                controllers.push_back(server_controllers[controller_idx]);
+                /*-----------------------------------------------------*\
+                | Once server is connected, send client string          |
+                \*-----------------------------------------------------*/
+                SendData_ClientString();
+
+                client_string_sent = true;
             }
 
-            ControllerListMutex.unlock();
+            /*---------------------------------------------------------*\
+            | Initialize the server device list if it hasn't already    |
+            | been initialized                                          |
+            \*---------------------------------------------------------*/
+            if(!server_initialized)
+            {
+                /*-----------------------------------------------------*\
+                | Request the server controller count                   |
+                \*-----------------------------------------------------*/
+                if(!server_controller_count_requested)
+                {
+                    SendRequest_ControllerCount();
 
-            server_initialized = true;
+                    server_controller_count_requested = true;
+                }
+                else
+                {
+                    /*-------------------------------------------------*\
+                    | Wait for the server controller count to be        |
+                    | received                                          |
+                    \*-------------------------------------------------*/
+                    if(server_controller_count_received)
+                    {
+                        /*---------------------------------------------*\
+                        | Once count is received, request controllers   |
+                        | When data is received, increment count of     |
+                        | requested controllers until all controllers   |
+                        | have been received                            |
+                        \*---------------------------------------------*/
+                        if(requested_controllers < server_controller_count)
+                        {
+                            if(!controller_data_requested)
+                            {
+                                printf("Client: Requesting controller %d\r\n", requested_controllers);
+
+                                controller_data_received = false;
+                                SendRequest_ControllerData(requested_controllers);
+
+                                controller_data_requested = true;
+                            }
+
+                            if(controller_data_received)
+                            {
+                                requested_controllers++;
+                                controller_data_requested = false;
+                            }
+                        }
+                        else
+                        {
+                            ControllerListMutex.lock();
+
+                            /*-----------------------------------------*\
+                            | All controllers received, add them to     |
+                            | master list                               |
+                            \*-----------------------------------------*/
+                            printf("Client: All controllers received, adding them to master list\r\n");
+                            for(std::size_t controller_idx = 0; controller_idx < server_controllers.size(); controller_idx++)
+                            {
+                                controllers.push_back(server_controllers[controller_idx]);
+                            }
+
+                            ControllerListMutex.unlock();
+
+                            /*-----------------------------------------*\
+                            | Client info has changed, call the         |
+                            | callbacks                                 |
+                            \*-----------------------------------------*/
+                            ClientInfoChanged();
+
+                            server_initialized = true;
+                        }
+                    }
+                }
+            }
 
             /*---------------------------------------------------------*\
-            | Client info has changed, call the callbacks               |
+            | Wait 1 ms or until the thread is requested to stop        |
             \*---------------------------------------------------------*/
-            ClientInfoChanged();
+            connection_cv.wait_for(lock, 1ms);
         }
-
-        /*---------------------------------------------------------*\
-        | Wait 1 sec or until the thread is requested to stop       |
-        \*---------------------------------------------------------*/
-        connection_cv.wait_for(lock, 1s);
+        else
+        {
+            /*---------------------------------------------------------*\
+            | Wait 1 sec or until the thread is requested to stop       |
+            \*---------------------------------------------------------*/
+            connection_cv.wait_for(lock, 1s);
+        }
     }
 }
 
@@ -524,8 +550,16 @@ void NetworkClient::ListenThreadFunction()
 
 listen_done:
     printf( "Client socket has been closed");
-    server_initialized = false;
-    server_connected = false;
+    client_string_sent                  = false;
+    controller_data_requested           = false;
+    controller_data_received            = false;
+    protocol_initialized                = false;
+    requested_controllers               = 0;
+    server_controller_count             = 0;
+    server_controller_count_requested   = false;
+    server_controller_count_received    = false;
+    server_initialized                  = false;
+    server_connected                    = false;
 
     ControllerListMutex.lock();
 
@@ -577,7 +611,12 @@ void NetworkClient::ProcessReply_ControllerCount(unsigned int data_size, char * 
     if(data_size == sizeof(unsigned int))
     {
         memcpy(&server_controller_count, data, sizeof(unsigned int));
-        server_controller_count_received = true;
+
+        server_controller_count_received    = true;
+        requested_controllers               = 0;
+        controller_data_requested           = false;
+
+        printf("Client: Received controller count from server: %d\r\n", server_controller_count);
     }
 }
 
@@ -642,6 +681,9 @@ void NetworkClient::ProcessRequest_DeviceListChanged()
 {
     change_in_progress = true;
 
+    /*---------------------------------------------------------*\
+    | Delete all controllers from the server's controller list  |
+    \*---------------------------------------------------------*/
     ControllerListMutex.lock();
 
     for(size_t server_controller_idx = 0; server_controller_idx < server_controllers.size(); server_controller_idx++)
@@ -673,9 +715,17 @@ void NetworkClient::ProcessRequest_DeviceListChanged()
     ClientInfoChanged();
 
     /*---------------------------------------------------------*\
-    | Mark server as uninitialized and delete the list          |
+    | Mark server as uninitialized and reset server             |
+    | initialization state so that it restarts the list         |
+    | requesting process                                        |
     \*---------------------------------------------------------*/
-    server_initialized = false;
+    controller_data_requested           = false;
+    controller_data_received            = false;
+    requested_controllers               = 0;
+    server_controller_count             = 0;
+    server_controller_count_requested   = false;
+    server_controller_count_received    = false;
+    server_initialized                  = false;
 
     change_in_progress = false;
 }
