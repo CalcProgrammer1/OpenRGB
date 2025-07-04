@@ -173,18 +173,22 @@ void OpenRGBClientInfoPage::UpdateInfo()
         signalMapperSave->setMapping(checkbox_save, arg_save);
 
         /*-----------------------------------------------------*\
-        | Create the rescan button                              |
+        | Create the rescan button if protocol version is 5 or  |
+        | greater                                               |
         \*-----------------------------------------------------*/
-        QPushButton* button_rescan              = new QPushButton(tr("Rescan Devices"));
-        ui->ClientTree->setItemWidget(new_top_item, 3, button_rescan);
+        if(ResourceManager::get()->GetClients()[client_idx]->GetProtocolVersion() >= 5)
+        {
+            QPushButton* button_rescan              = new QPushButton(tr("Rescan Devices"));
+            ui->ClientTree->setItemWidget(new_top_item, 3, button_rescan);
 
-        connect(button_rescan, SIGNAL(clicked()), signalMapperRescan, SLOT(map()));
+            connect(button_rescan, SIGNAL(clicked()), signalMapperRescan, SLOT(map()));
 
-        NetworkClientPointer * arg_rescan       = new NetworkClientPointer();
-        arg_rescan->net_client                  = ResourceManager::get()->GetClients()[client_idx];
-        arg_rescan->widget                      = button_rescan;
+            NetworkClientPointer * arg_rescan       = new NetworkClientPointer();
+            arg_rescan->net_client                  = ResourceManager::get()->GetClients()[client_idx];
+            arg_rescan->widget                      = button_rescan;
 
-        signalMapperRescan->setMapping(button_rescan, arg_rescan);
+            signalMapperRescan->setMapping(button_rescan, arg_rescan);
+        }
 
         /*-----------------------------------------------------*\
         | Create the disconnect button                          |
