@@ -1035,7 +1035,6 @@ void OpenRGBDevicePage::UpdateModeUi()
 
                 ui->EditZoneButton->setEnabled(false);
                 ui->ApplyColorsButton->setEnabled(false);
-                //ui->AutoFillCheck->setEnabled(false);
                 break;
 
             case MODE_COLORS_PER_LED:
@@ -1070,7 +1069,6 @@ void OpenRGBDevicePage::UpdateModeUi()
                 ui->ZoneBox->setCurrentIndex(0);
                 ui->ZoneBox->blockSignals(false);
                 ui->ApplyColorsButton->setEnabled(true);
-                //ui->AutoFillCheck->setEnabled(true);
 
                 /*-----------------------------------------------------*\
                 | Update LED box                                        |
@@ -1114,7 +1112,6 @@ void OpenRGBDevicePage::UpdateModeUi()
                 ui->LEDBox->setEnabled(true);
                 ui->LEDBox->blockSignals(false);
                 ui->ApplyColorsButton->setEnabled(true);
-                //ui->AutoFillCheck->setEnabled(true);
                 break;
         }
     }
