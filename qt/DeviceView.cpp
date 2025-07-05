@@ -228,7 +228,7 @@ static const std::map<std::string, led_label> led_label_lookup =
     { KEY_ES_OPEN_QUESTION_MARK,{ "¿"     , "¡"                 }},
     { KEY_ES_TILDE,             { "´"     , "¨"                 }},
     { KEY_ES_ENIE,              { "ñ"     , "Ñ"                 }},
-    { KEY_BR_TILDE,             { "~"     , "~"                 }} 
+    { KEY_BR_TILDE,             { "~"     , "~"                 }}
 };
 
 void DeviceView::setController(RGBController * controller_ptr)
@@ -306,7 +306,7 @@ void DeviceView::InitDeviceView()
         }
         else
         {
-            unsigned int count          = controller->GetLEDsInZone(zone_idx);
+            unsigned int count          = controller->GetLEDsInZone((unsigned int)zone_idx);
             zone_pos[zone_idx].matrix_w = std::min(count, (unsigned int)MAX_COLS);
             totalHeight                += (count / MAX_COLS) + ((count % MAX_COLS) > 0);
         }
@@ -474,7 +474,7 @@ void DeviceView::InitDeviceView()
             /*-----------------------------------------------------*\
             | Calculate LED box positions for single/linear zones   |
             \*-----------------------------------------------------*/
-            unsigned int leds_count = controller->GetLEDsInZone(zone_idx);
+            unsigned int leds_count = controller->GetLEDsInZone((unsigned int)zone_idx);
 
             for(unsigned int led_idx = 0; led_idx < leds_count; led_idx++)
             {
@@ -499,7 +499,7 @@ void DeviceView::InitDeviceView()
     \*-----------------------------------------------------*/
     for(std::size_t led_idx = 0; led_idx < controller->leds.size(); led_idx++)
     {
-        std::map<std::string, led_label>::const_iterator it = led_label_lookup.find(controller->GetLEDName(led_idx));
+        std::map<std::string, led_label>::const_iterator it = led_label_lookup.find(controller->GetLEDName((unsigned int)led_idx));
 
         if(it != led_label_lookup.end())
         {
@@ -838,7 +838,7 @@ void DeviceView::paintEvent(QPaintEvent* /* event */)
         {
             painter.setPen(palette().windowText().color());
         }
-        painter.drawText(posx, posy + posh, QString(controller->GetZoneName(zone_idx).c_str()));
+        painter.drawText(posx, posy + posh, QString(controller->GetZoneName((unsigned int)zone_idx).c_str()));
 
         for(std::size_t segment_idx = 0; segment_idx < controller->zones[zone_idx].segments.size(); segment_idx++)
         {
@@ -1049,10 +1049,10 @@ bool DeviceView::selectZone(int zone, bool add)
 
     for(std::size_t led_idx = 0; led_idx < controller->GetLEDsInZone(zone); led_idx++)
     {
-        if(!selectionFlags[zoneStart + led_idx])
+        if(!selectionFlags[zoneStart + (int)led_idx])
         {
-            selectedLeds.push_back(zoneStart + led_idx);
-            selectionFlags[zoneStart + led_idx] = 1;
+            selectedLeds.push_back(zoneStart + (int)led_idx);
+            selectionFlags[zoneStart + (int)led_idx] = 1;
         }
     }
 

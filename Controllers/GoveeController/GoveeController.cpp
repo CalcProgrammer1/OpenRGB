@@ -177,7 +177,7 @@ void GoveeController::SetColor(unsigned char red, unsigned char green, unsigned 
     \*-----------------------------------------------------*/
     std::string command_str                     = command.dump();
 
-    port.udp_write((char *)command_str.c_str(), command_str.length() + 1);
+    port.udp_write((char *)command_str.c_str(), (int)command_str.length() + 1);
 }
 
 void GoveeController::SendRazerData(RGBColor* colors, unsigned int size)
@@ -206,7 +206,7 @@ void GoveeController::SendRazerData(RGBColor* colors, unsigned int size)
     \*-----------------------------------------------------*/
     std::string command_str                     = command.dump();
 
-    port.udp_write((char *)command_str.c_str(), command_str.length() + 1);
+    port.udp_write((char *)command_str.c_str(), (int)command_str.length() + 1);
 }
 
 void GoveeController::SendRazerDisable()
@@ -222,7 +222,7 @@ void GoveeController::SendRazerDisable()
     \*-----------------------------------------------------*/
     std::string command_str                     = command.dump();
 
-    port.udp_write((char *)command_str.c_str(), command_str.length() + 1);
+    port.udp_write((char *)command_str.c_str(), (int)command_str.length() + 1);
 }
 
 void GoveeController::SendRazerEnable()
@@ -238,7 +238,7 @@ void GoveeController::SendRazerEnable()
     \*-----------------------------------------------------*/
     std::string command_str                     = command.dump();
 
-    port.udp_write((char *)command_str.c_str(), command_str.length() + 1);
+    port.udp_write((char *)command_str.c_str(), (int)command_str.length() + 1);
 }
 
 void GoveeController::SendScan()
@@ -253,7 +253,7 @@ void GoveeController::SendScan()
     \*-----------------------------------------------------*/
     std::string command_str                     = command.dump();
 
-    broadcast_port.udp_write((char *)command_str.c_str(), command_str.length() + 1);
+    broadcast_port.udp_write((char *)command_str.c_str(), (int)command_str.length() + 1);
 }
 
 /*---------------------------------------------------------*\

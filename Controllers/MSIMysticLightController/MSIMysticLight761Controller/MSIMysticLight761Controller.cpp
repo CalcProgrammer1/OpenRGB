@@ -284,9 +284,9 @@ void MSIMysticLight761Controller::SetLedColor
 
         if((candidate_index + 2) <= GetMaxDirectLeds(zone))
         {
-            set_data_color(ptr, candidate_index,     red);
-            set_data_color(ptr, candidate_index + 1, grn);
-            set_data_color(ptr, candidate_index + 2, blu);
+            set_data_color(ptr, (int)candidate_index,     red);
+            set_data_color(ptr, (int)candidate_index + 1, grn);
+            set_data_color(ptr, (int)candidate_index + 2, blu);
         }
     }
 

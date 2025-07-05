@@ -285,7 +285,7 @@ unsigned char * RGBController::GetDeviceDescription(unsigned int protocol_versio
         for(std::size_t led_idx = 0; led_idx < led_alt_names.size(); led_idx++)
         {
             data_size += sizeof(unsigned short);
-            data_size += strlen(led_alt_names[led_idx].c_str()) + 1;
+            data_size += (unsigned int)strlen(led_alt_names[led_idx].c_str()) + 1;
         }
     }
 
@@ -730,7 +730,7 @@ unsigned char * RGBController::GetDeviceDescription(unsigned int protocol_versio
             /*---------------------------------------------------------*\
             | Copy in LED alternate name (size+data)                    |
             \*---------------------------------------------------------*/
-            unsigned short string_length = strlen(led_alt_names[led_idx].c_str()) + 1;
+            unsigned short string_length = (unsigned short)strlen(led_alt_names[led_idx].c_str()) + 1;
 
             memcpy(&data_buf[data_ptr], &string_length, sizeof(string_length));
             data_ptr += sizeof(string_length);
@@ -1773,7 +1773,7 @@ unsigned char * RGBController::GetSegmentDescription(int zone, segment new_segme
     /*---------------------------------------------------------*\
     | Segment name string data                                  |
     \*---------------------------------------------------------*/
-    data_size += strlen(new_segment.name.c_str()) + 1;
+    data_size += (unsigned int)strlen(new_segment.name.c_str()) + 1;
 
     data_size += sizeof(new_segment.type);
     data_size += sizeof(new_segment.start_idx);
@@ -1799,7 +1799,7 @@ unsigned char * RGBController::GetSegmentDescription(int zone, segment new_segme
     /*---------------------------------------------------------*\
     | Length of segment name string                             |
     \*---------------------------------------------------------*/
-    unsigned short segment_name_length = strlen(new_segment.name.c_str()) + 1;
+    unsigned short segment_name_length = (unsigned short)strlen(new_segment.name.c_str()) + 1;
 
     memcpy(&data_buf[data_ptr], &segment_name_length, sizeof(segment_name_length));
     data_ptr += sizeof(segment_name_length);
@@ -1904,7 +1904,7 @@ void RGBController::SetupColors()
 
     for(std::size_t zone_idx = 0; zone_idx < zones.size(); zone_idx++)
     {
-        total_led_count += GetLEDsInZone(zone_idx);
+        total_led_count += GetLEDsInZone((unsigned int)zone_idx);
     }
 
     /*---------------------------------------------------------*\
@@ -1920,7 +1920,7 @@ void RGBController::SetupColors()
     for(std::size_t zone_idx = 0; zone_idx < zones.size(); zone_idx++)
     {
         zones[zone_idx].start_idx   = total_led_count;
-        zone_led_count              = GetLEDsInZone(zone_idx);
+        zone_led_count              = GetLEDsInZone((unsigned int)zone_idx);
 
         if((colors.size() > 0) && (zone_led_count > 0))
         {

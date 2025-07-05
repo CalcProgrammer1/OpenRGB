@@ -76,9 +76,9 @@ void ArcticController::SetChannels(std::vector<RGBColor> colors)
     {
         const unsigned int offset = ARCTIC_COMMAND_PAYLOAD_OFFSET + channel * 3;
 
-        buffer[offset + 0x00] = std::min<unsigned int>(254, RGBGetRValue(colors[channel]));
-        buffer[offset + 0x01] = std::min<unsigned int>(254, RGBGetGValue(colors[channel]));
-        buffer[offset + 0x02] = std::min<unsigned int>(254, RGBGetBValue(colors[channel]));
+        buffer[offset + 0x00] = (char)std::min<unsigned int>(254, RGBGetRValue(colors[channel]));
+        buffer[offset + 0x01] = (char)std::min<unsigned int>(254, RGBGetGValue(colors[channel]));
+        buffer[offset + 0x02] = (char)std::min<unsigned int>(254, RGBGetBValue(colors[channel]));
     }
 
     serialport.serial_write(buffer, sizeof(buffer));

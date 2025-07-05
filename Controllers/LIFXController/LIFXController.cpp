@@ -104,7 +104,7 @@ void LIFXController::SetColors(std::vector<RGBColor> colors)
             continue;
         }
 
-        SetZoneColor(colors[i], i);
+        SetZoneColor(colors[i], (unsigned int)i);
         cached_colors[i] = colors[i];
     }
 }
@@ -128,7 +128,7 @@ void LIFXController::FetchZoneCount()
     GetColorZonesPacketSetStartIndex(0);
     GetColorZonesPacketSetEndIndex(0);
 
-    port.udp_write((char*)data, data_buf_size);
+    port.udp_write((char*)data, (int)data_buf_size);
     delete[] data;
 
     /*----------------------------*\
@@ -139,7 +139,7 @@ void LIFXController::FetchZoneCount()
     memset(data, 0, data_buf_size);
 
     port.set_receive_timeout(5, 0);
-    port.udp_listen((char*)data, data_buf_size);
+    port.udp_listen((char*)data, (int)data_buf_size);
 
     /*-----------------*\
     | Validate response |
@@ -170,7 +170,7 @@ void LIFXController::SetColor(RGBColor color)
     SetColorPacketSetHSBK(&hsbk);
     SetColorPacketSetDuration(0);
 
-    port.udp_write((char*)data, data_buf_size);
+    port.udp_write((char*)data, (int)data_buf_size);
     delete[] data;
 }
 
@@ -195,7 +195,7 @@ void LIFXController::SetZoneColor(RGBColor color, unsigned int zone)
     SetColorZonesPacketSetDuration(0);
     SetColorZonesPacketSetApply(LIFX_MULTIZONE_APPLICATION_REQUEST_APPLY);
 
-    port.udp_write((char*)data, data_buf_size);
+    port.udp_write((char*)data, (int)data_buf_size);
     delete[] data;
 }
 
@@ -215,7 +215,7 @@ void LIFXController::SetZoneColors(std::vector<RGBColor> colors)
     SetExtendedColorZonesPacketSetZoneIndex(0);
     SetExtendedColorZonesPacketSetColors(colors);
 
-    port.udp_write((char*)data, data_buf_size);
+    port.udp_write((char*)data, (int)data_buf_size);
     delete[] data;
 }
 
@@ -238,7 +238,7 @@ void LIFXController::HeaderPacketSetDefaults(unsigned short packet_type)
     /*-----*\
     | Frame |
     \*-----*/
-    HeaderPacketSetSize(data_buf_size);
+    HeaderPacketSetSize((unsigned short)data_buf_size);
     HeaderPacketSetProtocol();
     HeaderPacketSetAddressable(true);
     HeaderPacketSetTagged(false);
@@ -457,7 +457,7 @@ void LIFXController::SetExtendedColorZonesPacketSetZoneIndex(unsigned short zone
 
 void LIFXController::SetExtendedColorZonesPacketSetColors(std::vector<RGBColor> colors)
 {
-    unsigned char colors_count = colors.size();
+    unsigned char colors_count = (unsigned char)colors.size();
     memcpy(&data[LIFX_SET_EXTENDED_COLOR_ZONES_PACKET_OFFSET_COLORS_COUNT], &colors_count, sizeof(unsigned char));
 
     for(size_t i = 0; i < colors.size(); i++)

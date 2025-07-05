@@ -133,9 +133,13 @@ void HyperXAlloyOriginsCoreController::SetLEDsDirect(std::vector<RGBColor> color
     | transfer the colors to the buffer. Max 94 colors to avoid buffer overflow.  |
     \*---------------------------------------------------------------------------*/
     if(colors.size() > 94)
+    {
         total_colors = 94;
+    }
     else
-        total_colors = colors.size();
+    {
+        total_colors = (unsigned int)colors.size();
+    }
 
     for(unsigned int color_idx = 0; color_idx < total_colors; color_idx++)
     {

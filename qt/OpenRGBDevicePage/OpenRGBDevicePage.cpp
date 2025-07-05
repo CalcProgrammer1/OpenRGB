@@ -113,7 +113,7 @@ OpenRGBDevicePage::OpenRGBDevicePage(RGBController *dev, QWidget *parent) :
 
     for(std::size_t i = 0; i < device->modes.size(); i++)
     {
-        ui->ModeBox->addItem(device->GetModeName(i).c_str());
+        ui->ModeBox->addItem(device->GetModeName((unsigned int)i).c_str());
         ui->ModeBox->setItemData((int)i, ModeDescription(device->modes[i]), Qt::ToolTipRole);
     }
 
@@ -282,7 +282,7 @@ void OpenRGBDevicePage::on_ZoneBox_currentIndexChanged(int index)
                     \*-------------------------------------*/
                     for(std::size_t i = 0; i < device->leds.size(); i++)
                     {
-                        ui->LEDBox->addItem(device->GetLEDName(i).c_str());
+                        ui->LEDBox->addItem(device->GetLEDName((unsigned int)i).c_str());
                     }
 
                     /*-------------------------------------*\
@@ -1059,7 +1059,7 @@ void OpenRGBDevicePage::UpdateModeUi()
 
                 for(std::size_t zone_idx = 0; zone_idx < device->zones.size(); zone_idx++)
                 {
-                    ui->ZoneBox->addItem(device->GetZoneName(zone_idx).c_str());
+                    ui->ZoneBox->addItem(device->GetZoneName((unsigned int)zone_idx).c_str());
 
                     for(std::size_t segment_idx = 0; segment_idx < device->zones[zone_idx].segments.size(); segment_idx++)
                     {

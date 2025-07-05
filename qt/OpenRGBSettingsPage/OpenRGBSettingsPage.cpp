@@ -46,8 +46,10 @@ OpenRGBSettingsPage::OpenRGBSettingsPage(QWidget *parent) :
     QDirIterator file(":/i18n/", QDirIterator::Subdirectories);
     while(file.hasNext())
     {
-        translator.load(file.next());
-        map.insert(translator.translate("OpenRGBSettingsPage", "English - US"), file.filePath());
+        if(translator.load(file.next()))
+        {
+            map.insert(translator.translate("OpenRGBSettingsPage", "English - US"), file.filePath());
+        }
     }
 
     ui->ComboBoxLanguage->blockSignals(true);
