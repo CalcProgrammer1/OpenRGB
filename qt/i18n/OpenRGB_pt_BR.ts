@@ -24,7 +24,7 @@
     </message>
     <message>
         <source>IP:</source>
-        <translation>IP:</translation>
+        <translation>Endereço de IP:</translation>
     </message>
     <message>
         <source>Connected Clients</source>
@@ -136,7 +136,7 @@
     </message>
     <message>
         <source>Flags:</source>
-        <translation type="unfinished"></translation>
+        <translation>Marcadores:</translation>
     </message>
 </context>
 <context>
@@ -506,11 +506,11 @@
     </message>
     <message>
         <source>About OpenRGB</source>
-        <translation type="unfinished"></translation>
+        <translation>Sobre o OpenRGB</translation>
     </message>
     <message>
         <source>Govee Devices</source>
-        <translation type="unfinished"></translation>
+        <translation>Dispositivos Govee</translation>
     </message>
 </context>
 <context>
@@ -627,7 +627,7 @@
     <name>OpenRGBElgatoKeyLightSettingsEntry</name>
     <message>
         <source>IP:</source>
-        <translation>IP:</translation>
+        <translation>Endereço de IP:</translation>
     </message>
 </context>
 <context>
@@ -649,7 +649,7 @@
     <name>OpenRGBElgatoLightStripSettingsEntry</name>
     <message>
         <source>IP:</source>
-        <translation>IP:</translation>
+        <translation>Endereço de IP:</translation>
     </message>
 </context>
 <context>
@@ -671,22 +671,22 @@
     <name>OpenRGBGoveeSettingsEntry</name>
     <message>
         <source>IP:</source>
-        <translation type="unfinished">IP:</translation>
+        <translation>Endereço de IP:</translation>
     </message>
 </context>
 <context>
     <name>OpenRGBGoveeSettingsPage</name>
     <message>
         <source>Add</source>
-        <translation type="unfinished">Adicionar</translation>
+        <translation>Adicionar</translation>
     </message>
     <message>
         <source>Remove</source>
-        <translation type="unfinished">Remover</translation>
+        <translation>Remover</translation>
     </message>
     <message>
         <source>Save</source>
-        <translation type="unfinished">Salvar</translation>
+        <translation>Salvar</translation>
     </message>
 </context>
 <context>
@@ -716,7 +716,7 @@
     <name>OpenRGBKasaSmartSettingsEntry</name>
     <message>
         <source>IP:</source>
-        <translation>IP:</translation>
+        <translation>Endereço de IP:</translation>
     </message>
     <message>
         <source>Name</source>
@@ -742,7 +742,7 @@
     <name>OpenRGBLIFXSettingsEntry</name>
     <message>
         <source>IP:</source>
-        <translation>IP:</translation>
+        <translation>Endereço de IP:</translation>
     </message>
     <message>
         <source>Name</source>
@@ -783,7 +783,7 @@
     <name>OpenRGBNanoleafSettingsEntry</name>
     <message>
         <source>IP:</source>
-        <translation>IP:</translation>
+        <translation>Endereço de IP:</translation>
     </message>
     <message>
         <source>Port:</source>
@@ -825,7 +825,7 @@
     <name>OpenRGBPhilipsHueSettingsEntry</name>
     <message>
         <source>IP:</source>
-        <translation>IP:</translation>
+        <translation>Endereço de IP:</translation>
     </message>
     <message>
         <source>Entertainment Mode:</source>
@@ -875,7 +875,7 @@
     <name>OpenRGBPhilipsWizSettingsEntry</name>
     <message>
         <source>IP:</source>
-        <translation>IP:</translation>
+        <translation>Endereço de IP:</translation>
     </message>
     <message>
         <source>Use Cool White</source>
@@ -1320,39 +1320,39 @@
     </message>
     <message>
         <source>Qt Version Value</source>
-        <translation type="unfinished"></translation>
+        <translation>Valor da versão do Qt</translation>
     </message>
     <message>
         <source>Qt Version:</source>
-        <translation type="unfinished"></translation>
+        <translation>Versão do Qt</translation>
     </message>
     <message>
         <source>OS Version:</source>
-        <translation type="unfinished"></translation>
+        <translation>Versão do SO:</translation>
     </message>
     <message>
         <source>OS Version Value</source>
-        <translation type="unfinished"></translation>
+        <translation>Valor da versão do SO</translation>
     </message>
     <message>
         <source>GNU General Public License, version 2</source>
-        <translation type="unfinished"></translation>
+        <translation>Licença Pública Geral GNU, versão 2</translation>
     </message>
     <message>
         <source>License:</source>
-        <translation type="unfinished"></translation>
+        <translation>Licença:</translation>
     </message>
     <message>
         <source>Copyright:</source>
-        <translation type="unfinished"></translation>
+        <translation>Direitos autorais:</translation>
     </message>
     <message>
         <source>Adam Honse, OpenRGB Team</source>
-        <translation type="unfinished"></translation>
+        <translation>Adam Honse, e a equipe do OpenRGB</translation>
     </message>
     <message>
         <source>&lt;b&gt;OpenRGB&lt;/b&gt;, an open-source RGB control utility</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;b&gt;OpenRGB&lt;/b&gt;, uma ferramenta de código aberto para controle de RGB</translation>
     </message>
 </context>
 <context>
@@ -1433,7 +1433,7 @@
     <name>OpenRGBYeelightSettingsEntry</name>
     <message>
         <source>IP:</source>
-        <translation>IP:</translation>
+        <translation>Endereço de IP:</translation>
     </message>
     <message>
         <source>?</source>
