@@ -1064,8 +1064,10 @@ void NetworkServer::SendReply_ControllerCount(SOCKET client_sock)
 
     reply_data = (unsigned int)controllers.size();
 
+    send_in_progress.lock();
     send(client_sock, (const char *)&reply_hdr, sizeof(NetPacketHeader), 0);
     send(client_sock, (const char *)&reply_data, sizeof(unsigned int), 0);
+    send_in_progress.unlock();
 }
 
 void NetworkServer::SendReply_ControllerData(SOCKET client_sock, unsigned int dev_idx, unsigned int protocol_version)
@@ -1080,8 +1082,10 @@ void NetworkServer::SendReply_ControllerData(SOCKET client_sock, unsigned int de
 
         InitNetPacketHeader(&reply_hdr, dev_idx, NET_PACKET_ID_REQUEST_CONTROLLER_DATA, reply_size);
 
+        send_in_progress.lock();
         send(client_sock, (const char *)&reply_hdr, sizeof(NetPacketHeader), 0);
         send(client_sock, (const char *)reply_data, reply_size, 0);
+        send_in_progress.unlock();
 
         delete[] reply_data;
     }
@@ -1096,8 +1100,10 @@ void NetworkServer::SendReply_ProtocolVersion(SOCKET client_sock)
 
     reply_data = OPENRGB_SDK_PROTOCOL_VERSION;
 
+    send_in_progress.lock();
     send(client_sock, (const char *)&reply_hdr, sizeof(NetPacketHeader), 0);
     send(client_sock, (const char *)&reply_data, sizeof(unsigned int), 0);
+    send_in_progress.unlock();
 }
 
 void NetworkServer::SendRequest_DeviceListChanged(SOCKET client_sock)
@@ -1106,7 +1112,9 @@ void NetworkServer::SendRequest_DeviceListChanged(SOCKET client_sock)
 
     InitNetPacketHeader(&pkt_hdr, 0, NET_PACKET_ID_DEVICE_LIST_UPDATED, 0);
 
+    send_in_progress.lock();
     send(client_sock, (char *)&pkt_hdr, sizeof(NetPacketHeader), 0);
+    send_in_progress.unlock();
 }
 
 void NetworkServer::SendReply_ProfileList(SOCKET client_sock)
@@ -1124,8 +1132,10 @@ void NetworkServer::SendReply_ProfileList(SOCKET client_sock)
 
     InitNetPacketHeader(&reply_hdr, 0, NET_PACKET_ID_REQUEST_PROFILE_LIST, reply_size);
 
+    send_in_progress.lock();
     send(client_sock, (const char *)&reply_hdr, sizeof(NetPacketHeader), 0);
     send(client_sock, (const char *)reply_data, reply_size, 0);
+    send_in_progress.unlock();
 }
 
 void NetworkServer::SendReply_PluginList(SOCKET client_sock)
@@ -1222,8 +1232,10 @@ void NetworkServer::SendReply_PluginList(SOCKET client_sock)
 
     InitNetPacketHeader(&reply_hdr, 0, NET_PACKET_ID_REQUEST_PLUGIN_LIST, reply_size);
 
+    send_in_progress.lock();
     send(client_sock, (const char *)&reply_hdr, sizeof(NetPacketHeader), 0);
     send(client_sock, (const char *)data_buf, reply_size, 0);
+    send_in_progress.unlock();
 
     delete [] data_buf;
 }
@@ -1234,9 +1246,12 @@ void NetworkServer::SendReply_PluginSpecific(SOCKET client_sock, unsigned int pk
 
     InitNetPacketHeader(&reply_hdr, 0, NET_PACKET_ID_PLUGIN_SPECIFIC, data_size + sizeof(pkt_type));
 
+    send_in_progress.lock();
     send(client_sock, (const char *)&reply_hdr, sizeof(NetPacketHeader), 0);
     send(client_sock, (const char *)&pkt_type, sizeof(pkt_type), 0);
     send(client_sock, (const char *)data, data_size, 0);
+    send_in_progress.unlock();
+
     delete [] data;
 }
 

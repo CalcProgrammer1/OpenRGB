@@ -123,6 +123,8 @@ protected:
 
     std::vector<NetworkPlugin>          plugins;
 
+    std::mutex                          send_in_progress;
+
 private:
 #ifdef WIN32
     WSADATA     wsa;
