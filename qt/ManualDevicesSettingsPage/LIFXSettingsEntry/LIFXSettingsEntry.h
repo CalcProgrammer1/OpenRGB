@@ -31,6 +31,6 @@ private:
     Ui::LIFXSettingsEntry *ui;
 
 private slots:
-    void changeEvent(QEvent *event);
+    void changeEvent(QEvent *event) override;
     void on_MultizoneCheckBox_stateChanged(int arg1);
 };

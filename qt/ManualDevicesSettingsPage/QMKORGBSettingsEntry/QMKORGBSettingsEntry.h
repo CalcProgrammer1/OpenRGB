@@ -21,7 +21,7 @@ class QMKORGBSettingsEntry : public BaseManualDeviceEntry
     Q_OBJECT
 
 private slots:
-    void changeEvent(QEvent *event);
+    void changeEvent(QEvent *event) override;
 
 public:
     explicit QMKORGBSettingsEntry(QWidget *parent = nullptr);

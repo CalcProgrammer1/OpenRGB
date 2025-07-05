@@ -15,7 +15,6 @@
 #include <vector>
 #include <hidapi.h>
 #include "RGBController.h"
-#include "DeviceGuardManager.h"
 
 #define DRGB_V4_ONE_PACKAGE_SIZE    316
 #define DRGB_V4_PACKAGE_SIZE        340
@@ -42,6 +41,5 @@ private:
     std::atomic<bool>       keepalive_thread_run;
     std::chrono::time_point<std::chrono::steady_clock> last_commit_time;
     unsigned char           version[4] = {0, 0, 0,0};
-    DeviceGuardManager*                                 guard_manager_ptr;
     unsigned short          device_pid;
 };

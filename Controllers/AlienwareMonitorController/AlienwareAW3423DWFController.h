@@ -28,8 +28,6 @@ public:
 private:
     hid_device* dev;
     std::string location;
-    unsigned char endpoint_out = 0x02;
-    unsigned char endpoint_in = 0x81;
 
     static const std::vector<std::vector<unsigned char>> OEM_KEYS;
 
