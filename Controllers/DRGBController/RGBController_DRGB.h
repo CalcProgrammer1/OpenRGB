@@ -19,6 +19,8 @@
 #define DRGB_ULTRA_V4F_PID      0x3616
 #define DRGB_CORE_V4F_PID       0x3628
 #define DRGB_SIG_V4F_PID        0x3636
+#define DRGB_AG_04_V4F_PID      0x3204
+#define DRGB_AG_16_V4F_PID      0x3216
 
 #define DRGB_LED_V5_PID         0x3208
 #define DRGB_ULTRA_V5_PID       0x3215
