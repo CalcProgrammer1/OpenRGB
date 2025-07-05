@@ -840,8 +840,10 @@ void NetworkClient::SendRequest_RGBController_ClearSegments(unsigned int dev_idx
 
     request_data[0]          = zone;
 
+    send_in_progress.lock();
     send(client_sock, (char *)&request_hdr, sizeof(NetPacketHeader), MSG_NOSIGNAL);
     send(client_sock, (char *)&request_data, sizeof(request_data), MSG_NOSIGNAL);
+    send_in_progress.unlock();
 }
 
 void NetworkClient::SendRequest_RGBController_AddSegment(unsigned int dev_idx, unsigned char * data, unsigned int size)
@@ -855,8 +857,10 @@ void NetworkClient::SendRequest_RGBController_AddSegment(unsigned int dev_idx, u
 
     InitNetPacketHeader(&request_hdr, dev_idx, NET_PACKET_ID_RGBCONTROLLER_ADDSEGMENT, size);
 
+    send_in_progress.lock();
     send(client_sock, (char *)&request_hdr, sizeof(NetPacketHeader), MSG_NOSIGNAL);
     send(client_sock, (char *)data, size, 0);
+    send_in_progress.unlock();
 }
 
 void NetworkClient::SendRequest_RGBController_ResizeZone(unsigned int dev_idx, int zone, int new_size)
