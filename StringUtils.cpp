@@ -14,15 +14,18 @@
 
 const char* StringUtils::wchar_to_char(const wchar_t* pwchar)
 {
-    if (pwchar == nullptr)
+    if(pwchar == nullptr)
     {
         return "";
     }
-    // get the number of characters in the string.
+
+    /*-----------------------------------------------------*\
+    | Get the number of characters in the string.           |
+    \*-----------------------------------------------------*/
     int currentCharIndex = 0;
     char currentChar = (char)pwchar[currentCharIndex];
 
-    while (currentChar != '\0')
+    while(currentChar != '\0')
     {
         currentCharIndex++;
         currentChar = (char)pwchar[currentCharIndex];
@@ -30,12 +33,17 @@ const char* StringUtils::wchar_to_char(const wchar_t* pwchar)
 
     const int charCount = currentCharIndex + 1;
 
-    // allocate a new block of memory size char (1 byte) instead of wide char (2 bytes)
+    /*-----------------------------------------------------*\
+    | Allocate a new block of memory size char (1 byte)     |
+    | instead of wide char (2 bytes)                        |
+    \*-----------------------------------------------------*/
     char* filePathC = (char*)malloc(sizeof(char) * charCount);
 
-    for (int i = 0; i < charCount; i++)
+    for(int i = 0; i < charCount; i++)
     {
-        // convert to char (1 byte)
+        /*-------------------------------------------------*\
+        | Convert to char (1 byte)                          |
+        \*-------------------------------------------------*/
         char character = (char)pwchar[i];
 
         *filePathC = character;
@@ -43,11 +51,12 @@ const char* StringUtils::wchar_to_char(const wchar_t* pwchar)
         filePathC += sizeof(char);
 
     }
+
     filePathC += '\0';
 
     filePathC -= (sizeof(char) * charCount);
 
-    return filePathC;
+    return(filePathC);
 }
 
 std::string StringUtils::wstring_to_string(const std::wstring wstring)
@@ -66,11 +75,10 @@ std::string StringUtils::u16string_to_string(const std::u16string wstring)
 
 const std::string StringUtils::remove_null_terminating_chars(std::string input)
 {
-    while (!input.empty() && input.back() == 0)
+    while(!input.empty() && input.back() == 0)
     {
         input.pop_back();
     }
 
-    return input;
+    return(input);
 }
-
