@@ -28,12 +28,13 @@ SettingsManager::~SettingsManager()
 
 json SettingsManager::GetSettings(std::string settings_key)
 {
-    /*---------------------------------------------------------*\
-    | Check to see if the key exists in the settings store and  |
-    | return the settings associated with the key if it exists  |
-    | We lock the mutex to protect the value from changing      |
-    | while data is being read and copy before unlocking        |
-    \*---------------------------------------------------------*/
+    /*-----------------------------------------------------*\
+    | Check to see if the key exists in the settings store  |
+    | and return the settings associated with the key if it |
+    | exists.  We lock the mutex to protect the value from  |
+    | changing while data is being read and copy before     |
+    | unlocking.                                            |
+    \*-----------------------------------------------------*/
     json result;
 
     mutex.lock();
@@ -56,29 +57,29 @@ void SettingsManager::SetSettings(std::string settings_key, json new_settings)
 
 void SettingsManager::LoadSettings(const filesystem::path& filename)
 {
-    /*---------------------------------------------------------*\
-    | Clear any stored settings before loading                  |
-    \*---------------------------------------------------------*/
+    /*-----------------------------------------------------*\
+    | Clear any stored settings before loading              |
+    \*-----------------------------------------------------*/
     mutex.lock();
 
     settings_data.clear();
 
-    /*---------------------------------------------------------*\
-    | Store settings filename, so we can save to it later       |
-    \*---------------------------------------------------------*/
+    /*-----------------------------------------------------*\
+    | Store settings filename, so we can save to it later   |
+    \*-----------------------------------------------------*/
     settings_filename = filename;
 
-    /*---------------------------------------------------------*\
-    | Open input file in binary mode                            |
-    \*---------------------------------------------------------*/
+    /*-----------------------------------------------------*\
+    | Open input file in binary mode                        |
+    \*-----------------------------------------------------*/
     config_found = filesystem::exists(filename);
     if(config_found)
     {
         std::ifstream settings_file(settings_filename, std::ios::in | std::ios::binary);
 
-        /*---------------------------------------------------------*\
-        | Read settings into JSON store                             |
-        \*---------------------------------------------------------*/
+        /*-------------------------------------------------*\
+        | Read settings into JSON store                     |
+        \*-------------------------------------------------*/
         if(settings_file)
         {
             try
@@ -87,12 +88,13 @@ void SettingsManager::LoadSettings(const filesystem::path& filename)
             }
             catch(const std::exception& e)
             {
-                /*-------------------------------------------------*\
-                | If an exception was caught, that means the JSON   |
-                | parsing failed.  Clear out any data in the store  |
-                | as it is corrupt.                                 |
-                | We could attempt a reload for backup location     |
-                \*-------------------------------------------------*/
+                /*-----------------------------------------*\
+                | If an exception was caught, that means    |
+                | the JSON parsing failed.  Clear out any   |
+                | data in the store as it is corrupt.  We   |
+                | could attempt a reload for backup         |
+                | location                                  |
+                \*-----------------------------------------*/
                 LOG_ERROR("[SettingsManager] JSON parsing failed: %s", e.what());
 
                 settings_data.clear();

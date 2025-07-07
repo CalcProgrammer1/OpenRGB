@@ -103,7 +103,11 @@ void WaitWhileServerOnline(NetworkServer* srv)
 #ifdef _WIN32
 void InstallWinRing0()
 {
-    TCHAR winring0_install_location[MAX_PATH]; // driver final location usually C:\windows\system32\drivers\WinRing0x64.sys
+    /*-----------------------------------------------------*\
+    | Driver final location usually                         |
+    | C:\windows\system32\drivers\WinRing0x64.sys           |
+    \*-----------------------------------------------------*/
+    TCHAR winring0_install_location[MAX_PATH];
     uint system_path_length = GetSystemDirectory(winring0_install_location, MAX_PATH);
     std::string winring0_filename = "WinRing0.sys";
     BOOL bIsWow64 = false;
@@ -194,43 +198,44 @@ int main(int argc, char* argv[])
 {
     int exitval = EXIT_SUCCESS;
 #ifdef _WIN32
-    /*---------------------------------------------------------*\
-    | Windows only - Attach console output                      |
-    \*---------------------------------------------------------*/
+    /*-----------------------------------------------------*\
+    | Windows only - Attach console output                  |
+    \*-----------------------------------------------------*/
     if (AttachConsole(ATTACH_PARENT_PROCESS))
     {
-        /*---------------------------------------------------------*\
-        | We are running under some terminal context; otherwise     |
-        | leave the GUI and CRT alone                               |
-        \*---------------------------------------------------------*/
+        /*-------------------------------------------------*\
+        | We are running under some terminal context;       |
+        | otherwise leave the GUI and CRT alone             |
+        \*-------------------------------------------------*/
         freopen("CONIN$",  "r", stdin);
         freopen("CONOUT$", "w", stdout);
         freopen("CONOUT$", "w", stderr);
     }
 
-    /*---------------------------------------------------------*\
-    | Windows only - Start timer resolution correction thread   |
-    \*---------------------------------------------------------*/
+    /*-----------------------------------------------------*\
+    | Windows only - Start timer resolution correction      |
+    | thread                                                |
+    \*-----------------------------------------------------*/
     std::thread * InitializeTimerResolutionThread;
     InitializeTimerResolutionThread = new std::thread(InitializeTimerResolutionThreadFunction);
     InitializeTimerResolutionThread->detach();
 
-    /*---------------------------------------------------------*\
-    | Windows only - Install SMBus Driver WinRing0              |
-    \*---------------------------------------------------------*/
+    /*-----------------------------------------------------*\
+    | Windows only - Install SMBus Driver WinRing0          |
+    \*-----------------------------------------------------*/
     InstallWinRing0();
 #endif
 
-    /*---------------------------------------------------------*\
-    | Mac x86/x64 only - Install SMBus Driver macUSPCIO         |
-    \*---------------------------------------------------------*/
+    /*-----------------------------------------------------*\
+    | Mac x86/x64 only - Install SMBus Driver macUSPCIO     |
+    \*-----------------------------------------------------*/
 #ifdef _MACOSX_X86_X64
     InitMacUSPCIODriver();
 #endif
 
-    /*---------------------------------------------------------*\
-    | Process command line arguments before detection           |
-    \*---------------------------------------------------------*/
+    /*-----------------------------------------------------*\
+    | Process command line arguments before detection       |
+    \*-----------------------------------------------------*/
     unsigned int ret_flags = cli_pre_detection(argc, argv);
 
     ResourceManager::get()->Initialize(
@@ -239,26 +244,27 @@ int main(int argc, char* argv[])
         ret_flags & RET_FLAG_START_SERVER,
         ret_flags & RET_FLAG_CLI_POST_DETECTION);
 
-    /*---------------------------------------------------------*\
-    | If the command line parser indicates that the GUI should  |
-    | run, or if there were no command line arguments, start the|
-    | GUI.                                                      |
-    \*---------------------------------------------------------*/
+    /*-----------------------------------------------------*\
+    | If the command line parser indicates that the GUI     |
+    | should run, or if there were no command line          |
+    | arguments, start the GUI.                             |
+    \*-----------------------------------------------------*/
     if(ret_flags & RET_FLAG_START_GUI)
     {
         LOG_TRACE("[main] initializing GUI");
 
-        /*-----------------------------------------------------*\
-        | Enable high DPI scaling support                       |
-        \*-----------------------------------------------------*/
+        /*-------------------------------------------------*\
+        | Enable high DPI scaling support                   |
+        \*-------------------------------------------------*/
         #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
             QCoreApplication::setAttribute(Qt::AA_UseHighDpiPixmaps,    true);
             QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling, true);
         #endif
 
-        /*-----------------------------------------------------*\
-        | Enable high DPI fractional scaling support on Windows |
-        \*-----------------------------------------------------*/
+        /*-------------------------------------------------*\
+        | Enable high DPI fractional scaling support on     |
+        | Windows                                           |
+        \*-------------------------------------------------*/
         #if QT_VERSION >= QT_VERSION_CHECK(5, 14, 0) && defined(Q_OS_WIN)
             QGuiApplication::setHighDpiScaleFactorRoundingPolicy(Qt::HighDpiScaleFactorRoundingPolicy::PassThrough);
         #endif
@@ -267,9 +273,9 @@ int main(int argc, char* argv[])
         QGuiApplication::setDesktopFileName("org.openrgb.OpenRGB");
         LOG_TRACE("[main] QApplication created");
 
-        /*---------------------------------------------------------*\
-        | Main UI widget                                            |
-        \*---------------------------------------------------------*/
+        /*-------------------------------------------------*\
+        | Main UI widget                                    |
+        \*-------------------------------------------------*/
         OpenRGBDialog dlg;
         LOG_TRACE("[main] Dialog created");
 
@@ -283,12 +289,13 @@ int main(int argc, char* argv[])
         if(ret_flags & RET_FLAG_START_MINIMIZED)
         {
 #ifdef _WIN32
-            /*---------------------------------------------------------*\
-            | Show the window always, even if it will immediately be    |
-            | hidden.  On Windows, events are not delivered to          |
-            | nativeEventFilter (for SuspendResume) until the window    |
-            | has been shown once.                                      |
-            \*---------------------------------------------------------*/
+            /*---------------------------------------------*\
+            | Show the window always, even if it will       |
+            | immediately be hidden.  On Windows, events    |
+            | are not delivered to nativeEventFilter (for   |
+            | SuspendResume) until the window has been      |
+            | shown once.                                   |
+            \*---------------------------------------------*/
             dlg.showMinimized();
 #endif
 #ifdef __APPLE__
@@ -310,11 +317,11 @@ int main(int argc, char* argv[])
     }
     else
     {
-        /*---------------------------------------------------------*\
-        | If no GUI is needed, we let the background threads run    |
-        | as long as they need, but we need to AT LEAST wait for    |
-        | initialization to finish                                  |
-        \*---------------------------------------------------------*/
+        /*-------------------------------------------------*\
+        | If no GUI is needed, we let the background        |
+        | threads run as long as they need, but we need to  |
+        | AT LEAST wait for initialization to finish        |
+        \*-------------------------------------------------*/
         ResourceManager::get()->WaitForInitialization();
 
         if(ret_flags & RET_FLAG_START_SERVER)
