@@ -341,8 +341,6 @@ win32:SOURCES +=                                                                
     i2c_smbus/Windows/i2c_smbus_amdadl.cpp                                                      \
     i2c_smbus/Windows/i2c_smbus_nvapi.cpp                                                       \
     i2c_smbus/Windows/i2c_smbus_pawnio.cpp                                                      \
-    i2c_smbus/Windows/i2c_smbus_pawnio_i801.cpp                                                 \
-    i2c_smbus/Windows/i2c_smbus_pawnio_piix4.cpp                                                \
     super_io/super_io_pawnio.cpp                                                                \
     scsiapi/scsiapi_windows.c                                                                   \
     serial_port/find_usb_serial_port_win.cpp                                                    \

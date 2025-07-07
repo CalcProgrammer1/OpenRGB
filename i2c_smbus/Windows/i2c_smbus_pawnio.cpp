@@ -10,11 +10,13 @@
 \*---------------------------------------------------------*/
 
 #include <string>
+#include "Detector.h"
 #include "i2c_smbus_pawnio.h"
 #include "LogManager.h"
 #include "PawnIOLib.h"
 #include "ResourceManager.h"
 #include "SettingsManager.h"
+#include "wmi.h"
 
 
 std::unordered_map<std::string, int> i2c_smbus_pawnio::using_handle;
@@ -391,3 +393,145 @@ HRESULT i2c_smbus_pawnio::start_pawnio(std::string filename, PHANDLE phandle)
     LOG_INFO("PawnIO initialized");
     return(S_OK);
 }
+
+bool i2c_smbus_pawnio_detect()
+{
+    ULONG dll_version;
+    if(pawnio_version(&dll_version))
+    {
+        LOG_INFO("PawnIO is not loaded, PawnIO I2C bus detection aborted");
+        return(false);
+    }
+
+    i2c_smbus_interface *   bus;
+    HRESULT                 hres;
+    Wmi                     wmi;
+    HANDLE                  pawnio_handle;
+
+    /*-----------------------------------------------------*\
+    | Query WMI for Win32_PnPSignedDriver entries with      |
+    | names matching "SMBUS" or "SM BUS".  These devices    |
+    | may be browsed under Device Manager -> System Devices |
+    \*-----------------------------------------------------*/
+    std::vector<QueryObj> q_res_PnPSignedDriver;
+    hres = wmi.query("SELECT * FROM Win32_PnPSignedDriver WHERE Description LIKE '%SMBUS%' OR Description LIKE '%SM BUS%'", q_res_PnPSignedDriver);
+
+    if(hres)
+    {
+        LOG_INFO("WMI query failed, I2C bus detection aborted");
+        return(false);
+    }
+
+    /*-----------------------------------------------------*\
+    | For each detected SMBus adapter, try enumerating it   |
+    | as either AMD (piix4) or Intel (i801)                 |
+    \*-----------------------------------------------------*/
+    for(QueryObj &i : q_res_PnPSignedDriver)
+    {
+        /*-------------------------------------------------*\
+        | Intel SMBus controllers do show I/O resources in  |
+        | Device Manager.  Analysis of many Intel boards    |
+        | has shown that Intel SMBus adapter I/O space      |
+        | varies between boards.  We can query              |
+        | Win32_PnPAllocatedResource entries and look up    |
+        | the PCI device ID to find the allocated I/O space.|
+        |                                                   |
+        | Intel SMBus adapters use the i801 driver          |
+        \*-------------------------------------------------*/
+        if((i["Manufacturer"].find("Intel") != std::string::npos)
+        || (i["Manufacturer"].find("INTEL") != std::string::npos))
+        {
+            std::string pnp_str = i["DeviceID"];
+
+            std::size_t ven_loc = pnp_str.find("VEN_");
+            std::size_t dev_loc = pnp_str.find("DEV_");
+            std::size_t sub_loc = pnp_str.find("SUBSYS_");
+
+            std::string ven_str = pnp_str.substr(ven_loc + 4, 4);
+            std::string dev_str = pnp_str.substr(dev_loc + 4, 4);
+            std::string sbv_str = pnp_str.substr(sub_loc + 11, 4);
+            std::string sbd_str = pnp_str.substr(sub_loc + 7, 4);
+
+            int ven_id = (int)std::stoul(ven_str, nullptr, 16);
+            int dev_id = (int)std::stoul(dev_str, nullptr, 16);
+            int sbv_id = (int)std::stoul(sbv_str, nullptr, 16);
+            int sbd_id = (int)std::stoul(sbd_str, nullptr, 16);
+
+            /*---------------------------------------------*\
+            | Create bus                                    |
+            \*---------------------------------------------*/
+            if(i2c_smbus_pawnio::start_pawnio("SmbusI801.bin", &pawnio_handle) != S_OK)
+            {
+                return(false);
+            }
+
+            bus                         = new i2c_smbus_pawnio(pawnio_handle, "i801");
+            bus->pci_vendor             = ven_id;
+            bus->pci_device             = dev_id;
+            bus->pci_subsystem_vendor   = sbv_id;
+            bus->pci_subsystem_device   = sbd_id;
+            strncpy(bus->device_name, i["Description"].c_str(), sizeof bus->device_name);
+            ResourceManager::get()->RegisterI2CBus(bus);
+        }
+
+        /*-------------------------------------------------*\
+        | AMD SMBus adapters use the PIIX4 driver           |
+        \*-------------------------------------------------*/
+        else if(i["Manufacturer"].find("Advanced Micro Devices, Inc") != std::string::npos)
+        {
+            std::string pnp_str = i["DeviceID"];
+
+            std::size_t ven_loc = pnp_str.find("VEN_");
+            std::size_t dev_loc = pnp_str.find("DEV_");
+            std::size_t sub_loc = pnp_str.find("SUBSYS_");
+
+            std::string ven_str = pnp_str.substr(ven_loc + 4, 4);
+            std::string dev_str = pnp_str.substr(dev_loc + 4, 4);
+            std::string sbv_str = pnp_str.substr(sub_loc + 11, 4);
+            std::string sbd_str = pnp_str.substr(sub_loc + 7, 4);
+
+            int ven_id = (int)std::stoul(ven_str, nullptr, 16);
+            int dev_id = (int)std::stoul(dev_str, nullptr, 16);
+            int sbv_id = (int)std::stoul(sbv_str, nullptr, 16);
+            int sbd_id = (int)std::stoul(sbd_str, nullptr, 16);
+
+            /*---------------------------------------------*\
+            | Create primary bus                            |
+            \*---------------------------------------------*/
+            if(i2c_smbus_pawnio::start_pawnio("SmbusPIIX4.bin", &pawnio_handle) != S_OK)
+            {
+                return(false);
+            }
+
+            bus                         = new i2c_smbus_pawnio(pawnio_handle, "piix4", 0);
+            bus->pci_vendor             = ven_id;
+            bus->pci_device             = dev_id;
+            bus->pci_subsystem_vendor   = sbv_id;
+            bus->pci_subsystem_device   = sbd_id;
+            strncpy(bus->device_name, i["Description"].c_str(), sizeof bus->device_name);
+            strncat(bus->device_name, " port 0", sizeof bus->device_name);
+            ResourceManager::get()->RegisterI2CBus(bus);
+
+            /*---------------------------------------------*\
+            | Create secondary bus                          |
+            \*---------------------------------------------*/
+            if(i2c_smbus_pawnio::start_pawnio("SmbusPIIX4.bin", &pawnio_handle) != S_OK)
+            {
+                return(false);
+            }
+
+            bus                         = new i2c_smbus_pawnio(pawnio_handle, "piix4", 1);
+            bus->pci_vendor             = ven_id;
+            bus->pci_device             = dev_id;
+            bus->pci_subsystem_vendor   = sbv_id;
+            bus->pci_subsystem_device   = sbd_id;
+            strncpy(bus->device_name, i["Description"].c_str(), sizeof bus->device_name);
+            strncat(bus->device_name, " port 1", sizeof bus->device_name);
+            ResourceManager::get()->RegisterI2CBus(bus);
+        }
+    }
+
+    return(true);
+}
+
+REGISTER_I2C_BUS_DETECTOR(i2c_smbus_pawnio_detect);
