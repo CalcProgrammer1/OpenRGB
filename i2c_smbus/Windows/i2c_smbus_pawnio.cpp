@@ -18,67 +18,61 @@
 #include "SettingsManager.h"
 #include "wmi.h"
 
-
 std::unordered_map<std::string, int> i2c_smbus_pawnio::using_handle;
 
-i2c_smbus_pawnio::i2c_smbus_pawnio(void* handle, std::string name, int port)
+i2c_smbus_pawnio::i2c_smbus_pawnio(HANDLE handle, std::string name)
 {
+    /*-----------------------------------------------------*\
+    | Get driver settings                                   |
+    \*-----------------------------------------------------*/
     json drivers_settings = ResourceManager::get()->GetSettingsManager()->GetSettings("Drivers");
 
+    /*-----------------------------------------------------*\
+    | Get shared SMBus access setting                       |
+    \*-----------------------------------------------------*/
     bool shared_smbus_access = true;
+
     if(drivers_settings.contains("shared_smbus_access"))
     {
         shared_smbus_access = drivers_settings["shared_smbus_access"].get<bool>();
     }
+
+    /*-----------------------------------------------------*\
+    | Create global SMBus mutex if enabled                  |
+    \*-----------------------------------------------------*/
     if(shared_smbus_access)
     {
         global_smbus_access_handle = CreateMutexA(NULL, FALSE, GLOBAL_SMBUS_MUTEX_NAME);
     }
 
-    pawnio_handle = (HANDLE)handle;
-    this->name = name;
-    this->port = port;
-
-    pawnio_port_sel();
+    /*-----------------------------------------------------*\
+    | Store bus information                                 |
+    | TODO: Remove name field once all drivers use the same |
+    | ioctl names                                           |
+    \*-----------------------------------------------------*/
+    this->handle    = handle;
+    this->name      = name;
 
     using_handle[name]++;
 }
 
 i2c_smbus_pawnio::~i2c_smbus_pawnio()
 {
+    /*-----------------------------------------------------*\
+    | Close global SMBus mutex                              |
+    \*-----------------------------------------------------*/
     if(global_smbus_access_handle != NULL)
     {
         CloseHandle(global_smbus_access_handle);
     }
 
-    if(--using_handle[name] == 0 && pawnio_close(pawnio_handle)) {
+    /*-----------------------------------------------------*\
+    | TODO: find a way to do this without name field        |
+    \*-----------------------------------------------------*/
+    if(--using_handle[name] == 0 && pawnio_close(handle))
+    {
         LOG_ERROR("PawnIO failed to close");
     }
-}
-
-s32 i2c_smbus_pawnio::pawnio_port_sel()
-{
-    const SIZE_T    in_size         = 1;
-    ULONG64         in[in_size]     = {(ULONG64)port};
-    const SIZE_T    out_size        = 1;
-    ULONG64         out[out_size];
-    SIZE_T          return_size;
-    HRESULT         status;
-
-    /*-----------------------------------------------------*\
-    | Port selection is only provided for piix4             |
-    \*-----------------------------------------------------*/
-    if(name != "piix4")
-    {
-        return 0;
-    }
-
-    /*-----------------------------------------------------*\
-    | Execute PawnIO port_sel ioctl                         |
-    \*-----------------------------------------------------*/
-    status = pawnio_execute(pawnio_handle, ("ioctl_" + name + "_port_sel").c_str(), in, in_size, out, 1, &return_size);
-
-    return(status ? -EIO : 0);
 }
 
 s32 i2c_smbus_pawnio::pawnio_read(u8 addr, char /*read_write*/, u8 command, int size, i2c_smbus_data* data)
@@ -97,7 +91,7 @@ s32 i2c_smbus_pawnio::pawnio_read(u8 addr, char /*read_write*/, u8 command, int 
             /*---------------------------------------------*\
             | Execute PawnIO read_byte ioctl                |
             \*---------------------------------------------*/
-            HRESULT status = pawnio_execute(pawnio_handle, ("ioctl_" + name + "_read_byte").c_str(), in, in_size, out, out_size, &return_size);
+            HRESULT status = pawnio_execute(handle, ("ioctl_" + name + "_read_byte").c_str(), in, in_size, out, out_size, &return_size);
             data->byte = (u8)out[0];
 
             return(status ? -EIO : 0);
@@ -113,7 +107,7 @@ s32 i2c_smbus_pawnio::pawnio_read(u8 addr, char /*read_write*/, u8 command, int 
             /*---------------------------------------------*\
             | Execute PawnIO read_byte_data ioctl           |
             \*---------------------------------------------*/
-            HRESULT status = pawnio_execute(pawnio_handle, ("ioctl_" + name + "_read_byte_data").c_str(), in, in_size, out, out_size, &return_size);
+            HRESULT status = pawnio_execute(handle, ("ioctl_" + name + "_read_byte_data").c_str(), in, in_size, out, out_size, &return_size);
             data->byte = (u8)out[0];
 
             return(status ? -EIO : 0);
@@ -129,7 +123,7 @@ s32 i2c_smbus_pawnio::pawnio_read(u8 addr, char /*read_write*/, u8 command, int 
             /*---------------------------------------------*\
             | Execute PawnIO read_word_data ioctl           |
             \*---------------------------------------------*/
-            HRESULT status = pawnio_execute(pawnio_handle, ("ioctl_" + name + "_read_word_data").c_str(), in, in_size, out, out_size, &return_size);
+            HRESULT status = pawnio_execute(handle, ("ioctl_" + name + "_read_word_data").c_str(), in, in_size, out, out_size, &return_size);
             data->word = (u16)out[0];
 
             return(status ? -EIO : 0);
@@ -152,7 +146,7 @@ s32 i2c_smbus_pawnio::pawnio_read(u8 addr, char /*read_write*/, u8 command, int 
             /*---------------------------------------------*\
             | Execute PawnIO read_block_data ioctl          |
             \*---------------------------------------------*/
-            HRESULT status = pawnio_execute(pawnio_handle, ("ioctl_" + name + "_read_block_data").c_str(), in, in_size, out, out_size, &return_size);
+            HRESULT status = pawnio_execute(handle, ("ioctl_" + name + "_read_block_data").c_str(), in, in_size, out, out_size, &return_size);
 
             if(status)
             {
@@ -192,7 +186,7 @@ s32 i2c_smbus_pawnio::pawnio_write(u8 addr, char read_write, u8 command, int siz
             /*---------------------------------------------*\
             | Execute PawnIO write_quick ioctl              |
             \*---------------------------------------------*/
-            HRESULT status = pawnio_execute(pawnio_handle, ("ioctl_" + name + "_write_quick").c_str(), in, in_size, NULL, 0, &return_size);
+            HRESULT status = pawnio_execute(handle, ("ioctl_" + name + "_write_quick").c_str(), in, in_size, NULL, 0, &return_size);
 
             return(status ? -EIO : 0);
         }
@@ -205,7 +199,7 @@ s32 i2c_smbus_pawnio::pawnio_write(u8 addr, char read_write, u8 command, int siz
             /*---------------------------------------------*\
             | Execute PawnIO write_byte ioctl               |
             \*---------------------------------------------*/
-            HRESULT status = pawnio_execute(pawnio_handle, ("ioctl_" + name + "_write_byte").c_str(), in, in_size, NULL, 0, &return_size);
+            HRESULT status = pawnio_execute(handle, ("ioctl_" + name + "_write_byte").c_str(), in, in_size, NULL, 0, &return_size);
 
             return(status ? -EIO : 0);
         }
@@ -218,7 +212,7 @@ s32 i2c_smbus_pawnio::pawnio_write(u8 addr, char read_write, u8 command, int siz
             /*---------------------------------------------*\
             | Execute PawnIO write_byte_data ioctl          |
             \*---------------------------------------------*/
-            HRESULT status = pawnio_execute(pawnio_handle, ("ioctl_" + name + "_write_byte_data").c_str(), in, in_size, NULL, 0, &return_size);
+            HRESULT status = pawnio_execute(handle, ("ioctl_" + name + "_write_byte_data").c_str(), in, in_size, NULL, 0, &return_size);
 
             return(status ? -EIO : 0);
         }
@@ -231,7 +225,7 @@ s32 i2c_smbus_pawnio::pawnio_write(u8 addr, char read_write, u8 command, int siz
             /*---------------------------------------------*\
             | Execute PawnIO write_word_data ioctl          |
             \*---------------------------------------------*/
-            HRESULT status = pawnio_execute(pawnio_handle, ("ioctl_" + name + "_write_word_data").c_str(), in, in_size, NULL, 0, &return_size);
+            HRESULT status = pawnio_execute(handle, ("ioctl_" + name + "_write_word_data").c_str(), in, in_size, NULL, 0, &return_size);
 
             return(status ? -EIO : 0);
         }
@@ -255,7 +249,7 @@ s32 i2c_smbus_pawnio::pawnio_write(u8 addr, char read_write, u8 command, int siz
             /*---------------------------------------------*\
             | Execute PawnIO write_block_data ioctl         |
             \*---------------------------------------------*/
-            HRESULT status = pawnio_execute(pawnio_handle, ("ioctl_" + name + "_write_block_data").c_str(), in, in_size, NULL, 0, &return_size);
+            HRESULT status = pawnio_execute(handle, ("ioctl_" + name + "_write_block_data").c_str(), in, in_size, NULL, 0, &return_size);
 
             return(status ? -EIO : 0);
         }
@@ -394,6 +388,23 @@ HRESULT i2c_smbus_pawnio::start_pawnio(std::string filename, PHANDLE phandle)
     return(S_OK);
 }
 
+s32 piix4_port_sel(HANDLE pawnio_handle, s32 port)
+{
+    const SIZE_T    in_size         = 1;
+    ULONG64         in[in_size]     = {(ULONG64)port};
+    const SIZE_T    out_size        = 1;
+    ULONG64         out[out_size];
+    SIZE_T          return_size;
+    HRESULT         status;
+
+    /*-----------------------------------------------------*\
+    | Execute PIIX4 port_sel ioctl                          |
+    \*-----------------------------------------------------*/
+    status = pawnio_execute(pawnio_handle, "ioctl_piix4_port_sel", in, in_size, out, 1, &return_size);
+
+    return(status ? -EIO : 0);
+}
+
 bool i2c_smbus_pawnio_detect()
 {
     ULONG dll_version;
@@ -503,7 +514,12 @@ bool i2c_smbus_pawnio_detect()
                 return(false);
             }
 
-            bus                         = new i2c_smbus_pawnio(pawnio_handle, "piix4", 0);
+            /*---------------------------------------------*\
+            | Select port 0                                 |
+            \*---------------------------------------------*/
+            piix4_port_sel(pawnio_handle, 0);
+
+            bus                         = new i2c_smbus_pawnio(pawnio_handle, "piix4");
             bus->pci_vendor             = ven_id;
             bus->pci_device             = dev_id;
             bus->pci_subsystem_vendor   = sbv_id;
@@ -520,7 +536,12 @@ bool i2c_smbus_pawnio_detect()
                 return(false);
             }
 
-            bus                         = new i2c_smbus_pawnio(pawnio_handle, "piix4", 1);
+            /*---------------------------------------------*\
+            | Select port 1                                 |
+            \*---------------------------------------------*/
+            piix4_port_sel(pawnio_handle, 1);
+
+            bus                         = new i2c_smbus_pawnio(pawnio_handle, "piix4");
             bus->pci_vendor             = ven_id;
             bus->pci_device             = dev_id;
             bus->pci_subsystem_vendor   = sbv_id;

@@ -25,20 +25,18 @@ class i2c_smbus_pawnio : public i2c_smbus_interface
 {
 public:
     static std::unordered_map<std::string, int> using_handle;
-    i2c_smbus_pawnio(void* handle, std::string name, int port = -1);
+    i2c_smbus_pawnio(HANDLE handle, std::string name);
     ~i2c_smbus_pawnio();
 
     static HRESULT start_pawnio(std::string filename, PHANDLE phandle);
 
 private:
-    s32 pawnio_port_sel();
     s32 pawnio_read(u8 addr, char read_write, u8 command, int size, i2c_smbus_data *data);
     s32 pawnio_write(u8 addr, char read_write, u8 command, int size, i2c_smbus_data *data);
     s32 i2c_smbus_xfer(u8 addr, char read_write, u8 command, int size, i2c_smbus_data* data);
     s32 i2c_xfer(u8 addr, char read_write, int* size, u8* data);
 
-    HANDLE      global_smbus_access_handle = NULL;
+    HANDLE      global_smbus_access_handle;
     std::string name;
-    HANDLE      pawnio_handle = NULL;
-    int         port;
+    HANDLE      handle;
 };
