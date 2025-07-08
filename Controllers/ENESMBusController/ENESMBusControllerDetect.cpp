@@ -84,7 +84,7 @@ static const unsigned char aura_mobo_addresses[] =
 *                                                                                          *
 \******************************************************************************************/
 
-unsigned char ENERegisterRead(i2c_smbus_interface* bus, ene_dev_id dev, ene_register reg)
+static unsigned char ENERegisterRead(i2c_smbus_interface* bus, ene_dev_id dev, ene_register reg)
 {
     //Write ENE register
     bus->i2c_smbus_write_word_data(dev, 0x00, ((reg << 8) & 0xFF00) | ((reg >> 8) & 0x00FF));
@@ -103,7 +103,7 @@ unsigned char ENERegisterRead(i2c_smbus_interface* bus, ene_dev_id dev, ene_regi
 *                                                                                          *
 \******************************************************************************************/
 
-void ENERegisterWrite(i2c_smbus_interface* bus, ene_dev_id dev, ene_register reg, unsigned char val)
+static void ENERegisterWrite(i2c_smbus_interface* bus, ene_dev_id dev, ene_register reg, unsigned char val)
 {
     //Write ENE register
     bus->i2c_smbus_write_word_data(dev, 0x00, ((reg << 8) & 0xFF00) | ((reg >> 8) & 0x00FF));
@@ -154,6 +154,7 @@ bool TestForENESMBusController(i2c_smbus_interface* bus, unsigned char address)
                 LOG_VERBOSE("[ENE SMBus] Detection failed testing register %02X.  Expected %02X, got %02X.", i, (i - 0xA0), res);
 
                 pass = false;
+                break;
             }
         }
 
@@ -208,7 +209,7 @@ void DetectENESMBusDRAMControllers(std::vector<i2c_smbus_interface*> &busses)
             {
                 int res = busses[bus]->i2c_smbus_write_quick(0x77, I2C_SMBUS_WRITE);
 
-                if (res < 0)
+                if(res < 0)
                 {
                     LOG_DEBUG("[ENE SMBus DRAM] No device detected at 0x77, aborting remap");
 
