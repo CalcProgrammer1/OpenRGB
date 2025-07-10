@@ -222,9 +222,48 @@ s32 i2c_smbus_amdadl::i2c_smbus_xfer(u8 addr, char read_write, u8 command, int s
     return(ret);
 };
 
-s32 i2c_smbus_amdadl::i2c_xfer(u8 /*addr*/, char /*read_write*/, int* /*size*/, u8* /*data*/)
+s32 i2c_smbus_amdadl::i2c_xfer(u8 addr, char read_write, int* size, u8* data)
 {
-    return(-1);
+    int PrimaryDisplay;
+    int ret;
+    int data_size = *size;
+
+    ADLI2C* pI2C;
+    ADLI2C I2Cstore;
+    pI2C = &I2Cstore;
+
+    char i2c_buf[I2C_SMBUS_BLOCK_MAX];
+
+    pI2C->iSize = sizeof(ADLI2C);
+    pI2C->iSpeed = 100;
+    pI2C->iLine = 1; //location of the Aura chip
+    pI2C->iAddress = addr << 1;
+    pI2C->iOffset = 0;
+    pI2C->iDataSize = data_size;
+
+    if (ADL_OK != ADL2_Adapter_Primary_Get(context, &PrimaryDisplay))
+    {
+        printf("Cannot get Display!\n");
+        return ADL_ERR;
+    }
+
+    if (read_write == I2C_SMBUS_READ)
+    {
+        pI2C->iAction = ADL_DL_I2C_ACTIONREAD;
+        pI2C->pcData = (char*)data;
+        ret = ADL2_Display_WriteAndReadI2C(context, PrimaryDisplay, pI2C);
+    }
+    else
+    {
+        pI2C->iAction = ADL_DL_I2C_ACTIONWRITE;
+        pI2C->pcData = i2c_buf;
+
+        memcpy(i2c_buf, data, data_size);
+
+        ret = ADL2_Display_WriteAndReadI2C(context, PrimaryDisplay, pI2C);
+    }
+
+    return(ret);
 }
 
 bool i2c_smbus_amdadl_detect()
