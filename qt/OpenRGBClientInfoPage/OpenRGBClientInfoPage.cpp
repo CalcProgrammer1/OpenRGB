@@ -41,12 +41,9 @@ OpenRGBClientInfoPage::OpenRGBClientInfoPage(QWidget *parent) :
     ui->ClientPortValue->setText(QString::number(OPENRGB_SDK_PORT));
 
     /*-----------------------------------------------------*\
-    | Register callbacks for existing clients               |
+    | Register callbacks with resource manager              |
     \*-----------------------------------------------------*/
-    for(unsigned int client_idx = 0; client_idx < ResourceManager::get()->GetClients().size(); client_idx++)
-    {
-        ResourceManager::get()->GetClients()[client_idx]->RegisterClientInfoChangeCallback(UpdateInfoCallback, this);
-    }
+    ResourceManager::get()->RegisterClientInfoChangeCallback(UpdateInfoCallback, this);
 
     /*-----------------------------------------------------*\
     | Update the information view                           |

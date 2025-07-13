@@ -141,12 +141,14 @@ public:
     void RegisterDynamicDetector        (std::string name, DynamicDetectorFunction detector);
     void RegisterPreDetectionHook       (PreDetectionHookFunction hook);
 
+    void RegisterClientInfoChangeCallback(ClientInfoChangeCallback new_callback, void * new_callback_arg);
     void RegisterDeviceListChangeCallback(DeviceListChangeCallback new_callback, void * new_callback_arg);
     void RegisterDetectionProgressCallback(DetectionProgressCallback new_callback, void * new_callback_arg);
     void RegisterDetectionStartCallback(DetectionStartCallback new_callback, void * new_callback_arg);
     void RegisterDetectionEndCallback(DetectionEndCallback new_callback, void * new_callback_arg);
     void RegisterI2CBusListChangeCallback(I2CBusListChangeCallback new_callback, void * new_callback_arg);
 
+    void UnregisterClientInfoChangeCallback(ClientInfoChangeCallback new_callback, void * new_callback_arg);
     void UnregisterDeviceListChangeCallback(DeviceListChangeCallback callback, void * callback_arg);
     void UnregisterDetectionProgressCallback(DetectionProgressCallback callback, void *callback_arg);
     void UnregisterDetectionStartCallback(DetectionStartCallback callback, void *callback_arg);
@@ -173,6 +175,7 @@ public:
     void ProcessPreDetectionHooks(); // Consider making private
     void ProcessDynamicDetectors();  // Consider making private
     void UpdateDeviceList();
+    void ClientInfoChanged();
     void DeviceListChanged();
     void DetectionProgressChanged();
     void I2CBusListChanged();
@@ -315,6 +318,11 @@ private:
     std::vector<bool>                           detection_size_entry_used;
     const char*                                 detection_string;
 
+    /*-------------------------------------------------------------------------------------*\
+    | Client Info Changed Callback                                                          |
+    \*-------------------------------------------------------------------------------------*/
+    std::vector<ClientInfoChangeCallback>       ClientInfoChangeCallbacks;
+    std::vector<void *>                         ClientInfoChangeCallbackArgs;
 
     /*-------------------------------------------------------------------------------------*\
     | Device List Changed Callback                                                          |
