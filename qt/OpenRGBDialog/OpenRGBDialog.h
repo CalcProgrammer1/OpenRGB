@@ -74,33 +74,42 @@ protected:
     void keyPressEvent(QKeyEvent *event) override;
 
 private:
-    const char* context = "OpenRGBDialog";
+    /*-----------------------------------------------------*\
+    | Context string                                        |
+    \*-----------------------------------------------------*/
+    const char *                    context             = "OpenRGBDialog";
 
-    /*-------------------------------------*\
-    | Page pointers                         |
-    \*-------------------------------------*/
-    OpenRGBClientInfoPage *ClientInfoPage;
-    OpenRGBPluginsPage *PluginsPage;
-    OpenRGBSystemInfoPage *SMBusToolsPage;
-    OpenRGBSoftwareInfoPage *SoftInfoPage;
-    OpenRGBSupportedDevicesPage *SupportedPage;
-    OpenRGBSettingsPage *SettingsPage;
+    /*-----------------------------------------------------*\
+    | Page pointers                                         |
+    \*-----------------------------------------------------*/
+    OpenRGBClientInfoPage *         ClientInfoPage;
+    OpenRGBPluginsPage *            PluginsPage;
+    OpenRGBSystemInfoPage *         SMBusToolsPage;
+    OpenRGBSoftwareInfoPage *       SoftInfoPage;
+    OpenRGBSupportedDevicesPage *   SupportedPage;
+    OpenRGBSettingsPage *           SettingsPage;
 
-    ManualDevicesSettingsPage *manualDevicesPage;
+    ManualDevicesSettingsPage *     manualDevicesPage;
 
-    bool ShowI2CTools = false;
-    bool plugins_loaded = false;
+    PluginManager *                 plugin_manager      = nullptr;
 
-    /*-------------------------------------*\
-    | System tray icon and menu             |
-    \*-------------------------------------*/
-    QSystemTrayIcon* trayIcon;
-    QMenu* trayIconMenu;
-    QMenu* profileMenu;
+    bool                            device_view_showing = false;
+    bool                            ShowI2CTools        = false;
+    bool                            plugins_loaded      = false;
 
-    /*-------------------------------------*\
-    | User interface                        |
-    \*-------------------------------------*/
+    /*-----------------------------------------------------*\
+    | System tray icon and menu                             |
+    \*-----------------------------------------------------*/
+    QSystemTrayIcon *               trayIcon;
+    QMenu *                         trayIconMenu;
+    QMenu *                         profileMenu;
+
+    QAction *                       actionExit;
+    QString                         dialog_message;
+
+    /*-----------------------------------------------------*\
+    | User interface                                        |
+    \*-----------------------------------------------------*/
     Ui::OpenRGBDialog *ui;
 
     void AddSoftwareInfoPage();
@@ -121,13 +130,6 @@ private:
     void SaveProfileAs();
 
     void TogglePluginsVisibility(int, QTabWidget*);
-
-    bool device_view_showing = false;
-
-    PluginManager* plugin_manager = nullptr;
-
-    QAction* actionExit;
-    QString dialog_message;
 
     void ShowLEDView();
     void HideLEDView();
