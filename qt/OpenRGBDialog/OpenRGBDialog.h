@@ -47,7 +47,6 @@ public:
     explicit OpenRGBDialog(QWidget *parent = 0);
     ~OpenRGBDialog();
 
-    void AddClient(NetworkClient* new_client);
     void AddClientTab();
     void AddI2CToolsPage();
     void AddServerTab();

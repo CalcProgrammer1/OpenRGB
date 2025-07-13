@@ -67,22 +67,6 @@ void OpenRGBClientInfoPage::changeEvent(QEvent *event)
     }
 }
 
-void OpenRGBClientInfoPage::AddClient(NetworkClient* new_client)
-{
-    /*-----------------------------------------------------*\
-    | Add a new client to the list, register the callback,  |
-    | and update the information view if the pointer is     |
-    | valid                                                 |
-    \*-----------------------------------------------------*/
-    if(new_client != NULL)
-    {
-        ResourceManager::get()->GetClients().push_back(new_client);
-        new_client->RegisterClientInfoChangeCallback(UpdateInfoCallback, this);
-
-        UpdateInfo();
-    }
-}
-
 void OpenRGBClientInfoPage::UpdateInfo()
 {
     /*-----------------------------------------------------*\

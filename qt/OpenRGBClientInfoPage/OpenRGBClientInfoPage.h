@@ -26,8 +26,6 @@ public:
     explicit OpenRGBClientInfoPage(QWidget *parent = nullptr);
     ~OpenRGBClientInfoPage();
 
-    void AddClient(NetworkClient* new_client);
-
 public slots:
     void UpdateInfo();
 

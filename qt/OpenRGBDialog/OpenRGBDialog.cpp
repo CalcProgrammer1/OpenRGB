@@ -956,17 +956,6 @@ void OpenRGBDialog::AddClientTab()
     }
 }
 
-void OpenRGBDialog::AddClient(NetworkClient* new_client)
-{
-    /*-----------------------------------------------------*\
-    | Add a client to the client information page           |
-    \*-----------------------------------------------------*/
-    if(ClientInfoPage != NULL)
-    {
-        ClientInfoPage->AddClient(new_client);
-    }
-}
-
 void OpenRGBDialog::AddServerTab()
 {
     /*-----------------------------------------------------*\

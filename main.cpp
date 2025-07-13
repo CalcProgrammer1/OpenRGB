@@ -284,8 +284,6 @@ int main(int argc, char* argv[])
             dlg.AddI2CToolsPage();
         }
 
-        dlg.AddClientTab();
-
         if(ret_flags & RET_FLAG_START_MINIMIZED)
         {
 #ifdef _WIN32
