@@ -460,6 +460,8 @@ bool serial_port::serial_open()
     | Configure baud rate                       |
     \*-----------------------------------------*/
     ioctl(file_descriptor, IOSSIOSPEED, &baud_rate);
+
+    printf("Port opened fd %d", file_descriptor);
 #endif
 
     /*-----------------------------------------------------*\
@@ -595,9 +597,10 @@ int serial_port::serial_write(char * buffer, int length)
     \*-----------------------------------------------------*/
 #ifdef __APPLE__
     int byteswritten;
-    tcdrain(file_descriptor);
-    byteswritten = write(file_descriptor, buffer, length);
-    tcdrain(file_descriptor);
+    printf("serial write fd %d", file_descriptor);
+    printf("tcdrain %d\r\n",tcdrain(file_descriptor));
+    printf("write %d\r\n", byteswritten = write(file_descriptor, buffer, length));
+    printf("tcdrain %d\r\n", tcdrain(file_descriptor));
     return byteswritten;
 #endif
 

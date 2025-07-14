@@ -1,33 +1,26 @@
 /*---------------------------------------------------------*\
-| HYTEMousematController_MacOS.cpp                          |
+| HYTEMousematController_Windows_MacOS.cpp                  |
 |                                                           |
-|   Driver for HYTE mousemat (libusb implementation for     |
-|   MacOS)                                                  |
+|   Driver for HYTE mousemat (Serial implementation for     |
+|   Windows and MacOS)                                      |
 |                                                           |
-|   Adam Honse (calcprogrammer1@gmail.com)      05 Aug 2024 |
+|   Adam Honse (calcprogrammer1@gmail.com)      18 Jul 2023 |
 |                                                           |
 |   This file is part of the OpenRGB project                |
 |   SPDX-License-Identifier: GPL-2.0-only                   |
 \*---------------------------------------------------------*/
 
-#include <cstring>
-#include <iomanip>
-#include <sstream>
-#include "HYTEMousematController_MacOS.h"
+#include "HYTEMousematController_Windows_MacOS.h"
 
-HYTEMousematController::HYTEMousematController(libusb_device_handle* dev_handle)
+HYTEMousematController::HYTEMousematController(char* port)
 {
-    dev = dev_handle;
+    port_name = port;
 
     /*-----------------------------------------------------*\
-    | Fill in location string with USB ID                   |
+    | Open the port                                         |
+    | Baud rate doesn't matter for ACM device               |
     \*-----------------------------------------------------*/
-    libusb_device_descriptor descriptor;
-    libusb_get_device_descriptor(libusb_get_device(dev_handle), &descriptor);
-
-    std::stringstream location_stream;
-    location_stream << std::hex << std::setfill('0') << std::setw(4) << descriptor.idVendor << ":" << std::hex << std::setfill('0') << std::setw(4) << descriptor.idProduct;
-    location = location_stream.str();
+    serialport = new serial_port(port_name.c_str(), 2000000);
 }
 
 HYTEMousematController::~HYTEMousematController()
@@ -37,7 +30,7 @@ HYTEMousematController::~HYTEMousematController()
 
 std::string HYTEMousematController::GetLocation()
 {
-    return(location);
+    return(port_name);
 }
 
 void HYTEMousematController::FirmwareAnimationControl(bool enabled)
@@ -60,7 +53,7 @@ void HYTEMousematController::FirmwareAnimationControl(bool enabled)
     /*-----------------------------------------------------*\
     | Send packet                                           |
     \*-----------------------------------------------------*/
-    libusb_bulk_transfer(dev, HYTE_CNVS_EP_OUT, serial_buf, sizeof(serial_buf), NULL, 1000);
+    serialport->serial_write((char *)serial_buf, sizeof(serial_buf));
 }
 
 void HYTEMousematController::StreamingCommand(RGBColor* colors)
@@ -97,5 +90,5 @@ void HYTEMousematController::StreamingCommand(RGBColor* colors)
     /*-----------------------------------------------------*\
     | Send packet                                           |
     \*-----------------------------------------------------*/
-    libusb_bulk_transfer(dev, HYTE_CNVS_EP_OUT, serial_buf, sizeof(serial_buf), NULL, 1000);
+    serialport->serial_write((char *)serial_buf, sizeof(serial_buf));
 }

@@ -12,11 +12,15 @@
 #pragma once
 
 #include "RGBController.h"
-#ifdef _WIN32
-#include "HYTEMousematController_Windows.h"
-#else
+
+#if defined(_WIN32) || defined(__APPLE__)
+#include "HYTEMousematController_Windows_MacOS.h"
+#endif
+
+#ifdef __linux__
 #include "HYTEMousematController_Linux.h"
 #endif
+
 
 enum
 {
