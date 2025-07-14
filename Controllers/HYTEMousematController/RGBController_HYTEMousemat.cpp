@@ -53,7 +53,7 @@ RGBController_HYTEMousemat::RGBController_HYTEMousemat(HYTEMousematController* c
 
 RGBController_HYTEMousemat::~RGBController_HYTEMousemat()
 {
-
+    delete controller;
 }
 
 void RGBController_HYTEMousemat::SetupZones()
