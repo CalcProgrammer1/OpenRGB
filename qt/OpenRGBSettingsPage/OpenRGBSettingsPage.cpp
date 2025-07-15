@@ -441,6 +441,23 @@ void OpenRGBSettingsPage::UpdateProfiles()
             }
         }
     }
+
+    /*---------------------------------------------------------*\
+    | Load server settings                              |
+    \*---------------------------------------------------------*/
+    json server_settings = ResourceManager::get()->GetSettingsManager()->GetSettings("Server");
+
+    if(server_settings.contains("all_devices"))
+    {
+        bool all_devices = server_settings["all_devices"];
+        ui->CheckboxAllDevices->setChecked(all_devices);
+    }
+
+    if(server_settings.contains("legacy_workaround"))
+    {
+        bool legacy_workaround = server_settings["legacy_workaround"];
+        ui->CheckboxLegacyWorkaround->setChecked(legacy_workaround);
+    }
 }
 
 void OpenRGBSettingsPage::on_ComboBoxLanguage_currentTextChanged(const QString language)
@@ -601,6 +618,22 @@ void OpenRGBSettingsPage::on_ComboBoxSuspendProfile_currentTextChanged(const QSt
     json ui_settings                                            = ResourceManager::get()->GetSettingsManager()->GetSettings("UserInterface");
     ui_settings["autoload_profiles"]["suspend_profile"]["name"] = suspend_profile_name.toStdString();
     ResourceManager::get()->GetSettingsManager()->SetSettings("UserInterface", ui_settings);
+    SaveSettings();
+}
+
+void OpenRGBSettingsPage::on_CheckboxAllDevices_clicked(bool checked)
+{
+    json server_settings                                        = ResourceManager::get()->GetSettingsManager()->GetSettings("Server");
+    server_settings["all_devices"]                              = checked;
+    ResourceManager::get()->GetSettingsManager()->SetSettings("Server", server_settings);
+    SaveSettings();
+}
+
+void OpenRGBSettingsPage::on_CheckboxLegacyWorkaround_clicked(bool checked)
+{
+    json server_settings                                        = ResourceManager::get()->GetSettingsManager()->GetSettings("Server");
+    server_settings["legacy_workaround"]                        = checked;
+    ResourceManager::get()->GetSettingsManager()->SetSettings("Server", server_settings);
     SaveSettings();
 }
 
