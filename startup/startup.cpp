@@ -20,6 +20,23 @@
 #include "macutils.h"
 #endif
 
+#ifdef __linux__
+#include <csignal>
+#endif
+
+/******************************************************************************************\
+*                                                                                          *
+*   Linux signal handler                                                                   *
+*                                                                                          *
+\******************************************************************************************/
+#ifdef __linux__
+void sigHandler(int s)
+{
+    std::signal(s, SIG_DFL);
+    qApp->quit();
+}
+#endif
+
 /******************************************************************************************\
 *                                                                                          *
 *   startup                                                                                *
@@ -105,6 +122,12 @@ int startup(int argc, char* argv[], unsigned int ret_flags)
         }
 
         LOG_TRACE("[main] Ready to exec() the dialog");
+
+#ifdef __linux__
+        std::signal(SIGINT,  sigHandler);
+        std::signal(SIGTERM, sigHandler);
+#endif
+
         exitval = a.exec();
     }
     else
