@@ -171,6 +171,14 @@ ResourceManager::ResourceManager()
     }
 
     /*-----------------------------------------------------*\
+    | Set server name                                       |
+    \*-----------------------------------------------------*/
+    std::string titleString = "OpenRGB ";
+    titleString.append(VERSION_STRING);
+
+    server->SetName(titleString);
+
+    /*-----------------------------------------------------*\
     | Enable legacy SDK workaround in server if configured  |
     \*-----------------------------------------------------*/
     if(server_settings.contains("legacy_workaround"))
