@@ -11,20 +11,20 @@
 |   SPDX-License-Identifier: GPL-2.0-only                   |
 \*---------------------------------------------------------*/
 
-#include "serial_port.h"
-
+#include <algorithm>
 #include "filesystem.h"
-#include <algorithm> // For std::sort only
+#include "serial_port.h"
 
 #ifdef __APPLE__
 #include <regex>
 #endif
 
 /*---------------------------------------------------------*\
-|  getSerialPorts(): returns the list of available serial   |
-|  ports in the system                                      |
+|  getSerialPorts                                           |
+|                                                           |
+|   Returns the list of available serial ports in the       |
+|   system                                                  |
 \*---------------------------------------------------------*/
-
 std::vector<std::string> serial_port::getSerialPorts()
 {
     /*-----------------------------------------------------------------------------------*\
@@ -32,15 +32,23 @@ std::vector<std::string> serial_port::getSerialPorts()
     \*-----------------------------------------------------------------------------------*/
     std::vector<std::string> port_list;
 #if defined (_WIN32) || defined( _WIN64)
-    const uint32_t CHAR_NUM = 1024;
-    const uint32_t MAX_PORTS = 255;
-    const std::string COM_STR = "COM";
+    const uint32_t      CHAR_NUM    = 1024;
+    const uint32_t      MAX_PORTS   = 255;
+    const std::string   COM_STR     = "COM";
+
     char path[CHAR_NUM];
-    for (uint32_t k = 0; k < MAX_PORTS; k++)
+
+    for(uint32_t k = 0; k < MAX_PORTS; k++)
     {
         std::string port_name = COM_STR + std::to_string(k);
+
         DWORD test = QueryDosDevice(port_name.c_str(), path, CHAR_NUM);
-        if (test == 0) continue;
+
+        if(test == 0)
+        {
+            continue;
+        }
+
         port_list.push_back(port_name);
     }
 #endif
@@ -49,37 +57,61 @@ std::vector<std::string> serial_port::getSerialPorts()
     try
     {
         filesystem::path p(DEV_PATH);
-        if (!filesystem::exists(DEV_PATH)) return port_list;
-        for (filesystem::directory_entry de: filesystem::directory_iterator(p))
+
+        if(!filesystem::exists(DEV_PATH))
         {
-            if (filesystem::is_symlink(de.symlink_status()))
+            return port_list;
+        }
+
+        for(filesystem::directory_entry de: filesystem::directory_iterator(p))
+        {
+            if(filesystem::is_symlink(de.symlink_status()))
             {
                 filesystem::path symlink_points_at = filesystem::read_symlink(de);
                 port_list.push_back(std::string("/dev/")+symlink_points_at.filename().c_str());
             }
         }
     }
-    catch (const filesystem::filesystem_error &ex) {}
+    catch(const filesystem::filesystem_error &ex)
+    {
+
+    }
 #endif
 #if defined(__APPLE__)
-    const std::string DEV_PATH = "/dev";
-    const std::regex base_regex(R"(\/dev\/(tty|cu)\..*)");
+    const std::string   DEV_PATH = "/dev";
+    const std::regex    base_regex(R"(\/dev\/(tty|cu)\..*)");
     try
     {
         filesystem::path p(DEV_PATH);
-        if (!filesystem::exists(DEV_PATH)) return port_list;
-        for (filesystem::directory_entry de: filesystem::directory_iterator(p)) {
-            filesystem::path canonical_path = filesystem::canonical(de);
-            std::string name = canonical_path.generic_string();
-            std::smatch res;
+
+        if(!filesystem::exists(DEV_PATH))
+        {
+            return port_list;
+        }
+
+        for(filesystem::directory_entry de: filesystem::directory_iterator(p))
+        {
+            filesystem::path    canonical_path  = filesystem::canonical(de);
+            std::string         name            = canonical_path.generic_string();
+            std::smatch         res;
+
             std::regex_search(name, res, base_regex);
-            if (res.empty()) continue;
+
+            if(res.empty())
+            {
+                continue;
+            }
+
             port_list.push_back(canonical_path.generic_string());
         }
     }
-    catch (const filesystem::filesystem_error &ex) {}
+    catch(const filesystem::filesystem_error &ex)
+    {
+
+    }
 #endif
     std::sort(port_list.begin(), port_list.end());
+
     return port_list;
 }
 
