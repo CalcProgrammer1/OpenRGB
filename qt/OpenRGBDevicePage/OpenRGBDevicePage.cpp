@@ -13,7 +13,7 @@
 #include "SettingsManager.h"
 #include "ui_OpenRGBDevicePage.h"
 
-static void UpdateCallback(void * this_ptr, unsigned int update_reason)
+static void UpdateCallback(void * this_ptr, unsigned int update_reason, void * /*controller_ptr*/)
 {
     OpenRGBDevicePage * this_obj = (OpenRGBDevicePage *)this_ptr;
 
