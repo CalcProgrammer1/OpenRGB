@@ -97,12 +97,22 @@ ProfileManager::~ProfileManager()
 
 void ProfileManager::DeleteProfile(std::string profile_name)
 {
+    /*-----------------------------------------------------*\
+    | Clean up the profile name                             |
+    \*-----------------------------------------------------*/
     profile_name = StringUtils::remove_null_terminating_chars(profile_name);
 
-    filesystem::path filename = profile_directory / profile_name;
-    filename.concat(".json");
+    if(ResourceManager::get()->IsLocalClient())
+    {
+        ResourceManager::get()->GetLocalClient()->ProfileManager_DeleteProfile(profile_name);
+    }
+    else
+    {
+        filesystem::path filename = profile_directory / profile_name;
+        filename.concat(".json");
 
-    filesystem::remove(filename);
+        filesystem::remove(filename);
+    }
 
     UpdateProfileList();
 }
@@ -230,22 +240,31 @@ bool ProfileManager::LoadProfile(std::string profile_name)
 
 nlohmann::json ProfileManager::ReadProfileJSON(std::string profile_name)
 {
+    nlohmann::json profile_json;
+
     /*-----------------------------------------------------*\
     | Clean up the profile name                             |
     \*-----------------------------------------------------*/
     profile_name = StringUtils::remove_null_terminating_chars(profile_name);
 
-    /*-----------------------------------------------------*\
-    | File extension for v6+ profiles is .json              |
-    \*-----------------------------------------------------*/
-    profile_name += ".json";
+    if(ResourceManager::get()->IsLocalClient())
+    {
+        profile_json = nlohmann::json::parse(ResourceManager::get()->GetLocalClient()->ProfileManager_DownloadProfile(profile_name));
+    }
+    else
+    {
+        /*-------------------------------------------------*\
+        | File extension for v6+ profiles is .json          |
+        \*-------------------------------------------------*/
+        profile_name += ".json";
 
-    /*-----------------------------------------------------*\
-    | Read the profile JSON from the file                   |
-    \*-----------------------------------------------------*/
-    filesystem::path profile_path = profile_directory / filesystem::u8path(profile_name);
+        /*-------------------------------------------------*\
+        | Read the profile JSON from the file               |
+        \*-------------------------------------------------*/
+        filesystem::path profile_path = profile_directory / filesystem::u8path(profile_name);
 
-    nlohmann::json profile_json = ReadProfileFileJSON(profile_path);
+        profile_json = ReadProfileFileJSON(profile_path);
+    }
 
     return(profile_json);
 }
@@ -299,15 +318,25 @@ bool ProfileManager::SaveProfile(std::string profile_name)
             profile_json["plugins"] = plugin_manager->OnProfileSave();
         }
 
-        /*-------------------------------------------------*\
-        | Save the profile to file from the JSON            |
-        \*-------------------------------------------------*/
-        SaveProfileFromJSON(profile_json);
+        if(ResourceManager::get()->IsLocalClient())
+        {
+            /*---------------------------------------------*\
+            | Upload the profile to the server              |
+            \*---------------------------------------------*/
+            ResourceManager::get()->GetLocalClient()->ProfileManager_UploadProfile(profile_json.dump());
 
-        /*-------------------------------------------------*\
-        | Update the profile list                           |
-        \*-------------------------------------------------*/
-        UpdateProfileList();
+            /*---------------------------------------------*\
+            | Update the profile list                       |
+            \*---------------------------------------------*/
+            UpdateProfileList();
+        }
+        else
+        {
+            /*---------------------------------------------*\
+            | Save the profile to file from the JSON        |
+            \*---------------------------------------------*/
+            SaveProfileFromJSON(profile_json);
+        }
 
         return(true);
     }
@@ -340,6 +369,11 @@ bool ProfileManager::SaveProfileFromJSON(nlohmann::json profile_json)
         | Close the file when done                          |
         \*-------------------------------------------------*/
         profile_file.close();
+
+        /*-------------------------------------------------*\
+        | Update the profile list                           |
+        \*-------------------------------------------------*/
+        UpdateProfileList();
 
         return(true);
     }
@@ -447,29 +481,42 @@ void ProfileManager::UpdateProfileList()
 {
     profile_list.clear();
 
-    /*-----------------------------------------------------*\
-    | Load profiles by looking for .json files in profile   |
-    | directory                                             |
-    \*-----------------------------------------------------*/
-    for(const filesystem::directory_entry &entry : filesystem::directory_iterator(profile_directory))
+    if(ResourceManager::get()->IsLocalClient())
     {
-        std::string filename = entry.path().filename().string();
+        char * profile_data = ResourceManager::get()->GetLocalClient()->ProfileManager_GetProfileList();
 
-        if(filename.find(".json") != std::string::npos)
+        if(profile_data != NULL)
         {
-            LOG_INFO("[ProfileManager] Found file: %s attempting to validate header", filename.c_str());
+            SetProfileListFromDescription(profile_data);
+            delete[] profile_data;
+        }
+    }
+    else
+    {
+        /*-------------------------------------------------*\
+        | Load profiles by looking for .json files in       |
+        | profile directory                                 |
+        \*-------------------------------------------------*/
+        for(const filesystem::directory_entry &entry : filesystem::directory_iterator(profile_directory))
+        {
+            std::string filename = entry.path().filename().string();
 
-            /*---------------------------------------------*\
-            | Open input file in binary mode                |
-            \*---------------------------------------------*/
-            filesystem::path file_path = profile_directory;
-            file_path.append(filename);
-
-            nlohmann::json profile_json = ReadProfileFileJSON(file_path);
-
-            if(!profile_json.empty())
+            if(filename.find(".json") != std::string::npos)
             {
-                profile_list.push_back(filename.erase(filename.length() - 5));
+                LOG_INFO("[ProfileManager] Found file: %s attempting to validate header", filename.c_str());
+
+                /*-----------------------------------------*\
+                | Open input file in binary mode            |
+                \*-----------------------------------------*/
+                filesystem::path file_path = profile_directory;
+                file_path.append(filename);
+
+                nlohmann::json profile_json = ReadProfileFileJSON(file_path);
+
+                if(!profile_json.empty())
+                {
+                    profile_list.push_back(filename.erase(filename.length() - 5));
+                }
             }
         }
     }
