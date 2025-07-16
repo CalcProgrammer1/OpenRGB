@@ -13,7 +13,7 @@
 #include "NetworkServer.h"
 #include "LogManager.h"
 
-#ifndef WIN32
+#ifndef _WIN32
 #include <sys/ioctl.h>
 #include <netinet/tcp.h>
 #include <sys/types.h>
@@ -28,8 +28,9 @@
 
 const char yes = 1;
 
-#ifdef WIN32
+#ifdef _WIN32
 #include <Windows.h>
+#define MSG_NOSIGNAL 0
 #else
 #include <unistd.h>
 #endif
@@ -227,6 +228,22 @@ void NetworkServer::SetHost(std::string new_host)
 void NetworkServer::SetLegacyWorkaroundEnable(bool enable)
 {
     legacy_workaround_enabled = enable;
+}
+
+void NetworkServer::SetName(std::string new_name)
+{
+    /*---------------------------------------------------------*\
+    | Store the server name                                     |
+    \*---------------------------------------------------------*/
+    server_name = new_name;
+
+    /*---------------------------------------------------------*\
+    | Send server name to all clients                           |
+    \*---------------------------------------------------------*/
+    for(std::size_t client_idx = 0; client_idx < ServerClients.size(); client_idx++)
+    {
+        SendReply_ServerString(ServerClients[client_idx]->client_sock);
+    }
 }
 
 void NetworkServer::SetPort(unsigned short new_port)
@@ -655,8 +672,9 @@ void NetworkServer::ListenThreadFunction(NetworkClientInfo * client_info)
                 break;
 
             case NET_PACKET_ID_REQUEST_PROTOCOL_VERSION:
-                SendReply_ProtocolVersion(client_sock);
                 ProcessRequest_ClientProtocolVersion(client_sock, header.pkt_size, data);
+                SendReply_ProtocolVersion(client_sock);
+                SendReply_ServerString(client_sock);
                 break;
 
             case NET_PACKET_ID_SET_CLIENT_NAME:
@@ -1042,6 +1060,7 @@ void NetworkServer::ProcessRequest_ClientString(SOCKET client_sock, unsigned int
             break;
         }
     }
+
     ServerClientsMutex.unlock();
 
     /*---------------------------------------------------------*\
@@ -1104,6 +1123,33 @@ void NetworkServer::SendReply_ProtocolVersion(SOCKET client_sock)
     send(client_sock, (const char *)&reply_hdr, sizeof(NetPacketHeader), 0);
     send(client_sock, (const char *)&reply_data, sizeof(unsigned int), 0);
     send_in_progress.unlock();
+}
+
+void NetworkServer::SendReply_ServerString(SOCKET client_sock)
+{
+    /*---------------------------------------------------------*\
+    | Send server string to client only if protocol is 5 or     |
+    | greater                                                   |
+    \*---------------------------------------------------------*/
+    ServerClientsMutex.lock();
+    for(unsigned int this_idx = 0; this_idx < ServerClients.size(); this_idx++)
+    {
+        if(ServerClients[this_idx]->client_sock == client_sock)
+        {
+            if(ServerClients[this_idx]->client_protocol_version >= 5)
+            {
+                NetPacketHeader reply_hdr;
+
+                InitNetPacketHeader(&reply_hdr, 0, NET_PACKET_ID_SET_SERVER_NAME, (unsigned int)strlen(server_name.c_str()) + 1);
+
+                send_in_progress.lock();
+                send(client_sock, (char *)&reply_hdr, sizeof(NetPacketHeader), MSG_NOSIGNAL);
+                send(client_sock, (char *)server_name.c_str(), reply_hdr.pkt_size, MSG_NOSIGNAL);
+                send_in_progress.unlock();
+            }
+        }
+    }
+    ServerClientsMutex.unlock();
 }
 
 void NetworkServer::SendRequest_DeviceListChanged(SOCKET client_sock)
