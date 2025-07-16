@@ -195,6 +195,15 @@ ResourceManager::ResourceManager()
     }
 
     /*-----------------------------------------------------*\
+    | Set server name                                       |
+    \*-----------------------------------------------------*/
+    std::string titleString = "OpenRGB ";
+    titleString.append(VERSION_STRING);
+
+    server->SetName(titleString);
+    server->SetSettingsManager(settings_manager);
+
+    /*-----------------------------------------------------*\
     | Enable legacy SDK workaround in server if configured  |
     \*-----------------------------------------------------*/
     if(server_settings.contains("legacy_workaround"))
@@ -1797,6 +1806,7 @@ void ResourceManager::InitCoroutine()
             | detection if the local server was connected   |
             \*---------------------------------------------*/
             auto_connection_active = true;
+            profile_manager->UpdateProfileList();
             DisableDetection();
         }
 
@@ -2122,4 +2132,14 @@ bool ResourceManager::IsAnyDimmDetectorEnabled(json &detector_settings)
         }
     }
     return false;
+}
+
+bool ResourceManager::IsLocalClient()
+{
+    return(auto_connection_active);
+}
+
+NetworkClient* ResourceManager::GetLocalClient()
+{
+    return(auto_connection_client);
 }

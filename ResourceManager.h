@@ -199,6 +199,9 @@ public:
     void WaitForInitialization();
     void WaitForDeviceDetection();
 
+    bool IsLocalClient();
+    NetworkClient* GetLocalClient();
+
 private:
     void UpdateDetectorSettings();
     void SetupConfigurationDirectory();
