@@ -16,6 +16,10 @@
 #include "filesystem.h"
 #include <algorithm> // For std::sort only
 
+#ifdef __APPLE__
+#include <regex>
+#endif
+
 /*---------------------------------------------------------*\
 |  getSerialPorts(): returns the list of available serial   |
 |  ports in the system                                      |
