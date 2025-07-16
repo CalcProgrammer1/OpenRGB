@@ -112,6 +112,11 @@ bool NetworkClient::GetOnline()
     return(server_connected && client_string_sent && protocol_initialized && server_initialized);
 }
 
+std::string NetworkClient::GetServerName()
+{
+    return(server_name);
+}
+
 void NetworkClient::RegisterClientInfoChangeCallback(NetClientCallback new_callback, void * new_callback_arg)
 {
     ClientInfoChangeCallbacks.push_back(new_callback);
@@ -540,6 +545,15 @@ void NetworkClient::ListenThreadFunction()
                 ProcessReply_ProtocolVersion(header.pkt_size, data);
                 break;
 
+            case NET_PACKET_ID_SET_SERVER_NAME:
+                if(data == NULL)
+                {
+                    break;
+                }
+
+                ProcessRequest_ServerString(header.pkt_size, data);
+                break;
+
             case NET_PACKET_ID_DEVICE_LIST_UPDATED:
                 ProcessRequest_DeviceListChanged();
                 break;
@@ -728,6 +742,16 @@ void NetworkClient::ProcessRequest_DeviceListChanged()
     server_initialized                  = false;
 
     change_in_progress = false;
+}
+
+void NetworkClient::ProcessRequest_ServerString(unsigned int data_size, char * data)
+{
+    server_name.assign(data, data_size);
+
+    /*---------------------------------------------------------*\
+    | Client info has changed, call the callbacks               |
+    \*---------------------------------------------------------*/
+    ClientInfoChanged();
 }
 
 void NetworkClient::SendData_ClientString()

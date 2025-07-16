@@ -73,6 +73,7 @@ public:
 
     void                                SetHost(std::string host);
     void                                SetLegacyWorkaroundEnable(bool enable);
+    void                                SetName(std::string new_name);
     void                                SetPort(unsigned short new_port);
 
     void                                StartServer();
@@ -88,6 +89,7 @@ public:
     void                                SendReply_ControllerCount(SOCKET client_sock);
     void                                SendReply_ControllerData(SOCKET client_sock, unsigned int dev_idx, unsigned int protocol_version);
     void                                SendReply_ProtocolVersion(SOCKET client_sock);
+    void                                SendReply_ServerString(SOCKET client_sock);
 
     void                                SendRequest_DeviceListChanged(SOCKET client_sock);
     void                                SendReply_ProfileList(SOCKET client_sock);
@@ -102,6 +104,7 @@ public:
 protected:
     std::string                         host;
     unsigned short                      port_num;
+    std::string                         server_name;
     std::atomic<bool>                   server_online;
     std::atomic<bool>                   server_listening;
 
