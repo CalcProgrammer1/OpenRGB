@@ -61,33 +61,53 @@ enum
     NET_PACKET_ID_REQUEST_PROTOCOL_VERSION      = 40,   /* Request OpenRGB SDK protocol version from server     */
 
     NET_PACKET_ID_SET_CLIENT_NAME               = 50,   /* Send client name string to server                    */
+    NET_PACKET_ID_SET_SERVER_NAME               = 51,   /* Send server name string to client                    */
 
     NET_PACKET_ID_DEVICE_LIST_UPDATED           = 100,  /* Indicate to clients that device list has updated     */
 
     NET_PACKET_ID_REQUEST_RESCAN_DEVICES        = 140,  /* Request rescan of devices                            */
 
-    NET_PACKET_ID_REQUEST_PROFILE_LIST          = 150,  /* Request profile list                                 */
-    NET_PACKET_ID_REQUEST_SAVE_PROFILE          = 151,  /* Save current configuration in a new profile          */
-    NET_PACKET_ID_REQUEST_LOAD_PROFILE          = 152,  /* Load a given profile                                 */
-    NET_PACKET_ID_REQUEST_DELETE_PROFILE        = 153,  /* Delete a given profile                               */
-
-    NET_PACKET_ID_REQUEST_PLUGIN_LIST           = 200,  /* Request list of plugins                              */
-    NET_PACKET_ID_PLUGIN_SPECIFIC               = 201,  /* Interact with a plugin                               */
+    /*----------------------------------------------------------------------------------------------------------*\
+    | ProfileManager functions                                                                                   |
+    \*----------------------------------------------------------------------------------------------------------*/
+    NET_PACKET_ID_PROFILEMANAGER_GET_PROFILE_LIST   = 150,  /* Get profile list                                 */
+    NET_PACKET_ID_PROFILEMANAGER_SAVE_PROFILE       = 151,  /* Save current configuration in a new profile      */
+    NET_PACKET_ID_PROFILEMANAGER_LOAD_PROFILE       = 152,  /* Load a given profile                             */
+    NET_PACKET_ID_PROFILEMANAGER_DELETE_PROFILE     = 153,  /* Delete a given profile                           */
+    NET_PACKET_ID_PROFILEMANAGER_UPLOAD_PROFILE     = 154,  /* Upload a profile to the server in JSON format    */
+    NET_PACKET_ID_PROFILEMANAGER_DOWNLOAD_PROFILE   = 155,  /* Download a profile from the server in JSON format*/
+    NET_PACKET_ID_PROFILEMANAGER_GET_ACTIVE_PROFILE = 156,  /* Get the active profile name                      */
 
     /*----------------------------------------------------------------------------------------------------------*\
-    | RGBController class functions                                                                              |
+    | PluginManager functions                                                                                    |
     \*----------------------------------------------------------------------------------------------------------*/
-    NET_PACKET_ID_RGBCONTROLLER_RESIZEZONE      = 1000, /* RGBController::ResizeZone()                          */
-    NET_PACKET_ID_RGBCONTROLLER_CLEARSEGMENTS   = 1001, /* RGBController::ClearSegments()                       */
-    NET_PACKET_ID_RGBCONTROLLER_ADDSEGMENT      = 1002, /* RGBController::AddSegment()                          */
+    NET_PACKET_ID_PLUGINMANAGER_GET_PLUGIN_LIST     = 200,  /* Get list of plugins                              */
+    NET_PACKET_ID_PLUGINMANAGER_PLUGIN_SPECIFIC     = 201,  /* Interact with a plugin                           */
 
-    NET_PACKET_ID_RGBCONTROLLER_UPDATELEDS      = 1050, /* RGBController::UpdateLEDs()                          */
-    NET_PACKET_ID_RGBCONTROLLER_UPDATEZONELEDS  = 1051, /* RGBController::UpdateZoneLEDs()                      */
-    NET_PACKET_ID_RGBCONTROLLER_UPDATESINGLELED = 1052, /* RGBController::UpdateSingleLED()                     */
+    /*----------------------------------------------------------------------------------------------------------*\
+    | SettingsManager functions                                                                                  |
+    \*----------------------------------------------------------------------------------------------------------*/
+    NET_PACKET_ID_SETTINGSMANAGER_GET_SETTINGS      = 250,  /* Get settings for a given key in JSON format      */
+    NET_PACKET_ID_SETTINGSMANAGER_SET_SETTINGS      = 251,  /* Set settings for a given key in JSON format      */
+    NET_PACKET_ID_SETTINGSMANAGER_SAVE_SETTINGS     = 252,  /* Save settings                                    */
 
-    NET_PACKET_ID_RGBCONTROLLER_SETCUSTOMMODE   = 1100, /* RGBController::SetCustomMode()                       */
-    NET_PACKET_ID_RGBCONTROLLER_UPDATEMODE      = 1101, /* RGBController::UpdateMode()                          */
-    NET_PACKET_ID_RGBCONTROLLER_SAVEMODE        = 1102, /* RGBController::SaveMode()                            */
+    /*----------------------------------------------------------------------------------------------------------*\
+    | RGBController functions                                                                                    |
+    \*----------------------------------------------------------------------------------------------------------*/
+    NET_PACKET_ID_RGBCONTROLLER_RESIZEZONE          = 1000, /* RGBController::ResizeZone()                      */
+    NET_PACKET_ID_RGBCONTROLLER_CLEARSEGMENTS       = 1001, /* RGBController::ClearSegments()                   */
+    NET_PACKET_ID_RGBCONTROLLER_ADDSEGMENT          = 1002, /* RGBController::AddSegment()                      */
+
+    NET_PACKET_ID_RGBCONTROLLER_UPDATELEDS          = 1050, /* RGBController::UpdateLEDs()                      */
+    NET_PACKET_ID_RGBCONTROLLER_UPDATEZONELEDS      = 1051, /* RGBController::UpdateZoneLEDs()                  */
+    NET_PACKET_ID_RGBCONTROLLER_UPDATESINGLELED     = 1052, /* RGBController::UpdateSingleLED()                 */
+
+    NET_PACKET_ID_RGBCONTROLLER_SETCUSTOMMODE       = 1100, /* RGBController::SetCustomMode()                   */
+    NET_PACKET_ID_RGBCONTROLLER_UPDATEMODE          = 1101, /* RGBController::UpdateMode()                      */
+    NET_PACKET_ID_RGBCONTROLLER_SAVEMODE            = 1102, /* RGBController::SaveMode()                        */
+    NET_PACKET_ID_RGBCONTROLLER_UPDATEZONEMODE      = 1103, /* RGBController::UpdateZoneMode()                  */
+
+    NET_PACKET_ID_RGBCONTROLLER_SIGNALUPDATE        = 1150, /* RGBController::SignalUpdate()                    */
 };
 
 void InitNetPacketHeader
