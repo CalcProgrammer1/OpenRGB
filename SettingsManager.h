@@ -24,6 +24,7 @@ class SettingsManagerInterface
 public:
     virtual json GetSettings(std::string settings_key)                       = 0;
     virtual void SetSettings(std::string settings_key, json new_settings)    = 0;
+    virtual void SetSettingsFromJsonString(std::string settings_json_str)    = 0;
 
     virtual void LoadSettings(const filesystem::path& filename)              = 0;
     virtual void SaveSettings()                                              = 0;
@@ -40,6 +41,7 @@ public:
 
     json GetSettings(std::string settings_key) override;
     void SetSettings(std::string settings_key, json new_settings) override;
+    void SetSettingsFromJsonString(std::string settings_json_str) override;
 
     void LoadSettings(const filesystem::path& filename) override;
     void SaveSettings() override;
