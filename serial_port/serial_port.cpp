@@ -13,6 +13,7 @@
 
 #include "serial_port.h"
 
+#include "filesystem.h"
 #include <algorithm> // For std::sort only
 
 /*---------------------------------------------------------*\
@@ -40,33 +41,31 @@ std::vector<std::string> serial_port::getSerialPorts()
     }
 #endif
 #if defined (__linux__)
-    namespace fs = std::filesystem;
     const std::string DEV_PATH = "/dev/serial/by-id";
     try
     {
-        fs::path p(DEV_PATH);
-        if (!fs::exists(DEV_PATH)) return port_list;
-        for (fs::directory_entry de: fs::directory_iterator(p))
+        filesystem::path p(DEV_PATH);
+        if (!filesystem::exists(DEV_PATH)) return port_list;
+        for (filesystem::directory_entry de: filesystem::directory_iterator(p))
         {
-            if (fs::is_symlink(de.symlink_status()))
+            if (filesystem::is_symlink(de.symlink_status()))
             {
-                fs::path symlink_points_at = fs::read_symlink(de);
+                filesystem::path symlink_points_at = filesystem::read_symlink(de);
                 port_list.push_back(std::string("/dev/")+symlink_points_at.filename().c_str());
             }
         }
     }
-    catch (const fs::filesystem_error &ex) {}
+    catch (const filesystem::filesystem_error &ex) {}
 #endif
 #if defined(__APPLE__)
-    namespace fs = std::filesystem;
     const std::string DEV_PATH = "/dev";
     const std::regex base_regex(R"(\/dev\/(tty|cu)\..*)");
     try
     {
-        fs::path p(DEV_PATH);
-        if (!fs::exists(DEV_PATH)) return port_list;
-        for (fs::directory_entry de: fs::directory_iterator(p)) {
-            fs::path canonical_path = fs::canonical(de);
+        filesystem::path p(DEV_PATH);
+        if (!filesystem::exists(DEV_PATH)) return port_list;
+        for (filesystem::directory_entry de: filesystem::directory_iterator(p)) {
+            filesystem::path canonical_path = filesystem::canonical(de);
             std::string name = canonical_path.generic_string();
             std::smatch res;
             std::regex_search(name, res, base_regex);
@@ -74,7 +73,7 @@ std::vector<std::string> serial_port::getSerialPorts()
             port_list.push_back(canonical_path.generic_string());
         }
     }
-    catch (const fs::filesystem_error &ex) {}
+    catch (const filesystem::filesystem_error &ex) {}
 #endif
     std::sort(port_list.begin(), port_list.end());
     return port_list;
