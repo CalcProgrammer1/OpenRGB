@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>531</width>
-    <height>199</height>
+    <height>206</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -94,7 +94,14 @@
        </widget>
       </item>
       <item row="1" column="5">
-       <widget class="QLineEdit" name="PortEdit"/>
+       <widget class="QComboBox" name="PortComboBox">
+        <property name="editable">
+         <bool>true</bool>
+        </property>
+        <property name="insertPolicy">
+         <enum>QComboBox::NoInsert</enum>
+        </property>
+       </widget>
       </item>
      </layout>
     </widget>

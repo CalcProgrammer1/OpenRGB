@@ -10,11 +10,35 @@
 #include "DMXSettingsEntry.h"
 #include "ui_DMXSettingsEntry.h"
 
+#include "serial_port.h"
+#include <QStandardItemModel>
+
 DMXSettingsEntry::DMXSettingsEntry(QWidget *parent) :
     BaseManualDeviceEntry(parent),
     ui(new Ui::DMXSettingsEntry)
 {
     ui->setupUi(this);
+
+    std::vector<std::string> serialPorts = serial_port::getSerialPorts();
+    for(size_t i = 0; i < serialPorts.size(); ++i)
+    {
+        ui->PortComboBox->addItem(QString::fromStdString(serialPorts[i]));
+    }
+    if(serialPorts.empty())
+    {
+        /*---------------------------------------------------*\
+        | When no ports were found, add an unselectable entry |
+        | denoting this fact istead                           |
+        \*---------------------------------------------------*/
+        QStandardItemModel* comboBoxModel = qobject_cast<QStandardItemModel *>(ui->PortComboBox->model());
+        if(comboBoxModel != nullptr)
+        {
+            ui->PortComboBox->addItem(tr("No serial ports found"));
+            QStandardItem *item = comboBoxModel->item(0);
+            item->setFlags(item->flags() & ~Qt::ItemIsEnabled);
+        }
+    }
+    ui->PortComboBox->clearEditText();
 }
 
 DMXSettingsEntry::~DMXSettingsEntry()
@@ -39,7 +63,7 @@ void DMXSettingsEntry::loadFromSettings(const json& data)
 
     if(data.contains("port"))
     {
-        ui->PortEdit->setText(QString::fromStdString(data["port"]));
+        ui->PortComboBox->setCurrentText(QString::fromStdString(data["port"]));
     }
 
     if(data.contains("red_channel"))
@@ -75,7 +99,7 @@ json DMXSettingsEntry::saveSettings()
     | Required parameters                               |
     \*-------------------------------------------------*/
     result["name"]                     = ui->NameEdit->text().toStdString();
-    result["port"]                     = ui->PortEdit->text().toStdString();
+    result["port"]                     = ui->PortComboBox->currentText().toStdString();
     result["red_channel"]              = ui->RedEdit->text().toUInt();
     result["green_channel"]            = ui->GreenEdit->text().toUInt();
     result["blue_channel"]             = ui->BlueEdit->text().toUInt();
