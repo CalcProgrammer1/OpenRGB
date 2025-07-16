@@ -51,8 +51,8 @@ NetworkClient::NetworkClient(std::vector<RGBController *>& control) : controller
     server_reinitialize                 = false;
     change_in_progress                  = false;
 
-    ListenThread            = NULL;
-    ConnectionThread        = NULL;
+    ListenThread                        = NULL;
+    ConnectionThread                    = NULL;
 }
 
 NetworkClient::~NetworkClient()
@@ -60,37 +60,22 @@ NetworkClient::~NetworkClient()
     StopClient();
 }
 
-void NetworkClient::ClearCallbacks()
+/*---------------------------------------------------------*\
+| Client Information functions                              |
+\*---------------------------------------------------------*/
+bool NetworkClient::GetConnected()
 {
-    ClientInfoChangeCallbacks.clear();
-    ClientInfoChangeCallbackArgs.clear();
-}
-
-void NetworkClient::ClientInfoChanged()
-{
-    ClientInfoChangeMutex.lock();
-    ControllerListMutex.lock();
-
-    /*---------------------------------------------------------*\
-    | Client info has changed, call the callbacks               |
-    \*---------------------------------------------------------*/
-    for(unsigned int callback_idx = 0; callback_idx < ClientInfoChangeCallbacks.size(); callback_idx++)
-    {
-        ClientInfoChangeCallbacks[callback_idx](ClientInfoChangeCallbackArgs[callback_idx]);
-    }
-
-    ControllerListMutex.unlock();
-    ClientInfoChangeMutex.unlock();
+    return(server_connected);
 }
 
 std::string NetworkClient::GetIP()
 {
-    return port_ip;
+    return(port_ip);
 }
 
 unsigned short NetworkClient::GetPort()
 {
-    return port_num;
+    return(port_num);
 }
 
 unsigned int NetworkClient::GetProtocolVersion()
@@ -109,22 +94,19 @@ unsigned int NetworkClient::GetProtocolVersion()
     return(protocol_version);
 }
 
-bool NetworkClient::GetConnected()
-{
-    return(server_connected);
-}
-
 bool NetworkClient::GetOnline()
 {
     return(server_connected && client_string_sent && protocol_initialized && server_initialized);
 }
 
-void NetworkClient::RegisterClientInfoChangeCallback(NetClientCallback new_callback, void * new_callback_arg)
+std::string NetworkClient::GetServerName()
 {
-    ClientInfoChangeCallbacks.push_back(new_callback);
-    ClientInfoChangeCallbackArgs.push_back(new_callback_arg);
+    return(server_name);
 }
 
+/*---------------------------------------------------------*\
+| Client Control functions                                  |
+\*---------------------------------------------------------*/
 void NetworkClient::SetIP(std::string new_ip)
 {
     if(server_connected == false)
@@ -221,6 +203,469 @@ void NetworkClient::StopClient()
     ClientInfoChanged();
 }
 
+void NetworkClient::SendRequest_ControllerData(unsigned int dev_idx)
+{
+    NetPacketHeader request_hdr;
+    unsigned int    protocol_version;
+
+    controller_data_received = false;
+
+    memcpy(request_hdr.pkt_magic, openrgb_sdk_magic, sizeof(openrgb_sdk_magic));
+
+    request_hdr.pkt_dev_idx  = dev_idx;
+    request_hdr.pkt_id       = NET_PACKET_ID_REQUEST_CONTROLLER_DATA;
+
+    if(server_protocol_version == 0)
+    {
+        request_hdr.pkt_size     = 0;
+
+        send_in_progress.lock();
+        send(client_sock, (char *)&request_hdr, sizeof(NetPacketHeader), MSG_NOSIGNAL);
+        send_in_progress.unlock();
+    }
+    else
+    {
+        request_hdr.pkt_size     = sizeof(unsigned int);
+
+        /*-------------------------------------------------------------*\
+        | Limit the protocol version to the highest supported by both   |
+        | the client and the server.                                    |
+        \*-------------------------------------------------------------*/
+        if(server_protocol_version > OPENRGB_SDK_PROTOCOL_VERSION)
+        {
+            protocol_version = OPENRGB_SDK_PROTOCOL_VERSION;
+        }
+        else
+        {
+            protocol_version = server_protocol_version;
+        }
+
+        send_in_progress.lock();
+        send(client_sock, (char *)&request_hdr, sizeof(NetPacketHeader), MSG_NOSIGNAL);
+        send(client_sock, (char *)&protocol_version, sizeof(unsigned int), MSG_NOSIGNAL);
+        send_in_progress.unlock();
+    }
+}
+
+void NetworkClient::SendRequest_RescanDevices()
+{
+    if(GetProtocolVersion() >= 5)
+    {
+        NetPacketHeader request_hdr;
+
+        InitNetPacketHeader(&request_hdr, 0, NET_PACKET_ID_REQUEST_RESCAN_DEVICES, 0);
+
+        send_in_progress.lock();
+        send(client_sock, (char *)&request_hdr, sizeof(NetPacketHeader), MSG_NOSIGNAL);
+        send_in_progress.unlock();
+    }
+}
+
+/*---------------------------------------------------------*\
+| Client Callback functions                                 |
+\*---------------------------------------------------------*/
+void NetworkClient::ClearCallbacks()
+{
+    ClientInfoChangeCallbacks.clear();
+    ClientInfoChangeCallbackArgs.clear();
+}
+
+void NetworkClient::RegisterClientInfoChangeCallback(NetClientCallback new_callback, void * new_callback_arg)
+{
+    ClientInfoChangeCallbacks.push_back(new_callback);
+    ClientInfoChangeCallbackArgs.push_back(new_callback_arg);
+}
+
+/*---------------------------------------------------------*\
+| ProfileManager functions                                  |
+\*---------------------------------------------------------*/
+char * NetworkClient::ProfileManager_GetProfileList()
+{
+    NetPacketHeader reply_hdr;
+    char *          response_data = NULL;
+
+    InitNetPacketHeader(&reply_hdr, 0, NET_PACKET_ID_PROFILEMANAGER_GET_PROFILE_LIST, 0);
+
+    send_in_progress.lock();
+    send(client_sock, (char *)&reply_hdr, sizeof(NetPacketHeader), MSG_NOSIGNAL);
+    send_in_progress.unlock();
+
+    std::unique_lock<std::mutex> wait_lock(waiting_on_response_mutex);
+    waiting_on_response_cv.wait(wait_lock);
+
+    if(response_header.pkt_id == NET_PACKET_ID_PROFILEMANAGER_GET_PROFILE_LIST && response_data_ptr != NULL)
+    {
+        response_data = response_data_ptr;
+        response_data_ptr = NULL;
+    }
+
+    return(response_data);
+}
+
+void NetworkClient::ProfileManager_LoadProfile(std::string profile_name)
+{
+    NetPacketHeader reply_hdr;
+
+    InitNetPacketHeader(&reply_hdr, 0, NET_PACKET_ID_PROFILEMANAGER_LOAD_PROFILE, (unsigned int)strlen(profile_name.c_str()) + 1);
+
+    send_in_progress.lock();
+    send(client_sock, (char *)&reply_hdr, sizeof(NetPacketHeader), MSG_NOSIGNAL);
+    send(client_sock, (char *)profile_name.c_str(), reply_hdr.pkt_size, MSG_NOSIGNAL);
+    send_in_progress.unlock();
+}
+
+void NetworkClient::ProfileManager_SaveProfile(std::string profile_name)
+{
+    NetPacketHeader reply_hdr;
+
+    InitNetPacketHeader(&reply_hdr, 0, NET_PACKET_ID_PROFILEMANAGER_SAVE_PROFILE, (unsigned int)strlen(profile_name.c_str()) + 1);
+
+    send_in_progress.lock();
+    send(client_sock, (char *)&reply_hdr, sizeof(NetPacketHeader), MSG_NOSIGNAL);
+    send(client_sock, (char *)profile_name.c_str(), reply_hdr.pkt_size, MSG_NOSIGNAL);
+    send_in_progress.unlock();
+}
+
+void NetworkClient::ProfileManager_DeleteProfile(std::string profile_name)
+{
+    NetPacketHeader reply_hdr;
+
+    InitNetPacketHeader(&reply_hdr, 0, NET_PACKET_ID_PROFILEMANAGER_DELETE_PROFILE, (unsigned int)strlen(profile_name.c_str()) + 1);
+
+    send_in_progress.lock();
+    send(client_sock, (char *)&reply_hdr, sizeof(NetPacketHeader), MSG_NOSIGNAL);
+    send(client_sock, (char *)profile_name.c_str(), reply_hdr.pkt_size, MSG_NOSIGNAL);
+    send_in_progress.unlock();
+}
+
+void NetworkClient::ProfileManager_UploadProfile(std::string profile_json_str)
+{
+    NetPacketHeader request_hdr;
+
+    InitNetPacketHeader(&request_hdr, 0, NET_PACKET_ID_PROFILEMANAGER_UPLOAD_PROFILE, (unsigned int)strlen(profile_json_str.c_str()) + 1);
+
+    send_in_progress.lock();
+    send(client_sock, (char *)&request_hdr, sizeof(NetPacketHeader), MSG_NOSIGNAL);
+    send(client_sock, (char *)profile_json_str.c_str(), request_hdr.pkt_size, MSG_NOSIGNAL);
+    send_in_progress.unlock();
+}
+
+std::string NetworkClient::ProfileManager_DownloadProfile(std::string profile_name)
+{
+    NetPacketHeader request_hdr;
+    std::string     response_string;
+
+    InitNetPacketHeader(&request_hdr, 0, NET_PACKET_ID_PROFILEMANAGER_DOWNLOAD_PROFILE, (unsigned int)strlen(profile_name.c_str()) + 1);
+
+    send_in_progress.lock();
+    send(client_sock, (char *)&request_hdr, sizeof(NetPacketHeader), MSG_NOSIGNAL);
+    send(client_sock, (char *)profile_name.c_str(), request_hdr.pkt_size, MSG_NOSIGNAL);
+    send_in_progress.unlock();
+
+    std::unique_lock<std::mutex> wait_lock(waiting_on_response_mutex);
+    waiting_on_response_cv.wait(wait_lock);
+
+    if(response_header.pkt_id == NET_PACKET_ID_PROFILEMANAGER_DOWNLOAD_PROFILE && response_data_ptr != NULL)
+    {
+        response_string.assign(response_data_ptr, response_header.pkt_size);
+        delete[] response_data_ptr;
+        response_data_ptr = NULL;
+    }
+
+    return(response_string);
+}
+
+std::string NetworkClient::ProfileManager_GetActiveProfile()
+{
+    NetPacketHeader request_hdr;
+    std::string     response_string;
+
+    InitNetPacketHeader(&request_hdr, 0, NET_PACKET_ID_PROFILEMANAGER_GET_ACTIVE_PROFILE, 0);
+
+    send_in_progress.lock();
+    send(client_sock, (char *)&request_hdr, sizeof(NetPacketHeader), MSG_NOSIGNAL);
+    send_in_progress.unlock();
+
+    std::unique_lock<std::mutex> wait_lock(waiting_on_response_mutex);
+    waiting_on_response_cv.wait(wait_lock);
+
+    if(response_header.pkt_id == NET_PACKET_ID_PROFILEMANAGER_GET_ACTIVE_PROFILE && response_data_ptr != NULL)
+    {
+        response_string.assign(response_data_ptr, response_header.pkt_size);
+        delete[] response_data_ptr;
+        response_data_ptr = NULL;
+    }
+
+    return(response_string);
+}
+
+/*---------------------------------------------------------*\
+| SettingsManager functions                                 |
+\*---------------------------------------------------------*/
+std::string NetworkClient::SettingsManager_GetSettings(std::string settings_key)
+{
+    NetPacketHeader request_hdr;
+    std::string     response_string;
+
+    InitNetPacketHeader(&request_hdr, 0, NET_PACKET_ID_SETTINGSMANAGER_GET_SETTINGS, (unsigned int)strlen(settings_key.c_str()) + 1);
+
+    send_in_progress.lock();
+    send(client_sock, (char *)&request_hdr, sizeof(NetPacketHeader), MSG_NOSIGNAL);
+    send(client_sock, (char *)settings_key.c_str(), request_hdr.pkt_size, MSG_NOSIGNAL);
+    send_in_progress.unlock();
+
+    std::unique_lock<std::mutex> wait_lock(waiting_on_response_mutex);
+    waiting_on_response_cv.wait(wait_lock);
+
+    if(response_header.pkt_id == NET_PACKET_ID_SETTINGSMANAGER_GET_SETTINGS && response_data_ptr != NULL)
+    {
+        response_string.assign(response_data_ptr, response_header.pkt_size);
+        delete[] response_data_ptr;
+        response_data_ptr = NULL;
+    }
+
+    return(response_string);
+}
+
+void NetworkClient::SettingsManager_SaveSettings()
+{
+    NetPacketHeader request_hdr;
+
+    InitNetPacketHeader(&request_hdr, 0, NET_PACKET_ID_SETTINGSMANAGER_SAVE_SETTINGS, 0);
+
+    send_in_progress.lock();
+    send(client_sock, (char *)&request_hdr, sizeof(NetPacketHeader), MSG_NOSIGNAL);
+    send_in_progress.unlock();
+}
+
+void NetworkClient::SettingsManager_SetSettings(std::string settings_json_str)
+{
+    NetPacketHeader request_hdr;
+
+    InitNetPacketHeader(&request_hdr, 0, NET_PACKET_ID_SETTINGSMANAGER_SET_SETTINGS, (unsigned int)strlen(settings_json_str.c_str()) + 1);
+
+    send_in_progress.lock();
+    send(client_sock, (char *)&request_hdr, sizeof(NetPacketHeader), MSG_NOSIGNAL);
+    send(client_sock, (char *)settings_json_str.c_str(), request_hdr.pkt_size, MSG_NOSIGNAL);
+    send_in_progress.unlock();
+}
+
+/*---------------------------------------------------------*\
+| RGBController functions                                   |
+\*---------------------------------------------------------*/
+void NetworkClient::SendRequest_RGBController_ClearSegments(unsigned int dev_idx, int zone)
+{
+    if(change_in_progress)
+    {
+        return;
+    }
+
+    NetPacketHeader request_hdr;
+    int             request_data[1];
+
+    InitNetPacketHeader(&request_hdr, dev_idx, NET_PACKET_ID_RGBCONTROLLER_CLEARSEGMENTS, sizeof(request_data));
+
+    request_data[0]          = zone;
+
+    send_in_progress.lock();
+    send(client_sock, (char *)&request_hdr, sizeof(NetPacketHeader), MSG_NOSIGNAL);
+    send(client_sock, (char *)&request_data, sizeof(request_data), MSG_NOSIGNAL);
+    send_in_progress.unlock();
+}
+
+void NetworkClient::SendRequest_RGBController_AddSegment(unsigned int dev_idx, unsigned char * data, unsigned int size)
+{
+    if(change_in_progress)
+    {
+        return;
+    }
+
+    NetPacketHeader request_hdr;
+
+    InitNetPacketHeader(&request_hdr, dev_idx, NET_PACKET_ID_RGBCONTROLLER_ADDSEGMENT, size);
+
+    send_in_progress.lock();
+    send(client_sock, (char *)&request_hdr, sizeof(NetPacketHeader), MSG_NOSIGNAL);
+    send(client_sock, (char *)data, size, 0);
+    send_in_progress.unlock();
+}
+
+void NetworkClient::SendRequest_RGBController_ResizeZone(unsigned int dev_idx, int zone, int new_size)
+{
+    if(change_in_progress)
+    {
+        return;
+    }
+
+    NetPacketHeader request_hdr;
+    int             request_data[2];
+
+    InitNetPacketHeader(&request_hdr, dev_idx, NET_PACKET_ID_RGBCONTROLLER_RESIZEZONE, sizeof(request_data));
+
+    request_data[0]          = zone;
+    request_data[1]          = new_size;
+
+    send_in_progress.lock();
+    send(client_sock, (char *)&request_hdr, sizeof(NetPacketHeader), MSG_NOSIGNAL);
+    send(client_sock, (char *)&request_data, sizeof(request_data), MSG_NOSIGNAL);
+    send_in_progress.unlock();
+}
+
+void NetworkClient::SendRequest_RGBController_UpdateLEDs(unsigned int dev_idx, unsigned char * data, unsigned int size)
+{
+    if(change_in_progress)
+    {
+        return;
+    }
+
+    NetPacketHeader request_hdr;
+
+    InitNetPacketHeader(&request_hdr, dev_idx, NET_PACKET_ID_RGBCONTROLLER_UPDATELEDS, size);
+
+    send_in_progress.lock();
+    send(client_sock, (char *)&request_hdr, sizeof(NetPacketHeader), MSG_NOSIGNAL);
+    send(client_sock, (char *)data, size, 0);
+    send_in_progress.unlock();
+}
+
+void NetworkClient::SendRequest_RGBController_UpdateZoneLEDs(unsigned int dev_idx, unsigned char * data, unsigned int size)
+{
+    if(change_in_progress)
+    {
+        return;
+    }
+
+    NetPacketHeader request_hdr;
+
+    InitNetPacketHeader(&request_hdr, dev_idx, NET_PACKET_ID_RGBCONTROLLER_UPDATEZONELEDS, size);
+
+    send_in_progress.lock();
+    send(client_sock, (char *)&request_hdr, sizeof(NetPacketHeader), MSG_NOSIGNAL);
+    send(client_sock, (char *)data, size, MSG_NOSIGNAL);
+    send_in_progress.unlock();
+}
+
+void NetworkClient::SendRequest_RGBController_UpdateSingleLED(unsigned int dev_idx, unsigned char * data, unsigned int size)
+{
+    if(change_in_progress)
+    {
+        return;
+    }
+
+    NetPacketHeader request_hdr;
+
+    InitNetPacketHeader(&request_hdr, dev_idx, NET_PACKET_ID_RGBCONTROLLER_UPDATESINGLELED, size);
+
+    send_in_progress.lock();
+    send(client_sock, (char *)&request_hdr, sizeof(NetPacketHeader), MSG_NOSIGNAL);
+    send(client_sock, (char *)data, size, MSG_NOSIGNAL);
+    send_in_progress.unlock();
+}
+
+void NetworkClient::SendRequest_RGBController_SetCustomMode(unsigned int dev_idx)
+{
+    if(change_in_progress)
+    {
+        return;
+    }
+
+    NetPacketHeader request_hdr;
+
+    InitNetPacketHeader(&request_hdr, dev_idx, NET_PACKET_ID_RGBCONTROLLER_SETCUSTOMMODE, 0);
+
+    send_in_progress.lock();
+    send(client_sock, (char *)&request_hdr, sizeof(NetPacketHeader), MSG_NOSIGNAL);
+    send_in_progress.unlock();
+}
+
+void NetworkClient::SendRequest_RGBController_UpdateMode(unsigned int dev_idx, unsigned char * data, unsigned int size)
+{
+    if(change_in_progress)
+    {
+        return;
+    }
+
+    NetPacketHeader request_hdr;
+
+    InitNetPacketHeader(&request_hdr, dev_idx, NET_PACKET_ID_RGBCONTROLLER_UPDATEMODE, size);
+
+    send_in_progress.lock();
+    send(client_sock, (char *)&request_hdr, sizeof(NetPacketHeader), MSG_NOSIGNAL);
+    send(client_sock, (char *)data, size, MSG_NOSIGNAL);
+    send_in_progress.unlock();
+}
+
+void NetworkClient::SendRequest_RGBController_UpdateZoneMode(unsigned int dev_idx, unsigned char * data, unsigned int size)
+{
+    if(change_in_progress)
+    {
+        return;
+    }
+
+    NetPacketHeader request_hdr;
+
+    InitNetPacketHeader(&request_hdr, dev_idx, NET_PACKET_ID_RGBCONTROLLER_UPDATEZONEMODE, size);
+
+    send_in_progress.lock();
+    send(client_sock, (char *)&request_hdr, sizeof(NetPacketHeader), MSG_NOSIGNAL);
+    send(client_sock, (char *)data, size, MSG_NOSIGNAL);
+    send_in_progress.unlock();
+}
+
+void NetworkClient::SendRequest_RGBController_SaveMode(unsigned int dev_idx, unsigned char * data, unsigned int size)
+{
+    if(change_in_progress)
+    {
+        return;
+    }
+
+    NetPacketHeader request_hdr;
+
+    InitNetPacketHeader(&request_hdr, dev_idx, NET_PACKET_ID_RGBCONTROLLER_SAVEMODE, size);
+
+    send_in_progress.lock();
+    send(client_sock, (char *)&request_hdr, sizeof(NetPacketHeader), MSG_NOSIGNAL);
+    send(client_sock, (char *)data, size, MSG_NOSIGNAL);
+    send_in_progress.unlock();
+}
+
+void NetworkClient::WaitOnControllerData()
+{
+    for(int i = 0; i < 1000; i++)
+    {
+        if(controller_data_received)
+        {
+            break;
+        }
+        std::this_thread::sleep_for(1ms);
+    }
+
+    return;
+}
+
+/*---------------------------------------------------------*\
+| Client callback signal functions                          |
+\*---------------------------------------------------------*/
+void NetworkClient::ClientInfoChanged()
+{
+    ClientInfoChangeMutex.lock();
+    ControllerListMutex.lock();
+
+    /*---------------------------------------------------------*\
+    | Client info has changed, call the callbacks               |
+    \*---------------------------------------------------------*/
+    for(unsigned int callback_idx = 0; callback_idx < ClientInfoChangeCallbacks.size(); callback_idx++)
+    {
+        ClientInfoChangeCallbacks[callback_idx](ClientInfoChangeCallbackArgs[callback_idx]);
+    }
+
+    ControllerListMutex.unlock();
+    ClientInfoChangeMutex.unlock();
+}
+
+/*---------------------------------------------------------*\
+| Client thread functions                                   |
+\*---------------------------------------------------------*/
 void NetworkClient::ConnectionThreadFunction()
 {
     std::unique_lock<std::mutex> lock(connection_mutex);
@@ -420,44 +865,6 @@ void NetworkClient::ConnectionThreadFunction()
     }
 }
 
-int NetworkClient::recv_select(SOCKET s, char *buf, int len, int flags)
-{
-    fd_set              set;
-    struct timeval      timeout;
-
-    while(1)
-    {
-        timeout.tv_sec      = 5;
-        timeout.tv_usec     = 0;
-
-        FD_ZERO(&set);
-        FD_SET(s, &set);
-
-        int rv = select((int)s + 1, &set, NULL, NULL, &timeout);
-
-        if(rv == SOCKET_ERROR || server_connected == false)
-        {
-            return 0;
-        }
-        else if(rv == 0)
-        {
-            continue;
-        }
-        else
-        {
-        /*-------------------------------------------------*\
-        | Set QUICKACK socket option on Linux to improve    |
-        | performance                                       |
-        \*-------------------------------------------------*/
-#ifdef __linux__
-            setsockopt(s, IPPROTO_TCP, TCP_QUICKACK, &yes, sizeof(yes));
-#endif
-            return(recv(s, buf, len, flags));
-        }
-
-    }
-}
-
 void NetworkClient::ListenThreadFunction()
 {
     printf("Network client listener started\n");
@@ -470,6 +877,7 @@ void NetworkClient::ListenThreadFunction()
         NetPacketHeader header;
         int             bytes_read  = 0;
         char *          data        = NULL;
+        bool            delete_data = true;
 
         for(unsigned int i = 0; i < 4; i++)
         {
@@ -554,12 +962,44 @@ void NetworkClient::ListenThreadFunction()
                 ProcessReply_ProtocolVersion(header.pkt_size, data);
                 break;
 
+            case NET_PACKET_ID_SET_SERVER_NAME:
+                if(data == NULL)
+                {
+                    break;
+                }
+
+                ProcessRequest_ServerString(header.pkt_size, data);
+                break;
+
             case NET_PACKET_ID_DEVICE_LIST_UPDATED:
                 ProcessRequest_DeviceListChanged();
                 break;
+
+            case NET_PACKET_ID_PROFILEMANAGER_GET_PROFILE_LIST:
+            case NET_PACKET_ID_PROFILEMANAGER_DOWNLOAD_PROFILE:
+            case NET_PACKET_ID_PROFILEMANAGER_GET_ACTIVE_PROFILE:
+            case NET_PACKET_ID_SETTINGSMANAGER_GET_SETTINGS:
+                {
+                    std::unique_lock<std::mutex> lock(waiting_on_response_mutex);
+
+                    response_header     = header;
+                    response_data_ptr   = data;
+                    delete_data         = false;
+
+                    lock.unlock();
+                    waiting_on_response_cv.notify_all();
+                }
+                break;
+
+            case NET_PACKET_ID_RGBCONTROLLER_SIGNALUPDATE:
+                ProcessRequest_RGBController_SignalUpdate(header.pkt_size, data, header.pkt_dev_idx);
+                break;
         }
 
-        delete[] data;
+        if(delete_data)
+        {
+            delete[] data;
+        }
     }
 
 listen_done:
@@ -606,20 +1046,9 @@ listen_done:
     ClientInfoChanged();
 }
 
-void NetworkClient::WaitOnControllerData()
-{
-    for(int i = 0; i < 1000; i++)
-    {
-        if(controller_data_received)
-        {
-            break;
-        }
-        std::this_thread::sleep_for(1ms);
-    }
-
-    return;
-}
-
+/*---------------------------------------------------------*\
+| Private Client functions                                  |
+\*---------------------------------------------------------*/
 void NetworkClient::ProcessReply_ControllerCount(unsigned int data_size, char * data)
 {
     if(data_size == sizeof(unsigned int))
@@ -642,9 +1071,11 @@ void NetworkClient::ProcessReply_ControllerData(unsigned int data_size, char * d
     \*---------------------------------------------------------*/
     if(data_size == *((unsigned int*)data))
     {
+        data += sizeof(data_size);
+
         RGBController_Network * new_controller   = new RGBController_Network(this, dev_idx);
 
-        new_controller->ReadDeviceDescription((unsigned char *)data, GetProtocolVersion());
+        new_controller->SetDeviceDescription((unsigned char *)data, GetProtocolVersion());
 
         /*-----------------------------------------------------*\
         | Mark this controller as remote owned                  |
@@ -744,6 +1175,82 @@ void NetworkClient::ProcessRequest_DeviceListChanged()
     change_in_progress = false;
 }
 
+void NetworkClient::ProcessRequest_RGBController_SignalUpdate(unsigned int data_size, char * data, unsigned int dev_idx)
+{
+    unsigned int    pkt_data_size;
+    unsigned int    update_reason;
+
+    /*-----------------------------------------------------*\
+    | Ensure we have this controller in our list            |
+    \*-----------------------------------------------------*/
+    if(dev_idx >= server_controllers.size() || server_controllers.size() == 0)
+    {
+        return;
+    }
+
+    /*-----------------------------------------------------*\
+    | Create data buffer                                    |
+    \*-----------------------------------------------------*/
+    char * data_ptr                     = data;
+
+    /*-----------------------------------------------------*\
+    | Copy in data size                                     |
+    \*-----------------------------------------------------*/
+    memcpy(&pkt_data_size, data_ptr, sizeof(pkt_data_size));
+    data_ptr += sizeof(pkt_data_size);
+
+    if(pkt_data_size != data_size)
+    {
+        return;
+    }
+
+    /*-----------------------------------------------------*\
+    | Copy in update reason                                 |
+    \*-----------------------------------------------------*/
+    memcpy(&update_reason, data_ptr, sizeof(update_reason));
+    data_ptr += sizeof(update_reason);
+
+    /*-----------------------------------------------------*\
+    | Process received data according to update reason      |
+    \*-----------------------------------------------------*/
+    switch(update_reason)
+    {
+        /*-------------------------------------------------*\
+        | UpdateLEDs() sends color description              |
+        \*-------------------------------------------------*/
+        case RGBCONTROLLER_UPDATE_REASON_UPDATELEDS:
+            server_controllers[dev_idx]->SetColorDescription((unsigned char *)data_ptr, GetProtocolVersion());
+            break;
+
+        /*-------------------------------------------------*\
+        | Everything else send controller                   |
+        | description                                       |
+        \*-------------------------------------------------*/
+        case RGBCONTROLLER_UPDATE_REASON_UPDATEMODE:
+        case RGBCONTROLLER_UPDATE_REASON_SAVEMODE:
+        case RGBCONTROLLER_UPDATE_REASON_RESIZEZONE:
+        case RGBCONTROLLER_UPDATE_REASON_CLEARSEGMENTS:
+        case RGBCONTROLLER_UPDATE_REASON_ADDSEGMENT:
+        case RGBCONTROLLER_UPDATE_REASON_HIDDEN:
+        case RGBCONTROLLER_UPDATE_REASON_UNHIDDEN:
+        default:
+            server_controllers[dev_idx]->SetDeviceDescription((unsigned char *)data_ptr, GetProtocolVersion());
+            break;
+    }
+
+    server_controllers[dev_idx]->SignalUpdate(update_reason);
+}
+
+void NetworkClient::ProcessRequest_ServerString(unsigned int data_size, char * data)
+{
+    server_name.assign(data, data_size);
+
+    /*---------------------------------------------------------*\
+    | Client info has changed, call the callbacks               |
+    \*---------------------------------------------------------*/
+    ClientInfoChanged();
+}
+
 void NetworkClient::SendData_ClientString()
 {
     NetPacketHeader reply_hdr;
@@ -767,50 +1274,6 @@ void NetworkClient::SendRequest_ControllerCount()
     send_in_progress.unlock();
 }
 
-void NetworkClient::SendRequest_ControllerData(unsigned int dev_idx)
-{
-    NetPacketHeader request_hdr;
-    unsigned int    protocol_version;
-
-    controller_data_received = false;
-
-    memcpy(request_hdr.pkt_magic, openrgb_sdk_magic, sizeof(openrgb_sdk_magic));
-
-    request_hdr.pkt_dev_idx  = dev_idx;
-    request_hdr.pkt_id       = NET_PACKET_ID_REQUEST_CONTROLLER_DATA;
-
-    if(server_protocol_version == 0)
-    {
-        request_hdr.pkt_size     = 0;
-
-        send_in_progress.lock();
-        send(client_sock, (char *)&request_hdr, sizeof(NetPacketHeader), MSG_NOSIGNAL);
-        send_in_progress.unlock();
-    }
-    else
-    {
-        request_hdr.pkt_size     = sizeof(unsigned int);
-
-        /*-------------------------------------------------------------*\
-        | Limit the protocol version to the highest supported by both   |
-        | the client and the server.                                    |
-        \*-------------------------------------------------------------*/
-        if(server_protocol_version > OPENRGB_SDK_PROTOCOL_VERSION)
-        {
-            protocol_version = OPENRGB_SDK_PROTOCOL_VERSION;
-        }
-        else
-        {
-            protocol_version = server_protocol_version;
-        }
-
-        send_in_progress.lock();
-        send(client_sock, (char *)&request_hdr, sizeof(NetPacketHeader), MSG_NOSIGNAL);
-        send(client_sock, (char *)&protocol_version, sizeof(unsigned int), MSG_NOSIGNAL);
-        send_in_progress.unlock();
-    }
-}
-
 void NetworkClient::SendRequest_ProtocolVersion()
 {
     NetPacketHeader request_hdr;
@@ -826,226 +1289,9 @@ void NetworkClient::SendRequest_ProtocolVersion()
     send_in_progress.unlock();
 }
 
-void NetworkClient::SendRequest_RescanDevices()
-{
-    if(GetProtocolVersion() >= 5)
-    {
-        NetPacketHeader request_hdr;
-
-        InitNetPacketHeader(&request_hdr, 0, NET_PACKET_ID_REQUEST_RESCAN_DEVICES, 0);
-
-        send_in_progress.lock();
-        send(client_sock, (char *)&request_hdr, sizeof(NetPacketHeader), MSG_NOSIGNAL);
-        send_in_progress.unlock();
-    }
-}
-
-void NetworkClient::SendRequest_RGBController_ClearSegments(unsigned int dev_idx, int zone)
-{
-    if(change_in_progress)
-    {
-        return;
-    }
-
-    NetPacketHeader request_hdr;
-    int             request_data[1];
-
-    InitNetPacketHeader(&request_hdr, dev_idx, NET_PACKET_ID_RGBCONTROLLER_CLEARSEGMENTS, sizeof(request_data));
-
-    request_data[0]          = zone;
-
-    send_in_progress.lock();
-    send(client_sock, (char *)&request_hdr, sizeof(NetPacketHeader), MSG_NOSIGNAL);
-    send(client_sock, (char *)&request_data, sizeof(request_data), MSG_NOSIGNAL);
-    send_in_progress.unlock();
-}
-
-void NetworkClient::SendRequest_RGBController_AddSegment(unsigned int dev_idx, unsigned char * data, unsigned int size)
-{
-    if(change_in_progress)
-    {
-        return;
-    }
-
-    NetPacketHeader request_hdr;
-
-    InitNetPacketHeader(&request_hdr, dev_idx, NET_PACKET_ID_RGBCONTROLLER_ADDSEGMENT, size);
-
-    send_in_progress.lock();
-    send(client_sock, (char *)&request_hdr, sizeof(NetPacketHeader), MSG_NOSIGNAL);
-    send(client_sock, (char *)data, size, 0);
-    send_in_progress.unlock();
-}
-
-void NetworkClient::SendRequest_RGBController_ResizeZone(unsigned int dev_idx, int zone, int new_size)
-{
-    if(change_in_progress)
-    {
-        return;
-    }
-
-    NetPacketHeader request_hdr;
-    int             request_data[2];
-
-    InitNetPacketHeader(&request_hdr, dev_idx, NET_PACKET_ID_RGBCONTROLLER_RESIZEZONE, sizeof(request_data));
-
-    request_data[0]          = zone;
-    request_data[1]          = new_size;
-
-    send_in_progress.lock();
-    send(client_sock, (char *)&request_hdr, sizeof(NetPacketHeader), MSG_NOSIGNAL);
-    send(client_sock, (char *)&request_data, sizeof(request_data), MSG_NOSIGNAL);
-    send_in_progress.unlock();
-}
-
-void NetworkClient::SendRequest_RGBController_UpdateLEDs(unsigned int dev_idx, unsigned char * data, unsigned int size)
-{
-    if(change_in_progress)
-    {
-        return;
-    }
-
-    NetPacketHeader request_hdr;
-
-    InitNetPacketHeader(&request_hdr, dev_idx, NET_PACKET_ID_RGBCONTROLLER_UPDATELEDS, size);
-
-    send_in_progress.lock();
-    send(client_sock, (char *)&request_hdr, sizeof(NetPacketHeader), MSG_NOSIGNAL);
-    send(client_sock, (char *)data, size, 0);
-    send_in_progress.unlock();
-}
-
-void NetworkClient::SendRequest_RGBController_UpdateZoneLEDs(unsigned int dev_idx, unsigned char * data, unsigned int size)
-{
-    if(change_in_progress)
-    {
-        return;
-    }
-
-    NetPacketHeader request_hdr;
-
-    InitNetPacketHeader(&request_hdr, dev_idx, NET_PACKET_ID_RGBCONTROLLER_UPDATEZONELEDS, size);
-
-    send_in_progress.lock();
-    send(client_sock, (char *)&request_hdr, sizeof(NetPacketHeader), MSG_NOSIGNAL);
-    send(client_sock, (char *)data, size, MSG_NOSIGNAL);
-    send_in_progress.unlock();
-}
-
-void NetworkClient::SendRequest_RGBController_UpdateSingleLED(unsigned int dev_idx, unsigned char * data, unsigned int size)
-{
-    if(change_in_progress)
-    {
-        return;
-    }
-
-    NetPacketHeader request_hdr;
-
-    InitNetPacketHeader(&request_hdr, dev_idx, NET_PACKET_ID_RGBCONTROLLER_UPDATESINGLELED, size);
-
-    send_in_progress.lock();
-    send(client_sock, (char *)&request_hdr, sizeof(NetPacketHeader), MSG_NOSIGNAL);
-    send(client_sock, (char *)data, size, MSG_NOSIGNAL);
-    send_in_progress.unlock();
-}
-
-void NetworkClient::SendRequest_RGBController_SetCustomMode(unsigned int dev_idx)
-{
-    if(change_in_progress)
-    {
-        return;
-    }
-
-    NetPacketHeader request_hdr;
-
-    InitNetPacketHeader(&request_hdr, dev_idx, NET_PACKET_ID_RGBCONTROLLER_SETCUSTOMMODE, 0);
-
-    send_in_progress.lock();
-    send(client_sock, (char *)&request_hdr, sizeof(NetPacketHeader), MSG_NOSIGNAL);
-    send_in_progress.unlock();
-}
-
-void NetworkClient::SendRequest_RGBController_UpdateMode(unsigned int dev_idx, unsigned char * data, unsigned int size)
-{
-    if(change_in_progress)
-    {
-        return;
-    }
-
-    NetPacketHeader request_hdr;
-
-    InitNetPacketHeader(&request_hdr, dev_idx, NET_PACKET_ID_RGBCONTROLLER_UPDATEMODE, size);
-
-    send_in_progress.lock();
-    send(client_sock, (char *)&request_hdr, sizeof(NetPacketHeader), MSG_NOSIGNAL);
-    send(client_sock, (char *)data, size, MSG_NOSIGNAL);
-    send_in_progress.unlock();
-}
-
-void NetworkClient::SendRequest_RGBController_SaveMode(unsigned int dev_idx, unsigned char * data, unsigned int size)
-{
-    if(change_in_progress)
-    {
-        return;
-    }
-
-    NetPacketHeader request_hdr;
-
-    InitNetPacketHeader(&request_hdr, dev_idx, NET_PACKET_ID_RGBCONTROLLER_SAVEMODE, size);
-
-    send_in_progress.lock();
-    send(client_sock, (char *)&request_hdr, sizeof(NetPacketHeader), MSG_NOSIGNAL);
-    send(client_sock, (char *)data, size, MSG_NOSIGNAL);
-    send_in_progress.unlock();
-}
-
-void NetworkClient::SendRequest_LoadProfile(std::string profile_name)
-{
-    NetPacketHeader reply_hdr;
-
-    InitNetPacketHeader(&reply_hdr, 0, NET_PACKET_ID_REQUEST_LOAD_PROFILE, (unsigned int)strlen(profile_name.c_str()) + 1);
-
-    send_in_progress.lock();
-    send(client_sock, (char *)&reply_hdr, sizeof(NetPacketHeader), MSG_NOSIGNAL);
-    send(client_sock, (char *)profile_name.c_str(), reply_hdr.pkt_size, MSG_NOSIGNAL);
-    send_in_progress.unlock();
-}
-
-void NetworkClient::SendRequest_SaveProfile(std::string profile_name)
-{
-    NetPacketHeader reply_hdr;
-
-    InitNetPacketHeader(&reply_hdr, 0, NET_PACKET_ID_REQUEST_SAVE_PROFILE, (unsigned int)strlen(profile_name.c_str()) + 1);
-
-    send_in_progress.lock();
-    send(client_sock, (char *)&reply_hdr, sizeof(NetPacketHeader), MSG_NOSIGNAL);
-    send(client_sock, (char *)profile_name.c_str(), reply_hdr.pkt_size, MSG_NOSIGNAL);
-    send_in_progress.unlock();
-}
-
-void NetworkClient::SendRequest_DeleteProfile(std::string profile_name)
-{
-    NetPacketHeader reply_hdr;
-
-    InitNetPacketHeader(&reply_hdr, 0, NET_PACKET_ID_REQUEST_DELETE_PROFILE, (unsigned int)strlen(profile_name.c_str()) + 1);
-
-    send_in_progress.lock();
-    send(client_sock, (char *)&reply_hdr, sizeof(NetPacketHeader), MSG_NOSIGNAL);
-    send(client_sock, (char *)profile_name.c_str(), reply_hdr.pkt_size, MSG_NOSIGNAL);
-    send_in_progress.unlock();
-}
-
-void NetworkClient::SendRequest_GetProfileList()
-{
-    NetPacketHeader reply_hdr;
-
-    InitNetPacketHeader(&reply_hdr, 0, NET_PACKET_ID_REQUEST_PROFILE_LIST, 0);
-
-    send_in_progress.lock();
-    send(client_sock, (char *)&reply_hdr, sizeof(NetPacketHeader), MSG_NOSIGNAL);
-    send_in_progress.unlock();
-}
-
+/*---------------------------------------------------------*\
+| Private ProfileManager functions                          |
+\*---------------------------------------------------------*/
 std::vector<std::string> * NetworkClient::ProcessReply_ProfileList(unsigned int data_size, char * data)
 {
     std::vector<std::string> * profile_list;
@@ -1084,4 +1330,45 @@ std::vector<std::string> * NetworkClient::ProcessReply_ProfileList(unsigned int 
     }
 
     return profile_list;
+}
+
+/*---------------------------------------------------------*\
+| Private helper functions                                  |
+\*---------------------------------------------------------*/
+int NetworkClient::recv_select(SOCKET s, char *buf, int len, int flags)
+{
+    fd_set              set;
+    struct timeval      timeout;
+
+    while(1)
+    {
+        timeout.tv_sec      = 5;
+        timeout.tv_usec     = 0;
+
+        FD_ZERO(&set);
+        FD_SET(s, &set);
+
+        int rv = select((int)s + 1, &set, NULL, NULL, &timeout);
+
+        if(rv == SOCKET_ERROR || server_connected == false)
+        {
+            return 0;
+        }
+        else if(rv == 0)
+        {
+            continue;
+        }
+        else
+        {
+        /*-------------------------------------------------*\
+        | Set QUICKACK socket option on Linux to improve    |
+        | performance                                       |
+        \*-------------------------------------------------*/
+#ifdef __linux__
+            setsockopt(s, IPPROTO_TCP, TCP_QUICKACK, &yes, sizeof(yes));
+#endif
+            return(recv(s, buf, len, flags));
+        }
+
+    }
 }
