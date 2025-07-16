@@ -131,11 +131,29 @@ void OpenRGBClientInfoPage::UpdateInfo()
         }
 
         /*-----------------------------------------------------*\
-        | Create the top level tree widget items and display the|
-        | client IP addresses and protocol versions in them     |
+        | Create the top level tree widget items                |
         \*-----------------------------------------------------*/
         QTreeWidgetItem* new_top_item = new QTreeWidgetItem(ui->ClientTree);
-        new_top_item->setText(0, QString::fromStdString(ResourceManager::get()->GetClients()[client_idx]->GetIP()));
+
+        /*-----------------------------------------------------*\
+        | First column, display the server IP and optionally    |
+        | the server name if it exists                          |
+        \*-----------------------------------------------------*/
+        std::string server_name = ResourceManager::get()->GetClients()[client_idx]->GetServerName();
+        std::string ip          = ResourceManager::get()->GetClients()[client_idx]->GetIP();
+
+        if(server_name == "")
+        {
+            new_top_item->setText(0, QString::fromStdString(ip));
+        }
+        else
+        {
+            new_top_item->setText(0, QString::fromStdString(ip + ": " + server_name));
+        }
+
+        /*-----------------------------------------------------*\
+        | Second column, display the protocol version           |
+        \*-----------------------------------------------------*/
         new_top_item->setText(1, QString::number(ResourceManager::get()->GetClients()[client_idx]->GetProtocolVersion()));
 
         /*-----------------------------------------------------*\
