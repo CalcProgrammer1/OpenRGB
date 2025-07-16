@@ -60,6 +60,7 @@ enum
     NET_PACKET_ID_REQUEST_PROTOCOL_VERSION      = 40,   /* Request OpenRGB SDK protocol version from server     */
 
     NET_PACKET_ID_SET_CLIENT_NAME               = 50,   /* Send client name string to server                    */
+    NET_PACKET_ID_SET_SERVER_NAME               = 51,   /* Send server name string to client                    */
 
     NET_PACKET_ID_DEVICE_LIST_UPDATED           = 100,  /* Indicate to clients that device list has updated     */
 
