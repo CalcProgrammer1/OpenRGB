@@ -33,6 +33,7 @@ public:
     unsigned short  GetPort();
     unsigned int    GetProtocolVersion();
     bool            GetOnline();
+    std::string     GetServerName();
 
     void            ClearCallbacks();
     void            RegisterClientInfoChangeCallback(NetClientCallback new_callback, void * new_callback_arg);
@@ -54,6 +55,7 @@ public:
     void        ProcessReply_ProtocolVersion(unsigned int data_size, char * data);
 
     void        ProcessRequest_DeviceListChanged();
+    void        ProcessRequest_ServerString(unsigned int data_size, char * data);
 
     void        SendData_ClientString();
 
@@ -95,6 +97,7 @@ protected:
 private:
     SOCKET          client_sock;
     std::string     client_name;
+    std::string     server_name;
     net_port        port;
     std::string     port_ip;
     unsigned short  port_num;
