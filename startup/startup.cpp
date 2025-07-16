@@ -53,6 +53,12 @@ int startup(int argc, char* argv[], unsigned int ret_flags)
     int exitval = EXIT_SUCCESS;
 
     /*-----------------------------------------------------*\
+    | Before opening GUI, wait for automatic connection so  |
+    | that settings and profiles can be updated from server |
+    \*-----------------------------------------------------*/
+    ResourceManager::get()->WaitForInitialization();
+
+    /*-----------------------------------------------------*\
     | If the command line parser indicates that the GUI     |
     | should run, or if there were no command line          |
     | arguments, start the GUI.                             |
