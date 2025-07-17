@@ -252,6 +252,10 @@ LenovoRGBController_Gen7_8::LenovoRGBController_Gen7_8(LenovoGen7And8USBControll
 
     switch (controller->getPid())
     {
+    case LEGION_S7GEN7:
+        description = "Lenovo Legion 7 Slim Generation 7";
+        break;
+
     case LEGION_7GEN7:
         description = "Lenovo Legion 7 Generation 7";
         break;
