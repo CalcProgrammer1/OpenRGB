@@ -163,6 +163,7 @@
 #define NVIDIA_SUB_VEN                                  0x10DE
 #define PNY_SUB_VEN                                     0x196E
 #define PALIT_SUB_VEN                                   0x1569
+#define POWERCOLOR_SUB_VEN                              0x148C
 #define SAPPHIRE_SUB_VEN                                0x1DA2
 #define SAPPHIRE_LEGACY_SUB_VEN                         0x174B
 #define ZOTAC_SUB_VEN                                   0x19DA
@@ -850,6 +851,23 @@
 #define PALIT_RTX4090_GAMEROCK_SUB_DEV                  0xF296
 #define PALIT_RTX5070_GAMINGPRO_SUB_DEV                 0xF324
 #define PALIT_RTX5090_GAMEROCK_SUB_DEV                  0xF318
+
+/*-----------------------------------------------------*\
+| PowerColor Sub-Device IDs                             |
+\*-----------------------------------------------------*/
+#define POWERCOLOR_RED_DEVIL_RX5700XT_SUB_DEV           0x2398
+#define POWERCOLOR_RED_DEVIL_RX5700_SUB_DEV             0x2399
+
+#define POWERCOLOR_RED_DEVIL_RX6600XT_SUB_DEV           0x2412
+#define POWERCOLOR_RED_DEVIL_RX6700XT_SUB_DEV           0x2409
+#define POWERCOLOR_RED_DEVIL_RX6800_SUB_DEV             0x2407
+#define POWERCOLOR_RED_DEVIL_RX6800XT_SUB_DEV           0x2406
+#define POWERCOLOR_RED_DEVIL_RX6900XT_SUB_DEV           0x2408
+#define POWERCOLOR_RED_DEVIL_RX6900XT_ULTIMATE_SUB_DEV  0x2414
+
+#define POWERCOLOR_RED_DEVIL_RX6650XT_SUB_DEV           0x2418
+#define POWERCOLOR_RED_DEVIL_RX6750XT_SUB_DEV           0x2419
+#define POWERCOLOR_RED_DEVIL_RX6950XT_SUB_DEV           0x2420
 
 /*-----------------------------------------------------*\
 | Sapphire Sub-Device IDs                               |

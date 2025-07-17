@@ -10,6 +10,9 @@
 #include "SerialSettingsEntry.h"
 #include "ui_SerialSettingsEntry.h"
 
+#include "serial_port.h"
+#include <QStandardItemModel>
+
 SerialSettingsEntry::SerialSettingsEntry(QWidget *parent) :
     BaseManualDeviceEntry(parent),
     ui(new Ui::SerialSettingsEntry)
@@ -20,6 +23,27 @@ SerialSettingsEntry::SerialSettingsEntry(QWidget *parent) :
     ui->ProtocolComboBox->addItem("Adalight");
     ui->ProtocolComboBox->addItem("TPM2");
     ui->ProtocolComboBox->addItem("Basic I2C");
+
+    std::vector<std::string> serialPorts = serial_port::getSerialPorts();
+    for(size_t i = 0; i < serialPorts.size(); ++i)
+    {
+        ui->PortComboBox->addItem(QString::fromStdString(serialPorts[i]));
+    }
+    if(serialPorts.empty())
+    {
+        /*---------------------------------------------------*\
+        | When no ports were found, add an unselectable entry |
+        | denoting this fact istead                           |
+        \*---------------------------------------------------*/
+        QStandardItemModel* comboBoxModel = qobject_cast<QStandardItemModel *>(ui->PortComboBox->model());
+        if(comboBoxModel != nullptr)
+        {
+            ui->PortComboBox->addItem(tr("No serial ports found"));
+            QStandardItem *item = comboBoxModel->item(0);
+            item->setFlags(item->flags() & ~Qt::ItemIsEnabled);
+        }
+    }
+    ui->PortComboBox->clearEditText();
 }
 
 SerialSettingsEntry::~SerialSettingsEntry()
@@ -56,7 +80,7 @@ void SerialSettingsEntry::loadFromSettings(const json& data)
 
     if(data.contains("port"))
     {
-        ui->PortEdit->setText(QString::fromStdString(data["port"]));
+        ui->PortComboBox->setCurrentText(QString::fromStdString(data["port"]));
     }
 
     if(data.contains("baud"))
@@ -99,7 +123,7 @@ json SerialSettingsEntry::saveSettings()
     | Required parameters                               |
     \*-------------------------------------------------*/
     result["name"]            = ui->NameEdit->text().toStdString();
-    result["port"]            = ui->PortEdit->text().toStdString();
+    result["port"]            = ui->PortComboBox->currentText().toStdString();
     result["num_leds"]        = ui->NumLEDsEdit->text().toUInt();
     result["baud"]            = ui->BaudEdit->text().toUInt();
 

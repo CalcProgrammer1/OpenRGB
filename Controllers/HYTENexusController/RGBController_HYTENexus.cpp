@@ -52,7 +52,7 @@ RGBController_HYTENexus::RGBController_HYTENexus(HYTENexusController* controller
 
 RGBController_HYTENexus::~RGBController_HYTENexus()
 {
-
+    delete controller;
 }
 
 void RGBController_HYTENexus::SetupZones()

@@ -43,6 +43,7 @@ fi
 %{_datadir}/applications/org.%{name}.%{_name}.desktop
 %{_metainfodir}/org.%{name}.%{_name}.metainfo.xml
 %{_udevrulesdir}/60-%{name}.rules
+/etc/systemd/system/openrgb.service
 %license LICENSE
 %doc README.md
 

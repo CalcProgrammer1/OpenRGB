@@ -1,0 +1,12 @@
+[Unit]
+Description=OpenRGB SDK Server
+After=network.target lm_sensors.service
+
+[Service]
+RemainAfterExit=yes
+ExecStart=/usr/bin/openrgb --server
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+

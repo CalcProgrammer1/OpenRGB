@@ -41,12 +41,9 @@ OpenRGBClientInfoPage::OpenRGBClientInfoPage(QWidget *parent) :
     ui->ClientPortValue->setText(QString::number(OPENRGB_SDK_PORT));
 
     /*-----------------------------------------------------*\
-    | Register callbacks for existing clients               |
+    | Register callbacks with resource manager              |
     \*-----------------------------------------------------*/
-    for(unsigned int client_idx = 0; client_idx < ResourceManager::get()->GetClients().size(); client_idx++)
-    {
-        ResourceManager::get()->GetClients()[client_idx]->RegisterClientInfoChangeCallback(UpdateInfoCallback, this);
-    }
+    ResourceManager::get()->RegisterClientInfoChangeCallback(UpdateInfoCallback, this);
 
     /*-----------------------------------------------------*\
     | Update the information view                           |
@@ -64,22 +61,6 @@ void OpenRGBClientInfoPage::changeEvent(QEvent *event)
     if(event->type() == QEvent::LanguageChange)
     {
         ui->retranslateUi(this);
-    }
-}
-
-void OpenRGBClientInfoPage::AddClient(NetworkClient* new_client)
-{
-    /*-----------------------------------------------------*\
-    | Add a new client to the list, register the callback,  |
-    | and update the information view if the pointer is     |
-    | valid                                                 |
-    \*-----------------------------------------------------*/
-    if(new_client != NULL)
-    {
-        ResourceManager::get()->GetClients().push_back(new_client);
-        new_client->RegisterClientInfoChangeCallback(UpdateInfoCallback, this);
-
-        UpdateInfo();
     }
 }
 

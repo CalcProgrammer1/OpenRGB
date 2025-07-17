@@ -16,6 +16,8 @@
 
 #include <string.h>
 #include <stdio.h>
+#include <vector>
+#include <string>
 
 #ifdef _WIN32
 /*---------------------------------------------------------*\
@@ -103,6 +105,8 @@ enum
 class serial_port
 {
 public:
+    static std::vector<std::string> getSerialPorts();
+
     serial_port();
     serial_port(const char * name, unsigned int baud);
     serial_port(const char *            name,

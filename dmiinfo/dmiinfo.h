@@ -18,11 +18,14 @@
 
 #define WMI "WMI"
 #else
-#include <unistd.h>     //Linux specific filesystem operation
+#include <unistd.h>
 #include <fstream>
 
-#define SYSFS_MB_DMI "/sys/devices/virtual/dmi/id/"     //Linux file path for Motherboard
-#define SYSFS_PC_DMI "/sys/class/dmi/id/"               //Linux file path for Product info
+/*---------------------------------------------------------*\
+| Linux file paths for Motherboard and Product Info         |
+\*---------------------------------------------------------*/
+#define SYSFS_MB_DMI "/sys/devices/virtual/dmi/id/"
+#define SYSFS_PC_DMI "/sys/class/dmi/id/"
 #endif
 
 class DMIInfo

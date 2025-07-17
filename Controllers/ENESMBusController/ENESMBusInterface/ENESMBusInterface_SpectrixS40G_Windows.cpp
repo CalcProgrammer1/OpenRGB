@@ -103,10 +103,7 @@ unsigned char ENESMBusInterface_SpectrixS40G::ENERegisterRead(ene_dev_id dev, en
         | Send the STORAGE_PROTOCOL_COMMAND to the device                               |
         \*-----------------------------------------------------------------------------*/
         DWORD bytesreturned = 0;
-        while(bytesreturned != sizeof(buffer))
-        {
-            DeviceIoControl(nvme_fd, IOCTL_STORAGE_PROTOCOL_COMMAND, buffer, sizeof(buffer), buffer, sizeof(buffer), &bytesreturned, (LPOVERLAPPED)0x0);
-        }
+        DeviceIoControl(nvme_fd, IOCTL_STORAGE_PROTOCOL_COMMAND, buffer, sizeof(buffer), buffer, sizeof(buffer), &bytesreturned, (LPOVERLAPPED)0x0);
 
         /*-----------------------------------------------------------------------------*\
         | Copy the ENE Register Write extra data into the STORAGE_PROTOCOL_COMMAND      |

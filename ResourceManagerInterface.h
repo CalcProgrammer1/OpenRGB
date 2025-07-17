@@ -10,6 +10,7 @@ class ProfileManager;
 class RGBController;
 class SettingsManager;
 
+typedef void (*ClientInfoChangeCallback)(void *);
 typedef void (*DeviceListChangeCallback)(void *);
 typedef void (*DetectionProgressCallback)(void *);
 typedef void (*DetectionStartCallback)(void *);

@@ -25,21 +25,21 @@ bool AutoStart::DisableAutoStart()
     std::error_code autostart_file_remove_errcode;
     bool success                                    = false;
 
-    /*-------------------------------------------------*\
-    | Check if the filename is valid                    |
-    \*-------------------------------------------------*/
+    /*-----------------------------------------------------*\
+    | Check if the filename is valid                        |
+    \*-----------------------------------------------------*/
     if(autostart_file != "")
     {
-        /*---------------------------------------------*\
-        | If file doesn't exist, disable is successful  |
-        \*---------------------------------------------*/
+        /*-------------------------------------------------*\
+        | If file doesn't exist, disable is successful      |
+        \*-------------------------------------------------*/
         if(!filesystem::exists(autostart_file))
         {
             success = true;
         }
-        /*---------------------------------------------*\
-        | Otherwise, delete the file                    |
-        \*---------------------------------------------*/
+        /*-------------------------------------------------*\
+        | Otherwise, delete the file                        |
+        \*-------------------------------------------------*/
         else
         {
             success = filesystem::remove(autostart_file, autostart_file_remove_errcode);
@@ -62,9 +62,9 @@ bool AutoStart::EnableAutoStart(AutoStartInfo autostart_info)
 {
     bool success                                    = false;
 
-    /*-------------------------------------------------*\
-    | Check if the filename is valid                    |
-    \*-------------------------------------------------*/
+    /*-----------------------------------------------------*\
+    | Check if the filename is valid                        |
+    \*-----------------------------------------------------*/
     if(autostart_file != "")
     {
         bool            weInitialised               = false;
@@ -79,9 +79,9 @@ bool AutoStart::EnableAutoStart(AutoStartInfo autostart_info)
 
         result                                      = CoCreateInstance(CLSID_ShellLink, NULL, CLSCTX_ALL, IID_IShellLinkW, (void**)&shellLink);
 
-        /*---------------------------------------------*\
-        | If not initialized, initialize                |
-        \*---------------------------------------------*/
+        /*-------------------------------------------------*\
+        | If not initialized, initialize                    |
+        \*-------------------------------------------------*/
         if(result == CO_E_NOTINITIALIZED)
         {
             weInitialised                           = true;
@@ -89,10 +89,10 @@ bool AutoStart::EnableAutoStart(AutoStartInfo autostart_info)
             result                                  = CoCreateInstance(CLSID_ShellLink, NULL, CLSCTX_ALL, IID_IShellLinkW, (void**)&shellLink);
         }
 
-        /*---------------------------------------------*\
-        | If successfully initialized, save a shortcut  |
-        | from the AutoStart parameters                 |
-        \*---------------------------------------------*/
+        /*-------------------------------------------------*\
+        | If successfully initialized, save a shortcut      |
+        | from the AutoStart parameters                     |
+        \*-------------------------------------------------*/
         if(SUCCEEDED(result))
         {
             shellLink->SetPath(exepathw.c_str());
@@ -114,9 +114,9 @@ bool AutoStart::EnableAutoStart(AutoStartInfo autostart_info)
             shellLink->Release();
         }
 
-        /*---------------------------------------------*\
-        | Uninitialize when done                        |
-        \*---------------------------------------------*/
+        /*-------------------------------------------------*\
+        | Uninitialize when done                            |
+        \*-------------------------------------------------*/
         if(weInitialised)
         {
             CoUninitialize();
@@ -132,9 +132,9 @@ bool AutoStart::EnableAutoStart(AutoStartInfo autostart_info)
 
 bool AutoStart::IsAutoStartEnabled()
 {
-    /*-------------------------------------------------*\
-    | Check if the filename is valid                    |
-    \*-------------------------------------------------*/
+    /*-----------------------------------------------------*\
+    | Check if the filename is valid                        |
+    \*-----------------------------------------------------*/
     if(autostart_file != "")
     {
         return(filesystem::exists(autostart_file));
@@ -147,9 +147,9 @@ bool AutoStart::IsAutoStartEnabled()
 
 std::string AutoStart::GetExePath()
 {
-    /*-------------------------------------------------*\
-    | Create the OpenRGB executable path                |
-    \*-------------------------------------------------*/
+    /*-----------------------------------------------------*\
+    | Create the OpenRGB executable path                    |
+    \*-----------------------------------------------------*/
     char exepath[MAX_PATH] = "";
 
     DWORD count = GetModuleFileNameA(NULL, exepath, MAX_PATH);
@@ -157,10 +157,10 @@ std::string AutoStart::GetExePath()
     return(std::string(exepath, (count > 0) ? count : 0));
 }
 
-/*-----------------------------------------------------*\
-| Windows AutoStart Implementation                      |
-| Private Methods                                       |
-\*-----------------------------------------------------*/
+/*---------------------------------------------------------*\
+| Windows AutoStart Implementation                          |
+| Private Methods                                           |
+\*---------------------------------------------------------*/
 
 void AutoStart::InitAutoStart(std::string name)
 {
@@ -168,9 +168,9 @@ void AutoStart::InitAutoStart(std::string name)
 
     autostart_name = name;
 
-    /*-------------------------------------------------*\
-    | Get startup applications path                     |
-    \*-------------------------------------------------*/
+    /*-----------------------------------------------------*\
+    | Get startup applications path                         |
+    \*-----------------------------------------------------*/
     HRESULT result = SHGetFolderPathA(NULL, CSIDL_PROGRAMS, NULL, 0, startMenuPath);
 
     if(SUCCEEDED(result))
@@ -185,10 +185,10 @@ void AutoStart::InitAutoStart(std::string name)
     }
 }
 
-/*-----------------------------------------------------*\
-| Convert an UTF8 string to a wide Unicode String       |
-| (from wmi.cpp)                                        |
-\*-----------------------------------------------------*/
+/*---------------------------------------------------------*\
+| Convert an UTF8 string to a wide Unicode String           |
+| (from wmi.cpp)                                            |
+\*---------------------------------------------------------*/
 std::wstring AutoStart::utf8_decode(const std::string& str)
 {
     if(str.empty())

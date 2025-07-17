@@ -184,42 +184,6 @@ ResourceManager::ResourceManager()
     }
 
     /*-----------------------------------------------------*\
-    | Initialize Saved Client Connections                   |
-    \*-----------------------------------------------------*/
-    json client_settings    = settings_manager->GetSettings("Client");
-
-    if(client_settings.contains("clients"))
-    {
-        for(unsigned int client_idx = 0; client_idx < client_settings["clients"].size(); client_idx++)
-        {
-            NetworkClient * client = new NetworkClient(rgb_controllers);
-
-            std::string titleString = "OpenRGB ";
-            titleString.append(VERSION_STRING);
-
-            std::string     client_ip   = client_settings["clients"][client_idx]["ip"];
-            unsigned short  client_port = client_settings["clients"][client_idx]["port"];
-
-            client->SetIP(client_ip.c_str());
-            client->SetName(titleString.c_str());
-            client->SetPort(client_port);
-
-            client->StartClient();
-
-            for(int timeout = 0; timeout < 100; timeout++)
-            {
-                if(client->GetConnected())
-                {
-                    break;
-                }
-                std::this_thread::sleep_for(10ms);
-            }
-
-            clients.push_back(client);
-        }
-    }
-
-    /*-----------------------------------------------------*\
     | Load sizes list from file                             |
     \*-----------------------------------------------------*/
     profile_manager         = new ProfileManager(GetConfigurationDirectory());
@@ -434,6 +398,28 @@ void ResourceManager::RegisterPreDetectionHook(PreDetectionHookFunction hook)
     pre_detection_hooks.push_back(hook);
 }
 
+void ResourceManager::RegisterClientInfoChangeCallback(ClientInfoChangeCallback new_callback, void * new_callback_arg)
+{
+    ClientInfoChangeCallbacks.push_back(new_callback);
+    ClientInfoChangeCallbackArgs.push_back(new_callback_arg);
+
+    LOG_TRACE("[ResourceManager] Registered client info change callback.  Total callbacks registered: %d", ClientInfoChangeCallbacks.size());
+}
+
+void ResourceManager::UnregisterClientInfoChangeCallback(ClientInfoChangeCallback callback, void * callback_arg)
+{
+    for(size_t idx = 0; idx < ClientInfoChangeCallbacks.size(); idx++)
+    {
+        if(ClientInfoChangeCallbacks[idx] == callback && ClientInfoChangeCallbackArgs[idx] == callback_arg)
+        {
+            ClientInfoChangeCallbacks.erase(ClientInfoChangeCallbacks.begin() + idx);
+            ClientInfoChangeCallbackArgs.erase(ClientInfoChangeCallbackArgs.begin() + idx);
+        }
+    }
+
+    LOG_TRACE("[ResourceManager] Unregistered client info change callback.  Total callbacks registered: %d", ClientInfoChangeCallbacks.size());
+}
+
 void ResourceManager::RegisterDeviceListChangeCallback(DeviceListChangeCallback new_callback, void * new_callback_arg)
 {
     DeviceListChangeCallbacks.push_back(new_callback);
@@ -587,6 +573,19 @@ void ResourceManager::UpdateDeviceList()
     DeviceListChangeMutex.unlock();
 }
 
+void ResourceManager::ClientInfoChanged()
+{
+    /*-----------------------------------------------------*\
+    | Client info has changed, call the callbacks           |
+    \*-----------------------------------------------------*/
+    LOG_TRACE("[ResourceManager] Calling client info change callbacks.");
+
+    for(std::size_t callback_idx = 0; callback_idx < ClientInfoChangeCallbacks.size(); callback_idx++)
+    {
+        ResourceManager::ClientInfoChangeCallbacks[callback_idx](ClientInfoChangeCallbackArgs[callback_idx]);
+    }
+}
+
 void ResourceManager::DeviceListChanged()
 {
     /*-----------------------------------------------------*\
@@ -594,7 +593,7 @@ void ResourceManager::DeviceListChanged()
     \*-----------------------------------------------------*/
     LOG_TRACE("[ResourceManager] Calling device list change callbacks.");
 
-    for(std::size_t callback_idx = 0; callback_idx < (unsigned int)DeviceListChangeCallbacks.size(); callback_idx++)
+    for(std::size_t callback_idx = 0; callback_idx < DeviceListChangeCallbacks.size(); callback_idx++)
     {
         ResourceManager::DeviceListChangeCallbacks[callback_idx](DeviceListChangeCallbackArgs[callback_idx]);
     }
@@ -703,6 +702,7 @@ static void NetworkClientInfoChangeCallback(void* this_ptr)
 {
     ResourceManager* this_obj = (ResourceManager*)this_ptr;
 
+    this_obj->ClientInfoChanged();
     this_obj->DeviceListChanged();
 }
 
@@ -1742,6 +1742,42 @@ void ResourceManager::InitCoroutine()
         }
 
         tryAutoConnect = false;
+    }
+
+    /*-----------------------------------------------------*\
+    | Initialize Saved Client Connections                   |
+    \*-----------------------------------------------------*/
+    json client_settings    = settings_manager->GetSettings("Client");
+
+    if(client_settings.contains("clients"))
+    {
+        for(unsigned int client_idx = 0; client_idx < client_settings["clients"].size(); client_idx++)
+        {
+            NetworkClient * client = new NetworkClient(rgb_controllers);
+
+            std::string titleString = "OpenRGB ";
+            titleString.append(VERSION_STRING);
+
+            std::string     client_ip   = client_settings["clients"][client_idx]["ip"];
+            unsigned short  client_port = client_settings["clients"][client_idx]["port"];
+
+            client->SetIP(client_ip.c_str());
+            client->SetName(titleString.c_str());
+            client->SetPort(client_port);
+
+            client->StartClient();
+
+            for(int timeout = 0; timeout < 100; timeout++)
+            {
+                if(client->GetConnected())
+                {
+                    break;
+                }
+                std::this_thread::sleep_for(10ms);
+            }
+
+            RegisterNetworkClient(client);
+        }
     }
 
     /*-----------------------------------------------------*\

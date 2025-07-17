@@ -1,8 +1,8 @@
 /*---------------------------------------------------------*\
-| HYTEMousematControllerDetect_Windows.cpp                  |
+| HYTEMousematControllerDetect_Windows_MacOS.cpp            |
 |                                                           |
 |   Detector for HYTE mousemat (Serial implementation for   |
-|   Windows)                                                |
+|   Windows and MacOS)                                      |
 |                                                           |
 |   Adam Honse (calcprogrammer1@gmail.com)      18 Jul 2023 |
 |                                                           |
@@ -12,7 +12,7 @@
 
 #include <vector>
 #include "Detector.h"
-#include "HYTEMousematController_Windows.h"
+#include "HYTEMousematController_Windows_MacOS.h"
 #include "RGBController_HYTEMousemat.h"
 #include "find_usb_serial_port.h"
 

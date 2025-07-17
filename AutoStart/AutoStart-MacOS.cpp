@@ -26,21 +26,21 @@ bool AutoStart::DisableAutoStart()
     std::error_code autostart_file_remove_errcode;
     bool            success                         = false;
 
-    /*-------------------------------------------------*\
-    | Check if the filename is valid                    |
-    \*-------------------------------------------------*/
+    /*-----------------------------------------------------*\
+    | Check if the filename is valid                        |
+    \*-----------------------------------------------------*/
     if(autostart_file != "")
     {
-        /*---------------------------------------------*\
-        | If file doesn't exist, disable is successful  |
-        \*---------------------------------------------*/
+        /*-------------------------------------------------*\
+        | If file doesn't exist, disable is successful      |
+        \*-------------------------------------------------*/
         if(!filesystem::exists(autostart_file))
         {
             success = true;
         }
-        /*---------------------------------------------*\
-        | Otherwise, delete the file                    |
-        \*---------------------------------------------*/
+        /*-------------------------------------------------*\
+        | Otherwise, delete the file                        |
+        \*-------------------------------------------------*/
         else
         {
             success = filesystem::remove(autostart_file, autostart_file_remove_errcode);
@@ -63,25 +63,25 @@ bool AutoStart::EnableAutoStart(AutoStartInfo autostart_info)
 {
     bool        success                             = false;
 
-    /*-------------------------------------------------*\
-    | Check if the filename is valid                    |
-    \*-------------------------------------------------*/
+    /*-----------------------------------------------------*\
+    | Check if the filename is valid                        |
+    \*-----------------------------------------------------*/
     if(autostart_file != "")
     {
         std::string     desktop_file                = GenerateLaunchAgentFile(autostart_info);
         std::ofstream   autostart_file_stream(autostart_file, std::ios::out | std::ios::trunc);
 
-        /*---------------------------------------------*\
-        | Error out if the file could not be opened     |
-        \*---------------------------------------------*/
+        /*-------------------------------------------------*\
+        | Error out if the file could not be opened         |
+        \*-------------------------------------------------*/
         if(!autostart_file_stream)
         {
             LOG_ERROR("[AutoStart] Could not open %s for writing.", autostart_file.c_str());
             success = false;
         }
-        /*---------------------------------------------*\
-        | Otherwise, write the file                     |
-        \*---------------------------------------------*/
+        /*-------------------------------------------------*\
+        | Otherwise, write the file                         |
+        \*-------------------------------------------------*/
         else
         {
             autostart_file_stream << desktop_file;
@@ -104,9 +104,9 @@ bool AutoStart::EnableAutoStart(AutoStartInfo autostart_info)
 
 bool AutoStart::IsAutoStartEnabled()
 {
-    /*-------------------------------------------------*\
-    | Check if the filename is valid                    |
-    \*-------------------------------------------------*/
+    /*-----------------------------------------------------*\
+    | Check if the filename is valid                        |
+    \*-----------------------------------------------------*/
     if(autostart_file != "")
     {
         return(filesystem::exists(autostart_file));
@@ -119,9 +119,9 @@ bool AutoStart::IsAutoStartEnabled()
 
 std::string AutoStart::GetExePath()
 {
-    /*-------------------------------------------------*\
-    | Create the OpenRGB executable path                |
-    \*-------------------------------------------------*/
+    /*-----------------------------------------------------*\
+    | Create the OpenRGB executable path                    |
+    \*-----------------------------------------------------*/
     char     exepath[ PATH_MAX ];
     uint32_t exesize = PATH_MAX;
 
@@ -132,17 +132,17 @@ std::string AutoStart::GetExePath()
     return("");
 }
 
-/*-----------------------------------------------------*\
-| MacOS AutoStart Implementation                        |
-| Private Methods                                       |
-\*-----------------------------------------------------*/
+/*---------------------------------------------------------*\
+| MacOS AutoStart Implementation                            |
+| Private Methods                                           |
+\*---------------------------------------------------------*/
 
 std::string AutoStart::GenerateLaunchAgentFile(AutoStartInfo autostart_info)
 {
-    /*-------------------------------------------------*\
-    | Generate a .plist file from the AutoStart         |
-    | parameters                                        |
-    \*-------------------------------------------------*/
+    /*-----------------------------------------------------*\
+    | Generate a .plist file from the AutoStart             |
+    | parameters                                            |
+    \*-----------------------------------------------------*/
     std::stringstream fileContents;
 
     fileContents << "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"                                                                    << std::endl;
@@ -180,16 +180,16 @@ void AutoStart::InitAutoStart(std::string name)
 
     autostart_name = name;
 
-    /*-------------------------------------------------*\
-    | Determine where the autostart .desktop files are  |
-    | kept                                              |
-    \*-------------------------------------------------*/
+    /*-----------------------------------------------------*\
+    | Determine where the autostart .desktop files are      |
+    | kept                                                  |
+    \*-----------------------------------------------------*/
     autostart_dir = getenv("HOME");
     autostart_dir = autostart_dir + "/Library/LaunchAgents/";
 
-    /*-------------------------------------------------*\
-    | Check if the filename is valid                    |
-    \*-------------------------------------------------*/
+    /*-----------------------------------------------------*\
+    | Check if the filename is valid                        |
+    \*-----------------------------------------------------*/
     if(autostart_dir != "")
     {
         std::error_code ec;

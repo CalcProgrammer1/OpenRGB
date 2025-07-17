@@ -93,9 +93,9 @@ typedef struct
     uint8_t                         dimm_type;
 } I2CDIMMDeviceDetectorBlock;
 
-/*-------------------------------------------------------------------------*\
-| Define a macro for QT lupdate to parse                                    |
-\*-------------------------------------------------------------------------*/
+/*---------------------------------------------------------*\
+| Define a macro for QT lupdate to parse                    |
+\*---------------------------------------------------------*/
 #define QT_TRANSLATE_NOOP(scope, x) x
 
 extern const char* I2C_ERR_WIN;
@@ -141,12 +141,14 @@ public:
     void RegisterDynamicDetector        (std::string name, DynamicDetectorFunction detector);
     void RegisterPreDetectionHook       (PreDetectionHookFunction hook);
 
+    void RegisterClientInfoChangeCallback(ClientInfoChangeCallback new_callback, void * new_callback_arg);
     void RegisterDeviceListChangeCallback(DeviceListChangeCallback new_callback, void * new_callback_arg);
     void RegisterDetectionProgressCallback(DetectionProgressCallback new_callback, void * new_callback_arg);
     void RegisterDetectionStartCallback(DetectionStartCallback new_callback, void * new_callback_arg);
     void RegisterDetectionEndCallback(DetectionEndCallback new_callback, void * new_callback_arg);
     void RegisterI2CBusListChangeCallback(I2CBusListChangeCallback new_callback, void * new_callback_arg);
 
+    void UnregisterClientInfoChangeCallback(ClientInfoChangeCallback new_callback, void * new_callback_arg);
     void UnregisterDeviceListChangeCallback(DeviceListChangeCallback callback, void * callback_arg);
     void UnregisterDetectionProgressCallback(DetectionProgressCallback callback, void *callback_arg);
     void UnregisterDetectionStartCallback(DetectionStartCallback callback, void *callback_arg);
@@ -173,6 +175,7 @@ public:
     void ProcessPreDetectionHooks(); // Consider making private
     void ProcessDynamicDetectors();  // Consider making private
     void UpdateDeviceList();
+    void ClientInfoChanged();
     void DeviceListChanged();
     void DetectionProgressChanged();
     void I2CBusListChanged();
@@ -202,88 +205,90 @@ private:
     void RunInBackgroundThread(std::function<void()>);
     void BackgroundThreadFunction();
 
-    /*-------------------------------------------------------------------------------------*\
-    | Functions that must be run in the background thread                                   |
-    | These are not related to STL coroutines, yet this name is the most convenient         |
-    \*-------------------------------------------------------------------------------------*/
+    /*-----------------------------------------------------*\
+    | Functions that must be run in the background thread   |
+    | These are not related to STL coroutines, yet this     |
+    | name is the most convenient                           |
+    \*-----------------------------------------------------*/
     void InitCoroutine();
     void DetectDevicesCoroutine();
     void HidExitCoroutine();
 
-    /*-------------------------------------------------------------------------------------*\
-    | Static pointer to shared instance of ResourceManager                                  |
-    \*-------------------------------------------------------------------------------------*/
+    /*-----------------------------------------------------*\
+    | Static pointer to shared instance of ResourceManager  |
+    \*-----------------------------------------------------*/
     static ResourceManager*                     instance;
 
-    /*-------------------------------------------------------------------------------------*\
-    | Auto connection permitting flag                                                       |
-    \*-------------------------------------------------------------------------------------*/
+    /*-----------------------------------------------------*\
+    | Auto connection permitting flag                       |
+    \*-----------------------------------------------------*/
     bool                                        tryAutoConnect;
 
-    /*-------------------------------------------------------------------------------------*\
-    | Detection enabled flag                                                                |
-    \*-------------------------------------------------------------------------------------*/
+    /*-----------------------------------------------------*\
+    | Detection enabled flag                                |
+    \*-----------------------------------------------------*/
     bool                                        detection_enabled;
 
-    /*-------------------------------------------------------------------------------------*\
-    | Auto connection active flag                                                           |
-    \*-------------------------------------------------------------------------------------*/
+    /*-----------------------------------------------------*\
+    | Auto connection active flag                           |
+    \*-----------------------------------------------------*/
     bool                                        auto_connection_active;
 
-    /*-------------------------------------------------------------------------------------*\
-    | Auto connection client pointer                                                        |
-    \*-------------------------------------------------------------------------------------*/
+    /*-----------------------------------------------------*\
+    | Auto connection client pointer                        |
+    \*-----------------------------------------------------*/
     NetworkClient *                             auto_connection_client;
 
-    /*-------------------------------------------------------------------------------------*\
-    | Auto connection permitting flag                                                       |
-    \*-------------------------------------------------------------------------------------*/
+    /*-----------------------------------------------------*\
+    | Auto connection permitting flag                       |
+    \*-----------------------------------------------------*/
     bool                                        start_server;
 
-    /*-------------------------------------------------------------------------------------*\
-    | Auto connection permitting flag                                                       |
-    \*-------------------------------------------------------------------------------------*/
+    /*-----------------------------------------------------*\
+    | Auto connection permitting flag                       |
+    \*-----------------------------------------------------*/
     bool                                        apply_post_options;
-    /*-------------------------------------------------------------------------------------*\
-    | Initialization completion flag                                                        |
-    \*-------------------------------------------------------------------------------------*/
+
+    /*-----------------------------------------------------*\
+    | Initialization completion flag                        |
+    \*-----------------------------------------------------*/
     std::atomic<bool>                           init_finished;
 
-    /*-------------------------------------------------------------------------------------*\
-    | Profile Manager                                                                       |
-    \*-------------------------------------------------------------------------------------*/
+    /*-----------------------------------------------------*\
+    | Profile Manager                                       |
+    \*-----------------------------------------------------*/
     ProfileManager*                             profile_manager;
 
-    /*-------------------------------------------------------------------------------------*\
-    | Settings Manager                                                                      |
-    \*-------------------------------------------------------------------------------------*/
+    /*-----------------------------------------------------*\
+    | Settings Manager                                      |
+    \*-----------------------------------------------------*/
     SettingsManager*                            settings_manager;
 
-    /*-------------------------------------------------------------------------------------*\
-    | I2C/SMBus Interfaces                                                                  |
-    \*-------------------------------------------------------------------------------------*/
+    /*-----------------------------------------------------*\
+    | I2C/SMBus Interfaces                                  |
+    \*-----------------------------------------------------*/
     std::vector<i2c_smbus_interface*>           busses;
 
-    /*-------------------------------------------------------------------------------------*\
-    | RGBControllers                                                                        |
-    \*-------------------------------------------------------------------------------------*/
+    /*-----------------------------------------------------*\
+    | RGBControllers                                        |
+    \*-----------------------------------------------------*/
     std::vector<RGBController*>                 rgb_controllers_sizes;
     std::vector<RGBController*>                 rgb_controllers_hw;
     std::vector<RGBController*>                 rgb_controllers;
 
-    /*-------------------------------------------------------------------------------------*\
-    | Network Server                                                                        |
-    \*-------------------------------------------------------------------------------------*/
+    /*-----------------------------------------------------*\
+    | Network Server                                        |
+    \*-----------------------------------------------------*/
     NetworkServer*                              server;
 
-    /*-------------------------------------------------------------------------------------*\
-    | Network Clients                                                                       |
-    \*-------------------------------------------------------------------------------------*/
+    /*-----------------------------------------------------*\
+    | Network Clients                                       |
+    \*-----------------------------------------------------*/
     std::vector<NetworkClient*>                 clients;
 
-    /*-------------------------------------------------------------------------------------*\
-    | Detectors                                                                             |
-    \*-------------------------------------------------------------------------------------*/
+    /*-----------------------------------------------------*\
+    | Detectors                                             |
+    \*-----------------------------------------------------*/
     std::vector<DeviceDetectorFunction>         device_detectors;
     std::vector<std::string>                    device_detector_strings;
     std::vector<I2CBusDetectorFunction>         i2c_bus_detectors;
@@ -299,14 +304,18 @@ private:
 
     bool                                        dynamic_detectors_processed;
 
-    /*-------------------------------------------------------------------------------------*\
-    | Detection Thread and Detection State                                                  |
-    \*-------------------------------------------------------------------------------------*/
+    /*-----------------------------------------------------*\
+    | Detection Thread and Detection State                  |
+    \*-----------------------------------------------------*/
     std::thread *                               DetectDevicesThread;
     std::mutex                                  DetectDeviceMutex;
     std::function<void()>                       ScheduledBackgroundFunction;
     std::mutex                                  BackgroundThreadStateMutex;
-    std::condition_variable                     BackgroundFunctionStartTrigger; // NOTE: wakes up the background detection thread
+
+    /*-----------------------------------------------------*\
+    | NOTE: wakes up the background detection thread        |
+    \*-----------------------------------------------------*/
+    std::condition_variable                     BackgroundFunctionStartTrigger;
 
     std::atomic<bool>                           background_thread_running;
     std::atomic<bool>                           detection_is_required;
@@ -315,17 +324,22 @@ private:
     std::vector<bool>                           detection_size_entry_used;
     const char*                                 detection_string;
 
+    /*-----------------------------------------------------*\
+    | Client Info Changed Callback                          |
+    \*-----------------------------------------------------*/
+    std::vector<ClientInfoChangeCallback>       ClientInfoChangeCallbacks;
+    std::vector<void *>                         ClientInfoChangeCallbackArgs;
 
-    /*-------------------------------------------------------------------------------------*\
-    | Device List Changed Callback                                                          |
-    \*-------------------------------------------------------------------------------------*/
+    /*-----------------------------------------------------*\
+    | Device List Changed Callback                          |
+    \*-----------------------------------------------------*/
     std::mutex                                  DeviceListChangeMutex;
     std::vector<DeviceListChangeCallback>       DeviceListChangeCallbacks;
     std::vector<void *>                         DeviceListChangeCallbackArgs;
 
-    /*-------------------------------------------------------------------------------------*\
-    | Detection Progress, Start, and End Callbacks                                          |
-    \*-------------------------------------------------------------------------------------*/
+    /*-----------------------------------------------------*\
+    | Detection Progress, Start, and End Callbacks          |
+    \*-----------------------------------------------------*/
     std::mutex                                  DetectionProgressMutex;
     std::vector<DetectionProgressCallback>      DetectionProgressCallbacks;
     std::vector<void *>                         DetectionProgressCallbackArgs;
@@ -336,12 +350,15 @@ private:
     std::vector<DetectionEndCallback>           DetectionEndCallbacks;
     std::vector<void *>                         DetectionEndCallbackArgs;
 
-    /*-------------------------------------------------------------------------------------*\
-    | I2C/SMBus Adapter List Changed Callback                                               |
-    \*-------------------------------------------------------------------------------------*/
+    /*-----------------------------------------------------*\
+    | I2C/SMBus Adapter List Changed Callback               |
+    \*-----------------------------------------------------*/
     std::mutex                                  I2CBusListChangeMutex;
     std::vector<I2CBusListChangeCallback>       I2CBusListChangeCallbacks;
     std::vector<void *>                         I2CBusListChangeCallbackArgs;
 
-    filesystem::path config_dir;
+    /*-----------------------------------------------------*\
+    | OpenRGB configuration directory path                  |
+    \*-----------------------------------------------------*/
+    filesystem::path                            config_dir;
 };

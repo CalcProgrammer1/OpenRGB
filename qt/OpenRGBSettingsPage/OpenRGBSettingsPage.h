@@ -89,4 +89,6 @@ private slots:
     void on_ComboBoxSuspendProfile_currentTextChanged(const QString suspend_profile_name);
     void on_CheckboxDisableKeyExpansion_clicked();
     void on_CheckboxShowLEDView_clicked();
+    void on_CheckboxAllDevices_clicked(bool checked);
+    void on_CheckboxLegacyWorkaround_clicked(bool checked);
 };

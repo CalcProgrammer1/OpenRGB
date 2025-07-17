@@ -34,10 +34,11 @@ DMIInfo::DMIInfo()
 std::string DMIInfo::readWMIQuery(std::string query, std::string key)
 {
     HRESULT hres;
-    Wmi wmi;
+    Wmi     wmi;
 
-    // Query WMI for Win32_PnPSignedDriver entries with names matching "SMBUS" or "SM BUS"
-    // These devices may be browsed under Device Manager -> System Devices
+    /*-----------------------------------------------------*\
+    | Query WMI                                             |
+    \*-----------------------------------------------------*/
     std::vector<QueryObj> q_result;
     hres = wmi.query(query, q_result);
 
