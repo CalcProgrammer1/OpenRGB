@@ -427,6 +427,7 @@
 #define COLORFUL_IGAME_RTX_4080_ULTRAW_OCV2             0x1501
 #define COLORFUL_IGAME_RTX_4090_ADVANCED_OCV            0x1400
 #define COLORFUL_IGAME_RTX_4090_ADVANCED_OCV2           0x1401
+#define COLORFUL_IGAME_RTX_5070TI_ULTRAW_OC_16G_V       0x1501
 
 /*-----------------------------------------------------*\
 | EVGA Sub-Device IDs                                   |
