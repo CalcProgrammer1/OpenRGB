@@ -54,13 +54,6 @@ goto bits_done
 @call "C:\Program Files (x86)\Microsoft Visual Studio\%MSVC_VER%\BuildTools\VC\Auxiliary\Build\vcvarsall.bat" %MSVC_ARCH%
 
 ::---------------------------------------------------------::
-:: Re-create build directory and cd into it                ::
-::---------------------------------------------------------::
-::rm -r build
-::mkdir build
-::cd build
-
-::---------------------------------------------------------::
 :: Run qmake to configure the build                        ::
 ::---------------------------------------------------------::
 qmake OpenRGB.pro CONFIG-=debug_and_release CONFIG+=release
