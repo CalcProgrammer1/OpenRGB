@@ -6,7 +6,7 @@
   <metadata_license>CC0-1.0</metadata_license>
   <project_license>GPL-2.0-or-later</project_license>
   <developer id="org.openrgb">
-    <name>OpenRGB Developers and Contributors</name>
+    <name>Adam Honse, OpenRGB Team</name>
   </developer>
 
   <name>OpenRGB</name>
@@ -61,7 +61,8 @@
 
   <screenshots>
     <screenshot type="default">
-      <image>https://gitlab.com/OpenRGBDevelopers/OpenRGB-Wiki/-/raw/stable/uploads/e1d8d4603ecdd04f1acbcf6b2314fc66/OpenRGB_0.31_Device_View.PNG</image>
+      <image>https://gitlab.com/CalcProgrammer1/OpenRGB/-/raw/master/Documentation/Images/OpenRGB_Screenshot.png</image>
+      <caption>OpenRGB Device View</caption>
     </screenshot>
   </screenshots>
 
