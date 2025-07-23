@@ -6,13 +6,12 @@ This document details the process to compile OpenRGB from source on supported op
 
   *  You will need the **Microsoft Visual 2019 C++ runtime** installed.  You can get it [here](https://support.microsoft.com/en-us/help/2977003/the-latest-supported-visual-c-downloads)
   *  To build the application yourself on Windows:
-      1. Download and install [PowerShell](https://learn.microsoft.com/en-us/powershell/scripting/install/installing-powershell-on-windows). Note that it's not the same as Windows Powershell.
-      2. Download the latest [Visual Studio Community Edition](https://visualstudio.microsoft.com/thank-you-for-downloading-visual-studio-for-cplusplus/?sku=Community) and [Qt Creator](https://www.qt.io/download-thank-you).
-      3. When [installing the QT toolset](https://gitlab.com/OpenRGBDevelopers/OpenRGB-Wiki/-/blob/stable/Downloading%20Qt%20and%20building%20OpenRGB.md) select the latest revision of Qt 5.15.x as OpenRGB is not yet compatible with QT6.
-      4. Optionally [install Git](https://git-scm.com/download) if you intend to [contribute your changes](https://gitlab.com/CalcProgrammer1/OpenRGB/-/blob/master/CONTRIBUTING.md) to the mainline codebase.
-      5. Open the OpenRGB.pro project in Qt Creator.
-      6. Use the MSVC compiler kit, either 32- or 64-bit, to build the application.
-      7. Run the project from Qt Creator.  If you want to use your custom build standalone, download the latest matching Release package and replace the OpenRGB.exe in it with your new build.
+      1. [Install Git](https://git-scm.com/download)
+      2. Clone the [OpenRGB-Qt-Packages](https://gitlab.com/OpenRGBDevelopers/OpenRGB-Qt-Packages) git repo and run `install.bat` (or optionally `install-chocolatey.bat` if you use the Chocolatey package manager).
+      3. In the OpenRGB source directory, run the `scripts\build-windows.bat` file with arguments `<Qt Version> <MSVC Version> <Bits>`.
+        * Qt versions provided by `OpenRGB-Qt-Packages` include `5.15.0` (using MSVC `2019`) and `6.8.3` (using MSVC `2022`).
+        * For example, for a Qt5 64-bit build, `.\scripts\build-windows.bat 5.15.0 2019 64`
+      4. You can also use Qt Creator to build and debug the project, you will need to install it from the Qt Online Installer or by downloading and extracting a binary release and manually configuring it.
 
 ## Linux
 
