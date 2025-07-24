@@ -19,12 +19,12 @@
 #include <thread>
 #include <string>
 #include <vector>
+#include <nlohmann/json.hpp>
 #include "SPDWrapper.h"
 #include "hidapi_wrapper.h"
 #include "i2c_smbus.h"
 #include "ResourceManagerInterface.h"
 #include "filesystem.h"
-#include <nlohmann/json.hpp>
 
 using json = nlohmann::json;
 
@@ -194,6 +194,9 @@ public:
 
     void WaitForInitialization();
     void WaitForDeviceDetection();
+
+    void RegisterNetworkPlugin(OpenRGBNetworkPlugin plugin);
+    void UnregisterNetworkPlugin(std::string plugin_name);
 
 private:
     void UpdateDetectorSettings();
