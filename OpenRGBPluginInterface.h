@@ -1,7 +1,7 @@
 /*---------------------------------------------------------*\
 | OpenRGBPluginInterface.h                                  |
 |                                                           |
-|   OpenRGB SDK network protocol                            |
+|   OpenRGB Plugin API                                      |
 |                                                           |
 |   herosilas12 (CoffeeIsLife)                  11 Dec 2020 |
 |   Adam Honse (CalcProgrammer1)                05 Jan 2021 |
@@ -15,6 +15,7 @@
 #include <QtPlugin>
 #include <QLabel>
 #include <QMenu>
+#include "OpenRGBNetworkPluginInterface.h"
 #include "ResourceManagerInterface.h"
 
 #define OpenRGBPluginInterface_IID  "com.OpenRGBPluginInterface"
@@ -25,9 +26,10 @@
 | 1:    OpenRGB 0.61    First versioned API, introduced with plugin settings changes                    |
 | 2:    OpenRGB 0.7     First released versioned API, callback unregister functions in ResourceManager  |
 | 3:    OpenRGB 0.9     Use filesystem::path for paths, Added segments                                  |
-| 4:    OpenRGB 1.0     Resizable effects-only zones, zone flags                                        |
+| 4:    OpenRGB 1.0rc1  Resizable effects-only zones, zone flags                                        |
+| 5:    OpenRGB 1.0     Server name string, RGBController structure mutex                               |
 \*-----------------------------------------------------------------------------------------------------*/
-#define OPENRGB_PLUGIN_API_VERSION  4
+#define OPENRGB_PLUGIN_API_VERSION  5
 
 /*-----------------------------------------------------------------------------------------------------*\
 | Plugin Tab Location Values                                                                            |
