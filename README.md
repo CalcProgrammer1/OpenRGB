@@ -98,7 +98,7 @@ This project interacts directly with hardware using reverse engineered protocols
   * [OpenRGB-Client - Java Client](https://gitlab.com/mguimard/openrgb-client) (by morg)
   * [OpenRGB-SDK - NodeJS client](https://www.npmjs.com/package/openrgb-sdk) (by Mola19)
   * [OpenRGB-cppSDK - C++ client](https://github.com/Youda008/OpenRGB-cppSDK) (by Youda008)
-  * [openrgb-rs - Rust client](https://github.com/nicoulaj/openrgb-rs) (by nicoulaj)
+  * [openrgb-rs2 - Rust client](https://github.com/Achtuur/openrgb-rs2) (by nicoulaj & Achtuur)
 
 ## Applications Supporting OpenRGB SDK
 
