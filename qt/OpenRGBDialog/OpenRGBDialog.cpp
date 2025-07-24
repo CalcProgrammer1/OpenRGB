@@ -494,6 +494,7 @@ OpenRGBDialog::OpenRGBDialog(QWidget *parent) : QMainWindow(parent), ui(new Ui::
     | Initialize the plugin manager                         |
     \*-----------------------------------------------------*/
     plugin_manager = new PluginManager();
+    ResourceManager::get()->SetPluginManager(plugin_manager);
     plugin_manager->RegisterAddPluginCallback(&CreatePluginCallback, this);
     plugin_manager->RegisterRemovePluginCallback(&DeletePluginCallback, this);
 
