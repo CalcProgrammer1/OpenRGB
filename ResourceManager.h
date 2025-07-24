@@ -19,12 +19,12 @@
 #include <thread>
 #include <string>
 #include <vector>
+#include <nlohmann/json.hpp>
 #include "SPDWrapper.h"
 #include "hidapi_wrapper.h"
 #include "i2c_smbus.h"
 #include "ResourceManagerInterface.h"
 #include "filesystem.h"
-#include <nlohmann/json.hpp>
 
 using json = nlohmann::json;
 
@@ -35,6 +35,7 @@ using json = nlohmann::json;
 struct hid_device_info;
 class NetworkClient;
 class NetworkServer;
+class PluginManagerInterface;
 class ProfileManager;
 class RGBController;
 class SettingsManager;
@@ -167,6 +168,7 @@ public:
     std::vector<NetworkClient*>&    GetClients();
     NetworkServer*                  GetServer();
 
+    PluginManagerInterface*         GetPluginManager();
     ProfileManager*                 GetProfileManager();
     SettingsManager*                GetSettingsManager();
 
@@ -189,6 +191,8 @@ public:
     void DisableDetection();
 
     void RescanDevices();
+
+    void SetPluginManager(PluginManagerInterface* plugin_manager_ptr);
 
     void StopDeviceDetection();
 
@@ -258,6 +262,11 @@ private:
     | Initial detection flag                                |
     \*-----------------------------------------------------*/
     bool                                        initial_detection;
+
+    /*-----------------------------------------------------*\
+    | Plugin Manager                                        |
+    \*-----------------------------------------------------*/
+    PluginManagerInterface*                     plugin_manager;
 
     /*-----------------------------------------------------*\
     | Profile Manager                                       |
