@@ -16,6 +16,7 @@
 #include <QtPlugin>
 #include <QDir>
 #include "OpenRGBPluginInterface.h"
+#include "PluginManagerInterface.h"
 
 struct OpenRGBPluginEntry
 {
@@ -34,10 +35,16 @@ struct OpenRGBPluginEntry
 typedef void (*AddPluginCallback)(void *, OpenRGBPluginEntry* plugin);
 typedef void (*RemovePluginCallback)(void *, OpenRGBPluginEntry* plugin);
 
-class PluginManager
+class PluginManager : public PluginManagerInterface
 {
 public:
     PluginManager();
+
+    unsigned int    GetPluginCount();
+    std::string     GetPluginDescription(unsigned int plugin_idx);
+    std::string     GetPluginName(unsigned int plugin_idx);
+    unsigned int    GetPluginProtocolVersion(unsigned int plugin_idx);
+    std::string     GetPluginVersion(unsigned int plugin_idx);
 
     void RegisterAddPluginCallback(AddPluginCallback new_callback, void * new_callback_arg);
     void RegisterRemovePluginCallback(RemovePluginCallback new_callback, void * new_callback_arg);
@@ -52,6 +59,8 @@ public:
 
     void LoadPlugins();
     void UnloadPlugins();
+
+    unsigned char * OnSDKCommand(unsigned int plugin_idx, unsigned int pkt_id, unsigned char * pkt_data, unsigned int * pkt_size);
 
     std::vector<OpenRGBPluginEntry> ActivePlugins;
 
