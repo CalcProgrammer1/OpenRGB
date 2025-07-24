@@ -15,8 +15,7 @@
 #include "i2c_smbus.h"
 #include "filesystem.h"
 
-class NetworkClient;
-class NetworkServer;
+class PluginManagerInterface;
 class ProfileManager;
 class RGBController;
 class SettingsManager;
@@ -54,9 +53,7 @@ public:
 
     virtual filesystem::path                    GetConfigurationDirectory()                                                                         = 0;
 
-    virtual std::vector<NetworkClient*>&        GetClients()                                                                                        = 0;
-    virtual NetworkServer*                      GetServer()                                                                                         = 0;
-
+    virtual PluginManagerInterface*             GetPluginManager()                                                                                  = 0;
     virtual ProfileManager*                     GetProfileManager()                                                                                 = 0;
     virtual SettingsManager*                    GetSettingsManager()                                                                                = 0;
 
