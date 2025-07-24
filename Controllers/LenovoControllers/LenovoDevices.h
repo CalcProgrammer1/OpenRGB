@@ -31,6 +31,7 @@
 #define LEGION_Y750S                            0xC957
 #define LEGION_Y760                             0xC968
 #define LEGION_Y760S                            0xC967
+#define LEGION_S7GEN7                           0xC977
 #define LEGION_7GEN7                            0xC978
 #define LEGION_7GEN8                            0xC988
 #define LEGION_7GEN9                            0xC997
