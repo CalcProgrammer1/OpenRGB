@@ -14,6 +14,7 @@
 #include <mutex>
 #include <thread>
 #include <chrono>
+#include "OpenRGBNetworkPluginInterface.h"
 #include "RGBController.h"
 #include "NetworkProtocol.h"
 #include "net_port.h"
@@ -24,17 +25,6 @@
 #define TCP_TIMEOUT_SECONDS 5
 
 typedef void (*NetServerCallback)(void *);
-typedef unsigned char* (*NetPluginCallback)(void *, unsigned int, unsigned char*, unsigned int*);
-
-struct NetworkPlugin
-{
-    std::string name;
-    std::string description;
-    std::string version;
-    NetPluginCallback callback;
-    void* callback_arg;
-    unsigned int protocol_version;
-};
 
 class NetworkClientInfo
 {
@@ -98,7 +88,7 @@ public:
 
     void                                SetProfileManager(ProfileManagerInterface* profile_manager_pointer);
 
-    void                                RegisterPlugin(NetworkPlugin plugin);
+    void                                RegisterPlugin(OpenRGBNetworkPlugin plugin);
     void                                UnregisterPlugin(std::string plugin_name);
 
 protected:
@@ -124,7 +114,7 @@ protected:
 
     ProfileManagerInterface*            profile_manager;
 
-    std::vector<NetworkPlugin>          plugins;
+    std::vector<OpenRGBNetworkPlugin>   plugins;
 
     std::mutex                          send_in_progress;
 

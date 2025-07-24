@@ -1,7 +1,7 @@
 /*---------------------------------------------------------*\
 | OpenRGBPluginInterface.h                                  |
 |                                                           |
-|   OpenRGB SDK network protocol                            |
+|   OpenRGB Plugin API                                      |
 |                                                           |
 |   herosilas12 (CoffeeIsLife)                  11 Dec 2020 |
 |   Adam Honse (CalcProgrammer1)                05 Jan 2021 |
@@ -15,6 +15,7 @@
 #include <QtPlugin>
 #include <QLabel>
 #include <QMenu>
+#include "OpenRGBNetworkPluginInterface.h"
 #include "ResourceManagerInterface.h"
 
 #define OpenRGBPluginInterface_IID  "com.OpenRGBPluginInterface"
