@@ -532,3 +532,75 @@ void PluginManager::UnloadPlugins()
         UnloadPlugin(&plugin_entry);
     }
 }
+
+unsigned char * PluginManager::OnSDKCommand(unsigned int plugin_idx, unsigned int pkt_id, unsigned char * pkt_data, unsigned int * pkt_size)
+{
+    unsigned char * out_data = NULL;
+
+    if(plugin_idx < ActivePlugins.size())
+    {
+        if(ActivePlugins[plugin_idx].enabled && ActivePlugins[plugin_idx].loader->isLoaded())
+        {
+            out_data = ActivePlugins[plugin_idx].plugin->OnSDKCommand(pkt_id, pkt_data, pkt_size);
+        }
+    }
+
+    return(out_data);
+}
+
+unsigned int PluginManager::GetPluginCount()
+{
+    return(ActivePlugins.size());
+}
+
+std::string PluginManager::GetPluginDescription(unsigned int plugin_idx)
+{
+    if(plugin_idx < ActivePlugins.size())
+    {
+        if(ActivePlugins[plugin_idx].enabled && ActivePlugins[plugin_idx].loader->isLoaded())
+        {
+            return(ActivePlugins[plugin_idx].plugin->GetPluginInfo().Description);
+        }
+    }
+
+    return("");
+}
+
+std::string PluginManager::GetPluginName(unsigned int plugin_idx)
+{
+    if(plugin_idx < ActivePlugins.size())
+    {
+        if(ActivePlugins[plugin_idx].enabled && ActivePlugins[plugin_idx].loader->isLoaded())
+        {
+            return(ActivePlugins[plugin_idx].plugin->GetPluginInfo().Name);
+        }
+    }
+
+    return("");
+}
+
+unsigned int PluginManager::GetPluginProtocolVersion(unsigned int plugin_idx)
+{
+    if(plugin_idx < ActivePlugins.size())
+    {
+        if(ActivePlugins[plugin_idx].enabled && ActivePlugins[plugin_idx].loader->isLoaded())
+        {
+            return(ActivePlugins[plugin_idx].plugin->GetPluginInfo().ProtocolVersion);
+        }
+    }
+
+    return(0);
+}
+
+std::string PluginManager::GetPluginVersion(unsigned int plugin_idx)
+{
+    if(plugin_idx < ActivePlugins.size())
+    {
+        if(ActivePlugins[plugin_idx].enabled && ActivePlugins[plugin_idx].loader->isLoaded())
+        {
+            return(ActivePlugins[plugin_idx].plugin->GetPluginInfo().Version);
+        }
+    }
+
+    return("");
+}
