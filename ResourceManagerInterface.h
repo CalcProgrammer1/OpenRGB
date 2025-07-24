@@ -15,8 +15,7 @@
 #include "i2c_smbus.h"
 #include "filesystem.h"
 
-class NetworkClient;
-class NetworkServer;
+struct OpenRGBNetworkPlugin;
 class ProfileManager;
 class RGBController;
 class SettingsManager;
@@ -54,14 +53,14 @@ public:
 
     virtual filesystem::path                    GetConfigurationDirectory()                                                                         = 0;
 
-    virtual std::vector<NetworkClient*>&        GetClients()                                                                                        = 0;
-    virtual NetworkServer*                      GetServer()                                                                                         = 0;
-
     virtual ProfileManager*                     GetProfileManager()                                                                                 = 0;
     virtual SettingsManager*                    GetSettingsManager()                                                                                = 0;
 
     virtual void                                UpdateDeviceList()                                                                                  = 0;
     virtual void                                WaitForDeviceDetection()                                                                            = 0;
+
+    virtual void                                RegisterNetworkPlugin(OpenRGBNetworkPlugin plugin)                                                  = 0;
+    virtual void                                UnregisterNetworkPlugin(std::string plugin_name)                                                    = 0;
 
 protected:
     virtual                                    ~ResourceManagerInterface() {};
