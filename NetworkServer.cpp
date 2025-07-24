@@ -945,7 +945,7 @@ void NetworkServer::ListenThreadFunction(NetworkClientInfo * client_info)
 
                     if(header.pkt_dev_idx < plugins.size())
                     {
-                        NetworkPlugin plugin = plugins[header.pkt_dev_idx];
+                        OpenRGBNetworkPlugin plugin = plugins[header.pkt_dev_idx];
                         unsigned char* output = plugin.callback(plugin.callback_arg, plugin_pkt_type, plugin_data, &plugin_pkt_size);
                         if(output != nullptr)
                         {
@@ -1306,14 +1306,14 @@ void NetworkServer::SetProfileManager(ProfileManagerInterface* profile_manager_p
     profile_manager = profile_manager_pointer;
 }
 
-void NetworkServer::RegisterPlugin(NetworkPlugin plugin)
+void NetworkServer::RegisterPlugin(OpenRGBNetworkPlugin plugin)
 {
     plugins.push_back(plugin);
 }
 
 void NetworkServer::UnregisterPlugin(std::string plugin_name)
 {
-    for(std::vector<NetworkPlugin>::iterator it = plugins.begin(); it != plugins.end(); it++)
+    for(std::vector<OpenRGBNetworkPlugin>::iterator it = plugins.begin(); it != plugins.end(); it++)
     {
         if(it->name == plugin_name)
         {
