@@ -843,6 +843,11 @@ std::vector<NetworkClient*>& ResourceManager::GetClients()
     return(clients);
 }
 
+PluginManagerInterface* ResourceManager::GetPluginManager()
+{
+    return(plugin_manager);
+}
+
 ProfileManager* ResourceManager::GetProfileManager()
 {
     return(profile_manager);
@@ -1738,6 +1743,12 @@ void ResourceManager::DetectDevicesCoroutine()
         LOG_DIALOG("%s", I2C_ERR_LINUX);
 #endif
     }
+}
+
+void ResourceManager::SetPluginManager(PluginManagerInterface* plugin_manager_ptr)
+{
+    plugin_manager = plugin_manager_ptr;
+    server->SetPluginManager(plugin_manager);
 }
 
 void ResourceManager::StopDeviceDetection()
