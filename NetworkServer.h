@@ -17,6 +17,7 @@
 #include "RGBController.h"
 #include "NetworkProtocol.h"
 #include "net_port.h"
+#include "PluginManagerInterface.h"
 #include "ProfileManager.h"
 #include "ResourceManager.h"
 
@@ -24,17 +25,6 @@
 #define TCP_TIMEOUT_SECONDS 5
 
 typedef void (*NetServerCallback)(void *);
-typedef unsigned char* (*NetPluginCallback)(void *, unsigned int, unsigned char*, unsigned int*);
-
-struct NetworkPlugin
-{
-    std::string name;
-    std::string description;
-    std::string version;
-    NetPluginCallback callback;
-    void* callback_arg;
-    unsigned int protocol_version;
-};
 
 class NetworkClientInfo
 {
@@ -94,10 +84,8 @@ public:
     void                                SendReply_PluginList(SOCKET client_sock);
     void                                SendReply_PluginSpecific(SOCKET client_sock, unsigned int pkt_type, unsigned char* data, unsigned int data_size);
 
+    void                                SetPluginManager(PluginManagerInterface* plugin_manager_pointer);
     void                                SetProfileManager(ProfileManagerInterface* profile_manager_pointer);
-
-    void                                RegisterPlugin(NetworkPlugin plugin);
-    void                                UnregisterPlugin(std::string plugin_name);
 
 protected:
     std::string                         host;
@@ -119,9 +107,8 @@ protected:
     std::vector<NetServerCallback>      ServerListeningChangeCallbacks;
     std::vector<void *>                 ServerListeningChangeCallbackArgs;
 
+    PluginManagerInterface*             plugin_manager;
     ProfileManagerInterface*            profile_manager;
-
-    std::vector<NetworkPlugin>          plugins;
 
     std::mutex                          send_in_progress;
 
