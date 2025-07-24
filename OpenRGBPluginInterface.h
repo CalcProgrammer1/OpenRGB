@@ -1,7 +1,7 @@
 /*---------------------------------------------------------*\
 | OpenRGBPluginInterface.h                                  |
 |                                                           |
-|   OpenRGB SDK network protocol                            |
+|   OpenRGB Plugin API                                      |
 |                                                           |
 |   herosilas12 (CoffeeIsLife)                  11 Dec 2020 |
 |   Adam Honse (CalcProgrammer1)                05 Jan 2021 |
@@ -62,6 +62,11 @@ struct OpenRGBPluginInfo
     std::string                 Label;          /* Plugin tab label string                             */
     std::string                 TabIconString;  /* Plugin tab icon string, leave empty to use custom   */
     QImage                      TabIcon;        /* Custom tab icon image (displayed 16x16)             */
+
+    /*-----------------------------------------------------*\
+    | Plugin SDK Details                                    |
+    \*-----------------------------------------------------*/
+    unsigned int                ProtocolVersion;/* Plugin SDK protocol version                         */
 };
 
 class OpenRGBPluginInterface
@@ -82,6 +87,7 @@ public:
     virtual QWidget*            GetWidget()                                                         = 0;
     virtual QMenu*              GetTrayMenu()                                                       = 0;
     virtual void                Unload()                                                            = 0;
+    virtual unsigned char*      OnSDKCommand(unsigned int pkt_id, unsigned char * pkt_data, unsigned int *pkt_size)      = 0;
 };
 
 Q_DECLARE_INTERFACE(OpenRGBPluginInterface, OpenRGBPluginInterface_IID)
