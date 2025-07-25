@@ -78,6 +78,7 @@ private:
     bool DeviceViewShowing  = false;
     bool UpdateHex          = true;
     bool HexFormatRGB       = true;
+    bool PreviouslyHidden   = false;
 
     QColor current_color;
     void updateColorUi();
@@ -88,6 +89,7 @@ private:
     QString ModeDescription(const mode& m);
 
 signals:
+    void RefreshList();
     void SetAllDevices(unsigned char red, unsigned char green, unsigned char blue);
     void SaveSizeProfile();
 };

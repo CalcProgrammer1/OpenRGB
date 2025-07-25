@@ -227,6 +227,7 @@ enum
     CONTROLLER_FLAG_LOCAL               = (1 << 0), /* Device is local to this instance */
     CONTROLLER_FLAG_REMOTE              = (1 << 1), /* Device is on a remote instance   */
     CONTROLLER_FLAG_VIRTUAL             = (1 << 2), /* Device is a virtual device       */
+    CONTROLLER_FLAG_HIDDEN              = (1 << 3), /* Device is hidden                 */
 
     CONTROLLER_FLAG_RESET_BEFORE_UPDATE = (1 << 8), /* Device resets update flag before */
                                                     /* calling update function          */
