@@ -195,16 +195,31 @@ void HYTENexusController::LEDStreaming(unsigned char channel, unsigned short led
     }
 
     /*-----------------------------------------------------*\
-    | The HYTE THICC Q60 requires 90 bytes to be sent for   |
-    | the 4th channel (logo) even though it only has 4 LEDs |
+    | The default data length is (led_count * 3) + 7        |
     \*-----------------------------------------------------*/
     unsigned int bytes_to_send = ((led_count * 3) + 7);
 
+    /*-----------------------------------------------------*\
+    | The HYTE THICC Q60 requires 90 bytes to be sent for   |
+    | the 4th channel (logo) even though it only has 4 LEDs |
+    \*-----------------------------------------------------*/
     if((device_pid == HYTE_THICC_Q60_PID)
     && (channel == 3)
     && (bytes_to_send < 90))
     {
         bytes_to_send = 90;
+    }
+
+    /*-----------------------------------------------------*\
+    | The HYTE Nexus Portal NP50 requires 750 bytes to be   |
+    | sent for the 3rd channel, no matter how many LEDs it  |
+    | has connected                                         |
+    \*-----------------------------------------------------*/
+    if((device_pid == HYTE_NEXUS_PORTAL_NP50_PID)
+    && (channel == 2)
+    && (bytes_to_send < 750))
+    {
+        bytes_to_send = 750;
     }
 
     serialport->serial_write((char *)command_buf, bytes_to_send);
