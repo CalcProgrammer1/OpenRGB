@@ -28,6 +28,7 @@
 #define CORSAIR_COMMANDER_CORE4_PID         0x0C3C
 #define CORSAIR_COMMANDER_CORE5_PID         0x0C3D
 #define CORSAIR_COMMANDER_CORE6_PID         0x0C3E
+#define CORSAIR_COMMANDER_CORE_XT_PID       0x0C2A
 
 /******************************************************************************************\
 *                                                                                          *
@@ -52,9 +53,10 @@ void DetectCorsairCapellixHIDControllers(hid_device_info* info, const std::strin
     }
 }
 
-REGISTER_HID_DETECTOR_IPU("Corsair Commander Core", DetectCorsairCapellixHIDControllers, CORSAIR_VID, CORSAIR_COMMANDER_CORE_PID, 0x00, 0xFF42, 0x01);
-REGISTER_HID_DETECTOR_IPU("Corsair Commander Core", DetectCorsairCapellixHIDControllers, CORSAIR_VID, CORSAIR_COMMANDER_CORE2_PID, 0x00, 0xFF42, 0x01);
-REGISTER_HID_DETECTOR_IPU("Corsair Commander Core", DetectCorsairCapellixHIDControllers, CORSAIR_VID, CORSAIR_COMMANDER_CORE3_PID, 0x00, 0xFF42, 0x01);
-REGISTER_HID_DETECTOR_IPU("Corsair Commander Core", DetectCorsairCapellixHIDControllers, CORSAIR_VID, CORSAIR_COMMANDER_CORE4_PID, 0x00, 0xFF42, 0x01);
-REGISTER_HID_DETECTOR_IPU("Corsair Commander Core", DetectCorsairCapellixHIDControllers, CORSAIR_VID, CORSAIR_COMMANDER_CORE5_PID, 0x00, 0xFF42, 0x01);
-REGISTER_HID_DETECTOR_IPU("Corsair Commander Core", DetectCorsairCapellixHIDControllers, CORSAIR_VID, CORSAIR_COMMANDER_CORE6_PID, 0x00, 0xFF42, 0x01);
+REGISTER_HID_DETECTOR_IPU("Corsair Commander Core",    DetectCorsairCapellixHIDControllers, CORSAIR_VID, CORSAIR_COMMANDER_CORE_PID,    0x00, 0xFF42, 0x01);
+REGISTER_HID_DETECTOR_IPU("Corsair Commander Core",    DetectCorsairCapellixHIDControllers, CORSAIR_VID, CORSAIR_COMMANDER_CORE2_PID,   0x00, 0xFF42, 0x01);
+REGISTER_HID_DETECTOR_IPU("Corsair Commander Core",    DetectCorsairCapellixHIDControllers, CORSAIR_VID, CORSAIR_COMMANDER_CORE3_PID,   0x00, 0xFF42, 0x01);
+REGISTER_HID_DETECTOR_IPU("Corsair Commander Core",    DetectCorsairCapellixHIDControllers, CORSAIR_VID, CORSAIR_COMMANDER_CORE4_PID,   0x00, 0xFF42, 0x01);
+REGISTER_HID_DETECTOR_IPU("Corsair Commander Core",    DetectCorsairCapellixHIDControllers, CORSAIR_VID, CORSAIR_COMMANDER_CORE5_PID,   0x00, 0xFF42, 0x01);
+REGISTER_HID_DETECTOR_IPU("Corsair Commander Core",    DetectCorsairCapellixHIDControllers, CORSAIR_VID, CORSAIR_COMMANDER_CORE6_PID,   0x00, 0xFF42, 0x01);
+REGISTER_HID_DETECTOR_IPU("Corsair Commander Core XT", DetectCorsairCapellixHIDControllers, CORSAIR_VID, CORSAIR_COMMANDER_CORE_XT_PID, 0x00, 0xFF42, 0x01);
