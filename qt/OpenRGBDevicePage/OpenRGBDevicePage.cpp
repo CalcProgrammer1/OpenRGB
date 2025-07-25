@@ -64,6 +64,11 @@ OpenRGBDevicePage::OpenRGBDevicePage(RGBController *dev, QWidget *parent) :
     device = dev;
 
     /*-----------------------------------------------------*\
+    | Store initial hidden state                            |
+    \*-----------------------------------------------------*/
+    PreviouslyHidden = (device->flags & CONTROLLER_FLAG_HIDDEN);
+
+    /*-----------------------------------------------------*\
     | Register update callback with the device              |
     \*-----------------------------------------------------*/
     device->RegisterUpdateCallback(UpdateCallback, this);
@@ -789,6 +794,12 @@ void OpenRGBDevicePage::on_DirectionBox_currentIndexChanged(int /*index*/)
 
 void OpenRGBDevicePage::UpdateInterface()
 {
+    if((device->flags & CONTROLLER_FLAG_HIDDEN) != PreviouslyHidden)
+    {
+        PreviouslyHidden = (device->flags & CONTROLLER_FLAG_HIDDEN);
+        emit RefreshList();
+    }
+
     //UpdateModeUi();
     ui->DeviceViewBox->repaint();
 }
