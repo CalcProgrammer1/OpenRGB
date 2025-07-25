@@ -53,6 +53,15 @@ OpenRGBDeviceInfoPage::OpenRGBDeviceInfoPage(RGBController *dev, QWidget *parent
         flags_string   += "Virtual";
         need_separator  = true;
     }
+    if(dev->flags & CONTROLLER_FLAG_HIDDEN)
+    {
+        if(need_separator)
+        {
+            flags_string += ", ";
+        }
+        flags_string   += "Hidden";
+        need_separator  = true;
+    }
     if(dev->flags & CONTROLLER_FLAG_RESET_BEFORE_UPDATE)
     {
         if(need_separator)
