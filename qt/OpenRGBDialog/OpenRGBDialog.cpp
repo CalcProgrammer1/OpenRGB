@@ -1085,7 +1085,7 @@ void OpenRGBDialog::UpdateDevicesList()
                 | controller, move the tab to the correct   |
                 | position                                  |
                 \*-----------------------------------------*/
-                if(controllers[controller_idx] == page->GetController())
+                if((controllers[controller_idx] == page->GetController()) && ((controllers[controller_idx]->flags & CONTROLLER_FLAG_HIDDEN) == 0))
                 {
                     found = true;
                     ui->InformationTabBar->tabBar()->moveTab(tab_idx, controller_idx);
@@ -1094,7 +1094,7 @@ void OpenRGBDialog::UpdateDevicesList()
             }
         }
 
-        if(!found)
+        if(!found & ((controllers[controller_idx]->flags & CONTROLLER_FLAG_HIDDEN) == 0))
         {
             /*---------------------------------------------*\
             | The controller does not have a tab already    |
