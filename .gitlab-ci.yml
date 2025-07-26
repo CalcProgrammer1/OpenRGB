@@ -270,14 +270,14 @@ before_script:
     - !reference [.upstream_rules, rules]
 
 #-----------------------------------------------------------------------#
-# Linux (.deb) Debian Bookworm i386 Build Target                        #
+# OpenRGB Common Debian Build Steps                                     #
 #-----------------------------------------------------------------------#
-"Linux i386 .deb (Debian Bookworm)":
-  image: registry.gitlab.com/openrgbdevelopers/openrgb-linux-ci-deb-builder:bookworm-i386
+.hidden_deb_script: &debian_script_steps
+  stage: build
+  image: registry.gitlab.com/openrgbdevelopers/openrgb-linux-ci-deb-builder:$TGT_DEB-$TGT_ARCH
   tags:
   - linux
-  - i386
-  stage: build
+  - $TGT_ARCH
   script:
   - ./scripts/build-package-files.sh debian/changelog
   - dpkg-architecture -l
@@ -286,96 +286,86 @@ before_script:
   - mv -v ../openrgb*.deb ./
 
   artifacts:
-    name: "${CI_PROJECT_NAME}_Linux_i386_deb_${CI_COMMIT_SHORT_SHA}"
+    name: "${CI_PROJECT_NAME}_Linux_${TGT_ARCH}_deb_${CI_COMMIT_SHORT_SHA}"
     paths:
     - openrgb*.deb
     exclude:
     - openrgb-dbgsym*.deb
     expire_in: 30 days
-
   rules:
     - !reference [.upstream_rules, rules]
+
+#-----------------------------------------------------------------------#
+# Linux (.deb) Debian Bookworm i386 Build Target                        #
+#-----------------------------------------------------------------------#
+"Linux i386 .deb (Debian Bookworm)":
+  variables:
+    TGT_ARCH: "i386"
+    TGT_DEB: "bookworm"
+  <<: *debian_script_steps
+
+#-----------------------------------------------------------------------#
+# Linux (.deb) Debian Trixie i386 Build Target                          #
+#-----------------------------------------------------------------------#
+"Linux i386 .deb (Debian Trixie)":
+  variables:
+    TGT_ARCH: "i386"
+    TGT_DEB: "trixie"
+  <<: *debian_script_steps
 
 #-----------------------------------------------------------------------#
 # Linux (.deb) Debian Bookworm amd64 Build Target                       #
 #-----------------------------------------------------------------------#
 "Linux amd64 .deb (Debian Bookworm)":
-  image: registry.gitlab.com/openrgbdevelopers/openrgb-linux-ci-deb-builder:bookworm-amd64
-  tags:
-  - linux
-  - amd64
-  stage: build
-  script:
-  - ./scripts/build-package-files.sh debian/changelog
-  - dpkg-architecture -l
-  - dpkg-buildpackage -us -B
-  - rm -v ../openrgb-dbgsym*.deb
-  - mv -v ../openrgb*.deb ./
+  variables:
+    TGT_ARCH: "amd64"
+    TGT_DEB: "bookworm"
+  <<: *debian_script_steps
 
-  artifacts:
-    name: "${CI_PROJECT_NAME}_Linux_amd64_deb_${CI_COMMIT_SHORT_SHA}"
-    paths:
-    - openrgb*.deb
-    exclude:
-    - openrgb-dbgsym*.deb
-    expire_in: 30 days
-
-  rules:
-    - !reference [.upstream_rules, rules]
+#-----------------------------------------------------------------------#
+# Linux (.deb) Debian Trixie amd64 Build Target                         #
+#-----------------------------------------------------------------------#
+"Linux amd64 .deb (Debian Trixie)":
+  variables:
+    TGT_ARCH: "amd64"
+    TGT_DEB: "trixie"
+  <<: *debian_script_steps
 
 #-----------------------------------------------------------------------#
 # Linux (.deb) Debian Bookworm armhf Build Target                       #
 #-----------------------------------------------------------------------#
 "Linux armhf .deb (Debian Bookworm)":
-  image: registry.gitlab.com/openrgbdevelopers/openrgb-linux-ci-deb-builder:bookworm-armhf
-  tags:
-  - linux
-  - armhf
-  stage: build
-  script:
-  - ./scripts/build-package-files.sh debian/changelog
-  - dpkg-architecture -l
-  - dpkg-buildpackage -us -B
-  - rm -v ../openrgb-dbgsym*.deb
-  - mv -v ../openrgb*.deb ./
+  variables:
+    TGT_ARCH: "armhf"
+    TGT_DEB: "bookworm"
+  <<: *debian_script_steps
 
-  artifacts:
-    name: "${CI_PROJECT_NAME}_Linux_armhf_deb_${CI_COMMIT_SHORT_SHA}"
-    paths:
-    - openrgb*.deb
-    exclude:
-    - openrgb-dbgsym*.deb
-    expire_in: 30 days
-
-  rules:
-    - !reference [.upstream_rules, rules]
+#-----------------------------------------------------------------------#
+# Linux (.deb) Debian Trixie armhf Build Target                         #
+#-----------------------------------------------------------------------#
+"Linux armhf .deb (Debian Trixie)":
+  variables:
+    TGT_ARCH: "armhf"
+    TGT_DEB: "trixie"
+  <<: *debian_script_steps
 
 #-----------------------------------------------------------------------#
 # Linux (.deb) Debian Bookworm arm64 Build Target                       #
 #-----------------------------------------------------------------------#
 "Linux arm64 .deb (Debian Bookworm)":
-  image: registry.gitlab.com/openrgbdevelopers/openrgb-linux-ci-deb-builder:bookworm-arm64
-  tags:
-  - linux
-  - arm64
-  stage: build
-  script:
-  - ./scripts/build-package-files.sh debian/changelog
-  - dpkg-architecture -l
-  - dpkg-buildpackage -us -B
-  - rm -v ../openrgb-dbgsym*.deb
-  - mv -v ../openrgb*.deb ./
+  variables:
+    TGT_ARCH: "arm64"
+    TGT_DEB: "bookworm"
+  <<: *debian_script_steps
 
-  artifacts:
-    name: "${CI_PROJECT_NAME}_Linux_arm64_deb_${CI_COMMIT_SHORT_SHA}"
-    paths:
-    - openrgb*.deb
-    exclude:
-    - openrgb-dbgsym*.deb
-    expire_in: 30 days
-
-  rules:
-    - !reference [.upstream_rules, rules]
+#-----------------------------------------------------------------------#
+# Linux (.deb) Debian Trixie arm64 Build Target                         #
+#-----------------------------------------------------------------------#
+"Linux arm64 .deb (Debian Trixie)":
+  variables:
+    TGT_ARCH: "arm64"
+    TGT_DEB: "trixie"
+  <<: *debian_script_steps
 
 #-----------------------------------------------------------------------#
 # Linux (.rpm, F40) 64-bit Build Target                                 #
