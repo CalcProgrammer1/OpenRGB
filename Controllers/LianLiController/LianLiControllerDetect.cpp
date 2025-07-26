@@ -20,6 +20,8 @@
 #include "RGBController_LianLiStrimerLConnect.h"
 #include "LianLiUniHubController.h"
 #include "RGBController_LianLiUniHub.h"
+#include "LianLiUniHubSLController.h"
+#include "RGBController_LianLiUniHubSL.h"
 #include "LianLiUniHubALController.h"
 #include "RGBController_LianLiUniHubAL.h"
 #include "LianLiUniHub_AL10Controller.h"
@@ -48,6 +50,7 @@
 | Fan controller product IDs                            |
 \*-----------------------------------------------------*/
 #define UNI_HUB_PID                                 0x7750
+#define UNI_HUB_SL_PID                              0xA100
 #define UNI_HUB_AL_PID                              0xA101
 #define UNI_HUB_SLINF_PID                           0xA102
 #define UNI_HUB_SLV2_PID                            0xA103
@@ -158,6 +161,27 @@ void DetectLianLiUniHub_AL10()
         libusb_free_device_list(devices, 1);
     }
 }   /* DetectLianLiUniHub_AL10() */
+
+void DetectLianLiUniHubSL(hid_device_info* info, const std::string& name)
+{
+    hid_device* device = hid_open_path(info->path);
+    if (!device)
+    {
+        return;
+    }
+
+    LianLiUniHubSLController* controller = new LianLiUniHubSLController(device, info->path);
+    std::string version = controller->ReadVersion();
+
+    if (version != "v1.8")
+    {
+        delete controller;
+        return;
+    }
+
+    RGBController_LianLiUniHubSL* rgb_controller = new RGBController_LianLiUniHubSL(controller, name);
+    ResourceManager::get()->RegisterRGBController(rgb_controller);
+}   /* DetectLianLiUniHubSL() */
 
 void DetectLianLiUniHubAL(hid_device_info* info, const std::string& name)
 {
@@ -271,6 +295,7 @@ void DetectLianLiUniversalScreen()
 REGISTER_DETECTOR("Lian Li Uni Hub",                            DetectLianLiUniHub);
 REGISTER_DETECTOR("Lian Li Universal Screen",                   DetectLianLiUniversalScreen);
 
+REGISTER_HID_DETECTOR_IPU("Lian Li Uni Hub - SL",               DetectLianLiUniHubSL,           ENE_USB_VID,        UNI_HUB_SL_PID,           0x01,   0xFF72, 0xA1);
 REGISTER_HID_DETECTOR_IPU("Lian Li Uni Hub - AL",               DetectLianLiUniHubAL,           ENE_USB_VID,        UNI_HUB_AL_PID,           0x01,   0xFF72, 0xA1);
 REGISTER_HID_DETECTOR_IPU("Lian Li Uni Hub - SL V2",            DetectLianLiUniHubSLV2,         ENE_USB_VID,        UNI_HUB_SLV2_PID,         0x01,   0xFF72, 0xA1);
 REGISTER_HID_DETECTOR_IPU("Lian Li Uni Hub - AL V2",            DetectLianLiUniHubSLV2,         ENE_USB_VID,        UNI_HUB_ALV2_PID,         0x01,   0xFF72, 0xA1);
