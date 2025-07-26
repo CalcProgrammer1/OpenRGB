@@ -173,10 +173,34 @@ RazerController::RazerController(hid_device* dev_handle, hid_device* dev_argb_ha
     | Determine matrix type for device                                  |
     \*-----------------------------------------------------------------*/
     matrix_type = device_list[device_index]->matrix_type;
+
+    /*-----------------------------------------------------------------*\
+    | Start keepalive thread for devices that need it to prevent RGB    |
+    | from timing out                                                   |
+    \*-----------------------------------------------------------------*/
+    switch(dev_pid)
+    {
+        case RAZER_BLADE_14_2021_PID:
+        case RAZER_BLADE_14_2022_PID:
+            keepalive_thread_run = true;
+            keepalive_thread     = new std::thread(&RazerController::KeepaliveThreadFunction, this);
+            break;
+
+        default:
+            keepalive_thread_run = false;
+            keepalive_thread     = NULL;
+            break;
+    }
 }
 
 RazerController::~RazerController()
 {
+    if(keepalive_thread != NULL)
+    {
+        keepalive_thread_run = false;
+        keepalive_thread->join();
+    }
+
     hid_close(dev);
     delete guard_manager_ptr;
 }
@@ -209,6 +233,23 @@ std::string RazerController::GetFirmwareString()
 std::string RazerController::GetSerialString()
 {
     return(razer_get_serial());
+}
+
+void RazerController::KeepaliveThreadFunction()
+{
+    /*-----------------------------------------------------------------*\
+    | Performing a get device mode request seems to be enough to keep   |
+    | the lighting active on devices with the lighting timeout, so      |
+    | periodically send a device mode request every 2.5s.               |
+    \*-----------------------------------------------------------------*/
+    while(keepalive_thread_run.load())
+    {
+        if((std::chrono::steady_clock::now() - last_update_time) > 2500ms)
+        {
+            razer_get_device_mode();
+        }
+        std::this_thread::sleep_for(1s);
+    }
 }
 
 void RazerController::SetAddressableZoneSizes(unsigned char zone_1_size, unsigned char zone_2_size, unsigned char zone_3_size, unsigned char zone_4_size, unsigned char zone_5_size, unsigned char zone_6_size)
@@ -995,6 +1036,20 @@ razer_report RazerController::razer_create_set_led_effect_report(unsigned char v
 /*---------------------------------------------------------------------------------*\
 | Get functions (request information from device)                                   |
 \*---------------------------------------------------------------------------------*/
+
+unsigned char RazerController::razer_get_device_mode()
+{
+    std::string         firmware_string         = "";
+    struct razer_report report                  = razer_create_report(0x00, RAZER_COMMAND_ID_GET_DEVICE_MODE, 0x02);
+    struct razer_report response_report         = razer_create_response();
+
+    std::this_thread::sleep_for(2ms);
+    razer_usb_send(&report);
+    std::this_thread::sleep_for(5ms);
+    razer_usb_receive(&response_report);
+
+    return(response_report.arguments[0]);
+}
 
 std::string RazerController::razer_get_firmware()
 {

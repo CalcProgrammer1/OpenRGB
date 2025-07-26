@@ -11,7 +11,10 @@
 
 #pragma once
 
+#include <atomic>
+#include <chrono>
 #include <string>
+#include <thread>
 #include <hidapi.h>
 #include "RGBController.h"
 #include "DeviceGuardManager.h"
@@ -323,6 +326,7 @@ private:
     razer_report            razer_create_set_led_effect_report(unsigned char variable_storage, unsigned char led_id, unsigned char effect);
     razer_report            razer_create_set_led_rgb_report(unsigned char variable_storage, unsigned char led_id, unsigned char* rgb_data);
 
+    unsigned char           razer_get_device_mode();
     std::string             razer_get_firmware();
     std::string             razer_get_serial();
     void                    razer_get_keyboard_info(unsigned char* layout, unsigned char* variant);
@@ -345,4 +349,9 @@ private:
     int                     razer_usb_send(razer_report* report);
     int                     razer_usb_send_argb(razer_argb_report* report);
 
+    std::chrono::time_point<std::chrono::steady_clock>  last_update_time;
+    std::atomic<bool>                                   keepalive_thread_run;
+    std::thread *                                       keepalive_thread;
+
+    void KeepaliveThreadFunction();
 };
