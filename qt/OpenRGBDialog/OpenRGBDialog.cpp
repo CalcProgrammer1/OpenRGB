@@ -539,6 +539,14 @@ OpenRGBDialog::OpenRGBDialog(QWidget *parent) : QMainWindow(parent), ui(new Ui::
     \*-----------------------------------------------------*/
     connect(qApp, &QCoreApplication::aboutToQuit, this, &OpenRGBDialog::handleAboutToQuit);
 
+    /*-----------------------------------------------------*\
+    | Handle the condition where detection ended before we  |
+    | finished initializing/registering detection callback  |
+    \*-----------------------------------------------------*/
+    if(ResourceManager::get()->GetDetectionPercent() >= 100)
+    {
+        onDetectionEnded();
+    }
 }
 
 OpenRGBDialog::~OpenRGBDialog()
