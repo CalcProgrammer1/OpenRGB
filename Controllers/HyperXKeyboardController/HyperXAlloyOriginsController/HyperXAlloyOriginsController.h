@@ -23,17 +23,23 @@ public:
 
     std::string     GetDeviceLocation();
     std::string     GetSerialString();
-
-    void SetLEDsDirect(std::vector<RGBColor> colors);
+    void            SaveSettings(std::vector<RGBColor> colors);
+    void            SetLEDsDirect(std::vector<RGBColor> colors);
 
 private:
     hid_device*             dev;
     std::string             location;
 
-    void    SendDirectInitialization();
+    void    write_led_data(std::vector<RGBColor> colors, int memory_loc, int modifier);
+
+    void    SendCommandRaw(unsigned int val1, unsigned int val2, unsigned int val3);
+
+    void    SendDirectInitialization(int memory_loc);
+
+    void    SendDirectFinalization();
+
     void    SendDirectColorPacket
-                (
-                RGBColor*       color_data,
+                (RGBColor*       color_data,
                 unsigned int    color_count
-                );
+                , int modifier);
 };

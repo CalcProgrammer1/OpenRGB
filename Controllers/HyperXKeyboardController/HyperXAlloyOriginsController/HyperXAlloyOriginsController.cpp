@@ -45,7 +45,24 @@ std::string HyperXAlloyOriginsController::GetSerialString()
     return(StringUtils::wstring_to_string(serial_string));
 }
 
+void HyperXAlloyOriginsController::SaveSettings(std::vector<RGBColor> colors)
+{
+    //Memory locations - 53, 63, 73. (maps to preset buttons 1,2,3)...
+    unsigned int memory_cell = 0x53;
+
+    this->SendCommandRaw(0x04, 0xE0, 0x00);
+    this->write_led_data(colors, memory_cell, 0x80);
+    this->SendDirectFinalization();
+    this->SendCommandRaw(0x04, 0xF0, 0x00);
+    this->SendCommandRaw(0x04, 0xE0, 0x00);
+}
+
 void HyperXAlloyOriginsController::SetLEDsDirect(std::vector<RGBColor> colors)
+{
+    this->write_led_data(colors, 0xF2, 0x81);
+}
+
+void HyperXAlloyOriginsController::write_led_data(std::vector<RGBColor> colors, int memory_loc, int modifier)
 {
     /*-----------------------------------------------------*\
     | Insert color data for unused positions                |
@@ -62,31 +79,31 @@ void HyperXAlloyOriginsController::SetLEDsDirect(std::vector<RGBColor> colors)
     int colors_to_send = (int)colors.size();
     int colors_sent    = 0;
 
-    SendDirectInitialization();
+    SendDirectInitialization(memory_loc);
 
     for(int pkt_idx = 0; pkt_idx < 9; pkt_idx++)
     {
         if(colors_to_send > 16)
         {
-            SendDirectColorPacket(&colors[colors_sent], 16);
+            SendDirectColorPacket(&colors[colors_sent], 16, modifier);
             colors_sent    += 16;
             colors_to_send -= 16;
         }
         else if(colors_to_send > 0)
         {
-            SendDirectColorPacket(&colors[colors_sent], colors_to_send);
+            SendDirectColorPacket(&colors[colors_sent], colors_to_send, modifier);
             colors_sent    += colors_to_send;
             colors_to_send -= colors_to_send;
         }
         else
         {
             RGBColor temp = 0x00000000;
-            SendDirectColorPacket(&temp, 1);
+            SendDirectColorPacket(&temp, 1, modifier);
         }
     }
 }
 
-void HyperXAlloyOriginsController::SendDirectInitialization()
+void HyperXAlloyOriginsController::SendCommandRaw(unsigned int val1, unsigned int val2, unsigned int val3)
 {
     unsigned char buf[65];
 
@@ -99,9 +116,9 @@ void HyperXAlloyOriginsController::SendDirectInitialization()
     | Set up Direct Initialization packet                   |
     \*-----------------------------------------------------*/
     buf[0x00]   = 0x00;
-    buf[0x01]   = 0x04;
-    buf[0x02]   = 0xF2;
-    buf[0x09]   = 0x09;
+    buf[0x01]   = val1;
+    buf[0x02]   = val2;
+    buf[0x09]   = val3;
 
     /*-----------------------------------------------------*\
     | Send packet                                           |
@@ -109,10 +126,21 @@ void HyperXAlloyOriginsController::SendDirectInitialization()
     hid_send_feature_report(dev, buf, 65);
 }
 
+void HyperXAlloyOriginsController::SendDirectInitialization(int memory_loc)
+{
+    this->SendCommandRaw(0x04, memory_loc, 0x09);
+}
+
+void HyperXAlloyOriginsController::SendDirectFinalization()
+{
+    this->SendCommandRaw(0x04, 0x02, 0x00);
+}
+
 void HyperXAlloyOriginsController::SendDirectColorPacket
     (
     RGBColor*       color_data,
-    unsigned int    color_count
+    unsigned int    color_count,
+    int             modifier
     )
 {
     unsigned char buf[65];
@@ -140,7 +168,7 @@ void HyperXAlloyOriginsController::SendDirectColorPacket
     \*-----------------------------------------------------*/
     for(unsigned int color_idx = 0; color_idx < color_count; color_idx++)
     {
-        buf[(color_idx * 4) + 1] = 0x81;
+        buf[(color_idx * 4) + 1] = modifier;
         buf[(color_idx * 4) + 2] = RGBGetRValue(color_data[color_idx]);
         buf[(color_idx * 4) + 3] = RGBGetGValue(color_data[color_idx]);
         buf[(color_idx * 4) + 4] = RGBGetBValue(color_data[color_idx]);
