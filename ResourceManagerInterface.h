@@ -1,3 +1,14 @@
+/*---------------------------------------------------------*\
+| ResourceManagerInterface.h                                |
+|                                                           |
+|   Provides a virtual interface to ResourceManager for     |
+|   exposing ResourceManager to plugins.  Changes to this   |
+|   class structure require a new plugin API version.       |
+|                                                           |
+|   This file is part of the OpenRGB project                |
+|   SPDX-License-Identifier: GPL-2.0-only                   |
+\*---------------------------------------------------------*/
+
 #pragma once
 
 #include <vector>
