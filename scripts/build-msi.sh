@@ -8,10 +8,13 @@ NAMESPACE=$(uuidgen -n @url -N ${WEBSITE} --sha1 | awk '{ print toupper($0) }')
 VENDOR_ID="${TLD}.${VENDOR}"
 APP_ID="${VENDOR_ID}.${PRODUCTNAME,,}"
 
+#Convert LICENSE to License.rtf
+enscript -w rtf -f Courier4 -o License.rtf LICENSE
+
 GITURL="https://gitlab.com/CalcProgrammer1/OpenRGB/-"
 GITPARAM="?inline=false"
 ICONFILE="qt/OpenRGB.ico"
-LICENSEFILE="scripts/License.rtf"
+LICENSEFILE="License.rtf"
 BANNERIMAGE="scripts/banner.bmp"
 DIALOGBACKGROUND="scripts/dialog_background.bmp"
 PROJECT_FILE="OpenRGB.pro"
@@ -25,7 +28,6 @@ if [[ -n $CHANNEL ]];
 then
     CHANNEL="-git"
 fi
-
 
 #The Upgrade code has to be consistent to allow upgrades between channels
 #This value is roughly equivalent to "provides" in Linux packaging
