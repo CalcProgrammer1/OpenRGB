@@ -62,7 +62,7 @@ do
         EXE_ID=${PRODUCTNAME}00
         EXE_FILE=${filename}
         #Add special entry to files list
-        FILES="$FILES                        <File Id='${EXE_ID}' Source='${WORKING_PATH}${filename}'/>\n"
+        FILES="$FILES                        <File Id='${EXE_ID}' Source='${WORKING_PATH}${filename}' KeyPath='yes'/>\n"
     elif [ -d "$file" ] ; then
             #If this is a directory then we need to add another component
             COMPONENTS="${COMPONENTS}                <ComponentRef Id='${filename}Files'/>\n"
