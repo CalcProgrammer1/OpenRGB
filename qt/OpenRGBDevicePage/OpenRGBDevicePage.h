@@ -37,7 +37,7 @@ public:
 
 private slots:
     void changeEvent(QEvent *event);
-    void UpdateInterface();
+    void UpdateInterface(unsigned int update_reason);
 
     void on_ColorWheelBox_colorChanged(const QColor color);
     void on_SwatchBox_swatchChanged(const QColor color);
@@ -78,7 +78,6 @@ private:
     bool DeviceViewShowing  = false;
     bool UpdateHex          = true;
     bool HexFormatRGB       = true;
-    bool PreviouslyHidden   = false;
 
     QColor current_color;
     void updateColorUi();
