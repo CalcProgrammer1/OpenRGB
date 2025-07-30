@@ -170,7 +170,7 @@ void RGBController_Ionico::SetupZones()
     SetupColors();
 }
 
-void RGBController_Ionico::ResizeZone(int /*zone*/, int /*new_size*/)
+void RGBController_Ionico::DeviceResizeZone(int /*zone*/, int /*new_size*/)
 {
     /*---------------------------------------------------------*\
     | This device does not support resizing zones               |
@@ -190,12 +190,12 @@ void RGBController_Ionico::DeviceSaveMode()
     controller->SaveBios();
 }
 
-void RGBController_Ionico::UpdateZoneLEDs(int /*zone*/)
+void RGBController_Ionico::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_Ionico::UpdateSingleLED(int /*led*/)
+void RGBController_Ionico::DeviceUpdateSingleLED(int /*led*/)
 {
     //
 }

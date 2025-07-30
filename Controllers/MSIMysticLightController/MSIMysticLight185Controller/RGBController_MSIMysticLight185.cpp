@@ -244,7 +244,7 @@ void RGBController_MSIMysticLight185::SetupZones()
     SetupColors();
 }
 
-void RGBController_MSIMysticLight185::ResizeZone
+void RGBController_MSIMysticLight185::DeviceResizeZone
     (
     int zone,
     int new_size
@@ -280,7 +280,7 @@ void RGBController_MSIMysticLight185::DeviceUpdateLEDs()
     controller->Update((modes[active_mode].flags & MODE_FLAG_AUTOMATIC_SAVE) != 0);
 }
 
-void RGBController_MSIMysticLight185::UpdateZoneLEDs(int zone)
+void RGBController_MSIMysticLight185::DeviceUpdateZoneLEDs(int zone)
 {
     for(int led_idx = zones[zone].leds_count - 1; led_idx >= 0; led_idx--)
     {
@@ -289,7 +289,7 @@ void RGBController_MSIMysticLight185::UpdateZoneLEDs(int zone)
     controller->Update((modes[active_mode].flags & MODE_FLAG_AUTOMATIC_SAVE) != 0);
 }
 
-void RGBController_MSIMysticLight185::UpdateSingleLED
+void RGBController_MSIMysticLight185::DeviceUpdateSingleLED
     (
     int led
     )

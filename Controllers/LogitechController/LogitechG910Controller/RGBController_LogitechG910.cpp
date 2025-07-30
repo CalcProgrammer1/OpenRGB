@@ -299,7 +299,7 @@ void RGBController_LogitechG910::SetupZones()
     SetupColors();
 }
 
-void RGBController_LogitechG910::ResizeZone(int /*zone*/, int /*new_size*/)
+void RGBController_LogitechG910::DeviceResizeZone(int /*zone*/, int /*new_size*/)
 {
     /*---------------------------------------------------------*\
     | This device does not support resizing zones               |
@@ -353,12 +353,12 @@ void RGBController_LogitechG910::DeviceUpdateLEDs()
     controller->Commit();
 }
 
-void RGBController_LogitechG910::UpdateZoneLEDs(int /*zone*/)
+void RGBController_LogitechG910::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_LogitechG910::UpdateSingleLED(int led)
+void RGBController_LogitechG910::DeviceUpdateSingleLED(int led)
 {
     unsigned char frame[4];
     unsigned char zone;

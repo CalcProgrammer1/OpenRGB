@@ -158,7 +158,7 @@ void RGBController_RoccatSenseAimo::SetupZones()
     SetupColors();
 }
 
-void RGBController_RoccatSenseAimo::ResizeZone(int /*zone*/, int /*new_size*/)
+void RGBController_RoccatSenseAimo::DeviceResizeZone(int /*zone*/, int /*new_size*/)
 {
     /*---------------------------------------------------------*\
     | This device does not support resizing zones               |
@@ -177,12 +177,12 @@ void RGBController_RoccatSenseAimo::DeviceUpdateLEDs()
     }
 }
 
-void RGBController_RoccatSenseAimo::UpdateZoneLEDs(int /*zone_idx*/)
+void RGBController_RoccatSenseAimo::DeviceUpdateZoneLEDs(int /*zone_idx*/)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_RoccatSenseAimo::UpdateSingleLED(int /*led_idx*/)
+void RGBController_RoccatSenseAimo::DeviceUpdateSingleLED(int /*led_idx*/)
 {
     DeviceUpdateLEDs();
 }

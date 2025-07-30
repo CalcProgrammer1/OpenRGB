@@ -109,7 +109,7 @@ void RGBController_ZETEdgeAirPro::SetupZones()
     SetupColors();
 }
 
-void RGBController_ZETEdgeAirPro::ResizeZone(int /*zone*/, int /*new_size*/)
+void RGBController_ZETEdgeAirPro::DeviceResizeZone(int /*zone*/, int /*new_size*/)
 {
     /*---------------------------------------------------------*\
     | This device does not support resizing zones               |
@@ -121,12 +121,12 @@ void RGBController_ZETEdgeAirPro::DeviceUpdateLEDs()
     DeviceUpdateMode();
 }
 
-void RGBController_ZETEdgeAirPro::UpdateZoneLEDs(int /*zone*/)
+void RGBController_ZETEdgeAirPro::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateMode();
 }
 
-void RGBController_ZETEdgeAirPro::UpdateSingleLED(int /*led*/)
+void RGBController_ZETEdgeAirPro::DeviceUpdateSingleLED(int /*led*/)
 {
     DeviceUpdateMode();
 }

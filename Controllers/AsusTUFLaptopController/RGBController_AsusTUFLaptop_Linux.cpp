@@ -114,7 +114,7 @@ void RGBController_AsusTUFLaptopLinux::SetupZones()
     SetupColors();
 }
 
-void RGBController_AsusTUFLaptopLinux::ResizeZone(int /*zone*/, int /*new_size*/)
+void RGBController_AsusTUFLaptopLinux::DeviceResizeZone(int /*zone*/, int /*new_size*/)
 {
     /*---------------------------------------------------------*\
     | This device does not support resizing zones               |
@@ -143,12 +143,12 @@ void RGBController_AsusTUFLaptopLinux::DeviceUpdateLEDs()
     controller->SendBrightness(modes[active_mode].brightness);
 }
 
-void RGBController_AsusTUFLaptopLinux::UpdateZoneLEDs(int /*zone*/)
+void RGBController_AsusTUFLaptopLinux::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_AsusTUFLaptopLinux::UpdateSingleLED(int /*led*/)
+void RGBController_AsusTUFLaptopLinux::DeviceUpdateSingleLED(int /*led*/)
 {
     DeviceUpdateLEDs();
 }

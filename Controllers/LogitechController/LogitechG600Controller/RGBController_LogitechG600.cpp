@@ -38,7 +38,7 @@ RGBController_LogitechG600::RGBController_LogitechG600(LogitechG600Controller* c
     Direct.flags                    = MODE_FLAG_HAS_PER_LED_COLOR;
     Direct.color_mode               = MODE_COLORS_PER_LED;
     modes.push_back(Direct);
-    
+
     mode Breathing;
     Breathing.name                  = "Breathing";
     Breathing.value                 = LOGITECH_G600_MODE_BREATHING;
@@ -86,7 +86,7 @@ void RGBController_LogitechG600::SetupZones()
     SetupColors();
 }
 
-void RGBController_LogitechG600::ResizeZone(int /*zone*/, int /*new_size*/)
+void RGBController_LogitechG600::DeviceResizeZone(int /*zone*/, int /*new_size*/)
 {
     /*---------------------------------------------------------*\
     | Currently does not support resizing zones                 |
@@ -98,12 +98,12 @@ void RGBController_LogitechG600::DeviceUpdateLEDs()
     controller->SetMode(modes[active_mode].value, modes[active_mode].speed, GetLED(0));
 }
 
-void RGBController_LogitechG600::UpdateZoneLEDs(int /*zone*/)
+void RGBController_LogitechG600::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_LogitechG600::UpdateSingleLED(int /*led*/)
+void RGBController_LogitechG600::DeviceUpdateSingleLED(int /*led*/)
 {
     DeviceUpdateLEDs();
 }

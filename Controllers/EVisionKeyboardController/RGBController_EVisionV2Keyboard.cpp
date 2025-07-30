@@ -904,7 +904,7 @@ void RGBController_EVisionV2Keyboard::LoadConfig()
     }
 }
 
-void RGBController_EVisionV2Keyboard::ResizeZone(int /*zone*/, int /*new_size*/)
+void RGBController_EVisionV2Keyboard::DeviceResizeZone(int /*zone*/, int /*new_size*/)
 {
     /*---------------------------------------------------------*\
     | This device does not support resizing zones               |
@@ -923,12 +923,12 @@ void RGBController_EVisionV2Keyboard::DeviceUpdateLEDs()
     last_update_time = std::chrono::steady_clock::now();
 }
 
-void RGBController_EVisionV2Keyboard::UpdateZoneLEDs(int /*zone*/)
+void RGBController_EVisionV2Keyboard::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_EVisionV2Keyboard::UpdateSingleLED(int led)
+void RGBController_EVisionV2Keyboard::DeviceUpdateSingleLED(int led)
 {
     if(part != EVISION_V2_KEYBOARD_PART_KEYBOARD)
     {

@@ -247,7 +247,7 @@ void RGBController_ZalmanZSync::SetupZones()
     SetupColors();
 }
 
-void RGBController_ZalmanZSync::ResizeZone(int zone, int new_size)
+void RGBController_ZalmanZSync::DeviceResizeZone(int zone, int new_size)
 {
     if((size_t) zone >= zones.size())
     {
@@ -273,12 +273,12 @@ void RGBController_ZalmanZSync::DeviceUpdateLEDs()
     }
 }
 
-void RGBController_ZalmanZSync::UpdateZoneLEDs(int zone)
+void RGBController_ZalmanZSync::DeviceUpdateZoneLEDs(int zone)
 {
     controller->SetChannelLEDs(zone, zones[zone].colors, zones[zone].leds_count);
 }
 
-void RGBController_ZalmanZSync::UpdateSingleLED(int led)
+void RGBController_ZalmanZSync::DeviceUpdateSingleLED(int led)
 {
     unsigned int channel = leds_channel[led];
 

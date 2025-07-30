@@ -100,7 +100,7 @@ void RGBController_LogitechGPowerPlay::SetupZones()
     SetupColors();
 }
 
-void RGBController_LogitechGPowerPlay::ResizeZone(int /*zone*/, int /*new_size*/)
+void RGBController_LogitechGPowerPlay::DeviceResizeZone(int /*zone*/, int /*new_size*/)
 {
     /*---------------------------------------------------------*\
     | This device does not support resizing zones               |
@@ -109,10 +109,10 @@ void RGBController_LogitechGPowerPlay::ResizeZone(int /*zone*/, int /*new_size*/
 
 void RGBController_LogitechGPowerPlay::DeviceUpdateLEDs()
 {
-    UpdateZoneLEDs(0);
+    DeviceUpdateZoneLEDs(0);
 }
 
-void RGBController_LogitechGPowerPlay::UpdateZoneLEDs(int zone)
+void RGBController_LogitechGPowerPlay::DeviceUpdateZoneLEDs(int zone)
 {
     unsigned char red = RGBGetRValue(colors[zone]);
     unsigned char grn = RGBGetGValue(colors[zone]);
@@ -126,9 +126,9 @@ void RGBController_LogitechGPowerPlay::UpdateZoneLEDs(int zone)
     controller->UpdateMouseLED(temp_mode, modes[active_mode].speed, zone, red, grn, blu, /* Brightness */ 0x64);
 }
 
-void RGBController_LogitechGPowerPlay::UpdateSingleLED(int led)
+void RGBController_LogitechGPowerPlay::DeviceUpdateSingleLED(int led)
 {
-    UpdateZoneLEDs(led);
+    DeviceUpdateZoneLEDs(led);
 }
 
 void RGBController_LogitechGPowerPlay::DeviceUpdateMode()

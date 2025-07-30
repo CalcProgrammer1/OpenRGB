@@ -119,7 +119,7 @@ void RGBController_RoccatBurstProAir::SetupZones()
     SetupColors();
 }
 
-void RGBController_RoccatBurstProAir::ResizeZone(int /*zone*/, int /*new_size*/)
+void RGBController_RoccatBurstProAir::DeviceResizeZone(int /*zone*/, int /*new_size*/)
 {
     /*---------------------------------------------------------*\
     | This device does not support resizing zones               |
@@ -128,17 +128,17 @@ void RGBController_RoccatBurstProAir::ResizeZone(int /*zone*/, int /*new_size*/)
 
 void RGBController_RoccatBurstProAir::DeviceUpdateLEDs()
 {
-    UpdateZoneLEDs(0);
+    DeviceUpdateZoneLEDs(0);
 }
 
-void RGBController_RoccatBurstProAir::UpdateZoneLEDs(int /*zone_idx*/)
+void RGBController_RoccatBurstProAir::DeviceUpdateZoneLEDs(int /*zone_idx*/)
 {
     controller->SetColors(colors);
 }
 
-void RGBController_RoccatBurstProAir::UpdateSingleLED(int /*led_idx*/)
+void RGBController_RoccatBurstProAir::DeviceUpdateSingleLED(int /*led_idx*/)
 {
-    UpdateZoneLEDs(0);
+    DeviceUpdateZoneLEDs(0);
 }
 
 void RGBController_RoccatBurstProAir::DeviceUpdateMode()

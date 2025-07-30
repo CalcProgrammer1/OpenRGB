@@ -259,7 +259,7 @@ void RGBController_PoseidonZRGB::SetupZones()
     SetupColors();
 }
 
-void RGBController_PoseidonZRGB::ResizeZone(int /*zone*/, int /*new_size*/)
+void RGBController_PoseidonZRGB::DeviceResizeZone(int /*zone*/, int /*new_size*/)
 {
     /*---------------------------------------------------------*\
     | This device does not support resizing zones               |
@@ -278,12 +278,12 @@ void RGBController_PoseidonZRGB::DeviceUpdateLEDs()
     }
 }
 
-void RGBController_PoseidonZRGB::UpdateZoneLEDs(int /*zone*/)
+void RGBController_PoseidonZRGB::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_PoseidonZRGB::UpdateSingleLED(int /*led*/)
+void RGBController_PoseidonZRGB::DeviceUpdateSingleLED(int /*led*/)
 {
     DeviceUpdateLEDs();
 }

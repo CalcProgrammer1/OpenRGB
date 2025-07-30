@@ -48,7 +48,7 @@ void RGBController_Network::AddSegment(int zone, segment new_segment)
     client->WaitOnControllerData();
 }
 
-void RGBController_Network::ResizeZone(int zone, int new_size)
+void RGBController_Network::DeviceResizeZone(int zone, int new_size)
 {
     client->SendRequest_RGBController_ResizeZone(dev_idx, zone, new_size);
 
@@ -68,7 +68,7 @@ void RGBController_Network::DeviceUpdateLEDs()
     delete[] data;
 }
 
-void RGBController_Network::UpdateZoneLEDs(int zone)
+void RGBController_Network::DeviceUpdateZoneLEDs(int zone)
 {
     unsigned char * data = GetZoneColorDescription(zone);
     unsigned int size;
@@ -80,7 +80,7 @@ void RGBController_Network::UpdateZoneLEDs(int zone)
     delete[] data;
 }
 
-void RGBController_Network::UpdateSingleLED(int led)
+void RGBController_Network::DeviceUpdateSingleLED(int led)
 {
     unsigned char * data = GetSingleLEDColorDescription(led);
 

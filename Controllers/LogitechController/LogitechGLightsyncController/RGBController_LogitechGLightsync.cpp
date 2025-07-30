@@ -119,7 +119,7 @@ void RGBController_LogitechGLightsync::SetupZones()
     SetupColors();
 }
 
-void RGBController_LogitechGLightsync::ResizeZone(int /*zone*/, int /*new_size*/)
+void RGBController_LogitechGLightsync::DeviceResizeZone(int /*zone*/, int /*new_size*/)
 {
     /*---------------------------------------------------------*\
     | This device does not support resizing zones               |
@@ -128,11 +128,11 @@ void RGBController_LogitechGLightsync::ResizeZone(int /*zone*/, int /*new_size*/
 
 void RGBController_LogitechGLightsync::DeviceUpdateLEDs()
 {
-    UpdateZoneLEDs(0);
-    UpdateZoneLEDs(1);
+    DeviceUpdateZoneLEDs(0);
+    DeviceUpdateZoneLEDs(1);
 }
 
-void RGBController_LogitechGLightsync::UpdateZoneLEDs(int zone)
+void RGBController_LogitechGLightsync::DeviceUpdateZoneLEDs(int zone)
 {
     unsigned char red = RGBGetRValue(colors[zone]);
     unsigned char grn = RGBGetGValue(colors[zone]);
@@ -146,9 +146,9 @@ void RGBController_LogitechGLightsync::UpdateZoneLEDs(int zone)
     controller->UpdateMouseLED(temp_mode, modes[active_mode].speed, zone, red, grn, blu, modes[active_mode].brightness);
 }
 
-void RGBController_LogitechGLightsync::UpdateSingleLED(int led)
+void RGBController_LogitechGLightsync::DeviceUpdateSingleLED(int led)
 {
-    UpdateZoneLEDs(led);
+    DeviceUpdateZoneLEDs(led);
 }
 
 void RGBController_LogitechGLightsync::DeviceUpdateMode()

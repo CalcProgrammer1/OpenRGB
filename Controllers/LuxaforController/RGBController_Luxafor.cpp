@@ -172,7 +172,7 @@ void RGBController_Luxafor::SetupZones()
     SetupColors();
 }
 
-void RGBController_Luxafor::ResizeZone(int /*zone*/, int /*new_size*/)
+void RGBController_Luxafor::DeviceResizeZone(int /*zone*/, int /*new_size*/)
 {
     /*-----------------------------------------------------*\
     | This device does not support resizing zones           |
@@ -183,19 +183,19 @@ void RGBController_Luxafor::DeviceUpdateLEDs()
 {
     for(std::size_t zone_idx = 0; zone_idx < zones.size(); zone_idx++)
     {
-        UpdateZoneLEDs((int)zone_idx);
+        DeviceUpdateZoneLEDs((int)zone_idx);
     }
 }
 
-void RGBController_Luxafor::UpdateZoneLEDs(int zone)
+void RGBController_Luxafor::DeviceUpdateZoneLEDs(int zone)
 {
     for(unsigned int led_idx = 0; led_idx < zones[zone].leds_count; led_idx++)
     {
-        UpdateSingleLED((int)(zones[zone].start_idx + led_idx));
+        DeviceUpdateSingleLED((int)(zones[zone].start_idx + led_idx));
     }
 }
 
-void RGBController_Luxafor::UpdateSingleLED(int led)
+void RGBController_Luxafor::DeviceUpdateSingleLED(int led)
 {
     if(modes[active_mode].color_mode == MODE_COLORS_PER_LED)
     {

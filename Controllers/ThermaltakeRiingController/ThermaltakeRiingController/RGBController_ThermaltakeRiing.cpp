@@ -189,7 +189,7 @@ void RGBController_ThermaltakeRiing::SetupZones()
     SetupColors();
 }
 
-void RGBController_ThermaltakeRiing::ResizeZone(int zone, int new_size)
+void RGBController_ThermaltakeRiing::DeviceResizeZone(int zone, int new_size)
 {
     if((size_t) zone >= zones.size())
     {
@@ -212,12 +212,12 @@ void RGBController_ThermaltakeRiing::DeviceUpdateLEDs()
     }
 }
 
-void RGBController_ThermaltakeRiing::UpdateZoneLEDs(int zone)
+void RGBController_ThermaltakeRiing::DeviceUpdateZoneLEDs(int zone)
 {
     controller->SetChannelLEDs(zone, zones[zone].colors, zones[zone].leds_count);
 }
 
-void RGBController_ThermaltakeRiing::UpdateSingleLED(int led)
+void RGBController_ThermaltakeRiing::DeviceUpdateSingleLED(int led)
 {
     unsigned int channel = leds_channel[led];
 
