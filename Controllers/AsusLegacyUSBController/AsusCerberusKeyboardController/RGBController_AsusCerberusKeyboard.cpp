@@ -314,7 +314,7 @@ void RGBController_AsusCerberusKeyboard::SetupZones()
     SetupColors();
 }
 
-void RGBController_AsusCerberusKeyboard::ResizeZone(int /*zone*/, int /*new_size*/)
+void RGBController_AsusCerberusKeyboard::DeviceResizeZone(int /*zone*/, int /*new_size*/)
 {
 
 }
@@ -332,12 +332,12 @@ void RGBController_AsusCerberusKeyboard::DeviceUpdateLEDs()
     controller->SendPerLEDColorEnd();
 }
 
-void RGBController_AsusCerberusKeyboard::UpdateZoneLEDs(int /*zone*/)
+void RGBController_AsusCerberusKeyboard::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_AsusCerberusKeyboard::UpdateSingleLED(int led)
+void RGBController_AsusCerberusKeyboard::DeviceUpdateSingleLED(int led)
 {
     uint8_t red   = RGBGetRValue(colors[led]);
     uint8_t green = RGBGetGValue(colors[led]);

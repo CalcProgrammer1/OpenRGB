@@ -63,7 +63,7 @@ const unsigned int zone_sizes[] =
 /*---------------------------------------------------------*\
 | led_names: LED names                                     |
 \*---------------------------------------------------------*/
-static const char *led_names[] = 
+static const char *led_names[] =
     {
         KEY_EN_ESCAPE,          // Esc
         KEY_EN_F1,              // F1
@@ -311,7 +311,7 @@ void RGBController_XPGSummoner::SetupZones()
 /*---------------------------------------------------------*\
 | ResizeZone: Not supported for this device                 |
 \*---------------------------------------------------------*/
-void RGBController_XPGSummoner::ResizeZone(int /*zone*/, int /*new_size*/)
+void RGBController_XPGSummoner::DeviceResizeZone(int /*zone*/, int /*new_size*/)
 {
     // This device does not support resizing zones
 }
@@ -410,7 +410,7 @@ void RGBController_XPGSummoner::DeviceUpdateLEDs()
 /*---------------------------------------------------------*\
 | UpdateZoneLEDs: Updates all LEDs in a zone                |
 \*---------------------------------------------------------*/
-void RGBController_XPGSummoner::UpdateZoneLEDs(int /*zone*/)
+void RGBController_XPGSummoner::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateLEDs();
 }
@@ -418,7 +418,7 @@ void RGBController_XPGSummoner::UpdateZoneLEDs(int /*zone*/)
 /*---------------------------------------------------------*\
 | UpdateSingleLED: Updates a single LED                     |
 \*---------------------------------------------------------*/
-void RGBController_XPGSummoner::UpdateSingleLED(int /*led*/)
+void RGBController_XPGSummoner::DeviceUpdateSingleLED(int /*led*/)
 {
     DeviceUpdateLEDs();
 }

@@ -217,7 +217,7 @@ void RGBController_CorsairK65Mini::SetupZones()
     SetupColors();
 }
 
-void RGBController_CorsairK65Mini::ResizeZone(int /*zone*/, int /*new_size*/)
+void RGBController_CorsairK65Mini::DeviceResizeZone(int /*zone*/, int /*new_size*/)
 {
     /*---------------------------------------------------------*\
     | This device does not support resizing zones               |
@@ -230,12 +230,12 @@ void RGBController_CorsairK65Mini::DeviceUpdateLEDs()
     controller->SetLEDs(colors, led_positions);
 }
 
-void RGBController_CorsairK65Mini::UpdateZoneLEDs(int /*zone*/)
+void RGBController_CorsairK65Mini::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_CorsairK65Mini::UpdateSingleLED(int /*led*/)
+void RGBController_CorsairK65Mini::DeviceUpdateSingleLED(int /*led*/)
 {
     DeviceUpdateLEDs();
 }

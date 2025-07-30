@@ -61,10 +61,10 @@ void RGBController_BlinkyTape::SetupZones()
     led_zone.matrix_map = NULL;
     zones.push_back(led_zone);
 
-    ResizeZone(0, led_zone.leds_count);
+    DeviceResizeZone(0, led_zone.leds_count);
 }
 
-void RGBController_BlinkyTape::ResizeZone(int zone, int new_size)
+void RGBController_BlinkyTape::DeviceResizeZone(int zone, int new_size)
 {
     /*-------------------------------------------------*\
     | Explicitly cast these to avoid compiler warnings  |
@@ -130,12 +130,12 @@ void RGBController_BlinkyTape::DeviceUpdateLEDs()
     controller->SetLEDs(colors);
 }
 
-void RGBController_BlinkyTape::UpdateZoneLEDs(int /*zone*/)
+void RGBController_BlinkyTape::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     controller->SetLEDs(colors);
 }
 
-void RGBController_BlinkyTape::UpdateSingleLED(int /*led*/)
+void RGBController_BlinkyTape::DeviceUpdateSingleLED(int /*led*/)
 {
     controller->SetLEDs(colors);
 }

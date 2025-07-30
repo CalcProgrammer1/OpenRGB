@@ -106,7 +106,7 @@ void RGBController_PNYGPU::SetupZones()
     SetupColors();
 }
 
-void RGBController_PNYGPU::ResizeZone(int /*zone*/, int /*new_size*/)
+void RGBController_PNYGPU::DeviceResizeZone(int /*zone*/, int /*new_size*/)
 {
     /*---------------------------------------------------------*\
     | This device does not support resizing zones               |
@@ -118,12 +118,12 @@ void RGBController_PNYGPU::DeviceUpdateLEDs()
     DeviceUpdateMode();
 }
 
-void RGBController_PNYGPU::UpdateZoneLEDs(int /*zone*/)
+void RGBController_PNYGPU::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_PNYGPU::UpdateSingleLED(int /*led*/)
+void RGBController_PNYGPU::DeviceUpdateSingleLED(int /*led*/)
 {
     DeviceUpdateLEDs();
 }

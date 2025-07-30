@@ -147,7 +147,7 @@ void RGBController_CMMM712Controller::SetupZones()
     SetupColors();
 }
 
-void RGBController_CMMM712Controller::ResizeZone(int /*zone*/, int /*new_size*/)
+void RGBController_CMMM712Controller::DeviceResizeZone(int /*zone*/, int /*new_size*/)
 {
     /*---------------------------------------------------------*\
     | This device does not support resizing zones               |
@@ -162,12 +162,12 @@ void RGBController_CMMM712Controller::DeviceUpdateLEDs()
     controller->SetLedsDirect(logo);
 }
 
-void RGBController_CMMM712Controller::UpdateZoneLEDs(int /*zone*/)
+void RGBController_CMMM712Controller::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_CMMM712Controller::UpdateSingleLED(int /*led*/)
+void RGBController_CMMM712Controller::DeviceUpdateSingleLED(int /*led*/)
 {
     DeviceUpdateLEDs();
 }

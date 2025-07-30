@@ -61,7 +61,7 @@ void RGBController_ElgatoLightStrip::SetupZones()
     SetupColors();
 }
 
-void RGBController_ElgatoLightStrip::ResizeZone(int /*zone*/, int /*new_size*/)
+void RGBController_ElgatoLightStrip::DeviceResizeZone(int /*zone*/, int /*new_size*/)
 {
     /*---------------------------------------------------------*\
     | This device does not support resizing zones               |
@@ -77,12 +77,12 @@ void RGBController_ElgatoLightStrip::DeviceUpdateLEDs()
     controller->SetBrightness((unsigned char)modes[(unsigned int)active_mode].brightness);
 }
 
-void RGBController_ElgatoLightStrip::UpdateZoneLEDs(int /*zone*/)
+void RGBController_ElgatoLightStrip::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_ElgatoLightStrip::UpdateSingleLED(int /*led*/)
+void RGBController_ElgatoLightStrip::DeviceUpdateSingleLED(int /*led*/)
 {
     DeviceUpdateLEDs();
 }

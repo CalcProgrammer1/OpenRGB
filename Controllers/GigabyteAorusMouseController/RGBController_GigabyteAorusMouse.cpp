@@ -143,7 +143,7 @@ void RGBController_GigabyteAorusMouse::SetupZones()
     SetupColors();
 }
 
-void RGBController_GigabyteAorusMouse::ResizeZone(int /*zone*/, int /*new_size*/)
+void RGBController_GigabyteAorusMouse::DeviceResizeZone(int /*zone*/, int /*new_size*/)
 {
     /*---------------------------------------------------------*\
     | This device does not support resizing zones               |
@@ -155,12 +155,12 @@ void RGBController_GigabyteAorusMouse::DeviceUpdateLEDs()
     controller->SendDirect(colors[0]);
 }
 
-void RGBController_GigabyteAorusMouse::UpdateZoneLEDs(int /*zone*/)
+void RGBController_GigabyteAorusMouse::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_GigabyteAorusMouse::UpdateSingleLED(int /*led*/)
+void RGBController_GigabyteAorusMouse::DeviceUpdateSingleLED(int /*led*/)
 {
     DeviceUpdateLEDs();
 }

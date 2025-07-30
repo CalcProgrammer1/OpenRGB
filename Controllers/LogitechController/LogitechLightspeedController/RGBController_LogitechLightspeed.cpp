@@ -207,7 +207,7 @@ void RGBController_LogitechLightspeed::SetupZones()
     SetupColors();
 }
 
-void RGBController_LogitechLightspeed::ResizeZone(int /*zone*/, int /*new_size*/)
+void RGBController_LogitechLightspeed::DeviceResizeZone(int /*zone*/, int /*new_size*/)
 {
     /*---------------------------------------------------------*\
     | This device does not support resizing zones               |
@@ -218,11 +218,11 @@ void RGBController_LogitechLightspeed::DeviceUpdateLEDs()
 {
     for(std::vector<led>::iterator led_index = leds.begin(); led_index != leds.end(); led_index++)
     {
-        UpdateZoneLEDs(led_index->value);
+        DeviceUpdateZoneLEDs(led_index->value);
     }
 }
 
-void RGBController_LogitechLightspeed::UpdateZoneLEDs(int zone)
+void RGBController_LogitechLightspeed::DeviceUpdateZoneLEDs(int zone)
 {
     unsigned char red       = RGBGetRValue(colors[zone]);
     unsigned char grn       = RGBGetGValue(colors[zone]);
@@ -231,9 +231,9 @@ void RGBController_LogitechLightspeed::UpdateZoneLEDs(int zone)
     controller->SendMouseMode(modes[active_mode].value, modes[active_mode].speed, zone, red, grn, blu, modes[active_mode].brightness);
 }
 
-void RGBController_LogitechLightspeed::UpdateSingleLED(int led)
+void RGBController_LogitechLightspeed::DeviceUpdateSingleLED(int led)
 {
-    UpdateZoneLEDs(led);
+    DeviceUpdateZoneLEDs(led);
 }
 
 void RGBController_LogitechLightspeed::DeviceUpdateMode()

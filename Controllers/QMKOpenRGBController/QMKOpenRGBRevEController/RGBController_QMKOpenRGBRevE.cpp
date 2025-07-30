@@ -420,7 +420,7 @@ void RGBController_QMKOpenRGBRevE::SetupZones()
     }
 }
 
-void RGBController_QMKOpenRGBRevE::ResizeZone(int /*zone*/, int /*new_size*/)
+void RGBController_QMKOpenRGBRevE::DeviceResizeZone(int /*zone*/, int /*new_size*/)
 {
     /*---------------------------------------------------------*\
     | This device does not support resizing zones               |
@@ -432,12 +432,12 @@ void RGBController_QMKOpenRGBRevE::DeviceUpdateLEDs()
     controller->DirectModeSetLEDs(colors, controller->GetTotalNumberOfLEDs());
 }
 
-void RGBController_QMKOpenRGBRevE::UpdateZoneLEDs(int /*zone*/)
+void RGBController_QMKOpenRGBRevE::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_QMKOpenRGBRevE::UpdateSingleLED(int led)
+void RGBController_QMKOpenRGBRevE::DeviceUpdateSingleLED(int led)
 {
     RGBColor      color = colors[led];
     unsigned char red   = RGBGetRValue(color);

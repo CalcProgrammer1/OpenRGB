@@ -165,7 +165,7 @@ void RGBController_RazerKraken::SetupZones()
     SetupColors();
 }
 
-void RGBController_RazerKraken::ResizeZone(int /*zone*/, int /*new_size*/)
+void RGBController_RazerKraken::DeviceResizeZone(int /*zone*/, int /*new_size*/)
 {
     /*---------------------------------------------------------*\
     | This device does not support resizing zones               |
@@ -181,12 +181,12 @@ void RGBController_RazerKraken::DeviceUpdateLEDs()
     controller->SetModeCustom(red, grn, blu);
 }
 
-void RGBController_RazerKraken::UpdateZoneLEDs(int /*zone*/)
+void RGBController_RazerKraken::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_RazerKraken::UpdateSingleLED(int /*led*/)
+void RGBController_RazerKraken::DeviceUpdateSingleLED(int /*led*/)
 {
     DeviceUpdateLEDs();
 }

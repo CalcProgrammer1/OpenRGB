@@ -113,7 +113,7 @@ void RGBController_HyperXMousemat::SetupZones()
     SetupColors();
 }
 
-void RGBController_HyperXMousemat::ResizeZone(int /*zone*/, int /*new_size*/)
+void RGBController_HyperXMousemat::DeviceResizeZone(int /*zone*/, int /*new_size*/)
 {
     /*---------------------------------------------------------*\
     | This device does not support resizing zones               |
@@ -127,12 +127,12 @@ void RGBController_HyperXMousemat::DeviceUpdateLEDs()
     controller->SendDirect(&colors[0]);
 }
 
-void RGBController_HyperXMousemat::UpdateZoneLEDs(int /*zone*/)
+void RGBController_HyperXMousemat::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_HyperXMousemat::UpdateSingleLED(int /*led*/)
+void RGBController_HyperXMousemat::DeviceUpdateSingleLED(int /*led*/)
 {
     DeviceUpdateLEDs();
 }

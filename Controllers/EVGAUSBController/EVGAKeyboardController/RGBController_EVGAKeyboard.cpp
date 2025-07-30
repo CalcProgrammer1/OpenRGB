@@ -471,7 +471,7 @@ void RGBController_EVGAKeyboard::SetupZones()
     SetupColors();
 }
 
-void RGBController_EVGAKeyboard::ResizeZone(int /*zone*/, int /*new_size*/)
+void RGBController_EVGAKeyboard::DeviceResizeZone(int /*zone*/, int /*new_size*/)
 {
     /*---------------------------------------------------------*\
     | This device does not support resizing zones               |
@@ -483,7 +483,7 @@ void RGBController_EVGAKeyboard::DeviceUpdateLEDs()
     controller->SetLedsDirect(colors);
 }
 
-void RGBController_EVGAKeyboard::UpdateZoneLEDs(int zone)
+void RGBController_EVGAKeyboard::DeviceUpdateZoneLEDs(int zone)
 {
     std::vector<RGBColor> colour;
     for(size_t i = 0; i < zones[zone].leds_count; i++)
@@ -494,7 +494,7 @@ void RGBController_EVGAKeyboard::UpdateZoneLEDs(int zone)
     controller->SetLedsDirect(colour);
 }
 
-void RGBController_EVGAKeyboard::UpdateSingleLED(int led)
+void RGBController_EVGAKeyboard::DeviceUpdateSingleLED(int led)
 {
     std::vector<RGBColor> colour;
     colour.push_back(colors[led]);

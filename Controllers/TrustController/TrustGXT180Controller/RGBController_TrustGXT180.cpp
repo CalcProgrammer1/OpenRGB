@@ -109,7 +109,7 @@ void RGBController_TrustGXT180::SetupZones()
     SetupColors();
 }
 
-void RGBController_TrustGXT180::ResizeZone(int /*zone*/, int /*new_size*/)
+void RGBController_TrustGXT180::DeviceResizeZone(int /*zone*/, int /*new_size*/)
 {
     /*---------------------------------------------------------*\
     | This device does not support resizing zones               |
@@ -121,12 +121,12 @@ void RGBController_TrustGXT180::DeviceUpdateLEDs()
     DeviceUpdateMode();
 }
 
-void RGBController_TrustGXT180::UpdateZoneLEDs(int /*zone*/)
+void RGBController_TrustGXT180::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateMode();
 }
 
-void RGBController_TrustGXT180::UpdateSingleLED(int /*led*/)
+void RGBController_TrustGXT180::DeviceUpdateSingleLED(int /*led*/)
 {
     DeviceUpdateMode();
 }

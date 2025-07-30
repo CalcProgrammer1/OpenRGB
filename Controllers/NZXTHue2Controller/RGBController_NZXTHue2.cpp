@@ -366,7 +366,7 @@ void RGBController_NZXTHue2::SetupZones()
     SetupColors();
 }
 
-void RGBController_NZXTHue2::ResizeZone(int zone, int new_size)
+void RGBController_NZXTHue2::DeviceResizeZone(int zone, int new_size)
 {
     if((size_t) zone >= zones.size())
     {
@@ -390,12 +390,12 @@ void RGBController_NZXTHue2::DeviceUpdateLEDs()
     }
 }
 
-void RGBController_NZXTHue2::UpdateZoneLEDs(int zone)
+void RGBController_NZXTHue2::DeviceUpdateZoneLEDs(int zone)
 {
     controller->SetChannelLEDs(zone, zones[zone].colors, zones[zone].leds_count);
 }
 
-void RGBController_NZXTHue2::UpdateSingleLED(int led)
+void RGBController_NZXTHue2::DeviceUpdateSingleLED(int led)
 {
     unsigned int zone_idx = leds[led].value;
 

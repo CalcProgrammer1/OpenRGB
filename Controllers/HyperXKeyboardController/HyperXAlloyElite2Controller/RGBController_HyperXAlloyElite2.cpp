@@ -298,7 +298,7 @@ void RGBController_HyperXAlloyElite2::SetupZones()
     SetupColors();
 }
 
-void RGBController_HyperXAlloyElite2::ResizeZone(int /*zone*/, int /*new_size*/)
+void RGBController_HyperXAlloyElite2::DeviceResizeZone(int /*zone*/, int /*new_size*/)
 {
     /*---------------------------------------------------------*\
     | This device does not support resizing zones               |
@@ -315,12 +315,12 @@ void RGBController_HyperXAlloyElite2::DeviceUpdateLEDs()
     }
 }
 
-void RGBController_HyperXAlloyElite2::UpdateZoneLEDs(int /*zone*/)
+void RGBController_HyperXAlloyElite2::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_HyperXAlloyElite2::UpdateSingleLED(int /*led*/)
+void RGBController_HyperXAlloyElite2::DeviceUpdateSingleLED(int /*led*/)
 {
     DeviceUpdateLEDs();
 }

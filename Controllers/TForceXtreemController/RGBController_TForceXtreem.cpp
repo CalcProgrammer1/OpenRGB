@@ -376,7 +376,7 @@ void RGBController_TForceXtreem::DeviceUpdateLEDs()
 
 }
 
-void RGBController_TForceXtreem::UpdateZoneLEDs(int zone)
+void RGBController_TForceXtreem::DeviceUpdateZoneLEDs(int zone)
 {
     for(std::size_t led_idx = 0; led_idx < zones[zone].leds_count; led_idx++)
     {
@@ -397,7 +397,7 @@ void RGBController_TForceXtreem::UpdateZoneLEDs(int zone)
     }
 }
 
-void RGBController_TForceXtreem::UpdateSingleLED(int led)
+void RGBController_TForceXtreem::DeviceUpdateSingleLED(int led)
 {
     RGBColor color    = colors[led];
     unsigned char red = RGBGetRValue(color);
@@ -442,7 +442,7 @@ void RGBController_TForceXtreem::SetupZones()
     SetupColors();
 }
 
-void RGBController_TForceXtreem::ResizeZone(int /*zone*/, int /*new_size*/)
+void RGBController_TForceXtreem::DeviceResizeZone(int /*zone*/, int /*new_size*/)
 {
     /*---------------------------------------------------------*\
     | This device does not support resizing zones               |

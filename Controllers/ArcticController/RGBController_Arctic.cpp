@@ -83,7 +83,7 @@ void RGBController_Arctic::SetupZones()
     SetupColors();
 }
 
-void RGBController_Arctic::ResizeZone(int /* zone */, int /* new_size */)
+void RGBController_Arctic::DeviceResizeZone(int /* zone */, int /* new_size */)
 {
     /*---------------------------------------------------------*\
     | This device does not support resizing zones               |
@@ -97,12 +97,12 @@ void RGBController_Arctic::DeviceUpdateLEDs()
     controller->SetChannels(colors);
 }
 
-void RGBController_Arctic::UpdateZoneLEDs(int /* zone */)
+void RGBController_Arctic::DeviceUpdateZoneLEDs(int /* zone */)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_Arctic::UpdateSingleLED(int /* led */)
+void RGBController_Arctic::DeviceUpdateSingleLED(int /* led */)
 {
     DeviceUpdateLEDs();
 }

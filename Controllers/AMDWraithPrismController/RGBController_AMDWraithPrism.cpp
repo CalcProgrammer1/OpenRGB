@@ -205,7 +205,7 @@ void RGBController_AMDWraithPrism::SetupZones()
     SetupColors();
 }
 
-void RGBController_AMDWraithPrism::ResizeZone(int /*zone*/, int /*new_size*/)
+void RGBController_AMDWraithPrism::DeviceResizeZone(int /*zone*/, int /*new_size*/)
 {
     /*---------------------------------------------------------*\
     | This device does not support resizing zones               |
@@ -264,12 +264,12 @@ void RGBController_AMDWraithPrism::DeviceUpdateLEDs()
     }
 }
 
-void RGBController_AMDWraithPrism::UpdateZoneLEDs(int /*zone*/)
+void RGBController_AMDWraithPrism::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_AMDWraithPrism::UpdateSingleLED(int /*led*/)
+void RGBController_AMDWraithPrism::DeviceUpdateSingleLED(int /*led*/)
 {
     DeviceUpdateLEDs();
 }

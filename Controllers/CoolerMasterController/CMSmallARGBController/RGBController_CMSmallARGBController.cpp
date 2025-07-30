@@ -244,7 +244,7 @@ void RGBController_CMSmallARGBController::SetupZones()
     SetupColors();
 }
 
-void RGBController_CMSmallARGBController::ResizeZone(int zone, int new_size)
+void RGBController_CMSmallARGBController::DeviceResizeZone(int zone, int new_size)
 {
     if((size_t) zone >= zones.size())
     {
@@ -263,11 +263,11 @@ void RGBController_CMSmallARGBController::DeviceUpdateLEDs()
 {
     for(int zone_idx = 0; zone_idx < (int)zones.size(); zone_idx++)
     {
-        UpdateZoneLEDs(zone_idx);
+        DeviceUpdateZoneLEDs(zone_idx);
     }
 }
 
-void RGBController_CMSmallARGBController::UpdateZoneLEDs(int zone)
+void RGBController_CMSmallARGBController::DeviceUpdateZoneLEDs(int zone)
 {
     if(serial >= CM_SMALL_ARGB_FW0012)
     {
@@ -275,9 +275,9 @@ void RGBController_CMSmallARGBController::UpdateZoneLEDs(int zone)
     }
 }
 
-void RGBController_CMSmallARGBController::UpdateSingleLED(int led)
+void RGBController_CMSmallARGBController::DeviceUpdateSingleLED(int led)
 {
-    UpdateZoneLEDs(led);
+    DeviceUpdateZoneLEDs(led);
 }
 
 void RGBController_CMSmallARGBController::SetCustomMode()

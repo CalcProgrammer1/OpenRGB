@@ -191,7 +191,7 @@ void PolychromeUSBController::SetDeviceInfo()
     WriteRGSwap(rgswap_final[0], rgswap_final[1], rgswap_final[2], rgswap_final[3], rgswap_final[4], rgswap_final[5], rgswap_final[6], rgswap_final[7]);
 }
 
-void PolychromeUSBController::ResizeZone(int zone, int new_size)
+void PolychromeUSBController::DeviceResizeZone(int zone, int new_size)
 {
     unsigned char zonecfg[POLYCHROME_USB_ZONE_MAX_NUM];
 

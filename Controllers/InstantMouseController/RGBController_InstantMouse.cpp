@@ -182,7 +182,7 @@ void RGBController_InstantMouse::SetupZones()
     SetupColors();
 }
 
-void RGBController_InstantMouse::ResizeZone(int /*zone*/, int /*new_size*/)
+void RGBController_InstantMouse::DeviceResizeZone(int /*zone*/, int /*new_size*/)
 {
     /*---------------------------------------------------------*\
     | This device does not support resizing zones               |
@@ -194,12 +194,12 @@ void RGBController_InstantMouse::DeviceUpdateLEDs()
     controller->SendColor(colors[0]);
 }
 
-void RGBController_InstantMouse::UpdateZoneLEDs(int /*zone*/)
+void RGBController_InstantMouse::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_InstantMouse::UpdateSingleLED(int /*led*/)
+void RGBController_InstantMouse::DeviceUpdateSingleLED(int /*led*/)
 {
     DeviceUpdateLEDs();
 }

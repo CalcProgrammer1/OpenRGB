@@ -97,7 +97,7 @@ void RGBController_AMBX::SetupZones()
     SetupColors();
 }
 
-void RGBController_AMBX::ResizeZone(int /*zone*/, int /*new_size*/)
+void RGBController_AMBX::DeviceResizeZone(int /*zone*/, int /*new_size*/)
 {
     // This device does not support resizing zones
 }
@@ -121,7 +121,7 @@ void RGBController_AMBX::DeviceUpdateLEDs()
     controller->SetLEDColors(led_values, led_colors, static_cast<unsigned int>(leds.size()));
 }
 
-void RGBController_AMBX::UpdateZoneLEDs(int zone)
+void RGBController_AMBX::DeviceUpdateZoneLEDs(int zone)
 {
     if(!controller->IsInitialized())
     {
@@ -156,7 +156,7 @@ void RGBController_AMBX::UpdateZoneLEDs(int zone)
     controller->SetLEDColors(led_values, led_colors, zone_size);
 }
 
-void RGBController_AMBX::UpdateSingleLED(int led)
+void RGBController_AMBX::DeviceUpdateSingleLED(int led)
 {
     if(!controller->IsInitialized())
     {

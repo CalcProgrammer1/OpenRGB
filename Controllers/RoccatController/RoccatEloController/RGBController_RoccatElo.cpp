@@ -67,7 +67,7 @@ void RGBController_RoccatElo::SetupZones()
     SetupColors();
 }
 
-void RGBController_RoccatElo::ResizeZone(int /*zone*/, int /*new_size*/)
+void RGBController_RoccatElo::DeviceResizeZone(int /*zone*/, int /*new_size*/)
 {
     /*---------------------------------------------------------*\
     | This device does not support resizing zones               |
@@ -79,12 +79,12 @@ void RGBController_RoccatElo::DeviceUpdateLEDs()
     controller->SendDirect(colors[0]);
 }
 
-void RGBController_RoccatElo::UpdateZoneLEDs(int /*zone*/)
+void RGBController_RoccatElo::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_RoccatElo::UpdateSingleLED(int /*led*/)
+void RGBController_RoccatElo::DeviceUpdateSingleLED(int /*led*/)
 {
     DeviceUpdateLEDs();
 }
