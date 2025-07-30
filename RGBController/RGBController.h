@@ -234,7 +234,22 @@ enum
 /*------------------------------------------------------------------*\
 | RGBController Callback Types                                       |
 \*------------------------------------------------------------------*/
-typedef void (*RGBControllerCallback)(void *);
+typedef void (*RGBControllerCallback)(void *, unsigned int);
+
+/*------------------------------------------------------------------*\
+| Update Reason Codes                                                |
+\*------------------------------------------------------------------*/
+enum
+{
+    RGBCONTROLLER_UPDATE_REASON_UPDATELEDS,         /* UpdateLEDs() called              */
+    RGBCONTROLLER_UPDATE_REASON_UPDATEMODE,         /* UpdateMode() called              */
+    RGBCONTROLLER_UPDATE_REASON_SAVEMODE,           /* SaveMode() called                */
+    RGBCONTROLLER_UPDATE_REASON_RESIZEZONE,         /* ResizeZone() called              */
+    RGBCONTROLLER_UPDATE_REASON_CLEARSEGMENTS,      /* ClearSegments() called           */
+    RGBCONTROLLER_UPDATE_REASON_ADDSEGMENT,         /* AddSegment() called              */
+    RGBCONTROLLER_UPDATE_REASON_HIDDEN,             /* Hidden flag set                  */
+    RGBCONTROLLER_UPDATE_REASON_UNHIDDEN,           /* Hidden flag cleared              */
+};
 
 std::string device_type_to_str(device_type type);
 
@@ -252,6 +267,12 @@ public:
     virtual std::string     GetLocation()                                                                       = 0;
 
     virtual device_type     GetDeviceType()                                                                     = 0;
+
+    /*--------------------------------------------------------------*\
+    | Hidden Flag Functions                                          |
+    \*--------------------------------------------------------------*/
+    virtual bool            GetHidden()                                                                         = 0;
+    virtual void            SetHidden(bool hidden)                                                              = 0;
 
     /*--------------------------------------------------------------*\
     | Zone Functions                                                 |
@@ -303,7 +324,7 @@ public:
     virtual void            RegisterUpdateCallback(RGBControllerCallback new_callback, void * new_callback_arg) = 0;
     virtual void            UnregisterUpdateCallback(void * callback_arg)                                       = 0;
     virtual void            ClearCallbacks()                                                                    = 0;
-    virtual void            SignalUpdate()                                                                      = 0;
+    virtual void            SignalUpdate(unsigned int update_reason)                                            = 0;
 
     /*--------------------------------------------------------------*\
     | Device Update Functions                                        |
@@ -359,6 +380,12 @@ public:
     device_type             GetDeviceType();
 
     /*--------------------------------------------------------------*\
+    | Hidden Flag Functions                                          |
+    \*--------------------------------------------------------------*/
+    bool                    GetHidden();
+    void                    SetHidden(bool hidden);
+
+    /*--------------------------------------------------------------*\
     | Zone Functions                                                 |
     \*--------------------------------------------------------------*/
     std::string             GetZoneName(unsigned int zone);
@@ -408,7 +435,7 @@ public:
     void                    RegisterUpdateCallback(RGBControllerCallback new_callback, void * new_callback_arg);
     void                    UnregisterUpdateCallback(void * callback_arg);
     void                    ClearCallbacks();
-    void                    SignalUpdate();
+    void                    SignalUpdate(unsigned int update_reason);
 
     /*--------------------------------------------------------------*\
     | Device Update Functions                                        |

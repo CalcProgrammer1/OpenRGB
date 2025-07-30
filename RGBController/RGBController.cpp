@@ -2001,6 +2001,25 @@ void RGBController::SetAllZoneLEDs(int zone, RGBColor color)
     }
 }
 
+bool RGBController::GetHidden()
+{
+    return(flags & CONTROLLER_FLAG_HIDDEN);
+}
+
+void RGBController::SetHidden(bool hidden)
+{
+    if(hidden)
+    {
+        flags |= CONTROLLER_FLAG_HIDDEN;
+        SignalUpdate(RGBCONTROLLER_UPDATE_REASON_HIDDEN);
+    }
+    else
+    {
+        flags &= ~CONTROLLER_FLAG_HIDDEN;
+        SignalUpdate(RGBCONTROLLER_UPDATE_REASON_UNHIDDEN);
+    }
+}
+
 int RGBController::GetMode()
 {
     return(active_mode);
@@ -2074,7 +2093,7 @@ void RGBController::ClearCallbacks()
     UpdateCallbackArgs.clear();
 }
 
-void RGBController::SignalUpdate()
+void RGBController::SignalUpdate(unsigned int update_reason)
 {
     UpdateMutex.lock();
 
@@ -2083,7 +2102,7 @@ void RGBController::SignalUpdate()
     \*-------------------------------------------------*/
     for(unsigned int callback_idx = 0; callback_idx < UpdateCallbacks.size(); callback_idx++)
     {
-        UpdateCallbacks[callback_idx](UpdateCallbackArgs[callback_idx]);
+        UpdateCallbacks[callback_idx](UpdateCallbackArgs[callback_idx], update_reason);
     }
 
     UpdateMutex.unlock();
@@ -2093,7 +2112,7 @@ void RGBController::UpdateLEDs()
 {
     CallFlag_UpdateLEDs = true;
 
-    SignalUpdate();
+    SignalUpdate(RGBCONTROLLER_UPDATE_REASON_UPDATELEDS);
 }
 
 void RGBController::UpdateZoneLEDs(int zone)
@@ -2109,11 +2128,15 @@ void RGBController::UpdateSingleLED(int led)
 void RGBController::UpdateMode()
 {
     CallFlag_UpdateMode = true;
+
+    SignalUpdate(RGBCONTROLLER_UPDATE_REASON_UPDATEMODE);
 }
 
 void RGBController::SaveMode()
 {
     DeviceSaveMode();
+
+    SignalUpdate(RGBCONTROLLER_UPDATE_REASON_SAVEMODE);
 }
 
 void RGBController::DeviceUpdateLEDs()
@@ -2176,16 +2199,22 @@ void RGBController::DeviceSaveMode()
 void RGBController::ClearSegments(int zone)
 {
     zones[zone].segments.clear();
+
+    SignalUpdate(RGBCONTROLLER_UPDATE_REASON_CLEARSEGMENTS);
 }
 
 void RGBController::AddSegment(int zone, segment new_segment)
 {
     zones[zone].segments.push_back(new_segment);
+
+    SignalUpdate(RGBCONTROLLER_UPDATE_REASON_ADDSEGMENT);
 }
 
 void RGBController::ResizeZone(int zone, int new_size)
 {
     DeviceResizeZone(zone, new_size);
+
+    SignalUpdate(RGBCONTROLLER_UPDATE_REASON_RESIZEZONE);
 }
 
 std::string device_type_to_str(device_type type)
