@@ -97,7 +97,7 @@ void RGBController_StrixClaw::SetupZones()
     SetupColors();
 }
 
-void RGBController_StrixClaw::ResizeZone(int /*zone*/, int /*new_size*/)
+void RGBController_StrixClaw::DeviceResizeZone(int /*zone*/, int /*new_size*/)
 {
 
 }
@@ -107,12 +107,12 @@ void RGBController_StrixClaw::DeviceUpdateLEDs()
 
 }
 
-void RGBController_StrixClaw::UpdateZoneLEDs(int /*zone*/)
+void RGBController_StrixClaw::DeviceUpdateZoneLEDs(int /*zone*/)
 {
 
 }
 
-void RGBController_StrixClaw::UpdateSingleLED(int /*led*/)
+void RGBController_StrixClaw::DeviceUpdateSingleLED(int /*led*/)
 {
 
 }

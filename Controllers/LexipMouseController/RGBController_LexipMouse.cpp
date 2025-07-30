@@ -69,7 +69,7 @@ void RGBController_LexipMouse::SetupZones()
     SetupColors();
 }
 
-void RGBController_LexipMouse::ResizeZone(int /*zone*/, int /*new_size*/)
+void RGBController_LexipMouse::DeviceResizeZone(int /*zone*/, int /*new_size*/)
 {
     /*---------------------------------------------------------*\
     | This device does not support resizing zones               |
@@ -78,20 +78,20 @@ void RGBController_LexipMouse::ResizeZone(int /*zone*/, int /*new_size*/)
 
 void RGBController_LexipMouse::DeviceUpdateLEDs()
 {
-    UpdateZoneLEDs(0);
+    DeviceUpdateZoneLEDs(0);
 }
 
-void RGBController_LexipMouse::UpdateZoneLEDs(int /*zone*/)
+void RGBController_LexipMouse::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     controller->SetDirect(colors[0]);
 }
 
-void RGBController_LexipMouse::UpdateSingleLED(int led)
+void RGBController_LexipMouse::DeviceUpdateSingleLED(int led)
 {
-    UpdateZoneLEDs(led);
+    DeviceUpdateZoneLEDs(led);
 }
 
 void RGBController_LexipMouse::DeviceUpdateMode()
 {
-    UpdateZoneLEDs(0);
+    DeviceUpdateZoneLEDs(0);
 }

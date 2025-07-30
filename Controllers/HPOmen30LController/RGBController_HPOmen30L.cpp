@@ -247,7 +247,7 @@ void RGBController_HPOmen30L::SetupZones()
     SetupColors();
 }
 
-void RGBController_HPOmen30L::ResizeZone(int /*zone*/, int /*new_size*/)
+void RGBController_HPOmen30L::DeviceResizeZone(int /*zone*/, int /*new_size*/)
 {
     /*---------------------------------------------------------*\
     | This device does not support resizing zones               |
@@ -271,14 +271,14 @@ void RGBController_HPOmen30L::DeviceUpdateLEDs()
     }
 }
 
-void RGBController_HPOmen30L::UpdateZoneLEDs(int zone)
+void RGBController_HPOmen30L::DeviceUpdateZoneLEDs(int zone)
 {
     controller->SetZoneColor(zone,colors);
 }
 
-void RGBController_HPOmen30L::UpdateSingleLED(int led)
+void RGBController_HPOmen30L::DeviceUpdateSingleLED(int led)
 {
-    UpdateZoneLEDs(led);
+    DeviceUpdateZoneLEDs(led);
 }
 
 void RGBController_HPOmen30L::DeviceUpdateMode()

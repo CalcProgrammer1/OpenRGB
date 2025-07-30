@@ -190,7 +190,7 @@ void RGBController_AnnePro2::SetupZones()
     SetupColors();
 }
 
-void RGBController_AnnePro2::ResizeZone(int /*zone*/, int /*new_size*/)
+void RGBController_AnnePro2::DeviceResizeZone(int /*zone*/, int /*new_size*/)
 {
     /*---------------------------------------------------------*\
     | This device does not support resizing zones               |
@@ -228,12 +228,12 @@ void RGBController_AnnePro2::DeviceUpdateLEDs()
     controller->SendDirect(frame_buf_length, frame_buf);
 }
 
-void RGBController_AnnePro2::UpdateZoneLEDs(int /*zone*/)
+void RGBController_AnnePro2::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_AnnePro2::UpdateSingleLED(int /*led*/)
+void RGBController_AnnePro2::DeviceUpdateSingleLED(int /*led*/)
 {
     DeviceUpdateLEDs();
 }

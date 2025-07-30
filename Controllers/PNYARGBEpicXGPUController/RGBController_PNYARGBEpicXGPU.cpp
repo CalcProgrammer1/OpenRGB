@@ -132,7 +132,7 @@ void RGBController_PNYARGBEpicXGPU::SetupZones()
     SetupColors();
 }
 
-void RGBController_PNYARGBEpicXGPU::ResizeZone(int /*zone*/, int /*new_size*/)
+void RGBController_PNYARGBEpicXGPU::DeviceResizeZone(int /*zone*/, int /*new_size*/)
 {
     /*---------------------------------------------------------*\
     | This device does not support resizing zones               |
@@ -147,7 +147,7 @@ void RGBController_PNYARGBEpicXGPU::DeviceUpdateLEDs()
     }
 }
 
-void RGBController_PNYARGBEpicXGPU::UpdateZoneLEDs(int zone)
+void RGBController_PNYARGBEpicXGPU::DeviceUpdateZoneLEDs(int zone)
 {
     for(unsigned int i = 0; i < zones[zone].leds_count; i++)
     {
@@ -155,7 +155,7 @@ void RGBController_PNYARGBEpicXGPU::UpdateZoneLEDs(int zone)
     }
 }
 
-void RGBController_PNYARGBEpicXGPU::UpdateSingleLED(int led)
+void RGBController_PNYARGBEpicXGPU::DeviceUpdateSingleLED(int led)
 {
     controller->SetLEDDirect(leds[led].value, zone_led_idx[led], PNY_GPU_MODE_ARGB_DIRECT, colors[led]);
 }

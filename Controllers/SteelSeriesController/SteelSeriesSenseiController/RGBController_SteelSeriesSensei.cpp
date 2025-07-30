@@ -100,7 +100,7 @@ void RGBController_SteelSeriesSensei::SetupZones()
     SetupColors();
 }
 
-void RGBController_SteelSeriesSensei::ResizeZone(int /*zone*/, int /*new_size*/)
+void RGBController_SteelSeriesSensei::DeviceResizeZone(int /*zone*/, int /*new_size*/)
 {
     /*---------------------------------------------------------*\
     | This device does not support resizing zones               |
@@ -109,11 +109,11 @@ void RGBController_SteelSeriesSensei::ResizeZone(int /*zone*/, int /*new_size*/)
 
 void RGBController_SteelSeriesSensei::DeviceUpdateLEDs()
 {
-    UpdateZoneLEDs(0);
-    UpdateZoneLEDs(1);
+    DeviceUpdateZoneLEDs(0);
+    DeviceUpdateZoneLEDs(1);
 }
 
-void RGBController_SteelSeriesSensei::UpdateZoneLEDs(int zone)
+void RGBController_SteelSeriesSensei::DeviceUpdateZoneLEDs(int zone)
 {
     RGBColor      color = colors[zone];
     unsigned char red   = RGBGetRValue(color);
@@ -133,13 +133,13 @@ void RGBController_SteelSeriesSensei::UpdateZoneLEDs(int zone)
     }
 }
 
-void RGBController_SteelSeriesSensei::UpdateSingleLED(int led)
+void RGBController_SteelSeriesSensei::DeviceUpdateSingleLED(int led)
 {
     /*---------------------------------------------------------*\
     | Each zone only has a single LED, so we can use the LED ID |
     | to reference the existing zone code.                      |
     \*---------------------------------------------------------*/
-    UpdateZoneLEDs(led);
+    DeviceUpdateZoneLEDs(led);
 }
 
 void RGBController_SteelSeriesSensei::DeviceUpdateMode()

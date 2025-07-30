@@ -142,7 +142,7 @@ void RGBController_RGBFusionGPU::SetupZones()
     SetupColors();
 }
 
-void RGBController_RGBFusionGPU::ResizeZone(int /*zone*/, int /*new_size*/)
+void RGBController_RGBFusionGPU::DeviceResizeZone(int /*zone*/, int /*new_size*/)
 {
     /*---------------------------------------------------------*\
     | This device does not support resizing zones               |
@@ -159,12 +159,12 @@ void RGBController_RGBFusionGPU::DeviceUpdateLEDs()
     controller->SetColor(red, grn, blu);
 }
 
-void RGBController_RGBFusionGPU::UpdateZoneLEDs(int /*zone*/)
+void RGBController_RGBFusionGPU::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_RGBFusionGPU::UpdateSingleLED(int /*led*/)
+void RGBController_RGBFusionGPU::DeviceUpdateSingleLED(int /*led*/)
 {
     DeviceUpdateLEDs();
 }

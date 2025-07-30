@@ -371,7 +371,7 @@ void RGBController_E131::SetupZones()
     SetupColors();
 }
 
-void RGBController_E131::ResizeZone(int /*zone*/, int /*new_size*/)
+void RGBController_E131::DeviceResizeZone(int /*zone*/, int /*new_size*/)
 {
     /*---------------------------------------------------------*\
     | This device does not support resizing zones               |
@@ -442,12 +442,12 @@ void RGBController_E131::DeviceUpdateLEDs()
     }
 }
 
-void RGBController_E131::UpdateZoneLEDs(int /*zone*/)
+void RGBController_E131::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_E131::UpdateSingleLED(int /*led*/)
+void RGBController_E131::DeviceUpdateSingleLED(int /*led*/)
 {
     DeviceUpdateLEDs();
 }

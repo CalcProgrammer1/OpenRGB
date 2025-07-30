@@ -160,7 +160,7 @@ void RGBController_AuraGPU::SetupZones()
     colors[0] =  ToRGBColor(red, grn, blu);
 }
 
-void RGBController_AuraGPU::ResizeZone(int /*zone*/, int /*new_size*/)
+void RGBController_AuraGPU::DeviceResizeZone(int /*zone*/, int /*new_size*/)
 {
     /*---------------------------------------------------------*\
     | This device does not support resizing zones               |
@@ -183,12 +183,12 @@ void RGBController_AuraGPU::DeviceUpdateLEDs()
     }
 }
 
-void RGBController_AuraGPU::UpdateZoneLEDs(int /*zone*/)
+void RGBController_AuraGPU::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_AuraGPU::UpdateSingleLED(int /*led*/)
+void RGBController_AuraGPU::DeviceUpdateSingleLED(int /*led*/)
 {
     DeviceUpdateLEDs();
 }

@@ -243,9 +243,9 @@ std::string device_type_to_str(device_type type);
 class RGBControllerInterface
 {
 public:
-    virtual void            SetupColors()                                                                       = 0;
-
-    virtual unsigned int    GetLEDsInZone(unsigned int zone)                                                    = 0;
+    /*--------------------------------------------------------------*\
+    | Controller Information                                         |
+    \*--------------------------------------------------------------*/
     virtual std::string     GetName()                                                                           = 0;
     virtual std::string     GetVendor()                                                                         = 0;
     virtual std::string     GetDescription()                                                                    = 0;
@@ -253,18 +253,34 @@ public:
     virtual std::string     GetSerial()                                                                         = 0;
     virtual std::string     GetLocation()                                                                       = 0;
 
-    virtual std::string     GetModeName(unsigned int mode)                                                      = 0;
-    virtual std::string     GetZoneName(unsigned int zone)                                                      = 0;
-    virtual std::string     GetLEDName(unsigned int led)                                                        = 0;
+    virtual device_type     GetDeviceType()                                                                     = 0;
 
+    /*--------------------------------------------------------------*\
+    | Zone Functions                                                 |
+    \*--------------------------------------------------------------*/
+    virtual std::string     GetZoneName(unsigned int zone)                                                      = 0;
+    virtual unsigned int    GetLEDsInZone(unsigned int zone)                                                    = 0;
+
+    /*--------------------------------------------------------------*\
+    | Mode Functions                                                 |
+    \*--------------------------------------------------------------*/
+    virtual std::string     GetModeName(unsigned int mode)                                                      = 0;
+    virtual int             GetMode()                                                                           = 0;
+    virtual void            SetMode(int mode)                                                                   = 0;
+    virtual void            SetCustomMode()                                                                     = 0;
+
+    /*--------------------------------------------------------------*\
+    | LED Functions                                                  |
+    \*--------------------------------------------------------------*/
+    virtual std::string     GetLEDName(unsigned int led)                                                        = 0;
     virtual RGBColor        GetLED(unsigned int led)                                                            = 0;
     virtual void            SetLED(unsigned int led, RGBColor color)                                            = 0;
     virtual void            SetAllLEDs(RGBColor color)                                                          = 0;
     virtual void            SetAllZoneLEDs(int zone, RGBColor color)                                            = 0;
 
-    virtual int             GetMode()                                                                           = 0;
-    virtual void            SetMode(int mode)                                                                   = 0;
-
+    /*--------------------------------------------------------------*\
+    | Serialized Description Functions                               |
+    \*--------------------------------------------------------------*/
     virtual unsigned char * GetDeviceDescription(unsigned int protocol_version)                                 = 0;
     virtual void            ReadDeviceDescription(unsigned char* data_buf, unsigned int protocol_version)       = 0;
 
@@ -280,38 +296,31 @@ public:
     virtual unsigned char * GetSingleLEDColorDescription(int led)                                               = 0;
     virtual void            SetSingleLEDColorDescription(unsigned char* data_buf)                               = 0;
 
+    virtual unsigned char * GetSegmentDescription(int zone, segment new_segment)                                = 0;
+    virtual void            SetSegmentDescription(unsigned char* data_buf)                                      = 0;
+
+    /*--------------------------------------------------------------*\
+    | Update Callback Functions                                      |
+    \*--------------------------------------------------------------*/
     virtual void            RegisterUpdateCallback(RGBControllerCallback new_callback, void * new_callback_arg) = 0;
     virtual void            UnregisterUpdateCallback(void * callback_arg)                                       = 0;
     virtual void            ClearCallbacks()                                                                    = 0;
     virtual void            SignalUpdate()                                                                      = 0;
 
+    /*--------------------------------------------------------------*\
+    | Device Update Functions                                        |
+    \*--------------------------------------------------------------*/
     virtual void            UpdateLEDs()                                                                        = 0;
-    //virtual void          UpdateZoneLEDs(int zone)                                                            = 0;
-    //virtual void          UpdateSingleLED(int led)                                                            = 0;
+    virtual void            UpdateZoneLEDs(int zone)                                                            = 0;
+    virtual void            UpdateSingleLED(int led)                                                            = 0;
 
     virtual void            UpdateMode()                                                                        = 0;
     virtual void            SaveMode()                                                                          = 0;
 
-    virtual void            DeviceCallThreadFunction()                                                          = 0;
-
     virtual void            ClearSegments(int zone)                                                             = 0;
     virtual void            AddSegment(int zone, segment new_segment)                                           = 0;
 
-    /*---------------------------------------------------------*\
-    | Functions to be implemented in device implementation      |
-    \*---------------------------------------------------------*/
-    virtual void            SetupZones()                                                                        = 0;
-
     virtual void            ResizeZone(int zone, int new_size)                                                  = 0;
-
-    virtual void            DeviceUpdateLEDs()                                                                  = 0;
-    virtual void            UpdateZoneLEDs(int zone)                                                            = 0;
-    virtual void            UpdateSingleLED(int led)                                                            = 0;
-
-    virtual void            DeviceUpdateMode()                                                                  = 0;
-    virtual void            DeviceSaveMode()                                                                    = 0;
-
-    virtual void            SetCustomMode()                                                                     = 0;
 };
 
 class RGBController : public RGBControllerInterface
@@ -339,12 +348,9 @@ public:
     RGBController();
     virtual ~RGBController();
 
-    /*---------------------------------------------------------*\
-    | Generic functions implemented in RGBController.cpp        |
-    \*---------------------------------------------------------*/
-    void                    SetupColors();
-
-    unsigned int            GetLEDsInZone(unsigned int zone);
+    /*--------------------------------------------------------------*\
+    | Controller Information                                         |
+    \*--------------------------------------------------------------*/
     std::string             GetName();
     std::string             GetVendor();
     std::string             GetDescription();
@@ -352,18 +358,34 @@ public:
     std::string             GetSerial();
     std::string             GetLocation();
 
-    std::string             GetModeName(unsigned int mode);
-    std::string             GetZoneName(unsigned int zone);
-    std::string             GetLEDName(unsigned int led);
+    device_type             GetDeviceType();
 
+    /*--------------------------------------------------------------*\
+    | Zone Functions                                                 |
+    \*--------------------------------------------------------------*/
+    std::string             GetZoneName(unsigned int zone);
+    unsigned int            GetLEDsInZone(unsigned int zone);
+
+    /*--------------------------------------------------------------*\
+    | Mode Functions                                                 |
+    \*--------------------------------------------------------------*/
+    std::string             GetModeName(unsigned int mode);
+    int                     GetMode();
+    void                    SetMode(int mode);
+    void                    SetCustomMode();
+
+    /*--------------------------------------------------------------*\
+    | LED Functions                                                  |
+    \*--------------------------------------------------------------*/
+    std::string             GetLEDName(unsigned int led);
     RGBColor                GetLED(unsigned int led);
     void                    SetLED(unsigned int led, RGBColor color);
     void                    SetAllLEDs(RGBColor color);
     void                    SetAllZoneLEDs(int zone, RGBColor color);
 
-    int                     GetMode();
-    void                    SetMode(int mode);
-
+    /*--------------------------------------------------------------*\
+    | Serialized Description Functions                               |
+    \*--------------------------------------------------------------*/
     unsigned char *         GetDeviceDescription(unsigned int protocol_version);
     void                    ReadDeviceDescription(unsigned char* data_buf, unsigned int protocol_version);
 
@@ -382,14 +404,20 @@ public:
     unsigned char *         GetSegmentDescription(int zone, segment new_segment);
     void                    SetSegmentDescription(unsigned char* data_buf);
 
+    /*--------------------------------------------------------------*\
+    | Update Callback Functions                                      |
+    \*--------------------------------------------------------------*/
     void                    RegisterUpdateCallback(RGBControllerCallback new_callback, void * new_callback_arg);
     void                    UnregisterUpdateCallback(void * callback_arg);
     void                    ClearCallbacks();
     void                    SignalUpdate();
 
+    /*--------------------------------------------------------------*\
+    | Device Update Functions                                        |
+    \*--------------------------------------------------------------*/
     void                    UpdateLEDs();
-    //void                    UpdateZoneLEDs(int zone);
-    //void                    UpdateSingleLED(int led);
+    void                    UpdateZoneLEDs(int zone);
+    void                    UpdateSingleLED(int led);
 
     void                    UpdateMode();
     void                    SaveMode();
@@ -399,21 +427,24 @@ public:
     void                    ClearSegments(int zone);
     void                    AddSegment(int zone, segment new_segment);
 
+    void                    ResizeZone(int zone, int new_size);
+
+    /*--------------------------------------------------------------*\
+    | Functions not part of interface for internal use only          |
+    \*--------------------------------------------------------------*/
+    void                    SetupColors();
+
     /*---------------------------------------------------------*\
     | Functions to be implemented in device implementation      |
     \*---------------------------------------------------------*/
-    virtual void            SetupZones()                                = 0;
-
-    virtual void            ResizeZone(int zone, int new_size)          = 0;
+    virtual void            DeviceResizeZone(int zone, int new_size)    = 0;
 
     virtual void            DeviceUpdateLEDs()                          = 0;
-    virtual void            UpdateZoneLEDs(int zone)                    = 0;
-    virtual void            UpdateSingleLED(int led)                    = 0;
+    virtual void            DeviceUpdateZoneLEDs(int zone)              = 0;
+    virtual void            DeviceUpdateSingleLED(int led)              = 0;
 
     virtual void            DeviceUpdateMode()                          = 0;
     void                    DeviceSaveMode();
-
-    void                    SetCustomMode();
 
 private:
     std::thread*            DeviceCallThread;

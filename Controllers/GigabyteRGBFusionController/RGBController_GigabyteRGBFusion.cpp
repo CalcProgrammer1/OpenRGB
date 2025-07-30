@@ -120,7 +120,7 @@ void RGBController_RGBFusion::SetupZones()
     SetupColors();
 }
 
-void RGBController_RGBFusion::ResizeZone(int /*zone*/, int /*new_size*/)
+void RGBController_RGBFusion::DeviceResizeZone(int /*zone*/, int /*new_size*/)
 {
     /*---------------------------------------------------------*\
     | This device does not support resizing zones               |
@@ -140,7 +140,7 @@ void RGBController_RGBFusion::DeviceUpdateLEDs()
     }
 }
 
-void RGBController_RGBFusion::UpdateZoneLEDs(int zone)
+void RGBController_RGBFusion::DeviceUpdateZoneLEDs(int zone)
 {
     RGBColor      color = colors[zone];
     unsigned char red   = RGBGetRValue(color);
@@ -150,9 +150,9 @@ void RGBController_RGBFusion::UpdateZoneLEDs(int zone)
     controller->SetLEDColor(zone, red, grn, blu);
 }
 
-void RGBController_RGBFusion::UpdateSingleLED(int led)
+void RGBController_RGBFusion::DeviceUpdateSingleLED(int led)
 {
-    UpdateZoneLEDs(led);
+    DeviceUpdateZoneLEDs(led);
 }
 
 int RGBController_RGBFusion::GetDeviceMode()

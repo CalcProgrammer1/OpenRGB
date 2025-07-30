@@ -248,7 +248,7 @@ void RGBController_PowerColorRedDevilV2::SetupZones()
     SetupColors();
 }
 
-void RGBController_PowerColorRedDevilV2::ResizeZone(int, int)
+void RGBController_PowerColorRedDevilV2::DeviceResizeZone(int, int)
 {
     /*---------------------------------------------------------*\
     | This device does not support resizing zones               |
@@ -300,12 +300,12 @@ void RGBController_PowerColorRedDevilV2::DeviceUpdateLEDs()
     colors_copy = colors;
 }
 
-void RGBController_PowerColorRedDevilV2::UpdateZoneLEDs(int)
+void RGBController_PowerColorRedDevilV2::DeviceUpdateZoneLEDs(int)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_PowerColorRedDevilV2::UpdateSingleLED(int)
+void RGBController_PowerColorRedDevilV2::DeviceUpdateSingleLED(int)
 {
     DeviceUpdateLEDs();
 }

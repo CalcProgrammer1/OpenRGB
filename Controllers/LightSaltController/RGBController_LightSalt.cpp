@@ -383,7 +383,7 @@ void RGBController_LightSalt::SetupZones()
     colors[colors.size() - 1] = ToRGBColor(0xFF, 0xFF, 0xFF);
 }
 
-void RGBController_LightSalt::ResizeZone(int /*zone*/, int /*new_size*/)
+void RGBController_LightSalt::DeviceResizeZone(int /*zone*/, int /*new_size*/)
 {
     /*---------------------------------------------------------*\
     | This device does not support resizing zones               |
@@ -427,12 +427,12 @@ void RGBController_LightSalt::DeviceUpdateLEDs()
     DeviceUpdateColors(false);
 }
 
-void RGBController_LightSalt::UpdateZoneLEDs(int /*zone*/)
+void RGBController_LightSalt::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_LightSalt::UpdateSingleLED(int /*led*/)
+void RGBController_LightSalt::DeviceUpdateSingleLED(int /*led*/)
 {
     DeviceUpdateLEDs();
 }
