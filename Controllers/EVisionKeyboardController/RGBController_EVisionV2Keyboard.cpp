@@ -992,7 +992,6 @@ void RGBController_EVisionV2Keyboard::DeviceUpdateMode()
     if((part == EVISION_V2_KEYBOARD_PART_KEYBOARD) && (config.mode == EVISION_V2_MODE_CUSTOM))
     {
         controller->GetLedsCustom(config.ledmode, colors);
-        SignalUpdate();
     }
 }
 
