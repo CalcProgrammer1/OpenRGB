@@ -413,8 +413,6 @@ void RGBController_ZotacV2GPU::SetupInitialValues()
     modes[active_mode].speed = zoneConfig.speed;
     modes[active_mode].brightness = zoneConfig.brightness;
     modes[active_mode].direction = zoneConfig.direction;
-
-    SignalUpdate();
 }
 
 void RGBController_ZotacV2GPU::DeviceResizeZone(int /*zone*/, int /*new_size*/)

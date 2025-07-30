@@ -13,11 +13,11 @@
 #include "SettingsManager.h"
 #include "ui_OpenRGBDevicePage.h"
 
-static void UpdateCallback(void * this_ptr)
+static void UpdateCallback(void * this_ptr, unsigned int update_reason)
 {
     OpenRGBDevicePage * this_obj = (OpenRGBDevicePage *)this_ptr;
 
-    QMetaObject::invokeMethod(this_obj, "UpdateInterface", Qt::QueuedConnection);
+    QMetaObject::invokeMethod(this_obj, "UpdateInterface", Qt::QueuedConnection, Q_ARG(unsigned int, update_reason));
 }
 
 QString OpenRGBDevicePage::ModeDescription(const mode& m)
@@ -62,11 +62,6 @@ OpenRGBDevicePage::OpenRGBDevicePage(RGBController *dev, QWidget *parent) :
     | Store device pointer                                  |
     \*-----------------------------------------------------*/
     device = dev;
-
-    /*-----------------------------------------------------*\
-    | Store initial hidden state                            |
-    \*-----------------------------------------------------*/
-    PreviouslyHidden = (device->flags & CONTROLLER_FLAG_HIDDEN);
 
     /*-----------------------------------------------------*\
     | Register update callback with the device              |
@@ -792,16 +787,31 @@ void OpenRGBDevicePage::on_DirectionBox_currentIndexChanged(int /*index*/)
     UpdateMode();
 }
 
-void OpenRGBDevicePage::UpdateInterface()
+void OpenRGBDevicePage::UpdateInterface(unsigned int update_reason)
 {
-    if((device->flags & CONTROLLER_FLAG_HIDDEN) != PreviouslyHidden)
+    switch(update_reason)
     {
-        PreviouslyHidden = (device->flags & CONTROLLER_FLAG_HIDDEN);
-        emit RefreshList();
-    }
+        case RGBCONTROLLER_UPDATE_REASON_HIDDEN:
+        case RGBCONTROLLER_UPDATE_REASON_UNHIDDEN:
+            emit RefreshList();
+            break;
 
-    //UpdateModeUi();
-    ui->DeviceViewBox->repaint();
+        case RGBCONTROLLER_UPDATE_REASON_UPDATELEDS:
+            ui->DeviceViewBox->repaint();
+            break;
+
+        case RGBCONTROLLER_UPDATE_REASON_UPDATEMODE:
+        case RGBCONTROLLER_UPDATE_REASON_SAVEMODE:
+            UpdateModeUi();
+            break;
+
+        case RGBCONTROLLER_UPDATE_REASON_ADDSEGMENT:
+        case RGBCONTROLLER_UPDATE_REASON_CLEARSEGMENTS:
+        case RGBCONTROLLER_UPDATE_REASON_RESIZEZONE:
+            UpdateModeUi();
+            ui->DeviceViewBox->repaint();
+            break;
+    }
 }
 
 void OpenRGBDevicePage::UpdateModeUi()
@@ -1643,17 +1653,7 @@ void OpenRGBDevicePage::on_EditZoneButton_clicked()
                 if(new_size >= 0)
                 {
                     /*-----------------------------------------------------*\
-                    | Update mode UI to update Zone box                     |
-                    \*-----------------------------------------------------*/
-                    UpdateModeUi();
-
-                    /*-----------------------------------------------------*\
-                    | Update interface to update Device View                |
-                    \*-----------------------------------------------------*/
-                    UpdateInterface();
-
-                    /*-----------------------------------------------------*\
-                    | Update LED box                                        |
+                    | Update Zone box                                       |
                     \*-----------------------------------------------------*/
                     on_ZoneBox_currentIndexChanged(selected_zone);
 

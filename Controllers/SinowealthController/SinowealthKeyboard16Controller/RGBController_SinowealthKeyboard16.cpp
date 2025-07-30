@@ -458,6 +458,4 @@ void RGBController_SinowealthKeyboard16::DeviceUpdateMode()
             std::fill(colors.begin(), colors.end(), ActiveMode.colors[0]);
         }
     }
-
-    SignalUpdate();
 }
