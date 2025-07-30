@@ -94,7 +94,7 @@ void RGBController_KasaSmart::SetupZones()
     SetupColors();
 }
 
-void RGBController_KasaSmart::ResizeZone(int /*zone*/, int /*new_size*/)
+void RGBController_KasaSmart::DeviceResizeZone(int /*zone*/, int /*new_size*/)
 {
     /*-------------------------------------------*\
     | This device does not support resizing zones |
@@ -115,12 +115,12 @@ void RGBController_KasaSmart::DeviceUpdateLEDs()
     controller->SetColor(red, grn, blu, type);
 }
 
-void RGBController_KasaSmart::UpdateZoneLEDs(int /*zone*/)
+void RGBController_KasaSmart::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_KasaSmart::UpdateSingleLED(int /*led*/)
+void RGBController_KasaSmart::DeviceUpdateSingleLED(int /*led*/)
 {
     DeviceUpdateLEDs();
 }

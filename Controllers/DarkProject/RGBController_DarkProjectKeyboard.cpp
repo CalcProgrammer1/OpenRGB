@@ -197,7 +197,7 @@ void RGBController_DarkProjectKeyboard::SetupZones()
     SetupColors();
 }
 
-void RGBController_DarkProjectKeyboard::ResizeZone(int /*zone*/, int /*new_size*/)
+void RGBController_DarkProjectKeyboard::DeviceResizeZone(int /*zone*/, int /*new_size*/)
 {
     /*---------------------------------------------------------*\
     | This device does not support resizing zones               |
@@ -210,7 +210,7 @@ void RGBController_DarkProjectKeyboard::DeviceUpdateLEDs()
     controller->SetLedsDirect(colors);
 }
 
-void RGBController_DarkProjectKeyboard::UpdateZoneLEDs(int zone)
+void RGBController_DarkProjectKeyboard::DeviceUpdateZoneLEDs(int zone)
 {
     std::vector<RGBColor> colour;
     for(size_t i = 0; i < zones[zone].leds_count; i++)
@@ -221,7 +221,7 @@ void RGBController_DarkProjectKeyboard::UpdateZoneLEDs(int zone)
     controller->SetLedsDirect(colour);
 }
 
-void RGBController_DarkProjectKeyboard::UpdateSingleLED(int led)
+void RGBController_DarkProjectKeyboard::DeviceUpdateSingleLED(int led)
 {
     std::vector<RGBColor> colour;
     colour.push_back(colors[led]);

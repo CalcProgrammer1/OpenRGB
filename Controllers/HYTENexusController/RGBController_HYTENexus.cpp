@@ -164,7 +164,7 @@ void RGBController_HYTENexus::SetupZones()
     SetupColors();
 }
 
-void RGBController_HYTENexus::ResizeZone(int /*zone*/, int /*new_size*/)
+void RGBController_HYTENexus::DeviceResizeZone(int /*zone*/, int /*new_size*/)
 {
     /*---------------------------------------------------------*\
     | This device does not support resizing zones               |
@@ -175,18 +175,18 @@ void RGBController_HYTENexus::DeviceUpdateLEDs()
 {
     for(unsigned int zone_idx = 0; zone_idx < zones.size(); zone_idx++)
     {
-        UpdateZoneLEDs(zone_idx);
+        DeviceUpdateZoneLEDs(zone_idx);
     }
 }
 
-void RGBController_HYTENexus::UpdateZoneLEDs(int zone)
+void RGBController_HYTENexus::DeviceUpdateZoneLEDs(int zone)
 {
     controller->LEDStreaming(zone, zones[zone].leds_count, zones[zone].colors);
 }
 
-void RGBController_HYTENexus::UpdateSingleLED(int led)
+void RGBController_HYTENexus::DeviceUpdateSingleLED(int led)
 {
-    UpdateZoneLEDs(leds[led].value);
+    DeviceUpdateZoneLEDs(leds[led].value);
 }
 
 void RGBController_HYTENexus::DeviceUpdateMode()

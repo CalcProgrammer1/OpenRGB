@@ -62,7 +62,7 @@ void RGBController_PhilipsHue::SetupZones()
     SetupColors();
 }
 
-void RGBController_PhilipsHue::ResizeZone(int /*zone*/, int /*new_size*/)
+void RGBController_PhilipsHue::DeviceResizeZone(int /*zone*/, int /*new_size*/)
 {
     /*---------------------------------------------------------*\
     | This device does not support resizing zones               |
@@ -78,12 +78,12 @@ void RGBController_PhilipsHue::DeviceUpdateLEDs()
     controller->SetColor(red, grn, blu);
 }
 
-void RGBController_PhilipsHue::UpdateZoneLEDs(int /*zone*/)
+void RGBController_PhilipsHue::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_PhilipsHue::UpdateSingleLED(int /*led*/)
+void RGBController_PhilipsHue::DeviceUpdateSingleLED(int /*led*/)
 {
     DeviceUpdateLEDs();
 }

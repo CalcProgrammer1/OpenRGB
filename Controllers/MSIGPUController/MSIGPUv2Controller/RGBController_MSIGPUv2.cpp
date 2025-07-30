@@ -344,7 +344,7 @@ void RGBController_MSIGPUv2::SetupZones()
 
 }
 
-void RGBController_MSIGPUv2::ResizeZone(int /*zone*/, int /*new_size*/)
+void RGBController_MSIGPUv2::DeviceResizeZone(int /*zone*/, int /*new_size*/)
 {
     /*---------------------------------------------------------*\
     | This device does not support resizing zones               |
@@ -465,13 +465,13 @@ void RGBController_MSIGPUv2::DeviceUpdateLEDs()
     DeviceUpdateAll(modes[active_mode]);
 }
 
-void RGBController_MSIGPUv2::UpdateZoneLEDs(int /*zone*/)
+void RGBController_MSIGPUv2::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateAll(modes[active_mode]);
 }
 
 
-void RGBController_MSIGPUv2::UpdateSingleLED(int /*led*/)
+void RGBController_MSIGPUv2::DeviceUpdateSingleLED(int /*led*/)
 {
     /*---------------------------------------------------------*\
     | This device does not support updating single LEDs         |

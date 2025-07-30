@@ -159,7 +159,7 @@ void RGBController_RoccatKoneAimo::SetupZones()
     }
 }
 
-void RGBController_RoccatKoneAimo::ResizeZone(int /*zone*/, int /*new_size*/)
+void RGBController_RoccatKoneAimo::DeviceResizeZone(int /*zone*/, int /*new_size*/)
 {
     /*---------------------------------------------------------*\
     | This device does not support resizing zones               |
@@ -181,7 +181,7 @@ void RGBController_RoccatKoneAimo::DeviceUpdateLEDs()
     controller->SendUpdate();
 }
 
-void RGBController_RoccatKoneAimo::UpdateZoneLEDs(int zone_idx)
+void RGBController_RoccatKoneAimo::DeviceUpdateZoneLEDs(int zone_idx)
 {
     /*---------------------------------------------------------*\
     | Set colors for one channel of leds                        |
@@ -193,7 +193,7 @@ void RGBController_RoccatKoneAimo::UpdateZoneLEDs(int zone_idx)
     controller->SendUpdate();
 }
 
-void RGBController_RoccatKoneAimo::UpdateSingleLED(int led_idx)
+void RGBController_RoccatKoneAimo::DeviceUpdateSingleLED(int led_idx)
 {
     /*---------------------------------------------------------*\
     | Get channel corresponding to led                          |

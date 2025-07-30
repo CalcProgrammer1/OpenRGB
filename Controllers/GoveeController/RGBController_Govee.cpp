@@ -86,7 +86,7 @@ void RGBController_Govee::SetupZones()
     SetupColors();
 }
 
-void RGBController_Govee::ResizeZone(int /*zone*/, int /*new_size*/)
+void RGBController_Govee::DeviceResizeZone(int /*zone*/, int /*new_size*/)
 {
     /*---------------------------------------------------------*\
     | This device does not support resizing zones               |
@@ -103,12 +103,12 @@ void RGBController_Govee::DeviceUpdateLEDs()
     }
 }
 
-void RGBController_Govee::UpdateZoneLEDs(int /*zone*/)
+void RGBController_Govee::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_Govee::UpdateSingleLED(int /*led*/)
+void RGBController_Govee::DeviceUpdateSingleLED(int /*led*/)
 {
     DeviceUpdateLEDs();
 }

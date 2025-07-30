@@ -206,7 +206,7 @@ void RGBController_CorsairVengeancePro::SetupZones()
     SetupColors();
 }
 
-void RGBController_CorsairVengeancePro::ResizeZone(int /*zone*/, int /*new_size*/)
+void RGBController_CorsairVengeancePro::DeviceResizeZone(int /*zone*/, int /*new_size*/)
 {
     /*---------------------------------------------------------*\
     | This device does not support resizing zones               |
@@ -227,12 +227,12 @@ void RGBController_CorsairVengeancePro::DeviceUpdateLEDs()
     controller->ApplyColors();
 }
 
-void RGBController_CorsairVengeancePro::UpdateZoneLEDs(int /*zone*/)
+void RGBController_CorsairVengeancePro::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_CorsairVengeancePro::UpdateSingleLED(int led)
+void RGBController_CorsairVengeancePro::DeviceUpdateSingleLED(int led)
 {
     RGBColor      color = colors[led];
     unsigned char red   = RGBGetRValue(color);

@@ -212,7 +212,7 @@ void RGBController_CMMMController::SetupZones()
     SetupColors();
 }
 
-void RGBController_CMMMController::ResizeZone(int /*zone*/, int /*new_size*/)
+void RGBController_CMMMController::DeviceResizeZone(int /*zone*/, int /*new_size*/)
 {
     /*---------------------------------------------------------*\
     | This device does not support resizing zones               |
@@ -239,12 +239,12 @@ void RGBController_CMMMController::DeviceUpdateLEDs()
     controller->SetLedsDirect(wheel, buttons, logo);
 }
 
-void RGBController_CMMMController::UpdateZoneLEDs(int /*zone*/)
+void RGBController_CMMMController::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_CMMMController::UpdateSingleLED(int /*led*/)
+void RGBController_CMMMController::DeviceUpdateSingleLED(int /*led*/)
 {
     DeviceUpdateLEDs();
 }

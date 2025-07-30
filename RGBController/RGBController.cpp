@@ -105,6 +105,11 @@ std::string RGBController::GetLocation()
     return(location);
 }
 
+device_type RGBController::GetDeviceType()
+{
+    return(type);
+}
+
 std::string RGBController::GetModeName(unsigned int mode)
 {
     return(modes[mode].name);
@@ -2008,6 +2013,41 @@ void RGBController::SetMode(int mode)
     UpdateMode();
 }
 
+void RGBController::SetCustomMode()
+{
+    /*-------------------------------------------------*\
+    | Search the Controller's mode list for a suitable  |
+    | per-LED custom mode in the following order:       |
+    | 1.    Direct                                      |
+    | 2.    Custom                                      |
+    | 3.    Static                                      |
+    \*-------------------------------------------------*/
+    #define NUM_CUSTOM_MODE_NAMES 3
+
+    const std::string custom_mode_names[] =
+    {
+        "Direct",
+        "Custom",
+        "Static"
+    };
+
+    for(unsigned int custom_mode_idx = 0; custom_mode_idx < NUM_CUSTOM_MODE_NAMES; custom_mode_idx++)
+    {
+        for(unsigned int mode_idx = 0; mode_idx < modes.size(); mode_idx++)
+        {
+            if((modes[mode_idx].name == custom_mode_names[custom_mode_idx])
+            && ((modes[mode_idx].color_mode == MODE_COLORS_PER_LED)
+             || (modes[mode_idx].color_mode == MODE_COLORS_MODE_SPECIFIC)))
+            {
+                active_mode = mode_idx;
+                return;
+            }
+        }
+    }
+
+    UpdateMode();
+}
+
 void RGBController::RegisterUpdateCallback(RGBControllerCallback new_callback, void * new_callback_arg)
 {
     UpdateCallbacks.push_back(new_callback);
@@ -2048,11 +2088,22 @@ void RGBController::SignalUpdate()
 
     UpdateMutex.unlock();
 }
+
 void RGBController::UpdateLEDs()
 {
     CallFlag_UpdateLEDs = true;
 
     SignalUpdate();
+}
+
+void RGBController::UpdateZoneLEDs(int zone)
+{
+    DeviceUpdateZoneLEDs(zone);
+}
+
+void RGBController::UpdateSingleLED(int led)
+{
+    DeviceUpdateSingleLED(led);
 }
 
 void RGBController::UpdateMode()
@@ -2068,39 +2119,6 @@ void RGBController::SaveMode()
 void RGBController::DeviceUpdateLEDs()
 {
 
-}
-
-void RGBController::SetCustomMode()
-{
-    /*-------------------------------------------------*\
-    | Search the Controller's mode list for a suitable  |
-    | per-LED custom mode in the following order:       |
-    | 1.    Direct                                      |
-    | 2.    Custom                                      |
-    | 3.    Static                                      |
-    \*-------------------------------------------------*/
-    #define NUM_CUSTOM_MODE_NAMES 3
-
-    const std::string custom_mode_names[] =
-    {
-        "Direct",
-        "Custom",
-        "Static"
-    };
-
-    for(unsigned int custom_mode_idx = 0; custom_mode_idx < NUM_CUSTOM_MODE_NAMES; custom_mode_idx++)
-    {
-        for(unsigned int mode_idx = 0; mode_idx < modes.size(); mode_idx++)
-        {
-            if((modes[mode_idx].name == custom_mode_names[custom_mode_idx])
-            && ((modes[mode_idx].color_mode == MODE_COLORS_PER_LED)
-             || (modes[mode_idx].color_mode == MODE_COLORS_MODE_SPECIFIC)))
-            {
-                active_mode = mode_idx;
-                return;
-            }
-        }
-    }
 }
 
 void RGBController::DeviceUpdateMode()
@@ -2163,6 +2181,11 @@ void RGBController::ClearSegments(int zone)
 void RGBController::AddSegment(int zone, segment new_segment)
 {
     zones[zone].segments.push_back(new_segment);
+}
+
+void RGBController::ResizeZone(int zone, int new_size)
+{
+    DeviceResizeZone(zone, new_size);
 }
 
 std::string device_type_to_str(device_type type)

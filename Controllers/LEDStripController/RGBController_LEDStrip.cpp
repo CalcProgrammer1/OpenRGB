@@ -69,7 +69,7 @@ void RGBController_LEDStrip::SetupZones()
     SetupColors();
 }
 
-void RGBController_LEDStrip::ResizeZone(int /*zone*/, int /*new_size*/)
+void RGBController_LEDStrip::DeviceResizeZone(int /*zone*/, int /*new_size*/)
 {
     /*---------------------------------------------------------*\
     | This device does not support resizing zones               |
@@ -81,12 +81,12 @@ void RGBController_LEDStrip::DeviceUpdateLEDs()
     controller->SetLEDs(colors);
 }
 
-void RGBController_LEDStrip::UpdateZoneLEDs(int /*zone*/)
+void RGBController_LEDStrip::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     controller->SetLEDs(colors);
 }
 
-void RGBController_LEDStrip::UpdateSingleLED(int /*led*/)
+void RGBController_LEDStrip::DeviceUpdateSingleLED(int /*led*/)
 {
     controller->SetLEDs(colors);
 }

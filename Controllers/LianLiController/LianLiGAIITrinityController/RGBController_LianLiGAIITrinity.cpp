@@ -311,7 +311,7 @@ void RGBController_LianLiGAIITrinity::SetupZones()
     zones[0].colors[1] = ToRGBColor(0, 0, 255);
 }
 
-void RGBController_LianLiGAIITrinity::ResizeZone(int /* zone */, int /* new_size */)
+void RGBController_LianLiGAIITrinity::DeviceResizeZone(int /* zone */, int /* new_size */)
 {
     /*---------------------------------------------------------*\
     | This device does not support resizing zones               |
@@ -402,12 +402,12 @@ void RGBController_LianLiGAIITrinity::DeviceUpdateLEDs()
     }
 }
 
-void RGBController_LianLiGAIITrinity::UpdateZoneLEDs(int /* zone */)
+void RGBController_LianLiGAIITrinity::DeviceUpdateZoneLEDs(int /* zone */)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_LianLiGAIITrinity::UpdateSingleLED(int /* led */)
+void RGBController_LianLiGAIITrinity::DeviceUpdateSingleLED(int /* led */)
 {
     DeviceUpdateLEDs();
 }

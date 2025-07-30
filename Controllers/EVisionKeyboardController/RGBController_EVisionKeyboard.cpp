@@ -345,7 +345,7 @@ void RGBController_EVisionKeyboard::SetupZones()
     SetupColors();
 }
 
-void RGBController_EVisionKeyboard::ResizeZone(int /*zone*/, int /*new_size*/)
+void RGBController_EVisionKeyboard::DeviceResizeZone(int /*zone*/, int /*new_size*/)
 {
     /*---------------------------------------------------------*\
     | This device does not support resizing zones               |
@@ -370,12 +370,12 @@ void RGBController_EVisionKeyboard::DeviceUpdateLEDs()
                     );
 }
 
-void RGBController_EVisionKeyboard::UpdateZoneLEDs(int /*zone*/)
+void RGBController_EVisionKeyboard::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_EVisionKeyboard::UpdateSingleLED(int /*led*/)
+void RGBController_EVisionKeyboard::DeviceUpdateSingleLED(int /*led*/)
 {
     DeviceUpdateLEDs();
 }

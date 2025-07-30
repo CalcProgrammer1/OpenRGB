@@ -395,7 +395,7 @@ void RGBController_WootingKeyboard::SetupZones()
     SetupColors();
 }
 
-void RGBController_WootingKeyboard::ResizeZone(int /*zone*/, int /*new_size*/)
+void RGBController_WootingKeyboard::DeviceResizeZone(int /*zone*/, int /*new_size*/)
 {
     /*---------------------------------------------------------*\
     | This device does not support resizing zones               |
@@ -407,12 +407,12 @@ void RGBController_WootingKeyboard::DeviceUpdateLEDs()
     controller->SendDirect(&colors[0], (uint8_t)colors.size());
 }
 
-void RGBController_WootingKeyboard::UpdateZoneLEDs(int /*zone*/)
+void RGBController_WootingKeyboard::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_WootingKeyboard::UpdateSingleLED(int /*led*/)
+void RGBController_WootingKeyboard::DeviceUpdateSingleLED(int /*led*/)
 {
     DeviceUpdateLEDs();
 }

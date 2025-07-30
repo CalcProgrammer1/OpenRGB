@@ -168,7 +168,7 @@ void RGBController_SapphireNitroGlowV1::ReadConfiguration()
     modes[(unsigned int)active_mode].brightness = controller->GetBrightness();
 }
 
-void RGBController_SapphireNitroGlowV1::ResizeZone(int /*zone*/, int /*new_size*/)
+void RGBController_SapphireNitroGlowV1::DeviceResizeZone(int /*zone*/, int /*new_size*/)
 {
     /*---------------------------------------------------------*\
     | This device does not support resizing zones               |
@@ -185,12 +185,12 @@ void RGBController_SapphireNitroGlowV1::DeviceUpdateLEDs()
     controller->SetColor(red, grn, blu);
 }
 
-void RGBController_SapphireNitroGlowV1::UpdateZoneLEDs(int /*zone*/)
+void RGBController_SapphireNitroGlowV1::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_SapphireNitroGlowV1::UpdateSingleLED(int /*led*/)
+void RGBController_SapphireNitroGlowV1::DeviceUpdateSingleLED(int /*led*/)
 {
     DeviceUpdateLEDs();
 }

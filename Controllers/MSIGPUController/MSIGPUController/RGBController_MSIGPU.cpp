@@ -374,7 +374,7 @@ void RGBController_MSIGPU::SetupZones()
     colors[2] =  ToRGBColor(r3, g3, b3);
 }
 
-void RGBController_MSIGPU::ResizeZone(int /*zone*/, int /*new_size*/)
+void RGBController_MSIGPU::DeviceResizeZone(int /*zone*/, int /*new_size*/)
 {
     /*---------------------------------------------------------*\
     | This device does not support resizing zones               |
@@ -413,12 +413,12 @@ void RGBController_MSIGPU::DeviceUpdateLEDs()
     }
 }
 
-void RGBController_MSIGPU::UpdateZoneLEDs(int /*zone*/)
+void RGBController_MSIGPU::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_MSIGPU::UpdateSingleLED(int /*led*/)
+void RGBController_MSIGPU::DeviceUpdateSingleLED(int /*led*/)
 {
     DeviceUpdateLEDs();
 }

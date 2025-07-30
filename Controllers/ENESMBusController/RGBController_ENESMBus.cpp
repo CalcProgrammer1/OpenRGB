@@ -307,7 +307,7 @@ void RGBController_ENESMBus::DeviceUpdateLEDs()
 
 }
 
-void RGBController_ENESMBus::UpdateZoneLEDs(int zone)
+void RGBController_ENESMBus::DeviceUpdateZoneLEDs(int zone)
 {
     for(std::size_t led_idx = 0; led_idx < zones[zone].leds_count; led_idx++)
     {
@@ -328,7 +328,7 @@ void RGBController_ENESMBus::UpdateZoneLEDs(int zone)
     }
 }
 
-void RGBController_ENESMBus::UpdateSingleLED(int led)
+void RGBController_ENESMBus::DeviceUpdateSingleLED(int led)
 {
     RGBColor color    = colors[led];
     unsigned char red = RGBGetRValue(color);
@@ -452,7 +452,7 @@ void RGBController_ENESMBus::SetupZones()
     SetupColors();
 }
 
-void RGBController_ENESMBus::ResizeZone(int /*zone*/, int /*new_size*/)
+void RGBController_ENESMBus::DeviceResizeZone(int /*zone*/, int /*new_size*/)
 {
     /*---------------------------------------------------------*\
     | This device does not support resizing zones               |

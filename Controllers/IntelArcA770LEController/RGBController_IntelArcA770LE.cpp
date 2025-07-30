@@ -158,7 +158,7 @@ void RGBController_IntelArcA770LE::SetupZones()
     SetupColors();
 }
 
-void RGBController_IntelArcA770LE::ResizeZone(int /*zone*/, int /*new_size*/)
+void RGBController_IntelArcA770LE::DeviceResizeZone(int /*zone*/, int /*new_size*/)
 {
     /*---------------------------------------------------------*\
     | This device does not support resizing zones               |
@@ -191,12 +191,12 @@ void RGBController_IntelArcA770LE::DeviceUpdateLEDs()
     }
 }
 
-void RGBController_IntelArcA770LE::UpdateZoneLEDs(int /*zone*/)
+void RGBController_IntelArcA770LE::DeviceUpdateZoneLEDs(int /*zone*/)
 {
 
 }
 
-void RGBController_IntelArcA770LE::UpdateSingleLED(int /*led*/)
+void RGBController_IntelArcA770LE::DeviceUpdateSingleLED(int /*led*/)
 {
 }
 

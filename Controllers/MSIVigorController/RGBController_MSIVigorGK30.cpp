@@ -164,7 +164,7 @@ void RGBController_MSIVigorGK30::SetupZones()
     SetupColors();
 }
 
-void RGBController_MSIVigorGK30::ResizeZone(int /*zone*/, int /*new_size*/)
+void RGBController_MSIVigorGK30::DeviceResizeZone(int /*zone*/, int /*new_size*/)
 {
     /*---------------------------------------------------------*\
     | This device does not support resizing zones               |
@@ -173,15 +173,15 @@ void RGBController_MSIVigorGK30::ResizeZone(int /*zone*/, int /*new_size*/)
 
 void RGBController_MSIVigorGK30::DeviceUpdateLEDs()
 {
-    UpdateSingleLED(0);
+    DeviceUpdateSingleLED(0);
 }
 
-void RGBController_MSIVigorGK30::UpdateZoneLEDs(int /*zone*/)
+void RGBController_MSIVigorGK30::DeviceUpdateZoneLEDs(int /*zone*/)
 {
-    UpdateSingleLED(0);
+    DeviceUpdateSingleLED(0);
 }
 
-void RGBController_MSIVigorGK30::UpdateSingleLED(int /*led*/)
+void RGBController_MSIVigorGK30::DeviceUpdateSingleLED(int /*led*/)
 {
     const mode& active = modes[active_mode];
 

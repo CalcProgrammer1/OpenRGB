@@ -109,7 +109,7 @@ void RGBController_ColorfulTuringGPU::SetupZones()
     SetupColors();
 }
 
-void RGBController_ColorfulTuringGPU::ResizeZone(int /*zone*/, int /*new_size*/)
+void RGBController_ColorfulTuringGPU::DeviceResizeZone(int /*zone*/, int /*new_size*/)
 {
 
 }
@@ -138,12 +138,12 @@ void RGBController_ColorfulTuringGPU::DeviceUpdateLEDs()
     }
 }
 
-void RGBController_ColorfulTuringGPU::UpdateZoneLEDs(int /*zone*/)
+void RGBController_ColorfulTuringGPU::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_ColorfulTuringGPU::UpdateSingleLED(int /*led*/)
+void RGBController_ColorfulTuringGPU::DeviceUpdateSingleLED(int /*led*/)
 {
     DeviceUpdateLEDs();
 }

@@ -135,7 +135,7 @@ void RGBController_GalaxGPUv1::SetupZones()
     colors[0] = ToRGBColor(red, grn, blu);
 }
 
-void RGBController_GalaxGPUv1::ResizeZone(int /*zone*/, int /*new_size*/)
+void RGBController_GalaxGPUv1::DeviceResizeZone(int /*zone*/, int /*new_size*/)
 {
     /*---------------------------------------------------------*\
     | This device does not support resizing zones               |
@@ -161,12 +161,12 @@ void RGBController_GalaxGPUv1::DeviceUpdateLEDs()
     }
 }
 
-void RGBController_GalaxGPUv1::UpdateZoneLEDs(int /*zone*/)
+void RGBController_GalaxGPUv1::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_GalaxGPUv1::UpdateSingleLED(int /*led*/)
+void RGBController_GalaxGPUv1::DeviceUpdateSingleLED(int /*led*/)
 {
     DeviceUpdateLEDs();
 }

@@ -31,11 +31,11 @@ public:
     ~RGBController_QMKOpenRGBRev9();
 
     void                                    SetupZones();
-    void                                    ResizeZone(int zone, int new_size);
+    void                                    DeviceResizeZone(int zone, int new_size);
 
     void                                    DeviceUpdateLEDs();
-    void                                    UpdateZoneLEDs(int zone);
-    void                                    UpdateSingleLED(int led);
+    void                                    DeviceUpdateZoneLEDs(int zone);
+    void                                    DeviceUpdateSingleLED(int led);
 
     void                                    DeviceUpdateMode();
 

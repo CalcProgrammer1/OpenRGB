@@ -128,7 +128,7 @@ void RGBController_ZotacTuringGPU::SetupInitialValues()
     SignalUpdate();
 }
 
-void RGBController_ZotacTuringGPU::ResizeZone(int /*zone*/, int /*new_size*/)
+void RGBController_ZotacTuringGPU::DeviceResizeZone(int /*zone*/, int /*new_size*/)
 {
     /*---------------------------------------------------------*\
     | This device does not support resizing zones               |
@@ -140,12 +140,12 @@ void RGBController_ZotacTuringGPU::DeviceUpdateLEDs()
     DeviceUpdateMode();
 }
 
-void RGBController_ZotacTuringGPU::UpdateZoneLEDs(int /*zone*/)
+void RGBController_ZotacTuringGPU::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateMode();
 }
 
-void RGBController_ZotacTuringGPU::UpdateSingleLED(int /*led*/)
+void RGBController_ZotacTuringGPU::DeviceUpdateSingleLED(int /*led*/)
 {
     DeviceUpdateMode();
 }

@@ -167,7 +167,7 @@ void RGBController_MSIMysticLight112::SetupZones()
     }
 }
 
-void RGBController_MSIMysticLight112::ResizeZone
+void RGBController_MSIMysticLight112::DeviceResizeZone
     (
     int /*zone*/,
     int /*new_size*/
@@ -187,7 +187,7 @@ void RGBController_MSIMysticLight112::DeviceUpdateLEDs()
     controller->Update((modes[active_mode].flags & MODE_FLAG_AUTOMATIC_SAVE) != 0);
 }
 
-void RGBController_MSIMysticLight112::UpdateZoneLEDs
+void RGBController_MSIMysticLight112::DeviceUpdateZoneLEDs
     (
     int zone
     )
@@ -199,7 +199,7 @@ void RGBController_MSIMysticLight112::UpdateZoneLEDs
     controller->Update((modes[active_mode].flags & MODE_FLAG_AUTOMATIC_SAVE) != 0);
 }
 
-void RGBController_MSIMysticLight112::UpdateSingleLED
+void RGBController_MSIMysticLight112::DeviceUpdateSingleLED
     (
     int led
     )

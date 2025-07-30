@@ -355,7 +355,7 @@ void RGBController_CherryKeyboard::SetupZones()
     SetupColors();
 }
 
-void RGBController_CherryKeyboard::ResizeZone(int /*zone*/, int /*new_size*/)
+void RGBController_CherryKeyboard::DeviceResizeZone(int /*zone*/, int /*new_size*/)
 {
     /*---------------------------------------------------------*\
     | This device does not support resizing zones               |
@@ -380,12 +380,12 @@ void RGBController_CherryKeyboard::DeviceUpdateLEDs()
                     );
 }
 
-void RGBController_CherryKeyboard::UpdateZoneLEDs(int /*zone*/)
+void RGBController_CherryKeyboard::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_CherryKeyboard::UpdateSingleLED(int /*led*/)
+void RGBController_CherryKeyboard::DeviceUpdateSingleLED(int /*led*/)
 {
     DeviceUpdateLEDs();
 }

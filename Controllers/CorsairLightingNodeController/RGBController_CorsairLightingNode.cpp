@@ -282,7 +282,7 @@ void RGBController_CorsairLightingNode::SetupZones()
     SetupColors();
 }
 
-void RGBController_CorsairLightingNode::ResizeZone(int zone, int new_size)
+void RGBController_CorsairLightingNode::DeviceResizeZone(int zone, int new_size)
 {
     if((size_t) zone >= zones.size())
     {
@@ -305,12 +305,12 @@ void RGBController_CorsairLightingNode::DeviceUpdateLEDs()
     }
 }
 
-void RGBController_CorsairLightingNode::UpdateZoneLEDs(int zone)
+void RGBController_CorsairLightingNode::DeviceUpdateZoneLEDs(int zone)
 {
     controller->SetChannelLEDs(zone, zones[zone].colors, zones[zone].leds_count);
 }
 
-void RGBController_CorsairLightingNode::UpdateSingleLED(int led)
+void RGBController_CorsairLightingNode::DeviceUpdateSingleLED(int led)
 {
     unsigned int channel = leds_channel[led];
 

@@ -214,7 +214,7 @@ void RGBController_RedDevilGPU::SetupZones()
     SetupColors();
 }
 
-void RGBController_RedDevilGPU::ResizeZone(int /*zone*/, int /*new_size*/)
+void RGBController_RedDevilGPU::DeviceResizeZone(int /*zone*/, int /*new_size*/)
 {
     /*---------------------------------------------------------*\
     | This device does not support resizing zones               |
@@ -226,12 +226,12 @@ void RGBController_RedDevilGPU::DeviceUpdateLEDs()
     controller->SetLEDColorAll(colors[0]);
 }
 
-void RGBController_RedDevilGPU::UpdateZoneLEDs(int /*zone*/)
+void RGBController_RedDevilGPU::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_RedDevilGPU::UpdateSingleLED(int led)
+void RGBController_RedDevilGPU::DeviceUpdateSingleLED(int led)
 {
     controller->SetLEDColor(led, colors[led]);
 }

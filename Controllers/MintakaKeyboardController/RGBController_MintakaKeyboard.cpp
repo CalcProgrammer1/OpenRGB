@@ -295,7 +295,7 @@ void RGBController_MintakaKeyboard::SetupZones()
     SetupColors();
 }
 
-void RGBController_MintakaKeyboard::ResizeZone(int /*zone*/, int /*new_size*/)
+void RGBController_MintakaKeyboard::DeviceResizeZone(int /*zone*/, int /*new_size*/)
 {
     /*---------------------------------------------------------*\
     | This device does not support resizing zones               |
@@ -304,20 +304,20 @@ void RGBController_MintakaKeyboard::ResizeZone(int /*zone*/, int /*new_size*/)
 
 void RGBController_MintakaKeyboard::DeviceUpdateLEDs()
 {
-    UpdateZoneLEDs(0);
+    DeviceUpdateZoneLEDs(0);
 }
 
-void RGBController_MintakaKeyboard::UpdateZoneLEDs(int /*zone*/)
+void RGBController_MintakaKeyboard::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     controller->SetMode(modes, active_mode, colors);
 }
 
-void RGBController_MintakaKeyboard::UpdateSingleLED(int led)
+void RGBController_MintakaKeyboard::DeviceUpdateSingleLED(int led)
 {
-    UpdateZoneLEDs(led);
+    DeviceUpdateZoneLEDs(led);
 }
 
 void RGBController_MintakaKeyboard::DeviceUpdateMode()
 {
-    UpdateZoneLEDs(0);
+    DeviceUpdateZoneLEDs(0);
 }

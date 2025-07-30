@@ -92,7 +92,7 @@ void RGBController_NZXTMouse::SetupZones()
     SetupColors();
 }
 
-void RGBController_NZXTMouse::ResizeZone(int /*zone*/, int /*new_size*/)
+void RGBController_NZXTMouse::DeviceResizeZone(int /*zone*/, int /*new_size*/)
 {
 
 }
@@ -102,12 +102,12 @@ void RGBController_NZXTMouse::DeviceUpdateLEDs()
 controller->SetLEDs(&colors[0]);
 }
 
-void RGBController_NZXTMouse::UpdateZoneLEDs(int /*zone*/)
+void RGBController_NZXTMouse::DeviceUpdateZoneLEDs(int /*zone*/)
 {
 DeviceUpdateLEDs();
 }
 
-void RGBController_NZXTMouse::UpdateSingleLED(int /*led*/)
+void RGBController_NZXTMouse::DeviceUpdateSingleLED(int /*led*/)
 {
 DeviceUpdateLEDs();
 }

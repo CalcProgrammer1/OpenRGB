@@ -302,7 +302,7 @@ void RGBController_LogitechG815::SetupZones()
     SetupColors();
 }
 
-void RGBController_LogitechG815::ResizeZone(int /*zone*/, int /*new_size*/)
+void RGBController_LogitechG815::DeviceResizeZone(int /*zone*/, int /*new_size*/)
 {
     /*---------------------------------------------------------*\
     | This device does not support resizing zones               |
@@ -490,12 +490,12 @@ void RGBController_LogitechG815::DeviceUpdateLEDs()
     }
 }
 
-void RGBController_LogitechG815::UpdateZoneLEDs(int /*zone*/)
+void RGBController_LogitechG815::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_LogitechG815::UpdateSingleLED(int /*led*/)
+void RGBController_LogitechG815::DeviceUpdateSingleLED(int /*led*/)
 {
     DeviceUpdateLEDs();
 }

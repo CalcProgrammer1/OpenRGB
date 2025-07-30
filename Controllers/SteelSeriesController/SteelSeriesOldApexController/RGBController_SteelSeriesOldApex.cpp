@@ -124,7 +124,7 @@ void RGBController_SteelSeriesOldApex::SetupZones()
     SetupColors();
 }
 
-void RGBController_SteelSeriesOldApex::ResizeZone(int /*zone*/, int /*new_size*/)
+void RGBController_SteelSeriesOldApex::DeviceResizeZone(int /*zone*/, int /*new_size*/)
 {
     /*---------------------------------------------------------*\
     | This device does not support resizing zones               |
@@ -168,7 +168,7 @@ void RGBController_SteelSeriesOldApex::DeviceUpdateLEDs()
     controller->SetColorDetailed(qwerty, tenkey, functionkey, mxkey, logo);
 }
 
-void RGBController_SteelSeriesOldApex::UpdateZoneLEDs(int /*zone*/)
+void RGBController_SteelSeriesOldApex::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     // updating for one zone is pointless,
     // all zones have to be blasted anyway
@@ -177,7 +177,7 @@ void RGBController_SteelSeriesOldApex::UpdateZoneLEDs(int /*zone*/)
 }
 
 
-void RGBController_SteelSeriesOldApex::UpdateSingleLED(int /*led*/)
+void RGBController_SteelSeriesOldApex::DeviceUpdateSingleLED(int /*led*/)
 {
     // Each zone is one LED, however
     // updating for one zone is pointless,

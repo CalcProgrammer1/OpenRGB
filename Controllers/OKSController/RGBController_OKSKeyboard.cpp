@@ -233,7 +233,7 @@ void RGBController_OKSKeyboard::SetupZones()
     SetupColors();
 }
 
-void RGBController_OKSKeyboard::ResizeZone(int /*zone*/, int /*new_size*/)
+void RGBController_OKSKeyboard::DeviceResizeZone(int /*zone*/, int /*new_size*/)
 {
     /*---------------------------------------------------------*\
     | This device does not support resizing zones               |
@@ -271,14 +271,14 @@ void RGBController_OKSKeyboard::DeviceUpdateLEDs()
     controller->SendColors(colordata, (unsigned int)colors.size() * 3);
 }
 
-void RGBController_OKSKeyboard::UpdateZoneLEDs(int /*zone*/)
+void RGBController_OKSKeyboard::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_OKSKeyboard::UpdateSingleLED(int led)
+void RGBController_OKSKeyboard::DeviceUpdateSingleLED(int led)
 {
-    UpdateZoneLEDs(led);
+    DeviceUpdateZoneLEDs(led);
 }
 
 void RGBController_OKSKeyboard::DeviceUpdateMode()

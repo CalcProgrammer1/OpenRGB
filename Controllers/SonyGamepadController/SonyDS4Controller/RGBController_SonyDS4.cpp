@@ -75,7 +75,7 @@ void RGBController_SonyDS4::SetupZones()
     SetupColors();
 }
 
-void RGBController_SonyDS4::ResizeZone(int /*zone*/, int /*new_size*/)
+void RGBController_SonyDS4::DeviceResizeZone(int /*zone*/, int /*new_size*/)
 {
     /*---------------------------------------------------------*\
     | This device does not support resizing zones               |
@@ -90,12 +90,12 @@ void RGBController_SonyDS4::DeviceUpdateLEDs()
     controller->SetColors(red, green, blue);
 }
 
-void RGBController_SonyDS4::UpdateZoneLEDs(int /*zone*/)
+void RGBController_SonyDS4::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_SonyDS4::UpdateSingleLED(int /*led*/)
+void RGBController_SonyDS4::DeviceUpdateSingleLED(int /*led*/)
 {
     DeviceUpdateLEDs();
 }

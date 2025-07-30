@@ -118,7 +118,7 @@ void RGBController_GainwardGPUv2::SetupZones()
     colors[0] =  ToRGBColor(red, grn, blu);
 }
 
-void RGBController_GainwardGPUv2::ResizeZone(int /*zone*/, int /*new_size*/)
+void RGBController_GainwardGPUv2::DeviceResizeZone(int /*zone*/, int /*new_size*/)
 {
     /*---------------------------------------------------------*\
     | This device does not support resizing zones               |
@@ -138,12 +138,12 @@ void RGBController_GainwardGPUv2::DeviceUpdateLEDs()
     }
 }
 
-void RGBController_GainwardGPUv2::UpdateZoneLEDs(int /*zone*/)
+void RGBController_GainwardGPUv2::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_GainwardGPUv2::UpdateSingleLED(int /*led*/)
+void RGBController_GainwardGPUv2::DeviceUpdateSingleLED(int /*led*/)
 {
     DeviceUpdateLEDs();
 }

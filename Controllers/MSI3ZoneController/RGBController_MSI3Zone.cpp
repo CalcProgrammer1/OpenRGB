@@ -93,7 +93,7 @@ void RGBController_MSI3Zone::SetupZones()
     SetupColors();
 }
 
-void RGBController_MSI3Zone::ResizeZone(int /*zone*/, int /*new_size*/)
+void RGBController_MSI3Zone::DeviceResizeZone(int /*zone*/, int /*new_size*/)
 {
     /*---------------------------------------------------------*\
     | This device does not support resizing zones               |
@@ -105,12 +105,12 @@ void RGBController_MSI3Zone::DeviceUpdateLEDs()
     controller->SetLEDs(colors);
 }
 
-void RGBController_MSI3Zone::UpdateZoneLEDs(int /*zone*/)
+void RGBController_MSI3Zone::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     controller->SetLEDs(colors);
 }
 
-void RGBController_MSI3Zone::UpdateSingleLED(int /*led*/)
+void RGBController_MSI3Zone::DeviceUpdateSingleLED(int /*led*/)
 {
     controller->SetLEDs(colors);
 }

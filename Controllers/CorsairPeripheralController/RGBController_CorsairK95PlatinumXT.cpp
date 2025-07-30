@@ -333,7 +333,7 @@ void RGBController_CorsairK95PlatinumXT::SetupZones()
     SetupColors();
 }
 
-void RGBController_CorsairK95PlatinumXT::ResizeZone(int /*zone*/, int /*new_size*/)
+void RGBController_CorsairK95PlatinumXT::DeviceResizeZone(int /*zone*/, int /*new_size*/)
 {
     /*---------------------------------------------------------*\
     | This device does not support resizing zones               |
@@ -345,12 +345,12 @@ void RGBController_CorsairK95PlatinumXT::DeviceUpdateLEDs()
     controller->SendDirect(colors, k95_platinum_xt_leds_names_and_positions);
 }
 
-void RGBController_CorsairK95PlatinumXT::UpdateZoneLEDs(int /*zone*/)
+void RGBController_CorsairK95PlatinumXT::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_CorsairK95PlatinumXT::UpdateSingleLED(int /*led*/)
+void RGBController_CorsairK95PlatinumXT::DeviceUpdateSingleLED(int /*led*/)
 {
     DeviceUpdateLEDs();
 }

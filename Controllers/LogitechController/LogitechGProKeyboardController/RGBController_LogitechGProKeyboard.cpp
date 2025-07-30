@@ -275,7 +275,7 @@ void RGBController_LogitechGProKeyboard::SetupZones()
     SetupColors();
 }
 
-void RGBController_LogitechGProKeyboard::ResizeZone(int /*zone*/, int /*new_size*/)
+void RGBController_LogitechGProKeyboard::DeviceResizeZone(int /*zone*/, int /*new_size*/)
 {
     /*---------------------------------------------------------*\
     | This device does not support resizing zones               |
@@ -329,12 +329,12 @@ void RGBController_LogitechGProKeyboard::DeviceUpdateLEDs()
     controller->Commit();
 }
 
-void RGBController_LogitechGProKeyboard::UpdateZoneLEDs(int /*zone*/)
+void RGBController_LogitechGProKeyboard::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_LogitechGProKeyboard::UpdateSingleLED(int led)
+void RGBController_LogitechGProKeyboard::DeviceUpdateSingleLED(int led)
 {
     unsigned char frame[4];
     unsigned char zone;

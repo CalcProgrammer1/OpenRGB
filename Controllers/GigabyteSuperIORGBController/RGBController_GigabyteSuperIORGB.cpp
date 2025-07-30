@@ -155,7 +155,7 @@ void RGBController_GigabyteSuperIORGB::SetupZones()
     SetupColors();
 }
 
-void RGBController_GigabyteSuperIORGB::ResizeZone(int /*zone*/, int /*new_size*/)
+void RGBController_GigabyteSuperIORGB::DeviceResizeZone(int /*zone*/, int /*new_size*/)
 {
 
 }
@@ -170,12 +170,12 @@ void RGBController_GigabyteSuperIORGB::DeviceUpdateLEDs()
     controller->SetColor(red, grn, blu);
 }
 
-void RGBController_GigabyteSuperIORGB::UpdateZoneLEDs(int /*zone*/)
+void RGBController_GigabyteSuperIORGB::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_GigabyteSuperIORGB::UpdateSingleLED(int /*led*/)
+void RGBController_GigabyteSuperIORGB::DeviceUpdateSingleLED(int /*led*/)
 {
     DeviceUpdateLEDs();
 }

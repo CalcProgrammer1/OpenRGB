@@ -263,7 +263,7 @@ void RGBController_RGBFusion2BlackwellGPU::SetupZones()
     SetupColors();
 }
 
-void RGBController_RGBFusion2BlackwellGPU::ResizeZone(int /*zone*/, int /*new_size*/)
+void RGBController_RGBFusion2BlackwellGPU::DeviceResizeZone(int /*zone*/, int /*new_size*/)
 {
     /*---------------------------------------------------------*\
     | This device does not support resizing zones               |
@@ -285,7 +285,7 @@ void RGBController_RGBFusion2BlackwellGPU::DeviceUpdateLEDs()
     switch(gpu_layout) // replicating GCC that sends more packets even when there is less zones
     {
         case RGB_FUSION2_BLACKWELL_GPU_SINGLE_ZONE: gpu_zones = 1; break;
-        case RGB_FUSION2_BLACKWELL_GPU_GAMING_LAYOUT: gpu_zones = 6; break; 
+        case RGB_FUSION2_BLACKWELL_GPU_GAMING_LAYOUT: gpu_zones = 6; break;
         case RGB_FUSION2_BLACKWELL_GPU_WATERFORCE_LAYOUT: gpu_zones = 3; break;
         default: LOG_TRACE("[%s] Invalid GPU layout (%d) when updating LEDs.", name.c_str(), gpu_layout); return; // should not happen
     }
@@ -304,12 +304,12 @@ void RGBController_RGBFusion2BlackwellGPU::DeviceUpdateLEDs()
     }
 }
 
-void RGBController_RGBFusion2BlackwellGPU::UpdateZoneLEDs(int /*zone*/)
+void RGBController_RGBFusion2BlackwellGPU::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_RGBFusion2BlackwellGPU::UpdateSingleLED(int /*led*/)
+void RGBController_RGBFusion2BlackwellGPU::DeviceUpdateSingleLED(int /*led*/)
 {
     DeviceUpdateLEDs();
 }

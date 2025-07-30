@@ -65,7 +65,7 @@ void RGBController_ColorfulGPU::SetupZones()
     SetupColors();
 }
 
-void RGBController_ColorfulGPU::ResizeZone(int /*zone*/, int /*new_size*/)
+void RGBController_ColorfulGPU::DeviceResizeZone(int /*zone*/, int /*new_size*/)
 {
 
 }
@@ -75,12 +75,12 @@ void RGBController_ColorfulGPU::DeviceUpdateLEDs()
     controller->SetDirect(colors[0]);
 }
 
-void RGBController_ColorfulGPU::UpdateZoneLEDs(int /*zone*/)
+void RGBController_ColorfulGPU::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_ColorfulGPU::UpdateSingleLED(int /*led*/)
+void RGBController_ColorfulGPU::DeviceUpdateSingleLED(int /*led*/)
 {
     DeviceUpdateLEDs();
 }

@@ -96,7 +96,7 @@ void RGBController_AlienwareMonitor::SetupZones()
     SetupColors();
 }
 
-void RGBController_AlienwareMonitor::ResizeZone(int /*zone*/, int /*new_size*/)
+void RGBController_AlienwareMonitor::DeviceResizeZone(int /*zone*/, int /*new_size*/)
 {
 
 }
@@ -119,17 +119,17 @@ void RGBController_AlienwareMonitor::DeviceUpdateLEDs()
     {
         for(unsigned int led_idx = 0; led_idx < leds.size(); led_idx++)
         {
-            UpdateSingleLED(led_idx);
+            DeviceUpdateSingleLED(led_idx);
         }
     }
 }
 
-void RGBController_AlienwareMonitor::UpdateZoneLEDs(int /*zone*/)
+void RGBController_AlienwareMonitor::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_AlienwareMonitor::UpdateSingleLED(int led)
+void RGBController_AlienwareMonitor::DeviceUpdateSingleLED(int led)
 {
     unsigned char red = RGBGetRValue(colors[led]);
     unsigned char grn = RGBGetGValue(colors[led]);

@@ -95,7 +95,7 @@ void RGBController_HyperXPulsefireFPSPro::SetupZones()
     SetupColors();
 }
 
-void RGBController_HyperXPulsefireFPSPro::ResizeZone(int /*zone*/, int /*new_size*/)
+void RGBController_HyperXPulsefireFPSPro::DeviceResizeZone(int /*zone*/, int /*new_size*/)
 {
     /*---------------------------------------------------------*\
     | This device does not support resizing zones               |
@@ -116,12 +116,12 @@ void RGBController_HyperXPulsefireFPSPro::DeviceUpdateLEDs()
 
 }
 
-void RGBController_HyperXPulsefireFPSPro::UpdateZoneLEDs(int /*zone*/)
+void RGBController_HyperXPulsefireFPSPro::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_HyperXPulsefireFPSPro::UpdateSingleLED(int /*led*/)
+void RGBController_HyperXPulsefireFPSPro::DeviceUpdateSingleLED(int /*led*/)
 {
     DeviceUpdateLEDs();
 }

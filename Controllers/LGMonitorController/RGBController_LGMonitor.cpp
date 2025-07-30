@@ -120,7 +120,7 @@ void RGBController_LGMonitor::SetupZones()
     SetupColors();
 }
 
-void RGBController_LGMonitor::ResizeZone(int /*zone*/, int /*new_size*/)
+void RGBController_LGMonitor::DeviceResizeZone(int /*zone*/, int /*new_size*/)
 {
     /*---------------------------------------------------------*\
     | This device does not support resizing zones               |
@@ -133,12 +133,12 @@ void RGBController_LGMonitor::DeviceUpdateLEDs()
     controller->SetDirect(colors);
 }
 
-void RGBController_LGMonitor::UpdateZoneLEDs(int /*zone*/)
+void RGBController_LGMonitor::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_LGMonitor::UpdateSingleLED(int /*led*/)
+void RGBController_LGMonitor::DeviceUpdateSingleLED(int /*led*/)
 {
     DeviceUpdateLEDs();
 }

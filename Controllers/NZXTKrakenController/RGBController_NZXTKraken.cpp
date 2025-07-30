@@ -246,7 +246,7 @@ void RGBController_NZXTKraken::SetupZones()
     SetupColors();
 }
 
-void RGBController_NZXTKraken::ResizeZone(int /*zone*/, int /*new_size*/)
+void RGBController_NZXTKraken::DeviceResizeZone(int /*zone*/, int /*new_size*/)
 {
     /*---------------------------------------------------------*\
     | This device does not support resizing zones               |
@@ -332,7 +332,7 @@ void RGBController_NZXTKraken::DeviceUpdateLEDs()
     }
 }
 
-void RGBController_NZXTKraken::UpdateZoneLEDs(int zone)
+void RGBController_NZXTKraken::DeviceUpdateZoneLEDs(int zone)
 {
     NZXTKrakenChannel_t channel;
     mode channel_mode = modes[active_mode];
@@ -351,10 +351,10 @@ void RGBController_NZXTKraken::UpdateZoneLEDs(int zone)
     UpdateChannel(channel, zone, channel_mode);
 }
 
-void RGBController_NZXTKraken::UpdateSingleLED(int led)
+void RGBController_NZXTKraken::DeviceUpdateSingleLED(int led)
 {
     int zone = (led > 0) ? 1 : 0;
-    UpdateZoneLEDs(zone);
+    DeviceUpdateZoneLEDs(zone);
 }
 
 void RGBController_NZXTKraken::DeviceUpdateMode()

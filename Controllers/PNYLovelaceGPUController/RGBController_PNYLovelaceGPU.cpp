@@ -137,7 +137,7 @@ void RGBController_PNYLovelaceGPU::SetupZones()
     SetupColors();
 }
 
-void RGBController_PNYLovelaceGPU::ResizeZone(int /*zone*/, int /*new_size*/)
+void RGBController_PNYLovelaceGPU::DeviceResizeZone(int /*zone*/, int /*new_size*/)
 {
     /*---------------------------------------------------------*\
     | This device does not support resizing zones               |
@@ -149,12 +149,12 @@ void RGBController_PNYLovelaceGPU::DeviceUpdateLEDs()
     DeviceUpdateMode();
 }
 
-void RGBController_PNYLovelaceGPU::UpdateZoneLEDs(int /*zone*/)
+void RGBController_PNYLovelaceGPU::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateMode();
 }
 
-void RGBController_PNYLovelaceGPU::UpdateSingleLED(int /*led*/)
+void RGBController_PNYLovelaceGPU::DeviceUpdateSingleLED(int /*led*/)
 {
     DeviceUpdateMode();
 }
