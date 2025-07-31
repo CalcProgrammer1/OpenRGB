@@ -88,7 +88,7 @@ void RGBController_LogitechG600::SetupZones()
 
 void RGBController_LogitechG600::DeviceUpdateLEDs()
 {
-    controller->SetMode(modes[active_mode].value, modes[active_mode].speed, GetLED(0));
+    controller->SetMode(modes[active_mode].value, modes[active_mode].speed, colors[0]);
 }
 
 void RGBController_LogitechG600::DeviceUpdateZoneLEDs(int /*zone*/)
@@ -103,5 +103,5 @@ void RGBController_LogitechG600::DeviceUpdateSingleLED(int /*led*/)
 
 void RGBController_LogitechG600::DeviceUpdateMode()
 {
-    controller->SetMode(modes[active_mode].value, modes[active_mode].speed, GetLED(0));
+    controller->SetMode(modes[active_mode].value, modes[active_mode].speed, colors[0]);
 }

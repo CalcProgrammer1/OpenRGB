@@ -269,6 +269,7 @@ public:
     virtual std::string     GetLocation()                                                                       = 0;
 
     virtual device_type     GetDeviceType()                                                                     = 0;
+    virtual unsigned int    GetFlags()                                                                          = 0;
 
     /*--------------------------------------------------------------*\
     | Hidden Flag Functions                                          |
@@ -279,23 +280,49 @@ public:
     /*--------------------------------------------------------------*\
     | Zone Functions                                                 |
     \*--------------------------------------------------------------*/
+    virtual std::size_t     GetZoneCount()                                                                      = 0;
+    virtual unsigned int    GetZoneFlags(unsigned int zone)                                                     = 0;
+    virtual unsigned int    GetZoneLEDsCount(unsigned int zone)                                                 = 0;
+    virtual unsigned int    GetZoneLEDsMax(unsigned int zone)                                                   = 0;
+    virtual unsigned int    GetZoneLEDsMin(unsigned int zone)                                                   = 0;
     virtual std::string     GetZoneName(unsigned int zone)                                                      = 0;
+    virtual unsigned int    GetZoneStartIndex(unsigned int zone)                                                = 0;
+    virtual zone_type       GetZoneType(unsigned int zone)                                                      = 0;
+
     virtual unsigned int    GetLEDsInZone(unsigned int zone)                                                    = 0;
 
     /*--------------------------------------------------------------*\
     | Mode Functions                                                 |
     \*--------------------------------------------------------------*/
+    virtual std::size_t     GetModeCount()                                                                      = 0;
+    virtual unsigned int    GetModeBrightness(unsigned int mode)                                                = 0;
+    virtual unsigned int    GetModeBrightnessMax(unsigned int mode)                                             = 0;
+    virtual unsigned int    GetModeBrightnessMin(unsigned int mode)                                             = 0;
+    virtual std::size_t     GetModeColorsCount(unsigned int mode)                                               = 0;
+    virtual unsigned int    GetModeColorsMax(unsigned int mode)                                                 = 0;
+    virtual unsigned int    GetModeColorsMin(unsigned int mode)                                                 = 0;
+    virtual unsigned int    GetModeFlags(unsigned int mode)                                                     = 0;
     virtual std::string     GetModeName(unsigned int mode)                                                      = 0;
-    virtual int             GetMode()                                                                           = 0;
-    virtual void            SetMode(int mode)                                                                   = 0;
+    virtual unsigned int    GetModeSpeed(unsigned int mode)                                                     = 0;
+    virtual unsigned int    GetModeSpeedMax(unsigned int mode)                                                  = 0;
+    virtual unsigned int    GetModeSpeedMin(unsigned int mode)                                                  = 0;
+    virtual int             GetModeValue(unsigned int mode)                                                     = 0;
+
+    virtual int             GetActiveMode()                                                                     = 0;
+    virtual void            SetActiveMode(int mode)                                                             = 0;
     virtual void            SetCustomMode()                                                                     = 0;
 
     /*--------------------------------------------------------------*\
     | LED Functions                                                  |
     \*--------------------------------------------------------------*/
+    virtual std::size_t     GetLEDCount()                                                                       = 0;
     virtual std::string     GetLEDName(unsigned int led)                                                        = 0;
-    virtual RGBColor        GetLED(unsigned int led)                                                            = 0;
-    virtual void            SetLED(unsigned int led, RGBColor color)                                            = 0;
+    virtual unsigned int    GetLEDValue(unsigned int led)                                                       = 0;
+
+    virtual std::string     GetLEDDisplayName(unsigned int led)                                                 = 0;
+
+    virtual RGBColor        GetLEDColor(unsigned int led)                                                       = 0;
+    virtual void            SetLEDColor(unsigned int led, RGBColor color)                                       = 0;
     virtual void            SetAllLEDs(RGBColor color)                                                          = 0;
     virtual void            SetAllZoneLEDs(int zone, RGBColor color)                                            = 0;
 
@@ -347,21 +374,9 @@ public:
 class RGBController : public RGBControllerInterface
 {
 public:
-    std::string             name;           /* controller name          */
-    std::string             vendor;         /* controller vendor        */
-    std::string             description;    /* controller description   */
-    std::string             version;        /* controller version       */
-    std::string             serial;         /* controller serial number */
-    std::string             location;       /* controller location      */
-    std::vector<led>        leds;           /* LEDs                     */
     std::vector<zone>       zones;          /* Zones                    */
     std::vector<mode>       modes;          /* Modes                    */
     std::vector<RGBColor>   colors;         /* Color buffer             */
-    device_type             type;           /* device type              */
-    int                     active_mode = 0;/* active mode              */
-    std::vector<std::string>
-                            led_alt_names;  /* alternate LED names      */
-    unsigned int            flags;          /* controller flags         */
 
     /*---------------------------------------------------------*\
     | RGBController base class constructor                      |
@@ -380,6 +395,7 @@ public:
     std::string             GetLocation();
 
     device_type             GetDeviceType();
+    unsigned int            GetFlags();
 
     /*--------------------------------------------------------------*\
     | Hidden Flag Functions                                          |
@@ -390,23 +406,49 @@ public:
     /*--------------------------------------------------------------*\
     | Zone Functions                                                 |
     \*--------------------------------------------------------------*/
+    std::size_t             GetZoneCount();
+    unsigned int            GetZoneFlags(unsigned int zone);
+    unsigned int            GetZoneLEDsCount(unsigned int zone);
+    unsigned int            GetZoneLEDsMax(unsigned int zone);
+    unsigned int            GetZoneLEDsMin(unsigned int zone);
     std::string             GetZoneName(unsigned int zone);
+    unsigned int            GetZoneStartIndex(unsigned int zone);
+    zone_type               GetZoneType(unsigned int zone);
+
     unsigned int            GetLEDsInZone(unsigned int zone);
 
     /*--------------------------------------------------------------*\
     | Mode Functions                                                 |
     \*--------------------------------------------------------------*/
+    std::size_t             GetModeCount();
+    unsigned int            GetModeBrightness(unsigned int mode);
+    unsigned int            GetModeBrightnessMax(unsigned int mode);
+    unsigned int            GetModeBrightnessMin(unsigned int mode);
+    std::size_t             GetModeColorsCount(unsigned int mode);
+    unsigned int            GetModeColorsMax(unsigned int mode);
+    unsigned int            GetModeColorsMin(unsigned int mode);
+    unsigned int            GetModeFlags(unsigned int mode);
     std::string             GetModeName(unsigned int mode);
-    int                     GetMode();
-    void                    SetMode(int mode);
+    unsigned int            GetModeSpeed(unsigned int mode);
+    unsigned int            GetModeSpeedMax(unsigned int mode);
+    unsigned int            GetModeSpeedMin(unsigned int mode);
+    int                     GetModeValue(unsigned int mode);
+
+    int                     GetActiveMode();
+    void                    SetActiveMode(int mode);
     void                    SetCustomMode();
 
     /*--------------------------------------------------------------*\
     | LED Functions                                                  |
     \*--------------------------------------------------------------*/
+    std::size_t             GetLEDCount();
     std::string             GetLEDName(unsigned int led);
-    RGBColor                GetLED(unsigned int led);
-    void                    SetLED(unsigned int led, RGBColor color);
+    unsigned int            GetLEDValue(unsigned int led);
+
+    std::string             GetLEDDisplayName(unsigned int led);
+
+    RGBColor                GetLEDColor(unsigned int led);
+    void                    SetLEDColor(unsigned int led, RGBColor color);
     void                    SetAllLEDs(RGBColor color);
     void                    SetAllZoneLEDs(int zone, RGBColor color);
 
@@ -473,6 +515,22 @@ public:
     virtual void            DeviceUpdateMode()                          = 0;
     void                    DeviceSaveMode();
 
+protected:
+    std::string             name;           /* controller name          */
+    std::string             vendor;         /* controller vendor        */
+    std::string             description;    /* controller description   */
+    std::string             version;        /* controller version       */
+    std::string             serial;         /* controller serial number */
+    std::string             location;       /* controller location      */
+
+    device_type             type;           /* device type              */
+    int                     active_mode = 0;/* active mode              */
+    unsigned int            flags;          /* controller flags         */
+
+    std::vector<led>        leds;           /* LEDs                     */
+    std::vector<std::string>
+                            led_alt_names;  /* alternate LED names      */
+
 private:
     std::thread*            DeviceCallThread;
     std::atomic<bool>       CallFlag_UpdateLEDs;
@@ -480,9 +538,16 @@ private:
     std::atomic<bool>       DeviceThreadRunning;
     //bool                    CallFlag_UpdateZoneLEDs                     = false;
     //bool                    CallFlag_UpdateSingleLED                    = false;
-    //bool                    CallFlag_UpdateMode                         = false;
 
     std::mutex                          UpdateMutex;
     std::vector<RGBControllerCallback>  UpdateCallbacks;
     std::vector<void *>                 UpdateCallbackArgs;
+
+    /*-----------------------------------------------------*\
+    | Certain internal OpenRGB framework classes can modify |
+    | protected members                                     |
+    \*-----------------------------------------------------*/
+    friend class            NetworkClient;
+    friend class            ProfileManager;
+    friend class            ResourceManager;
 };

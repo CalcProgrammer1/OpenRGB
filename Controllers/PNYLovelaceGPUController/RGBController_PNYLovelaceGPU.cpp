@@ -161,9 +161,9 @@ void RGBController_PNYLovelaceGPU::DeviceUpdateMode()
             break;
 
         case PNY_GPU_MODE_STATIC:
-            for (int i = 0; i < 3; i++)
+            for(int i = 0; i < 3; i++)
             {
-                RGBColor color = GetLED(i);
+                RGBColor color = colors[i];
                 controller->SetDirect(i, RGBGetRValue(color), RGBGetGValue(color), RGBGetBValue(color));
             }
             break;

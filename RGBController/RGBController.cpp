@@ -75,6 +75,62 @@ RGBController::~RGBController()
     modes.clear();
 }
 
+void RGBController::SetupColors()
+{
+    unsigned int total_led_count;
+    unsigned int zone_led_count;
+
+    /*---------------------------------------------------------*\
+    | Determine total number of LEDs on the device              |
+    \*---------------------------------------------------------*/
+    total_led_count = 0;
+
+    for(std::size_t zone_idx = 0; zone_idx < zones.size(); zone_idx++)
+    {
+        total_led_count += GetLEDsInZone((unsigned int)zone_idx);
+    }
+
+    /*---------------------------------------------------------*\
+    | Set the size of the color buffer to the number of LEDs    |
+    \*---------------------------------------------------------*/
+    colors.resize(total_led_count);
+
+    /*---------------------------------------------------------*\
+    | Set the color buffer pointers on each zone                |
+    \*---------------------------------------------------------*/
+    total_led_count = 0;
+
+    for(std::size_t zone_idx = 0; zone_idx < zones.size(); zone_idx++)
+    {
+        zones[zone_idx].start_idx   = total_led_count;
+        zone_led_count              = GetLEDsInZone((unsigned int)zone_idx);
+
+        if((colors.size() > 0) && (zone_led_count > 0))
+        {
+            zones[zone_idx].colors = &colors[total_led_count];
+        }
+        else
+        {
+            zones[zone_idx].colors = NULL;
+        }
+
+        if((leds.size() > 0) && (zone_led_count > 0))
+        {
+            zones[zone_idx].leds   = &leds[total_led_count];
+        }
+        else
+        {
+            zones[zone_idx].leds    = NULL;
+        }
+
+
+        total_led_count += zone_led_count;
+    }
+}
+
+/*---------------------------------------------------------*\
+| Controller Information Functions                          |
+\*---------------------------------------------------------*/
 std::string RGBController::GetName()
 {
     return(name);
@@ -110,9 +166,59 @@ device_type RGBController::GetDeviceType()
     return(type);
 }
 
-std::string RGBController::GetModeName(unsigned int mode)
+unsigned int RGBController::GetFlags()
 {
-    return(modes[mode].name);
+    return(flags);
+}
+
+/*---------------------------------------------------------*\
+| Hidden Flag Functions                                     |
+\*---------------------------------------------------------*/
+bool RGBController::GetHidden()
+{
+    return(flags & CONTROLLER_FLAG_HIDDEN);
+}
+
+void RGBController::SetHidden(bool hidden)
+{
+    if(hidden)
+    {
+        flags |= CONTROLLER_FLAG_HIDDEN;
+        SignalUpdate(RGBCONTROLLER_UPDATE_REASON_HIDDEN);
+    }
+    else
+    {
+        flags &= ~CONTROLLER_FLAG_HIDDEN;
+        SignalUpdate(RGBCONTROLLER_UPDATE_REASON_UNHIDDEN);
+    }
+}
+
+/*---------------------------------------------------------*\
+| Zone Functions                                            |
+\*---------------------------------------------------------*/
+std::size_t RGBController::GetZoneCount()
+{
+    return(zones.size());
+}
+
+unsigned int RGBController::GetZoneFlags(unsigned int zone)
+{
+    return(zones[zone].flags);
+}
+
+unsigned int RGBController::GetZoneLEDsCount(unsigned int zone)
+{
+    return(zones[zone].leds_count);
+}
+
+unsigned int RGBController::GetZoneLEDsMax(unsigned int zone)
+{
+    return(zones[zone].leds_max);
+}
+
+unsigned int RGBController::GetZoneLEDsMin(unsigned int zone)
+{
+    return(zones[zone].leds_min);
 }
 
 std::string RGBController::GetZoneName(unsigned int zone)
@@ -120,7 +226,165 @@ std::string RGBController::GetZoneName(unsigned int zone)
     return(zones[zone].name);
 }
 
+unsigned int RGBController::GetZoneStartIndex(unsigned int zone)
+{
+    return(zones[zone].start_idx);
+}
+
+zone_type RGBController::GetZoneType(unsigned int zone)
+{
+    return(zones[zone].type);
+}
+
+unsigned int RGBController::GetLEDsInZone(unsigned int zone)
+{
+    unsigned int leds_count = zones[zone].leds_count;
+
+    if(zones[zone].flags & ZONE_FLAG_RESIZE_EFFECTS_ONLY)
+    {
+        if(leds_count > 1)
+        {
+            leds_count = 1;
+        }
+    }
+
+    return(leds_count);
+}
+
+/*---------------------------------------------------------*\
+| Mode Functions                                            |
+\*---------------------------------------------------------*/
+std::size_t RGBController::GetModeCount()
+{
+    return(modes.size());
+}
+
+unsigned int RGBController::GetModeBrightness(unsigned int mode)
+{
+    return(modes[mode].brightness);
+}
+
+unsigned int RGBController::GetModeBrightnessMax(unsigned int mode)
+{
+    return(modes[mode].brightness_max);
+}
+
+unsigned int RGBController::GetModeBrightnessMin(unsigned int mode)
+{
+    return(modes[mode].brightness_min);
+}
+
+std::size_t RGBController::GetModeColorsCount(unsigned int mode)
+{
+    return(modes[mode].colors.size());
+}
+
+unsigned int RGBController::GetModeColorsMax(unsigned int mode)
+{
+    return(modes[mode].colors_max);
+}
+
+unsigned int RGBController::GetModeColorsMin(unsigned int mode)
+{
+    return(modes[mode].colors_min);
+}
+
+unsigned int RGBController::GetModeFlags(unsigned int mode)
+{
+    return(modes[mode].flags);
+}
+
+std::string RGBController::GetModeName(unsigned int mode)
+{
+    return(modes[mode].name);
+}
+
+unsigned int RGBController::GetModeSpeed(unsigned int mode)
+{
+    return(modes[mode].speed);
+}
+
+unsigned int RGBController::GetModeSpeedMax(unsigned int mode)
+{
+    return(modes[mode].speed_max);
+}
+
+unsigned int RGBController::GetModeSpeedMin(unsigned int mode)
+{
+    return(modes[mode].speed_min);
+}
+
+int RGBController::GetModeValue(unsigned int mode)
+{
+    return(modes[mode].value);
+}
+
+int RGBController::GetActiveMode()
+{
+    return(active_mode);
+}
+
+void RGBController::SetActiveMode(int mode)
+{
+    active_mode = mode;
+
+    UpdateMode();
+}
+
+void RGBController::SetCustomMode()
+{
+    /*-------------------------------------------------*\
+    | Search the Controller's mode list for a suitable  |
+    | per-LED custom mode in the following order:       |
+    | 1.    Direct                                      |
+    | 2.    Custom                                      |
+    | 3.    Static                                      |
+    \*-------------------------------------------------*/
+    #define NUM_CUSTOM_MODE_NAMES 3
+
+    const std::string custom_mode_names[] =
+    {
+        "Direct",
+        "Custom",
+        "Static"
+    };
+
+    for(unsigned int custom_mode_idx = 0; custom_mode_idx < NUM_CUSTOM_MODE_NAMES; custom_mode_idx++)
+    {
+        for(unsigned int mode_idx = 0; mode_idx < modes.size(); mode_idx++)
+        {
+            if((modes[mode_idx].name == custom_mode_names[custom_mode_idx])
+            && ((modes[mode_idx].color_mode == MODE_COLORS_PER_LED)
+             || (modes[mode_idx].color_mode == MODE_COLORS_MODE_SPECIFIC)))
+            {
+                active_mode = mode_idx;
+                return;
+            }
+        }
+    }
+
+    UpdateMode();
+}
+
+/*---------------------------------------------------------*\
+| LED Functions                                             |
+\*---------------------------------------------------------*/
+std::size_t RGBController::GetLEDCount()
+{
+    return(leds.size());
+}
+
 std::string RGBController::GetLEDName(unsigned int led)
+{
+    return(leds[led].name);
+}
+
+unsigned int RGBController::GetLEDValue(unsigned int led)
+{
+    return(leds[led].value);
+}
+
+std::string RGBController::GetLEDDisplayName(unsigned int led)
 {
     if(led < led_alt_names.size())
     {
@@ -132,6 +396,46 @@ std::string RGBController::GetLEDName(unsigned int led)
 
     return(leds[led].name);
 }
+
+RGBColor RGBController::GetLEDColor(unsigned int led)
+{
+    if(led < colors.size())
+    {
+        return(colors[led]);
+    }
+    else
+    {
+        return(0x00000000);
+    }
+}
+
+void RGBController::SetLEDColor(unsigned int led, RGBColor color)
+{
+    if(led < colors.size())
+    {
+        colors[led] = color;
+    }
+}
+
+void RGBController::SetAllLEDs(RGBColor color)
+{
+    for(std::size_t zone_idx = 0; zone_idx < zones.size(); zone_idx++)
+    {
+        SetAllZoneLEDs((int)zone_idx, color);
+    }
+}
+
+void RGBController::SetAllZoneLEDs(int zone, RGBColor color)
+{
+    for (std::size_t color_idx = 0; color_idx < GetLEDsInZone(zone); color_idx++)
+    {
+        zones[zone].colors[color_idx] = color;
+    }
+}
+
+/*---------------------------------------------------------*\
+| Serialized Description Functions                          |
+\*---------------------------------------------------------*/
 
 unsigned char * RGBController::GetDeviceDescription(unsigned int protocol_version)
 {
@@ -1895,176 +2199,6 @@ void RGBController::SetSegmentDescription(unsigned char* data_buf)
     AddSegment(zone_idx, new_segment);
 
     delete[] segment_name;
-}
-
-void RGBController::SetupColors()
-{
-    unsigned int total_led_count;
-    unsigned int zone_led_count;
-
-    /*---------------------------------------------------------*\
-    | Determine total number of LEDs on the device              |
-    \*---------------------------------------------------------*/
-    total_led_count = 0;
-
-    for(std::size_t zone_idx = 0; zone_idx < zones.size(); zone_idx++)
-    {
-        total_led_count += GetLEDsInZone((unsigned int)zone_idx);
-    }
-
-    /*---------------------------------------------------------*\
-    | Set the size of the color buffer to the number of LEDs    |
-    \*---------------------------------------------------------*/
-    colors.resize(total_led_count);
-
-    /*---------------------------------------------------------*\
-    | Set the color buffer pointers on each zone                |
-    \*---------------------------------------------------------*/
-    total_led_count = 0;
-
-    for(std::size_t zone_idx = 0; zone_idx < zones.size(); zone_idx++)
-    {
-        zones[zone_idx].start_idx   = total_led_count;
-        zone_led_count              = GetLEDsInZone((unsigned int)zone_idx);
-
-        if((colors.size() > 0) && (zone_led_count > 0))
-        {
-            zones[zone_idx].colors = &colors[total_led_count];
-        }
-        else
-        {
-            zones[zone_idx].colors = NULL;
-        }
-
-        if((leds.size() > 0) && (zone_led_count > 0))
-        {
-            zones[zone_idx].leds   = &leds[total_led_count];
-        }
-        else
-        {
-            zones[zone_idx].leds    = NULL;
-        }
-
-
-        total_led_count += zone_led_count;
-    }
-}
-
-unsigned int RGBController::GetLEDsInZone(unsigned int zone)
-{
-    unsigned int leds_count = zones[zone].leds_count;
-
-    if(zones[zone].flags & ZONE_FLAG_RESIZE_EFFECTS_ONLY)
-    {
-        if(leds_count > 1)
-        {
-            leds_count = 1;
-        }
-    }
-
-    return(leds_count);
-}
-
-RGBColor RGBController::GetLED(unsigned int led)
-{
-    if(led < colors.size())
-    {
-        return(colors[led]);
-    }
-    else
-    {
-        return(0x00000000);
-    }
-}
-
-void RGBController::SetLED(unsigned int led, RGBColor color)
-{
-    if(led < colors.size())
-    {
-        colors[led] = color;
-    }
-}
-
-void RGBController::SetAllLEDs(RGBColor color)
-{
-    for(std::size_t zone_idx = 0; zone_idx < zones.size(); zone_idx++)
-    {
-        SetAllZoneLEDs((int)zone_idx, color);
-    }
-}
-
-void RGBController::SetAllZoneLEDs(int zone, RGBColor color)
-{
-    for (std::size_t color_idx = 0; color_idx < GetLEDsInZone(zone); color_idx++)
-    {
-        zones[zone].colors[color_idx] = color;
-    }
-}
-
-bool RGBController::GetHidden()
-{
-    return(flags & CONTROLLER_FLAG_HIDDEN);
-}
-
-void RGBController::SetHidden(bool hidden)
-{
-    if(hidden)
-    {
-        flags |= CONTROLLER_FLAG_HIDDEN;
-        SignalUpdate(RGBCONTROLLER_UPDATE_REASON_HIDDEN);
-    }
-    else
-    {
-        flags &= ~CONTROLLER_FLAG_HIDDEN;
-        SignalUpdate(RGBCONTROLLER_UPDATE_REASON_UNHIDDEN);
-    }
-}
-
-int RGBController::GetMode()
-{
-    return(active_mode);
-}
-
-void RGBController::SetMode(int mode)
-{
-    active_mode = mode;
-
-    UpdateMode();
-}
-
-void RGBController::SetCustomMode()
-{
-    /*-------------------------------------------------*\
-    | Search the Controller's mode list for a suitable  |
-    | per-LED custom mode in the following order:       |
-    | 1.    Direct                                      |
-    | 2.    Custom                                      |
-    | 3.    Static                                      |
-    \*-------------------------------------------------*/
-    #define NUM_CUSTOM_MODE_NAMES 3
-
-    const std::string custom_mode_names[] =
-    {
-        "Direct",
-        "Custom",
-        "Static"
-    };
-
-    for(unsigned int custom_mode_idx = 0; custom_mode_idx < NUM_CUSTOM_MODE_NAMES; custom_mode_idx++)
-    {
-        for(unsigned int mode_idx = 0; mode_idx < modes.size(); mode_idx++)
-        {
-            if((modes[mode_idx].name == custom_mode_names[custom_mode_idx])
-            && ((modes[mode_idx].color_mode == MODE_COLORS_PER_LED)
-             || (modes[mode_idx].color_mode == MODE_COLORS_MODE_SPECIFIC)))
-            {
-                active_mode = mode_idx;
-                return;
-            }
-        }
-    }
-
-    UpdateMode();
 }
 
 void RGBController::RegisterUpdateCallback(RGBControllerCallback new_callback, void * new_callback_arg)

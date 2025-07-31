@@ -145,15 +145,15 @@ void OpenRGBZonesBulkResizer::CreateZoneWidget(RGBController* controller, unsign
     controller_label->setText(QString::fromStdString(controller->GetName()));
 
     QLabel* zone_label = new QLabel(this);
-    zone_label->setText(QString::fromStdString(controller->zones[zone_index].name));
+    zone_label->setText(QString::fromStdString(controller->GetZoneName(zone_index)));
 
     /*---------------------------------------------------------*\
     | Spin box: controls the zone size                          |
     \*---------------------------------------------------------*/
     QSpinBox* spin_box = new QSpinBox(this);
     spin_box->setValue(0);
-    spin_box->setMinimum(controller->zones[zone_index].leds_min);
-    spin_box->setMaximum(controller->zones[zone_index].leds_max);
+    spin_box->setMinimum(controller->GetZoneLEDsMin(zone_index));
+    spin_box->setMaximum(controller->GetZoneLEDsMax(zone_index));
 
     /*---------------------------------------------------------*\
     | Insert labels + spinbox                                   |

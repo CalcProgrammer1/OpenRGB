@@ -32,6 +32,15 @@ RGBController_Ionico::RGBController_Ionico(IonicoController* controller_ptr)
     description                         = name;
     location                            = controller->GetDeviceLocation();
 
+    if(controller->GetUSBPID() == IONICO_KB_PID)
+    {
+        type                            = DEVICE_TYPE_KEYBOARD;
+    }
+    else if(controller->GetUSBPID() == IONICO_FB_PID)
+    {
+        type                            = DEVICE_TYPE_LEDSTRIP;
+    }
+
     mode Direct;
     Direct.name                         = "Direct";
     Direct.value                        = IONICO_MODE_DIRECT;

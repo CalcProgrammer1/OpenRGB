@@ -244,14 +244,14 @@ void DeviceView::InitDeviceView()
     /*-----------------------------------------------------*\
     | Set the size of the selection flags vector            |
     \*-----------------------------------------------------*/
-    selectionFlags.resize((int)controller->leds.size());
+    selectionFlags.resize((int)controller->GetLEDCount());
 
     /*-----------------------------------------------------*\
     | Set the size of the zone and LED position vectors     |
     \*-----------------------------------------------------*/
     zone_pos.resize(controller->zones.size());
-    led_pos.resize(controller->leds.size());
-    led_labels.resize(controller->leds.size());
+    led_pos.resize(controller->GetLEDCount());
+    led_labels.resize(controller->GetLEDCount());
 
     /*-----------------------------------------------------*\
     | Process position and size for zones                   |
@@ -389,18 +389,18 @@ void DeviceView::InitDeviceView()
                             \*-----------------------------------------------------*/
                             if(led_x < map->width - 1 && map->map[map_idx + 1] == 0xFFFFFFFF)
                             {
-                                if( ( controller->GetLEDName(color_idx) == KEY_EN_TAB        )
-                                 || ( controller->GetLEDName(color_idx) == KEY_EN_CAPS_LOCK  )
-                                 || ( controller->GetLEDName(color_idx) == KEY_EN_LEFT_SHIFT )
-                                 || ( controller->GetLEDName(color_idx) == KEY_EN_RIGHT_SHIFT)
-                                 || ( controller->GetLEDName(color_idx) == KEY_EN_BACKSPACE  )
-                                 || ( controller->GetLEDName(color_idx) == KEY_EN_NUMPAD_0   ) )
+                                if( ( controller->GetLEDDisplayName(color_idx) == KEY_EN_TAB        )
+                                 || ( controller->GetLEDDisplayName(color_idx) == KEY_EN_CAPS_LOCK  )
+                                 || ( controller->GetLEDDisplayName(color_idx) == KEY_EN_LEFT_SHIFT )
+                                 || ( controller->GetLEDDisplayName(color_idx) == KEY_EN_RIGHT_SHIFT)
+                                 || ( controller->GetLEDDisplayName(color_idx) == KEY_EN_BACKSPACE  )
+                                 || ( controller->GetLEDDisplayName(color_idx) == KEY_EN_NUMPAD_0   ) )
                                 {
                                     led_pos[color_idx].matrix_w += 1.0f;
                                 }
                             }
-                            if( ( controller->GetLEDName(color_idx) == KEY_EN_NUMPAD_ENTER   )
-                             || ( controller->GetLEDName(color_idx) == KEY_EN_NUMPAD_PLUS    ) )
+                            if( ( controller->GetLEDDisplayName(color_idx) == KEY_EN_NUMPAD_ENTER   )
+                             || ( controller->GetLEDDisplayName(color_idx) == KEY_EN_NUMPAD_PLUS    ) )
                             {
                                 if(led_y < map->height - 1 && map->map[map_idx + map->width] == 0xFFFFFFFF)
                                 {
@@ -413,7 +413,7 @@ void DeviceView::InitDeviceView()
                                     led_pos[color_idx].matrix_h += 1.0f;
                                 }
                             }
-                            else if(controller->GetLEDName(color_idx) == KEY_EN_SPACE)
+                            else if(controller->GetLEDDisplayName(color_idx) == KEY_EN_SPACE)
                             {
                                 for(unsigned int map_idx2 = map_idx - 1; map_idx2 > led_y * map->width && map->map[map_idx2] == 0xFFFFFFFF; map_idx2--)
                                 {
@@ -497,9 +497,9 @@ void DeviceView::InitDeviceView()
     /*-----------------------------------------------------*\
     | Update LED labels                                     |
     \*-----------------------------------------------------*/
-    for(std::size_t led_idx = 0; led_idx < controller->leds.size(); led_idx++)
+    for(std::size_t led_idx = 0; led_idx < controller->GetLEDCount(); led_idx++)
     {
-        std::map<std::string, led_label>::const_iterator it = led_label_lookup.find(controller->GetLEDName((unsigned int)led_idx));
+        std::map<std::string, led_label>::const_iterator it = led_label_lookup.find(controller->GetLEDDisplayName((unsigned int)led_idx));
 
         if(it != led_label_lookup.end())
         {
@@ -640,7 +640,7 @@ void DeviceView::mouseMoveEvent(QMouseEvent *event)
             {
                 previousSelection.clear();
                 previousFlags.clear();
-                previousFlags.resize((int)controller->leds.size());
+                previousFlags.resize((int)controller->GetLEDCount());
             }
             updateSelection();
         }
@@ -736,7 +736,7 @@ void DeviceView::paintEvent(QPaintEvent* /* event */)
     /*-----------------------------------------------------*\
     | If controller has resized, reinitialize local data    |
     \*-----------------------------------------------------*/
-    if(controller->leds.size() != led_pos.size())
+    if(controller->GetLEDCount() != led_pos.size())
     {
         InitDeviceView();
     }
@@ -762,7 +762,7 @@ void DeviceView::paintEvent(QPaintEvent* /* event */)
     /*-----------------------------------------------------*\
     | LED rectangles                                        |
     \*-----------------------------------------------------*/
-    for(unsigned int led_idx = 0; led_idx < controller->leds.size(); led_idx++)
+    for(unsigned int led_idx = 0; led_idx < controller->GetLEDCount(); led_idx++)
     {
         int posx = led_pos[led_idx].matrix_x * size + offset_x;
         int posy = led_pos[led_idx].matrix_y * size;
@@ -882,12 +882,11 @@ void DeviceView::updateSelection()
 {
     selectedLeds.clear();
     selectionFlags.clear();
-    selectionFlags.resize((int)controller->leds.size());
+    selectionFlags.resize((int)controller->GetLEDCount());
 
-    QRect sel              = selectionRect.normalized();
-    std::vector<led>& leds = controller->leds;
+    QRect sel = selectionRect.normalized();
 
-    for(unsigned int led_idx = 0; led_idx < leds.size(); led_idx++)
+    for(unsigned int led_idx = 0; led_idx < controller->GetLEDCount(); led_idx++)
     {
         /*-----------------------------------------------------*\
         | Check intersection                                    |
@@ -926,7 +925,7 @@ void DeviceView::updateSelection()
 
 bool DeviceView::selectLed(int target)
 {
-    if(target < 0 || size_t(target) >= controller->leds.size())
+    if(target < 0 || size_t(target) >= controller->GetLEDCount())
     {
         return false;
     }
@@ -934,7 +933,7 @@ bool DeviceView::selectLed(int target)
     selectedLeds.resize(1);
     selectedLeds[0] = target;
     selectionFlags.clear();
-    selectionFlags.resize((int)controller->leds.size());
+    selectionFlags.resize((int)controller->GetLEDCount());
     selectionFlags[target] = 1;
 
     update();
@@ -951,14 +950,14 @@ bool DeviceView::selectLeds(QVector<int> target)
 {
     for(int item: target)
     {
-        if(item < 0 || size_t(item) >= controller->leds.size())
+        if(item < 0 || size_t(item) >= controller->GetLEDCount())
         {
             return false;
         }
     }
 
     selectionFlags.clear();
-    selectionFlags.resize((int)controller->leds.size());
+    selectionFlags.resize((int)controller->GetLEDCount());
 
     for(int item: target)
     {
@@ -1006,7 +1005,7 @@ bool DeviceView::selectSegment(int zone, int segment, bool add)
     {
         selectedLeds.clear();
         selectionFlags.clear();
-        selectionFlags.resize((int)controller->leds.size());
+        selectionFlags.resize((int)controller->GetLEDCount());
     }
 
     int zoneStart = controller->zones[zone].start_idx;
@@ -1042,7 +1041,7 @@ bool DeviceView::selectZone(int zone, bool add)
     {
         selectedLeds.clear();
         selectionFlags.clear();
-        selectionFlags.resize((int)controller->leds.size());
+        selectionFlags.resize((int)controller->GetLEDCount());
     }
 
     int zoneStart = controller->zones[zone].start_idx;
@@ -1073,7 +1072,7 @@ void DeviceView::clearSelection()
     \*-----------------------------------------------------*/
     selectedLeds.clear();
     selectionFlags.clear();
-    selectionFlags.resize((int)controller->leds.size());
+    selectionFlags.resize((int)controller->GetLEDCount());
 }
 
 void DeviceView::setSelectionColor(RGBColor color)
@@ -1086,7 +1085,7 @@ void DeviceView::setSelectionColor(RGBColor color)
     {
         for(int led_idx: selectedLeds)
         {
-            controller->SetLED(led_idx, color);
+            controller->SetLEDColor(led_idx, color);
         }
     }
     controller->UpdateLEDs();

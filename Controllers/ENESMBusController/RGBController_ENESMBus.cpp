@@ -289,7 +289,7 @@ int RGBController_ENESMBus::GetDeviceMode()
 
 void RGBController_ENESMBus::DeviceUpdateLEDs()
 {
-    if(GetMode() == 0)
+    if(GetActiveMode() == 0)
     {
         controller->SetAllColorsDirect(&colors[0]);
     }
@@ -310,7 +310,7 @@ void RGBController_ENESMBus::DeviceUpdateZoneLEDs(int zone)
         unsigned char grn   = RGBGetGValue(color);
         unsigned char blu   = RGBGetBValue(color);
 
-        if(GetMode() == 0)
+        if(GetActiveMode() == 0)
         {
             controller->SetLEDColorDirect(led, red, grn, blu);
         }
@@ -328,7 +328,7 @@ void RGBController_ENESMBus::DeviceUpdateSingleLED(int led)
     unsigned char grn = RGBGetGValue(color);
     unsigned char blu = RGBGetBValue(color);
 
-    if(GetMode() == 0)
+    if(GetActiveMode() == 0)
     {
         controller->SetLEDColorDirect(led, red, grn, blu);
     }

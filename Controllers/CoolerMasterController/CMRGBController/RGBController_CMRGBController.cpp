@@ -199,7 +199,7 @@ void RGBController_CMRGBController::LoadConfigFromDeviceController(int mode_idx)
     {
         for(int led_idx = 0; led_idx < (int)leds.size(); led_idx++)
         {
-            SetLED(led_idx, controller->GetPortColor(led_idx));
+            colors[led_idx] = controller->GetPortColor(led_idx);
         }
     }
 

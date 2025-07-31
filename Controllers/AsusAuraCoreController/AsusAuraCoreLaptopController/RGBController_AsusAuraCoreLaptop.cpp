@@ -263,7 +263,7 @@ RGBController_AsusAuraCoreLaptop::RGBController_AsusAuraCoreLaptop(AsusAuraCoreL
 
     SetupZones();
 
-    SetMode(active_mode);
+    SetActiveMode(active_mode);
 }
 
 RGBController_AsusAuraCoreLaptop::~RGBController_AsusAuraCoreLaptop()

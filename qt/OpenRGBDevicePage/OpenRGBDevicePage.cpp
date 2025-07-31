@@ -117,7 +117,7 @@ OpenRGBDevicePage::OpenRGBDevicePage(RGBController *dev, QWidget *parent) :
         ui->ModeBox->setItemData((int)i, ModeDescription(device->modes[i]), Qt::ToolTipRole);
     }
 
-    ui->ModeBox->setCurrentIndex(device->GetMode());
+    ui->ModeBox->setCurrentIndex(device->GetActiveMode());
     ui->ModeBox->blockSignals(false);
 
     /*-----------------------------------------------------*\
@@ -132,7 +132,7 @@ OpenRGBDevicePage::OpenRGBDevicePage(RGBController *dev, QWidget *parent) :
     updateColorUi();
 
     ui->ApplyColorsButton->setDisabled(autoUpdateEnabled());
-    ui->SetAllButton->setDisabled(device->modes[0].name != "Direct" && device->modes[0].name != "Custom" && device->modes[0].name != "Static");
+    ui->SetAllButton->setDisabled(device->GetModeName(device->GetActiveMode()) != "Direct" && device->GetModeName(device->GetActiveMode()) != "Custom" && device->GetModeName(device->GetActiveMode()) != "Static");
 }
 
 OpenRGBDevicePage::~OpenRGBDevicePage()
@@ -266,7 +266,7 @@ void OpenRGBDevicePage::on_ZoneBox_currentIndexChanged(int index)
                     | and enable it, otherwise there is     |
                     | only one LED so disable it            |
                     \*-------------------------------------*/
-                    if(device->leds.size() > 1)
+                    if(device->GetLEDCount() > 1)
                     {
                         ui->LEDBox->addItem(tr("Entire Device"));
                         ui->LEDBox->setEnabled(1);
@@ -280,9 +280,9 @@ void OpenRGBDevicePage::on_ZoneBox_currentIndexChanged(int index)
                     | Fill in the LED list with all LEDs in |
                     | the device                            |
                     \*-------------------------------------*/
-                    for(std::size_t i = 0; i < device->leds.size(); i++)
+                    for(std::size_t i = 0; i < device->GetLEDCount(); i++)
                     {
-                        ui->LEDBox->addItem(device->GetLEDName((unsigned int)i).c_str());
+                        ui->LEDBox->addItem(device->GetLEDDisplayName((unsigned int)i).c_str());
                     }
 
                     /*-------------------------------------*\
@@ -340,12 +340,12 @@ void OpenRGBDevicePage::on_ZoneBox_currentIndexChanged(int index)
                     \*-------------------------------------*/
                     bool zone_is_editable = false;
 
-                    if(device->zones[selected_zone].leds_min != device->zones[selected_zone].leds_max)
+                    if(device->GetZoneLEDsMin(selected_zone) != device->GetZoneLEDsMax(selected_zone))
                     {
                         zone_is_editable = true;
                     }
 
-                    if((device->zones[selected_zone].type == ZONE_TYPE_LINEAR) && (device->type == DEVICE_TYPE_LEDSTRIP))
+                    if((device->GetZoneType(selected_zone) == ZONE_TYPE_LINEAR) && (device->GetDeviceType() == DEVICE_TYPE_LEDSTRIP))
                     {
                         zone_is_editable = true;
                     }
@@ -511,7 +511,7 @@ void OpenRGBDevicePage::on_LEDBox_currentIndexChanged(int index)
                 /*-----------------------------------------*\
                 | Initialize variables                      |
                 \*-----------------------------------------*/
-                bool        multiple    = (std::size_t(selected_led) == (device->leds.size() + 1));
+                bool        multiple    = (std::size_t(selected_led) == (device->GetLEDCount() + 1));
                 RGBColor    color       = 0x00000000;
                 bool        updateColor = false;
 
@@ -520,7 +520,7 @@ void OpenRGBDevicePage::on_LEDBox_currentIndexChanged(int index)
                 \*-----------------------------------------*/
                 if(MultipleSelected)
                 {
-                    ui->LEDBox->removeItem((int)(device->leds.size() + 1));
+                    ui->LEDBox->removeItem((int)(device->GetLEDCount() + 1));
                 }
 
                 MultipleSelected = false;
@@ -546,12 +546,12 @@ void OpenRGBDevicePage::on_LEDBox_currentIndexChanged(int index)
                     /*-------------------------------------*\
                     | Handle single selected LED            |
                     \*-------------------------------------*/
-                    if((device->leds.size() == 1 || selected_led != -1) && !multiple)
+                    if((device->GetLEDCount() == 1 || selected_led != -1) && !multiple)
                     {
                         /*---------------------------------*\
                         | Get selected LED's current color  |
                         \*---------------------------------*/
-                        color = device->GetLED(selected_led);
+                        color = device->GetLEDColor(selected_led);
 
                         /*---------------------------------*\
                         | Set update color flag             |
@@ -608,7 +608,7 @@ void OpenRGBDevicePage::on_LEDBox_currentIndexChanged(int index)
                             /*-----------------------------*\
                             | Set global index              |
                             \*-----------------------------*/
-                            int globalIndex = device->zones[selected_zone].leds - &(device->leds[0]) + selected_led;
+                            int globalIndex = device->GetZoneStartIndex(selected_zone) + selected_led;
 
                             /*-----------------------------*\
                             | Select LED in device view     |
@@ -661,7 +661,7 @@ void OpenRGBDevicePage::on_LEDBox_currentIndexChanged(int index)
                             /*-----------------------------*\
                             | Set global index              |
                             \*-----------------------------*/
-                            int globalIndex = device->zones[selected_zone].leds - &(device->leds[0]) + selected_led + device->zones[selected_zone].segments[selected_segment].start_idx;
+                            int globalIndex = device->GetZoneStartIndex(selected_zone) + selected_led + device->zones[selected_zone].segments[selected_segment].start_idx;
 
                             /*-----------------------------*\
                             | Select LED in device view     |
@@ -720,8 +720,7 @@ void OpenRGBDevicePage::on_ModeBox_currentIndexChanged(int index)
     | Disable the button if we can safely auto apply colors |
     \*-----------------------------------------------------*/
     ui->ApplyColorsButton->setDisabled(autoUpdateEnabled());
-    ui->SetAllButton->setDisabled(device->modes[index].name != "Direct" && device->modes[index].name != "Custom" && device->modes[index].name != "Static");
-
+    ui->SetAllButton->setDisabled(device->GetModeName(index) != "Direct" && device->GetModeName(index) != "Custom" && device->GetModeName(index) != "Static");
 }
 
 void OpenRGBDevicePage::on_PerLEDCheck_clicked()
@@ -1267,7 +1266,7 @@ void OpenRGBDevicePage::UpdateMode()
             /*-----------------------------------------------------*\
             | Change device mode                                    |
             \*-----------------------------------------------------*/
-            device->SetMode((unsigned int)current_mode);
+            device->SetActiveMode((unsigned int)current_mode);
 
             if(device->modes[(unsigned int)current_mode].color_mode == MODE_COLORS_PER_LED)
             {
@@ -1290,7 +1289,7 @@ void OpenRGBDevicePage::SetDevice(unsigned char red, unsigned char green, unsign
 void OpenRGBDevicePage::UpdateDevice()
 {
     ui->ModeBox->blockSignals(true);
-    ui->ModeBox->setCurrentIndex(device->active_mode);
+    ui->ModeBox->setCurrentIndex(device->GetActiveMode());
     ui->ModeBox->blockSignals(false);
     UpdateModeUi();
     UpdateMode();
@@ -1304,7 +1303,7 @@ void OpenRGBDevicePage::SetCustomMode(unsigned char red, unsigned char green, un
     \*-----------------------------------------------------*/
     device->SetCustomMode();
     ui->ModeBox->blockSignals(true);
-    ui->ModeBox->setCurrentIndex(device->active_mode);
+    ui->ModeBox->setCurrentIndex(device->GetActiveMode());
     ui->ModeBox->blockSignals(false);
     UpdateModeUi();
 
@@ -1371,7 +1370,7 @@ void OpenRGBDevicePage::on_ColorWheelBox_colorChanged(const QColor color)
 
 bool OpenRGBDevicePage::autoUpdateEnabled()
 {
-    return !(device->modes[device->active_mode].flags & MODE_FLAG_AUTOMATIC_SAVE);
+    return !(device->GetModeFlags(device->GetActiveMode()) & MODE_FLAG_AUTOMATIC_SAVE);
 }
 
 void OpenRGBDevicePage::on_RedSpinBox_valueChanged(int red)
@@ -1516,7 +1515,7 @@ void OpenRGBDevicePage::on_HexLineEdit_textChanged(const QString &arg1)
 
 void OpenRGBDevicePage::on_DeviceViewBox_selectionChanged(QVector<int> indices)
 {
-    if(device->modes[device->active_mode].color_mode == MODE_COLORS_PER_LED)
+    if(device->modes[device->GetActiveMode()].color_mode == MODE_COLORS_PER_LED)
     {
         ui->ZoneBox->blockSignals(true);
         ui->LEDBox->blockSignals(true);
@@ -1524,11 +1523,11 @@ void OpenRGBDevicePage::on_DeviceViewBox_selectionChanged(QVector<int> indices)
         on_ZoneBox_currentIndexChanged(0);
         //updateLeds(); // We want to update the LED box, but we don't want any of the side effects of that action
         ui->ZoneBox->blockSignals(false);
-        if(indices.size() != 0 && size_t(indices.size()) != device->leds.size())
+        if(indices.size() != 0 && size_t(indices.size()) != device->GetLEDCount())
         {
             if(indices.size() == 1)
             {
-                if(device->leds.size() == 1)
+                if(device->GetLEDCount() == 1)
                 {
                     ui->LEDBox->setCurrentIndex(0);
                 }
@@ -1543,11 +1542,11 @@ void OpenRGBDevicePage::on_DeviceViewBox_selectionChanged(QVector<int> indices)
             {
                 if(MultipleSelected)
                 {
-                    ui->LEDBox->removeItem((int)(device->leds.size() + 1));
+                    ui->LEDBox->removeItem((int)(device->GetLEDCount() + 1));
                 }
                 // TODO: translate
                 ui->LEDBox->addItem("Multiple (" + QVariant(indices.size()).toString() + ")");
-                ui->LEDBox->setCurrentIndex((int)(device->leds.size() + 1));
+                ui->LEDBox->setCurrentIndex((int)(device->GetLEDCount() + 1));
                 MultipleSelected = 1;
             }
         }
@@ -1566,7 +1565,7 @@ void OpenRGBDevicePage::on_SetAllButton_clicked()
 
 void OpenRGBDevicePage::on_EditZoneButton_clicked()
 {
-    switch(device->modes[device->active_mode].color_mode)
+    switch(device->modes[device->GetActiveMode()].color_mode)
     {
     case MODE_COLORS_PER_LED:
         {
@@ -1673,15 +1672,15 @@ void OpenRGBDevicePage::on_EditZoneButton_clicked()
 
     case MODE_COLORS_MODE_SPECIFIC:
         {
-            OpenRGBZoneResizeDialog dlg(device->modes[device->active_mode].colors_min,
-                                        device->modes[device->active_mode].colors_max,
-                                        (int)device->modes[device->active_mode].colors.size());
+            OpenRGBZoneResizeDialog dlg(device->modes[device->GetActiveMode()].colors_min,
+                                        device->modes[device->GetActiveMode()].colors_max,
+                                        (int)device->modes[device->GetActiveMode()].colors.size());
 
             int new_size = dlg.show();
 
             if(new_size > 0)
             {
-                device->modes[device->active_mode].colors.resize(new_size);
+                device->modes[device->GetActiveMode()].colors.resize(new_size);
             }
 
             UpdateModeUi();
@@ -1707,7 +1706,7 @@ void OpenRGBDevicePage::ShowDeviceView()
     | Only show device view if active mode is Per-LED and   |
     | device contains at least one LED                      |
     \*-----------------------------------------------------*/
-    if(device->modes[selected_mode].flags & MODE_FLAG_HAS_PER_LED_COLOR && device->leds.size() >= 1)
+    if(device->modes[selected_mode].flags & MODE_FLAG_HAS_PER_LED_COLOR && device->GetLEDCount() >= 1)
     {
         ui->DeviceViewBoxFrame->show();
     }
@@ -1770,7 +1769,7 @@ void OpenRGBDevicePage::on_ApplyColorsButton_clicked()
 
 void OpenRGBDevicePage::on_SelectAllLEDsButton_clicked()
 {
-    if(device->modes[device->active_mode].color_mode == MODE_COLORS_PER_LED)
+    if(device->modes[device->GetActiveMode()].color_mode == MODE_COLORS_PER_LED)
     {
         ui->LEDBox->setCurrentIndex(0);
         on_LEDBox_currentIndexChanged(0);
@@ -1780,7 +1779,7 @@ void OpenRGBDevicePage::on_SelectAllLEDsButton_clicked()
 
 void OpenRGBDevicePage::on_DeviceSaveButton_clicked()
 {
-    if(device->modes[device->active_mode].flags & MODE_FLAG_MANUAL_SAVE)
+    if(device->GetModeFlags(device->GetActiveMode()) & MODE_FLAG_MANUAL_SAVE)
     {
         device->SaveMode();
     }

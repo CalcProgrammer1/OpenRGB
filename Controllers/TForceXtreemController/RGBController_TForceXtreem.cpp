@@ -365,7 +365,7 @@ int RGBController_TForceXtreem::GetDeviceMode()
 
 void RGBController_TForceXtreem::DeviceUpdateLEDs()
 {
-    if(GetMode() == 0)
+    if(GetActiveMode() == 0)
     {
         controller->SetAllColorsDirect(&colors[0]);
     }
@@ -386,7 +386,7 @@ void RGBController_TForceXtreem::DeviceUpdateZoneLEDs(int zone)
         unsigned char grn   = RGBGetGValue(color);
         unsigned char blu   = RGBGetBValue(color);
 
-        if(GetMode() == 0)
+        if(GetActiveMode() == 0)
         {
             controller->SetLEDColorDirect(led, red, grn, blu);
         }
@@ -404,7 +404,7 @@ void RGBController_TForceXtreem::DeviceUpdateSingleLED(int led)
     unsigned char grn = RGBGetGValue(color);
     unsigned char blu = RGBGetBValue(color);
 
-    if(GetMode() == 0)
+    if(GetActiveMode() == 0)
     {
         controller->SetLEDColorDirect(led, red, grn, blu);
     }
