@@ -275,7 +275,7 @@ bool ProfileManager::LoadDeviceFromListWithOptions
         | Test if saved controller data matches this controller     |
         \*---------------------------------------------------------*/
         if((temp_controller_used[temp_index]    == false                            )
-         &&(temp_controller->type               == load_controller->type            )
+         &&(temp_controller->GetDeviceType()    == load_controller->GetDeviceType() )
          &&(temp_controller->GetName()          == load_controller->GetName()       )
          &&(temp_controller->GetDescription()   == load_controller->GetDescription())
          &&(temp_controller->GetVersion()       == load_controller->GetVersion()    )
