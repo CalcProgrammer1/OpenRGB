@@ -477,33 +477,33 @@ void OptionListDevices(std::vector<RGBController *>& rgb_controllers)
         /*---------------------------------------------------------*\
         | Print device description                                  |
         \*---------------------------------------------------------*/
-        if(!controller->description.empty())
+        if(!controller->GetDescription().empty())
         {
-            std::cout << "  Description:    " << controller->description << std::endl;
+            std::cout << "  Description:    " << controller->GetDescription() << std::endl;
         }
 
         /*---------------------------------------------------------*\
         | Print device version                                      |
         \*---------------------------------------------------------*/
-        if(!controller->version.empty())
+        if(!controller->GetVersion().empty())
         {
-            std::cout << "  Version:        " << controller->version << std::endl;
+            std::cout << "  Version:        " << controller->GetLocation() << std::endl;
         }
 
         /*---------------------------------------------------------*\
         | Print device location                                     |
         \*---------------------------------------------------------*/
-        if(!controller->location.empty())
+        if(!controller->GetLocation().empty())
         {
-            std::cout << "  Location:       " << controller->location << std::endl;
+            std::cout << "  Location:       " << controller->GetLocation() << std::endl;
         }
 
         /*---------------------------------------------------------*\
         | Print device serial                                       |
         \*---------------------------------------------------------*/
-        if(!controller->serial.empty())
+        if(!controller->GetSerial().empty())
         {
-            std::cout << "  Serial:         " << controller->serial << std::endl;
+            std::cout << "  Serial:         " << controller->GetSerial() << std::endl;
         }
 
         /*---------------------------------------------------------*\
