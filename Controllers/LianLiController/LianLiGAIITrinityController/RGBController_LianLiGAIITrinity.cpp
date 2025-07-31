@@ -415,9 +415,3 @@ void RGBController_LianLiGAIITrinity::DeviceUpdateMode()
 {
     DeviceUpdateLEDs();
 }
-
-void RGBController_LianLiGAIITrinity::SetCustomMode()
-{
-
-}
-

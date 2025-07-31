@@ -544,14 +544,6 @@ void RGBController_LianLiUniHub_AL10::DeviceUpdateMode()
     controller->Synchronize();
 }
 
-void RGBController_LianLiUniHub_AL10::SetCustomMode()
-{
-    /*-------------------------------------------------*\
-    | Set mode to Static Color                          |
-    \*-------------------------------------------------*/
-    active_mode = 0;
-}
-
 uint8_t RGBController_LianLiUniHub_AL10::convertAnyFanCount(uint8_t count)
 {
     switch (count)

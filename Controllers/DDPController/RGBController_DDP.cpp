@@ -91,7 +91,7 @@ void RGBController_DDP::DeviceUpdateLEDs()
     std::vector<unsigned int> brightness_adjusted_colors;
     brightness_adjusted_colors.reserve(colors.size());
     float brightness_scale = (float)modes[active_mode].brightness / 100.0f;
-    
+
     for(unsigned int color_idx = 0; color_idx < colors.size(); color_idx++)
     {
         unsigned int color = colors[color_idx];
@@ -120,11 +120,6 @@ void RGBController_DDP::UpdateSingleLED(int /*led*/)
 
 void RGBController_DDP::DeviceUpdateMode()
 {
-}
-
-void RGBController_DDP::SetCustomMode()
-{
-    active_mode = 0;
 }
 
 void RGBController_DDP::SetKeepaliveTime(unsigned int time_ms)

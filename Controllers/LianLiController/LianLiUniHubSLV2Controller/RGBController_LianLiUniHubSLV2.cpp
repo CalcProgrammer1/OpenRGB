@@ -442,12 +442,3 @@ void RGBController_LianLiUniHubSLV2::DeviceUpdateMode()
 
     }
 }
-
-void RGBController_LianLiUniHubSLV2::SetCustomMode()
-{
-    /*-------------------------------------------------*\
-    | Set mode to Static Color                          |
-    \*-------------------------------------------------*/
-    active_mode = 0;
-}
-

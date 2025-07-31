@@ -627,11 +627,6 @@ void RGBController_Debug::UpdateSingleLED(int /*led*/)
 
 }
 
-void RGBController_Debug::SetCustomMode()
-{
-
-}
-
 void RGBController_Debug::DeviceUpdateMode()
 {
 

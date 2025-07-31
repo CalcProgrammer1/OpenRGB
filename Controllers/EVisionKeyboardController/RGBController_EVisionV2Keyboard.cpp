@@ -933,18 +933,6 @@ void RGBController_EVisionV2Keyboard::UpdateSingleLED(int led)
     last_update_time = std::chrono::steady_clock::now();
 }
 
-void RGBController_EVisionV2Keyboard::SetCustomMode()
-{
-    if(part == EVISION_V2_KEYBOARD_PART_KEYBOARD)
-    {
-        active_mode = EVISION_V2_MODE_DIRECT;
-    }
-    else
-    {
-        active_mode = EVISION_V2_MODE2_STATIC;
-    }
-}
-
 void RGBController_EVisionV2Keyboard::DeviceUpdateMode()
 {
     mode set_mode = modes[active_mode];

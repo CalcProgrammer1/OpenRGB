@@ -148,11 +148,6 @@ void RGBController_GainwardGPUv2::UpdateSingleLED(int /*led*/)
     DeviceUpdateLEDs();
 }
 
-void RGBController_GainwardGPUv2::SetCustomMode()
-{
-    active_mode = 0;
-}
-
 void RGBController_GainwardGPUv2::DeviceUpdateMode()
 {
     mode current_mode = modes[(unsigned int)active_mode];

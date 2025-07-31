@@ -207,11 +207,6 @@ void RGBController_CryorigH7QuadLumi::UpdateSingleLED(int led)
     controller->SetChannelLEDs(zone_idx, zones[zone_idx].colors, zones[zone_idx].leds_count);
 }
 
-void RGBController_CryorigH7QuadLumi::SetCustomMode()
-{
-    active_mode = 0;
-}
-
 void RGBController_CryorigH7QuadLumi::DeviceUpdateMode()
 {
     if(modes[active_mode].value == CRYORIG_H7_QUAD_LUMI_MODE_FIXED)

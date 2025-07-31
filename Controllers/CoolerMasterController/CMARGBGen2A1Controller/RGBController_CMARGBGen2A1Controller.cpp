@@ -309,11 +309,6 @@ void RGBController_CMARGBGen2A1Controller::UpdateSingleLED(int /*led*/)
     DeviceUpdateLEDs();
 }
 
-void RGBController_CMARGBGen2A1Controller::SetCustomMode()
-{
-    active_mode = 0;
-}
-
 void RGBController_CMARGBGen2A1Controller::DeviceUpdateMode()
 {
     const mode& active = modes[active_mode];

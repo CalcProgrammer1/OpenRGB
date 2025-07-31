@@ -35,8 +35,6 @@ public:
 
     void DeviceUpdateMode();
 
-    void SetCustomMode();
-
 private:
     LianLiUniHubSLInfinityController* controller;
     bool                    initializedMode;

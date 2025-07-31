@@ -33,8 +33,6 @@ public:
 
     void DeviceUpdateMode();
 
-    void SetCustomMode();
-
 private:
     LianLiUniHubALController* controller;
     bool                    initializedMode;

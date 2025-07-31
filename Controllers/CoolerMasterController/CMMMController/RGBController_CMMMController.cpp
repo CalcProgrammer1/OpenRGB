@@ -249,18 +249,6 @@ void RGBController_CMMMController::UpdateSingleLED(int /*led*/)
     DeviceUpdateLEDs();
 }
 
-void RGBController_CMMMController::SetCustomMode()
-{
-    for(int mode_index = 0; mode_index < (int)modes.size(); mode_index++)
-    {
-        if(modes[mode_index].value == CM_MM_MODE_CUSTOM)
-        {
-            active_mode = mode_index;
-            break;
-        }
-    }
-}
-
 void RGBController_CMMMController::DeviceUpdateMode()
 {
     RGBColor mode_one = 0;

@@ -443,12 +443,3 @@ void RGBController_LianLiUniHubSLInfinity::DeviceUpdateMode()
 
     }
 }
-
-void RGBController_LianLiUniHubSLInfinity::SetCustomMode()
-{
-    /*-------------------------------------------------*\
-    | Set mode to Static Color                          |
-    \*-------------------------------------------------*/
-    active_mode = 0;
-}
-

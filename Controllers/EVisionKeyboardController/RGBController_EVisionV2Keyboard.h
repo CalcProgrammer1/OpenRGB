@@ -24,7 +24,6 @@ public:
 
     void SetupZones() override;
     void ResizeZone(int zone, int new_size) override;
-    void SetCustomMode() override;
 
     void DeviceUpdateLEDs() override;
     void UpdateZoneLEDs(int zone) override;

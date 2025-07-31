@@ -32,8 +32,6 @@ public:
 
     void DeviceUpdateMode();
 
-    void SetCustomMode();
-
 private:
     uint8_t convertAnyFanCount(uint8_t count);
     uint8_t convertLedSpeed(uint8_t speed);

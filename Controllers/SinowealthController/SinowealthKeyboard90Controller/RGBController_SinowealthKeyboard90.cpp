@@ -156,14 +156,6 @@ void RGBController_SinowealthKeyboard90::UpdateSingleLED(int /*key*/)
     DeviceUpdateLEDs();
 }
 
-void RGBController_SinowealthKeyboard90::SetCustomMode()
-{
-    /*---------------------------------------------------------*\
-    | In our case, custom mode is on index MODE_CUSTOM          |
-    \*---------------------------------------------------------*/
-    active_mode = MODE_CUSTOM;
-}
-
 void RGBController_SinowealthKeyboard90::DeviceUpdateMode()
 {
     if (modes[active_mode].value == MODE_CUSTOM)

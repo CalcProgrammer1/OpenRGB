@@ -281,11 +281,6 @@ void RGBController_OKSKeyboard::UpdateSingleLED(int led)
     UpdateZoneLEDs(led);
 }
 
-void RGBController_OKSKeyboard::SetCustomMode()
-{
-    active_mode = 0;
-}
-
 void RGBController_OKSKeyboard::DeviceUpdateMode()
 {
     mode m = modes[active_mode];

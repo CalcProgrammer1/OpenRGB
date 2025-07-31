@@ -184,18 +184,6 @@ void RGBController_CMMM711Controller::UpdateSingleLED(int /*led*/)
     DeviceUpdateLEDs();
 }
 
-void RGBController_CMMM711Controller::SetCustomMode()
-{
-    for(int mode_index = 0; mode_index < (int)modes.size(); mode_index++)
-    {
-        if(modes[mode_index].value == CM_MM711_MODE_CUSTOM)
-        {
-            active_mode = mode_index;
-            break;
-        }
-    }
-}
-
 void RGBController_CMMM711Controller::DeviceUpdateMode()
 {
     RGBColor colour = 0;

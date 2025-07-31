@@ -175,11 +175,6 @@ void RGBController_CMMP750Controller::UpdateSingleLED(int led)
     UpdateZoneLEDs(led);
 }
 
-void RGBController_CMMP750Controller::SetCustomMode()
-{
-    active_mode = 0;
-}
-
 void RGBController_CMMP750Controller::DeviceUpdateMode()
 {
     controller->SetMode(modes[active_mode].value, modes[active_mode].speed);

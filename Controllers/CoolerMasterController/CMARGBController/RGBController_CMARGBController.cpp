@@ -400,18 +400,6 @@ void RGBController_CMARGBController::UpdateSingleLED(int led)
     UpdateZoneLEDs(GetLED_Zone(led));
 }
 
-void RGBController_CMARGBController::SetCustomMode()
-{
-    for(int mode_idx = 0; mode_idx < (int)modes.size() ; mode_idx++)
-    {
-        if (modes[mode_idx].value == CM_ARGB_MODE_DIRECT)
-        {
-            active_mode = mode_idx;
-            break;
-        }
-    }
-}
-
 void RGBController_CMARGBController::DeviceUpdateMode()
 {
     bool     random_colours = (modes[active_mode].color_mode == MODE_COLORS_RANDOM);

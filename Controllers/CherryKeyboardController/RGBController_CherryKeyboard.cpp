@@ -390,11 +390,6 @@ void RGBController_CherryKeyboard::UpdateSingleLED(int /*led*/)
     DeviceUpdateLEDs();
 }
 
-void RGBController_CherryKeyboard::SetCustomMode()
-{
-
-}
-
 void RGBController_CherryKeyboard::DeviceUpdateMode()
 {
     unsigned char red    = 0x00;

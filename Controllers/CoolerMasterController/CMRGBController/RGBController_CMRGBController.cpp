@@ -265,18 +265,6 @@ void RGBController_CMRGBController::UpdateSingleLED(int /*led*/)
 {
 }
 
-void RGBController_CMRGBController::SetCustomMode()
-{
-    for(int mode_idx = 0; mode_idx < (int)modes.size() ; mode_idx++)
-    {
-        if(modes[mode_idx].value == CM_RGBC_MODE_MULTIPLE)
-        {
-            active_mode = mode_idx;
-            break;
-        }
-    }
-}
-
 void RGBController_CMRGBController::DeviceUpdateMode()
 {
     RGBColor color_1 = (modes[active_mode].color_mode == MODE_COLORS_MODE_SPECIFIC) ? modes[active_mode].colors[0] : 0;

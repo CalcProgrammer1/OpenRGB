@@ -222,11 +222,6 @@ void RGBController_CMR6000Controller::UpdateSingleLED(int /*led*/)
     DeviceUpdateLEDs();
 }
 
-void RGBController_CMR6000Controller::SetCustomMode()
-{
-    active_mode = 1;
-}
-
 void RGBController_CMR6000Controller::DeviceUpdateMode()
 {
     DeviceUpdateLEDs();

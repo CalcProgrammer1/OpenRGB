@@ -21,11 +21,13 @@ public:
     ~RGBController_CMMonitorController();
 
     void SetupZones();
+
     void ResizeZone(int zone, int new_size);
+
     void DeviceUpdateLEDs();
     void UpdateZoneLEDs(int zone);
     void UpdateSingleLED(int led);
-    void SetCustomMode();
+
     void DeviceUpdateMode();
 
 private:

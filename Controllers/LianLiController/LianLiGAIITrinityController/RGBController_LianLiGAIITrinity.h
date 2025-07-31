@@ -30,8 +30,6 @@ public:
 
     void DeviceUpdateMode();
 
-    void SetCustomMode();
-
     LianLiGAIITrinityController::GAII_Direction OpenRGBDirection2GAIIDirection(unsigned int openrgb_direction)
     {
         if(openrgb_direction == MODE_DIRECTION_LEFT)

@@ -197,11 +197,6 @@ void RGBController_CMMonitorController::UpdateSingleLED(int /*led*/)
     DeviceUpdateLEDs();
 }
 
-void RGBController_CMMonitorController::SetCustomMode()
-{
-    active_mode = 0;
-}
-
 void RGBController_CMMonitorController::DeviceUpdateMode()
 {
     switch(modes[active_mode].value)

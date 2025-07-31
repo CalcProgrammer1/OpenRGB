@@ -58,7 +58,7 @@ void RGBController_AMBX::SetupZones()
     side_lights_zone.leds_count = 2;
     side_lights_zone.matrix_map = NULL;
     zones.push_back(side_lights_zone);
-    
+
     zone wallwasher_zone;
     wallwasher_zone.name       = "Wallwasher";
     wallwasher_zone.type       = ZONE_TYPE_LINEAR;
@@ -108,16 +108,16 @@ void RGBController_AMBX::DeviceUpdateLEDs()
     {
         return;
     }
-    
+
     unsigned int led_values[5];
     RGBColor led_colors[5];
-    
+
     for(unsigned int led_idx = 0; led_idx < leds.size(); led_idx++)
     {
         led_values[led_idx] = leds[led_idx].value;
         led_colors[led_idx] = colors[led_idx];
     }
-    
+
     controller->SetLEDColors(led_values, led_colors, static_cast<unsigned int>(leds.size()));
 }
 
@@ -127,10 +127,10 @@ void RGBController_AMBX::UpdateZoneLEDs(int zone)
     {
         return;
     }
-    
+
     unsigned int start_idx = 0;
     unsigned int zone_size = 0;
-    
+
     // Calculate start index and size
     for(unsigned int z_idx = 0; z_idx < zones.size(); z_idx++)
     {
@@ -139,20 +139,20 @@ void RGBController_AMBX::UpdateZoneLEDs(int zone)
             zone_size = zones[z_idx].leds_count;
             break;
         }
-        
+
         start_idx += zones[z_idx].leds_count;
     }
-    
+
     unsigned int led_values[5];
     RGBColor led_colors[5];
-    
+
     for(unsigned int led_idx = 0; led_idx < zone_size; led_idx++)
     {
         unsigned int current_idx = start_idx + led_idx;
         led_values[led_idx] = leds[current_idx].value;
         led_colors[led_idx] = colors[current_idx];
     }
-    
+
     controller->SetLEDColors(led_values, led_colors, zone_size);
 }
 
@@ -162,7 +162,7 @@ void RGBController_AMBX::UpdateSingleLED(int led)
     {
         return;
     }
-    
+
     unsigned int led_value = leds[led].value;
     RGBColor color = colors[led];
     controller->SetLEDColor(led_value, color);
@@ -174,11 +174,6 @@ void RGBController_AMBX::DeviceUpdateMode()
     {
         return;
     }
-    
-    DeviceUpdateLEDs();
-}
 
-void RGBController_AMBX::SetCustomMode()
-{
-    active_mode = 0;
+    DeviceUpdateLEDs();
 }

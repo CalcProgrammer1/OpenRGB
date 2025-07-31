@@ -40,8 +40,6 @@ public:
     void            DeviceUpdateMode();
     void            DeviceSaveMode();
 
-    void            SetCustomMode();
-
 private:
     GenesisXenon200Controller* controller;
 };

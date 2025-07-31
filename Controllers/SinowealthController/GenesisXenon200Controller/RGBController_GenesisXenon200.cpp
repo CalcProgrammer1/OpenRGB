@@ -143,10 +143,3 @@ void RGBController_GenesisXenon200::UpdateSingleLED(int /*led*/)
 {
 
 }
-
-
-
-void RGBController_GenesisXenon200::SetCustomMode()
-{
-
-}
