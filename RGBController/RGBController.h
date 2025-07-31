@@ -347,12 +347,6 @@ public:
 class RGBController : public RGBControllerInterface
 {
 public:
-    std::string             name;           /* controller name          */
-    std::string             vendor;         /* controller vendor        */
-    std::string             description;    /* controller description   */
-    std::string             version;        /* controller version       */
-    std::string             serial;         /* controller serial number */
-    std::string             location;       /* controller location      */
     std::vector<led>        leds;           /* LEDs                     */
     std::vector<zone>       zones;          /* Zones                    */
     std::vector<mode>       modes;          /* Modes                    */
@@ -472,6 +466,14 @@ public:
 
     virtual void            DeviceUpdateMode()                          = 0;
     void                    DeviceSaveMode();
+
+protected:
+    std::string             name;           /* controller name          */
+    std::string             vendor;         /* controller vendor        */
+    std::string             description;    /* controller description   */
+    std::string             version;        /* controller version       */
+    std::string             serial;         /* controller serial number */
+    std::string             location;       /* controller location      */
 
 private:
     std::thread*            DeviceCallThread;
