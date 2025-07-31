@@ -82,10 +82,6 @@ void DetectSpectrixS40GControllers()
                 ENESMBusController*             controller     = new ENESMBusController(interface, 0x67);
                 RGBController_ENESMBus*         rgb_controller = new RGBController_ENESMBus(controller);
 
-                rgb_controller->name                           = "XPG Spectrix S40G";
-                rgb_controller->type                           = DEVICE_TYPE_STORAGE;
-                rgb_controller->vendor                         = "XPG";
-
                 ResourceManager::get()->RegisterRGBController(rgb_controller);
             }
         }

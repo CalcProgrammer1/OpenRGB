@@ -34,7 +34,6 @@ void DetectPNYLovelaceGPUControllers(i2c_smbus_interface* bus, uint8_t i2c_addr,
     PNYLovelaceGPUController*     controller        = new PNYLovelaceGPUController(bus, i2c_addr);
     RGBController_PNYLovelaceGPU* rgb_controller    = new RGBController_PNYLovelaceGPU(controller);
     rgb_controller->name                            = name;
-    rgb_controller->vendor                          = name.substr(0, name.find(' '));
 
     ResourceManager::get()->RegisterRGBController(rgb_controller);
 } /* DetectPNYLovelaceGPUControllers() */

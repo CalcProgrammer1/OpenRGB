@@ -11,6 +11,7 @@
 
 #pragma once
 
+#include <string>
 #include <vector>
 #include <hidapi.h>
 #include "RGBController.h"
@@ -110,8 +111,10 @@ public:
         BA_DIRECTION = 0x16,
     };
 
-    LianLiGAIITrinityController(hid_device* dev_handle);
+    LianLiGAIITrinityController(hid_device* dev_handle, char* path);
     ~LianLiGAIITrinityController();
+
+    std::string GetLocation();
 
     GAII_Info GetControllerInfo();
 
@@ -132,6 +135,7 @@ public:
     void SetMode_ColorsMorph(GAII_Brightness brightness, GAII_Speed speed, GAII_Direction direction);
 
 private:
+    std::string location;
     unsigned char* GetRGBControlPacketTemplate();
     void SetRGB(unsigned char* usb_buf, RGBColor rgb0) { SetRGB(usb_buf, &rgb0, nullptr, nullptr, nullptr); };
     void SetRGB(unsigned char* usb_buf, RGBColor rgb0, RGBColor rgb1) { SetRGB(usb_buf, &rgb0, &rgb1, nullptr, nullptr); };

@@ -30,6 +30,7 @@ RGBController_LianLiGAIITrinity::RGBController_LianLiGAIITrinity(LianLiGAIITrini
     vendor      = "Lian Li";
     type        = DEVICE_TYPE_COOLER;
     description = "Lian Li Galahad II Trinity AIO";
+    location    = controller->GetLocation();
 
     LianLiGAIITrinityController::GAII_Info controllerInfo = controller->GetControllerInfo();
     version     = controllerInfo.version;

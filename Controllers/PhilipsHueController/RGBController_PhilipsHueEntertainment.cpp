@@ -126,7 +126,7 @@ void RGBController_PhilipsHueEntertainment::DeviceUpdateMode()
 
         for(unsigned int controller_idx = 0; controller_idx < rgb_controllers.size(); controller_idx++)
         {
-            if(rgb_controllers[controller_idx] != this && rgb_controllers[controller_idx]->description == "Philips Hue Entertainment Mode Device" && rgb_controllers[controller_idx]->active_mode == 0)
+            if(rgb_controllers[controller_idx] != this && rgb_controllers[controller_idx]->GetDescription() == "Philips Hue Entertainment Mode Device" && rgb_controllers[controller_idx]->active_mode == 0)
             {
                 rgb_controllers[controller_idx]->SetMode(1);
             }

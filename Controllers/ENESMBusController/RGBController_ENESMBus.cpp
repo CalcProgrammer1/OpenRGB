@@ -52,6 +52,7 @@ RGBController_ENESMBus::RGBController_ENESMBus(ENESMBusController * controller_p
     | the ENE controller's version string                       |
     \*---------------------------------------------------------*/
     version     = controller->GetDeviceName();
+    location    = controller->GetDeviceLocation();
 
     if((version.find("DIMM_LED") != std::string::npos) || (version.find("AUDA") != std::string::npos) )
     {
@@ -65,6 +66,12 @@ RGBController_ENESMBus::RGBController_ENESMBus(ENESMBusController * controller_p
         name    = "ASUS ROG Strix Arion";
         vendor  = "ASUS";
     }
+    else if(location.find("NVMe:") != std::string::npos)
+    {
+        type    = DEVICE_TYPE_STORAGE;
+        name    = "XPG Spectrix S40G";
+        vendor  = "XPG";
+    }
     else
     {
         type    = DEVICE_TYPE_MOTHERBOARD;
@@ -72,7 +79,6 @@ RGBController_ENESMBus::RGBController_ENESMBus(ENESMBusController * controller_p
         vendor  = "ASUS";
     }
 
-    location    = controller->GetDeviceLocation();
     description = "ENE SMBus Device";
 
     mode Direct;

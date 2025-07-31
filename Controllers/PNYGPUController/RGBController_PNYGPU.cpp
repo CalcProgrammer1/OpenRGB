@@ -26,8 +26,8 @@ RGBController_PNYGPU::RGBController_PNYGPU(PNYGPUController* controller_ptr)
 {
     controller              = controller_ptr;
 
-    name                    = "PNY/Palit GPU";
-    vendor                  = "PNY/Palit";
+    name                    = controller->GetDeviceName();
+    vendor                  = name.substr(0, name.find(' '));
     description             = "PNY/Palit RGB GPU Device";
     location                = controller->GetDeviceLocation();
 

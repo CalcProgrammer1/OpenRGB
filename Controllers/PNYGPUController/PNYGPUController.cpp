@@ -11,15 +11,21 @@
 
 #include "PNYGPUController.h"
 
-PNYGPUController::PNYGPUController(i2c_smbus_interface* bus, pny_dev_id dev)
+PNYGPUController::PNYGPUController(i2c_smbus_interface* bus, pny_dev_id dev, std::string name)
 {
-    this->bus = bus;
-    this->dev = dev;
+    this->bus   = bus;
+    this->dev   = dev;
+    this->name  = name;
 }
 
 PNYGPUController::~PNYGPUController()
 {
 
+}
+
+std::string PNYGPUController::GetDeviceName()
+{
+    return(name);
 }
 
 std::string PNYGPUController::GetDeviceLocation()

@@ -49,7 +49,6 @@ void DetectPalitGPUControllers(i2c_smbus_interface* bus, uint8_t i2c_addr, const
     PalitGPUController*   controller        = new PalitGPUController(bus, i2c_addr);
     RGBController_PalitGPU* rgb_controller  = new RGBController_PalitGPU(controller);
     rgb_controller->name                    = name;
-    rgb_controller->vendor                  = name.substr(0, name.find(' '));
 
     ResourceManager::get()->RegisterRGBController(rgb_controller);
 } /* DetectPalitGPUControllers() */

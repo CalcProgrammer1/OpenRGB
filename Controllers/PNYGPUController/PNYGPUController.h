@@ -37,9 +37,10 @@ enum
 class PNYGPUController
 {
 public:
-	PNYGPUController(i2c_smbus_interface* bus, pny_dev_id dev);
+	PNYGPUController(i2c_smbus_interface* bus, pny_dev_id dev, std::string name);
 	~PNYGPUController();
 
+    std::string     GetDeviceName();
 	std::string     GetDeviceLocation();
 
     void SetOff();
@@ -50,6 +51,7 @@ public:
 private:
 	i2c_smbus_interface*    bus;
 	pny_dev_id              dev;
+    std::string             name;
 
     void            WriteI2CData(u8 command, u8 length, u8* data);
     unsigned char   GetMode();

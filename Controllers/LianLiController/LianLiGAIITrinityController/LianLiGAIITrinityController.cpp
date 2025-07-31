@@ -16,9 +16,10 @@
 #include "LianLiGAIITrinityController.h"
 #include "StringUtils.h"
 
-LianLiGAIITrinityController::LianLiGAIITrinityController(hid_device* dev_handle)
+LianLiGAIITrinityController::LianLiGAIITrinityController(hid_device* dev_handle, char* path)
 {
-    dev = dev_handle;
+    dev         = dev_handle;
+    location    = path;
 }
 
 LianLiGAIITrinityController::~LianLiGAIITrinityController()
@@ -27,6 +28,11 @@ LianLiGAIITrinityController::~LianLiGAIITrinityController()
     {
         hid_close(dev);
     }
+}
+
+std::string LianLiGAIITrinityController::GetLocation()
+{
+    return("HID: " + location);
 }
 
 LianLiGAIITrinityController::GAII_Info LianLiGAIITrinityController::GetControllerInfo()
