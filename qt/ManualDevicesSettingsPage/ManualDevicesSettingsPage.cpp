@@ -184,7 +184,6 @@ void ManualDevicesSettingsPage::clearList()
 void ManualDevicesSettingsPage::setUnsavedChanges(bool v)
 {
     unsavedChanges = v;
-    ui->saveConfigurationButton->setEnabled(v && checkValidToSave());
 
     if(v)
     {
