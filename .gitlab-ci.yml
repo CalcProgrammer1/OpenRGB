@@ -65,85 +65,66 @@ before_script:
     - !reference [.upstream_rules, rules]
 
 #-----------------------------------------------------------------------#
-# Linux (AppImage) i386 Build Target                                    #
+# OpenRGB Common Appimage Build Steps                                   #
 #-----------------------------------------------------------------------#
-"Linux i386 AppImage":
-  image: registry.gitlab.com/openrgbdevelopers/openrgb-linux-ci-deb-builder:bookworm-i386
+.hidden_appimage_script: &appimage_script_steps
+  image: registry.gitlab.com/openrgbdevelopers/openrgb-linux-ci-deb-builder:bookworm-${TGT_ARCH}
   tags:
   - linux
-  - i386
+  - ${TGT_ARCH}
   stage: build
   script:
   - export $(dpkg-architecture)
-  - ./scripts/build-appimage.sh
+  - ./scripts/build-appimage.sh ${TGT_QT}
 
   artifacts:
-    name: "${CI_PROJECT_NAME}_Linux_i386_${CI_COMMIT_SHORT_SHA}"
+    name: "${CI_PROJECT_NAME}_Linux_${TGT_NAME}_${CI_COMMIT_SHORT_SHA}"
     paths:
-    - OpenRGB-i386.AppImage
+    - OpenRGB-${TGT_PATH}.AppImage
     - 60-openrgb.rules
     - README.md
     expire_in: 30 days
 
   rules:
     - !reference [.upstream_rules, rules]
+
+#-----------------------------------------------------------------------#
+# Linux (AppImage) i386 Build Target                                    #
+#-----------------------------------------------------------------------#
+"Linux i386 AppImage":
+  variables:
+    TGT_ARCH: "i386"
+    TGT_QT: ""
+    TGT_NAME: "${TGT_ARCH}"
+    TGT_PATH: "${TGT_ARCH}"
+  <<: *appimage_script_steps
 
 #-----------------------------------------------------------------------#
 # Linux (AppImage) Qt6 i386 Build Target                                #
 #-----------------------------------------------------------------------#
 "Linux i386 AppImage Qt6":
-  image: registry.gitlab.com/openrgbdevelopers/openrgb-linux-ci-deb-builder:bookworm-i386
-  tags:
-  - linux
-  - i386
-  stage: build
-  script:
-  - export $(dpkg-architecture)
-  - ./scripts/build-appimage.sh qt6
-
-  artifacts:
-    name: "${CI_PROJECT_NAME}_Linux_i386_Qt6_${CI_COMMIT_SHORT_SHA}"
-    paths:
-    - OpenRGB-i386.AppImage
-    - 60-openrgb.rules
-    - README.md
-    expire_in: 30 days
-
-  rules:
-    - !reference [.upstream_rules, rules]
+  variables:
+    TGT_ARCH: "i386"
+    TGT_QT: "qt6"
+    TGT_NAME: "${TGT_ARCH}_${TGT_QT^}"
+    TGT_PATH: "${TGT_ARCH}"
+  <<: *appimage_script_steps
 
 #-----------------------------------------------------------------------#
 # Linux (AppImage) amd64 Build Target                                   #
 #-----------------------------------------------------------------------#
-"Linux amd64 AppImage Base":
-  image: registry.gitlab.com/openrgbdevelopers/openrgb-linux-ci-deb-builder:bookworm-amd64
-  stage: build
-  script:
-  - export $(dpkg-architecture)
-  - ./scripts/build-appimage.sh
-
-  artifacts:
-    name: "${CI_PROJECT_NAME}_Linux_amd64_${CI_COMMIT_SHORT_SHA}"
-    paths:
-    - OpenRGB-x86_64.AppImage
-    - 60-openrgb.rules
-    - README.md
-    expire_in: 30 days
-
-  rules:
-  - if: $CI_PIPELINE_SOURCE == "merge_request_event" || $CI_PIPELINE_SOURCE == "push"
-    when: never
-
 "Linux amd64 AppImage":
-  extends: "Linux amd64 AppImage Base"
+  variables:
+    TGT_ARCH: "amd64"
+    TGT_QT: ""
+    TGT_NAME: "${TGT_ARCH}"
+    TGT_PATH: "x86_64"
+  <<: *appimage_script_steps
   rules:
   - !reference [.fork_local_runner_rules, rules]
-  tags:
-  - linux
-  - amd64
 
 "Linux amd64 AppImage (gitlab.com runner)":
-  extends: "Linux amd64 AppImage Base"
+  extends: "Linux amd64 AppImage"
   rules:
   - !reference [.fork_gitlab_runner_rules, rules]
   tags:
@@ -153,121 +134,56 @@ before_script:
 # Linux (AppImage) Qt6 amd64 Build Target                               #
 #-----------------------------------------------------------------------#
 "Linux amd64 AppImage Qt6":
-  image: registry.gitlab.com/openrgbdevelopers/openrgb-linux-ci-deb-builder:bookworm-amd64
-  tags:
-  - linux
-  - amd64
-  stage: build
-  script:
-  - export $(dpkg-architecture)
-  - ./scripts/build-appimage.sh qt6
-
-  artifacts:
-    name: "${CI_PROJECT_NAME}_Linux_amd64_Qt6_${CI_COMMIT_SHORT_SHA}"
-    paths:
-    - OpenRGB-x86_64.AppImage
-    - 60-openrgb.rules
-    - README.md
-    expire_in: 30 days
-
-  rules:
-    - !reference [.upstream_rules, rules]
+  variables:
+    TGT_ARCH: "amd64"
+    TGT_QT: "qt6"
+    TGT_NAME: "${TGT_ARCH}_${TGT_QT^}"
+    TGT_PATH: "x86_64"
+  <<: *appimage_script_steps
 
 #-----------------------------------------------------------------------#
 # Linux (AppImage) armhf Build Target                                   #
 #-----------------------------------------------------------------------#
 "Linux armhf AppImage":
-  image: registry.gitlab.com/openrgbdevelopers/openrgb-linux-ci-deb-builder:bookworm-armhf
-  tags:
-  - linux
-  - armhf
-  stage: build
-  script:
-  - export $(dpkg-architecture)
-  - ./scripts/build-appimage.sh
-
-  artifacts:
-    name: "${CI_PROJECT_NAME}_Linux_armhf_${CI_COMMIT_SHORT_SHA}"
-    paths:
-    - OpenRGB-armhf.AppImage
-    - 60-openrgb.rules
-    - README.md
-    expire_in: 30 days
-
-  rules:
-    - !reference [.upstream_rules, rules]
+  variables:
+    TGT_ARCH: "armhf"
+    TGT_QT: ""
+    TGT_NAME: "${TGT_ARCH}"
+    TGT_PATH: "${TGT_ARCH}"
+  <<: *appimage_script_steps
 
 #-----------------------------------------------------------------------#
 # Linux (AppImage) Qt6 armhf Build Target                               #
 #-----------------------------------------------------------------------#
 "Linux armhf AppImage Qt6":
-  image: registry.gitlab.com/openrgbdevelopers/openrgb-linux-ci-deb-builder:bookworm-armhf
-  tags:
-  - linux
-  - armhf
-  stage: build
-  script:
-  - export $(dpkg-architecture)
-  - ./scripts/build-appimage.sh qt6
-
-  artifacts:
-    name: "${CI_PROJECT_NAME}_Linux_armhf_Qt6_${CI_COMMIT_SHORT_SHA}"
-    paths:
-    - OpenRGB-armhf.AppImage
-    - 60-openrgb.rules
-    - README.md
-    expire_in: 30 days
-
-  rules:
-    - !reference [.upstream_rules, rules]
+  variables:
+    TGT_ARCH: "armhf"
+    TGT_QT: "qt6"
+    TGT_NAME: "${TGT_ARCH}_${TGT_QT^}"
+    TGT_PATH: "${TGT_ARCH}"
+  <<: *appimage_script_steps
 
 #-----------------------------------------------------------------------#
 # Linux (AppImage) arm64 Build Target                                   #
 #-----------------------------------------------------------------------#
 "Linux arm64 AppImage":
-  image: registry.gitlab.com/openrgbdevelopers/openrgb-linux-ci-deb-builder:bookworm-arm64
-  tags:
-  - linux
-  - arm64
-  stage: build
-  script:
-  - export $(dpkg-architecture)
-  - ./scripts/build-appimage.sh
-
-  artifacts:
-    name: "${CI_PROJECT_NAME}_Linux_arm64_${CI_COMMIT_SHORT_SHA}"
-    paths:
-    - OpenRGB-arm64.AppImage
-    - 60-openrgb.rules
-    - README.md
-    expire_in: 30 days
-
-  rules:
-    - !reference [.upstream_rules, rules]
+  variables:
+    TGT_ARCH: "arm64"
+    TGT_QT: ""
+    TGT_NAME: "${TGT_ARCH}"
+    TGT_PATH: "${TGT_ARCH}"
+  <<: *appimage_script_steps
 
 #-----------------------------------------------------------------------#
 # Linux (AppImage) Qt6 arm64 Build Target                               #
 #-----------------------------------------------------------------------#
 "Linux arm64 AppImage Qt6":
-  image: registry.gitlab.com/openrgbdevelopers/openrgb-linux-ci-deb-builder:bookworm-arm64
-  tags:
-  - linux
-  - arm64
-  stage: build
-  script:
-  - export $(dpkg-architecture)
-  - ./scripts/build-appimage.sh qt6
-
-  artifacts:
-    name: "${CI_PROJECT_NAME}_Linux_arm64_Qt6_${CI_COMMIT_SHORT_SHA}"
-    paths:
-    - OpenRGB-arm64.AppImage
-    - 60-openrgb.rules
-    - README.md
-    expire_in: 30 days
-
-  rules:
-    - !reference [.upstream_rules, rules]
+  variables:
+    TGT_ARCH: "arm64"
+    TGT_QT: "qt6"
+    TGT_NAME: "${TGT_ARCH}_${TGT_QT^}"
+    TGT_PATH: "${TGT_ARCH}"
+  <<: *appimage_script_steps
 
 #-----------------------------------------------------------------------#
 # OpenRGB Common Debian Build Steps                                     #
