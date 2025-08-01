@@ -195,7 +195,7 @@ void OpenRGBClientInfoPage::UpdateInfo()
             | names in them                                         |
             \*-----------------------------------------------------*/
             QTreeWidgetItem* new_item = new QTreeWidgetItem(new_top_item);
-            new_item->setText(0, QString::fromStdString(ResourceManager::get()->GetClients()[client_idx]->server_controllers[dev_idx]->name));
+            new_item->setText(0, QString::fromStdString(ResourceManager::get()->GetClients()[client_idx]->server_controllers[dev_idx]->GetName()));
 
             /*-----------------------------------------------------*\
             | Add child items for each zone in the device           |

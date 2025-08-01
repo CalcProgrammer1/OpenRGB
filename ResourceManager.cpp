@@ -232,7 +232,7 @@ void ResourceManager::RegisterRGBController(RGBController *rgb_controller)
     rgb_controller->flags &= ~CONTROLLER_FLAG_REMOTE;
     rgb_controller->flags |= CONTROLLER_FLAG_LOCAL;
 
-    LOG_INFO("[%s] Registering RGB controller", rgb_controller->name.c_str());
+    LOG_INFO("[%s] Registering RGB controller", rgb_controller->GetName().c_str());
     rgb_controllers_hw.push_back(rgb_controller);
 
     /*-----------------------------------------------------*\
@@ -264,7 +264,7 @@ void ResourceManager::RegisterRGBController(RGBController *rgb_controller)
 
 void ResourceManager::UnregisterRGBController(RGBController* rgb_controller)
 {
-    LOG_INFO("[%s] Unregistering RGB controller", rgb_controller->name.c_str());
+    LOG_INFO("[%s] Unregistering RGB controller", rgb_controller->GetName().c_str());
 
     /*-----------------------------------------------------*\
     | Clear callbacks from the controller before removal    |

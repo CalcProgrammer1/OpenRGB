@@ -417,7 +417,7 @@ bool ProfileManager::LoadProfileWithOptions
     for(std::size_t controller_index = 0; controller_index < controllers.size(); controller_index++)
     {
         bool temp_ret_val = LoadDeviceFromListWithOptions(temp_controllers, temp_controller_used, controllers[controller_index], load_size, load_settings);
-        std::string current_name = controllers[controller_index]->name + " @ " + controllers[controller_index]->GetLocation();
+        std::string current_name = controllers[controller_index]->GetName() + " @ " + controllers[controller_index]->GetLocation();
         LOG_INFO("[ProfileManager] Profile loading: %s for %s", ( temp_ret_val ? "Succeeded" : "FAILED!" ), current_name.c_str());
         ret_val |= temp_ret_val;
     }

@@ -345,7 +345,7 @@ unsigned int ParseMode(DeviceOptions& options, std::vector<RGBController *> &rgb
         }
     }
 
-    std::cout << "Error: Mode '" + options.mode + "' not available for device '" + rgb_controllers[options.device]->name + "'" << std::endl;
+    std::cout << "Error: Mode '" + options.mode + "' not available for device '" + rgb_controllers[options.device]->GetName() + "'" << std::endl;
     return false;
 }
 
@@ -467,7 +467,7 @@ void OptionListDevices(std::vector<RGBController *>& rgb_controllers)
         /*---------------------------------------------------------*\
         | Print device name                                         |
         \*---------------------------------------------------------*/
-        std::cout << controller_idx << ": " << controller->name << std::endl;
+        std::cout << controller_idx << ": " << controller->GetName() << std::endl;
 
         /*---------------------------------------------------------*\
         | Print device type                                         |
@@ -602,7 +602,7 @@ bool OptionDevice(std::vector<DeviceOptions>* current_devices, std::string argum
                 | If the argument is not a number then check all the        |
                 |   controllers names for a match                           |
                 \*---------------------------------------------------------*/
-                std::string name            = rgb_controllers[i]->name;
+                std::string name            = rgb_controllers[i]->GetName();
                 std::transform(name.begin(), name.end(), name.begin(), ::tolower);
                 LOG_TRACE("[CLI] Comparing to %s", name.c_str());
 
@@ -888,7 +888,7 @@ bool OptionProfile(std::string argument, std::vector<RGBController *>& rgb_contr
             RGBController* device = rgb_controllers[controller_idx];
 
             device->DeviceUpdateMode();
-            LOG_DEBUG("[CLI] Updating mode for %s to %i", device->name.c_str(), device->active_mode);
+            LOG_DEBUG("[CLI] Updating mode for %s to %i", device->GetName().c_str(), device->active_mode);
 
             if(device->modes[device->active_mode].color_mode == MODE_COLORS_PER_LED)
             {

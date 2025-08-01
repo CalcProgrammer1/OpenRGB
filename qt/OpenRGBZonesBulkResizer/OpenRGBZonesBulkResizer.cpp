@@ -142,7 +142,7 @@ void OpenRGBZonesBulkResizer::CreateZoneWidget(RGBController* controller, unsign
     | Labels: controller name + zone name                       |
     \*---------------------------------------------------------*/
     QLabel* controller_label = new QLabel(this);
-    controller_label->setText(QString::fromStdString(controller->name));
+    controller_label->setText(QString::fromStdString(controller->GetName()));
 
     QLabel* zone_label = new QLabel(this);
     zone_label->setText(QString::fromStdString(controller->zones[zone_index].name));

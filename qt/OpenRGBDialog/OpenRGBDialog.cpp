@@ -1062,10 +1062,10 @@ void OpenRGBDialog::UpdateDevicesList()
             /*---------------------------------------------*\
             | Create the tab label                          |
             \*---------------------------------------------*/
-            TabLabel* NewTabLabel = new TabLabel(GetIcon(controllers[controller_idx]->type), QString::fromStdString(controllers[controller_idx]->name), (char *)controllers[controller_idx]->name.c_str(), (char *)context);
+            TabLabel* NewTabLabel = new TabLabel(GetIcon(controllers[controller_idx]->type), QString::fromStdString(controllers[controller_idx]->GetName()), (char *)controllers[controller_idx]->GetName().c_str(), (char *)context);
 
             ui->DevicesTabBar->tabBar()->setTabButton(ui->DevicesTabBar->count() - 1, QTabBar::LeftSide, NewTabLabel);
-            ui->DevicesTabBar->tabBar()->setTabToolTip(ui->DevicesTabBar->count() - 1, QString::fromStdString(controllers[controller_idx]->name));
+            ui->DevicesTabBar->tabBar()->setTabToolTip(ui->DevicesTabBar->count() - 1, QString::fromStdString(controllers[controller_idx]->GetName()));
 
             /*---------------------------------------------*\
             | Now move the new tab to the correct position  |
@@ -1115,10 +1115,10 @@ void OpenRGBDialog::UpdateDevicesList()
             /*---------------------------------------------*\
             | Create the tab label                          |
             \*---------------------------------------------*/
-            TabLabel* NewTabLabel = new TabLabel(GetIcon(controllers[controller_idx]->type), QString::fromStdString(controllers[controller_idx]->name), (char *)controllers[controller_idx]->name.c_str(), (char *)context);
+            TabLabel* NewTabLabel = new TabLabel(GetIcon(controllers[controller_idx]->type), QString::fromStdString(controllers[controller_idx]->GetName()), (char *)controllers[controller_idx]->GetName().c_str(), (char *)context);
 
             ui->InformationTabBar->tabBar()->setTabButton(ui->InformationTabBar->count() - 1, QTabBar::LeftSide, NewTabLabel);
-            ui->InformationTabBar->tabBar()->setTabToolTip(ui->InformationTabBar->count() - 1, QString::fromStdString(controllers[controller_idx]->name));
+            ui->InformationTabBar->tabBar()->setTabToolTip(ui->InformationTabBar->count() - 1, QString::fromStdString(controllers[controller_idx]->GetName()));
 
             /*---------------------------------------------*\
             | Now move the new tab to the correct position  |
