@@ -20,10 +20,11 @@
 | the second packet.                                                                    |
 \*-------------------------------------------------------------------------------------*/
 
-BloodyB820RController::BloodyB820RController(hid_device* dev_handle, const char* path)
+BloodyB820RController::BloodyB820RController(hid_device* dev_handle, const char* path, std::string dev_name)
 {
     dev                 = dev_handle;
     location            = path;
+    name                = dev_name;
 
     SendControlPacket(BLOODY_B820R_GAIN_CONTROL);
 }
@@ -50,6 +51,11 @@ std::string BloodyB820RController::GetSerial()
 std::string BloodyB820RController::GetLocation()
 {
     return("HID: " + location);
+}
+
+std::string BloodyB820RController::GetName()
+{
+    return(name);
 }
 
 void  BloodyB820RController::SendControlPacket(uint8_t data)

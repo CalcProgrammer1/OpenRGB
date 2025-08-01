@@ -39,15 +39,17 @@ enum
 class BloodyB820RController
 {
 public:
-    BloodyB820RController(hid_device* dev_handle, const char* path);
+    BloodyB820RController(hid_device* dev_handle, const char* path, std::string dev_name);
     ~BloodyB820RController();
 
     std::string     GetSerial();
     std::string     GetLocation();
+    std::string     GetName();
 
     void            SetLEDDirect(std::vector<RGBColor> colors);
     void            SendControlPacket(uint8_t data);
 private:
     std::string     location;
+    std::string     name;
     hid_device*     dev;
 };

@@ -154,7 +154,7 @@ RGBController_BloodyB820R::RGBController_BloodyB820R(BloodyB820RController *cont
 {
     controller                  = controller_ptr;
 
-    name                        = "Bloody B820R";
+    name                        = controller->GetName();
     vendor                      = "A4Tech";
     type                        = DEVICE_TYPE_KEYBOARD;
     description                 = "A4Tech Bloody Keyboard";

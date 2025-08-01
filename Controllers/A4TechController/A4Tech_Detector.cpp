@@ -46,9 +46,8 @@ void DetectBloodyB820R(hid_device_info* info, const std::string& name)
 
     if(dev)
     {
-        BloodyB820RController*     controller     = new BloodyB820RController(dev, info->path);
+        BloodyB820RController*     controller     = new BloodyB820RController(dev, info->path, name);
         RGBController_BloodyB820R* rgb_controller = new RGBController_BloodyB820R(controller);
-        rgb_controller->name                      = name;
 
         ResourceManager::get()->RegisterRGBController(rgb_controller);
     }
