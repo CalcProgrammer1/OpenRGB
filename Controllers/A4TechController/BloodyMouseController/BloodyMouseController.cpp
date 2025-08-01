@@ -12,11 +12,12 @@
 #include "BloodyMouseController.h"
 #include "StringUtils.h"
 
-BloodyMouseController::BloodyMouseController(hid_device* dev_handle, const char* path, uint16_t product_id)
+BloodyMouseController::BloodyMouseController(hid_device* dev_handle, const char* path, uint16_t product_id, std::string dev_name)
 {
     dev                 = dev_handle;
     location            = path;
     pid                 = product_id;
+    name                = dev_name;
 
     InitDevice();
 }
@@ -47,6 +48,11 @@ std::string BloodyMouseController::GetSerial()
 std::string BloodyMouseController::GetLocation()
 {
     return("HID: " + location);
+}
+
+std::string BloodyMouseController::GetName()
+{
+    return(name);
 }
 
 void BloodyMouseController::InitDevice()

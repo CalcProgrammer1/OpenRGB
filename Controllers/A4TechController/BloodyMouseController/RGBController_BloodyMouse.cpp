@@ -71,6 +71,7 @@ RGBController_BloodyMouse::RGBController_BloodyMouse(BloodyMouseController *cont
             type                = DEVICE_TYPE_MOUSE;
     }
 
+    name                        = controller->GetName();
     vendor                      = "Bloody";
     description                 = "Controller compatible with the Bloody W60 Pro and MP 50RS";
     serial                      = controller->GetSerial();

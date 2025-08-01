@@ -50,18 +50,20 @@ enum
 class BloodyMouseController
 {
 public:
-    BloodyMouseController(hid_device* dev_handle, const char* path, uint16_t product_id);
+    BloodyMouseController(hid_device* dev_handle, const char* path, uint16_t product_id, std::string dev_name);
     ~BloodyMouseController();
 
     uint16_t        GetPid();
     std::string     GetSerial();
     std::string     GetLocation();
+    std::string     GetName();
 
     void            SetLedsDirect(std::vector<RGBColor> colors);
 
 private:
     uint16_t        pid;
     std::string     location;
+    std::string     name;
     hid_device*     dev;
 
     void            InitDevice();
