@@ -14,6 +14,10 @@
 #include "DeviceGuard.h"
 
 #ifdef _WIN32
+/*---------------------------------------------------------*\
+| Windows interferes with std::max unless NOMINMAX defined  |
+\*---------------------------------------------------------*/
+#define NOMINMAX
 #include <Windows.h>
 #endif
 
