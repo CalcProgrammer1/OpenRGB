@@ -4,7 +4,7 @@ This document details the process to compile OpenRGB from source on supported op
 
 ## Windows
 
-  *  You will need the **Microsoft Visual 2019 C++ runtime** installed.  You can get it [here](https://support.microsoft.com/en-us/help/2977003/the-latest-supported-visual-c-downloads)
+  *  You will need the **Microsoft Visual 2019 C++ runtime** installed.  You can get it [here](https://learn.microsoft.com/en-us/cpp/windows/latest-supported-vc-redist)
   *  To build the application yourself on Windows:
       1. [Install Git](https://git-scm.com/download)
       2. Clone the [OpenRGB-Qt-Packages](https://gitlab.com/OpenRGBDevelopers/OpenRGB-Qt-Packages) git repo and run `install.bat` (or optionally `install-chocolatey.bat` if you use the Chocolatey package manager).
