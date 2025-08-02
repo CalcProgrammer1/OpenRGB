@@ -141,7 +141,7 @@ void RGBController_PNYARGBEpicXGPU::ResizeZone(int /*zone*/, int /*new_size*/)
 
 void RGBController_PNYARGBEpicXGPU::DeviceUpdateLEDs()
 {
-    for(int i = 0; i < leds.size(); i++)
+    for(std::size_t i = 0; i < leds.size(); i++)
     {
         UpdateSingleLED(i);
     }
@@ -149,7 +149,7 @@ void RGBController_PNYARGBEpicXGPU::DeviceUpdateLEDs()
 
 void RGBController_PNYARGBEpicXGPU::UpdateZoneLEDs(int zone)
 {
-    for(int i = 0; i < zones[zone].leds_count; i++)
+    for(unsigned int i = 0; i < zones[zone].leds_count; i++)
     {
         UpdateSingleLED(zones[zone].start_idx + i);
     }
