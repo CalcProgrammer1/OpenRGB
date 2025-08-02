@@ -56,6 +56,7 @@ void AlienwareMonitorController::SendColor(unsigned char led_id, unsigned char r
 
     memset(packet, 0xFF, sizeof(packet));
 
+    packet[0] = 0x00;
     packet[1] = 0x92;
     packet[2] = 0x37;
     packet[3] = 0x0a;
@@ -87,6 +88,7 @@ void AlienwareMonitorController::Initialize()
 
     memset(packet, 0xFF, sizeof(packet));
 
+    packet[0] = 0x00;
     packet[1] = 0x95;
     packet[2] = 0x00;
     packet[3] = 0x00;
@@ -101,6 +103,7 @@ void AlienwareMonitorController::Initialize()
 
     memset(packet, 0xFF, sizeof(packet));
 
+    packet[0] = 0x00;
     packet[1] = 0x92;
     packet[2] = 0x37;
     packet[3] = 0x08;
@@ -123,6 +126,7 @@ void AlienwareMonitorController::Initialize()
 
     memset(packet, 0x00, sizeof(packet));
 
+    packet[0] = 0x00;
     packet[1] = 0x93;
     packet[2] = 0x37;
     packet[3] = 0x12;
