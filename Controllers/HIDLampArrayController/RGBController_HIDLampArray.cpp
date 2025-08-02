@@ -382,7 +382,7 @@ void RGBController_HIDLampArray::DeviceUpdateLEDs()
 
         if(leds_to_go < leds_this_frame)
         {
-            leds_to_go = leds_this_frame;
+            leds_this_frame = leds_to_go;
         }
 
         for(unsigned int led_frame_idx = 0; led_frame_idx < leds_this_frame; led_frame_idx++)
