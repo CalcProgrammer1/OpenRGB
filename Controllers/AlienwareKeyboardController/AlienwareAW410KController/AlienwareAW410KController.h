@@ -75,10 +75,11 @@ struct SelectedButtons
 class AlienwareAW410KController
 {
 public:
-    AlienwareAW410KController(hid_device* dev_handle, const char* path);
+    AlienwareAW410KController(hid_device* dev_handle, const char* path, std::string dev_name);
     ~AlienwareAW410KController();
 
     std::string GetDeviceLocation();
+    std::string GetDeviceName();
     std::string GetSerialString();
 
     void        SendInitialize();
@@ -140,6 +141,7 @@ public:
 private:
     hid_device*             dev;
     std::string             location;
+    std::string             name;
 
     void        SendMode
                     (

@@ -14,10 +14,11 @@
 #include "AlienwareAW410KController.h"
 #include "StringUtils.h"
 
-AlienwareAW410KController::AlienwareAW410KController(hid_device* dev_handle, const char* path)
+AlienwareAW410KController::AlienwareAW410KController(hid_device* dev_handle, const char* path, std::string dev_name)
 {
     dev         = dev_handle;
     location    = path;
+    name        = dev_name;
 
     SendCommit();
 }
@@ -30,6 +31,11 @@ AlienwareAW410KController::~AlienwareAW410KController()
 std::string AlienwareAW410KController::GetDeviceLocation()
 {
     return("HID: " + location);
+}
+
+std::string AlienwareAW410KController::GetDeviceName()
+{
+    return(name);
 }
 
 std::string AlienwareAW410KController::GetSerialString()

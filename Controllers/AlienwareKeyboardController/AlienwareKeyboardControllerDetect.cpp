@@ -38,9 +38,9 @@ void DetectAlienwareAW510KControllers(hid_device_info* info, const std::string& 
     hid_device* dev = hid_open_path(info->path);
     if( dev )
     {
-        AlienwareAW510KController*     controller     = new AlienwareAW510KController(dev, info->path);
+        AlienwareAW510KController*     controller     = new AlienwareAW510KController(dev, info->path, name);
         RGBController_AlienwareAW510K* rgb_controller = new RGBController_AlienwareAW510K(controller);
-        rgb_controller->name = name;
+
         ResourceManager::get()->RegisterRGBController(rgb_controller);
     }
 }
@@ -50,9 +50,9 @@ void DetectAlienwareAW410KControllers(hid_device_info* info, const std::string& 
     hid_device* dev = hid_open_path(info->path);
     if( dev )
     {
-        AlienwareAW410KController*     controller     = new AlienwareAW410KController(dev, info->path);
+        AlienwareAW410KController*     controller     = new AlienwareAW410KController(dev, info->path, name);
         RGBController_AlienwareAW410K* rgb_controller = new RGBController_AlienwareAW410K(controller);
-        rgb_controller->name = name;
+
         ResourceManager::get()->RegisterRGBController(rgb_controller);
     }
 }/* DetectAlienwareKeyboardControllers() */

@@ -175,7 +175,7 @@ RGBController_AlienwareAW510K::RGBController_AlienwareAW510K(AlienwareAW510KCont
 {
     controller                      = controller_ptr;
 
-    name                            = "Alienware AW510K Keyboard Device";
+    name                            = controller->GetDeviceName();
     vendor                          = "Alienware";
     type                            = DEVICE_TYPE_KEYBOARD;
     description                     = "Alienware AW510K Keyboard Device";
