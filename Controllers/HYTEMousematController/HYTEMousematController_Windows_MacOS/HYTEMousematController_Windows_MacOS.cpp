@@ -25,7 +25,7 @@ HYTEMousematController::HYTEMousematController(char* port)
 
 HYTEMousematController::~HYTEMousematController()
 {
-
+    serialport->serial_close();
 }
 
 std::string HYTEMousematController::GetLocation()

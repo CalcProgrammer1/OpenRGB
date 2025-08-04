@@ -32,7 +32,9 @@ HYTEMousematController::HYTEMousematController(libusb_device_handle* dev_handle)
 
 HYTEMousematController::~HYTEMousematController()
 {
-
+    libusb_release_interface(dev, 0);
+    libusb_attach_kernel_driver(dev, 0);
+    libusb_close(dev);
 }
 
 std::string HYTEMousematController::GetLocation()
