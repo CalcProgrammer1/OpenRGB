@@ -29,9 +29,9 @@ void DetectAsusCerberusMech(hid_device_info* info, const std::string& name)
 
     if(dev)
     {
-        AsusCerberusKeyboardController*     controller          = new AsusCerberusKeyboardController(dev, info->path, info->release_number);
+        AsusCerberusKeyboardController*     controller          = new AsusCerberusKeyboardController(dev, info->path, info->release_number, name);
         RGBController_AsusCerberusKeyboard* rgb_controller      = new RGBController_AsusCerberusKeyboard(controller);
-        rgb_controller->name                                = name;
+
         ResourceManager::get()->RegisterRGBController(rgb_controller);
     }
 }
@@ -42,9 +42,9 @@ void DetectAsusSagarisKeyboard(hid_device_info* info, const std::string& name)
 
     if(dev)
     {
-        AsusSagarisKeyboardController*     controller          = new AsusSagarisKeyboardController(dev, info->path, info->release_number);
+        AsusSagarisKeyboardController*     controller          = new AsusSagarisKeyboardController(dev, info->path, info->release_number, name);
         RGBController_AsusSagarisKeyboard* rgb_controller      = new RGBController_AsusSagarisKeyboard(controller);
-        rgb_controller->name                                = name;
+
         ResourceManager::get()->RegisterRGBController(rgb_controller);
     }
 }
@@ -55,9 +55,9 @@ void DetectAsusStrixClaw(hid_device_info* info, const std::string& name)
 
     if(dev)
     {
-        StrixClawController*     controller          = new StrixClawController(dev, info->path);
+        StrixClawController*     controller          = new StrixClawController(dev, info->path, name);
         RGBController_StrixClaw* rgb_controller      = new RGBController_StrixClaw(controller);
-        rgb_controller->name = name;
+
         ResourceManager::get()->RegisterRGBController(rgb_controller);
     }
 }

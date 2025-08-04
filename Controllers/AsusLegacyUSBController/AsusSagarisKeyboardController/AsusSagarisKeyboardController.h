@@ -54,11 +54,12 @@ typedef struct
 class AsusSagarisKeyboardController
 {
 public:
-    AsusSagarisKeyboardController(hid_device* dev_handle, const char* path, unsigned short rev_version);
+    AsusSagarisKeyboardController(hid_device* dev_handle, const char* path, unsigned short rev_version, std::string dev_name);
     ~AsusSagarisKeyboardController();
 
     std::string GetVersion();
     std::string GetDeviceLocation();
+    std::string GetDeviceName();
     std::string GetSerialString();
 
     sagaris_mode          GetMode();
@@ -73,5 +74,6 @@ public:
 private:
     hid_device*                 dev;
     std::string                 location;
+    std::string                 name;
     unsigned short              version;
 };

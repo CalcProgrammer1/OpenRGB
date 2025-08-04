@@ -14,10 +14,11 @@
 #include "AsusStrixClawController.h"
 #include "StringUtils.h"
 
-StrixClawController::StrixClawController(hid_device* dev_handle, const char* path)
+StrixClawController::StrixClawController(hid_device* dev_handle, const char* path, std::string dev_name)
 {
     dev         = dev_handle;
     location    = path;
+    name        = dev_name;
 }
 
 StrixClawController::~StrixClawController()
@@ -28,6 +29,11 @@ StrixClawController::~StrixClawController()
 std::string StrixClawController::GetDeviceLocation()
 {
     return("HID: " + location);
+}
+
+std::string StrixClawController::GetDeviceName()
+{
+    return(name);
 }
 
 std::string StrixClawController::GetSerialString()

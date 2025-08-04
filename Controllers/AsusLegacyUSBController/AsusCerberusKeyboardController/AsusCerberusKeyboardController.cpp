@@ -21,10 +21,11 @@
 
 #define ASUS_CERBERUS_KB_PACKET_SIZE 8
 
-AsusCerberusKeyboardController::AsusCerberusKeyboardController(hid_device* dev_handle, const char* path, unsigned short rev_version)
+AsusCerberusKeyboardController::AsusCerberusKeyboardController(hid_device* dev_handle, const char* path, unsigned short rev_version, std::string dev_name)
 {
     dev         = dev_handle;
     location    = path;
+    name        = dev_name;
     version     = rev_version;
 }
 
@@ -36,6 +37,11 @@ AsusCerberusKeyboardController::~AsusCerberusKeyboardController()
 std::string AsusCerberusKeyboardController::GetDeviceLocation()
 {
     return("HID: " + location);
+}
+
+std::string AsusCerberusKeyboardController::GetDeviceName()
+{
+    return(name);
 }
 
 std::string AsusCerberusKeyboardController::GetSerialString()

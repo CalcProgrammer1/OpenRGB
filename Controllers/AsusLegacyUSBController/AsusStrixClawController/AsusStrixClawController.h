@@ -20,10 +20,11 @@
 class StrixClawController
 {
 public:
-    StrixClawController(hid_device* dev_handle, const char* path);
+    StrixClawController(hid_device* dev_handle, const char* path, std::string dev_name);
     virtual ~StrixClawController();
 
     std::string GetDeviceLocation();
+    std::string GetDeviceName();
     std::string GetSerialString();
     std::string GetVersion();
 
@@ -33,4 +34,5 @@ public:
 private:
     hid_device*                 dev;
     std::string                 location;
+    std::string                 name;
 };

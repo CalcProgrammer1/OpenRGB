@@ -28,7 +28,7 @@ RGBController_AsusSagarisKeyboard::RGBController_AsusSagarisKeyboard(AsusSagaris
 {
     controller                  = controller_ptr;
 
-    name                        = "ASUS Sagaris Keyboard";
+    name                        = controller->GetDeviceName();
     vendor                      = "ASUS";
     type                        = DEVICE_TYPE_KEYBOARD;
     description                 = "ASUS Sagaris Keyboard Device";

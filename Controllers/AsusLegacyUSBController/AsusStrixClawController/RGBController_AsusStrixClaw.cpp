@@ -26,7 +26,7 @@ RGBController_StrixClaw::RGBController_StrixClaw(StrixClawController* controller
 {
     controller   = controller_ptr;
 
-    name         = "ASUS ROG Strix Claw";
+    name         = controller->GetDeviceName();
     vendor       = "ASUS";
     type         = DEVICE_TYPE_MOUSE;
     description  = "ASUS Legacy Mouse Device";
