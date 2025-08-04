@@ -35,7 +35,7 @@ enum
 class CorsairHydroController
 {
 public:
-    CorsairHydroController(libusb_device_handle* dev_handle);
+    CorsairHydroController(libusb_device_handle* dev_handle, std::string dev_name);
     ~CorsairHydroController();
 
     unsigned char   GetFanPercent(unsigned char fan_channel);
@@ -43,8 +43,8 @@ public:
     unsigned short  GetFanRPM(unsigned char fan_channel);
 
     std::string     GetFirmwareString();
-
     std::string     GetLocation();
+    std::string     GetNameString();
 
     void            SetBlink
                         (
@@ -73,6 +73,7 @@ private:
     libusb_device_handle*   dev;
     std::string             firmware_version;
     std::string             location;
+    std::string             name;
 
     void            SendApplyBlink();
     void            SendApplyPulse();

@@ -14,9 +14,10 @@
 #include <sstream>
 #include "CorsairHydroController.h"
 
-CorsairHydroController::CorsairHydroController(libusb_device_handle* dev_handle)
+CorsairHydroController::CorsairHydroController(libusb_device_handle* dev_handle, std::string dev_name)
 {
     dev         = dev_handle;
+    name        = dev_name;
 
     /*-----------------------------------------------------*\
     | Fill in location string with USB ID                   |
@@ -49,6 +50,11 @@ std::string CorsairHydroController::GetFirmwareString()
 std::string CorsairHydroController::GetLocation()
 {
     return("USB: " + location);
+}
+
+std::string CorsairHydroController::GetNameString()
+{
+    return(name);
 }
 
 void CorsairHydroController::SetBlink

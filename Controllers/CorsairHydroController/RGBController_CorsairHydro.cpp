@@ -26,6 +26,7 @@ RGBController_CorsairHydro::RGBController_CorsairHydro(CorsairHydroController* c
 {
     controller  = controller_ptr;
 
+    name        = controller->GetNameString();
     vendor      = "Corsair";
     description = "Corsair Hydro Series Device";
     version     = controller->GetFirmwareString();

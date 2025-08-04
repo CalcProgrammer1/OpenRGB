@@ -72,9 +72,8 @@ void DetectCorsairHydroControllers()
             libusb_detach_kernel_driver(dev, 0);
             libusb_claim_interface(dev, 0);
 
-            CorsairHydroController*     controller     = new CorsairHydroController(dev);
+            CorsairHydroController*     controller     = new CorsairHydroController(dev, device_list[device_idx].name);
             RGBController_CorsairHydro* rgb_controller = new RGBController_CorsairHydro(controller);
-            rgb_controller->name                       = device_list[device_idx].name;
 
             ResourceManager::get()->RegisterRGBController(rgb_controller);
         }
