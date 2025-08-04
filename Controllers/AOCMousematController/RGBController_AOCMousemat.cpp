@@ -26,7 +26,7 @@ RGBController_AOCMousemat::RGBController_AOCMousemat(AOCMousematController* cont
 {
     controller                      = controller_ptr;
 
-    name                            = "AOC Mousemat Device";
+    name                            = controller->GetDeviceName();
     vendor                          = "AOC";
     type                            = DEVICE_TYPE_MOUSEMAT;
     description                     = "AOC Mousemat Device";
