@@ -157,9 +157,8 @@ void DetectCorsairDominatorPlatinumControllers(std::vector<i2c_smbus_interface *
 
                     LOG_DEBUG("[%s] Model: %s, Leds: %d", CORSAIR_DOMINATOR_PLATINUM_NAME, name.c_str(), leds);
 
-                    CorsairDominatorPlatinumController*     controller    = new CorsairDominatorPlatinumController(busses[bus], addr, leds);
+                    CorsairDominatorPlatinumController*     controller    = new CorsairDominatorPlatinumController(busses[bus], addr, leds, name);
                     RGBController_CorsairDominatorPlatinum* rgbcontroller = new RGBController_CorsairDominatorPlatinum(controller);
-                    rgbcontroller->name = name;
 
                     ResourceManager::get()->RegisterRGBController(rgbcontroller);
                 }

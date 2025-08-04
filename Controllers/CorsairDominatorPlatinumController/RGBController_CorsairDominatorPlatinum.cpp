@@ -36,6 +36,7 @@ RGBController_CorsairDominatorPlatinum::RGBController_CorsairDominatorPlatinum(C
 {
     controller  = controller_ptr;
 
+    name        = controller->GetDeviceName();
     vendor      = "Corsair";
     type        = DEVICE_TYPE_DRAM;
     description = "Corsair RAM RGB Device";
