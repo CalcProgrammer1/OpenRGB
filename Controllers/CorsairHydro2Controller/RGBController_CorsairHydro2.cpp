@@ -24,8 +24,9 @@
 
 RGBController_CorsairHydro2::RGBController_CorsairHydro2(CorsairHydro2Controller* controller_ptr)
 {
-    controller = controller_ptr;
+    controller  = controller_ptr;
 
+    name        = "Corsair H100i v2";
     vendor      = "Corsair";
     description = "Corsair H100i v2";
     type        = DEVICE_TYPE_COOLER;

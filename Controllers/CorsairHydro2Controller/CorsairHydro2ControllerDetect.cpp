@@ -34,7 +34,6 @@ void DetectCorsairHydro2Controllers()
 
         CorsairHydro2Controller*     controller     = new CorsairHydro2Controller(dev);
         RGBController_CorsairHydro2* rgb_controller = new RGBController_CorsairHydro2(controller);
-        rgb_controller->name                        = "Corsair H100i v2";
 
         ResourceManager::get()->RegisterRGBController(rgb_controller);
     }
