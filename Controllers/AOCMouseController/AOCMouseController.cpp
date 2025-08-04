@@ -13,10 +13,11 @@
 #include "AOCMouseController.h"
 #include "StringUtils.h"
 
-AOCMouseController::AOCMouseController(hid_device* dev_handle, const char* path)
+AOCMouseController::AOCMouseController(hid_device* dev_handle, const char* path, std::string dev_name)
 {
     dev         = dev_handle;
     location    = path;
+    name        = dev_name;
 }
 
 AOCMouseController::~AOCMouseController()
@@ -27,6 +28,11 @@ AOCMouseController::~AOCMouseController()
 std::string AOCMouseController::GetDeviceLocation()
 {
     return("HID " + location);
+}
+
+std::string AOCMouseController::GetDeviceName()
+{
+    return(name);
 }
 
 std::string AOCMouseController::GetSerialString()

@@ -26,7 +26,7 @@ RGBController_AOCMouse::RGBController_AOCMouse(AOCMouseController* controller_pt
 {
     controller                      = controller_ptr;
 
-    name                            = "AOC Mouse Device";
+    name                            = controller->GetDeviceName();
     vendor                          = "AOC";
     type                            = DEVICE_TYPE_MOUSE;
     description                     = "AOC Mouse Device";

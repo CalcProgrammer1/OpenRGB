@@ -33,9 +33,8 @@ void DetectAOCMouseControllers(hid_device_info* info, const std::string& name)
 
     if(dev)
     {
-        AOCMouseController*     controller     = new AOCMouseController(dev, info->path);
+        AOCMouseController*     controller     = new AOCMouseController(dev, info->path, name);
         RGBController_AOCMouse* rgb_controller = new RGBController_AOCMouse(controller);
-        rgb_controller->name                   = name;
 
         ResourceManager::get()->RegisterRGBController(rgb_controller);
     }
