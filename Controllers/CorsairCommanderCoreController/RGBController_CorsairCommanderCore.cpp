@@ -53,6 +53,7 @@ RGBController_CorsairCommanderCore::RGBController_CorsairCommanderCore(CorsairCo
 {
     controller  = controller_ptr;
 
+    name        = controller->GetNameString();
     vendor      = "Corsair";
     description = "Corsair Commander Core";
     version     = controller->GetFirmwareString();

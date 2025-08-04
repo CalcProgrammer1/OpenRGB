@@ -33,12 +33,13 @@ enum
 class CorsairCommanderCoreController
 {
 public:
-    CorsairCommanderCoreController(hid_device* dev_handle, const char* path, int pid);
+    CorsairCommanderCoreController(hid_device* dev_handle, const char* path, int pid, std::string dev_name);
     ~CorsairCommanderCoreController();
 
     std::string GetFirmwareString();
     std::vector<unsigned short int> GetLedCounts();
     std::string GetLocationString();
+    std::string GetNameString();
 
     void        SetDirectColor
                 (
@@ -57,6 +58,7 @@ private:
     std::string                                         location;
     std::vector<RGBColor>                               lastcolors;
     std::vector<zone>                                   lastzones;
+    std::string                                         name;
     unsigned short int                                  version[3] = {0, 0, 0};
     int                                                 packet_size;
     int                                                 command_res_size;

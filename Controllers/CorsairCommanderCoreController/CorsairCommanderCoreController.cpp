@@ -17,10 +17,11 @@
 
 using namespace std::chrono_literals;
 
-CorsairCommanderCoreController::CorsairCommanderCoreController(hid_device* dev_handle, const char* path, int pid)
+CorsairCommanderCoreController::CorsairCommanderCoreController(hid_device* dev_handle, const char* path, int pid, std::string dev_name)
 {
     dev                     = dev_handle;
     location                = path;
+    name                    = dev_name;
     keepalive_thread_run    = 1;
     controller_ready        = 0;
     packet_size             = CORSAIR_COMMANDER_CORE_PACKET_SIZE_V2;
@@ -98,6 +99,11 @@ std::string CorsairCommanderCoreController::GetFirmwareString()
 std::string CorsairCommanderCoreController::GetLocationString()
 {
     return("HID: " + location);
+}
+
+std::string CorsairCommanderCoreController::GetNameString()
+{
+    return(name);
 }
 
 std::vector<unsigned short int> CorsairCommanderCoreController::GetLedCounts()
