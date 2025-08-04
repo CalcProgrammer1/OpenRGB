@@ -26,7 +26,7 @@ RGBController_AlienwareMonitor::RGBController_AlienwareMonitor(AlienwareMonitorC
 {
     controller              = controller_ptr;
 
-    name                    = "Alienware Monitor";
+    name                    = controller->GetName();
     description             = "Alienware Monitor";
     vendor                  = "Alienware";
     type                    = DEVICE_TYPE_MONITOR;

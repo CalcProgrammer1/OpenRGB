@@ -42,8 +42,9 @@ void DetectAlienwareAW3423DWFControllers(hid_device_info* info, const std::strin
     hid_device* dev = hid_open_path(info->path);
     if(dev)
     {
-        AlienwareAW3423DWFController* controller = new AlienwareAW3423DWFController(dev, info->path);
+        AlienwareAW3423DWFController*     controller     = new AlienwareAW3423DWFController(dev, info->path);
         RGBController_AlienwareAW3423DWF* rgb_controller = new RGBController_AlienwareAW3423DWF(controller);
+
         ResourceManager::get()->RegisterRGBController(rgb_controller);
     }
 }
@@ -54,9 +55,8 @@ void DetectAlienwareMonitorControllers(hid_device_info* info, const std::string&
 
     if(dev)
     {
-        AlienwareMonitorController*     controller     = new AlienwareMonitorController(dev, info->path);
+        AlienwareMonitorController*     controller     = new AlienwareMonitorController(dev, info->path, name);
         RGBController_AlienwareMonitor* rgb_controller = new RGBController_AlienwareMonitor(controller);
-        rgb_controller->name                           = name;
 
         ResourceManager::get()->RegisterRGBController(rgb_controller);
     }

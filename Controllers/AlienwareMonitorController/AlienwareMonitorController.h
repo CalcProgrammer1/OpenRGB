@@ -18,16 +18,18 @@
 class AlienwareMonitorController
 {
 public:
-AlienwareMonitorController(hid_device* dev_handle, const char* path);
+AlienwareMonitorController(hid_device* dev_handle, const char* path, std::string dev_name);
     ~AlienwareMonitorController();
 
     std::string GetLocation();
+    std::string GetName();
     std::string GetSerialString();
     void SendColor(unsigned char led_id, unsigned char r, unsigned char g, unsigned char b);
 
 private:
     hid_device* dev;
     std::string location;
+    std::string name;
 
     void Initialize();
 };

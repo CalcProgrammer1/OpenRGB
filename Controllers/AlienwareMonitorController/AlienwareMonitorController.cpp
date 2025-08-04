@@ -15,10 +15,11 @@
 
 #include "AlienwareMonitorController.h"
 
-AlienwareMonitorController::AlienwareMonitorController(hid_device *dev_handle, const char *path)
+AlienwareMonitorController::AlienwareMonitorController(hid_device *dev_handle, const char *path, std::string dev_name)
 {
     dev         = dev_handle;
     location    = path;
+    name        = dev_name;
 
     Initialize();
 }
@@ -31,6 +32,11 @@ AlienwareMonitorController::~AlienwareMonitorController()
 std::string AlienwareMonitorController::GetLocation()
 {
     return("HID: " + location);
+}
+
+std::string AlienwareMonitorController::GetName()
+{
+    return(name);
 }
 
 std::string AlienwareMonitorController::GetSerialString()
