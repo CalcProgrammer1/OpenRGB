@@ -43,7 +43,7 @@ RGBController_CherryKeyboard::RGBController_CherryKeyboard(CherryKeyboardControl
 {
     controller  = controller_ptr;
 
-    name        = "Cherry Keyboard Device";
+    name        = controller->GetDeviceName();
     vendor      = "Cherry";
     type        = DEVICE_TYPE_KEYBOARD;
     description = "Cherry Keyboard Device";

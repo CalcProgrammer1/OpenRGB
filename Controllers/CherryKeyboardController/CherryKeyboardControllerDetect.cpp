@@ -33,9 +33,9 @@ void DetectCherryKeyboards(hid_device_info* info, const std::string& name)
     hid_device* dev = hid_open_path(info->path);
     if( dev )
     {
-        CherryKeyboardController* controller = new CherryKeyboardController(dev, info->path);
+        CherryKeyboardController*     controller     = new CherryKeyboardController(dev, info->path, name);
         RGBController_CherryKeyboard* rgb_controller = new RGBController_CherryKeyboard(controller, info->product_id);
-        rgb_controller->name = name;
+
         ResourceManager::get()->RegisterRGBController(rgb_controller);
     }
 }

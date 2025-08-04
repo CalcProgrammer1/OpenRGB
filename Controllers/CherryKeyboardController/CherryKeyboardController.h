@@ -124,10 +124,11 @@ enum
 class CherryKeyboardController
 {
 public:
-    CherryKeyboardController(hid_device* dev_handle, const char* path);
+    CherryKeyboardController(hid_device* dev_handle, const char* path, std::string dev_name);
     ~CherryKeyboardController();
 
     std::string GetDeviceLocation();
+    std::string GetDeviceName();
     std::string GetSerialString();
 
     void        SetKeyboardColors
@@ -167,6 +168,7 @@ public:
 private:
     hid_device*             dev;
     std::string             location;
+    std::string             name;
 
     void        ComputeChecksum
                     (

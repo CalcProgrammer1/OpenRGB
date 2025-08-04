@@ -13,10 +13,11 @@
 #include "CherryKeyboardController.h"
 #include "StringUtils.h"
 
-CherryKeyboardController::CherryKeyboardController(hid_device* dev_handle, const char* path)
+CherryKeyboardController::CherryKeyboardController(hid_device* dev_handle, const char* path, std::string dev_name)
 {
     dev         = dev_handle;
     location    = path;
+    name        = dev_name;
 }
 
 CherryKeyboardController::~CherryKeyboardController()
@@ -27,6 +28,11 @@ CherryKeyboardController::~CherryKeyboardController()
 std::string CherryKeyboardController::GetDeviceLocation()
 {
     return("HID: " + location);
+}
+
+std::string CherryKeyboardController::GetDeviceName()
+{
+    return(name);
 }
 
 std::string CherryKeyboardController::GetSerialString()
