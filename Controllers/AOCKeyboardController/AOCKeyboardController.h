@@ -64,10 +64,11 @@ enum
 class AOCKeyboardController
 {
 public:
-    AOCKeyboardController(hid_device* dev_handle, const char* path);
+    AOCKeyboardController(hid_device* dev_handle, const char* path, std::string dev_name);
     ~AOCKeyboardController();
 
     std::string GetDeviceLocation();
+    std::string GetDeviceName();
     std::string GetSerialString();
 
     void SetLightingConfig
@@ -88,6 +89,7 @@ public:
 private:
     hid_device*             dev;
     std::string             location;
+    std::string             name;
 
     void SendStartPacket();
     void SendEndPacket();

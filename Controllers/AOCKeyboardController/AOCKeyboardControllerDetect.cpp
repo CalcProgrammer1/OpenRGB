@@ -34,9 +34,8 @@ void DetectAOCKeyboardControllers(hid_device_info* info, const std::string& name
 
     if(dev)
     {
-        AOCKeyboardController*     controller     = new AOCKeyboardController(dev, info->path);
+        AOCKeyboardController*     controller     = new AOCKeyboardController(dev, info->path, name);
         RGBController_AOCKeyboard* rgb_controller = new RGBController_AOCKeyboard(controller);
-        rgb_controller->name                      = name;
 
         ResourceManager::get()->RegisterRGBController(rgb_controller);
     }

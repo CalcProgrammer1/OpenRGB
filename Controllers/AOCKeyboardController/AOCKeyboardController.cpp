@@ -17,10 +17,11 @@
 
 using namespace std::chrono_literals;
 
-AOCKeyboardController::AOCKeyboardController(hid_device* dev_handle, const char* path)
+AOCKeyboardController::AOCKeyboardController(hid_device* dev_handle, const char* path, std::string dev_name)
 {
     dev         = dev_handle;
     location    = path;
+    name        = dev_name;
 }
 
 AOCKeyboardController::~AOCKeyboardController()
@@ -31,6 +32,11 @@ AOCKeyboardController::~AOCKeyboardController()
 std::string AOCKeyboardController::GetDeviceLocation()
 {
     return("HID " + location);
+}
+
+std::string AOCKeyboardController::GetDeviceName()
+{
+    return(name);
 }
 
 std::string AOCKeyboardController::GetSerialString()

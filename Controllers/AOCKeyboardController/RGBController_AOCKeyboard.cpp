@@ -52,7 +52,7 @@ RGBController_AOCKeyboard::RGBController_AOCKeyboard(AOCKeyboardController* cont
 {
     controller                      = controller_ptr;
 
-    name                            = "AOC Keyboard Device";
+    name                            = controller->GetDeviceName();
     vendor                          = "AOC";
     type                            = DEVICE_TYPE_KEYBOARD;
     description                     = "AOC Keyboard Device";
