@@ -24,7 +24,8 @@
 RGBController_ColorfulTuringGPU::RGBController_ColorfulTuringGPU(ColorfulTuringGPUController * colorful_gpu_ptr)
 {
     controller              = colorful_gpu_ptr;
-    name                    = "Colorful GPU Device";
+
+    name                    = controller->GetDeviceName();
     vendor                  = "Colorful";
     type                    = DEVICE_TYPE_GPU;
     description             = name;

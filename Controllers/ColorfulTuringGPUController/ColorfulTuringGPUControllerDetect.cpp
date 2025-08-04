@@ -17,9 +17,8 @@ void DetectColorfulTuringGPUControllers(i2c_smbus_interface* bus, uint8_t i2c_ad
 {
     if(bus->port_id == 1)
     {
-        ColorfulTuringGPUController* controller         = new ColorfulTuringGPUController(bus, i2c_addr);
+        ColorfulTuringGPUController* controller         = new ColorfulTuringGPUController(bus, i2c_addr, name);
         RGBController_ColorfulTuringGPU* rgb_controller = new RGBController_ColorfulTuringGPU(controller);
-        rgb_controller->name                            = name;
 
         ResourceManager::get()->RegisterRGBController(rgb_controller);
     }

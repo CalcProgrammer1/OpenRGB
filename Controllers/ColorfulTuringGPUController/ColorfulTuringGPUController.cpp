@@ -10,10 +10,11 @@
 #include <cstring>
 #include "ColorfulTuringGPUController.h"
 
-ColorfulTuringGPUController::ColorfulTuringGPUController(i2c_smbus_interface* bus, colorful_gpu_dev_id dev)
+ColorfulTuringGPUController::ColorfulTuringGPUController(i2c_smbus_interface* bus, colorful_gpu_dev_id dev, std::string dev_name)
 {
-    this->bus = bus;
-    this->dev = dev;
+    this->bus   = bus;
+    this->dev   = dev;
+    this->name  = dev_name;
 }
 
 ColorfulTuringGPUController::~ColorfulTuringGPUController()
@@ -29,6 +30,11 @@ std::string ColorfulTuringGPUController::GetDeviceLocation()
     return_string.append(", address ");
     return_string.append(addr);
     return("I2C: " + return_string);
+}
+
+std::string ColorfulTuringGPUController::GetDeviceName()
+{
+    return(name);
 }
 
 int ColorfulTuringGPUController::GetMode()

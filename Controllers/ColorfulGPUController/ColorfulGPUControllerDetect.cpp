@@ -37,9 +37,8 @@ void DetectColorfulGPUControllers(i2c_smbus_interface* bus, uint8_t i2c_addr, co
 {
     if(TestForColorfulGPU(bus, i2c_addr))
     {
-        ColorfulGPUController*     controller     = new ColorfulGPUController(bus, i2c_addr);
+        ColorfulGPUController*     controller     = new ColorfulGPUController(bus, i2c_addr, name);
         RGBController_ColorfulGPU* rgb_controller = new RGBController_ColorfulGPU(controller);
-        rgb_controller->name                      = name;
 
         ResourceManager::get()->RegisterRGBController(rgb_controller);
     }

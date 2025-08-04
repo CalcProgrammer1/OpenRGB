@@ -12,10 +12,11 @@
 #include "pci_ids.h"
 #include "LogManager.h"
 
-ColorfulGPUController::ColorfulGPUController(i2c_smbus_interface* bus, colorful_gpu_dev_id dev)
+ColorfulGPUController::ColorfulGPUController(i2c_smbus_interface* bus, colorful_gpu_dev_id dev, std::string dev_name)
 {
-    this->bus = bus;
-    this->dev = dev;
+    this->bus   = bus;
+    this->dev   = dev;
+    this->name  = dev_name;
 }
 
 ColorfulGPUController::~ColorfulGPUController()
@@ -31,6 +32,11 @@ std::string ColorfulGPUController::GetDeviceLocation()
     return_string.append(", address ");
     return_string.append(addr);
     return("I2C: " + return_string);
+}
+
+std::string ColorfulGPUController::GetDeviceName()
+{
+    return(name);
 }
 
 void ColorfulGPUController::SetDirect(RGBColor color)

@@ -31,10 +31,12 @@ enum
 class ColorfulTuringGPUController
 {
 public:
-    ColorfulTuringGPUController(i2c_smbus_interface* bus, colorful_gpu_dev_id dev);
+    ColorfulTuringGPUController(i2c_smbus_interface* bus, colorful_gpu_dev_id dev, std::string dev_name);
     ~ColorfulTuringGPUController();
 
     std::string             GetDeviceLocation();
+    std::string             GetDeviceName();
+
     int                     GetMode();
     RGBColor                GetColor();
     void                    SetDirect(RGBColor color, bool save);
@@ -47,4 +49,5 @@ public:
 private:
     i2c_smbus_interface *   bus;
     colorful_gpu_dev_id     dev;
+    std::string             name;
 };
