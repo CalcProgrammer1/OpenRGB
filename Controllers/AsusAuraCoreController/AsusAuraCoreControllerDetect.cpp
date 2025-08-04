@@ -35,7 +35,7 @@ void DetectAsusAuraCoreControllers(hid_device_info* info, const std::string& /*n
     {
         AuraCoreController*     controller                  = new AuraCoreController(dev, info->path);
         RGBController_AuraCore* rgb_controller              = new RGBController_AuraCore(controller);
-        // Constructor sets the name
+
         if(rgb_controller->type != DEVICE_TYPE_UNKNOWN)
         {
             ResourceManager::get()->RegisterRGBController(rgb_controller);
@@ -55,7 +55,7 @@ void DetectAsusAuraCoreLaptopControllers(hid_device_info* info, const std::strin
     {
         AsusAuraCoreLaptopController*     controller        = new AsusAuraCoreLaptopController(dev, info->path);
         RGBController_AsusAuraCoreLaptop* rgb_controller    = new RGBController_AsusAuraCoreLaptop(controller);
-        // Constructor sets the name
+
         ResourceManager::get()->RegisterRGBController(rgb_controller);
     }
 }
