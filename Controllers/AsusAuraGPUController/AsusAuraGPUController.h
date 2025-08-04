@@ -43,7 +43,7 @@ enum
 class AuraGPUController
 {
 public:
-    AuraGPUController(i2c_smbus_interface* bus, aura_gpu_dev_id);
+    AuraGPUController(i2c_smbus_interface* bus, aura_gpu_dev_id, std::string dev_name);
     ~AuraGPUController();
 
     std::string   GetDeviceName();
@@ -62,7 +62,7 @@ public:
     bool          direct = false;                                                // Temporary solution to check if we are in "Direct" mode
 
 private:
-    char                    device_name[16];
     i2c_smbus_interface *   bus;
     aura_gpu_dev_id         dev;
+    std::string             name;
 };

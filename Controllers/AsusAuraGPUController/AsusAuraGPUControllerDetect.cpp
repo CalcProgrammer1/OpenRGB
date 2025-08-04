@@ -56,9 +56,8 @@ void DetectAsusAuraGPUControllers(i2c_smbus_interface* bus, uint8_t i2c_addr, co
 {
     if(TestForAsusAuraGPUController(bus, i2c_addr))
     {
-        AuraGPUController*     controller     = new AuraGPUController(bus, i2c_addr);
+        AuraGPUController*     controller     = new AuraGPUController(bus, i2c_addr, name);
         RGBController_AuraGPU* rgb_controller = new RGBController_AuraGPU(controller);
-        rgb_controller->name                  = name;
 
         ResourceManager::get()->RegisterRGBController(rgb_controller);
     }

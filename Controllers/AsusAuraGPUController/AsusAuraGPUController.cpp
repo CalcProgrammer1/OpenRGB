@@ -13,12 +13,11 @@
 #include "AsusAuraGPUController.h"
 #include "pci_ids.h"
 
-AuraGPUController::AuraGPUController(i2c_smbus_interface* bus, aura_gpu_dev_id dev)
+AuraGPUController::AuraGPUController(i2c_smbus_interface* bus, aura_gpu_dev_id dev, std::string dev_name)
 {
-    this->bus = bus;
-    this->dev = dev;
-
-    strcpy(device_name, "ASUS Aura GPU");                                               // Would be nice to get the actual GPU name. Using this as a placeholder.
+    this->bus   = bus;
+    this->dev   = dev;
+    this->name  = dev_name;
 }
 
 AuraGPUController::~AuraGPUController()
@@ -28,7 +27,7 @@ AuraGPUController::~AuraGPUController()
 
 std::string AuraGPUController::GetDeviceName()
 {
-    return(device_name);
+    return(name);
 }
 
 std::string AuraGPUController::GetDeviceLocation()
