@@ -74,6 +74,7 @@ bool i2c_smbus_linux_detect()
 {
     i2c_smbus_linux *       bus;
     char                    device_string[1024];
+    char                    device_path[1024];
     DIR *                   dir;
     char                    driver_path[512];
     struct dirent *         ent;
@@ -109,6 +110,7 @@ bool i2c_smbus_linux_detect()
                 if(test_fd)
                 {
                     memset(device_string, 0x00, sizeof(device_string));
+                    memset(device_path, 0x00, sizeof(device_string));
 
                     if(read(test_fd, device_string, sizeof(device_string)) < 0)
                     {
@@ -220,9 +222,9 @@ bool i2c_smbus_linux_detect()
                         close(test_fd);
                     }
 
-                    strcpy(device_string, "/dev/");
-                    strcat(device_string, ent->d_name);
-                    test_fd = open(device_string, O_RDWR);
+                    strcpy(device_path, "/dev/");
+                    strcat(device_path, ent->d_name);
+                    test_fd = open(device_path, O_RDWR);
 
                     if (test_fd < 0)
                     {
@@ -230,7 +232,8 @@ bool i2c_smbus_linux_detect()
                     }
 
                     bus = new i2c_smbus_linux();
-                    strcpy(bus->device_name, device_string);
+                    strcpy(bus->device_name, device_path);
+                    strcpy(bus->bus_name, device_string);
                     bus->handle               = test_fd;
                     bus->pci_device           = pci_device;
                     bus->pci_vendor           = pci_vendor;
