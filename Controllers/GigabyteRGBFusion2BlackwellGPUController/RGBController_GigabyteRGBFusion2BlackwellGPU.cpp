@@ -18,7 +18,7 @@
     @save :white_check_mark:
     @direct :white_check_mark:
     @effects :white_check_mark:
-    @detectors DetectGigabyteRGBFusion2BlackwellGPUControllers
+    @detectors DetectGigabyteRGBFusion2BlackwellSingleZoneGPUControllers,DetectGigabyteRGBFusion2BlackwellGamingLayoutGPUControllers,DetectGigabyteRGBFusion2BlackwellWaterforceLayoutGPUControllers
     @comment
 \*-------------------------------------------------------------------*/
 
