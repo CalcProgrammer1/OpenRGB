@@ -24,7 +24,7 @@ RGBController_CreativeSoundBlasterXG6::RGBController_CreativeSoundBlasterXG6(Cre
 {
     controller                  = controller_ptr;
 
-    name                        = "Creative SoundBlasterX G6 Device";
+    name                        = controller->GetDeviceName();
     vendor                      = "Creative";
     type                        = DEVICE_TYPE_HEADSET;
     description                 = "Creative SoundBlasterX G6 Device";
