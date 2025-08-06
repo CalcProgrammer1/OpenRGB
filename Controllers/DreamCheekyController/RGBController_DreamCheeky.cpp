@@ -15,7 +15,7 @@ RGBController_DreamCheeky::RGBController_DreamCheeky(DreamCheekyController* cont
 {
     controller          = controller_ptr;
 
-    name                = "Dream Cheeky Device";
+    name                = controller->GetNameString();
     type                = DEVICE_TYPE_ACCESSORY;
     vendor              = "Dream Cheeky";
     description         = "Dream Cheeky Device";

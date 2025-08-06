@@ -17,10 +17,11 @@
 class DreamCheekyController
 {
 public:
-    DreamCheekyController(hid_device* dev_handle, const char* path);
+    DreamCheekyController(hid_device* dev_handle, const char* path, std::string dev_name);
     ~DreamCheekyController();
 
     std::string GetDeviceLocation();
+    std::string GetNameString();
     std::string GetSerialString();
 
     void SetColor(unsigned char red, unsigned char grn, unsigned char blu);
@@ -28,4 +29,5 @@ public:
 private:
     hid_device* dev;
     std::string location;
+    std::string name;
 };

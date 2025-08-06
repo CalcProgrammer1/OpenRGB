@@ -13,10 +13,11 @@
 #include "DreamCheekyController.h"
 #include "StringUtils.h"
 
-DreamCheekyController::DreamCheekyController(hid_device* dev_handle, const char* path)
+DreamCheekyController::DreamCheekyController(hid_device* dev_handle, const char* path, std::string dev_name)
 {
     dev         = dev_handle;
     location    = path;
+    name        = dev_name;
 
     /*-----------------------------------------------------*\
     | The Dream Cheeky Webmail Notifier requires four       |
@@ -41,6 +42,11 @@ DreamCheekyController::~DreamCheekyController()
 std::string DreamCheekyController::GetDeviceLocation()
 {
     return("HID: " + location);
+}
+
+std::string DreamCheekyController::GetNameString()
+{
+    return(name);
 }
 
 std::string DreamCheekyController::GetSerialString()

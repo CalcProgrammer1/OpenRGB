@@ -29,9 +29,8 @@ void DetectDreamCheekyControllers(hid_device_info* info, const std::string& name
 
     if(dev)
     {
-        DreamCheekyController*     controller     = new DreamCheekyController(dev, info->path);
+        DreamCheekyController*     controller     = new DreamCheekyController(dev, info->path, name);
         RGBController_DreamCheeky* rgb_controller = new RGBController_DreamCheeky(controller);
-        rgb_controller->name                      = name;
 
         ResourceManager::get()->RegisterRGBController(rgb_controller);
     }
