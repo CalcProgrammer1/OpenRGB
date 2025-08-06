@@ -11,6 +11,7 @@
 
 #include "Detector.h"
 #include "pci_ids.h"
+#include "i2c_amd_gpu.h"
 #include "PowerColorRedDevilV1Controller/RGBController_PowerColorRedDevilV1.h"
 #include "PowerColorRedDevilV1Controller/PowerColorRedDevilV1Controller.h"
 #include "PowerColorRedDevilV2Controller/RGBController_PowerColorRedDevilV2.h"
@@ -27,6 +28,11 @@ static const unsigned char magic_v2[3] = {0x01, 0x32, 0x00};
 
 void DetectPowerColorRedDevilGPUControllersV1(i2c_smbus_interface* bus, uint8_t i2c_addr, const std::string& name)
 {
+    if(!is_amd_gpu_i2c_bus(bus))
+    {
+        return;
+    }
+
     unsigned char data[3];
     int ret = bus->i2c_smbus_read_i2c_block_data(i2c_addr, RED_DEVIL_V1_REG_MAGIC, 3, data);
     if(ret == 3 && memcmp(data, magic_v1, 3) == 0)
@@ -41,6 +47,11 @@ void DetectPowerColorRedDevilGPUControllersV1(i2c_smbus_interface* bus, uint8_t 
 
 void DetectPowerColorRedDevilGPUControllersV2(i2c_smbus_interface* bus, uint8_t i2c_addr, const std::string& name)
 {
+    if(!is_amd_gpu_i2c_bus(bus))
+    {
+        return;
+    }
+
     unsigned char data[3];
     int ret = bus->i2c_smbus_read_i2c_block_data(i2c_addr, RED_DEVIL_V2_READ_REG_MAGIC, 3, data);
     if(ret == 3 && memcmp(data, magic_v2, 3) == 0)
