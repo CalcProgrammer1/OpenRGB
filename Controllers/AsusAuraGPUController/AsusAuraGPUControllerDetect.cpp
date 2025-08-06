@@ -13,6 +13,7 @@
 #include "AsusAuraGPUController.h"
 #include "LogManager.h"
 #include "RGBController_AsusAuraGPU.h"
+#include "i2c_amd_gpu.h"
 #include "i2c_smbus.h"
 #include "pci_ids.h"
 
@@ -28,6 +29,11 @@
 
 bool TestForAsusAuraGPUController(i2c_smbus_interface* bus, unsigned char address)
 {
+    if(bus->pci_vendor == AMD_GPU_VEN && !is_amd_gpu_i2c_bus(bus))
+    {
+        return false;
+    }
+
     bool pass = false;
 
     unsigned char aura_gpu_magic_high = bus->i2c_smbus_read_byte_data(address, 0x20);   // High Byte of magic (0x15)
