@@ -7,12 +7,12 @@
 |   SPDX-License-Identifier: GPL-2.0-or-later               |
 \*---------------------------------------------------------*/
 
-#include <cstring>
 #include "Detector.h"
 #include "SapphireNitroGlowV1Controller.h"
 #include "SapphireNitroGlowV3Controller.h"
 #include "RGBController_SapphireNitroGlowV1.h"
 #include "RGBController_SapphireNitroGlowV3.h"
+#include "i2c_amd_gpu.h"
 #include "i2c_smbus.h"
 #include "pci_ids.h"
 
@@ -34,31 +34,9 @@ enum
 *                                                                                          *
 \******************************************************************************************/
 
-static const char * RECOGNIZED_I2C_BUS_NAMES[] = {
-    "AMD ADL",
-    "AMDGPU DM i2c OEM bus",
-    nullptr
-};
-
-bool IsRecognizedI2CBus(i2c_smbus_interface* bus)
-{
-    size_t idx = 0;
-
-    const char *name;
-    while((name = RECOGNIZED_I2C_BUS_NAMES[idx++]) != nullptr)
-    {
-        if(std::strcmp(name, bus->device_name) == 0)
-        {
-            return true;
-        }
-    }
-
-    return false;
-}
-
 bool TestForSapphireGPUController(i2c_smbus_interface* bus, unsigned char address)
 {
-    if (!IsRecognizedI2CBus(bus))
+    if(bus->pci_vendor == AMD_GPU_VEN && !is_amd_gpu_i2c_bus(bus))
     {
         return false;
     }
