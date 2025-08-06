@@ -12,6 +12,7 @@
 #include "GigabyteRGBFusion2GPUController.h"
 #include "LogManager.h"
 #include "RGBController_GigabyteRGBFusion2GPU.h"
+#include "i2c_amd_gpu.h"
 #include "i2c_smbus.h"
 #include "pci_ids.h"
 
@@ -28,6 +29,11 @@
 
 bool TestForGigabyteRGBFusion2GPUController(i2c_smbus_interface* bus, unsigned char address)
 {
+    if(bus->pci_vendor == AMD_GPU_VEN && !is_amd_gpu_i2c_bus(bus))
+    {
+        return false;
+    }
+
     bool pass = false;
     int res, pktsz;
     const int read_sz = 4;
