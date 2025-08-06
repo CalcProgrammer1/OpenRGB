@@ -15,10 +15,11 @@
 
 using namespace std::chrono_literals;
 
-DRGBController::DRGBController(hid_device* dev_handle, const char* path, unsigned short pid)
+DRGBController::DRGBController(hid_device* dev_handle, const char* path, unsigned short pid, std::string dev_name)
 {
     dev         = dev_handle;
     location    = path;
+    name        = dev_name;
     device_pid  = pid;
 
     /*-----------------------------------------------------*\
@@ -59,6 +60,11 @@ std::string DRGBController::GetFirmwareString()
 std::string DRGBController::GetLocationString()
 {
     return("HID: " + location);
+}
+
+std::string DRGBController::GetNameString()
+{
+    return(name);
 }
 
 std::string DRGBController::GetSerialString()

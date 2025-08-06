@@ -24,11 +24,13 @@
 class DRGBController
 {
 public:
-    DRGBController(hid_device* dev_handle, const char* path,  unsigned short pid);
+    DRGBController(hid_device* dev_handle, const char* path,  unsigned short pid, std::string dev_name);
     ~DRGBController();
+
     void            KeepaliveThread();
     std::string     GetFirmwareString();
     std::string     GetLocationString();
+    std::string     GetNameString();
     std::string     GetSerialString();
     unsigned short  GetDevicePID();
     void            SetChannelLEDs(unsigned char channel, RGBColor * colors, unsigned int num_colors);
@@ -37,6 +39,7 @@ public:
 private:
     hid_device*             dev;
     std::string             location;
+    std::string             name;
     std::thread*            keepalive_thread;
     std::atomic<bool>       keepalive_thread_run;
     std::chrono::time_point<std::chrono::steady_clock> last_commit_time;
