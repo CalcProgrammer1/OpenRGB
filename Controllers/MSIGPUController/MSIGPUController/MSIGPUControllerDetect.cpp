@@ -10,6 +10,7 @@
 #include "Detector.h"
 #include "MSIGPUController.h"
 #include "RGBController_MSIGPU.h"
+#include "i2c_amd_gpu.h"
 #include "i2c_smbus.h"
 #include "pci_ids.h"
 
@@ -24,6 +25,10 @@
 void DetectMSIGPUControllers(i2c_smbus_interface* bus, uint8_t i2c_addr, const std::string& name)
 {
     if(bus->pci_vendor == NVIDIA_VEN && bus->port_id != 1)
+    {
+        return;
+    }
+    if(bus->pci_vendor == AMD_GPU_VEN && !is_amd_gpu_i2c_bus(bus))
     {
         return;
     }
