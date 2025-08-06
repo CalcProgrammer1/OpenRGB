@@ -26,7 +26,7 @@ RGBController_CryorigH7QuadLumi::RGBController_CryorigH7QuadLumi(CryorigH7QuadLu
 {
     controller  = controller_ptr;
 
-    name        = "CRYORIG H7 Quad Lumi";
+    name        = controller->GetName();
     vendor      = "CRYORIG";
     type        = DEVICE_TYPE_COOLER;
     description = "CRYORIG H7 Quad Lumi Device";

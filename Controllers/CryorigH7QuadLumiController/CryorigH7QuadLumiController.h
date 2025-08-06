@@ -48,11 +48,12 @@ enum
 class CryorigH7QuadLumiController
 {
 public:
-    CryorigH7QuadLumiController(hid_device* dev_handle, const char* path);
+    CryorigH7QuadLumiController(hid_device* dev_handle, const char* path, std::string dev_name);
     ~CryorigH7QuadLumiController();
 
     std::string     GetFirmwareVersion();
     std::string     GetLocation();
+    std::string     GetName();
     std::string     GetSerialString();
 
     void            SetChannelEffect
@@ -77,6 +78,7 @@ private:
 
     char            firmware_version[16];
     std::string     location;
+    std::string     name;
 
     void            SendPacket
                         (

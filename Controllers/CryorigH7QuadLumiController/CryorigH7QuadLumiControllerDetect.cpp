@@ -26,9 +26,8 @@ static void DetectCryorigH7QuadLumi(hid_device_info* info, const std::string& na
 
     if(dev)
     {
-        CryorigH7QuadLumiController*     controller     = new CryorigH7QuadLumiController(dev, info->path);
+        CryorigH7QuadLumiController*     controller     = new CryorigH7QuadLumiController(dev, info->path, name);
         RGBController_CryorigH7QuadLumi* rgb_controller = new RGBController_CryorigH7QuadLumi(controller);
-        rgb_controller->name                            = name;
 
         ResourceManager::get()->RegisterRGBController(rgb_controller);
     }

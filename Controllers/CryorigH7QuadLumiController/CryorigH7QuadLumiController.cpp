@@ -17,10 +17,11 @@
 #include "LogManager.h"
 #include "StringUtils.h"
 
-CryorigH7QuadLumiController::CryorigH7QuadLumiController(hid_device* dev_handle, const char* path)
+CryorigH7QuadLumiController::CryorigH7QuadLumiController(hid_device* dev_handle, const char* path, std::string dev_name)
 {
     dev         = dev_handle;
     location    = path;
+    name        = dev_name;
 
     SendFirmwareRequest();
 }
@@ -33,6 +34,11 @@ CryorigH7QuadLumiController::~CryorigH7QuadLumiController()
 std::string CryorigH7QuadLumiController::GetLocation()
 {
     return("HID: " + location);
+}
+
+std::string CryorigH7QuadLumiController::GetName()
+{
+    return(name);
 }
 
 std::string CryorigH7QuadLumiController::GetFirmwareVersion()
