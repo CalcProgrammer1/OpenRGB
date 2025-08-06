@@ -13,10 +13,11 @@
 #include "CougarRevengerSTController.h"
 #include "StringUtils.h"
 
-CougarRevengerSTController::CougarRevengerSTController(hid_device* dev_handle, const hid_device_info& info)
+CougarRevengerSTController::CougarRevengerSTController(hid_device* dev_handle, const hid_device_info& info, std::string dev_name)
 {
     dev                 = dev_handle;
     location            = info.path;
+    name                = dev_name;
     version             = "";
 
     ActivateMode(0, DIRECT_MODE_VALUE);
@@ -32,6 +33,11 @@ CougarRevengerSTController::~CougarRevengerSTController()
 std::string CougarRevengerSTController::GetDeviceLocation()
 {
     return("HID: " + location);
+}
+
+std::string CougarRevengerSTController::GetNameString()
+{
+    return(name);
 }
 
 std::string CougarRevengerSTController::GetSerialString()

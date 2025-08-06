@@ -29,9 +29,9 @@ void DetectCougarRevengerSTControllers(hid_device_info* info, const std::string&
 
     if(dev)
     {
-        CougarRevengerSTController*     controller      = new CougarRevengerSTController(dev, *info);
+        CougarRevengerSTController*     controller      = new CougarRevengerSTController(dev, *info, name);
         RGBController_CougarRevengerST* rgb_controller  = new RGBController_CougarRevengerST(controller);
-        rgb_controller->name                            = name;
+
         ResourceManager::get()->RegisterRGBController(rgb_controller);
     }
 }
@@ -42,9 +42,8 @@ void DetectCougar700kEvo(hid_device_info* info, const std::string& name)
 
     if (dev)
     {
-        CougarKeyboardController*     controller        = new CougarKeyboardController(dev, info->path);
+        CougarKeyboardController*     controller        = new CougarKeyboardController(dev, info->path, name);
         RGBController_CougarKeyboard* rgb_controller    = new RGBController_CougarKeyboard(controller);
-        rgb_controller->name                            = name;
 
         ResourceManager::get()->RegisterRGBController(rgb_controller);
     }

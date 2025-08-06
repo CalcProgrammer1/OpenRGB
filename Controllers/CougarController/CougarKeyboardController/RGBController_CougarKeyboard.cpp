@@ -170,10 +170,10 @@ RGBController_CougarKeyboard::RGBController_CougarKeyboard(CougarKeyboardControl
 {
     controller                  = controller_ptr;
 
-    name                        = "CougarKeyboard";
+    name                        = controller->GetDeviceName();
     vendor                      = "Cougar";
     type                        = DEVICE_TYPE_KEYBOARD;
-    description                 = controller->GetDeviceName();
+    description                 = "Cougar Keyboard Device";
     serial                      = controller->GetSerial();
     location                    = controller->GetLocation();
 

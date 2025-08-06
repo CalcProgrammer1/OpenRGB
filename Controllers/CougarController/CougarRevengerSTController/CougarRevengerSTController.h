@@ -228,12 +228,13 @@ static const std::map<unsigned char, cougar_mode> modes_mapping =
 class CougarRevengerSTController
 {
 public:
-    CougarRevengerSTController(hid_device* dev_handle, const hid_device_info& info);
+    CougarRevengerSTController(hid_device* dev_handle, const hid_device_info& info, std::string dev_name);
     ~CougarRevengerSTController();
 
     std::string     GetSerialString();
     std::string     GetDeviceLocation();
     std::string     GetFirmwareVersion();
+    std::string     GetNameString();
 
     void            ActivateMode(unsigned char zone, unsigned char mode_value);
     void            SetDirect(unsigned char zone, RGBColor color, unsigned char brightness);
@@ -242,6 +243,7 @@ public:
 private:
     hid_device*     dev;
     std::string     location;
+    std::string     name;
     std::string     version;
 
     void            Apply();

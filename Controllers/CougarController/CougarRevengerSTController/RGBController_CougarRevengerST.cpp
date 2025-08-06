@@ -28,10 +28,10 @@ RGBController_CougarRevengerST::RGBController_CougarRevengerST(CougarRevengerSTC
 {
     controller                  = controller_ptr;
 
-    name                        = "Cougar Revenger ST USB Device";
+    name                        = controller->GetNameString();
     vendor                      = "Cougar";
     type                        = DEVICE_TYPE_MOUSE;
-    description                 = name;
+    description                 = "Cougar Revenger ST Device";
     location                    = controller->GetDeviceLocation();
     serial                      = controller->GetSerialString();
     version                     = controller->GetFirmwareVersion();

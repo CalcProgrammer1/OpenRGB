@@ -54,21 +54,11 @@ static uint8_t keyvalue_map[113] =
            149, 150, 151
 };
 
-CougarKeyboardController::CougarKeyboardController(hid_device* dev_handle, const char* path)
+CougarKeyboardController::CougarKeyboardController(hid_device* dev_handle, const char* path, std::string dev_name)
 {
     dev                 = dev_handle;
     location            = path;
-
-    /*---------------------------------------------------------*\
-    | Get device name from HID manufacturer and product strings |
-    \*---------------------------------------------------------*/
-    wchar_t name_string[HID_MAX_STR];
-
-    hid_get_manufacturer_string(dev, name_string, HID_MAX_STR);
-    device_name = StringUtils::wstring_to_string(name_string);
-
-    hid_get_product_string(dev, name_string, HID_MAX_STR);
-    device_name.append(" ").append(StringUtils::wstring_to_string(name_string));
+    name                = dev_name;
 }
 
 CougarKeyboardController::~CougarKeyboardController()
@@ -78,7 +68,7 @@ CougarKeyboardController::~CougarKeyboardController()
 
 std::string CougarKeyboardController::GetDeviceName()
 {
-    return device_name;
+    return(name);
 }
 
 std::string CougarKeyboardController::GetSerial()
