@@ -18,26 +18,24 @@
 class DasKeyboardController
 {
 public:
-    DasKeyboardController(hid_device *dev_handle, const char *path);
+    DasKeyboardController(hid_device *dev_handle, const char *path, std::string dev_name);
 
     ~DasKeyboardController();
 
-    std::string GetDeviceLocation();
-
+    std::string GetLayoutString();
+    std::string GetLocationString();
+    std::string GetNameString();
     std::string GetSerialString();
-
     std::string GetVersionString();
 
-    std::string GetLayoutString();
-
-    void SendColors(unsigned char key_id, unsigned char mode,
-                    unsigned char red, unsigned char green, unsigned char blue);
+    void SendColors(unsigned char key_id, unsigned char mode, unsigned char red, unsigned char green, unsigned char blue);
 
     void SendApply();
 
 private:
     hid_device  *dev;
     std::string location;
+    std::string name;
     std::string version;
     bool        useTraditionalSendData;
 

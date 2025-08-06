@@ -214,11 +214,11 @@ RGBController_DasKeyboard::RGBController_DasKeyboard(DasKeyboardController* cont
 
     updateDevice = true;
 
-    name        = "Das Keyboard Device";
+    name        = controller->GetNameString();
     vendor      = "Metadot";
     type        = DEVICE_TYPE_KEYBOARD;
     description = "Das Keyboard Device";
-    location    = controller->GetDeviceLocation();
+    location    = controller->GetLocationString();
     serial      = controller->GetSerialString();
     version     = controller->GetVersionString();
 
@@ -242,6 +242,8 @@ RGBController_DasKeyboard::RGBController_DasKeyboard(DasKeyboardController* cont
     modes[3].value      = DAS_KEYBOARD_MODE_SPECTRUM_CYCLE;
     modes[3].flags      = MODE_FLAG_HAS_PER_LED_COLOR;
     modes[3].color_mode = MODE_COLORS_PER_LED;
+
+    SetupZones();
 }
 
 RGBController_DasKeyboard::~RGBController_DasKeyboard()

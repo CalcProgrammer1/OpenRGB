@@ -15,10 +15,11 @@
 
 using namespace std::chrono_literals;
 
-DasKeyboardController::DasKeyboardController(hid_device *dev_handle, const char *path)
+DasKeyboardController::DasKeyboardController(hid_device *dev_handle, const char *path, std::string dev_name)
 {
     dev                    = dev_handle;
     location               = path;
+    name                   = dev_name;
     version                = "";
     useTraditionalSendData = false;
 
@@ -30,9 +31,34 @@ DasKeyboardController::~DasKeyboardController()
     hid_close(dev);
 }
 
-std::string DasKeyboardController::GetDeviceLocation()
+std::string DasKeyboardController::GetLayoutString()
+{
+    /*-----------------------------------------------------------*\
+    | Experimental for now; should be '16 or 63' for US and '28'  |
+    | for EU layout                                               |
+    \*-----------------------------------------------------------*/
+    if(version.length() < 17)
+    {
+        return("NONE");
+    }
+    std::string layout_id = version.substr(3, 2);
+
+    if(layout_id == "16" || layout_id == "63")
+    {
+        return("US");
+    }
+
+    return("EU");
+}
+
+std::string DasKeyboardController::GetLocationString()
 {
     return("HID: " + location);
+}
+
+std::string DasKeyboardController::GetNameString()
+{
+    return(name);
 }
 
 std::string DasKeyboardController::GetSerialString()
@@ -62,26 +88,6 @@ std::string DasKeyboardController::GetVersionString()
     fw_version             += ".0";
 
     return(fw_version);
-}
-
-std::string DasKeyboardController::GetLayoutString()
-{
-    /*-----------------------------------------------------------*\
-    | Experimental for now; should be '16 or 63' for US and '28'  |
-    | for EU layout                                               |
-    \*-----------------------------------------------------------*/
-    if(version.length() < 17)
-    {
-        return("NONE");
-    }
-    std::string layout_id = version.substr(3, 2);
-
-    if(layout_id == "16" || layout_id == "63")
-    {
-        return("US");
-    }
-
-    return("EU");
 }
 
 void DasKeyboardController::SendColors(unsigned char key_id, unsigned char mode,
