@@ -26,7 +26,7 @@ RGBController_CorsairLightingNode::RGBController_CorsairLightingNode(CorsairLigh
 {
     controller  = controller_ptr;
 
-    name        = "Corsair Lighting Node Device";
+    name        = controller->GetNameString();
     vendor      = "Corsair";
     description = "Corsair Lighting Node Device";
     type        = DEVICE_TYPE_LEDSTRIP;

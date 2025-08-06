@@ -88,11 +88,12 @@ enum
 class CorsairLightingNodeController
 {
 public:
-    CorsairLightingNodeController(hid_device* dev_handle, const char* path);
+    CorsairLightingNodeController(hid_device* dev_handle, const char* path, std::string dev_name);
     ~CorsairLightingNodeController();
 
     std::string     GetFirmwareString();
     std::string     GetLocationString();
+    std::string     GetNameString();
     std::string     GetSerialString();
 
     unsigned int    GetStripsOnChannel(unsigned int channel);
@@ -124,6 +125,7 @@ private:
     hid_device*                                         dev;
     std::string                                         firmware_version;
     std::string                                         location;
+    std::string                                         name;
     std::thread*                                        keepalive_thread;
     std::atomic<bool>                                   keepalive_thread_run;
     std::chrono::time_point<std::chrono::steady_clock>  last_commit_time;

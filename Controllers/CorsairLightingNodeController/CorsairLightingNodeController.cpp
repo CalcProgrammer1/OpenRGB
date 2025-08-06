@@ -19,11 +19,12 @@
 
 using namespace std::chrono_literals;
 
-CorsairLightingNodeController::CorsairLightingNodeController(hid_device* dev_handle, const char* path)
+CorsairLightingNodeController::CorsairLightingNodeController(hid_device* dev_handle, const char* path, std::string dev_name)
 {
-    dev         = dev_handle;
-    location    = path;
-    guard_manager_ptr = new DeviceGuardManager(new CorsairDeviceGuard());
+    dev                 = dev_handle;
+    location            = path;
+    name                = dev_name;
+    guard_manager_ptr   = new DeviceGuardManager(new CorsairDeviceGuard());
 
     SendFirmwareRequest();
 
@@ -67,6 +68,11 @@ std::string CorsairLightingNodeController::GetFirmwareString()
 std::string CorsairLightingNodeController::GetLocationString()
 {
     return("HID: " + location);
+}
+
+std::string CorsairLightingNodeController::GetNameString()
+{
+    return(name);
 }
 
 std::string CorsairLightingNodeController::GetSerialString()

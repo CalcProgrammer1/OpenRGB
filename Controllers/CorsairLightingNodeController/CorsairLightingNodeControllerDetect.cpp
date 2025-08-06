@@ -37,9 +37,9 @@ void DetectCorsairLightingNodeControllers(hid_device_info* info, const std::stri
 
     if(dev)
     {
-        CorsairLightingNodeController*     controller     = new CorsairLightingNodeController(dev, info->path);
+        CorsairLightingNodeController*     controller     = new CorsairLightingNodeController(dev, info->path, name);
         RGBController_CorsairLightingNode* rgb_controller = new RGBController_CorsairLightingNode(controller);
-        rgb_controller->name = name;
+
         ResourceManager::get()->RegisterRGBController(rgb_controller);
     }
 }   /* DetectCorsairLightingNodeControllers() */
