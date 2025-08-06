@@ -47,7 +47,10 @@ bool IsRecognizedI2CBus(i2c_smbus_interface* bus)
     const char *name;
     while((name = RECOGNIZED_I2C_BUS_NAMES[idx++]) != nullptr)
     {
-        if (std::strcmp(name, bus->bus_name) == 0) return true;
+        if(std::strcmp(name, bus->device_name) == 0)
+        {
+            return true;
+        }
     }
 
     return false;

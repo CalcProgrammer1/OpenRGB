@@ -77,7 +77,6 @@ class i2c_smbus_interface
 {
 public:
     char device_name[512];
-    char bus_name[512];
 
     int port_id;
     int pci_device;

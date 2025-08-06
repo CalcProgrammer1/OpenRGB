@@ -232,8 +232,7 @@ bool i2c_smbus_linux_detect()
                     }
 
                     bus = new i2c_smbus_linux();
-                    strcpy(bus->device_name, device_path);
-                    strcpy(bus->bus_name, device_string);
+                    strcpy(bus->device_name, device_string);
                     bus->handle               = test_fd;
                     bus->pci_device           = pci_device;
                     bus->pci_vendor           = pci_vendor;
