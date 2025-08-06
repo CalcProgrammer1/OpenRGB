@@ -34,17 +34,19 @@ enum
 class CorsairHydroPlatinumController
 {
 public:
-    CorsairHydroPlatinumController(hid_device* dev_handle, const char* path);
+    CorsairHydroPlatinumController(hid_device* dev_handle, const char* path, std::string dev_name);
     ~CorsairHydroPlatinumController();
 
     std::string GetLocation();
     std::string GetFirmwareString();
+    std::string GetName();
     void SetupColors(std::vector<RGBColor> colors);
 
 private:
     hid_device*                 dev;
     std::string                 location;
     std::string                 firmware_version;
+    std::string                 name;
     std::atomic<unsigned int>   sequence_number;
     DeviceGuardManager*         guard_manager_ptr;
 

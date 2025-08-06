@@ -38,9 +38,9 @@ void DetectCorsairHydroPlatinumControllers(hid_device_info* info, const std::str
 
     if(dev)
     {
-        CorsairHydroPlatinumController*     controller     = new CorsairHydroPlatinumController(dev, info->path);
+        CorsairHydroPlatinumController*     controller     = new CorsairHydroPlatinumController(dev, info->path, name);
         RGBController_CorsairHydroPlatinum* rgb_controller = new RGBController_CorsairHydroPlatinum(controller);
-        rgb_controller->name = name;
+
         ResourceManager::get()->RegisterRGBController(rgb_controller);
     }
 }

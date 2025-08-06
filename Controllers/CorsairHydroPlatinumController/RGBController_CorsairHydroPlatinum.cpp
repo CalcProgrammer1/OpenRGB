@@ -36,7 +36,7 @@ RGBController_CorsairHydroPlatinum::RGBController_CorsairHydroPlatinum(CorsairHy
 {
     controller  = controller_ptr;
 
-    name        = "Corsair Hydro Platinum Series Device";
+    name        = controller->GetName();
     vendor      = "Corsair";
     description = "Corsair Hydro Platinum Series Device";
     type        = DEVICE_TYPE_COOLER;

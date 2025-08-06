@@ -85,11 +85,12 @@ static const uint8_t MAGIC_3[61] =
     0xff, 0xff, 0xff, 0xff, 0xff
 };
 
-CorsairHydroPlatinumController::CorsairHydroPlatinumController(hid_device* dev_handle, const char* path)
+CorsairHydroPlatinumController::CorsairHydroPlatinumController(hid_device* dev_handle, const char* path, std::string dev_name)
 {
-    dev         = dev_handle;
-    location    = path;
-    guard_manager_ptr = new DeviceGuardManager(new CorsairDeviceGuard());
+    dev                 = dev_handle;
+    location            = path;
+    name                = dev_name;
+    guard_manager_ptr   = new DeviceGuardManager(new CorsairDeviceGuard());
 
     SendMagic(MAGIC_1, CORSAIR_HYDRO_PLATINUM_MAGIC_1);
     SendMagic(MAGIC_2, CORSAIR_HYDRO_PLATINUM_MAGIC_2);
@@ -104,12 +105,17 @@ CorsairHydroPlatinumController::~CorsairHydroPlatinumController()
 
 std::string CorsairHydroPlatinumController::GetLocation()
 {
-    return ("HID: " + location);
+    return("HID: " + location);
 }
 
 std::string CorsairHydroPlatinumController::GetFirmwareString()
 {
-    return firmware_version;
+    return(firmware_version);
+}
+
+std::string CorsairHydroPlatinumController::GetName()
+{
+    return(name);
 }
 
 void CorsairHydroPlatinumController::SetupColors(std::vector<RGBColor> colors)
