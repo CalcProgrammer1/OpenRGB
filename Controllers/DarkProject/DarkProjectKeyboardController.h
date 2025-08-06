@@ -37,15 +37,16 @@ enum
 class DarkProjectKeyboardController
 {
 public:
-    DarkProjectKeyboardController(hid_device* dev_handle, const char* path);
+    DarkProjectKeyboardController(hid_device* dev_handle, const char* path, std::string dev_name);
     ~DarkProjectKeyboardController();
 
-    std::string     GetDeviceName();
-    std::string     GetSerial();
     std::string     GetLocation();
+    std::string     GetName();
+    std::string     GetSerial();
 
     void            SetLedsDirect(std::vector<RGBColor> colors);
 private:
-    std::string     location;
     hid_device*     dev;
+    std::string     location;
+    std::string     name;
 };

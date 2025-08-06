@@ -28,9 +28,9 @@ void DetectDarkProjectKeyboardControllers(hid_device_info* info, const std::stri
 
     if(dev)
     {
-        DarkProjectKeyboardController*     controller       = new DarkProjectKeyboardController(dev, info->path);
+        DarkProjectKeyboardController*     controller       = new DarkProjectKeyboardController(dev, info->path, name);
         RGBController_DarkProjectKeyboard* rgb_controller   = new RGBController_DarkProjectKeyboard(controller);
-        rgb_controller->name                                = name;
+
         ResourceManager::get()->RegisterRGBController(rgb_controller);
     }
 }

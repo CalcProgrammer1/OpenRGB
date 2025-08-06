@@ -134,10 +134,10 @@ RGBController_DarkProjectKeyboard::RGBController_DarkProjectKeyboard(DarkProject
 {
     controller                  = controller_ptr;
 
-    name                        = "Dark Project Keyboard";
+    name                        = controller->GetName();
     vendor                      = "Dark Project";
     type                        = DEVICE_TYPE_KEYBOARD;
-    description                 = controller->GetDeviceName();
+    description                 = "Dark Project Keyboard Device";
     serial                      = controller->GetSerial();
     location                    = controller->GetLocation();
 

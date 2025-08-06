@@ -45,10 +45,11 @@ static uint8_t packet_map[88] =
 /* Missing Indexes 9, 22, 28, 40, 46, 70, 74, 75, 82, 86, 87, 92, 98, 99, 101 */
 };
 
-DarkProjectKeyboardController::DarkProjectKeyboardController(hid_device* dev_handle, const char* path)
+DarkProjectKeyboardController::DarkProjectKeyboardController(hid_device* dev_handle, const char* path, std::string dev_name)
 {
     dev                 = dev_handle;
     location            = path;
+    name                = dev_name;
 }
 
 DarkProjectKeyboardController::~DarkProjectKeyboardController()
@@ -56,17 +57,14 @@ DarkProjectKeyboardController::~DarkProjectKeyboardController()
     hid_close(dev);
 }
 
-std::string DarkProjectKeyboardController::GetDeviceName()
+std::string DarkProjectKeyboardController::GetLocation()
 {
-    wchar_t name_string[128];
-    int ret = hid_get_manufacturer_string(dev, name_string, 128);
+    return("HID: " + location);
+}
 
-    if(ret != 0)
-    {
-        return("");
-    }
-
-    return(StringUtils::wstring_to_string(name_string));
+std::string DarkProjectKeyboardController::GetName()
+{
+    return(name);
 }
 
 std::string DarkProjectKeyboardController::GetSerial()
@@ -80,11 +78,6 @@ std::string DarkProjectKeyboardController::GetSerial()
     }
 
     return(StringUtils::wstring_to_string(serial_string));
-}
-
-std::string DarkProjectKeyboardController::GetLocation()
-{
-    return("HID: " + location);
 }
 
 void DarkProjectKeyboardController::SetLedsDirect(std::vector<RGBColor> colors)
