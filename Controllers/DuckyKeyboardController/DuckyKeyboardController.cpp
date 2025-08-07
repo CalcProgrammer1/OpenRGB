@@ -13,10 +13,11 @@
 #include "DuckyKeyboardController.h"
 #include "StringUtils.h"
 
-DuckyKeyboardController::DuckyKeyboardController(hid_device* dev_handle, const char* path, const unsigned short pid)
+DuckyKeyboardController::DuckyKeyboardController(hid_device* dev_handle, const char* path, const unsigned short pid, std::string dev_name)
 {
     dev         = dev_handle;
     location    = path;
+    name        = dev_name;
     usb_pid     = pid;
 
     SendInitialize();
@@ -27,9 +28,14 @@ DuckyKeyboardController::~DuckyKeyboardController()
     hid_close(dev);
 }
 
-std::string DuckyKeyboardController::GetDeviceLocation()
+std::string DuckyKeyboardController::GetLocationString()
 {
     return("HID: " + location);
+}
+
+std::string DuckyKeyboardController::GetNameString()
+{
+    return(name);
 }
 
 std::string DuckyKeyboardController::GetSerialString()

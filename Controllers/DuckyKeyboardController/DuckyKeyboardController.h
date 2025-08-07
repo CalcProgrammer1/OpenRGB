@@ -29,10 +29,11 @@
 class DuckyKeyboardController
 {
 public:
-    DuckyKeyboardController(hid_device* dev_handle, const char* path, const unsigned short pid);
+    DuckyKeyboardController(hid_device* dev_handle, const char* path, const unsigned short pid, std::string dev_name);
     ~DuckyKeyboardController();
 
-    std::string     GetDeviceLocation();
+    std::string     GetLocationString();
+    std::string     GetNameString();
     std::string     GetSerialString();
     unsigned short  GetUSBPID();
 
@@ -45,6 +46,7 @@ public:
 private:
     hid_device*             dev;
     std::string             location;
+    std::string             name;
     unsigned short          usb_pid;
 
     void SendInitialize();

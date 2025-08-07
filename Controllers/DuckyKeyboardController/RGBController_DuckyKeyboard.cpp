@@ -203,11 +203,11 @@ RGBController_DuckyKeyboard::RGBController_DuckyKeyboard(DuckyKeyboardController
 {
     controller  = controller_ptr;
 
-    name        = "Ducky Keyboard Device";
+    name        = controller->GetNameString();
     vendor      = "Ducky";
     type        = DEVICE_TYPE_KEYBOARD;
     description = "Ducky Keyboard Device";
-    location    = controller->GetDeviceLocation();
+    location    = controller->GetLocationString();
     serial      = controller->GetSerialString();
 
     mode Direct;
