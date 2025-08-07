@@ -82,12 +82,13 @@ const static zoneinfo gpuzoneinfos[]
 class EVGAGP102Controller
 {
 public:
-    EVGAGP102Controller(i2c_smbus_interface* bus, zoneinfo info);
+    EVGAGP102Controller(i2c_smbus_interface* bus, zoneinfo info, std::string dev_name);
     ~EVGAGP102Controller();
 
     bool                            IsValid();
     std::string                     GetDeviceLocation();
-    std::string                     GetName();
+    std::string                     GetDeviceName();
+    std::string                     GetZoneName();
     unsigned char                   GetMode();
 
     void                            SetColor(unsigned char red, unsigned char green, unsigned char blue);
@@ -96,6 +97,10 @@ public:
     void                            SaveSettings();
 
 private:
+    i2c_smbus_interface*            bus;
+    zoneinfo                        zi;
+    std::string                     name;
+
     bool                            CommandAcknowledged();
     bool                            CommandCompleted();
     s32                             QueryCommand(s32 command);
@@ -103,8 +108,4 @@ private:
     unsigned char                   GetRed();
     unsigned char                   GetGreen();
     unsigned char                   GetBlue();
-
-    i2c_smbus_interface* bus;
-    zoneinfo zi;
-
 };

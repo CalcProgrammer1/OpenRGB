@@ -516,7 +516,7 @@ void EVGAGPUv3Controller::SetZone(uint8_t zone, uint8_t mode, EVGAv3_config zone
         break;
     default:
         {
-            LOG_TRACE("[%s] Mode %02d not found", name->c_str(), mode);
+            LOG_TRACE("[%s] Mode %02d not found", name.c_str(), mode);
         }
         break;
     }

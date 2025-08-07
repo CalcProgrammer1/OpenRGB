@@ -23,40 +23,40 @@
     @comment
 \*-------------------------------------------------------------------*/
 
-RGBController_EVGAGP102::RGBController_EVGAGP102(std::vector<EVGAGP102Controller*> evga_ptr)
+RGBController_EVGAGP102::RGBController_EVGAGP102(std::vector<EVGAGP102Controller*> controller_list)
 {
-    evga = evga_ptr;
+    controllers         = controller_list;
 
-    name        = "EVGA GP102 GPU";
-    vendor      = "EVGA";
-    description = "EVGA GP102-based RGB GPU Device";
+    name                = controllers[0]->GetDeviceName();
+    vendor              = "EVGA";
+    description         = "EVGA GP102-based RGB GPU Device";
 
     for(unsigned int i = 0; i < zones.size(); i++)
     {
-        location    += evga[i]->GetDeviceLocation() + " ";
+        location       += controllers[i]->GetDeviceLocation() + " ";
     }
 
     type = DEVICE_TYPE_GPU;
 
     mode Off;
-    Off.name       = "Off";
-    Off.value      = EVGA_GP102_MODE_OFF;
-    Off.flags      = 0;
-    Off.color_mode = MODE_COLORS_NONE;
+    Off.name            = "Off";
+    Off.value           = EVGA_GP102_MODE_OFF;
+    Off.flags           = 0;
+    Off.color_mode      = MODE_COLORS_NONE;
     modes.push_back(Off);
 
     mode Direct;
-    Direct.name       = "Direct";
-    Direct.value      = EVGA_GP102_MODE_CUSTOM;
-    Direct.flags      = MODE_FLAG_HAS_PER_LED_COLOR;
-    Direct.color_mode = MODE_COLORS_PER_LED;
+    Direct.name         = "Direct";
+    Direct.value        = EVGA_GP102_MODE_CUSTOM;
+    Direct.flags        = MODE_FLAG_HAS_PER_LED_COLOR;
+    Direct.color_mode   = MODE_COLORS_PER_LED;
     modes.push_back(Direct);
 
     SetupZones();
 
     // Initialize active mode and stored color
 
-    unsigned char raw_active_mode = evga[0]->GetMode();
+    unsigned char raw_active_mode = controllers[0]->GetMode();
 
     active_mode = 0;
     for(unsigned int i = 0; i < modes.size(); i++)
@@ -69,7 +69,7 @@ RGBController_EVGAGP102::RGBController_EVGAGP102(std::vector<EVGAGP102Controller
     }
     for(unsigned int i = 0; i < zones.size(); i++)
     {
-        std::array<unsigned char, 3> rgb = evga[i]->GetColor();
+        std::array<unsigned char, 3> rgb = controllers[i]->GetColor();
 
         colors[i] = ToRGBColor(rgb[0], rgb[1], rgb[2]);
     }
@@ -77,9 +77,9 @@ RGBController_EVGAGP102::RGBController_EVGAGP102(std::vector<EVGAGP102Controller
 
 RGBController_EVGAGP102::~RGBController_EVGAGP102()
 {
-    for(unsigned int i = 0; i < evga.size(); i++)
+    for(unsigned int i = 0; i < controllers.size(); i++)
     {
-        delete evga[i];
+        delete controllers[i];
     }
 }
 
@@ -91,19 +91,19 @@ void RGBController_EVGAGP102::SetupZones()
     | the backplate logo (K|NGP|N logo, or EVGA GeForce 1080 Ti |
     | for the FTW3).
     \*---------------------------------------------------------*/
-    for(unsigned int i = 0; i < evga.size(); i++)
+    for(unsigned int i = 0; i < controllers.size(); i++)
     {
         zone new_zone;
         led new_led;
 
-        new_zone.name          = evga[i]->GetName();
+        new_zone.name          = controllers[i]->GetZoneName();
         new_zone.type          = ZONE_TYPE_SINGLE;
         new_zone.leds_min      = 1;
         new_zone.leds_max      = 1;
         new_zone.leds_count    = 1;
         new_zone.matrix_map    = NULL;
 
-        new_led.name           = evga[i]->GetName();
+        new_led.name           = controllers[i]->GetZoneName();
 
         leds.push_back(new_led);
         zones.push_back(new_zone);
@@ -133,7 +133,7 @@ void RGBController_EVGAGP102::UpdateZoneLEDs(int zone)
     unsigned char red = RGBGetRValue(color);
     unsigned char grn = RGBGetGValue(color);
     unsigned char blu = RGBGetBValue(color);
-    evga[zone]->SetColor(red, grn, blu);
+    controllers[zone]->SetColor(red, grn, blu);
 }
 
 void RGBController_EVGAGP102::UpdateSingleLED(int /*led*/)
@@ -143,9 +143,9 @@ void RGBController_EVGAGP102::UpdateSingleLED(int /*led*/)
 
 void RGBController_EVGAGP102::DeviceUpdateMode()
 {
-    for(unsigned int i = 0; i < evga.size(); i++)
+    for(unsigned int i = 0; i < controllers.size(); i++)
     {
-        evga[i]->SetMode((unsigned char)modes[(unsigned int)active_mode].value);
+        controllers[i]->SetMode((unsigned char)modes[(unsigned int)active_mode].value);
     }
 }
 

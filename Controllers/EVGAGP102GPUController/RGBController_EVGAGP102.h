@@ -17,7 +17,7 @@
 class RGBController_EVGAGP102 : public RGBController
 {
 public:
-    RGBController_EVGAGP102(std::vector<EVGAGP102Controller*> evga_ptr);
+    RGBController_EVGAGP102(std::vector<EVGAGP102Controller*> controller_list);
     ~RGBController_EVGAGP102();
 
     void        SetupZones();
@@ -32,5 +32,5 @@ public:
     void        DeviceSaveMode();
 
 private:
-    std::vector<EVGAGP102Controller*> evga;
+    std::vector<EVGAGP102Controller*> controllers;
 };

@@ -12,10 +12,11 @@
 #include "EVGAGP102Controller.h"
 #include "LogManager.h"
 
-EVGAGP102Controller::EVGAGP102Controller(i2c_smbus_interface* bus_ptr, zoneinfo info)
+EVGAGP102Controller::EVGAGP102Controller(i2c_smbus_interface* bus_ptr, zoneinfo info, std::string dev_name)
 {
-    bus = bus_ptr;
-    zi = info;
+    bus     = bus_ptr;
+    zi      = info;
+    name    = dev_name;
 }
 
 EVGAGP102Controller::~EVGAGP102Controller()
@@ -30,6 +31,16 @@ std::string EVGAGP102Controller::GetDeviceLocation()
     return_string.append(", address ");
     return_string.append(addr);
     return("I2C: " + return_string);
+}
+
+std::string EVGAGP102Controller::GetDeviceName()
+{
+    return(name);
+}
+
+std::string EVGAGP102Controller::GetZoneName()
+{
+    return(zi.zone_name);
 }
 
 void EVGAGP102Controller::SetColor(unsigned char red, unsigned char green, unsigned char blue)
@@ -124,9 +135,4 @@ void EVGAGP102Controller::SaveSettings()
     //Tested and not worked
     //bus->i2c_smbus_write_byte_data(zi.dev_addr, 0x21,   0xE5);
     //bus->i2c_smbus_write_byte_data(zi.dev_addr, 0x22,   0xE7);
-}
-
-std::string EVGAGP102Controller::GetName()
-{
-    return zi.zone_name;
 }
