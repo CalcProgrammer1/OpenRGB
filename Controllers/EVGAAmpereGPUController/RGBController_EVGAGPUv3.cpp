@@ -32,17 +32,16 @@ static const char* evga_v3_zone_names[] =
         is only able to set all LED's to a single color.
 \*-------------------------------------------------------------------*/
 
-RGBController_EVGAGPUv3::RGBController_EVGAGPUv3(EVGAGPUv3Controller* evga_ptr)
+RGBController_EVGAGPUv3::RGBController_EVGAGPUv3(EVGAGPUv3Controller* controller_ptr)
 {
-    evga = evga_ptr;
+    controller                  = controller_ptr;
 
-    name                        = "EVGA GPU";
+    name                        = controller->GetDeviceName();
     vendor                      = "EVGA";
     description                 = "EVGA Ampere RGB GPU Device";
-    location                    = evga->GetDeviceLocation();
-    version                     = evga->GetFWVersion();
-
-    type = DEVICE_TYPE_GPU;
+    location                    = controller->GetDeviceLocation();
+    version                     = controller->GetFWVersion();
+    type                        = DEVICE_TYPE_GPU;
 
     mode Off;
     Off.name                    = "Off";
@@ -169,11 +168,11 @@ RGBController_EVGAGPUv3::RGBController_EVGAGPUv3(EVGAGPUv3Controller* evga_ptr)
     // Initialize active mode
     for( uint8_t zone_idx = 0; zone_idx < zoneIndexMap.size(); zone_idx++)
     {
-        active_mode = evga->GetZoneMode(0); // Hard coding zone 0 until per zone modes are available.
+        active_mode = controller->GetZoneMode(0); // Hard coding zone 0 until per zone modes are available.
 
         if(active_mode != EVGA_GPU_V3_MODE_OFF)
         {
-            EVGAv3_config hw_config = evga->GetZoneConfig(zoneIndexMap[zone_idx], active_mode);
+            EVGAv3_config hw_config = controller->GetZoneConfig(zoneIndexMap[zone_idx], active_mode);
 
             /*---------------------------------------------------------*\
             | The LED color (color[0]) will always be set. Mode colors  |
@@ -206,7 +205,7 @@ RGBController_EVGAGPUv3::RGBController_EVGAGPUv3(EVGAGPUv3Controller* evga_ptr)
 
 RGBController_EVGAGPUv3::~RGBController_EVGAGPUv3()
 {
-    delete evga;
+    delete controller;
 }
 
 uint8_t RGBController_EVGAGPUv3::getModeIndex(uint8_t mode_value)
@@ -229,11 +228,11 @@ void RGBController_EVGAGPUv3::SetupZones()
     | Resizing is only possible on zone 4, addressable header   |
     \*---------------------------------------------------------*/
 
-    evga->GetDeviceModes();
+    controller->GetDeviceModes();
 
     for(uint8_t zone_idx = 0; zone_idx < 4; zone_idx++)
     {
-        if(evga->zone_led_count[zone_idx] > 0)
+        if(controller->zone_led_count[zone_idx] > 0)
         {
             zone* new_zone = new zone();
             led*  new_led  = new led();
@@ -259,7 +258,7 @@ void RGBController_EVGAGPUv3::SetupZones()
 
 void RGBController_EVGAGPUv3::ResizeZone(int /*zone*/, int newSize)
 {
-    evga->ResizeARGB(newSize);
+    controller->ResizeARGB(newSize);
 }
 
 void RGBController_EVGAGPUv3::DeviceUpdateLEDs()
@@ -286,20 +285,20 @@ void RGBController_EVGAGPUv3::DeviceUpdateLEDs()
                 zone_config.colors[i] = modes[active_mode].colors[i];
             }
         }
-        //LOG_TRACE("[%s] Updating LED %1d", evga->evgaGPUName, zone_idx);
-        evga->SetZone(zoneIndexMap[zone_idx], modes[active_mode].value, zone_config);
+        //LOG_TRACE("[%s] Updating LED %1d", controller->evgaGPUName, zone_idx);
+        controller->SetZone(zoneIndexMap[zone_idx], modes[active_mode].value, zone_config);
     }
 }
 
 void RGBController_EVGAGPUv3::UpdateZoneLEDs(int /*zone*/)
 {
-    //LOG_TRACE("[%s] Updating zone %1d", evga->evgaGPUName, zone);
+    //LOG_TRACE("[%s] Updating zone %1d", controller->evgaGPUName, zone);
     DeviceUpdateLEDs();
 }
 
 void RGBController_EVGAGPUv3::UpdateSingleLED(int /*led*/)
 {
-    //LOG_TRACE("[%s] Updating single LED %1d", evga->evgaGPUName, led);
+    //LOG_TRACE("[%s] Updating single LED %1d", controller->evgaGPUName, led);
     DeviceUpdateLEDs();
 }
 
@@ -308,15 +307,15 @@ void RGBController_EVGAGPUv3::DeviceUpdateMode()
     /* Update all zone modes in a loop, each one with a packet to be use with per zone control
     for(uint8_t zone = 0; zone < 4; zone++)
     {
-        evga->SetZoneMode(zone, modes[active_mode].value);
+        controller->SetZoneMode(zone, modes[active_mode].value);
     }
     */
-    //LOG_TRACE("[%s] Updating to mode %1d", evga->evgaGPUName, modes[active_mode].value);
+    //LOG_TRACE("[%s] Updating to mode %1d", controller->evgaGPUName, modes[active_mode].value);
     DeviceUpdateLEDs();
-    evga->SetAllModes(modes[active_mode].value, modes[active_mode].value, modes[active_mode].value,modes[active_mode].value, true); //Set all zones to the same mode
+    controller->SetAllModes(modes[active_mode].value, modes[active_mode].value, modes[active_mode].value,modes[active_mode].value, true); //Set all zones to the same mode
 }
 
 void RGBController_EVGAGPUv3::DeviceSaveMode()
 {
-    evga->SaveConfig();
+    controller->SaveConfig();
 }

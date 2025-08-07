@@ -17,7 +17,7 @@
 class RGBController_EVGAGPUv3 : public RGBController
 {
 public:
-    RGBController_EVGAGPUv3(EVGAGPUv3Controller* evga_ptr);
+    RGBController_EVGAGPUv3(EVGAGPUv3Controller* controller_ptr);
     ~RGBController_EVGAGPUv3();
 
     void        SetupZones();
@@ -32,7 +32,8 @@ public:
     void        DeviceSaveMode();
 
 private:
-    uint8_t     getModeIndex(uint8_t mode_value);
-    EVGAGPUv3Controller* evga;
+    EVGAGPUv3Controller* controller;
     std::vector<uint8_t> zoneIndexMap;
+
+    uint8_t     getModeIndex(uint8_t mode_value);
 };

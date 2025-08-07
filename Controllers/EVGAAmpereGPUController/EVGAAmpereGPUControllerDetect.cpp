@@ -34,18 +34,17 @@ void DetectEVGAAmpereGPUControllers(i2c_smbus_interface* bus, uint8_t address, c
         EVGAGPUv3Controller*     controller;
         RGBController_EVGAGPUv3* rgb_controller;
 
-        controller = new EVGAGPUv3Controller(bus, address);
-        controller-> evgaGPUName = name.c_str(); // Pass name of the card into the controller for logging.
+        controller = new EVGAGPUv3Controller(bus, address, name);
 
         if(controller-> ReadFWVersion() != "")
         {
             rgb_controller = new RGBController_EVGAGPUv3(controller);
-            rgb_controller->name = name;
+
             ResourceManager::get()->RegisterRGBController(rgb_controller);
         }
         else
         {
-            LOG_INFO("[%s] Failed to get a valid FW version, does the i2c interface support `i2c_smbus_read_i2c_block_data`?", controller-> evgaGPUName);
+            LOG_INFO("[%s] Failed to get a valid FW version, does the i2c interface support `i2c_smbus_read_i2c_block_data`?", controller->GetDeviceName().c_str());
             delete controller;
         }
     }

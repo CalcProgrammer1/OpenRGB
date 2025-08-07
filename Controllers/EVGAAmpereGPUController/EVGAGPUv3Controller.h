@@ -98,14 +98,14 @@ enum // Value limits for speeds
 class EVGAGPUv3Controller
 {
 public:
-    EVGAGPUv3Controller(i2c_smbus_interface* bus, evga_dev_id dev);
+    EVGAGPUv3Controller(i2c_smbus_interface* bus, evga_dev_id dev, std::string dev_name);
     ~EVGAGPUv3Controller();
 
     uint8_t         zone_led_count[4];
     uint8_t         zone_modes[4];
-    const char *    evgaGPUName;
 
     std::string     GetDeviceLocation();
+    std::string     GetDeviceName();
     std::string     GetFWVersion();
     std::string     ReadFWVersion();
 
@@ -123,6 +123,8 @@ private:
     i2c_smbus_interface*    bus;
     evga_dev_id             dev;
     bool                    zone_sync;
-    void                    initCard();
     std::string             fwVersion;
+    std::string             name;
+
+    void                    initCard();
 };

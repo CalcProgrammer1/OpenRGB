@@ -12,10 +12,11 @@
 #include "EVGAGPUv3Controller.h"
 #include "LogManager.h"
 
-EVGAGPUv3Controller::EVGAGPUv3Controller(i2c_smbus_interface* bus, evga_dev_id dev)
+EVGAGPUv3Controller::EVGAGPUv3Controller(i2c_smbus_interface* bus, evga_dev_id dev, std::string dev_name)
 {
-    this->bus = bus;
-    this->dev = dev;
+    this->bus   = bus;
+    this->dev   = dev;
+    this->name  = dev_name;
 }
 
 EVGAGPUv3Controller::~EVGAGPUv3Controller()
@@ -34,9 +35,14 @@ std::string EVGAGPUv3Controller::GetDeviceLocation()
     return("I2C: " + return_string);
 }
 
+std::string EVGAGPUv3Controller::GetDeviceName()
+{
+    return(name);
+}
+
 void EVGAGPUv3Controller::GetDeviceModes()
 {
-    LOG_DEBUG("[%s] Getting Zone and LED count from HW", evgaGPUName);
+    LOG_DEBUG("[%s] Getting Zone and LED count from HW", name.c_str());
     uint8_t data_pkt[I2C_SMBUS_BLOCK_MAX] = {};
 
     uint8_t result = bus->i2c_smbus_read_i2c_block_data(dev, EVGA_GPU_V3_REG_MODE, 10, data_pkt);
@@ -46,14 +52,14 @@ void EVGAGPUv3Controller::GetDeviceModes()
         {
             zone_modes[zone] = data_pkt[zone + 1];
             zone_led_count[zone] = data_pkt[zone + 5];
-            LOG_DEBUG("[%s] Zone %1d LED count: %02d, mode: %02d", evgaGPUName, zone + 1, zone_led_count[zone], zone_modes[zone]);
+            LOG_DEBUG("[%s] Zone %1d LED count: %02d, mode: %02d", name.c_str(), zone + 1, zone_led_count[zone], zone_modes[zone]);
         }
         zone_sync = data_pkt[9];
-        LOG_DEBUG("[%s] Zone Sync is %1d", evgaGPUName, zone_sync);
+        LOG_DEBUG("[%s] Zone Sync is %1d", name.c_str(), zone_sync);
     }
     else
     {
-            LOG_DEBUG("[%s] Invalid block read result: %02d", evgaGPUName, result);
+            LOG_DEBUG("[%s] Invalid block read result: %02d", name.c_str(), result);
             memset(zone_led_count, 0, sizeof(zone_led_count));
             memset(zone_modes, 0, sizeof(zone_modes));
     }
@@ -67,7 +73,7 @@ std::string EVGAGPUv3Controller::GetFWVersion()
 
 std::string EVGAGPUv3Controller::ReadFWVersion()
 {
-    LOG_TRACE("[%s] Getting FW from HW", evgaGPUName);
+    LOG_TRACE("[%s] Getting FW from HW", name.c_str());
     uint8_t         data_pkt[I2C_SMBUS_BLOCK_MAX] = {};
     std::string     return_string = "";
     char            version[10];
@@ -80,7 +86,7 @@ std::string EVGAGPUv3Controller::ReadFWVersion()
 
         snprintf(version, 10, "1.%02d.%02d", major, minor);
         return_string.append(version);
-        LOG_TRACE("[%s] Firmware %s", evgaGPUName, version);
+        LOG_TRACE("[%s] Firmware %s", name.c_str(), version);
         fwVersion = return_string;
         return(return_string);
     }
@@ -106,7 +112,7 @@ EVGAv3_config EVGAGPUv3Controller::GetZoneConfig(uint8_t zone, uint8_t mode)
     zone_config.numberOfColors  = 0;
     zone_config.speed           = EVGA_GPU_V3_SPEED_GENERIC_NORMAL;
 
-    LOG_DEBUG("[%s] Retriving Zone %1d config for mode %1d from HW", evgaGPUName, zone, mode);
+    LOG_DEBUG("[%s] Retriving Zone %1d config for mode %1d from HW", name.c_str(), zone, mode);
     uint8_t data_pkt[I2C_SMBUS_BLOCK_MAX] = {};
 
     switch (mode)
@@ -276,12 +282,12 @@ EVGAv3_config EVGAGPUv3Controller::GetZoneConfig(uint8_t zone, uint8_t mode)
 
     if(readFail == false)
     {
-        LOG_TRACE("[%s] Zone %1d Brightness: 0x%02X, Colors: %1d, Speed: 0x%04X, Direction %1d.", evgaGPUName, zone, zone_config.brightness, zone_config.numberOfColors, zone_config.speed, zone_config.direction);
+        LOG_TRACE("[%s] Zone %1d Brightness: 0x%02X, Colors: %1d, Speed: 0x%04X, Direction %1d.", name.c_str(), zone, zone_config.brightness, zone_config.numberOfColors, zone_config.speed, zone_config.direction);
         for(uint8_t color_index = 0; color_index < zone_config.numberOfColors; color_index++)
         {
-            LOG_TRACE("[%s] Color Index [%2d]: 0x%06X", evgaGPUName, color_index, zone_config.colors[color_index]);
+            LOG_TRACE("[%s] Color Index [%2d]: 0x%06X", name.c_str(), color_index, zone_config.colors[color_index]);
         }
-        LOG_DEBUG("[%s] Done loading Zone %1d configuration from HW", evgaGPUName, zone);
+        LOG_DEBUG("[%s] Done loading Zone %1d configuration from HW", name.c_str(), zone);
     }
     else
     {
@@ -291,7 +297,7 @@ EVGAv3_config EVGAGPUv3Controller::GetZoneConfig(uint8_t zone, uint8_t mode)
         {
             zone_config.colors[i] = 0;
         }
-        LOG_DEBUG("[%s] Failed while loading Zone %1d configuration from HW", evgaGPUName, zone);
+        LOG_DEBUG("[%s] Failed while loading Zone %1d configuration from HW", name.c_str(), zone);
     }
     return zone_config;
 }
@@ -302,13 +308,13 @@ void EVGAGPUv3Controller::initCard()
     // NvAPI_I2CWriteEx: Dev: 0x2D RegSize: 0x01 Reg: 0xB2 Size: 0x05 Data: 0x04 0xC6 0xEB 0xEA 0x15
     uint8_t data_pkt[5] = {0x04, 0xC6, 0xEB, 0xEA, 0x15};
     bus->i2c_smbus_write_i2c_block_data(dev, EVGA_GPU_V3_REG_ENABLE, sizeof(data_pkt), data_pkt);
-    LOG_TRACE("[%s] Sending SW int packet", evgaGPUName);
+    LOG_TRACE("[%s] Sending SW int packet", name.c_str());
     return;
 }
 
 void EVGAGPUv3Controller::SaveConfig()
 {
-    LOG_DEBUG("[%s] Sending save packet", evgaGPUName);
+    LOG_DEBUG("[%s] Sending save packet", name.c_str());
 
     //NvAPI_I2CWriteEx: Dev: 0x2D RegSize: 0x01 Reg: 0x90 Size: 0x05 Data: 0x04 0x9E 0xEB 0x00 0x90 //Sent on close of PX1
     uint8_t data_pkt[5] = {0x04, 0x9E, 0xEB, 0x00, 0x90};
@@ -328,7 +334,7 @@ void EVGAGPUv3Controller::ResizeARGB(uint8_t newSize)
         newSize = EVGAGPUV3_LEDS_MAX;
     }
 
-    LOG_DEBUG("[%s] Resizing ARGB header with %02d size", evgaGPUName, newSize);
+    LOG_DEBUG("[%s] Resizing ARGB header with %02d size", name.c_str(), newSize);
     uint8_t data_pkt[EVGAGPUV3_MODE_PACKET_SIZE] = { 0x09, EVGAGPUV3_INIT, EVGAGPUV3_INIT, EVGAGPUV3_INIT, EVGAGPUV3_INIT,
                                                            EVGAGPUV3_INIT, EVGAGPUV3_INIT, EVGAGPUV3_INIT, newSize, EVGAGPUV3_INIT};
 
@@ -361,7 +367,7 @@ void EVGAGPUv3Controller::SetAllModes(uint8_t zone_0_mode, uint8_t zone_1_mode,u
     mode_pkt[9] = sync;
 
     bus->i2c_smbus_write_i2c_block_data(dev, EVGA_GPU_V3_REG_MODE, EVGAGPUV3_MODE_PACKET_SIZE, mode_pkt);
-    //LOG_TRACE("[%s] Setting all zones to mode: %02d, %2d, %2d, %2d, zone sync %1d.", evgaGPUName, zone_0_mode, zone_1_mode, zone_2_mode, zone_3_mode, sync);
+    //LOG_TRACE("[%s] Setting all zones to mode: %02d, %2d, %2d, %2d, zone sync %1d.", name.c_str(), zone_0_mode, zone_1_mode, zone_2_mode, zone_3_mode, sync);
 }
 
 void EVGAGPUv3Controller::SetZoneMode(uint8_t zone, uint8_t mode)
@@ -381,7 +387,7 @@ void EVGAGPUv3Controller::SetZoneMode(uint8_t zone, uint8_t mode)
     mode_pkt[zone + 1] = mode;
 
     bus->i2c_smbus_write_i2c_block_data(dev, EVGA_GPU_V3_REG_MODE, EVGAGPUV3_MODE_PACKET_SIZE, mode_pkt);
-    //LOG_TRACE("[%s] Setting individual zone %1d to mode %02d", evgaGPUName, zone, mode);
+    //LOG_TRACE("[%s] Setting individual zone %1d to mode %02d", name.c_str(), zone, mode);
 }
 
 void EVGAGPUv3Controller::SetZone(uint8_t zone, uint8_t mode, EVGAv3_config zone_config)
@@ -510,7 +516,7 @@ void EVGAGPUv3Controller::SetZone(uint8_t zone, uint8_t mode, EVGAv3_config zone
         break;
     default:
         {
-            LOG_TRACE("[%s] Mode %02d not found", evgaGPUName, mode);
+            LOG_TRACE("[%s] Mode %02d not found", name->c_str(), mode);
         }
         break;
     }
