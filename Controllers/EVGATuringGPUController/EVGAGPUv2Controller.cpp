@@ -11,10 +11,11 @@
 
 #include "EVGAGPUv2Controller.h"
 
-EVGAGPUv2Controller::EVGAGPUv2Controller(i2c_smbus_interface* bus, evga_dev_id dev)
+EVGAGPUv2Controller::EVGAGPUv2Controller(i2c_smbus_interface* bus, evga_dev_id dev, std::string dev_name)
 {
-    this->bus = bus;
-    this->dev = dev;
+    this->bus   = bus;
+    this->dev   = dev;
+    this->name  = dev_name;
 }
 
 EVGAGPUv2Controller::~EVGAGPUv2Controller()
@@ -31,6 +32,11 @@ std::string EVGAGPUv2Controller::GetDeviceLocation()
     return_string.append(", address ");
     return_string.append(addr);
     return("I2C: " + return_string);
+}
+
+std::string EVGAGPUv2Controller::GetDeviceName()
+{
+    return(name);
 }
 
 unsigned char EVGAGPUv2Controller::GetBrightnessA()

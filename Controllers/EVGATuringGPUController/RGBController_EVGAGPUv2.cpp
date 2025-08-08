@@ -22,16 +22,15 @@
     @comment
 \*-------------------------------------------------------------------*/
 
-RGBController_EVGAGPUv2::RGBController_EVGAGPUv2(EVGAGPUv2Controller* evga_ptr)
+RGBController_EVGAGPUv2::RGBController_EVGAGPUv2(EVGAGPUv2Controller* controller_ptr)
 {
-    evga = evga_ptr;
+    controller                  = controller_ptr;
 
-    name                    = "EVGA GPU";
-    vendor                  = "EVGA";
-    description             = "EVGA Turing RGB GPU Device";
-    location                = evga->GetDeviceLocation();
-
-    type = DEVICE_TYPE_GPU;
+    name                        = controller->GetDeviceName();
+    vendor                      = "EVGA";
+    description                 = "EVGA Turing RGB GPU Device";
+    location                    = controller->GetDeviceLocation();
+    type                        = DEVICE_TYPE_GPU;
 
     mode Off;
     Off.name                    = "Off";
@@ -99,7 +98,7 @@ RGBController_EVGAGPUv2::RGBController_EVGAGPUv2(EVGAGPUv2Controller* evga_ptr)
     SetupZones();
 
     // Initialize active mode
-    active_mode = getModeIndex(evga->GetMode());
+    active_mode = getModeIndex(controller->GetMode());
 
     /*---------------------------------------------------------*\
     | The LED color (color[0]) will always be set. Mode colors  |
@@ -107,8 +106,8 @@ RGBController_EVGAGPUv2::RGBController_EVGAGPUv2(EVGAGPUv2Controller* evga_ptr)
     | by extension colorB is only necessary if its not black    |
     \*---------------------------------------------------------*/
 
-    colors[0]           = evga->GetColorA();
-    RGBColor colorB     = evga->GetColorB();
+    colors[0]           = controller->GetColorA();
+    RGBColor colorB     = controller->GetColorB();
 
     int breathing_mode_index = getModeIndex(EVGA_GPU_V2_RGB_MODE_BREATHING);
     int pulse_mode_index     = getModeIndex(EVGA_GPU_V2_RGB_MODE_PULSE);
@@ -124,13 +123,13 @@ RGBController_EVGAGPUv2::RGBController_EVGAGPUv2(EVGAGPUv2Controller* evga_ptr)
     }
 
     // Load speed settings from the card:
-    modes[active_mode].speed = evga->GetSpeed();
-    modes[active_mode].brightness = evga->GetBrightnessA();
+    modes[active_mode].speed = controller->GetSpeed();
+    modes[active_mode].brightness = controller->GetBrightnessA();
 }
 
 RGBController_EVGAGPUv2::~RGBController_EVGAGPUv2()
 {
-    delete evga;
+    delete controller;
 }
 
 int RGBController_EVGAGPUv2::getModeIndex(unsigned char mode_value)
@@ -187,7 +186,7 @@ void RGBController_EVGAGPUv2::DeviceUpdateLEDs()
     | modes and as such colorB will always be black (0x000000)  |
     \*---------------------------------------------------------*/
 
-    evga->SetColor(colors[0], /* colorB*/ 0, modes[active_mode].brightness);
+    controller->SetColor(colors[0], /* colorB*/ 0, modes[active_mode].brightness);
 }
 
 void RGBController_EVGAGPUv2::UpdateZoneLEDs(int /*zone*/)
@@ -217,10 +216,10 @@ void RGBController_EVGAGPUv2::DeviceUpdateMode()
         colorB = (modes[active_mode].colors.size() == 2) ? modes[active_mode].colors[1] : 0 ;
     }
 
-    evga->SetMode( modes[active_mode].value, colorA, colorB, modes[active_mode].speed, modes[active_mode].brightness);
+    controller->SetMode( modes[active_mode].value, colorA, colorB, modes[active_mode].speed, modes[active_mode].brightness);
 }
 
 void RGBController_EVGAGPUv2::DeviceSaveMode()
 {
-    evga->SaveSettings();
+    controller->SaveSettings();
 }

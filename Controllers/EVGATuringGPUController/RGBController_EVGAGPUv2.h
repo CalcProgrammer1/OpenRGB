@@ -17,7 +17,7 @@
 class RGBController_EVGAGPUv2 : public RGBController
 {
 public:
-    RGBController_EVGAGPUv2(EVGAGPUv2Controller* evga_ptr);
+    RGBController_EVGAGPUv2(EVGAGPUv2Controller* controller_ptr);
     ~RGBController_EVGAGPUv2();
 
     void        SetupZones();
@@ -32,6 +32,7 @@ public:
     void        DeviceSaveMode();
 
 private:
+    EVGAGPUv2Controller* controller;
+
     int         getModeIndex(unsigned char mode_value);
-    EVGAGPUv2Controller* evga;
 };

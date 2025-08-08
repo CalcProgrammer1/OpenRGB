@@ -28,14 +28,11 @@
 
 void DetectEVGATuringGPUControllers(i2c_smbus_interface* bus, uint8_t address, const std::string& name)
 {
-    if (bus->port_id == 1)
+    if(bus->port_id == 1)
     {
-        EVGAGPUv2Controller*     controller;
-        RGBController_EVGAGPUv2* rgb_controller;
+        EVGAGPUv2Controller*     controller     = new EVGAGPUv2Controller(bus, address, name);
+        RGBController_EVGAGPUv2* rgb_controller = new RGBController_EVGAGPUv2(controller);
 
-        controller              = new EVGAGPUv2Controller(bus, address);
-        rgb_controller          = new RGBController_EVGAGPUv2(controller);
-        rgb_controller->name    = name.c_str();
         ResourceManager::get()->RegisterRGBController(rgb_controller);
     }
 }   /* DetectEVGATuringGPUControllers() */
