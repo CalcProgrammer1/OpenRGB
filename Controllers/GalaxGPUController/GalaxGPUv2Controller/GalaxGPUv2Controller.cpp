@@ -12,22 +12,16 @@
 #include <cstring>
 #include "GalaxGPUv2Controller.h"
 
-GalaxGPUv2Controller::GalaxGPUv2Controller(i2c_smbus_interface* bus, galax_gpu_dev_id dev)
+GalaxGPUv2Controller::GalaxGPUv2Controller(i2c_smbus_interface* bus, galax_gpu_dev_id dev, std::string dev_name)
 {
-    this->bus = bus;
-    this->dev = dev;
-
-    strcpy(device_name, "Galax RTX GPU"); // Would be nice to get the actual GPU name. Using this as a placeholder.
+    this->bus   = bus;
+    this->dev   = dev;
+    this->name  = dev_name;
 }
 
 GalaxGPUv2Controller::~GalaxGPUv2Controller()
 {
 
-}
-
-std::string GalaxGPUv2Controller::GetDeviceName()
-{
-    return(device_name);
 }
 
 std::string GalaxGPUv2Controller::GetDeviceLocation()
@@ -38,6 +32,11 @@ std::string GalaxGPUv2Controller::GetDeviceLocation()
     return_string.append(", address ");
     return_string.append(addr);
     return("I2C: " + return_string);
+}
+
+std::string GalaxGPUv2Controller::GetDeviceName()
+{
+    return(name);
 }
 
 unsigned char GalaxGPUv2Controller::GetLEDRed()

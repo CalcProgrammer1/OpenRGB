@@ -51,11 +51,11 @@ enum
 class GalaxGPUv2Controller
 {
 public:
-    GalaxGPUv2Controller(i2c_smbus_interface* bus, galax_gpu_dev_id);
+    GalaxGPUv2Controller(i2c_smbus_interface* bus, galax_gpu_dev_id, std::string dev_name);
     ~GalaxGPUv2Controller();
 
-    std::string   GetDeviceName();
     std::string   GetDeviceLocation();
+    std::string   GetDeviceName();
     unsigned char GetLEDRed();
     unsigned char GetLEDGreen();
     unsigned char GetLEDBlue();
@@ -76,7 +76,7 @@ public:
     bool          direct = false;                                                // Temporary solution to check if we are in "Direct" mode
 
 private:
-    char                    device_name[16];
     i2c_smbus_interface *   bus;
     galax_gpu_dev_id        dev;
+    std::string             name;
 };

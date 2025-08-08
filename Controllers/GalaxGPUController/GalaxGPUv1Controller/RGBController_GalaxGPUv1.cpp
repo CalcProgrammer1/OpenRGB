@@ -56,40 +56,40 @@ int RGBController_GalaxGPUv1::GetDeviceMode()
 
 RGBController_GalaxGPUv1::RGBController_GalaxGPUv1(GalaxGPUv1Controller* controller_ptr)
 {
-    controller  = controller_ptr;
+    controller                  = controller_ptr;
 
-    name        = controller->GetDeviceName();
-    vendor      = "GALAX";
-    type        = DEVICE_TYPE_GPU;
-    description = "GALAX / KFA2 RTX GPU";
-    location    = controller->GetDeviceLocation();
+    name                        = controller->GetDeviceName();
+    vendor                      = "GALAX";
+    type                        = DEVICE_TYPE_GPU;
+    description                 = "GALAX / KFA2 RTX GPU";
+    location                    = controller->GetDeviceLocation();
 
     mode Direct;
-    Direct.name       = "Direct";
-    Direct.value      = 1;
-    Direct.flags      = MODE_FLAG_HAS_PER_LED_COLOR;
-    Direct.color_mode = MODE_COLORS_PER_LED;
+    Direct.name                 = "Direct";
+    Direct.value                = 1;
+    Direct.flags                = MODE_FLAG_HAS_PER_LED_COLOR;
+    Direct.color_mode           = MODE_COLORS_PER_LED;
     modes.push_back(Direct);
 
     mode Breathing;
-    Breathing.name       = "Breathing";
-    Breathing.value      = 2;
-    Breathing.flags      = MODE_FLAG_HAS_PER_LED_COLOR;
-    Breathing.color_mode = MODE_COLORS_PER_LED;
+    Breathing.name              = "Breathing";
+    Breathing.value             = 2;
+    Breathing.flags             = MODE_FLAG_HAS_PER_LED_COLOR;
+    Breathing.color_mode        = MODE_COLORS_PER_LED;
     modes.push_back(Breathing);
 
     mode Rainbow;
-    Rainbow.name       = "Rainbow";
-    Rainbow.value      = 3;
-    Rainbow.flags      = 0;
-    Rainbow.color_mode = MODE_COLORS_NONE;
+    Rainbow.name                = "Rainbow";
+    Rainbow.value               = 3;
+    Rainbow.flags               = 0;
+    Rainbow.color_mode          = MODE_COLORS_NONE;
     modes.push_back(Rainbow);
 
     mode Cycle_Breathing;
-    Cycle_Breathing.name       = "Cycle Breathing";
-    Cycle_Breathing.value      = 4;
-    Cycle_Breathing.flags      = 0;
-    Cycle_Breathing.color_mode = MODE_COLORS_NONE;
+    Cycle_Breathing.name        = "Cycle Breathing";
+    Cycle_Breathing.value       = 4;
+    Cycle_Breathing.flags       = 0;
+    Cycle_Breathing.color_mode  = MODE_COLORS_NONE;
     modes.push_back(Cycle_Breathing);
 
     SetupZones();

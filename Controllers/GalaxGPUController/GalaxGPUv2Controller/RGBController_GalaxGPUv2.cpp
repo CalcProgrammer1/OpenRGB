@@ -56,65 +56,65 @@ int RGBController_GalaxGPUv2::GetDeviceMode()
 
 RGBController_GalaxGPUv2::RGBController_GalaxGPUv2(GalaxGPUv2Controller* controller_ptr)
 {
-    controller  = controller_ptr;
+    controller                      = controller_ptr;
 
-    name        = controller->GetDeviceName();
-    vendor      = "GALAX";
-    type        = DEVICE_TYPE_GPU;
-    description = "GALAX RTX 40+ GPU";
-    location    = controller->GetDeviceLocation();
+    name                            = controller->GetDeviceName();
+    vendor                          = "GALAX";
+    type                            = DEVICE_TYPE_GPU;
+    description                     = "GALAX RTX 40+ GPU";
+    location                        = controller->GetDeviceLocation();
 
     mode Direct;
-    Direct.name           = "Direct";
-    Direct.value          = 0;
-    Direct.brightness_min = 0x01;
-    Direct.brightness_max = 0x03;
-    Direct.flags          = MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_HAS_SPEED | MODE_FLAG_MANUAL_SAVE;
-    Direct.color_mode     = MODE_COLORS_PER_LED;
+    Direct.name                     = "Direct";
+    Direct.value                    = 0;
+    Direct.brightness_min           = 0x01;
+    Direct.brightness_max           = 0x03;
+    Direct.flags                    = MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_HAS_SPEED | MODE_FLAG_MANUAL_SAVE;
+    Direct.color_mode               = MODE_COLORS_PER_LED;
     modes.push_back(Direct);
 
     mode Breathing;
-    Breathing.name           = "Breathing";
-    Breathing.value          = 1;
-    Breathing.brightness_min = 0x01;
-    Breathing.brightness_max = 0x03;
-    Breathing.speed_min      = 0x00;
-    Breathing.speed_max      = 0x09;
-    Breathing.flags          = MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_HAS_SPEED | MODE_FLAG_MANUAL_SAVE;
-    Breathing.color_mode     = MODE_COLORS_PER_LED;
+    Breathing.name                  = "Breathing";
+    Breathing.value                 = 1;
+    Breathing.brightness_min        = 0x01;
+    Breathing.brightness_max        = 0x03;
+    Breathing.speed_min             = 0x00;
+    Breathing.speed_max             = 0x09;
+    Breathing.flags                 = MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_HAS_SPEED | MODE_FLAG_MANUAL_SAVE;
+    Breathing.color_mode            = MODE_COLORS_PER_LED;
     modes.push_back(Breathing);
 
     mode Rainbow;
-    Rainbow.name           = "Rainbow";
-    Rainbow.value          = 2;
-    Rainbow.flags          = 0;
-    Rainbow.brightness_min = 0x01;
-    Rainbow.brightness_max = 0x03;
-    Rainbow.speed_min      = 0x00;
-    Rainbow.speed_max      = 0x09;
-    Rainbow.flags          = MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_HAS_SPEED | MODE_FLAG_MANUAL_SAVE;
-    Rainbow.color_mode     = MODE_COLORS_NONE;
+    Rainbow.name                    = "Rainbow";
+    Rainbow.value                   = 2;
+    Rainbow.flags                   = 0;
+    Rainbow.brightness_min          = 0x01;
+    Rainbow.brightness_max          = 0x03;
+    Rainbow.speed_min               = 0x00;
+    Rainbow.speed_max               = 0x09;
+    Rainbow.flags                   = MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_HAS_SPEED | MODE_FLAG_MANUAL_SAVE;
+    Rainbow.color_mode              = MODE_COLORS_NONE;
     modes.push_back(Rainbow);
 
     mode Sync;
-    Sync.name       = "External Sync";
-    Sync.value      = 3;
-    Sync.flags      = MODE_FLAG_MANUAL_SAVE;
-    Sync.color_mode = MODE_COLORS_NONE;
+    Sync.name                       = "External Sync";
+    Sync.value                      = 3;
+    Sync.flags                      = MODE_FLAG_MANUAL_SAVE;
+    Sync.color_mode                 = MODE_COLORS_NONE;
     modes.push_back(Sync);
 
     mode Off;
-    Off.name       = "Off";
-    Off.value      = 4;
-    Off.flags      = MODE_FLAG_MANUAL_SAVE;
-    Off.color_mode = MODE_COLORS_NONE;
+    Off.name                        = "Off";
+    Off.value                       = 4;
+    Off.flags                       = MODE_FLAG_MANUAL_SAVE;
+    Off.color_mode                  = MODE_COLORS_NONE;
     modes.push_back(Off);
 
     SetupZones();
 
-    active_mode                   = GetDeviceMode();
-    modes[active_mode].brightness = controller->GetBrightness();
-    modes[active_mode].speed      = controller->GetSpeed();
+    active_mode                     = GetDeviceMode();
+    modes[active_mode].brightness   = controller->GetBrightness();
+    modes[active_mode].speed        = controller->GetSpeed();
 }
 
 RGBController_GalaxGPUv2::~RGBController_GalaxGPUv2()

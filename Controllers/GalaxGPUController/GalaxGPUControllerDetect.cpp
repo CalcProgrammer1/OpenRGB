@@ -43,7 +43,7 @@ bool TestForGalaxGPUController(i2c_smbus_interface* bus, unsigned char address)
                     pass = true;
             }
             break;
-        
+
         /*-----------------------------------------------------------------*\
         | V1 Controller - RTX 3080                                          |
         \*-----------------------------------------------------------------*/
@@ -89,9 +89,8 @@ void DetectGalaxGPUControllers(i2c_smbus_interface* bus, uint8_t i2c_addr, const
             case 0x32:
             case 0x23:
                 {
-                    GalaxGPUv1Controller*     controller     = new GalaxGPUv1Controller(bus, i2c_addr);
+                    GalaxGPUv1Controller*     controller     = new GalaxGPUv1Controller(bus, i2c_addr, name);
                     RGBController_GalaxGPUv1* rgb_controller = new RGBController_GalaxGPUv1(controller);
-                    rgb_controller->name                     = name;
 
                     ResourceManager::get()->RegisterRGBController(rgb_controller);
                 }
@@ -102,9 +101,8 @@ void DetectGalaxGPUControllers(i2c_smbus_interface* bus, uint8_t i2c_addr, const
             \*-----------------------------------------------------------------*/
             case 0x51:
                 {
-                    GalaxGPUv2Controller*     controller     = new GalaxGPUv2Controller(bus, i2c_addr);
+                    GalaxGPUv2Controller*     controller     = new GalaxGPUv2Controller(bus, i2c_addr, name);
                     RGBController_GalaxGPUv2* rgb_controller = new RGBController_GalaxGPUv2(controller);
-                    rgb_controller->name                     = name;
 
                     ResourceManager::get()->RegisterRGBController(rgb_controller);
                 }
