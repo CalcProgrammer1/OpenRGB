@@ -9,7 +9,6 @@
 |   SPDX-License-Identifier: GPL-2.0-only                   |
 \*---------------------------------------------------------*/
 
-#include <vector>
 #include "Detector.h"
 #include "EVGAGPUv1Controller.h"
 #include "LogManager.h"
@@ -17,25 +16,6 @@
 #include "i2c_smbus.h"
 #include "pci_ids.h"
 
-typedef struct
-{
-    int             pci_vendor;
-    int             pci_device;
-    int             pci_subsystem_vendor;
-    int             pci_subsystem_device;
-    const char *    name;
-} gpu_pci_device;
-
-#define GPU_NUM_DEVICES (sizeof(device_list) / sizeof(device_list[ 0 ]))
-
-static const gpu_pci_device device_list[] =
-{
-    { NVIDIA_VEN,   NVIDIA_GTX1070_DEV,         EVGA_SUB_VEN,   EVGA_GTX1070_FTW_DT_GAMING_SUB_DEV,     "EVGA GeForce GTX 1070 FTW DT Gaming"                   },
-    { NVIDIA_VEN,   NVIDIA_GTX1070_DEV,         EVGA_SUB_VEN,   EVGA_GTX1070_FTW_SUB_DEV,               "EVGA GeForce GTX 1070 FTW"                             },
-    { NVIDIA_VEN,   NVIDIA_GTX1070_DEV,         EVGA_SUB_VEN,   EVGA_GTX1070_FTW_HYBRID_SUB_DEV,        "EVGA GeForce GTX 1070 FTW HYBRID"                      },
-    { NVIDIA_VEN,   NVIDIA_GTX1070TI_DEV,       EVGA_SUB_VEN,   EVGA_GTX1070TI_FTW2_SUB_DEV,            "EVGA GeForce GTX 1070 Ti FTW2"                         },
-    { NVIDIA_VEN,   NVIDIA_GTX1080_DEV,         EVGA_SUB_VEN,   EVGA_GTX1080_FTW_SUB_DEV,               "EVGA GeForce GTX 1080 FTW"                             },
-};
 /******************************************************************************************\
 *                                                                                          *
 *   DetectEVGAGPUControllers                                                               *
@@ -47,33 +27,19 @@ static const gpu_pci_device device_list[] =
 *                                                                                          *
 \******************************************************************************************/
 
-void DetectEVGAPascalGPUControllers(std::vector<i2c_smbus_interface*>& busses)
+void DetectEVGAPascalGPUControllers(i2c_smbus_interface* bus, uint8_t address, const std::string& name)
 {
-    for (unsigned int bus = 0; bus < busses.size(); bus++)
+    if(bus->port_id == 1)
     {
-        for(unsigned int dev_idx = 0; dev_idx < GPU_NUM_DEVICES; dev_idx++)
-        {
-            if (busses[bus]->port_id != 1)
-            {
-                break;
-            }
+        EVGAGPUv1Controller*     controller     = new EVGAGPUv1Controller(bus, address, name);
+        RGBController_EVGAGPUv1* rgb_controller = new RGBController_EVGAGPUv1(controller);
 
-            if(busses[bus]->pci_vendor           == device_list[dev_idx].pci_vendor           &&
-               busses[bus]->pci_device           == device_list[dev_idx].pci_device           &&
-               busses[bus]->pci_subsystem_vendor == device_list[dev_idx].pci_subsystem_vendor &&
-               busses[bus]->pci_subsystem_device == device_list[dev_idx].pci_subsystem_device)
-            {
-                LOG_DEBUG(GPU_DETECT_MESSAGE, EVGAGPUV1_CONTROLLER_NAME, bus, device_list[dev_idx].pci_device, device_list[dev_idx].pci_subsystem_device, device_list[dev_idx].name );
-                EVGAGPUv1Controller*     new_controller;
-                RGBController_EVGAGPUv1* new_rgbcontroller;
-
-                new_controller          = new EVGAGPUv1Controller(busses[bus], 0x49);
-                new_rgbcontroller       = new RGBController_EVGAGPUv1(new_controller);
-                new_rgbcontroller->name = device_list[dev_idx].name;
-                ResourceManager::get()->RegisterRGBController(new_rgbcontroller);
-            }
-        }
+        ResourceManager::get()->RegisterRGBController(rgb_controller);
     }
 }   /* DetectEVGAPascalGPUControllers() */
 
-REGISTER_I2C_DETECTOR("EVGA Pascal GPU", DetectEVGAPascalGPUControllers);
+REGISTER_I2C_PCI_DETECTOR("EVGA GeForce GTX 1070 FTW DT Gaming",    DetectEVGAPascalGPUControllers, NVIDIA_VEN, NVIDIA_GTX1070_DEV,     EVGA_SUB_VEN,   EVGA_GTX1070_FTW_DT_GAMING_SUB_DEV, 0x49);
+REGISTER_I2C_PCI_DETECTOR("EVGA GeForce GTX 1070 FTW",              DetectEVGAPascalGPUControllers, NVIDIA_VEN, NVIDIA_GTX1070_DEV,     EVGA_SUB_VEN,   EVGA_GTX1070_FTW_SUB_DEV,           0x49);
+REGISTER_I2C_PCI_DETECTOR("EVGA GeForce GTX 1070 FTW HYBRID",       DetectEVGAPascalGPUControllers, NVIDIA_VEN, NVIDIA_GTX1070_DEV,     EVGA_SUB_VEN,   EVGA_GTX1070_FTW_HYBRID_SUB_DEV,    0x49);
+REGISTER_I2C_PCI_DETECTOR("EVGA GeForce GTX 1070 Ti FTW2",          DetectEVGAPascalGPUControllers, NVIDIA_VEN, NVIDIA_GTX1070TI_DEV,   EVGA_SUB_VEN,   EVGA_GTX1070TI_FTW2_SUB_DEV,        0x49);
+REGISTER_I2C_PCI_DETECTOR("EVGA GeForce GTX 1080 FTW",              DetectEVGAPascalGPUControllers, NVIDIA_VEN, NVIDIA_GTX1080_DEV,     EVGA_SUB_VEN,   EVGA_GTX1080_FTW_SUB_DEV,           0x49);
