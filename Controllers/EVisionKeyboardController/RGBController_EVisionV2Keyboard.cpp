@@ -281,12 +281,12 @@ static const char *led_endorfy[] =
       like directions for some modes.
 \*-------------------------------------------------------------------*/
 
-RGBController_EVisionV2Keyboard::RGBController_EVisionV2Keyboard(EVisionV2KeyboardController* controller_ptr, EVisionV2KeyboardPart part_)
+RGBController_EVisionV2Keyboard::RGBController_EVisionV2Keyboard(EVisionV2KeyboardController* controller_ptr, EVisionV2KeyboardPart kb_part)
 {
     controller  = controller_ptr;
-    part        = part_;
+    part        = kb_part;
 
-    name        = "EVision Keyboard Device";
+    name        = controller->GetName();
     vendor      = "Evision";
     type        = DEVICE_TYPE_KEYBOARD;
     description = "EVision Keyboard Device";
@@ -299,10 +299,17 @@ RGBController_EVisionV2Keyboard::RGBController_EVisionV2Keyboard(EVisionV2Keyboa
         case EVISION_V2_KEYBOARD_PART_KEYBOARD:
             SetupKeyboardModes();
             break;
+
         case EVISION_V2_KEYBOARD_PART_LOGO:
-        case EVISION_V2_KEYBOARD_PART_EDGE:
+            name += " Logo";
             SetupLogoEdgeModes();
             break;
+
+        case EVISION_V2_KEYBOARD_PART_EDGE:
+            name += " Edge";
+            SetupLogoEdgeModes();
+            break;
+
         case ENDORFY_KEYBOARD_PART_EDGE:
             SetupEdgeModes();
             break;

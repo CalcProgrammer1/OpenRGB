@@ -48,22 +48,12 @@ static uint8_t endorfy_map[EVISION_V2_MATRIX_WIDTH * EVISION_V2_MATRIX_HEIGHT] =
     105, 106, 107,                111,                115, 116, 117, 118, 119, 120, 121, 123,      124,
 };
 
-EVisionV2KeyboardController::EVisionV2KeyboardController(hid_device* dev_handle, const char* path, EVisionV2KeyboardLayout layout_)
+EVisionV2KeyboardController::EVisionV2KeyboardController(hid_device* dev_handle, const char* path, EVisionV2KeyboardLayout dev_layout, std::string dev_name)
 {
-    layout              = layout_;
     dev                 = dev_handle;
     location            = path;
-
-    /*---------------------------------------------------------*\
-    | Get device name from HID manufacturer and product strings |
-    \*---------------------------------------------------------*/
-    wchar_t name_string[HID_MAX_STR];
-
-    hid_get_manufacturer_string(dev, name_string, HID_MAX_STR);
-    device_name = StringUtils::wstring_to_string(name_string);
-
-    hid_get_product_string(dev, name_string, HID_MAX_STR);
-    device_name.append(" ").append(StringUtils::wstring_to_string(name_string));
+    name                = dev_name;
+    layout              = dev_layout;
 
     /*---------------------------------------------------------*\
     | Get capabilities and layout                               |
@@ -87,6 +77,7 @@ EVisionV2KeyboardController::EVisionV2KeyboardController(hid_device* dev_handle,
             keyvalue_map = evisionv2_map;
             led_count = 106;
             break;
+
         case ENDORFY_KEYBOARD_LAYOUT:
             keyvalue_map = endorfy_map;
             led_count = 104;
@@ -99,9 +90,9 @@ EVisionV2KeyboardController::~EVisionV2KeyboardController()
     hid_close(dev);
 }
 
-std::string EVisionV2KeyboardController::GetDeviceName()
+std::string EVisionV2KeyboardController::GetName()
 {
-    return device_name;
+    return(name);
 }
 
 std::string EVisionV2KeyboardController::GetSerial()

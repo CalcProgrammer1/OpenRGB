@@ -46,15 +46,15 @@
 *                                                                                          *
 \******************************************************************************************/
 
-void DetectEVisionKeyboards(hid_device_info* info, const std::string& /*name*/)
+void DetectEVisionKeyboards(hid_device_info* info, const std::string& name)
 {
     hid_device* dev = hid_open_path(info->path);
 
     if(dev)
     {
-        EVisionKeyboardController* controller         = new EVisionKeyboardController(dev, info->path);
+        EVisionKeyboardController*     controller     = new EVisionKeyboardController(dev, info->path, name);
         RGBController_EVisionKeyboard* rgb_controller = new RGBController_EVisionKeyboard(controller);
-        rgb_controller->name = "EVision Keyboard";
+
         ResourceManager::get()->RegisterRGBController(rgb_controller);
     }
 }
@@ -66,22 +66,19 @@ void DetectEVisionV2Keyboards(hid_device_info* info, const std::string& name)
 
     if(dev)
     {
-        EVisionV2KeyboardController*    controller      = new EVisionV2KeyboardController(dev, info->path, EVISION_V2_KEYBOARD_LAYOUT);
-
+        EVisionV2KeyboardController*     controller     = new EVisionV2KeyboardController(dev, info->path, EVISION_V2_KEYBOARD_LAYOUT, name);
         RGBController_EVisionV2Keyboard* rgb_controller = new RGBController_EVisionV2Keyboard(controller, EVISION_V2_KEYBOARD_PART_KEYBOARD);
-        rgb_controller->name                            = name;
+
         ResourceManager::get()->RegisterRGBController(rgb_controller);
 
         if(!settings.contains("AdditionalZones") || settings["AdditionalZones"] == true)
         {
-            rgb_controller = new RGBController_EVisionV2Keyboard(controller, EVISION_V2_KEYBOARD_PART_LOGO);
-            rgb_controller->name = name;
-            rgb_controller->name += " Logo";
+            rgb_controller                             = new RGBController_EVisionV2Keyboard(controller, EVISION_V2_KEYBOARD_PART_LOGO);
+
             ResourceManager::get()->RegisterRGBController(rgb_controller);
 
-            rgb_controller        = new RGBController_EVisionV2Keyboard(controller, EVISION_V2_KEYBOARD_PART_EDGE);
-            rgb_controller->name  = name;
-            rgb_controller->name += " Edge";
+            rgb_controller                             = new RGBController_EVisionV2Keyboard(controller, EVISION_V2_KEYBOARD_PART_EDGE);
+
             ResourceManager::get()->RegisterRGBController(rgb_controller);
         }
     }
@@ -94,17 +91,15 @@ void DetectEndorfyKeyboards(hid_device_info* info, const std::string& name)
 
     if(dev)
     {
-        EVisionV2KeyboardController*    controller      = new EVisionV2KeyboardController(dev, info->path, ENDORFY_KEYBOARD_LAYOUT);
-
+        EVisionV2KeyboardController*     controller     = new EVisionV2KeyboardController(dev, info->path, ENDORFY_KEYBOARD_LAYOUT, name);
         RGBController_EVisionV2Keyboard* rgb_controller = new RGBController_EVisionV2Keyboard(controller, EVISION_V2_KEYBOARD_PART_KEYBOARD);
-        rgb_controller->name                            = name;
+
         ResourceManager::get()->RegisterRGBController(rgb_controller);
 
         if(!settings.contains("AdditionalZones") || settings["AdditionalZones"] == true)
         {
-            rgb_controller = new RGBController_EVisionV2Keyboard(controller, ENDORFY_KEYBOARD_PART_EDGE);
-            rgb_controller->name = name;
-            rgb_controller->name += " Edge";
+            rgb_controller                              = new RGBController_EVisionV2Keyboard(controller, ENDORFY_KEYBOARD_PART_EDGE);
+
             ResourceManager::get()->RegisterRGBController(rgb_controller);
         }
     }
@@ -113,18 +108,18 @@ void DetectEndorfyKeyboards(hid_device_info* info, const std::string& name)
 /*---------------------------------------------------------------------------------------------------------------------------------------------*\
 | Keyboards                                                                                                                                     |
 \*---------------------------------------------------------------------------------------------------------------------------------------------*/
-REGISTER_HID_DETECTOR_IP("EVision Keyboard 320F:5078", DetectEVisionKeyboards,   EVISION_KEYBOARD2_VID, MARS_GAMING_MKMINI_PID,    1, EVISION_KEYBOARD_USAGE_PAGE);
-REGISTER_HID_DETECTOR_IP("EVision Keyboard 0C45:5204", DetectEVisionKeyboards,   EVISION_KEYBOARD_VID,  REDRAGON_K550_PID,         1, EVISION_KEYBOARD_USAGE_PAGE);
-REGISTER_HID_DETECTOR_IP("EVision Keyboard 0C45:5104", DetectEVisionKeyboards,   EVISION_KEYBOARD_VID,  REDRAGON_K552_PID,         1, EVISION_KEYBOARD_USAGE_PAGE);
-REGISTER_HID_DETECTOR_IP("EVision Keyboard 320F:5000", DetectEVisionKeyboards,   EVISION_KEYBOARD2_VID, REDRAGON_K552_V2_PID,      1, EVISION_KEYBOARD_USAGE_PAGE);
-REGISTER_HID_DETECTOR_IP("EVision Keyboard 0C45:5004", DetectEVisionKeyboards,   EVISION_KEYBOARD_VID,  REDRAGON_K556_PID,         1, EVISION_KEYBOARD_USAGE_PAGE);
-REGISTER_HID_DETECTOR_IP("EVision Keyboard 0C45:652F", DetectEVisionKeyboards,   EVISION_KEYBOARD_VID,  TECWARE_PHANTOM_ELITE_PID, 1, EVISION_KEYBOARD_USAGE_PAGE);
-REGISTER_HID_DETECTOR_IP("EVision Keyboard 0C45:8520", DetectEVisionKeyboards,   EVISION_KEYBOARD_VID,  WARRIOR_KANE_TC235,        1, EVISION_KEYBOARD_USAGE_PAGE);
-REGISTER_HID_DETECTOR_IP("EVision Keyboard 320F:502A", DetectEVisionKeyboards,   EVISION_KEYBOARD2_VID, WOMIER_K87_PID,            1, EVISION_KEYBOARD_USAGE_PAGE);
-REGISTER_HID_DETECTOR_IP("EVision Keyboard 0C45:7698", DetectEVisionKeyboards,   EVISION_KEYBOARD_VID,  WOMIER_K66_PID,            1, EVISION_KEYBOARD_USAGE_PAGE);
-REGISTER_HID_DETECTOR_IP("EVision Keyboard 320F:5064", DetectEVisionKeyboards,   EVISION_KEYBOARD2_VID, GLORIOUS_GMMK_TKL_PID,     1, EVISION_KEYBOARD_USAGE_PAGE);
-REGISTER_HID_DETECTOR_IP("EVision Keyboard 320F:5084", DetectEVisionKeyboards,   EVISION_KEYBOARD2_VID, DEXP_BLAZE_PID,            1, EVISION_KEYBOARD_USAGE_PAGE);
-REGISTER_HID_DETECTOR_IP("EVision Keyboard 320F:505B", DetectEVisionKeyboards,   EVISION_KEYBOARD2_VID, SKILLKORP_K5_PID,          1, EVISION_KEYBOARD_USAGE_PAGE);
-REGISTER_HID_DETECTOR_IP("Endorfy Omnis",              DetectEndorfyKeyboards,   EVISION_KEYBOARD3_VID, ENDORFY_OMNIS_PID,         1, EVISION_KEYBOARD_USAGE_PAGE);
-REGISTER_HID_DETECTOR_IP("CSB/ICL01 Keyboard",         DetectEVisionV2Keyboards, EVISION_KEYBOARD2_VID, BYGG_CSB_ICL01_PID,        1, EVISION_KEYBOARD_USAGE_PAGE);
-REGISTER_HID_DETECTOR_IP("Gamepower Ogre RGB 0C45:7672", DetectEVisionKeyboards,   EVISION_KEYBOARD_VID,  GAMEPOWER_OGRE_RGB_PID,    1, EVISION_KEYBOARD_USAGE_PAGE);
+REGISTER_HID_DETECTOR_IP("EVision Keyboard 320F:5078",      DetectEVisionKeyboards,   EVISION_KEYBOARD2_VID, MARS_GAMING_MKMINI_PID,    1, EVISION_KEYBOARD_USAGE_PAGE);
+REGISTER_HID_DETECTOR_IP("EVision Keyboard 0C45:5204",      DetectEVisionKeyboards,   EVISION_KEYBOARD_VID,  REDRAGON_K550_PID,         1, EVISION_KEYBOARD_USAGE_PAGE);
+REGISTER_HID_DETECTOR_IP("EVision Keyboard 0C45:5104",      DetectEVisionKeyboards,   EVISION_KEYBOARD_VID,  REDRAGON_K552_PID,         1, EVISION_KEYBOARD_USAGE_PAGE);
+REGISTER_HID_DETECTOR_IP("EVision Keyboard 320F:5000",      DetectEVisionKeyboards,   EVISION_KEYBOARD2_VID, REDRAGON_K552_V2_PID,      1, EVISION_KEYBOARD_USAGE_PAGE);
+REGISTER_HID_DETECTOR_IP("EVision Keyboard 0C45:5004",      DetectEVisionKeyboards,   EVISION_KEYBOARD_VID,  REDRAGON_K556_PID,         1, EVISION_KEYBOARD_USAGE_PAGE);
+REGISTER_HID_DETECTOR_IP("EVision Keyboard 0C45:652F",      DetectEVisionKeyboards,   EVISION_KEYBOARD_VID,  TECWARE_PHANTOM_ELITE_PID, 1, EVISION_KEYBOARD_USAGE_PAGE);
+REGISTER_HID_DETECTOR_IP("EVision Keyboard 0C45:8520",      DetectEVisionKeyboards,   EVISION_KEYBOARD_VID,  WARRIOR_KANE_TC235,        1, EVISION_KEYBOARD_USAGE_PAGE);
+REGISTER_HID_DETECTOR_IP("EVision Keyboard 320F:502A",      DetectEVisionKeyboards,   EVISION_KEYBOARD2_VID, WOMIER_K87_PID,            1, EVISION_KEYBOARD_USAGE_PAGE);
+REGISTER_HID_DETECTOR_IP("EVision Keyboard 0C45:7698",      DetectEVisionKeyboards,   EVISION_KEYBOARD_VID,  WOMIER_K66_PID,            1, EVISION_KEYBOARD_USAGE_PAGE);
+REGISTER_HID_DETECTOR_IP("EVision Keyboard 320F:5064",      DetectEVisionKeyboards,   EVISION_KEYBOARD2_VID, GLORIOUS_GMMK_TKL_PID,     1, EVISION_KEYBOARD_USAGE_PAGE);
+REGISTER_HID_DETECTOR_IP("EVision Keyboard 320F:5084",      DetectEVisionKeyboards,   EVISION_KEYBOARD2_VID, DEXP_BLAZE_PID,            1, EVISION_KEYBOARD_USAGE_PAGE);
+REGISTER_HID_DETECTOR_IP("EVision Keyboard 320F:505B",      DetectEVisionKeyboards,   EVISION_KEYBOARD2_VID, SKILLKORP_K5_PID,          1, EVISION_KEYBOARD_USAGE_PAGE);
+REGISTER_HID_DETECTOR_IP("Endorfy Omnis",                   DetectEndorfyKeyboards,   EVISION_KEYBOARD3_VID, ENDORFY_OMNIS_PID,         1, EVISION_KEYBOARD_USAGE_PAGE);
+REGISTER_HID_DETECTOR_IP("CSB/ICL01 Keyboard",              DetectEVisionV2Keyboards, EVISION_KEYBOARD2_VID, BYGG_CSB_ICL01_PID,        1, EVISION_KEYBOARD_USAGE_PAGE);
+REGISTER_HID_DETECTOR_IP("Gamepower Ogre RGB 0C45:7672",    DetectEVisionKeyboards,   EVISION_KEYBOARD_VID,  GAMEPOWER_OGRE_RGB_PID,    1, EVISION_KEYBOARD_USAGE_PAGE);

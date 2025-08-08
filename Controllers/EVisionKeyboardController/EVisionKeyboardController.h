@@ -94,10 +94,11 @@ enum
 class EVisionKeyboardController
 {
 public:
-    EVisionKeyboardController(hid_device* dev_handle, const char* path);
+    EVisionKeyboardController(hid_device* dev_handle, const char* path, std::string dev_name);
     ~EVisionKeyboardController();
 
     std::string GetDeviceLocation();
+    std::string GetNameString();
     std::string GetSerialString();
 
     void        SetKeyboardColors
@@ -137,6 +138,7 @@ public:
 private:
     hid_device*             dev;
     std::string             location;
+    std::string             name;
 
     void        ComputeChecksum
                     (

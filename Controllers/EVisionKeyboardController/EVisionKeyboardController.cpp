@@ -14,10 +14,11 @@
 #include "EVisionKeyboardController.h"
 #include "StringUtils.h"
 
-EVisionKeyboardController::EVisionKeyboardController(hid_device* dev_handle, const char* path)
+EVisionKeyboardController::EVisionKeyboardController(hid_device* dev_handle, const char* path, std::string dev_name)
 {
     dev         = dev_handle;
     location    = path;
+    name        = dev_name;
 }
 
 EVisionKeyboardController::~EVisionKeyboardController()
@@ -28,6 +29,11 @@ EVisionKeyboardController::~EVisionKeyboardController()
 std::string EVisionKeyboardController::GetDeviceLocation()
 {
     return("HID: " + location);
+}
+
+std::string EVisionKeyboardController::GetNameString()
+{
+    return(name);
 }
 
 std::string EVisionKeyboardController::GetSerialString()
