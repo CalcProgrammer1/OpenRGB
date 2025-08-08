@@ -40,10 +40,11 @@
 class GaiZhongGaiKeyboardController
 {
 public:
-    GaiZhongGaiKeyboardController(hid_device* dev_handle, hid_device_info* info);
+    GaiZhongGaiKeyboardController(hid_device* dev_handle, hid_device_info* info, std::string dev_name);
     ~GaiZhongGaiKeyboardController();
 
     std::string     GetDeviceLocation();
+    std::string     GetNameString();
     std::string     GetSerialString();
     std::string     GetVersion();
     unsigned short  GetUSBPID();
@@ -60,6 +61,7 @@ public:
 private:
     hid_device*             dev;
     std::string             location;
+    std::string             name;
     std::string             version;
     unsigned short          usb_pid;
     uint8_t                 data_flash[128];

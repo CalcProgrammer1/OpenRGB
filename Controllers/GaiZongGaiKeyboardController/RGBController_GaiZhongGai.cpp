@@ -383,85 +383,67 @@ uint16_t LightBoard_init(uint8_t* p_in)
 
 RGBController_GaiZhongGaiKeyboard::RGBController_GaiZhongGaiKeyboard(GaiZhongGaiKeyboardController* controller_ptr)
 {
-    controller = controller_ptr;
+    controller          = controller_ptr;
+    name                = controller->GetNameString();
 
     switch(controller->GetUSBPID())
     {
-    case GAIZHONGGAI_68_PRO_PID:
-    {
-        name        = "GaiZhongGai Keyboard Device";
-        type        = DEVICE_TYPE_KEYBOARD;
-        description = "https://oshwhub.com/yangzen/zui-gai68-/";
-    }
-        break;
-    case GAIZHONGGAI_42_PRO_PID:
-    {
-        name        = "GaiZhongGai Keyboard Device";
-        type        = DEVICE_TYPE_KEYBOARD;
-        description = "https://oshwhub.com/myng/42-jian-pan/";
-    }
-        break;
-    case GAIZHONGGAI_17_TOUCH_PRO_PID:
-    {
-        name        = "GaiZhongGai Keyboard Device";
-        type        = DEVICE_TYPE_KEYPAD;
-        description = "https://oshwhub.com/yangzen/xing-huo-ji-hua-zui-gai-17-4-chu-mo-ji-xie-jian-pan-pro/";
-    }
-        break;
-    case GAIZHONGGAI_17_PRO_PID:
-    {
-        name        = "GaiZhongGai Keyboard Device";
-        type        = DEVICE_TYPE_KEYPAD;
-        description = "https://oshwhub.com/hivisme/17jian-shuo-zi-xiao-jian-pan/";
-    }
-        break;
-    case GAIZHONGGAI_20_PRO_PID:
-    {
-        name        = "GaiZhongGai Keyboard Device";
-        type        = DEVICE_TYPE_KEYPAD;
-        description = "https://oshwhub.com/runkuny/19keys_pad_normal/";
-    }
-        break;
-    case GAIZHONGGAI_LIGHT_BOARD_PID:
-    {
-        name        = "GaiZhongGai Controller Device";
-        type        = DEVICE_TYPE_ACCESSORY;
-        description = "https://oshwhub.com/yangzen/xing-huo-2-qi-guang-ban-qu-dong-/";
-    }
-        break;
-    case GAIZHONGGAI_RGB_HUB_GREEN_PID:
-    {
-        name        = "GaiZhongGai Controller Device";
-        type        = DEVICE_TYPE_LEDSTRIP;
-        description = "https://oshwhub.com/yangzen/album/gai-zhong-gai-jian-pan-ge-ji/";
-    }
-        break;
-    case GAIZHONGGAI_RGB_HUB_BLUE_PID:
-    {
-        name        = "GaiZhongGai Controller Device";
-        type        = DEVICE_TYPE_LEDSTRIP;
-        description = "https://oshwhub.com/yangzen/album/gai-zhong-gai-jian-pan-ge-ji/";
-    }
-        break;
-    case GAIZHONGGAI_DIAL_PID:
-    {
-        name        = "GaiZhongGai DIAL Device";
-        type        = DEVICE_TYPE_UNKNOWN;
-        description = "https://oshwhub.com/morempty/CH552gyin-liang-xuan-niu/";
-    }
-        break;
+        case GAIZHONGGAI_68_PRO_PID:
+            type        = DEVICE_TYPE_KEYBOARD;
+            description = "https://oshwhub.com/yangzen/zui-gai68-/";
+            break;
+
+        case GAIZHONGGAI_42_PRO_PID:
+            type        = DEVICE_TYPE_KEYBOARD;
+            description = "https://oshwhub.com/myng/42-jian-pan/";
+            break;
+
+        case GAIZHONGGAI_17_TOUCH_PRO_PID:
+            type        = DEVICE_TYPE_KEYPAD;
+            description = "https://oshwhub.com/yangzen/xing-huo-ji-hua-zui-gai-17-4-chu-mo-ji-xie-jian-pan-pro/";
+            break;
+
+        case GAIZHONGGAI_17_PRO_PID:
+            type        = DEVICE_TYPE_KEYPAD;
+            description = "https://oshwhub.com/hivisme/17jian-shuo-zi-xiao-jian-pan/";
+            break;
+
+        case GAIZHONGGAI_20_PRO_PID:
+            type        = DEVICE_TYPE_KEYPAD;
+            description = "https://oshwhub.com/runkuny/19keys_pad_normal/";
+            break;
+
+        case GAIZHONGGAI_LIGHT_BOARD_PID:
+            type        = DEVICE_TYPE_ACCESSORY;
+            description = "https://oshwhub.com/yangzen/xing-huo-2-qi-guang-ban-qu-dong-/";
+            break;
+
+        case GAIZHONGGAI_RGB_HUB_GREEN_PID:
+            type        = DEVICE_TYPE_LEDSTRIP;
+            description = "https://oshwhub.com/yangzen/album/gai-zhong-gai-jian-pan-ge-ji/";
+            break;
+
+        case GAIZHONGGAI_RGB_HUB_BLUE_PID:
+            type        = DEVICE_TYPE_LEDSTRIP;
+            description = "https://oshwhub.com/yangzen/album/gai-zhong-gai-jian-pan-ge-ji/";
+            break;
+
+        case GAIZHONGGAI_DIAL_PID:
+            type        = DEVICE_TYPE_UNKNOWN;
+            description = "https://oshwhub.com/morempty/CH552gyin-liang-xuan-niu/";
+            break;
     }
 
-    vendor      = "Yang";
-    version     = controller->GetVersion();
-    location    = controller->GetDeviceLocation();
-    serial      = controller->GetSerialString();
+    vendor              = "Yang";
+    version             = controller->GetVersion();
+    location            = controller->GetDeviceLocation();
+    serial              = controller->GetSerialString();
 
     mode Direct;
-    Direct.name       = "Direct";
-    Direct.value      = 0xFFFF;
-    Direct.flags      = MODE_FLAG_HAS_PER_LED_COLOR;
-    Direct.color_mode = MODE_COLORS_PER_LED;
+    Direct.name         = "Direct";
+    Direct.value        = 0xFFFF;
+    Direct.flags        = MODE_FLAG_HAS_PER_LED_COLOR;
+    Direct.color_mode   = MODE_COLORS_PER_LED;
     modes.push_back(Direct);
 
     SetupZones();

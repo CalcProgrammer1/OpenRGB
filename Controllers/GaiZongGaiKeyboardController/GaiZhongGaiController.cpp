@@ -22,10 +22,11 @@
 | https://oshwhub.com/morempty/CH552gyin-liang-xuan-niu           |
 \*---------------------------------------------------------------*/
 
-GaiZhongGaiKeyboardController::GaiZhongGaiKeyboardController(hid_device* dev_handle, hid_device_info* info)
+GaiZhongGaiKeyboardController::GaiZhongGaiKeyboardController(hid_device* dev_handle, hid_device_info* info, std::string dev_name)
 {
     dev         = dev_handle;
     location    = info->path;
+    name        = dev_name;
     usb_pid     = info->product_id;
     /*-----------------------------------------------------*\
     | Obtaining the Firmware Version                        |
@@ -161,6 +162,11 @@ GaiZhongGaiKeyboardController::~GaiZhongGaiKeyboardController()
 std::string GaiZhongGaiKeyboardController::GetDeviceLocation()
 {
     return("HID: " + location);
+}
+
+std::string GaiZhongGaiKeyboardController::GetNameString()
+{
+    return(name);
 }
 
 std::string GaiZhongGaiKeyboardController::GetSerialString()
