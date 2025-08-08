@@ -13,10 +13,11 @@
 #include "ATC800Controller.h"
 #include "StringUtils.h"
 
-ATC800Controller::ATC800Controller(hid_device* dev_handle, const char* path)
+ATC800Controller::ATC800Controller(hid_device* dev_handle, const char* path, std::string dev_name)
 {
     dev         = dev_handle;
     location    = path;
+    name        = dev_name;
 }
 
 ATC800Controller::~ATC800Controller()
@@ -27,6 +28,11 @@ ATC800Controller::~ATC800Controller()
 std::string ATC800Controller::GetDeviceLocation()
 {
     return("HID: " + location);
+}
+
+std::string ATC800Controller::GetNameString()
+{
+    return(name);
 }
 
 std::string ATC800Controller::GetSerialString()

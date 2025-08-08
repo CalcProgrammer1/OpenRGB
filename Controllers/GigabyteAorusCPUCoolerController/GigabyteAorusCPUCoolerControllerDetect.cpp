@@ -36,9 +36,8 @@ void DetectGigabyteAorusCPUCoolerControllers(hid_device_info* info, const std::s
 
     if(dev)
     {
-        ATC800Controller*          controller     = new ATC800Controller(dev, info->path);
+        ATC800Controller*          controller     = new ATC800Controller(dev, info->path, name);
         RGBController_AorusATC800* rgb_controller = new RGBController_AorusATC800(controller);
-        rgb_controller->name                      = name;
 
         ResourceManager::get()->RegisterRGBController(rgb_controller);
     }

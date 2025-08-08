@@ -24,14 +24,14 @@
 
 RGBController_AorusATC800::RGBController_AorusATC800(ATC800Controller* controller_ptr)
 {
-    controller  = controller_ptr;
+    controller                      = controller_ptr;
 
-    name        = "Aorus ATC800 CPU Cooler";
-    vendor      = "Gigabyte";
-    type        = DEVICE_TYPE_COOLER;
-    description = "Aorus ATC800 CPU Cooler";
-    location    = controller->GetDeviceLocation();
-    serial      = controller->GetSerialString();
+    name                            = controller->GetNameString();
+    vendor                          = "Gigabyte";
+    type                            = DEVICE_TYPE_COOLER;
+    description                     = "Aorus ATC800 CPU Cooler Device";
+    location                        = controller->GetDeviceLocation();
+    serial                          = controller->GetSerialString();
 
     mode Custom;
     Custom.name                     = "Custom";
