@@ -37,24 +37,22 @@ void DetectEVGAKeyboardControllers(hid_device_info* info, const std::string& nam
 
     if(dev)
     {
-        EVGAKeyboardController*     controller      = new EVGAKeyboardController(dev, info->path, info->product_id);
+        EVGAKeyboardController*     controller      = new EVGAKeyboardController(dev, info->path, info->product_id, name);
         RGBController_EVGAKeyboard* rgb_controller  = new RGBController_EVGAKeyboard(controller);
-        rgb_controller->name                        = name;
 
         ResourceManager::get()->RegisterRGBController(rgb_controller);
     }
 }
 
-void DetectEVGAMouse(hid_device_info* info, const std::string &, int connection_type)
+void DetectEVGAMouse(hid_device_info* info, const std::string &name, int connection_type)
 {
     hid_device* dev = hid_open_path(info->path);
-    if (dev)
+
+    if(dev)
     {
-        EVGAMouseController*     controller     = new EVGAMouseController(dev, info->path, connection_type);
+        EVGAMouseController*     controller     = new EVGAMouseController(dev, info->path, connection_type, name);
         RGBController_EVGAMouse* rgb_controller = new RGBController_EVGAMouse(controller);
-        /*-------------------------*\
-        | Constructor sets the name |
-        \*-------------------------*/
+
         ResourceManager::get()->RegisterRGBController(rgb_controller);
     }
 }

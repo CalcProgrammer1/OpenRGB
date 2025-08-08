@@ -46,22 +46,12 @@ static bool BuffersAreEqual(unsigned char *buffer1, unsigned char *buffer2, int 
     return true;
 }
 
-EVGAMouseController::EVGAMouseController(hid_device* dev_handle, char *_path, int connection_type)
+EVGAMouseController::EVGAMouseController(hid_device* dev_handle, char * path, int connection_type, std::string dev_name)
 {
     dev                     = dev_handle;
-    location                = _path;
+    location                = path;
+    name                    = dev_name;
     this->connection_type   = connection_type;
-
-    /*---------------------------------------------------------*\
-    | Get device name from HID manufacturer and product strings |
-    \*---------------------------------------------------------*/
-    wchar_t name_string[HID_MAX_STR];
-
-    hid_get_manufacturer_string(dev, name_string, HID_MAX_STR);
-    device_name = StringUtils::wstring_to_string(name_string);
-
-    hid_get_product_string(dev, name_string, HID_MAX_STR);
-    device_name.append(" ").append(StringUtils::wstring_to_string(name_string));
 
     led_states.resize(EVGA_PERIPHERAL_LED_COUNT);
     for(EVGAMouseControllerDeviceState &led_state : led_states)
@@ -76,12 +66,12 @@ EVGAMouseController::EVGAMouseController(hid_device* dev_handle, char *_path, in
 
 EVGAMouseController::~EVGAMouseController()
 {
-
+    hid_close(dev);
 }
 
-std::string EVGAMouseController::GetDeviceName()
+std::string EVGAMouseController::GetName()
 {
-    return device_name;
+    return(name);
 }
 
 std::string EVGAMouseController::GetSerial()
@@ -134,14 +124,14 @@ void EVGAMouseController::SetMode(uint8_t mode, uint8_t index)
     if(err == -1)
     {
         const wchar_t* err_str = hid_error(dev);
-        LOG_DEBUG("[%s] Error writing buffer %s", device_name.c_str(), err_str);
+        LOG_DEBUG("[%s] Error writing buffer %s", name.c_str(), err_str);
     }
     led_states[index].mode  = mode;
     err                     = hid_get_feature_report(dev, buffer, EVGA_PERIPHERAL_PACKET_SIZE);
     if(err == -1)
     {
         const wchar_t* err_str = hid_error(dev);
-        LOG_DEBUG("[%s] Error reading buffer %s", device_name.c_str(), err_str);
+        LOG_DEBUG("[%s] Error reading buffer %s", name.c_str(), err_str);
     }
 }
 
@@ -225,7 +215,7 @@ void EVGAMouseController::SetLed(uint8_t index, uint8_t brightness, uint8_t spee
     if(err == -1)
     {
         const wchar_t* err_str = hid_error(dev);
-        LOG_DEBUG("[%s] Error writing buffer %s", device_name.c_str(), err_str);
+        LOG_DEBUG("[%s] Error writing buffer %s", name.c_str(), err_str);
     }
     led_states[index].brightness    = brightness;
     led_states[index].speed         = speed;
@@ -257,7 +247,7 @@ void EVGAMouseController::RefreshDeviceState(int led)
     if(err == -1)
     {
         const wchar_t* err_str = hid_error(dev);
-        LOG_DEBUG("[%s] Error writing buffer %s", device_name.c_str(), err_str);
+        LOG_DEBUG("[%s] Error writing buffer %s", name.c_str(), err_str);
     }
     /*------------------------------------------------------------------------------*\
     | Wait in wireless mode or else packets might be sent too quickly to take effect |
@@ -268,7 +258,7 @@ void EVGAMouseController::RefreshDeviceState(int led)
         int color_count = buffer[EVGA_PERIPHERAL_COLOR_COUNT_BYTE];
         if(color_count == 0)
         {
-            LOG_VERBOSE("[%s] No colors read from response. The device is likely asleep.", device_name.c_str());
+            LOG_VERBOSE("[%s] No colors read from response. The device is likely asleep.", name.c_str());
             return;
         }
         led_states[led].mode        = buffer[EVGA_PERIPHERAL_MODE_BYTE];
@@ -291,17 +281,17 @@ bool EVGAMouseController::ReadPacketOrLogErrors(unsigned char *buffer, int max_a
     if(bytes_read == -1)
     {
         const wchar_t* err_str = hid_error(dev);
-        LOG_DEBUG("[%s] Error reading buffer %s", device_name.c_str(), err_str);
+        LOG_DEBUG("[%s] Error reading buffer %s", name.c_str(), err_str);
         return false;
     }
     else if(IsResponseNotReadyPacket(buffer))
     {
-        LOG_VERBOSE("[%s] Retries exhausted reading from device. Write may have failed.", device_name.c_str());
+        LOG_VERBOSE("[%s] Retries exhausted reading from device. Write may have failed.", name.c_str());
         return false;
     }
     else if(IsAsleepPacket(buffer))
     {
-        LOG_VERBOSE("[%s] Device is asleep. Cannot send or receive packets until the device is awoken.", device_name.c_str());
+        LOG_VERBOSE("[%s] Device is asleep. Cannot send or receive packets until the device is awoken.", name.c_str());
         return false;
     }
     return true;

@@ -205,10 +205,10 @@ RGBController_EVGAKeyboard::RGBController_EVGAKeyboard(EVGAKeyboardController* c
 
     controller                      = controller_ptr;
 
-    name                            = "EVGA USB Keyboard";
+    name                            = controller->GetName();
     vendor                          = "EVGA";
     type                            = DEVICE_TYPE_KEYBOARD;
-    description                     = controller->GetDeviceName();
+    description                     = "EVGA Keyboard Device";
     serial                          = controller->GetSerial();
     location                        = controller->GetLocation();
 

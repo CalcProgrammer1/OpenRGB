@@ -57,22 +57,12 @@ static uint8_t packet_map[EVGA_KEYBOARD_FULL_SIZE_KEYCOUNT + EVGA_KEYBOARD_Z20_E
             82, 102
 };
 
-EVGAKeyboardController::EVGAKeyboardController(hid_device* dev_handle, const char* path, uint16_t kb_pid)
+EVGAKeyboardController::EVGAKeyboardController(hid_device* dev_handle, const char* path, uint16_t kb_pid, std::string dev_name)
 {
     dev                     = dev_handle;
     location                = path;
+    name                    = dev_name;
     pid                     = kb_pid;
-
-    /*---------------------------------------------------------*\
-    | Get device name from HID manufacturer and product strings |
-    \*---------------------------------------------------------*/
-    wchar_t name_string[HID_MAX_STR];
-
-    hid_get_manufacturer_string(dev, name_string, HID_MAX_STR);
-    device_name = StringUtils::wstring_to_string(name_string);
-
-    hid_get_product_string(dev, name_string, HID_MAX_STR);
-    device_name.append(" ").append(StringUtils::wstring_to_string(name_string));
 
     SetSleepTime();
 }
@@ -82,9 +72,9 @@ EVGAKeyboardController::~EVGAKeyboardController()
     hid_close(dev);
 }
 
-std::string EVGAKeyboardController::GetDeviceName()
+std::string EVGAKeyboardController::GetName()
 {
-    return(device_name);
+    return(name);
 }
 
 std::string EVGAKeyboardController::GetSerial()
@@ -197,11 +187,11 @@ void EVGAKeyboardController::GetStatus(mode *mode)
                 mode->speed      = buffer[EVGA_KB_SPEED_LSB];
                 break;
         }
-        LOG_DEBUG("[%s] Mode %d Setup with %d colours @ %04X speed and %02X brightness", device_name.c_str(), mode->value, mode->colors.size(), mode->speed, mode->brightness);
+        LOG_DEBUG("[%s] Mode %d Setup with %d colours @ %04X speed and %02X brightness", name.c_str(), mode->value, mode->colors.size(), mode->speed, mode->brightness);
     }
     else
     {
-        LOG_INFO("[%s] An error occured reading data for mode %d", device_name.c_str(), mode->value);
+        LOG_INFO("[%s] An error occured reading data for mode %d", name.c_str(), mode->value);
     }
 }
 
@@ -389,12 +379,12 @@ uint8_t EVGAKeyboardController::GetMode()
 
     if(result > 0)
     {
-        LOG_DEBUG("[%s] Returned mode %02X - %02X %02X %02X %02X %02X", device_name.c_str(), buffer[index], buffer[index-2], buffer[index-1], buffer[index], buffer[index+1], buffer[index+2]);
+        LOG_DEBUG("[%s] Returned mode %02X - %02X %02X %02X %02X %02X", name.c_str(), buffer[index], buffer[index-2], buffer[index-1], buffer[index], buffer[index+1], buffer[index+2]);
         return(buffer[index]);
     }
     else
     {
-        LOG_INFO("[%s] An error occured reading current mode", device_name.c_str());
+        LOG_INFO("[%s] An error occured reading current mode", name.c_str());
         return(0);
     }
 }

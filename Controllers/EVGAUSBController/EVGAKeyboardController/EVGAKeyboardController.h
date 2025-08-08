@@ -91,10 +91,10 @@ enum EVGA_Keyboard_Controller_Speed
 class EVGAKeyboardController
 {
 public:
-    EVGAKeyboardController(hid_device* dev_handle, const char* path, uint16_t kb_pid);
+    EVGAKeyboardController(hid_device* dev_handle, const char* path, uint16_t kb_pid, std::string dev_name);
     ~EVGAKeyboardController();
 
-    std::string     GetDeviceName();
+    std::string     GetName();
     std::string     GetSerial();
     std::string     GetLocation();
 
@@ -108,7 +108,7 @@ public:
     uint8_t         GetMode();
     uint16_t        GetPid();
 private:
-    std::string     device_name;
+    std::string     name;
     std::string     location;
     hid_device*     dev;
     uint16_t        pid;

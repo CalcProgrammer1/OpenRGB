@@ -27,10 +27,10 @@ RGBController_EVGAMouse::RGBController_EVGAMouse(EVGAMouseController* controller
 {
     controller                  = controller_ptr;
 
-    name                        = controller->GetDeviceName();
+    name                        = controller->GetName();
     vendor                      = "EVGA";
     type                        = DEVICE_TYPE_MOUSE;
-    description                 = controller->GetDeviceName();
+    description                 = "EVGA Mouse Device";
     serial                      = controller->GetSerial();
     location                    = controller->GetLocation();
 
@@ -94,7 +94,7 @@ RGBController_EVGAMouse::RGBController_EVGAMouse(EVGAMouseController* controller
     modes.push_back(Pulse);
 
     mode Trigger;
-    Trigger.name = "Trigger";
+    Trigger.name                = "Trigger";
     /*-----------------------------------*\
     | Pulse to Trigger skips from 4 to 6. |
     \*-----------------------------------*/
