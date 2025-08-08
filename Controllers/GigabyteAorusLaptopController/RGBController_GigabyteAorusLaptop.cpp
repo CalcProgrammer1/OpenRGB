@@ -74,12 +74,12 @@ RGBController_GigabyteAorusLaptop::RGBController_GigabyteAorusLaptop(GigabyteAor
 {
     this->dev_type                          = dev_type;
     controller                              = controller_ptr;
+    name                                    = controller->GetNameString();
     vendor                                  = "Gigabyte";
     type                                    = DEVICE_TYPE_LAPTOP;
     description                             = "Aorus Laptop";
     location                                = controller->GetDeviceLocation();
     serial                                  = controller->GetSerialString();
-    version                                 = controller->GetFirmwareVersion();
 
     /*---------------------------------------------------------*\
     | Only keyboard supports Direct mode                        |
@@ -87,13 +87,13 @@ RGBController_GigabyteAorusLaptop::RGBController_GigabyteAorusLaptop(GigabyteAor
     if(dev_type == GIGABYTE_AORUS_LAPTOP_KEYBOARD_TYPE)
     {
         mode Direct;
-        Direct.name                             = "Direct";
-        Direct.value                            = GIGABYTE_AORUS_LAPTOP_DIRECT_MODE_VALUE;
-        Direct.flags                            = MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_HAS_BRIGHTNESS;
-        Direct.color_mode                       = MODE_COLORS_PER_LED;
-        Direct.brightness_min                   = GIGABYTE_AORUS_LAPTOP_BRIGHTNESS_MIN;
-        Direct.brightness_max                   = GIGABYTE_AORUS_LAPTOP_BRIGHTNESS_MAX;
-        Direct.brightness                       = GIGABYTE_AORUS_LAPTOP_BRIGHTNESS_MAX/2;
+        Direct.name                         = "Direct";
+        Direct.value                        = GIGABYTE_AORUS_LAPTOP_DIRECT_MODE_VALUE;
+        Direct.flags                        = MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_HAS_BRIGHTNESS;
+        Direct.color_mode                   = MODE_COLORS_PER_LED;
+        Direct.brightness_min               = GIGABYTE_AORUS_LAPTOP_BRIGHTNESS_MIN;
+        Direct.brightness_max               = GIGABYTE_AORUS_LAPTOP_BRIGHTNESS_MAX;
+        Direct.brightness                   = GIGABYTE_AORUS_LAPTOP_BRIGHTNESS_MAX/2;
         modes.push_back(Direct);
     }
 

@@ -50,12 +50,12 @@ enum
 class GigabyteAorusLaptopController
 {
 public:
-    GigabyteAorusLaptopController(hid_device* dev_handle, const hid_device_info& info);
+    GigabyteAorusLaptopController(hid_device* dev_handle, const hid_device_info& info, std::string dev_name);
     ~GigabyteAorusLaptopController();
 
+    std::string GetNameString();
     std::string GetSerialString();
     std::string GetDeviceLocation();
-    std::string GetFirmwareVersion();
 
     void        SetDirect(uint8_t brightness, RGBColor color);
     void        SetMode(uint8_t mode_value, uint8_t speed,  uint8_t brightness, uint8_t direction, RGBColor color);
@@ -69,5 +69,5 @@ private:
     unsigned char   GetColourIndex(unsigned char red, unsigned char green, unsigned char blue);
 
     std::string location;
-    std::string version;
+    std::string name;
 };

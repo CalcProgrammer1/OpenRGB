@@ -32,16 +32,21 @@ static unsigned char argb_colour_index_data[2][2][2] =
             { 0x05, 0x07 }, }       //G1 R1
 };
 
-GigabyteAorusLaptopController::GigabyteAorusLaptopController(hid_device* dev_handle, const hid_device_info& info)
+GigabyteAorusLaptopController::GigabyteAorusLaptopController(hid_device* dev_handle, const hid_device_info& info, std::string dev_name)
 {
     dev                 = dev_handle;
     location            = info.path;
-    version             = "";
+    name                = dev_name;
 }
 
 GigabyteAorusLaptopController::~GigabyteAorusLaptopController()
 {
     hid_close(dev);
+}
+
+std::string GigabyteAorusLaptopController::GetNameString()
+{
+    return(name);
 }
 
 std::string GigabyteAorusLaptopController::GetDeviceLocation()
@@ -60,11 +65,6 @@ std::string GigabyteAorusLaptopController::GetSerialString()
     }
 
     return(StringUtils::wstring_to_string(serial_string));
-}
-
-std::string GigabyteAorusLaptopController::GetFirmwareVersion()
-{
-    return(version);
 }
 
 void GigabyteAorusLaptopController::SetDirect(uint8_t brightness, RGBColor color)
