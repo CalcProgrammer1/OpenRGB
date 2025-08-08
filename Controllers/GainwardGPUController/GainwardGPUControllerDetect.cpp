@@ -77,9 +77,8 @@ void DetectGainwardGPUControllers(i2c_smbus_interface* bus, uint8_t i2c_addr, co
             \*-----------------------------------------------------------------*/
             case 0x08:
                 {
-                    GainwardGPUv1Controller*     controller     = new GainwardGPUv1Controller(bus, i2c_addr);
+                    GainwardGPUv1Controller*     controller     = new GainwardGPUv1Controller(bus, i2c_addr, name);
                     RGBController_GainwardGPUv1* rgb_controller = new RGBController_GainwardGPUv1(controller);
-                    rgb_controller->name                        = name;
 
                     ResourceManager::get()->RegisterRGBController(rgb_controller);
                 }
@@ -90,9 +89,8 @@ void DetectGainwardGPUControllers(i2c_smbus_interface* bus, uint8_t i2c_addr, co
             \*-----------------------------------------------------------------*/
             case 0x49:
                 {
-                    GainwardGPUv2Controller*     controller     = new GainwardGPUv2Controller(bus, i2c_addr);
+                    GainwardGPUv2Controller*     controller     = new GainwardGPUv2Controller(bus, i2c_addr, name);
                     RGBController_GainwardGPUv2* rgb_controller = new RGBController_GainwardGPUv2(controller);
-                    rgb_controller->name                        = name;
 
                     ResourceManager::get()->RegisterRGBController(rgb_controller);
                 }

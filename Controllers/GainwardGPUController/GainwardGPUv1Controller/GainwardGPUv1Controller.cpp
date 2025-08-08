@@ -12,10 +12,11 @@
 #include <cstring>
 #include "GainwardGPUv1Controller.h"
 
-GainwardGPUv1Controller::GainwardGPUv1Controller(i2c_smbus_interface* bus, gainward_gpu_dev_id dev)
+GainwardGPUv1Controller::GainwardGPUv1Controller(i2c_smbus_interface* bus, gainward_gpu_dev_id dev, std::string dev_name)
 {
-    this->bus = bus;
-    this->dev = dev;
+    this->bus   = bus;
+    this->dev   = dev;
+    this->name  = dev_name;
 }
 
 GainwardGPUv1Controller::~GainwardGPUv1Controller()
@@ -31,6 +32,11 @@ std::string GainwardGPUv1Controller::GetDeviceLocation()
     return_string.append(", address ");
     return_string.append(addr);
     return("I2C: " + return_string);
+}
+
+std::string GainwardGPUv1Controller::GetDeviceName()
+{
+    return(name);
 }
 
 unsigned char GainwardGPUv1Controller::GetLEDRed()

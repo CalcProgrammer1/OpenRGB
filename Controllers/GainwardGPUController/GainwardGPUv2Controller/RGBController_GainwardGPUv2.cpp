@@ -26,10 +26,10 @@ RGBController_GainwardGPUv2::RGBController_GainwardGPUv2(GainwardGPUv2Controller
 {
     controller                  = controller_ptr;
 
-    name                        = "Gainward GPU";
+    name                        = controller->GetDeviceName();
     vendor                      = "Gainward";
     type                        = DEVICE_TYPE_GPU;
-    description                 = "Gainward RTX GPU";
+    description                 = "Gainward GPU V2 Device";
     location                    = controller->GetDeviceLocation();
 
     mode Static;
