@@ -19,6 +19,8 @@ inline constexpr const char * RECOGNIZED_I2C_BUS_NAMES[] =
     "AMD ADL",
     // Linux i2c bus name since kernel 6.15
     "AMDGPU DM i2c OEM bus",
+    // Linux i2c bus name since kernel 6.15 - older GPUs
+    "AMDGPU i2c bit bus OEM 0x97",
     nullptr
 };
 
