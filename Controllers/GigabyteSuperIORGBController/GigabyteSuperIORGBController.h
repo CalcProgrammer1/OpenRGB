@@ -132,11 +132,10 @@ enum
 class GigabyteSuperIORGBController
 {
 public:
-    GigabyteSuperIORGBController(int sioaddr);
+    GigabyteSuperIORGBController(int sioaddr, std::string dev_name);
     ~GigabyteSuperIORGBController();
 
     std::string     GetDeviceName();
-    std::string     GetDeviceLocation();
 
     unsigned int    GetMode();
     void            SetMode(int new_mode);
@@ -145,5 +144,6 @@ public:
     void            ChipEntry();
     void            ChipExit();
 private:
-    int     gig_sioaddr;
+    int         gig_sioaddr;
+    std::string name;
 };

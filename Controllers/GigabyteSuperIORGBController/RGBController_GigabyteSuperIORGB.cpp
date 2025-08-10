@@ -87,46 +87,46 @@
 
 RGBController_GigabyteSuperIORGB::RGBController_GigabyteSuperIORGB(GigabyteSuperIORGBController* controller_ptr)
 {
-    controller  = controller_ptr;
+    controller              = controller_ptr;
 
-    name        = "Gigabyte SuperIO Compatible Motherboard";
-    vendor      = "Gigabyte";
-    type        = DEVICE_TYPE_MOTHERBOARD;
-    description = "Gigabyte SuperIO RGB Device";
+    name                    = controller->GetDeviceName();
+    vendor                  = "Gigabyte";
+    type                    = DEVICE_TYPE_MOTHERBOARD;
+    description             = "Gigabyte SuperIO RGB Device";
 
     mode Direct;
-    Direct.name          = "Direct";
-    Direct.value         = 0;
-    Direct.flags         = MODE_FLAG_HAS_PER_LED_COLOR;
-    Direct.color_mode    = MODE_COLORS_PER_LED;
+    Direct.name             = "Direct";
+    Direct.value            = 0;
+    Direct.flags            = MODE_FLAG_HAS_PER_LED_COLOR;
+    Direct.color_mode       = MODE_COLORS_PER_LED;
     modes.push_back(Direct);
 
     mode Static;
-    Static.name          = "Static";
-    Static.value         = GIGABYTE_MODE1_STATIC;
-    Static.flags         = MODE_FLAG_HAS_PER_LED_COLOR;
-    Static.color_mode    = MODE_COLORS_PER_LED;
+    Static.name             = "Static";
+    Static.value            = GIGABYTE_MODE1_STATIC;
+    Static.flags            = MODE_FLAG_HAS_PER_LED_COLOR;
+    Static.color_mode       = MODE_COLORS_PER_LED;
     modes.push_back(Static);
 
     mode Rainbow;
-    Rainbow.name         = "Rainbow";
-    Rainbow.value        = GIGABYTE_MODE1_RAINBOW;
-    Rainbow.flags         = MODE_FLAG_HAS_PER_LED_COLOR;
-    Rainbow.color_mode    = MODE_COLORS_PER_LED;
+    Rainbow.name            = "Rainbow";
+    Rainbow.value           = GIGABYTE_MODE1_RAINBOW;
+    Rainbow.flags           = MODE_FLAG_HAS_PER_LED_COLOR;
+    Rainbow.color_mode      = MODE_COLORS_PER_LED;
     modes.push_back(Rainbow);
 
     mode Breathing;
-    Breathing.name       = "Breathing";
-    Breathing.value      = GIGABYTE_MODE1_BREATHING;
+    Breathing.name          = "Breathing";
+    Breathing.value         = GIGABYTE_MODE1_BREATHING;
     Breathing.flags         = MODE_FLAG_HAS_PER_LED_COLOR;
     Breathing.color_mode    = MODE_COLORS_PER_LED;
     modes.push_back(Breathing);
 
     mode Flashing;
-    Flashing.name        = "Flashing";
-    Flashing.value       = GIGABYTE_MODE1_FLASHING;
-    Flashing.flags         = MODE_FLAG_HAS_PER_LED_COLOR;
-    Flashing.color_mode    = MODE_COLORS_PER_LED;
+    Flashing.name           = "Flashing";
+    Flashing.value          = GIGABYTE_MODE1_FLASHING;
+    Flashing.flags          = MODE_FLAG_HAS_PER_LED_COLOR;
+    Flashing.color_mode     = MODE_COLORS_PER_LED;
     modes.push_back(Flashing);
 
     SetupZones();
@@ -149,7 +149,7 @@ void RGBController_GigabyteSuperIORGB::SetupZones()
     zones.push_back(gig_zone);
 
     led gig_led;
-    gig_led.name = "LED_C1";
+    gig_led.name            = "LED_C1";
     leds.push_back(gig_led);
 
     SetupColors();
