@@ -49,10 +49,11 @@ enum
 class RGBFusionGPUController
 {
 public:
-    RGBFusionGPUController(i2c_smbus_interface* bus, rgb_fusion_dev_id dev);
+    RGBFusionGPUController(i2c_smbus_interface* bus, rgb_fusion_dev_id dev, std::string dev_name);
     ~RGBFusionGPUController();
 
     std::string     GetDeviceLocation();
+    std::string     GetDeviceName();
 
     void            SetColor(unsigned char red, unsigned char green, unsigned char blue);
     void            SetMode(unsigned char mode, unsigned char speed, unsigned char brightness);
@@ -61,5 +62,5 @@ public:
 private:
     i2c_smbus_interface*    bus;
     rgb_fusion_dev_id       dev;
-
+    std::string             name;
 };

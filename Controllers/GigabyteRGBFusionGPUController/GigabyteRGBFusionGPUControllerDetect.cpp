@@ -98,9 +98,8 @@ void DetectGigabyteRGBFusionGPUControllers(i2c_smbus_interface* bus, uint8_t i2c
     // Check for RGB Fusion controller
     if(TestForGigabyteRGBFusionGPUController(bus, i2c_addr))
     {
-        RGBFusionGPUController*     controller     = new RGBFusionGPUController(bus, i2c_addr);
+        RGBFusionGPUController*     controller     = new RGBFusionGPUController(bus, i2c_addr, name);
         RGBController_RGBFusionGPU* rgb_controller = new RGBController_RGBFusionGPU(controller);
-        rgb_controller->name                       = name;
 
         ResourceManager::get()->RegisterRGBController(rgb_controller);
     }
