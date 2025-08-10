@@ -40,12 +40,13 @@ enum
 class GigabyteAorusMouseController
 {
 public:
-    GigabyteAorusMouseController(hid_device* dev_handle, const hid_device_info& info);
+    GigabyteAorusMouseController(hid_device* dev_handle, const hid_device_info& info, std::string dev_name);
     ~GigabyteAorusMouseController();
 
-    std::string GetSerialString();
     std::string GetDeviceLocation();
     std::string GetFirmwareVersion();
+    std::string GetNameString();
+    std::string GetSerialString();
 
     void        SetMode(RGBColor color, uint8_t mode_value, uint8_t brightness, uint8_t speed);
     void        SendDirect(RGBColor color);
@@ -54,5 +55,6 @@ private:
     hid_device* dev;
 
     std::string location;
+    std::string name;
     std::string version;
 };

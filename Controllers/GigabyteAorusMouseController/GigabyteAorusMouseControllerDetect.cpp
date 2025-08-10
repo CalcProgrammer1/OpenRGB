@@ -30,9 +30,8 @@ void DetectGigabyteAorusMouseControllers(hid_device_info* info, const std::strin
 
     if(dev)
     {
-        GigabyteAorusMouseController*     controller         = new GigabyteAorusMouseController(dev, *info);
-        RGBController_GigabyteAorusMouse* rgb_controller     = new RGBController_GigabyteAorusMouse(controller);
-        rgb_controller->name                     = name;
+        GigabyteAorusMouseController*     controller     = new GigabyteAorusMouseController(dev, *info, name);
+        RGBController_GigabyteAorusMouse* rgb_controller = new RGBController_GigabyteAorusMouse(controller);
 
         ResourceManager::get()->RegisterRGBController(rgb_controller);
     }

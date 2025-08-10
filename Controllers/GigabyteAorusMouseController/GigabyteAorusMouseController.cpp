@@ -13,10 +13,11 @@
 #include "GigabyteAorusMouseController.h"
 #include "StringUtils.h"
 
-GigabyteAorusMouseController::GigabyteAorusMouseController(hid_device* dev_handle, const hid_device_info& info)
+GigabyteAorusMouseController::GigabyteAorusMouseController(hid_device* dev_handle, const hid_device_info& info, std::string dev_name)
 {
     dev                 = dev_handle;
     location            = info.path;
+    name                = dev_name;
     version             = "";
 }
 
@@ -30,6 +31,16 @@ std::string GigabyteAorusMouseController::GetDeviceLocation()
     return("HID: " + location);
 }
 
+std::string GigabyteAorusMouseController::GetFirmwareVersion()
+{
+    return(version);
+}
+
+std::string GigabyteAorusMouseController::GetNameString()
+{
+    return(name);
+}
+
 std::string GigabyteAorusMouseController::GetSerialString()
 {
     wchar_t serial_string[128];
@@ -41,11 +52,6 @@ std::string GigabyteAorusMouseController::GetSerialString()
     }
 
     return(StringUtils::wstring_to_string(serial_string));
-}
-
-std::string GigabyteAorusMouseController::GetFirmwareVersion()
-{
-    return(version);
 }
 
 void GigabyteAorusMouseController::SetMode(RGBColor color, uint8_t mode_value, uint8_t brightness, uint8_t speed)
