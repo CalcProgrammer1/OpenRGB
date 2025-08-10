@@ -16,7 +16,7 @@ GalaxGPUv1Controller::GalaxGPUv1Controller(i2c_smbus_interface* bus, galax_gpu_d
 {
     this->bus   = bus;
     this->dev   = dev;
-    this->name  = name;
+    this->name  = dev_name;
 }
 
 GalaxGPUv1Controller::~GalaxGPUv1Controller()
