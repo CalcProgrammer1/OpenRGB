@@ -101,17 +101,19 @@ void DetectHyperXDRAMControllers(i2c_smbus_interface* bus, std::vector<SPDWrappe
 
         if(slots_valid != 0)
         {
-            HyperXDRAMController*     controller     = new HyperXDRAMController(bus, 0x27, slots_valid);
-            RGBController_HyperXDRAM* rgb_controller = new RGBController_HyperXDRAM(controller);
+            std::string name = "HyperX DRAM";
 
             if(fury_detected && !pred_detected)
             {
-                rgb_controller->name = "HyperX Fury RGB";
+                name = "HyperX Fury RGB";
             }
             else if(!fury_detected && pred_detected)
             {
-                rgb_controller->name = "HyperX Predator RGB";
+                name = "HyperX Predator RGB";
             }
+
+            HyperXDRAMController*     controller     = new HyperXDRAMController(bus, 0x27, slots_valid, name);
+            RGBController_HyperXDRAM* rgb_controller = new RGBController_HyperXDRAM(controller);
 
             ResourceManager::get()->RegisterRGBController(rgb_controller);
         }

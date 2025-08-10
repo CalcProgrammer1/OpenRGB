@@ -206,10 +206,12 @@ static const unsigned char slot_map[4] =
 class HyperXDRAMController
 {
 public:
-    HyperXDRAMController(i2c_smbus_interface* bus, hyperx_dev_id dev, unsigned char slots);
+    HyperXDRAMController(i2c_smbus_interface* bus, hyperx_dev_id dev, unsigned char slots, std::string dev_name);
     ~HyperXDRAMController();
 
     std::string     GetDeviceLocation();
+    std::string     GetDeviceName();
+
     unsigned int    GetLEDCount();
     unsigned int    GetSlotCount();
     unsigned int    GetMode();
@@ -230,4 +232,5 @@ private:
     hyperx_dev_id           dev;
     unsigned int            mode;
     unsigned short          speed;
+    std::string             name;
 };
