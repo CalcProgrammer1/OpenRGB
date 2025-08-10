@@ -69,18 +69,21 @@ enum
 class RGBFusion2BlackwellGPUController
 {
 public:
-    RGBFusion2BlackwellGPUController(i2c_smbus_interface* bus, rgb_fusion_dev_id dev);
+    RGBFusion2BlackwellGPUController(i2c_smbus_interface* bus, rgb_fusion_dev_id dev, std::string dev_name);
     ~RGBFusion2BlackwellGPUController();
 
     RGBColor        zone_color[RGB_FUSION_2_BLACKWELL_GPU_NUMBER_OF_ZONES];
 
     std::string     GetDeviceLocation();
+    std::string     GetDeviceName();
+
     void            SaveConfig();
 
     void            SetZone(uint8_t zone, uint8_t mode, fusion2_config zone_config);
     void            SetMode(uint8_t type, uint8_t zone, uint8_t mode, fusion2_config zone_config);
+
 private:
     i2c_smbus_interface*    bus;
     rgb_fusion_dev_id       dev;
-
+    std::string             name;
 };

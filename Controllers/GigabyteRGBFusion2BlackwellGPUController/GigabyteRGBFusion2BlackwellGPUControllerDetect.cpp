@@ -83,9 +83,8 @@ void DetectGigabyteRGBFusion2BlackwellGPUControllers(i2c_smbus_interface* bus, u
     // Check for RGB Fusion2 controller
     if(TestForGigabyteRGBFusion2BlackwellGPUController(bus, i2c_addr))
     {
-        RGBFusion2BlackwellGPUController* controller = new RGBFusion2BlackwellGPUController(bus, i2c_addr);
+        RGBFusion2BlackwellGPUController*     controller     = new RGBFusion2BlackwellGPUController(bus, i2c_addr, name);
         RGBController_RGBFusion2BlackwellGPU* rgb_controller = new RGBController_RGBFusion2BlackwellGPU(controller, led_zones);
-        rgb_controller->name = name;
 
         ResourceManager::get()->RegisterRGBController(rgb_controller);
     }

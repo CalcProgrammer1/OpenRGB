@@ -15,10 +15,11 @@
 
 using namespace std::chrono_literals;
 
-RGBFusion2BlackwellGPUController::RGBFusion2BlackwellGPUController(i2c_smbus_interface* bus, rgb_fusion_dev_id dev)
+RGBFusion2BlackwellGPUController::RGBFusion2BlackwellGPUController(i2c_smbus_interface* bus, rgb_fusion_dev_id dev, std::string dev_name)
 {
-    this->bus = bus;
-    this->dev = dev;
+    this->bus   = bus;
+    this->dev   = dev;
+    this->name  = dev_name;
 }
 
 RGBFusion2BlackwellGPUController::~RGBFusion2BlackwellGPUController()
@@ -34,6 +35,11 @@ std::string RGBFusion2BlackwellGPUController::GetDeviceLocation()
     return_string.append(", address ");
     return_string.append(addr);
     return("I2C: " + return_string);
+}
+
+std::string RGBFusion2BlackwellGPUController::GetDeviceName()
+{
+    return(name);
 }
 
 void RGBFusion2BlackwellGPUController::SaveConfig()
