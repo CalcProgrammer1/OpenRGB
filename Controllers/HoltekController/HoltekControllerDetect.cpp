@@ -35,7 +35,6 @@ void DetectHoltekControllers(hid_device_info* info, const std::string& name)
     {
         HoltekA070Controller*     controller     = new HoltekA070Controller(dev, info->path);
         RGBController_HoltekA070* rgb_controller = new RGBController_HoltekA070(controller);
-        rgb_controller->name                     = name;
 
         ResourceManager::get()->RegisterRGBController(rgb_controller);
     }
@@ -49,7 +48,6 @@ void DetectHoltekMousemats(hid_device_info *info, const std::string &name)
     {
         HoltekA1FAController*     controller     = new HoltekA1FAController(dev, info->path);
         RGBController_HoltekA1FA* rgb_controller = new RGBController_HoltekA1FA(controller);
-        rgb_controller->name                     = name;
 
         ResourceManager::get()->RegisterRGBController(rgb_controller);
     }

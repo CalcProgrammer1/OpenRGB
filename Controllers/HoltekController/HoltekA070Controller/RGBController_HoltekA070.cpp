@@ -24,29 +24,29 @@
 
 RGBController_HoltekA070::RGBController_HoltekA070(HoltekA070Controller* controller_ptr)
 {
-    controller  = controller_ptr;
+    controller              = controller_ptr;
 
-    name        = "Holtek USB Gaming Mouse Device";
-    vendor      = "Holtek";
-    type        = DEVICE_TYPE_MOUSE;
-    description = "Holtek USB Gaming Mouse Device";
-    location    = controller->GetDeviceLocation();
-    serial      = controller->GetSerialString();
+    name                    = "Holtek USB Gaming Mouse";
+    vendor                  = "Holtek";
+    type                    = DEVICE_TYPE_MOUSE;
+    description             = "Holtek USB Gaming Mouse Device";
+    location                = controller->GetDeviceLocation();
+    serial                  = controller->GetSerialString();
 
     mode Static;
-    Static.name       = "Static";
-    Static.speed      = HOLTEK_A070_MODE_STATIC;
-    Static.flags      = MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_HAS_BRIGHTNESS;
-    Static.color_mode = MODE_COLORS_PER_LED;
+    Static.name             = "Static";
+    Static.speed            = HOLTEK_A070_MODE_STATIC;
+    Static.flags            = MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_HAS_BRIGHTNESS;
+    Static.color_mode       = MODE_COLORS_PER_LED;
     modes.push_back(Static);
 
     mode Breathing;
-    Breathing.name       = "Breathing";
-    Breathing.flags      = MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_BRIGHTNESS;
-    Breathing.color_mode = MODE_COLORS_PER_LED;
-    Breathing.speed_min  = HOLTEK_A070_MODE_BREATHING_SLOW;
-    Breathing.speed_max  = HOLTEK_A070_MODE_BREATHING_FAST;
-    Breathing.speed      = HOLTEK_A070_MODE_BREATHING_MEDIUM;
+    Breathing.name          = "Breathing";
+    Breathing.flags         = MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_BRIGHTNESS;
+    Breathing.color_mode    = MODE_COLORS_PER_LED;
+    Breathing.speed_min     = HOLTEK_A070_MODE_BREATHING_SLOW;
+    Breathing.speed_max     = HOLTEK_A070_MODE_BREATHING_FAST;
+    Breathing.speed         = HOLTEK_A070_MODE_BREATHING_MEDIUM;
     modes.push_back(Breathing);
 
     SetupZones();
