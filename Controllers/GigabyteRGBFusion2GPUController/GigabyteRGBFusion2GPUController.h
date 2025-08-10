@@ -61,12 +61,14 @@ enum
 class RGBFusion2GPUController
 {
 public:
-    RGBFusion2GPUController(i2c_smbus_interface* bus, rgb_fusion_dev_id dev);
+    RGBFusion2GPUController(i2c_smbus_interface* bus, rgb_fusion_dev_id dev, std::string dev_name);
     ~RGBFusion2GPUController();
 
     RGBColor        zone_color[4];
 
     std::string     GetDeviceLocation();
+    std::string     GetDeviceName();
+
     void            SaveConfig();
 
     void            SetZone(uint8_t zone, uint8_t mode, fusion2_config zone_config);
@@ -75,5 +77,5 @@ public:
 private:
     i2c_smbus_interface*    bus;
     rgb_fusion_dev_id       dev;
-
+    std::string             name;
 };
