@@ -16,10 +16,11 @@
 // Skip these indices in the color output
 static unsigned int skip_idx[] = { 23, 29, 41, 47, 59, 70, 71, 87, 88, 93, 99, 100, 102, 108, 113, 114, 120, 123, 124 };
 
-HyperXAlloyOriginsController::HyperXAlloyOriginsController(hid_device* dev_handle, const char* path)
+HyperXAlloyOriginsController::HyperXAlloyOriginsController(hid_device* dev_handle, const char* path, std::string dev_name)
 {
     dev         = dev_handle;
     location    = path;
+    name        = dev_name;
 }
 
 HyperXAlloyOriginsController::~HyperXAlloyOriginsController()
@@ -30,6 +31,11 @@ HyperXAlloyOriginsController::~HyperXAlloyOriginsController()
 std::string HyperXAlloyOriginsController::GetDeviceLocation()
 {
     return("HID " + location);
+}
+
+std::string HyperXAlloyOriginsController::GetNameString()
+{
+    return(name);
 }
 
 std::string HyperXAlloyOriginsController::GetSerialString()

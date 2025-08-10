@@ -210,29 +210,31 @@ static const char *led_names_65[] =
 
 RGBController_HyperXAlloyOrigins60and65::RGBController_HyperXAlloyOrigins60and65(HyperXAlloyOrigins60and65Controller* controller_ptr, AlloyOrigins60and65MappingLayoutType keyboard_layout)
 {
-    controller  = controller_ptr;
-    layout      = keyboard_layout;
+    controller          = controller_ptr;
+    layout              = keyboard_layout;
 
     switch(layout)
     {
         case ALLOY_ORIGINS_60_LAYOUT:
-            name        = "HyperX Alloy Origins 60 Keyboard Device";
+            description = "HyperX Alloy Origins 60 Keyboard Device";
             break;
+
         case ALLOY_ORIGINS_65_LAYOUT:
-            name        = "HyperX Alloy Origins 65 Keyboard Device";
+            description = "HyperX Alloy Origins 65 Keyboard Device";
+            break;
     }
 
-    description = name;
-    vendor      = "HyperX";
-    type        = DEVICE_TYPE_KEYBOARD;
-    location    = controller->GetDeviceLocation();
-    serial      = controller->GetSerialString();
+    name                = controller->GetNameString();
+    vendor              = "HyperX";
+    type                = DEVICE_TYPE_KEYBOARD;
+    location            = controller->GetDeviceLocation();
+    serial              = controller->GetSerialString();
 
     mode Direct;
-    Direct.name       = "Direct";
-    Direct.value      = 0xFFFF;
-    Direct.flags      = MODE_FLAG_HAS_PER_LED_COLOR;
-    Direct.color_mode = MODE_COLORS_PER_LED;
+    Direct.name         = "Direct";
+    Direct.value        = 0xFFFF;
+    Direct.flags        = MODE_FLAG_HAS_PER_LED_COLOR;
+    Direct.color_mode   = MODE_COLORS_PER_LED;
     modes.push_back(Direct);
 
     SetupZones();

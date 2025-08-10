@@ -30,10 +30,11 @@ enum
 class HyperXAlloyFPSController
 {
 public:
-    HyperXAlloyFPSController(hid_device* dev_handle, const char* path);
+    HyperXAlloyFPSController(hid_device* dev_handle, const char* path, std::string dev_name);
     ~HyperXAlloyFPSController();
 
     std::string     GetDeviceLocation();
+    std::string     GetNameString();
     std::string     GetSerialString();
 
     void SetLEDsDirect(std::vector<RGBColor> colors);
@@ -41,6 +42,7 @@ public:
 private:
     hid_device*             dev;
     std::string             location;
+    std::string             name;
 
     void    SendDirect
                 (

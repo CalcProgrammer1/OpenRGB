@@ -66,10 +66,11 @@ enum
 class HyperXAlloyEliteController
 {
 public:
-    HyperXAlloyEliteController(hid_device* dev_handle, const char* path);
+    HyperXAlloyEliteController(hid_device* dev_handle, const char* path, std::string dev_name);
     ~HyperXAlloyEliteController();
 
     std::string     GetDeviceLocation();
+    std::string     GetNameString();
     std::string     GetSerialString();
 
     void SetMode
@@ -89,6 +90,7 @@ private:
     unsigned char           active_direction;
     unsigned char           active_speed;
     std::string             location;
+    std::string             name;
 
     void    SelectProfile
                 (

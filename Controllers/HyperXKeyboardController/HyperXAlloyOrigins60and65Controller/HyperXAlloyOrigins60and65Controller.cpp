@@ -13,10 +13,11 @@
 #include "HyperXAlloyOrigins60and65Controller.h"
 #include "StringUtils.h"
 
-HyperXAlloyOrigins60and65Controller::HyperXAlloyOrigins60and65Controller(hid_device* dev_handle, const char* path)
+HyperXAlloyOrigins60and65Controller::HyperXAlloyOrigins60and65Controller(hid_device* dev_handle, const char* path, std::string dev_name)
 {
     dev         = dev_handle;
     location    = path;
+    dev_name    = name;
 }
 
 HyperXAlloyOrigins60and65Controller::~HyperXAlloyOrigins60and65Controller()
@@ -27,6 +28,11 @@ HyperXAlloyOrigins60and65Controller::~HyperXAlloyOrigins60and65Controller()
 std::string HyperXAlloyOrigins60and65Controller::GetDeviceLocation()
 {
     return("HID " + location);
+}
+
+std::string HyperXAlloyOrigins60and65Controller::GetNameString()
+{
+    return(name);
 }
 
 std::string HyperXAlloyOrigins60and65Controller::GetSerialString()

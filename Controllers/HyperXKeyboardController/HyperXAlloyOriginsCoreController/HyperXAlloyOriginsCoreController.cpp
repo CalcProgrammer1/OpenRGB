@@ -17,10 +17,11 @@
 #include "LogManager.h"
 
 
-HyperXAlloyOriginsCoreController::HyperXAlloyOriginsCoreController(hid_device* dev_handle, hid_device_info* dev_info)
+HyperXAlloyOriginsCoreController::HyperXAlloyOriginsCoreController(hid_device* dev_handle, hid_device_info* dev_info, std::string dev_name)
 {
-    dev              = dev_handle;
-    location         = dev_info->path;
+    dev             = dev_handle;
+    location        = dev_info->path;
+    name            = dev_name;
 
     /*-----------------------------------------------------*\
     | Get the firmware version from the device info         |
@@ -42,6 +43,11 @@ HyperXAlloyOriginsCoreController::~HyperXAlloyOriginsCoreController()
 std::string HyperXAlloyOriginsCoreController::GetDeviceLocation()
 {
     return("HID " + location);
+}
+
+std::string HyperXAlloyOriginsCoreController::GetNameString()
+{
+    return(name);
 }
 
 std::string HyperXAlloyOriginsCoreController::GetSerialString()

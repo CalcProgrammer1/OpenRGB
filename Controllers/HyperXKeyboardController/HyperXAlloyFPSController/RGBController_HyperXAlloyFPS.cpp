@@ -163,20 +163,20 @@ static const char *led_names[] =
 
 RGBController_HyperXAlloyFPS::RGBController_HyperXAlloyFPS(HyperXAlloyFPSController* controller_ptr)
 {
-    controller  = controller_ptr;
+    controller          = controller_ptr;
 
-    name        = "HyperX Alloy FPS";
-    vendor      = "HyperX";
-    type        = DEVICE_TYPE_KEYBOARD;
-    description = "HyperX Alloy FPS Device";
-    location    = controller->GetDeviceLocation();
-    serial      = controller->GetSerialString();
+    name                = controller->GetNameString();
+    vendor              = "HyperX";
+    type                = DEVICE_TYPE_KEYBOARD;
+    description         = "HyperX Alloy FPS Device";
+    location            = controller->GetDeviceLocation();
+    serial              = controller->GetSerialString();
 
     mode Direct;
-    Direct.name       = "Direct";
-    Direct.value      = 0;
-    Direct.flags      = MODE_FLAG_HAS_PER_LED_COLOR;
-    Direct.color_mode = MODE_COLORS_PER_LED;
+    Direct.name         = "Direct";
+    Direct.value        = 0;
+    Direct.flags        = MODE_FLAG_HAS_PER_LED_COLOR;
+    Direct.color_mode   = MODE_COLORS_PER_LED;
     modes.push_back(Direct);
 
     SetupZones();

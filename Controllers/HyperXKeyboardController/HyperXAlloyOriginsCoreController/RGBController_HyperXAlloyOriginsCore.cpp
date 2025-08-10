@@ -186,16 +186,16 @@ static led_index led_names[] =
 
 RGBController_HyperXAlloyOriginsCore::RGBController_HyperXAlloyOriginsCore(HyperXAlloyOriginsCoreController* controller_ptr)
 {
-    controller  = controller_ptr;
+    controller              = controller_ptr;
 
-    name        = "HyperX Alloy Origins Core Keyboard Device";
-    vendor      = "HyperX";
-    type        = DEVICE_TYPE_KEYBOARD;
-    description = "HyperX Alloy Origins Core Keyboard Device";
-    location    = controller->GetDeviceLocation();
-    serial      = controller->GetSerialString();
-    version     = controller->GetFirmwareVersion();
-    variant     = controller->GetVariant();
+    name                    = controller->GetNameString();
+    vendor                  = "HyperX";
+    type                    = DEVICE_TYPE_KEYBOARD;
+    description             = "HyperX Alloy Origins Core Keyboard Device";
+    location                = controller->GetDeviceLocation();
+    serial                  = controller->GetSerialString();
+    version                 = controller->GetFirmwareVersion();
+    variant                 = controller->GetVariant();
 
     mode Direct;
     Direct.name             = "Direct";

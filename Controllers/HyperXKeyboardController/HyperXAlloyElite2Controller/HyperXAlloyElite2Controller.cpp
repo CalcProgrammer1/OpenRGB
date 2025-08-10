@@ -18,10 +18,11 @@
 \*-----------------------------------------*/
 static const unsigned int SKIP_INDICES[] = { 23, 29, 41, 47, 70, 71, 76, 77, 87, 88, 93, 99, 100, 102, 108, 113 };
 
-HyperXAlloyElite2Controller::HyperXAlloyElite2Controller(hid_device* dev_handle, const char* path)
+HyperXAlloyElite2Controller::HyperXAlloyElite2Controller(hid_device* dev_handle, const char* path, std::string dev_name)
 {
     dev         = dev_handle;
     location    = path;
+    name        = dev_name;
 }
 
 HyperXAlloyElite2Controller::~HyperXAlloyElite2Controller()
@@ -32,6 +33,11 @@ HyperXAlloyElite2Controller::~HyperXAlloyElite2Controller()
 std::string HyperXAlloyElite2Controller::GetDeviceLocation()
 {
     return("HID " + location);
+}
+
+std::string HyperXAlloyElite2Controller::GetNameString()
+{
+    return(name);
 }
 
 std::string HyperXAlloyElite2Controller::GetSerialString()

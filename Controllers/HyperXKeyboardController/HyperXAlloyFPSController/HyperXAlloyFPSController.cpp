@@ -25,10 +25,11 @@ static unsigned int keys[] = {0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F, 0x
                               0x7F, 0x81, 0x84, 0x85, 0x88, 0x89, 0x8A, 0x8B, 0x8C, 0x8D, 0x8E, 0x8F, 0x91,
                               0x94, 0x95 };
 
-HyperXAlloyFPSController::HyperXAlloyFPSController(hid_device* dev_handle, const char* path)
+HyperXAlloyFPSController::HyperXAlloyFPSController(hid_device* dev_handle, const char* path, std::string dev_name)
 {
     dev         = dev_handle;
     location    = path;
+    name        = dev_name;
 }
 
 HyperXAlloyFPSController::~HyperXAlloyFPSController()
@@ -39,6 +40,11 @@ HyperXAlloyFPSController::~HyperXAlloyFPSController()
 std::string HyperXAlloyFPSController::GetDeviceLocation()
 {
     return("HID: " + location);
+}
+
+std::string HyperXAlloyFPSController::GetNameString()
+{
+    return(name);
 }
 
 std::string HyperXAlloyFPSController::GetSerialString()

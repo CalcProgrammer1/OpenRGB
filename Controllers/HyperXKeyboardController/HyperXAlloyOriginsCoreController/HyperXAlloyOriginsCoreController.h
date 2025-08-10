@@ -18,10 +18,11 @@
 class HyperXAlloyOriginsCoreController
 {
 public:
-    HyperXAlloyOriginsCoreController(hid_device* dev_handle, hid_device_info* dev_info);
+    HyperXAlloyOriginsCoreController(hid_device* dev_handle, hid_device_info* dev_info, std::string dev_name);
     ~HyperXAlloyOriginsCoreController();
 
     std::string     GetDeviceLocation();
+    std::string     GetNameString();
     std::string     GetSerialString();
     std::string     GetFirmwareVersion();
     unsigned int    GetVariant();
@@ -33,4 +34,5 @@ private:
     hid_device*     dev;
     std::string     location;
     std::string     firmware_version;
+    std::string     name;
 };

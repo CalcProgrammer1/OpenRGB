@@ -191,50 +191,50 @@ static const char *led_names[] =
 
 RGBController_HyperXAlloyElite::RGBController_HyperXAlloyElite(HyperXAlloyEliteController* controller_ptr)
 {
-    controller  = controller_ptr;
+    controller              = controller_ptr;
 
-    name        = "HyperX Alloy Elite";
-    vendor      = "HyperX";
-    type        = DEVICE_TYPE_KEYBOARD;
-    description = "HyperX Alloy Elite Device";
-    location    = controller->GetDeviceLocation();
-    serial      = controller->GetSerialString();
+    name                    = controller->GetNameString();
+    vendor                  = "HyperX";
+    type                    = DEVICE_TYPE_KEYBOARD;
+    description             = "HyperX Alloy Elite Device";
+    location                = controller->GetDeviceLocation();
+    serial                  = controller->GetSerialString();
 
     mode Direct;
-    Direct.name       = "Direct";
-    Direct.value      = HYPERX_ALLOY_ELITE_MODE_STATIC;
-    Direct.flags      = MODE_FLAG_HAS_PER_LED_COLOR;
-    Direct.color_mode = MODE_COLORS_PER_LED;
+    Direct.name             = "Direct";
+    Direct.value            = HYPERX_ALLOY_ELITE_MODE_STATIC;
+    Direct.flags            = MODE_FLAG_HAS_PER_LED_COLOR;
+    Direct.color_mode       = MODE_COLORS_PER_LED;
     modes.push_back(Direct);
 
     mode Static;
-    Static.name       = "Static";
-    Static.value      = HYPERX_ALLOY_ELITE_MODE_STATIC;
-    Static.flags      = MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_AUTOMATIC_SAVE;
-    Static.color_mode = MODE_COLORS_PER_LED;
+    Static.name             = "Static";
+    Static.value            = HYPERX_ALLOY_ELITE_MODE_STATIC;
+    Static.flags            = MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_AUTOMATIC_SAVE;
+    Static.color_mode       = MODE_COLORS_PER_LED;
     modes.push_back(Static);
 
     mode Wave;
-    Wave.name       = "Wave";
-    Wave.value      = HYPERX_ALLOY_ELITE_MODE_WAVE;
-    Wave.flags      = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_DIRECTION_LR | MODE_FLAG_AUTOMATIC_SAVE;
-    Wave.speed_min  = 0x00;
-    Wave.speed_max  = 0x09;
-    Wave.color_mode = MODE_COLORS_NONE;
-    Wave.speed      = 0x09;
-    Wave.direction  = MODE_DIRECTION_LEFT;
+    Wave.name               = "Wave";
+    Wave.value              = HYPERX_ALLOY_ELITE_MODE_WAVE;
+    Wave.flags              = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_DIRECTION_LR | MODE_FLAG_AUTOMATIC_SAVE;
+    Wave.speed_min          = 0x00;
+    Wave.speed_max          = 0x09;
+    Wave.color_mode         = MODE_COLORS_NONE;
+    Wave.speed              = 0x09;
+    Wave.direction          = MODE_DIRECTION_LEFT;
     modes.push_back(Wave);
 
     mode Breathing;
-    Breathing.name       = "Breathing";
-    Breathing.value      = HYPERX_ALLOY_ELITE_MODE_BREATHING;
-    Breathing.flags      = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_RANDOM_COLOR | MODE_FLAG_AUTOMATIC_SAVE;
-    Breathing.speed_min  = 0x00;
-    Breathing.speed_max  = 0x09;
-    Breathing.colors_min = 1;
-    Breathing.colors_max = 2;
-    Breathing.color_mode = MODE_COLORS_MODE_SPECIFIC;
-    Breathing.speed      = 0x09;
+    Breathing.name          = "Breathing";
+    Breathing.value         = HYPERX_ALLOY_ELITE_MODE_BREATHING;
+    Breathing.flags         = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_RANDOM_COLOR | MODE_FLAG_AUTOMATIC_SAVE;
+    Breathing.speed_min     = 0x00;
+    Breathing.speed_max     = 0x09;
+    Breathing.colors_min    = 1;
+    Breathing.colors_max    = 2;
+    Breathing.color_mode    = MODE_COLORS_MODE_SPECIFIC;
+    Breathing.speed         = 0x09;
     Breathing.colors.resize(2);
     modes.push_back(Breathing);
 
