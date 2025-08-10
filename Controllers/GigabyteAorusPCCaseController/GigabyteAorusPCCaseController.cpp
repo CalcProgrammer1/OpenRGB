@@ -13,10 +13,11 @@
 #include "GigabyteAorusPCCaseController.h"
 #include "StringUtils.h"
 
-GigabyteAorusPCCaseController::GigabyteAorusPCCaseController(hid_device *dev_handle, const char *path)
+GigabyteAorusPCCaseController::GigabyteAorusPCCaseController(hid_device *dev_handle, const char *path, std::string dev_name)
 {
     dev         = dev_handle;
     location    = path;
+    name        = dev_name;
 }
 
 GigabyteAorusPCCaseController::~GigabyteAorusPCCaseController()
@@ -27,6 +28,11 @@ GigabyteAorusPCCaseController::~GigabyteAorusPCCaseController()
 std::string GigabyteAorusPCCaseController::GetDeviceLocation()
 {
     return("HID: " + location);
+}
+
+std::string GigabyteAorusPCCaseController::GetNameString()
+{
+    return(name);
 }
 
 std::string GigabyteAorusPCCaseController::GetSerialString()

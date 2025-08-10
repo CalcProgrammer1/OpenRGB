@@ -37,9 +37,8 @@ void DetectGigabyteAorusPCCaseControllers(hid_device_info* info, const std::stri
 
     if(dev)
     {
-        GigabyteAorusPCCaseController*      controller      = new GigabyteAorusPCCaseController(dev, info->path);
+        GigabyteAorusPCCaseController*      controller      = new GigabyteAorusPCCaseController(dev, info->path, name);
         RGBController_GigabyteAorusPCCase*  rgb_controller  = new RGBController_GigabyteAorusPCCase(controller);
-        rgb_controller->name                                = name;
 
         ResourceManager::get()->RegisterRGBController(rgb_controller);
     }

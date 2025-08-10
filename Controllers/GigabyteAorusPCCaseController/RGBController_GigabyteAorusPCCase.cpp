@@ -24,16 +24,14 @@
 
 RGBController_GigabyteAorusPCCase::RGBController_GigabyteAorusPCCase(GigabyteAorusPCCaseController *controller_ptr)
 {
-    controller  = controller_ptr;
+    controller                      = controller_ptr;
 
-    name        = "Gigabyte AORUS PC Case";
-    vendor      = "Gigabyte";
-    description = "Gigabyte AORUS PC Case";
-
-    type        = DEVICE_TYPE_CASE;
-
-    location    = controller->GetDeviceLocation();
-    serial      = controller->GetSerialString();
+    name                            = controller->GetNameString();
+    vendor                          = "Gigabyte";
+    description                     = "Gigabyte AORUS PC Case Device";
+    type                            = DEVICE_TYPE_CASE;
+    location                        = controller->GetDeviceLocation();
+    serial                          = controller->GetSerialString();
 
     mode Custom;
     Custom.name                     = "Custom";

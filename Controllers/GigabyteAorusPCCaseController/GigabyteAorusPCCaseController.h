@@ -48,10 +48,11 @@ enum
 class GigabyteAorusPCCaseController
 {
 public:
-    GigabyteAorusPCCaseController(hid_device* dev_handle, const char* path);
+    GigabyteAorusPCCaseController(hid_device* dev_handle, const char* path, std::string dev_name);
     ~GigabyteAorusPCCaseController();
 
     std::string     GetDeviceLocation();
+    std::string     GetNameString();
     std::string     GetSerialString();
 
     void            SendColor(uint8_t red, uint8_t green, uint8_t blue);
@@ -63,4 +64,5 @@ public:
 private:
     hid_device*     dev;
     std::string     location;
+    std::string     name;
 };
