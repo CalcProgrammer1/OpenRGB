@@ -152,6 +152,62 @@ keyboard_keymap_overlay_values corsair_K70_TKL_cs_layout
     }
 };
 
+keyboard_keymap_overlay_values corsair_k95_layout
+{
+    KEYBOARD_SIZE::KEYBOARD_SIZE_FULL,
+    {
+        corsair_full_size_values,
+        {
+            /* Add more regional layout fixes here */
+        }
+    },
+    {
+        /*-------------------------------------------------------------------------------------------------------------------------------------*\
+        | Edit Keys                                                                                                                             |
+        |   Zone,   Row,    Column,     Value,      Name,                       Alternate Name,             OpCode,                             |
+        \*-------------------------------------------------------------------------------------------------------------------------------------*/
+        //swap right fn with right windows
+        {   0,      5,      11,         112,        KEY_EN_RIGHT_WINDOWS,       KEY_EN_UNUSED,              KEYBOARD_OPCODE_SWAP_ONLY,          },
+        //media keys
+        {   0,      0,      17,         123,        KEY_EN_MEDIA_STOP,          KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      0,      18,         126,        KEY_EN_MEDIA_PREVIOUS,      KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      0,      19,         124,        KEY_EN_MEDIA_PLAY_PAUSE,    KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      0,      20,         125,        KEY_EN_MEDIA_NEXT,          KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        //upper row
+        {   0,      0,      4,          128,        "Profile",                  KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_ROW,         },
+        {   0,      0,      5,          113,        "Light",                    KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      0,      6,          114,        "Lock",                     KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      0,      18,         102,        KEY_EN_MEDIA_MUTE,          KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        //macro keys
+        {   0,      1,      0,          131,        "G1",                       KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      2,      0,          132,        "G2",                       KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      3,      0,          133,        "G3",                       KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      4,      0,          134,        "G4",                       KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      5,      0,          135,        "G5",                       KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      6,      0,          136,        "G6",                       KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        //top bar
+        {   0,      0,      0,          137,        "Top Bar 1",                KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_ROW,         },
+        {   0,      0,      1,          138,        "Top Bar 2",                KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      0,      2,          139,        "Top Bar 3",                KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      0,      3,          140,        "Top Bar 4",                KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      0,      4,          141,        "Top Bar 5",                KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      0,      5,          142,        "Top Bar 6",                KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      0,      6,          143,        "Top Bar 7",                KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      0,      7,          144,        "Top Bar 8",                KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      0,      8,          145,        "Top Bar 9",                KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      0,      9,          146,        "Top Bar 10",               KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      0,      10,         147,        "Top Bar 11",               KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      0,      11,         148,        "Top Bar 12",               KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      0,      12,         149,        "Top Bar 13",               KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      0,      13,         150,        "Top Bar 14",               KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      0,      14,         151,        "Top Bar 15",               KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      0,      15,         152,        "Top Bar 16",               KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      0,      16,         153,        "Top Bar 17",               KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      0,      17,         154,        "Top Bar 18",               KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      0,      18,         155,        "Top Bar 19",               KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+    }
+};
+
 keyboard_keymap_overlay_values corsair_k100_layout
 {
     KEYBOARD_SIZE::KEYBOARD_SIZE_FULL,
@@ -962,6 +1018,46 @@ static const corsair_v2_device k70_rgb_pro_v2_device =
 };
 
 /*-------------------------------------------------------------*\
+|   Corsair K95 RGB PLATINUM XT 1B1C:1B89                       |
+|                                                               |
+|   Zone "Keyboard"                                             |
+|       Matrix                                                  |
+|       8 Rows, 22 Columns                                      |
+\*-------------------------------------------------------------*/
+
+static const corsair_v2_zone k95_platinum_xt_zone =
+{
+    ZONE_EN_KEYBOARD,
+    ZONE_TYPE_MATRIX,
+    8,
+    22
+};
+
+/*--------------------------------------------------------------------------------*\
+| TODO: Add a "Top Bar" zone for the lights defined in the device layout           |
+| currently, a bug in the device controller causes linear zones to have            |
+| incorrect led values, this can be done once it's fixed:                          |
+| https://gitlab.com/CalcProgrammer1/OpenRGB/-/merge_requests/2951#note_2679300236 |
+\*--------------------------------------------------------------------------------*/
+
+static const corsair_v2_device k95_platinum_xt_device =
+{
+    CORSAIR_K95_PLATINUM_XT_PID,
+    DEVICE_TYPE_KEYBOARD,
+    8,
+    22,
+    {
+        &k95_platinum_xt_zone,
+        nullptr,
+        nullptr,
+        nullptr,
+        nullptr,
+        nullptr
+    },
+    &corsair_k95_layout
+};
+
+/*-------------------------------------------------------------*\
 |   Corsair K100 MX Red 1B1C:1B7D                               |
 |                                                               |
 |   Zone "Keyboard"                                             |
@@ -1260,6 +1356,7 @@ const corsair_v2_device* corsair_v2_device_list_data[] =
     &k70_rgb_pro_v2_device,
     &k70_rgb_tkl_device,
     &k70_rgb_tkl_cs_device,
+    &k95_platinum_xt_device,
     &k100_mx_red_device,
     &k100_rgb_opt_v1_device,
     &k100_rgb_opt_v2_device,

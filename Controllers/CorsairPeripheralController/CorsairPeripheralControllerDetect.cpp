@@ -21,7 +21,6 @@
 #include "RGBController_CorsairPeripheral.h"
 #include "RGBController_CorsairK55RGBPROXT.h"
 #include "RGBController_CorsairK65Mini.h"
-#include "RGBController_CorsairK95PlatinumXT.h"
 
 #define CORSAIR_PERIPHERAL_CONTROLLER_NAME "Corsair peripheral"
 
@@ -107,12 +106,6 @@
 \*-----------------------------------------------------*/
 #define CORSAIR_K65_MINI_PID            0x1BAF
 
-/*-----------------------------------------------------*\
-| Corsair K95 Platinum XT Keyboard product ID           |
-| This keyboard uses a separate driver                  |
-\*-----------------------------------------------------*/
-#define CORSAIR_K95_PLATINUM_XT_PID     0x1B89
-
 void DetectCorsairK55RGBPROXTControllers(hid_device_info* info, const std::string& name)
 {
     hid_device* dev = hid_open_path(info->path);
@@ -135,19 +128,6 @@ void DetectCorsairK65MiniControllers(hid_device_info* info, const std::string& n
         CorsairK65MiniController*     controller        = new CorsairK65MiniController(dev, info->path);
         RGBController_CorsairK65Mini* rgb_controller    = new RGBController_CorsairK65Mini(controller);
         rgb_controller->name                            = name;
-        ResourceManager::get()->RegisterRGBController(rgb_controller);
-    }
-}   /* DetectCorsairK65MiniControllers() */
-
-void DetectCorsairK95PlatinumXTControllers(hid_device_info* info, const std::string& name)
-{
-    hid_device* dev = hid_open_path(info->path);
-
-    if(dev)
-    {
-        CorsairK95PlatinumXTController*     controller      = new CorsairK95PlatinumXTController(dev, info->path);
-        RGBController_CorsairK95PlatinumXT* rgb_controller  = new RGBController_CorsairK95PlatinumXT(controller);
-        rgb_controller->name                                = name;
         ResourceManager::get()->RegisterRGBController(rgb_controller);
     }
 }   /* DetectCorsairK65MiniControllers() */
@@ -253,9 +233,3 @@ REGISTER_HID_DETECTOR_I("Corsair K65 Mini",                 DetectCorsairK65Mini
 | Corsair K55 RGB PRO XT Keyboard                                                                       |
 \*-----------------------------------------------------------------------------------------------------*/
 REGISTER_HID_DETECTOR_IP("Corsair K55 RGB PRO XT",          DetectCorsairK55RGBPROXTControllers, CORSAIR_VID, CORSAIR_K55_RGB_PRO_XT_PID,    1, 0xFF42);
-
-
-/*-----------------------------------------------------------------------------------------------------*\
-| Corsair K95 Platinum XT Keyboard                                                                      |
-\*-----------------------------------------------------------------------------------------------------*/
-REGISTER_HID_DETECTOR_IP("Corsair K95 RGB PLATINUM XT",     DetectCorsairK95PlatinumXTControllers, CORSAIR_VID, CORSAIR_K95_PLATINUM_XT_PID, 1, 0xFF42);

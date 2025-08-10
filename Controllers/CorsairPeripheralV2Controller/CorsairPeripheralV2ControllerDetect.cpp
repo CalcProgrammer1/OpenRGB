@@ -75,6 +75,7 @@ REGISTER_HID_DETECTOR_IP("Corsair K70 RGB PRO",                     DetectCorsai
 REGISTER_HID_DETECTOR_IP("Corsair K70 RGB PRO V2",                  DetectCorsairV2HardwareControllers, CORSAIR_VID,    CORSAIR_K70_RGB_PRO_V2_PID,             1,  0xFF42);
 REGISTER_HID_DETECTOR_IP("Corsair K70 RGB TKL",                     DetectCorsairV2HardwareControllers, CORSAIR_VID,    CORSAIR_K70_RGB_TKL_PID,                1,  0xFF42);
 REGISTER_HID_DETECTOR_IP("Corsair K70 RGB TKL Champion Series",     DetectCorsairV2HardwareControllers, CORSAIR_VID,    CORSAIR_K70_RGB_TKL_CS_PID,             1,  0xFF42);
+REGISTER_HID_DETECTOR_IP("Corsair K95 RGB PLATINUM XT",             DetectCorsairV2HardwareControllers, CORSAIR_VID,    CORSAIR_K95_PLATINUM_XT_PID,            1,  0xFF42);
 REGISTER_HID_DETECTOR_IP("Corsair K100 RGB Optical",                DetectCorsairV2HardwareControllers, CORSAIR_VID,    CORSAIR_K100_OPTICAL_V1_PID,            1,  0xFF42);
 REGISTER_HID_DETECTOR_IP("Corsair K100 RGB Optical",                DetectCorsairV2HardwareControllers, CORSAIR_VID,    CORSAIR_K100_OPTICAL_V2_PID,            1,  0xFF42);
 REGISTER_HID_DETECTOR_IP("Corsair K100 MX Red",                     DetectCorsairV2HardwareControllers, CORSAIR_VID,    CORSAIR_K100_MXRED_PID,                 1,  0xFF42);
