@@ -28,6 +28,7 @@ Build/
 .qmake.stash
 .vscode
 .vs
+.idea
 
 # Generic Files
 .DS_Store

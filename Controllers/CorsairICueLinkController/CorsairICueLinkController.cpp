@@ -5,6 +5,7 @@
 |                                                           |
 |   Aiden Vigue (acvigue)                       02 Mar 2025 |
 |   Adam Honse <calcprogrammer1@gmail.com>      01 Aug 2025 |
+|   Nikola Jurkovic (jurkovic.nikola)           11 Aug 2025 |
 |                                                           |
 |   This file is part of the OpenRGB project                |
 |   SPDX-License-Identifier: GPL-2.0-only                   |
@@ -27,31 +28,44 @@ CorsairICueLinkController::CorsairICueLinkController(hid_device* dev_handle, con
 
     guard_manager_ptr       = new DeviceGuardManager(new CorsairDeviceGuard());
 
-    InitHub();
+    GetControllerFirmware();        // Firmware
+    SetControllerSoftwareMode();    // Software mode
+    GetControllerDevices();         // Get connected devices
 }
 
 CorsairICueLinkController::~CorsairICueLinkController()
 {
+    SetControllerHardwareMode();    // Release device back to hardware mode
     hid_close(dev);
-
     delete guard_manager_ptr;
 }
 
-void CorsairICueLinkController::InitHub()
+void CorsairICueLinkController::SetControllerSoftwareMode()
+{
+    SendCommand(CORSAIR_ICUE_LINK_CMD_SOFTWARE_MODE, { }, { });
+}
+
+void CorsairICueLinkController::SetControllerHardwareMode()
+{
+    SendCommand(CORSAIR_ICUE_LINK_CMD_HARDWARE_MODE, { }, { });
+}
+
+void CorsairICueLinkController::GetControllerFirmware()
 {
     /*-----------------------------------------------------*\
     | Get the firmware version                              |
     \*-----------------------------------------------------*/
-    std::vector<unsigned char> firmware_data            = SendCommand(CORSAIR_ICUE_LINK_CMD_GET_FIRMWARE, { }, { });
-    version[0]                                          = firmware_data[0];
-    version[1]                                          = firmware_data[1];
-    version[2]                                          = firmware_data[2];
+    std::vector<unsigned char> firmware_data    = SendCommand(CORSAIR_ICUE_LINK_CMD_GET_FIRMWARE, { }, { });
+    version = 
+    {
+        firmware_data[4],
+        firmware_data[5],
+        static_cast<unsigned short>(firmware_data[6] | (firmware_data[7] << 8))
+    };
+}
 
-    /*-----------------------------------------------------*\
-    | Command the hub to enter software mode                |
-    \*-----------------------------------------------------*/
-    SendCommand(CORSAIR_ICUE_LINK_CMD_SOFTWARE_MODE, { }, { });
-
+void CorsairICueLinkController::GetControllerDevices()
+{
     /*-----------------------------------------------------*\
     | Get the endpoints data                                |
     \*-----------------------------------------------------*/
@@ -93,6 +107,13 @@ void CorsairICueLinkController::InitHub()
             continue;
         }
 
+        // Dont process internal device due to duplication
+        if (device->internal == true)
+        {
+            pos += 8 + device_id_length;
+            continue;
+        }
+
         if(device->led_channels == 0)
         {
             LOG_WARNING("[CorsairICueLinkController] Device type %s has 0 LEDs, please open issue", device->display_name.c_str());
@@ -105,7 +126,7 @@ void CorsairICueLinkController::InitHub()
         | device's serial number string                     |
         \*-------------------------------------------------*/
         std::string endpoint_id_str(endpoint_id.begin(), endpoint_id.end());
-        serial += "\r\n" + endpoint_id_str;
+        serial += "\r\n" + endpoint_id_str; // Why do we need endpoint IDs when colors are managed via endpoint channel IDs ?
 
         /*-------------------------------------------------*\
         | Add endpoint device to list                       |
@@ -118,7 +139,9 @@ void CorsairICueLinkController::InitHub()
 
 std::string CorsairICueLinkController::GetFirmwareString()
 {
-    return("v" + std::to_string(version[0]) + "." + std::to_string(version[1]) + "." + std::to_string(version[2]));
+    char buffer[20];
+    std::snprintf(buffer, sizeof(buffer), "v%d.%d.%d", version[0], version[1], version[2]);
+    return std::string(buffer);
 }
 
 std::string CorsairICueLinkController::GetNameString()

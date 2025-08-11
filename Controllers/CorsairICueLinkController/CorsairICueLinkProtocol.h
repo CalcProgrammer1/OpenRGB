@@ -4,6 +4,7 @@
 |   Driver for Corsair iCue Link System Hub                 |
 |                                                           |
 |   Aiden Vigue (acvigue)                       02 Mar 2025 |
+|   Nikola Jurkovic (jurkovic.nikola)           11 Aug 2025 |
 |                                                           |
 |   This file is part of the OpenRGB project                |
 |   SPDX-License-Identifier: GPL-2.0-only                   |
@@ -19,13 +20,14 @@ typedef struct CorsairICueLinkDevice
     unsigned char   model        = 0x00;
     std::string     display_name = "Unknown";
     unsigned char   led_channels = 0;
+    bool            internal     = false;
 } CorsairICueLinkDevice;
 
 static const CorsairICueLinkDevice known_devices[] =
 {
     { 0x05, 0x02, "iCUE LINK 5000T RGB",            160 },
     { 0x05, 0x01, "iCUE LINK 9000D RGB AIRFLOW",    22  },
-    { 0x05, 0x00, "iCUE LINK ADAPTER",              16  },
+    { 0x05, 0x00, "iCUE LINK ADAPTER",              0   },
     { 0x06, 0x00, "iCUE LINK COOLER PUMP LCD",      24  },
     { 0x11, 0x00, "iCUE LINK TITAN 240",            20  },
     { 0x11, 0x04, "iCUE LINK TITAN 240",            20  },
@@ -47,9 +49,10 @@ static const CorsairICueLinkDevice known_devices[] =
     { 0x04, 0x00, "iCUE LINK RX MAX",               0   },
     { 0x0F, 0x00, "iCUE LINK RX RGB",               8   },
     { 0x03, 0x00, "iCUE LINK RX RGB MAX",           8   },
-    { 0x09, 0x00, "iCUE LINK XC7 ELITE",            0   },
+    { 0x09, 0x00, "iCUE LINK XC7 ELITE",            24  },
     { 0x0C, 0x00, "iCUE LINK XD5 ELITE",            22  },
-    { 0x0E, 0x00, "iCUE LINK XD5 ELITE LCD",        22  },
+    { 0x0E, 0x00, "iCUE LINK XD5 ELITE LCD",        22, true  },
+    { 0x19, 0x00, "iCUE LINK XD6 ELITE",            22  },
     { 0x0A, 0x00, "iCUE LINK XG3 HYBRID",           0   },
     { 0x0D, 0x00, "iCUE LINK XG7 RGB",              16  }
 };
@@ -67,7 +70,7 @@ static const CorsairICueLinkDevice known_devices[] =
 #define CORSAIR_ICUE_LINK_CMD_CLOSE_ENDPOINT         {0x05, 0x01, 0x01}
 #define CORSAIR_ICUE_LINK_CMD_GET_FIRMWARE           {0x02, 0x13}
 #define CORSAIR_ICUE_LINK_CMD_SOFTWARE_MODE          {0x01, 0x03, 0x00, 0x02}
-#define CORSAIR_ICUE_LINK_CMD_HARDWARE_MODE          {0x01, 0x02, 0x00, 0x01}
+#define CORSAIR_ICUE_LINK_CMD_HARDWARE_MODE          {0x01, 0x03, 0x00, 0x01}
 #define CORSAIR_ICUE_LINK_CMD_WRITE                  {0x06, 0x01}
 #define CORSAIR_ICUE_LINK_CMD_WRITE_COLOR            {0x06, 0x00}
 #define CORSAIR_ICUE_LINK_CMD_READ                   {0x08, 0x01}
