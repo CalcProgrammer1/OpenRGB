@@ -21,9 +21,9 @@ void DetectInstantMouseControllers(hid_device_info* info, const std::string& nam
 
     if(dev)
     {
-        InstantMouseController*     controller         = new InstantMouseController(dev, *info);
+        InstantMouseController*     controller         = new InstantMouseController(dev, *info, name);
         RGBController_InstantMouse* rgb_controller     = new RGBController_InstantMouse(controller);
-        rgb_controller->name                           = name;
+
         ResourceManager::get()->RegisterRGBController(rgb_controller);
     }
 }

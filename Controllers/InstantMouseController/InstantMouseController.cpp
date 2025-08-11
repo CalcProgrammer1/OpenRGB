@@ -13,12 +13,12 @@
 #include "InstantMouseController.h"
 #include "StringUtils.h"
 
-InstantMouseController::InstantMouseController(hid_device* dev_handle, const hid_device_info& info)
+InstantMouseController::InstantMouseController(hid_device* dev_handle, const hid_device_info& info, std::string dev_name)
 {
     dev                 = dev_handle;
     location            = info.path;
     pid                 = info.product_id;
-    version             = "";
+    name                = dev_name;
 }
 
 InstantMouseController::~InstantMouseController()
@@ -29,6 +29,11 @@ InstantMouseController::~InstantMouseController()
 std::string InstantMouseController::GetDeviceLocation()
 {
     return("HID: " + location);
+}
+
+std::string InstantMouseController::GetNameString()
+{
+    return(name);
 }
 
 std::string InstantMouseController::GetSerialString()
@@ -47,11 +52,6 @@ std::string InstantMouseController::GetSerialString()
 uint16_t InstantMouseController::GetPID()
 {
     return pid;
-}
-
-std::string InstantMouseController::GetFirmwareVersion()
-{
-    return(version);
 }
 
 void InstantMouseController::SendColor(RGBColor color)

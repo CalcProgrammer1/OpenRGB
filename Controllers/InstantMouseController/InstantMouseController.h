@@ -49,13 +49,13 @@ enum
 class InstantMouseController
 {
 public:
-    InstantMouseController(hid_device* dev_handle, const hid_device_info& info);
+    InstantMouseController(hid_device* dev_handle, const hid_device_info& info, std::string dev_name);
     ~InstantMouseController();
 
+    std::string GetNameString();
     std::string GetSerialString();
     std::string GetDeviceLocation();
     uint16_t GetPID();
-    std::string GetFirmwareVersion();
 
     void SetMode(uint8_t mode_value, uint8_t speed, uint8_t brightness, uint8_t direction);
     void SendColor(RGBColor color);
@@ -63,6 +63,6 @@ public:
 private:
     hid_device* dev;
     std::string location;
-    std::string version;
-    uint16_t pid;
+    std::string name;
+    uint16_t    pid;
 };

@@ -29,12 +29,12 @@
 RGBController_InstantMouse::RGBController_InstantMouse(InstantMouseController* controller_ptr)
 {
     controller                          = controller_ptr;
-    vendor                              = "Instant Microelectronics";
+
+    vendor                              = controller->GetNameString();
     type                                = DEVICE_TYPE_MOUSE;
     description                         = "Instant USB Gaming Mouse";
     location                            = controller->GetDeviceLocation();
     serial                              = controller->GetSerialString();
-    version                             = controller->GetFirmwareVersion();
 
     mode direct;
     direct.name                         = "Direct";
