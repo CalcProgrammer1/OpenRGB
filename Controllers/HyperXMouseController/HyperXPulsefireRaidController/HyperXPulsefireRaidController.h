@@ -30,12 +30,13 @@ enum
 class HyperXPulsefireRaidController
 {
 public:
-    HyperXPulsefireRaidController(hid_device* dev_handle, const hid_device_info& info);
+    HyperXPulsefireRaidController(hid_device* dev_handle, const hid_device_info& info, std::string dev_name);
     ~HyperXPulsefireRaidController();
 
+    std::string GetNameString();
     std::string GetSerialString();
     std::string GetDeviceLocation();
-    std::string GetFirmwareVersion();
+
     void        SendColors(std::vector<RGBColor> colors);
     void        SetBrightness(unsigned char brightness);
 
@@ -44,7 +45,7 @@ protected:
 
 private:
     std::string location;
-    std::string version;
+    std::string name;
 
     void        Send(unsigned char* packet);
 };

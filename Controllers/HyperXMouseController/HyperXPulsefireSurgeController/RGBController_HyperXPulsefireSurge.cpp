@@ -26,20 +26,20 @@ using namespace std::chrono_literals;
 
 RGBController_HyperXPulsefireSurge::RGBController_HyperXPulsefireSurge(HyperXPulsefireSurgeController* controller_ptr)
 {
-    controller  = controller_ptr;
+    controller          = controller_ptr;
 
-    name        = "HyperX Pulsefire Surge Device";
-    vendor      = "HyperX";
-    type        = DEVICE_TYPE_MOUSE;
-    description = "HyperX Pulsefire Surge Device";
-    location    = controller->GetDeviceLocation();
-    serial      = controller->GetSerialString();
+    name                = controller->GetNameString();
+    vendor              = "HyperX";
+    type                = DEVICE_TYPE_MOUSE;
+    description         = "HyperX Pulsefire Surge Device";
+    location            = controller->GetDeviceLocation();
+    serial              = controller->GetSerialString();
 
     mode Direct;
-    Direct.name = "Direct";
-    Direct.value = 0xFFFF;
-    Direct.flags = MODE_FLAG_HAS_PER_LED_COLOR;
-    Direct.color_mode = MODE_COLORS_PER_LED;
+    Direct.name         = "Direct";
+    Direct.value        = 0xFFFF;
+    Direct.flags        = MODE_FLAG_HAS_PER_LED_COLOR;
+    Direct.color_mode   = MODE_COLORS_PER_LED;
     modes.push_back(Direct);
 
     SetupZones();

@@ -41,10 +41,11 @@ enum
 class HyperXPulsefireDartController
 {
 public:
-    HyperXPulsefireDartController(hid_device* dev_handle, const char* path);
+    HyperXPulsefireDartController(hid_device* dev_handle, const char* path, std::string dev_name);
     ~HyperXPulsefireDartController();
 
     std::string GetDeviceLocation();
+    std::string GetNameString();
     std::string GetSerialString();
 
     void SendDirect
@@ -61,4 +62,5 @@ public:
 private:
     hid_device*             dev;
     std::string             location;
+    std::string             name;
 };

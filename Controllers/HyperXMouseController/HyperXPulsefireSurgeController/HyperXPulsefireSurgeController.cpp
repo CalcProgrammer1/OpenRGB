@@ -13,10 +13,11 @@
 #include "HyperXPulsefireSurgeController.h"
 #include "StringUtils.h"
 
-HyperXPulsefireSurgeController::HyperXPulsefireSurgeController(hid_device* dev_handle, const char* path)
+HyperXPulsefireSurgeController::HyperXPulsefireSurgeController(hid_device* dev_handle, const char* path, std::string dev_name)
 {
     dev         = dev_handle;
     location    = path;
+    name        = dev_name;
 }
 
 HyperXPulsefireSurgeController::~HyperXPulsefireSurgeController()
@@ -27,6 +28,11 @@ HyperXPulsefireSurgeController::~HyperXPulsefireSurgeController()
 std::string HyperXPulsefireSurgeController::GetDeviceLocation()
 {
     return("HID " + location);
+}
+
+std::string HyperXPulsefireSurgeController::GetNameString()
+{
+    return(name);
 }
 
 std::string HyperXPulsefireSurgeController::GetSerialString()

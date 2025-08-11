@@ -13,10 +13,11 @@
 #include "HyperXPulsefireDartController.h"
 #include "StringUtils.h"
 
-HyperXPulsefireDartController::HyperXPulsefireDartController(hid_device* dev_handle, const char* path)
+HyperXPulsefireDartController::HyperXPulsefireDartController(hid_device* dev_handle, const char* path, std::string dev_name)
 {
     dev         = dev_handle;
     location    = path;
+    name        = dev_name;
 }
 
 HyperXPulsefireDartController::~HyperXPulsefireDartController()
@@ -27,6 +28,11 @@ HyperXPulsefireDartController::~HyperXPulsefireDartController()
 std::string HyperXPulsefireDartController::GetDeviceLocation()
 {
     return("HID: " + location);
+}
+
+std::string HyperXPulsefireDartController::GetNameString()
+{
+    return(name);
 }
 
 std::string HyperXPulsefireDartController::GetSerialString()

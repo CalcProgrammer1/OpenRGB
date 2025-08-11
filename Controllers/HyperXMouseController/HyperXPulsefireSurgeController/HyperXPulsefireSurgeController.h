@@ -35,10 +35,11 @@ enum
 class HyperXPulsefireSurgeController
 {
 public:
-    HyperXPulsefireSurgeController(hid_device* dev_handle, const char* path);
+    HyperXPulsefireSurgeController(hid_device* dev_handle, const char* path, std::string dev_name);
     ~HyperXPulsefireSurgeController();
 
     std::string GetDeviceLocation();
+    std::string GetNameString();
     std::string GetSerialString();
 
     void SelectProfile
@@ -60,4 +61,5 @@ public:
 private:
     hid_device*             dev;
     std::string             location;
+    std::string             name;
 };

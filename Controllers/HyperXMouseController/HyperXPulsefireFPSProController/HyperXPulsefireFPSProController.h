@@ -23,10 +23,11 @@ enum
 class HyperXPulsefireFPSProController
 {
 public:
-    HyperXPulsefireFPSProController(hid_device* dev_handle, const char* path);
+    HyperXPulsefireFPSProController(hid_device* dev_handle, const char* path, std::string dev_name);
     ~HyperXPulsefireFPSProController();
 
     std::string GetDeviceLocation();
+    std::string GetNameString();
     std::string GetSerialString();
 
     void SendDirect
@@ -37,4 +38,5 @@ public:
 private:
     hid_device*             dev;
     std::string             location;
+    std::string             name;
 };

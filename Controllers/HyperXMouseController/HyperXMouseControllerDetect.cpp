@@ -43,9 +43,8 @@ void DetectHyperXPulsefireSurgeControllers(hid_device_info* info, const std::str
 
     if(dev)
     {
-        HyperXPulsefireSurgeController*     controller     = new HyperXPulsefireSurgeController(dev, info->path);
+        HyperXPulsefireSurgeController*     controller     = new HyperXPulsefireSurgeController(dev, info->path, name);
         RGBController_HyperXPulsefireSurge* rgb_controller = new RGBController_HyperXPulsefireSurge(controller);
-        rgb_controller->name                               = name;
 
         ResourceManager::get()->RegisterRGBController(rgb_controller);
     }
@@ -57,9 +56,8 @@ void DetectHyperXPulsefireFPSProControllers(hid_device_info* info, const std::st
 
     if(dev)
     {
-        HyperXPulsefireFPSProController*     controller     = new HyperXPulsefireFPSProController(dev, info->path);
+        HyperXPulsefireFPSProController*     controller     = new HyperXPulsefireFPSProController(dev, info->path, name);
         RGBController_HyperXPulsefireFPSPro* rgb_controller = new RGBController_HyperXPulsefireFPSPro(controller);
-        rgb_controller->name                                = name;
 
         ResourceManager::get()->RegisterRGBController(rgb_controller);
     }
@@ -71,9 +69,8 @@ void DetectHyperXPulsefireHasteControllers(hid_device_info* info, const std::str
 
     if(dev)
     {
-        HyperXPulsefireHasteController*     controller     = new HyperXPulsefireHasteController(dev, info->path);
+        HyperXPulsefireHasteController*     controller     = new HyperXPulsefireHasteController(dev, info->path, name);
         RGBController_HyperXPulsefireHaste* rgb_controller = new RGBController_HyperXPulsefireHaste(controller);
-        rgb_controller->name                               = name;
 
         ResourceManager::get()->RegisterRGBController(rgb_controller);
     }
@@ -85,9 +82,8 @@ void DetectHyperXPulsefireDartControllers(hid_device_info* info, const std::stri
 
     if(dev)
     {
-        HyperXPulsefireDartController*     controller     = new HyperXPulsefireDartController(dev, info->path);
+        HyperXPulsefireDartController*     controller     = new HyperXPulsefireDartController(dev, info->path, name);
         RGBController_HyperXPulsefireDart* rgb_controller = new RGBController_HyperXPulsefireDart(controller);
-        rgb_controller->name                              = name;
 
         ResourceManager::get()->RegisterRGBController(rgb_controller);
     }
@@ -99,9 +95,8 @@ void DetectHyperXPulsefireRaidControllers(hid_device_info* info, const std::stri
 
     if(dev)
     {
-        HyperXPulsefireRaidController*     controller     = new HyperXPulsefireRaidController(dev, *info);
+        HyperXPulsefireRaidController*     controller     = new HyperXPulsefireRaidController(dev, *info, name);
         RGBController_HyperXPulsefireRaid* rgb_controller = new RGBController_HyperXPulsefireRaid(controller);
-        rgb_controller->name                              = name;
 
         ResourceManager::get()->RegisterRGBController(rgb_controller);
     }

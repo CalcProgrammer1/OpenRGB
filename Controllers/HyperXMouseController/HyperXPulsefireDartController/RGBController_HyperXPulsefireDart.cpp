@@ -24,63 +24,63 @@
 
 RGBController_HyperXPulsefireDart::RGBController_HyperXPulsefireDart(HyperXPulsefireDartController* controller_ptr)
 {
-    controller  = controller_ptr;
+    controller                      = controller_ptr;
 
-    name        = "HyperX Pulsefire Dart Device";
-    vendor      = "HyperX";
-    type        = DEVICE_TYPE_MOUSE;
-    description = "HyperX Pulsefire Dart Device";
-    location    = controller->GetDeviceLocation();
-    serial      = controller->GetSerialString();
+    name                            = controller->GetNameString();
+    vendor                          = "HyperX";
+    type                            = DEVICE_TYPE_MOUSE;
+    description                     = "HyperX Pulsefire Dart Device";
+    location                        = controller->GetDeviceLocation();
+    serial                          = controller->GetSerialString();
 
     mode Direct;
-    Direct.name           = "Direct";
-    Direct.value          = HYPERX_PULSEFIRE_DART_MODE_STATIC;
-    Direct.speed          = HYPERX_PULSEFIRE_DART_SPEED_NONE;
-    Direct.flags          = MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_MANUAL_SAVE;
-    Direct.color_mode     = MODE_COLORS_PER_LED;
-    Direct.brightness_min = HYPERX_PULSEFIRE_DART_BRIGHTNESS_MIN;
-    Direct.brightness_max = HYPERX_PULSEFIRE_DART_BRIGHTNESS_MAX;
-    Direct.brightness     = HYPERX_PULSEFIRE_DART_BRIGHTNESS_MAX;
+    Direct.name                     = "Direct";
+    Direct.value                    = HYPERX_PULSEFIRE_DART_MODE_STATIC;
+    Direct.speed                    = HYPERX_PULSEFIRE_DART_SPEED_NONE;
+    Direct.flags                    = MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_MANUAL_SAVE;
+    Direct.color_mode               = MODE_COLORS_PER_LED;
+    Direct.brightness_min           = HYPERX_PULSEFIRE_DART_BRIGHTNESS_MIN;
+    Direct.brightness_max           = HYPERX_PULSEFIRE_DART_BRIGHTNESS_MAX;
+    Direct.brightness               = HYPERX_PULSEFIRE_DART_BRIGHTNESS_MAX;
     modes.push_back(Direct);
 
     mode Breathing;
-    Breathing.name           = "Breathing";
-    Breathing.value          = HYPERX_PULSEFIRE_DART_MODE_BREATHING;
-    Breathing.speed          = HYPERX_PULSEFIRE_DART_SPEED_MED;
-    Breathing.speed_min      = HYPERX_PULSEFIRE_DART_SPEED_MIN;
-    Breathing.speed_max      = HYPERX_PULSEFIRE_DART_SPEED_MAX;
-    Breathing.flags          = MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_MANUAL_SAVE;
-    Breathing.color_mode     = MODE_COLORS_PER_LED;
-    Breathing.brightness_min = HYPERX_PULSEFIRE_DART_BRIGHTNESS_MIN;
-    Breathing.brightness_max = HYPERX_PULSEFIRE_DART_BRIGHTNESS_MAX;
-    Breathing.brightness     = HYPERX_PULSEFIRE_DART_BRIGHTNESS_MAX;
+    Breathing.name                  = "Breathing";
+    Breathing.value                 = HYPERX_PULSEFIRE_DART_MODE_BREATHING;
+    Breathing.speed                 = HYPERX_PULSEFIRE_DART_SPEED_MED;
+    Breathing.speed_min             = HYPERX_PULSEFIRE_DART_SPEED_MIN;
+    Breathing.speed_max             = HYPERX_PULSEFIRE_DART_SPEED_MAX;
+    Breathing.flags                 = MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_MANUAL_SAVE;
+    Breathing.color_mode            = MODE_COLORS_PER_LED;
+    Breathing.brightness_min        = HYPERX_PULSEFIRE_DART_BRIGHTNESS_MIN;
+    Breathing.brightness_max        = HYPERX_PULSEFIRE_DART_BRIGHTNESS_MAX;
+    Breathing.brightness            = HYPERX_PULSEFIRE_DART_BRIGHTNESS_MAX;
     modes.push_back(Breathing);
 
     mode SpectrumCycle;
-    SpectrumCycle.name           = "Spectrum Cycle";
-    SpectrumCycle.value          = HYPERX_PULSEFIRE_DART_MODE_CYCLE;
-    SpectrumCycle.speed          = HYPERX_PULSEFIRE_DART_SPEED_MED;
-    SpectrumCycle.speed_min      = HYPERX_PULSEFIRE_DART_SPEED_MIN;
-    SpectrumCycle.speed_max      = HYPERX_PULSEFIRE_DART_SPEED_MAX;
-    SpectrumCycle.flags          = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_MANUAL_SAVE;
-    SpectrumCycle.color_mode     = MODE_COLORS_NONE;
-    SpectrumCycle.brightness_min = HYPERX_PULSEFIRE_DART_BRIGHTNESS_MIN;
-    SpectrumCycle.brightness_max = HYPERX_PULSEFIRE_DART_BRIGHTNESS_MAX;
-    SpectrumCycle.brightness     = HYPERX_PULSEFIRE_DART_BRIGHTNESS_MAX;
+    SpectrumCycle.name              = "Spectrum Cycle";
+    SpectrumCycle.value             = HYPERX_PULSEFIRE_DART_MODE_CYCLE;
+    SpectrumCycle.speed             = HYPERX_PULSEFIRE_DART_SPEED_MED;
+    SpectrumCycle.speed_min         = HYPERX_PULSEFIRE_DART_SPEED_MIN;
+    SpectrumCycle.speed_max         = HYPERX_PULSEFIRE_DART_SPEED_MAX;
+    SpectrumCycle.flags             = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_MANUAL_SAVE;
+    SpectrumCycle.color_mode        = MODE_COLORS_NONE;
+    SpectrumCycle.brightness_min    = HYPERX_PULSEFIRE_DART_BRIGHTNESS_MIN;
+    SpectrumCycle.brightness_max    = HYPERX_PULSEFIRE_DART_BRIGHTNESS_MAX;
+    SpectrumCycle.brightness        = HYPERX_PULSEFIRE_DART_BRIGHTNESS_MAX;
     modes.push_back(SpectrumCycle);
 
     mode Reactive;
-    Reactive.name           = "Reactive";
-    Reactive.value          = HYPERX_PULSEFIRE_DART_MODE_REACTIVE;
-    Reactive.speed          = HYPERX_PULSEFIRE_DART_SPEED_MED;
-    Reactive.speed_min      = HYPERX_PULSEFIRE_DART_SPEED_MIN;
-    Reactive.speed_max      = HYPERX_PULSEFIRE_DART_SPEED_MAX;
-    Reactive.flags          = MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_MANUAL_SAVE;
-    Reactive.color_mode     = MODE_COLORS_PER_LED;
-    Reactive.brightness_min = HYPERX_PULSEFIRE_DART_BRIGHTNESS_MIN;
-    Reactive.brightness_max = HYPERX_PULSEFIRE_DART_BRIGHTNESS_MAX;
-    Reactive.brightness     = HYPERX_PULSEFIRE_DART_BRIGHTNESS_MAX;
+    Reactive.name                   = "Reactive";
+    Reactive.value                  = HYPERX_PULSEFIRE_DART_MODE_REACTIVE;
+    Reactive.speed                  = HYPERX_PULSEFIRE_DART_SPEED_MED;
+    Reactive.speed_min              = HYPERX_PULSEFIRE_DART_SPEED_MIN;
+    Reactive.speed_max              = HYPERX_PULSEFIRE_DART_SPEED_MAX;
+    Reactive.flags                  = MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_MANUAL_SAVE;
+    Reactive.color_mode             = MODE_COLORS_PER_LED;
+    Reactive.brightness_min         = HYPERX_PULSEFIRE_DART_BRIGHTNESS_MIN;
+    Reactive.brightness_max         = HYPERX_PULSEFIRE_DART_BRIGHTNESS_MAX;
+    Reactive.brightness             = HYPERX_PULSEFIRE_DART_BRIGHTNESS_MAX;
     modes.push_back(Reactive);
 
     SetupZones();

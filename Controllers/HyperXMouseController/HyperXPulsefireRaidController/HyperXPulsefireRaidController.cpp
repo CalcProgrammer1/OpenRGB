@@ -15,11 +15,11 @@
 
 using namespace std::chrono_literals;
 
-HyperXPulsefireRaidController::HyperXPulsefireRaidController(hid_device* dev_handle, const hid_device_info& info)
+HyperXPulsefireRaidController::HyperXPulsefireRaidController(hid_device* dev_handle, const hid_device_info& info, std::string dev_name)
 {
     dev                 = dev_handle;
     location            = info.path;
-    version             = "";
+    name                = dev_name;
 }
 
 HyperXPulsefireRaidController::~HyperXPulsefireRaidController()
@@ -30,6 +30,11 @@ HyperXPulsefireRaidController::~HyperXPulsefireRaidController()
 std::string HyperXPulsefireRaidController::GetDeviceLocation()
 {
     return("HID: " + location);
+}
+
+std::string HyperXPulsefireRaidController::GetNameString()
+{
+    return(name);
 }
 
 std::string HyperXPulsefireRaidController::GetSerialString()
@@ -43,11 +48,6 @@ std::string HyperXPulsefireRaidController::GetSerialString()
     }
 
     return(StringUtils::wstring_to_string(serial_string));
-}
-
-std::string HyperXPulsefireRaidController::GetFirmwareVersion()
-{
-    return(version);
 }
 
 void HyperXPulsefireRaidController::SendColors(std::vector<RGBColor> colors)

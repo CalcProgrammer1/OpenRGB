@@ -24,10 +24,11 @@ enum
 class HyperXPulsefireHasteController
 {
 public:
-    HyperXPulsefireHasteController(hid_device* dev_handle, const char* path);
+    HyperXPulsefireHasteController(hid_device* dev_handle, const char* path, std::string dev_name);
     ~HyperXPulsefireHasteController();
 
     std::string GetDeviceLocation();
+    std::string GetNameString();
     std::string GetSerialString();
 
     void SendDirect
@@ -38,6 +39,7 @@ public:
 private:
     hid_device*             dev;
     std::string             location;
+    std::string             name;
 
     void SendDirectSetup();
     void SendDirectColor

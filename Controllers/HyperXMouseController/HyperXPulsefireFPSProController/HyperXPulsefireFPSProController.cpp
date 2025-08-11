@@ -13,10 +13,11 @@
 #include "HyperXPulsefireFPSProController.h"
 #include "StringUtils.h"
 
-HyperXPulsefireFPSProController::HyperXPulsefireFPSProController(hid_device* dev_handle, const char* path)
+HyperXPulsefireFPSProController::HyperXPulsefireFPSProController(hid_device* dev_handle, const char* path, std::string dev_name)
 {
     dev         = dev_handle;
     location    = path;
+    name        = dev_name;
 }
 
 HyperXPulsefireFPSProController::~HyperXPulsefireFPSProController()
@@ -27,6 +28,11 @@ HyperXPulsefireFPSProController::~HyperXPulsefireFPSProController()
 std::string HyperXPulsefireFPSProController::GetDeviceLocation()
 {
     return("HID " + location);
+}
+
+std::string HyperXPulsefireFPSProController::GetNameString()
+{
+    return(name);
 }
 
 std::string HyperXPulsefireFPSProController::GetSerialString()
