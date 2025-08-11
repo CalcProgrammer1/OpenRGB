@@ -24,10 +24,11 @@ using namespace std::chrono_literals;
 |   https://hyte.com/nexus/nexus-playground                 |
 \*---------------------------------------------------------*/
 
-HYTENexusController::HYTENexusController(char* port, unsigned short pid)
+HYTENexusController::HYTENexusController(char* port, unsigned short pid, std::string dev_name)
 {
     port_name   = port;
     device_pid  = pid;
+    name        = name;
 
     /*-----------------------------------------------------*\
     | Initialize channels based on PID                      |
@@ -106,6 +107,11 @@ std::string HYTENexusController::GetFirmwareVersion()
 std::string HYTENexusController::GetLocation()
 {
     return(port_name);
+}
+
+std::string HYTENexusController::GetName()
+{
+    return(name);
 }
 
 void HYTENexusController::KeepaliveThreadFunction()

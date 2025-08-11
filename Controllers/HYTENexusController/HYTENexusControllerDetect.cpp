@@ -50,9 +50,8 @@ void DetectHYTENexusControllers()
         {
             if(*ports[i] != "")
             {
-                HYTENexusController *     controller     = new HYTENexusController((char *)ports[i]->c_str(), hyte_nexus_devices[device_id].pid);
+                HYTENexusController *     controller     = new HYTENexusController((char *)ports[i]->c_str(), hyte_nexus_devices[device_id].pid, hyte_nexus_devices[device_id].name);
                 RGBController_HYTENexus * rgb_controller = new RGBController_HYTENexus(controller);
-                rgb_controller->name                     = hyte_nexus_devices[device_id].name;
 
                 ResourceManager::get()->RegisterRGBController(rgb_controller);
             }
