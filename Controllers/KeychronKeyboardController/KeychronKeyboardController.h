@@ -91,12 +91,12 @@ enum
 class KeychronKeyboardController
 {
 public:
-    KeychronKeyboardController(hid_device* dev_handle, const hid_device_info& info);
+    KeychronKeyboardController(hid_device* dev_handle, const hid_device_info& info, std::string dev_name);
     ~KeychronKeyboardController();
 
-    std::string                 GetSerialString();
     std::string                 GetDeviceLocation();
-    std::string                 GetFirmwareVersion();
+    std::string                 GetNameString();
+    std::string                 GetSerialString();
 
     void                        SetLedSequencePositions(std::vector<unsigned int> positions);
     void                        SetMode(std::vector<mode> modes, int active_mode, std::vector<RGBColor> colors);
@@ -106,6 +106,7 @@ protected:
 
 private:
     std::string                 location;
+    std::string                 name;
     std::string                 version;
     std::vector<unsigned int>   led_sequence_positions;
 

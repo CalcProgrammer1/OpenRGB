@@ -29,9 +29,9 @@ void DetectKeychronKeyboardControllers(hid_device_info* info, const std::string&
 
     if(dev)
     {
-        KeychronKeyboardController*     controller      = new KeychronKeyboardController(dev, *info);
+        KeychronKeyboardController*     controller      = new KeychronKeyboardController(dev, *info, name);
         RGBController_KeychronKeyboard* rgb_controller  = new RGBController_KeychronKeyboard(controller);
-        rgb_controller->name                            = name;
+
         ResourceManager::get()->RegisterRGBController(rgb_controller);
     }
 }

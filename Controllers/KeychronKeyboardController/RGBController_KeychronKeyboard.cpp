@@ -430,13 +430,13 @@ typedef struct
 RGBController_KeychronKeyboard::RGBController_KeychronKeyboard(KeychronKeyboardController* controller_ptr)
 {
     controller                          = controller_ptr;
-    name                                = "Keychron Keyboard";
+
+    name                                = controller->GetNameString();
     vendor                              = "Keychron";
     type                                = DEVICE_TYPE_KEYBOARD;
     description                         = name;
     location                            = controller->GetDeviceLocation();
     serial                              = controller->GetSerialString();
-    version                             = controller->GetFirmwareVersion();
 
     mode Custom;
     Custom.name                         = "Custom";

@@ -15,11 +15,11 @@
 
 using namespace std::chrono_literals;
 
-KeychronKeyboardController::KeychronKeyboardController(hid_device* dev_handle, const hid_device_info& info)
+KeychronKeyboardController::KeychronKeyboardController(hid_device* dev_handle, const hid_device_info& info, std::string dev_name)
 {
     dev                 = dev_handle;
-    version             = "";
     location            = info.path;
+    name                = dev_name;
 }
 
 KeychronKeyboardController::~KeychronKeyboardController()
@@ -30,6 +30,11 @@ KeychronKeyboardController::~KeychronKeyboardController()
 std::string KeychronKeyboardController::GetDeviceLocation()
 {
     return("HID: " + location);
+}
+
+std::string KeychronKeyboardController::GetNameString()
+{
+    return(name);
 }
 
 std::string KeychronKeyboardController::GetSerialString()
@@ -43,11 +48,6 @@ std::string KeychronKeyboardController::GetSerialString()
     }
 
     return(StringUtils::wstring_to_string(serial_string));
-}
-
-std::string KeychronKeyboardController::GetFirmwareVersion()
-{
-    return(version);
 }
 
 void KeychronKeyboardController:: SetLedSequencePositions(std::vector<unsigned int> positions)
