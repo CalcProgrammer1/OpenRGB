@@ -41,9 +41,8 @@ void DetectHyperXMousematControllers(hidapi_wrapper wrapper, hid_device_info* in
         int first_zone_leds_count   = info->product_id == HYPERX_FURY_A_XL_PID ? 2 : 15;
         int second_zone_leds_count  = info->product_id == HYPERX_FURY_A_XL_PID ? 0 : 5;
 
-        HyperXMousematController*     controller     = new HyperXMousematController(wrapper, dev, info->path);
+        HyperXMousematController*     controller     = new HyperXMousematController(wrapper, dev, info->path, name);
         RGBController_HyperXMousemat* rgb_controller = new RGBController_HyperXMousemat(controller, first_zone_leds_count, second_zone_leds_count);
-        rgb_controller->name                         = name;
 
         ResourceManager::get()->RegisterRGBController(rgb_controller);
     }

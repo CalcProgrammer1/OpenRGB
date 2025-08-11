@@ -24,29 +24,24 @@ using namespace std::chrono_literals;
     @comment
 \*-------------------------------------------------------------------*/
 
-RGBController_HyperXMousemat::RGBController_HyperXMousemat
-(
-    HyperXMousematController* controller_ptr,
-    unsigned int first_zone_leds_count_arg,
-    unsigned int second_zone_leds_count_arg
-)
+RGBController_HyperXMousemat::RGBController_HyperXMousemat(HyperXMousematController* controller_ptr, unsigned int first_zone_leds_count_arg, unsigned int second_zone_leds_count_arg)
 {
     controller              = controller_ptr;
     first_zone_leds_count   = first_zone_leds_count_arg;
     second_zone_leds_count  = second_zone_leds_count_arg;
 
-    name        = "HyperX Mousemat Device";
-    vendor      = "HyperX";
-    type        = DEVICE_TYPE_MOUSEMAT;
-    description = "HyperX Mousemat Device";
-    location    = controller->GetDeviceLocation();
-    serial      = controller->GetSerialString();
+    name                    = controller->GetNameString();
+    vendor                  = "HyperX";
+    type                    = DEVICE_TYPE_MOUSEMAT;
+    description             = "HyperX Mousemat Device";
+    location                = controller->GetDeviceLocation();
+    serial                  = controller->GetSerialString();
 
     mode Direct;
-    Direct.name       = "Direct";
-    Direct.value      = 0xFFFF;
-    Direct.flags      = MODE_FLAG_HAS_PER_LED_COLOR;
-    Direct.color_mode = MODE_COLORS_PER_LED;
+    Direct.name             = "Direct";
+    Direct.value            = 0xFFFF;
+    Direct.flags            = MODE_FLAG_HAS_PER_LED_COLOR;
+    Direct.color_mode       = MODE_COLORS_PER_LED;
     modes.push_back(Direct);
 
     SetupZones();

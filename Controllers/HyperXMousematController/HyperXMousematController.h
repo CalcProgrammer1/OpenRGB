@@ -18,10 +18,11 @@
 class HyperXMousematController
 {
 public:
-    HyperXMousematController(hidapi_wrapper hid_wrapper, hid_device* dev_handle, const char* path);
+    HyperXMousematController(hidapi_wrapper hid_wrapper, hid_device* dev_handle, const char* path, std::string dev_name);
     ~HyperXMousematController();
 
     std::string GetDeviceLocation();
+    std::string GetNameString();
     std::string GetSerialString();
 
     void SendDirect
@@ -33,4 +34,5 @@ private:
     hidapi_wrapper          wrapper;
     hid_device*             dev;
     std::string             location;
+    std::string             name;
 };

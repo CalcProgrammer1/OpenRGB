@@ -13,11 +13,12 @@
 #include "HyperXMousematController.h"
 #include "StringUtils.h"
 
-HyperXMousematController::HyperXMousematController(hidapi_wrapper hid_wrapper, hid_device* dev_handle, const char* path)
+HyperXMousematController::HyperXMousematController(hidapi_wrapper hid_wrapper, hid_device* dev_handle, const char* path, std::string dev_name)
 {
     wrapper     = hid_wrapper;
     dev         = dev_handle;
     location    = path;
+    name        = dev_name;
 }
 
 HyperXMousematController::~HyperXMousematController()
@@ -28,6 +29,11 @@ HyperXMousematController::~HyperXMousematController()
 std::string HyperXMousematController::GetDeviceLocation()
 {
     return("HID " + location);
+}
+
+std::string HyperXMousematController::GetNameString()
+{
+    return(name);
 }
 
 std::string HyperXMousematController::GetSerialString()
