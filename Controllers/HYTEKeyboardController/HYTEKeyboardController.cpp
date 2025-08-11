@@ -12,10 +12,11 @@
 #include <cstring>
 #include "HYTEKeyboardController.h"
 
-HYTEKeyboardController::HYTEKeyboardController(hid_device* dev_handle, const char* path)
+HYTEKeyboardController::HYTEKeyboardController(hid_device* dev_handle, const char* path, std::string dev_name)
 {
     dev         = dev_handle;
     location    = path;
+    name        = dev_name;
 }
 
 HYTEKeyboardController::~HYTEKeyboardController()
@@ -26,6 +27,11 @@ HYTEKeyboardController::~HYTEKeyboardController()
 std::string HYTEKeyboardController::GetDeviceLocation()
 {
     return("HID " + location);
+}
+
+std::string HYTEKeyboardController::GetDeviceName()
+{
+    return(name);
 }
 
 void HYTEKeyboardController::LEDStreaming(unsigned int zone, RGBColor* colors)

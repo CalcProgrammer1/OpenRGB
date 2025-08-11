@@ -30,9 +30,8 @@ void DetectHYTEKeyboard(hid_device_info* info, const std::string& name)
 
     if(dev)
     {
-        HYTEKeyboardController*     controller     = new HYTEKeyboardController(dev, info->path);
+        HYTEKeyboardController*     controller     = new HYTEKeyboardController(dev, info->path, name);
         RGBController_HYTEKeyboard* rgb_controller = new RGBController_HYTEKeyboard(controller);
-        rgb_controller->name                            = name;
 
         ResourceManager::get()->RegisterRGBController(rgb_controller);
     }

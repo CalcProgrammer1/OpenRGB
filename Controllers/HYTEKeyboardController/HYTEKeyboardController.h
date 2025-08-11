@@ -24,16 +24,18 @@ enum
 class HYTEKeyboardController
 {
 public:
-    HYTEKeyboardController(hid_device* dev_handle, const char* path);
+    HYTEKeyboardController(hid_device* dev_handle, const char* path, std::string dev_name);
     ~HYTEKeyboardController();
 
     std::string GetDeviceLocation();
+    std::string GetDeviceName();
 
     void LEDStreaming(unsigned int zone, RGBColor* colors);
 
 private:
     hid_device* dev;
     std::string location;
+    std::string name;
 
     void LEDStreaming_Keyboard(RGBColor* colors);
     void LEDStreaming_Surround(RGBColor* colors);

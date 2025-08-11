@@ -59,19 +59,19 @@ keyboard_keymap_overlay_values hyte_keeb_tkl_layout =
 
 RGBController_HYTEKeyboard::RGBController_HYTEKeyboard(HYTEKeyboardController* controller_ptr)
 {
-    controller = controller_ptr;
+    controller          = controller_ptr;
 
-    name        = "HYTE Keyboard Device";
-    vendor      = "HYTE";
-    type        = DEVICE_TYPE_KEYBOARD;
-    description = "HYTE Keyboard Device";
-    location    = controller->GetDeviceLocation();
+    name                = controller->GetDeviceName();
+    vendor              = "HYTE";
+    type                = DEVICE_TYPE_KEYBOARD;
+    description         = "HYTE Keyboard Device";
+    location            = controller->GetDeviceLocation();
 
     mode Direct;
-    Direct.name       = "Direct";
-    Direct.value      = 0xFFFF;
-    Direct.flags      = MODE_FLAG_HAS_PER_LED_COLOR;
-    Direct.color_mode = MODE_COLORS_PER_LED;
+    Direct.name         = "Direct";
+    Direct.value        = 0xFFFF;
+    Direct.flags        = MODE_FLAG_HAS_PER_LED_COLOR;
+    Direct.color_mode   = MODE_COLORS_PER_LED;
     modes.push_back(Direct);
 
     SetupZones();
