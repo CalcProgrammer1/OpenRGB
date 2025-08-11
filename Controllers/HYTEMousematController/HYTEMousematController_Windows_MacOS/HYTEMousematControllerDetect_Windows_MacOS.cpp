@@ -54,9 +54,8 @@ void DetectHYTEMousematControllers()
         {
             if(*ports[i] != "")
             {
-                HYTEMousematController *     controller     = new HYTEMousematController((char *)ports[i]->c_str());
+                HYTEMousematController *     controller     = new HYTEMousematController((char *)ports[i]->c_str(), hyte_mousemat_devices[device_id].name);
                 RGBController_HYTEMousemat * rgb_controller = new RGBController_HYTEMousemat(controller);
-                rgb_controller->name                        = hyte_mousemat_devices[device_id].name;
 
                 ResourceManager::get()->RegisterRGBController(rgb_controller);
             }

@@ -70,9 +70,8 @@ void DetectHYTEMousematControllers()
             libusb_detach_kernel_driver(dev, 0);
             libusb_claim_interface(dev, 0);
 
-            HYTEMousematController *     controller     = new HYTEMousematController(dev);
+            HYTEMousematController *     controller     = new HYTEMousematController(dev, device_list[device_idx].name);
             RGBController_HYTEMousemat * rgb_controller = new RGBController_HYTEMousemat(controller);
-            rgb_controller->name                        = device_list[device_idx].name;
 
             ResourceManager::get()->RegisterRGBController(rgb_controller);
         }

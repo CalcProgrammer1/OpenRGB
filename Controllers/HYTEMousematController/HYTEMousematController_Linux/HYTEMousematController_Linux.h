@@ -24,10 +24,11 @@
 class HYTEMousematController
 {
 public:
-    HYTEMousematController(libusb_device_handle* dev_handle);
+    HYTEMousematController(libusb_device_handle* dev_handle, std::string dev_name);
     ~HYTEMousematController();
 
     std::string     GetLocation();
+    std::string     GetName();
 
     void            FirmwareAnimationControl(bool enabled);
     void            StreamingCommand(RGBColor* colors);
@@ -35,4 +36,5 @@ public:
 private:
     libusb_device_handle*   dev;
     std::string             location;
+    std::string             name;
 };

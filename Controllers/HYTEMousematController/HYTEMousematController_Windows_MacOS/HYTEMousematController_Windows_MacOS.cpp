@@ -12,9 +12,10 @@
 
 #include "HYTEMousematController_Windows_MacOS.h"
 
-HYTEMousematController::HYTEMousematController(char* port)
+HYTEMousematController::HYTEMousematController(char* port, std::string dev_name)
 {
-    port_name = port;
+    name        = dev_name;
+    port_name   = port;
 
     /*-----------------------------------------------------*\
     | Open the port                                         |
@@ -31,6 +32,11 @@ HYTEMousematController::~HYTEMousematController()
 std::string HYTEMousematController::GetLocation()
 {
     return(port_name);
+}
+
+std::string HYTEMousematController::GetName()
+{
+    return(name);
 }
 
 void HYTEMousematController::FirmwareAnimationControl(bool enabled)

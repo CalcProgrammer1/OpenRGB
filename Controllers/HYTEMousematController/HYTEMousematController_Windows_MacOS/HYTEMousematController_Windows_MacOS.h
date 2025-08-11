@@ -19,15 +19,17 @@
 class HYTEMousematController
 {
 public:
-    HYTEMousematController(char* port);
+    HYTEMousematController(char* port, std::string dev_name);
     ~HYTEMousematController();
 
     std::string     GetLocation();
+    std::string     GetName();
 
     void            FirmwareAnimationControl(bool enabled);
     void            StreamingCommand(RGBColor* colors);
 
 private:
+    std::string     name;
     std::string     port_name;
     serial_port *   serialport = nullptr;
 };
