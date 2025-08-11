@@ -12,11 +12,12 @@
 #include <string.h>
 #include "IonicoController.h"
 
-IonicoController::IonicoController(hid_device* dev_handle, const hid_device_info& info, const unsigned short pid)
+IonicoController::IonicoController(hid_device* dev_handle, const hid_device_info& info, const unsigned short pid, std::string dev_name)
 {
     dev                 = dev_handle;
     location            = info.path;
     usb_pid             = pid;
+    name                = dev_name;
 }
 
 IonicoController::~IonicoController()
@@ -27,6 +28,11 @@ IonicoController::~IonicoController()
 std::string IonicoController::GetDeviceLocation()
 {
     return("HID: " + location);
+}
+
+std::string IonicoController::GetDeviceName()
+{
+    return(name);
 }
 
 uint16_t IonicoController::GetUSBPID()

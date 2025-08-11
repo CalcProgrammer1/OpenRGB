@@ -34,9 +34,8 @@ void DetectIonicoControllers(hid_device_info* info, const std::string& name)
 
     if(dev)
     {
-        IonicoController*     controller         = new IonicoController(dev, *info, info->product_id);
+        IonicoController*     controller         = new IonicoController(dev, *info, info->product_id, name);
         RGBController_Ionico* rgb_controller     = new RGBController_Ionico(controller);
-        rgb_controller->name                     = name;
 
         if(info->product_id == IONICO_KB_PID)
         {

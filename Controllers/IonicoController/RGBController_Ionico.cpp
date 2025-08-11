@@ -26,7 +26,8 @@
 RGBController_Ionico::RGBController_Ionico(IonicoController* controller_ptr)
 {
     controller                          = controller_ptr;
-    name                                = "Ionico";
+
+    name                                = controller->GetDeviceName();
     vendor                              = "Pcspecialist";
     description                         = name;
     location                            = controller->GetDeviceLocation();
@@ -43,21 +44,21 @@ RGBController_Ionico::RGBController_Ionico(IonicoController* controller_ptr)
     modes.push_back(Direct);
 
     mode Breathing;
-    Breathing.name                         = "Breathing";
-    Breathing.value                        = IONICO_MODE_BREATHING;
-    Breathing.flags                        = MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_HAS_SPEED | MODE_FLAG_MANUAL_SAVE;
-    Breathing.color_mode                   = MODE_COLORS_MODE_SPECIFIC;
-    Breathing.speed_min                    = IONICO_DIRECT_SPEED_MIN;
-    Breathing.speed_max                    = IONICO_DIRECT_SPEED_MAX;
-    Breathing.speed                        = IONICO_DIRECT_SPEED_DEFAULT;
-    Breathing.brightness_min               = IONICO_DIRECT_BRIGHTNESS_MIN;
-    Breathing.brightness_max               = IONICO_DIRECT_BRIGHTNESS_MAX;
-    Breathing.brightness                   = IONICO_DIRECT_BRIGHTNESS_MAX;
+    Breathing.name                      = "Breathing";
+    Breathing.value                     = IONICO_MODE_BREATHING;
+    Breathing.flags                     = MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_HAS_SPEED | MODE_FLAG_MANUAL_SAVE;
+    Breathing.color_mode                = MODE_COLORS_MODE_SPECIFIC;
+    Breathing.speed_min                 = IONICO_DIRECT_SPEED_MIN;
+    Breathing.speed_max                 = IONICO_DIRECT_SPEED_MAX;
+    Breathing.speed                     = IONICO_DIRECT_SPEED_DEFAULT;
+    Breathing.brightness_min            = IONICO_DIRECT_BRIGHTNESS_MIN;
+    Breathing.brightness_max            = IONICO_DIRECT_BRIGHTNESS_MAX;
+    Breathing.brightness                = IONICO_DIRECT_BRIGHTNESS_MAX;
     Breathing.colors.resize(7);
     modes.push_back(Breathing);
 
     mode Wave;
-    Wave.name                         = "Wave";
+    Wave.name                           = "Wave";
     if(controller->GetUSBPID() == IONICO_KB_PID)
     {
         Wave.value    = IONICO_MODE_WAVE;
@@ -66,30 +67,30 @@ RGBController_Ionico::RGBController_Ionico(IonicoController* controller_ptr)
     {
         Wave.value    = IONICO_FB_MODE_WAVE;
     }
-    Wave.flags                        = MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_HAS_SPEED | MODE_FLAG_MANUAL_SAVE;
-    Wave.color_mode                   = MODE_COLORS_MODE_SPECIFIC;
-    Wave.speed_min                    = IONICO_DIRECT_SPEED_MIN;
-    Wave.speed_max                    = IONICO_DIRECT_SPEED_MAX;
-    Wave.speed                        = IONICO_DIRECT_SPEED_DEFAULT;
-    Wave.brightness_min               = IONICO_DIRECT_BRIGHTNESS_MIN;
-    Wave.brightness_max               = IONICO_DIRECT_BRIGHTNESS_MAX;
-    Wave.brightness                   = IONICO_DIRECT_BRIGHTNESS_MAX;
+    Wave.flags                          = MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_HAS_SPEED | MODE_FLAG_MANUAL_SAVE;
+    Wave.color_mode                     = MODE_COLORS_MODE_SPECIFIC;
+    Wave.speed_min                      = IONICO_DIRECT_SPEED_MIN;
+    Wave.speed_max                      = IONICO_DIRECT_SPEED_MAX;
+    Wave.speed                          = IONICO_DIRECT_SPEED_DEFAULT;
+    Wave.brightness_min                 = IONICO_DIRECT_BRIGHTNESS_MIN;
+    Wave.brightness_max                 = IONICO_DIRECT_BRIGHTNESS_MAX;
+    Wave.brightness                     = IONICO_DIRECT_BRIGHTNESS_MAX;
     Wave.colors.resize(7);
     modes.push_back(Wave);
 
     if(controller->GetUSBPID() == IONICO_KB_PID)
     {
         mode Flash;
-        Flash.name                         = "Flashing";
-        Flash.value                        = IONICO_MODE_FLASH;
-        Flash.flags                        = MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_HAS_SPEED | MODE_FLAG_MANUAL_SAVE;
-        Flash.color_mode                   = MODE_COLORS_MODE_SPECIFIC;
-        Flash.speed_min                    = IONICO_DIRECT_SPEED_MIN;
-        Flash.speed_max                    = IONICO_DIRECT_SPEED_MAX;
-        Flash.speed                        = IONICO_DIRECT_SPEED_DEFAULT;
-        Flash.brightness_min               = IONICO_DIRECT_BRIGHTNESS_MIN;
-        Flash.brightness_max               = IONICO_DIRECT_BRIGHTNESS_MAX;
-        Flash.brightness                   = IONICO_DIRECT_BRIGHTNESS_MAX;
+        Flash.name                      = "Flashing";
+        Flash.value                     = IONICO_MODE_FLASH;
+        Flash.flags                     = MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_HAS_SPEED | MODE_FLAG_MANUAL_SAVE;
+        Flash.color_mode                = MODE_COLORS_MODE_SPECIFIC;
+        Flash.speed_min                 = IONICO_DIRECT_SPEED_MIN;
+        Flash.speed_max                 = IONICO_DIRECT_SPEED_MAX;
+        Flash.speed                     = IONICO_DIRECT_SPEED_DEFAULT;
+        Flash.brightness_min            = IONICO_DIRECT_BRIGHTNESS_MIN;
+        Flash.brightness_max            = IONICO_DIRECT_BRIGHTNESS_MAX;
+        Flash.brightness                = IONICO_DIRECT_BRIGHTNESS_MAX;
         Flash.colors.resize(7);
         modes.push_back(Flash);
     }
@@ -97,16 +98,16 @@ RGBController_Ionico::RGBController_Ionico(IonicoController* controller_ptr)
     if(controller->GetUSBPID() == IONICO_FB_PID)
     {
         mode Raindrops;
-        Raindrops.name                         = "Raindrops";
-        Raindrops.value                        = IONICO_MODE_RAIN;
-        Raindrops.flags                        = MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_HAS_SPEED | MODE_FLAG_MANUAL_SAVE;
-        Raindrops.color_mode                   = MODE_COLORS_MODE_SPECIFIC;
-        Raindrops.speed_min                    = IONICO_DIRECT_SPEED_MIN;
-        Raindrops.speed_max                    = IONICO_DIRECT_SPEED_MAX;
-        Raindrops.speed                        = IONICO_DIRECT_SPEED_DEFAULT;
-        Raindrops.brightness_min               = IONICO_DIRECT_BRIGHTNESS_MIN;
-        Raindrops.brightness_max               = IONICO_DIRECT_BRIGHTNESS_MAX;
-        Raindrops.brightness                   = IONICO_DIRECT_BRIGHTNESS_MAX;
+        Raindrops.name                  = "Raindrops";
+        Raindrops.value                 = IONICO_MODE_RAIN;
+        Raindrops.flags                 = MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_HAS_SPEED | MODE_FLAG_MANUAL_SAVE;
+        Raindrops.color_mode            = MODE_COLORS_MODE_SPECIFIC;
+        Raindrops.speed_min             = IONICO_DIRECT_SPEED_MIN;
+        Raindrops.speed_max             = IONICO_DIRECT_SPEED_MAX;
+        Raindrops.speed                 = IONICO_DIRECT_SPEED_DEFAULT;
+        Raindrops.brightness_min        = IONICO_DIRECT_BRIGHTNESS_MIN;
+        Raindrops.brightness_max        = IONICO_DIRECT_BRIGHTNESS_MAX;
+        Raindrops.brightness            = IONICO_DIRECT_BRIGHTNESS_MAX;
         Raindrops.colors.resize(7);
         modes.push_back(Raindrops);
     }

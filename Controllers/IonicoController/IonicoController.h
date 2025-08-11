@@ -41,10 +41,11 @@ enum
 class IonicoController
 {
     public:
-        IonicoController(hid_device* dev_handle, const hid_device_info& info, const unsigned short pid);
+        IonicoController(hid_device* dev_handle, const hid_device_info& info, const unsigned short pid, std::string dev_name);
         ~IonicoController();
 
         std::string GetDeviceLocation();
+        std::string GetDeviceName();
 
         void        SetMode(uint8_t mode_value, uint8_t brightness, uint8_t speed);
         void        SetColors(int device, std::vector<RGBColor> array_colors, bool is_mode);
@@ -55,7 +56,7 @@ class IonicoController
     private:
         hid_device* dev;
         std::string location;
+        std::string name;
         std::string serial_number;
-        std::string version;
         uint16_t    usb_pid;
 };
