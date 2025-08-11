@@ -15,11 +15,12 @@
 
 using namespace std::chrono_literals;
 
-HyperXMicrophoneController::HyperXMicrophoneController(hidapi_wrapper hid_wrapper, hid_device* dev_handle, std::string path)
+HyperXMicrophoneController::HyperXMicrophoneController(hidapi_wrapper hid_wrapper, hid_device* dev_handle, std::string path, std::string dev_name)
 {
     wrapper     = hid_wrapper;
     dev         = dev_handle;
     location    = path;
+    name        = dev_name;
 }
 
 HyperXMicrophoneController::~HyperXMicrophoneController()
@@ -36,7 +37,12 @@ HyperXMicrophoneController::~HyperXMicrophoneController()
 
 std::string HyperXMicrophoneController::GetDeviceLocation()
 {
-    return location;
+    return(location);
+}
+
+std::string HyperXMicrophoneController::GetNameString()
+{
+    return(name);
 }
 
 std::string HyperXMicrophoneController::GetSerialString()

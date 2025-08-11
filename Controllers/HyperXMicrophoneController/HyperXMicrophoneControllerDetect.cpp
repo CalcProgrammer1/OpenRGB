@@ -37,9 +37,8 @@ void DetectHyperXMicrophoneControllers(hidapi_wrapper wrapper, hid_device_info* 
 
     if(dev)
     {
-        HyperXMicrophoneController* controller         = new HyperXMicrophoneController(wrapper, dev, info->path);
+        HyperXMicrophoneController* controller         = new HyperXMicrophoneController(wrapper, dev, info->path, name);
         RGBController_HyperXMicrophone *rgb_controller = new RGBController_HyperXMicrophone(controller);
-        rgb_controller->name                          = name;
 
         ResourceManager::get()->RegisterRGBController(rgb_controller);
     }

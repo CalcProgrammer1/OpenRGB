@@ -57,6 +57,7 @@ RGBController_HyperXMicrophone::RGBController_HyperXMicrophone(HyperXMicrophoneC
 {
     controller              = controller_ptr;
 
+    name                    = controller->GetNameString();
     vendor                  = "HyperX";
     type                    = DEVICE_TYPE_MICROPHONE;
     description             = "HyperX Microphone Device";
