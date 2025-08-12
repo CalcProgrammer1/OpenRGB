@@ -35,12 +35,12 @@ enum
 class LegoDimensionsToypadBaseController
 {
 public:
-    LegoDimensionsToypadBaseController(hid_device* dev_handle, const hid_device_info& info);
+    LegoDimensionsToypadBaseController(hid_device* dev_handle, const hid_device_info& info, std::string dev_name);
     ~LegoDimensionsToypadBaseController();
 
-    std::string GetSerialString();
     std::string GetDeviceLocation();
-    std::string GetFirmwareVersion();
+    std::string GetNameString();
+    std::string GetSerialString();
 
     void        SetDirect(unsigned char zone, RGBColor color);
     void        SetMode(unsigned char zone, unsigned char mode_value, uint8_t speed, RGBColor color);
@@ -50,6 +50,7 @@ protected:
 
 private:
     std::string location;
+    std::string name;
     std::string version;
 
     void Activate();

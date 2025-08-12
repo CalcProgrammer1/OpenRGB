@@ -29,9 +29,9 @@ void DetectLegoDimensionsToypadBaseControllers(hid_device_info* info, const std:
 
     if(dev)
     {
-        LegoDimensionsToypadBaseController*     controller      = new LegoDimensionsToypadBaseController(dev, *info);
+        LegoDimensionsToypadBaseController*     controller      = new LegoDimensionsToypadBaseController(dev, *info, name);
         RGBController_LegoDimensionsToypadBase* rgb_controller  = new RGBController_LegoDimensionsToypadBase(controller);
-        rgb_controller->name = name;
+
         ResourceManager::get()->RegisterRGBController(rgb_controller);
     }
 }

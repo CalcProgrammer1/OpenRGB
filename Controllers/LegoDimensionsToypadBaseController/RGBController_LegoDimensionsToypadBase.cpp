@@ -27,12 +27,13 @@
 RGBController_LegoDimensionsToypadBase::RGBController_LegoDimensionsToypadBase(LegoDimensionsToypadBaseController* controller_ptr)
 {
     controller                          = controller_ptr;
+
+    name                                = controller->GetNameString();
     vendor                              = "Logic3";
     type                                = DEVICE_TYPE_LEDSTRIP;
     description                         = "Lego Dimensions Toypad Base";
     location                            = controller->GetDeviceLocation();
     serial                              = controller->GetSerialString();
-    version                             = controller->GetFirmwareVersion();
 
     mode Direct;
     Direct.name                         = "Direct";

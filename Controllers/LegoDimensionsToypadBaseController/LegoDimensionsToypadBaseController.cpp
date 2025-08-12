@@ -13,11 +13,11 @@
 #include "LegoDimensionsToypadBaseController.h"
 #include "StringUtils.h"
 
-LegoDimensionsToypadBaseController::LegoDimensionsToypadBaseController(hid_device* dev_handle, const hid_device_info& info)
+LegoDimensionsToypadBaseController::LegoDimensionsToypadBaseController(hid_device* dev_handle, const hid_device_info& info, std::string dev_name)
 {
     dev                 = dev_handle;
     location            = info.path;
-    version             = "";
+    name                = dev_name;
 
     Activate();
 }
@@ -32,6 +32,11 @@ std::string LegoDimensionsToypadBaseController::GetDeviceLocation()
     return("HID: " + location);
 }
 
+std::string LegoDimensionsToypadBaseController::GetNameString()
+{
+    return(name);
+}
+
 std::string LegoDimensionsToypadBaseController::GetSerialString()
 {
     wchar_t serial_string[128];
@@ -43,11 +48,6 @@ std::string LegoDimensionsToypadBaseController::GetSerialString()
     }
 
     return(StringUtils::wstring_to_string(serial_string));
-}
-
-std::string LegoDimensionsToypadBaseController::GetFirmwareVersion()
-{
-    return(version);
 }
 
 void LegoDimensionsToypadBaseController::Activate()
