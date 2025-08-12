@@ -79,13 +79,13 @@ typedef struct
 RGBController_MintakaKeyboard::RGBController_MintakaKeyboard(MintakaKeyboardController* controller_ptr)
 {
     controller                          = controller_ptr;
-    name                                = "Mintaka Keyboard";
+
+    name                                = controller->GetNameString();
     vendor                              = "VSG";
     type                                = DEVICE_TYPE_KEYBOARD;
     description                         = name;
     location                            = controller->GetDeviceLocation();
     serial                              = controller->GetSerialString();
-    version                             = controller->GetFirmwareVersion();
 
     mode Custom;
     Custom.name                         = "Custom";

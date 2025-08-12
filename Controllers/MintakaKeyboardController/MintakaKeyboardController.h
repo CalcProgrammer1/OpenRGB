@@ -91,12 +91,12 @@ enum
 class MintakaKeyboardController
 {
 public:
-    MintakaKeyboardController(hid_device* dev_handle, const hid_device_info& info);
+    MintakaKeyboardController(hid_device* dev_handle, const hid_device_info& info, std::string dev_name);
     ~MintakaKeyboardController();
 
-    std::string                 GetSerialString();
     std::string                 GetDeviceLocation();
-    std::string                 GetFirmwareVersion();
+    std::string                 GetNameString();
+    std::string                 GetSerialString();
 
     void                        SetLedSequencePositions(std::vector<unsigned int> positions);
     void                        SetMode(std::vector<mode> modes, int active_mode, std::vector<RGBColor> colors);
@@ -106,6 +106,7 @@ protected:
 
 private:
     std::string                 location;
+    std::string                 name;
     std::string                 serial_number;
     std::string                 version;
     std::vector<unsigned int>   led_sequence_positions;

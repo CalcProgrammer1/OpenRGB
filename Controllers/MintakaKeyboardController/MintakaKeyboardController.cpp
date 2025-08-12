@@ -16,11 +16,11 @@
 
 using namespace std::chrono_literals;
 
-MintakaKeyboardController::MintakaKeyboardController(hid_device* dev_handle, const hid_device_info& info)
+MintakaKeyboardController::MintakaKeyboardController(hid_device* dev_handle, const hid_device_info& info, std::string dev_name)
 {
     dev                 = dev_handle;
-    version             = "";
     location            = info.path;
+    name                = dev_name;
 
     wchar_t serial_string[128];
     int ret = hid_get_serial_number_string(dev, serial_string, 128);
@@ -45,14 +45,14 @@ std::string MintakaKeyboardController::GetDeviceLocation()
     return("HID: " + location);
 }
 
+std::string MintakaKeyboardController::GetNameString()
+{
+    return(name);
+}
+
 std::string MintakaKeyboardController::GetSerialString()
 {
     return(serial_number);
-}
-
-std::string MintakaKeyboardController::GetFirmwareVersion()
-{
-    return(version);
 }
 
 void MintakaKeyboardController:: SetLedSequencePositions(std::vector<unsigned int> positions)

@@ -29,9 +29,9 @@ void DetectMintakaKeyboardControllers(hid_device_info* info, const std::string& 
 
     if(dev)
     {
-        MintakaKeyboardController*     controller      = new MintakaKeyboardController(dev, *info);
+        MintakaKeyboardController*     controller      = new MintakaKeyboardController(dev, *info, name);
         RGBController_MintakaKeyboard* rgb_controller  = new RGBController_MintakaKeyboard(controller);
-        rgb_controller->name                            = name;
+
         ResourceManager::get()->RegisterRGBController(rgb_controller);
     }
 }
