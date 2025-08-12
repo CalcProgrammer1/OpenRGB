@@ -5,6 +5,7 @@
 |                                                           |
 |   Aiden Vigue (acvigue)                       02 Mar 2025 |
 |   Adam Honse <calcprogrammer1@gmail.com>      01 Aug 2025 |
+|   Nikola Jurkovic (jurkovic.nikola)           11 Aug 2025 |
 |                                                           |
 |   This file is part of the OpenRGB project                |
 |   SPDX-License-Identifier: GPL-2.0-only                   |
@@ -64,15 +65,41 @@ void RGBController_CorsairICueLink::SetupZones()
 {
     for(std::size_t zone_idx = 0; zone_idx < controller->GetEndpoints().size(); zone_idx++)
     {
-        zone new_zone;
+        if(controller->GetEndpoints()[zone_idx]->type == 0x06)
+        {
+            /*-----------------------------------------------------*\
+            | We skip LCD processing here                           |
+            \*-----------------------------------------------------*/
+            continue;
+        }
 
+        zone new_zone;
         new_zone.name       = controller->GetEndpoints()[zone_idx]->display_name;
         new_zone.type       = ZONE_TYPE_LINEAR;
         new_zone.leds_min   = controller->GetEndpoints()[zone_idx]->led_channels;
         new_zone.leds_max   = new_zone.leds_min;
         new_zone.leds_count = new_zone.leds_min;
-
         zones.push_back(new_zone);
+
+        if(controller->GetEndpoints()[zone_idx]->type == 0x07 || controller->GetEndpoints()[zone_idx]->type == 0x11)
+        {
+            /*---------------------------------------------------------*\
+            | iCUE LINK AIO 'H' Series || iCUE LINK AIO 'TITAN' Series  |
+            \*---------------------------------------------------------*/
+            for(std::size_t lcd_idx = 0; lcd_idx < controller->GetEndpoints().size(); lcd_idx++)
+            {
+                if(controller->GetEndpoints()[lcd_idx]->type == 0x06)
+                {
+                    zone lcd_zone;
+                    lcd_zone.name       = controller->GetEndpoints()[lcd_idx]->display_name;
+                    lcd_zone.type       = ZONE_TYPE_LINEAR;
+                    lcd_zone.leds_min   = controller->GetEndpoints()[lcd_idx]->led_channels;
+                    lcd_zone.leds_max   = lcd_zone.leds_min;
+                    lcd_zone.leds_count = lcd_zone.leds_min;
+                    zones.push_back(lcd_zone);
+                }
+            }
+        }
 
         for(unsigned int led_idx = 0; led_idx < new_zone.leds_count; led_idx++)
         {

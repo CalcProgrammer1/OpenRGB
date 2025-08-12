@@ -73,6 +73,7 @@ static const CorsairICueLinkDevice known_devices[] =
 #define CORSAIR_ICUE_LINK_CMD_HARDWARE_MODE          {0x01, 0x03, 0x00, 0x01}
 #define CORSAIR_ICUE_LINK_CMD_WRITE                  {0x06, 0x01}
 #define CORSAIR_ICUE_LINK_CMD_WRITE_COLOR            {0x06, 0x00}
+#define CORSAIR_ICUE_LINK_CMD_WRITE_COLOR_NEXT       {0x07, 0x00}
 #define CORSAIR_ICUE_LINK_CMD_READ                   {0x08, 0x01}
 #define CORSAIR_ICUE_LINK_CMD_GET_DEVICE_MODE        {0x01, 0x08, 0x01}
 

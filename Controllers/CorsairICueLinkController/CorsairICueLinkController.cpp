@@ -107,8 +107,10 @@ void CorsairICueLinkController::GetControllerDevices()
             continue;
         }
 
-        // Dont process internal device due to duplication
-        if (device->internal == true)
+        /*-------------------------------------------------*\
+        | Dont process internal device due to duplication   |
+        \*-------------------------------------------------*/
+        if(device->internal == true)
         {
             pos += 8 + device_id_length;
             continue;
@@ -289,14 +291,24 @@ void CorsairICueLinkController::Write(std::vector<unsigned char> endpoint, std::
     }
 
     SendCommand(CORSAIR_ICUE_LINK_CMD_OPEN_COLOR_ENDPOINT, endpoint, { });
-
-    std::vector<unsigned char> write_color_ep = CORSAIR_ICUE_LINK_CMD_WRITE_COLOR;
     std::vector<std::vector<unsigned char>> chunks = ProcessMultiChunkPacket(buf, CORSAIR_ICUE_LINK_MAXIMUM_BUFFER_PER_REQUEST);
 
     for(size_t i = 0; i < chunks.size(); i++)
     {
-        write_color_ep[0] = write_color_ep[0] + (unsigned char)i;
-        SendCommand(write_color_ep, chunks[i], {});
+        if(i == 0)
+        {
+            /*-----------------------------------------------------*\
+            | Initial color packet                                  |
+            \*-----------------------------------------------------*/
+            SendCommand(CORSAIR_ICUE_LINK_CMD_WRITE_COLOR, chunks[i], {});
+        }
+        else
+        {
+            /*-----------------------------------------------------*\
+            | Everything else follows 0x07, 0x00                    |
+            \*-----------------------------------------------------*/
+            SendCommand(CORSAIR_ICUE_LINK_CMD_WRITE_COLOR_NEXT, chunks[i], {});
+        }
     }
 
     SendCommand(CORSAIR_ICUE_LINK_CMD_CLOSE_ENDPOINT, endpoint, { });
