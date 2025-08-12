@@ -51,7 +51,7 @@ class LenovoGen7And8USBController
     /*--------------*\
     |ctor(s) and dtor|
     \*--------------*/
-    LenovoGen7And8USBController(hid_device* dev_handle, const char* path, uint16_t in_pid);
+    LenovoGen7And8USBController(hid_device* dev_handle, const char* path, uint16_t in_pid, std::string dev_name);
     ~LenovoGen7And8USBController();
 
     /*--------------*\

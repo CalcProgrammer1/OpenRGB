@@ -36,7 +36,7 @@ class LenovoUSBController
     /*--------------*\
     |ctor(s) and dtor|
     \*--------------*/
-    LenovoUSBController(hid_device* dev_handle, const char* path, uint16_t in_pid);
+    LenovoUSBController(hid_device* dev_handle, const char* path, uint16_t in_pid, std::string dev_name);
     ~LenovoUSBController();
 
     /*--------------*\

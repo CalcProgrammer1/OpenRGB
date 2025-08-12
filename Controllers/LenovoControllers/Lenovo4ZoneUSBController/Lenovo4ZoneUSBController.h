@@ -30,7 +30,7 @@ class Lenovo4ZoneUSBController
     /*--------------*\
     |ctor(s) and dtor|
     \*--------------*/
-    Lenovo4ZoneUSBController(hid_device* dev_handle, const char* path, uint16_t in_pid);
+    Lenovo4ZoneUSBController(hid_device* dev_handle, const char* path, uint16_t in_pid, std::string dev_name);
     ~Lenovo4ZoneUSBController();
 
     void setMode(const KeyboardState &in_mode);

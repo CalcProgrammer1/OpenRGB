@@ -34,61 +34,53 @@
 
 RGBController_Lenovo4ZoneUSB::RGBController_Lenovo4ZoneUSB(Lenovo4ZoneUSBController* controller_ptr)
 {
-    controller        = controller_ptr;
+    controller              = controller_ptr;
 
-    name    = controller->getName();
-    type    = DEVICE_TYPE_LAPTOP;
-    vendor  = "Lenovo";
-
-
-    description = "Lenovo 4-Zone device";
+    name                    = controller->getName();
+    type                    = DEVICE_TYPE_LAPTOP;
+    vendor                  = "Lenovo";
+    description             = "Lenovo 4-Zone device";
 
     mode Direct;
-    Direct.name       = "Direct";
-    Direct.flags      = MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_HAS_BRIGHTNESS;
-    Direct.color_mode = MODE_COLORS_PER_LED;
-    Direct.brightness_min = 1;
-    Direct.brightness_max = 2;
+    Direct.name             = "Direct";
+    Direct.flags            = MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_HAS_BRIGHTNESS;
+    Direct.color_mode       = MODE_COLORS_PER_LED;
+    Direct.brightness_min   = 1;
+    Direct.brightness_max   = 2;
 
     modes.push_back(Direct);
 
     mode Breath;
-    Breath.name       = "Breathing";
-    Breath.flags      = MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_HAS_BRIGHTNESS |
-            MODE_FLAG_HAS_SPEED;
-    Breath.color_mode = MODE_COLORS_PER_LED;
-    Breath.brightness_min = 1;
-    Breath.brightness_max = 2;
-    Breath.speed_min      = 1;
-    Breath.speed_max      = 4;
+    Breath.name             = "Breathing";
+    Breath.flags            = MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_HAS_SPEED;
+    Breath.color_mode       = MODE_COLORS_PER_LED;
+    Breath.brightness_min   = 1;
+    Breath.brightness_max   = 2;
+    Breath.speed_min        = 1;
+    Breath.speed_max        = 4;
 
     modes.push_back(Breath);
 
     mode Wave;
-    Wave.name       = "Rainbow Wave";
-    Wave.flags      = MODE_FLAG_HAS_RANDOM_COLOR |
-            MODE_FLAG_HAS_BRIGHTNESS |
-            MODE_FLAG_HAS_SPEED |
-            MODE_FLAG_HAS_DIRECTION_LR;
-    Wave.color_mode = MODE_COLORS_RANDOM;
-    Wave.brightness_min = 1;
-    Wave.brightness_max = 2;
-    Wave.speed_min      = 1;
-    Wave.speed_max      = 4;
-    Wave.direction = MODE_DIRECTION_LEFT | MODE_DIRECTION_RIGHT;
+    Wave.name               = "Rainbow Wave";
+    Wave.flags              = MODE_FLAG_HAS_RANDOM_COLOR | MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_DIRECTION_LR;
+    Wave.color_mode         = MODE_COLORS_RANDOM;
+    Wave.brightness_min     = 1;
+    Wave.brightness_max     = 2;
+    Wave.speed_min          = 1;
+    Wave.speed_max          = 4;
+    Wave.direction          = MODE_DIRECTION_LEFT | MODE_DIRECTION_RIGHT;
     modes.push_back(Wave);
 
     mode Smooth;
-    Smooth.name       = "Spectrum Cycle";
-    Smooth.flags      = MODE_FLAG_HAS_RANDOM_COLOR | MODE_FLAG_HAS_BRIGHTNESS |
-            MODE_FLAG_HAS_SPEED;
-    Smooth.color_mode = MODE_COLORS_RANDOM;
-    Smooth.brightness_min = 1;
-    Smooth.brightness_max = 2;
-    Smooth.speed_min      = 1;
-    Smooth.speed_max      = 4;
+    Smooth.name             = "Spectrum Cycle";
+    Smooth.flags            = MODE_FLAG_HAS_RANDOM_COLOR | MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_HAS_SPEED;
+    Smooth.color_mode       = MODE_COLORS_RANDOM;
+    Smooth.brightness_min   = 1;
+    Smooth.brightness_max   = 2;
+    Smooth.speed_min        = 1;
+    Smooth.speed_max        = 4;
     modes.push_back(Smooth);
-
 
     SetupZones();
 }

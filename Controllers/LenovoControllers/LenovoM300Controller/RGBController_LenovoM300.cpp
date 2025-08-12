@@ -26,10 +26,10 @@ RGBController_LenovoM300::RGBController_LenovoM300(LenovoM300Controller* control
 {
     controller                  = controller_ptr;
 
-    name                        = "Lenovo Legion M300";
+    name                        = controller->GetDeviceName();
     vendor                      = "Lenovo";
     type                        = DEVICE_TYPE_MOUSE;
-    description                 = name;
+    description                 = "Lenovo M300 Device";
     location                    = controller->GetDeviceLocation();
 
     mode Static;

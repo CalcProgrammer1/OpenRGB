@@ -30,10 +30,11 @@ enum
 class LenovoM300Controller
 {
 public:
-    LenovoM300Controller(hid_device* dev_handle, const hid_device_info& info);
+    LenovoM300Controller(hid_device* dev_handle, const hid_device_info& info, std::string dev_name);
     ~LenovoM300Controller();
 
     std::string     GetDeviceLocation();
+    std::string     GetDeviceName();
 
     void SetMode(std::vector<RGBColor> colors, unsigned char mode_value, unsigned int brightness);
 
@@ -42,6 +43,7 @@ protected:
 
 private:
     std::string     location;
+    std::string     name;
 
     unsigned char CalculateFinalByte(unsigned char* ptr, int count);
 };

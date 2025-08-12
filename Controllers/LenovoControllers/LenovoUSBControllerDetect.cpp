@@ -35,9 +35,8 @@ void DetectLenovoLegionUSBControllers(hid_device_info* info, const std::string& 
 
     if(dev)
     {
-        LenovoUSBController*     controller      = new LenovoUSBController(dev, info->path, info->product_id);
+        LenovoUSBController*     controller      = new LenovoUSBController(dev, info->path, info->product_id, name);
         RGBController_LenovoUSB* rgb_controller  = new RGBController_LenovoUSB(controller);
-        rgb_controller->name                     = name;
 
         ResourceManager::get()->RegisterRGBController(rgb_controller);
     }
@@ -49,9 +48,8 @@ void DetectLenovoLegionUSBControllersGen7And8(hid_device_info* info, const std::
 
     if(dev)
     {
-        LenovoGen7And8USBController*    controller      = new LenovoGen7And8USBController(dev, info->path, info->product_id);
+        LenovoGen7And8USBController*    controller      = new LenovoGen7And8USBController(dev, info->path, info->product_id, name);
         LenovoRGBController_Gen7_8*     rgb_controller  = new LenovoRGBController_Gen7_8(controller);
-        rgb_controller->name                            = name;
 
         ResourceManager::get()->RegisterRGBController(rgb_controller);
     }

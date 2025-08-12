@@ -15,22 +15,12 @@
 
 using namespace std;
 
-LenovoUSBController::LenovoUSBController(hid_device* dev_handle, const char* path, uint16_t in_pid)
+LenovoUSBController::LenovoUSBController(hid_device* dev_handle, const char* path, uint16_t in_pid, std::string dev_name)
 {
     dev                     = dev_handle;
     location                = path;
     pid                     = in_pid;
-
-    /*---------------------------------------------------------*\
-    | Get device name from HID manufacturer and product strings |
-    \*---------------------------------------------------------*/
-    wchar_t name_string[HID_MAX_STR];
-
-    hid_get_manufacturer_string(dev, name_string, HID_MAX_STR);
-    name = StringUtils::wstring_to_string(name_string);
-
-    hid_get_product_string(dev, name_string, HID_MAX_STR);
-    name.append(" ").append(StringUtils::wstring_to_string(name_string));
+    name                    = dev_name;
 
     setDeviceSoftwareMode();
 }

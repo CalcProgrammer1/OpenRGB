@@ -33,9 +33,8 @@ void DetectLenovo4ZoneUSBControllers(hid_device_info* info, const std::string& n
 
     if(dev)
     {
-        Lenovo4ZoneUSBController* controller = new Lenovo4ZoneUSBController(dev, info->path, info->product_id);
+        Lenovo4ZoneUSBController*     controller      = new Lenovo4ZoneUSBController(dev, info->path, info->product_id, name);
         RGBController_Lenovo4ZoneUSB* rgb_controller  = new RGBController_Lenovo4ZoneUSB(controller);
-        rgb_controller->name                     = name;
 
         ResourceManager::get()->RegisterRGBController(rgb_controller);
     }

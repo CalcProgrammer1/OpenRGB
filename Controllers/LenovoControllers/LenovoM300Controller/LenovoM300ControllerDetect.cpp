@@ -27,12 +27,10 @@ void DetectLenovoLegionM300Controllers(hid_device_info* info, const std::string&
 
     if(dev)
     {
-        LenovoM300Controller* controller            = new LenovoM300Controller(dev, *info);
+        LenovoM300Controller* controller            = new LenovoM300Controller(dev, *info, name);
         RGBController_LenovoM300* rgb_controller    = new RGBController_LenovoM300(controller);
-        rgb_controller->name                        = name;
 
         ResourceManager::get()->RegisterRGBController(rgb_controller);
-
     }
 }
 
