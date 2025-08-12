@@ -16,8 +16,10 @@
 class LinuxLEDController
 {
 public:
-    LinuxLEDController();
+    LinuxLEDController(std::string dev_name);
     ~LinuxLEDController();
+
+    std::string GetName();
 
     std::string GetRedPath();
     std::string GetBluePath();
@@ -28,6 +30,7 @@ public:
     void OpenBluePath(std::string blue_path);
 
     void SetRGB(unsigned char red, unsigned char grn, unsigned char blu);
+
 private:
     std::string     led_r_path;
     std::string     led_g_path;
@@ -35,4 +38,5 @@ private:
     std::ofstream   led_r_brightness;
     std::ofstream   led_g_brightness;
     std::ofstream   led_b_brightness;
+    std::string     name;
 };

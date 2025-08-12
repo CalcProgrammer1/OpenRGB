@@ -24,21 +24,21 @@
 
 RGBController_LinuxLED::RGBController_LinuxLED(LinuxLEDController* controller_ptr)
 {
-    controller  = controller_ptr;
+    controller          = controller_ptr;
 
-    name        = "Linux LED";
-    type        = DEVICE_TYPE_LEDSTRIP;
-    description = "Linux Sysfs LED Device";
+    name                = controller->GetName();
+    type                = DEVICE_TYPE_LEDSTRIP;
+    description         = "Linux Sysfs LED Device";
 
-    location    = "R: " + controller->GetRedPath() + "\r\n" +
-                  "G: " + controller->GetGreenPath() + "\r\n" +
-                  "B: " + controller->GetBluePath();
+    location            = "R: " + controller->GetRedPath() + "\r\n" +
+                          "G: " + controller->GetGreenPath() + "\r\n" +
+                          "B: " + controller->GetBluePath();
 
     mode Direct;
-    Direct.name       = "Direct";
-    Direct.value      = 0;
-    Direct.flags      = MODE_FLAG_HAS_PER_LED_COLOR;
-    Direct.color_mode = MODE_COLORS_PER_LED;
+    Direct.name         = "Direct";
+    Direct.value        = 0;
+    Direct.flags        = MODE_FLAG_HAS_PER_LED_COLOR;
+    Direct.color_mode   = MODE_COLORS_PER_LED;
     modes.push_back(Direct);
 
     SetupZones();

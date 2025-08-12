@@ -11,14 +11,19 @@
 
 #include "LinuxLEDController_Linux.h"
 
-LinuxLEDController::LinuxLEDController()
+LinuxLEDController::LinuxLEDController(std::string dev_name)
 {
-
+    name = dev_name;
 }
 
 LinuxLEDController::~LinuxLEDController()
 {
 
+}
+
+std::string LinuxLEDController::GetName()
+{
+    return(name);
 }
 
 std::string LinuxLEDController::GetRedPath()

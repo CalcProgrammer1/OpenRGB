@@ -63,13 +63,12 @@ void DetectLinuxLEDControllers()
                 blue_path = linux_led_settings["devices"][device_idx]["blue_path"];
             }
 
-            LinuxLEDController*     controller     = new LinuxLEDController();
+            LinuxLEDController*     controller     = new LinuxLEDController(name);
             controller->OpenRedPath(red_path);
             controller->OpenGreenPath(green_path);
             controller->OpenBluePath(blue_path);
 
             RGBController_LinuxLED* rgb_controller = new RGBController_LinuxLED(controller);
-            rgb_controller->name                   = name;
 
             ResourceManager::get()->RegisterRGBController(rgb_controller);
         }
