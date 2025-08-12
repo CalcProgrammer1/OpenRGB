@@ -24,18 +24,18 @@
 
 RGBController_LEDStrip::RGBController_LEDStrip(LEDStripController* controller_ptr)
 {
-    controller  = controller_ptr;
+    controller          = controller_ptr;
 
-    name        = "LED Strip";
-    type        = DEVICE_TYPE_LEDSTRIP;
-    description = "Serial LED Strip Device";
-    location    = controller->GetLocation();
+    name                = controller->GetName();
+    type                = DEVICE_TYPE_LEDSTRIP;
+    description         = "Serial LED Strip Device";
+    location            = controller->GetLocation();
 
     mode Direct;
-    Direct.name       = "Direct";
-    Direct.value      = 0;
-    Direct.flags      = MODE_FLAG_HAS_PER_LED_COLOR;
-    Direct.color_mode = MODE_COLORS_PER_LED;
+    Direct.name         = "Direct";
+    Direct.value        = 0;
+    Direct.flags        = MODE_FLAG_HAS_PER_LED_COLOR;
+    Direct.color_mode   = MODE_COLORS_PER_LED;
     modes.push_back(Direct);
 
     SetupZones();

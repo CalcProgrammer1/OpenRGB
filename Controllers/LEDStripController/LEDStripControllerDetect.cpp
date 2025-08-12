@@ -121,11 +121,10 @@ void DetectLEDStripControllers()
 
             std::string value = dev.port + "," + std::to_string(dev.baud) + "," + std::to_string(dev.num_leds);
 
-            LEDStripController*     controller     = new LEDStripController();
+            LEDStripController*     controller     = new LEDStripController(dev.name);
             controller->Initialize((char *)value.c_str(), dev.protocol);
 
             RGBController_LEDStrip* rgb_controller = new RGBController_LEDStrip(controller);
-            rgb_controller->name                   = dev.name;
 
             ResourceManager::get()->RegisterRGBController(rgb_controller);
         }

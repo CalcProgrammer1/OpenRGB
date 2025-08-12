@@ -49,7 +49,7 @@ struct LEDStripDevice
 class LEDStripController
 {
 public:
-    LEDStripController();
+    LEDStripController(std::string dev_name);
     ~LEDStripController();
 
     void        Initialize(char* ledstring, led_protocol proto);
@@ -60,6 +60,7 @@ public:
 
     char*       GetLEDString();
     std::string GetLocation();
+    std::string GetName();
 
     void        SetLEDs(std::vector<RGBColor> colors);
 
@@ -76,6 +77,7 @@ private:
     char led_string[1024];
     std::string port_name;
     std::string client_name;
+    std::string name;
     serial_port *serialport;
     net_port *udpport;
     i2c_smbus_interface *i2cport;

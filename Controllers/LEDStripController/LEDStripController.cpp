@@ -15,9 +15,9 @@
 #include "LEDStripController.h"
 #include "ResourceManager.h"
 
-LEDStripController::LEDStripController()
+LEDStripController::LEDStripController(std::string dev_name)
 {
-
+    name = dev_name;
 }
 
 
@@ -138,6 +138,11 @@ void LEDStripController::InitializeUDP(char * clientname, char * port)
     i2cport = NULL;
 }
 
+char* LEDStripController::GetLEDString()
+{
+    return(led_string);
+}
+
 std::string LEDStripController::GetLocation()
 {
     if(serialport != NULL)
@@ -158,9 +163,9 @@ std::string LEDStripController::GetLocation()
     }
 }
 
-char* LEDStripController::GetLEDString()
+std::string LEDStripController::GetName()
 {
-    return(led_string);
+    return(name);
 }
 
 void LEDStripController::SetLEDs(std::vector<RGBColor> colors)
