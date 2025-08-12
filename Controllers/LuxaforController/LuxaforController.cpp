@@ -13,10 +13,11 @@
 #include "LuxaforController.h"
 #include "StringUtils.h"
 
-LuxaforController::LuxaforController(hid_device* dev_handle, const char* path)
+LuxaforController::LuxaforController(hid_device* dev_handle, const char* path, std::string dev_name)
 {
     dev         = dev_handle;
     location    = path;
+    name        = dev_name;
 }
 
 LuxaforController::~LuxaforController()
@@ -27,6 +28,11 @@ LuxaforController::~LuxaforController()
 std::string LuxaforController::GetDeviceLocation()
 {
     return("HID: " + location);
+}
+
+std::string LuxaforController::GetNameString()
+{
+    return(name);
 }
 
 std::string LuxaforController::GetSerialString()

@@ -13,20 +13,20 @@
 
 RGBController_Luxafor::RGBController_Luxafor(LuxaforController* controller_ptr)
 {
-    controller          = controller_ptr;
+    controller                  = controller_ptr;
 
-    name                = "Luxafor Device";
-    type                = DEVICE_TYPE_ACCESSORY;
-    vendor              = "Luxafor";
-    description         = "Luxafor Device";
-    location            = controller->GetDeviceLocation();
-    serial              = controller->GetSerialString();
+    name                        = controller->GetNameString();
+    type                        = DEVICE_TYPE_ACCESSORY;
+    vendor                      = "Luxafor";
+    description                 = "Luxafor Device";
+    location                    = controller->GetDeviceLocation();
+    serial                      = controller->GetSerialString();
 
     mode Direct;
-    Direct.name         = "Direct";
-    Direct.value        = LUXAFOR_MODE_DIRECT;
-    Direct.flags        = MODE_FLAG_HAS_PER_LED_COLOR;
-    Direct.color_mode   = MODE_COLORS_PER_LED;
+    Direct.name                 = "Direct";
+    Direct.value                = LUXAFOR_MODE_DIRECT;
+    Direct.flags                = MODE_FLAG_HAS_PER_LED_COLOR;
+    Direct.color_mode           = MODE_COLORS_PER_LED;
     modes.push_back(Direct);
 
     // mode Fade;

@@ -44,10 +44,11 @@ enum
 class LuxaforController
 {
 public:
-    LuxaforController(hid_device* dev_handle, const char* path);
+    LuxaforController(hid_device* dev_handle, const char* path, std::string dev_name);
     ~LuxaforController();
 
     std::string GetDeviceLocation();
+    std::string GetNameString();
     std::string GetSerialString();
 
     void SendPacket(unsigned char mode, unsigned char led, unsigned char red, unsigned char grn, unsigned char blu, unsigned char type);
@@ -55,4 +56,5 @@ public:
 private:
     hid_device* dev;
     std::string location;
+    std::string name;
 };

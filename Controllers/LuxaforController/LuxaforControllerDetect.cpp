@@ -29,9 +29,8 @@ void DetectLuxaforControllers(hid_device_info* info, const std::string& name)
 
     if(dev)
     {
-        LuxaforController*     controller     = new LuxaforController(dev, info->path);
+        LuxaforController*     controller     = new LuxaforController(dev, info->path, name);
         RGBController_Luxafor* rgb_controller = new RGBController_Luxafor(controller);
-        rgb_controller->name                  = name;
 
         ResourceManager::get()->RegisterRGBController(rgb_controller);
     }
