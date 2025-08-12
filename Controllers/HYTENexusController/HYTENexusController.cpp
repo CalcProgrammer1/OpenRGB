@@ -28,7 +28,7 @@ HYTENexusController::HYTENexusController(char* port, unsigned short pid, std::st
 {
     port_name   = port;
     device_pid  = pid;
-    name        = name;
+    name        = dev_name;
 
     /*-----------------------------------------------------*\
     | Initialize channels based on PID                      |
