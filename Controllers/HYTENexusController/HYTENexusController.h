@@ -13,6 +13,7 @@
 
 #include <atomic>
 #include <chrono>
+#include <mutex>
 #include <string>
 #include <thread>
 #include "RGBController.h"
@@ -70,6 +71,7 @@ private:
     std::string                                         firmware_version;
     std::string                                         name;
     std::string                                         port_name;
+    std::mutex                                          port_mutex;
     serial_port *                                       serialport = nullptr;
     std::chrono::time_point<std::chrono::steady_clock>  last_update_time;
     std::atomic<bool>                                   keepalive_thread_run;

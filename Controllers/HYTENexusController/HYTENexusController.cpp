@@ -228,14 +228,11 @@ void HYTENexusController::LEDStreaming(unsigned char channel, unsigned short led
         bytes_to_send = 750;
     }
 
+    port_mutex.lock();
     serialport->serial_write((char *)command_buf, bytes_to_send);
     serialport->serial_flush_tx();
     serialport->serial_flush_rx();
-
-    /*-----------------------------------------------------*\
-    | Wait 10ms for device process command                  |
-    \*-----------------------------------------------------*/
-    std::this_thread::sleep_for(5ms);
+    port_mutex.unlock();
 }
 
 void HYTENexusController::ReadChannelInfo(unsigned char channel)
@@ -254,6 +251,7 @@ void HYTENexusController::ReadChannelInfo(unsigned char channel)
     command_buf[2] = 0x01;
     command_buf[3] = (channel + 1);
 
+    port_mutex.lock();
     serialport->serial_write((char *)command_buf, sizeof(command_buf));
     serialport->serial_flush_tx();
 
@@ -286,6 +284,7 @@ void HYTENexusController::ReadChannelInfo(unsigned char channel)
 
     serialport->serial_read((char *)receive_buf, sizeof(receive_buf));
     serialport->serial_flush_rx();
+    port_mutex.unlock();
 
     channels[channel].num_devices = 0;
     memset(&channels[channel].devices, 0, sizeof(channels[channel].devices));
@@ -321,6 +320,7 @@ void HYTENexusController::ReadDeviceInfo()
     command_buf[2] = 0x01;
     command_buf[3] = 0x00;
 
+    port_mutex.lock();
     serialport->serial_write((char *)command_buf, sizeof(command_buf));
     serialport->serial_flush_tx();
 
@@ -351,6 +351,7 @@ void HYTENexusController::ReadDeviceInfo()
 
     serialport->serial_read((char *)receive_buf, sizeof(receive_buf));
     serialport->serial_flush_rx();
+    port_mutex.unlock();
 
     /*-----------------------------------------------------*\
     | Update last update time                               |
@@ -374,6 +375,7 @@ void HYTENexusController::ReadFirmwareVersion()
     command_buf[2] = 0x02;
     command_buf[3] = 0x00;
 
+    port_mutex.lock();
     serialport->serial_write((char *)command_buf, sizeof(command_buf));
     serialport->serial_flush_tx();
 
@@ -396,6 +398,7 @@ void HYTENexusController::ReadFirmwareVersion()
 
     serialport->serial_read((char *)receive_buf, sizeof(receive_buf));
     serialport->serial_flush_rx();
+    port_mutex.unlock();
 
     /*-----------------------------------------------------*\
     | Format Firmware Version string                        |
