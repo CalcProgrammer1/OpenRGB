@@ -215,7 +215,6 @@ void DetectLianLiStrimerControllers(hid_device_info* info, const std::string& na
     {
         LianLiStrimerLConnectController*     controller       = new LianLiStrimerLConnectController(dev, info->path);
         RGBController_LianLiStrimerLConnect* rgb_controller   = new RGBController_LianLiStrimerLConnect(controller);
-        rgb_controller->name                            = name;
 
         ResourceManager::get()->RegisterRGBController(rgb_controller);
     }
