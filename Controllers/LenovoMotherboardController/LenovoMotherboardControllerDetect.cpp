@@ -32,9 +32,8 @@ void DetectLenovoMotherboardControllers(hid_device_info* info, const std::string
     {
         DMIInfo dmi;
 
-        LenovoMotherboardController*     controller         = new LenovoMotherboardController(dev, *info);
+        LenovoMotherboardController*     controller         = new LenovoMotherboardController(dev, *info, name + " " + dmi.getMainboard());
         RGBController_LenovoMotherboard* rgb_controller     = new RGBController_LenovoMotherboard(controller);
-        rgb_controller->name                                = name + " " + dmi.getMainboard();
 
         ResourceManager::get()->RegisterRGBController(rgb_controller);
     }

@@ -43,17 +43,17 @@ enum
 class LenovoMotherboardController
 {
 public:
-    LenovoMotherboardController(hid_device* dev_handle, const hid_device_info& info);
+    LenovoMotherboardController(hid_device* dev_handle, const hid_device_info& info, std::string dev_name);
     ~LenovoMotherboardController();
 
-    std::string GetSerialString();
     std::string GetDeviceLocation();
-    std::string GetFirmwareVersion();
+    std::string GetNameString();
+    std::string GetSerialString();
 
     void SetMode(uint8_t zone, uint8_t mode, uint8_t brightness, uint8_t speed, RGBColor color);
 
 private:
     hid_device* dev;
     std::string location;
-    std::string version;
+    std::string name;
 };

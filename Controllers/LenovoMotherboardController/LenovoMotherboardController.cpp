@@ -13,11 +13,11 @@
 #include "LenovoMotherboardController.h"
 #include "StringUtils.h"
 
-LenovoMotherboardController::LenovoMotherboardController(hid_device* dev_handle, const hid_device_info& info)
+LenovoMotherboardController::LenovoMotherboardController(hid_device* dev_handle, const hid_device_info& info, std::string dev_name)
 {
     dev                 = dev_handle;
     location            = info.path;
-    version             = "";
+    name                = dev_name;
 }
 
 LenovoMotherboardController::~LenovoMotherboardController()
@@ -28,6 +28,11 @@ LenovoMotherboardController::~LenovoMotherboardController()
 std::string LenovoMotherboardController::GetDeviceLocation()
 {
     return("HID: " + location);
+}
+
+std::string LenovoMotherboardController::GetNameString()
+{
+    return(name);
 }
 
 std::string LenovoMotherboardController::GetSerialString()
@@ -41,11 +46,6 @@ std::string LenovoMotherboardController::GetSerialString()
     }
 
     return(StringUtils::wstring_to_string(serial_string));
-}
-
-std::string LenovoMotherboardController::GetFirmwareVersion()
-{
-    return(version);
 }
 
 void LenovoMotherboardController::SetMode(uint8_t zone, uint8_t mode, uint8_t brightness, uint8_t speed, RGBColor color)

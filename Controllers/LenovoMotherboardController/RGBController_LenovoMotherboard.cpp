@@ -27,13 +27,13 @@
 RGBController_LenovoMotherboard::RGBController_LenovoMotherboard(LenovoMotherboardController* controller_ptr)
 {
     controller                  = controller_ptr;
-    name                        = "Lenovo motherboard";
+
+    name                        = controller->GetNameString();
     vendor                      = "Lenovo";
     type                        = DEVICE_TYPE_MOTHERBOARD;
     description                 = name;
     location                    = controller->GetDeviceLocation();
     serial                      = controller->GetSerialString();
-    version                     = controller->GetFirmwareVersion();
 
     mode Static;
     Static.name                 = "Static";
