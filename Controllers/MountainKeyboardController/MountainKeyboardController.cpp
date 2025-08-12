@@ -17,10 +17,11 @@
 
 using namespace std::chrono_literals;
 
-MountainKeyboardController::MountainKeyboardController(hid_device* dev_handle, const char* path)
+MountainKeyboardController::MountainKeyboardController(hid_device* dev_handle, const char* path, std::string dev_name)
 {
     dev         = dev_handle;
     location    = path;
+    name        = dev_name;
 }
 
 MountainKeyboardController::~MountainKeyboardController()
@@ -31,6 +32,11 @@ MountainKeyboardController::~MountainKeyboardController()
 std::string MountainKeyboardController::GetDeviceLocation()
 {
     return("HID: " + location);
+}
+
+std::string MountainKeyboardController::GetNameString()
+{
+    return(name);
 }
 
 std::string MountainKeyboardController::GetSerialString()

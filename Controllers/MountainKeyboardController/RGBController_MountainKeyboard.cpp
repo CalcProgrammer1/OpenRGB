@@ -530,24 +530,25 @@ static const char *led_names[MOUNTAIN_KEYBOARD_MAX_TRANSFER_COLORS] =
 
 RGBController_MountainKeyboard::RGBController_MountainKeyboard(MountainKeyboardController* controller_ptr)
 {
-    controller  = controller_ptr;
+    controller                          = controller_ptr;
 
     memset(wheel_color, 0, 3);
 
-    wheel_config * wheel_conf = controller->GetWheelConfig();
+    wheel_config * wheel_conf           = controller->GetWheelConfig();
 
-    if (wheel_conf != nullptr) {
-        wheel_color[0] = wheel_conf->r;
-        wheel_color[1] = wheel_conf->g;
-        wheel_color[2] = wheel_conf->b;
+    if(wheel_conf != nullptr)
+    {
+        wheel_color[0]                  = wheel_conf->r;
+        wheel_color[1]                  = wheel_conf->g;
+        wheel_color[2]                  = wheel_conf->b;
     }
 
-    name        = "Mountain Everest Keyboard";
-    vendor      = "Mountain";
-    type        = DEVICE_TYPE_KEYBOARD;
-    description = "Mountain Everest Keyboard";
-    location    = controller->GetDeviceLocation();
-    serial      = controller->GetSerialString();
+    name                                = controller->GetNameString();
+    vendor                              = "Mountain";
+    type                                = DEVICE_TYPE_KEYBOARD;
+    description                         = "Mountain Everest Keyboard";
+    location                            = controller->GetDeviceLocation();
+    serial                              = controller->GetSerialString();
 
     mode Direct;
     Direct.name                         = "Direct";
@@ -680,7 +681,6 @@ RGBController_MountainKeyboard::RGBController_MountainKeyboard(MountainKeyboardC
     modes.push_back(Matrix);
 
     SetupZones();
-
 }
 
 RGBController_MountainKeyboard::~RGBController_MountainKeyboard()

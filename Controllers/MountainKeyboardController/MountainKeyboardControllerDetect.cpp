@@ -28,9 +28,9 @@ void DetectMountainKeyboardControllers(hid_device_info* info, const std::string&
 
     if(dev)
     {
-        MountainKeyboardController*     controller     = new MountainKeyboardController(dev, info->path);
+        MountainKeyboardController*     controller     = new MountainKeyboardController(dev, info->path, name);
         RGBController_MountainKeyboard* rgb_controller = new RGBController_MountainKeyboard(controller);
-        rgb_controller->name = name;
+
         ResourceManager::get()->RegisterRGBController(rgb_controller);
     }
 }   /* DetectMountainKeyboardControllers() */

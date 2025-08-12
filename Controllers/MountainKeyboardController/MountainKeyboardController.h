@@ -145,10 +145,11 @@ typedef struct
 class MountainKeyboardController
 {
 public:
-    MountainKeyboardController(hid_device* dev_handle, const char* path);
+    MountainKeyboardController(hid_device* dev_handle, const char* path, std::string dev_name);
     ~MountainKeyboardController();
 
     std::string     GetDeviceLocation();
+    std::string     GetNameString();
     std::string     GetSerialString();
 
     void SendOffCmd();
@@ -170,11 +171,12 @@ public:
     void SelectMode(unsigned char mode_idx);
 
 private:
+    hid_device*             dev;
+    std::string             location;
+    std::string             name;
+
     void SendColorStartPacketCmd(unsigned char brightness);
     void SendColorPacketCmd(unsigned char pkt_no,unsigned char brightness, unsigned char *data, unsigned int data_size);
     void SendColorEdgePacketCmd(unsigned char pkt_no, unsigned char *data, unsigned int data_size);
     void SendColorPacketFinishCmd();
-
-    hid_device*             dev;
-    std::string             location;
 };
