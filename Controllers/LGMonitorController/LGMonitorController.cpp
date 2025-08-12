@@ -13,11 +13,11 @@
 #include "LGMonitorController.h"
 #include "StringUtils.h"
 
-LGMonitorController::LGMonitorController(hid_device* dev_handle, const hid_device_info& info)
+LGMonitorController::LGMonitorController(hid_device* dev_handle, const hid_device_info& info, std::string dev_name)
 {
     dev                 = dev_handle;
     location            = info.path;
-    version             = "";
+    name                = dev_name;
 }
 
 LGMonitorController::~LGMonitorController()
@@ -28,6 +28,11 @@ LGMonitorController::~LGMonitorController()
 std::string LGMonitorController::GetDeviceLocation()
 {
     return("HID: " + location);
+}
+
+std::string LGMonitorController::GetNameString()
+{
+    return(name);
 }
 
 std::string LGMonitorController::GetSerialString()
@@ -41,11 +46,6 @@ std::string LGMonitorController::GetSerialString()
     }
 
     return(StringUtils::wstring_to_string(serial_string));
-}
-
-std::string LGMonitorController::GetFirmwareVersion()
-{
-    return(version);
 }
 
 void LGMonitorController::SetDirect(const std::vector<RGBColor> colors)

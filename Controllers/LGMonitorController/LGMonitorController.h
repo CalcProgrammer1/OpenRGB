@@ -44,12 +44,13 @@ enum
 class LGMonitorController
 {
 public:
-    LGMonitorController(hid_device* dev_handle, const hid_device_info& info);
+    LGMonitorController(hid_device* dev_handle, const hid_device_info& info, std::string dev_name);
     ~LGMonitorController();
 
-    std::string GetSerialString();
     std::string GetDeviceLocation();
     std::string GetFirmwareVersion();
+    std::string GetNameString();
+    std::string GetSerialString();
 
     void SetDirect(const std::vector<RGBColor> colors);
     void SetMode(uint8_t mode_value, uint8_t brightness, const std::vector<RGBColor> colors);
@@ -58,6 +59,7 @@ private:
     hid_device* dev;
     std::string description;
     std::string location;
+    std::string name;
     std::string version;
     bool        on = false;
     bool        direct_mode_enabled = false;

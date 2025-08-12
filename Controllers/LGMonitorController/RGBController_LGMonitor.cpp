@@ -28,12 +28,13 @@ using namespace std::chrono_literals;
 RGBController_LGMonitor::RGBController_LGMonitor(LGMonitorController* controller_ptr)
 {
     controller                          = controller_ptr;
+
+    name                                = controller->GetNameString();
     vendor                              = "LG";
     type                                = DEVICE_TYPE_MONITOR;
     description                         = "LG Monitor";
     location                            = controller->GetDeviceLocation();
     serial                              = controller->GetSerialString();
-    version                             = controller->GetFirmwareVersion();
 
     mode Direct;
     Direct.name                         = "Direct";

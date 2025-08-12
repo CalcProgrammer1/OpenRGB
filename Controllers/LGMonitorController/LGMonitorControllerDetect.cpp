@@ -12,7 +12,6 @@
 #include "Detector.h"
 #include "LGMonitorController.h"
 #include "RGBController_LGMonitor.h"
-#include "dmiinfo.h"
 
 /*---------------------------------------------------------*\
 | vendor ID                                                 |
@@ -31,11 +30,8 @@ static void DetectLGMonitorControllers(hid_device_info* info, const std::string&
 
     if(dev)
     {
-        DMIInfo dmi;
-
-        LGMonitorController*     controller         = new LGMonitorController(dev, *info);
+        LGMonitorController*     controller         = new LGMonitorController(dev, *info, name);
         RGBController_LGMonitor* rgb_controller     = new RGBController_LGMonitor(controller);
-        rgb_controller->name                        = name;
 
         ResourceManager::get()->RegisterRGBController(rgb_controller);
     }
