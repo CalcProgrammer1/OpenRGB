@@ -29,9 +29,9 @@ void DetectLexipMouseControllers(hid_device_info* info, const std::string& name)
 
     if(dev)
     {
-        LexipMouseController*     controller        = new LexipMouseController(dev, *info);
+        LexipMouseController*     controller        = new LexipMouseController(dev, *info, name);
         RGBController_LexipMouse* rgb_controller    = new RGBController_LexipMouse(controller);
-        rgb_controller->name                        = name;
+
         ResourceManager::get()->RegisterRGBController(rgb_controller);
     }
 }

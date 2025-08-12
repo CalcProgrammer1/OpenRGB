@@ -20,12 +20,12 @@
 class LexipMouseController
 {
 public:
-    LexipMouseController(hid_device* dev_handle, const hid_device_info& info);
+    LexipMouseController(hid_device* dev_handle, const hid_device_info& info, std::string dev_name);
     ~LexipMouseController();
 
-    std::string                 GetSerialString();
     std::string                 GetDeviceLocation();
-    std::string                 GetFirmwareVersion();
+    std::string                 GetNameString();
+    std::string                 GetSerialString();
 
     void                        SetDirect(RGBColor color);
 protected:
@@ -33,5 +33,6 @@ protected:
 
 private:
     std::string                 location;
+    std::string                 name;
     std::string                 version;
 };
