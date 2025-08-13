@@ -21,10 +21,12 @@ class MSIMysticLight112Controller
 {
 public:
     MSIMysticLight112Controller
-        (
-        hid_device*     handle,
-        const char      *path
-        );
+                        (
+                        hid_device*     handle,
+                        const char*     path,
+                        std::string     dev_name
+                        );
+
     ~MSIMysticLight112Controller();
 
     void            SetMode
@@ -77,26 +79,17 @@ public:
     std::string     GetFWVersion();
     std::string     GetSerial();
 
-
     void            SetDirectMode
                         (
                         bool mode
                         );
+
     bool            IsDirectModeActive() { return direct_mode; }
     size_t          GetMaxOnboardLeds();
     const std::vector<MSI_ZONE>*
                     GetSupportedZones() { return supported_zones; }
 
 private:
-    bool            ReadSettings();
-    bool            ReadFwVersion();
-    void            ReadName();
-    ZoneData*       GetZoneData
-                        (
-                        FeaturePacket_112&  dataPacket,
-                        MSI_ZONE            zone
-                        );
-
     hid_device*                     dev;
     std::string                     name;
     std::string                     location;
@@ -108,4 +101,12 @@ private:
     bool                            direct_mode;
     size_t                          numof_onboard_leds;
     const std::vector<MSI_ZONE>*    supported_zones;
+
+    bool            ReadSettings();
+    bool            ReadFwVersion();
+    ZoneData*       GetZoneData
+                        (
+                        FeaturePacket_112&  dataPacket,
+                        MSI_ZONE            zone
+                        );
 };

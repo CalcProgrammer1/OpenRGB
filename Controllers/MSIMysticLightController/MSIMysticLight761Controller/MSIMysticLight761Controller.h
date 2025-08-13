@@ -27,9 +27,11 @@ public:
     MSIMysticLight761Controller
         (
             hid_device*     handle,
-            const char      *path,
-            unsigned short  pid
+            const char*     path,
+            unsigned short  pid,
+            std::string     dev_name
             );
+
     ~MSIMysticLight761Controller();
 
     void            SetMode
@@ -117,11 +119,17 @@ public:
     };
 
 private:
+    std::string                                             name;
+    std::vector<MSIMysticLight761Controller::ZoneConfig>    zone_configs;
+    std::vector<MSI_ZONE>*                                  supported_zones;
+    hid_device*                                             dev;
+    std::string                                             location;
+    std::string                                             version_APROM;
+    std::string                                             version_LDROM;
+    FeaturePacket_761*                                      data;
+
     bool            ReadSettings();
     bool            ReadFwVersion();
-    void            ReadName();
-    std::string                     name;
-    std::vector<MSIMysticLight761Controller::ZoneConfig> zone_configs;
 
     ZoneData*       GetZoneData
         (
@@ -134,16 +142,4 @@ private:
             MSI_ZONE zone
             );
     void            SelectPerLedProtocol();
-
-    std::vector<MSI_ZONE>* supported_zones;
-    hid_device*                     dev;
-    std::string                     location;
-    std::string                     version_APROM;
-    std::string                     version_LDROM;
-    FeaturePacket_761*                       data;
-
-
-
-
-
 };

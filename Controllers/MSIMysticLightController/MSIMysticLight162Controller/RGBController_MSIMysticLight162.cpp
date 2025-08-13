@@ -48,7 +48,7 @@ RGBController_MSIMysticLight162::RGBController_MSIMysticLight162
     MSIMysticLight162Controller* controller_ptr
     )
 {
-    controller = controller_ptr;
+    controller  = controller_ptr;
 
     name        = controller->GetDeviceName();
     vendor      = "MSI";

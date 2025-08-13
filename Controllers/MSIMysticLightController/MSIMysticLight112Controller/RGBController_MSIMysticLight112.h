@@ -31,6 +31,8 @@ public:
     void        DeviceSaveMode();
 
 private:
+    MSIMysticLight112Controller*    controller;
+
     void        SetupModes();
     void        UpdateLed
                     (
@@ -45,6 +47,4 @@ private:
                     );
     int         GetDeviceMode();
     void        GetDeviceConfig();
-
-    MSIMysticLight112Controller*    controller;
 };

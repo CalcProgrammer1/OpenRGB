@@ -67,14 +67,18 @@ void init_packet(FeaturePacket_Zone_761 * packet)
 MSIMysticLight761Controller::MSIMysticLight761Controller
     (
     hid_device*     handle,
-    const char      *path,
-    unsigned short  pid
+    const char*     path,
+    unsigned short  pid,
+    std::string     dev_name
     )
 {
-    dev = handle;
+    dev                                             = handle;
+    location                                        = path;
+    name                                            = dev_name;
 
-    supported_zones = new std::vector<MSI_ZONE>;
-    const mystic_light_761_config * board_config = nullptr;
+    supported_zones                                 = new std::vector<MSI_ZONE>;
+
+    const mystic_light_761_config * board_config    = nullptr;
 
     for(std::size_t i = 0; i < NUM_CONFS; i++)
     {
@@ -87,50 +91,51 @@ MSIMysticLight761Controller::MSIMysticLight761Controller
 
     if(board_config != nullptr)
     {
-        supported_zones = (std::vector<MSI_ZONE>*) board_config->supported_zones;
-        unsigned int max = 0;
+        supported_zones     = (std::vector<MSI_ZONE>*) board_config->supported_zones;
+        unsigned int max    = 0;
+
         for(std::size_t i = 0; i < board_config->supported_zones[0].size(); i++)
         {
             unsigned int curr_val = (unsigned int) (board_config->supported_zones[0][i]);
-            if( (unsigned int) curr_val > max )
+
+            if((unsigned int) curr_val > max)
             {
                 max = curr_val;
             }
         }
     }
 
-    for(MSI_ZONE supp_zone : *supported_zones )
+    for(MSI_ZONE supp_zone : *supported_zones)
     {
         ZoneConfig conf;
-        conf.msi_zone = supp_zone;
-        ZoneData * dat = new ZoneData;
-        conf.zone_data = dat;
+
+        conf.msi_zone   = supp_zone;
+        ZoneData * dat  = new ZoneData;
+        conf.zone_data  = dat;
+
         zone_configs.push_back(conf);
     }
 
     if(dev)
     {
-        location = path;
-
-        ReadName();
         ReadFwVersion();
         ReadSettings();
-        data = new FeaturePacket_761;
+        data                        = new FeaturePacket_761;
 
-        data->jaf.zone = MSI_ZONE_JAF;
-        data->jargb1.zone = MSI_ZONE_JARGB_1;
-        data->jargb2.zone = MSI_ZONE_JARGB_2;
-        data->jargb3.zone = MSI_ZONE_JARGB_3;
+        data->jaf.zone              = MSI_ZONE_JAF;
+        data->jargb1.zone           = MSI_ZONE_JARGB_1;
+        data->jargb2.zone           = MSI_ZONE_JARGB_2;
+        data->jargb3.zone           = MSI_ZONE_JARGB_3;
 
-        data->jaf.packet.hdr0 = 0x08;
-        data->jargb1.packet.hdr0 = 0x04;
-        data->jargb2.packet.hdr0 = 0x04;
-        data->jargb3.packet.hdr0 = 0x04;
+        data->jaf.packet.hdr0       = 0x08;
+        data->jargb1.packet.hdr0    = 0x04;
+        data->jargb2.packet.hdr0    = 0x04;
+        data->jargb3.packet.hdr0    = 0x04;
 
-        data->jaf.packet.hdr1 = 0x00;
-        data->jargb1.packet.hdr1 = 0x00;
-        data->jargb2.packet.hdr1 = 0x01;
-        data->jargb3.packet.hdr1 = 0x02;
+        data->jaf.packet.hdr1       = 0x00;
+        data->jargb1.packet.hdr1    = 0x00;
+        data->jargb2.packet.hdr1    = 0x01;
+        data->jargb3.packet.hdr1    = 0x02;
 
         init_packet(&data->jaf);
         init_packet(&data->jargb1);
@@ -328,31 +333,6 @@ RainbowZoneData *MSIMysticLight761Controller::GetRainbowZoneData
 bool MSIMysticLight761Controller::ReadFwVersion()
 {
     return true;
-}
-
-void MSIMysticLight761Controller::ReadName()
-{
-    wchar_t tname[256];
-
-    /*-----------------------------------------------------*\
-    | Get the manufacturer string from HID                  |
-    \*-----------------------------------------------------*/
-    hid_get_manufacturer_string(dev, tname, 256);
-
-    /*-----------------------------------------------------*\
-    | Convert to std::string                                |
-    \*-----------------------------------------------------*/
-    name = StringUtils::wstring_to_string(tname);
-
-    /*-----------------------------------------------------*\
-    | Get the product string from HID                       |
-    \*-----------------------------------------------------*/
-    hid_get_product_string(dev, tname, 256);
-
-    /*-----------------------------------------------------*\
-    | Append the product string to the manufacturer string  |
-    \*-----------------------------------------------------*/
-    name.append(" ").append(StringUtils::wstring_to_string(tname));
 }
 
 MSI_MODE MSIMysticLight761Controller::GetMode()

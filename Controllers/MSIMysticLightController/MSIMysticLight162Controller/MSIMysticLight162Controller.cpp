@@ -57,7 +57,6 @@ const std::vector<MSI_ZONE> zones_set3 =
     MSI_ZONE_ON_BOARD_LED_0
 };
 
-
 /*-----------------------------------------------------------------------------------------------------------------------------*\
 | Definition of the board sepcific configurations (number of onboard LEDs and supported zones).                                 |
 |                                                                                                                               |
@@ -83,17 +82,17 @@ static const mystic_light_162_config board_configs[] =
 MSIMysticLight162Controller::MSIMysticLight162Controller
     (
     hid_device*     handle,
-    const char      *path,
-    unsigned short  pid
+    const char*     path,
+    unsigned short  pid,
+    std::string     dev_name
     )
 {
-    dev = handle;
+    dev         = handle;
+    location    = path;
+    name        = dev_name;
 
     if(dev)
     {
-        location = path;
-
-        ReadName();
         ReadFwVersion();
         ReadSettings();
     }
@@ -406,31 +405,6 @@ bool MSIMysticLight162Controller::ReadFwVersion()
     | failed                                                |
     \*-----------------------------------------------------*/
     return(ret_val > 0);
-}
-
-void MSIMysticLight162Controller::ReadName()
-{
-    wchar_t tname[256];
-
-    /*-----------------------------------------------------*\
-    | Get the manufacturer string from HID                  |
-    \*-----------------------------------------------------*/
-    hid_get_manufacturer_string(dev, tname, 256);
-
-    /*-----------------------------------------------------*\
-    | Convert to std::string                                |
-    \*-----------------------------------------------------*/
-    name = StringUtils::wstring_to_string(tname);
-
-    /*-----------------------------------------------------*\
-    | Get the product string from HID                       |
-    \*-----------------------------------------------------*/
-    hid_get_product_string(dev, tname, 256);
-
-    /*-----------------------------------------------------*\
-    | Append the product string to the manufacturer string  |
-    \*-----------------------------------------------------*/
-    name.append(" ").append(StringUtils::wstring_to_string(tname));
 }
 
 MSI_MODE MSIMysticLight162Controller::GetMode()

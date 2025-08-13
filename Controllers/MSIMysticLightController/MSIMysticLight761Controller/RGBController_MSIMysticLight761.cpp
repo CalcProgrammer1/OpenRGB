@@ -47,9 +47,9 @@ static int IndexOfZoneForType(MSI_ZONE zone_type)
 RGBController_MSIMysticLight761::RGBController_MSIMysticLight761
     (
         MSIMysticLight761Controller* controller_ptr
-        )
+    )
 {
-    controller = controller_ptr;
+    controller  = controller_ptr;
 
     name        = controller->GetDeviceName();
     vendor      = "MSI";

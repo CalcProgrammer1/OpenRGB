@@ -29,9 +29,11 @@ public:
     MSIMysticLight185Controller
         (
         hid_device*     handle,
-        const char      *path,
-        unsigned short  pid
+        const char*     path,
+        unsigned short  pid,
+        std::string     dev_name
         );
+
     ~MSIMysticLight185Controller();
 
     void            SetMode
@@ -113,21 +115,6 @@ public:
     DIRECT_MODE     GetSupportedDirectMode() { return per_led_mode; }
 
 private:
-    bool            ReadSettings();
-    bool            ReadFwVersion();
-    void            ReadName();
-    ZoneData*       GetZoneData
-                        (
-                        FeaturePacket_185&  data_packet,
-                        MSI_ZONE            zone
-                        );
-    RainbowZoneData* GetRainbowZoneData(MSI_ZONE zone);
-    Color*          GetPerLedZoneData
-                        (
-                        MSI_ZONE zone
-                        );
-    void            SelectPerLedProtocol();
-
     hid_device*                     dev;
     std::string                     name;
     std::string                     location;
@@ -153,4 +140,18 @@ private:
     int                             numof_JRGBs;
     const std::vector<MSI_ZONE>*    supported_zones;
     DIRECT_MODE                     per_led_mode;
+
+    bool            ReadSettings();
+    bool            ReadFwVersion();
+    ZoneData*       GetZoneData
+                        (
+                        FeaturePacket_185&  data_packet,
+                        MSI_ZONE            zone
+                        );
+    RainbowZoneData* GetRainbowZoneData(MSI_ZONE zone);
+    Color*          GetPerLedZoneData
+                        (
+                        MSI_ZONE zone
+                        );
+    void            SelectPerLedProtocol();
 };

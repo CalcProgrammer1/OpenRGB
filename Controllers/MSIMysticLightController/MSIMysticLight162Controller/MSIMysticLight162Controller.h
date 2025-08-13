@@ -22,11 +22,13 @@ class MSIMysticLight162Controller
 {
 public:
     MSIMysticLight162Controller
-        (
-        hid_device*     handle,
-        const char      *path,
-        unsigned short  pid
-        );
+                        (
+                        hid_device*     handle,
+                        const char*     path,
+                        unsigned short  pid,
+                        std::string     dev_name
+                        );
+
     ~MSIMysticLight162Controller();
 
     void            SetMode
@@ -76,15 +78,6 @@ public:
                     GetSupportedZones() { return supported_zones; }
 
 private:
-    bool            ReadSettings();
-    bool            ReadFwVersion();
-    void            ReadName();
-    ZoneData*       GetZoneData
-                        (
-                        FeaturePacket_162&  dataPacket,
-                        MSI_ZONE            zone
-                        );
-
     hid_device*                     dev;
     std::string                     name;
     std::string                     location;
@@ -94,4 +87,12 @@ private:
     FeaturePacket_162               data;
     size_t                          numof_onboard_leds;
     const std::vector<MSI_ZONE>*    supported_zones;
+
+    bool            ReadSettings();
+    bool            ReadFwVersion();
+    ZoneData*       GetZoneData
+                        (
+                        FeaturePacket_162&  dataPacket,
+                        MSI_ZONE            zone
+                        );
 };

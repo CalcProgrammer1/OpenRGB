@@ -32,20 +32,19 @@ const std::vector<MSI_ZONE> zones_set =
     MSI_ZONE_ON_BOARD_LED_0
 };
 
-
 MSIMysticLight112Controller::MSIMysticLight112Controller
     (
     hid_device*     handle,
-    const char      *path
+    const char*     path,
+    std::string     dev_name
     )
 {
-    dev = handle;
+    dev         = handle;
+    location    = path;
+    name        = dev_name;
 
     if(dev)
     {
-        location = path;
-
-        ReadName();
         ReadFwVersion();
         ReadSettings();
     }
@@ -383,31 +382,6 @@ bool MSIMysticLight112Controller::ReadFwVersion()
     | failed                                                |
     \*-----------------------------------------------------*/
     return(ret_val > 0);
-}
-
-void MSIMysticLight112Controller::ReadName()
-{
-    wchar_t tname[256];
-
-    /*-----------------------------------------------------*\
-    | Get the manufacturer string from HID                  |
-    \*-----------------------------------------------------*/
-    hid_get_manufacturer_string(dev, tname, 256);
-
-    /*-----------------------------------------------------*\
-    | Convert to std::string                                |
-    \*-----------------------------------------------------*/
-    name = StringUtils::wstring_to_string(tname);
-
-    /*-----------------------------------------------------*\
-    | Get the product string from HID                       |
-    \*-----------------------------------------------------*/
-    hid_get_product_string(dev, tname, 256);
-
-    /*-----------------------------------------------------*\
-    | Append the product string to the manufacturer string  |
-    \*-----------------------------------------------------*/
-    name.append(" ").append(StringUtils::wstring_to_string(tname));
 }
 
 MSI_MODE MSIMysticLight112Controller::GetMode()
