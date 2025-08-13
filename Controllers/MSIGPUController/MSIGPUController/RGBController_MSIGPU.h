@@ -15,7 +15,7 @@
 class RGBController_MSIGPU : public RGBController
 {
 public:
-    RGBController_MSIGPU(MSIGPUController* msi_gpu_ptr);
+    RGBController_MSIGPU(MSIGPUController* controller_ptr);
     ~RGBController_MSIGPU();
 
     void        SetupZones();
@@ -29,7 +29,7 @@ public:
     void        DeviceSaveMode();
 
 private:
-    MSIGPUController* msi_gpu;
+    MSIGPUController* controller;
     std::chrono::time_point<std::chrono::steady_clock> last_commit_time;
 
     bool       TimeToSend();

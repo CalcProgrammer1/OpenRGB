@@ -28,9 +28,8 @@ void DetectMSIGPUControllers(i2c_smbus_interface* bus, uint8_t i2c_addr, const s
         return;
     }
 
-    MSIGPUController*     controller     = new MSIGPUController(bus, i2c_addr);
+    MSIGPUController*     controller     = new MSIGPUController(bus, i2c_addr, name);
     RGBController_MSIGPU* rgb_controller = new RGBController_MSIGPU(controller);
-    rgb_controller->name                 = name;
 
     ResourceManager::get()->RegisterRGBController(rgb_controller);
 

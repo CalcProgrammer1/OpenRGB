@@ -66,10 +66,11 @@ enum
 class MSIGPUController
 {
 public:
-    MSIGPUController(i2c_smbus_interface* bus, msi_gpu_dev_id dev);
+    MSIGPUController(i2c_smbus_interface* bus, msi_gpu_dev_id dev, std::string dev_name);
     ~MSIGPUController();
 
     std::string   GetDeviceLocation();
+    std::string   GetDeviceName();
 
     void          SetRGB1(unsigned char red, unsigned char green, unsigned char blue);
     void          SetRGB2(unsigned char red, unsigned char green, unsigned char blue);
@@ -84,4 +85,5 @@ public:
 private:
     i2c_smbus_interface *   bus;
     msi_gpu_dev_id          dev;
+    std::string             name;
 };

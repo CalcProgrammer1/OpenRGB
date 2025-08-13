@@ -14,7 +14,7 @@ static const std::array<unsigned char, 3> speed_values      = { 0x04, 0x02, 0x01
 
 int RGBController_MSIGPU::GetDeviceMode()
 {
-    unsigned char dev_mode = msi_gpu->MSIGPURegisterRead(MSI_GPU_REG_MODE);
+    unsigned char dev_mode = controller->MSIGPURegisterRead(MSI_GPU_REG_MODE);
 
     for(std::size_t mode = 0; mode < modes.size(); mode++)
     {
@@ -30,7 +30,7 @@ int RGBController_MSIGPU::GetDeviceMode()
 
 int RGBController_MSIGPU::GetModeSpeed()
 {
-    unsigned char mode_speed = msi_gpu->MSIGPURegisterRead(MSI_GPU_REG_SPEED);
+    unsigned char mode_speed = controller->MSIGPURegisterRead(MSI_GPU_REG_SPEED);
 
     for(std::size_t speed = 0; speed < speed_values.size(); speed++)
     {
@@ -54,15 +54,15 @@ int RGBController_MSIGPU::GetModeSpeed()
     @comment
 \*-------------------------------------------------------------------*/
 
-RGBController_MSIGPU::RGBController_MSIGPU(MSIGPUController * msi_gpu_ptr)
+RGBController_MSIGPU::RGBController_MSIGPU(MSIGPUController * controller_ptr)
 {
-    msi_gpu = msi_gpu_ptr;
+    controller                      = controller_ptr;
 
-    name        = "MSI GPU Device";
-    vendor      = "MSI";
-    type        = DEVICE_TYPE_GPU;
-    description = name;
-    location    = msi_gpu->GetDeviceLocation();
+    name                            = controller->GetDeviceName();
+    vendor                          = "MSI";
+    type                            = DEVICE_TYPE_GPU;
+    description                     = name;
+    location                        = controller->GetDeviceLocation();
 
     mode Direct;
     Direct.name                     = "Direct";
@@ -319,12 +319,12 @@ RGBController_MSIGPU::RGBController_MSIGPU(MSIGPUController * msi_gpu_ptr)
 
     active_mode                     = GetDeviceMode();
     modes[active_mode].speed        = GetModeSpeed();
-    modes[active_mode].brightness   = msi_gpu->MSIGPURegisterRead(MSI_GPU_REG_BRIGHTNESS) / MSI_GPU_BRIGHTNESS_MULTI;
+    modes[active_mode].brightness   = controller->MSIGPURegisterRead(MSI_GPU_REG_BRIGHTNESS) / MSI_GPU_BRIGHTNESS_MULTI;
 }
 
 RGBController_MSIGPU::~RGBController_MSIGPU()
 {
-    delete msi_gpu;
+    delete controller;
 }
 
 void RGBController_MSIGPU::SetupZones()
@@ -359,15 +359,15 @@ void RGBController_MSIGPU::SetupZones()
     /*---------------------------------------------------------*\
     | Initialize color                                          |
     \*---------------------------------------------------------*/
-    unsigned char r1 = msi_gpu->MSIGPURegisterRead(MSI_GPU_REG_R1);
-    unsigned char g1 = msi_gpu->MSIGPURegisterRead(MSI_GPU_REG_G1);
-    unsigned char b1 = msi_gpu->MSIGPURegisterRead(MSI_GPU_REG_B1);
-    unsigned char r2 = msi_gpu->MSIGPURegisterRead(MSI_GPU_REG_R2);
-    unsigned char g2 = msi_gpu->MSIGPURegisterRead(MSI_GPU_REG_G2);
-    unsigned char b2 = msi_gpu->MSIGPURegisterRead(MSI_GPU_REG_B2);
-    unsigned char r3 = msi_gpu->MSIGPURegisterRead(MSI_GPU_REG_R3);
-    unsigned char g3 = msi_gpu->MSIGPURegisterRead(MSI_GPU_REG_G3);
-    unsigned char b3 = msi_gpu->MSIGPURegisterRead(MSI_GPU_REG_B3);
+    unsigned char r1 = controller->MSIGPURegisterRead(MSI_GPU_REG_R1);
+    unsigned char g1 = controller->MSIGPURegisterRead(MSI_GPU_REG_G1);
+    unsigned char b1 = controller->MSIGPURegisterRead(MSI_GPU_REG_B1);
+    unsigned char r2 = controller->MSIGPURegisterRead(MSI_GPU_REG_R2);
+    unsigned char g2 = controller->MSIGPURegisterRead(MSI_GPU_REG_G2);
+    unsigned char b2 = controller->MSIGPURegisterRead(MSI_GPU_REG_B2);
+    unsigned char r3 = controller->MSIGPURegisterRead(MSI_GPU_REG_R3);
+    unsigned char g3 = controller->MSIGPURegisterRead(MSI_GPU_REG_G3);
+    unsigned char b3 = controller->MSIGPURegisterRead(MSI_GPU_REG_B3);
 
     colors[0] =  ToRGBColor(r1, g1, b1);
     colors[1] =  ToRGBColor(r2, g2, b2);
@@ -394,16 +394,16 @@ void RGBController_MSIGPU::DeviceUpdateLEDs()
 {
     if(TimeToSend())
     {
-        msi_gpu->MSIGPURegisterWrite(MSI_GPU_REG_UNKNOWN, 0x00);
+        controller->MSIGPURegisterWrite(MSI_GPU_REG_UNKNOWN, 0x00);
 
         if(modes[active_mode].value == MSI_GPU_MODE_FADEIN)
         {
-            msi_gpu->SetRGB2(RGBGetRValue(colors[1]), RGBGetGValue(colors[1]), RGBGetBValue(colors[1]));
-            msi_gpu->SetRGB3(RGBGetRValue(colors[2]), RGBGetGValue(colors[2]), RGBGetBValue(colors[2]));
+            controller->SetRGB2(RGBGetRValue(colors[1]), RGBGetGValue(colors[1]), RGBGetBValue(colors[1]));
+            controller->SetRGB3(RGBGetRValue(colors[2]), RGBGetGValue(colors[2]), RGBGetBValue(colors[2]));
         }
         else
         {
-            msi_gpu->SetRGB1(RGBGetRValue(colors[0]), RGBGetGValue(colors[0]), RGBGetBValue(colors[0]));
+            controller->SetRGB1(RGBGetRValue(colors[0]), RGBGetGValue(colors[0]), RGBGetBValue(colors[0]));
         }
 
         /*-----------------------------------------------------*\
@@ -429,14 +429,14 @@ void RGBController_MSIGPU::DeviceUpdateMode()
     {
         if(modes[active_mode].flags & MODE_FLAG_HAS_BRIGHTNESS)
         {
-            msi_gpu->MSIGPURegisterWrite(MSI_GPU_REG_BRIGHTNESS, modes[active_mode].brightness * MSI_GPU_BRIGHTNESS_MULTI);
+            controller->MSIGPURegisterWrite(MSI_GPU_REG_BRIGHTNESS, modes[active_mode].brightness * MSI_GPU_BRIGHTNESS_MULTI);
 
             if(modes[active_mode].flags & MODE_FLAG_HAS_SPEED)
             {
-                msi_gpu->MSIGPURegisterWrite(MSI_GPU_REG_SPEED, speed_values[modes[active_mode].speed]);
+                controller->MSIGPURegisterWrite(MSI_GPU_REG_SPEED, speed_values[modes[active_mode].speed]);
             }
 
-            msi_gpu->SetMode(modes[active_mode].value);
+            controller->SetMode(modes[active_mode].value);
 
             /*-----------------------------------------------------*\
             | Update last commit time                               |
@@ -448,5 +448,5 @@ void RGBController_MSIGPU::DeviceUpdateMode()
 
 void RGBController_MSIGPU::DeviceSaveMode()
 {
-    msi_gpu->Save();
+    controller->Save();
 }
