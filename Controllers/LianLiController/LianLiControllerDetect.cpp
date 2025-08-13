@@ -207,7 +207,7 @@ void DetectLianLiUniHubSLInfinity(hid_device_info* info, const std::string& name
     }
 }   /* DetectLianLiUniHubSLInfinity() */
 
-void DetectLianLiStrimerControllers(hid_device_info* info, const std::string& name)
+void DetectLianLiStrimerControllers(hid_device_info* info, const std::string& /*name*/)
 {
     hid_device* dev = hid_open_path(info->path);
 
