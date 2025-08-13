@@ -4,6 +4,7 @@
 |   RGBController for Corsair Hydro Platinum coolers        |
 |                                                           |
 |   Kasper                                      28 Mar 2021 |
+|   Nikola Jurkovic (jurkovic.nikola)           13 Aug 2025 |
 |                                                           |
 |   This file is part of the OpenRGB project                |
 |   SPDX-License-Identifier: GPL-2.0-only                   |
@@ -54,6 +55,11 @@ RGBController_CorsairHydroPlatinum::RGBController_CorsairHydroPlatinum(CorsairHy
     SetupZones();
 }
 
+RGBController_CorsairHydroPlatinum::~RGBController_CorsairHydroPlatinum()
+{
+    delete controller;
+}
+
 void RGBController_CorsairHydroPlatinum::Init_Controller()
 {
     zone cpu_block_zone;
@@ -68,14 +74,20 @@ void RGBController_CorsairHydroPlatinum::Init_Controller()
     cpu_block_zone.matrix_map->map    = (unsigned int *)&matrix_map;
     zones.push_back(cpu_block_zone);
 
-    zone fans_zone;
-    fans_zone.name       = "Fans";
-    fans_zone.type       = ZONE_TYPE_LINEAR;
-    fans_zone.leds_min   = 0;
-    fans_zone.leds_max   = 32;
-    fans_zone.leds_count = 0;
-    fans_zone.matrix_map = NULL;
-    zones.push_back(fans_zone);
+    /*-----------------------------------------------------*\
+    | If the device is RGB fan-capable, set up fan zones.   |
+    \*-----------------------------------------------------*/
+    if(controller->HaveRgbFan())
+    {
+        zone fans_zone;
+        fans_zone.name       = "Fans";
+        fans_zone.type       = ZONE_TYPE_LINEAR;
+        fans_zone.leds_min   = 0;
+        fans_zone.leds_max   = 32;
+        fans_zone.leds_count = 0;
+        fans_zone.matrix_map = NULL;
+        zones.push_back(fans_zone);
+    }
 }
 
 void RGBController_CorsairHydroPlatinum::SetupZones()
@@ -86,9 +98,9 @@ void RGBController_CorsairHydroPlatinum::SetupZones()
     leds.clear();
     colors.clear();
 
-    for (unsigned int zone_idx = 0; zone_idx < zones.size(); zone_idx++)
+    for(unsigned int zone_idx = 0; zone_idx < zones.size(); zone_idx++)
     {
-        for (unsigned int led_idx = 0; led_idx < zones[zone_idx].leds_count; led_idx++)
+        for(unsigned int led_idx = 0; led_idx < zones[zone_idx].leds_count; led_idx++)
         {
             led new_led;
             new_led.name = zones[zone_idx].name + " " + std::to_string(led_idx);;
