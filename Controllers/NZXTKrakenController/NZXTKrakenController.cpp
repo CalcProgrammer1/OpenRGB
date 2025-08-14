@@ -32,10 +32,11 @@ static RGBColor ToLogoColor(RGBColor rgb)
     return ToRGBColor(RGBGetGValue(rgb), RGBGetRValue(rgb), RGBGetBValue(rgb));
 }
 
-NZXTKrakenController::NZXTKrakenController(hid_device* dev_handle, const char* path)
+NZXTKrakenController::NZXTKrakenController(hid_device* dev_handle, const char* path, std::string dev_name)
 {
     dev         = dev_handle;
     location    = path;
+    name        = dev_name;
 
     /*-----------------------------------------------------*\
     | Get the firmware version                              |
@@ -56,6 +57,11 @@ std::string NZXTKrakenController::GetFirmwareVersion()
 std::string NZXTKrakenController::GetLocation()
 {
     return("HID: " + location);
+}
+
+std::string NZXTKrakenController::GetName()
+{
+    return(name);
 }
 
 std::string NZXTKrakenController::GetSerialString()

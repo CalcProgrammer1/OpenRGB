@@ -51,11 +51,12 @@ enum
 class NZXTKrakenController
 {
 public:
-    NZXTKrakenController(hid_device* dev_handle, const char* path);
+    NZXTKrakenController(hid_device* dev_handle, const char* path, std::string dev_name);
     ~NZXTKrakenController();
 
     std::string GetFirmwareVersion();
     std::string GetLocation();
+    std::string GetName();
     std::string GetSerialString();
 
     void UpdateEffect
@@ -89,6 +90,7 @@ private:
     std::string             firmware_version;
     double                  liquid_temperature;
     std::string             location;
+    std::string             name;
     unsigned int            fan_speed;
     unsigned int            pump_speed;
 };
