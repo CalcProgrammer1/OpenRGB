@@ -13,11 +13,11 @@
 #include "MSIOptixController.h"
 #include "StringUtils.h"
 
-MSIOptixController::MSIOptixController(hid_device* dev_handle, const hid_device_info& info)
+MSIOptixController::MSIOptixController(hid_device* dev_handle, const hid_device_info& info, std::string dev_name)
 {
-    dev                 = dev_handle;
-    location            = info.path;
-    version             = "";
+    dev         = dev_handle;
+    location    = info.path;
+    name        = dev_name;
 }
 
 MSIOptixController::~MSIOptixController()
@@ -28,6 +28,11 @@ MSIOptixController::~MSIOptixController()
 std::string MSIOptixController::GetDeviceLocation()
 {
     return("HID: " + location);
+}
+
+std::string MSIOptixController::GetNameString()
+{
+    return(name);
 }
 
 std::string MSIOptixController::GetSerialString()
@@ -41,11 +46,6 @@ std::string MSIOptixController::GetSerialString()
     }
 
     return(StringUtils::wstring_to_string(serial_string));
-}
-
-std::string MSIOptixController::GetFirmwareVersion()
-{
-    return(version);
 }
 
 unsigned char MSIOptixController::GetMysteriousFlag(unsigned char mode_value)
