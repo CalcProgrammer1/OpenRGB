@@ -41,12 +41,12 @@ enum
 class N5312AController
 {
 public:
-    N5312AController(hid_device* dev_handle, const hid_device_info& info);
+    N5312AController(hid_device* dev_handle, const hid_device_info& info, std::string dev_name);
     ~N5312AController();
 
-    std::string GetSerialString();
     std::string GetDeviceLocation();
-    std::string GetFirmwareVersion();
+    std::string GetNameString();
+    std::string GetSerialString();
 
     void        SetColor(RGBColor color);
     void        SetMode(RGBColor color, unsigned char mode_value, unsigned char brightness, unsigned char speed);
@@ -55,6 +55,7 @@ private:
     hid_device* dev;
 
     std::string location;
+    std::string name;
     std::string version;
 
     void        SendInit();

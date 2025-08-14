@@ -29,9 +29,8 @@ void DetectN5312AControllers(hid_device_info* info, const std::string& name)
 
     if(dev)
     {
-        N5312AController*     controller         = new N5312AController(dev, *info);
+        N5312AController*     controller         = new N5312AController(dev, *info, name);
         RGBController_N5312A* rgb_controller     = new RGBController_N5312A(controller);
-        rgb_controller->name                     = name;
 
         ResourceManager::get()->RegisterRGBController(rgb_controller);
     }

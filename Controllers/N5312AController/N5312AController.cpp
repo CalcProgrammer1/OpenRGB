@@ -14,11 +14,11 @@
 #include "N5312AController.h"
 #include "StringUtils.h"
 
-N5312AController::N5312AController(hid_device* dev_handle, const hid_device_info& info)
+N5312AController::N5312AController(hid_device* dev_handle, const hid_device_info& info, std::string dev_name)
 {
-    dev                 = dev_handle;
-    location            = info.path;
-    version             = "";
+    dev         = dev_handle;
+    location    = info.path;
+    name        = dev_name;
 
     SendInit();
 }
@@ -33,6 +33,11 @@ std::string N5312AController::GetDeviceLocation()
     return("HID: " + location);
 }
 
+std::string N5312AController::GetNameString()
+{
+    return(name);
+}
+
 std::string N5312AController::GetSerialString()
 {
     wchar_t serial_string[128];
@@ -44,11 +49,6 @@ std::string N5312AController::GetSerialString()
     }
 
     return(StringUtils::wstring_to_string(serial_string));
-}
-
-std::string N5312AController::GetFirmwareVersion()
-{
-    return(version);
 }
 
 void N5312AController::SendInit()
