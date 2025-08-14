@@ -27,13 +27,13 @@
 RGBController_MSIVigorGK30::RGBController_MSIVigorGK30(MSIVigorGK30Controller* controller_ptr)
 {
     controller                          = controller_ptr;
-    name                                = "MSI VigorGK30 USB Device";
+
+    name                                = controller->GetNameString();
     vendor                              = "MSI";
     type                                = DEVICE_TYPE_KEYBOARD;
-    description                         = name;
+    description                         = "MSI VigorGK30 USB Device";
     location                            = controller->GetDeviceLocation();
     serial                              = controller->GetSerialString();
-    version                             = controller->GetFirmwareVersion();
 
     mode Custom;
     Custom.name                         = "Custom";

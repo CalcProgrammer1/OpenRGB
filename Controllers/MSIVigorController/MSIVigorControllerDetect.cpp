@@ -29,9 +29,8 @@ void DetectMSIVigorGK30Controllers(hid_device_info* info, const std::string& nam
 
     if(dev)
     {
-        MSIVigorGK30Controller*     controller      = new MSIVigorGK30Controller(dev, *info);
+        MSIVigorGK30Controller*     controller      = new MSIVigorGK30Controller(dev, *info, name);
         RGBController_MSIVigorGK30* rgb_controller  = new RGBController_MSIVigorGK30(controller);
-        rgb_controller->name                        = name;
 
         ResourceManager::get()->RegisterRGBController(rgb_controller);
     }

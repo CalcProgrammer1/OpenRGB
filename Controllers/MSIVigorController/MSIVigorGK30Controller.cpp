@@ -22,11 +22,11 @@ static unsigned char argb_colour_index_data[2][2][2] =
         { 0x01, 0x06 }, }       //G1 R1
 };
 
-MSIVigorGK30Controller::MSIVigorGK30Controller(hid_device* dev_handle, const hid_device_info& info)
+MSIVigorGK30Controller::MSIVigorGK30Controller(hid_device* dev_handle, const hid_device_info& info, std::string dev_name)
 {
-    dev                 = dev_handle;
-    location            = info.path;
-    version             = "";
+    dev         = dev_handle;
+    location    = info.path;
+    name        = dev_name;
 }
 
 MSIVigorGK30Controller::~MSIVigorGK30Controller()
@@ -37,6 +37,11 @@ MSIVigorGK30Controller::~MSIVigorGK30Controller()
 std::string MSIVigorGK30Controller::GetDeviceLocation()
 {
     return("HID: " + location);
+}
+
+std::string MSIVigorGK30Controller::GetNameString()
+{
+    return(name);
 }
 
 std::string MSIVigorGK30Controller::GetSerialString()
@@ -50,11 +55,6 @@ std::string MSIVigorGK30Controller::GetSerialString()
     }
 
     return(StringUtils::wstring_to_string(serial_string));
-}
-
-std::string MSIVigorGK30Controller::GetFirmwareVersion()
-{
-    return(version);
 }
 
 unsigned int MSIVigorGK30Controller::GetLargestColour(unsigned int red, unsigned int green, unsigned int blue)

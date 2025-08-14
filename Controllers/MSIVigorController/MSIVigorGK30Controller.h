@@ -46,12 +46,12 @@ enum
 class MSIVigorGK30Controller
 {
 public:
-    MSIVigorGK30Controller(hid_device* dev_handle, const hid_device_info& info);
+    MSIVigorGK30Controller(hid_device* dev_handle, const hid_device_info& info, std::string dev_name);
     ~MSIVigorGK30Controller();
 
-    std::string     GetSerialString();
     std::string     GetDeviceLocation();
-    std::string     GetFirmwareVersion();
+    std::string     GetNameString();
+    std::string     GetSerialString();
 
     void            SetMode(std::vector<RGBColor> colors,
                             unsigned char brightness,
@@ -71,6 +71,6 @@ private:
     unsigned char   GetColourIndex(unsigned char red, unsigned char green, unsigned char blue);
 
     std::string     location;
+    std::string     name;
     std::string     serial_number;
-    std::string     version;
 };
