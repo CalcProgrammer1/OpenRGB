@@ -15,16 +15,22 @@
 
 using namespace std::chrono_literals;
 
-NollieController::NollieController(hid_device* dev_handle, const char* path, unsigned short pid)
+NollieController::NollieController(hid_device* dev_handle, const char* path, unsigned short pid, std::string dev_name)
 {
-    dev            = dev_handle;
-    location       = path;
-    usb_pid        = pid;
+    dev         = dev_handle;
+    location    = path;
+    name        = dev_name;
+    usb_pid     = pid;
 }
 
 std::string NollieController::GetLocationString()
 {
     return("HID: " + location);
+}
+
+std::string NollieController::GetNameString()
+{
+    return(name);
 }
 
 std::string NollieController::GetSerialString()

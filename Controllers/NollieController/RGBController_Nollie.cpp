@@ -26,20 +26,20 @@
 
 RGBController_Nollie::RGBController_Nollie(NollieController* controller_ptr)
 {
-    controller  = controller_ptr;
+    controller          = controller_ptr;
 
-    name        = "Nollie Device";
-    vendor      = "Nollie";
-    description = "Nollie Controller Device";
-    type        = DEVICE_TYPE_LEDSTRIP;
-    location    = controller->GetLocationString();
-    serial      = controller->GetSerialString();
+    name                = controller->GetNameString();
+    vendor              = "Nollie";
+    description         = "Nollie Controller Device";
+    type                = DEVICE_TYPE_LEDSTRIP;
+    location            = controller->GetLocationString();
+    serial              = controller->GetSerialString();
 
     mode Direct;
-    Direct.name       = "Direct";
-    Direct.value      = 0xFFFF;
-    Direct.flags      = MODE_FLAG_HAS_PER_LED_COLOR;
-    Direct.color_mode = MODE_COLORS_PER_LED;
+    Direct.name         = "Direct";
+    Direct.value        = 0xFFFF;
+    Direct.flags        = MODE_FLAG_HAS_PER_LED_COLOR;
+    Direct.color_mode   = MODE_COLORS_PER_LED;
     modes.push_back(Direct);
 
     SetupZones();
@@ -170,7 +170,7 @@ void RGBController_Nollie::ResizeZone(int zone, int new_size)
     {
         controller->InitChLEDs(&new_size,NOLLIE1_CHANNELS_NUM);
     }
-    
+
     if((size_t) zone >= zones.size())
     {
         return;

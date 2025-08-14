@@ -25,9 +25,8 @@ void DetectNollieControllers(hid_device_info* info, const std::string& name)
 
         std::wstring product_str(product);
 
-        NollieController*     controller     = new NollieController(dev, info->path,info->product_id);
+        NollieController*     controller     = new NollieController(dev, info->path,info->product_id, name);
         RGBController_Nollie* rgb_controller = new RGBController_Nollie(controller);
-        rgb_controller->name                       = name;
 
         ResourceManager::get()->RegisterRGBController(rgb_controller);
 
