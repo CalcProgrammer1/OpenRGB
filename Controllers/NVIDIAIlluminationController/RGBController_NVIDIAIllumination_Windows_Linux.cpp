@@ -50,37 +50,36 @@
 
 RGBController_NVIDIAIlluminationV1::RGBController_NVIDIAIlluminationV1(NVIDIAIlluminationV1Controller* controller_ptr)
 {
-    controller = controller_ptr;
+    controller              = controller_ptr;
 
-    name        = "NVIDIA Illumination GPU";
-    vendor      = "NVIDIA";
-    description = "NVIDIA Illumination RGB GPU Device";
-
-    type = DEVICE_TYPE_GPU;
+    name                    = controller->GetName();
+    vendor                  = "NVIDIA";
+    description             = "NVIDIA Illumination RGB GPU Device";
+    type                    = DEVICE_TYPE_GPU;
 
     mode Off;
-    Off.name              = "Off";
-    Off.value             = NVIDIA_ILLUMINATION_OFF;
-    Off.color_mode        = MODE_COLORS_NONE;
+    Off.name                = "Off";
+    Off.value               = NVIDIA_ILLUMINATION_OFF;
+    Off.color_mode          = MODE_COLORS_NONE;
     modes.push_back(Off);
 
     mode Static;
-    Static.name           = "Direct";
-    Static.value          = NVIDIA_ILLUMINATION_DIRECT;
-    Static.flags          = MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_HAS_PER_LED_COLOR;
-    Static.color_mode     = MODE_COLORS_PER_LED;
-    Static.colors_min     = 1;
-    Static.colors_max     = 1;
-    Static.brightness_min = 0;
-    Static.brightness     = 100;
-    Static.brightness_max = 100;
+    Static.name             = "Direct";
+    Static.value            = NVIDIA_ILLUMINATION_DIRECT;
+    Static.flags            = MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_HAS_PER_LED_COLOR;
+    Static.color_mode       = MODE_COLORS_PER_LED;
+    Static.colors_min       = 1;
+    Static.colors_max       = 1;
+    Static.brightness_min   = 0;
+    Static.brightness       = 100;
+    Static.brightness_max   = 100;
     modes.push_back(Static);
 
     SetupZones();
 
     for(unsigned int i = 0; i < zones.size(); i++)
     {
-        zones[i].colors[0] = controller->getZoneColor(i);
+        zones[i].colors[0]  = controller->getZoneColor(i);
     }
 }
 

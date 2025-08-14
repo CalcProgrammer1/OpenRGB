@@ -116,9 +116,8 @@ void DetectNVIDIAIllumGPUs()
                         case NVIDIA_ILLUMINATION_V1:
                             {
                                 nvapi_accessor*                     new_nvapi      = new nvapi_accessor(gpu_handles[gpu_idx]);
-                                NVIDIAIlluminationV1Controller*     controller     = new NVIDIAIlluminationV1Controller(new_nvapi, device_list[dev_idx].treats_rgbw_as_rgb);
+                                NVIDIAIlluminationV1Controller*     controller     = new NVIDIAIlluminationV1Controller(new_nvapi, device_list[dev_idx].treats_rgbw_as_rgb, device_list[dev_idx].name);
                                 RGBController_NVIDIAIlluminationV1* rgb_controller = new RGBController_NVIDIAIlluminationV1(controller);
-                                rgb_controller->name                               = device_list[dev_idx].name;
 
                                 ResourceManager::get()->RegisterRGBController(rgb_controller);
                             }

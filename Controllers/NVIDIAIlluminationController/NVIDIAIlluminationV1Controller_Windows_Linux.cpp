@@ -11,14 +11,21 @@
 
 #include "NVIDIAIlluminationV1Controller_Windows_Linux.h"
 
-NVIDIAIlluminationV1Controller::NVIDIAIlluminationV1Controller(nvapi_accessor* nvapi_ptr, bool treats_rgbw_as_rgb)
+NVIDIAIlluminationV1Controller::NVIDIAIlluminationV1Controller(nvapi_accessor* nvapi_ptr, bool treats_rgbw_as_rgb, std::string dev_name)
 {
-    nvapi = nvapi_ptr;
+    nvapi               = nvapi_ptr;
     _treats_rgbw_as_rgb = treats_rgbw_as_rgb;
+    name                = dev_name;
 }
 
 NVIDIAIlluminationV1Controller::~NVIDIAIlluminationV1Controller()
 {
+
+}
+
+std::string NVIDIAIlluminationV1Controller::GetName()
+{
+    return(name);
 }
 
 void NVIDIAIlluminationV1Controller::checkNVAPIreturn()
