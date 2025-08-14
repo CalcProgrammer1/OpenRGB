@@ -44,14 +44,13 @@ static void spawn_hue(hid_device_info* info, const std::string& name, int rgb_ch
 
     if(dev)
     {
-        NZXTHue2Controller*     controller     = new NZXTHue2Controller(dev, rgb_channels, fan_channels, info->path);
+        NZXTHue2Controller*     controller     = new NZXTHue2Controller(dev, rgb_channels, fan_channels, info->path, name);
         RGBController_NZXTHue2* rgb_controller = new RGBController_NZXTHue2(controller);
-        rgb_controller->name                   = name;
 
         ResourceManager::get()->RegisterRGBController(rgb_controller);
         LOG_TRACE("[NZXTHue2Controller] NZXT Controller setup: %s", info->path);
     }
-    else 
+    else
     {
         LOG_DEBUG("[NZXTHue2Controller] Failed to load device: %s!", info->path);
     }

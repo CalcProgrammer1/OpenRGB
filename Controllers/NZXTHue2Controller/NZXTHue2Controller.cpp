@@ -17,10 +17,11 @@
 #include "NZXTHue2Controller.h"
 #include "StringUtils.h"
 
-NZXTHue2Controller::NZXTHue2Controller(hid_device* dev_handle, unsigned int rgb_channels, unsigned int fan_channels, const char* path)
+NZXTHue2Controller::NZXTHue2Controller(hid_device* dev_handle, unsigned int rgb_channels, unsigned int fan_channels, const char* path, std::string dev_name)
 {
     dev         = dev_handle;
     location    = path;
+    name        = dev_name;
 
     num_fan_channels = fan_channels;
     num_rgb_channels = rgb_channels;
@@ -57,6 +58,11 @@ unsigned short NZXTHue2Controller::GetFanRPM
 std::string NZXTHue2Controller::GetLocation()
 {
     return("HID: " + location);
+}
+
+std::string NZXTHue2Controller::GetName()
+{
+    return(name);
 }
 
 unsigned int NZXTHue2Controller::GetNumFanChannels()
