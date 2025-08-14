@@ -18,12 +18,12 @@
 class NvidiaESAController
 {
 public:
-    NvidiaESAController(hid_device* dev_handle, const hid_device_info& info);
+    NvidiaESAController(hid_device* dev_handle, const hid_device_info& info, std::string dev_name);
     ~NvidiaESAController();
 
-    std::string                 GetSerialString();
     std::string                 GetDeviceLocation();
-    std::string                 GetFirmwareVersion();
+    std::string                 GetNameString();
+    std::string                 GetSerialString();
 
     void                        SetZoneColor(unsigned int zone_idx, RGBColor color);
 
@@ -32,5 +32,5 @@ protected:
 
 private:
     std::string                 location;
-    std::string                 version;
+    std::string                 name;
 };

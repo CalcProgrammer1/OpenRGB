@@ -13,11 +13,11 @@
 #include "NvidiaESAController.h"
 #include "StringUtils.h"
 
-NvidiaESAController::NvidiaESAController(hid_device* dev_handle, const hid_device_info& info)
+NvidiaESAController::NvidiaESAController(hid_device* dev_handle, const hid_device_info& info, std::string dev_name)
 {
-    dev                 = dev_handle;
-    location            = info.path;
-    version             = "";
+    dev         = dev_handle;
+    location    = info.path;
+    name        = dev_name;
 }
 
 NvidiaESAController::~NvidiaESAController()
@@ -28,6 +28,11 @@ NvidiaESAController::~NvidiaESAController()
 std::string NvidiaESAController::GetDeviceLocation()
 {
     return("HID: " + location);
+}
+
+std::string NvidiaESAController::GetNameString()
+{
+    return(name);
 }
 
 std::string NvidiaESAController::GetSerialString()
@@ -41,11 +46,6 @@ std::string NvidiaESAController::GetSerialString()
     }
 
     return(StringUtils::wstring_to_string(serial_string));
-}
-
-std::string NvidiaESAController::GetFirmwareVersion()
-{
-    return(version);
 }
 
 void NvidiaESAController::SetZoneColor(unsigned int zone_idx, RGBColor color)

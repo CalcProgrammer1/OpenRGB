@@ -27,13 +27,13 @@
 RGBController_NvidiaESA::RGBController_NvidiaESA(NvidiaESAController* controller_ptr)
 {
     controller                          = controller_ptr;
-    name                                = "Nvidia ESA USB Device";
+
+    name                                = controller->GetNameString();
     vendor                              = "NVIDIA";
     type                                = DEVICE_TYPE_CASE;
-    description                         = name;
+    description                         = "Nvidia ESA USB Device";;
     location                            = controller->GetDeviceLocation();
     serial                              = controller->GetSerialString();
-    version                             = controller->GetFirmwareVersion();
 
     mode Static;
     Static.name                         = "Static";

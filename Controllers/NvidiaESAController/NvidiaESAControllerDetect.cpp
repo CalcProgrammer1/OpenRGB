@@ -29,9 +29,9 @@ void DetectNvidiaESAControllers(hid_device_info* info, const std::string& name)
 
     if(dev)
     {
-        NvidiaESAController*     controller      = new NvidiaESAController(dev, *info);
+        NvidiaESAController*     controller      = new NvidiaESAController(dev, *info, name);
         RGBController_NvidiaESA* rgb_controller  = new RGBController_NvidiaESA(controller);
-        rgb_controller->name = name;
+
         ResourceManager::get()->RegisterRGBController(rgb_controller);
     }
 }
