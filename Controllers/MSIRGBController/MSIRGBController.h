@@ -42,7 +42,7 @@ enum
 class MSIRGBController
 {
 public:
-    MSIRGBController(int sioaddr, bool invert);
+    MSIRGBController(int sioaddr, bool invert, std::string dev_name);
     ~MSIRGBController();
 
     std::string     GetDeviceName();
@@ -53,5 +53,6 @@ public:
 
     void            SetColor(unsigned char red, unsigned char green, unsigned char blue);
 private:
-    int     msi_sioaddr;
+    int             msi_sioaddr;
+    std::string     name;
 };

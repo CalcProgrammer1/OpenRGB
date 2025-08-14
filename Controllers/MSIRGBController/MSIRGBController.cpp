@@ -15,9 +15,10 @@
 #include "dmiinfo.h"
 #include "super_io.h"
 
-MSIRGBController::MSIRGBController(int sioaddr, bool invert)
+MSIRGBController::MSIRGBController(int sioaddr, bool invert, std::string dev_name)
 {
     msi_sioaddr = sioaddr;
+    name        = dev_name;
 
     /*-----------------------------------------------------*\
     | This setup step isn't well documented                 |
@@ -72,6 +73,18 @@ MSIRGBController::MSIRGBController(int sioaddr, bool invert)
 MSIRGBController::~MSIRGBController()
 {
 
+}
+
+std::string MSIRGBController::GetDeviceLocation()
+{
+    char hex[12];
+    snprintf(hex, sizeof(hex), "0x%X", msi_sioaddr);
+    return("SIO: " + std::string(hex));
+}
+
+std::string MSIRGBController::GetDeviceName()
+{
+    return(name);
 }
 
 void MSIRGBController::SetColor(unsigned char red, unsigned char green, unsigned char blue)
