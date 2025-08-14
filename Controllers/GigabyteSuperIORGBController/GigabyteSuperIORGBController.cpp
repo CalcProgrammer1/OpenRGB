@@ -23,6 +23,13 @@ GigabyteSuperIORGBController::~GigabyteSuperIORGBController()
 
 }
 
+std::string GigabyteSuperIORGBController::GetDeviceLocation()
+{
+    char hex[12];
+    snprintf(hex, sizeof(hex), "0x%X", gig_sioaddr);
+    return("SIO: " + std::string(hex));
+}
+
 std::string GigabyteSuperIORGBController::GetDeviceName()
 {
     return(name);

@@ -93,6 +93,7 @@ RGBController_GigabyteSuperIORGB::RGBController_GigabyteSuperIORGB(GigabyteSuper
     vendor                  = "Gigabyte";
     type                    = DEVICE_TYPE_MOTHERBOARD;
     description             = "Gigabyte SuperIO RGB Device";
+    location                = controller->GetDeviceLocation();
 
     mode Direct;
     Direct.name             = "Direct";

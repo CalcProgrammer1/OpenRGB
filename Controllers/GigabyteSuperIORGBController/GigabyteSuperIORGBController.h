@@ -135,6 +135,7 @@ public:
     GigabyteSuperIORGBController(int sioaddr, std::string dev_name);
     ~GigabyteSuperIORGBController();
 
+    std::string     GetDeviceLocation();
     std::string     GetDeviceName();
 
     unsigned int    GetMode();
@@ -144,6 +145,6 @@ public:
     void            ChipEntry();
     void            ChipExit();
 private:
-    int         gig_sioaddr;
-    std::string name;
+    int             gig_sioaddr;
+    std::string     name;
 };
