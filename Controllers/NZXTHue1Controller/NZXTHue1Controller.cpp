@@ -13,10 +13,11 @@
 #include "NZXTHue1Controller.h"
 #include "StringUtils.h"
 
-NZXTHue1Controller::NZXTHue1Controller(hid_device* dev_handle, unsigned int /*fan_channels*/, const char* path)
+NZXTHue1Controller::NZXTHue1Controller(hid_device* dev_handle, unsigned int /*fan_channels*/, const char* path, std::string dev_name)
 {
     dev         = dev_handle;
     location    = path;
+    name        = dev_name;
 
     Initialize();
 }
@@ -34,6 +35,11 @@ std::string NZXTHue1Controller::GetFirmwareVersion()
 std::string NZXTHue1Controller::GetLocation()
 {
     return("HID: " + location);
+}
+
+std::string NZXTHue1Controller::GetName()
+{
+    return(name);
 }
 
 std::string NZXTHue1Controller::GetSerialString()

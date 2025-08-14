@@ -48,11 +48,12 @@ enum
 class NZXTHue1Controller
 {
 public:
-    NZXTHue1Controller(hid_device* dev_handle, unsigned int fan_channels, const char* path);
+    NZXTHue1Controller(hid_device* dev_handle, unsigned int fan_channels, const char* path, std::string dev_name);
     ~NZXTHue1Controller();
 
     std::string     GetFirmwareVersion();
     std::string     GetLocation();
+    std::string     GetName();
     std::string     GetSerialString();
 
     unsigned int    GetAccessoryType();
@@ -79,6 +80,7 @@ private:
 
     char            firmware_version[16];
     std::string     location;
+    std::string     name;
     unsigned int    accessory_type;
 
     void            Initialize();

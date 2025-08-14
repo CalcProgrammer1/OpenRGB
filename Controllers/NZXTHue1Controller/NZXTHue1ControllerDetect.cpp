@@ -34,9 +34,8 @@ void DetectNZXTHue1Controllers(hid_device_info* info, const std::string& name)
 
     if(dev)
     {
-        NZXTHue1Controller*     controller     = new NZXTHue1Controller(dev, 3, info->path);
+        NZXTHue1Controller*     controller     = new NZXTHue1Controller(dev, 3, info->path, name);
         RGBController_NZXTHue1* rgb_controller = new RGBController_NZXTHue1(controller);
-        rgb_controller->name                   = name;
 
         ResourceManager::get()->RegisterRGBController(rgb_controller);
     }
