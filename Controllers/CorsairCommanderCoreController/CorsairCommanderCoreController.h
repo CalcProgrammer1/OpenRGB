@@ -4,6 +4,7 @@
 |   Driver for Corsair Commander Core                       |
 |                                                           |
 |   Jeff P.                                                 |
+|   Nikola Jurkovic (jurkovic.nikola)           14 Aug 2025 |
 |                                                           |
 |   This file is part of the OpenRGB project                |
 |   SPDX-License-Identifier: GPL-2.0-only                   |
@@ -66,7 +67,7 @@ private:
     std::chrono::time_point<std::chrono::steady_clock>  last_commit_time;
     DeviceGuardManager*                                 guard_manager_ptr;
 
-    void        SendCommand(unsigned char command[2], unsigned char data[], unsigned short int data_len, unsigned char res[]);
+    void        SendCommand(unsigned char command[2], unsigned char data[], unsigned short int data_len, unsigned char res[], bool dev_read = true);
     void        WriteData(unsigned char endpoint[2], unsigned char data_type[2], unsigned char data[], unsigned short int data_len);
     void        ReadData(unsigned char endpoint[2], unsigned char data[]);
 

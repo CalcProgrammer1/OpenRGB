@@ -4,6 +4,7 @@
 |   Driver for Corsair Commander Core                       |
 |                                                           |
 |   Jeff P.                                                 |
+|   Nikola Jurkovic (jurkovic.nikola)           14 Aug 2025 |
 |                                                           |
 |   This file is part of the OpenRGB project                |
 |   SPDX-License-Identifier: GPL-2.0-only                   |
@@ -29,6 +30,12 @@ CorsairCommanderCoreController::CorsairCommanderCoreController(hid_device* dev_h
     this->pid               = pid;
     guard_manager_ptr       = new DeviceGuardManager(new CorsairDeviceGuard());
 
+    if(pid == 0x0C32)
+    {
+        packet_size         = CORSAIR_COMMANDER_CORE_PACKET_SIZE_V3;
+        command_res_size    = packet_size - 4;
+    }
+
     /*-----------------------------------------------------*\
     | Initialize controller                                 |
     \*-----------------------------------------------------*/
@@ -42,6 +49,13 @@ CorsairCommanderCoreController::CorsairCommanderCoreController(hid_device* dev_h
 
 CorsairCommanderCoreController::~CorsairCommanderCoreController()
 {
+    /*-----------------------------------------------------*\
+    | Hardware mode                                         |
+    \*-----------------------------------------------------*/
+    unsigned char command[2] = {0x01, 0x03};
+    unsigned char cmd_data[2] = {0x00, 0x01};
+    SendCommand(command, cmd_data, 2, NULL);
+
     /*-----------------------------------------------------*\
     | Close keepalive thread                                |
     \*-----------------------------------------------------*/
@@ -74,10 +88,6 @@ void CorsairCommanderCoreController::InitController()
     {
         packet_size = CORSAIR_COMMANDER_CORE_PACKET_SIZE_V1;
         command_res_size = packet_size - 4;
-    }
-    else if(pid == 0x0C32)
-    {
-        packet_size = CORSAIR_COMMANDER_CORE_PACKET_SIZE_V3;
     }
 
     /*-----------------------------------------------------*\
@@ -121,7 +131,7 @@ std::vector<unsigned short int> CorsairCommanderCoreController::GetLedCounts()
     }
     delete[] res;
 
-    return  led_counts;
+    return led_counts;
 }
 
 void CorsairCommanderCoreController::KeepaliveThread()
@@ -156,16 +166,15 @@ void CorsairCommanderCoreController::SendCommit()
         last_commit_time    = std::chrono::steady_clock::now();
 
         /*-----------------------------------------------------*\
-        | Send packet                                           |
+        | Keepalive                                             |
         \*-----------------------------------------------------*/
-        unsigned char command[2] = {0x01, 0x03};
-        unsigned char cmd_data[2] = {0x00, 0x02};
-        SendCommand(command, cmd_data, 2, NULL);
+        unsigned char command[2] = {0x02, 0x13};
+        SendCommand(command, NULL, 2, NULL, false);
     }
 }
 
 
-void CorsairCommanderCoreController::SendCommand(unsigned char command[2], unsigned char data[], unsigned short int data_len, unsigned char res[])
+void CorsairCommanderCoreController::SendCommand(unsigned char command[2], unsigned char data[], unsigned short int data_len, unsigned char res[], bool dev_read)
 {
     /*---------------------------------------------------------*\
     | Private function to send a command                        |
@@ -190,12 +199,16 @@ void CorsairCommanderCoreController::SendCommand(unsigned char command[2], unsig
         DeviceGuardLock _ = guard_manager_ptr->AwaitExclusiveAccess();
 
         hid_write(dev, buf, packet_size);
-        do
+        if(dev_read)
         {
-            hid_read(dev, buf, packet_size);
+            do
+            {
+                hid_read(dev, buf, packet_size);
+            }
+            while(buf[0] != 0x00);
         }
-        while (buf[0] != 0x00);
     }
+
     /*---------------------------------------------------------*\
     | HID I/O end (lock released)                               |
     \*---------------------------------------------------------*/
