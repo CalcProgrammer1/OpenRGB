@@ -13,10 +13,11 @@
 #include "NZXTMouseController.h"
 #include "StringUtils.h"
 
-NZXTMouseController::NZXTMouseController(hid_device* dev_handle, const char* path)
+NZXTMouseController::NZXTMouseController(hid_device* dev_handle, const char* path, std::string dev_name)
 {
     dev         = dev_handle;
     location    = path;
+    name        = dev_name;
 
     /*-----------------------------------------------------*\
     | Request firmware version                              |
@@ -37,6 +38,11 @@ std::string NZXTMouseController::GetFirmwareVersion()
 std::string NZXTMouseController::GetLocation()
 {
     return("HID: " + location);
+}
+
+std::string NZXTMouseController::GetName()
+{
+    return(name);
 }
 
 std::string NZXTMouseController::GetSerialString()

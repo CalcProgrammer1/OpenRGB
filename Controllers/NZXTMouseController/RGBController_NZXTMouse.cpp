@@ -26,7 +26,7 @@ RGBController_NZXTMouse::RGBController_NZXTMouse(NZXTMouseController* controller
 {
     controller          = controller_ptr;
 
-    name                = "NZXT Mouse";
+    name                = controller->GetName();
     vendor              = "NZXT";
     type                = DEVICE_TYPE_MOUSE;
     description         = "NZXT Mouse Device";

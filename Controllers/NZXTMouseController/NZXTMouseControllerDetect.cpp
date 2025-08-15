@@ -34,9 +34,8 @@ static void DetectNZXTMouseControllers(hid_device_info* info, const std::string&
 
     if(dev)
     {
-        NZXTMouseController*     controller     = new NZXTMouseController(dev, info->path);
+        NZXTMouseController*     controller     = new NZXTMouseController(dev, info->path, name);
         RGBController_NZXTMouse* rgb_controller = new RGBController_NZXTMouse(controller);
-        rgb_controller->name                    = name;
 
         ResourceManager::get()->RegisterRGBController(rgb_controller);
     }
