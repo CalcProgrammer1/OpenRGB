@@ -54,7 +54,7 @@ RGBController_SkyloongGK104Pro::RGBController_SkyloongGK104Pro(SkyloongGK104ProC
 {
     controller                  = controller_ptr;
 
-    name                        = "Skyloong GK104 Pro";
+    name                        = controller->GetDeviceName();
     vendor                      = "Skyloong";
     description                 = "Skyloong GK104 Pro Keyboard";
     location                    = controller->GetDeviceLocation();

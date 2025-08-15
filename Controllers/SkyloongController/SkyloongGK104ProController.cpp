@@ -21,10 +21,11 @@ enum command
     le_define   = 0x1A
 };
 
-SkyloongGK104ProController::SkyloongGK104ProController(hid_device* dev_handle, const char* path)
+SkyloongGK104ProController::SkyloongGK104ProController(hid_device* dev_handle, const char* path, std::string dev_name)
 {
     dev         = dev_handle;
     location    = path;
+    name        = dev_name;
 
     SendCommand(command::ping, SUBCOMMAND_NONE);
     SendCommand(command::mode, MODE_ONLINE);
@@ -40,6 +41,11 @@ SkyloongGK104ProController::~SkyloongGK104ProController()
 std::string SkyloongGK104ProController::GetDeviceLocation()
 {
     return("HID: " + location);
+}
+
+std::string SkyloongGK104ProController::GetDeviceName()
+{
+    return(name);
 }
 
 void SkyloongGK104ProController::SendCommand(char command, char sub_command)
