@@ -34,19 +34,22 @@ enum
 class PNYLovelaceGPUController
 {
 public:
-    PNYLovelaceGPUController(i2c_smbus_interface* bus, pny_dev_id dev);
+    PNYLovelaceGPUController(i2c_smbus_interface* bus, pny_dev_id dev, std::string dev_name);
     ~PNYLovelaceGPUController();
 
-	std::string     GetDeviceLocation();
-    void SetOff();
-    void SetBreath(unsigned char speed, unsigned char red, unsigned char green, unsigned char blue);
-    void SetCycle(unsigned char speed, unsigned char brightness);
-    void SetWave(unsigned char speed, unsigned char brightness);
-    void SetFlash(unsigned char speed, unsigned char brightness, unsigned char red, unsigned char green, unsigned char blue);
-    void SetDirect(unsigned char led, unsigned char red, unsigned char green, unsigned char blue);
+	std::string GetDeviceLocation();
+    std::string GetDeviceName();
+
+    void        SetOff();
+    void        SetBreath(unsigned char speed, unsigned char red, unsigned char green, unsigned char blue);
+    void        SetCycle(unsigned char speed, unsigned char brightness);
+    void        SetWave(unsigned char speed, unsigned char brightness);
+    void        SetFlash(unsigned char speed, unsigned char brightness, unsigned char red, unsigned char green, unsigned char blue);
+    void        SetDirect(unsigned char led, unsigned char red, unsigned char green, unsigned char blue);
 
 private:
 	i2c_smbus_interface*    bus;
 	pny_dev_id              dev;
+    std::string             name;
 };
 

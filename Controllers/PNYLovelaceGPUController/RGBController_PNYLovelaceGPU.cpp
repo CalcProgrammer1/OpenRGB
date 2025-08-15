@@ -26,7 +26,7 @@ RGBController_PNYLovelaceGPU::RGBController_PNYLovelaceGPU(PNYLovelaceGPUControl
 {
     controller              = controller_ptr;
 
-    name                    = "PNY GPU";
+    name                    = controller->GetDeviceName();
     vendor                  = "PNY";
     description             = "PNY RGB GPU Device";
     location                = controller->GetDeviceLocation();

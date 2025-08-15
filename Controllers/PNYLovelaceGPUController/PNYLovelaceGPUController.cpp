@@ -11,10 +11,11 @@
 
 #include "PNYLovelaceGPUController.h"
 
-PNYLovelaceGPUController::PNYLovelaceGPUController(i2c_smbus_interface* bus, pny_dev_id dev)
+PNYLovelaceGPUController::PNYLovelaceGPUController(i2c_smbus_interface* bus, pny_dev_id dev, std::string dev_name)
 {
-    this->bus = bus;
-    this->dev = dev;
+    this->bus   = bus;
+    this->dev   = dev;
+    this->name  = dev_name;
 }
 
 PNYLovelaceGPUController::~PNYLovelaceGPUController()
@@ -30,6 +31,11 @@ std::string PNYLovelaceGPUController::GetDeviceLocation()
     return_string.append(", address ");
     return_string.append(addr);
     return("I2C: " + return_string);
+}
+
+std::string PNYLovelaceGPUController::GetDeviceName()
+{
+    return(name);
 }
 
 void PNYLovelaceGPUController::SetOff()
