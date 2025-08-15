@@ -86,11 +86,12 @@ enum
 class CMARGBGen2A1controller
 {
 public:
-    CMARGBGen2A1controller(hid_device* dev_handle, const hid_device_info& info);
+    CMARGBGen2A1controller(hid_device* dev_handle, const hid_device_info& info, std::string dev_name);
     ~CMARGBGen2A1controller();
 
-    std::string                 GetSerialString();
     std::string                 GetDeviceLocation();
+    std::string                 GetNameString();
+    std::string                 GetSerialString();
 
     void                        SendChannelColors(unsigned int zone_id, unsigned int subchannel_id, std::vector<RGBColor> colors);
     void                        SetupZoneSize(unsigned int zone_id, unsigned int size);
@@ -101,6 +102,7 @@ public:
 
 private:
     std::string                 location;
+    std::string                 name;
     bool                        software_mode_activated = false;
     hid_device*                 dev;
 

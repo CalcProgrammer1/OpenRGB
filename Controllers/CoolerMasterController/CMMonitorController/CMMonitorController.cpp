@@ -15,10 +15,11 @@
 
 using namespace std::chrono_literals;
 
-CMMonitorController::CMMonitorController(hid_device* dev_handle, const hid_device_info& info)
+CMMonitorController::CMMonitorController(hid_device* dev_handle, const hid_device_info& info, std::string dev_name)
 {
     dev                 = dev_handle;
     location            = info.path;
+    name                = dev_name;
 }
 
 CMMonitorController::~CMMonitorController()
@@ -29,6 +30,11 @@ CMMonitorController::~CMMonitorController()
 std::string CMMonitorController::GetDeviceLocation()
 {
     return("HID: " + location);
+}
+
+std::string CMMonitorController::GetNameString()
+{
+    return(name);
 }
 
 std::string CMMonitorController::GetSerialString()

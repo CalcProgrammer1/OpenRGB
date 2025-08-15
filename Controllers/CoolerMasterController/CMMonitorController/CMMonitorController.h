@@ -41,17 +41,20 @@ enum
 class CMMonitorController
 {
 public:
-    CMMonitorController(hid_device* dev_handle, const hid_device_info& info);
+    CMMonitorController(hid_device* dev_handle, const hid_device_info& info, std::string dev_name);
     ~CMMonitorController();
 
-    std::string     GetSerialString();
     std::string     GetDeviceLocation();
+    std::string     GetNameString();
+    std::string     GetSerialString();
+
     void            SendDirect(const std::vector<RGBColor>& colors);
     void            SetMode(uint8_t mode_value, const RGBColor& color, uint8_t speed, uint8_t brightness);
     void            SetCustomMode(const std::vector<RGBColor>& colors, uint8_t brightnesss);
 
 private:
     std::string     location;
+    std::string     name;
     hid_device*     dev;
     bool            software_mode_enabled = false;
     void            SetSoftwareModeEnabled(bool value);

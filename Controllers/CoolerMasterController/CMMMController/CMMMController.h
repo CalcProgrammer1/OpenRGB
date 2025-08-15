@@ -89,12 +89,13 @@ enum
 class CMMMController
 {
 public:
-    CMMMController(hid_device* dev_handle, char *_path, uint16_t pid);
+    CMMMController(hid_device* dev_handle, char *_path, uint16_t pid, std::string dev_name);
     ~CMMMController();
 
     std::string GetDeviceVendor();
     std::string GetSerial();
     std::string GetLocation();
+    std::string GetName();
 
     uint16_t    GetProductID();
 

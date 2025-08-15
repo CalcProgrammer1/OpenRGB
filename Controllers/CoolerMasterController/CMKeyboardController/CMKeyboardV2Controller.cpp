@@ -16,7 +16,7 @@
 #include "LogManager.h"
 #include "StringUtils.h"
 
-CMKeyboardV2Controller::CMKeyboardV2Controller(hid_device* dev_handle, hid_device_info* dev_info) : CMKeyboardAbstractController(dev_handle, dev_info)
+CMKeyboardV2Controller::CMKeyboardV2Controller(hid_device* dev_handle, hid_device_info* dev_info, std::string dev_name) : CMKeyboardAbstractController(dev_handle, dev_info, dev_name)
 {
     m_sFirmwareVersion  = _GetFirmwareVersion();
     m_bMoreFFs          = false;

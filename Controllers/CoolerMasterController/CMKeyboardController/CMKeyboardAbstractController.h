@@ -56,7 +56,7 @@ enum cm_keyboard_control_mode
 class CMKeyboardAbstractController
 {
 public:
-    CMKeyboardAbstractController(hid_device* dev_handle, hid_device_info* dev_info);
+    CMKeyboardAbstractController(hid_device* dev_handle, hid_device_info* dev_info, std::string dev_name);
     virtual ~CMKeyboardAbstractController();
 
     /*---------------------------------------------------------*\
@@ -64,7 +64,6 @@ public:
     \*---------------------------------------------------------*/
     int                 GetProductID();
     std::string         GetDeviceName();
-    void                SetDeviceName(std::string name);
     std::string         GetDeviceVendor();
     std::string         GetDeviceSerial();
     std::string         GetLocation();

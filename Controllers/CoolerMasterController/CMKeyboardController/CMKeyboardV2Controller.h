@@ -30,7 +30,7 @@ struct stCMKeyboardV2_mode
 class CMKeyboardV2Controller : public CMKeyboardAbstractController
 {
 public:
-    CMKeyboardV2Controller(hid_device* dev_handle, hid_device_info* dev_info);
+    CMKeyboardV2Controller(hid_device* dev_handle, hid_device_info* dev_info, std::string dev_name);
     ~CMKeyboardV2Controller();
 
     /*---------------------------------------------------------*\

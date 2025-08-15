@@ -14,11 +14,13 @@
 #include "CMMMController.h"
 #include "StringUtils.h"
 
-CMMMController::CMMMController(hid_device* dev_handle, char *_path, uint16_t pid) : product_id(pid)
+CMMMController::CMMMController(hid_device* dev_handle, char *_path, uint16_t pid, std::string dev_name)
 {
     dev                                  = dev_handle;
     location                             = _path;
+    name                                 = dev_name;
     current_speed                        = CM_MM_SPEED_3;
+    product_id                           = pid;
 
     if(product_id == CM_MM530_PID || product_id == CM_MM531_PID)
     {
@@ -142,6 +144,11 @@ std::string CMMMController::GetSerial()
 std::string CMMMController::GetLocation()
 {
     return("HID: " + location);
+}
+
+std::string CMMMController::GetName()
+{
+    return(name);
 }
 
 uint16_t CMMMController::GetProductID()

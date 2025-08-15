@@ -29,10 +29,10 @@ RGBController_CMMMController::RGBController_CMMMController(CMMMController* contr
 {
     controller                      = controller_ptr;
 
-    name                            = "Cooler Master MasterMouse";
+    name                            = controller->GetName();
     vendor                          = controller->GetDeviceVendor();
     type                            = DEVICE_TYPE_MOUSE;
-    description                     = "Cooler Master MasterMouse";
+    description                     = "Cooler Master MasterMouse Device";
     serial                          = controller->GetSerial();
     location                        = controller->GetLocation();
 

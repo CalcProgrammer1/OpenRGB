@@ -35,13 +35,13 @@
 RGBController_CMARGBGen2A1Controller::RGBController_CMARGBGen2A1Controller(CMARGBGen2A1controller* controller_ptr)
 {
     controller                  = controller_ptr;
-    name                        = "CoolerMaster LED Controller A1";
+
+    name                        = controller->GetNameString();
     vendor                      = "CoolerMaster";
     type                        = DEVICE_TYPE_LEDSTRIP;
-    description                 = name;
+    description                 = "CoolerMaster LED Controller A1 Device";
     location                    = controller->GetDeviceLocation();
     serial                      = controller->GetSerialString();
-    version                     = "";
 
     mode Direct;
     Direct.name                 = "Direct";
@@ -155,16 +155,16 @@ RGBController_CMARGBGen2A1Controller::RGBController_CMARGBGen2A1Controller(CMARG
     modes.push_back(FillFlow);
 
     mode Rainbow;
-    Rainbow.name               = "Rainbow";
-    Rainbow.value              = CM_ARGB_GEN2_A1_RAINBOW_MODE;
-    Rainbow.flags              = MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_HAS_SPEED | MODE_FLAG_MANUAL_SAVE;;
-    Rainbow.color_mode         = MODE_COLORS_NONE;
-    Rainbow.brightness         = CM_ARGB_GEN2_A1_BRIGHTNESS_MAX;
-    Rainbow.brightness_min     = CM_ARGB_GEN2_A1_BRIGHTNESS_MIN;
-    Rainbow.brightness_max     = CM_ARGB_GEN2_A1_BRIGHTNESS_MAX;
-    Rainbow.speed              = CM_ARGB_GEN2_A1_SPEED_MAX/2;
-    Rainbow.speed_min          = CM_ARGB_GEN2_A1_SPEED_MIN;
-    Rainbow.speed_max          = CM_ARGB_GEN2_A1_SPEED_MAX;
+    Rainbow.name                = "Rainbow";
+    Rainbow.value               = CM_ARGB_GEN2_A1_RAINBOW_MODE;
+    Rainbow.flags               = MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_HAS_SPEED | MODE_FLAG_MANUAL_SAVE;;
+    Rainbow.color_mode          = MODE_COLORS_NONE;
+    Rainbow.brightness          = CM_ARGB_GEN2_A1_BRIGHTNESS_MAX;
+    Rainbow.brightness_min      = CM_ARGB_GEN2_A1_BRIGHTNESS_MIN;
+    Rainbow.brightness_max      = CM_ARGB_GEN2_A1_BRIGHTNESS_MAX;
+    Rainbow.speed               = CM_ARGB_GEN2_A1_SPEED_MAX/2;
+    Rainbow.speed_min           = CM_ARGB_GEN2_A1_SPEED_MIN;
+    Rainbow.speed_max           = CM_ARGB_GEN2_A1_SPEED_MAX;
     modes.push_back(Rainbow);
 
     mode Custom;

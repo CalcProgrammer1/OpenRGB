@@ -27,13 +27,13 @@
 RGBController_CMMonitorController::RGBController_CMMonitorController(CMMonitorController* controller_ptr)
 {
     controller                  = controller_ptr;
-    name                        = "CoolerMaster LED Controller A1";
+
+    name                        = controller->GetNameString();
     vendor                      = "CoolerMaster";
     type                        = DEVICE_TYPE_MONITOR;
-    description                 = name;
+    description                 = "CoolerMaster Monitor Device";
     location                    = controller->GetDeviceLocation();
     serial                      = controller->GetSerialString();
-    version                     = "";
 
     mode Direct;
     Direct.name                 = "Direct";

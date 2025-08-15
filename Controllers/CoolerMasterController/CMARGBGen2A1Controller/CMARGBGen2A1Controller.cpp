@@ -14,10 +14,11 @@
 #include "CMARGBGen2A1Controller.h"
 #include "StringUtils.h"
 
-CMARGBGen2A1controller::CMARGBGen2A1controller(hid_device* dev_handle, const hid_device_info& info)
+CMARGBGen2A1controller::CMARGBGen2A1controller(hid_device* dev_handle, const hid_device_info& info, std::string dev_name)
 {
     dev                 = dev_handle;
     location            = info.path;
+    name                = dev_name;
 
     /*---------------------------------------------*\
     | Setup direct mode on start                    |
@@ -33,6 +34,11 @@ CMARGBGen2A1controller::~CMARGBGen2A1controller()
 std::string CMARGBGen2A1controller::GetDeviceLocation()
 {
     return("HID: " + location);
+}
+
+std::string CMARGBGen2A1controller::GetNameString()
+{
+    return(name);
 }
 
 std::string CMARGBGen2A1controller::GetSerialString()

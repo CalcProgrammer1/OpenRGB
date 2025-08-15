@@ -12,20 +12,20 @@
 #include "CMKeyboardAbstractController.h"
 #include "StringUtils.h"
 
-CMKeyboardAbstractController::CMKeyboardAbstractController(hid_device* dev_handle, hid_device_info* dev_info)
+CMKeyboardAbstractController::CMKeyboardAbstractController(hid_device* dev_handle, hid_device_info* dev_info, std::string dev_name)
 {
     wchar_t tmp[HID_MAX_STR];
 
     m_pDev                   = dev_handle;
     m_productId              = dev_info->product_id;
     m_sLocation              = dev_info->path;
+    m_deviceName             = dev_name;
 
     hid_get_manufacturer_string(m_pDev, tmp, HID_MAX_STR);
     m_vendorName             = StringUtils::wstring_to_string(tmp);
 
     hid_get_product_string(m_pDev, tmp, HID_MAX_STR);
-    m_deviceName             = StringUtils::wstring_to_string(tmp);
-    m_serialNumber           = m_deviceName;
+    m_serialNumber           = StringUtils::wstring_to_string(tmp);
 
     bool bNotFound           = true;
 
@@ -53,11 +53,6 @@ CMKeyboardAbstractController::~CMKeyboardAbstractController()
 std::string CMKeyboardAbstractController::GetDeviceName()
 {
     return(m_deviceName);
-}
-
-void CMKeyboardAbstractController::SetDeviceName(std::string name)
-{
-    m_deviceName = name;
 }
 
 std::string CMKeyboardAbstractController::GetDeviceVendor()
