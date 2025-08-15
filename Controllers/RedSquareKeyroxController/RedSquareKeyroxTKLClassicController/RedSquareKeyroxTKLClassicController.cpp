@@ -14,10 +14,11 @@
 
 using namespace std::chrono_literals;
 
-RedSquareKeyroxTKLClassicController::RedSquareKeyroxTKLClassicController(hid_device *dev_handle, const hid_device_info &info)
+RedSquareKeyroxTKLClassicController::RedSquareKeyroxTKLClassicController(hid_device *dev_handle, const hid_device_info &info, std::string dev_name)
 {
     dev             = dev_handle;
     location        = info.path;
+    name            = dev_name;
 }
 
 RedSquareKeyroxTKLClassicController::~RedSquareKeyroxTKLClassicController()
@@ -28,6 +29,11 @@ RedSquareKeyroxTKLClassicController::~RedSquareKeyroxTKLClassicController()
 std::string RedSquareKeyroxTKLClassicController::GetDeviceLocation()
 {
     return("HID: " + location);
+}
+
+std::string RedSquareKeyroxTKLClassicController::GetNameString()
+{
+    return(name);
 }
 
 std::string RedSquareKeyroxTKLClassicController::GetSerialString()

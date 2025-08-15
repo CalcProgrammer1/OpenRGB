@@ -54,10 +54,11 @@ enum
 class RedSquareKeyroxTKLClassicController
 {
 public:
-    RedSquareKeyroxTKLClassicController(hid_device *dev_handle, const hid_device_info &info);
+    RedSquareKeyroxTKLClassicController(hid_device *dev_handle, const hid_device_info &info, std::string dev_name);
     ~RedSquareKeyroxTKLClassicController();
 
     std::string         GetDeviceLocation();
+    std::string         GetNameString();
     std::string         GetSerialString();
 
     int                 GetDirection(int direction);
@@ -71,6 +72,7 @@ protected:
 
 private:
     std::string                 location;
+    std::string                 name;
     std::string                 serial_number;
     std::vector<unsigned int>   led_sequence_positions;
 };

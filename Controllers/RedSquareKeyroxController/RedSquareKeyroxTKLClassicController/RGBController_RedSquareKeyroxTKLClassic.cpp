@@ -55,16 +55,16 @@ layout_values keyrox_tkl_offset_values =
 
 RGBController_RedSquareKeyroxTKLClassic::RGBController_RedSquareKeyroxTKLClassic(RedSquareKeyroxTKLClassicController* controller_ptr)
 {
-    controller      = controller_ptr;
+    controller              = controller_ptr;
 
-    name            = "Red Square Keyrox TKL Classic";
-    vendor          = "Red Square";
-    type            = DEVICE_TYPE_KEYBOARD;
-    description     = name;
-    location        = controller->GetDeviceLocation();
-    serial          = controller->GetSerialString();
+    name                    = controller->GetNameString();
+    vendor                  = "Red Square";
+    type                    = DEVICE_TYPE_KEYBOARD;
+    description             = "Red Square Keyrox TKL Classic Device";
+    location                = controller->GetDeviceLocation();
+    serial                  = controller->GetSerialString();
 
-    int BASE_EFFECT_FLAGS = MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_RANDOM_COLOR;
+    int BASE_EFFECT_FLAGS   = MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_RANDOM_COLOR;
 
     const int EFFECTS_COUNT = 14;
     keyrox_effect keyrox_effects[EFFECTS_COUNT] =
