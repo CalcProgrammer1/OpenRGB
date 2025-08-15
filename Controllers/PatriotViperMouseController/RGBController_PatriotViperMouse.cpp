@@ -26,7 +26,7 @@ RGBController_PatriotViperMouse::RGBController_PatriotViperMouse(PatriotViperMou
 {
     controller                      = controller_ptr;
 
-    name                            = "Patriot Viper Mouse";
+    name                            = controller->GetName();
     vendor                          = "Patriot";
     type                            = DEVICE_TYPE_MOUSE;
     description                     = "Patriot Viper Mouse";

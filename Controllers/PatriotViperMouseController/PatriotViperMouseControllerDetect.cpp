@@ -28,9 +28,8 @@ void DetectPatriotViperMouseControllers(hid_device_info* info, const std::string
 
     if(dev)
     {
-        PatriotViperMouseController*     controller     = new PatriotViperMouseController(dev, info->path);
+        PatriotViperMouseController*     controller     = new PatriotViperMouseController(dev, info->path, name);
         RGBController_PatriotViperMouse* rgb_controller = new RGBController_PatriotViperMouse(controller);
-        rgb_controller->name = name;
 
         ResourceManager::get()->RegisterRGBController(rgb_controller);
     }

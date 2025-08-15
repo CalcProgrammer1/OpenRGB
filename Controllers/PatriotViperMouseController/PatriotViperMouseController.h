@@ -19,14 +19,17 @@
 class PatriotViperMouseController
 {
 public:
-    PatriotViperMouseController(hid_device* dev_handle, const char* path);
+    PatriotViperMouseController(hid_device* dev_handle, const char* path, std::string dev_name);
     ~PatriotViperMouseController();
 
     std::string GetLocation();
+    std::string GetName();
     std::string GetSerial();
-    void SetRGB(std::vector<RGBColor> colors);
+
+    void        SetRGB(std::vector<RGBColor> colors);
 
 private:
-    hid_device*             _dev;
-    std::string             _location;
+    hid_device* dev;
+    std::string location;
+    std::string name;
 };
