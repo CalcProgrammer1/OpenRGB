@@ -94,7 +94,7 @@ enum
 class CorsairPeripheralController
 {
 public:
-    CorsairPeripheralController(hid_device* dev_handle, const char* path);
+    CorsairPeripheralController(hid_device* dev_handle, const char* path, std::string dev_name);
     ~CorsairPeripheralController();
 
     int             GetLogicalLayout();
@@ -110,7 +110,6 @@ public:
     void            SetLEDsKeyboardLimited(std::vector<RGBColor> colors);
     void            SetLEDsMouse(std::vector<RGBColor> colors);
     void            SetLEDsMousemat(std::vector<RGBColor> colors);
-    void            SetName(std::string device_name);
     void            SetHardwareMode
                     (
                         int mode_value,

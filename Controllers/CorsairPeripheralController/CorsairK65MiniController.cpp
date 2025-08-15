@@ -11,10 +11,11 @@
 #include "LogManager.h"
 #include "StringUtils.h"
 
-CorsairK65MiniController::CorsairK65MiniController(hid_device* dev_handle, const char* path)
+CorsairK65MiniController::CorsairK65MiniController(hid_device* dev_handle, const char* path, std::string dev_name)
 {
     dev             = dev_handle;
     location        = path;
+    name            = dev_name;
 
     LightingControl();
 }
@@ -29,9 +30,9 @@ std::string CorsairK65MiniController::GetDeviceLocation()
     return("HID: " + location);
 }
 
-std::string CorsairK65MiniController::GetFirmwareString()
+std::string CorsairK65MiniController::GetName()
 {
-    return "";
+    return(name);
 }
 
 std::string CorsairK65MiniController::GetSerialString()

@@ -136,21 +136,20 @@ std::vector<std::tuple<unsigned int, std::string>> keys =
 
 RGBController_CorsairK65Mini::RGBController_CorsairK65Mini(CorsairK65MiniController* controller_ptr)
 {
-    controller      = controller_ptr;
+    controller          = controller_ptr;
 
-    name            = "Corsair K65 Mini Keyboard Device";
-    vendor          = "Corsair";
-    description     = name;
-    type            = DEVICE_TYPE_KEYBOARD;
-    version         = controller->GetFirmwareString();
-    location        = controller->GetDeviceLocation();
-    serial          = controller->GetSerialString();
+    name                = controller->GetName();
+    vendor              = "Corsair";
+    description         = "Corsair K65 Mini Keyboard Device";
+    type                = DEVICE_TYPE_KEYBOARD;
+    location            = controller->GetDeviceLocation();
+    serial              = controller->GetSerialString();
 
     mode Direct;
-    Direct.name       = "Direct";
-    Direct.value      = 0;
-    Direct.flags      = MODE_FLAG_HAS_PER_LED_COLOR;
-    Direct.color_mode = MODE_COLORS_PER_LED;
+    Direct.name         = "Direct";
+    Direct.value        = 0;
+    Direct.flags        = MODE_FLAG_HAS_PER_LED_COLOR;
+    Direct.color_mode   = MODE_COLORS_PER_LED;
     modes.push_back(Direct);
 
     SetupZones();

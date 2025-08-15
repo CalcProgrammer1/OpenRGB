@@ -38,10 +38,11 @@ static const unsigned char filler[] =
       0x6D };
 
 
-CorsairK55RGBPROXTController::CorsairK55RGBPROXTController(hid_device* dev_handle, const char* path)
+CorsairK55RGBPROXTController::CorsairK55RGBPROXTController(hid_device* dev_handle, const char* path, std::string dev_name)
 {
     dev             = dev_handle;
     location        = path;
+    name            = dev_name;
 
     LightingControl();
 }
@@ -56,9 +57,9 @@ std::string CorsairK55RGBPROXTController::GetDeviceLocation()
     return("HID: " + location);
 }
 
-std::string CorsairK55RGBPROXTController::GetFirmwareString()
+std::string CorsairK55RGBPROXTController::GetNameString()
 {
-    return "";
+    return(name);
 }
 
 std::string CorsairK55RGBPROXTController::GetSerialString()

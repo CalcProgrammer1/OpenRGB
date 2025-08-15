@@ -16,10 +16,11 @@
 class CorsairK55RGBPROXTController
 {
 public:
-    CorsairK55RGBPROXTController(hid_device* dev_handle, const char* path);
+    CorsairK55RGBPROXTController(hid_device* dev_handle, const char* path, std::string dev_name);
     ~CorsairK55RGBPROXTController();
+
     std::string GetDeviceLocation();
-    std::string GetFirmwareString();
+    std::string GetNameString();
     std::string GetSerialString();
 
     void SetLEDs(std::vector<RGBColor> colors);
@@ -79,8 +80,8 @@ public:
 private:
     hid_device* dev;
 
-    std::string firmware_version;
     std::string location;
+    std::string name;
 
     void LightingControl();
 };

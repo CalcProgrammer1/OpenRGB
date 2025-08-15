@@ -112,9 +112,9 @@ void DetectCorsairK55RGBPROXTControllers(hid_device_info* info, const std::strin
 
     if(dev)
     {
-        CorsairK55RGBPROXTController*   controller       = new CorsairK55RGBPROXTController(dev, info->path);
+        CorsairK55RGBPROXTController*   controller       = new CorsairK55RGBPROXTController(dev, info->path, name);
         RGBController_CorsairK55RGBPROXT* rgb_controller = new RGBController_CorsairK55RGBPROXT(controller);
-        rgb_controller->name                             = name;
+
         ResourceManager::get()->RegisterRGBController(rgb_controller);
     }
 }   /* DetectCorsairK55RGBPROXTControllers() */
@@ -125,9 +125,9 @@ void DetectCorsairK65MiniControllers(hid_device_info* info, const std::string& n
 
     if(dev)
     {
-        CorsairK65MiniController*     controller        = new CorsairK65MiniController(dev, info->path);
+        CorsairK65MiniController*     controller        = new CorsairK65MiniController(dev, info->path, name);
         RGBController_CorsairK65Mini* rgb_controller    = new RGBController_CorsairK65Mini(controller);
-        rgb_controller->name                            = name;
+
         ResourceManager::get()->RegisterRGBController(rgb_controller);
     }
 }   /* DetectCorsairK65MiniControllers() */
@@ -147,8 +147,7 @@ void DetectCorsairPeripheralControllers(hid_device_info* info, const std::string
     {
         LOG_DEBUG("[%s] Device opened. VID/PID %02X:%02X", CORSAIR_PERIPHERAL_CONTROLLER_NAME, info->vendor_id , info->product_id);
 
-        CorsairPeripheralController* controller = new CorsairPeripheralController(dev, info->path);
-        controller->SetName(name);
+        CorsairPeripheralController* controller = new CorsairPeripheralController(dev, info->path, name);
 
         if(controller->GetDeviceType() != DEVICE_TYPE_UNKNOWN)
         {
