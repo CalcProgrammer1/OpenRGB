@@ -11,10 +11,11 @@
 
 #include "ZotacTuringGPUController.h"
 
-ZotacTuringGPUController::ZotacTuringGPUController(i2c_smbus_interface* bus, u8 dev)
+ZotacTuringGPUController::ZotacTuringGPUController(i2c_smbus_interface* bus, u8 dev, std::string dev_name)
 {
-    this->bus = bus;
-    this->dev = dev;
+    this->bus   = bus;
+    this->dev   = dev;
+    this->name  = dev_name;
 }
 
 ZotacTuringGPUController::~ZotacTuringGPUController()
@@ -29,6 +30,11 @@ std::string ZotacTuringGPUController::GetDeviceLocation()
     return_string.append(", address ");
     return_string.append(addr);
     return("I2C: " + return_string);
+}
+
+std::string ZotacTuringGPUController::GetDeviceName()
+{
+    return(name);
 }
 
 void ZotacTuringGPUController::GetMode(RGBColor& color, int& mode, unsigned int& speed)

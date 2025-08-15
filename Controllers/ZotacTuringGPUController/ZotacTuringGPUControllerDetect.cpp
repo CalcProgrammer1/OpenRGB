@@ -51,9 +51,8 @@ void DetectZotacTuringGPUControllers(i2c_smbus_interface* bus, u8 i2c_addr, cons
 {
     if(TestForZotacTuringGPUController(bus, i2c_addr))
     {
-        ZotacTuringGPUController*     controller     = new ZotacTuringGPUController(bus, i2c_addr);
+        ZotacTuringGPUController*     controller     = new ZotacTuringGPUController(bus, i2c_addr, name);
         RGBController_ZotacTuringGPU* rgb_controller = new RGBController_ZotacTuringGPU(controller);
-        rgb_controller->name                         = name;
 
         ResourceManager::get()->RegisterRGBController(rgb_controller);
     }

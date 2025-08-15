@@ -39,16 +39,18 @@ enum
 class ZotacTuringGPUController
 {
 public:
-    ZotacTuringGPUController(i2c_smbus_interface* bus, u8 dev);
+    ZotacTuringGPUController(i2c_smbus_interface* bus, u8 dev, std::string dev_name);
     ~ZotacTuringGPUController();
 
-    std::string GetDeviceLocation();
+    std::string             GetDeviceLocation();
+    std::string             GetDeviceName();
 
-    void GetMode(RGBColor& color, int& mode, unsigned int& speed);
-    void SetMode(RGBColor color, int mode, unsigned int speed);
+    void                    GetMode(RGBColor& color, int& mode, unsigned int& speed);
+    void                    SetMode(RGBColor color, int mode, unsigned int speed);
 
 private:
-    i2c_smbus_interface* bus;
-    u8                   dev;
+    i2c_smbus_interface*    bus;
+    u8                      dev;
+    std::string             name;
 
 };
