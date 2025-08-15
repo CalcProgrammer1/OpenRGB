@@ -26,7 +26,7 @@ RGBController_PalitGPU::RGBController_PalitGPU(PalitGPUController* controller_pt
 {
     controller              = controller_ptr;
 
-    name                    = "Palit GPU";
+    name                    = controller->GetName();
     vendor                  = "Palit";
     description             = "Legacy Palit RGB GPU Device";
     location                = controller->GetDeviceLocation();
@@ -52,8 +52,8 @@ void RGBController_PalitGPU::SetupZones()
     | This device only has one LED, so create a single zone and |
     | LED for it                                                |
     \*---------------------------------------------------------*/
-    zone* new_zone = new zone();
-    led*  new_led  = new led();
+    zone* new_zone          = new zone();
+    led*  new_led           = new led();
 
     new_zone->name          = "GPU Zone";
     new_zone->type          = ZONE_TYPE_SINGLE;

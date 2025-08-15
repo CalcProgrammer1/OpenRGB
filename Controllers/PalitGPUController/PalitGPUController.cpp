@@ -11,10 +11,11 @@
 
 #include "PalitGPUController.h"
 
-PalitGPUController::PalitGPUController(i2c_smbus_interface* bus, palit_dev_id dev)
+PalitGPUController::PalitGPUController(i2c_smbus_interface* bus, palit_dev_id dev, std::string dev_name)
 {
-    this->bus = bus;
-    this->dev = dev;
+    this->bus   = bus;
+    this->dev   = dev;
+    this->name  = dev_name;
 }
 
 PalitGPUController::~PalitGPUController()
@@ -30,6 +31,11 @@ std::string PalitGPUController::GetDeviceLocation()
     return_string.append(", address ");
     return_string.append(addr);
     return("I2C: " + return_string);
+}
+
+std::string PalitGPUController::GetName()
+{
+    return(name);
 }
 
 void PalitGPUController::SetDirect(unsigned char red, unsigned char green, unsigned char blue)
