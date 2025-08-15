@@ -27,10 +27,11 @@ using namespace std::chrono_literals;
 static const unsigned int SKIP_INDICES[] = { 1, 17, 18, 19, 20, 75, 77, 78, 79, 83, 85, 96, 98, 100, 108, 109, 111, 112, 113, 116, 123, 125 };
 
 
-ZETBladeOpticalController::ZETBladeOpticalController(hid_device* dev_handle, const char* path)
+ZETBladeOpticalController::ZETBladeOpticalController(hid_device* dev_handle, const char* path, std::string dev_name)
 {
     dev         = dev_handle;
     location    = path;
+    name        = dev_name;
 
     effect_mode = ZET_BLADE_OPTICAL_MODE_STATIC;
 }
@@ -43,6 +44,11 @@ ZETBladeOpticalController::~ZETBladeOpticalController()
 std::string ZETBladeOpticalController::GetDeviceLocation()
 {
     return("HID " + location);
+}
+
+std::string ZETBladeOpticalController::GetNameString()
+{
+    return(name);
 }
 
 std::string ZETBladeOpticalController::GetSerialString()

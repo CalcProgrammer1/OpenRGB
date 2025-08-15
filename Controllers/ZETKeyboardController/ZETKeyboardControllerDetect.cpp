@@ -29,9 +29,8 @@ void DetectZETBladeOptical(hid_device_info* info, const std::string& name)
 
     if (dev)
     {
-        ZETBladeOpticalController*     controller     = new ZETBladeOpticalController(dev, info->path);
+        ZETBladeOpticalController*     controller     = new ZETBladeOpticalController(dev, info->path, name);
         RGBController_ZETBladeOptical* rgb_controller = new RGBController_ZETBladeOptical(controller);
-        rgb_controller->name                          = name;
 
         ResourceManager::get()->RegisterRGBController(rgb_controller);
     }
