@@ -25,14 +25,14 @@
 
 RGBController_XG270QG::RGBController_XG270QG(VS_XG270QG_Controller* controller_ptr)
 {
-    controller  = controller_ptr;
+    controller              = controller_ptr;
 
-    name        = "ViewSonic Elite XG270QG";
-    vendor      = "ViewSonic";
-    type        = DEVICE_TYPE_MONITOR;
-    description = "ViewSonic Monitor";
-    location    = controller->GetLocation();
-    serial      = controller->GetSerial();
+    name                    = controller->GetName();
+    vendor                  = "ViewSonic";
+    type                    = DEVICE_TYPE_MONITOR;
+    description             = "ViewSonic Monitor Device";
+    location                = controller->GetLocation();
+    serial                  = controller->GetSerial();
 
     mode Off;
     Off.name                = "Off";
@@ -41,12 +41,12 @@ RGBController_XG270QG::RGBController_XG270QG(VS_XG270QG_Controller* controller_p
     modes.push_back(Off);
 
     mode Custom;
-    Custom.name        = "Custom";
-    Custom.value       = VS_MODE_STATIC;
-    Custom.flags       = MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_AUTOMATIC_SAVE;
-    Custom.colors_min  = 1;
-    Custom.colors_max  = 1;
-    Custom.color_mode  = MODE_COLORS_PER_LED;
+    Custom.name             = "Custom";
+    Custom.value            = VS_MODE_STATIC;
+    Custom.flags            = MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_AUTOMATIC_SAVE;
+    Custom.colors_min       = 1;
+    Custom.colors_max       = 1;
+    Custom.color_mode       = MODE_COLORS_PER_LED;
     Custom.colors.resize(1);
     modes.push_back(Custom);
 

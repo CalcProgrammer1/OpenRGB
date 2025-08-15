@@ -14,10 +14,11 @@
 #include "StringUtils.h"
 #include "VS_XG270QG_Controller.h"
 
-VS_XG270QG_Controller::VS_XG270QG_Controller(hid_device* device, const char* path)
+VS_XG270QG_Controller::VS_XG270QG_Controller(hid_device* device, const char* path, std::string dev_name)
 {
-    dev = device;
-    location = path;
+    dev         = device;
+    location    = path;
+    name        = dev_name;
 }
 
 VS_XG270QG_Controller::~VS_XG270QG_Controller()
@@ -27,7 +28,12 @@ VS_XG270QG_Controller::~VS_XG270QG_Controller()
 
 std::string VS_XG270QG_Controller::GetLocation()
 {
-    return location;
+    return(location);
+}
+
+std::string VS_XG270QG_Controller::GetName()
+{
+    return(name);
 }
 
 std::string VS_XG270QG_Controller::GetSerial()
@@ -54,7 +60,8 @@ void VS_XG270QG_Controller::SendModeComplete
     uint8_t mode2, uint8_t r2, uint8_t g2, uint8_t b2
     )
 {
-    uint8_t data[] = {
+    uint8_t data[] =
+    {
         0x02,
         0x00, 0x00, 0x00, 0x00, 0x00, 0x0A, 0x00,
         0x00, 0x00, 0x00, 0x00, 0x00, 0x0A, 0x00,
