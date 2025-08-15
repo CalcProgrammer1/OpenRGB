@@ -18,7 +18,7 @@
 class RGBController_MSIGPUv2 : public RGBController
 {
 public:
-    RGBController_MSIGPUv2(MSIGPUv2Controller* msi_gpu_ptr, int msi_gpu_id);
+    RGBController_MSIGPUv2(MSIGPUv2Controller* controller_ptr, int msi_gpu_id);
     ~RGBController_MSIGPUv2();
 
     void        SetupZones();
@@ -32,6 +32,7 @@ public:
     void        DeviceSaveMode();
 
 private:
-    MSIGPUv2Controller* msi_gpu;
+    MSIGPUv2Controller* controller;
+
     void       DeviceUpdateAll(const mode& current_mode);
 };
