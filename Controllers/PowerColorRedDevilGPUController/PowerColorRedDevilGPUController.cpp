@@ -14,10 +14,11 @@
 
 using namespace std::chrono_literals;
 
-RedDevilGPUController::RedDevilGPUController(i2c_smbus_interface* bus, red_devil_dev_id dev)
+RedDevilGPUController::RedDevilGPUController(i2c_smbus_interface* bus, red_devil_dev_id dev, std::string dev_name)
 {
-    this->bus = bus;
-    this->dev = dev;
+    this->bus   = bus;
+    this->dev   = dev;
+    this->name  = dev_name;
 
     if(bus->pci_device > AMD_NAVI10_DEV)                // Only Navi 2 cards have this mode
     {
@@ -38,6 +39,11 @@ std::string RedDevilGPUController::GetDeviceLocation()
     return_string.append(", address ");
     return_string.append(addr);
     return("I2C:" + return_string);
+}
+
+std::string RedDevilGPUController::GetDeviceName()
+{
+    return(name);
 }
 
 void RedDevilGPUController::SetLEDColor(int led, RGBColor color)

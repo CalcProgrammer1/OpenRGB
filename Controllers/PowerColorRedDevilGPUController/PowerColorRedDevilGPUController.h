@@ -80,28 +80,30 @@ enum
 class RedDevilGPUController
 {
 public:
-    RedDevilGPUController(i2c_smbus_interface* bus, red_devil_dev_id dev);
+    RedDevilGPUController(i2c_smbus_interface* bus, red_devil_dev_id dev, std::string dev_name);
     ~RedDevilGPUController();
 
-    std::string GetDeviceLocation();
+    std::string             GetDeviceLocation();
+    std::string             GetDeviceName();
 
-    void SetLEDColor(int led, RGBColor color);
-    RGBColor GetLEDColor(int led);
+    void                    SetLEDColor(int led, RGBColor color);
+    RGBColor                GetLEDColor(int led);
 
-    void SetLEDColorAll(RGBColor color);
+    void                    SetLEDColorAll(RGBColor color);
 
-    void SetModeColor(RGBColor color);
-    RGBColor GetModeColor();
+    void                    SetModeColor(RGBColor color);
+    RGBColor                GetModeColor();
 
-    void SetMode(red_devil_mode_config config);
-    red_devil_mode_config GetMode();
+    void                    SetMode(red_devil_mode_config config);
+    red_devil_mode_config   GetMode();
 
-    int RegisterRead(unsigned char reg, unsigned char *data);
-    int RegisterWrite(unsigned char reg, unsigned char *data);
+    int                     RegisterRead(unsigned char reg, unsigned char *data);
+    int                     RegisterWrite(unsigned char reg, unsigned char *data);
 
-    bool has_sync_mode = false;
+    bool                    has_sync_mode = false;
 
 private:
-    i2c_smbus_interface* bus;
-    red_devil_dev_id     dev;
+    i2c_smbus_interface*    bus;
+    red_devil_dev_id        dev;
+    std::string             name;
 };
