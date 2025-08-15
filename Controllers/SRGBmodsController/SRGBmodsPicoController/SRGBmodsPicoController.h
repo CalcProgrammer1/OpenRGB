@@ -19,10 +19,11 @@
 class SRGBmodsPicoController
 {
 public:
-    SRGBmodsPicoController(hid_device* dev_handle, const char* path);
+    SRGBmodsPicoController(hid_device* dev_handle, const char* path, std::string dev_name);
     ~SRGBmodsPicoController();
 
     std::string     GetLocationString();
+    std::string     GetNameString();
     std::string     GetSerialString();
 
     void            SetChannelLEDs(unsigned char channel, RGBColor * colors, unsigned int num_colors);
@@ -31,6 +32,7 @@ public:
 private:
     hid_device*             dev;
     std::string             location;
+    std::string             name;
     std::thread*            keepalive_thread;
     std::atomic<bool>       keepalive_thread_run;
     std::chrono::time_point<std::chrono::steady_clock> last_commit_time;

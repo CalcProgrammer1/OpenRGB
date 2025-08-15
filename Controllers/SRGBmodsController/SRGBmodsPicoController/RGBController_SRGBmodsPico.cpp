@@ -25,20 +25,20 @@
 
 RGBController_SRGBmodsPico::RGBController_SRGBmodsPico(SRGBmodsPicoController* controller_ptr)
 {
-    controller  = controller_ptr;
+    controller          = controller_ptr;
 
-    name        = "SRGBmods Device";
-    vendor      = "SRGBmods.net";
-    description = "SRGBmods Pico LED Controller Device";
-    type        = DEVICE_TYPE_LEDSTRIP;
-    location    = controller->GetLocationString();
-    serial      = controller->GetSerialString();
+    name                = controller->GetNameString();
+    vendor              = "SRGBmods.net";
+    description         = "SRGBmods Pico LED Controller Device";
+    type                = DEVICE_TYPE_LEDSTRIP;
+    location            = controller->GetLocationString();
+    serial              = controller->GetSerialString();
 
     mode Direct;
-    Direct.name       = "Direct";
-    Direct.value      = 0xFFFF;
-    Direct.flags      = MODE_FLAG_HAS_PER_LED_COLOR;
-    Direct.color_mode = MODE_COLORS_PER_LED;
+    Direct.name         = "Direct";
+    Direct.value        = 0xFFFF;
+    Direct.flags        = MODE_FLAG_HAS_PER_LED_COLOR;
+    Direct.color_mode   = MODE_COLORS_PER_LED;
     modes.push_back(Direct);
 
     SetupZones();

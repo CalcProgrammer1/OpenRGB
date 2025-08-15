@@ -26,7 +26,7 @@ RGBController_SRGBmodsLEDControllerV1::RGBController_SRGBmodsLEDControllerV1(SRG
 {
     controller                  = controller_ptr;
 
-    name                        = "SRGBmods Device";
+    name                        = controller->GetNameString();
     vendor                      = "SRGBmods.net";
     description                 = "SRGBmods LED Controller V1 Device";
     type                        = DEVICE_TYPE_LEDSTRIP;

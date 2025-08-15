@@ -15,10 +15,11 @@
 
 using namespace std::chrono_literals;
 
-SRGBmodsPicoController::SRGBmodsPicoController(hid_device* dev_handle, const char* path)
+SRGBmodsPicoController::SRGBmodsPicoController(hid_device* dev_handle, const char* path, std::string dev_name)
 {
     dev         = dev_handle;
     location    = path;
+    name        = dev_name;
 
     /*-----------------------------------------------------*\
     | The SRGBmods Pico controller requires a packet within |
@@ -54,6 +55,11 @@ void SRGBmodsPicoController::KeepaliveThread()
 std::string SRGBmodsPicoController::GetLocationString()
 {
     return("HID: " + location);
+}
+
+std::string SRGBmodsPicoController::GetNameString()
+{
+    return(name);
 }
 
 std::string SRGBmodsPicoController::GetSerialString()

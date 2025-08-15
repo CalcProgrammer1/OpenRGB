@@ -28,10 +28,11 @@ enum
 class SRGBmodsLEDControllerV1
 {
 public:
-    SRGBmodsLEDControllerV1(hid_device* dev_handle, const char* path);
+    SRGBmodsLEDControllerV1(hid_device* dev_handle, const char* path, std::string dev_name);
     ~SRGBmodsLEDControllerV1();
 
     std::string     GetLocationString();
+    std::string     GetNameString();
     std::string     GetSerialString();
 
     void            SetChannelLEDs(unsigned char channel, RGBColor * colors, unsigned int num_colors);
@@ -41,6 +42,7 @@ public:
 private:
     hid_device*     dev;
     std::string     location;
+    std::string     name;
 
     void            SendPacket
                         (

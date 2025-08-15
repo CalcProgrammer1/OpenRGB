@@ -15,10 +15,11 @@
 
 using namespace std::chrono_literals;
 
-SRGBmodsLEDControllerV1::SRGBmodsLEDControllerV1(hid_device* dev_handle, const char* path)
+SRGBmodsLEDControllerV1::SRGBmodsLEDControllerV1(hid_device* dev_handle, const char* path, std::string dev_name)
 {
     dev         = dev_handle;
     location    = path;
+    name        = dev_name;
 }
 
 SRGBmodsLEDControllerV1::~SRGBmodsLEDControllerV1()
@@ -29,6 +30,11 @@ SRGBmodsLEDControllerV1::~SRGBmodsLEDControllerV1()
 std::string SRGBmodsLEDControllerV1::GetLocationString()
 {
     return("HID: " + location);
+}
+
+std::string SRGBmodsLEDControllerV1::GetNameString()
+{
+    return(name);
 }
 
 std::string SRGBmodsLEDControllerV1::GetSerialString()
