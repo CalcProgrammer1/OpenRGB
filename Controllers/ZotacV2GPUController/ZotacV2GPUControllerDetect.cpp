@@ -30,13 +30,13 @@
 
 void DetectZotacV2GPUControllers(i2c_smbus_interface* bus, u8 i2c_addr, const std::string& name)
 {
-    u8 rdata_pkt[I2C_SMBUS_BLOCK_MAX] = { 0x00 };
-    int rdata_len = sizeof(rdata_pkt);
+    u8  rdata_pkt[I2C_SMBUS_BLOCK_MAX]  = { 0x00 };
+    int rdata_len                       = sizeof(rdata_pkt);
+
     if(bus->i2c_read_block(i2c_addr, &rdata_len, rdata_pkt) >= 0)
     {
-        ZotacV2GPUController*     controller     = new ZotacV2GPUController(bus, i2c_addr);
+        ZotacV2GPUController*     controller     = new ZotacV2GPUController(bus, i2c_addr, name);
         RGBController_ZotacV2GPU* rgb_controller = new RGBController_ZotacV2GPU(controller);
-        rgb_controller->name                     = name;
 
         if(rgb_controller->config.numberOfZones > 0)
         {
