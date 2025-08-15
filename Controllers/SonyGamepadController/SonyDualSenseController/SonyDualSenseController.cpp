@@ -15,11 +15,12 @@
 #include "SonyDualSenseController.h"
 #include "StringUtils.h"
 
-SonyDualSenseController::SonyDualSenseController(hid_device * device_handle, const char * device_path, bool is_bluetooth)
+SonyDualSenseController::SonyDualSenseController(hid_device * device_handle, const char * device_path, bool is_bluetooth, std::string dev_name)
 {
-    dev = device_handle;
-    location = device_path;
-    this->is_bluetooth = is_bluetooth;
+    dev                 = device_handle;
+    location            = device_path;
+    name                = dev_name;
+    this->is_bluetooth  = is_bluetooth;
 }
 
 SonyDualSenseController::~SonyDualSenseController()
@@ -30,6 +31,11 @@ SonyDualSenseController::~SonyDualSenseController()
 std::string SonyDualSenseController::GetLocation()
 {
     return("HID: " + location);
+}
+
+std::string SonyDualSenseController::GetName()
+{
+    return(name);
 }
 
 std::string SonyDualSenseController::GetSerialString()

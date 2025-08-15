@@ -34,10 +34,11 @@ enum
 class SonyDualSenseController
 {
 public:
-    SonyDualSenseController(hid_device * device_handle, const char * device_path, bool is_bluetooth);
+    SonyDualSenseController(hid_device * device_handle, const char * device_path, bool is_bluetooth, std::string dev_name);
     ~SonyDualSenseController();
 
     std::string     GetLocation();
+    std::string     GetName();
     std::string     GetSerialString();
 
     void            SetColors(std::vector<RGBColor> colors, unsigned char brightness, unsigned char mode_value);
@@ -46,5 +47,6 @@ public:
 private:
     hid_device*     dev;
     std::string     location;
+    std::string     name;
     bool            is_bluetooth;
 };

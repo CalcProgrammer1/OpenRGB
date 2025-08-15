@@ -25,49 +25,49 @@
 
 RGBController_SonyDualSense::RGBController_SonyDualSense(SonyDualSenseController* controller_ptr)
 {
-    controller  = controller_ptr;
+    controller                  = controller_ptr;
 
-    name        = "Sony DualSense";
+    name                        = controller->GetName();
 
     if(controller->IsBluetooth())
     {
         name.append(" (BT)");
     }
 
-    vendor      = "Sony";
-    type        = DEVICE_TYPE_GAMEPAD;
-    description = "Sony DualSense Device";
-    location    = controller->GetLocation();
-    serial      = controller->GetSerialString();
+    vendor                      = "Sony";
+    type                        = DEVICE_TYPE_GAMEPAD;
+    description                 = "Sony DualSense Device";
+    location                    = controller->GetLocation();
+    serial                      = controller->GetSerialString();
 
     mode Direct;
-    Direct.value               = SONY_DUALSENSE_DIRECT_MODE_VALUE;
-    Direct.name                = "Direct";
-    Direct.flags               = MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_HAS_BRIGHTNESS;
-    Direct.color_mode          = MODE_COLORS_PER_LED;
-    Direct.brightness_min      = SONY_DUALSENSE_BRIGHTNESS_MIN;
-    Direct.brightness_max      = SONY_DUALSENSE_BRIGHTNESS_MAX;
-    Direct.brightness          = SONY_DUALSENSE_DEFAULT_BRIGHTNESS;
+    Direct.value                = SONY_DUALSENSE_DIRECT_MODE_VALUE;
+    Direct.name                 = "Direct";
+    Direct.flags                = MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_HAS_BRIGHTNESS;
+    Direct.color_mode           = MODE_COLORS_PER_LED;
+    Direct.brightness_min       = SONY_DUALSENSE_BRIGHTNESS_MIN;
+    Direct.brightness_max       = SONY_DUALSENSE_BRIGHTNESS_MAX;
+    Direct.brightness           = SONY_DUALSENSE_DEFAULT_BRIGHTNESS;
     modes.push_back(Direct);
 
     mode Micoff;
-    Micoff.value               = SONY_DUALSENSE_MIC_OFF_MODE_VALUE;
-    Micoff.name                = "Mic Off (Direct)";
-    Micoff.flags               = MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_HAS_BRIGHTNESS;
-    Micoff.color_mode          = MODE_COLORS_PER_LED;
-    Micoff.brightness_min      = SONY_DUALSENSE_BRIGHTNESS_MIN;
-    Micoff.brightness_max      = SONY_DUALSENSE_BRIGHTNESS_MAX;
-    Micoff.brightness          = SONY_DUALSENSE_DEFAULT_BRIGHTNESS;
+    Micoff.value                = SONY_DUALSENSE_MIC_OFF_MODE_VALUE;
+    Micoff.name                 = "Mic Off (Direct)";
+    Micoff.flags                = MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_HAS_BRIGHTNESS;
+    Micoff.color_mode           = MODE_COLORS_PER_LED;
+    Micoff.brightness_min       = SONY_DUALSENSE_BRIGHTNESS_MIN;
+    Micoff.brightness_max       = SONY_DUALSENSE_BRIGHTNESS_MAX;
+    Micoff.brightness           = SONY_DUALSENSE_DEFAULT_BRIGHTNESS;
     modes.push_back(Micoff);
 
     mode Micpulse;
-    Micpulse.value             = SONY_DUALSENSE_MIC_PULSE_MODE_VALUE;
-    Micpulse.name              = "Mic Pulse (Direct)";
-    Micpulse.flags             = MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_HAS_BRIGHTNESS;
-    Micpulse.color_mode        = MODE_COLORS_PER_LED;
-    Micpulse.brightness_min    = SONY_DUALSENSE_BRIGHTNESS_MIN;
-    Micpulse.brightness_max    = SONY_DUALSENSE_BRIGHTNESS_MAX;
-    Micpulse.brightness        = SONY_DUALSENSE_DEFAULT_BRIGHTNESS;
+    Micpulse.value              = SONY_DUALSENSE_MIC_PULSE_MODE_VALUE;
+    Micpulse.name               = "Mic Pulse (Direct)";
+    Micpulse.flags              = MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_HAS_BRIGHTNESS;
+    Micpulse.color_mode         = MODE_COLORS_PER_LED;
+    Micpulse.brightness_min     = SONY_DUALSENSE_BRIGHTNESS_MIN;
+    Micpulse.brightness_max     = SONY_DUALSENSE_BRIGHTNESS_MAX;
+    Micpulse.brightness         = SONY_DUALSENSE_DEFAULT_BRIGHTNESS;
     modes.push_back(Micpulse);
 
     SetupZones();

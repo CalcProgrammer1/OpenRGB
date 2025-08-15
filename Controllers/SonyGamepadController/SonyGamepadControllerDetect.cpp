@@ -28,11 +28,12 @@
 void DetectSonyDS4Controllers(hid_device_info* info, const std::string&)
 {
     hid_device* dev = hid_open_path(info->path);
+
     if(dev)
     {
         SonyDS4Controller*      controller      = new SonyDS4Controller(dev, info->path);
         RGBController_SonyDS4*  rgb_controller  = new RGBController_SonyDS4(controller);
-        // Constructor sets the name
+
         ResourceManager::get()->RegisterRGBController(rgb_controller);
     }
 }
@@ -40,12 +41,13 @@ void DetectSonyDS4Controllers(hid_device_info* info, const std::string&)
 void DetectSonyDualSenseControllers(hid_device_info* info, const std::string& name)
 {
     hid_device* dev = hid_open_path(info->path);
+
     if(dev)
     {
         bool is_bluetooth = info->interface_number    == -1;
-        SonyDualSenseController*      controller      = new SonyDualSenseController(dev, info->path, is_bluetooth);
+        SonyDualSenseController*      controller      = new SonyDualSenseController(dev, info->path, is_bluetooth, name);
         RGBController_SonyDualSense*  rgb_controller  = new RGBController_SonyDualSense(controller);
-        rgb_controller->name                          = name;
+
         ResourceManager::get()->RegisterRGBController(rgb_controller);
     }
 }
