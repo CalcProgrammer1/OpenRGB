@@ -27,9 +27,9 @@ void DetectOKSKeyboardControllers(hid_device_info* info, const std::string& name
 
     if(dev)
     {
-        OKSKeyboardController*     controller     = new OKSKeyboardController(dev, info->path, info->product_id);
+        OKSKeyboardController*     controller     = new OKSKeyboardController(dev, info->path, info->product_id, name);
         RGBController_OKSKeyboard* rgb_controller = new RGBController_OKSKeyboard(controller);
-        rgb_controller->name = name;
+
         ResourceManager::get()->RegisterRGBController(rgb_controller);
     }
 }   /* DetectOKSKeyboardControllers() */

@@ -67,26 +67,28 @@ union uint32_kb2
 class OKSKeyboardController
 {
 public:
-    OKSKeyboardController(hid_device* dev_handle, const char* path, const unsigned short pid);
+    OKSKeyboardController(hid_device* dev_handle, const char* path, const unsigned short pid, std::string dev_name);
     ~OKSKeyboardController();
 
     std::string     GetDeviceLocation();
+    std::string     GetNameString();
     std::string     GetSerialString();
     unsigned short  GetUSBPID();
 
-    void SendColors(unsigned char* color_data, unsigned int color_data_size);
-    void SendKeyboardModeEx(const mode &m, unsigned char red, unsigned char green, unsigned char blue);
+    void            SendColors(unsigned char* color_data, unsigned int color_data_size);
+    void            SendKeyboardModeEx(const mode &m, unsigned char red, unsigned char green, unsigned char blue);
 
 private:
-    hid_device*             dev;
-    std::string             location;
-    unsigned short          usb_pid;
+    hid_device*     dev;
+    std::string     location;
+    std::string     name;
+    unsigned short  usb_pid;
 
-    void Send(const uint8_t bin[64], const uint16_t len);
-    void SendInitialize();
-    uint8_t kb2_ComputeChecksum(const union kb2_port_t* const Pack);
-    int kb2_add_32b(union kb2_port_t* const Pack, const uint32_t value);
-    void kb2M_init(union kb2_port_t* const Pack, const enum kb2_cmd cmd);
-    void kb2M_wrgb(union kb2_port_t* const Pack, const uint8_t bright, const uint8_t mode, const uint8_t speed, const uint8_t dir);
-    void kb2M_wled(union kb2_port_t* const Pack, const uint32_t irgb[14]);
+    void            Send(const uint8_t bin[64], const uint16_t len);
+    void            SendInitialize();
+    uint8_t         kb2_ComputeChecksum(const union kb2_port_t* const Pack);
+    int             kb2_add_32b(union kb2_port_t* const Pack, const uint32_t value);
+    void            kb2M_init(union kb2_port_t* const Pack, const enum kb2_cmd cmd);
+    void            kb2M_wrgb(union kb2_port_t* const Pack, const uint8_t bright, const uint8_t mode, const uint8_t speed, const uint8_t dir);
+    void            kb2M_wled(union kb2_port_t* const Pack, const uint32_t irgb[14]);
 };

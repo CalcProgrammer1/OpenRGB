@@ -13,10 +13,11 @@
 #include "OKSKeyboardController.h"
 #include "StringUtils.h"
 
-OKSKeyboardController::OKSKeyboardController(hid_device* dev_handle, const char* path, const unsigned short pid)
+OKSKeyboardController::OKSKeyboardController(hid_device* dev_handle, const char* path, const unsigned short pid, std::string dev_name)
 {
     dev         = dev_handle;
     location    = path;
+    name        = dev_name;
     usb_pid     = pid;
 
     SendInitialize();
@@ -30,6 +31,11 @@ OKSKeyboardController::~OKSKeyboardController()
 std::string OKSKeyboardController::GetDeviceLocation()
 {
     return("HID: " + location);
+}
+
+std::string OKSKeyboardController::GetNameString()
+{
+    return(name);
 }
 
 std::string OKSKeyboardController::GetSerialString()

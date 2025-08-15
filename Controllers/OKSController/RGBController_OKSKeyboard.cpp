@@ -109,47 +109,46 @@ enum
 
 RGBController_OKSKeyboard::RGBController_OKSKeyboard(OKSKeyboardController* controller_ptr)
 {
-    controller  = controller_ptr;
+    controller              = controller_ptr;
 
-
-    name        = "OKS Keyboard Device";
-    vendor      = "OKS";
-    type        = DEVICE_TYPE_KEYBOARD;
-    description = "OKS Keyboard Device";
-    location    = controller->GetDeviceLocation();
-    serial      = controller->GetSerialString();
+    name                    = controller->GetNameString();
+    vendor                  = "OKS";
+    type                    = DEVICE_TYPE_KEYBOARD;
+    description             = "OKS Keyboard Device";
+    location                = controller->GetDeviceLocation();
+    serial                  = controller->GetSerialString();
 
     mode Direct;
-    Direct.name                       = "Direct";
-    Direct.value                      = UP_RGB_MODES_DIRECT;
-    Direct.flags                      = MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_HAS_BRIGHTNESS ;
-    Direct.brightness_min             = 0;
-    Direct.brightness_max             = 5;
-    Direct.brightness                 = 2;
-    Direct.color_mode                 = MODE_COLORS_PER_LED;
-    Direct.speed_min                  = OKS_SPEED_FASTEST;
-    Direct.speed_max                  = OKS_SPEED_SLOWEST;
-    Direct.speed                      = OKS_SPEED_NORMAL;
-    Direct.direction                  = MODE_DIRECTION_RIGHT;
+    Direct.name             = "Direct";
+    Direct.value            = UP_RGB_MODES_DIRECT;
+    Direct.flags            = MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_HAS_BRIGHTNESS ;
+    Direct.brightness_min   = 0;
+    Direct.brightness_max   = 5;
+    Direct.brightness       = 2;
+    Direct.color_mode       = MODE_COLORS_PER_LED;
+    Direct.speed_min        = OKS_SPEED_FASTEST;
+    Direct.speed_max        = OKS_SPEED_SLOWEST;
+    Direct.speed            = OKS_SPEED_NORMAL;
+    Direct.direction        = MODE_DIRECTION_RIGHT;
     modes.push_back(Direct);
 
     mode udef = Direct;
-    udef.name                         = "User mode1";
-    udef.value                        = UP_RGB_MODES_UDEF1;
-    udef.direction                    = MODE_DIRECTION_LEFT;
-    udef.speed                        = 0;
+    udef.name               = "User mode1";
+    udef.value              = UP_RGB_MODES_UDEF1;
+    udef.direction          = MODE_DIRECTION_LEFT;
+    udef.speed              = 0;
     modes.push_back(udef);
-    udef.name                         = "User mode2";
-    udef.value                        = UP_RGB_MODES_UDEF2;
+    udef.name               = "User mode2";
+    udef.value              = UP_RGB_MODES_UDEF2;
     modes.push_back(udef);
-    udef.name                         = "User mode3";
-    udef.value                        = UP_RGB_MODES_UDEF3;
+    udef.name               = "User mode3";
+    udef.value              = UP_RGB_MODES_UDEF3;
     modes.push_back(udef);
-    udef.name                         = "User mode4";
-    udef.value                        = UP_RGB_MODES_UDEF4;
+    udef.name               = "User mode4";
+    udef.value              = UP_RGB_MODES_UDEF4;
     modes.push_back(udef);
-    udef.name                         = "User mode5";
-    udef.value                        = UP_RGB_MODES_UDEF5;
+    udef.name               = "User mode5";
+    udef.value              = UP_RGB_MODES_UDEF5;
     modes.push_back(udef);
     /*---------------------------------------------------------*\
     | Delete the "Horse race lamp","Breathing"... mode          |
