@@ -58,6 +58,7 @@ RGBController_AuraTUFKeyboard::RGBController_AuraTUFKeyboard(AuraTUFKeyboardCont
             case AURA_TUF_K3_GAMING_PID:
             case AURA_TUF_K3_GAMING_GEN2_PID:
             case AURA_TUF_K7_GAMING_PID:
+            case AURA_TUF_K3_GENII_MIKU_EDITION_PID:
                 AURA_KEYBOARD_SPEED_MIN          = 15;
                 AURA_KEYBOARD_SPEED_MAX          = 0;
                 AURA_KEYBOARD_SPEED_DEFAULT      = 8;
@@ -427,6 +428,7 @@ void RGBController_AuraTUFKeyboard::SetupZones()
         case AURA_TUF_K3_GAMING_PID:
         case AURA_TUF_K3_GAMING_GEN2_PID:
         case AURA_TUF_K7_GAMING_PID:
+        case AURA_TUF_K3_GENII_MIKU_EDITION_PID:
             keyboard_ptr = &AsusTUFK7Layouts;
             break;
         case AURA_ROG_STRIX_SCOPE_PID:
