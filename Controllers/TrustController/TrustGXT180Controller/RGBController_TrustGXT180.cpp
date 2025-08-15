@@ -27,13 +27,13 @@
 RGBController_TrustGXT180::RGBController_TrustGXT180(TrustGXT180Controller* controller_ptr)
 {
     controller                          = controller_ptr;
-    name                                = "Trust GXT 180";
+
+    name                                = controller->GetNameString();
     vendor                              = "Trust";
     type                                = DEVICE_TYPE_MOUSE;
-    description                         = name;
+    description                         = "Trust GXT 180 Device";
     location                            = controller->GetDeviceLocation();
     serial                              = controller->GetSerialString();
-    version                             = controller->GetFirmwareVersion();
 
     mode Static;
     Static.name                         = "Static";

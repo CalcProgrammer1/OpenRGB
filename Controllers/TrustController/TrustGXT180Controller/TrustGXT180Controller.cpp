@@ -13,11 +13,11 @@
 #include "StringUtils.h"
 #include "TrustGXT180Controller.h"
 
-TrustGXT180Controller::TrustGXT180Controller(hid_device* dev_handle, const hid_device_info& info)
+TrustGXT180Controller::TrustGXT180Controller(hid_device* dev_handle, const hid_device_info& info, std::string dev_name)
 {
     dev                 = dev_handle;
     location            = info.path;
-    version             = "";
+    name                = dev_name;
 }
 
 TrustGXT180Controller::~TrustGXT180Controller()
@@ -28,6 +28,11 @@ TrustGXT180Controller::~TrustGXT180Controller()
 std::string TrustGXT180Controller::GetDeviceLocation()
 {
     return("HID: " + location);
+}
+
+std::string TrustGXT180Controller::GetNameString()
+{
+    return(name);
 }
 
 std::string TrustGXT180Controller::GetSerialString()
@@ -41,11 +46,6 @@ std::string TrustGXT180Controller::GetSerialString()
     }
 
     return(StringUtils::wstring_to_string(serial_string));
-}
-
-std::string TrustGXT180Controller::GetFirmwareVersion()
-{
-    return(version);
 }
 
 void TrustGXT180Controller::SetMode(RGBColor color, unsigned char brightness, unsigned char speed, unsigned char mode_value)

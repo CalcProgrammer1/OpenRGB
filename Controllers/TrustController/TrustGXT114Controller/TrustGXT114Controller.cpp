@@ -13,11 +13,11 @@
 #include "StringUtils.h"
 #include "TrustGXT114Controller.h"
 
-TrustGXT114Controller::TrustGXT114Controller(hid_device* dev_handle, const hid_device_info& info)
+TrustGXT114Controller::TrustGXT114Controller(hid_device* dev_handle, const hid_device_info& info, std::string dev_name)
 {
-    dev                 = dev_handle;
-    location            = info.path;
-    version             = "";
+    dev             = dev_handle;
+    location        = info.path;
+    name            = dev_name;
 }
 
 TrustGXT114Controller::~TrustGXT114Controller()
@@ -28,6 +28,11 @@ TrustGXT114Controller::~TrustGXT114Controller()
 std::string TrustGXT114Controller::GetDeviceLocation()
 {
     return("HID: " + location);
+}
+
+std::string TrustGXT114Controller::GetNameString()
+{
+    return(name);
 }
 
 std::string TrustGXT114Controller::GetSerialString()
@@ -41,11 +46,6 @@ std::string TrustGXT114Controller::GetSerialString()
     }
 
     return(StringUtils::wstring_to_string(serial_string));
-}
-
-std::string TrustGXT114Controller::GetFirmwareVersion()
-{
-    return(version);
 }
 
 bool TrustGXT114Controller::Test()

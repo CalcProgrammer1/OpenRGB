@@ -41,12 +41,13 @@ enum
 class TrustGXT114Controller
 {
 public:
-    TrustGXT114Controller(hid_device* dev_handle, const hid_device_info& info);
+    TrustGXT114Controller(hid_device* dev_handle, const hid_device_info& info, std::string dev_name);
     ~TrustGXT114Controller();
 
     std::string                 GetSerialString();
     std::string                 GetDeviceLocation();
-    std::string                 GetFirmwareVersion();
+    std::string                 GetNameString();
+
     bool                        Test();
     void                        SetMode(RGBColor color, unsigned char brightness, unsigned char speed, unsigned char mode_value);
 
@@ -54,6 +55,6 @@ protected:
     hid_device* dev;
 
 private:
+    std::string                 name;
     std::string                 location;
-    std::string                 version;
 };
