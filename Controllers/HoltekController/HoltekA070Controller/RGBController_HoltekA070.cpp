@@ -26,7 +26,7 @@ RGBController_HoltekA070::RGBController_HoltekA070(HoltekA070Controller* control
 {
     controller              = controller_ptr;
 
-    name                    = "Holtek USB Gaming Mouse";
+    name                    = controller->GetNameString();
     vendor                  = "Holtek";
     type                    = DEVICE_TYPE_MOUSE;
     description             = "Holtek USB Gaming Mouse Device";

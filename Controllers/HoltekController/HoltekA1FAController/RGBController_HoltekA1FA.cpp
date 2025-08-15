@@ -26,7 +26,7 @@ RGBController_HoltekA1FA::RGBController_HoltekA1FA(HoltekA1FAController* control
 {
     controller              = controller_ptr;
 
-    name                    = "Holtek Mousemat";
+    name                    = controller->GetNameString();
     vendor                  = "Holtek";
     type                    = DEVICE_TYPE_MOUSEMAT;
     description             = "Holtek Mousemat Device";

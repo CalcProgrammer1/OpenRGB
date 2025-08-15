@@ -13,10 +13,11 @@
 #include "HoltekA1FAController.h"
 #include "StringUtils.h"
 
-HoltekA1FAController::HoltekA1FAController(hid_device *dev_handle, const char *path)
+HoltekA1FAController::HoltekA1FAController(hid_device *dev_handle, const char *path, std::string dev_name)
 {
-    dev = dev_handle;
-    location = path;
+    dev         = dev_handle;
+    location    = path;
+    name        = dev_name;
 }
 
 HoltekA1FAController::~HoltekA1FAController()
@@ -26,7 +27,12 @@ HoltekA1FAController::~HoltekA1FAController()
 
 std::string HoltekA1FAController::GetDeviceLocation()
 {
-    return ("HID: " + location);
+    return("HID: " + location);
+}
+
+std::string HoltekA1FAController::GetNameString()
+{
+    return(name);
 }
 
 std::string HoltekA1FAController::GetSerialString()
