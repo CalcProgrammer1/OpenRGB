@@ -35,15 +35,7 @@ void DetectCorsairV2HardwareControllers(hid_device_info* info, const std::string
     {
         CorsairPeripheralV2HWController*    controller      = new CorsairPeripheralV2HWController(dev, info->path, name);
         RGBController_CorsairV2HW*          rgb_controller  = new RGBController_CorsairV2HW(controller);
-        if(info->product_id == CORSAIR_SLIPSTREAM_WIRELESS_PID1
-        || info->product_id == CORSAIR_SLIPSTREAM_WIRELESS_PID2)
-        {
-            rgb_controller->name                            = controller->GetName();
-        }
-        else
-        {
-            rgb_controller->name                            = name;
-        }
+
         ResourceManager::get()->RegisterRGBController(rgb_controller);
     }
 }   /* DetectCorsairV2HardwareControllers() */
@@ -56,11 +48,10 @@ void DetectCorsairV2SoftwareControllers(hid_device_info* info, const std::string
     {
         CorsairPeripheralV2SWController*    controller      = new CorsairPeripheralV2SWController(dev, info->path, name);
         RGBController_CorsairV2SW*          rgb_controller  = new RGBController_CorsairV2SW(controller);
-        rgb_controller->name                                = name;
+
         ResourceManager::get()->RegisterRGBController(rgb_controller);
     }
 }   /* DetectCorsairV2SoftwareControllers() */
-
 
 /*-----------------------------------------------------------------------------------------------------*\
 | Keyboards                                                                                             |
@@ -95,6 +86,7 @@ REGISTER_HID_DETECTOR_IP("Corsair M65 RGB Ultra Wired",             DetectCorsai
 REGISTER_HID_DETECTOR_IP("Corsair M65 RGB Ultra Wireless (Wired)",  DetectCorsairV2HardwareControllers, CORSAIR_VID,    CORSAIR_M65_RGB_ULTRA_WIRELESS_PID,     1,  0xFF42);
 REGISTER_HID_DETECTOR_IP("Corsair Slipstream Wireless Receiver HW", DetectCorsairV2HardwareControllers, CORSAIR_VID,    CORSAIR_SLIPSTREAM_WIRELESS_PID1,       1,  0xFF42);
 REGISTER_HID_DETECTOR_IP("Corsair Slipstream Wireless Receiver SW", DetectCorsairV2SoftwareControllers, CORSAIR_VID,    CORSAIR_SLIPSTREAM_WIRELESS_PID2,       1,  0xFF42);
+
 /*-----------------------------------------------------------------------------------------------------*\
 | Mousemat                                                                                              |
 \*-----------------------------------------------------------------------------------------------------*/

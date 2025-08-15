@@ -14,21 +14,11 @@
 
 using namespace std::chrono_literals;
 
-CorsairPeripheralV2Controller::CorsairPeripheralV2Controller(hid_device* dev_handle, const char* path, std::string /*name*/)
+CorsairPeripheralV2Controller::CorsairPeripheralV2Controller(hid_device* dev_handle, const char* path, std::string name)
 {
     dev                 = dev_handle;
     location            = path;
-
-    /*---------------------------------------------------------*\
-    | Get device name from HID manufacturer and product strings |
-    \*---------------------------------------------------------*/
-    wchar_t name_string[HID_MAX_STR];
-
-    hid_get_manufacturer_string(dev, name_string, HID_MAX_STR);
-    device_name = StringUtils::wstring_to_string(name_string);
-
-    hid_get_product_string(dev, name_string, HID_MAX_STR);
-    device_name.append(" ").append(StringUtils::wstring_to_string(name_string));
+    device_name         = name;
 
     /*---------------------------------------------------------*\
     | Get PID                                                   |

@@ -31,8 +31,9 @@ RGBController_CorsairV2SW::RGBController_CorsairV2SW(CorsairPeripheralV2Controll
     controller                          = controller_ptr;
     const corsair_v2_device* corsair    = controller->GetDeviceData();
 
+    name                                = controller->GetName();
     vendor                              = "Corsair";
-    description                         = controller->GetName();
+    description                         = "Corsair Peripheral V2 SW Device";
     type                                = corsair->type;
     version                             = controller->GetFirmwareString();
     location                            = controller->GetDeviceLocation();
