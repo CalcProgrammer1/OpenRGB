@@ -26,7 +26,7 @@ RGBController_SapphireNitroGlowV1::RGBController_SapphireNitroGlowV1(SapphireNit
 {
     controller                 = controller_ptr;
 
-    name                       = "Sapphire Nitro Glow V1 Device";
+    name                       = controller->GetDeviceName();
     vendor                     = "Sapphire";
     description                = "Sapphire Nitro Glow V1 Device";
     location                   = controller->GetDeviceLocation();

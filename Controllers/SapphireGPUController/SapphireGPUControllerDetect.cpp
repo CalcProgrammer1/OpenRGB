@@ -62,9 +62,8 @@ void DetectSapphireV1Controllers(i2c_smbus_interface* bus, uint8_t i2c_addr, con
 {
     if(TestForSapphireGPUController(bus, i2c_addr))
     {
-        SapphireNitroGlowV1Controller*     new_sapphire_gpu = new SapphireNitroGlowV1Controller(bus, i2c_addr);
+        SapphireNitroGlowV1Controller*     new_sapphire_gpu = new SapphireNitroGlowV1Controller(bus, i2c_addr, name);
         RGBController_SapphireNitroGlowV1* new_controller   = new RGBController_SapphireNitroGlowV1(new_sapphire_gpu);
-        new_controller->name                                = name;
 
         ResourceManager::get()->RegisterRGBController(new_controller);
     }
@@ -74,9 +73,8 @@ void DetectSapphireV3Controllers(i2c_smbus_interface* bus, uint8_t i2c_addr, con
 {
     if(TestForSapphireGPUController(bus, i2c_addr))
     {
-        SapphireNitroGlowV3Controller*     new_sapphire_gpu = new SapphireNitroGlowV3Controller(bus, i2c_addr);
+        SapphireNitroGlowV3Controller*     new_sapphire_gpu = new SapphireNitroGlowV3Controller(bus, i2c_addr, name);
         RGBController_SapphireNitroGlowV3* new_controller   = new RGBController_SapphireNitroGlowV3(new_sapphire_gpu);
-        new_controller->name                                = name;
 
         ResourceManager::get()->RegisterRGBController(new_controller);
     }

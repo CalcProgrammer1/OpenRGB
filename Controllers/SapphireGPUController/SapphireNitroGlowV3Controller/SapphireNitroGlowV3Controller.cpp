@@ -11,10 +11,11 @@
 
 #include "SapphireNitroGlowV3Controller.h"
 
-SapphireNitroGlowV3Controller::SapphireNitroGlowV3Controller(i2c_smbus_interface* bus, sapphire_dev_id dev)
+SapphireNitroGlowV3Controller::SapphireNitroGlowV3Controller(i2c_smbus_interface* bus, sapphire_dev_id dev, std::string dev_name)
 {
-    this->bus = bus;
-    this->dev = dev;
+    this->bus   = bus;
+    this->dev   = dev;
+    this->name  = dev_name;
 }
 
 SapphireNitroGlowV3Controller::~SapphireNitroGlowV3Controller()
@@ -30,6 +31,11 @@ std::string SapphireNitroGlowV3Controller::GetDeviceLocation()
     return_string.append(", address ");
     return_string.append(addr);
     return("I2C: " + return_string);
+}
+
+std::string SapphireNitroGlowV3Controller::GetDeviceName()
+{
+    return(name);
 }
 
 unsigned char SapphireNitroGlowV3Controller::GetRed()

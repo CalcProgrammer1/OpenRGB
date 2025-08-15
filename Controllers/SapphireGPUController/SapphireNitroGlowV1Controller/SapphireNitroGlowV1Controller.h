@@ -41,10 +41,11 @@ enum
 class SapphireNitroGlowV1Controller
 {
 public:
-    SapphireNitroGlowV1Controller(i2c_smbus_interface* bus, sapphire_dev_id dev);
+    SapphireNitroGlowV1Controller(i2c_smbus_interface* bus, sapphire_dev_id dev, std::string dev_name);
     ~SapphireNitroGlowV1Controller();
 
     std::string     GetDeviceLocation();
+    std::string     GetDeviceName();
 
     unsigned char   GetRed();
     unsigned char   GetGreen();
@@ -61,5 +62,5 @@ public:
 private:
     i2c_smbus_interface*    bus;
     sapphire_dev_id         dev;
-
+    std::string             name;
 };
