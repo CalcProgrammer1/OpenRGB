@@ -31,10 +31,11 @@ enum
 class RedragonMouseController
 {
 public:
-    RedragonMouseController(hid_device* dev_handle, const char* path);
+    RedragonMouseController(hid_device* dev_handle, const char* path, std::string dev_name);
     ~RedragonMouseController();
 
     std::string GetDeviceLocation();
+    std::string GetNameString();
     std::string GetSerialString();
 
     void        SendMouseApply();
@@ -62,8 +63,9 @@ public:
                     );
 
 private:
-    hid_device*             dev;
-    std::string             location;
+    hid_device* dev;
+    std::string location;
+    std::string name;
 
     void        SendWritePacket
                     (

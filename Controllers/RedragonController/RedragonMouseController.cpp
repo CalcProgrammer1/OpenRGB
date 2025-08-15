@@ -13,10 +13,11 @@
 #include "RedragonMouseController.h"
 #include "StringUtils.h"
 
-RedragonMouseController::RedragonMouseController(hid_device* dev_handle, const char* path)
+RedragonMouseController::RedragonMouseController(hid_device* dev_handle, const char* path, std::string dev_name)
 {
     dev         = dev_handle;
     location    = path;
+    name        = dev_name;
 
     unsigned char active_profile = 0x00;
 
@@ -32,6 +33,11 @@ RedragonMouseController::~RedragonMouseController()
 std::string RedragonMouseController::GetDeviceLocation()
 {
     return("HID: " + location);
+}
+
+std::string RedragonMouseController::GetNameString()
+{
+    return(name);
 }
 
 std::string RedragonMouseController::GetSerialString()
