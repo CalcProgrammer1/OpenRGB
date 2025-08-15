@@ -11,16 +11,40 @@
 #include "StringUtils.h"
 #include "WushiL50USBController.h"
 
-WushiL50USBController::WushiL50USBController(hidapi_wrapper hid_wrapper, hid_device* dev_handle, const char* path)
+WushiL50USBController::WushiL50USBController(hidapi_wrapper hid_wrapper, hid_device* dev_handle, const char* path, std::string dev_name)
 {
     wrapper     = hid_wrapper;
     dev         = dev_handle;
     location    = path;
+    name        = dev_name;
 }
 
 WushiL50USBController::~WushiL50USBController()
 {
     wrapper.hid_close(dev);
+}
+
+std::string WushiL50USBController::getName()
+{
+    return name;
+}
+
+std::string WushiL50USBController::getLocation()
+{
+    return location;
+}
+
+std::string WushiL50USBController::GetSerialString()
+{
+    wchar_t serial_string[128];
+    int ret = wrapper.hid_get_serial_number_string(dev, serial_string, 128);
+
+    if(ret != 0)
+    {
+        return("");
+    }
+
+    return(StringUtils::wstring_to_string(serial_string));
 }
 
 void WushiL50USBController::setMode(WushiL50State * in_mode)
@@ -61,27 +85,4 @@ void WushiL50USBController::setMode(WushiL50State * in_mode)
     | Send packet                                           |
     \*-----------------------------------------------------*/
     wrapper.hid_send_feature_report(dev, usb_buf, WUSHI_L50_HID_PACKET_SIZE);
-}
-
-std::string WushiL50USBController::getName()
-{
-    return name;
-}
-
-std::string WushiL50USBController::getLocation()
-{
-    return location;
-}
-
-std::string WushiL50USBController::GetSerialString()
-{
-    wchar_t serial_string[128];
-    int ret = wrapper.hid_get_serial_number_string(dev, serial_string, 128);
-
-    if(ret != 0)
-    {
-        return("");
-    }
-
-    return(StringUtils::wstring_to_string(serial_string));
 }

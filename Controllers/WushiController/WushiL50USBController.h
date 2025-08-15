@@ -95,18 +95,18 @@ public:
 class WushiL50USBController
 {
 public:
-    WushiL50USBController(hidapi_wrapper hid_wrapper, hid_device* dev_handle, const char* path);
+    WushiL50USBController(hidapi_wrapper hid_wrapper, hid_device* dev_handle, const char* path, std::string dev_name);
     ~WushiL50USBController();
-
-    void        setMode(WushiL50State * in_mode);
 
     std::string getName();
     std::string getLocation();
     std::string GetSerialString();
 
+    void        setMode(WushiL50State * in_mode);
+
 private:
-    std::string     name;
     hidapi_wrapper  wrapper;
     hid_device *    dev;
     std::string     location;
+    std::string     name;
 };
