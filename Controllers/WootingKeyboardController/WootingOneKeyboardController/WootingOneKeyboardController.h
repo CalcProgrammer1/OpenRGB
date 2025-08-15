@@ -16,7 +16,7 @@
 class WootingOneKeyboardController : public WootingKeyboardController
 {
 public:
-    WootingOneKeyboardController(hid_device* dev_handle, const char *path, uint8_t wooting_type);
+    WootingOneKeyboardController(hid_device* dev_handle, const char *path, uint8_t wooting_type, std::string dev_name);
     ~WootingOneKeyboardController();
 
     void                SendDirect(RGBColor* colors, uint8_t colour_count);

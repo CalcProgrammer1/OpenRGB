@@ -36,10 +36,11 @@ static unsigned int matrix_to_led_index_map_full[WOOTING_RGB_ROWS * WOOTING_TWO_
   80, 101,  NA,  18,  39,  60,  81, 102, 123,  19,  40,  61,  82, 103, 124,  20,  41,  62,  NA, 104,  NA
 };
 
-WootingTwoKeyboardController::WootingTwoKeyboardController(hid_device* dev_handle, const char *path, uint8_t wooting_type)
+WootingTwoKeyboardController::WootingTwoKeyboardController(hid_device* dev_handle, const char *path, uint8_t wooting_type, std::string dev_name)
 {
     dev                 = dev_handle;
     location            = path;
+    name                = dev_name;
     this->wooting_type  = wooting_type;
     key_code_limit      = (wooting_type == WOOTING_KB_TKL) ? WOOTING_ONE_KEY_CODE_LIMIT : WOOTING_TWO_KEY_CODE_LIMIT;
 

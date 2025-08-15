@@ -53,10 +53,11 @@ static uint16_t getCrc16ccitt(const uint8_t* buffer, uint16_t size)
     return crc;
 }
 
-WootingOneKeyboardController::WootingOneKeyboardController(hid_device* dev_handle, const char *path, uint8_t wooting_type)
+WootingOneKeyboardController::WootingOneKeyboardController(hid_device* dev_handle, const char *path, uint8_t wooting_type, std::string dev_name)
 {
     dev                 = dev_handle;
     location            = path;
+    name                = dev_name;
     this->wooting_type  = wooting_type;
     key_code_limit      = (wooting_type == WOOTING_KB_TKL) ? WOOTING_ONE_KEY_CODE_LIMIT : WOOTING_TWO_KEY_CODE_LIMIT;
 

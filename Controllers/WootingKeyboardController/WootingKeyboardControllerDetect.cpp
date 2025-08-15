@@ -67,11 +67,10 @@ void DetectWootingOneKeyboardControllers(hid_device_info* info, const std::strin
         uint8_t wooting_type = (info->product_id == WOOTING_ONE_OLD_PID) ? WOOTING_KB_TKL : WOOTING_KB_FULL;
 
         LOG_DEBUG("[%s] Device type %i opened - creating Controller", controller_name, wooting_type);
-        WootingOneKeyboardController*   controller      = new WootingOneKeyboardController(dev, info->path, wooting_type);
+        WootingOneKeyboardController*   controller      = new WootingOneKeyboardController(dev, info->path, wooting_type, name);
 
         LOG_DEBUG("[%s] Controller created - creating RGBController", controller_name);
         RGBController_WootingKeyboard*  rgb_controller  = new RGBController_WootingKeyboard(controller);
-        rgb_controller->name = name;
 
         LOG_DEBUG("[%s] Initialization complete - Registering controller\t%s", controller_name, name.c_str());
         ResourceManager::get()->RegisterRGBController(rgb_controller);
@@ -95,11 +94,10 @@ void DetectWootingTwoKeyboardControllers(hid_device_info* info, const std::strin
         }
 
         LOG_DEBUG("[%s] Device type %i opened - creating Controller", controller_name, wooting_type);
-        WootingTwoKeyboardController*  controller       = new WootingTwoKeyboardController(dev, info->path, wooting_type);
+        WootingTwoKeyboardController*  controller       = new WootingTwoKeyboardController(dev, info->path, wooting_type, name);
 
         LOG_DEBUG("[%s] Controller created - creating RGBController",  controller_name);
         RGBController_WootingKeyboard* rgb_controller   = new RGBController_WootingKeyboard(controller);
-        rgb_controller->name = name;
 
         LOG_DEBUG("[%s] Initialization complete - Registering controller\t%s", controller_name, name.c_str());
         ResourceManager::get()->RegisterRGBController(rgb_controller);

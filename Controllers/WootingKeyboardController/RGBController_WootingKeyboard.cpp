@@ -303,22 +303,22 @@ static const char *led_names_80HE[] =
 
 RGBController_WootingKeyboard::RGBController_WootingKeyboard(WootingKeyboardController* controller_ptr)
 {
-    controller  = controller_ptr;
+    controller          = controller_ptr;
 
     LOG_DEBUG("%sAdding meta data", WOOTING_CONTROLLER_NAME);
-    name        = controller->GetName();
-    vendor      = controller->GetVendor();
-    type        = DEVICE_TYPE_KEYBOARD;
-    description = controller->GetDescription();
-    location    = controller->GetLocation();
-    serial      = controller->GetSerial();
+    name                = controller->GetName();
+    vendor              = controller->GetVendor();
+    type                = DEVICE_TYPE_KEYBOARD;
+    description         = controller->GetDescription();
+    location            = controller->GetLocation();
+    serial              = controller->GetSerial();
 
     LOG_DEBUG("%sAdding modes", WOOTING_CONTROLLER_NAME);
     mode Direct;
-    Direct.name       = "Direct";
-    Direct.value      = 0xFFFF;
-    Direct.flags      = MODE_FLAG_HAS_PER_LED_COLOR;
-    Direct.color_mode = MODE_COLORS_PER_LED;
+    Direct.name         = "Direct";
+    Direct.value        = 0xFFFF;
+    Direct.flags        = MODE_FLAG_HAS_PER_LED_COLOR;
+    Direct.color_mode   = MODE_COLORS_PER_LED;
     modes.push_back(Direct);
 
     SetupZones();
