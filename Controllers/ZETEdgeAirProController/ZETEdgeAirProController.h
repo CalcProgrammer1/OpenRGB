@@ -38,12 +38,12 @@ enum
 class ZETEdgeAirProController
 {
 public:
-    ZETEdgeAirProController(hid_device* dev_handle, const hid_device_info& info);
+    ZETEdgeAirProController(hid_device* dev_handle, const hid_device_info& info, std::string dev_name);
     ~ZETEdgeAirProController();
 
-    std::string                 GetSerialString();
     std::string                 GetDeviceLocation();
-    std::string                 GetFirmwareVersion();
+    std::string                 GetNameString();
+    std::string                 GetSerialString();
 
     void                        SetMode(RGBColor color, unsigned char brightness, unsigned char speed, unsigned char mode_value);
 
@@ -52,5 +52,5 @@ protected:
 
 private:
     std::string                 location;
-    std::string                 version;
+    std::string                 name;
 };

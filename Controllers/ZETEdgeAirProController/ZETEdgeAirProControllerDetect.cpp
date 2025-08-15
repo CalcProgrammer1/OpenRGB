@@ -32,15 +32,14 @@ void DetectZETGAMINGEdgeAirProControllers(hid_device_info* info, const std::stri
 
     if(dev)
     {
-        ZETEdgeAirProController*     controller      = new ZETEdgeAirProController(dev, *info);
+        ZETEdgeAirProController*     controller      = new ZETEdgeAirProController(dev, *info, name);
         RGBController_ZETEdgeAirPro* rgb_controller  = new RGBController_ZETEdgeAirPro(controller);
 
-        rgb_controller->name                         = name;
         ResourceManager::get()->RegisterRGBController(rgb_controller);
     }
 }
 
-REGISTER_HID_DETECTOR_IPU("ZET GAMING Edge Air Pro (Wireless)", DetectZETGAMINGEdgeAirProControllers, ZET_GAMING_VID, ZET_GAMING_EDGE_AIR_PRO_WIRELESS_PID, 1, 0xFF02, 2);
-REGISTER_HID_DETECTOR_IPU("ZET GAMING Edge Air Pro", DetectZETGAMINGEdgeAirProControllers, ZET_GAMING_VID, ZET_GAMING_EDGE_AIR_PRO_PID, 1, 0xFF02, 2);
-REGISTER_HID_DETECTOR_IPU("ZET GAMING Edge Air Elit (Wireless)", DetectZETGAMINGEdgeAirProControllers, ZET_GAMING_VID, ZET_GAMING_EDGE_AIR_ELIT_WIRELESS_PID, 1, 0xFF02, 2);
-REGISTER_HID_DETECTOR_IPU("ZET GAMING Edge Air Elit", DetectZETGAMINGEdgeAirProControllers, ZET_GAMING_VID, ZET_GAMING_EDGE_AIR_ELIT_PID, 1, 0xFF02, 2);
+REGISTER_HID_DETECTOR_IPU("ZET GAMING Edge Air Pro (Wireless)",     DetectZETGAMINGEdgeAirProControllers, ZET_GAMING_VID, ZET_GAMING_EDGE_AIR_PRO_WIRELESS_PID,     1, 0xFF02, 2);
+REGISTER_HID_DETECTOR_IPU("ZET GAMING Edge Air Pro",                DetectZETGAMINGEdgeAirProControllers, ZET_GAMING_VID, ZET_GAMING_EDGE_AIR_PRO_PID,              1, 0xFF02, 2);
+REGISTER_HID_DETECTOR_IPU("ZET GAMING Edge Air Elit (Wireless)",    DetectZETGAMINGEdgeAirProControllers, ZET_GAMING_VID, ZET_GAMING_EDGE_AIR_ELIT_WIRELESS_PID,    1, 0xFF02, 2);
+REGISTER_HID_DETECTOR_IPU("ZET GAMING Edge Air Elit",               DetectZETGAMINGEdgeAirProControllers, ZET_GAMING_VID, ZET_GAMING_EDGE_AIR_ELIT_PID,             1, 0xFF02, 2);

@@ -27,13 +27,13 @@
 RGBController_ZETEdgeAirPro::RGBController_ZETEdgeAirPro(ZETEdgeAirProController* controller_ptr)
 {
     controller                          = controller_ptr;
-    name                                = "ZET Edge Air Pro";
+
+    name                                = controller->GetNameString();
     vendor                              = "ZET Gaming";
     type                                = DEVICE_TYPE_MOUSE;
-    description                         = name;
+    description                         = "ZET Edge Air Pro Device";
     location                            = controller->GetDeviceLocation();
     serial                              = controller->GetSerialString();
-    version                             = controller->GetFirmwareVersion();
 
     mode Static;
     Static.name                         = "Static";

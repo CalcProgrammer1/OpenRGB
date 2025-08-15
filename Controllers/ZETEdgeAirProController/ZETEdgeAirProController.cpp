@@ -13,11 +13,11 @@
 #include "StringUtils.h"
 #include "ZETEdgeAirProController.h"
 
-ZETEdgeAirProController::ZETEdgeAirProController(hid_device* dev_handle, const hid_device_info& info)
+ZETEdgeAirProController::ZETEdgeAirProController(hid_device* dev_handle, const hid_device_info& info, std::string dev_name)
 {
     dev                 = dev_handle;
     location            = info.path;
-    version             = "";
+    name                = dev_name;
 }
 
 ZETEdgeAirProController::~ZETEdgeAirProController()
@@ -28,6 +28,11 @@ ZETEdgeAirProController::~ZETEdgeAirProController()
 std::string ZETEdgeAirProController::GetDeviceLocation()
 {
     return("HID: " + location);
+}
+
+std::string ZETEdgeAirProController::GetNameString()
+{
+    return(name);
 }
 
 std::string ZETEdgeAirProController::GetSerialString()
@@ -41,11 +46,6 @@ std::string ZETEdgeAirProController::GetSerialString()
     }
 
     return(StringUtils::wstring_to_string(serial_string));
-}
-
-std::string ZETEdgeAirProController::GetFirmwareVersion()
-{
-    return(version);
 }
 
 void ZETEdgeAirProController::SetMode(RGBColor color, unsigned char brightness, unsigned char speed, unsigned char mode_value)
