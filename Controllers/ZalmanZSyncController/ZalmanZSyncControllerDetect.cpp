@@ -31,9 +31,8 @@ void DetectZalmanZSyncControllers(hid_device_info* info, const std::string& name
 
     if(dev)
     {
-        ZalmanZSyncController*     controller     = new ZalmanZSyncController(dev, info->path);
+        ZalmanZSyncController*     controller     = new ZalmanZSyncController(dev, info->path, name);
         RGBController_ZalmanZSync* rgb_controller = new RGBController_ZalmanZSync(controller);
-        rgb_controller->name                      = name;
 
         ResourceManager::get()->RegisterRGBController(rgb_controller);
     }

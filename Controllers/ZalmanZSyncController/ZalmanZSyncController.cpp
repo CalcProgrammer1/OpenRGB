@@ -22,10 +22,11 @@
 
 using namespace std::chrono_literals;
 
-ZalmanZSyncController::ZalmanZSyncController(hid_device* dev_handle, const char* path)
+ZalmanZSyncController::ZalmanZSyncController(hid_device* dev_handle, const char* path, std::string dev_name)
 {
     dev         = dev_handle;
     location    = path;
+    name        = dev_name;
 
     SendFirmwareRequest();
 
@@ -68,6 +69,11 @@ std::string ZalmanZSyncController::GetFirmwareString()
 std::string ZalmanZSyncController::GetLocationString()
 {
     return("HID: " + location);
+}
+
+std::string ZalmanZSyncController::GetNameString()
+{
+    return(name);
 }
 
 std::string ZalmanZSyncController::GetSerialString()

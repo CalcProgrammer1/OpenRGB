@@ -94,11 +94,12 @@ enum
 class ZalmanZSyncController
 {
 public:
-    ZalmanZSyncController(hid_device* dev_handle, const char* path);
+    ZalmanZSyncController(hid_device* dev_handle, const char* path, std::string dev_name);
     ~ZalmanZSyncController();
 
     std::string     GetFirmwareString();
     std::string     GetLocationString();
+    std::string     GetNameString();
     std::string     GetSerialString();
 
     unsigned int    GetStripsOnChannel(unsigned int channel);
@@ -128,6 +129,7 @@ private:
     hid_device*             dev;
     std::string             firmware_version;
     std::string             location;
+    std::string             name;
     std::thread*            keepalive_thread;
     std::atomic<bool>       keepalive_thread_run;
     std::chrono::time_point<std::chrono::steady_clock> last_commit_time;
