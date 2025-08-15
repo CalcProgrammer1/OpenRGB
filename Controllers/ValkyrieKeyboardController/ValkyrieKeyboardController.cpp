@@ -14,12 +14,13 @@
 #include "StringUtils.h"
 #include "ValkyrieKeyboardController.h"
 
-ValkyrieKeyboardController::ValkyrieKeyboardController(hid_device* dev_handle, const char* path, const unsigned short pid, const int interface)
+ValkyrieKeyboardController::ValkyrieKeyboardController(hid_device* dev_handle, const char* path, const unsigned short pid, const int interface, std::string dev_name)
 {
-    dev           = dev_handle;
-    location      = path;
-    usb_pid       = pid;
-    interface_num = interface;
+    dev             = dev_handle;
+    location        = path;
+    name            = dev_name;
+    usb_pid         = pid;
+    interface_num   = interface;
 }
 
 ValkyrieKeyboardController::~ValkyrieKeyboardController()
@@ -30,6 +31,11 @@ ValkyrieKeyboardController::~ValkyrieKeyboardController()
 std::string ValkyrieKeyboardController::GetDeviceLocation()
 {
     return("HID: " + location);
+}
+
+std::string ValkyrieKeyboardController::GetNameString()
+{
+    return(name);
 }
 
 std::string ValkyrieKeyboardController::GetSerialString()
