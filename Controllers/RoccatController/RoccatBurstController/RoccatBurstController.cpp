@@ -13,11 +13,11 @@
 #include "RoccatBurstController.h"
 #include "StringUtils.h"
 
-RoccatBurstController::RoccatBurstController(hid_device* dev_handle, const hid_device_info& info)
+RoccatBurstController::RoccatBurstController(hid_device* dev_handle, const hid_device_info& info, std::string dev_name)
 {
     dev                 = dev_handle;
-    version             = "";
     location            = info.path;
+    name                = dev_name;
 
     SetupDirectMode();
 }
@@ -27,9 +27,14 @@ RoccatBurstController::~RoccatBurstController()
     hid_close(dev);
 }
 
-std::string RoccatBurstController::GetFirmwareVersion()
+std::string RoccatBurstController::GetDeviceLocation()
 {
-    return version;
+    return("HID: " + location);
+}
+
+std::string RoccatBurstController::GetNameString()
+{
+    return(name);
 }
 
 std::string RoccatBurstController::GetSerialString()
@@ -43,11 +48,6 @@ std::string RoccatBurstController::GetSerialString()
     }
 
     return(StringUtils::wstring_to_string(serial_string));
-}
-
-std::string RoccatBurstController::GetDeviceLocation()
-{
-    return("HID: " + location);
 }
 
 void RoccatBurstController::SetupDirectMode()

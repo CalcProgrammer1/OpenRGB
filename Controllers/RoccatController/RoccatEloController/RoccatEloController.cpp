@@ -14,11 +14,11 @@
 #include "RoccatEloController.h"
 #include "StringUtils.h"
 
-RoccatEloController::RoccatEloController(hid_device* dev_handle, const hid_device_info& info)
+RoccatEloController::RoccatEloController(hid_device* dev_handle, const hid_device_info& info, std::string dev_name)
 {
     dev                 = dev_handle;
     location            = info.path;
-    version             = "";
+    name                = dev_name;
 
     SendInit();
 }
@@ -31,6 +31,11 @@ RoccatEloController::~RoccatEloController()
 std::string RoccatEloController::GetDeviceLocation()
 {
     return("HID: " + location);
+}
+
+std::string RoccatEloController::GetNameString()
+{
+    return(name);
 }
 
 std::string RoccatEloController::GetSerialString()

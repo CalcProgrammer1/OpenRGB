@@ -13,21 +13,11 @@
 #include "RoccatKoneAimoController.h"
 #include "StringUtils.h"
 
-RoccatKoneAimoController::RoccatKoneAimoController(hid_device* dev_handle, char *_path)
+RoccatKoneAimoController::RoccatKoneAimoController(hid_device* dev_handle, char *_path, std::string dev_name)
 {
-    dev                 = dev_handle;
-    location            = _path;
-
-    /*---------------------------------------------------------*\
-    | Get device name from HID manufacturer and product strings |
-    \*---------------------------------------------------------*/
-    wchar_t name_string[HID_MAX_STR];
-
-    hid_get_manufacturer_string(dev, name_string, HID_MAX_STR);
-    device_name = StringUtils::wstring_to_string(name_string);
-
-    hid_get_product_string(dev, name_string, HID_MAX_STR);
-    device_name.append(" ").append(StringUtils::wstring_to_string(name_string));
+    dev         = dev_handle;
+    location    = _path;
+    name        = dev_name;
 
     /*-----------------------------------------------------*\
     | Init usb buffer to 0 and add first two bytes          |
@@ -44,9 +34,9 @@ RoccatKoneAimoController::~RoccatKoneAimoController()
     hid_close(dev);
 }
 
-std::string RoccatKoneAimoController::GetDeviceName()
+std::string RoccatKoneAimoController::GetName()
 {
-    return device_name;
+    return(name);
 }
 
 std::string RoccatKoneAimoController::GetSerial()

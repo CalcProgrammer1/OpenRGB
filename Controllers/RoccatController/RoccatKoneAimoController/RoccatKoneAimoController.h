@@ -39,19 +39,19 @@ enum ROCCAT_KONE_AIMO_CHANNEL
 class RoccatKoneAimoController
 {
 public:
-    RoccatKoneAimoController(hid_device* dev_handle, char *_path);
+    RoccatKoneAimoController(hid_device* dev_handle, char *_path, std::string dev_name);
     ~RoccatKoneAimoController();
 
-    std::string     GetDeviceName();
-    std::string     GetSerial();
     std::string     GetLocation();
+    std::string     GetName();
+    std::string     GetSerial();
 
     void            SetChannelColors(ROCCAT_KONE_AIMO_CHANNEL channel, RGBColor * colors, unsigned int num_colors);
     void            SendUpdate();
 
 private:
-    std::string     device_name;
     std::string     location;
+    std::string     name;
     hid_device*     dev;
     unsigned char   usb_colors_buf[USB_COLOR_BUFF_LEN]; // USB buffer to be sent everytime we update mouse's LEDs
 

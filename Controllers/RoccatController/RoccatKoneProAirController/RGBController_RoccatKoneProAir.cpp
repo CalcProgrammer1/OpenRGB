@@ -26,13 +26,12 @@ RGBController_RoccatKoneProAir::RGBController_RoccatKoneProAir(RoccatKoneProAirC
 {
     controller                  = controller_ptr;
 
-    name                        = "Roccat Kone Pro Air";
+    name                        = controller->GetNameString();
     vendor                      = "Roccat";
     type                        = DEVICE_TYPE_MOUSE;
-    description                 = "Roccat Kone Pro Air Mouse";
+    description                 = "Roccat Kone Pro Air Mouse Device";
     serial                      = controller->GetSerialString();
     location                    = controller->GetDeviceLocation();
-    version                     = controller->GetFirmwareVersion();
 
     mode Direct;
     Direct.name                 = "Direct";

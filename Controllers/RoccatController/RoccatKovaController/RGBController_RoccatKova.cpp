@@ -29,13 +29,13 @@ RGBController_RoccatKova::RGBController_RoccatKova(RoccatKovaController* control
 {
     controller                    = controller_ptr;
 
-    type                          = DEVICE_TYPE_MOUSE;
-    name                          = "Roccat Kova";
+    name                          = controller->GetName();
     vendor                        = "Roccat";
-    description                   = "Controller compatible with the Roccat Kova gaming mouse";
+    type                          = DEVICE_TYPE_MOUSE;
+    description                   = "Roccat Kova Mouse Device";
     serial                        = controller->GetSerial();
     location                      = controller->GetLocation();
-    version                       = controller->GetFirmwareVersion();
+    version                       = controller->GetVersion();
 
     mode Static;
     Static.name                   = "Static";

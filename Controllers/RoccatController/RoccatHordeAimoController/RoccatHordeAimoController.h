@@ -22,19 +22,19 @@
 class RoccatHordeAimoController
 {
 public:
-    RoccatHordeAimoController(hid_device* dev_handle, const hid_device_info& info);
+    RoccatHordeAimoController(hid_device* dev_handle, const hid_device_info& info, std::string dev_name);
     ~RoccatHordeAimoController();
 
-    std::string     GetSerialString();
     std::string     GetDeviceLocation();
-    std::string     GetFirmwareVersion();
+    std::string     GetNameString();
+    std::string     GetSerialString();
 
     void            SetColors(std::vector<RGBColor> colors);
 
 private:
     hid_device*     dev;
     std::string     location;
-    std::string     version;
+    std::string     name;
 
     void            InitialPacket();
 };

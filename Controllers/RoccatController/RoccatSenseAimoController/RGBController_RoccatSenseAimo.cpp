@@ -24,15 +24,15 @@
 
 RGBController_RoccatSenseAimo::RGBController_RoccatSenseAimo(RoccatSenseAimoController* controller_ptr)
 {
-    controller = controller_ptr;
+    controller                  = controller_ptr;
 
-    name        = "Roccat Sense Aimo";
-    vendor      = "Roccat";
-    type        = DEVICE_TYPE_MOUSEMAT;
-    description = "Roccat Sense Aimo Mousepad";
-    version     = controller->GetVersion();
-    location    = controller->GetLocation();
-    serial      = controller->GetSerial();
+    name                        = controller->GetName();
+    vendor                      = "Roccat";
+    type                        = DEVICE_TYPE_MOUSEMAT;
+    description                 = "Roccat Sense Aimo Mousepad Device";
+    version                     = controller->GetVersion();
+    location                    = controller->GetLocation();
+    serial                      = controller->GetSerial();
 
     mode Direct;
     Direct.name                 = "Direct";
@@ -93,7 +93,6 @@ RGBController_RoccatSenseAimo::RGBController_RoccatSenseAimo(RoccatSenseAimoCont
     /*---------------------------------------------------------------------*\
     | This is the default mode for software modes, while swarm isn't active |
     \*---------------------------------------------------------------------*/
-
     mode Default;
     Default.name               = "Default";
     Default.value              = ROCCAT_SENSE_AIMO_MODE_DEFAULT;

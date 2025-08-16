@@ -24,16 +24,15 @@
 
 RGBController_RoccatKoneXP::RGBController_RoccatKoneXP(RoccatKoneXPController* controller_ptr)
 {
-    controller = controller_ptr;
+    controller                  = controller_ptr;
 
-    name        = "Roccat Kone XP";
-    vendor      = "Roccat";
-    type        = DEVICE_TYPE_MOUSE;
-    description = "Roccat Kone XP Mouse";
-    version     = controller->GetVersion();
-    location    = controller->GetLocation();
-    serial      = controller->GetSerial();
-
+    name                        = controller->GetName();
+    vendor                      = "Roccat";
+    type                        = DEVICE_TYPE_MOUSE;
+    description                 = "Roccat Kone XP Mouse Device";
+    version                     = controller->GetVersion();
+    location                    = controller->GetLocation();
+    serial                      = controller->GetSerial();
 
     mode Direct;
     Direct.name                 = "Direct";
@@ -43,10 +42,10 @@ RGBController_RoccatKoneXP::RGBController_RoccatKoneXP(RoccatKoneXPController* c
     modes.push_back(Direct);
 
     mode Off;
-    Off.name                 = "Off";
-    Off.value                = ROCCAT_KONE_XP_MODE_OFF;
-    Off.flags                = MODE_FLAG_AUTOMATIC_SAVE;
-    Off.color_mode           = MODE_COLORS_NONE;
+    Off.name                    = "Off";
+    Off.value                   = ROCCAT_KONE_XP_MODE_OFF;
+    Off.flags                   = MODE_FLAG_AUTOMATIC_SAVE;
+    Off.color_mode              = MODE_COLORS_NONE;
     modes.push_back(Off);
 
     mode Static;
@@ -112,27 +111,26 @@ RGBController_RoccatKoneXP::RGBController_RoccatKoneXP(RoccatKoneXPController* c
     modes.push_back(Heartbeat);
 
     mode Photon;
-    Photon.name              = "Photon FX";
-    Photon.value             = ROCCAT_KONE_XP_MODE_PHOTON_FX;
-    Photon.flags             = MODE_FLAG_AUTOMATIC_SAVE | MODE_FLAG_HAS_BRIGHTNESS;
-    Photon.color_mode        = MODE_COLORS_NONE;
-    Photon.brightness        = ROCCAT_KONE_XP_BRIGHTNESS_DEFAULT;
-    Photon.brightness_min    = ROCCAT_KONE_XP_BRIGHTNESS_MIN;
-    Photon.brightness_max    = ROCCAT_KONE_XP_BRIGHTNESS_MAX;
+    Photon.name                 = "Photon FX";
+    Photon.value                = ROCCAT_KONE_XP_MODE_PHOTON_FX;
+    Photon.flags                = MODE_FLAG_AUTOMATIC_SAVE | MODE_FLAG_HAS_BRIGHTNESS;
+    Photon.color_mode           = MODE_COLORS_NONE;
+    Photon.brightness           = ROCCAT_KONE_XP_BRIGHTNESS_DEFAULT;
+    Photon.brightness_min       = ROCCAT_KONE_XP_BRIGHTNESS_MIN;
+    Photon.brightness_max       = ROCCAT_KONE_XP_BRIGHTNESS_MAX;
     modes.push_back(Photon);
 
     /*---------------------------------------------------------------------*\
     | This is the default mode for software modes, while swarm isn't active |
     \*---------------------------------------------------------------------*/
-
     mode Default;
-    Default.name               = "Default";
-    Default.value              = ROCCAT_KONE_XP_MODE_DEFAULT;
-    Default.flags              = MODE_FLAG_AUTOMATIC_SAVE | MODE_FLAG_HAS_BRIGHTNESS;
-    Default.color_mode         = MODE_COLORS_NONE;
-    Default.brightness         = ROCCAT_KONE_XP_BRIGHTNESS_DEFAULT;
-    Default.brightness_min     = ROCCAT_KONE_XP_BRIGHTNESS_MIN;
-    Default.brightness_max     = ROCCAT_KONE_XP_BRIGHTNESS_MAX;
+    Default.name                = "Default";
+    Default.value               = ROCCAT_KONE_XP_MODE_DEFAULT;
+    Default.flags               = MODE_FLAG_AUTOMATIC_SAVE | MODE_FLAG_HAS_BRIGHTNESS;
+    Default.color_mode          = MODE_COLORS_NONE;
+    Default.brightness          = ROCCAT_KONE_XP_BRIGHTNESS_DEFAULT;
+    Default.brightness_min      = ROCCAT_KONE_XP_BRIGHTNESS_MIN;
+    Default.brightness_max      = ROCCAT_KONE_XP_BRIGHTNESS_MAX;
     modes.push_back(Default);
 
     SetupZones();

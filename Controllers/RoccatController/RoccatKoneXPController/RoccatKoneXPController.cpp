@@ -16,15 +16,40 @@
 #include "RoccatKoneXPController.h"
 #include "StringUtils.h"
 
-RoccatKoneXPController::RoccatKoneXPController(hid_device* dev_handle, char *path)
+RoccatKoneXPController::RoccatKoneXPController(hid_device* dev_handle, char *path, std::string dev_name)
 {
-    dev      = dev_handle;
-    location = path;
+    dev         = dev_handle;
+    location    = path;
+    name        = dev_name;
 }
 
 RoccatKoneXPController::~RoccatKoneXPController()
 {
     hid_close(dev);
+}
+
+std::string RoccatKoneXPController::GetLocation()
+{
+    return("HID: " + location);
+}
+
+std::string RoccatKoneXPController::GetName()
+{
+    return(name);
+}
+
+std::string RoccatKoneXPController::GetSerial()
+{
+    wchar_t serial_string[128];
+    int ret = hid_get_serial_number_string(dev, serial_string, 128);
+
+    if(ret != 0)
+    {
+        return("");
+    }
+
+    return(StringUtils::wstring_to_string(serial_string));
+
 }
 
 std::string RoccatKoneXPController::GetVersion()
@@ -42,25 +67,6 @@ std::string RoccatKoneXPController::GetVersion()
     snprintf(version, 5, "%d.%02d", buf[2] / 100, buf[2] % 100);
 
     return std::string(version);
-}
-
-std::string RoccatKoneXPController::GetSerial()
-{
-    wchar_t serial_string[128];
-    int ret = hid_get_serial_number_string(dev, serial_string, 128);
-
-    if(ret != 0)
-    {
-        return("");
-    }
-
-    return(StringUtils::wstring_to_string(serial_string));
-
-}
-
-std::string RoccatKoneXPController::GetLocation()
-{
-    return("HID: " + location);
 }
 
 uint8_t RoccatKoneXPController::GetActiveProfile()

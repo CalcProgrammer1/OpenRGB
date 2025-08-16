@@ -43,12 +43,12 @@ enum
 class RoccatKoneProAirController
 {
 public:
-    RoccatKoneProAirController(hid_device* dev_handle, const hid_device_info& info);
+    RoccatKoneProAirController(hid_device* dev_handle, const hid_device_info& info, std::string dev_name);
     ~RoccatKoneProAirController();
 
-    std::string     GetSerialString();
     std::string     GetDeviceLocation();
-    std::string     GetFirmwareVersion();
+    std::string     GetNameString();
+    std::string     GetSerialString();
 
     void            SendDirect(std::vector<RGBColor> colors);
     void            SetMode(std::vector<RGBColor> colors, unsigned char mode_value, unsigned char speed, unsigned char brightness, unsigned int mode_flags);
@@ -56,7 +56,7 @@ public:
 private:
     hid_device*     dev;
     std::string     location;
-    std::string     version;
+    std::string     name;
 
     void            SendRGB(bool direct, std::vector<RGBColor> colors, unsigned char mode_value, unsigned char speed, unsigned char brightness);
 };

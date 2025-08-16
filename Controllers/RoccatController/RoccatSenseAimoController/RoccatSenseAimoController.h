@@ -47,11 +47,12 @@ struct mode_struct
 class RoccatSenseAimoController
 {
 public:
-    RoccatSenseAimoController(hid_device* dev_handle, char *path);
+    RoccatSenseAimoController(hid_device* dev_handle, char *path, std::string dev_name);
     ~RoccatSenseAimoController();
 
-    std::string     GetSerial();
     std::string     GetLocation();
+    std::string     GetName();
+    std::string     GetSerial();
     std::string     GetVersion();
 
     mode_struct     GetMode();
@@ -62,4 +63,5 @@ public:
 private:
     hid_device*     dev;
     std::string     location;
+    std::string     name;
 };

@@ -44,12 +44,12 @@ enum
 class RoccatBurstController
 {
 public:
-    RoccatBurstController(hid_device* dev_handle, const hid_device_info& info);
+    RoccatBurstController(hid_device* dev_handle, const hid_device_info& info, std::string dev_name);
     ~RoccatBurstController();
 
-    std::string     GetSerialString();
     std::string     GetDeviceLocation();
-    std::string     GetFirmwareVersion();
+    std::string     GetNameString();
+    std::string     GetSerialString();
 
     void            SetupDirectMode();
     void            SendDirect(std::vector<RGBColor> colors);
@@ -63,7 +63,7 @@ public:
 private:
     hid_device*     dev;
     std::string     location;
-    std::string     version;
+    std::string     name;
 
     unsigned int    CalculateCRC(unsigned char* bytes);
     void            SwitchControl(bool direct);

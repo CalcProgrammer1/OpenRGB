@@ -27,13 +27,13 @@
 RGBController_RoccatElo::RGBController_RoccatElo(RoccatEloController* controller_ptr)
 {
     controller                          = controller_ptr;
-    name                                = "Roccat Elo 7.1";
+
+    name                                = controller->GetNameString();
     vendor                              = "Roccat";
     type                                = DEVICE_TYPE_HEADSET;
-    description                         = name;
+    description                         = "Roccat Elo 7.1 Headset Device";
     location                            = controller->GetDeviceLocation();
     serial                              = controller->GetSerialString();
-    version                             = "";
 
     mode Direct;
     Direct.name                         = "Direct";

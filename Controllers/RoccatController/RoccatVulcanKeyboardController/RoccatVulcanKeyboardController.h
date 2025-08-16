@@ -70,11 +70,12 @@ struct led_color
 class RoccatVulcanKeyboardController
 {
 public:
-    RoccatVulcanKeyboardController(hid_device* dev_ctrl_handle, hid_device* dev_led_handle, char *path, uint16_t pid);
+    RoccatVulcanKeyboardController(hid_device* dev_ctrl_handle, hid_device* dev_led_handle, char *path, uint16_t pid, std::string dev_name);
     ~RoccatVulcanKeyboardController();
 
     std::string     GetSerial();
     std::string     GetLocation();
+    std::string     GetName();
     device_info     InitDeviceInfo();
     device_info     GetDeviceInfo();
 
@@ -88,8 +89,9 @@ public:
     uint16_t        device_pid;
 
 private:
-    std::string     location;
     hid_device*     dev_ctrl;
     hid_device*     dev_led;
     device_info     dev_info;
+    std::string     location;
+    std::string     name;
 };

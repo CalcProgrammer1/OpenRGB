@@ -14,10 +14,11 @@
 #include "RoccatKovaController.h"
 #include "StringUtils.h"
 
-RoccatKovaController::RoccatKovaController(hid_device* dev_handle, char *path)
+RoccatKovaController::RoccatKovaController(hid_device* dev_handle, char *path, std::string dev_name)
 {
-    dev      = dev_handle;
-    location = path;
+    dev         = dev_handle;
+    location    = path;
+    name        = dev_name;
 
     SendInitialPacket();
     FetchFirmwareVersion();
@@ -30,7 +31,12 @@ RoccatKovaController::~RoccatKovaController()
 
 std::string RoccatKovaController::GetLocation()
 {
-    return ("HID: " + location);
+    return("HID: " + location);
+}
+
+std::string RoccatKovaController::GetName()
+{
+    return(name);
 }
 
 std::string RoccatKovaController::GetSerial()
@@ -46,9 +52,9 @@ std::string RoccatKovaController::GetSerial()
     return(StringUtils::wstring_to_string(serial_string));
 }
 
-std::string RoccatKovaController::GetFirmwareVersion()
+std::string RoccatKovaController::GetVersion()
 {
-    return firmware_version;
+    return(version);
 }
 
 void RoccatKovaController::SetColor(RGBColor color_wheel,
@@ -118,10 +124,10 @@ void RoccatKovaController::FetchFirmwareVersion()
 
     hid_get_feature_report(dev, buf, ROCCAT_KOVA_VERSION_READ_PACKET_SIZE);
 
-    uint8_t version                                        = buf[ROCCAT_KOVA_FIRMWARE_VERSION_IDX];
+    uint8_t fw_version                                     = buf[ROCCAT_KOVA_FIRMWARE_VERSION_IDX];
     char version_str[5]                                    {00};
-    snprintf(version_str, 5, "%.2f", version / 100.);
-    firmware_version                                       = version_str;
+    snprintf(version_str, 5, "%.2f", fw_version / 100.);
+    version                                                = version_str;
 }
 
 void RoccatKovaController::FetchProfileData(uint8_t *buf)

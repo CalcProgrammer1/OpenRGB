@@ -13,11 +13,11 @@
 #include "RoccatKoneProController.h"
 #include "StringUtils.h"
 
-RoccatKoneProController::RoccatKoneProController(hid_device* dev_handle, const hid_device_info& info)
+RoccatKoneProController::RoccatKoneProController(hid_device* dev_handle, const hid_device_info& info, std::string dev_name)
 {
     dev                 = dev_handle;
-    version             = "";
     location            = info.path;
+    name                = dev_name;
 
     SetupDirectMode();
 }
@@ -27,9 +27,14 @@ RoccatKoneProController::~RoccatKoneProController()
     hid_close(dev);
 }
 
-std::string RoccatKoneProController::GetFirmwareVersion()
+std::string RoccatKoneProController::GetDeviceLocation()
 {
-    return version;
+    return("HID: " + location);
+}
+
+std::string RoccatKoneProController::GetNameString()
+{
+    return(name);
 }
 
 std::string RoccatKoneProController::GetSerialString()
@@ -43,11 +48,6 @@ std::string RoccatKoneProController::GetSerialString()
     }
 
     return(StringUtils::wstring_to_string(serial_string));
-}
-
-std::string RoccatKoneProController::GetDeviceLocation()
-{
-    return("HID: " + location);
 }
 
 void RoccatKoneProController::SetupDirectMode()

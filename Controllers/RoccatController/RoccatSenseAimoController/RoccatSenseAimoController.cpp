@@ -14,15 +14,39 @@
 #include "RoccatSenseAimoController.h"
 #include "StringUtils.h"
 
-RoccatSenseAimoController::RoccatSenseAimoController(hid_device* dev_handle, char *path)
+RoccatSenseAimoController::RoccatSenseAimoController(hid_device* dev_handle, char *path, std::string dev_name)
 {
-    dev      = dev_handle;
-    location = path;
+    dev         = dev_handle;
+    location    = path;
+    name        = dev_name;
 }
 
 RoccatSenseAimoController::~RoccatSenseAimoController()
 {
     hid_close(dev);
+}
+
+std::string RoccatSenseAimoController::GetLocation()
+{
+    return("HID: " + location);
+}
+
+std::string RoccatSenseAimoController::GetName()
+{
+    return(name);
+}
+
+std::string RoccatSenseAimoController::GetSerial()
+{
+    wchar_t serial_string[128];
+    int ret = hid_get_serial_number_string(dev, serial_string, 128);
+
+    if(ret != 0)
+    {
+        return("");
+    }
+
+    return(StringUtils::wstring_to_string(serial_string));
 }
 
 std::string RoccatSenseAimoController::GetVersion()
@@ -40,24 +64,6 @@ std::string RoccatSenseAimoController::GetVersion()
     snprintf(version, 6, "%2X.%02X", buf[1], buf[2]);
 
     return std::string(version);
-}
-
-std::string RoccatSenseAimoController::GetSerial()
-{
-    wchar_t serial_string[128];
-    int ret = hid_get_serial_number_string(dev, serial_string, 128);
-
-    if(ret != 0)
-    {
-        return("");
-    }
-
-    return(StringUtils::wstring_to_string(serial_string));
-}
-
-std::string RoccatSenseAimoController::GetLocation()
-{
-    return("HID: " + location);
 }
 
 mode_struct RoccatSenseAimoController::GetMode()

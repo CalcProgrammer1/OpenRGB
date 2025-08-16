@@ -27,10 +27,12 @@ RGBController_RoccatBurst::RGBController_RoccatBurst(RoccatBurstController* cont
 {
     controller                  = controller_ptr;
 
-    name                        = "Roccat Burst Core";
+    name                        = controller->GetNameString();
     vendor                      = "Roccat";
     type                        = DEVICE_TYPE_MOUSE;
-    description                 = "Roccat Burst Core Mouse";
+    description                 = "Roccat Burst Mouse Device";
+    location                    = controller->GetDeviceLocation();
+    serial                      = controller->GetSerialString();
 
     mode Direct;
     Direct.name                 = "Direct";

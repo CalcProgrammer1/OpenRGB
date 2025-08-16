@@ -13,11 +13,11 @@
 #include "RoccatHordeAimoController.h"
 #include "StringUtils.h"
 
-RoccatHordeAimoController::RoccatHordeAimoController(hid_device* dev_handle, const hid_device_info& info)
+RoccatHordeAimoController::RoccatHordeAimoController(hid_device* dev_handle, const hid_device_info& info, std::string dev_name)
 {
     dev                 = dev_handle;
-    version             = "";
     location            = info.path;
+    name                = dev_name;
 
     InitialPacket();
 }
@@ -40,9 +40,14 @@ void RoccatHordeAimoController::InitialPacket()
     hid_send_feature_report(dev, usb_buf, 8);
 }
 
-std::string RoccatHordeAimoController::GetFirmwareVersion()
+std::string RoccatHordeAimoController::GetDeviceLocation()
 {
-    return version;
+    return("HID: " + location);
+}
+
+std::string RoccatHordeAimoController::GetNameString()
+{
+    return(name);
 }
 
 std::string RoccatHordeAimoController::GetSerialString()
@@ -56,11 +61,6 @@ std::string RoccatHordeAimoController::GetSerialString()
     }
 
     return(StringUtils::wstring_to_string(serial_string));
-}
-
-std::string RoccatHordeAimoController::GetDeviceLocation()
-{
-    return("HID: " + location);
 }
 
 void RoccatHordeAimoController::SetColors(std::vector<RGBColor> colors)

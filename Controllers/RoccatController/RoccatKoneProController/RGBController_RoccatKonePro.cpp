@@ -26,13 +26,12 @@ RGBController_RoccatKonePro::RGBController_RoccatKonePro(RoccatKoneProController
 {
     controller                  = controller_ptr;
 
-    name                        = "Roccat Kone Pro";
+    name                        = controller->GetNameString();
     vendor                      = "Roccat";
     type                        = DEVICE_TYPE_MOUSE;
-    description                 = "Roccat Kone Pro Mouse";
+    description                 = "Roccat Kone Pro Mouse Device";
     serial                      = controller->GetSerialString();
     location                    = controller->GetDeviceLocation();
-    version                     = controller->GetFirmwareVersion();
 
     // Also known as "Intelligent Lighting System" mode in Roccat Swarm
     mode Direct;

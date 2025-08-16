@@ -24,26 +24,26 @@
 
 RGBController_RoccatKoneAimo::RGBController_RoccatKoneAimo(RoccatKoneAimoController* controller_ptr)
 {
-    controller  = controller_ptr;
+    controller          = controller_ptr;
 
-    name        = "Roccat Kone Aimo";
-    vendor      = "Roccat";
-    type        = DEVICE_TYPE_MOUSE;
-    description = "Roccat Kone Aimo Mouse";
-    location    = controller->GetLocation();
-    serial      = controller->GetSerial();
+    name                = controller->GetName();
+    vendor              = "Roccat";
+    type                = DEVICE_TYPE_MOUSE;
+    description         = "Roccat Kone Aimo Mouse Device";
+    location            = controller->GetLocation();
+    serial              = controller->GetSerial();
 
     mode Direct;
-    Direct.name       = "Direct";
-    Direct.value      = 0;
-    Direct.flags      = MODE_FLAG_HAS_PER_LED_COLOR;
-    Direct.speed_min  = 0;
-    Direct.speed_max  = 0;
-    Direct.speed      = 0;
-    Direct.color_mode = MODE_COLORS_PER_LED;
+    Direct.name         = "Direct";
+    Direct.value        = 0;
+    Direct.flags        = MODE_FLAG_HAS_PER_LED_COLOR;
+    Direct.speed_min    = 0;
+    Direct.speed_max    = 0;
+    Direct.speed        = 0;
+    Direct.color_mode   = MODE_COLORS_PER_LED;
     modes.push_back(Direct);
 
-    active_mode = 0;
+    active_mode         = 0;
 
     SetupZones();
 }

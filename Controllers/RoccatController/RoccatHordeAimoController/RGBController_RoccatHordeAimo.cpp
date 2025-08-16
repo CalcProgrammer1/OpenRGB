@@ -26,10 +26,12 @@ RGBController_RoccatHordeAimo::RGBController_RoccatHordeAimo(RoccatHordeAimoCont
 {
     controller          = controller_ptr;
 
-    name                = "Roccat Horde Aimo";
+    name                = controller->GetNameString();
     vendor              = "Roccat";
     type                = DEVICE_TYPE_KEYBOARD;
-    description         = "Roccat Horde Aimo Keyboard";
+    description         = "Roccat Horde Aimo Keyboard Device";
+    location            = controller->GetDeviceLocation();
+    serial              = controller->GetSerialString();
 
     mode Direct;
     Direct.name         = "Direct";

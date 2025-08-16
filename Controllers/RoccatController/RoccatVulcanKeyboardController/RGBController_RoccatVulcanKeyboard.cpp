@@ -30,67 +30,67 @@
 
 RGBController_RoccatVulcanKeyboard::RGBController_RoccatVulcanKeyboard(RoccatVulcanKeyboardController* controller_ptr)
 {
-    controller  = controller_ptr;
+    controller                  = controller_ptr;
 
-    pid = controller->device_pid;
+    pid                         = controller->device_pid;
 
     controller->InitDeviceInfo();
 
-    name        = "Roccat Vulcan Keyboard";
-    vendor      = "Roccat";
-    type        = DEVICE_TYPE_KEYBOARD;
-    description = "Roccat Vulcan Keyboard";
-    version     = controller->GetDeviceInfo().version;
-    location    = controller->GetLocation();
-    serial      = controller->GetSerial();
+    name                        = controller->GetName();
+    vendor                      = "Roccat";
+    type                        = DEVICE_TYPE_KEYBOARD;
+    description                 = "Roccat Vulcan Keyboard Device";
+    version                     = controller->GetDeviceInfo().version;
+    location                    = controller->GetLocation();
+    serial                      = controller->GetSerial();
 
     mode Direct;
-    Direct.name       = "Direct";
-    Direct.value      = ROCCAT_VULCAN_MODE_DIRECT;
-    Direct.flags      = MODE_FLAG_HAS_PER_LED_COLOR;
-    Direct.color_mode = MODE_COLORS_PER_LED;
+    Direct.name                 = "Direct";
+    Direct.value                = ROCCAT_VULCAN_MODE_DIRECT;
+    Direct.flags                = MODE_FLAG_HAS_PER_LED_COLOR;
+    Direct.color_mode           = MODE_COLORS_PER_LED;
 
     if(pid != ROCCAT_VULCAN_120_AIMO_PID && pid != ROCCAT_VULCAN_100_AIMO_PID)
     {
-        Direct.flags         |= MODE_FLAG_HAS_BRIGHTNESS;
-        Direct.brightness_min = ROCCAT_VULCAN_BRIGHTNESS_MIN;
-        Direct.brightness_max = ROCCAT_VULCAN_BRIGHTNESS_MAX;
-        Direct.brightness     = ROCCAT_VULCAN_BRIGHTNESS_DEFAULT;
+        Direct.flags           |= MODE_FLAG_HAS_BRIGHTNESS;
+        Direct.brightness_min   = ROCCAT_VULCAN_BRIGHTNESS_MIN;
+        Direct.brightness_max   = ROCCAT_VULCAN_BRIGHTNESS_MAX;
+        Direct.brightness       = ROCCAT_VULCAN_BRIGHTNESS_DEFAULT;
     }
 
     modes.push_back(Direct);
 
     mode Static;
-    Static.name             = "Static";
-    Static.value            = ROCCAT_VULCAN_MODE_STATIC;
-    Static.flags            = MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_AUTOMATIC_SAVE;
-    Static.brightness_min   = ROCCAT_VULCAN_BRIGHTNESS_MIN;
-    Static.brightness_max   = ROCCAT_VULCAN_BRIGHTNESS_MAX;
-    Static.brightness       = ROCCAT_VULCAN_BRIGHTNESS_DEFAULT;
-    Static.color_mode       = MODE_COLORS_PER_LED;
+    Static.name                 = "Static";
+    Static.value                = ROCCAT_VULCAN_MODE_STATIC;
+    Static.flags                = MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_AUTOMATIC_SAVE;
+    Static.brightness_min       = ROCCAT_VULCAN_BRIGHTNESS_MIN;
+    Static.brightness_max       = ROCCAT_VULCAN_BRIGHTNESS_MAX;
+    Static.brightness           = ROCCAT_VULCAN_BRIGHTNESS_DEFAULT;
+    Static.color_mode           = MODE_COLORS_PER_LED;
     modes.push_back(Static);
 
     mode Wave;
-    Wave.name           = "Rainbow Wave";
-    Wave.value          = ROCCAT_VULCAN_MODE_WAVE;
-    Wave.flags          = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_AUTOMATIC_SAVE;
-    Wave.speed_min      = ROCCAT_VULCAN_SPEED_MIN;
-    Wave.speed_max      = ROCCAT_VULCAN_SPEED_MAX;
-    Wave.speed          = ROCCAT_VULCAN_SPEED_DEFAULT;
-    Wave.brightness_min = ROCCAT_VULCAN_BRIGHTNESS_MIN;
-    Wave.brightness_max = ROCCAT_VULCAN_BRIGHTNESS_MAX;
-    Wave.brightness     = ROCCAT_VULCAN_BRIGHTNESS_DEFAULT;
-    Wave.color_mode     = MODE_COLORS_NONE;
+    Wave.name                   = "Rainbow Wave";
+    Wave.value                  = ROCCAT_VULCAN_MODE_WAVE;
+    Wave.flags                  = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_AUTOMATIC_SAVE;
+    Wave.speed_min              = ROCCAT_VULCAN_SPEED_MIN;
+    Wave.speed_max              = ROCCAT_VULCAN_SPEED_MAX;
+    Wave.speed                  = ROCCAT_VULCAN_SPEED_DEFAULT;
+    Wave.brightness_min         = ROCCAT_VULCAN_BRIGHTNESS_MIN;
+    Wave.brightness_max         = ROCCAT_VULCAN_BRIGHTNESS_MAX;
+    Wave.brightness             = ROCCAT_VULCAN_BRIGHTNESS_DEFAULT;
+    Wave.color_mode             = MODE_COLORS_NONE;
     modes.push_back(Wave);
 
     mode Default;
-    Default.name           = "Default";
-    Default.value          = ROCCAT_VULCAN_MODE_DEFAULT;
-    Default.flags          = MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_AUTOMATIC_SAVE;
-    Default.brightness_min = ROCCAT_VULCAN_BRIGHTNESS_MIN;
-    Default.brightness_max = ROCCAT_VULCAN_BRIGHTNESS_MAX;
-    Default.brightness     = ROCCAT_VULCAN_BRIGHTNESS_DEFAULT;
-    Default.color_mode     = MODE_COLORS_NONE;
+    Default.name                = "Default";
+    Default.value               = ROCCAT_VULCAN_MODE_DEFAULT;
+    Default.flags               = MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_AUTOMATIC_SAVE;
+    Default.brightness_min      = ROCCAT_VULCAN_BRIGHTNESS_MIN;
+    Default.brightness_max      = ROCCAT_VULCAN_BRIGHTNESS_MAX;
+    Default.brightness          = ROCCAT_VULCAN_BRIGHTNESS_DEFAULT;
+    Default.color_mode          = MODE_COLORS_NONE;
     modes.push_back(Default);
 
     SetupZones();

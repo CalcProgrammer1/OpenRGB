@@ -13,11 +13,11 @@
 #include "RoccatKoneProAirController.h"
 #include "StringUtils.h"
 
-RoccatKoneProAirController::RoccatKoneProAirController(hid_device* dev_handle, const hid_device_info& info)
+RoccatKoneProAirController::RoccatKoneProAirController(hid_device* dev_handle, const hid_device_info& info, std::string dev_name)
 {
     dev                 = dev_handle;
-    version             = "";
     location            = info.path;
+    name                = dev_name;
 }
 
 RoccatKoneProAirController::~RoccatKoneProAirController()
@@ -25,9 +25,14 @@ RoccatKoneProAirController::~RoccatKoneProAirController()
     hid_close(dev);
 }
 
-std::string RoccatKoneProAirController::GetFirmwareVersion()
+std::string RoccatKoneProAirController::GetDeviceLocation()
 {
-    return version;
+    return("HID: " + location);
+}
+
+std::string RoccatKoneProAirController::GetNameString()
+{
+    return(name);
 }
 
 std::string RoccatKoneProAirController::GetSerialString()
@@ -41,11 +46,6 @@ std::string RoccatKoneProAirController::GetSerialString()
     }
 
     return(StringUtils::wstring_to_string(serial_string));
-}
-
-std::string RoccatKoneProAirController::GetDeviceLocation()
-{
-    return("HID: " + location);
 }
 
 void RoccatKoneProAirController::SendDirect(std::vector<RGBColor> colors)

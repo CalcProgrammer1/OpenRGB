@@ -78,11 +78,12 @@ struct roccat_kone_xp_mode_struct
 class RoccatKoneXPController
 {
 public:
-    RoccatKoneXPController(hid_device* dev_handle, char *path);
+    RoccatKoneXPController(hid_device* dev_handle, char *path, std::string dev_name);
     ~RoccatKoneXPController();
 
-    std::string                 GetSerial();
     std::string                 GetLocation();
+    std::string                 GetName();
+    std::string                 GetSerial();
     std::string                 GetVersion();
 
     uint8_t                     GetActiveProfile();
@@ -98,4 +99,5 @@ public:
 private:
     hid_device*     dev;
     std::string     location;
+    std::string     name;
 };

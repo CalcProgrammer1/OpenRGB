@@ -37,12 +37,12 @@ enum
 class RoccatBurstProAirController
 {
 public:
-    RoccatBurstProAirController(hid_device* dev_handle, const hid_device_info& info);
+    RoccatBurstProAirController(hid_device* dev_handle, const hid_device_info& info, std::string dev_name);
     ~RoccatBurstProAirController();
 
-    std::string     GetSerialString();
     std::string     GetDeviceLocation();
-    std::string     GetFirmwareVersion();
+    std::string     GetNameString();
+    std::string     GetSerialString();
 
     void            SetColors(std::vector<RGBColor> colors);
     void            SetModeValues(unsigned char mode_value, unsigned char speed, unsigned char brightness);
@@ -50,5 +50,5 @@ public:
 private:
     hid_device*     dev;
     std::string     location;
-    std::string     version;
+    std::string     name;
 };

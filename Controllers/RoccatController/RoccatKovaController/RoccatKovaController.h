@@ -65,12 +65,13 @@ enum
 class RoccatKovaController
 {
 public:
-    RoccatKovaController(hid_device* dev_handle, char *path);
+    RoccatKovaController(hid_device* dev_handle, char *path, std::string dev_name);
     ~RoccatKovaController();
 
     std::string GetLocation();
+    std::string GetName();
     std::string GetSerial();
-    std::string GetFirmwareVersion();
+    std::string GetVersion();
 
     void SetColor(RGBColor color_wheel,
                   RGBColor color_stripe,
@@ -81,7 +82,8 @@ public:
 private:
     hid_device* dev;
     std::string location;
-    std::string firmware_version;
+    std::string name;
+    std::string version;
 
     void SendInitialPacket();
     void FetchProfileData(uint8_t *buf);

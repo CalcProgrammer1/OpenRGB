@@ -22,18 +22,19 @@
 class RoccatEloController
 {
 public:
-    RoccatEloController(hid_device* dev_handle, const hid_device_info& info);
+    RoccatEloController(hid_device* dev_handle, const hid_device_info& info, std::string dev_name);
     ~RoccatEloController();
 
-    std::string     GetSerialString();
     std::string     GetDeviceLocation();
+    std::string     GetNameString();
+    std::string     GetSerialString();
 
     void            SendDirect(RGBColor color);
 
 private:
     hid_device*     dev;
     std::string     location;
-    std::string     version;
+    std::string     name;
 
     void            SendInit();
 };
