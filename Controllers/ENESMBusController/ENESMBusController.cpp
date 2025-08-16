@@ -29,26 +29,30 @@ static const char* ene_channels[] =                 /* ENE channel strings      
     "Unknown",
 };
 
-ENESMBusController::ENESMBusController(ENESMBusInterface* interface, ene_dev_id dev)
+ENESMBusController::ENESMBusController(ENESMBusInterface* interface, ene_dev_id dev, std::string dev_name, device_type dev_type)
 {
     this->interface     = interface;
     this->dev           = dev;
+    this->name          = dev_name;
+    this->type          = dev_type;
     supports_mode_14    = false;
 
     if(interface->GetInterfaceType() != ENE_INTERFACE_TYPE_ROG_ARION)
     {
         UpdateDeviceName();
 
-        // Read the device configuration table
-        for (int i = 0; i < 64; i++)
+        /*-------------------------------------------------*\
+        | Read the device configuration table               |
+        \*-------------------------------------------------*/
+        for(int i = 0; i < 64; i++)
         {
             config_table[i] = ENERegisterRead(ENE_REG_CONFIG_TABLE + i);
         }
 
-        /*-----------------------------------------------------------------*\
-        | If this is running with TRACE or higher loglevel then             |
-        |   dump the entire Feature list to log                             |
-        \*-----------------------------------------------------------------*/
+        /*-------------------------------------------------*\
+        | If this is running with TRACE or higher loglevel  |
+        | then dump the entire Feature list to log          |
+        \*-------------------------------------------------*/
         if(LogManager::get()->getLoglevel() >= LL_TRACE)
         {
             LOG_TRACE("[ENE SMBus] ENE config table for 0x%02X:", dev);
@@ -79,35 +83,47 @@ ENESMBusController::ENESMBusController(ENESMBusInterface* interface, ene_dev_id 
         memset(config_table, 0, sizeof(config_table));
         config_table[ENE_CONFIG_LED_COUNT] = 4;
         config_table[0x03] = 4;
-        strcpy(device_name, "ROG STRIX ARION");
+        strcpy(device_version, "ROG STRIX ARION");
     }
 
-    // Read LED count from configuration table
+    /*-----------------------------------------------------*\
+    | Read LED count from configuration table               |
+    \*-----------------------------------------------------*/
     led_count = config_table[ENE_CONFIG_LED_COUNT];
 
-    // LED-0116 - First generation motherboard controller
-    if (strcmp(device_name, "LED-0116") == 0)
+    /*-----------------------------------------------------*\
+    | LED-0116 - First generation motherboard controller    |
+    \*-----------------------------------------------------*/
+    if(strcmp(device_version, "LED-0116") == 0)
     {
         direct_reg  = ENE_REG_COLORS_DIRECT;
         effect_reg  = ENE_REG_COLORS_EFFECT;
         channel_cfg = ENE_CONFIG_CHANNEL_V1;
     }
-    // DIMM_LED-0102 - First generation DRAM controller (Trident Z RGB)
-    else if (strcmp(device_name, "DIMM_LED-0102") == 0)
+    /*-----------------------------------------------------*\
+    | DIMM_LED-0102 - First generation DRAM controller      |
+    | (Trident Z RGB)                                       |
+    \*-----------------------------------------------------*/
+    else if(strcmp(device_version, "DIMM_LED-0102") == 0)
     {
         direct_reg  = ENE_REG_COLORS_DIRECT;
         effect_reg  = ENE_REG_COLORS_EFFECT;
         channel_cfg = ENE_CONFIG_CHANNEL_V1;
     }
-    // AUDA0-E6K5-0101 - Second generation DRAM controller (Geil Super Luce)
-    else if (strcmp(device_name, "AUDA0-E6K5-0101") == 0)
+    /*-----------------------------------------------------*\
+    | AUDA0-E6K5-0101 - Second generation DRAM controller   |
+    | (Geil Super Luce)                                     |
+    \*-----------------------------------------------------*/
+    else if(strcmp(device_version, "AUDA0-E6K5-0101") == 0)
     {
         direct_reg  = ENE_REG_COLORS_DIRECT_V2;
         effect_reg  = ENE_REG_COLORS_EFFECT_V2;
         channel_cfg = ENE_CONFIG_CHANNEL_V1;
 
-        // Check for Mode 14 support, only known to exist on modules where the
-        // DRAM 3 zone ID exists
+        /*-------------------------------------------------*\
+        | Check for Mode 14 support, only known to exist on |
+        | modules where the DRAM 3 zone ID exists           |
+        \*-------------------------------------------------*/
         for(std::size_t cfg_zone_idx = 0; cfg_zone_idx < ENE_NUM_ZONES; cfg_zone_idx++)
         {
             if(config_table[channel_cfg + cfg_zone_idx] == (unsigned char)ENE_LED_CHANNEL_DRAM_3)
@@ -117,109 +133,154 @@ ENESMBusController::ENESMBusController(ENESMBusInterface* interface, ene_dev_id 
             }
         }
     }
-    // AUMA0-E6K5-0106 - Second generation motherboard controller
-    else if (strcmp(device_name, "AUMA0-E6K5-0106") == 0)
+    /*-----------------------------------------------------*\
+    | AUMA0-E6K5-0106 - Second generation motherboard       |
+    | controller                                            |
+    \*-----------------------------------------------------*/
+    else if(strcmp(device_version, "AUMA0-E6K5-0106") == 0)
     {
         direct_reg  = ENE_REG_COLORS_DIRECT_V2;
         effect_reg  = ENE_REG_COLORS_EFFECT_V2;
         channel_cfg = ENE_CONFIG_CHANNEL_V2;
     }
-    // AUMA0-E6K5-0105 - Second generation motherboard controller
-    else if (strcmp(device_name, "AUMA0-E6K5-0105") == 0)
+    /*-----------------------------------------------------*\
+    | AUMA0-E6K5-0105 - Second generation motherboard       |
+    | controller                                            |
+    \*-----------------------------------------------------*/
+    else if(strcmp(device_version, "AUMA0-E6K5-0105") == 0)
     {
         direct_reg  = ENE_REG_COLORS_DIRECT_V2;
         effect_reg  = ENE_REG_COLORS_EFFECT_V2;
         channel_cfg = ENE_CONFIG_CHANNEL_V2;
     }
-    // AUMA0-E6K5-0104 - Second generation motherboard controller
-    else if (strcmp(device_name, "AUMA0-E6K5-0104") == 0)
+    /*-----------------------------------------------------*\
+    | AUMA0-E6K5-0104 - Second generation motherboard       |
+    | controller                                            |
+    \*-----------------------------------------------------*/
+    else if(strcmp(device_version, "AUMA0-E6K5-0104") == 0)
     {
         direct_reg  = ENE_REG_COLORS_DIRECT_V2;
         effect_reg  = ENE_REG_COLORS_EFFECT_V2;
         channel_cfg = ENE_CONFIG_CHANNEL_V2;
     }
-    // AUMA0-E8K4-0101 - First generation motherboard controller
-    else if (strcmp(device_name, "AUMA0-E8K4-0101") == 0)
+    /*-----------------------------------------------------*\
+    | AUMA0-E8K4-0101 - First generation motherboard        |
+    | controller                                            |
+    \*-----------------------------------------------------*/
+    else if(strcmp(device_version, "AUMA0-E8K4-0101") == 0)
     {
         direct_reg  = ENE_REG_COLORS_DIRECT;
         effect_reg  = ENE_REG_COLORS_EFFECT;
         channel_cfg = ENE_CONFIG_CHANNEL_V1;
     }
-    // AUMA0-E6K5-0107 - Second generation GPU controller
-    else if (strcmp(device_name, "AUMA0-E6K5-0107") == 0)
+    /*-----------------------------------------------------*\
+    | AUMA0-E6K5-0107 - Second generation GPU controller    |
+    \*-----------------------------------------------------*/
+    else if(strcmp(device_version, "AUMA0-E6K5-0107") == 0)
     {
         direct_reg  = ENE_REG_COLORS_DIRECT_V2;
         effect_reg  = ENE_REG_COLORS_EFFECT_V2;
         channel_cfg = ENE_CONFIG_CHANNEL_V2;
 
-        // Read LED count from configuration table
+        /*-------------------------------------------------*\
+        | Read LED count from configuration table           |
+        \*-------------------------------------------------*/
         led_count = config_table[ENE_CONFIG_LED_COUNT_0107];
     }
-    // AUMA0-E6K5-1110 - Third generation GPU controller?
-    // found an ASUS ROG Strix 4080 OC, seems to be equal to AUMA0-E6K5-0107
-    else if (strcmp(device_name, "AUMA0-E6K5-1110") == 0)
+    /*-----------------------------------------------------*\
+    | AUMA0-E6K5-1110 - Third generation GPU controller?    |
+    | found an ASUS ROG Strix 4080 OC, seems to be equal to |
+    | AUMA0-E6K5-0107                                       |
+    \*-----------------------------------------------------*/
+    else if(strcmp(device_version, "AUMA0-E6K5-1110") == 0)
     {
         direct_reg  = ENE_REG_COLORS_DIRECT_V2;
         effect_reg  = ENE_REG_COLORS_EFFECT_V2;
         channel_cfg = ENE_CONFIG_CHANNEL_V2;
 
-        // Read LED count from configuration table
+        /*-------------------------------------------------*\
+        | Read LED count from configuration table           |
+        \*-------------------------------------------------*/
         led_count = config_table[ENE_CONFIG_LED_COUNT_1110];
     }
-    // AUMA0-E6K5-1111 - Fourth generation GPU controller?
-    // found on ASUS ROG Strix 4090 OC EVA-02 Edition, seems to be equal to AUMA0-E6K5-0107
-    else if (strcmp(device_name, "AUMA0-E6K5-1111") == 0)
+    /*-----------------------------------------------------*\
+    | AUMA0-E6K5-1111 - Fourth generation GPU controller?   |
+    | found on ASUS ROG Strix 4090 OC EVA-02 Edition, seems |
+    | to be equal to AUMA0-E6K5-0107                        |
+    \*-----------------------------------------------------*/
+    else if(strcmp(device_version, "AUMA0-E6K5-1111") == 0)
     {
         direct_reg  = ENE_REG_COLORS_DIRECT_V2;
         effect_reg  = ENE_REG_COLORS_EFFECT_V2;
         channel_cfg = ENE_CONFIG_CHANNEL_V2;
 
-        // Read LED count from configuration table
+        /*-------------------------------------------------*\
+        | Read LED count from configuration table           |
+        \*-------------------------------------------------*/
         led_count = config_table[ENE_CONFIG_LED_COUNT_0107];
     }
-    // AUMA0-E6K5-1107 - Second generation GPU controller
-    // Found on ASUS TUF 4070 TI OC, seems to be equal to AUMA0-E6K5-0107
-    else if (strcmp(device_name, "AUMA0-E6K5-1107") == 0)
+    /*-----------------------------------------------------*\
+    | AUMA0-E6K5-1107 - Second generation GPU controller    |
+    | Found on ASUS TUF 4070 TI OC, seems to be equal to    |
+    | AUMA0-E6K5-0107                                       |
+    \*-----------------------------------------------------*/
+    else if(strcmp(device_version, "AUMA0-E6K5-1107") == 0)
     {
         direct_reg  = ENE_REG_COLORS_DIRECT_V2;
         effect_reg  = ENE_REG_COLORS_EFFECT_V2;
         channel_cfg = ENE_CONFIG_CHANNEL_V2;
 
-        // Read LED count from configuration table
+        /*-------------------------------------------------*\
+        | Read LED count from configuration table           |
+        \*-------------------------------------------------*/
         led_count = config_table[ENE_CONFIG_LED_COUNT_0107];
     }
-    // AUMA0-E6K5-0008
-    // Found on ASUS STRIX 4070 Super OC
-    else if (strcmp(device_name, "AUMA0-E6K5-0008") == 0)
+    /*-----------------------------------------------------*\
+    | AUMA0-E6K5-0008                                       |
+    | Found on ASUS STRIX 4070 Super OC                     |
+    \*-----------------------------------------------------*/
+    else if(strcmp(device_version, "AUMA0-E6K5-0008") == 0)
     {
         direct_reg  = ENE_REG_COLORS_DIRECT_V2;
         effect_reg  = ENE_REG_COLORS_EFFECT_V2;
         channel_cfg = ENE_CONFIG_CHANNEL_V1;
 
-        // Read LED count from configuration table
+        /*-------------------------------------------------*\
+        | Read LED count from configuration table           |
+        \*-------------------------------------------------*/
         led_count = config_table[ENE_CONFIG_LED_COUNT_0107];
     }
-    // AUMA0-E6K5-1113
-    // Found on ASUS ASTRAL 5080 OC
-    else if (strcmp(device_name, "AUMA0-E6K5-1113") == 0)
+    /*-----------------------------------------------------*\
+    | AUMA0-E6K5-1113                                       |
+    | Found on ASUS ASTRAL 5080 OC                          |
+    \*-----------------------------------------------------*/
+    else if(strcmp(device_version, "AUMA0-E6K5-1113") == 0)
     {
         direct_reg  = ENE_REG_COLORS_DIRECT_V2;
         effect_reg  = ENE_REG_COLORS_EFFECT_V2;
         channel_cfg = ENE_CONFIG_CHANNEL_V2;
 
-        // Read LED count from configuration table
+        /*-------------------------------------------------*\
+        | Read LED count from configuration table           |
+        \*-------------------------------------------------*/
         led_count = config_table[ENE_CONFIG_LED_COUNT_0107];
     }
-    // ROG ARION - ASUS ROG Arion external SSD enclosure
-    // This device does not support ENE read, so we fake the device name string
-    // if the interface is ROG Arion type.  It uses second generation registers.
-    else if(strcmp(device_name, "ROG STRIX ARION") == 0)
+    /*-----------------------------------------------------*\
+    | ROG ARION - ASUS ROG Arion external SSD enclosure     |
+    | This device does not support ENE read, so we fake the |
+    | device name string if the interface is ROG Arion type.|
+    | It uses second generation registers.                  |
+    \*-----------------------------------------------------*/
+    else if(strcmp(device_version, "ROG STRIX ARION") == 0)
     {
         direct_reg  = ENE_REG_COLORS_DIRECT_V2;
         effect_reg  = ENE_REG_COLORS_EFFECT_V2;
         channel_cfg = ENE_CONFIG_CHANNEL_V2;
     }
-    // Assume first generation controller if string does not match
+    /*-----------------------------------------------------*\
+    | Assume first generation controller if string does not |
+    | match                                                 |
+    \*-----------------------------------------------------*/
     else
     {
         direct_reg  = ENE_REG_COLORS_DIRECT;
@@ -233,12 +294,7 @@ ENESMBusController::~ENESMBusController()
     delete interface;
 }
 
-std::string ENESMBusController::GetDeviceName()
-{
-    return(device_name);
-}
-
-std::string ENESMBusController::GetDeviceLocation()
+std::string ENESMBusController::GetLocation()
 {
     std::string return_string = interface->GetLocation();
 
@@ -250,9 +306,24 @@ std::string ENESMBusController::GetDeviceLocation()
     return(return_string);
 }
 
+std::string ENESMBusController::GetName()
+{
+    return(name);
+}
+
+std::string ENESMBusController::GetVersion()
+{
+    return(device_version);
+}
+
+device_type ENESMBusController::GetType()
+{
+    return(type);
+}
+
 const char * ENESMBusController::GetChannelName(unsigned int cfg_zone)
 {
-    LOG_TRACE("[%s] Config table for zone %02d: %02d", device_name, cfg_zone, config_table[channel_cfg + cfg_zone]);
+    LOG_TRACE("[%s] Config table for zone %02d: %02d", device_version, cfg_zone, config_table[channel_cfg + cfg_zone]);
 
     if(interface->GetInterfaceType() == ENE_INTERFACE_TYPE_ROG_ARION)
     {
@@ -313,7 +384,7 @@ const char * ENESMBusController::GetChannelName(unsigned int cfg_zone)
 
 unsigned int ENESMBusController::GetLEDCount(unsigned int cfg_zone)
 {
-    LOG_TRACE("[%s] LED Count for zone %02d: %02d", device_name, cfg_zone, config_table[0x03 + cfg_zone]);
+    LOG_TRACE("[%s] LED Count for zone %02d: %02d", device_version, cfg_zone, config_table[0x03 + cfg_zone]);
     return(config_table[0x03 + cfg_zone]);
 }
 
@@ -452,7 +523,7 @@ void ENESMBusController::UpdateDeviceName()
 {
     for (int i = 0; i < 16; i++)
     {
-        device_name[i] = ENERegisterRead(ENE_REG_DEVICE_NAME + i);
+        device_version[i] = ENERegisterRead(ENE_REG_DEVICE_NAME + i);
     }
 }
 

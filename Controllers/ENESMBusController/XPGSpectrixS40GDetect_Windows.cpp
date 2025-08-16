@@ -113,7 +113,7 @@ void DetectSpectrixS40GControllers()
         if(nvme_fd != INVALID_HANDLE_VALUE)
         {
             ENESMBusInterface_SpectrixS40G* interface      = new ENESMBusInterface_SpectrixS40G(nvme_fd, dev_name);
-            ENESMBusController*             controller     = new ENESMBusController(interface, 0x67);
+            ENESMBusController*             controller     = new ENESMBusController(interface, 0x67, "XPG Spectrix S40G", DEVICE_TYPE_STORAGE);
             RGBController_ENESMBus*         rgb_controller = new RGBController_ENESMBus(controller);
 
             ResourceManager::get()->RegisterRGBController(rgb_controller);

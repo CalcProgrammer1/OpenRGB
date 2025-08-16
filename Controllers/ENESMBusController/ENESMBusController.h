@@ -100,11 +100,14 @@ enum
 class ENESMBusController
 {
 public:
-    ENESMBusController(ENESMBusInterface* interface, ene_dev_id dev);
+    ENESMBusController(ENESMBusInterface* interface, ene_dev_id dev, std::string dev_name, device_type dev_type);
     ~ENESMBusController();
 
-    std::string   GetDeviceName();
-    std::string   GetDeviceLocation();
+    std::string   GetLocation();
+    std::string   GetName();
+    std::string   GetVersion();
+    device_type   GetType();
+
     const char*   GetChannelName(unsigned int cfg_zone);
     unsigned int  GetLEDCount(unsigned int cfg_zone);
     unsigned char GetLEDRed(unsigned int led);
@@ -129,7 +132,7 @@ public:
     void          ENERegisterWriteBlock(ene_register reg, unsigned char * data, unsigned char sz);
 
 private:
-    char                    device_name[16];
+    char                    device_version[16];
     unsigned char           config_table[64];
     unsigned int            led_count;
     ene_register            direct_reg;
@@ -138,4 +141,6 @@ private:
     ENESMBusInterface*      interface;
     ene_dev_id              dev;
     bool                    supports_mode_14;
+    std::string             name;
+    device_type             type;
 };

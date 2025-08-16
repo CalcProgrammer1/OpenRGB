@@ -247,7 +247,7 @@ void DetectENESMBusDRAMControllers(std::vector<i2c_smbus_interface*> &busses)
                 if (TestForENESMBusController(busses[bus], ene_ram_addresses[address_list_idx]))
                 {
                     ENESMBusInterface_i2c_smbus* interface      = new ENESMBusInterface_i2c_smbus(busses[bus]);
-                    ENESMBusController*          controller     = new ENESMBusController(interface, ene_ram_addresses[address_list_idx]);
+                    ENESMBusController*          controller     = new ENESMBusController(interface, ene_ram_addresses[address_list_idx], "ENE DRAM", DEVICE_TYPE_DRAM);
                     RGBController_ENESMBus*      rgb_controller = new RGBController_ENESMBus(controller);
 
                     ResourceManager::get()->RegisterRGBController(rgb_controller);
@@ -288,10 +288,8 @@ void DetectENESMBusMotherboardControllers(std::vector<i2c_smbus_interface*> &bus
                         DMIInfo dmi;
 
                         ENESMBusInterface_i2c_smbus* interface      = new ENESMBusInterface_i2c_smbus(busses[bus]);
-                        ENESMBusController*          controller     = new ENESMBusController(interface, aura_mobo_addresses[address_list_idx]);
+                        ENESMBusController*          controller     = new ENESMBusController(interface, aura_mobo_addresses[address_list_idx], "ASUS " + dmi.getMainboard(), DEVICE_TYPE_MOTHERBOARD);
                         RGBController_ENESMBus*      rgb_controller = new RGBController_ENESMBus(controller);
-
-                        rgb_controller->name = "ASUS " + dmi.getMainboard();
 
                         ResourceManager::get()->RegisterRGBController(rgb_controller);
                     }
@@ -322,11 +320,8 @@ void DetectENESMBusGPUControllers(i2c_smbus_interface* bus, uint8_t i2c_addr, co
     if(TestForENESMBusController(bus, i2c_addr))
     {
         ENESMBusInterface_i2c_smbus* interface      = new ENESMBusInterface_i2c_smbus(bus);
-        ENESMBusController*          controller     = new ENESMBusController(interface, i2c_addr);
+        ENESMBusController*          controller     = new ENESMBusController(interface, i2c_addr, name, DEVICE_TYPE_GPU);
         RGBController_ENESMBus*      rgb_controller = new RGBController_ENESMBus(controller);
-
-        rgb_controller->name                        = name;
-        rgb_controller->type                        = DEVICE_TYPE_GPU;
 
         ResourceManager::get()->RegisterRGBController(rgb_controller);
     }

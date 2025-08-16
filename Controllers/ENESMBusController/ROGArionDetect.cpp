@@ -34,7 +34,7 @@ void DetectROGArionControllers()
             if(dev)
             {
                 ENESMBusInterface_ROGArion* interface      = new ENESMBusInterface_ROGArion(dev, info->path);
-                ENESMBusController*         controller     = new ENESMBusController(interface, 0x67);
+                ENESMBusController*         controller     = new ENESMBusController(interface, 0x67, "Asus ROG Strix Arion", DEVICE_TYPE_STORAGE);
                 RGBController_ENESMBus*     rgb_controller = new RGBController_ENESMBus(controller);
 
                 ResourceManager::get()->RegisterRGBController(rgb_controller);
