@@ -12,7 +12,7 @@
 
 #include "AsusAuraRyuoAIOController.h"
 
-AsusAuraRyuoAIOController::AsusAuraRyuoAIOController(hid_device* dev_handle, const char* path) : AuraUSBController(dev_handle, path)
+AsusAuraRyuoAIOController::AsusAuraRyuoAIOController(hid_device* dev_handle, const char* path, std::string dev_name) : AuraUSBController(dev_handle, path, dev_name)
 {
     /*-----------------------------------------------------*\
     | Add addressable devices                               |

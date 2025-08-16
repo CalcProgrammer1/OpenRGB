@@ -14,10 +14,11 @@
 #include "LogManager.h"
 #include "StringUtils.h"
 
-AuraUSBController::AuraUSBController(hid_device* dev_handle, const char* path)
+AuraUSBController::AuraUSBController(hid_device* dev_handle, const char* path, std::string dev_name)
 {
     dev         = dev_handle;
     location    = path;
+    name        = dev_name;
 
     GetFirmwareVersion();
     GetConfigTable();
@@ -40,7 +41,7 @@ std::string AuraUSBController::GetDeviceLocation()
 
 std::string AuraUSBController::GetDeviceName()
 {
-    return(device_name);
+    return(name);
 }
 
 std::string AuraUSBController::GetSerialString()
@@ -54,6 +55,11 @@ std::string AuraUSBController::GetSerialString()
     }
 
     return(StringUtils::wstring_to_string(serial_string));
+}
+
+std::string AuraUSBController::GetDeviceVersion()
+{
+    return(std::string(version));
 }
 
 const std::vector<AuraDeviceInfo>& AuraUSBController::GetAuraDevices() const
@@ -89,11 +95,11 @@ void AuraUSBController::GetConfigTable()
     {
         memcpy(config_table, &usb_buf[4], 60);
 
-        LOG_DEBUG("[%s] ASUS Aura USB config table:", device_name);
+        LOG_DEBUG("[%s] ASUS Aura USB config table:", version);
 
         for(int i = 0; i < 60; i+=6)
         {
-            LOG_DEBUG("[%s] %02X %02X %02X %02X %02X %02X", device_name,
+            LOG_DEBUG("[%s] %02X %02X %02X %02X %02X %02X", version,
                                                             config_table[i + 0],
                                                             config_table[i + 1],
                                                             config_table[i + 2],
@@ -104,7 +110,7 @@ void AuraUSBController::GetConfigTable()
     }
     else
     {
-        LOG_INFO("[%s] Could not read config table, can not add device", device_name);
+        LOG_INFO("[%s] Could not read config table, can not add device", version);
         delete this;
     }
 }
@@ -135,7 +141,7 @@ void AuraUSBController::GetFirmwareVersion()
     \*-----------------------------------------------------*/
     if(usb_buf[1] == 0x02)
     {
-        memcpy(device_name, &usb_buf[2], 16);
+        memcpy(version, &usb_buf[2], 16);
     }
 }
 

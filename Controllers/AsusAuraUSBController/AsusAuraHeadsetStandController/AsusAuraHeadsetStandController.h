@@ -33,31 +33,33 @@ enum
 class AuraHeadsetStandController
 {
 public:
-    AuraHeadsetStandController(hid_device* dev_handle, const char* path);
+    AuraHeadsetStandController(hid_device* dev_handle, const char* path, std::string dev_name);
     virtual ~AuraHeadsetStandController();
 
     std::string GetDeviceLocation();
+    std::string GetName();
     std::string GetSerialString();
     std::string GetVersion();
 
-    void UpdateLeds
-        (
-        std::vector<RGBColor>    colors
-        );
+    void        UpdateLeds
+                    (
+                    std::vector<RGBColor>    colors
+                    );
 
-    void UpdateDevice
-        (
-        unsigned char   mode,
-        unsigned char   red,
-        unsigned char   grn,
-        unsigned char   blu,
-        unsigned char   speed,
-        unsigned char   brightness
-        );
+    void        UpdateDevice
+                    (
+                    unsigned char   mode,
+                    unsigned char   red,
+                    unsigned char   grn,
+                    unsigned char   blu,
+                    unsigned char   speed,
+                    unsigned char   brightness
+                    );
 
-    void SaveMode();
+    void        SaveMode();
 
 private:
-    hid_device*                 dev;
-    std::string                 location;
+    hid_device* dev;
+    std::string location;
+    std::string name;
 };

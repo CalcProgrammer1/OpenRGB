@@ -13,10 +13,11 @@
 #include "AsusAuraKeyboardController.h"
 #include "StringUtils.h"
 
-AuraKeyboardController::AuraKeyboardController(hid_device* dev_handle, const char* path)
+AuraKeyboardController::AuraKeyboardController(hid_device* dev_handle, const char* path, std::string dev_name)
 {
     dev         = dev_handle;
     location    = path;
+    name        = dev_name;
 }
 
 AuraKeyboardController::~AuraKeyboardController()
@@ -27,6 +28,11 @@ AuraKeyboardController::~AuraKeyboardController()
 std::string AuraKeyboardController::GetDeviceLocation()
 {
     return("HID: " + location);
+}
+
+std::string AuraKeyboardController::GetNameString()
+{
+    return(name);
 }
 
 std::string AuraKeyboardController::GetSerialString()

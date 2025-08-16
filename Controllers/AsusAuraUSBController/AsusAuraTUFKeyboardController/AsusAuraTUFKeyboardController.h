@@ -67,77 +67,81 @@ struct led_color
 class AuraTUFKeyboardController
 {
 public:
-    AuraTUFKeyboardController(hid_device* dev_handle, const char* path, uint16_t pid, unsigned short version);
+    AuraTUFKeyboardController(hid_device* dev_handle, const char* path, uint16_t pid, unsigned short version, std::string dev_name);
     ~AuraTUFKeyboardController();
 
     std::string GetDeviceLocation();
+    std::string GetName();
     std::string GetSerialString();
     std::string GetVersion();
+
     int         GetLayout();
     int         GetNumpadLocation();
     void        SaveMode();
     void        AllowRemoteControl(unsigned char type);
 
-    void UpdateSingleLed
-        (
-        int             led,
-        unsigned char   red,
-        unsigned char   green,
-        unsigned char   blue
-        );
+    void        UpdateSingleLed
+                    (
+                    int             led,
+                    unsigned char   red,
+                    unsigned char   green,
+                    unsigned char   blue
+                    );
 
-    void UpdateLeds
-        (
-        std::vector<led_color>    colors
-        );
+    void        UpdateLeds
+                    (
+                    std::vector<led_color>    colors
+                    );
 
-    void UpdateK1Wave
-        (
-        std::vector<RGBColor>   colors,
-        unsigned char           direction,
-        unsigned char           speed,
-        unsigned char           brightness
-        );
+    void        UpdateK1Wave
+                    (
+                    std::vector<RGBColor>   colors,
+                    unsigned char           direction,
+                    unsigned char           speed,
+                    unsigned char           brightness
+                    );
 
-    void UpdateScopeIIRainbowRipple
-        (
-        unsigned char           mode,
-        std::vector<RGBColor>   colors,
-        unsigned char           direction,
-        unsigned char           color_mode,
-        unsigned char           speed,
-        unsigned char           brightness
-        );
+    void        UpdateScopeIIRainbowRipple
+                    (
+                    unsigned char           mode,
+                    std::vector<RGBColor>   colors,
+                    unsigned char           direction,
+                    unsigned char           color_mode,
+                    unsigned char           speed,
+                    unsigned char           brightness
+                    );
 
-    void UpdateScopeIIQuicksand
-        (
-        std::vector<RGBColor>   colors,
-        unsigned char           direction,
-        unsigned char           color_mode,
-        unsigned char           speed,
-        unsigned char           brightness
-        );
+    void        UpdateScopeIIQuicksand
+                    (
+                    std::vector<RGBColor>   colors,
+                    unsigned char           direction,
+                    unsigned char           color_mode,
+                    unsigned char           speed,
+                    unsigned char           brightness
+                    );
 
-    void UpdateDevice
-        (
-        unsigned char           mode,
-        std::vector<RGBColor>   colors,
-        unsigned char           direction,
-        unsigned char           color_mode,
-        unsigned char           speed,
-        unsigned char           brightness
-        );
-    void UpdateQuicksandColors(std::vector<RGBColor> colors);
-    void UpdateMode(unsigned char mode);
-    void AwaitResponse(int ms);
-    void ClearResponses();
+    void        UpdateDevice
+                    (
+                    unsigned char           mode,
+                    std::vector<RGBColor>   colors,
+                    unsigned char           direction,
+                    unsigned char           color_mode,
+                    unsigned char           speed,
+                    unsigned char           brightness
+                    );
 
-    uint16_t                    device_pid;
-    bool                        is_per_led_keyboard;
+    void        UpdateQuicksandColors(std::vector<RGBColor> colors);
+    void        UpdateMode(unsigned char mode);
+    void        AwaitResponse(int ms);
+    void        ClearResponses();
+
+    uint16_t    device_pid;
+    bool        is_per_led_keyboard;
 
 private:
-    hid_device*                 dev;
-    std::string                 location;
-    unsigned short              rev_version;
+    hid_device*     dev;
+    std::string     location;
+    std::string     name;
+    unsigned short  rev_version;
 };
 

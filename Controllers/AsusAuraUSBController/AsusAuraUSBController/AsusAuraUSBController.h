@@ -54,17 +54,17 @@ enum class AuraDeviceType
 
 struct AuraDeviceInfo
 {
-    unsigned char effect_channel;
-    unsigned char direct_channel;
-    unsigned char num_leds;
-    unsigned char num_headers;
-    AuraDeviceType device_type;
+    unsigned char   effect_channel;
+    unsigned char   direct_channel;
+    unsigned char   num_leds;
+    unsigned char   num_headers;
+    AuraDeviceType  device_type;
 };
 
 class AuraUSBController
 {
 public:
-    AuraUSBController(hid_device* dev_handle, const char* path);
+    AuraUSBController(hid_device* dev_handle, const char* path, std::string dev_name);
     virtual ~AuraUSBController();
 
     unsigned int GetChannelCount();
@@ -72,6 +72,7 @@ public:
     std::string GetDeviceLocation();
     std::string GetDeviceName();
     std::string GetSerialString();
+    std::string GetDeviceVersion();
 
     const std::vector<AuraDeviceInfo>& GetAuraDevices() const;
 
@@ -96,6 +97,8 @@ protected:
     unsigned char               config_table[60];
     std::vector<AuraDeviceInfo> device_info;
     std::string                 location;
+    std::string                 name;
+    char                        version[16];
 
     void SendDirect
         (
@@ -103,10 +106,8 @@ protected:
         unsigned char   led_count,
         RGBColor *      colors
         );
+
 private:
-    char                        device_name[16];
-
     void GetConfigTable();
-
     void GetFirmwareVersion();
 };

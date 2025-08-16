@@ -26,7 +26,6 @@
 RGBController_AuraMainboard::RGBController_AuraMainboard(AuraMainboardController* controller_ptr) :
     RGBController_AuraUSB(controller_ptr)
 {
-    name        = "ASUS Aura USB Mainboard";
     description = "ASUS Aura USB Mainboard Device";
 
     /*-------------------------------------------------------*\

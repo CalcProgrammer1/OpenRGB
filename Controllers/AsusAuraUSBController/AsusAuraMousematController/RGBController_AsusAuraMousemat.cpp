@@ -26,7 +26,7 @@ RGBController_AuraMousemat::RGBController_AuraMousemat(AuraMousematController* c
 {
     controller                  = controller_ptr;
 
-    name                        = "ASUS Aura Mousemat";
+    name                        = controller->GetName();
     vendor                      = "ASUS";
     type                        = DEVICE_TYPE_MOUSEMAT;
     description                 = "ASUS Aura Mousemat Device";

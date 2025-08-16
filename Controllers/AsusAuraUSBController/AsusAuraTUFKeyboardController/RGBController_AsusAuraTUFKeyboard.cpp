@@ -26,19 +26,19 @@
 
 RGBController_AuraTUFKeyboard::RGBController_AuraTUFKeyboard(AuraTUFKeyboardController* controller_ptr)
 {
-    controller = controller_ptr;
+    controller                          = controller_ptr;
 
-    pid = controller->device_pid;
+    pid                                 = controller->device_pid;
 
     if(pid != AURA_ROG_CLAYMORE_PID)
     {
-        name        = "ASUS Aura Keyboard";
-        vendor      = "ASUS";
-        type        = DEVICE_TYPE_KEYBOARD;
-        description = "ASUS Aura Keyboard Device";
-        version     = controller->GetVersion();
-        location    = controller->GetDeviceLocation();
-        serial      = controller->GetSerialString();
+        name                            = controller->GetName();
+        vendor                          = "ASUS";
+        type                            = DEVICE_TYPE_KEYBOARD;
+        description                     = "ASUS Aura Keyboard Device";
+        version                         = controller->GetVersion();
+        location                        = controller->GetDeviceLocation();
+        serial                          = controller->GetSerialString();
 
         unsigned char AURA_KEYBOARD_SPEED_MIN     = 0;
         unsigned char AURA_KEYBOARD_SPEED_MAX     = 0;
@@ -51,6 +51,7 @@ RGBController_AuraTUFKeyboard::RGBController_AuraTUFKeyboard(AuraTUFKeyboardCont
                 AURA_KEYBOARD_SPEED_MAX          = 2;
                 AURA_KEYBOARD_SPEED_DEFAULT      = 1;
                 break;
+
             case AURA_ROG_STRIX_FLARE_PID:
             case AURA_ROG_STRIX_FLARE_PNK_LTD_PID:
             case AURA_ROG_STRIX_FLARE_COD_BO4_PID:
@@ -60,6 +61,7 @@ RGBController_AuraTUFKeyboard::RGBController_AuraTUFKeyboard(AuraTUFKeyboardCont
                 AURA_KEYBOARD_SPEED_MAX          = 0;
                 AURA_KEYBOARD_SPEED_DEFAULT      = 8;
                 break;
+
             case AURA_ROG_AZOTH_USB_PID:
             case AURA_ROG_AZOTH_2_4_PID:
             case AURA_ROG_FALCHION_WIRED_PID:
@@ -79,77 +81,83 @@ RGBController_AuraTUFKeyboard::RGBController_AuraTUFKeyboard(AuraTUFKeyboardCont
                 AURA_KEYBOARD_SPEED_MAX          = 0;
                 AURA_KEYBOARD_SPEED_DEFAULT      = 30;
                 break;
+
             default:
                 AURA_KEYBOARD_SPEED_MIN          = 15;
                 AURA_KEYBOARD_SPEED_MAX          = 0;
                 AURA_KEYBOARD_SPEED_DEFAULT      = 8;
+                break;
         }
 
         mode Direct;
-        Direct.name                 = "Direct";
-        Direct.value                = AURA_KEYBOARD_MODE_DIRECT;
-        Direct.flags                = MODE_FLAG_HAS_PER_LED_COLOR;
-        Direct.color_mode           = MODE_COLORS_PER_LED;
+        Direct.name                     = "Direct";
+        Direct.value                    = AURA_KEYBOARD_MODE_DIRECT;
+        Direct.flags                    = MODE_FLAG_HAS_PER_LED_COLOR;
+        Direct.color_mode               = MODE_COLORS_PER_LED;
         modes.push_back(Direct);
 
         mode Static;
-        Static.name                 = "Static";
-        Static.value                = AURA_KEYBOARD_MODE_STATIC;
-        Static.flags                = MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_MANUAL_SAVE | MODE_FLAG_HAS_BRIGHTNESS;
-        Static.brightness_min       = AURA_KEYBOARD_BRIGHTNESS_MIN;
-        Static.brightness_max       = AURA_KEYBOARD_BRIGHTNESS_MAX;
-        Static.brightness           = AURA_KEYBOARD_BRIGHTNESS_DEFAULT;
-        Static.color_mode           = MODE_COLORS_MODE_SPECIFIC;
-        Static.colors_min           = 1;
-        Static.colors_max           = 1;
+        Static.name                     = "Static";
+        Static.value                    = AURA_KEYBOARD_MODE_STATIC;
+        Static.flags                    = MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_MANUAL_SAVE | MODE_FLAG_HAS_BRIGHTNESS;
+        Static.brightness_min           = AURA_KEYBOARD_BRIGHTNESS_MIN;
+        Static.brightness_max           = AURA_KEYBOARD_BRIGHTNESS_MAX;
+        Static.brightness               = AURA_KEYBOARD_BRIGHTNESS_DEFAULT;
+        Static.color_mode               = MODE_COLORS_MODE_SPECIFIC;
+        Static.colors_min               = 1;
+        Static.colors_max               = 1;
         Static.colors.resize(1);
         modes.push_back(Static);
 
         mode Breathing;
-        Breathing.name              = "Breathing";
-        Breathing.value             = AURA_KEYBOARD_MODE_BREATHING;
-        Breathing.flags             = MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_SPEED | MODE_FLAG_MANUAL_SAVE | MODE_FLAG_HAS_BRIGHTNESS;
-        if(controller->is_per_led_keyboard) Breathing.flags |= MODE_FLAG_HAS_RANDOM_COLOR;
-
-        Breathing.speed_min         = AURA_KEYBOARD_SPEED_MIN;
-        Breathing.speed_max         = AURA_KEYBOARD_SPEED_MAX;
-        Breathing.speed             = AURA_KEYBOARD_SPEED_DEFAULT;
-        Breathing.brightness_min    = AURA_KEYBOARD_BRIGHTNESS_MIN;
-        Breathing.brightness_max    = AURA_KEYBOARD_BRIGHTNESS_MAX;
-        Breathing.brightness        = AURA_KEYBOARD_BRIGHTNESS_DEFAULT;
-        Breathing.color_mode        = MODE_COLORS_MODE_SPECIFIC;
-        Breathing.colors_min        = 1;
-        Breathing.colors_max        = 2;
+        Breathing.name                  = "Breathing";
+        Breathing.value                 = AURA_KEYBOARD_MODE_BREATHING;
+        Breathing.flags                 = MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_SPEED | MODE_FLAG_MANUAL_SAVE | MODE_FLAG_HAS_BRIGHTNESS;
+        if(controller->is_per_led_keyboard)
+        {
+            Breathing.flags            |= MODE_FLAG_HAS_RANDOM_COLOR;
+        }
+        Breathing.speed_min             = AURA_KEYBOARD_SPEED_MIN;
+        Breathing.speed_max             = AURA_KEYBOARD_SPEED_MAX;
+        Breathing.speed                 = AURA_KEYBOARD_SPEED_DEFAULT;
+        Breathing.brightness_min        = AURA_KEYBOARD_BRIGHTNESS_MIN;
+        Breathing.brightness_max        = AURA_KEYBOARD_BRIGHTNESS_MAX;
+        Breathing.brightness            = AURA_KEYBOARD_BRIGHTNESS_DEFAULT;
+        Breathing.color_mode            = MODE_COLORS_MODE_SPECIFIC;
+        Breathing.colors_min            = 1;
+        Breathing.colors_max            = 2;
         Breathing.colors.resize(1);
         modes.push_back(Breathing);
 
         mode Color_Cycle;
-        Color_Cycle.name            = "Spectrum Cycle";
-        Color_Cycle.value           = AURA_KEYBOARD_MODE_COLOR_CYCLE;
-        Color_Cycle.flags           = MODE_FLAG_HAS_SPEED | MODE_FLAG_MANUAL_SAVE | MODE_FLAG_HAS_BRIGHTNESS;
-        Color_Cycle.speed_min       = AURA_KEYBOARD_SPEED_MIN;
-        Color_Cycle.speed_max       = AURA_KEYBOARD_SPEED_MAX;
-        Color_Cycle.speed           = AURA_KEYBOARD_SPEED_DEFAULT;
-        Color_Cycle.brightness_min  = AURA_KEYBOARD_BRIGHTNESS_MIN;
-        Color_Cycle.brightness_max  = AURA_KEYBOARD_BRIGHTNESS_MAX;
-        Color_Cycle.brightness      = AURA_KEYBOARD_BRIGHTNESS_DEFAULT;
-        Color_Cycle.color_mode      = MODE_COLORS_NONE;
+        Color_Cycle.name                = "Spectrum Cycle";
+        Color_Cycle.value               = AURA_KEYBOARD_MODE_COLOR_CYCLE;
+        Color_Cycle.flags               = MODE_FLAG_HAS_SPEED | MODE_FLAG_MANUAL_SAVE | MODE_FLAG_HAS_BRIGHTNESS;
+        Color_Cycle.speed_min           = AURA_KEYBOARD_SPEED_MIN;
+        Color_Cycle.speed_max           = AURA_KEYBOARD_SPEED_MAX;
+        Color_Cycle.speed               = AURA_KEYBOARD_SPEED_DEFAULT;
+        Color_Cycle.brightness_min      = AURA_KEYBOARD_BRIGHTNESS_MIN;
+        Color_Cycle.brightness_max      = AURA_KEYBOARD_BRIGHTNESS_MAX;
+        Color_Cycle.brightness          = AURA_KEYBOARD_BRIGHTNESS_DEFAULT;
+        Color_Cycle.color_mode          = MODE_COLORS_NONE;
         modes.push_back(Color_Cycle);
 
         mode Wave;
-        Wave.name                   = "Rainbow Wave";
-        Wave.value                  = AURA_KEYBOARD_MODE_WAVE;
-        Wave.flags                  = MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_DIRECTION_LR | MODE_FLAG_HAS_DIRECTION_HV | MODE_FLAG_MANUAL_SAVE | MODE_FLAG_HAS_BRIGHTNESS;
-        if(controller->is_per_led_keyboard) Wave.flags |= MODE_FLAG_HAS_DIRECTION_UD;
-
-        Wave.speed_min              = AURA_KEYBOARD_SPEED_MIN;
-        Wave.speed_max              = AURA_KEYBOARD_SPEED_MAX;
-        Wave.speed                  = AURA_KEYBOARD_SPEED_DEFAULT;
-        Wave.brightness_min         = AURA_KEYBOARD_BRIGHTNESS_MIN;
-        Wave.brightness_max         = AURA_KEYBOARD_BRIGHTNESS_MAX;
-        Wave.brightness             = AURA_KEYBOARD_BRIGHTNESS_DEFAULT;
-        Wave.direction              = MODE_DIRECTION_LEFT;
-        Wave.color_mode             = MODE_COLORS_MODE_SPECIFIC;
+        Wave.name                       = "Rainbow Wave";
+        Wave.value                      = AURA_KEYBOARD_MODE_WAVE;
+        Wave.flags                      = MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_DIRECTION_LR | MODE_FLAG_HAS_DIRECTION_HV | MODE_FLAG_MANUAL_SAVE | MODE_FLAG_HAS_BRIGHTNESS;
+        if(controller->is_per_led_keyboard)
+        {
+            Wave.flags                 |= MODE_FLAG_HAS_DIRECTION_UD;
+        }
+        Wave.speed_min                  = AURA_KEYBOARD_SPEED_MIN;
+        Wave.speed_max                  = AURA_KEYBOARD_SPEED_MAX;
+        Wave.speed                      = AURA_KEYBOARD_SPEED_DEFAULT;
+        Wave.brightness_min             = AURA_KEYBOARD_BRIGHTNESS_MIN;
+        Wave.brightness_max             = AURA_KEYBOARD_BRIGHTNESS_MAX;
+        Wave.brightness                 = AURA_KEYBOARD_BRIGHTNESS_DEFAULT;
+        Wave.direction                  = MODE_DIRECTION_LEFT;
+        Wave.color_mode                 = MODE_COLORS_MODE_SPECIFIC;
 
         if(!controller->is_per_led_keyboard)
         {
@@ -268,129 +276,129 @@ RGBController_AuraTUFKeyboard::RGBController_AuraTUFKeyboard(AuraTUFKeyboardCont
     else
     {
 
-        name        = "ASUS ROG Claymore";
-        vendor      = "ASUS";
-        type        = DEVICE_TYPE_KEYBOARD;
-        description = "ASUS Aura Keyboard Device";
-        version     = controller->GetVersion();
-        location    = controller->GetDeviceLocation();
-        serial      = controller->GetSerialString();
+        name                            = controller->GetName();
+        vendor                          = "ASUS";
+        type                            = DEVICE_TYPE_KEYBOARD;
+        description                     = "ASUS Aura Keyboard Device";
+        version                         = controller->GetVersion();
+        location                        = controller->GetDeviceLocation();
+        serial                          = controller->GetSerialString();
 
         mode Direct;
-        Direct.name                 = "Direct";
-        Direct.value                = AURA_KEYBOARD_MODE_DIRECT;
-        Direct.flags                = MODE_FLAG_HAS_PER_LED_COLOR;
-        Direct.color_mode           = MODE_COLORS_PER_LED;
+        Direct.name                     = "Direct";
+        Direct.value                    = AURA_KEYBOARD_MODE_DIRECT;
+        Direct.flags                    = MODE_FLAG_HAS_PER_LED_COLOR;
+        Direct.color_mode               = MODE_COLORS_PER_LED;
         modes.push_back(Direct);
 
         mode Static;
-        Static.name                 = "Static";
-        Static.value                = AURA_KEYBOARD_MODE_STATIC;
-        Static.flags                = MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_AUTOMATIC_SAVE;
-        Static.color_mode           = MODE_COLORS_MODE_SPECIFIC;
-        Static.colors_min           = 1;
-        Static.colors_max           = 1;
+        Static.name                     = "Static";
+        Static.value                    = AURA_KEYBOARD_MODE_STATIC;
+        Static.flags                    = MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_AUTOMATIC_SAVE;
+        Static.color_mode               = MODE_COLORS_MODE_SPECIFIC;
+        Static.colors_min               = 1;
+        Static.colors_max               = 1;
         Static.colors.resize(1);
         modes.push_back(Static);
 
         mode Breathing;
-        Breathing.name              = "Breathing";
-        Breathing.value             = AURA_KEYBOARD_MODE_BREATHING;
-        Breathing.flags             = MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_SPEED | MODE_FLAG_AUTOMATIC_SAVE;
-        Breathing.speed_min         = AURA_CLAYMORE_SPEED_MIN;
-        Breathing.speed_max         = AURA_CLAYMORE_SPEED_MAX;
-        Breathing.speed             = AURA_CLAYMORE_SPEED_DEFAULT_BREATHING;
-        Breathing.color_mode        = MODE_COLORS_MODE_SPECIFIC;
-        Breathing.colors_min        = 1;
-        Breathing.colors_max        = 2;
+        Breathing.name                  = "Breathing";
+        Breathing.value                 = AURA_KEYBOARD_MODE_BREATHING;
+        Breathing.flags                 = MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_SPEED | MODE_FLAG_AUTOMATIC_SAVE;
+        Breathing.speed_min             = AURA_CLAYMORE_SPEED_MIN;
+        Breathing.speed_max             = AURA_CLAYMORE_SPEED_MAX;
+        Breathing.speed                 = AURA_CLAYMORE_SPEED_DEFAULT_BREATHING;
+        Breathing.color_mode            = MODE_COLORS_MODE_SPECIFIC;
+        Breathing.colors_min            = 1;
+        Breathing.colors_max            = 2;
         Breathing.colors.resize(2);
         modes.push_back(Breathing);
 
         mode Color_Cycle;
-        Color_Cycle.name            = "Spectrum Cycle";
-        Color_Cycle.value           = AURA_KEYBOARD_MODE_COLOR_CYCLE;
-        Color_Cycle.flags           = MODE_FLAG_HAS_SPEED | MODE_FLAG_AUTOMATIC_SAVE;
-        Color_Cycle.speed_min       = AURA_CLAYMORE_SPEED_MIN;
-        Color_Cycle.speed_max       = AURA_CLAYMORE_SPEED_MAX;
-        Color_Cycle.speed           = AURA_CLAYMORE_SPEED_DEFAULT_COLOR_CYCLE;
-        Color_Cycle.color_mode      = MODE_COLORS_NONE;
+        Color_Cycle.name                = "Spectrum Cycle";
+        Color_Cycle.value               = AURA_KEYBOARD_MODE_COLOR_CYCLE;
+        Color_Cycle.flags               = MODE_FLAG_HAS_SPEED | MODE_FLAG_AUTOMATIC_SAVE;
+        Color_Cycle.speed_min           = AURA_CLAYMORE_SPEED_MIN;
+        Color_Cycle.speed_max           = AURA_CLAYMORE_SPEED_MAX;
+        Color_Cycle.speed               = AURA_CLAYMORE_SPEED_DEFAULT_COLOR_CYCLE;
+        Color_Cycle.color_mode          = MODE_COLORS_NONE;
         modes.push_back(Color_Cycle);
 
         mode Reactive;
-        Reactive.name               = "Reactive";
-        Reactive.value              = AURA_KEYBOARD_MODE_REACTIVE;
-        Reactive.flags              = MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_RANDOM_COLOR | MODE_FLAG_HAS_SPEED | MODE_FLAG_AUTOMATIC_SAVE;
-        Reactive.speed_min          = AURA_CLAYMORE_SPEED_MIN;
-        Reactive.speed_max          = AURA_CLAYMORE_SPEED_MAX;
-        Reactive.speed              = AURA_CLAYMORE_SPEED_DEFAULT_REACTIVE;
-        Reactive.color_mode         = MODE_COLORS_MODE_SPECIFIC;
-        Reactive.colors_min         = 1;
-        Reactive.colors_max         = 2;
+        Reactive.name                   = "Reactive";
+        Reactive.value                  = AURA_KEYBOARD_MODE_REACTIVE;
+        Reactive.flags                  = MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_RANDOM_COLOR | MODE_FLAG_HAS_SPEED | MODE_FLAG_AUTOMATIC_SAVE;
+        Reactive.speed_min              = AURA_CLAYMORE_SPEED_MIN;
+        Reactive.speed_max              = AURA_CLAYMORE_SPEED_MAX;
+        Reactive.speed                  = AURA_CLAYMORE_SPEED_DEFAULT_REACTIVE;
+        Reactive.color_mode             = MODE_COLORS_MODE_SPECIFIC;
+        Reactive.colors_min             = 1;
+        Reactive.colors_max             = 2;
         Reactive.colors.resize(2);
         modes.push_back(Reactive);
 
         mode Wave;
-        Wave.name                   = "Rainbow Wave";
-        Wave.value                  = AURA_KEYBOARD_MODE_WAVE;
-        Wave.flags                  = MODE_COLORS_NONE | MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_DIRECTION_LR | MODE_FLAG_HAS_DIRECTION_UD | MODE_FLAG_AUTOMATIC_SAVE;
-        Wave.speed_min              = AURA_CLAYMORE_SPEED_MIN;
-        Wave.speed_max              = AURA_CLAYMORE_SPEED_MAX;
-        Wave.speed                  = AURA_CLAYMORE_SPEED_DEFAULT_WAVE;
-        Wave.direction              = MODE_DIRECTION_LEFT;
-        Wave.color_mode             = MODE_COLORS_NONE;
+        Wave.name                       = "Rainbow Wave";
+        Wave.value                      = AURA_KEYBOARD_MODE_WAVE;
+        Wave.flags                      = MODE_COLORS_NONE | MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_DIRECTION_LR | MODE_FLAG_HAS_DIRECTION_UD | MODE_FLAG_AUTOMATIC_SAVE;
+        Wave.speed_min                  = AURA_CLAYMORE_SPEED_MIN;
+        Wave.speed_max                  = AURA_CLAYMORE_SPEED_MAX;
+        Wave.speed                      = AURA_CLAYMORE_SPEED_DEFAULT_WAVE;
+        Wave.direction                  = MODE_DIRECTION_LEFT;
+        Wave.color_mode                 = MODE_COLORS_NONE;
         modes.push_back(Wave);
 
         mode Color_Wave;
-        Color_Wave.name             = "Color Wave";
-        Color_Wave.value            = AURA_KEYBOARD_MODE_WAVE;
-        Color_Wave.flags            = MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_DIRECTION_LR | MODE_FLAG_HAS_DIRECTION_UD | MODE_FLAG_AUTOMATIC_SAVE;
-        Color_Wave.speed_min        = AURA_CLAYMORE_SPEED_MIN;
-        Color_Wave.speed_max        = AURA_CLAYMORE_SPEED_MAX;
-        Color_Wave.speed            = AURA_CLAYMORE_SPEED_DEFAULT_WAVE;
-        Color_Wave.direction        = MODE_DIRECTION_LEFT;
-        Color_Wave.color_mode       = MODE_COLORS_MODE_SPECIFIC;
-        Color_Wave.colors_min       = 1;
-        Color_Wave.colors_max       = 2;
+        Color_Wave.name                 = "Color Wave";
+        Color_Wave.value                = AURA_KEYBOARD_MODE_WAVE;
+        Color_Wave.flags                = MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_DIRECTION_LR | MODE_FLAG_HAS_DIRECTION_UD | MODE_FLAG_AUTOMATIC_SAVE;
+        Color_Wave.speed_min            = AURA_CLAYMORE_SPEED_MIN;
+        Color_Wave.speed_max            = AURA_CLAYMORE_SPEED_MAX;
+        Color_Wave.speed                = AURA_CLAYMORE_SPEED_DEFAULT_WAVE;
+        Color_Wave.direction            = MODE_DIRECTION_LEFT;
+        Color_Wave.color_mode           = MODE_COLORS_MODE_SPECIFIC;
+        Color_Wave.colors_min           = 1;
+        Color_Wave.colors_max           = 2;
         Color_Wave.colors.resize(2);
         modes.push_back(Color_Wave);
 
         mode Ripple;
-        Ripple.name                 = "Ripple";
-        Ripple.value                = AURA_KEYBOARD_MODE_RIPPLE;
-        Ripple.flags                = MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_RANDOM_COLOR | MODE_FLAG_HAS_SPEED | MODE_FLAG_AUTOMATIC_SAVE;
-        Ripple.speed_min            = AURA_CLAYMORE_SPEED_MIN;
-        Ripple.speed_max            = AURA_CLAYMORE_SPEED_MAX;
-        Ripple.speed                = AURA_CLAYMORE_SPEED_DEFAULT_RIPPLE;
-        Ripple.color_mode           = MODE_COLORS_MODE_SPECIFIC;
-        Ripple.colors_min           = 1;
-        Ripple.colors_max           = 2;
+        Ripple.name                     = "Ripple";
+        Ripple.value                    = AURA_KEYBOARD_MODE_RIPPLE;
+        Ripple.flags                    = MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_RANDOM_COLOR | MODE_FLAG_HAS_SPEED | MODE_FLAG_AUTOMATIC_SAVE;
+        Ripple.speed_min                = AURA_CLAYMORE_SPEED_MIN;
+        Ripple.speed_max                = AURA_CLAYMORE_SPEED_MAX;
+        Ripple.speed                    = AURA_CLAYMORE_SPEED_DEFAULT_RIPPLE;
+        Ripple.color_mode               = MODE_COLORS_MODE_SPECIFIC;
+        Ripple.colors_min               = 1;
+        Ripple.colors_max               = 2;
         Ripple.colors.resize(2);
         modes.push_back(Ripple);
 
         mode Starry_Night;
-        Starry_Night.name           = "Starry Night";
-        Starry_Night.value          = AURA_KEYBOARD_MODE_STARRY_NIGHT;
-        Starry_Night.flags          = MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_RANDOM_COLOR | MODE_FLAG_HAS_SPEED | MODE_FLAG_AUTOMATIC_SAVE;
-        Starry_Night.speed_min      = AURA_CLAYMORE_SPEED_MIN;
-        Starry_Night.speed_max      = AURA_CLAYMORE_SPEED_MAX;
-        Starry_Night.speed          = AURA_CLAYMORE_SPEED_DEFAULT_STARRY_NIGHT;
-        Starry_Night.color_mode     = MODE_COLORS_MODE_SPECIFIC;
-        Starry_Night.colors_min     = 1;
-        Starry_Night.colors_max     = 2;
+        Starry_Night.name               = "Starry Night";
+        Starry_Night.value              = AURA_KEYBOARD_MODE_STARRY_NIGHT;
+        Starry_Night.flags              = MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_RANDOM_COLOR | MODE_FLAG_HAS_SPEED | MODE_FLAG_AUTOMATIC_SAVE;
+        Starry_Night.speed_min          = AURA_CLAYMORE_SPEED_MIN;
+        Starry_Night.speed_max          = AURA_CLAYMORE_SPEED_MAX;
+        Starry_Night.speed              = AURA_CLAYMORE_SPEED_DEFAULT_STARRY_NIGHT;
+        Starry_Night.color_mode         = MODE_COLORS_MODE_SPECIFIC;
+        Starry_Night.colors_min         = 1;
+        Starry_Night.colors_max         = 2;
         Starry_Night.colors.resize(2);
         modes.push_back(Starry_Night);
 
         mode Quicksand;
-        Quicksand.name              = "Quicksand";
-        Quicksand.value             = AURA_KEYBOARD_MODE_QUICKSAND;
-        Quicksand.flags             = MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_RANDOM_COLOR | MODE_FLAG_HAS_SPEED | MODE_FLAG_AUTOMATIC_SAVE;
-        Quicksand.direction         = MODE_DIRECTION_DOWN;
-        Quicksand.speed_min         = AURA_CLAYMORE_SPEED_MIN;
-        Quicksand.speed_max         = AURA_CLAYMORE_SPEED_MAX;
-        Quicksand.speed             = AURA_CLAYMORE_SPEED_DEFAULT_QUICKSAND;
-        Quicksand.color_mode        = MODE_COLORS_MODE_SPECIFIC;
-        Quicksand.colors_min        = 6;
-        Quicksand.colors_max        = 6;
+        Quicksand.name                  = "Quicksand";
+        Quicksand.value                 = AURA_KEYBOARD_MODE_QUICKSAND;
+        Quicksand.flags                 = MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_RANDOM_COLOR | MODE_FLAG_HAS_SPEED | MODE_FLAG_AUTOMATIC_SAVE;
+        Quicksand.direction             = MODE_DIRECTION_DOWN;
+        Quicksand.speed_min             = AURA_CLAYMORE_SPEED_MIN;
+        Quicksand.speed_max             = AURA_CLAYMORE_SPEED_MAX;
+        Quicksand.speed                 = AURA_CLAYMORE_SPEED_DEFAULT_QUICKSAND;
+        Quicksand.color_mode            = MODE_COLORS_MODE_SPECIFIC;
+        Quicksand.colors_min            = 6;
+        Quicksand.colors_max            = 6;
         Quicksand.colors.resize(6);
         modes.push_back(Quicksand);
     }

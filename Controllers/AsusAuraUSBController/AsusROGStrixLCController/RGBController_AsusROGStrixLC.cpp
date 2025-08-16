@@ -28,7 +28,7 @@ RGBController_AsusROGStrixLC::RGBController_AsusROGStrixLC(AsusROGStrixLCControl
     controller                  = controller_ptr;
     uint8_t speed               = ROGSTRIXLC_CONTROLLER_SPEED_NORMAL;
 
-    name                        = "ROG Strix LC";
+    name                        = controller->GetDeviceName();
     vendor                      = "ASUS";
     type                        = DEVICE_TYPE_COOLER;
     description                 = "ASUS Liquid Cooler including 120mm, 140mm, 240mm, 280mm and 360mm radiators.";

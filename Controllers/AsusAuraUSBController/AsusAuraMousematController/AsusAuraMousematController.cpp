@@ -13,10 +13,11 @@
 #include "AsusAuraMousematController.h"
 #include "StringUtils.h"
 
-AuraMousematController::AuraMousematController(hid_device* dev_handle, const char* path)
+AuraMousematController::AuraMousematController(hid_device* dev_handle, const char* path, std::string dev_name)
 {
     dev         = dev_handle;
     location    = path;
+    name        = dev_name;
 }
 
 AuraMousematController::~AuraMousematController()
@@ -27,6 +28,11 @@ AuraMousematController::~AuraMousematController()
 std::string AuraMousematController::GetDeviceLocation()
 {
     return("HID: " + location);
+}
+
+std::string AuraMousematController::GetName()
+{
+    return(name);
 }
 
 std::string AuraMousematController::GetSerialString()

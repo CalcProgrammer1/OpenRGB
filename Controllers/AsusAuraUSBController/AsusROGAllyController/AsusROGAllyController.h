@@ -40,36 +40,38 @@ enum
 class ROGAllyController
 {
 public:
-    ROGAllyController(hid_device* dev_handle, const char* path);
+    ROGAllyController(hid_device* dev_handle, const char* path, std::string dev_name);
     virtual ~ROGAllyController();
 
     std::string GetDeviceLocation();
+    std::string GetName();
     std::string GetSerialString();
     std::string GetVersion();
 
-    void SendInitialization();
+    void        SendInitialization();
 
-    void UpdateBrightness
-        (
-            unsigned char           brightness
-        );
+    void        UpdateBrightness
+                    (
+                        unsigned char           brightness
+                    );
 
-    void UpdateLeds
-        (
-            std::vector<RGBColor>    colors
-            );
+    void        UpdateLeds
+                    (
+                    std::vector<RGBColor>    colors
+                    );
 
-    void UpdateDevice
-        (
-            unsigned char           mode,
-            std::vector<RGBColor>   colors,
-            unsigned char           speed,
-            unsigned char           direction
-            );
+    void        UpdateDevice
+                    (
+                    unsigned char           mode,
+                    std::vector<RGBColor>   colors,
+                    unsigned char           speed,
+                    unsigned char           direction
+                    );
 
-    void SaveMode();
+    void        SaveMode();
 
 private:
-    hid_device*                 dev;
-    std::string                 location;
+    hid_device* dev;
+    std::string location;
+    std::string name;
 };

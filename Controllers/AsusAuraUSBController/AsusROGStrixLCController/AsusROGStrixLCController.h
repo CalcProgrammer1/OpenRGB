@@ -58,7 +58,7 @@ enum
 class AsusROGStrixLCController : public AuraUSBController
 {
 public:
-    AsusROGStrixLCController(hid_device* dev_handle, const char* path);
+    AsusROGStrixLCController(hid_device* dev_handle, const char* path, std::string dev_name);
     ~AsusROGStrixLCController();
 
     std::string             GetLocation();

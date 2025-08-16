@@ -26,7 +26,7 @@ RGBController_AsusROGAlly::RGBController_AsusROGAlly(ROGAllyController* controll
 {
     controller                  = controller_ptr;
 
-    name                        = "ASUS ROG Ally";
+    name                        = controller->GetName();
     vendor                      = "ASUS";
     type                        = DEVICE_TYPE_GAMEPAD;
     description                 = "ASUS ROG Ally Device";

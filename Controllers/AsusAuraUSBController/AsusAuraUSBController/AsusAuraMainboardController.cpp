@@ -12,7 +12,7 @@
 #include <cstring>
 #include "AsusAuraMainboardController.h"
 
-AuraMainboardController::AuraMainboardController(hid_device* dev_handle, const char* path) : AuraUSBController(dev_handle, path), mode(AURA_MODE_DIRECT)
+AuraMainboardController::AuraMainboardController(hid_device* dev_handle, const char* path, std::string dev_name) : AuraUSBController(dev_handle, path, dev_name), mode(AURA_MODE_DIRECT)
 {
     unsigned char num_total_mainboard_leds  = config_table[0x1B];
     unsigned char num_rgb_headers           = config_table[0x1D];

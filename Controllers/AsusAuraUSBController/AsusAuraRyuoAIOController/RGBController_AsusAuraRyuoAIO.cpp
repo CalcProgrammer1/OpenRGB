@@ -29,7 +29,7 @@ RGBController_AsusAuraRyuoAIO::RGBController_AsusAuraRyuoAIO(AsusAuraRyuoAIOCont
     controller                  = controller_ptr;
     uint8_t speed               = controller->SPEED_NORMAL;
 
-    name                        = "ROG Ryuo AIO";
+    name                        = controller->GetDeviceName();
     vendor                      = "ASUS";
     type                        = DEVICE_TYPE_COOLER;
     description                 = "ASUS Liquid Cooler with 120mm and 240mm radiators.";

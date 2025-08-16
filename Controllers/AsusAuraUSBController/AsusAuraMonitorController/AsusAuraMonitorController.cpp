@@ -14,11 +14,12 @@
 #include "LogManager.h"
 #include "StringUtils.h"
 
-AuraMonitorController::AuraMonitorController(hid_device* dev_handle, const char* path, uint16_t pid)
+AuraMonitorController::AuraMonitorController(hid_device* dev_handle, const char* path, uint16_t pid, std::string dev_name)
 {
     dev         = dev_handle;
     location    = path;
     device_pid  = pid;
+    name        = dev_name;
 }
 
 AuraMonitorController::~AuraMonitorController()
@@ -29,6 +30,11 @@ AuraMonitorController::~AuraMonitorController()
 std::string AuraMonitorController::GetDeviceLocation()
 {
     return("HID: " + location);
+}
+
+std::string AuraMonitorController::GetNameString()
+{
+    return(name);
 }
 
 std::string AuraMonitorController::GetSerialString()

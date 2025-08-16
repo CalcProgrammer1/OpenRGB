@@ -21,35 +21,38 @@
 class AuraMouseController
 {
 public:
-    AuraMouseController(hid_device* dev_handle, const char* path, uint16_t pid);
+    AuraMouseController(hid_device* dev_handle, const char* path, uint16_t pid, std::string dev_name);
     virtual ~AuraMouseController();
 
     std::string GetDeviceLocation();
-    std::string CleanSerial(const std::wstring& wstr);
+    std::string GetName();
     std::string GetSerialString();
     std::string GetVersion(bool wireless, int protocol);
 
-    void SaveMode();
-    void SendUpdate
-        (
-        unsigned char   zone,
-        unsigned char   mode,
-        unsigned char   red,
-        unsigned char   grn,
-        unsigned char   blu,
-        unsigned char   dir,
-        bool            random,
-        unsigned char   speed,
-        unsigned char   brightness
-        );
-    void SendDirect
-        (
-        std::vector<RGBColor>   zone_colors
-        );
+    std::string CleanSerial(const std::wstring& wstr);
 
-    uint16_t                    device_pid;
+    void        SaveMode();
+    void        SendUpdate
+                    (
+                    unsigned char   zone,
+                    unsigned char   mode,
+                    unsigned char   red,
+                    unsigned char   grn,
+                    unsigned char   blu,
+                    unsigned char   dir,
+                    bool            random,
+                    unsigned char   speed,
+                    unsigned char   brightness
+                    );
+    void        SendDirect
+                    (
+                    std::vector<RGBColor>   zone_colors
+                    );
+
+    uint16_t    device_pid;
 
 private:
-    hid_device*                 dev;
-    std::string                 location;
+    hid_device* dev;
+    std::string location;
+    std::string name;
 };

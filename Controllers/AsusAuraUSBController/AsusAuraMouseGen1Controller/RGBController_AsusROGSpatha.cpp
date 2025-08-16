@@ -30,7 +30,7 @@ RGBController_AsusROGSpatha::RGBController_AsusROGSpatha(AsusAuraMouseGen1Contro
 {
     controller                  = controller_ptr;
 
-    name                        = "ASUS ROG Spatha";
+    name                        = controller->GetName();
     vendor                      = "ASUS";
     type                        = DEVICE_TYPE_MOUSE;
     description                 = "ASUS Aura Mouse Device";

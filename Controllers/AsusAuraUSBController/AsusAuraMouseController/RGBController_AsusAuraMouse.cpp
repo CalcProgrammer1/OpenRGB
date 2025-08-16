@@ -33,19 +33,19 @@ static std::string aura_mouse_zone_names[5]
 
 RGBController_AuraMouse::RGBController_AuraMouse(AuraMouseController* controller_ptr)
 {
-    controller = controller_ptr;
+    controller                      = controller_ptr;
 
-    pid = controller->device_pid;
+    pid                             = controller->device_pid;
 
-    name                    = "ASUS Aura Mouse";
-    vendor                  = "ASUS";
-    type                    = DEVICE_TYPE_MOUSE;
-    description             = "ASUS Aura Mouse Device";
-    version                 = controller->GetVersion(aura_mouse_devices[pid].wireless, aura_mouse_devices[pid].version_protocol);
-    location                = controller->GetDeviceLocation();
-    serial                  = controller->GetSerialString();
+    name                            = controller->GetName();
+    vendor                          = "ASUS";
+    type                            = DEVICE_TYPE_MOUSE;
+    description                     = "ASUS Aura Mouse Device";
+    version                         = controller->GetVersion(aura_mouse_devices[pid].wireless, aura_mouse_devices[pid].version_protocol);
+    location                        = controller->GetDeviceLocation();
+    serial                          = controller->GetSerialString();
 
-    std::vector<uint8_t> mm = aura_mouse_devices[pid].mouse_modes;
+    std::vector<uint8_t> mm         = aura_mouse_devices[pid].mouse_modes;
 
     if(aura_mouse_devices[pid].direct)
     {
@@ -57,7 +57,7 @@ RGBController_AuraMouse::RGBController_AuraMouse(AuraMouseController* controller
         modes.push_back(Direct);
     }
 
-    int mode_value          = 0;
+    int mode_value                  = 0;
 
     for(std::vector<uint8_t>::iterator it = mm.begin(); it != mm.end(); it++)
     {

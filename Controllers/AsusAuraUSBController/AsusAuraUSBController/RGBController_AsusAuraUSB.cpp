@@ -26,91 +26,91 @@
 RGBController_AuraUSB::RGBController_AuraUSB(AuraUSBController* controller_ptr) :
     initializedMode(false)
 {
-    controller  = controller_ptr;
+    controller                  = controller_ptr;
 
-    name        = "ASUS Aura USB";
-    vendor      = "ASUS";
-    version     = controller->GetDeviceName();
-    type        = DEVICE_TYPE_MOTHERBOARD;
-    description = "ASUS Aura USB Device";
-    location    = controller->GetDeviceLocation();
-    serial      = controller->GetSerialString();
+    name                        = controller->GetDeviceName();
+    vendor                      = "ASUS";
+    type                        = DEVICE_TYPE_MOTHERBOARD;
+    description                 = "ASUS Aura USB Device";
+    location                    = controller->GetDeviceLocation();
+    serial                      = controller->GetSerialString();
+    version                     = controller->GetDeviceVersion();
 
     mode Direct;
-    Direct.name       = "Direct";
-    Direct.value      = AURA_MODE_DIRECT;
-    Direct.flags      = MODE_FLAG_HAS_PER_LED_COLOR;
-    Direct.color_mode = MODE_COLORS_PER_LED;
+    Direct.name                 = "Direct";
+    Direct.value                = AURA_MODE_DIRECT;
+    Direct.flags                = MODE_FLAG_HAS_PER_LED_COLOR;
+    Direct.color_mode           = MODE_COLORS_PER_LED;
     modes.push_back(Direct);
 
     mode Off;
-    Off.name       = "Off";
-    Off.value      = AURA_MODE_OFF;
-    Off.flags      = 0;
-    Off.color_mode = MODE_COLORS_NONE;
+    Off.name                    = "Off";
+    Off.value                   = AURA_MODE_OFF;
+    Off.flags                   = 0;
+    Off.color_mode              = MODE_COLORS_NONE;
     modes.push_back(Off);
 
     mode Static;
-    Static.name       = "Static";
-    Static.value      = AURA_MODE_STATIC;
-    Static.flags      = MODE_FLAG_HAS_MODE_SPECIFIC_COLOR;
-    Static.colors_min = 1;
-    Static.colors_max = 1;
-    Static.color_mode = MODE_COLORS_MODE_SPECIFIC;
+    Static.name                 = "Static";
+    Static.value                = AURA_MODE_STATIC;
+    Static.flags                = MODE_FLAG_HAS_MODE_SPECIFIC_COLOR;
+    Static.colors_min           = 1;
+    Static.colors_max           = 1;
+    Static.color_mode           = MODE_COLORS_MODE_SPECIFIC;
     Static.colors.resize(1);
     modes.push_back(Static);
 
     mode Breathing;
-    Breathing.name       = "Breathing";
-    Breathing.value      = AURA_MODE_BREATHING;
-    Breathing.flags      = MODE_FLAG_HAS_MODE_SPECIFIC_COLOR;
-    Breathing.colors_min = 1;
-    Breathing.colors_max = 1;
-    Breathing.color_mode = MODE_COLORS_MODE_SPECIFIC;
+    Breathing.name              = "Breathing";
+    Breathing.value             = AURA_MODE_BREATHING;
+    Breathing.flags             = MODE_FLAG_HAS_MODE_SPECIFIC_COLOR;
+    Breathing.colors_min        = 1;
+    Breathing.colors_max        = 1;
+    Breathing.color_mode        = MODE_COLORS_MODE_SPECIFIC;
     Breathing.colors.resize(1);
     modes.push_back(Breathing);
 
     mode Flashing;
-    Flashing.name       = "Flashing";
-    Flashing.value      = AURA_MODE_FLASHING;
-    Flashing.flags      = MODE_FLAG_HAS_MODE_SPECIFIC_COLOR;
-    Flashing.colors_min = 1;
-    Flashing.colors_max = 1;
-    Flashing.color_mode = MODE_COLORS_MODE_SPECIFIC;
+    Flashing.name               = "Flashing";
+    Flashing.value              = AURA_MODE_FLASHING;
+    Flashing.flags              = MODE_FLAG_HAS_MODE_SPECIFIC_COLOR;
+    Flashing.colors_min         = 1;
+    Flashing.colors_max         = 1;
+    Flashing.color_mode         = MODE_COLORS_MODE_SPECIFIC;
     Flashing.colors.resize(1);
     modes.push_back(Flashing);
 
     mode SpectrumCycle;
-    SpectrumCycle.name       = "Spectrum Cycle";
-    SpectrumCycle.value      = AURA_MODE_SPECTRUM_CYCLE;
-    SpectrumCycle.flags      = 0;
-    SpectrumCycle.color_mode = MODE_COLORS_NONE;
+    SpectrumCycle.name          = "Spectrum Cycle";
+    SpectrumCycle.value         = AURA_MODE_SPECTRUM_CYCLE;
+    SpectrumCycle.flags         = 0;
+    SpectrumCycle.color_mode    = MODE_COLORS_NONE;
     modes.push_back(SpectrumCycle);
 
     mode Rainbow;
-    Rainbow.name       = "Rainbow";
-    Rainbow.value      = AURA_MODE_RAINBOW;
-    Rainbow.flags      = 0;
-    Rainbow.color_mode = MODE_COLORS_NONE;
+    Rainbow.name                = "Rainbow";
+    Rainbow.value               = AURA_MODE_RAINBOW;
+    Rainbow.flags               = 0;
+    Rainbow.color_mode          = MODE_COLORS_NONE;
     modes.push_back(Rainbow);
 
     mode ChaseFade;
-    ChaseFade.name       = "Chase Fade";
-    ChaseFade.value      = AURA_MODE_CHASE_FADE;
-    ChaseFade.flags      = MODE_FLAG_HAS_MODE_SPECIFIC_COLOR;
-    ChaseFade.colors_min = 1;
-    ChaseFade.colors_max = 1;
-    ChaseFade.color_mode = MODE_COLORS_MODE_SPECIFIC;
+    ChaseFade.name              = "Chase Fade";
+    ChaseFade.value             = AURA_MODE_CHASE_FADE;
+    ChaseFade.flags             = MODE_FLAG_HAS_MODE_SPECIFIC_COLOR;
+    ChaseFade.colors_min        = 1;
+    ChaseFade.colors_max        = 1;
+    ChaseFade.color_mode        = MODE_COLORS_MODE_SPECIFIC;
     ChaseFade.colors.resize(1);
     modes.push_back(ChaseFade);
 
     mode Chase;
-    Chase.name       = "Chase";
-    Chase.value      = AURA_MODE_CHASE;
-    Chase.flags      = MODE_FLAG_HAS_MODE_SPECIFIC_COLOR;
-    Chase.colors_min = 1;
-    Chase.colors_max = 1;
-    Chase.color_mode = MODE_COLORS_MODE_SPECIFIC;
+    Chase.name                  = "Chase";
+    Chase.value                 = AURA_MODE_CHASE;
+    Chase.flags                 = MODE_FLAG_HAS_MODE_SPECIFIC_COLOR;
+    Chase.colors_min            = 1;
+    Chase.colors_max            = 1;
+    Chase.color_mode            = MODE_COLORS_MODE_SPECIFIC;
     Chase.colors.resize(1);
     modes.push_back(Chase);
 

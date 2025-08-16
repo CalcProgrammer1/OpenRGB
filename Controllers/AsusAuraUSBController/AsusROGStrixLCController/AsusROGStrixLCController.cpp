@@ -11,7 +11,7 @@
 
 #include "AsusROGStrixLCController.h"
 
-AsusROGStrixLCController::AsusROGStrixLCController(hid_device* dev_handle, const char* path) : AuraUSBController(dev_handle, path)
+AsusROGStrixLCController::AsusROGStrixLCController(hid_device* dev_handle, const char* path, std::string dev_name) : AuraUSBController(dev_handle, path, dev_name)
 {
     /*-----------------------------------------------------*\
     | Add addressable devices                               |

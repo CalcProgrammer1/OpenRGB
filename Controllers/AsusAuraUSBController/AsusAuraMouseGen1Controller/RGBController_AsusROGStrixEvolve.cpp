@@ -26,7 +26,7 @@ RGBController_AsusROGStrixEvolve::RGBController_AsusROGStrixEvolve(AsusAuraMouse
 {
     controller                  = controller_ptr;
 
-    name                        = "ASUS ROG Strix Evolve";
+    name                        = controller->GetName();
     vendor                      = "ASUS";
     type                        = DEVICE_TYPE_MOUSE;
     description                 = "ASUS Aura Mouse Device";

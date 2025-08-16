@@ -21,10 +21,11 @@
 
 #define HID_MAX_STR 128
 
-AuraTUFKeyboardController::AuraTUFKeyboardController(hid_device* dev_handle, const char* path, uint16_t pid, unsigned short version)
+AuraTUFKeyboardController::AuraTUFKeyboardController(hid_device* dev_handle, const char* path, uint16_t pid, unsigned short version, std::string dev_name)
 {
     dev         = dev_handle;
     location    = path;
+    name        = dev_name;
     device_pid  = pid;
     rev_version = version;
 
@@ -39,6 +40,11 @@ AuraTUFKeyboardController::~AuraTUFKeyboardController()
 std::string AuraTUFKeyboardController::GetDeviceLocation()
 {
     return("HID: " + location);
+}
+
+std::string AuraTUFKeyboardController::GetName()
+{
+    return(name);
 }
 
 std::string AuraTUFKeyboardController::GetSerialString()
