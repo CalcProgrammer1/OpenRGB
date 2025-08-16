@@ -35,11 +35,13 @@ SteelSeriesRivalController::SteelSeriesRivalController
     (
     hid_device*         dev_handle,
     steelseries_type    proto_type,
-    const char*         path
+    const char*         path,
+    std::string         dev_name
     )
 {
     dev         = dev_handle;
     location    = path;
+    name        = dev_name;
     proto       = proto_type;
 }
 
@@ -53,9 +55,9 @@ std::string SteelSeriesRivalController::GetDeviceLocation()
     return("HID: " + location);
 }
 
-char* SteelSeriesRivalController::GetDeviceName()
+std::string SteelSeriesRivalController::GetDeviceName()
 {
-    return device_name;
+    return(name);
 }
 
 std::string SteelSeriesRivalController::GetSerialString()

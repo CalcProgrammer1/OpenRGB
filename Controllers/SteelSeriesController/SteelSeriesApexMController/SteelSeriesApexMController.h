@@ -20,7 +20,7 @@
 class SteelSeriesApexMController : public SteelSeriesApexBaseController
 {
 public:
-    SteelSeriesApexMController(hid_device* dev_handle, steelseries_type type, const char* path);
+    SteelSeriesApexMController(hid_device* dev_handle, steelseries_type type, const char* path, std::string dev_name);
     ~SteelSeriesApexMController();
 
     void SetMode
@@ -32,7 +32,6 @@ public:
     void SetLEDsDirect(std::vector<RGBColor> colors);
 
 private:
-
     void EnableLEDControl();
     void SelectProfile
         (

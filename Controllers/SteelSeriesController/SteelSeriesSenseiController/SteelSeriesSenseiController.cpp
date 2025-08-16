@@ -35,11 +35,13 @@ SteelSeriesSenseiController::SteelSeriesSenseiController
     (
     hid_device*         dev_handle,
     steelseries_type    proto_type,
-    const char*         path
+    const char*         path,
+    std::string         dev_name
     )
 {
     dev         = dev_handle;
     location    = path;
+    name        = dev_name;
     proto       = proto_type;
 }
 
@@ -53,9 +55,9 @@ std::string SteelSeriesSenseiController::GetDeviceLocation()
     return("HID: " + location);
 }
 
-char* SteelSeriesSenseiController::GetDeviceName()
+std::string SteelSeriesSenseiController::GetDeviceName()
 {
-    return device_name;
+    return(name);
 }
 
 std::string SteelSeriesSenseiController::GetSerialString()

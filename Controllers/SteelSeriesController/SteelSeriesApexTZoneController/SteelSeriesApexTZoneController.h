@@ -24,7 +24,7 @@
 class SteelSeriesApexTZoneController : public SteelSeriesApex3Controller
 {
 public:
-    SteelSeriesApexTZoneController(hid_device *dev_handle, const char *path);
+    SteelSeriesApexTZoneController(hid_device *dev_handle, const char *path, std::string dev_name);
     ~SteelSeriesApexTZoneController();
 
     void        SetColor(std::vector<RGBColor> colors, uint8_t mode, uint8_t brightness);

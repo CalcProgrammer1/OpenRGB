@@ -26,6 +26,7 @@ RGBController_SteelSeriesRival3::RGBController_SteelSeriesRival3(SteelSeriesMous
 {
     controller              = controller_ptr;
 
+    name                    = controller->GetNameString();
     vendor                  = "SteelSeries";
     type                    = DEVICE_TYPE_MOUSE;
     description             = "SteelSeries Mouse Device";

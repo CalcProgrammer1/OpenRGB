@@ -39,11 +39,13 @@ SteelSeriesOldApexController::SteelSeriesOldApexController
     (
     hid_device*         dev_handle,
     steelseries_type    proto_type,
-    const char*         path
+    const char*         path,
+    std::string         dev_name
     )
 {
     dev         = dev_handle;
     location    = path;
+    name        = dev_name;
     proto       = proto_type;
 }
 
@@ -57,9 +59,9 @@ std::string SteelSeriesOldApexController::GetDeviceLocation()
     return("HID: " + location);
 }
 
-char* SteelSeriesOldApexController::GetDeviceName()
+std::string SteelSeriesOldApexController::GetDeviceName()
 {
-    return device_name;
+    return(name);
 }
 
 std::string SteelSeriesOldApexController::GetSerialString()

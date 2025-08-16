@@ -14,7 +14,7 @@
 #include "SteelSeriesApex8ZoneController.h"
 #include "LogManager.h"
 
-SteelSeriesApex8ZoneController::SteelSeriesApex8ZoneController(hid_device* dev_handle, const char* path) : SteelSeriesApex3Controller(dev_handle, path)
+SteelSeriesApex8ZoneController::SteelSeriesApex8ZoneController(hid_device* dev_handle, const char* path, std::string dev_name) : SteelSeriesApex3Controller(dev_handle, path, dev_name)
 {
 
 }

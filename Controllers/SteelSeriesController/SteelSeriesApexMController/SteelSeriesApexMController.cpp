@@ -36,10 +36,8 @@ static unsigned int keys_m[] =
         37,   53,   54,   55,   56,   NA,   57,   58,   59,   60,   NA,   61,   62,   63,   64,   65,   66,   67,   NA,   NA,   NA,   NA
 };
 
-SteelSeriesApexMController::SteelSeriesApexMController(hid_device* dev_handle, steelseries_type type, const char* path)
+SteelSeriesApexMController::SteelSeriesApexMController(hid_device* dev_handle, steelseries_type type, const char* path, std::string dev_name) : SteelSeriesApexBaseController(dev_handle, path, dev_name)
 {
-    dev         = dev_handle;
-    location    = path;
     proto_type  = type;
     EnableLEDControl();
 }

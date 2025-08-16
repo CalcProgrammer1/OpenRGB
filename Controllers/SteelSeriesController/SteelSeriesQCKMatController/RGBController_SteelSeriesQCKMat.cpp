@@ -24,19 +24,19 @@
 
 RGBController_SteelSeriesQCKMat::RGBController_SteelSeriesQCKMat(SteelSeriesQCKMatController* controller_ptr)
 {
-    controller  = controller_ptr;
+    controller          = controller_ptr;
 
-    name        = controller->GetDeviceName();
-    vendor      = "SteelSeries";
-    type        = DEVICE_TYPE_MOUSEMAT;
-    description = "SteelSeries QCK Mat Device";
-    location    = controller->GetDeviceLocation();
-    serial      = controller->GetSerialString();
+    name                = controller->GetDeviceName();
+    vendor              = "SteelSeries";
+    type                = DEVICE_TYPE_MOUSEMAT;
+    description         = "SteelSeries QCK Mat Device";
+    location            = controller->GetDeviceLocation();
+    serial              = controller->GetSerialString();
 
     mode Direct;
-    Direct.name       = "Direct";
-    Direct.flags      = MODE_FLAG_HAS_PER_LED_COLOR;
-    Direct.color_mode = MODE_COLORS_PER_LED;
+    Direct.name         = "Direct";
+    Direct.flags        = MODE_FLAG_HAS_PER_LED_COLOR;
+    Direct.color_mode   = MODE_COLORS_PER_LED;
     modes.push_back(Direct);
 
     SetupZones();

@@ -18,18 +18,17 @@
 class SteelSeriesQCKMatController
 {
 public:
-    SteelSeriesQCKMatController(hid_device* dev_handle, const char* path);
-
+    SteelSeriesQCKMatController(hid_device* dev_handle, const char* path, std::string dev_name);
     ~SteelSeriesQCKMatController();
 
     std::string GetDeviceLocation();
-    char*       GetDeviceName();
+    std::string GetDeviceName();
     std::string GetSerialString();
 
-    void SetColors(std::vector<RGBColor> colors);
+    void        SetColors(std::vector<RGBColor> colors);
 
 private:
-    char                    device_name[32];
-    hid_device*             dev;
-    std::string             location;
+    hid_device* dev;
+    std::string location;
+    std::string name;
 };

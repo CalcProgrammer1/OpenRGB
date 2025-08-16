@@ -25,7 +25,7 @@ enum
 class SteelSeriesApexController : public SteelSeriesApexBaseController
 {
 public:
-    SteelSeriesApexController(hid_device* dev_handle, steelseries_type type, const char* path);
+    SteelSeriesApexController(hid_device* dev_handle, steelseries_type type, const char* path, std::string dev_name);
     ~SteelSeriesApexController();
 
     void SetMode

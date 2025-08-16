@@ -17,27 +17,17 @@
 class SteelSeriesSiberiaController
 {
 public:
-    SteelSeriesSiberiaController
-        (
-        hid_device*         dev_handle,
-        const char*         path
-        );
-
+    SteelSeriesSiberiaController(hid_device* dev_handle, const char* path, std::string dev_name);
     ~SteelSeriesSiberiaController();
 
     std::string GetDeviceLocation();
-    char*       GetDeviceName();
+    std::string GetDeviceName();
     std::string GetSerialString();
 
-    void SetColor
-            (
-            unsigned char   red,
-            unsigned char   green,
-            unsigned char   blue
-            );
+    void        SetColor(unsigned char red, unsigned char green, unsigned char blue);
 
 private:
-    char                    device_name[32];
-    hid_device*             dev;
-    std::string             location;
+    hid_device* dev;
+    std::string location;
+    std::string name;
 };

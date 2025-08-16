@@ -13,10 +13,11 @@
 #include "SteelSeriesApex3Controller.h"
 #include "StringUtils.h"
 
-SteelSeriesApex3Controller::SteelSeriesApex3Controller(hid_device* dev_handle, const char* path)
+SteelSeriesApex3Controller::SteelSeriesApex3Controller(hid_device* dev_handle, const char* path, std::string dev_name)
 {
     dev         = dev_handle;
     location    = path;
+    name        = dev_name;
 }
 
 SteelSeriesApex3Controller::~SteelSeriesApex3Controller()
@@ -27,6 +28,11 @@ SteelSeriesApex3Controller::~SteelSeriesApex3Controller()
 std::string SteelSeriesApex3Controller::GetDeviceLocation()
 {
     return("HID: " + location);
+}
+
+std::string SteelSeriesApex3Controller::GetNameString()
+{
+    return(name);
 }
 
 std::string SteelSeriesApex3Controller::GetSerialString()

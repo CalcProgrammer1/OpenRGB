@@ -50,31 +50,31 @@ static const steelseries_rival_led_info rival_600_leds[]=
 
 RGBController_SteelSeriesRival::RGBController_SteelSeriesRival(SteelSeriesRivalController* controller_ptr)
 {
-    controller  = controller_ptr;
+    controller          = controller_ptr;
 
-    name        = controller->GetDeviceName();
-    vendor      = "SteelSeries";
-    type        = DEVICE_TYPE_MOUSE;
-    description = "SteelSeries Rival Device";
-    location    = controller->GetDeviceLocation();
-    serial      = controller->GetSerialString();
-    version     = controller->GetFirmwareVersion();
+    name                = controller->GetDeviceName();
+    vendor              = "SteelSeries";
+    type                = DEVICE_TYPE_MOUSE;
+    description         = "SteelSeries Rival Device";
+    location            = controller->GetDeviceLocation();
+    serial              = controller->GetSerialString();
+    version             = controller->GetFirmwareVersion();
 
     mode Direct;
-    Direct.name       = "Direct";
-    Direct.value      = STEELSERIES_RIVAL_DIRECT;
-    Direct.flags      = MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_MANUAL_SAVE;
-    Direct.color_mode = MODE_COLORS_PER_LED;
+    Direct.name         = "Direct";
+    Direct.value        = STEELSERIES_RIVAL_DIRECT;
+    Direct.flags        = MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_MANUAL_SAVE;
+    Direct.color_mode   = MODE_COLORS_PER_LED;
     modes.push_back(Direct);
 
     mode Pulsate;
-    Pulsate.name       = "Pulsate";
-    Pulsate.value      = STEELSERIES_RIVAL_PULSATE;
-    Pulsate.flags      = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_MANUAL_SAVE;
-    Pulsate.color_mode = MODE_COLORS_PER_LED;
-    Pulsate.speed_min  = STEELSERIES_RIVAL_EFFECT_PULSATE_MIN;
-    Pulsate.speed_max  = STEELSERIES_RIVAL_EFFECT_PULSATE_MAX;
-    Pulsate.speed      = STEELSERIES_RIVAL_EFFECT_PULSATE_MID;
+    Pulsate.name        = "Pulsate";
+    Pulsate.value       = STEELSERIES_RIVAL_PULSATE;
+    Pulsate.flags       = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_MANUAL_SAVE;
+    Pulsate.color_mode  = MODE_COLORS_PER_LED;
+    Pulsate.speed_min   = STEELSERIES_RIVAL_EFFECT_PULSATE_MIN;
+    Pulsate.speed_max   = STEELSERIES_RIVAL_EFFECT_PULSATE_MAX;
+    Pulsate.speed       = STEELSERIES_RIVAL_EFFECT_PULSATE_MID;
     modes.push_back(Pulsate);
 
     SetupZones();

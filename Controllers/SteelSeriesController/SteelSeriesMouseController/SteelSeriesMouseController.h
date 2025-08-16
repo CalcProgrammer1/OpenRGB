@@ -48,10 +48,11 @@ typedef struct
 class SteelSeriesMouseController
 {
 public:
-    SteelSeriesMouseController(hid_device*  dev_handle, steelseries_type proto_type, const char* path);
+    SteelSeriesMouseController(hid_device*  dev_handle, steelseries_type proto_type, const char* path, std::string dev_name);
     virtual ~SteelSeriesMouseController();
 
     std::string                 GetDeviceLocation();
+    std::string                 GetNameString();
     std::string                 GetSerialString();
     steelseries_type            GetMouseType();
 
@@ -75,6 +76,7 @@ public:
 protected:
     hid_device*                 dev;
     std::string                 location;
+    std::string                 name;
     steelseries_type            proto;
 
 private:

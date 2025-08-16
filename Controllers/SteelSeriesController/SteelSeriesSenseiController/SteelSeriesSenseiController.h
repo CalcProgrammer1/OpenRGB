@@ -47,13 +47,14 @@ public:
         (
         hid_device*         dev_handle,
         steelseries_type    proto_type,
-        const char*         path
+        const char*         path,
+        std::string         dev_name
         );
 
     ~SteelSeriesSenseiController();
 
     std::string GetDeviceLocation();
-    char*       GetDeviceName();
+    std::string GetDeviceName();
     std::string GetSerialString();
 
     steelseries_type GetMouseType();
@@ -86,6 +87,7 @@ public:
             unsigned char   green,
             unsigned char   blue
             );
+
     void SetColorAll
             (
                 unsigned char red,
@@ -94,8 +96,8 @@ public:
             );
 
 private:
-    char                    device_name[32];
-    hid_device*             dev;
-    std::string             location;
-    steelseries_type        proto;
+    hid_device*         dev;
+    std::string         location;
+    std::string         name;
+    steelseries_type    proto;
 };

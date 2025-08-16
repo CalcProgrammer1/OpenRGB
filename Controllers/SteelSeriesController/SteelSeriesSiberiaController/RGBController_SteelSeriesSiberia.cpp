@@ -24,19 +24,19 @@
 
 RGBController_SteelSeriesSiberia::RGBController_SteelSeriesSiberia(SteelSeriesSiberiaController* controller_ptr)
 {
-    controller  = controller_ptr;
+    controller                  = controller_ptr;
 
-    name        = controller->GetDeviceName();
-    vendor      = "SteelSeries";
-    type        = DEVICE_TYPE_HEADSET;
-    description = "SteelSeries Siberia Device";
-    location    = controller->GetDeviceLocation();
-    serial      = controller->GetSerialString();
+    name                        = controller->GetDeviceName();
+    vendor                      = "SteelSeries";
+    type                        = DEVICE_TYPE_HEADSET;
+    description                 = "SteelSeries Siberia Device";
+    location                    = controller->GetDeviceLocation();
+    serial                      = controller->GetSerialString();
 
     mode Static;
-    Static.name       = "Static";
-    Static.flags      = MODE_FLAG_HAS_PER_LED_COLOR;
-    Static.color_mode = MODE_COLORS_PER_LED;
+    Static.name                 = "Static";
+    Static.flags                = MODE_FLAG_HAS_PER_LED_COLOR;
+    Static.color_mode           = MODE_COLORS_PER_LED;
     modes.push_back(Static);
 
     SetupZones();

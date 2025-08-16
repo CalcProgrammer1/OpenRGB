@@ -25,40 +25,40 @@
 
 RGBController_SteelSeriesSensei::RGBController_SteelSeriesSensei(SteelSeriesSenseiController* controller_ptr)
 {
-    controller  = controller_ptr;
+    controller              = controller_ptr;
 
-    name        = controller->GetDeviceName();
-    vendor      = "SteelSeries";
-    type        = DEVICE_TYPE_MOUSE;
-    description = "SteelSeries Sensei Device";
-    location    = controller->GetDeviceLocation();
-    serial      = controller->GetSerialString();
+    name                    = controller->GetDeviceName();
+    vendor                  = "SteelSeries";
+    type                    = DEVICE_TYPE_MOUSE;
+    description             = "SteelSeries Sensei Device";
+    location                = controller->GetDeviceLocation();
+    serial                  = controller->GetSerialString();
 
     mode Direct;
-    Direct.name       = "Direct";
-    Direct.value      = STEELSERIES_SENSEI_MODE_DIRECT;
-    Direct.flags      = MODE_FLAG_HAS_PER_LED_COLOR;
-    Direct.color_mode = MODE_COLORS_PER_LED;
+    Direct.name             = "Direct";
+    Direct.value            = STEELSERIES_SENSEI_MODE_DIRECT;
+    Direct.flags            = MODE_FLAG_HAS_PER_LED_COLOR;
+    Direct.color_mode       = MODE_COLORS_PER_LED;
     modes.push_back(Direct);
 
     mode Breathing;
-    Breathing.name       = "Breathing";
-    Breathing.value      = STEELSERIES_SENSEI_MODE_BREATHING;
-    Breathing.flags      = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_PER_LED_COLOR;
-    Breathing.color_mode = MODE_COLORS_PER_LED;
-    Breathing.speed_min  = STEELSERIES_SENSEI_EFFECT_BREATHING_MIN;
-    Breathing.speed_max  = STEELSERIES_SENSEI_EFFECT_BREATHING_MAX;
-    Breathing.speed      = STEELSERIES_SENSEI_EFFECT_BREATHING_MID;
+    Breathing.name          = "Breathing";
+    Breathing.value         = STEELSERIES_SENSEI_MODE_BREATHING;
+    Breathing.flags         = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_PER_LED_COLOR;
+    Breathing.color_mode    = MODE_COLORS_PER_LED;
+    Breathing.speed_min     = STEELSERIES_SENSEI_EFFECT_BREATHING_MIN;
+    Breathing.speed_max     = STEELSERIES_SENSEI_EFFECT_BREATHING_MAX;
+    Breathing.speed         = STEELSERIES_SENSEI_EFFECT_BREATHING_MID;
     modes.push_back(Breathing);
 
     mode Rainbow;
-    Rainbow.name         = "Rainbow";
-    Rainbow.value        = STEELSERIES_SENSEI_MODE_RAINBOW;
-    Rainbow.flags        = MODE_FLAG_HAS_SPEED;
-    Rainbow.color_mode   = MODE_COLORS_NONE;
-    Rainbow.speed_min    = STEELSERIES_SENSEI_EFFECT_RAINBOW_MIN;
-    Rainbow.speed_max    = STEELSERIES_SENSEI_EFFECT_RAINBOW_MAX;
-    Rainbow.speed        = STEELSERIES_SENSEI_EFFECT_RAINBOW_MID;
+    Rainbow.name            = "Rainbow";
+    Rainbow.value           = STEELSERIES_SENSEI_MODE_RAINBOW;
+    Rainbow.flags           = MODE_FLAG_HAS_SPEED;
+    Rainbow.color_mode      = MODE_COLORS_NONE;
+    Rainbow.speed_min       = STEELSERIES_SENSEI_EFFECT_RAINBOW_MIN;
+    Rainbow.speed_max       = STEELSERIES_SENSEI_EFFECT_RAINBOW_MAX;
+    Rainbow.speed           = STEELSERIES_SENSEI_EFFECT_RAINBOW_MID;
     modes.push_back(Rainbow);
 
     SetupZones();

@@ -21,18 +21,17 @@
 class SteelSeriesArctis5Controller
 {
 public:
-    SteelSeriesArctis5Controller(hid_device* dev_handle, const hid_device_info& info);
-
+    SteelSeriesArctis5Controller(hid_device* dev_handle, const hid_device_info& info, std::string dev_name);
     ~SteelSeriesArctis5Controller();
 
     std::string         GetDeviceLocation();
+    std::string         GetNameString();
     std::string         GetSerialString();
-    std::string         GetFirmwareVersion();
+
     void                SetColor(unsigned char zone_id, RGBColor color);
 
 private:
-    std::string         location;
-    std::string         version;
-
     hid_device*         dev;
+    std::string         location;
+    std::string         name;
 };

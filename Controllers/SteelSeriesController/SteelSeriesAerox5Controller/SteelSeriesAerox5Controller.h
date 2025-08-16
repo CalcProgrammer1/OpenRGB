@@ -37,9 +37,7 @@ static const steelseries_mouse aerox_5 =
 class SteelSeriesAerox5Controller : public SteelSeriesMouseController
 {
 public:
-    SteelSeriesAerox5Controller(hid_device *dev_handle,
-                                steelseries_type proto_type,
-                                const char *path);
+    SteelSeriesAerox5Controller(hid_device *dev_handle, steelseries_type proto_type, const char *path, std::string dev_name);
     ~SteelSeriesAerox5Controller();
 
     std::string         GetFirmwareVersion() override;

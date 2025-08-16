@@ -13,10 +13,11 @@
 #include "SteelSeriesQCKMatController.h"
 #include "StringUtils.h"
 
-SteelSeriesQCKMatController::SteelSeriesQCKMatController(hid_device* dev_handle, const char* path)
+SteelSeriesQCKMatController::SteelSeriesQCKMatController(hid_device* dev_handle, const char* path, std::string dev_name)
 {
     dev         = dev_handle;
     location    = path;
+    name        = dev_name;
 }
 
 SteelSeriesQCKMatController::~SteelSeriesQCKMatController()
@@ -29,9 +30,9 @@ std::string SteelSeriesQCKMatController::GetDeviceLocation()
     return("HID: " + location);
 }
 
-char* SteelSeriesQCKMatController::GetDeviceName()
+std::string SteelSeriesQCKMatController::GetDeviceName()
 {
-    return device_name;
+    return(name);
 }
 
 std::string SteelSeriesQCKMatController::GetSerialString()

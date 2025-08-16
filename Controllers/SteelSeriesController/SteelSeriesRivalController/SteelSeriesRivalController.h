@@ -38,13 +38,14 @@ public:
         (
         hid_device*         dev_handle,
         steelseries_type    proto_type,
-        const char*         path
+        const char*         path,
+        std::string         dev_name
         );
 
     ~SteelSeriesRivalController();
 
     std::string GetDeviceLocation();
-    char*       GetDeviceName();
+    std::string GetDeviceName();
     std::string GetSerialString();
     std::string GetFirmwareVersion();
 
@@ -78,9 +79,9 @@ public:
             );
 
 private:
-    char                    device_name[32];
     hid_device*             dev;
     std::string             location;
+    std::string             name;
     steelseries_type        proto;
 
     void SetRival650Color

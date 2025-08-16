@@ -12,7 +12,7 @@
 #include <cstring>
 #include "SteelSeriesApexTZoneController.h"
 
-SteelSeriesApexTZoneController::SteelSeriesApexTZoneController(hid_device* dev_handle, const char* path) : SteelSeriesApex3Controller(dev_handle, path)
+SteelSeriesApexTZoneController::SteelSeriesApexTZoneController(hid_device* dev_handle, const char* path, std::string dev_name) : SteelSeriesApex3Controller(dev_handle, path, dev_name)
 {
 
 }

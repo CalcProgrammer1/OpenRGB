@@ -35,14 +35,11 @@ static void send_usb_msg(hid_device* dev, unsigned char * data_pkt, unsigned int
     hid_write(dev, usb_pkt, 16);
 }
 
-SteelSeriesSiberiaController::SteelSeriesSiberiaController
-    (
-    hid_device*         dev_handle,
-    const char*         path
-    )
+SteelSeriesSiberiaController::SteelSeriesSiberiaController(hid_device* dev_handle, const char* path, std::string dev_name)
 {
     dev         = dev_handle;
     location    = path;
+    name        = dev_name;
 }
 
 SteelSeriesSiberiaController::~SteelSeriesSiberiaController()
@@ -55,9 +52,9 @@ std::string SteelSeriesSiberiaController::GetDeviceLocation()
     return("HID: " + location);
 }
 
-char* SteelSeriesSiberiaController::GetDeviceName()
+std::string SteelSeriesSiberiaController::GetDeviceName()
 {
-    return device_name;
+    return(name);
 }
 
 std::string SteelSeriesSiberiaController::GetSerialString()
@@ -73,12 +70,7 @@ std::string SteelSeriesSiberiaController::GetSerialString()
     return(StringUtils::wstring_to_string(serial_string));
 }
 
-void SteelSeriesSiberiaController::SetColor
-    (
-    unsigned char   red,
-    unsigned char   green,
-    unsigned char   blue
-    )
+void SteelSeriesSiberiaController::SetColor(unsigned char red, unsigned char green, unsigned char blue)
 {
     unsigned char usb_buf[4];
     memset(usb_buf, 0x00, sizeof(usb_buf));

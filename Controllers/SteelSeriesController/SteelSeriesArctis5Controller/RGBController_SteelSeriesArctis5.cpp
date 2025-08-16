@@ -24,14 +24,14 @@
 
 RGBController_SteelSeriesArctis5::RGBController_SteelSeriesArctis5(SteelSeriesArctis5Controller* controller_ptr)
 {
-    controller  = controller_ptr;
-    name        = "SteelSeries Arctis 5 headset";
-    vendor      = "SteelSeries";
-    type        = DEVICE_TYPE_HEADSET;
-    description = name;
-    location    = controller->GetDeviceLocation();
-    serial      = controller->GetSerialString();
-    version     = controller->GetFirmwareVersion();
+    controller              = controller_ptr;
+
+    name                    = controller->GetNameString();
+    vendor                  = "SteelSeries";
+    type                    = DEVICE_TYPE_HEADSET;
+    description             = "SteelSeries Arctis 5 Headset Device";
+    location                = controller->GetDeviceLocation();
+    serial                  = controller->GetSerialString();
 
     mode Direct;
     Direct.name             = "Direct";

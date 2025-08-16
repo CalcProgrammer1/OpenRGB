@@ -13,8 +13,7 @@
 #include "LogManager.h"
 #include "SteelSeriesGeneric.h"
 
-SteelSeriesAeroxWirelessController::SteelSeriesAeroxWirelessController(hid_device* dev_handle, steelseries_type proto_type, const char* path)
-    : SteelSeriesMouseController(dev_handle, proto_type, path)
+SteelSeriesAeroxWirelessController::SteelSeriesAeroxWirelessController(hid_device* dev_handle, steelseries_type proto_type, const char* path, std::string dev_name) : SteelSeriesMouseController(dev_handle, proto_type, path, dev_name)
 {
     switch(proto_type)
     {

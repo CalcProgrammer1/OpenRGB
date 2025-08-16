@@ -41,23 +41,23 @@ static const unsigned int zone_sizes[] =
 
 RGBController_SteelSeriesApex::RGBController_SteelSeriesApex(SteelSeriesApexBaseController* controller_ptr)
 {
-    controller  = controller_ptr;
+    controller          = controller_ptr;
 
-    name        = "SteelSeries Apex RGB Keyboard";
-    vendor      = "SteelSeries";
-    type        = DEVICE_TYPE_KEYBOARD;
-    description = "SteelSeries Apex RGB Device";
-    location    = controller->GetDeviceLocation();
-    serial      = controller->GetSerialString();
-    version     = controller->GetVersionString();
+    name                = controller->GetName();
+    vendor              = "SteelSeries";
+    type                = DEVICE_TYPE_KEYBOARD;
+    description         = "SteelSeries Apex RGB Device";
+    location            = controller->GetLocation();
+    serial              = controller->GetSerial();
+    version             = controller->GetVersion();
 
-    proto_type  = controller->proto_type;
+    proto_type          = controller->proto_type;
 
     mode Direct;
-    Direct.name       = "Direct";
-    Direct.value      = 0x00;
-    Direct.flags      = MODE_FLAG_HAS_PER_LED_COLOR;
-    Direct.color_mode = MODE_COLORS_PER_LED;
+    Direct.name         = "Direct";
+    Direct.value        = 0x00;
+    Direct.flags        = MODE_FLAG_HAS_PER_LED_COLOR;
+    Direct.color_mode   = MODE_COLORS_PER_LED;
     modes.push_back(Direct);
 
     SetupZones();

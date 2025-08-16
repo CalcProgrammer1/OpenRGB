@@ -13,11 +13,11 @@
 #include "SteelSeriesArctis5Controller.h"
 #include "StringUtils.h"
 
-SteelSeriesArctis5Controller::SteelSeriesArctis5Controller(hid_device* dev_handle, const hid_device_info& info)
+SteelSeriesArctis5Controller::SteelSeriesArctis5Controller(hid_device* dev_handle, const hid_device_info& info, std::string dev_name)
 {
-    dev                 = dev_handle;
-    location            = info.path;
-    version             = "";
+    dev         = dev_handle;
+    location    = info.path;
+    name        = dev_name;
 }
 
 SteelSeriesArctis5Controller::~SteelSeriesArctis5Controller()
@@ -28,6 +28,11 @@ SteelSeriesArctis5Controller::~SteelSeriesArctis5Controller()
 std::string SteelSeriesArctis5Controller::GetDeviceLocation()
 {
     return("HID: " + location);
+}
+
+std::string SteelSeriesArctis5Controller::GetNameString()
+{
+    return(name);
 }
 
 std::string SteelSeriesArctis5Controller::GetSerialString()
@@ -41,11 +46,6 @@ std::string SteelSeriesArctis5Controller::GetSerialString()
     }
 
     return(StringUtils::wstring_to_string(serial_string));
-}
-
-std::string SteelSeriesArctis5Controller::GetFirmwareVersion()
-{
-    return(version);
 }
 
 void SteelSeriesArctis5Controller::SetColor(unsigned char zone_id, RGBColor color)

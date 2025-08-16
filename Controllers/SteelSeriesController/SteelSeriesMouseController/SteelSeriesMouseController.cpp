@@ -13,10 +13,11 @@
 #include "SteelSeriesMouseController.h"
 #include "StringUtils.h"
 
-SteelSeriesMouseController::SteelSeriesMouseController(hid_device*  dev_handle, steelseries_type proto_type, const char* path)
+SteelSeriesMouseController::SteelSeriesMouseController(hid_device*  dev_handle, steelseries_type proto_type, const char* path, std::string dev_name)
 {
     dev         = dev_handle;
     location    = path;
+    name        = dev_name;
     proto       = proto_type;
 }
 
@@ -28,6 +29,11 @@ SteelSeriesMouseController::~SteelSeriesMouseController()
 std::string SteelSeriesMouseController::GetDeviceLocation()
 {
     return("HID: " + location);
+}
+
+std::string SteelSeriesMouseController::GetNameString()
+{
+    return(name);
 }
 
 std::string SteelSeriesMouseController::GetSerialString()

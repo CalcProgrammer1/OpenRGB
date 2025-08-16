@@ -22,10 +22,11 @@
 class SteelSeriesApex3Controller
 {
 public:
-    SteelSeriesApex3Controller(hid_device* dev_handle, const char* path);
+    SteelSeriesApex3Controller(hid_device* dev_handle, const char* path, std::string dev_name);
     virtual ~SteelSeriesApex3Controller();
 
     std::string         GetDeviceLocation();
+    std::string         GetNameString();
     std::string         GetSerialString();
     steelseries_type    GetKeyboardType();
 
@@ -40,4 +41,5 @@ public:
 
 private:
     std::string         location;
+    std::string         name;
 };

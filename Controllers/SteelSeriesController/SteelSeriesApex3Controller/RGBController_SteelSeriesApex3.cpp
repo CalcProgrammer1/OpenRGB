@@ -24,39 +24,39 @@
 
 RGBController_SteelSeriesApex3::RGBController_SteelSeriesApex3(SteelSeriesApex3Controller* controller_ptr)
 {
-    controller              = controller_ptr;
+    controller                  = controller_ptr;
 
-    name                    = "SteelSeries Apex 3 device";
-    vendor                  = "SteelSeries";
-    type                    = DEVICE_TYPE_KEYBOARD;
-    description             = name;
-    location                = controller->GetDeviceLocation();
-    serial                  = controller->GetSerialString();
+    name                        = controller->GetNameString();
+    vendor                      = "SteelSeries";
+    type                        = DEVICE_TYPE_KEYBOARD;
+    description                 = "SteelSeries Apex 3 Device";
+    location                    = controller->GetDeviceLocation();
+    serial                      = controller->GetSerialString();
 
     mode direct;
-    direct.name             = "Direct";
-    direct.value            = static_cast<int>(APEX3_MODES::DIRECT);
-    direct.flags            = MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_HAS_BRIGHTNESS;
+    direct.name                 = "Direct";
+    direct.value                = static_cast<int>(APEX3_MODES::DIRECT);
+    direct.flags                = MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_HAS_BRIGHTNESS;
     if(controller->SupportsSave())
     {
-        direct.flags       |= MODE_FLAG_MANUAL_SAVE;
+        direct.flags           |= MODE_FLAG_MANUAL_SAVE;
     }
-    direct.color_mode       = MODE_COLORS_PER_LED;
-    direct.brightness_min   = STEELSERIES_APEX3_BRIGHTNESS_MIN;
-    direct.brightness_max   = controller->GetMaxBrightness();
-    direct.brightness       = direct.brightness_max;
+    direct.color_mode           = MODE_COLORS_PER_LED;
+    direct.brightness_min       = STEELSERIES_APEX3_BRIGHTNESS_MIN;
+    direct.brightness_max       = controller->GetMaxBrightness();
+    direct.brightness           = direct.brightness_max;
     modes.push_back(direct);
 
     if(controller->SupportsRainbowWave())
     {
         mode rainbow;
-        rainbow.name             = "Rainbow Wave";
-        rainbow.value            = static_cast<int>(APEX3_MODES::RAINBOW_WAVE);
-        rainbow.flags            = MODE_FLAG_HAS_BRIGHTNESS;
-        rainbow.color_mode       = MODE_COLORS_NONE;
-        rainbow.brightness_min   = STEELSERIES_APEX3_BRIGHTNESS_MIN;
-        rainbow.brightness_max   = controller->GetMaxBrightness();
-        rainbow.brightness       = rainbow.brightness_max;
+        rainbow.name            = "Rainbow Wave";
+        rainbow.value           = static_cast<int>(APEX3_MODES::RAINBOW_WAVE);
+        rainbow.flags           = MODE_FLAG_HAS_BRIGHTNESS;
+        rainbow.color_mode      = MODE_COLORS_NONE;
+        rainbow.brightness_min  = STEELSERIES_APEX3_BRIGHTNESS_MIN;
+        rainbow.brightness_max  = controller->GetMaxBrightness();
+        rainbow.brightness      = rainbow.brightness_max;
         modes.push_back(rainbow);
     }
 

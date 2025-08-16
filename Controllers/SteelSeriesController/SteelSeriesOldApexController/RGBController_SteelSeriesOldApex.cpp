@@ -29,20 +29,20 @@
 
 RGBController_SteelSeriesOldApex::RGBController_SteelSeriesOldApex(SteelSeriesOldApexController* controller_ptr)
 {
-    controller  = controller_ptr;
+    controller              = controller_ptr;
 
-    name        = controller->GetDeviceName();
-    vendor      = "SteelSeries";
-    type        = DEVICE_TYPE_KEYBOARD;
-    description = "SteelSeries old Apex device";
-    location    = controller->GetDeviceLocation();
-    serial      = controller->GetSerialString();
+    name                    = controller->GetDeviceName();
+    vendor                  = "SteelSeries";
+    type                    = DEVICE_TYPE_KEYBOARD;
+    description             = "SteelSeries Old Apex Device";
+    location                = controller->GetDeviceLocation();
+    serial                  = controller->GetSerialString();
 
     mode direct;
-    direct.name       = "Direct";
-    direct.value      = STEELSERIES_OLDAPEX_DIRECT;
-    direct.flags      = MODE_FLAG_HAS_PER_LED_COLOR;
-    direct.color_mode = MODE_COLORS_PER_LED;
+    direct.name             = "Direct";
+    direct.value            = STEELSERIES_OLDAPEX_DIRECT;
+    direct.flags            = MODE_FLAG_HAS_PER_LED_COLOR;
+    direct.color_mode       = MODE_COLORS_PER_LED;
     modes.push_back(direct);
 
     SetupZones();
@@ -66,7 +66,7 @@ void RGBController_SteelSeriesOldApex::SetupZones()
     zones.push_back(qwerty_zone);
 
     led qwerty_led;
-    qwerty_led.name = "QWERTY";
+    qwerty_led.name         = "QWERTY";
     leds.push_back(qwerty_led);
 
     zone tenkey_zone;
@@ -79,7 +79,7 @@ void RGBController_SteelSeriesOldApex::SetupZones()
     zones.push_back(tenkey_zone);
 
     led tenkey_led;
-    tenkey_led.name = "TenKey";
+    tenkey_led.name         = "TenKey";
     leds.push_back(tenkey_led);
 
     zone function_zone;
@@ -92,33 +92,33 @@ void RGBController_SteelSeriesOldApex::SetupZones()
     zones.push_back(function_zone);
 
     led function_led;
-    function_led.name = "FunctionKeys";
+    function_led.name       = "FunctionKeys";
     leds.push_back(function_led);
 
     zone mx_zone;
-    mx_zone.name        = "MXKeys";
-    mx_zone.type        = ZONE_TYPE_LINEAR;
-    mx_zone.leds_min    = 1;
-    mx_zone.leds_max    = 1;
-    mx_zone.leds_count  = 1;
-    mx_zone.matrix_map  = NULL;
+    mx_zone.name            = "MXKeys";
+    mx_zone.type            = ZONE_TYPE_LINEAR;
+    mx_zone.leds_min        = 1;
+    mx_zone.leds_max        = 1;
+    mx_zone.leds_count      = 1;
+    mx_zone.matrix_map      = NULL;
     zones.push_back(mx_zone);
 
     led mx_led;
-    mx_led.name = "MXKeys";
+    mx_led.name             = "MXKeys";
     leds.push_back(mx_led);
 
     zone logo_zone;
-    logo_zone.name        = "Logo";
-    logo_zone.type        = ZONE_TYPE_LINEAR;
-    logo_zone.leds_min    = 1;
-    logo_zone.leds_max    = 1;
-    logo_zone.leds_count  = 1;
-    logo_zone.matrix_map  = NULL;
+    logo_zone.name          = "Logo";
+    logo_zone.type          = ZONE_TYPE_LINEAR;
+    logo_zone.leds_min      = 1;
+    logo_zone.leds_max      = 1;
+    logo_zone.leds_count    = 1;
+    logo_zone.matrix_map    = NULL;
     zones.push_back(logo_zone);
 
     led logo_led;
-    logo_led.name = "Logo";
+    logo_led.name           = "Logo";
     leds.push_back(logo_led);
 
     SetupColors();
