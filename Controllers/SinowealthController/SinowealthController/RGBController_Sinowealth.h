@@ -29,7 +29,6 @@ public:
 
     void        DeviceUpdateMode();
 
-
 private:
     SinowealthController* controller;
 };

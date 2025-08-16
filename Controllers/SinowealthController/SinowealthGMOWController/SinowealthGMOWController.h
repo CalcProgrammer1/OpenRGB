@@ -59,10 +59,11 @@ enum
 class SinowealthGMOWController
 {
 public:
-    SinowealthGMOWController(hid_device* dev_handle, char *_path, int type);
+    SinowealthGMOWController(hid_device* dev_handle, char *_path, int type, std::string dev_name);
     ~SinowealthGMOWController();
 
     std::string     GetLocation();
+    std::string     GetName();
     std::string     GetSerialString();
 
     void            SetMode(unsigned char mode,
@@ -81,5 +82,6 @@ private:
     unsigned char           less_packet[GMOW_PACKET_SIZE];
 
     std::string             location;
+    std::string             name;
     int                     type;
 };

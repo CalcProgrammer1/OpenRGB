@@ -57,11 +57,12 @@ enum
 class SinowealthController
 {
 public:
-    SinowealthController(hid_device* dev_data_handle, hid_device* dev_cmd_handle, char *_path); //RGB, Command, path
+    SinowealthController(hid_device* dev_data_handle, hid_device* dev_cmd_handle, char *_path, std::string dev_name); //RGB, Command, path
     ~SinowealthController();
 
     unsigned int    GetLEDCount();
     std::string     GetLocation();
+    std::string     GetName();
     std::string     GetSerialString();
     std::string     GetFirmwareVersion();
 
@@ -69,15 +70,13 @@ public:
     void            SetMode(unsigned char mode, unsigned char speed, unsigned char direction, RGBColor* color_buf);
     int             GetProfile();
 private:
-    hid_device*             dev_cmd;
-    hid_device*             dev_data;
-
-    unsigned int            led_count;
-
-    unsigned char           current_mode;
-    unsigned char           current_speed;
-    unsigned char           current_direction;
-    unsigned char           device_configuration[SINOWEALTH_CONFIG_REPORT_SIZE];
-
-    std::string             location;
+    hid_device*     dev_cmd;
+    hid_device*     dev_data;
+    unsigned int    led_count;
+    unsigned char   current_mode;
+    unsigned char   current_speed;
+    unsigned char   current_direction;
+    unsigned char   device_configuration[SINOWEALTH_CONFIG_REPORT_SIZE];
+    std::string     location;
+    std::string     name;
 };

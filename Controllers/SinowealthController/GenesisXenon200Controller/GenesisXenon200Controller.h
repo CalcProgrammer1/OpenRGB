@@ -17,13 +17,17 @@
 class GenesisXenon200Controller
 {
 public:
-    GenesisXenon200Controller(hid_device* dev_handle, hid_device* cmd_dev_handle,  const char* path);
+    GenesisXenon200Controller(hid_device* dev_handle, hid_device* cmd_dev_handle, const char* path, std::string dev_name);
     ~GenesisXenon200Controller();
 
-    void SaveMode(unsigned char mode, unsigned char value, RGBColor color);
     std::string GetLocationString();
+    std::string GetNameString();
+
+    void        SaveMode(unsigned char mode, unsigned char value, RGBColor color);
+
 private:
     hid_device* dev;
     hid_device* cmd_dev;
     std::string location;
+    std::string name;
 };

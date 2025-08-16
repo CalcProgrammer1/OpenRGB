@@ -14,22 +14,24 @@
 #include "SinowealthController.h"
 #include "StringUtils.h"
 
-SinowealthController::SinowealthController(hid_device* dev_data_handle, hid_device* dev_cmd_handle, char *_path)
+SinowealthController::SinowealthController(hid_device* dev_data_handle, hid_device* dev_cmd_handle, char *_path, std::string dev_name)
 {
-    dev_data = dev_data_handle;
-    dev_cmd  = dev_cmd_handle;
-    location = _path;
+    dev_data            = dev_data_handle;
+    dev_cmd             = dev_cmd_handle;
+    location            = _path;
+    name                = dev_name;
 
-    led_count = 1;
+    led_count           = 1;
 
-    current_mode      = GLORIOUS_MODE_STATIC;
-    current_speed     = GLORIOUS_SPEED_NORMAL;
-    current_direction = GLORIOUS_DIRECTION_UP;
+    current_mode        = GLORIOUS_MODE_STATIC;
+    current_speed       = GLORIOUS_SPEED_NORMAL;
+    current_direction   = GLORIOUS_DIRECTION_UP;
 }
 
 SinowealthController::~SinowealthController()
 {
     hid_close(dev_data);
+
     /*---------------------------------------------------------------------*\
     | If the dev_cmd handle was passed in as the same device as dev_data    |
     |   then attempting to close it a second time will segfault             |
@@ -43,6 +45,11 @@ SinowealthController::~SinowealthController()
 std::string SinowealthController::GetLocation()
 {
     return("HID: " + location);
+}
+
+std::string SinowealthController::GetName()
+{
+    return(name);
 }
 
 unsigned int SinowealthController::GetLEDCount()

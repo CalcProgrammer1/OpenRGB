@@ -57,11 +57,12 @@ enum
 class SinowealthController1007
 {
 public:
-    SinowealthController1007(hid_device* dev, char *_path);
+    SinowealthController1007(hid_device* dev, char *_path, std::string dev_name);
     ~SinowealthController1007();
 
     unsigned int    GetLEDCount();
     std::string     GetLocation();
+    std::string     GetName();
     std::string     GetSerialString();
 
     void            SetLEDColors(const std::vector<RGBColor>& colors);
@@ -69,14 +70,15 @@ public:
     int             GetProfile();
     void            SendPacket();
 private:
-    hid_device*             dev;
+    hid_device*     dev;
 
-    unsigned int            led_count;
+    unsigned int    led_count;
 
-    unsigned char           current_mode;
-    unsigned char           current_direction;
-    unsigned char           device_configuration[ZET_FURY_PRO_STATE_BUFFER_LENGTH];
-    unsigned char           device_colors[ZET_FURY_PRO_COLOR_BUFFER_LENGTH];
+    unsigned char   current_mode;
+    unsigned char   current_direction;
+    unsigned char   device_configuration[ZET_FURY_PRO_STATE_BUFFER_LENGTH];
+    unsigned char   device_colors[ZET_FURY_PRO_COLOR_BUFFER_LENGTH];
 
-    std::string             location;
+    std::string     location;
+    std::string     name;
 };

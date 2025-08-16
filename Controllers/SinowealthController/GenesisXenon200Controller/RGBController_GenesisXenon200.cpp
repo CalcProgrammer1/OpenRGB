@@ -23,55 +23,55 @@
 
 RGBController_GenesisXenon200::RGBController_GenesisXenon200(GenesisXenon200Controller* controller_ptr)
 {
-    controller = controller_ptr;
+    controller                  = controller_ptr;
 
-    name        = "Genesis Xenon 200";
-    vendor      = "Genesis";
-    description = "Genesis Xenon 200 Mouse";
-    type        = DEVICE_TYPE_MOUSE;
-    location    = controller->GetLocationString();
+    name                        = controller->GetNameString();
+    vendor                      = "Genesis";
+    description                 = "Genesis Xenon 200 Mouse Device";
+    type                        = DEVICE_TYPE_MOUSE;
+    location                    = controller->GetLocationString();
 
     mode Static;
-    Static.name           = "Static";
-    Static.value          = GENESIS_XENON_200_MODE_STATIC;
-    Static.flags          = MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_AUTOMATIC_SAVE;
-    Static.color_mode     = MODE_COLORS_MODE_SPECIFIC;
-    Static.brightness     = 1;
-    Static.brightness_min = 0;
-    Static.brightness_max = 2;
-    Static.colors_min     = 1;
-    Static.colors_max     = 1;
+    Static.name                 = "Static";
+    Static.value                = GENESIS_XENON_200_MODE_STATIC;
+    Static.flags                = MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_AUTOMATIC_SAVE;
+    Static.color_mode           = MODE_COLORS_MODE_SPECIFIC;
+    Static.brightness           = 1;
+    Static.brightness_min       = 0;
+    Static.brightness_max       = 2;
+    Static.colors_min           = 1;
+    Static.colors_max           = 1;
     Static.colors.resize(1);
     modes.push_back(Static);
 
     mode Breathing;
-    Breathing.name       = "Breathing";
-    Breathing.value      = GENESIS_XENON_200_MODE_BREATHING;
-    Breathing.flags      = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_AUTOMATIC_SAVE;
-    Breathing.color_mode = MODE_COLORS_MODE_SPECIFIC;
-    Breathing.speed      = 1;
-    Breathing.speed_min  = 0;
-    Breathing.speed_max  = 2;
-    Breathing.colors_min = 1;
-    Breathing.colors_max = 1;
+    Breathing.name              = "Breathing";
+    Breathing.value             = GENESIS_XENON_200_MODE_BREATHING;
+    Breathing.flags             = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_AUTOMATIC_SAVE;
+    Breathing.color_mode        = MODE_COLORS_MODE_SPECIFIC;
+    Breathing.speed             = 1;
+    Breathing.speed_min         = 0;
+    Breathing.speed_max         = 2;
+    Breathing.colors_min        = 1;
+    Breathing.colors_max        = 1;
     Breathing.colors.resize(1);
     modes.push_back(Breathing);
 
     mode SpectrumCycle;
-    SpectrumCycle.name       = "Spectrum Cycle";
-    SpectrumCycle.value      = GENESIS_XENON_200_MODE_SPECTRUM_CYCLE;
-    SpectrumCycle.flags      = MODE_FLAG_HAS_SPEED | MODE_FLAG_AUTOMATIC_SAVE;
-    SpectrumCycle.color_mode = MODE_COLORS_NONE;
-    SpectrumCycle.speed      = 1;
-    SpectrumCycle.speed_min  = 0;
-    SpectrumCycle.speed_max  = 2;
+    SpectrumCycle.name          = "Spectrum Cycle";
+    SpectrumCycle.value         = GENESIS_XENON_200_MODE_SPECTRUM_CYCLE;
+    SpectrumCycle.flags         = MODE_FLAG_HAS_SPEED | MODE_FLAG_AUTOMATIC_SAVE;
+    SpectrumCycle.color_mode    = MODE_COLORS_NONE;
+    SpectrumCycle.speed         = 1;
+    SpectrumCycle.speed_min     = 0;
+    SpectrumCycle.speed_max     = 2;
     modes.push_back(SpectrumCycle);
 
     mode Off;
-    Off.name       = "Off";
-    Off.value      = GENESIS_XENON_200_MODE_OFF;
-    Off.flags      = MODE_FLAG_AUTOMATIC_SAVE;
-    Off.color_mode = MODE_COLORS_NONE;
+    Off.name                    = "Off";
+    Off.value                   = GENESIS_XENON_200_MODE_OFF;
+    Off.flags                   = MODE_FLAG_AUTOMATIC_SAVE;
+    Off.color_mode              = MODE_COLORS_NONE;
     modes.push_back(Off);
 
     SetupColors();

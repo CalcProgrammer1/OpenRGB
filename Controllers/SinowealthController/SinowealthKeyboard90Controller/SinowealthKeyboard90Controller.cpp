@@ -15,10 +15,11 @@
 
 using namespace thor300;
 
-SinowealthKeyboard90Controller::SinowealthKeyboard90Controller(hid_device* dev_handle, const char* path, const unsigned short pid)
+SinowealthKeyboard90Controller::SinowealthKeyboard90Controller(hid_device* dev_handle, const char* path, const unsigned short pid, std::string dev_name)
 {
     dev             = dev_handle;
     location        = path;
+    name            = dev_name;
     usb_pid         = pid;
 }
 
@@ -30,6 +31,11 @@ SinowealthKeyboard90Controller::~SinowealthKeyboard90Controller()
 std::string SinowealthKeyboard90Controller::GetDeviceLocation()
 {
     return("HID: " + location);
+}
+
+std::string SinowealthKeyboard90Controller::GetNameString()
+{
+    return(name);
 }
 
 std::string SinowealthKeyboard90Controller::GetSerialString()

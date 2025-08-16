@@ -182,13 +182,13 @@ static const char *led_names_tkl[] =
 
 RGBController_SinowealthKeyboard16::RGBController_SinowealthKeyboard16(SinowealthKeyboard16Controller* controller_ptr)
 {
-    controller  = controller_ptr;
+    controller          = controller_ptr;
 
-    name        = "Sinowealth Keyboard";
-    type        = DEVICE_TYPE_KEYBOARD;
-    description = "Generic Sinowealth Keyboard";
-    location    = controller->GetLocation();
-    serial      = controller->GetSerialString();
+    name                = controller->GetName();
+    type                = DEVICE_TYPE_KEYBOARD;
+    description         = "Sinowealth Keyboard Device";
+    location            = controller->GetLocation();
+    serial              = controller->GetSerialString();
 
     std::vector<ModeCfg>      modes_cfg     = controller->GetDeviceModes();
     std::vector<ModeColorCfg> color_presets = controller->GetDeviceColors();

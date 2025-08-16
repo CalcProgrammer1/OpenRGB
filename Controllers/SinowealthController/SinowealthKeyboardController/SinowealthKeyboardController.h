@@ -61,11 +61,12 @@ enum
 class SinowealthKeyboardController
 {
 public:
-    SinowealthKeyboardController(hid_device* dev_cmd_handle, hid_device* dev_data_handle, char *_path); //RGB, Command, path
+    SinowealthKeyboardController(hid_device* dev_cmd_handle, hid_device* dev_data_handle, char *_path, std::string dev_name); //RGB, Command, path
     ~SinowealthKeyboardController();
 
     unsigned int    GetLEDCount();
     std::string     GetLocation();
+    std::string     GetName();
     std::string     GetSerialString();
     unsigned char   GetCurrentMode();
 
@@ -79,11 +80,9 @@ private:
     hid_device*     dev_cmd;
     hid_device*     dev_data;
     device_type     type;
-
     unsigned int    led_count;
-
     unsigned char   current_mode;
     unsigned char   current_speed;
-
     std::string     location;
+    std::string     name;
 };

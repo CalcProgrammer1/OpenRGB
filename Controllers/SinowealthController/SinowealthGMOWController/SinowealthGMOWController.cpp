@@ -15,10 +15,12 @@
 #include "SinowealthGMOWController.h"
 #include "StringUtils.h"
 
-SinowealthGMOWController::SinowealthGMOWController(hid_device* dev_handle, char *_path, int _type)
+SinowealthGMOWController::SinowealthGMOWController(hid_device* dev_handle, char *_path, int _type, std::string dev_name)
 {
-    dev      = dev_handle;
-    location = _path;
+    dev         = dev_handle;
+    location    = _path;
+    name        = dev_name;
+    type        = _type;
 
     memset(mode_packet,0x00, GMOW_PACKET_SIZE);
     mode_packet[0x03]  = 0x02;
@@ -35,8 +37,6 @@ SinowealthGMOWController::SinowealthGMOWController(hid_device* dev_handle, char 
 
     memcpy(less_packet, wired_packet, GMOW_PACKET_SIZE);
     less_packet[0x07]  = 0x00;
-
-    type = _type;
 }
 
 SinowealthGMOWController::~SinowealthGMOWController()
@@ -47,6 +47,11 @@ SinowealthGMOWController::~SinowealthGMOWController()
 std::string SinowealthGMOWController::GetLocation()
 {
     return("HID: " + location);
+}
+
+std::string SinowealthGMOWController::GetName()
+{
+    return(name);
 }
 
 std::string SinowealthGMOWController::GetSerialString()

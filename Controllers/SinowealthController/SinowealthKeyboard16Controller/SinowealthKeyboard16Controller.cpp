@@ -56,6 +56,11 @@ std::string SinowealthKeyboard16Controller::GetLocation()
     return("HID: " + location);
 }
 
+std::string SinowealthKeyboard16Controller::GetName()
+{
+    return(name);
+}
+
 unsigned char SinowealthKeyboard16Controller::GetCurrentMode()
 {
     return current_mode;

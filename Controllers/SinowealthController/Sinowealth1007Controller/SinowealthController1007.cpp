@@ -14,16 +14,16 @@
 #include "SinowealthController1007.h"
 #include "StringUtils.h"
 
-SinowealthController1007::SinowealthController1007(hid_device* dev, char *_path)
+SinowealthController1007::SinowealthController1007(hid_device* dev, char *_path, std::string dev_name)
 {
-    this->dev = dev;
+    this->dev               = dev;
+    this->location          = _path;
+    this->name              = dev_name;
 
-    this->led_count = 7;
-
+    this->led_count         = 7;
     this->current_mode      = ZET_FURY_PRO_MODE_CUSTOM + ZET_FURY_PRO_SPEED_DEF;
     this->current_direction = ZET_FURY_PRO_DIR_RIGHT;
 
-    this->location = _path;
     memset(device_colors, 0x00, sizeof(device_colors));
 }
 
@@ -35,6 +35,11 @@ SinowealthController1007::~SinowealthController1007()
 std::string SinowealthController1007::GetLocation()
 {
     return("HID: " + location);
+}
+
+std::string SinowealthController1007::GetName()
+{
+    return(name);
 }
 
 unsigned int SinowealthController1007::GetLEDCount()

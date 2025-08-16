@@ -11,11 +11,12 @@
 
 #include "GenesisXenon200Controller.h"
 
-GenesisXenon200Controller::GenesisXenon200Controller(hid_device* dev_handle, hid_device* cmd_dev_handle, const char* path)
+GenesisXenon200Controller::GenesisXenon200Controller(hid_device* dev_handle, hid_device* cmd_dev_handle, const char* path, std::string dev_name)
 {
-    dev      = dev_handle;
-    cmd_dev  = cmd_dev_handle;
-    location = path;
+    dev         = dev_handle;
+    cmd_dev     = cmd_dev_handle;
+    location    = path;
+    name        = dev_name;
 }
 
 GenesisXenon200Controller::~GenesisXenon200Controller()
@@ -26,6 +27,11 @@ GenesisXenon200Controller::~GenesisXenon200Controller()
 std::string GenesisXenon200Controller::GetLocationString()
 {
     return("HID: " + location);
+}
+
+std::string GenesisXenon200Controller::GetNameString()
+{
+    return(name);
 }
 
 void GenesisXenon200Controller::SaveMode(unsigned char mode, unsigned char value, RGBColor color)

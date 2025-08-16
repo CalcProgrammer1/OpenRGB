@@ -109,6 +109,7 @@ public:
 
     unsigned int                GetLEDCount();
     std::string                 GetLocation();
+    std::string                 GetName();
     std::string                 GetSerialString();
     unsigned char               GetCurrentMode();
     std::vector<ModeCfg>        GetDeviceModes();

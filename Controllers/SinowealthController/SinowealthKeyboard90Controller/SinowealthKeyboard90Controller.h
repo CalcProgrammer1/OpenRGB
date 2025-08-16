@@ -201,11 +201,13 @@ namespace thor300
 class SinowealthKeyboard90Controller
 {
 public:
-    SinowealthKeyboard90Controller(hid_device* dev_handle, const char* path, const unsigned short pid);
+    SinowealthKeyboard90Controller(hid_device* dev_handle, const char* path, const unsigned short pid, std::string dev_name);
     ~SinowealthKeyboard90Controller();
 
     std::string     GetDeviceLocation();
+    std::string     GetNameString();
     std::string     GetSerialString();
+
     unsigned short  GetUSBPID();
 
     void            SendMode

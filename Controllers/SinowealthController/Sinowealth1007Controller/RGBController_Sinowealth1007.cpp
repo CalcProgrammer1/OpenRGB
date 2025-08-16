@@ -35,14 +35,14 @@ static const char *led_names[] =
 
 RGBController_Sinowealth1007::RGBController_Sinowealth1007(SinowealthController1007* controller_ptr)
 {
-    controller  = controller_ptr;
+    controller                  = controller_ptr;
 
-    name        = "ZET Fury Pro Mouse Device";
-    vendor      = "ZET";
-    type        = DEVICE_TYPE_MOUSE;
-    description = "ZET Fury Pro Mouse Device";
-    location    = controller->GetLocation();
-    serial      = controller->GetSerialString();
+    name                        = controller->GetName();
+    vendor                      = "ZET";
+    type                        = DEVICE_TYPE_MOUSE;
+    description                 = "ZET Fury Pro Mouse Device";
+    location                    = controller->GetLocation();
+    serial                      = controller->GetSerialString();
 
     mode Custom;
     Custom.name                 = "Custom";

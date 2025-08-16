@@ -71,10 +71,11 @@ static unsigned int keys_tkl_keys_indices_static_command[]  = { 0x0022, 0x0024, 
                                                                 0x01E0, 0x01E2, 0x01E4, 0x01E6, 0x01E7, 0x01E8, 0x01E9, 0x01EA};
 
 
-SinowealthKeyboardController::SinowealthKeyboardController(hid_device* dev_cmd_handle, hid_device* dev_data_handle, char* path)
+SinowealthKeyboardController::SinowealthKeyboardController(hid_device* dev_cmd_handle, hid_device* dev_data_handle, char* path, std::string dev_name)
 {
-    dev_cmd  = dev_cmd_handle;
-    dev_data = dev_data_handle;
+    dev_cmd         = dev_cmd_handle;
+    dev_data        = dev_data_handle;
+    name            = dev_name;
 
     led_count       = sizeof(tkl_keys_per_key_index) / sizeof(*tkl_keys_per_key_index);
 
@@ -93,6 +94,11 @@ SinowealthKeyboardController::~SinowealthKeyboardController()
 std::string SinowealthKeyboardController::GetLocation()
 {
     return("HID: " + location);
+}
+
+std::string SinowealthKeyboardController::GetName()
+{
+    return(name);
 }
 
 unsigned char SinowealthKeyboardController::GetCurrentMode()

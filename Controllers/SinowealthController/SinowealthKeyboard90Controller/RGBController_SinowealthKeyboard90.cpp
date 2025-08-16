@@ -28,7 +28,7 @@ RGBController_SinowealthKeyboard90::RGBController_SinowealthKeyboard90(Sinowealt
 {
     controller                      = controller_ptr;
 
-    name                            = "Genesis Thor 300";
+    name                            = controller->GetNameString();
     vendor                          = "Sinowealth";
     type                            = DEVICE_TYPE_KEYBOARD;
     description                     = "Generic Sinowealth Keyboard";
