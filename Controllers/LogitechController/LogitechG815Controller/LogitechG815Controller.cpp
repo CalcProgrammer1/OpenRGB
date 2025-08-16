@@ -13,15 +13,21 @@
 #include "LogitechG815Controller.h"
 #include "StringUtils.h"
 
-LogitechG815Controller::LogitechG815Controller(hid_device* dev_handle_0x11, hid_device* dev_handle_0x12)
+LogitechG815Controller::LogitechG815Controller(hid_device* dev_handle_0x11, hid_device* dev_handle_0x12, std::string dev_name)
 {
-    dev_pkt_0x11 = dev_handle_0x11;
-    dev_pkt_0x12 = dev_handle_0x12;
+    dev_pkt_0x11    = dev_handle_0x11;
+    dev_pkt_0x12    = dev_handle_0x12;
+    name            = dev_name;
 }
 
 LogitechG815Controller::~LogitechG815Controller()
 {
 
+}
+
+std::string LogitechG815Controller::GetNameString()
+{
+    return(name);
 }
 
 std::string LogitechG815Controller::GetSerialString()

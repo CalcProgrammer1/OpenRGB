@@ -13,10 +13,11 @@
 #include "LogitechX56Controller.h"
 #include "StringUtils.h"
 
-LogitechX56Controller::LogitechX56Controller(hid_device* dev_handle, const char* path)
+LogitechX56Controller::LogitechX56Controller(hid_device* dev_handle, const char* path, std::string dev_name)
 {
     dev         = dev_handle;
     location    = path;
+    name        = dev_name;
 }
 
 LogitechX56Controller::~LogitechX56Controller()
@@ -29,9 +30,9 @@ std::string LogitechX56Controller::GetDeviceLocation()
     return("HID: " + location);
 }
 
-char* LogitechX56Controller::GetDeviceName()
+std::string LogitechX56Controller::GetDeviceName()
 {
-    return device_name;
+    return(name);
 }
 
 std::string LogitechX56Controller::GetSerialString()

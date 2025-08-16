@@ -52,13 +52,14 @@ enum
 class LogitechGProKeyboardController
 {
 public:
-    LogitechGProKeyboardController(hid_device* dev_handle_0x11, hid_device* dev_handle_0x12);
+    LogitechGProKeyboardController(hid_device* dev_handle_0x11, hid_device* dev_handle_0x12, std::string dev_name);
     ~LogitechGProKeyboardController();
 
+    std::string GetNameString();
     std::string GetSerialString();
 
     void        Commit();
-    
+
     void        SetDirect
                     (
                     unsigned char       zone,
@@ -78,6 +79,7 @@ public:
 private:
     hid_device* dev_pkt_0x11;
     hid_device* dev_pkt_0x12;
+    std::string name;
 
     void        SendDirectFrame
                     (

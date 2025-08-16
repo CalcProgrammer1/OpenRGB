@@ -13,16 +13,22 @@
 #include "LogitechGProKeyboardController.h"
 #include "StringUtils.h"
 
-LogitechGProKeyboardController::LogitechGProKeyboardController(hid_device* dev_handle_0x11, hid_device* dev_handle_0x12)
+LogitechGProKeyboardController::LogitechGProKeyboardController(hid_device* dev_handle_0x11, hid_device* dev_handle_0x12, std::string dev_name)
 {
-    dev_pkt_0x11 = dev_handle_0x11;
-    dev_pkt_0x12 = dev_handle_0x12;
+    dev_pkt_0x11    = dev_handle_0x11;
+    dev_pkt_0x12    = dev_handle_0x12;
+    name            = dev_name;
 }
 
 LogitechGProKeyboardController::~LogitechGProKeyboardController()
 {
     hid_close(dev_pkt_0x11);
     hid_close(dev_pkt_0x12);
+}
+
+std::string LogitechGProKeyboardController::GetNameString()
+{
+    return(name);
 }
 
 std::string LogitechGProKeyboardController::GetSerialString()

@@ -26,7 +26,7 @@ RGBController_LogitechGPowerPlay::RGBController_LogitechGPowerPlay(LogitechGLigh
 {
     controller              = controller_ptr;
 
-    name                    = "Logitech G PowerPlay Wireless Charging System";
+    name                    = controller->GetNameString();
     vendor                  = "Logitech";
     type                    = DEVICE_TYPE_MOUSEMAT;
     description             = "Logitech G PowerPlay Wireless Charging System";

@@ -65,10 +65,12 @@ enum
 class LogitechG815Controller
 {
 public:
-    LogitechG815Controller(hid_device* dev_handle_0x11, hid_device* dev_handle_0x12);
+    LogitechG815Controller(hid_device* dev_handle_0x11, hid_device* dev_handle_0x12, std::string dev_name);
     ~LogitechG815Controller();
 
+    std::string GetNameString();
     std::string GetSerialString();
+
     void        Commit();
     void        InitializeDirect();
     void        SetDirect
@@ -95,6 +97,7 @@ public:
 private:
     hid_device* dev_pkt_0x11;
     hid_device* dev_pkt_0x12;
+    std::string name;
 
     void        SendDirectFrame
                     (

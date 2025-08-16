@@ -13,10 +13,11 @@
 #include "LogitechG213Controller.h"
 #include "StringUtils.h"
 
-LogitechG213Controller::LogitechG213Controller(hid_device* dev_handle, const char* path)
+LogitechG213Controller::LogitechG213Controller(hid_device* dev_handle, const char* path, std::string dev_name)
 {
     dev         = dev_handle;
     location    = path;
+    name        = dev_name;
 }
 
 LogitechG213Controller::~LogitechG213Controller()
@@ -27,6 +28,11 @@ LogitechG213Controller::~LogitechG213Controller()
 std::string LogitechG213Controller::GetDeviceLocation()
 {
     return("HID: " + location);
+}
+
+std::string LogitechG213Controller::GetNameString()
+{
+    return(name);
 }
 
 std::string LogitechG213Controller::GetSerialString()

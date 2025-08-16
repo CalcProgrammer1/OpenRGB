@@ -52,10 +52,11 @@ enum
 class LogitechG213Controller
 {
 public:
-    LogitechG213Controller(hid_device* dev_handle, const char* path);
+    LogitechG213Controller(hid_device* dev_handle, const char* path, std::string dev_name);
     ~LogitechG213Controller();
 
     std::string GetDeviceLocation();
+    std::string GetNameString();
     std::string GetSerialString();
 
     void        SetDirect
@@ -79,6 +80,7 @@ public:
 private:
     hid_device* dev;
     std::string location;
+    std::string name;
 
     void        SendMode
                     (

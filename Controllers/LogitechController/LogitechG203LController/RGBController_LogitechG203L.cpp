@@ -22,14 +22,14 @@
 
 RGBController_LogitechG203L::RGBController_LogitechG203L(LogitechG203LController* controller_ptr)
 {
-    controller  = controller_ptr;
+    controller                  = controller_ptr;
 
-    name        = "Logitech Mouse Device";
-    vendor      = "Logitech";
-    type        = DEVICE_TYPE_MOUSE;
-    description = "Logitech Mouse Device";
-    location    = controller->GetDeviceLocation();
-    serial      = controller->GetSerialString();
+    name                        = controller->GetNameString();
+    vendor                      = "Logitech";
+    type                        = DEVICE_TYPE_MOUSE;
+    description                 = "Logitech Mouse Device";
+    location                    = controller->GetDeviceLocation();
+    serial                      = controller->GetSerialString();
 
     mode Direct;
     Direct.name                 = "Direct";

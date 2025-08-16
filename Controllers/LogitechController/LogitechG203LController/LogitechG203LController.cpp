@@ -13,10 +13,11 @@
 
 #define PACKET_SIZE     20
 
-LogitechG203LController::LogitechG203LController(hid_device* dev_handle, const char* path)
+LogitechG203LController::LogitechG203LController(hid_device* dev_handle, const char* path, std::string dev_name)
 {
     dev         = dev_handle;
     location    = path;
+    name        = dev_name;
 
     // enable software control
     unsigned char usb_buf[PACKET_SIZE];
@@ -45,6 +46,11 @@ LogitechG203LController::~LogitechG203LController()
 std::string LogitechG203LController::GetDeviceLocation()
 {
     return("HID: " + location);
+}
+
+std::string LogitechG203LController::GetNameString()
+{
+    return(name);
 }
 
 std::string LogitechG203LController::GetSerialString()

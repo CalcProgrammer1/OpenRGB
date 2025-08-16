@@ -185,13 +185,13 @@ static const logitech_g815_led led_names[] =
 
 RGBController_LogitechG815::RGBController_LogitechG815(LogitechG815Controller* controller_ptr)
 {
-    controller  = controller_ptr;
+    controller                      = controller_ptr;
 
-    name        = "Logitech G815 Keyboard Device";
-    vendor      = "Logitech";
-    type        = DEVICE_TYPE_KEYBOARD;
-    description = "Logitech G815 Keyboard Device";
-    serial      = controller->GetSerialString();
+    name                            = controller->GetNameString();
+    vendor                          = "Logitech";
+    type                            = DEVICE_TYPE_KEYBOARD;
+    description                     = "Logitech G815 Keyboard Device";
+    serial                          = controller->GetSerialString();
 
     mode Direct;
     Direct.name                     = "Direct";

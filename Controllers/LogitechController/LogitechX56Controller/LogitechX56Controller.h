@@ -20,19 +20,19 @@
 class LogitechX56Controller
 {
 public:
-    LogitechX56Controller(hid_device* dev_handle, const char* path);
+    LogitechX56Controller(hid_device* dev_handle, const char* path, std::string dev_name);
 
     ~LogitechX56Controller();
 
     std::string GetDeviceLocation();
-    char*       GetDeviceName();
+    std::string GetDeviceName();
     std::string GetSerialString();
 
-    void SetColor(RGBColor colors, uint8_t brightness);
-    void Save();
+    void        SetColor(RGBColor colors, uint8_t brightness);
+    void        Save();
 
 private:
-    char                    device_name[32];
-    hid_device*             dev;
-    std::string             location;
+    hid_device* dev;
+    std::string location;
+    std::string name;
 };

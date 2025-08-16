@@ -27,10 +27,11 @@ enum
 class LogitechG203LController
 {
 public:
-    LogitechG203LController(hid_device* dev_handle, const char* path);
+    LogitechG203LController(hid_device* dev_handle, const char* path, std::string dev_name);
     ~LogitechG203LController();
 
     std::string GetDeviceLocation();
+    std::string GetNameString();
     std::string GetSerialString();
 
     void        SetSingleLED(int led, unsigned char red, unsigned char green, unsigned char blue);
@@ -38,8 +39,9 @@ public:
     void        SetDevice(std::vector<RGBColor> colors);
 
 private:
-    hid_device*             dev;
-    std::string             location;
+    hid_device* dev;
+    std::string location;
+    std::string name;
 
     void        SendApply();
     void        SendPacket(unsigned char* buffer);

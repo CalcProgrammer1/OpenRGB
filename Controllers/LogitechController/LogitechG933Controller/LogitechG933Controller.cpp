@@ -17,10 +17,11 @@
 
 using namespace std::chrono_literals;
 
-LogitechG933Controller::LogitechG933Controller(hid_device* dev_handle, const char* path)
+LogitechG933Controller::LogitechG933Controller(hid_device* dev_handle, const char* path, std::string dev_name)
 {
     dev         = dev_handle;
     location    = path;
+    name        = dev_name;
 }
 
 LogitechG933Controller::~LogitechG933Controller()
@@ -31,6 +32,11 @@ LogitechG933Controller::~LogitechG933Controller()
 std::string LogitechG933Controller::GetDeviceLocation()
 {
     return("HID: " + location);
+}
+
+std::string LogitechG933Controller::GetDeviceName()
+{
+    return(name);
 }
 
 void LogitechG933Controller::SetDirectMode(uint8_t zone)

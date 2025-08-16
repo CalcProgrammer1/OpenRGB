@@ -181,13 +181,13 @@ static const led_type led_names[] =
 
 RGBController_LogitechG810::RGBController_LogitechG810(LogitechG810Controller* controller_ptr)
 {
-    controller  = controller_ptr;
+    controller                      = controller_ptr;
 
-    name        = "Logitech Keyboard Device";
-    vendor      = "Logitech";
-    type        = DEVICE_TYPE_KEYBOARD;
-    description = "Logitech Keyboard Device";
-    serial      = controller->GetSerialString();
+    name                            = controller->GetNameString();
+    vendor                          = "Logitech";
+    type                            = DEVICE_TYPE_KEYBOARD;
+    description                     = "Logitech Keyboard Device";
+    serial                          = controller->GetSerialString();
 
     mode Direct;
     Direct.name                     = "Direct";

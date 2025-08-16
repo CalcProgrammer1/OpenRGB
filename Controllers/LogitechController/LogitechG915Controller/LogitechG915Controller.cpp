@@ -19,31 +19,37 @@ const size_t HEADER_SIZE            = 4;
 const size_t MESSAGE_LEN            = 20;
 const size_t RESPONSE_LEN           = 20;
 
-LogitechG915Controller::LogitechG915Controller(hid_device* dev_handle, bool wired)
+LogitechG915Controller::LogitechG915Controller(hid_device* dev_handle, bool wired, std::string dev_name)
 {
-    this->dev_handle = dev_handle;
+    this->dev_handle        = dev_handle;
+    this->name              = dev_name;
 
     if(wired)
     {
-        device_index     = 0xFF;
-        feature_4522_idx = 0x0E;
-        feature_8040_idx = 0x13;
-        feature_8071_idx = 0x09;
-        feature_8081_idx = 0x0A;
+        device_index        = 0xFF;
+        feature_4522_idx    = 0x0E;
+        feature_8040_idx    = 0x13;
+        feature_8071_idx    = 0x09;
+        feature_8081_idx    = 0x0A;
     }
     else
     {
-        device_index     = 0x01;
-        feature_4522_idx = 0x0F;
-        feature_8040_idx = 0x14;
-        feature_8071_idx = 0x0A;
-        feature_8081_idx = 0x0B;
+        device_index        = 0x01;
+        feature_4522_idx    = 0x0F;
+        feature_8040_idx    = 0x14;
+        feature_8071_idx    = 0x0A;
+        feature_8081_idx    = 0x0B;
     }
 }
 
 LogitechG915Controller::~LogitechG915Controller()
 {
 
+}
+
+std::string LogitechG915Controller::GetNameString()
+{
+    return(name);
 }
 
 std::string LogitechG915Controller::GetSerialString()

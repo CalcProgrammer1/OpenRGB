@@ -282,14 +282,14 @@ RGBController_LogitechG915::RGBController_LogitechG915(LogitechG915Controller* c
 
     if(is_tkl)
     {
-        name                        = "Logitech G915TKL Keyboard Device";
+        description                 = "Logitech G915TKL Keyboard Device";
     }
     else
     {
-        name                        = "Logitech G915 Keyboard Device";
+        description                 = "Logitech G915 Keyboard Device";
     }
 
-    description                     = name;
+    name                            = controller->GetNameString();
     vendor                          = "Logitech";
     type                            = DEVICE_TYPE_KEYBOARD;
     serial                          = controller->GetSerialString();

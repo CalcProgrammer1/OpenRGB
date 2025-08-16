@@ -44,14 +44,14 @@ static const unsigned char led_values[] =
 
 RGBController_LogitechG213::RGBController_LogitechG213(LogitechG213Controller* controller_ptr)
 {
-    controller  = controller_ptr;
+    controller                      = controller_ptr;
 
-    name        = "Logitech G213 Keyboard Device";
-    vendor      = "Logitech";
-    type        = DEVICE_TYPE_KEYBOARD;
-    description = "Logitech G213 Keyboard Device";
-    location    = controller->GetDeviceLocation();
-    serial      = controller->GetSerialString();
+    name                            = controller->GetNameString();
+    vendor                          = "Logitech";
+    type                            = DEVICE_TYPE_KEYBOARD;
+    description                     = "Logitech G213 Keyboard Device";
+    location                        = controller->GetDeviceLocation();
+    serial                          = controller->GetSerialString();
 
     mode Direct;
     Direct.name                     = "Direct";
@@ -78,14 +78,14 @@ RGBController_LogitechG213::RGBController_LogitechG213(LogitechG213Controller* c
     modes.push_back(Cycle);
 
     mode Wave;
-    Wave.name                      = "Wave";
-    Wave.value                     = LOGITECH_G213_MODE_WAVE;
-    Wave.flags                     = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_DIRECTION_LR | MODE_FLAG_HAS_DIRECTION_UD;
-    Wave.color_mode                = MODE_COLORS_NONE;
-    Wave.speed_min                 = LOGITECH_G213_SPEED_SLOWEST;
-    Wave.speed_max                 = LOGITECH_G213_SPEED_FASTEST;
-    Wave.speed                     = LOGITECH_G213_SPEED_NORMAL;
-    Wave.direction                 = MODE_DIRECTION_LEFT;
+    Wave.name                       = "Wave";
+    Wave.value                      = LOGITECH_G213_MODE_WAVE;
+    Wave.flags                      = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_DIRECTION_LR | MODE_FLAG_HAS_DIRECTION_UD;
+    Wave.color_mode                 = MODE_COLORS_NONE;
+    Wave.speed_min                  = LOGITECH_G213_SPEED_SLOWEST;
+    Wave.speed_max                  = LOGITECH_G213_SPEED_FASTEST;
+    Wave.speed                      = LOGITECH_G213_SPEED_NORMAL;
+    Wave.direction                  = MODE_DIRECTION_LEFT;
     modes.push_back(Wave);
 
     mode Breathing;
