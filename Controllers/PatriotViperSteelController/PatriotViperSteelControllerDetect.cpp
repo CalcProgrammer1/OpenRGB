@@ -55,7 +55,7 @@ bool TestForPatriotViperSteelController(i2c_smbus_interface* bus, unsigned char 
 *                                                                                          *
 \******************************************************************************************/
 
-void DetectPatriotViperSteelControllers(i2c_smbus_interface* bus, std::vector<SPDWrapper*> &slots)
+void DetectPatriotViperSteelControllers(i2c_smbus_interface* bus, std::vector<SPDWrapper*> &slots, const std::string &/*name*/)
 {
     unsigned char slots_valid = 0x00;
 

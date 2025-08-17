@@ -124,9 +124,11 @@ enum
 class KingstonFuryDRAMController
 {
 public:
-    KingstonFuryDRAMController(i2c_smbus_interface* bus, unsigned char base_addr, std::vector<int> slots);
+    KingstonFuryDRAMController(i2c_smbus_interface* bus, unsigned char base_addr, std::vector<int> slots, std::string dev_name);
 
     std::string     GetDeviceLocation();
+    std::string     GetDeviceName();
+
     unsigned int    GetLEDCount();
     unsigned int    GetLEDPerDIMM();
     unsigned int    GetSlotCount();
@@ -152,5 +154,6 @@ private:
     i2c_smbus_interface*    bus;
     std::vector<int>        slots;
     unsigned char           base_addr;
+    std::string             name;
     std::vector<std::map<unsigned char, unsigned char>> reg_cache;
 };

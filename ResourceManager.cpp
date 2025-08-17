@@ -1260,7 +1260,7 @@ void ResourceManager::DetectDevicesCoroutine()
                         DetectionProgressChanged();
 
                         std::vector<SPDWrapper*> matching_slots = slots_with_jedec(slots, i2c_dimm_device_detectors[i2c_detector_idx].jedec_id);
-                        i2c_dimm_device_detectors[i2c_detector_idx].function(busses[bus], matching_slots);
+                        i2c_dimm_device_detectors[i2c_detector_idx].function(busses[bus], matching_slots, i2c_dimm_device_detectors[i2c_detector_idx].name);
                     }
 
                     LOG_TRACE("[%s] detection end", detection_string);

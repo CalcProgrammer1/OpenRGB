@@ -123,7 +123,7 @@ bool TestForTForceXtreemController(i2c_smbus_interface* bus, unsigned char addre
 *                                                                                          *
 \******************************************************************************************/
 
-void DetectTForceXtreemControllers(i2c_smbus_interface* bus, std::vector<SPDWrapper*> &slots)
+void DetectTForceXtreemControllers(i2c_smbus_interface* bus, std::vector<SPDWrapper*> &slots, const std::string &/*name*/)
 {
 
     LOG_DEBUG("[%s] Remapping ENE SMBus RAM modules on 0x77", DETECTOR_NAME);

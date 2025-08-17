@@ -16,12 +16,12 @@
 #include "RGBController.h"
 #include "LogManager.h"
 
-KingstonFuryDRAMController::KingstonFuryDRAMController(
-    i2c_smbus_interface* bus, unsigned char base_addr, std::vector<int> slots)
+KingstonFuryDRAMController::KingstonFuryDRAMController(i2c_smbus_interface* bus, unsigned char base_addr, std::vector<int> slots, std::string dev_name)
 {
     this->bus       = bus;
     this->base_addr = base_addr;
     this->slots     = slots;
+    this->name      = dev_name;
 
     reg_cache.resize(slots.size());
 }
@@ -45,6 +45,11 @@ std::string KingstonFuryDRAMController::GetDeviceLocation()
         }
     }
     return("I2C: " + return_string);
+}
+
+std::string KingstonFuryDRAMController::GetDeviceName()
+{
+    return(name);
 }
 
 unsigned int KingstonFuryDRAMController::GetLEDCount()

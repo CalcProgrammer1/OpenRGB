@@ -61,7 +61,7 @@ bool TestForCorsairVengeanceController(i2c_smbus_interface* bus, unsigned char a
 *                                                                                          *
 \******************************************************************************************/
 
-void DetectCorsairVengeanceControllers(i2c_smbus_interface* bus, std::vector<SPDWrapper*> &slots)
+void DetectCorsairVengeanceControllers(i2c_smbus_interface* bus, std::vector<SPDWrapper*> &slots, const std::string &/*name*/)
 {
     for(SPDWrapper *slot : slots)
     {

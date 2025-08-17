@@ -67,7 +67,7 @@ bool TestForHyperXDRAMController(i2c_smbus_interface* bus, unsigned char address
 *                                                                                          *
 \******************************************************************************************/
 
-void DetectHyperXDRAMControllers(i2c_smbus_interface* bus, std::vector<SPDWrapper*> &slots)
+void DetectHyperXDRAMControllers(i2c_smbus_interface* bus, std::vector<SPDWrapper*> &slots, const std::string &/*name*/)
 {
     unsigned char slots_valid   = 0x00;
     bool          fury_detected = false;

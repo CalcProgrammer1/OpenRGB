@@ -42,51 +42,50 @@ const RGBColor default_colors[] =
 
 RGBController_KingstonFuryDRAM::RGBController_KingstonFuryDRAM(KingstonFuryDRAMController* controller_ptr)
 {
-    controller  = controller_ptr;
+    controller              = controller_ptr;
 
-    name        = "Kingston Fury DDR4/5 DRAM";
-    vendor      = "Kingston";
-    type        = DEVICE_TYPE_DRAM;
-    description = "Kingston Fury Beast/Renegade DDR4/5 DRAM Device";
-    location    = controller->GetDeviceLocation();
+    name                    = controller->GetDeviceName();
+    vendor                  = "Kingston";
+    type                    = DEVICE_TYPE_DRAM;
+    description             = "Kingston Fury Beast/Renegade DDR4/5 DRAM Device";
+    location                = controller->GetDeviceLocation();
 
     mode Direct;
-    Direct.name           = "Direct";
-    Direct.value          = FURY_MODE_DIRECT;
-    Direct.flags          = MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_HAS_BRIGHTNESS;
-    Direct.color_mode     = MODE_COLORS_PER_LED;
-    Direct.brightness_min = 0;
-    Direct.brightness_max = 100;
-    Direct.brightness     = 80;
+    Direct.name             = "Direct";
+    Direct.value            = FURY_MODE_DIRECT;
+    Direct.flags            = MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_HAS_BRIGHTNESS;
+    Direct.color_mode       = MODE_COLORS_PER_LED;
+    Direct.brightness_min   = 0;
+    Direct.brightness_max   = 100;
+    Direct.brightness       = 80;
     modes.push_back(Direct);
 
     mode Static;
-    Static.name           = "Static";
-    Static.value          = FURY_MODE_STATIC;
-    Static.flags          = MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_BRIGHTNESS;
-    Static.color_mode     = MODE_COLORS_MODE_SPECIFIC;
-    Static.colors_min     = 1;
-    Static.colors_max     = 1;
+    Static.name             = "Static";
+    Static.value            = FURY_MODE_STATIC;
+    Static.flags            = MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_BRIGHTNESS;
+    Static.color_mode       = MODE_COLORS_MODE_SPECIFIC;
+    Static.colors_min       = 1;
+    Static.colors_max       = 1;
     Static.colors.assign(default_colors, default_colors + 1);
-    Static.brightness_min = 0;
-    Static.brightness_max = 100;
-    Static.brightness     = 80;
+    Static.brightness_min   = 0;
+    Static.brightness_max   = 100;
+    Static.brightness       = 80;
     modes.push_back(Static);
 
     // All speed values are inverted
     mode Rainbow;
-    Rainbow.name           = "Rainbow";
-    Rainbow.value          = FURY_MODE_RAINBOW;
-    Rainbow.flags          = MODE_FLAG_HAS_SPEED |
-        MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_HAS_DIRECTION_UD;
-    Rainbow.speed_min      = 60;
-    Rainbow.speed_max      = 0;
-    Rainbow.speed          = 25;
-    Rainbow.direction      = MODE_DIRECTION_UP;
-    Rainbow.brightness_min = 0;
-    Rainbow.brightness_max = 100;
-    Rainbow.brightness     = 80;
-    Rainbow.color_mode     = MODE_COLORS_NONE;
+    Rainbow.name            = "Rainbow";
+    Rainbow.value           = FURY_MODE_RAINBOW;
+    Rainbow.flags           = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_HAS_DIRECTION_UD;
+    Rainbow.speed_min       = 60;
+    Rainbow.speed_max       = 0;
+    Rainbow.speed           = 25;
+    Rainbow.direction       = MODE_DIRECTION_UP;
+    Rainbow.brightness_min  = 0;
+    Rainbow.brightness_max  = 100;
+    Rainbow.brightness      = 80;
+    Rainbow.color_mode      = MODE_COLORS_NONE;
     modes.push_back(Rainbow);
 
     mode Spectrum;
@@ -105,101 +104,93 @@ RGBController_KingstonFuryDRAM::RGBController_KingstonFuryDRAM(KingstonFuryDRAMC
     modes.push_back(Spectrum);
 
     mode Rhythm;
-    Rhythm.name           = "Rhythm";
-    Rhythm.value          = FURY_MODE_RHYTHM;
-    Rhythm.flags          = MODE_FLAG_HAS_MODE_SPECIFIC_COLOR |
-        MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_BRIGHTNESS;
-    Rhythm.color_mode     = MODE_COLORS_MODE_SPECIFIC;
-    Rhythm.colors_min     = 2;
-    Rhythm.colors_max     = 11;
+    Rhythm.name             = "Rhythm";
+    Rhythm.value            = FURY_MODE_RHYTHM;
+    Rhythm.flags            = MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_BRIGHTNESS;
+    Rhythm.color_mode       = MODE_COLORS_MODE_SPECIFIC;
+    Rhythm.colors_min       = 2;
+    Rhythm.colors_max       = 11;
     Rhythm.colors.assign(default_colors, default_colors + 10);
     Rhythm.colors.push_back(FURY_DEFAULT_BG_COLOR);
-    Rhythm.speed_min      = 10;
-    Rhythm.speed_max      = 0;
-    Rhythm.speed          = 0;
-    Rhythm.brightness_min = 0;
-    Rhythm.brightness_max = 100;
-    Rhythm.brightness     = 80;
+    Rhythm.speed_min        = 10;
+    Rhythm.speed_max        = 0;
+    Rhythm.speed            = 0;
+    Rhythm.brightness_min   = 0;
+    Rhythm.brightness_max   = 100;
+    Rhythm.brightness       = 80;
     modes.push_back(Rhythm);
 
     mode Breath;
-    Breath.name           = "Breath";
-    Breath.value          = FURY_MODE_BREATH;
-    Breath.flags          = MODE_FLAG_HAS_MODE_SPECIFIC_COLOR |
-        MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_HAS_SPEED |
-        MODE_FLAG_HAS_BRIGHTNESS;
-    Breath.color_mode     = MODE_COLORS_MODE_SPECIFIC;
-    Breath.colors_min     = 1;
-    Breath.colors_max     = 10;
+    Breath.name             = "Breath";
+    Breath.value            = FURY_MODE_BREATH;
+    Breath.flags            = MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_BRIGHTNESS;
+    Breath.color_mode       = MODE_COLORS_MODE_SPECIFIC;
+    Breath.colors_min       = 1;
+    Breath.colors_max       = 10;
     Breath.colors.assign(default_colors, default_colors + 10);
-    Breath.speed_min      = 10;
-    Breath.speed_max      = 1;
-    Breath.speed          = 5;
-    Breath.brightness_min = 0;
-    Breath.brightness_max = 100;
-    Breath.brightness     = 80;
+    Breath.speed_min        = 10;
+    Breath.speed_max        = 1;
+    Breath.speed            = 5;
+    Breath.brightness_min   = 0;
+    Breath.brightness_max   = 100;
+    Breath.brightness       = 80;
     modes.push_back(Breath);
 
     mode Dynamic;
-    Dynamic.name           = "Dynamic";
-    Dynamic.value          = FURY_MODE_DYNAMIC;
-    Dynamic.flags          = MODE_FLAG_HAS_MODE_SPECIFIC_COLOR |
-        MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_BRIGHTNESS;
-    Dynamic.color_mode     = MODE_COLORS_MODE_SPECIFIC;
-    Dynamic.colors_min     = 1;
-    Dynamic.colors_max     = 10;
+    Dynamic.name            = "Dynamic";
+    Dynamic.value           = FURY_MODE_DYNAMIC;
+    Dynamic.flags           = MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_BRIGHTNESS;
+    Dynamic.color_mode      = MODE_COLORS_MODE_SPECIFIC;
+    Dynamic.colors_min      = 1;
+    Dynamic.colors_max      = 10;
     Dynamic.colors.assign(default_colors, default_colors + 10);
-    Dynamic.speed_min      = 1000;
-    Dynamic.speed_max      = 100;
-    Dynamic.speed          = 300;
-    Dynamic.brightness_min = 0;
-    Dynamic.brightness_max = 100;
-    Dynamic.brightness     = 80;
+    Dynamic.speed_min       = 1000;
+    Dynamic.speed_max       = 100;
+    Dynamic.speed           = 300;
+    Dynamic.brightness_min  = 0;
+    Dynamic.brightness_max  = 100;
+    Dynamic.brightness      = 80;
     modes.push_back(Dynamic);
 
     mode Slide;
-    Slide.name = "Slide";
-    Slide.value          = FURY_MODE_SLIDE;
-    Slide.flags          = MODE_FLAG_HAS_MODE_SPECIFIC_COLOR |
-        MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_BRIGHTNESS |
-        MODE_FLAG_HAS_DIRECTION_UD;
-    Slide.color_mode     = MODE_COLORS_MODE_SPECIFIC;
-    Slide.colors_min     = 2;
-    Slide.colors_max     = 11;
+    Slide.name              = "Slide";
+    Slide.value             = FURY_MODE_SLIDE;
+    Slide.flags             = MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_HAS_DIRECTION_UD;
+    Slide.color_mode        = MODE_COLORS_MODE_SPECIFIC;
+    Slide.colors_min        = 2;
+    Slide.colors_max        = 11;
     Slide.colors.assign(default_colors, default_colors + 10);
     Slide.colors.push_back(FURY_DEFAULT_BG_COLOR);
-    Slide.speed_min      = 255;
-    Slide.speed_max      = 0;
-    Slide.speed          = 8;
-    Slide.direction      = MODE_DIRECTION_UP;
-    Slide.brightness_min = 0;
-    Slide.brightness_max = 100;
-    Slide.brightness     = 80;
+    Slide.speed_min         = 255;
+    Slide.speed_max         = 0;
+    Slide.speed             = 8;
+    Slide.direction         = MODE_DIRECTION_UP;
+    Slide.brightness_min    = 0;
+    Slide.brightness_max    = 100;
+    Slide.brightness        = 80;
     modes.push_back(Slide);
 
     mode Slither;
-    Slither.name           = "Slither";
-    Slither.value          = FURY_MODE_SLITHER;
-    Slither.flags          = MODE_FLAG_HAS_MODE_SPECIFIC_COLOR |
-        MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_BRIGHTNESS;
-    Slither.color_mode     = MODE_COLORS_MODE_SPECIFIC;
-    Slither.colors_min     = 2;
-    Slither.colors_max     = 11;
+    Slither.name            = "Slither";
+    Slither.value           = FURY_MODE_SLITHER;
+    Slither.flags           = MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_BRIGHTNESS;
+    Slither.color_mode      = MODE_COLORS_MODE_SPECIFIC;
+    Slither.colors_min      = 2;
+    Slither.colors_max      = 11;
     Slither.colors.assign(default_colors, default_colors + 10);
     Slither.colors.push_back(FURY_DEFAULT_BG_COLOR);
-    Slither.speed_min      = 255;
-    Slither.speed_max      = 0;
-    Slither.speed          = 40;
-    Slither.brightness_min = 0;
-    Slither.brightness_max = 100;
-    Slither.brightness     = 80;
+    Slither.speed_min       = 255;
+    Slither.speed_max       = 0;
+    Slither.speed           = 40;
+    Slither.brightness_min  = 0;
+    Slither.brightness_max  = 100;
+    Slither.brightness      = 80;
     modes.push_back(Slither);
 
     mode Teleport;
-    Teleport.name = "Teleport";
+    Teleport.name           = "Teleport";
     Teleport.value          = FURY_MODE_TELEPORT;
-    Teleport.flags          = MODE_FLAG_HAS_MODE_SPECIFIC_COLOR |
-        MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_BRIGHTNESS;
+    Teleport.flags          = MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_BRIGHTNESS;
     Teleport.color_mode     = MODE_COLORS_MODE_SPECIFIC;
     Teleport.colors_min     = 2;
     Teleport.colors_max     = 11;
@@ -214,69 +205,61 @@ RGBController_KingstonFuryDRAM::RGBController_KingstonFuryDRAM(KingstonFuryDRAMC
     modes.push_back(Teleport);
 
     mode Wind;
-    Wind.name           = "Wind";
-    Wind.value          = FURY_MODE_WIND;
-    Wind.flags          = MODE_FLAG_HAS_MODE_SPECIFIC_COLOR |
-        MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_BRIGHTNESS |
-        MODE_FLAG_HAS_DIRECTION_UD;
-    Wind.color_mode     = MODE_COLORS_MODE_SPECIFIC;
-    Wind.colors_min     = 2;
-    Wind.colors_max     = 11;
+    Wind.name               = "Wind";
+    Wind.value              = FURY_MODE_WIND;
+    Wind.flags              = MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_HAS_DIRECTION_UD;
+    Wind.color_mode         = MODE_COLORS_MODE_SPECIFIC;
+    Wind.colors_min         = 2;
+    Wind.colors_max         = 11;
     Wind.colors.assign(default_colors, default_colors + 10);
     Wind.colors.push_back(FURY_DEFAULT_BG_COLOR);
-    Wind.speed_min      = 255;
-    Wind.speed_max      = 0;
-    Wind.speed          = 8;
-    Wind.direction      = MODE_DIRECTION_UP;
-    Wind.brightness_min = 0;
-    Wind.brightness_max = 100;
-    Wind.brightness     = 80;
+    Wind.speed_min          = 255;
+    Wind.speed_max          = 0;
+    Wind.speed              = 8;
+    Wind.direction          = MODE_DIRECTION_UP;
+    Wind.brightness_min     = 0;
+    Wind.brightness_max     = 100;
+    Wind.brightness         = 80;
     modes.push_back(Wind);
 
     mode Comet;
-    Comet.name = "Comet";
-    Comet.value          = FURY_MODE_COMET;
-    Comet.flags          = MODE_FLAG_HAS_MODE_SPECIFIC_COLOR |
-        MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_BRIGHTNESS |
-        MODE_FLAG_HAS_DIRECTION_UD;
-    Comet.color_mode     = MODE_COLORS_MODE_SPECIFIC;
-    Comet.colors_min     = 1;
-    Comet.colors_max     = 10;
+    Comet.name              = "Comet";
+    Comet.value             = FURY_MODE_COMET;
+    Comet.flags             = MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_HAS_DIRECTION_UD;
+    Comet.color_mode        = MODE_COLORS_MODE_SPECIFIC;
+    Comet.colors_min        = 1;
+    Comet.colors_max        = 10;
     Comet.colors.assign(default_colors, default_colors + 10);
-    Comet.speed_min      = 255;
-    Comet.speed_max      = 0;
-    Comet.speed          = 25;
-    Comet.direction      = MODE_DIRECTION_UP;
-    Comet.brightness_min = 0;
-    Comet.brightness_max = 100;
-    Comet.brightness     = 80;
+    Comet.speed_min         = 255;
+    Comet.speed_max         = 0;
+    Comet.speed             = 25;
+    Comet.direction         = MODE_DIRECTION_UP;
+    Comet.brightness_min    = 0;
+    Comet.brightness_max    = 100;
+    Comet.brightness        = 80;
     modes.push_back(Comet);
 
     mode Rain;
-    Rain.name = "Rain";
-    Rain.value          = FURY_MODE_RAIN;
-    Rain.flags          = MODE_FLAG_HAS_MODE_SPECIFIC_COLOR |
-        MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_BRIGHTNESS |
-        MODE_FLAG_HAS_DIRECTION_UD;
-    Rain.color_mode = MODE_COLORS_MODE_SPECIFIC;
-    Rain.colors_min     = 1;
-    Rain.colors_max     = 10;
+    Rain.name               = "Rain";
+    Rain.value              = FURY_MODE_RAIN;
+    Rain.flags              = MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_HAS_DIRECTION_UD;
+    Rain.color_mode         = MODE_COLORS_MODE_SPECIFIC;
+    Rain.colors_min         = 1;
+    Rain.colors_max         = 10;
     Rain.colors.assign(default_colors, default_colors + 10);
-    Rain.speed_min      = 28;
-    Rain.speed_max      = 8;
-    Rain.speed          = 25;
-    Rain.direction      = MODE_DIRECTION_DOWN;
-    Rain.brightness_min = 0;
-    Rain.brightness_max = 100;
-    Rain.brightness     = 80;
+    Rain.speed_min          = 28;
+    Rain.speed_max          = 8;
+    Rain.speed              = 25;
+    Rain.direction          = MODE_DIRECTION_DOWN;
+    Rain.brightness_min     = 0;
+    Rain.brightness_max     = 100;
+    Rain.brightness         = 80;
     modes.push_back(Rain);
 
     mode Firework;
     Firework.name           = "Firework";
     Firework.value          = FURY_MODE_FIREWORK;
-    Firework.flags          = MODE_FLAG_HAS_MODE_SPECIFIC_COLOR |
-        MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_BRIGHTNESS |
-        MODE_FLAG_HAS_DIRECTION_UD;
+    Firework.flags          = MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_HAS_DIRECTION_UD;
     Firework.color_mode     = MODE_COLORS_MODE_SPECIFIC;
     Firework.colors_min     = 1;
     Firework.colors_max     = 10;
@@ -291,32 +274,28 @@ RGBController_KingstonFuryDRAM::RGBController_KingstonFuryDRAM(KingstonFuryDRAMC
     modes.push_back(Firework);
 
     mode Voltage;
-    Voltage.name = "Voltage";
-    Voltage.value          = FURY_MODE_VOLTAGE;
-    Voltage.flags          = MODE_FLAG_HAS_MODE_SPECIFIC_COLOR |
-        MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_BRIGHTNESS |
-        MODE_FLAG_HAS_DIRECTION_UD;
-    Voltage.color_mode     = MODE_COLORS_MODE_SPECIFIC;
-    Voltage.colors_min     = 2;
-    Voltage.colors_max     = 11;
+    Voltage.name            = "Voltage";
+    Voltage.value           = FURY_MODE_VOLTAGE;
+    Voltage.flags           = MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_HAS_DIRECTION_UD;
+    Voltage.color_mode      = MODE_COLORS_MODE_SPECIFIC;
+    Voltage.colors_min      = 2;
+    Voltage.colors_max      = 11;
     Voltage.colors.assign(default_colors, default_colors + 10);
     Voltage.colors.push_back(FURY_DEFAULT_BG_COLOR);
-    Voltage.speed_min      = 18;
-    Voltage.speed_max      = 5;
-    Voltage.speed          = 16;
-    Voltage.direction      = MODE_DIRECTION_UP;
-    Voltage.brightness_min = 0;
-    Voltage.brightness_max = 100;
-    Voltage.brightness     = 80;
+    Voltage.speed_min       = 18;
+    Voltage.speed_max       = 5;
+    Voltage.speed           = 16;
+    Voltage.direction       = MODE_DIRECTION_UP;
+    Voltage.brightness_min  = 0;
+    Voltage.brightness_max  = 100;
+    Voltage.brightness      = 80;
     modes.push_back(Voltage);
 
 #ifdef FURY_SYNC
     mode Countdown;
     Countdown.name           = "Countdown";
     Countdown.value          = FURY_MODE_COUNTDOWN;
-    Countdown.flags          = MODE_FLAG_HAS_MODE_SPECIFIC_COLOR |
-        MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_BRIGHTNESS |
-        MODE_FLAG_HAS_DIRECTION_UD;
+    Countdown.flags          = MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_HAS_DIRECTION_UD;
     Countdown.color_mode     = MODE_COLORS_MODE_SPECIFIC;
     Countdown.colors_min     = 2;
     Countdown.colors_max     = 11;
@@ -333,18 +312,17 @@ RGBController_KingstonFuryDRAM::RGBController_KingstonFuryDRAM(KingstonFuryDRAMC
 #endif
 
     mode Flame;
-    Flame.name           = "Flame";
-    Flame.value          = FURY_MODE_FLAME;
-    Flame.flags          = MODE_FLAG_HAS_SPEED |
-        MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_HAS_DIRECTION_UD;
-    Flame.speed_min      = 64;
-    Flame.speed_max      = 40;
-    Flame.speed          = 64;
-    Flame.direction      = MODE_DIRECTION_UP;
-    Flame.brightness_min = 0;
-    Flame.brightness_max = 100;
-    Flame.brightness     = 80;
-    Flame.color_mode     = MODE_COLORS_NONE;
+    Flame.name              = "Flame";
+    Flame.value             = FURY_MODE_FLAME;
+    Flame.flags             = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_HAS_DIRECTION_UD;
+    Flame.speed_min         = 64;
+    Flame.speed_max         = 40;
+    Flame.speed             = 64;
+    Flame.direction         = MODE_DIRECTION_UP;
+    Flame.brightness_min    = 0;
+    Flame.brightness_max    = 100;
+    Flame.brightness        = 80;
+    Flame.color_mode        = MODE_COLORS_NONE;
     modes.push_back(Flame);
 
     mode Twilight;
@@ -361,36 +339,34 @@ RGBController_KingstonFuryDRAM::RGBController_KingstonFuryDRAM(KingstonFuryDRAMC
     modes.push_back(Twilight);
 
     mode Fury;
-    Fury.name           = "Fury";
-    Fury.value          = FURY_MODE_FURY;
-    Fury.flags          = MODE_FLAG_HAS_MODE_SPECIFIC_COLOR |
-        MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_BRIGHTNESS |
-        MODE_FLAG_HAS_DIRECTION_UD;
-    Fury.color_mode     = MODE_COLORS_MODE_SPECIFIC;
-    Fury.colors_min     = 2;
-    Fury.colors_max     = 11;
+    Fury.name               = "Fury";
+    Fury.value              = FURY_MODE_FURY;
+    Fury.flags              = MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_HAS_DIRECTION_UD;
+    Fury.color_mode         = MODE_COLORS_MODE_SPECIFIC;
+    Fury.colors_min         = 2;
+    Fury.colors_max         = 11;
     Fury.colors.assign(default_colors, default_colors + 10);
     Fury.colors.push_back(FURY_DEFAULT_BG_COLOR);
-    Fury.speed_min      = 255;
-    Fury.speed_max      = 0;
-    Fury.speed          = 76;
-    Fury.direction      = MODE_DIRECTION_UP;
-    Fury.brightness_min = 0;
-    Fury.brightness_max = 100;
-    Fury.brightness     = 80;
+    Fury.speed_min          = 255;
+    Fury.speed_max          = 0;
+    Fury.speed              = 76;
+    Fury.direction          = MODE_DIRECTION_UP;
+    Fury.brightness_min     = 0;
+    Fury.brightness_max     = 100;
+    Fury.brightness         = 80;
     modes.push_back(Fury);
 
     mode Prism;
-    Prism.name           = "Prism";
-    Prism.value          = FURY_MODE_PRISM;
-    Prism.flags          = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_BRIGHTNESS;
-    Prism.speed_min      = 60;
-    Prism.speed_max      = 0;
-    Prism.speed          = 40;
-    Prism.brightness_min = 0;
-    Prism.brightness_max = 100;
-    Prism.brightness     = 80;
-    Prism.color_mode     = MODE_COLORS_NONE;
+    Prism.name              = "Prism";
+    Prism.value             = FURY_MODE_PRISM;
+    Prism.flags             = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_BRIGHTNESS;
+    Prism.speed_min         = 60;
+    Prism.speed_max         = 0;
+    Prism.speed             = 40;
+    Prism.brightness_min    = 0;
+    Prism.brightness_max    = 100;
+    Prism.brightness        = 80;
+    Prism.color_mode        = MODE_COLORS_NONE;
     modes.push_back(Prism);
 
     SetupZones();
