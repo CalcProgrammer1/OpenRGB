@@ -5,6 +5,7 @@
 |   motherboard                                             |
 |                                                           |
 |   jackun                                      08 Jan 2020 |
+|   megadjc                                     31 Jul 2025 |
 |                                                           |
 |   This file is part of the OpenRGB project                |
 |   SPDX-License-Identifier: GPL-2.0-only                   |
@@ -16,11 +17,13 @@
 #include <vector>
 #include "RGBController.h"
 #include "GigabyteRGBFusion2USBController.h"
+#include "RGBController_GigabyteRGBFusion2USBBoards.h"
+#include "RGBController_GigabyteRGBFusion2USBLayouts.h"
 
 #define RGBFusion2_Digital_LEDS_Min         0;
 #define RGBFusion2_Digital_LEDS_Max         1024;
 #define RGBFUSION2_BRIGHTNESS_MIN           0;
-#define RGBFUSION2_BRIGHTNESS_MAX           5;
+#define RGBFUSION2_BRIGHTNESS_MAX           255;
 
 template<typename K, typename V>
 static std::map<V, K> reverse_map(const std::map<K, V>& map)
@@ -34,20 +37,6 @@ static std::map<V, K> reverse_map(const std::map<K, V>& map)
 
     return reversed_map;
 }
-
-typedef std::map< std::string, int > FwdLedHeaders;
-typedef std::map< int, std::string > RvrseLedHeaders;
-
-struct LedPort
-{
-    std::string name;
-    int         header;
-    int         count;
-};
-
-typedef std::map< std::string, std::string >            MBName;
-typedef std::map< std::string, std::vector<LedPort> >   ZoneLeds;
-typedef std::map< std::string, ZoneLeds>                KnownLayout;
 
 class RGBController_RGBFusion2USB: public RGBController
 {
@@ -72,7 +61,8 @@ private:
 
     RGBFusion2USBController*    controller;
     ZoneLeds                    layout;
-
+    uint16_t                    pid;
+    int                         device_num;
     void        Load_Device_Config();
     void        Init_Controller();
     int         GetLED_Zone(int led_idx);

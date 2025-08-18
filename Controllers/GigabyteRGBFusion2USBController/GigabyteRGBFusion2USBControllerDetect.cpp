@@ -5,6 +5,7 @@
 |   motherboard                                             |
 |                                                           |
 |   jackun                                      08 Jan 2020 |
+|   megadjc                                     31 Jul 2025 |
 |                                                           |
 |   This file is part of the OpenRGB project                |
 |   SPDX-License-Identifier: GPL-2.0-only                   |
@@ -22,14 +23,9 @@
 #define IT8297_U                0xCC
 #define IT8297_UPG              0xFF89
 
-/******************************************************************************************\
-*                                                                                          *
-*   DetectGigabyteRGBFusion2USBControllers                                                 *
-*                                                                                          *
-*       Detect GigabyteRGB Fusion 2 devices that use IT8297 RGB controller                 *
-*                                                                                          *
-\******************************************************************************************/
-
+/*---------------------------------------------------------*\
+| Detector for Gigabyte RGB Fusion USB controllers          |
+\*---------------------------------------------------------*/
 void DetectGigabyteRGBFusion2USBControllers(hid_device_info* info, const std::string&)
 {
     DMIInfo     MB_info;
@@ -42,14 +38,16 @@ void DetectGigabyteRGBFusion2USBControllers(hid_device_info* info, const std::st
         // Constructor sets the name
         ResourceManager::get()->RegisterRGBController(rgb_controller);
     }
-}   /* DetectRGBFusion2USBControllers() */
+}
 
 #ifdef USE_HID_USAGE
 REGISTER_HID_DETECTOR_PU(DETECTOR_NAME, DetectGigabyteRGBFusion2USBControllers, IT8297_VID, 0x8297, IT8297_UPG, IT8297_U);
+REGISTER_HID_DETECTOR_PU(DETECTOR_NAME, DetectGigabyteRGBFusion2USBControllers, IT8297_VID, 0x8950, IT8297_UPG, IT8297_U);
 REGISTER_HID_DETECTOR_PU(DETECTOR_NAME, DetectGigabyteRGBFusion2USBControllers, IT8297_VID, 0x5702, IT8297_UPG, IT8297_U);
 REGISTER_HID_DETECTOR_PU(DETECTOR_NAME, DetectGigabyteRGBFusion2USBControllers, IT8297_VID, 0x5711, IT8297_UPG, IT8297_U);
 #else
 REGISTER_HID_DETECTOR_I(DETECTOR_NAME, DetectGigabyteRGBFusion2USBControllers, IT8297_VID, 0x8297, IT8297_IFC);
+REGISTER_HID_DETECTOR_I(DETECTOR_NAME, DetectGigabyteRGBFusion2USBControllers, IT8297_VID, 0x8950, IT8297_IFC);
 REGISTER_HID_DETECTOR_I(DETECTOR_NAME, DetectGigabyteRGBFusion2USBControllers, IT8297_VID, 0x5702, IT8297_IFC);
 REGISTER_HID_DETECTOR_I(DETECTOR_NAME, DetectGigabyteRGBFusion2USBControllers, IT8297_VID, 0x5711, IT8297_IFC);
 #endif
