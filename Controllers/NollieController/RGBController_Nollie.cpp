@@ -72,6 +72,8 @@ void RGBController_Nollie::SetupZones()
             channels_num  = NOLLIE16_CHANNELS_NUM;
             ch_led_num    = NOLLIE_HS_CH_LED_NUM;
             channel_index = ch16;
+            if (controller->GetUSBVID() == NOLLIERGBOS_2_VID)
+                channel_index = n16;
             break;
         case NOLLIE28_12_PID:
             channels_num  = NOLLIE28_12_CHANNELS_NUM;
@@ -152,9 +154,9 @@ void RGBController_Nollie::SetupZones()
 void RGBController_Nollie::ResizeZone(int zone, int new_size)
 {
     /*-----------------------------------------------------*\
-    |  Set whether MOS is enabled or not                   |
+    |  Set whether MOS is enabled or not                    |
     \*-----------------------------------------------------*/
-    if(controller->GetUSBPID() == NOLLIE32_PID)
+    if(controller->GetUSBVID() == NOLLIE32_VID && NOLLIE32_PID == controller->GetUSBPID())
     {
         if(zone == NOLLIE32_MOS_TRIGGER_CH && new_size > NOLLIE32_MOS_TRIGGER_LED)
         {
@@ -165,8 +167,11 @@ void RGBController_Nollie::ResizeZone(int zone, int new_size)
             controller->SetMos(true);
         }
     }
-    // Nollie1 needs to report the number of LEDs
-    if(controller->GetUSBPID() == NOLLIE1_PID)
+
+    /*-----------------------------------------------------*\
+    |  Nollie1 needs to report the number of LEDs           |
+    \*-----------------------------------------------------*/
+    if(controller->GetUSBVID() == NOLLIE1_VID && controller->GetUSBPID() == NOLLIE1_PID)
     {
         controller->InitChLEDs(&new_size,NOLLIE1_CHANNELS_NUM);
     }

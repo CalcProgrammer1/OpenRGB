@@ -22,6 +22,8 @@
 #define NOLLIE_HS_CH_LED_NUM       256
 #define NOLLIE_FS_CH_LED_NUM       525
 
+#define NOLLIERGBOS_2_VID          0x16D5
+
 #define NOLLIE32_CHANNELS_NUM      32
 #define NOLLIE32_PID               0x4714
 #define NOLLIE32_VID               0x3061
@@ -52,11 +54,12 @@
 class NollieController
 {
 public:
-    NollieController(hid_device* dev_handle, const char* path,  unsigned short pid, std::string dev_name);
+    NollieController(hid_device* dev_handle, const char* path, unsigned short vid, unsigned short pid, std::string dev_name);
 
     std::string     GetLocationString();
     std::string     GetNameString();
     std::string     GetSerialString();
+    unsigned short  GetUSBVID();
     unsigned short  GetUSBPID();
 
     void            SetMos(bool mos);
@@ -68,6 +71,7 @@ private:
     hid_device*     dev;
     std::string     location;
     std::string     name;
+    unsigned short  usb_vid;
     unsigned short  usb_pid;
 
     void            SendPacket(unsigned char   channel,RGBColor * colors,unsigned int num_colors);
