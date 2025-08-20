@@ -14,16 +14,18 @@
 #pragma once
 
 #include <map>
-#include <vector>
 #include "RGBController.h"
 #include "GigabyteRGBFusion2USBController.h"
 #include "RGBController_GigabyteRGBFusion2USBBoards.h"
 #include "RGBController_GigabyteRGBFusion2USBLayouts.h"
 
-#define RGBFusion2_Digital_LEDS_Min         0;
-#define RGBFusion2_Digital_LEDS_Max         1024;
-#define RGBFUSION2_BRIGHTNESS_MIN           0;
-#define RGBFUSION2_BRIGHTNESS_MAX           255;
+#define RGBFUSION2_DIGITAL_LEDS_MIN         0
+#define RGBFUSION2_DIGITAL_LEDS_MAX         1024
+#define RGBFUSION2_BRIGHTNESS_MIN           0
+#define RGBFUSION2_BRIGHTNESS_MAX           255
+#define RGBFUSION2_SPEED_MIN                9
+#define RGBFUSION2_SPEED_MID                4
+#define RGBFUSION2_SPEED_MAX                0
 
 template<typename K, typename V>
 static std::map<V, K> reverse_map(const std::map<K, V>& map)
@@ -60,9 +62,11 @@ private:
     std::string                 detector_name;
 
     RGBFusion2USBController*    controller;
-    ZoneLeds                    layout;
-    uint16_t                    pid;
     int                         device_num;
+    ZoneLeds                    layout;
+    RGBColor                    null_color      = 0;
+    uint16_t                    pid;
+
     void        Load_Device_Config();
     void        Init_Controller();
     int         GetLED_Zone(int led_idx);

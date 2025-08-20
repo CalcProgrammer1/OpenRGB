@@ -30,6 +30,8 @@ typedef unsigned int RGBColor;
 
 #define ToRGBColor(r, g, b) ((RGBColor)((b << 16) | (g << 8) | (r)))
 
+#define RGBToBGRColor(rgb) ((rgb & 0xFF) << 16 | (rgb & 0xFF00) | (rgb & 0xFF0000) >> 16)
+
 /*------------------------------------------------------------------*\
 | Mode Flags                                                         |
 \*------------------------------------------------------------------*/

@@ -13,66 +13,65 @@
 #pragma once
 
 #include <algorithm>
-#include <array>
-#include <chrono>
 #include <cstring>
-#include <map>
-#include <thread>
 #include <hidapi.h>
+#include <map>
 #include "RGBController.h"
+
+#define FUSION2_USB_BUFFER_SIZE   64
 
 /*--------------------------------------------------------*\
 | Base LED mappings found on all controllers.              |
 \*--------------------------------------------------------*/
-const uint8_t LED1          = 0;
-const uint8_t LED2          = 1;
-const uint8_t LED3          = 2;
-const uint8_t LED4          = 3;
-const uint8_t LED5          = 4;
-const uint8_t LED6          = 5;
-const uint8_t LED7          = 6;
-const uint8_t LED8          = 7;
+const uint8_t LED1              = 0;
+const uint8_t LED2              = 1;
+const uint8_t LED3              = 2;
+const uint8_t LED4              = 3;
+const uint8_t LED5              = 4;
+const uint8_t LED6              = 5;
+const uint8_t LED7              = 6;
+const uint8_t LED8              = 7;
 
 /*--------------------------------------------------------*\
 | IT8297/IT5701/IT5702 ARGB Headers                        |
 \*--------------------------------------------------------*/
-const uint8_t HDR_D_LED1    = LED6;
-const uint8_t HDR_D_LED2    = LED7;
-const uint8_t HDR_D_LED1_RGB = 0x58;
-const uint8_t HDR_D_LED2_RGB = 0x59;
+const uint8_t HDR_D_LED1        = LED6;
+const uint8_t HDR_D_LED2        = LED7;
+const uint8_t HDR_D_LED1_RGB    = 0x58;
+const uint8_t HDR_D_LED2_RGB    = 0x59;
 
 /*--------------------------------------------------------*\
 | Additional LED mappings found on IT5711 controllers.     |
 \*--------------------------------------------------------*/
-const uint8_t LED9          = 8;
-const uint8_t LED10         = 9;
-const uint8_t LED11         = 10;
+const uint8_t LED9              = 8;
+const uint8_t LED10             = 9;
+const uint8_t LED11             = 10;
 
 /*--------------------------------------------------------*\
 | IT5711 additional ARGB Headers.                          |
 \*--------------------------------------------------------*/
-const uint8_t HDR_D_LED3    = LED8;
-const uint8_t HDR_D_LED4    = LED9;
-const uint8_t HDR_D_LED3_RGB = 0x62;
-const uint8_t HDR_D_LED4_RGB = 0x63;
+const uint8_t HDR_D_LED3        = LED8;
+const uint8_t HDR_D_LED4        = LED9;
+const uint8_t HDR_D_LED3_RGB    = 0x62;
+const uint8_t HDR_D_LED4_RGB    = 0x63;
 
 /*---------------------------------------------------------*\
 | Effects mode list                                         |
 \*---------------------------------------------------------*/
 enum EffectType
 {
-    EFFECT_NONE             = 0,
-    EFFECT_STATIC           = 1,
-    EFFECT_PULSE            = 2,
-    EFFECT_BLINKING         = 3,
-    EFFECT_COLORCYCLE       = 4,
-    EFFECT_WAVE             = 6,
-    EFFECT_RANDOM           = 8,
-    EFFECT_WAVE1            = 9,
-    EFFECT_WAVE2            = 10,
-    EFFECT_WAVE3            = 11,
-    EFFECT_WAVE4            = 12,
-    EFFECT_DFLASH           = 15,
+    EFFECT_NONE                 = 0,
+    EFFECT_STATIC               = 1,
+    EFFECT_PULSE                = 2,
+    EFFECT_BLINKING             = 3,
+    EFFECT_COLORCYCLE           = 4,
+    EFFECT_WAVE                 = 6,
+    EFFECT_RANDOM               = 8,
+    EFFECT_WAVE1                = 9,
+    EFFECT_WAVE2                = 10,
+    EFFECT_WAVE3                = 11,
+    EFFECT_WAVE4                = 12,
+    EFFECT_DFLASH               = 15,
     // to be continued...
 };
 
@@ -81,7 +80,7 @@ enum EffectType
 \*---------------------------------------------------------*/
 enum LEDCount
 {
-    LEDS_32                 = 0,
+    LEDS_32                     = 0,
     LEDS_64,
     LEDS_256,
     LEDS_512,
@@ -123,31 +122,21 @@ struct EncodedCalibration
 /*---------------------------------------------------------*\
 | Packet structure for applying effects                     |
 \*---------------------------------------------------------*/
-struct ApplyEffects
+union PktEffectApply
 {
-    uint8_t  report_id;
-    uint8_t  command_id;
-    uint32_t zone_sel0;
-    uint32_t zone_sel1;
-    uint8_t  padding[54];
-
-    ApplyEffects()
+    unsigned char buffer[FUSION2_USB_BUFFER_SIZE];
+    struct apply_data
     {
-        report_id  = 0xCC;
-        command_id = 0x28;
-        zone_sel0 = 0;
-        zone_sel1 = 0;
-        std::memset(padding, 0, sizeof(padding));
-    }
-};
+        uint8_t  report_id  = 0xCC;
+        uint8_t  command_id = 0x28;
+        uint32_t zone_sel0  = 0;
+        uint32_t zone_sel1  = 0;
+        uint8_t  padding[54];
+    } a;
 
-struct PktEffectApply
-{
-    ApplyEffects a;
-
-    uint8_t* buffer()
+    PktEffectApply() : a {}
     {
-        return reinterpret_cast<uint8_t*>(&a);
+        std::memset(a.padding, 0, sizeof(a.padding));
     }
 };
 
@@ -177,7 +166,7 @@ typedef std::map< std::string, std::string> calibration;
 \*---------------------------------------------------------*/
 union PktRGB
 {
-    unsigned char buffer[64];
+    unsigned char buffer[FUSION2_USB_BUFFER_SIZE];
     struct RGBData
     {
         uint8_t     report_id;
@@ -231,27 +220,27 @@ union PktRGB
 \*---------------------------------------------------------*/
 union PktEffect
 {
-    unsigned char buffer[64];
+    unsigned char buffer[FUSION2_USB_BUFFER_SIZE];
     struct Effect
     {
-        uint8_t report_id;
-        uint8_t header;
-        uint32_t zone0;             // RGB Fusion sets it to pow(2, led)
-        uint32_t zone1;
-        uint8_t reserved0;
-        uint8_t effect_type;
-        uint8_t max_brightness;
-        uint8_t min_brightness;
-        uint32_t color0;
-        uint32_t color1;
-        uint16_t period0;           // Fade in
-        uint16_t period1;           // Fade out
-        uint16_t period2;           // Hold
-        uint16_t period3;
-        uint8_t effect_param0;
-        uint8_t effect_param1;
-        uint8_t effect_param2;
-        uint8_t effect_param3;
+        uint8_t report_id       = 0;
+        uint8_t header          = 0;
+        uint32_t zone0          = 0;    // RGB Fusion sets it to pow(2, led)
+        uint32_t zone1          = 0;
+        uint8_t reserved0       = 0;
+        uint8_t effect_type     = EFFECT_STATIC;
+        uint8_t max_brightness  = 255;
+        uint8_t min_brightness  = 0;
+        uint32_t color0         = 0;
+        uint32_t color1         = 0;
+        uint16_t period0        = 0;    // Fade in - Rising Timer - Needs to be 0 for "Direct"
+        uint16_t period1        = 0;    // Fade out
+        uint16_t period2        = 0;    // Hold
+        uint16_t period3        = 0;
+        uint8_t effect_param0   = 0;    // ex color count to cycle through (max seems to be 7)
+        uint8_t effect_param1   = 0;
+        uint8_t effect_param2   = 0;    // ex flash repeat count
+        uint8_t effect_param3   = 0;
         uint8_t padding0[30];
     } e;
 
@@ -261,7 +250,7 @@ union PktEffect
 
     void Init(int led, uint8_t report_id, uint16_t pid)
     {
-        memset(buffer, 0, sizeof(buffer));
+        memset(e.padding0, 0, sizeof(e.padding0));
 
         e.report_id         = report_id;
         if(led == -1)
@@ -284,18 +273,6 @@ union PktEffect
             e.zone0  = 0;
             e.header = 0;
         }
-        e.effect_type       = EFFECT_STATIC;
-        e.max_brightness    = 255;
-        e.min_brightness    = 0;
-        e.color0            = 0;
-        e.period0           = 0;            //Rising Timer - Needs to be 0 for "Direct"
-        e.period1           = 0;
-        e.period2           = 0;
-        e.period3           = 0;
-        e.effect_param0     = 0;            // ex color count to cycle through (max seems to be 7)
-        e.effect_param1     = 0;
-        e.effect_param2     = 0;            // ex flash repeat count
-        e.effect_param3     = 0;
     }
 };
 
@@ -368,7 +345,7 @@ public:
     uint16_t                GetProductID();
     uint8_t                 GetDeviceNum();
     void                    SetStripColors(unsigned int hdr, RGBColor * colors, unsigned int num_colors, int single_led = -1);
-    void                    SetLEDEffect(int led, int mode, unsigned int speed, unsigned char brightness, bool random, unsigned char red, unsigned char green, unsigned char blue);
+    void                    SetLEDEffect(int led, int mode, unsigned int speed, unsigned char brightness, bool random, uint32_t* color);
     void                    SetLedCount(unsigned int c0, unsigned int c1, unsigned int c2, unsigned int c3);
     void                    SetMode(int mode);
     bool                    ApplyEffect(bool batch_commit = false);

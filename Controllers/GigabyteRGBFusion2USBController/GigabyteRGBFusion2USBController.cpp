@@ -11,8 +11,6 @@
 \*---------------------------------------------------------*/
 
 #include "GigabyteRGBFusion2USBController.h"
-#include "ResourceManager.h"
-#include "SettingsManager.h"
 
 /*-------------------------------------------------------------------------*\
 | Low level RGB value conversion table                                      |
@@ -85,7 +83,7 @@ RGBFusion2USBController::~RGBFusion2USBController()
 \*---------------------------------------------------------*/
 bool RGBFusion2USBController::RefreshHardwareInfo()
 {
-    unsigned char buffer[64] = {0};
+    unsigned char buffer[FUSION2_USB_BUFFER_SIZE] = {0};
 
     SendPacket(0x60, 0x00);
     buffer[0] = report_id;
@@ -140,7 +138,7 @@ bool RGBFusion2USBController::RefreshHardwareInfo()
     cali_loaded = false;
     if(product_id == 0x5711)
     {
-        unsigned char buffer2[64] = {0};
+        unsigned char buffer2[FUSION2_USB_BUFFER_SIZE] = {0};
         SendPacket(0x61, 0x00);
         buffer2[0] = report_id;
         int res2 = hid_get_feature_report(dev, buffer2, sizeof(buffer2));
@@ -364,7 +362,7 @@ void RGBFusion2USBController::SetLedCount(unsigned int c0, unsigned int c1, unsi
     D_LED3_count = new_d3;
     D_LED4_count = new_d4;
 
-    unsigned char buffer[64] = { 0 };
+    unsigned char buffer[FUSION2_USB_BUFFER_SIZE] = { 0 };
     buffer[0] = report_id;
     buffer[1] = 0x34;
     buffer[2] = (new_d2 << 4) | new_d1;
@@ -550,14 +548,12 @@ void RGBFusion2USBController::SetStripColors(unsigned int hdr, RGBColor* colors,
 
         for(int i = 0; i < leds_in_pkt; i++)
         {
-            RGBColor      color = colors[k];
-            unsigned char red   = RGBGetRValue(color);
-            unsigned char grn   = RGBGetGValue(color);
-            unsigned char blu   = RGBGetBValue(color);
+            RGBColor            color = colors[k];
+            uint8_t            offset = (i * 3) + 5;
 
-            pkt.buffer[5 + i * 3 + bo_r] = red;
-            pkt.buffer[5 + i * 3 + bo_g] = grn;
-            pkt.buffer[5 + i * 3 + bo_b] = blu;
+            pkt.buffer[offset + bo_r] = RGBGetRValue(color);
+            pkt.buffer[offset + bo_g] = RGBGetGValue(color);
+            pkt.buffer[offset + bo_b] = RGBGetBValue(color);
             k++;
         }
 
@@ -585,7 +581,7 @@ void RGBFusion2USBController::SetStripColors(unsigned int hdr, RGBColor* colors,
 | -(15)Gigabyte dflash ranges are 800-2600ms in 200ms steps |
 | -(3)(15)flash and dflash parameters were combined.        |
 \*---------------------------------------------------------*/
-void RGBFusion2USBController::SetLEDEffect(int led, int mode, unsigned int speed, unsigned char brightness, bool random, unsigned char r, unsigned char g, unsigned char b)
+void RGBFusion2USBController::SetLEDEffect(int led, int mode, unsigned int speed, unsigned char brightness, bool random, uint32_t* color)
 {
     PktEffect pkt;
     pkt.Init(led, report_id, product_id);
@@ -599,65 +595,56 @@ void RGBFusion2USBController::SetLEDEffect(int led, int mode, unsigned int speed
     }
     pkt.e.max_brightness            = brightness;
     pkt.e.effect_type               = mode;
-    pkt.e.color0                    = r << 16 | g << 8 | b;
+    pkt.e.effect_param0             = random ? 7 : 0;
+    pkt.e.color0                    = RGBToBGRColor(*color);
 
     switch(mode)
     {
-        case 2:
-            pkt.e.period0           = pkt.e.period1 = (speed <= 6) ? (400 + speed * 100) : (1000 + (speed - 6) * 200);
+        case EFFECT_PULSE:
+            pkt.e.period0           = (speed <= 6) ? (400 + speed * 100) : (1000 + (speed - 6) * 200);
+            pkt.e.period1           = pkt.e.period0;
             pkt.e.period2           = 200;
-            if(random)
-            {
-                pkt.e.effect_param0 = 7;
-            }
             break;
-        case 15:
+        case EFFECT_DFLASH:
             pkt.e.effect_type       = 3;
             pkt.e.effect_param1     = 1;
             pkt.e.effect_param2     = 2;
-        case 3:
+        case EFFECT_BLINKING:
             pkt.e.period0           = 100;
             pkt.e.period1           = 100;
             pkt.e.period2           = (speed * 200) + 700;
-            if(random)
-            {
-                pkt.e.effect_param0 = 7;
-            }
             break;
-        case 4:
+        case EFFECT_COLORCYCLE:
             pkt.e.period0           = (speed * 100 + 300) + (speed > 8 ? 1300 * (speed - 8) : 0);
             pkt.e.period1           = pkt.e.period0 -200;
             pkt.e.effect_param0     = 7;
             break;
-        case 6:
-            pkt.e.period0           = ((speed + 1)^2 + (speed + 1) + 10) * 5 / 2;
+        case EFFECT_WAVE:
+            pkt.e.period0           = (((speed + 1)^2) + (speed + 1) + 10) * 5 / 2;
             pkt.e.effect_param0     = 7;
             pkt.e.effect_param1     = 1;
             break;
-        case 8:
+        case EFFECT_RANDOM:
             pkt.e.period0           = 100;
             pkt.e.effect_param0     = 1;
             pkt.e.effect_param1     = 5;
             break;
-        case 9:
+        case EFFECT_WAVE1:
             pkt.e.period0           = 1200;
             pkt.e.period1           = 100;
             pkt.e.period2           = 360;
             pkt.e.period3           = 1200;
             break;
-        case 10:
+        case EFFECT_WAVE2:
+        case EFFECT_WAVE4:
             pkt.e.period0           = 200;
             pkt.e.effect_param0     = 7;
             break;
-        case 11:
+        case EFFECT_WAVE3:
             pkt.e.period0           = 840;
             pkt.e.period1           = 20;
             pkt.e.period2           = 200;
             pkt.e.period3           = 840;
-            break;
-        case 12:
-            pkt.e.period0           = 200;
-            pkt.e.effect_param0     = 7;
             break;
     }
     SendPacket(pkt.buffer);
@@ -684,24 +671,24 @@ bool RGBFusion2USBController::ApplyEffect(bool fast_apply)
     pkt.a.zone_sel0 = effect_zone_mask;
 
     effect_zone_mask = 0;
-    return SendPacket(pkt.buffer());
+    return SendPacket(pkt.buffer);
 }
 
 bool RGBFusion2USBController::SendPacket(uint8_t a, uint8_t b, uint8_t c)
 {
-    unsigned char buffer[64] {};
+    unsigned char buffer[FUSION2_USB_BUFFER_SIZE] {};
 
     buffer[0] = report_id;
     buffer[1] = a;
     buffer[2] = b;
     buffer[3] = c;
 
-    return(SendPacket(buffer) == 64);
+    return(SendPacket(buffer) == FUSION2_USB_BUFFER_SIZE);
 }
 
 int RGBFusion2USBController::SendPacket(unsigned char* packet)
 {
-    return hid_send_feature_report(dev, packet, 64);
+    return hid_send_feature_report(dev, packet, FUSION2_USB_BUFFER_SIZE);
 }
 
 /*---------------------------------------------------------*\

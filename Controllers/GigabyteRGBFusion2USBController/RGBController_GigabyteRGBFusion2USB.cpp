@@ -11,8 +11,6 @@
 |   SPDX-License-Identifier: GPL-2.0-only                   |
 \*---------------------------------------------------------*/
 
-#include <array>
-#include <sstream>
 #include "RGBController_GigabyteRGBFusion2USB.h"
 #include "RGBController_GigabyteRGBFusion2USBBoards.h"
 #include "RGBController_GigabyteRGBFusion2USBLayouts.h"
@@ -48,7 +46,7 @@ static nlohmann::json WriteCalJsonFrom(const EncodedCalibration& src, uint16_t p
     calib_json["Mainboard"] = src.mainboard;
     calib_json["Spare0"]    = src.spare[0];
     calib_json["Spare1"]    = src.spare[1];
-    
+
     if(pid == 0x5711)
     {
         calib_json["Spare2"] = src.spare[2];
@@ -165,26 +163,26 @@ static void LoadCustomLayoutFromJson(const nlohmann::json& json_HCL, const FwdLe
 
 RGBController_RGBFusion2USB::RGBController_RGBFusion2USB(RGBFusion2USBController* controller_ptr, std::string detector)
 {
-    controller              = controller_ptr;
-    name                    = controller->GetDeviceName();
-    detector_name           = detector;
-    vendor                  = "Gigabyte";
-    type                    = DEVICE_TYPE_MOTHERBOARD;
-    description             = controller->GetDeviceDescription();
-    version                 = controller->GetFWVersion();
-    location                = controller->GetDeviceLocation();
-    serial                  = controller->GetSerial();
-    pid                     = controller->GetProductID();
-    device_num              = controller->GetDeviceNum();
+    controller                  = controller_ptr;
+    name                        = controller->GetDeviceName();
+    detector_name               = detector;
+    vendor                      = "Gigabyte";
+    type                        = DEVICE_TYPE_MOTHERBOARD;
+    description                 = controller->GetDeviceDescription();
+    version                     = controller->GetFWVersion();
+    location                    = controller->GetDeviceLocation();
+    serial                      = controller->GetSerial();
+    pid                         = controller->GetProductID();
+    device_num                  = controller->GetDeviceNum();
 
     mode Direct;
-    Direct.name             = "Direct";
-    Direct.value            = 0xFFFF;
-    Direct.flags            = MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_HAS_PER_LED_COLOR;
-    Direct.brightness_min   = RGBFUSION2_BRIGHTNESS_MIN;
-    Direct.brightness_max   = RGBFUSION2_BRIGHTNESS_MAX;
-    Direct.brightness       = RGBFUSION2_BRIGHTNESS_MAX;
-    Direct.color_mode       = MODE_COLORS_PER_LED;
+    Direct.name                 = "Direct";
+    Direct.value                = 0xFFFF;
+    Direct.flags                = MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_HAS_PER_LED_COLOR;
+    Direct.brightness_min       = RGBFUSION2_BRIGHTNESS_MIN;
+    Direct.brightness_max       = RGBFUSION2_BRIGHTNESS_MAX;
+    Direct.brightness           = RGBFUSION2_BRIGHTNESS_MAX;
+    Direct.color_mode           = MODE_COLORS_PER_LED;
     modes.push_back(Direct);
 
     mode Static;
@@ -199,22 +197,21 @@ RGBController_RGBFusion2USB::RGBController_RGBFusion2USB(RGBFusion2USBController
     Static.color_mode           = MODE_COLORS_MODE_SPECIFIC;
     Static.colors.resize(1);
     modes.push_back(Static);
-    
+
     mode Breathing;
     Breathing.name              = "Breathing";
     Breathing.value             = EFFECT_PULSE;
     Breathing.flags             = MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_RANDOM_COLOR;
     Breathing.brightness_min    = RGBFUSION2_BRIGHTNESS_MIN;
-    Breathing.brightness_max    = 100;          // Set 100 max due to controller quirks
-    Breathing.brightness        = 100;          // Match default to above
-    Breathing.speed_min         = 9;
-    Breathing.speed_max         = 0;
-    Breathing.speed             = 4;
+    Breathing.brightness_max    = 100;                      // Set 100 max due to controller quirks
+    Breathing.brightness        = Breathing.brightness_max;
+    Breathing.speed_min         = RGBFUSION2_SPEED_MIN;
+    Breathing.speed_max         = RGBFUSION2_SPEED_MAX;
+    Breathing.speed             = RGBFUSION2_SPEED_MID;
     Breathing.colors_min        = 1;
     Breathing.colors_max        = 1;
     Breathing.color_mode        = MODE_COLORS_MODE_SPECIFIC;
     Breathing.colors.resize(1);
-    Breathing.speed             = 2;
     modes.push_back(Breathing);
 
     mode Blinking;
@@ -224,14 +221,13 @@ RGBController_RGBFusion2USB::RGBController_RGBFusion2USB(RGBFusion2USBController
     Blinking.brightness_min     = RGBFUSION2_BRIGHTNESS_MIN;
     Blinking.brightness_max     = RGBFUSION2_BRIGHTNESS_MAX;
     Blinking.brightness         = RGBFUSION2_BRIGHTNESS_MAX;
-    Blinking.speed_min          = 9;
-    Blinking.speed_max          = 0;
-    Blinking.speed              = 4;
+    Blinking.speed_min          = RGBFUSION2_SPEED_MIN;
+    Blinking.speed_max          = RGBFUSION2_SPEED_MAX;
+    Blinking.speed              = RGBFUSION2_SPEED_MID;
     Blinking.colors_min         = 1;
     Blinking.colors_max         = 1;
     Blinking.color_mode         = MODE_COLORS_MODE_SPECIFIC;
     Blinking.colors.resize(1);
-    Blinking.speed              = 2;
     modes.push_back(Blinking);
 
     mode ColorCycle;
@@ -241,11 +237,10 @@ RGBController_RGBFusion2USB::RGBController_RGBFusion2USB(RGBFusion2USBController
     ColorCycle.brightness_min   = RGBFUSION2_BRIGHTNESS_MIN;
     ColorCycle.brightness_max   = RGBFUSION2_BRIGHTNESS_MAX;
     ColorCycle.brightness       = RGBFUSION2_BRIGHTNESS_MAX;
-    ColorCycle.speed_min        = 9;
-    ColorCycle.speed_max        = 0;
-    ColorCycle.speed            = 4;
+    ColorCycle.speed_min        = RGBFUSION2_SPEED_MIN;
+    ColorCycle.speed_max        = RGBFUSION2_SPEED_MAX;
+    ColorCycle.speed            = RGBFUSION2_SPEED_MID;
     ColorCycle.color_mode       = MODE_COLORS_NONE;
-    ColorCycle.speed            = 2;
     modes.push_back(ColorCycle);
 
     mode Flashing;
@@ -255,91 +250,88 @@ RGBController_RGBFusion2USB::RGBController_RGBFusion2USB(RGBFusion2USBController
     Flashing.brightness_min     = RGBFUSION2_BRIGHTNESS_MIN;
     Flashing.brightness_max     = RGBFUSION2_BRIGHTNESS_MAX;
     Flashing.brightness         = RGBFUSION2_BRIGHTNESS_MAX;
-    Flashing.speed_min          = 9;
-    Flashing.speed_max          = 0;
-    Flashing.speed              = 4;
+    Flashing.speed_min          = RGBFUSION2_SPEED_MIN;
+    Flashing.speed_max          = RGBFUSION2_SPEED_MAX;
+    Flashing.speed              = RGBFUSION2_SPEED_MID;
     Flashing.colors_min         = 1;
     Flashing.colors_max         = 1;
     Flashing.color_mode         = MODE_COLORS_MODE_SPECIFIC;
     Flashing.colors.resize(1);
-    Flashing.speed              = 2;
     modes.push_back(Flashing);
 
-
     mode Wave;
-    Wave.name               = "Wave";
-    Wave.value              = EFFECT_WAVE;
-    Wave.flags              = MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_HAS_SPEED;
-    Wave.brightness_min     = RGBFUSION2_BRIGHTNESS_MIN;
-    Wave.brightness_max     = RGBFUSION2_BRIGHTNESS_MAX;
-    Wave.brightness         = RGBFUSION2_BRIGHTNESS_MAX;
-    Wave.speed_min          = 9;
-    Wave.speed_max          = 0;
-    Wave.speed              = 4;
-    Wave.colors_min         = 0;
-    Wave.colors_max         = 0;
-    Wave.color_mode         = MODE_COLORS_NONE;
+    Wave.name                   = "Wave";
+    Wave.value                  = EFFECT_WAVE;
+    Wave.flags                  = MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_HAS_SPEED;
+    Wave.brightness_min         = RGBFUSION2_BRIGHTNESS_MIN;
+    Wave.brightness_max         = RGBFUSION2_BRIGHTNESS_MAX;
+    Wave.brightness             = RGBFUSION2_BRIGHTNESS_MAX;
+    Wave.speed_min              = RGBFUSION2_SPEED_MIN;
+    Wave.speed_max              = RGBFUSION2_SPEED_MAX;
+    Wave.speed                  = RGBFUSION2_SPEED_MID;
+    Wave.colors_min             = 0;
+    Wave.colors_max             = 0;
+    Wave.color_mode             = MODE_COLORS_NONE;
     modes.push_back(Wave);
 
     mode Random;
-    Random.name               = "Random";
-    Random.value              = EFFECT_RANDOM;
-    Random.flags              = MODE_FLAG_HAS_BRIGHTNESS;
-    Random.brightness_min     = RGBFUSION2_BRIGHTNESS_MIN;
-    Random.brightness_max     = RGBFUSION2_BRIGHTNESS_MAX;
-    Random.brightness         = RGBFUSION2_BRIGHTNESS_MAX;
-    Random.colors_min         = 0;
-    Random.colors_max         = 0;
-    Random.color_mode         = MODE_COLORS_NONE;
+    Random.name                 = "Random";
+    Random.value                = EFFECT_RANDOM;
+    Random.flags                = MODE_FLAG_HAS_BRIGHTNESS;
+    Random.brightness_min       = RGBFUSION2_BRIGHTNESS_MIN;
+    Random.brightness_max       = RGBFUSION2_BRIGHTNESS_MAX;
+    Random.brightness           = RGBFUSION2_BRIGHTNESS_MAX;
+    Random.colors_min           = 0;
+    Random.colors_max           = 0;
+    Random.color_mode           = MODE_COLORS_NONE;
     modes.push_back(Random);
 
-
     mode Wave1;
-    Wave1.name               = "Wave 1";
-    Wave1.value              = EFFECT_WAVE1;
-    Wave1.flags              = MODE_FLAG_HAS_BRIGHTNESS;
-    Wave1.brightness_min     = RGBFUSION2_BRIGHTNESS_MIN;
-    Wave1.brightness_max     = RGBFUSION2_BRIGHTNESS_MAX;
-    Wave1.brightness         = RGBFUSION2_BRIGHTNESS_MAX;
-    Wave1.colors_min         = 0;
-    Wave1.colors_max         = 0;
-    Wave1.color_mode         = MODE_COLORS_NONE;
+    Wave1.name                  = "Wave 1";
+    Wave1.value                 = EFFECT_WAVE1;
+    Wave1.flags                 = MODE_FLAG_HAS_BRIGHTNESS;
+    Wave1.brightness_min        = RGBFUSION2_BRIGHTNESS_MIN;
+    Wave1.brightness_max        = RGBFUSION2_BRIGHTNESS_MAX;
+    Wave1.brightness            = RGBFUSION2_BRIGHTNESS_MAX;
+    Wave1.colors_min            = 0;
+    Wave1.colors_max            = 0;
+    Wave1.color_mode            = MODE_COLORS_NONE;
     modes.push_back(Wave1);
 
     mode Wave2;
-    Wave2.name               = "Wave 2";
-    Wave2.value              = EFFECT_WAVE2;
-    Wave2.flags              = MODE_FLAG_HAS_BRIGHTNESS;
-    Wave2.brightness_min     = RGBFUSION2_BRIGHTNESS_MIN;
-    Wave2.brightness_max     = RGBFUSION2_BRIGHTNESS_MAX;
-    Wave2.brightness         = RGBFUSION2_BRIGHTNESS_MAX;
-    Wave2.colors_min         = 0;
-    Wave2.colors_max         = 0;
-    Wave2.color_mode         = MODE_COLORS_NONE;
+    Wave2.name                  = "Wave 2";
+    Wave2.value                 = EFFECT_WAVE2;
+    Wave2.flags                 = MODE_FLAG_HAS_BRIGHTNESS;
+    Wave2.brightness_min        = RGBFUSION2_BRIGHTNESS_MIN;
+    Wave2.brightness_max        = RGBFUSION2_BRIGHTNESS_MAX;
+    Wave2.brightness            = RGBFUSION2_BRIGHTNESS_MAX;
+    Wave2.colors_min            = 0;
+    Wave2.colors_max            = 0;
+    Wave2.color_mode            = MODE_COLORS_NONE;
     modes.push_back(Wave2);
 
     mode Wave3;
-    Wave3.name               = "Wave 3";
-    Wave3.value              = EFFECT_WAVE3;
-    Wave3.flags              = MODE_FLAG_HAS_BRIGHTNESS;
-    Wave3.brightness_min     = RGBFUSION2_BRIGHTNESS_MIN;
-    Wave3.brightness_max     = RGBFUSION2_BRIGHTNESS_MAX;
-    Wave3.brightness         = RGBFUSION2_BRIGHTNESS_MAX;
-    Wave3.colors_min         = 0;
-    Wave3.colors_max         = 0;
-    Wave3.color_mode         = MODE_COLORS_NONE;
+    Wave3.name                  = "Wave 3";
+    Wave3.value                 = EFFECT_WAVE3;
+    Wave3.flags                 = MODE_FLAG_HAS_BRIGHTNESS;
+    Wave3.brightness_min        = RGBFUSION2_BRIGHTNESS_MIN;
+    Wave3.brightness_max        = RGBFUSION2_BRIGHTNESS_MAX;
+    Wave3.brightness            = RGBFUSION2_BRIGHTNESS_MAX;
+    Wave3.colors_min            = 0;
+    Wave3.colors_max            = 0;
+    Wave3.color_mode            = MODE_COLORS_NONE;
     modes.push_back(Wave3);
 
     mode Wave4;
-    Wave4.name               = "Wave 4";
-    Wave4.value              = EFFECT_WAVE4;
-    Wave4.flags              = MODE_FLAG_HAS_BRIGHTNESS;
-    Wave4.brightness_min     = RGBFUSION2_BRIGHTNESS_MIN;
-    Wave4.brightness_max     = RGBFUSION2_BRIGHTNESS_MAX;
-    Wave4.brightness         = RGBFUSION2_BRIGHTNESS_MAX;
-    Wave4.colors_min         = 0;
-    Wave4.colors_max         = 0;
-    Wave4.color_mode         = MODE_COLORS_NONE;
+    Wave4.name                  = "Wave 4";
+    Wave4.value                 = EFFECT_WAVE4;
+    Wave4.flags                 = MODE_FLAG_HAS_BRIGHTNESS;
+    Wave4.brightness_min        = RGBFUSION2_BRIGHTNESS_MIN;
+    Wave4.brightness_max        = RGBFUSION2_BRIGHTNESS_MAX;
+    Wave4.brightness            = RGBFUSION2_BRIGHTNESS_MAX;
+    Wave4.colors_min            = 0;
+    Wave4.colors_max            = 0;
+    Wave4.color_mode            = MODE_COLORS_NONE;
     modes.push_back(Wave4);
 
     Load_Device_Config();
@@ -558,8 +550,8 @@ void RGBController_RGBFusion2USB::Init_Controller()
         }
 
         zones[zone_idx].name        = zl->first;
-        zones[zone_idx].leds_min    = (single_zone) ? LED_count : RGBFusion2_Digital_LEDS_Min;
-        zones[zone_idx].leds_max    = (single_zone) ? LED_count : RGBFusion2_Digital_LEDS_Max;
+        zones[zone_idx].leds_min    = (single_zone) ? LED_count : RGBFUSION2_DIGITAL_LEDS_MIN;
+        zones[zone_idx].leds_max    = (single_zone) ? LED_count : RGBFUSION2_DIGITAL_LEDS_MAX;
         zones[zone_idx].leds_count  = (single_zone) ? LED_count : 0;
         zones[zone_idx].type        = (single_zone) ? ZONE_TYPE_SINGLE : ZONE_TYPE_LINEAR;
         zones[zone_idx].matrix_map  = NULL;
@@ -651,8 +643,9 @@ void RGBController_RGBFusion2USB::ResizeZone(int zone, int new_size)
 
 void RGBController_RGBFusion2USB::DeviceUpdateLEDs()
 {
-    int     mode_value  = (modes[active_mode].value);
-    bool    random      = (modes[active_mode].color_mode == MODE_COLORS_RANDOM);
+    int         mode_value  = (modes[active_mode].value);
+    bool        random      = (modes[active_mode].color_mode == MODE_COLORS_RANDOM);
+    uint32_t*   color       = &null_color;
 
     /*---------------------------------------------------------*\
     | If Wave 1-4 then use special sequence.                    |
@@ -660,52 +653,40 @@ void RGBController_RGBFusion2USB::DeviceUpdateLEDs()
     if(mode_value == 6 || (mode_value >= 9 && mode_value <= 12))
     {
         controller->SetStripBuiltinEffectState(-1, true);
-        controller->SetLEDEffect(-1, 1, 0, 0xFF, 0, 0, 0, 0);
+        controller->SetLEDEffect(-1, 1, 0, 0xFF, 0, color);
         controller->ApplyEffect();
-        controller->SetLEDEffect( 2, mode_value, modes[active_mode].speed, modes[active_mode].brightness, random, 0, 0, 0);
+        controller->SetLEDEffect( 2, mode_value, modes[active_mode].speed, modes[active_mode].brightness, random, color);
         controller->ApplyEffect();
         return;
     }
 
     for(int zone_idx = 0; zone_idx < (int)zones.size(); zone_idx++)
     {
-        mode_value = modes[active_mode].value;
         if(zones[zone_idx].type == ZONE_TYPE_SINGLE)
         {
-            unsigned char red = 0;
-            unsigned char grn = 0;
-            unsigned char blu = 0;
-
             for(std::size_t led_idx = 0; led_idx < zones[zone_idx].leds_count; led_idx++)
             {
-                mode_value = modes[active_mode].value;
-
                 /*---------------------------------------------------------*\
                 | Motherboard LEDs always use effect mode, so use static for|
                 | direct mode but get colors from zone                      |
                 \*---------------------------------------------------------*/
                 if(mode_value == 0xFFFF)
                 {
-                    red = RGBGetRValue(zones[zone_idx].colors[led_idx]);
-                    grn = RGBGetGValue(zones[zone_idx].colors[led_idx]);
-                    blu = RGBGetBValue(zones[zone_idx].colors[led_idx]);
-
-                    mode_value = EFFECT_STATIC;
+                    color       = &zones[zone_idx].colors[led_idx];
+                    mode_value  = EFFECT_STATIC;
                 }
                 /*---------------------------------------------------------*\
                 | If the mode uses mode-specific color, get color from mode |
                 \*---------------------------------------------------------*/
                 else if(modes[active_mode].color_mode == MODE_COLORS_MODE_SPECIFIC)
                 {
-                    red = RGBGetRValue(modes[active_mode].colors[0]);
-                    grn = RGBGetGValue(modes[active_mode].colors[0]);
-                    blu = RGBGetBValue(modes[active_mode].colors[0]);
+                    color       = &modes[active_mode].colors[0];
                 }
 
                 /*---------------------------------------------------------*\
                 | Apply the mode and color to the zone                      |
                 \*---------------------------------------------------------*/
-                controller->SetLEDEffect(zones[zone_idx].leds[led_idx].value, mode_value, modes[active_mode].speed, modes[active_mode].brightness, random, red, grn, blu);
+                controller->SetLEDEffect(zones[zone_idx].leds[led_idx].value, mode_value, modes[active_mode].speed, modes[active_mode].brightness, random, color);
             }
         }
         /*---------------------------------------------------------*\
@@ -731,25 +712,19 @@ void RGBController_RGBFusion2USB::DeviceUpdateLEDs()
                 \*---------------------------------------------------------*/
                 else
                 {
-                    unsigned char red = 0;
-                    unsigned char grn = 0;
-                    unsigned char blu = 0;
-
                     /*---------------------------------------------------------*\
                     | If mode has mode specific color, load color from mode     |
                     \*---------------------------------------------------------*/
                     if(modes[active_mode].color_mode == MODE_COLORS_MODE_SPECIFIC)
                     {
-                        red = RGBGetRValue(modes[active_mode].colors[0]);
-                        grn = RGBGetGValue(modes[active_mode].colors[0]);
-                        blu = RGBGetBValue(modes[active_mode].colors[0]);
+                        color       = &modes[active_mode].colors[0];
                     }
 
                     /*---------------------------------------------------------*\
                     | Apply hardware effects to LED strips                      |
                     \*---------------------------------------------------------*/
                     controller->SetStripBuiltinEffectState(hdr, true);
-                    controller->SetLEDEffect(hdr, mode_value, modes[active_mode].speed, modes[active_mode].brightness, random, red, grn, blu);
+                    controller->SetLEDEffect(hdr, mode_value, modes[active_mode].speed, modes[active_mode].brightness, random, color);
                 }
             }
         }
@@ -762,8 +737,9 @@ void RGBController_RGBFusion2USB::UpdateZoneLEDs(int zone)
     /*---------------------------------------------------------*\
     | Get mode parameters                                       |
     \*---------------------------------------------------------*/
-    int     mode_value  = (modes[active_mode].value);
-    bool    random      = (modes[active_mode].color_mode == MODE_COLORS_RANDOM);
+    int         mode_value  = (modes[active_mode].value);
+    bool        random      = (modes[active_mode].color_mode == MODE_COLORS_RANDOM);
+    uint32_t*   color       = &null_color;
 
     /*---------------------------------------------------------*\
     | If Wave 1-4 then use special sequence.                    |
@@ -771,9 +747,9 @@ void RGBController_RGBFusion2USB::UpdateZoneLEDs(int zone)
     if(mode_value == 6 || (mode_value >= 9 && mode_value <= 12))
     {
         controller->SetStripBuiltinEffectState(-1, true);
-        controller->SetLEDEffect(-1, 1, 0, 0xFF, 0, 0, 0, 0);
+        controller->SetLEDEffect(-1, 1, 0, 0xFF, 0, color);
         controller->ApplyEffect();
-        controller->SetLEDEffect( 2, mode_value, modes[active_mode].speed, modes[active_mode].brightness, random, 0, 0, 0);
+        controller->SetLEDEffect( 2, mode_value, modes[active_mode].speed, modes[active_mode].brightness, random, color);
         controller->ApplyEffect();
         return;
     }
@@ -783,24 +759,16 @@ void RGBController_RGBFusion2USB::UpdateZoneLEDs(int zone)
     \*---------------------------------------------------------*/
     if(zones[zone].type == ZONE_TYPE_SINGLE)
     {
-        unsigned char red = 0;
-        unsigned char grn = 0;
-        unsigned char blu = 0;
-
         for(std::size_t led_idx = 0; led_idx < zones[zone].leds_count; led_idx++)
         {
-
             /*------------------------------------------------------------*\
             | Motherboard LEDs always use effect mode, so use static for   |
             | direct mode but get colors from zone                         |
             \*------------------------------------------------------------*/
             if(mode_value == 0xFFFF)
             {
-                red = RGBGetRValue(zones[zone].colors[led_idx]);
-                grn = RGBGetGValue(zones[zone].colors[led_idx]);
-                blu = RGBGetBValue(zones[zone].colors[led_idx]);
-
-                mode_value = EFFECT_STATIC;
+                color       = &zones[zone].colors[led_idx];
+                mode_value  = EFFECT_STATIC;
             }
 
             /*---------------------------------------------------------*\
@@ -808,15 +776,13 @@ void RGBController_RGBFusion2USB::UpdateZoneLEDs(int zone)
             \*---------------------------------------------------------*/
             else if(modes[active_mode].color_mode == MODE_COLORS_MODE_SPECIFIC)
             {
-                red = RGBGetRValue(modes[active_mode].colors[0]);
-                grn = RGBGetGValue(modes[active_mode].colors[0]);
-                blu = RGBGetBValue(modes[active_mode].colors[0]);
+                color       = &modes[active_mode].colors[0];
             }
 
             /*---------------------------------------------------------*\
             | Apply the mode and color to the zone                      |
             \*---------------------------------------------------------*/
-            controller->SetLEDEffect(zones[zone].leds[led_idx].value, mode_value, modes[active_mode].speed, modes[active_mode].brightness, random, red, grn, blu);
+            controller->SetLEDEffect(zones[zone].leds[led_idx].value, mode_value, modes[active_mode].speed, modes[active_mode].brightness, random, color);
             controller->ApplyEffect();
         }
     }
@@ -844,25 +810,19 @@ void RGBController_RGBFusion2USB::UpdateZoneLEDs(int zone)
             \*---------------------------------------------------------*/
             else
             {
-                unsigned char red = 0;
-                unsigned char grn = 0;
-                unsigned char blu = 0;
-
                 /*---------------------------------------------------------*\
                 | If mode has mode specific color, load color from mode     |
                 \*---------------------------------------------------------*/
                 if(modes[active_mode].color_mode == MODE_COLORS_MODE_SPECIFIC)
                 {
-                    red = RGBGetRValue(modes[active_mode].colors[0]);
-                    grn = RGBGetGValue(modes[active_mode].colors[0]);
-                    blu = RGBGetBValue(modes[active_mode].colors[0]);
+                    color       = &modes[active_mode].colors[0];
                 }
 
                 /*---------------------------------------------------------*\
                 | Apply built-in effects to LED strips                      |
                 \*---------------------------------------------------------*/
                 controller->SetStripBuiltinEffectState(hdr, true);
-                controller->SetLEDEffect(hdr, mode_value, modes[active_mode].speed, modes[active_mode].brightness, random, red, grn, blu);
+                controller->SetLEDEffect(hdr, mode_value, modes[active_mode].speed, modes[active_mode].brightness, random, color);
                 controller->ApplyEffect();
             }
         }
@@ -874,8 +834,9 @@ void RGBController_RGBFusion2USB::UpdateSingleLED(int led)
     /*---------------------------------------------------------*\
     | Get mode parameters                                       |
     \*---------------------------------------------------------*/
-    bool            random      = (modes[active_mode].color_mode == MODE_COLORS_RANDOM);
-    int             mode_value  = (modes[active_mode].value);
+    int         mode_value  = (modes[active_mode].value);
+    bool        random      = (modes[active_mode].color_mode == MODE_COLORS_RANDOM);
+    uint32_t*   color       = &null_color;
 
     /*---------------------------------------------------------*\
     | If Wave 1-4 then use special sequence.                    |
@@ -883,9 +844,9 @@ void RGBController_RGBFusion2USB::UpdateSingleLED(int led)
     if(mode_value == 6 || (mode_value >= 9 && mode_value <= 12))
     {
         controller->SetStripBuiltinEffectState(-1, true);
-        controller->SetLEDEffect(-1, 1, 0, 0xFF, 0, 0, 0, 0);
+        controller->SetLEDEffect(-1, 1, 0, 0xFF, 0, color);
         controller->ApplyEffect();
-        controller->SetLEDEffect( 2, mode_value, modes[active_mode].speed, modes[active_mode].brightness, random, 0, 0, 0);
+        controller->SetLEDEffect( 2, mode_value, modes[active_mode].speed, modes[active_mode].brightness, random, color);
         controller->ApplyEffect();
         return;
     }
@@ -896,21 +857,14 @@ void RGBController_RGBFusion2USB::UpdateSingleLED(int led)
     \*---------------------------------------------------------*/
     if(zones[zone_idx].type == ZONE_TYPE_SINGLE)
     {
-        unsigned char red = 0;
-        unsigned char grn = 0;
-        unsigned char blu = 0;
-
         /*---------------------------------------------------------*\
         | Motherboard LEDs always use effect mode, so use static for|
         | direct mode but get colors from zone                      |
         \*---------------------------------------------------------*/
         if(mode_value == 0xFFFF)
         {
-            red = RGBGetRValue(colors[led]);
-            grn = RGBGetGValue(colors[led]);
-            blu = RGBGetBValue(colors[led]);
-
-            mode_value = EFFECT_STATIC;
+            color       = &colors[led];
+            mode_value  = EFFECT_STATIC;
         }
 
         /*---------------------------------------------------------*\
@@ -918,12 +872,10 @@ void RGBController_RGBFusion2USB::UpdateSingleLED(int led)
         \*---------------------------------------------------------*/
         else if(modes[active_mode].color_mode == MODE_COLORS_MODE_SPECIFIC)
         {
-            red = RGBGetRValue(modes[active_mode].colors[0]);
-            grn = RGBGetGValue(modes[active_mode].colors[0]);
-            blu = RGBGetBValue(modes[active_mode].colors[0]);
+            color       = &modes[active_mode].colors[0];
         }
 
-        controller->SetLEDEffect(leds[led].value, mode_value, modes[active_mode].speed, modes[active_mode].brightness, random, red, grn, blu);
+        controller->SetLEDEffect(leds[led].value, mode_value, modes[active_mode].speed, modes[active_mode].brightness, random, color);
         controller->ApplyEffect();
     }
 

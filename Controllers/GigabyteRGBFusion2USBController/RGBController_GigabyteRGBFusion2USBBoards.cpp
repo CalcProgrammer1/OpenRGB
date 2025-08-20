@@ -12,7 +12,6 @@
 \*---------------------------------------------------------*/
 
 #include "RGBController_GigabyteRGBFusion2USBBoards.h"
-#include "GigabyteRGBFusion2USBController.h"
 
 /*---------------------------------------------------------*\
 | This is a list of known layouts listed by controller      |
