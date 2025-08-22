@@ -103,6 +103,7 @@ typedef struct
 | Corsair V2 Protocol Mousemats                         |
 \*-----------------------------------------------------*/
 #define CORSAIR_MM700_PID                           0x1B9B
+#define CORSAIR_MM700_3XL_PID                       0x1BC9
 
 /*-----------------------------------------------------*\
 | These constant values are defined in                  |

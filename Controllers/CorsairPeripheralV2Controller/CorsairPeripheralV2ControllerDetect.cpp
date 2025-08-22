@@ -91,3 +91,4 @@ REGISTER_HID_DETECTOR_IP("Corsair Slipstream Wireless Receiver SW", DetectCorsai
 | Mousemat                                                                                              |
 \*-----------------------------------------------------------------------------------------------------*/
 REGISTER_HID_DETECTOR_IP("Corsair MM700",                           DetectCorsairV2SoftwareControllers, CORSAIR_VID,    CORSAIR_MM700_PID,                      1,  0xFF42);
+REGISTER_HID_DETECTOR_IP("Corsair MM700 3XL",                       DetectCorsairV2SoftwareControllers, CORSAIR_VID,    CORSAIR_MM700_3XL_PID,                  1,  0xFF42);

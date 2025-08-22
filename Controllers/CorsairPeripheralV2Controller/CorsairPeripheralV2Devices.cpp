@@ -1338,6 +1338,23 @@ static const corsair_v2_device mm700_device =
     nullptr
 };
 
+static const corsair_v2_device mm700_3xl_device =
+{
+    CORSAIR_MM700_3XL_PID,
+    DEVICE_TYPE_MOUSEMAT,
+    1,
+    3,
+    {
+        &mm700_left_zone,
+        &mm700_right_zone,
+        &mm700_logo_zone,
+        nullptr,
+        nullptr,
+        nullptr
+    },
+    nullptr
+};
+
 /*-------------------------------------------------------------------------*\
 |  DEVICE MASTER LIST                                                       |
 \*-------------------------------------------------------------------------*/
@@ -1379,6 +1396,7 @@ const corsair_v2_device* corsair_v2_device_list_data[] =
 |  MOUSEMATS                                                        |
 \*-----------------------------------------------------------------*/
     &mm700_device,
+    &mm700_3xl_device,
 };
 
 const unsigned int CORSAIR_V2_DEVICE_COUNT = (sizeof(corsair_v2_device_list_data) / sizeof(corsair_v2_device_list_data[ 0 ]));
