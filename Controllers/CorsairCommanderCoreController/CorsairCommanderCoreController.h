@@ -18,13 +18,27 @@
 #include "RGBController.h"
 #include "DeviceGuardManager.h"
 
-#define CORSAIR_COMMANDER_CORE_PACKET_SIZE_V1   1025 // First bit is the report bit
-#define CORSAIR_COMMANDER_CORE_PACKET_SIZE_V2   97   // First bit is the report bit
-#define CORSAIR_COMMANDER_CORE_PACKET_SIZE_V3   65   // First bit is the report bit
+/*-----------------------------------------------------*\
+| Packet size per device                                |
+\*-----------------------------------------------------*/
+#define CORSAIR_COMMANDER_CORE_PACKET_SIZE_V1       1025
+#define CORSAIR_COMMANDER_CORE_PACKET_SIZE_V2       97
+#define CORSAIR_COMMANDER_CORE_PACKET_SIZE_V3       65
+#define CORSAIR_COMMANDER_CORE_XT_PACKET_SIZE       385
 
-#define CORSAIR_COMMANDER_CORE_RGB_DATA_LENGTH  699
-#define CORSAIR_QL_FAN_ZONE_OFFSET              102
-#define CORSAIR_COMMANDER_CORE_NUM_CHANNELS     6
+#define CORSAIR_COMMANDER_CORE_RGB_DATA_LENGTH      699
+#define CORSAIR_COMMANDER_CORE_XT_RGB_DATA_LENGTH   1224
+
+#define CORSAIR_QL_FAN_ZONE_OFFSET                  102
+#define CORSAIR_COMMANDER_CORE_NUM_CHANNELS         6
+
+#define CORSAIR_COMMANDER_CORE_PID                  0x0C1C
+#define CORSAIR_COMMANDER_CORE2_PID                 0x0C32
+#define CORSAIR_COMMANDER_CORE3_PID                 0x0C1D
+#define CORSAIR_COMMANDER_CORE4_PID                 0x0C3C
+#define CORSAIR_COMMANDER_CORE5_PID                 0x0C3D
+#define CORSAIR_COMMANDER_CORE6_PID                 0x0C3E
+#define CORSAIR_COMMANDER_CORE_XT_PID               0x0C2A
 
 enum
 {
@@ -41,6 +55,7 @@ public:
     std::vector<unsigned short int> GetLedCounts();
     std::string GetLocationString();
     std::string GetNameString();
+    int GetPidInt();
 
     void        SetDirectColor
                 (
@@ -50,6 +65,7 @@ public:
 
     void        KeepaliveThread();
     void        SetFanMode();
+    void        SetLedAmount(int led_amount);
 
 private:
     hid_device*                                         dev;

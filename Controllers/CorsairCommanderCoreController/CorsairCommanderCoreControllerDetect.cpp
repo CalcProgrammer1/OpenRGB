@@ -19,16 +19,6 @@
 \*-----------------------------------------------------*/
 #define CORSAIR_VID                         0x1B1C
 
-/*-----------------------------------------------------*\
-| Commander Core product IDs                            |
-\*-----------------------------------------------------*/
-#define CORSAIR_COMMANDER_CORE_PID          0x0C1C
-#define CORSAIR_COMMANDER_CORE2_PID         0x0C32
-#define CORSAIR_COMMANDER_CORE3_PID         0x0C1D
-#define CORSAIR_COMMANDER_CORE4_PID         0x0C3C
-#define CORSAIR_COMMANDER_CORE5_PID         0x0C3D
-#define CORSAIR_COMMANDER_CORE6_PID         0x0C3E
-
 /******************************************************************************************\
 *                                                                                          *
 *   DetectCorsairCommanderCoreControllers                                                  *
@@ -56,3 +46,4 @@ REGISTER_HID_DETECTOR_IPU("Corsair Commander Core", DetectCorsairCommanderCoreCo
 REGISTER_HID_DETECTOR_IPU("Corsair Commander Core", DetectCorsairCommanderCoreControllers, CORSAIR_VID, CORSAIR_COMMANDER_CORE4_PID, 0x00, 0xFF42, 0x01);
 REGISTER_HID_DETECTOR_IPU("Corsair Commander Core", DetectCorsairCommanderCoreControllers, CORSAIR_VID, CORSAIR_COMMANDER_CORE5_PID, 0x00, 0xFF42, 0x01);
 REGISTER_HID_DETECTOR_IPU("Corsair Commander Core", DetectCorsairCommanderCoreControllers, CORSAIR_VID, CORSAIR_COMMANDER_CORE6_PID, 0x00, 0xFF42, 0x01);
+REGISTER_HID_DETECTOR_IPU("Corsair Commander Core XT", DetectCorsairCommanderCoreControllers, CORSAIR_VID, CORSAIR_COMMANDER_CORE_XT_PID, 0x00, 0xFF42, 0x01);

@@ -30,9 +30,17 @@ CorsairCommanderCoreController::CorsairCommanderCoreController(hid_device* dev_h
     this->pid               = pid;
     guard_manager_ptr       = new DeviceGuardManager(new CorsairDeviceGuard());
 
-    if(pid == 0x0C32)
+    if(pid == CORSAIR_COMMANDER_CORE2_PID)
     {
         packet_size         = CORSAIR_COMMANDER_CORE_PACKET_SIZE_V3;
+        command_res_size    = packet_size - 4;
+    }
+    else if(pid == CORSAIR_COMMANDER_CORE_XT_PID)
+    {
+        /*-----------------------------------------------------*\
+        | Commander Core XT                                     |
+        \*-----------------------------------------------------*/
+        packet_size         = CORSAIR_COMMANDER_CORE_XT_PACKET_SIZE;
         command_res_size    = packet_size - 4;
     }
 
@@ -84,7 +92,7 @@ void CorsairCommanderCoreController::InitController()
     version[2] = res[2];
     delete[] res;
 
-    if(pid == 0x0C1C && version[0] == 1)
+    if(pid == CORSAIR_COMMANDER_CORE_PID && version[0] == 1)
     {
         packet_size = CORSAIR_COMMANDER_CORE_PACKET_SIZE_V1;
         command_res_size = packet_size - 4;
@@ -114,6 +122,11 @@ std::string CorsairCommanderCoreController::GetLocationString()
 std::string CorsairCommanderCoreController::GetNameString()
 {
     return(name);
+}
+
+int CorsairCommanderCoreController::GetPidInt()
+{
+    return(this->pid);
 }
 
 std::vector<unsigned short int> CorsairCommanderCoreController::GetLedCounts()
@@ -336,9 +349,14 @@ void CorsairCommanderCoreController::SetDirectColor
         int packet_offset       = 0;
         int led_idx             = 0;
         int channel_idx         = 0;
-        unsigned char* usb_buf  = new unsigned char[CORSAIR_COMMANDER_CORE_RGB_DATA_LENGTH];
+        int packet_len          = CORSAIR_COMMANDER_CORE_RGB_DATA_LENGTH;
 
-        memset(usb_buf, 0, CORSAIR_COMMANDER_CORE_RGB_DATA_LENGTH);
+        if(pid == CORSAIR_COMMANDER_CORE_XT_PID)
+        {
+            packet_len          = CORSAIR_COMMANDER_CORE_XT_RGB_DATA_LENGTH;
+        }
+
+        unsigned char* usb_buf  = new unsigned char[packet_len];
 
         for(unsigned int zone_idx = 0; zone_idx < zones.size(); zone_idx++)
         {
@@ -355,10 +373,6 @@ void CorsairCommanderCoreController::SetDirectColor
 
             led_idx = led_idx + zones[zone_idx].leds_count;
 
-
-            /*-------------------------------------------------*\
-            | Move offset for fans with less than 34 LEDs       |
-            \*-------------------------------------------------*/
             if(zone_idx != 0)
             {
                 packet_offset += 3 * (34 - zones[zone_idx].leds_count);
@@ -382,31 +396,71 @@ void CorsairCommanderCoreController::SetDirectColor
 
 void CorsairCommanderCoreController::SetFanMode()
 {
+    controller_ready    = 0;
+    DeviceGuardLock _   = guard_manager_ptr->AwaitExclusiveAccess();
+
     /*--------------------------------------------------------------------------------------------------*\
     | Force controller to 6 QL fan mode to expose maximum number of LEDs per rgb port (34 LEDs per port) |
     \*--------------------------------------------------------------------------------------------------*/
+    unsigned char endpoint[2]   = {0x1E, 0x00};
+    unsigned char data_type[2]  = {0x0D, 0x00};
 
-    unsigned char endpoint[2]  = {0x1E, 0x00};
-    unsigned char data_type[2] = {0x0D, 0x00};
     unsigned char buf[15];
 
     /*-----------------------------------------------------*\
-    | Set AIO mode                                          |
+    | Zero out buffer                                       |
     \*-----------------------------------------------------*/
-    buf[0]         = 0x07;
-    buf[1]         = 0x01;
-    buf[2]         = 0x08;
+    memset(buf, 0x00, 15);
+
+    buf[0]              = 0x07;
+    if(pid == CORSAIR_COMMANDER_CORE_XT_PID)
+    {
+        /*-----------------------------------------------------*\
+        | Commander Core XT external RGB port                   |
+        \*-----------------------------------------------------*/
+        buf[1]      = 0x01;
+        buf[2]      = 0x01;
+    }
+    else
+    {
+        /*-----------------------------------------------------*\
+        | Commander Core, Set AIO mode                          |
+        \*-----------------------------------------------------*/
+        buf[1]          = 0x01;
+        buf[2]          = 0x08;
+    }
 
     /*-----------------------------------------------------*\
     | SET fan modes                                         |
     \*-----------------------------------------------------*/
     for(unsigned int i = 3; i < 15; i = i + 2)
     {
-        buf[i]      = 0x01;
-        buf[i + 1]  = 0x06;
+        buf[i]          = 0x01;
+        buf[i + 1]      = 0x06;
     }
 
     WriteData(endpoint, data_type, buf, 15);
+    controller_ready    = 1;
+}
 
+void CorsairCommanderCoreController::SetLedAmount(int led_amount)
+{
+    controller_ready    = 0;
+    DeviceGuardLock _   = guard_manager_ptr->AwaitExclusiveAccess();
+
+    unsigned char buf[15];
+
+    /*-----------------------------------------------------*\
+    | Zero out buffer                                       |
+    \*-----------------------------------------------------*/
+    memset(buf, 0x00, 15);
+
+    unsigned char endpoint[2]  = {0x1D, 0x00};
+    unsigned char data_type[2] = {0x0C, 0x00};
+
+    buf[0]  = 0x07;
+    buf[1]  = led_amount;
+
+    WriteData(endpoint, data_type, buf, 15);
     controller_ready    = 1;
 }
