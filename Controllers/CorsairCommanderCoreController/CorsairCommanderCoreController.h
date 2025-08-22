@@ -64,7 +64,7 @@ public:
                 );
 
     void        KeepaliveThread();
-    void        SetFanMode();
+    void        SetFanMode(bool external_rgb_port);
     void        SetLedAmount(int led_amount);
 
 private:

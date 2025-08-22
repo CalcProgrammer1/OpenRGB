@@ -98,15 +98,7 @@ void CorsairCommanderCoreController::InitController()
         command_res_size = packet_size - 4;
     }
 
-    /*-----------------------------------------------------*\
-    | Wake up device                                        |
-    \*-----------------------------------------------------*/
-    command[0] = 0x01;
-    command[1] = 0x03;
-    unsigned char cmd_data[2] = {0x00, 0x02};
-    SendCommand(command, cmd_data, 2, NULL);
-
-    SetFanMode();
+    SetFanMode(false);
 }
 
 std::string CorsairCommanderCoreController::GetFirmwareString()
@@ -394,14 +386,17 @@ void CorsairCommanderCoreController::SetDirectColor
     }
 }
 
-void CorsairCommanderCoreController::SetFanMode()
+void CorsairCommanderCoreController::SetFanMode(bool external_rgb_port)
 {
     controller_ready    = 0;
     DeviceGuardLock _   = guard_manager_ptr->AwaitExclusiveAccess();
 
-    /*--------------------------------------------------------------------------------------------------*\
-    | Force controller to 6 QL fan mode to expose maximum number of LEDs per rgb port (34 LEDs per port) |
-    \*--------------------------------------------------------------------------------------------------*/
+    /*-----------------------------------------------------*\
+    | Force controller to 6 QL fan mode to expose maximum   |
+    | number of LEDs per rgb port (34 LEDs per port)        |
+    \*-----------------------------------------------------*/
+    unsigned int index          = 3;
+    unsigned int max_index      = 15;
     unsigned char endpoint[2]   = {0x1E, 0x00};
     unsigned char data_type[2]  = {0x0D, 0x00};
 
@@ -415,17 +410,33 @@ void CorsairCommanderCoreController::SetFanMode()
     buf[0]              = 0x07;
     if(pid == CORSAIR_COMMANDER_CORE_XT_PID)
     {
-        /*-----------------------------------------------------*\
-        | Commander Core XT external RGB port                   |
-        \*-----------------------------------------------------*/
-        buf[1]      = 0x01;
-        buf[2]      = 0x01;
+        /*-------------------------------------------------*\
+        | Commander Core XT external RGB port               |
+        \*-------------------------------------------------*/
+        if(external_rgb_port)
+        {
+            /*---------------------------------------------*\
+            | Enable external port                          |
+            \*---------------------------------------------*/
+            buf[1]      = 0x01;
+            buf[2]      = 0x01;
+        }
+        else
+        {
+            /*---------------------------------------------*\
+            | Shift packet start position and maximum index |
+            \*---------------------------------------------*/
+            buf[1]      = 0x00;
+            buf[2]      = 0x00;
+            index       = 2;
+            max_index   = 14;
+        }
     }
     else
     {
-        /*-----------------------------------------------------*\
-        | Commander Core, Set AIO mode                          |
-        \*-----------------------------------------------------*/
+        /*-------------------------------------------------*\
+        | Commander Core, Set AIO mode                      |
+        \*-------------------------------------------------*/
         buf[1]          = 0x01;
         buf[2]          = 0x08;
     }
@@ -433,7 +444,7 @@ void CorsairCommanderCoreController::SetFanMode()
     /*-----------------------------------------------------*\
     | SET fan modes                                         |
     \*-----------------------------------------------------*/
-    for(unsigned int i = 3; i < 15; i = i + 2)
+    for(unsigned int i = index; i < max_index; i = i + 2)
     {
         buf[i]          = 0x01;
         buf[i + 1]      = 0x06;
@@ -441,6 +452,14 @@ void CorsairCommanderCoreController::SetFanMode()
 
     WriteData(endpoint, data_type, buf, 15);
     controller_ready    = 1;
+
+    /*-----------------------------------------------------*\
+    | Wake up device, needs to be done after setting fan    |
+    | mode to reinitialize device if fan mode has changed   |
+    \*-----------------------------------------------------*/
+    unsigned char command[2]    = {0x01, 0x03};
+    unsigned char cmd_data[2]   = {0x00, 0x02};
+    SendCommand(command, cmd_data, 2, NULL);
 }
 
 void CorsairCommanderCoreController::SetLedAmount(int led_amount)

@@ -158,7 +158,15 @@ void RGBController_CorsairCommanderCore::ResizeZone(int zone, int new_size)
         zones[zone].leds_count = new_size;
         if(zone == 0 && controller->GetPidInt() == CORSAIR_COMMANDER_CORE_XT_PID)
         {
-            controller->SetLedAmount(new_size);
+            if(new_size > 0)
+            {
+                controller->SetFanMode(true);
+                controller->SetLedAmount(new_size);
+            }
+            else
+            {
+                controller->SetFanMode(false);
+            }
         }
         SetupZones();
     }
