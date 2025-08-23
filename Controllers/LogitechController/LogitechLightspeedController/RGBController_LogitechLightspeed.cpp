@@ -207,13 +207,6 @@ void RGBController_LogitechLightspeed::SetupZones()
     SetupColors();
 }
 
-void RGBController_LogitechLightspeed::DeviceResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_LogitechLightspeed::DeviceUpdateLEDs()
 {
     for(std::vector<led>::iterator led_index = leds.begin(); led_index != leds.end(); led_index++)

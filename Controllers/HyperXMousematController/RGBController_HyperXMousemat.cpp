@@ -113,13 +113,6 @@ void RGBController_HyperXMousemat::SetupZones()
     SetupColors();
 }
 
-void RGBController_HyperXMousemat::DeviceResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_HyperXMousemat::DeviceUpdateLEDs()
 {
     last_update_time = std::chrono::steady_clock::now();

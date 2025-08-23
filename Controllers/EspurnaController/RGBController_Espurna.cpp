@@ -65,13 +65,6 @@ void RGBController_Espurna::SetupZones()
     SetupColors();
 }
 
-void RGBController_Espurna::DeviceResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_Espurna::DeviceUpdateLEDs()
 {
     controller->SetLEDs(colors);

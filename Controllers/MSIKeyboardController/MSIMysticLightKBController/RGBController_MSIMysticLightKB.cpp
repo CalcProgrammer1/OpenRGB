@@ -46,14 +46,6 @@ RGBController_MSIKeyboard::~RGBController_MSIKeyboard()
     delete controller;
 }
 
-void RGBController_MSIKeyboard::DeviceResizeZone
-(
-    int /*zone*/,
-    int /*new_size*/
-)
-{
-}
-
 void RGBController_MSIKeyboard::SetupZones()
 {
 }

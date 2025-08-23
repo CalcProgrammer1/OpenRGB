@@ -196,13 +196,6 @@ void RGBController_SteelSeriesRival::SetupZones()
     SetupColors();
 }
 
-void RGBController_SteelSeriesRival::DeviceResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_SteelSeriesRival::DeviceUpdateLEDs()
 {
     for(unsigned int i = 0; i < leds.size(); i++)

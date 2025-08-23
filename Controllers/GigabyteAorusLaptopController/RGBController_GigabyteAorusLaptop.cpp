@@ -436,13 +436,6 @@ void RGBController_GigabyteAorusLaptop::SetupZones()
     SetupColors();
 }
 
-void RGBController_GigabyteAorusLaptop::DeviceResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_GigabyteAorusLaptop::DeviceUpdateLEDs()
 {
     /*---------------------------------------------------------*\

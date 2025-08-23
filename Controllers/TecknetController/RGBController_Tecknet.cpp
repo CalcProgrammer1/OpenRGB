@@ -88,13 +88,6 @@ void RGBController_Tecknet::SetupZones()
     SetupColors();
 }
 
-void RGBController_Tecknet::DeviceResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | Not implemented for this device                           |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_Tecknet::DeviceUpdateLEDs()
 {
     unsigned char red = RGBGetRValue(colors[0]);

@@ -110,13 +110,6 @@ void RGBController_RoccatKova::SetupZones()
     SetupColors();
 }
 
-void RGBController_RoccatKova::DeviceResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_RoccatKova::DeviceUpdateLEDs()
 {
     DeviceUpdateMode();

@@ -298,13 +298,6 @@ void RGBController_LogitechG810::SetupZones()
     SetupColors();
 }
 
-void RGBController_LogitechG810::DeviceResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_LogitechG810::DeviceUpdateLEDs()
 {
     #define MAX_FRAMES_PER_PACKET 0x0E

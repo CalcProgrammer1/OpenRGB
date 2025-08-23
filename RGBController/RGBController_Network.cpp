@@ -56,13 +56,6 @@ void RGBController_Network::ResizeZone(int zone, int new_size)
     client->WaitOnControllerData();
 }
 
-void RGBController_Network::DeviceResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*-----------------------------------------------------*\
-    | Does nothing, as we override ResizeZone() directly    |
-    \*-----------------------------------------------------*/
-}
-
 void RGBController_Network::DeviceUpdateLEDs()
 {
     unsigned char * data = GetColorDescription();

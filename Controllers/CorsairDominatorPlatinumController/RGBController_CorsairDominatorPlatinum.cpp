@@ -90,13 +90,6 @@ void RGBController_CorsairDominatorPlatinum::SetupZones()
     SetupColors();
 }
 
-void RGBController_CorsairDominatorPlatinum::DeviceResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_CorsairDominatorPlatinum::DeviceUpdateLEDs()
 {
     for(unsigned int led = 0; led < (unsigned int)colors.size(); led++)

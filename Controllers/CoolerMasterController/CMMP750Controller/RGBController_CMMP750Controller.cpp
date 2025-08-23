@@ -144,13 +144,6 @@ void RGBController_CMMP750Controller::SetupZones()
     }
 }
 
-void RGBController_CMMP750Controller::DeviceResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_CMMP750Controller::DeviceUpdateLEDs()
 {
     unsigned char red = RGBGetRValue(colors[0]);

@@ -114,13 +114,6 @@ void RGBController_AsusTUFLaptopLinux::SetupZones()
     SetupColors();
 }
 
-void RGBController_AsusTUFLaptopLinux::DeviceResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_AsusTUFLaptopLinux::DeviceUpdateLEDs()
 {
     uint8_t red   = RGBGetRValue(colors[0]);

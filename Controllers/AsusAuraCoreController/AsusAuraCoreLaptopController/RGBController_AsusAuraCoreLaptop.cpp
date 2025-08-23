@@ -398,13 +398,6 @@ void RGBController_AsusAuraCoreLaptop::SetupZones()
     }
 }
 
-void RGBController_AsusAuraCoreLaptop::DeviceResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_AsusAuraCoreLaptop::DeviceUpdateLEDs()
 {
     for(size_t i = 85; i < leds.size(); i++)

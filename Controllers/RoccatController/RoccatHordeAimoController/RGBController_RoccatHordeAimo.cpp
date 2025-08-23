@@ -69,13 +69,6 @@ void RGBController_RoccatHordeAimo::SetupZones()
     SetupColors();
 }
 
-void RGBController_RoccatHordeAimo::DeviceResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_RoccatHordeAimo::DeviceUpdateLEDs()
 {
     DeviceUpdateZoneLEDs(0);

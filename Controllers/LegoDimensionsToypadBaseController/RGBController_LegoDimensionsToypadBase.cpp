@@ -105,13 +105,6 @@ void RGBController_LegoDimensionsToypadBase::SetupZones()
     SetupColors();
 }
 
-void RGBController_LegoDimensionsToypadBase::DeviceResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_LegoDimensionsToypadBase::DeviceUpdateLEDs()
 {
     for(unsigned int zone = 0; zone < zones.size(); zone++)

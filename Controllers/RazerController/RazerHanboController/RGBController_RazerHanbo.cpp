@@ -137,13 +137,6 @@ void RGBController_RazerHanbo::SetupZones()
     SetupColors();
 }
 
-void RGBController_RazerHanbo::DeviceResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_RazerHanbo::DeviceUpdateLEDs()
 {
     DeviceUpdateZoneLEDs(PUMP);

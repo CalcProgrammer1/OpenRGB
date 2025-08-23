@@ -371,13 +371,6 @@ void RGBController_E131::SetupZones()
     SetupColors();
 }
 
-void RGBController_E131::DeviceResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_E131::DeviceUpdateLEDs()
 {
     int color_idx = 0;

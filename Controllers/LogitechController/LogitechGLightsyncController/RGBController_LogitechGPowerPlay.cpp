@@ -100,13 +100,6 @@ void RGBController_LogitechGPowerPlay::SetupZones()
     SetupColors();
 }
 
-void RGBController_LogitechGPowerPlay::DeviceResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_LogitechGPowerPlay::DeviceUpdateLEDs()
 {
     DeviceUpdateZoneLEDs(0);

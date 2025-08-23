@@ -164,13 +164,6 @@ void RGBController_MSIVigorGK30::SetupZones()
     SetupColors();
 }
 
-void RGBController_MSIVigorGK30::DeviceResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_MSIVigorGK30::DeviceUpdateLEDs()
 {
     DeviceUpdateSingleLED(0);

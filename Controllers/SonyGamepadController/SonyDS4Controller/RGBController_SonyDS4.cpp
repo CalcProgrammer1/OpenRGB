@@ -75,13 +75,6 @@ void RGBController_SonyDS4::SetupZones()
     SetupColors();
 }
 
-void RGBController_SonyDS4::DeviceResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_SonyDS4::DeviceUpdateLEDs()
 {
     unsigned char red =     char(RGBGetRValue(colors[0]));

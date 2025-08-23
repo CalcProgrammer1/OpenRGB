@@ -259,13 +259,6 @@ void RGBController_PoseidonZRGB::SetupZones()
     SetupColors();
 }
 
-void RGBController_PoseidonZRGB::DeviceResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_PoseidonZRGB::DeviceUpdateLEDs()
 {
     if(active_mode == 0)

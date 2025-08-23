@@ -142,13 +142,6 @@ void RGBController_RGBFusionGPU::SetupZones()
     SetupColors();
 }
 
-void RGBController_RGBFusionGPU::DeviceResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_RGBFusionGPU::DeviceUpdateLEDs()
 {
     RGBColor      color = colors[0];

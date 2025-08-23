@@ -336,13 +336,6 @@ void RGBController_AlienwareAW410K::SetupZones()
     SetupColors();
 }
 
-void RGBController_AlienwareAW410K::DeviceResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_AlienwareAW410K::DeviceUpdateLEDs()
 {
     std::vector<SelectedButtons>   frame_buf_keys;

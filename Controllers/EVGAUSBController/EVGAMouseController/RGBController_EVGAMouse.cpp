@@ -194,13 +194,6 @@ void RGBController_EVGAMouse::SetupZones()
     SetupColors();
 }
 
-void RGBController_EVGAMouse::DeviceResizeZone(int /* zone */, int /* new_size */)
-{
-    /*--------------------------------------*\
-    | This device does not support resizing. |
-    \*--------------------------------------*/
-}
-
 void RGBController_EVGAMouse::DeviceUpdateLEDs()
 {
     for(unsigned int i = 0; i < colors.size(); i++)

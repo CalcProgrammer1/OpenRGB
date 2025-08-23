@@ -234,13 +234,6 @@ void RGBController_CorsairV2HW::SetupZones()
     }
 }
 
-void RGBController_CorsairV2HW::DeviceResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_CorsairV2HW::DeviceUpdateLEDs()
 {
     last_update_time = std::chrono::steady_clock::now();

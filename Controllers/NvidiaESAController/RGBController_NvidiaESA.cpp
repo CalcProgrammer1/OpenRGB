@@ -82,13 +82,6 @@ void RGBController_NvidiaESA::SetupZones()
     SetupColors();
 }
 
-void RGBController_NvidiaESA::DeviceResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_NvidiaESA::DeviceUpdateLEDs()
 {
     for(unsigned int zone = 0; zone < zones.size(); zone++)

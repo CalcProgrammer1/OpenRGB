@@ -93,14 +93,6 @@ void RGBController_BlinkController::SetupZones()
     leds.push_back(Blink_led);
 
     SetupColors();
-
-}
-
-void RGBController_BlinkController::DeviceResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
 }
 
 void RGBController_BlinkController::DeviceUpdateLEDs()

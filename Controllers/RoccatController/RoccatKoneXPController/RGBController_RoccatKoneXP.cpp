@@ -233,13 +233,6 @@ void RGBController_RoccatKoneXP::SetupZones()
     SetupColors();
 }
 
-void RGBController_RoccatKoneXP::DeviceResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_RoccatKoneXP::DeviceUpdateLEDs()
 {
     if(modes[active_mode].value == ROCCAT_KONE_XP_MODE_DIRECT)

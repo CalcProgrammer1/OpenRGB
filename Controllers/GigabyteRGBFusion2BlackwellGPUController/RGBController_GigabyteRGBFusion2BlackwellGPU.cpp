@@ -281,13 +281,6 @@ void RGBController_RGBFusion2BlackwellGPU::SetupZones()
     SetupColors();
 }
 
-void RGBController_RGBFusion2BlackwellGPU::DeviceResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_RGBFusion2BlackwellGPU::DeviceUpdateLEDs()
 {
     fusion2_config zone_config;

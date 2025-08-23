@@ -138,13 +138,6 @@ void RGBController_XG270QG::SetupZones()
     SetupColors();
 }
 
-void RGBController_XG270QG::DeviceResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_XG270QG::DeviceUpdateLEDs()
 {
     DeviceUpdateMode();

@@ -69,13 +69,6 @@ void RGBController_LEDStrip::SetupZones()
     SetupColors();
 }
 
-void RGBController_LEDStrip::DeviceResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_LEDStrip::DeviceUpdateLEDs()
 {
     controller->SetLEDs(colors);

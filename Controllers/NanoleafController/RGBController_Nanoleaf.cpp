@@ -109,13 +109,6 @@ void RGBController_Nanoleaf::SetupZones()
     SetupColors();
 }
 
-void RGBController_Nanoleaf::DeviceResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_Nanoleaf::DeviceUpdateLEDs()
 {
     controller.UpdateLEDs(colors);

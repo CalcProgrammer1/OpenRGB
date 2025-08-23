@@ -95,13 +95,6 @@ void RGBController_HyperXPulsefireFPSPro::SetupZones()
     SetupColors();
 }
 
-void RGBController_HyperXPulsefireFPSPro::DeviceResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_HyperXPulsefireFPSPro::DeviceUpdateLEDs()
 {
     last_update_time = std::chrono::steady_clock::now();

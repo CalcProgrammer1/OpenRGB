@@ -100,13 +100,6 @@ void RGBController_SteelSeriesSensei::SetupZones()
     SetupColors();
 }
 
-void RGBController_SteelSeriesSensei::DeviceResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_SteelSeriesSensei::DeviceUpdateLEDs()
 {
     DeviceUpdateZoneLEDs(0);

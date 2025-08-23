@@ -458,7 +458,7 @@ public:
     /*---------------------------------------------------------*\
     | Functions to be implemented in device implementation      |
     \*---------------------------------------------------------*/
-    virtual void            DeviceResizeZone(int zone, int new_size)    = 0;
+    void                    DeviceResizeZone(int zone, int new_size);
 
     virtual void            DeviceUpdateLEDs()                          = 0;
     virtual void            DeviceUpdateZoneLEDs(int zone)              = 0;

@@ -396,13 +396,6 @@ void RGBController_PhilipsWiz::SetupZones()
     SetupColors();
 }
 
-void RGBController_PhilipsWiz::DeviceResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_PhilipsWiz::DeviceUpdateLEDs()
 {
     if (modes[active_mode].value == PHILLIPSWIZ_MODE_STATIC)

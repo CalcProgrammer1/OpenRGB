@@ -126,13 +126,6 @@ void RGBController_ZotacTuringGPU::SetupInitialValues()
     modes[active_mode].speed = speed;
 }
 
-void RGBController_ZotacTuringGPU::DeviceResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_ZotacTuringGPU::DeviceUpdateLEDs()
 {
     DeviceUpdateMode();

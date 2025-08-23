@@ -314,11 +314,6 @@ void RGBController_AsusCerberusKeyboard::SetupZones()
     SetupColors();
 }
 
-void RGBController_AsusCerberusKeyboard::DeviceResizeZone(int /*zone*/, int /*new_size*/)
-{
-
-}
-
 void RGBController_AsusCerberusKeyboard::DeviceUpdateLEDs()
 {
     for(unsigned int i = 0; i < colors.size(); i++)

@@ -177,13 +177,6 @@ void RGBController_RoccatVulcanKeyboard::SetupZones()
     DeviceUpdateLEDs();
 }
 
-void RGBController_RoccatVulcanKeyboard::DeviceResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_RoccatVulcanKeyboard::DeviceUpdateLEDs()
 {
     if (modes[active_mode].value == ROCCAT_VULCAN_MODE_DIRECT)

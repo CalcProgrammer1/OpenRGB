@@ -245,13 +245,6 @@ void RGBController_NZXTKraken::SetupZones()
     SetupColors();
 }
 
-void RGBController_NZXTKraken::DeviceResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 std::vector<std::vector<RGBColor>> RGBController_NZXTKraken::GetColors(int zone, const mode& channel_mode)
 {
     std::vector<std::vector<RGBColor>> result;

@@ -124,11 +124,6 @@ void RGBController_HyperXPulsefireDart::SetupZones()
     SetupColors();
 }
 
-void RGBController_HyperXPulsefireDart::DeviceResizeZone(int /*zone*/, int /*new_size*/)
-{
-
-}
-
 void RGBController_HyperXPulsefireDart::DeviceUpdateLEDs()
 {
     DeviceUpdateMode();
