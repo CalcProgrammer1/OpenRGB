@@ -158,13 +158,6 @@ void RGBController_RoccatSenseAimo::SetupZones()
     SetupColors();
 }
 
-void RGBController_RoccatSenseAimo::DeviceResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_RoccatSenseAimo::DeviceUpdateLEDs()
 {
     if(modes[active_mode].value == ROCCAT_SENSE_AIMO_MODE_DIRECT)

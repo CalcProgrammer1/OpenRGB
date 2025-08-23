@@ -212,13 +212,6 @@ void RGBController_PowerColorRedDevilV1::SetupZones()
     SetupColors();
 }
 
-void RGBController_PowerColorRedDevilV1::DeviceResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_PowerColorRedDevilV1::DeviceUpdateLEDs()
 {
     controller->SetLEDColorAll(colors[0]);

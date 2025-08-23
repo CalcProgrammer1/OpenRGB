@@ -68,13 +68,6 @@ void RGBController_LinuxLED::SetupZones()
     SetupColors();
 }
 
-void RGBController_LinuxLED::DeviceResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_LinuxLED::DeviceUpdateLEDs()
 {
     unsigned char red = RGBGetRValue(colors[0]);

@@ -383,13 +383,6 @@ void RGBController_LightSalt::SetupZones()
     colors[colors.size() - 1] = ToRGBColor(0xFF, 0xFF, 0xFF);
 }
 
-void RGBController_LightSalt::DeviceResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_LightSalt::DeviceUpdateColors(bool save)
 {
     int sets    = table.led.sets;

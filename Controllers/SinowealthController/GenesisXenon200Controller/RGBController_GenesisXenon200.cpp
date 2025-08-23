@@ -129,11 +129,6 @@ void RGBController_GenesisXenon200::SetupZones()
 
 }
 
-void RGBController_GenesisXenon200::DeviceResizeZone(int /*zone*/, int /*new_size*/)
-{
-
-}
-
 void RGBController_GenesisXenon200::DeviceUpdateZoneLEDs(int /*zone*/)
 {
 

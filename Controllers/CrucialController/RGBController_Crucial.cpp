@@ -160,13 +160,6 @@ void RGBController_Crucial::SetupZones()
     SetupColors();
 }
 
-void RGBController_Crucial::DeviceResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_Crucial::DeviceUpdateLEDs()
 {
     if(modes[active_mode].value == 0xFFFF)

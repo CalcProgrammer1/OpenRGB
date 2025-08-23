@@ -167,13 +167,6 @@ void RGBController_LenovoMotherboard::SetupZones()
     SetupColors();
 }
 
-void RGBController_LenovoMotherboard::DeviceResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_LenovoMotherboard::DeviceUpdateLEDs()
 {
     for(uint8_t i = 0; i < leds.size(); i++)

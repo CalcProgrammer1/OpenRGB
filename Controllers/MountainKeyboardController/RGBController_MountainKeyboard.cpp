@@ -765,13 +765,6 @@ void RGBController_MountainKeyboard::SetupZones()
     DeviceUpdateMode();
 }
 
-void RGBController_MountainKeyboard::DeviceResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_MountainKeyboard::DeviceUpdate(const mode& current_mode)
 {
     switch(current_mode.value)

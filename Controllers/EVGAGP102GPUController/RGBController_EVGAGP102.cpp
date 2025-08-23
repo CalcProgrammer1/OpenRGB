@@ -112,13 +112,6 @@ void RGBController_EVGAGP102::SetupZones()
     SetupColors();
 }
 
-void RGBController_EVGAGP102::DeviceResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_EVGAGP102::DeviceUpdateLEDs()
 {
     for(unsigned int zone_idx = 0; zone_idx < zones.size(); zone_idx++)

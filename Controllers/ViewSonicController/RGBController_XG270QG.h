@@ -20,7 +20,6 @@ public:
     RGBController_XG270QG(VS_XG270QG_Controller* controller_ptr);
 
     void SetupZones();
-    void DeviceResizeZone(int zone, int new_size);
 
     void DeviceUpdateLEDs();
     void DeviceUpdateZoneLEDs(int zone);

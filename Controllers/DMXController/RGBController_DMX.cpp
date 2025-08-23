@@ -162,13 +162,6 @@ void RGBController_DMX::SetupZones()
     SetupColors();
 }
 
-void RGBController_DMX::DeviceResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_DMX::DeviceUpdateLEDs()
 {
     last_update_time = std::chrono::steady_clock::now();

@@ -214,11 +214,6 @@ void RGBController_AuraMouse::SetupZones()
     SetupColors();
 }
 
-void RGBController_AuraMouse::DeviceResizeZone(int /*zone*/, int /*new_size*/)
-{
-
-}
-
 void RGBController_AuraMouse::DeviceUpdateLEDs()
 {
     if(modes[active_mode].value == AURA_MOUSE_MODE_DIRECT)

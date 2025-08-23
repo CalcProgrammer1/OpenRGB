@@ -148,11 +148,6 @@ void RGBController_AsusROGSpatha::SetupZones()
     SetupColors();
 }
 
-void RGBController_AsusROGSpatha::DeviceResizeZone(int /*zone*/, int /*new_size*/)
-{
-
-}
-
 void RGBController_AsusROGSpatha::DeviceUpdateLEDs()
 {
     if(modes[active_mode].value == ASUS_ROG_SPATHA_MODE_DIRECT)

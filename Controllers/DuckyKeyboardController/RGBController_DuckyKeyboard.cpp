@@ -288,13 +288,6 @@ void RGBController_DuckyKeyboard::SetupZones()
     SetupColors();
 }
 
-void RGBController_DuckyKeyboard::DeviceResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_DuckyKeyboard::DeviceUpdateLEDs()
 {
     unsigned char colordata[155*3];

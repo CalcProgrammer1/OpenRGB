@@ -120,13 +120,6 @@ void RGBController_RGBFusion::SetupZones()
     SetupColors();
 }
 
-void RGBController_RGBFusion::DeviceResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_RGBFusion::DeviceUpdateLEDs()
 {
     for(unsigned int led = 0; led < (unsigned int)colors.size(); led++)

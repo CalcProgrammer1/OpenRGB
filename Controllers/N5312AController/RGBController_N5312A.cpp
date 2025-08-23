@@ -111,13 +111,6 @@ void RGBController_N5312A::SetupZones()
     SetupColors();
 }
 
-void RGBController_N5312A::DeviceResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_N5312A::DeviceUpdateLEDs()
 {
     DeviceUpdateZoneLEDs(0);

@@ -524,11 +524,6 @@ void RGBController_AuraTUFKeyboard::SetupZones()
     DeviceUpdateMode();
 }
 
-void RGBController_AuraTUFKeyboard::DeviceResizeZone(int /*zone*/, int /*new_size*/)
-{
-
-}
-
 void RGBController_AuraTUFKeyboard::DeviceUpdateLEDs()
 {
     std::vector<led_color> led_color_list = {};

@@ -72,13 +72,6 @@ void RGBController_SteelSeriesQCKMat::SetupZones()
     SetupColors();
 }
 
-void RGBController_SteelSeriesQCKMat::DeviceResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_SteelSeriesQCKMat::DeviceUpdateLEDs()
 {
     controller->SetColors(colors);

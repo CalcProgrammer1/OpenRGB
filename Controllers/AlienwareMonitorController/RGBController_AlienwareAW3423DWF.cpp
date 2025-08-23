@@ -96,10 +96,6 @@ void RGBController_AlienwareAW3423DWF::SetupZones()
     SetupColors();
 }
 
-void RGBController_AlienwareAW3423DWF::DeviceResizeZone(int /*zone*/, int /*new_size*/)
-{
-}
-
 void RGBController_AlienwareAW3423DWF::DeviceUpdateLEDs()
 {
     /*-----------------------------------------------------*\

@@ -343,13 +343,6 @@ void RGBController_MSIGPUv2::SetupZones()
 
 }
 
-void RGBController_MSIGPUv2::DeviceResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_MSIGPUv2::DeviceUpdateAll(const mode& current_mode)
 {
     switch(current_mode.value)

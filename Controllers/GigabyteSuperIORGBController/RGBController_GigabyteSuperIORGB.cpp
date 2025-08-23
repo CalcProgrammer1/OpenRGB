@@ -156,11 +156,6 @@ void RGBController_GigabyteSuperIORGB::SetupZones()
     SetupColors();
 }
 
-void RGBController_GigabyteSuperIORGB::DeviceResizeZone(int /*zone*/, int /*new_size*/)
-{
-
-}
-
 void RGBController_GigabyteSuperIORGB::DeviceUpdateLEDs()
 {
     RGBColor      color = colors[0];

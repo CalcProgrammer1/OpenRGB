@@ -403,13 +403,6 @@ void RGBController_QMKOpenRGBRevB::SetupZones()
     }
 }
 
-void RGBController_QMKOpenRGBRevB::DeviceResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_QMKOpenRGBRevB::DeviceUpdateLEDs()
 {
     controller->DirectModeSetLEDs(colors, controller->GetTotalNumberOfLEDs());

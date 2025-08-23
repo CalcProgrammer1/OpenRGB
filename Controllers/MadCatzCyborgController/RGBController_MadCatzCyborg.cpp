@@ -71,11 +71,6 @@ void RGBController_MadCatzCyborg::SetupZones()
     SetupColors();
 }
 
-void RGBController_MadCatzCyborg::DeviceResizeZone(int /*zone*/, int /*new_size*/)
-{
-    // Single LED device - nothing to resize
-}
-
 void RGBController_MadCatzCyborg::DeviceUpdateLEDs()
 {
     if(colors.size() > 0)

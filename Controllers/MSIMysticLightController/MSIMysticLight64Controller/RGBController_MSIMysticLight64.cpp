@@ -44,14 +44,6 @@ RGBController_MSIMysticLight64::~RGBController_MSIMysticLight64()
     delete controller;
 }
 
-void RGBController_MSIMysticLight64::DeviceResizeZone
-(
-    int /*zone*/,
-    int /*new_size*/
-)
-{
-}
-
 void RGBController_MSIMysticLight64::SetupZones()
 {
     zone msi_zone;

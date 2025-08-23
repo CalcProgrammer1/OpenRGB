@@ -489,13 +489,6 @@ void RGBController_AuraKeyboard::SetupZones()
     SetupColors();
 }
 
-void RGBController_AuraKeyboard::DeviceResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_AuraKeyboard::DeviceUpdateLEDs()
 {
     std::vector<unsigned char> frame_buf;

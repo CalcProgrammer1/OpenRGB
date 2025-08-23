@@ -142,13 +142,6 @@ void RGBController_RoccatBurst::SetupZones()
     SetupColors();
 }
 
-void RGBController_RoccatBurst::DeviceResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_RoccatBurst::DeviceUpdateLEDs()
 {
     DeviceUpdateZoneLEDs(0);

@@ -82,10 +82,6 @@ void RGBController_DDP::SetupZones()
     SetupColors();
 }
 
-void RGBController_DDP::DeviceResizeZone(int /*zone*/, int /*new_size*/)
-{
-}
-
 void RGBController_DDP::DeviceUpdateLEDs()
 {
     std::vector<unsigned int> brightness_adjusted_colors;

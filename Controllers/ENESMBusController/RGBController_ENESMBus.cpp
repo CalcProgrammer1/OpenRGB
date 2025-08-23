@@ -445,13 +445,6 @@ void RGBController_ENESMBus::SetupZones()
     SetupColors();
 }
 
-void RGBController_ENESMBus::DeviceResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_ENESMBus::DeviceUpdateMode()
 {
     if (modes[active_mode].value == 0xFFFF)

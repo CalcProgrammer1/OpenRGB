@@ -134,13 +134,6 @@ void RGBController_GigabyteAorusPCCase::SetupZones()
     SetupColors();
 }
 
-void RGBController_GigabyteAorusPCCase::DeviceResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_GigabyteAorusPCCase::DeviceUpdateLEDs()
 {
     /*---------------------------------------------------------*\

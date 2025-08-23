@@ -159,13 +159,6 @@ void RGBController_PatriotViper::SetupZones()
     SetupColors();
 }
 
-void RGBController_PatriotViper::DeviceResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_PatriotViper::DeviceUpdateLEDs()
 {
     if(viper->direct == true)

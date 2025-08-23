@@ -172,13 +172,6 @@ void RGBController_EVGAGPUv2::SetupZones()
     SetupColors();
 }
 
-void RGBController_EVGAGPUv2::DeviceResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_EVGAGPUv2::DeviceUpdateLEDs()
 {
     /*---------------------------------------------------------*\

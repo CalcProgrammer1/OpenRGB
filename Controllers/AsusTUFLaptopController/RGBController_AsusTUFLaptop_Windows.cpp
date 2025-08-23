@@ -111,13 +111,6 @@ void RGBController_AsusTUFLaptopWMI::SetupZones()
     SetupColors();
 }
 
-void RGBController_AsusTUFLaptopWMI::DeviceResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 /*---------------------------------------------------------*\
 | Break this function off since we have to call save in the |
   same operation as doing everything else.                  |

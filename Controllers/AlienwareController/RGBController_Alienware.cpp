@@ -158,13 +158,6 @@ void RGBController_Alienware::SetupZones()
     SetupColors();
 }
 
-void RGBController_Alienware::DeviceResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_Alienware::DeviceUpdateLEDs()
 {
     DeviceUpdateMode();

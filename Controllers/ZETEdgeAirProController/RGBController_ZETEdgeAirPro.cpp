@@ -109,13 +109,6 @@ void RGBController_ZETEdgeAirPro::SetupZones()
     SetupColors();
 }
 
-void RGBController_ZETEdgeAirPro::DeviceResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_ZETEdgeAirPro::DeviceUpdateLEDs()
 {
     DeviceUpdateMode();

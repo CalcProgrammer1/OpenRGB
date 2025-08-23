@@ -96,13 +96,6 @@ void RGBController_SteelSeriesApex3::SetupZones()
     SetupColors();
 }
 
-void RGBController_SteelSeriesApex3::DeviceResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_SteelSeriesApex3::DeviceUpdateLEDs()
 {
     controller->SetColor(colors, modes[active_mode].value, modes[active_mode].brightness);

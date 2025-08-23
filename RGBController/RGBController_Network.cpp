@@ -48,7 +48,7 @@ void RGBController_Network::AddSegment(int zone, segment new_segment)
     client->WaitOnControllerData();
 }
 
-void RGBController_Network::DeviceResizeZone(int zone, int new_size)
+void RGBController_Network::ResizeZone(int zone, int new_size)
 {
     client->SendRequest_RGBController_ResizeZone(dev_idx, zone, new_size);
 

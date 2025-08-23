@@ -75,13 +75,6 @@ void RGBController_SteelSeriesArctis5::SetupZones()
     SetupColors();
 }
 
-void RGBController_SteelSeriesArctis5::DeviceResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_SteelSeriesArctis5::DeviceUpdateLEDs()
 {
     for(unsigned int i = 0; i < zones.size(); i++)

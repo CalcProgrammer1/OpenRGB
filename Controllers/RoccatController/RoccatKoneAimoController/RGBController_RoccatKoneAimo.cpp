@@ -159,13 +159,6 @@ void RGBController_RoccatKoneAimo::SetupZones()
     }
 }
 
-void RGBController_RoccatKoneAimo::DeviceResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_RoccatKoneAimo::DeviceUpdateLEDs()
 {
     /*---------------------------------------------------------*\

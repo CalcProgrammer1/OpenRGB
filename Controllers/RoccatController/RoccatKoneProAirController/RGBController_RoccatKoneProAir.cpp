@@ -151,13 +151,6 @@ void RGBController_RoccatKoneProAir::SetupZones()
     SetupColors();
 }
 
-void RGBController_RoccatKoneProAir::DeviceResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_RoccatKoneProAir::DeviceUpdateLEDs()
 {
     const mode& active = modes[active_mode];

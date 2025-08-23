@@ -23,7 +23,6 @@ public:
     ~RGBController_CorsairV2HW();
 
     void SetupZones();
-    void DeviceResizeZone(int zone, int new_size);
 
     void DeviceUpdateLEDs();
     void DeviceUpdateZoneLEDs(int zone);

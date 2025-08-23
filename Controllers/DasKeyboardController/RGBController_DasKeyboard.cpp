@@ -304,13 +304,6 @@ void RGBController_DasKeyboard::SetupZones()
     SetupColors();
 }
 
-void RGBController_DasKeyboard::DeviceResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_DasKeyboard::DeviceUpdateLEDs()
 {
     DeviceUpdateZoneLEDs(0);

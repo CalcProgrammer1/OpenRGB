@@ -23,7 +23,6 @@ public:
     ~RGBController_Lenovo4ZoneUSB();
 
     void        SetupZones();
-    void        DeviceResizeZone(int zone, int new_size);
 
     void        DeviceUpdateLEDs();
     void        DeviceUpdateZoneLEDs(int zone);

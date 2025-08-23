@@ -442,13 +442,6 @@ void RGBController_TForceXtreem::SetupZones()
     SetupColors();
 }
 
-void RGBController_TForceXtreem::DeviceResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_TForceXtreem::DeviceUpdateMode()
 {
     if(modes[active_mode].value == 0xFFFF)

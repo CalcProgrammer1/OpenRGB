@@ -397,13 +397,6 @@ void RGBController_SinowealthKeyboard16::SetupZones()
     SetupColors();
 }
 
-void RGBController_SinowealthKeyboard16::DeviceResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_SinowealthKeyboard16::DeviceUpdateLEDs()
 {
     controller->SetLEDsDirect(colors);
