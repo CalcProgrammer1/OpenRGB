@@ -2207,6 +2207,10 @@ std::string device_type_to_str(device_type type)
         return "Accessory";
     case DEVICE_TYPE_KEYPAD:
         return "Keypad";
+    case DEVICE_TYPE_LAPTOP:
+        return "Laptop";
+    case DEVICE_TYPE_MONITOR:
+        return "Monitor";
     default:
         return "Unknown";
     }
