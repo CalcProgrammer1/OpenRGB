@@ -228,13 +228,6 @@ void RGBController_AorusATC800::SetupZones()
     SetupColors();
 }
 
-void RGBController_AorusATC800::DeviceResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_AorusATC800::DeviceUpdateLEDs()
 {
     DeviceUpdateZoneLEDs(0);

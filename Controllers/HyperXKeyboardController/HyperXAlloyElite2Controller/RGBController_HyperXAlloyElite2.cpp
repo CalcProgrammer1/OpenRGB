@@ -298,13 +298,6 @@ void RGBController_HyperXAlloyElite2::SetupZones()
     SetupColors();
 }
 
-void RGBController_HyperXAlloyElite2::DeviceResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_HyperXAlloyElite2::DeviceUpdateLEDs()
 {
     last_update_time = std::chrono::steady_clock::now();

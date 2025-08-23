@@ -214,14 +214,6 @@ void RGBController_BloodyB820R::SetupZones()
     SetupColors();
 }
 
-void RGBController_BloodyB820R::DeviceResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
-
 void RGBController_BloodyB820R::DeviceUpdateLEDs()
 {
     controller->SetLEDDirect(colors);

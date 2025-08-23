@@ -72,13 +72,6 @@ void RGBController_PalitGPU::SetupZones()
     SetupColors();
 }
 
-void RGBController_PalitGPU::DeviceResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_PalitGPU::DeviceUpdateLEDs()
 {
     DeviceUpdateMode();

@@ -20,9 +20,7 @@ public:
     RGBController_EpomakerController(EpomakerController* controller_ptr);
     ~RGBController_EpomakerController();
 
-
     void        SetupZones();
-    void        DeviceResizeZone(int zone, int new_size);
 
     void        DeviceUpdateLEDs();
     void        DeviceUpdateZoneLEDs(int zone);

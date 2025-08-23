@@ -134,13 +134,6 @@ void RGBController_AOCMousemat::SetupZones()
     SetupColors();
 }
 
-void RGBController_AOCMousemat::DeviceResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_AOCMousemat::DeviceUpdateLEDs()
 {
     DeviceUpdateMode();

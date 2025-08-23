@@ -179,13 +179,6 @@ void RGBController_HyperXDRAM::SetupZones()
     SetupColors();
 }
 
-void RGBController_HyperXDRAM::DeviceResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_HyperXDRAM::DeviceUpdateLEDs()
 {
     if(controller->GetMode() == HYPERX_MODE_DIRECT)

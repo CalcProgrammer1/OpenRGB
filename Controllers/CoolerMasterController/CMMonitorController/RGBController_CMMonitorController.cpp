@@ -168,13 +168,6 @@ void RGBController_CMMonitorController::SetupZones()
     SetupColors();
 }
 
-void RGBController_CMMonitorController::DeviceResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_CMMonitorController::DeviceUpdateLEDs()
 {
     if(modes[active_mode].value == CM_MONITOR_DIRECT_MODE)

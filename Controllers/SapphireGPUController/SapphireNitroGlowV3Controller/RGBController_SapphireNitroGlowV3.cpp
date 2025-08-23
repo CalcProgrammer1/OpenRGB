@@ -178,13 +178,6 @@ void RGBController_SapphireNitroGlowV3::ReadConfiguration()
     }
 }
 
-void RGBController_SapphireNitroGlowV3::DeviceResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_SapphireNitroGlowV3::DeviceUpdateLEDs()
 {
     RGBColor      color = colors[0];

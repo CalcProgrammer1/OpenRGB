@@ -302,14 +302,6 @@ void RGBController_XPGSummoner::SetupZones()
 }
 
 /*---------------------------------------------------------*\
-| DeviceResizeZone: Not supported for this device                 |
-\*---------------------------------------------------------*/
-void RGBController_XPGSummoner::DeviceResizeZone(int /*zone*/, int /*new_size*/)
-{
-    // This device does not support resizing zones
-}
-
-/*---------------------------------------------------------*\
 | DeviceUpdateLEDs: Updates LED colors                      |
 \*---------------------------------------------------------*/
 void RGBController_XPGSummoner::DeviceUpdateLEDs()

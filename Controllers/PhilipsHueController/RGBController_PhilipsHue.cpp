@@ -62,13 +62,6 @@ void RGBController_PhilipsHue::SetupZones()
     SetupColors();
 }
 
-void RGBController_PhilipsHue::DeviceResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_PhilipsHue::DeviceUpdateLEDs()
 {
     unsigned char red = RGBGetRValue(colors[0]);

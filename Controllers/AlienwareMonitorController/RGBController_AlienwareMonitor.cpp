@@ -96,11 +96,6 @@ void RGBController_AlienwareMonitor::SetupZones()
     SetupColors();
 }
 
-void RGBController_AlienwareMonitor::DeviceResizeZone(int /*zone*/, int /*new_size*/)
-{
-
-}
-
 void RGBController_AlienwareMonitor::DeviceUpdateLEDs()
 {
     /*-----------------------------------------------------*\

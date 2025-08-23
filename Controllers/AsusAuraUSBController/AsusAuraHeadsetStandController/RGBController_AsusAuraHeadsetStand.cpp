@@ -157,13 +157,6 @@ void RGBController_AuraHeadsetStand::SetupZones()
     SetupColors();
 }
 
-void RGBController_AuraHeadsetStand::DeviceResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_AuraHeadsetStand::DeviceUpdateLEDs()
 {
     controller->UpdateLeds(std::vector<RGBColor>(colors));

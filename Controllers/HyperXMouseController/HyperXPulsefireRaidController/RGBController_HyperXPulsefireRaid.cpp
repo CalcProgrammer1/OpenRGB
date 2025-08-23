@@ -87,11 +87,6 @@ void RGBController_HyperXPulsefireRaid::SetupZones()
     SetupColors();
 }
 
-void RGBController_HyperXPulsefireRaid::DeviceResizeZone(int /*zone*/, int /*new_size*/)
-{
-
-}
-
 void RGBController_HyperXPulsefireRaid::DeviceUpdateLEDs()
 {
     DeviceUpdateSingleLED(0);

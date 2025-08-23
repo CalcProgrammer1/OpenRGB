@@ -155,13 +155,6 @@ void RGBController_GalaxGPUv2::SetupZones()
     colors[0] = ToRGBColor(red, grn, blu);
 }
 
-void RGBController_GalaxGPUv2::DeviceResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_GalaxGPUv2::DeviceUpdateLEDs()
 {
     for(std::size_t led = 0; led < colors.size(); led++)

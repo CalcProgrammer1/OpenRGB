@@ -139,13 +139,6 @@ void RGBController_LogitechG203L::SetupZones()
     SetupColors();
 }
 
-void RGBController_LogitechG203L::DeviceResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_LogitechG203L::DeviceUpdateLEDs()
 {
     controller->SetDevice(colors);

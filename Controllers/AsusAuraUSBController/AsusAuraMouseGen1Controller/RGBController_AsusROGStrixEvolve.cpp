@@ -105,11 +105,6 @@ void RGBController_AsusROGStrixEvolve::SetupZones()
     SetupColors();
 }
 
-void RGBController_AsusROGStrixEvolve::DeviceResizeZone(int /*zone*/, int /*new_size*/)
-{
-
-}
-
 void RGBController_AsusROGStrixEvolve::DeviceUpdateLEDs()
 {
     DeviceUpdateSingleLED(0);

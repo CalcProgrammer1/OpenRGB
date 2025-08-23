@@ -119,13 +119,6 @@ void RGBController_LogitechGLightsync::SetupZones()
     SetupColors();
 }
 
-void RGBController_LogitechGLightsync::DeviceResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_LogitechGLightsync::DeviceUpdateLEDs()
 {
     DeviceUpdateZoneLEDs(0);

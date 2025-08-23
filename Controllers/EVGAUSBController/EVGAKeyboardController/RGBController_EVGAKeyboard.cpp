@@ -471,13 +471,6 @@ void RGBController_EVGAKeyboard::SetupZones()
     SetupColors();
 }
 
-void RGBController_EVGAKeyboard::DeviceResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_EVGAKeyboard::DeviceUpdateLEDs()
 {
     controller->SetLedsDirect(colors);

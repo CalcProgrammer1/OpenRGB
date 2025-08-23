@@ -94,13 +94,6 @@ void RGBController_RedragonMouse::SetupZones()
     SetupColors();
 }
 
-void RGBController_RedragonMouse::DeviceResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_RedragonMouse::DeviceUpdateLEDs()
 {
     unsigned char red = RGBGetRValue(colors[0]);

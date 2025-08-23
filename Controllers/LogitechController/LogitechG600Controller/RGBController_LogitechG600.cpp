@@ -86,13 +86,6 @@ void RGBController_LogitechG600::SetupZones()
     SetupColors();
 }
 
-void RGBController_LogitechG600::DeviceResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | Currently does not support resizing zones                 |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_LogitechG600::DeviceUpdateLEDs()
 {
     controller->SetMode(modes[active_mode].value, modes[active_mode].speed, GetLED(0));

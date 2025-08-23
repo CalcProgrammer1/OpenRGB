@@ -90,13 +90,6 @@ void RGBController_Seagate::SetupZones()
     SetupColors();
 }
 
-void RGBController_Seagate::DeviceResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_Seagate::DeviceUpdateLEDs()
 {
     for(unsigned int led_idx = 0; led_idx < leds.size(); led_idx++)

@@ -275,13 +275,6 @@ void RGBController_LogitechGProKeyboard::SetupZones()
     SetupColors();
 }
 
-void RGBController_LogitechGProKeyboard::DeviceResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_LogitechGProKeyboard::DeviceUpdateLEDs()
 {
     #define MAX_FRAMES_PER_PACKET 0x0E

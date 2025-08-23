@@ -87,13 +87,6 @@ void RGBController_PatriotViperMouse::SetupZones()
     SetupColors();
 }
 
-void RGBController_PatriotViperMouse::DeviceResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_PatriotViperMouse::DeviceUpdateLEDs()
 {
     DeviceUpdateMode();

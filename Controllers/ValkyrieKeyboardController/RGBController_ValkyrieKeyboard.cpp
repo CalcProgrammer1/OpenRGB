@@ -381,13 +381,6 @@ void RGBController_ValkyrieKeyboard::SetupZones()
     SetupColors();
 }
 
-void RGBController_ValkyrieKeyboard::DeviceResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_ValkyrieKeyboard::DeviceUpdateLEDs()
 {
     unsigned char colordata[1024];

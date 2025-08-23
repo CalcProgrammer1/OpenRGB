@@ -215,13 +215,6 @@ void RGBController_AuraCore::SetupZones()
     SetupColors();
 }
 
-void RGBController_AuraCore::DeviceResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_AuraCore::DeviceUpdateLEDs()
 {
     DeviceUpdateZoneLEDs(0);

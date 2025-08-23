@@ -244,13 +244,6 @@ void RGBController_RedSquareKeyroxTKLClassic::SetupZones()
     SetupColors();
 }
 
-void RGBController_RedSquareKeyroxTKLClassic::DeviceResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_RedSquareKeyroxTKLClassic::DeviceUpdateLEDs()
 {
     controller->SetLEDsData(colors, leds);

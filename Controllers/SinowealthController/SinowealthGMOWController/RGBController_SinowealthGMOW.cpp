@@ -166,11 +166,6 @@ void RGBController_GMOW::SetupZones()
 
 }
 
-void RGBController_GMOW::DeviceResizeZone(int /*zone*/, int /*new_size*/)
-{
-
-}
-
 void RGBController_GMOW::DeviceUpdateLEDs()
 {
 

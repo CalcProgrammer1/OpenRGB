@@ -83,13 +83,6 @@ void RGBController_LogitechG933::SetupZones()
     SetupColors();
 }
 
-void RGBController_LogitechG933::DeviceResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_LogitechG933::DeviceUpdateLEDs()
 {
     for(std::size_t led_idx = 0; led_idx < leds.size(); led_idx++)

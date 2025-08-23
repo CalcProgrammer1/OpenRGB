@@ -21,7 +21,6 @@ public:
     ~RGBController_SteelSeriesArctis5();
 
     void SetupZones();
-    void DeviceResizeZone(int zone, int new_size);
 
     void DeviceUpdateLEDs();
     void DeviceUpdateZoneLEDs(int zone);

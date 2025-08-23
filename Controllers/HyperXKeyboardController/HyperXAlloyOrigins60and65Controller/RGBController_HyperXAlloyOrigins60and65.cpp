@@ -319,13 +319,6 @@ void RGBController_HyperXAlloyOrigins60and65::SetupZones()
     SetupColors();
 }
 
-void RGBController_HyperXAlloyOrigins60and65::DeviceResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_HyperXAlloyOrigins60and65::DeviceUpdateLEDs()
 {
     controller->SetLEDsDirect(colors);

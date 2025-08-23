@@ -66,13 +66,6 @@ void RGBController_SteelSeriesSiberia::SetupZones()
     SetupColors();
 }
 
-void RGBController_SteelSeriesSiberia::DeviceResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_SteelSeriesSiberia::DeviceUpdateLEDs()
 {
     unsigned char red = RGBGetRValue(colors[0]);

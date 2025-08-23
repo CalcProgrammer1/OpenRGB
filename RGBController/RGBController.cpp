@@ -2166,6 +2166,13 @@ void RGBController::DeviceCallThreadFunction()
     }
 }
 
+void RGBController::DeviceResizeZone(int /*zone*/, int /*new_size*/)
+{
+    /*-------------------------------------------------*\
+    | If not implemented by controller, does nothing    |
+    \*-------------------------------------------------*/
+}
+
 void RGBController::DeviceSaveMode()
 {
     /*-------------------------------------------------*\

@@ -165,13 +165,6 @@ void RGBController_AsusROGAlly::SetupZones()
     SetupColors();
 }
 
-void RGBController_AsusROGAlly::DeviceResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_AsusROGAlly::DeviceUpdateLEDs()
 {
     if(modes[active_mode].value == ROG_ALLY_MODE_DIRECT)

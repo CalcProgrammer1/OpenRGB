@@ -391,13 +391,6 @@ void RGBController_CorsairK55RGBPROXT::SetupZones()
     SetupColors();
 }
 
-void RGBController_CorsairK55RGBPROXT::DeviceResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_CorsairK55RGBPROXT::DeviceUpdateLEDs()
 {
     last_update_time = std::chrono::steady_clock::now();

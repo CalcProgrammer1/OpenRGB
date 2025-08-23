@@ -394,14 +394,6 @@ void RGBController_EpomakerController::SetupZones()
     SetupColors();
 }
 
-
-void RGBController_EpomakerController::DeviceResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | Not implemented                                           |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_EpomakerController::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateLEDs();

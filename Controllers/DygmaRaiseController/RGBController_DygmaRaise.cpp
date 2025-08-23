@@ -229,13 +229,6 @@ void RGBController_DygmaRaise::SetupZones()
     SetupColors();
 }
 
-void RGBController_DygmaRaise::DeviceResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_DygmaRaise::DeviceUpdateLEDs()
 {
     controller->SendDirect(colors,leds.size());

@@ -24,7 +24,7 @@ public:
 
     void        ClearSegments(int zone);
     void        AddSegment(int zone, segment new_segment);
-    void        DeviceResizeZone(int zone, int new_size);
+    void        ResizeZone(int zone, int new_size);
 
     void        DeviceUpdateLEDs();
     void        DeviceUpdateZoneLEDs(int zone);

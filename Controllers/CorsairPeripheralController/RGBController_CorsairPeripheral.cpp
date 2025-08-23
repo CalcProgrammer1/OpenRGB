@@ -1189,13 +1189,6 @@ void RGBController_CorsairPeripheral::SetupZones()
     SetupColors();
 }
 
-void RGBController_CorsairPeripheral::DeviceResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_CorsairPeripheral::DeviceUpdateLEDs()
 {
     controller->SetLEDs(colors);

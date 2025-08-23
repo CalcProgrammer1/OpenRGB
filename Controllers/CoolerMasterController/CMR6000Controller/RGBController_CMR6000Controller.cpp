@@ -175,13 +175,6 @@ void RGBController_CMR6000Controller::SetupZones()
 
 }
 
-void RGBController_CMR6000Controller::DeviceResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_CMR6000Controller::DeviceUpdateLEDs()
 {
     mode new_mode       = modes[active_mode];

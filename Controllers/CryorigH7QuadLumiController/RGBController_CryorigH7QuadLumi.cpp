@@ -182,11 +182,6 @@ void RGBController_CryorigH7QuadLumi::SetupZones()
     SetupColors();
 }
 
-void RGBController_CryorigH7QuadLumi::DeviceResizeZone(int /*zone*/, int /*new_size*/)
-{
-
-}
-
 void RGBController_CryorigH7QuadLumi::DeviceUpdateLEDs()
 {
     for(unsigned char zone_idx = 0; zone_idx < (unsigned char)zones.size(); zone_idx++)

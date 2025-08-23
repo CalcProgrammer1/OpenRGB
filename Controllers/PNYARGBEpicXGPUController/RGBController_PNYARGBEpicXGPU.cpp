@@ -132,13 +132,6 @@ void RGBController_PNYARGBEpicXGPU::SetupZones()
     SetupColors();
 }
 
-void RGBController_PNYARGBEpicXGPU::DeviceResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_PNYARGBEpicXGPU::DeviceUpdateLEDs()
 {
     for(std::size_t i = 0; i < leds.size(); i++)

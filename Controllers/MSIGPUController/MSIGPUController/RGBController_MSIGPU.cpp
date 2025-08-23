@@ -374,13 +374,6 @@ void RGBController_MSIGPU::SetupZones()
     colors[2] =  ToRGBColor(r3, g3, b3);
 }
 
-void RGBController_MSIGPU::DeviceResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 bool RGBController_MSIGPU::TimeToSend()
 {
     /*-----------------------------------------------------*\

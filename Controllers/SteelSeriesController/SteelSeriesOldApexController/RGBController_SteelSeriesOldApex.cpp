@@ -124,13 +124,6 @@ void RGBController_SteelSeriesOldApex::SetupZones()
     SetupColors();
 }
 
-void RGBController_SteelSeriesOldApex::DeviceResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_SteelSeriesOldApex::DeviceUpdateLEDs()
 {
     // Due to the inefficient packet design of the OG Apex

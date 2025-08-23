@@ -42,11 +42,6 @@ void RGBController_Dummy::SetupZones()
 
 }
 
-void RGBController_Dummy::DeviceResizeZone(int /*zone*/, int /*new_size*/)
-{
-
-}
-
 void RGBController_Dummy::DeviceUpdateLEDs()
 {
 

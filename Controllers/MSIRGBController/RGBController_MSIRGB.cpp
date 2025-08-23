@@ -65,11 +65,6 @@ void RGBController_MSIRGB::SetupZones()
     SetupColors();
 }
 
-void RGBController_MSIRGB::DeviceResizeZone(int /*zone*/, int /*new_size*/)
-{
-
-}
-
 void RGBController_MSIRGB::DeviceUpdateLEDs()
 {
     RGBColor      color = colors[0];

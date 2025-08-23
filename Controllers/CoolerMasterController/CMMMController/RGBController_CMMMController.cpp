@@ -212,13 +212,6 @@ void RGBController_CMMMController::SetupZones()
     SetupColors();
 }
 
-void RGBController_CMMMController::DeviceResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_CMMMController::DeviceUpdateLEDs()
 {
     int value            = 0;

@@ -121,13 +121,6 @@ void RGBController_LGMonitor::SetupZones()
     SetupColors();
 }
 
-void RGBController_LGMonitor::DeviceResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_LGMonitor::DeviceUpdateLEDs()
 {
     last_update_time = std::chrono::steady_clock::now();

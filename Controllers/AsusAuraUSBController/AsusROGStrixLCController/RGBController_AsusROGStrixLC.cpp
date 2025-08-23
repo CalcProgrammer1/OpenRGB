@@ -172,13 +172,6 @@ void RGBController_AsusROGStrixLC::SetupZones()
     SetupColors();
 }
 
-void RGBController_AsusROGStrixLC::DeviceResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_AsusROGStrixLC::DeviceUpdateLEDs()
 {
     for(unsigned int zone_idx = 0; zone_idx < zones.size(); zone_idx++)
