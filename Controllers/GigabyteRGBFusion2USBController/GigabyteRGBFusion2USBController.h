@@ -17,43 +17,9 @@
 #include <hidapi.h>
 #include <map>
 #include "RGBController.h"
+#include "GigabyteFusion2USB_Devices.h"
 
 #define FUSION2_USB_BUFFER_SIZE   64
-
-/*--------------------------------------------------------*\
-| Base LED mappings found on all controllers.              |
-\*--------------------------------------------------------*/
-const uint8_t LED1              = 0;
-const uint8_t LED2              = 1;
-const uint8_t LED3              = 2;
-const uint8_t LED4              = 3;
-const uint8_t LED5              = 4;
-const uint8_t LED6              = 5;
-const uint8_t LED7              = 6;
-const uint8_t LED8              = 7;
-
-/*--------------------------------------------------------*\
-| IT8297/IT5701/IT5702 ARGB Headers                        |
-\*--------------------------------------------------------*/
-const uint8_t HDR_D_LED1        = LED6;
-const uint8_t HDR_D_LED2        = LED7;
-const uint8_t HDR_D_LED1_RGB    = 0x58;
-const uint8_t HDR_D_LED2_RGB    = 0x59;
-
-/*--------------------------------------------------------*\
-| Additional LED mappings found on IT5711 controllers.     |
-\*--------------------------------------------------------*/
-const uint8_t LED9              = 8;
-const uint8_t LED10             = 9;
-const uint8_t LED11             = 10;
-
-/*--------------------------------------------------------*\
-| IT5711 additional ARGB Headers.                          |
-\*--------------------------------------------------------*/
-const uint8_t HDR_D_LED3        = LED8;
-const uint8_t HDR_D_LED4        = LED9;
-const uint8_t HDR_D_LED3_RGB    = 0x62;
-const uint8_t HDR_D_LED4_RGB    = 0x63;
 
 /*---------------------------------------------------------*\
 | Effects mode list                                         |
@@ -102,8 +68,8 @@ struct LEDs
 \*---------------------------------------------------------*/
 struct CalibrationData
 {
-    uint32_t dled[4]   = {0};
-    uint32_t spare[4]  = {0};
+    uint32_t dled[4]   = {0, 0, 0, 0};
+    uint32_t spare[4]  = {0, 0, 0, 0};
     uint32_t mainboard = 0;
 };
 
@@ -187,16 +153,16 @@ union PktRGB
         {
             case LED4:
             case HDR_D_LED2:
-                header = HDR_D_LED2_RGB;
+                header = HDR_D_LED2_ARGB;
                 break;
             case HDR_D_LED3:
-                header = HDR_D_LED3_RGB;
+                header = HDR_D_LED3_ARGB;
                 break;
             case HDR_D_LED4:
-                header = HDR_D_LED4_RGB;
+                header = HDR_D_LED4_ARGB;
                 break;
             default:
-                header = HDR_D_LED1_RGB;
+                header = HDR_D_LED1_ARGB;
                 break;
         }
         s.report_id = report_id;
@@ -250,7 +216,7 @@ union PktEffect
 
     void Init(int led, uint8_t report_id, uint16_t pid)
     {
-        memset(e.padding0, 0, sizeof(e.padding0));
+        memset(buffer, 0, sizeof(buffer));
 
         e.report_id         = report_id;
         if(led == -1)
@@ -316,20 +282,29 @@ struct IT5711Calibration
 /*---------------------------------------------------------*\
 | CC33 Set Calibration Struct                               |
 \*---------------------------------------------------------*/
-struct CMD_0x33
+union CMD_0x33
 {
-    uint8_t  report_id;
-    uint8_t  command_id;
-    uint32_t d_strip_c0;
-    uint32_t d_strip_c1;
-    uint32_t rgb_cali;
-    uint32_t c_spare0;
-    uint32_t c_spare1;
-    uint32_t d_strip_c2;
-    uint32_t d_strip_c3;
-    uint32_t c_spare2;
-    uint32_t c_spare3;
-    uint8_t  reserved[25];
+    unsigned char buffer[FUSION2_USB_BUFFER_SIZE];
+    struct Calibration
+    {
+        uint8_t  report_id      = 0xCC;
+        uint8_t  command_id     = 0x33;
+        uint32_t d_strip_c0     = 0;
+        uint32_t d_strip_c1     = 0;
+        uint32_t rgb_cali       = 0;
+        uint32_t c_spare0       = 0;
+        uint32_t c_spare1       = 0;
+        uint32_t d_strip_c2     = 0;
+        uint32_t d_strip_c3     = 0;
+        uint32_t c_spare2       = 0;
+        uint32_t c_spare3       = 0;
+        uint8_t  reserved[25];
+    } c;
+
+    CMD_0x33() : c{}
+    {
+        memset(c.reserved, 0, sizeof(c.reserved));
+    }
 };
 
 #pragma pack(pop)
@@ -340,54 +315,51 @@ public:
     RGBFusion2USBController(hid_device* handle, const char *path, std::string mb_name, uint16_t pid);
     ~RGBFusion2USBController();
 
-    bool                    RefreshHardwareInfo();
-    void                    ResetController();
-    uint16_t                GetProductID();
-    uint8_t                 GetDeviceNum();
-    void                    SetStripColors(unsigned int hdr, RGBColor * colors, unsigned int num_colors, int single_led = -1);
-    void                    SetLEDEffect(int led, int mode, unsigned int speed, unsigned char brightness, bool random, uint32_t* color);
-    void                    SetLedCount(unsigned int c0, unsigned int c1, unsigned int c2, unsigned int c3);
-    void                    SetMode(int mode);
     bool                    ApplyEffect(bool batch_commit = false);
-    bool                    SetStripBuiltinEffectState(int hdr, bool enable);
-    EncodedCalibration      GetCalibration(bool refresh_from_hw = false);
     bool                    SetCalibration(const EncodedCalibration& cal, bool refresh_from_hw);
+    void                    SetLedCount(unsigned int c0, unsigned int c1, unsigned int c2, unsigned int c3);
+    void                    SetLEDEffect(int led, int mode, unsigned int speed, unsigned char brightness, bool random, uint32_t* color);
+    bool                    SetStripBuiltinEffectState(int hdr, bool enable);
+    void                    SetStripColors(unsigned int hdr, RGBColor * colors, unsigned int num_colors, int single_led = -1);
+
+    EncodedCalibration      GetCalibration(bool refresh_from_hw = false);
     std::string             GetDeviceName();
+    uint8_t                 GetDeviceNum();
     std::string             GetDeviceDescription();
     std::string             GetDeviceLocation();
     std::string             GetFWVersion();
+    uint16_t                GetProductID();
     std::string             GetSerial();
 
 private:
-    bool                    SaveLEDState(bool enable);
-    bool                    SaveCalState();
+    std::string             DecodeCalibrationBuffer(uint32_t value) const;
     bool                    EnableLampArray(bool enable);
     bool                    EnableBeat(bool enable);
-    bool                    SendPacket(uint8_t a, uint8_t b, uint8_t c = 0);
-    int                     SendPacket(unsigned char* packet);
     uint32_t                EncodeCalibrationBuffer(const std::string& rgb_order);
-    std::string             DecodeCalibrationBuffer(uint32_t value) const;
+    bool                    RefreshHardwareInfo();
+    void                    ResetController();
+    bool                    SaveLEDState(bool enable);
+    bool                    SaveCalState();
+    bool                    SendCCReport(uint8_t a, uint8_t b, uint8_t c = 0);
+    bool                    SendReport(uint8_t id, uint8_t a, uint8_t b, uint8_t c = 0);
+    int                     SendPacket(unsigned char* packet);
+
     hid_device*             dev;
     int                     device_num;
     uint16_t                product_id;
-    uint32_t                effect_zone_mask = 0;
+    uint32_t                effect_zone_mask    = 0;
     int                     mode;
     IT8297Report            report;
-    IT5711Calibration       cali;
     CalibrationData         cal_data;
     std::string             name;
     std::string             description;
     std::string             location;
     std::string             version;
     std::string             chip_id;
-    int                     effect_disabled = 0;
-    int                     report_id = 0xCC;
-    bool                    report_loaded = false;
-    bool                    cali_loaded   = false;
-    LEDCount                new_d1;
-    LEDCount                new_d2;
-    LEDCount                new_d3;
-    LEDCount                new_d4;
+    int                     effect_disabled     = 0;
+    int                     report_id           = 0xCC;
+    bool                    report_loaded       = false;
+    bool                    cali_loaded         = false;
     LEDCount                D_LED1_count;
     LEDCount                D_LED2_count;
     LEDCount                D_LED3_count;
