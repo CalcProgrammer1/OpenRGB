@@ -97,13 +97,6 @@ void RGBController_Faustus::SetupZones()
     SetupColors();
 }
 
-void RGBController_Faustus::DeviceResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_Faustus::DeviceUpdateLEDs()
 {
     int rv = uint8_t(RGBGetRValue(colors[0]));

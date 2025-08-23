@@ -355,13 +355,6 @@ void RGBController_CherryKeyboard::SetupZones()
     SetupColors();
 }
 
-void RGBController_CherryKeyboard::DeviceResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_CherryKeyboard::DeviceUpdateLEDs()
 {
     unsigned char color_data[CUSTOM_COLOR_ARRAY_BYTE_COUNT];

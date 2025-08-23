@@ -110,11 +110,6 @@ void RGBController_ColorfulTuringGPU::SetupZones()
     SetupColors();
 }
 
-void RGBController_ColorfulTuringGPU::DeviceResizeZone(int /*zone*/, int /*new_size*/)
-{
-
-}
-
 void RGBController_ColorfulTuringGPU::DeviceUpdateLEDs()
 {
     switch(modes[active_mode].value)

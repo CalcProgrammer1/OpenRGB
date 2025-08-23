@@ -210,13 +210,6 @@ void RGBController_AuraMousemat::SetupZones()
     SetupColors();
 }
 
-void RGBController_AuraMousemat::DeviceResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_AuraMousemat::DeviceUpdateLEDs()
 {
     controller->UpdateLeds(std::vector<RGBColor>(colors));

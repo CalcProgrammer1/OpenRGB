@@ -66,11 +66,6 @@ void RGBController_ColorfulGPU::SetupZones()
     SetupColors();
 }
 
-void RGBController_ColorfulGPU::DeviceResizeZone(int /*zone*/, int /*new_size*/)
-{
-
-}
-
 void RGBController_ColorfulGPU::DeviceUpdateLEDs()
 {
     controller->SetDirect(colors[0]);

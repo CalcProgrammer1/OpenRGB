@@ -181,11 +181,6 @@ void RGBController_AsusSagarisKeyboard::SetupZones()
     SetupColors();
 }
 
-void RGBController_AsusSagarisKeyboard::DeviceResizeZone(int /*zone*/, int /*new_size*/)
-{
-
-}
-
 void RGBController_AsusSagarisKeyboard::DeviceUpdateLEDs()
 {
 

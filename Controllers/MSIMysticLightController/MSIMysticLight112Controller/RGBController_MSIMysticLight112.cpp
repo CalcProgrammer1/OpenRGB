@@ -164,14 +164,6 @@ void RGBController_MSIMysticLight112::SetupZones()
     }
 }
 
-void RGBController_MSIMysticLight112::DeviceResizeZone
-    (
-    int /*zone*/,
-    int /*new_size*/
-    )
-{
-}
-
 void RGBController_MSIMysticLight112::DeviceUpdateLEDs()
 {
     for(std::size_t zone_idx = 0; zone_idx < zones.size(); ++zone_idx)

@@ -904,13 +904,6 @@ void RGBController_EVisionV2Keyboard::LoadConfig()
     }
 }
 
-void RGBController_EVisionV2Keyboard::DeviceResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_EVisionV2Keyboard::DeviceUpdateLEDs()
 {
     if(part != EVISION_V2_KEYBOARD_PART_KEYBOARD)

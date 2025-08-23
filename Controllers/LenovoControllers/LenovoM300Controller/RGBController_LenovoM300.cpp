@@ -93,11 +93,6 @@ void RGBController_LenovoM300::SetupZones()
     SetupColors();
 }
 
-void RGBController_LenovoM300::DeviceResizeZone(int /*zone*/, int /*new_size*/)
-{
-    // Not Supported
-}
-
 void RGBController_LenovoM300::DeviceUpdateLEDs()
 {
     const mode& active = modes[active_mode];

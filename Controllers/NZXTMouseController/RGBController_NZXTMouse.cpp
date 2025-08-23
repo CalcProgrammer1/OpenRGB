@@ -92,11 +92,6 @@ void RGBController_NZXTMouse::SetupZones()
     SetupColors();
 }
 
-void RGBController_NZXTMouse::DeviceResizeZone(int /*zone*/, int /*new_size*/)
-{
-
-}
-
 void RGBController_NZXTMouse::DeviceUpdateLEDs()
 {
 controller->SetLEDs(&colors[0]);

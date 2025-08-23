@@ -205,13 +205,6 @@ void RGBController_AMDWraithPrism::SetupZones()
     SetupColors();
 }
 
-void RGBController_AMDWraithPrism::DeviceResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_AMDWraithPrism::DeviceUpdateLEDs()
 {
     if(modes[active_mode].color_mode == MODE_COLORS_PER_LED)

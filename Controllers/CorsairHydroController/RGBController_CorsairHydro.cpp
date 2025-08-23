@@ -107,13 +107,6 @@ void RGBController_CorsairHydro::SetupZones()
     SetupColors();
 }
 
-void RGBController_CorsairHydro::DeviceResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_CorsairHydro::DeviceUpdateLEDs()
 {
     DeviceUpdateMode();

@@ -335,13 +335,6 @@ void RGBController_AlienwareAW510K::SetupZones()
     SetupColors();
 }
 
-void RGBController_AlienwareAW510K::DeviceResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_AlienwareAW510K::DeviceUpdateLEDs()
 {
     std::vector<SelectedKeys>   frame_buf_keys;

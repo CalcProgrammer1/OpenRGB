@@ -93,13 +93,6 @@ void RGBController_MSI3Zone::SetupZones()
     SetupColors();
 }
 
-void RGBController_MSI3Zone::DeviceResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_MSI3Zone::DeviceUpdateLEDs()
 {
     controller->SetLEDs(colors);

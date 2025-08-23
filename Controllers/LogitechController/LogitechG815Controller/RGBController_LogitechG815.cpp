@@ -302,13 +302,6 @@ void RGBController_LogitechG815::SetupZones()
     SetupColors();
 }
 
-void RGBController_LogitechG815::DeviceResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_LogitechG815::DeviceUpdateLEDs()
 {
     std::map<RGBColor, std::vector<char>> ledsByColors;

@@ -24,7 +24,6 @@ class RGBController_NVIDIAIlluminationV1 : public RGBController
         ~RGBController_NVIDIAIlluminationV1();
 
         void SetupZones();
-        void DeviceResizeZone(int zone, int new_size);
 
         void DeviceUpdateLEDs();
         void DeviceUpdateZoneLEDs(int zone);

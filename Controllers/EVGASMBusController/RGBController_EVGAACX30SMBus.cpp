@@ -121,13 +121,6 @@ void RGBController_EVGAACX30SMBus::SetupZones()
     SetupColors();
 }
 
-void RGBController_EVGAACX30SMBus::DeviceResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_EVGAACX30SMBus::DeviceUpdateLEDs()
 {
     for(unsigned int led = 0; led < colors.size(); led++)

@@ -138,13 +138,6 @@ void RGBController_CougarRevengerST::SetupZones()
     SetupColors();
 }
 
-void RGBController_CougarRevengerST::DeviceResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_CougarRevengerST::DeviceUpdateLEDs()
 {
     for(unsigned int i = 0; i < colors.size(); i++)

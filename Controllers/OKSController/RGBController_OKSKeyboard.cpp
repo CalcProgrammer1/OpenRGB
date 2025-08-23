@@ -232,13 +232,6 @@ void RGBController_OKSKeyboard::SetupZones()
     SetupColors();
 }
 
-void RGBController_OKSKeyboard::DeviceResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_OKSKeyboard::DeviceUpdateLEDs()
 {
     unsigned char colordata[155*3];

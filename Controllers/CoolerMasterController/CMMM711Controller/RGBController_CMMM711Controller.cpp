@@ -159,13 +159,6 @@ void RGBController_CMMM711Controller::SetupZones()
     SetupColors();
 }
 
-void RGBController_CMMM711Controller::DeviceResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_CMMM711Controller::DeviceUpdateLEDs()
 {
     RGBColor wheel  = applyBrightness(colors[0], modes[active_mode].brightness);

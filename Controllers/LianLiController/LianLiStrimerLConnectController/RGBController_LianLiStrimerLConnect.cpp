@@ -211,13 +211,6 @@ void RGBController_LianLiStrimerLConnect::SetupZones()
     SetupColors();
 }
 
-void RGBController_LianLiStrimerLConnect::DeviceResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 bool RGBController_LianLiStrimerLConnect::TimeToSend()
 {
     /*-----------------------------------------------------*\

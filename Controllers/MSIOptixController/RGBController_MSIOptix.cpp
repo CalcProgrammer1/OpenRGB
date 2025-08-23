@@ -360,13 +360,6 @@ void RGBController_MSIOptix::SetupZones()
     SetupColors();
 }
 
-void RGBController_MSIOptix::DeviceResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_MSIOptix::DeviceUpdateLEDs()
 {
     DeviceUpdateZoneLEDs(0);

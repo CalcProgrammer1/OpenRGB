@@ -249,10 +249,6 @@ void RGBController_NZXTHue1::SetupZones()
     SetupColors();
 }
 
-void RGBController_NZXTHue1::DeviceResizeZone(int /*zone*/, int /*new_size*/)
-{
-}
-
 void RGBController_NZXTHue1::DeviceUpdateLEDs()
 {
     controller->SetLEDs(zones[0].colors, zones[0].leds_count);

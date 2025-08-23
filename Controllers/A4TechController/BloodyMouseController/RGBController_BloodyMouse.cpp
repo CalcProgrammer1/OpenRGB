@@ -160,13 +160,6 @@ void RGBController_BloodyMouse::SetupZones()
     SetupColors();
 }
 
-void RGBController_BloodyMouse::DeviceResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_BloodyMouse::DeviceUpdateLEDs()
 {
     std::vector<RGBColor> colour;

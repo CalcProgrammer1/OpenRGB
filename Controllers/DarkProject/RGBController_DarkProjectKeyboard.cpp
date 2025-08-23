@@ -197,14 +197,6 @@ void RGBController_DarkProjectKeyboard::SetupZones()
     SetupColors();
 }
 
-void RGBController_DarkProjectKeyboard::DeviceResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
-
 void RGBController_DarkProjectKeyboard::DeviceUpdateLEDs()
 {
     controller->SetLedsDirect(colors);

@@ -650,13 +650,6 @@ void RGBController_KeychronKeyboard::SetupZones()
     SetupColors();
 }
 
-void RGBController_KeychronKeyboard::DeviceResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_KeychronKeyboard::DeviceUpdateLEDs()
 {
     DeviceUpdateZoneLEDs(0);

@@ -115,13 +115,6 @@ void RGBController_Lenovo4ZoneUSB::SetupZones()
     SetupColors();
 }
 
-void RGBController_Lenovo4ZoneUSB::DeviceResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_Lenovo4ZoneUSB::DeviceUpdateSingleLED(int /*led*/)
 {
 }

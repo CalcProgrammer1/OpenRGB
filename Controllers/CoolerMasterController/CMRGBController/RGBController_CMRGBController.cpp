@@ -244,10 +244,6 @@ void RGBController_CMRGBController::SetupZones()
     SetupColors();
 }
 
-void RGBController_CMRGBController::DeviceResizeZone(int /*zone*/, int /*new_size*/)
-{
-}
-
 void RGBController_CMRGBController::DeviceUpdateLEDs()
 {
     for(int zone_idx = 0; zone_idx < (int)zones.size(); zone_idx++)
