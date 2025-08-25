@@ -670,7 +670,7 @@ void RGBController_RGBFusion2USB::DeviceUpdateLEDs()
                 | Motherboard LEDs always use effect mode, so use static for|
                 | direct mode but get colors from zone                      |
                 \*---------------------------------------------------------*/
-                if(mode_value == 0xFFFF)
+                if(modes[active_mode].value == 0xFFFF)
                 {
                     color       = &zones[zone_idx].colors[led_idx];
                     mode_value  = EFFECT_STATIC;
@@ -701,7 +701,7 @@ void RGBController_RGBFusion2USB::DeviceUpdateLEDs()
                 /*---------------------------------------------------------*\
                 | Direct mode addresses a different register                |
                 \*---------------------------------------------------------*/
-                if(mode_value == 0xFFFF)
+                if(modes[active_mode].value == 0xFFFF)
                 {
                     controller->SetStripBuiltinEffectState(hdr, false);
                     controller->SetStripColors(hdr, zones[zone_idx].colors, zones[zone_idx].leds_count);
