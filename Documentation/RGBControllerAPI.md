@@ -14,11 +14,45 @@ The Controller class files are kept in the Controllers/ folder.
 
 ## **Detector**
 
-A device's Detector function scans the attached devices to see if a particular device (Controller/RGBController) exists.  At the moment, two types of detectors exist - I2C and non-I2C.  Both detector types are passed (by reference) a vector of RGBController pointers in which to add newly detected controllers.  Detectors for I2C devices are also passed a vector of I2C bus pointers to scan.  Non-I2C detectors rely on other methods of detection, usually hidapi to scan for USB devices.  The REGISTER_DETECTOR macros are used to register a detector function with the OpenRGB Resource Manager which is responsible for calling detector functions at detection time.
+A device's Detector function scans the system's interfaces to see if a particular device (Controller/RGBController) exists.  Several types of detectors exist and are listed below.  Each detector type is passed different arguments based on the interface it is detecting.  The REGISTER_DETECTOR macros are used to register a detector function with the ResourceManager which is responsible for calling detector functions at detection time.  Detector functions are then responsible for creating instances of Controllers and RGBControllers and registering them with the ResourceManager by calling the `ResourceManager::RegisterRGBController` interface.
+
+HID Detectors
+
+HID (Human Interface Device) is the most common interface for USB devices with RGB capabilities, especially for peripherals such as keyboards and mice.  While it is usually used over USB, HID can also be used over Bluetooth.  The `hidapi` library is used for interfacing with HID devices.  The following detector formats can be registered:
 
 ```C++
-REGISTER_DETECTOR("Detector Name", DetectDevicesFunction);
+REGISTER_HID_DETECTOR("HID Detector Name", DetectHIDDevicesFunction, HID_VID, HID_PID);
+REGISTER_HID_DETECTOR_I("HID Detector Name", DetectHIDDevicesFunction, HID_VID, HID_PID, HID_INTERFACE);
+REGISTER_HID_DETECTOR_IP("HID Detector Name", DetectHIDDevicesFunction, HID_VID, HID_PID, HID_INTERFACE, HID_PAGE);
+REGISTER_HID_DETECTOR_IPU("HID Detector Name", DetectHIDDevicesFunction, HID_VID, HID_PID, HID_INTERFACE, HID_PAGE, HID_USAGE);
+REGISTER_HID_DETECTOR_P("HID Detector Name", DetectHIDDevicesFunction, HID_VID, HID_PID, HID_PAGE);
+REGISTER_HID_DETECTOR_PU("HID Detector Name", DetectHIDDevicesFunction, HID_VID, HID_PID, HID_PAGE, HID_USAGE);
+```
+
+The I/IP/IPU/P/PU variants add filtering for specific HID interfaces, pages, and usages as many HID devices expose multiple interfaces and not all are used for RGB control.
+
+I2C/SMBus Detectors
+
+I2C (Inter-Integrated Circuit), or SMBus (System Management Bus, a compatible subset of I2C), is the second most common interface used by RGB devices and is used for on-board RGB on certrain motherboards, most graphics cards, and all RAM modules.  Each I2C device has a 7-bit address.  As I2C does not offer a standardized means of identifying a device on the bus, we have several different options for detecting I2C devices that can narrow down the search to a specific I2C bus.
+
+```C++
 REGISTER_I2C_DETECTOR("I2C Detector Name", DetectI2CDevicesFunction);
+REGISTER_I2C_DIMM_DETECTOR("I2C Detector Name", DetectI2CDevicesFunction, JEDEC_ID, DIMM_TYPE);
+REGISTER_I2C_PCI_DETECTOR("I2C Detector Name", DetectI2CDevicesFunction, PCI_VEN, PCI_DEV, PCI_SUBVEN, PCI_SUBDEV, I2C_ADDR);
+```
+
+The standard version of the I2C detector calls the detector function with a vector of all available I2C buses.  The detector can then perform any chip specific detection necessary to determine if the device exists on any of the given buses.  Only use this version of the detector if the DIMM or PCI variants are not suitable for your device.  There are additional macros that can be used to narrow down I2C bus detection such as `IF_MOBO_SMBUS` for motherboard buses and `IF_DRAM_SMBUS` for DRAM buses.
+
+The DIMM version of the detector can be used to filter for specific DRAM modules using SPD information.  Only the I2C bus for the DRAM will be provided and the detector will only be called if the JEDEC ID and DIMM type match.
+
+The PCI version of the detector can be used to filter for I2C devices on specific PCI cards, usually graphics cards.  The detector will only be called for I2C buses with matching PCI IDs.  The detector can also provide a specific address, though it is possible for the detector function to ignore this address if more complex address determination is needed.
+
+Generic Detectors
+
+The generic detector type is used for any device that doesn't fit into one of the previous detection types.  This detector is frequently used for manually configured devices such as network and serial port devices.  It is also used for USB devices that cannot be accessed via `hidapi` or serial and instead requiring direct USB access via `libusb`.
+
+```C++
+REGISTER_DETECTOR("Generic Detector Name", DetectDevicesFunction);
 ```
 
 The Detector files are kept in the Controllers/ folder.
