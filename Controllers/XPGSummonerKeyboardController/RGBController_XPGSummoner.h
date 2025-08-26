@@ -21,9 +21,7 @@ public:
     ~RGBController_XPGSummoner();
 
     void        SetupZones();
-
     void        ResizeZone(int zone, int new_size);
-
     void        DeviceUpdateLEDs();
     void        UpdateZoneLEDs(int zone);
     void        UpdateSingleLED(int led);
@@ -31,5 +29,4 @@ public:
 
 private:
     XPGSummonerController* controller;
-
 };

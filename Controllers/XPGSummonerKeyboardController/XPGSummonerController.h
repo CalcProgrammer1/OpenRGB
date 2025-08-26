@@ -27,10 +27,10 @@
 
 enum
 {
-    XPG_SUMMONER_MODE_OFF       =      0x00,
-    XPG_SUMMONER_MODE_DIRECT    =      0x01,
-    XPG_SUMMONER_MODE_STATIC    =      0x02,
-    XPG_SUMMONER_MODE_STARS     =      0x03,
+    XPG_SUMMONER_MODE_OFF           =    0x00,
+    XPG_SUMMONER_MODE_DIRECT        =    0x01,
+    XPG_SUMMONER_MODE_STATIC        =    0x02,
+    XPG_SUMMONER_MODE_STARS         =    0x03
 };
 
 class XPGSummonerController
@@ -44,16 +44,22 @@ public:
     std::string GetSerialString();
     unsigned short GetUSBPID();
 
-    void SendColors(
+    void SendColors
+    (
         unsigned char *color_data,
-        unsigned int color_data_size);
-    void SendInitialize();
-    void SendInitializeColorPacket();
-    unsigned int SendColorDataPacket(
+        unsigned int color_data_size
+    );
+
+    unsigned int SendColorDataPacket
+    (
         unsigned char packet_id,
         unsigned char *color_data,
-        unsigned int color_size);
+        unsigned int color_size
+    );
+
     void SendTerminateColorPacket();
+
+    void SendInitialize();
 
 private:
     hid_device *dev;
