@@ -73,6 +73,7 @@ The RGBController files for a controller implementation are kept in the Controll
 The RGBController class specification contains the following:
 
 * Device Name
+* Device Vendor
 * Device Description
 * Device Version
 * Device Serial
@@ -83,6 +84,8 @@ The RGBController class specification contains the following:
 * Vector of Colors (32-bit 0x00BBGGRR format)
 * Device Type (enum)
 * Active mode index
+* Vector of LED Alternate Names
+* Controller Flags
 
 ### Device Types
 
@@ -107,7 +110,23 @@ The RGBController class specification contains the following:
 | 16    | Microphone    |
 | 17    | Accessory     |
 | 18    | Keypad        |
-| 19    | Unknown       |
+| 19    | Laptop        |
+| 20    | Monitor       |
+| 21    | Unknown       |
+
+Additional device types may be added in the future.  They are added after the last known device type.  Anything out of range should be considered Unknown.
+
+### Controller Flags
+
+| Controller Flags Bit | Name    | Description                                         |
+| -------------------- | ------- | --------------------------------------------------- |
+| 0                    | Local   | Controller is provided by this OpenRGB instance     |
+| 1                    | Remote  | Controller is provided by a remote OpenRGB instance |
+| 2                    | Virtual | Controller is virtual (not a physical device)       |
+
+### LED Alternate Names
+
+The LED Altrernate Names vector can override the base name of an LED.  The intended use case for this field is providing regional key names for non-English keyboard layouts.  The base key names should always be provided in English QWERYY layout for positional mapping to work on certain SDK applications, so the alternate names field can override the base name to provide the correct key name for the localized layout without disrupting SDK application mapping.  If not overriding any LED names, this vector can be left empty.  If only overriding certain LED names, those not being overridden can be empty strings.  If used, the length of this vector must equal the length of the LEDs vector.
 
 ## LEDs
 
@@ -131,10 +150,12 @@ The Zone structure contains information about a zone.  A zone is a logical group
 * Minimum number of LEDs
 * Maximum number of LEDs
 * Matrix map pointer
+* Vector of segments
+* Zone Flags
 
 The LED pointer and Color pointer point to the first LED/Color in the RGBController's LEDs/Colors vector associated with this zone.  The Start Index is the index to the same LED/Color in the vectors.
 
-The LED count is the number of LEDs in the zone.  For zones with a fixed number of LEDs, the count, min, and max values should all be equal.  For zones with a user-adjustable number of LEDs, the count should be between the min and max values, inclusively.  User-adjustable zones are most commonly used to represent addressable RGB (ARGB) controllers as the number of LEDs depends on what strips/devices are attached to the ARGB headers.  The ResizeZone function in the RGBController API is used to resize the number of LEDs in the zone.
+The LED count is the number of LEDs in the zone.  For zones with a fixed number of LEDs, the count, min, and max values should all be equal.  For zones with a user-adjustable number of LEDs, the count should be between the min and max values, inclusively.  User-adjustable zones are most commonly used to represent addressable RGB (ARGB) controllers as the number of LEDs depends on what strips/devices are attached to the ARGB headers.  The ResizeZone function in the RGBController API is used to resize the number of LEDs in the zone.  The initial value should be zero for ARGB zones if the device does not provide a means to automatically determint the number of connected LEDs.
 
 ### Zone Types
 
@@ -157,6 +178,27 @@ A matrix map has the following:
 * Map data pointer
 
 The height and width determine the size of the map data.  The map data pointer should point to a data block of (Height * Width) unsigned 32-bit integers.  This data can be accessed as if it were a Map[Y][X] 2D array.  The values of the map are LED index values in the zone (so offset by Start Index from the RGBController's LEDs vector).  If a spot in the matrix is unused and does not map to an LED, it should be set to 0xFFFFFFFF.
+
+### Segments
+
+Each Zone contains a vector of Segments.  Segments can be used to divide a physical zone (such as an ARGB header) into multiple logical sub-zones, or segments.  This is mainly used for ARGB zones with multiple components daisy-chained together.  For example, segments can be used to group multiple rings on an ARGB fan or multiple daisy-chained fans connected to one header.  If the device is capable of automatically detecting multiple components connected to a single output, the RGBController may create segments automatically during zone creation.  Otherwise, leaving this vector empty will indicate that the zone contains no segments, though resizable zones allow the user to define their own segments.
+
+A segment contains the following:
+
+* Segment Name
+* Segment Type (See Zone Type values)
+* Start Index
+* LED Count
+
+The Start Index is the index within the Zone where the Segment starts.  The LED Count is the number of LEDs in the Segment.  Care should be taken to ensure that the total number of LEDs across all segments equals the number of LEDs in the Zone and the start indices do not overlap.
+
+### Zone Flags
+
+The Zone Flags field is a bitfield with informational flags related to the Zone.
+
+| Zone Flags Bit | Name                | Description                                                                                                                                      |
+| -------------- | ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ |
+| 0              | Resize Effects Only | This zone is resizable, but the size is only used for effects modes.  The zone is treated as a single LED in the Colors vector for per-LED modes |
 
 ## Modes
 
@@ -202,13 +244,65 @@ The mode minimum and maximum number of colors fields should be used if the mode 
 
 ## Functions
 
+### `std::string GetName()`
+
+Returns the `name` string of the device.
+
+### `std::string GetVendor()`
+
+Returns the `vendor` string of the device.
+
+### `std::string GetDescription()`
+
+Returns the `description` string of the device.
+
+### `std::string GetVersion()`
+
+Returns the `version` string of the device.
+
+### `std::string GetSerial()`
+
+Returns the `serial` string of the device.
+
+### `std::string GetLocation()`
+
+Returns the `location` string of the device.
+
+### `std::string GetModeName(int mode)`
+
+Returns the `name` string of the given mode in the `modes` vector.
+
+### `std::string GetZoneName(int zone)`
+
+Returns the `name` string of the given zone in the `zones` vector.
+
+### `std::string GetLEDName(int led)`
+
+Returns the `name` string of the given LED in the `leds` vector.
+
+### `RGBColor GetLED(unsigned int led)`
+
+Returns the color value of the given LED in the `colors` vector.
+
+### `void SetLED(unsigned int led, RGBColor color)`
+
+Sets the color value of the given LED in the `colors` vector.
+
+### `void SetAllLEDs(RGBColor color)`
+
+Sets the color value of all LEDs in the `colors` vector.
+
+### `void SetAllZoneLEDs(int zone, RGBColor color)`
+
+Sets the color value of all LEDs in the given zone in the `colors` vector.
+
 ### `int GetMode()`
 
-Returns the currently enabled mode of the device.  The returned int should line up with the Modes vector.
+Returns the active mode index of the device.  The returned int should line up with the `modes` vector.
 
 ### `void SetMode(int mode)`
 
-Sets the mode of the device.  The mode should be the index in the Modes vector of the mode you wish to set.
+Sets the active mode index of the device.  The mode should be the index in the `modes` vector of the mode you wish to set.
 
 ### `void SetCustomMode()`
 
@@ -216,12 +310,16 @@ When called, the device should be put into its software-controlled mode.  This d
 
 ### `void UpdateLEDs()`
 
-Update all LEDs based on the device's `colors` vector.
+Update all LEDs based on the `colors` vector.
 
 ### `void UpdateZoneLEDs(int zone)`
 
-Update all LEDs in the given zone based on the device's `colors` vector.
+Update all LEDs in the given zone based on the `colors` vector.
 
 ### `void UpdateSingleLED(int led)`
 
-Update a single LED based on the device's `colors` vector.
+Update a single LED based on the `colors` vector.
+
+### `void UpdateMode()`
+
+Update the mode based on the active mode index and the `modes` vector.
