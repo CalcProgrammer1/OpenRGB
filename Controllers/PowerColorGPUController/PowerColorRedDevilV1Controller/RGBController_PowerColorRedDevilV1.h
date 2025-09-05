@@ -1,5 +1,5 @@
 /*---------------------------------------------------------*\
-| RGBController_PowerColorRedDevilGPU.cpp                   |
+| RGBController_PowerColorRedDevilV1.cpp                    |
 |                                                           |
 |   Driver for PowerColor Red Devil GPU                     |
 |                                                           |
@@ -12,13 +12,13 @@
 #pragma once
 
 #include "RGBController.h"
-#include "PowerColorRedDevilGPUController.h"
+#include "PowerColorRedDevilV1Controller.h"
 
-class RGBController_RedDevilGPU : public RGBController
+class RGBController_PowerColorRedDevilV1 : public RGBController
 {
 public:
-    RGBController_RedDevilGPU(RedDevilGPUController* controller_ptr);
-    ~RGBController_RedDevilGPU();
+    RGBController_PowerColorRedDevilV1(PowerColorRedDevilV1Controller* controller_ptr);
+    ~RGBController_PowerColorRedDevilV1();
 
     void        SetupZones();
 
@@ -31,5 +31,5 @@ public:
     void        DeviceUpdateMode();
 
 private:
-    RedDevilGPUController* controller;
+    PowerColorRedDevilV1Controller* controller;
 };

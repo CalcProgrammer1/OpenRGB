@@ -1,5 +1,5 @@
 /*---------------------------------------------------------*\
-| PowerColorRedDevilGPUController.cpp                       |
+| PowerColorRedDevilV1Controller.cpp                        |
 |                                                           |
 |   Driver for PowerColor Red Devil GPU                     |
 |                                                           |
@@ -10,11 +10,11 @@
 \*---------------------------------------------------------*/
 
 #include "pci_ids.h"
-#include "PowerColorRedDevilGPUController.h"
+#include "PowerColorRedDevilV1Controller.h"
 
 using namespace std::chrono_literals;
 
-RedDevilGPUController::RedDevilGPUController(i2c_smbus_interface* bus, red_devil_dev_id dev, std::string dev_name)
+PowerColorRedDevilV1Controller::PowerColorRedDevilV1Controller(i2c_smbus_interface* bus, red_devil_v1_dev_id dev, std::string dev_name)
 {
     this->bus   = bus;
     this->dev   = dev;
@@ -26,12 +26,12 @@ RedDevilGPUController::RedDevilGPUController(i2c_smbus_interface* bus, red_devil
     }
 }
 
-RedDevilGPUController::~RedDevilGPUController()
+PowerColorRedDevilV1Controller::~PowerColorRedDevilV1Controller()
 {
 
 }
 
-std::string RedDevilGPUController::GetDeviceLocation()
+std::string PowerColorRedDevilV1Controller::GetDeviceLocation()
 {
     std::string return_string(bus->device_name);
     char addr[5];
@@ -41,14 +41,14 @@ std::string RedDevilGPUController::GetDeviceLocation()
     return("I2C:" + return_string);
 }
 
-std::string RedDevilGPUController::GetDeviceName()
+std::string PowerColorRedDevilV1Controller::GetDeviceName()
 {
     return(name);
 }
 
-void RedDevilGPUController::SetLEDColor(int led, RGBColor color)
+void PowerColorRedDevilV1Controller::SetLEDColor(int led, RGBColor color)
 {
-    if(led > RED_DEVIL_GPU_LED_MAX_COUNT)
+    if(led > RED_DEVIL_V1_LED_MAX_COUNT)
     {
         return;
     }
@@ -60,22 +60,22 @@ void RedDevilGPUController::SetLEDColor(int led, RGBColor color)
         (unsigned char)RGBGetBValue(color),
     };
 
-    RegisterWrite(RED_DEVIL_GPU_REG_LED_1 + led, data);
+    RegisterWrite(RED_DEVIL_V1_REG_LED_1 + led, data);
 }
 
-RGBColor RedDevilGPUController::GetLEDColor(int led)
+RGBColor PowerColorRedDevilV1Controller::GetLEDColor(int led)
 {
-    if(led > RED_DEVIL_GPU_LED_MAX_COUNT)
+    if(led > RED_DEVIL_V1_LED_MAX_COUNT)
     {
         return RGBColor(0);
     }
 
     unsigned char data[3] = {0};
-    RegisterRead(RED_DEVIL_GPU_REG_LED_1 + RED_DEVIL_GPU_READ_OFFSET, data);
+    RegisterRead(RED_DEVIL_V1_REG_LED_1 + RED_DEVIL_V1_READ_OFFSET, data);
     return ToRGBColor(data[0], data[1], data[2]);
 }
 
-void RedDevilGPUController::SetLEDColorAll(RGBColor color)
+void PowerColorRedDevilV1Controller::SetLEDColorAll(RGBColor color)
 {
     unsigned char data[3] =
     {
@@ -84,10 +84,10 @@ void RedDevilGPUController::SetLEDColorAll(RGBColor color)
         (unsigned char)RGBGetBValue(color),
     };
 
-    RegisterWrite(RED_DEVIL_GPU_REG_LED_ALL, data);
+    RegisterWrite(RED_DEVIL_V1_REG_LED_ALL, data);
 }
 
-void RedDevilGPUController::SetModeColor(RGBColor color)
+void PowerColorRedDevilV1Controller::SetModeColor(RGBColor color)
 {
     unsigned char data[3] =
     {
@@ -96,52 +96,52 @@ void RedDevilGPUController::SetModeColor(RGBColor color)
         (unsigned char)RGBGetBValue(color),
     };
 
-    RegisterWrite(RED_DEVIL_GPU_REG_MODE_COLOR, data);
+    RegisterWrite(RED_DEVIL_V1_REG_MODE_COLOR, data);
 }
 
-RGBColor RedDevilGPUController::GetModeColor()
+RGBColor PowerColorRedDevilV1Controller::GetModeColor()
 {
     unsigned char data[3] = {0};
-    RegisterRead(RED_DEVIL_GPU_REG_MODE_COLOR + RED_DEVIL_GPU_READ_OFFSET, data);
+    RegisterRead(RED_DEVIL_V1_REG_MODE_COLOR + RED_DEVIL_V1_READ_OFFSET, data);
     return ToRGBColor(data[0], data[1], data[2]);
 }
 
-void RedDevilGPUController::SetMode(red_devil_mode_config config)
+void PowerColorRedDevilV1Controller::SetMode(red_devil_v1_mode config)
 {
-    if(config.mode == RED_DEVIL_GPU_MODE_MB_SYNC)
+    if(config.mode == RED_DEVIL_V1_MODE_MB_SYNC)
     {
         unsigned char data[3] = {1, 0, 1};
-        RegisterWrite(RED_DEVIL_GPU_REG_MB_SYNC, data);
+        RegisterWrite(RED_DEVIL_V1_REG_MB_SYNC, data);
     }
     else
     {
         unsigned char data[3] = {0};
-        RegisterWrite(RED_DEVIL_GPU_REG_MB_SYNC, data);
-        RegisterWrite(RED_DEVIL_GPU_REG_MODE, (unsigned char *)&config);
+        RegisterWrite(RED_DEVIL_V1_REG_MB_SYNC, data);
+        RegisterWrite(RED_DEVIL_V1_REG_MODE, (unsigned char *)&config);
     }
 }
 
-red_devil_mode_config RedDevilGPUController::GetMode()
+red_devil_v1_mode PowerColorRedDevilV1Controller::GetMode()
 {
     unsigned char data[3] = {0};
-    RegisterRead(RED_DEVIL_GPU_REG_MB_SYNC + RED_DEVIL_GPU_READ_OFFSET, data);
+    RegisterRead(RED_DEVIL_V1_REG_MB_SYNC + RED_DEVIL_V1_READ_OFFSET, data);
     if(data[0] != 0 && this->has_sync_mode)
     {
-        return red_devil_mode_config{RED_DEVIL_GPU_MODE_MB_SYNC, 0, 0};
+        return red_devil_v1_mode{RED_DEVIL_V1_MODE_MB_SYNC, 0, 0};
     }
 
-    RegisterRead(RED_DEVIL_GPU_REG_MODE + RED_DEVIL_GPU_READ_OFFSET, data);
-    return red_devil_mode_config{data[0], data[1], data[2]};
+    RegisterRead(RED_DEVIL_V1_REG_MODE + RED_DEVIL_V1_READ_OFFSET, data);
+    return red_devil_v1_mode{data[0], data[1], data[2]};
 }
 
-int RedDevilGPUController::RegisterRead(unsigned char reg, unsigned char *data)
+int PowerColorRedDevilV1Controller::RegisterRead(unsigned char reg, unsigned char *data)
 {
     int ret = bus->i2c_smbus_read_i2c_block_data(dev, reg, 3, data);
     std::this_thread::sleep_for(32ms);
     return ret;
 }
 
-int RedDevilGPUController::RegisterWrite(unsigned char reg, unsigned char *data)
+int PowerColorRedDevilV1Controller::RegisterWrite(unsigned char reg, unsigned char *data)
 {
     int ret = bus->i2c_smbus_write_i2c_block_data(dev, reg, 3, data);
     std::this_thread::sleep_for(32ms);
