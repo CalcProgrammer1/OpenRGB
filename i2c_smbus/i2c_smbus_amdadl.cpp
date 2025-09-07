@@ -232,8 +232,6 @@ s32 i2c_smbus_amdadl::i2c_xfer(u8 addr, char read_write, int* size, u8* data)
     ADLI2C I2Cstore;
     pI2C = &I2Cstore;
 
-    char i2c_buf[I2C_SMBUS_BLOCK_MAX];
-
     pI2C->iSize = sizeof(ADLI2C);
     pI2C->iSpeed = 100;
     pI2C->iLine = 1; //location of the Aura chip
@@ -256,9 +254,7 @@ s32 i2c_smbus_amdadl::i2c_xfer(u8 addr, char read_write, int* size, u8* data)
     else
     {
         pI2C->iAction = ADL_DL_I2C_ACTIONWRITE;
-        pI2C->pcData = i2c_buf;
-
-        memcpy(i2c_buf, data, data_size);
+        pI2C->pcData = (char*)data;
 
         ret = ADL2_Display_WriteAndReadI2C(context, PrimaryDisplay, pI2C);
     }
