@@ -198,6 +198,7 @@ HEADERS +=                                                                      
     scsiapi/scsiapi.h                                                                           \
     serial_port/find_usb_serial_port.h                                                          \
     serial_port/serial_port.h                                                                   \
+    super_io/super_io.h                                                                         \
     StringUtils.h                                                                               \
     SuspendResume/SuspendResume.h                                                               \
     AutoStart/AutoStart.h                                                                       \
@@ -342,8 +343,6 @@ win32:SOURCES +=                                                                
     dependencies/NVFC/nvapi.cpp                                                                 \
     i2c_smbus/Windows/i2c_smbus_amdadl.cpp                                                      \
     i2c_smbus/Windows/i2c_smbus_nvapi.cpp                                                       \
-    i2c_smbus/Windows/i2c_smbus_pawnio.cpp                                                      \
-    super_io/super_io_pawnio.cpp                                                                \
     scsiapi/scsiapi_windows.c                                                                   \
     serial_port/find_usb_serial_port_win.cpp                                                    \
     SuspendResume/SuspendResume_Windows.cpp                                                     \
@@ -362,12 +361,15 @@ win32:HEADERS +=                                                                
     i2c_smbus/Windows/i2c_smbus_amdadl.h                                                        \
     i2c_smbus/Windows/i2c_smbus_nvapi.h                                                         \
     i2c_smbus/Windows/i2c_smbus_pawnio.h                                                        \
-    super_io/super_io_pawnio.h                                                                  \
     wmi/wmi.h                                                                                   \
     AutoStart/AutoStart-Windows.h                                                               \
     SuspendResume/SuspendResume_Windows.h                                                       \
 
 win32:contains(QMAKE_TARGET.arch, x86_64) {
+    win32:SOURCES +=                                                                            \
+        i2c_smbus/Windows/i2c_smbus_pawnio.cpp                                                  \
+        super_io/super_io_pawnio.cpp                                                            \
+
     LIBS +=                                                                                     \
         -lws2_32                                                                                \
         -liphlpapi                                                                              \
@@ -378,6 +380,9 @@ win32:contains(QMAKE_TARGET.arch, x86_64) {
 }
 
 win32:contains(QMAKE_TARGET.arch, x86) {
+    win32:SOURCES +=                                                                            \
+        super_io/super_io.cpp                                                                   \
+
     LIBS +=                                                                                     \
         -lws2_32                                                                                \
         -liphlpapi                                                                              \
