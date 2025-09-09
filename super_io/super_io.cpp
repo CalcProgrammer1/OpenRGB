@@ -10,10 +10,10 @@
 \*---------------------------------------------------------*/
 
 #include "super_io.h"
-#include "super_io_pawnio.h"
 
-#if _MACOSX_X86_X64
+#if defined(_MACOSX_X86_X64)
 #include "macUSPCIOAccess.h"
+#elif defined(_WIN32)
 #else
 #include <unistd.h>
 #include <sys/types.h>
@@ -35,6 +35,13 @@ void superio_enter(int ioreg)
 #if defined(_MACOSX_X86_X64)
     WriteIoPortByte(ioreg, 0x87);
     WriteIoPortByte(ioreg, 0x87);
+#elif defined(_WIN32)
+    /*-----------------------------------------------------*\
+    | This function is not defined for Windows              |
+    |   For 64-bit Windows, super_io_pawnio.cpp is used     |
+    |   instead.  For 32-bit Windows, this function provides|
+    |   a nonfunctional stub implementation.                |
+    \*-----------------------------------------------------*/
 #else
     unsigned char temp = 0x87;
     dev_port_fd = open("/dev/port", O_RDWR, "rw");
@@ -72,6 +79,13 @@ void superio_outb(int ioreg, int reg, int val)
 #if defined(_MACOSX_X86_X64)
     WriteIoPortByte(ioreg, reg);
     WriteIoPortByte(ioreg + 1, val);
+#elif defined(_WIN32)
+    /*-----------------------------------------------------*\
+    | This function is not defined for Windows              |
+    |   For 64-bit Windows, super_io_pawnio.cpp is used     |
+    |   instead.  For 32-bit Windows, this function provides|
+    |   a nonfunctional stub implementation.                |
+    \*-----------------------------------------------------*/
 #else
     dev_port_fd = open("/dev/port", O_RDWR, "rw");
 
@@ -107,6 +121,14 @@ int superio_inb(int ioreg, int reg)
 #if defined(_MACOSX_X86_X64)
     WriteIoPortByte(ioreg, reg);
     return ReadIoPortByte(ioreg + 1);
+#elif defined(_WIN32)
+    /*-----------------------------------------------------*\
+    | This function is not defined for Windows              |
+    |   For 64-bit Windows, super_io_pawnio.cpp is used     |
+    |   instead.  For 32-bit Windows, this function provides|
+    |   a nonfunctional stub implementation.                |
+    \*-----------------------------------------------------*/
+    return -1;
 #else
     unsigned char temp = 0;
     dev_port_fd = open("/dev/port", O_RDWR, "rw");
