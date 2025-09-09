@@ -141,7 +141,10 @@ s32 i2c_smbus_pawnio::i2c_smbus_xfer(u8 addr, char read_write, u8 command, int s
     /*-----------------------------------------------------*\
     | Perform SMBus transfer                                |
     \*-----------------------------------------------------*/
+    unsigned int start  = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
     status  = pawnio_execute(handle, "ioctl_smbus_xfer", in, in_size, out, out_size, &return_size);
+    unsigned int end    = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
+    LOG_TRACE( "pawnio_execute %u", end - start );
 
     /*-----------------------------------------------------*\
     | Unpack output data                                    |
