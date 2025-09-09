@@ -9,12 +9,11 @@
 |   SPDX-License-Identifier: GPL-2.0-only                   |
 \*---------------------------------------------------------*/
 
-#include "super_io_pawnio.h"
+#include "super_io.h"
 
 #include <Windows.h>
 #include "PawnIOLib.h"
 #include "i2c_smbus_pawnio.h"
-
 
 static HANDLE pawnio_handle = NULL;
 
