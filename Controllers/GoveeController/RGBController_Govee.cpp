@@ -9,7 +9,9 @@
 |   SPDX-License-Identifier: GPL-2.0-only                   |
 \*---------------------------------------------------------*/
 
+#include <algorithm>
 #include <map>
+#include <string>
 #include "RGBController_Govee.h"
 
 using namespace std::chrono_literals;
@@ -65,32 +67,72 @@ RGBController_Govee::~RGBController_Govee()
 
 void RGBController_Govee::SetupZones()
 {
-    unsigned int led_count = govee_led_counts[controller->GetSku()];
+    unsigned int led_count = 0;
+    std::map<std::string, unsigned int>::iterator it = govee_led_counts.find(controller->GetSku());
+    if(it != govee_led_counts.end())
+    {
+        led_count = it->second;
+    }
+    /*-----------------------------------------------------*\
+    | Fallback so Direct mode is usable even if SKU isn't  |
+    | in the table                                         |
+    \*-----------------------------------------------------*/
+    if(led_count == 0)
+    {
+        led_count = 20; /* safe default; user can resize in UI */
+    }
 
     zone strip;
     strip.name          = "Govee Strip";
     strip.type          = ZONE_TYPE_LINEAR;
     strip.leds_count    = led_count;
-    strip.leds_min      = led_count;
-    strip.leds_max      = led_count;
+    /*-----------------------------------------------------*\
+    | Only make resizable for unknown SKUs                 |
+    \*-----------------------------------------------------*/
+    if(govee_led_counts.find(controller->GetSku()) == govee_led_counts.end())
+    {
+        strip.leds_min      = 1;
+        strip.leds_max      = 255;
+    }
+    else
+    {
+        strip.leds_min      = led_count;
+        strip.leds_max      = led_count;
+    }
     strip.matrix_map    = NULL;
     zones.push_back(strip);
 
     for(std::size_t led_idx = 0; led_idx < strip.leds_count; led_idx++)
     {
         led strip_led;
-        strip_led.name      = "Govee LED";
+        strip_led.name      = "Govee LED " + std::to_string(led_idx);
         leds.push_back(strip_led);
     }
 
     SetupColors();
 }
 
-void RGBController_Govee::ResizeZone(int /*zone*/, int /*new_size*/)
+void RGBController_Govee::ResizeZone(int zone, int new_size)
 {
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
+    if(zone < 0 || zone >= (int)zones.size() || new_size <= 0)
+    {
+        return;
+    }
+
+    new_size = std::max(1, std::min(255, new_size));
+    zones[zone].leds_count = new_size;
+    zones[zone].leds_min = 1;
+    zones[zone].leds_max = 255;
+
+    leds.clear();
+    leds.resize(new_size);
+    for(int i = 0; i < new_size; ++i)
+    {
+        leds[i].name = "Govee LED " + std::to_string(i);
+    }
+
+    SetupColors();      /* re-sync color buffers with LED count */
+    DeviceUpdateLEDs(); /* push an updated frame */
 }
 
 void RGBController_Govee::DeviceUpdateLEDs()
@@ -99,7 +141,10 @@ void RGBController_Govee::DeviceUpdateLEDs()
 
     if(modes[active_mode].color_mode == MODE_COLORS_PER_LED)
     {
-        controller->SendRazerData(&colors[0], (unsigned int)colors.size());
+        if(!colors.empty())
+        {
+            controller->SendRazerData(&colors[0], (unsigned int)colors.size());
+        }
     }
 }
 

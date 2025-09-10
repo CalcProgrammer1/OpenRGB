@@ -9,6 +9,7 @@
 |   SPDX-License-Identifier: GPL-2.0-only                   |
 \*---------------------------------------------------------*/
 
+#include <algorithm>
 #include <nlohmann/json.hpp>
 #include "base64.hpp"
 #include "GoveeController.h"
@@ -182,22 +183,48 @@ void GoveeController::SetColor(unsigned char red, unsigned char green, unsigned 
 
 void GoveeController::SendRazerData(RGBColor* colors, unsigned int size)
 {
-    std::vector<base64::byte> pkt = { 0xBB, 0x00, 0x00, 0xB0, 0x00, 0x00 };
-    json command;
-
-    pkt[2] = 2 + (3 * size);
-    pkt[5] = size;
-    pkt.resize(6 + (3 * size));
-
-    for(std::size_t led_idx = 0; led_idx < size; led_idx++)
+    /*-----------------------------------------------------*\
+    | Do not send an empty frame (this was producing        |
+    | length=2, count=0)                                    |
+    \*-----------------------------------------------------*/
+    if(size == 0)
     {
-        pkt[6 + (led_idx * 3)] = RGBGetRValue(colors[led_idx]);
-        pkt[7 + (led_idx * 3)] = RGBGetGValue(colors[led_idx]);
-        pkt[8 + (led_idx * 3)] = RGBGetBValue(colors[led_idx]);
+        return;
+    }
+
+    /*-----------------------------------------------------*\
+    | PT payload: BB [len_hi] [len_lo] B0 [gradient_off=1]  |
+    | [led_count] (RGB * N) [xor]                           |
+    | length = 2 + 3*N  (bytes after 0xB0: gradient_off +   |
+    | led_count + RGB*count)                                |
+    \*-----------------------------------------------------*/
+    const unsigned int count = std::min(size, 255u);
+    const unsigned int payload_len = 2 + (3 * count);
+
+    /*-----------------------------------------------------*\
+    | Create buffer with fixed size and fill sequentially   |
+    \*-----------------------------------------------------*/
+
+    std::vector<base64::byte> pkt;
+    pkt.reserve(7 + (3 * count));
+
+    pkt.push_back(0xBB);
+    pkt.push_back(static_cast<base64::byte>((payload_len >> 8) & 0xFF)); /* len_hi */
+    pkt.push_back(static_cast<base64::byte>(payload_len & 0xFF));        /* len_lo */
+    pkt.push_back(0xB0);                                                 /* subcommand */
+    pkt.push_back(0x01);                                                 /* gradient_off = 1 */
+    pkt.push_back(static_cast<base64::byte>(count));                     /* led_count */
+
+    for(std::size_t led_idx = 0; led_idx < count; led_idx++)
+    {
+        pkt.push_back(RGBGetRValue(colors[led_idx]));
+        pkt.push_back(RGBGetGValue(colors[led_idx]));
+        pkt.push_back(RGBGetBValue(colors[led_idx]));
     }
 
     pkt.push_back(CalculateXorChecksum(pkt));
 
+    json command;
     command["msg"]["cmd"]                       = "razer";
     command["msg"]["data"]["pt"]                = base64::encode(pkt);
 
@@ -246,7 +273,11 @@ void GoveeController::SendScan()
     json command;
 
     command["msg"]["cmd"]                       = "scan";
-    command["msg"]["data"]["account_topic"]     = "GA/123456789";
+    /*-----------------------------------------------------*\
+    | Matches what Govee devices commonly accept for LAN    |
+    | scan                                                  |
+    \*-----------------------------------------------------*/
+    command["msg"]["data"]["account_topic"]     = "reserve";
 
     /*-----------------------------------------------------*\
     | Convert the JSON object to a string and write it      |
