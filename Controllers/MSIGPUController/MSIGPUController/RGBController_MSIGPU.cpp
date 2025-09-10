@@ -425,24 +425,16 @@ void RGBController_MSIGPU::UpdateSingleLED(int /*led*/)
 
 void RGBController_MSIGPU::DeviceUpdateMode()
 {
-    if(TimeToSend())
+    if(modes[active_mode].flags & MODE_FLAG_HAS_BRIGHTNESS)
     {
-        if(modes[active_mode].flags & MODE_FLAG_HAS_BRIGHTNESS)
+        controller->MSIGPURegisterWrite(MSI_GPU_REG_BRIGHTNESS, modes[active_mode].brightness * MSI_GPU_BRIGHTNESS_MULTI);
+
+        if(modes[active_mode].flags & MODE_FLAG_HAS_SPEED)
         {
-            controller->MSIGPURegisterWrite(MSI_GPU_REG_BRIGHTNESS, modes[active_mode].brightness * MSI_GPU_BRIGHTNESS_MULTI);
-
-            if(modes[active_mode].flags & MODE_FLAG_HAS_SPEED)
-            {
-                controller->MSIGPURegisterWrite(MSI_GPU_REG_SPEED, speed_values[modes[active_mode].speed]);
-            }
-
-            controller->SetMode(modes[active_mode].value);
-
-            /*-----------------------------------------------------*\
-            | Update last commit time                               |
-            \*-----------------------------------------------------*/
-            last_commit_time    = std::chrono::steady_clock::now();
+            controller->MSIGPURegisterWrite(MSI_GPU_REG_SPEED, speed_values[modes[active_mode].speed]);
         }
+
+        controller->SetMode(modes[active_mode].value);
     }
 }
 
