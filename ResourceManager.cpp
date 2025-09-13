@@ -38,8 +38,8 @@ const char* I2C_ERR_WIN =   QT_TRANSLATE_NOOP("ResourceManager",
                                               "<p>One or more I2C or SMBus interfaces failed to initialize.</p>"
                                               "<p><b>RGB DRAM modules, some motherboards' onboard RGB lighting, and RGB Graphics Cards, will not be available in OpenRGB</b> without I2C or SMBus.</p>"
                                               "<h4>How to fix this:</h4>"
-                                              "<p>On Windows, this is usually caused by a failure to load the WinRing0 driver.</p>"
-                                              "<p>You must run OpenRGB as administrator at least once to allow WinRing0 to set up.</p>"
+                                              "<p>On Windows, this is usually caused by a failure to load the PawnIO driver.</p>"
+                                              "<p>You must first install <a href='https://pawnio.eu/'>PawnIO</a>, then you must OpenRGB as administrator in order to access these devices.</p>"
                                               "<p>See <a href='https://help.openrgb.org/'>help.openrgb.org</a> for additional troubleshooting steps if you keep seeing this message.<br></p>"
                                               "<h3>If you are not using internal RGB on a desktop this message is not important to you.</h3>");
 const char* I2C_ERR_LINUX = QT_TRANSLATE_NOOP("ResourceManager",
