@@ -164,7 +164,8 @@ INCLUDEPATH +=                                                                  
     RGBController/                                                                              \
     qt/                                                                                         \
     SPDAccessor/                                                                                \
-    SuspendResume/
+    SuspendResume/                                                                              \
+    dependencies/stb/
 
 HEADERS +=                                                                                      \
     $$GUI_H                                                                                     \
