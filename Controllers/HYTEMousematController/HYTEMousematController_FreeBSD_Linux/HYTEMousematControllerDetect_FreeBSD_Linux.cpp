@@ -1,8 +1,8 @@
 /*---------------------------------------------------------*\
-| HYTEMousematControllerDetect_Linux.cpp                    |
+| HYTEMousematControllerDetect_FreeBSD_Linux.cpp            |
 |                                                           |
 |   Detector for HYTE mousemat (libusb implementation for   |
-|   Linux)                                                  |
+|   FreeBSD / Linux)                                        |
 |                                                           |
 |   Adam Honse (calcprogrammer1@gmail.com)      18 Jul 2023 |
 |                                                           |

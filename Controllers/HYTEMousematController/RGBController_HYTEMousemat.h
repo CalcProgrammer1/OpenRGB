@@ -17,8 +17,8 @@
 #include "HYTEMousematController_Windows_MacOS.h"
 #endif
 
-#ifdef __linux__
-#include "HYTEMousematController_Linux.h"
+#if defined(__FreeBSD__) || defined(__linux__)
+#include "HYTEMousematController_FreeBSD_Linux.h"
 #endif
 
 
