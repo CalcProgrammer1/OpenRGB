@@ -18,14 +18,16 @@ class RGBController_ElgatoStreamDeck : public RGBController
 {
 public:
     explicit RGBController_ElgatoStreamDeck(ElgatoStreamDeckController* controller_ptr);
-    ~RGBController_ElgatoStreamDeck() override;
+    ~RGBController_ElgatoStreamDeck();
 
-    void SetupZones() override;
-    void ResizeZone(int zone, int new_size) override;
-    void DeviceUpdateLEDs() override;
-    void UpdateZoneLEDs(int zone) override;
-    void UpdateSingleLED(int led) override;
-    void DeviceUpdateMode() override;
+    void SetupZones();
+    void ResizeZone(int zone, int new_size);
+
+    void DeviceUpdateLEDs();
+    void UpdateZoneLEDs(int zone);
+    void UpdateSingleLED(int led);
+
+    void DeviceUpdateMode();
 
 private:
     ElgatoStreamDeckController* controller;

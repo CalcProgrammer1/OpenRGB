@@ -50,7 +50,7 @@ void ElgatoStreamDeckController::SendFullFrame(const std::vector<std::vector<uns
 {
     for(int btnIdx = 0; btnIdx < 15; btnIdx++)
     {
-        if(btnIdx < buttonImages.size())
+        if(btnIdx < (int)buttonImages.size())
         {
             SendButtonImage(btnIdx, buttonImages[btnIdx]);
         }

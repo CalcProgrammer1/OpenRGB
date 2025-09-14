@@ -9,11 +9,11 @@
 |   SPDX-License-Identifier: GPL-2.0-only                   |
 \*---------------------------------------------------------*/
 
+#pragma once
+
 #include <string>
 #include "i2c_smbus.h"
 #include "RGBController.h"
-
-#pragma once
 
 typedef unsigned char   red_devil_v2_dev_id;
 

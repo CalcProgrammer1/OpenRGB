@@ -9,8 +9,6 @@
 |   SPDX-License-Identifier: GPL-2.0-only                   |
 \*---------------------------------------------------------*/
 
-#pragma once
-
 #include "RGBController.h"
 #include "RGBController_PowerColorRedDevilV2.h"
 
@@ -262,7 +260,7 @@ void RGBController_PowerColorRedDevilV2::DeviceUpdateLEDs()
     | single register write instead of writing to each LED      |
     \*---------------------------------------------------------*/
     bool all_same = true;
-    for(int i = 1; i < colors.size(); i++)
+    for(std::size_t i = 1; i < colors.size(); i++)
     {
         if(colors[i-1] != colors[i])
         {
@@ -285,11 +283,11 @@ void RGBController_PowerColorRedDevilV2::DeviceUpdateLEDs()
         | Since writing to each LED is slow check which colors have |
         | changed and only write those instead                      |
         \*---------------------------------------------------------*/
-        for(int i = 0; i < colors.size(); i++)
+        for(std::size_t i = 0; i < colors.size(); i++)
         {
             if(colors[i] != colors_copy[i])
             {
-                controller->SetLedColor(i, colors[i]);
+                controller->SetLedColor((int)i, colors[i]);
             }
         }
     }
@@ -325,9 +323,9 @@ void RGBController_PowerColorRedDevilV2::ReadConfig()
     red_devil_v2_mode mode  = controller->GetMode();
     bool sync               = controller->GetSync();
 
-    for(int i = 0; i < colors.size(); i++)
+    for(std::size_t i = 0; i < colors.size(); i++)
     {
-        colors[i] = controller->GetLedColor(i);
+        colors[i] = controller->GetLedColor((int)i);
     }
 
     /*---------------------------------------------------------*\
