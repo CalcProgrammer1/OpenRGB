@@ -12,12 +12,12 @@ import os
 #############################################
 # OpenRGB version                           #
 #############################################
-version = "1.0rc1"
+version = "1.0rc2wr0"
 
 #############################################
 # Git version (tag, branch, or commit)      #
 #############################################
-git_id = "release_candidate_1.0rc1"
+git_id = "release_candidate_1.0rc2wr0"
 
 command = "git rev-list -n 1 " + git_id
 print(command)
@@ -38,11 +38,15 @@ artifacts = [
     [ "Windows%2032",                               "OpenRGB_" + version + "_Windows_32_"     + commit, ".zip"      ],
     [ "Linux+amd64+.deb+%28Debian+Bookworm%29",     "openrgb_" + version + "_amd64_bookworm_" + commit, ".deb"      ],
     [ "Linux+i386+.deb+%28Debian+Bookworm%29",      "openrgb_" + version + "_i386_bookworm_"  + commit, ".deb"      ],
+    [ "Linux+amd64+.deb+%28Debian+Trixie%29",       "openrgb_" + version + "_amd64_trixie_"   + commit, ".deb"      ],
+    [ "Linux+i386+.deb+%28Debian+Trixie%29",        "openrgb_" + version + "_i386_trixie_"    + commit, ".deb"      ],
     [ "Linux%20amd64%20AppImage",                   "OpenRGB_" + version + "_x86_64_"         + commit, ".AppImage" ],
     [ "Linux%20i386%20AppImage",                    "OpenRGB_" + version + "_i386_"           + commit, ".AppImage" ],
     [ "Linux+64+F40+rpm",                           "openrgb_" + version + "_x86_64_f40_"     + commit, ".rpm"      ],
     [ "Linux+arm64+.deb+%28Debian%20Bookworm%29",   "openrgb_" + version + "_arm64_bookworm_" + commit, ".deb"      ],
     [ "Linux+armhf+.deb+%28Debian%20Bookworm%29",   "openrgb_" + version + "_armhf_bookworm_" + commit, ".deb"      ],
+    [ "Linux+arm64+.deb+%28Debian%20Trixie%29",     "openrgb_" + version + "_arm64_trixie_"   + commit, ".deb"      ],
+    [ "Linux+armhf+.deb+%28Debian%20Trixie%29",     "openrgb_" + version + "_armhf_trixie_"   + commit, ".deb"      ],
     [ "Linux%20arm64%20AppImage",                   "OpenRGB_" + version + "_arm64_"          + commit, ".AppImage" ],
     [ "Linux%20armhf%20AppImage",                   "OpenRGB_" + version + "_armhf_"          + commit, ".AppImage" ],
     [ "MacOS%20Intel",                              "OpenRGB_" + version + "_MacOS_Intel_"    + commit, ".zip"      ],
