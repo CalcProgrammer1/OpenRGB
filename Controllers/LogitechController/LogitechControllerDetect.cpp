@@ -15,6 +15,7 @@
 #include "LogitechG203LController.h"
 #include "LogitechG213Controller.h"
 #include "LogitechG560Controller.h"
+#include "LogitechG600Controller.h"
 #include "LogitechG933Controller.h"
 #include "LogitechG810Controller.h"
 #include "LogitechGProKeyboardController.h"
@@ -27,6 +28,7 @@
 #include "RGBController_LogitechG203L.h"
 #include "RGBController_LogitechG213.h"
 #include "RGBController_LogitechG560.h"
+#include "RGBController_LogitechG600.h"
 #include "RGBController_LogitechG933.h"
 #include "RGBController_LogitechG810.h"
 #include "RGBController_LogitechGProKeyboard.h"
@@ -81,6 +83,7 @@ using namespace std::chrono_literals;
 #define LOGITECH_G502_PROTEUS_SPECTRUM_PID          0xC332
 #define LOGITECH_G502_HERO_PID                      0xC08B
 #define LOGITECH_G502_LIGHTSPEED_PID                0xC08D
+#define LOGITECH_G600_PID                           0xC24A
 #define LOGITECH_G703_LIGHTSPEED_PID                0xC087
 #define LOGITECH_G703_HERO_LIGHTSPEED_PID           0xC090
 #define LOGITECH_G900_LIGHTSPEED_PID                0xC081
@@ -577,6 +580,19 @@ void DetectLogitechMouseG403(hid_device_info* info, const std::string& name)
     addLogitechLightsyncMouse2zone(info, name, 0xFF, 0x0E, 0x3A);
 }
 
+void DetectLogitechMouseG600(hid_device_info* info, const std::string& name)
+{
+    hid_device* dev = hid_open_path(info->path);
+
+    if(dev)
+    {
+        LogitechG600Controller*     controller     = new LogitechG600Controller(dev, info->path, name);
+        RGBController_LogitechG600* rgb_controller = new RGBController_LogitechG600(controller);
+
+        ResourceManager::get()->RegisterRGBController(rgb_controller);
+    }
+}
+
 void DetectLogitechMouseGPRO(hid_device_info* info, const std::string& name)
 {
     addLogitechLightsyncMouse1zone(info, name, 0xFF, 0x0E, 0x3C);
@@ -662,6 +678,7 @@ REGISTER_HID_DETECTOR_IPU("Logitech G203 Lightsync",                        Dete
 REGISTER_HID_DETECTOR_IPU("Logitech G203 Lightsync",                        DetectLogitechMouseG203L,   LOGITECH_VID, LOGITECH_G203_LIGHTSYNC_PID_2,        1, 0xFF00, 2);
 REGISTER_HID_DETECTOR_IP ("Logitech G303 Daedalus Apex",                    DetectLogitechMouseG303,    LOGITECH_VID, LOGITECH_G303_PID,                    1, 0xFF00);
 REGISTER_HID_DETECTOR_IP ("Logitech G403 HERO",                             DetectLogitechMouseG403,    LOGITECH_VID, LOGITECH_G403_HERO_PID,               1, 0xFF00);
+REGISTER_HID_DETECTOR_IP ("Logitech G600 Gaming Mouse",                     DetectLogitechMouseG600,    LOGITECH_VID, LOGITECH_G600_PID,                    1, 0xFF80);
 REGISTER_HID_DETECTOR_IP ("Logitech G Pro Gaming Mouse",                    DetectLogitechMouseGPRO,    LOGITECH_VID, LOGITECH_G_PRO_PID,                   1, 0xFF00);
 REGISTER_HID_DETECTOR_IP ("Logitech G Pro HERO Gaming Mouse",               DetectLogitechMouseGPRO,    LOGITECH_VID, LOGITECH_G_PRO_HERO_PID,              1, 0xFF00);
 /*-------------------------------------------------------------------------------------------------------------------------------------------------*\
