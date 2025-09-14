@@ -523,7 +523,7 @@ contains(QMAKE_PLATFORM, linux) {
     SPDAccessor/EE1004Accessor_Linux.cpp                                                        \
     SPDAccessor/SPD5118Accessor_Linux.cpp                                                       \
     SuspendResume/SuspendResume_Linux_FreeBSD.cpp                                               \
-    startup/main_Linux_MacOS.cpp                                                                \
+    startup/main_FreeBSD_Linux_MacOS.cpp                                                        \
 
     #-------------------------------------------------------------------------------------------#
     # Set up install paths                                                                      #
@@ -647,6 +647,7 @@ contains(QMAKE_PLATFORM, freebsd) {
     serial_port/find_usb_serial_port_linux.cpp                                                  \
     AutoStart/AutoStart-FreeBSD.cpp                                                             \
     SuspendResume/SuspendResume_Linux_FreeBSD.cpp                                               \
+    startup/main_FreeBSD_Linux_MacOS.cpp                                                        \
 
     SOURCES -=                                                                                  \
     Controllers/SeagateController/RGBController_Seagate.cpp                                     \
@@ -716,7 +717,7 @@ macx {
     AutoStart/AutoStart-MacOS.cpp                                                               \
     qt/macutils.mm                                                                              \
     SuspendResume/SuspendResume_MacOS.cpp                                                       \
-    startup/main_Linux_MacOS.cpp                                                                \
+    startup/main_FreeBSD_Linux_MacOS.cpp                                                        \
 
     SOURCES += $$CONTROLLER_CPP_MACOS
 

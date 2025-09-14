@@ -1,5 +1,5 @@
 /*---------------------------------------------------------*\
-| main_Linux_MacOS.cpp                                      |
+| main_FreeBSD_Linux_MacOS.cpp                              |
 |                                                           |
 |   Entry point for the OpenRGB application                 |
 |                                                           |
