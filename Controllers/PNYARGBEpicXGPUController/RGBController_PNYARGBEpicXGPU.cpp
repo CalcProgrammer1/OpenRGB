@@ -143,7 +143,7 @@ void RGBController_PNYARGBEpicXGPU::DeviceUpdateLEDs()
 {
     for(std::size_t i = 0; i < leds.size(); i++)
     {
-        UpdateSingleLED(i);
+        UpdateSingleLED((int)i);
     }
 }
 

@@ -88,15 +88,16 @@ void RGBController_MSIKeyboard::DeviceUpdateLEDs()
 
     for(size_t idx = 0; idx < colors_size; idx++)
     {
-        ck[idx].time_frame = idx * 100 / colors_size;
-        ck[idx].color.R = RGBGetRValue(Mode.colors[idx]) * Mode.brightness / 100;
-        ck[idx].color.G = RGBGetGValue(Mode.colors[idx]) * Mode.brightness / 100;
-        ck[idx].color.B = RGBGetBValue(Mode.colors[idx]) * Mode.brightness / 100;
+        ck[idx].time_frame      = (unsigned char)(idx * 100 / colors_size);
+        ck[idx].color.R         = RGBGetRValue(Mode.colors[idx]) * Mode.brightness / 100;
+        ck[idx].color.G         = RGBGetGValue(Mode.colors[idx]) * Mode.brightness / 100;
+        ck[idx].color.B         = RGBGetBValue(Mode.colors[idx]) * Mode.brightness / 100;
     }
-    ck[colors_size].time_frame = 100;
-    ck[colors_size].color.R = RGBGetRValue(Mode.colors[0]) * Mode.brightness / 100;
-    ck[colors_size].color.G = RGBGetGValue(Mode.colors[0]) * Mode.brightness / 100;
-    ck[colors_size].color.B = RGBGetBValue(Mode.colors[0]) * Mode.brightness / 100;
+
+    ck[colors_size].time_frame  = 100;
+    ck[colors_size].color.R     = RGBGetRValue(Mode.colors[0]) * Mode.brightness / 100;
+    ck[colors_size].color.G     = RGBGetGValue(Mode.colors[0]) * Mode.brightness / 100;
+    ck[colors_size].color.B     = RGBGetBValue(Mode.colors[0]) * Mode.brightness / 100;
 
     controller->SetMode(msi_mode, speed1, speed2, wave_direction, zone, ck);
 }
