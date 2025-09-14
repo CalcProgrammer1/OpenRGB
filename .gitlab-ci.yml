@@ -398,6 +398,7 @@ before_script:
   - .shared_windows_runners
   stage: build
   script:
+  - Set-MpPreference -DisableRealtimeMonitoring $true
   - scripts\build-windows.bat 5.15.0 2019 32
   artifacts:
     name: "${CI_PROJECT_NAME}_Windows_32_${CI_COMMIT_SHORT_SHA}"
@@ -418,6 +419,7 @@ before_script:
   - .shared_windows_runners
   stage: build
   script:
+  - Set-MpPreference -DisableRealtimeMonitoring $true
   - scripts\build-windows.bat 6.8.3 2022 32
   artifacts:
     name: "${CI_PROJECT_NAME}_Windows_32_Qt6_${CI_COMMIT_SHORT_SHA}"
@@ -438,6 +440,7 @@ before_script:
   - .shared_windows_runners
   stage: build
   script:
+  - Set-MpPreference -DisableRealtimeMonitoring $true
   - scripts\build-windows.bat 5.15.0 2019 64
   artifacts:
     name: "${CI_PROJECT_NAME}_Windows_64_${CI_COMMIT_SHORT_SHA}"
@@ -477,6 +480,7 @@ before_script:
   - .shared_windows_runners
   stage: build
   script:
+  - Set-MpPreference -DisableRealtimeMonitoring $true
   - scripts\build-windows.bat 6.8.3 2022 64
   artifacts:
     name: "${CI_PROJECT_NAME}_Windows_64_Qt6_${CI_COMMIT_SHORT_SHA}"
