@@ -77,4 +77,6 @@ private:
         unsigned char*  led_data,
         bool            shutdown_effect
         );
+
+    void SetGen1();
 };

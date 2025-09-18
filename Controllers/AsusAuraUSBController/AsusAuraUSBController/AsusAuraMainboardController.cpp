@@ -41,10 +41,36 @@ AuraMainboardController::AuraMainboardController(hid_device* dev_handle, const c
         device_info.push_back({effect_channel, (unsigned char)i, 0x01, 0, AuraDeviceType::ADDRESSABLE});
         effect_channel++;
     }
+
+    SetGen1();
 }
 
 AuraMainboardController::~AuraMainboardController()
 {
+}
+
+void AuraMainboardController::SetGen1()
+{
+    unsigned char usb_buf[65];
+
+    /*-----------------------------------------------------*\
+    | Zero out buffer                                       |
+    \*-----------------------------------------------------*/
+    memset(usb_buf, 0x00, sizeof(usb_buf));
+
+    /*-----------------------------------------------------*\
+    | Set up custom command packet                          |
+    \*-----------------------------------------------------*/
+    usb_buf[0x00] = 0xEC;
+    usb_buf[0x01] = 0x52;
+    usb_buf[0x02] = 0x53;
+    usb_buf[0x03] = 0x00;
+    usb_buf[0x04] = 0x01;
+
+    /*-----------------------------------------------------*\
+    | Send packet                                           |
+    \*-----------------------------------------------------*/
+    hid_write(dev, usb_buf, 65);
 }
 
 void AuraMainboardController::SetChannelLEDs(unsigned char channel, RGBColor * colors, unsigned int num_colors)
