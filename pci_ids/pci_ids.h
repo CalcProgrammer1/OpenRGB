@@ -713,6 +713,7 @@
 #define GIGABYTE_RX9070XT_GAMING_16G_SUB_DEV            0x2431
 #define GIGABYTE_RX7900GRE_GAMING_OC_16G_SUB_DEV        0x2410
 #define GIGABYTE_RX7900XT_GAMING_OC_20G_SUB_DEV         0x240C
+#define GIGABYTE_RX7600_GAMING_OC_8G_SUB_DEV            0x240B
 
 /*-----------------------------------------------------*\
 | MSI Sub-Device IDs                                    |

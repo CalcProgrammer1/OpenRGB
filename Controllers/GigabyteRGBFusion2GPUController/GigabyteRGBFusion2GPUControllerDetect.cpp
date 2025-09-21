@@ -174,6 +174,7 @@ REGISTER_I2C_PCI_DETECTOR("Gigabyte GeForce RTX 5090 GAMING OC",                
 |  AMD GPUs                                 |
 \*-----------------------------------------*/
 
+REGISTER_I2C_PCI_DETECTOR("Gigabyte Radeon RX 7600 GAMING OC 8G",                      DetectGigabyteRGBFusion2GPUControllers, AMD_GPU_VEN, AMD_NAVI33_DEV,            GIGABYTE_SUB_VEN,   GIGABYTE_RX7600_GAMING_OC_8G_SUB_DEV,           0x55);
 REGISTER_I2C_PCI_DETECTOR("Gigabyte Radeon RX 7800 XT GAMING OC",                      DetectGigabyteRGBFusion2GPUControllers, AMD_GPU_VEN, AMD_NAVI32_DEV,            GIGABYTE_SUB_VEN,   GIGABYTE_RX7800XT_GAMING_OC_16G_SUB_DEV,        0x62);
 REGISTER_I2C_PCI_DETECTOR("Gigabyte Radeon RX 7900 GRE GAMING OC",                     DetectGigabyteRGBFusion2GPUControllers, AMD_GPU_VEN, AMD_NAVI31_DEV,            GIGABYTE_SUB_VEN,   GIGABYTE_RX7900GRE_GAMING_OC_16G_SUB_DEV,       0x62);
 REGISTER_I2C_PCI_DETECTOR("Gigabyte Radeon RX 7900 XT GAMING OC",                      DetectGigabyteRGBFusion2GPUControllers, AMD_GPU_VEN, AMD_NAVI31_DEV,            GIGABYTE_SUB_VEN,   GIGABYTE_RX7900XT_GAMING_OC_20G_SUB_DEV,        0x62);
