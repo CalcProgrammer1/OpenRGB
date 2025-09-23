@@ -27,6 +27,7 @@
 #define REDRAGON_M808_PID               0xFC5F
 #define REDRAGON_M801_PID               0xFC58
 #define REDRAGON_M810_PID               0xFA7E
+#define REDRAGON_M987_PID               0xFC69
 
 /******************************************************************************************\
 *                                                                                          *
@@ -60,3 +61,4 @@ REGISTER_HID_DETECTOR_IP("Redragon M602 Griffin",    DetectRedragonMice,      RE
 REGISTER_HID_DETECTOR_IP("Redragon M808 Storm",      DetectRedragonMice,      REDRAGON_MOUSE_VID,    REDRAGON_M808_PID,         2, REDRAGON_MOUSE_USAGE_PAGE);
 REGISTER_HID_DETECTOR_IP("Redragon M801 Sniper",     DetectRedragonMice,      REDRAGON_MOUSE_VID,    REDRAGON_M801_PID,         2, REDRAGON_MOUSE_USAGE_PAGE);
 REGISTER_HID_DETECTOR_IP("Redragon M810 Taipan",     DetectRedragonMice,      REDRAGON_MOUSE_VID,    REDRAGON_M810_PID,         2, REDRAGON_MOUSE_USAGE_PAGE);
+REGISTER_HID_DETECTOR_IP("Redragon M987 Reaping",    DetectRedragonMice,      REDRAGON_MOUSE_VID,    REDRAGON_M987_PID,         2, REDRAGON_MOUSE_USAGE_PAGE);
