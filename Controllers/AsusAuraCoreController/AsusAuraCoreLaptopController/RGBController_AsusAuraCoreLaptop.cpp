@@ -263,7 +263,7 @@ RGBController_AsusAuraCoreLaptop::RGBController_AsusAuraCoreLaptop(AsusAuraCoreL
 
     SetupZones();
 
-    SetMode(active_mode);
+    SetActiveMode(active_mode);
 }
 
 RGBController_AsusAuraCoreLaptop::~RGBController_AsusAuraCoreLaptop()
@@ -398,13 +398,6 @@ void RGBController_AsusAuraCoreLaptop::SetupZones()
     }
 }
 
-void RGBController_AsusAuraCoreLaptop::ResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_AsusAuraCoreLaptop::DeviceUpdateLEDs()
 {
     for(size_t i = 85; i < leds.size(); i++)
@@ -422,12 +415,12 @@ void RGBController_AsusAuraCoreLaptop::DeviceUpdateLEDs()
     controller->SetLedsDirect(buffer_map);
 }
 
-void RGBController_AsusAuraCoreLaptop::UpdateZoneLEDs(int /*zone*/)
+void RGBController_AsusAuraCoreLaptop::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     controller->SetLedsDirect(buffer_map);
 }
 
-void RGBController_AsusAuraCoreLaptop::UpdateSingleLED(int /*led*/)
+void RGBController_AsusAuraCoreLaptop::DeviceUpdateSingleLED(int /*led*/)
 {
     controller->SetLedsDirect(buffer_map);
 }

@@ -146,7 +146,7 @@ void RGBController_EKController::SetupZones()
     SetupColors();
 }
 
-void RGBController_EKController::ResizeZone(int /*zone*/, int /*new_size*/)
+void RGBController_EKController::DeviceResizeZone(int /*zone*/, int /*new_size*/)
 {
     /*---------------------------------------------------------*\
     | ToDo                                                      |
@@ -162,7 +162,7 @@ void RGBController_EKController::DeviceUpdateLEDs()
     controller->SetColor(red, grn, blu);
 }
 
-void RGBController_EKController::UpdateZoneLEDs(int zone)
+void RGBController_EKController::DeviceUpdateZoneLEDs(int zone)
 {
     RGBColor      color = colors[zone];
     unsigned char red   = RGBGetRValue(color);
@@ -172,9 +172,9 @@ void RGBController_EKController::UpdateZoneLEDs(int zone)
     controller->SetColor(red, grn, blu);
 }
 
-void RGBController_EKController::UpdateSingleLED(int led)
+void RGBController_EKController::DeviceUpdateSingleLED(int led)
 {
-    UpdateZoneLEDs(led);
+    DeviceUpdateZoneLEDs(led);
 }
 
 void RGBController_EKController::DeviceUpdateMode()

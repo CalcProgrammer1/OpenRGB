@@ -567,12 +567,7 @@ RGBController_Debug::~RGBController_Debug()
 
 }
 
-void RGBController_Debug::SetupZones()
-{
-
-}
-
-void RGBController_Debug::ResizeZone(int index, int new_size)
+void RGBController_Debug::DeviceResizeZone(int index, int new_size)
 {
     //Make sure that it isn't out of bounds (negative numbers)
     if(new_size < int(zones[index].leds_min))
@@ -617,12 +612,12 @@ void RGBController_Debug::DeviceUpdateLEDs()
 
 }
 
-void RGBController_Debug::UpdateZoneLEDs(int /*zone*/)
+void RGBController_Debug::DeviceUpdateZoneLEDs(int /*zone*/)
 {
 
 }
 
-void RGBController_Debug::UpdateSingleLED(int /*led*/)
+void RGBController_Debug::DeviceUpdateSingleLED(int /*led*/)
 {
 
 }

@@ -237,7 +237,7 @@ void RGBController_HuePlus::SetupZones()
     SetupColors();
 }
 
-void RGBController_HuePlus::ResizeZone(int zone, int new_size)
+void RGBController_HuePlus::DeviceResizeZone(int zone, int new_size)
 {
     if((size_t) zone >= zones.size())
     {
@@ -260,12 +260,12 @@ void RGBController_HuePlus::DeviceUpdateLEDs()
     }
 }
 
-void RGBController_HuePlus::UpdateZoneLEDs(int zone)
+void RGBController_HuePlus::DeviceUpdateZoneLEDs(int zone)
 {
     controller->SetChannelLEDs(zone, zones[zone].colors, zones[zone].leds_count);
 }
 
-void RGBController_HuePlus::UpdateSingleLED(int led)
+void RGBController_HuePlus::DeviceUpdateSingleLED(int led)
 {
     unsigned int zone_idx = leds[led].value;
 

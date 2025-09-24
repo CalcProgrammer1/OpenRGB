@@ -159,13 +159,6 @@ void RGBController_PatriotViper::SetupZones()
     SetupColors();
 }
 
-void RGBController_PatriotViper::ResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_PatriotViper::DeviceUpdateLEDs()
 {
     if(viper->direct == true)
@@ -192,12 +185,12 @@ void RGBController_PatriotViper::DeviceUpdateLEDs()
     }
 }
 
-void RGBController_PatriotViper::UpdateZoneLEDs(int /*zone*/)
+void RGBController_PatriotViper::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_PatriotViper::UpdateSingleLED(int led)
+void RGBController_PatriotViper::DeviceUpdateSingleLED(int led)
 {
     RGBColor      color = colors[led];
     unsigned char red   = RGBGetRValue(color);

@@ -91,13 +91,6 @@ void RGBController_PhilipsHueEntertainment::SetupZones()
     SetupColors();
 }
 
-void RGBController_PhilipsHueEntertainment::ResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_PhilipsHueEntertainment::DeviceUpdateLEDs()
 {
     last_update_time = std::chrono::steady_clock::now();
@@ -108,12 +101,12 @@ void RGBController_PhilipsHueEntertainment::DeviceUpdateLEDs()
     }
 }
 
-void RGBController_PhilipsHueEntertainment::UpdateZoneLEDs(int /*zone*/)
+void RGBController_PhilipsHueEntertainment::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_PhilipsHueEntertainment::UpdateSingleLED(int /*led*/)
+void RGBController_PhilipsHueEntertainment::DeviceUpdateSingleLED(int /*led*/)
 {
     DeviceUpdateLEDs();
 }
@@ -126,9 +119,9 @@ void RGBController_PhilipsHueEntertainment::DeviceUpdateMode()
 
         for(unsigned int controller_idx = 0; controller_idx < rgb_controllers.size(); controller_idx++)
         {
-            if(rgb_controllers[controller_idx] != this && rgb_controllers[controller_idx]->GetDescription() == "Philips Hue Entertainment Mode Device" && rgb_controllers[controller_idx]->active_mode == 0)
+            if(rgb_controllers[controller_idx] != this && rgb_controllers[controller_idx]->GetDescription() == "Philips Hue Entertainment Mode Device" && rgb_controllers[controller_idx]->GetActiveMode() == 0)
             {
-                rgb_controllers[controller_idx]->SetMode(1);
+                rgb_controllers[controller_idx]->SetActiveMode(1);
             }
         }
 
