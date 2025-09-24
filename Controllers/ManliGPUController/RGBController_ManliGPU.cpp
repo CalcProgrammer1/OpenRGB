@@ -153,17 +153,9 @@ void RGBController_ManliGPU::SetupZones()
     new_zone.leds_min      = 1;
     new_zone.leds_max      = 1;
     new_zone.leds_count    = 1;
-    new_zone.matrix_map    = NULL;
     zones.push_back(new_zone);
 
     SetupColors();
-}
-
-void RGBController_ManliGPU::ResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
 }
 
 void RGBController_ManliGPU::DeviceUpdateLEDs()
@@ -171,12 +163,12 @@ void RGBController_ManliGPU::DeviceUpdateLEDs()
     DeviceUpdateMode();
 }
 
-void RGBController_ManliGPU::UpdateZoneLEDs(int /*zone*/)
+void RGBController_ManliGPU::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateMode();
 }
 
-void RGBController_ManliGPU::UpdateSingleLED(int /*led*/)
+void RGBController_ManliGPU::DeviceUpdateSingleLED(int /*led*/)
 {
     DeviceUpdateMode();
 }

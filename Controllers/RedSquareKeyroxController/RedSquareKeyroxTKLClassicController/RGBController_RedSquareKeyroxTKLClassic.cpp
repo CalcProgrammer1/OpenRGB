@@ -201,30 +201,18 @@ RGBController_RedSquareKeyroxTKLClassic::~RGBController_RedSquareKeyroxTKLClassi
 
 void RGBController_RedSquareKeyroxTKLClassic::SetupZones()
 {
+    KeyboardLayoutManager new_kb(KEYBOARD_LAYOUT_ANSI_QWERTY, KEYBOARD_SIZE_TKL, keyrox_tkl_offset_values);
+
     /*---------------------------------------------------------*\
     |  Create the keyboard zone usiung Keyboard Layout Manager  |
     \*---------------------------------------------------------*/
     zone new_zone;
-    new_zone.name               = ZONE_EN_KEYBOARD;
-    new_zone.type               = ZONE_TYPE_MATRIX;
-
-    KeyboardLayoutManager new_kb(KEYBOARD_LAYOUT_ANSI_QWERTY, KEYBOARD_SIZE_TKL, keyrox_tkl_offset_values);
-
-    matrix_map_type * new_map   = new matrix_map_type;
-    new_zone.matrix_map         = new_map;
-    new_zone.matrix_map->height = KEYROX_TKL_CLASSIC_HEIGHT;
-    new_zone.matrix_map->width  = KEYROX_TKL_CLASSIC_WIDTH;
-
-    new_zone.matrix_map->map    = new unsigned int[new_map->height * new_map->width];
-    new_zone.leds_count         = new_kb.GetKeyCount();
-    new_zone.leds_min           = new_zone.leds_count;
-    new_zone.leds_max           = new_zone.leds_count;
-
-    /*---------------------------------------------------------*\
-    | Matrix map still uses declared zone rows and columns      |
-    |   as the packet structure depends on the matrix map       |
-    \*---------------------------------------------------------*/
-    new_kb.GetKeyMap(new_map->map, KEYBOARD_MAP_FILL_TYPE_COUNT, new_map->height, new_map->width);
+    new_zone.name                   = ZONE_EN_KEYBOARD;
+    new_zone.type                   = ZONE_TYPE_MATRIX;
+    new_zone.leds_count             = new_kb.GetKeyCount();
+    new_zone.leds_min               = new_zone.leds_count;
+    new_zone.leds_max               = new_zone.leds_count;
+    new_zone.matrix_map             = new_kb.GetKeyMap(KEYBOARD_MAP_FILL_TYPE_COUNT, KEYROX_TKL_CLASSIC_HEIGHT, KEYROX_TKL_CLASSIC_WIDTH);
 
     /*---------------------------------------------------------*\
     | Create LEDs for the Matrix zone                           |
@@ -244,24 +232,17 @@ void RGBController_RedSquareKeyroxTKLClassic::SetupZones()
     SetupColors();
 }
 
-void RGBController_RedSquareKeyroxTKLClassic::ResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_RedSquareKeyroxTKLClassic::DeviceUpdateLEDs()
 {
     controller->SetLEDsData(colors, leds);
 }
 
-void RGBController_RedSquareKeyroxTKLClassic::UpdateZoneLEDs(int /*zone*/)
+void RGBController_RedSquareKeyroxTKLClassic::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_RedSquareKeyroxTKLClassic::UpdateSingleLED(int /*led*/)
+void RGBController_RedSquareKeyroxTKLClassic::DeviceUpdateSingleLED(int /*led*/)
 {
     DeviceUpdateLEDs();
 }

@@ -96,7 +96,6 @@ void RGBController_EVGAACX30SMBus::SetupZones()
     new_zone->leds_min      = 1;
     new_zone->leds_max      = 1;
     new_zone->leds_count    = 1;
-    new_zone->matrix_map    = NULL;
 
     /*---------------------------------------------------------*\
     | Push new zone to zones vector                             |
@@ -121,27 +120,20 @@ void RGBController_EVGAACX30SMBus::SetupZones()
     SetupColors();
 }
 
-void RGBController_EVGAACX30SMBus::ResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_EVGAACX30SMBus::DeviceUpdateLEDs()
 {
     for(unsigned int led = 0; led < colors.size(); led++)
     {
-        UpdateSingleLED(led);
+        DeviceUpdateSingleLED(led);
     }
 }
 
-void RGBController_EVGAACX30SMBus::UpdateZoneLEDs(int /*zone*/)
+void RGBController_EVGAACX30SMBus::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_EVGAACX30SMBus::UpdateSingleLED(int led)
+void RGBController_EVGAACX30SMBus::DeviceUpdateSingleLED(int led)
 {
     unsigned char red = RGBGetRValue(colors[led]);
     unsigned char grn = RGBGetGValue(colors[led]);

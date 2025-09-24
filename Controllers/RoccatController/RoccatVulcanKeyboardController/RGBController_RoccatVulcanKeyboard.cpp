@@ -158,10 +158,7 @@ void RGBController_RoccatVulcanKeyboard::SetupZones()
     keyboard_zone.leds_min           = keyboard[layout].size;
     keyboard_zone.leds_max           = keyboard[layout].size;
     keyboard_zone.leds_count         = keyboard[layout].size;
-    keyboard_zone.matrix_map         = new matrix_map_type;
-    keyboard_zone.matrix_map->height = keyboard[layout].rows;
-    keyboard_zone.matrix_map->width  = keyboard[layout].cols;
-    keyboard_zone.matrix_map->map    = keyboard[layout].matrix_map;
+    keyboard_zone.matrix_map.Set(keyboard[layout].rows, keyboard[layout].cols, keyboard[layout].matrix_map);
     zones.push_back(keyboard_zone);
 
     for(int led_id = 0; led_id < keyboard[layout].size; led_id++)
@@ -179,13 +176,6 @@ void RGBController_RoccatVulcanKeyboard::SetupZones()
     \*---------------------------------------------------------*/
     DeviceUpdateMode();
     DeviceUpdateLEDs();
-}
-
-void RGBController_RoccatVulcanKeyboard::ResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
 }
 
 void RGBController_RoccatVulcanKeyboard::DeviceUpdateLEDs()
@@ -207,12 +197,12 @@ void RGBController_RoccatVulcanKeyboard::DeviceUpdateLEDs()
     }
 }
 
-void RGBController_RoccatVulcanKeyboard::UpdateZoneLEDs(int /*zone_idx*/)
+void RGBController_RoccatVulcanKeyboard::DeviceUpdateZoneLEDs(int /*zone_idx*/)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_RoccatVulcanKeyboard::UpdateSingleLED(int /*led_idx*/)
+void RGBController_RoccatVulcanKeyboard::DeviceUpdateSingleLED(int /*led_idx*/)
 {
     DeviceUpdateLEDs();
 }

@@ -113,7 +113,6 @@ void RGBController_GalaxGPUv1::SetupZones()
     galax_gpu_zone.leds_min     = 1;
     galax_gpu_zone.leds_max     = 1;
     galax_gpu_zone.leds_count   = 1;
-    galax_gpu_zone.matrix_map   = NULL;
     zones.push_back(galax_gpu_zone);
 
     /*---------------------------------------------------------*\
@@ -135,13 +134,6 @@ void RGBController_GalaxGPUv1::SetupZones()
     colors[0] = ToRGBColor(red, grn, blu);
 }
 
-void RGBController_GalaxGPUv1::ResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_GalaxGPUv1::DeviceUpdateLEDs()
 {
     for(std::size_t led = 0; led < colors.size(); led++)
@@ -150,7 +142,7 @@ void RGBController_GalaxGPUv1::DeviceUpdateLEDs()
         unsigned char grn = RGBGetGValue(colors[led]);
         unsigned char blu = RGBGetBValue(colors[led]);
 
-        if(GetMode() == 1)
+        if(GetActiveMode() == 1)
         {
             controller->SetLEDColorsDirect(red, grn, blu);
         }
@@ -161,12 +153,12 @@ void RGBController_GalaxGPUv1::DeviceUpdateLEDs()
     }
 }
 
-void RGBController_GalaxGPUv1::UpdateZoneLEDs(int /*zone*/)
+void RGBController_GalaxGPUv1::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_GalaxGPUv1::UpdateSingleLED(int /*led*/)
+void RGBController_GalaxGPUv1::DeviceUpdateSingleLED(int /*led*/)
 {
     DeviceUpdateLEDs();
 }

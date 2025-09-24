@@ -79,17 +79,6 @@ RGBController_CorsairV2HW::~RGBController_CorsairV2HW()
     keepalive_thread->join();
     delete keepalive_thread;
 
-    /*---------------------------------------------------------*\
-    | Delete the matrix map                                     |
-    \*---------------------------------------------------------*/
-    for(unsigned int zone_index = 0; zone_index < zones.size(); zone_index++)
-    {
-        if(zones[zone_index].type == ZONE_TYPE_MATRIX)
-        {
-            delete zones[zone_index].matrix_map;
-        }
-    }
-
     delete controller;
 }
 
@@ -138,13 +127,6 @@ void RGBController_CorsairV2HW::SetupZones()
             {
                 KeyboardLayoutManager new_kb(new_layout, corsair->layout_new->base_size, corsair->layout_new->key_values);
 
-                matrix_map_type * new_map   = new matrix_map_type;
-                new_zone.matrix_map         = new_map;
-
-                new_map->height             = corsair->zones[i]->rows;
-                new_map->width              = corsair->zones[i]->cols;
-                new_map->map                = new unsigned int[new_map->height * new_map->width];
-
                 if(corsair->layout_new->base_size != KEYBOARD_SIZE_EMPTY)
                 {
                     /*---------------------------------------------------------*\
@@ -153,11 +135,7 @@ void RGBController_CorsairV2HW::SetupZones()
                     keyboard_keymap_overlay_values* temp    = corsair->layout_new;
                     new_kb.ChangeKeys(*temp);
 
-                    /*---------------------------------------------------------*\
-                    | Matrix map still uses declared zone rows and columns      |
-                    |   as the packet structure depends on the matrix map       |
-                    \*---------------------------------------------------------*/
-                    new_kb.GetKeyMap(new_map->map, KEYBOARD_MAP_FILL_TYPE_COUNT, new_map->height, new_map->width);
+                    new_zone.matrix_map     = new_kb.GetKeyMap(KEYBOARD_MAP_FILL_TYPE_COUNT, corsair->zones[i]->rows, corsair->zones[i]->cols);
 
                     /*---------------------------------------------------------*\
                     | Create LEDs for the Matrix zone                           |
@@ -186,7 +164,6 @@ void RGBController_CorsairV2HW::SetupZones()
             else
             {
                 new_zone.leds_count             = corsair->zones[i]->rows * corsair->zones[i]->cols;
-                new_zone.matrix_map             = NULL;
 
                 /*---------------------------------------------------------*\
                 | Create LEDs for the Linear / Single zone                  |
@@ -234,13 +211,6 @@ void RGBController_CorsairV2HW::SetupZones()
     }
 }
 
-void RGBController_CorsairV2HW::ResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_CorsairV2HW::DeviceUpdateLEDs()
 {
     last_update_time = std::chrono::steady_clock::now();
@@ -248,12 +218,12 @@ void RGBController_CorsairV2HW::DeviceUpdateLEDs()
     controller->SetLedsDirect(buffer_map);
 }
 
-void RGBController_CorsairV2HW::UpdateZoneLEDs(int /*zone*/)
+void RGBController_CorsairV2HW::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     controller->SetLedsDirect(buffer_map);
 }
 
-void RGBController_CorsairV2HW::UpdateSingleLED(int /*led*/)
+void RGBController_CorsairV2HW::DeviceUpdateSingleLED(int /*led*/)
 {
     controller->SetLedsDirect(buffer_map);
 }
