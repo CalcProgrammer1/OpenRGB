@@ -89,24 +89,17 @@ void RGBController_RazerHanbo::SetupZones()
 
             if(new_zone.type == ZONE_TYPE_MATRIX)
             {
-                matrix_map_type * new_map = new matrix_map_type;
+                new_zone.matrix_map.height  = device_list[device_index]->zones[zone_id]->rows;
+                new_zone.matrix_map.width   = device_list[device_index]->zones[zone_id]->cols;
+                new_zone.matrix_map.map.resize(new_zone.matrix_map.height * new_zone.matrix_map.width);
 
-                new_zone.matrix_map       = new_map;
-                new_map->height           = device_list[device_index]->zones[zone_id]->rows;
-                new_map->width            = device_list[device_index]->zones[zone_id]->cols;
-                new_map->map              = new unsigned int[new_map->height * new_map->width];
-
-                for(unsigned int y = 0; y < new_map->height; y++)
+                for(unsigned int y = 0; y < new_zone.matrix_map.height; y++)
                 {
-                    for(unsigned int x = 0; x < new_map->width; x++)
+                    for(unsigned int x = 0; x < new_zone.matrix_map.width; x++)
                     {
-                        new_map->map[(y * new_map->width) + x] = (y * new_map->width) + x;
+                        new_zone.matrix_map.map[(y * new_zone.matrix_map.width) + x] = (y * new_zone.matrix_map.width) + x;
                     }
                 }
-            }
-            else
-            {
-                new_zone.matrix_map = NULL;
             }
 
             zones.push_back(new_zone);
@@ -137,19 +130,12 @@ void RGBController_RazerHanbo::SetupZones()
     SetupColors();
 }
 
-void RGBController_RazerHanbo::ResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_RazerHanbo::DeviceUpdateLEDs()
 {
-    UpdateZoneLEDs(PUMP);
-    UpdateZoneLEDs(FAN1);
-    UpdateZoneLEDs(FAN2);
-    UpdateZoneLEDs(FAN3);
+    DeviceUpdateZoneLEDs(PUMP);
+    DeviceUpdateZoneLEDs(FAN1);
+    DeviceUpdateZoneLEDs(FAN2);
+    DeviceUpdateZoneLEDs(FAN3);
 }
 
 /*---------------------------------------------------------*\
@@ -157,12 +143,12 @@ void RGBController_RazerHanbo::DeviceUpdateLEDs()
 | Transactions are straight forward when grouped this way.  |
 \*---------------------------------------------------------*/
 
-void RGBController_RazerHanbo::UpdateZoneLEDs(int zoneid)
+void RGBController_RazerHanbo::DeviceUpdateZoneLEDs(int zoneid)
 {
     controller->SetZoneLeds(zoneid, this->zones[zoneid]);
 }
 
-void RGBController_RazerHanbo::UpdateSingleLED(int /*led*/)
+void RGBController_RazerHanbo::DeviceUpdateSingleLED(int /*led*/)
 {
     DeviceUpdateLEDs();
 }

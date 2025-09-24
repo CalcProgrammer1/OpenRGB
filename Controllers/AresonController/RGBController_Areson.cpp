@@ -137,7 +137,6 @@ void RGBController_Areson::SetupZones()
     new_zone.leds_min   = 1;
     new_zone.leds_max   = 1;
     new_zone.leds_count = 1;
-    new_zone.matrix_map = nullptr;
 
     zones.emplace_back(new_zone);
 
@@ -150,24 +149,17 @@ void RGBController_Areson::SetupZones()
     SetupColors();
 }
 
-void RGBController_Areson::ResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_Areson::DeviceUpdateLEDs()
 {
     DeviceUpdateMode();
 }
 
-void RGBController_Areson::UpdateZoneLEDs(int /*zone*/)
+void RGBController_Areson::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateMode();
 }
 
-void RGBController_Areson::UpdateSingleLED(int /*led*/)
+void RGBController_Areson::DeviceUpdateSingleLED(int /*led*/)
 {
     DeviceUpdateMode();
 }

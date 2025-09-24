@@ -84,7 +84,6 @@ void RGBController_RedragonMouse::SetupZones()
     mouse_zone.leds_min     = REDRAGON_MOUSE_LED_COUNT;
     mouse_zone.leds_max     = REDRAGON_MOUSE_LED_COUNT;
     mouse_zone.leds_count   = REDRAGON_MOUSE_LED_COUNT;
-    mouse_zone.matrix_map   = NULL;
     zones.push_back(mouse_zone);
 
     led mouse_led;
@@ -92,13 +91,6 @@ void RGBController_RedragonMouse::SetupZones()
     leds.push_back(mouse_led);
 
     SetupColors();
-}
-
-void RGBController_RedragonMouse::ResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
 }
 
 void RGBController_RedragonMouse::DeviceUpdateLEDs()
@@ -111,12 +103,12 @@ void RGBController_RedragonMouse::DeviceUpdateLEDs()
     controller->SendMouseApply();
 }
 
-void RGBController_RedragonMouse::UpdateZoneLEDs(int /*zone*/)
+void RGBController_RedragonMouse::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_RedragonMouse::UpdateSingleLED(int /*led*/)
+void RGBController_RedragonMouse::DeviceUpdateSingleLED(int /*led*/)
 {
     DeviceUpdateLEDs();
 }

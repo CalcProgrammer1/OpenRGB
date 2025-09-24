@@ -328,18 +328,18 @@ bool ParseColors(std::string colors_string, DeviceOptions *options)
 unsigned int ParseMode(DeviceOptions& options, std::vector<RGBController *> &rgb_controllers)
 {
     // no need to check if --mode wasn't passed
-    if (options.mode.size() == 0)
+    if(options.mode.size() == 0)
     {
-        return rgb_controllers[options.device]->active_mode;
+        return rgb_controllers[options.device]->GetActiveMode();
     }
 
     /*---------------------------------------------------------*\
     | Search through all of the device modes and see if there is|
     | a match.  If no match is found, print an error message.   |
     \*---------------------------------------------------------*/
-    for(unsigned int mode_idx = 0; mode_idx < rgb_controllers[options.device]->modes.size(); mode_idx++)
+    for(std::size_t mode_idx = 0; mode_idx < rgb_controllers[options.device]->GetModeCount(); mode_idx++)
     {
-        if (strcasecmp(rgb_controllers[options.device]->modes[mode_idx].name.c_str(), options.mode.c_str()) == 0)
+        if(strcasecmp(rgb_controllers[options.device]->GetModeName(mode_idx).c_str(), options.mode.c_str()) == 0)
         {
             return mode_idx;
         }
@@ -472,7 +472,7 @@ void OptionListDevices(std::vector<RGBController *>& rgb_controllers)
         /*---------------------------------------------------------*\
         | Print device type                                         |
         \*---------------------------------------------------------*/
-            std::cout << "  Type:           " << device_type_to_str(controller->type) << std::endl;
+            std::cout << "  Type:           " << device_type_to_str(controller->GetDeviceType()) << std::endl;
 
         /*---------------------------------------------------------*\
         | Print device description                                  |
@@ -509,14 +509,14 @@ void OptionListDevices(std::vector<RGBController *>& rgb_controllers)
         /*---------------------------------------------------------*\
         | Print device modes                                        |
         \*---------------------------------------------------------*/
-        if(!controller->modes.empty())
+        if(controller->GetModeCount() > 0)
         {
             std::cout << "  Modes:";
 
-            int current_mode = controller->GetMode();
-            for(std::size_t mode_idx = 0; mode_idx < controller->modes.size(); mode_idx++)
+            int current_mode = controller->GetActiveMode();
+            for(std::size_t mode_idx = 0; mode_idx < controller->GetModeCount(); mode_idx++)
             {
-                std::string modeStr = QuoteIfNecessary(controller->modes[mode_idx].name);
+                std::string modeStr = QuoteIfNecessary(controller->GetModeName(mode_idx));
 
                 if(current_mode == (int)mode_idx)
                 {
@@ -530,13 +530,13 @@ void OptionListDevices(std::vector<RGBController *>& rgb_controllers)
         /*---------------------------------------------------------*\
         | Print device zones                                        |
         \*---------------------------------------------------------*/
-        if(!controller->zones.empty())
+        if(controller->GetZoneCount() > 0)
         {
             std::cout << "  Zones:";
 
-            for(std::size_t zone_idx = 0; zone_idx < controller->zones.size(); zone_idx++)
+            for(std::size_t zone_idx = 0; zone_idx < controller->GetZoneCount(); zone_idx++)
             {
-                std::cout << " " << QuoteIfNecessary(controller->zones[zone_idx].name);
+                std::cout << " " << QuoteIfNecessary(controller->GetZoneName(zone_idx));
             }
             std::cout << std::endl;
         }
@@ -544,13 +544,13 @@ void OptionListDevices(std::vector<RGBController *>& rgb_controllers)
         /*---------------------------------------------------------*\
         | Print device LEDs                                         |
         \*---------------------------------------------------------*/
-        if(!controller->leds.empty())
+        if(controller->GetLEDCount() > 0)
         {
             std::cout << "  LEDs:";
 
-            for(std::size_t led_idx = 0; led_idx < controller->leds.size(); led_idx++)
+            for(std::size_t led_idx = 0; led_idx < controller->GetLEDCount(); led_idx++)
             {
-                std::cout << " " << QuoteIfNecessary(controller->leds[led_idx].name);
+                std::cout << " " << QuoteIfNecessary(controller->GetLEDName(led_idx));
             }
             std::cout << std::endl;
         }
@@ -650,7 +650,7 @@ bool OptionZone(std::vector<DeviceOptions>* current_devices, std::string argumen
         {
             int current_device = current_devices->at(i).device;
 
-            if(current_zone >= static_cast<int>(rgb_controllers[current_device]->zones.size()) || (current_zone < 0))
+            if(current_zone >= static_cast<int>(rgb_controllers[current_device]->GetZoneCount()) || (current_zone < 0))
             {
                 throw nullptr;
             }
@@ -847,12 +847,12 @@ bool OptionSize(std::vector<DeviceOptions>* current_devices, std::string argumen
             std::cout << "Error: Device is out of range" << std::endl;
             return false;
         }
-        else if((current_zone >= static_cast<int>(rgb_controllers[current_device]->zones.size())) || (current_zone < 0))
+        else if((current_zone >= static_cast<int>(rgb_controllers[current_device]->GetZoneCount())) || (current_zone < 0))
         {
             std::cout << "Error: Zone is out of range" << std::endl;
             return false;
         }
-        else if((new_size < rgb_controllers[current_device]->zones[current_zone].leds_min) || (new_size > rgb_controllers[current_device]->zones[current_zone].leds_max))
+        else if((new_size < rgb_controllers[current_device]->GetZoneLEDsMin(current_zone)) || (new_size > rgb_controllers[current_device]->GetZoneLEDsMax(current_zone)))
         {
             std::cout << "Error: New size is out of range" << std::endl;
         }
@@ -888,9 +888,9 @@ bool OptionProfile(std::string argument, std::vector<RGBController *>& rgb_contr
             RGBController* device = rgb_controllers[controller_idx];
 
             device->DeviceUpdateMode();
-            LOG_DEBUG("[CLI] Updating mode for %s to %i", device->GetName().c_str(), device->active_mode);
+            LOG_DEBUG("[CLI] Updating mode for %s to %i", device->GetName().c_str(), device->GetActiveMode());
 
-            if(device->modes[device->active_mode].color_mode == MODE_COLORS_PER_LED)
+            if(device->GetModeColorMode(device->GetActiveMode()) == MODE_COLORS_PER_LED)
             {
                 device->DeviceUpdateLEDs();
                 LOG_DEBUG("[CLI] Mode uses per-LED color, also updating LEDs");
@@ -1161,7 +1161,7 @@ void ApplyOptions(DeviceOptions& options, std::vector<RGBController *>& rgb_cont
 
     /*---------------------------------------------------------*\
     | Set mode first, in case it's 'direct' (which affects      |
-    | SetLED below)                                             |
+    | SetColor below)                                             |
     \*---------------------------------------------------------*/
     unsigned int mode = ParseMode(options, rgb_controllers);
 
@@ -1170,9 +1170,9 @@ void ApplyOptions(DeviceOptions& options, std::vector<RGBController *>& rgb_cont
     |   supports that colour mode then swich to it before       |
     |   evaluating if a colour needs to be set                  |
     \*---------------------------------------------------------*/
-    if(options.random_colors && (device->modes[mode].flags & MODE_FLAG_HAS_RANDOM_COLOR))
+    if(options.random_colors && (device->GetModeFlags(mode) & MODE_FLAG_HAS_RANDOM_COLOR))
     {
-        device->modes[mode].color_mode = MODE_COLORS_RANDOM;
+        device->SetModeColorMode(mode, MODE_COLORS_RANDOM);
     }
 
     /*---------------------------------------------------------*\
@@ -1180,29 +1180,29 @@ void ApplyOptions(DeviceOptions& options, std::vector<RGBController *>& rgb_cont
     |   supports that colour mode then swich to it before       |
     |   evaluating if a colour needs to be set                  |
     \*---------------------------------------------------------*/
-    if((device->modes[mode].flags & MODE_FLAG_HAS_BRIGHTNESS))
+    if((device->GetModeFlags(mode) & MODE_FLAG_HAS_BRIGHTNESS))
     {
-        unsigned int new_brightness     = device->modes[mode].brightness_max - device->modes[mode].brightness_min;
+        unsigned int new_brightness     = device->GetModeBrightnessMax(mode) - device->GetModeBrightnessMin(mode);
         new_brightness                 *= options.brightness;
         new_brightness                 /= brightness_percentage;
 
-        device->modes[mode].brightness  = device->modes[mode].brightness_min + new_brightness;
+        device->SetModeBrightness(mode, device->GetModeBrightnessMin(mode) + new_brightness);
     }
 
-    if((device->modes[mode].flags & MODE_FLAG_HAS_SPEED))
+    if((device->GetModeFlags(mode) & MODE_FLAG_HAS_SPEED))
     {
-        unsigned int new_speed     = device->modes[mode].speed_max - device->modes[mode].speed_min;
+        unsigned int new_speed     = device->GetModeSpeedMax(mode) - device->GetModeSpeedMin(mode);
         new_speed                 *= options.speed;
         new_speed                 /= speed_percentage;
 
-        device->modes[mode].speed  = device->modes[mode].speed_min + new_speed;
+        device->SetModeSpeed(mode, device->GetModeSpeedMin(mode) + new_speed);
     }
 
     /*---------------------------------------------------------*\
     | Determine which color mode this mode uses and update      |
     | colors accordingly                                        |
     \*---------------------------------------------------------*/
-    switch(device->modes[mode].color_mode)
+    switch(device->GetModeColorMode(mode))
     {
         case MODE_COLORS_NONE:
             break;
@@ -1213,51 +1213,50 @@ void ApplyOptions(DeviceOptions& options, std::vector<RGBController *>& rgb_cont
         case MODE_COLORS_PER_LED:
             if(options.colors.size() != 0)
             {
-                std::size_t last_set_color = 0;
+                std::size_t start_from;
+                std::size_t led_count;
 
-                RGBColor* start_from;
-                unsigned int led_count;
                 if(options.zone < 0)
                 {
-                    start_from  = &device->colors[0];
-                    led_count   = (unsigned int)device->leds.size();
+                    start_from  = 0;
+                    led_count   = device->GetLEDCount();
                 }
                 else
                 {
-                    start_from  = device->zones[options.zone].colors;
-                    led_count   = device->zones[options.zone].leds_count;
+                    start_from  = (std::size_t)device->GetZoneStartIndex(options.zone);
+                    led_count   = (std::size_t)device->GetZoneLEDsCount(options.zone);
                 }
 
                 for(std::size_t led_idx = 0; led_idx < led_count; led_idx++)
                 {
-                    if(led_idx < options.colors.size())
+                    std::size_t color_idx = led_idx;
+
+                    if(color_idx >= options.colors.size())
                     {
-                        last_set_color      = led_idx;
+                        color_idx = options.colors.size() - 1;
                     }
 
-                    start_from[led_idx]     = ToRGBColor(std::get<0>(options.colors[last_set_color]),
-                                                         std::get<1>(options.colors[last_set_color]),
-                                                         std::get<2>(options.colors[last_set_color]));
+                    device->SetColor((unsigned int)(start_from + led_idx), ToRGBColor(std::get<0>(options.colors[color_idx]),
+                                                                                      std::get<1>(options.colors[color_idx]),
+                                                                                      std::get<2>(options.colors[color_idx])));
                 }
             }
             break;
 
         case MODE_COLORS_MODE_SPECIFIC:
-            if(options.colors.size() >= device->modes[mode].colors_min && options.colors.size() <= device->modes[mode].colors_max)
+            if(options.colors.size() >= device->GetModeColorsMin(mode) && options.colors.size() <= device->GetModeColorsMax(mode))
             {
-                device->modes[mode].colors.resize(options.colors.size());
+                device->SetModeColorsCount(mode, options.colors.size());
 
                 for(std::size_t color_idx = 0; color_idx < options.colors.size(); color_idx++)
                 {
-                    device->modes[mode].colors[color_idx] = ToRGBColor(std::get<0>(options.colors[color_idx]),
-                                                                       std::get<1>(options.colors[color_idx]),
-                                                                       std::get<2>(options.colors[color_idx]));
+                    device->SetModeColor(mode, color_idx, ToRGBColor(std::get<0>(options.colors[color_idx]), std::get<1>(options.colors[color_idx]), std::get<2>(options.colors[color_idx])));
                 }
             }
             else
             {
-                std::cout << "Wrong number of colors specified for mode " + device->modes[mode].name << std::endl;
-                std::cout << "Please provide between " + std::to_string(device->modes[mode].colors_min) + " and " + std::to_string(device->modes[mode].colors_min) + " colors" << std::endl;
+                std::cout << "Wrong number of colors specified for mode " + device->GetModeName(mode) << std::endl;
+                std::cout << "Please provide between " + std::to_string(device->GetModeColorsMin(mode)) + " and " + std::to_string(device->GetModeColorsMax(mode)) + " colors" << std::endl;
                 exit(0);
             }
             break;
@@ -1266,13 +1265,12 @@ void ApplyOptions(DeviceOptions& options, std::vector<RGBController *>& rgb_cont
     /*---------------------------------------------------------*\
     | Set device mode                                           |
     \*---------------------------------------------------------*/
-    device->active_mode = mode;
-    device->DeviceUpdateMode();
+    device->SetActiveMode(mode);
 
     /*---------------------------------------------------------*\
     | Set device per-LED colors if necessary                    |
     \*---------------------------------------------------------*/
-    if(device->modes[mode].color_mode == MODE_COLORS_PER_LED)
+    if(device->GetModeColorMode(mode) == MODE_COLORS_PER_LED)
     {
         device->DeviceUpdateLEDs();
     }

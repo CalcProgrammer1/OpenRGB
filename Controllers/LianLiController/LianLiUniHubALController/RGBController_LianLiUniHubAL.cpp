@@ -355,17 +355,6 @@ RGBController_LianLiUniHubAL::RGBController_LianLiUniHubAL(LianLiUniHubALControl
 
 RGBController_LianLiUniHubAL::~RGBController_LianLiUniHubAL()
 {
-    /*---------------------------------------------------------*\
-    | Delete the matrix map                                     |
-    \*---------------------------------------------------------*/
-    for(unsigned int zone_index = 0; zone_index < zones.size(); zone_index++)
-    {
-        if(zones[zone_index].matrix_map != NULL)
-        {
-            delete zones[zone_index].matrix_map;
-        }
-    }
-
     delete controller;
 }
 
@@ -403,10 +392,7 @@ void RGBController_LianLiUniHubAL::SetupZones()
             zones[channel_idx].type                 = ZONE_TYPE_MATRIX;
             zones[channel_idx].leds_min             = 0;
             zones[channel_idx].leds_max             = UNIHUB_AL_CHAN_LED_COUNT;
-            zones[channel_idx].matrix_map           = new matrix_map_type;
-            zones[channel_idx].matrix_map->height   = 8;
-            zones[channel_idx].matrix_map->width    = 35;
-            zones[channel_idx].matrix_map->map      = (unsigned int *)&matrix_map;
+            zones[channel_idx].matrix_map.Set(8, 35, (unsigned int *)&matrix_map);
         }
         else   // Treat as regular LED strip
         {
@@ -436,7 +422,7 @@ void RGBController_LianLiUniHubAL::SetupZones()
     SetupColors();
 }
 
-void RGBController_LianLiUniHubAL::ResizeZone(int zone, int new_size)
+void RGBController_LianLiUniHubAL::DeviceResizeZone(int zone, int new_size)
 {
     if((size_t) zone >= zones.size())
     {
@@ -467,7 +453,7 @@ void RGBController_LianLiUniHubAL::DeviceUpdateLEDs()
     }
 }
 
-void RGBController_LianLiUniHubAL::UpdateZoneLEDs(int zone)
+void RGBController_LianLiUniHubAL::DeviceUpdateZoneLEDs(int zone)
 {
     if(!initializedMode)
     {
@@ -479,7 +465,7 @@ void RGBController_LianLiUniHubAL::UpdateZoneLEDs(int zone)
     controller->SetChannelLEDs(zone, zones[zone].colors, zones[zone].leds_count, brightness_scale);
 }
 
-void RGBController_LianLiUniHubAL::UpdateSingleLED(int /* led */)
+void RGBController_LianLiUniHubAL::DeviceUpdateSingleLED(int /* led */)
 {
     DeviceUpdateMode();
 

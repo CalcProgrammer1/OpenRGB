@@ -199,7 +199,6 @@ void RGBController_AuraMouse::SetupZones()
         mouse_zone.leds_min     = 1;
         mouse_zone.leds_max     = 1;
         mouse_zone.leds_count   = 1;
-        mouse_zone.matrix_map   = NULL;
 
         zones.push_back(mouse_zone);
 
@@ -214,11 +213,6 @@ void RGBController_AuraMouse::SetupZones()
     SetupColors();
 }
 
-void RGBController_AuraMouse::ResizeZone(int /*zone*/, int /*new_size*/)
-{
-
-}
-
 void RGBController_AuraMouse::DeviceUpdateLEDs()
 {
     if(modes[active_mode].value == AURA_MOUSE_MODE_DIRECT)
@@ -229,17 +223,17 @@ void RGBController_AuraMouse::DeviceUpdateLEDs()
     {
         for(unsigned int zone_index = 0; zone_index < zones.size(); zone_index++)
         {
-            UpdateSingleLED(zone_index);
+            DeviceUpdateSingleLED(zone_index);
         }
     }
 }
 
-void RGBController_AuraMouse::UpdateZoneLEDs(int /*zone*/)
+void RGBController_AuraMouse::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_AuraMouse::UpdateSingleLED(int led)
+void RGBController_AuraMouse::DeviceUpdateSingleLED(int led)
 {
     if(modes[active_mode].value == AURA_MOUSE_MODE_DIRECT)
     {

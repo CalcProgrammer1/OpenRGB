@@ -173,7 +173,6 @@ void RGBController_PowerColorRedDevilV2::SetupZones()
     stripe1.leds_min                = 3;
     stripe1.leds_max                = 3;
     stripe1.leds_count              = 3;
-    stripe1.matrix_map              = NULL;
     zones.push_back(stripe1);
 
     zone stripe2;
@@ -182,7 +181,6 @@ void RGBController_PowerColorRedDevilV2::SetupZones()
     stripe2.leds_min                = 3;
     stripe2.leds_max                = 3;
     stripe2.leds_count              = 3;
-    stripe2.matrix_map              = NULL;
     zones.push_back(stripe2);
 
     static unsigned int hellstone_map[2][7] =
@@ -197,10 +195,7 @@ void RGBController_PowerColorRedDevilV2::SetupZones()
     hellstone.leds_min              = 14;
     hellstone.leds_max              = 14;
     hellstone.leds_count            = 14;
-    hellstone.matrix_map            = new matrix_map_type;
-    hellstone.matrix_map->height    = 2;
-    hellstone.matrix_map->width     = 7;
-    hellstone.matrix_map->map       = (unsigned int *)hellstone_map;
+    hellstone.matrix_map.Set(2, 7, (unsigned int *)hellstone_map);
     zones.push_back(hellstone);
 
     zone devil;
@@ -209,7 +204,6 @@ void RGBController_PowerColorRedDevilV2::SetupZones()
     devil.leds_min                  = 4;
     devil.leds_max                  = 4;
     devil.leds_count                = 4;
-    devil.matrix_map                = NULL;
     zones.push_back(devil);
 
     /*------------------------------------------------------------------*\
@@ -244,13 +238,6 @@ void RGBController_PowerColorRedDevilV2::SetupZones()
     }
 
     SetupColors();
-}
-
-void RGBController_PowerColorRedDevilV2::ResizeZone(int, int)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
 }
 
 void RGBController_PowerColorRedDevilV2::DeviceUpdateLEDs()
@@ -298,12 +285,12 @@ void RGBController_PowerColorRedDevilV2::DeviceUpdateLEDs()
     colors_copy = colors;
 }
 
-void RGBController_PowerColorRedDevilV2::UpdateZoneLEDs(int)
+void RGBController_PowerColorRedDevilV2::DeviceUpdateZoneLEDs(int)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_PowerColorRedDevilV2::UpdateSingleLED(int)
+void RGBController_PowerColorRedDevilV2::DeviceUpdateSingleLED(int)
 {
     DeviceUpdateLEDs();
 }

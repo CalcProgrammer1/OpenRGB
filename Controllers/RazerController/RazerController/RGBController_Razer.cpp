@@ -206,12 +206,6 @@ void RGBController_Razer::SetupZones()
                     KeyboardLayoutManager new_kb(new_layout, device_list[device_index]->layout->base_size,
                                                              device_list[device_index]->layout->key_values);
 
-                    matrix_map_type * new_map   = new matrix_map_type;
-                    new_zone.matrix_map         = new_map;
-                    new_map->height             = device_list[device_index]->zones[zone_id]->rows;
-                    new_map->width              = device_list[device_index]->zones[zone_id]->cols;
-                    new_map->map                = new unsigned int[new_map->height * new_map->width];
-
                     if(device_list[device_index]->layout->base_size != KEYBOARD_SIZE::KEYBOARD_SIZE_EMPTY)
                     {
                         /*---------------------------------------------------------*\
@@ -220,11 +214,7 @@ void RGBController_Razer::SetupZones()
                         keyboard_keymap_overlay_values* temp = device_list[device_index]->layout;
                         new_kb.ChangeKeys(*temp);
 
-                        /*---------------------------------------------------------*\
-                        | Matrix map still uses declared zone rows and columns      |
-                        |   as the packet structure depends on the matrix map       |
-                        \*---------------------------------------------------------*/
-                        new_kb.GetKeyMap(new_map->map, KEYBOARD_MAP_FILL_TYPE_INDEX, new_map->height, new_map->width);
+                        new_zone.matrix_map     = new_kb.GetKeyMap(KEYBOARD_MAP_FILL_TYPE_INDEX, device_list[device_index]->zones[zone_id]->rows, device_list[device_index]->zones[zone_id]->cols);
                     }
 
                     zones.push_back(new_zone);
@@ -234,9 +224,9 @@ void RGBController_Razer::SetupZones()
                     \*---------------------------------------------------------*/
                     if(new_kb.GetKeyCount() > 0)
                     {
-                        for(std::size_t row = 0; row < zones[zone_id].matrix_map->height; row++)
+                        for(std::size_t row = 0; row < zones[zone_id].matrix_map.height; row++)
                         {
-                            for(std::size_t col = 0; col < zones[zone_id].matrix_map->width; col++)
+                            for(std::size_t col = 0; col < zones[zone_id].matrix_map.width; col++)
                             {
                                 led new_led;
 
@@ -255,24 +245,18 @@ void RGBController_Razer::SetupZones()
                     | Handle all other matrix type zones by filling in all      |
                     | entries                                                   |
                     \*---------------------------------------------------------*/
-                    matrix_map_type * new_map   = new matrix_map_type;
-                    new_zone.matrix_map         = new_map;
-                    new_map->height             = device_list[device_index]->zones[zone_id]->rows;
-                    new_map->width              = device_list[device_index]->zones[zone_id]->cols;
-                    new_map->map                = new unsigned int[new_map->height * new_map->width];
+                    new_zone.matrix_map.height  = device_list[device_index]->zones[zone_id]->rows;
+                    new_zone.matrix_map.width   = device_list[device_index]->zones[zone_id]->cols;
+                    new_zone.matrix_map.map.resize(new_zone.matrix_map.height * new_zone.matrix_map.width);
 
-                    for(unsigned int y = 0; y < new_map->height; y++)
+                    for(unsigned int y = 0; y < new_zone.matrix_map.height; y++)
                     {
-                        for(unsigned int x = 0; x < new_map->width; x++)
+                        for(unsigned int x = 0; x < new_zone.matrix_map.width; x++)
                         {
-                            new_map->map[(y * new_map->width) + x] = (y * new_map->width) + x;
+                            new_zone.matrix_map.map[(y * new_zone.matrix_map.width) + x] = (y * new_zone.matrix_map.width) + x;
                         }
                     }
                 }
-            }
-            else
-            {
-                new_zone.matrix_map = NULL;
             }
 
             zones.push_back(new_zone);
@@ -300,24 +284,17 @@ void RGBController_Razer::SetupZones()
     SetupColors();
 }
 
-void RGBController_Razer::ResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_Razer::DeviceUpdateLEDs()
 {
     controller->SetLEDs(&colors[0]);
 }
 
-void RGBController_Razer::UpdateZoneLEDs(int /*zone*/)
+void RGBController_Razer::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_Razer::UpdateSingleLED(int /*led*/)
+void RGBController_Razer::DeviceUpdateSingleLED(int /*led*/)
 {
     DeviceUpdateLEDs();
 }

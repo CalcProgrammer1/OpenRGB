@@ -18,7 +18,7 @@ OpenRGBDeviceInfoPage::OpenRGBDeviceInfoPage(RGBController *dev, QWidget *parent
 
     ui->setupUi(this);
 
-    ui->TypeValue->setText(device_type_to_str(dev->type).c_str());
+    ui->TypeValue->setText(device_type_to_str(dev->GetDeviceType()).c_str());
 
     ui->NameValue->setText(QString::fromStdString(dev->GetName()));
     ui->VendorValue->setText(QString::fromStdString(dev->GetVendor()));
@@ -27,15 +27,16 @@ OpenRGBDeviceInfoPage::OpenRGBDeviceInfoPage(RGBController *dev, QWidget *parent
     ui->LocationValue->setText(QString::fromStdString(dev->GetLocation()));
     ui->SerialValue->setText(QString::fromStdString(dev->GetSerial()));
 
-    std::string flags_string = "";
-    bool        need_separator = false;
+    unsigned int    flags           = dev->GetFlags();
+    std::string     flags_string    = "";
+    bool            need_separator  = false;
 
-    if(dev->flags & CONTROLLER_FLAG_LOCAL)
+    if(flags & CONTROLLER_FLAG_LOCAL)
     {
         flags_string   += "Local";
         need_separator  = true;
     }
-    if(dev->flags & CONTROLLER_FLAG_REMOTE)
+    if(flags & CONTROLLER_FLAG_REMOTE)
     {
         if(need_separator)
         {
@@ -44,7 +45,7 @@ OpenRGBDeviceInfoPage::OpenRGBDeviceInfoPage(RGBController *dev, QWidget *parent
         flags_string   += "Remote";
         need_separator  = true;
     }
-    if(dev->flags & CONTROLLER_FLAG_VIRTUAL)
+    if(flags & CONTROLLER_FLAG_VIRTUAL)
     {
         if(need_separator)
         {
@@ -53,7 +54,16 @@ OpenRGBDeviceInfoPage::OpenRGBDeviceInfoPage(RGBController *dev, QWidget *parent
         flags_string   += "Virtual";
         need_separator  = true;
     }
-    if(dev->flags & CONTROLLER_FLAG_RESET_BEFORE_UPDATE)
+    if(flags & CONTROLLER_FLAG_HIDDEN)
+    {
+        if(need_separator)
+        {
+            flags_string += ", ";
+        }
+        flags_string   += "Hidden";
+        need_separator  = true;
+    }
+    if(flags & CONTROLLER_FLAG_RESET_BEFORE_UPDATE)
     {
         if(need_separator)
         {

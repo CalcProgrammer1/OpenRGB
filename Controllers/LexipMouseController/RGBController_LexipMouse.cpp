@@ -59,7 +59,6 @@ void RGBController_LexipMouse::SetupZones()
     new_zone.leds_min   = 1;
     new_zone.leds_max   = 1;
     new_zone.leds_count = 1;
-    new_zone.matrix_map = nullptr;
 
     zones.emplace_back(new_zone);
 
@@ -69,29 +68,22 @@ void RGBController_LexipMouse::SetupZones()
     SetupColors();
 }
 
-void RGBController_LexipMouse::ResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_LexipMouse::DeviceUpdateLEDs()
 {
-    UpdateZoneLEDs(0);
+    DeviceUpdateZoneLEDs(0);
 }
 
-void RGBController_LexipMouse::UpdateZoneLEDs(int /*zone*/)
+void RGBController_LexipMouse::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     controller->SetDirect(colors[0]);
 }
 
-void RGBController_LexipMouse::UpdateSingleLED(int led)
+void RGBController_LexipMouse::DeviceUpdateSingleLED(int led)
 {
-    UpdateZoneLEDs(led);
+    DeviceUpdateZoneLEDs(led);
 }
 
 void RGBController_LexipMouse::DeviceUpdateMode()
 {
-    UpdateZoneLEDs(0);
+    DeviceUpdateZoneLEDs(0);
 }

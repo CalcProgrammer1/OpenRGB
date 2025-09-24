@@ -332,14 +332,7 @@ void RGBController_LenovoUSB::SetupZones()
 
         if(lenovo_zones[i].type == ZONE_TYPE_MATRIX)
         {
-            new_zone.matrix_map         = new matrix_map_type;
-            new_zone.matrix_map->height = lenovo_zones[i].height;
-            new_zone.matrix_map->width  = lenovo_zones[i].width;
-            new_zone.matrix_map->map    = (unsigned int *) lenovo_zones[i].matrix_map;
-        }
-        else
-        {
-            new_zone.matrix_map = NULL;
+            new_zone.matrix_map.Set(lenovo_zones[i].height, lenovo_zones[i].width, (unsigned int *)lenovo_zones[i].matrix_map);
         }
 
         zones.push_back(new_zone);
@@ -356,14 +349,7 @@ void RGBController_LenovoUSB::SetupZones()
     SetupColors();
 }
 
-void RGBController_LenovoUSB::ResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
-void RGBController_LenovoUSB::UpdateSingleLED(int led)
+void RGBController_LenovoUSB::DeviceUpdateSingleLED(int led)
 {
     if(led != (int)NA)
     {
@@ -371,7 +357,7 @@ void RGBController_LenovoUSB::UpdateSingleLED(int led)
     }
 }
 
-void RGBController_LenovoUSB::UpdateZoneLEDs(int zone)
+void RGBController_LenovoUSB::DeviceUpdateZoneLEDs(int zone)
 {
     uint8_t zone_id = zones[zone].leds_count > 0 ? leds[zones[zone].start_idx].value >> 8 : 0;
     vector<pair<uint8_t, RGBColor>> color_map;

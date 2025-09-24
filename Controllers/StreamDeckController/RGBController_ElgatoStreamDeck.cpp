@@ -48,16 +48,15 @@ RGBController_ElgatoStreamDeck::~RGBController_ElgatoStreamDeck()
 
 void RGBController_ElgatoStreamDeck::SetupZones()
 {
+    unsigned int    matrix_map[15] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14};
+
     zone deck_zone;
     deck_zone.name = "Button Matrix";
     deck_zone.type = ZONE_TYPE_MATRIX;
     deck_zone.leds_min = 15;
     deck_zone.leds_max = 15;
     deck_zone.leds_count = 15;
-    deck_zone.matrix_map = new matrix_map_type;
-    deck_zone.matrix_map->height = 3;
-    deck_zone.matrix_map->width = 5;
-    deck_zone.matrix_map->map = new unsigned int[15]{0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14};
+    deck_zone.matrix_map.Set(3, 5, matrix_map);
 
     zones.push_back(deck_zone);
 
@@ -107,19 +106,14 @@ void RGBController_ElgatoStreamDeck::DeviceUpdateLEDs()
     controller->SendFullFrame(buttonImages);
 }
 
-void RGBController_ElgatoStreamDeck::UpdateZoneLEDs(int /*zone*/)
+void RGBController_ElgatoStreamDeck::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_ElgatoStreamDeck::UpdateSingleLED(int /*led*/)
+void RGBController_ElgatoStreamDeck::DeviceUpdateSingleLED(int /*led*/)
 {
     DeviceUpdateLEDs();
-}
-
-void RGBController_ElgatoStreamDeck::ResizeZone(int /*zone*/, int /*new_size*/)
-{
-
 }
 
 void RGBController_ElgatoStreamDeck::DeviceUpdateMode()
