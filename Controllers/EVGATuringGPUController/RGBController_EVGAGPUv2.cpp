@@ -159,7 +159,6 @@ void RGBController_EVGAGPUv2::SetupZones()
     new_zone->leds_min      = 1;
     new_zone->leds_max      = 1;
     new_zone->leds_count    = 1;
-    new_zone->matrix_map    = NULL;
 
     new_led->name           = "GPU LED";
 
@@ -172,13 +171,6 @@ void RGBController_EVGAGPUv2::SetupZones()
     SetupColors();
 }
 
-void RGBController_EVGAGPUv2::ResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_EVGAGPUv2::DeviceUpdateLEDs()
 {
     /*---------------------------------------------------------*\
@@ -189,12 +181,12 @@ void RGBController_EVGAGPUv2::DeviceUpdateLEDs()
     controller->SetColor(colors[0], /* colorB*/ 0, modes[active_mode].brightness);
 }
 
-void RGBController_EVGAGPUv2::UpdateZoneLEDs(int /*zone*/)
+void RGBController_EVGAGPUv2::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_EVGAGPUv2::UpdateSingleLED(int /*led*/)
+void RGBController_EVGAGPUv2::DeviceUpdateSingleLED(int /*led*/)
 {
     DeviceUpdateLEDs();
 }

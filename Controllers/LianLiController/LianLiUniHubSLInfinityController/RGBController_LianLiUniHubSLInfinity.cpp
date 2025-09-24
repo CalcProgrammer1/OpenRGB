@@ -369,7 +369,7 @@ void RGBController_LianLiUniHubSLInfinity::SetupZones()
     SetupColors();
 }
 
-void RGBController_LianLiUniHubSLInfinity::ResizeZone(int zone, int new_size)
+void RGBController_LianLiUniHubSLInfinity::DeviceResizeZone(int zone, int new_size)
 {
     if((size_t) zone >= zones.size())
     {
@@ -400,7 +400,7 @@ void RGBController_LianLiUniHubSLInfinity::DeviceUpdateLEDs()
     }
 }
 
-void RGBController_LianLiUniHubSLInfinity::UpdateZoneLEDs(int zone)
+void RGBController_LianLiUniHubSLInfinity::DeviceUpdateZoneLEDs(int zone)
 {
     if(!initializedMode)
     {
@@ -412,7 +412,7 @@ void RGBController_LianLiUniHubSLInfinity::UpdateZoneLEDs(int zone)
     controller->SetChannelLEDs(zone, zones[zone].colors, zones[zone].leds_count, brightness_scale);
 }
 
-void RGBController_LianLiUniHubSLInfinity::UpdateSingleLED(int /* led */)
+void RGBController_LianLiUniHubSLInfinity::DeviceUpdateSingleLED(int /* led */)
 {
     DeviceUpdateMode();
 

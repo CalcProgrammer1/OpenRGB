@@ -157,17 +157,6 @@ RGBController_HyperXOrigins2_65::~RGBController_HyperXOrigins2_65()
     keepalive_thread->join();
     delete keepalive_thread;
 
-    /*---------------------------------------------------------*\
-    | Delete the matrix map                                     |
-    \*---------------------------------------------------------*/
-    for(unsigned int zone_index = 0; zone_index < zones.size(); zone_index++)
-    {
-        if(zones[zone_index].matrix_map != NULL)
-        {
-            delete zones[zone_index].matrix_map;
-        }
-    }
-
     delete controller;
 }
 
@@ -188,14 +177,7 @@ void RGBController_HyperXOrigins2_65::SetupZones()
 
         if(zone_types[zone_idx] == ZONE_TYPE_MATRIX)
         {
-            new_zone.matrix_map         = new matrix_map_type;
-            new_zone.matrix_map->height = 5;
-            new_zone.matrix_map->width  = 15;
-            new_zone.matrix_map->map    = (unsigned int *)&matrix_map;
-        }
-        else
-        {
-            new_zone.matrix_map         = NULL;
+            new_zone.matrix_map.Set(5, 15, (unsigned int *)&matrix_map);
         }
 
         zones.push_back(new_zone);
@@ -213,24 +195,17 @@ void RGBController_HyperXOrigins2_65::SetupZones()
     SetupColors();
 }
 
-void RGBController_HyperXOrigins2_65::ResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_HyperXOrigins2_65::DeviceUpdateLEDs()
 {
     controller->SetLEDsDirect(colors);
 }
 
-void RGBController_HyperXOrigins2_65::UpdateZoneLEDs(int /*zone*/)
+void RGBController_HyperXOrigins2_65::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_HyperXOrigins2_65::UpdateSingleLED(int /*led*/)
+void RGBController_HyperXOrigins2_65::DeviceUpdateSingleLED(int /*led*/)
 {
     DeviceUpdateLEDs();
 }

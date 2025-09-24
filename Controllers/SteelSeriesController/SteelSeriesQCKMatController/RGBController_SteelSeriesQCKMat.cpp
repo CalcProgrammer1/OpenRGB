@@ -58,7 +58,6 @@ void RGBController_SteelSeriesQCKMat::SetupZones()
     mousemat_zone.leds_min      = 2;
     mousemat_zone.leds_max      = 2;
     mousemat_zone.leds_count    = 2;
-    mousemat_zone.matrix_map    = NULL;
     zones.push_back(mousemat_zone);
 
     led bot_led;
@@ -72,19 +71,12 @@ void RGBController_SteelSeriesQCKMat::SetupZones()
     SetupColors();
 }
 
-void RGBController_SteelSeriesQCKMat::ResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_SteelSeriesQCKMat::DeviceUpdateLEDs()
 {
     controller->SetColors(colors);
 }
 
-void RGBController_SteelSeriesQCKMat::UpdateZoneLEDs(int /*zone*/)
+void RGBController_SteelSeriesQCKMat::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     /*---------------------------------------------------------*\
     | Packet expects both LEDs                                  |
@@ -92,7 +84,7 @@ void RGBController_SteelSeriesQCKMat::UpdateZoneLEDs(int /*zone*/)
     DeviceUpdateLEDs();
 }
 
-void RGBController_SteelSeriesQCKMat::UpdateSingleLED(int /*led*/)
+void RGBController_SteelSeriesQCKMat::DeviceUpdateSingleLED(int /*led*/)
 {
     /*---------------------------------------------------------*\
     | Packet expects both LEDs                                  |

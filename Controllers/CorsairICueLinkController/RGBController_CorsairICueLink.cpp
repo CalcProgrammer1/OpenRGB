@@ -113,24 +113,17 @@ void RGBController_CorsairICueLink::SetupZones()
     SetupColors();
 }
 
-void RGBController_CorsairICueLink::ResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*-----------------------------------------------------*\
-    | Device does not support resizing zones                |
-    \*-----------------------------------------------------*/
-}
-
 void RGBController_CorsairICueLink::DeviceUpdateLEDs()
 {
     controller->UpdateLights(&colors[0], colors.size());
 }
 
-void RGBController_CorsairICueLink::UpdateZoneLEDs(int /*zone*/)
+void RGBController_CorsairICueLink::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_CorsairICueLink::UpdateSingleLED(int /*led*/)
+void RGBController_CorsairICueLink::DeviceUpdateSingleLED(int /*led*/)
 {
     DeviceUpdateLEDs();
 }

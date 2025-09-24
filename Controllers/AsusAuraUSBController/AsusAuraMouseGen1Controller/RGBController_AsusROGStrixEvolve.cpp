@@ -91,7 +91,6 @@ void RGBController_AsusROGStrixEvolve::SetupZones()
     mouse_zone.leds_min     = 1;
     mouse_zone.leds_max     = 1;
     mouse_zone.leds_count   = 1;
-    mouse_zone.matrix_map   = NULL;
 
     zones.push_back(mouse_zone);
 
@@ -105,22 +104,17 @@ void RGBController_AsusROGStrixEvolve::SetupZones()
     SetupColors();
 }
 
-void RGBController_AsusROGStrixEvolve::ResizeZone(int /*zone*/, int /*new_size*/)
-{
-
-}
-
 void RGBController_AsusROGStrixEvolve::DeviceUpdateLEDs()
 {
-    UpdateSingleLED(0);
+    DeviceUpdateSingleLED(0);
 }
 
-void RGBController_AsusROGStrixEvolve::UpdateZoneLEDs(int zone)
+void RGBController_AsusROGStrixEvolve::DeviceUpdateZoneLEDs(int zone)
 {
-    UpdateSingleLED(zone);
+    DeviceUpdateSingleLED(zone);
 }
 
-void RGBController_AsusROGStrixEvolve::UpdateSingleLED(int /*led*/)
+void RGBController_AsusROGStrixEvolve::DeviceUpdateSingleLED(int /*led*/)
 {
     controller->SendUpdate(0x1C, RGBGetRValue(colors[0]));
     controller->SendUpdate(0x1D, RGBGetGValue(colors[0]));

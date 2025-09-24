@@ -103,7 +103,6 @@ void RGBController_AsusTUFLaptopLinux::SetupZones()
     zones[0].leds_min       = 1;
     zones[0].leds_max       = 1;
     zones[0].leds_count     = 1;
-    zones[0].matrix_map     = NULL;
 
     /*---------------------------------------------------------*\
     | Set up LED                                                |
@@ -112,13 +111,6 @@ void RGBController_AsusTUFLaptopLinux::SetupZones()
     leds[0].name = "Keyboard Backlight LED";
 
     SetupColors();
-}
-
-void RGBController_AsusTUFLaptopLinux::ResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
 }
 
 void RGBController_AsusTUFLaptopLinux::DeviceUpdateLEDs()
@@ -143,12 +135,12 @@ void RGBController_AsusTUFLaptopLinux::DeviceUpdateLEDs()
     controller->SendBrightness(modes[active_mode].brightness);
 }
 
-void RGBController_AsusTUFLaptopLinux::UpdateZoneLEDs(int /*zone*/)
+void RGBController_AsusTUFLaptopLinux::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_AsusTUFLaptopLinux::UpdateSingleLED(int /*led*/)
+void RGBController_AsusTUFLaptopLinux::DeviceUpdateSingleLED(int /*led*/)
 {
     DeviceUpdateLEDs();
 }

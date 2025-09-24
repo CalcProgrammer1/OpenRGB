@@ -246,17 +246,6 @@ RGBController_LogitechG815::RGBController_LogitechG815(LogitechG815Controller* c
 
 RGBController_LogitechG815::~RGBController_LogitechG815()
 {
-    /*---------------------------------------------------------*\
-    | Delete the matrix map                                     |
-    \*---------------------------------------------------------*/
-    for(unsigned int zone_index = 0; zone_index < zones.size(); zone_index++)
-    {
-        if(zones[zone_index].matrix_map != NULL)
-        {
-            delete zones[zone_index].matrix_map;
-        }
-    }
-
     delete controller;
 }
 
@@ -277,14 +266,7 @@ void RGBController_LogitechG815::SetupZones()
 
         if(zone_types[zone_idx] == ZONE_TYPE_MATRIX)
         {
-            new_zone.matrix_map         = new matrix_map_type;
-            new_zone.matrix_map->height = 7;
-            new_zone.matrix_map->width  = 27;
-            new_zone.matrix_map->map    = (unsigned int *)&matrix_map;
-        }
-        else
-        {
-            new_zone.matrix_map         = NULL;
+            new_zone.matrix_map.Set(7, 27, (unsigned int *)&matrix_map);
         }
 
         zones.push_back(new_zone);
@@ -300,13 +282,6 @@ void RGBController_LogitechG815::SetupZones()
         leds.push_back(new_led);
     }
     SetupColors();
-}
-
-void RGBController_LogitechG815::ResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
 }
 
 void RGBController_LogitechG815::DeviceUpdateLEDs()
@@ -490,12 +465,12 @@ void RGBController_LogitechG815::DeviceUpdateLEDs()
     }
 }
 
-void RGBController_LogitechG815::UpdateZoneLEDs(int /*zone*/)
+void RGBController_LogitechG815::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_LogitechG815::UpdateSingleLED(int /*led*/)
+void RGBController_LogitechG815::DeviceUpdateSingleLED(int /*led*/)
 {
     DeviceUpdateLEDs();
 }

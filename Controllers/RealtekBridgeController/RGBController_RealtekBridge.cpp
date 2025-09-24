@@ -211,7 +211,6 @@ void RGBController_RealtekBridge::SetupZones()
     argb_zone.leds_min   = controller->get_argb_num();
     argb_zone.leds_max   = controller->get_argb_num();
     argb_zone.leds_count = controller->get_argb_num();
-    argb_zone.matrix_map = NULL;
 
     zones.push_back(argb_zone);
 
@@ -226,19 +225,12 @@ void RGBController_RealtekBridge::SetupZones()
     SetupColors();
 }
 
-void RGBController_RealtekBridge::ResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_RealtekBridge::DeviceUpdateLEDs()
 {
     UpdateZoneLEDs(0);
 }
 
-void RGBController_RealtekBridge::UpdateZoneLEDs(int /*zone*/)
+void RGBController_RealtekBridge::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     unsigned short brightness = 0xFF;
     mode&          curr_mode  = modes[active_mode];
@@ -258,7 +250,7 @@ void RGBController_RealtekBridge::UpdateZoneLEDs(int /*zone*/)
     }
 }
 
-void RGBController_RealtekBridge::UpdateSingleLED(int /*led*/)
+void RGBController_RealtekBridge::DeviceUpdateSingleLED(int /*led*/)
 {
     unsigned char         speed       = REALTEK_BRIDGE_SPEED_NORMAL;
     unsigned char         dir         = 0;

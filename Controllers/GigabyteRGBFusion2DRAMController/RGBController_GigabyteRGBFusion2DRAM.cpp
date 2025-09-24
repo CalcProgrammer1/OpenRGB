@@ -109,13 +109,6 @@ void RGBController_RGBFusion2DRAM::SetupZones()
     SetupColors();
 }
 
-void RGBController_RGBFusion2DRAM::ResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_RGBFusion2DRAM::DeviceUpdateLEDs()
 {
     /*---------------------------------------------------------*\
@@ -155,12 +148,12 @@ void RGBController_RGBFusion2DRAM::DeviceUpdateLEDs()
     }
 }
 
-void RGBController_RGBFusion2DRAM::UpdateZoneLEDs(int /*zone*/)
+void RGBController_RGBFusion2DRAM::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_RGBFusion2DRAM::UpdateSingleLED(int /*led*/)
+void RGBController_RGBFusion2DRAM::DeviceUpdateSingleLED(int /*led*/)
 {
     DeviceUpdateLEDs();
 }
