@@ -167,11 +167,7 @@ void RGBController_DarkProjectKeyboard::SetupZones()
     KB_zone.leds_min            = DARKPROKECTKEYBOARD_TKL_KEYCOUNT;
     KB_zone.leds_max            = DARKPROKECTKEYBOARD_TKL_KEYCOUNT;
     KB_zone.leds_count          = DARKPROKECTKEYBOARD_TKL_KEYCOUNT;
-
-    KB_zone.matrix_map          = new matrix_map_type;
-    KB_zone.matrix_map->height  = 6;
-    KB_zone.matrix_map->width   = 18;
-    KB_zone.matrix_map->map     = (unsigned int *)&matrix_map;
+    KB_zone.matrix_map.Set(6, 18, (unsigned int *)&matrix_map);
     zones.push_back(KB_zone);
 
     /*-------------------------------------------------*\
@@ -197,20 +193,12 @@ void RGBController_DarkProjectKeyboard::SetupZones()
     SetupColors();
 }
 
-void RGBController_DarkProjectKeyboard::ResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
-
 void RGBController_DarkProjectKeyboard::DeviceUpdateLEDs()
 {
     controller->SetLedsDirect(colors);
 }
 
-void RGBController_DarkProjectKeyboard::UpdateZoneLEDs(int zone)
+void RGBController_DarkProjectKeyboard::DeviceUpdateZoneLEDs(int zone)
 {
     std::vector<RGBColor> colour;
     for(size_t i = 0; i < zones[zone].leds_count; i++)
@@ -221,7 +209,7 @@ void RGBController_DarkProjectKeyboard::UpdateZoneLEDs(int zone)
     controller->SetLedsDirect(colour);
 }
 
-void RGBController_DarkProjectKeyboard::UpdateSingleLED(int led)
+void RGBController_DarkProjectKeyboard::DeviceUpdateSingleLED(int led)
 {
     std::vector<RGBColor> colour;
     colour.push_back(colors[led]);

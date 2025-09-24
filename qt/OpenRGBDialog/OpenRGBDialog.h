@@ -17,6 +17,7 @@
 #include <QSlider>
 
 #include "OpenRGBClientInfoPage.h"
+#include "OpenRGBDevicePage.h"
 #include "OpenRGBPluginsPage/OpenRGBPluginsPage.h"
 #include "OpenRGBSoftwareInfoPage.h"
 #include "OpenRGBSystemInfoPage.h"
@@ -96,6 +97,12 @@ private:
     bool                            device_view_showing = false;
     bool                            ShowI2CTools        = false;
     bool                            plugins_loaded      = false;
+
+    /*-----------------------------------------------------*\
+    | Hidden pages                                          |
+    \*-----------------------------------------------------*/
+    std::vector<OpenRGBDevicePage *>
+                                    hidden_pages;
 
     /*-----------------------------------------------------*\
     | System tray icon and menu                             |

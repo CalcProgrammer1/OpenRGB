@@ -32,6 +32,15 @@ RGBController_Ionico::RGBController_Ionico(IonicoController* controller_ptr)
     description                         = name;
     location                            = controller->GetDeviceLocation();
 
+    if(controller->GetUSBPID() == IONICO_KB_PID)
+    {
+        type                            = DEVICE_TYPE_KEYBOARD;
+    }
+    else if(controller->GetUSBPID() == IONICO_FB_PID)
+    {
+        type                            = DEVICE_TYPE_LEDSTRIP;
+    }
+
     mode Direct;
     Direct.name                         = "Direct";
     Direct.value                        = IONICO_MODE_DIRECT;
@@ -144,7 +153,6 @@ void RGBController_Ionico::SetupZones()
         zone_keyboard.leds_min   = (unsigned int)leds.size();
         zone_keyboard.leds_max   = (unsigned int)leds.size();
         zone_keyboard.leds_count = (unsigned int)leds.size();
-        zone_keyboard.matrix_map = nullptr;
         zones.emplace_back(zone_keyboard);
         for(size_t i = 0; i < leds.size(); ++i)
         {
@@ -160,7 +168,6 @@ void RGBController_Ionico::SetupZones()
         zone_bar.leds_min   = (unsigned int)leds.size();
         zone_bar.leds_max   = (unsigned int)leds.size();
         zone_bar.leds_count = (unsigned int)leds.size();
-        zone_bar.matrix_map = nullptr;
         zones.emplace_back(zone_bar);
         for(size_t i = 0; i < leds.size(); ++i)
         {
@@ -168,13 +175,6 @@ void RGBController_Ionico::SetupZones()
         }
     }
     SetupColors();
-}
-
-void RGBController_Ionico::ResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
 }
 
 void RGBController_Ionico::DeviceUpdateLEDs()
@@ -190,12 +190,12 @@ void RGBController_Ionico::DeviceSaveMode()
     controller->SaveBios();
 }
 
-void RGBController_Ionico::UpdateZoneLEDs(int /*zone*/)
+void RGBController_Ionico::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_Ionico::UpdateSingleLED(int /*led*/)
+void RGBController_Ionico::DeviceUpdateSingleLED(int /*led*/)
 {
     //
 }

@@ -45,7 +45,6 @@ void RGBController_DreamCheeky::SetupZones()
     mail_zone.leds_min      = 1;
     mail_zone.leds_max      = 1;
     mail_zone.leds_count    = 1;
-    mail_zone.matrix_map    = NULL;
     zones.push_back(mail_zone);
 
     led mail_led;
@@ -53,13 +52,6 @@ void RGBController_DreamCheeky::SetupZones()
     leds.push_back(mail_led);
 
     SetupColors();
-}
-
-void RGBController_DreamCheeky::ResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*-----------------------------------------------------*\
-    | This device does not support resizing zones           |
-    \*-----------------------------------------------------*/
 }
 
 void RGBController_DreamCheeky::DeviceUpdateLEDs()
@@ -71,12 +63,12 @@ void RGBController_DreamCheeky::DeviceUpdateLEDs()
     controller->SetColor(red, grn, blu);
 }
 
-void RGBController_DreamCheeky::UpdateZoneLEDs(int /*zone*/)
+void RGBController_DreamCheeky::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_DreamCheeky::UpdateSingleLED(int /*led*/)
+void RGBController_DreamCheeky::DeviceUpdateSingleLED(int /*led*/)
 {
     DeviceUpdateLEDs();
 }

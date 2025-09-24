@@ -95,7 +95,6 @@ void RGBController_Nanoleaf::SetupZones()
     led_zone.leds_count     = (unsigned int)controller.GetPanelIds().size();
     led_zone.leds_min       = led_zone.leds_count;
     led_zone.leds_max       = led_zone.leds_count;
-    led_zone.matrix_map     = NULL;
 
     for(std::vector<int>::const_iterator it = controller.GetPanelIds().begin(); it != controller.GetPanelIds().end(); ++it)
     {
@@ -109,24 +108,17 @@ void RGBController_Nanoleaf::SetupZones()
     SetupColors();
 }
 
-void RGBController_Nanoleaf::ResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_Nanoleaf::DeviceUpdateLEDs()
 {
     controller.UpdateLEDs(colors);
 }
 
-void RGBController_Nanoleaf::UpdateZoneLEDs(int /*zone*/)
+void RGBController_Nanoleaf::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_Nanoleaf::UpdateSingleLED(int /*led*/)
+void RGBController_Nanoleaf::DeviceUpdateSingleLED(int /*led*/)
 {
     DeviceUpdateLEDs();
 }
