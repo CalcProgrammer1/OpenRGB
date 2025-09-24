@@ -88,7 +88,7 @@ RGBController_NVIDIAIlluminationV1::~RGBController_NVIDIAIlluminationV1()
     delete controller;
 }
 
-void RGBController_NVIDIAIlluminationV1::UpdateSingleLED(int)
+void RGBController_NVIDIAIlluminationV1::DeviceUpdateSingleLED(int)
 {
     DeviceUpdateLEDs();
 }
@@ -114,7 +114,6 @@ void RGBController_NVIDIAIlluminationV1::SetupZones()
         new_zone->leds_min      = 1;
         new_zone->leds_max      = 1;
         new_zone->leds_count    = 1;
-        new_zone->matrix_map    = NULL;
         new_led->name           = "Entire Zone";
         leds.push_back(*new_led);
         zones.push_back(*new_zone);
@@ -122,13 +121,6 @@ void RGBController_NVIDIAIlluminationV1::SetupZones()
     }
     SetupColors();
 
-}
-
-void RGBController_NVIDIAIlluminationV1::ResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
 }
 
 void RGBController_NVIDIAIlluminationV1::DeviceUpdateLEDs()
@@ -142,7 +134,7 @@ void RGBController_NVIDIAIlluminationV1::DeviceUpdateLEDs()
     }
 }
 
-void RGBController_NVIDIAIlluminationV1::UpdateZoneLEDs(int zone)
+void RGBController_NVIDIAIlluminationV1::DeviceUpdateZoneLEDs(int zone)
 {
     NVIDIAIllumination_Config nv_zone_config;
     nv_zone_config.colors[0]  = colors[zone];

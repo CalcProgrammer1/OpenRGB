@@ -59,7 +59,6 @@ void RGBController_MSI3Zone::SetupZones()
     keyboard_zone.leds_min      = 3;
     keyboard_zone.leds_max      = 3;
     keyboard_zone.leds_count    = 3;
-    keyboard_zone.matrix_map    = NULL;
     zones.push_back(keyboard_zone);
 
     led left_led;
@@ -83,7 +82,6 @@ void RGBController_MSI3Zone::SetupZones()
     aux_zone.leds_min       = 1;
     aux_zone.leds_max       = 1;
     aux_zone.leds_count     = 1;
-    aux_zone.matrix_map     = NULL;
     zones.push_back(aux_zone);
 
     led aux_led;
@@ -93,24 +91,17 @@ void RGBController_MSI3Zone::SetupZones()
     SetupColors();
 }
 
-void RGBController_MSI3Zone::ResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_MSI3Zone::DeviceUpdateLEDs()
 {
     controller->SetLEDs(colors);
 }
 
-void RGBController_MSI3Zone::UpdateZoneLEDs(int /*zone*/)
+void RGBController_MSI3Zone::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     controller->SetLEDs(colors);
 }
 
-void RGBController_MSI3Zone::UpdateSingleLED(int /*led*/)
+void RGBController_MSI3Zone::DeviceUpdateSingleLED(int /*led*/)
 {
     controller->SetLEDs(colors);
 }

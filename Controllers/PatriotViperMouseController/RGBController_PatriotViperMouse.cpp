@@ -56,7 +56,6 @@ void RGBController_PatriotViperMouse::SetupZones()
     left_zone.leds_min              = 3;
     left_zone.leds_max              = 3;
     left_zone.leds_count            = 3;
-    left_zone.matrix_map            = NULL;
     zones.push_back(left_zone);
 
     zone right_zone;
@@ -65,7 +64,6 @@ void RGBController_PatriotViperMouse::SetupZones()
     right_zone.leds_min             = 3;
     right_zone.leds_max             = 3;
     right_zone.leds_count           = 3;
-    right_zone.matrix_map           = NULL;
     zones.push_back(right_zone);
 
     zone wheel_zone;
@@ -74,7 +72,6 @@ void RGBController_PatriotViperMouse::SetupZones()
     wheel_zone.leds_min             = 1;
     wheel_zone.leds_max             = 1;
     wheel_zone.leds_count           = 1;
-    wheel_zone.matrix_map           = NULL;
     zones.push_back(wheel_zone);
 
     for(unsigned char i = 0x00; i < 0x07; i++)
@@ -87,24 +84,17 @@ void RGBController_PatriotViperMouse::SetupZones()
     SetupColors();
 }
 
-void RGBController_PatriotViperMouse::ResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_PatriotViperMouse::DeviceUpdateLEDs()
 {
     DeviceUpdateMode();
 }
 
-void RGBController_PatriotViperMouse::UpdateZoneLEDs(int /*zone*/)
+void RGBController_PatriotViperMouse::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_PatriotViperMouse::UpdateSingleLED(int /*led*/)
+void RGBController_PatriotViperMouse::DeviceUpdateSingleLED(int /*led*/)
 {
     DeviceUpdateLEDs();
 }

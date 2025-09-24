@@ -87,11 +87,11 @@ void LianLiUniHubSLController::UpdateMode(const std::vector<zone> &zones, const 
 
     for (size_t channel = 0; channel < zones.size(); channel++)
     {
-        UpdateZoneLEDs(channel, zones[channel], active);
+        DeviceUpdateZoneLEDs(channel, zones[channel], active);
     }
 }
 
-void LianLiUniHubSLController::UpdateZoneLEDs(size_t channel, const zone &z, const mode &active)
+void LianLiUniHubSLController::DeviceUpdateZoneLEDs(size_t channel, const zone &z, const mode &active)
 {
     /*---------------------------------*\
     | Handle per-LED color mode         |

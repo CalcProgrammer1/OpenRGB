@@ -132,17 +132,6 @@ RGBController_HyperXAlloyOriginsCore::~RGBController_HyperXAlloyOriginsCore()
     keepalive_thread->join();
     delete keepalive_thread;
 
-    /*---------------------------------------------------------*\
-    | Delete the matrix map                                     |
-    \*---------------------------------------------------------*/
-    for(unsigned int zone_index = 0; zone_index < zones.size(); zone_index++)
-    {
-        if(zones[zone_index].matrix_map != NULL)
-        {
-            delete zones[zone_index].matrix_map;
-        }
-    }
-
     delete controller;
 }
 
@@ -177,24 +166,15 @@ void RGBController_HyperXAlloyOriginsCore::SetupZones()
 
         total_leds = new_kb.GetKeyCount();
 
-        matrix_map_type * keyboard_map  = new matrix_map_type;
         new_zone.leds_count             = total_leds;
         new_zone.leds_min               = new_zone.leds_count;
         new_zone.leds_max               = new_zone.leds_count;
 
         if(zone_types[zone_idx] == ZONE_TYPE_MATRIX)
         {
-            new_zone.matrix_map         = keyboard_map;
-            keyboard_map->height        = new_kb.GetRowCount();
-            keyboard_map->width         = new_kb.GetColumnCount();
-            keyboard_map->map           = new unsigned int[keyboard_map->height * keyboard_map->width];
-
-            new_kb.GetKeyMap(keyboard_map->map, KEYBOARD_MAP_FILL_TYPE_COUNT);
-       }
-        else
-        {
-            new_zone.matrix_map         = NULL;
+            new_zone.matrix_map         = new_kb.GetKeyMap(KEYBOARD_MAP_FILL_TYPE_COUNT);
         }
+
         zones.push_back(new_zone);
 
         for(unsigned int led_idx = 0; led_idx < total_leds; led_idx++)
@@ -210,24 +190,17 @@ void RGBController_HyperXAlloyOriginsCore::SetupZones()
     SetupColors();
 }
 
-void RGBController_HyperXAlloyOriginsCore::ResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_HyperXAlloyOriginsCore::DeviceUpdateLEDs()
 {
     controller->SetLEDsDirect(leds, colors);
 }
 
-void RGBController_HyperXAlloyOriginsCore::UpdateZoneLEDs(int /*zone*/)
+void RGBController_HyperXAlloyOriginsCore::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_HyperXAlloyOriginsCore::UpdateSingleLED(int /*led*/)
+void RGBController_HyperXAlloyOriginsCore::DeviceUpdateSingleLED(int /*led*/)
 {
     DeviceUpdateLEDs();
 }

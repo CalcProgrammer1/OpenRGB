@@ -68,7 +68,7 @@ void RGBController_Network::DeviceUpdateLEDs()
     delete[] data;
 }
 
-void RGBController_Network::UpdateZoneLEDs(int zone)
+void RGBController_Network::DeviceUpdateZoneLEDs(int zone)
 {
     unsigned char * data = GetZoneColorDescription(zone);
     unsigned int size;
@@ -80,7 +80,7 @@ void RGBController_Network::UpdateZoneLEDs(int zone)
     delete[] data;
 }
 
-void RGBController_Network::UpdateSingleLED(int led)
+void RGBController_Network::DeviceUpdateSingleLED(int led)
 {
     unsigned char * data = GetSingleLEDColorDescription(led);
 

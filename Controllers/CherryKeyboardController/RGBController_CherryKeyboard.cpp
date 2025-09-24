@@ -312,17 +312,6 @@ RGBController_CherryKeyboard::RGBController_CherryKeyboard(CherryKeyboardControl
 
 RGBController_CherryKeyboard::~RGBController_CherryKeyboard()
 {
-    /*---------------------------------------------------------*\
-    | Delete the matrix map                                     |
-    \*---------------------------------------------------------*/
-    for(unsigned int zone_index = 0; zone_index < zones.size(); zone_index++)
-    {
-        if(zones[zone_index].matrix_map != NULL)
-        {
-            delete zones[zone_index].matrix_map;
-        }
-    }
-
     delete controller;
 }
 
@@ -335,10 +324,7 @@ void RGBController_CherryKeyboard::SetupZones()
     new_zone.leds_min           = CHERRY_MATRIX_CELL_COUNT;
     new_zone.leds_max           = CHERRY_MATRIX_CELL_COUNT;
     new_zone.leds_count         = CHERRY_MATRIX_CELL_COUNT;
-    new_zone.matrix_map         = new matrix_map_type;
-    new_zone.matrix_map->height = CHERRY_MATRIX_MAP_HEIGHT;
-    new_zone.matrix_map->width  = CHERRY_MATRIX_MAP_WIDTH;
-    new_zone.matrix_map->map    = (unsigned int *)&matrix_map;
+    new_zone.matrix_map.Set(CHERRY_MATRIX_MAP_HEIGHT, CHERRY_MATRIX_MAP_WIDTH, (unsigned int *)&matrix_map);
 
     zones.push_back(new_zone);
 
@@ -353,13 +339,6 @@ void RGBController_CherryKeyboard::SetupZones()
     }
 
     SetupColors();
-}
-
-void RGBController_CherryKeyboard::ResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
 }
 
 void RGBController_CherryKeyboard::DeviceUpdateLEDs()
@@ -380,12 +359,12 @@ void RGBController_CherryKeyboard::DeviceUpdateLEDs()
                     );
 }
 
-void RGBController_CherryKeyboard::UpdateZoneLEDs(int /*zone*/)
+void RGBController_CherryKeyboard::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_CherryKeyboard::UpdateSingleLED(int /*led*/)
+void RGBController_CherryKeyboard::DeviceUpdateSingleLED(int /*led*/)
 {
     DeviceUpdateLEDs();
 }

@@ -929,17 +929,6 @@ RGBController_CorsairPeripheral::RGBController_CorsairPeripheral(CorsairPeripher
 
 RGBController_CorsairPeripheral::~RGBController_CorsairPeripheral()
 {
-    /*---------------------------------------------------------*\
-    | Delete the matrix map                                     |
-    \*---------------------------------------------------------*/
-    for(unsigned int zone_index = 0; zone_index < zones.size(); zone_index++)
-    {
-        if(zones[zone_index].matrix_map != NULL)
-        {
-            delete zones[zone_index].matrix_map;
-        }
-    }
-
     delete controller;
 }
 
@@ -987,7 +976,7 @@ void RGBController_CorsairPeripheral::SetupZones()
         switch(type)
         {
             case DEVICE_TYPE_KEYBOARD:
-                if (logical_layout == CORSAIR_TYPE_K95_PLAT)
+                if(logical_layout == CORSAIR_TYPE_K95_PLAT)
                 {
                     new_zone.name                   = zone_names_k95_platinum[zone_idx];
                     new_zone.type                   = zone_types_k95_platinum[zone_idx];
@@ -997,17 +986,10 @@ void RGBController_CorsairPeripheral::SetupZones()
 
                     if(zone_types[zone_idx] == ZONE_TYPE_MATRIX)
                     {
-                        new_zone.matrix_map         = new matrix_map_type;
-                        new_zone.matrix_map->height = 7;
-                        new_zone.matrix_map->width  = 24;
-                        new_zone.matrix_map->map    = (unsigned int *)&matrix_map_k95_platinum;
-                    }
-                    else
-                    {
-                        new_zone.matrix_map         = NULL;
+                        new_zone.matrix_map.Set(7, 24, (unsigned int *)&matrix_map_k95_platinum);
                     }
                 }
-                else if (logical_layout == CORSAIR_TYPE_K95)
+                else if(logical_layout == CORSAIR_TYPE_K95)
                 {
                     new_zone.name                   = zone_names_k95[zone_idx];
                     new_zone.type                   = zone_types_k95[zone_idx];
@@ -1017,14 +999,7 @@ void RGBController_CorsairPeripheral::SetupZones()
 
                     if(zone_types[zone_idx] == ZONE_TYPE_MATRIX)
                     {
-                        new_zone.matrix_map         = new matrix_map_type;
-                        new_zone.matrix_map->height = 7;
-                        new_zone.matrix_map->width  = 26;
-                        new_zone.matrix_map->map    = (unsigned int *)&matrix_map_k95;
-                    }
-                    else
-                    {
-                        new_zone.matrix_map         = NULL;
+                        new_zone.matrix_map.Set(7, 26, (unsigned int *)&matrix_map_k95);
                     }
                 }
                 else if (logical_layout == CORSAIR_TYPE_K55)
@@ -1034,7 +1009,6 @@ void RGBController_CorsairPeripheral::SetupZones()
                     new_zone.leds_min               = zone_sizes_k55[zone_idx];
                     new_zone.leds_max               = zone_sizes_k55[zone_idx];
                     new_zone.leds_count             = zone_sizes_k55[zone_idx];
-                    new_zone.matrix_map             = NULL;
                 }
                 else if (logical_layout == CORSAIR_TYPE_K70_MK2)
                 {
@@ -1046,14 +1020,7 @@ void RGBController_CorsairPeripheral::SetupZones()
 
                     if(zone_types[zone_idx] == ZONE_TYPE_MATRIX)
                     {
-                        new_zone.matrix_map         = new matrix_map_type;
-                        new_zone.matrix_map->height = 7;
-                        new_zone.matrix_map->width  = 23;
-                        new_zone.matrix_map->map    = (unsigned int *)&matrix_map_k70_mk2;
-                    }
-                    else
-                    {
-                        new_zone.matrix_map         = NULL;
+                        new_zone.matrix_map.Set(7, 23, (unsigned int *)&matrix_map_k70_mk2);
                     }
                 }
                 else //default layout
@@ -1066,14 +1033,7 @@ void RGBController_CorsairPeripheral::SetupZones()
 
                     if(zone_types[zone_idx] == ZONE_TYPE_MATRIX)
                     {
-                        new_zone.matrix_map         = new matrix_map_type;
-                        new_zone.matrix_map->height = 6;
-                        new_zone.matrix_map->width  = 23;
-                        new_zone.matrix_map->map    = (unsigned int *)&matrix_map;
-                    }
-                    else
-                    {
-                        new_zone.matrix_map         = NULL;
+                        new_zone.matrix_map.Set(6, 23, (unsigned int *)&matrix_map);
                     }
                 }
                 break;
@@ -1085,7 +1045,6 @@ void RGBController_CorsairPeripheral::SetupZones()
                 new_zone.leds_min       = 15;
                 new_zone.leds_max       = 15;
                 new_zone.leds_count     = 15;
-                new_zone.matrix_map     = NULL;
                 break;
 
             case DEVICE_TYPE_MOUSEMAT:
@@ -1094,7 +1053,6 @@ void RGBController_CorsairPeripheral::SetupZones()
                 new_zone.leds_min       = 15;
                 new_zone.leds_max       = 15;
                 new_zone.leds_count     = 15;
-                new_zone.matrix_map     = NULL;
                 break;
 
             case DEVICE_TYPE_HEADSET_STAND:
@@ -1105,7 +1063,6 @@ void RGBController_CorsairPeripheral::SetupZones()
                     new_zone.leds_min       = 8;
                     new_zone.leds_max       = 8;
                     new_zone.leds_count     = 8;
-                    new_zone.matrix_map     = NULL;
                 }
                 else
                 {
@@ -1114,7 +1071,6 @@ void RGBController_CorsairPeripheral::SetupZones()
                     new_zone.leds_min       = 1;
                     new_zone.leds_max       = 1;
                     new_zone.leds_count     = 1;
-                    new_zone.matrix_map     = NULL;
                 }
                 break;
         }
@@ -1189,24 +1145,17 @@ void RGBController_CorsairPeripheral::SetupZones()
     SetupColors();
 }
 
-void RGBController_CorsairPeripheral::ResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_CorsairPeripheral::DeviceUpdateLEDs()
 {
     controller->SetLEDs(colors);
 }
 
-void RGBController_CorsairPeripheral::UpdateZoneLEDs(int /*zone*/)
+void RGBController_CorsairPeripheral::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     controller->SetLEDs(colors);
 }
 
-void RGBController_CorsairPeripheral::UpdateSingleLED(int /*led*/)
+void RGBController_CorsairPeripheral::DeviceUpdateSingleLED(int /*led*/)
 {
     controller->SetLEDs(colors);
 }

@@ -21,17 +21,19 @@ class RGBController_MNTKeyboard : public RGBController
 {
   public:
     ~RGBController_MNTKeyboard();
-    void SetupZones();
-    void DeviceUpdateLEDs();
 
-    void ResizeZone(int, int);
-    void UpdateZoneLEDs(int);
-    void UpdateSingleLED(int);
+    void SetupZones();
+
+    void DeviceUpdateLEDs();
+    void DeviceUpdateZoneLEDs(int);
+    void DeviceUpdateSingleLED(int);
+
     void DeviceUpdateMode();
 
   protected:
-    const char **led_names;
-    unsigned int *matrix_keys;
+    const char **           led_names;
+    unsigned int *          matrix_keys;
+    MNTKeyboardController * controller;
+
     void CommonInit();
-    MNTKeyboardController *controller;
 };

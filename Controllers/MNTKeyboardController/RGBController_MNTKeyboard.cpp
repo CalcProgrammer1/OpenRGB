@@ -21,13 +21,12 @@ void RGBController_MNTKeyboard::CommonInit()
     modes[0].flags      = MODE_FLAG_HAS_PER_LED_COLOR;
     modes[0].color_mode = MODE_COLORS_PER_LED;
     SetupZones();
-    SetAllLEDs(ToRGBColor(255, 255, 255));
+    SetAllColors(ToRGBColor(255, 255, 255));
     DeviceUpdateLEDs();
 }
 
 RGBController_MNTKeyboard::~RGBController_MNTKeyboard()
 {
-    delete zones[0].matrix_map;
     delete controller;
 }
 
@@ -36,10 +35,7 @@ void RGBController_MNTKeyboard::SetupZones()
     zone new_zone;
     new_zone.type               = ZONE_TYPE_MATRIX;
     new_zone.leds_count         = KBD_ROWS * controller->kbd_cols;
-    new_zone.matrix_map         = new matrix_map_type;
-    new_zone.matrix_map->height = KBD_ROWS;
-    new_zone.matrix_map->width  = controller->kbd_cols;
-    new_zone.matrix_map->map    = (unsigned int *)matrix_keys;
+    new_zone.matrix_map.Set(KBD_ROWS, controller->kbd_cols, (unsigned int *)matrix_keys);
     zones.push_back(new_zone);
     for(unsigned int led_idx = 0; led_idx < zones[0].leds_count; led_idx++)
     {
@@ -65,14 +61,11 @@ void RGBController_MNTKeyboard::DeviceUpdateLEDs()
     delete[] color_map;
 }
 
-void RGBController_MNTKeyboard::ResizeZone(int, int)
-{
-}
-void RGBController_MNTKeyboard::UpdateZoneLEDs(int)
+void RGBController_MNTKeyboard::DeviceUpdateZoneLEDs(int)
 {
     DeviceUpdateLEDs();
 }
-void RGBController_MNTKeyboard::UpdateSingleLED(int)
+void RGBController_MNTKeyboard::DeviceUpdateSingleLED(int)
 {
     DeviceUpdateLEDs();
 }

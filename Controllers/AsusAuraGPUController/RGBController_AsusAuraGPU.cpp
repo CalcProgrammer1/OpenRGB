@@ -138,7 +138,6 @@ void RGBController_AuraGPU::SetupZones()
     aura_gpu_zone.leds_min      = 1;
     aura_gpu_zone.leds_max      = 1;
     aura_gpu_zone.leds_count    = 1;
-    aura_gpu_zone.matrix_map    = NULL;
     zones.push_back(aura_gpu_zone);
 
     /*---------------------------------------------------------*\
@@ -160,13 +159,6 @@ void RGBController_AuraGPU::SetupZones()
     colors[0] =  ToRGBColor(red, grn, blu);
 }
 
-void RGBController_AuraGPU::ResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_AuraGPU::DeviceUpdateLEDs()
 {
     for(std::size_t led = 0; led < colors.size(); led++)
@@ -177,18 +169,18 @@ void RGBController_AuraGPU::DeviceUpdateLEDs()
 
         controller->SetLEDColors(red, grn, blu);
     }
-    if (controller->SaveOnlyApplies() && GetMode() != 0)
+    if (controller->SaveOnlyApplies() && GetActiveMode() != 0)
     {
         controller->Save();
     }
 }
 
-void RGBController_AuraGPU::UpdateZoneLEDs(int /*zone*/)
+void RGBController_AuraGPU::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_AuraGPU::UpdateSingleLED(int /*led*/)
+void RGBController_AuraGPU::DeviceUpdateSingleLED(int /*led*/)
 {
     DeviceUpdateLEDs();
 }

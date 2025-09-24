@@ -132,8 +132,6 @@ void RGBController_Nollie::SetupZones()
             zones[channel_idx].leds_count = 0;
         }
 
-        zones[channel_idx].matrix_map = NULL;
-
         for(unsigned int led_ch_idx = 0; led_ch_idx < zones[channel_idx].leds_count; led_ch_idx++)
         {
             char led_idx_string[4];
@@ -151,7 +149,7 @@ void RGBController_Nollie::SetupZones()
     SetupColors();
 }
 
-void RGBController_Nollie::ResizeZone(int zone, int new_size)
+void RGBController_Nollie::DeviceResizeZone(int zone, int new_size)
 {
     /*-----------------------------------------------------*\
     |  Set whether MOS is enabled or not                    |
@@ -229,12 +227,12 @@ void RGBController_Nollie::DeviceUpdateLEDs()
 
 }
 
-void RGBController_Nollie::UpdateZoneLEDs(int zone)
+void RGBController_Nollie::DeviceUpdateZoneLEDs(int zone)
 {
     controller->SetChannelLEDs(channel_index[zone], zones[zone].colors, zones[zone].leds_count);
 }
 
-void RGBController_Nollie::UpdateSingleLED(int led)
+void RGBController_Nollie::DeviceUpdateSingleLED(int led)
 {
     unsigned int channel = leds_channel[led];
     controller->SetChannelLEDs(channel_index[channel], zones[channel].colors, zones[channel].leds_count);

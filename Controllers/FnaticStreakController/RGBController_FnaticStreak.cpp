@@ -493,17 +493,6 @@ RGBController_FnaticStreak::~RGBController_FnaticStreak()
     keepalive_thread->join();
     delete keepalive_thread;
 
-    /*---------------------------------------------------------*\
-    | Delete the matrix map                                     |
-    \*---------------------------------------------------------*/
-    for(unsigned int zone_index = 0; zone_index < zones.size(); zone_index++)
-    {
-        if(zones[zone_index].matrix_map != NULL)
-        {
-            delete zones[zone_index].matrix_map;
-        }
-    }
-
     delete controller;
 }
 
@@ -524,10 +513,7 @@ void RGBController_FnaticStreak::SetupZones()
     new_zone.leds_min           = total_led_count;
     new_zone.leds_max           = total_led_count;
     new_zone.leds_count         = total_led_count;
-    new_zone.matrix_map         = new matrix_map_type;
-    new_zone.matrix_map->height = 6;
-    new_zone.matrix_map->width  = matrix_cols;
-    new_zone.matrix_map->map    = matrix_map_ptr;
+    new_zone.matrix_map.Set(6, matrix_cols, matrix_map_ptr);
     zones.push_back(new_zone);
 
     /*---------------------------------------------------------*\
@@ -544,13 +530,6 @@ void RGBController_FnaticStreak::SetupZones()
     SetupColors();
 }
 
-void RGBController_FnaticStreak::ResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_FnaticStreak::DeviceUpdateLEDs()
 {
     last_update_time = std::chrono::steady_clock::now();
@@ -564,12 +543,12 @@ void RGBController_FnaticStreak::DeviceUpdateLEDs()
     controller->SendRGBToDevice();
 }
 
-void RGBController_FnaticStreak::UpdateZoneLEDs(int /*zone*/)
+void RGBController_FnaticStreak::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_FnaticStreak::UpdateSingleLED(int /*led*/)
+void RGBController_FnaticStreak::DeviceUpdateSingleLED(int /*led*/)
 {
     DeviceUpdateLEDs();
 }
