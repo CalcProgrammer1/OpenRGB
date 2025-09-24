@@ -60,7 +60,6 @@ void RGBController_MadCatzCyborg::SetupZones()
     cyborg_zone.leds_min   = 1;
     cyborg_zone.leds_max   = 1;
     cyborg_zone.leds_count = 1;
-    cyborg_zone.matrix_map = NULL;
 
     zones.push_back(cyborg_zone);
 
@@ -69,11 +68,6 @@ void RGBController_MadCatzCyborg::SetupZones()
     leds.push_back(cyborg_led);
 
     SetupColors();
-}
-
-void RGBController_MadCatzCyborg::ResizeZone(int /*zone*/, int /*new_size*/)
-{
-    // Single LED device - nothing to resize
 }
 
 void RGBController_MadCatzCyborg::DeviceUpdateLEDs()
@@ -85,12 +79,12 @@ void RGBController_MadCatzCyborg::DeviceUpdateLEDs()
     }
 }
 
-void RGBController_MadCatzCyborg::UpdateZoneLEDs(int /*zone*/)
+void RGBController_MadCatzCyborg::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_MadCatzCyborg::UpdateSingleLED(int /*led*/)
+void RGBController_MadCatzCyborg::DeviceUpdateSingleLED(int /*led*/)
 {
     DeviceUpdateLEDs();
 }

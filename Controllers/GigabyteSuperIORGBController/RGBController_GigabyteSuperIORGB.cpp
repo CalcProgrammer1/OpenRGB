@@ -146,7 +146,6 @@ void RGBController_GigabyteSuperIORGB::SetupZones()
     gig_zone.leds_min       = 1;
     gig_zone.leds_max       = 1;
     gig_zone.leds_count     = 1;
-    gig_zone.matrix_map     = NULL;
     zones.push_back(gig_zone);
 
     led gig_led;
@@ -154,11 +153,6 @@ void RGBController_GigabyteSuperIORGB::SetupZones()
     leds.push_back(gig_led);
 
     SetupColors();
-}
-
-void RGBController_GigabyteSuperIORGB::ResizeZone(int /*zone*/, int /*new_size*/)
-{
-
 }
 
 void RGBController_GigabyteSuperIORGB::DeviceUpdateLEDs()
@@ -171,12 +165,12 @@ void RGBController_GigabyteSuperIORGB::DeviceUpdateLEDs()
     controller->SetColor(red, grn, blu);
 }
 
-void RGBController_GigabyteSuperIORGB::UpdateZoneLEDs(int /*zone*/)
+void RGBController_GigabyteSuperIORGB::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_GigabyteSuperIORGB::UpdateSingleLED(int /*led*/)
+void RGBController_GigabyteSuperIORGB::DeviceUpdateSingleLED(int /*led*/)
 {
     DeviceUpdateLEDs();
 }

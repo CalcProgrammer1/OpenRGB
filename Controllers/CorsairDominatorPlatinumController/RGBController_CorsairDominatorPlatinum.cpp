@@ -73,7 +73,6 @@ void RGBController_CorsairDominatorPlatinum::SetupZones()
     new_zone.leds_min   = controller->GetLEDCount();
     new_zone.leds_max   = controller->GetLEDCount();
     new_zone.leds_count = controller->GetLEDCount();
-    new_zone.matrix_map = NULL;
     zones.push_back(new_zone);
 
     /*---------------------------------------------------------*\
@@ -88,13 +87,6 @@ void RGBController_CorsairDominatorPlatinum::SetupZones()
     }
 
     SetupColors();
-}
-
-void RGBController_CorsairDominatorPlatinum::ResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
 }
 
 void RGBController_CorsairDominatorPlatinum::DeviceUpdateLEDs()
@@ -112,12 +104,12 @@ void RGBController_CorsairDominatorPlatinum::DeviceUpdateLEDs()
     controller->ApplyColors();
 }
 
-void RGBController_CorsairDominatorPlatinum::UpdateZoneLEDs(int /*zone*/)
+void RGBController_CorsairDominatorPlatinum::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_CorsairDominatorPlatinum::UpdateSingleLED(int led)
+void RGBController_CorsairDominatorPlatinum::DeviceUpdateSingleLED(int led)
 {
     RGBColor color    = colors[led];
     unsigned char red = RGBGetRValue(color);

@@ -293,18 +293,6 @@ RGBController_ValkyrieKeyboard::RGBController_ValkyrieKeyboard(ValkyrieKeyboardC
 
 RGBController_ValkyrieKeyboard::~RGBController_ValkyrieKeyboard()
 {
-    /*---------------------------------------------------------*\
-    | Delete the matrix map                                     |
-    \*---------------------------------------------------------*/
-    for(unsigned int zone_index = 0; zone_index < zones.size(); zone_index++)
-    {
-        if(zones[zone_index].matrix_map != NULL)
-        {
-            delete zones[zone_index].matrix_map;
-        }
-        break;
-    }
-
     delete controller;
 }
 
@@ -352,10 +340,7 @@ void RGBController_ValkyrieKeyboard::SetupZones()
         new_zone.leds_min               = zone_size;
         new_zone.leds_max               = zone_size;
         new_zone.leds_count             = zone_size;
-        new_zone.matrix_map             = new matrix_map_type;
-        new_zone.matrix_map->height     = 6;
-        new_zone.matrix_map->width      = matrix_width;
-        new_zone.matrix_map->map        = matrix_map_ptr;
+        new_zone.matrix_map.Set(6, matrix_width, matrix_map_ptr);
         zones.push_back(new_zone);
 
         total_led_count += zone_size;
@@ -381,13 +366,6 @@ void RGBController_ValkyrieKeyboard::SetupZones()
     SetupColors();
 }
 
-void RGBController_ValkyrieKeyboard::ResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_ValkyrieKeyboard::DeviceUpdateLEDs()
 {
     unsigned char colordata[1024];
@@ -402,12 +380,12 @@ void RGBController_ValkyrieKeyboard::DeviceUpdateLEDs()
     controller->SendColors(colordata, sizeof(colordata));
 }
 
-void RGBController_ValkyrieKeyboard::UpdateZoneLEDs(int /*zone*/)
+void RGBController_ValkyrieKeyboard::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_ValkyrieKeyboard::UpdateSingleLED(int /*led*/)
+void RGBController_ValkyrieKeyboard::DeviceUpdateSingleLED(int /*led*/)
 {
     DeviceUpdateLEDs();
 }

@@ -356,7 +356,6 @@ void RGBController_ZotacV2GPU::SetupZones()
     new_zone.leds_min      = 1;
     new_zone.leds_max      = 1;
     new_zone.leds_count    = 1;
-    new_zone.matrix_map    = NULL;
     zones.push_back(new_zone);
 
     SetupColors();
@@ -414,15 +413,6 @@ void RGBController_ZotacV2GPU::SetupInitialValues()
     modes[active_mode].speed = zoneConfig.speed;
     modes[active_mode].brightness = zoneConfig.brightness;
     modes[active_mode].direction = zoneConfig.direction;
-
-    SignalUpdate();
-}
-
-void RGBController_ZotacV2GPU::ResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
 }
 
 void RGBController_ZotacV2GPU::DeviceUpdateLEDs()
@@ -430,12 +420,12 @@ void RGBController_ZotacV2GPU::DeviceUpdateLEDs()
     DeviceUpdateMode();
 }
 
-void RGBController_ZotacV2GPU::UpdateZoneLEDs(int /*zone*/)
+void RGBController_ZotacV2GPU::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateMode();
 }
 
-void RGBController_ZotacV2GPU::UpdateSingleLED(int /*led*/)
+void RGBController_ZotacV2GPU::DeviceUpdateSingleLED(int /*led*/)
 {
     DeviceUpdateMode();
 }

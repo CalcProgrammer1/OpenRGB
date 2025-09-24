@@ -91,7 +91,6 @@ void RGBController_TrustGXT114::SetupZones()
     new_zone.leds_min   = TRUST_GXT_114_NUMBER_OF_LEDS;
     new_zone.leds_max   = TRUST_GXT_114_NUMBER_OF_LEDS;
     new_zone.leds_count = TRUST_GXT_114_NUMBER_OF_LEDS;
-    new_zone.matrix_map = nullptr;
 
     zones.emplace_back(new_zone);
 
@@ -105,24 +104,17 @@ void RGBController_TrustGXT114::SetupZones()
     SetupColors();
 }
 
-void RGBController_TrustGXT114::ResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_TrustGXT114::DeviceUpdateLEDs()
 {
     DeviceUpdateMode();
 }
 
-void RGBController_TrustGXT114::UpdateZoneLEDs(int /*zone*/)
+void RGBController_TrustGXT114::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateMode();
 }
 
-void RGBController_TrustGXT114::UpdateSingleLED(int /*led*/)
+void RGBController_TrustGXT114::DeviceUpdateSingleLED(int /*led*/)
 {
     DeviceUpdateMode();
 }

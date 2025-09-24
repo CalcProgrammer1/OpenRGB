@@ -62,31 +62,28 @@ RGBController_HyperXMicrophoneV2::~RGBController_HyperXMicrophoneV2()
 
 void RGBController_HyperXMicrophoneV2::SetupZones()
 {
+    unsigned int led_mapping[HYPERX_QUADCAST_2S_TOTAL_LEDS] =
+        {
+            /* front */               /* rear */
+            26, 27, 44, 45, 62, 63,   80, 81, 98,  99, 8,  9,
+            25, 28, 43, 46, 61, 64,   79, 82, 97, 100, 7, 10,
+            24, 29, 42, 47, 60, 65,   78, 83, 96, 101, 6, 11,
+            23, 30, 41, 48, 59, 66,   77, 84, 95, 102, 5, 12,
+            22, 31, 40, 49, 58, 67,   76, 85, 94, 103, 4, 13,
+            21, 32, 39, 50, 57, 68,   75, 86, 93, 104, 3, 14,
+            20, 33, 38, 51, 56, 69,   74, 87, 92, 105, 2, 15,
+            19, 34, 37, 52, 55, 70,   73, 88, 91, 106, 1, 16,
+            18, 35, 36, 53, 54, 71,   72, 89, 90, 107, 0, 17
+        };
+
     zone Mic;
 
-    Mic.name                = "Microphone";
-    Mic.type                = ZONE_TYPE_MATRIX;
-    Mic.leds_min            = HYPERX_QUADCAST_2S_TOTAL_LEDS;
-    Mic.leds_max            = HYPERX_QUADCAST_2S_TOTAL_LEDS;
-    Mic.leds_count          = HYPERX_QUADCAST_2S_TOTAL_LEDS;
-    Mic.matrix_map          = new matrix_map_type;
-    Mic.matrix_map->width   = HYPERX_QUADCAST_2S_MATRIX_WIDTH;
-    Mic.matrix_map->height  = HYPERX_QUADCAST_2S_MATRIX_HEIGHT;
-    Mic.matrix_map->map     = new unsigned int[HYPERX_QUADCAST_2S_TOTAL_LEDS];
-
-    unsigned int led_mapping[HYPERX_QUADCAST_2S_TOTAL_LEDS] =
-    {
-        /* front */               /* rear */
-        26, 27, 44, 45, 62, 63,   80, 81, 98,  99, 8,  9,
-        25, 28, 43, 46, 61, 64,   79, 82, 97, 100, 7, 10,
-        24, 29, 42, 47, 60, 65,   78, 83, 96, 101, 6, 11,
-        23, 30, 41, 48, 59, 66,   77, 84, 95, 102, 5, 12,
-        22, 31, 40, 49, 58, 67,   76, 85, 94, 103, 4, 13,
-        21, 32, 39, 50, 57, 68,   75, 86, 93, 104, 3, 14,
-        20, 33, 38, 51, 56, 69,   74, 87, 92, 105, 2, 15,
-        19, 34, 37, 52, 55, 70,   73, 88, 91, 106, 1, 16,
-        18, 35, 36, 53, 54, 71,   72, 89, 90, 107, 0, 17
-    };
+    Mic.name                    = "Microphone";
+    Mic.type                    = ZONE_TYPE_MATRIX;
+    Mic.leds_min                = HYPERX_QUADCAST_2S_TOTAL_LEDS;
+    Mic.leds_max                = HYPERX_QUADCAST_2S_TOTAL_LEDS;
+    Mic.leds_count              = HYPERX_QUADCAST_2S_TOTAL_LEDS;
+    Mic.matrix_map.Set(HYPERX_QUADCAST_2S_MATRIX_WIDTH, HYPERX_QUADCAST_2S_MATRIX_HEIGHT, led_mapping);
 
     for(unsigned int i = 0; i < HYPERX_QUADCAST_2S_TOTAL_LEDS; i ++)
     {
@@ -94,8 +91,6 @@ void RGBController_HyperXMicrophoneV2::SetupZones()
         l.name   = "LED " + std::to_string(i);
         l.value  = led_mapping[i];
         leds.push_back(l);
-
-        Mic.matrix_map->map[i] = led_mapping[i];
     }
 
     zones.push_back(Mic);
@@ -103,23 +98,16 @@ void RGBController_HyperXMicrophoneV2::SetupZones()
     SetupColors();
 }
 
-void RGBController_HyperXMicrophoneV2::ResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_HyperXMicrophoneV2::DeviceUpdateLEDs()
 {
     last_update_time = std::chrono::steady_clock::now();
     controller->SendDirect(colors);
 }
-void RGBController_HyperXMicrophoneV2::UpdateZoneLEDs(int /*zone*/)
+void RGBController_HyperXMicrophoneV2::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateLEDs();
 }
-void RGBController_HyperXMicrophoneV2::UpdateSingleLED(int /*led*/)
+void RGBController_HyperXMicrophoneV2::DeviceUpdateSingleLED(int /*led*/)
 {
     DeviceUpdateLEDs();
 }
@@ -140,7 +128,7 @@ void RGBController_HyperXMicrophoneV2::KeepaliveThread()
     {
         if(!controller->ShouldPauseUpdates() && (std::chrono::steady_clock::now() - last_update_time) > std::chrono::milliseconds(1000))
         {
-            UpdateLEDs();
+            UpdateLEDsInternal();
         }
         std::this_thread::sleep_for(250ms);
     }

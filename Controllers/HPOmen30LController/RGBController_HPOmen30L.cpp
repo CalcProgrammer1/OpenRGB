@@ -156,7 +156,6 @@ void RGBController_HPOmen30L::SetupZones()
     logo_zone.leds_min      = 1;
     logo_zone.leds_max      = 1;
     logo_zone.leds_count    = 1;
-    logo_zone.matrix_map    = NULL;
     zones.push_back(logo_zone);
 
     zone light_bar;
@@ -165,7 +164,6 @@ void RGBController_HPOmen30L::SetupZones()
     light_bar.leds_min      = 1;
     light_bar.leds_max      = 1;
     light_bar.leds_count    = 1;
-    light_bar.matrix_map    = NULL;
     zones.push_back(light_bar);
 
     zone ring_zone;
@@ -174,7 +172,6 @@ void RGBController_HPOmen30L::SetupZones()
     ring_zone.leds_min      = 1;
     ring_zone.leds_max      = 1;
     ring_zone.leds_count    = 1;
-    ring_zone.matrix_map    = NULL;
     zones.push_back(ring_zone);
 
     zone cpu_zone;
@@ -183,7 +180,6 @@ void RGBController_HPOmen30L::SetupZones()
     cpu_zone.leds_min       = 1;
     cpu_zone.leds_max       = 1;
     cpu_zone.leds_count     = 1;
-    cpu_zone.matrix_map     = NULL;
     zones.push_back(cpu_zone);
 
     zone bot_fan;
@@ -192,7 +188,6 @@ void RGBController_HPOmen30L::SetupZones()
     bot_fan.leds_min       = 1;
     bot_fan.leds_max       = 1;
     bot_fan.leds_count     = 1;
-    bot_fan.matrix_map     = NULL;
     zones.push_back(bot_fan);
 
     zone mid_fan;
@@ -201,7 +196,6 @@ void RGBController_HPOmen30L::SetupZones()
     mid_fan.leds_min       = 1;
     mid_fan.leds_max       = 1;
     mid_fan.leds_count     = 1;
-    mid_fan.matrix_map     = NULL;
     zones.push_back(mid_fan);
 
     zone top_fan;
@@ -210,7 +204,6 @@ void RGBController_HPOmen30L::SetupZones()
     top_fan.leds_min       = 1;
     top_fan.leds_max       = 1;
     top_fan.leds_count     = 1;
-    top_fan.matrix_map     = NULL;
     zones.push_back(top_fan);
 
     /*---------------------------------------------------------*\
@@ -247,13 +240,6 @@ void RGBController_HPOmen30L::SetupZones()
     SetupColors();
 }
 
-void RGBController_HPOmen30L::ResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_HPOmen30L::DeviceUpdateLEDs()
 {
     for(unsigned int i = 0; i < zones.size(); i++)
@@ -271,14 +257,14 @@ void RGBController_HPOmen30L::DeviceUpdateLEDs()
     }
 }
 
-void RGBController_HPOmen30L::UpdateZoneLEDs(int zone)
+void RGBController_HPOmen30L::DeviceUpdateZoneLEDs(int zone)
 {
     controller->SetZoneColor(zone,colors);
 }
 
-void RGBController_HPOmen30L::UpdateSingleLED(int led)
+void RGBController_HPOmen30L::DeviceUpdateSingleLED(int led)
 {
-    UpdateZoneLEDs(led);
+    DeviceUpdateZoneLEDs(led);
 }
 
 void RGBController_HPOmen30L::DeviceUpdateMode()

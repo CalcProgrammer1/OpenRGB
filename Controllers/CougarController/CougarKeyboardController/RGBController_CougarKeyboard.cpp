@@ -389,11 +389,7 @@ void RGBController_CougarKeyboard::SetupZones()
     KB_zone.leds_count          = 113;
     KB_zone.leds_min            = KB_zone.leds_count;
     KB_zone.leds_max            = KB_zone.leds_count;
-
-    KB_zone.matrix_map          = new matrix_map_type;
-    KB_zone.matrix_map->height  = 6;
-    KB_zone.matrix_map->width   = COUGARKEYBOARDCONTROLLER_MATRIX_WIDTH;
-    KB_zone.matrix_map->map     = (unsigned int *)&matrix_map;
+    KB_zone.matrix_map.Set(6, COUGARKEYBOARDCONTROLLER_MATRIX_WIDTH, (unsigned int *)&matrix_map);
     zones.push_back(KB_zone);
 
     /*-------------------------------------------------*\
@@ -419,19 +415,12 @@ void RGBController_CougarKeyboard::SetupZones()
     SetupColors();
 }
 
-void RGBController_CougarKeyboard::ResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_CougarKeyboard::DeviceUpdateLEDs()
 {
     controller->SetLedsDirect(colors);
 }
 
-void RGBController_CougarKeyboard::UpdateZoneLEDs(int zone)
+void RGBController_CougarKeyboard::DeviceUpdateZoneLEDs(int zone)
 {
     std::vector<RGBColor> colour;
     for(size_t i = 0; i < zones[zone].leds_count; i++)
@@ -442,7 +431,7 @@ void RGBController_CougarKeyboard::UpdateZoneLEDs(int zone)
     controller->SetLedsDirect(colour);
 }
 
-void RGBController_CougarKeyboard::UpdateSingleLED(int led)
+void RGBController_CougarKeyboard::DeviceUpdateSingleLED(int led)
 {
     std::vector<RGBColor> colour;
     colour.push_back(colors[led]);

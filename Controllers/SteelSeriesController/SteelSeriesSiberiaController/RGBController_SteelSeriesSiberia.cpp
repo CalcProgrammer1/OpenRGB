@@ -56,7 +56,6 @@ void RGBController_SteelSeriesSiberia::SetupZones()
     earpiece_zone.leds_min      = 1;
     earpiece_zone.leds_max      = 1;
     earpiece_zone.leds_count    = 1;
-    earpiece_zone.matrix_map    = NULL;
     zones.push_back(earpiece_zone);
 
     led earpiece_led;
@@ -64,13 +63,6 @@ void RGBController_SteelSeriesSiberia::SetupZones()
     leds.push_back(earpiece_led);
 
     SetupColors();
-}
-
-void RGBController_SteelSeriesSiberia::ResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
 }
 
 void RGBController_SteelSeriesSiberia::DeviceUpdateLEDs()
@@ -81,7 +73,7 @@ void RGBController_SteelSeriesSiberia::DeviceUpdateLEDs()
     controller->SetColor(red, grn, blu);
 }
 
-void RGBController_SteelSeriesSiberia::UpdateZoneLEDs(int zone)
+void RGBController_SteelSeriesSiberia::DeviceUpdateZoneLEDs(int zone)
 {
     RGBColor      color = colors[zone];
     unsigned char red   = RGBGetRValue(color);
@@ -90,11 +82,11 @@ void RGBController_SteelSeriesSiberia::UpdateZoneLEDs(int zone)
     controller->SetColor(red, grn, blu);
 }
 
-void RGBController_SteelSeriesSiberia::UpdateSingleLED(int led)
+void RGBController_SteelSeriesSiberia::DeviceUpdateSingleLED(int led)
 {
     /* Each zone only has a single LED, so we can use the LED ID to reference
      * the existing zone code. */
-    UpdateZoneLEDs(led);
+    DeviceUpdateZoneLEDs(led);
 }
 
 void RGBController_SteelSeriesSiberia::DeviceUpdateMode()

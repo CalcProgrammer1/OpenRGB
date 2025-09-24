@@ -176,14 +176,8 @@ void RGBController_AsusSagarisKeyboard::SetupZones()
     keyboard.leds_min           = 1;
     keyboard.leds_max           = 1;
     keyboard.leds_count         = 1;
-    keyboard.matrix_map         = nullptr;
 
     SetupColors();
-}
-
-void RGBController_AsusSagarisKeyboard::ResizeZone(int /*zone*/, int /*new_size*/)
-{
-
 }
 
 void RGBController_AsusSagarisKeyboard::DeviceUpdateLEDs()
@@ -191,12 +185,12 @@ void RGBController_AsusSagarisKeyboard::DeviceUpdateLEDs()
 
 }
 
-void RGBController_AsusSagarisKeyboard::UpdateZoneLEDs(int /*zone*/)
+void RGBController_AsusSagarisKeyboard::DeviceUpdateZoneLEDs(int /*zone*/)
 {
 
 }
 
-void RGBController_AsusSagarisKeyboard::UpdateSingleLED(int /*led*/)
+void RGBController_AsusSagarisKeyboard::DeviceUpdateSingleLED(int /*led*/)
 {
 
 }

@@ -124,7 +124,6 @@ void RGBController_AuraHeadsetStand::SetupZones()
     underglow_zone.leds_min     = 17;
     underglow_zone.leds_max     = 17;
     underglow_zone.leds_count   = 17;
-    underglow_zone.matrix_map   = NULL;
 
     zones.push_back(underglow_zone);
 
@@ -144,7 +143,6 @@ void RGBController_AuraHeadsetStand::SetupZones()
     logo_zone.leds_min          = 1;
     logo_zone.leds_max          = 1;
     logo_zone.leds_count        = 1;
-    logo_zone.matrix_map        = NULL;
 
     zones.push_back(logo_zone);
 
@@ -157,24 +155,17 @@ void RGBController_AuraHeadsetStand::SetupZones()
     SetupColors();
 }
 
-void RGBController_AuraHeadsetStand::ResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_AuraHeadsetStand::DeviceUpdateLEDs()
 {
     controller->UpdateLeds(std::vector<RGBColor>(colors));
 }
 
-void RGBController_AuraHeadsetStand::UpdateZoneLEDs(int /*zone*/)
+void RGBController_AuraHeadsetStand::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_AuraHeadsetStand::UpdateSingleLED(int /*led*/)
+void RGBController_AuraHeadsetStand::DeviceUpdateSingleLED(int /*led*/)
 {
     DeviceUpdateLEDs();
 }
