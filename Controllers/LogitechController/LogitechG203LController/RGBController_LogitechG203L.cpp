@@ -118,7 +118,6 @@ void RGBController_LogitechG203L::SetupZones()
     g203L_zone.leds_min     = 3;
     g203L_zone.leds_max     = 3;
     g203L_zone.leds_count   = 3;
-    g203L_zone.matrix_map   = NULL;
     zones.push_back(g203L_zone);
 
     led g203L_led_l;
@@ -139,25 +138,18 @@ void RGBController_LogitechG203L::SetupZones()
     SetupColors();
 }
 
-void RGBController_LogitechG203L::ResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_LogitechG203L::DeviceUpdateLEDs()
 {
     controller->SetDevice(colors);
     controller->SetDevice(colors); //dirty workaround for color lag
 }
 
-void RGBController_LogitechG203L::UpdateZoneLEDs(int /*zone*/)
+void RGBController_LogitechG203L::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_LogitechG203L::UpdateSingleLED(int led)
+void RGBController_LogitechG203L::DeviceUpdateSingleLED(int led)
 {
     unsigned char red = RGBGetRValue(colors[led]);
     unsigned char grn = RGBGetGValue(colors[led]);

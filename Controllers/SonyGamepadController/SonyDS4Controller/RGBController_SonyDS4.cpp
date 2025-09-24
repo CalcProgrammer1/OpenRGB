@@ -63,7 +63,6 @@ void RGBController_SonyDS4::SetupZones()
     new_zone->leds_min      = 1;
     new_zone->leds_max      = 1;
     new_zone->leds_count    = 1;
-    new_zone->matrix_map    = NULL;
 
     new_led->name           = "Controller LED";
 
@@ -75,13 +74,6 @@ void RGBController_SonyDS4::SetupZones()
     SetupColors();
 }
 
-void RGBController_SonyDS4::ResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_SonyDS4::DeviceUpdateLEDs()
 {
     unsigned char red =     char(RGBGetRValue(colors[0]));
@@ -90,12 +82,12 @@ void RGBController_SonyDS4::DeviceUpdateLEDs()
     controller->SetColors(red, green, blue);
 }
 
-void RGBController_SonyDS4::UpdateZoneLEDs(int /*zone*/)
+void RGBController_SonyDS4::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_SonyDS4::UpdateSingleLED(int /*led*/)
+void RGBController_SonyDS4::DeviceUpdateSingleLED(int /*led*/)
 {
     DeviceUpdateLEDs();
 }

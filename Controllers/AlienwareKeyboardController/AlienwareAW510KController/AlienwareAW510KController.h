@@ -132,7 +132,7 @@ public:
                     unsigned char   blue2
                     );
 
-    void        UpdateSingleLED
+    void        DeviceUpdateSingleLED
                     (
                     unsigned char   led,
                     unsigned char   red,

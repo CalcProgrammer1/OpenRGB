@@ -80,7 +80,6 @@ void RGBController_BlinkController::SetupZones()
     Blink_zone.leds_min      = 2;
     Blink_zone.leds_max      = 2;
     Blink_zone.leds_count    = 2;
-    Blink_zone.matrix_map    = NULL;
     zones.push_back(Blink_zone);
 
     led Blink_led;
@@ -93,30 +92,22 @@ void RGBController_BlinkController::SetupZones()
     leds.push_back(Blink_led);
 
     SetupColors();
-
-}
-
-void RGBController_BlinkController::ResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
 }
 
 void RGBController_BlinkController::DeviceUpdateLEDs()
 {
     for(std::size_t led = 0; led < colors.size(); led++)
     {
-        UpdateSingleLED((int)led);
+        DeviceUpdateSingleLED((int)led);
     }
 }
 
-void RGBController_BlinkController::UpdateZoneLEDs(int /*zone*/)
+void RGBController_BlinkController::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_BlinkController::UpdateSingleLED(int led)
+void RGBController_BlinkController::DeviceUpdateSingleLED(int led)
 {
     unsigned char red = RGBGetRValue(colors[led]);
     unsigned char grn = RGBGetGValue(colors[led]);

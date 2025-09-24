@@ -229,8 +229,6 @@ void RGBController_ASRockPolychromeV2SMBus::SetupZones()
                 new_zone->type          = ZONE_TYPE_SINGLE;
             }
 
-            new_zone->matrix_map        = NULL;
-
             /*---------------------------------------------------------*\
             | Push new zone to zones vector                             |
             \*---------------------------------------------------------*/
@@ -281,7 +279,7 @@ void RGBController_ASRockPolychromeV2SMBus::SetupZones()
     SetupColors();
 }
 
-void RGBController_ASRockPolychromeV2SMBus::ResizeZone(int /*zone*/, int /*new_size*/)
+void RGBController_ASRockPolychromeV2SMBus::DeviceResizeZone(int /*zone*/, int /*new_size*/)
 {
     /*---------------------------------------------------------*\
     | This device does not support resizing zones               |
@@ -292,16 +290,16 @@ void RGBController_ASRockPolychromeV2SMBus::DeviceUpdateLEDs()
 {
     for(unsigned int led = 0; led < colors.size(); led++)
     {
-        UpdateSingleLED(led);
+        DeviceUpdateSingleLED(led);
     }
 }
 
-void RGBController_ASRockPolychromeV2SMBus::UpdateZoneLEDs(int /*zone*/)
+void RGBController_ASRockPolychromeV2SMBus::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_ASRockPolychromeV2SMBus::UpdateSingleLED(int led)
+void RGBController_ASRockPolychromeV2SMBus::DeviceUpdateSingleLED(int led)
 {
     unsigned char red = RGBGetRValue(colors[led]);
     unsigned char grn = RGBGetGValue(colors[led]);

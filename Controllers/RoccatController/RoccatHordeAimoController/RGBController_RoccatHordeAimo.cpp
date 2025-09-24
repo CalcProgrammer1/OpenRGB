@@ -56,7 +56,6 @@ void RGBController_RoccatHordeAimo::SetupZones()
     new_zone.leds_min      = NUMBER_OF_LEDS;
     new_zone.leds_max      = NUMBER_OF_LEDS;
     new_zone.leds_count    = NUMBER_OF_LEDS;
-    new_zone.matrix_map    = NULL;
     zones.push_back(new_zone);
 
     for(unsigned int i = 0; i < NUMBER_OF_LEDS; i++)
@@ -69,26 +68,19 @@ void RGBController_RoccatHordeAimo::SetupZones()
     SetupColors();
 }
 
-void RGBController_RoccatHordeAimo::ResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_RoccatHordeAimo::DeviceUpdateLEDs()
 {
-    UpdateZoneLEDs(0);
+    DeviceUpdateZoneLEDs(0);
 }
 
-void RGBController_RoccatHordeAimo::UpdateZoneLEDs(int /*zone_idx*/)
+void RGBController_RoccatHordeAimo::DeviceUpdateZoneLEDs(int /*zone_idx*/)
 {
     controller->SetColors(colors);
 }
 
-void RGBController_RoccatHordeAimo::UpdateSingleLED(int /*led_idx*/)
+void RGBController_RoccatHordeAimo::DeviceUpdateSingleLED(int /*led_idx*/)
 {
-    UpdateZoneLEDs(0);
+    DeviceUpdateZoneLEDs(0);
 }
 
 void RGBController_RoccatHordeAimo::DeviceUpdateMode()

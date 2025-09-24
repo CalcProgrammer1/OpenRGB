@@ -260,7 +260,6 @@ void RGBController_ZotacBlackwellGPU::SetupZones()
     logo_zone.leds_min      = 1;
     logo_zone.leds_max      = 1;
     logo_zone.leds_count    = 1;
-    logo_zone.matrix_map    = NULL;
     zones.push_back(logo_zone);
 
     led logo_led;
@@ -276,7 +275,6 @@ void RGBController_ZotacBlackwellGPU::SetupZones()
     sidebar_zone.leds_min   = 1;
     sidebar_zone.leds_max   = 1;
     sidebar_zone.leds_count = 1;
-    sidebar_zone.matrix_map = NULL;
     zones.push_back(sidebar_zone);
 
     led sidebar_led;
@@ -292,7 +290,6 @@ void RGBController_ZotacBlackwellGPU::SetupZones()
     infinity_zone.leds_min   = 1;
     infinity_zone.leds_max   = 1;
     infinity_zone.leds_count = 1;
-    infinity_zone.matrix_map = NULL;
     zones.push_back(infinity_zone);
 
     led infinity_led;
@@ -302,29 +299,12 @@ void RGBController_ZotacBlackwellGPU::SetupZones()
     SetupColors();
 }
 
-void RGBController_ZotacBlackwellGPU::ResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_ZotacBlackwellGPU::DeviceUpdateLEDs()
 {
     DeviceUpdateMode();
 }
 
-void RGBController_ZotacBlackwellGPU::UpdateZoneLEDs(int zone)
-{
-    DeviceUpdateZone(zone);
-}
-
-void RGBController_ZotacBlackwellGPU::UpdateSingleLED(int led)
-{
-    DeviceUpdateZone(led);
-}
-
-void RGBController_ZotacBlackwellGPU::DeviceUpdateZone(int zone)
+void RGBController_ZotacBlackwellGPU::DeviceUpdateZoneLEDs(int zone)
 {
     unsigned int mode_val   = modes[active_mode].value;
     unsigned int brightness = modes[active_mode].brightness;
@@ -360,10 +340,15 @@ void RGBController_ZotacBlackwellGPU::DeviceUpdateZone(int zone)
     controller->Commit();
 }
 
+void RGBController_ZotacBlackwellGPU::DeviceUpdateSingleLED(int led)
+{
+    DeviceUpdateZoneLEDs(led);
+}
+
 void RGBController_ZotacBlackwellGPU::DeviceUpdateMode()
 {
     for(unsigned int zone_idx = 0; zone_idx < ZOTAC_BLACKWELL_GPU_NUM_ZONES; zone_idx++)
     {
-        DeviceUpdateZone(zone_idx);
+        DeviceUpdateZoneLEDs(zone_idx);
     }
 }

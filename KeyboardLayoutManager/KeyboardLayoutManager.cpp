@@ -999,21 +999,27 @@ unsigned int KeyboardLayoutManager::GetColumnCount()
     return cols;
 }
 
-void KeyboardLayoutManager::GetKeyMap(unsigned int* map_ptr)
+matrix_map_type KeyboardLayoutManager::GetKeyMap()
 {
-    GetKeyMap(map_ptr, KEYBOARD_MAP_FILL_TYPE_INDEX, rows, cols);
+    return GetKeyMap(KEYBOARD_MAP_FILL_TYPE_INDEX, rows, cols);
 }
 
-void KeyboardLayoutManager::GetKeyMap(unsigned int* map_ptr, KEYBOARD_MAP_FILL_TYPE fill_type)
+matrix_map_type KeyboardLayoutManager::GetKeyMap(KEYBOARD_MAP_FILL_TYPE fill_type)
 {
-    GetKeyMap(map_ptr, fill_type, rows, cols);
+    return GetKeyMap(fill_type, rows, cols);
 }
 
-void KeyboardLayoutManager::GetKeyMap(unsigned int* map_ptr, KEYBOARD_MAP_FILL_TYPE fill_type, uint8_t height = 0, uint8_t width = 0)
+matrix_map_type KeyboardLayoutManager::GetKeyMap(KEYBOARD_MAP_FILL_TYPE fill_type, uint8_t height = 0, uint8_t width = 0)
 {
+    matrix_map_type matrix_map;
+
     unsigned int no_key = -1;
     width               = std::max(width, cols);
     height              = std::max(height, rows);
+
+    matrix_map.width    = width;
+    matrix_map.height   = height;
+    matrix_map.map.resize(width * height);
 
     for(unsigned int r = 0; r < height; r++)
     {
@@ -1021,7 +1027,7 @@ void KeyboardLayoutManager::GetKeyMap(unsigned int* map_ptr, KEYBOARD_MAP_FILL_T
 
         for(unsigned int c = 0; c < width; c++)
         {
-            map_ptr[offset + c] = no_key;
+            matrix_map.map[offset + c] = no_key;
         }
     }
 
@@ -1031,19 +1037,21 @@ void KeyboardLayoutManager::GetKeyMap(unsigned int* map_ptr, KEYBOARD_MAP_FILL_T
         switch(fill_type)
         {
             case KEYBOARD_MAP_FILL_TYPE_COUNT:
-                map_ptr[offset] = i;
+                matrix_map.map[offset] = i;
                 break;
 
             case KEYBOARD_MAP_FILL_TYPE_VALUE:
-                map_ptr[offset] = keymap[i].value;
+                matrix_map.map[offset] = keymap[i].value;
                 break;
 
             case KEYBOARD_MAP_FILL_TYPE_INDEX:
             default:
-                map_ptr[offset] = offset;
+                matrix_map.map[offset] = offset;
                 break;
         }
     }
+
+    return(matrix_map);
 }
 
 void KeyboardLayoutManager::UpdateDimensions()

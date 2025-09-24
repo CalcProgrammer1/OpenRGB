@@ -406,10 +406,7 @@ void RGBController_EVGAKeyboard::SetupZones()
     KB_zone.leds_max            = EVGA_KEYBOARD_FULL_SIZE_KEYCOUNT;
     KB_zone.leds_count          = EVGA_KEYBOARD_FULL_SIZE_KEYCOUNT;
 
-    KB_zone.matrix_map          = new matrix_map_type;
-    KB_zone.matrix_map->height  = 6;
-    KB_zone.matrix_map->width   = 21;
-    KB_zone.matrix_map->map     = (unsigned int *)&full_matrix_map;
+    KB_zone.matrix_map.Set(6, 21, (unsigned int *)&full_matrix_map);
     zones.push_back(KB_zone);
 
     /*-------------------------------------------------*\
@@ -417,7 +414,6 @@ void RGBController_EVGAKeyboard::SetupZones()
     \*-------------------------------------------------*/
     if(controller->GetPid() == 0x260A || controller->GetPid() == 0x2610)
     {
-
         for(uint8_t i = 0; i < EVGA_KEYBOARD_Z20_EXTRA_ZONES; i++)
         {
             uint8_t zone_size = sizeof(Z20_extra_zones[i]) / sizeof(Z20_extra_zones[i][0]);
@@ -438,10 +434,7 @@ void RGBController_EVGAKeyboard::SetupZones()
             new_zone.leds_max           = zone_size;
             new_zone.leds_count         = zone_size;
 
-            new_zone.matrix_map         = new matrix_map_type;
-            new_zone.matrix_map->height = 1;
-            new_zone.matrix_map->width  = zone_size;
-            new_zone.matrix_map->map    = (unsigned int *)&Z20_extra_zones[i];
+            new_zone.matrix_map.Set(1, zone_size, (unsigned int *)&Z20_extra_zones[i]);
             zones.push_back(new_zone);
         }
     }
@@ -471,19 +464,12 @@ void RGBController_EVGAKeyboard::SetupZones()
     SetupColors();
 }
 
-void RGBController_EVGAKeyboard::ResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_EVGAKeyboard::DeviceUpdateLEDs()
 {
     controller->SetLedsDirect(colors);
 }
 
-void RGBController_EVGAKeyboard::UpdateZoneLEDs(int zone)
+void RGBController_EVGAKeyboard::DeviceUpdateZoneLEDs(int zone)
 {
     std::vector<RGBColor> colour;
     for(size_t i = 0; i < zones[zone].leds_count; i++)
@@ -494,7 +480,7 @@ void RGBController_EVGAKeyboard::UpdateZoneLEDs(int zone)
     controller->SetLedsDirect(colour);
 }
 
-void RGBController_EVGAKeyboard::UpdateSingleLED(int led)
+void RGBController_EVGAKeyboard::DeviceUpdateSingleLED(int led)
 {
     std::vector<RGBColor> colour;
     colour.push_back(colors[led]);

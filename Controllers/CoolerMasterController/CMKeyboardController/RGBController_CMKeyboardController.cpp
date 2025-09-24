@@ -49,22 +49,6 @@ RGBController_CMKeyboardController::RGBController_CMKeyboardController(CMKeyboar
 
 RGBController_CMKeyboardController::~RGBController_CMKeyboardController()
 {
-    /*---------------------------------------------------------*\
-    | Delete the matrix map                                     |
-    \*---------------------------------------------------------*/
-    for(unsigned int zone_index = 0; zone_index < zones.size(); zone_index++)
-    {
-        if(zones[zone_index].matrix_map != NULL)
-        {
-            if(zones[zone_index].matrix_map->map != NULL)
-            {
-                delete zones[zone_index].matrix_map->map;
-            }
-
-            delete zones[zone_index].matrix_map;
-        }
-    }
-
     if(m_pController)
     {
         delete m_pController;
@@ -98,9 +82,6 @@ void RGBController_CMKeyboardController::SetupZones()
             {
                 KeyboardLayoutManager new_kb(m_keyboardLayout, coolermaster->layout_new->base_size, coolermaster->layout_new->key_values);
 
-                matrix_map_type * new_map   = new matrix_map_type;
-                new_zone.matrix_map         = new_map;
-
                 if(coolermaster->layout_new->base_size != KEYBOARD_SIZE_EMPTY)
                 {
                     /*---------------------------------------------------------*\
@@ -109,15 +90,7 @@ void RGBController_CMKeyboardController::SetupZones()
                     keyboard_keymap_overlay_values* temp    = coolermaster->layout_new;
                     new_kb.ChangeKeys(*temp);
 
-                    new_map->height             = new_kb.GetRowCount();
-                    new_map->width              = new_kb.GetColumnCount();
-                    new_map->map                = new unsigned int[new_map->height * new_map->width];
-
-                    /*---------------------------------------------------------*\
-                    | Matrix map still uses declared zone rows and columns      |
-                    |   as the packet structure depends on the matrix map       |
-                    \*---------------------------------------------------------*/
-                    new_kb.GetKeyMap(new_map->map, KEYBOARD_MAP_FILL_TYPE_COUNT, new_map->height, new_map->width);
+                    new_zone.matrix_map                     = new_kb.GetKeyMap(KEYBOARD_MAP_FILL_TYPE_COUNT);
 
                     /*---------------------------------------------------------*\
                     | Create LEDs for the Matrix zone                           |
@@ -161,27 +134,17 @@ void RGBController_CMKeyboardController::SetupZones()
     SetupColors();
 }
 
-void RGBController_CMKeyboardController::ResizeZone(int /*zone*/, int /*new_size*/)
-{
-}
-
 void RGBController_CMKeyboardController::DeviceUpdateLEDs()
 {
     m_pController->SetLeds(leds, colors);
 }
 
-void RGBController_CMKeyboardController::UpdateSingleLED(int led, RGBColor color)
-{
-    uint8_t key_value = m_pLayoutManager->GetKeyValueAt(led);
-    m_pController->SetSingleLED(key_value, color);
-}
-
-void RGBController_CMKeyboardController::UpdateSingleLED(int led)
+void RGBController_CMKeyboardController::DeviceUpdateSingleLED(int led)
 {
     m_pController->SetSingleLED(led, colors[led]);
 }
 
-void RGBController_CMKeyboardController::UpdateZoneLEDs(int /*zone_idx*/)
+void RGBController_CMKeyboardController::DeviceUpdateZoneLEDs(int /*zone_idx*/)
 {
     DeviceUpdateLEDs();
 }

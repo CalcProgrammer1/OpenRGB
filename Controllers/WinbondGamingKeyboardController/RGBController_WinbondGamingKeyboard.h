@@ -38,14 +38,13 @@ public:
     RGBController_WinbondGamingKeyboard(WinbondGamingKeyboardController* ctrl);
     ~RGBController_WinbondGamingKeyboard();
 
-    void                SetupZones() override;
-    void                ResizeZone(int zone, int new_size) override;
+    void                SetupZones();
 
-    void                DeviceUpdateLEDs() override;
-    void                UpdateZoneLEDs(int zone) override;
-    void                UpdateSingleLED(int led) override;
+    void                DeviceUpdateLEDs();
+    void                DeviceUpdateZoneLEDs(int zone);
+    void                DeviceUpdateSingleLED(int led);
 
-    void                DeviceUpdateMode() override;
+    void                DeviceUpdateMode();
 
 private:
     WinbondGamingKeyboardController* controller;

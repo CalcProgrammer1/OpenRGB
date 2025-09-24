@@ -635,17 +635,6 @@ RGBController_WootingKeyboard::RGBController_WootingKeyboard(WootingKeyboardCont
 
 RGBController_WootingKeyboard::~RGBController_WootingKeyboard()
 {
-    /*---------------------------------------------------------*\
-    | Delete the matrix map                                     |
-    \*---------------------------------------------------------*/
-    for (unsigned int zone_index = 0; zone_index < zones.size(); zone_index++)
-    {
-        if (zones[zone_index].matrix_map != NULL)
-        {
-            delete zones[zone_index].matrix_map;
-        }
-    }
-
     delete controller;
 }
 
@@ -724,8 +713,6 @@ void RGBController_WootingKeyboard::SetupZones()
         }
     }
 
-
-
     zone new_zone;
 
     new_zone.name                   = name.append(" zone");
@@ -733,21 +720,11 @@ void RGBController_WootingKeyboard::SetupZones()
     new_zone.leds_min               = total_led_count;
     new_zone.leds_max               = total_led_count;
     new_zone.leds_count             = total_led_count;
-    new_zone.matrix_map             = new matrix_map_type;
-    new_zone.matrix_map->height     = (unsigned int)matrix_rows;
-    new_zone.matrix_map->width      = (unsigned int)matrix_columns;
-    new_zone.matrix_map->map        = new_matrix;
+    new_zone.matrix_map.Set((unsigned int)matrix_rows, (unsigned int)matrix_columns, new_matrix);
 
     zones.push_back(new_zone);
 
     SetupColors();
-}
-
-void RGBController_WootingKeyboard::ResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
 }
 
 void RGBController_WootingKeyboard::DeviceUpdateLEDs()
@@ -763,12 +740,12 @@ void RGBController_WootingKeyboard::DeviceUpdateLEDs()
     controller->SendDirect(&framebuffer[0], WOOTING_RGB_ROWS * WOOTING_RGB_COLUMNS);
 }
 
-void RGBController_WootingKeyboard::UpdateZoneLEDs(int /*zone*/)
+void RGBController_WootingKeyboard::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_WootingKeyboard::UpdateSingleLED(int /*led*/)
+void RGBController_WootingKeyboard::DeviceUpdateSingleLED(int /*led*/)
 {
     DeviceUpdateLEDs();
 }

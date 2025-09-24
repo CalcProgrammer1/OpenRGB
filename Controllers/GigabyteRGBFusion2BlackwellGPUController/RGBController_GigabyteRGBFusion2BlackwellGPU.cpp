@@ -220,7 +220,6 @@ void RGBController_RGBFusion2BlackwellGPU::SetupZones()
         new_zone.leds_min   = 1;
         new_zone.leds_max   = 1;
         new_zone.leds_count = 1;
-        new_zone.matrix_map = NULL;
 
         new_led.name        = new_zone.name;
 
@@ -260,7 +259,6 @@ void RGBController_RGBFusion2BlackwellGPU::SetupZones()
             new_zone.leds_min   = 1;
             new_zone.leds_max   = 1;
             new_zone.leds_count = 1;
-            new_zone.matrix_map = NULL;
 
             new_led.name        = new_zone.name;
 
@@ -293,7 +291,6 @@ void RGBController_RGBFusion2BlackwellGPU::SetupZones()
             new_zone.leds_min   = 1;
             new_zone.leds_max   = 1;
             new_zone.leds_count = 1;
-            new_zone.matrix_map = NULL;
 
             new_led.name        = new_zone.name;
 
@@ -338,7 +335,6 @@ void RGBController_RGBFusion2BlackwellGPU::SetupZones()
             new_zone.leds_min   = 1;
             new_zone.leds_max   = 1;
             new_zone.leds_count = 1;
-            new_zone.matrix_map = NULL;
 
             new_led.name        = new_zone.name;
 
@@ -360,7 +356,6 @@ void RGBController_RGBFusion2BlackwellGPU::SetupZones()
             fan_zone.leds_min       = RGB_FUSION_2_BLACKWELL_AORUS_MASTER_FAN_LEDS;
             fan_zone.leds_max       = RGB_FUSION_2_BLACKWELL_AORUS_MASTER_FAN_LEDS;
             fan_zone.leds_count     = RGB_FUSION_2_BLACKWELL_AORUS_MASTER_FAN_LEDS;
-            fan_zone.matrix_map     = NULL;
             zones.push_back(fan_zone);
 
             for(unsigned int led_idx = 0; led_idx < fan_zone.leds_count; led_idx++)
@@ -379,7 +374,6 @@ void RGBController_RGBFusion2BlackwellGPU::SetupZones()
         side_logo.leds_min      = 1;
         side_logo.leds_max      = 1;
         side_logo.leds_count    = 1;
-        side_logo.matrix_map    = NULL;
         zones.push_back(side_logo);
 
         led logo_led;
@@ -392,7 +386,6 @@ void RGBController_RGBFusion2BlackwellGPU::SetupZones()
         top_logo.leds_min       = 1;
         top_logo.leds_max       = 1;
         top_logo.leds_count     = 1;
-        top_logo.matrix_map     = NULL;
         zones.push_back(top_logo);
 
         led top_led;
@@ -401,13 +394,6 @@ void RGBController_RGBFusion2BlackwellGPU::SetupZones()
     }
 
     SetupColors();
-}
-
-void RGBController_RGBFusion2BlackwellGPU::ResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
 }
 
 void RGBController_RGBFusion2BlackwellGPU::DeviceUpdateLEDs()
@@ -523,12 +509,12 @@ void RGBController_RGBFusion2BlackwellGPU::DeviceUpdateLEDs()
     }
 }
 
-void RGBController_RGBFusion2BlackwellGPU::UpdateZoneLEDs(int /*zone*/)
+void RGBController_RGBFusion2BlackwellGPU::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_RGBFusion2BlackwellGPU::UpdateSingleLED(int /*led*/)
+void RGBController_RGBFusion2BlackwellGPU::DeviceUpdateSingleLED(int /*led*/)
 {
     DeviceUpdateLEDs();
 }

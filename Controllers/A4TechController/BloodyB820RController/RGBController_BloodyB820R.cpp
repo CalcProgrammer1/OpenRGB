@@ -187,11 +187,7 @@ void RGBController_BloodyB820R::SetupZones()
     KB_zone.leds_min            = BLOODY_B820R_KEYCOUNT;
     KB_zone.leds_max            = BLOODY_B820R_KEYCOUNT;
     KB_zone.leds_count          = BLOODY_B820R_KEYCOUNT;
-
-    KB_zone.matrix_map          = new matrix_map_type;
-    KB_zone.matrix_map->height  = 6;
-    KB_zone.matrix_map->width   = 21;
-    KB_zone.matrix_map->map     = (unsigned int *)&matrix_map;
+    KB_zone.matrix_map.Set(6, 21, (unsigned int *)&matrix_map);
     zones.push_back(KB_zone);
 
     /*-------------------------------------------------*\
@@ -214,20 +210,12 @@ void RGBController_BloodyB820R::SetupZones()
     SetupColors();
 }
 
-void RGBController_BloodyB820R::ResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
-
 void RGBController_BloodyB820R::DeviceUpdateLEDs()
 {
     controller->SetLEDDirect(colors);
 }
 
-void RGBController_BloodyB820R::UpdateZoneLEDs(int zone)
+void RGBController_BloodyB820R::DeviceUpdateZoneLEDs(int zone)
 {
     std::vector<RGBColor> colour;
 
@@ -239,7 +227,7 @@ void RGBController_BloodyB820R::UpdateZoneLEDs(int zone)
     controller->SetLEDDirect(colour);
 }
 
-void RGBController_BloodyB820R::UpdateSingleLED(int led)
+void RGBController_BloodyB820R::DeviceUpdateSingleLED(int led)
 {
     std::vector<RGBColor> colour;
     colour.push_back(colors[led]);
