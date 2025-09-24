@@ -71,7 +71,6 @@ void RGBController_HyperXPulsefireSurge::SetupZones()
     led_strip.leds_min   = 32;
     led_strip.leds_max   = 32;
     led_strip.leds_count = 32;
-    led_strip.matrix_map = NULL;
     zones.push_back(led_strip);
 
     zone logo;
@@ -80,7 +79,6 @@ void RGBController_HyperXPulsefireSurge::SetupZones()
     logo.leds_min   = 1;
     logo.leds_max   = 1;
     logo.leds_count = 1;
-    logo.matrix_map = NULL;
     zones.push_back(logo);
 
     for(unsigned int zone_idx = 0; zone_idx < zones.size(); zone_idx++)
@@ -104,13 +102,6 @@ void RGBController_HyperXPulsefireSurge::SetupZones()
     SetupColors();
 }
 
-void RGBController_HyperXPulsefireSurge::ResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_HyperXPulsefireSurge::DeviceUpdateLEDs()
 {
     last_update_time = std::chrono::steady_clock::now();
@@ -125,12 +116,12 @@ void RGBController_HyperXPulsefireSurge::DeviceUpdateLEDs()
 
 }
 
-void RGBController_HyperXPulsefireSurge::UpdateZoneLEDs(int /*zone*/)
+void RGBController_HyperXPulsefireSurge::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_HyperXPulsefireSurge::UpdateSingleLED(int /*led*/)
+void RGBController_HyperXPulsefireSurge::DeviceUpdateSingleLED(int /*led*/)
 {
     DeviceUpdateLEDs();
 }
@@ -148,7 +139,7 @@ void RGBController_HyperXPulsefireSurge::KeepaliveThread()
         {
             if((std::chrono::steady_clock::now() - last_update_time) > std::chrono::milliseconds(50))
             {
-                UpdateLEDs();
+                UpdateLEDsInternal();
             }
         }
         std::this_thread::sleep_for(10ms);

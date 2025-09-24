@@ -93,7 +93,6 @@ void RGBController_HYTENexus::SetupZones()
         channel_zone.leds_min   = channel_leds;
         channel_zone.leds_max   = channel_leds;
         channel_zone.leds_count = channel_leds;
-        channel_zone.matrix_map = NULL;
 
         for(unsigned int led_idx = 0; led_idx < channel_leds; led_idx++)
         {
@@ -123,22 +122,20 @@ void RGBController_HYTENexus::SetupZones()
 
         if(controller->channels[channel].has_lcd_leds == true)
         {
-            segment lcd_leds_segment;
+//            segment lcd_leds_segment;
 
-            lcd_leds_segment.name           = "LCD LED Matrix";
-            lcd_leds_segment.leds_count     = 42;
-            lcd_leds_segment.start_idx      = start_idx;
-            lcd_leds_segment.type           = ZONE_TYPE_MATRIX;
+//            lcd_leds_segment.name           = "LCD LED Matrix";
+//            lcd_leds_segment.leds_count     = 42;
+//            lcd_leds_segment.start_idx      = start_idx;
+//            lcd_leds_segment.type           = ZONE_TYPE_MATRIX;
 
             channel_zone.type               = ZONE_TYPE_MATRIX;
-            channel_zone.matrix_map         = new matrix_map_type;
-            channel_zone.matrix_map->height = 9;
-            channel_zone.matrix_map->width  = 5;
-            channel_zone.matrix_map->map    = (unsigned int *)&thicc_q60_matrix_map;
+            channel_zone.matrix_map.Set(9, 5, (unsigned int *)&thicc_q60_matrix_map);
 
-            channel_zone.segments.push_back(lcd_leds_segment);
+//            channel_zone.segments.push_back(lcd_leds_segment);
 
-            start_idx                  += lcd_leds_segment.leds_count;
+//            start_idx                  += lcd_leds_segment.leds_count;
+            start_idx                      += 42;
         }
 
         for(unsigned int device = 0; device < controller->channels[channel].num_devices; device++)
@@ -164,29 +161,22 @@ void RGBController_HYTENexus::SetupZones()
     SetupColors();
 }
 
-void RGBController_HYTENexus::ResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_HYTENexus::DeviceUpdateLEDs()
 {
     for(unsigned int zone_idx = 0; zone_idx < zones.size(); zone_idx++)
     {
-        UpdateZoneLEDs(zone_idx);
+        DeviceUpdateZoneLEDs(zone_idx);
     }
 }
 
-void RGBController_HYTENexus::UpdateZoneLEDs(int zone)
+void RGBController_HYTENexus::DeviceUpdateZoneLEDs(int zone)
 {
     controller->LEDStreaming(zone, zones[zone].leds_count, zones[zone].colors);
 }
 
-void RGBController_HYTENexus::UpdateSingleLED(int led)
+void RGBController_HYTENexus::DeviceUpdateSingleLED(int led)
 {
-    UpdateZoneLEDs(leds[led].value);
+    DeviceUpdateZoneLEDs(leds[led].value);
 }
 
 void RGBController_HYTENexus::DeviceUpdateMode()

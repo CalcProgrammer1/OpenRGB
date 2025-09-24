@@ -199,7 +199,7 @@ void RGBController_CMRGBController::LoadConfigFromDeviceController(int mode_idx)
     {
         for(int led_idx = 0; led_idx < (int)leds.size(); led_idx++)
         {
-            SetLED(led_idx, controller->GetPortColor(led_idx));
+            colors[led_idx] = controller->GetPortColor(led_idx);
         }
     }
 
@@ -231,7 +231,6 @@ void RGBController_CMRGBController::SetupZones()
     new_zone->leds_min      = 1;
     new_zone->leds_max      = 4;
     new_zone->leds_count    = 4;
-    new_zone->matrix_map    = NULL;
 
     for(int i = 1; i <= CM_RGBC_NUM_LEDS; i++)
     {
@@ -244,24 +243,20 @@ void RGBController_CMRGBController::SetupZones()
     SetupColors();
 }
 
-void RGBController_CMRGBController::ResizeZone(int /*zone*/, int /*new_size*/)
-{
-}
-
 void RGBController_CMRGBController::DeviceUpdateLEDs()
 {
     for(int zone_idx = 0; zone_idx < (int)zones.size(); zone_idx++)
     {
-        UpdateZoneLEDs(zone_idx);
+        DeviceUpdateZoneLEDs(zone_idx);
     }
 }
 
-void RGBController_CMRGBController::UpdateZoneLEDs(int zone)
+void RGBController_CMRGBController::DeviceUpdateZoneLEDs(int zone)
 {
     controller->SetLedsDirect(zones[zone].colors[0], zones[zone].colors[1], zones[zone].colors[2], zones[zone].colors[3]);
 }
 
-void RGBController_CMRGBController::UpdateSingleLED(int /*led*/)
+void RGBController_CMRGBController::DeviceUpdateSingleLED(int /*led*/)
 {
 }
 

@@ -365,7 +365,7 @@ int RGBController_TForceXtreem::GetDeviceMode()
 
 void RGBController_TForceXtreem::DeviceUpdateLEDs()
 {
-    if(GetMode() == 0)
+    if(GetActiveMode() == 0)
     {
         controller->SetAllColorsDirect(&colors[0]);
     }
@@ -376,7 +376,7 @@ void RGBController_TForceXtreem::DeviceUpdateLEDs()
 
 }
 
-void RGBController_TForceXtreem::UpdateZoneLEDs(int zone)
+void RGBController_TForceXtreem::DeviceUpdateZoneLEDs(int zone)
 {
     for(std::size_t led_idx = 0; led_idx < zones[zone].leds_count; led_idx++)
     {
@@ -386,7 +386,7 @@ void RGBController_TForceXtreem::UpdateZoneLEDs(int zone)
         unsigned char grn   = RGBGetGValue(color);
         unsigned char blu   = RGBGetBValue(color);
 
-        if(GetMode() == 0)
+        if(GetActiveMode() == 0)
         {
             controller->SetLEDColorDirect(led, red, grn, blu);
         }
@@ -397,14 +397,14 @@ void RGBController_TForceXtreem::UpdateZoneLEDs(int zone)
     }
 }
 
-void RGBController_TForceXtreem::UpdateSingleLED(int led)
+void RGBController_TForceXtreem::DeviceUpdateSingleLED(int led)
 {
     RGBColor color    = colors[led];
     unsigned char red = RGBGetRValue(color);
     unsigned char grn = RGBGetGValue(color);
     unsigned char blu = RGBGetBValue(color);
 
-    if(GetMode() == 0)
+    if(GetActiveMode() == 0)
     {
         controller->SetLEDColorDirect(led, red, grn, blu);
     }
@@ -425,7 +425,6 @@ void RGBController_TForceXtreem::SetupZones()
     new_zone.leds_min       = XTREEM_LED_COUNT;
     new_zone.leds_max       = XTREEM_LED_COUNT;
     new_zone.leds_count     = XTREEM_LED_COUNT;
-    new_zone.matrix_map     = NULL;
     zones.push_back(new_zone);
 
     /*---------------------------------------------------------*\
@@ -440,13 +439,6 @@ void RGBController_TForceXtreem::SetupZones()
     }
 
     SetupColors();
-}
-
-void RGBController_TForceXtreem::ResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
 }
 
 void RGBController_TForceXtreem::DeviceUpdateMode()

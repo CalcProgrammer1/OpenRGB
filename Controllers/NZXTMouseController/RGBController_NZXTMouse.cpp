@@ -58,7 +58,6 @@ void RGBController_NZXTMouse::SetupZones()
     left.leds_min       = 3;
     left.leds_max       = 3;
     left.leds_count     = 3;
-    left.matrix_map     = NULL;
 
     zones.push_back( left );
 
@@ -77,7 +76,6 @@ void RGBController_NZXTMouse::SetupZones()
     right.leds_min      = 3;
     right.leds_max      = 3;
     right.leds_count    = 3;
-    right.matrix_map    = NULL;
 
     zones.push_back( right );
 
@@ -92,22 +90,17 @@ void RGBController_NZXTMouse::SetupZones()
     SetupColors();
 }
 
-void RGBController_NZXTMouse::ResizeZone(int /*zone*/, int /*new_size*/)
-{
-
-}
-
 void RGBController_NZXTMouse::DeviceUpdateLEDs()
 {
 controller->SetLEDs(&colors[0]);
 }
 
-void RGBController_NZXTMouse::UpdateZoneLEDs(int /*zone*/)
+void RGBController_NZXTMouse::DeviceUpdateZoneLEDs(int /*zone*/)
 {
 DeviceUpdateLEDs();
 }
 
-void RGBController_NZXTMouse::UpdateSingleLED(int /*led*/)
+void RGBController_NZXTMouse::DeviceUpdateSingleLED(int /*led*/)
 {
 DeviceUpdateLEDs();
 }

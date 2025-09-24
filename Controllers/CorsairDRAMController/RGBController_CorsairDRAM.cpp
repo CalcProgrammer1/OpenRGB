@@ -217,7 +217,6 @@ void RGBController_CorsairDRAM::SetupZones()
     new_zone.leds_min       = controller->GetLEDCount();
     new_zone.leds_max       = controller->GetLEDCount();
     new_zone.leds_count     = controller->GetLEDCount();
-    new_zone.matrix_map     = NULL;
     zones.push_back(new_zone);
 
     /*-----------------------------------------------------*\
@@ -234,24 +233,17 @@ void RGBController_CorsairDRAM::SetupZones()
     SetupColors();
 }
 
-void RGBController_CorsairDRAM::ResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*-----------------------------------------------------*\
-    | This device does not support resizing zones           |
-    \*-----------------------------------------------------*/
-}
-
 void RGBController_CorsairDRAM::DeviceUpdateLEDs()
 {
     controller->SetColorsPerLED(colors.data());
 }
 
-void RGBController_CorsairDRAM::UpdateZoneLEDs(int /*zone*/)
+void RGBController_CorsairDRAM::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_CorsairDRAM::UpdateSingleLED(int /*led*/)
+void RGBController_CorsairDRAM::DeviceUpdateSingleLED(int /*led*/)
 {
     DeviceUpdateLEDs();
 }

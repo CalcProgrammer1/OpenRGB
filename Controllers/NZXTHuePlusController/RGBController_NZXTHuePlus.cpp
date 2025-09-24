@@ -32,50 +32,73 @@ RGBController_HuePlus::RGBController_HuePlus(HuePlusController* controller_ptr)
     description = "NZXT Hue+ Device";
     location    = controller->GetLocation();
 
+    SetupZones();
+    SetupModes();
+}
+
+RGBController_HuePlus::~RGBController_HuePlus()
+{
+    delete controller;
+}
+
+void RGBController_HuePlus::SetupModes()
+{
     mode Direct;
-    Direct.name       = "Direct";
-    Direct.value      = HUE_PLUS_MODE_DIRECT;
-    Direct.flags      = MODE_FLAG_HAS_PER_LED_COLOR;
-    Direct.color_mode = MODE_COLORS_PER_LED;
+    Direct.name             = "Direct";
+    Direct.value            = HUE_PLUS_MODE_DIRECT;
+    Direct.flags            = MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_REQUIRES_ENTIRE_DEVICE;
+    Direct.color_mode       = MODE_COLORS_PER_LED;
     modes.push_back(Direct);
 
     mode Fading;
-    Fading.name       = "Fading";
-    Fading.value      = HUE_PLUS_MODE_FADING;
-    Fading.flags      = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_MODE_SPECIFIC_COLOR;
-    Fading.speed_min  = HUE_PLUS_SPEED_SLOWEST;
-    Fading.speed_max  = HUE_PLUS_SPEED_FASTEST;
-    Fading.colors_min = 1;
-    Fading.colors_max = 8;
-    Fading.speed      = HUE_PLUS_SPEED_NORMAL;
-    Fading.color_mode = MODE_COLORS_MODE_SPECIFIC;
+    Fading.name             = "Fading";
+    Fading.value            = HUE_PLUS_MODE_FADING;
+    Fading.flags            = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_MODE_SPECIFIC_COLOR;
+    Fading.speed_min        = HUE_PLUS_SPEED_SLOWEST;
+    Fading.speed_max        = HUE_PLUS_SPEED_FASTEST;
+    Fading.colors_min       = 1;
+    Fading.colors_max       = 8;
+    Fading.speed            = HUE_PLUS_SPEED_NORMAL;
+    Fading.color_mode       = MODE_COLORS_MODE_SPECIFIC;
     Fading.colors.resize(2);
     modes.push_back(Fading);
+    for(std::size_t zone_idx = 0; zone_idx < zones.size(); zone_idx++)
+    {
+        zones[zone_idx].modes.push_back(Fading);
+    }
 
-    mode SpectrumCycle;
-    SpectrumCycle.name       = "Spectrum Cycle";
-    SpectrumCycle.value      = HUE_PLUS_MODE_SPECTRUM;
-    SpectrumCycle.flags      = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_DIRECTION_LR;
-    SpectrumCycle.speed_min  = HUE_PLUS_SPEED_SLOWEST;
-    SpectrumCycle.speed_max  = HUE_PLUS_SPEED_FASTEST;
-    SpectrumCycle.speed      = HUE_PLUS_SPEED_NORMAL;
-    SpectrumCycle.direction  = MODE_DIRECTION_RIGHT;
-    SpectrumCycle.color_mode = MODE_COLORS_NONE;
-    modes.push_back(SpectrumCycle);
+    mode RainbowWave;
+    RainbowWave.name        = "Rainbow Wave";
+    RainbowWave.value       = HUE_PLUS_MODE_SPECTRUM;
+    RainbowWave.flags       = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_DIRECTION_LR;
+    RainbowWave.speed_min   = HUE_PLUS_SPEED_SLOWEST;
+    RainbowWave.speed_max   = HUE_PLUS_SPEED_FASTEST;
+    RainbowWave.speed       = HUE_PLUS_SPEED_NORMAL;
+    RainbowWave.direction   = MODE_DIRECTION_RIGHT;
+    RainbowWave.color_mode  = MODE_COLORS_NONE;
+    modes.push_back(RainbowWave);
+    for(std::size_t zone_idx = 0; zone_idx < zones.size(); zone_idx++)
+    {
+        zones[zone_idx].modes.push_back(RainbowWave);
+    }
 
     mode Marquee;
-    Marquee.name       = "Marquee";
-    Marquee.value      = HUE_PLUS_MODE_MARQUEE;
-    Marquee.flags      = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_DIRECTION_LR | MODE_FLAG_HAS_MODE_SPECIFIC_COLOR;
-    Marquee.speed_min  = HUE_PLUS_SPEED_SLOWEST;
-    Marquee.speed_max  = HUE_PLUS_SPEED_FASTEST;
-    Marquee.colors_min = 1;
-    Marquee.colors_max = 1;
-    Marquee.speed      = HUE_PLUS_SPEED_NORMAL;
-    Marquee.direction  = MODE_DIRECTION_RIGHT;
-    Marquee.color_mode = MODE_COLORS_MODE_SPECIFIC;
+    Marquee.name            = "Marquee";
+    Marquee.value           = HUE_PLUS_MODE_MARQUEE;
+    Marquee.flags           = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_DIRECTION_LR | MODE_FLAG_HAS_MODE_SPECIFIC_COLOR;
+    Marquee.speed_min       = HUE_PLUS_SPEED_SLOWEST;
+    Marquee.speed_max       = HUE_PLUS_SPEED_FASTEST;
+    Marquee.colors_min      = 1;
+    Marquee.colors_max      = 1;
+    Marquee.speed           = HUE_PLUS_SPEED_NORMAL;
+    Marquee.direction       = MODE_DIRECTION_RIGHT;
+    Marquee.color_mode      = MODE_COLORS_MODE_SPECIFIC;
     Marquee.colors.resize(1);
     modes.push_back(Marquee);
+    for(std::size_t zone_idx = 0; zone_idx < zones.size(); zone_idx++)
+    {
+        zones[zone_idx].modes.push_back(Marquee);
+    }
 
     mode CoverMarquee;
     CoverMarquee.name       = "Cover Marquee";
@@ -90,93 +113,118 @@ RGBController_HuePlus::RGBController_HuePlus(HuePlusController* controller_ptr)
     CoverMarquee.color_mode = MODE_COLORS_MODE_SPECIFIC;
     CoverMarquee.colors.resize(2);
     modes.push_back(CoverMarquee);
+    for(std::size_t zone_idx = 0; zone_idx < zones.size(); zone_idx++)
+    {
+        zones[zone_idx].modes.push_back(CoverMarquee);
+    }
 
     mode Alternating;
-    Alternating.name       = "Alternating";
-    Alternating.value      = HUE_PLUS_MODE_ALTERNATING;
-    Alternating.flags      = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_DIRECTION_LR | MODE_FLAG_HAS_MODE_SPECIFIC_COLOR;
-    Alternating.speed_min  = HUE_PLUS_SPEED_SLOWEST;
-    Alternating.speed_max  = HUE_PLUS_SPEED_FASTEST;
-    Alternating.colors_min = 1;
-    Alternating.colors_max = 2;
-    Alternating.speed      = HUE_PLUS_SPEED_NORMAL;
-    Alternating.direction  = MODE_DIRECTION_RIGHT;
-    Alternating.color_mode = MODE_COLORS_MODE_SPECIFIC;
+    Alternating.name        = "Alternating";
+    Alternating.value       = HUE_PLUS_MODE_ALTERNATING;
+    Alternating.flags       = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_DIRECTION_LR | MODE_FLAG_HAS_MODE_SPECIFIC_COLOR;
+    Alternating.speed_min   = HUE_PLUS_SPEED_SLOWEST;
+    Alternating.speed_max   = HUE_PLUS_SPEED_FASTEST;
+    Alternating.colors_min  = 1;
+    Alternating.colors_max  = 2;
+    Alternating.speed       = HUE_PLUS_SPEED_NORMAL;
+    Alternating.direction   = MODE_DIRECTION_RIGHT;
+    Alternating.color_mode  = MODE_COLORS_MODE_SPECIFIC;
     Alternating.colors.resize(2);
     modes.push_back(Alternating);
+    for(std::size_t zone_idx = 0; zone_idx < zones.size(); zone_idx++)
+    {
+        zones[zone_idx].modes.push_back(Alternating);
+    }
 
     mode Pulsing;
-    Pulsing.name       = "Pulsing";
-    Pulsing.value      = HUE_PLUS_MODE_PULSING;
-    Pulsing.flags      = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_MODE_SPECIFIC_COLOR;
-    Pulsing.speed_min  = HUE_PLUS_SPEED_SLOWEST;
-    Pulsing.speed_max  = HUE_PLUS_SPEED_FASTEST;
-    Pulsing.colors_min = 1;
-    Pulsing.colors_max = 8;
-    Pulsing.speed      = HUE_PLUS_SPEED_NORMAL;
-    Pulsing.color_mode = MODE_COLORS_MODE_SPECIFIC;
+    Pulsing.name            = "Pulsing";
+    Pulsing.value           = HUE_PLUS_MODE_PULSING;
+    Pulsing.flags           = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_MODE_SPECIFIC_COLOR;
+    Pulsing.speed_min       = HUE_PLUS_SPEED_SLOWEST;
+    Pulsing.speed_max       = HUE_PLUS_SPEED_FASTEST;
+    Pulsing.colors_min      = 1;
+    Pulsing.colors_max      = 8;
+    Pulsing.speed           = HUE_PLUS_SPEED_NORMAL;
+    Pulsing.color_mode      = MODE_COLORS_MODE_SPECIFIC;
     Pulsing.colors.resize(2);
     modes.push_back(Pulsing);
+    for(std::size_t zone_idx = 0; zone_idx < zones.size(); zone_idx++)
+    {
+        zones[zone_idx].modes.push_back(Pulsing);
+    }
 
     mode Breathing;
-    Breathing.name       = "Breathing";
-    Breathing.value      = HUE_PLUS_MODE_BREATHING;
-    Breathing.flags      = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_PER_LED_COLOR;
-    Breathing.speed_min  = HUE_PLUS_SPEED_SLOWEST;
-    Breathing.speed_max  = HUE_PLUS_SPEED_FASTEST;
-    Breathing.colors_min = 1;
-    Breathing.colors_max = 8;
-    Breathing.speed      = HUE_PLUS_SPEED_NORMAL;
-    Breathing.color_mode = MODE_COLORS_MODE_SPECIFIC;
+    Breathing.name          = "Breathing";
+    Breathing.value         = HUE_PLUS_MODE_BREATHING;
+    Breathing.flags         = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_HAS_PER_LED_COLOR;
+    Breathing.speed_min     = HUE_PLUS_SPEED_SLOWEST;
+    Breathing.speed_max     = HUE_PLUS_SPEED_FASTEST;
+    Breathing.colors_min    = 1;
+    Breathing.colors_max    = 8;
+    Breathing.speed         = HUE_PLUS_SPEED_NORMAL;
+    Breathing.color_mode    = MODE_COLORS_MODE_SPECIFIC;
     Breathing.colors.resize(2);
     modes.push_back(Breathing);
+    for(std::size_t zone_idx = 0; zone_idx < zones.size(); zone_idx++)
+    {
+        zones[zone_idx].modes.push_back(Breathing);
+    }
 
     mode Alert;
-    Alert.name       = "Alert";
-    Alert.value      = HUE_PLUS_MODE_ALERT;
-    Alert.flags      = 0;
-    Alert.color_mode = MODE_COLORS_NONE;
+    Alert.name              = "Alert";
+    Alert.value             = HUE_PLUS_MODE_ALERT;
+    Alert.flags             = 0;
+    Alert.color_mode        = MODE_COLORS_NONE;
     modes.push_back(Alert);
+    for(std::size_t zone_idx = 0; zone_idx < zones.size(); zone_idx++)
+    {
+        zones[zone_idx].modes.push_back(Alert);
+    }
 
     mode Candlelight;
-    Candlelight.name       = "Candlelight";
-    Candlelight.value      = HUE_PLUS_MODE_CANDLELIGHT;
-    Candlelight.flags      = MODE_FLAG_HAS_MODE_SPECIFIC_COLOR;
-    Candlelight.colors_min = 1;
-    Candlelight.colors_max = 1;
-    Candlelight.color_mode = MODE_COLORS_MODE_SPECIFIC;
+    Candlelight.name        = "Candlelight";
+    Candlelight.value       = HUE_PLUS_MODE_CANDLELIGHT;
+    Candlelight.flags       = MODE_FLAG_HAS_MODE_SPECIFIC_COLOR;
+    Candlelight.colors_min  = 1;
+    Candlelight.colors_max  = 1;
+    Candlelight.color_mode  = MODE_COLORS_MODE_SPECIFIC;
     Candlelight.colors.resize(1);
     modes.push_back(Candlelight);
+    for(std::size_t zone_idx = 0; zone_idx < zones.size(); zone_idx++)
+    {
+        zones[zone_idx].modes.push_back(Candlelight);
+    }
 
     mode Wings;
-    Wings.name       = "Wings";
-    Wings.value      = HUE_PLUS_MODE_WINGS;
-    Wings.flags      = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_MODE_SPECIFIC_COLOR;
-    Wings.speed_min  = HUE_PLUS_SPEED_SLOWEST;
-    Wings.speed_max  = HUE_PLUS_SPEED_FASTEST;
-    Wings.colors_min = 1;
-    Wings.colors_max = 1;
-    Wings.speed      = HUE_PLUS_SPEED_NORMAL;
-    Wings.color_mode = MODE_COLORS_MODE_SPECIFIC;
+    Wings.name              = "Wings";
+    Wings.value             = HUE_PLUS_MODE_WINGS;
+    Wings.flags             = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_MODE_SPECIFIC_COLOR;
+    Wings.speed_min         = HUE_PLUS_SPEED_SLOWEST;
+    Wings.speed_max         = HUE_PLUS_SPEED_FASTEST;
+    Wings.colors_min        = 1;
+    Wings.colors_max        = 1;
+    Wings.speed             = HUE_PLUS_SPEED_NORMAL;
+    Wings.color_mode        = MODE_COLORS_MODE_SPECIFIC;
     Wings.colors.resize(1);
     modes.push_back(Wings);
+    for(std::size_t zone_idx = 0; zone_idx < zones.size(); zone_idx++)
+    {
+        zones[zone_idx].modes.push_back(Wings);
+    }
 
     mode Wave;
-    Wave.name       = "Wave";
-    Wave.value      = HUE_PLUS_MODE_WAVE;
-    Wave.flags      = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_PER_LED_COLOR;
-    Wave.speed_min  = HUE_PLUS_SPEED_SLOWEST;
-    Wave.speed_max  = HUE_PLUS_SPEED_FASTEST;
-    Wave.speed      = HUE_PLUS_SPEED_NORMAL;
-    Wave.color_mode = MODE_COLORS_PER_LED;
+    Wave.name               = "Wave";
+    Wave.value              = HUE_PLUS_MODE_WAVE;
+    Wave.flags              = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_PER_LED_COLOR;
+    Wave.speed_min          = HUE_PLUS_SPEED_SLOWEST;
+    Wave.speed_max          = HUE_PLUS_SPEED_FASTEST;
+    Wave.speed              = HUE_PLUS_SPEED_NORMAL;
+    Wave.color_mode         = MODE_COLORS_PER_LED;
     modes.push_back(Wave);
-
-    SetupZones();
-}
-
-RGBController_HuePlus::~RGBController_HuePlus()
-{
-    delete controller;
+    for(std::size_t zone_idx = 0; zone_idx < zones.size(); zone_idx++)
+    {
+        zones[zone_idx].modes.push_back(Wave);
+    }
 }
 
 void RGBController_HuePlus::SetupZones()
@@ -208,7 +256,6 @@ void RGBController_HuePlus::SetupZones()
         zones[zone_idx].type            = ZONE_TYPE_LINEAR;
         zones[zone_idx].leds_min        = 0;
         zones[zone_idx].leds_max        = 40;
-        zones[zone_idx].matrix_map      = NULL;
 
         if(first_run)
         {
@@ -237,7 +284,7 @@ void RGBController_HuePlus::SetupZones()
     SetupColors();
 }
 
-void RGBController_HuePlus::ResizeZone(int zone, int new_size)
+void RGBController_HuePlus::DeviceResizeZone(int zone, int new_size)
 {
     if((size_t) zone >= zones.size())
     {
@@ -256,25 +303,28 @@ void RGBController_HuePlus::DeviceUpdateLEDs()
 {
     for(std::size_t zone_idx = 0; zone_idx < zones.size(); zone_idx++)
     {
-        controller->SetChannelLEDs((unsigned char)zone_idx, zones[zone_idx].colors, zones[zone_idx].leds_count);
+        DeviceUpdateZoneLEDs(zone_idx);
     }
 }
 
-void RGBController_HuePlus::UpdateZoneLEDs(int zone)
+void RGBController_HuePlus::DeviceUpdateZoneLEDs(int zone)
 {
-    controller->SetChannelLEDs(zone, zones[zone].colors, zones[zone].leds_count);
+    if(modes[active_mode].value == HUE_PLUS_MODE_DIRECT)
+    {
+        controller->SetChannelLEDs(zone, zones[zone].colors, zones[zone].leds_count);
+    }
 }
 
-void RGBController_HuePlus::UpdateSingleLED(int led)
+void RGBController_HuePlus::DeviceUpdateSingleLED(int led)
 {
     unsigned int zone_idx = leds[led].value;
 
-    controller->SetChannelLEDs(zone_idx, zones[zone_idx].colors, zones[zone_idx].leds_count);
+    DeviceUpdateZoneLEDs(zone_idx);
 }
 
 void RGBController_HuePlus::DeviceUpdateMode()
 {
-    if(modes[active_mode].value == HUE_PLUS_MODE_FIXED)
+    if(modes[active_mode].value == HUE_PLUS_MODE_DIRECT)
     {
         DeviceUpdateLEDs();
     }
@@ -282,27 +332,52 @@ void RGBController_HuePlus::DeviceUpdateMode()
     {
         for(std::size_t zone_idx = 0; zone_idx < zones.size(); zone_idx++)
         {
-            RGBColor*   colors      = NULL;
-            bool        direction   = false;
+            DeviceUpdateZoneMode(zone_idx);
+        }
+    }
+}
 
-            if(modes[active_mode].direction == MODE_DIRECTION_LEFT)
+void RGBController_HuePlus::DeviceUpdateZoneMode(int zone)
+{
+    if(modes[active_mode].value == HUE_PLUS_MODE_DIRECT)
+    {
+        return;
+    }
+    else
+    {
+        RGBColor*   colors      = NULL;
+        bool        direction   = false;
+        mode*       mode_ptr    = NULL;
+
+        if((zones[zone].active_mode >= 0) && (zones[zone].active_mode < (int)zones[zone].modes.size()))
+        {
+            mode_ptr = &zones[zone].modes[zones[zone].active_mode];
+        }
+        else if(active_mode < (int)modes.size())
+        {
+            mode_ptr = &modes[active_mode];
+        }
+
+        if(mode_ptr != NULL)
+        {
+            if(mode_ptr->direction == MODE_DIRECTION_LEFT)
             {
                 direction = true;
             }
 
-            if(modes[active_mode].colors.size() > 0)
+            if(mode_ptr->colors.size() > 0)
             {
-                colors = &modes[active_mode].colors[0];
+                colors = &mode_ptr->colors[0];
             }
 
             controller->SetChannelEffect
                     (
-                    (unsigned char)zone_idx,
-                    modes[active_mode].value,
-                    modes[active_mode].speed,
+                    (unsigned char)zone,
+                    mode_ptr->value,
+                    mode_ptr->speed,
                     direction,
                     colors,
-                    (unsigned int)modes[active_mode].colors.size()
+                    (unsigned int)mode_ptr->colors.size()
                     );
         }
     }
