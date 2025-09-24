@@ -361,7 +361,7 @@ void RGBController_CMARGBController::SetupZones()
     SetupColors();
 }
 
-void RGBController_CMARGBController::ResizeZone(int zone, int new_size)
+void RGBController_CMARGBController::DeviceResizeZone(int zone, int new_size)
 {
     if((size_t) zone >= zones.size())
     {
@@ -386,18 +386,18 @@ void RGBController_CMARGBController::DeviceUpdateLEDs()
 
     for(int zone_idx = first_zone(cmargb->GetZoneIndex()); zone_idx < end_zone; zone_idx++)
     {
-        UpdateZoneLEDs(zone_idx);
+        DeviceUpdateZoneLEDs(zone_idx);
     }
 }
 
-void RGBController_CMARGBController::UpdateZoneLEDs(int zone)
+void RGBController_CMARGBController::DeviceUpdateZoneLEDs(int zone)
 {
     controller->SetLedsDirect( zones[zone].colors, zones[zone].leds_count );
 }
 
-void RGBController_CMARGBController::UpdateSingleLED(int led)
+void RGBController_CMARGBController::DeviceUpdateSingleLED(int led)
 {
-    UpdateZoneLEDs(GetLED_Zone(led));
+    DeviceUpdateZoneLEDs(GetLED_Zone(led));
 }
 
 void RGBController_CMARGBController::DeviceUpdateMode()

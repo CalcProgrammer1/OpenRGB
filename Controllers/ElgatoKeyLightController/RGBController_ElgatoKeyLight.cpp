@@ -58,13 +58,6 @@ void RGBController_ElgatoKeyLight::SetupZones()
     SetupColors();
 }
 
-void RGBController_ElgatoKeyLight::ResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_ElgatoKeyLight::DeviceUpdateLEDs()
 {
     RGBColor rgb_color = colors[0];
@@ -73,12 +66,12 @@ void RGBController_ElgatoKeyLight::DeviceUpdateLEDs()
     controller->SetColor(hsv_color);
 }
 
-void RGBController_ElgatoKeyLight::UpdateZoneLEDs(int /*zone*/)
+void RGBController_ElgatoKeyLight::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_ElgatoKeyLight::UpdateSingleLED(int /*led*/)
+void RGBController_ElgatoKeyLight::DeviceUpdateSingleLED(int /*led*/)
 {
     DeviceUpdateLEDs();
 }

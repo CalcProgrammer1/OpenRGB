@@ -349,19 +349,12 @@ void LenovoRGBController_Gen7_8::SetupZones()
     SetupColors();
 }
 
-void LenovoRGBController_Gen7_8::ResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
-void LenovoRGBController_Gen7_8::UpdateSingleLED(int /*led*/)
+void LenovoRGBController_Gen7_8::DeviceUpdateSingleLED(int /*led*/)
 {
     DeviceUpdateLEDs();
 }
 
-void LenovoRGBController_Gen7_8::UpdateZoneLEDs(int /*zone*/)
+void LenovoRGBController_Gen7_8::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateLEDs();
 }

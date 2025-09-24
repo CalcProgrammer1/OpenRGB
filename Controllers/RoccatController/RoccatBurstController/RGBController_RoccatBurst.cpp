@@ -142,19 +142,12 @@ void RGBController_RoccatBurst::SetupZones()
     SetupColors();
 }
 
-void RGBController_RoccatBurst::ResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_RoccatBurst::DeviceUpdateLEDs()
 {
-    UpdateZoneLEDs(0);
+    DeviceUpdateZoneLEDs(0);
 }
 
-void RGBController_RoccatBurst::UpdateZoneLEDs(int /*zone_idx*/)
+void RGBController_RoccatBurst::DeviceUpdateZoneLEDs(int /*zone_idx*/)
 {
     const mode& active = modes[active_mode];
 
@@ -169,9 +162,9 @@ void RGBController_RoccatBurst::UpdateZoneLEDs(int /*zone_idx*/)
 
 }
 
-void RGBController_RoccatBurst::UpdateSingleLED(int /*led_idx*/)
+void RGBController_RoccatBurst::DeviceUpdateSingleLED(int /*led_idx*/)
 {
-    UpdateZoneLEDs(0);
+    DeviceUpdateZoneLEDs(0);
 }
 
 void RGBController_RoccatBurst::DeviceUpdateMode()

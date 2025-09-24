@@ -103,23 +103,16 @@ void RGBController_HyperXMicrophoneV2::SetupZones()
     SetupColors();
 }
 
-void RGBController_HyperXMicrophoneV2::ResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_HyperXMicrophoneV2::DeviceUpdateLEDs()
 {
     last_update_time = std::chrono::steady_clock::now();
     controller->SendDirect(colors);
 }
-void RGBController_HyperXMicrophoneV2::UpdateZoneLEDs(int /*zone*/)
+void RGBController_HyperXMicrophoneV2::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateLEDs();
 }
-void RGBController_HyperXMicrophoneV2::UpdateSingleLED(int /*led*/)
+void RGBController_HyperXMicrophoneV2::DeviceUpdateSingleLED(int /*led*/)
 {
     DeviceUpdateLEDs();
 }

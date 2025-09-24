@@ -114,24 +114,17 @@ void RGBController_SonyDualSense::SetupZones()
     SetupColors();
 }
 
-void RGBController_SonyDualSense::ResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_SonyDualSense::DeviceUpdateLEDs()
 {
     controller->SetColors(colors, modes[active_mode].brightness, modes[active_mode].value);
 }
 
-void RGBController_SonyDualSense::UpdateZoneLEDs(int /*zone*/)
+void RGBController_SonyDualSense::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_SonyDualSense::UpdateSingleLED(int /*led*/)
+void RGBController_SonyDualSense::DeviceUpdateSingleLED(int /*led*/)
 {
     DeviceUpdateLEDs();
 }
