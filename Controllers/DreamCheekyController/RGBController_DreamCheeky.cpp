@@ -55,13 +55,6 @@ void RGBController_DreamCheeky::SetupZones()
     SetupColors();
 }
 
-void RGBController_DreamCheeky::ResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*-----------------------------------------------------*\
-    | This device does not support resizing zones           |
-    \*-----------------------------------------------------*/
-}
-
 void RGBController_DreamCheeky::DeviceUpdateLEDs()
 {
     unsigned char red = RGBGetRValue(colors[0]);
@@ -71,12 +64,12 @@ void RGBController_DreamCheeky::DeviceUpdateLEDs()
     controller->SetColor(red, grn, blu);
 }
 
-void RGBController_DreamCheeky::UpdateZoneLEDs(int /*zone*/)
+void RGBController_DreamCheeky::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_DreamCheeky::UpdateSingleLED(int /*led*/)
+void RGBController_DreamCheeky::DeviceUpdateSingleLED(int /*led*/)
 {
     DeviceUpdateLEDs();
 }

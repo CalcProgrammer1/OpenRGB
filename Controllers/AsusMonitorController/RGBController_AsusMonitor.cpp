@@ -74,24 +74,17 @@ void RGBController_AsusMonitor::SetupZones()
     SetupColors();
 }
 
-void RGBController_AsusMonitor::ResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_AsusMonitor::DeviceUpdateLEDs()
 {
     controller->SetDirect(colors);
 }
 
-void RGBController_AsusMonitor::UpdateZoneLEDs(int /*zone*/)
+void RGBController_AsusMonitor::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_AsusMonitor::UpdateSingleLED(int /*led*/)
+void RGBController_AsusMonitor::DeviceUpdateSingleLED(int /*led*/)
 {
     DeviceUpdateLEDs();
 }

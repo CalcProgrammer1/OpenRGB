@@ -28,7 +28,7 @@ int RGBController_MSIGPU::GetDeviceMode()
     return(active_mode);
 }
 
-int RGBController_MSIGPU::GetModeSpeed()
+int RGBController_MSIGPU::GetSpeed()
 {
     unsigned char mode_speed = controller->MSIGPURegisterRead(MSI_GPU_REG_SPEED);
 
@@ -318,7 +318,7 @@ RGBController_MSIGPU::RGBController_MSIGPU(MSIGPUController * controller_ptr)
     SetupZones();
 
     active_mode                     = GetDeviceMode();
-    modes[active_mode].speed        = GetModeSpeed();
+    modes[active_mode].speed        = GetSpeed();
     modes[active_mode].brightness   = controller->MSIGPURegisterRead(MSI_GPU_REG_BRIGHTNESS) / MSI_GPU_BRIGHTNESS_MULTI;
 }
 
@@ -374,13 +374,6 @@ void RGBController_MSIGPU::SetupZones()
     colors[2] =  ToRGBColor(r3, g3, b3);
 }
 
-void RGBController_MSIGPU::ResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 bool RGBController_MSIGPU::TimeToSend()
 {
     /*-----------------------------------------------------*\
@@ -413,12 +406,12 @@ void RGBController_MSIGPU::DeviceUpdateLEDs()
     }
 }
 
-void RGBController_MSIGPU::UpdateZoneLEDs(int /*zone*/)
+void RGBController_MSIGPU::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_MSIGPU::UpdateSingleLED(int /*led*/)
+void RGBController_MSIGPU::DeviceUpdateSingleLED(int /*led*/)
 {
     DeviceUpdateLEDs();
 }

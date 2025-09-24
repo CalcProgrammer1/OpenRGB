@@ -113,13 +113,6 @@ void RGBController_LogitechG560::SetupZones()
     SetupColors();
 }
 
-void RGBController_LogitechG560::ResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_LogitechG560::DeviceUpdateLEDs()
 {
     for(std::size_t led_idx = 0; led_idx < leds.size(); led_idx++)
@@ -132,12 +125,12 @@ void RGBController_LogitechG560::DeviceUpdateLEDs()
     }
 }
 
-void RGBController_LogitechG560::UpdateZoneLEDs(int /*zone*/)
+void RGBController_LogitechG560::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_LogitechG560::UpdateSingleLED(int /*led*/)
+void RGBController_LogitechG560::DeviceUpdateSingleLED(int /*led*/)
 {
     DeviceUpdateLEDs();
 }

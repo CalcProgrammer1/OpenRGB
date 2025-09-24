@@ -230,7 +230,7 @@ void RGBController_JGINYUEInternalUSB::SetupZones()
     SetupColors();
 }
 
-void RGBController_JGINYUEInternalUSB::ResizeZone(int zone, int new_size)
+void RGBController_JGINYUEInternalUSB::DeviceResizeZone(int zone, int new_size)
 {
     unsigned char area;
 
@@ -258,11 +258,11 @@ void RGBController_JGINYUEInternalUSB::DeviceUpdateLEDs()
 {
     for(int i = 0; i < JGINYUE_MAX_ZONES; i++)
     {
-        UpdateZoneLEDs(i);
+        DeviceUpdateZoneLEDs(i);
     }
 }
 
-void RGBController_JGINYUEInternalUSB::UpdateZoneLEDs(int zone)
+void RGBController_JGINYUEInternalUSB::DeviceUpdateZoneLEDs(int zone)
 {
     unsigned char area;
 
@@ -282,11 +282,11 @@ void RGBController_JGINYUEInternalUSB::UpdateZoneLEDs(int zone)
     controller->DirectLEDControl(zones[zone].colors,area);
 }
 
-void RGBController_JGINYUEInternalUSB::UpdateSingleLED(int led)
+void RGBController_JGINYUEInternalUSB::DeviceUpdateSingleLED(int led)
 {
     int zone;
     zone = leds[led].value;
-    UpdateZoneLEDs(zone);
+    DeviceUpdateZoneLEDs(zone);
 }
 
 void RGBController_JGINYUEInternalUSB::DeviceUpdateMode()

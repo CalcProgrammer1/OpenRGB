@@ -161,27 +161,17 @@ void RGBController_CMKeyboardController::SetupZones()
     SetupColors();
 }
 
-void RGBController_CMKeyboardController::ResizeZone(int /*zone*/, int /*new_size*/)
-{
-}
-
 void RGBController_CMKeyboardController::DeviceUpdateLEDs()
 {
     m_pController->SetLeds(leds, colors);
 }
 
-void RGBController_CMKeyboardController::UpdateSingleLED(int led, RGBColor color)
-{
-    uint8_t key_value = m_pLayoutManager->GetKeyValueAt(led);
-    m_pController->SetSingleLED(key_value, color);
-}
-
-void RGBController_CMKeyboardController::UpdateSingleLED(int led)
+void RGBController_CMKeyboardController::DeviceUpdateSingleLED(int led)
 {
     m_pController->SetSingleLED(led, colors[led]);
 }
 
-void RGBController_CMKeyboardController::UpdateZoneLEDs(int /*zone_idx*/)
+void RGBController_CMKeyboardController::DeviceUpdateZoneLEDs(int /*zone_idx*/)
 {
     DeviceUpdateLEDs();
 }

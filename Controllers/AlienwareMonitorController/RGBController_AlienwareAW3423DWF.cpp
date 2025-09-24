@@ -96,10 +96,6 @@ void RGBController_AlienwareAW3423DWF::SetupZones()
     SetupColors();
 }
 
-void RGBController_AlienwareAW3423DWF::ResizeZone(int /*zone*/, int /*new_size*/)
-{
-}
-
 void RGBController_AlienwareAW3423DWF::DeviceUpdateLEDs()
 {
     /*-----------------------------------------------------*\
@@ -118,17 +114,17 @@ void RGBController_AlienwareAW3423DWF::DeviceUpdateLEDs()
     {
         for(unsigned int led_idx = 0; led_idx < leds.size(); led_idx++)
         {
-            UpdateSingleLED(led_idx);
+            DeviceUpdateSingleLED(led_idx);
         }
     }
 }
 
-void RGBController_AlienwareAW3423DWF::UpdateZoneLEDs(int /*zone*/)
+void RGBController_AlienwareAW3423DWF::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_AlienwareAW3423DWF::UpdateSingleLED(int led)
+void RGBController_AlienwareAW3423DWF::DeviceUpdateSingleLED(int led)
 {
     unsigned char red = RGBGetRValue(colors[led]);
     unsigned char grn = RGBGetGValue(colors[led]);

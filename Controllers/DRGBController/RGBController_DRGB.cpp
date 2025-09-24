@@ -336,7 +336,7 @@ void RGBController_DRGB::SetupZones()
 
 }
 
-void RGBController_DRGB::ResizeZone(int zone, int new_size)
+void RGBController_DRGB::DeviceResizeZone(int zone, int new_size)
 {
     if((size_t) zone >= zones.size())
     {
@@ -485,12 +485,12 @@ void RGBController_DRGB::DeviceUpdateLEDs()
     }
 }
 
-void RGBController_DRGB::UpdateZoneLEDs(int zone)
+void RGBController_DRGB::DeviceUpdateZoneLEDs(int zone)
 {
     controller->SetChannelLEDs(zone, zones[zone].colors, zones[zone].leds_count);
 }
 
-void RGBController_DRGB::UpdateSingleLED(int led)
+void RGBController_DRGB::DeviceUpdateSingleLED(int led)
 {
     unsigned int channel = leds_channel[led];
     controller->SetChannelLEDs(channel, zones[channel].colors, zones[channel].leds_count);

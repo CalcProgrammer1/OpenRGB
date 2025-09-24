@@ -649,7 +649,7 @@ void RGBController_GaiZhongGaiKeyboard::SetupZones()
     SetupColors();
 }
 
-void RGBController_GaiZhongGaiKeyboard::ResizeZone(int zone, int new_size)
+void RGBController_GaiZhongGaiKeyboard::DeviceResizeZone(int zone, int new_size)
 {
     if((size_t) zone >= zones.size())
     {
@@ -689,12 +689,12 @@ void RGBController_GaiZhongGaiKeyboard::DeviceUpdateLEDs()
     controller->SendColors(colordata, data_size * 3);
 }
 
-void RGBController_GaiZhongGaiKeyboard::UpdateZoneLEDs(int /*zone*/)
+void RGBController_GaiZhongGaiKeyboard::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_GaiZhongGaiKeyboard::UpdateSingleLED(int /*led*/)
+void RGBController_GaiZhongGaiKeyboard::DeviceUpdateSingleLED(int /*led*/)
 {
     DeviceUpdateLEDs();
 }

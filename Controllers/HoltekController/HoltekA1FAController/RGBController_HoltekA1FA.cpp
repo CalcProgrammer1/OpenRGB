@@ -103,13 +103,6 @@ void RGBController_HoltekA1FA::SetupZones()
     SetupColors();
 }
 
-void RGBController_HoltekA1FA::ResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_HoltekA1FA::DeviceUpdateLEDs()
 {
     unsigned char mode          = modes[active_mode].value;
@@ -123,12 +116,12 @@ void RGBController_HoltekA1FA::DeviceUpdateLEDs()
     controller->SendData(mode, brightness, speed, preset, red, green, blue);
 }
 
-void RGBController_HoltekA1FA::UpdateZoneLEDs(int /*zone*/)
+void RGBController_HoltekA1FA::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_HoltekA1FA::UpdateSingleLED(int /*led*/)
+void RGBController_HoltekA1FA::DeviceUpdateSingleLED(int /*led*/)
 {
     DeviceUpdateLEDs();
 }

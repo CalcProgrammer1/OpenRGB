@@ -111,7 +111,7 @@ void RGBController_SRGBmodsPico::SetupZones()
     SetupColors();
 }
 
-void RGBController_SRGBmodsPico::ResizeZone(int zone, int new_size)
+void RGBController_SRGBmodsPico::DeviceResizeZone(int zone, int new_size)
 {
     if((size_t)zone >= zones.size())
     {
@@ -137,12 +137,12 @@ void RGBController_SRGBmodsPico::DeviceUpdateLEDs()
     }
 }
 
-void RGBController_SRGBmodsPico::UpdateZoneLEDs(int zone)
+void RGBController_SRGBmodsPico::DeviceUpdateZoneLEDs(int zone)
 {
     controller->SetChannelLEDs(zone, zones[zone].colors, zones[zone].leds_count);
 }
 
-void RGBController_SRGBmodsPico::UpdateSingleLED(int led)
+void RGBController_SRGBmodsPico::DeviceUpdateSingleLED(int led)
 {
     unsigned int channel = leds_channel[led];
 

@@ -19,9 +19,9 @@ OpenRGBZoneResizeDialog::OpenRGBZoneResizeDialog(RGBController* edit_dev_ptr, un
     edit_dev      = edit_dev_ptr;
     edit_zone_idx = edit_zone_idx_val;
 
-    unsigned int size_min     = edit_dev->zones[edit_zone_idx].leds_min;
-    unsigned int size_max     = edit_dev->zones[edit_zone_idx].leds_max;
-    unsigned int size_current = edit_dev->zones[edit_zone_idx].leds_count;
+    unsigned int size_min     = edit_dev->GetZoneLEDsMin(edit_zone_idx);
+    unsigned int size_max     = edit_dev->GetZoneLEDsMax(edit_zone_idx);
+    unsigned int size_current = edit_dev->GetZoneLEDsCount(edit_zone_idx);
 
     ui->setupUi(this);
     setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
@@ -36,9 +36,9 @@ OpenRGBZoneResizeDialog::OpenRGBZoneResizeDialog(RGBController* edit_dev_ptr, un
     ui->ResizeSlider->setValue(size_current);
     ui->ResizeBox->setValue(size_current);
 
-    for(unsigned int segment_idx = 0; segment_idx < edit_dev->zones[edit_zone_idx].segments.size(); segment_idx++)
+    for(unsigned int segment_idx = 0; segment_idx < edit_dev->GetZoneSegmentCount(edit_zone_idx); segment_idx++)
     {
-        AddSegmentRow(QString::fromStdString(edit_dev->zones[edit_zone_idx].segments[segment_idx].name), edit_dev->zones[edit_zone_idx].segments[segment_idx].leds_count, edit_dev->zones[edit_zone_idx].segments[segment_idx].type);
+        AddSegmentRow(QString::fromStdString(edit_dev->GetZoneSegmentName(edit_zone_idx, segment_idx)), edit_dev->GetZoneSegmentLEDsCount(edit_zone_idx, segment_idx), edit_dev->GetZoneSegmentType(edit_zone_idx, segment_idx));
     }
 }
 
@@ -226,7 +226,7 @@ void OpenRGBZoneResizeDialog::AddSegmentRow(QString name, unsigned int length, z
     /*---------------------------------------------------------*\
     | Fill in slider length and maximum                         |
     \*---------------------------------------------------------*/
-    slider_length->setMaximum(edit_dev->zones[edit_zone_idx].leds_count);
+    slider_length->setMaximum(edit_dev->GetZoneLEDsCount(edit_zone_idx));
     slider_length->setValue(length);
 
     /*---------------------------------------------------------*\
