@@ -83,6 +83,7 @@ enum
     CORSAIR_LIGHTING_NODE_MODE_BLINK                 = 0x08,     /* Blink mode                           */
     CORSAIR_LIGHTING_NODE_MODE_SEQUENTIAL            = 0x09,     /* Sequential mode                      */
     CORSAIR_LIGHTING_NODE_MODE_RAINBOW               = 0x0A,     /* Rainbow mode                         */
+    CORSAIR_LIGHTING_NODE_MODE_DIRECT                = 0xFFFF    /* Dummy mode ID for direct mode        */
 };
 
 class CorsairLightingNodeController

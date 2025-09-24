@@ -71,7 +71,6 @@ void RGBController_RazerKrakenV4::SetupZones()
             new_zone.leds_count = device_list[device_index]->zones[zone_id]->cols;
             new_zone.leds_min   = new_zone.leds_count;
             new_zone.leds_max   = new_zone.leds_count;
-            new_zone.matrix_map = NULL;
 
             zones.push_back(new_zone);
 
@@ -95,11 +94,6 @@ void RGBController_RazerKrakenV4::SetupZones()
     SetupColors();
 }
 
-void RGBController_RazerKrakenV4::ResizeZone(int /*zone*/, int /*new_size*/)
-{
-
-}
-
 void RGBController_RazerKrakenV4::DeviceUpdateLEDs()
 {
     if(modes[active_mode].value == RAZER_KRAKEN_V4_MODE_DIRECT)
@@ -108,12 +102,12 @@ void RGBController_RazerKrakenV4::DeviceUpdateLEDs()
     }
 }
 
-void RGBController_RazerKrakenV4::UpdateZoneLEDs(int /*zone*/)
+void RGBController_RazerKrakenV4::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_RazerKrakenV4::UpdateSingleLED(int /*led*/)
+void RGBController_RazerKrakenV4::DeviceUpdateSingleLED(int /*led*/)
 {
     DeviceUpdateLEDs();
 }

@@ -348,17 +348,6 @@ RGBController_Mountain60Keyboard::~RGBController_Mountain60Keyboard()
     mountain_thread->join();
     delete mountain_thread;
 
-    /*---------------------------------------------------------*\
-    | Delete the matrix map                                     |
-    \*---------------------------------------------------------*/
-    for(unsigned int zone_index = 0; zone_index < zones.size(); zone_index++)
-    {
-        if(zones[zone_index].type == ZONE_TYPE_MATRIX)
-        {
-            delete zones[zone_index].matrix_map;
-        }
-    }
-
     delete controller;
 }
 
@@ -368,19 +357,13 @@ void RGBController_Mountain60Keyboard::SetupZones()
     new_kb.ChangeKeys(mountain60_keyboard_overlay_no_numpad);
 
     zone new_zone;
-    matrix_map_type * new_map       = new matrix_map_type;
 
     new_zone.name                   = "Mountain Everest 60";
     new_zone.type                   = ZONE_TYPE_MATRIX;
-    new_zone.matrix_map             = new_map;
-    new_zone.matrix_map->height     = new_kb.GetRowCount();
-    new_zone.matrix_map->width      = new_kb.GetColumnCount();
-    new_zone.matrix_map->map        = new unsigned int[new_map->height * new_map->width];
     new_zone.leds_count             = new_kb.GetKeyCount();
     new_zone.leds_min               = new_zone.leds_count;
     new_zone.leds_max               = new_zone.leds_count;
-
-    new_kb.GetKeyMap(new_map->map, KEYBOARD_MAP_FILL_TYPE_COUNT);
+    new_zone.matrix_map             = new_kb.GetKeyMap(KEYBOARD_MAP_FILL_TYPE_COUNT);
 
     for(unsigned int led_idx = 0; led_idx < new_zone.leds_count; led_idx++)
     {
@@ -393,13 +376,6 @@ void RGBController_Mountain60Keyboard::SetupZones()
     zones.push_back(new_zone);
 
     SetupColors();
-}
-
-void RGBController_Mountain60Keyboard::ResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
 }
 
 void RGBController_Mountain60Keyboard::DeviceUpdateLEDs()
@@ -423,12 +399,12 @@ void RGBController_Mountain60Keyboard::DeviceUpdateLEDs()
     delete[] color_data;
 }
 
-void RGBController_Mountain60Keyboard::UpdateZoneLEDs(int /*zone*/)
+void RGBController_Mountain60Keyboard::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_Mountain60Keyboard::UpdateSingleLED(int /*led*/)
+void RGBController_Mountain60Keyboard::DeviceUpdateSingleLED(int /*led*/)
 {
     DeviceUpdateLEDs();
 }

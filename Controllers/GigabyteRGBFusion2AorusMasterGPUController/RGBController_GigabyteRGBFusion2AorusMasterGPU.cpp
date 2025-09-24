@@ -72,7 +72,6 @@ void RGBController_RGBFusion2AorusMasterGPU::SetupZones()
         fan_zone.leds_min   = 8;
         fan_zone.leds_max   = 8;
         fan_zone.leds_count = 8;
-        fan_zone.matrix_map = NULL;
 
         zones.push_back(fan_zone);
 
@@ -98,7 +97,6 @@ void RGBController_RGBFusion2AorusMasterGPU::SetupZones()
     logo_zone.leds_min   = 1;
     logo_zone.leds_max   = 1;
     logo_zone.leds_count = 1;
-    logo_zone.matrix_map = NULL;
 
     zones.push_back(logo_zone);
 
@@ -107,13 +105,6 @@ void RGBController_RGBFusion2AorusMasterGPU::SetupZones()
     leds.push_back(logo_led);
 
     SetupColors();
-}
-
-void RGBController_RGBFusion2AorusMasterGPU::ResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
 }
 
 void RGBController_RGBFusion2AorusMasterGPU::DeviceUpdateLEDs()
@@ -148,7 +139,7 @@ void RGBController_RGBFusion2AorusMasterGPU::DeviceUpdateLEDs()
     controller->ApplyChanges();
 }
 
-void RGBController_RGBFusion2AorusMasterGPU::UpdateZoneLEDs(int /*zone*/)
+void RGBController_RGBFusion2AorusMasterGPU::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     /*---------------------------------------------------------*\
     | For simplicity, update all LEDs when any zone changes     |
@@ -157,7 +148,7 @@ void RGBController_RGBFusion2AorusMasterGPU::UpdateZoneLEDs(int /*zone*/)
     DeviceUpdateLEDs();
 }
 
-void RGBController_RGBFusion2AorusMasterGPU::UpdateSingleLED(int /*led*/)
+void RGBController_RGBFusion2AorusMasterGPU::DeviceUpdateSingleLED(int /*led*/)
 {
     /*---------------------------------------------------------*\
     | For simplicity, update all LEDs when any LED changes      |

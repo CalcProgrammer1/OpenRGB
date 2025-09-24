@@ -65,7 +65,6 @@ void RGBController_HPOmenLaptopWMI_Windows::SetupZones()
     keyboard_zone.leds_min   = 0;
     keyboard_zone.leds_max   = 4;
     keyboard_zone.name       = "Keyboard";
-    keyboard_zone.matrix_map = NULL;
     keyboard_zone.type       = ZONE_TYPE_LINEAR;
     this->zones.push_back(keyboard_zone);
 
@@ -91,13 +90,6 @@ void RGBController_HPOmenLaptopWMI_Windows::SetupZones()
     SetupColors();
 }
 
-void RGBController_HPOmenLaptopWMI_Windows::ResizeZone(int zone, int new_size)
-{
-    /*-----------------------------------------------------*\
-    | Not Supported                                         |
-    \*-----------------------------------------------------*/
-}
-
 void RGBController_HPOmenLaptopWMI_Windows::DeviceUpdateLEDs()
 {
     /*-----------------------------------------------------*\
@@ -106,7 +98,7 @@ void RGBController_HPOmenLaptopWMI_Windows::DeviceUpdateLEDs()
     controller->setColors(this->colors);
 }
 
-void RGBController_HPOmenLaptopWMI_Windows::UpdateZoneLEDs(int zone)
+void RGBController_HPOmenLaptopWMI_Windows::DeviceUpdateZoneLEDs(int zone)
 {
     /*-----------------------------------------------------*\
     | Set new colors                                        |
@@ -114,7 +106,7 @@ void RGBController_HPOmenLaptopWMI_Windows::UpdateZoneLEDs(int zone)
     controller->setColors(this->colors);
 }
 
-void RGBController_HPOmenLaptopWMI_Windows::UpdateSingleLED(int led)
+void RGBController_HPOmenLaptopWMI_Windows::DeviceUpdateSingleLED(int led)
 {
     /*-----------------------------------------------------*\
     | Set new colors                                        |

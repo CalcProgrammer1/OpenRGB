@@ -75,7 +75,6 @@ void RGBController_HyperXMousemat::SetupZones()
         underglow.leds_min   = first_zone_leds_count;
         underglow.leds_max   = first_zone_leds_count;
         underglow.leds_count = first_zone_leds_count;
-        underglow.matrix_map = NULL;
         zones.push_back(underglow);
     }
 
@@ -87,7 +86,6 @@ void RGBController_HyperXMousemat::SetupZones()
         led_strip.leds_min   = second_zone_leds_count;
         led_strip.leds_max   = second_zone_leds_count;
         led_strip.leds_count = second_zone_leds_count;
-        led_strip.matrix_map = NULL;
         zones.push_back(led_strip);
     }
 
@@ -113,13 +111,6 @@ void RGBController_HyperXMousemat::SetupZones()
     SetupColors();
 }
 
-void RGBController_HyperXMousemat::ResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_HyperXMousemat::DeviceUpdateLEDs()
 {
     last_update_time = std::chrono::steady_clock::now();
@@ -127,12 +118,12 @@ void RGBController_HyperXMousemat::DeviceUpdateLEDs()
     controller->SendDirect(&colors[0]);
 }
 
-void RGBController_HyperXMousemat::UpdateZoneLEDs(int /*zone*/)
+void RGBController_HyperXMousemat::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_HyperXMousemat::UpdateSingleLED(int /*led*/)
+void RGBController_HyperXMousemat::DeviceUpdateSingleLED(int /*led*/)
 {
     DeviceUpdateLEDs();
 }
@@ -150,7 +141,7 @@ void RGBController_HyperXMousemat::KeepaliveThread()
         {
             if((std::chrono::steady_clock::now() - last_update_time) > std::chrono::milliseconds(50))
             {
-                UpdateLEDs();
+                UpdateLEDsInternal();
             }
         }
         std::this_thread::sleep_for(10ms);

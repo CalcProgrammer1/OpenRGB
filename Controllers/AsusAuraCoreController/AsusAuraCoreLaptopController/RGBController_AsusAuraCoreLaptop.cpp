@@ -263,7 +263,7 @@ RGBController_AsusAuraCoreLaptop::RGBController_AsusAuraCoreLaptop(AsusAuraCoreL
 
     SetupZones();
 
-    SetMode(active_mode);
+    SetActiveMode(active_mode);
 }
 
 RGBController_AsusAuraCoreLaptop::~RGBController_AsusAuraCoreLaptop()
@@ -339,18 +339,7 @@ void RGBController_AsusAuraCoreLaptop::SetupZones()
                     else
                     {
                         new_zone.type               = ZONE_TYPE_MATRIX;
-                        matrix_map_type * new_map   = new matrix_map_type;
-                        new_zone.matrix_map         = new_map;
-
-                        /*---------------------------------------------------------*\
-                        | Trusting the layout handed to the KLM is correct use the  |
-                        |   row & column counts to set the matrix height & width    |
-                        \*---------------------------------------------------------*/
-                        new_map->height             = new_kb.GetRowCount();
-                        new_map->width              = new_kb.GetColumnCount();
-                        new_map->map                = new unsigned int[new_map->height * new_map->width];
-
-                        new_kb.GetKeyMap(new_map->map, KEYBOARD_MAP_FILL_TYPE_COUNT);
+                        new_zone.matrix_map         = new_kb.GetKeyMap(KEYBOARD_MAP_FILL_TYPE_COUNT);
                     }
 
                     /*---------------------------------------------------------*\
@@ -398,13 +387,6 @@ void RGBController_AsusAuraCoreLaptop::SetupZones()
     }
 }
 
-void RGBController_AsusAuraCoreLaptop::ResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_AsusAuraCoreLaptop::DeviceUpdateLEDs()
 {
     for(size_t i = 85; i < leds.size(); i++)
@@ -422,12 +404,12 @@ void RGBController_AsusAuraCoreLaptop::DeviceUpdateLEDs()
     controller->SetLedsDirect(buffer_map);
 }
 
-void RGBController_AsusAuraCoreLaptop::UpdateZoneLEDs(int /*zone*/)
+void RGBController_AsusAuraCoreLaptop::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     controller->SetLedsDirect(buffer_map);
 }
 
-void RGBController_AsusAuraCoreLaptop::UpdateSingleLED(int /*led*/)
+void RGBController_AsusAuraCoreLaptop::DeviceUpdateSingleLED(int /*led*/)
 {
     controller->SetLedsDirect(buffer_map);
 }

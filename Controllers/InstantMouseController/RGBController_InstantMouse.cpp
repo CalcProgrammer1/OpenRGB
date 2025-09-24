@@ -172,7 +172,6 @@ void RGBController_InstantMouse::SetupZones()
     new_zone.leds_min   = 1;
     new_zone.leds_max   = 1;
     new_zone.leds_count = 1;
-    new_zone.matrix_map = nullptr;
 
     zones.emplace_back(new_zone);
 
@@ -182,24 +181,17 @@ void RGBController_InstantMouse::SetupZones()
     SetupColors();
 }
 
-void RGBController_InstantMouse::ResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_InstantMouse::DeviceUpdateLEDs()
 {
     controller->SendColor(colors[0]);
 }
 
-void RGBController_InstantMouse::UpdateZoneLEDs(int /*zone*/)
+void RGBController_InstantMouse::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_InstantMouse::UpdateSingleLED(int /*led*/)
+void RGBController_InstantMouse::DeviceUpdateSingleLED(int /*led*/)
 {
     DeviceUpdateLEDs();
 }

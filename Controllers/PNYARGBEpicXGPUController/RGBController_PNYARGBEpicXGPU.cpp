@@ -68,7 +68,6 @@ void RGBController_PNYARGBEpicXGPU::SetupZones()
     logo.leds_min               = 4;
     logo.leds_max               = 4;
     logo.leds_count             = 4;
-    logo.matrix_map             = NULL;
     zones.push_back(logo);
 
     for(std::size_t led_idx = 0; led_idx < logo.leds_count; led_idx++)
@@ -92,7 +91,6 @@ void RGBController_PNYARGBEpicXGPU::SetupZones()
     front.leds_min              = 20;
     front.leds_max              = 20;
     front.leds_count            = 20;
-    front.matrix_map            = NULL;
     zones.push_back(front);
 
     for(std::size_t led_idx = 0; led_idx < front.leds_count; led_idx++)
@@ -115,7 +113,6 @@ void RGBController_PNYARGBEpicXGPU::SetupZones()
     arrow.leds_min              = 17;
     arrow.leds_max              = 17;
     arrow.leds_count            = 17;
-    arrow.matrix_map            = NULL;
     zones.push_back(arrow);
 
     for(std::size_t led_idx = 0; led_idx < arrow.leds_count; led_idx++)
@@ -132,30 +129,23 @@ void RGBController_PNYARGBEpicXGPU::SetupZones()
     SetupColors();
 }
 
-void RGBController_PNYARGBEpicXGPU::ResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_PNYARGBEpicXGPU::DeviceUpdateLEDs()
 {
     for(std::size_t i = 0; i < leds.size(); i++)
     {
-        UpdateSingleLED((int)i);
+        DeviceUpdateSingleLED((int)i);
     }
 }
 
-void RGBController_PNYARGBEpicXGPU::UpdateZoneLEDs(int zone)
+void RGBController_PNYARGBEpicXGPU::DeviceUpdateZoneLEDs(int zone)
 {
     for(unsigned int i = 0; i < zones[zone].leds_count; i++)
     {
-        UpdateSingleLED(zones[zone].start_idx + i);
+        DeviceUpdateSingleLED(zones[zone].start_idx + i);
     }
 }
 
-void RGBController_PNYARGBEpicXGPU::UpdateSingleLED(int led)
+void RGBController_PNYARGBEpicXGPU::DeviceUpdateSingleLED(int led)
 {
     controller->SetLEDDirect(leds[led].value, zone_led_idx[led], PNY_GPU_MODE_ARGB_DIRECT, colors[led]);
 }
