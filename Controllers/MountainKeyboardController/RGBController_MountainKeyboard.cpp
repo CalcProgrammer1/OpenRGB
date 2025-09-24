@@ -688,17 +688,6 @@ RGBController_MountainKeyboard::RGBController_MountainKeyboard(MountainKeyboardC
 
 RGBController_MountainKeyboard::~RGBController_MountainKeyboard()
 {
-    /*---------------------------------------------------------*\
-    | Delete the matrix map                                     |
-    \*---------------------------------------------------------*/
-    for(unsigned int zone_index = 0; zone_index < zones.size(); zone_index++)
-    {
-        if(zones[zone_index].matrix_map != NULL)
-        {
-            delete zones[zone_index].matrix_map;
-        }
-    }
-
     delete controller;
 }
 
@@ -716,13 +705,9 @@ void RGBController_MountainKeyboard::SetupZones()
         new_zone.leds_min               = zone_definitions[zone_idx].size;
         new_zone.leds_max               = zone_definitions[zone_idx].size;
         new_zone.leds_count             = zone_definitions[zone_idx].size;
-        new_zone.matrix_map             = NULL;
         if (zone_definitions[zone_idx].type == ZONE_TYPE_MATRIX)
         {
-            new_zone.matrix_map             = new matrix_map_type;
-            new_zone.matrix_map->height     = zone_definitions[zone_idx].height;
-            new_zone.matrix_map->width      = zone_definitions[zone_idx].width;
-            new_zone.matrix_map->map        = zone_definitions[zone_idx].ptr;
+            new_zone.matrix_map.Set(zone_definitions[zone_idx].height, zone_definitions[zone_idx].width, zone_definitions[zone_idx].ptr);
         }
         zones.push_back(new_zone);
     }
@@ -765,13 +750,6 @@ void RGBController_MountainKeyboard::SetupZones()
     }
 
     SetupColors();
-}
-
-void RGBController_MountainKeyboard::ResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
 }
 
 void RGBController_MountainKeyboard::DeviceUpdate(const mode& current_mode)
@@ -1016,12 +994,12 @@ void RGBController_MountainKeyboard::DeviceUpdateLEDs()
     DeviceUpdate(current_mode);
 }
 
-void RGBController_MountainKeyboard::UpdateZoneLEDs(int /*zone*/)
+void RGBController_MountainKeyboard::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_MountainKeyboard::UpdateSingleLED(int /*led*/)
+void RGBController_MountainKeyboard::DeviceUpdateSingleLED(int /*led*/)
 {
     DeviceUpdateLEDs();
 }

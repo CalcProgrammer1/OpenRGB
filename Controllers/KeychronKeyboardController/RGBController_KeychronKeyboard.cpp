@@ -615,21 +615,19 @@ void RGBController_KeychronKeyboard::SetupZones()
     unsigned int zone_size = 0;
 
     zone keyboard_zone;
-    keyboard_zone.name               = ZONE_EN_KEYBOARD;
-    keyboard_zone.type               = ZONE_TYPE_MATRIX;
+    keyboard_zone.name                      = ZONE_EN_KEYBOARD;
+    keyboard_zone.type                      = ZONE_TYPE_MATRIX;
 
-    keyboard_zone.matrix_map         = new matrix_map_type;
-    keyboard_zone.matrix_map->height = keyboard.height;
-    keyboard_zone.matrix_map->width  = keyboard.width;
-
-    keyboard_zone.matrix_map->map    = new unsigned int[keyboard.height * keyboard.width];
+    keyboard_zone.matrix_map.height         = keyboard.height;
+    keyboard_zone.matrix_map.width          = keyboard.width;
+    keyboard_zone.matrix_map.map.resize(keyboard.height * keyboard.width);
 
     for(unsigned int w = 0; w < keyboard.width; w++)
     {
         for(unsigned int h = 0; h < keyboard.height; h++)
         {
             unsigned int key = keyboard.matrix_map[h][w];
-            keyboard_zone.matrix_map->map[h * keyboard.width + w] = key;
+            keyboard_zone.matrix_map.map[h * keyboard.width + w] = key;
 
             if(key != NA)
             {
@@ -650,29 +648,22 @@ void RGBController_KeychronKeyboard::SetupZones()
     SetupColors();
 }
 
-void RGBController_KeychronKeyboard::ResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_KeychronKeyboard::DeviceUpdateLEDs()
 {
-    UpdateZoneLEDs(0);
+    DeviceUpdateZoneLEDs(0);
 }
 
-void RGBController_KeychronKeyboard::UpdateZoneLEDs(int /*zone*/)
+void RGBController_KeychronKeyboard::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     controller->SetMode(modes, active_mode, colors);
 }
 
-void RGBController_KeychronKeyboard::UpdateSingleLED(int led)
+void RGBController_KeychronKeyboard::DeviceUpdateSingleLED(int led)
 {
-    UpdateZoneLEDs(led);
+    DeviceUpdateZoneLEDs(led);
 }
 
 void RGBController_KeychronKeyboard::DeviceUpdateMode()
 {
-    UpdateZoneLEDs(0);
+    DeviceUpdateZoneLEDs(0);
 }

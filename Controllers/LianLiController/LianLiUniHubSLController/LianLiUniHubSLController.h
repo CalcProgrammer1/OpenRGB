@@ -93,7 +93,7 @@ public:
     std::string GetLocation() { return this->location; };
 
     void UpdateMode(const std::vector<zone> &zones, const mode &active);
-    void UpdateZoneLEDs(size_t channel, const zone &z, const mode &active);
+    void DeviceUpdateZoneLEDs(size_t channel, const zone &z, const mode &active);
 
 private:
     hid_device *device;
@@ -109,11 +109,11 @@ private:
     unsigned char ConvertBrightness(unsigned int brightness);
     unsigned char ConvertSpeed(unsigned int speed);
     unsigned char ConvertDirection(unsigned int direction);
-    
+
     void SendActivate(size_t channel, unsigned char num_fans);
     void SendMerge();
     void SendColor(size_t channel, const unsigned char *color_buf, size_t color_buf_len);
     void SendMode(size_t channel, const mode &active);
-    
+
     void LogBuffer(const char *operation, const unsigned char *buf, size_t len);
 };

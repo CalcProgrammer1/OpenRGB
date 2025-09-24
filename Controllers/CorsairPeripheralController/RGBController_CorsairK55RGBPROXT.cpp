@@ -359,7 +359,6 @@ RGBController_CorsairK55RGBPROXT::~RGBController_CorsairK55RGBPROXT()
     keepalive_thread_run = false;
     keepalive_thread->join();
     delete keepalive_thread;
-    delete[] zones[0].matrix_map;
 
     delete controller;
 }
@@ -370,10 +369,7 @@ void RGBController_CorsairK55RGBPROXT::SetupZones()
     keyboard_zone.name               = "Keyboard";
     keyboard_zone.type               = ZONE_TYPE_MATRIX;
 
-    keyboard_zone.matrix_map         = new matrix_map_type;
-    keyboard_zone.matrix_map->map    = (unsigned int *)&matrix_map;
-    keyboard_zone.matrix_map->height = HEIGHT;
-    keyboard_zone.matrix_map->width  = WIDTH;
+    keyboard_zone.matrix_map.Set(HEIGHT, WIDTH, (unsigned int *)&matrix_map);
 
     for(size_t led_index = 0; led_index < key_names.size(); ++led_index)
     {
@@ -391,13 +387,6 @@ void RGBController_CorsairK55RGBPROXT::SetupZones()
     SetupColors();
 }
 
-void RGBController_CorsairK55RGBPROXT::ResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_CorsairK55RGBPROXT::DeviceUpdateLEDs()
 {
     last_update_time = std::chrono::steady_clock::now();
@@ -405,12 +394,12 @@ void RGBController_CorsairK55RGBPROXT::DeviceUpdateLEDs()
     controller->SetLEDs(colors);
 }
 
-void RGBController_CorsairK55RGBPROXT::UpdateZoneLEDs(int /*zone*/)
+void RGBController_CorsairK55RGBPROXT::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     controller->SetLEDs(colors);
 }
 
-void RGBController_CorsairK55RGBPROXT::UpdateSingleLED(int /*led*/)
+void RGBController_CorsairK55RGBPROXT::DeviceUpdateSingleLED(int /*led*/)
 {
     controller->SetLEDs(colors);
 }

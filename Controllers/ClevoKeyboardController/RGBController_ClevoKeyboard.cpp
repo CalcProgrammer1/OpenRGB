@@ -199,15 +199,6 @@ RGBController_ClevoKeyboard::RGBController_ClevoKeyboard(ClevoKeyboardController
 
 RGBController_ClevoKeyboard::~RGBController_ClevoKeyboard()
 {
-    for(unsigned int zone_idx = 0; zone_idx < zones.size(); zone_idx++)
-    {
-        if(zones[zone_idx].matrix_map != nullptr)
-        {
-            delete[] zones[zone_idx].matrix_map->map;
-            delete zones[zone_idx].matrix_map;
-        }
-    }
-
     delete controller;
 }
 
@@ -236,12 +227,7 @@ void RGBController_ClevoKeyboard::SetupZones()
     /*---------------------------------------------------------*\
     | Set up the matrix map using KLM dimensions                |
     \*---------------------------------------------------------*/
-    keyboard_zone.matrix_map            = new matrix_map_type;
-    keyboard_zone.matrix_map->height    = new_kb.GetRowCount();
-    keyboard_zone.matrix_map->width     = new_kb.GetColumnCount();
-    keyboard_zone.matrix_map->map       = new unsigned int[keyboard_zone.matrix_map->height * keyboard_zone.matrix_map->width];
-
-    new_kb.GetKeyMap(keyboard_zone.matrix_map->map, KEYBOARD_MAP_FILL_TYPE_COUNT);
+    keyboard_zone.matrix_map        = new_kb.GetKeyMap(KEYBOARD_MAP_FILL_TYPE_COUNT);
 
     zones.push_back(keyboard_zone);
 
@@ -274,13 +260,6 @@ void RGBController_ClevoKeyboard::SetupZones()
     }
 }
 
-void RGBController_ClevoKeyboard::ResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_ClevoKeyboard::DeviceUpdateLEDs()
 {
     /*---------------------------------------------------------*\
@@ -300,12 +279,12 @@ void RGBController_ClevoKeyboard::DeviceUpdateLEDs()
     controller->SendColors(color_data, modes[active_mode].brightness);
 }
 
-void RGBController_ClevoKeyboard::UpdateZoneLEDs(int /*zone*/)
+void RGBController_ClevoKeyboard::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_ClevoKeyboard::UpdateSingleLED(int /*led*/)
+void RGBController_ClevoKeyboard::DeviceUpdateSingleLED(int /*led*/)
 {
     DeviceUpdateLEDs();
 }

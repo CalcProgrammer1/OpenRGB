@@ -34,10 +34,21 @@ RGBController_ZalmanZSync::RGBController_ZalmanZSync(ZalmanZSyncController* cont
     location                = controller->GetLocationString();
     serial                  = controller->GetSerialString();
 
+    SetupZones();
+    SetupModes();
+}
+
+RGBController_ZalmanZSync::~RGBController_ZalmanZSync()
+{
+    delete controller;
+}
+
+void RGBController_ZalmanZSync::SetupModes()
+{
     mode Direct;
     Direct.name             = "Direct";
-    Direct.value            = 0xFFFF;
-    Direct.flags            = MODE_FLAG_HAS_PER_LED_COLOR;
+    Direct.value            = ZALMAN_Z_SYNC_MODE_DIRECT;
+    Direct.flags            = MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_REQUIRES_ENTIRE_DEVICE;
     Direct.color_mode       = MODE_COLORS_PER_LED;
     modes.push_back(Direct);
 
@@ -51,6 +62,10 @@ RGBController_ZalmanZSync::RGBController_ZalmanZSync(ZalmanZSyncController* cont
     RainbowWave.direction   = MODE_DIRECTION_RIGHT;
     RainbowWave.color_mode  = MODE_COLORS_NONE;
     modes.push_back(RainbowWave);
+    for(std::size_t zone_idx = 0; zone_idx < zones.size(); zone_idx++)
+    {
+        zones[zone_idx].modes.push_back(RainbowWave);
+    }
 
     mode ColorShift;
     ColorShift.name         = "Color Shift";
@@ -64,6 +79,10 @@ RGBController_ZalmanZSync::RGBController_ZalmanZSync(ZalmanZSyncController* cont
     ColorShift.color_mode   = MODE_COLORS_MODE_SPECIFIC;
     ColorShift.colors.resize(2);
     modes.push_back(ColorShift);
+    for(std::size_t zone_idx = 0; zone_idx < zones.size(); zone_idx++)
+    {
+        zones[zone_idx].modes.push_back(ColorShift);
+    }
 
     mode ColorPulse;
     ColorPulse.name         = "Color Pulse";
@@ -77,6 +96,10 @@ RGBController_ZalmanZSync::RGBController_ZalmanZSync(ZalmanZSyncController* cont
     ColorPulse.color_mode   = MODE_COLORS_MODE_SPECIFIC;
     ColorPulse.colors.resize(2);
     modes.push_back(ColorPulse);
+    for(std::size_t zone_idx = 0; zone_idx < zones.size(); zone_idx++)
+    {
+        zones[zone_idx].modes.push_back(ColorPulse);
+    }
 
     mode ColorWave;
     ColorWave.name          = "Color Wave";
@@ -91,6 +114,10 @@ RGBController_ZalmanZSync::RGBController_ZalmanZSync(ZalmanZSyncController* cont
     ColorWave.color_mode    = MODE_COLORS_MODE_SPECIFIC;
     ColorWave.colors.resize(2);
     modes.push_back(ColorWave);
+    for(std::size_t zone_idx = 0; zone_idx < zones.size(); zone_idx++)
+    {
+        zones[zone_idx].modes.push_back(ColorWave);
+    }
 
     mode Static;
     Static.name             = "Static";
@@ -101,6 +128,10 @@ RGBController_ZalmanZSync::RGBController_ZalmanZSync(ZalmanZSyncController* cont
     Static.color_mode       = MODE_COLORS_MODE_SPECIFIC;
     Static.colors.resize(1);
     modes.push_back(Static);
+    for(std::size_t zone_idx = 0; zone_idx < zones.size(); zone_idx++)
+    {
+        zones[zone_idx].modes.push_back(Static);
+    }
 
     mode Temperature;
     Temperature.name        = "Temperature";
@@ -111,6 +142,10 @@ RGBController_ZalmanZSync::RGBController_ZalmanZSync(ZalmanZSyncController* cont
     Temperature.color_mode  = MODE_COLORS_MODE_SPECIFIC;
     Temperature.colors.resize(3);
     modes.push_back(Temperature);
+    for(std::size_t zone_idx = 0; zone_idx < zones.size(); zone_idx++)
+    {
+        zones[zone_idx].modes.push_back(Temperature);
+    }
 
     mode Visor;
     Visor.name              = "Visor";
@@ -124,6 +159,10 @@ RGBController_ZalmanZSync::RGBController_ZalmanZSync(ZalmanZSyncController* cont
     Visor.color_mode        = MODE_COLORS_MODE_SPECIFIC;
     Visor.colors.resize(2);
     modes.push_back(Visor);
+    for(std::size_t zone_idx = 0; zone_idx < zones.size(); zone_idx++)
+    {
+        zones[zone_idx].modes.push_back(Visor);
+    }
 
     mode Marquee;
     Marquee.name            = "Marquee";
@@ -138,6 +177,10 @@ RGBController_ZalmanZSync::RGBController_ZalmanZSync(ZalmanZSyncController* cont
     Marquee.color_mode      = MODE_COLORS_MODE_SPECIFIC;
     Marquee.colors.resize(1);
     modes.push_back(Marquee);
+    for(std::size_t zone_idx = 0; zone_idx < zones.size(); zone_idx++)
+    {
+        zones[zone_idx].modes.push_back(Marquee);
+    }
 
     mode Blink;
     Blink.name              = "Blink";
@@ -151,6 +194,10 @@ RGBController_ZalmanZSync::RGBController_ZalmanZSync(ZalmanZSyncController* cont
     Blink.color_mode        = MODE_COLORS_MODE_SPECIFIC;
     Blink.colors.resize(2);
     modes.push_back(Blink);
+    for(std::size_t zone_idx = 0; zone_idx < zones.size(); zone_idx++)
+    {
+        zones[zone_idx].modes.push_back(Blink);
+    }
 
     mode Sequential;
     Sequential.name         = "Sequential";
@@ -165,6 +212,10 @@ RGBController_ZalmanZSync::RGBController_ZalmanZSync(ZalmanZSyncController* cont
     Sequential.color_mode   = MODE_COLORS_MODE_SPECIFIC;
     Sequential.colors.resize(1);
     modes.push_back(Sequential);
+    for(std::size_t zone_idx = 0; zone_idx < zones.size(); zone_idx++)
+    {
+        zones[zone_idx].modes.push_back(Sequential);
+    }
 
     mode Rainbow;
     Rainbow.name            = "Rainbow";
@@ -175,13 +226,10 @@ RGBController_ZalmanZSync::RGBController_ZalmanZSync(ZalmanZSyncController* cont
     Rainbow.speed           = ZALMAN_Z_SYNC_SPEED_MEDIUM;
     Rainbow.color_mode      = MODE_COLORS_NONE;
     modes.push_back(Rainbow);
-
-    SetupZones();
-}
-
-RGBController_ZalmanZSync::~RGBController_ZalmanZSync()
-{
-    delete controller;
+    for(std::size_t zone_idx = 0; zone_idx < zones.size(); zone_idx++)
+    {
+        zones[zone_idx].modes.push_back(Rainbow);
+    }
 }
 
 void RGBController_ZalmanZSync::SetupZones()
@@ -228,8 +276,6 @@ void RGBController_ZalmanZSync::SetupZones()
             zones[channel_idx].leds_count = 0;
         }
 
-        zones[channel_idx].matrix_map = NULL;
-
         for (unsigned int led_ch_idx = 0; led_ch_idx < zones[channel_idx].leds_count; led_ch_idx++)
         {
             char led_idx_string[4];
@@ -247,7 +293,7 @@ void RGBController_ZalmanZSync::SetupZones()
     SetupColors();
 }
 
-void RGBController_ZalmanZSync::ResizeZone(int zone, int new_size)
+void RGBController_ZalmanZSync::DeviceResizeZone(int zone, int new_size)
 {
     if((size_t) zone >= zones.size())
     {
@@ -264,61 +310,89 @@ void RGBController_ZalmanZSync::ResizeZone(int zone, int new_size)
 
 void RGBController_ZalmanZSync::DeviceUpdateLEDs()
 {
-    for(std::size_t zone_idx = 0; zone_idx < zones.size(); zone_idx++)
+    for(unsigned char zone_idx = 0; zone_idx < (unsigned char)zones.size(); zone_idx++)
     {
-        if(zones[zone_idx].leds_count > 0)
-        {
-            controller->SetChannelLEDs((unsigned char)zone_idx, zones[zone_idx].colors, zones[zone_idx].leds_count);
-        }
+        DeviceUpdateZoneLEDs(zone_idx);
     }
 }
 
-void RGBController_ZalmanZSync::UpdateZoneLEDs(int zone)
+void RGBController_ZalmanZSync::DeviceUpdateZoneLEDs(int zone)
 {
-    controller->SetChannelLEDs(zone, zones[zone].colors, zones[zone].leds_count);
+    if(modes[active_mode].value == ZALMAN_Z_SYNC_MODE_DIRECT)
+    {
+        controller->SetChannelLEDs(zone, zones[zone].colors, zones[zone].leds_count);
+    }
 }
 
-void RGBController_ZalmanZSync::UpdateSingleLED(int led)
+void RGBController_ZalmanZSync::DeviceUpdateSingleLED(int led)
 {
     unsigned int channel = leds_channel[led];
 
-    controller->SetChannelLEDs(channel, zones[channel].colors, zones[channel].leds_count);
+    DeviceUpdateZoneLEDs(channel);
 }
 
 void RGBController_ZalmanZSync::DeviceUpdateMode()
 {
-    if(modes[active_mode].value == 0xFFFF)
+    if(modes[active_mode].value == ZALMAN_Z_SYNC_MODE_DIRECT)
     {
         DeviceUpdateLEDs();
     }
     else
     {
-        for(int channel = 0; channel < ZALMAN_Z_SYNC_NUM_CHANNELS; channel++)
+        for(std::size_t zone_idx = 0; zone_idx < zones.size(); zone_idx++)
         {
-            unsigned int direction = 0;
-            bool random = (modes[active_mode].color_mode == MODE_COLORS_RANDOM);
+            DeviceUpdateZoneMode(zone_idx);
+        }
+    }
+}
 
-            if(modes[active_mode].direction == MODE_DIRECTION_RIGHT)
+void RGBController_ZalmanZSync::DeviceUpdateZoneMode(int zone)
+{
+    if(modes[active_mode].value == ZALMAN_Z_SYNC_MODE_DIRECT)
+    {
+        return;
+    }
+    else
+    {
+        unsigned int    direction   = 0;
+        mode*           mode_ptr    = NULL;
+        bool            random      = false;
+
+        if((zones[zone].active_mode >= 0) && (zones[zone].active_mode < (int)zones[zone].modes.size()))
+        {
+            mode_ptr = &zones[zone].modes[zones[zone].active_mode];
+        }
+        else if(active_mode < (int)modes.size())
+        {
+            mode_ptr = &modes[active_mode];
+        }
+
+        if(mode_ptr != NULL)
+        {
+            random = (mode_ptr->color_mode == MODE_COLORS_RANDOM);
+
+            if(mode_ptr->direction == MODE_DIRECTION_RIGHT)
             {
                 direction = 1;
             }
 
             unsigned char mode_colors[9];
+            memset(mode_colors, 0, sizeof(mode_colors));
 
-            if(modes[active_mode].color_mode == MODE_COLORS_MODE_SPECIFIC)
+            if(mode_ptr->color_mode == MODE_COLORS_MODE_SPECIFIC)
             {
-                for(std::size_t i = 0; i < modes[active_mode].colors.size(); i++)
+                for(std::size_t i = 0; i < mode_ptr->colors.size(); i++)
                 {
-                    mode_colors[(3 * i) + 0] = RGBGetRValue(modes[active_mode].colors[i]);
-                    mode_colors[(3 * i) + 1] = RGBGetGValue(modes[active_mode].colors[i]);
-                    mode_colors[(3 * i) + 2] = RGBGetBValue(modes[active_mode].colors[i]);
+                    mode_colors[(3 * i) + 0] = RGBGetRValue(mode_ptr->colors[i]);
+                    mode_colors[(3 * i) + 1] = RGBGetGValue(mode_ptr->colors[i]);
+                    mode_colors[(3 * i) + 2] = RGBGetBValue(mode_ptr->colors[i]);
                 }
             }
 
-            controller->SetChannelEffect(channel,
-                                         zones[channel].leds_count,
-                                         modes[active_mode].value,
-                                         modes[active_mode].speed,
+            controller->SetChannelEffect(zone,
+                                         zones[zone].leds_count,
+                                         mode_ptr->value,
+                                         mode_ptr->speed,
                                          direction,
                                          random,
                                          mode_colors[0],

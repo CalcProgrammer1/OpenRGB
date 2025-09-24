@@ -241,17 +241,6 @@ RGBController_LogitechG810::RGBController_LogitechG810(LogitechG810Controller* c
 
 RGBController_LogitechG810::~RGBController_LogitechG810()
 {
-    /*---------------------------------------------------------*\
-    | Delete the matrix map                                     |
-    \*---------------------------------------------------------*/
-    for(unsigned int zone_index = 0; zone_index < zones.size(); zone_index++)
-    {
-        if(zones[zone_index].matrix_map != NULL)
-        {
-            delete zones[zone_index].matrix_map;
-        }
-    }
-
     delete controller;
 }
 
@@ -272,14 +261,7 @@ void RGBController_LogitechG810::SetupZones()
 
         if(zone_types[zone_idx] == ZONE_TYPE_MATRIX)
         {
-            new_zone.matrix_map         = new matrix_map_type;
-            new_zone.matrix_map->height = 7;
-            new_zone.matrix_map->width  = 23;
-            new_zone.matrix_map->map    = (unsigned int *)&matrix_map;
-        }
-        else
-        {
-            new_zone.matrix_map         = NULL;
+            new_zone.matrix_map.Set(7, 23, (unsigned int *)&matrix_map);
         }
 
         zones.push_back(new_zone);
@@ -296,13 +278,6 @@ void RGBController_LogitechG810::SetupZones()
     }
 
     SetupColors();
-}
-
-void RGBController_LogitechG810::ResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
 }
 
 void RGBController_LogitechG810::DeviceUpdateLEDs()
@@ -352,12 +327,12 @@ void RGBController_LogitechG810::DeviceUpdateLEDs()
     controller->Commit();
 }
 
-void RGBController_LogitechG810::UpdateZoneLEDs(int /*zone*/)
+void RGBController_LogitechG810::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_LogitechG810::UpdateSingleLED(int led)
+void RGBController_LogitechG810::DeviceUpdateSingleLED(int led)
 {
     unsigned char frame[4];
     unsigned char zone;
@@ -383,7 +358,7 @@ void RGBController_LogitechG810::DeviceUpdateMode()
     \*---------------------------------------------------------*/
     if(active_mode == 0xFFFF)
     {
-        UpdateLEDs();
+        UpdateLEDsInternal();
         return;
     }
 

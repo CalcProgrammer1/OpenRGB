@@ -267,7 +267,6 @@ void RGBController_ASRockPolychromeV1SMBus::SetupZones()
             new_zone->leds_min      = 1;
             new_zone->leds_max      = 1;
             new_zone->leds_count    = 1;
-            new_zone->matrix_map    = NULL;
 
             if(zone_idx == POLYCHROME_V1_ZONE_ADDRESSABLE)
             {
@@ -297,9 +296,9 @@ void RGBController_ASRockPolychromeV1SMBus::SetupZones()
     SetupColors();
 }
 
-void RGBController_ASRockPolychromeV1SMBus::ResizeZone(int zone, int new_size)
+void RGBController_ASRockPolychromeV1SMBus::DeviceResizeZone(int zone, int new_size)
 {
-    LOG_TRACE("[%s] ResizeZone(%02X, %02X)", name.c_str(), zone, new_size);
+    LOG_TRACE("[%s] DeviceResizeZone(%02X, %02X)", name.c_str(), zone, new_size);
     controller-> SetARGBSize(new_size & 0xFF);
     zones[POLYCHROME_V1_ZONE_ADDRESSABLE].leds_count = 1;
 }
@@ -309,19 +308,19 @@ void RGBController_ASRockPolychromeV1SMBus::DeviceUpdateLEDs()
     LOG_TRACE("[%s] DeviceUpdateLEDs()", name.c_str());
     for (uint8_t zone_idx = 0; zone_idx < zoneIndexMap.size(); zone_idx++)
     {
-        UpdateSingleLED(zone_idx);
+        DeviceUpdateSingleLED(zone_idx);
     }
 }
 
-void RGBController_ASRockPolychromeV1SMBus::UpdateZoneLEDs(int /*zone*/)
+void RGBController_ASRockPolychromeV1SMBus::DeviceUpdateZoneLEDs(int /*zone*/)
 {
-    LOG_TRACE("[%s] UpdateZoneLEDs()", name.c_str());
+    LOG_TRACE("[%s] DeviceUpdateZoneLEDs()", name.c_str());
     DeviceUpdateLEDs();
 }
 
-void RGBController_ASRockPolychromeV1SMBus::UpdateSingleLED(int zone)
+void RGBController_ASRockPolychromeV1SMBus::DeviceUpdateSingleLED(int zone)
 {
-    LOG_TRACE("[%s] UpdateSingleLED(%02X)", name.c_str(), zone);
+    LOG_TRACE("[%s] DeviceUpdateSingleLED(%02X)", name.c_str(), zone);
 
     uint8_t red = RGBGetRValue(colors[zone]);
     uint8_t grn = RGBGetGValue(colors[zone]);
@@ -338,7 +337,7 @@ void RGBController_ASRockPolychromeV1SMBus::DeviceUpdateMode()
         for(uint8_t zone_idx = 0; zone_idx < zoneIndexMap.size(); zone_idx++)
         {
             controller->SetMode(zoneIndexMap[zone_idx], modes[active_mode].value, modes[active_mode].speed);
-            UpdateSingleLED(zone_idx);
+            DeviceUpdateSingleLED(zone_idx);
         }
     }
     else

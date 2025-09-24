@@ -76,7 +76,6 @@ void RGBController_HyperXPulsefireRaid::SetupZones()
         new_zone.leds_min    = 1;
         new_zone.leds_max    = 1;
         new_zone.leds_count  = 1;
-        new_zone.matrix_map  = NULL;
         zones.push_back(new_zone);
 
         led new_led;
@@ -87,22 +86,17 @@ void RGBController_HyperXPulsefireRaid::SetupZones()
     SetupColors();
 }
 
-void RGBController_HyperXPulsefireRaid::ResizeZone(int /*zone*/, int /*new_size*/)
-{
-
-}
-
 void RGBController_HyperXPulsefireRaid::DeviceUpdateLEDs()
 {
-    UpdateSingleLED(0);
+    DeviceUpdateSingleLED(0);
 }
 
-void RGBController_HyperXPulsefireRaid::UpdateZoneLEDs(int zone)
+void RGBController_HyperXPulsefireRaid::DeviceUpdateZoneLEDs(int zone)
 {
-    UpdateSingleLED(zone);
+    DeviceUpdateSingleLED(zone);
 }
 
-void RGBController_HyperXPulsefireRaid::UpdateSingleLED(int /*led*/)
+void RGBController_HyperXPulsefireRaid::DeviceUpdateSingleLED(int /*led*/)
 {
     last_update_time = std::chrono::steady_clock::now();
     controller->SendColors(colors);
@@ -126,7 +120,7 @@ void RGBController_HyperXPulsefireRaid::KeepaliveThread()
         {
             if((std::chrono::steady_clock::now() - last_update_time) > 1s)
             {
-                UpdateLEDs();
+                UpdateLEDsInternal();
             }
         }
 

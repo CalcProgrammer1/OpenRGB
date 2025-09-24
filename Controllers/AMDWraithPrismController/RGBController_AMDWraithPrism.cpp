@@ -154,7 +154,6 @@ void RGBController_AMDWraithPrism::SetupZones()
     logo_zone.leds_min      = 1;
     logo_zone.leds_max      = 1;
     logo_zone.leds_count    = 1;
-    logo_zone.matrix_map    = NULL;
     zones.push_back(logo_zone);
 
     zone fan_zone;
@@ -163,7 +162,6 @@ void RGBController_AMDWraithPrism::SetupZones()
     fan_zone.leds_min       = 1;
     fan_zone.leds_max       = 1;
     fan_zone.leds_count     = 1;
-    fan_zone.matrix_map     = NULL;
     zones.push_back(fan_zone);
 
     zone ring_zone;
@@ -172,7 +170,6 @@ void RGBController_AMDWraithPrism::SetupZones()
     ring_zone.leds_min      = 15;
     ring_zone.leds_max      = 15;
     ring_zone.leds_count    = 15;
-    ring_zone.matrix_map    = NULL;
     zones.push_back(ring_zone);
 
     /*-----------------------------------------------------*\
@@ -203,13 +200,6 @@ void RGBController_AMDWraithPrism::SetupZones()
     }
 
     SetupColors();
-}
-
-void RGBController_AMDWraithPrism::ResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*-----------------------------------------------------*\
-    | This device does not support resizing zones           |
-    \*-----------------------------------------------------*/
 }
 
 void RGBController_AMDWraithPrism::DeviceUpdateLEDs()
@@ -271,12 +261,12 @@ void RGBController_AMDWraithPrism::DeviceUpdateLEDs()
     }
 }
 
-void RGBController_AMDWraithPrism::UpdateZoneLEDs(int /*zone*/)
+void RGBController_AMDWraithPrism::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_AMDWraithPrism::UpdateSingleLED(int /*led*/)
+void RGBController_AMDWraithPrism::DeviceUpdateSingleLED(int /*led*/)
 {
     DeviceUpdateLEDs();
 }
