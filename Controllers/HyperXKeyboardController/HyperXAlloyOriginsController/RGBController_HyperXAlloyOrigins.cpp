@@ -217,17 +217,6 @@ RGBController_HyperXAlloyOrigins::~RGBController_HyperXAlloyOrigins()
     keepalive_thread->join();
     delete keepalive_thread;
 
-    /*---------------------------------------------------------*\
-    | Delete the matrix map                                     |
-    \*---------------------------------------------------------*/
-    for(unsigned int zone_index = 0; zone_index < zones.size(); zone_index++)
-    {
-        if(zones[zone_index].matrix_map != NULL)
-        {
-            delete zones[zone_index].matrix_map;
-        }
-    }
-
     delete controller;
 }
 
@@ -248,14 +237,7 @@ void RGBController_HyperXAlloyOrigins::SetupZones()
 
         if(zone_types[zone_idx] == ZONE_TYPE_MATRIX)
         {
-            new_zone.matrix_map         = new matrix_map_type;
-            new_zone.matrix_map->height = 6;
-            new_zone.matrix_map->width  = 23;
-            new_zone.matrix_map->map    = (unsigned int *)&matrix_map;
-        }
-        else
-        {
-            new_zone.matrix_map         = NULL;
+            new_zone.matrix_map.Set(6, 23, (unsigned int *)&matrix_map);
         }
 
         zones.push_back(new_zone);
@@ -273,24 +255,17 @@ void RGBController_HyperXAlloyOrigins::SetupZones()
     SetupColors();
 }
 
-void RGBController_HyperXAlloyOrigins::ResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_HyperXAlloyOrigins::DeviceUpdateLEDs()
 {
     controller->SetLEDsDirect(colors);
 }
 
-void RGBController_HyperXAlloyOrigins::UpdateZoneLEDs(int /*zone*/)
+void RGBController_HyperXAlloyOrigins::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_HyperXAlloyOrigins::UpdateSingleLED(int /*led*/)
+void RGBController_HyperXAlloyOrigins::DeviceUpdateSingleLED(int /*led*/)
 {
     DeviceUpdateLEDs();
 }
@@ -308,7 +283,7 @@ void RGBController_HyperXAlloyOrigins::KeepaliveThread()
         {
             if((std::chrono::steady_clock::now() - last_update_time) > std::chrono::milliseconds(50))
             {
-                UpdateLEDs();
+                UpdateLEDsInternal();
             }
         }
         std::this_thread::sleep_for(10ms);;

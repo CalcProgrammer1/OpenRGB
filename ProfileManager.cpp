@@ -87,8 +87,8 @@ bool ProfileManager::SaveProfile(std::string profile_name, bool sizes)
             | Ignore remote and virtual controllers when saving     |
             | sizes                                                 |
             \*-----------------------------------------------------*/
-            if(sizes && (controllers[controller_index]->flags & CONTROLLER_FLAG_REMOTE
-                      || controllers[controller_index]->flags & CONTROLLER_FLAG_VIRTUAL))
+            if(sizes && (controllers[controller_index]->GetFlags() & CONTROLLER_FLAG_REMOTE
+                      || controllers[controller_index]->GetFlags() & CONTROLLER_FLAG_VIRTUAL))
             {
                 break;
             }
@@ -275,7 +275,7 @@ bool ProfileManager::LoadDeviceFromListWithOptions
         | Test if saved controller data matches this controller     |
         \*---------------------------------------------------------*/
         if((temp_controller_used[temp_index]    == false                            )
-         &&(temp_controller->type               == load_controller->type            )
+         &&(temp_controller->GetDeviceType()    == load_controller->GetDeviceType() )
          &&(temp_controller->GetName()          == load_controller->GetName()       )
          &&(temp_controller->GetDescription()   == load_controller->GetDescription())
          &&(temp_controller->GetVersion()       == load_controller->GetVersion()    )
@@ -296,12 +296,12 @@ bool ProfileManager::LoadDeviceFromListWithOptions
                 {
                     for(std::size_t zone_idx = 0; zone_idx < temp_controller->zones.size(); zone_idx++)
                     {
-                        if((temp_controller->zones[zone_idx].name       == load_controller->zones[zone_idx].name      )
-                         &&(temp_controller->zones[zone_idx].type       == load_controller->zones[zone_idx].type      )
-                         &&(temp_controller->zones[zone_idx].leds_min   == load_controller->zones[zone_idx].leds_min  )
-                         &&(temp_controller->zones[zone_idx].leds_max   == load_controller->zones[zone_idx].leds_max  ))
+                        if((temp_controller->GetZoneName(zone_idx)      == load_controller->GetZoneName(zone_idx)     )
+                         &&(temp_controller->GetZoneType(zone_idx)      == load_controller->GetZoneType(zone_idx)     )
+                         &&(temp_controller->GetZoneLEDsMin(zone_idx)   == load_controller->GetZoneLEDsMin(zone_idx)  )
+                         &&(temp_controller->GetZoneLEDsMax(zone_idx)   == load_controller->GetZoneLEDsMax(zone_idx)  ))
                         {
-                            if(temp_controller->zones[zone_idx].leds_count != load_controller->zones[zone_idx].leds_count)
+                            if(temp_controller->GetZoneLEDsCount(zone_idx) != load_controller->GetZoneLEDsCount(zone_idx))
                             {
                                 load_controller->ResizeZone((int)zone_idx, temp_controller->zones[zone_idx].leds_count);
                             }
@@ -332,15 +332,15 @@ bool ProfileManager::LoadDeviceFromListWithOptions
                 {
                     for(std::size_t mode_index = 0; mode_index < temp_controller->modes.size(); mode_index++)
                     {
-                        if((temp_controller->modes[mode_index].name             == load_controller->modes[mode_index].name          )
-                         &&(temp_controller->modes[mode_index].value            == load_controller->modes[mode_index].value         )
-                         &&(temp_controller->modes[mode_index].flags            == load_controller->modes[mode_index].flags         )
-                         &&(temp_controller->modes[mode_index].speed_min        == load_controller->modes[mode_index].speed_min     )
-                         &&(temp_controller->modes[mode_index].speed_max        == load_controller->modes[mode_index].speed_max     )
-                       //&&(temp_controller->modes[mode_index].brightness_min   == load_controller->modes[mode_index].brightness_min)
-                       //&&(temp_controller->modes[mode_index].brightness_max   == load_controller->modes[mode_index].brightness_max)
-                         &&(temp_controller->modes[mode_index].colors_min       == load_controller->modes[mode_index].colors_min    )
-                         &&(temp_controller->modes[mode_index].colors_max       == load_controller->modes[mode_index].colors_max   ))
+                        if((temp_controller->GetModeName(mode_index)            == load_controller->GetModeName(mode_index)         )
+                         &&(temp_controller->GetModeValue(mode_index)           == load_controller->GetModeValue(mode_index)        )
+                         &&(temp_controller->GetModeFlags(mode_index)           == load_controller->GetModeFlags(mode_index)        )
+                         &&(temp_controller->GetModeSpeedMin(mode_index)        == load_controller->GetModeSpeedMin(mode_index)     )
+                         &&(temp_controller->GetModeSpeedMax(mode_index)        == load_controller->GetModeSpeedMax(mode_index)     )
+                       //&&(temp_controller->GetModeBrightnessMin(mode_index)   == load_controller->GetModeBrightnessMin(mode_index))
+                       //&&(temp_controller->GetModeBrightnessMax(mode_index)   == load_controller->GetModeBrightnessMax(mode_index))
+                         &&(temp_controller->GetModeColorsMin(mode_index)       == load_controller->GetModeColorsMin(mode_index)    )
+                         &&(temp_controller->GetModeColorsMax(mode_index)       == load_controller->GetModeColorsMax(mode_index)    ))
                         {
                             load_controller->modes[mode_index].speed            = temp_controller->modes[mode_index].speed;
                             load_controller->modes[mode_index].brightness       = temp_controller->modes[mode_index].brightness;
@@ -349,7 +349,7 @@ bool ProfileManager::LoadDeviceFromListWithOptions
 
                             load_controller->modes[mode_index].colors.resize(temp_controller->modes[mode_index].colors.size());
 
-                            for(std::size_t mode_color_index = 0; mode_color_index < temp_controller->modes[mode_index].colors.size(); mode_color_index++)
+                            for(std::size_t mode_color_index = 0; mode_color_index < temp_controller->GetModeColorsCount(mode_index); mode_color_index++)
                             {
                                 load_controller->modes[mode_index].colors[mode_color_index] = temp_controller->modes[mode_index].colors[mode_color_index];
                             }

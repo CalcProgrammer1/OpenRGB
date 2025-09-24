@@ -55,6 +55,7 @@ RGBController_ThrustmasterSol::RGBController_ThrustmasterSol(ThrustmasterSolCont
 {
     controller  = controller_ptr;
 
+    name        = controller_ptr->GetDeviceName();
     vendor      = "Thrustmaster";
     type        = DEVICE_TYPE_GAMEPAD;
     description = "Thrustmaster Sol Series Joystick";
@@ -107,7 +108,6 @@ void RGBController_ThrustmasterSol::SetupZones()
     thumbstick_zone.leds_min   = 1;
     thumbstick_zone.leds_max   = 1;
     thumbstick_zone.leds_count = 1;
-    thumbstick_zone.matrix_map = NULL;
     zones.push_back(thumbstick_zone);
 
     led thumbstick_led;
@@ -124,10 +124,7 @@ void RGBController_ThrustmasterSol::SetupZones()
     logo_zone.leds_min           = 4;
     logo_zone.leds_max           = 4;
     logo_zone.leds_count         = 4;
-    logo_zone.matrix_map         = new matrix_map_type;
-    logo_zone.matrix_map->height = 2;
-    logo_zone.matrix_map->width  = 2;
-    logo_zone.matrix_map->map    = (unsigned int *)&logo_matrix_map;
+    logo_zone.matrix_map.Set(2, 2, (unsigned int *)&logo_matrix_map);
     zones.push_back(logo_zone);
 
     led logo_top_left;
@@ -159,10 +156,7 @@ void RGBController_ThrustmasterSol::SetupZones()
     left_buttons_zone.leds_min           = 4;
     left_buttons_zone.leds_max           = 4;
     left_buttons_zone.leds_count         = 4;
-    left_buttons_zone.matrix_map         = new matrix_map_type;
-    left_buttons_zone.matrix_map->height = 2;
-    left_buttons_zone.matrix_map->width  = 2;
-    left_buttons_zone.matrix_map->map    = (unsigned int *)&left_buttons_matrix_map;
+    left_buttons_zone.matrix_map.Set(2, 2, (unsigned int *)&left_buttons_matrix_map);
     zones.push_back(left_buttons_zone);
 
     led btn5;
@@ -194,10 +188,7 @@ void RGBController_ThrustmasterSol::SetupZones()
     ring_zone.leds_min           = 8;
     ring_zone.leds_max           = 8;
     ring_zone.leds_count         = 8;
-    ring_zone.matrix_map         = new matrix_map_type;
-    ring_zone.matrix_map->height = 3;
-    ring_zone.matrix_map->width  = 5;
-    ring_zone.matrix_map->map    = (unsigned int *)&ring_matrix_map;
+    ring_zone.matrix_map.Set(3, 5, (unsigned int *)&ring_matrix_map);
     zones.push_back(ring_zone);
 
     led ring_upper;
@@ -249,10 +240,7 @@ void RGBController_ThrustmasterSol::SetupZones()
     right_buttons_zone.leds_min           = 4;
     right_buttons_zone.leds_max           = 4;
     right_buttons_zone.leds_count         = 4;
-    right_buttons_zone.matrix_map         = new matrix_map_type;
-    right_buttons_zone.matrix_map->height = 2;
-    right_buttons_zone.matrix_map->width  = 2;
-    right_buttons_zone.matrix_map->map    = (unsigned int *)&right_buttons_matrix_map;
+    right_buttons_zone.matrix_map.Set(2, 2, (unsigned int *)&right_buttons_matrix_map);
     zones.push_back(right_buttons_zone);
 
     led btn17;
@@ -278,13 +266,6 @@ void RGBController_ThrustmasterSol::SetupZones()
     SetupColors();
 }
 
-void RGBController_ThrustmasterSol::ResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_ThrustmasterSol::DeviceUpdateLEDs()
 {
     unsigned int    led_zones[THRUSTMASTER_SOL_R_ZONE_COUNT];
@@ -299,7 +280,7 @@ void RGBController_ThrustmasterSol::DeviceUpdateLEDs()
     controller->SetLEDColors(led_zones, led_colors, static_cast<unsigned int>(leds.size()));
 }
 
-void RGBController_ThrustmasterSol::UpdateZoneLEDs(int zone)
+void RGBController_ThrustmasterSol::DeviceUpdateZoneLEDs(int zone)
 {
     unsigned int start_idx = 0;
     unsigned int zone_size = 0;
@@ -328,7 +309,7 @@ void RGBController_ThrustmasterSol::UpdateZoneLEDs(int zone)
     controller->SetLEDColors(led_zones, led_colors, zone_size);
 }
 
-void RGBController_ThrustmasterSol::UpdateSingleLED(int led)
+void RGBController_ThrustmasterSol::DeviceUpdateSingleLED(int led)
 {
     controller->SetLEDColor(leds[led].value, colors[led]);
 }

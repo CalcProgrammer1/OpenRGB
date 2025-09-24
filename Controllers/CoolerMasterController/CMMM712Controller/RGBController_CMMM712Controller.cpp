@@ -133,7 +133,6 @@ void RGBController_CMMM712Controller::Init_Controller()
     mouse_zone.leds_min     = 1;
     mouse_zone.leds_max     = 1;
     mouse_zone.leds_count   = 1;
-    mouse_zone.matrix_map   = NULL;
     zones.push_back(mouse_zone);
 
     led logo_led;
@@ -147,13 +146,6 @@ void RGBController_CMMM712Controller::SetupZones()
     SetupColors();
 }
 
-void RGBController_CMMM712Controller::ResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_CMMM712Controller::DeviceUpdateLEDs()
 {
     modes[active_mode].brightness=255;
@@ -162,12 +154,12 @@ void RGBController_CMMM712Controller::DeviceUpdateLEDs()
     controller->SetLedsDirect(logo);
 }
 
-void RGBController_CMMM712Controller::UpdateZoneLEDs(int /*zone*/)
+void RGBController_CMMM712Controller::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_CMMM712Controller::UpdateSingleLED(int /*led*/)
+void RGBController_CMMM712Controller::DeviceUpdateSingleLED(int /*led*/)
 {
     DeviceUpdateLEDs();
 }

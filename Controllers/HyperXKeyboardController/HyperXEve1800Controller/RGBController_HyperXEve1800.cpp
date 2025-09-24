@@ -70,7 +70,6 @@ void RGBController_HyperXEve1800::SetupZones()
     new_zone.leds_min               = HYPERX_EVE_1800_ZONE_COUNT;
     new_zone.leds_max               = HYPERX_EVE_1800_ZONE_COUNT;
     new_zone.leds_count             = HYPERX_EVE_1800_ZONE_COUNT;
-    new_zone.matrix_map             = NULL;
     zones.push_back(new_zone);
 
     for(unsigned int led_idx = 0; led_idx < zones[0].leds_count; led_idx++)
@@ -84,23 +83,18 @@ void RGBController_HyperXEve1800::SetupZones()
     SetupColors();
 }
 
-void RGBController_HyperXEve1800::ResizeZone(int /*zone*/, int /*new_size*/)
-{
-
-}
-
 void RGBController_HyperXEve1800::DeviceUpdateLEDs()
 {
     controller->SetLEDsDirect(colors);
     last_update_time = std::chrono::steady_clock::now();
 }
 
-void RGBController_HyperXEve1800::UpdateZoneLEDs(int /*zone*/)
+void RGBController_HyperXEve1800::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_HyperXEve1800::UpdateSingleLED(int /*led*/)
+void RGBController_HyperXEve1800::DeviceUpdateSingleLED(int /*led*/)
 {
     DeviceUpdateLEDs();
 }

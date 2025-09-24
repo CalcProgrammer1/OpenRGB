@@ -98,10 +98,8 @@ void DetectThrustmasterSolControllers()
                 char path[32];
                 snprintf(path, sizeof(path), "%d-%d", bus, address);
 
-                ThrustmasterSolController*      controller     = new ThrustmasterSolController(handle, path, desc.idProduct);
+                ThrustmasterSolController*      controller     = new ThrustmasterSolController(handle, path, desc.idProduct, device_list[d].name);
                 RGBController_ThrustmasterSol*  rgb_controller = new RGBController_ThrustmasterSol(controller);
-
-                rgb_controller->name = device_list[d].name;
 
                 ResourceManager::get()->RegisterRGBController(rgb_controller);
                 break;

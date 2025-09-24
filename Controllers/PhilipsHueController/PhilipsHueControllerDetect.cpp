@@ -200,7 +200,7 @@ void DetectPhilipsHueControllers()
                         {
                             if(ResourceManager::get()->GetRGBControllers()[controller_idx]->GetDescription() == "Philips Hue Entertainment Mode Device")
                             {
-                                ResourceManager::get()->GetRGBControllers()[controller_idx]->SetMode(0);
+                                ResourceManager::get()->GetRGBControllers()[controller_idx]->SetActiveMode(0);
                                 break;
                             }
                         }

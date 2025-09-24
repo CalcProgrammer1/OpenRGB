@@ -37,14 +37,6 @@ void DetectIonicoControllers(hid_device_info* info, const std::string& name)
         IonicoController*     controller         = new IonicoController(dev, *info, info->product_id, name);
         RGBController_Ionico* rgb_controller     = new RGBController_Ionico(controller);
 
-        if(info->product_id == IONICO_KB_PID)
-        {
-            rgb_controller->type = DEVICE_TYPE_KEYBOARD;
-        }
-        else if(info->product_id == IONICO_FB_PID)
-        {
-            rgb_controller->type = DEVICE_TYPE_LEDSTRIP;
-        }
         ResourceManager::get()->RegisterRGBController(rgb_controller);
     }
 }

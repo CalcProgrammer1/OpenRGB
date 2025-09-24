@@ -432,17 +432,6 @@ RGBController_ZETBladeOptical::RGBController_ZETBladeOptical(ZETBladeOpticalCont
 
 RGBController_ZETBladeOptical::~RGBController_ZETBladeOptical()
 {
-    /*---------------------------------------------------------*\
-    | Delete the matrix map                                     |
-    \*---------------------------------------------------------*/
-    for (unsigned int zone_index = 0; zone_index < zones.size(); zone_index++)
-    {
-        if (zones[zone_index].matrix_map != nullptr)
-        {
-            delete zones[zone_index].matrix_map;
-        }
-    }
-
     delete controller;
 }
 
@@ -463,14 +452,7 @@ void RGBController_ZETBladeOptical::SetupZones()
 
         if (zone_types[zone_idx] == ZONE_TYPE_MATRIX)
         {
-            new_zone.matrix_map         = new matrix_map_type;
-            new_zone.matrix_map->height = ZET_BLADE_OPTICAL_ROWS;
-            new_zone.matrix_map->width  = ZET_BLADE_OPTICAL_COLUMNS;
-            new_zone.matrix_map->map    = (unsigned int *)&matrix_map;
-        }
-        else
-        {
-            new_zone.matrix_map         = nullptr;
+            new_zone.matrix_map.Set(ZET_BLADE_OPTICAL_ROWS, ZET_BLADE_OPTICAL_COLUMNS, (unsigned int *)&matrix_map);
         }
 
         zones.push_back(new_zone);
@@ -488,13 +470,6 @@ void RGBController_ZETBladeOptical::SetupZones()
     SetupColors();
 }
 
-void RGBController_ZETBladeOptical::ResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_ZETBladeOptical::DeviceUpdateLEDs()
 {
     last_update_time = std::chrono::steady_clock::now();
@@ -505,12 +480,12 @@ void RGBController_ZETBladeOptical::DeviceUpdateLEDs()
     }
 }
 
-void RGBController_ZETBladeOptical::UpdateZoneLEDs(int /*zone*/)
+void RGBController_ZETBladeOptical::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_ZETBladeOptical::UpdateSingleLED(int /*led*/)
+void RGBController_ZETBladeOptical::DeviceUpdateSingleLED(int /*led*/)
 {
     DeviceUpdateLEDs();
 }

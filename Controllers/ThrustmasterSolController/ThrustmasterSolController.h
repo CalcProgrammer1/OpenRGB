@@ -87,12 +87,11 @@
 class ThrustmasterSolController
 {
 public:
-    ThrustmasterSolController(libusb_device_handle* dev_handle,
-                              const char* path,
-                              unsigned short pid);
+    ThrustmasterSolController(libusb_device_handle* dev_handle, const char* path, unsigned short pid, std::string dev_name);
     ~ThrustmasterSolController();
 
     std::string     GetDeviceLocation();
+    std::string     GetDeviceName();
     std::string     GetSerialString();
     unsigned short  GetPID();
 
@@ -107,6 +106,7 @@ public:
 private:
     libusb_device_handle*   dev;
     std::string             location;
+    std::string             name;
     std::string             serial;
     unsigned short          pid;
 

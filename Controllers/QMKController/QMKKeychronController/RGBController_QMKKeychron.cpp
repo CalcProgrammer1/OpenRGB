@@ -174,10 +174,7 @@ void RGBController_QMKKeychron::SetupZones()
     keyboard.leds_min           = controller->GetLEDCount();
     keyboard.leds_max           = controller->GetLEDCount();
     keyboard.leds_count         = controller->GetLEDCount();
-    keyboard.matrix_map         = new matrix_map_type;
-    keyboard.matrix_map->height = height;
-    keyboard.matrix_map->width  = width;
-    keyboard.matrix_map->map    = matrix_map;
+    keyboard.matrix_map.Set(height, width, matrix_map);
 
     zones.push_back(keyboard);
 
@@ -195,21 +192,17 @@ void RGBController_QMKKeychron::SetupZones()
     SetupColors();
 }
 
-void RGBController_QMKKeychron::ResizeZone(int /*zone*/, int /*new_size*/)
-{
-}
-
 void RGBController_QMKKeychron::DeviceUpdateLEDs()
 {
     controller->SendLEDs((unsigned short)colors.size(), colors.data());
 }
 
-void RGBController_QMKKeychron::UpdateZoneLEDs(int /*zone*/)
+void RGBController_QMKKeychron::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_QMKKeychron::UpdateSingleLED(int /*led*/)
+void RGBController_QMKKeychron::DeviceUpdateSingleLED(int /*led*/)
 {
     DeviceUpdateLEDs();
 }

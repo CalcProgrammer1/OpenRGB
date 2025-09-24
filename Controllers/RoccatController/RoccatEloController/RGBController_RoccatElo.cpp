@@ -58,7 +58,6 @@ void RGBController_RoccatElo::SetupZones()
     new_zone.leds_min   = ROCCAT_ELO_LEDS_COUNT;
     new_zone.leds_max   = ROCCAT_ELO_LEDS_COUNT;
     new_zone.leds_count = ROCCAT_ELO_LEDS_COUNT;
-    new_zone.matrix_map = nullptr;
 
     zones.emplace_back(new_zone);
 
@@ -67,24 +66,17 @@ void RGBController_RoccatElo::SetupZones()
     SetupColors();
 }
 
-void RGBController_RoccatElo::ResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_RoccatElo::DeviceUpdateLEDs()
 {
     controller->SendDirect(colors[0]);
 }
 
-void RGBController_RoccatElo::UpdateZoneLEDs(int /*zone*/)
+void RGBController_RoccatElo::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_RoccatElo::UpdateSingleLED(int /*led*/)
+void RGBController_RoccatElo::DeviceUpdateSingleLED(int /*led*/)
 {
     DeviceUpdateLEDs();
 }
