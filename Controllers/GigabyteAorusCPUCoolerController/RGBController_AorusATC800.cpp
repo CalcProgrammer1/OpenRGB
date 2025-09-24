@@ -228,20 +228,13 @@ void RGBController_AorusATC800::SetupZones()
     SetupColors();
 }
 
-void RGBController_AorusATC800::ResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_AorusATC800::DeviceUpdateLEDs()
 {
-    UpdateZoneLEDs(0);
-    UpdateZoneLEDs(1);
+    DeviceUpdateZoneLEDs(0);
+    DeviceUpdateZoneLEDs(1);
 }
 
-void RGBController_AorusATC800::UpdateZoneLEDs(int zone)
+void RGBController_AorusATC800::DeviceUpdateZoneLEDs(int zone)
 {
     aorus_atc800_mode_config zone_config;
 
@@ -261,9 +254,9 @@ void RGBController_AorusATC800::UpdateZoneLEDs(int zone)
     controller->SendCoolerMode(zone, modes[active_mode].value, zone_config);
 }
 
-void RGBController_AorusATC800::UpdateSingleLED(int led)
+void RGBController_AorusATC800::DeviceUpdateSingleLED(int led)
 {
-    UpdateZoneLEDs(led);
+    DeviceUpdateZoneLEDs(led);
 }
 
 void RGBController_AorusATC800::DeviceUpdateMode()

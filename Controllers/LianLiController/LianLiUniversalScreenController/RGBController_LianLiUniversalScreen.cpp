@@ -69,22 +69,17 @@ void RGBController_LianLiUniversalScreen::SetupZones()
     SetupColors();
 }
 
-void RGBController_LianLiUniversalScreen::ResizeZone(int /*zone*/, int /*new_size*/)
-{
-
-}
-
 void RGBController_LianLiUniversalScreen::DeviceUpdateLEDs()
 {
     controller->SetLedColors(colors.data(), colors.size());
 }
 
-void RGBController_LianLiUniversalScreen::UpdateZoneLEDs(int /*zone*/)
+void RGBController_LianLiUniversalScreen::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_LianLiUniversalScreen::UpdateSingleLED(int /*led*/)
+void RGBController_LianLiUniversalScreen::DeviceUpdateSingleLED(int /*led*/)
 {
     DeviceUpdateLEDs();
 }

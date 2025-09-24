@@ -45,33 +45,38 @@ void OpenRGBZonesBulkResizer::RunChecks(QWidget *parent)
 
     LOG_DEBUG("[ZonesBulkResizer] Running zones sizes checks...");
 
-    /*---------------------------------------------------------*\
-    | Collect the unconfigured zones                            |
-    \*---------------------------------------------------------*/
+    /*-----------------------------------------------------*\
+    | Collect the unconfigured zones                        |
+    \*-----------------------------------------------------*/
     std::vector<RGBController*>& controllers = ResourceManager::get()->GetRGBControllers();
 
-    std::vector<std::tuple<RGBController*, unsigned int>> zones;
+    std::vector<std::tuple<RGBController*, unsigned int>> unconfigured_zones;
 
     for(RGBController* controller: controllers)
     {
-        for(unsigned int zone_index = 0; zone_index < controller->zones.size(); zone_index++)
+        for(unsigned int zone_index = 0; zone_index < controller->GetZoneCount(); zone_index++)
         {
-            // Consider unconfigured if 0 leds AND led_count < leds_max
-            if(controller->zones[zone_index].leds_count == 0
-                    && controller->zones[zone_index].leds_count < controller->zones[zone_index].leds_max)
+            /*---------------------------------------------*\
+            | Consider unconfigured if zone is size 0, zone |
+            | size is less than max size, and not manually  |
+            | configured                                    |
+            \*---------------------------------------------*/
+            if((controller->GetZoneLEDsCount(zone_index) == 0) &&
+               (controller->GetZoneLEDsCount(zone_index) < controller->GetZoneLEDsMax(zone_index)) &&
+               (controller->GetZoneFlags(zone_index) & ZONE_FLAG_MANUALLY_CONFIGURED) == 0)
             {
-                zones.push_back({controller, zone_index});
+                unconfigured_zones.push_back({controller, zone_index});
             }
         }
     }
 
-    LOG_DEBUG("[ZonesBulkResizer] Zones checks finished: %d unconfigured zone(s).", zones.size());
+    LOG_DEBUG("[ZonesBulkResizer] Zones checks finished: %d unconfigured zone(s).", unconfigured_zones.size());
 
-    /*---------------------------------------------------------*\
-    | Show the configuration tool GUI if we have some           |
-    | unconfigured zones                                        |
-    \*---------------------------------------------------------*/
-    if(!zones.empty())
+    /*-----------------------------------------------------*\
+    | Show the configuration tool GUI if we have some       |
+    | unconfigured zones                                    |
+    \*-----------------------------------------------------*/
+    if(!unconfigured_zones.empty())
     {
         QDialog* dialog = new QDialog(parent);
         dialog->setWindowTitle(tr("Resize the zones"));
@@ -81,7 +86,7 @@ void OpenRGBZonesBulkResizer::RunChecks(QWidget *parent)
 
         QVBoxLayout* dialog_layout = new QVBoxLayout(dialog);
 
-        OpenRGBZonesBulkResizer* widget = new OpenRGBZonesBulkResizer(dialog, zones);
+        OpenRGBZonesBulkResizer* widget = new OpenRGBZonesBulkResizer(dialog, unconfigured_zones);
 
         dialog_layout->addWidget(widget);
 
@@ -145,15 +150,15 @@ void OpenRGBZonesBulkResizer::CreateZoneWidget(RGBController* controller, unsign
     controller_label->setText(QString::fromStdString(controller->GetName()));
 
     QLabel* zone_label = new QLabel(this);
-    zone_label->setText(QString::fromStdString(controller->zones[zone_index].name));
+    zone_label->setText(QString::fromStdString(controller->GetZoneName(zone_index)));
 
     /*---------------------------------------------------------*\
     | Spin box: controls the zone size                          |
     \*---------------------------------------------------------*/
     QSpinBox* spin_box = new QSpinBox(this);
     spin_box->setValue(0);
-    spin_box->setMinimum(controller->zones[zone_index].leds_min);
-    spin_box->setMaximum(controller->zones[zone_index].leds_max);
+    spin_box->setMinimum(controller->GetZoneLEDsMin(zone_index));
+    spin_box->setMaximum(controller->GetZoneLEDsMax(zone_index));
 
     /*---------------------------------------------------------*\
     | Insert labels + spinbox                                   |
@@ -168,8 +173,6 @@ void OpenRGBZonesBulkResizer::CreateZoneWidget(RGBController* controller, unsign
 
 void OpenRGBZonesBulkResizer::on_save_button_clicked()
 {
-    bool has_changes = false;
-
     /*---------------------------------------------------------*\
     | Resize what needs to be resized                           |
     \*---------------------------------------------------------*/
@@ -177,31 +180,23 @@ void OpenRGBZonesBulkResizer::on_save_button_clicked()
     {
         unsigned int new_size = ((QSpinBox*)ui->zones_table->cellWidget(i,2))->value();
 
-        if(new_size > 0)
-        {
-            RGBController* controller = std::get<0>(unconfigured_zones[i]);
-            unsigned int zone_index = std::get<1>(unconfigured_zones[i]);
+        RGBController* controller = std::get<0>(unconfigured_zones[i]);
+        unsigned int zone_index = std::get<1>(unconfigured_zones[i]);
 
-            controller->ResizeZone(zone_index, new_size);
-
-            has_changes = true;
-        }
+        controller->ResizeZone(zone_index, new_size);
     }
 
     /*---------------------------------------------------------*\
-    | Save the sizes if the user did any changes                |
+    | Save the sizes                                            |
     \*---------------------------------------------------------*/
-    if(has_changes)
-    {
-        ProfileManager* profile_manager = ResourceManager::get()->GetProfileManager();
+    ProfileManager* profile_manager = ResourceManager::get()->GetProfileManager();
 
-        if(profile_manager != NULL)
-        {
-            /*---------------------------------------------------------*\
-            | Save the profile                                          |
-            \*---------------------------------------------------------*/
-            profile_manager->SaveProfile("sizes", true);
-        }
+    if(profile_manager != NULL)
+    {
+        /*-----------------------------------------------------*\
+        | Save the profile                                      |
+        \*-----------------------------------------------------*/
+        profile_manager->SaveProfile("sizes", true);
     }
 
     /*---------------------------------------------------------*\

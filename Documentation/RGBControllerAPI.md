@@ -276,31 +276,31 @@ Returns the `name` string of the given mode in the `modes` vector.
 
 Returns the `name` string of the given zone in the `zones` vector.
 
-### `std::string GetLEDName(int led)`
+### `std::string GetLEDDisplayName(int led)`
 
 Returns the `name` string of the given LED in the `leds` vector.
 
-### `RGBColor GetLED(unsigned int led)`
+### `RGBColor GetColor(unsigned int led)`
 
 Returns the color value of the given LED in the `colors` vector.
 
-### `void SetLED(unsigned int led, RGBColor color)`
+### `void SetColor(unsigned int led, RGBColor color)`
 
 Sets the color value of the given LED in the `colors` vector.
 
-### `void SetAllLEDs(RGBColor color)`
+### `void SetAllColors(RGBColor color)`
 
 Sets the color value of all LEDs in the `colors` vector.
 
-### `void SetAllZoneLEDs(int zone, RGBColor color)`
+### `void SetAllZoneColors(int zone, RGBColor color)`
 
 Sets the color value of all LEDs in the given zone in the `colors` vector.
 
-### `int GetMode()`
+### `int GetActiveMode()`
 
 Returns the active mode index of the device.  The returned int should line up with the `modes` vector.
 
-### `void SetMode(int mode)`
+### `void SetActiveMode(int mode)`
 
 Sets the active mode index of the device.  The mode should be the index in the `modes` vector of the mode you wish to set.
 

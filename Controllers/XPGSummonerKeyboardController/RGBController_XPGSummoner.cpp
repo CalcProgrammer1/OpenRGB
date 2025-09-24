@@ -302,14 +302,6 @@ void RGBController_XPGSummoner::SetupZones()
 }
 
 /*---------------------------------------------------------*\
-| ResizeZone: Not supported for this device                 |
-\*---------------------------------------------------------*/
-void RGBController_XPGSummoner::ResizeZone(int /*zone*/, int /*new_size*/)
-{
-    // This device does not support resizing zones
-}
-
-/*---------------------------------------------------------*\
 | DeviceUpdateLEDs: Updates LED colors                      |
 \*---------------------------------------------------------*/
 void RGBController_XPGSummoner::DeviceUpdateLEDs()
@@ -405,17 +397,17 @@ void RGBController_XPGSummoner::DeviceUpdateLEDs()
 }
 
 /*---------------------------------------------------------*\
-| UpdateZoneLEDs: Updates all LEDs in a zone                |
+| DeviceUpdateZoneLEDs: Updates all LEDs in a zone                |
 \*---------------------------------------------------------*/
-void RGBController_XPGSummoner::UpdateZoneLEDs(int /*zone*/)
+void RGBController_XPGSummoner::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateLEDs();
 }
 
 /*---------------------------------------------------------*\
-| UpdateSingleLED: Updates a single LED                     |
+| DeviceUpdateSingleLED: Updates a single LED                     |
 \*---------------------------------------------------------*/
-void RGBController_XPGSummoner::UpdateSingleLED(int /*led*/)
+void RGBController_XPGSummoner::DeviceUpdateSingleLED(int /*led*/)
 {
     DeviceUpdateLEDs();
 }
@@ -427,4 +419,3 @@ void RGBController_XPGSummoner::DeviceUpdateMode()
 {
     DeviceUpdateLEDs();
 }
-

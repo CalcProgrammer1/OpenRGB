@@ -181,24 +181,17 @@ void RGBController_Sinowealth::SetupZones()
     SetupColors();
 }
 
-void RGBController_Sinowealth::ResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_Sinowealth::DeviceUpdateLEDs()
 {
     DeviceUpdateMode();
 }
 
-void RGBController_Sinowealth::UpdateZoneLEDs(int /*zone*/)
+void RGBController_Sinowealth::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_Sinowealth::UpdateSingleLED(int /*led*/)
+void RGBController_Sinowealth::DeviceUpdateSingleLED(int /*led*/)
 {
     DeviceUpdateLEDs();
 }

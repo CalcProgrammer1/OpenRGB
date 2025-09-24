@@ -21,7 +21,7 @@ void RGBController_MNTKeyboard::CommonInit()
     modes[0].flags      = MODE_FLAG_HAS_PER_LED_COLOR;
     modes[0].color_mode = MODE_COLORS_PER_LED;
     SetupZones();
-    SetAllLEDs(ToRGBColor(255, 255, 255));
+    SetAllColors(ToRGBColor(255, 255, 255));
     DeviceUpdateLEDs();
 }
 
@@ -65,14 +65,11 @@ void RGBController_MNTKeyboard::DeviceUpdateLEDs()
     delete[] color_map;
 }
 
-void RGBController_MNTKeyboard::ResizeZone(int, int)
-{
-}
-void RGBController_MNTKeyboard::UpdateZoneLEDs(int)
+void RGBController_MNTKeyboard::DeviceUpdateZoneLEDs(int)
 {
     DeviceUpdateLEDs();
 }
-void RGBController_MNTKeyboard::UpdateSingleLED(int)
+void RGBController_MNTKeyboard::DeviceUpdateSingleLED(int)
 {
     DeviceUpdateLEDs();
 }

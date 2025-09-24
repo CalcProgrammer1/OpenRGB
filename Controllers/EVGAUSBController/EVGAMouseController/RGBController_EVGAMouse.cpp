@@ -194,13 +194,6 @@ void RGBController_EVGAMouse::SetupZones()
     SetupColors();
 }
 
-void RGBController_EVGAMouse::ResizeZone(int /* zone */, int /* new_size */)
-{
-    /*--------------------------------------*\
-    | This device does not support resizing. |
-    \*--------------------------------------*/
-}
-
 void RGBController_EVGAMouse::DeviceUpdateLEDs()
 {
     for(unsigned int i = 0; i < colors.size(); i++)
@@ -209,12 +202,12 @@ void RGBController_EVGAMouse::DeviceUpdateLEDs()
     }
 }
 
-void RGBController_EVGAMouse::UpdateZoneLEDs(int zone)
+void RGBController_EVGAMouse::DeviceUpdateZoneLEDs(int zone)
 {
     controller->SetLed(zone, modes[active_mode].brightness, modes[active_mode].speed, colors[zone]);
 }
 
-void RGBController_EVGAMouse::UpdateSingleLED(int led)
+void RGBController_EVGAMouse::DeviceUpdateSingleLED(int led)
 {
     controller->SetLed(led,  modes[active_mode].brightness, modes[active_mode].speed, colors[led]);
 }

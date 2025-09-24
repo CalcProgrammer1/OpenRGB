@@ -177,21 +177,17 @@ RGBController_LaviewTechnology::~RGBController_LaviewTechnology()
     delete controller;
 }
 
-void RGBController_LaviewTechnology::ResizeZone(int /*zone*/, int /*new_size*/)
-{
-}
-
 void RGBController_LaviewTechnology::DeviceUpdateLEDs()
 {
     DeviceUpdateMode();
 }
 
-void RGBController_LaviewTechnology::UpdateZoneLEDs(int /*zone*/)
+void RGBController_LaviewTechnology::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateMode();
 }
 
-void RGBController_LaviewTechnology::UpdateSingleLED(int /*led*/)
+void RGBController_LaviewTechnology::DeviceUpdateSingleLED(int /*led*/)
 {
     DeviceUpdateMode();
 }
