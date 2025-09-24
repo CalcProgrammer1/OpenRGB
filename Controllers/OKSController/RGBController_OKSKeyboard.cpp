@@ -158,17 +158,6 @@ RGBController_OKSKeyboard::RGBController_OKSKeyboard(OKSKeyboardController* cont
 
 RGBController_OKSKeyboard::~RGBController_OKSKeyboard()
 {
-    /*---------------------------------------------------------*\
-    | Delete the matrix map                                     |
-    \*---------------------------------------------------------*/
-    for(unsigned int zone_index = 0; zone_index < zones.size(); zone_index++)
-    {
-        if(zones[zone_index].matrix_map != NULL)
-        {
-            delete zones[zone_index].matrix_map;
-        }
-    }
-
     delete controller;
 }
 
@@ -204,10 +193,7 @@ void RGBController_OKSKeyboard::SetupZones()
         new_zone.leds_min               = zone_size;
         new_zone.leds_max               = zone_size;
         new_zone.leds_count             = zone_size;
-        new_zone.matrix_map             = new matrix_map_type;
-        new_zone.matrix_map->height     = 6;
-        new_zone.matrix_map->width      = matrix_width;
-        new_zone.matrix_map->map        = matrix_map_ptr;
+        new_zone.matrix_map.Set(6, matrix_width, matrix_map_ptr);
         zones.push_back(new_zone);
 
         total_led_count += zone_size;
@@ -232,13 +218,6 @@ void RGBController_OKSKeyboard::SetupZones()
     SetupColors();
 }
 
-void RGBController_OKSKeyboard::ResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_OKSKeyboard::DeviceUpdateLEDs()
 {
     unsigned char colordata[155*3];
@@ -247,7 +226,7 @@ void RGBController_OKSKeyboard::DeviceUpdateLEDs()
     unsigned int            row_idx;
     unsigned int            col_idx;
 
-    width = zones[0].matrix_map->width;
+    width = zones[0].matrix_map.width;
     for(std::size_t color_idx = 0; color_idx < 155; color_idx++)
     {
         colordata[(color_idx*3)+0] = 0x00;
@@ -270,14 +249,14 @@ void RGBController_OKSKeyboard::DeviceUpdateLEDs()
     controller->SendColors(colordata, (unsigned int)colors.size() * 3);
 }
 
-void RGBController_OKSKeyboard::UpdateZoneLEDs(int /*zone*/)
+void RGBController_OKSKeyboard::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_OKSKeyboard::UpdateSingleLED(int led)
+void RGBController_OKSKeyboard::DeviceUpdateSingleLED(int led)
 {
-    UpdateZoneLEDs(led);
+    DeviceUpdateZoneLEDs(led);
 }
 
 void RGBController_OKSKeyboard::DeviceUpdateMode()

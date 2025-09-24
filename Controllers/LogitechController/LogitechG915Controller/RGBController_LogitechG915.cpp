@@ -381,17 +381,6 @@ RGBController_LogitechG915::RGBController_LogitechG915(LogitechG915Controller* c
 
 RGBController_LogitechG915::~RGBController_LogitechG915()
 {
-    /*---------------------------------------------------------*\
-    | Delete the matrix map                                     |
-    \*---------------------------------------------------------*/
-    for(unsigned int zone_index = 0; zone_index < zones.size(); zone_index++)
-    {
-        if(zones[zone_index].matrix_map != NULL)
-        {
-            delete zones[zone_index].matrix_map;
-        }
-    }
-
     delete controller;
 }
 
@@ -413,23 +402,14 @@ void RGBController_LogitechG915::SetupZones()
 
         if(zone_types[zone_idx] == ZONE_TYPE_MATRIX)
         {
-            new_zone.matrix_map         = new matrix_map_type;
             if(is_tkl)
             {
-                new_zone.matrix_map->map    = (unsigned int *)&matrix_map_tkl;
-                new_zone.matrix_map->height = 7;
-                new_zone.matrix_map->width  = 20;
+                new_zone.matrix_map.Set(7, 20, (unsigned int *)&matrix_map_tkl);
             }
             else
             {
-                new_zone.matrix_map->map    = (unsigned int *)&matrix_map;
-                new_zone.matrix_map->height = 7;
-                new_zone.matrix_map->width  = 27;
+                new_zone.matrix_map.Set(7, 27, (unsigned int *)&matrix_map);
             }
-        }
-        else
-        {
-            new_zone.matrix_map         = NULL;
         }
 
         zones.push_back(new_zone);
@@ -445,13 +425,6 @@ void RGBController_LogitechG915::SetupZones()
         leds.push_back(new_led);
     }
     SetupColors();
-}
-
-void RGBController_LogitechG915::ResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
 }
 
 void RGBController_LogitechG915::DeviceUpdateLEDs()
@@ -608,12 +581,12 @@ void RGBController_LogitechG915::DeviceUpdateLEDs()
     controller->Commit();
 }
 
-void RGBController_LogitechG915::UpdateZoneLEDs(int /*zone*/)
+void RGBController_LogitechG915::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_LogitechG915::UpdateSingleLED(int /*led*/)
+void RGBController_LogitechG915::DeviceUpdateSingleLED(int /*led*/)
 {
     DeviceUpdateLEDs();
 }

@@ -124,7 +124,6 @@ void RGBController_AOCMousemat::SetupZones()
     mousemat_zone.leds_min      = 1;
     mousemat_zone.leds_max      = 1;
     mousemat_zone.leds_count    = 1;
-    mousemat_zone.matrix_map    = NULL;
     zones.push_back(mousemat_zone);
 
     led mousemat_led;
@@ -134,24 +133,17 @@ void RGBController_AOCMousemat::SetupZones()
     SetupColors();
 }
 
-void RGBController_AOCMousemat::ResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_AOCMousemat::DeviceUpdateLEDs()
 {
     DeviceUpdateMode();
 }
 
-void RGBController_AOCMousemat::UpdateZoneLEDs(int /*zone*/)
+void RGBController_AOCMousemat::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_AOCMousemat::UpdateSingleLED(int /*led*/)
+void RGBController_AOCMousemat::DeviceUpdateSingleLED(int /*led*/)
 {
     DeviceUpdateLEDs();
 }

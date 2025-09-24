@@ -89,6 +89,7 @@ enum
     ZALMAN_Z_SYNC_MODE_BLINK                         = 0x08,     /* Blink mode                           */
     ZALMAN_Z_SYNC_MODE_SEQUENTIAL                    = 0x09,     /* Sequential mode                      */
     ZALMAN_Z_SYNC_MODE_RAINBOW                       = 0x0A,     /* Rainbow mode                         */
+    ZALMAN_Z_SYNC_MODE_DIRECT                        = 0xFFFF,   /* Dummy mode ID for direct mode        */
 };
 
 class ZalmanZSyncController

@@ -33,7 +33,6 @@ void DetectClevoLightbarControllers(hid_device_info* info, const std::string& na
     {
         ClevoLightbarController*     controller     = new ClevoLightbarController(dev, *info);
         RGBController_ClevoLightbar* rgb_controller = new RGBController_ClevoLightbar(controller);
-        rgb_controller->name                         = name;
 
         ResourceManager::get()->RegisterRGBController(rgb_controller);
     }

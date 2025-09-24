@@ -86,7 +86,6 @@ void RGBController_Faustus::SetupZones()
     zones[0].leds_min       = 1;
     zones[0].leds_max       = 1;
     zones[0].leds_count     = 1;
-    zones[0].matrix_map     = NULL;
 
     /*---------------------------------------------------------*\
     | Set up LED                                                |
@@ -95,13 +94,6 @@ void RGBController_Faustus::SetupZones()
     leds[0].name = "Keyboard Backlight LED";
 
     SetupColors();
-}
-
-void RGBController_Faustus::ResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
 }
 
 void RGBController_Faustus::DeviceUpdateLEDs()
@@ -147,12 +139,12 @@ void RGBController_Faustus::DeviceUpdateLEDs()
     str_set.close();
 }
 
-void RGBController_Faustus::UpdateZoneLEDs(int /*zone*/)
+void RGBController_Faustus::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_Faustus::UpdateSingleLED(int /*led*/)
+void RGBController_Faustus::DeviceUpdateSingleLED(int /*led*/)
 {
     DeviceUpdateLEDs();
 }

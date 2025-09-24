@@ -210,13 +210,6 @@ RGBController_XPGSummoner::RGBController_XPGSummoner(XPGSummonerController *cont
 \*---------------------------------------------------------*/
 RGBController_XPGSummoner::~RGBController_XPGSummoner()
 {
-    for(unsigned int zone_index = 0; zone_index < zones.size(); zone_index++)
-    {
-        if(zones[zone_index].matrix_map != NULL)
-        {
-            delete zones[zone_index].matrix_map;
-        }
-    }
     delete controller;
 }
 
@@ -241,15 +234,9 @@ void RGBController_XPGSummoner::SetupZones()
 
     if(new_zone.type == ZONE_TYPE_MATRIX)
     {
-        new_zone.matrix_map         = new matrix_map_type;
-        new_zone.matrix_map->height = 6;
-        new_zone.matrix_map->width  = 21;
-        new_zone.matrix_map->map    = (unsigned int *)&ordered_matrix;
+        new_zone.matrix_map.Set(6, 21, (unsigned int *)&ordered_matrix);
     }
-    else
-    {
-        new_zone.matrix_map = NULL;
-    }
+
     zones.push_back(new_zone);
 
     size_t linear_idx = 0;
@@ -270,14 +257,6 @@ void RGBController_XPGSummoner::SetupZones()
     colors.assign(LED_COUNT, 0x000000);
 
     SetupColors();
-}
-
-/*---------------------------------------------------------*\
-| ResizeZone: Not supported for this device                 |
-\*---------------------------------------------------------*/
-void RGBController_XPGSummoner::ResizeZone(int /*zone*/, int /*new_size*/)
-{
-    // This device does not support resizing zones
 }
 
 /*---------------------------------------------------------*\
@@ -308,17 +287,17 @@ void RGBController_XPGSummoner::DeviceUpdateLEDs()
 }
 
 /*---------------------------------------------------------*\
-| UpdateZoneLEDs: Updates all LEDs in a zone                |
+| DeviceUpdateZoneLEDs: Updates all LEDs in a zone                |
 \*---------------------------------------------------------*/
-void RGBController_XPGSummoner::UpdateZoneLEDs(int /*zone*/)
+void RGBController_XPGSummoner::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateLEDs();
 }
 
 /*---------------------------------------------------------*\
-| UpdateSingleLED: Updates a single LED                     |
+| DeviceUpdateSingleLED: Updates a single LED                     |
 \*---------------------------------------------------------*/
-void RGBController_XPGSummoner::UpdateSingleLED(int /*led*/)
+void RGBController_XPGSummoner::DeviceUpdateSingleLED(int /*led*/)
 {
     DeviceUpdateLEDs();
 }
@@ -330,4 +309,3 @@ void RGBController_XPGSummoner::DeviceUpdateMode()
 {
     DeviceUpdateLEDs();
 }
-

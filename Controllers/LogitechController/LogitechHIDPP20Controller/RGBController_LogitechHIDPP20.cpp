@@ -9,7 +9,6 @@
 
 #include <map>
 #include <set>
-#include <chrono>
 #include <algorithm>
 #include <functional>
 #include "RGBController_LogitechHIDPP20.h"
@@ -766,14 +765,7 @@ void RGBController_LogitechHIDPP20::SetupZones()
             perkey_zone.leds_min   = klm.GetKeyCount();
             perkey_zone.leds_max   = klm.GetKeyCount();
             perkey_zone.leds_count = klm.GetKeyCount();
-
-            matrix_map_type* new_map = new matrix_map_type;
-            new_map->height          = klm.GetRowCount();
-            new_map->width           = klm.GetColumnCount();
-            new_map->map             = new unsigned int[new_map->height * new_map->width];
-            klm.GetKeyMap(new_map->map, KEYBOARD_MAP_FILL_TYPE_COUNT,
-                          new_map->height, new_map->width);
-            perkey_zone.matrix_map = new_map;
+            perkey_zone.matrix_map = klm.GetKeyMap();
             zones.push_back(perkey_zone);
 
             for(unsigned int i = 0; i < klm.GetKeyCount(); i++)
@@ -857,7 +849,6 @@ void RGBController_LogitechHIDPP20::SetupZones()
                 extras_zone.leds_min   = (unsigned int)extras.size();
                 extras_zone.leds_max   = (unsigned int)extras.size();
                 extras_zone.leds_count = (unsigned int)extras.size();
-                extras_zone.matrix_map = nullptr;
                 zones.push_back(extras_zone);
 
                 for(size_t i = 0; i < extras.size(); i++)
@@ -881,13 +872,7 @@ void RGBController_LogitechHIDPP20::SetupZones()
             perkey_zone.leds_min   = ml->led_count;
             perkey_zone.leds_max   = ml->led_count;
             perkey_zone.leds_count = ml->led_count;
-
-            matrix_map_type* new_map = new matrix_map_type;
-            new_map->height          = ml->rows;
-            new_map->width           = ml->cols;
-            new_map->map             = new unsigned int[ml->rows * ml->cols];
-            memcpy(new_map->map, ml->map, ml->rows * ml->cols * sizeof(unsigned int));
-            perkey_zone.matrix_map   = new_map;
+            perkey_zone.matrix_map.Set(ml->rows, ml->cols, (unsigned int*)ml->map);
             zones.push_back(perkey_zone);
 
             for(unsigned int i = 0; i < ml->led_count && i < caps.perkey_zone_ids.size(); i++)
@@ -911,7 +896,6 @@ void RGBController_LogitechHIDPP20::SetupZones()
             perkey_zone.leds_min   = (unsigned int)caps.perkey_zone_ids.size();
             perkey_zone.leds_max   = (unsigned int)caps.perkey_zone_ids.size();
             perkey_zone.leds_count = (unsigned int)caps.perkey_zone_ids.size();
-            perkey_zone.matrix_map = nullptr;
             zones.push_back(perkey_zone);
 
             for(size_t i = 0; i < caps.perkey_zone_ids.size(); i++)
@@ -939,7 +923,6 @@ void RGBController_LogitechHIDPP20::SetupZones()
         headset_zone.leds_min   = (unsigned int)led_count;
         headset_zone.leds_max   = (unsigned int)led_count;
         headset_zone.leds_count = (unsigned int)led_count;
-        headset_zone.matrix_map = nullptr;
         zones.push_back(headset_zone);
 
         for(size_t i = 0; i < led_count; i++)
@@ -969,7 +952,6 @@ void RGBController_LogitechHIDPP20::SetupZones()
             new_zone.leds_min   = 1;
             new_zone.leds_max   = 1;
             new_zone.leds_count = 1;
-            new_zone.matrix_map = nullptr;
             zones.push_back(new_zone);
 
             led new_led;
@@ -999,10 +981,6 @@ void RGBController_LogitechHIDPP20::SetupZones()
     }
 
     SetupColors();
-}
-
-void RGBController_LogitechHIDPP20::ResizeZone(int /*zone*/, int /*new_size*/)
-{
 }
 
 void RGBController_LogitechHIDPP20::DeviceUpdateLEDs()
@@ -1485,12 +1463,12 @@ void RGBController_LogitechHIDPP20::DeviceUpdateLEDs()
     }
 }
 
-void RGBController_LogitechHIDPP20::UpdateZoneLEDs(int /*zone*/)
+void RGBController_LogitechHIDPP20::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_LogitechHIDPP20::UpdateSingleLED(int /*led*/)
+void RGBController_LogitechHIDPP20::DeviceUpdateSingleLED(int /*led*/)
 {
     DeviceUpdateLEDs();
 }

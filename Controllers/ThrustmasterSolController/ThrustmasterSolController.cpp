@@ -15,11 +15,10 @@
 #include "ThrustmasterSolController.h"
 #include "StringUtils.h"
 
-ThrustmasterSolController::ThrustmasterSolController(libusb_device_handle* dev_handle,
-                                                     const char* path,
-                                                     unsigned short pid)
+ThrustmasterSolController::ThrustmasterSolController(libusb_device_handle* dev_handle, const char* path, unsigned short pid, std::string dev_name)
 {
     dev             = dev_handle;
+    name            = dev_name;
     this->pid       = pid;
 
     location = "USB: ";
@@ -57,6 +56,11 @@ ThrustmasterSolController::~ThrustmasterSolController()
 std::string ThrustmasterSolController::GetDeviceLocation()
 {
     return(location);
+}
+
+std::string ThrustmasterSolController::GetDeviceName()
+{
+    return(name);
 }
 
 std::string ThrustmasterSolController::GetSerialString()

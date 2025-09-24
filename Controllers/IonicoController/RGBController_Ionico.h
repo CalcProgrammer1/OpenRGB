@@ -24,16 +24,13 @@ public:
     ~RGBController_Ionico();
 
     void SetupZones();
-    void ResizeZone(int zone, int new_size);
 
     void DeviceUpdateLEDs();
-    void UpdateZoneLEDs(int zone);
-    void SetSingleLED();
-    void UpdateSingleLED(int led);
+    void DeviceUpdateZoneLEDs(int zone);
+    void DeviceUpdateSingleLED(int led);
+
     void DeviceSaveMode();
-
     void DeviceUpdateMode();
-
 
 private:
     IonicoController* controller;

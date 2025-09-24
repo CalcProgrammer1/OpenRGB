@@ -95,25 +95,17 @@ void RGBController_RazerKrakenV3::SetupZones()
 
             if(new_zone.type == ZONE_TYPE_MATRIX)
             {
-                matrix_map_type * new_map = new matrix_map_type;
-                new_zone.matrix_map = new_map;
+                new_zone.matrix_map.height  = device_list[device_index]->zones[zone_id]->rows;
+                new_zone.matrix_map.width   = device_list[device_index]->zones[zone_id]->cols;
+                new_zone.matrix_map.map.resize(new_zone.matrix_map.height * new_zone.matrix_map.width);
 
-                new_map->height = device_list[device_index]->zones[zone_id]->rows;
-                new_map->width  = device_list[device_index]->zones[zone_id]->cols;
-
-                new_map->map = new unsigned int[new_map->height * new_map->width];
-
-                for(unsigned int y = 0; y < new_map->height; y++)
+                for(unsigned int y = 0; y < new_zone.matrix_map.height; y++)
                 {
-                    for(unsigned int x = 0; x < new_map->width; x++)
+                    for(unsigned int x = 0; x < new_zone.matrix_map.width; x++)
                     {
-                        new_map->map[(y * new_map->width) + x] = (y * new_map->width) + x;
+                        new_zone.matrix_map.map[(y * new_zone.matrix_map.width) + x] = (y * new_zone.matrix_map.width) + x;
                     }
                 }
-            }
-            else
-            {
-                new_zone.matrix_map = NULL;
             }
 
             zones.push_back(new_zone);
@@ -144,11 +136,6 @@ void RGBController_RazerKrakenV3::SetupZones()
     SetupColors();
 }
 
-void RGBController_RazerKrakenV3::ResizeZone(int /*zone*/, int /*new_size*/)
-{
-
-}
-
 void RGBController_RazerKrakenV3::DeviceUpdateLEDs()
 {
     if(modes[active_mode].value == RAZER_KRAKEN_V3_MODE_DIRECT)
@@ -157,12 +144,12 @@ void RGBController_RazerKrakenV3::DeviceUpdateLEDs()
     }
 }
 
-void RGBController_RazerKrakenV3::UpdateZoneLEDs(int /*zone*/)
+void RGBController_RazerKrakenV3::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_RazerKrakenV3::UpdateSingleLED(int /*led*/)
+void RGBController_RazerKrakenV3::DeviceUpdateSingleLED(int /*led*/)
 {
     DeviceUpdateLEDs();
 }

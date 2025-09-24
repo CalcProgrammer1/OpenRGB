@@ -89,53 +89,51 @@ void RGBController_Govee::SetupZones()
     }
 
     zone strip;
-    strip.leds_count = hw.led_count;
-    strip.leds_min   = resizable ? 0   : hw.led_count;
-    strip.leds_max   = resizable ? 255 : hw.led_count;
+    strip.leds_count            = hw.led_count;
+    strip.leds_min              = resizable ? 0   : hw.led_count;
+    strip.leds_max              = resizable ? 255 : hw.led_count;
 
     if(hw.matrix_row_len == 0)
     {
-        strip.name       = "Govee Strip";
-        strip.type       = ZONE_TYPE_LINEAR;
-        strip.matrix_map = NULL;
+        strip.name              = "Govee Strip";
+        strip.type              = ZONE_TYPE_LINEAR;
     }
     else
     {
-        strip.name = "Govee Matrix";
-        strip.type = ZONE_TYPE_MATRIX;
+        strip.name              = "Govee Matrix";
+        strip.type              = ZONE_TYPE_MATRIX;
 
-        unsigned int width = hw.matrix_row_len;
-        unsigned int height = hw.led_count / width;
+        unsigned int width      = hw.matrix_row_len;
+        unsigned int height     = hw.led_count / width;
 
-        strip.matrix_map = new matrix_map_type;
-        strip.matrix_map->height = height;
-        strip.matrix_map->width  = width;
-        strip.matrix_map->map    = new unsigned int[hw.led_count];
+        strip.matrix_map.height = height;
+        strip.matrix_map.width  = width;
+        strip.matrix_map.map.resize(hw.led_count);
 
-        /*-----------------------------------------------------*\
-        | On H6022, LEDs indexed bottom to top, alternating     |
-        | clockwise and counterclockwise for each row.          |
-        \*-----------------------------------------------------*/
+        /*-------------------------------------------------*\
+        | On H6022, LEDs indexed bottom to top, alternating |
+        | clockwise and counterclockwise for each row.      |
+        \*-------------------------------------------------*/
         for(unsigned int y = 0; y < height; y++)
         {
-            /*-------------------------------------------------*\
-            | LEDs numbered bottom to top, opposite of matrix   |
-            | clockwise and counterclockwise for each row.      |
-            \*-------------------------------------------------*/
+            /*---------------------------------------------*\
+            | LEDs numbered bottom to top, opposite of      |
+            | matrix clockwise and counterclockwise for     |
+            | each row.                                     |
+            \*---------------------------------------------*/
             unsigned int led_y = (height - 1) - y;
 
             for(unsigned int x = 0; x < width; x++)
             {
-                /*---------------------------------------------*\
-                | LED is right-to-left for even rows, including |
-                | first one                                     |
-                \*---------------------------------------------*/
+                /*-----------------------------------------*\
+                | LED is right-to-left for even rows,       |
+                | including first one                       |
+                \*-----------------------------------------*/
                 unsigned int led_x = led_y & 1 ? x : (width - 1) - x;
-                strip.matrix_map->map[y * width + x] = led_y * width + led_x;
+                strip.matrix_map.map[y * width + x] = led_y * width + led_x;
             }
         }
     }
-
     zones.push_back(strip);
 
     for(std::size_t led_idx = 0; led_idx < strip.leds_count; led_idx++)
@@ -148,7 +146,7 @@ void RGBController_Govee::SetupZones()
     SetupColors();
 }
 
-void RGBController_Govee::ResizeZone(int zone, int new_size)
+void RGBController_Govee::DeviceResizeZone(int zone, int new_size)
 {
     if(zones[zone].type == ZONE_TYPE_MATRIX)
     {
@@ -189,12 +187,12 @@ void RGBController_Govee::DeviceUpdateLEDs()
     }
 }
 
-void RGBController_Govee::UpdateZoneLEDs(int /*zone*/)
+void RGBController_Govee::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_Govee::UpdateSingleLED(int /*led*/)
+void RGBController_Govee::DeviceUpdateSingleLED(int /*led*/)
 {
     DeviceUpdateLEDs();
 }

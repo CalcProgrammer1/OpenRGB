@@ -45,14 +45,6 @@ RGBController_MSILaptop::RGBController_MSILaptop(MSILaptopController* controller
 
 RGBController_MSILaptop::~RGBController_MSILaptop()
 {
-    for(unsigned int zone_idx = 0; zone_idx < zones.size(); zone_idx++)
-    {
-        if(zones[zone_idx].matrix_map != NULL)
-        {
-            delete zones[zone_idx].matrix_map;
-        }
-    }
-
     delete controller;
 }
 
@@ -67,10 +59,7 @@ void RGBController_MSILaptop::SetupZones()
         keyboard_zone.leds_min               = model->klc_leds_count;
         keyboard_zone.leds_max               = model->klc_leds_count;
         keyboard_zone.leds_count             = model->klc_leds_count;
-        keyboard_zone.matrix_map             = new matrix_map_type;
-        keyboard_zone.matrix_map->height     = model->klc_matrix_height;
-        keyboard_zone.matrix_map->width      = model->klc_matrix_width;
-        keyboard_zone.matrix_map->map        = (unsigned int *)model->klc_matrix_map;
+        keyboard_zone.matrix_map.Set(model->klc_matrix_height, model->klc_matrix_width, (unsigned int *)model->klc_matrix_map);
 
         zones.push_back(keyboard_zone);
 
@@ -91,7 +80,6 @@ void RGBController_MSILaptop::SetupZones()
         lightbar_zone.leds_min   = model->alc_lightbar_leds;
         lightbar_zone.leds_max   = model->alc_lightbar_leds;
         lightbar_zone.leds_count = model->alc_lightbar_leds;
-        lightbar_zone.matrix_map = NULL;
         zones.push_back(lightbar_zone);
 
         zone logo_zone;
@@ -101,7 +89,6 @@ void RGBController_MSILaptop::SetupZones()
         logo_zone.leds_min       = 1;
         logo_zone.leds_max       = 1;
         logo_zone.leds_count     = 1;
-        logo_zone.matrix_map     = NULL;
         zones.push_back(logo_zone);
 
         for(unsigned int led_idx = 0; led_idx < model->alc_leds_count; led_idx++)
@@ -116,21 +103,17 @@ void RGBController_MSILaptop::SetupZones()
     SetupColors();
 }
 
-void RGBController_MSILaptop::ResizeZone(int /*zone*/, int /*new_size*/)
-{
-}
-
 void RGBController_MSILaptop::DeviceUpdateLEDs()
 {
     controller->SetLEDs(leds, colors);
 }
 
-void RGBController_MSILaptop::UpdateZoneLEDs(int /*zone*/)
+void RGBController_MSILaptop::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_MSILaptop::UpdateSingleLED(int /*led*/)
+void RGBController_MSILaptop::DeviceUpdateSingleLED(int /*led*/)
 {
     DeviceUpdateLEDs();
 }

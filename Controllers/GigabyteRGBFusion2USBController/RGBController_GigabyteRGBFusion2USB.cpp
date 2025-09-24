@@ -430,7 +430,6 @@ void RGBController_RGBFusion2USB::Init_Controller()
         new_zone.leds_max           = zone_at_idx->leds_max;
         new_zone.leds_count         = new_zone.leds_min;
         new_zone.type               = ((new_zone.leds_min == 1) && (new_zone.leds_max == 1)) ? ZONE_TYPE_SINGLE : ZONE_TYPE_LINEAR;
-        new_zone.matrix_map         = NULL;
         zones.emplace_back(new_zone);
     }
 }
@@ -550,7 +549,7 @@ void RGBController_RGBFusion2USB::SetupZones()
     SetupColors();
 }
 
-void RGBController_RGBFusion2USB::ResizeZone(int zone, int new_size)
+void RGBController_RGBFusion2USB::DeviceResizeZone(int zone, int new_size)
 {
     if((size_t) zone >= zones.size())
     {
@@ -656,7 +655,7 @@ void RGBController_RGBFusion2USB::DeviceUpdateLEDs()
     controller->ApplyEffect();
 }
 
-void RGBController_RGBFusion2USB::UpdateZoneLEDs(int zone)
+void RGBController_RGBFusion2USB::DeviceUpdateZoneLEDs(int zone)
 {
     /*---------------------------------------------------------*\
     | Get mode parameters                                       |
@@ -753,7 +752,7 @@ void RGBController_RGBFusion2USB::UpdateZoneLEDs(int zone)
     }
 }
 
-void RGBController_RGBFusion2USB::UpdateSingleLED(int led)
+void RGBController_RGBFusion2USB::DeviceUpdateSingleLED(int led)
 {
     /*---------------------------------------------------------*\
     | Get mode parameters                                       |
@@ -808,7 +807,7 @@ void RGBController_RGBFusion2USB::UpdateSingleLED(int led)
     \*---------------------------------------------------------*/
     else
     {
-        UpdateZoneLEDs(zone_idx);
+        DeviceUpdateZoneLEDs(zone_idx);
     }
 }
 

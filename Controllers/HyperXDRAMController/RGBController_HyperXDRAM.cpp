@@ -154,7 +154,6 @@ void RGBController_HyperXDRAM::SetupZones()
         new_zone->leds_min      = 5;
         new_zone->leds_max      = 5;
         new_zone->leds_count    = 5;
-        new_zone->matrix_map    = NULL;
 
         zones.push_back(*new_zone);
     }
@@ -177,13 +176,6 @@ void RGBController_HyperXDRAM::SetupZones()
     }
 
     SetupColors();
-}
-
-void RGBController_HyperXDRAM::ResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
 }
 
 void RGBController_HyperXDRAM::DeviceUpdateLEDs()
@@ -211,7 +203,7 @@ void RGBController_HyperXDRAM::DeviceUpdateLEDs()
     }
 }
 
-void RGBController_HyperXDRAM::UpdateZoneLEDs(int zone)
+void RGBController_HyperXDRAM::DeviceUpdateZoneLEDs(int zone)
 {
     if(controller->GetMode() == HYPERX_MODE_DIRECT)
     {
@@ -237,7 +229,7 @@ void RGBController_HyperXDRAM::UpdateZoneLEDs(int zone)
     }
 }
 
-void RGBController_HyperXDRAM::UpdateSingleLED(int led)
+void RGBController_HyperXDRAM::DeviceUpdateSingleLED(int led)
 {
     RGBColor      color = colors[led];
     unsigned char red   = RGBGetRValue(color);

@@ -265,14 +265,12 @@ void RGBController_LianLiUniHub::SetupZones()
 
             leds.push_back(new_led);
         }
-
-        zones[channel_idx].matrix_map = NULL;
     }
 
     SetupColors();
 }
 
-void RGBController_LianLiUniHub::ResizeZone(int zone, int new_size)
+void RGBController_LianLiUniHub::DeviceResizeZone(int zone, int new_size)
 {
     if((size_t) zone >= zones.size())
     {
@@ -303,7 +301,7 @@ void RGBController_LianLiUniHub::DeviceUpdateLEDs()
     controller->Synchronize();
 }
 
-void RGBController_LianLiUniHub::UpdateZoneLEDs(int zone)
+void RGBController_LianLiUniHub::DeviceUpdateZoneLEDs(int zone)
 {
     if(!initializedMode)
     {
@@ -318,7 +316,7 @@ void RGBController_LianLiUniHub::UpdateZoneLEDs(int zone)
     controller->Synchronize();
 }
 
-void RGBController_LianLiUniHub::UpdateSingleLED(int led)
+void RGBController_LianLiUniHub::DeviceUpdateSingleLED(int led)
 {
     if(!initializedMode)
     {
