@@ -130,11 +130,6 @@ void RGBController_RazerKrakenV3::SetupZones()
     SetupColors();
 }
 
-void RGBController_RazerKrakenV3::ResizeZone(int /*zone*/, int /*new_size*/)
-{
-
-}
-
 void RGBController_RazerKrakenV3::DeviceUpdateLEDs()
 {
     if(modes[active_mode].value == RAZER_KRAKEN_V3_MODE_DIRECT)
@@ -143,12 +138,12 @@ void RGBController_RazerKrakenV3::DeviceUpdateLEDs()
     }
 }
 
-void RGBController_RazerKrakenV3::UpdateZoneLEDs(int /*zone*/)
+void RGBController_RazerKrakenV3::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_RazerKrakenV3::UpdateSingleLED(int /*led*/)
+void RGBController_RazerKrakenV3::DeviceUpdateSingleLED(int /*led*/)
 {
     DeviceUpdateLEDs();
 }

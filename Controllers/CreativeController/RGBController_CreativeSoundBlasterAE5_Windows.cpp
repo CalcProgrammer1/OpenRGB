@@ -83,7 +83,7 @@ void RGBController_CreativeSoundBlasterAE5::SetupZones()
     SetupColors();
 }
 
-void RGBController_CreativeSoundBlasterAE5::ResizeZone(int zone, int new_size)
+void RGBController_CreativeSoundBlasterAE5::DeviceResizeZone(int zone, int new_size)
 {
     if(zone == 1) // External zone
     {
@@ -134,7 +134,7 @@ void RGBController_CreativeSoundBlasterAE5::DeviceUpdateLEDs()
     UpdateLEDRange(0, controller->GetLEDCount());
 }
 
-void RGBController_CreativeSoundBlasterAE5::UpdateZoneLEDs(int zone)
+void RGBController_CreativeSoundBlasterAE5::DeviceUpdateZoneLEDs(int zone)
 {
     if(zone >= 0 && zone < (int)zones.size())
     {
@@ -149,7 +149,7 @@ void RGBController_CreativeSoundBlasterAE5::UpdateZoneLEDs(int zone)
     }
 }
 
-void RGBController_CreativeSoundBlasterAE5::UpdateSingleLED(int led)
+void RGBController_CreativeSoundBlasterAE5::DeviceUpdateSingleLED(int led)
 {
     /*-------------------------------------------------------------*\
     | Find which zone this LED belongs to and update only that zone |

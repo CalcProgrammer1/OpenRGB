@@ -146,7 +146,7 @@ void RGBController_CorsairCommanderCore::SetupZones()
     SetupColors();
 }
 
-void RGBController_CorsairCommanderCore::ResizeZone(int zone, int new_size)
+void RGBController_CorsairCommanderCore::DeviceResizeZone(int zone, int new_size)
 {
     if((size_t) zone >= zones.size())
     {
@@ -177,12 +177,12 @@ void RGBController_CorsairCommanderCore::DeviceUpdateLEDs()
     DeviceUpdateMode();
 }
 
-void RGBController_CorsairCommanderCore::UpdateZoneLEDs(int /*zone*/)
+void RGBController_CorsairCommanderCore::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_CorsairCommanderCore::UpdateSingleLED(int /*led*/)
+void RGBController_CorsairCommanderCore::DeviceUpdateSingleLED(int /*led*/)
 {
     DeviceUpdateLEDs();
 }

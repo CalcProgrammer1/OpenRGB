@@ -111,7 +111,7 @@ void RGBController_CorsairHydroPlatinum::SetupZones()
     SetupColors();
 }
 
-void RGBController_CorsairHydroPlatinum::ResizeZone(int zone, int new_size)
+void RGBController_CorsairHydroPlatinum::DeviceResizeZone(int zone, int new_size)
 {
     if((size_t) zone >= zones.size())
     {
@@ -131,12 +131,12 @@ void RGBController_CorsairHydroPlatinum::DeviceUpdateLEDs()
     controller->SetupColors(colors);
 }
 
-void RGBController_CorsairHydroPlatinum::UpdateZoneLEDs(int /*zone*/)
+void RGBController_CorsairHydroPlatinum::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_CorsairHydroPlatinum::UpdateSingleLED(int /*led*/)
+void RGBController_CorsairHydroPlatinum::DeviceUpdateSingleLED(int /*led*/)
 {
     DeviceUpdateLEDs();
 }

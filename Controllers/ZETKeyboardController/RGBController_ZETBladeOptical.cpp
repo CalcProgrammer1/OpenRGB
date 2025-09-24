@@ -488,13 +488,6 @@ void RGBController_ZETBladeOptical::SetupZones()
     SetupColors();
 }
 
-void RGBController_ZETBladeOptical::ResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_ZETBladeOptical::DeviceUpdateLEDs()
 {
     last_update_time = std::chrono::steady_clock::now();
@@ -505,12 +498,12 @@ void RGBController_ZETBladeOptical::DeviceUpdateLEDs()
     }
 }
 
-void RGBController_ZETBladeOptical::UpdateZoneLEDs(int /*zone*/)
+void RGBController_ZETBladeOptical::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_ZETBladeOptical::UpdateSingleLED(int /*led*/)
+void RGBController_ZETBladeOptical::DeviceUpdateSingleLED(int /*led*/)
 {
     DeviceUpdateLEDs();
 }

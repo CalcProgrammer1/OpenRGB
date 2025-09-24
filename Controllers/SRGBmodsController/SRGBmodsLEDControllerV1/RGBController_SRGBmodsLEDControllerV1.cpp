@@ -152,7 +152,7 @@ void RGBController_SRGBmodsLEDControllerV1::SetupZones()
     SetupColors();
 }
 
-void RGBController_SRGBmodsLEDControllerV1::ResizeZone(int zone, int new_size)
+void RGBController_SRGBmodsLEDControllerV1::DeviceResizeZone(int zone, int new_size)
 {
     if((size_t)zone >= zones.size())
     {
@@ -185,12 +185,12 @@ void RGBController_SRGBmodsLEDControllerV1::DeviceUpdateLEDs()
     }
 }
 
-void RGBController_SRGBmodsLEDControllerV1::UpdateZoneLEDs(int /*zone*/)
+void RGBController_SRGBmodsLEDControllerV1::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_SRGBmodsLEDControllerV1::UpdateSingleLED(int /*led*/)
+void RGBController_SRGBmodsLEDControllerV1::DeviceUpdateSingleLED(int /*led*/)
 {
     DeviceUpdateLEDs();
 }

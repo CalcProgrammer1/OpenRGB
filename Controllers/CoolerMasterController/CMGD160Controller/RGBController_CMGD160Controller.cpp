@@ -182,13 +182,6 @@ void RGBController_CMGD160Controller::SetupZones()
     SetupColors();
 }
 
-void RGBController_CMGD160Controller::ResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_CMGD160Controller::DeviceUpdateLEDs()
 {
     switch(modes[active_mode].value)
@@ -206,12 +199,12 @@ void RGBController_CMGD160Controller::DeviceUpdateLEDs()
     }
 }
 
-void RGBController_CMGD160Controller::UpdateZoneLEDs(int /*zone*/)
+void RGBController_CMGD160Controller::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_CMGD160Controller::UpdateSingleLED(int /*led*/)
+void RGBController_CMGD160Controller::DeviceUpdateSingleLED(int /*led*/)
 {
     DeviceUpdateLEDs();
 }
