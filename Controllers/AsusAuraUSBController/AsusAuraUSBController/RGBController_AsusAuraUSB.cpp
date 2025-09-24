@@ -195,14 +195,12 @@ void RGBController_AuraUSB::SetupZones()
 
             leds.push_back(new_led);
         }
-
-        zones[channel_idx].matrix_map = NULL;
     }
 
     SetupColors();
 }
 
-void RGBController_AuraUSB::ResizeZone(int zone, int new_size)
+void RGBController_AuraUSB::DeviceResizeZone(int zone, int new_size)
 {
     if((size_t) zone >= zones.size())
     {
@@ -229,7 +227,7 @@ void RGBController_AuraUSB::DeviceUpdateLEDs()
     }
 }
 
-void RGBController_AuraUSB::UpdateZoneLEDs(int zone)
+void RGBController_AuraUSB::DeviceUpdateZoneLEDs(int zone)
 {
     if(!initializedMode)
     {
@@ -239,7 +237,7 @@ void RGBController_AuraUSB::UpdateZoneLEDs(int zone)
     controller->SetChannelLEDs(zone, zones[zone].colors, zones[zone].leds_count);
 }
 
-void RGBController_AuraUSB::UpdateSingleLED(int led)
+void RGBController_AuraUSB::DeviceUpdateSingleLED(int led)
 {
     if(!initializedMode)
     {

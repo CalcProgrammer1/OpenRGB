@@ -24,7 +24,6 @@ class OpenRGBZoneResizeDialog : public QDialog
 
 public:
     explicit OpenRGBZoneResizeDialog(RGBController* edit_dev_ptr, unsigned int edit_zone_idx_val, QWidget *parent = nullptr);
-    explicit OpenRGBZoneResizeDialog(unsigned int edit_zone_min_val, unsigned int edit_zone_max_val, unsigned int edit_zone_current_val, QWidget *parent = nullptr);
     ~OpenRGBZoneResizeDialog();
 
     int show();

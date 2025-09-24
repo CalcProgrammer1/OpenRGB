@@ -194,15 +194,12 @@ void RGBController_QMKVialRGB::SetupZones()
     \*-----------------------------------------------------*/
     zone keyboard;
 
-    keyboard.name               = "Keyboard";
-    keyboard.type               = ZONE_TYPE_MATRIX;
-    keyboard.leds_min           = controller->GetLEDCount();
-    keyboard.leds_max           = controller->GetLEDCount();
-    keyboard.leds_count         = controller->GetLEDCount();
-    keyboard.matrix_map         = new matrix_map_type;
-    keyboard.matrix_map->height = height;
-    keyboard.matrix_map->width  = width;
-    keyboard.matrix_map->map    = matrix_map;
+    keyboard.name                   = "Keyboard";
+    keyboard.type                   = ZONE_TYPE_MATRIX;
+    keyboard.leds_min               = controller->GetLEDCount();
+    keyboard.leds_max               = controller->GetLEDCount();
+    keyboard.leds_count             = controller->GetLEDCount();
+    keyboard.matrix_map.Set(height, width, matrix_map);
 
     zones.push_back(keyboard);
 
@@ -220,22 +217,17 @@ void RGBController_QMKVialRGB::SetupZones()
     SetupColors();
 }
 
-void RGBController_QMKVialRGB::ResizeZone(int /*zone*/, int /*new_size*/)
-{
-
-}
-
 void RGBController_QMKVialRGB::DeviceUpdateLEDs()
 {
     controller->SendLEDs(colors.size(), colors.data());
 }
 
-void RGBController_QMKVialRGB::UpdateZoneLEDs(int /*zone*/)
+void RGBController_QMKVialRGB::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_QMKVialRGB::UpdateSingleLED(int /*led*/)
+void RGBController_QMKVialRGB::DeviceUpdateSingleLED(int /*led*/)
 {
     DeviceUpdateLEDs();
 }

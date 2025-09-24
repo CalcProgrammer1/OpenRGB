@@ -99,21 +99,15 @@ void RGBController_SkyloongGK104Pro::SetupZones()
     }
     );
 
-    matrix_map_type * new_map   = new matrix_map_type;
-    new_zone.matrix_map         = new_map;
-    new_zone.matrix_map->height = new_kb.GetRowCount();
-    new_zone.matrix_map->width  = new_kb.GetColumnCount();
-
-    new_zone.matrix_map->map    = new unsigned int[new_map->height * new_map->width];
-    new_zone.leds_count         = new_kb.GetKeyCount();
-    new_zone.leds_min           = new_zone.leds_count;
-    new_zone.leds_max           = new_zone.leds_count;
+    new_zone.leds_count             = new_kb.GetKeyCount();
+    new_zone.leds_min               = new_zone.leds_count;
+    new_zone.leds_max               = new_zone.leds_count;
 
     /*---------------------------------------------------------*\
     | Matrix map still uses declared zone rows and columns      |
     |   as the packet structure depends on the matrix map       |
     \*---------------------------------------------------------*/
-    new_kb.GetKeyMap(new_map->map, KEYBOARD_MAP_FILL_TYPE_COUNT, new_map->height, new_map->width);
+    new_zone.matrix_map             = new_kb.GetKeyMap(KEYBOARD_MAP_FILL_TYPE_COUNT);
 
     /*---------------------------------------------------------*\
     | Create LEDs for the Matrix zone                           |
@@ -134,24 +128,17 @@ void RGBController_SkyloongGK104Pro::SetupZones()
     SetupColors();
 }
 
-void RGBController_SkyloongGK104Pro::ResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_SkyloongGK104Pro::DeviceUpdateLEDs()
 {
     controller->SendColorPacket(colors, &leds, modes[active_mode].brightness);
 }
 
-void RGBController_SkyloongGK104Pro::UpdateZoneLEDs(int /*zone*/)
+void RGBController_SkyloongGK104Pro::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_SkyloongGK104Pro::UpdateSingleLED(int /*led*/)
+void RGBController_SkyloongGK104Pro::DeviceUpdateSingleLED(int /*led*/)
 {
     DeviceUpdateLEDs();
 }

@@ -92,7 +92,6 @@ void RGBController_XG270QC::SetupZones()
     base.leds_min           = 1;
     base.leds_max           = 1;
     base.leds_count         = 1;
-    base.matrix_map         = NULL;
     zones.push_back(base);
 
     zone rear;
@@ -101,7 +100,6 @@ void RGBController_XG270QC::SetupZones()
     rear.leds_min           = 1;
     rear.leds_max           = 1;
     rear.leds_count         = 1;
-    rear.matrix_map         = NULL;
     zones.push_back(rear);
 
     led d;
@@ -117,24 +115,17 @@ void RGBController_XG270QC::SetupZones()
     SetupColors();
 }
 
-void RGBController_XG270QC::ResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_XG270QC::DeviceUpdateLEDs()
 {
     DeviceUpdateMode();
 }
 
-void RGBController_XG270QC::UpdateZoneLEDs(int /*zone*/)
+void RGBController_XG270QC::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_XG270QC::UpdateSingleLED(int /*led*/)
+void RGBController_XG270QC::DeviceUpdateSingleLED(int /*led*/)
 {
     DeviceUpdateLEDs();
 }

@@ -366,15 +366,6 @@ RGBController_ClevoKeyboard::RGBController_ClevoKeyboard(ClevoKeyboardController
 
 RGBController_ClevoKeyboard::~RGBController_ClevoKeyboard()
 {
-    for(unsigned int zone_idx = 0; zone_idx < zones.size(); zone_idx++)
-    {
-        if(zones[zone_idx].matrix_map != nullptr)
-        {
-            delete[] zones[zone_idx].matrix_map->map;
-            delete zones[zone_idx].matrix_map;
-        }
-    }
-
     delete controller;
 }
 
@@ -391,18 +382,7 @@ void RGBController_ClevoKeyboard::SetupZones()
     keyboard_zone.leds_max          = CLEVO_KEYBOARD_NUM_LEDS;
     keyboard_zone.leds_count        = CLEVO_KEYBOARD_NUM_LEDS;
 
-    keyboard_zone.matrix_map        = new matrix_map_type;
-    keyboard_zone.matrix_map->height = 7;
-    keyboard_zone.matrix_map->width  = 21;
-    keyboard_zone.matrix_map->map    = new unsigned int[7 * 21];
-
-    for(int row = 0; row < 7; row++)
-    {
-        for(int col = 0; col < 21; col++)
-        {
-            keyboard_zone.matrix_map->map[row * 21 + col] = matrix_map[row][col];
-        }
-    }
+    keyboard_zone.matrix_map.Set(7, 21, (unsigned int *)&matrix_map);
 
     zones.push_back(keyboard_zone);
 
@@ -417,13 +397,6 @@ void RGBController_ClevoKeyboard::SetupZones()
     }
 
     SetupColors();
-}
-
-void RGBController_ClevoKeyboard::ResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
 }
 
 void RGBController_ClevoKeyboard::DeviceUpdateLEDs()
@@ -443,12 +416,12 @@ void RGBController_ClevoKeyboard::DeviceUpdateLEDs()
     controller->SendColors(color_data, modes[active_mode].brightness);
 }
 
-void RGBController_ClevoKeyboard::UpdateZoneLEDs(int /*zone*/)
+void RGBController_ClevoKeyboard::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_ClevoKeyboard::UpdateSingleLED(int /*led*/)
+void RGBController_ClevoKeyboard::DeviceUpdateSingleLED(int /*led*/)
 {
     DeviceUpdateLEDs();
 }

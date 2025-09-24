@@ -34,10 +34,9 @@ void DetectClevoKeyboardControllers(hid_device_info* info, const std::string& na
     {
         ClevoKeyboardController*     controller     = new ClevoKeyboardController(dev, *info);
         RGBController_ClevoKeyboard* rgb_controller = new RGBController_ClevoKeyboard(controller);
-        rgb_controller->name                         = name;
 
         ResourceManager::get()->RegisterRGBController(rgb_controller);
     }
 }
 
-REGISTER_HID_DETECTOR_PU("Clevo Keyboard", DetectClevoKeyboardControllers, 0x048D, 0x600B, 0xFF03, 0x01);
+REGISTER_HID_DETECTOR_PU("CLEVO Keyboard", DetectClevoKeyboardControllers, 0x048D, 0x600B, 0xFF03, 0x01);

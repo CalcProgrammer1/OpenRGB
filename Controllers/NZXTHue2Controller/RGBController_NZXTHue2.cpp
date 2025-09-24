@@ -34,10 +34,21 @@ RGBController_NZXTHue2::RGBController_NZXTHue2(NZXTHue2Controller* controller_pt
     location                    = controller->GetLocation();
     serial                      = controller->GetSerialString();
 
+    SetupZones();
+    SetupModes();
+}
+
+RGBController_NZXTHue2::~RGBController_NZXTHue2()
+{
+    delete controller;
+}
+
+void RGBController_NZXTHue2::SetupModes()
+{
     mode Direct;
     Direct.name                 = "Direct";
-    Direct.value                = 0xFFFF;
-    Direct.flags                = MODE_FLAG_HAS_PER_LED_COLOR;
+    Direct.value                = HUE_2_MODE_DIRECT;
+    Direct.flags                = MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_REQUIRES_ENTIRE_DEVICE;
     Direct.color_mode           = MODE_COLORS_PER_LED;
     modes.push_back(Direct);
 
@@ -50,6 +61,10 @@ RGBController_NZXTHue2::RGBController_NZXTHue2(NZXTHue2Controller* controller_pt
     Static.color_mode           = MODE_COLORS_MODE_SPECIFIC;
     Static.colors.resize(1);
     modes.push_back(Static);
+    for(std::size_t zone_idx = 0; zone_idx < zones.size(); zone_idx++)
+    {
+        zones[zone_idx].modes.push_back(Static);
+    }
 
     mode Fading;
     Fading.name                 = "Fading";
@@ -63,17 +78,25 @@ RGBController_NZXTHue2::RGBController_NZXTHue2(NZXTHue2Controller* controller_pt
     Fading.color_mode           = MODE_COLORS_MODE_SPECIFIC;
     Fading.colors.resize(1);
     modes.push_back(Fading);
+    for(std::size_t zone_idx = 0; zone_idx < zones.size(); zone_idx++)
+    {
+        zones[zone_idx].modes.push_back(Fading);
+    }
 
-    mode SpectrumCycle;
-    SpectrumCycle.name          = "Spectrum Cycle";
-    SpectrumCycle.value         = HUE_2_MODE_SPECTRUM;
-    SpectrumCycle.flags         = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_DIRECTION_LR;
-    SpectrumCycle.speed_min     = HUE_2_SPEED_SLOWEST;
-    SpectrumCycle.speed_max     = HUE_2_SPEED_FASTEST;
-    SpectrumCycle.speed         = HUE_2_SPEED_NORMAL;
-    SpectrumCycle.direction     = MODE_DIRECTION_RIGHT;
-    SpectrumCycle.color_mode    = MODE_COLORS_NONE;
-    modes.push_back(SpectrumCycle);
+    mode RainbowWave;
+    RainbowWave.name            = "Rainbow Wave";
+    RainbowWave.value           = HUE_2_MODE_SPECTRUM;
+    RainbowWave.flags           = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_DIRECTION_LR;
+    RainbowWave.speed_min       = HUE_2_SPEED_SLOWEST;
+    RainbowWave.speed_max       = HUE_2_SPEED_FASTEST;
+    RainbowWave.speed           = HUE_2_SPEED_NORMAL;
+    RainbowWave.direction       = MODE_DIRECTION_RIGHT;
+    RainbowWave.color_mode      = MODE_COLORS_NONE;
+    modes.push_back(RainbowWave);
+    for(std::size_t zone_idx = 0; zone_idx < zones.size(); zone_idx++)
+    {
+        zones[zone_idx].modes.push_back(RainbowWave);
+    }
 
     mode Marquee;
     Marquee.name                = "Marquee";
@@ -88,6 +111,10 @@ RGBController_NZXTHue2::RGBController_NZXTHue2(NZXTHue2Controller* controller_pt
     Marquee.color_mode          = MODE_COLORS_MODE_SPECIFIC;
     Marquee.colors.resize(1);
     modes.push_back(Marquee);
+    for(std::size_t zone_idx = 0; zone_idx < zones.size(); zone_idx++)
+    {
+        zones[zone_idx].modes.push_back(Marquee);
+    }
 
     mode CoverMarquee;
     CoverMarquee.name           = "Cover Marquee";
@@ -102,6 +129,10 @@ RGBController_NZXTHue2::RGBController_NZXTHue2(NZXTHue2Controller* controller_pt
     CoverMarquee.color_mode     = MODE_COLORS_MODE_SPECIFIC;
     CoverMarquee.colors.resize(1);
     modes.push_back(CoverMarquee);
+    for(std::size_t zone_idx = 0; zone_idx < zones.size(); zone_idx++)
+    {
+        zones[zone_idx].modes.push_back(CoverMarquee);
+    }
 
     mode Alternating;
     Alternating.name            = "Alternating";
@@ -116,6 +147,10 @@ RGBController_NZXTHue2::RGBController_NZXTHue2(NZXTHue2Controller* controller_pt
     Alternating.color_mode      = MODE_COLORS_MODE_SPECIFIC;
     Alternating.colors.resize(1);
     modes.push_back(Alternating);
+    for(std::size_t zone_idx = 0; zone_idx < zones.size(); zone_idx++)
+    {
+        zones[zone_idx].modes.push_back(Alternating);
+    }
 
     mode Pulsing;
     Pulsing.name                = "Pulsing";
@@ -129,6 +164,10 @@ RGBController_NZXTHue2::RGBController_NZXTHue2(NZXTHue2Controller* controller_pt
     Pulsing.color_mode          = MODE_COLORS_MODE_SPECIFIC;
     Pulsing.colors.resize(1) ;
     modes.push_back(Pulsing);
+    for(std::size_t zone_idx = 0; zone_idx < zones.size(); zone_idx++)
+    {
+        zones[zone_idx].modes.push_back(Pulsing);
+    }
 
     mode Breathing;
     Breathing.name              = "Breathing";
@@ -142,6 +181,10 @@ RGBController_NZXTHue2::RGBController_NZXTHue2(NZXTHue2Controller* controller_pt
     Breathing.color_mode        = MODE_COLORS_MODE_SPECIFIC;
     Breathing.colors.resize( 1);
     modes.push_back(Breathing);
+    for(std::size_t zone_idx = 0; zone_idx < zones.size(); zone_idx++)
+    {
+        zones[zone_idx].modes.push_back(Breathing);
+    }
 
     mode Candle;
     Candle.name                 = "Candle";
@@ -155,6 +198,10 @@ RGBController_NZXTHue2::RGBController_NZXTHue2(NZXTHue2Controller* controller_pt
     Candle.color_mode           = MODE_COLORS_MODE_SPECIFIC;
     Candle.colors.resize(1) ;
     modes.push_back(Candle);
+    for(std::size_t zone_idx = 0; zone_idx < zones.size(); zone_idx++)
+    {
+        zones[zone_idx].modes.push_back(Candle);
+    }
 
     mode StarryNight;
     StarryNight.name            = "Starry Night";
@@ -168,6 +215,10 @@ RGBController_NZXTHue2::RGBController_NZXTHue2(NZXTHue2Controller* controller_pt
     StarryNight.color_mode      = MODE_COLORS_MODE_SPECIFIC;
     StarryNight.colors.resize(1);
     modes.push_back(StarryNight);
+    for(std::size_t zone_idx = 0; zone_idx < zones.size(); zone_idx++)
+    {
+        zones[zone_idx].modes.push_back(StarryNight);
+    }
 
     mode SuperRainbow;
     SuperRainbow.name           = "Super Rainbow";
@@ -179,6 +230,10 @@ RGBController_NZXTHue2::RGBController_NZXTHue2(NZXTHue2Controller* controller_pt
     SuperRainbow.direction      = MODE_DIRECTION_RIGHT;
     SuperRainbow.color_mode     = MODE_COLORS_NONE;
     modes.push_back(SuperRainbow);
+    for(std::size_t zone_idx = 0; zone_idx < zones.size(); zone_idx++)
+    {
+        zones[zone_idx].modes.push_back(SuperRainbow);
+    }
 
     mode RainbowPulse;
     RainbowPulse.name           = "Rainbow Pulse";
@@ -190,6 +245,10 @@ RGBController_NZXTHue2::RGBController_NZXTHue2(NZXTHue2Controller* controller_pt
     RainbowPulse.direction      = MODE_DIRECTION_RIGHT;
     RainbowPulse.color_mode     = MODE_COLORS_NONE;
     modes.push_back(RainbowPulse);
+    for(std::size_t zone_idx = 0; zone_idx < zones.size(); zone_idx++)
+    {
+        zones[zone_idx].modes.push_back(RainbowPulse);
+    }
 
     mode RainbowFlow;
     RainbowFlow.name            = "Rainbow Flow";
@@ -201,13 +260,10 @@ RGBController_NZXTHue2::RGBController_NZXTHue2(NZXTHue2Controller* controller_pt
     RainbowFlow.direction       = MODE_DIRECTION_RIGHT;
     RainbowFlow.color_mode      = MODE_COLORS_NONE;
     modes.push_back(RainbowFlow);
-
-    SetupZones();
-}
-
-RGBController_NZXTHue2::~RGBController_NZXTHue2()
-{
-    delete controller;
+    for(std::size_t zone_idx = 0; zone_idx < zones.size(); zone_idx++)
+    {
+        zones[zone_idx].modes.push_back(RainbowFlow);
+    }
 }
 
 void RGBController_NZXTHue2::SetupZones()
@@ -225,7 +281,6 @@ void RGBController_NZXTHue2::SetupZones()
         new_zone->leds_min      = 0;
         new_zone->leds_max      = 40;
         new_zone->leds_count    = controller->channel_leds[zone_idx];
-        new_zone->matrix_map    = NULL;
 
         zones.push_back(*new_zone);
     }
@@ -370,7 +425,7 @@ void RGBController_NZXTHue2::SetupZones()
     SetupColors();
 }
 
-void RGBController_NZXTHue2::ResizeZone(int zone, int new_size)
+void RGBController_NZXTHue2::DeviceResizeZone(int zone, int new_size)
 {
     if((size_t) zone >= zones.size())
     {
@@ -390,25 +445,28 @@ void RGBController_NZXTHue2::DeviceUpdateLEDs()
 {
     for(std::size_t zone_idx = 0; zone_idx < zones.size(); zone_idx++)
     {
-        controller->SetChannelLEDs((unsigned char)zone_idx, zones[zone_idx].colors, zones[zone_idx].leds_count);
+        DeviceUpdateZoneLEDs(zone_idx);
     }
 }
 
-void RGBController_NZXTHue2::UpdateZoneLEDs(int zone)
+void RGBController_NZXTHue2::DeviceUpdateZoneLEDs(int zone)
 {
-    controller->SetChannelLEDs(zone, zones[zone].colors, zones[zone].leds_count);
+    if(modes[active_mode].value == HUE_2_MODE_DIRECT)
+    {
+        controller->SetChannelLEDs(zone, zones[zone].colors, zones[zone].leds_count);
+    }
 }
 
-void RGBController_NZXTHue2::UpdateSingleLED(int led)
+void RGBController_NZXTHue2::DeviceUpdateSingleLED(int led)
 {
     unsigned int zone_idx = leds[led].value;
 
-    controller->SetChannelLEDs(zone_idx, zones[zone_idx].colors, zones[zone_idx].leds_count);
+    DeviceUpdateZoneLEDs(zone_idx);
 }
 
 void RGBController_NZXTHue2::DeviceUpdateMode()
 {
-    if(modes[active_mode].value == 0xFFFF)
+    if(modes[active_mode].value == HUE_2_MODE_DIRECT)
     {
         DeviceUpdateLEDs();
     }
@@ -416,27 +474,52 @@ void RGBController_NZXTHue2::DeviceUpdateMode()
     {
         for(std::size_t zone_idx = 0; zone_idx < zones.size(); zone_idx++)
         {
-            RGBColor*   colors      = NULL;
-            bool        direction   = false;
+            DeviceUpdateZoneMode(zone_idx);
+        }
+    }
+}
 
-            if(modes[active_mode].direction == MODE_DIRECTION_LEFT)
+void RGBController_NZXTHue2::DeviceUpdateZoneMode(int zone)
+{
+    if(modes[active_mode].value == HUE_2_MODE_DIRECT)
+    {
+        return;
+    }
+    else
+    {
+        RGBColor*   colors      = NULL;
+        bool        direction   = false;
+        mode*       mode_ptr    = NULL;
+
+        if((zones[zone].active_mode >= 0) && (zones[zone].active_mode < (int)zones[zone].modes.size()))
+        {
+            mode_ptr = &zones[zone].modes[zones[zone].active_mode];
+        }
+        else if(active_mode < (int)modes.size())
+        {
+            mode_ptr = &modes[active_mode];
+        }
+
+        if(mode_ptr != NULL)
+        {
+            if(mode_ptr->direction == MODE_DIRECTION_LEFT)
             {
                 direction = true;
             }
 
-            if(modes[active_mode].colors.size() > 0)
+            if(mode_ptr->colors.size() > 0)
             {
-                colors = &modes[active_mode].colors[0];
+                colors = &mode_ptr->colors[0];
             }
 
             controller->SetChannelEffect
                     (
-                    (unsigned char)zone_idx,
-                    modes[active_mode].value,
-                    modes[active_mode].speed,
+                    (unsigned char)zone,
+                    mode_ptr->value,
+                    mode_ptr->speed,
                     direction,
                     colors,
-                    (unsigned int)modes[active_mode].colors.size()
+                    (unsigned int)mode_ptr->colors.size()
                     );
         }
     }
