@@ -36,7 +36,7 @@ void DetectAsusAuraCoreControllers(hid_device_info* info, const std::string& /*n
         AuraCoreController*     controller                  = new AuraCoreController(dev, info->path);
         RGBController_AuraCore* rgb_controller              = new RGBController_AuraCore(controller);
 
-        if(rgb_controller->type != DEVICE_TYPE_UNKNOWN)
+        if(rgb_controller->GetDeviceType() != DEVICE_TYPE_UNKNOWN)
         {
             ResourceManager::get()->RegisterRGBController(rgb_controller);
         }

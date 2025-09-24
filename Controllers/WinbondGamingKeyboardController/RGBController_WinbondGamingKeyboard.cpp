@@ -823,24 +823,17 @@ void RGBController_WinbondGamingKeyboard::SetupZones()
 
 #undef KV
 
-void RGBController_WinbondGamingKeyboard::ResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_WinbondGamingKeyboard::DeviceUpdateLEDs()
 {
     controller->SetLEDsData(colors, leds, modes[active_mode].brightness);
 }
 
-void RGBController_WinbondGamingKeyboard::UpdateZoneLEDs(int /*zone*/)
+void RGBController_WinbondGamingKeyboard::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_WinbondGamingKeyboard::UpdateSingleLED(int /*led*/)
+void RGBController_WinbondGamingKeyboard::DeviceUpdateSingleLED(int /*led*/)
 {
     DeviceUpdateLEDs();
 }

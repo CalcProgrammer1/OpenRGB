@@ -544,13 +544,6 @@ void RGBController_FnaticStreak::SetupZones()
     SetupColors();
 }
 
-void RGBController_FnaticStreak::ResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_FnaticStreak::DeviceUpdateLEDs()
 {
     last_update_time = std::chrono::steady_clock::now();
@@ -564,12 +557,12 @@ void RGBController_FnaticStreak::DeviceUpdateLEDs()
     controller->SendRGBToDevice();
 }
 
-void RGBController_FnaticStreak::UpdateZoneLEDs(int /*zone*/)
+void RGBController_FnaticStreak::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_FnaticStreak::UpdateSingleLED(int /*led*/)
+void RGBController_FnaticStreak::DeviceUpdateSingleLED(int /*led*/)
 {
     DeviceUpdateLEDs();
 }

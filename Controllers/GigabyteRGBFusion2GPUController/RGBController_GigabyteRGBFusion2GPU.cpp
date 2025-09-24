@@ -190,13 +190,6 @@ void RGBController_RGBFusion2GPU::SetupZones()
     SetupColors();
 }
 
-void RGBController_RGBFusion2GPU::ResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_RGBFusion2GPU::DeviceUpdateLEDs()
 {
     fusion2_config zone_config;
@@ -222,13 +215,13 @@ void RGBController_RGBFusion2GPU::DeviceUpdateLEDs()
     }
 }
 
-void RGBController_RGBFusion2GPU::UpdateZoneLEDs(int zone)
+void RGBController_RGBFusion2GPU::DeviceUpdateZoneLEDs(int zone)
 {
     LOG_TRACE("[%s] Update zone #%d", name.c_str(), zone);
     DeviceUpdateLEDs();
 }
 
-void RGBController_RGBFusion2GPU::UpdateSingleLED(int led)
+void RGBController_RGBFusion2GPU::DeviceUpdateSingleLED(int led)
 {
     LOG_TRACE("[%s] Update single led : %d", name.c_str(), led);
     DeviceUpdateLEDs();

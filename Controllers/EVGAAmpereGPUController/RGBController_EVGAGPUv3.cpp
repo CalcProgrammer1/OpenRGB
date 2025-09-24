@@ -256,7 +256,7 @@ void RGBController_EVGAGPUv3::SetupZones()
     SetupColors();
 }
 
-void RGBController_EVGAGPUv3::ResizeZone(int /*zone*/, int newSize)
+void RGBController_EVGAGPUv3::DeviceResizeZone(int /*zone*/, int newSize)
 {
     controller->ResizeARGB(newSize);
 }
@@ -290,13 +290,13 @@ void RGBController_EVGAGPUv3::DeviceUpdateLEDs()
     }
 }
 
-void RGBController_EVGAGPUv3::UpdateZoneLEDs(int /*zone*/)
+void RGBController_EVGAGPUv3::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     //LOG_TRACE("[%s] Updating zone %1d", controller->evgaGPUName, zone);
     DeviceUpdateLEDs();
 }
 
-void RGBController_EVGAGPUv3::UpdateSingleLED(int /*led*/)
+void RGBController_EVGAGPUv3::DeviceUpdateSingleLED(int /*led*/)
 {
     //LOG_TRACE("[%s] Updating single LED %1d", controller->evgaGPUName, led);
     DeviceUpdateLEDs();

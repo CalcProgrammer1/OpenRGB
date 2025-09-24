@@ -181,22 +181,17 @@ void RGBController_AsusSagarisKeyboard::SetupZones()
     SetupColors();
 }
 
-void RGBController_AsusSagarisKeyboard::ResizeZone(int /*zone*/, int /*new_size*/)
-{
-
-}
-
 void RGBController_AsusSagarisKeyboard::DeviceUpdateLEDs()
 {
 
 }
 
-void RGBController_AsusSagarisKeyboard::UpdateZoneLEDs(int /*zone*/)
+void RGBController_AsusSagarisKeyboard::DeviceUpdateZoneLEDs(int /*zone*/)
 {
 
 }
 
-void RGBController_AsusSagarisKeyboard::UpdateSingleLED(int /*led*/)
+void RGBController_AsusSagarisKeyboard::DeviceUpdateSingleLED(int /*led*/)
 {
 
 }

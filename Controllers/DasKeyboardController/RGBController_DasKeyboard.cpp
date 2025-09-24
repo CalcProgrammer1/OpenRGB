@@ -304,25 +304,18 @@ void RGBController_DasKeyboard::SetupZones()
     SetupColors();
 }
 
-void RGBController_DasKeyboard::ResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_DasKeyboard::DeviceUpdateLEDs()
 {
-    UpdateZoneLEDs(0);
+    DeviceUpdateZoneLEDs(0);
 }
 
-void RGBController_DasKeyboard::UpdateZoneLEDs(int /*zone*/)
+void RGBController_DasKeyboard::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     updateDevice = false;
 
     for(unsigned int led_idx = 0; led_idx < leds.size(); led_idx++)
     {
-        UpdateSingleLED(static_cast<int>(led_idx));
+        DeviceUpdateSingleLED(static_cast<int>(led_idx));
     }
 
     updateDevice = true;
@@ -330,7 +323,7 @@ void RGBController_DasKeyboard::UpdateZoneLEDs(int /*zone*/)
     controller->SendApply();
 }
 
-void RGBController_DasKeyboard::UpdateSingleLED(int led)
+void RGBController_DasKeyboard::DeviceUpdateSingleLED(int led)
 {
     mode selected_mode = modes[active_mode];
 

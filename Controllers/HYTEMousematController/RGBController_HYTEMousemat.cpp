@@ -82,22 +82,17 @@ void RGBController_HYTEMousemat::SetupZones()
     SetupColors();
 }
 
-void RGBController_HYTEMousemat::ResizeZone(int /*zone*/, int /*new_size*/)
-{
-
-}
-
 void RGBController_HYTEMousemat::DeviceUpdateLEDs()
 {
     controller->StreamingCommand(&colors[0]);
 }
 
-void RGBController_HYTEMousemat::UpdateZoneLEDs(int /*zone*/)
+void RGBController_HYTEMousemat::DeviceUpdateZoneLEDs(int /*zone*/)
 {
 
 }
 
-void RGBController_HYTEMousemat::UpdateSingleLED(int /*led*/)
+void RGBController_HYTEMousemat::DeviceUpdateSingleLED(int /*led*/)
 {
 
 }

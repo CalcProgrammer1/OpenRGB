@@ -138,25 +138,18 @@ void RGBController_SinowealthKeyboard10c::SetupZones()
     SetupColors();
 }
 
-void RGBController_SinowealthKeyboard10c::ResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_SinowealthKeyboard10c::DeviceUpdateLEDs()
 {
     last_update_time = std::chrono::steady_clock::now();
     controller->SetLEDsDirect(colors);
 }
 
-void RGBController_SinowealthKeyboard10c::UpdateZoneLEDs(int /*zone*/)
+void RGBController_SinowealthKeyboard10c::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_SinowealthKeyboard10c::UpdateSingleLED(int /*led*/)
+void RGBController_SinowealthKeyboard10c::DeviceUpdateSingleLED(int /*led*/)
 {
     DeviceUpdateLEDs();
 }

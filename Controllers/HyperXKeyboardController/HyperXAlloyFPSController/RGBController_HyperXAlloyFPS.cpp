@@ -252,13 +252,6 @@ void RGBController_HyperXAlloyFPS::SetupZones()
     SetupColors();
 }
 
-void RGBController_HyperXAlloyFPS::ResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_HyperXAlloyFPS::DeviceUpdateLEDs()
 {
     last_update_time = std::chrono::steady_clock::now();
@@ -269,12 +262,12 @@ void RGBController_HyperXAlloyFPS::DeviceUpdateLEDs()
     }
 }
 
-void RGBController_HyperXAlloyFPS::UpdateZoneLEDs(int /*zone*/)
+void RGBController_HyperXAlloyFPS::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_HyperXAlloyFPS::UpdateSingleLED(int /*led*/)
+void RGBController_HyperXAlloyFPS::DeviceUpdateSingleLED(int /*led*/)
 {
     DeviceUpdateLEDs();
 }
