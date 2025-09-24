@@ -124,22 +124,17 @@ void RGBController_HyperXPulsefireDart::SetupZones()
     SetupColors();
 }
 
-void RGBController_HyperXPulsefireDart::ResizeZone(int /*zone*/, int /*new_size*/)
-{
-
-}
-
 void RGBController_HyperXPulsefireDart::DeviceUpdateLEDs()
 {
     DeviceUpdateMode();
 }
 
-void RGBController_HyperXPulsefireDart::UpdateZoneLEDs(int zone)
+void RGBController_HyperXPulsefireDart::DeviceUpdateZoneLEDs(int zone)
 {
-    UpdateSingleLED(zone);
+    DeviceUpdateSingleLED(zone);
 }
 
-void RGBController_HyperXPulsefireDart::UpdateSingleLED(int led)
+void RGBController_HyperXPulsefireDart::DeviceUpdateSingleLED(int led)
 {
     if(modes[active_mode].color_mode == MODE_COLORS_PER_LED)
     {

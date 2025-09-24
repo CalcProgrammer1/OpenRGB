@@ -324,22 +324,17 @@ void RGBController_LenovoK510::ReadAndUpdateCurrentDeviceState()
     }
 }
 
-void RGBController_LenovoK510::ResizeZone(int /*zone*/, int /*new_size*/)
-{
-    // Not Supported
-}
-
 void RGBController_LenovoK510::DeviceUpdateLEDs()
 {
     // Not Supported
 }
 
-void RGBController_LenovoK510::UpdateZoneLEDs(int /*zone*/)
+void RGBController_LenovoK510::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     // Not Supported
 }
 
-void RGBController_LenovoK510::UpdateSingleLED(int /*led*/)
+void RGBController_LenovoK510::DeviceUpdateSingleLED(int /*led*/)
 {
     // Not Supported
 }

@@ -220,22 +220,17 @@ void RGBController_QMKVialRGB::SetupZones()
     SetupColors();
 }
 
-void RGBController_QMKVialRGB::ResizeZone(int zone, int new_size)
-{
-
-}
-
 void RGBController_QMKVialRGB::DeviceUpdateLEDs()
 {
     controller->SendLEDs(colors.size(), colors.data());
 }
 
-void RGBController_QMKVialRGB::UpdateZoneLEDs(int /*zone*/)
+void RGBController_QMKVialRGB::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_QMKVialRGB::UpdateSingleLED(int /*led*/)
+void RGBController_QMKVialRGB::DeviceUpdateSingleLED(int /*led*/)
 {
     DeviceUpdateLEDs();
 }

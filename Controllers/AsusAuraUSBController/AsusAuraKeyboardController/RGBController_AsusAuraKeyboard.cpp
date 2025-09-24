@@ -489,13 +489,6 @@ void RGBController_AuraKeyboard::SetupZones()
     SetupColors();
 }
 
-void RGBController_AuraKeyboard::ResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_AuraKeyboard::DeviceUpdateLEDs()
 {
     std::vector<unsigned char> frame_buf;
@@ -519,12 +512,12 @@ void RGBController_AuraKeyboard::DeviceUpdateLEDs()
     controller->SendDirect((unsigned char)leds.size(), frame_buf.data());
 }
 
-void RGBController_AuraKeyboard::UpdateZoneLEDs(int /*zone*/)
+void RGBController_AuraKeyboard::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_AuraKeyboard::UpdateSingleLED(int /*led*/)
+void RGBController_AuraKeyboard::DeviceUpdateSingleLED(int /*led*/)
 {
     DeviceUpdateLEDs();
 }
