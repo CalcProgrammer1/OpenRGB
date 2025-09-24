@@ -233,17 +233,6 @@ RGBController_CorsairWireless::~RGBController_CorsairWireless()
     keepalive_thread->join();
     delete keepalive_thread;
 
-    /*---------------------------------------------------------*\
-    | Delete the matrix map                                     |
-    \*---------------------------------------------------------*/
-    for(unsigned int zone_index = 0; zone_index < zones.size(); zone_index++)
-    {
-        if(zones[zone_index].matrix_map != NULL)
-        {
-            delete zones[zone_index].matrix_map;
-        }
-    }
-
     delete controller;
 }
 
@@ -271,14 +260,7 @@ void RGBController_CorsairWireless::SetupZones()
 
         if(zone_types[zone_idx] == ZONE_TYPE_MATRIX)
         {
-            new_zone.matrix_map         = new matrix_map_type;
-            new_zone.matrix_map->height = 7;
-            new_zone.matrix_map->width  = 24;
-            new_zone.matrix_map->map    = (unsigned int *)&matrix_map;
-        }
-        else
-        {
-            new_zone.matrix_map         = NULL;
+            new_zone.matrix_map.Set(7, 24, (unsigned int *)&matrix_map);
         }
 
         zones.push_back(new_zone);
@@ -297,13 +279,6 @@ void RGBController_CorsairWireless::SetupZones()
     SetupColors();
 }
 
-void RGBController_CorsairWireless::ResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_CorsairWireless::DeviceUpdateLEDs()
 {
     last_update_time = std::chrono::steady_clock::now();
@@ -311,12 +286,12 @@ void RGBController_CorsairWireless::DeviceUpdateLEDs()
     controller->SetLEDs(colors);
 }
 
-void RGBController_CorsairWireless::UpdateZoneLEDs(int /*zone*/)
+void RGBController_CorsairWireless::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     controller->SetLEDs(colors);
 }
 
-void RGBController_CorsairWireless::UpdateSingleLED(int /*led*/)
+void RGBController_CorsairWireless::DeviceUpdateSingleLED(int /*led*/)
 {
     controller->SetLEDs(colors);
 }

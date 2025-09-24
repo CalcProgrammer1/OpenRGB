@@ -101,18 +101,14 @@ void RGBController_CorsairCommanderCore::SetupZones()
         zones[0].leds_min               = led_count.at(0);
         zones[0].leds_max               = led_count.at(0);
         zones[0].leds_count             = led_count.at(0);
-        zones[0].matrix_map             = new matrix_map_type;
+
         if(led_count.at(0) == 24)
         {
-            zones[0].matrix_map->height     = 11;
-            zones[0].matrix_map->width      = 11;
-            zones[0].matrix_map->map        = (unsigned int *)&matrix_map24;
+            zones[0].matrix_map.Set(11, 11, (unsigned int *)&matrix_map24);
         }
         else
         {
-            zones[0].matrix_map->height     = 7;
-            zones[0].matrix_map->width      = 7;
-            zones[0].matrix_map->map        = (unsigned int *)&matrix_map29;
+            zones[0].matrix_map.Set(7, 7, (unsigned int *)matrix_map29);
         }
     }
 
@@ -146,7 +142,7 @@ void RGBController_CorsairCommanderCore::SetupZones()
     SetupColors();
 }
 
-void RGBController_CorsairCommanderCore::ResizeZone(int zone, int new_size)
+void RGBController_CorsairCommanderCore::DeviceResizeZone(int zone, int new_size)
 {
     if((size_t) zone >= zones.size())
     {
@@ -177,12 +173,12 @@ void RGBController_CorsairCommanderCore::DeviceUpdateLEDs()
     DeviceUpdateMode();
 }
 
-void RGBController_CorsairCommanderCore::UpdateZoneLEDs(int /*zone*/)
+void RGBController_CorsairCommanderCore::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_CorsairCommanderCore::UpdateSingleLED(int /*led*/)
+void RGBController_CorsairCommanderCore::DeviceUpdateSingleLED(int /*led*/)
 {
     DeviceUpdateLEDs();
 }

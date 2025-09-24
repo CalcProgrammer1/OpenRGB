@@ -102,7 +102,6 @@ void RGBController_WushiL50USB::SetupZones()
     new_zone.leds_count = WUSHI_L50_NUM_LEDS;
     new_zone.leds_max   = new_zone.leds_count;
     new_zone.leds_min   = new_zone.leds_count;
-    new_zone.matrix_map = NULL;
 
     zones.push_back(new_zone);
 
@@ -116,13 +115,6 @@ void RGBController_WushiL50USB::SetupZones()
     }
 
     SetupColors();
-}
-
-void RGBController_WushiL50USB::ResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
 }
 
 void RGBController_WushiL50USB::DeviceUpdateLEDs()
@@ -142,12 +134,12 @@ void RGBController_WushiL50USB::DeviceUpdateLEDs()
     controller->setMode(&state);
 }
 
-void RGBController_WushiL50USB::UpdateZoneLEDs(int /*zone*/)
+void RGBController_WushiL50USB::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_WushiL50USB::UpdateSingleLED(int /*led*/)
+void RGBController_WushiL50USB::DeviceUpdateSingleLED(int /*led*/)
 {
     DeviceUpdateLEDs();
 }

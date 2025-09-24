@@ -53,7 +53,6 @@ void RGBController_LianLiUniversalScreen::SetupZones()
     Screen.leds_min     = 60;
     Screen.leds_max     = 60;
     Screen.leds_count   = 60;
-    Screen.matrix_map   = NULL;
     zones.push_back(Screen);
 
     for(std::size_t led_idx = 0; led_idx < Screen.leds_count; led_idx++)
@@ -69,22 +68,17 @@ void RGBController_LianLiUniversalScreen::SetupZones()
     SetupColors();
 }
 
-void RGBController_LianLiUniversalScreen::ResizeZone(int /*zone*/, int /*new_size*/)
-{
-
-}
-
 void RGBController_LianLiUniversalScreen::DeviceUpdateLEDs()
 {
     controller->SetLedColors(colors.data(), colors.size());
 }
 
-void RGBController_LianLiUniversalScreen::UpdateZoneLEDs(int /*zone*/)
+void RGBController_LianLiUniversalScreen::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_LianLiUniversalScreen::UpdateSingleLED(int /*led*/)
+void RGBController_LianLiUniversalScreen::DeviceUpdateSingleLED(int /*led*/)
 {
     DeviceUpdateLEDs();
 }

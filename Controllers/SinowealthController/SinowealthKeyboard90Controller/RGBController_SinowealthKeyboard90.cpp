@@ -79,17 +79,6 @@ RGBController_SinowealthKeyboard90::RGBController_SinowealthKeyboard90(Sinowealt
 
 RGBController_SinowealthKeyboard90::~RGBController_SinowealthKeyboard90()
 {
-    /*---------------------------------------------------------*\
-    | Delete the matrix map                                     |
-    \*---------------------------------------------------------*/
-    for(unsigned int zone_index = 0; zone_index < zones.size(); zone_index++)
-    {
-        if(zones[zone_index].matrix_map != NULL)
-        {
-            delete zones[zone_index].matrix_map;
-        }
-    }
-
     delete controller;
 }
 
@@ -105,10 +94,7 @@ void RGBController_SinowealthKeyboard90::SetupZones()
     new_zone.leds_min               = new_zone.leds_count;
     new_zone.leds_max               = new_zone.leds_count;
 
-    new_zone.matrix_map             = new matrix_map_type;
-    new_zone.matrix_map->height     = 6;
-    new_zone.matrix_map->width      = 23;
-    new_zone.matrix_map->map        = (unsigned int *)&matrix_map;
+    new_zone.matrix_map.Set(6, 23, (unsigned int *)&matrix_map);
 
     zones.push_back(new_zone);
 
@@ -121,13 +107,6 @@ void RGBController_SinowealthKeyboard90::SetupZones()
     }
 
     SetupColors();
-}
-
-void RGBController_SinowealthKeyboard90::ResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
 }
 
 void RGBController_SinowealthKeyboard90::DeviceUpdateLEDs()
@@ -146,12 +125,12 @@ void RGBController_SinowealthKeyboard90::DeviceUpdateLEDs()
     controller->SendCommit();
 }
 
-void RGBController_SinowealthKeyboard90::UpdateZoneLEDs(int /*zone*/)
+void RGBController_SinowealthKeyboard90::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_SinowealthKeyboard90::UpdateSingleLED(int /*key*/)
+void RGBController_SinowealthKeyboard90::DeviceUpdateSingleLED(int /*key*/)
 {
     DeviceUpdateLEDs();
 }

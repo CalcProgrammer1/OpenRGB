@@ -153,7 +153,6 @@ void RGBController_CMMonitorController::SetupZones()
     z.leds_min      = 47;
     z.leds_max      = 47;
     z.leds_count    = 47;
-    z.matrix_map    = NULL;
 
     zones.push_back(z);
 
@@ -168,13 +167,6 @@ void RGBController_CMMonitorController::SetupZones()
     SetupColors();
 }
 
-void RGBController_CMMonitorController::ResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_CMMonitorController::DeviceUpdateLEDs()
 {
     if(modes[active_mode].value == CM_MONITOR_DIRECT_MODE)
@@ -187,12 +179,12 @@ void RGBController_CMMonitorController::DeviceUpdateLEDs()
     }
 }
 
-void RGBController_CMMonitorController::UpdateZoneLEDs(int /*zone*/)
+void RGBController_CMMonitorController::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_CMMonitorController::UpdateSingleLED(int /*led*/)
+void RGBController_CMMonitorController::DeviceUpdateSingleLED(int /*led*/)
 {
     DeviceUpdateLEDs();
 }

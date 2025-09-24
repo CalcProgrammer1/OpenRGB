@@ -203,90 +203,90 @@ RGBController_E131::RGBController_E131(std::vector<E131Device> device_list)
         if(devices[device_idx].type == ZONE_TYPE_MATRIX)
         {
             unsigned int led_idx = 0;
-            matrix_map_type * new_map = new matrix_map_type;
+            matrix_map_type new_map;
 
-            new_map->width = devices[device_idx].matrix_width;
-            new_map->height = devices[device_idx].matrix_height;
-            new_map->map = new unsigned int[devices[device_idx].matrix_width * devices[device_idx].matrix_height];
+            new_map.width       = devices[device_idx].matrix_width;
+            new_map.height      = devices[device_idx].matrix_height;
+            new_map.map.resize(devices[device_idx].matrix_width * devices[device_idx].matrix_height);
 
             switch(devices[device_idx].matrix_order)
             {
                 case E131_MATRIX_ORDER_HORIZONTAL_TOP_LEFT:
-                    for(unsigned int y = 0; y < new_map->height; y++)
+                    for(unsigned int y = 0; y < new_map.height; y++)
                     {
-                        for(unsigned int x = 0; x < new_map->width; x++)
+                        for(unsigned int x = 0; x < new_map.width; x++)
                         {
-                            new_map->map[(y * new_map->width) + x] = led_idx;
+                            new_map.map[(y * new_map.width) + x] = led_idx;
                             led_idx++;
                         }
                     }
                     break;
                 case E131_MATRIX_ORDER_HORIZONTAL_TOP_RIGHT:
-                    for(unsigned int y = 0; y < new_map->height; y++)
+                    for(unsigned int y = 0; y < new_map.height; y++)
                     {
-                        for(int x = new_map->width - 1; x >= 0; x--)
+                        for(int x = new_map.width - 1; x >= 0; x--)
                         {
-                            new_map->map[(y * new_map->width) + x] = led_idx;
+                            new_map.map[(y * new_map.width) + x] = led_idx;
                             led_idx++;
                         }
                     }
                     break;
                 case E131_MATRIX_ORDER_HORIZONTAL_BOTTOM_LEFT:
-                    for(int y = new_map->height; y >= 0; y--)
+                    for(int y = new_map.height; y >= 0; y--)
                     {
-                        for(unsigned int x = 0; x < new_map->width; x++)
+                        for(unsigned int x = 0; x < new_map.width; x++)
                         {
-                            new_map->map[(y * new_map->width) + x] = led_idx;
+                            new_map.map[(y * new_map.width) + x] = led_idx;
                             led_idx++;
                         }
                     }
                     break;
                 case E131_MATRIX_ORDER_HORIZONTAL_BOTTOM_RIGHT:
-                    for(int y = new_map->height; y >= 0; y--)
+                    for(int y = new_map.height; y >= 0; y--)
                     {
-                        for(int x = new_map->width - 1; x >= 0; x--)
+                        for(int x = new_map.width - 1; x >= 0; x--)
                         {
-                            new_map->map[(y * new_map->width) + x] = led_idx;
+                            new_map.map[(y * new_map.width) + x] = led_idx;
                             led_idx++;
                         }
                     }
                     break;
                 case E131_MATRIX_ORDER_VERTICAL_TOP_LEFT:
-                    for(unsigned int x = 0; x < new_map->width; x++)
+                    for(unsigned int x = 0; x < new_map.width; x++)
                     {
-                        for(unsigned int y = 0; y < new_map->height; y++)
+                        for(unsigned int y = 0; y < new_map.height; y++)
                         {
-                            new_map->map[(y * new_map->width) + x] = led_idx;
+                            new_map.map[(y * new_map.width) + x] = led_idx;
                             led_idx++;
                         }
                     }
                     break;
                 case E131_MATRIX_ORDER_VERTICAL_TOP_RIGHT:
-                    for(int x = new_map->width - 1; x >= 0; x--)
+                    for(int x = new_map.width - 1; x >= 0; x--)
                     {
-                        for(unsigned int y = 0; y < new_map->height; y++)
+                        for(unsigned int y = 0; y < new_map.height; y++)
                         {
-                            new_map->map[(y * new_map->width) + x] = led_idx;
+                            new_map.map[(y * new_map.width) + x] = led_idx;
                             led_idx++;
                         }
                     }
                     break;
                 case E131_MATRIX_ORDER_VERTICAL_BOTTOM_LEFT:
-                    for(unsigned int x = 0; x < new_map->width; x++)
+                    for(unsigned int x = 0; x < new_map.width; x++)
                     {
-                        for(int y = new_map->height - 1; y >= 0; y--)
+                        for(int y = new_map.height - 1; y >= 0; y--)
                         {
-                            new_map->map[(y * new_map->width) + x] = led_idx;
+                            new_map.map[(y * new_map.width) + x] = led_idx;
                             led_idx++;
                         }
                     }
                     break;
                 case E131_MATRIX_ORDER_VERTICAL_BOTTOM_RIGHT:
-                    for(int x = new_map->width - 1; x >= 0; x--)
+                    for(int x = new_map.width - 1; x >= 0; x--)
                     {
-                        for(int y = new_map->height - 1; y >= 0; y--)
+                        for(int y = new_map.height - 1; y >= 0; y--)
                         {
-                            new_map->map[(y * new_map->width) + x] = led_idx;
+                            new_map.map[(y * new_map.width) + x] = led_idx;
                             led_idx++;
                         }
                     }
@@ -316,22 +316,6 @@ RGBController_E131::~RGBController_E131()
         keepalive_thread->join();
         delete keepalive_thread;
     }
-
-    /*---------------------------------------------------------*\
-    | Delete the matrix map                                     |
-    \*---------------------------------------------------------*/
-    for(unsigned int zone_index = 0; zone_index < zones.size(); zone_index++)
-    {
-        if(zones[zone_index].matrix_map != NULL)
-        {
-            if(zones[zone_index].matrix_map->map != NULL)
-            {
-                delete zones[zone_index].matrix_map->map;
-            }
-
-            delete zones[zone_index].matrix_map;
-        }
-    }
 }
 
 void RGBController_E131::SetupZones()
@@ -347,8 +331,6 @@ void RGBController_E131::SetupZones()
         led_zone.leds_min       = devices[zone_idx].num_leds;
         led_zone.leds_max       = devices[zone_idx].num_leds;
         led_zone.leds_count     = devices[zone_idx].num_leds;
-        led_zone.matrix_map     = NULL;
-
         zones.push_back(led_zone);
     }
 
@@ -369,13 +351,6 @@ void RGBController_E131::SetupZones()
     }
 
     SetupColors();
-}
-
-void RGBController_E131::ResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
 }
 
 void RGBController_E131::DeviceUpdateLEDs()
@@ -442,12 +417,12 @@ void RGBController_E131::DeviceUpdateLEDs()
     }
 }
 
-void RGBController_E131::UpdateZoneLEDs(int /*zone*/)
+void RGBController_E131::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_E131::UpdateSingleLED(int /*led*/)
+void RGBController_E131::DeviceUpdateSingleLED(int /*led*/)
 {
     DeviceUpdateLEDs();
 }
@@ -463,7 +438,7 @@ void RGBController_E131::KeepaliveThreadFunction()
     {
         if((std::chrono::steady_clock::now() - last_update_time) > ( keepalive_delay * 0.95f ) )
         {
-            UpdateLEDs();
+            UpdateLEDsInternal();
         }
         std::this_thread::sleep_for(keepalive_delay / 2);
     }

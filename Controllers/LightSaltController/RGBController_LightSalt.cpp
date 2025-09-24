@@ -33,17 +33,6 @@ static RGBColor DeflectColor(bool deflection, RGBColor color)
 
 RGBController_LightSalt::~RGBController_LightSalt()
 {
-    /*---------------------------------------------------------*\
-    | Delete the matrix map                                     |
-    \*---------------------------------------------------------*/
-    for(unsigned int zone_index = 0; zone_index < zones.size(); zone_index++)
-    {
-        if(zones[zone_index].matrix_map != nullptr)
-        {
-            delete zones[zone_index].matrix_map;
-        }
-    }
-
     delete controller;
 }
 
@@ -347,10 +336,7 @@ void RGBController_LightSalt::SetupZones()
         zone.leds_min           = table.led.count;
         zone.leds_max           = table.led.count;
         zone.leds_count         = table.led.count;
-        zone.matrix_map         = new matrix_map_type;
-        zone.matrix_map->height = table.map.height;
-        zone.matrix_map->width  = table.map.width;
-        zone.matrix_map->map    = table.map.matrix;
+        zone.matrix_map.Set(table.map.height, table.map.width, table.map.matrix);
         zones.push_back(zone);
     }
 
@@ -368,7 +354,6 @@ void RGBController_LightSalt::SetupZones()
         zone.leds_min   = 1;
         zone.leds_max   = 1;
         zone.leds_count = 1;
-        zone.matrix_map = NULL;
         zones.push_back(zone);
     }
 
@@ -381,13 +366,6 @@ void RGBController_LightSalt::SetupZones()
     SetupColors();
 
     colors[colors.size() - 1] = ToRGBColor(0xFF, 0xFF, 0xFF);
-}
-
-void RGBController_LightSalt::ResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
 }
 
 void RGBController_LightSalt::DeviceUpdateColors(bool save)
@@ -427,12 +405,12 @@ void RGBController_LightSalt::DeviceUpdateLEDs()
     DeviceUpdateColors(false);
 }
 
-void RGBController_LightSalt::UpdateZoneLEDs(int /*zone*/)
+void RGBController_LightSalt::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_LightSalt::UpdateSingleLED(int /*led*/)
+void RGBController_LightSalt::DeviceUpdateSingleLED(int /*led*/)
 {
     DeviceUpdateLEDs();
 }
