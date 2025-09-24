@@ -32,7 +32,7 @@ void DetectRealtekARGBControllers(hid_device_info* info, const std::string& /*na
         if(controller->get_support_openrgb())
         {
             rgb_controller = new RGBController_RealtekARGB(controller);
-            if(rgb_controller->type != DEVICE_TYPE_UNKNOWN)
+            if(rgb_controller->GetDeviceType() != DEVICE_TYPE_UNKNOWN)
             {
                 ResourceManager::get()->RegisterRGBController(rgb_controller);
             }

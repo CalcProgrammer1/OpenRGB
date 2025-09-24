@@ -363,7 +363,7 @@ void RGBController_RealtekARGB::SetupZones()
             zones[idx].leds_min = 0;
             zones[idx].leds_max = (REALTEK_ARGB_MAX - argb_num_fixgrp) / ((int)valid_grp.size() - num_fixgrp);
         }
-        zones[idx].matrix_map = NULL;
+
         for(unsigned int led_idx = 0; led_idx < zones[idx].leds_count; led_idx++)
         {
             led myled;
@@ -438,12 +438,12 @@ void RGBController_RealtekARGB::DeviceUpdateLEDs()
     {
         if(zones[zone_idx].leds_count > 0)
         {
-           UpdateZoneLEDs((int)zone_idx);
+           DeviceUpdateZoneLEDs((int)zone_idx);
         }
     }
 }
 
-void RGBController_RealtekARGB::UpdateZoneLEDs(int zone)
+void RGBController_RealtekARGB::DeviceUpdateZoneLEDs(int zone)
 {
     unsigned short brightness = 0xFF;
     mode& curr_mode = modes[active_mode];
@@ -464,11 +464,11 @@ void RGBController_RealtekARGB::UpdateZoneLEDs(int zone)
     }
     else
     {
-        UpdateSingleLED(zone);
+        DeviceUpdateSingleLED(zone);
     }
 }
 
-void RGBController_RealtekARGB::UpdateSingleLED(int zone)
+void RGBController_RealtekARGB::DeviceUpdateSingleLED(int zone)
 {
     mode& curr_mode = modes[active_mode];
     std::vector<RGBColor> rtk_colors = curr_mode.colors;

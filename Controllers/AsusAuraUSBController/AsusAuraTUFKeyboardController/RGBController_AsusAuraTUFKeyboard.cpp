@@ -511,10 +511,7 @@ void RGBController_AuraTUFKeyboard::SetupZones()
     keyboard_zone.leds_min           = keyboard[layout].size;
     keyboard_zone.leds_max           = keyboard[layout].size;
     keyboard_zone.leds_count         = keyboard[layout].size;
-    keyboard_zone.matrix_map         = new matrix_map_type;
-    keyboard_zone.matrix_map->height = keyboard[layout].rows;
-    keyboard_zone.matrix_map->width  = keyboard[layout].cols;
-    keyboard_zone.matrix_map->map    = keyboard[layout].matrix_map;
+    keyboard_zone.matrix_map.Set(keyboard[layout].rows, keyboard[layout].cols, keyboard[layout].matrix_map);
     zones.push_back(keyboard_zone);
 
     for(int led_id = 0; led_id < keyboard[layout].size; led_id++)
@@ -533,11 +530,6 @@ void RGBController_AuraTUFKeyboard::SetupZones()
     DeviceUpdateMode();
 }
 
-void RGBController_AuraTUFKeyboard::ResizeZone(int /*zone*/, int /*new_size*/)
-{
-
-}
-
 void RGBController_AuraTUFKeyboard::DeviceUpdateLEDs()
 {
     std::vector<led_color> led_color_list = {};
@@ -550,12 +542,12 @@ void RGBController_AuraTUFKeyboard::DeviceUpdateLEDs()
     controller->UpdateLeds(led_color_list);
 }
 
-void RGBController_AuraTUFKeyboard::UpdateZoneLEDs(int /*zone*/)
+void RGBController_AuraTUFKeyboard::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_AuraTUFKeyboard::UpdateSingleLED(int led)
+void RGBController_AuraTUFKeyboard::DeviceUpdateSingleLED(int led)
 {
     if(!controller->is_per_led_keyboard)
     {

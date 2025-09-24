@@ -152,7 +152,6 @@ void RGBController_EVGAMouse::Init_Controller()
     front_zone.leds_min     = 1;
     front_zone.leds_max     = 1;
     front_zone.leds_count   = 1;
-    front_zone.matrix_map   = NULL;
     zones.push_back(front_zone);
 
     zone wheel_zone;
@@ -161,7 +160,6 @@ void RGBController_EVGAMouse::Init_Controller()
     wheel_zone.leds_min     = 1;
     wheel_zone.leds_max     = 1;
     wheel_zone.leds_count   = 1;
-    wheel_zone.matrix_map   = NULL;
     zones.push_back(wheel_zone);
 
     zone logo_zone;
@@ -170,7 +168,6 @@ void RGBController_EVGAMouse::Init_Controller()
     logo_zone.leds_min      = 1;
     logo_zone.leds_max      = 1;
     logo_zone.leds_count    = 1;
-    logo_zone.matrix_map    = NULL;
     zones.push_back(logo_zone);
 
     led front_led;
@@ -194,13 +191,6 @@ void RGBController_EVGAMouse::SetupZones()
     SetupColors();
 }
 
-void RGBController_EVGAMouse::ResizeZone(int /* zone */, int /* new_size */)
-{
-    /*--------------------------------------*\
-    | This device does not support resizing. |
-    \*--------------------------------------*/
-}
-
 void RGBController_EVGAMouse::DeviceUpdateLEDs()
 {
     for(unsigned int i = 0; i < colors.size(); i++)
@@ -209,12 +199,12 @@ void RGBController_EVGAMouse::DeviceUpdateLEDs()
     }
 }
 
-void RGBController_EVGAMouse::UpdateZoneLEDs(int zone)
+void RGBController_EVGAMouse::DeviceUpdateZoneLEDs(int zone)
 {
     controller->SetLed(zone, modes[active_mode].brightness, modes[active_mode].speed, colors[zone]);
 }
 
-void RGBController_EVGAMouse::UpdateSingleLED(int led)
+void RGBController_EVGAMouse::DeviceUpdateSingleLED(int led)
 {
     controller->SetLed(led,  modes[active_mode].brightness, modes[active_mode].speed, colors[led]);
 }

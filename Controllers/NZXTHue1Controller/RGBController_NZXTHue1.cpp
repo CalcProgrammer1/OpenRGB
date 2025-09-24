@@ -193,7 +193,6 @@ void RGBController_NZXTHue1::SetupZones()
     new_zone->leds_min      = 0;
     new_zone->leds_max      = 40;
     new_zone->leds_count    = controller->num_leds;
-    new_zone->matrix_map    = NULL;
 
     zones.push_back(*new_zone);
 
@@ -249,21 +248,17 @@ void RGBController_NZXTHue1::SetupZones()
     SetupColors();
 }
 
-void RGBController_NZXTHue1::ResizeZone(int /*zone*/, int /*new_size*/)
-{
-}
-
 void RGBController_NZXTHue1::DeviceUpdateLEDs()
 {
     controller->SetLEDs(zones[0].colors, zones[0].leds_count);
 }
 
-void RGBController_NZXTHue1::UpdateZoneLEDs(int /*zone*/)
+void RGBController_NZXTHue1::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_NZXTHue1::UpdateSingleLED(int /*led*/)
+void RGBController_NZXTHue1::DeviceUpdateSingleLED(int /*led*/)
 {
     DeviceUpdateLEDs();
 }

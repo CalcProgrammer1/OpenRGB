@@ -56,7 +56,6 @@ void RGBController_AMBX::SetupZones()
     side_lights_zone.leds_min   = 2;
     side_lights_zone.leds_max   = 2;
     side_lights_zone.leds_count = 2;
-    side_lights_zone.matrix_map = NULL;
     zones.push_back(side_lights_zone);
 
     zone wallwasher_zone;
@@ -65,7 +64,6 @@ void RGBController_AMBX::SetupZones()
     wallwasher_zone.leds_min   = 3;
     wallwasher_zone.leds_max   = 3;
     wallwasher_zone.leds_count = 3;
-    wallwasher_zone.matrix_map = NULL;
     zones.push_back(wallwasher_zone);
 
     // Set up LEDs
@@ -97,11 +95,6 @@ void RGBController_AMBX::SetupZones()
     SetupColors();
 }
 
-void RGBController_AMBX::ResizeZone(int /*zone*/, int /*new_size*/)
-{
-    // This device does not support resizing zones
-}
-
 void RGBController_AMBX::DeviceUpdateLEDs()
 {
     if(!controller->IsInitialized())
@@ -121,7 +114,7 @@ void RGBController_AMBX::DeviceUpdateLEDs()
     controller->SetLEDColors(led_values, led_colors, static_cast<unsigned int>(leds.size()));
 }
 
-void RGBController_AMBX::UpdateZoneLEDs(int zone)
+void RGBController_AMBX::DeviceUpdateZoneLEDs(int zone)
 {
     if(!controller->IsInitialized())
     {
@@ -156,7 +149,7 @@ void RGBController_AMBX::UpdateZoneLEDs(int zone)
     controller->SetLEDColors(led_values, led_colors, zone_size);
 }
 
-void RGBController_AMBX::UpdateSingleLED(int led)
+void RGBController_AMBX::DeviceUpdateSingleLED(int led)
 {
     if(!controller->IsInitialized())
     {

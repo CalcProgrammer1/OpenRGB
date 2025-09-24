@@ -124,7 +124,6 @@ void RGBController_GigabyteAorusPCCase::SetupZones()
     case_zone.leds_min      = 1;
     case_zone.leds_max      = 1;
     case_zone.leds_count    = 1;
-    case_zone.matrix_map    = NULL;
     zones.push_back(case_zone);
 
     led case_led;
@@ -134,13 +133,6 @@ void RGBController_GigabyteAorusPCCase::SetupZones()
     SetupColors();
 }
 
-void RGBController_GigabyteAorusPCCase::ResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_GigabyteAorusPCCase::DeviceUpdateLEDs()
 {
     /*---------------------------------------------------------*\
@@ -148,14 +140,14 @@ void RGBController_GigabyteAorusPCCase::DeviceUpdateLEDs()
     \*---------------------------------------------------------*/
 }
 
-void RGBController_GigabyteAorusPCCase::UpdateZoneLEDs(int /*zone*/)
+void RGBController_GigabyteAorusPCCase::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     /*---------------------------------------------------------*\
     | This device does not need update zone leds                |
     \*---------------------------------------------------------*/
 }
 
-void RGBController_GigabyteAorusPCCase::UpdateSingleLED(int /*led*/)
+void RGBController_GigabyteAorusPCCase::DeviceUpdateSingleLED(int /*led*/)
 {
     /*---------------------------------------------------------*\
     | This device does not need update single led               |

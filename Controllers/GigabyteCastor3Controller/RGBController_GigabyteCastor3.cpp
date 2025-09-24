@@ -323,7 +323,6 @@ void RGBController_GigabyteCastor3::SetupZones()
     led_ring.leds_min   = 1;
     led_ring.leds_max   = 1;
     led_ring.leds_count = 1;
-    led_ring.matrix_map = NULL;
     zones.push_back(led_ring);
 
     led new_led;
@@ -333,24 +332,17 @@ void RGBController_GigabyteCastor3::SetupZones()
     SetupColors();
 }
 
-void RGBController_GigabyteCastor3::ResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    |  Fixed zone size — not resizable                          |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_GigabyteCastor3::DeviceUpdateLEDs()
 {
     DeviceUpdateMode();
 }
 
-void RGBController_GigabyteCastor3::UpdateZoneLEDs(int /*zone*/)
+void RGBController_GigabyteCastor3::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_GigabyteCastor3::UpdateSingleLED(int /*led*/)
+void RGBController_GigabyteCastor3::DeviceUpdateSingleLED(int /*led*/)
 {
     DeviceUpdateLEDs();
 }
