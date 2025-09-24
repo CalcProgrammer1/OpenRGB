@@ -25,13 +25,14 @@
 | 1:    OpenRGB 0.61    First versioned API, introduced with plugin settings changes                    |
 | 2:    OpenRGB 0.7     First released versioned API, callback unregister functions in ResourceManager  |
 | 3:    OpenRGB 0.9     Use filesystem::path for paths, Added segments                                  |
-| 4:    OpenRGB 1.0     Resizable effects-only zones, zone flags                                        |
+| 4:    OpenRGB 1.0rc2  Resizable effects-only zones, zone flags                                        |
+| 5:    OpenRGB 1.0     RGBController API overhaul, protected members, features TBD                     |
 \*-----------------------------------------------------------------------------------------------------*/
-#define OPENRGB_PLUGIN_API_VERSION  4
+#define OPENRGB_PLUGIN_API_VERSION  5
 
-/*-----------------------------------------------------------------------------------------------------*\
-| Plugin Tab Location Values                                                                            |
-\*-----------------------------------------------------------------------------------------------------*/
+/*---------------------------------------------------------*\
+| Plugin Tab Location Values                                |
+\*---------------------------------------------------------*/
 enum
 {
     OPENRGB_PLUGIN_LOCATION_TOP         = 0,    /* Top-level tab (no icon)                             */
@@ -42,9 +43,9 @@ enum
 
 struct OpenRGBPluginInfo
 {
-    /*-------------------------------------------------------------------------------------------------*\
-    | Plugin Details                                                                                    |
-    \*-------------------------------------------------------------------------------------------------*/
+    /*-----------------------------------------------------*\
+    | Plugin Details                                        |
+    \*-----------------------------------------------------*/
     std::string                 Name;           /* Plugin name string                                  */
     std::string                 Description;    /* Plugin description string                           */
     std::string                 Version;        /* Plugin version string                               */
@@ -52,9 +53,9 @@ struct OpenRGBPluginInfo
     std::string                 URL;            /* Plugin project URL string                           */
     QImage                      Icon;           /* Icon image (displayed 64x64)                        */
 
-    /*-------------------------------------------------------------------------------------------------*\
-    | Plugin Tab Configuration                                                                          |
-    \*-------------------------------------------------------------------------------------------------*/
+    /*-----------------------------------------------------*\
+    | Plugin Tab Configuration                              |
+    \*-----------------------------------------------------*/
     unsigned int                Location;       /* Plugin tab location from Plugin Tab Location enum   */
                                                 /* This field is mandatory, an invalid value will      */
                                                 /* prevent plugin tab from being displayed             */
@@ -68,15 +69,15 @@ class OpenRGBPluginInterface
 public:
     virtual                    ~OpenRGBPluginInterface() {}
 
-    /*-------------------------------------------------------------------------------------------------*\
-    | Plugin Information                                                                                |
-    \*-------------------------------------------------------------------------------------------------*/
+    /*-----------------------------------------------------*\
+    | Plugin Information                                    |
+    \*-----------------------------------------------------*/
     virtual OpenRGBPluginInfo   GetPluginInfo()                                                     = 0;
     virtual unsigned int        GetPluginAPIVersion()                                               = 0;
 
-    /*-------------------------------------------------------------------------------------------------*\
-    | Plugin Functionality                                                                              |
-    \*-------------------------------------------------------------------------------------------------*/
+    /*-----------------------------------------------------*\
+    | Plugin Functionality                                  |
+    \*-----------------------------------------------------*/
     virtual void                Load(ResourceManagerInterface* resource_manager_ptr)                = 0;
     virtual QWidget*            GetWidget()                                                         = 0;
     virtual QMenu*              GetTrayMenu()                                                       = 0;
