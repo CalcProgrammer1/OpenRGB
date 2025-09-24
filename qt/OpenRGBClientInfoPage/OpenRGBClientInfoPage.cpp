@@ -200,7 +200,7 @@ void OpenRGBClientInfoPage::UpdateInfo()
             /*-----------------------------------------------------*\
             | Add child items for each zone in the device           |
             \*-----------------------------------------------------*/
-            for(std::size_t zone_idx = 0; zone_idx < ResourceManager::get()->GetClients()[client_idx]->server_controllers[dev_idx]->zones.size(); zone_idx++)
+            for(std::size_t zone_idx = 0; zone_idx < ResourceManager::get()->GetClients()[client_idx]->server_controllers[dev_idx]->GetZoneCount(); zone_idx++)
             {
                 /*-----------------------------------------------------*\
                 | Create child tree widget items and display the zone   |
@@ -208,11 +208,11 @@ void OpenRGBClientInfoPage::UpdateInfo()
                 \*-----------------------------------------------------*/
                 QTreeWidgetItem* new_child = new QTreeWidgetItem();
 
-                std::string zone_str = ResourceManager::get()->GetClients()[client_idx]->server_controllers[dev_idx]->zones[zone_idx].name + ", ";
-                zone_str.append(std::to_string(ResourceManager::get()->GetClients()[client_idx]->server_controllers[dev_idx]->zones[zone_idx].leds_count));
+                std::string zone_str = ResourceManager::get()->GetClients()[client_idx]->server_controllers[dev_idx]->GetZoneName(zone_idx) + ", ";
+                zone_str.append(std::to_string(ResourceManager::get()->GetClients()[client_idx]->server_controllers[dev_idx]->GetZoneLEDsCount(zone_idx)));
                 zone_str.append(" LEDs, ");
                 // TODO : translate
-                switch(ResourceManager::get()->GetClients()[client_idx]->server_controllers[dev_idx]->zones[zone_idx].type)
+                switch(ResourceManager::get()->GetClients()[client_idx]->server_controllers[dev_idx]->GetZoneType(zone_idx))
                 {
                     case ZONE_TYPE_SINGLE:
                         zone_str.append("Single");

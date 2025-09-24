@@ -186,7 +186,6 @@ void RGBController_AuraCore::SetupZones()
         auraZone.leds_min   = 4;
         auraZone.leds_max   = 4;
         auraZone.leds_count = 4;
-        auraZone.matrix_map = NULL;
     }
     else if(controller->aura_device.aura_type == AURA_CORE_DEVICE_GA15DH)
     {
@@ -195,7 +194,6 @@ void RGBController_AuraCore::SetupZones()
         auraZone.leds_min   = 20;
         auraZone.leds_max   = 20;
         auraZone.leds_count = 20;
-        auraZone.matrix_map = NULL;
     }
     else
     {
@@ -215,19 +213,12 @@ void RGBController_AuraCore::SetupZones()
     SetupColors();
 }
 
-void RGBController_AuraCore::ResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_AuraCore::DeviceUpdateLEDs()
 {
-    UpdateZoneLEDs(0);
+    DeviceUpdateZoneLEDs(0);
 }
 
-void RGBController_AuraCore::UpdateZoneLEDs(int /*zone*/)
+void RGBController_AuraCore::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     if(modes[active_mode].value == AURA_CORE_MODE_DIRECT)
     {
@@ -256,16 +247,16 @@ void RGBController_AuraCore::UpdateZoneLEDs(int /*zone*/)
     {
         for(unsigned int led_idx = 0; led_idx < leds.size(); led_idx++)
         {
-            UpdateSingleLED(led_idx);
+            DeviceUpdateSingleLED(led_idx);
         }
     }
     else
     {
-        UpdateSingleLED(0);
+        DeviceUpdateSingleLED(0);
     }
 }
 
-void RGBController_AuraCore::UpdateSingleLED(int led)
+void RGBController_AuraCore::DeviceUpdateSingleLED(int led)
 {
     unsigned char speed = 0xFF;
     unsigned char red   = 0;

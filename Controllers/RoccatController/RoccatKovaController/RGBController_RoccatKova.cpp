@@ -94,7 +94,6 @@ void RGBController_RoccatKova::SetupZones()
     Mouse.leds_count = ROCCAT_KOVA_LED_COUNT;
     Mouse.leds_min   = ROCCAT_KOVA_LED_COUNT;
     Mouse.leds_max   = ROCCAT_KOVA_LED_COUNT;
-    Mouse.matrix_map = NULL;
     zones.push_back(Mouse);
 
     led WheelLED;
@@ -110,24 +109,17 @@ void RGBController_RoccatKova::SetupZones()
     SetupColors();
 }
 
-void RGBController_RoccatKova::ResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_RoccatKova::DeviceUpdateLEDs()
 {
     DeviceUpdateMode();
 }
 
-void RGBController_RoccatKova::UpdateZoneLEDs(int /*zone*/)
+void RGBController_RoccatKova::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateMode();
 }
 
-void RGBController_RoccatKova::UpdateSingleLED(int /*led*/)
+void RGBController_RoccatKova::DeviceUpdateSingleLED(int /*led*/)
 {
     DeviceUpdateMode();
 }

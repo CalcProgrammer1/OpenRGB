@@ -434,12 +434,10 @@ static const std::map<std::string, sku_patch> patch_lookup =
     { "64533", { {}, apex_iso_region_patch, apex_nor_keyname_lookup }},
 };
 
-static void SetSkuRegion (matrix_map_type& input, std::string& sku)
+static void SetSkuRegion(matrix_map_type* input, std::string& sku)
 {
     std::map<std::string, sku_patch>::const_iterator it     = patch_lookup.find(sku);
     unsigned int local_matrix [MATRIX_HEIGHT][MATRIX_WIDTH] = MATRIX_MAP_ANSI;
-    input.height                                            = MATRIX_HEIGHT;
-    input.width                                             = MATRIX_WIDTH;
 
     if(it != patch_lookup.end())
     {
@@ -452,7 +450,7 @@ static void SetSkuRegion (matrix_map_type& input, std::string& sku)
             local_matrix[it->second.region_patch[i].row][it->second.region_patch[i].column] = it->second.region_patch[i].value;
         }
     }
-    memcpy(input.map, (unsigned int *)local_matrix, sizeof(unsigned int)*MATRIX_HEIGHT*MATRIX_WIDTH);
+    memcpy(input->map.data(), (unsigned int *)local_matrix, sizeof(unsigned int)*MATRIX_HEIGHT*MATRIX_WIDTH);
 }
 
 static void SetSkuLedNames (std::vector<led>& input, std::string& sku, unsigned int led_count)

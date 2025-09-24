@@ -1003,44 +1003,160 @@ void OpenRGBDialog::UpdateDevicesList()
     std::vector<RGBController *> controllers = ResourceManager::get()->GetRGBControllers();
 
     /*-----------------------------------------------------*\
+    | Keep track of the number of controllers added/kept in |
+    | the tab list                                          |
+    \*-----------------------------------------------------*/
+    unsigned int controller_tab_count = 0;
+
+    /*-----------------------------------------------------*\
     | Loop through each controller in the list.             |
     \*-----------------------------------------------------*/
     for(unsigned int controller_idx = 0; controller_idx < controllers.size(); controller_idx++)
     {
         /*-------------------------------------------------*\
-        | Loop through each tab in the devices tab bar      |
+        | Search for this controller in existing pages      |
         \*-------------------------------------------------*/
         bool found = false;
 
+        /*-------------------------------------------------*\
+        | First, search for the controller page in the tab  |
+        | bar                                               |
+        \*-------------------------------------------------*/
         for(int tab_idx = 0; tab_idx < ui->DevicesTabBar->count(); tab_idx++)
         {
+            /*---------------------------------------------*\
+            | Get a pointer to the page at this index in    |
+            | the tab bar                                   |
+            \*---------------------------------------------*/
             QWidget* page = ui->DevicesTabBar->widget(tab_idx);
 
+            /*---------------------------------------------*\
+            | Verify this page is an OpenRGBDevicePage      |
+            \*---------------------------------------------*/
             if(dynamic_cast<OpenRGBDevicePage*>(page) != nullptr)
             {
                 /*-----------------------------------------*\
                 | If the current tab matches the current    |
-                | controller, move the tab to the correct   |
-                | position                                  |
+                | controller, check if it is hidden         |
                 \*-----------------------------------------*/
                 if(controllers[controller_idx] == ((OpenRGBDevicePage*)page)->GetController())
                 {
+                    /*-------------------------------------*\
+                    | Set the found flag indicating that a  |
+                    | page for this controller has been     |
+                    | found in the tab bar                  |
+                    \*-------------------------------------*/
                     found = true;
-                    ui->DevicesTabBar->tabBar()->moveTab(tab_idx, controller_idx);
+
+                    /*-------------------------------------*\
+                    | If the controller for this page is    |
+                    | hidden, remove the page from the tab  |
+                    | bar and store it in the hidden pages  |
+                    | vector                                |
+                    \*-------------------------------------*/
+                    if(controllers[controller_idx]->GetHidden())
+                    {
+                        hidden_pages.push_back((OpenRGBDevicePage*)page);
+                        ui->DevicesTabBar->removeTab(tab_idx);
+
+                        /*---------------------------------*\
+                        | Decrement tab index to account    |
+                        | for removing tab                  |
+                        \*---------------------------------*/
+                        tab_idx--;
+                    }
+                    /*-------------------------------------*\
+                    | Otherwise, move the tab to the        |
+                    | current index                         |
+                    \*-------------------------------------*/
+                    else
+                    {
+                        controller_tab_count++;
+                        ui->DevicesTabBar->tabBar()->moveTab(tab_idx, controller_idx);
+                    }
                     break;
                 }
             }
         }
 
+        /*-------------------------------------------------*\
+        | Next, if it wasn't found in the tab bar, search   |
+        | for the controller page in hidden pages vector    |
+        \*-------------------------------------------------*/
+        if(!found)
+        {
+            for(std::size_t page_idx = 0; page_idx < hidden_pages.size(); page_idx++)
+            {
+                /*-----------------------------------------*\
+                | Get a pointer to the page at this index   |
+                | in the hidden pages vector                |
+                \*-----------------------------------------*/
+                QWidget* page = hidden_pages[page_idx];
+
+                /*-----------------------------------------*\
+                | If the current tab matches the current    |
+                | controller, check if it is hidden         |
+                \*-----------------------------------------*/
+                if(controllers[controller_idx] == ((OpenRGBDevicePage*)page)->GetController())
+                {
+                    /*-------------------------------------*\
+                    | Set the found flag indicating that a  |
+                    | page for this controller has been     |
+                    | found in the hidden pages vector      |
+                    \*-------------------------------------*/
+                    found = true;
+
+                    /*-------------------------------------*\
+                    | If the controller for this page is    |
+                    | not hidden, remove the page from the  |
+                    | hidden pages vector and add it to the |
+                    | tab bar                               |
+                    \*-------------------------------------*/
+                    if(!(controllers[controller_idx]->GetHidden()))
+                    {
+                        ui->DevicesTabBar->addTab(page, "");
+
+                        /*---------------------------------*\
+                        | Create the tab label              |
+                        \*---------------------------------*/
+                        TabLabel* NewTabLabel = new TabLabel(GetIcon(controllers[controller_idx]->GetDeviceType()), QString::fromStdString(controllers[controller_idx]->GetName()), (char *)controllers[controller_idx]->GetName().c_str(), (char *)context);
+
+                        ui->DevicesTabBar->tabBar()->setTabButton(ui->DevicesTabBar->count() - 1, QTabBar::LeftSide, NewTabLabel);
+                        ui->DevicesTabBar->tabBar()->setTabToolTip(ui->DevicesTabBar->count() - 1, QString::fromStdString(controllers[controller_idx]->GetName()));
+
+                        /*---------------------------------*\
+                        | Now move the new tab to the       |
+                        | correct position                  |
+                        \*---------------------------------*/
+                        ui->DevicesTabBar->tabBar()->moveTab(ui->DevicesTabBar->count() - 1, controller_tab_count);
+
+                        /*---------------------------------*\
+                        | Increment tab counter             |
+                        \*---------------------------------*/
+                        controller_tab_count++;
+
+                        hidden_pages.erase(hidden_pages.begin() + page_idx);
+
+                        /*---------------------------------*\
+                        | Decrement page index to account   |
+                        | for removing page                 |
+                        \*---------------------------------*/
+                        page_idx--;
+                    }
+                }
+            }
+        }
+
+        /*-------------------------------------------------*\
+        | If the controller still has not been found,       |
+        | create a new page for it                          |
+        \*-------------------------------------------------*/
         if(!found)
         {
             /*---------------------------------------------*\
-            | The controller does not have a tab already    |
-            | created.  Create a new tab and move it to the |
-            | correct position                              |
+            | Create a new OpenRGBDevicePage                |
             \*---------------------------------------------*/
             OpenRGBDevicePage *NewPage = new OpenRGBDevicePage(controllers[controller_idx]);
-            ui->DevicesTabBar->addTab(NewPage, "");
 
             /*---------------------------------------------*\
             | Connect the page's Set All button to the Set  |
@@ -1061,17 +1177,41 @@ void OpenRGBDialog::UpdateDevicesList()
                     SLOT(on_SaveSizeProfile()));
 
             /*---------------------------------------------*\
-            | Create the tab label                          |
+            | Connect the page's Refresh List signal to the |
+            | Refresh List slot                             |
             \*---------------------------------------------*/
-            TabLabel* NewTabLabel = new TabLabel(GetIcon(controllers[controller_idx]->type), QString::fromStdString(controllers[controller_idx]->GetName()), (char *)controllers[controller_idx]->GetName().c_str(), (char *)context);
+            connect(NewPage,
+                    SIGNAL(RefreshList()),
+                    this,
+                    SLOT(onDeviceListUpdated()));
 
-            ui->DevicesTabBar->tabBar()->setTabButton(ui->DevicesTabBar->count() - 1, QTabBar::LeftSide, NewTabLabel);
-            ui->DevicesTabBar->tabBar()->setTabToolTip(ui->DevicesTabBar->count() - 1, QString::fromStdString(controllers[controller_idx]->GetName()));
+            if(controllers[controller_idx]->GetHidden())
+            {
+                hidden_pages.push_back(NewPage);
+            }
+            else
+            {
+                ui->DevicesTabBar->addTab(NewPage, "");
 
-            /*---------------------------------------------*\
-            | Now move the new tab to the correct position  |
-            \*---------------------------------------------*/
-            ui->DevicesTabBar->tabBar()->moveTab(ui->DevicesTabBar->count() - 1, controller_idx);
+                /*-----------------------------------------*\
+                | Create the tab label                      |
+                \*-----------------------------------------*/
+                TabLabel* NewTabLabel = new TabLabel(GetIcon(controllers[controller_idx]->GetDeviceType()), QString::fromStdString(controllers[controller_idx]->GetName()), (char *)controllers[controller_idx]->GetName().c_str(), (char *)context);
+
+                ui->DevicesTabBar->tabBar()->setTabButton(ui->DevicesTabBar->count() - 1, QTabBar::LeftSide, NewTabLabel);
+                ui->DevicesTabBar->tabBar()->setTabToolTip(ui->DevicesTabBar->count() - 1, QString::fromStdString(controllers[controller_idx]->GetName()));
+
+                /*-----------------------------------------*\
+                | Now move the new tab to the correct       |
+                | position                                  |
+                \*-----------------------------------------*/
+                ui->DevicesTabBar->tabBar()->moveTab(ui->DevicesTabBar->count() - 1, controller_tab_count);
+
+                /*-----------------------------------------*\
+                | Increment tab counter                     |
+                \*-----------------------------------------*/
+                controller_tab_count++;
+            }
         }
 
         /*-------------------------------------------------*\
@@ -1116,7 +1256,7 @@ void OpenRGBDialog::UpdateDevicesList()
             /*---------------------------------------------*\
             | Create the tab label                          |
             \*---------------------------------------------*/
-            TabLabel* NewTabLabel = new TabLabel(GetIcon(controllers[controller_idx]->type), QString::fromStdString(controllers[controller_idx]->GetName()), (char *)controllers[controller_idx]->GetName().c_str(), (char *)context);
+            TabLabel* NewTabLabel = new TabLabel(GetIcon(controllers[controller_idx]->GetDeviceType()), QString::fromStdString(controllers[controller_idx]->GetName()), (char *)controllers[controller_idx]->GetName().c_str(), (char *)context);
 
             ui->InformationTabBar->tabBar()->setTabButton(ui->InformationTabBar->count() - 1, QTabBar::LeftSide, NewTabLabel);
             ui->InformationTabBar->tabBar()->setTabToolTip(ui->InformationTabBar->count() - 1, QString::fromStdString(controllers[controller_idx]->GetName()));
@@ -1131,10 +1271,10 @@ void OpenRGBDialog::UpdateDevicesList()
     /*-----------------------------------------------------*\
     | Remove all remaining device tabs                      |
     \*-----------------------------------------------------*/
-    unsigned int tab_count = ui->DevicesTabBar->count();
-    unsigned int base_tab = (unsigned int)controllers.size();
+    unsigned int tab_count  = ui->DevicesTabBar->count();
+    unsigned int base_tab   = controller_tab_count;
 
-    for(std::size_t tab_idx = controllers.size(); tab_idx < tab_count; tab_idx++)
+    for(std::size_t tab_idx = base_tab; tab_idx < tab_count; tab_idx++)
     {
         QWidget* tab_widget = ui->DevicesTabBar->widget(base_tab);
 

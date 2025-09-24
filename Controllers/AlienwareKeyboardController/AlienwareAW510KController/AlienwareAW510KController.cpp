@@ -318,7 +318,7 @@ void AlienwareAW510KController::SetMode
     SendCommit();
 }
 
-void AlienwareAW510KController::UpdateSingleLED
+void AlienwareAW510KController::DeviceUpdateSingleLED
     (
     unsigned char   led,
     unsigned char   red,

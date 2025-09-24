@@ -92,15 +92,9 @@ void RGBController_SinowealthKeyboard10c::SetupZones()
                                  device.keyboard_layout.key_values);
     new_kb.ChangeKeys(device.keyboard_layout.edit_keys);
 
-    matrix_map_type* new_map    = new matrix_map_type;
-    new_zone.matrix_map         = new_map;
-    new_zone.matrix_map->height = new_kb.GetRowCount();
-    new_zone.matrix_map->width  = new_kb.GetColumnCount();
-
-    new_zone.matrix_map->map = new unsigned int[new_map->height * new_map->width];
-    new_zone.leds_count      = new_kb.GetRowCount() * new_kb.GetColumnCount();
-    new_zone.leds_min        = new_zone.leds_count;
-    new_zone.leds_max        = new_zone.leds_count;
+    new_zone.leds_count             = new_kb.GetRowCount() * new_kb.GetColumnCount();
+    new_zone.leds_min               = new_zone.leds_count;
+    new_zone.leds_max               = new_zone.leds_count;
 
     /*---------------------------------------------------------*\
     | These keyboards use sparse LED indexes — for example, a   |
@@ -112,13 +106,13 @@ void RGBController_SinowealthKeyboard10c::SetupZones()
     | LED exists.                                               |
     \*---------------------------------------------------------*/
 
-    new_kb.GetKeyMap(new_map->map, KEYBOARD_MAP_FILL_TYPE_VALUE, new_map->height, new_map->width);
+    new_zone.matrix_map = new_kb.GetKeyMap(KEYBOARD_MAP_FILL_TYPE_VALUE);
 
     leds.resize(new_zone.leds_count);
 
     for(unsigned int i = 0, j = 0; i < new_zone.leds_count; i++)
     {
-        if(new_map->map[i] == 0xFFFFFFFF)
+        if(new_zone.matrix_map.map[i] == 0xFFFFFFFF)
         {
             continue;
         }
@@ -128,7 +122,7 @@ void RGBController_SinowealthKeyboard10c::SetupZones()
         new_led.name  = new_kb.GetKeyNameAt(j);
         new_led.value = new_kb.GetKeyValueAt(j);
 
-        leds[new_map->map[i]] = new_led;
+        leds[new_zone.matrix_map.map[i]] = new_led;
 
         j++;
     }
@@ -138,25 +132,18 @@ void RGBController_SinowealthKeyboard10c::SetupZones()
     SetupColors();
 }
 
-void RGBController_SinowealthKeyboard10c::ResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_SinowealthKeyboard10c::DeviceUpdateLEDs()
 {
     last_update_time = std::chrono::steady_clock::now();
     controller->SetLEDsDirect(colors);
 }
 
-void RGBController_SinowealthKeyboard10c::UpdateZoneLEDs(int /*zone*/)
+void RGBController_SinowealthKeyboard10c::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_SinowealthKeyboard10c::UpdateSingleLED(int /*led*/)
+void RGBController_SinowealthKeyboard10c::DeviceUpdateSingleLED(int /*led*/)
 {
     DeviceUpdateLEDs();
 }
@@ -171,7 +158,7 @@ void RGBController_SinowealthKeyboard10c::KeepaliveThreadFunction()
     {
         if(active_mode == MODE_DIRECT && (std::chrono::steady_clock::now() - last_update_time) > 1s)
         {
-            UpdateLEDs();
+            UpdateLEDsInternal();
         }
         std::this_thread::sleep_for(500ms);
     }

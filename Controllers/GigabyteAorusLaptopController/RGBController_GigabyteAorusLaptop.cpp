@@ -381,7 +381,6 @@ void RGBController_GigabyteAorusLaptop::SetupZones()
     new_zone.leds_min   = 1;
     new_zone.leds_max   = 1;
     new_zone.leds_count = 1;
-    new_zone.matrix_map = nullptr;
 
     zones.push_back(new_zone);
 
@@ -400,21 +399,16 @@ void RGBController_GigabyteAorusLaptop::SetupZones()
         unsigned int zone_size = 0;
 
         zone keyboard_zone;
-        keyboard_zone.name               = "Keyboard layout";
-        keyboard_zone.type               = ZONE_TYPE_MATRIX;
+        keyboard_zone.name                      = "Keyboard layout";
+        keyboard_zone.type                      = ZONE_TYPE_MATRIX;
 
-        keyboard_zone.matrix_map         = new matrix_map_type;
-        keyboard_zone.matrix_map->height = aorus_laptop_default_keyboard_layout.height;
-        keyboard_zone.matrix_map->width  = aorus_laptop_default_keyboard_layout.width;
-
-        keyboard_zone.matrix_map->map    = new unsigned int[aorus_laptop_default_keyboard_layout.height * aorus_laptop_default_keyboard_layout.width];
+        keyboard_zone.matrix_map.Set(aorus_laptop_default_keyboard_layout.height, aorus_laptop_default_keyboard_layout.width, (unsigned int *)&aorus_laptop_default_keyboard_layout.matrix_map);
 
         for(unsigned int h = 0; h < aorus_laptop_default_keyboard_layout.height; h++)
         {
             for(unsigned int w = 0; w < aorus_laptop_default_keyboard_layout.width; w++)
             {
                 unsigned int key = aorus_laptop_default_keyboard_layout.matrix_map[h][w];
-                keyboard_zone.matrix_map->map[h * aorus_laptop_default_keyboard_layout.width + w] = key;
 
                 if(key != NA)
                 {
@@ -434,13 +428,6 @@ void RGBController_GigabyteAorusLaptop::SetupZones()
     }
 
     SetupColors();
-}
-
-void RGBController_GigabyteAorusLaptop::ResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
 }
 
 void RGBController_GigabyteAorusLaptop::DeviceUpdateLEDs()
@@ -472,12 +459,12 @@ void RGBController_GigabyteAorusLaptop::DeviceUpdateLEDs()
     }
 }
 
-void RGBController_GigabyteAorusLaptop::UpdateZoneLEDs(int /*zone*/)
+void RGBController_GigabyteAorusLaptop::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_GigabyteAorusLaptop::UpdateSingleLED(int /*led*/)
+void RGBController_GigabyteAorusLaptop::DeviceUpdateSingleLED(int /*led*/)
 {
     DeviceUpdateLEDs();
 }
