@@ -202,7 +202,6 @@ void RGBController_CMARGBGen2A1Controller::SetupZones()
         new_zone.leds_min   = 0;
         new_zone.leds_max   = CM_ARGB_GEN2_A1_CHANNEL_MAX_SIZE;
         new_zone.leds_count = 0;
-        new_zone.matrix_map = nullptr;
 
         zones.push_back(new_zone);
 
@@ -219,7 +218,7 @@ void RGBController_CMARGBGen2A1Controller::SetupZones()
     SetupColors();
 }
 
-void RGBController_CMARGBGen2A1Controller::ResizeZone(int zone, int new_size)
+void RGBController_CMARGBGen2A1Controller::DeviceResizeZone(int zone, int new_size)
 {
     zones[zone].leds_count = new_size;
 
@@ -261,7 +260,7 @@ void RGBController_CMARGBGen2A1Controller::DeviceUpdateLEDs()
     }
 }
 
-void RGBController_CMARGBGen2A1Controller::UpdateZoneLEDs(int zone)
+void RGBController_CMARGBGen2A1Controller::DeviceUpdateZoneLEDs(int zone)
 {
     if(zones[zone].leds_count > 0)
     {
@@ -304,7 +303,7 @@ void RGBController_CMARGBGen2A1Controller::UpdateSegmentLEDs(int zone, int subch
     controller->SendChannelColors(zone, CM_ARGB_GEN2_A1_SUBCHANNEL_ALL, color_vector);
 }
 
-void RGBController_CMARGBGen2A1Controller::UpdateSingleLED(int /*led*/)
+void RGBController_CMARGBGen2A1Controller::DeviceUpdateSingleLED(int /*led*/)
 {
     DeviceUpdateLEDs();
 }

@@ -101,7 +101,6 @@ void RGBController_AsusTUFLaptopWMI::SetupZones()
     new_zone->leds_min       = 1;
     new_zone->leds_max       = 1;
     new_zone->leds_count     = 1;
-    new_zone->matrix_map     = NULL;
 
     new_led->name            = "Keyboard Backlight LED";
 
@@ -109,13 +108,6 @@ void RGBController_AsusTUFLaptopWMI::SetupZones()
     leds.push_back(*new_led);
 
     SetupColors();
-}
-
-void RGBController_AsusTUFLaptopWMI::ResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
 }
 
 /*---------------------------------------------------------*\
@@ -148,12 +140,12 @@ void RGBController_AsusTUFLaptopWMI::DeviceUpdateLEDs()
     ControllerSetMode(false);
 }
 
-void RGBController_AsusTUFLaptopWMI::UpdateZoneLEDs(int /*zone*/)
+void RGBController_AsusTUFLaptopWMI::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     ControllerSetMode(false);
 }
 
-void RGBController_AsusTUFLaptopWMI::UpdateSingleLED(int /*led*/)
+void RGBController_AsusTUFLaptopWMI::DeviceUpdateSingleLED(int /*led*/)
 {
     ControllerSetMode(false);
 }

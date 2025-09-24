@@ -64,7 +64,6 @@ void RGBController_SteelSeriesArctis5::SetupZones()
         zone.leds_min       = 1;
         zone.leds_max       = 1;
         zone.leds_count     = 1;
-        zone.matrix_map     = NULL;
         zones.push_back(zone);
 
         led mouse_led;
@@ -75,29 +74,22 @@ void RGBController_SteelSeriesArctis5::SetupZones()
     SetupColors();
 }
 
-void RGBController_SteelSeriesArctis5::ResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_SteelSeriesArctis5::DeviceUpdateLEDs()
 {
     for(unsigned int i = 0; i < zones.size(); i++)
     {
-        UpdateZoneLEDs(i);
+        DeviceUpdateZoneLEDs(i);
     }
 }
 
-void RGBController_SteelSeriesArctis5::UpdateZoneLEDs(int zone)
+void RGBController_SteelSeriesArctis5::DeviceUpdateZoneLEDs(int zone)
 {
    controller->SetColor(zone, colors[zone]);
 }
 
-void RGBController_SteelSeriesArctis5::UpdateSingleLED(int led)
+void RGBController_SteelSeriesArctis5::DeviceUpdateSingleLED(int led)
 {
-    UpdateZoneLEDs(led);
+    DeviceUpdateZoneLEDs(led);
 }
 
 void RGBController_SteelSeriesArctis5::DeviceUpdateMode()

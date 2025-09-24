@@ -451,17 +451,6 @@ RGBController_GaiZhongGaiKeyboard::RGBController_GaiZhongGaiKeyboard(GaiZhongGai
 
 RGBController_GaiZhongGaiKeyboard::~RGBController_GaiZhongGaiKeyboard()
 {
-    /*---------------------------------------------------------*\
-    | Delete the matrix map                                     |
-    \*---------------------------------------------------------*/
-    for(unsigned int zone_index = 0; zone_index < zones.size(); zone_index++)
-    {
-        if(zones[zone_index].matrix_map != NULL)
-        {
-            delete zones[zone_index].matrix_map;
-        }
-    }
-
     delete controller;
 }
 
@@ -491,10 +480,7 @@ void RGBController_GaiZhongGaiKeyboard::SetupZones()
                 new_zone.leds_min               = 68;
                 new_zone.leds_max               = 68;
                 new_zone.leds_count             = 68;
-                new_zone.matrix_map             = new matrix_map_type;
-                new_zone.matrix_map->width      = 17;
-                new_zone.matrix_map->height     = 5;
-                new_zone.matrix_map->map        = (unsigned int *)&matrix_map_68;
+                new_zone.matrix_map.Set(17, 5, (unsigned int *)&matrix_map_68);
                 new_zone.name                   = zone_names[zone_idx];
             }
             break;
@@ -505,10 +491,7 @@ void RGBController_GaiZhongGaiKeyboard::SetupZones()
                 new_zone.leds_min               = 42;
                 new_zone.leds_max               = 42;
                 new_zone.leds_count             = 42;
-                new_zone.matrix_map             = new matrix_map_type;
-                new_zone.matrix_map->width      = 12;
-                new_zone.matrix_map->height     = 4;
-                new_zone.matrix_map->map        = (unsigned int *)&matrix_map_42;
+                new_zone.matrix_map.Set(12, 4, (unsigned int *)&matrix_map_42);
                 new_zone.name                   = zone_names[zone_idx];
             }
             break;
@@ -519,10 +502,7 @@ void RGBController_GaiZhongGaiKeyboard::SetupZones()
                 new_zone.leds_min               = 88;
                 new_zone.leds_max               = 88;
                 new_zone.leds_count             = 88;
-                new_zone.matrix_map             = new matrix_map_type;
-                new_zone.matrix_map->width      = 5;
-                new_zone.matrix_map->height     = 5;
-                new_zone.matrix_map->map        = (unsigned int *)&matrix_map_PAD_Touch;
+                new_zone.matrix_map.Set(5, 5, (unsigned int *)&matrix_map_PAD_Touch);
                 new_zone.name                   = zone_names[zone_idx];
             }
                 break;
@@ -533,10 +513,7 @@ void RGBController_GaiZhongGaiKeyboard::SetupZones()
                 new_zone.leds_min               = 85;
                 new_zone.leds_max               = 85;
                 new_zone.leds_count             = 85;
-                new_zone.matrix_map             = new matrix_map_type;
-                new_zone.matrix_map->width      = 4;
-                new_zone.matrix_map->height     = 5;
-                new_zone.matrix_map->map        = (unsigned int *)&matrix_map_17PAD;
+                new_zone.matrix_map.Set(4, 5, (unsigned int *)&matrix_map_17PAD);
                 new_zone.name                   = zone_names[zone_idx];
             }
                 break;
@@ -547,10 +524,7 @@ void RGBController_GaiZhongGaiKeyboard::SetupZones()
                 new_zone.leds_min               = 88;
                 new_zone.leds_max               = 88;
                 new_zone.leds_count             = 88;
-                new_zone.matrix_map             = new matrix_map_type;
-                new_zone.matrix_map->width      = 4;
-                new_zone.matrix_map->height     = 6;
-                new_zone.matrix_map->map        = (unsigned int *)&matrix_map_20PAD;
+                new_zone.matrix_map.Set(4, 6, (unsigned int *)&matrix_map_20PAD);
                 new_zone.name                   = zone_names[zone_idx];
             }
                 break;
@@ -561,10 +535,7 @@ void RGBController_GaiZhongGaiKeyboard::SetupZones()
                 new_zone.leds_min               = 89;
                 new_zone.leds_max               = 89;
                 new_zone.leds_count             = 89;
-                new_zone.matrix_map             = new matrix_map_type;
-                new_zone.matrix_map->width      = 2;
-                new_zone.matrix_map->height     = 2;
-                new_zone.matrix_map->map        = (unsigned int *)&matrix_map_dial;
+                new_zone.matrix_map.Set(2, 2, (unsigned int *)&matrix_map_dial);
                 new_zone.name                   = zone_names[zone_idx];
             }
                 break;
@@ -576,10 +547,7 @@ void RGBController_GaiZhongGaiKeyboard::SetupZones()
                 new_zone.leds_min               = temp;
                 new_zone.leds_max               = temp;
                 new_zone.leds_count             = temp;
-                new_zone.matrix_map             = new matrix_map_type;
-                new_zone.matrix_map->width      = controller->GetDataFlash()[124];
-                new_zone.matrix_map->height     = controller->GetDataFlash()[125];
-                new_zone.matrix_map->map        = (unsigned int *)&matrix_map_light_board;
+                new_zone.matrix_map.Set(controller->GetDataFlash()[124], controller->GetDataFlash()[125], (unsigned int *)&matrix_map_light_board);
                 new_zone.name                   = zone_names[zone_idx + 1];
             }
                 break;
@@ -649,7 +617,7 @@ void RGBController_GaiZhongGaiKeyboard::SetupZones()
     SetupColors();
 }
 
-void RGBController_GaiZhongGaiKeyboard::ResizeZone(int zone, int new_size)
+void RGBController_GaiZhongGaiKeyboard::DeviceResizeZone(int zone, int new_size)
 {
     if((size_t) zone >= zones.size())
     {
@@ -689,12 +657,12 @@ void RGBController_GaiZhongGaiKeyboard::DeviceUpdateLEDs()
     controller->SendColors(colordata, data_size * 3);
 }
 
-void RGBController_GaiZhongGaiKeyboard::UpdateZoneLEDs(int /*zone*/)
+void RGBController_GaiZhongGaiKeyboard::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_GaiZhongGaiKeyboard::UpdateSingleLED(int /*led*/)
+void RGBController_GaiZhongGaiKeyboard::DeviceUpdateSingleLED(int /*led*/)
 {
     DeviceUpdateLEDs();
 }

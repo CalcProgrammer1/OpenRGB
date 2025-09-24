@@ -83,7 +83,6 @@ void RGBController_SteelSeriesApex3::SetupZones()
     curr_zone.leds_min      = led_count;
     curr_zone.leds_max      = led_count;
     curr_zone.leds_count    = led_count;
-    curr_zone.matrix_map    = NULL;
     zones.push_back(curr_zone);
 
     for(size_t i = 0; i < curr_zone.leds_count; i++)
@@ -96,24 +95,17 @@ void RGBController_SteelSeriesApex3::SetupZones()
     SetupColors();
 }
 
-void RGBController_SteelSeriesApex3::ResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_SteelSeriesApex3::DeviceUpdateLEDs()
 {
     controller->SetColor(colors, modes[active_mode].value, modes[active_mode].brightness);
 }
 
-void RGBController_SteelSeriesApex3::UpdateZoneLEDs(int /*zone*/)
+void RGBController_SteelSeriesApex3::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_SteelSeriesApex3::UpdateSingleLED(int /*led*/)
+void RGBController_SteelSeriesApex3::DeviceUpdateSingleLED(int /*led*/)
 {
     DeviceUpdateLEDs();
 }

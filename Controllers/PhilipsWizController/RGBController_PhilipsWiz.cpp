@@ -385,7 +385,6 @@ void RGBController_PhilipsWiz::SetupZones()
     led_zone.leds_min   = 1;
     led_zone.leds_max   = 1;
     led_zone.leds_count = 1;
-    led_zone.matrix_map = NULL;
     zones.push_back(led_zone);
 
     led new_led;
@@ -394,13 +393,6 @@ void RGBController_PhilipsWiz::SetupZones()
     leds.push_back(new_led);
 
     SetupColors();
-}
-
-void RGBController_PhilipsWiz::ResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
 }
 
 void RGBController_PhilipsWiz::DeviceUpdateLEDs()
@@ -415,12 +407,12 @@ void RGBController_PhilipsWiz::DeviceUpdateLEDs()
     }
 }
 
-void RGBController_PhilipsWiz::UpdateZoneLEDs(int /*zone*/)
+void RGBController_PhilipsWiz::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_PhilipsWiz::UpdateSingleLED(int /*led*/)
+void RGBController_PhilipsWiz::DeviceUpdateSingleLED(int /*led*/)
 {
     DeviceUpdateLEDs();
 }

@@ -305,7 +305,6 @@ void RGBController_LianLiUniHubSL::SetupZones()
         zones[zone_idx].name = "Channel ";
         zones[zone_idx].name.append(std::to_string(zone_idx + 1));
         zones[zone_idx].type = ZONE_TYPE_LINEAR;
-        zones[zone_idx].matrix_map = NULL;
 
         zones[zone_idx].leds_min = 0;
         zones[zone_idx].leds_max = UNIHUB_SL_MAX_FAN_PER_CHANNEL;
@@ -330,7 +329,7 @@ void RGBController_LianLiUniHubSL::SetupZones()
     SetupColors();
 }
 
-void RGBController_LianLiUniHubSL::ResizeZone(int zone, int new_size)
+void RGBController_LianLiUniHubSL::DeviceResizeZone(int zone, int new_size)
 {
     if((size_t)zone >= zones.size())
     {
@@ -350,16 +349,16 @@ void RGBController_LianLiUniHubSL::DeviceUpdateLEDs()
     DeviceUpdateMode();
 }
 
-void RGBController_LianLiUniHubSL::UpdateZoneLEDs(int zone)
+void RGBController_LianLiUniHubSL::DeviceUpdateZoneLEDs(int zone)
 {
     if(!initialized)
     {
         return DeviceUpdateMode();
     }
-    controller->UpdateZoneLEDs(zone, zones[zone], modes[active_mode]);
+    controller->DeviceUpdateZoneLEDs(zone, zones[zone], modes[active_mode]);
 }
 
-void RGBController_LianLiUniHubSL::UpdateSingleLED(int /* led */)
+void RGBController_LianLiUniHubSL::DeviceUpdateSingleLED(int /* led */)
 {
     DeviceUpdateMode();
 }

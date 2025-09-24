@@ -166,7 +166,6 @@ void RGBController_LianLiStrimerLConnect::Init_Controller()
         new_zone.leds_min       = 20;
         new_zone.leds_max       = 20;
         new_zone.leds_count     = new_zone.leds_max;
-        new_zone.matrix_map     = NULL;
         zones.push_back(new_zone);
     }
 
@@ -179,7 +178,6 @@ void RGBController_LianLiStrimerLConnect::Init_Controller()
         new_zone.leds_min       = 27;
         new_zone.leds_max       = 27;
         new_zone.leds_count     = new_zone.leds_max;
-        new_zone.matrix_map     = NULL;
         zones.push_back(new_zone);
     }
 }
@@ -211,13 +209,6 @@ void RGBController_LianLiStrimerLConnect::SetupZones()
     SetupColors();
 }
 
-void RGBController_LianLiStrimerLConnect::ResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 bool RGBController_LianLiStrimerLConnect::TimeToSend()
 {
     /*-----------------------------------------------------*\
@@ -235,7 +226,7 @@ void RGBController_LianLiStrimerLConnect::DeviceUpdateLEDs()
 
         for(std::size_t zone_idx = 0; zone_idx < zones.size(); zone_idx++)
         {
-            UpdateZoneLEDs((int)zone_idx);
+            DeviceUpdateZoneLEDs((int)zone_idx);
         }
 
         controller->SendApply();
@@ -247,7 +238,7 @@ void RGBController_LianLiStrimerLConnect::DeviceUpdateLEDs()
     }
 }
 
-void RGBController_LianLiStrimerLConnect::UpdateZoneLEDs(int zone)
+void RGBController_LianLiStrimerLConnect::DeviceUpdateZoneLEDs(int zone)
 {
     mode current_mode = modes[active_mode];
 
@@ -255,9 +246,9 @@ void RGBController_LianLiStrimerLConnect::UpdateZoneLEDs(int zone)
     controller->SetMode(current_mode.value, zone, current_mode.speed, current_mode.brightness, current_mode.direction, false);
 }
 
-void RGBController_LianLiStrimerLConnect::UpdateSingleLED(int led)
+void RGBController_LianLiStrimerLConnect::DeviceUpdateSingleLED(int led)
 {
-    UpdateZoneLEDs(GetLED_Zone(led));
+    DeviceUpdateZoneLEDs(GetLED_Zone(led));
     controller->SendApply();
 }
 

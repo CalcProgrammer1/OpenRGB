@@ -368,7 +368,7 @@ void RGBController_JGINYUEInternalUSBV2::SetupZones()
     SetupColors();
 }
 
-void RGBController_JGINYUEInternalUSBV2::ResizeZone(int zone, int new_size)
+void RGBController_JGINYUEInternalUSBV2::DeviceResizeZone(int zone, int new_size)
 {
     unsigned char area;
 
@@ -400,11 +400,11 @@ void RGBController_JGINYUEInternalUSBV2::DeviceUpdateLEDs()
 
     for(int i = 0; i < normal_zone_count; i++)
     {
-        UpdateZoneLEDs(i);
+        DeviceUpdateZoneLEDs(i);
     }
 }
 
-void RGBController_JGINYUEInternalUSBV2::UpdateZoneLEDs(int zone)
+void RGBController_JGINYUEInternalUSBV2::DeviceUpdateZoneLEDs(int zone)
 {
     unsigned char area;
     area = controller->device_config[zone].Area_ID;
@@ -412,12 +412,12 @@ void RGBController_JGINYUEInternalUSBV2::UpdateZoneLEDs(int zone)
     controller->DirectLEDControl(zones[zone].colors, zones[zone].leds_count, area);
 }
 
-void RGBController_JGINYUEInternalUSBV2::UpdateSingleLED(int led)
+void RGBController_JGINYUEInternalUSBV2::DeviceUpdateSingleLED(int led)
 {
     int zone;
     zone = leds[led].value;
 
-    UpdateZoneLEDs(zone);
+    DeviceUpdateZoneLEDs(zone);
 }
 
 void RGBController_JGINYUEInternalUSBV2::DeviceUpdateMode()
@@ -477,7 +477,6 @@ void RGBController_JGINYUEInternalUSBV2::InitZones()
         zone_to_init->leds_max      = cfg->Max_LED_numbers;
         zone_to_init->leds_count    = 0;
         zone_to_init->type          = ZONE_TYPE_LINEAR;
-        zone_to_init->matrix_map    = NULL;
 
         switch(cfg->Area_ID)
         {

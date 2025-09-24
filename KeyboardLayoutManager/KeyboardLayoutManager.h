@@ -15,6 +15,7 @@
 #include <string>
 #include <vector>
 #include <cstdint>
+#include "RGBController.h"
 #include "RGBControllerKeyNames.h"
 
 extern const char* KLM_CLASS_NAME;
@@ -132,10 +133,9 @@ public:
     unsigned int                GetRowCount();
     unsigned int                GetColumnCount();
 
-    void                        GetKeyMap(unsigned int* map_ptr);
-    void                        GetKeyMap(unsigned int* map_ptr, KEYBOARD_MAP_FILL_TYPE fill_type);
-    void                        GetKeyMap(unsigned int* map_ptr, KEYBOARD_MAP_FILL_TYPE fill_type,
-                                          std::uint8_t height, std::uint8_t width);
+    matrix_map_type             GetKeyMap();
+    matrix_map_type             GetKeyMap(KEYBOARD_MAP_FILL_TYPE fill_type);
+    matrix_map_type             GetKeyMap(KEYBOARD_MAP_FILL_TYPE fill_type, std::uint8_t height, std::uint8_t width);
 
 private:
     void                        OpCodeSwitch(key_set change_keys);

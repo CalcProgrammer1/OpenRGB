@@ -212,17 +212,6 @@ RGBController_PoseidonZRGB::RGBController_PoseidonZRGB(PoseidonZRGBController* c
 
 RGBController_PoseidonZRGB::~RGBController_PoseidonZRGB()
 {
-    /*---------------------------------------------------------*\
-    | Delete the matrix map                                     |
-    \*---------------------------------------------------------*/
-    for(unsigned int zone_index = 0; zone_index < zones.size(); zone_index++)
-    {
-        if(zones[zone_index].matrix_map != NULL)
-        {
-            delete zones[zone_index].matrix_map;
-        }
-    }
-
     delete controller;
 }
 
@@ -240,10 +229,7 @@ void RGBController_PoseidonZRGB::SetupZones()
         new_zone.leds_min           = zone_sizes[zone_idx];
         new_zone.leds_max           = zone_sizes[zone_idx];
         new_zone.leds_count         = zone_sizes[zone_idx];
-        new_zone.matrix_map         = new matrix_map_type;
-        new_zone.matrix_map->height = 6;
-        new_zone.matrix_map->width  = 23;
-        new_zone.matrix_map->map    = (unsigned int *)&matrix_map;
+        new_zone.matrix_map.Set(6, 23, (unsigned int *)&matrix_map);
         zones.push_back(new_zone);
 
         total_led_count += zone_sizes[zone_idx];
@@ -259,13 +245,6 @@ void RGBController_PoseidonZRGB::SetupZones()
     SetupColors();
 }
 
-void RGBController_PoseidonZRGB::ResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_PoseidonZRGB::DeviceUpdateLEDs()
 {
     if(active_mode == 0)
@@ -278,12 +257,12 @@ void RGBController_PoseidonZRGB::DeviceUpdateLEDs()
     }
 }
 
-void RGBController_PoseidonZRGB::UpdateZoneLEDs(int /*zone*/)
+void RGBController_PoseidonZRGB::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_PoseidonZRGB::UpdateSingleLED(int /*led*/)
+void RGBController_PoseidonZRGB::DeviceUpdateSingleLED(int /*led*/)
 {
     DeviceUpdateLEDs();
 }

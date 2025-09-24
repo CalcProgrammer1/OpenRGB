@@ -183,8 +183,6 @@ void RGBController_MSIMysticLight761::SetupZones()
                 new_zone.type       = ZONE_TYPE_LINEAR;
             }
 
-            new_zone.matrix_map     = NULL;
-
             zones.push_back(new_zone);
         }
     }
@@ -228,7 +226,7 @@ void RGBController_MSIMysticLight761::SetupZones()
 }
 
 
-void RGBController_MSIMysticLight761::ResizeZone
+void RGBController_MSIMysticLight761::DeviceResizeZone
     (
     int zone,
     int new_size
@@ -264,7 +262,7 @@ void RGBController_MSIMysticLight761::DeviceUpdateLEDs()
     controller->Update((modes[active_mode].flags & MODE_FLAG_AUTOMATIC_SAVE) != 0);
 }
 
-void RGBController_MSIMysticLight761::UpdateZoneLEDs(int zone)
+void RGBController_MSIMysticLight761::DeviceUpdateZoneLEDs(int zone)
 {
     for(int led_idx = zones[zone].leds_count - 1; led_idx >= 0; led_idx--)
     {
@@ -273,7 +271,7 @@ void RGBController_MSIMysticLight761::UpdateZoneLEDs(int zone)
     controller->Update((modes[active_mode].flags & MODE_FLAG_AUTOMATIC_SAVE) != 0);
 }
 
-void RGBController_MSIMysticLight761::UpdateSingleLED
+void RGBController_MSIMysticLight761::DeviceUpdateSingleLED
     (
         int led
         )
