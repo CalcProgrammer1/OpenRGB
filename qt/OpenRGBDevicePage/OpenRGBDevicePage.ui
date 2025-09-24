@@ -205,78 +205,66 @@
       <enum>QFrame::Shadow::Sunken</enum>
      </property>
      <layout class="QGridLayout" name="ControlsGridLayout" columnstretch="0,1,1,1">
-      <item row="5" column="0">
-       <widget class="QLabel" name="SpeedLabel">
-        <property name="text">
-         <string>Speed:</string>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="1" colspan="2">
-       <widget class="QComboBox" name="LEDBox"/>
-      </item>
-      <item row="0" column="1" colspan="2">
-       <widget class="QComboBox" name="ZoneBox"/>
-      </item>
-      <item row="4" column="3">
-       <widget class="QRadioButton" name="RandomCheck">
-        <property name="text">
-         <string>Random</string>
-        </property>
-       </widget>
-      </item>
-      <item row="3" column="0">
-       <widget class="QLabel" name="ModeLabel">
-        <property name="text">
-         <string>Mode:</string>
-        </property>
-       </widget>
-      </item>
       <item row="6" column="0">
-       <widget class="QLabel" name="DirectionLabel">
-        <property name="text">
-         <string>Dir:</string>
-        </property>
-       </widget>
-      </item>
-      <item row="5" column="1" colspan="3">
-       <widget class="QTooltipedSlider" name="SpeedSlider">
-        <property name="orientation">
-         <enum>Qt::Orientation::Horizontal</enum>
-        </property>
-       </widget>
-      </item>
-      <item row="4" column="0">
        <widget class="QLabel" name="ColorLabel">
         <property name="text">
          <string>Colors:</string>
         </property>
        </widget>
       </item>
-      <item row="4" column="1">
-       <widget class="QRadioButton" name="PerLEDCheck">
+      <item row="6" column="2">
+       <widget class="QRadioButton" name="ModeSpecificCheck">
         <property name="text">
-         <string>Per-LED</string>
+         <string>Mode-Specific</string>
         </property>
        </widget>
       </item>
-      <item row="0" column="0">
-       <widget class="QLabel" name="ZoneLabel">
-        <property name="text">
-         <string>Zone:</string>
+      <item row="7" column="1" colspan="3">
+       <widget class="QTooltipedSlider" name="SpeedSlider">
+        <property name="orientation">
+         <enum>Qt::Orientation::Horizontal</enum>
         </property>
        </widget>
       </item>
-      <item row="3" column="1" colspan="3">
-       <widget class="QComboBox" name="ModeBox"/>
-      </item>
-      <item row="2" column="3">
-       <widget class="QPushButton" name="SetAllButton">
-        <property name="toolTip">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;justify&quot;&gt;Sets all devices to&lt;br/&gt;&lt;b&gt;Static&lt;/b&gt; mode and&lt;br/&gt;applies the selected color.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-        </property>
+      <item row="0" column="3">
+       <widget class="QPushButton" name="EditZoneButton">
         <property name="text">
-         <string>Apply All Devices</string>
+         <string>Edit Zone</string>
+        </property>
+       </widget>
+      </item>
+      <item row="9" column="1" colspan="3">
+       <widget class="QTooltipedSlider" name="BrightnessSlider">
+        <property name="orientation">
+         <enum>Qt::Orientation::Horizontal</enum>
+        </property>
+       </widget>
+      </item>
+      <item row="8" column="0">
+       <widget class="QLabel" name="DirectionLabel">
+        <property name="text">
+         <string>Dir:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="1" colspan="2">
+       <widget class="QPushButton" name="ApplyColorsButton">
+        <property name="text">
+         <string>Apply Colors To Selection</string>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="0">
+       <widget class="QLabel" name="ModeLabel">
+        <property name="text">
+         <string>Mode:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="9" column="0">
+       <widget class="QLabel" name="BrightnessLabel">
+        <property name="text">
+         <string>Brightness:</string>
         </property>
        </widget>
       </item>
@@ -287,50 +275,69 @@
         </property>
        </widget>
       </item>
-      <item row="0" column="3">
-       <widget class="QPushButton" name="EditZoneButton">
+      <item row="0" column="0">
+       <widget class="QLabel" name="ZoneLabel">
         <property name="text">
-         <string>Edit</string>
+         <string>Zone:</string>
         </property>
        </widget>
       </item>
-      <item row="4" column="2">
-       <widget class="QRadioButton" name="ModeSpecificCheck">
+      <item row="7" column="0">
+       <widget class="QLabel" name="SpeedLabel">
         <property name="text">
-         <string>Mode-Specific</string>
+         <string>Speed:</string>
         </property>
        </widget>
       </item>
-      <item row="2" column="1" colspan="2">
-       <widget class="QPushButton" name="ApplyColorsButton">
+      <item row="6" column="3">
+       <widget class="QRadioButton" name="RandomCheck">
         <property name="text">
-         <string>Apply Colors To Selection</string>
+         <string>Random</string>
+        </property>
+       </widget>
+      </item>
+      <item row="8" column="1" colspan="3">
+       <widget class="QComboBox" name="DirectionBox"/>
+      </item>
+      <item row="4" column="3">
+       <widget class="QPushButton" name="SetAllButton">
+        <property name="toolTip">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;justify&quot;&gt;Sets all devices to&lt;br/&gt;&lt;b&gt;Static&lt;/b&gt; mode and&lt;br/&gt;applies the selected color.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+        <property name="text">
+         <string>Apply All Devices</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1" colspan="2">
+       <widget class="QComboBox" name="LEDBox"/>
+      </item>
+      <item row="5" column="1" colspan="3">
+       <widget class="QComboBox" name="ModeBox"/>
+      </item>
+      <item row="0" column="1" colspan="2">
+       <widget class="QComboBox" name="ZoneBox"/>
+      </item>
+      <item row="6" column="1">
+       <widget class="QRadioButton" name="PerLEDCheck">
+        <property name="text">
+         <string>Per-LED</string>
         </property>
        </widget>
       </item>
       <item row="1" column="3">
-       <widget class="QPushButton" name="SelectAllLEDsButton">
-        <property name="text">
-         <string>Select All</string>
-        </property>
-       </widget>
-      </item>
-      <item row="7" column="1" colspan="3">
-       <widget class="QTooltipedSlider" name="BrightnessSlider">
-        <property name="orientation">
-         <enum>Qt::Orientation::Horizontal</enum>
-        </property>
-       </widget>
-      </item>
-      <item row="6" column="1" colspan="3">
-       <widget class="QComboBox" name="DirectionBox"/>
-      </item>
-      <item row="7" column="0">
-       <widget class="QLabel" name="BrightnessLabel">
-        <property name="text">
-         <string>Brightness:</string>
-        </property>
-       </widget>
+       <layout class="QVBoxLayout" name="LEDsColorsLayout">
+        <item>
+         <widget class="QPushButton" name="SelectAllLEDsButton">
+          <property name="text">
+           <string>Select All</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QSpinBox" name="SpinBoxModeColors"/>
+        </item>
+       </layout>
       </item>
      </layout>
     </widget>
@@ -416,7 +423,6 @@
   <tabstop>ZoneBox</tabstop>
   <tabstop>EditZoneButton</tabstop>
   <tabstop>LEDBox</tabstop>
-  <tabstop>SelectAllLEDsButton</tabstop>
   <tabstop>ApplyColorsButton</tabstop>
   <tabstop>SetAllButton</tabstop>
   <tabstop>ModeBox</tabstop>

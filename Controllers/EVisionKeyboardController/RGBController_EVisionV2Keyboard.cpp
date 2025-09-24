@@ -786,11 +786,7 @@ void RGBController_EVisionV2Keyboard::SetupZones()
     KB_zone.leds_count          = leds_count;
     KB_zone.leds_min            = KB_zone.leds_count;
     KB_zone.leds_max            = KB_zone.leds_count;
-
-    KB_zone.matrix_map          = new matrix_map_type;
-    KB_zone.matrix_map->height  = EVISION_V2_MATRIX_HEIGHT;
-    KB_zone.matrix_map->width   = EVISION_V2_MATRIX_WIDTH;
-    KB_zone.matrix_map->map     = matrix_map;
+    KB_zone.matrix_map.Set(EVISION_V2_MATRIX_HEIGHT, EVISION_V2_MATRIX_WIDTH, matrix_map);
     zones.push_back(KB_zone);
 
     /*-------------------------------------------------*\
@@ -904,13 +900,6 @@ void RGBController_EVisionV2Keyboard::LoadConfig()
     }
 }
 
-void RGBController_EVisionV2Keyboard::ResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_EVisionV2Keyboard::DeviceUpdateLEDs()
 {
     if(part != EVISION_V2_KEYBOARD_PART_KEYBOARD)
@@ -923,12 +912,12 @@ void RGBController_EVisionV2Keyboard::DeviceUpdateLEDs()
     last_update_time = std::chrono::steady_clock::now();
 }
 
-void RGBController_EVisionV2Keyboard::UpdateZoneLEDs(int /*zone*/)
+void RGBController_EVisionV2Keyboard::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_EVisionV2Keyboard::UpdateSingleLED(int led)
+void RGBController_EVisionV2Keyboard::DeviceUpdateSingleLED(int led)
 {
     if(part != EVISION_V2_KEYBOARD_PART_KEYBOARD)
     {
@@ -999,7 +988,6 @@ void RGBController_EVisionV2Keyboard::DeviceUpdateMode()
     if((part == EVISION_V2_KEYBOARD_PART_KEYBOARD) && (config.mode == EVISION_V2_MODE_CUSTOM))
     {
         controller->GetLedsCustom(config.ledmode, colors);
-        SignalUpdate();
     }
 }
 

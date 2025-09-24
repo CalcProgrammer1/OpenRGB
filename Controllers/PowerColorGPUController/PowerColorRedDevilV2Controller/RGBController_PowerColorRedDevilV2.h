@@ -22,11 +22,9 @@ public:
 
     void        SetupZones();
 
-    void        ResizeZone(int, int);
-
     void        DeviceUpdateLEDs();
-    void        UpdateZoneLEDs(int);
-    void        UpdateSingleLED(int);
+    void        DeviceUpdateZoneLEDs(int);
+    void        DeviceUpdateSingleLED(int);
 
     void        DeviceUpdateMode();
 

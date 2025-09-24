@@ -229,8 +229,6 @@ void RGBController_PolychromeUSB::SetupZones()
 
             leds.push_back(new_led);
         }
-
-        zones[channel_idx].matrix_map = NULL;
     }
 
     SetupColors();
@@ -273,10 +271,10 @@ void RGBController_PolychromeUSB::SetupZones()
      }
 }
 
-void RGBController_PolychromeUSB::ResizeZone(int zone, int new_size)
+void RGBController_PolychromeUSB::DeviceResizeZone(int zone, int new_size)
 {
     zones[zone].leds_count = (unsigned char) new_size;
-    controller->ResizeZone(zones_info[zone].zone, new_size);
+    controller->DeviceResizeZone(zones_info[zone].zone, new_size);
 }
 
 void RGBController_PolychromeUSB::DeviceUpdateLEDs()
@@ -299,7 +297,7 @@ void RGBController_PolychromeUSB::DeviceUpdateLEDs()
     }
 }
 
-void RGBController_PolychromeUSB::UpdateZoneLEDs(int zone)
+void RGBController_PolychromeUSB::DeviceUpdateZoneLEDs(int zone)
 {
     unsigned char set_mode=zones_info[zone].mode;
 
@@ -311,7 +309,7 @@ void RGBController_PolychromeUSB::UpdateZoneLEDs(int zone)
     controller->WriteZone(zone, set_mode, zones_info[zone].speed, zones[zone].colors[0], false);
 }
 
-void RGBController_PolychromeUSB::UpdateSingleLED(int led)
+void RGBController_PolychromeUSB::DeviceUpdateSingleLED(int led)
 {
     unsigned int  channel  = leds[led].value;
     unsigned char set_mode = zones_info[channel].mode;

@@ -183,17 +183,11 @@ void RGBController_DygmaRaise::SetupZones()
 
         if(i==0)
         {
-            new_zone.matrix_map             = new matrix_map_type;
-            new_zone.matrix_map->height     = 6;
-            new_zone.matrix_map->width      = 14;
-            new_zone.matrix_map->map        = (unsigned int *)&kb_matrix_map_ISO;
+            new_zone.matrix_map.Set(6, 14, (unsigned int *)&kb_matrix_map_ISO);
         }
         else if(i==1)
         {
-            new_zone.matrix_map             = new matrix_map_type;
-            new_zone.matrix_map->height     = 11;
-            new_zone.matrix_map->width      = 14;
-            new_zone.matrix_map->map        = (unsigned int *)&underglow_matrix;
+            new_zone.matrix_map.Set(11, 14, (unsigned int *)&underglow_matrix);
         }
 
         zones.push_back(new_zone);
@@ -229,24 +223,17 @@ void RGBController_DygmaRaise::SetupZones()
     SetupColors();
 }
 
-void RGBController_DygmaRaise::ResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_DygmaRaise::DeviceUpdateLEDs()
 {
     controller->SendDirect(colors,leds.size());
 }
 
-void RGBController_DygmaRaise::UpdateZoneLEDs(int /*zone*/)
+void RGBController_DygmaRaise::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_DygmaRaise::UpdateSingleLED(int /*led*/)
+void RGBController_DygmaRaise::DeviceUpdateSingleLED(int /*led*/)
 {
     DeviceUpdateLEDs();
 }

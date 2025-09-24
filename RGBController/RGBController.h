@@ -18,10 +18,12 @@
 #include <thread>
 #include <chrono>
 #include <mutex>
+#include <shared_mutex>
+#include "nlohmann/json.hpp"
 
-/*------------------------------------------------------------------*\
-| RGB Color Type and Conversion Macros                               |
-\*------------------------------------------------------------------*/
+/*---------------------------------------------------------*\
+| RGB Color Type and Conversion Macros                      |
+\*---------------------------------------------------------*/
 typedef unsigned int RGBColor;
 
 #define RGBGetRValue(rgb)   (rgb & 0x000000FF)
@@ -32,9 +34,9 @@ typedef unsigned int RGBColor;
 
 #define RGBToBGRColor(rgb) ((rgb & 0xFF) << 16 | (rgb & 0xFF00) | (rgb & 0xFF0000) >> 16)
 
-/*------------------------------------------------------------------*\
-| Mode Flags                                                         |
-\*------------------------------------------------------------------*/
+/*---------------------------------------------------------*\
+| Mode Flags                                                |
+\*---------------------------------------------------------*/
 enum
 {
     MODE_FLAG_HAS_SPEED                 = (1 << 0), /* Mode has speed parameter         */
@@ -47,11 +49,13 @@ enum
     MODE_FLAG_HAS_RANDOM_COLOR          = (1 << 7), /* Mode has random color option     */
     MODE_FLAG_MANUAL_SAVE               = (1 << 8), /* Mode can manually be saved       */
     MODE_FLAG_AUTOMATIC_SAVE            = (1 << 9), /* Mode automatically saves         */
+    MODE_FLAG_REQUIRES_ENTIRE_DEVICE    = (1 << 10),/* Mode always applies to entire    */
+                                                    /* device, overrides per-zone modes */
 };
 
-/*------------------------------------------------------------------*\
-| Mode Directions                                                    |
-\*------------------------------------------------------------------*/
+/*---------------------------------------------------------*\
+| Mode Directions                                           |
+\*---------------------------------------------------------*/
 enum
 {
     MODE_DIRECTION_LEFT         = 0,        /* Mode direction left              */
@@ -62,9 +66,9 @@ enum
     MODE_DIRECTION_VERTICAL     = 5,        /* Mode direction vertical          */
 };
 
-/*------------------------------------------------------------------*\
-| Mode Color Types                                                   |
-\*------------------------------------------------------------------*/
+/*---------------------------------------------------------*\
+| Mode Color Types                                          |
+\*---------------------------------------------------------*/
 enum
 {
     MODE_COLORS_NONE            = 0,        /* Mode has no colors               */
@@ -73,15 +77,15 @@ enum
     MODE_COLORS_RANDOM          = 3,        /* Mode has random colors selected  */
 };
 
-/*------------------------------------------------------------------*\
-| Mode Class                                                         |
-\*------------------------------------------------------------------*/
+/*---------------------------------------------------------*\
+| Mode Class                                                |
+\*---------------------------------------------------------*/
 class mode
 {
 public:
-    /*--------------------------------------------------------------*\
-    | Mode Information                                               |
-    \*--------------------------------------------------------------*/
+    /*-----------------------------------------------------*\
+    | Mode Information                                      |
+    \*-----------------------------------------------------*/
     std::string         name;   /* Mode name                        */
     int                 value;  /* Device-specific mode value       */
     unsigned int        flags;  /* Mode flags bitfield              */
@@ -92,9 +96,9 @@ public:
     unsigned int        colors_min; /* minimum number of mode colors*/
     unsigned int        colors_max; /* maximum numver of mode colors*/
 
-    /*--------------------------------------------------------------*\
-    | Mode Settings                                                  |
-    \*--------------------------------------------------------------*/
+    /*-----------------------------------------------------*\
+    | Mode Settings                                         |
+    \*-----------------------------------------------------*/
     unsigned int        speed;  /* Mode speed parameter value       */
     unsigned int        brightness; /* Mode brightness value        */
     unsigned int        direction;  /* Mode direction value         */
@@ -102,67 +106,91 @@ public:
     std::vector<RGBColor>
                         colors; /* mode-specific colors             */
 
-    /*--------------------------------------------------------------*\
-    | Mode Constructor / Destructor                                  |
-    \*--------------------------------------------------------------*/
+    /*-----------------------------------------------------*\
+    | Mode Constructor / Destructor                         |
+    \*-----------------------------------------------------*/
     mode();
     ~mode();
 };
 
-/*------------------------------------------------------------------*\
-| LED Struct                                                         |
-\*------------------------------------------------------------------*/
+/*---------------------------------------------------------*\
+| LED Struct                                                |
+\*---------------------------------------------------------*/
 typedef struct
 {
+    /*-----------------------------------------------------*\
+    | LED Information                                       |
+    \*-----------------------------------------------------*/
     std::string         name;   /* LED name                     */
     unsigned int        value;  /* Device-specific LED value    */
 } led;
 
-/*------------------------------------------------------------------*\
-| Zone Flags                                                         |
-\*------------------------------------------------------------------*/
+/*---------------------------------------------------------*\
+| Zone Flags                                                |
+\*---------------------------------------------------------*/
 enum
 {
     ZONE_FLAG_RESIZE_EFFECTS_ONLY       = (1 << 0), /* Zone is resizable, but only for  */
                                                     /* effects - treat as single LED    */
+    ZONE_FLAG_MANUALLY_CONFIGURED       = (1 << 15),/* Zone has been manually configured*/
 };
 
-/*------------------------------------------------------------------*\
-| Zone Types                                                         |
-\*------------------------------------------------------------------*/
+/*---------------------------------------------------------*\
+| Zone Types                                                |
+\*---------------------------------------------------------*/
 typedef int zone_type;
 
 enum
 {
     ZONE_TYPE_SINGLE,
     ZONE_TYPE_LINEAR,
-    ZONE_TYPE_MATRIX
+    ZONE_TYPE_MATRIX,
+    ZONE_TYPE_LINEAR_LOOP,
+    ZONE_TYPE_MATRIX_LOOP_X,
+    ZONE_TYPE_MATRIX_LOOP_Y,
+    ZONE_TYPE_SEGMENTED
 };
 
-/*------------------------------------------------------------------*\
-| Matrix Map Struct                                                  |
-\*------------------------------------------------------------------*/
-typedef struct
+/*---------------------------------------------------------*\
+| Matrix Map Struct                                         |
+\*---------------------------------------------------------*/
+class matrix_map_type
 {
-    unsigned int            height;
-    unsigned int            width;
-    unsigned int *          map;
-} matrix_map_type;
+public:
+    unsigned int                height;
+    unsigned int                width;
+    std::vector<unsigned int>   map;
 
-/*------------------------------------------------------------------*\
-| Segment Struct                                                     |
-\*------------------------------------------------------------------*/
-typedef struct
+    matrix_map_type();
+    matrix_map_type(unsigned int height, unsigned int width, unsigned int * map);
+    ~matrix_map_type();
+
+    void Reset();
+    void Set(unsigned int height, unsigned int width, unsigned int * map);
+};
+
+/*---------------------------------------------------------*\
+| Segment Class                                             |
+\*---------------------------------------------------------*/
+class segment
 {
+public:
     std::string             name;           /* Segment name             */
     zone_type               type;           /* Segment type             */
     unsigned int            start_idx;      /* Start index within zone  */
     unsigned int            leds_count;     /* Number of LEDs in segment*/
-} segment;
+    matrix_map_type         matrix_map;     /* Matrix map               */
 
-/*------------------------------------------------------------------*\
-| Zone Class                                                         |
-\*------------------------------------------------------------------*/
+    /*-----------------------------------------------------*\
+    | Zone Constructor / Destructor                         |
+    \*-----------------------------------------------------*/
+    segment();
+    ~segment();
+};
+
+/*---------------------------------------------------------*\
+| Zone Class                                                |
+\*---------------------------------------------------------*/
 class zone
 {
 public:
@@ -174,23 +202,26 @@ public:
     unsigned int            leds_count;     /* Number of LEDs in zone   */
     unsigned int            leds_min;       /* Minimum number of LEDs   */
     unsigned int            leds_max;       /* Maximum number of LEDs   */
-    matrix_map_type *       matrix_map;     /* Matrix map pointer       */
+    matrix_map_type         matrix_map;     /* Matrix map               */
 	std::vector<segment>    segments;       /* Segments in zone         */
     unsigned int            flags;          /* Zone flags bitfield      */
+    std::vector<mode>       modes;          /* Zone-specific modes      */
+    int                     active_mode;    /* Active zone-specific mode*/
 
-    /*--------------------------------------------------------------*\
-    | Zone Constructor / Destructor                                  |
-    \*--------------------------------------------------------------*/
+    /*-----------------------------------------------------*\
+    | Zone Constructor / Destructor                         |
+    \*-----------------------------------------------------*/
     zone();
     ~zone();
 };
 
-/*------------------------------------------------------------------*\
-| Device Types                                                       |
-|   The enum order should be maintained as is for the API however    |
-|   DEVICE_TYPE_UNKNOWN needs to remain last. Any new device types   |
-|   need to be inserted at the end of the list but before unknown.   |
-\*------------------------------------------------------------------*/
+/*---------------------------------------------------------*\
+| Device Types                                              |
+|   The enum order should be maintained as is for the API   |
+|   however DEVICE_TYPE_UNKNOWN needs to remain last. Any   |
+|   new device types need to be inserted at the end of the  |
+|   list but before unknown.                                |
+\*---------------------------------------------------------*/
 typedef int device_type;
 
 enum
@@ -219,131 +250,244 @@ enum
     DEVICE_TYPE_UNKNOWN,
 };
 
-/*------------------------------------------------------------------*\
-| Controller Flags                                                   |
-\*------------------------------------------------------------------*/
+/*---------------------------------------------------------*\
+| Controller Flags                                          |
+\*---------------------------------------------------------*/
 enum
 {
     CONTROLLER_FLAG_LOCAL               = (1 << 0), /* Device is local to this instance */
     CONTROLLER_FLAG_REMOTE              = (1 << 1), /* Device is on a remote instance   */
     CONTROLLER_FLAG_VIRTUAL             = (1 << 2), /* Device is a virtual device       */
+    CONTROLLER_FLAG_HIDDEN              = (1 << 3), /* Device is hidden                 */
 
     CONTROLLER_FLAG_RESET_BEFORE_UPDATE = (1 << 8), /* Device resets update flag before */
                                                     /* calling update function          */
 };
 
-/*------------------------------------------------------------------*\
-| RGBController Callback Types                                       |
-\*------------------------------------------------------------------*/
-typedef void (*RGBControllerCallback)(void *);
+/*---------------------------------------------------------*\
+| RGBController Callback Types                              |
+\*---------------------------------------------------------*/
+typedef void (*RGBControllerCallback)(void *, unsigned int);
+
+/*---------------------------------------------------------*\
+| Update Reason Codes                                       |
+\*---------------------------------------------------------*/
+enum
+{
+    RGBCONTROLLER_UPDATE_REASON_UPDATELEDS,         /* UpdateLEDs() called              */
+    RGBCONTROLLER_UPDATE_REASON_UPDATEMODE,         /* UpdateMode() called              */
+    RGBCONTROLLER_UPDATE_REASON_SAVEMODE,           /* SaveMode() called                */
+    RGBCONTROLLER_UPDATE_REASON_RESIZEZONE,         /* ResizeZone() called              */
+    RGBCONTROLLER_UPDATE_REASON_CLEARSEGMENTS,      /* ClearSegments() called           */
+    RGBCONTROLLER_UPDATE_REASON_ADDSEGMENT,         /* AddSegment() called              */
+    RGBCONTROLLER_UPDATE_REASON_HIDDEN,             /* Hidden flag set                  */
+    RGBCONTROLLER_UPDATE_REASON_UNHIDDEN,           /* Hidden flag cleared              */
+};
 
 std::string device_type_to_str(device_type type);
 
 class RGBControllerInterface
 {
 public:
-    virtual void            SetupColors()                                                                       = 0;
+    /*-----------------------------------------------------*\
+    | Controller Information                                |
+    \*-----------------------------------------------------*/
+    virtual std::string             GetName()                                                                                           = 0;
+    virtual std::string             GetVendor()                                                                                         = 0;
+    virtual std::string             GetDescription()                                                                                    = 0;
+    virtual std::string             GetVersion()                                                                                        = 0;
+    virtual std::string             GetSerial()                                                                                         = 0;
+    virtual std::string             GetLocation()                                                                                       = 0;
 
-    virtual unsigned int    GetLEDsInZone(unsigned int zone)                                                    = 0;
-    virtual std::string     GetName()                                                                           = 0;
-    virtual std::string     GetVendor()                                                                         = 0;
-    virtual std::string     GetDescription()                                                                    = 0;
-    virtual std::string     GetVersion()                                                                        = 0;
-    virtual std::string     GetSerial()                                                                         = 0;
-    virtual std::string     GetLocation()                                                                       = 0;
+    virtual device_type             GetDeviceType()                                                                                     = 0;
+    virtual unsigned int            GetFlags()                                                                                          = 0;
 
-    virtual std::string     GetModeName(unsigned int mode)                                                      = 0;
-    virtual std::string     GetZoneName(unsigned int zone)                                                      = 0;
-    virtual std::string     GetLEDName(unsigned int led)                                                        = 0;
+    /*-----------------------------------------------------*\
+    | Hidden Flag Functions                                 |
+    \*-----------------------------------------------------*/
+    virtual bool                    GetHidden()                                                                                         = 0;
+    virtual void                    SetHidden(bool hidden)                                                                              = 0;
 
-    virtual RGBColor        GetLED(unsigned int led)                                                            = 0;
-    virtual void            SetLED(unsigned int led, RGBColor color)                                            = 0;
-    virtual void            SetAllLEDs(RGBColor color)                                                          = 0;
-    virtual void            SetAllZoneLEDs(int zone, RGBColor color)                                            = 0;
+    /*-----------------------------------------------------*\
+    | Zone Functions                                        |
+    \*-----------------------------------------------------*/
+    virtual int                     GetZoneActiveMode(unsigned int zone)                                                                = 0;
+    virtual RGBColor                GetZoneColor(unsigned int zone, unsigned int color_index)                                           = 0;
+    virtual RGBColor*               GetZoneColorsPointer(unsigned int zone)                                                             = 0;
+    virtual std::size_t             GetZoneCount()                                                                                      = 0;
+    virtual unsigned int            GetZoneFlags(unsigned int zone)                                                                     = 0;
+    virtual unsigned int            GetZoneLEDsCount(unsigned int zone)                                                                 = 0;
+    virtual unsigned int            GetZoneLEDsMax(unsigned int zone)                                                                   = 0;
+    virtual unsigned int            GetZoneLEDsMin(unsigned int zone)                                                                   = 0;
+    virtual unsigned int            GetZoneMatrixMapHeight(unsigned int zone)                                                           = 0;
+    virtual const unsigned int *    GetZoneMatrixMap(unsigned int zone)                                                                 = 0;
+    virtual unsigned int            GetZoneMatrixMapWidth(unsigned int zone)                                                            = 0;
+    virtual std::size_t             GetZoneModeCount(unsigned int zone)                                                                 = 0;
+    virtual unsigned int            GetZoneModeBrightness(unsigned int zone, unsigned int mode)                                         = 0;
+    virtual unsigned int            GetZoneModeBrightnessMax(unsigned int zone, unsigned int mode)                                      = 0;
+    virtual unsigned int            GetZoneModeBrightnessMin(unsigned int zone, unsigned int mode)                                      = 0;
+    virtual RGBColor                GetZoneModeColor(unsigned int zone, unsigned int mode, unsigned int color_index)                    = 0;
+    virtual unsigned int            GetZoneModeColorMode(unsigned int zone, unsigned int mode)                                          = 0;
+    virtual std::size_t             GetZoneModeColorsCount(unsigned int zone, unsigned int mode)                                        = 0;
+    virtual unsigned int            GetZoneModeColorsMax(unsigned int zone, unsigned int mode)                                          = 0;
+    virtual unsigned int            GetZoneModeColorsMin(unsigned int zone, unsigned int mode)                                          = 0;
+    virtual unsigned int            GetZoneModeDirection(unsigned int zone, unsigned int mode)                                          = 0;
+    virtual unsigned int            GetZoneModeFlags(unsigned int zone, unsigned int mode)                                              = 0;
+    virtual std::string             GetZoneModeName(unsigned int zone, unsigned int mode)                                               = 0;
+    virtual unsigned int            GetZoneModeSpeed(unsigned int zone, unsigned int mode)                                              = 0;
+    virtual unsigned int            GetZoneModeSpeedMax(unsigned int zone, unsigned int mode)                                           = 0;
+    virtual unsigned int            GetZoneModeSpeedMin(unsigned int zone, unsigned int mode)                                           = 0;
+    virtual int                     GetZoneModeValue(unsigned int zone, unsigned int mode)                                              = 0;
+    virtual std::string             GetZoneName(unsigned int zone)                                                                      = 0;
+    virtual std::size_t             GetZoneSegmentCount(unsigned int zone)                                                              = 0;
+    virtual unsigned int            GetZoneSegmentLEDsCount(unsigned int zone, unsigned int segment)                                    = 0;
+    virtual unsigned int            GetZoneSegmentMatrixMapHeight(unsigned int zone, unsigned int segment)                              = 0;
+    virtual const unsigned int *    GetZoneSegmentMatrixMap(unsigned int zone, unsigned int segment)                                    = 0;
+    virtual unsigned int            GetZoneSegmentMatrixMapWidth(unsigned int zone, unsigned int segment)                               = 0;
+    virtual std::string             GetZoneSegmentName(unsigned int zone, unsigned int segment)                                         = 0;
+    virtual unsigned int            GetZoneSegmentStartIndex(unsigned int zone, unsigned int segment)                                   = 0;
+    virtual unsigned int            GetZoneSegmentType(unsigned int zone, unsigned int segment)                                         = 0;
+    virtual unsigned int            GetZoneStartIndex(unsigned int zone)                                                                = 0;
+    virtual zone_type               GetZoneType(unsigned int zone)                                                                      = 0;
 
-    virtual int             GetMode()                                                                           = 0;
-    virtual void            SetMode(int mode)                                                                   = 0;
+    virtual unsigned int            GetLEDsInZone(unsigned int zone)                                                                    = 0;
 
-    virtual unsigned char * GetDeviceDescription(unsigned int protocol_version)                                 = 0;
-    virtual void            ReadDeviceDescription(unsigned char* data_buf, unsigned int protocol_version)       = 0;
+    virtual void                    SetZoneActiveMode(unsigned int zone, int mode)                                                      = 0;
+    virtual void                    SetZoneColor(unsigned int zone, unsigned int color_index, RGBColor color)                           = 0;
+    virtual void                    SetZoneModeBrightness(unsigned int zone, unsigned int mode, unsigned int brightness)                = 0;
+    virtual void                    SetZoneModeColor(unsigned int zone, unsigned int mode, unsigned int color_index, RGBColor color)    = 0;
+    virtual void                    SetZoneModeColorMode(unsigned int zone, unsigned int mode, unsigned int color_mode)                 = 0;
+    virtual void                    SetZoneModeColorsCount(unsigned int zone, unsigned int mode, std::size_t count)                     = 0;
+    virtual void                    SetZoneModeDirection(unsigned int zone, unsigned int mode, unsigned int direction)                  = 0;
+    virtual void                    SetZoneModeSpeed(unsigned int zone, unsigned int mode, unsigned int speed)                          = 0;
 
-    virtual unsigned char * GetModeDescription(int mode, unsigned int protocol_version)                         = 0;
-    virtual void            SetModeDescription(unsigned char* data_buf, unsigned int protocol_version)          = 0;
+    virtual bool                    SupportsPerZoneModes()                                                                              = 0;
 
-    virtual unsigned char * GetColorDescription()                                                               = 0;
-    virtual void            SetColorDescription(unsigned char* data_buf)                                        = 0;
+    /*-----------------------------------------------------*\
+    | Mode Functions                                        |
+    \*-----------------------------------------------------*/
+    virtual std::size_t             GetModeCount()                                                                                      = 0;
+    virtual unsigned int            GetModeBrightness(unsigned int mode)                                                                = 0;
+    virtual unsigned int            GetModeBrightnessMax(unsigned int mode)                                                             = 0;
+    virtual unsigned int            GetModeBrightnessMin(unsigned int mode)                                                             = 0;
+    virtual RGBColor                GetModeColor(unsigned int mode, unsigned int color_index)                                           = 0;
+    virtual unsigned int            GetModeColorMode(unsigned int mode)                                                                 = 0;
+    virtual std::size_t             GetModeColorsCount(unsigned int mode)                                                               = 0;
+    virtual unsigned int            GetModeColorsMax(unsigned int mode)                                                                 = 0;
+    virtual unsigned int            GetModeColorsMin(unsigned int mode)                                                                 = 0;
+    virtual unsigned int            GetModeDirection(unsigned int mode)                                                                 = 0;
+    virtual unsigned int            GetModeFlags(unsigned int mode)                                                                     = 0;
+    virtual std::string             GetModeName(unsigned int mode)                                                                      = 0;
+    virtual unsigned int            GetModeSpeed(unsigned int mode)                                                                     = 0;
+    virtual unsigned int            GetModeSpeedMax(unsigned int mode)                                                                  = 0;
+    virtual unsigned int            GetModeSpeedMin(unsigned int mode)                                                                  = 0;
+    virtual int                     GetModeValue(unsigned int mode)                                                                     = 0;
 
-    virtual unsigned char * GetZoneColorDescription(int zone)                                                   = 0;
-    virtual void            SetZoneColorDescription(unsigned char* data_buf)                                    = 0;
+    virtual void                    SetModeBrightness(unsigned int mode, unsigned int brightness)                                       = 0;
+    virtual void                    SetModeColor(unsigned int mode, unsigned int color_index, RGBColor color)                           = 0;
+    virtual void                    SetModeColorMode(unsigned int mode, unsigned int color_mode)                                        = 0;
+    virtual void                    SetModeColorsCount(unsigned int mode, std::size_t count)                                            = 0;
+    virtual void                    SetModeDirection(unsigned int mode, unsigned int direction)                                         = 0;
+    virtual void                    SetModeSpeed(unsigned int mode, unsigned int speed)                                                 = 0;
 
-    virtual unsigned char * GetSingleLEDColorDescription(int led)                                               = 0;
-    virtual void            SetSingleLEDColorDescription(unsigned char* data_buf)                               = 0;
+    virtual int                     GetActiveMode()                                                                                     = 0;
+    virtual void                    SetActiveMode(int mode)                                                                             = 0;
+    virtual void                    SetCustomMode()                                                                                     = 0;
 
-    virtual void            RegisterUpdateCallback(RGBControllerCallback new_callback, void * new_callback_arg) = 0;
-    virtual void            UnregisterUpdateCallback(void * callback_arg)                                       = 0;
-    virtual void            ClearCallbacks()                                                                    = 0;
-    virtual void            SignalUpdate()                                                                      = 0;
+    /*-----------------------------------------------------*\
+    | LED Functions                                         |
+    \*-----------------------------------------------------*/
+    virtual std::size_t             GetLEDCount()                                                                                       = 0;
+    virtual std::string             GetLEDName(unsigned int led)                                                                        = 0;
+    virtual unsigned int            GetLEDValue(unsigned int led)                                                                       = 0;
 
-    virtual void            UpdateLEDs()                                                                        = 0;
-    //virtual void          UpdateZoneLEDs(int zone)                                                            = 0;
-    //virtual void          UpdateSingleLED(int led)                                                            = 0;
+    virtual std::string             GetLEDDisplayName(unsigned int led)                                                                 = 0;
 
-    virtual void            UpdateMode()                                                                        = 0;
-    virtual void            SaveMode()                                                                          = 0;
+    /*-----------------------------------------------------*\
+    | Color Functions                                       |
+    \*-----------------------------------------------------*/
+    virtual RGBColor                GetColor(unsigned int led)                                                                          = 0;
+    virtual RGBColor*               GetColorsPointer()                                                                                  = 0;
+    virtual void                    SetColor(unsigned int led, RGBColor color)                                                          = 0;
 
-    virtual void            DeviceCallThreadFunction()                                                          = 0;
+    virtual void                    SetAllColors(RGBColor color)                                                                        = 0;
+    virtual void                    SetAllZoneColors(int zone, RGBColor color)                                                          = 0;
 
-    virtual void            ClearSegments(int zone)                                                             = 0;
-    virtual void            AddSegment(int zone, segment new_segment)                                           = 0;
+    /*-----------------------------------------------------*\
+    | Serialized Description Functions                      |
+    \*-----------------------------------------------------*/
+    virtual unsigned char *         GetDeviceDescription(unsigned int protocol_version)                                                 = 0;
+    virtual void                    ReadDeviceDescription(unsigned char* data_buf, unsigned int protocol_version)                       = 0;
 
-    /*---------------------------------------------------------*\
-    | Functions to be implemented in device implementation      |
-    \*---------------------------------------------------------*/
-    virtual void            SetupZones()                                                                        = 0;
+    virtual unsigned char *         GetModeDescription(int mode, unsigned int protocol_version)                                         = 0;
+    virtual void                    SetModeDescription(unsigned char* data_buf, unsigned int protocol_version)                          = 0;
 
-    virtual void            ResizeZone(int zone, int new_size)                                                  = 0;
+    virtual unsigned char *         GetColorDescription()                                                                               = 0;
+    virtual void                    SetColorDescription(unsigned char* data_buf)                                                        = 0;
 
-    virtual void            DeviceUpdateLEDs()                                                                  = 0;
-    virtual void            UpdateZoneLEDs(int zone)                                                            = 0;
-    virtual void            UpdateSingleLED(int led)                                                            = 0;
+    virtual unsigned char *         GetZoneColorDescription(int zone)                                                                   = 0;
+    virtual void                    SetZoneColorDescription(unsigned char* data_buf)                                                    = 0;
 
-    virtual void            DeviceUpdateMode()                                                                  = 0;
-    virtual void            DeviceSaveMode()                                                                    = 0;
+    virtual unsigned char *         GetSingleLEDColorDescription(int led)                                                               = 0;
+    virtual void                    SetSingleLEDColorDescription(unsigned char* data_buf)                                               = 0;
 
-    virtual void            SetCustomMode()                                                                     = 0;
+    virtual unsigned char *         GetSegmentDescription(int zone, segment new_segment)                                                = 0;
+    virtual void                    SetSegmentDescription(unsigned char* data_buf)                                                      = 0;
+
+    /*-----------------------------------------------------*\
+    | JSON Description Functions                            |
+    \*-----------------------------------------------------*/
+    virtual nlohmann::json          GetDeviceDescriptionJSON()                                                                          = 0;
+    virtual nlohmann::json          GetLEDDescriptionJSON(led led)                                                                      = 0;
+    virtual nlohmann::json          GetMatrixMapDescriptionJSON(matrix_map_type matrix_map)                                             = 0;
+    virtual nlohmann::json          GetModeDescriptionJSON(mode mode)                                                                   = 0;
+    virtual nlohmann::json          GetSegmentDescriptionJSON(segment segment)                                                          = 0;
+    virtual nlohmann::json          GetZoneDescriptionJSON(zone zone)                                                                   = 0;
+
+    virtual void                    SetDeviceDescriptionJSON(nlohmann::json controller_json)                                            = 0;
+    virtual led                     SetLEDDescriptionJSON(nlohmann::json led_json)                                                      = 0;
+    virtual matrix_map_type         SetMatrixMapDescriptionJSON(nlohmann::json matrix_map_json)                                         = 0;
+    virtual mode                    SetModeDescriptionJSON(nlohmann::json mode_json)                                                    = 0;
+    virtual segment                 SetSegmentDescriptionJSON(nlohmann::json segment_json)                                              = 0;
+    virtual zone                    SetZoneDescriptionJSON(nlohmann::json zone_json)                                                    = 0;
+
+    /*-----------------------------------------------------*\
+    | Update Callback Functions                             |
+    \*-----------------------------------------------------*/
+    virtual void                    RegisterUpdateCallback(RGBControllerCallback new_callback, void * new_callback_arg)                 = 0;
+    virtual void                    UnregisterUpdateCallback(void * callback_arg)                                                       = 0;
+    virtual void                    ClearCallbacks()                                                                                    = 0;
+    virtual void                    SignalUpdate(unsigned int update_reason)                                                            = 0;
+
+    /*-----------------------------------------------------*\
+    | Device Update Functions                               |
+    \*-----------------------------------------------------*/
+    virtual void                    UpdateLEDs()                                                                                        = 0;
+    virtual void                    UpdateZoneLEDs(int zone)                                                                            = 0;
+    virtual void                    UpdateSingleLED(int led)                                                                            = 0;
+
+    virtual void                    UpdateMode()                                                                                        = 0;
+    virtual void                    UpdateZoneMode(int zone)                                                                            = 0;
+    virtual void                    SaveMode()                                                                                          = 0;
+
+    virtual void                    ClearSegments(int zone)                                                                             = 0;
+    virtual void                    AddSegment(int zone, segment new_segment)                                                           = 0;
+
+    virtual void                    ResizeZone(int zone, int new_size)                                                                  = 0;
 };
 
 class RGBController : public RGBControllerInterface
 {
 public:
-    std::string             name;           /* controller name          */
-    std::string             vendor;         /* controller vendor        */
-    std::string             description;    /* controller description   */
-    std::string             version;        /* controller version       */
-    std::string             serial;         /* controller serial number */
-    std::string             location;       /* controller location      */
-    std::vector<led>        leds;           /* LEDs                     */
-    std::vector<zone>       zones;          /* Zones                    */
-    std::vector<mode>       modes;          /* Modes                    */
-    std::vector<RGBColor>   colors;         /* Color buffer             */
-    device_type             type;           /* device type              */
-    int                     active_mode = 0;/* active mode              */
-    std::vector<std::string>
-                            led_alt_names;  /* alternate LED names      */
-    unsigned int            flags;          /* controller flags         */
-
-    /*---------------------------------------------------------*\
-    | RGBController base class constructor                      |
-    \*---------------------------------------------------------*/
+    /*-----------------------------------------------------*\
+    | RGBController base class constructor                  |
+    \*-----------------------------------------------------*/
     RGBController();
     virtual ~RGBController();
 
-    /*---------------------------------------------------------*\
-    | Generic functions implemented in RGBController.cpp        |
-    \*---------------------------------------------------------*/
-    void                    SetupColors();
-
-    unsigned int            GetLEDsInZone(unsigned int zone);
+    /*-----------------------------------------------------*\
+    | Controller Information                                |
+    \*-----------------------------------------------------*/
     std::string             GetName();
     std::string             GetVendor();
     std::string             GetDescription();
@@ -351,18 +495,122 @@ public:
     std::string             GetSerial();
     std::string             GetLocation();
 
-    std::string             GetModeName(unsigned int mode);
+    device_type             GetDeviceType();
+    unsigned int            GetFlags();
+
+    /*-----------------------------------------------------*\
+    | Hidden Flag Functions                                 |
+    \*-----------------------------------------------------*/
+    bool                    GetHidden();
+    void                    SetHidden(bool hidden);
+
+    /*-----------------------------------------------------*\
+    | Zone Functions                                        |
+    \*-----------------------------------------------------*/
+    int                     GetZoneActiveMode(unsigned int zone);
+    RGBColor                GetZoneColor(unsigned int zone, unsigned int color_index);
+    RGBColor*               GetZoneColorsPointer(unsigned int zone);
+    std::size_t             GetZoneCount();
+    unsigned int            GetZoneFlags(unsigned int zone);
+    unsigned int            GetZoneLEDsCount(unsigned int zone);
+    unsigned int            GetZoneLEDsMax(unsigned int zone);
+    unsigned int            GetZoneLEDsMin(unsigned int zone);
+    unsigned int            GetZoneMatrixMapHeight(unsigned int zone);
+    const unsigned int*     GetZoneMatrixMap(unsigned int zone);
+    unsigned int            GetZoneMatrixMapWidth(unsigned int zone);
+    std::size_t             GetZoneModeCount(unsigned int zone);
+    unsigned int            GetZoneModeBrightness(unsigned int zone, unsigned int mode);
+    unsigned int            GetZoneModeBrightnessMax(unsigned int zone, unsigned int mode);
+    unsigned int            GetZoneModeBrightnessMin(unsigned int zone, unsigned int mode);
+    RGBColor                GetZoneModeColor(unsigned int zone, unsigned int mode, unsigned int color_index);
+    unsigned int            GetZoneModeColorMode(unsigned int zone, unsigned int mode);
+    std::size_t             GetZoneModeColorsCount(unsigned int zone, unsigned int mode);
+    unsigned int            GetZoneModeColorsMax(unsigned int zone, unsigned int mode);
+    unsigned int            GetZoneModeColorsMin(unsigned int zone, unsigned int mode);
+    unsigned int            GetZoneModeDirection(unsigned int zone, unsigned int mode);
+    unsigned int            GetZoneModeFlags(unsigned int zone, unsigned int mode);
+    std::string             GetZoneModeName(unsigned int zone, unsigned int mode);
+    unsigned int            GetZoneModeSpeed(unsigned int zone, unsigned int mode);
+    unsigned int            GetZoneModeSpeedMax(unsigned int zone, unsigned int mode);
+    unsigned int            GetZoneModeSpeedMin(unsigned int zone, unsigned int mode);
+    int                     GetZoneModeValue(unsigned int zone, unsigned int mode);
     std::string             GetZoneName(unsigned int zone);
+    std::size_t             GetZoneSegmentCount(unsigned int zone);
+    unsigned int            GetZoneSegmentLEDsCount(unsigned int zone, unsigned int segment);
+    unsigned int            GetZoneSegmentMatrixMapHeight(unsigned int zone, unsigned int segment);
+    const unsigned int *    GetZoneSegmentMatrixMap(unsigned int zone, unsigned int segment);
+    unsigned int            GetZoneSegmentMatrixMapWidth(unsigned int zone, unsigned int segment);
+    std::string             GetZoneSegmentName(unsigned int zone, unsigned int segment);
+    unsigned int            GetZoneSegmentStartIndex(unsigned int zone, unsigned int segment);
+    unsigned int            GetZoneSegmentType(unsigned int zone, unsigned int segment);
+    unsigned int            GetZoneStartIndex(unsigned int zone);
+    zone_type               GetZoneType(unsigned int zone);
+
+    unsigned int            GetLEDsInZone(unsigned int zone);
+
+    void                    SetZoneActiveMode(unsigned int zone, int mode);
+    void                    SetZoneColor(unsigned int zone, unsigned int color_index, RGBColor color);
+    void                    SetZoneModeBrightness(unsigned int zone, unsigned int mode, unsigned int brightness);
+    void                    SetZoneModeColor(unsigned int zone, unsigned int mode, unsigned int color_index, RGBColor color);
+    void                    SetZoneModeColorMode(unsigned int zone, unsigned int mode, unsigned int color_mode);
+    void                    SetZoneModeColorsCount(unsigned int zone, unsigned int mode, std::size_t count);
+    void                    SetZoneModeDirection(unsigned int zone, unsigned int mode, unsigned int direction);
+    void                    SetZoneModeSpeed(unsigned int zone, unsigned int mode, unsigned int speed);
+
+    bool                    SupportsPerZoneModes();
+
+    /*-----------------------------------------------------*\
+    | Mode Functions                                        |
+    \*-----------------------------------------------------*/
+    std::size_t             GetModeCount();
+    unsigned int            GetModeBrightness(unsigned int mode);
+    unsigned int            GetModeBrightnessMax(unsigned int mode);
+    unsigned int            GetModeBrightnessMin(unsigned int mode);
+    RGBColor                GetModeColor(unsigned int mode, unsigned int color_index);
+    unsigned int            GetModeColorMode(unsigned int mode);
+    std::size_t             GetModeColorsCount(unsigned int mode);
+    unsigned int            GetModeColorsMax(unsigned int mode);
+    unsigned int            GetModeColorsMin(unsigned int mode);
+    unsigned int            GetModeDirection(unsigned int mode);
+    unsigned int            GetModeFlags(unsigned int mode);
+    std::string             GetModeName(unsigned int mode);
+    unsigned int            GetModeSpeed(unsigned int mode);
+    unsigned int            GetModeSpeedMax(unsigned int mode);
+    unsigned int            GetModeSpeedMin(unsigned int mode);
+    int                     GetModeValue(unsigned int mode);
+
+    void                    SetModeBrightness(unsigned int mode, unsigned int brightness);
+    void                    SetModeColor(unsigned int mode, unsigned int color_index, RGBColor color);
+    void                    SetModeColorMode(unsigned int mode, unsigned int color_mode);
+    void                    SetModeColorsCount(unsigned int mode, std::size_t count);
+    void                    SetModeDirection(unsigned int mode, unsigned int direction);
+    void                    SetModeSpeed(unsigned int mode, unsigned int speed);
+
+    int                     GetActiveMode();
+    void                    SetActiveMode(int mode);
+    void                    SetCustomMode();
+
+    /*-----------------------------------------------------*\
+    | LED Functions                                         |
+    \*-----------------------------------------------------*/
+    std::size_t             GetLEDCount();
     std::string             GetLEDName(unsigned int led);
+    unsigned int            GetLEDValue(unsigned int led);
 
-    RGBColor                GetLED(unsigned int led);
-    void                    SetLED(unsigned int led, RGBColor color);
-    void                    SetAllLEDs(RGBColor color);
-    void                    SetAllZoneLEDs(int zone, RGBColor color);
+    std::string             GetLEDDisplayName(unsigned int led);
 
-    int                     GetMode();
-    void                    SetMode(int mode);
+    /*-----------------------------------------------------*\
+    | Color Functions                                       |
+    \*-----------------------------------------------------*/
+    RGBColor                GetColor(unsigned int led);
+    RGBColor*               GetColorsPointer();
+    void                    SetColor(unsigned int led, RGBColor color);
+    void                    SetAllColors(RGBColor color);
+    void                    SetAllZoneColors(int zone, RGBColor color);
 
+    /*-----------------------------------------------------*\
+    | Serialized Description Functions                      |
+    \*-----------------------------------------------------*/
     unsigned char *         GetDeviceDescription(unsigned int protocol_version);
     void                    ReadDeviceDescription(unsigned char* data_buf, unsigned int protocol_version);
 
@@ -381,16 +629,40 @@ public:
     unsigned char *         GetSegmentDescription(int zone, segment new_segment);
     void                    SetSegmentDescription(unsigned char* data_buf);
 
+    /*-----------------------------------------------------*\
+    | JSON Description Functions                            |
+    \*-----------------------------------------------------*/
+    nlohmann::json          GetDeviceDescriptionJSON();
+    nlohmann::json          GetLEDDescriptionJSON(led led);
+    nlohmann::json          GetMatrixMapDescriptionJSON(matrix_map_type matrix_map);
+    nlohmann::json          GetModeDescriptionJSON(mode mode);
+    nlohmann::json          GetSegmentDescriptionJSON(segment segment);
+    nlohmann::json          GetZoneDescriptionJSON(zone zone);
+
+    void                    SetDeviceDescriptionJSON(nlohmann::json controller_json);
+    led                     SetLEDDescriptionJSON(nlohmann::json led_json);
+    matrix_map_type         SetMatrixMapDescriptionJSON(nlohmann::json matrix_map_json);
+    mode                    SetModeDescriptionJSON(nlohmann::json mode_json);
+    segment                 SetSegmentDescriptionJSON(nlohmann::json segment_json);
+    zone                    SetZoneDescriptionJSON(nlohmann::json zone_json);
+
+    /*-----------------------------------------------------*\
+    | Update Callback Functions                             |
+    \*-----------------------------------------------------*/
     void                    RegisterUpdateCallback(RGBControllerCallback new_callback, void * new_callback_arg);
     void                    UnregisterUpdateCallback(void * callback_arg);
     void                    ClearCallbacks();
-    void                    SignalUpdate();
+    void                    SignalUpdate(unsigned int update_reason);
 
+    /*-----------------------------------------------------*\
+    | Device Update Functions                               |
+    \*-----------------------------------------------------*/
     void                    UpdateLEDs();
-    //void                    UpdateZoneLEDs(int zone);
-    //void                    UpdateSingleLED(int led);
+    void                    UpdateZoneLEDs(int zone);
+    void                    UpdateSingleLED(int led);
 
     void                    UpdateMode();
+    void                    UpdateZoneMode(int zone);
     void                    SaveMode();
 
     void                    DeviceCallThreadFunction();
@@ -398,32 +670,82 @@ public:
     void                    ClearSegments(int zone);
     void                    AddSegment(int zone, segment new_segment);
 
-    /*---------------------------------------------------------*\
-    | Functions to be implemented in device implementation      |
-    \*---------------------------------------------------------*/
-    virtual void            SetupZones()                                = 0;
+    void                    ResizeZone(int zone, int new_size);
 
-    virtual void            ResizeZone(int zone, int new_size)          = 0;
+    /*-----------------------------------------------------*\
+    | Functions to be implemented in device implementation  |
+    \*-----------------------------------------------------*/
+    virtual void            DeviceResizeZone(int zone, int new_size);
 
-    virtual void            DeviceUpdateLEDs()                          = 0;
-    virtual void            UpdateZoneLEDs(int zone)                    = 0;
-    virtual void            UpdateSingleLED(int led)                    = 0;
+    virtual void            DeviceUpdateLEDs();
+    virtual void            DeviceUpdateZoneLEDs(int zone);
+    virtual void            DeviceUpdateSingleLED(int led);
 
-    virtual void            DeviceUpdateMode()                          = 0;
-    void                    DeviceSaveMode();
+    virtual void            DeviceUpdateMode();
+    virtual void            DeviceUpdateZoneMode(int zone);
+    virtual void            DeviceSaveMode();
 
-    void                    SetCustomMode();
+protected:
+    /*-----------------------------------------------------*\
+    | Controller information strings                        |
+    \*-----------------------------------------------------*/
+    std::string             description;    /* controller description   */
+    std::string             location;       /* controller location      */
+    std::string             name;           /* controller name          */
+    std::string             serial;         /* controller serial number */
+    std::string             vendor;         /* controller vendor        */
+    std::string             version;        /* controller version       */
+
+    /*-----------------------------------------------------*\
+    | Controller variables                                  |
+    \*-----------------------------------------------------*/
+    int                     active_mode = 0;/* active mode              */
+    unsigned int            flags;          /* controller flags         */
+    device_type             type;           /* device type              */
+
+    /*-----------------------------------------------------*\
+    | Controller member vectors                             |
+    \*-----------------------------------------------------*/
+    std::vector<RGBColor>   colors;         /* Color buffer             */
+    std::vector<led>        leds;           /* LEDs                     */
+    std::vector<std::string>
+                            led_alt_names;  /* alternate LED names      */
+    std::vector<mode>       modes;          /* Modes                    */
+    std::vector<zone>       zones;          /* Zones                    */
+
+    /*-----------------------------------------------------*\
+    | Access mutex variables                                |
+    \*-----------------------------------------------------*/
+    std::shared_mutex       AccessMutex;
+
+    /*-----------------------------------------------------*\
+    | Functions not part of interface for internal use only |
+    \*-----------------------------------------------------*/
+    unsigned int            LEDsInZone(unsigned int zone);
+    void                    SetupColors();
+    void                    UpdateLEDsInternal();
 
 private:
+    /*-----------------------------------------------------*\
+    | Device thread variables                               |
+    \*-----------------------------------------------------*/
     std::thread*            DeviceCallThread;
     std::atomic<bool>       CallFlag_UpdateLEDs;
     std::atomic<bool>       CallFlag_UpdateMode;
     std::atomic<bool>       DeviceThreadRunning;
-    //bool                    CallFlag_UpdateZoneLEDs                     = false;
-    //bool                    CallFlag_UpdateSingleLED                    = false;
-    //bool                    CallFlag_UpdateMode                         = false;
 
+    /*-----------------------------------------------------*\
+    | Update callback variables                             |
+    \*-----------------------------------------------------*/
     std::mutex                          UpdateMutex;
     std::vector<RGBControllerCallback>  UpdateCallbacks;
     std::vector<void *>                 UpdateCallbackArgs;
+
+    /*-----------------------------------------------------*\
+    | Certain internal OpenRGB framework classes can modify |
+    | protected members                                     |
+    \*-----------------------------------------------------*/
+    friend class            NetworkClient;
+    friend class            ProfileManager;
+    friend class            ResourceManager;
 };

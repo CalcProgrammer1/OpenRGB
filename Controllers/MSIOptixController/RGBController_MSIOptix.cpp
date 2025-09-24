@@ -346,7 +346,6 @@ void RGBController_MSIOptix::SetupZones()
     new_zone.leds_min   = MSI_OPTIX_NUMBER_OF_LEDS;
     new_zone.leds_max   = MSI_OPTIX_NUMBER_OF_LEDS;
     new_zone.leds_count = MSI_OPTIX_NUMBER_OF_LEDS;
-    new_zone.matrix_map = nullptr;
 
     zones.emplace_back(new_zone);
 
@@ -360,26 +359,19 @@ void RGBController_MSIOptix::SetupZones()
     SetupColors();
 }
 
-void RGBController_MSIOptix::ResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_MSIOptix::DeviceUpdateLEDs()
 {
-    UpdateZoneLEDs(0);
+    DeviceUpdateZoneLEDs(0);
 }
 
-void RGBController_MSIOptix::UpdateZoneLEDs(int /*zone*/)
+void RGBController_MSIOptix::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     controller->SetDirect(colors, modes[active_mode].brightness);
 }
 
-void RGBController_MSIOptix::UpdateSingleLED(int led)
+void RGBController_MSIOptix::DeviceUpdateSingleLED(int led)
 {
-    UpdateZoneLEDs(led);
+    DeviceUpdateZoneLEDs(led);
 }
 
 void RGBController_MSIOptix::DeviceUpdateMode()

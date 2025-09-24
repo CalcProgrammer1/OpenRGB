@@ -99,7 +99,6 @@ void RGBController_HyperXPulsefireDart::SetupZones()
     scroll_zone.leds_min    = 1;
     scroll_zone.leds_max    = 1;
     scroll_zone.leds_count  = 1;
-    scroll_zone.matrix_map  = NULL;
     zones.push_back(scroll_zone);
 
     led scroll_led;
@@ -113,7 +112,6 @@ void RGBController_HyperXPulsefireDart::SetupZones()
     logo_zone.leds_min      = 1;
     logo_zone.leds_max      = 1;
     logo_zone.leds_count    = 1;
-    logo_zone.matrix_map    = NULL;
     zones.push_back(logo_zone);
 
     led logo_led;
@@ -124,22 +122,17 @@ void RGBController_HyperXPulsefireDart::SetupZones()
     SetupColors();
 }
 
-void RGBController_HyperXPulsefireDart::ResizeZone(int /*zone*/, int /*new_size*/)
-{
-
-}
-
 void RGBController_HyperXPulsefireDart::DeviceUpdateLEDs()
 {
     DeviceUpdateMode();
 }
 
-void RGBController_HyperXPulsefireDart::UpdateZoneLEDs(int zone)
+void RGBController_HyperXPulsefireDart::DeviceUpdateZoneLEDs(int zone)
 {
-    UpdateSingleLED(zone);
+    DeviceUpdateSingleLED(zone);
 }
 
-void RGBController_HyperXPulsefireDart::UpdateSingleLED(int led)
+void RGBController_HyperXPulsefireDart::DeviceUpdateSingleLED(int led)
 {
     if(modes[active_mode].color_mode == MODE_COLORS_PER_LED)
     {

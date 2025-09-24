@@ -101,7 +101,6 @@ void RGBController_ZotacTuringGPU::SetupZones()
     new_zone->leds_min      = 1;
     new_zone->leds_max      = 1;
     new_zone->leds_count    = 1;
-    new_zone->matrix_map    = NULL;
 
     new_led->name           = "GPU LED";
 
@@ -124,15 +123,6 @@ void RGBController_ZotacTuringGPU::SetupInitialValues()
 
     controller->GetMode(colors[0], active_mode, speed);
     modes[active_mode].speed = speed;
-
-    SignalUpdate();
-}
-
-void RGBController_ZotacTuringGPU::ResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
 }
 
 void RGBController_ZotacTuringGPU::DeviceUpdateLEDs()
@@ -140,12 +130,12 @@ void RGBController_ZotacTuringGPU::DeviceUpdateLEDs()
     DeviceUpdateMode();
 }
 
-void RGBController_ZotacTuringGPU::UpdateZoneLEDs(int /*zone*/)
+void RGBController_ZotacTuringGPU::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateMode();
 }
 
-void RGBController_ZotacTuringGPU::UpdateSingleLED(int /*led*/)
+void RGBController_ZotacTuringGPU::DeviceUpdateSingleLED(int /*led*/)
 {
     DeviceUpdateMode();
 }
