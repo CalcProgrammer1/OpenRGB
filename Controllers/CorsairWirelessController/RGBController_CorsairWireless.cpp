@@ -297,13 +297,6 @@ void RGBController_CorsairWireless::SetupZones()
     SetupColors();
 }
 
-void RGBController_CorsairWireless::ResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_CorsairWireless::DeviceUpdateLEDs()
 {
     last_update_time = std::chrono::steady_clock::now();
@@ -311,12 +304,12 @@ void RGBController_CorsairWireless::DeviceUpdateLEDs()
     controller->SetLEDs(colors);
 }
 
-void RGBController_CorsairWireless::UpdateZoneLEDs(int /*zone*/)
+void RGBController_CorsairWireless::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     controller->SetLEDs(colors);
 }
 
-void RGBController_CorsairWireless::UpdateSingleLED(int /*led*/)
+void RGBController_CorsairWireless::DeviceUpdateSingleLED(int /*led*/)
 {
     controller->SetLEDs(colors);
 }

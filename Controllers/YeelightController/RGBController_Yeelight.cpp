@@ -87,13 +87,6 @@ void RGBController_Yeelight::SetupZones()
     SetupColors();
 }
 
-void RGBController_Yeelight::ResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_Yeelight::DeviceUpdateLEDs()
 {
     unsigned char red = RGBGetRValue(colors[0]);
@@ -103,12 +96,12 @@ void RGBController_Yeelight::DeviceUpdateLEDs()
     controller->SetColor(red, grn, blu);
 }
 
-void RGBController_Yeelight::UpdateZoneLEDs(int /*zone*/)
+void RGBController_Yeelight::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_Yeelight::UpdateSingleLED(int /*led*/)
+void RGBController_Yeelight::DeviceUpdateSingleLED(int /*led*/)
 {
     DeviceUpdateLEDs();
 }

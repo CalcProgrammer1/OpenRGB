@@ -319,24 +319,17 @@ void RGBController_HyperXAlloyOrigins60and65::SetupZones()
     SetupColors();
 }
 
-void RGBController_HyperXAlloyOrigins60and65::ResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_HyperXAlloyOrigins60and65::DeviceUpdateLEDs()
 {
     controller->SetLEDsDirect(colors);
 }
 
-void RGBController_HyperXAlloyOrigins60and65::UpdateZoneLEDs(int /*zone*/)
+void RGBController_HyperXAlloyOrigins60and65::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_HyperXAlloyOrigins60and65::UpdateSingleLED(int /*led*/)
+void RGBController_HyperXAlloyOrigins60and65::DeviceUpdateSingleLED(int /*led*/)
 {
     DeviceUpdateLEDs();
 }

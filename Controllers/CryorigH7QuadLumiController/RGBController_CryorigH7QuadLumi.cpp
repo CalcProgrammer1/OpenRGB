@@ -182,11 +182,6 @@ void RGBController_CryorigH7QuadLumi::SetupZones()
     SetupColors();
 }
 
-void RGBController_CryorigH7QuadLumi::ResizeZone(int /*zone*/, int /*new_size*/)
-{
-
-}
-
 void RGBController_CryorigH7QuadLumi::DeviceUpdateLEDs()
 {
     for(unsigned char zone_idx = 0; zone_idx < (unsigned char)zones.size(); zone_idx++)
@@ -195,12 +190,12 @@ void RGBController_CryorigH7QuadLumi::DeviceUpdateLEDs()
     }
 }
 
-void RGBController_CryorigH7QuadLumi::UpdateZoneLEDs(int zone)
+void RGBController_CryorigH7QuadLumi::DeviceUpdateZoneLEDs(int zone)
 {
     controller->SetChannelLEDs(zone, zones[zone].colors, zones[zone].leds_count);
 }
 
-void RGBController_CryorigH7QuadLumi::UpdateSingleLED(int led)
+void RGBController_CryorigH7QuadLumi::DeviceUpdateSingleLED(int led)
 {
     unsigned int zone_idx = leds[led].value;
 

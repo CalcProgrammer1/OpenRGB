@@ -88,13 +88,6 @@ void RGBController_Tecknet::SetupZones()
     SetupColors();
 }
 
-void RGBController_Tecknet::ResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | Not implemented for this device                           |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_Tecknet::DeviceUpdateLEDs()
 {
     unsigned char red = RGBGetRValue(colors[0]);
@@ -103,7 +96,7 @@ void RGBController_Tecknet::DeviceUpdateLEDs()
     controller->SetColor(red, grn, blu);
 }
 
-void RGBController_Tecknet::UpdateZoneLEDs(int zone)
+void RGBController_Tecknet::DeviceUpdateZoneLEDs(int zone)
 {
     RGBColor      color = colors[zone];
     unsigned char red   = RGBGetRValue(color);
@@ -112,9 +105,9 @@ void RGBController_Tecknet::UpdateZoneLEDs(int zone)
     controller->SetColor(red, grn, blu);
 }
 
-void RGBController_Tecknet::UpdateSingleLED(int led)
+void RGBController_Tecknet::DeviceUpdateSingleLED(int led)
 {
-    UpdateZoneLEDs(led);
+    DeviceUpdateZoneLEDs(led);
 }
 
 void RGBController_Tecknet::DeviceUpdateMode()

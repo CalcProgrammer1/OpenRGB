@@ -196,13 +196,6 @@ void RGBController_SteelSeriesRival::SetupZones()
     SetupColors();
 }
 
-void RGBController_SteelSeriesRival::ResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_SteelSeriesRival::DeviceUpdateLEDs()
 {
     for(unsigned int i = 0; i < leds.size(); i++)
@@ -214,7 +207,7 @@ void RGBController_SteelSeriesRival::DeviceUpdateLEDs()
     }
 }
 
-void RGBController_SteelSeriesRival::UpdateZoneLEDs(int zone)
+void RGBController_SteelSeriesRival::DeviceUpdateZoneLEDs(int zone)
 {
     for(unsigned int i = 0; i < zones[zone].leds_count; i++)
     {
@@ -225,7 +218,7 @@ void RGBController_SteelSeriesRival::UpdateZoneLEDs(int zone)
     }
 }
 
-void RGBController_SteelSeriesRival::UpdateSingleLED(int led)
+void RGBController_SteelSeriesRival::DeviceUpdateSingleLED(int led)
 {
     unsigned char red = RGBGetRValue(colors[led]);
     unsigned char grn = RGBGetGValue(colors[led]);

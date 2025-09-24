@@ -71,19 +71,12 @@ void RGBController_LogitechX56::SetupZones()
     SetupColors();
 }
 
-void RGBController_LogitechX56::ResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_LogitechX56::DeviceUpdateLEDs()
 {
     controller->SetColor(colors[0], modes[active_mode].brightness);
 }
 
-void RGBController_LogitechX56::UpdateZoneLEDs(int /*zone*/)
+void RGBController_LogitechX56::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     /*---------------------------------------------------------*\
     | Packet expects both LEDs                                  |
@@ -91,7 +84,7 @@ void RGBController_LogitechX56::UpdateZoneLEDs(int /*zone*/)
     DeviceUpdateLEDs();
 }
 
-void RGBController_LogitechX56::UpdateSingleLED(int /*led*/)
+void RGBController_LogitechX56::DeviceUpdateSingleLED(int /*led*/)
 {
     /*---------------------------------------------------------*\
     | Packet expects both LEDs                                  |
