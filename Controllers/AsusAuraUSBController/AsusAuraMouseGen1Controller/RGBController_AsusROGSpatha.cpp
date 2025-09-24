@@ -148,11 +148,6 @@ void RGBController_AsusROGSpatha::SetupZones()
     SetupColors();
 }
 
-void RGBController_AsusROGSpatha::ResizeZone(int /*zone*/, int /*new_size*/)
-{
-
-}
-
 void RGBController_AsusROGSpatha::DeviceUpdateLEDs()
 {
     if(modes[active_mode].value == ASUS_ROG_SPATHA_MODE_DIRECT)
@@ -161,13 +156,13 @@ void RGBController_AsusROGSpatha::DeviceUpdateLEDs()
     }
     else
     {
-        UpdateSingleLED(0);
-        UpdateSingleLED(1);
-        UpdateSingleLED(2);
+        DeviceUpdateSingleLED(0);
+        DeviceUpdateSingleLED(1);
+        DeviceUpdateSingleLED(2);
     }
 }
 
-void RGBController_AsusROGSpatha::UpdateZoneLEDs(int zone)
+void RGBController_AsusROGSpatha::DeviceUpdateZoneLEDs(int zone)
 {
     if(modes[active_mode].value == ASUS_ROG_SPATHA_MODE_DIRECT)
     {
@@ -175,11 +170,11 @@ void RGBController_AsusROGSpatha::UpdateZoneLEDs(int zone)
     }
     else
     {
-        UpdateSingleLED(zone);
+        DeviceUpdateSingleLED(zone);
     }
 }
 
-void RGBController_AsusROGSpatha::UpdateSingleLED(int led)
+void RGBController_AsusROGSpatha::DeviceUpdateSingleLED(int led)
 {
     if(modes[active_mode].value == ASUS_ROG_SPATHA_MODE_DIRECT)
     {

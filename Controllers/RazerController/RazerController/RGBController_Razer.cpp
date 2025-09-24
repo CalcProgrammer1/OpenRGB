@@ -300,24 +300,17 @@ void RGBController_Razer::SetupZones()
     SetupColors();
 }
 
-void RGBController_Razer::ResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_Razer::DeviceUpdateLEDs()
 {
     controller->SetLEDs(&colors[0]);
 }
 
-void RGBController_Razer::UpdateZoneLEDs(int /*zone*/)
+void RGBController_Razer::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_Razer::UpdateSingleLED(int /*led*/)
+void RGBController_Razer::DeviceUpdateSingleLED(int /*led*/)
 {
     DeviceUpdateLEDs();
 }

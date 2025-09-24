@@ -417,15 +417,6 @@ void RGBController_KingstonFuryDRAM::SetupZones()
     SetupColors();
 }
 
-void RGBController_KingstonFuryDRAM::ResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-    LOG_DEBUG("[%s] resize zone",
-              FURY_CONTROLLER_NAME);
-}
-
 // some modes have different actual values to be written, depending on the color mode
 unsigned char RGBController_KingstonFuryDRAM::GetRealModeValue()
 {
@@ -698,12 +689,12 @@ void RGBController_KingstonFuryDRAM::DeviceUpdateLEDs()
     controller->SendApply();
 }
 
-void RGBController_KingstonFuryDRAM::UpdateZoneLEDs(int /*zone*/)
+void RGBController_KingstonFuryDRAM::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_KingstonFuryDRAM::UpdateSingleLED(int /*led*/)
+void RGBController_KingstonFuryDRAM::DeviceUpdateSingleLED(int /*led*/)
 {
     DeviceUpdateLEDs();
 }

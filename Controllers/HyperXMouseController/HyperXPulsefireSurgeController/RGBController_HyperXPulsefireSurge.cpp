@@ -104,13 +104,6 @@ void RGBController_HyperXPulsefireSurge::SetupZones()
     SetupColors();
 }
 
-void RGBController_HyperXPulsefireSurge::ResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_HyperXPulsefireSurge::DeviceUpdateLEDs()
 {
     last_update_time = std::chrono::steady_clock::now();
@@ -125,12 +118,12 @@ void RGBController_HyperXPulsefireSurge::DeviceUpdateLEDs()
 
 }
 
-void RGBController_HyperXPulsefireSurge::UpdateZoneLEDs(int /*zone*/)
+void RGBController_HyperXPulsefireSurge::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_HyperXPulsefireSurge::UpdateSingleLED(int /*led*/)
+void RGBController_HyperXPulsefireSurge::DeviceUpdateSingleLED(int /*led*/)
 {
     DeviceUpdateLEDs();
 }

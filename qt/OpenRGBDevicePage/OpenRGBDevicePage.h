@@ -37,7 +37,7 @@ public:
 
 private slots:
     void changeEvent(QEvent *event);
-    void UpdateInterface();
+    void UpdateInterface(unsigned int update_reason);
 
     void on_ColorWheelBox_colorChanged(const QColor color);
     void on_SwatchBox_swatchChanged(const QColor color);
@@ -85,9 +85,10 @@ private:
 
     bool autoUpdateEnabled();
 
-    QString ModeDescription(const mode& m);
+    QString ModeDescription(const std::string mode_name);
 
 signals:
+    void RefreshList();
     void SetAllDevices(unsigned char red, unsigned char green, unsigned char blue);
     void SaveSizeProfile();
 };

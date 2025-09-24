@@ -240,13 +240,6 @@ void RGBController_RGBFusion2SMBus::SetupZones()
     SetupColors();
 }
 
-void RGBController_RGBFusion2SMBus::ResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_RGBFusion2SMBus::DeviceUpdateLEDs()
 {
     for(unsigned int led = 0; led < (unsigned int)colors.size(); led++)
@@ -266,7 +259,7 @@ void RGBController_RGBFusion2SMBus::DeviceUpdateLEDs()
     controller->Apply();
 }
 
-void RGBController_RGBFusion2SMBus::UpdateZoneLEDs(int zone)
+void RGBController_RGBFusion2SMBus::DeviceUpdateZoneLEDs(int zone)
 {
     RGBColor      color = colors[zone];
     unsigned char red   = RGBGetRValue(color);
@@ -281,9 +274,9 @@ void RGBController_RGBFusion2SMBus::UpdateZoneLEDs(int zone)
     controller->Apply();
 }
 
-void RGBController_RGBFusion2SMBus::UpdateSingleLED(int led)
+void RGBController_RGBFusion2SMBus::DeviceUpdateSingleLED(int led)
 {
-    UpdateZoneLEDs(led);
+    DeviceUpdateZoneLEDs(led);
 }
 
 void RGBController_RGBFusion2SMBus::DeviceUpdateMode()

@@ -45,33 +45,36 @@ void OpenRGBZonesBulkResizer::RunChecks(QWidget *parent)
 
     LOG_DEBUG("[ZonesBulkResizer] Running zones sizes checks...");
 
-    /*---------------------------------------------------------*\
-    | Collect the unconfigured zones                            |
-    \*---------------------------------------------------------*/
+    /*-----------------------------------------------------*\
+    | Collect the unconfigured zones                        |
+    \*-----------------------------------------------------*/
     std::vector<RGBController*>& controllers = ResourceManager::get()->GetRGBControllers();
 
-    std::vector<std::tuple<RGBController*, unsigned int>> zones;
+    std::vector<std::tuple<RGBController*, unsigned int>> unconfigured_zones;
 
     for(RGBController* controller: controllers)
     {
-        for(unsigned int zone_index = 0; zone_index < controller->zones.size(); zone_index++)
+        for(unsigned int zone_index = 0; zone_index < controller->GetZoneCount(); zone_index++)
         {
-            // Consider unconfigured if 0 leds AND led_count < leds_max
-            if(controller->zones[zone_index].leds_count == 0
-                    && controller->zones[zone_index].leds_count < controller->zones[zone_index].leds_max)
+            /*---------------------------------------------*\
+            | Consider unconfigured if 0 leds AND led_count |
+            | < leds_max                                    |
+            \*---------------------------------------------*/
+            if((controller->GetZoneLEDsCount(zone_index) == 0)
+             &&(controller->GetZoneLEDsCount(zone_index) < controller->GetZoneLEDsMax(zone_index)))
             {
-                zones.push_back({controller, zone_index});
+                unconfigured_zones.push_back({controller, zone_index});
             }
         }
     }
 
-    LOG_DEBUG("[ZonesBulkResizer] Zones checks finished: %d unconfigured zone(s).", zones.size());
+    LOG_DEBUG("[ZonesBulkResizer] Zones checks finished: %d unconfigured zone(s).", unconfigured_zones.size());
 
-    /*---------------------------------------------------------*\
-    | Show the configuration tool GUI if we have some           |
-    | unconfigured zones                                        |
-    \*---------------------------------------------------------*/
-    if(!zones.empty())
+    /*-----------------------------------------------------*\
+    | Show the configuration tool GUI if we have some       |
+    | unconfigured zones                                    |
+    \*-----------------------------------------------------*/
+    if(!unconfigured_zones.empty())
     {
         QDialog* dialog = new QDialog(parent);
         dialog->setWindowTitle(tr("Resize the zones"));
@@ -81,7 +84,7 @@ void OpenRGBZonesBulkResizer::RunChecks(QWidget *parent)
 
         QVBoxLayout* dialog_layout = new QVBoxLayout(dialog);
 
-        OpenRGBZonesBulkResizer* widget = new OpenRGBZonesBulkResizer(dialog, zones);
+        OpenRGBZonesBulkResizer* widget = new OpenRGBZonesBulkResizer(dialog, unconfigured_zones);
 
         dialog_layout->addWidget(widget);
 
@@ -145,15 +148,15 @@ void OpenRGBZonesBulkResizer::CreateZoneWidget(RGBController* controller, unsign
     controller_label->setText(QString::fromStdString(controller->GetName()));
 
     QLabel* zone_label = new QLabel(this);
-    zone_label->setText(QString::fromStdString(controller->zones[zone_index].name));
+    zone_label->setText(QString::fromStdString(controller->GetZoneName(zone_index)));
 
     /*---------------------------------------------------------*\
     | Spin box: controls the zone size                          |
     \*---------------------------------------------------------*/
     QSpinBox* spin_box = new QSpinBox(this);
     spin_box->setValue(0);
-    spin_box->setMinimum(controller->zones[zone_index].leds_min);
-    spin_box->setMaximum(controller->zones[zone_index].leds_max);
+    spin_box->setMinimum(controller->GetZoneLEDsMin(zone_index));
+    spin_box->setMaximum(controller->GetZoneLEDsMax(zone_index));
 
     /*---------------------------------------------------------*\
     | Insert labels + spinbox                                   |

@@ -335,13 +335,6 @@ void RGBController_AlienwareAW510K::SetupZones()
     SetupColors();
 }
 
-void RGBController_AlienwareAW510K::ResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_AlienwareAW510K::DeviceUpdateLEDs()
 {
     std::vector<SelectedKeys>   frame_buf_keys;
@@ -395,14 +388,14 @@ void RGBController_AlienwareAW510K::DeviceUpdateLEDs()
     std::copy(new_colors.begin(), new_colors.end(),current_colors.begin());
 }
 
-void RGBController_AlienwareAW510K::UpdateZoneLEDs(int zone)
+void RGBController_AlienwareAW510K::DeviceUpdateZoneLEDs(int zone)
 {
     controller->SetDirect((unsigned char) zone, RGBGetRValue(zones[zone].colors[0]), RGBGetGValue(zones[zone].colors[0]), RGBGetBValue(zones[zone].colors[0]));
 }
 
-void RGBController_AlienwareAW510K::UpdateSingleLED(int led)
+void RGBController_AlienwareAW510K::DeviceUpdateSingleLED(int led)
 {
-    controller->UpdateSingleLED(leds[led].value, RGBGetRValue(colors[led]), RGBGetGValue(colors[led]), RGBGetBValue(colors[led]));
+    controller->DeviceUpdateSingleLED(leds[led].value, RGBGetRValue(colors[led]), RGBGetGValue(colors[led]), RGBGetBValue(colors[led]));
 }
 
 void RGBController_AlienwareAW510K::DeviceUpdateMode()

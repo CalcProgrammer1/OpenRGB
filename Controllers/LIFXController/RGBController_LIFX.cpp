@@ -104,24 +104,17 @@ void RGBController_LIFX::SetupZones()
     SetupColors();
 }
 
-void RGBController_LIFX::ResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_LIFX::DeviceUpdateLEDs()
 {
     controller->SetColors(colors);
 }
 
-void RGBController_LIFX::UpdateZoneLEDs(int /*zone*/)
+void RGBController_LIFX::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_LIFX::UpdateSingleLED(int /*led*/)
+void RGBController_LIFX::DeviceUpdateSingleLED(int /*led*/)
 {
     DeviceUpdateLEDs();
 }

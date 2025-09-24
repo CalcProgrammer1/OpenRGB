@@ -171,29 +171,22 @@ void RGBController_AsusAuraRyuoAIO::SetupZones()
     SetupColors();
 }
 
-void RGBController_AsusAuraRyuoAIO::ResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_AsusAuraRyuoAIO::DeviceUpdateLEDs()
 {
     for(unsigned int zone_idx = 0; zone_idx < zones.size(); zone_idx++)
     {
-        UpdateZoneLEDs(zone_idx);
+        DeviceUpdateZoneLEDs(zone_idx);
     }
 }
 
-void RGBController_AsusAuraRyuoAIO::UpdateZoneLEDs(int zone)
+void RGBController_AsusAuraRyuoAIO::DeviceUpdateZoneLEDs(int zone)
 {
     controller->SetLedsDirect(zones[zone].colors, zones[zone].leds_count);
 }
 
-void RGBController_AsusAuraRyuoAIO::UpdateSingleLED(int led)
+void RGBController_AsusAuraRyuoAIO::DeviceUpdateSingleLED(int led)
 {
-    UpdateZoneLEDs(GetLED_Zone(led));
+    DeviceUpdateZoneLEDs(GetLED_Zone(led));
 }
 
 void RGBController_AsusAuraRyuoAIO::DeviceUpdateMode()

@@ -82,29 +82,22 @@ void RGBController_NvidiaESA::SetupZones()
     SetupColors();
 }
 
-void RGBController_NvidiaESA::ResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_NvidiaESA::DeviceUpdateLEDs()
 {
     for(unsigned int zone = 0; zone < zones.size(); zone++)
     {
-        UpdateZoneLEDs(zone);
+        DeviceUpdateZoneLEDs(zone);
     }
 }
 
-void RGBController_NvidiaESA::UpdateZoneLEDs(int zone)
+void RGBController_NvidiaESA::DeviceUpdateZoneLEDs(int zone)
 {
     controller->SetZoneColor(zone, zones[zone].colors[0]);
 }
 
-void RGBController_NvidiaESA::UpdateSingleLED(int /*led*/)
+void RGBController_NvidiaESA::DeviceUpdateSingleLED(int /*led*/)
 {
-    UpdateZoneLEDs(0);
+    DeviceUpdateZoneLEDs(0);
 }
 
 void RGBController_NvidiaESA::DeviceUpdateMode()

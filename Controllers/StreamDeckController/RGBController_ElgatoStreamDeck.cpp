@@ -107,19 +107,14 @@ void RGBController_ElgatoStreamDeck::DeviceUpdateLEDs()
     controller->SendFullFrame(buttonImages);
 }
 
-void RGBController_ElgatoStreamDeck::UpdateZoneLEDs(int /*zone*/)
+void RGBController_ElgatoStreamDeck::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_ElgatoStreamDeck::UpdateSingleLED(int /*led*/)
+void RGBController_ElgatoStreamDeck::DeviceUpdateSingleLED(int /*led*/)
 {
     DeviceUpdateLEDs();
-}
-
-void RGBController_ElgatoStreamDeck::ResizeZone(int /*zone*/, int /*new_size*/)
-{
-
 }
 
 void RGBController_ElgatoStreamDeck::DeviceUpdateMode()

@@ -158,26 +158,19 @@ void RGBController_Alienware::SetupZones()
     SetupColors();
 }
 
-void RGBController_Alienware::ResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_Alienware::DeviceUpdateLEDs()
 {
     DeviceUpdateMode();
 }
 
-void RGBController_Alienware::UpdateZoneLEDs(int /*zone*/)
+void RGBController_Alienware::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_Alienware::UpdateSingleLED(int led)
+void RGBController_Alienware::DeviceUpdateSingleLED(int led)
 {
-    UpdateZoneLEDs(led);
+    DeviceUpdateZoneLEDs(led);
 }
 
 static bool modes_eq(const mode& mode1, const mode& mode2)

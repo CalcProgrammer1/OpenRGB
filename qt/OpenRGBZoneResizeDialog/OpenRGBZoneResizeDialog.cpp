@@ -18,9 +18,9 @@ OpenRGBZoneResizeDialog::OpenRGBZoneResizeDialog(RGBController* edit_dev_ptr, un
     edit_dev      = edit_dev_ptr;
     edit_zone_idx = edit_zone_idx_val;
 
-    unsigned int size_min     = edit_dev->zones[edit_zone_idx].leds_min;
-    unsigned int size_max     = edit_dev->zones[edit_zone_idx].leds_max;
-    unsigned int size_current = edit_dev->zones[edit_zone_idx].leds_count;
+    unsigned int size_min     = edit_dev->GetZoneLEDsMin(edit_zone_idx);
+    unsigned int size_max     = edit_dev->GetZoneLEDsMax(edit_zone_idx);
+    unsigned int size_current = edit_dev->GetZoneLEDsCount(edit_zone_idx);
 
     ui->setupUi(this);
     setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
@@ -35,7 +35,7 @@ OpenRGBZoneResizeDialog::OpenRGBZoneResizeDialog(RGBController* edit_dev_ptr, un
     ui->ResizeSlider->setValue(size_current);
     ui->ResizeBox->setValue(size_current);
 
-    for(unsigned int segment_idx = 0; segment_idx < edit_dev->zones[edit_zone_idx].segments.size(); segment_idx++)
+    for(unsigned int segment_idx = 0; segment_idx < edit_dev->GetZoneSegmentCount(edit_zone_idx); segment_idx++)
     {
         QTreeWidgetItem* new_item   = new QTreeWidgetItem(ui->SegmentsTreeWidget);
 
@@ -43,11 +43,11 @@ OpenRGBZoneResizeDialog::OpenRGBZoneResizeDialog(RGBController* edit_dev_ptr, un
         QLineEdit* lineedit_length  = new QLineEdit(ui->SegmentsTreeWidget);
         QSlider*   slider_length    = new QSlider(Qt::Horizontal, ui->SegmentsTreeWidget);
 
-        slider_length->setMaximum(edit_dev->zones[edit_zone_idx].leds_count);
+        slider_length->setMaximum(edit_dev->GetZoneLEDsCount(edit_zone_idx));
 
-        lineedit_name->setText(QString::fromStdString(edit_dev->zones[edit_zone_idx].segments[segment_idx].name));
-        lineedit_length->setText(QString::number(edit_dev->zones[edit_zone_idx].segments[segment_idx].leds_count));
-        slider_length->setSliderPosition(edit_dev->zones[edit_zone_idx].segments[segment_idx].leds_count);
+        lineedit_name->setText(QString::fromStdString(edit_dev->GetZoneSegmentName(edit_zone_idx, segment_idx)));
+        lineedit_length->setText(QString::number(edit_dev->GetZoneSegmentLEDsCount(edit_zone_idx, segment_idx)));
+        slider_length->setSliderPosition(edit_dev->GetZoneSegmentLEDsCount(edit_zone_idx, segment_idx));
 
         ui->SegmentsTreeWidget->setItemWidget(new_item, 0, lineedit_name);
         ui->SegmentsTreeWidget->setItemWidget(new_item, 1, lineedit_length);
@@ -231,7 +231,7 @@ void OpenRGBZoneResizeDialog::on_AddSegmentButton_clicked()
     /*---------------------------------------------------------*\
     | Restrict slider maximum to zone size                      |
     \*---------------------------------------------------------*/
-    slider_length->setMaximum(edit_dev->zones[edit_zone_idx].leds_count);
+    slider_length->setMaximum(edit_dev->GetZoneLEDsCount(edit_zone_idx));
 
     /*---------------------------------------------------------*\
     | Add new widgets to tree                                   |

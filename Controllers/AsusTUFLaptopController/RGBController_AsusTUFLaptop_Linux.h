@@ -17,15 +17,13 @@ class RGBController_AsusTUFLaptopLinux : public RGBController
 public:
     RGBController_AsusTUFLaptopLinux(AsusTUFLaptopLinuxController* controller_ptr);
 
-    void SetupZones() override;
+    void SetupZones();
 
-    void ResizeZone(int zone, int new_size) override;
+    void DeviceUpdateLEDs();
+    void DeviceUpdateZoneLEDs(int zone);
+    void DeviceUpdateSingleLED(int led);
 
-    void DeviceUpdateLEDs() override;
-    void UpdateZoneLEDs(int zone) override;
-    void UpdateSingleLED(int led) override;
-
-    void DeviceUpdateMode() override;
+    void DeviceUpdateMode();
 
 private:
     AsusTUFLaptopLinuxController* controller;

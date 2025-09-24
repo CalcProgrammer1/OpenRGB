@@ -135,7 +135,7 @@ public:
                                                     unsigned int    configsize
                                                     );
 
-    void                                        ResizeZone(int zone, int new_size);
+    void                                        DeviceResizeZone(int zone, int new_size);
     void                                        SetRGSwap(bool reset);
 
 protected:

@@ -157,24 +157,17 @@ void RGBController_AOCMouse::SetupZones()
     SetupColors();
 }
 
-void RGBController_AOCMouse::ResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_AOCMouse::DeviceUpdateLEDs()
 {
     DeviceUpdateMode();
 }
 
-void RGBController_AOCMouse::UpdateZoneLEDs(int /*zone*/)
+void RGBController_AOCMouse::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_AOCMouse::UpdateSingleLED(int /*led*/)
+void RGBController_AOCMouse::DeviceUpdateSingleLED(int /*led*/)
 {
     DeviceUpdateLEDs();
 }

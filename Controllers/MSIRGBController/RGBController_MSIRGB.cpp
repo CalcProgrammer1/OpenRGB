@@ -65,11 +65,6 @@ void RGBController_MSIRGB::SetupZones()
     SetupColors();
 }
 
-void RGBController_MSIRGB::ResizeZone(int /*zone*/, int /*new_size*/)
-{
-
-}
-
 void RGBController_MSIRGB::DeviceUpdateLEDs()
 {
     RGBColor      color = colors[0];
@@ -80,12 +75,12 @@ void RGBController_MSIRGB::DeviceUpdateLEDs()
     controller->SetColor(red, grn, blu);
 }
 
-void RGBController_MSIRGB::UpdateZoneLEDs(int /*zone*/)
+void RGBController_MSIRGB::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_MSIRGB::UpdateSingleLED(int /*led*/)
+void RGBController_MSIRGB::DeviceUpdateSingleLED(int /*led*/)
 {
     DeviceUpdateLEDs();
 }

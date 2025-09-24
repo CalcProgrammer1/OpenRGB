@@ -67,13 +67,6 @@ void RGBController_CreativeSoundBlasterXG6::SetupZones()
     SetupColors();
 }
 
-void RGBController_CreativeSoundBlasterXG6::ResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_CreativeSoundBlasterXG6::DeviceUpdateLEDs()
 {
     unsigned char red = RGBGetRValue(colors[0]);
@@ -83,12 +76,12 @@ void RGBController_CreativeSoundBlasterXG6::DeviceUpdateLEDs()
     controller->SetLedColor(red, grn, blu, modes[active_mode].brightness);
 }
 
-void RGBController_CreativeSoundBlasterXG6::UpdateZoneLEDs(int /*zone*/)
+void RGBController_CreativeSoundBlasterXG6::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_CreativeSoundBlasterXG6::UpdateSingleLED(int /*led*/)
+void RGBController_CreativeSoundBlasterXG6::DeviceUpdateSingleLED(int /*led*/)
 {
     DeviceUpdateLEDs();
 }

@@ -159,13 +159,6 @@ void RGBController_CMMM711Controller::SetupZones()
     SetupColors();
 }
 
-void RGBController_CMMM711Controller::ResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_CMMM711Controller::DeviceUpdateLEDs()
 {
     RGBColor wheel  = applyBrightness(colors[0], modes[active_mode].brightness);
@@ -174,12 +167,12 @@ void RGBController_CMMM711Controller::DeviceUpdateLEDs()
     controller->SetLedsDirect( wheel, logo);
 }
 
-void RGBController_CMMM711Controller::UpdateZoneLEDs(int /*zone*/)
+void RGBController_CMMM711Controller::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_CMMM711Controller::UpdateSingleLED(int /*led*/)
+void RGBController_CMMM711Controller::DeviceUpdateSingleLED(int /*led*/)
 {
     DeviceUpdateLEDs();
 }

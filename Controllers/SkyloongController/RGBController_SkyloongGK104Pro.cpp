@@ -134,24 +134,17 @@ void RGBController_SkyloongGK104Pro::SetupZones()
     SetupColors();
 }
 
-void RGBController_SkyloongGK104Pro::ResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_SkyloongGK104Pro::DeviceUpdateLEDs()
 {
     controller->SendColorPacket(colors, &leds, modes[active_mode].brightness);
 }
 
-void RGBController_SkyloongGK104Pro::UpdateZoneLEDs(int /*zone*/)
+void RGBController_SkyloongGK104Pro::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_SkyloongGK104Pro::UpdateSingleLED(int /*led*/)
+void RGBController_SkyloongGK104Pro::DeviceUpdateSingleLED(int /*led*/)
 {
     DeviceUpdateLEDs();
 }

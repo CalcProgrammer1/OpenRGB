@@ -83,13 +83,6 @@ void RGBController_Arctic::SetupZones()
     SetupColors();
 }
 
-void RGBController_Arctic::ResizeZone(int /* zone */, int /* new_size */)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_Arctic::DeviceUpdateLEDs()
 {
     last_update_time = std::chrono::steady_clock::now();
@@ -97,12 +90,12 @@ void RGBController_Arctic::DeviceUpdateLEDs()
     controller->SetChannels(colors);
 }
 
-void RGBController_Arctic::UpdateZoneLEDs(int /* zone */)
+void RGBController_Arctic::DeviceUpdateZoneLEDs(int /* zone */)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_Arctic::UpdateSingleLED(int /* led */)
+void RGBController_Arctic::DeviceUpdateSingleLED(int /* led */)
 {
     DeviceUpdateLEDs();
 }

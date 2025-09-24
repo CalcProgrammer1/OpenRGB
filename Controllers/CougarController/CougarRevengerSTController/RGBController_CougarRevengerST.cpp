@@ -138,29 +138,22 @@ void RGBController_CougarRevengerST::SetupZones()
     SetupColors();
 }
 
-void RGBController_CougarRevengerST::ResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_CougarRevengerST::DeviceUpdateLEDs()
 {
     for(unsigned int i = 0; i < colors.size(); i++)
     {
-        UpdateZoneLEDs(i);
+        DeviceUpdateZoneLEDs(i);
     }
 }
 
-void RGBController_CougarRevengerST::UpdateZoneLEDs(int zone)
+void RGBController_CougarRevengerST::DeviceUpdateZoneLEDs(int zone)
 {
     controller->SetDirect(zone, colors[zone], modes[active_mode].brightness);
 }
 
-void RGBController_CougarRevengerST::UpdateSingleLED(int led)
+void RGBController_CougarRevengerST::DeviceUpdateSingleLED(int led)
 {
-    UpdateZoneLEDs(led);
+    DeviceUpdateZoneLEDs(led);
 }
 
 void RGBController_CougarRevengerST::DeviceUpdateMode()

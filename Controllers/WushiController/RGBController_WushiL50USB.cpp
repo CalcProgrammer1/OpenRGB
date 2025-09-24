@@ -118,13 +118,6 @@ void RGBController_WushiL50USB::SetupZones()
     SetupColors();
 }
 
-void RGBController_WushiL50USB::ResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_WushiL50USB::DeviceUpdateLEDs()
 {
     if(modes[active_mode].color_mode == MODE_COLORS_PER_LED)
@@ -142,12 +135,12 @@ void RGBController_WushiL50USB::DeviceUpdateLEDs()
     controller->setMode(&state);
 }
 
-void RGBController_WushiL50USB::UpdateZoneLEDs(int /*zone*/)
+void RGBController_WushiL50USB::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_WushiL50USB::UpdateSingleLED(int /*led*/)
+void RGBController_WushiL50USB::DeviceUpdateSingleLED(int /*led*/)
 {
     DeviceUpdateLEDs();
 }

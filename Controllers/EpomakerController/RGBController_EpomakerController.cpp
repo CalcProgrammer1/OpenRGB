@@ -394,20 +394,12 @@ void RGBController_EpomakerController::SetupZones()
     SetupColors();
 }
 
-
-void RGBController_EpomakerController::ResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | Not implemented                                           |
-    \*---------------------------------------------------------*/
-}
-
-void RGBController_EpomakerController::UpdateZoneLEDs(int /*zone*/)
+void RGBController_EpomakerController::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_EpomakerController::UpdateSingleLED(int /*led*/)
+void RGBController_EpomakerController::DeviceUpdateSingleLED(int /*led*/)
 {
     DeviceUpdateLEDs();
 }

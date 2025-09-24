@@ -130,25 +130,18 @@ void RGBController_SteelSeriesApex::SetupZones()
     SetupColors();
 }
 
-void RGBController_SteelSeriesApex::ResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_SteelSeriesApex::DeviceUpdateLEDs()
 {
     last_update_time = std::chrono::steady_clock::now();
     controller->SetLEDsDirect(colors);
 }
 
-void RGBController_SteelSeriesApex::UpdateZoneLEDs(int /*zone*/)
+void RGBController_SteelSeriesApex::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_SteelSeriesApex::UpdateSingleLED(int /*led*/)
+void RGBController_SteelSeriesApex::DeviceUpdateSingleLED(int /*led*/)
 {
     DeviceUpdateLEDs();
 }

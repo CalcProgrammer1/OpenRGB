@@ -148,22 +148,15 @@ void RGBController_HYTEKeyboard::SetupZones()
     SetupColors();
 }
 
-void RGBController_HYTEKeyboard::ResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_HYTEKeyboard::DeviceUpdateLEDs()
 {
     for(unsigned int zone_idx = 0; zone_idx < zones.size(); zone_idx++)
     {
-        UpdateZoneLEDs(zone_idx);
+        DeviceUpdateZoneLEDs(zone_idx);
     }
 }
 
-void RGBController_HYTEKeyboard::UpdateZoneLEDs(int zone)
+void RGBController_HYTEKeyboard::DeviceUpdateZoneLEDs(int zone)
 {
     if(zone == HYTE_KEYBOARD_ZONE_KEYBOARD)
     {
@@ -182,15 +175,15 @@ void RGBController_HYTEKeyboard::UpdateZoneLEDs(int zone)
     }
 }
 
-void RGBController_HYTEKeyboard::UpdateSingleLED(int led)
+void RGBController_HYTEKeyboard::DeviceUpdateSingleLED(int led)
 {
     if(led < (int)zones[0].leds_count)
     {
-        UpdateZoneLEDs(0);
+        DeviceUpdateZoneLEDs(0);
     }
     else
     {
-        UpdateZoneLEDs(1);
+        DeviceUpdateZoneLEDs(1);
     }
 }
 

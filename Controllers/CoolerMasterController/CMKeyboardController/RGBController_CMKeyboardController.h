@@ -24,12 +24,10 @@ public:
     ~RGBController_CMKeyboardController();
 
     void SetupZones();
-    void ResizeZone(int zone, int new_size);
 
     void DeviceUpdateLEDs();
-    void UpdateSingleLED(int led, RGBColor color);
-    void UpdateSingleLED(int led);
-    void UpdateZoneLEDs(int zone_idx);
+    void DeviceUpdateSingleLED(int led);
+    void DeviceUpdateZoneLEDs(int zone_idx);
 
     void SetCustomMode();
     void DeviceUpdateMode();

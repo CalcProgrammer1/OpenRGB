@@ -73,13 +73,6 @@ void RGBController_AuraMonitor::SetupZones()
     SetupColors();
 }
 
-void RGBController_AuraMonitor::ResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_AuraMonitor::DeviceUpdateLEDs()
 {
     controller->BeginUpdate();
@@ -96,12 +89,12 @@ void RGBController_AuraMonitor::DeviceUpdateLEDs()
     controller->ApplyChanges();
 }
 
-void RGBController_AuraMonitor::UpdateZoneLEDs(int /*zone*/)
+void RGBController_AuraMonitor::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_AuraMonitor::UpdateSingleLED(int led)
+void RGBController_AuraMonitor::DeviceUpdateSingleLED(int led)
 {
     controller->BeginUpdate();
 

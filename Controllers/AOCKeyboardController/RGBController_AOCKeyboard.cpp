@@ -305,13 +305,6 @@ void RGBController_AOCKeyboard::SetupZones()
     SetupColors();
 }
 
-void RGBController_AOCKeyboard::ResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_AOCKeyboard::DeviceUpdateLEDs()
 {
     if(modes[active_mode].value == AOC_KEYBOARD_MODE_CUSTOM)
@@ -331,12 +324,12 @@ void RGBController_AOCKeyboard::DeviceUpdateLEDs()
     }
 }
 
-void RGBController_AOCKeyboard::UpdateZoneLEDs(int /*zone*/)
+void RGBController_AOCKeyboard::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     DeviceUpdateLEDs();
 }
 
-void RGBController_AOCKeyboard::UpdateSingleLED(int /*led*/)
+void RGBController_AOCKeyboard::DeviceUpdateSingleLED(int /*led*/)
 {
     DeviceUpdateLEDs();
 }

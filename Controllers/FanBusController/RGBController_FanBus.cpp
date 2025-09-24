@@ -69,24 +69,17 @@ void RGBController_FanBus::SetupZones()
     SetupColors();
 }
 
-void RGBController_FanBus::ResizeZone(int /*zone*/, int /*new_size*/)
-{
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
-}
-
 void RGBController_FanBus::DeviceUpdateLEDs()
 {
     controller->SetLEDs(colors);
 }
 
-void RGBController_FanBus::UpdateZoneLEDs(int /*zone*/)
+void RGBController_FanBus::DeviceUpdateZoneLEDs(int /*zone*/)
 {
     controller->SetLEDs(colors);
 }
 
-void RGBController_FanBus::UpdateSingleLED(int /*led*/)
+void RGBController_FanBus::DeviceUpdateSingleLED(int /*led*/)
 {
     controller->SetLEDs(colors);
 }
