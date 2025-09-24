@@ -20,9 +20,10 @@
 |   3:      Add brightness field to modes (Release 0.7)                 |
 |   4:      Add segments field to zones, network plugins (Release 0.9)  |
 |   5:      Zone flags, controller flags, resizable effects-only zones  |
-                (Release 1.0)                                           |
+|               (Release Candidate 1.0rc2)                              |
+|   6:      Server name, Features TBD (Release 1.0)                     |
 \*---------------------------------------------------------------------*/
-#define OPENRGB_SDK_PROTOCOL_VERSION    5
+#define OPENRGB_SDK_PROTOCOL_VERSION    6
 
 /*-----------------------------------------------------*\
 | Default Interface to bind to.                         |
