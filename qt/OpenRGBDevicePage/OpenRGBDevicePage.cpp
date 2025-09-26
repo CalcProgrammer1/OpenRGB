@@ -1012,6 +1012,8 @@ void OpenRGBDevicePage::UpdateModeUi()
                 ui->ZoneBox->addItem(tr("Mode Specific"));
                 ui->ZoneBox->blockSignals(false);
 
+                int led_index = ui->LEDBox->currentIndex();
+
                 ui->LEDBox->blockSignals(true);
                 ui->LEDBox->clear();
 
@@ -1032,8 +1034,13 @@ void OpenRGBDevicePage::UpdateModeUi()
                     ui->LEDBox->addItem(id_buf);
                 }
 
-                ui->LEDBox->setCurrentIndex(0);
-                on_LEDBox_currentIndexChanged(0);
+                if(led_index >= ui->LEDBox->count())
+                {
+                    led_index = 0;
+                }
+
+                ui->LEDBox->setCurrentIndex(led_index);
+                on_LEDBox_currentIndexChanged(led_index);
                 ui->LEDBox->setEnabled(true);
                 ui->LEDBox->blockSignals(false);
                 ui->ApplyColorsButton->setEnabled(true);
