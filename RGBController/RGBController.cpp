@@ -173,12 +173,37 @@ void RGBController::SetHidden(bool hidden)
 \*---------------------------------------------------------*/
 RGBColor RGBController::GetZoneColor(unsigned int zone, unsigned int color_index)
 {
-    return(zones[zone].colors[color_index]);
+    RGBColor color;
+
+    AccessMutex.lock_shared();
+    if((zone < zones.size()) && (color_index < zones[zone].leds_count))
+    {
+        color = zones[zone].colors[color_index];
+    }
+    else
+    {
+        color = 0;
+    }
+    AccessMutex.unlock_shared();
+
+    return(color);
 }
 
 RGBColor* RGBController::GetZoneColorsPointer(unsigned int zone)
 {
-    return(zones[zone].colors);
+    /*-----------------------------------------------------*\
+    | This function assumes the caller has locked the mutex |
+    | before calling and will unlock the mutex after        |
+    | updating the colors.                                  |
+    \*-----------------------------------------------------*/
+    if(zone < zones.size())
+    {
+        return(zones[zone].colors);
+    }
+    else
+    {
+        return(NULL);
+    }
 }
 
 std::size_t RGBController::GetZoneCount()
@@ -188,116 +213,306 @@ std::size_t RGBController::GetZoneCount()
 
 unsigned int RGBController::GetZoneFlags(unsigned int zone)
 {
-    return(zones[zone].flags);
+    unsigned int flags;
+
+    AccessMutex.lock_shared();
+    if(zone < zones.size())
+    {
+        flags = zones[zone].flags;
+    }
+    else
+    {
+        flags = 0;
+    }
+    AccessMutex.unlock_shared();
+
+    return(flags);
 }
 
 unsigned int RGBController::GetZoneLEDsCount(unsigned int zone)
 {
-    return(zones[zone].leds_count);
+    unsigned int leds_count;
+
+    AccessMutex.lock_shared();
+    if(zone < zones.size())
+    {
+        leds_count = zones[zone].leds_count;
+    }
+    else
+    {
+        leds_count = 0;
+    }
+    AccessMutex.unlock_shared();
+
+    return(leds_count);
 }
 
 unsigned int RGBController::GetZoneLEDsMax(unsigned int zone)
 {
-    return(zones[zone].leds_max);
+    unsigned int leds_max;
+
+    AccessMutex.lock_shared();
+    if(zone < zones.size())
+    {
+        leds_max = zones[zone].leds_max;
+    }
+    else
+    {
+        leds_max = 0;
+    }
+    AccessMutex.unlock_shared();
+
+    return(leds_max);
 }
 
 unsigned int RGBController::GetZoneLEDsMin(unsigned int zone)
 {
-    return(zones[zone].leds_min);
+    unsigned int leds_min;
+
+    AccessMutex.lock_shared();
+    if(zone < zones.size())
+    {
+        leds_min = zones[zone].leds_min;
+    }
+    else
+    {
+        leds_min = 0;
+    }
+    AccessMutex.unlock_shared();
+
+    return(leds_min);
 }
 
 bool RGBController::GetZoneMatrixMapAvailable(unsigned int zone)
 {
-    return(zones[zone].matrix_map != NULL);
+    bool available;
+
+    AccessMutex.lock_shared();
+    if(zone < zones.size())
+    {
+        available = (zones[zone].matrix_map != NULL);
+    }
+    else
+    {
+        available = false;
+    }
+    AccessMutex.unlock_shared();
+
+    return(available);
 }
 
 unsigned int RGBController::GetZoneMatrixMapHeight(unsigned int zone)
 {
-    if(zones[zone].matrix_map != NULL)
+    unsigned int height;
+
+    AccessMutex.lock_shared();
+    if((zone < zones.size()) && (zones[zone].matrix_map != NULL))
     {
-        return(zones[zone].matrix_map->height);
+        height = zones[zone].matrix_map->height;
     }
     else
     {
-        return(0);
+        height = 0;
     }
+    AccessMutex.unlock_shared();
+
+    return(height);
 }
 
 const unsigned int* RGBController::GetZoneMatrixMap(unsigned int zone)
 {
-    if(zones[zone].matrix_map != NULL)
+    unsigned int* map;
+
+    AccessMutex.lock_shared();
+    if((zone < zones.size()) && (zones[zone].matrix_map != NULL))
     {
-        return(zones[zone].matrix_map->map);
+        map = zones[zone].matrix_map->map;
     }
     else
     {
-        return(NULL);
+        map = 0;
     }
+    AccessMutex.unlock_shared();
+
+    return(map);
 }
 
 unsigned int RGBController::GetZoneMatrixMapWidth(unsigned int zone)
 {
-    if(zones[zone].matrix_map != NULL)
+    unsigned int width;
+
+    AccessMutex.lock_shared();
+    if((zone < zones.size()) && (zones[zone].matrix_map != NULL))
     {
-        return(zones[zone].matrix_map->width);
+        width = zones[zone].matrix_map->width;
     }
     else
     {
-        return(0);
+        width = 0;
     }
+    AccessMutex.unlock_shared();
+
+    return(width);
 }
 
 std::string RGBController::GetZoneName(unsigned int zone)
 {
-    return(zones[zone].name);
+    std::string name;
+
+    AccessMutex.lock_shared();
+    if(zone < zones.size())
+    {
+        name = zones[zone].name;
+    }
+    else
+    {
+        name = "";
+    }
+    AccessMutex.unlock_shared();
+
+    return(name);
 }
 
 std::size_t RGBController::GetZoneSegmentCount(unsigned int zone)
 {
-    return(zones[zone].segments.size());
+    std::size_t count;
+
+    AccessMutex.lock_shared();
+    if(zone < zones.size())
+    {
+        count = zones[zone].segments.size();
+    }
+    else
+    {
+        count = 0;
+    }
+    AccessMutex.unlock_shared();
+
+    return(count);
 }
 
 unsigned int RGBController::GetZoneSegmentLEDsCount(unsigned int zone, unsigned int segment)
 {
-    return(zones[zone].segments[segment].leds_count);
+    unsigned int leds_count;
+
+    AccessMutex.lock_shared();
+    if((zone < zones.size()) && (segment < zones[zone].segments.size()))
+    {
+        leds_count = zones[zone].segments[segment].leds_count;
+    }
+    else
+    {
+        leds_count = 0;
+    }
+    AccessMutex.unlock_shared();
+
+    return(leds_count);
 }
 
 std::string RGBController::GetZoneSegmentName(unsigned int zone, unsigned int segment)
 {
-    return(zones[zone].segments[segment].name);
+    std::string name;
+
+    AccessMutex.lock_shared();
+    if((zone < zones.size()) && (segment < zones[zone].segments.size()))
+    {
+        name = zones[zone].segments[segment].name;
+    }
+    else
+    {
+        name = "";
+    }
+    AccessMutex.unlock_shared();
+
+    return(name);
 }
 
 unsigned int RGBController::GetZoneSegmentStartIndex(unsigned int zone, unsigned int segment)
 {
-    return(zones[zone].segments[segment].start_idx);
+    unsigned int start_idx;
+
+    AccessMutex.lock_shared();
+    if((zone < zones.size()) && (segment < zones[zone].segments.size()))
+    {
+        start_idx = zones[zone].segments[segment].start_idx;
+    }
+    else
+    {
+        start_idx = 0;
+    }
+    AccessMutex.unlock_shared();
+
+    return(start_idx);
 }
 
 unsigned int RGBController::GetZoneSegmentType(unsigned int zone, unsigned int segment)
 {
-    return(zones[zone].segments[segment].type);
+    zone_type type;
+
+    AccessMutex.lock_shared();
+    if((zone < zones.size()) && (segment < zones[zone].segments.size()))
+    {
+        type = zones[zone].segments[segment].type;
+    }
+    else
+    {
+        type = 0;
+    }
+    AccessMutex.unlock_shared();
+
+    return(type);
 }
 
 unsigned int RGBController::GetZoneStartIndex(unsigned int zone)
 {
-    return(zones[zone].start_idx);
+    unsigned int start_idx;
+
+    AccessMutex.lock_shared();
+    if(zone < zones.size())
+    {
+        start_idx = zones[zone].start_idx;
+    }
+    else
+    {
+        start_idx = 0;
+    }
+    AccessMutex.unlock_shared();
+
+    return(start_idx);
 }
 
 zone_type RGBController::GetZoneType(unsigned int zone)
 {
-    return(zones[zone].type);
+    zone_type type;
+
+    AccessMutex.lock_shared();
+    if(zone < zones.size())
+    {
+        type = zones[zone].type;
+    }
+    else
+    {
+        type = 0;
+    }
+    AccessMutex.unlock_shared();
+
+    return(type);
 }
 
 unsigned int RGBController::GetLEDsInZone(unsigned int zone)
 {
-    unsigned int leds_count = zones[zone].leds_count;
+    unsigned int leds_count;
 
-    if(zones[zone].flags & ZONE_FLAG_RESIZE_EFFECTS_ONLY)
+    AccessMutex.lock_shared();
+    if(zone < zones.size())
     {
-        if(leds_count > 1)
-        {
-            leds_count = 1;
-        }
+        leds_count = LEDsInZone(zone);
     }
+    else
+    {
+        leds_count = 0;
+    }
+    AccessMutex.unlock_shared();
 
     return(leds_count);
 }
@@ -312,52 +527,182 @@ std::size_t RGBController::GetModeCount()
 
 unsigned int RGBController::GetModeBrightness(unsigned int mode)
 {
-    return(modes[mode].brightness);
+    unsigned int brightness;
+
+    AccessMutex.lock_shared();
+    if(mode < modes.size())
+    {
+        brightness = modes[mode].brightness;
+    }
+    else
+    {
+        brightness = 0;
+    }
+    AccessMutex.unlock_shared();
+
+    return(brightness);
 }
 
 unsigned int RGBController::GetModeBrightnessMax(unsigned int mode)
 {
-    return(modes[mode].brightness_max);
+    unsigned int brightness_max;
+
+    AccessMutex.lock_shared();
+    if(mode < modes.size())
+    {
+        brightness_max = modes[mode].brightness_max;
+    }
+    else
+    {
+        brightness_max = 0;
+    }
+    AccessMutex.unlock_shared();
+
+    return(brightness_max);
 }
 
 unsigned int RGBController::GetModeBrightnessMin(unsigned int mode)
 {
-    return(modes[mode].brightness_min);
+    unsigned int brightness_min;
+
+    AccessMutex.lock_shared();
+    if(mode < modes.size())
+    {
+        brightness_min = modes[mode].brightness_min;
+    }
+    else
+    {
+        brightness_min = 0;
+    }
+    AccessMutex.unlock_shared();
+
+    return(brightness_min);
 }
 
 RGBColor RGBController::GetModeColor(unsigned int mode, unsigned int color_index)
 {
-    return(modes[mode].colors[color_index]);
+    RGBColor color;
+
+    AccessMutex.lock_shared();
+    if((mode < modes.size()) && (color_index < modes[mode].colors.size()))
+    {
+        color = modes[mode].colors[color_index];
+    }
+    else
+    {
+        color = 0;
+    }
+    AccessMutex.unlock_shared();
+
+    return(color);
 }
 
 unsigned int RGBController::GetModeColorMode(unsigned int mode)
 {
-    return(modes[mode].color_mode);
+    unsigned int color_mode;
+
+    AccessMutex.lock_shared();
+    if(mode < modes.size())
+    {
+        color_mode = modes[mode].color_mode;
+    }
+    else
+    {
+        color_mode = 0;
+    }
+    AccessMutex.unlock_shared();
+
+    return(color_mode);
 }
 
 std::size_t RGBController::GetModeColorsCount(unsigned int mode)
 {
-    return(modes[mode].colors.size());
+    std::size_t count;
+
+    AccessMutex.lock_shared();
+    if(mode < modes.size())
+    {
+        count = modes[mode].colors.size();
+    }
+    else
+    {
+        count = 0;
+    }
+    AccessMutex.unlock_shared();
+
+    return(count);
 }
 
 unsigned int RGBController::GetModeColorsMax(unsigned int mode)
 {
-    return(modes[mode].colors_max);
+    unsigned int colors_max;
+
+    AccessMutex.lock_shared();
+    if(mode < modes.size())
+    {
+        colors_max = modes[mode].colors_max;
+    }
+    else
+    {
+        colors_max = 0;
+    }
+    AccessMutex.unlock_shared();
+
+    return(colors_max);
 }
 
 unsigned int RGBController::GetModeColorsMin(unsigned int mode)
 {
-    return(modes[mode].colors_min);
+    unsigned int colors_min;
+
+    AccessMutex.lock_shared();
+    if(mode < modes.size())
+    {
+        colors_min = modes[mode].colors_min;
+    }
+    else
+    {
+        colors_min = 0;
+    }
+    AccessMutex.unlock_shared();
+
+    return(colors_min);
 }
 
 unsigned int RGBController::GetModeDirection(unsigned int mode)
 {
-    return(modes[mode].direction);
+    unsigned int direction;
+
+    AccessMutex.lock_shared();
+    if(mode < modes.size())
+    {
+        direction = modes[mode].direction;
+    }
+    else
+    {
+        direction = 0;
+    }
+    AccessMutex.unlock_shared();
+
+    return(direction);
 }
 
 unsigned int RGBController::GetModeFlags(unsigned int mode)
 {
-    return(modes[mode].flags);
+    unsigned int flags;
+
+    AccessMutex.lock_shared();
+    if(mode < modes.size())
+    {
+        flags = modes[mode].flags;
+    }
+    else
+    {
+        flags = 0;
+    }
+    AccessMutex.unlock_shared();
+
+    return(flags);
 }
 
 std::string RGBController::GetModeName(unsigned int mode)
@@ -367,52 +712,134 @@ std::string RGBController::GetModeName(unsigned int mode)
 
 unsigned int RGBController::GetModeSpeed(unsigned int mode)
 {
-    return(modes[mode].speed);
+    unsigned int speed;
+
+    AccessMutex.lock_shared();
+    if(mode < modes.size())
+    {
+        speed = modes[mode].speed;
+    }
+    else
+    {
+        speed = 0;
+    }
+    AccessMutex.unlock_shared();
+
+    return(speed);
 }
 
 unsigned int RGBController::GetModeSpeedMax(unsigned int mode)
 {
-    return(modes[mode].speed_max);
+    unsigned int speed_max;
+
+    AccessMutex.lock_shared();
+    if(mode < modes.size())
+    {
+        speed_max = modes[mode].speed_max;
+    }
+    else
+    {
+        speed_max = 0;
+    }
+    AccessMutex.unlock_shared();
+
+    return(speed_max);
 }
 
 unsigned int RGBController::GetModeSpeedMin(unsigned int mode)
 {
-    return(modes[mode].speed_min);
+    unsigned int speed_min;
+
+    AccessMutex.lock_shared();
+    if(mode < modes.size())
+    {
+        speed_min = modes[mode].speed_min;
+    }
+    else
+    {
+        speed_min = 0;
+    }
+    AccessMutex.unlock_shared();
+
+    return(speed_min);
 }
 
 int RGBController::GetModeValue(unsigned int mode)
 {
-    return(modes[mode].value);
+    int value;
+
+    AccessMutex.lock_shared();
+    if(mode < modes.size())
+    {
+        value = modes[mode].value;
+    }
+    else
+    {
+        value = 0;
+    }
+    AccessMutex.unlock_shared();
+
+    return(value);
 }
 
 void RGBController::SetModeBrightness(unsigned int mode, unsigned int brightness)
 {
-    modes[mode].brightness = brightness;
+    AccessMutex.lock();
+    if((mode < modes.size()) && (brightness >= modes[mode].brightness_min) && (brightness <= modes[mode].brightness_max))
+    {
+        modes[mode].brightness = brightness;
+    }
+    AccessMutex.unlock();
 }
 
 void RGBController::SetModeColor(unsigned int mode, unsigned int color_index, RGBColor color)
 {
-    modes[mode].colors[color_index] = color;
+    AccessMutex.lock();
+    if((mode < modes.size()) && (color_index < modes[mode].colors.size()))
+    {
+        modes[mode].colors[color_index] = color;
+    }
+    AccessMutex.unlock();
 }
 
 void RGBController::SetModeColorMode(unsigned int mode, unsigned int color_mode)
 {
-    modes[mode].color_mode = color_mode;
+    AccessMutex.lock();
+    if(mode < modes.size())
+    {
+        modes[mode].color_mode = color_mode;
+    }
+    AccessMutex.unlock();
 }
 
 void RGBController::SetModeColorsCount(unsigned int mode, std::size_t count)
 {
-    modes[mode].colors.resize(count);
+    AccessMutex.lock();
+    if((mode < modes.size()) && (count >= modes[mode].colors_min) && (count <= modes[mode].colors_max))
+    {
+        modes[mode].colors.resize(count);
+    }
+    AccessMutex.unlock();
 }
 
 void RGBController::SetModeDirection(unsigned int mode, unsigned int direction)
 {
-    modes[mode].direction = direction;
+    AccessMutex.lock();
+    if(mode < modes.size())
+    {
+        modes[mode].direction = direction;
+    }
+    AccessMutex.unlock();
 }
 
 void RGBController::SetModeSpeed(unsigned int mode, unsigned int speed)
 {
-    modes[mode].speed = speed;
+    AccessMutex.lock();
+    if((mode < modes.size()) && (speed >= modes[mode].speed_min) && (speed <= modes[mode].speed_max))
+    {
+        modes[mode].speed = speed;
+    }
+    AccessMutex.unlock();
 }
 
 int RGBController::GetActiveMode()
@@ -472,25 +899,60 @@ std::size_t RGBController::GetLEDCount()
 
 std::string RGBController::GetLEDName(unsigned int led)
 {
-    return(leds[led].name);
+    std::string name;
+
+    AccessMutex.lock_shared();
+    if(led < leds.size())
+    {
+        name = leds[led].name;
+    }
+    else
+    {
+        name = "";
+    }
+    AccessMutex.unlock_shared();
+
+    return(name);
 }
 
 unsigned int RGBController::GetLEDValue(unsigned int led)
 {
-    return(leds[led].value);
+    unsigned int value;
+
+    AccessMutex.lock_shared();
+    if(led < leds.size())
+    {
+        value = leds[led].value;
+    }
+    else
+    {
+        value = 0;
+    }
+    AccessMutex.unlock_shared();
+
+    return(value);
 }
 
 std::string RGBController::GetLEDDisplayName(unsigned int led)
 {
-    if(led < led_alt_names.size())
-    {
-        if(led_alt_names[led] != "")
-        {
-            return(led_alt_names[led]);
-        }
-    }
+    std::string name;
 
-    return(leds[led].name);
+    AccessMutex.lock_shared();
+    if((led < led_alt_names.size()) && (led_alt_names[led] != ""))
+    {
+        name = led_alt_names[led];
+    }
+    else if(led < leds.size())
+    {
+        name = leds[led].name;
+    }
+    else
+    {
+        name = "";
+    }
+    AccessMutex.unlock_shared();
+
+    return(name);
 }
 
 /*---------------------------------------------------------*\
@@ -498,14 +960,20 @@ std::string RGBController::GetLEDDisplayName(unsigned int led)
 \*---------------------------------------------------------*/
 RGBColor RGBController::GetColor(unsigned int led)
 {
+    RGBColor color;
+
+    AccessMutex.lock_shared();
     if(led < colors.size())
     {
-        return(colors[led]);
+        color = colors[led];
     }
     else
     {
-        return(0x00000000);
+        color = 0;
     }
+    AccessMutex.unlock_shared();
+
+    return(color);
 }
 
 RGBColor* RGBController::GetColorsPointer()
@@ -515,10 +983,12 @@ RGBColor* RGBController::GetColorsPointer()
 
 void RGBController::SetColor(unsigned int led, RGBColor color)
 {
+    AccessMutex.lock();
     if(led < colors.size())
     {
         colors[led] = color;
     }
+    AccessMutex.unlock();
 }
 
 void RGBController::SetAllColors(RGBColor color)
@@ -531,10 +1001,12 @@ void RGBController::SetAllColors(RGBColor color)
 
 void RGBController::SetAllZoneColors(int zone, RGBColor color)
 {
-    for (std::size_t color_idx = 0; color_idx < GetLEDsInZone(zone); color_idx++)
+    AccessMutex.lock();
+    for(std::size_t color_idx = 0; color_idx < LEDsInZone(zone); color_idx++)
     {
         zones[zone].colors[color_idx] = color;
     }
+    AccessMutex.unlock();
 }
 
 /*---------------------------------------------------------*\
@@ -542,8 +1014,13 @@ void RGBController::SetAllZoneColors(int zone, RGBColor color)
 \*---------------------------------------------------------*/
 unsigned char * RGBController::GetDeviceDescription(unsigned int protocol_version)
 {
-    unsigned int data_ptr = 0;
-    unsigned int data_size = 0;
+    /*-----------------------------------------------------*\
+    | Lock access mutex                                     |
+    \*-----------------------------------------------------*/
+    AccessMutex.lock_shared();
+
+    unsigned int data_ptr           = 0;
+    unsigned int data_size          = 0;
 
     /*-----------------------------------------------------*\
     | Calculate data size                                   |
@@ -1171,11 +1648,21 @@ unsigned char * RGBController::GetDeviceDescription(unsigned int protocol_versio
     delete[] zone_matrix_len;
     delete[] mode_num_colors;
 
+    /*-----------------------------------------------------*\
+    | Unlock access mutex                                   |
+    \*-----------------------------------------------------*/
+    AccessMutex.unlock_shared();
+
     return(data_buf);
 }
 
 void RGBController::ReadDeviceDescription(unsigned char* data_buf, unsigned int protocol_version)
 {
+    /*-----------------------------------------------------*\
+    | Lock access mutex                                     |
+    \*-----------------------------------------------------*/
+    AccessMutex.lock();
+
     unsigned int data_ptr = 0;
 
     data_ptr += sizeof(unsigned int);
@@ -1632,6 +2119,11 @@ void RGBController::ReadDeviceDescription(unsigned char* data_buf, unsigned int 
     }
 
     /*-----------------------------------------------------*\
+    | Unlock access mutex                                   |
+    \*-----------------------------------------------------*/
+    AccessMutex.unlock();
+
+    /*-----------------------------------------------------*\
     | Setup colors                                          |
     \*-----------------------------------------------------*/
     SetupColors();
@@ -1639,8 +2131,13 @@ void RGBController::ReadDeviceDescription(unsigned char* data_buf, unsigned int 
 
 unsigned char * RGBController::GetModeDescription(int mode, unsigned int protocol_version)
 {
-    unsigned int data_ptr = 0;
-    unsigned int data_size = 0;
+    /*-----------------------------------------------------*\
+    | Lock access mutex                                     |
+    \*-----------------------------------------------------*/
+    AccessMutex.lock_shared();
+
+    unsigned int data_ptr   = 0;
+    unsigned int data_size  = 0;
 
     unsigned short mode_name_len;
     unsigned short mode_num_colors;
@@ -1797,11 +2294,21 @@ unsigned char * RGBController::GetModeDescription(int mode, unsigned int protoco
         data_ptr += sizeof(modes[mode].colors[color_index]);
     }
 
+    /*-----------------------------------------------------*\
+    | Unlock access mutex                                   |
+    \*-----------------------------------------------------*/
+    AccessMutex.unlock_shared();
+
     return(data_buf);
 }
 
 void RGBController::SetModeDescription(unsigned char* data_buf, unsigned int protocol_version)
 {
+    /*-----------------------------------------------------*\
+    | Lock access mutex                                     |
+    \*-----------------------------------------------------*/
+    AccessMutex.lock();
+
     int mode_idx;
     unsigned int data_ptr = sizeof(unsigned int);
 
@@ -1816,6 +2323,10 @@ void RGBController::SetModeDescription(unsigned char* data_buf, unsigned int pro
     \*-----------------------------------------------------*/
     if(((size_t) mode_idx) >  modes.size())
     {
+        /*-------------------------------------------------*\
+        | Unlock access mutex                               |
+        \*-------------------------------------------------*/
+        AccessMutex.unlock_shared();
         return;
     }
 
@@ -1937,12 +2448,22 @@ void RGBController::SetModeDescription(unsigned char* data_buf, unsigned int pro
 
         new_mode->colors.push_back(new_color);
     }
+
+    /*-----------------------------------------------------*\
+    | Unlock access mutex                                   |
+    \*-----------------------------------------------------*/
+    AccessMutex.unlock();
 }
 
 unsigned char * RGBController::GetColorDescription()
 {
-    unsigned int data_ptr = 0;
-    unsigned int data_size = 0;
+    /*-----------------------------------------------------*\
+    | Lock access mutex                                     |
+    \*-----------------------------------------------------*/
+    AccessMutex.lock_shared();
+
+    unsigned int data_ptr   = 0;
+    unsigned int data_size  = 0;
 
     unsigned short num_colors = (unsigned short)colors.size();
 
@@ -1982,11 +2503,21 @@ unsigned char * RGBController::GetColorDescription()
         data_ptr += sizeof(colors[color_index]);
     }
 
+    /*-----------------------------------------------------*\
+    | Unlock access mutex                                   |
+    \*-----------------------------------------------------*/
+    AccessMutex.unlock_shared();
+
     return(data_buf);
 }
 
 void RGBController::SetColorDescription(unsigned char* data_buf)
 {
+    /*-----------------------------------------------------*\
+    | Lock access mutex                                     |
+    \*-----------------------------------------------------*/
+    AccessMutex.lock();
+
     unsigned int data_ptr = sizeof(unsigned int);
 
     /*-----------------------------------------------------*\
@@ -2001,6 +2532,10 @@ void RGBController::SetColorDescription(unsigned char* data_buf)
     \*-----------------------------------------------------*/
     if(((size_t)num_colors) > colors.size())
     {
+        /*-------------------------------------------------*\
+        | Unlock access mutex                               |
+        \*-------------------------------------------------*/
+        AccessMutex.unlock();
         return;
     }
 
@@ -2019,12 +2554,22 @@ void RGBController::SetColorDescription(unsigned char* data_buf)
 
         colors[color_index] = new_color;
     }
+
+    /*-----------------------------------------------------*\
+    | Unlock access mutex                                   |
+    \*-----------------------------------------------------*/
+    AccessMutex.unlock();
 }
 
 unsigned char * RGBController::GetZoneColorDescription(int zone)
 {
-    unsigned int data_ptr = 0;
-    unsigned int data_size = 0;
+    /*-----------------------------------------------------*\
+    | Lock access mutex                                     |
+    \*-----------------------------------------------------*/
+    AccessMutex.lock_shared();
+
+    unsigned int data_ptr   = 0;
+    unsigned int data_size  = 0;
 
     unsigned short num_colors = zones[zone].leds_count;
 
@@ -2071,11 +2616,21 @@ unsigned char * RGBController::GetZoneColorDescription(int zone)
         data_ptr += sizeof(zones[zone].colors[color_index]);
     }
 
+    /*-----------------------------------------------------*\
+    | Unlock access mutex                                   |
+    \*-----------------------------------------------------*/
+    AccessMutex.unlock_shared();
+
     return(data_buf);
 }
 
 void RGBController::SetZoneColorDescription(unsigned char* data_buf)
 {
+    /*-----------------------------------------------------*\
+    | Lock access mutex                                     |
+    \*-----------------------------------------------------*/
+    AccessMutex.lock();
+
     unsigned int data_ptr = sizeof(unsigned int);
     unsigned int zone_idx;
 
@@ -2090,6 +2645,10 @@ void RGBController::SetZoneColorDescription(unsigned char* data_buf)
     \*-----------------------------------------------------*/
     if(((size_t)zone_idx) > zones.size())
     {
+        /*-------------------------------------------------*\
+        | Unlock access mutex                               |
+        \*-------------------------------------------------*/
+        AccessMutex.unlock();
         return;
     }
 
@@ -2115,10 +2674,20 @@ void RGBController::SetZoneColorDescription(unsigned char* data_buf)
 
         zones[zone_idx].colors[color_index] = new_color;
     }
+
+    /*-----------------------------------------------------*\
+    | Unlock access mutex                                   |
+    \*-----------------------------------------------------*/
+    AccessMutex.unlock();
 }
 
 unsigned char * RGBController::GetSingleLEDColorDescription(int led)
 {
+    /*-----------------------------------------------------*\
+    | Lock access mutex                                     |
+    \*-----------------------------------------------------*/
+    AccessMutex.lock_shared();
+
     /*-----------------------------------------------------*\
     | Fixed size descrption:                                |
     |       int:      LED index                             |
@@ -2136,11 +2705,21 @@ unsigned char * RGBController::GetSingleLEDColorDescription(int led)
     \*-----------------------------------------------------*/
     memcpy(&data_buf[sizeof(led)], &colors[led], sizeof(RGBColor));
 
+    /*-----------------------------------------------------*\
+    | Unlock access mutex                                   |
+    \*-----------------------------------------------------*/
+    AccessMutex.unlock_shared();
+
     return(data_buf);
 }
 
 void RGBController::SetSingleLEDColorDescription(unsigned char* data_buf)
 {
+    /*-----------------------------------------------------*\
+    | Lock access mutex                                     |
+    \*-----------------------------------------------------*/
+    AccessMutex.lock();
+
     /*-----------------------------------------------------*\
     | Fixed size descrption:                                |
     |       int:      LED index                             |
@@ -2158,6 +2737,10 @@ void RGBController::SetSingleLEDColorDescription(unsigned char* data_buf)
     \*-----------------------------------------------------*/
     if(((size_t)led_idx) > leds.size())
     {
+        /*-------------------------------------------------*\
+        | Unlock access mutex                               |
+        \*-------------------------------------------------*/
+        AccessMutex.unlock();
         return;
     }
 
@@ -2165,12 +2748,22 @@ void RGBController::SetSingleLEDColorDescription(unsigned char* data_buf)
     | Copy in LED color                                     |
     \*-----------------------------------------------------*/
     memcpy(&colors[led_idx], &data_buf[sizeof(led_idx)], sizeof(RGBColor));
+
+    /*-----------------------------------------------------*\
+    | Unlock access mutex                                   |
+    \*-----------------------------------------------------*/
+    AccessMutex.unlock();
 }
 
 unsigned char * RGBController::GetSegmentDescription(int zone, segment new_segment)
 {
     unsigned int data_ptr = 0;
     unsigned int data_size = 0;
+
+    /*-----------------------------------------------------*\
+    | Lock access mutex                                     |
+    \*-----------------------------------------------------*/
+    AccessMutex.lock_shared();
 
     /*-----------------------------------------------------*\
     | Length of data size                                   |
@@ -2245,6 +2838,11 @@ unsigned char * RGBController::GetSegmentDescription(int zone, segment new_segme
     memcpy(&data_buf[data_ptr], &new_segment.leds_count, sizeof(new_segment.leds_count));
     data_ptr += sizeof(new_segment.leds_count);
 
+    /*-----------------------------------------------------*\
+    | Unlock access mutex                                   |
+    \*-----------------------------------------------------*/
+    AccessMutex.unlock_shared();
+
     return(data_buf);
 }
 
@@ -2314,12 +2912,15 @@ void RGBController::SetSegmentDescription(unsigned char* data_buf)
 \*---------------------------------------------------------*/
 void RGBController::RegisterUpdateCallback(RGBControllerCallback new_callback, void * new_callback_arg)
 {
+    UpdateMutex.lock();
     UpdateCallbacks.push_back(new_callback);
     UpdateCallbackArgs.push_back(new_callback_arg);
+    UpdateMutex.unlock();
 }
 
 void RGBController::UnregisterUpdateCallback(void * callback_arg)
 {
+    UpdateMutex.lock();
     for(unsigned int callback_idx = 0; callback_idx < UpdateCallbackArgs.size(); callback_idx++ )
     {
         if(UpdateCallbackArgs[callback_idx] == callback_arg)
@@ -2330,12 +2931,15 @@ void RGBController::UnregisterUpdateCallback(void * callback_arg)
             break;
         }
     }
+    UpdateMutex.unlock();
 }
 
 void RGBController::ClearCallbacks()
 {
+    UpdateMutex.lock();
     UpdateCallbacks.clear();
     UpdateCallbackArgs.clear();
+    UpdateMutex.unlock();
 }
 
 void RGBController::SignalUpdate(unsigned int update_reason)
@@ -2365,12 +2969,16 @@ void RGBController::UpdateLEDs()
 
 void RGBController::UpdateZoneLEDs(int zone)
 {
+    AccessMutex.lock_shared();
     DeviceUpdateZoneLEDs(zone);
+    AccessMutex.unlock_shared();
 }
 
 void RGBController::UpdateSingleLED(int led)
 {
+    AccessMutex.lock_shared();
     DeviceUpdateSingleLED(led);
+    AccessMutex.unlock_shared();
 }
 
 void RGBController::UpdateMode()
@@ -2382,7 +2990,9 @@ void RGBController::UpdateMode()
 
 void RGBController::SaveMode()
 {
+    AccessMutex.lock_shared();
     DeviceSaveMode();
+    AccessMutex.unlock_shared();
 
     SignalUpdate(RGBCONTROLLER_UPDATE_REASON_SAVEMODE);
 }
@@ -2398,26 +3008,34 @@ void RGBController::DeviceCallThreadFunction()
         {
             if(flags & CONTROLLER_FLAG_RESET_BEFORE_UPDATE)
             {
+                AccessMutex.lock_shared();
                 CallFlag_UpdateMode = false;
                 DeviceUpdateMode();
+                AccessMutex.unlock_shared();
             }
             else
             {
+                AccessMutex.lock_shared();
                 DeviceUpdateMode();
                 CallFlag_UpdateMode = false;
+                AccessMutex.unlock_shared();
             }
         }
         if(CallFlag_UpdateLEDs.load() == true)
         {
             if(flags & CONTROLLER_FLAG_RESET_BEFORE_UPDATE)
             {
+                AccessMutex.lock_shared();
                 CallFlag_UpdateLEDs = false;
                 DeviceUpdateLEDs();
+                AccessMutex.unlock_shared();
             }
             else
             {
+                AccessMutex.lock_shared();
                 DeviceUpdateLEDs();
                 CallFlag_UpdateLEDs = false;
+                AccessMutex.unlock_shared();
             }
         }
         else
@@ -2429,21 +3047,27 @@ void RGBController::DeviceCallThreadFunction()
 
 void RGBController::ClearSegments(int zone)
 {
+    AccessMutex.lock();
     zones[zone].segments.clear();
+    AccessMutex.unlock();
 
     SignalUpdate(RGBCONTROLLER_UPDATE_REASON_CLEARSEGMENTS);
 }
 
 void RGBController::AddSegment(int zone, segment new_segment)
 {
+    AccessMutex.lock();
     zones[zone].segments.push_back(new_segment);
+    AccessMutex.unlock();
 
     SignalUpdate(RGBCONTROLLER_UPDATE_REASON_ADDSEGMENT);
 }
 
 void RGBController::ResizeZone(int zone, int new_size)
 {
+    AccessMutex.lock();
     DeviceResizeZone(zone, new_size);
+    AccessMutex.unlock();
 
     SignalUpdate(RGBCONTROLLER_UPDATE_REASON_RESIZEZONE);
 }
@@ -2451,6 +3075,23 @@ void RGBController::ResizeZone(int zone, int new_size)
 /*---------------------------------------------------------*\
 | Functions not part of interface for internal use only     |
 \*---------------------------------------------------------*/
+unsigned int RGBController::LEDsInZone(unsigned int zone)
+{
+    unsigned int leds_count;
+
+    leds_count = zones[zone].leds_count;
+
+    if(zones[zone].flags & ZONE_FLAG_RESIZE_EFFECTS_ONLY)
+    {
+        if(leds_count > 1)
+        {
+            leds_count = 1;
+        }
+    }
+
+    return(leds_count);
+}
+
 void RGBController::SetupColors()
 {
     unsigned int total_led_count;
@@ -2463,7 +3104,7 @@ void RGBController::SetupColors()
 
     for(std::size_t zone_idx = 0; zone_idx < zones.size(); zone_idx++)
     {
-        total_led_count += GetLEDsInZone((unsigned int)zone_idx);
+        total_led_count += LEDsInZone((unsigned int)zone_idx);
     }
 
     /*-----------------------------------------------------*\
@@ -2479,7 +3120,7 @@ void RGBController::SetupColors()
     for(std::size_t zone_idx = 0; zone_idx < zones.size(); zone_idx++)
     {
         zones[zone_idx].start_idx   = total_led_count;
-        zone_led_count              = GetLEDsInZone((unsigned int)zone_idx);
+        zone_led_count              = LEDsInZone((unsigned int)zone_idx);
 
         if((colors.size() > 0) && (zone_led_count > 0))
         {
