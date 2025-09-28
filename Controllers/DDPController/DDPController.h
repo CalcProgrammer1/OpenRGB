@@ -4,7 +4,7 @@
 |   Driver for DDP protocol devices                         |
 |                                                           |
 |   This file is part of the OpenRGB project                |
-|   SPDX-License-Identifier: GPL-2.0-only                   |
+|   SPDX-License-Identifier: GPL-2.0-or-later               |
 \*---------------------------------------------------------*/
 
 #pragma once
@@ -70,14 +70,14 @@ public:
 
     void                UpdateLEDs(const std::vector<unsigned int>& colors);
     void                SetKeepaliveTime(unsigned int time_ms);
-    
+
 private:
     std::vector<DDPDevice>  devices;
     std::vector<net_port*>  udp_ports;
     DDPEndpoint*            unique_endpoints;
     unsigned int            num_endpoints;
     unsigned char           sequence_number;
-    
+
 
     std::atomic<bool>       keepalive_thread_run;
     std::thread             keepalive_thread;
@@ -85,13 +85,13 @@ private:
     std::chrono::steady_clock::time_point last_update_time;
     std::vector<unsigned int> last_colors;
     unsigned int            keepalive_time_ms;
-    
+
     bool                    InitializeNetPorts();
     void                    CloseNetPorts();
     int                     GetPortIndex(const DDPDevice& device);
-    bool                    SendDDPPacket(const DDPDevice& device, 
-                                         const unsigned char* data, 
-                                         unsigned short length, 
+    bool                    SendDDPPacket(const DDPDevice& device,
+                                         const unsigned char* data,
+                                         unsigned short length,
                                          unsigned int offset = 0);
     void                    KeepaliveThreadFunction();
 };

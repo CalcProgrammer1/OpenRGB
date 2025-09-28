@@ -4,7 +4,7 @@
 |   Detector for XPG Spectrix S40G (Windows)                |
 |                                                           |
 |   This file is part of the OpenRGB project                |
-|   SPDX-License-Identifier: GPL-2.0-only                   |
+|   SPDX-License-Identifier: GPL-2.0-or-later               |
 \*---------------------------------------------------------*/
 
 #include <windows.h>

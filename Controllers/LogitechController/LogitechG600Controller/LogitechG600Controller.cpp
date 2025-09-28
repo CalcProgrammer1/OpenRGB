@@ -6,7 +6,7 @@
 |   Austin B     (austinleroy)                11 Sep 2025   |
 |                                                           |
 |   This file is part of the OpenRGB project                |
-|   SPDX-License-Identifier: GPL-2.0-only                   |
+|   SPDX-License-Identifier: GPL-2.0-or-later               |
 \*---------------------------------------------------------*/
 
 #include <cstring>
@@ -54,7 +54,7 @@ void LogitechG600Controller::SetMode
     )
 {
     unsigned char usb_buf[8];
-    
+
     memset(usb_buf, 0x00, sizeof(usb_buf));
 
     usb_buf[0x00] = 0xF1;

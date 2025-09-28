@@ -5,7 +5,7 @@
 |   classes for managing Manually Added devices             |
 |                                                           |
 |   This file is part of the OpenRGB project                |
-|   SPDX-License-Identifier: GPL-2.0-only                   |
+|   SPDX-License-Identifier: GPL-2.0-or-later               |
 \*---------------------------------------------------------*/
 
 #pragma once
@@ -41,7 +41,7 @@ class ManualDevicesTypeManager
         std::vector<ManualDeviceTypeBlock> getRegisteredTypes();
         std::vector<std::string> getRegisteredTypeNames();
         BaseManualDeviceEntry* spawnByTypeName(const std::string& typeName, const json& data);
-		
+
 	private:
 		static ManualDevicesTypeManager* instance;
         std::vector<ManualDeviceTypeBlock> types;

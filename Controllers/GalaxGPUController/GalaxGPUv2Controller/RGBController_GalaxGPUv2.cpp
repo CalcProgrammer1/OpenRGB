@@ -6,7 +6,7 @@
 |   Daniel Stuart  (daniel.stuart14)            26 may 2025 |
 |                                                           |
 |   This file is part of the OpenRGB project                |
-|   SPDX-License-Identifier: GPL-2.0-only                   |
+|   SPDX-License-Identifier: GPL-2.0-or-later               |
 \*---------------------------------------------------------*/
 
 #include "RGBController_GalaxGPUv2.h"

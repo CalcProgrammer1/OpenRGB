@@ -4,7 +4,7 @@
 |   Driver for Philips amBX Gaming lights                   |
 |                                                           |
 |   This file is part of the OpenRGB project                |
-|   SPDX-License-Identifier: GPL-2.0-only                   |
+|   SPDX-License-Identifier: GPL-2.0-or-later               |
 \*---------------------------------------------------------*/
 
 #pragma once
@@ -41,7 +41,7 @@ public:
 
     std::string     GetDeviceLocation();
     std::string     GetSerialString();
-    
+
     bool            IsInitialized();
     void            SetLEDColor(unsigned int led, RGBColor color);
     void            SetLEDColors(unsigned int* leds, RGBColor* colors, unsigned int count);
@@ -52,6 +52,6 @@ private:
     std::string              location;
     std::string              serial;
     bool                     initialized;
-    
+
     void                    SendPacket(unsigned char* packet, unsigned int size);
 };

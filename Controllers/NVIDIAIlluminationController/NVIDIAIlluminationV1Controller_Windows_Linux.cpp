@@ -6,7 +6,7 @@
 |   Carter Miller (GingerRunner)                05 Jan 2022 |
 |                                                           |
 |   This file is part of the OpenRGB project                |
-|   SPDX-License-Identifier: GPL-2.0-only                   |
+|   SPDX-License-Identifier: GPL-2.0-or-later               |
 \*---------------------------------------------------------*/
 
 #include "NVIDIAIlluminationV1Controller_Windows_Linux.h"

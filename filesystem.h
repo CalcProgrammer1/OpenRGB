@@ -4,7 +4,7 @@
 |   Selects between std and experimental filesystem library |
 |                                                           |
 |   This file is part of the OpenRGB project                |
-|   SPDX-License-Identifier: GPL-2.0-only                   |
+|   SPDX-License-Identifier: GPL-2.0-or-later               |
 \*---------------------------------------------------------*/
 
 #ifndef FILESYSTEM_H

@@ -6,7 +6,7 @@
 |   Chris M (DrNo)                              05 Apr 2022 |
 |                                                           |
 |   This file is part of the OpenRGB project                |
-|   SPDX-License-Identifier: GPL-2.0-only                   |
+|   SPDX-License-Identifier: GPL-2.0-or-later               |
 \*---------------------------------------------------------*/
 
 #define NA 0xFFFFFFFF

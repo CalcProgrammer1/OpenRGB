@@ -6,7 +6,7 @@
 |   Adam Honse <calcprogrammer1@gmail.com>      30 Jul 2025 |
 |                                                           |
 |   This file is part of the OpenRGB project                |
-|   SPDX-License-Identifier: GPL-2.0-only                   |
+|   SPDX-License-Identifier: GPL-2.0-or-later               |
 \*---------------------------------------------------------*/
 
 #pragma once

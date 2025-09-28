@@ -4,7 +4,7 @@
 |   User interface for  Nanoleaf scan & pairing page |
 |                                                           |
 |   This file is part of the OpenRGB project                |
-|   SPDX-License-Identifier: GPL-2.0-only                   |
+|   SPDX-License-Identifier: GPL-2.0-or-later               |
 \*---------------------------------------------------------*/
 
 #include "NanoleafScanDialog.h"

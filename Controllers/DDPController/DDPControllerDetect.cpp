@@ -4,7 +4,7 @@
 |   Detector for DDP devices                                |
 |                                                           |
 |   This file is part of the OpenRGB project                |
-|   SPDX-License-Identifier: GPL-2.0-only                   |
+|   SPDX-License-Identifier: GPL-2.0-or-later               |
 \*---------------------------------------------------------*/
 
 #include <string>
@@ -61,7 +61,7 @@ void DetectDDPControllers()
             {
                 for(unsigned int existing_device_idx = 0; existing_device_idx < device_lists[list_idx].size(); existing_device_idx++)
                 {
-                    if(dev.ip == device_lists[list_idx][existing_device_idx].ip && 
+                    if(dev.ip == device_lists[list_idx][existing_device_idx].ip &&
                        dev.port == device_lists[list_idx][existing_device_idx].port)
                     {
                         device_lists[list_idx].push_back(dev);

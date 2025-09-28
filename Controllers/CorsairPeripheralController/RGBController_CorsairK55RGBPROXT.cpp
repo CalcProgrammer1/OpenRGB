@@ -4,7 +4,7 @@
 |   RGBController for Corsair K55 RGB PRO XT keyboard       |
 |                                                           |
 |   This file is part of the OpenRGB project                |
-|   SPDX-License-Identifier: GPL-2.0-only                   |
+|   SPDX-License-Identifier: GPL-2.0-or-later               |
 \*---------------------------------------------------------*/
 
 #include "RGBController_CorsairK55RGBPROXT.h"

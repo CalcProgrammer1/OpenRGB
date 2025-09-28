@@ -7,7 +7,7 @@
 |   Portions based on Linux source code                     |
 |                                                           |
 |   This file is part of the OpenRGB project                |
-|   SPDX-License-Identifier: GPL-2.0-only                   |
+|   SPDX-License-Identifier: GPL-2.0-or-later               |
 \*---------------------------------------------------------*/
 
 #ifndef I2C_SMBUS_H

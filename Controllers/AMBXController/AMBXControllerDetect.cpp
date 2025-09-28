@@ -4,7 +4,7 @@
 |   Detector for Philips amBX Gaming lights                 |
 |                                                           |
 |   This file is part of the OpenRGB project                |
-|   SPDX-License-Identifier: GPL-2.0-only                   |
+|   SPDX-License-Identifier: GPL-2.0-or-later               |
 \*---------------------------------------------------------*/
 
 #include "Detector.h"
@@ -48,7 +48,7 @@ void DetectAMBXControllers()
     {
         libusb_device* dev = devs[i];
         libusb_device_descriptor desc;
-        
+
         if(libusb_get_device_descriptor(dev, &desc) != 0)
         {
             continue;

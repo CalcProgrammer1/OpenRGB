@@ -6,7 +6,7 @@
 |   Sam B (4rcheria)                            24 Nov 2024 |
 |                                                           |
 |   This file is part of the OpenRGB project                |
-|   SPDX-License-Identifier: GPL-2.0-only                   |
+|   SPDX-License-Identifier: GPL-2.0-or-later               |
 \*---------------------------------------------------------*/
 
 #include "RGBController_ThermaltakeRiingTrio.h"

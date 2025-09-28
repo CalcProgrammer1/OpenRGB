@@ -8,7 +8,7 @@
 |   Adam Honse (calcprogrammer1@gmail.com)      21 Jan 2013 |
 |                                                           |
 |   This file is part of the OpenRGB project                |
-|   SPDX-License-Identifier: GPL-2.0-only                   |
+|   SPDX-License-Identifier: GPL-2.0-or-later               |
 \*---------------------------------------------------------*/
 
 #include <algorithm>

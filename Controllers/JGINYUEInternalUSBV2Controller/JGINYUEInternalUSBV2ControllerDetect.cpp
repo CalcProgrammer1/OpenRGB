@@ -8,7 +8,7 @@
 |   Dongguan Yonghang Electronic Technology Co., Ltd        |
 |                                                           |
 |   This file is part of the OpenRGB project                |
-|   SPDX-License-Identifier: GPL-2.0-only                   |
+|   SPDX-License-Identifier: GPL-2.0-or-later               |
 \*---------------------------------------------------------*/
 
 #include <stdio.h>
@@ -34,7 +34,7 @@
 #define JGINYUE_MOTHERBOARD_PID_V2                     0xE30B
 
 void DetectJGINYUEInternalUSBV2Controller(hid_device_info* info,const std::string& /*name*/)
-{    
+{
     hid_device* hid_dev = hid_open_path(info->path);
     if(hid_dev == nullptr )
     {
@@ -51,7 +51,7 @@ void DetectJGINYUEInternalUSBV2Controller(hid_device_info* info,const std::strin
     }
     LOG_INFO("Pass manufacture name check.Start to init HID and CDC interface");
 
-    
+
     if(hid_dev != nullptr )
     {
         std::vector<std::string*> serial_ports = find_usb_serial_port(JGINYUE_VID_V2, JGINYUE_MOTHERBOARD_PID_V2);
@@ -69,7 +69,7 @@ void DetectJGINYUEInternalUSBV2Controller(hid_device_info* info,const std::strin
             RGBController_JGINYUEInternalUSBV2 *rgb_controller = new RGBController_JGINYUEInternalUSBV2(controller);
             ResourceManager::get()->RegisterRGBController(rgb_controller);
             LOG_INFO("JGINYUE Internal USB ControllerV2 found");
-        }        
+        }
     }
 }
 

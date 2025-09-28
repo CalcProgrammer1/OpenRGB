@@ -4,7 +4,7 @@
 |   User interface for OpenRGB DDP settings entry          |
 |                                                           |
 |   This file is part of the OpenRGB project                |
-|   SPDX-License-Identifier: GPL-2.0-only                   |
+|   SPDX-License-Identifier: GPL-2.0-or-later               |
 \*---------------------------------------------------------*/
 
 #include "DDPSettingsEntry.h"
@@ -40,12 +40,12 @@ void DDPSettingsEntry::loadFromSettings(const json& data)
     {
         ui->NameEdit->setText(QString::fromStdString(data["name"]));
     }
-    
+
     if(data.contains("ip"))
     {
         ui->IPEdit->setText(QString::fromStdString(data["ip"]));
     }
-    
+
     if(data.contains("port"))
     {
         ui->PortSpinBox->setValue(data["port"]);
@@ -54,12 +54,12 @@ void DDPSettingsEntry::loadFromSettings(const json& data)
     {
         ui->PortSpinBox->setValue(4048);
     }
-    
+
     if(data.contains("num_leds"))
     {
         ui->NumLedsSpinBox->setValue(data["num_leds"]);
     }
-    
+
     if(data.contains("keepalive_time"))
     {
         ui->KeepaliveTimeSpinBox->setValue(data["keepalive_time"]);
@@ -69,17 +69,17 @@ void DDPSettingsEntry::loadFromSettings(const json& data)
 json DDPSettingsEntry::saveSettings()
 {
     json result;
-    
+
     result["name"] = ui->NameEdit->text().toStdString();
     result["ip"] = ui->IPEdit->text().toStdString();
     result["port"] = ui->PortSpinBox->value();
     result["num_leds"] = ui->NumLedsSpinBox->value();
-    
+
     if(ui->KeepaliveTimeSpinBox->value() > 0)
     {
         result["keepalive_time"] = ui->KeepaliveTimeSpinBox->value();
     }
-    
+
     return result;
 }
 

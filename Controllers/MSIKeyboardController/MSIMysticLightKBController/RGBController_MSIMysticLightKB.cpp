@@ -4,7 +4,7 @@
 |   Driver for MSI Mystic Light MS-1565 keyboard leds       |
 |                                                           |
 |   This file is part of the OpenRGB project                |
-|   SPDX-License-Identifier: GPL-2.0-only                   |
+|   SPDX-License-Identifier: GPL-2.0-or-later               |
 \*---------------------------------------------------------*/
 
 #include "RGBController_MSIMysticLightKB.h"

@@ -6,7 +6,7 @@
 |   Stephen Horvath (Steve-Tech)                05 May 2025 |
 |                                                           |
 |   This file is part of the OpenRGB project                |
-|   SPDX-License-Identifier: GPL-2.0-only                   |
+|   SPDX-License-Identifier: GPL-2.0-or-later               |
 \*---------------------------------------------------------*/
 
 #include "super_io.h"
