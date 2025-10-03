@@ -42,6 +42,7 @@ void DetectLinuxLEDControllers()
             std::string red_path;
             std::string green_path;
             std::string blue_path;
+            std::string rgb_path;
 
             if(linux_led_settings["devices"][device_idx].contains("name"))
             {
@@ -63,10 +64,16 @@ void DetectLinuxLEDControllers()
                 blue_path = linux_led_settings["devices"][device_idx]["blue_path"];
             }
 
+            if(linux_led_settings["devices"][device_idx].contains("rgb_path"))
+            {
+                rgb_path = linux_led_settings["devices"][device_idx]["rgb_path"];
+            }
+
             LinuxLEDController*     controller     = new LinuxLEDController(name);
             controller->OpenRedPath(red_path);
             controller->OpenGreenPath(green_path);
             controller->OpenBluePath(blue_path);
+            controller->OpenRgbPath(rgb_path);
 
             RGBController_LinuxLED* rgb_controller = new RGBController_LinuxLED(controller);
 

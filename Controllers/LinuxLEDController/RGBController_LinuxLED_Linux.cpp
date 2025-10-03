@@ -32,8 +32,8 @@ RGBController_LinuxLED::RGBController_LinuxLED(LinuxLEDController* controller_pt
 
     location            = "R: " + controller->GetRedPath() + "\r\n" +
                           "G: " + controller->GetGreenPath() + "\r\n" +
-                          "B: " + controller->GetBluePath();
-
+                          "B: " + controller->GetBluePath() + "\r\n" +
+                          "M: " + controller->GetRgbPath();
     mode Direct;
     Direct.name         = "Direct";
     Direct.value        = 0;
