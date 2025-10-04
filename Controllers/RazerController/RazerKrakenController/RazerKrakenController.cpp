@@ -43,7 +43,9 @@ RazerKrakenController::RazerKrakenController(hid_device* dev_handle, const char*
     switch(dev_pid)
     {
         case RAZER_KRAKEN_V2_PID:
+        case RAZER_KRAKEN_KITTY_V2_PRO_PID:
         case RAZER_KRAKEN_KITTY_BLACK_EDITION_V2_PID:
+        case RAZER_KRAKEN_KITTY_V2_BT_PID:
         case RAZER_KRAKEN_ULTIMATE_PID:
             led_mode_address        = 0x172D;
             custom_address          = 0x1189;
