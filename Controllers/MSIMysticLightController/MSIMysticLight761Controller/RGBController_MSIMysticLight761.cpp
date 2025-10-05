@@ -1,5 +1,5 @@
 /*---------------------------------------------------------*\
-| MSIMysticLight185Controller.cpp                           |
+| RGBController_MSIMysticLight761.cpp                       |
 |                                                           |
 |   RGBController for MSI Mystic Light 761-byte motherboard |
 |                                                           |
@@ -33,11 +33,11 @@ static std::vector<const ZoneDescription*> zone_description;
 
 static int IndexOfZoneForType(MSI_ZONE zone_type)
 {
-    for(size_t i = 0; i < zone_description.size(); ++i)
+    for(std::size_t i = 0; i < zone_description.size(); ++i)
     {
         if(zone_description[i]->zone_type == zone_type)
         {
-            return (int)i;
+            return (int) i;
         }
     }
 
@@ -46,7 +46,7 @@ static int IndexOfZoneForType(MSI_ZONE zone_type)
 
 RGBController_MSIMysticLight761::RGBController_MSIMysticLight761
     (
-        MSIMysticLight761Controller* controller_ptr
+    MSIMysticLight761Controller* controller_ptr
     )
 {
     controller  = controller_ptr;
@@ -63,7 +63,7 @@ RGBController_MSIMysticLight761::RGBController_MSIMysticLight761
 
     for(std::size_t i = 0; i < supported_zones->size(); ++i)
     {
-        for(std::size_t j = 0; j < NUMOF_ZONES; ++j)
+        for(int j = 0; j < NUMOF_ZONES; ++j)
         {
             if(led_zones[j].zone_type == (*supported_zones)[i])
             {
@@ -89,11 +89,11 @@ int RGBController_MSIMysticLight761::GetDeviceMode()
 {
     MSI_MODE mode = controller->GetMode();
 
-    for(unsigned int i = 0; i < modes.size(); ++i)
+    for(std::size_t i = 0; i < modes.size(); ++i)
     {
         if(mode == modes[i].value)
         {
-            return i;
+            return (int)i;
         }
     }
 
@@ -147,10 +147,10 @@ void RGBController_MSIMysticLight761::SetupZones()
                 new_zone.leds_max   = maxLeds;
                 new_zone.leds_count = maxLeds;
             }
-            /*--------------------------------------------------\
-            | This is a resizable zone on a board that does not |
-            | support per-LED direct mode                       |
-            \*-------------------------------------------------*/
+            /*--------------------------------------------------*\
+            | This is a resizable zone on a board that does not  |
+            | support per-LED direct mode                        |
+            \*--------------------------------------------------*/
             else if(controller->GetSupportedDirectMode() == MSIMysticLight761Controller::DIRECT_MODE_ZONE_BASED)
             {
                 new_zone.leds_min   = 0;
@@ -159,10 +159,10 @@ void RGBController_MSIMysticLight761::SetupZones()
                 last_resizable_zone = zd->zone_type;
                 new_zone.flags     |= ZONE_FLAG_RESIZE_EFFECTS_ONLY;
             }
-            /*--------------------------------------------------\
-            | This is a resizable zone on a board that does     |
-            | support per-LED direct mode                       |
-            \*-------------------------------------------------*/
+            /*--------------------------------------------------*\
+            | This is a resizable zone on a board that does      |
+            | support per-LED direct mode                        |
+            \*--------------------------------------------------*/
             else
             {
                 new_zone.leds_min   = 0;
@@ -198,7 +198,7 @@ void RGBController_MSIMysticLight761::SetupZones()
 
         if((zones[zone_idx].flags & ZONE_FLAG_RESIZE_EFFECTS_ONLY) == 0)
         {
-            for(std::size_t led_idx = 0; led_idx < zones[zone_idx].leds_count; ++led_idx)
+            for(unsigned int led_idx = 0; led_idx < zones[zone_idx].leds_count; ++led_idx)
             {
                 led new_led;
 
@@ -230,11 +230,11 @@ void RGBController_MSIMysticLight761::SetupZones()
 
 void RGBController_MSIMysticLight761::ResizeZone
     (
-        int zone,
-        int new_size
-        )
+    int zone,
+    int new_size
+    )
 {
-    if((size_t)zone >= zones.size())
+    if((std::size_t)zone >= zones.size())
     {
         return;
     }
@@ -276,7 +276,7 @@ void RGBController_MSIMysticLight761::UpdateZoneLEDs(int zone)
 void RGBController_MSIMysticLight761::UpdateSingleLED
     (
         int led
-    )
+        )
 {
     int zone_index = IndexOfZoneForType((MSI_ZONE)leds[led].value);
 
@@ -319,8 +319,8 @@ void RGBController_MSIMysticLight761::SetupModes()
 
 void RGBController_MSIMysticLight761::UpdateLed
     (
-        int zone,
-        int led
+    int zone,
+    int led
     )
 {
     unsigned char red = RGBGetRValue(zones[zone].colors[led]);
@@ -348,9 +348,9 @@ void RGBController_MSIMysticLight761::UpdateLed
 
 void RGBController_MSIMysticLight761::SetupMode
     (
-        const char      *name,
-        MSI_MODE        mod,
-        unsigned int    flags
+    const char      *name,
+    MSI_MODE        mod,
+    unsigned int    flags
     )
 {
     mode Mode;
@@ -411,13 +411,13 @@ void RGBController_MSIMysticLight761::GetDeviceConfig()
         bool           rainbow;
         unsigned int   color;
 
-        for(size_t i = 0; i < zone_description.size(); ++i)
+        for(std::size_t i = 0; i < zone_description.size(); ++i)
         {
             controller->GetMode(zone_description[i]->zone_type, mode, speed, brightness, rainbow, color);
 
             if(zones[i].colors != nullptr)
             {
-                for(size_t j = 0; j < zones[i].leds_count; ++j)
+                for(unsigned int j = 0; j < zones[i].leds_count; ++j)
                 {
                     zones[i].colors[j] = color;
                 }
@@ -426,7 +426,7 @@ void RGBController_MSIMysticLight761::GetDeviceConfig()
 
         controller->GetMode(zone_description[0]->zone_type, mode, speed, brightness, rainbow, color);
 
-        for(size_t i = 0; i < modes.size(); ++i)
+        for(std::size_t i = 0; i < modes.size(); ++i)
         {
             if(mode == modes[i].value)
             {

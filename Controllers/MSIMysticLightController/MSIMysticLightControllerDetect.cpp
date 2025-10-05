@@ -80,22 +80,44 @@ void DetectMSIMysticLightControllers
         }
         else    // no supported length returned
         {
-            unsigned char second_buffer[1000];
+
+            unsigned char second_buffer [761];
+            second_buffer[0] = 0x50;
+
+            memset(second_buffer + sizeof(unsigned char), 0x0, sizeof(second_buffer) - sizeof(unsigned char));
+
+            //Using this enables subsequent reads to work for some reason
+            size_t enable_reading_packet = hid_get_feature_report(dev, second_buffer, 290);
+            LOG_INFO("Read %i bytes from read enable packet, subsequent get reports should work", enable_reading_packet);
+
+            memset(second_buffer + sizeof(unsigned char), 0x0, sizeof(second_buffer) - sizeof(unsigned char));
+
+
             second_buffer[0] = 0x51;
 
-            for(int i = 1; i < 1000; i++)
+            size_t packet_length_new_attempt = hid_send_feature_report(dev, second_buffer, 761);
+
+            if(packet_length_new_attempt > 0)
             {
-                second_buffer[i] = 0x0;
-            }
 
-            size_t packet_length_new_attempt = hid_get_feature_report(dev, second_buffer, 1000);
+                try
+                {
+                    MSIMysticLight761Controller*     controller     = new MSIMysticLight761Controller(dev, (const char *) info->path, info->product_id, dmi_name);
+                    RGBController_MSIMysticLight761* rgb_controller = new RGBController_MSIMysticLight761(controller);
+                    ResourceManager::get()->RegisterRGBController(rgb_controller);
+                }
+                catch(const std::runtime_error& e)
+                {
+                    if (strcmp(e.what(), BOARD_UNSUPPORTED_ERROR) != 0)
+                    {
+                        throw e;
+                    }
+                    else
+                    {
+                        LOG_INFO("Found Board %s but does not have valid config", dmi_name.c_str());
+                    }
+                }
 
-            if(packet_length_new_attempt >=290 && packet_length_new_attempt <= 291)
-            {
-                MSIMysticLight761Controller*     controller     = new MSIMysticLight761Controller(dev, info->path, info->product_id, dmi_name);
-                RGBController_MSIMysticLight761* rgb_controller = new RGBController_MSIMysticLight761(controller);
-
-                ResourceManager::get()->RegisterRGBController(rgb_controller);
 
             }
             else

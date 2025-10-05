@@ -1,5 +1,5 @@
 /*---------------------------------------------------------*\
-| MSIMysticLight185Controller.cpp                           |
+| RGBController_MSIMysticLight761.h                         |
 |                                                           |
 |   RGBController for MSI Mystic Light 761-byte motherboard |
 |                                                           |
@@ -12,7 +12,6 @@
 
 #pragma once
 
-#include <vector>
 #include "RGBController.h"
 #include "MSIMysticLight761Controller.h"
 
@@ -48,6 +47,6 @@ private:
     int         GetDeviceMode();
     void        GetDeviceConfig();
 
-    MSIMysticLight761Controller*    controller;
+    MSIMysticLight761Controller* controller;
     MSI_ZONE                        last_resizable_zone;
 };
