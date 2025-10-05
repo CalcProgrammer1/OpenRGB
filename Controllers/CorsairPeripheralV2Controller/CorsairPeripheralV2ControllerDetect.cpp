@@ -84,6 +84,7 @@ REGISTER_HID_DETECTOR_IP("Corsair Katar Pro XT",                    DetectCorsai
 REGISTER_HID_DETECTOR_IP("Corsair M55 RGB PRO",                     DetectCorsairV2SoftwareControllers, CORSAIR_VID,    CORSAIR_M55_RGB_PRO_PID,                1,  0xFF42);
 REGISTER_HID_DETECTOR_IP("Corsair M65 RGB Ultra Wired",             DetectCorsairV2SoftwareControllers, CORSAIR_VID,    CORSAIR_M65_RGB_ULTRA_WIRED_PID,        1,  0xFF42);
 REGISTER_HID_DETECTOR_IP("Corsair M65 RGB Ultra Wireless (Wired)",  DetectCorsairV2HardwareControllers, CORSAIR_VID,    CORSAIR_M65_RGB_ULTRA_WIRELESS_PID,     1,  0xFF42);
+REGISTER_HID_DETECTOR_IP("Corsair M75 Gaming Mouse",                DetectCorsairV2HardwareControllers, CORSAIR_VID,    CORSAIR_M75_GAMING_MOUSE_PID,           1,  0xFF42);
 REGISTER_HID_DETECTOR_IP("Corsair Slipstream Wireless Receiver HW", DetectCorsairV2HardwareControllers, CORSAIR_VID,    CORSAIR_SLIPSTREAM_WIRELESS_PID1,       1,  0xFF42);
 REGISTER_HID_DETECTOR_IP("Corsair Slipstream Wireless Receiver SW", DetectCorsairV2SoftwareControllers, CORSAIR_VID,    CORSAIR_SLIPSTREAM_WIRELESS_PID2,       1,  0xFF42);
 

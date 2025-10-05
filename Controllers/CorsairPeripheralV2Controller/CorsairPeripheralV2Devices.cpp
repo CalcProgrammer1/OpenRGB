@@ -1288,6 +1288,48 @@ static const corsair_v2_device m65_ultra_rgb_device =
 };
 
 /*-------------------------------------------------------------*\
+|  Corsair M75 Gaming Mouse 1B1C:1BF0                           |
+|                                                               |
+|  Zone "Logo"                                                  |
+|       Single                                                  |
+|                                                               |
+|  Zone "Scroll Wheel"                                          |
+|       Single                                                  |
+\*-------------------------------------------------------------*/
+static const corsair_v2_zone m75_logo_zone =
+{
+    "Logo",
+    ZONE_TYPE_SINGLE,
+    1,
+    1
+};
+
+static const corsair_v2_zone m75_scroll_zone =
+{
+    "Scroll Wheel",
+    ZONE_TYPE_SINGLE,
+    1,
+    1
+};
+
+static const corsair_v2_device m75_device =
+{
+    CORSAIR_M75_GAMING_MOUSE_PID,
+    DEVICE_TYPE_MOUSE,
+    1,
+    2,
+    {
+        &m75_logo_zone,
+        &m75_scroll_zone,
+        nullptr,
+        nullptr,
+        nullptr,
+        nullptr
+    },
+    nullptr
+};
+
+/*-------------------------------------------------------------*\
 |  Corsair MM700 1B1C:1B9B                                      |
 |                                                               |
 |  Zone "Logo"                                                  |
@@ -1391,6 +1433,7 @@ const corsair_v2_device* corsair_v2_device_list_data[] =
     &m55_device,
     &m65_rgb_ultra_wired_device,
     &m65_ultra_rgb_device,
+    &m75_device,
 
 /*-----------------------------------------------------------------*\
 |  MOUSEMATS                                                        |
