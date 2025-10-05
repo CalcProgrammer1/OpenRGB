@@ -76,8 +76,8 @@ static const nv_gpu_pci_device device_list[] =
     {NVIDIA_VEN,    NVIDIA_RTX4080S_DEV,            NVIDIA_SUB_VEN,   NVIDIA_RTX4080S_FE_SUB_DEV,                     NVIDIA_ILLUMINATION_V1,     TREATS_RGBW_AS_RGBW,    "NVIDIA GeForce RTX 4080 SUPER FE"            },
     {NVIDIA_VEN,    NVIDIA_RTX4090_DEV,             NVIDIA_SUB_VEN,   NVIDIA_RTX4090_FE_SUB_DEV,                      NVIDIA_ILLUMINATION_V1,     TREATS_RGBW_AS_RGBW,    "NVIDIA GeForce RTX 4090 FE"                  },
     {NVIDIA_VEN,    NVIDIA_RTX4090_DEV,             NVIDIA_SUB_VEN,   NVIDIA_RTX4090_FE_SUB_DEV2,                     NVIDIA_ILLUMINATION_V1,     TREATS_RGBW_AS_RGBW,    "NVIDIA GeForce RTX 4090 FE"                  },
-    {NVIDIA_VEN,    NVIDIA_RTX5080_DEV,             NVIDIA_SUB_VEN,   NVIDIA_RTX5080_FE_SUB_DEV,                      NVIDIA_ILLUMINATION_V1,     TREATS_RGBW_AS_RGBW,    "NVIDIA GeForce RTX 5080 FE"                  },
-    {NVIDIA_VEN,    NVIDIA_RTX5090_DEV,             NVIDIA_SUB_VEN,   NVIDIA_RTX5090_FE_SUB_DEV,                      NVIDIA_ILLUMINATION_V1,     TREATS_RGBW_AS_RGBW,    "NVIDIA GeForce RTX 5090 FE"                  },
+    {NVIDIA_VEN,    NVIDIA_RTX5080_DEV,             NVIDIA_SUB_VEN,   NVIDIA_RTX5080_FE_SUB_DEV,                            NVIDIA_ILLUMINATION_V1,     TREATS_RGBW_AS_RGBW,    "NVIDIA GeForce RTX 5080 FE"                  },
+    {NVIDIA_VEN,    NVIDIA_RTX5090_DEV,             NVIDIA_SUB_VEN,   NVIDIA_RTX5090_FE_SUB_DEV,                            NVIDIA_ILLUMINATION_V1,     TREATS_RGBW_AS_RGBW,    "NVIDIA GeForce RTX 5090 FE"                  },
 };
 
 void DetectNVIDIAIllumGPUs()

@@ -106,7 +106,7 @@ RGBController_RGBFusion2BlackwellGPU::RGBController_RGBFusion2BlackwellGPU(RGBFu
     SpectrumCycle.brightness        = RGB_FUSION2_BLACKWELL_GPU_BRIGHTNESS_MAX;
     modes.push_back(SpectrumCycle);
 
-    if(led_layout == RGB_FUSION2_BLACKWELL_GPU_GAMING_LAYOUT || led_layout == RGB_FUSION2_BLACKWELL_GPU_WATERFORCE_LAYOUT)
+    if(led_layout == RGB_FUSION2_BLACKWELL_GPU_GAMING_LAYOUT || led_layout == RGB_FUSION2_BLACKWELL_GPU_WATERFORCE_LAYOUT || led_layout == RGB_FUSION2_BLACKWELL_GPU_AORUS_WATERFORCE_LAYOUT)
     {
         mode Wave;
         Wave.name                   = "Wave";
@@ -277,6 +277,47 @@ void RGBController_RGBFusion2BlackwellGPU::SetupZones()
             zones.push_back(new_zone);
         }
     }
+    else if(gpu_layout == RGB_FUSION2_BLACKWELL_GPU_AORUS_WATERFORCE_LAYOUT)
+    {
+        /*---------------------------------------------------------*\
+        | Skip zone 0 - it doesn't exist on this card variant      |
+        | Only add zones 1, 2, 3 to the UI                         |
+        \*---------------------------------------------------------*/
+        for(uint8_t zone_idx = 1; zone_idx < 4; zone_idx++)
+        {
+            zone new_zone;
+            led  new_led;
+
+            switch(zone_idx)
+            {
+                case 1:
+                    new_zone.name = "Bottom Logo";
+                    break;
+
+                case 2:
+                    new_zone.name = "Radiator Fans";
+                    break;
+
+                case 3:
+                    new_zone.name = "Top and Side Logos";
+                    break;
+            }
+
+            new_zone.type       = ZONE_TYPE_SINGLE;
+            new_zone.leds_min   = 1;
+            new_zone.leds_max   = 1;
+            new_zone.leds_count = 1;
+            new_zone.matrix_map = NULL;
+
+            new_led.name        = new_zone.name;
+
+            /*---------------------------------------------------------*\
+            | Push the zone and LED on to device vectors                |
+            \*---------------------------------------------------------*/
+            leds.push_back(new_led);
+            zones.push_back(new_zone);
+        }
+    }
 
     SetupColors();
 }
@@ -317,6 +358,10 @@ void RGBController_RGBFusion2BlackwellGPU::DeviceUpdateLEDs()
             gpu_zones = 3;
             break;
 
+        case RGB_FUSION2_BLACKWELL_GPU_AORUS_WATERFORCE_LAYOUT:
+            gpu_zones = 6;
+            break;
+
         default:
             LOG_TRACE("[%s] Invalid GPU layout (%d) when updating LEDs.", name.c_str(), gpu_layout);
             return; // should not happen
@@ -324,13 +369,32 @@ void RGBController_RGBFusion2BlackwellGPU::DeviceUpdateLEDs()
 
     for(uint8_t zone_idx = 0; zone_idx < gpu_zones; zone_idx++)
     {
-        if(zone_idx >= zones.size())
+        /*---------------------------------------------------------*\
+        | For AORUS WATERFORCE layout, map UI zones to hardware    |
+        | UI zone 0 -> HW zone 1 (Bottom Logo)                     |
+        | UI zone 1 -> HW zone 2 (Radiator Fans)                   |
+        | UI zone 2 -> HW zone 3 (Top and Side Logos)              |
+        | Skip HW zone 0 (doesn't exist on this card)              |
+        \*---------------------------------------------------------*/
+        uint8_t hardware_zone_idx = zone_idx;
+        uint8_t ui_zone_idx = zone_idx;
+
+        if(gpu_layout == RGB_FUSION2_BLACKWELL_GPU_AORUS_WATERFORCE_LAYOUT)
         {
-            zone_config.colors[zone_idx] = colors.back();
+            if(zone_idx == 0)
+            {
+                continue; // Skip hardware zone 0
+            }
+            ui_zone_idx = zone_idx - 1; // Map: HW zone 1->UI zone 0, HW zone 2->UI zone 1, HW zone 3->UI zone 2
+        }
+
+        if(ui_zone_idx >= zones.size())
+        {
+            zone_config.colors[hardware_zone_idx] = colors.back();
         }
         else
         {
-            zone_config.colors[zone_idx] = colors[zone_idx];
+            zone_config.colors[hardware_zone_idx] = colors[ui_zone_idx];
         }
 
         for(uint8_t i = 0; i < zone_config.numberOfColors; i++) // specific for MODE_COLORS_MODE_SPECIFIC
@@ -338,7 +402,7 @@ void RGBController_RGBFusion2BlackwellGPU::DeviceUpdateLEDs()
             zone_config.colors[i] = modes[active_mode].colors[i];
         }
 
-        controller->SetZone(zone_idx, modes[active_mode].value, zone_config);
+        controller->SetZone(hardware_zone_idx, modes[active_mode].value, zone_config);
     }
 }
 
