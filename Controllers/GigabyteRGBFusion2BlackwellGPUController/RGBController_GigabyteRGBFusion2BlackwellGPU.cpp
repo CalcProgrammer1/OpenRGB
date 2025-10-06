@@ -281,9 +281,9 @@ void RGBController_RGBFusion2BlackwellGPU::SetupZones()
     {
         /*---------------------------------------------------------*\
         | Skip zone 0 - it doesn't exist on this card variant      |
-        | Only add zones 1, 2, 3 to the UI                         |
+        | Only add zones 1, 2, 3, 4 to the UI                      |
         \*---------------------------------------------------------*/
-        for(uint8_t zone_idx = 1; zone_idx < 4; zone_idx++)
+        for(uint8_t zone_idx = 1; zone_idx < 5; zone_idx++)
         {
             zone new_zone;
             led  new_led;
@@ -299,7 +299,11 @@ void RGBController_RGBFusion2BlackwellGPU::SetupZones()
                     break;
 
                 case 3:
-                    new_zone.name = "Top and Side Logos";
+                    new_zone.name = "Top Logo";
+                    break;
+
+                case 4:
+                    new_zone.name = "Side Logo";
                     break;
             }
 
@@ -359,7 +363,7 @@ void RGBController_RGBFusion2BlackwellGPU::DeviceUpdateLEDs()
             break;
 
         case RGB_FUSION2_BLACKWELL_GPU_AORUS_WATERFORCE_LAYOUT:
-            gpu_zones = 6;
+            gpu_zones = 5; // Hardware zones 0-4, but zone 0 is skipped
             break;
 
         default:
@@ -373,7 +377,8 @@ void RGBController_RGBFusion2BlackwellGPU::DeviceUpdateLEDs()
         | For AORUS WATERFORCE layout, map UI zones to hardware    |
         | UI zone 0 -> HW zone 1 (Bottom Logo)                     |
         | UI zone 1 -> HW zone 2 (Radiator Fans)                   |
-        | UI zone 2 -> HW zone 3 (Top and Side Logos)              |
+        | UI zone 2 -> HW zone 3 (Top Logo)                        |
+        | UI zone 3 -> HW zone 4 (Side Logo)                       |
         | Skip HW zone 0 (doesn't exist on this card)              |
         \*---------------------------------------------------------*/
         uint8_t hardware_zone_idx = zone_idx;
@@ -385,7 +390,7 @@ void RGBController_RGBFusion2BlackwellGPU::DeviceUpdateLEDs()
             {
                 continue; // Skip hardware zone 0
             }
-            ui_zone_idx = zone_idx - 1; // Map: HW zone 1->UI zone 0, HW zone 2->UI zone 1, HW zone 3->UI zone 2
+            ui_zone_idx = zone_idx - 1; // Map: HW zone 1->UI zone 0, HW zone 2->UI zone 1, HW zone 3->UI zone 2, HW zone 4->UI zone 3
         }
 
         if(ui_zone_idx >= zones.size())
