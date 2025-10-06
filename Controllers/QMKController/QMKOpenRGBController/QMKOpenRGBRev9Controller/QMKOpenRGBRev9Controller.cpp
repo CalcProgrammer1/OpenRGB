@@ -11,6 +11,7 @@
 |   SPDX-License-Identifier: GPL-2.0-or-later               |
 \*---------------------------------------------------------*/
 
+#include "QMKKeycodes.h"
 #include "QMKOpenRGBRev9Controller.h"
 
 using namespace std::chrono_literals;
@@ -56,9 +57,9 @@ void QMKOpenRGBRev9Controller::GetLEDInfo(unsigned int led)
 
     if(usb_buf[QMK_OPENRGB_KEYCODE_BYTE] != 0)
     {
-        if (qmk_keycode_keyname_map.count(usb_buf[QMK_OPENRGB_KEYCODE_BYTE]) > 0)
+        if(qmk_keynames.count(usb_buf[QMK_OPENRGB_KEYCODE_BYTE]) > 0)
         {
-            led_names.push_back(qmk_keycode_keyname_map[usb_buf[QMK_OPENRGB_KEYCODE_BYTE]]);
+            led_names.push_back(qmk_keynames[usb_buf[QMK_OPENRGB_KEYCODE_BYTE]]);
         }
         else
         {

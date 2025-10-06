@@ -17,9 +17,6 @@
 #include "SettingsManager.h"
 #include "QMKOpenRGBController.h"
 
-typedef std::map<uint8_t, std::string>  qmk_keycodes;
-extern qmk_keycodes                     qmk_keycode_keyname_map;
-
 class QMKOpenRGBBaseController
 {
 public:
