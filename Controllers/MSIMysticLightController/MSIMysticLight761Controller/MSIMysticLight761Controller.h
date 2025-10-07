@@ -131,8 +131,8 @@ public:
 private:
     std::string                                             name;
     std::vector<MSIMysticLight761Controller::ZoneConfig>    zone_configs;
-    std::vector<MSI_ZONE>* supported_zones;
-    hid_device* dev;
+    const std::vector<MSI_ZONE>*                            supported_zones;
+    hid_device*                                             dev;
     std::string                                             location;
     std::string                                             version_aprom;
     std::string                                             version_ldrom;

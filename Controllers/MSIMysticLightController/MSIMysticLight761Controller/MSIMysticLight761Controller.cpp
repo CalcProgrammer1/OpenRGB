@@ -45,13 +45,20 @@ static const std::vector<MSI_ZONE> zone_set1 =
         MSI_ZONE_JARGB_3,
 };
 
-static const std::string board_names[] = { "MSI MAG X870 TOMAHAWK WIFI (MS-7E51)", "MSI MAG B850M MORTAR WIFI (MS-7E61)", "MSI MPG B850I EDGE TI WIFI (MS-7E79)" };
+static const std::string board_names[] = 
+{ 
+    "MSI MAG X870 TOMAHAWK WIFI (MS-7E51)", 
+    "MSI MAG B850M MORTAR WIFI (MS-7E61)", 
+    "MSI MPG B850I EDGE TI WIFI (MS-7E79)", 
+    "MSI X870 GAMING PLUS WIFI (MS-7E47)"
+};
 
 static const mystic_light_761_config board_configs[] =
 {
     { &(board_names[0]), 0,  0,  0, 1, &zone_set1,  MSIMysticLight761Controller::DIRECT_MODE_ZONE_BASED },    // MSI X870 TOMAHAWK WIFI
     { &(board_names[1]), 0,  0,  0, 1, &zone_set1,  MSIMysticLight761Controller::DIRECT_MODE_ZONE_BASED },    // MSI MAG B850M MORTAR WIFI
     { &(board_names[2]), 0,  0,  0, 1, &zone_set1,  MSIMysticLight761Controller::DIRECT_MODE_ZONE_BASED },    // MSI MPG B850I EDGE TI WIFI
+    { &(board_names[3]), 0,  0,  0, 1, &zone_set1,  MSIMysticLight761Controller::DIRECT_MODE_ZONE_BASED },    // MSI X870 GAMING PLUS WIFI
 };
 
 
@@ -153,8 +160,6 @@ MSIMysticLight761Controller::MSIMysticLight761Controller
     location                                        = path;
     name                                            = dev_name;
 
-    supported_zones                                 = new std::vector<MSI_ZONE>;
-
     const mystic_light_761_config * board_config    = nullptr;
     for(int i = 0; i < NUM_CONFS; i++)
     {
@@ -232,8 +237,6 @@ MSIMysticLight761Controller::MSIMysticLight761Controller
             int res = hid_send_feature_report(dev, conf_arr, SETUP_ARRAY_SIZE);
             LOG_INFO("Sending configuration resulted in %i\n", res);
 
-            free(conf_arr);
-
             data                        = new FeaturePacket_761;
 
             data->jaf.zone              = MSI_ZONE_JAF;
@@ -256,6 +259,8 @@ MSIMysticLight761Controller::MSIMysticLight761Controller
             init_packet(&data->jargb2);
             init_packet(&data->jargb3);
         }
+
+        free(conf_arr);
     }
     else
     {
@@ -267,6 +272,22 @@ MSIMysticLight761Controller::MSIMysticLight761Controller
 MSIMysticLight761Controller::~MSIMysticLight761Controller()
 {
     hid_close(dev);
+    
+    if(data)
+    {
+        delete data;
+        data = nullptr;
+    }
+       
+    for(ZoneConfig& zone : zone_configs)
+    {
+        if(zone.zone_data)
+        {
+            delete zone.zone_data;
+            zone.zone_data = nullptr;
+        }
+    }
+    zone_configs.clear();
 }
 
 void MSIMysticLight761Controller::SetMode
