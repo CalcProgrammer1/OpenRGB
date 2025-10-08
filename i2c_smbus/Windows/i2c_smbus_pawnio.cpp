@@ -173,29 +173,7 @@ HRESULT i2c_smbus_pawnio::start_pawnio(std::string filename, PHANDLE phandle)
     HANDLE  handle;
     HRESULT status;
 
-    /*-----------------------------------------------------*\
-    | Open PawnIO driver                                    |
-    \*-----------------------------------------------------*/
-    status = pawnio_open(phandle);
-
-    /*-----------------------------------------------------*\
-    | Check result                                          |
-    \*-----------------------------------------------------*/
-    if(status)
-    {
-        if(status == E_ACCESSDENIED)
-        {
-            LOG_ERROR("Permission Denied, PawnIO initialization aborted");
-        }
-        else
-        {
-            LOG_ERROR("Could not open PawnIO, PawnIO initialization aborted");
-        }
-
-        return(status);
-    }
-
-    handle = *phandle;
+    LOG_INFO("Start PawnIO: %s", filename.c_str());
 
     /*-----------------------------------------------------*\
     | Get the path of the executable                        |
@@ -244,6 +222,27 @@ HRESULT i2c_smbus_pawnio::start_pawnio(std::string filename, PHANDLE phandle)
     file.close();
 
     /*-----------------------------------------------------*\
+    | Open PawnIO driver                                    |
+    \*-----------------------------------------------------*/
+    status = pawnio_open(phandle);
+
+    if(status)
+    {
+        if(status == E_ACCESSDENIED)
+        {
+            LOG_ERROR("Permission Denied, PawnIO initialization aborted");
+        }
+        else
+        {
+            LOG_ERROR("Could not open PawnIO, PawnIO initialization aborted");
+        }
+
+        return(status);
+    }
+
+    handle = *phandle;
+
+    /*-----------------------------------------------------*\
     | Load the file into PawnIO                             |
     \*-----------------------------------------------------*/
     status = pawnio_load(handle, reinterpret_cast<const UCHAR*>(blob.data()), blob.size());
@@ -253,7 +252,17 @@ HRESULT i2c_smbus_pawnio::start_pawnio(std::string filename, PHANDLE phandle)
     \*-----------------------------------------------------*/
     if(status)
     {
-        LOG_ERROR("Failed to load %s, PawnIO initialization aborted", filename.c_str());
+        pawnio_close(handle);
+
+        if (status == HRESULT_FROM_WIN32(ERROR_NOT_SUPPORTED))
+        {
+            LOG_INFO("PawnIO module initialization aborted (unsupported)");
+        }
+        else
+        {
+            LOG_ERROR("PawnIO module initialization aborted (code=%ld)", status);
+        }
+
         return(status);
     }
 
@@ -261,7 +270,7 @@ HRESULT i2c_smbus_pawnio::start_pawnio(std::string filename, PHANDLE phandle)
     | Log a message and return OK if PawnIO successfully    |
     | opened                                                |
     \*-----------------------------------------------------*/
-    LOG_INFO("PawnIO initialized");
+    LOG_INFO("PawnIO initialized successully");
     return(S_OK);
 }
 
