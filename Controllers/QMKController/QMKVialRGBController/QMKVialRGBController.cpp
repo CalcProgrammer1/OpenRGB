@@ -27,6 +27,7 @@ QMKVialRGBController::QMKVialRGBController(hid_device *dev_handle, const char *p
     \*-----------------------------------------------------*/
     dev         = dev_handle;
     location    = path;
+    supported   = false;
 
     /*-----------------------------------------------------*\
     | Read product string                                   |
@@ -80,7 +81,20 @@ QMKVialRGBController::QMKVialRGBController(hid_device *dev_handle, const char *p
     | Get VIA, Vial, and VialRGB information                |
     \*-----------------------------------------------------*/
     CmdGetViaProtocolVersion(&via_protocol_version);
+
+    if(via_protocol_version < 9)
+    {
+        return;
+    }
+
     CmdGetVialInfo(&vial_protocol_version, &keyboard_uid, &vialrgb_flag);
+
+    if((vial_protocol_version < 4) || ((vialrgb_flag & 1) == 0))
+    {
+        supported = false;
+        return;
+    }
+
     CmdGetVialRGBInfo(&vialrgb_protocol_version, &maximum_brightness);
 
     /*-----------------------------------------------------*\
@@ -101,6 +115,8 @@ QMKVialRGBController::QMKVialRGBController(hid_device *dev_handle, const char *p
         led_info.push_back(CmdGetLEDInfo(led_index));
         keycodes.push_back(CmdGetKeycode(0, led_info[led_index].row, led_info[led_index].col));
     }
+
+    supported = true;
 }
 
 QMKVialRGBController::~QMKVialRGBController()
@@ -143,6 +159,11 @@ std::string QMKVialRGBController::GetVersion()
          + "Vial: " + std::to_string(vial_protocol_version) + "\r\n"
          + "VialRGB: " + std::to_string(vialrgb_protocol_version) + "\r\n"
          + "UID: " + uid_buf);
+}
+
+bool QMKVialRGBController::GetSupported()
+{
+    return(supported);
 }
 
 unsigned short QMKVialRGBController::GetEffect(std::size_t effect_idx)

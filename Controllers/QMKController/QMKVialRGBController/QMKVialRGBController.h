@@ -119,6 +119,8 @@ public:
     std::string         GetVendor();
     std::string         GetVersion();
 
+    bool                GetSupported();
+
     unsigned short      GetEffect(std::size_t effect_idx);
     std::size_t         GetEffectCount();
     unsigned short      GetKeycode(unsigned short led_index);
@@ -159,6 +161,7 @@ private:
     std::string                     name;
     unsigned short                  number_leds;
     std::string                     serial;
+    bool                            supported;
     std::vector<unsigned short>     supported_effects;
     std::string                     vendor;
     unsigned short                  via_protocol_version;

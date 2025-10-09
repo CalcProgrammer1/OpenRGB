@@ -33,9 +33,17 @@ void DetectQMKVialRGBControllers(hid_device_info *info, const std::string&)
 
     if(dev)
     {
-        QMKVialRGBController*     controller     = new QMKVialRGBController(dev, info->path);
-        RGBController_QMKVialRGB* rgb_controller = new RGBController_QMKVialRGB(controller);
-        ResourceManager::get()->RegisterRGBController(rgb_controller);
+        QMKVialRGBController* controller = new QMKVialRGBController(dev, info->path);
+
+        if(controller->GetSupported())
+        {
+            RGBController_QMKVialRGB* rgb_controller = new RGBController_QMKVialRGB(controller);
+            ResourceManager::get()->RegisterRGBController(rgb_controller);
+        }
+        else
+        {
+            delete controller;
+        }
     }
 }
 
