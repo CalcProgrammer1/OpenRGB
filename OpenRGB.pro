@@ -588,7 +588,7 @@ contains(QMAKE_PLATFORM, linux) {
     icon.files+=qt/org.openrgb.OpenRGB.png
     metainfo.path=$$PREFIX/share/metainfo/
     metainfo.files+=qt/org.openrgb.OpenRGB.metainfo.xml
-    systemd_service.path=/etc/systemd/system
+    systemd_service.path=$$PREFIX/lib/systemd/system/
     systemd_service.files+=qt/openrgb.service
     INSTALLS += target desktop icon metainfo udev_rules systemd_service
 }
