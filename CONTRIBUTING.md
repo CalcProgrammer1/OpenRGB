@@ -8,18 +8,14 @@ To create a merge request, log into GitLab and fork the OpenRGB project.  Push y
 
 * Please keep the scope of each merge request limited to one functional area.  If you wish to add a new device controller, for instance, don't also do code cleanup in another controller as part of the same merge request.
 * Explain what your merge request is changing, why you feel the change is necessary, and add any additional information you feel is needed to best understand your change in the merge request description.
-* Mark your merge request as a draft (start title with "Draft:") until it has been tested and verified working.
+* Mark your merge request as a Draft (start title with "Draft:") until it has been fully developed and ideally tested and verified working.  Remove Draft status when you are ready for the code to be reviewed and merged.  I typically do not look at or review Draft merge requests.
 * Follow the Style Guidelines below when making your code changes.
-* Avoid using `git merge` when updating your fork.  The OpenRGB project uses a linear git history, meaning all changes are rebased onto the tip of master.  By using `git rebase` to update your fork, you will make it easier to accept merge requests.
+* Avoid using `git merge` when updating your fork.  The OpenRGB project uses a linear git history, meaning all changes are rebased onto the tip of master.  By using `git rebase` to update your fork, you will make it easier to accept merge requests.  I also recommend squashing your commits, though GitLab will do this as part of the merge process if you don't.
 * Do not submit a merge request using your fork's `master` branch as the source.  The `master` branch is protected by default when creating a fork and I cannot manually rebase a protected branch before merging.  If you submit a merge request with a protected `master` branch as the source, it may not get merged until you unprotect it.
 
-### Pipelines, Shared Runners and Quotas
+### Pipelines, Shared Runners, Quotas, and Accepting Merge Requests
 
-Since mid 2022 Gitlab has limited the usage of shared runners to all projects and whilst quite geneorous quotas are allowed
- for open source projects it is possible to exhaust them. With that in mind not all jobs within the pipeline build are
- triggered to automatically run with every push to your branch with the exception of the Windows 64bit and Linux Appimage 64bit
- jobs. If you need to test or share another build you can still start it manually from your pipeline queue.
- Once a merge request is created all architectures and platforms will be compiled to ensure that they are ready to merge.
+Since mid 2022, GitLab has severely limited the usage of shared runners to all free users.  With that in mind, most pipeline jobs are skipped on forked copies of the project.  Only the Windows 64bit and Linux AppImage amd64 jobs are run on forks, and only if you have permission and available CI minutes on your account.  Unfortunately, with the ever tightening restrictions GitLab has on free CI usage, even to public projects with an open source license, you likely will not be able to utilize the CI builds for your own fork unless you set up your own runners.  Because of this, I no longer require a successful CI run in order to accept a merge request as it is an unreasonable ask given the current CI situation.  If your merge request requires additional verification, I may choose to merge it into a branch instead of into `master` so that my own runners can run the full set of jobs and then I will pull it into master after any verification or changes.  This also means that any build breakages inadvertently caused by merging a merge request may result in the merge being backed out, in which case I will either fix it myself or leave a message on the merge request to rework and resubmit a fixed version.
 
 Please refer to the following link for [further information relating to minutes and quotas](https://docs.gitlab.com/ee/ci/pipelines/cicd_minutes.html).
 
@@ -58,14 +54,15 @@ OpenRGB is written in C++, uses the Qt framework for UI, and uses the QMake buil
 * Capitalize hexadecimal literals (`0xFF` not `0xff`) except in the udev rules file (which must be lowercase to work)
 * No space between keyword and open parenthesis (`if(TRUE)` not `if (TRUE)`).  There are some instances of this that haven't been cleaned up in the code.
 * Generally, `snake_case` is used for variable names and `CamelCase` is used for function and class names
-* Add a header comment to new files with the filename, description, original author, and date (this is missing on most Detect files)
-* Line up `=` when doing a lot of assignments together
+* Add a header comment to new files with the filename, description, original author, date, and SPDX license identifier.  You can copy one from an existing file to preserve formatting.
+* Line up `=` on a tab stop when doing a lot of assignments together
 * Use this comment box style when adding comments:
+    * Try to start the comment box on the same column as the code directly beneath it and end on column 61 if possible.  See the example below:
 
 ```
-/*--------------------------------*\
-| This is a comment                |
-\*_-------------------------------*/
+/*---------------------------------------------------------*\
+| This is a comment                                         |
+\*---------------------------------------------------------*/
 ```
 
 ## Translating
