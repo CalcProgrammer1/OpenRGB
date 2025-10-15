@@ -8,12 +8,13 @@
 \*---------------------------------------------------------*/
 
 #include <hidapi.h>
+#include "LogManager.h"
 #include "CreativeSoundBlasterXG6Controller.h"
 #include "RGBController_CreativeSoundBlasterXG6.h"
 #include "Detector.h"
 
 /*-----------------------------------------------------*\
-| Creative vendor ID                                    |
+| Creative vendor IDs                                   |
 \*-----------------------------------------------------*/
 #define CREATIVE_VID                            0x041E
 /*-----------------------------------------------------*\
