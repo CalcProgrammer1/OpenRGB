@@ -548,6 +548,7 @@ bool RazerController::SupportsWave()
         case RAZER_O11_DYNAMIC_PID:
         case RAZER_STRIDER_CHROMA_PID:
         case RAZER_THUNDERBOLT_4_DOCK_CHROMA_PID:
+        case RAZER_THUNDERBOLT_5_DOCK_CHROMA_PID:
 
             supports_wave = true;
             break;

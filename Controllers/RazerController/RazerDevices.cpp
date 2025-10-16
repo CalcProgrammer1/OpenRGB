@@ -8592,6 +8592,42 @@ static const razer_device thunderbolt_4_dock_chroma_device =
 };
 
 /*-------------------------------------------------------------*\
+|  Razer Thunderbolt 5 Dock Chroma                              |
+|                                                               |
+|  Zone "LED Strip"                                             |
+|       Linear                                                  |
+|       12 LEDs                                                 |
+|                                                               |
+\*-------------------------------------------------------------*/
+static const razer_zone thunderbolt_5_dock_chroma_zone =
+{
+    "LED Strip",
+    ZONE_TYPE_LINEAR,
+    1,
+    12
+};
+
+static const razer_device thunderbolt_5_dock_chroma_device =
+{
+    "Razer Thunderbolt 5 Dock Chroma",
+    RAZER_THUNDERBOLT_5_DOCK_CHROMA_PID,
+    DEVICE_TYPE_ACCESSORY,
+    RAZER_MATRIX_TYPE_EXTENDED,
+    0x3F,
+    1,
+    12,
+    {
+        &thunderbolt_5_dock_chroma_zone,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL
+    },
+    NULL
+};
+
+/*-------------------------------------------------------------*\
 |  Razer Hanbo Chroma                                           |
 |                                                               |
 |  Zone "Pump"                                                  |
@@ -8866,6 +8902,7 @@ const razer_device* razer_device_list[] =
     &o11_dynamic_device,
     &seiren_emote_device,
     &thunderbolt_4_dock_chroma_device,
+    &thunderbolt_5_dock_chroma_device,
     &hanbo_chroma_device
 };
 

@@ -259,6 +259,7 @@
 #define RAZER_SEIREN_EMOTE_PID                          0x0F1B
 #define RAZER_STRIDER_CHROMA_PID                        0x0C05
 #define RAZER_THUNDERBOLT_4_DOCK_CHROMA_PID             0x0F21
+#define RAZER_THUNDERBOLT_5_DOCK_CHROMA_PID             0x0F52
 #define RAZER_HANBO_CHROMA_PID                          0x0F35
 
 typedef struct
