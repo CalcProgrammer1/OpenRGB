@@ -27,6 +27,7 @@
 #include "RGBController_CMRGBController.h"
 #include "RGBController_CMR6000Controller.h"
 #include "RGBController_CMMonitorController.h"
+#include "RGBController_CMGD160Controller.h"
 #include "RGBController_CMKeyboardController.h"
 
 /*-----------------------------------------------------*\
@@ -75,6 +76,11 @@
 | Coolermaster Monitors                                 |
 \*-----------------------------------------------------*/
 #define COOLERMASTER_GM27_FQS_PID                   0x01BB
+
+/*-----------------------------------------------------*\
+| Coolermaster Desks                                    |
+\*-----------------------------------------------------*/
+#define COOLERMASTER_GD160_PID                      0x01A9
 
 /******************************************************************************************\
 *                                                                                          *
@@ -295,6 +301,20 @@ void DetectCoolerMasterMonitor(hid_device_info* info, const std::string& name)
     }
 }
 
+void DetectCoolerMasterGD160(hid_device_info* info, const std::string& name)
+{
+    hid_device* dev = hid_open_path(info->path);
+
+    if(dev)
+    {
+        CMGD160Controller*               controller     = new CMGD160Controller(dev, *info, name);
+        RGBController_CMGD160Controller* rgb_controller = new RGBController_CMGD160Controller(controller);
+
+        ResourceManager::get()->RegisterRGBController(rgb_controller);
+    }
+}
+
+
 /*-----------------------------------------------------*\
 | Coolermaster Keyboards                                |
 |   PIDs defined in `CMKeyboardDevices.h`               |
@@ -356,3 +376,8 @@ REGISTER_HID_DETECTOR_I  ("Cooler Master Radeon RX 6900 GPU",        DetectCoole
 | Coolermaster Monitors                                 |
 \*-----------------------------------------------------*/
 REGISTER_HID_DETECTOR_IPU("Cooler Master GM27-FQS ARGB Monitor",    DetectCoolerMasterMonitor,      COOLERMASTER_VID,   COOLERMASTER_GM27_FQS_PID,                   0,      0xFF00, 1);
+
+/*-----------------------------------------------------*\
+| Coolermaster Desks                                    |
+\*-----------------------------------------------------*/
+REGISTER_HID_DETECTOR_IPU("Cooler Master GD160 ARGB Gaming Desk",   DetectCoolerMasterGD160,        COOLERMASTER_VID,   COOLERMASTER_GD160_PID,                   0,      0xFF00, 1);
