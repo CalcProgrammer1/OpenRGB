@@ -30,10 +30,17 @@ RGBController_LinuxLED::RGBController_LinuxLED(LinuxLEDController* controller_pt
     type                = DEVICE_TYPE_LEDSTRIP;
     description         = "Linux Sysfs LED Device";
 
-    location            = "R: " + controller->GetRedPath() + "\r\n" +
+    if(controller->GetRgbPath().empty())
+    {
+        location        = "R: " + controller->GetRedPath() + "\r\n" +
                           "G: " + controller->GetGreenPath() + "\r\n" +
-                          "B: " + controller->GetBluePath() + "\r\n" +
-                          "M: " + controller->GetRgbPath();
+                          "B: " + controller->GetBluePath();
+    }
+    else
+    {
+        location        = controller->GetRgbPath();
+    }
+
     mode Direct;
     Direct.name         = "Direct";
     Direct.value        = 0;

@@ -75,10 +75,12 @@ void LinuxLEDController::SetRGB(unsigned char red, unsigned char grn, unsigned c
 {
     std::string brightness_str;
 
-    if (led_rgb_path.empty()) {
-        /*-------------------------------------------------------------*\
-        | My phone LED that I tested this on shuts down if you set zero |
-        \*-------------------------------------------------------------*/
+    if(led_rgb_path.empty())
+    {
+        /*-------------------------------------------------*\
+        | My phone LED that I tested this on shuts down if  |
+        | you set zero                                      |
+        \*-------------------------------------------------*/
         if(red == 0) red = 1;
         if(grn == 0) grn = 1;
         if(blu == 0) blu = 1;
@@ -98,19 +100,19 @@ void LinuxLEDController::SetRGB(unsigned char red, unsigned char grn, unsigned c
         led_b_brightness.write(brightness_str.c_str(), brightness_str.length());
         led_b_brightness.flush();
     }
-
-    else {
-        /*
-         * For the led_classdev_mc brightness just aplies a coefficient to the
-         * multi_intensity. Set brightness to maximum and use the RGB values
-         * directly instead.
-         */
+    else
+    {
+        /*-------------------------------------------------*\
+        | For the led_classdev_mc brightness just applies a |
+        | coefficient to the multi_intensity. Set brightness|
+        | to maximum and use the RGB values directly        |
+        | instead.                                          |
+        \*-------------------------------------------------*/
         brightness_str = std::to_string((unsigned int)255);
         led_rgb_brightness.write(brightness_str.c_str(), brightness_str.length());
         led_rgb_brightness.flush();
-        brightness_str = std::to_string((unsigned int)red) + " " \
-            + std::to_string((unsigned int)grn) + " " \
-            + std::to_string((unsigned int)blu);
+
+        brightness_str = std::to_string((unsigned int)red) + " " + std::to_string((unsigned int)grn) + " " + std::to_string((unsigned int)blu);
         led_rgb_color.write(brightness_str.c_str(), brightness_str.length());
         led_rgb_color.flush();
     }
