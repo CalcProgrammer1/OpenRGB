@@ -1,9 +1,10 @@
 /*---------------------------------------------------------*\
 | HyperXMicrophoneV2ControllerDetect.cpp                    |
 |                                                           |
-|   Detector for HyperX QuadCast 2s  microphone             |
+|   Detector for HyperX QuadCast 2 S Microphone             |
 |                                                           |
 |   Morgan Guimard (morg)                                   |
+|   Logan Phillips (Eclipse)                    23 Oct 2025 |
 |                                                           |
 |   This file is part of the OpenRGB project                |
 |   SPDX-License-Identifier: GPL-2.0-or-later               |
@@ -32,4 +33,4 @@ void DetectHyperXMicrophoneV2Controllers(hid_device_info* info, const std::strin
     }
 }
 
-REGISTER_HID_DETECTOR_IPU("HyperX QuadCast 2S",    DetectHyperXMicrophoneV2Controllers, HYPERX_HP_VID, HYPERX_QUADCAST_2S_PID, 1, 0xFF13, 0xFF00);
+REGISTER_HID_DETECTOR_IPU("HyperX QuadCast 2 S",    DetectHyperXMicrophoneV2Controllers, HYPERX_HP_VID, HYPERX_QUADCAST_2S_PID, 1, 0xFF13, 0xFF00);

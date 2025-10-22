@@ -1,9 +1,10 @@
 /*---------------------------------------------------------*\
 | RGBController_HyperXMicrophoneV2.h                        |
 |                                                           |
-|   RGBController for HyperX QuadCast 2S microphone         |
+|   RGBController for HyperX QuadCast 2 S Microphone        |
 |                                                           |
 |   Morgan Guimard (morg)                                   |
+|   Logan Phillips (Eclipse)                    23 Oct 2025 |
 |                                                           |
 |   This file is part of the OpenRGB project                |
 |   SPDX-License-Identifier: GPL-2.0-or-later               |

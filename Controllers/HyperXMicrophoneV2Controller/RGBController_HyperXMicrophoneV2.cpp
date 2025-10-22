@@ -1,9 +1,10 @@
 /*---------------------------------------------------------*\
 | RGBController_HyperXMicrophoneV2.cpp                      |
 |                                                           |
-|   RGBController for HyperX QuadCast 2S microphone         |
+|   RGBController for HyperX QuadCast 2 S Microphone        |
 |                                                           |
 |   Morgan Guimard (morg)                                   |
+|   Logan Phillips (Eclipse)                    23 Oct 2025 |
 |                                                           |
 |   This file is part of the OpenRGB project                |
 |   SPDX-License-Identifier: GPL-2.0-or-later               |
@@ -12,7 +13,7 @@
 /**------------------------------------------------------------------*\
     @name HyperX Quadcast 2S
     @type USB
-    @save :x:
+    @save :white_check_mark:
     @direct :white_check_mark:
     @effects :x:
     @detectors DetectHyperXMicrophoneV2Controllers
@@ -37,7 +38,7 @@ RGBController_HyperXMicrophoneV2::RGBController_HyperXMicrophoneV2(HyperXMicroph
 
     mode Direct;
     Direct.name             = "Direct";
-    Direct.flags            = MODE_FLAG_HAS_PER_LED_COLOR;
+    Direct.flags            = MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_MANUAL_SAVE;
     Direct.color_mode       = MODE_COLORS_PER_LED;
     Direct.colors_min       = HYPERX_QUADCAST_2S_TOTAL_LEDS;
     Direct.colors_max       = HYPERX_QUADCAST_2S_TOTAL_LEDS;
@@ -129,17 +130,18 @@ void RGBController_HyperXMicrophoneV2::DeviceUpdateMode()
 
 void RGBController_HyperXMicrophoneV2::DeviceSaveMode()
 {
-    /* Unsuported */
+    LOG_DEBUG("[%s] Saving current direct colors to device", name.c_str());
+    controller->SaveColors(colors);
 }
 
 void RGBController_HyperXMicrophoneV2::KeepaliveThread()
 {
     while(keepalive_thread_run.load())
     {
-        if((std::chrono::steady_clock::now() - last_update_time) > std::chrono::milliseconds(50))
+        if(!controller->ShouldPauseUpdates() && (std::chrono::steady_clock::now() - last_update_time) > std::chrono::milliseconds(1000))
         {
             UpdateLEDs();
         }
-        std::this_thread::sleep_for(15ms);
+        std::this_thread::sleep_for(250ms);
     }
 }
