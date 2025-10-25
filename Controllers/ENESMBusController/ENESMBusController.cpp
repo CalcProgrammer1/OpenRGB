@@ -425,6 +425,21 @@ void ENESMBusController::SaveMode()
 
 void ENESMBusController::SetAllColorsDirect(RGBColor* colors)
 {
+    auto now = std::chrono::steady_clock::now();
+
+    // Throttle updates
+    if(std::chrono::duration_cast<std::chrono::milliseconds>(now - last_update_time).count() < MIN_UPDATE_MS)
+        return;
+
+    // Skip if colors haven't changed
+    std::vector<RGBColor> current(colors, colors + led_count);
+    if(current == last_colors)
+        return;
+
+    last_colors = current;
+    last_update_time = now;
+
+
     unsigned char* color_buf   = new unsigned char[led_count * 3];
     unsigned int   bytes_sent  = 0;
 
@@ -454,6 +469,20 @@ void ENESMBusController::SetAllColorsDirect(RGBColor* colors)
 
 void ENESMBusController::SetAllColorsEffect(RGBColor* colors)
 {
+    auto now = std::chrono::steady_clock::now();
+
+    // Throttle updates
+    if(std::chrono::duration_cast<std::chrono::milliseconds>(now - last_update_time).count() < MIN_UPDATE_MS)
+        return;
+
+    // Skip if colors haven't changed
+    std::vector<RGBColor> current(colors, colors + led_count);
+    if(current == last_colors)
+        return;
+
+    last_colors = current;
+    last_update_time = now;
+
     unsigned char* color_buf   = new unsigned char[led_count * 3];
     unsigned int   bytes_sent  = 0;
 

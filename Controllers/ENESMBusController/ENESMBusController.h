@@ -143,4 +143,8 @@ private:
     bool                    supports_mode_14;
     std::string             name;
     device_type             type;
+
+    std::vector<RGBColor>  LAST_COLOURS;   // log of the previous colors
+    std::chrono::steady_clock::time_point last_update_time;  // previous timestamp
+    static constexpr int  MIN_UPDATE_MS = 50; // capped interval between updates
 };
