@@ -43,6 +43,7 @@
 #define AMD_NAVI32_DEV                                  0x747E
 #define AMD_NAVI33_DEV                                  0x7480
 #define AMD_NAVI48_DEV                                  0x7550
+#define AMD_NAVI48_DEV1                                 0x7590
 
 /*-----------------------------------------------------*\
 | Intel Device IDs                                      |
@@ -926,6 +927,7 @@
 #define SAPPHIRE_NAVI21_TOXIC_SUB_DEV1                  0xF441
 #define SAPPHIRE_NAVI31_NITRO_PLUS_SUB_DEV              0xE471
 #define SAPPHIRE_NAVI48_NITRO_PLUS_SUB_DEV              0xE489
+#define SAPPHIRE_NAVI48_NITRO_PLUS_SUB_DEV1             0xE493
 #define SAPPHIRE_NAVI48_PURE_SUB_DEV                    0x4499
 #define SAPPHIRE_NAVI48_PURE_XT_SUB_DEV                 0x3490
 #define SAPPHIRE_NAVI31_GRE_NITRO_PLUS_SUB_DEV          0xE475
