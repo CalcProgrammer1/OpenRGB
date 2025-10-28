@@ -1199,6 +1199,7 @@ std::string RazerController::GetVariantName()
     switch(variant)
     {
         case RAZER_KEYBOARD_VARIANT_BLACK:   return "Black";
+        case RAZER_KEYBOARD_VARIANT_QUARTZ:  return "Quartz";
         case RAZER_KEYBOARD_VARIANT_MERCURY: return "Mercury";
         default:                             return "Unkown Variant";
     }

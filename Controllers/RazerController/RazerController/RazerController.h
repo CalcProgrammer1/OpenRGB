@@ -157,6 +157,7 @@ enum
 enum
 {
     RAZER_KEYBOARD_VARIANT_BLACK                    = 0x00,
+    RAZER_KEYBOARD_VARIANT_QUARTZ                   = 0x80,
     RAZER_KEYBOARD_VARIANT_MERCURY                  = 0x82,
 };
 
