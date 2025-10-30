@@ -99,32 +99,32 @@ void RGBController_DRGB::SetupZones()
             Version         = 4;
             break;
 
-        case DRGB_LED_V5_PID:
+        case DRGB_L8_V5_PID:
             NUM_CHANNELS    = 8;
             NUM_Channel_led = 512;
             Version         = 4;
             break;
-        case DRGB_ULTRA_V5_PID:
+        case DRGB_U16_V5_PID:
             NUM_CHANNELS    = 16;
             NUM_Channel_led = 256;
             Version         = 4;
             break;
-        case DRGB_ULTRA_V5F_PID:
+        case DRGB_U16_V5F_PID:
             NUM_CHANNELS    = 16;
             NUM_Channel_led = 256;
             Version         = 4;
             break;
-        case DRGB_CORE_V5_PID:
+        case DRGB_C16_V5_PID:
             NUM_CHANNELS    = 32;
             NUM_Channel_led = 256;
             Version         = 4;
             break;
-        case DRGB_CORE_V5F_PID:
+        case DRGB_C16_V5F_PID:
             NUM_CHANNELS    = 32;
             NUM_Channel_led = 256;
             Version         = 4;
             break;
-        case DRGB_SIG_V5F_PID:
+        case DRGB_S16_V5F_PID:
             NUM_CHANNELS    = 32;
             NUM_Channel_led = 256;
             Version         = 4;
@@ -145,8 +145,13 @@ void RGBController_DRGB::SetupZones()
             NUM_Channel_led = 256;
             Version         = 3;
             break;
-        case DRGB_ELITE_PID:
+        case DRGB_E8_F_PID:
             NUM_CHANNELS    = 8;
+            NUM_Channel_led = 132;
+            Version         = 1;
+            break;
+        case DRGB_E16_PID:
+            NUM_CHANNELS    = 16;
             NUM_Channel_led = 132;
             Version         = 1;
             break;
@@ -202,6 +207,16 @@ void RGBController_DRGB::SetupZones()
             NUM_Channel_led = 132;
             Version         = 3;
             break;
+        case YICO_14_PID:
+            NUM_CHANNELS    = 14;
+            NUM_Channel_led = 132;
+            Version         = 1;
+            break;
+        case YICO_16_PID:
+            NUM_CHANNELS    = 16;
+            NUM_Channel_led = 256;
+            Version         = 4;
+            break;
     }
 
     zones.resize(NUM_CHANNELS);
@@ -236,6 +251,24 @@ void RGBController_DRGB::SetupZones()
         {
             snprintf(ch_idx_string, 4, "%d", channel_idx+1 );
             zones[channel_idx].name     = "Channel ";
+        }
+        else if(NUM_CHANNELS == 14)
+        {
+            if(channel_idx<4)
+            {
+                snprintf(ch_idx_string, 2, "%d", channel_idx+1 );
+                zones[channel_idx].name     = "LCD ";
+            }
+            else if(channel_idx<6)
+            {
+                snprintf(ch_idx_string, 2, "%d", channel_idx+1 );
+                zones[channel_idx].name     = "LED ";
+            }
+            else if(channel_idx<16)
+            {
+                snprintf(ch_idx_string, 2, "%d", channel_idx-5 );
+                zones[channel_idx].name     = "ARGB ";
+            }
         }
         else if(channel_idx<8)
         {
