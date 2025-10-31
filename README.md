@@ -38,7 +38,7 @@ This project interacts directly with hardware using reverse engineered protocols
     * MacOS
   * Released versions are available to download on [OpenRGB.org](https://openrgb.org/releases.html) or under [Releases](https://gitlab.com/CalcProgrammer1/OpenRGB/-/releases/permalink/latest).
   * Experimental (aka Pipeline) versions are available to download on [OpenRGB.org](https://openrgb.org/index.html#pl).
-  * On Windows, you will need the **Microsoft Visual 2019 C++ runtime** installed.  You can get it [here](https://support.microsoft.com/en-us/help/2977003/the-latest-supported-visual-c-downloads).
+  * On Windows, you will need the **Microsoft Visual 2019 C++ runtime** installed.  You can get it [here](https://learn.microsoft.com/en-us/cpp/windows/latest-supported-vc-redist?view=msvc-170#latest-supported-redistributable-version).
   * An unofficial Flatpak release is [available on Flathub](https://flathub.org/apps/details/org.openrgb.OpenRGB)
     * Note: If using the AppImage or Flatpak versions, ensure you [install the latest udev rules](Documentation/UdevRules.md).
   * Released versions are officially packaged for various distributions including Alpine, Fedora, and Arch.
