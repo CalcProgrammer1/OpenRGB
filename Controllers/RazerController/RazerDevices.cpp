@@ -7702,6 +7702,41 @@ static const razer_device kraken_kitty_black_v2_device =
 };
 
 /*-------------------------------------------------------------*\
+|  Razer Kraken V3 X 1532:0537                                  |
+|                                                               |
+|  Zone "Headset"                                               |
+|       Single                                                  |
+|       1 LED                                                   |
+\*-------------------------------------------------------------*/
+static const razer_zone kraken_v3_x_zone =
+{
+    "Headset",
+    ZONE_TYPE_SINGLE,
+    1,
+    1
+};
+
+static const razer_device kraken_v3_x_device =
+{
+    "Razer Kraken V3 X",
+    RAZER_KRAKEN_V3_X_PID,
+    DEVICE_TYPE_HEADSET,
+    RAZER_MATRIX_TYPE_NONE,
+    0,
+    1,
+    1,
+    {
+        &kraken_v3_x_zone,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL
+    },
+    NULL
+};
+
+/*-------------------------------------------------------------*\
 |  Razer Kraken V4 Wired 1532:056B                              |
 |                                                               |
 |  Zone "Headset"                                               |
@@ -9041,6 +9076,7 @@ const razer_device* razer_device_list[] =
     &kraken_ultimate_device,
     &kraken_kitty_device,
     &kraken_kitty_black_v2_device,
+    &kraken_v3_x_device,
     &kraken_v4_wired_device,
     &kraken_v4_wireless_device,
     &kraken_kitty_v3_pro_wired_device,

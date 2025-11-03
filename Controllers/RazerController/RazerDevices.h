@@ -224,6 +224,7 @@
 #define RAZER_KRAKEN_ULTIMATE_PID                       0x0527
 #define RAZER_KRAKEN_V2_PID                             0x0510
 #define RAZER_KRAKEN_KITTY_BLACK_EDITION_V2_PID         0x0560
+#define RAZER_KRAKEN_V3_X_PID                           0x0537
 #define RAZER_KRAKEN_V4_WIRED_PID                       0x056B
 #define RAZER_KRAKEN_V4_WIRELESS_PID                    0x056C
 #define RAZER_KRAKEN_KITTY_V3_PRO_WIRED_PID             0x0587

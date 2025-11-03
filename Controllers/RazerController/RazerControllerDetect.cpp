@@ -14,6 +14,7 @@
 #include "Detector.h"
 #include "RazerController.h"
 #include "RazerKrakenController.h"
+#include "RazerKrakenV3Controller.h"
 #include "RazerKrakenV4Controller.h"
 #include "RazerHanboController.h"
 #include "RazerDevices.h"
@@ -21,6 +22,7 @@
 #include "RGBController_Razer.h"
 #include "RGBController_RazerAddressable.h"
 #include "RGBController_RazerKraken.h"
+#include "RGBController_RazerKrakenV3.h"
 #include "RGBController_RazerKrakenV4.h"
 #include "RGBController_RazerHanbo.h"
 
@@ -154,6 +156,27 @@ void DetectRazerKrakenControllers(hid_device_info* info, const std::string& name
         ResourceManager::get()->RegisterRGBController(rgb_controller);
     }
 }   /* DetectRazerKrakenControllers() */
+
+/******************************************************************************************\
+*                                                                                          *
+*   DetectRazerKrakenV3Controllers                                                         *
+*                                                                                          *
+*       Tests the USB address to see if a Razer Kraken V3 controller exists there.         *
+*                                                                                          *
+\******************************************************************************************/
+
+void DetectRazerKrakenV3Controllers(hid_device_info* info, const std::string& name)
+{
+    hid_device* dev = hid_open_path(info->path);
+
+    if(dev)
+    {
+        RazerKrakenV3Controller* controller = new RazerKrakenV3Controller(dev, info->path, info->product_id, name);
+
+        RGBController_RazerKrakenV3* rgb_controller = new RGBController_RazerKrakenV3(controller);
+        ResourceManager::get()->RegisterRGBController(rgb_controller);
+    }
+}   /* DetectRazerKrakenV3Controllers() */
 
 /******************************************************************************************\
 *                                                                                          *
@@ -365,6 +388,7 @@ REGISTER_HID_DETECTOR_IPU("Razer Kraken Kitty Edition",                      Det
 REGISTER_HID_DETECTOR_IPU("Razer Kraken Kitty Black Edition",                DetectRazerControllers,        RAZER_VID,  RAZER_KRAKEN_KITTY_BLACK_EDITION_PID,           0x01,   0x01,   0x03);
 REGISTER_HID_DETECTOR_IPU("Razer Kraken Kitty Black Edition V2",             DetectRazerKrakenControllers,  RAZER_VID,  RAZER_KRAKEN_KITTY_BLACK_EDITION_V2_PID,        0x03,   0x0C,   0x01);
 REGISTER_HID_DETECTOR_IPU("Razer Kraken Ultimate",                           DetectRazerKrakenControllers,  RAZER_VID,  RAZER_KRAKEN_ULTIMATE_PID,                      0x03,   0x0C,   0x01);
+REGISTER_HID_DETECTOR_IPU("Razer Kraken V3 X",                               DetectRazerKrakenV3Controllers,RAZER_VID,  RAZER_KRAKEN_V3_X_PID,                          0x03,   0x0C,   0x01);
 REGISTER_HID_DETECTOR_IPU("Razer Kraken V4 (Wired)",                         DetectRazerKrakenV4Controllers,RAZER_VID,  RAZER_KRAKEN_V4_WIRED_PID,                      0x05,   0xFF14, 0x01);
 REGISTER_HID_DETECTOR_IPU("Razer Kraken V4 (Wireless)",                      DetectRazerKrakenV4Controllers,RAZER_VID,  RAZER_KRAKEN_V4_WIRELESS_PID,                   0x05,   0xFF14, 0x01);
 REGISTER_HID_DETECTOR_IPU("Razer Kraken Kitty V3 Pro (Wired)",               DetectRazerKrakenV4Controllers,RAZER_VID,  RAZER_KRAKEN_KITTY_V3_PRO_WIRED_PID,            0x05,   0xFF14, 0x01);
