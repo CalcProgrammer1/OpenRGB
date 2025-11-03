@@ -20,6 +20,7 @@ const char* KEYBOARD_NAME_JIS           = "JIS";
 const char* KEYBOARD_NAME_AZERTY        = "AZERTY";
 const char* KEYBOARD_NAME_QWERTY        = "QWERTY";
 const char* KEYBOARD_NAME_QWERTZ        = "QWERTZ";
+const char* KEYBOARD_NAME_ABNT2         = "ABNT2";
 
 const char* KEYBOARD_NAME_FULL          = "Full 104 key ";
 const char* KEYBOARD_NAME_TKL           = "Tenkeyless ";
@@ -293,6 +294,26 @@ keyboard_keymap_overlay jis
     }
 };
 
+keyboard_keymap_overlay abnt2
+{
+    KEYBOARD_SIZE_FULL,
+    {
+        /*-------------------------------------------------------------------------------------------------------------------------------------*\
+        | Edit Keys                                                                                                                             |
+        |   Zone,   Row,    Column,     Value,      Name,                       Alternate Name,             OpCode                              |
+        \*-------------------------------------------------------------------------------------------------------------------------------------*/
+        {   0,      1,       0,         0,          KEY_EN_UNUSED,              KEY_EN_QUOTE,               KEYBOARD_OPCODE_ADD_ALT_NAME,       },
+        {   0,      2,      11,         0,          KEY_EN_UNUSED,              KEY_NORD_ACUTE_GRAVE,       KEYBOARD_OPCODE_ADD_ALT_NAME,       },
+        {   0,      2,      12,         0,          KEY_EN_UNUSED,              KEY_EN_LEFT_BRACKET,        KEYBOARD_OPCODE_ADD_ALT_NAME,       },
+        {   0,      3,      10,         0,          KEY_EN_UNUSED,              KEY_FR_CEDILLA_C,           KEYBOARD_OPCODE_ADD_ALT_NAME,       },
+        {   0,      3,      11,         0,          KEY_EN_UNUSED,              KEY_BR_TILDE,               KEYBOARD_OPCODE_ADD_ALT_NAME,       },
+        {   0,      3,      12,         0,          KEY_EN_UNUSED,              KEY_EN_RIGHT_BRACKET,       KEYBOARD_OPCODE_ADD_ALT_NAME,       },
+        {   0,      4,      11,         0,          KEY_EN_SEMICOLON,           KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      2,      13,         0,          KEY_EN_UNUSED,              KEY_EN_UNUSED,              KEYBOARD_OPCODE_SWAP_ONLY,          },
+        {   0,      4,      13,         0,          KEY_EN_UNUSED,              KEY_EN_UNUSED,              KEYBOARD_OPCODE_REMOVE_SHIFT_LEFT,  },
+    }
+};
+
 KeyboardLayoutManager::KeyboardLayoutManager(KEYBOARD_LAYOUT layout, KEYBOARD_SIZE size) : KeyboardLayoutManager(layout, size, {})
 {
 }
@@ -386,6 +407,11 @@ KeyboardLayoutManager::KeyboardLayoutManager(KEYBOARD_LAYOUT layout, KEYBOARD_SI
         case KEYBOARD_LAYOUT::KEYBOARD_LAYOUT_JIS:
             ChangeKeys(jis);
             tmp_name = KEYBOARD_NAME_JIS;
+            break;
+
+        case KEYBOARD_LAYOUT::KEYBOARD_LAYOUT_ABNT2:
+            ChangeKeys(abnt2);
+            tmp_name = KEYBOARD_NAME_ABNT2;
             break;
     }
 

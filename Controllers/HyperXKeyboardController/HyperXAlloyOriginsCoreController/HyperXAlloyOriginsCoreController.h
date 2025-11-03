@@ -15,6 +15,9 @@
 #include <hidapi.h>
 #include "RGBController.h"
 
+#define HYPERX_ALLOY_ORIGINS_CORE_ANSI      0x09
+#define HYPERX_ALLOY_ORIGINS_CORE_ABNT2     0x10
+
 class HyperXAlloyOriginsCoreController
 {
 public:
@@ -27,7 +30,8 @@ public:
     std::string     GetFirmwareVersion();
     unsigned int    GetVariant();
 
-    void SetLEDsDirect(std::vector<RGBColor> colors);
+    void SetLEDsDirect(std::vector<led> leds, std::vector<RGBColor> colors);
+    void SendRGBToDevice();
     void SetBrightness(unsigned int brightness);
 
 private:
@@ -35,4 +39,5 @@ private:
     std::string     location;
     std::string     firmware_version;
     std::string     name;
+    unsigned char   color_buf[380];
 };

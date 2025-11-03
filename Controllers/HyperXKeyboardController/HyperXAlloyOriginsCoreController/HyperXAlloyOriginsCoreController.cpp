@@ -93,7 +93,7 @@ unsigned int HyperXAlloyOriginsCoreController::GetVariant()
     if(actual > 0)
         variant = packet[56];
     else
-        variant = 0x09;
+        variant = 0;
 
     LOG_DEBUG("[HyperX Alloy Origins Core] variant: 0x%02X", variant);
     return variant;
@@ -112,8 +112,7 @@ void HyperXAlloyOriginsCoreController::SetBrightness(unsigned int brightness)
     hid_write(dev, packet, 65);
 }
 
-
-void HyperXAlloyOriginsCoreController::SetLEDsDirect(std::vector<RGBColor> colors)
+void HyperXAlloyOriginsCoreController::SetLEDsDirect(std::vector<led> leds, std::vector<RGBColor> colors)
 {
     /*------------------------------------------------------------------------------*\
     | * Always send 380 bytes to the keyboard and a total of 94 led indexes.         |
@@ -132,8 +131,7 @@ void HyperXAlloyOriginsCoreController::SetLEDsDirect(std::vector<RGBColor> color
     \*------------------------------------------------------------------------------*/
     unsigned int segment = 0, sector = 0, sequence = 0;
     unsigned int total_colors = 0;
-    unsigned char buf[380];
-    memset(buf, 0x00, sizeof(buf));
+    memset(color_buf, 0x00, sizeof(color_buf));
 
     /*---------------------------------------------------------------------------*\
     | transfer the colors to the buffer. Max 94 colors to avoid buffer overflow.  |
@@ -147,22 +145,27 @@ void HyperXAlloyOriginsCoreController::SetLEDsDirect(std::vector<RGBColor> color
         total_colors = (unsigned int)colors.size();
     }
 
-    for(unsigned int color_idx = 0; color_idx < total_colors; color_idx++)
+    unsigned int pos = 0, color_idx = 0;
+    for(unsigned int i = 0; i < total_colors; i++)
     {
-        unsigned int pos = 0;
-        segment  = (color_idx / 12) * 48;
-        sector   = ((color_idx / 6) & 1) * 8;
-        sequence = color_idx % 6;
+        color_idx     = leds[i].value;
+        segment       = (color_idx / 12) * 48;
+        sector        = ((color_idx / 6) & 1) * 8;
+        sequence      = color_idx % 6;
 
-        pos = segment + sector + sequence;
+        pos           = segment + sector + sequence;
 
-        buf[pos     ] = RGBGetGValue(colors[color_idx]);
-        buf[pos + 16] = RGBGetRValue(colors[color_idx]);
-        buf[pos + 32] = RGBGetBValue(colors[color_idx]);
+        color_buf[pos     ] = RGBGetGValue(colors[i]);
+        color_buf[pos + 16] = RGBGetRValue(colors[i]);
+        color_buf[pos + 32] = RGBGetBValue(colors[i]);
     }
+}
 
+
+void HyperXAlloyOriginsCoreController::SendRGBToDevice()
+{
     unsigned int sentBytes   = 0;
-    unsigned int bytesToSend = sizeof(buf);
+    unsigned int bytesToSend = sizeof(color_buf);
     unsigned int payloadSize = 60;
     unsigned int seq         = 0;
 
@@ -180,7 +183,7 @@ void HyperXAlloyOriginsCoreController::SetLEDsDirect(std::vector<RGBColor> color
         packet[2] = seq++;
         packet[4] = payloadSize;
 
-        memcpy(&packet[5], &buf[sentBytes], payloadSize);
+        memcpy(&packet[5], &color_buf[sentBytes], payloadSize);
         hid_write(dev, packet, payloadSize + 5);
 
         sentBytes += payloadSize;
