@@ -50,7 +50,7 @@ std::vector<unsigned int> hyperx_core_default_values
      8,   9,  10,  11,  12,  13,  14,  15,  16,  56,  57,  58,  59,  60,            61,  62,  63,
     17,       18,  19,  20,  21,  22,  23,  24,  64,  65,  66,  67,  68,  69,       70,  71,  72,
     25,       26,  27,  28,  29,  30,  31,  32,  73,  74,  75,  76,  77,  78,
-    33,  34,  35,  36,  37,  38,  39,  40,  79,  80,  81,       83,  84,                 85,
+    33,  34,  35,  36,  37,  38,  39,  40,  79,  80,  81,  82,       84,                 85,
     41,  42,  43,                 45,                      86,  87,  88,  89,       90,  91,  92,
 };
 
@@ -75,6 +75,7 @@ std::map<KEYBOARD_LAYOUT, key_set> regional_overlay_abnt2
             |   Zone,   Row,    Column,     Value,      Key,                        Alternate Name,             OpCode,                             |
             \*-------------------------------------------------------------------------------------------------------------------------------------*/
             {   0,      4,      11,        82,          KEY_EN_SEMICOLON,           KEY_EN_UNUSED,              KEYBOARD_OPCODE_SWAP_ONLY,          },
+            {   0,      4,      12,        83,          KEY_EN_FORWARD_SLASH,       KEY_EN_UNUSED,              KEYBOARD_OPCODE_SWAP_ONLY,          },
         },
     }
 };
