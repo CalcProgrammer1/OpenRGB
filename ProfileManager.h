@@ -3,6 +3,8 @@
 |                                                           |
 |   OpenRGB profile manager                                 |
 |                                                           |
+|   Adam Honse <calcprogrammer1@gmail.com>      09 Nov 2025 |
+|                                                           |
 |   This file is part of the OpenRGB project                |
 |   SPDX-License-Identifier: GPL-2.0-or-later               |
 \*---------------------------------------------------------*/
@@ -15,34 +17,37 @@
 class ProfileManagerInterface
 {
 public:
-    virtual bool SaveProfile
-        (
-        std::string profile_name,
-        bool sizes = false
-        )                                                                            = 0;
-    virtual bool LoadProfile(std::string profile_name)                               = 0;
-    virtual bool LoadSizeFromProfile(std::string profile_name)                       = 0;
-    virtual void DeleteProfile(std::string profile_name)                             = 0;
-    virtual unsigned char * GetProfileListDescription()                              = 0;
+    virtual void                        DeleteProfile(std::string profile_name)                         = 0;
 
-    std::vector<std::string> profile_list;
+    virtual std::string                 GetActiveProfile()                                              = 0;
+    virtual std::vector<RGBController*> GetControllerListFromProfile(nlohmann::json profile_json)       = 0;
+    virtual std::vector<RGBController*> GetControllerListFromSizes()                                    = 0;
+    virtual std::vector<std::string>    GetProfileList()                                                = 0;
+    virtual unsigned char *             GetProfileListDescription()                                     = 0;
 
-    virtual bool LoadDeviceFromListWithOptions
-        (
-        std::vector<RGBController*>&    temp_controllers,
-        std::vector<bool>&              temp_controller_used,
-        RGBController*                  load_controller,
-        bool                            load_size,
-        bool                            load_settings
-        )                                                                            = 0;
+    virtual bool                        LoadControllerFromListWithOptions
+                                        (
+                                        std::vector<RGBController*>&    temp_controllers,
+                                        std::vector<bool>&              temp_controller_used,
+                                        RGBController*                  load_controller,
+                                        bool                            load_size,
+                                        bool                            load_settings
+                                        )                                                               = 0;
 
-    virtual std::vector<RGBController*> LoadProfileToList
-        (
-        std::string profile_name,
-        bool sizes = false
-        )                                                                            = 0;
+    virtual bool                        LoadProfile(std::string profile_name)                           = 0;
 
-    virtual void SetConfigurationDirectory(const filesystem::path& directory)        = 0;
+    virtual nlohmann::json              ReadProfileJSON(std::string profile_name)                       = 0;
+
+    virtual bool                        SaveProfile(std::string profile_name)                           = 0;
+    virtual bool                        SaveProfileFromJSON(nlohmann::json profile_json)                = 0;
+    virtual bool                        SaveSizes()                                                     = 0;
+
+    virtual void                        SetConfigurationDirectory(const filesystem::path& directory)    = 0;
+
+    virtual void                        SetProfileListFromDescription(char * data_buf)                  = 0;
+
+    virtual void                        UpdateProfileList()                                             = 0;
+
 protected:
     virtual ~ProfileManagerInterface() {};
 };
@@ -53,43 +58,70 @@ public:
     ProfileManager(const filesystem::path& config_dir);
     ~ProfileManager();
 
-    bool SaveProfile
-        (
-        std::string     profile_name,
-        bool            sizes = false
-        );
-    bool LoadProfile(std::string profile_name);
-    bool LoadSizeFromProfile(std::string profile_name);
-    void DeleteProfile(std::string profile_name);
-    unsigned char * GetProfileListDescription();
+    void                        DeleteProfile(std::string profile_name);
 
-    std::vector<std::string> profile_list;
+    std::string                 GetActiveProfile();
+    std::vector<RGBController*> GetControllerListFromProfile(nlohmann::json profile_json);
+    std::vector<RGBController*> GetControllerListFromSizes();
+    std::vector<std::string>    GetProfileList();
+    unsigned char *             GetProfileListDescription();
 
-    bool LoadDeviceFromListWithOptions
-        (
-        std::vector<RGBController*>&    temp_controllers,
-        std::vector<bool>&              temp_controller_used,
-        RGBController*                  load_controller,
-        bool                            load_size,
-        bool                            load_settings
-        );
+    bool                        LoadAutoProfileExit();
+    bool                        LoadAutoProfileOpen();
+    bool                        LoadAutoProfileResume();
+    bool                        LoadAutoProfileSuspend();
 
-    std::vector<RGBController*> LoadProfileToList
-        (
-        std::string     profile_name,
-        bool            sizes = false
-        );
+    bool                        LoadControllerFromListWithOptions
+                                    (
+                                    std::vector<RGBController*>&    temp_controllers,
+                                    std::vector<bool>&              temp_controller_used,
+                                    RGBController*                  load_controller,
+                                    bool                            load_size,
+                                    bool                            load_settings
+                                    );
 
-    void SetConfigurationDirectory(const filesystem::path& directory);
+    bool                        LoadProfile(std::string profile_name);
+
+    nlohmann::json              ReadProfileJSON(std::string profile_name);
+
+    bool                        SaveProfile(std::string profile_name);
+    bool                        SaveProfileFromJSON(nlohmann::json profile_json);
+    bool                        SaveSizes();
+
+    void                        SetConfigurationDirectory(const filesystem::path& directory);
+
+    void                        SetProfileListFromDescription(char * data_buf);
+
+    void                        UpdateProfileList();
 
 private:
-    filesystem::path configuration_directory;
+    /*-----------------------------------------------------*\
+    | List of available profiles                            |
+    \*-----------------------------------------------------*/
+    std::vector<std::string>    profile_list;
 
-    void UpdateProfileList();
-    bool LoadProfileWithOptions
-            (
-            std::string     profile_name,
-            bool            load_size,
-            bool            load_settings
-            );
+    /*-----------------------------------------------------*\
+    | Active profile string                                 |
+    \*-----------------------------------------------------*/
+    std::string                 active_profile;
+
+    /*-----------------------------------------------------*\
+    | Profile paths                                         |
+    \*-----------------------------------------------------*/
+    filesystem::path            configuration_directory;
+    filesystem::path            profile_directory;
+
+    /*-----------------------------------------------------*\
+    | Private functions                                     |
+    \*-----------------------------------------------------*/
+    bool                        LoadAutoProfile(std::string setting_name);
+
+    bool                        LoadProfileWithOptions
+                                    (
+                                    std::string     profile_name,
+                                    bool            load_size,
+                                    bool            load_settings
+                                    );
+
+    nlohmann::json              ReadProfileFileJSON(filesystem::path profile_filepath);
 };

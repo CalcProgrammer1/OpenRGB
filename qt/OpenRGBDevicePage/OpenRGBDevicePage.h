@@ -37,8 +37,6 @@ public:
     void HideDeviceView();
     void ShowDeviceView();
 
-    void UpdateDevice();
-
 private:
     /*-----------------------------------------------------*\
     | UI Pointer                                            |
@@ -70,6 +68,7 @@ private:
     \*-----------------------------------------------------*/
     void UpdateColor();
     void UpdateColorUi();
+    void UpdateDevice();
     void UpdateLEDList();
     void UpdateLEDUi();
     void UpdateMode();
