@@ -2493,36 +2493,32 @@ void OpenRGBDevicePage::on_SpinBoxModeColors_valueChanged(int count)
                 \*-----------------------------------------*/
                 unsigned int mode_colors_min;
                 unsigned int mode_colors_max;
-                unsigned int mode_colors;
 
                 if(selected_zone_mode && (selected_mode >= 0))
                 {
                     mode_colors_min = device->GetZoneModeColorsMin(selected_zone, selected_mode);
                     mode_colors_max = device->GetZoneModeColorsMax(selected_zone, selected_mode);
-                    mode_colors     = device->GetZoneModeColorsCount(selected_zone, selected_mode);
                 }
                 else if(selected_zone_mode)
                 {
                     mode_colors_min = device->GetModeColorsMin(device->GetActiveMode());
                     mode_colors_max = device->GetModeColorsMax(device->GetActiveMode());
-                    mode_colors     = device->GetModeColorsCount(device->GetActiveMode());
                 }
                 else
                 {
                     mode_colors_min = device->GetModeColorsMin(selected_mode);
                     mode_colors_max = device->GetModeColorsMax(selected_mode);
-                    mode_colors     = device->GetModeColorsCount(selected_mode);
                 }
 
-                if((count >= mode_colors_min) && (count <= mode_colors_max))
+                if(((unsigned int)count >= mode_colors_min) && ((unsigned int)count <= mode_colors_max))
                 {
                     if(selected_zone_mode && (selected_mode >= 0))
                     {
-                        device->SetZoneModeColorsCount(selected_zone, device->GetZoneActiveMode(selected_zone), count);
+                        device->SetZoneModeColorsCount(selected_zone, device->GetZoneActiveMode(selected_zone), (std::size_t)count);
                     }
                     else
                     {
-                        device->SetModeColorsCount(device->GetActiveMode(), count);
+                        device->SetModeColorsCount(device->GetActiveMode(), (std::size_t)count);
                     }
                 }
 
