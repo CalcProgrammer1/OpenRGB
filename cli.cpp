@@ -865,7 +865,7 @@ bool OptionSize(std::vector<DeviceOptions>* current_devices, std::string argumen
         /*---------------------------------------------------------*\
         | Save the profile                                          |
         \*---------------------------------------------------------*/
-        ResourceManager::get()->GetProfileManager()->SaveProfile("sizes", true);
+        ResourceManager::get()->GetProfileManager()->SaveSizes();
     }
 
     return true;
@@ -880,23 +880,6 @@ bool OptionProfile(std::string argument, std::vector<RGBController *>& rgb_contr
     \*---------------------------------------------------------*/
     if(ResourceManager::get()->GetProfileManager()->LoadProfile(argument))
     {
-        /*-----------------------------------------------------*\
-        | Change device mode if profile loading was successful  |
-        \*-----------------------------------------------------*/
-        for(std::size_t controller_idx = 0; controller_idx < rgb_controllers.size(); controller_idx++)
-        {
-            RGBController* device = rgb_controllers[controller_idx];
-
-            device->DeviceUpdateMode();
-            LOG_DEBUG("[CLI] Updating mode for %s to %i", device->GetName().c_str(), device->GetActiveMode());
-
-            if(device->GetModeColorMode(device->GetActiveMode()) == MODE_COLORS_PER_LED)
-            {
-                device->DeviceUpdateLEDs();
-                LOG_DEBUG("[CLI] Mode uses per-LED color, also updating LEDs");
-            }
-        }
-
         std::cout << "Profile loaded successfully" << std::endl;
         return true;
     }
