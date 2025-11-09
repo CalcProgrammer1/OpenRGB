@@ -706,7 +706,7 @@ void NetworkServer::ListenThreadFunction(NetworkClientInfo * client_info)
                     memcpy(&new_size, data + sizeof(int), sizeof(int));
 
                     controllers[header.pkt_dev_idx]->ResizeZone(zone, new_size);
-                    profile_manager->SaveProfile("sizes", true);
+                    profile_manager->SaveSizes();
                 }
                 break;
 
@@ -911,11 +911,6 @@ void NetworkServer::ListenThreadFunction(NetworkClientInfo * client_info)
                     profile_manager->LoadProfile(profile_name);
                 }
 
-                for(RGBController* controller : controllers)
-                {
-                    controller->UpdateLEDs();
-                }
-
                 break;
 
             case NET_PACKET_ID_REQUEST_DELETE_PROFILE:
@@ -966,7 +961,7 @@ void NetworkServer::ListenThreadFunction(NetworkClientInfo * client_info)
                     memcpy(&zone, data, sizeof(int));
 
                     controllers[header.pkt_dev_idx]->ClearSegments(zone);
-                    profile_manager->SaveProfile("sizes", true);
+                    profile_manager->SaveSizes();
                 }
                 break;
 
@@ -981,7 +976,7 @@ void NetworkServer::ListenThreadFunction(NetworkClientInfo * client_info)
                         if(header.pkt_dev_idx < controllers.size())
                         {
                             controllers[header.pkt_dev_idx]->SetSegmentDescription((unsigned char *)data);
-                            profile_manager->SaveProfile("sizes", true);
+                            profile_manager->SaveSizes();
                         }
                     }
                 }
