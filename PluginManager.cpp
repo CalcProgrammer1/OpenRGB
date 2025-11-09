@@ -533,6 +533,58 @@ void PluginManager::UnloadPlugins()
     }
 }
 
+void PluginManager::OnProfileAboutToLoad()
+{
+    /*-----------------------------------------------------*\
+    | Loop through all plugins and signal profile about to  |
+    | load                                                  |
+    \*-----------------------------------------------------*/
+    for(std::size_t plugin_idx = 0; plugin_idx < ActivePlugins.size(); plugin_idx++)
+    {
+        if(ActivePlugins[plugin_idx].enabled && ActivePlugins[plugin_idx].loader->isLoaded())
+        {
+            ActivePlugins[plugin_idx].plugin->OnProfileAboutToLoad();
+        }
+    }
+}
+
+void PluginManager::OnProfileLoad(nlohmann::json profile_data)
+{
+    /*-----------------------------------------------------*\
+    | Loop through all plugins call their OnProfileLoad if  |
+    | the profile data contains an entry for that plugin    |
+    \*-----------------------------------------------------*/
+    for(std::size_t plugin_idx = 0; plugin_idx < ActivePlugins.size(); plugin_idx++)
+    {
+        if(ActivePlugins[plugin_idx].enabled && ActivePlugins[plugin_idx].loader->isLoaded())
+        {
+            if(profile_data.contains(ActivePlugins[plugin_idx].plugin->GetPluginInfo().Name))
+            {
+                ActivePlugins[plugin_idx].plugin->OnProfileLoad(profile_data[ActivePlugins[plugin_idx].plugin->GetPluginInfo().Name]);
+            }
+        }
+    }
+}
+
+nlohmann::json PluginManager::OnProfileSave()
+{
+    nlohmann::json plugin_json;
+
+    /*-----------------------------------------------------*\
+    | Loop through all plugins and gather their profile     |
+    | data                                                  |
+    \*-----------------------------------------------------*/
+    for(std::size_t plugin_idx = 0; plugin_idx < ActivePlugins.size(); plugin_idx++)
+    {
+        if(ActivePlugins[plugin_idx].enabled && ActivePlugins[plugin_idx].loader->isLoaded())
+        {
+            plugin_json[ActivePlugins[plugin_idx].plugin->GetPluginInfo().Name] = ActivePlugins[plugin_idx].plugin->OnProfileSave();
+        }
+    }
+
+    return(plugin_json);
+}
+
 unsigned char * PluginManager::OnSDKCommand(unsigned int plugin_idx, unsigned int pkt_id, unsigned char * pkt_data, unsigned int * pkt_size)
 {
     unsigned char * out_data = NULL;

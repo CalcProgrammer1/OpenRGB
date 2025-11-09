@@ -60,6 +60,9 @@ public:
     void LoadPlugins();
     void UnloadPlugins();
 
+    void OnProfileAboutToLoad();
+    void OnProfileLoad(nlohmann::json profile_data);
+    nlohmann::json OnProfileSave();
     unsigned char * OnSDKCommand(unsigned int plugin_idx, unsigned int pkt_id, unsigned char * pkt_data, unsigned int * pkt_size);
 
     std::vector<OpenRGBPluginEntry> ActivePlugins;
