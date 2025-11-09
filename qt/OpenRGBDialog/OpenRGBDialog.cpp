@@ -41,6 +41,8 @@
 #include "macutils.h"
 #endif
 
+PluginManager * g_plugin_manager;
+
 static int GetIcon(device_type type)
 {
     /*-----------------------------------------------------*\
@@ -264,49 +266,6 @@ OpenRGBDialog::OpenRGBDialog(QWidget *parent) : QMainWindow(parent), ui(new Ui::
     }
 
     /*-----------------------------------------------------*\
-    | If autoload_profiles doesn't exist or has missing     |
-    | profiles, write it to config                          |
-    \*-----------------------------------------------------*/
-    json autoload_profiles;
-    if(ui_settings.contains("autoload_profiles"))
-    {
-        autoload_profiles = ui_settings["autoload_profiles"];
-    }
-    else
-    {
-        new_settings_keys                = true;
-    }
-
-    if(!autoload_profiles.contains("exit_profile"))
-    {
-        json profile;
-        profile["enabled"]                = false;
-        profile["name"]                   = "";
-        autoload_profiles["exit_profile"] = profile;
-        new_settings_keys                 = true;
-    }
-
-    if(!autoload_profiles.contains("resume_profile"))
-    {
-        json profile;
-        profile["enabled"]                  = false;
-        profile["name"]                     = "";
-        autoload_profiles["resume_profile"] = profile;
-        new_settings_keys                   = true;
-    }
-
-    if(!autoload_profiles.contains("suspend_profile"))
-    {
-        json profile;
-        profile["enabled"]                   = false;
-        profile["name"]                      = "";
-        autoload_profiles["suspend_profile"] = profile;
-        new_settings_keys                    = true;
-    }
-
-    ui_settings["autoload_profiles"] = autoload_profiles;
-
-    /*-----------------------------------------------------*\
     | Register detection progress callback with resource    |
     | manager                                               |
     \*-----------------------------------------------------*/
@@ -497,6 +456,8 @@ OpenRGBDialog::OpenRGBDialog(QWidget *parent) : QMainWindow(parent), ui(new Ui::
     plugin_manager->RegisterAddPluginCallback(&CreatePluginCallback, this);
     plugin_manager->RegisterRemovePluginCallback(&DeletePluginCallback, this);
 
+    g_plugin_manager = plugin_manager;
+
     /*-----------------------------------------------------*\
     | Add the Plugins page                                  |
     \*-----------------------------------------------------*/
@@ -591,7 +552,6 @@ void OpenRGBDialog::handleAboutToQuit()
     delete closeEvent;
 }
 
-
 void OpenRGBDialog::changeEvent(QEvent *event)
 {
     if(event->type() == QEvent::LanguageChange)
@@ -630,10 +590,8 @@ void OpenRGBDialog::closeEvent(QCloseEvent *event)
     {
         plugin_manager->UnloadPlugins();
 
-        if(SelectConfigProfile("exit_profile"))
+        if(ResourceManager::get()->GetProfileManager()->LoadAutoProfileExit())
         {
-            on_ButtonLoadProfile_clicked();
-
             /*---------------------------------------------*\
             | Pause briefly to ensure that all profiles are |
             | loaded.                                       |
@@ -664,39 +622,6 @@ void OpenRGBDialog::keyPressEvent(QKeyEvent *event)
     {
         QMainWindow::keyPressEvent(event);
     }
-}
-
-bool OpenRGBDialog::SelectConfigProfile(const std::string name)
-{
-    /*-----------------------------------------------------*\
-    | Set automatic profile (if enabled and valid)          |
-    \*-----------------------------------------------------*/
-    json ui_settings = ResourceManager::get()->GetSettingsManager()->GetSettings("UserInterface");
-
-    if(ui_settings.contains("autoload_profiles"))
-    {
-        json autoload_profiles = ui_settings["autoload_profiles"];
-        if(autoload_profiles.contains(name))
-        {
-            json profile = autoload_profiles[name];
-            if (profile.contains("enabled") && profile["enabled"].get<bool>() && profile.contains("name"))
-            {
-                /*-----------------------------------------*\
-                | Set the profile name from settings and    |
-                | check the profile combobox for a match    |
-                \*-----------------------------------------*/
-                std::string profile_name = profile["name"].get<std::string>();
-                int profile_index        = ui->ProfileBox->findText(QString::fromStdString(profile_name));
-
-                if(profile_index > -1)
-                {
-                    ui->ProfileBox->setCurrentIndex(profile_index);
-                    return true;
-                }
-            }
-        }
-    }
-    return false;
 }
 
 void OpenRGBDialog::AddPluginsPage()
@@ -1334,18 +1259,18 @@ void OpenRGBDialog::UpdateProfileList()
         ui->ProfileBox->clear();
         profileMenu->clear();
 
-        for(std::size_t profile_index = 0; profile_index < profile_manager->profile_list.size(); profile_index++)
+        for(std::size_t profile_index = 0; profile_index < profile_manager->GetProfileList().size(); profile_index++)
         {
             /*---------------------------------------------*\
             | Fill in profile combo box                     |
             \*---------------------------------------------*/
-            ui->ProfileBox->addItem(profile_manager->profile_list[profile_index].c_str());
+            ui->ProfileBox->addItem(profile_manager->GetProfileList()[profile_index].c_str());
 
             /*---------------------------------------------*\
             | Fill in profile tray icon menu                |
             \*---------------------------------------------*/
-            QAction* actionProfileSelected = new QAction(profile_manager->profile_list[profile_index].c_str(), this);
-            actionProfileSelected->setObjectName(profile_manager->profile_list[profile_index].c_str());
+            QAction* actionProfileSelected = new QAction(profile_manager->GetProfileList()[profile_index].c_str(), this);
+            actionProfileSelected->setObjectName(profile_manager->GetProfileList()[profile_index].c_str());
             connect(actionProfileSelected, SIGNAL(triggered()), this, SLOT(on_ProfileSelected()));
             profileMenu->addAction(actionProfileSelected);
         }
@@ -1356,20 +1281,16 @@ void OpenRGBDialog::UpdateProfileList()
 
 void OpenRGBDialog::OnSuspend()
 {
-    if(SelectConfigProfile("suspend_profile"))
+    if(ResourceManager::get()->GetProfileManager()->LoadAutoProfileSuspend())
     {
         plugin_manager->UnloadPlugins();
-        on_ButtonLoadProfile_clicked();
     }
 }
 
 void OpenRGBDialog::OnResume()
 {
-    if(SelectConfigProfile("resume_profile"))
-    {
-        on_ButtonLoadProfile_clicked();
-    }
     plugin_manager->LoadPlugins();
+    ResourceManager::get()->GetProfileManager()->LoadAutoProfileResume();
 }
 
 void OpenRGBDialog::on_Exit()
@@ -1488,10 +1409,23 @@ void OpenRGBDialog::onDetectionEnded()
     {
         ShowLEDView();
     }
+
+    /*-----------------------------------------------------*\
+    | Load the on open automatic profile                    |
+    \*-----------------------------------------------------*/
+    ResourceManager::get()->GetProfileManager()->LoadAutoProfileOpen();
 }
 
 void OpenRGBDialog::on_SetAllDevices(unsigned char red, unsigned char green, unsigned char blue)
 {
+    /*-----------------------------------------------------*\
+    | Send the about to load profile signal to plugins      |
+    \*-----------------------------------------------------*/
+    g_plugin_manager->OnProfileAboutToLoad();
+
+    /*-----------------------------------------------------*\
+    | Apply the color to all device pages                   |
+    \*-----------------------------------------------------*/
     for(int device = 0; device < ui->DevicesTabBar->count(); device++)
     {
         qobject_cast<OpenRGBDevicePage *>(ui->DevicesTabBar->widget(device))->SetCustomMode(red, green, blue);
@@ -1507,7 +1441,7 @@ void OpenRGBDialog::on_SaveSizeProfile()
         /*-------------------------------------------------*\
         | Save the profile                                  |
         \*-------------------------------------------------*/
-        profile_manager->SaveProfile("sizes", true);
+        profile_manager->SaveSizes();
     }
 }
 
@@ -1645,13 +1579,7 @@ void OpenRGBDialog::on_ProfileSelected()
         /*-------------------------------------------------*\
         | Load the profile                                  |
         \*-------------------------------------------------*/
-        if(profile_manager->LoadProfile(profile_name))
-        {
-            for(int device = 0; device < ui->DevicesTabBar->count(); device++)
-            {
-                qobject_cast<OpenRGBDevicePage *>(ui->DevicesTabBar->widget(device))->UpdateDevice();
-            }
-        }
+        profile_manager->LoadProfile(profile_name);
 
         ui->ProfileBox->setCurrentIndex(ui->ProfileBox->findText(QString::fromStdString(profile_name)));
     }
@@ -1671,13 +1599,7 @@ void OpenRGBDialog::on_ButtonLoadProfile_clicked()
         /*-------------------------------------------------*\
         | Load the profile                                  |
         \*-------------------------------------------------*/
-        if(profile_manager->LoadProfile(profile_name))
-        {
-            for(int device = 0; device < ui->DevicesTabBar->count(); device++)
-            {
-                qobject_cast<OpenRGBDevicePage *>(ui->DevicesTabBar->widget(device))->UpdateDevice();
-            }
-        }
+        profile_manager->LoadProfile(profile_name);
     }
 }
 

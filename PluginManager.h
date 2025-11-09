@@ -15,6 +15,7 @@
 #include <QLabel>
 #include <QtPlugin>
 #include <QDir>
+#include "nlohmann/json.hpp"
 #include "OpenRGBPluginInterface.h"
 
 struct OpenRGBPluginEntry
@@ -52,6 +53,10 @@ public:
 
     void LoadPlugins();
     void UnloadPlugins();
+
+    void OnProfileAboutToLoad();
+    void OnProfileLoad(nlohmann::json profile_data);
+    nlohmann::json OnProfileSave();
 
     std::vector<OpenRGBPluginEntry> ActivePlugins;
 

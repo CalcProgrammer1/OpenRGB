@@ -15,6 +15,7 @@
 #include <QtPlugin>
 #include <QLabel>
 #include <QMenu>
+#include "nlohmann/json.hpp"
 #include "OpenRGBNetworkPluginInterface.h"
 #include "ResourceManagerInterface.h"
 
@@ -82,6 +83,9 @@ public:
     virtual void                Load(ResourceManagerInterface* resource_manager_ptr)                = 0;
     virtual QWidget*            GetWidget()                                                         = 0;
     virtual QMenu*              GetTrayMenu()                                                       = 0;
+    virtual void                OnProfileAboutToLoad()                                              = 0;
+    virtual void                OnProfileLoad(nlohmann::json profile_data)                          = 0;
+    virtual nlohmann::json      OnProfileSave()                                                     = 0;
     virtual void                Unload()                                                            = 0;
 };
 
