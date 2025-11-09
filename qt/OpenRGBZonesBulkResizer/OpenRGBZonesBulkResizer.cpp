@@ -196,7 +196,7 @@ void OpenRGBZonesBulkResizer::on_save_button_clicked()
         /*-----------------------------------------------------*\
         | Save the profile                                      |
         \*-----------------------------------------------------*/
-        profile_manager->SaveProfile("sizes", true);
+        profile_manager->SaveSizes();
     }
 
     /*---------------------------------------------------------*\
