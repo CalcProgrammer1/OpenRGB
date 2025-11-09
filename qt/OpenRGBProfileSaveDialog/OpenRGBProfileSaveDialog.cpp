@@ -24,7 +24,7 @@ OpenRGBProfileSaveDialog::OpenRGBProfileSaveDialog(QWidget *parent) :
     ui->setupUi(this);
     setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
 
-    std::vector<std::string> filenames = ResourceManager::get()->GetProfileManager()->profile_list;
+    std::vector<std::string> filenames = ResourceManager::get()->GetProfileManager()->GetProfileList();
 
     if(filenames.empty())
     {
