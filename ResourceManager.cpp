@@ -103,6 +103,9 @@ using namespace std::chrono_literals;
 
 ResourceManager *ResourceManager::get()
 {
+    /*-----------------------------------------------------*\
+    | If ResourceManager does not exist yet, create it      |
+    \*-----------------------------------------------------*/
     if(!instance)
     {
         instance = new ResourceManager();
@@ -113,6 +116,25 @@ ResourceManager *ResourceManager::get()
 
 ResourceManager::ResourceManager()
 {
+    /*-----------------------------------------------------*\
+    | Initialize global instance pointer the when created   |
+    | There should only ever be one instance of             |
+    | ResourceManager                                       |
+    \*-----------------------------------------------------*/
+    if(!instance)
+    {
+        instance = this;
+    }
+    /*-----------------------------------------------------*\
+    | If, for whatever reason, ResourceManager already      |
+    | exists, delete this instance as only one should exist |
+    \*-----------------------------------------------------*/
+    else
+    {
+        delete this;
+        return;
+    }
+
     /*-----------------------------------------------------*\
     | Initialize Detection Variables                        |
     \*-----------------------------------------------------*/
@@ -125,6 +147,7 @@ ResourceManager::ResourceManager()
     dynamic_detectors_processed = false;
     init_finished               = false;
     background_thread_running   = true;
+    plugin_manager              = NULL;
 
     /*-----------------------------------------------------*\
     | Start the background detection thread in advance; it  |
@@ -188,7 +211,7 @@ ResourceManager::ResourceManager()
     \*-----------------------------------------------------*/
     profile_manager         = new ProfileManager(GetConfigurationDirectory());
     server->SetProfileManager(profile_manager);
-    rgb_controllers_sizes   = profile_manager->LoadProfileToList("sizes", true);
+    rgb_controllers_sizes   = profile_manager->GetControllerListFromSizes();
 }
 
 ResourceManager::~ResourceManager()
@@ -251,7 +274,7 @@ void ResourceManager::RegisterRGBController(RGBController *rgb_controller)
         \*-------------------------------------------------*/
         for(unsigned int controller_size_idx = detection_prev_size; controller_size_idx < rgb_controllers_hw.size(); controller_size_idx++)
         {
-            profile_manager->LoadDeviceFromListWithOptions(rgb_controllers_sizes, detection_size_entry_used, rgb_controllers_hw[controller_size_idx], true, false);
+            profile_manager->LoadControllerFromListWithOptions(rgb_controllers_sizes, detection_size_entry_used, rgb_controllers_hw[controller_size_idx], true, false);
         }
 
         UpdateDeviceList();
@@ -690,7 +713,7 @@ void ResourceManager::SetConfigurationDirectory(const filesystem::path &director
     profile_manager->SetConfigurationDirectory(directory);
 
     rgb_controllers_sizes.clear();
-    rgb_controllers_sizes   = profile_manager->LoadProfileToList("sizes", true);
+    rgb_controllers_sizes   = profile_manager->GetControllerListFromSizes();
 }
 
 NetworkServer* ResourceManager::GetServer()

@@ -15,6 +15,7 @@
 #include <QtPlugin>
 #include <QLabel>
 #include <QMenu>
+#include "nlohmann/json.hpp"
 #include "ResourceManagerInterface.h"
 
 #define OpenRGBPluginInterface_IID  "com.OpenRGBPluginInterface"
@@ -87,6 +88,9 @@ public:
     virtual QWidget*            GetWidget()                                                         = 0;
     virtual QMenu*              GetTrayMenu()                                                       = 0;
     virtual void                Unload()                                                            = 0;
+    virtual void                OnProfileAboutToLoad()                                              = 0;
+    virtual void                OnProfileLoad(nlohmann::json profile_data)                          = 0;
+    virtual nlohmann::json      OnProfileSave()                                                     = 0;
     virtual unsigned char*      OnSDKCommand(unsigned int pkt_id, unsigned char * pkt_data, unsigned int *pkt_size)      = 0;
 };
 
