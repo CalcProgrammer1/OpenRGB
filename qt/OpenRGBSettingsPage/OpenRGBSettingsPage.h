@@ -85,6 +85,8 @@ private slots:
 
     void on_CheckboxSetOnExit_clicked(bool checked);
     void on_ComboBoxExitProfile_currentTextChanged(const QString exit_profile_name);
+    void on_CheckboxSetOnOpen_clicked(bool checked);
+    void on_ComboBoxOpenProfile_currentTextChanged(const QString open_profile_name);
     void on_CheckboxSetOnResume_clicked(bool checked);
     void on_ComboBoxResumeProfile_currentTextChanged(const QString resume_profile_name);
     void on_CheckboxSetOnSuspend_clicked(bool checked);
