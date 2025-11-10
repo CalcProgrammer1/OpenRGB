@@ -3,9 +3,10 @@ Description=OpenRGB SDK Server
 After=network.target lm_sensors.service
 
 [Service]
-ExecStart=/usr/bin/openrgb --server
+ExecStart=/usr/bin/openrgb --server --config /etc/openrgb
 Restart=always
+RuntimeDirectory=openrgb
+WorkingDirectory=/run/openrgb
 
 [Install]
 WantedBy=multi-user.target
-
