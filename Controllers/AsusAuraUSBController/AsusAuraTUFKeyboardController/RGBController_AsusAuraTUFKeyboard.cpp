@@ -76,6 +76,7 @@ RGBController_AuraTUFKeyboard::RGBController_AuraTUFKeyboard(AuraTUFKeyboardCont
             case AURA_ROG_STRIX_SCOPE_II_PID:
             case AURA_ROG_STRIX_SCOPE_II_RX_PID:
             case AURA_ROG_STRIX_SCOPE_II_96_WIRELESS_USB_PID:
+            case AURA_ROG_STRIX_SCOPE_II_96_RX_WIRELESS_USB_PID:
             case AURA_TUF_K5_GAMING_PID:
                 AURA_KEYBOARD_SPEED_MIN          = 255;
                 AURA_KEYBOARD_SPEED_MAX          = 0;
@@ -439,6 +440,9 @@ void RGBController_AuraTUFKeyboard::SetupZones()
             break;
         case AURA_ROG_STRIX_SCOPE_II_96_WIRELESS_USB_PID:
             keyboard_ptr = &AsusROGStrixScopeII96WirelessLayouts;
+            break;
+        case AURA_ROG_STRIX_SCOPE_II_96_RX_WIRELESS_USB_PID:
+            keyboard_ptr = &AsusROGStrixScopeII96RxWirelessLayouts;
             break;
         case AURA_ROG_STRIX_FLARE_II_PID:
             keyboard_ptr = &AsusROGStrixFlareIILayouts;
