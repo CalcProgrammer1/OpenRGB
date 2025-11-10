@@ -44,6 +44,7 @@ fi
 %{_metainfodir}/org.%{name}.%{_name}.metainfo.xml
 %{_udevrulesdir}/60-%{name}.rules
 %{_unitdir}/openrgb.service
+%{_tmpfilesdir}/openrgb.conf
 %license LICENSE
 %doc README.md
 
