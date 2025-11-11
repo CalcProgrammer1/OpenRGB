@@ -11,20 +11,43 @@
 
 #pragma once
 
+#include <atomic>
+#include <chrono>
+#include <condition_variable>
 #include <mutex>
 #include <thread>
-#include <chrono>
+#include <queue>
 #include "OpenRGBNetworkPluginInterface.h"
 #include "RGBController.h"
 #include "NetworkProtocol.h"
 #include "net_port.h"
 #include "ProfileManager.h"
 #include "ResourceManager.h"
+#include "SettingsManager.h"
 
 #define MAXSOCK 32
 #define TCP_TIMEOUT_SECONDS 5
 
 typedef void (*NetServerCallback)(void *);
+
+typedef struct
+{
+    char *                      data;
+    unsigned int                id;
+    unsigned int                size;
+    unsigned int                client_protocol_version;
+} NetworkServerControllerThreadQueueEntry;
+
+typedef struct
+{
+    unsigned int                                        index;
+    std::queue<NetworkServerControllerThreadQueueEntry> queue;
+    std::mutex                                          queue_mutex;
+    std::mutex                                          start_mutex;
+    std::condition_variable                             start_cv;
+    std::thread *                                       thread;
+    std::atomic<bool>                                   online;
+} NetworkServerControllerThread;
 
 class NetworkClientInfo
 {
@@ -70,6 +93,7 @@ public:
     void                                StopServer();
 
     void                                ConnectionThreadFunction(int socket_idx);
+    void                                ControllerListenThread(NetworkServerControllerThread * this_thread);
     void                                ListenThreadFunction(NetworkClientInfo * client_sock);
 
     void                                ProcessRequest_ClientProtocolVersion(SOCKET client_sock, unsigned int data_size, char * data);
@@ -87,46 +111,69 @@ public:
     void                                SendReply_PluginSpecific(SOCKET client_sock, unsigned int pkt_type, unsigned char* data, unsigned int data_size);
 
     void                                SetProfileManager(ProfileManagerInterface* profile_manager_pointer);
+    void                                SetSettingsManager(SettingsManagerInterface* settings_manager_pointer);
 
     void                                RegisterPlugin(OpenRGBNetworkPlugin plugin);
     void                                UnregisterPlugin(std::string plugin_name);
 
-protected:
+private:
+    /*-----------------------------------------------------*\
+    | Server variables                                      |
+    \*-----------------------------------------------------*/
     std::string                         host;
+    bool                                legacy_workaround_enabled;
     unsigned short                      port_num;
+    std::mutex                          send_in_progress;
     std::string                         server_name;
     std::atomic<bool>                   server_online;
     std::atomic<bool>                   server_listening;
+    SOCKET                              server_sock[MAXSOCK];
+    int                                 socket_count;
 
-    std::vector<RGBController *>&       controllers;
+    /*-----------------------------------------------------*\
+    | Server controller list                                |
+    \*-----------------------------------------------------*/
+    std::vector<RGBController *>&                   controllers;
+    std::vector<NetworkServerControllerThread *>    controller_threads;
 
+    /*-----------------------------------------------------*\
+    | Server clients                                        |
+    \*-----------------------------------------------------*/
     std::mutex                          ServerClientsMutex;
     std::vector<NetworkClientInfo *>    ServerClients;
     std::thread *                       ConnectionThread[MAXSOCK];
 
+    /*-----------------------------------------------------*\
+    | Client information change callbacks                   |
+    \*-----------------------------------------------------*/
     std::mutex                          ClientInfoChangeMutex;
     std::vector<NetServerCallback>      ClientInfoChangeCallbacks;
     std::vector<void *>                 ClientInfoChangeCallbackArgs;
 
+    /*-----------------------------------------------------*\
+    | Server listening change callbacks                     |
+    \*-----------------------------------------------------*/
     std::mutex                          ServerListeningChangeMutex;
     std::vector<NetServerCallback>      ServerListeningChangeCallbacks;
     std::vector<void *>                 ServerListeningChangeCallbackArgs;
 
+    /*-----------------------------------------------------*\
+    | Pointers to components that integrate with server     |
+    \*-----------------------------------------------------*/
+    std::vector<OpenRGBNetworkPlugin>   plugins;            //TODO: replace with pluginsmanagerinterface
     ProfileManagerInterface*            profile_manager;
+    SettingsManagerInterface*           settings_manager;
 
-    std::vector<OpenRGBNetworkPlugin>   plugins;
-
-    std::mutex                          send_in_progress;
-
-private:
 #ifdef WIN32
-    WSADATA     wsa;
+    /*-----------------------------------------------------*\
+    | Windows-specific WSA data                             |
+    \*-----------------------------------------------------*/
+    WSADATA                             wsa;
 #endif
 
-    bool            legacy_workaround_enabled;
-    int             socket_count;
-    SOCKET          server_sock[MAXSOCK];
-
-    int             accept_select(int sockfd);
-    int             recv_select(SOCKET s, char *buf, int len, int flags);
+    /*-----------------------------------------------------*\
+    | Private server functions                              |
+    \*-----------------------------------------------------*/
+    int                                 accept_select(int sockfd);
+    int                                 recv_select(SOCKET s, char *buf, int len, int flags);
 };

@@ -198,6 +198,9 @@ public:
     void RegisterNetworkPlugin(OpenRGBNetworkPlugin plugin);
     void UnregisterNetworkPlugin(std::string plugin_name);
 
+    bool IsLocalClient();
+    NetworkClient* GetLocalClient();
+
 private:
     void UpdateDetectorSettings();
     void SetupConfigurationDirectory();
