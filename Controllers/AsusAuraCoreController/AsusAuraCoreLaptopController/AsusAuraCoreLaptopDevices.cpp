@@ -23,6 +23,22 @@ std::vector<unsigned int> aura_core_laptop_15_values =
        126,  128,  129,              131,              135,  136,  136,  137,
 };
 
+std::vector<unsigned int> aura_core_laptop_16_values =
+{
+    /* ESC          F1    F2    F3    F4    F5    F6    F7    F8    F9   F10   F11   F12         DEL  */
+        21,         23,   24,   25,   26,   28,   29,   30,   31,   33,   34,   35,   36,
+    /* BKTK    1     2     3     4     5     6     7     8     9     0     -     =   BSPC        PLAY  */
+        42,   43,   44,   45,   46,   47,   48,   49,   50,   51,   52,   53,   54,   55,
+    /* TAB     Q     W     E     R     T     Y     U     I     O     P     [     ]     \         STOP  */
+        63,   64,   65,   66,   67,   68,   69,   70,   71,   72,   73,   74,   75,   76,
+    /* CPLK    A     S     D     F     G     H     J     K     L     ;     "     #   ENTR        PREV  */
+        84,   85,   86,   87,   88,   89,   90,   91,   92,   93,   94,   95,   96,   98,
+    /* LSFT  ISO\    Z     X     C     V     B     N     M     ,     .     /   RSFT        ARWU  NEXT  */
+        105,  106,  107,  108,  109,  110,  111,  112,  113,  114,  115,  116,  119,
+    /* LCTL  LWIN  LALT              SPC               RALT  RFNC  RMNU  RCTL        ARWL  ARWD  ARWR  */
+        126,  128,  129,              131,              135,  136,  136,  137,
+};
+
 std::vector<unsigned int> aura_core_laptop_17_values =
 {
     /* ESC          F1    F2    F3    F4    F5    F6    F7    F8    F9   F10   F11   F12   NULL  NULL  PAUS                          */
@@ -161,6 +177,78 @@ keyboard_keymap_overlay_values g533zw_lightbar_layout
         {   0,      0,       3,         171,        "Lightbar R3",              KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Insert Lightbar R3
         {   0,      0,       4,         170,        "Lightbar R2",              KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Insert Lightbar R2
         {   0,      0,       5,         169,        "Lightbar R1",              KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Insert Lightbar R1
+    }
+};
+
+keyboard_keymap_overlay_values g614jz_keyboard_layout
+{
+    KEYBOARD_SIZE_SEVENTY_FIVE,
+    {
+        aura_core_laptop_16_values,
+        {
+            /* Add more regional layout fixes here */
+        }
+    },
+    {
+        /*-------------------------------------------------------------------------------------------------------------------------------------*\
+        | Edit Keys                                                                                                                             |
+        |   Zone,   Row,    Column,     Value,      Key,                        Alternate Name,             OpCode,                             |
+        \*-------------------------------------------------------------------------------------------------------------------------------------*/
+        {   0,      0,       2,           2,        KEY_EN_MEDIA_VOLUME_DOWN,   KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_ROW,         },  // Insert Row and add Volume Down
+        {   0,      0,       3,           3,        KEY_EN_MEDIA_VOLUME_UP,     KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Insert Volume Up
+        {   0,      0,       4,           4,        KEY_EN_MEDIA_MUTE,          KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Insert Mute
+        {   0,      0,       5,           5,        "Key: Fan",                 KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Insert "Fan" key
+        {   0,      0,       6,           6,        "Key: ROG",                 KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Insert "ROG" key
+        {   0,      6,       1,         127,        KEY_EN_LEFT_FUNCTION,       KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Insert Left Fuction
+        {   0,      6,       8,           0,        KEY_EN_UNUSED,              KEY_EN_UNUSED,              KEYBOARD_OPCODE_REMOVE_SHIFT_LEFT,  },  // Remove part of Spacebar
+        {   0,      6,       8,           0,        KEY_EN_UNUSED,              KEY_EN_UNUSED,              KEYBOARD_OPCODE_REMOVE_SHIFT_LEFT,  },  // Remove part of Spacebar
+        {   0,      6,      10,         136,        KEY_EN_RIGHT_FUNCTION,      KEY_EN_UNUSED,              KEYBOARD_OPCODE_REMOVE_SHIFT_LEFT,  },  // Remove Right Fuction
+        {   0,      6,      10,         136,        KEY_EN_RIGHT_WINDOWS,       KEY_EN_UNUSED,              KEYBOARD_OPCODE_REMOVE_SHIFT_LEFT,  },  // Remove Right Win Key
+
+        {   0,      1,      15,          37,        KEY_EN_DELETE,              KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Insert Delete
+        {   0,      2,      15,          58,        KEY_EN_MEDIA_PLAY_PAUSE,    KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Insert Play / Pause
+        {   0,      3,      15,          79,        KEY_EN_MEDIA_STOP,          KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Insert Stop
+        {   0,      3,      13,          76,        KEY_EN_ANSI_BACK_SLASH,     KEY_EN_UNUSED,              KEYBOARD_OPCODE_SWAP_ONLY,          }, // Force ANSI | even on ISO layouts
+        {   0,      4,      15,         100,        KEY_EN_MEDIA_PREVIOUS,      KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Insert Previous
+        {   0,      5,      15,         121,        KEY_EN_MEDIA_NEXT,          KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Insert Next
+        {   0,      5,      12,           0,        KEY_EN_UNUSED,              KEY_EN_UNUSED,              KEYBOARD_OPCODE_REMOVE_SHIFT_LEFT,  },  // gap before arrow up key
+
+        {   0,      6,      10,         136,        KEY_EN_PRINT_SCREEN,        KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Insert a Print Screen key
+        {   0,      6,      15,           0,        KEY_EN_UNUSED,              KEY_EN_UNUSED,              KEYBOARD_OPCODE_REMOVE_SHIFT_LEFT,  },  // trim extra column before numpad
+
+        // Close numpad gap completely
+        {   0,      1,      14,           0,        KEY_EN_UNUSED,              KEY_EN_UNUSED,              KEYBOARD_OPCODE_REMOVE_SHIFT_LEFT,  },
+        {   0,      2,      14,           0,        KEY_EN_UNUSED,              KEY_EN_UNUSED,              KEYBOARD_OPCODE_REMOVE_SHIFT_LEFT,  },
+        {   0,      3,      14,           0,        KEY_EN_UNUSED,              KEY_EN_UNUSED,              KEYBOARD_OPCODE_REMOVE_SHIFT_LEFT,  },
+        {   0,      4,      14,           0,        KEY_EN_UNUSED,              KEY_EN_UNUSED,              KEYBOARD_OPCODE_REMOVE_SHIFT_LEFT,  },
+
+        // Move Arrow keys
+        {   0,      6,      13,           0,        KEY_EN_UNUSED,              KEY_EN_UNUSED,              KEYBOARD_OPCODE_SWAP_ONLY,          },  // Remove Arrow Down
+        {   0,      5,      13,         120,        KEY_EN_UP_ARROW,            KEY_EN_UNUSED,              KEYBOARD_OPCODE_SWAP_ONLY,          },  // Shift Arrow Ups4
+        {   0,      6,      12,         140,        KEY_EN_LEFT_ARROW,          KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      6,      13,         141,        KEY_EN_DOWN_ARROW,          KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      6,      14,         142,        KEY_EN_RIGHT_ARROW,         KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+    }
+};
+
+keyboard_keymap_overlay_values g614jz_lightbar_layout
+{
+    KEYBOARD_SIZE_EMPTY,
+    {
+        {   /* Values not set in empty keyboard */   },
+        {
+            /* Add more regional layout fixes here */
+        }
+    },
+    {
+        /*-------------------------------------------------------------------------------------------------------------------------------------*\
+        | Edit Keys                                                                                                                             |
+        |   Zone,   Row,    Column,     Value,      Key,                        Alternate Name,             OpCode,                             |
+        \*-------------------------------------------------------------------------------------------------------------------------------------*/
+        {   0,      0,        0,        173,        "Lightbar L1",              KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Insert Lightbar L2
+        {   0,      1,        0,        172,        "Lightbar L2",              KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Insert Lightbar L3
+        {   0,      0,       14,        169,        "Lightbar R1",              KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Insert Lightbar R1
+        {   0,      1,       14,        170,        "Lightbar R2",              KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Insert Lightbar R2
     }
 };
 
@@ -478,6 +566,38 @@ static const aura_core_laptop_device g533zw_device =
 };
 
 /*-------------------------------------------------------------*\
+|  ASUS ROG Strix SCAR 16 G614JZ                                |
+|                                                               |
+|  Zone "Keyboard"                                              |
+|       Matrix                                                  |
+|       6 Rows, 19 Columns                                      |
+\*-------------------------------------------------------------*/
+static const aura_core_laptop_zone g614jz_keyboard_zone =
+{
+    ZONE_EN_KEYBOARD,
+    &g614jz_keyboard_layout
+};
+static const aura_core_laptop_zone g614jz_lightbar_zone =
+{
+    "Lightbar",
+    &g614jz_lightbar_layout
+};
+
+
+static const aura_core_laptop_device g614jz_device =
+{
+    "G614JZ",
+    {
+        &g614jz_keyboard_zone,
+        &g614jz_lightbar_zone,
+        nullptr,
+        nullptr,
+        nullptr,
+        nullptr
+    }
+};
+
+/*-------------------------------------------------------------*\
 |  ASUS ROG Strix SCAR G713RW                                   |
 |                                                               |
 |  Zone "Keyboard"                                              |
@@ -551,6 +671,7 @@ const aura_core_laptop_device* aura_core_laptop_device_list_data[] =
 \*-----------------------------------------------------------------*/
     &g533zm_device,
     &g533zw_device,
+    &g614jz_device,
     &g713rw_device,
     &g814jv_device,
 };
