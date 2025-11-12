@@ -7,7 +7,7 @@
 |    count is aligned to the value count.                                   |
 \*-------------------------------------------------------------------------*/
 
-std::vector<unsigned int> aura_core_laptop_15_values =
+std::vector<unsigned int> aura_core_laptop_15_16_values =
 {
     /* ESC          F1    F2    F3    F4    F5    F6    F7    F8    F9   F10   F11   F12         DEL  */
         21,         23,   24,   25,   26,   28,   29,   30,   31,   33,   34,   35,   36,
@@ -21,22 +21,6 @@ std::vector<unsigned int> aura_core_laptop_15_values =
        105,  106,  107,  108,  109,  110,  111,  112,  113,  114,  115,  116,  119,
     /* LCTL  LWIN  LALT              SPC               RALT  RFNC  RMNU  RCTL        ARWL  ARWD  ARWR  */
        126,  128,  129,              131,              135,  136,  136,  137,
-};
-
-std::vector<unsigned int> aura_core_laptop_16_values =
-{
-    /* ESC          F1    F2    F3    F4    F5    F6    F7    F8    F9   F10   F11   F12         DEL  */
-        21,         23,   24,   25,   26,   28,   29,   30,   31,   33,   34,   35,   36,
-    /* BKTK    1     2     3     4     5     6     7     8     9     0     -     =   BSPC        PLAY  */
-        42,   43,   44,   45,   46,   47,   48,   49,   50,   51,   52,   53,   54,   55,
-    /* TAB     Q     W     E     R     T     Y     U     I     O     P     [     ]     \         STOP  */
-        63,   64,   65,   66,   67,   68,   69,   70,   71,   72,   73,   74,   75,   76,
-    /* CPLK    A     S     D     F     G     H     J     K     L     ;     "     #   ENTR        PREV  */
-        84,   85,   86,   87,   88,   89,   90,   91,   92,   93,   94,   95,   96,   98,
-    /* LSFT  ISO\    Z     X     C     V     B     N     M     ,     .     /   RSFT        ARWU  NEXT  */
-        105,  106,  107,  108,  109,  110,  111,  112,  113,  114,  115,  116,  119,
-    /* LCTL  LWIN  LALT              SPC               RALT  RFNC  RMNU  RCTL        ARWL  ARWD  ARWR  */
-        126,  128,  129,              131,              135,  136,  136,  137,
 };
 
 std::vector<unsigned int> aura_core_laptop_17_values =
@@ -78,7 +62,7 @@ keyboard_keymap_overlay_values g533zm_layout
 {
     KEYBOARD_SIZE_SEVENTY_FIVE,
     {
-        aura_core_laptop_15_values,
+        aura_core_laptop_15_16_values,
         {
             /* Add more regional layout fixes here */
         }
@@ -104,7 +88,7 @@ keyboard_keymap_overlay_values g533zw_layout
 {
     KEYBOARD_SIZE_SEVENTY_FIVE,
     {
-        aura_core_laptop_15_values,
+        aura_core_laptop_15_16_values,
         {
             /* Add more regional layout fixes here */
         }
@@ -184,7 +168,7 @@ keyboard_keymap_overlay_values g614jz_keyboard_layout
 {
     KEYBOARD_SIZE_SEVENTY_FIVE,
     {
-        aura_core_laptop_16_values,
+        aura_core_laptop_15_16_values,
         {
             /* Add more regional layout fixes here */
         }
