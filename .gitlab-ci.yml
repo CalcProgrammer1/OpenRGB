@@ -94,19 +94,19 @@ before_script:
 "Linux i386 AppImage":
   variables:
     TGT_ARCH: "i386"
-    TGT_QT: ""
+    TGT_QT: "qt6"
     TGT_NAME: "${TGT_ARCH}"
     TGT_PATH: "${TGT_ARCH}"
   <<: *appimage_script_steps
 
 #-----------------------------------------------------------------------#
-# Linux (AppImage) Qt6 i386 Build Target                                #
+# Linux (AppImage) Qt5 i386 Build Target                                #
 #-----------------------------------------------------------------------#
-"Linux i386 AppImage Qt6":
+"Linux i386 AppImage Qt5":
   variables:
     TGT_ARCH: "i386"
-    TGT_QT: "qt6"
-    TGT_NAME: "${TGT_ARCH}_${TGT_QT^}"
+    TGT_QT: ""
+    TGT_NAME: "${TGT_ARCH}_qt5"
     TGT_PATH: "${TGT_ARCH}"
   <<: *appimage_script_steps
 
@@ -116,7 +116,7 @@ before_script:
 "Linux amd64 AppImage":
   variables:
     TGT_ARCH: "amd64"
-    TGT_QT: ""
+    TGT_QT: "qt6"
     TGT_NAME: "${TGT_ARCH}"
     TGT_PATH: "x86_64"
   <<: *appimage_script_steps
@@ -131,13 +131,13 @@ before_script:
   - "saas-linux-small-amd64"
 
 #-----------------------------------------------------------------------#
-# Linux (AppImage) Qt6 amd64 Build Target                               #
+# Linux (AppImage) Qt5 amd64 Build Target                               #
 #-----------------------------------------------------------------------#
-"Linux amd64 AppImage Qt6":
+"Linux amd64 AppImage Qt5":
   variables:
     TGT_ARCH: "amd64"
-    TGT_QT: "qt6"
-    TGT_NAME: "${TGT_ARCH}_${TGT_QT^}"
+    TGT_QT: ""
+    TGT_NAME: "${TGT_ARCH}_qt5"
     TGT_PATH: "x86_64"
   <<: *appimage_script_steps
 
@@ -147,19 +147,19 @@ before_script:
 "Linux armhf AppImage":
   variables:
     TGT_ARCH: "armhf"
-    TGT_QT: ""
+    TGT_QT: "qt6"
     TGT_NAME: "${TGT_ARCH}"
     TGT_PATH: "${TGT_ARCH}"
   <<: *appimage_script_steps
 
 #-----------------------------------------------------------------------#
-# Linux (AppImage) Qt6 armhf Build Target                               #
+# Linux (AppImage) Qt5 armhf Build Target                               #
 #-----------------------------------------------------------------------#
-"Linux armhf AppImage Qt6":
+"Linux armhf AppImage Qt5":
   variables:
     TGT_ARCH: "armhf"
-    TGT_QT: "qt6"
-    TGT_NAME: "${TGT_ARCH}_${TGT_QT^}"
+    TGT_QT: ""
+    TGT_NAME: "${TGT_ARCH}_qt5"
     TGT_PATH: "${TGT_ARCH}"
   <<: *appimage_script_steps
 
@@ -169,19 +169,19 @@ before_script:
 "Linux arm64 AppImage":
   variables:
     TGT_ARCH: "arm64"
-    TGT_QT: ""
+    TGT_QT: "qt6"
     TGT_NAME: "${TGT_ARCH}"
     TGT_PATH: "${TGT_ARCH}"
   <<: *appimage_script_steps
 
 #-----------------------------------------------------------------------#
-# Linux (AppImage) Qt6 arm64 Build Target                               #
+# Linux (AppImage) Qt5 arm64 Build Target                               #
 #-----------------------------------------------------------------------#
-"Linux arm64 AppImage Qt6":
+"Linux arm64 AppImage Qt5":
   variables:
     TGT_ARCH: "arm64"
-    TGT_QT: "qt6"
-    TGT_NAME: "${TGT_ARCH}_${TGT_QT^}"
+    TGT_QT: ""
+    TGT_NAME: "${TGT_ARCH}_qt5"
     TGT_PATH: "${TGT_ARCH}"
   <<: *appimage_script_steps
 
