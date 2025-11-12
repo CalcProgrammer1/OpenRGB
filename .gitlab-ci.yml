@@ -383,7 +383,7 @@ before_script:
   stage: build
   script:
   - Set-MpPreference -DisableRealtimeMonitoring $true
-  - scripts\build-windows.bat 5.15.0 2019 32
+  - scripts\build-windows.bat 6.8.3 2022 32
   artifacts:
     name: "${CI_PROJECT_NAME}_Windows_32_${CI_COMMIT_SHORT_SHA}"
     paths:
@@ -396,17 +396,17 @@ before_script:
     - !reference [.upstream_rules, rules]
 
 #-----------------------------------------------------------------------#
-# Windows (32-bit) Qt6 Build Target                                     #
+# Windows (32-bit) Qt5 Build Target                                     #
 #-----------------------------------------------------------------------#
-"Windows 32 Qt6":
+"Windows 32 Qt5":
   extends:
   - .shared_windows_runners
   stage: build
   script:
   - Set-MpPreference -DisableRealtimeMonitoring $true
-  - scripts\build-windows.bat 6.8.3 2022 32
+  - scripts\build-windows.bat 5.15.0 2019 32
   artifacts:
-    name: "${CI_PROJECT_NAME}_Windows_32_Qt6_${CI_COMMIT_SHORT_SHA}"
+    name: "${CI_PROJECT_NAME}_Windows_32_Qt5_${CI_COMMIT_SHORT_SHA}"
     paths:
     - 'OpenRGB Windows 32-bit'
     exclude:
@@ -425,7 +425,7 @@ before_script:
   stage: build
   script:
   - Set-MpPreference -DisableRealtimeMonitoring $true
-  - scripts\build-windows.bat 5.15.0 2019 64
+  - scripts\build-windows.bat 6.8.3 2022 64
   artifacts:
     name: "${CI_PROJECT_NAME}_Windows_64_${CI_COMMIT_SHORT_SHA}"
     paths:
@@ -457,17 +457,17 @@ before_script:
   - "saas-windows-medium-amd64"
 
 #-----------------------------------------------------------------------#
-# Windows (64-bit) Qt6 Build Target                                     #
+# Windows (64-bit) Qt5 Build Target                                     #
 #-----------------------------------------------------------------------#
-"Windows 64 Qt6 Base":
+"Windows 64 Qt5 Base":
   extends:
   - .shared_windows_runners
   stage: build
   script:
   - Set-MpPreference -DisableRealtimeMonitoring $true
-  - scripts\build-windows.bat 6.8.3 2022 64
+  - scripts\build-windows.bat 5.15.0 2019 64
   artifacts:
-    name: "${CI_PROJECT_NAME}_Windows_64_Qt6_${CI_COMMIT_SHORT_SHA}"
+    name: "${CI_PROJECT_NAME}_Windows_64_Qt5_${CI_COMMIT_SHORT_SHA}"
     paths:
     - 'OpenRGB Windows 64-bit'
     exclude:
@@ -479,13 +479,13 @@ before_script:
       when: never
 
 
-"Windows 64 Qt6":
-  extends: "Windows 64 Qt6 Base"
+"Windows 64 Qt5":
+  extends: "Windows 64 Qt5 Base"
   rules:
   - !reference [.fork_local_runner_rules, rules]
 
-"Windows 64 Qt6 (gitlab.com runner)":
-  extends: "Windows 64 Qt6 Base"
+"Windows 64 Qt5 (gitlab.com runner)":
+  extends: "Windows 64 Qt5 Base"
   before_script:
     - git clone https://gitlab.com/OpenRGBDevelopers/OpenRGB-Qt-Packages
     - cd OpenRGB-Qt-Packages
