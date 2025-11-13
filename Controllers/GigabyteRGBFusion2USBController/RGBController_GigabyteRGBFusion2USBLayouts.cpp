@@ -188,6 +188,38 @@ const KnownLayout knownLayoutsLookup =
         }
     },
     {
+        "B550-AORUS-ELITE",
+        {
+            {
+                "D_LED1 Bottom",
+                {
+                    { "D_LED1", LED6, 0 },
+                }
+            },
+            {
+                "D_LED2 Top",
+                {
+                    { "D_LED2", LED7, 0 },
+                }
+            },
+            {
+                "Motherboard",
+                {
+                    { "Top LED",            LED1, 1 },
+                    { "Bottom LED",         LED4, 1 },
+                }
+            },
+            {
+                "12V RGB Strip",
+                {
+                    { "CPU Header",  LED3, 1 },
+                    { "C_LED1",      LED2, 1 },
+                    { "C_LED2",      LED5, 1 },
+                }
+            }
+        }
+    },
+    {
         "B550I-AORUS-PRO-AX",
         {
             {

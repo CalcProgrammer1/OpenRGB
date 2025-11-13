@@ -47,6 +47,7 @@ const MBName MBName2LayoutLookup5702 =
     {"A620M H",                           "A620M-H" },
     {"A620M S2H",                       "B650-C-V2" },
     {"B550 AORUS ELITE",                  "STD_ATX" },
+    {"B550 AORUS ELITE AX V2",   "B550-AORUS-ELITE" },
     {"B550 AORUS PRO",                    "STD_ATX" },
     {"B550I AORUS PRO AX",     "B550I-AORUS-PRO-AX" },
     {"B650 AERO G",                    "X670-ELITE" },
