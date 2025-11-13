@@ -22,6 +22,7 @@
 #include "LogManager.h"
 #include "NetworkServer.h"
 #include "ResourceManager.h"
+#include "StringUtils.h"
 
 using namespace std::chrono_literals;
 
@@ -537,6 +538,23 @@ static int common_main(int argc, char* argv[])
         | doesn't have a way to warn about them             |
         \*-------------------------------------------------*/
         ret_flags = RET_FLAG_START_SERVER | RET_FLAG_NO_AUTO_CONNECT;
+
+        /*-------------------------------------------------*\
+        | Get the path to the executable and create a       |
+        | directory called service_config there, use this   |
+        | as the service's configuration directory          |
+        \*-------------------------------------------------*/
+        WCHAR exe_path_wchar[MAX_PATH];
+        GetModuleFileNameW(NULL, exe_path_wchar, MAX_PATH);
+
+        std::string exe_path_string = StringUtils::wstring_to_string(std::wstring(exe_path_wchar));
+
+        filesystem::path exe_path(exe_path_string);
+        filesystem::path config_path = exe_path.remove_filename() / filesystem::u8path("service_config");
+
+        filesystem::create_directories(config_path);
+
+        ResourceManager::get()->SetConfigurationDirectory(config_path);
     }
     else
     {
