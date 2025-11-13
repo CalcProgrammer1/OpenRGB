@@ -1852,6 +1852,41 @@ static const razer_device blackwidow_v4_pro_75_wired_device =
 };
 
 /*-------------------------------------------------------------*\
+|  Razer Blackwidow V4 75% (Wired) 1532:02A5                    |
+|                                                               |
+|  Zone "Keyboard"                                              |
+|       Matrix                                                  |
+|       6 Rows, 18 Columns                                      |
+\*-------------------------------------------------------------*/
+static const razer_zone blackwidow_v4_75_wired_zone =
+{
+    ZONE_EN_KEYBOARD,
+    ZONE_TYPE_MATRIX,
+    6,
+    18
+};
+
+static const razer_device blackwidow_v4_75_wired_device =
+{
+    "Razer Blackwidow V4 75% (Wired)",
+    RAZER_BLACKWIDOW_V4_75_WIRED_PID,
+    DEVICE_TYPE_KEYBOARD,
+    RAZER_MATRIX_TYPE_EXTENDED,
+    0x1F,
+    6,
+    18,
+    {
+        &blackwidow_v4_75_wired_zone,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL
+    },
+    &razer_blackwidow_v4_pro_75_wired_layout
+};
+
+/*-------------------------------------------------------------*\
 |  Razer Blackwidow V4 X 1532:0293                              |
 |                                                               |
 |  Zone "Keyboard"                                              |
@@ -8922,6 +8957,7 @@ const razer_device* razer_device_list[] =
     &blackwidow_v4_device,
     &blackwidow_v4_pro_device,
     &blackwidow_v4_pro_75_wired_device,
+    &blackwidow_v4_75_wired_device,
     &blackwidow_v4_x_device,
     &blackwidow_x_chroma_device,
     &blackwidow_x_chroma_te_device,
