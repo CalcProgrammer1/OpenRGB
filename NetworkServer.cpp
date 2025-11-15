@@ -1052,7 +1052,7 @@ void NetworkServer::ProcessRequest_ClientString(SOCKET client_sock, unsigned int
 
 void NetworkServer::ProcessRequest_RescanDevices()
 {
-    ResourceManager::get()->DetectDevices();
+    ResourceManager::get()->RescanDevices();
 }
 
 void NetworkServer::SendReply_ControllerCount(SOCKET client_sock)

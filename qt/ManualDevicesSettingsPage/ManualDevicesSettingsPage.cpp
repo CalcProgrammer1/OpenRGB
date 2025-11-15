@@ -335,6 +335,6 @@ void ManualDevicesSettingsPage::on_ActionSaveAndRescan_triggered()
     /*---------------------------------------------------------*\
     | Trigger rescan                                            |
     \*---------------------------------------------------------*/
-    ResourceManager::get()->DetectDevices();
+    ResourceManager::get()->RescanDevices();
 }
 
