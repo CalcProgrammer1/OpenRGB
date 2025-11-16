@@ -55,6 +55,7 @@ enum
     AURA_ROG_STRIX_SCOPE_II_96_RX_WIRELESS_USB_PID      = 0x1B78,
     AURA_TUF_K1_GAMING_PID                              = 0x1945,
     AURA_TUF_K3_GAMING_PID                              = 0x194B,
+    AURA_TUF_K3_GAMING_GEN2_PID                         = 0x1B30,
     AURA_TUF_K5_GAMING_PID                              = 0x1899,
     AURA_TUF_K7_GAMING_PID                              = 0x18AA,
 };
