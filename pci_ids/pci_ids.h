@@ -881,6 +881,7 @@
 #define PALIT_RTX5060TI_WHITE_OC_16G_SUB_DEV            0xF330
 #define PALIT_RTX5070_GAMINGPRO_SUB_DEV                 0xF324
 #define PALIT_RTX5070TI_GAMINGPRO_SUB_DEV               0xF322
+#define PALIT_RTX5080_GAMINGPRO_SUB_DEV                 0xF320
 #define PALIT_RTX5090_GAMEROCK_SUB_DEV                  0xF318
 
 /*-----------------------------------------------------*\
