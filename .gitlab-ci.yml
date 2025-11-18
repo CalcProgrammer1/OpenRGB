@@ -521,12 +521,37 @@ before_script:
   stage: build
   script:
   - eval $(/opt/homebrew/bin/brew shellenv)
+  - /opt/homebrew/opt/qt@5/bin/qmake OpenRGB.pro
+  - make -j16
+  - /opt/homebrew/opt/qt@5/bin/macdeployqt OpenRGB.app -codesign=OpenRGB
+
+  artifacts:
+    name: "${CI_PROJECT_NAME}_MacOS_ARM64_${CI_COMMIT_SHORT_SHA}"
+    paths:
+    - OpenRGB.app
+    expire_in: 30 days
+
+  rules:
+  - if: '$CI_PROJECT_PATH == "CalcProgrammer1/OpenRGB"'
+    when: on_success
+  - if: '$BUILD_MACOS =~ /.+/'
+    when: on_success
+  - if: $CI_PIPELINE_SOURCE == "push"
+    when: manual
+    allow_failure: true
+
+"MacOS ARM64 Qt6":
+  tags:
+  - macos
+  stage: build
+  script:
+  - eval $(/opt/homebrew/bin/brew shellenv)
   - qmake OpenRGB.pro
   - make -j16
   - macdeployqt OpenRGB.app -codesign=OpenRGB
 
   artifacts:
-    name: "${CI_PROJECT_NAME}_MacOS_ARM64_${CI_COMMIT_SHORT_SHA}"
+    name: "${CI_PROJECT_NAME}_MacOS_ARM64_Qt6_${CI_COMMIT_SHORT_SHA}"
     paths:
     - OpenRGB.app
     expire_in: 30 days
@@ -546,12 +571,37 @@ before_script:
   stage: build
   script:
   - eval $(/usr/local/bin/brew shellenv)
-  - arch -x86_64 /usr/local/bin/qmake OpenRGB.pro
+  - arch -x86_64 /usr/local/opt/qt@5/bin/qmake OpenRGB.pro
   - arch -x86_64 make -j16
-  - arch -x86_64 macdeployqt OpenRGB.app -codesign=OpenRGB
+  - arch -x86_64 /usr/local/opt/qt@5/bin/macdeployqt OpenRGB.app -codesign=OpenRGB
 
   artifacts:
     name: "${CI_PROJECT_NAME}_MacOS_Intel_${CI_COMMIT_SHORT_SHA}"
+    paths:
+    - OpenRGB.app
+    expire_in: 30 days
+
+  rules:
+  - if: '$CI_PROJECT_PATH == "CalcProgrammer1/OpenRGB"'
+    when: on_success
+  - if: '$BUILD_MACOS =~ /.+/'
+    when: on_success
+  - if: $CI_PIPELINE_SOURCE == "push"
+    when: manual
+    allow_failure: true
+
+"MacOS Intel Qt6":
+  tags:
+  - macos
+  stage: build
+  script:
+  - eval $(/usr/local/bin/brew shellenv)
+  - arch -x86_64 /usr/local/bin/qmake OpenRGB.pro
+  - arch -x86_64 make -j16
+  - arch -x86_64 /usr/local/bin/macdeployqt OpenRGB.app -codesign=OpenRGB
+
+  artifacts:
+    name: "${CI_PROJECT_NAME}_MacOS_Intel_Qt6_${CI_COMMIT_SHORT_SHA}"
     paths:
     - OpenRGB.app
     expire_in: 30 days
