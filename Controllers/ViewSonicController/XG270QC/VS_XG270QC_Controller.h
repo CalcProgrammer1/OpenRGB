@@ -1,9 +1,7 @@
 /*---------------------------------------------------------*\
-| VS_XG270QG_Controller.h                                   |
+| VS_XG270QC_Controller.h                                   |
 |                                                           |
-|   Driver for ViewSonic XG270QG                            |
-|                                                           |
-|   Lanzaa                                      23 Jan 2022 |
+|   Driver for ViewSonic XG270QC                            |
 |                                                           |
 |   This file is part of the OpenRGB project                |
 |   SPDX-License-Identifier: GPL-2.0-or-later               |
@@ -17,23 +15,25 @@
 #include <hidapi.h>
 #include "RGBController.h"
 
-enum
-{
-    VS_MODE_OFF         = 0x00,
-    VS_MODE_STATIC      = 0x01,
-    VS_MODE_BREATHING   = 0x02,
-    VS_MODE_RAINBOW     = 0x07,
-    VS_MODE_ELITE       = 0x0A,
-    VS_MODE_JAZZ        = 0x0C,
-    VS_MODE_WATERFALL   = 0x12,
-    VS_MODE_ELITEGLOBAL = 0x13,
-};
-
-class VS_XG270QG_Controller
+class VS_XG270QC_Controller
 {
 public:
-    VS_XG270QG_Controller(hid_device* device, const char* path, std::string dev_name);
-    ~VS_XG270QG_Controller();
+    enum ModeValues
+    {
+        VS_MODE_OFF          = 0x00,
+        VS_MODE_STATIC       = 0x01,
+        VS_MODE_BREATHING    = 0x02,
+        VS_MODE_WARP_SPEED   = 0x06,
+        VS_MODE_RAINBOW      = 0x07,
+        VS_MODE_STACK        = 0x09,
+        VS_MODE_MUSIC        = 0x12,
+        VS_MODE_MUSIC_Z2     = 0x13,  // Zone 2 value for Music mode
+        VS_MODE_MUSIC_PULSE  = 0x12,  // Same as Music for zone 1
+        VS_MODE_MUSIC_PULSE_Z2 = 0x14, // Zone 2 value for Music Pulse mode
+    };
+
+    VS_XG270QC_Controller(hid_device* device, const char* path, std::string dev_name);
+    ~VS_XG270QC_Controller();
 
     std::string GetLocation();
     std::string GetName();
@@ -48,7 +48,6 @@ private:
     std::string name;
     std::string serial;
 
-    std::string ReadVersion();
     void        SendModeComplete
                     (
                     uint8_t mode1, uint8_t r1, uint8_t g1, uint8_t b1,
