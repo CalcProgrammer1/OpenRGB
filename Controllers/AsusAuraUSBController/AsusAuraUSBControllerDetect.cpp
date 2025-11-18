@@ -50,6 +50,7 @@
 #define AURA_MOTHERBOARD_2_PID                              0x1939
 #define AURA_MOTHERBOARD_3_PID                              0x19AF
 #define AURA_MOTHERBOARD_4_PID                              0x1AA6
+#define AURA_MOTHERBOARD_5_PID                              0x1BED
 
 /*-----------------------------------------------------------------*\
 |  KEYBOARDS                                                        |
@@ -346,6 +347,7 @@ REGISTER_HID_DETECTOR   ("ASUS Aura Motherboard",                       DetectAs
 REGISTER_HID_DETECTOR   ("ASUS Aura Motherboard",                       DetectAsusAuraUSBMotherboards,  AURA_USB_VID, AURA_MOTHERBOARD_2_PID);
 REGISTER_HID_DETECTOR   ("ASUS Aura Motherboard",                       DetectAsusAuraUSBMotherboards,  AURA_USB_VID, AURA_MOTHERBOARD_3_PID);
 REGISTER_HID_DETECTOR   ("ASUS Aura Motherboard",                       DetectAsusAuraUSBMotherboards,  AURA_USB_VID, AURA_MOTHERBOARD_4_PID);
+REGISTER_HID_DETECTOR   ("ASUS Aura Motherboard",                       DetectAsusAuraUSBMotherboards,  AURA_USB_VID, AURA_MOTHERBOARD_5_PID);
 
 /*-----------------------------------------------------------------*\
 |  KEYBOARDS                                                        |
