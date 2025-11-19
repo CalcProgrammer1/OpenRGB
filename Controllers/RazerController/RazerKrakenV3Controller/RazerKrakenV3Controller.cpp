@@ -1,7 +1,7 @@
 /*---------------------------------------------------------*\
 | RazerKrakenV3Controller.cpp                               |
 |                                                           |
-|   Driver for Razer devices with 9-byte report             |
+|   Driver for Razer devices with 13-byte reports           |
 |                                                           |
 |   Greg Sandstrom (superstrom)                  1 Nov 2025 |
 |                                                           |
@@ -92,74 +92,108 @@ unsigned char RazerKrakenV3Controller::GetMaxBrightness()
 
 void RazerKrakenV3Controller::SetModeDirect()
 {
-    unsigned char usb_buf[9];
-
-    memset(usb_buf, 0, sizeof(usb_buf));
+    razer_kraken_v3_request_report report = razer_kraken_create_v3_report();
 
     //  0 1 2 3 4 5 6 7 8
     // 4001000f0800000000
-    usb_buf[0] = 0x40;
-    usb_buf[1] = 0x01;
-    usb_buf[3] = 0x0F;
-    usb_buf[4] = 0x08;
+    // 40010000080000000000000000
+    report.report_id = RAZER_KRAKEN_V3_REPORT_ID;
+    report.command_id = RAZER_KRAKEN_V3_CMD_LIGHTING_SET_MODE;
+    report.arguments[1] = 0x0F;
+    report.arguments[2] = RAZER_KRAKEN_V3_MODE_ID_DIRECT;
 
-    hid_write(dev, usb_buf, sizeof(usb_buf));
+    hid_write(dev, (unsigned char*)&report, sizeof(report));
 }
 
 void RazerKrakenV3Controller::SetDirect(RGBColor* colors)
 {
-    unsigned char usb_buf[9];
-
-    memset(usb_buf, 0, sizeof(usb_buf));
+    razer_kraken_v3_request_report report = razer_kraken_create_v3_report();
 
     // how to get the number of leds?
     unsigned int led_count = device_list[device_index]->cols;
 
     //  0 1 2 3 4 5 6 7 8
     // 400300ffffff000000
-    usb_buf[0] = 0x40;
-    usb_buf[1] = 0x03;
+    // 400300ffffff00000000000000
+    report.report_id = RAZER_KRAKEN_V3_REPORT_ID;
+    report.command_id = RAZER_KRAKEN_V3_CMD_LIGHTING_SET_COLOR;
 
     for(unsigned int led_idx = 0; led_idx < led_count; led_idx++)
     {
-        usb_buf[3 + (led_idx * 3)] = RGBGetRValue(colors[led_idx]);
-        usb_buf[4 + (led_idx * 3)] = RGBGetGValue(colors[led_idx]);
-        usb_buf[5 + (led_idx * 3)] = RGBGetBValue(colors[led_idx]);
+        report.arguments[1 + (led_idx * 3)] = RGBGetRValue(colors[led_idx]);
+        report.arguments[2 + (led_idx * 3)] = RGBGetGValue(colors[led_idx]);
+        report.arguments[3 + (led_idx * 3)] = RGBGetBValue(colors[led_idx]);
     }
 
-    hid_write(dev, usb_buf, sizeof(usb_buf));
+    hid_write(dev, (unsigned char*)&report, sizeof(report));
 }
 
 void RazerKrakenV3Controller::SetBrightness(unsigned char brightness)
 {
-    unsigned char usb_buf[24];
-
-    memset(usb_buf, 0, sizeof(usb_buf));
+    razer_kraken_v3_request_report report = razer_kraken_create_v3_report();
 
     //  0 1 2 3 4 5 6 7 8
     // 40020000ff00000000
-    usb_buf[0] = 0x40;
-    usb_buf[1] = 0x02;
+    report.report_id = RAZER_KRAKEN_V3_REPORT_ID;
+    report.command_id = RAZER_KRAKEN_V3_CMD_LIGHTING_SET_BRIGHTNESS;
 
-    usb_buf[4] = brightness;
+    report.arguments[2] = brightness;
 
-    hid_write(dev, usb_buf, sizeof(usb_buf));
+    hid_write(dev, (unsigned char*)&report, sizeof(report));
 }
 
 void RazerKrakenV3Controller::SetModeWave()
 {
-    unsigned char usb_buf[9];
-
-    memset(usb_buf, 0, sizeof(usb_buf));
+    razer_kraken_v3_request_report report = razer_kraken_create_v3_report();
 
     //  0 1 2 3 4 5 6 7 8
     // 4001000f0300000000
-    usb_buf[0] = 0x40;
-    usb_buf[1] = 0x01;
-    usb_buf[3] = 0x0F;
-    usb_buf[4] = 0x03;
+    // 40010100030000000000000000
+    report.report_id = RAZER_KRAKEN_V3_REPORT_ID;
+    report.command_id = RAZER_KRAKEN_V3_CMD_LIGHTING_SET_MODE;
+    report.arguments[1] = 0x0F;
+    report.arguments[2] = RAZER_KRAKEN_V3_MODE_ID_WAVE;
 
-    hid_write(dev, usb_buf, sizeof(usb_buf));
+    hid_write(dev, (unsigned char*)&report, sizeof(report));
+}
+
+void RazerKrakenV3Controller::SetModeBreathing(std::vector<RGBColor> colors)
+{
+    razer_kraken_v3_request_report report = razer_kraken_create_v3_report();
+
+    unsigned char led_count = colors.size();
+
+    //  0 1 2 3 4 5 6 7 8 9 0 1 2
+    // 400101000101ff000000000000
+    // 40010100010100ffff00000000
+    // 40010100020200ff00ff000000
+    report.report_id = RAZER_KRAKEN_V3_REPORT_ID;
+    report.command_id = RAZER_KRAKEN_V3_CMD_LIGHTING_SET_MODE;
+    report.arguments[0] = 0x01;
+    report.arguments[2] = led_count; // normally this is where the MODE_ID goes....
+    report.arguments[3] = led_count;
+    for(unsigned int led_idx = 0; led_idx < led_count; led_idx++)
+    {
+        report.arguments[4 + (led_idx * 3)] = RGBGetRValue(colors[led_idx]);
+        report.arguments[5 + (led_idx * 3)] = RGBGetGValue(colors[led_idx]);
+        report.arguments[6 + (led_idx * 3)] = RGBGetBValue(colors[led_idx]);
+    }
+
+    hid_write(dev, (unsigned char*)&report, sizeof(report));
+}
+
+razer_kraken_v3_request_report RazerKrakenV3Controller::razer_kraken_create_v3_report()
+{
+    razer_kraken_v3_request_report new_report;
+
+    /*---------------------------------------------------------*\
+    | Zero out the new report                                   |
+    \*---------------------------------------------------------*/
+    memset(&new_report, 0, sizeof(razer_kraken_v3_request_report));
+
+    new_report.report_id = RAZER_KRAKEN_V3_REPORT_ID;
+
+    return new_report;
 }
 
 razer_kraken_request_report RazerKrakenV3Controller::razer_kraken_create_report(unsigned char report_id, unsigned char destination, unsigned char length, unsigned short address)

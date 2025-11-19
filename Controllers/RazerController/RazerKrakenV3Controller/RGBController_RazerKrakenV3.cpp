@@ -1,7 +1,7 @@
 /*---------------------------------------------------------*\
 | RGBController_RazerKrakenV3.cpp                           |
 |                                                           |
-|   RGBController for Razer devices with 9-byte report      |
+|   RGBController for Razer devices with 13-byte reports    |
 |                                                           |
 |   Greg Sandstrom (superstrom)                  1 Nov 2025 |
 |                                                           |
@@ -50,6 +50,20 @@ RGBController_RazerKrakenV3::RGBController_RazerKrakenV3(RazerKrakenV3Controller
     Direct.brightness_max   = max_brightness;
     Direct.brightness       = max_brightness;
     modes.push_back(Direct);
+
+    // V3 X does not support this mode.
+    if(device_list[controller->GetDeviceIndex()]->pid == RAZER_KRAKEN_V3_HYPERSENSE_PID)
+    {
+        mode Breathing;
+        Breathing.name       = "Breathing";
+        Breathing.value      = RAZER_KRAKEN_V3_MODE_BREATHING;
+        Breathing.flags      = MODE_FLAG_HAS_MODE_SPECIFIC_COLOR;
+        Breathing.color_mode = MODE_COLORS_MODE_SPECIFIC;
+        Breathing.colors_min = 1;
+        Breathing.colors_max = 2;
+        Breathing.colors.resize(1);
+        modes.push_back(Breathing);
+    }
 
     SetupZones();
 }
@@ -164,6 +178,11 @@ void RGBController_RazerKrakenV3::DeviceUpdateMode()
 
         case RAZER_KRAKEN_V3_MODE_WAVE:
             controller->SetModeWave();
+            controller->SetBrightness(modes[active_mode].brightness);
+            break;
+
+        case RAZER_KRAKEN_V3_MODE_BREATHING:
+            controller->SetModeBreathing(modes[active_mode].colors);
             controller->SetBrightness(modes[active_mode].brightness);
             break;
     }

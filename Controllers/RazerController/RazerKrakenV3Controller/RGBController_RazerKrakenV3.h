@@ -1,7 +1,7 @@
 /*---------------------------------------------------------*\
 | RGBController_RazerKrakenV3.h                             |
 |                                                           |
-|   RGBController for Razer devices with 9-byte report      |
+|   RGBController for Razer devices with 13-byte reports    |
 |                                                           |
 |   Greg Sandstrom (superstrom)                  1 Nov 2025 |
 |                                                           |
@@ -18,6 +18,7 @@ enum
 {
     RAZER_KRAKEN_V3_MODE_DIRECT,
     RAZER_KRAKEN_V3_MODE_WAVE,
+    RAZER_KRAKEN_V3_MODE_BREATHING,
 };
 
 class RGBController_RazerKrakenV3 : public RGBController

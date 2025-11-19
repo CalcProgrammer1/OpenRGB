@@ -1,7 +1,7 @@
 /*---------------------------------------------------------*\
 | RazerKrakenV3Controller.h                                 |
 |                                                           |
-|   Driver for Razer devices with 9-byte report             |
+|   Driver for Razer devices with 13-byte reports           |
 |                                                           |
 |   Greg Sandstrom (superstrom)                  1 Nov 2025 |
 |                                                           |
@@ -15,6 +15,28 @@
 #include "RGBController.h"
 #include "DeviceGuardManager.h"
 #include "RazerKrakenController.h"
+
+#define RAZER_KRAKEN_V3_REPORT_ID 0x40
+
+enum
+{
+    RAZER_KRAKEN_V3_CMD_LIGHTING_SET_MODE       = 0x01,
+    RAZER_KRAKEN_V3_CMD_LIGHTING_SET_BRIGHTNESS = 0x02,
+    RAZER_KRAKEN_V3_CMD_LIGHTING_SET_COLOR      = 0x03,
+};
+
+enum
+{
+    RAZER_KRAKEN_V3_MODE_ID_DIRECT      = 0x08,
+    RAZER_KRAKEN_V3_MODE_ID_WAVE        = 0x03,
+};
+
+PACK(struct razer_kraken_v3_request_report
+{
+    unsigned char report_id;     // usb_buf[0]
+    unsigned char command_id;    // usb_buf[1]
+    unsigned char arguments[11]; // usb_buf[2...]
+});
 
 class RazerKrakenV3Controller
 {
@@ -35,6 +57,7 @@ public:
 
     void                    SetModeDirect();
     void                    SetModeWave();
+    void                    SetModeBreathing(std::vector<RGBColor> colors);
 
 private:
     hid_device*             dev;
@@ -74,6 +97,8 @@ private:
     \*---------------------------------------------------------*/
     std::string             razer_get_firmware();
     std::string             razer_get_serial();
+
+    razer_kraken_v3_request_report razer_kraken_create_v3_report();
 
     razer_kraken_request_report razer_kraken_create_report(unsigned char report_id, unsigned char destination, unsigned char length, unsigned short address);
     int razer_usb_receive(razer_kraken_response_report* report);
