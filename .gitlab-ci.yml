@@ -284,10 +284,10 @@ before_script:
   <<: *debian_script_steps
 
 #-----------------------------------------------------------------------#
-# Linux (.rpm, F40) 64-bit Build Target                                 #
+# Linux (.rpm, F43) 64-bit Build Target                                 #
 #-----------------------------------------------------------------------#
-"Linux 64 F40 rpm":
-  image: fedora:40
+"Linux 64 F43 rpm":
+  image: fedora:43
   stage: build
   script:
   - dnf install rpmdevtools dnf-plugins-core libcurl-devel qt5-qtbase-devel git -y
@@ -376,19 +376,19 @@ before_script:
   - "Linux amd64 .deb (Debian Bookworm)"
 
 #-----------------------------------------------------------------------#
-# Fedora 64 v40 test                                                    #
+# Fedora 64 v43 test                                                    #
 #-----------------------------------------------------------------------#
-"Fedora 64 v40":
-  image: fedora:40
+"Fedora 64 v43":
+  image: fedora:43
   stage: test
   script:
-  - yum -y localinstall ./openrgb*64.rpm
+  - dnf5 -y install ./openrgb*64.rpm
   - openrgb --version
-  - yum -y remove openrgb
+  - dnf5 -y remove openrgb
   dependencies:
-  - "Linux 64 F40 rpm"
+  - "Linux 64 F43 rpm"
   needs:
-  - "Linux 64 F40 rpm"
+  - "Linux 64 F43 rpm"
 
 #-----------------------------------------------------------------------#
 # Windows (32-bit) Build Target                                         #
