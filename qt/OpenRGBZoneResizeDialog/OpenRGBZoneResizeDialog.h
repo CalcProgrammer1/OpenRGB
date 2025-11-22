@@ -48,5 +48,6 @@ private:
     RGBController* edit_dev;
     unsigned int edit_zone_idx;
 
+    void AddSegmentRow(QString name, unsigned int length, zone_type type);
     void CheckSegmentsValidity();
 };

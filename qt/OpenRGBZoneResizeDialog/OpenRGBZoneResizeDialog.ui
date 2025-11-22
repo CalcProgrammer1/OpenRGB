@@ -41,18 +41,23 @@
       </sizepolicy>
      </property>
      <property name="orientation">
-      <enum>Qt::Horizontal</enum>
+      <enum>Qt::Orientation::Horizontal</enum>
      </property>
     </widget>
    </item>
    <item row="1" column="0" colspan="2">
     <widget class="QTreeWidget" name="SegmentsTreeWidget">
      <property name="columnCount">
-      <number>3</number>
+      <number>4</number>
      </property>
      <column>
       <property name="text">
        <string notr="true">Name</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>Type</string>
       </property>
      </column>
      <column>
@@ -62,7 +67,7 @@
      </column>
      <column>
       <property name="text">
-       <string> </string>
+       <string/>
       </property>
      </column>
     </widget>
@@ -76,10 +81,10 @@
       </sizepolicy>
      </property>
      <property name="orientation">
-      <enum>Qt::Horizontal</enum>
+      <enum>Qt::Orientation::Horizontal</enum>
      </property>
      <property name="standardButtons">
-      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+      <set>QDialogButtonBox::StandardButton::Cancel|QDialogButtonBox::StandardButton::Ok</set>
      </property>
     </widget>
    </item>
