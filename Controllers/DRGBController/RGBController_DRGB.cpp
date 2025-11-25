@@ -98,6 +98,11 @@ void RGBController_DRGB::SetupZones()
             NUM_Channel_led = 256;
             Version         = 4;
             break;
+        case DRGB_AG_16_F12_PID:
+            NUM_CHANNELS    = 16;
+            NUM_Channel_led = 256;
+            Version         = 4;
+            break;
 
         case DRGB_L8_V5_PID:
             NUM_CHANNELS    = 8;
@@ -500,3 +505,4 @@ void RGBController_DRGB::DeviceUpdateMode()
 {
     DeviceUpdateLEDs();
 }
+
