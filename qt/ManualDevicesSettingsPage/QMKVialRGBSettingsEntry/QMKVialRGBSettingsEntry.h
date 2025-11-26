@@ -1,7 +1,7 @@
 /*---------------------------------------------------------*\
-| QMKORGBSettingsEntry.h                                    |
+| QMKVialRGBSettingsEntry.h                                 |
 |                                                           |
-|   User interface entry for OpenRGB QMK configuration      |
+|   User interface entry for VialRGB QMK configuration      |
 |                                                           |
 |   This file is part of the OpenRGB project                |
 |   SPDX-License-Identifier: GPL-2.0-or-later               |
@@ -13,10 +13,10 @@
 
 namespace Ui
 {
-    class QMKORGBSettingsEntry;
+    class QMKVialRGBSettingsEntry;
 }
 
-class QMKORGBSettingsEntry : public BaseManualDeviceEntry
+class QMKVialRGBSettingsEntry : public BaseManualDeviceEntry
 {
     Q_OBJECT
 
@@ -24,12 +24,12 @@ private slots:
     void changeEvent(QEvent *event) override;
 
 public:
-    explicit QMKORGBSettingsEntry(QWidget *parent = nullptr);
-    ~QMKORGBSettingsEntry();
+    explicit QMKVialRGBSettingsEntry(QWidget *parent = nullptr);
+    ~QMKVialRGBSettingsEntry();
     void loadFromSettings(const json& data);
     json saveSettings() override;
     bool isDataValid() override;
 
 private:
-    Ui::QMKORGBSettingsEntry *ui;
+    Ui::QMKVialRGBSettingsEntry *ui;
 };

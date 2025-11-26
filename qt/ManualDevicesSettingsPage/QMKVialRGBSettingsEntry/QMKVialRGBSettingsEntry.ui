@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>QMKORGBSettingsEntry</class>
- <widget class="QWidget" name="QMKORGBSettingsEntry">
+ <class>QMKVialRGBSettingsEntry</class>
+ <widget class="QWidget" name="QMKVialRGBSettingsEntry">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -17,13 +17,13 @@
    </sizepolicy>
   </property>
   <property name="windowTitle">
-   <string notr="true"> QMK OpenRGB Settings Entry</string>
+   <string notr="true"> QMK VialRGB Settings Entry</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
    <item row="1" column="0" colspan="2">
     <widget class="QGroupBox" name="groupBox">
      <property name="title">
-      <string>QMK OpenRGB Device</string>
+      <string>QMK VialRGB Device</string>
      </property>
      <layout class="QGridLayout" name="gridLayout_2">
       <item row="2" column="5">

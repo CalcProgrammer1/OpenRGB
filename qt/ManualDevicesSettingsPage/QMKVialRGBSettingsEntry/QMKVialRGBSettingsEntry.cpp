@@ -1,28 +1,28 @@
 /*---------------------------------------------------------*\
-| QMKORGBSettingsEntry.cpp                                  |
+| QMKVialRGBSettingsEntry.cpp                               |
 |                                                           |
-|   User interface entry for OpenRGB QMK configuration      |
+|   User interface entry for VialRGB QMK configuration      |
 |                                                           |
 |   This file is part of the OpenRGB project                |
 |   SPDX-License-Identifier: GPL-2.0-or-later               |
 \*---------------------------------------------------------*/
 
-#include "QMKORGBSettingsEntry.h"
-#include "ui_QMKORGBSettingsEntry.h"
+#include "QMKVialRGBSettingsEntry.h"
+#include "ui_QMKVialRGBSettingsEntry.h"
 
-QMKORGBSettingsEntry::QMKORGBSettingsEntry(QWidget *parent) :
+QMKVialRGBSettingsEntry::QMKVialRGBSettingsEntry(QWidget *parent) :
     BaseManualDeviceEntry(parent),
-    ui(new Ui::QMKORGBSettingsEntry)
+    ui(new Ui::QMKVialRGBSettingsEntry)
 {
     ui->setupUi(this);
 }
 
-QMKORGBSettingsEntry::~QMKORGBSettingsEntry()
+QMKVialRGBSettingsEntry::~QMKVialRGBSettingsEntry()
 {
     delete ui;
 }
 
-void QMKORGBSettingsEntry::changeEvent(QEvent *event)
+void QMKVialRGBSettingsEntry::changeEvent(QEvent *event)
 {
     if(event->type() == QEvent::LanguageChange)
     {
@@ -30,7 +30,7 @@ void QMKORGBSettingsEntry::changeEvent(QEvent *event)
     }
 }
 
-void QMKORGBSettingsEntry::loadFromSettings(const json& data)
+void QMKVialRGBSettingsEntry::loadFromSettings(const json& data)
 {
     if(data.contains("name"))
     {
@@ -48,7 +48,7 @@ void QMKORGBSettingsEntry::loadFromSettings(const json& data)
     }
 }
 
-json QMKORGBSettingsEntry::saveSettings()
+json QMKVialRGBSettingsEntry::saveSettings()
 {
     json result;
     /*-------------------------------------------------*\
@@ -61,19 +61,19 @@ json QMKORGBSettingsEntry::saveSettings()
     return result;
 }
 
-bool QMKORGBSettingsEntry::isDataValid()
+bool QMKVialRGBSettingsEntry::isDataValid()
 {
     // stub
     return true;
 }
 
-static BaseManualDeviceEntry* SpawnQMKORGBSettingsEntry(const json& data)
+static BaseManualDeviceEntry* SpawnQMKVialRGBSettingsEntry(const json& data)
 {
-    QMKORGBSettingsEntry* entry = new QMKORGBSettingsEntry;
+    QMKVialRGBSettingsEntry* entry = new QMKVialRGBSettingsEntry;
     entry->loadFromSettings(data);
     return entry;
 }
 
-static const char* QMKDeviceName = QT_TRANSLATE_NOOP("ManualDevice", "QMK (OpenRGB Protocol)");
+static const char* QMKDeviceName = QT_TRANSLATE_NOOP("ManualDevice", "QMK (VialRGB Protocol)");
 
-REGISTER_MANUAL_DEVICE_TYPE(QMKDeviceName, "QMKOpenRGBDevices", SpawnQMKORGBSettingsEntry);
+REGISTER_MANUAL_DEVICE_TYPE(QMKDeviceName, "QMKVialRGBDevices", SpawnQMKVialRGBSettingsEntry);
