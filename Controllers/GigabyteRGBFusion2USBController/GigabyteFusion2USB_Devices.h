@@ -91,9 +91,9 @@ const FwdLedHeaders LedLookup =
 
 typedef struct
 {
-    GB_FUSION2_LED_IDX  idx         = LED1;
-    uint16_t            leds_min    = 0;
-    uint16_t            leds_max    = 0;
+    GB_FUSION2_LED_IDX  idx;
+    uint16_t            leds_min;
+    uint16_t            leds_max;
     std::string         name;
 }   gb_fusion2_zone;
 
