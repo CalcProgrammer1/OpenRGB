@@ -34,6 +34,7 @@
 #define LEGION_S7GEN7                           0xC977
 #define LEGION_7GEN7                            0xC978
 #define LEGION_7GEN8                            0xC988
+#define LEGION_S7GEN8                           0xC987
 #define LEGION_7GEN9                            0xC997
 #define LEGION_7GEN9_H                          0xC998
 
