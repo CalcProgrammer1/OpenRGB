@@ -8,8 +8,11 @@
 \*---------------------------------------------------------*/
 
 #include "Detector.h"
+#include "RGBController_SinowealthKeyboard10c.h"
 #include "SinowealthController.h"
 #include "SinowealthController1007.h"
+#include "SinowealthKeyboard10cController.h"
+#include "SinowealthKeyboard10cDevices.h"
 #include "SinowealthKeyboardController.h" // Disabled
 #include "SinowealthKeyboard16Controller.h" // Disabled
 #include "SinowealthKeyboard90Controller.h"
@@ -40,6 +43,7 @@
 #define RGB_KEYBOARD_0016PID                0x0016
 #define GENESIS_THOR_300_PID                0x0090
 #define GENESIS_XENON_200_PID               0x1007
+#define RGB_KEYBOARD_010CPID                0x010C
 
 /******************************************************************************************\
 *                                                                                          *
@@ -59,6 +63,7 @@ struct expected_report
     unsigned int   cmd_size;
     hid_device*    cmd_device = nullptr;
     hid_device*    device     = nullptr;
+    unsigned char* response   = nullptr;
 
     expected_report(unsigned int id, unsigned size) : id(id), size(size) {}
     expected_report(unsigned int id, unsigned size, unsigned char* cmd_buf, unsigned int cmd_size) : id(id), size(size), cmd_buf(cmd_buf), cmd_size(cmd_size) {}
@@ -185,6 +190,10 @@ static bool DetectUsages(hid_device_info* info, std::string name, unsigned int d
                         device_count++;
                         report_found   = true;
                         report.device = device;
+
+                        report.response = new unsigned char[report.size];
+                        std::memcpy(report.response, tmp_buf, report.size);
+
                         LOG_TRACE("[%s] Successfully requested feature ReportId 0x%02X from device at location \"HID: %s\", handle: %08X", name.c_str(), report.id, info_temp->path, device);
                     }
                 }
@@ -216,6 +225,11 @@ static bool DetectUsages(hid_device_info* info, std::string name, unsigned int d
     {
         for(expected_report& report: reports)
         {
+            if(report.response != nullptr)
+            {
+                delete[] report.response;
+                report.response = nullptr;
+            }
             if(report.device != nullptr)
             {
                 hid_close(report.device);
@@ -416,6 +430,28 @@ static void DetectSinowealthGenesisKeyboard(hid_device_info* info, const std::st
     }
 }
 
+static void DetectSinowealthKeyboard10c(hid_device_info* info, const std::string& name)
+{
+    unsigned char command[7] = {0x06, 0x82, 0x01, 0x00, 0x01, 0x00, 0x06};
+    expected_reports reports{expected_report(0x06, 520, command, 520)};
+
+    if(!DetectUsages(info, name, 3, reports))
+    {
+        return;
+    }
+
+    hid_device *dev        = reports.at(0).device;
+    unsigned char model_id = reports.at(0).response[13];
+
+    if(dev && sinowealth_10c_keyboards.find(model_id) != sinowealth_10c_keyboards.end())
+    {
+        SinowealthKeyboard10cController*     controller     = new SinowealthKeyboard10cController(dev, info->path, sinowealth_10c_keyboards.at(model_id).device_name);
+        RGBController_SinowealthKeyboard10c* rgb_controller = new RGBController_SinowealthKeyboard10c(controller, model_id);
+
+        ResourceManager::get()->RegisterRGBController(rgb_controller);
+    }
+}
+
 #ifdef USE_HID_USAGE
 REGISTER_HID_DETECTOR_P("Glorious Model O / O-",            DetectSinowealthMouse,              SINOWEALTH_VID, Glorious_Model_O_PID,                   0xFF00          );
 REGISTER_HID_DETECTOR_P("Glorious Model D / D-",            DetectSinowealthMouse,              SINOWEALTH_VID, Glorious_Model_D_PID,                   0xFF00          );
@@ -427,6 +463,7 @@ REGISTER_HID_DETECTOR_PU("Glorious Model D / D- Wireless",  DetectGMOW_Dongle,  
 REGISTER_HID_DETECTOR_PU("Glorious Model D / D- Wireless",  DetectGMOW_Cable,                   SINOWEALTH_VID, Glorious_Model_DW_PID2,                 0xFFFF, 0x0000  );
 REGISTER_HID_DETECTOR_PU("Genesis Xenon 200",               DetectGenesisXenon200,              SINOWEALTH_VID, GENESIS_XENON_200_PID,                  0xFF00, 1       );
 REGISTER_HID_DETECTOR_IPU("Genesis Thor 300",               DetectSinowealthGenesisKeyboard,    SINOWEALTH_VID, GENESIS_THOR_300_PID,               1,  0xFF00, 1       );
+REGISTER_HID_DETECTOR_IPU("Sinowealth Keyboard",            DetectSinowealthKeyboard10c,        SINOWEALTH_VID, RGB_KEYBOARD_010CPID,               1,  0xFF00, 1       );
 
 // Sinowealth keyboards are disabled due to VID/PID pairs being reused from Redragon keyboards, which ended up in bricking the latter
 //REGISTER_HID_DETECTOR_P("FL ESPORTS F11",                   DetectSinowealthKeyboard,   SINOWEALTH_VID, Fl_Esports_F11_PID,                             0xFF00          );
