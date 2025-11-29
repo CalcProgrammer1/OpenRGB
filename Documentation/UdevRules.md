@@ -10,7 +10,7 @@ If you are using OpenRGB compiled from source (not as part of a package), using 
 
   * If you have installed OpenRGB from a package then latest udev rules are installed locally at `/usr/lib/udev/rules.d/60-openrgb.rules`
   * Udev rules are built from the source at compile time. When building locally they are installed with the `make install` step to `/usr/lib/udev/rules.d/60-openrgb.rules`
-  * If you need to install the udev rules file manually you can also download the [latest compiled udev rules](https://gitlab.com/CalcProgrammer1/OpenRGB/-/jobs/artifacts/master/raw/60-openrgb.rules?job=Linux+64+AppImage&inline=false) from Gitlab.
-    - Copy this 60-openrgb.rules file to `/usr/lib/udev/rules.d/`
+  * If you need to install the udev rules file manually you can also download the [latest compiled udev rules](https://gitlab.com/CalcProgrammer1/OpenRGB/-/jobs/artifacts/master/raw/60-openrgb.rules?job=Linux+amd64+AppImage&inline=false) from Gitlab.
+    - Copy this 60-openrgb.rules file to `/usr/lib/udev/rules.d/` or to `/etc/udev/rules.d/` if you're on an immutable system.
     - Then reload rules with `sudo udevadm control --reload-rules && sudo udevadm trigger`
   * There is also a [udev rules installation script available at openrgb.org](https://openrgb.org/udev.html).
