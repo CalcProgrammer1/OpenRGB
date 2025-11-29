@@ -14,6 +14,7 @@
 #include "SteelSeriesAerox5Controller.h"
 #include "SteelSeriesArctis5Controller.h"
 #include "SteelSeriesApex8ZoneController.h"
+#include "SteelSeriesApex9Controller.h"
 #include "SteelSeriesApexController.h"
 #include "SteelSeriesApexMController.h"
 #include "SteelSeriesApexTZoneController.h"
@@ -110,6 +111,8 @@
 #define STEELSERIES_APEX_5_PID                      0x161C
 #define STEELSERIES_APEX_7_PID                      0x1612
 #define STEELSERIES_APEX_7_TKL_PID                  0x1618
+#define STEELSERIES_APEX_9_TKL_PID                  0x1634
+#define STEELSERIES_APEX_9_MINI_PID                 0x1620
 #define STEELSERIES_APEX_PRO_PID                    0x1610
 #define STEELSERIES_APEX_PRO_TKL_PID                0x1614
 #define STEELSERIES_APEX_PRO_TKL_2023_PID           0x1628
@@ -244,6 +247,28 @@ void DetectSteelSeriesApex(hid_device_info* info, const std::string& name)
 
         ResourceManager::get()->RegisterRGBController(rgb_controller);
     }
+}
+
+void DetectSteelSeriesApex9(hid_device_info* info, const std::string& name, steelseries_type proto_type)
+{
+    hid_device* dev = hid_open_path(info->path);
+    if(dev)
+    {
+        SteelSeriesApex9Controller* controller              = new SteelSeriesApex9Controller(dev, proto_type, info->path, name);
+        RGBController_SteelSeriesApex* rgb_controller       = new RGBController_SteelSeriesApex(controller);
+
+        ResourceManager::get()->RegisterRGBController(rgb_controller);
+    }
+}
+
+void DetectSteelSeriesApex9TKL(hid_device_info* info, const std::string& name)
+{
+    DetectSteelSeriesApex9(info, name, APEX_9_TKL);
+}
+
+void DetectSteelSeriesApex9Mini(hid_device_info* info, const std::string& name)
+{
+    DetectSteelSeriesApex9(info, name, APEX_9_MINI);
 }
 
 void DetectSteelSeriesApexM(hid_device_info* info, const std::string& name)
@@ -475,10 +500,12 @@ REGISTER_HID_DETECTOR_IPU("SteelSeries Apex 3 TKL",                         Dete
 REGISTER_HID_DETECTOR_I  ("SteelSeries Apex 5",                             DetectSteelSeriesApex,      STEELSERIES_VID, STEELSERIES_APEX_5_PID,                    	1  );
 REGISTER_HID_DETECTOR_I  ("SteelSeries Apex 7",                             DetectSteelSeriesApex,      STEELSERIES_VID, STEELSERIES_APEX_7_PID,                    	1  );
 REGISTER_HID_DETECTOR_I  ("SteelSeries Apex 7 TKL",                         DetectSteelSeriesApex,      STEELSERIES_VID, STEELSERIES_APEX_7_TKL_PID,                	1  );
+REGISTER_HID_DETECTOR_I  ("SteelSeries Apex 9 TKL",                         DetectSteelSeriesApex9TKL,  STEELSERIES_VID, STEELSERIES_APEX_9_TKL_PID,                	1  );
+REGISTER_HID_DETECTOR_I  ("SteelSeries Apex 9 Mini",                        DetectSteelSeriesApex9Mini, STEELSERIES_VID, STEELSERIES_APEX_9_MINI_PID,                	1  );
 REGISTER_HID_DETECTOR_I  ("SteelSeries Apex Pro",                           DetectSteelSeriesApex,      STEELSERIES_VID, STEELSERIES_APEX_PRO_PID,                  	1  );
 REGISTER_HID_DETECTOR_I  ("SteelSeries Apex Pro TKL",                       DetectSteelSeriesApex,      STEELSERIES_VID, STEELSERIES_APEX_PRO_TKL_PID,              	1  );
 REGISTER_HID_DETECTOR_I  ("SteelSeries Apex Pro TKL 2023",                  DetectSteelSeriesApex,      STEELSERIES_VID, STEELSERIES_APEX_PRO_TKL_2023_PID,          	1  );
 REGISTER_HID_DETECTOR_I  ("SteelSeries Apex M750",                          DetectSteelSeriesApexM,     STEELSERIES_VID, STEELSERIES_APEX_M750_PID,                 	2  );
 REGISTER_HID_DETECTOR_I  ("SteelSeries Apex (OG)/Apex Fnatic",              DetectSteelSeriesApexOld,   STEELSERIES_VID, STEELSERIES_APEX_OG_PID,                   	0  );
-REGISTER_HID_DETECTOR_I  ("SteelSeries Apex 350",                           DetectSteelSeriesApexOld,   STEELSERIES_VID, STEELSERIES_APEX_350_PID,                  0  );
-REGISTER_HID_DETECTOR_I  ("SteelSeries Apex Pro 3",                         DetectSteelSeriesApex,      STEELSERIES_VID, STEELSERIES_APEX_PRO3_PID,                 1  );
+REGISTER_HID_DETECTOR_I  ("SteelSeries Apex 350",                           DetectSteelSeriesApexOld,   STEELSERIES_VID, STEELSERIES_APEX_350_PID,                      0  );
+REGISTER_HID_DETECTOR_I  ("SteelSeries Apex Pro 3",                         DetectSteelSeriesApex,      STEELSERIES_VID, STEELSERIES_APEX_PRO3_PID,                     1  );

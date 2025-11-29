@@ -27,8 +27,8 @@ public:
 
     std::string         GetLocation();
     std::string         GetName();
-    std::string         GetSerial();
-    std::string         GetVersion();
+    virtual std::string GetSerial();
+    virtual std::string GetVersion();
 
     virtual void        SetMode(unsigned char mode, std::vector<RGBColor> colors)  = 0;
 

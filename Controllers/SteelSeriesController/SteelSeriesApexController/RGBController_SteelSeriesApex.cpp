@@ -106,7 +106,7 @@ void RGBController_SteelSeriesApex::SetupZones()
             new_zone.matrix_map         = new matrix_map_type;
             new_zone.matrix_map->map    = (unsigned int *) malloc(matrix_mapsize*sizeof(unsigned int));
 
-            if((proto_type == APEX) || (proto_type == APEX_M))
+            if((proto_type == APEX) || (proto_type == APEX_M) || (proto_type == APEX_9_TKL) || (proto_type == APEX_9_MINI))
             {
                 SetSkuRegion(*new_zone.matrix_map, sku);
             }
@@ -116,7 +116,7 @@ void RGBController_SteelSeriesApex::SetupZones()
             new_zone.matrix_map         = NULL;
         }
 
-        if((proto_type == APEX) || (proto_type == APEX_M))
+        if((proto_type == APEX) || (proto_type == APEX_M) || (proto_type == APEX_9_TKL) || (proto_type == APEX_9_MINI))
         {
             new_zone.leds_min   = zone_sizes[zone_idx];
             new_zone.leds_max   = zone_sizes[zone_idx];
