@@ -30,7 +30,8 @@ inline bool is_amd_gpu_i2c_bus(const i2c_smbus_interface *bus)
     size_t idx = 0;
     while((name = RECOGNIZED_I2C_BUS_NAMES[idx++]) != nullptr)
     {
-        if(std::strcmp(name, bus->device_name) == 0)
+        const char *pos = std::strstr(bus->device_name, name);
+        if(pos == bus->device_name)
         {
             return true;
         }
