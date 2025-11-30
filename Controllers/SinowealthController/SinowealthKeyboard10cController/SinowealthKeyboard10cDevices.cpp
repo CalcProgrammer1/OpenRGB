@@ -117,6 +117,40 @@ const keyboard_keymap_overlay_values aula_f75_layout
 };
 
 
+const keyboard_keymap_overlay_values aula_f87_layout
+{
+    KEYBOARD_SIZE_TKL,
+    {
+        {
+            /* ESC              F1    F2    F3    F4    F5    F6    F7    F8    F9   F10   F11   F12    PRNT  SCRL  PAUSE */
+                0,              12,   18,   24,   30,   36,   42,   48,   54,   60,   66,   72,   78,    84,   90,   96,
+            /* BKTK        1     2     3     4     5     6     7     8     9     0     -     =   BSPC   INSRT HOME  PGUP  */
+                1,         7,   13,   19,   25,   31,   37,   43,   49,   55,   61,   67,   73,   79,    85,   91,   97,
+            /* TAB         Q     W     E     R     T     Y     U     I     O     P     [     ]     \     DEL   END  PGDN  */
+                2,         8,   14,   20,   26,   32,   38,   44,   50,   56,   62,   68,   74,   80,    86,   92,   98,
+            /* CPLK        A     S     D     F     G     H     J     K     L     ;     "     #   ENTR                     */
+                 3,        9,   15,   21,   27,   33,   39,   45,   51,   57,   63,   69,    0,   81,
+            /* LSFT ISO\   Z     X     C     V     B     N     M     ,     .     /               RSFT         ARWU        */
+                 4,  0,   10,   16,   22,   28,   34,   40,   46,   52,   58,   64,               82,          94,
+            /* LCTL       LWIN  LALT              SPC               RALT  RFNC  RMNU             RCTL   ARWL  ARWD  ARWR  */
+                5,        11,   17,               35,               53,   59,   65,               83,    89,   95,  101
+        },
+        {
+            /* Add more regional layout fixes here */
+        }
+    },
+    {
+        /*--------------------------------------------------------------------------------------------------------------------*\
+        | Edit Keys                                                                                                            |
+        |   Zone,   Row,    Column,    Value,    Key,                 Alternate Name,      OpCode,                             |
+        \*--------------------------------------------------------------------------------------------------------------------*/
+        {   0,      4,      12,         0,       KEY_EN_UNUSED,       KEY_EN_UNUSED,       KEYBOARD_OPCODE_REMOVE_SHIFT_LEFT,  },   // Remove RShift gap
+        {   0,      4,      14,         0,       KEY_EN_UNUSED,       KEY_EN_UNUSED,       KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },   // Add gap after RShift
+    }
+};
+
+
+
 /*-------------------------------------------------------------------------*\
 |  DEVICE MODEL MAPPING                                                     |
 \*-------------------------------------------------------------------------*/
@@ -126,5 +160,8 @@ const sinowealth_device_map sinowealth_10c_keyboards{
     },
     {
         0xA4, { "AULA F99", aula_f99_layout },
+    },
+    {
+        0x0B, { "AULA F87 Pro", aula_f87_layout },
     },
 };
