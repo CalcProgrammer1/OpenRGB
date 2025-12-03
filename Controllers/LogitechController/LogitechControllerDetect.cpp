@@ -14,6 +14,7 @@
 #include "LogitechProtocolCommon.h"
 #include "LogitechG203LController.h"
 #include "LogitechG213Controller.h"
+#include "LogitechG522Controller.h"
 #include "LogitechG560Controller.h"
 #include "LogitechG600Controller.h"
 #include "LogitechG933Controller.h"
@@ -27,6 +28,7 @@
 #include "LogitechX56Controller.h"
 #include "RGBController_LogitechG203L.h"
 #include "RGBController_LogitechG213.h"
+#include "RGBController_LogitechG522.h"
 #include "RGBController_LogitechG560.h"
 #include "RGBController_LogitechG600.h"
 #include "RGBController_LogitechG933.h"
@@ -107,6 +109,7 @@ using namespace std::chrono_literals;
 /*-----------------------------------------------------*\
 | Headset product IDs                                   |
 \*-----------------------------------------------------*/
+#define LOGITECH_G522_PID                           0x0B18
 #define LOGITECH_G633_PID                           0x0A5C
 #define LOGITECH_G635_PID                           0x0A89
 #define LOGITECH_G733_PID                           0x0AB5
@@ -618,6 +621,22 @@ void DetectLogitechG560(hid_device_info* info, const std::string& name)
     }
 }
 
+void DetectLogitechG522(hid_device_info* info, const std::string& name)
+{
+    hid_device* dev = hid_open_path(info->path);
+
+    if(dev)
+    {
+        /*---------------------------------------------*\
+        | Add G522 Headset                              |
+        \*---------------------------------------------*/
+        LogitechG522Controller*     controller     = new LogitechG522Controller(dev, info->path, name);
+        RGBController_LogitechG522* rgb_controller = new RGBController_LogitechG522(controller);
+
+        ResourceManager::get()->RegisterRGBController(rgb_controller);
+    }
+}
+
 void DetectLogitechG933(hid_device_info* info, const std::string& name)
 {
     hid_device* dev = hid_open_path(info->path);
@@ -689,6 +708,7 @@ REGISTER_HID_DETECTOR_IPU("Logitech G560 Lightsync Speaker",                Dete
 /*-------------------------------------------------------------------------------------------------------------------------------------------------*\
 | Headsets                                                                                                                                         |
 \*-------------------------------------------------------------------------------------------------------------------------------------------------*/
+REGISTER_HID_DETECTOR_IPU("Logitech G522 Gaming Headset",                   DetectLogitechG522,         LOGITECH_VID, LOGITECH_G522_PID,                    3, 0xFFA0, 1);
 REGISTER_HID_DETECTOR_IPU("Logitech G933 Lightsync Headset",                DetectLogitechG933,         LOGITECH_VID, LOGITECH_G933_PID,                    3, 0xFF43, 514);
 /*-------------------------------------------------------------------------------------------------------------------------------------------------*\
 | Joysticks                                                                                                                                         |
