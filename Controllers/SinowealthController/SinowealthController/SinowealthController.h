@@ -31,27 +31,27 @@ enum
     GLORIOUS_MODE_RAVE              = 0x07,
     GLORIOUS_MODE_EPILEPSY          = 0x08, //not in the official software
     GLORIOUS_MODE_WAVE              = 0x09,
-    GLORIOUS_MODE_BREATHING         = 0x0a,
+    GLORIOUS_MODE_BREATHING         = 0x0A,
 };
 
 enum
 {
-    GLORIOUS_SPEED_SLOW             = 0x41,
-    GLORIOUS_SPEED_NORMAL           = 0x42,
-    GLORIOUS_SPEED_FAST             = 0x43,
+    GLORIOUS_SPEED_SLOW             = 0x01,
+    GLORIOUS_SPEED_NORMAL           = 0x02,
+    GLORIOUS_SPEED_FAST             = 0x03,
 };
 
 enum
 {
-    GLORIOUS_DIRECTION_UP           = 0x00,
-    GLORIOUS_DIRECTION_DOWN         = 0x01,
+    GLORIOUS_BRIGHTNESS_LOW         = 0x01,
+    GLORIOUS_BRIGHTNESS_NORMAL      = 0x02,
+    GLORIOUS_BRIGHTNESS_HIGH        = 0x04,
 };
 
 enum
 {
-    GLORIOUS_MODE_BREATING_SLOW     = 0x01,
-    GLORIOUS_MODE_BREATING_NORMAL   = 0x02,
-    GLORIOUS_MODE_BREATING_FAST     = 0x03,
+    GLORIOUS_DIRECTION_DOWN         = 0x00,
+    GLORIOUS_DIRECTION_UP           = 0x01,
 };
 
 class SinowealthController
@@ -66,16 +66,13 @@ public:
     std::string     GetSerialString();
     std::string     GetFirmwareVersion();
 
-    void            SetLEDColor(RGBColor* color_buf);
-    void            SetMode(unsigned char mode, unsigned char speed, unsigned char direction, RGBColor* color_buf);
+    void            SetMode(unsigned char mode, unsigned char speed, unsigned char brightness, unsigned char direction, RGBColor* color_buf);
     int             GetProfile();
+
 private:
     hid_device*     dev_cmd;
     hid_device*     dev_data;
     unsigned int    led_count;
-    unsigned char   current_mode;
-    unsigned char   current_speed;
-    unsigned char   current_direction;
     unsigned char   device_configuration[SINOWEALTH_CONFIG_REPORT_SIZE];
     std::string     location;
     std::string     name;

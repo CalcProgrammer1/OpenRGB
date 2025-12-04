@@ -34,8 +34,11 @@ RGBController_Sinowealth::RGBController_Sinowealth(SinowealthController* control
     version                         = controller->GetFirmwareVersion();
 
     mode Static;
-    Static.name                     = "Static";
-    Static.flags                    = MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_AUTOMATIC_SAVE;
+    Static.name                     = "Custom";
+    Static.flags                    = MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_AUTOMATIC_SAVE;
+    Static.brightness_min           = GLORIOUS_BRIGHTNESS_LOW;
+    Static.brightness               = GLORIOUS_BRIGHTNESS_NORMAL;
+    Static.brightness_max           = GLORIOUS_BRIGHTNESS_HIGH;
     Static.color_mode               = MODE_COLORS_PER_LED;
     Static.value                    = GLORIOUS_MODE_STATIC;
     modes.push_back(Static);
@@ -48,7 +51,7 @@ RGBController_Sinowealth::RGBController_Sinowealth(SinowealthController* control
     modes.push_back(Off);
 
     mode Rainbow;
-    Rainbow.name                    = "Glorious Mode";
+    Rainbow.name                    = "Rainbow";
     Rainbow.flags                   = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_DIRECTION_UD | MODE_FLAG_AUTOMATIC_SAVE;
     Rainbow.speed_min               = GLORIOUS_SPEED_SLOW;
     Rainbow.speed                   = GLORIOUS_SPEED_NORMAL;
@@ -73,10 +76,13 @@ RGBController_Sinowealth::RGBController_Sinowealth(SinowealthController* control
 
     mode Chase;
     Chase.name                      = "Tail";
-    Chase.flags                     = MODE_FLAG_HAS_SPEED | MODE_FLAG_AUTOMATIC_SAVE;
+    Chase.flags                     = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_AUTOMATIC_SAVE;
     Chase.speed_min                 = GLORIOUS_SPEED_SLOW;
     Chase.speed                     = GLORIOUS_SPEED_NORMAL;
     Chase.speed_max                 = GLORIOUS_SPEED_FAST;
+    Chase.brightness_min            = GLORIOUS_BRIGHTNESS_LOW;
+    Chase.brightness                = GLORIOUS_BRIGHTNESS_NORMAL;
+    Chase.brightness_max            = GLORIOUS_BRIGHTNESS_HIGH;
     Chase.color_mode                = MODE_COLORS_NONE;
     Chase.value                     = GLORIOUS_MODE_TAIL;
     modes.push_back(Chase);
@@ -93,10 +99,13 @@ RGBController_Sinowealth::RGBController_Sinowealth(SinowealthController* control
 
     mode Flashing;
     Flashing.name                   = "Rave";
-    Flashing.flags                  = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_AUTOMATIC_SAVE;
+    Flashing.flags                  = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_AUTOMATIC_SAVE;
     Flashing.speed_min              = GLORIOUS_SPEED_SLOW;
     Flashing.speed                  = GLORIOUS_SPEED_NORMAL;
     Flashing.speed_max              = GLORIOUS_SPEED_FAST;
+    Flashing.brightness_min         = GLORIOUS_BRIGHTNESS_LOW;
+    Flashing.brightness             = GLORIOUS_BRIGHTNESS_NORMAL;
+    Flashing.brightness_max         = GLORIOUS_BRIGHTNESS_HIGH;
     Flashing.colors_min             = 2;
     Flashing.colors_max             = 2;
     Flashing.color_mode             = MODE_COLORS_MODE_SPECIFIC;
@@ -111,22 +120,25 @@ RGBController_Sinowealth::RGBController_Sinowealth(SinowealthController* control
     Epilepsy.value                  = GLORIOUS_MODE_EPILEPSY;
     modes.push_back(Epilepsy);
 
-    mode RainbowSlow;
-    RainbowSlow.name                = "Wave";
-    RainbowSlow.flags               = MODE_FLAG_HAS_SPEED | MODE_FLAG_AUTOMATIC_SAVE;
-    RainbowSlow.speed_min           = GLORIOUS_SPEED_SLOW;
-    RainbowSlow.speed               = GLORIOUS_SPEED_NORMAL;
-    RainbowSlow.speed_max           = GLORIOUS_SPEED_FAST;
-    RainbowSlow.color_mode          = MODE_COLORS_NONE;
-    RainbowSlow.value               = GLORIOUS_MODE_WAVE;
-    modes.push_back(RainbowSlow);
+    mode Wave;
+    Wave.name                       = "Wave";
+    Wave.flags                      = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_AUTOMATIC_SAVE;
+    Wave.speed_min                  = GLORIOUS_SPEED_SLOW;
+    Wave.speed                      = GLORIOUS_SPEED_NORMAL;
+    Wave.speed_max                  = GLORIOUS_SPEED_FAST;
+    Wave.brightness_min             = GLORIOUS_BRIGHTNESS_LOW;
+    Wave.brightness                 = GLORIOUS_BRIGHTNESS_NORMAL;
+    Wave.brightness_max             = GLORIOUS_BRIGHTNESS_HIGH;
+    Wave.color_mode                 = MODE_COLORS_NONE;
+    Wave.value                      = GLORIOUS_MODE_WAVE;
+    modes.push_back(Wave);
 
     mode Breathing;
     Breathing.name                  = "Breathing";
     Breathing.flags                 = MODE_FLAG_HAS_SPEED | MODE_FLAG_HAS_MODE_SPECIFIC_COLOR | MODE_FLAG_AUTOMATIC_SAVE;
-    Breathing.speed_min             = GLORIOUS_MODE_BREATING_SLOW;
-    Breathing.speed                 = GLORIOUS_MODE_BREATING_NORMAL;
-    Breathing.speed_max             = GLORIOUS_MODE_BREATING_FAST;
+    Breathing.speed_min             = GLORIOUS_SPEED_SLOW;
+    Breathing.speed                 = GLORIOUS_SPEED_NORMAL;
+    Breathing.speed_max             = GLORIOUS_SPEED_FAST;
     Breathing.colors_min            = 1;
     Breathing.colors_max            = 1;
     Breathing.color_mode            = MODE_COLORS_MODE_SPECIFIC;
@@ -178,7 +190,7 @@ void RGBController_Sinowealth::ResizeZone(int /*zone*/, int /*new_size*/)
 
 void RGBController_Sinowealth::DeviceUpdateLEDs()
 {
-    controller->SetLEDColor(&colors[0]);
+    DeviceUpdateMode();
 }
 
 void RGBController_Sinowealth::UpdateZoneLEDs(int /*zone*/)
@@ -194,51 +206,44 @@ void RGBController_Sinowealth::UpdateSingleLED(int /*led*/)
 void RGBController_Sinowealth::DeviceUpdateMode()
 {
     unsigned int direction = 0;
-    unsigned int speed = GLORIOUS_SPEED_NORMAL;
+    unsigned int speed = GLORIOUS_SPEED_FAST;
+    unsigned int brightness = GLORIOUS_BRIGHTNESS_HIGH;
 
-    if (modes[active_mode].value == GLORIOUS_MODE_STATIC)
+    if (modes[active_mode].flags & MODE_FLAG_HAS_SPEED)
     {
-
+        speed = modes[active_mode].speed;
     }
-    else
+
+    if (modes[active_mode].flags & MODE_FLAG_HAS_BRIGHTNESS)
+    {
+        brightness = modes[active_mode].brightness;
+    }
+
+    if ((modes[active_mode].flags & MODE_FLAG_HAS_DIRECTION_LR)  ||
+        (modes[active_mode].flags & MODE_FLAG_HAS_DIRECTION_UD)  ||
+        (modes[active_mode].flags & MODE_FLAG_HAS_DIRECTION_HV))
     {
         if (modes[active_mode].direction == MODE_DIRECTION_UP)
         {
-            direction = GLORIOUS_DIRECTION_DOWN;
-        }
-        else
-        {
             direction = GLORIOUS_DIRECTION_UP;
         }
-
-        if ((modes[active_mode].speed == GLORIOUS_SPEED_FAST)   ||
-            (modes[active_mode].speed == GLORIOUS_SPEED_SLOW)   ||
-            (modes[active_mode].speed == GLORIOUS_SPEED_NORMAL))
-        {
-            speed = modes[active_mode].speed;
-        }
         else
         {
-            if ((modes[active_mode].speed == GLORIOUS_MODE_BREATING_FAST) ||
-                (modes[active_mode].speed == GLORIOUS_MODE_BREATING_SLOW) ||
-                (modes[active_mode].speed == GLORIOUS_MODE_BREATING_NORMAL))
-            {
-                speed = modes[active_mode].speed;
-            }
-            else
-            {
-                speed = GLORIOUS_SPEED_NORMAL;
-            }
+            direction = GLORIOUS_DIRECTION_DOWN;
         }
+    }
 
-        if (modes[active_mode].color_mode == MODE_COLORS_NONE)
-        {
-            controller->SetMode(modes[active_mode].value, speed, direction, 0);
-        }
-        else
-        {
-            controller->SetMode(modes[active_mode].value, speed, direction, &modes[active_mode].colors[0]);
-        }
+    if (modes[active_mode].color_mode == MODE_COLORS_NONE)
+    {
+        controller->SetMode(modes[active_mode].value, speed, brightness, direction, 0);
+    }
+    else if (modes[active_mode].color_mode == MODE_COLORS_PER_LED)
+    {
+        controller->SetMode(modes[active_mode].value, speed, brightness, direction, &colors[0]);
+    }
+    else
+    {
+        controller->SetMode(modes[active_mode].value, speed, brightness, direction, &modes[active_mode].colors[0]);
     }
 }
 

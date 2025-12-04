@@ -22,10 +22,6 @@ SinowealthController::SinowealthController(hid_device* dev_data_handle, hid_devi
     name                = dev_name;
 
     led_count           = 1;
-
-    current_mode        = GLORIOUS_MODE_STATIC;
-    current_speed       = GLORIOUS_SPEED_NORMAL;
-    current_direction   = GLORIOUS_DIRECTION_UP;
 }
 
 SinowealthController::~SinowealthController()
@@ -88,32 +84,11 @@ std::string SinowealthController::GetFirmwareVersion()
     return std::string(reinterpret_cast<char*>(usb_buf) + 2); // Skip report and command byte
 }
 
-void SinowealthController::SetLEDColor
-    (
-    RGBColor* color_buf
-    )
-{
-    if (GetProfile() < SINOWEALTH_CONFIG_SIZE_MIN) return;
-
-    unsigned char usb_buf[SINOWEALTH_CONFIG_REPORT_SIZE];
-    memcpy(usb_buf, device_configuration, SINOWEALTH_CONFIG_SIZE); // Yes, we only copy 167 bytes back, for now - if anything weird starts happening use SINOWEALTH_CONFIG_REPORT_SIZE
-
-    usb_buf[0x03] = 0x7B;   //write to device
-    usb_buf[0x06] = 0x00;
-
-    usb_buf[0x35] = GLORIOUS_MODE_STATIC;
-    usb_buf[0x38] = 0x40; //max brightness
-    usb_buf[0x39] = RGBGetRValue(color_buf[0]);
-    usb_buf[0x3A] = RGBGetBValue(color_buf[0]);
-    usb_buf[0x3B] = RGBGetGValue(color_buf[0]);
-
-    hid_send_feature_report(dev_data, usb_buf, SINOWEALTH_CONFIG_REPORT_SIZE);
-}
-
 void SinowealthController::SetMode
     (
     unsigned char   mode,
     unsigned char   speed,
+    unsigned char   brightness,
     unsigned char   direction,
     RGBColor*       color_buf
     )
@@ -130,16 +105,19 @@ void SinowealthController::SetMode
 
     switch (mode)
     {
-    case GLORIOUS_MODE_OFF:
-        usb_buf[0x81] = 0x00; //mode 0 either 0x00 or 0x03
-        break;
     case GLORIOUS_MODE_RAINBOW:
-        usb_buf[0x36] = speed;
+        usb_buf[0x36] = ((brightness & 0xF) << 4) | (speed & 0xF);
         usb_buf[0x37] = direction;
+        break;
+    case GLORIOUS_MODE_STATIC:
+        usb_buf[0x38] = ((brightness & 0xF) << 4);
+        usb_buf[0x39] = RGBGetRValue(color_buf[0]);
+        usb_buf[0x3A] = RGBGetBValue(color_buf[0]);
+        usb_buf[0x3B] = RGBGetGValue(color_buf[0]);
         break;
     case GLORIOUS_MODE_SPECTRUM_BREATING:
         //colours not yet researched
-        usb_buf[0x3C] = speed; //speed for mode 3
+        usb_buf[0x3C] = ((brightness & 0xF) << 4) | (speed & 0xF);
         usb_buf[0x3D] = 0x07;  //maybe some kind of bank change?+
         //usb_buf[0x3D] = 0x06;
         usb_buf[0x3E] = RGBGetRValue(color_buf[0]);  //mode 3 red 1
@@ -165,13 +143,13 @@ void SinowealthController::SetMode
         usb_buf[0x52] = RGBGetGValue(color_buf[6]);  //mode 3 green 7
         break;
     case GLORIOUS_MODE_TAIL:
-        usb_buf[0x53] = speed; //Speed for mode 4
+        usb_buf[0x53] = ((brightness & 0xF) << 4) | (speed & 0xF);
         break;
     case GLORIOUS_MODE_SPECTRUM_CYCLE:
-        usb_buf[0x54] = speed; //Speed for mode 1,2,5
+        usb_buf[0x54] = ((brightness & 0xF) << 4) | (speed & 0xF);
         break;
     case GLORIOUS_MODE_RAVE:
-        usb_buf[0x74] = speed; //Speed for mode 7
+        usb_buf[0x74] = ((brightness & 0xF) << 4) | (speed & 0xF);
         usb_buf[0x75] = RGBGetRValue(color_buf[0]); //mode 7 red 1
         usb_buf[0x76] = RGBGetBValue(color_buf[0]); //mode 7 blue 1
         usb_buf[0x77] = RGBGetGValue(color_buf[0]); //mode 7 green 1
@@ -180,13 +158,16 @@ void SinowealthController::SetMode
         usb_buf[0x7A] = RGBGetGValue(color_buf[1]); //mode 7 green 2
         break;
     case GLORIOUS_MODE_WAVE:
-        usb_buf[0x7C] = speed; //Speed for mode 9
+        usb_buf[0x7C] = ((brightness & 0xF) << 4) | (speed & 0xF);
         break;
     case GLORIOUS_MODE_BREATHING:
-        usb_buf[0x7D] = speed;
+        usb_buf[0x7D] = ((brightness & 0xF) << 4) | (speed & 0xF);
         usb_buf[0x7E] = RGBGetRValue(color_buf[0]); //mode 0a red
         usb_buf[0x7F] = RGBGetBValue(color_buf[0]); //mode 0a blue
         usb_buf[0x80] = RGBGetGValue(color_buf[0]); //mode 0a green
+    case GLORIOUS_MODE_OFF:
+        usb_buf[0x81] = 0x00; //mode 0 either 0x00 or 0x03
+        break;
     default:
         break;
     }
