@@ -11,7 +11,7 @@
 
 #include "Detector.h"
 #include "LogManager.h"
-#include <hidapi/hidapi.h>
+#include <hidapi.h>
 #include "MNTReformKeyboardController.h"
 #include "MNTPocketReformKeyboardController.h"
 #include "RGBController_MNTReformKeyboard.h"

@@ -11,7 +11,7 @@
 
 #pragma once
 
-#include <hidapi/hidapi.h>
+#include <hidapi.h>
 #include <cstring>
 #include <string>
 
