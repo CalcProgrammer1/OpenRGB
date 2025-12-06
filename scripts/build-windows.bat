@@ -58,15 +58,27 @@ goto bits_done
 ::---------------------------------------------------------::
 qmake OpenRGB.pro CONFIG-=debug_and_release CONFIG+=release
 
+IF %ERRORLEVEL% NEQ 0 (
+    EXIT /B %ERRORLEVEL%
+)
+
 ::---------------------------------------------------------::
 :: Run jom to execute the build                            ::
 ::---------------------------------------------------------::
 jom
 
+IF %ERRORLEVEL% NEQ 0 (
+    EXIT /B %ERRORLEVEL%
+)
+
 ::---------------------------------------------------------::
 :: Run windeployqt to copy the Qt dll files                ::
 ::---------------------------------------------------------::
 windeployqt --no-patchqt --no-quick-import --no-translations --no-system-d3d-compiler --no-compiler-runtime --no-opengl-sw --no-network .\release\
+
+IF %ERRORLEVEL% NEQ 0 (
+    EXIT /B %ERRORLEVEL%
+)
 
 ::---------------------------------------------------------::
 :: Rename the release folder                               ::
