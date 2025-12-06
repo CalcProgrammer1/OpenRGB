@@ -52,7 +52,7 @@ void RGBController_MNTKeyboard::SetupZones()
 
 void RGBController_MNTKeyboard::DeviceUpdateLEDs()
 {
-    unsigned char color_map[zones[0].leds_count * KBD_COLOR_SIZE];
+    unsigned char *color_map = new unsigned char[zones[0].leds_count * KBD_COLOR_SIZE];
     for(unsigned int led_idx = 0; led_idx < zones[0].leds_count; led_idx++)
     {
         RGBColor color        = colors[led_idx];
@@ -62,6 +62,7 @@ void RGBController_MNTKeyboard::DeviceUpdateLEDs()
         color_map[offset + 0] = RGBGetBValue(color);
     }
     controller->SendColorMatrix(color_map);
+    delete[] color_map;
 }
 
 void RGBController_MNTKeyboard::ResizeZone(int, int)
