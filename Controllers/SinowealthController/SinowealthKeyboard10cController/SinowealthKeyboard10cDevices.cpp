@@ -150,6 +150,49 @@ const keyboard_keymap_overlay_values aula_f87_layout
 };
 
 
+const keyboard_keymap_overlay_values leobog_hi75c_pro_layout
+{
+    KEYBOARD_SIZE_SEVENTY_FIVE,
+    {
+        {
+         /* ESC                F1    F2    F3    F4    F5    F6    F7    F8    F9   F10   F11   F12 */
+            0,                 12,   18,   24,   30,   36,   42,   48,   54,   60,   66,   72,   78,
+         /* BKTK          1     2     3     4     5     6     7     8     9     0     -     =   BSPC  DEL   */
+            1,            7,   13,   19,   25,   31,   37,   43,   49,   55,   61,   67,   73,   79,
+         /* TAB           Q     W     E     R     T     Y     U     I     O     P     [     ]     \   END   */
+            2,            8,   14,   20,   26,   32,   38,   44,   50,   56,   62,   68,   74,   80,
+         /* CPLK          A     S     D     F     G     H     J     K     L     ;     "     #   ENTR  PGUP  */
+            3,            9,   15,   21,   27,   33,   39,   45,   51,   57,   63,   69,    0,   81,
+         /* LSFT  ISO\    Z     X     C     V     B     N     M     ,     .     /   RSFT        ARWU  PGDN  */
+            4,      0,   10,   16,   22,   28,   34,   40,   46,   52,   58,   64,   70,
+         /* LCTL        LWIN  LALT              SPC         RALT  RFNC  RMNU  RCTL        ARWL  ARWD  ARWR  */
+            5,           11,   17,               35,         53,   59,    0,   65,
+        },
+        {
+            /* Add more regional layout fixes here */
+        }
+    },
+    {
+        /*--------------------------------------------------------------------------------------------------------------------*\
+        | Edit Keys                                                                                                            |
+        |   Zone,   Row,    Column,    Value,    Key,                 Alternate Name,      OpCode,                             |
+        \*--------------------------------------------------------------------------------------------------------------------*/
+        {   0,      0,       0,         0,       KEY_EN_ESCAPE,       KEY_EN_UNUSED,       KEYBOARD_OPCODE_SWAP_ONLY, },           // Insert ESC
+        {   0,      1,      14,        85,       KEY_EN_DELETE,       KEY_EN_UNUSED,       KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Insert Delete
+        {   0,      2,      14,        86,       KEY_EN_END,          KEY_EN_UNUSED,       KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Insert End
+        {   0,      3,      14,        87,       KEY_EN_PAGE_UP,      KEY_EN_UNUSED,       KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Insert PgUp
+        {   0,      4,      14,        88,       KEY_EN_PAGE_DOWN,    KEY_EN_UNUSED,       KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Insert PgDn
+
+        {   0,      4,      12,         0,       KEY_EN_UNUSED,       KEY_EN_UNUSED,       KEYBOARD_OPCODE_REMOVE_SHIFT_LEFT,  },  // Remove RShift gap
+        {   0,      4,      13,        82,       KEY_EN_UP_ARROW,     KEY_EN_UNUSED,       KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Insert UpArrow
+
+        {   0,      5,      12,         0,       KEY_EN_UNUSED,       KEY_EN_UNUSED,       KEYBOARD_OPCODE_REMOVE_SHIFT_LEFT,  },  // Remove RMenu
+        {   0,      5,      13,        77,       KEY_EN_LEFT_ARROW,   KEY_EN_UNUSED,       KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Insert LeftArrow
+        {   0,      5,      14,        83,       KEY_EN_DOWN_ARROW,   KEY_EN_UNUSED,       KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Insert DownArrow
+        {   0,      5,      15,        89,       KEY_EN_RIGHT_ARROW,  KEY_EN_UNUSED,       KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Insert RightArrow
+    }
+};
+
 
 /*-------------------------------------------------------------------------*\
 |  DEVICE MODEL MAPPING                                                     |
@@ -163,5 +206,8 @@ const sinowealth_device_map sinowealth_10c_keyboards{
     },
     {
         0x0B, { "AULA F87 Pro", aula_f87_layout },
+    },
+    {
+        0xA3, { "LEOBOG Hi75C Pro", leobog_hi75c_pro_layout },
     },
 };
