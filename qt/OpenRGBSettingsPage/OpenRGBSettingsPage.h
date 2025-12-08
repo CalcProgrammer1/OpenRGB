@@ -78,6 +78,8 @@ private slots:
     void on_OpenSettingsFolderButton_clicked();
     void on_CheckboxLogConsole_clicked();
     void on_CheckboxLogFile_clicked();
+    void on_CheckboxHIDSafeMode_clicked();
+    void on_TextDetectionDelay_valueChanged(int);
     void on_CheckboxAMDSMBusReduceCPU_clicked();
     void on_CheckboxSharedSMBusAccess_clicked();
 

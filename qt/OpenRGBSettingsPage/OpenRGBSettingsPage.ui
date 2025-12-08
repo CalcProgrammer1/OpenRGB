@@ -30,19 +30,12 @@
       <property name="geometry">
        <rect>
         <x>0</x>
-        <y>-321</y>
-        <width>554</width>
-        <height>1052</height>
+        <y>-328</y>
+        <width>508</width>
+        <height>1105</height>
        </rect>
       </property>
       <layout class="QGridLayout" name="gridLayout_3">
-       <item row="27" column="0">
-        <widget class="QCheckBox" name="CheckboxAutoStartMinimized">
-         <property name="text">
-          <string>Start Minimized</string>
-         </property>
-        </widget>
-       </item>
        <item row="15" column="0">
         <widget class="QCheckBox" name="CheckboxLogConsole">
          <property name="text">
@@ -50,20 +43,10 @@
          </property>
         </widget>
        </item>
-       <item row="17" column="0">
-        <widget class="QCheckBox" name="CheckboxAMDSMBusReduceCPU">
+       <item row="36" column="0">
+        <widget class="QCheckBox" name="CheckboxAutoStartProfile">
          <property name="text">
-          <string>AMD SMBus: Reduce CPU Usage (restart required)</string>
-         </property>
-        </widget>
-       </item>
-       <item row="33" column="1">
-        <widget class="QComboBox" name="ComboBoxAutoStartProfile"/>
-       </item>
-       <item row="31" column="0">
-        <widget class="QCheckBox" name="CheckboxAutoStartClient">
-         <property name="text">
-          <string>Start Client</string>
+          <string>Load Profile</string>
          </property>
         </widget>
        </item>
@@ -74,8 +57,29 @@
          </property>
         </widget>
        </item>
-       <item row="32" column="1">
-        <widget class="QLineEdit" name="TextCustomArgs"/>
+       <item row="21" column="0">
+        <widget class="QCheckBox" name="CheckboxSharedSMBusAccess">
+         <property name="text">
+          <string>Shared SMBus Access (restart required)</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="1">
+        <widget class="QComboBox" name="ComboBoxLanguage"/>
+       </item>
+       <item row="40" column="0">
+        <widget class="QLabel" name="AutoStartStatusLabel">
+         <property name="text">
+          <string>Start at Login Status</string>
+         </property>
+        </widget>
+       </item>
+       <item row="7" column="0">
+        <widget class="QCheckBox" name="CheckboxLoadGeometry">
+         <property name="text">
+          <string>Load Window Geometry</string>
+         </property>
+        </widget>
        </item>
        <item row="12" column="0">
         <widget class="QLabel" name="HexFormatLabel">
@@ -84,24 +88,21 @@
          </property>
         </widget>
        </item>
-       <item row="36" column="1">
-        <widget class="QComboBox" name="ComboBoxExitProfile"/>
-       </item>
-       <item row="2" column="0">
-        <widget class="QLabel" name="UserInterfaceSettingsLabel">
+       <item row="11" column="0">
+        <widget class="QCheckBox" name="CheckboxShowLEDView">
          <property name="text">
-          <string>User Interface Settings:</string>
+          <string>Show LED View by Default</string>
          </property>
         </widget>
        </item>
-       <item row="9" column="0">
-        <widget class="QCheckBox" name="CheckboxRunZoneChecks">
+       <item row="24" column="0">
+        <widget class="QCheckBox" name="CheckboxLegacyWorkaround">
          <property name="text">
-          <string>Run Zone Checks on Rescan</string>
+          <string>Legacy Workaround</string>
          </property>
         </widget>
        </item>
-       <item row="35" column="1">
+       <item row="38" column="1">
         <widget class="QComboBox" name="ComboBoxResumeProfile"/>
        </item>
        <item row="4" column="0">
@@ -111,24 +112,102 @@
          </property>
         </widget>
        </item>
-       <item row="16" column="0">
-        <widget class="QLabel" name="DriversSettingsLabel">
-         <property name="text">
-          <string>Drivers Settings:</string>
-         </property>
-        </widget>
-       </item>
        <item row="12" column="1">
         <widget class="QComboBox" name="ComboBoxHexFormat"/>
        </item>
-       <item row="3" column="0">
-        <widget class="QLabel" name="LabelLanguage">
+       <item row="16" column="0">
+        <widget class="QLabel" name="DetectionSettingsLabel">
          <property name="text">
-          <string>Language</string>
+          <string>Detection Settings:</string>
          </property>
         </widget>
        </item>
-       <item row="38" column="0">
+       <item row="23" column="0">
+        <widget class="QCheckBox" name="CheckboxAllDevices">
+         <property name="text">
+          <string>Serve All Devices (Including those from client connections)</string>
+         </property>
+        </widget>
+       </item>
+       <item row="32" column="1">
+        <widget class="QLineEdit" name="TextServerHost"/>
+       </item>
+       <item row="20" column="0">
+        <widget class="QCheckBox" name="CheckboxAMDSMBusReduceCPU">
+         <property name="text">
+          <string>AMD SMBus: Reduce CPU Usage (restart required)</string>
+         </property>
+        </widget>
+       </item>
+       <item row="37" column="1">
+        <widget class="QComboBox" name="ComboBoxSuspendProfile"/>
+       </item>
+       <item row="25" column="0">
+        <widget class="QLabel" name="AutoStartLabel">
+         <property name="text">
+          <string>Start at Login Settings:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="32" column="0">
+        <widget class="QCheckBox" name="CheckboxAutoStartSetServerHost">
+         <property name="text">
+          <string>Set Server Host</string>
+         </property>
+        </widget>
+       </item>
+       <item row="6" column="0">
+        <widget class="QCheckBox" name="CheckboxTrayIconGreyscale">
+         <property name="text">
+          <string>Greyscale Tray Icon</string>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="1">
+        <widget class="QComboBox" name="ComboBoxTheme"/>
+       </item>
+       <item row="30" column="0">
+        <widget class="QCheckBox" name="CheckboxAutoStartMinimized">
+         <property name="text">
+          <string>Start Minimized</string>
+         </property>
+        </widget>
+       </item>
+       <item row="36" column="1">
+        <widget class="QComboBox" name="ComboBoxAutoStartProfile"/>
+       </item>
+       <item row="26" column="0">
+        <widget class="QCheckBox" name="CheckboxAutoStart">
+         <property name="text">
+          <string>Start at Login</string>
+         </property>
+        </widget>
+       </item>
+       <item row="39" column="1">
+        <widget class="QComboBox" name="ComboBoxExitProfile"/>
+       </item>
+       <item row="17" column="0">
+        <widget class="QCheckBox" name="CheckboxHIDSafeMode">
+         <property name="text">
+          <string>HID Safe Mode</string>
+         </property>
+        </widget>
+       </item>
+       <item row="34" column="0">
+        <widget class="QCheckBox" name="CheckboxAutoStartClient">
+         <property name="text">
+          <string>Start Client</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="0">
+        <widget class="QLabel" name="UserInterfaceSettingsLabel">
+         <property name="text">
+          <string>User Interface Settings:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="41" column="0">
         <spacer name="verticalSpacer">
          <property name="orientation">
           <enum>Qt::Orientation::Vertical</enum>
@@ -144,24 +223,20 @@
          </property>
         </spacer>
        </item>
-       <item row="28" column="0">
-        <widget class="QCheckBox" name="CheckboxAutoStartServer">
+       <item row="35" column="1">
+        <widget class="QLineEdit" name="TextCustomArgs"/>
+       </item>
+       <item row="5" column="0">
+        <widget class="QCheckBox" name="CheckboxMinimizeOnClose">
          <property name="text">
-          <string>Start Server</string>
+          <string>Minimize on Close</string>
          </property>
         </widget>
        </item>
-       <item row="33" column="0">
-        <widget class="QCheckBox" name="CheckboxAutoStartProfile">
+       <item row="22" column="0">
+        <widget class="QLabel" name="ServerSettingsLabel">
          <property name="text">
-          <string>Load Profile</string>
-         </property>
-        </widget>
-       </item>
-       <item row="23" column="0">
-        <widget class="QCheckBox" name="CheckboxAutoStart">
-         <property name="text">
-          <string>Start at Login</string>
+          <string>Server Settings:</string>
          </property>
         </widget>
        </item>
@@ -172,6 +247,41 @@
          </property>
         </widget>
        </item>
+       <item row="31" column="0">
+        <widget class="QCheckBox" name="CheckboxAutoStartServer">
+         <property name="text">
+          <string>Start Server</string>
+         </property>
+        </widget>
+       </item>
+       <item row="33" column="0">
+        <widget class="QCheckBox" name="CheckboxAutoStartSetServerPort">
+         <property name="text">
+          <string>Set Server Port</string>
+         </property>
+        </widget>
+       </item>
+       <item row="37" column="0">
+        <widget class="QCheckBox" name="CheckboxSetOnSuspend">
+         <property name="text">
+          <string>Set Profile on Suspend</string>
+         </property>
+        </widget>
+       </item>
+       <item row="9" column="0">
+        <widget class="QCheckBox" name="CheckboxRunZoneChecks">
+         <property name="text">
+          <string>Run Zone Checks on Rescan</string>
+         </property>
+        </widget>
+       </item>
+       <item row="13" column="0">
+        <widget class="QLabel" name="LogManagerSettingsLabel">
+         <property name="text">
+          <string>Log Manager Settings:</string>
+         </property>
+        </widget>
+       </item>
        <item row="14" column="0">
         <widget class="QCheckBox" name="CheckboxLogFile">
          <property name="text">
@@ -179,55 +289,7 @@
          </property>
         </widget>
        </item>
-       <item row="6" column="0">
-        <widget class="QCheckBox" name="CheckboxTrayIconGreyscale">
-         <property name="text">
-          <string>Greyscale Tray Icon</string>
-         </property>
-        </widget>
-       </item>
-       <item row="29" column="1">
-        <widget class="QLineEdit" name="TextServerHost"/>
-       </item>
-       <item row="34" column="1">
-        <widget class="QComboBox" name="ComboBoxSuspendProfile"/>
-       </item>
-       <item row="30" column="0">
-        <widget class="QCheckBox" name="CheckboxAutoStartSetServerPort">
-         <property name="text">
-          <string>Set Server Port</string>
-         </property>
-        </widget>
-       </item>
-       <item row="11" column="0">
-        <widget class="QCheckBox" name="CheckboxShowLEDView">
-         <property name="text">
-          <string>Show LED View by Default</string>
-         </property>
-        </widget>
-       </item>
-       <item row="5" column="0">
-        <widget class="QCheckBox" name="CheckboxMinimizeOnClose">
-         <property name="text">
-          <string>Minimize on Close</string>
-         </property>
-        </widget>
-       </item>
-       <item row="36" column="0">
-        <widget class="QCheckBox" name="CheckboxSetOnExit">
-         <property name="text">
-          <string>Set Profile on Exit</string>
-         </property>
-        </widget>
-       </item>
-       <item row="7" column="0">
-        <widget class="QCheckBox" name="CheckboxLoadGeometry">
-         <property name="text">
-          <string>Load Window Geometry</string>
-         </property>
-        </widget>
-       </item>
-       <item row="30" column="1">
+       <item row="33" column="1">
         <widget class="QSpinBox" name="TextServerPort">
          <property name="minimum">
           <number>1</number>
@@ -240,89 +302,55 @@
          </property>
         </widget>
        </item>
-       <item row="13" column="0">
-        <widget class="QLabel" name="LogManagerSettingsLabel">
-         <property name="text">
-          <string>Log Manager Settings:</string>
-         </property>
-        </widget>
-       </item>
-       <item row="3" column="1">
-        <widget class="QComboBox" name="ComboBoxLanguage"/>
-       </item>
-       <item row="34" column="0">
-        <widget class="QCheckBox" name="CheckboxSetOnSuspend">
-         <property name="text">
-          <string>Set Profile on Suspend</string>
-         </property>
-        </widget>
-       </item>
-       <item row="32" column="0">
-        <widget class="QCheckBox" name="CheckboxAutoStartCustom">
-         <property name="text">
-          <string>Custom Arguments</string>
-         </property>
-        </widget>
-       </item>
-       <item row="20" column="0">
-        <widget class="QCheckBox" name="CheckboxAllDevices">
-         <property name="text">
-          <string>Serve All Devices (Including those from client connections)</string>
-         </property>
-        </widget>
-       </item>
-       <item row="31" column="1">
-        <widget class="QLineEdit" name="TextClientHost"/>
-       </item>
-       <item row="29" column="0">
-        <widget class="QCheckBox" name="CheckboxAutoStartSetServerHost">
-         <property name="text">
-          <string>Set Server Host</string>
-         </property>
-        </widget>
-       </item>
-       <item row="37" column="0">
-        <widget class="QLabel" name="AutoStartStatusLabel">
-         <property name="text">
-          <string>Start at Login Status</string>
-         </property>
-        </widget>
-       </item>
-       <item row="18" column="0">
-        <widget class="QCheckBox" name="CheckboxSharedSMBusAccess">
-         <property name="text">
-          <string>Shared SMBus Access (restart required)</string>
-         </property>
-        </widget>
-       </item>
-       <item row="22" column="0">
-        <widget class="QLabel" name="AutoStartLabel">
-         <property name="text">
-          <string>Start at Login Settings:</string>
-         </property>
-        </widget>
-       </item>
-       <item row="4" column="1">
-        <widget class="QComboBox" name="ComboBoxTheme"/>
-       </item>
-       <item row="35" column="0">
+       <item row="38" column="0">
         <widget class="QCheckBox" name="CheckboxSetOnResume">
          <property name="text">
           <string>Set Profile on Resume</string>
          </property>
         </widget>
        </item>
-       <item row="19" column="0">
-        <widget class="QLabel" name="ServerSettingsLabel">
+       <item row="3" column="0">
+        <widget class="QLabel" name="LabelLanguage">
          <property name="text">
-          <string>Server Settings:</string>
+          <string>Language</string>
          </property>
         </widget>
        </item>
-       <item row="21" column="0">
-        <widget class="QCheckBox" name="CheckboxLegacyWorkaround">
+       <item row="19" column="0">
+        <widget class="QLabel" name="DriversSettingsLabel">
          <property name="text">
-          <string>Legacy Workaround</string>
+          <string>Drivers Settings:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="35" column="0">
+        <widget class="QCheckBox" name="CheckboxAutoStartCustom">
+         <property name="text">
+          <string>Custom Arguments</string>
+         </property>
+        </widget>
+       </item>
+       <item row="34" column="1">
+        <widget class="QLineEdit" name="TextClientHost"/>
+       </item>
+       <item row="39" column="0">
+        <widget class="QCheckBox" name="CheckboxSetOnExit">
+         <property name="text">
+          <string>Set Profile on Exit</string>
+         </property>
+        </widget>
+       </item>
+       <item row="18" column="0">
+        <widget class="QLabel" name="DetectionDelayLabel">
+         <property name="text">
+          <string>Initial Detection Delay (milliseconds, 0 to disable)</string>
+         </property>
+        </widget>
+       </item>
+       <item row="18" column="1">
+        <widget class="QSpinBox" name="TextDetectionDelay">
+         <property name="maximum">
+          <number>2147483647</number>
          </property>
         </widget>
        </item>
