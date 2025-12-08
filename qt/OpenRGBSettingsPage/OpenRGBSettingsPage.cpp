@@ -212,12 +212,12 @@ OpenRGBSettingsPage::OpenRGBSettingsPage(QWidget *parent) :
     }
     else
     {
-        ui->CheckboxHIDSafeMode->setChecked(true);
+        ui->CheckboxHIDSafeMode->setChecked(false);
     }
 
     if(detector_settings.contains("initial_detection_delay_ms"))
     {
-        ui->TextDetectionDelay->setValue(log_manager_settings["initial_detection_delay_ms"]);
+        ui->TextDetectionDelay->setValue(detector_settings["initial_detection_delay_ms"]);
     }
     else
     {
