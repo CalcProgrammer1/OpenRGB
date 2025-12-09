@@ -484,6 +484,9 @@ void RGBController_AuraTUFKeyboard::SetupZones()
         case AURA_TUF_K5_GAMING_PID:
             keyboard_ptr = &AsusTufK1Layouts;
             break;
+        case AURA_TUF_K3_GAMING_GEN_II_PID:
+            keyboard_ptr = &AsusTUFK3GamingGen2Layouts;
+            break;
         default:
             keyboard_ptr = &AsusTUFK7Layouts;
     }
