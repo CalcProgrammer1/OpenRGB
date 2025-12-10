@@ -112,6 +112,8 @@ void DetectRoccatVulcanKeyboardControllers(hid_device_info* info, const std::str
     std::string         dev_led_path;
     int                 dev_led_page;
     int                 dev_ctrl_page;
+    int                 dev_led_iface = 3;
+    int                 dev_ctrl_iface = 1;
 
     switch(info->product_id)
     {
@@ -123,10 +125,20 @@ void DetectRoccatVulcanKeyboardControllers(hid_device_info* info, const std::str
         case TURTLE_BEACH_VULCAN_II_PID:
             dev_led_page   = 0xFF00;
             dev_ctrl_page  = 0xFF01;
+            dev_led_iface   = 3;
+            dev_ctrl_iface  = 1;
+            break;
+        case TURTLE_BEACH_VULCAN_II_TKL_PRO_PID:
+            dev_led_page   = 0xFF00;
+            dev_ctrl_page  = 0x0001;
+            dev_led_iface   = 4;
+            dev_ctrl_iface  = 1;
             break;
         default:
             dev_led_page   = 0x0001;
             dev_ctrl_page  = 0x000B;
+            dev_led_iface   = 3;
+            dev_ctrl_iface  = 1;
             break;
     }
 
@@ -140,12 +152,12 @@ void DetectRoccatVulcanKeyboardControllers(hid_device_info* info, const std::str
         && info_temp->product_id            == info->product_id
         && used_paths.find(info_temp->path) == used_paths.end() )
         {
-            if(info_temp->interface_number == 1 && info_temp->usage_page == dev_ctrl_page)
+            if(info_temp->interface_number == dev_ctrl_iface && info_temp->usage_page == dev_ctrl_page)
             {
                 dev_ctrl      = hid_open_path(info_temp->path);
                 dev_ctrl_path = info_temp->path;
             }
-            else if(info_temp->interface_number == 3 && info_temp->usage_page == dev_led_page)
+            else if(info_temp->interface_number == dev_led_iface && info_temp->usage_page == dev_led_page)
             {
                 dev_led      = hid_open_path(info_temp->path);
                 dev_led_path = info_temp->path;
@@ -313,18 +325,19 @@ REGISTER_PRE_DETECTION_HOOK(ResetRoccatVulcanKeyboardControllersPaths);
 /*-----------------------------------------------------------------*\
 |  KEYBOARDS                                                        |
 \*-----------------------------------------------------------------*/
-REGISTER_HID_DETECTOR_IPU("Roccat Horde Aimo",              DetectRoccatHordeAimoKeyboardControllers,   ROCCAT_VID, ROCCAT_HORDE_AIMO_PID,                  1, 0x0B,    0 );
+REGISTER_HID_DETECTOR_IPU("Roccat Horde Aimo",                  DetectRoccatHordeAimoKeyboardControllers,   ROCCAT_VID, ROCCAT_HORDE_AIMO_PID,                      1, 0x0B,    0 );
 
-REGISTER_HID_DETECTOR_IP ("Roccat Magma",                   DetectRoccatVulcanKeyboardControllers,      ROCCAT_VID, ROCCAT_MAGMA_PID,                       1,          0xFF01);
-REGISTER_HID_DETECTOR_IP ("Roccat Magma Mini",              DetectRoccatVulcanKeyboardControllers,      ROCCAT_VID, ROCCAT_MAGMA_MINI_PID,                  1,          0xFF01);
-REGISTER_HID_DETECTOR_IP ("Roccat Pyro",                    DetectRoccatVulcanKeyboardControllers,      ROCCAT_VID, ROCCAT_PYRO_PID,                        1,          0xFF01);
-REGISTER_HID_DETECTOR_IP ("Roccat Vulcan 100 Aimo",         DetectRoccatVulcanKeyboardControllers,      ROCCAT_VID, ROCCAT_VULCAN_100_AIMO_PID,             1,          11);
-REGISTER_HID_DETECTOR_IP ("Roccat Vulcan 120-Series Aimo",  DetectRoccatVulcanKeyboardControllers,      ROCCAT_VID, ROCCAT_VULCAN_120_AIMO_PID,             1,          11);
-REGISTER_HID_DETECTOR_IP ("Roccat Vulcan TKL",              DetectRoccatVulcanKeyboardControllers,      ROCCAT_VID, ROCCAT_VULCAN_TKL_PID,                  1,          11);
-REGISTER_HID_DETECTOR_IP ("Roccat Vulcan Pro",              DetectRoccatVulcanKeyboardControllers,      ROCCAT_VID, ROCCAT_VULCAN_PRO_PID,                  1,          0xFF01);
-REGISTER_HID_DETECTOR_IP ("Roccat Vulcan II",               DetectRoccatVulcanKeyboardControllers,      ROCCAT_VID, ROCCAT_VULCAN_II_PID,                   1,          0xFF01);
-REGISTER_HID_DETECTOR_IP ("Turtle Beach Vulcan II",         DetectRoccatVulcanKeyboardControllers,      TURTLE_BEACH_VID, TURTLE_BEACH_VULCAN_II_PID,       1,          0xFF01);
-REGISTER_HID_DETECTOR_IP ("Turtle Beach Vulcan II TKL",     DetectRoccatVulcanKeyboardControllers,      TURTLE_BEACH_VID, TURTLE_BEACH_VULCAN_II_TKL_PID,   1,          11);
+REGISTER_HID_DETECTOR_IP ("Roccat Magma",                       DetectRoccatVulcanKeyboardControllers,      ROCCAT_VID, ROCCAT_MAGMA_PID,                           1,          0xFF01);
+REGISTER_HID_DETECTOR_IP ("Roccat Magma Mini",                  DetectRoccatVulcanKeyboardControllers,      ROCCAT_VID, ROCCAT_MAGMA_MINI_PID,                      1,          0xFF01);
+REGISTER_HID_DETECTOR_IP ("Roccat Pyro",                        DetectRoccatVulcanKeyboardControllers,      ROCCAT_VID, ROCCAT_PYRO_PID,                            1,          0xFF01);
+REGISTER_HID_DETECTOR_IP ("Roccat Vulcan 100 Aimo",             DetectRoccatVulcanKeyboardControllers,      ROCCAT_VID, ROCCAT_VULCAN_100_AIMO_PID,                 1,          11);
+REGISTER_HID_DETECTOR_IP ("Roccat Vulcan 120-Series Aimo",      DetectRoccatVulcanKeyboardControllers,      ROCCAT_VID, ROCCAT_VULCAN_120_AIMO_PID,                 1,          11);
+REGISTER_HID_DETECTOR_IP ("Roccat Vulcan TKL",                  DetectRoccatVulcanKeyboardControllers,      ROCCAT_VID, ROCCAT_VULCAN_TKL_PID,                      1,          11);
+REGISTER_HID_DETECTOR_IP ("Roccat Vulcan Pro",                  DetectRoccatVulcanKeyboardControllers,      ROCCAT_VID, ROCCAT_VULCAN_PRO_PID,                      1,          0xFF01);
+REGISTER_HID_DETECTOR_IP ("Roccat Vulcan II",                   DetectRoccatVulcanKeyboardControllers,      ROCCAT_VID, ROCCAT_VULCAN_II_PID,                       1,          0xFF01);
+REGISTER_HID_DETECTOR_IP ("Turtle Beach Vulcan II",             DetectRoccatVulcanKeyboardControllers,      TURTLE_BEACH_VID, TURTLE_BEACH_VULCAN_II_PID,           1,          0xFF01);
+REGISTER_HID_DETECTOR_IP ("Turtle Beach Vulcan II TKL",         DetectRoccatVulcanKeyboardControllers,      TURTLE_BEACH_VID, TURTLE_BEACH_VULCAN_II_TKL_PID,       1,          11);
+REGISTER_HID_DETECTOR_IP ("Turtle Beach Vulcan II TKL Pro",     DetectRoccatVulcanKeyboardControllers,      TURTLE_BEACH_VID, TURTLE_BEACH_VULCAN_II_TKL_PRO_PID,   1,          0x0001);
 
 /*-----------------------------------------------------------------*\
 |  MICE                                                             |

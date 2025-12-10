@@ -115,6 +115,9 @@ void RGBController_RoccatVulcanKeyboard::SetupZones()
         case TURTLE_BEACH_VULCAN_II_TKL_PID:
             keyboard_ptr = &RoccatVulcanTKLLayouts;
             break;
+        case TURTLE_BEACH_VULCAN_II_TKL_PRO_PID:
+            keyboard_ptr = &TurtleBeachVulcanIITKLProLayouts;
+            break;
         case ROCCAT_VULCAN_PRO_PID:
         case ROCCAT_PYRO_PID:
             keyboard_ptr = &RoccatPyroLayouts;
@@ -186,7 +189,7 @@ void RGBController_RoccatVulcanKeyboard::ResizeZone(int /*zone*/, int /*new_size
 
 void RGBController_RoccatVulcanKeyboard::DeviceUpdateLEDs()
 {
-    if (modes[active_mode].value == ROCCAT_VULCAN_MODE_DIRECT)
+    if(modes[active_mode].value == ROCCAT_VULCAN_MODE_DIRECT)
     {
         std::vector<led_color> led_color_list = {};
 
@@ -228,6 +231,6 @@ void RGBController_RoccatVulcanKeyboard::DeviceUpdateMode()
     controller->SendMode(modes[active_mode].value, modes[active_mode].speed, modes[active_mode].brightness, led_color_list);
     controller->WaitUntilReady();
 
-    controller->EnableDirect(modes[active_mode].value != ROCCAT_VULCAN_MODE_DEFAULT);
+    controller->EnableDirect(modes[active_mode].value == ROCCAT_VULCAN_MODE_DIRECT);
     controller->WaitUntilReady();
 }

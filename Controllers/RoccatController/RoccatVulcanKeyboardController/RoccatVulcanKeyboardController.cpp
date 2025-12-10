@@ -69,6 +69,7 @@ device_info RoccatVulcanKeyboardController::InitDeviceInfo()
         case ROCCAT_VULCAN_PRO_PID:
         case ROCCAT_VULCAN_II_PID:
         case TURTLE_BEACH_VULCAN_II_PID:
+        case TURTLE_BEACH_VULCAN_II_TKL_PRO_PID:
             packet_length = 9;
             report_id     = 0x09;
             break;
@@ -124,6 +125,7 @@ void RoccatVulcanKeyboardController::EnableDirect(bool on_off_switch)
         case ROCCAT_VULCAN_PRO_PID:
         case ROCCAT_VULCAN_II_PID:
         case TURTLE_BEACH_VULCAN_II_PID:
+        case TURTLE_BEACH_VULCAN_II_TKL_PRO_PID:
             buf = new uint8_t[5] { 0x0E, 0x05, on_off_switch, 0x00, 0x00 };
             hid_send_feature_report(dev_ctrl, buf, 5);
             break;
@@ -142,36 +144,40 @@ void RoccatVulcanKeyboardController::SendColors(std::vector<led_color> colors)
 
     switch(device_pid)
     {
-        case ROCCAT_MAGMA_PID:
-        case ROCCAT_MAGMA_MINI_PID:
-            packet_length = 64;
-            column_length = 5;
-            protocol_version = 2;
-            break;
-        case ROCCAT_PYRO_PID:
-            packet_length = 378;
-            column_length = 1;
-            protocol_version = 2;
-            break;
-        case ROCCAT_VULCAN_PRO_PID:
-            packet_length = 384;
-            column_length = 12;
-            protocol_version = 2;
-            break;
-        case ROCCAT_VULCAN_II_PID:
-        case TURTLE_BEACH_VULCAN_II_PID:
-            packet_length = 396;
-            column_length = 1;
-            protocol_version = 2;
-            break;
-        default:
-            packet_length = 436;
-            column_length = 12;
-            protocol_version = 1;
+    case ROCCAT_MAGMA_PID:
+    case ROCCAT_MAGMA_MINI_PID:
+        packet_length = 64;
+        column_length = 5;
+        protocol_version = 2;
+        break;
+    case ROCCAT_PYRO_PID:
+        packet_length = 378;
+        column_length = 1;
+        protocol_version = 2;
+        break;
+    case ROCCAT_VULCAN_PRO_PID:
+        packet_length = 384;
+        column_length = 12;
+        protocol_version = 2;
+        break;
+    case ROCCAT_VULCAN_II_PID:
+    case TURTLE_BEACH_VULCAN_II_PID:
+        packet_length = 396;
+        column_length = 1;
+        protocol_version = 2;
+        break;
+    case TURTLE_BEACH_VULCAN_II_TKL_PRO_PID:
+        packet_length = 320;
+        column_length = 1;
+        protocol_version = 2;
+        break;
+    default:
+        packet_length = 436;
+        column_length = 12;
+        protocol_version = 1;
     }
 
     unsigned char packet_num = (unsigned char)(ceil((float)packet_length / 64));
-
     std::vector<std::vector<uint8_t>> bufs(packet_num);
 
     for(int p = 0; p < packet_num; p++)
@@ -202,57 +208,91 @@ void RoccatVulcanKeyboardController::SendColors(std::vector<led_color> colors)
     }
     else
     {
-        if(protocol_version > 1)
+        bufs[0][3] = packet_length & 0xFF;
+        bufs[0][4] = (packet_length >> 8) & 0xFF;
+    }
+
+    unsigned int data_length_packet = 64 - header_length_first;
+
+    unsigned int hw_leds = 0;
+    if(device_pid == TURTLE_BEACH_VULCAN_II_TKL_PRO_PID)
+    {
+        for(unsigned int i = 0; i < colors.size(); i++)
         {
-            bufs[0][3] = packet_length % 256;
-            bufs[0][4] = packet_length / 256;
+            if(colors[i].value > hw_leds)
+            {
+                hw_leds = colors[i].value;
+            }
         }
-        else
-        {
-            bufs[0][3] = packet_length / 256;
-            bufs[0][4] = packet_length % 256;
-        }
+        hw_leds += 1;
     }
 
     for(unsigned int i = 0; i < colors.size(); i++)
     {
-        int column  = (int)(floor(colors[i].value / column_length));
-        int row     = colors[i].value % column_length;
-
-        /*-----------------------------------------------------------------------*\
-        |  This has to be split up for readability.                               |
-        |  This assumes that the header for each packet besides the first         |
-        |  is either 0 bytes long (protocol v1) or as long as the first one (v2). |
-        |  This currently covers all keyboards.                                   |
-        |  A solution unified solution that can handle general header length      |
-        |  independent of the first header would be desirable, but seems          |
-        |  too complicated for now.                                               |
-        \*-----------------------------------------------------------------------*/
-        if(protocol_version == 1)
+        if(device_pid == TURTLE_BEACH_VULCAN_II_TKL_PRO_PID)
         {
-            int offset = column * 3 * column_length + row + header_length_first;
+            const unsigned int CHANNEL_OFFSET = hw_leds;
 
-            bufs[offset / 64][offset % 64 + 1] = RGBGetRValue(colors[i].color);
+            unsigned int led_index = colors[i].value;
+            if(led_index >= hw_leds)
+            {
+                continue;
+            }
 
-            offset += column_length;
-            bufs[offset / 64][offset % 64 + 1] = RGBGetGValue(colors[i].color);
+            unsigned int logical_pos_r = led_index;
+            unsigned int p_idx_r       = logical_pos_r / data_length_packet;
+            unsigned int b_idx_r       = logical_pos_r % data_length_packet;
 
-            offset += column_length;
-            bufs[offset / 64][offset % 64 + 1] = RGBGetBValue(colors[i].color);
+            if(p_idx_r < bufs.size())
+            {
+                bufs[p_idx_r][b_idx_r + header_length_first + 1] = RGBGetRValue(colors[i].color);
+            }
+
+            unsigned int logical_pos_g = led_index + CHANNEL_OFFSET;
+            unsigned int p_idx_g       = logical_pos_g / data_length_packet;
+            unsigned int b_idx_g       = logical_pos_g % data_length_packet;
+
+            if(p_idx_g < bufs.size())
+            {
+                bufs[p_idx_g][b_idx_g + header_length_first + 1] = RGBGetGValue(colors[i].color);
+            }
+
+            unsigned int logical_pos_b = led_index + 2 * CHANNEL_OFFSET;
+            unsigned int p_idx_b       = logical_pos_b / data_length_packet;
+            unsigned int b_idx_b       = logical_pos_b % data_length_packet;
+
+            if(p_idx_b < bufs.size())
+            {
+                bufs[p_idx_b][b_idx_b + header_length_first + 1] = RGBGetBValue(colors[i].color);
+            }
         }
+
         else
         {
-            unsigned int data_length_packet = 64 - header_length_first;
+            int column  = (int)(floor(colors[i].value / column_length));
+            int row     = colors[i].value % column_length;
 
-            int offset = column * 3 * column_length + row;
+            if(protocol_version == 1)
+            {
+                int offset = column * 3 * column_length + row + header_length_first;
+                bufs[offset / 64][offset % 64 + 1] = RGBGetRValue(colors[i].color);
+                offset += column_length;
+                bufs[offset / 64][offset % 64 + 1] = RGBGetGValue(colors[i].color);
+                offset += column_length;
+                bufs[offset / 64][offset % 64 + 1] = RGBGetBValue(colors[i].color);
+            }
+            else
+            {
+                int offset = column * 3 * column_length + row;
 
-            bufs[offset / data_length_packet][offset % data_length_packet + header_length_first + 1] = RGBGetRValue(colors[i].color);
+                bufs[offset / data_length_packet][offset % data_length_packet + header_length_first + 1] = RGBGetRValue(colors[i].color);
 
-            offset += column_length;
-            bufs[offset / data_length_packet][offset % data_length_packet + header_length_first + 1] = RGBGetGValue(colors[i].color);
+                offset += column_length;
+                bufs[offset / data_length_packet][offset % data_length_packet + header_length_first + 1] = RGBGetGValue(colors[i].color);
 
-            offset += column_length;
-            bufs[offset / data_length_packet][offset % data_length_packet + header_length_first + 1] = RGBGetBValue(colors[i].color);
+                offset += column_length;
+                bufs[offset / data_length_packet][offset % data_length_packet + header_length_first + 1] = RGBGetBValue(colors[i].color);
+            }
         }
     }
 
@@ -298,6 +338,11 @@ void RoccatVulcanKeyboardController::SendMode(unsigned int mode, unsigned int sp
             packet_length = 377;
             column_length = 1;
             break;
+        case TURTLE_BEACH_VULCAN_II_TKL_PRO_PID:
+            packet_length = 284;
+            column_length = 1;
+            protocol_version = 2;
+            break;
         default:
             protocol_version = 1;
             packet_length = 443;
@@ -341,23 +386,62 @@ void RoccatVulcanKeyboardController::SendMode(unsigned int mode, unsigned int sp
         buf[5 + offset] = 0x00;
     }
 
+    if(device_pid == TURTLE_BEACH_VULCAN_II_TKL_PRO_PID)
+    {
+        buf[0 + offset] = 0x03;
+        buf[4 + offset] = 0x0B;
+        buf[5 + offset] = 0x01;
+    }
+
+    unsigned int hw_leds = 0;
+    if(device_pid == TURTLE_BEACH_VULCAN_II_TKL_PRO_PID)
+    {
+        for(unsigned int i = 0; i < colors.size(); i++)
+        {
+            if(colors[i].value > hw_leds)
+            {
+                hw_leds = colors[i].value;
+            }
+        }
+        hw_leds += 1;
+    }
 
     for(unsigned int i = 0; i < colors.size(); i++)
     {
-        int column  = (int)(floor(colors[i].value / column_length));
-        int row     = colors[i].value % column_length;
+        if(device_pid == TURTLE_BEACH_VULCAN_II_TKL_PRO_PID)
+        {
+            const int HEADER_OFFSET = 9;
+            const unsigned int CHANNEL_OFFSET = hw_leds;
 
-        int offset = column * 3 * column_length + row + 9;
+            unsigned int led_index = colors[i].value;
+            if(led_index >= hw_leds) continue;
 
-        buf[offset] = RGBGetRValue(colors[i].color);
+            int pos_r = HEADER_OFFSET + led_index;
+            int pos_g = HEADER_OFFSET + led_index + CHANNEL_OFFSET;
+            int pos_b = HEADER_OFFSET + led_index + (2 * CHANNEL_OFFSET);
 
-        offset += column_length;
+            if (pos_b < packet_length - 2)
+            {
+                buf[pos_r] = RGBGetRValue(colors[i].color);
+                buf[pos_g] = RGBGetGValue(colors[i].color);
+                buf[pos_b] = RGBGetBValue(colors[i].color);
+            }
+        }
+        else
+        {
+            int column  = (int)(floor(colors[i].value / column_length));
+            int row     = colors[i].value % column_length;
+            int pos = column * 3 * column_length + row + 9;
 
-        buf[offset] = RGBGetGValue(colors[i].color);
-
-        offset += column_length;
-
-        buf[offset] = RGBGetBValue(colors[i].color);
+            if(pos + (2 * column_length) < packet_length - 2)
+            {
+                buf[pos] = RGBGetRValue(colors[i].color);
+                pos += column_length;
+                buf[pos] = RGBGetGValue(colors[i].color);
+                pos += column_length;
+                buf[pos] = RGBGetBValue(colors[i].color);
+            }
+        }
     }
 
     unsigned short total = 0;

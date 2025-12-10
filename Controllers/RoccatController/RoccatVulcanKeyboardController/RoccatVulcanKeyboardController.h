@@ -20,16 +20,17 @@
 |  KEYBOARDS                                                                       |
 |  This section was used to be enum.                                               |
 \*--------------------------------------------------------------------------------*/
-#define ROCCAT_VULCAN_100_AIMO_PID      0x307A
-#define ROCCAT_VULCAN_120_AIMO_PID      0x3098
-#define ROCCAT_VULCAN_TKL_PID           0x2FEE
-#define ROCCAT_VULCAN_PRO_PID           0x30F7
-#define ROCCAT_VULCAN_II_PID            0x2F4E
-#define ROCCAT_PYRO_PID                 0x314C
-#define ROCCAT_MAGMA_PID                0x3124
-#define ROCCAT_MAGMA_MINI_PID           0x69A0
-#define TURTLE_BEACH_VULCAN_II_PID      0x501B
-#define TURTLE_BEACH_VULCAN_II_TKL_PID  0x5023
+#define ROCCAT_VULCAN_100_AIMO_PID          0x307A
+#define ROCCAT_VULCAN_120_AIMO_PID          0x3098
+#define ROCCAT_VULCAN_TKL_PID               0x2FEE
+#define ROCCAT_VULCAN_PRO_PID               0x30F7
+#define ROCCAT_VULCAN_II_PID                0x2F4E
+#define ROCCAT_PYRO_PID                     0x314C
+#define ROCCAT_MAGMA_PID                    0x3124
+#define ROCCAT_MAGMA_MINI_PID               0x69A0
+#define TURTLE_BEACH_VULCAN_II_PID          0x501B
+#define TURTLE_BEACH_VULCAN_II_TKL_PID      0x5023
+#define TURTLE_BEACH_VULCAN_II_TKL_PRO_PID  0x5001
 
 enum
 {
