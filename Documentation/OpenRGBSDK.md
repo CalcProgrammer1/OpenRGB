@@ -2,7 +2,7 @@
 
 OpenRGB provides a network-based Software Development Kit (SDK) interface for third-party software applications to integrate with OpenRGB to control lighting on OpenRGB-supported devices.  This protocol is a binary, packet-based protocol designed for efficient, lightweight transfer of lighting data over a TCP/IP connection.  It may be used locally or over a physical network between computers.  The protocol is versioned.  Client and server must negotiate a minimum supported protocol version upon connection.  The selected protocol version determines what capabilities are available and can change packet format for certain packets as new information is added to the protocol.
 
-The protocol mimics the [RGBController API](The-RGBController-API) closely.  It can be thought of as "RGBController over IP" in that the protocol is designed so that a network RGBController object can be created on the client that is a direct copy of the real RGBController object on the server.  Calls to the network client RGBController object send packets to the server which trigger calls to the real object, updating the necessary object data before the call.
+The protocol mimics the [RGBController API](RGBControllerAPI.md) closely.  It can be thought of as "RGBController over IP" in that the protocol is designed so that a network RGBController object can be created on the client that is a direct copy of the real RGBController object on the server.  Calls to the network client RGBController object send packets to the server which trigger calls to the real object, updating the necessary object data before the call.
 
 # Protocol Versions
 
