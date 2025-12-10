@@ -56,7 +56,6 @@ enum
     AURA_TUF_K1_GAMING_PID                              = 0x1945,
     AURA_TUF_K3_GAMING_PID                              = 0x194B,
     AURA_TUF_K3_GAMING_GEN_II_PID                       = 0x1B30,
-    AURA_TUF_K3_GAMING_GEN2_PID                         = 0x1B30,
     AURA_TUF_K5_GAMING_PID                              = 0x1899,
     AURA_TUF_K7_GAMING_PID                              = 0x18AA,
     AURA_TUF_K3_GENII_MIKU_EDITION_PID                  = 0x1C5E,
