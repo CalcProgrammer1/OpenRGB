@@ -110,8 +110,8 @@ const keyboard_keymap_overlay_values aula_f75_layout
         {   0,      5,      11,         0,       KEY_EN_UNUSED,       KEY_EN_UNUSED,       KEYBOARD_OPCODE_REMOVE_SHIFT_LEFT,  },  // Remove RMenu
 
         {   0,      5,      12,        77,       KEY_EN_LEFT_ARROW,   KEY_EN_UNUSED,       KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Insert LeftArrow
-        {   0,      5,      12,        83,       KEY_EN_DOWN_ARROW,   KEY_EN_UNUSED,       KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Insert DownArrow
-        {   0,      5,      12,        89,       KEY_EN_RIGHT_ARROW,  KEY_EN_UNUSED,       KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Insert RightArrow
+        {   0,      5,      13,        83,       KEY_EN_DOWN_ARROW,   KEY_EN_UNUSED,       KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Insert DownArrow
+        {   0,      5,      14,        89,       KEY_EN_RIGHT_ARROW,  KEY_EN_UNUSED,       KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Insert RightArrow
 
     }
 };
