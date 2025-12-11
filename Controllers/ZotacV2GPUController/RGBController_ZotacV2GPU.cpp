@@ -20,6 +20,7 @@ std::map<std::string, ZotacV2GPUConfig> ZOTAC_V2_GPU_CONFIG =
     { "N612E-1011", { 2, false } },  // ZOTAC GAMING GeForce RTX 3080 Trinity OC LHR 12GB & 3090 Trinity & 3070 Ti
     { "N612A-1012", { 2, false } },  // ZOTAC GAMING GeForce RTX 3080 Ti AMP Holo
     { "N617E-1011", { 3, false } },  // ZOTAC GAMING GeForce RTX 3070 AMP Holo LHR
+    { "N618E-1013", { 4, true  } },  // ZOTAC GAMING GeForce RTX 3090 AMP Core Holo
     { "N618A-1015", { 4, true  } },  // ZOTAC GAMING GeForce RTX 3090 AMP Extreme Holo
     { "N696E-1040", { 1, false } },  // ZOTAC GAMING GeForce RTX 4070 Ti Trinity OC
     { "N675E-1019", { 1, true  } },  // ZOTAC GAMING GeForce RTX 4090 Trinity OC
