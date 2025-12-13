@@ -42,6 +42,7 @@
 #define AMD_NAVI31_DEV                                  0x744C
 #define AMD_NAVI32_DEV                                  0x747E
 #define AMD_NAVI33_DEV                                  0x7480
+#define AMD_NAVI44_DEV                                  0x7590
 #define AMD_NAVI48_DEV                                  0x7550
 #define AMD_NAVI48_DEV1                                 0x7590
 
@@ -716,6 +717,7 @@
 #define GIGABYTE_AORUS_RX_6750_XT_ELITE_12G_SUB_DEV     0x2407
 #define GIGABYTE_RX6900XT_XTREME_WATERFORCE_WB_SUB_DEV  0x2333
 #define GIGABYTE_RX6900XT_GAMING_OC_SUB_DEV             0x232C
+#define GIGABYTE_RX9060XT_GAMING_OC_16G_SUB_DEV         0x2429
 #define GIGABYTE_AORUS_RX9070XT_ELITE_16G_SUB_DEV       0x2426
 #define GIGABYTE_RX9070XT_GAMING_OC_16G_SUB_DEV         0x2424
 #define GIGABYTE_RX9070_GAMING_OC_16G_SUB_DEV           0x2425
