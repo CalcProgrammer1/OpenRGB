@@ -1,18 +1,24 @@
-# swy: some useful references; the MSVC part of the CI script is based on the one from bind9, by Michał Kępień:
-# https://gitlab.com/gitlab-org/ci-cd/shared-runners/images/gcp/windows-containers/blob/master/cookbooks/preinstalled-software/README.md
-# https://gitlab.isc.org/isc-projects/bind9/commit/facc6a051fcac70fbbc61cb92a37be8c3e4db5ec#587d266bb27a4dc3022bbed44dfa19849df3044c_718_731
-# https://www.kittell.net/code/powershell-unix-sed-equivalent-change-text-file/
-# https://powershell.org/forums/topic/how-to-use-ansi-vt100-formatting-in-powershell-ooh-pretty-colors/
+#-----------------------------------------------------------#
+# .gitlab-ci.yml                                            #
+#                                                           #
+#   OpenRGB GitLab CI Configuration                         #
+#                                                           #
+#   This file is part of the OpenRGB project                #
+#   SPDX-License-Identifier: GPL-2.0-or-later               #
+#-----------------------------------------------------------#
 
-#-----------------------------------------------------------------------#
-# OpenRGB GitLab CI Configuration                                       #
-#-----------------------------------------------------------------------#
-.fork_local_runner_rules:
-  rules:
-  - if: $CI_PROJECT_PATH == "CalcProgrammer1/OpenRGB" || $CI_PIPELINE_SOURCE == "push"
-    when: on_success
-
-.fork_gitlab_runner_rules:
+#-----------------------------------------------------------#
+# GitLab CI Rules                                           #
+#                                                           #
+# * For downstream forks (not on CalcProgrammer1/OpenRGB),  #
+#   run only if manually started to save CI minutes if      #
+#   GitLab hosted runners                                   #
+# * For commits to the CalcProgrammer1/OpenRGB repository,  #
+#   automatically run all jobs on the default branch,       #
+#   otherwise run them if the source is part of a merge     #
+#   request                                                 #
+#-----------------------------------------------------------#
+.downstream_rules:
   rules:
   - if: $CI_PROJECT_PATH != "CalcProgrammer1/OpenRGB" && $CI_PIPELINE_SOURCE == "push"
     when: manual
@@ -20,9 +26,9 @@
 
 .upstream_rules:
   rules:
-  - if: '$CI_PROJECT_PATH == "CalcProgrammer1/OpenRGB"'
+  - if: '$CI_PROJECT_PATH == "CalcProgrammer1/OpenRGB" && ($CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH || $CI_PIPELINE_SOURCE == "merge_request_event")'
     when: on_success
-  - !reference [.fork_gitlab_runner_rules, rules]
+  - !reference [.downstream_rules, rules]
 
 .shared_windows_runners:
   tags:
@@ -41,9 +47,9 @@ variables:
 before_script:
  - echo "started by ${GITLAB_USER_NAME}"
 
-#-----------------------------------------------------------------------#
-# Supported Devices Build Target                                        #
-#-----------------------------------------------------------------------#
+#-----------------------------------------------------------#
+# Supported Devices Build Target                            #
+#-----------------------------------------------------------#
 "Supported Devices":
   image: registry.gitlab.com/openrgbdevelopers/openrgb-linux-ci-deb-builder:bookworm-amd64
   tags:
@@ -64,9 +70,9 @@ before_script:
   rules:
     - !reference [.upstream_rules, rules]
 
-#-----------------------------------------------------------------------#
-# OpenRGB Common Appimage Build Steps                                   #
-#-----------------------------------------------------------------------#
+#-----------------------------------------------------------#
+# OpenRGB Common Appimage Build Steps                       #
+#-----------------------------------------------------------#
 .hidden_appimage_script: &appimage_script_steps
   image: registry.gitlab.com/openrgbdevelopers/openrgb-linux-ci-deb-builder:bookworm-${TGT_ARCH}
   tags:
@@ -88,9 +94,9 @@ before_script:
   rules:
     - !reference [.upstream_rules, rules]
 
-#-----------------------------------------------------------------------#
-# Linux (AppImage) i386 Build Target                                    #
-#-----------------------------------------------------------------------#
+#-----------------------------------------------------------#
+# Linux (AppImage) i386 Build Target                        #
+#-----------------------------------------------------------#
 "Linux i386 AppImage":
   variables:
     TGT_ARCH: "i386"
@@ -99,9 +105,9 @@ before_script:
     TGT_PATH: "${TGT_ARCH}"
   <<: *appimage_script_steps
 
-#-----------------------------------------------------------------------#
-# Linux (AppImage) Qt6 i386 Build Target                                #
-#-----------------------------------------------------------------------#
+#-----------------------------------------------------------#
+# Linux (AppImage) Qt6 i386 Build Target                    #
+#-----------------------------------------------------------#
 "Linux i386 AppImage Qt6":
   variables:
     TGT_ARCH: "i386"
@@ -110,9 +116,9 @@ before_script:
     TGT_PATH: "${TGT_ARCH}"
   <<: *appimage_script_steps
 
-#-----------------------------------------------------------------------#
-# Linux (AppImage) amd64 Build Target                                   #
-#-----------------------------------------------------------------------#
+#-----------------------------------------------------------#
+# Linux (AppImage) amd64 Build Target                       #
+#-----------------------------------------------------------#
 "Linux amd64 AppImage":
   variables:
     TGT_ARCH: "amd64"
@@ -121,18 +127,18 @@ before_script:
     TGT_PATH: "x86_64"
   <<: *appimage_script_steps
   rules:
-  - !reference [.fork_local_runner_rules, rules]
+  - !reference [.upstream_rules, rules]
 
-"Linux amd64 AppImage (gitlab.com runner)":
+"Linux amd64 AppImage (Downstream)":
   extends: "Linux amd64 AppImage"
   rules:
-  - !reference [.fork_gitlab_runner_rules, rules]
+  - !reference [.downstream_rules, rules]
   tags:
   - "saas-linux-small-amd64"
 
-#-----------------------------------------------------------------------#
-# Linux (AppImage) Qt6 amd64 Build Target                               #
-#-----------------------------------------------------------------------#
+#-----------------------------------------------------------#
+# Linux (AppImage) Qt6 amd64 Build Target                   #
+#-----------------------------------------------------------#
 "Linux amd64 AppImage Qt6":
   variables:
     TGT_ARCH: "amd64"
@@ -141,9 +147,9 @@ before_script:
     TGT_PATH: "x86_64"
   <<: *appimage_script_steps
 
-#-----------------------------------------------------------------------#
-# Linux (AppImage) armhf Build Target                                   #
-#-----------------------------------------------------------------------#
+#-----------------------------------------------------------#
+# Linux (AppImage) armhf Build Target                       #
+#-----------------------------------------------------------#
 "Linux armhf AppImage":
   variables:
     TGT_ARCH: "armhf"
@@ -152,9 +158,9 @@ before_script:
     TGT_PATH: "${TGT_ARCH}"
   <<: *appimage_script_steps
 
-#-----------------------------------------------------------------------#
-# Linux (AppImage) Qt6 armhf Build Target                               #
-#-----------------------------------------------------------------------#
+#-----------------------------------------------------------#
+# Linux (AppImage) Qt6 armhf Build Target                   #
+#-----------------------------------------------------------#
 "Linux armhf AppImage Qt6":
   variables:
     TGT_ARCH: "armhf"
@@ -163,9 +169,9 @@ before_script:
     TGT_PATH: "${TGT_ARCH}"
   <<: *appimage_script_steps
 
-#-----------------------------------------------------------------------#
-# Linux (AppImage) arm64 Build Target                                   #
-#-----------------------------------------------------------------------#
+#-----------------------------------------------------------#
+# Linux (AppImage) arm64 Build Target                       #
+#-----------------------------------------------------------#
 "Linux arm64 AppImage":
   variables:
     TGT_ARCH: "arm64"
@@ -174,9 +180,9 @@ before_script:
     TGT_PATH: "${TGT_ARCH}"
   <<: *appimage_script_steps
 
-#-----------------------------------------------------------------------#
-# Linux (AppImage) Qt6 arm64 Build Target                               #
-#-----------------------------------------------------------------------#
+#-----------------------------------------------------------#
+# Linux (AppImage) Qt6 arm64 Build Target                   #
+#-----------------------------------------------------------#
 "Linux arm64 AppImage Qt6":
   variables:
     TGT_ARCH: "arm64"
@@ -185,9 +191,9 @@ before_script:
     TGT_PATH: "${TGT_ARCH}"
   <<: *appimage_script_steps
 
-#-----------------------------------------------------------------------#
-# OpenRGB Common Debian Build Steps                                     #
-#-----------------------------------------------------------------------#
+#-----------------------------------------------------------#
+# OpenRGB Common Debian Build Steps                         #
+#-----------------------------------------------------------#
 .hidden_deb_script: &debian_script_steps
   stage: build
   image: registry.gitlab.com/openrgbdevelopers/openrgb-linux-ci-deb-builder:$TGT_DEB-$TGT_ARCH
@@ -211,81 +217,81 @@ before_script:
   rules:
     - !reference [.upstream_rules, rules]
 
-#-----------------------------------------------------------------------#
-# Linux (.deb) Debian Bookworm i386 Build Target                        #
-#-----------------------------------------------------------------------#
+#-----------------------------------------------------------#
+# Linux (.deb) Debian Bookworm i386 Build Target            #
+#-----------------------------------------------------------#
 "Linux i386 .deb (Debian Bookworm)":
   variables:
     TGT_ARCH: "i386"
     TGT_DEB: "bookworm"
   <<: *debian_script_steps
 
-#-----------------------------------------------------------------------#
-# Linux (.deb) Debian Trixie i386 Build Target                          #
-#-----------------------------------------------------------------------#
+#-----------------------------------------------------------#
+# Linux (.deb) Debian Trixie i386 Build Target              #
+#-----------------------------------------------------------#
 "Linux i386 .deb (Debian Trixie)":
   variables:
     TGT_ARCH: "i386"
     TGT_DEB: "trixie"
   <<: *debian_script_steps
 
-#-----------------------------------------------------------------------#
-# Linux (.deb) Debian Bookworm amd64 Build Target                       #
-#-----------------------------------------------------------------------#
+#-----------------------------------------------------------#
+# Linux (.deb) Debian Bookworm amd64 Build Target           #
+#-----------------------------------------------------------#
 "Linux amd64 .deb (Debian Bookworm)":
   variables:
     TGT_ARCH: "amd64"
     TGT_DEB: "bookworm"
   <<: *debian_script_steps
 
-#-----------------------------------------------------------------------#
-# Linux (.deb) Debian Trixie amd64 Build Target                         #
-#-----------------------------------------------------------------------#
+#-----------------------------------------------------------#
+# Linux (.deb) Debian Trixie amd64 Build Target             #
+#-----------------------------------------------------------#
 "Linux amd64 .deb (Debian Trixie)":
   variables:
     TGT_ARCH: "amd64"
     TGT_DEB: "trixie"
   <<: *debian_script_steps
 
-#-----------------------------------------------------------------------#
-# Linux (.deb) Debian Bookworm armhf Build Target                       #
-#-----------------------------------------------------------------------#
+#-----------------------------------------------------------#
+# Linux (.deb) Debian Bookworm armhf Build Target           #
+#-----------------------------------------------------------#
 "Linux armhf .deb (Debian Bookworm)":
   variables:
     TGT_ARCH: "armhf"
     TGT_DEB: "bookworm"
   <<: *debian_script_steps
 
-#-----------------------------------------------------------------------#
-# Linux (.deb) Debian Trixie armhf Build Target                         #
-#-----------------------------------------------------------------------#
+#-----------------------------------------------------------#
+# Linux (.deb) Debian Trixie armhf Build Target             #
+#-----------------------------------------------------------#
 "Linux armhf .deb (Debian Trixie)":
   variables:
     TGT_ARCH: "armhf"
     TGT_DEB: "trixie"
   <<: *debian_script_steps
 
-#-----------------------------------------------------------------------#
-# Linux (.deb) Debian Bookworm arm64 Build Target                       #
-#-----------------------------------------------------------------------#
+#-----------------------------------------------------------#
+# Linux (.deb) Debian Bookworm arm64 Build Target           #
+#-----------------------------------------------------------#
 "Linux arm64 .deb (Debian Bookworm)":
   variables:
     TGT_ARCH: "arm64"
     TGT_DEB: "bookworm"
   <<: *debian_script_steps
 
-#-----------------------------------------------------------------------#
-# Linux (.deb) Debian Trixie arm64 Build Target                         #
-#-----------------------------------------------------------------------#
+#-----------------------------------------------------------#
+# Linux (.deb) Debian Trixie arm64 Build Target             #
+#-----------------------------------------------------------#
 "Linux arm64 .deb (Debian Trixie)":
   variables:
     TGT_ARCH: "arm64"
     TGT_DEB: "trixie"
   <<: *debian_script_steps
 
-#-----------------------------------------------------------------------#
-# Linux (.rpm, F43) 64-bit Build Target                                 #
-#-----------------------------------------------------------------------#
+#-----------------------------------------------------------#
+# Linux (.rpm, F43) 64-bit Build Target                     #
+#-----------------------------------------------------------#
 "Linux 64 F43 rpm":
   image: fedora:43
   stage: build
@@ -311,9 +317,9 @@ before_script:
   rules:
     - !reference [.upstream_rules, rules]
 
-#-----------------------------------------------------------------------#
-# Debian i386 Bookworm test                                             #
-#-----------------------------------------------------------------------#
+#-----------------------------------------------------------#
+# Debian i386 Bookworm test                                 #
+#-----------------------------------------------------------#
 "Debian i386 Bookworm":
   image: i386/debian:bookworm
   stage: test
@@ -326,10 +332,12 @@ before_script:
   - "Linux i386 .deb (Debian Bookworm)"
   needs:
   - "Linux i386 .deb (Debian Bookworm)"
+  rules:
+  - !reference [.upstream_rules, rules]
 
-#-----------------------------------------------------------------------#
-# Debian amd64 Bookworm test                                            #
-#-----------------------------------------------------------------------#
+#-----------------------------------------------------------#
+# Debian amd64 Bookworm test                                #
+#-----------------------------------------------------------#
 "Debian amd64 Bookworm":
   image: amd64/debian:bookworm
   stage: test
@@ -342,10 +350,12 @@ before_script:
   - "Linux amd64 .deb (Debian Bookworm)"
   needs:
   - "Linux amd64 .deb (Debian Bookworm)"
+  rules:
+  - !reference [.upstream_rules, rules]
 
-#-----------------------------------------------------------------------#
-# Ubuntu amd64 22.04 test                                               #
-#-----------------------------------------------------------------------#
+#-----------------------------------------------------------#
+# Ubuntu amd64 22.04 test                                   #
+#-----------------------------------------------------------#
 "Ubuntu amd64 22.04LTS":
   image: ubuntu:jammy
   stage: test
@@ -358,10 +368,12 @@ before_script:
   - "Linux amd64 .deb (Debian Bookworm)"
   needs:
   - "Linux amd64 .deb (Debian Bookworm)"
+  rules:
+  - !reference [.upstream_rules, rules]
 
-#-----------------------------------------------------------------------#
-# Ubuntu amd64 24.04 test                                               #
-#-----------------------------------------------------------------------#
+#-----------------------------------------------------------#
+# Ubuntu amd64 24.04 test                                   #
+#-----------------------------------------------------------#
 "Ubuntu amd64 24.04LTS":
   image: ubuntu:noble
   stage: test
@@ -374,10 +386,12 @@ before_script:
   - "Linux amd64 .deb (Debian Bookworm)"
   needs:
   - "Linux amd64 .deb (Debian Bookworm)"
+  rules:
+  - !reference [.upstream_rules, rules]
 
-#-----------------------------------------------------------------------#
-# Fedora 64 v43 test                                                    #
-#-----------------------------------------------------------------------#
+#-----------------------------------------------------------#
+# Fedora 64 v43 test                                        #
+#-----------------------------------------------------------#
 "Fedora 64 v43":
   image: fedora:43
   stage: test
@@ -389,10 +403,12 @@ before_script:
   - "Linux 64 F43 rpm"
   needs:
   - "Linux 64 F43 rpm"
+  rules:
+  - !reference [.upstream_rules, rules]
 
-#-----------------------------------------------------------------------#
-# Windows (32-bit) Build Target                                         #
-#-----------------------------------------------------------------------#
+#-----------------------------------------------------------#
+# Windows (32-bit) Build Target                             #
+#-----------------------------------------------------------#
 "Windows 32":
   extends:
   - .shared_windows_runners
@@ -411,9 +427,9 @@ before_script:
   rules:
     - !reference [.upstream_rules, rules]
 
-#-----------------------------------------------------------------------#
-# Windows (32-bit) Qt6 Build Target                                     #
-#-----------------------------------------------------------------------#
+#-----------------------------------------------------------#
+# Windows (32-bit) Qt6 Build Target                         #
+#-----------------------------------------------------------#
 "Windows 32 Qt6":
   extends:
   - .shared_windows_runners
@@ -432,9 +448,9 @@ before_script:
   rules:
     - !reference [.upstream_rules, rules]
 
-#-----------------------------------------------------------------------#
-# Windows (64-bit) Build Target                                         #
-#-----------------------------------------------------------------------#
+#-----------------------------------------------------------#
+# Windows (64-bit) Build Target                             #
+#-----------------------------------------------------------#
 "Windows 64 Base":
   extends:
   - .shared_windows_runners
@@ -454,13 +470,12 @@ before_script:
     - if: $CI_PIPELINE_SOURCE == "merge_request_event" || $CI_PIPELINE_SOURCE == "push"
       when: never
 
-
 "Windows 64":
   extends: "Windows 64 Base"
   rules:
-  - !reference [.fork_local_runner_rules, rules]
+  - !reference [.upstream_rules, rules]
 
-"Windows 64 (gitlab.com runner)":
+"Windows 64 (Downstream)":
   extends: "Windows 64 Base"
   before_script:
     - git clone https://gitlab.com/OpenRGBDevelopers/OpenRGB-Qt-Packages
@@ -468,13 +483,13 @@ before_script:
     - .\install-chocolatey.bat
     - cd ..
   rules:
-  - !reference [.fork_gitlab_runner_rules, rules]
+  - !reference [.downstream_rules, rules]
   tags:
   - "saas-windows-medium-amd64"
 
-#-----------------------------------------------------------------------#
-# Windows (64-bit) Qt6 Build Target                                     #
-#-----------------------------------------------------------------------#
+#-----------------------------------------------------------#
+# Windows (64-bit) Qt6 Build Target                         #
+#-----------------------------------------------------------#
 "Windows 64 Qt6 Base":
   extends:
   - .shared_windows_runners
@@ -494,13 +509,12 @@ before_script:
     - if: $CI_PIPELINE_SOURCE == "merge_request_event" || $CI_PIPELINE_SOURCE == "push"
       when: never
 
-
 "Windows 64 Qt6":
   extends: "Windows 64 Qt6 Base"
   rules:
-  - !reference [.fork_local_runner_rules, rules]
+  - !reference [.upstream_rules, rules]
 
-"Windows 64 Qt6 (gitlab.com runner)":
+"Windows 64 Qt6 (Downstream)":
   extends: "Windows 64 Qt6 Base"
   before_script:
     - git clone https://gitlab.com/OpenRGBDevelopers/OpenRGB-Qt-Packages
@@ -508,13 +522,13 @@ before_script:
     - .\install-chocolatey.bat
     - cd ..
   rules:
-  - !reference [.fork_gitlab_runner_rules, rules]
+  - !reference [.downstream_rules, rules]
   tags:
   - "saas-windows-medium-amd64"
 
-#-----------------------------------------------------------------------#
-# MacOS Build Target                                                    #
-#-----------------------------------------------------------------------#
+#-----------------------------------------------------------#
+# MacOS Build Target                                        #
+#-----------------------------------------------------------#
 "MacOS ARM64":
   tags:
   - macos
@@ -532,13 +546,7 @@ before_script:
     expire_in: 30 days
 
   rules:
-  - if: '$CI_PROJECT_PATH == "CalcProgrammer1/OpenRGB"'
-    when: on_success
-  - if: '$BUILD_MACOS =~ /.+/'
-    when: on_success
-  - if: $CI_PIPELINE_SOURCE == "push"
-    when: manual
-    allow_failure: true
+  - !reference [.upstream_rules, rules]
 
 "MacOS ARM64 Qt6":
   tags:
@@ -557,13 +565,7 @@ before_script:
     expire_in: 30 days
 
   rules:
-  - if: '$CI_PROJECT_PATH == "CalcProgrammer1/OpenRGB"'
-    when: on_success
-  - if: '$BUILD_MACOS =~ /.+/'
-    when: on_success
-  - if: $CI_PIPELINE_SOURCE == "push"
-    when: manual
-    allow_failure: true
+  - !reference [.upstream_rules, rules]
 
 "MacOS Intel":
   tags:
@@ -582,13 +584,7 @@ before_script:
     expire_in: 30 days
 
   rules:
-  - if: '$CI_PROJECT_PATH == "CalcProgrammer1/OpenRGB"'
-    when: on_success
-  - if: '$BUILD_MACOS =~ /.+/'
-    when: on_success
-  - if: $CI_PIPELINE_SOURCE == "push"
-    when: manual
-    allow_failure: true
+  - !reference [.upstream_rules, rules]
 
 "MacOS Intel Qt6":
   tags:
@@ -607,17 +603,11 @@ before_script:
     expire_in: 30 days
 
   rules:
-  - if: '$CI_PROJECT_PATH == "CalcProgrammer1/OpenRGB"'
-    when: on_success
-  - if: '$BUILD_MACOS =~ /.+/'
-    when: on_success
-  - if: $CI_PIPELINE_SOURCE == "push"
-    when: manual
-    allow_failure: true
+  - !reference [.upstream_rules, rules]
 
-#-----------------------------------------------------------------------#
-# Windows (64-bit) MSI Target                                           #
-#-----------------------------------------------------------------------#
+#-----------------------------------------------------------#
+# Windows (64-bit) MSI Target                               #
+#-----------------------------------------------------------#
 "Windows 64 MSI":
   image: registry.gitlab.com/openrgbdevelopers/openrgb-linux-ci-deb-builder:bookworm-i386
   stage: deploy
