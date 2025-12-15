@@ -189,6 +189,24 @@ void RGBController::SetHidden(bool hidden)
 /*---------------------------------------------------------*\
 | Zone Functions                                            |
 \*---------------------------------------------------------*/
+int RGBController::GetZoneActiveMode(unsigned int zone)
+{
+    int active_mode;
+
+    AccessMutex.lock_shared();
+    if(zone < zones.size())
+    {
+        active_mode = zones[zone].active_mode;
+    }
+    else
+    {
+        active_mode = 0;
+    }
+    AccessMutex.unlock_shared();
+
+    return(active_mode);
+}
+
 RGBColor RGBController::GetZoneColor(unsigned int zone, unsigned int color_index)
 {
     RGBColor color;
@@ -371,6 +389,294 @@ unsigned int RGBController::GetZoneMatrixMapWidth(unsigned int zone)
     AccessMutex.unlock_shared();
 
     return(width);
+}
+
+std::size_t RGBController::GetZoneModeCount(unsigned int zone)
+{
+    std::size_t mode_count;
+
+    AccessMutex.lock_shared();
+    if(zone < zones.size())
+    {
+        mode_count = zones[zone].modes.size();
+    }
+    else
+    {
+        mode_count = 0;
+    }
+    AccessMutex.unlock_shared();
+
+    return(mode_count);
+}
+
+unsigned int RGBController::GetZoneModeBrightness(unsigned int zone, unsigned int mode)
+{
+    unsigned int brightness;
+
+    AccessMutex.lock_shared();
+    if((zone < zones.size()) && (mode < zones[zone].modes.size()))
+    {
+        brightness = zones[zone].modes[mode].brightness;
+    }
+    else
+    {
+        brightness = 0;
+    }
+    AccessMutex.unlock_shared();
+
+    return(brightness);
+}
+
+unsigned int RGBController::GetZoneModeBrightnessMax(unsigned int zone, unsigned int mode)
+{
+    unsigned int brightness_max;
+
+    AccessMutex.lock_shared();
+    if((zone < zones.size()) && (mode < zones[zone].modes.size()))
+    {
+        brightness_max = zones[zone].modes[mode].brightness_max;
+    }
+    else
+    {
+        brightness_max = 0;
+    }
+    AccessMutex.unlock_shared();
+
+    return(brightness_max);
+}
+
+unsigned int RGBController::GetZoneModeBrightnessMin(unsigned int zone, unsigned int mode)
+{
+    unsigned int brightness_min;
+
+    AccessMutex.lock_shared();
+    if((zone < zones.size()) && (mode < zones[zone].modes.size()))
+    {
+        brightness_min = zones[zone].modes[mode].brightness_min;
+    }
+    else
+    {
+        brightness_min = 0;
+    }
+    AccessMutex.unlock_shared();
+
+    return(brightness_min);
+}
+
+RGBColor RGBController::GetZoneModeColor(unsigned int zone, unsigned int mode, unsigned int color_index)
+{
+    RGBColor color;
+
+    AccessMutex.lock_shared();
+    if((zone < zones.size()) && (mode < zones[zone].modes.size()) && (color_index < zones[zone].modes[mode].colors.size()))
+    {
+        color = zones[zone].modes[mode].colors[color_index];
+    }
+    else
+    {
+        color = 0;
+    }
+    AccessMutex.unlock_shared();
+
+    return(color);
+}
+
+unsigned int RGBController::GetZoneModeColorMode(unsigned int zone, unsigned int mode)
+{
+    unsigned int color_mode;
+
+    AccessMutex.lock_shared();
+    if((zone < zones.size()) && (mode < zones[zone].modes.size()))
+    {
+        color_mode = zones[zone].modes[mode].color_mode;
+    }
+    else
+    {
+        color_mode = 0;
+    }
+    AccessMutex.unlock_shared();
+
+    return(color_mode);
+}
+
+std::size_t RGBController::GetZoneModeColorsCount(unsigned int zone, unsigned int mode)
+{
+    std::size_t colors_count;
+
+    AccessMutex.lock_shared();
+    if((zone < zones.size()) && (mode < zones[zone].modes.size()))
+    {
+        colors_count = zones[zone].modes[mode].colors.size();
+    }
+    else
+    {
+        colors_count = 0;
+    }
+    AccessMutex.unlock_shared();
+
+    return(colors_count);
+}
+
+unsigned int RGBController::GetZoneModeColorsMax(unsigned int zone, unsigned int mode)
+{
+    unsigned int colors_max;
+
+    AccessMutex.lock_shared();
+    if((zone < zones.size()) && (mode < zones[zone].modes.size()))
+    {
+        colors_max = zones[zone].modes[mode].colors_max;
+    }
+    else
+    {
+        colors_max = 0;
+    }
+    AccessMutex.unlock_shared();
+
+    return(colors_max);
+}
+
+unsigned int RGBController::GetZoneModeColorsMin(unsigned int zone, unsigned int mode)
+{
+    unsigned int colors_min;
+
+    AccessMutex.lock_shared();
+    if((zone < zones.size()) && (mode < zones[zone].modes.size()))
+    {
+        colors_min = zones[zone].modes[mode].colors_min;
+    }
+    else
+    {
+        colors_min = 0;
+    }
+    AccessMutex.unlock_shared();
+
+    return(colors_min);
+}
+
+unsigned int RGBController::GetZoneModeDirection(unsigned int zone, unsigned int mode)
+{
+    unsigned int direction;
+
+    AccessMutex.lock_shared();
+    if((zone < zones.size()) && (mode < zones[zone].modes.size()))
+    {
+        direction = zones[zone].modes[mode].direction;
+    }
+    else
+    {
+        direction = 0;
+    }
+    AccessMutex.unlock_shared();
+
+    return(direction);
+}
+
+unsigned int RGBController::GetZoneModeFlags(unsigned int zone, unsigned int mode)
+{
+    unsigned int flags;
+
+    AccessMutex.lock_shared();
+    if((zone < zones.size()) && (mode < zones[zone].modes.size()))
+    {
+        flags = zones[zone].modes[mode].flags;
+    }
+    else
+    {
+        flags = 0;
+    }
+    AccessMutex.unlock_shared();
+
+    return(flags);
+}
+
+std::string RGBController::GetZoneModeName(unsigned int zone, unsigned int mode)
+{
+    std::string name;
+
+    AccessMutex.lock_shared();
+    if((zone < zones.size()) && (mode < zones[zone].modes.size()))
+    {
+        name = zones[zone].modes[mode].name;
+    }
+    else
+    {
+        name = "";
+    }
+    AccessMutex.unlock_shared();
+
+    return(name);
+}
+
+unsigned int RGBController::GetZoneModeSpeed(unsigned int zone, unsigned int mode)
+{
+    unsigned int speed;
+
+    AccessMutex.lock_shared();
+    if((zone < zones.size()) && (mode < zones[zone].modes.size()))
+    {
+        speed = zones[zone].modes[mode].speed;
+    }
+    else
+    {
+        speed = 0;
+    }
+    AccessMutex.unlock_shared();
+
+    return(speed);
+}
+
+unsigned int RGBController::GetZoneModeSpeedMax(unsigned int zone, unsigned int mode)
+{
+    unsigned int speed_max;
+
+    AccessMutex.lock_shared();
+    if((zone < zones.size()) && (mode < zones[zone].modes.size()))
+    {
+        speed_max = zones[zone].modes[mode].speed_max;
+    }
+    else
+    {
+        speed_max = 0;
+    }
+    AccessMutex.unlock_shared();
+
+    return(speed_max);
+}
+
+unsigned int RGBController::GetZoneModeSpeedMin(unsigned int zone, unsigned int mode)
+{
+    unsigned int speed_min;
+
+    AccessMutex.lock_shared();
+    if((zone < zones.size()) && (mode < zones[zone].modes.size()))
+    {
+        speed_min = zones[zone].modes[mode].speed_min;
+    }
+    else
+    {
+        speed_min = 0;
+    }
+    AccessMutex.unlock_shared();
+
+    return(speed_min);
+}
+
+int RGBController::GetZoneModeValue(unsigned int zone, unsigned int mode)
+{
+    unsigned int value;
+
+    AccessMutex.lock_shared();
+    if((zone < zones.size()) && (mode < zones[zone].modes.size()))
+    {
+        value = zones[zone].modes[mode].value;
+    }
+    else
+    {
+        value = 0;
+    }
+    AccessMutex.unlock_shared();
+
+    return(value);
 }
 
 std::string RGBController::GetZoneName(unsigned int zone)
@@ -625,6 +931,64 @@ unsigned int RGBController::GetLEDsInZone(unsigned int zone)
     AccessMutex.unlock_shared();
 
     return(leds_count);
+}
+
+void RGBController::SetZoneActiveMode(unsigned int zone, int mode)
+{
+    if(zone < zones.size())
+    {
+        zones[zone].active_mode = mode;
+
+        UpdateMode();
+    }
+}
+
+void RGBController::SetZoneModeBrightness(unsigned int zone, unsigned int mode, unsigned int brightness)
+{
+    if((zone < zones.size()) && (mode < zones[zone].modes.size()))
+    {
+        zones[zone].modes[mode].brightness = brightness;
+    }
+}
+
+void RGBController::SetZoneModeColor(unsigned int zone, unsigned int mode, unsigned int color_index, RGBColor color)
+{
+    if((zone < zones.size()) && (mode < zones[zone].modes.size()) && (color_index < zones[zone].modes[mode].colors.size()))
+    {
+        zones[zone].modes[mode].colors[color_index] = color;
+    }
+}
+
+void RGBController::SetZoneModeColorMode(unsigned int zone, unsigned int mode, unsigned int color_mode)
+{
+    if((zone < zones.size()) && (mode < zones[zone].modes.size()))
+    {
+        zones[zone].modes[mode].color_mode = color_mode;
+    }
+}
+
+void RGBController::SetZoneModeColorsCount(unsigned int zone, unsigned int mode, std::size_t count)
+{
+    if((zone < zones.size()) && (mode < zones[zone].modes.size()))
+    {
+        zones[zone].modes[mode].colors.resize(count);
+    }
+}
+
+void RGBController::SetZoneModeDirection(unsigned int zone, unsigned int mode, unsigned int direction)
+{
+    if((zone < zones.size()) && (mode < zones[zone].modes.size()))
+    {
+        zones[zone].modes[mode].direction = direction;
+    }
+}
+
+void RGBController::SetZoneModeSpeed(unsigned int zone, unsigned int mode, unsigned int speed)
+{
+    if((zone < zones.size()) && (mode < zones[zone].modes.size()))
+    {
+        zones[zone].modes[mode].speed = speed;
+    }
 }
 
 /*---------------------------------------------------------*\

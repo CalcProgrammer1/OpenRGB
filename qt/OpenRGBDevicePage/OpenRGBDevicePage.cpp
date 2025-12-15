@@ -726,45 +726,97 @@ void OpenRGBDevicePage::UpdateModeUi()
     unsigned int selected_mode   = (unsigned int)ui->ModeBox->currentIndex();
 
     /*-----------------------------------------------------*\
-    | Don't update the UI if the current mode is invalid    |
+    | Determine what is selected, either all zones, a zone, |
+    | or a segment                                          |
     \*-----------------------------------------------------*/
-    if(selected_mode < device->GetModeCount())
-    {
-        bool supports_per_led       = ( device->GetModeFlags(selected_mode) & MODE_FLAG_HAS_PER_LED_COLOR );
-        bool supports_mode_specific = ( device->GetModeFlags(selected_mode) & MODE_FLAG_HAS_MODE_SPECIFIC_COLOR );
-        bool supports_random        = ( device->GetModeFlags(selected_mode) & MODE_FLAG_HAS_RANDOM_COLOR );
-        bool supports_speed         = ( device->GetModeFlags(selected_mode) & MODE_FLAG_HAS_SPEED );
-        bool supports_brightness    = ( device->GetModeFlags(selected_mode) & MODE_FLAG_HAS_BRIGHTNESS);
-        bool supports_dir_lr        = ( device->GetModeFlags(selected_mode) & MODE_FLAG_HAS_DIRECTION_LR );
-        bool supports_dir_ud        = ( device->GetModeFlags(selected_mode) & MODE_FLAG_HAS_DIRECTION_UD );
-        bool supports_dir_hv        = ( device->GetModeFlags(selected_mode) & MODE_FLAG_HAS_DIRECTION_HV );
-        bool per_led                = device->GetModeColorMode(selected_mode) == MODE_COLORS_PER_LED;
-        bool mode_specific          = device->GetModeColorMode(selected_mode) == MODE_COLORS_MODE_SPECIFIC;
-        bool random                 = device->GetModeColorMode(selected_mode) == MODE_COLORS_RANDOM;
-        unsigned int dir            = device->GetModeDirection(selected_mode);
-        bool manual_save            = ( device->GetModeFlags(selected_mode) & MODE_FLAG_MANUAL_SAVE );
-        bool automatic_save         = ( device->GetModeFlags(selected_mode) & MODE_FLAG_AUTOMATIC_SAVE );
+    bool            selected_all_zones;
+    int             selected_zone;
+    int             selected_segment;
 
+    getSelectedZone(&selected_all_zones, &selected_zone, &selected_segment);
+
+    /*-----------------------------------------------------*\
+    | Read mode variables                                   |
+    \*-----------------------------------------------------*/
+    unsigned int    brightness;
+    unsigned int    brightness_min;
+    unsigned int    brightness_max;
+    unsigned int    color_mode;
+    unsigned int    direction;
+    unsigned int    flags;
+    unsigned int    speed;
+    unsigned int    speed_min;
+    unsigned int    speed_max;
+        
+    if((!selected_all_zones) && (selected_mode < device->GetZoneModeCount(selected_zone)))
+    {
+        brightness              = device->GetZoneModeBrightness(selected_zone, selected_mode);
+        brightness_min          = device->GetZoneModeBrightnessMin(selected_zone, selected_mode);
+        brightness_max          = device->GetZoneModeBrightnessMax(selected_zone, selected_mode);
+        color_mode              = device->GetZoneModeColorMode(selected_zone, selected_mode);
+        direction               = device->GetZoneModeDirection(selected_zone, selected_mode);
+        flags                   = device->GetZoneModeFlags(selected_zone, selected_mode);
+        speed                   = device->GetZoneModeSpeed(selected_zone, selected_mode);
+        speed_min               = device->GetZoneModeSpeedMin(selected_zone, selected_mode);
+        speed_max               = device->GetZoneModeSpeedMax(selected_zone, selected_mode);
+    }
+    else if(selected_mode < device->GetModeCount())
+    {
+        brightness              = device->GetModeBrightness(selected_mode);
+        brightness_min          = device->GetModeBrightnessMin(selected_mode);
+        brightness_max          = device->GetModeBrightnessMax(selected_mode);
+        color_mode              = device->GetModeColorMode(selected_mode);
+        direction               = device->GetModeDirection(selected_mode);
+        flags                   = device->GetModeFlags(selected_mode);
+        speed                   = device->GetModeSpeed(selected_mode);
+        speed_min               = device->GetModeSpeedMin(selected_mode);
+        speed_max               = device->GetModeSpeedMax(selected_mode);
+    }
+    else
+    {
+        /*-------------------------------------------------*\
+        | Don't update the UI if the current mode is invalid|
+        \*-------------------------------------------------*/
+        return;
+    }
+    
+    /*-----------------------------------------------------*\
+    | Read mode flags                                       |
+    \*-----------------------------------------------------*/
+    bool    supports_per_led        = flags & MODE_FLAG_HAS_PER_LED_COLOR;
+    bool    supports_mode_specific  = flags & MODE_FLAG_HAS_MODE_SPECIFIC_COLOR;
+    bool    supports_random         = flags & MODE_FLAG_HAS_RANDOM_COLOR;
+    bool    supports_speed          = flags & MODE_FLAG_HAS_SPEED;
+    bool    supports_brightness     = flags & MODE_FLAG_HAS_BRIGHTNESS;
+    bool    supports_dir_lr         = flags & MODE_FLAG_HAS_DIRECTION_LR;
+    bool    supports_dir_ud         = flags & MODE_FLAG_HAS_DIRECTION_UD;
+    bool    supports_dir_hv         = flags & MODE_FLAG_HAS_DIRECTION_HV;
+    bool    per_led                 = color_mode == MODE_COLORS_PER_LED;
+    bool    mode_specific           = color_mode == MODE_COLORS_MODE_SPECIFIC;
+    bool    random                  = color_mode == MODE_COLORS_RANDOM;
+    bool    manual_save             = flags & MODE_FLAG_MANUAL_SAVE;
+    bool    automatic_save          = flags & MODE_FLAG_AUTOMATIC_SAVE;
+    
         if(supports_speed)
         {
             ui->SpeedSlider->blockSignals(true);
             int  current_speed;
-            InvertedSpeed = device->GetModeSpeedMin(selected_mode) > device->GetModeSpeedMax(selected_mode);
+            InvertedSpeed = speed_min > speed_max;
 
             if(InvertedSpeed)
             {
                 /*-----------------------------------------------------*\
                 | If Speed Slider is inverted, invert value             |
                 \*-----------------------------------------------------*/
-                ui->SpeedSlider->setMinimum(device->GetModeSpeedMax(selected_mode));
-                ui->SpeedSlider->setMaximum(device->GetModeSpeedMin(selected_mode));
-                current_speed = device->GetModeSpeedMin(selected_mode) - device->GetModeSpeed(selected_mode) + device->GetModeSpeedMax(selected_mode);
+                ui->SpeedSlider->setMinimum(speed_max);
+                ui->SpeedSlider->setMaximum(speed_min);
+                current_speed = speed_min - speed + speed_max;
             }
             else
             {
-                ui->SpeedSlider->setMinimum(device->GetModeSpeedMin(selected_mode));
-                ui->SpeedSlider->setMaximum(device->GetModeSpeedMax(selected_mode));
-                current_speed = device->GetModeSpeed(selected_mode);
+                ui->SpeedSlider->setMinimum(speed_min);
+                ui->SpeedSlider->setMaximum(speed_max);
+                current_speed = speed;
             }
 
             ui->SpeedSlider->setValue(current_speed);
@@ -782,22 +834,22 @@ void OpenRGBDevicePage::UpdateModeUi()
         {
             ui->BrightnessSlider->blockSignals(true);
             int current_brightness;
-            InvertedBrightness = device->GetModeBrightnessMin(selected_mode) > device->GetModeBrightnessMax(selected_mode);
+            InvertedBrightness = brightness_min > brightness_max;
 
             if(InvertedBrightness)
             {
                 /*-----------------------------------------------------*\
                 | If Brightness Slider is inverted, invert value        |
                 \*-----------------------------------------------------*/
-                ui->BrightnessSlider->setMinimum(device->GetModeBrightnessMax(selected_mode));
-                ui->BrightnessSlider->setMaximum(device->GetModeBrightnessMin(selected_mode));
-                current_brightness = device->GetModeBrightnessMin(selected_mode) - device->GetModeBrightness(selected_mode) + device->GetModeBrightnessMax(selected_mode);
+                ui->BrightnessSlider->setMinimum(brightness_max);
+                ui->BrightnessSlider->setMaximum(brightness_min);
+                current_brightness = brightness_min - brightness + brightness_max;
             }
             else
             {
-                ui->BrightnessSlider->setMinimum(device->GetModeBrightnessMin(selected_mode));
-                ui->BrightnessSlider->setMaximum(device->GetModeBrightnessMax(selected_mode));
-                current_brightness = device->GetModeBrightness(selected_mode);
+                ui->BrightnessSlider->setMinimum(brightness_min);
+                ui->BrightnessSlider->setMaximum(brightness_max);
+                current_brightness = brightness;
             }
 
             ui->BrightnessSlider->setValue(current_brightness);
@@ -835,41 +887,41 @@ void OpenRGBDevicePage::UpdateModeUi()
         if(supports_dir_lr || supports_dir_ud || supports_dir_hv)
         {
             if((supports_dir_lr)
-             &&((dir == MODE_DIRECTION_LEFT)
-              ||(dir == MODE_DIRECTION_RIGHT)))
+             &&((direction == MODE_DIRECTION_LEFT)
+              ||(direction == MODE_DIRECTION_RIGHT)))
             {
-                ui->DirectionBox->setCurrentIndex(dir);
+                ui->DirectionBox->setCurrentIndex(direction);
             }
 
             if((supports_dir_ud)
-             &&((dir == MODE_DIRECTION_UP)
-              ||(dir == MODE_DIRECTION_DOWN)))
+             &&((direction == MODE_DIRECTION_UP)
+              ||(direction == MODE_DIRECTION_DOWN)))
             {
                 if(supports_dir_lr)
                 {
-                    ui->DirectionBox->setCurrentIndex(dir);
+                    ui->DirectionBox->setCurrentIndex(direction);
                 }
                 else
                 {
-                    ui->DirectionBox->setCurrentIndex(dir - 2);
+                    ui->DirectionBox->setCurrentIndex(direction - 2);
                 }
             }
 
             if((supports_dir_hv)
-             &&((dir == MODE_DIRECTION_HORIZONTAL)
-              ||(dir == MODE_DIRECTION_VERTICAL)))
+             &&((direction == MODE_DIRECTION_HORIZONTAL)
+              ||(direction == MODE_DIRECTION_VERTICAL)))
             {
                 if(supports_dir_lr && supports_dir_ud)
                 {
-                    ui->DirectionBox->setCurrentIndex(dir);
+                    ui->DirectionBox->setCurrentIndex(direction);
                 }
                 else if(supports_dir_lr || supports_dir_ud)
                 {
-                    ui->DirectionBox->setCurrentIndex(dir - 2);
+                    ui->DirectionBox->setCurrentIndex(direction - 2);
                 }
                 else
                 {
-                    ui->DirectionBox->setCurrentIndex(dir - 4);
+                    ui->DirectionBox->setCurrentIndex(direction - 4);
                 }
             }
 
@@ -946,7 +998,7 @@ void OpenRGBDevicePage::UpdateModeUi()
         /*-----------------------------------------------------*\
         | Fill in the zone box based on color mode              |
         \*-----------------------------------------------------*/
-        switch(device->GetModeColorMode(selected_mode))
+        switch(color_mode)
         {
             case MODE_COLORS_NONE:
             case MODE_COLORS_RANDOM:
@@ -1046,7 +1098,7 @@ void OpenRGBDevicePage::UpdateModeUi()
                 ui->ApplyColorsButton->setEnabled(true);
                 break;
         }
-    }
+
 }
 
 void OpenRGBDevicePage::UpdateMode()
