@@ -266,7 +266,7 @@ void RGBController_DRGB::SetupZones()
             }
             else if(channel_idx<16)
             {
-                snprintf(ch_idx_string, 2, "%d", channel_idx-5 );
+                snprintf(ch_idx_string, 3, "%d", channel_idx-5 );
                 zones[channel_idx].name     = "ARGB ";
             }
         }

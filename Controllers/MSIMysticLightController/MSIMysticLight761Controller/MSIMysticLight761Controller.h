@@ -27,9 +27,8 @@ class MSIMysticLight761Controller
 public:
     MSIMysticLight761Controller
                     (
-                    hid_device* handle,
-                    const char* path,
-                    unsigned short  pid,
+                    hid_device*     handle,
+                    const char*     path,
                     std::string     dev_name
                     );
 
@@ -70,7 +69,7 @@ public:
     void        SetLedColor
                     (
                     MSI_ZONE        zone,
-                    int             index,
+                    std::size_t     index,
                     unsigned char   red,
                     unsigned char   grn,
                     unsigned char   blu

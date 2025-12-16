@@ -220,7 +220,7 @@ void RGBController_QMKVialRGB::SetupZones()
     SetupColors();
 }
 
-void RGBController_QMKVialRGB::ResizeZone(int zone, int new_size)
+void RGBController_QMKVialRGB::ResizeZone(int /*zone*/, int /*new_size*/)
 {
 
 }

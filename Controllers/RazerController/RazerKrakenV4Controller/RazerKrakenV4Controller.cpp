@@ -120,7 +120,6 @@ unsigned char RazerKrakenV4Controller::GetMaxBrightness()
 void RazerKrakenV4Controller::SetDirect(RGBColor* colors)
 {
     struct razer_kraken_v4_report   report          = razer_kraken_v4_create_report(0x0F, 0x03, (5 + (3 * device_list[device_index]->cols)));
-    struct razer_kraken_v4_report   response_report = razer_kraken_v4_create_response();
 
     report.arguments[2]             = 0;
     report.arguments[3]             = 0;
@@ -139,7 +138,6 @@ void RazerKrakenV4Controller::SetDirect(RGBColor* colors)
 void RazerKrakenV4Controller::SetBrightness(unsigned char brightness)
 {
     struct razer_kraken_v4_report   report          = razer_kraken_v4_create_report(0x00, 0x00, 0x05);
-    struct razer_kraken_v4_report   response_report = razer_kraken_v4_create_response();
 
     report.arguments[0]             = RAZER_KRAKEN_V4_CMD_LIGHTING_SET_BRIGHTNESS;
     report.arguments[2]             = 0x01;
@@ -151,7 +149,6 @@ void RazerKrakenV4Controller::SetBrightness(unsigned char brightness)
 void RazerKrakenV4Controller::SetModeWave()
 {
     struct razer_kraken_v4_report   report          = razer_kraken_v4_create_report(0x00, 0x00, 0x05);
-    struct razer_kraken_v4_report   response_report = razer_kraken_v4_create_response();
 
     report.arguments[0]             = RAZER_KRAKEN_V4_CMD_LIGHTING_SET_MODE;
     report.arguments[2]             = 0x01;

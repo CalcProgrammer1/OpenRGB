@@ -158,9 +158,8 @@ void init_packet(FeaturePacket_Zone_761 * packet)
 
 MSIMysticLight761Controller::MSIMysticLight761Controller
     (
-    hid_device* handle,
-    const char* path,
-    unsigned short  pid,
+    hid_device*     handle,
+    const char*     path,
     std::string     dev_name
     )
 {
@@ -169,7 +168,7 @@ MSIMysticLight761Controller::MSIMysticLight761Controller
     name                                            = dev_name;
 
     const mystic_light_761_config * board_config    = nullptr;
-    for(int i = 0; i < NUM_CONFS; i++)
+    for(std::size_t i = 0; i < NUM_CONFS; i++)
     {
         if(*(board_configs[i].name) == name)
         {
@@ -405,7 +404,7 @@ void MSIMysticLight761Controller::SetZoneColor
     }
 }
 
-void set_data_color(FeaturePacket_Zone_761 * packet, int index, unsigned char color_val  )
+void set_data_color(FeaturePacket_Zone_761 * packet, std::size_t index, unsigned char color_val  )
 {
     if(packet == nullptr)
     {
@@ -417,13 +416,12 @@ void set_data_color(FeaturePacket_Zone_761 * packet, int index, unsigned char co
 void MSIMysticLight761Controller::SetLedColor
     (
     MSI_ZONE        zone,
-    int             index,
+    std::size_t     index,
     unsigned char   red,
     unsigned char   grn,
     unsigned char   blu
     )
 {
-
     FeaturePacket_Zone_761 * ptr = nullptr;
     switch(zone)
     {

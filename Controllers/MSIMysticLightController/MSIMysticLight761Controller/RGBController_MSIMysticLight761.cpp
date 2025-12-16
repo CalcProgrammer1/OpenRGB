@@ -63,7 +63,7 @@ RGBController_MSIMysticLight761::RGBController_MSIMysticLight761
 
     for(std::size_t i = 0; i < supported_zones->size(); ++i)
     {
-        for(int j = 0; j < NUMOF_ZONES; ++j)
+        for(std::size_t j = 0; j < NUMOF_ZONES; ++j)
         {
             if(led_zones[j].zone_type == (*supported_zones)[i])
             {

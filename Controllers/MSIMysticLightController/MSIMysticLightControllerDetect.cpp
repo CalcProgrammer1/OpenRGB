@@ -102,7 +102,7 @@ void DetectMSIMysticLightControllers
 
                 try
                 {
-                    MSIMysticLight761Controller*     controller     = new MSIMysticLight761Controller(dev, (const char *) info->path, info->product_id, dmi_name);
+                    MSIMysticLight761Controller*     controller     = new MSIMysticLight761Controller(dev, (const char *) info->path, dmi_name);
                     RGBController_MSIMysticLight761* rgb_controller = new RGBController_MSIMysticLight761(controller);
                     ResourceManager::get()->RegisterRGBController(rgb_controller);
                 }
