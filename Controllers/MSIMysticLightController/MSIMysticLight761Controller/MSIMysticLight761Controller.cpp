@@ -69,7 +69,6 @@ static const mystic_light_761_config board_configs[] =
     { &(board_names[7]), 0,  0,  0, 1, &zone_set1,  MSIMysticLight761Controller::DIRECT_MODE_ZONE_BASED },    // MSI Z890 GAMING PLUS WIFI
 };
 
-
 enum MSI_ZONE setup_map [] =
     {
         MSI_ZONE_JARGB_1,
@@ -104,7 +103,6 @@ int get_zone_setup_index(MSI_ZONE index)
     }
     return -1;
 }
-
 
 // Copying from signal plugin
 // DO NOT MODIFY THIS ARRAY DIRECTLY, MAKE COPY
@@ -352,7 +350,6 @@ bool MSIMysticLight761Controller::Update
     bool /*save*/
     )
 {
-
     int ret = 0;
     bool flag = true;
     ret = hid_send_feature_report(dev, GET_CHAR_PTR_REF(data->jaf.packet) , sizeof(FeaturePacket_PerLED_761));
@@ -441,18 +438,14 @@ void MSIMysticLight761Controller::SetLedColor
         break;
     }
 
-    if(index >= 0)
+    std::size_t candidate_index = (index * 3);
+
+    if((candidate_index + 2) <= GetMaxDirectLeds(zone))
     {
-        int candidate_index = (index * 3);
-
-        if((candidate_index + 2) <= GetMaxDirectLeds(zone))
-        {
-            set_data_color(ptr, candidate_index,     red);
-            set_data_color(ptr, candidate_index + 1, grn);
-            set_data_color(ptr, candidate_index + 2, blu);
-        }
+        set_data_color(ptr, candidate_index,     red);
+        set_data_color(ptr, candidate_index + 1, grn);
+        set_data_color(ptr, candidate_index + 2, blu);
     }
-
 }
 
 ZoneData *MSIMysticLight761Controller::GetZoneData

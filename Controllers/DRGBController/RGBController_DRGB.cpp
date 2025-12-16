@@ -256,12 +256,12 @@ void RGBController_DRGB::SetupZones()
         {
             if(channel_idx<4)
             {
-                snprintf(ch_idx_string, 2, "%d", channel_idx+1 );
+                snprintf(ch_idx_string, 3, "%d", channel_idx+1 );
                 zones[channel_idx].name     = "LCD ";
             }
             else if(channel_idx<6)
             {
-                snprintf(ch_idx_string, 2, "%d", channel_idx+1 );
+                snprintf(ch_idx_string, 3, "%d", channel_idx+1 );
                 zones[channel_idx].name     = "LED ";
             }
             else if(channel_idx<16)
@@ -272,7 +272,7 @@ void RGBController_DRGB::SetupZones()
         }
         else if(channel_idx<8)
         {
-            snprintf(ch_idx_string, 2, "%d", channel_idx + 1);
+            snprintf(ch_idx_string, 3, "%d", channel_idx + 1);
             zones[channel_idx].name     = "Channel A";
         }
         else if(channel_idx<16)
