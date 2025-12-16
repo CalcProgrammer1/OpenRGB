@@ -289,6 +289,11 @@ void NetworkServer::StartServer()
         }
 
         /*---------------------------------------------------------*\
+        | Set socket options - reuse addr                           |
+        \*---------------------------------------------------------*/
+        setsockopt(server_sock[socket_count], SOL_SOCKET, SO_REUSEADDR, &yes, sizeof(yes));
+
+        /*---------------------------------------------------------*\
         | Bind the server socket                                    |
         \*---------------------------------------------------------*/
         if(bind(server_sock[socket_count], res->ai_addr, res->ai_addrlen) == SOCKET_ERROR)

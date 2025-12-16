@@ -268,6 +268,11 @@ bool net_port::tcp_server(const char * port)
     myAddress.sin_port = htons(atoi(port));
 
     /*-------------------------------------------------*\
+    | Set socket options - reuse addr                   |
+    \*-------------------------------------------------*/
+    setsockopt(sock, SOL_SOCKET, SO_REUSEADDR, &yes, sizeof(yes));
+
+    /*-------------------------------------------------*\
     | Bind the server socket                            |
     \*-------------------------------------------------*/
     if(bind(sock, (sockaddr*)&myAddress, sizeof(myAddress)) == SOCKET_ERROR)
