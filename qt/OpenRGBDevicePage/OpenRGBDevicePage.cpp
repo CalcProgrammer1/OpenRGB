@@ -169,8 +169,22 @@ RGBController* OpenRGBDevicePage::GetController()
     return device;
 }
 
-void OpenRGBDevicePage::on_ZoneBox_currentIndexChanged(int index)
+void OpenRGBDevicePage::on_ZoneBox_currentIndexChanged(int /*index*/)
 {
+    /*-----------------------------------------------------*\
+    | Determine what is selected, either all zones, a zone, |
+    | or a segment                                          |
+    \*-----------------------------------------------------*/
+    bool            selected_all_zones;
+    int             selected_zone;
+    int             selected_segment;
+
+    getSelectedZone(&selected_all_zones, &selected_zone, &selected_segment);
+
+    /*-----------------------------------------------------*\
+    | Update mode UI |
+    \*-----------------------------------------------------*/
+
     /*-----------------------------------------------------*\
     | Read selected mode                                    |
     \*-----------------------------------------------------*/
@@ -183,66 +197,6 @@ void OpenRGBDevicePage::on_ZoneBox_currentIndexChanged(int index)
     {
         case MODE_COLORS_PER_LED:
             {
-                /*-----------------------------------------*\
-                | Initialize both selected zone and segment |
-                | to -1 to indicate there is no selection   |
-                \*-----------------------------------------*/
-                unsigned int    current_index       = 0;
-                bool            selected_all_zones  = false;
-                int             selected_zone       = -1;
-                int             selected_segment    = -1;
-
-                /*-----------------------------------------*\
-                | Handle condition where device has more    |
-                | than one zone, which adds an "All Zones"  |
-                | entry to the Zone menu in the first index |
-                \*-----------------------------------------*/
-                if(device->zones.size() > 1)
-                {
-                    if(index == (int)current_index)
-                    {
-                        selected_all_zones = true;
-                    }
-
-                    current_index++;
-                }
-
-                /*-----------------------------------------*\
-                | Determine selected zone and optionally    |
-                | selected segment based on index if "All   |
-                | Zones" is not the selected index          |
-                \*-----------------------------------------*/
-                if(!selected_all_zones)
-                {
-                    for(std::size_t zone_idx = 0; zone_idx < device->zones.size(); zone_idx++)
-                    {
-                        if(index == (int)current_index)
-                        {
-                            selected_zone = (int)zone_idx;
-                            break;
-                        }
-
-                        current_index++;
-
-                        for(std::size_t segment_idx = 0; segment_idx < device->zones[zone_idx].segments.size(); segment_idx++)
-                        {
-                            if(index == (int)current_index)
-                            {
-                                selected_zone    = (int)zone_idx;
-                                selected_segment = (int)segment_idx;
-                                break;
-                            }
-
-                            current_index++;
-                        }
-
-                        if(selected_segment != -1)
-                        {
-                            break;
-                        }
-                    }
-                }
-
                 /*-----------------------------------------*\
                 | Clear LED box                             |
                 \*-----------------------------------------*/
@@ -415,6 +369,16 @@ void OpenRGBDevicePage::on_ZoneBox_currentIndexChanged(int index)
 void OpenRGBDevicePage::on_LEDBox_currentIndexChanged(int index)
 {
     /*-----------------------------------------------------*\
+    | Determine what is selected, either all zones, a zone, |
+    | or a segment                                          |
+    \*-----------------------------------------------------*/
+    bool            selected_all_zones;
+    int             selected_zone;
+    int             selected_segment;
+
+    getSelectedZone(&selected_all_zones, &selected_zone, &selected_segment);
+
+    /*-----------------------------------------------------*\
     | Read selected mode                                    |
     \*-----------------------------------------------------*/
     unsigned int selected_mode   = (unsigned int)ui->ModeBox->currentIndex();
@@ -430,63 +394,8 @@ void OpenRGBDevicePage::on_LEDBox_currentIndexChanged(int index)
                 | Initialize both selected zone and segment |
                 | to -1 to indicate there is no selection   |
                 \*-----------------------------------------*/
-                unsigned int    current_index       = 0;
-                bool            selected_all_zones  = false;
                 bool            selected_all_leds   = false;
                 int             selected_led        = -1;
-                int             selected_zone       = -1;
-                int             selected_segment    = -1;
-
-                /*-----------------------------------------*\
-                | Handle condition where device has more    |
-                | than one zone, which adds an "All Zones"  |
-                | entry to the Zone menu in the first index |
-                \*-----------------------------------------*/
-                if(device->zones.size() > 1)
-                {
-                    if(ui->ZoneBox->currentIndex() == (int)current_index)
-                    {
-                        selected_all_zones = true;
-                    }
-
-                    current_index++;
-                }
-
-                /*-----------------------------------------*\
-                | Determine selected zone and optionally    |
-                | selected segment based on index if "All   |
-                | Zones" is not the selected index          |
-                \*-----------------------------------------*/
-                if(!selected_all_zones)
-                {
-                    for(std::size_t zone_idx = 0; zone_idx < device->zones.size(); zone_idx++)
-                    {
-                        if(ui->ZoneBox->currentIndex() == (int)current_index)
-                        {
-                            selected_zone = (int)zone_idx;
-                            break;
-                        }
-
-                        current_index++;
-
-                        for(std::size_t segment_idx = 0; segment_idx < device->zones[zone_idx].segments.size(); segment_idx++)
-                        {
-                            if(ui->ZoneBox->currentIndex() == (int)current_index)
-                            {
-                                selected_zone    = (int)zone_idx;
-                                selected_segment = (int)segment_idx;
-                                break;
-                            }
-
-                            current_index++;
-                        }
-
-                        if(selected_segment != -1)
-                        {
-                            break;
-                        }
-                    }
-                }
 
                 /*-----------------------------------------*\
                 | Handle selection of "Entire Device/Zone/  |
@@ -1545,70 +1454,20 @@ void OpenRGBDevicePage::on_SetAllButton_clicked()
 
 void OpenRGBDevicePage::on_EditZoneButton_clicked()
 {
+    /*-----------------------------------------------------*\
+    | Determine what is selected, either all zones, a zone, |
+    | or a segment                                          |
+    \*-----------------------------------------------------*/
+    bool            selected_all_zones;
+    int             selected_zone;
+    int             selected_segment;
+
+    getSelectedZone(&selected_all_zones, &selected_zone, &selected_segment);
+
     switch(device->modes[device->active_mode].color_mode)
     {
     case MODE_COLORS_PER_LED:
         {
-            /*-----------------------------------------*\
-            | Initialize both selected zone and segment |
-            | to -1 to indicate there is no selection   |
-            \*-----------------------------------------*/
-            unsigned int    current_index       = 0;
-            bool            selected_all_zones  = false;
-            int             selected_zone       = -1;
-            int             selected_segment    = -1;
-
-            /*-----------------------------------------*\
-            | Handle condition where device has more    |
-            | than one zone, which adds an "All Zones"  |
-            | entry to the Zone menu in the first index |
-            \*-----------------------------------------*/
-            if(device->zones.size() > 1)
-            {
-                if(ui->ZoneBox->currentIndex() == (int)current_index)
-                {
-                    selected_all_zones = true;
-                }
-
-                current_index++;
-            }
-
-            /*-----------------------------------------*\
-            | Determine selected zone and optionally    |
-            | selected segment based on index if "All   |
-            | Zones" is not the selected index          |
-            \*-----------------------------------------*/
-            if(!selected_all_zones)
-            {
-                for(std::size_t zone_idx = 0; zone_idx < device->zones.size(); zone_idx++)
-                {
-                    if(ui->ZoneBox->currentIndex() == (int)current_index)
-                    {
-                        selected_zone = (int)zone_idx;
-                        break;
-                    }
-
-                    current_index++;
-
-                    for(std::size_t segment_idx = 0; segment_idx < device->zones[zone_idx].segments.size(); segment_idx++)
-                    {
-                        if(ui->ZoneBox->currentIndex() == (int)current_index)
-                        {
-                            selected_zone    = (int)zone_idx;
-                            selected_segment = (int)segment_idx;
-                            break;
-                        }
-
-                        current_index++;
-                    }
-
-                    if(selected_segment != -1)
-                    {
-                        break;
-                    }
-                }
-            }
-
             /*-----------------------------------------*\
             | If all zones or a segment are selected,   |
             | the edit button should not be clickable.  |
@@ -1869,5 +1728,68 @@ void OpenRGBDevicePage::updateColorUi()
         ui->HexLineEdit->blockSignals(true);
         ui->HexLineEdit->setText(QString().asprintf("%06X", color));
         ui->HexLineEdit->blockSignals(false);
+    }
+}
+
+void OpenRGBDevicePage::getSelectedZone(bool * selected_all_zones, int * selected_zone, int * selected_segment)
+{
+    /*-----------------------------------------------------*\
+    | Get the current index of the zone box                 |
+    \*-----------------------------------------------------*/
+    int current_index       = 0;
+    int index               = ui->ZoneBox->currentIndex();
+
+    /*-----------------------------------------------------*\
+    | Determine what is selected, either all zones, a zone, |
+    | or a segment                                          |
+    \*-----------------------------------------------------*/
+    *selected_all_zones     = false;
+    *selected_zone          = -1;
+    *selected_segment       = -1;
+
+    /*-----------------------------------------------------*\
+    | Handle condition where device has more than one zone, |
+    | which adds an "All Zones" entry to the Zone menu in   |
+    | the first index                                       |
+    \*-----------------------------------------------------*/
+    if(device->zones.size() > 1)
+    {
+        if(index == current_index)
+        {
+            *selected_all_zones = true;
+        }
+
+        current_index++;
+    }
+
+    if(!(*selected_all_zones))
+    {
+        for(std::size_t zone_idx = 0; zone_idx < device->zones.size(); zone_idx++)
+        {
+            if(index == (int)current_index)
+            {
+                *selected_zone = (int)zone_idx;
+                break;
+            }
+
+            current_index++;
+
+            for(std::size_t segment_idx = 0; segment_idx < device->zones[zone_idx].segments.size(); segment_idx++)
+            {
+                if(index == (int)current_index)
+                {
+                    *selected_zone    = (int)zone_idx;
+                    *selected_segment = (int)segment_idx;
+                    break;
+                }
+
+                current_index++;
+            }
+
+            if(*selected_segment != -1)
+            {
+                break;
+            }
+        }
     }
 }

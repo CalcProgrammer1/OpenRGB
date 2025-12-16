@@ -80,11 +80,11 @@ private:
     bool HexFormatRGB       = true;
 
     QColor current_color;
-    void updateColorUi();
-    void colorChanged();
 
     bool autoUpdateEnabled();
-
+    void colorChanged();
+    void getSelectedZone(bool * selected_all_zones, int * selected_zone, int * selected_segment);
+    void updateColorUi();
     QString ModeDescription(const mode& m);
 
 signals:
