@@ -44,11 +44,11 @@ void DRGBController::KeepaliveThread()
     sleep_buf[0] = 0x65;
     while(keepalive_thread_run.load())
     {
-        if((std::chrono::steady_clock::now() - last_commit_time) > std::chrono::seconds(1))
+        if((std::chrono::steady_clock::now() - last_commit_time) > std::chrono::milliseconds(500))
         {
             SendPacketFS(sleep_buf, 1, 0);
         }
-        std::this_thread::sleep_for(500ms);
+        std::this_thread::sleep_for(300ms);
     }
 }
 
@@ -96,6 +96,12 @@ void DRGBController::SendPacket(unsigned char* colors, unsigned int buf_packets 
     unsigned int    buf_idx = 0;
     memset(usb_buf, 0x00, sizeof(usb_buf));
     usb_buf[0x00]   = 0x00;
+
+    /*-----------------------------------------------------*\
+    | Update last commit time                               |
+    \*-----------------------------------------------------*/
+    last_commit_time = std::chrono::steady_clock::now();
+
     unsigned int    HigCount = LEDtotal / 256 >= 1 ? 1 : 0;
     unsigned int    LowCount = LEDtotal >= DRGB_V4_ONE_PACKAGE_SIZE ? 60 : (LEDtotal % 256) ;
     LEDtotal = LEDtotal <= DRGB_V4_ONE_PACKAGE_SIZE ? 0 : (LEDtotal-DRGB_V4_ONE_PACKAGE_SIZE);
@@ -121,6 +127,11 @@ void DRGBController::SendPacketFS(unsigned char* colors, unsigned int buf_packet
 {
     unsigned char usb_buf[65] = {0};
     unsigned int current_index = 0;
+
+    /*-----------------------------------------------------*\
+    | Update last commit time                               |
+    \*-----------------------------------------------------*/
+    last_commit_time = std::chrono::steady_clock::now();
 
     if(Array == 0x64 || Array == 0x47)
     {

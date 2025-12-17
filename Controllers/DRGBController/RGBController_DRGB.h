@@ -34,6 +34,7 @@
 #define DRGB_Ultra_V3_PID       0x1221
 #define DRGB_CORE_V3_PID        0x1226
 #define DRGB_E8_F_PID           0x1408
+#define DRGB_E8_PID             0x1407
 #define DRGB_E16_PID            0x1416
 #define DM_10_PID               0x1410
 #define JPU_12_PID              0x1412

@@ -50,6 +50,7 @@ REGISTER_HID_DETECTOR("DeepRGB LED",                DetectDRGBControllers, DRGBV
 REGISTER_HID_DETECTOR("DeepRGB Ultra V3",           DetectDRGBControllers, DRGBV3_VID,  DRGB_Ultra_V3_PID);
 REGISTER_HID_DETECTOR("DeepRGB CORE V3",            DetectDRGBControllers, DRGBV3_VID,  DRGB_CORE_V3_PID);
 REGISTER_HID_DETECTOR("DeepRGB E8 F",               DetectDRGBControllers, DRGBV3_VID,  DRGB_E8_F_PID);
+REGISTER_HID_DETECTOR("DeepRGB E8",                 DetectDRGBControllers, DRGBV3_VID,  DRGB_E8_PID);
 REGISTER_HID_DETECTOR("DeepRGB E16",                DetectDRGBControllers, DRGBV3_VID,  DRGB_E16_PID);
 REGISTER_HID_DETECTOR("NEEDMAX 10 ELITE",           DetectDRGBControllers, DRGBV3_VID,  DM_10_PID);
 REGISTER_HID_DETECTOR("JPU ELITE",                  DetectDRGBControllers, DRGBV3_VID,  JPU_12_PID);

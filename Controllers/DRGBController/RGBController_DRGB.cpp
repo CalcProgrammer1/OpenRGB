@@ -150,6 +150,11 @@ void RGBController_DRGB::SetupZones()
             NUM_Channel_led = 132;
             Version         = 1;
             break;
+        case DRGB_E8_PID:
+            NUM_CHANNELS    = 8;
+            NUM_Channel_led = 132;
+            Version         = 1;
+            break;
         case DRGB_E16_PID:
             NUM_CHANNELS    = 16;
             NUM_Channel_led = 132;
