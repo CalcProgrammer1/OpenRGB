@@ -245,7 +245,6 @@ LenovoRGBController_Gen7_8::LenovoRGBController_Gen7_8(LenovoGen7And8USBControll
     Direct.brightness = brightness;
     modes.push_back(Direct);
 
-
     name   = controller->getName();
     type   = DEVICE_TYPE_KEYBOARD;
     vendor = "Lenovo";
@@ -272,18 +271,33 @@ LenovoRGBController_Gen7_8::LenovoRGBController_Gen7_8(LenovoGen7And8USBControll
     case LEGION_7GEN9_H:
         description = "Lenovo Legion 7 Generation 9";
         break;
+
+    case LEGION_7GEN10:
+        description = "Lenovo Legion 7 Generation 10";
+        break;
     }
 
     brightness = controller->getCurrentBrightness();
     profile_id = controller->getCurrentProfileId();
+    for(mode &m : modes)
+    {
+        m.brightness = brightness;
+    }
 
     SetupZones();
 
     /*-----------------*\
     | Initiliaze Static |
     \*-----------------*/
-    // ToDo: Commented causes a crash. (???)
-    active_mode = 10;
+    active_mode = 0;
+    for(size_t i = 0; i < modes.size(); i++)
+    {
+        if(modes[i].value == LENOVO_LEGION_GEN7_8_MODE_STATIC)
+        {
+            active_mode = i;
+            break;
+        }
+    }
     ReadDeviceSettings();
     last_mode = active_mode;
 }
@@ -304,6 +318,12 @@ void LenovoRGBController_Gen7_8::SetupZones()
     {
         lenovo_zones.push_back(lenovo_legion_7gen7_logo);
         lenovo_zones.push_back(lenovo_legion_7gen7_vents);
+    }
+
+    if (controller->getPid() == LEGION_7GEN10)
+    {
+        lenovo_zones.push_back(lenovo_legion_7gen7_logo);
+        lenovo_zones.push_back(lenovo_legion_7gen10_vents);
     }
 
     for(unsigned int i = 0; i < lenovo_zones.size(); i++)
@@ -378,6 +398,7 @@ void LenovoRGBController_Gen7_8::DeviceUpdateMode()
         profile_id = hw_profile_id;
         ReadDeviceSettings();
         last_mode = active_mode;
+        direct_enabled = false;
     }
 
     if(brightness != modes[active_mode].brightness)
@@ -392,20 +413,28 @@ void LenovoRGBController_Gen7_8::DeviceUpdateMode()
 
     if(last_mode != active_mode)
     {
-
         if(modes[last_mode].value == LENOVO_LEGION_GEN7_8_MODE_DIRECT)
         {
-                controller->setLedsDirectOff(profile_id);
+            controller->setLedsDirectOff(profile_id);
+            direct_enabled = false;
         }
-
 
         if(modes[active_mode].value == LENOVO_LEGION_GEN7_8_MODE_DIRECT)
         {
-                controller->setLedsDirectOn(profile_id);
+            controller->setLedsDirectOn(profile_id);
+            direct_enabled = true;
+            if(controller->getPid() != LEGION_7GEN10)
+            {
                 controller->setLedsByGroup(profile_id, GetLedGroups());
+            }
         }
 
         last_mode = active_mode;
+    }
+    else if((modes[active_mode].value == LENOVO_LEGION_GEN7_8_MODE_DIRECT) && !direct_enabled)
+    {
+        controller->setLedsDirectOn(profile_id);
+        direct_enabled = true;
     }
 
     if(modes[active_mode].value != LENOVO_LEGION_GEN7_8_MODE_DIRECT)
@@ -418,6 +447,19 @@ void LenovoRGBController_Gen7_8::DeviceUpdateLEDs()
 {
     if(modes[active_mode].value == LENOVO_LEGION_GEN7_8_MODE_DIRECT)
     {
+        if(controller->getPid() == LEGION_7GEN10)
+        {
+            /*---------------------------------------------------------*\
+            | Gen10 may ignore A1 updates unless D0 is reasserted.       |
+            \*---------------------------------------------------------*/
+            controller->setLedsDirectOn(profile_id);
+            direct_enabled = true;
+        }
+        else if(!direct_enabled)
+        {
+            controller->setLedsDirectOn(profile_id);
+            direct_enabled = true;
+        }
         controller->setLedsDirect(leds, colors);
     }
     else

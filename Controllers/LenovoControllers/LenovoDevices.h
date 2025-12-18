@@ -37,6 +37,7 @@
 #define LEGION_S7GEN8                           0xC987
 #define LEGION_7GEN9                            0xC997
 #define LEGION_7GEN9_H                          0xC998
+#define LEGION_7GEN10                           0xC197
 
 enum LENOVO_KEYBOARD
 {
@@ -1878,6 +1879,28 @@ const lenovo_led legion_7gen7_vents_leds[]
     {0xF0, "Vent group 8"},//7
 };
 
+const lenovo_led legion_7gen10_vents_leds[]
+{
+    {0xE9, "Vent group 1"},//0
+    {0xEA, "Vent group 2"},//1
+    {0xEB, "Vent group 3"},//2
+    {0xEC, "Vent group 4"},//3
+    {0xED, "Vent group 5"},//4
+    {0xEE, "Vent group 6"},//5
+    {0xEF, "Vent group 7"},//6
+    {0xF0, "Vent group 8"},//7
+    {0xF1, "Vent group 9"},//8
+    {0xF2, "Vent group 10"},//9
+    {0xF3, "Vent group 11"},//10
+    {0xF4, "Vent group 12"},//11
+    {0xF5, "Vent group 13"},//12
+    {0xF6, "Vent group 14"},//13
+    {0xF7, "Vent group 15"},//14
+    {0xF8, "Vent group 16"},//15
+    {0xF9, "Vent group 17"},//16
+    {0xFA, "Vent group 18"},//17
+};
+
 const lenovo_led legion_7gen7_logo_leds[]
 {
     {0xDD, "Logo"},//0
@@ -1929,6 +1952,19 @@ static lenovo_zone lenovo_legion_7gen7_vents
     legion_7gen7_vents_leds,
     0,
     7,
+};
+
+static lenovo_zone lenovo_legion_7gen10_vents
+{
+    "Vents",
+    ZONE_TYPE_LINEAR,
+    3,
+    1,
+    18,
+    NULL,
+    legion_7gen10_vents_leds,
+    0,
+    17,
 };
 
 /*------*\

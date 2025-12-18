@@ -9,10 +9,22 @@
 
 #include <iomanip>
 #include <sstream>
+#include "LenovoDevices.h"
 #include "LenovoUSBController_Gen7_8.h"
 #include "StringUtils.h"
 
 using namespace std;
+
+static void SetGen10PayloadLength(uint16_t pid, uint8_t* buffer, uint16_t payload_length)
+{
+    if(pid != LEGION_7GEN10)
+    {
+        return;
+    }
+
+    buffer[2] = payload_length & 0xFF;
+    buffer[3] = (payload_length >> 8) & 0xFF;
+}
 
 LenovoGen7And8USBController::LenovoGen7And8USBController(hid_device* dev_handle, const char* path, uint16_t in_pid, std::string dev_name)
 {
@@ -44,54 +56,74 @@ string LenovoGen7And8USBController::getLocation()
 
 void LenovoGen7And8USBController::setLedsByGroup(uint8_t profile_id, vector<led_group> led_groups)
 {
-    uint8_t buffer[PACKET_SIZE];
-    memset(buffer, 0x00, PACKET_SIZE);
-
-    size_t i = 0;
-    buffer[i++] = REPORT_ID;
-    buffer[i++] = SAVE_PROFILE;
-    buffer[i++] = 0xC0;
-    buffer[i++] = 0x03;
-    buffer[i++] = profile_id;
-    buffer[i++] = 0x01;
-    buffer[i++] = 0x01;
-
-    for(size_t group = 0; group < led_groups.size() && i < PACKET_SIZE - 21; group++)
+    if(led_groups.empty())
     {
-        buffer[i++] = (uint8_t)group + 1;  //Group index
-        buffer[i++] = 0x06;
-        buffer[i++] = 0x01;
-        buffer[i++] = led_groups[group].mode;
-        buffer[i++] = 0x02;
-        buffer[i++] = led_groups[group].speed;
-        buffer[i++] = 0x03;
-        buffer[i++] = led_groups[group].spin;
-        buffer[i++] = 0x04;
-        buffer[i++] = led_groups[group].direction;
-        buffer[i++] = 0x05;
-        buffer[i++] = led_groups[group].color_mode;
-        buffer[i++] = 0x06;
-        buffer[i++] = 0x00;
-
-        buffer[i++] = (uint8_t)led_groups[group].colors.size();
-        for(RGBColor c : led_groups[group].colors)
-        {
-            buffer[i++] = RGBGetRValue(c);
-            buffer[i++] = RGBGetGValue(c);
-            buffer[i++] = RGBGetBValue(c);
-        }
-
-        vector<uint16_t> leds = led_groups[group].leds;
-        size_t led_count = min(leds.size(), (PACKET_SIZE - i)/2);
-        buffer[i++] = (uint8_t)led_count;
-        uint8_t* byte_ptr = reinterpret_cast<uint8_t*>(leds.data());
-        std::copy(byte_ptr, byte_ptr + led_count * sizeof(uint16_t), buffer + i);
-        i+= led_count * sizeof(uint16_t);
+        return;
     }
 
-    buffer[2] = (uint8_t)i;
+    /*---------------------------------------------------------*\
+    | Some devices require many groups for per-key updates.     |
+    | Send as many groups as fit in one report, then continue   |
+    | in additional reports.                                    |
+    \*---------------------------------------------------------*/
+    size_t group = 0;
+    while(group < led_groups.size())
+    {
+        uint8_t buffer[PACKET_SIZE];
+        memset(buffer, 0x00, PACKET_SIZE);
 
-    sendFeatureReport(buffer, PACKET_SIZE);
+        size_t i = 0;
+        buffer[i++] = REPORT_ID;
+        buffer[i++] = SAVE_PROFILE;
+        buffer[i++] = 0xC0;
+        buffer[i++] = 0x03;
+        buffer[i++] = profile_id;
+        buffer[i++] = 0x01;
+        buffer[i++] = 0x01;
+
+        for(; group < led_groups.size() && i < PACKET_SIZE - 21; group++)
+        {
+            buffer[i++] = (uint8_t)group + 1;  //Group index
+            buffer[i++] = 0x06;
+            buffer[i++] = 0x01;
+            buffer[i++] = led_groups[group].mode;
+            buffer[i++] = 0x02;
+            buffer[i++] = led_groups[group].speed;
+            buffer[i++] = 0x03;
+            buffer[i++] = led_groups[group].spin;
+            buffer[i++] = 0x04;
+            buffer[i++] = led_groups[group].direction;
+            buffer[i++] = 0x05;
+            buffer[i++] = led_groups[group].color_mode;
+            buffer[i++] = 0x06;
+            buffer[i++] = 0x00;
+
+            buffer[i++] = (uint8_t)led_groups[group].colors.size();
+            for(RGBColor c : led_groups[group].colors)
+            {
+                buffer[i++] = RGBGetRValue(c);
+                buffer[i++] = RGBGetGValue(c);
+                buffer[i++] = RGBGetBValue(c);
+            }
+
+            vector<uint16_t> leds = led_groups[group].leds;
+            size_t led_count = min(leds.size(), (PACKET_SIZE - i)/2);
+            buffer[i++] = (uint8_t)led_count;
+            uint8_t* byte_ptr = reinterpret_cast<uint8_t*>(leds.data());
+            std::copy(byte_ptr, byte_ptr + led_count * sizeof(uint16_t), buffer + i);
+            i+= led_count * sizeof(uint16_t);
+        }
+
+        if(pid == LEGION_7GEN10)
+        {
+            SetGen10PayloadLength(pid, buffer, static_cast<uint16_t>(i - 4));
+        }
+        else
+        {
+            buffer[2] = (uint8_t)i;
+        }
+        sendFeatureReport(buffer, PACKET_SIZE);
+    }
 }
 
 void LenovoGen7And8USBController::setLedsDirectOn(uint8_t profile_id)
@@ -107,6 +139,7 @@ void LenovoGen7And8USBController::setLedsDirectOn(uint8_t profile_id)
     buffer[i++] = 0x01;
     buffer[i++] = profile_id;
 
+    SetGen10PayloadLength(pid, buffer, 2);
     sendFeatureReport(buffer, PACKET_SIZE);
 }
 
@@ -123,11 +156,43 @@ void LenovoGen7And8USBController::setLedsDirectOff(uint8_t profile_id)
     buffer[i++] = 0x02;
     buffer[i++] = profile_id;
 
+    SetGen10PayloadLength(pid, buffer, 2);
     sendFeatureReport(buffer, PACKET_SIZE);
 }
 
 void LenovoGen7And8USBController::setLedsDirect(std::vector<led> &leds, std::vector<RGBColor> &colors)
 {
+    if(pid == LEGION_7GEN10)
+    {
+        /*---------------------------------------------------------*\
+        | Gen10 uses 0x07/A1 direct updates, with payload length     |
+        | stored in bytes 2-3.                                       |
+        \*---------------------------------------------------------*/
+        uint8_t buffer[PACKET_SIZE];
+        memset(buffer, 0x00, PACKET_SIZE);
+
+        size_t i = 0;
+        buffer[i++] = REPORT_ID;
+        buffer[i++] = DIRECT_MODE;
+        buffer[i++] = 0x00;
+        buffer[i++] = 0x00;
+
+        size_t count = 0;
+        for(size_t index = 0; index < leds.size() && index < colors.size() && i + 5 <= PACKET_SIZE; index++)
+        {
+            buffer[i++] = leds[index].value & 0xFF;
+            buffer[i++] = leds[index].value >> 8 & 0xFF;
+            buffer[i++] = RGBGetRValue(colors[index]);
+            buffer[i++] = RGBGetGValue(colors[index]);
+            buffer[i++] = RGBGetBValue(colors[index]);
+            count++;
+        }
+
+        SetGen10PayloadLength(pid, buffer, static_cast<uint16_t>(count * 5));
+        sendFeatureReport(buffer, PACKET_SIZE);
+        return;
+    }
+
     uint8_t buffer[PACKET_SIZE];
     memset(buffer, 0x00, PACKET_SIZE);
 
@@ -153,6 +218,7 @@ void LenovoGen7And8USBController::setLedsAllOff(uint8_t profile_id)
 {
     uint8_t buffer[PACKET_SIZE] = {REPORT_ID, SAVE_PROFILE, 0xC0, 0x03, profile_id, 0x01, 0x01};
 
+    SetGen10PayloadLength(pid, buffer, 3);
     sendFeatureReport(buffer, PACKET_SIZE);
 }
 
@@ -160,6 +226,7 @@ uint8_t LenovoGen7And8USBController::getCurrentProfileId()
 {
     uint8_t buffer[PACKET_SIZE] = {REPORT_ID, GET_ACTIVE_PROFILE, 0xC0, 0x03};
 
+    SetGen10PayloadLength(pid, buffer, 1);
     vector<uint8_t> response = getFeatureReport(buffer, PACKET_SIZE);
 
     return response.size()>4?response[4]:0x01;
@@ -169,6 +236,7 @@ uint8_t LenovoGen7And8USBController::getCurrentBrightness()
 {
     uint8_t buffer[PACKET_SIZE] = {REPORT_ID, GET_BRIGHTNESS, 0xC0, 0x03};
 
+    SetGen10PayloadLength(pid, buffer, 1);
     vector<uint8_t> response = getFeatureReport(buffer, PACKET_SIZE);
 
     return response.size()>4?response[4]:0x00;
@@ -179,6 +247,7 @@ void LenovoGen7And8USBController::setBrightness(uint8_t brightness)
 {
     uint8_t buffer[PACKET_SIZE] = {REPORT_ID, SET_BRIGHTNESS, 0xC0, 0x03, brightness};
 
+    SetGen10PayloadLength(pid, buffer, 1);
     sendFeatureReport(buffer, PACKET_SIZE);
 }
 
@@ -186,6 +255,7 @@ void LenovoGen7And8USBController::switchProfileTo(uint8_t profile_id)
 {
     uint8_t buffer[PACKET_SIZE] = {REPORT_ID, SWITCH_PROFILE, 0xC0, 0x03, profile_id};
 
+    SetGen10PayloadLength(pid, buffer, 1);
     sendFeatureReport(buffer, PACKET_SIZE);
 }
 
@@ -193,6 +263,7 @@ std::vector<led_group> LenovoGen7And8USBController::getProfileSettings(uint8_t p
 {
     uint8_t buffer[PACKET_SIZE] = {REPORT_ID, GET_PROFILE, 0xC0, 0x03, profile_id};
 
+    SetGen10PayloadLength(pid, buffer, PACKET_SIZE - 4);
     vector<uint8_t> response = getFeatureReport(buffer, PACKET_SIZE);
 
     vector<led_group> groups;
