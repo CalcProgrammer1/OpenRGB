@@ -137,17 +137,17 @@ RGBController_AMDWraithPrism::~RGBController_AMDWraithPrism()
 
 void RGBController_AMDWraithPrism::SetupZones()
 {
-    /*---------------------------------------------------------*\
-    | LED maps                                                  |
-    \*---------------------------------------------------------*/
+    /*-----------------------------------------------------*\
+    | LED maps                                              |
+    \*-----------------------------------------------------*/
     const unsigned int logo_leds[1]  =  { 0x00 };
     const unsigned int fan_leds[1]   =  { 0x01 };
-    const unsigned int ring_leds[14] =  { 0x07, 0x06, 0x05, 0x04, 0x03, 0x02, 0x10, 0x0F,
-                                          0x0E, 0x0D, 0x0C, 0x0B, 0x0A, 0x09 };
+    const unsigned int ring_leds[15] =  { 0x08, 0x07, 0x06, 0x05, 0x04, 0x03, 0x02, 0x10,
+                                          0x0F, 0x0E, 0x0D, 0x0C, 0x0B, 0x0A, 0x09 };
 
-    /*---------------------------------------------------------*\
-    | Set up zones                                              |
-    \*---------------------------------------------------------*/
+    /*-----------------------------------------------------*\
+    | Set up zones                                          |
+    \*-----------------------------------------------------*/
     zone logo_zone;
     logo_zone.name          = "Logo";
     logo_zone.type          = ZONE_TYPE_SINGLE;
@@ -169,15 +169,15 @@ void RGBController_AMDWraithPrism::SetupZones()
     zone ring_zone;
     ring_zone.name          = "Ring";
     ring_zone.type          = ZONE_TYPE_LINEAR;
-    ring_zone.leds_min      = 14;
-    ring_zone.leds_max      = 14;
-    ring_zone.leds_count    = 14;
+    ring_zone.leds_min      = 15;
+    ring_zone.leds_max      = 15;
+    ring_zone.leds_count    = 15;
     ring_zone.matrix_map    = NULL;
     zones.push_back(ring_zone);
 
-    /*---------------------------------------------------------*\
-    | Set up LEDs                                               |
-    \*---------------------------------------------------------*/
+    /*-----------------------------------------------------*\
+    | Set up LEDs                                           |
+    \*-----------------------------------------------------*/
     for(unsigned int led_idx = 0; led_idx < 1; led_idx++)
     {
         led logo_led;
@@ -194,7 +194,7 @@ void RGBController_AMDWraithPrism::SetupZones()
         leds.push_back(fan_led);
     }
 
-    for(unsigned int led_idx = 0; led_idx < 14; led_idx++)
+    for(unsigned int led_idx = 0; led_idx < 15; led_idx++)
     {
         led ring_led;
         ring_led.name       = "Ring LED";
@@ -207,37 +207,44 @@ void RGBController_AMDWraithPrism::SetupZones()
 
 void RGBController_AMDWraithPrism::ResizeZone(int /*zone*/, int /*new_size*/)
 {
-    /*---------------------------------------------------------*\
-    | This device does not support resizing zones               |
-    \*---------------------------------------------------------*/
+    /*-----------------------------------------------------*\
+    | This device does not support resizing zones           |
+    \*-----------------------------------------------------*/
 }
 
 void RGBController_AMDWraithPrism::DeviceUpdateLEDs()
 {
     if(modes[active_mode].color_mode == MODE_COLORS_PER_LED)
     {
-        unsigned char   led_ids[15];
-        RGBColor        color_buf[15];
-        unsigned int    leds_count = 0;
+        unsigned char   led_ids[17];
+        RGBColor        color_buf[17];
+        unsigned int    leds_count;
 
-        for(unsigned int led_idx = 0; led_idx < colors.size(); led_idx++)
+        /*-------------------------------------------------*\
+        | Send logo and fan LEDs in the first packet        |
+        \*-------------------------------------------------*/
+        leds_count = 0;
+        for(std::size_t led_idx = 0; led_idx < 2; led_idx++)
         {
             led_ids[leds_count]     = (unsigned char)leds[led_idx].value;
             color_buf[leds_count]   = colors[led_idx];
 
             leds_count++;
-
-            if(leds_count >= 15)
-            {
-                controller->SendDirectPacket(15, led_ids, color_buf);
-                leds_count = 0;
-            }
         }
+        controller->SendDirectPacket(leds_count, led_ids, color_buf);
 
-        if(leds_count > 0)
+        /*-------------------------------------------------*\
+        | Send all ring LEDs in the second packet           |
+        \*-------------------------------------------------*/
+        leds_count = 0;
+        for(std::size_t led_idx = 0; led_idx < ( colors.size() - 2 ); led_idx++)
         {
-            controller->SendDirectPacket(leds_count, led_ids, color_buf);
+            led_ids[leds_count]     = (unsigned char)leds[led_idx + 2].value;
+            color_buf[leds_count]   = colors[led_idx + 2];
+
+            leds_count++;
         }
+        controller->SendDirectPacket(leds_count, led_ids, color_buf);
     }
     else if(modes[active_mode].color_mode == MODE_COLORS_MODE_SPECIFIC)
     {
