@@ -64,7 +64,6 @@ bool ManliGPUController::ReadVersion()
     }
 
     version = std::string((char*)rdata_pkt);
-
     return true;
 }
 
@@ -81,36 +80,46 @@ bool ManliGPUController::SetMode(ManliGPUZone zoneConfig)
 
 bool ManliGPUController::SendCommand(bool on, ManliGPUZone zoneConfig)
 {
-    u8 data_pkt[30] = { 0x00 };
-    
-    data_pkt[0]  = on ? (u8)0x01 : (u8)0x00;
-
-    // Color Cycle: Uses breathing mode (0x01) with flag 0x07
+    /*---------------------------------------------------------*\
+    | Color Cycle: Uses breathing mode (0x01) with flag 0x07    |
+    | This cycles through colors with brightness and speed      |
+    \*---------------------------------------------------------*/
     if(zoneConfig.mode == MANLI_GPU_MODE_COLOR_CYCLE)
     {
+        u8 data_pkt[30] = { 0x00 };
+        data_pkt[0]  = on ? (u8)0x01 : (u8)0x00;
         data_pkt[6]  = 0x01;  // mode = breathing
         data_pkt[7]  = 0x00;  // R
         data_pkt[8]  = 0x00;  // G
         data_pkt[9]  = 0x00;  // B
-        data_pkt[10] = 0x32;  // speed = 50
-        data_pkt[11] = 0x64;  // brightness = 100
+        data_pkt[10] = (u8)zoneConfig.speed;
+        data_pkt[11] = (u8)zoneConfig.brightness;
         data_pkt[13] = 0x07;  // color cycle flag
+
+        if(bus->i2c_smbus_write_i2c_block_data(dev, MANLI_GPU_REG_RGB, sizeof(data_pkt), data_pkt) < 0)
+        {
+            return false;
+        }
+        return true;
     }
+    /*---------------------------------------------------------*\
+    | Standard modes (Static, Breathing, Wave, Strobing, Rainbow)|
+    \*---------------------------------------------------------*/
     else
     {
-        // Standard modes
+        u8 data_pkt[30] = { 0x00 };
+        data_pkt[0]  = on ? (u8)0x01 : (u8)0x00;
         data_pkt[6]  = (u8)zoneConfig.mode;
         data_pkt[7]  = (u8)RGBGetRValue(zoneConfig.color1);
         data_pkt[8]  = (u8)RGBGetGValue(zoneConfig.color1);
         data_pkt[9]  = (u8)RGBGetBValue(zoneConfig.color1);
         data_pkt[10] = (u8)zoneConfig.speed;
         data_pkt[11] = (u8)zoneConfig.brightness;
-    }
 
-    if(bus->i2c_smbus_write_i2c_block_data(dev, MANLI_GPU_REG_RGB, sizeof(data_pkt), data_pkt) < 0)
-    {
-        return false;
+        if(bus->i2c_smbus_write_i2c_block_data(dev, MANLI_GPU_REG_RGB, sizeof(data_pkt), data_pkt) < 0)
+        {
+            return false;
+        }
+        return true;
     }
-    return true;
 }
-

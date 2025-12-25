@@ -12,7 +12,6 @@
 
 #include <map>
 #include "RGBController_ManliGPU.h"
-#include "LogManager.h"
 
 std::map<std::string, ManliGPUConfig> MANLI_GPU_CONFIG =
 {
@@ -24,12 +23,12 @@ std::map<std::string, ManliGPUConfig> MANLI_GPU_CONFIG =
     @category GPU
     @type I2C
     @save :robot:
-    @direct :white_check_mark:
-    @effects :tools:
+    @direct :x:
+    @effects :white_check_mark:
     @detectors DetectManliGPUControllers
     @comment
         Manli GPU RGB controllers use I2C communication at address 0x49.
-        Supported modes: Static, Breathing, Wave, Strobing, Color Cycle.
+        Supported modes: Static, Breathing, Wave, Strobing, Rainbow, Color Cycle.
 \*-------------------------------------------------------------------*/
 
 RGBController_ManliGPU::RGBController_ManliGPU(ManliGPUController* controller_ptr)
@@ -48,7 +47,6 @@ RGBController_ManliGPU::RGBController_ManliGPU(ManliGPUController* controller_pt
     }
     else
     {
-        LOG_ERROR("[%s] Unrecognized controller version %s", name.c_str(), controller->GetVersion().c_str());
         config = { 0, false };
     }
 
@@ -106,29 +104,33 @@ RGBController_ManliGPU::RGBController_ManliGPU(ManliGPUController* controller_pt
     STROBING.speed_max      = 100;
     STROBING.speed          = 50;
     STROBING.color_mode     = MODE_COLORS_MODE_SPECIFIC;
-    STROBING.colors_min      = 1;
-    STROBING.colors_max      = 1;
+    STROBING.colors_min     = 1;
+    STROBING.colors_max     = 1;
     STROBING.colors.resize(1);
     STROBING.colors[0]      = ToRGBColor(0, 0, 255);
     modes.push_back(STROBING);
 
-    // Rainbow: All colors move across the LED
     mode RAINBOW;
-    RAINBOW.name        = "Rainbow";
-    RAINBOW.value       = MANLI_GPU_MODE_RAINBOW;
-    RAINBOW.flags       = MODE_FLAG_AUTOMATIC_SAVE | MODE_FLAG_HAS_SPEED;
-    RAINBOW.speed_min   = 0;
-    RAINBOW.speed_max   = 100;
-    RAINBOW.speed       = 50;
-    RAINBOW.color_mode  = MODE_COLORS_NONE;
+    RAINBOW.name            = "Rainbow";
+    RAINBOW.value           = MANLI_GPU_MODE_RAINBOW;
+    RAINBOW.flags           = MODE_FLAG_AUTOMATIC_SAVE | MODE_FLAG_HAS_SPEED;
+    RAINBOW.speed_min       = 0;
+    RAINBOW.speed_max       = 100;
+    RAINBOW.speed           = 50;
+    RAINBOW.color_mode      = MODE_COLORS_NONE;
     modes.push_back(RAINBOW);
 
-    // Color Cycle: Cycles through colors with brief LED-off between transitions
     mode COLOR_CYCLE;
-    COLOR_CYCLE.name        = "Color Cycle";
-    COLOR_CYCLE.value       = MANLI_GPU_MODE_COLOR_CYCLE;
-    COLOR_CYCLE.flags       = MODE_FLAG_AUTOMATIC_SAVE;
-    COLOR_CYCLE.color_mode  = MODE_COLORS_NONE;
+    COLOR_CYCLE.name            = "Color Cycle";
+    COLOR_CYCLE.value           = MANLI_GPU_MODE_COLOR_CYCLE;
+    COLOR_CYCLE.flags           = MODE_FLAG_AUTOMATIC_SAVE | MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_HAS_SPEED;
+    COLOR_CYCLE.brightness_min  = 0;
+    COLOR_CYCLE.brightness_max  = 100;
+    COLOR_CYCLE.brightness      = 100;
+    COLOR_CYCLE.speed_min       = 0;
+    COLOR_CYCLE.speed_max       = 100;
+    COLOR_CYCLE.speed           = 50;
+    COLOR_CYCLE.color_mode      = MODE_COLORS_NONE;
     modes.push_back(COLOR_CYCLE);
 
     SetupZones();
@@ -183,10 +185,17 @@ void RGBController_ManliGPU::DeviceUpdateMode()
 {
     ManliGPUZone zoneConfig;
     zoneConfig.mode = modes[active_mode].value;
-    zoneConfig.color1 = modes[active_mode].colors.size() >= 1 ? modes[active_mode].colors[0] : ToRGBColor(0, 0, 0);
     zoneConfig.speed = modes[active_mode].speed;
     zoneConfig.brightness = modes[active_mode].brightness;
 
+    if(modes[active_mode].colors.size() >= 1)
+    {
+        zoneConfig.color1 = modes[active_mode].colors[0];
+    }
+    else
+    {
+        zoneConfig.color1 = ToRGBColor(0, 0, 0);
+    }
+
     controller->SetMode(zoneConfig);
 }
-

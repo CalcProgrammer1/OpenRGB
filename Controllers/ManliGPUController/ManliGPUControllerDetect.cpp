@@ -51,7 +51,8 @@ void DetectManliGPUControllers(i2c_smbus_interface* bus, u8 i2c_addr, const std:
         }
         else
         {
-            LOG_ERROR("[%s] RGB controller not registered.", name.c_str());
+            LOG_ERROR("[%s] RGB controller not registered - invalid zone count: %d", name.c_str(), rgb_controller->config.numberOfZones);
+            delete rgb_controller;
         }
     }
 }
