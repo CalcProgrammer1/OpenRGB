@@ -86,7 +86,7 @@ RGBController_ManliGPU::RGBController_ManliGPU(ManliGPUController* controller_pt
     mode WAVE;
     WAVE.name               = "Wave";
     WAVE.value              = MANLI_GPU_MODE_WAVE;
-    WAVE.flags              = MODE_FLAG_AUTOMATIC_SAVE | MODE_FLAG_HAS_SPEED;
+    WAVE.flags              = MODE_FLAG_AUTOMATIC_SAVE | MODE_FLAG_HAS_SPEED;  // No brightness - HW limitation
     WAVE.speed_min          = 0;
     WAVE.speed_max          = 100;
     WAVE.speed              = 50;

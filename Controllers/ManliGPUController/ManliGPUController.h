@@ -25,9 +25,9 @@ enum
 {
     MANLI_GPU_MODE_STATIC      = 0x00,  // Static color
     MANLI_GPU_MODE_BREATHING   = 0x01,  // Breathing effect
-    MANLI_GPU_MODE_WAVE        = 0x02,  // Wave effect
+    MANLI_GPU_MODE_WAVE        = 0x02,  // Wave effect (no brightness - HW limitation)
     MANLI_GPU_MODE_STROBING    = 0x03,  // Strobing effect
-    MANLI_GPU_MODE_RAINBOW     = 0x08,  // Rainbow effect (all colors move)
+    MANLI_GPU_MODE_RAINBOW     = 0x08,  // Rainbow effect (no brightness - HW limitation)
     MANLI_GPU_MODE_COLOR_CYCLE = 0x10,  // Color Cycle (breathing + flag 0x07)
 };
 
