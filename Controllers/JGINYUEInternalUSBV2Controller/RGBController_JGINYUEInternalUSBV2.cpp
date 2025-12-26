@@ -331,6 +331,11 @@ RGBController_JGINYUEInternalUSBV2::RGBController_JGINYUEInternalUSBV2(JGINYUEIn
     InitZones();
 }
 
+RGBController_JGINYUEInternalUSBV2::~RGBController_JGINYUEInternalUSBV2()
+{
+    delete controller;
+}
+
 void RGBController_JGINYUEInternalUSBV2::SetupZones()
 {
     /*-------------------------------------------------*\

@@ -176,6 +176,11 @@ RGBController_JGINYUEInternalUSB::RGBController_JGINYUEInternalUSB(JGINYUEIntern
     SetupZones();
 }
 
+RGBController_JGINYUEInternalUSB::~RGBController_JGINYUEInternalUSB()
+{
+    delete controller;
+}
+
 void RGBController_JGINYUEInternalUSB::SetupZones()
 {
     /*-------------------------------------------------*\

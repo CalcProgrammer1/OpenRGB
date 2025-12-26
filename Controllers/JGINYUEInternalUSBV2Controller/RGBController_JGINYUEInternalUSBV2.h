@@ -20,6 +20,7 @@ class RGBController_JGINYUEInternalUSBV2 : public RGBController
 {
 public:
     RGBController_JGINYUEInternalUSBV2(JGINYUEInternalUSBV2Controller* controller_ptr);
+    ~RGBController_JGINYUEInternalUSBV2();
 
     void        SetupZones();
 
