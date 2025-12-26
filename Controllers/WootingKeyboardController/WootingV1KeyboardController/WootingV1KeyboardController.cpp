@@ -1,9 +1,9 @@
 /*---------------------------------------------------------*\
-| WootingOneKeyboardController.cpp                          |
+| WootingV1KeyboardController.cpp                           |
 |                                                           |
-|   Driver for Wooting One keyboard                         |
+|   Driver for Wooting keyboards with v1 firmware           |
 |                                                           |
-|   Diogo Trindade (diogotr7)                   04 Mar 2021 |
+|   Diogo Trindade (diogotr7)                   25 Dec 2025 |
 |                                                           |
 |   This file is part of the OpenRGB project                |
 |   SPDX-License-Identifier: GPL-2.0-or-later               |
@@ -11,13 +11,14 @@
 
 #include <cstring>
 #include "StringUtils.h"
-#include "WootingOneKeyboardController.h"
+#include "WootingV1KeyboardController.h"
 
 #undef  WOOTING_CONTROLLER_NAME
 #define WOOTING_CONTROLLER_NAME         "[WootingONE] "
 
 //0xFFFFFFFF indicates an unused entry in matrix
 #define NA 0xFFFFFFFF
+#define RGB_RAW_BUFFER_SIZE             96
 
 static const unsigned int rgb_led_index[WOOTING_RGB_ROWS][WOOTING_RGB_COLUMNS] =
 {
@@ -53,13 +54,13 @@ static uint16_t getCrc16ccitt(const uint8_t* buffer, uint16_t size)
     return crc;
 }
 
-WootingOneKeyboardController::WootingOneKeyboardController(hid_device* dev_handle, const char *path, uint8_t wooting_type, std::string dev_name)
+WootingV1KeyboardController::WootingV1KeyboardController(hid_device* dev_handle, const char *path, WOOTING_DEVICE_TYPE wooting_type, std::string dev_name)
 {
     dev                 = dev_handle;
     location            = path;
     name                = dev_name;
     this->wooting_type  = wooting_type;
-    key_code_limit      = (wooting_type == WOOTING_KB_TKL) ? WOOTING_ONE_KEY_CODE_LIMIT : WOOTING_TWO_KEY_CODE_LIMIT;
+    key_code_limit      =  WOOTING_TWO_KEY_CODE_LIMIT;
 
     /*---------------------------------------------------------*\
     | Get device HID manufacturer and product strings           |
@@ -76,12 +77,12 @@ WootingOneKeyboardController::WootingOneKeyboardController(hid_device* dev_handl
     SendInitialize();
 }
 
-WootingOneKeyboardController::~WootingOneKeyboardController()
+WootingV1KeyboardController::~WootingV1KeyboardController()
 {
 
 }
 
-void WootingOneKeyboardController::SendDirect(RGBColor* colors, uint8_t colour_count)
+void WootingV1KeyboardController::SendDirect(RGBColor* colors, uint8_t colour_count)
 {
     const uint8_t pwm_mem_map[48] =
     {
@@ -97,9 +98,11 @@ void WootingOneKeyboardController::SendDirect(RGBColor* colors, uint8_t colour_c
     unsigned char buffer3[RGB_RAW_BUFFER_SIZE] = {0};
     unsigned char buffer4[RGB_RAW_BUFFER_SIZE] = {0};
 
-    for(std::size_t color_idx = 0; color_idx < colour_count; color_idx++)
+    for(std::size_t index = 0; index < colour_count; index++)
     {
-        unsigned char led_index = rgb_led_index[color_idx % 6][color_idx / 6];
+        unsigned char row = index / WOOTING_RGB_COLUMNS;
+        unsigned char col = index % WOOTING_RGB_COLUMNS;
+        unsigned char led_index = rgb_led_index[row][col];
 
         if(led_index > key_code_limit)
         {
@@ -130,9 +133,9 @@ void WootingOneKeyboardController::SendDirect(RGBColor* colors, uint8_t colour_c
         }
 
         unsigned char buffer_index          = pwm_mem_map[led_index % 24];
-        buffer_pointer[buffer_index + 0x00] = RGBGetRValue(colors[color_idx]);
-        buffer_pointer[buffer_index + 0x10] = RGBGetGValue(colors[color_idx]);
-        buffer_pointer[buffer_index + 0x20] = RGBGetBValue(colors[color_idx]);
+        buffer_pointer[buffer_index + 0x00] = RGBGetRValue(colors[index]);
+        buffer_pointer[buffer_index + 0x10] = RGBGetGValue(colors[index]);
+        buffer_pointer[buffer_index + 0x20] = RGBGetBValue(colors[index]);
     }
 
     wooting_usb_send_buffer(RGB_PARTS::PART0, buffer0);
@@ -145,14 +148,7 @@ void WootingOneKeyboardController::SendDirect(RGBColor* colors, uint8_t colour_c
     }
 }
 
-void WootingOneKeyboardController::SendInitialize()
-{
-    wooting_usb_send_feature(WOOTING_COLOR_INIT_COMMAND, 0,0,0,0);
-
-    std::this_thread::sleep_for(std::chrono::milliseconds(50));
-}
-
-bool WootingOneKeyboardController::wooting_usb_send_buffer(RGB_PARTS part_number, uint8_t* rgb_buffer)
+bool WootingV1KeyboardController::wooting_usb_send_buffer(RGB_PARTS part_number, uint8_t* rgb_buffer)
 {
     unsigned char report_buffer[WOOTING_REPORT_SIZE] = {0};
 

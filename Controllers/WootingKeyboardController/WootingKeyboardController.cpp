@@ -56,28 +56,20 @@ std::string WootingKeyboardController::GetSerial()
     return(StringUtils::wstring_to_string(serial_string));
 }
 
-uint8_t WootingKeyboardController::GetWootingType()
+WOOTING_DEVICE_TYPE WootingKeyboardController::GetWootingType()
 {
     return wooting_type;
 }
 
+void WootingKeyboardController::SendInitialize()
+{
+    wooting_usb_send_feature(WOOTING_COLOR_INIT_COMMAND, 0,0,0,0);
+
+    std::this_thread::sleep_for(std::chrono::milliseconds(50));
+}
+
 bool WootingKeyboardController::wooting_usb_send_feature(uint8_t commandId, uint8_t parameter0, uint8_t parameter1, uint8_t parameter2, uint8_t parameter3)
 {
-    /*---------------------------------------------------------*\
-    | Prevent sending unnecessary data to the Wootings if the   |
-    | index exceedes it's capabilities                          |
-    \*---------------------------------------------------------*/
-    if ((commandId == WOOTING_SINGLE_COLOR_COMMAND && parameter0 > key_code_limit)
-     || (commandId == WOOTING_SINGLE_RESET_COMMAND && parameter3 > key_code_limit))
-    {
-        /*-----------------------------------------------------*\
-        | This is not a USB error so let's return true.         |
-        | wooting_rgb_direct_set_key would also behave          |
-        | differently otherwise.                                |
-        \*-----------------------------------------------------*/
-        return true;
-    }
-
     uint8_t feature_buffer[WOOTING_COMMAND_SIZE] = { 0, 0xD0, 0xDA };
 
     /*---------------------------------------------------------*\

@@ -1,9 +1,10 @@
 /*---------------------------------------------------------*\
-| WootingTwoKeyboardController.h                            |
+| WootingV2KeyboardController.h                             |
 |                                                           |
-|   Driver for Wooting Two keyboard                         |
+|   Driver for Wooting keyboards with v2 firmware           |
 |                                                           |
 |   Chris M (Dr_No)                             09 Jul 2021 |
+|   Diogo Trindade (diogotr7)                   25 Dec 2025 |
 |                                                           |
 |   This file is part of the OpenRGB project                |
 |   SPDX-License-Identifier: GPL-2.0-or-later               |
@@ -13,15 +14,11 @@
 
 #include "WootingKeyboardController.h"
 
-class WootingTwoKeyboardController : public WootingKeyboardController
+class WootingV2KeyboardController : public WootingKeyboardController
 {
 public:
-    WootingTwoKeyboardController(hid_device* dev_handle, const char *path, uint8_t wooting_type, std::string dev_name);
-    ~WootingTwoKeyboardController();
+    WootingV2KeyboardController(hid_device* dev_handle, const char *path, WOOTING_DEVICE_TYPE wooting_type, std::string dev_name);
+    ~WootingV2KeyboardController();
 
     void                SendDirect(RGBColor* colors, uint8_t colour_count);
-
-private:
-    void                SendInitialize();
-    bool                wooting_usb_send_buffer(RGB_PARTS part_number, uint8_t* report_buffer);
 };
