@@ -277,6 +277,13 @@ void RGBController_RazerAddressable::DeviceUpdateMode()
 {
     switch(modes[active_mode].value)
     {
+        case RAZER_ADDRESSABLE_MODE_DIRECT:
+            /*---------------------------------------------------------*\
+            | Controller does not preserve the LEDs for direct mode.    |
+            | We have to restore them.                                  |
+            \*---------------------------------------------------------*/
+            DeviceUpdateLEDs();
+            break;
         case RAZER_ADDRESSABLE_MODE_OFF:
             controller->SetModeOff();
             break;
