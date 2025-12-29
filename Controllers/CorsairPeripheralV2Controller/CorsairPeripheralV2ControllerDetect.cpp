@@ -87,6 +87,8 @@ REGISTER_HID_DETECTOR_IP("Corsair M65 RGB Ultra Wireless (Wired)",  DetectCorsai
 REGISTER_HID_DETECTOR_IP("Corsair M75 Gaming Mouse",                DetectCorsairV2HardwareControllers, CORSAIR_VID,    CORSAIR_M75_GAMING_MOUSE_PID,           1,  0xFF42);
 REGISTER_HID_DETECTOR_IP("Corsair Slipstream Wireless Receiver HW", DetectCorsairV2HardwareControllers, CORSAIR_VID,    CORSAIR_SLIPSTREAM_WIRELESS_PID1,       1,  0xFF42);
 REGISTER_HID_DETECTOR_IP("Corsair Slipstream Wireless Receiver SW", DetectCorsairV2SoftwareControllers, CORSAIR_VID,    CORSAIR_SLIPSTREAM_WIRELESS_PID2,       1,  0xFF42);
+REGISTER_HID_DETECTOR_IP("Corsair Slipstream Wireless Receiver HW", DetectCorsairV2SoftwareControllers, CORSAIR_VID,    CORSAIR_SLIPSTREAM_WIRELESS_V2_PID1,    1,  0xFF42);
+
 
 /*-----------------------------------------------------------------------------------------------------*\
 | Mousemat                                                                                              |

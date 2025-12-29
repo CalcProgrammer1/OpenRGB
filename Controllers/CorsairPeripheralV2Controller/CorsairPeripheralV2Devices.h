@@ -98,6 +98,7 @@ typedef struct
 #define CORSAIR_M65_RGB_ULTRA_WIRELESS_PID          0x1BB5
 #define CORSAIR_M75_GAMING_MOUSE_PID                0x1BF0
 #define CORSAIR_SLIPSTREAM_WIRELESS_PID1            0x1BA6
+#define CORSAIR_SLIPSTREAM_WIRELESS_V2_PID1         0x1B66
 #define CORSAIR_SLIPSTREAM_WIRELESS_PID2            0x1B65
 
 /*-----------------------------------------------------*\
