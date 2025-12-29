@@ -1,7 +1,7 @@
 /*---------------------------------------------------------*\
-| RGBController_ZETEdgeAirPro.h                             |
+| RGBController_Areson.h                                    |
 |                                                           |
-|   RGBController for ZET Edge Air Pro                      |
+|   RGBController for Areson mice                           |
 |                                                           |
 |   Morgan Guimard (morg)                       29 Jan 2022 |
 |                                                           |
@@ -12,13 +12,13 @@
 #pragma once
 
 #include "RGBController.h"
-#include "ZETEdgeAirProController.h"
+#include "AresonController.h"
 
-class RGBController_ZETEdgeAirPro : public RGBController
+class RGBController_Areson : public RGBController
 {
 public:
-    RGBController_ZETEdgeAirPro(ZETEdgeAirProController* controller_ptr);
-    ~RGBController_ZETEdgeAirPro();
+    RGBController_Areson(AresonController* controller_ptr);
+    ~RGBController_Areson();
 
     void SetupZones();
     void ResizeZone(int zone, int new_size);
@@ -30,5 +30,5 @@ public:
     void DeviceUpdateMode();
 
 private:
-    ZETEdgeAirProController* controller;
+    AresonController* controller;
 };

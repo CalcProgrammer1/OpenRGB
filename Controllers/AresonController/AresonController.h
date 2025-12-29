@@ -1,7 +1,7 @@
 /*---------------------------------------------------------*\
-| ZETEdgeAirProController.h                                 |
+| AresonController.h                                        |
 |                                                           |
-|   Driver for ZET Edge Air Pro                             |
+|   Driver for Areson mice                                  |
 |                                                           |
 |   Morgan Guimard (morg)                       29 Jan 2022 |
 |                                                           |
@@ -15,31 +15,35 @@
 #include <hidapi.h>
 #include "RGBController.h"
 
-#define ZET_EDGE_AIR_PRO_PACKET_SIZE    17
-#define ZET_EDGE_AIR_PRO_REPORT_ID      0x08
-#define ZET_EDGE_AIR_PRO_PACKET_END     0x4a
+#define ARESON_PACKET_SIZE            17
+#define ARESON_REPORT_ID              0x08
+#define ARESON_PACKET_END             0x4A
 
 enum
 {
-    STATIC_MODE_VALUE       = 0x02,
-    OFF_MODE_VALUE          = 0x04,
-    RAINBOW_MODE_VALUE      = 0x00,
-    BREATHING_MODE_VALUE    = 0x01
+    RAINBOW_WAVE_MODE_VALUE         = 0x00,
+    BREATHING_MODE_VALUE            = 0x01,
+    STATIC_MODE_VALUE               = 0x02,
+    SPECRTUM_CYCLE_MODE_VALUE       = 0x03,
+    OFF_MODE_VALUE                  = 0x04,
+    SINGLE_COLOR_WAVE_MODE_VALUE    = 0x05,
+    BREATHING_COLORFUL_MODE_VALUE   = 0x07,
 };
+
 
 enum
 {
-    ZET_EDGE_AIR_PRO_BRIGHTNESS_MIN     = 1,
-    ZET_EDGE_AIR_PRO_BRIGHTNESS_MAX     = 10,
-    ZET_EDGE_AIR_PRO_SPEED_MIN          = 1,
-    ZET_EDGE_AIR_PRO_SPEED_MAX          = 10
+    ARESON_BRIGHTNESS_MIN     = 1,
+    ARESON_BRIGHTNESS_MAX     = 10,
+    ARESON_SPEED_MIN          = 1,
+    ARESON_SPEED_MAX          = 10
 };
 
-class ZETEdgeAirProController
+class AresonController
 {
 public:
-    ZETEdgeAirProController(hid_device* dev_handle, const hid_device_info& info, std::string dev_name);
-    ~ZETEdgeAirProController();
+    AresonController(hid_device* dev_handle, const hid_device_info& info, std::string dev_name);
+    ~AresonController();
 
     std::string                 GetDeviceLocation();
     std::string                 GetNameString();
@@ -53,4 +57,5 @@ protected:
 private:
     std::string                 location;
     std::string                 name;
+    unsigned char               GetSpeedValue(unsigned char speed, unsigned char mode_value);
 };
