@@ -818,6 +818,7 @@
 #define MSI_RTX5090_VANGUARD_SOC_SUB_DEV                0x5302
 #define MSI_RTX5090_SUPRIM_SOC_SUB_DEV                  0x5301
 #define MSI_RTX5090_SUPRIM_LIQUID_SOC_SUB_DEV           0x5300
+#define MSI_RX5600XT_GAMING_X_SUB_DEV                   0xC810
 #define MSI_RX6600XT_GAMING_X_SUB_DEV                   0x5020
 #define MSI_RX6650XT_GAMING_X_SUB_DEV                   0x5026
 #define MSI_RX6700XT_GAMING_X_SUB_DEV                   0x3981
