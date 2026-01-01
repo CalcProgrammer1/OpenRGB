@@ -212,7 +212,7 @@ void RGBController_HuePlus::SetupZones()
 
         if(first_run)
         {
-            zones[zone_idx].leds_count  = 0;
+            zones[zone_idx].leds_count  = controller->channel_leds[zone_idx];
         }
     }
 
