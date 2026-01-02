@@ -8,6 +8,9 @@ OpenRGB-x86_64.AppImage
 60-openrgb.rules
 debian/changelog
 fedora/OpenRGB.spec
+OpenRGB_resource.rc
+OpenRGB Windows 32-bit/
+OpenRGB Windows 64-bit/
 
 # Directories
 .build/
