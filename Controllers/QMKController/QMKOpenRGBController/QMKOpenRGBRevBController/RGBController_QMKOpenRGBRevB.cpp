@@ -560,6 +560,16 @@ unsigned int RGBController_QMKOpenRGBRevB::CalculateDivisor
             last_pos = pt.x;
         });
     }
+
+    /*---------------------------------------------------------*\
+    | Guard against empty distances (malformed LED data)        |
+    \*---------------------------------------------------------*/
+    if(distances.empty())
+    {
+        LOG_WARNING("[%s] No valid LED distances found, using default divisor of 1", name.c_str());
+        return 1;
+    }
+
     std::map<int, int> counts;
     for(const int &i : distances)
     {
@@ -574,6 +584,16 @@ unsigned int RGBController_QMKOpenRGBRevB::CalculateDivisor
             divisor = i.first;
         }
     }
+
+    /*---------------------------------------------------------*\
+    | Guard against zero divisor (prevents division by zero)    |
+    \*---------------------------------------------------------*/
+    if(divisor == 0)
+    {
+        LOG_WARNING("[%s] Calculated divisor is 0, using default of 1. This may indicate malformed LED position data.", name.c_str());
+        return 1;
+    }
+
     return divisor;
 }
 
