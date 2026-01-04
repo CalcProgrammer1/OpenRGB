@@ -835,11 +835,11 @@ uint8_t logitech_device::set8071Effects(uint8_t control)
         response.init();
 
         /*-----------------------------------------------------------------*\
-        | Turn the direct mode on or off via the RGB_feature_index          |
+        | Use longFAPrequest (20 bytes) for FP8071 CONTROL command          |
+        | Short messages (7 bytes) are not supported by some devices        |
         \*-----------------------------------------------------------------*/
-        shortFAPrequest set_effects;
-        set_effects.init(device_index, RGB_feature_index);
-        set_effects.feature_command = LOGITECH_FP8071_CONTROL;
+        longFAPrequest set_effects;
+        set_effects.init(device_index, RGB_feature_index, LOGITECH_FP8071_CONTROL);
         set_effects.data[0]         = 1;
         set_effects.data[1]         = 3;  //Disables all FW control for PWR (0x02) and RGB (0x01)
         set_effects.data[2]         = control;
@@ -855,13 +855,22 @@ uint8_t logitech_device::set8071Effects(uint8_t control)
         {
             std::lock_guard<std::mutex> guard(*mutex);
 
-            result = hid_write(dev_use2, set_effects.buffer, set_effects.size());
+            hid_write(dev_use2, set_effects.buffer, set_effects.size());
             result = hid_read_timeout(dev_use2, response.buffer, response.size(), LOGITECH_PROTOCOL_TIMEOUT);
         }
         else
         {
-            result = hid_write(dev_use2, set_effects.buffer, set_effects.size());
+            hid_write(dev_use2, set_effects.buffer, set_effects.size());
             result = hid_read_timeout(dev_use2, response.buffer, response.size(), LOGITECH_PROTOCOL_TIMEOUT);
+        }
+
+        /*-----------------------------------------------------*\
+        | Check for HID++ error response (0x8F in feature_index)|
+        \*-----------------------------------------------------*/
+        if(response.feature_index == 0x8F)
+        {
+            LOG_WARNING("[%s] set8071Effects: HID++ ERROR! ErrCode=%02X",
+                device_name.c_str(), response.data[2]);
         }
     }
     return result;
