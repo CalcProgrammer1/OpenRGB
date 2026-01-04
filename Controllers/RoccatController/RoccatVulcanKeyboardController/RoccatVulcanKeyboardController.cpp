@@ -67,6 +67,7 @@ device_info RoccatVulcanKeyboardController::InitDeviceInfo()
         case ROCCAT_MAGMA_PID:
         case ROCCAT_MAGMA_MINI_PID:
         case ROCCAT_VULCAN_PRO_PID:
+        case ROCCAT_VULCAN_TKL_PRO_PID:
         case ROCCAT_VULCAN_II_PID:
         case TURTLE_BEACH_VULCAN_II_PID:
         case TURTLE_BEACH_VULCAN_II_TKL_PRO_PID:
@@ -123,6 +124,7 @@ void RoccatVulcanKeyboardController::EnableDirect(bool on_off_switch)
         case ROCCAT_MAGMA_PID:
         case ROCCAT_MAGMA_MINI_PID:
         case ROCCAT_VULCAN_PRO_PID:
+        case ROCCAT_VULCAN_TKL_PRO_PID:
         case ROCCAT_VULCAN_II_PID:
         case TURTLE_BEACH_VULCAN_II_PID:
         case TURTLE_BEACH_VULCAN_II_TKL_PRO_PID:
@@ -156,6 +158,7 @@ void RoccatVulcanKeyboardController::SendColors(std::vector<led_color> colors)
         protocol_version = 2;
         break;
     case ROCCAT_VULCAN_PRO_PID:
+    case ROCCAT_VULCAN_TKL_PRO_PID:
         packet_length = 384;
         column_length = 12;
         protocol_version = 2;
@@ -328,6 +331,7 @@ void RoccatVulcanKeyboardController::SendMode(unsigned int mode, unsigned int sp
             column_length = 5;
             break;
         case ROCCAT_VULCAN_PRO_PID:
+        case ROCCAT_VULCAN_TKL_PRO_PID:
             protocol_version = 2;
             packet_length = 371;
             column_length = 12;
@@ -465,6 +469,7 @@ void RoccatVulcanKeyboardController::WaitUntilReady()
         case ROCCAT_MAGMA_PID:
         case ROCCAT_MAGMA_MINI_PID:
         case ROCCAT_VULCAN_PRO_PID:
+        case ROCCAT_VULCAN_TKL_PRO_PID:
             packet_length = 4;
             break;
         default:
