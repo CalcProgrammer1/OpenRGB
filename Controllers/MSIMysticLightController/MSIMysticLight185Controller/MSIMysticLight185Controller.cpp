@@ -256,6 +256,7 @@ static const mystic_light_185_config board_configs[] =
     { 0x7C77, 0,  0,  0, 0, &zones_set14, MSIMysticLight185Controller::DIRECT_MODE_PER_LED },       // MEG Z490I UNIFY
     { 0x7C79, 6,  0,  0, 2, &zones_set0,  MSIMysticLight185Controller::DIRECT_MODE_PER_LED },       // MPG Z490 GAMING EDGE WIFI
     { 0x7C80, 6,  0,  0, 2, &zones_set0,  MSIMysticLight185Controller::DIRECT_MODE_PER_LED },       // MAG Z490 TOMAHAWK
+    { 0x7C02, 6,  0,  0, 2, &zones_set0,  MSIMysticLight185Controller::DIRECT_MODE_PER_LED },       // MAG B450 TOMAHAWK MAX
     { 0x7C81, 6,  0,  0, 2, &zones_set0,  MSIMysticLight185Controller::DIRECT_MODE_PER_LED },       // MAG B460 TOMAHAWK
     { 0x7C82, 6,  0,  0, 1, &zones_set5,  MSIMysticLight185Controller::DIRECT_MODE_PER_LED },       // MAG B460M MORTAR WIFI
     { 0x7C83, 6,  0,  0, 1, &zones_set5,  MSIMysticLight185Controller::DIRECT_MODE_DISABLED },      // B460M PRO-VDH WIFI
