@@ -324,6 +324,7 @@ void PolychromeUSBController::WriteAllZones
         | Send packet                                           |
         \*-----------------------------------------------------*/
         hid_write(dev, usb_buf, 65);
+        hid_read(dev, usb_buf, 64);
 
         /*-----------------------------------------------------*\
         | Zero out buffer                                       |
