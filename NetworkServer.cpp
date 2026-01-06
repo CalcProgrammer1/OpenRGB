@@ -26,12 +26,16 @@
 #include <stdlib.h>
 #include <iostream>
 
-const char yes = 1;
-
 #ifdef WIN32
 #include <Windows.h>
 #else
 #include <unistd.h>
+#endif
+
+#ifdef __linux__
+const int yes = 1;
+#else
+const char yes = 1;
 #endif
 
 using namespace std::chrono_literals;
@@ -548,6 +552,13 @@ int NetworkServer::recv_select(SOCKET s, char *buf, int len, int flags)
         }
         else
         {
+        /*-------------------------------------------------*\
+        | Set QUICKACK socket option on Linux to improve    |
+        | performance                                       |
+        \*-------------------------------------------------*/
+#ifdef __linux__
+            setsockopt(s, IPPROTO_TCP, TCP_QUICKACK, &yes, sizeof(yes));
+#endif
             return(recv(s, buf, len, flags));
         }
     }

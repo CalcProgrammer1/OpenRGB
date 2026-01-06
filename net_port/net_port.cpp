@@ -29,7 +29,11 @@
 #define connect_socklen_t socklen_t
 #endif
 
+#ifdef __linux__
+const int yes = 1;
+#else
 const char yes = 1;
+#endif
 
 net_port::net_port()
 {
@@ -328,6 +332,13 @@ void net_port::tcp_close()
 
 int net_port::tcp_listen(char * recv_data, int length)
 {
+    /*-------------------------------------------------*\
+    | Set QUICKACK socket option on Linux to improve    |
+    | performance                                       |
+    \*-------------------------------------------------*/
+#ifdef __linux__
+    setsockopt(sock, IPPROTO_TCP, TCP_QUICKACK, &yes, sizeof(yes));
+#endif
     return(recv(sock, recv_data, length, 0));
 }
 
