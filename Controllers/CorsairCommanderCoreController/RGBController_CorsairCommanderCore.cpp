@@ -18,7 +18,7 @@
     @save :x:
     @direct :white_check_mark:
     @effects :x:
-    @detectors DetectCorsairCapellixHIDControllers
+    @detectors DetectCorsairCommanderCoreControllers
     @comment
 \*-------------------------------------------------------------------*/
 
