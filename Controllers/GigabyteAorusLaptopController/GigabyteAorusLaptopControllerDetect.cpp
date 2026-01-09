@@ -9,7 +9,7 @@
 |   SPDX-License-Identifier: GPL-2.0-or-later               |
 \*---------------------------------------------------------*/
 
-#include "Detector.h"
+#include "DetectionManager.h"
 #include "GigabyteAorusLaptopController.h"
 #include "RGBController_GigabyteAorusLaptop.h"
 
@@ -36,7 +36,7 @@ void DetectGigabyteAorusLaptopControllers(hid_device_info* info, const std::stri
         GigabyteAorusLaptopController*     controller       = new GigabyteAorusLaptopController(dev, *info, name);
         RGBController_GigabyteAorusLaptop* rgb_controller   = new RGBController_GigabyteAorusLaptop(controller, dev_type);
 
-        ResourceManager::get()->RegisterRGBController(rgb_controller);
+        DetectionManager::get()->RegisterRGBController(rgb_controller);
     }
 }
 

@@ -458,7 +458,7 @@ void OptionVersion()
 
 void OptionListDevices(std::vector<RGBController *>& rgb_controllers)
 {
-    ResourceManager::get()->WaitForDeviceDetection();
+    ResourceManager::get()->WaitForDetection();
 
     for(std::size_t controller_idx = 0; controller_idx < rgb_controllers.size(); controller_idx++)
     {
@@ -562,7 +562,7 @@ void OptionListDevices(std::vector<RGBController *>& rgb_controllers)
 bool OptionDevice(std::vector<DeviceOptions>* current_devices, std::string argument, Options* options, std::vector<RGBController *>& rgb_controllers)
 {
     bool found = false;
-    ResourceManager::get()->WaitForDeviceDetection();
+    ResourceManager::get()->WaitForDetection();
 
     try
     {
@@ -640,7 +640,7 @@ bool OptionDevice(std::vector<DeviceOptions>* current_devices, std::string argum
 bool OptionZone(std::vector<DeviceOptions>* current_devices, std::string argument, Options* /*options*/, std::vector<RGBController *>& rgb_controllers)
 {
     bool found = false;
-    ResourceManager::get()->WaitForDeviceDetection();
+    ResourceManager::get()->WaitForDetection();
 
     try
     {
@@ -832,7 +832,7 @@ bool OptionSize(std::vector<DeviceOptions>* current_devices, std::string argumen
 {
     const unsigned int new_size = std::stoi(argument);
 
-    ResourceManager::get()->WaitForDeviceDetection();
+    ResourceManager::get()->WaitForDetection();
 
     for(size_t i = 0; i < current_devices->size(); i++)
     {
@@ -873,7 +873,7 @@ bool OptionSize(std::vector<DeviceOptions>* current_devices, std::string argumen
 
 bool OptionProfile(std::string argument, std::vector<RGBController *>& rgb_controllers)
 {
-    ResourceManager::get()->WaitForDeviceDetection();
+    ResourceManager::get()->WaitForDetection();
 
     /*---------------------------------------------------------*\
     | Attempt to load profile                                   |
@@ -1713,7 +1713,7 @@ unsigned int cli_post_detection()
     /*---------------------------------------------------------*\
     | Wait for device detection                                 |
     \*---------------------------------------------------------*/
-    ResourceManager::get()->WaitForDeviceDetection();
+    ResourceManager::get()->WaitForDetection();
 
     /*---------------------------------------------------------*\
     | Get controller list from resource manager                 |

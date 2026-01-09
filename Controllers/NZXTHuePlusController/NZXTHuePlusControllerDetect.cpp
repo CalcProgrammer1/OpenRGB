@@ -10,7 +10,7 @@
 \*---------------------------------------------------------*/
 
 #include <vector>
-#include "Detector.h"
+#include "DetectionManager.h"
 #include "NZXTHuePlusController.h"
 #include "RGBController_NZXTHuePlus.h"
 #include "find_usb_serial_port.h"
@@ -38,7 +38,7 @@ void DetectNZXTHuePlusControllers()
             controller->Initialize((char *)ports[i]->c_str());
             RGBController_HuePlus* rgb_controller = new RGBController_HuePlus(controller);
 
-            ResourceManager::get()->RegisterRGBController(rgb_controller);
+            DetectionManager::get()->RegisterRGBController(rgb_controller);
         }
     }
 }   /* DetectHuePlusControllers() */

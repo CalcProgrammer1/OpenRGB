@@ -10,7 +10,7 @@
 \*---------------------------------------------------------*/
 
 #include <hidapi.h>
-#include "Detector.h"
+#include "DetectionManager.h"
 #include "MSI3ZoneController.h"
 #include "RGBController_MSI3Zone.h"
 
@@ -36,7 +36,7 @@ void DetectMSI3ZoneControllers(hid_device_info* info, const std::string&)
         RGBController_MSI3Zone* rgb_controller = new RGBController_MSI3Zone(controller);
         // Constructor sets the name
 
-        ResourceManager::get()->RegisterRGBController(rgb_controller);
+        DetectionManager::get()->RegisterRGBController(rgb_controller);
     }
 }   /* DetectMSI3ZoneControllers() */
 

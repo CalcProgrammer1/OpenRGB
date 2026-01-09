@@ -10,7 +10,7 @@
 \*---------------------------------------------------------*/
 
 #include <hidapi.h>
-#include "Detector.h"
+#include "DetectionManager.h"
 #include "SRGBmodsLEDControllerV1.h"
 #include "SRGBmodsPicoController.h"
 #include "RGBController_SRGBmodsLEDControllerV1.h"
@@ -49,14 +49,14 @@ void DetectSRGBmodsControllers(hid_device_info* info, const std::string& name)
             SRGBmodsPicoController*     controller     = new SRGBmodsPicoController(dev, info->path, name);
             RGBController_SRGBmodsPico* rgb_controller = new RGBController_SRGBmodsPico(controller);
 
-            ResourceManager::get()->RegisterRGBController(rgb_controller);
+            DetectionManager::get()->RegisterRGBController(rgb_controller);
         }
         else if(product_str == L"LED Controller v1")
         {
             SRGBmodsLEDControllerV1*               controller     = new SRGBmodsLEDControllerV1(dev, info->path, name);
             RGBController_SRGBmodsLEDControllerV1* rgb_controller = new RGBController_SRGBmodsLEDControllerV1(controller);
 
-            ResourceManager::get()->RegisterRGBController(rgb_controller);
+            DetectionManager::get()->RegisterRGBController(rgb_controller);
         }
     }
 }   /* DetectSRGBmodsControllers() */

@@ -11,7 +11,7 @@
 \*---------------------------------------------------------*/
 
 #include <vector>
-#include "Detector.h"
+#include "DetectionManager.h"
 #include "ASRockASRRGBSMBusController.h"
 #include "ASRockPolychromeV1SMBusController.h"
 #include "ASRockPolychromeV2SMBusController.h"
@@ -131,7 +131,7 @@ void DetectASRockSMBusControllers(std::vector<i2c_smbus_interface*>& busses)
                                 ASRockASRRGBSMBusController* controller = new ASRockASRRGBSMBusController(busses[bus], SMBUS_ADDRESS);
                                 controller-> fw_version = version.u16;
                                 RGBController_ASRockASRRGBSMBus* rgb_controller = new RGBController_ASRockASRRGBSMBus(controller);
-                                ResourceManager::get()->RegisterRGBController(rgb_controller);
+                                DetectionManager::get()->RegisterRGBController(rgb_controller);
                             }
                             break;
 
@@ -141,7 +141,7 @@ void DetectASRockSMBusControllers(std::vector<i2c_smbus_interface*>& busses)
                                 ASRockPolychromeV1SMBusController* controller = new ASRockPolychromeV1SMBusController(busses[bus], SMBUS_ADDRESS);
                                 controller-> fw_version = version.u16;
                                 RGBController_ASRockPolychromeV1SMBus* rgb_controller = new RGBController_ASRockPolychromeV1SMBus(controller);
-                                ResourceManager::get()->RegisterRGBController(rgb_controller);
+                                DetectionManager::get()->RegisterRGBController(rgb_controller);
                             }
                             break;
 
@@ -151,7 +151,7 @@ void DetectASRockSMBusControllers(std::vector<i2c_smbus_interface*>& busses)
                                 ASRockPolychromeV2SMBusController* controller = new ASRockPolychromeV2SMBusController(busses[bus], SMBUS_ADDRESS);
                                 controller-> fw_version = version.u16;
                                 RGBController_ASRockPolychromeV2SMBus* rgb_controller = new RGBController_ASRockPolychromeV2SMBus(controller);
-                                ResourceManager::get()->RegisterRGBController(rgb_controller);
+                                DetectionManager::get()->RegisterRGBController(rgb_controller);
                             }
                             break;
 

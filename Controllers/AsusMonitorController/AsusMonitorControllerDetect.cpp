@@ -9,7 +9,7 @@
 |   SPDX-License-Identifier: GPL-2.0-or-later               |
 \*---------------------------------------------------------*/
 
-#include "Detector.h"
+#include "DetectionManager.h"
 #include "AsusMonitorController.h"
 #include "RGBController_AsusMonitor.h"
 
@@ -34,7 +34,7 @@ void DetectAsusMonitorControllers(hid_device_info* info, const std::string& name
         AsusMonitorController*     controller      = new AsusMonitorController(dev, *info, name);
         RGBController_AsusMonitor* rgb_controller  = new RGBController_AsusMonitor(controller);
 
-        ResourceManager::get()->RegisterRGBController(rgb_controller);
+        DetectionManager::get()->RegisterRGBController(rgb_controller);
     }
 }
 

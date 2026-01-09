@@ -10,7 +10,7 @@
 |   SPDX-License-Identifier: GPL-2.0-or-later               |
 \*---------------------------------------------------------*/
 
-#include "Detector.h"
+#include "DetectionManager.h"
 #include "AsusAuraCoreController.h"
 #include "RGBController.h"
 #include "RGBController_AsusAuraCore.h"
@@ -38,7 +38,7 @@ void DetectAsusAuraCoreControllers(hid_device_info* info, const std::string& /*n
 
         if(rgb_controller->GetDeviceType() != DEVICE_TYPE_UNKNOWN)
         {
-            ResourceManager::get()->RegisterRGBController(rgb_controller);
+            DetectionManager::get()->RegisterRGBController(rgb_controller);
         }
         else
         {
@@ -56,7 +56,7 @@ void DetectAsusAuraCoreLaptopControllers(hid_device_info* info, const std::strin
         AsusAuraCoreLaptopController*     controller        = new AsusAuraCoreLaptopController(dev, info->path);
         RGBController_AsusAuraCoreLaptop* rgb_controller    = new RGBController_AsusAuraCoreLaptop(controller);
 
-        ResourceManager::get()->RegisterRGBController(rgb_controller);
+        DetectionManager::get()->RegisterRGBController(rgb_controller);
     }
 }
 
