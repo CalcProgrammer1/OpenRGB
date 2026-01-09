@@ -9,8 +9,9 @@
 |   SPDX-License-Identifier: GPL-2.0-or-later               |
 \*---------------------------------------------------------*/
 
-#include "Detector.h"
+#include "DetectionManager.h"
 #include "PhilipsWizController.h"
+#include "ResourceManager.h"
 #include "RGBController_PhilipsWiz.h"
 #include "SettingsManager.h"
 
@@ -63,7 +64,7 @@ void DetectPhilipsWizControllers()
                 PhilipsWizController*     controller     = new PhilipsWizController(wiz_ip, wiz_cool, wiz_warm, wiz_white_strategy);
                 RGBController_PhilipsWiz* rgb_controller = new RGBController_PhilipsWiz(controller);
 
-                ResourceManager::get()->RegisterRGBController(rgb_controller);
+                DetectionManager::get()->RegisterRGBController(rgb_controller);
             }
         }
     }

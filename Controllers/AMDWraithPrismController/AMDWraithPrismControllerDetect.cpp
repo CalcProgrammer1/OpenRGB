@@ -10,7 +10,7 @@
 \*---------------------------------------------------------*/
 
 #include <hidapi.h>
-#include "Detector.h"
+#include "DetectionManager.h"
 #include "AMDWraithPrismController.h"
 #include "RGBController_AMDWraithPrism.h"
 
@@ -41,7 +41,7 @@ void DetectAMDWraithPrismControllers(hid_device_info* info, const std::string&)
         AMDWraithPrismController*     controller     = new AMDWraithPrismController(dev, info->path);
         RGBController_AMDWraithPrism* rgb_controller = new RGBController_AMDWraithPrism(controller);
 
-        ResourceManager::get()->RegisterRGBController(rgb_controller);
+        DetectionManager::get()->RegisterRGBController(rgb_controller);
     }
 }
 

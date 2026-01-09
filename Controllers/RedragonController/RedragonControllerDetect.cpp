@@ -10,7 +10,7 @@
 \*---------------------------------------------------------*/
 
 #include <hidapi.h>
-#include "Detector.h"
+#include "DetectionManager.h"
 #include "RedragonMouseController.h"
 #include "RGBController_RedragonMouse.h"
 
@@ -46,7 +46,7 @@ void DetectRedragonMice(hid_device_info* info, const std::string& name)
         RedragonMouseController*     controller     = new RedragonMouseController(dev, info->path, name);
         RGBController_RedragonMouse* rgb_controller = new RGBController_RedragonMouse(controller);
 
-        ResourceManager::get()->RegisterRGBController(rgb_controller);
+        DetectionManager::get()->RegisterRGBController(rgb_controller);
     }
 }
 

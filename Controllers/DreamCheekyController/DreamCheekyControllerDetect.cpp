@@ -9,7 +9,7 @@
 |   SPDX-License-Identifier: GPL-2.0-or-later               |
 \*---------------------------------------------------------*/
 
-#include "Detector.h"
+#include "DetectionManager.h"
 #include "DreamCheekyController.h"
 #include "RGBController_DreamCheeky.h"
 
@@ -32,7 +32,7 @@ void DetectDreamCheekyControllers(hid_device_info* info, const std::string& name
         DreamCheekyController*     controller     = new DreamCheekyController(dev, info->path, name);
         RGBController_DreamCheeky* rgb_controller = new RGBController_DreamCheeky(controller);
 
-        ResourceManager::get()->RegisterRGBController(rgb_controller);
+        DetectionManager::get()->RegisterRGBController(rgb_controller);
     }
 }
 

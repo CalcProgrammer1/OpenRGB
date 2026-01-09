@@ -11,7 +11,7 @@
 \*---------------------------------------------------------*/
 
 #include <libusb.h>
-#include "Detector.h"
+#include "DetectionManager.h"
 #include "RGBController_HYTEMousemat.h"
 
 /*-----------------------------------------------------*\
@@ -73,7 +73,7 @@ void DetectHYTEMousematControllers()
             HYTEMousematController *     controller     = new HYTEMousematController(dev, device_list[device_idx].name);
             RGBController_HYTEMousemat * rgb_controller = new RGBController_HYTEMousemat(controller);
 
-            ResourceManager::get()->RegisterRGBController(rgb_controller);
+            DetectionManager::get()->RegisterRGBController(rgb_controller);
         }
     }
 

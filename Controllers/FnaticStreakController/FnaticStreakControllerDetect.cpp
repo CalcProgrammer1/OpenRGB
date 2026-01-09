@@ -10,7 +10,7 @@
 \*---------------------------------------------------------*/
 
 #include <hidapi.h>
-#include "Detector.h"
+#include "DetectionManager.h"
 #include "FnaticStreakController.h"
 #include "RGBController_FnaticStreak.h"
 
@@ -47,7 +47,7 @@ void DetectFnaticStreakKeyboard(hid_device_info* info, const std::string& name)
         FnaticStreakController*     controller     = new FnaticStreakController(dev, info, name, kb_type);
         RGBController_FnaticStreak* rgb_controller = new RGBController_FnaticStreak(controller);
 
-        ResourceManager::get()->RegisterRGBController(rgb_controller);
+        DetectionManager::get()->RegisterRGBController(rgb_controller);
     }
 }
 

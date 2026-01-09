@@ -9,7 +9,7 @@
 |   SPDX-License-Identifier: GPL-2.0-or-later               |
 \*---------------------------------------------------------*/
 
-#include "Detector.h"
+#include "DetectionManager.h"
 #include "pci_ids.h"
 #include "i2c_amd_gpu.h"
 #include "PowerColorRedDevilV1Controller/RGBController_PowerColorRedDevilV1.h"
@@ -41,7 +41,7 @@ void DetectPowerColorRedDevilGPUControllersV1(i2c_smbus_interface* bus, uint8_t 
         PowerColorRedDevilV1Controller* controller         = new PowerColorRedDevilV1Controller(bus, i2c_addr, name);
         RGBController_PowerColorRedDevilV1* rgb_controller = new RGBController_PowerColorRedDevilV1(controller);
 
-        ResourceManager::get()->RegisterRGBController(rgb_controller);
+        DetectionManager::get()->RegisterRGBController(rgb_controller);
     }
 }
 
@@ -60,7 +60,7 @@ void DetectPowerColorRedDevilGPUControllersV2(i2c_smbus_interface* bus, uint8_t 
         PowerColorRedDevilV2Controller* controller         = new PowerColorRedDevilV2Controller(bus, i2c_addr, name);
         RGBController_PowerColorRedDevilV2* rgb_controller = new RGBController_PowerColorRedDevilV2(controller);
 
-        ResourceManager::get()->RegisterRGBController(rgb_controller);
+        DetectionManager::get()->RegisterRGBController(rgb_controller);
     }
 }
 

@@ -15,11 +15,16 @@
 #include "SettingsManager.h"
 #include "ui_OpenRGBClientInfoPage.h"
 
-static void UpdateInfoCallback(void * this_ptr)
+static void OpenRGBClientInfoPageResourceManagerCallback(void * this_ptr, unsigned int update_reason)
 {
     OpenRGBClientInfoPage * this_obj = (OpenRGBClientInfoPage *)this_ptr;
 
-    QMetaObject::invokeMethod(this_obj, "UpdateInfo", Qt::QueuedConnection);
+    switch(update_reason)
+    {
+        case RESOURCEMANAGER_UPDATE_REASON_CLIENT_INFO_UPDATED:
+            QMetaObject::invokeMethod(this_obj, "UpdateInfo", Qt::QueuedConnection);
+            break;
+    }
 }
 
 class NetworkClientPointer : public QObject
@@ -43,7 +48,7 @@ OpenRGBClientInfoPage::OpenRGBClientInfoPage(QWidget *parent) :
     /*-----------------------------------------------------*\
     | Register callbacks with resource manager              |
     \*-----------------------------------------------------*/
-    ResourceManager::get()->RegisterClientInfoChangeCallback(UpdateInfoCallback, this);
+    ResourceManager::get()->RegisterResourceManagerCallback(OpenRGBClientInfoPageResourceManagerCallback, this);
 
     /*-----------------------------------------------------*\
     | Update the information view                           |
@@ -53,7 +58,10 @@ OpenRGBClientInfoPage::OpenRGBClientInfoPage(QWidget *parent) :
 
 OpenRGBClientInfoPage::~OpenRGBClientInfoPage()
 {
-
+    /*-----------------------------------------------------*\
+    | Unregister callbacks with resource manager            |
+    \*-----------------------------------------------------*/
+    ResourceManager::get()->UnregisterResourceManagerCallback(OpenRGBClientInfoPageResourceManagerCallback, this);
 }
 
 void OpenRGBClientInfoPage::changeEvent(QEvent *event)
@@ -279,8 +287,6 @@ void OpenRGBClientInfoPage::on_ClientConnectButton_clicked()
     | Add new client to list and register update callback   |
     \*-----------------------------------------------------*/
     ResourceManager::get()->RegisterNetworkClient(rgb_client);
-
-    rgb_client->RegisterClientInfoChangeCallback(UpdateInfoCallback, this);
 }
 
 void OpenRGBClientInfoPage::onClientDisconnectButton_clicked(QObject * arg)

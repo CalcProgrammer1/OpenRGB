@@ -7,7 +7,7 @@
 |   SPDX-License-Identifier: GPL-2.0-or-later               |
 \*---------------------------------------------------------*/
 
-#include "Detector.h"
+#include "DetectionManager.h"
 #include "RobobloqLightStripController.h"
 #include "RGBController_RobobloqLightStrip.h"
 
@@ -32,7 +32,7 @@ void DetectRobobloqLightStripController
     {
         RobobloqLightStripController*     controller     = new RobobloqLightStripController(dev, info->path, name);
         RGBController_RobobloqLightStrip* rgb_controller = new RGBController_RobobloqLightStrip(controller);
-        ResourceManager::get()->RegisterRGBController(rgb_controller);
+        DetectionManager::get()->RegisterRGBController(rgb_controller);
     }
 }
 
