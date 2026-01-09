@@ -9,7 +9,7 @@
 |   SPDX-License-Identifier: GPL-2.0-or-later               |
 \*---------------------------------------------------------*/
 
-#include "Detector.h"
+#include "DetectionManager.h"
 #include "NvidiaESAController.h"
 #include "RGBController_NvidiaESA.h"
 
@@ -32,7 +32,7 @@ void DetectNvidiaESAControllers(hid_device_info* info, const std::string& name)
         NvidiaESAController*     controller      = new NvidiaESAController(dev, *info, name);
         RGBController_NvidiaESA* rgb_controller  = new RGBController_NvidiaESA(controller);
 
-        ResourceManager::get()->RegisterRGBController(rgb_controller);
+        DetectionManager::get()->RegisterRGBController(rgb_controller);
     }
 }
 

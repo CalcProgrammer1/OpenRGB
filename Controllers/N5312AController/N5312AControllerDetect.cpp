@@ -9,7 +9,7 @@
 |   SPDX-License-Identifier: GPL-2.0-or-later               |
 \*---------------------------------------------------------*/
 
-#include "Detector.h"
+#include "DetectionManager.h"
 #include "N5312AController.h"
 #include "RGBController_N5312A.h"
 
@@ -32,7 +32,7 @@ void DetectN5312AControllers(hid_device_info* info, const std::string& name)
         N5312AController*     controller         = new N5312AController(dev, *info, name);
         RGBController_N5312A* rgb_controller     = new RGBController_N5312A(controller);
 
-        ResourceManager::get()->RegisterRGBController(rgb_controller);
+        DetectionManager::get()->RegisterRGBController(rgb_controller);
     }
 }
 

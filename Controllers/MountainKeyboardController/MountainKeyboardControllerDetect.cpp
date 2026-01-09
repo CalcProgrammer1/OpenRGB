@@ -10,7 +10,7 @@
 \*---------------------------------------------------------*/
 
 #include <hidapi.h>
-#include "Detector.h"
+#include "DetectionManager.h"
 #include "MountainKeyboardController.h"
 #include "RGBController_MountainKeyboard.h"
 #include "Mountain60KeyboardController.h"
@@ -47,7 +47,7 @@ void DetectMountain60KeyboardControllers(hid_device_info* info, const std::strin
         Mountain60KeyboardController*     controller     = new Mountain60KeyboardController(dev, info->path, name);
         RGBController_Mountain60Keyboard* rgb_controller = new RGBController_Mountain60Keyboard(controller);
 
-        ResourceManager::get()->RegisterRGBController(rgb_controller);
+        DetectionManager::get()->RegisterRGBController(rgb_controller);
     }
 }
 
@@ -60,7 +60,7 @@ void DetectMountainKeyboardControllers(hid_device_info* info, const std::string&
         MountainKeyboardController*     controller     = new MountainKeyboardController(dev, info->path, name);
         RGBController_MountainKeyboard* rgb_controller = new RGBController_MountainKeyboard(controller);
 
-        ResourceManager::get()->RegisterRGBController(rgb_controller);
+        DetectionManager::get()->RegisterRGBController(rgb_controller);
     }
 }
 

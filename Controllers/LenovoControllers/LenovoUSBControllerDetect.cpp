@@ -10,7 +10,7 @@
 \*---------------------------------------------------------*/
 
 #include <hidapi.h>
-#include "Detector.h"
+#include "DetectionManager.h"
 #include "LenovoDevices.h"
 #include "RGBController_LenovoUSB.h"
 #include "RGBController_Lenovo_Gen7_8.h"
@@ -38,7 +38,7 @@ void DetectLenovoLegionUSBControllers(hid_device_info* info, const std::string& 
         LenovoUSBController*     controller      = new LenovoUSBController(dev, info->path, info->product_id, name);
         RGBController_LenovoUSB* rgb_controller  = new RGBController_LenovoUSB(controller);
 
-        ResourceManager::get()->RegisterRGBController(rgb_controller);
+        DetectionManager::get()->RegisterRGBController(rgb_controller);
     }
 }
 
@@ -51,7 +51,7 @@ void DetectLenovoLegionUSBControllersGen7And8(hid_device_info* info, const std::
         LenovoGen7And8USBController*    controller      = new LenovoGen7And8USBController(dev, info->path, info->product_id, name);
         LenovoRGBController_Gen7_8*     rgb_controller  = new LenovoRGBController_Gen7_8(controller);
 
-        ResourceManager::get()->RegisterRGBController(rgb_controller);
+        DetectionManager::get()->RegisterRGBController(rgb_controller);
     }
 }
 

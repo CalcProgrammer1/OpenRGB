@@ -10,7 +10,7 @@
 \*---------------------------------------------------------*/
 
 #include <vector>
-#include "Detector.h"
+#include "DetectionManager.h"
 #include "PatriotViperController.h"
 #include "LogManager.h"
 #include "RGBController_PatriotViper.h"
@@ -86,11 +86,11 @@ void DetectPatriotViperControllers(i2c_smbus_interface* bus, std::vector<SPDWrap
         {
             PatriotViperController*     controller     = new PatriotViperController(bus, 0x77, slots_valid);
             RGBController_PatriotViper* rgb_controller = new RGBController_PatriotViper(controller);
-            ResourceManager::get()->RegisterRGBController(rgb_controller);
+            DetectionManager::get()->RegisterRGBController(rgb_controller);
         }
     }
 
 }   /* DetectPatriotViperControllers() */
 
-REGISTER_I2C_DIMM_DETECTOR(PATRIOT_CONTROLLER_NAME, DetectPatriotViperControllers, JEDEC_PATRIOT, SPD_DDR4_SDRAM);
+REGISTER_I2C_DRAM_DETECTOR(PATRIOT_CONTROLLER_NAME, DetectPatriotViperControllers, JEDEC_PATRIOT, SPD_DDR4_SDRAM);
 

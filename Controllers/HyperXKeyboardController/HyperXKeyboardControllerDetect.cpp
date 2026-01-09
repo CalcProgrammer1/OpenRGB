@@ -8,7 +8,7 @@
 \*---------------------------------------------------------*/
 
 #include <hidapi.h>
-#include "Detector.h"
+#include "DetectionManager.h"
 #include "HyperXAlloyEliteController.h"
 #include "HyperXAlloyElite2Controller.h"
 #include "HyperXAlloyFPSController.h"
@@ -70,7 +70,7 @@ void DetectHyperXAlloyElite(hid_device_info* info, const std::string& name)
         HyperXAlloyEliteController*     controller     = new HyperXAlloyEliteController(dev, info->path, name);
         RGBController_HyperXAlloyElite* rgb_controller = new RGBController_HyperXAlloyElite(controller);
 
-        ResourceManager::get()->RegisterRGBController(rgb_controller);
+        DetectionManager::get()->RegisterRGBController(rgb_controller);
     }
 }
 
@@ -83,7 +83,7 @@ void DetectHyperXAlloyElite2(hid_device_info* info, const std::string& name)
         HyperXAlloyElite2Controller*     controller     = new HyperXAlloyElite2Controller(dev, info->path, name);
         RGBController_HyperXAlloyElite2* rgb_controller = new RGBController_HyperXAlloyElite2(controller);
 
-        ResourceManager::get()->RegisterRGBController(rgb_controller);
+        DetectionManager::get()->RegisterRGBController(rgb_controller);
     }
 }
 
@@ -96,7 +96,7 @@ void DetectHyperXAlloyFPS(hid_device_info* info, const std::string& name)
         HyperXAlloyFPSController*     controller     = new HyperXAlloyFPSController(dev, info->path, name);
         RGBController_HyperXAlloyFPS* rgb_controller = new RGBController_HyperXAlloyFPS(controller);
 
-        ResourceManager::get()->RegisterRGBController(rgb_controller);
+        DetectionManager::get()->RegisterRGBController(rgb_controller);
     }
 }
 
@@ -109,7 +109,7 @@ void DetectHyperXAlloyOrigins(hid_device_info* info, const std::string& name)
         HyperXAlloyOriginsController*     controller     = new HyperXAlloyOriginsController(dev, info->path, name);
         RGBController_HyperXAlloyOrigins* rgb_controller = new RGBController_HyperXAlloyOrigins(controller);
 
-        ResourceManager::get()->RegisterRGBController(rgb_controller);
+        DetectionManager::get()->RegisterRGBController(rgb_controller);
     }
 }
 
@@ -122,7 +122,7 @@ void DetectHyperXAlloyOriginsCore(hid_device_info* info, const std::string& name
         HyperXAlloyOriginsCoreController*     controller     = new HyperXAlloyOriginsCoreController(dev, info, name);
         RGBController_HyperXAlloyOriginsCore* rgb_controller = new RGBController_HyperXAlloyOriginsCore(controller);
 
-        ResourceManager::get()->RegisterRGBController(rgb_controller);
+        DetectionManager::get()->RegisterRGBController(rgb_controller);
     }
 }
 
@@ -136,7 +136,7 @@ void DetectHyperXAlloyOrigins60and65(hid_device_info* info, const std::string& n
         AlloyOrigins60and65MappingLayoutType layout             = GetAlloyOrigins60and65MappingLayoutType(info->product_id);
         RGBController_HyperXAlloyOrigins60and65* rgb_controller = new RGBController_HyperXAlloyOrigins60and65(controller, layout);
 
-        ResourceManager::get()->RegisterRGBController(rgb_controller);
+        DetectionManager::get()->RegisterRGBController(rgb_controller);
     }
 }
 

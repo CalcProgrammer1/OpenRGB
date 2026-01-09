@@ -10,7 +10,7 @@
 \*---------------------------------------------------------*/
 
 #include <vector>
-#include "Detector.h"
+#include "DetectionManager.h"
 #include "CorsairVengeanceProController.h"
 #include "RGBController_CorsairVengeancePro.h"
 #include "i2c_smbus.h"
@@ -92,7 +92,7 @@ void DetectCorsairVengeanceProControllers(std::vector<i2c_smbus_interface*> &bus
                     CorsairVengeanceProController*     new_controller    = new CorsairVengeanceProController(busses[bus], addr);
                     RGBController_CorsairVengeancePro* new_rgbcontroller = new RGBController_CorsairVengeancePro(new_controller);
 
-                    ResourceManager::get()->RegisterRGBController(new_rgbcontroller);
+                    DetectionManager::get()->RegisterRGBController(new_rgbcontroller);
                 }
             }
         }

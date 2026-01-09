@@ -10,7 +10,7 @@
 \*---------------------------------------------------------*/
 
 #include <libusb.h>
-#include "Detector.h"
+#include "DetectionManager.h"
 #include "CorsairHydro2Controller.h"
 #include "RGBController_CorsairHydro2.h"
 
@@ -35,7 +35,7 @@ void DetectCorsairHydro2Controllers()
         CorsairHydro2Controller*     controller     = new CorsairHydro2Controller(dev);
         RGBController_CorsairHydro2* rgb_controller = new RGBController_CorsairHydro2(controller);
 
-        ResourceManager::get()->RegisterRGBController(rgb_controller);
+        DetectionManager::get()->RegisterRGBController(rgb_controller);
     }
 }
 

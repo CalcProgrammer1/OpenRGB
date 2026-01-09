@@ -11,7 +11,7 @@
 | OpenRGB includes                                      |
 \*-----------------------------------------------------*/
 #include <hidapi.h>
-#include "Detector.h"
+#include "DetectionManager.h"
 
 /*-----------------------------------------------------*\
 | Corsair Peripheral specific includes                  |
@@ -36,7 +36,7 @@ void DetectCorsairV2HardwareControllers(hid_device_info* info, const std::string
         CorsairPeripheralV2HWController*    controller      = new CorsairPeripheralV2HWController(dev, info->path, name);
         RGBController_CorsairV2HW*          rgb_controller  = new RGBController_CorsairV2HW(controller);
 
-        ResourceManager::get()->RegisterRGBController(rgb_controller);
+        DetectionManager::get()->RegisterRGBController(rgb_controller);
     }
 }   /* DetectCorsairV2HardwareControllers() */
 
@@ -49,7 +49,7 @@ void DetectCorsairV2SoftwareControllers(hid_device_info* info, const std::string
         CorsairPeripheralV2SWController*    controller      = new CorsairPeripheralV2SWController(dev, info->path, name);
         RGBController_CorsairV2SW*          rgb_controller  = new RGBController_CorsairV2SW(controller);
 
-        ResourceManager::get()->RegisterRGBController(rgb_controller);
+        DetectionManager::get()->RegisterRGBController(rgb_controller);
     }
 }   /* DetectCorsairV2SoftwareControllers() */
 

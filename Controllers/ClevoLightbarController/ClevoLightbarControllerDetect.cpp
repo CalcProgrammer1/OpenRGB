@@ -9,8 +9,8 @@
 |   SPDX-License-Identifier: GPL-2.0-or-later               |
 \*---------------------------------------------------------*/
 
-#include "Detector.h"
 #include "ClevoLightbarController.h"
+#include "DetectionManager.h"
 #include "RGBController_ClevoLightbar.h"
 #include "RGBController.h"
 #include <hidapi.h>
@@ -34,7 +34,7 @@ void DetectClevoLightbarControllers(hid_device_info* info, const std::string& na
         ClevoLightbarController*     controller     = new ClevoLightbarController(dev, *info);
         RGBController_ClevoLightbar* rgb_controller = new RGBController_ClevoLightbar(controller);
 
-        ResourceManager::get()->RegisterRGBController(rgb_controller);
+        DetectionManager::get()->RegisterRGBController(rgb_controller);
     }
 }
 
