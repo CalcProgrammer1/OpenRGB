@@ -9,8 +9,8 @@
 |   SPDX-License-Identifier: GPL-2.0-or-later               |
 \*---------------------------------------------------------*/
 
-#include "RGBController_PhilipsHueEntertainment.h"
 #include "ResourceManager.h"
+#include "RGBController_PhilipsHueEntertainment.h"
 
 using namespace std::chrono_literals;
 

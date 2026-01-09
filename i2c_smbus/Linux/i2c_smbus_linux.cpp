@@ -64,7 +64,7 @@ s32 i2c_smbus_linux::i2c_xfer(u8 addr, char read_write, int* size, u8* data)
     return ret_val;
 }
 
-#include "Detector.h"
+#include "DetectionManager.h"
 #include <fcntl.h>
 #include <unistd.h>
 #include <dirent.h>
@@ -240,7 +240,7 @@ bool i2c_smbus_linux_detect()
                     bus->pci_subsystem_vendor = pci_subsystem_vendor;
                     bus->port_id              = port_id;
                     bus->bus_id               = bus_id;
-                    ResourceManager::get()->RegisterI2CBus(bus);
+                    DetectionManager::get()->RegisterI2CBus(bus);
                 }
                 else
                 {

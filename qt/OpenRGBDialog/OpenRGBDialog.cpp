@@ -122,18 +122,36 @@ static int GetIcon(device_type type)
     return icon;
 }
 
-static void UpdateDeviceListCallback(void * this_ptr)
+static void OpenRGBDialogDetectionCallback(void * this_ptr, unsigned int update_reason)
 {
     OpenRGBDialog * this_obj = (OpenRGBDialog *)this_ptr;
 
-    QMetaObject::invokeMethod(this_obj, "onDeviceListUpdated", Qt::QueuedConnection);
+    switch(update_reason)
+    {
+        case DETECTIONMANAGER_UPDATE_REASON_DETECTION_STARTED:
+            QMetaObject::invokeMethod(this_obj, "onDetectionStarted", Qt::QueuedConnection);
+            break;
+
+        case DETECTIONMANAGER_UPDATE_REASON_DETECTION_PROGRESS_CHANGED:
+            QMetaObject::invokeMethod(this_obj, "onDetectionProgressUpdated", Qt::QueuedConnection);
+            break;
+
+        case DETECTIONMANAGER_UPDATE_REASON_DETECTION_COMPLETE:
+            QMetaObject::invokeMethod(this_obj, "onDetectionEnded", Qt::QueuedConnection);
+            break;
+    }
 }
 
-static void UpdateDetectionProgressCallback(void * this_ptr)
+static void OpenRGBDialogResourceManagerCallback(void * this_ptr, unsigned int update_reason)
 {
     OpenRGBDialog * this_obj = (OpenRGBDialog *)this_ptr;
 
-    QMetaObject::invokeMethod(this_obj, "onDetectionProgressUpdated", Qt::QueuedConnection);
+    switch(update_reason)
+    {
+        case RESOURCEMANAGER_UPDATE_REASON_DEVICE_LIST_UPDATED:
+            QMetaObject::invokeMethod(this_obj, "onDeviceListUpdated", Qt::QueuedConnection);
+            break;
+    }
 }
 
 static void CreatePluginCallback(void * this_ptr, OpenRGBPluginEntry* plugin)
@@ -148,20 +166,6 @@ static void DeletePluginCallback(void * this_ptr, OpenRGBPluginEntry* plugin)
     OpenRGBDialog * this_obj = (OpenRGBDialog *)this_ptr;
 
     this_obj->RemovePlugin(plugin);
-}
-
-static void DetectionStartedCallback(void * this_ptr)
-{
-    OpenRGBDialog * this_obj = (OpenRGBDialog *)this_ptr;
-
-    QMetaObject::invokeMethod(this_obj, "onDetectionStarted", Qt::QueuedConnection);
-}
-
-static void DetectionEndedCallback(void * this_ptr)
-{
-    OpenRGBDialog * this_obj = (OpenRGBDialog *)this_ptr;
-
-    QMetaObject::invokeMethod(this_obj, "onDetectionEnded", Qt::QueuedConnection);
 }
 
 static void DialogShowCallback(void * this_ptr, PLogMessage msg)
@@ -264,13 +268,10 @@ OpenRGBDialog::OpenRGBDialog(QWidget *parent) : QMainWindow(parent), ui(new Ui::
     }
 
     /*-----------------------------------------------------*\
-    | Register detection progress callback with resource    |
-    | manager                                               |
+    | Register resource manager callbacks                   |
     \*-----------------------------------------------------*/
-    ResourceManager::get()->RegisterDetectionProgressCallback(UpdateDetectionProgressCallback, this);
-    ResourceManager::get()->RegisterDeviceListChangeCallback(UpdateDeviceListCallback, this);
-    ResourceManager::get()->RegisterDetectionStartCallback(DetectionStartedCallback, this);
-    ResourceManager::get()->RegisterDetectionEndCallback(DetectionEndedCallback, this);
+    ResourceManager::get()->RegisterDetectionCallback(OpenRGBDialogDetectionCallback, this);
+    ResourceManager::get()->RegisterResourceManagerCallback(OpenRGBDialogResourceManagerCallback, this);
 
     /*-----------------------------------------------------*\
     | Register dialog show callback with log manager        |

@@ -9,7 +9,7 @@
 |   SPDX-License-Identifier: GPL-2.0-or-later               |
 \*---------------------------------------------------------*/
 
-#include "Detector.h"
+#include "DetectionManager.h"
 #include "LogManager.h"
 #include <hidapi.h>
 #include "MNTReformKeyboardController.h"
@@ -31,13 +31,13 @@ void DetectMNTKeyboardControllers(hid_device_info *info, const std::string &name
         {
             MNTReformKeyboardController *controller         = new MNTReformKeyboardController(dev, info->path);
             RGBController_MNTReformKeyboard *rgb_controller = new RGBController_MNTReformKeyboard(controller);
-            ResourceManager::get()->RegisterRGBController(rgb_controller);
+            DetectionManager::get()->RegisterRGBController(rgb_controller);
         }
         else if(info->product_id == PID_KBD_POCKET_REFORM)
         {
             MNTPocketReformKeyboardController *controller         = new MNTPocketReformKeyboardController(dev, info->path);
             RGBController_MNTPocketReformKeyboard *rgb_controller = new RGBController_MNTPocketReformKeyboard(controller);
-            ResourceManager::get()->RegisterRGBController(rgb_controller);
+            DetectionManager::get()->RegisterRGBController(rgb_controller);
         }
         else
         {

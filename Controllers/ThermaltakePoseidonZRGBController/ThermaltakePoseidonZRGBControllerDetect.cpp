@@ -10,7 +10,7 @@
 \*---------------------------------------------------------*/
 
 #include <hidapi.h>
-#include "Detector.h"
+#include "DetectionManager.h"
 #include "ThermaltakePoseidonZRGBController.h"
 #include "RGBController_ThermaltakePoseidonZRGB.h"
 
@@ -34,7 +34,7 @@ void DetectPoseidonZRGBControllers(hid_device_info* info, const std::string&)
         PoseidonZRGBController* controller = new PoseidonZRGBController(dev, info->path);
         RGBController_PoseidonZRGB* rgb_controller = new RGBController_PoseidonZRGB(controller);
         // Constructor sets the name
-        ResourceManager::get()->RegisterRGBController(rgb_controller);
+        DetectionManager::get()->RegisterRGBController(rgb_controller);
     }
 }   /* DetectPoseidonZRGBControllers() */
 

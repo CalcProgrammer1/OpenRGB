@@ -12,11 +12,16 @@
 #include "ResourceManager.h"
 #include "i2c_tools.h"
 
-static void UpdateBusListCallback(void * this_ptr)
+static void OpenRGBSystemInfoPageDetectionCallback(void * this_ptr, unsigned int update_reason)
 {
     OpenRGBSystemInfoPage * this_obj = (OpenRGBSystemInfoPage *)this_ptr;
 
-    QMetaObject::invokeMethod(this_obj, "UpdateBusList", Qt::QueuedConnection);
+    switch(update_reason)
+    {
+        case DETECTIONMANAGER_UPDATE_REASON_I2C_BUS_REGISTERED:
+            QMetaObject::invokeMethod(this_obj, "UpdateBusList", Qt::QueuedConnection);
+            break;
+    }
 }
 
 OpenRGBSystemInfoPage::OpenRGBSystemInfoPage(std::vector<i2c_smbus_interface *>& bus, QWidget *parent) :
@@ -36,7 +41,7 @@ OpenRGBSystemInfoPage::OpenRGBSystemInfoPage(std::vector<i2c_smbus_interface *>&
     /*-----------------------------------------------------*\
     | Register I2C bus list change callback                 |
     \*-----------------------------------------------------*/
-    ResourceManager::get()->RegisterI2CBusListChangeCallback(UpdateBusListCallback, this);
+    ResourceManager::get()->RegisterDetectionCallback(OpenRGBSystemInfoPageDetectionCallback, this);
 
     /*-----------------------------------------------------*\
     | Update the bus list                                   |

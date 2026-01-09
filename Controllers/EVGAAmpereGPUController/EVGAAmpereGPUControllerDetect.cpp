@@ -9,7 +9,7 @@
 |   SPDX-License-Identifier: GPL-2.0-or-later               |
 \*---------------------------------------------------------*/
 
-#include "Detector.h"
+#include "DetectionManager.h"
 #include "EVGAGPUv3Controller.h"
 #include "LogManager.h"
 #include "RGBController_EVGAGPUv3.h"
@@ -40,7 +40,7 @@ void DetectEVGAAmpereGPUControllers(i2c_smbus_interface* bus, uint8_t address, c
         {
             rgb_controller = new RGBController_EVGAGPUv3(controller);
 
-            ResourceManager::get()->RegisterRGBController(rgb_controller);
+            DetectionManager::get()->RegisterRGBController(rgb_controller);
         }
         else
         {

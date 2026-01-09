@@ -15,8 +15,8 @@
 #include <vector>
 #include <hidapi.h>
 #include "LogManager.h"
-#include "RGBController.h"
 #include "ResourceManager.h"
+#include "RGBController.h"
 #include "RGBControllerKeyNames.h"
 #include "AsusAuraCoreLaptopDevices.h"
 

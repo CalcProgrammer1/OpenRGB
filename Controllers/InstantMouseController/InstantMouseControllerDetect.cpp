@@ -9,7 +9,7 @@
 |   SPDX-License-Identifier: GPL-2.0-or-later               |
 \*---------------------------------------------------------*/
 
-#include "Detector.h"
+#include "DetectionManager.h"
 #include "InstantMouseController.h"
 #include "RGBController_InstantMouse.h"
 #include "InstantMouseDevices.h"
@@ -24,7 +24,7 @@ void DetectInstantMouseControllers(hid_device_info* info, const std::string& nam
         InstantMouseController*     controller         = new InstantMouseController(dev, *info, name);
         RGBController_InstantMouse* rgb_controller     = new RGBController_InstantMouse(controller);
 
-        ResourceManager::get()->RegisterRGBController(rgb_controller);
+        DetectionManager::get()->RegisterRGBController(rgb_controller);
     }
 }
 

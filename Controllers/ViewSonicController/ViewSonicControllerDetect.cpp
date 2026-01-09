@@ -10,7 +10,7 @@
 \*---------------------------------------------------------*/
 
 #include <hidapi.h>
-#include "Detector.h"
+#include "DetectionManager.h"
 #include "VS_XG270QG_Controller.h"
 #include "RGBController_XG270QG.h"
 #include "VS_XG270QC_Controller.h"
@@ -31,7 +31,7 @@ void DetectViewSonicQG(hid_device_info* info, const std::string& name)
         VS_XG270QG_Controller* controller     = new VS_XG270QG_Controller(dev, info->path, name);
         RGBController_XG270QG* rgb_controller = new RGBController_XG270QG(controller);
 
-        ResourceManager::get()->RegisterRGBController(rgb_controller);
+        DetectionManager::get()->RegisterRGBController(rgb_controller);
     }
 }
 
@@ -44,7 +44,7 @@ void DetectViewSonicQC(hid_device_info* info, const std::string& name)
         VS_XG270QC_Controller* controller     = new VS_XG270QC_Controller(dev, info->path, name);
         RGBController_XG270QC* rgb_controller = new RGBController_XG270QC(controller);
 
-        ResourceManager::get()->RegisterRGBController(rgb_controller);
+        DetectionManager::get()->RegisterRGBController(rgb_controller);
     }
 }
 

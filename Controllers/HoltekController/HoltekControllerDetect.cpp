@@ -8,7 +8,7 @@
 \*---------------------------------------------------------*/
 
 #include <hidapi.h>
-#include "Detector.h"
+#include "DetectionManager.h"
 #include "HoltekA070Controller.h"
 #include "RGBController_HoltekA070.h"
 #include "HoltekA1FAController.h"
@@ -36,7 +36,7 @@ void DetectHoltekControllers(hid_device_info* info, const std::string& name)
         HoltekA070Controller*     controller     = new HoltekA070Controller(dev, info->path, name);
         RGBController_HoltekA070* rgb_controller = new RGBController_HoltekA070(controller);
 
-        ResourceManager::get()->RegisterRGBController(rgb_controller);
+        DetectionManager::get()->RegisterRGBController(rgb_controller);
     }
 }   /* DetectHoltekControllers() */
 
@@ -49,7 +49,7 @@ void DetectHoltekMousemats(hid_device_info *info, const std::string &name)
         HoltekA1FAController*     controller     = new HoltekA1FAController(dev, info->path, name);
         RGBController_HoltekA1FA* rgb_controller = new RGBController_HoltekA1FA(controller);
 
-        ResourceManager::get()->RegisterRGBController(rgb_controller);
+        DetectionManager::get()->RegisterRGBController(rgb_controller);
     }
 } /* DetectHoltekMousemats() */
 

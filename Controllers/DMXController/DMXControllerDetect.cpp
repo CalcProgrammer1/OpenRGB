@@ -10,7 +10,8 @@
 #include <fcntl.h>
 #include <string>
 #include <vector>
-#include "Detector.h"
+#include "DetectionManager.h"
+#include "ResourceManager.h"
 #include "RGBController_DMX.h"
 #include "SettingsManager.h"
 
@@ -135,7 +136,7 @@ void DetectDMXControllers()
         {
             RGBController_DMX* rgb_controller;
             rgb_controller = new RGBController_DMX(device_lists[list_idx]);
-            ResourceManager::get()->RegisterRGBController(rgb_controller);
+            DetectionManager::get()->RegisterRGBController(rgb_controller);
         }
     }
 
