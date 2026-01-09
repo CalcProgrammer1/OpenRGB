@@ -10,7 +10,7 @@
 \*---------------------------------------------------------*/
 
 #include <hidapi.h>
-#include "Detector.h"
+#include "DetectionManager.h"
 #include "CryorigH7QuadLumiController.h"
 #include "RGBController_CryorigH7QuadLumi.h"
 
@@ -29,7 +29,7 @@ static void DetectCryorigH7QuadLumi(hid_device_info* info, const std::string& na
         CryorigH7QuadLumiController*     controller     = new CryorigH7QuadLumiController(dev, info->path, name);
         RGBController_CryorigH7QuadLumi* rgb_controller = new RGBController_CryorigH7QuadLumi(controller);
 
-        ResourceManager::get()->RegisterRGBController(rgb_controller);
+        DetectionManager::get()->RegisterRGBController(rgb_controller);
     }
 }
 

@@ -10,7 +10,7 @@
 \*---------------------------------------------------------*/
 
 #include <hidapi.h>
-#include "Detector.h"
+#include "DetectionManager.h"
 #include "CherryKeyboardController.h"
 #include "RGBController_CherryKeyboard.h"
 
@@ -36,7 +36,7 @@ void DetectCherryKeyboards(hid_device_info* info, const std::string& name)
         CherryKeyboardController*     controller     = new CherryKeyboardController(dev, info->path, name);
         RGBController_CherryKeyboard* rgb_controller = new RGBController_CherryKeyboard(controller, info->product_id);
 
-        ResourceManager::get()->RegisterRGBController(rgb_controller);
+        DetectionManager::get()->RegisterRGBController(rgb_controller);
     }
 }
 

@@ -14,8 +14,8 @@
 #include <cstring>
 #include <string>
 #include <stdio.h>
-#include "RGBController.h"
 #include "ResourceManager.h"
+#include "RGBController.h"
 #include "SettingsManager.h"
 #include "JGINYUEInternalUSBV2Controller.h"
 #include "LogManager.h"

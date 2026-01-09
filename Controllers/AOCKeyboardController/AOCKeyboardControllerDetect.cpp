@@ -9,7 +9,7 @@
 |   SPDX-License-Identifier: GPL-2.0-or-later               |
 \*---------------------------------------------------------*/
 
-#include "Detector.h"
+#include "DetectionManager.h"
 #include "AOCKeyboardController.h"
 #include "RGBController_AOCKeyboard.h"
 
@@ -37,7 +37,7 @@ void DetectAOCKeyboardControllers(hid_device_info* info, const std::string& name
         AOCKeyboardController*     controller     = new AOCKeyboardController(dev, info->path, name);
         RGBController_AOCKeyboard* rgb_controller = new RGBController_AOCKeyboard(controller);
 
-        ResourceManager::get()->RegisterRGBController(rgb_controller);
+        DetectionManager::get()->RegisterRGBController(rgb_controller);
     }
 }
 

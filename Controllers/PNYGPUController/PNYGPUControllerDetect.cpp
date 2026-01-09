@@ -9,7 +9,7 @@
 |   SPDX-License-Identifier: GPL-2.0-or-later               |
 \*---------------------------------------------------------*/
 
-#include "Detector.h"
+#include "DetectionManager.h"
 #include "PNYGPUController.h"
 #include "RGBController_PNYGPU.h"
 #include "i2c_smbus.h"
@@ -36,7 +36,7 @@ void DetectPNYGPUControllers(i2c_smbus_interface* bus, uint8_t i2c_addr, const s
     PNYGPUController*     controller        = new PNYGPUController(bus, i2c_addr, name);
     RGBController_PNYGPU* rgb_controller    = new RGBController_PNYGPU(controller);
 
-    ResourceManager::get()->RegisterRGBController(rgb_controller);
+    DetectionManager::get()->RegisterRGBController(rgb_controller);
 } /* DetectPNYGPUControllers() */
 
 REGISTER_I2C_PCI_DETECTOR("PNY GeForce RTX 2060 XLR8 OC EDITION",       DetectPNYGPUControllers,    NVIDIA_VEN, NVIDIA_RTX2060_TU104_DEV,   PNY_SUB_VEN,    PNY_RTX_2060_XLR8_OC_SUB_DEV,               0x49);

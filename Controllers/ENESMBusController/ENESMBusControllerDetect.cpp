@@ -8,7 +8,7 @@
 \*---------------------------------------------------------*/
 
 #include <vector>
-#include "Detector.h"
+#include "DetectionManager.h"
 #include "ENESMBusController.h"
 #include "ENESMBusInterface_i2c_smbus.h"
 #include "LogManager.h"
@@ -245,7 +245,7 @@ void DetectENESMBusDRAMControllers(std::vector<i2c_smbus_interface*> &busses)
                     ENESMBusController*          controller     = new ENESMBusController(interface, ene_ram_addresses[address_list_idx], "ENE DRAM", DEVICE_TYPE_DRAM);
                     RGBController_ENESMBus*      rgb_controller = new RGBController_ENESMBus(controller);
 
-                    ResourceManager::get()->RegisterRGBController(rgb_controller);
+                    DetectionManager::get()->RegisterRGBController(rgb_controller);
                 }
 
                 std::this_thread::sleep_for(1ms);
@@ -286,7 +286,7 @@ void DetectENESMBusMotherboardControllers(std::vector<i2c_smbus_interface*> &bus
                         ENESMBusController*          controller     = new ENESMBusController(interface, aura_mobo_addresses[address_list_idx], "ASUS " + dmi.getMainboard(), DEVICE_TYPE_MOTHERBOARD);
                         RGBController_ENESMBus*      rgb_controller = new RGBController_ENESMBus(controller);
 
-                        ResourceManager::get()->RegisterRGBController(rgb_controller);
+                        DetectionManager::get()->RegisterRGBController(rgb_controller);
                     }
 
                     std::this_thread::sleep_for(1ms);
@@ -318,7 +318,7 @@ void DetectENESMBusGPUControllers(i2c_smbus_interface* bus, uint8_t i2c_addr, co
         ENESMBusController*          controller     = new ENESMBusController(interface, i2c_addr, name, DEVICE_TYPE_GPU);
         RGBController_ENESMBus*      rgb_controller = new RGBController_ENESMBus(controller);
 
-        ResourceManager::get()->RegisterRGBController(rgb_controller);
+        DetectionManager::get()->RegisterRGBController(rgb_controller);
     }
     else
     {

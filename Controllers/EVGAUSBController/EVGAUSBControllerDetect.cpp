@@ -8,7 +8,7 @@
 \*---------------------------------------------------------*/
 
 #include <hidapi.h>
-#include "Detector.h"
+#include "DetectionManager.h"
 #include "RGBController_EVGAKeyboard.h"
 #include "RGBController_EVGAMouse.h"
 
@@ -40,7 +40,7 @@ void DetectEVGAKeyboardControllers(hid_device_info* info, const std::string& nam
         EVGAKeyboardController*     controller      = new EVGAKeyboardController(dev, info->path, info->product_id, name);
         RGBController_EVGAKeyboard* rgb_controller  = new RGBController_EVGAKeyboard(controller);
 
-        ResourceManager::get()->RegisterRGBController(rgb_controller);
+        DetectionManager::get()->RegisterRGBController(rgb_controller);
     }
 }
 
@@ -53,7 +53,7 @@ void DetectEVGAMouse(hid_device_info* info, const std::string &name, int connect
         EVGAMouseController*     controller     = new EVGAMouseController(dev, info->path, connection_type, name);
         RGBController_EVGAMouse* rgb_controller = new RGBController_EVGAMouse(controller);
 
-        ResourceManager::get()->RegisterRGBController(rgb_controller);
+        DetectionManager::get()->RegisterRGBController(rgb_controller);
     }
 }
 

@@ -10,7 +10,7 @@
 \*---------------------------------------------------------*/
 
 #include <vector>
-#include "Detector.h"
+#include "DetectionManager.h"
 #include "HyperXDRAMController.h"
 #include "LogManager.h"
 #include "RGBController_HyperXDRAM.h"
@@ -115,9 +115,9 @@ void DetectHyperXDRAMControllers(i2c_smbus_interface* bus, std::vector<SPDWrappe
             HyperXDRAMController*     controller     = new HyperXDRAMController(bus, 0x27, slots_valid, name);
             RGBController_HyperXDRAM* rgb_controller = new RGBController_HyperXDRAM(controller);
 
-            ResourceManager::get()->RegisterRGBController(rgb_controller);
+            DetectionManager::get()->RegisterRGBController(rgb_controller);
         }
     }
 }   /* DetectHyperXDRAMControllers() */
 
-REGISTER_I2C_DIMM_DETECTOR("HyperX DRAM", DetectHyperXDRAMControllers, JEDEC_KINGSTON, SPD_DDR4_SDRAM);
+REGISTER_I2C_DRAM_DETECTOR("HyperX DRAM", DetectHyperXDRAMControllers, JEDEC_KINGSTON, SPD_DDR4_SDRAM);

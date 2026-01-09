@@ -9,8 +9,9 @@
 |   SPDX-License-Identifier: GPL-2.0-or-later               |
 \*---------------------------------------------------------*/
 
-#include "Detector.h"
+#include "DetectionManager.h"
 #include "YeelightController.h"
+#include "ResourceManager.h"
 #include "RGBController_Yeelight.h"
 #include "SettingsManager.h"
 
@@ -58,7 +59,7 @@ void DetectYeelightControllers()
                 YeelightController*     controller     = new YeelightController(yeelight_ip, yeelight_host_ip, music_mode);
                 RGBController_Yeelight* rgb_controller = new RGBController_Yeelight(controller);
 
-                ResourceManager::get()->RegisterRGBController(rgb_controller);
+                DetectionManager::get()->RegisterRGBController(rgb_controller);
             }
         }
     }

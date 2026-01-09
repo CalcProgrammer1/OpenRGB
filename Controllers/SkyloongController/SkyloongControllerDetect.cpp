@@ -10,7 +10,7 @@
 \*---------------------------------------------------------*/
 
 #include <hidapi.h>
-#include "Detector.h"
+#include "DetectionManager.h"
 #include "SkyloongGK104ProController.h"
 #include "RGBController_SkyloongGK104Pro.h"
 
@@ -36,7 +36,7 @@ void DetectSkyloongGK104Pro(hid_device_info* info, const std::string& name)
         SkyloongGK104ProController* controller          = new SkyloongGK104ProController(dev, info->path, name);
         RGBController_SkyloongGK104Pro* rgb_controller  = new RGBController_SkyloongGK104Pro(controller);
 
-        ResourceManager::get()->RegisterRGBController(rgb_controller);
+        DetectionManager::get()->RegisterRGBController(rgb_controller);
     }
 }
 

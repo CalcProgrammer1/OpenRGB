@@ -15,7 +15,7 @@
 #include <cstring>
 #include <string>
 
-#include "Detector.h"
+#include "DetectionManager.h"
 #include "LogManager.h"
 
 #define KBD_ROWS 6

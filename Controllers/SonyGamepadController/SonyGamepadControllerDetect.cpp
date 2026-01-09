@@ -15,7 +15,7 @@
 #include <hidapi.h>
 #include "RGBController_SonyDS4.h"
 #include "RGBController_SonyDualSense.h"
-#include "Detector.h"
+#include "DetectionManager.h"
 
 #define SONY_VID                        0x054C
 
@@ -34,7 +34,7 @@ void DetectSonyDS4Controllers(hid_device_info* info, const std::string&)
         SonyDS4Controller*      controller      = new SonyDS4Controller(dev, info->path);
         RGBController_SonyDS4*  rgb_controller  = new RGBController_SonyDS4(controller);
 
-        ResourceManager::get()->RegisterRGBController(rgb_controller);
+        DetectionManager::get()->RegisterRGBController(rgb_controller);
     }
 }
 
@@ -48,7 +48,7 @@ void DetectSonyDualSenseControllers(hid_device_info* info, const std::string& na
         SonyDualSenseController*      controller      = new SonyDualSenseController(dev, info->path, is_bluetooth, name);
         RGBController_SonyDualSense*  rgb_controller  = new RGBController_SonyDualSense(controller);
 
-        ResourceManager::get()->RegisterRGBController(rgb_controller);
+        DetectionManager::get()->RegisterRGBController(rgb_controller);
     }
 }
 

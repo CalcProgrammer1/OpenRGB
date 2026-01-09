@@ -17,11 +17,16 @@
 
 #include <QLineEdit>
 
-static void ManualDevicesPageReloadCallback(void* this_ptr)
+static void ManualDevicesPageResourceManagerCallback(void* this_ptr, unsigned int update_reason)
 {
     ManualDevicesSettingsPage * this_obj = (ManualDevicesSettingsPage *)this_ptr;
 
-    QMetaObject::invokeMethod(this_obj, "reloadList", Qt::QueuedConnection);
+    switch(update_reason)
+    {
+        case RESOURCEMANAGER_UPDATE_REASON_DETECTION_COMPLETE:
+            QMetaObject::invokeMethod(this_obj, "reloadList", Qt::QueuedConnection);
+            break;
+    }
 }
 
 ManualDevicesSettingsPage::ManualDevicesSettingsPage(QWidget *parent) :
@@ -29,7 +34,7 @@ ManualDevicesSettingsPage::ManualDevicesSettingsPage(QWidget *parent) :
     ui(new Ui::ManualDevicesSettingsPage)
 {
     ui->setupUi(this);
-    ResourceManager::get()->RegisterDetectionEndCallback(&ManualDevicesPageReloadCallback, this);
+    ResourceManager::get()->RegisterResourceManagerCallback(&ManualDevicesPageResourceManagerCallback, this);
 
     addDeviceMenu = new QMenu(this);
     ui->addDeviceButton->setMenu(addDeviceMenu);
@@ -46,7 +51,7 @@ ManualDevicesSettingsPage::ManualDevicesSettingsPage(QWidget *parent) :
 
 ManualDevicesSettingsPage::~ManualDevicesSettingsPage()
 {
-    ResourceManager::get()->UnregisterDetectionEndCallback(&ManualDevicesPageReloadCallback, this);
+    ResourceManager::get()->UnregisterResourceManagerCallback(&ManualDevicesPageResourceManagerCallback, this);
     clearList();
     delete ui;
 }

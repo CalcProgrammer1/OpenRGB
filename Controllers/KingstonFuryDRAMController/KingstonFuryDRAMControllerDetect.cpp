@@ -11,7 +11,7 @@
 \*---------------------------------------------------------*/
 
 #include <vector>
-#include "Detector.h"
+#include "DetectionManager.h"
 #include "KingstonFuryDRAMController.h"
 #include "LogManager.h"
 #include "RGBController_KingstonFuryDRAM.h"
@@ -175,7 +175,7 @@ void DetectKingstonFuryDDR4Controllers(i2c_smbus_interface* bus, std::vector<SPD
         KingstonFuryDRAMController*     controller     = new KingstonFuryDRAMController(bus, FURY_BASE_ADDR_DDR4, fury_slots, name);
         RGBController_KingstonFuryDRAM* rgb_controller = new RGBController_KingstonFuryDRAM(controller);
 
-        ResourceManager::get()->RegisterRGBController(rgb_controller);
+        DetectionManager::get()->RegisterRGBController(rgb_controller);
     }
 }
 
@@ -190,12 +190,12 @@ void DetectKingstonFuryDDR5Controllers(i2c_smbus_interface* bus, std::vector<SPD
         KingstonFuryDRAMController*     controller     = new KingstonFuryDRAMController(bus, FURY_BASE_ADDR_DDR5, fury_slots, name);
         RGBController_KingstonFuryDRAM* rgb_controller = new RGBController_KingstonFuryDRAM(controller);
 
-        ResourceManager::get()->RegisterRGBController(rgb_controller);
+        DetectionManager::get()->RegisterRGBController(rgb_controller);
     }
 }
 
-REGISTER_I2C_DIMM_DETECTOR("Kingston Fury DDR4 DRAM",   DetectKingstonFuryDDR4Controllers,  JEDEC_KINGSTON,     SPD_DDR4_SDRAM);
-REGISTER_I2C_DIMM_DETECTOR("Kingston Fury DDR4 DRAM",   DetectKingstonFuryDDR4Controllers,  JEDEC_KINGSTON_2,   SPD_DDR4_SDRAM);
-REGISTER_I2C_DIMM_DETECTOR("Kingston Fury DDR5 DRAM",   DetectKingstonFuryDDR5Controllers,  JEDEC_KINGSTON,     SPD_DDR5_SDRAM);
-REGISTER_I2C_DIMM_DETECTOR("Kingston Fury DDR5 DRAM",   DetectKingstonFuryDDR5Controllers,  JEDEC_KINGSTON_2,   SPD_DDR5_SDRAM);
-REGISTER_I2C_DIMM_DETECTOR("Kingston Fury DDR5 DRAM",   DetectKingstonFuryDDR5Controllers,  JEDEC_KINGSTON_3,   SPD_DDR5_SDRAM);
+REGISTER_I2C_DRAM_DETECTOR("Kingston Fury DDR4 DRAM",   DetectKingstonFuryDDR4Controllers,  JEDEC_KINGSTON,     SPD_DDR4_SDRAM);
+REGISTER_I2C_DRAM_DETECTOR("Kingston Fury DDR4 DRAM",   DetectKingstonFuryDDR4Controllers,  JEDEC_KINGSTON_2,   SPD_DDR4_SDRAM);
+REGISTER_I2C_DRAM_DETECTOR("Kingston Fury DDR5 DRAM",   DetectKingstonFuryDDR5Controllers,  JEDEC_KINGSTON,     SPD_DDR5_SDRAM);
+REGISTER_I2C_DRAM_DETECTOR("Kingston Fury DDR5 DRAM",   DetectKingstonFuryDDR5Controllers,  JEDEC_KINGSTON_2,   SPD_DDR5_SDRAM);
+REGISTER_I2C_DRAM_DETECTOR("Kingston Fury DDR5 DRAM",   DetectKingstonFuryDDR5Controllers,  JEDEC_KINGSTON_3,   SPD_DDR5_SDRAM);

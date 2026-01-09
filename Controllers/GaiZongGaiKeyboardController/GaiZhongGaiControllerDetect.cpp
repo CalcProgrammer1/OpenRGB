@@ -10,7 +10,7 @@
 \*---------------------------------------------------------*/
 
 #include <hidapi.h>
-#include "Detector.h"
+#include "DetectionManager.h"
 #include "GaiZhongGaiController.h"
 #include "RGBController_GaiZhongGai.h"
 
@@ -31,7 +31,7 @@ void DetectGaiZhongGaiKeyboardControllers(hid_device_info* info, const std::stri
         GaiZhongGaiKeyboardController* controller           = new GaiZhongGaiKeyboardController(dev, info, name);
         RGBController_GaiZhongGaiKeyboard* rgb_controller   = new RGBController_GaiZhongGaiKeyboard(controller);
 
-        ResourceManager::get()->RegisterRGBController(rgb_controller);
+        DetectionManager::get()->RegisterRGBController(rgb_controller);
     }
 }   /* DetectGaiZhongGaiKeyboardControllers() */
 

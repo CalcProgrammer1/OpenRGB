@@ -7,7 +7,7 @@
 |   SPDX-License-Identifier: GPL-2.0-or-later               |
 \*---------------------------------------------------------*/
 
-#include "Detector.h"
+#include "DetectionManager.h"
 #include "ENESMBusController.h"
 #include "ENESMBusInterface_ROGArion.h"
 #include "RGBController_ENESMBus.h"
@@ -37,7 +37,7 @@ void DetectROGArionControllers()
                 ENESMBusController*         controller     = new ENESMBusController(interface, 0x67, "Asus ROG Strix Arion", DEVICE_TYPE_STORAGE);
                 RGBController_ENESMBus*     rgb_controller = new RGBController_ENESMBus(controller);
 
-                ResourceManager::get()->RegisterRGBController(rgb_controller);
+                DetectionManager::get()->RegisterRGBController(rgb_controller);
             }
         }
         info = info->next;

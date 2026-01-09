@@ -9,7 +9,7 @@
 |   SPDX-License-Identifier: GPL-2.0-or-later               |
 \*---------------------------------------------------------*/
 
-#include "Detector.h"
+#include "DetectionManager.h"
 #include "DygmaRaiseController.h"
 #include "RGBController_DygmaRaise.h"
 #include "find_usb_serial_port.h"
@@ -39,7 +39,7 @@ void DetectDygmaRaiseControllers()
             controller->Initialize((char *)ports[i]->c_str());
 
             RGBController_DygmaRaise* rgb_controller = new RGBController_DygmaRaise(controller);
-            ResourceManager::get()->RegisterRGBController(rgb_controller);
+            DetectionManager::get()->RegisterRGBController(rgb_controller);
         }
     }
 }
