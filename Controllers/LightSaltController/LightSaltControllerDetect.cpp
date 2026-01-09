@@ -10,7 +10,7 @@
 \*---------------------------------------------------------*/
 
 #include <hidapi.h>
-#include "Detector.h"
+#include "DetectionManager.h"
 #include "LightSaltController.h"
 #include "RGBController_LightSaltKeyboard.h"
 #include "RGBController_LightSaltKeypad.h"
@@ -44,7 +44,7 @@ void DetectLightSaltControllers(hid_device_info* info, const std::string &)
 
         if(rgb_controller != nullptr)
         {
-            ResourceManager::get()->RegisterRGBController(rgb_controller);
+            DetectionManager::get()->RegisterRGBController(rgb_controller);
         }
     }
 }   /* DetectLightSaltControllers() */

@@ -162,7 +162,7 @@ s32 i2c_smbus_nvapi::i2c_xfer(u8 addr, char read_write, int* size, u8* data)
     return(ret);
 }
 
-#include "Detector.h"
+#include "DetectionManager.h"
 
 bool i2c_smbus_nvapi_detect()
 {
@@ -195,7 +195,7 @@ bool i2c_smbus_nvapi_detect()
             nvapi_bus->port_id              = 1;
         }
 
-        ResourceManager::get()->RegisterI2CBus(nvapi_bus);
+        DetectionManager::get()->RegisterI2CBus(nvapi_bus);
     }
 
     return(true);

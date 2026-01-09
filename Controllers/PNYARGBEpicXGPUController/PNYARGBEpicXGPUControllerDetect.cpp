@@ -10,7 +10,7 @@
 |   SPDX-License-Identifier: GPL-2.0-or-later               |
 \*---------------------------------------------------------*/
 
-#include "Detector.h"
+#include "DetectionManager.h"
 #include "LogManager.h"
 #include "PNYARGBEpicXGPUController.h"
 #include "RGBController_PNYARGBEpicXGPU.h"
@@ -31,7 +31,7 @@ void DetectPNYARGBEpicXGPUControllers(i2c_smbus_interface* bus, uint8_t i2c_addr
     PNYARGBEpicXGPUController*     controller     = new PNYARGBEpicXGPUController(bus, i2c_addr, name);
     RGBController_PNYARGBEpicXGPU* rgb_controller = new RGBController_PNYARGBEpicXGPU(controller);
 
-    ResourceManager::get()->RegisterRGBController(rgb_controller);
+    DetectionManager::get()->RegisterRGBController(rgb_controller);
 } /* DetectPNYARGBEpicXGPUControllers() */
 
 REGISTER_I2C_PCI_DETECTOR("PNY GeForce RTX 5070Ti ARGB Epic-X OC", DetectPNYARGBEpicXGPUControllers, NVIDIA_VEN, NVIDIA_RTX5070TI_DEV, PNY_SUB_VEN, PNY_RTX_5070TI_ARGB_EPIC_X_OC_SUB_DEV, 0x60);

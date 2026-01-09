@@ -9,7 +9,7 @@
 |   SPDX-License-Identifier: GPL-2.0-or-later               |
 \*---------------------------------------------------------*/
 
-#include "Detector.h"
+#include "DetectionManager.h"
 #include "SeagateController.h"
 #include "RGBController_Seagate.h"
 #include "scsiapi.h"
@@ -37,7 +37,7 @@ void DetectSeagateControllers()
                 SeagateController*     controller     = new SeagateController(dev, info->path);
                 RGBController_Seagate* rgb_controller = new RGBController_Seagate(controller);
 
-                ResourceManager::get()->RegisterRGBController(rgb_controller);
+                DetectionManager::get()->RegisterRGBController(rgb_controller);
             }
         }
         info = info->next;

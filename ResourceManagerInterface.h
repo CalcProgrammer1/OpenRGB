@@ -20,45 +20,50 @@ class ProfileManager;
 class RGBController;
 class SettingsManager;
 
-typedef void (*ClientInfoChangeCallback)(void *);
-typedef void (*DeviceListChangeCallback)(void *);
-typedef void (*DetectionProgressCallback)(void *);
-typedef void (*DetectionStartCallback)(void *);
-typedef void (*DetectionEndCallback)(void *);
-typedef void (*I2CBusListChangeCallback)(void *);
+/*---------------------------------------------------------*\
+| Callback Types                                            |
+\*---------------------------------------------------------*/
+typedef void (*ResourceManagerCallback)(void *, unsigned int);
+
+/*---------------------------------------------------------*\
+| ResourceManager Update Reason Codes                       |
+\*---------------------------------------------------------*/
+enum
+{
+    RESOURCEMANAGER_UPDATE_REASON_DETECTION_STARTED,            /* Detection started                */
+    RESOURCEMANAGER_UPDATE_REASON_DETECTION_PROGRESS_CHANGED,   /* Detection progress changed       */
+    RESOURCEMANAGER_UPDATE_REASON_DETECTION_COMPLETE,           /* Detection completed              */
+    RESOURCEMANAGER_UPDATE_REASON_CLIENT_INFO_UPDATED,          /* NetworkClient info updated       */
+    RESOURCEMANAGER_UPDATE_REASON_I2C_BUS_LIST_UPDATED,         /* I2C bus list updated             */
+    RESOURCEMANAGER_UPDATE_REASON_DEVICE_LIST_UPDATED,          /* Device list updated              */
+};
 
 class ResourceManagerInterface
 {
 public:
-    virtual std::vector<i2c_smbus_interface*> & GetI2CBusses()                                                                                      = 0;
-
-    virtual void                                RegisterRGBController(RGBController *rgb_controller)                                                = 0;
-    virtual void                                UnregisterRGBController(RGBController *rgb_controller)                                              = 0;
-
-    virtual void                                RegisterDeviceListChangeCallback(DeviceListChangeCallback new_callback, void * new_callback_arg)    = 0;
-    virtual void                                RegisterDetectionProgressCallback(DetectionProgressCallback new_callback, void * new_callback_arg)  = 0;
-    virtual void                                RegisterDetectionStartCallback(DetectionStartCallback new_callback, void * new_callback_arg)        = 0;
-    virtual void                                RegisterDetectionEndCallback(DetectionEndCallback new_callback, void * new_callback_arg)            = 0;
-    virtual void                                RegisterI2CBusListChangeCallback(I2CBusListChangeCallback new_callback, void * new_callback_arg)    = 0;
-
-    virtual void                                UnregisterDeviceListChangeCallback(DeviceListChangeCallback callback, void * callback_arg)          = 0;
-    virtual void                                UnregisterDetectionProgressCallback(DetectionProgressCallback callback, void *callback_arg)         = 0;
-    virtual void                                UnregisterDetectionStartCallback(DetectionStartCallback callback, void *callback_arg)               = 0;
-    virtual void                                UnregisterDetectionEndCallback(DetectionEndCallback callback, void *callback_arg)                   = 0;
-    virtual void                                UnregisterI2CBusListChangeCallback(I2CBusListChangeCallback callback, void * callback_arg)          = 0;
-
-    virtual std::vector<RGBController*> &       GetRGBControllers()                                                                                 = 0;
-
-    virtual unsigned int                        GetDetectionPercent()                                                                               = 0;
-
+    /*-----------------------------------------------------*\
+    | Resource Accessors                                    |
+    \*-----------------------------------------------------*/
     virtual filesystem::path                    GetConfigurationDirectory()                                                                         = 0;
-
+    virtual std::vector<i2c_smbus_interface*> & GetI2CBusses()                                                                                      = 0;
     virtual PluginManagerInterface*             GetPluginManager()                                                                                  = 0;
     virtual ProfileManager*                     GetProfileManager()                                                                                 = 0;
+    virtual std::vector<RGBController*> &       GetRGBControllers()                                                                                 = 0;
     virtual SettingsManager*                    GetSettingsManager()                                                                                = 0;
 
-    virtual void                                UpdateDeviceList()                                                                                  = 0;
-    virtual void                                WaitForDeviceDetection()                                                                            = 0;
+    /*-----------------------------------------------------*\
+    | Callback Registration Functions                       |
+    \*-----------------------------------------------------*/
+    virtual void                                RegisterResourceManagerCallback(ResourceManagerCallback new_callback, void * new_callback_arg)      = 0;
+    virtual void                                UnregisterResourceManagerCallback(ResourceManagerCallback new_callback, void * new_callback_arg)    = 0;
+
+    /*-----------------------------------------------------*\
+    | Functions to manage detection                         |
+    \*-----------------------------------------------------*/
+    virtual bool                                GetDetectionEnabled()                                                                               = 0;
+    virtual unsigned int                        GetDetectionPercent()                                                                               = 0;
+    virtual const char*                         GetDetectionString()                                                                                = 0;
+    virtual void                                WaitForDetection()                                                                            = 0;
 
 protected:
     virtual                                    ~ResourceManagerInterface() {};

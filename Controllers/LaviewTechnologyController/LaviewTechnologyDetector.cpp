@@ -11,7 +11,7 @@
 #include <sstream>
 #include <iomanip>
 #include <string>
-#include "Detector.h"
+#include "DetectionManager.h"
 #include "LaviewTechnologyController.h"
 #include "RGBController.h"
 #include "RGBController_LaviewTechnology.h"
@@ -38,7 +38,7 @@ static void DetectLaviewTechnologyMouse(hid_device_info* info, const std::string
         LaviewTechnologyController*     controller     = new LaviewTechnologyController(dev, info, name);
         RGBController_LaviewTechnology* rgb_controller = new RGBController_LaviewTechnology(controller);
 
-        ResourceManager::get()->RegisterRGBController(rgb_controller);
+        DetectionManager::get()->RegisterRGBController(rgb_controller);
     }
 }
 

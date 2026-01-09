@@ -10,7 +10,7 @@
 \*---------------------------------------------------------*/
 
 #include <vector>
-#include "Detector.h"
+#include "DetectionManager.h"
 #include "EVGAGP102Controller.h"
 #include "LogManager.h"
 #include "RGBController_EVGAGP102.h"
@@ -54,7 +54,7 @@ void DetectEVGAGP102GPUControllers(i2c_smbus_interface* bus, uint8_t /*address*/
         {
             new_rgbcontroller = new RGBController_EVGAGP102(controllers);
 
-            ResourceManager::get()->RegisterRGBController(new_rgbcontroller);
+            DetectionManager::get()->RegisterRGBController(new_rgbcontroller);
         }
     }
 }   /* DetectEVGAGP102GPUControllers() */
