@@ -7,7 +7,7 @@
 |   SPDX-License-Identifier: GPL-2.0-or-later               |
 \*---------------------------------------------------------*/
 
-#include "Detector.h"
+#include "DetectionManager.h"
 #include "RoccatBurstController.h"
 #include "RoccatBurstProAirController.h"
 #include "RoccatKoneAimoController.h"
@@ -75,7 +75,7 @@ void DetectRoccatMouseControllers(hid_device_info* info, const std::string& name
         RoccatKoneAimoController *     controller     = new RoccatKoneAimoController(dev, info->path, name);
         RGBController_RoccatKoneAimo * rgb_controller = new RGBController_RoccatKoneAimo(controller);
 
-        ResourceManager::get()->RegisterRGBController(rgb_controller);
+        DetectionManager::get()->RegisterRGBController(rgb_controller);
     }
 }
 
@@ -178,7 +178,7 @@ void DetectRoccatVulcanKeyboardControllers(hid_device_info* info, const std::str
         RoccatVulcanKeyboardController *     controller     = new RoccatVulcanKeyboardController(dev_ctrl, dev_led, info->path, info->product_id, name);
         RGBController_RoccatVulcanKeyboard * rgb_controller = new RGBController_RoccatVulcanKeyboard(controller);
 
-        ResourceManager::get()->RegisterRGBController(rgb_controller);
+        DetectionManager::get()->RegisterRGBController(rgb_controller);
 
         used_paths.insert(dev_ctrl_path);
         used_paths.insert(dev_led_path);
@@ -200,7 +200,7 @@ void DetectRoccatHordeAimoKeyboardControllers(hid_device_info* info, const std::
         RoccatHordeAimoController *     controller      = new RoccatHordeAimoController(dev, *info, name);
         RGBController_RoccatHordeAimo * rgb_controller  = new RGBController_RoccatHordeAimo(controller);
 
-        ResourceManager::get()->RegisterRGBController(rgb_controller);
+        DetectionManager::get()->RegisterRGBController(rgb_controller);
     }
 }
 
@@ -213,7 +213,7 @@ void DetectRoccatBurstCoreControllers(hid_device_info* info, const std::string& 
         RoccatBurstController *     controller          = new RoccatBurstController(dev, *info, name);
         RGBController_RoccatBurst * rgb_controller      = new RGBController_RoccatBurst(controller, ROCCAT_BURST_CORE_NUMBER_OF_LEDS);
 
-        ResourceManager::get()->RegisterRGBController(rgb_controller);
+        DetectionManager::get()->RegisterRGBController(rgb_controller);
     }
 }
 
@@ -226,7 +226,7 @@ void DetectRoccatBurstProControllers(hid_device_info* info, const std::string& n
         RoccatBurstController *     controller          = new RoccatBurstController(dev, *info, name);
         RGBController_RoccatBurst * rgb_controller      = new RGBController_RoccatBurst(controller, ROCCAT_BURST_PRO_NUMBER_OF_LEDS);
 
-        ResourceManager::get()->RegisterRGBController(rgb_controller);
+        DetectionManager::get()->RegisterRGBController(rgb_controller);
     }
 }
 
@@ -239,7 +239,7 @@ void DetectRoccatBurstProAirControllers(hid_device_info* info, const std::string
         RoccatBurstProAirController *    controller      = new RoccatBurstProAirController(dev, *info, name);
         RGBController_RoccatBurstProAir * rgb_controller = new RGBController_RoccatBurstProAir(controller);
 
-        ResourceManager::get()->RegisterRGBController(rgb_controller);
+        DetectionManager::get()->RegisterRGBController(rgb_controller);
     }
 }
 
@@ -252,7 +252,7 @@ void DetectRoccatKoneProControllers(hid_device_info* info, const std::string& na
         RoccatKoneProController *     controller          = new RoccatKoneProController(dev, *info, name);
         RGBController_RoccatKonePro * rgb_controller      = new RGBController_RoccatKonePro(controller);
 
-        ResourceManager::get()->RegisterRGBController(rgb_controller);
+        DetectionManager::get()->RegisterRGBController(rgb_controller);
     }
 }
 
@@ -265,7 +265,7 @@ void DetectRoccatKoneProAirControllers(hid_device_info* info, const std::string&
         RoccatKoneProAirController *     controller       = new RoccatKoneProAirController(dev, *info, name);
         RGBController_RoccatKoneProAir * rgb_controller   = new RGBController_RoccatKoneProAir(controller);
 
-        ResourceManager::get()->RegisterRGBController(rgb_controller);
+        DetectionManager::get()->RegisterRGBController(rgb_controller);
     }
 }
 
@@ -278,7 +278,7 @@ void DetectRoccatKoneXPControllers(hid_device_info* info, const std::string& nam
         RoccatKoneXPController *     controller          = new RoccatKoneXPController(dev, info->path, name);
         RGBController_RoccatKoneXP * rgb_controller      = new RGBController_RoccatKoneXP(controller);
 
-        ResourceManager::get()->RegisterRGBController(rgb_controller);
+        DetectionManager::get()->RegisterRGBController(rgb_controller);
     }
 }
 
@@ -291,7 +291,7 @@ void DetectRoccatKovaControllers(hid_device_info* info, const std::string& name)
         RoccatKovaController *     controller           = new RoccatKovaController(dev, info->path, name);
         RGBController_RoccatKova * rgb_controller       = new RGBController_RoccatKova(controller);
 
-        ResourceManager::get()->RegisterRGBController(rgb_controller);
+        DetectionManager::get()->RegisterRGBController(rgb_controller);
     }
 }
 
@@ -304,7 +304,7 @@ void DetectRoccatEloControllers(hid_device_info* info, const std::string& name)
         RoccatEloController *      controller           = new RoccatEloController(dev, *info, name);
         RGBController_RoccatElo  * rgb_controller       = new RGBController_RoccatElo(controller);
 
-        ResourceManager::get()->RegisterRGBController(rgb_controller);
+        DetectionManager::get()->RegisterRGBController(rgb_controller);
     }
 }
 
@@ -317,7 +317,7 @@ void DetectRoccatSenseAimoControllers(hid_device_info* info, const std::string& 
         RoccatSenseAimoController *     controller      = new RoccatSenseAimoController(dev, info->path, name);
         RGBController_RoccatSenseAimo * rgb_controller  = new RGBController_RoccatSenseAimo(controller);
 
-        ResourceManager::get()->RegisterRGBController(rgb_controller);
+        DetectionManager::get()->RegisterRGBController(rgb_controller);
     }
 }
 

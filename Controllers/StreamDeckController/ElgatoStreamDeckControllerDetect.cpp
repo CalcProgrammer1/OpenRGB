@@ -9,7 +9,7 @@
 |   SPDX-License-Identifier: GPL-2.0-or-later               |
 \*---------------------------------------------------------*/
 
-#include "Detector.h"
+#include "DetectionManager.h"
 #include "ElgatoStreamDeckController.h"
 #include "RGBController_ElgatoStreamDeck.h"
 
@@ -25,7 +25,7 @@ void DetectElgatoStreamDeckControllers(hid_device_info* info, const std::string&
         {
             ElgatoStreamDeckController* controller         = new ElgatoStreamDeckController(dev, info->path);
             RGBController_ElgatoStreamDeck* rgb_controller = new RGBController_ElgatoStreamDeck(controller);
-            ResourceManager::get()->RegisterRGBController(rgb_controller);
+            DetectionManager::get()->RegisterRGBController(rgb_controller);
         }
     }
 }

@@ -9,7 +9,7 @@
 |   SPDX-License-Identifier: GPL-2.0-or-later               |
 \*---------------------------------------------------------*/
 
-#include "Detector.h"
+#include "DetectionManager.h"
 #include "MSIRGBController.h"
 #include "RGBController_MSIRGB.h"
 #include "super_io.h"
@@ -117,7 +117,7 @@ void DetectMSIRGBControllers()
                     MSIRGBController*     controller     = new MSIRGBController(sioaddr, compatible_devices[i].invert, "MSI " + board_dmi);
                     RGBController_MSIRGB* rgb_controller = new RGBController_MSIRGB(controller);
 
-                    ResourceManager::get()->RegisterRGBController(rgb_controller);
+                    DetectionManager::get()->RegisterRGBController(rgb_controller);
                     break;
                 }
             }

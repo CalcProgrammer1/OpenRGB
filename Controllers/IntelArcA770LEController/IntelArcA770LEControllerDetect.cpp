@@ -10,7 +10,7 @@
 \*---------------------------------------------------------*/
 
 #include <hidapi.h>
-#include "Detector.h"
+#include "DetectionManager.h"
 #include "IntelArcA770LEController.h"
 #include "RGBController_IntelArcA770LE.h"
 
@@ -33,7 +33,7 @@ void DetectIntelArcA770LEControllers(hid_device_info* info, const std::string&)
         IntelArcA770LEController*     controller     = new IntelArcA770LEController(dev, info->path);
         RGBController_IntelArcA770LE* rgb_controller = new RGBController_IntelArcA770LE(controller);
         // Constructor sets the name
-        ResourceManager::get()->RegisterRGBController(rgb_controller);
+        DetectionManager::get()->RegisterRGBController(rgb_controller);
     }
 }
 

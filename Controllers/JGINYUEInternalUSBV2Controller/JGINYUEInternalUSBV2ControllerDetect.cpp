@@ -20,7 +20,7 @@
 #include "RGBController_JGINYUEInternalUSBV2.h"
 #include "JGINYUEInternalUSBV2Controller.h"
 #include "RGBController.h"
-#include "Detector.h"
+#include "DetectionManager.h"
 #include "dmiinfo.h"
 #include "LogManager.h"
 /*---------------------------------------------------------*\
@@ -88,7 +88,7 @@ void DetectJGINYUEInternalUSBV2Controller(hid_device_info* info,const std::strin
 
         JGINYUEInternalUSBV2Controller *controller = new JGINYUEInternalUSBV2Controller(hid_dev, info->path, port);
         RGBController_JGINYUEInternalUSBV2 *rgb_controller = new RGBController_JGINYUEInternalUSBV2(controller);
-        ResourceManager::get()->RegisterRGBController(rgb_controller);
+        DetectionManager::get()->RegisterRGBController(rgb_controller);
     }
 }
 

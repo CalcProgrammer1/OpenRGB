@@ -9,7 +9,7 @@
 |   SPDX-License-Identifier: GPL-2.0-or-later               |
 \*---------------------------------------------------------*/
 
-#include "Detector.h"
+#include "DetectionManager.h"
 #include "PNYLovelaceGPUController.h"
 #include "RGBController_PNYLovelaceGPU.h"
 #include "i2c_smbus.h"
@@ -34,7 +34,7 @@ void DetectPNYLovelaceGPUControllers(i2c_smbus_interface* bus, uint8_t i2c_addr,
     PNYLovelaceGPUController*     controller        = new PNYLovelaceGPUController(bus, i2c_addr, name);
     RGBController_PNYLovelaceGPU* rgb_controller    = new RGBController_PNYLovelaceGPU(controller);
 
-    ResourceManager::get()->RegisterRGBController(rgb_controller);
+    DetectionManager::get()->RegisterRGBController(rgb_controller);
 } /* DetectPNYLovelaceGPUControllers() */
 
 REGISTER_I2C_PCI_DETECTOR("PNY GeForce RTX 4070 Ti XLR8 VERTO Epic-X",      DetectPNYLovelaceGPUControllers,    NVIDIA_VEN, NVIDIA_RTX4070TI_DEV,   PNY_SUB_VEN,  PNY_RTX_4070TI_XLR8_VERTO_EPIC_X_SUB_DEV, 0x60);

@@ -10,7 +10,7 @@
 #include <hidapi.h>
 #include "CreativeSoundBlasterXG6Controller.h"
 #include "RGBController_CreativeSoundBlasterXG6.h"
-#include "Detector.h"
+#include "DetectionManager.h"
 
 /*-----------------------------------------------------*\
 | Creative vendor ID                                    |
@@ -30,7 +30,7 @@ void DetectCreativeDevice(hid_device_info* info, const std::string& name)
         CreativeSoundBlasterXG6Controller*     controller     = new CreativeSoundBlasterXG6Controller(dev, info->path, name);
         RGBController_CreativeSoundBlasterXG6* rgb_controller = new RGBController_CreativeSoundBlasterXG6(controller);
 
-        ResourceManager::get()->RegisterRGBController(rgb_controller);
+        DetectionManager::get()->RegisterRGBController(rgb_controller);
     }
 }
 

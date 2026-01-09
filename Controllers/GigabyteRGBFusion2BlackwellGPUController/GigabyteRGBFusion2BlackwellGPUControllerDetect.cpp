@@ -8,7 +8,7 @@
 \*---------------------------------------------------------*/
 
 #include <stdio.h>
-#include "Detector.h"
+#include "DetectionManager.h"
 #include "GigabyteRGBFusion2BlackwellGPUController.h"
 #include "LogManager.h"
 #include "RGBController_GigabyteRGBFusion2BlackwellGPU.h"
@@ -92,7 +92,7 @@ void DetectGigabyteRGBFusion2BlackwellGPUControllers(i2c_smbus_interface* bus, u
         RGBFusion2BlackwellGPUController*     controller     = new RGBFusion2BlackwellGPUController(bus, i2c_addr, name);
         RGBController_RGBFusion2BlackwellGPU* rgb_controller = new RGBController_RGBFusion2BlackwellGPU(controller, led_zones);
 
-        ResourceManager::get()->RegisterRGBController(rgb_controller);
+        DetectionManager::get()->RegisterRGBController(rgb_controller);
     }
 }   /* DetectGigabyteRGBFusion2BlackwellGPUControllers() */
 

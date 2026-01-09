@@ -10,7 +10,8 @@
 \*---------------------------------------------------------*/
 
 #include <string>
-#include "Detector.h"
+#include "DetectionManager.h"
+#include "ResourceManager.h"
 #include "RGBController_LinuxLED_Linux.h"
 #include "SettingsManager.h"
 
@@ -77,7 +78,7 @@ void DetectLinuxLEDControllers()
 
             RGBController_LinuxLED* rgb_controller = new RGBController_LinuxLED(controller);
 
-            ResourceManager::get()->RegisterRGBController(rgb_controller);
+            DetectionManager::get()->RegisterRGBController(rgb_controller);
         }
     }
 

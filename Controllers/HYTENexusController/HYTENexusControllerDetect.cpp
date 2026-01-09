@@ -10,7 +10,7 @@
 \*---------------------------------------------------------*/
 
 #include <vector>
-#include "Detector.h"
+#include "DetectionManager.h"
 #include "HYTENexusController.h"
 #include "RGBController_HYTENexus.h"
 #include "find_usb_serial_port.h"
@@ -53,7 +53,7 @@ void DetectHYTENexusControllers()
                 HYTENexusController *     controller     = new HYTENexusController((char *)ports[i]->c_str(), hyte_nexus_devices[device_id].pid, hyte_nexus_devices[device_id].name);
                 RGBController_HYTENexus * rgb_controller = new RGBController_HYTENexus(controller);
 
-                ResourceManager::get()->RegisterRGBController(rgb_controller);
+                DetectionManager::get()->RegisterRGBController(rgb_controller);
             }
         }
     }

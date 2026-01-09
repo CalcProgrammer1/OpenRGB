@@ -7,8 +7,9 @@
 |   SPDX-License-Identifier: GPL-2.0-or-later               |
 \*---------------------------------------------------------*/
 
-#include "Detector.h"
+#include "DetectionManager.h"
 #include "ElgatoLightStripController.h"
+#include "ResourceManager.h"
 #include "RGBController_ElgatoLightStrip.h"
 #include "SettingsManager.h"
 
@@ -41,7 +42,7 @@ void DetectElgatoLightStripControllers()
                 ElgatoLightStripController*     controller     = new ElgatoLightStripController(elgato_lightstrip_ip);
                 RGBController_ElgatoLightStrip* rgb_controller = new RGBController_ElgatoLightStrip(controller);
 
-                ResourceManager::get()->RegisterRGBController(rgb_controller);
+                DetectionManager::get()->RegisterRGBController(rgb_controller);
             }
         }
     }

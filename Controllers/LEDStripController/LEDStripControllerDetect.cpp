@@ -9,11 +9,12 @@
 |   SPDX-License-Identifier: GPL-2.0-or-later               |
 \*---------------------------------------------------------*/
 
-#include "Detector.h"
+#include "DetectionManager.h"
 #include "LEDStripController.h"
+#include "LogManager.h"
+#include "ResourceManager.h"
 #include "RGBController_LEDStrip.h"
 #include "SettingsManager.h"
-#include "LogManager.h"
 
 /******************************************************************************************\
 *                                                                                          *
@@ -126,7 +127,7 @@ void DetectLEDStripControllers()
 
             RGBController_LEDStrip* rgb_controller = new RGBController_LEDStrip(controller);
 
-            ResourceManager::get()->RegisterRGBController(rgb_controller);
+            DetectionManager::get()->RegisterRGBController(rgb_controller);
         }
     }
 

@@ -11,7 +11,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include "Detector.h"
+#include "DetectionManager.h"
 #include "PalitGPUController.h"
 #include "RGBController_PalitGPU.h"
 #include "i2c_smbus.h"
@@ -54,7 +54,7 @@ void DetectPalitGPUControllers(i2c_smbus_interface* bus, uint8_t i2c_addr, const
     PalitGPUController*     controller      = new PalitGPUController(bus, i2c_addr, name);
     RGBController_PalitGPU* rgb_controller  = new RGBController_PalitGPU(controller);
 
-    ResourceManager::get()->RegisterRGBController(rgb_controller);
+    DetectionManager::get()->RegisterRGBController(rgb_controller);
 } /* DetectPalitGPUControllers() */
 
 REGISTER_I2C_PCI_DETECTOR("Palit GeForce GTX 1060",    DetectPalitGPUControllers, NVIDIA_VEN, NVIDIA_GTX1060_DEV, NVIDIA_SUB_VEN, NVIDIA_GTX1060_DEV,     0x08);
