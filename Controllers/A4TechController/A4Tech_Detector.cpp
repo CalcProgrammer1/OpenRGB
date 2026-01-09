@@ -14,7 +14,7 @@
 | OpenRGB includes                                      |
 \*-----------------------------------------------------*/
 #include <hidapi.h>
-#include "Detector.h"
+#include "DetectionManager.h"
 
 /*-----------------------------------------------------*\
 | A4 Tech specific includes                             |
@@ -36,7 +36,7 @@ void DetectA4TechMouseControllers(hid_device_info* info, const std::string& name
         BloodyMouseController* controller           = new BloodyMouseController(dev, info->path, info->product_id, name);
         RGBController_BloodyMouse* rgb_controller   = new RGBController_BloodyMouse(controller);
 
-        ResourceManager::get()->RegisterRGBController(rgb_controller);
+        DetectionManager::get()->RegisterRGBController(rgb_controller);
     }
 }
 
@@ -49,7 +49,7 @@ void DetectBloodyB820R(hid_device_info* info, const std::string& name)
         BloodyB820RController*     controller     = new BloodyB820RController(dev, info->path, name);
         RGBController_BloodyB820R* rgb_controller = new RGBController_BloodyB820R(controller);
 
-        ResourceManager::get()->RegisterRGBController(rgb_controller);
+        DetectionManager::get()->RegisterRGBController(rgb_controller);
     }
 }
 

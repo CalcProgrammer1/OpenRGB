@@ -11,7 +11,7 @@
 \*---------------------------------------------------------*/
 
 #include <vector>
-#include "Detector.h"
+#include "DetectionManager.h"
 #include "HYTEMousematController_Windows_MacOS.h"
 #include "RGBController_HYTEMousemat.h"
 #include "find_usb_serial_port.h"
@@ -57,7 +57,7 @@ void DetectHYTEMousematControllers()
                 HYTEMousematController *     controller     = new HYTEMousematController((char *)ports[i]->c_str(), hyte_mousemat_devices[device_id].name);
                 RGBController_HYTEMousemat * rgb_controller = new RGBController_HYTEMousemat(controller);
 
-                ResourceManager::get()->RegisterRGBController(rgb_controller);
+                DetectionManager::get()->RegisterRGBController(rgb_controller);
             }
         }
     }

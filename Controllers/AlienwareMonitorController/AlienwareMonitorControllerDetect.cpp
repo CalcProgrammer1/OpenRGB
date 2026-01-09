@@ -9,7 +9,7 @@
 |   SPDX-License-Identifier: GPL-2.0-or-later               |
 \*---------------------------------------------------------*/
 
-#include "Detector.h"
+#include "DetectionManager.h"
 #include "AlienwareAW3423DWFController.h"
 #include "AlienwareMonitorController.h"
 #include "RGBController_AlienwareAW3423DWF.h"
@@ -45,7 +45,7 @@ void DetectAlienwareAW3423DWFControllers(hid_device_info* info, const std::strin
         AlienwareAW3423DWFController*     controller     = new AlienwareAW3423DWFController(dev, info->path);
         RGBController_AlienwareAW3423DWF* rgb_controller = new RGBController_AlienwareAW3423DWF(controller);
 
-        ResourceManager::get()->RegisterRGBController(rgb_controller);
+        DetectionManager::get()->RegisterRGBController(rgb_controller);
     }
 }
 
@@ -58,7 +58,7 @@ void DetectAlienwareMonitorControllers(hid_device_info* info, const std::string&
         AlienwareMonitorController*     controller     = new AlienwareMonitorController(dev, info->path, name);
         RGBController_AlienwareMonitor* rgb_controller = new RGBController_AlienwareMonitor(controller);
 
-        ResourceManager::get()->RegisterRGBController(rgb_controller);
+        DetectionManager::get()->RegisterRGBController(rgb_controller);
     }
 }
 
