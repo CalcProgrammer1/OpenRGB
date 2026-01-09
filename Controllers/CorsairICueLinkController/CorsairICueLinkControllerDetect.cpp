@@ -11,7 +11,7 @@
 \*---------------------------------------------------------*/
 
 #include <hidapi.h>
-#include "Detector.h"
+#include "DetectionManager.h"
 #include "LogManager.h"
 #include "CorsairICueLinkController.h"
 #include "RGBController_CorsairICueLink.h"
@@ -28,7 +28,7 @@ void DetectCorsairICueLinkControllers(hid_device_info* info, const std::string& 
         CorsairICueLinkController*     controller     = new CorsairICueLinkController(dev, info->path, name);
         RGBController_CorsairICueLink* rgb_controller = new RGBController_CorsairICueLink(controller);
 
-        ResourceManager::get()->RegisterRGBController(rgb_controller);
+        DetectionManager::get()->RegisterRGBController(rgb_controller);
     }
 }
 

@@ -13,7 +13,7 @@
 \*---------------------------------------------------------*/
 
 #include <hidapi.h>
-#include "Detector.h"
+#include "DetectionManager.h"
 #include "ZETBladeOpticalController.h"
 #include "RGBController_ZETBladeOptical.h"
 
@@ -32,7 +32,7 @@ void DetectZETBladeOptical(hid_device_info* info, const std::string& name)
         ZETBladeOpticalController*     controller     = new ZETBladeOpticalController(dev, info->path, name);
         RGBController_ZETBladeOptical* rgb_controller = new RGBController_ZETBladeOptical(controller);
 
-        ResourceManager::get()->RegisterRGBController(rgb_controller);
+        DetectionManager::get()->RegisterRGBController(rgb_controller);
     }
 }
 

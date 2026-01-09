@@ -10,7 +10,8 @@
 #include <fcntl.h>
 #include <string>
 #include <vector>
-#include "Detector.h"
+#include "DetectionManager.h"
+#include "ResourceManager.h"
 #include "RGBController.h"
 #include "RGBController_E131.h"
 #include "SettingsManager.h"
@@ -278,7 +279,7 @@ void DetectE131Controllers()
         {
             RGBController_E131* rgb_controller;
             rgb_controller = new RGBController_E131(device_lists[list_idx]);
-            ResourceManager::get()->RegisterRGBController(rgb_controller);
+            DetectionManager::get()->RegisterRGBController(rgb_controller);
         }
     }
 

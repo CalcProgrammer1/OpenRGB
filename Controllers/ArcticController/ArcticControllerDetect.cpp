@@ -10,7 +10,7 @@
 \*---------------------------------------------------------*/
 
 #include <vector>
-#include "Detector.h"
+#include "DetectionManager.h"
 #include "ArcticController.h"
 #include "RGBController_Arctic.h"
 #include "find_usb_serial_port.h"
@@ -29,7 +29,7 @@ void DetectArcticControllers()
         if(controller->IsPresent())
         {
             RGBController_Arctic *rgb_controller = new RGBController_Arctic(controller);
-            ResourceManager::get()->RegisterRGBController(rgb_controller);
+            DetectionManager::get()->RegisterRGBController(rgb_controller);
         }
         else
         {

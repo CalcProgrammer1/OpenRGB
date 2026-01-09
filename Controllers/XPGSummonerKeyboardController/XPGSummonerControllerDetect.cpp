@@ -9,7 +9,7 @@
 |   SPDX-License-Identifier: GPL-2.0-or-later               |
 \*---------------------------------------------------------*/
 
-#include "Detector.h"
+#include "DetectionManager.h"
 #include "XPGSummonerController.h"
 #include "RGBController_XPGSummoner.h"
 #include <hidapi.h>
@@ -30,7 +30,7 @@ void DetectXPGSummonerControllers(hid_device_info *info, const std::string &name
     {
         XPGSummonerController *controller = new XPGSummonerController(dev, info->path, info->product_id, name);
         RGBController_XPGSummoner *rgb_controller = new RGBController_XPGSummoner(controller);
-        ResourceManager::get()->RegisterRGBController(rgb_controller);
+        DetectionManager::get()->RegisterRGBController(rgb_controller);
     }
 } /* DetectXPGSummonerControllers() */
 

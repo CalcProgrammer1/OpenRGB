@@ -10,7 +10,7 @@
 \*---------------------------------------------------------*/
 
 #include <hidapi.h>
-#include "Detector.h"
+#include "DetectionManager.h"
 #include "CorsairLightingNodeController.h"
 #include "RGBController_CorsairLightingNode.h"
 
@@ -40,7 +40,7 @@ void DetectCorsairLightingNodeControllers(hid_device_info* info, const std::stri
         CorsairLightingNodeController*     controller     = new CorsairLightingNodeController(dev, info->path, name);
         RGBController_CorsairLightingNode* rgb_controller = new RGBController_CorsairLightingNode(controller);
 
-        ResourceManager::get()->RegisterRGBController(rgb_controller);
+        DetectionManager::get()->RegisterRGBController(rgb_controller);
     }
 }   /* DetectCorsairLightingNodeControllers() */
 

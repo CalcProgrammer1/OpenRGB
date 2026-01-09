@@ -11,7 +11,7 @@
 |   SPDX-License-Identifier: GPL-2.0-or-later               |
 \*---------------------------------------------------------*/
 
-#include "Detector.h"
+#include "DetectionManager.h"
 #include "GigabyteRGBFusion2USBController.h"
 #include "RGBController_GigabyteRGBFusion2USB.h"
 #include "dmiinfo.h"
@@ -36,7 +36,7 @@ void DetectGigabyteRGBFusion2USBControllers(hid_device_info* info, const std::st
         RGBFusion2USBController*     controller     = new RGBFusion2USBController(dev, info->path, MB_info.getMainboard(), info->product_id);
         RGBController_RGBFusion2USB* rgb_controller = new RGBController_RGBFusion2USB(controller, DETECTOR_NAME);
         // Constructor sets the name
-        ResourceManager::get()->RegisterRGBController(rgb_controller);
+        DetectionManager::get()->RegisterRGBController(rgb_controller);
     }
 }
 

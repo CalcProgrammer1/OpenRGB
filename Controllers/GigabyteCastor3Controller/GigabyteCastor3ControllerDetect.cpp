@@ -9,7 +9,7 @@
 \*---------------------------------------------------------*/
 
 #include <hidapi.h>
-#include "Detector.h"
+#include "DetectionManager.h"
 #include "GigabyteCastor3Controller.h"
 #include "RGBController_GigabyteCastor3.h"
 
@@ -25,7 +25,7 @@ void DetectGigabyteCastor3Controllers(hid_device_info* info, const std::string& 
         GigabyteCastor3Controller*      controller      = new GigabyteCastor3Controller(dev, info->path);
         RGBController_GigabyteCastor3*  rgb_controller  = new RGBController_GigabyteCastor3(controller);
 
-        ResourceManager::get()->RegisterRGBController(rgb_controller);
+        DetectionManager::get()->RegisterRGBController(rgb_controller);
     }
 }
 

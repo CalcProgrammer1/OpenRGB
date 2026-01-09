@@ -9,7 +9,7 @@
 |   SPDX-License-Identifier: GPL-2.0-or-later               |
 \*---------------------------------------------------------*/
 
-#include "Detector.h"
+#include "DetectionManager.h"
 #include "LogManager.h"
 #include "RGBController_NVIDIAIllumination_Windows_Linux.h"
 #include "pci_ids.h"
@@ -119,7 +119,7 @@ void DetectNVIDIAIllumGPUs()
                                 NVIDIAIlluminationV1Controller*     controller     = new NVIDIAIlluminationV1Controller(new_nvapi, device_list[dev_idx].treats_rgbw_as_rgb, device_list[dev_idx].name);
                                 RGBController_NVIDIAIlluminationV1* rgb_controller = new RGBController_NVIDIAIlluminationV1(controller);
 
-                                ResourceManager::get()->RegisterRGBController(rgb_controller);
+                                DetectionManager::get()->RegisterRGBController(rgb_controller);
                             }
                             break;
                     }

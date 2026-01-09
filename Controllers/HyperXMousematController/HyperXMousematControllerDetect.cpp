@@ -9,7 +9,7 @@
 |   SPDX-License-Identifier: GPL-2.0-or-later               |
 \*---------------------------------------------------------*/
 
-#include "Detector.h"
+#include "DetectionManager.h"
 #include "HyperXMousematController.h"
 #include "RGBController_HyperXMousemat.h"
 #include "hidapi_wrapper.h"
@@ -44,7 +44,7 @@ void DetectHyperXMousematControllers(hidapi_wrapper wrapper, hid_device_info* in
         HyperXMousematController*     controller     = new HyperXMousematController(wrapper, dev, info->path, name);
         RGBController_HyperXMousemat* rgb_controller = new RGBController_HyperXMousemat(controller, first_zone_leds_count, second_zone_leds_count);
 
-        ResourceManager::get()->RegisterRGBController(rgb_controller);
+        DetectionManager::get()->RegisterRGBController(rgb_controller);
     }
 }   /* DetectHyperXMousematControllers() */
 

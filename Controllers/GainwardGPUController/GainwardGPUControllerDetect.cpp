@@ -10,7 +10,7 @@
 |   SPDX-License-Identifier: GPL-2.0-or-later               |
 \*---------------------------------------------------------*/
 
-#include "Detector.h"
+#include "DetectionManager.h"
 #include "GainwardGPUv1Controller.h"
 #include "GainwardGPUv2Controller.h"
 #include "RGBController_GainwardGPUv1.h"
@@ -80,7 +80,7 @@ void DetectGainwardGPUControllers(i2c_smbus_interface* bus, uint8_t i2c_addr, co
                     GainwardGPUv1Controller*     controller     = new GainwardGPUv1Controller(bus, i2c_addr, name);
                     RGBController_GainwardGPUv1* rgb_controller = new RGBController_GainwardGPUv1(controller);
 
-                    ResourceManager::get()->RegisterRGBController(rgb_controller);
+                    DetectionManager::get()->RegisterRGBController(rgb_controller);
                 }
                 break;
 
@@ -92,7 +92,7 @@ void DetectGainwardGPUControllers(i2c_smbus_interface* bus, uint8_t i2c_addr, co
                     GainwardGPUv2Controller*     controller     = new GainwardGPUv2Controller(bus, i2c_addr, name);
                     RGBController_GainwardGPUv2* rgb_controller = new RGBController_GainwardGPUv2(controller);
 
-                    ResourceManager::get()->RegisterRGBController(rgb_controller);
+                    DetectionManager::get()->RegisterRGBController(rgb_controller);
                 }
                 break;
         }

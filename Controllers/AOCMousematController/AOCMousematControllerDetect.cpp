@@ -9,7 +9,7 @@
 |   SPDX-License-Identifier: GPL-2.0-or-later               |
 \*---------------------------------------------------------*/
 
-#include "Detector.h"
+#include "DetectionManager.h"
 #include "AOCMousematController.h"
 #include "RGBController_AOCMousemat.h"
 
@@ -36,7 +36,7 @@ void DetectAOCMousematControllers(hid_device_info* info, const std::string& name
         AOCMousematController*     controller     = new AOCMousematController(dev, info->path, name);
         RGBController_AOCMousemat* rgb_controller = new RGBController_AOCMousemat(controller);
 
-        ResourceManager::get()->RegisterRGBController(rgb_controller);
+        DetectionManager::get()->RegisterRGBController(rgb_controller);
     }
 }
 

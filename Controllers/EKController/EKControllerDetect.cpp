@@ -10,7 +10,7 @@
 \*---------------------------------------------------------*/
 
 #include <hidapi.h>
-#include "Detector.h"
+#include "DetectionManager.h"
 #include "EKController.h"
 #include "RGBController_EKController.h"
 
@@ -34,7 +34,7 @@ void DetectEKControllers(hid_device_info* info, const std::string&)
         EKController*               controller     = new EKController(dev, info->path);
         RGBController_EKController* rgb_controller = new RGBController_EKController(controller);
         // Constructor sets the name
-        ResourceManager::get()->RegisterRGBController(rgb_controller);
+        DetectionManager::get()->RegisterRGBController(rgb_controller);
     }
 }   /* DetectEKControllers() */
 

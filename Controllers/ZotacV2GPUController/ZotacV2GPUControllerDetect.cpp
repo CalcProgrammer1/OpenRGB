@@ -9,7 +9,7 @@
 |   SPDX-License-Identifier: GPL-2.0-or-later               |
 \*---------------------------------------------------------*/
 
-#include "Detector.h"
+#include "DetectionManager.h"
 #include "ZotacV2GPUController.h"
 #include "RGBController_ZotacV2GPU.h"
 #include "i2c_smbus.h"
@@ -40,7 +40,7 @@ void DetectZotacV2GPUControllers(i2c_smbus_interface* bus, u8 i2c_addr, const st
 
         if(rgb_controller->config.numberOfZones > 0)
         {
-            ResourceManager::get()->RegisterRGBController(rgb_controller);
+            DetectionManager::get()->RegisterRGBController(rgb_controller);
         }
         else
         {

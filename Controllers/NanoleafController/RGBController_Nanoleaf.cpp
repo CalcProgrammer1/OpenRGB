@@ -9,10 +9,10 @@
 |   SPDX-License-Identifier: GPL-2.0-or-later               |
 \*---------------------------------------------------------*/
 
-#include "RGBController_Nanoleaf.h"
-#include "ResourceManager.h"
-#include "LogManager.h"
 #include <nlohmann/json.hpp>
+#include "LogManager.h"
+#include "ResourceManager.h"
+#include "RGBController_Nanoleaf.h"
 
 using json = nlohmann::json;
 
