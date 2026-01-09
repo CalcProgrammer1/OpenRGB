@@ -8,7 +8,7 @@
 \*---------------------------------------------------------*/
 
 #include <hidapi.h>
-#include "Detector.h"
+#include "DetectionManager.h"
 #include "WushiL50USBController.h"
 #include "RGBController_WushiL50USB.h"
 
@@ -31,7 +31,7 @@ void DetectWushiL50USBControllers(hidapi_wrapper wrapper, hid_device_info* info,
         WushiL50USBController*     controller      = new WushiL50USBController(wrapper, dev, info->path, name);
         RGBController_WushiL50USB* rgb_controller  = new RGBController_WushiL50USB(controller);
 
-        ResourceManager::get()->RegisterRGBController(rgb_controller);
+        DetectionManager::get()->RegisterRGBController(rgb_controller);
     }
 }
 

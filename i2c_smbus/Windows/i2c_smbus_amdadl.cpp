@@ -10,7 +10,7 @@
 \*---------------------------------------------------------*/
 
 #include <string>
-#include "Detector.h"
+#include "DetectionManager.h"
 #include "i2c_smbus_amdadl.h"
 #include "LogManager.h"
 #include "pci_ids.h"
@@ -297,7 +297,7 @@ bool i2c_smbus_amdadl_detect()
                     }
 
                     LOG_INFO("ADL GPU Device %04X:%04X Subsystem: %04X:%04X", adl_bus->pci_vendor, adl_bus->pci_device,adl_bus->pci_subsystem_vendor,adl_bus->pci_subsystem_device);
-                    ResourceManager::get()->RegisterI2CBus(adl_bus);
+                    DetectionManager::get()->RegisterI2CBus(adl_bus);
                 }
             }
         }

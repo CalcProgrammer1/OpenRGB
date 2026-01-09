@@ -10,7 +10,7 @@
 \*---------------------------------------------------------*/
 
 #include <hidapi.h>
-#include "Detector.h"
+#include "DetectionManager.h"
 #include "NollieController.h"
 #include "RGBController_Nollie.h"
 
@@ -28,7 +28,7 @@ void DetectNollieControllers(hid_device_info* info, const std::string& name)
         NollieController*     controller     = new NollieController(dev, info->path, info->vendor_id, info->product_id, name);
         RGBController_Nollie* rgb_controller = new RGBController_Nollie(controller);
 
-        ResourceManager::get()->RegisterRGBController(rgb_controller);
+        DetectionManager::get()->RegisterRGBController(rgb_controller);
 
     }
 }

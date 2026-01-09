@@ -11,7 +11,7 @@
 
 #include "macUSPCIOAccess.h"
 
-#include "Detector.h"
+#include "DetectionManager.h"
 #include "i2c_smbus_nct6775.h"
 #include "LogManager.h"
 #include "ResourceManager.h"
@@ -266,7 +266,7 @@ bool i2c_smbus_nct6775_detect()
             break;
         }
 
-        ResourceManager::get()->RegisterI2CBus(bus);
+        DetectionManager::get()->RegisterI2CBus(bus);
     }
 
     return(true);

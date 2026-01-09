@@ -9,7 +9,7 @@
 |   SPDX-License-Identifier: GPL-2.0-or-later               |
 \*---------------------------------------------------------*/
 
-#include "Detector.h"
+#include "DetectionManager.h"
 #include "LegoDimensionsToypadBaseController.h"
 #include "RGBController_LegoDimensionsToypadBase.h"
 
@@ -32,7 +32,7 @@ void DetectLegoDimensionsToypadBaseControllers(hid_device_info* info, const std:
         LegoDimensionsToypadBaseController*     controller      = new LegoDimensionsToypadBaseController(dev, *info, name);
         RGBController_LegoDimensionsToypadBase* rgb_controller  = new RGBController_LegoDimensionsToypadBase(controller);
 
-        ResourceManager::get()->RegisterRGBController(rgb_controller);
+        DetectionManager::get()->RegisterRGBController(rgb_controller);
     }
 }
 

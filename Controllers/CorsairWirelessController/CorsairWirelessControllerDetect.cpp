@@ -10,7 +10,7 @@
 \*---------------------------------------------------------*/
 
 #include <hidapi.h>
-#include "Detector.h"
+#include "DetectionManager.h"
 #include "CorsairWirelessController.h"
 #include "RGBController.h"
 #include "RGBController_CorsairWireless.h"
@@ -46,7 +46,7 @@ void DetectCorsairWirelessControllers(hid_device_info* info, const std::string& 
         if(controller->GetDeviceType() != DEVICE_TYPE_UNKNOWN)
         {
             RGBController_CorsairWireless* rgb_controller = new RGBController_CorsairWireless(controller);
-            ResourceManager::get()->RegisterRGBController(rgb_controller);
+            DetectionManager::get()->RegisterRGBController(rgb_controller);
         }
         else
         {

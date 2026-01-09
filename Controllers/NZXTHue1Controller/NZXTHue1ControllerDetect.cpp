@@ -10,7 +10,7 @@
 \*---------------------------------------------------------*/
 
 #include <hidapi.h>
-#include "Detector.h"
+#include "DetectionManager.h"
 #include "NZXTHue1Controller.h"
 #include "RGBController_NZXTHue1.h"
 
@@ -37,7 +37,7 @@ void DetectNZXTHue1Controllers(hid_device_info* info, const std::string& name)
         NZXTHue1Controller*     controller     = new NZXTHue1Controller(dev, 3, info->path, name);
         RGBController_NZXTHue1* rgb_controller = new RGBController_NZXTHue1(controller);
 
-        ResourceManager::get()->RegisterRGBController(rgb_controller);
+        DetectionManager::get()->RegisterRGBController(rgb_controller);
     }
 }   /* DetectNZXTHue1Controllers() */
 
