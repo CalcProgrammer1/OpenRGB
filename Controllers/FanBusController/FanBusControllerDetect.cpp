@@ -9,9 +9,10 @@
 |   SPDX-License-Identifier: GPL-2.0-or-later               |
 \*---------------------------------------------------------*/
 
-#include "Detector.h"
+#include "DetectionManager.h"
 #include "FanBusController.h"
 #include "RGBController_FanBus.h"
+#include "ResourceManager.h"
 #include "SettingsManager.h"
 
 void DetectFanBusControllers()
@@ -44,7 +45,7 @@ void DetectFanBusControllers()
                     FanBusController*     controller     = new FanBusController(new_interface, detected_controllers[controller_idx]);
                     RGBController_FanBus* rgb_controller = new RGBController_FanBus(controller);
 
-                    ResourceManager::get()->RegisterRGBController(rgb_controller);
+                    DetectionManager::get()->RegisterRGBController(rgb_controller);
                 }
             }
         }

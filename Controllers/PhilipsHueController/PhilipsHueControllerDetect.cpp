@@ -18,10 +18,11 @@
 #include "LinHttpHandler.h"
 #endif
 
-#include "Detector.h"
+#include "DetectionManager.h"
 #include "LogManager.h"
 #include "PhilipsHueController.h"
 #include "PhilipsHueEntertainmentController.h"
+#include "ResourceManager.h"
 #include "RGBController_PhilipsHue.h"
 #include "RGBController_PhilipsHueEntertainment.h"
 #include "PhilipsHueSettingsHandler.h"
@@ -185,7 +186,7 @@ void DetectPhilipsHueControllers()
                             PhilipsHueEntertainmentController*     controller     = new PhilipsHueEntertainmentController(bridge, groups[group_idx]);
                             RGBController_PhilipsHueEntertainment* rgb_controller = new RGBController_PhilipsHueEntertainment(controller);
 
-                            ResourceManager::get()->RegisterRGBController(rgb_controller);
+                            DetectionManager::get()->RegisterRGBController(rgb_controller);
                         }
                     }
 
@@ -228,7 +229,7 @@ void DetectPhilipsHueControllers()
                             PhilipsHueController*     controller     = new PhilipsHueController(lights[light_idx], bridge.getBridgeIP());
                             RGBController_PhilipsHue* rgb_controller = new RGBController_PhilipsHue(controller);
 
-                            ResourceManager::get()->RegisterRGBController(rgb_controller);
+                            DetectionManager::get()->RegisterRGBController(rgb_controller);
                         }
                     }
                 }

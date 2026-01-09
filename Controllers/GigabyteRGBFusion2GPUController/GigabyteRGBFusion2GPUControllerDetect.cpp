@@ -8,7 +8,7 @@
 \*---------------------------------------------------------*/
 
 #include <stdio.h>
-#include "Detector.h"
+#include "DetectionManager.h"
 #include "GigabyteRGBFusion2GPUController.h"
 #include "LogManager.h"
 #include "RGBController_GigabyteRGBFusion2GPU.h"
@@ -100,7 +100,7 @@ void DetectGigabyteRGBFusion2GPUControllers(i2c_smbus_interface* bus, uint8_t i2
         RGBFusion2GPUController*     controller     = new RGBFusion2GPUController(bus, i2c_addr, name);
         RGBController_RGBFusion2GPU* rgb_controller = new RGBController_RGBFusion2GPU(controller);
 
-        ResourceManager::get()->RegisterRGBController(rgb_controller);
+        DetectionManager::get()->RegisterRGBController(rgb_controller);
     }
 }   /* DetectGigabyteRGBFusion2GPUControllers() */
 

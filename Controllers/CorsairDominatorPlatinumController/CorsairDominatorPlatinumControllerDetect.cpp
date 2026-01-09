@@ -10,13 +10,14 @@
 \*---------------------------------------------------------*/
 
 #include <vector>
-#include "Detector.h"
 #include "CorsairDominatorPlatinumController.h"
+#include "DetectionManager.h"
+#include "i2c_smbus.h"
+#include "LogManager.h"
+#include "pci_ids.h"
+#include "ResourceManager.h"
 #include "RGBController_CorsairDominatorPlatinum.h"
 #include "SettingsManager.h"
-#include "LogManager.h"
-#include "i2c_smbus.h"
-#include "pci_ids.h"
 
 using namespace std::chrono_literals;
 
@@ -160,7 +161,7 @@ void DetectCorsairDominatorPlatinumControllers(std::vector<i2c_smbus_interface *
                     CorsairDominatorPlatinumController*     controller    = new CorsairDominatorPlatinumController(busses[bus], addr, leds, name);
                     RGBController_CorsairDominatorPlatinum* rgbcontroller = new RGBController_CorsairDominatorPlatinum(controller);
 
-                    ResourceManager::get()->RegisterRGBController(rgbcontroller);
+                    DetectionManager::get()->RegisterRGBController(rgbcontroller);
                 }
 
                 std::this_thread::sleep_for(10ms);

@@ -10,7 +10,7 @@
 #include <string>
 #include <vector>
 #include <libusb.h>
-#include "Detector.h"
+#include "DetectionManager.h"
 #include "ResourceManager.h"
 
 /*-----------------------------------------------------*\
@@ -106,7 +106,7 @@ void DetectLianLiUniHub()
         {
             LianLiUniHubController*     controller     = new LianLiUniHubController(device, &descriptor);
             RGBController_LianLiUniHub* rgb_controller = new RGBController_LianLiUniHub(controller);
-            ResourceManager::get()->RegisterRGBController(rgb_controller);
+            DetectionManager::get()->RegisterRGBController(rgb_controller);
         }
     }
 
@@ -152,7 +152,7 @@ void DetectLianLiUniHub_AL10()
         {
             LianLiUniHub_AL10Controller*     controller     = new LianLiUniHub_AL10Controller(device, &descriptor);
             RGBController_LianLiUniHub_AL10* rgb_controller = new RGBController_LianLiUniHub_AL10(controller);
-            ResourceManager::get()->RegisterRGBController(rgb_controller);
+            DetectionManager::get()->RegisterRGBController(rgb_controller);
         }
     }
 
@@ -196,7 +196,7 @@ void DetectLianLiUniHubAL(hid_device_info* info, const std::string& name)
         if(firmwareVersion == "v1.7")
         {
             RGBController_LianLiUniHubAL* rgb_controller = new RGBController_LianLiUniHubAL(controller);
-            ResourceManager::get()->RegisterRGBController(rgb_controller);
+            DetectionManager::get()->RegisterRGBController(rgb_controller);
         }
         else if(firmwareVersion == "v1.0")
         {
@@ -221,7 +221,7 @@ void DetectLianLiUniHubSLV2(hid_device_info* info, const std::string& name)
         LianLiUniHubSLV2Controller* controller = new LianLiUniHubSLV2Controller(dev, info->path, name);
 
         RGBController_LianLiUniHubSLV2* rgb_controller = new RGBController_LianLiUniHubSLV2(controller);
-        ResourceManager::get()->RegisterRGBController(rgb_controller);
+        DetectionManager::get()->RegisterRGBController(rgb_controller);
     }
 }   /* DetectLianLiUniHubSLV2() */
 
@@ -234,7 +234,7 @@ void DetectLianLiUniHubSLInfinity(hid_device_info* info, const std::string& name
         LianLiUniHubSLInfinityController* controller = new LianLiUniHubSLInfinityController(dev, info->path, name);
 
         RGBController_LianLiUniHubSLInfinity* rgb_controller = new RGBController_LianLiUniHubSLInfinity(controller);
-        ResourceManager::get()->RegisterRGBController(rgb_controller);
+        DetectionManager::get()->RegisterRGBController(rgb_controller);
     }
 }   /* DetectLianLiUniHubSLInfinity() */
 
@@ -247,7 +247,7 @@ void DetectLianLiStrimerControllers(hid_device_info* info, const std::string& /*
         LianLiStrimerLConnectController*     controller       = new LianLiStrimerLConnectController(dev, info->path);
         RGBController_LianLiStrimerLConnect* rgb_controller   = new RGBController_LianLiStrimerLConnect(controller);
 
-        ResourceManager::get()->RegisterRGBController(rgb_controller);
+        DetectionManager::get()->RegisterRGBController(rgb_controller);
     }
 }
 
@@ -260,7 +260,7 @@ void DetectLianLiGAIITrinity(hid_device_info* info, const std::string& /*name*/)
         LianLiGAIITrinityController*     controller     = new LianLiGAIITrinityController(dev, info->path);
         RGBController_LianLiGAIITrinity* rgb_controller = new RGBController_LianLiGAIITrinity(controller);
 
-        ResourceManager::get()->RegisterRGBController(rgb_controller);
+        DetectionManager::get()->RegisterRGBController(rgb_controller);
     }
 }
 
@@ -282,7 +282,7 @@ void DetectLianLiUniversalScreen()
         LianLiUniversalScreenController*     controller     = new LianLiUniversalScreenController(dev);
         RGBController_LianLiUniversalScreen* rgb_controller = new RGBController_LianLiUniversalScreen(controller);
 
-        ResourceManager::get()->RegisterRGBController(rgb_controller);
+        DetectionManager::get()->RegisterRGBController(rgb_controller);
     }
 }
 

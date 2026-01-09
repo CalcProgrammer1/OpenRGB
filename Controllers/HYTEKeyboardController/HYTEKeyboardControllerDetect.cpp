@@ -10,7 +10,7 @@
 \*---------------------------------------------------------*/
 
 #include <hidapi.h>
-#include "Detector.h"
+#include "DetectionManager.h"
 #include "HYTEKeyboardController.h"
 #include "RGBController_HYTEKeyboard.h"
 
@@ -33,7 +33,7 @@ void DetectHYTEKeyboard(hid_device_info* info, const std::string& name)
         HYTEKeyboardController*     controller     = new HYTEKeyboardController(dev, info->path, name);
         RGBController_HYTEKeyboard* rgb_controller = new RGBController_HYTEKeyboard(controller);
 
-        ResourceManager::get()->RegisterRGBController(rgb_controller);
+        DetectionManager::get()->RegisterRGBController(rgb_controller);
     }
 }
 

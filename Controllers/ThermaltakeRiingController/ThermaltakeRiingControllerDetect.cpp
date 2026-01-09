@@ -12,7 +12,7 @@
 \*---------------------------------------------------------*/
 
 #include <hidapi.h>
-#include "Detector.h"
+#include "DetectionManager.h"
 #include "ThermaltakeRiingController.h"
 #include "ThermaltakeRiingQuadController.h"
 #include "ThermaltakeRiingTrioController.h"
@@ -41,7 +41,7 @@ void DetectThermaltakeRiingControllers(hid_device_info* info, const std::string&
         ThermaltakeRiingController* controller = new ThermaltakeRiingController(dev, info->path);
         RGBController_ThermaltakeRiing* rgb_controller = new RGBController_ThermaltakeRiing(controller);
         // Constructor sets the name
-        ResourceManager::get()->RegisterRGBController(rgb_controller);
+        DetectionManager::get()->RegisterRGBController(rgb_controller);
     }
 }   /* DetectThermaltakeRiingControllers() */
 
@@ -53,7 +53,7 @@ void DetectThermaltakeRiingQuadControllers(hid_device_info* info, const std::str
         ThermaltakeRiingQuadController* controller = new ThermaltakeRiingQuadController(dev, info->path);
         RGBController_ThermaltakeRiingQuad* rgb_controller = new RGBController_ThermaltakeRiingQuad(controller);
         // Constructor sets the name
-        ResourceManager::get()->RegisterRGBController(rgb_controller);
+        DetectionManager::get()->RegisterRGBController(rgb_controller);
     }
 }
 
@@ -65,7 +65,7 @@ void DetectThermaltakeRiingTrioControllers(hid_device_info* info, const std::str
         ThermaltakeRiingTrioController* controller = new ThermaltakeRiingTrioController(dev, info->path);
         RGBController_ThermaltakeRiingTrio* rgb_controller = new RGBController_ThermaltakeRiingTrio(controller);
         // Constructor sets the name
-        ResourceManager::get()->RegisterRGBController(rgb_controller);
+        DetectionManager::get()->RegisterRGBController(rgb_controller);
     }
 }
 

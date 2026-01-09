@@ -8,11 +8,12 @@
 \*---------------------------------------------------------*/
 
 #include <hidapi.h>
-#include "Detector.h"
+#include "DetectionManager.h"
 #include "EVisionKeyboardController.h"
 #include "EVisionV2KeyboardController.h"
 #include "RGBController_EVisionKeyboard.h"
 #include "RGBController_EVisionV2Keyboard.h"
+#include "ResourceManager.h"
 #include "SettingsManager.h"
 
 /*-----------------------------------------------------*\
@@ -55,7 +56,7 @@ void DetectEVisionKeyboards(hid_device_info* info, const std::string& name)
         EVisionKeyboardController*     controller     = new EVisionKeyboardController(dev, info->path, name);
         RGBController_EVisionKeyboard* rgb_controller = new RGBController_EVisionKeyboard(controller);
 
-        ResourceManager::get()->RegisterRGBController(rgb_controller);
+        DetectionManager::get()->RegisterRGBController(rgb_controller);
     }
 }
 
@@ -69,17 +70,17 @@ void DetectEVisionV2Keyboards(hid_device_info* info, const std::string& name)
         EVisionV2KeyboardController*     controller     = new EVisionV2KeyboardController(dev, info->path, EVISION_V2_KEYBOARD_LAYOUT, name);
         RGBController_EVisionV2Keyboard* rgb_controller = new RGBController_EVisionV2Keyboard(controller, EVISION_V2_KEYBOARD_PART_KEYBOARD);
 
-        ResourceManager::get()->RegisterRGBController(rgb_controller);
+        DetectionManager::get()->RegisterRGBController(rgb_controller);
 
         if(!settings.contains("AdditionalZones") || settings["AdditionalZones"] == true)
         {
             rgb_controller                             = new RGBController_EVisionV2Keyboard(controller, EVISION_V2_KEYBOARD_PART_LOGO);
 
-            ResourceManager::get()->RegisterRGBController(rgb_controller);
+            DetectionManager::get()->RegisterRGBController(rgb_controller);
 
             rgb_controller                             = new RGBController_EVisionV2Keyboard(controller, EVISION_V2_KEYBOARD_PART_EDGE);
 
-            ResourceManager::get()->RegisterRGBController(rgb_controller);
+            DetectionManager::get()->RegisterRGBController(rgb_controller);
         }
     }
 }
@@ -94,13 +95,13 @@ void DetectEndorfyKeyboards(hid_device_info* info, const std::string& name)
         EVisionV2KeyboardController*     controller     = new EVisionV2KeyboardController(dev, info->path, ENDORFY_KEYBOARD_LAYOUT, name);
         RGBController_EVisionV2Keyboard* rgb_controller = new RGBController_EVisionV2Keyboard(controller, EVISION_V2_KEYBOARD_PART_KEYBOARD);
 
-        ResourceManager::get()->RegisterRGBController(rgb_controller);
+        DetectionManager::get()->RegisterRGBController(rgb_controller);
 
         if(!settings.contains("AdditionalZones") || settings["AdditionalZones"] == true)
         {
             rgb_controller                              = new RGBController_EVisionV2Keyboard(controller, ENDORFY_KEYBOARD_PART_EDGE);
 
-            ResourceManager::get()->RegisterRGBController(rgb_controller);
+            DetectionManager::get()->RegisterRGBController(rgb_controller);
         }
     }
 }
