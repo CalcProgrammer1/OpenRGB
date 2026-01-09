@@ -21,6 +21,23 @@
 
 using namespace std::chrono_literals;
 
+
+// Sources for define values:
+// - https://en.wikipedia.org/wiki/Serial_presence_detect
+// - JEDEC DDR5 Serial Presence Detect (SPD): Table of contents
+
+#define BASIC_MEMORY_TYPE_ADDR      (0x02)
+
+#define DDR4_JEDEC_ID_ADDR          (0x140)
+#define DDR4_MANUF_SPECIFIC_START   (0x161)
+#define DDR4_MANUF_SPECIFIC_END     (0x17D)
+#define DDR4_MANUF_SPECIFIC_LEN     (DDR4_MANUF_SPECIFIC_END - DDR4_MANUF_SPECIFIC_START + 1)
+
+#define DDR5_JEDEC_ID_ADDR          (0x200)
+#define DDR5_MANUF_SPECIFIC_START   (0x22B)
+#define DDR5_MANUF_SPECIFIC_END     (0x27F)
+#define DDR5_MANUF_SPECIFIC_LEN     (DDR5_MANUF_SPECIFIC_END - DDR5_MANUF_SPECIFIC_START + 1)
+
 const char *spd_memory_type_name[] =
 {
     "Reserved",
@@ -103,22 +120,23 @@ DDR4Accessor::~DDR4Accessor()
 
 SPDMemoryType DDR4Accessor::memory_type()
 {
-    return((SPDMemoryType)(this->at(0x02)));
+    return((SPDMemoryType)(this->at(BASIC_MEMORY_TYPE_ADDR)));
 }
 
 uint16_t DDR4Accessor::jedec_id()
 {
-    return((this->at(0x140) << 8) + (this->at(0x141) & 0x7f) - 1);
+    return((this->at(DDR4_JEDEC_ID_ADDR) << 8) + (this->at(DDR4_JEDEC_ID_ADDR+1) & 0x7f) - 1);
 }
 
 uint8_t DDR4Accessor::manufacturer_data(uint16_t index)
 {
-    if(index > 28)
+    if(index > DDR4_MANUF_SPECIFIC_LEN-1)
     {
         return 0;
     }
-    return this->at(0x161 + index);
+    return this->at(DDR4_MANUF_SPECIFIC_START + index);
 }
+
 
 DDR5Accessor::DDR5Accessor(i2c_smbus_interface *bus, uint8_t spd_addr)
   : SPDAccessor(bus, spd_addr)
@@ -131,19 +149,19 @@ DDR5Accessor::~DDR5Accessor()
 
 SPDMemoryType DDR5Accessor::memory_type()
 {
-    return((SPDMemoryType)(this->at(0x02)));
+    return((SPDMemoryType)(this->at(BASIC_MEMORY_TYPE_ADDR)));
 }
 
 uint16_t DDR5Accessor::jedec_id()
 {
-    return((this->at(0x200) << 8) + (this->at(0x201) & 0x7f) - 1);
+    return((this->at(DDR5_JEDEC_ID_ADDR) << 8) + (this->at(DDR5_JEDEC_ID_ADDR+1) & 0x7f) - 1);
 }
 
 uint8_t DDR5Accessor::manufacturer_data(uint16_t index)
 {
-    if(index > 84)
+    if(index > DDR5_MANUF_SPECIFIC_LEN-1)
     {
         return 0;
     }
-    return this->at(0x22B + index);
+    return this->at(DDR5_MANUF_SPECIFIC_START + index);
 }
