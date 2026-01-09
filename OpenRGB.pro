@@ -183,8 +183,7 @@ HEADERS +=                                                                      
     ResourceManager.h                                                                           \
     ResourceManagerInterface.h                                                                  \
     SettingsManager.h                                                                           \
-    Detector.h                                                                                  \
-    DeviceDetector.h                                                                            \
+    DetectionManager.h                                                                          \
     dmiinfo/dmiinfo.h                                                                           \
     filesystem.h                                                                                \
     hidapi_wrapper/hidapi_wrapper.h                                                             \
@@ -244,6 +243,7 @@ SOURCES +=                                                                      
     dependencies/hueplusplus-1.2.0/src/ZLLSensors.cpp                                           \
     startup/startup.cpp                                                                         \
     cli.cpp                                                                                     \
+    DetectionManager.cpp                                                                        \
     dmiinfo/dmiinfo.cpp                                                                         \
     LogManager.cpp                                                                              \
     NetworkClient.cpp                                                                           \

@@ -10,7 +10,7 @@
 \*---------------------------------------------------------*/
 
 #include <hidapi.h>
-#include "Detector.h"
+#include "DetectionManager.h"
 #include "TecknetController.h"
 #include "RGBController_Tecknet.h"
 
@@ -36,7 +36,7 @@ void DetectTecknetControllers(hid_device_info* info, const std::string&)
         TecknetController* controller = new TecknetController(dev, info->path);
         RGBController_Tecknet* rgb_controller = new RGBController_Tecknet(controller);
         // Constructor sets the name
-        ResourceManager::get()->RegisterRGBController(rgb_controller);
+        DetectionManager::get()->RegisterRGBController(rgb_controller);
     }
 }   /* DetectTecknetControllers) */
 

@@ -9,7 +9,7 @@
 |   SPDX-License-Identifier: GPL-2.0-or-later               |
 \*---------------------------------------------------------*/
 
-#include "Detector.h"
+#include "DetectionManager.h"
 #include "LuxaforController.h"
 #include "RGBController_Luxafor.h"
 
@@ -32,7 +32,7 @@ void DetectLuxaforControllers(hid_device_info* info, const std::string& name)
         LuxaforController*     controller     = new LuxaforController(dev, info->path, name);
         RGBController_Luxafor* rgb_controller = new RGBController_Luxafor(controller);
 
-        ResourceManager::get()->RegisterRGBController(rgb_controller);
+        DetectionManager::get()->RegisterRGBController(rgb_controller);
     }
 }
 

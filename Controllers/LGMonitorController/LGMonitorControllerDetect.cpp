@@ -9,7 +9,7 @@
 |   SPDX-License-Identifier: GPL-2.0-or-later               |
 \*---------------------------------------------------------*/
 
-#include "Detector.h"
+#include "DetectionManager.h"
 #include "LGMonitorController.h"
 #include "RGBController_LGMonitor.h"
 
@@ -33,7 +33,7 @@ static void DetectLGMonitorControllers(hid_device_info* info, const std::string&
         LGMonitorController*     controller         = new LGMonitorController(dev, *info, name);
         RGBController_LGMonitor* rgb_controller     = new RGBController_LGMonitor(controller);
 
-        ResourceManager::get()->RegisterRGBController(rgb_controller);
+        DetectionManager::get()->RegisterRGBController(rgb_controller);
     }
 }
 

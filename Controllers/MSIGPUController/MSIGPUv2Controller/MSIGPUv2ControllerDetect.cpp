@@ -9,7 +9,7 @@
 |   SPDX-License-Identifier: GPL-2.0-or-later               |
 \*---------------------------------------------------------*/
 
-#include "Detector.h"
+#include "DetectionManager.h"
 #include "LogManager.h"
 #include "i2c_smbus.h"
 #include "RGBController_MSIGPUv2.h"
@@ -34,7 +34,7 @@ void DetectMSIGPUv2Controllers(i2c_smbus_interface* bus, uint8_t i2c_addr, const
     MSIGPUv2Controller*     controller      = new MSIGPUv2Controller(bus, i2c_addr, name);
     RGBController_MSIGPUv2* rgb_controller  = new RGBController_MSIGPUv2(controller, msi_gpu_id);
 
-    ResourceManager::get()->RegisterRGBController(rgb_controller);
+    DetectionManager::get()->RegisterRGBController(rgb_controller);
 } /* DetectMSIGPUv2Controllers() */
 
 REGISTER_I2C_PCI_DETECTOR("MSI GeForce RTX 4060 Gaming X",                          DetectMSIGPUv2Controllers,    NVIDIA_VEN,     NVIDIA_RTX4060_DEV,         MSI_SUB_VEN,    MSI_RTX4060_GAMING_X_8G_SUB_DEV,               0x68);

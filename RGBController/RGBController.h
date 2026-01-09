@@ -755,6 +755,7 @@ private:
     | Certain internal OpenRGB framework classes can modify |
     | protected members                                     |
     \*-----------------------------------------------------*/
+    friend class            DetectionManager;
     friend class            NetworkClient;
     friend class            NetworkServer;
     friend class            ProfileManager;

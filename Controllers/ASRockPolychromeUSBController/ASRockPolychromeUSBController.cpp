@@ -11,12 +11,12 @@
 \*---------------------------------------------------------*/
 
 #include <cstring>
-#include "RGBController.h"
-#include "ResourceManager.h"
-#include "SettingsManager.h"
-#include "StringUtils.h"
 #include "ASRockPolychromeUSBController.h"
 #include "dmiinfo.h"
+#include "ResourceManager.h"
+#include "RGBController.h"
+#include "SettingsManager.h"
+#include "StringUtils.h"
 
 #define POLYCHROME_USB_READ_ZONE_CONFIG 0x11
 #define POLYCHROME_USB_READ_HEADER      0x14

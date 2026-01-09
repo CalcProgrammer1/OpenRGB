@@ -7,7 +7,7 @@
 |   SPDX-License-Identifier: GPL-2.0-or-later               |
 \*---------------------------------------------------------*/
 
-#include "Detector.h"
+#include "DetectionManager.h"
 #include "ColorfulTuringGPUController.h"
 #include "RGBController_ColorfulTuringGPU.h"
 #include "i2c_smbus.h"
@@ -20,7 +20,7 @@ void DetectColorfulTuringGPUControllers(i2c_smbus_interface* bus, uint8_t i2c_ad
         ColorfulTuringGPUController* controller         = new ColorfulTuringGPUController(bus, i2c_addr, name);
         RGBController_ColorfulTuringGPU* rgb_controller = new RGBController_ColorfulTuringGPU(controller);
 
-        ResourceManager::get()->RegisterRGBController(rgb_controller);
+        DetectionManager::get()->RegisterRGBController(rgb_controller);
     }
 }
 

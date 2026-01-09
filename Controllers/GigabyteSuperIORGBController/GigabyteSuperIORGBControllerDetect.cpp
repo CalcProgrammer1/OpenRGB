@@ -9,7 +9,7 @@
 |   SPDX-License-Identifier: GPL-2.0-or-later               |
 \*---------------------------------------------------------*/
 
-#include "Detector.h"
+#include "DetectionManager.h"
 #include "GigabyteSuperIORGBController.h"
 #include "RGBController_GigabyteSuperIORGB.h"
 #include "super_io.h"
@@ -58,7 +58,7 @@ void DetectGigabyteSuperIORGBControllers()
                         GigabyteSuperIORGBController*     controller     = new GigabyteSuperIORGBController(sioaddr, "Gigabyte " + board_dmi);
                         RGBController_GigabyteSuperIORGB* rgb_controller = new RGBController_GigabyteSuperIORGB(controller);
 
-                        ResourceManager::get()->RegisterRGBController(rgb_controller);
+                        DetectionManager::get()->RegisterRGBController(rgb_controller);
                         break;
                     }
                 }

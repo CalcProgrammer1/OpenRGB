@@ -9,7 +9,7 @@
 |   SPDX-License-Identifier: GPL-2.0-or-later               |
 \*---------------------------------------------------------*/
 
-#include "Detector.h"
+#include "DetectionManager.h"
 #include "GalaxGPUv1Controller.h"
 #include "GalaxGPUv2Controller.h"
 #include "RGBController_GalaxGPUv1.h"
@@ -92,7 +92,7 @@ void DetectGalaxGPUControllers(i2c_smbus_interface* bus, uint8_t i2c_addr, const
                     GalaxGPUv1Controller*     controller     = new GalaxGPUv1Controller(bus, i2c_addr, name);
                     RGBController_GalaxGPUv1* rgb_controller = new RGBController_GalaxGPUv1(controller);
 
-                    ResourceManager::get()->RegisterRGBController(rgb_controller);
+                    DetectionManager::get()->RegisterRGBController(rgb_controller);
                 }
                 break;
 
@@ -104,7 +104,7 @@ void DetectGalaxGPUControllers(i2c_smbus_interface* bus, uint8_t i2c_addr, const
                     GalaxGPUv2Controller*     controller     = new GalaxGPUv2Controller(bus, i2c_addr, name);
                     RGBController_GalaxGPUv2* rgb_controller = new RGBController_GalaxGPUv2(controller);
 
-                    ResourceManager::get()->RegisterRGBController(rgb_controller);
+                    DetectionManager::get()->RegisterRGBController(rgb_controller);
                 }
                 break;
         }

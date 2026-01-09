@@ -12,14 +12,15 @@
 
 #include <string>
 #include <vector>
-#include "Detector.h"
-#include "GigabyteRGBFusion2SMBusController.h"
-#include "LogManager.h"
-#include "RGBController_GigabyteRGBFusion2SMBus.h"
-#include "SettingsManager.h"
-#include "i2c_smbus.h"
-#include "pci_ids.h"
+#include "DetectionManager.h"
 #include "dmiinfo.h"
+#include "GigabyteRGBFusion2SMBusController.h"
+#include "i2c_smbus.h"
+#include "LogManager.h"
+#include "pci_ids.h"
+#include "RGBController_GigabyteRGBFusion2SMBus.h"
+#include "ResourceManager.h"
+#include "SettingsManager.h"
 
 #define DETECTOR_NAME                       "Gigabyte RGB Fusion 2 SMBus"
 #define VENDOR_NAME                         "Gigabyte Technology Co., Ltd."
@@ -148,7 +149,7 @@ void DetectGigabyteRGBFusion2SMBusControllers(std::vector<i2c_smbus_interface*>&
                             RGBFusion2SMBusController*     controller     = new RGBFusion2SMBusController(busses[bus], SMBUS_ADDRESS, dmi.getMainboard() );
                             RGBController_RGBFusion2SMBus* rgb_controller = new RGBController_RGBFusion2SMBus(controller);
 
-                            ResourceManager::get()->RegisterRGBController(rgb_controller);
+                            DetectionManager::get()->RegisterRGBController(rgb_controller);
                         }
                     }
                 }

@@ -9,7 +9,7 @@
 |   SPDX-License-Identifier: GPL-2.0-or-later               |
 \*---------------------------------------------------------*/
 
-#include "Detector.h"
+#include "DetectionManager.h"
 #include "TrustGXT114Controller.h"
 #include "TrustGXT180Controller.h"
 #include "RGBController_TrustGXT114.h"
@@ -38,7 +38,7 @@ void DetectTrustGXT114Controllers(hid_device_info* info, const std::string& name
         {
             RGBController_TrustGXT114* rgb_controller   = new RGBController_TrustGXT114(controller);
 
-            ResourceManager::get()->RegisterRGBController(rgb_controller);
+            DetectionManager::get()->RegisterRGBController(rgb_controller);
         }
         else
         {
@@ -56,7 +56,7 @@ void DetectTrustGXT180Controllers(hid_device_info* info, const std::string& name
         TrustGXT180Controller*     controller       = new TrustGXT180Controller(dev, *info, name);
         RGBController_TrustGXT180* rgb_controller   = new RGBController_TrustGXT180(controller);
 
-        ResourceManager::get()->RegisterRGBController(rgb_controller);
+        DetectionManager::get()->RegisterRGBController(rgb_controller);
     }
 }
 

@@ -10,7 +10,7 @@
 \*---------------------------------------------------------*/
 
 #include <hidapi.h>
-#include "Detector.h"
+#include "DetectionManager.h"
 #include "ZalmanZSyncController.h"
 #include "RGBController_ZalmanZSync.h"
 
@@ -34,7 +34,7 @@ void DetectZalmanZSyncControllers(hid_device_info* info, const std::string& name
         ZalmanZSyncController*     controller     = new ZalmanZSyncController(dev, info->path, name);
         RGBController_ZalmanZSync* rgb_controller = new RGBController_ZalmanZSync(controller);
 
-        ResourceManager::get()->RegisterRGBController(rgb_controller);
+        DetectionManager::get()->RegisterRGBController(rgb_controller);
     }
 }   /* DetectZalmanZSyncControllers() */
 
