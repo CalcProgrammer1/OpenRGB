@@ -11,8 +11,8 @@
 
 #include "RGBController_ENESMBus.h"
 #include "LogManager.h"
-#include "SettingsManager.h"
 #include "ResourceManager.h"
+#include "SettingsManager.h"
 
 /**------------------------------------------------------------------*\
     @name ENE SMBus Device

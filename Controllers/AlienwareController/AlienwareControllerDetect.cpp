@@ -7,7 +7,7 @@
 |   SPDX-License-Identifier: GPL-2.0-or-later               |
 \*---------------------------------------------------------*/
 
-#include "Detector.h"
+#include "DetectionManager.h"
 #include "AlienwareController.h"
 #include "RGBController_Alienware.h"
 
@@ -31,7 +31,7 @@ void DetectAlienwareControllers(hid_device_info* info, const std::string& name)
         AlienwareController*     controller     = new AlienwareController(dev, *info, name);
         RGBController_Alienware* rgb_controller = new RGBController_Alienware(controller);
 
-        ResourceManager::get()->RegisterRGBController(rgb_controller);
+        DetectionManager::get()->RegisterRGBController(rgb_controller);
     }
 }
 

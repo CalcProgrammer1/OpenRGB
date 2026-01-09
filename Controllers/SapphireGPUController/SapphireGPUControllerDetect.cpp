@@ -7,7 +7,7 @@
 |   SPDX-License-Identifier: GPL-2.0-or-later               |
 \*---------------------------------------------------------*/
 
-#include "Detector.h"
+#include "DetectionManager.h"
 #include "SapphireNitroGlowV1Controller.h"
 #include "SapphireNitroGlowV3Controller.h"
 #include "RGBController_SapphireNitroGlowV1.h"
@@ -60,7 +60,7 @@ void DetectSapphireV1Controllers(i2c_smbus_interface* bus, uint8_t i2c_addr, con
         SapphireNitroGlowV1Controller*     new_sapphire_gpu = new SapphireNitroGlowV1Controller(bus, i2c_addr, name);
         RGBController_SapphireNitroGlowV1* new_controller   = new RGBController_SapphireNitroGlowV1(new_sapphire_gpu);
 
-        ResourceManager::get()->RegisterRGBController(new_controller);
+        DetectionManager::get()->RegisterRGBController(new_controller);
     }
 }   /* DetectSapphireV1Controllers() */
 
@@ -71,7 +71,7 @@ void DetectSapphireV3Controllers(i2c_smbus_interface* bus, uint8_t i2c_addr, con
         SapphireNitroGlowV3Controller*     new_sapphire_gpu = new SapphireNitroGlowV3Controller(bus, i2c_addr, name);
         RGBController_SapphireNitroGlowV3* new_controller   = new RGBController_SapphireNitroGlowV3(new_sapphire_gpu);
 
-        ResourceManager::get()->RegisterRGBController(new_controller);
+        DetectionManager::get()->RegisterRGBController(new_controller);
     }
 }   /* DetectSapphireV3Controllers() */
 

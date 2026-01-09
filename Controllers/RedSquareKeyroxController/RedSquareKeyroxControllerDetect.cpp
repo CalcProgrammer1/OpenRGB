@@ -10,7 +10,7 @@
 \*---------------------------------------------------------*/
 
 #include <hidapi.h>
-#include "Detector.h"
+#include "DetectionManager.h"
 #include "RedSquareKeyroxController.h"
 #include "RedSquareKeyroxTKLClassicController.h"
 #include "RGBController_RedSquareKeyrox.h"
@@ -38,7 +38,7 @@ void DetectRedSquareKeyroxTKL(hid_device_info* info, const std::string& name)
         RedSquareKeyroxController*     controller     = new RedSquareKeyroxController(dev, *info, KEYROX_VARIANT_TKL, name);
         RGBController_RedSquareKeyrox* rgb_controller = new RGBController_RedSquareKeyrox(controller);
 
-        ResourceManager::get()->RegisterRGBController(rgb_controller);
+        DetectionManager::get()->RegisterRGBController(rgb_controller);
     }
 }
 void DetectRedSquareKeyroxTKLClassic(hid_device_info* info, const std::string& name)
@@ -50,7 +50,7 @@ void DetectRedSquareKeyroxTKLClassic(hid_device_info* info, const std::string& n
         RedSquareKeyroxTKLClassicController*     controller     = new RedSquareKeyroxTKLClassicController(dev, *info, name);
         RGBController_RedSquareKeyroxTKLClassic* rgb_controller = new RGBController_RedSquareKeyroxTKLClassic(controller);
 
-        ResourceManager::get()->RegisterRGBController(rgb_controller);
+        DetectionManager::get()->RegisterRGBController(rgb_controller);
     }
 }
 

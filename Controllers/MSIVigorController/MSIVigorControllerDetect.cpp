@@ -9,7 +9,7 @@
 |   SPDX-License-Identifier: GPL-2.0-or-later               |
 \*---------------------------------------------------------*/
 
-#include "Detector.h"
+#include "DetectionManager.h"
 #include "MSIVigorGK30Controller.h"
 #include "RGBController_MSIVigorGK30.h"
 
@@ -32,7 +32,7 @@ void DetectMSIVigorGK30Controllers(hid_device_info* info, const std::string& nam
         MSIVigorGK30Controller*     controller      = new MSIVigorGK30Controller(dev, *info, name);
         RGBController_MSIVigorGK30* rgb_controller  = new RGBController_MSIVigorGK30(controller);
 
-        ResourceManager::get()->RegisterRGBController(rgb_controller);
+        DetectionManager::get()->RegisterRGBController(rgb_controller);
     }
 }
 

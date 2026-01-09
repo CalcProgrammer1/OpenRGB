@@ -9,7 +9,7 @@
 |   SPDX-License-Identifier: GPL-2.0-or-later               |
 \*---------------------------------------------------------*/
 
-#include "Detector.h"
+#include "DetectionManager.h"
 #include "GigabyteRGBFusionGPUController.h"
 #include "LogManager.h"
 #include "RGBController_GigabyteRGBFusionGPU.h"
@@ -101,7 +101,7 @@ void DetectGigabyteRGBFusionGPUControllers(i2c_smbus_interface* bus, uint8_t i2c
         RGBFusionGPUController*     controller     = new RGBFusionGPUController(bus, i2c_addr, name);
         RGBController_RGBFusionGPU* rgb_controller = new RGBController_RGBFusionGPU(controller);
 
-        ResourceManager::get()->RegisterRGBController(rgb_controller);
+        DetectionManager::get()->RegisterRGBController(rgb_controller);
     }
 }   /* DetectGigabyteRGBFusionGPUControllers() */
 

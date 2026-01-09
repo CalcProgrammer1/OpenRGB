@@ -13,7 +13,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <vector>
-#include "Detector.h"
+#include "DetectionManager.h"
 #include "ENESMBusController.h"
 #include "ENESMBusInterface_SpectrixS40G_Linux.h"
 #include "LogManager.h"
@@ -82,7 +82,7 @@ void DetectSpectrixS40GControllers()
                 ENESMBusController*             controller     = new ENESMBusController(interface, 0x67, "XPG Spectrix S40G", DEVICE_TYPE_STORAGE);
                 RGBController_ENESMBus*         rgb_controller = new RGBController_ENESMBus(controller);
 
-                ResourceManager::get()->RegisterRGBController(rgb_controller);
+                DetectionManager::get()->RegisterRGBController(rgb_controller);
             }
         }
 

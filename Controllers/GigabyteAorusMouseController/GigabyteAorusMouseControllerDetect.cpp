@@ -9,7 +9,7 @@
 |   SPDX-License-Identifier: GPL-2.0-or-later               |
 \*---------------------------------------------------------*/
 
-#include "Detector.h"
+#include "DetectionManager.h"
 #include "hidapi.h"
 #include "GigabyteAorusMouseController.h"
 #include "RGBController_GigabyteAorusMouse.h"
@@ -33,7 +33,7 @@ void DetectGigabyteAorusMouseControllers(hid_device_info* info, const std::strin
         GigabyteAorusMouseController*     controller     = new GigabyteAorusMouseController(dev, *info, name);
         RGBController_GigabyteAorusMouse* rgb_controller = new RGBController_GigabyteAorusMouse(controller);
 
-        ResourceManager::get()->RegisterRGBController(rgb_controller);
+        DetectionManager::get()->RegisterRGBController(rgb_controller);
     }
 }
 
