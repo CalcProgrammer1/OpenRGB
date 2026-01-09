@@ -9,7 +9,8 @@
 |   SPDX-License-Identifier: GPL-2.0-or-later               |
 \*---------------------------------------------------------*/
 
-#include "Detector.h"
+#include "DetectionManager.h"
+#include "ResourceManager.h"
 #include "RGBController.h"
 #include "RGBController_Debug.h"
 #include "SettingsManager.h"
@@ -39,7 +40,7 @@ void DetectDebugControllers()
         for(unsigned int device_idx = 0; device_idx < debug_settings["devices"].size(); device_idx++)
         {
             RGBController_Debug * debug_controller = new RGBController_Debug(false, debug_settings["devices"][device_idx]);
-            ResourceManager::get()->RegisterRGBController(debug_controller);
+            DetectionManager::get()->RegisterRGBController(debug_controller);
         }
     }
 
@@ -68,7 +69,7 @@ void DetectDebugControllers()
             else
             {
                 RGBController_Debug * debug_controller = new RGBController_Debug(true, custom_device_settings);
-                ResourceManager::get()->RegisterRGBController(debug_controller);
+                DetectionManager::get()->RegisterRGBController(debug_controller);
             }
         }
     }

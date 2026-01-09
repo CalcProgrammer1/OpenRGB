@@ -9,7 +9,7 @@
 |   SPDX-License-Identifier: GPL-2.0-or-later               |
 \*---------------------------------------------------------*/
 
-#include "Detector.h"
+#include "DetectionManager.h"
 #include "DuckyKeyboardController.h"
 #include "RGBController_DuckyKeyboard.h"
 #include <hidapi.h>
@@ -31,7 +31,7 @@ void DetectDuckyKeyboardControllers(hid_device_info* info, const std::string& na
         DuckyKeyboardController*     controller     = new DuckyKeyboardController(dev, info->path, info->product_id, name);
         RGBController_DuckyKeyboard* rgb_controller = new RGBController_DuckyKeyboard(controller);
 
-        ResourceManager::get()->RegisterRGBController(rgb_controller);
+        DetectionManager::get()->RegisterRGBController(rgb_controller);
     }
 }   /* DetectDuckyKeyboardControllers() */
 

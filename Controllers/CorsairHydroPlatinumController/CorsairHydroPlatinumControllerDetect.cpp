@@ -11,7 +11,7 @@
 \*---------------------------------------------------------*/
 
 #include <hidapi.h>
-#include "Detector.h"
+#include "DetectionManager.h"
 #include "CorsairHydroPlatinumController.h"
 #include "RGBController_CorsairHydroPlatinum.h"
 
@@ -65,7 +65,7 @@ void DetectCorsairHydroPlatinumControllers(hid_device_info* info, const std::str
         CorsairHydroPlatinumController*     controller     = new CorsairHydroPlatinumController(dev, info->path, dev_rgb_fan, name);
         RGBController_CorsairHydroPlatinum* rgb_controller = new RGBController_CorsairHydroPlatinum(controller);
 
-        ResourceManager::get()->RegisterRGBController(rgb_controller);
+        DetectionManager::get()->RegisterRGBController(rgb_controller);
     }
 }
 

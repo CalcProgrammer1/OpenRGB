@@ -9,7 +9,7 @@
 |   SPDX-License-Identifier: GPL-2.0-or-later               |
 \*---------------------------------------------------------*/
 
-#include "Detector.h"
+#include "DetectionManager.h"
 #include "ZotacTuringGPUController.h"
 #include "RGBController_ZotacTuringGPU.h"
 #include "i2c_smbus.h"
@@ -54,7 +54,7 @@ void DetectZotacTuringGPUControllers(i2c_smbus_interface* bus, u8 i2c_addr, cons
         ZotacTuringGPUController*     controller     = new ZotacTuringGPUController(bus, i2c_addr, name);
         RGBController_ZotacTuringGPU* rgb_controller = new RGBController_ZotacTuringGPU(controller);
 
-        ResourceManager::get()->RegisterRGBController(rgb_controller);
+        DetectionManager::get()->RegisterRGBController(rgb_controller);
     }
 }
 

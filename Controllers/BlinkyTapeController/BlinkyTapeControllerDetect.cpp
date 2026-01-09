@@ -10,7 +10,7 @@
 \*---------------------------------------------------------*/
 
 #include <vector>
-#include "Detector.h"
+#include "DetectionManager.h"
 #include "BlinkyTapeController.h"
 #include "RGBController_BlinkyTape.h"
 #include "find_usb_serial_port.h"
@@ -39,7 +39,7 @@ void DetectBlinkyTapeControllers()
         controller->Initialize(*device_locations[device_idx]);
 
         RGBController_BlinkyTape* rgb_controller = new RGBController_BlinkyTape(controller);
-        ResourceManager::get()->RegisterRGBController(rgb_controller);
+        DetectionManager::get()->RegisterRGBController(rgb_controller);
     }
 }
 

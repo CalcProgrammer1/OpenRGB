@@ -9,8 +9,8 @@
 |   SPDX-License-Identifier: GPL-2.0-or-later               |
 \*---------------------------------------------------------*/
 
-#include "Detector.h"
 #include "ClevoKeyboardController.h"
+#include "DetectionManager.h"
 #include "RGBController_ClevoKeyboard.h"
 #include "RGBController.h"
 #include <hidapi.h>
@@ -35,7 +35,7 @@ void DetectClevoKeyboardControllers(hid_device_info* info, const std::string& na
         ClevoKeyboardController*     controller     = new ClevoKeyboardController(dev, *info);
         RGBController_ClevoKeyboard* rgb_controller = new RGBController_ClevoKeyboard(controller);
 
-        ResourceManager::get()->RegisterRGBController(rgb_controller);
+        DetectionManager::get()->RegisterRGBController(rgb_controller);
     }
 }
 

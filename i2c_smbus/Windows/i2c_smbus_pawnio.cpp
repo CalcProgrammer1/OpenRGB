@@ -10,7 +10,7 @@
 \*---------------------------------------------------------*/
 
 #include <string>
-#include "Detector.h"
+#include "DetectionManager.h"
 #include "i2c_smbus_pawnio.h"
 #include "LogManager.h"
 #include "PawnIOLib.h"
@@ -309,7 +309,7 @@ bool i2c_smbus_pawnio_detect()
     if(i2c_smbus_pawnio::start_pawnio("SmbusI801.bin", &pawnio_handle) == S_OK)
     {
         bus = new i2c_smbus_pawnio(pawnio_handle, "i801");
-        ResourceManager::get()->RegisterI2CBus(bus);
+        DetectionManager::get()->RegisterI2CBus(bus);
     }
 
     /*-----------------------------------------------------*\
@@ -323,7 +323,7 @@ bool i2c_smbus_pawnio_detect()
         piix4_port_sel(pawnio_handle, 0);
 
         bus = new i2c_smbus_pawnio(pawnio_handle, "piix4");
-        ResourceManager::get()->RegisterI2CBus(bus);
+        DetectionManager::get()->RegisterI2CBus(bus);
     }
 
     /*-----------------------------------------------------*\
@@ -337,7 +337,7 @@ bool i2c_smbus_pawnio_detect()
         piix4_port_sel(pawnio_handle, 1);
 
         bus = new i2c_smbus_pawnio(pawnio_handle, "piix4");
-        ResourceManager::get()->RegisterI2CBus(bus);
+        DetectionManager::get()->RegisterI2CBus(bus);
     }
 
     /*-----------------------------------------------------*\
@@ -346,7 +346,7 @@ bool i2c_smbus_pawnio_detect()
     if(i2c_smbus_pawnio::start_pawnio("SmbusNCT6793.bin", &pawnio_handle) == S_OK)
     {
         bus = new i2c_smbus_pawnio(pawnio_handle, "NCT6793");
-        ResourceManager::get()->RegisterI2CBus(bus);
+        DetectionManager::get()->RegisterI2CBus(bus);
     }
 
     return(true);

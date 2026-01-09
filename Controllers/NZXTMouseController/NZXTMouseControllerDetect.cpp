@@ -10,7 +10,7 @@
 \*---------------------------------------------------------*/
 
 #include <hidapi.h>
-#include "Detector.h"
+#include "DetectionManager.h"
 #include "NZXTMouseController.h"
 #include "RGBController_NZXTMouse.h"
 
@@ -37,7 +37,7 @@ static void DetectNZXTMouseControllers(hid_device_info* info, const std::string&
         NZXTMouseController*     controller     = new NZXTMouseController(dev, info->path, name);
         RGBController_NZXTMouse* rgb_controller = new RGBController_NZXTMouse(controller);
 
-        ResourceManager::get()->RegisterRGBController(rgb_controller);
+        DetectionManager::get()->RegisterRGBController(rgb_controller);
     }
 }
 

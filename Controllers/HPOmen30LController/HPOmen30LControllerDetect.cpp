@@ -8,7 +8,7 @@
 \*---------------------------------------------------------*/
 
 #include <hidapi.h>
-#include "Detector.h"
+#include "DetectionManager.h"
 #include "HPOmen30LController.h"
 #include "RGBController_HPOmen30L.h"
 
@@ -32,7 +32,7 @@ void DetectHPOmen30LController(hid_device_info* info, const std::string&)
         HPOmen30LController*     controller     = new HPOmen30LController(dev, info->path);
         RGBController_HPOmen30L* rgb_controller = new RGBController_HPOmen30L(controller);
         // Constructor sets the name
-        ResourceManager::get()->RegisterRGBController(rgb_controller);
+        DetectionManager::get()->RegisterRGBController(rgb_controller);
     }
 }
 

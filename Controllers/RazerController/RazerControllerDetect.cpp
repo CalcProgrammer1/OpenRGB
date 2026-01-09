@@ -11,7 +11,7 @@
 
 #include <unordered_set>
 #include <hidapi.h>
-#include "Detector.h"
+#include "DetectionManager.h"
 #include "RazerController.h"
 #include "RazerKrakenController.h"
 #include "RazerKrakenV3Controller.h"
@@ -43,7 +43,7 @@ void DetectRazerControllers(hid_device_info* info, const std::string& name)
         RazerController* controller = new RazerController(dev, dev, info->path, info->product_id, name);
 
         RGBController_Razer* rgb_controller = new RGBController_Razer(controller);
-        ResourceManager::get()->RegisterRGBController(rgb_controller);
+        DetectionManager::get()->RegisterRGBController(rgb_controller);
     }
 }   /* DetectRazerControllers() */
 
@@ -124,7 +124,7 @@ void DetectRazerARGBControllers(hid_device_info* info, const std::string& name)
      {
          RazerController* controller                    = new RazerController(dev_interface_0, dev_interface_1, info->path, info->product_id, name);
          RGBController_RazerAddressable* rgb_controller = new RGBController_RazerAddressable(controller);
-         ResourceManager::get()->RegisterRGBController(rgb_controller);
+         DetectionManager::get()->RegisterRGBController(rgb_controller);
          used_paths.insert(dev_interface_0_path);
          used_paths.insert(dev_interface_1_path);
      }
@@ -153,7 +153,7 @@ void DetectRazerKrakenControllers(hid_device_info* info, const std::string& name
         RazerKrakenController* controller = new RazerKrakenController(dev, info->path, info->product_id, name);
 
         RGBController_RazerKraken* rgb_controller = new RGBController_RazerKraken(controller);
-        ResourceManager::get()->RegisterRGBController(rgb_controller);
+        DetectionManager::get()->RegisterRGBController(rgb_controller);
     }
 }   /* DetectRazerKrakenControllers() */
 
@@ -174,7 +174,7 @@ void DetectRazerKrakenV3Controllers(hid_device_info* info, const std::string& na
         RazerKrakenV3Controller* controller = new RazerKrakenV3Controller(dev, info->path, info->product_id, name);
 
         RGBController_RazerKrakenV3* rgb_controller = new RGBController_RazerKrakenV3(controller);
-        ResourceManager::get()->RegisterRGBController(rgb_controller);
+        DetectionManager::get()->RegisterRGBController(rgb_controller);
     }
 }   /* DetectRazerKrakenV3Controllers() */
 
@@ -195,7 +195,7 @@ void DetectRazerKrakenV4Controllers(hid_device_info* info, const std::string& na
         RazerKrakenV4Controller* controller = new RazerKrakenV4Controller(dev, info->path, info->product_id, name);
 
         RGBController_RazerKrakenV4* rgb_controller = new RGBController_RazerKrakenV4(controller);
-        ResourceManager::get()->RegisterRGBController(rgb_controller);
+        DetectionManager::get()->RegisterRGBController(rgb_controller);
     }
 }   /* DetectRazerKrakenV4Controllers() */
 
@@ -216,7 +216,7 @@ void DetectRazerHanboControllers(hid_device_info* info, const std::string& name)
         RazerHanboController* controller = new RazerHanboController(dev, info->path, info->product_id, name);
 
         RGBController_RazerHanbo* rgb_controller = new RGBController_RazerHanbo(controller);
-        ResourceManager::get()->RegisterRGBController(rgb_controller);
+        DetectionManager::get()->RegisterRGBController(rgb_controller);
     }
 }   /* DetectRazerHanboControllers() */
 
