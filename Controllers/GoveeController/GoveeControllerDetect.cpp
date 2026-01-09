@@ -12,10 +12,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <vector>
-#include "Detector.h"
+#include "DetectionManager.h"
 #include "GoveeController.h"
 #include "RGBController.h"
 #include "RGBController_Govee.h"
+#include "ResourceManager.h"
 #include "SettingsManager.h"
 
 /******************************************************************************************\
@@ -69,7 +70,7 @@ void DetectGoveeControllers()
                 GoveeController*     controller     = new GoveeController(govee_ip);
                 RGBController_Govee* rgb_controller = new RGBController_Govee(controller);
 
-                ResourceManager::get()->RegisterRGBController(rgb_controller);
+                DetectionManager::get()->RegisterRGBController(rgb_controller);
             }
         }
 

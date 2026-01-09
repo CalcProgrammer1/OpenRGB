@@ -11,7 +11,7 @@
 \*---------------------------------------------------------*/
 
 #include <hidapi.h>
-#include "Detector.h"
+#include "DetectionManager.h"
 #include "RGBController_ValkyrieKeyboard.h"
 
 void DetectValkyrieKeyboardControllers(hid_device_info* info, const std::string& name)
@@ -22,7 +22,7 @@ void DetectValkyrieKeyboardControllers(hid_device_info* info, const std::string&
     {
         ValkyrieKeyboardController*       controller        = new ValkyrieKeyboardController(dev, info->path, info->product_id, info->interface_number, name);
         RGBController_ValkyrieKeyboard*   rgb_controller    = new RGBController_ValkyrieKeyboard(controller);
-        ResourceManager::get()->RegisterRGBController(rgb_controller);
+        DetectionManager::get()->RegisterRGBController(rgb_controller);
     }
 }
 

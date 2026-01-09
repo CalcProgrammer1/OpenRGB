@@ -7,7 +7,7 @@
 |   SPDX-License-Identifier: GPL-2.0-or-later               |
 \*---------------------------------------------------------*/
 
-#include "Detector.h"
+#include "DetectionManager.h"
 #include "LogManager.h"
 #include "ColorfulGPUController.h"
 #include "RGBController_ColorfulGPU.h"
@@ -40,7 +40,7 @@ void DetectColorfulGPUControllers(i2c_smbus_interface* bus, uint8_t i2c_addr, co
         ColorfulGPUController*     controller     = new ColorfulGPUController(bus, i2c_addr, name);
         RGBController_ColorfulGPU* rgb_controller = new RGBController_ColorfulGPU(controller);
 
-        ResourceManager::get()->RegisterRGBController(rgb_controller);
+        DetectionManager::get()->RegisterRGBController(rgb_controller);
     }
 }
 

@@ -9,11 +9,11 @@
 |   SPDX-License-Identifier: GPL-2.0-or-later               |
 \*---------------------------------------------------------*/
 
-#include "Detector.h"
-#include "ZotacBlackwellGPUController.h"
-#include "RGBController_ZotacBlackwellGPU.h"
+#include "DetectionManager.h"
 #include "i2c_smbus.h"
 #include "pci_ids.h"
+#include "RGBController_ZotacBlackwellGPU.h"
+#include "ZotacBlackwellGPUController.h"
 
 /******************************************************************************************\
 *                                                                                          *
@@ -38,7 +38,7 @@ void DetectZotacBlackwellGPUControllersPCI(i2c_smbus_interface* bus, u8 i2c_addr
                                                                                               bus->pci_device,
                                                                                               bus->pci_subsystem_device);
 
-        ResourceManager::get()->RegisterRGBController(rgb_controller);
+        DetectionManager::get()->RegisterRGBController(rgb_controller);
     }
 }
 

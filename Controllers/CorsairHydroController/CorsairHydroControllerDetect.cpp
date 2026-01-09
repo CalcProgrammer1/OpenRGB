@@ -10,7 +10,7 @@
 \*---------------------------------------------------------*/
 
 #include <libusb.h>
-#include "Detector.h"
+#include "DetectionManager.h"
 #include "CorsairHydroController.h"
 #include "RGBController_CorsairHydro.h"
 
@@ -75,7 +75,7 @@ void DetectCorsairHydroControllers()
             CorsairHydroController*     controller     = new CorsairHydroController(dev, device_list[device_idx].name);
             RGBController_CorsairHydro* rgb_controller = new RGBController_CorsairHydro(controller);
 
-            ResourceManager::get()->RegisterRGBController(rgb_controller);
+            DetectionManager::get()->RegisterRGBController(rgb_controller);
         }
     }
 }   /* DetectCorsairHydroControllers() */
