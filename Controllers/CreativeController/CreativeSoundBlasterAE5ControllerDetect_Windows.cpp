@@ -7,7 +7,7 @@
 |   SPDX-License-Identifier: GPL-2.0-or-later               |
 \*---------------------------------------------------------*/
 
-#include "Detector.h"
+#include "DetectionManager.h"
 #include "CreativeSoundBlasterAE5Controller_Windows.h"
 #include "RGBController_CreativeSoundBlasterAE5_Windows.h"
 #include "LogManager.h"
@@ -22,7 +22,7 @@ void DetectCreativeAE5Device()
     {
         LOG_INFO("[Creative SoundBlaster AE-5] Device initialized successfully, registering controller");
         RGBController_CreativeSoundBlasterAE5* rgb_controller = new RGBController_CreativeSoundBlasterAE5(controller);
-        ResourceManager::get()->RegisterRGBController(rgb_controller);
+        DetectionManager::get()->RegisterRGBController(rgb_controller);
     }
     else
     {

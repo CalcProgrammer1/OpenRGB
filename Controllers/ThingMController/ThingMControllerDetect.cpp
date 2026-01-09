@@ -10,7 +10,7 @@
 \*---------------------------------------------------------*/
 
 #include <hidapi.h>
-#include "Detector.h"
+#include "DetectionManager.h"
 #include "BlinkController.h"
 #include "RGBController_BlinkController.h"
 
@@ -34,7 +34,7 @@ void DetectThingMBlink(hid_device_info* info, const std::string&)
         BlinkController* controller = new BlinkController(dev, info->path);
         RGBController_BlinkController* rgb_controller = new RGBController_BlinkController(controller);
         // Constructor sets the name
-        ResourceManager::get()->RegisterRGBController(rgb_controller);
+        DetectionManager::get()->RegisterRGBController(rgb_controller);
     }
 }
 

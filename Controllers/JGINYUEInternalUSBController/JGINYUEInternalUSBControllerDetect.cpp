@@ -14,7 +14,7 @@
 #include <hidapi.h>
 #include "RGBController_JGINYUEInternalUSB.h"
 #include "JGINYUEInternalUSBController.h"
-#include "Detector.h"
+#include "DetectionManager.h"
 
 /*---------------------------------------------------------*\
 | JGINYUE vendor ID                                         |
@@ -34,7 +34,7 @@ void DetectJGINYUEInternalUSBController(hid_device_info* info,const std::string&
     {
         JGINYUEInternalUSBController*       controller      =new JGINYUEInternalUSBController(dev,info->path);
         RGBController_JGINYUEInternalUSB*   rgb_controller  =new RGBController_JGINYUEInternalUSB(controller);
-        ResourceManager::get()->RegisterRGBController(rgb_controller);
+        DetectionManager::get()->RegisterRGBController(rgb_controller);
     }
 }
 

@@ -10,7 +10,7 @@
 \*---------------------------------------------------------*/
 
 #include <hidapi.h>
-#include "Detector.h"
+#include "DetectionManager.h"
 #include "RGBController_WinbondGamingKeyboard.h"
 #include "LogManager.h"
 
@@ -55,7 +55,7 @@ void DetectWinbondGamingKeyboard(hid_device_info* info, const std::string& name)
         WinbondGamingKeyboardController* controller = new WinbondGamingKeyboardController(dev, *info, name);
         RGBController* rgb_controller               = new RGBController_WinbondGamingKeyboard(controller);
 
-        ResourceManager::get()->RegisterRGBController(rgb_controller);
+        DetectionManager::get()->RegisterRGBController(rgb_controller);
     }
     else
     {

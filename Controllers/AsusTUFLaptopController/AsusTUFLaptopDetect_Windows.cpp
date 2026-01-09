@@ -8,7 +8,7 @@
 \*---------------------------------------------------------*/
 
 #include <string>
-#include "Detector.h"
+#include "DetectionManager.h"
 #include "RGBController_AsusTUFLaptop_Windows.h"
 #include "wmi.h"
 
@@ -45,7 +45,7 @@ static void DetectAsusTUFLaptopWMIControllers()
     {
         RGBController* new_controller = new RGBController_AsusTUFLaptopWMI(controller);
 
-        ResourceManager::get()->RegisterRGBController(new_controller);
+        DetectionManager::get()->RegisterRGBController(new_controller);
     }
 }   /* DetectAsusTUFLaptopWMIControllers() */
 

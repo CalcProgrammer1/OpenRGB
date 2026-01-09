@@ -7,7 +7,7 @@
 |   SPDX-License-Identifier: GPL-2.0-or-later               |
 \*---------------------------------------------------------*/
 
-#include "Detector.h"
+#include "DetectionManager.h"
 #include "MSIMysticLight64Controller.h"
 #include "MSIMysticLight112Controller.h"
 #include "MSIMysticLight162Controller.h"
@@ -62,21 +62,21 @@ void DetectMSIMysticLightControllers
             MSIMysticLight185Controller*     controller     = new MSIMysticLight185Controller(dev, info->path, info->product_id, dmi_name);
             RGBController_MSIMysticLight185* rgb_controller = new RGBController_MSIMysticLight185(controller);
 
-            ResourceManager::get()->RegisterRGBController(rgb_controller);
+            DetectionManager::get()->RegisterRGBController(rgb_controller);
         }
         else if((packet_length >= sizeof(FeaturePacket_162)) && (packet_length <= (sizeof(FeaturePacket_162) + 1)))
         {
             MSIMysticLight162Controller*     controller     = new MSIMysticLight162Controller(dev, info->path, info->product_id, dmi_name);
             RGBController_MSIMysticLight162* rgb_controller = new RGBController_MSIMysticLight162(controller);
 
-            ResourceManager::get()->RegisterRGBController(rgb_controller);
+            DetectionManager::get()->RegisterRGBController(rgb_controller);
         }
         else if((packet_length >= sizeof(FeaturePacket_112)) && (packet_length <= (sizeof(FeaturePacket_112) + 1)))
         {
             MSIMysticLight112Controller*     controller     = new MSIMysticLight112Controller(dev, info->path, dmi_name);
             RGBController_MSIMysticLight112* rgb_controller = new RGBController_MSIMysticLight112(controller);
 
-            ResourceManager::get()->RegisterRGBController(rgb_controller);
+            DetectionManager::get()->RegisterRGBController(rgb_controller);
         }
         else    // no supported length returned
         {
@@ -104,7 +104,7 @@ void DetectMSIMysticLightControllers
                 {
                     MSIMysticLight761Controller*     controller     = new MSIMysticLight761Controller(dev, (const char *) info->path, dmi_name);
                     RGBController_MSIMysticLight761* rgb_controller = new RGBController_MSIMysticLight761(controller);
-                    ResourceManager::get()->RegisterRGBController(rgb_controller);
+                    DetectionManager::get()->RegisterRGBController(rgb_controller);
                 }
                 catch(const std::runtime_error& e)
                 {
@@ -142,7 +142,7 @@ void DetectMSIMysticLight64Controllers
         MSIMysticLight64Controller*     controller     = new MSIMysticLight64Controller(dev, info->path);
         RGBController_MSIMysticLight64* rgb_controller = new RGBController_MSIMysticLight64(controller);
 
-        ResourceManager::get()->RegisterRGBController(rgb_controller);
+        DetectionManager::get()->RegisterRGBController(rgb_controller);
     }
 }
 

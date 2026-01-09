@@ -11,7 +11,7 @@
 
 #include <stdio.h>
 #include <vector>
-#include "Detector.h"
+#include "DetectionManager.h"
 #include "CrucialController.h"
 #include "LogManager.h"
 #include "RGBController_Crucial.h"
@@ -223,7 +223,7 @@ void DetectCrucialControllers(std::vector<i2c_smbus_interface*> &busses)
                     CrucialController*     controller     = new CrucialController(busses[bus], crucial_addresses[address_list_idx]);
                     RGBController_Crucial* rgb_controller = new RGBController_Crucial(controller);
 
-                    ResourceManager::get()->RegisterRGBController(rgb_controller);
+                    DetectionManager::get()->RegisterRGBController(rgb_controller);
                 }
 
                 std::this_thread::sleep_for(1ms);

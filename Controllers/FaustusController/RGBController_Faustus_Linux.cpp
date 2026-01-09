@@ -10,7 +10,7 @@
 #include <dirent.h>
 #include <string.h>
 #include "RGBController_Faustus_Linux.h"
-#include "Detector.h"
+#include "DetectionManager.h"
 
 /**------------------------------------------------------------------*\
     @name ASUS TUF Keyboard (Faustus)
@@ -190,7 +190,7 @@ void DetectFaustusControllers()
         return;
     }
 
-    ResourceManager::get()->RegisterRGBController(new RGBController_Faustus(base_path));
+    DetectionManager::get()->RegisterRGBController(new RGBController_Faustus(base_path));
 }   /* DetectFaustusControllers() */
 
 REGISTER_DETECTOR("Faustus", DetectFaustusControllers);

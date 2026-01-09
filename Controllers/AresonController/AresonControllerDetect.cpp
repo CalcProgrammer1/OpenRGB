@@ -9,7 +9,7 @@
 |   SPDX-License-Identifier: GPL-2.0-or-later               |
 \*---------------------------------------------------------*/
 
-#include "Detector.h"
+#include "DetectionManager.h"
 #include "AresonController.h"
 #include "RGBController_Areson.h"
 
@@ -37,7 +37,7 @@ void DetectAresonControllers(hid_device_info* info, const std::string& name)
         AresonController*     controller      = new AresonController(dev, *info, name);
         RGBController_Areson* rgb_controller  = new RGBController_Areson(controller);
 
-        ResourceManager::get()->RegisterRGBController(rgb_controller);
+        DetectionManager::get()->RegisterRGBController(rgb_controller);
     }
 }
 
