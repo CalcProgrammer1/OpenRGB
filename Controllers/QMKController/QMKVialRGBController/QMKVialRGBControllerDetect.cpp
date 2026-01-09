@@ -11,8 +11,9 @@
 
 #include <string>
 #include <hidapi.h>
-#include "Detector.h"
+#include "DetectionManager.h"
 #include "QMKVialRGBController.h"
+#include "ResourceManager.h"
 #include "RGBController_QMKVialRGB.h"
 #include "SettingsManager.h"
 
@@ -39,7 +40,7 @@ void DetectQMKVialRGBControllers(hid_device_info *info, const std::string&)
         if(controller->GetSupported())
         {
             RGBController_QMKVialRGB* rgb_controller = new RGBController_QMKVialRGB(controller);
-            ResourceManager::get()->RegisterRGBController(rgb_controller);
+            DetectionManager::get()->RegisterRGBController(rgb_controller);
         }
         else
         {

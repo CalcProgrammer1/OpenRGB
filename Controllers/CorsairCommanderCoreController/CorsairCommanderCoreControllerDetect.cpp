@@ -10,7 +10,7 @@
 \*---------------------------------------------------------*/
 
 #include <hidapi.h>
-#include "Detector.h"
+#include "DetectionManager.h"
 #include "CorsairCommanderCoreController.h"
 #include "RGBController_CorsairCommanderCore.h"
 
@@ -36,7 +36,7 @@ void DetectCorsairCommanderCoreControllers(hid_device_info* info, const std::str
         CorsairCommanderCoreController*     controller     = new CorsairCommanderCoreController(dev, info->path, info->product_id, name);
         RGBController_CorsairCommanderCore* rgb_controller = new RGBController_CorsairCommanderCore(controller);
 
-        ResourceManager::get()->RegisterRGBController(rgb_controller);
+        DetectionManager::get()->RegisterRGBController(rgb_controller);
     }
 }
 

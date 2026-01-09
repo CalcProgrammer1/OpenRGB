@@ -9,7 +9,7 @@
 |   SPDX-License-Identifier: GPL-2.0-or-later               |
 \*---------------------------------------------------------*/
 
-#include "Detector.h"
+#include "DetectionManager.h"
 #include "AOCMouseController.h"
 #include "RGBController_AOCMouse.h"
 
@@ -36,7 +36,7 @@ void DetectAOCMouseControllers(hid_device_info* info, const std::string& name)
         AOCMouseController*     controller     = new AOCMouseController(dev, info->path, name);
         RGBController_AOCMouse* rgb_controller = new RGBController_AOCMouse(controller);
 
-        ResourceManager::get()->RegisterRGBController(rgb_controller);
+        DetectionManager::get()->RegisterRGBController(rgb_controller);
     }
 }
 

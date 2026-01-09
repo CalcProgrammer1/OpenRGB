@@ -8,7 +8,7 @@
 \*---------------------------------------------------------*/
 
 #include <hidapi.h>
-#include "Detector.h"
+#include "DetectionManager.h"
 #include "AsusCerberusKeyboardController.h"
 #include "AsusSagarisKeyboardController.h"
 #include "AsusStrixClawController.h"
@@ -32,7 +32,7 @@ void DetectAsusCerberusMech(hid_device_info* info, const std::string& name)
         AsusCerberusKeyboardController*     controller          = new AsusCerberusKeyboardController(dev, info->path, info->release_number, name);
         RGBController_AsusCerberusKeyboard* rgb_controller      = new RGBController_AsusCerberusKeyboard(controller);
 
-        ResourceManager::get()->RegisterRGBController(rgb_controller);
+        DetectionManager::get()->RegisterRGBController(rgb_controller);
     }
 }
 
@@ -45,7 +45,7 @@ void DetectAsusSagarisKeyboard(hid_device_info* info, const std::string& name)
         AsusSagarisKeyboardController*     controller          = new AsusSagarisKeyboardController(dev, info->path, info->release_number, name);
         RGBController_AsusSagarisKeyboard* rgb_controller      = new RGBController_AsusSagarisKeyboard(controller);
 
-        ResourceManager::get()->RegisterRGBController(rgb_controller);
+        DetectionManager::get()->RegisterRGBController(rgb_controller);
     }
 }
 
@@ -58,7 +58,7 @@ void DetectAsusStrixClaw(hid_device_info* info, const std::string& name)
         StrixClawController*     controller          = new StrixClawController(dev, info->path, name);
         RGBController_StrixClaw* rgb_controller      = new RGBController_StrixClaw(controller);
 
-        ResourceManager::get()->RegisterRGBController(rgb_controller);
+        DetectionManager::get()->RegisterRGBController(rgb_controller);
     }
 }
 

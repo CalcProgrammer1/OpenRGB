@@ -9,10 +9,11 @@
 |   SPDX-License-Identifier: GPL-2.0-or-later               |
 \*---------------------------------------------------------*/
 
-#include "Detector.h"
+#include "DetectionManager.h"
+#include "LogManager.h"
+#include "ResourceManager.h"
 #include "RGBController_Nanoleaf.h"
 #include "SettingsManager.h"
-#include "LogManager.h"
 
 /*----------------------------------------------------------------------------------------*\
 |                                                                                          |
@@ -37,7 +38,7 @@ void DetectNanoleafControllers()
                 try
                 {
                     RGBController_Nanoleaf* rgb_controller = new RGBController_Nanoleaf(device["ip"], device["port"], device["auth_token"]);
-                    ResourceManager::get()->RegisterRGBController(rgb_controller);
+                    DetectionManager::get()->RegisterRGBController(rgb_controller);
                 }
                 catch(...)
                 {

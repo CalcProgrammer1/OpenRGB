@@ -9,7 +9,7 @@
 |   SPDX-License-Identifier: GPL-2.0-or-later               |
 \*---------------------------------------------------------*/
 
-#include "Detector.h"
+#include "DetectionManager.h"
 #include "RGBController_DarkProjectKeyboard.h"
 
 /*---------------------------------------------------------*\
@@ -31,7 +31,7 @@ void DetectDarkProjectKeyboardControllers(hid_device_info* info, const std::stri
         DarkProjectKeyboardController*     controller       = new DarkProjectKeyboardController(dev, info->path, name);
         RGBController_DarkProjectKeyboard* rgb_controller   = new RGBController_DarkProjectKeyboard(controller);
 
-        ResourceManager::get()->RegisterRGBController(rgb_controller);
+        DetectionManager::get()->RegisterRGBController(rgb_controller);
     }
 }
 

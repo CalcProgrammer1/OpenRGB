@@ -10,7 +10,7 @@
 \*---------------------------------------------------------*/
 
 #include <hidapi.h>
-#include "Detector.h"
+#include "DetectionManager.h"
 #include "WootingV1KeyboardController.h"
 #include "WootingV2KeyboardController.h"
 #include "WootingV3KeyboardController.h"
@@ -121,7 +121,7 @@ void DetectWootingControllers(hid_device_info *info, const std::string &name)
         RGBController_WootingKeyboard *rgb_controller = new RGBController_WootingKeyboard(controller);
 
         LOG_DEBUG("[%s] Initialization complete - Registering controller\t%s", controller_name, name.c_str());
-        ResourceManager::get()->RegisterRGBController(rgb_controller);
+        DetectionManager::get()->RegisterRGBController(rgb_controller);
         return;
     }
 
@@ -135,7 +135,7 @@ void DetectWootingControllers(hid_device_info *info, const std::string &name)
         RGBController_WootingKeyboard *rgb_controller = new RGBController_WootingKeyboard(controller);
 
         LOG_DEBUG("[%s] Initialization complete - Registering controller\t%s", controller_name, name.c_str());
-        ResourceManager::get()->RegisterRGBController(rgb_controller);
+        DetectionManager::get()->RegisterRGBController(rgb_controller);
         return;
     }
 
@@ -149,7 +149,7 @@ void DetectWootingControllers(hid_device_info *info, const std::string &name)
         RGBController_WootingKeyboard *rgb_controller = new RGBController_WootingKeyboard(controller);
 
         LOG_DEBUG("[%s] Initialization complete - Registering controller\t%s", controller_name, name.c_str());
-        ResourceManager::get()->RegisterRGBController(rgb_controller);
+        DetectionManager::get()->RegisterRGBController(rgb_controller);
         return;
     }
 

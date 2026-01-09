@@ -10,7 +10,7 @@
 \*---------------------------------------------------------*/
 
 #include <hidapi.h>
-#include "Detector.h"
+#include "DetectionManager.h"
 #include "GigabyteAorusPCCaseController.h"
 #include "RGBController_GigabyteAorusPCCase.h"
 
@@ -40,7 +40,7 @@ void DetectGigabyteAorusPCCaseControllers(hid_device_info* info, const std::stri
         GigabyteAorusPCCaseController*      controller      = new GigabyteAorusPCCaseController(dev, info->path, name);
         RGBController_GigabyteAorusPCCase*  rgb_controller  = new RGBController_GigabyteAorusPCCase(controller);
 
-        ResourceManager::get()->RegisterRGBController(rgb_controller);
+        DetectionManager::get()->RegisterRGBController(rgb_controller);
     }
 }
 

@@ -11,7 +11,7 @@
 \*---------------------------------------------------------*/
 
 #include <hidapi.h>
-#include "Detector.h"
+#include "DetectionManager.h"
 #include "ASRockPolychromeUSBController.h"
 #include "RGBController_ASRockPolychromeUSB.h"
 
@@ -34,7 +34,7 @@ void DetectPolychromeUSBControllers(hid_device_info* info, const std::string& /*
     {
         PolychromeUSBController*     controller     = new PolychromeUSBController(dev, info->path);
         RGBController_PolychromeUSB* rgb_controller = new RGBController_PolychromeUSB(controller);
-        ResourceManager::get()->RegisterRGBController(rgb_controller);
+        DetectionManager::get()->RegisterRGBController(rgb_controller);
     }
 }
 
