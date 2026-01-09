@@ -9,7 +9,7 @@
 |   SPDX-License-Identifier: GPL-2.0-or-later               |
 \*---------------------------------------------------------*/
 
-#include "Detector.h"
+#include "DetectionManager.h"
 #include "MSIOptixController.h"
 #include "RGBController_MSIOptix.h"
 
@@ -32,7 +32,7 @@ void DetectMSIOptixControllers(hid_device_info* info, const std::string& name)
         MSIOptixController*     controller      = new MSIOptixController(dev, *info, name);
         RGBController_MSIOptix* rgb_controller  = new RGBController_MSIOptix(controller);
 
-        ResourceManager::get()->RegisterRGBController(rgb_controller);
+        DetectionManager::get()->RegisterRGBController(rgb_controller);
     }
 }
 

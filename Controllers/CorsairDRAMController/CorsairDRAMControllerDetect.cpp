@@ -11,12 +11,12 @@
 \*---------------------------------------------------------*/
 
 #include <vector>
-#include "Detector.h"
 #include "CorsairDRAMController.h"
-#include "RGBController_CorsairDRAM.h"
-#include "LogManager.h"
+#include "DetectionManager.h"
 #include "i2c_smbus.h"
+#include "LogManager.h"
 #include "pci_ids.h"
+#include "RGBController_CorsairDRAM.h"
 
 using namespace std::chrono_literals;
 
@@ -80,7 +80,7 @@ void DetectCorsairDRAMControllers(std::vector<i2c_smbus_interface *> &busses)
                     CorsairDRAMController*     controller     = new CorsairDRAMController(busses[bus], addr);
                     RGBController_CorsairDRAM* rgb_controller = new RGBController_CorsairDRAM(controller);
 
-                    ResourceManager::get()->RegisterRGBController(rgb_controller);
+                    DetectionManager::get()->RegisterRGBController(rgb_controller);
                 }
 
                 std::this_thread::sleep_for(10ms);

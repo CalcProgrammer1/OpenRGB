@@ -8,7 +8,7 @@
 \*---------------------------------------------------------*/
 
 #include <vector>
-#include "Detector.h"
+#include "DetectionManager.h"
 #include "TForceXtreemController.h"
 #include "LogManager.h"
 #include "RGBController_TForceXtreem.h"
@@ -176,9 +176,9 @@ void DetectTForceXtreemControllers(i2c_smbus_interface* bus, std::vector<SPDWrap
             TForceXtreemController*      controller     = new TForceXtreemController(bus, xtreem_ram_addresses[address_list_idx]);
             RGBController_TForceXtreem*  rgb_controller = new RGBController_TForceXtreem(controller);
 
-            ResourceManager::get()->RegisterRGBController(rgb_controller);
+            DetectionManager::get()->RegisterRGBController(rgb_controller);
         }
     }
 }   /* DetectTForceXtreemControllers() */
 
-REGISTER_I2C_DIMM_DETECTOR("T-Force Xtreem DDR4 DRAM", DetectTForceXtreemControllers, JEDEC_TEAMGROUP, SPD_DDR4_SDRAM);
+REGISTER_I2C_DRAM_DETECTOR("T-Force Xtreem DDR4 DRAM", DetectTForceXtreemControllers, JEDEC_TEAMGROUP, SPD_DDR4_SDRAM);

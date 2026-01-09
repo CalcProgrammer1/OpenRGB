@@ -3,14 +3,14 @@
 |                                                           |
 |   Detector for Manli GPU                                  |
 |                                                           |
-|   Based on ZotacV2GPUControllerDetect                      |
+|   Based on ZotacV2GPUControllerDetect                     |
 |   Adapted for Manli RTX 4090 Gallardo                     |
 |                                                           |
 |   This file is part of the OpenRGB project                |
 |   SPDX-License-Identifier: GPL-2.0-or-later               |
 \*---------------------------------------------------------*/
 
-#include "Detector.h"
+#include "DetectionManager.h"
 #include "ManliGPUController.h"
 #include "RGBController_ManliGPU.h"
 #include "i2c_smbus.h"
@@ -21,7 +21,7 @@
 *                                                                                          *
 *   DetectManliGPUControllers                                                              *
 *                                                                                          *
-*       Detect Manli GPU RGB controllers on the enumerated I2C busses                     *
+*       Detect Manli GPU RGB controllers on the enumerated I2C busses                      *
 *       at address 0x49.                                                                   *
 *                                                                                          *
 *           bus - pointer to i2c_smbus_interface where RGB device is connected             *
@@ -47,7 +47,7 @@ void DetectManliGPUControllers(i2c_smbus_interface* bus, u8 i2c_addr, const std:
 
         if(rgb_controller->config.numberOfZones > 0)
         {
-            ResourceManager::get()->RegisterRGBController(rgb_controller);
+            DetectionManager::get()->RegisterRGBController(rgb_controller);
         }
         else
         {

@@ -10,7 +10,7 @@
 \*---------------------------------------------------------*/
 
 #include <hidapi.h>
-#include "Detector.h"
+#include "DetectionManager.h"
 #include "DRGBController.h"
 #include "RGBController_DRGB.h"
 
@@ -27,7 +27,7 @@ void DetectDRGBControllers(hid_device_info* info, const std::string& name)
         DRGBController*     controller              = new DRGBController(dev, info->path, info->product_id, name);
         RGBController_DRGB* rgb_controller          = new RGBController_DRGB(controller);
 
-        ResourceManager::get()->RegisterRGBController(rgb_controller);
+        DetectionManager::get()->RegisterRGBController(rgb_controller);
     }
 }
 

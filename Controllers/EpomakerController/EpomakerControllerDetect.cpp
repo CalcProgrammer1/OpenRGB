@@ -10,7 +10,7 @@
 \*---------------------------------------------------------*/
 
 #include <hidapi.h>
-#include "Detector.h"
+#include "DetectionManager.h"
 #include "EpomakerController.h"
 #include "RGBController_EpomakerController.h"
 
@@ -38,7 +38,7 @@ void DetectEpomakerControllers(hid_device_info* info, const std::string&)
         EpomakerController*               controller     = new EpomakerController(dev, info->path);
         RGBController_EpomakerController* rgb_controller = new RGBController_EpomakerController(controller);
         // Constructor sets the name
-        ResourceManager::get()->RegisterRGBController(rgb_controller);
+        DetectionManager::get()->RegisterRGBController(rgb_controller);
     }
 }   /* DetectEpomakerControllers() */
 

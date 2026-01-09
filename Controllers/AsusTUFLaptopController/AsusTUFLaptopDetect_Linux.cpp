@@ -9,7 +9,7 @@
 
 #include <string>
 #include <unistd.h>
-#include "Detector.h"
+#include "DetectionManager.h"
 #include "RGBController_AsusTUFLaptop_Linux.h"
 
 static void DetectAsusTUFLaptopLinuxControllers()
@@ -27,7 +27,7 @@ static void DetectAsusTUFLaptopLinuxControllers()
     {
         AsusTUFLaptopLinuxController*       controller     = new AsusTUFLaptopLinuxController();
         RGBController_AsusTUFLaptopLinux*   rgb_controller = new RGBController_AsusTUFLaptopLinux(controller);
-        ResourceManager::get()->RegisterRGBController(rgb_controller);
+        DetectionManager::get()->RegisterRGBController(rgb_controller);
     }
     return;
 }
