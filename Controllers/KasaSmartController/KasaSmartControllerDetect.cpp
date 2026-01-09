@@ -9,8 +9,9 @@
 |   SPDX-License-Identifier: GPL-2.0-or-later               |
 \*---------------------------------------------------------*/
 
-#include "Detector.h"
+#include "DetectionManager.h"
 #include "KasaSmartController.h"
+#include "ResourceManager.h"
 #include "RGBController_KasaSmart.h"
 #include "SettingsManager.h"
 
@@ -50,7 +51,7 @@ void DetectKasaSmartControllers()
                 }
 
                 RGBController_KasaSmart* rgb_controller = new RGBController_KasaSmart(controller);
-                ResourceManager::get()->RegisterRGBController(rgb_controller);
+                DetectionManager::get()->RegisterRGBController(rgb_controller);
             }
         }
     }

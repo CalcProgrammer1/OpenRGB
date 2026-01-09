@@ -10,9 +10,10 @@
 \*---------------------------------------------------------*/
 
 #include "LogManager.h"
+#include "QMKOpenRGBBaseController.h"
+#include "ResourceManager.h"
 #include "RGBControllerKeyNames.h"
 #include "SettingsManager.h"
-#include "QMKOpenRGBBaseController.h"
 
 using namespace std::chrono_literals;
 

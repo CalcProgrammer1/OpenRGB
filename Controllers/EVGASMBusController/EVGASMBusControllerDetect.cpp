@@ -10,7 +10,7 @@
 \*---------------------------------------------------------*/
 
 #include <vector>
-#include "Detector.h"
+#include "DetectionManager.h"
 #include "EVGAACX30SMBusController.h"
 #include "LogManager.h"
 #include "RGBController_EVGAACX30SMBus.h"
@@ -73,7 +73,7 @@ void DetectAcx30SMBusControllers(std::vector<i2c_smbus_interface *> &busses)
                     EVGAACX30SMBusController *controller = new EVGAACX30SMBusController(busses[bus], SMBUS_ADDRESS);
                     RGBController_EVGAACX30SMBus *rgb_controller = new RGBController_EVGAACX30SMBus(controller);
 
-                    ResourceManager::get()->RegisterRGBController(rgb_controller);
+                    DetectionManager::get()->RegisterRGBController(rgb_controller);
                 }
             }
             else

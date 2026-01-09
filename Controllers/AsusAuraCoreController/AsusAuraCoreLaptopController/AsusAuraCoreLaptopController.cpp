@@ -11,6 +11,7 @@
 
 #include "AsusAuraCoreLaptopController.h"
 #include "dmiinfo.h"
+#include "ResourceManager.h"
 #include "SettingsManager.h"
 #include "StringUtils.h"
 

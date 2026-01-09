@@ -10,7 +10,7 @@
 |   SPDX-License-Identifier: GPL-2.0-or-later               |
 \*---------------------------------------------------------*/
 
-#include "Detector.h"
+#include "DetectionManager.h"
 #include "i2c_smbus.h"
 #include "LogManager.h"
 #include "pci_ids.h"
@@ -24,7 +24,7 @@ void DetectPNYARGBEpicXGPUSmallControllers(i2c_smbus_interface* bus, uint8_t i2c
         PNYARGBEpicXGPUController*     controller     = new PNYARGBEpicXGPUController(bus, i2c_addr, name, false);
         RGBController_PNYARGBEpicXGPU* rgb_controller = new RGBController_PNYARGBEpicXGPU(controller);
 
-        ResourceManager::get()->RegisterRGBController(rgb_controller);
+        DetectionManager::get()->RegisterRGBController(rgb_controller);
     }
 }
 
@@ -35,7 +35,7 @@ void DetectPNYARGBEpicXGPULargeControllers(i2c_smbus_interface* bus, uint8_t i2c
         PNYARGBEpicXGPUController*     controller     = new PNYARGBEpicXGPUController(bus, i2c_addr, name, true);
         RGBController_PNYARGBEpicXGPU* rgb_controller = new RGBController_PNYARGBEpicXGPU(controller);
 
-        ResourceManager::get()->RegisterRGBController(rgb_controller);
+        DetectionManager::get()->RegisterRGBController(rgb_controller);
     }
 }
 

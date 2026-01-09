@@ -11,7 +11,7 @@
 \*---------------------------------------------------------*/
 
 #include <vector>
-#include "Detector.h"
+#include "DetectionManager.h"
 #include "CorsairVengeanceController.h"
 #include "RGBController_CorsairVengeance.h"
 #include "i2c_smbus.h"
@@ -75,7 +75,7 @@ void DetectCorsairVengeanceControllers(i2c_smbus_interface* bus, std::vector<SPD
             CorsairVengeanceController*     new_controller    = new CorsairVengeanceController(bus, address);
             RGBController_CorsairVengeance* new_rgbcontroller = new RGBController_CorsairVengeance(new_controller);
 
-            ResourceManager::get()->RegisterRGBController(new_rgbcontroller);
+            DetectionManager::get()->RegisterRGBController(new_rgbcontroller);
         }
 
         /*-------------------------------------------------*\
@@ -88,9 +88,9 @@ void DetectCorsairVengeanceControllers(i2c_smbus_interface* bus, std::vector<SPD
             CorsairVengeanceController*     new_controller    = new CorsairVengeanceController(bus, address);
             RGBController_CorsairVengeance* new_rgbcontroller = new RGBController_CorsairVengeance(new_controller);
 
-            ResourceManager::get()->RegisterRGBController(new_rgbcontroller);
+            DetectionManager::get()->RegisterRGBController(new_rgbcontroller);
         }
     }
 }   /* DetectCorsairVengeanceControllers() */
 
-REGISTER_I2C_DIMM_DETECTOR("Corsair Vengeance RGB DRAM", DetectCorsairVengeanceControllers, JEDEC_CORSAIR, SPD_DDR4_SDRAM);
+REGISTER_I2C_DRAM_DETECTOR("Corsair Vengeance RGB DRAM", DetectCorsairVengeanceControllers, JEDEC_CORSAIR, SPD_DDR4_SDRAM);
