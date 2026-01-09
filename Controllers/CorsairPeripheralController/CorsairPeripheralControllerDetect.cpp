@@ -11,7 +11,7 @@
 | OpenRGB includes                                      |
 \*-----------------------------------------------------*/
 #include <hidapi.h>
-#include "Detector.h"
+#include "DetectionManager.h"
 #include "LogManager.h"
 #include "RGBController.h"
 
@@ -115,7 +115,7 @@ void DetectCorsairK55RGBPROXTControllers(hid_device_info* info, const std::strin
         CorsairK55RGBPROXTController*   controller       = new CorsairK55RGBPROXTController(dev, info->path, name);
         RGBController_CorsairK55RGBPROXT* rgb_controller = new RGBController_CorsairK55RGBPROXT(controller);
 
-        ResourceManager::get()->RegisterRGBController(rgb_controller);
+        DetectionManager::get()->RegisterRGBController(rgb_controller);
     }
 }   /* DetectCorsairK55RGBPROXTControllers() */
 
@@ -128,7 +128,7 @@ void DetectCorsairK65MiniControllers(hid_device_info* info, const std::string& n
         CorsairK65MiniController*     controller        = new CorsairK65MiniController(dev, info->path, name);
         RGBController_CorsairK65Mini* rgb_controller    = new RGBController_CorsairK65Mini(controller);
 
-        ResourceManager::get()->RegisterRGBController(rgb_controller);
+        DetectionManager::get()->RegisterRGBController(rgb_controller);
     }
 }   /* DetectCorsairK65MiniControllers() */
 
@@ -156,7 +156,7 @@ void DetectCorsairPeripheralControllers(hid_device_info* info, const std::string
                     (info->product_id == CORSAIR_K70_RGB_MK2_LP_PID);
 
             RGBController_CorsairPeripheral* rgb_controller = new RGBController_CorsairPeripheral(controller, supports_hardware_modes);
-            ResourceManager::get()->RegisterRGBController(rgb_controller);
+            DetectionManager::get()->RegisterRGBController(rgb_controller);
         }
         else
         {

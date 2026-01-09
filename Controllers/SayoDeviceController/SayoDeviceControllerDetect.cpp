@@ -9,7 +9,7 @@
 |   SPDX-License-Identifier: GPL-2.0-or-later               |
 \*---------------------------------------------------------*/
 
-#include "Detector.h"
+#include "DetectionManager.h"
 #include "SayoDeviceController.h"
 #include "RGBController_SayoDevice.h"
 
@@ -35,7 +35,7 @@ void DetectSayoDeviceController
     {
         SayoDeviceController*     controller     = new SayoDeviceController(dev, info->path, name);
         RGBController_SayoDevice *rgb_controller = new RGBController_SayoDevice(controller);
-        ResourceManager::get()->RegisterRGBController(rgb_controller);
+        DetectionManager::get()->RegisterRGBController(rgb_controller);
     }
 }
 

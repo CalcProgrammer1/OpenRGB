@@ -8,7 +8,7 @@
 \*---------------------------------------------------------*/
 
 #include <hidapi.h>
-#include "Detector.h"
+#include "DetectionManager.h"
 #include "AlienwareAW510KController.h"
 #include "AlienwareAW410KController.h"
 #include "RGBController_AlienwareAW510K.h"
@@ -41,7 +41,7 @@ void DetectAlienwareAW510KControllers(hid_device_info* info, const std::string& 
         AlienwareAW510KController*     controller     = new AlienwareAW510KController(dev, info->path, name);
         RGBController_AlienwareAW510K* rgb_controller = new RGBController_AlienwareAW510K(controller);
 
-        ResourceManager::get()->RegisterRGBController(rgb_controller);
+        DetectionManager::get()->RegisterRGBController(rgb_controller);
     }
 }
 
@@ -53,7 +53,7 @@ void DetectAlienwareAW410KControllers(hid_device_info* info, const std::string& 
         AlienwareAW410KController*     controller     = new AlienwareAW410KController(dev, info->path, name);
         RGBController_AlienwareAW410K* rgb_controller = new RGBController_AlienwareAW410K(controller);
 
-        ResourceManager::get()->RegisterRGBController(rgb_controller);
+        DetectionManager::get()->RegisterRGBController(rgb_controller);
     }
 }/* DetectAlienwareKeyboardControllers() */
 

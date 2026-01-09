@@ -10,7 +10,7 @@
 |   SPDX-License-Identifier: GPL-2.0-or-later               |
 \*---------------------------------------------------------*/
 
-#include "Detector.h"
+#include "DetectionManager.h"
 #include "QMKKeychronController.h"
 #include "RGBController_QMKKeychron.h"
 
@@ -25,7 +25,7 @@ void DetectQMKKeychronControllers(hid_device_info *info, const std::string& /*na
         if(controller->GetSupported())
         {
             RGBController_QMKKeychron* rgb_controller = new RGBController_QMKKeychron(controller);
-            ResourceManager::get()->RegisterRGBController(rgb_controller);
+            DetectionManager::get()->RegisterRGBController(rgb_controller);
         }
         else
         {

@@ -9,7 +9,8 @@
 
 #include "RGBController_HPOmenLaptopWMI_Windows.h"
 #include "HPOmenLaptopController_Windows.h"
-#include "Detector.h"
+#include "DetectionManager.h"
+
 
 static void DetectHPOmenLaptopWMIControllers()
 {
@@ -22,7 +23,7 @@ static void DetectHPOmenLaptopWMIControllers()
     }
 
     RGBController *hp_omen_controller = new RGBController_HPOmenLaptopWMI_Windows(controller);
-    ResourceManager::get()->RegisterRGBController(hp_omen_controller);
+    DetectionManager::get()->RegisterRGBController(hp_omen_controller);
 }
 
 REGISTER_DETECTOR("HP Omen 4-Zone Laptop Keyboard", DetectHPOmenLaptopWMIControllers);

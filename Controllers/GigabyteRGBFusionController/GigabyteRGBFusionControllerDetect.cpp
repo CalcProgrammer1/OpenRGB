@@ -11,7 +11,7 @@
 \*---------------------------------------------------------*/
 
 #include <vector>
-#include "Detector.h"
+#include "DetectionManager.h"
 #include "GigabyteRGBFusionController.h"
 #include "LogManager.h"
 #include "RGBController_GigabyteRGBFusion.h"
@@ -80,7 +80,7 @@ void DetectGigabyteRGBFusionControllers(std::vector<i2c_smbus_interface*>& busse
                     RGBFusionController*     controller     = new RGBFusionController(busses[bus], SMBUS_ADDRESS);
                     RGBController_RGBFusion* rgb_controller = new RGBController_RGBFusion(controller);
 
-                    ResourceManager::get()->RegisterRGBController(rgb_controller);
+                    DetectionManager::get()->RegisterRGBController(rgb_controller);
                 }
             }
             else

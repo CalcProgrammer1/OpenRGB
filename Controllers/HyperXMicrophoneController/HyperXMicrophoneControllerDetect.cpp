@@ -9,7 +9,7 @@
 |   SPDX-License-Identifier: GPL-2.0-or-later               |
 \*---------------------------------------------------------*/
 
-#include "Detector.h"
+#include "DetectionManager.h"
 #include "HyperXMicrophoneController.h"
 #include "RGBController_HyperXMicrophone.h"
 #include "hidapi_wrapper.h"
@@ -40,7 +40,7 @@ void DetectHyperXMicrophoneControllers(hidapi_wrapper wrapper, hid_device_info* 
         HyperXMicrophoneController* controller         = new HyperXMicrophoneController(wrapper, dev, info->path, name);
         RGBController_HyperXMicrophone *rgb_controller = new RGBController_HyperXMicrophone(controller);
 
-        ResourceManager::get()->RegisterRGBController(rgb_controller);
+        DetectionManager::get()->RegisterRGBController(rgb_controller);
     }
 }
 

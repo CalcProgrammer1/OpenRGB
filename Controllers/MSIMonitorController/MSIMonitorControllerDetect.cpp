@@ -7,7 +7,7 @@
 |   SPDX-License-Identifier: GPL-2.0-or-later               |
 \*---------------------------------------------------------*/
 
-#include "Detector.h"
+#include "DetectionManager.h"
 #include "MSIMonitorController.h"
 #include "RGBController_MSIMonitor.h"
 
@@ -31,7 +31,7 @@ static void DetectMSIMonitorController(hid_device_info* info, const std::string&
         MSIMonitorController*     controller         = new MSIMonitorController(dev, *info, name);
         RGBController_MSIMonitor* rgb_controller     = new RGBController_MSIMonitor(controller);
 
-        ResourceManager::get()->RegisterRGBController(rgb_controller);
+        DetectionManager::get()->RegisterRGBController(rgb_controller);
     }
 }
 

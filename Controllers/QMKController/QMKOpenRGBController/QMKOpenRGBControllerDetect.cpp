@@ -12,15 +12,16 @@
 
 #include <string>
 #include <hidapi.h>
-#include "Detector.h"
+#include "DetectionManager.h"
+#include "LogManager.h"
 #include "QMKOpenRGBRev9Controller.h"
 #include "QMKOpenRGBRevBController.h"
 #include "QMKOpenRGBRevDController.h"
+#include "ResourceManager.h"
 #include "RGBController_QMKOpenRGBRev9.h"
 #include "RGBController_QMKOpenRGBRevB.h"
 #include "RGBController_QMKOpenRGBRevD.h"
 #include "RGBController_QMKOpenRGBRevE.h"
-#include "LogManager.h"
 #include "SettingsManager.h"
 
 /*-----------------------------------------------------*\
@@ -82,35 +83,35 @@ void DetectQMKOpenRGBControllers(hid_device_info *info, const std::string&)
                 {
                 QMKOpenRGBRev9Controller*     controller     = new QMKOpenRGBRev9Controller(dev, info->path);
                 RGBController_QMKOpenRGBRev9* rgb_controller = new RGBController_QMKOpenRGBRev9(controller);
-                ResourceManager::get()->RegisterRGBController(rgb_controller);
+                DetectionManager::get()->RegisterRGBController(rgb_controller);
                 }
                 break;
             case QMK_OPENRGB_PROTOCOL_VERSION_B:
                 {
                 QMKOpenRGBRevBController*     controller     = new QMKOpenRGBRevBController(dev, info->path);
                 RGBController_QMKOpenRGBRevB* rgb_controller = new RGBController_QMKOpenRGBRevB(controller, false);
-                ResourceManager::get()->RegisterRGBController(rgb_controller);
+                DetectionManager::get()->RegisterRGBController(rgb_controller);
                 }
                 break;
             case QMK_OPENRGB_PROTOCOL_VERSION_C:
                 {
                 QMKOpenRGBRevBController*     controller     = new QMKOpenRGBRevBController(dev, info->path);
                 RGBController_QMKOpenRGBRevB* rgb_controller = new RGBController_QMKOpenRGBRevB(controller, true);
-                ResourceManager::get()->RegisterRGBController(rgb_controller);
+                DetectionManager::get()->RegisterRGBController(rgb_controller);
                 }
                 break;
             case QMK_OPENRGB_PROTOCOL_VERSION_D:
                 {
                 QMKOpenRGBRevDController*     controller     = new QMKOpenRGBRevDController(dev, info->path);
                 RGBController_QMKOpenRGBRevD* rgb_controller = new RGBController_QMKOpenRGBRevD(controller, true);
-                ResourceManager::get()->RegisterRGBController(rgb_controller);
+                DetectionManager::get()->RegisterRGBController(rgb_controller);
                 }
                 break;
             case QMK_OPENRGB_PROTOCOL_VERSION_E:
                 {
                 QMKOpenRGBRevDController*     controller     = new QMKOpenRGBRevDController(dev, info->path);
                 RGBController_QMKOpenRGBRevE* rgb_controller = new RGBController_QMKOpenRGBRevE(controller, true);
-                ResourceManager::get()->RegisterRGBController(rgb_controller);
+                DetectionManager::get()->RegisterRGBController(rgb_controller);
                 }
                 break;
             default:

@@ -9,7 +9,7 @@
 |   SPDX-License-Identifier: GPL-2.0-or-later               |
 \*---------------------------------------------------------*/
 
-#include "Detector.h"
+#include "DetectionManager.h"
 #include "RGBController.h"
 #include "RGBController_RealtekARGB.h"
 
@@ -34,7 +34,7 @@ void DetectRealtekARGBControllers(hid_device_info* info, const std::string& /*na
             rgb_controller = new RGBController_RealtekARGB(controller);
             if(rgb_controller->GetDeviceType() != DEVICE_TYPE_UNKNOWN)
             {
-                ResourceManager::get()->RegisterRGBController(rgb_controller);
+                DetectionManager::get()->RegisterRGBController(rgb_controller);
             }
             else
             {

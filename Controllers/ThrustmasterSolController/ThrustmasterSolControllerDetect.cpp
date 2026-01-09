@@ -9,7 +9,7 @@
 |   SPDX-License-Identifier: GPL-2.0-or-later               |
 \*---------------------------------------------------------*/
 
-#include "Detector.h"
+#include "DetectionManager.h"
 #include "ThrustmasterSolController.h"
 #include "RGBController_ThrustmasterSol.h"
 
@@ -101,7 +101,7 @@ void DetectThrustmasterSolControllers()
                 ThrustmasterSolController*      controller     = new ThrustmasterSolController(handle, path, desc.idProduct, device_list[d].name);
                 RGBController_ThrustmasterSol*  rgb_controller = new RGBController_ThrustmasterSol(controller);
 
-                ResourceManager::get()->RegisterRGBController(rgb_controller);
+                DetectionManager::get()->RegisterRGBController(rgb_controller);
                 break;
             }
         }

@@ -9,7 +9,7 @@
 |   SPDX-License-Identifier: GPL-2.0-or-later               |
 \*---------------------------------------------------------*/
 
-#include "Detector.h"
+#include "DetectionManager.h"
 #include "AsusAuraGPUController.h"
 #include "LogManager.h"
 #include "RGBController_AsusAuraGPU.h"
@@ -65,7 +65,7 @@ void DetectAsusAuraGPUControllers(i2c_smbus_interface* bus, uint8_t i2c_addr, co
         AuraGPUController*     controller     = new AuraGPUController(bus, i2c_addr, name);
         RGBController_AuraGPU* rgb_controller = new RGBController_AuraGPU(controller);
 
-        ResourceManager::get()->RegisterRGBController(rgb_controller);
+        DetectionManager::get()->RegisterRGBController(rgb_controller);
     }
 } /* DetectAsusAuraGPUControllers() */
 

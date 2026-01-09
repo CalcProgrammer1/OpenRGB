@@ -7,7 +7,7 @@
 |   SPDX-License-Identifier: GPL-2.0-or-later               |
 \*---------------------------------------------------------*/
 
-#include "Detector.h"
+#include "DetectionManager.h"
 #include "RGBController_SinowealthKeyboard10c.h"
 #include "SinowealthController.h"
 #include "SinowealthController1007.h"
@@ -257,7 +257,7 @@ static void DetectGenesisXenon200(hid_device_info* info, const std::string name)
     GenesisXenon200Controller* controller     = new GenesisXenon200Controller(dev, cmd_dev, info->path, name);
     RGBController*             rgb_controller = new RGBController_GenesisXenon200(controller);
 
-    ResourceManager::get()->RegisterRGBController(rgb_controller);
+    DetectionManager::get()->RegisterRGBController(rgb_controller);
 
 }
 
@@ -279,7 +279,7 @@ static void DetectZetFuryPro(hid_device_info* info, const std::string& name)
         SinowealthController1007*     controller     = new SinowealthController1007(dev, info->path, name);
         RGBController_Sinowealth1007* rgb_controller = new RGBController_Sinowealth1007(controller);
 
-        ResourceManager::get()->RegisterRGBController(rgb_controller);
+        DetectionManager::get()->RegisterRGBController(rgb_controller);
     }
 }
 
@@ -306,7 +306,7 @@ static void DetectSinowealthMouse(hid_device_info* info, const std::string& name
         SinowealthController*     controller     = new SinowealthController(dev, dev_cmd, info->path, name);
         RGBController_Sinowealth* rgb_controller = new RGBController_Sinowealth(controller);
 
-        ResourceManager::get()->RegisterRGBController(rgb_controller);
+        DetectionManager::get()->RegisterRGBController(rgb_controller);
     }
 }
 
@@ -320,7 +320,7 @@ static void DetectGMOW_Cable(hid_device_info* info, const std::string& name)
         SinowealthGMOWController* controller     = new SinowealthGMOWController(dev, info->path, GMOW_CABLE_CONNECTED, name);
         RGBController_GMOW*       rgb_controller = new RGBController_GMOW(controller);
 
-        ResourceManager::get()->RegisterRGBController(rgb_controller);
+        DetectionManager::get()->RegisterRGBController(rgb_controller);
     }
 }
 
@@ -354,7 +354,7 @@ static void DetectGMOW_Dongle(hid_device_info* info, const std::string& name)
         SinowealthGMOWController* controller     = new SinowealthGMOWController(dev, info->path, GMOW_DONGLE_CONNECTED, name);
         RGBController_GMOW*       rgb_controller = new RGBController_GMOW(controller);
 
-        ResourceManager::get()->RegisterRGBController(rgb_controller);
+        DetectionManager::get()->RegisterRGBController(rgb_controller);
     }
 }
 
@@ -378,7 +378,7 @@ static void DetectGMOW_Dongle(hid_device_info* info, const std::string& name)
 //         SinowealthKeyboard16Controller*     controller     = new SinowealthKeyboard16Controller(dev_cmd, dev, info->path, name);
 //         RGBController_SinowealthKeyboard16* rgb_controller = new RGBController_SinowealthKeyboard16(controller);
 //
-//         ResourceManager::get()->RegisterRGBController(rgb_controller);
+//         DetectionManager::get()->RegisterRGBController(rgb_controller);
 //     }
 // }
 
@@ -400,7 +400,7 @@ static void DetectGMOW_Dongle(hid_device_info* info, const std::string& name)
 //         SinowealthKeyboardController*     controller     = new SinowealthKeyboardController(dev_cmd, dev, info->path, name);
 //         RGBController_SinowealthKeyboard* rgb_controller = new RGBController_SinowealthKeyboard(controller);
 //
-//         ResourceManager::get()->RegisterRGBController(rgb_controller);
+//         DetectionManager::get()->RegisterRGBController(rgb_controller);
 //     }
 // #else
 //     // It is unknown why this code used the MOUSE controller here; could it be the reason why it was disabled?
@@ -411,7 +411,7 @@ static void DetectGMOW_Dongle(hid_device_info* info, const std::string& name)
 //         SinowealthController*     controller     = new SinowealthController(dev, dev, info->path, name);
 //         RGBController_Sinowealth* rgb_controller = new RGBController_Sinowealth(controller);
 //
-//         ResourceManager::get()->RegisterRGBController(rgb_controller);
+//         DetectionManager::get()->RegisterRGBController(rgb_controller);
 //     }
 // #endif
 // }
@@ -426,7 +426,7 @@ static void DetectSinowealthGenesisKeyboard(hid_device_info* info, const std::st
         SinowealthKeyboard90Controller*     controller     = new SinowealthKeyboard90Controller(dev, info->path, pid, name);
         RGBController_SinowealthKeyboard90* rgb_controller = new RGBController_SinowealthKeyboard90(controller);
 
-        ResourceManager::get()->RegisterRGBController(rgb_controller);
+        DetectionManager::get()->RegisterRGBController(rgb_controller);
     }
 }
 
@@ -448,7 +448,7 @@ static void DetectSinowealthKeyboard10c(hid_device_info* info, const std::string
         SinowealthKeyboard10cController*     controller     = new SinowealthKeyboard10cController(dev, info->path, sinowealth_10c_keyboards.at(model_id).device_name);
         RGBController_SinowealthKeyboard10c* rgb_controller = new RGBController_SinowealthKeyboard10c(controller, model_id);
 
-        ResourceManager::get()->RegisterRGBController(rgb_controller);
+        DetectionManager::get()->RegisterRGBController(rgb_controller);
     }
 }
 

@@ -11,7 +11,7 @@
 
 #include <string>
 #include <vector>
-#include "Detector.h"
+#include "DetectionManager.h"
 #include "LogManager.h"
 #include "GigabyteRGBFusion2DRAMController.h"
 #include "RGBController_GigabyteRGBFusion2DRAM.h"
@@ -81,7 +81,7 @@ void DetectGigabyteRGBFusion2DRAMControllers(std::vector<i2c_smbus_interface*>& 
                 RGBFusion2DRAMController*     controller     = new RGBFusion2DRAMController(busses[bus], 0x67);
                 RGBController_RGBFusion2DRAM* rgb_controller = new RGBController_RGBFusion2DRAM(controller);
 
-                ResourceManager::get()->RegisterRGBController(rgb_controller);
+                DetectionManager::get()->RegisterRGBController(rgb_controller);
             }
         }
     }

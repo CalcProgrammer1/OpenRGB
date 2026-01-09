@@ -9,7 +9,7 @@
 |   SPDX-License-Identifier: GPL-2.0-or-later               |
 \*---------------------------------------------------------*/
 
-#include "Detector.h"
+#include "DetectionManager.h"
 #include "RGBController_LenovoK510.h"
 #include "LenovoK510Controller.h"
 
@@ -31,7 +31,7 @@ void DetectLenovoLegionK510Controllers(hid_device_info* info, const std::string&
         LenovoK510Controller* controller            = new LenovoK510Controller(dev, *info, name);
         RGBController_LenovoK510* rgb_controller    = new RGBController_LenovoK510(controller);
 
-        ResourceManager::get()->RegisterRGBController(rgb_controller);
+        DetectionManager::get()->RegisterRGBController(rgb_controller);
     }
 }
 

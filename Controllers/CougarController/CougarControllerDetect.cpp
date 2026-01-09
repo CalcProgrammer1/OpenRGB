@@ -7,7 +7,7 @@
 |   SPDX-License-Identifier: GPL-2.0-or-later               |
 \*---------------------------------------------------------*/
 
-#include "Detector.h"
+#include "DetectionManager.h"
 #include "RGBController_CougarKeyboard.h"
 #include "RGBController_CougarRevengerST.h"
 
@@ -32,7 +32,7 @@ void DetectCougarRevengerSTControllers(hid_device_info* info, const std::string&
         CougarRevengerSTController*     controller      = new CougarRevengerSTController(dev, *info, name);
         RGBController_CougarRevengerST* rgb_controller  = new RGBController_CougarRevengerST(controller);
 
-        ResourceManager::get()->RegisterRGBController(rgb_controller);
+        DetectionManager::get()->RegisterRGBController(rgb_controller);
     }
 }
 
@@ -45,7 +45,7 @@ void DetectCougar700kEvo(hid_device_info* info, const std::string& name)
         CougarKeyboardController*     controller        = new CougarKeyboardController(dev, info->path, name);
         RGBController_CougarKeyboard* rgb_controller    = new RGBController_CougarKeyboard(controller);
 
-        ResourceManager::get()->RegisterRGBController(rgb_controller);
+        DetectionManager::get()->RegisterRGBController(rgb_controller);
     }
 }
 

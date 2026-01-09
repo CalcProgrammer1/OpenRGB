@@ -10,7 +10,7 @@
 |   SPDX-License-Identifier: GPL-2.0-or-later               |
 \*---------------------------------------------------------*/
 
-#include "Detector.h"
+#include "DetectionManager.h"
 #include "HyperXMicrophoneV2Controller.h"
 #include "RGBController_HyperXMicrophoneV2.h"
 
@@ -29,7 +29,7 @@ void DetectHyperXMicrophoneV2Controllers(hid_device_info* info, const std::strin
         HyperXMicrophoneV2Controller* controller         = new HyperXMicrophoneV2Controller(dev, info->path, name);
         RGBController_HyperXMicrophoneV2 *rgb_controller = new RGBController_HyperXMicrophoneV2(controller);
 
-        ResourceManager::get()->RegisterRGBController(rgb_controller);
+        DetectionManager::get()->RegisterRGBController(rgb_controller);
     }
 }
 

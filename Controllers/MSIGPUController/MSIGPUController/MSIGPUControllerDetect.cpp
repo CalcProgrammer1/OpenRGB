@@ -7,7 +7,7 @@
 |   SPDX-License-Identifier: GPL-2.0-or-later               |
 \*---------------------------------------------------------*/
 
-#include "Detector.h"
+#include "DetectionManager.h"
 #include "MSIGPUController.h"
 #include "RGBController_MSIGPU.h"
 #include "i2c_amd_gpu.h"
@@ -36,7 +36,7 @@ void DetectMSIGPUControllers(i2c_smbus_interface* bus, uint8_t i2c_addr, const s
     MSIGPUController*     controller     = new MSIGPUController(bus, i2c_addr, name);
     RGBController_MSIGPU* rgb_controller = new RGBController_MSIGPU(controller);
 
-    ResourceManager::get()->RegisterRGBController(rgb_controller);
+    DetectionManager::get()->RegisterRGBController(rgb_controller);
 
 } /* DetectMSIGPUControllers() */
 
