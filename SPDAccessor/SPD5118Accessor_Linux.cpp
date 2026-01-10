@@ -48,6 +48,12 @@ uint8_t SPD5118Accessor::at(uint16_t addr)
     {
         readEEPROM();
     }
+    // Prevent indexing out of bounds
+    if(addr >= sizeof(dump))
+    {
+        return 0xFF;
+    }
+
     return dump[addr];
 }
 
