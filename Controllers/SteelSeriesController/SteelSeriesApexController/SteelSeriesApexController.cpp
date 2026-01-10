@@ -1,18 +1,26 @@
 /*---------------------------------------------------------*\
 | SteelSeriesApexController.cpp                             |
 |                                                           |
-|   Driver for SteelSeries Apex 7                           |
+|   Driver for SteelSeries Apex Keyboards                   |
+|                                                           |
+|   New driver based on SignalRGB Plugins                   |
+|   https://gitlab.com/signalrgb/signal-plugins/            |
 |                                                           |
 |   Eric Samuelson (edbgon)                     05 Jul 2020 |
+|   Filipe S. (filipesn)                         5 Jan 2026 |
 |                                                           |
 |   This file is part of the OpenRGB project                |
 |   SPDX-License-Identifier: GPL-2.0-or-later               |
 \*---------------------------------------------------------*/
 
 #include <cstring>
+#include <cstdio>
 #include "SteelSeriesApexController.h"
+#include "LogManager.h"
 
 using namespace std::chrono_literals;
+
+#define FIRMWARE_REQ_LEN 645
 
 static unsigned int keys[] = {0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D,
                               0x0E, 0x0F, 0x10, 0x11, 0x12, 0x13, 0x14, 0x15, 0x16, 0x17, //20
@@ -29,7 +37,10 @@ static unsigned int keys[] = {0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0A, 0x0B, 0x
 
 SteelSeriesApexController::SteelSeriesApexController(hid_device* dev_handle, steelseries_type type, const char* path, std::string dev_name) : SteelSeriesApexBaseController(dev_handle, path, dev_name)
 {
-    proto_type  = type;
+    proto_type = type;
+    use_new_protocol = false;
+
+    SendInitialization();
 }
 
 SteelSeriesApexController::~SteelSeriesApexController()
@@ -55,7 +66,22 @@ void SteelSeriesApexController::SetLEDsDirect(std::vector<RGBColor> colors)
     unsigned char buf[643];
     int num_keys = 0;
 
+    unsigned char packet_id = APEX_PACKET_ID_DIRECT;
+
     num_keys = sizeof(keys) / sizeof(*keys);
+
+    if(use_new_protocol)
+    {
+        struct hid_device_info* info = hid_get_device_info(dev);
+        if(info && (info->product_id == 0x162C || info->product_id == 0x162D)) // Aparently Gen 3 wireless models reuse this protocol, make sure to place their PID here and further below when developing.
+        {
+             packet_id = APEX_2023_PACKET_ID_DIRECT_WIRELESS;
+        }
+        else
+        {
+             packet_id = APEX_2023_PACKET_ID_DIRECT;
+        }
+    }
 
     /*-----------------------------------------------------*\
     | Zero out buffer                                       |
@@ -66,8 +92,8 @@ void SteelSeriesApexController::SetLEDsDirect(std::vector<RGBColor> colors)
     | Set up Direct packet                                  |
     \*-----------------------------------------------------*/
     buf[0x00]   = 0;
-    buf[0x01]   = APEX_PACKET_ID_DIRECT;
-    buf[0x02]   = num_keys;
+    buf[0x01]   = packet_id;
+    buf[0x02]   = (use_new_protocol) ? (unsigned char)colors.size() : num_keys;
 
     /*-----------------------------------------------------*\
     | Fill in color data                                    |
@@ -105,4 +131,97 @@ void SteelSeriesApexController::SelectProfile
     buf[0x01]   = 0x89;
     buf[0x02]   = profile;
     hid_send_feature_report(dev, buf, 65);
+}
+
+void SteelSeriesApexController::SendInitialization()
+{
+    unsigned char buf[FIRMWARE_REQ_LEN];
+    unsigned char read_buf[65];
+    int res = 0;
+    char version_str[32] = "Unknown";
+
+    struct hid_device_info* info = hid_get_device_info(dev);
+    unsigned short pid = (info) ? info->product_id : 0;
+
+    // Firmware check
+    if(pid == 0x1628)
+    {
+        /*-----------------------------------------------------*\
+        | Zero out buffer                                       |
+        \*-----------------------------------------------------*/
+        memset(buf, 0x00, sizeof(buf));
+        buf[0x00]   = 0x00;
+        buf[0x01]   = 0x90;
+
+        /*-----------------------------------------------------*\
+        | Send packet                                           |
+        \*-----------------------------------------------------*/
+        hid_write(dev, buf, 65);
+
+        /*-----------------------------------------------------*\
+        | Read Response                                         |
+        \*-----------------------------------------------------*/
+        memset(read_buf, 0x00, sizeof(read_buf));
+        res = hid_read_timeout(dev, read_buf, sizeof(read_buf), 200);
+
+        /*-----------------------------------------------------*\
+        | Firmware Check                                        |
+        \*-----------------------------------------------------*/
+        if(res > 2 && read_buf[0] == 0x90)
+        {
+            int major = 0, minor = 0, patch = 0;
+            char* fw_ptr = (char*)&read_buf[2];
+
+            snprintf(version_str, sizeof(version_str), "%s", fw_ptr);
+
+            int count = sscanf(version_str, "%d.%d.%d", &major, &minor, &patch);
+
+            if(count == 3)
+            {
+                // Currently set to 1.19.7 or newer.
+                if(major > 1)
+                {
+                    use_new_protocol = true;
+                }
+                else if(major == 1)
+                {
+                    if(minor > 19)
+                    {
+                        use_new_protocol = true;
+                    }
+                    else if(minor == 19 && patch >= 7)
+                    {
+                        use_new_protocol = true;
+                    }
+                }
+            }
+        }
+    }
+    // // Aparently Gen 3 models reuse this protocol, make sure to place their PID here and further above for wireless when developing.
+    else if(pid == 0x162C || pid == 0x162D)
+    {
+        use_new_protocol = true;
+    }
+
+    /*-----------------------------------------------------*\
+    | Send Initialization packet on new protocol.           |
+    \*-----------------------------------------------------*/
+    if(use_new_protocol)
+    {
+        memset(buf, 0x00, sizeof(buf));
+        buf[0x00]   = 0x00;
+        buf[0x01]   = APEX_2023_PACKET_ID_INIT;
+        hid_send_feature_report(dev, buf, APEX_2023_PACKET_LENGTH);
+
+        LOG_DEBUG("[%s] Using Apex 2023 protocol. FW: %s", name.c_str(), version_str);
+    }
+    else
+    {
+        LOG_DEBUG("[%s] Using Apex Legacy protocol. FW: %s", name.c_str(), version_str);
+    }
+}
+
+std::string SteelSeriesApexController::GetSerial()
+{
+        return "64865";
 }
