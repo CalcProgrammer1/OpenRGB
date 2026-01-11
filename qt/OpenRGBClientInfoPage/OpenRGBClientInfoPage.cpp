@@ -89,9 +89,9 @@ void OpenRGBClientInfoPage::UpdateInfo()
     QSignalMapper* signalMapperSave         = new QSignalMapper(this);
     QSignalMapper* signalMapperRescan       = new QSignalMapper(this);
 
-    connect(signalMapperDisconnect, SIGNAL(mapped(QObject *)), this, SLOT(onClientDisconnectButton_clicked(QObject *)));
-    connect(signalMapperSave,       SIGNAL(mapped(QObject *)), this, SLOT(onClientSaveCheckBox_clicked(QObject *)));
-    connect(signalMapperRescan,     SIGNAL(mapped(QObject *)), this, SLOT(onClientRescanButton_clicked(QObject *)));
+    connect(signalMapperDisconnect, SIGNAL(mappedObject(QObject *)), this, SLOT(onClientDisconnectButton_clicked(QObject *)));
+    connect(signalMapperSave,       SIGNAL(mappedObject(QObject *)), this, SLOT(onClientSaveCheckBox_clicked(QObject *)));
+    connect(signalMapperRescan,     SIGNAL(mappedObject(QObject *)), this, SLOT(onClientRescanButton_clicked(QObject *)));
 
     /*-------------------------------------------------*\
     | Get Client settings                               |
