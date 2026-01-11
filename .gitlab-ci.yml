@@ -354,24 +354,6 @@ before_script:
   - !reference [.upstream_rules, rules]
 
 #-----------------------------------------------------------#
-# Ubuntu amd64 22.04 test                                   #
-#-----------------------------------------------------------#
-"Ubuntu amd64 22.04LTS":
-  image: ubuntu:jammy
-  stage: test
-  script:
-  - apt update
-  - DEBIAN_FRONTEND=noninteractive apt install -yq --no-install-recommends ./openrgb*amd64.deb
-  - openrgb --version
-  - apt remove -y openrgb
-  dependencies:
-  - "Linux amd64 .deb (Debian Bookworm)"
-  needs:
-  - "Linux amd64 .deb (Debian Bookworm)"
-  rules:
-  - !reference [.upstream_rules, rules]
-
-#-----------------------------------------------------------#
 # Ubuntu amd64 24.04 test                                   #
 #-----------------------------------------------------------#
 "Ubuntu amd64 24.04LTS":
