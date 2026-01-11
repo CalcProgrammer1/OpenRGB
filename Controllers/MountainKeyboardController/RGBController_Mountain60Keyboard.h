@@ -44,8 +44,7 @@ public:
 
 private:
     Mountain60KeyboardController*           controller;
+    int                                     current_mode_value;
     std::thread*                            mountain_thread;
-    std::atomic<bool>                       mountaint_thread_running;
-    std::atomic<bool>                       update_device;
-    std::atomic<bool>                       found_device;
+    std::atomic<bool>                       mountain_thread_running;
 };

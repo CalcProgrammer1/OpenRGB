@@ -680,6 +680,9 @@ RGBController_MountainKeyboard::RGBController_MountainKeyboard(MountainKeyboardC
     Matrix.colors.resize(2);
     modes.push_back(Matrix);
 
+    prv_mode    = -1;
+    active_mode = 0;
+
     SetupZones();
 }
 
@@ -760,9 +763,8 @@ void RGBController_MountainKeyboard::SetupZones()
             }
         }
     }
-    SetupColors();
 
-    DeviceUpdateMode();
+    SetupColors();
 }
 
 void RGBController_MountainKeyboard::ResizeZone(int /*zone*/, int /*new_size*/)
@@ -1008,14 +1010,11 @@ void RGBController_MountainKeyboard::DeviceUpdate(const mode& current_mode)
     }
 }
 
-
 void RGBController_MountainKeyboard::DeviceUpdateLEDs()
 {
     mode current_mode = modes[active_mode];
     DeviceUpdate(current_mode);
 }
-
-
 
 void RGBController_MountainKeyboard::UpdateZoneLEDs(int /*zone*/)
 {
@@ -1029,9 +1028,8 @@ void RGBController_MountainKeyboard::UpdateSingleLED(int /*led*/)
 
 void RGBController_MountainKeyboard::DeviceUpdateMode()
 {
-    static int prv_mode =-1;
-
     mode current_mode = modes[active_mode];
+
     if(prv_mode != current_mode.value)
     {
         controller->SelectMode(current_mode.value);

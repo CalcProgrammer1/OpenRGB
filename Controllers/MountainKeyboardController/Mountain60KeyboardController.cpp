@@ -17,10 +17,11 @@
 
 using namespace std::chrono_literals;
 
-Mountain60KeyboardController::Mountain60KeyboardController(hid_device* dev_handle, const char* path)
+Mountain60KeyboardController::Mountain60KeyboardController(hid_device* dev_handle, const char* path, std::string dev_name)
 {
     dev         = dev_handle;
     location    = path;
+    name        = dev_name;
 }
 
 Mountain60KeyboardController::~Mountain60KeyboardController()
@@ -33,9 +34,9 @@ std::string Mountain60KeyboardController::GetDeviceLocation()
     return("HID: " + location);
 }
 
-const char* Mountain60KeyboardController::GetPath()
+std::string Mountain60KeyboardController::GetNameString()
 {
-    return location.c_str();
+    return(name);
 }
 
 std::string Mountain60KeyboardController::GetSerialString()
@@ -49,12 +50,6 @@ std::string Mountain60KeyboardController::GetSerialString()
     }
 
     return(StringUtils::wstring_to_string(serial_string));
-}
-
-void Mountain60KeyboardController::SetDevice(hid_device* new_device)
-{
-    hid_close(dev);
-    dev = new_device;
 }
 
 void Mountain60KeyboardController::UpdateData()
@@ -85,17 +80,17 @@ void Mountain60KeyboardController::SendModeDetails(const mode* current_mode)
     usb_buf[0x04] = 0xEA; //constant data
 
     usb_buf[0x05] = current_mode->value;
-    usb_buf[0x07] = current_mode->value == MOUNTAIN60_KEYBOARD_MODE_STATIC ? 0x32 : current_mode->speed * 25;
+    usb_buf[0x07] = (current_mode->value == MOUNTAIN60_KEYBOARD_MODE_STATIC) ? 0x32 : current_mode->speed * 25;
     usb_buf[0x08] = current_mode->brightness * 25;
-    usb_buf[0x09] = current_mode->color_mode == MODE_COLORS_RANDOM ? MOUNTAIN60_KEYBOARD_COLOR_MODE_RAINBOW : color_mode[current_mode->colors.size() - 1];
+    usb_buf[0x09] = (current_mode->color_mode == MODE_COLORS_RANDOM) ? (unsigned char)MOUNTAIN60_KEYBOARD_COLOR_MODE_RAINBOW : color_mode[current_mode->colors.size() - 1];
     usb_buf[0x0A] = ConvertDirection(current_mode->direction,current_mode->value == MOUNTAIN60_KEYBOARD_MODE_TORNADO);
 
-    for (int idx = 0; idx < current_mode->colors.size(); ++idx)
+    for(std::size_t idx = 0; idx < current_mode->colors.size(); idx++)
     {
-        unsigned int offset = 12 + (idx * 3);
-        usb_buf[offset] = RGBGetRValue(current_mode->colors[idx]);
-        usb_buf[offset+1] = RGBGetGValue(current_mode->colors[idx]);
-        usb_buf[offset+2] = RGBGetBValue(current_mode->colors[idx]);
+        std::size_t offset  = (12 + (idx * 3));
+        usb_buf[offset]     = RGBGetRValue(current_mode->colors[idx]);
+        usb_buf[offset+1]   = RGBGetGValue(current_mode->colors[idx]);
+        usb_buf[offset+2]   = RGBGetBValue(current_mode->colors[idx]);
     }
 
     hid_send_feature_report(dev, usb_buf, MOUNTAIN60_KEYBOARD_USB_BUFFER_SIZE);

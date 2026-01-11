@@ -69,27 +69,27 @@ enum
 class Mountain60KeyboardController
 {
 public:
-    Mountain60KeyboardController(hid_device* dev_handle, const char* path);
+    Mountain60KeyboardController(hid_device* dev_handle, const char* path, std::string dev_name);
     ~Mountain60KeyboardController();
 
-    const char*     GetPath();
-    std::string     GetSerialString();
     std::string     GetDeviceLocation();
+    std::string     GetNameString();
+    std::string     GetSerialString();
 
     void            UpdateData();
     void            SaveData(unsigned char mode_idx);
     void            SelectMode(unsigned char mode_idx);
-    void            SetDevice(hid_device * new_device);
     void            SendModeDetails(const mode* current_mode);
     void            SendDirect(unsigned int brightness,unsigned char* color_data, unsigned int color_count);
 
 private:
+    hid_device*     dev;
+    std::string     location;
+    std::string     name;
+
     unsigned char   ConvertDirection(unsigned int direction, bool rotation);
 
     void            SendDirectStartPacketCmd(unsigned int brightness);
     void            SendDirectPacketCmd(unsigned char stream_control, unsigned char *data, unsigned int data_size);
     void            SendDirectPacketFinishCmd();
-
-    hid_device*     dev;
-    std::string     location;
 };

@@ -38,8 +38,8 @@ layout_values mountain60_layout =
         mountain60_keyboard_key_id_values,
         {
             /*------------------------------------------*\
-    |   No regional layout fix for the moment    |
-    \*------------------------------------------*/
+            |   No regional layout fix for the moment    |
+            \*------------------------------------------*/
         },
 };
 
@@ -182,10 +182,10 @@ keyboard_keymap_overlay_values  mountain60_keyboard_overlay_no_numpad =
 RGBController_Mountain60Keyboard::RGBController_Mountain60Keyboard(Mountain60KeyboardController* controller_ptr)
 {
     controller                          = controller_ptr;
-    name                                = "Mountain Everest 60 Keyboard";
+    name                                = controller->GetNameString();
     vendor                              = "Mountain";
     type                                = DEVICE_TYPE_KEYBOARD;
-    description                         = "Mountain Everest Keyboard 60%";
+    description                         = "Mountain Everest Keyboard 60% Device";
     location                            = controller->GetDeviceLocation();
     serial                              = controller->GetSerialString();
 
@@ -329,6 +329,9 @@ RGBController_Mountain60Keyboard::RGBController_Mountain60Keyboard(Mountain60Key
     Yeti.colors.resize(2);
     modes.push_back(Yeti);
 
+    active_mode                         = 0;
+    current_mode_value                  = -1;
+
     SetupZones();
 
     /*-----------------------------------------------------*\
@@ -336,15 +339,12 @@ RGBController_Mountain60Keyboard::RGBController_Mountain60Keyboard(Mountain60Key
     | specific packet frequently so that leds get updated   |
     \*-----------------------------------------------------*/
     mountain_thread                     = new std::thread(&RGBController_Mountain60Keyboard::UpdateMountain, this);
-    mountaint_thread_running            = true;
-    update_device                       = true;
-    found_device                        = true;
+    mountain_thread_running             = true;
 }
 
 RGBController_Mountain60Keyboard::~RGBController_Mountain60Keyboard()
 {
-    update_device               = false;
-    mountaint_thread_running    = false;
+    mountain_thread_running             = false;
     mountain_thread->join();
     delete mountain_thread;
 
@@ -391,9 +391,8 @@ void RGBController_Mountain60Keyboard::SetupZones()
     }
 
     zones.push_back(new_zone);
+
     SetupColors();
-    DeviceUpdateMode();
-    update_device                   = true;
 }
 
 void RGBController_Mountain60Keyboard::ResizeZone(int /*zone*/, int /*new_size*/)
@@ -405,26 +404,23 @@ void RGBController_Mountain60Keyboard::ResizeZone(int /*zone*/, int /*new_size*/
 
 void RGBController_Mountain60Keyboard::DeviceUpdateLEDs()
 {
-    if (update_device.load())
+    unsigned char* color_data = new unsigned char[(leds.size()*4)];
+
+    /*---------------------------------------------------------*\
+    |   Filling the color_data vector with progressive index    |
+    |   leaving space for RGB data                              |
+    \*---------------------------------------------------------*/
+    for(unsigned int led_idx = 0; led_idx < leds.size(); led_idx++)
     {
-        unsigned char* color_data = new unsigned char[(leds.size()*4)];
-
-        /*---------------------------------------------------------*\
-        |   Filling the color_data vector with progressive index    |
-        |   leaving space for RGB data                              |
-        \*---------------------------------------------------------*/
-        for(unsigned int led_idx = 0; led_idx < leds.size(); led_idx++)
-        {
-            const unsigned int idx  = led_idx * 4;
-            color_data[idx]         = leds[led_idx].value;
-            color_data[idx + 1]     = RGBGetRValue(colors[led_idx]);
-            color_data[idx + 2]     = RGBGetGValue(colors[led_idx]);
-            color_data[idx + 3]     = RGBGetBValue(colors[led_idx]);
-        }
-
-        controller->SendDirect(modes[active_mode].brightness, color_data, (leds.size()*4));
-        delete[] color_data;
+        const unsigned int idx  = led_idx * 4;
+        color_data[idx]         = leds[led_idx].value;
+        color_data[idx + 1]     = RGBGetRValue(colors[led_idx]);
+        color_data[idx + 2]     = RGBGetGValue(colors[led_idx]);
+        color_data[idx + 3]     = RGBGetBValue(colors[led_idx]);
     }
+
+    controller->SendDirect(modes[active_mode].brightness, color_data, (leds.size()*4));
+    delete[] color_data;
 }
 
 void RGBController_Mountain60Keyboard::UpdateZoneLEDs(int /*zone*/)
@@ -439,15 +435,13 @@ void RGBController_Mountain60Keyboard::UpdateSingleLED(int /*led*/)
 
 void RGBController_Mountain60Keyboard::DeviceUpdateMode()
 {
-    static mode current_mode;
-
-    if(modes[active_mode].value != current_mode.value && found_device.load())
+    if(modes[active_mode].value != current_mode_value)
     {
-        current_mode = modes[active_mode];
+        current_mode_value = modes[active_mode].value;
         controller->SelectMode(modes[active_mode].value);
     }
 
-    if(current_mode.color_mode != MODE_FLAG_HAS_PER_LED_COLOR && update_device.load())
+    if(modes[active_mode].color_mode != MODE_FLAG_HAS_PER_LED_COLOR)
     {
         controller->SendModeDetails(&modes[active_mode]);
     }
@@ -460,31 +454,10 @@ void RGBController_Mountain60Keyboard::DeviceSaveMode()
 
 void RGBController_Mountain60Keyboard::UpdateMountain()
 {
-    while (mountaint_thread_running.load())
+    while(mountain_thread_running.load())
     {
         std::this_thread::sleep_for(MOUNTAIN60_KEEP_LIVE_PERIOD);
 
         controller->UpdateData();
-
-        const char* Path            = controller->GetPath();
-        hid_device * rescan_device  = hid_open_path(Path);
-
-        if (rescan_device)
-        {
-            if (!found_device.load())
-            {
-                controller->SetDevice(rescan_device);
-                found_device        = true;
-                update_device       = true;
-            }
-        }
-        else
-        {
-            if (found_device.load())
-            {
-                update_device       = false;
-                found_device        = false;
-            }
-        }
     }
 }

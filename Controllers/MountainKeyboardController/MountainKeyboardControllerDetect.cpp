@@ -44,9 +44,9 @@ void DetectMountain60KeyboardControllers(hid_device_info* info, const std::strin
 
     if(dev)
     {
-        Mountain60KeyboardController*     controller     = new Mountain60KeyboardController(dev, info->path);
+        Mountain60KeyboardController*     controller     = new Mountain60KeyboardController(dev, info->path, name);
         RGBController_Mountain60Keyboard* rgb_controller = new RGBController_Mountain60Keyboard(controller);
-        rgb_controller->name = name;
+
         ResourceManager::get()->RegisterRGBController(rgb_controller);
     }
 }
