@@ -11,7 +11,6 @@
 
 #include <hidapi.h>
 #include "Detector.h"
-#include "QMessageLogger"
 #include "MountainKeyboardController.h"
 #include "RGBController_MountainKeyboard.h"
 #include "Mountain60KeyboardController.h"
@@ -29,7 +28,8 @@
 #define MOUNTAIN60_EVEREST_60_PID_ISO                       0x0006
 #define MOUNTAIN60_EVEREST_60_INTERFACE                     2
 #define MOUNTAIN60_EVEREST_60_U                             0x01
-#define MOUNTAIN60_EVEREST_60_UP                            0xffff
+#define MOUNTAIN60_EVEREST_60_UP                            0xFFFF
+
 /*----------------------------------------------------------------------------------------*\
 |                                                                                          |
 |   DetectMountainKeyboardControllers                                                      |
@@ -40,10 +40,8 @@
 
 void DetectMountain60KeyboardControllers(hid_device_info* info, const std::string& name)
 {
-    QMessageLogger* log = new QMessageLogger();
-
-    log->info("Hello World 2");
     hid_device* dev = hid_open_path(info->path);
+
     if(dev)
     {
         Mountain60KeyboardController*     controller     = new Mountain60KeyboardController(dev, info->path);
