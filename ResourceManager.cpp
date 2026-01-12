@@ -49,12 +49,15 @@ static void ResourceManagerDetectionCallback(void * this_ptr, unsigned int updat
 
         case DETECTIONMANAGER_UPDATE_REASON_DETECTION_STARTED:
             this_obj->SignalResourceManagerUpdate(RESOURCEMANAGER_UPDATE_REASON_DETECTION_STARTED);
-            this_obj->ClearLocalDevices();
             break;
 
         case DETECTIONMANAGER_UPDATE_REASON_RGBCONTROLLER_REGISTERED:
         case DETECTIONMANAGER_UPDATE_REASON_RGBCONTROLLER_UNREGISTERED:
             this_obj->UpdateDeviceList();
+            break;
+
+        case DETECTIONMANAGER_UPDATE_REASON_RGBCONTROLLER_LIST_CLEARED:
+            this_obj->ClearLocalDevices();
             break;
 
         case DETECTIONMANAGER_UPDATE_REASON_DETECTION_PROGRESS_CHANGED:
@@ -63,17 +66,33 @@ static void ResourceManagerDetectionCallback(void * this_ptr, unsigned int updat
 
         case DETECTIONMANAGER_UPDATE_REASON_DETECTION_COMPLETE:
             this_obj->SignalResourceManagerUpdate(RESOURCEMANAGER_UPDATE_REASON_DETECTION_COMPLETE);
-            this_obj->UpdateDeviceList();
             break;
     }
 }
 
-static void ResourceManagerNetworkClientInfoChangeCallback(void* this_ptr)
+static void ResourceManagerNetworkClientCallback(void* this_ptr, unsigned int update_reason)
 {
     ResourceManager* this_obj = (ResourceManager*)this_ptr;
 
-    this_obj->SignalResourceManagerUpdate(RESOURCEMANAGER_UPDATE_REASON_CLIENT_INFO_UPDATED);
-    this_obj->UpdateDeviceList();
+    switch(update_reason)
+    {
+        case NETWORKCLIENT_UPDATE_REASON_DEVICE_LIST_UPDATED:
+            this_obj->SignalResourceManagerUpdate(RESOURCEMANAGER_UPDATE_REASON_CLIENT_INFO_UPDATED);
+            this_obj->UpdateDeviceList();
+            break;
+
+        case NETWORKCLIENT_UPDATE_REASON_DETECTION_STARTED:
+            this_obj->SignalResourceManagerUpdate(RESOURCEMANAGER_UPDATE_REASON_DETECTION_STARTED);
+            break;
+
+        case NETWORKCLIENT_UPDATE_REASON_DETECTION_PROGRESS_CHANGED:
+            this_obj->SignalResourceManagerUpdate(RESOURCEMANAGER_UPDATE_REASON_DETECTION_PROGRESS_CHANGED);
+            break;
+
+        case NETWORKCLIENT_UPDATE_REASON_DETECTION_COMPLETE:
+            this_obj->SignalResourceManagerUpdate(RESOURCEMANAGER_UPDATE_REASON_DETECTION_COMPLETE);
+            break;
+    }
 }
 
 /*---------------------------------------------------------*\
@@ -288,7 +307,7 @@ void ResourceManager::SetPluginManager(PluginManagerInterface* plugin_manager_pt
 \*---------------------------------------------------------*/
 void ResourceManager::RegisterNetworkClient(NetworkClient* new_client)
 {
-    new_client->RegisterClientInfoChangeCallback(ResourceManagerNetworkClientInfoChangeCallback, this);
+    new_client->RegisterNetworkClientCallback(ResourceManagerNetworkClientCallback, this);
 
     clients.push_back(new_client);
 }
@@ -398,14 +417,26 @@ bool ResourceManager::GetDetectionEnabled()
 
 unsigned int ResourceManager::GetDetectionPercent()
 {
-    //TODO: get from DetectionManager or client
-    return DetectionManager::get()->GetDetectionPercent();
+    if(auto_connection_active && auto_connection_client != NULL)
+    {
+        return auto_connection_client->DetectionManager_GetDetectionPercent();
+    }
+    else
+    {
+        return DetectionManager::get()->GetDetectionPercent();
+    }
 }
 
 std::string ResourceManager::GetDetectionString()
 {
-    //TODO: get from DetectionManager or client
-    return DetectionManager::get()->GetDetectionString();
+    if(auto_connection_active && auto_connection_client != NULL)
+    {
+        return auto_connection_client->DetectionManager_GetDetectionString();
+    }
+    else
+    {
+        return DetectionManager::get()->GetDetectionString();
+    }
 }
 
 void ResourceManager::RescanDevices()
@@ -472,12 +503,6 @@ void ResourceManager::ClearLocalDevices()
     | Signal device list update                             |
     \*-----------------------------------------------------*/
     SignalResourceManagerUpdate(RESOURCEMANAGER_UPDATE_REASON_DEVICE_LIST_UPDATED);
-
-    /*-----------------------------------------------------*\
-    | Device list has changed, inform all clients connected |
-    | to this server                                        |
-    \*-----------------------------------------------------*/
-    server->DeviceListChanged();
 }
 
 void ResourceManager::UpdateDeviceList()
@@ -529,12 +554,6 @@ void ResourceManager::UpdateDeviceList()
     | Signal device list update                             |
     \*-----------------------------------------------------*/
     SignalResourceManagerUpdate(RESOURCEMANAGER_UPDATE_REASON_DEVICE_LIST_UPDATED);
-
-    /*-----------------------------------------------------*\
-    | Device list has changed, inform all clients connected |
-    | to this server                                        |
-    \*-----------------------------------------------------*/
-    server->DeviceListChanged();
 }
 
 void ResourceManager::WaitForDetection()
@@ -547,6 +566,8 @@ void ResourceManager::WaitForDetection()
 \*---------------------------------------------------------*/
 void ResourceManager::SignalResourceManagerUpdate(unsigned int update_reason)
 {
+    server->SignalResourceManagerUpdate(update_reason);
+
     ResourceManagerCallbackMutex.lock();
 
     for(std::size_t callback_idx = 0; callback_idx < ResourceManagerCallbacks.size(); callback_idx++)
