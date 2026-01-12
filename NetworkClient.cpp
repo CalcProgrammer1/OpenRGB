@@ -42,6 +42,8 @@ NetworkClient::NetworkClient(std::vector<RGBController *>& control) : controller
     port_num                            = OPENRGB_SDK_PORT;
     client_string_sent                  = false;
     client_sock                         = -1;
+    detection_percent                   = 100;
+    detection_string                    = "";
     protocol_initialized                = false;
     server_connected                    = false;
     server_controller_count             = 0;
@@ -153,7 +155,7 @@ void NetworkClient::StartClient()
     /*---------------------------------------------------------*\
     | Client info has changed, call the callbacks               |
     \*---------------------------------------------------------*/
-    ClientInfoChanged();
+    SignalNetworkClientUpdate(NETWORKCLIENT_UPDATE_REASON_CLIENT_STARTED);
 }
 
 void NetworkClient::StopClient()
@@ -200,7 +202,7 @@ void NetworkClient::StopClient()
     /*---------------------------------------------------------*\
     | Client info has changed, call the callbacks               |
     \*---------------------------------------------------------*/
-    ClientInfoChanged();
+    SignalNetworkClientUpdate(NETWORKCLIENT_UPDATE_REASON_CLIENT_STOPPED);
 }
 
 void NetworkClient::SendRequest_ControllerData(unsigned int dev_idx)
@@ -240,6 +242,8 @@ void NetworkClient::SendRequest_ControllerData(unsigned int dev_idx)
             protocol_version = server_protocol_version;
         }
 
+        SignalNetworkClientUpdate(NETWORKCLIENT_UPDATE_REASON_PROTOCOL_NEGOTIATED);
+
         send_in_progress.lock();
         send(client_sock, (char *)&request_hdr, sizeof(NetPacketHeader), MSG_NOSIGNAL);
         send(client_sock, (char *)&protocol_version, sizeof(unsigned int), MSG_NOSIGNAL);
@@ -266,14 +270,27 @@ void NetworkClient::SendRequest_RescanDevices()
 \*---------------------------------------------------------*/
 void NetworkClient::ClearCallbacks()
 {
-    ClientInfoChangeCallbacks.clear();
-    ClientInfoChangeCallbackArgs.clear();
+    NetworkClientCallbacks.clear();
+    NetworkClientCallbackArgs.clear();
 }
 
-void NetworkClient::RegisterClientInfoChangeCallback(NetClientCallback new_callback, void * new_callback_arg)
+void NetworkClient::RegisterNetworkClientCallback(NetworkClientCallback new_callback, void * new_callback_arg)
 {
-    ClientInfoChangeCallbacks.push_back(new_callback);
-    ClientInfoChangeCallbackArgs.push_back(new_callback_arg);
+    NetworkClientCallbacks.push_back(new_callback);
+    NetworkClientCallbackArgs.push_back(new_callback_arg);
+}
+
+/*---------------------------------------------------------*\
+| DetectionManager functions                                |
+\*---------------------------------------------------------*/
+unsigned int NetworkClient::DetectionManager_GetDetectionPercent()
+{
+    return(detection_percent);
+}
+
+std::string NetworkClient::DetectionManager_GetDetectionString()
+{
+    return(detection_string);
 }
 
 /*---------------------------------------------------------*\
@@ -646,21 +663,19 @@ void NetworkClient::WaitOnControllerData()
 /*---------------------------------------------------------*\
 | Client callback signal functions                          |
 \*---------------------------------------------------------*/
-void NetworkClient::ClientInfoChanged()
+void NetworkClient::SignalNetworkClientUpdate(unsigned int update_reason)
 {
-    ClientInfoChangeMutex.lock();
-    ControllerListMutex.lock();
+    NetworkClientCallbackMutex.lock();
 
     /*---------------------------------------------------------*\
     | Client info has changed, call the callbacks               |
     \*---------------------------------------------------------*/
-    for(unsigned int callback_idx = 0; callback_idx < ClientInfoChangeCallbacks.size(); callback_idx++)
+    for(unsigned int callback_idx = 0; callback_idx < NetworkClientCallbacks.size(); callback_idx++)
     {
-        ClientInfoChangeCallbacks[callback_idx](ClientInfoChangeCallbackArgs[callback_idx]);
+        NetworkClientCallbacks[callback_idx](NetworkClientCallbackArgs[callback_idx], update_reason);
     }
 
-    ControllerListMutex.unlock();
-    ClientInfoChangeMutex.unlock();
+    NetworkClientCallbackMutex.unlock();
 }
 
 /*---------------------------------------------------------*\
@@ -708,7 +723,7 @@ void NetworkClient::ConnectionThreadFunction()
                 /*---------------------------------------------------------*\
                 | Client info has changed, call the callbacks               |
                 \*---------------------------------------------------------*/
-                ClientInfoChanged();
+                SignalNetworkClientUpdate(NETWORKCLIENT_UPDATE_REASON_CLIENT_CONNECTED);
             }
             else
             {
@@ -842,7 +857,7 @@ void NetworkClient::ConnectionThreadFunction()
                             | Client info has changed, call the         |
                             | callbacks                                 |
                             \*-----------------------------------------*/
-                            ClientInfoChanged();
+                            SignalNetworkClientUpdate(NETWORKCLIENT_UPDATE_REASON_DEVICE_LIST_UPDATED);
 
                             server_initialized = true;
                         }
@@ -975,6 +990,18 @@ void NetworkClient::ListenThreadFunction()
                 ProcessRequest_DeviceListChanged();
                 break;
 
+            case NET_PACKET_ID_DETECTION_STARTED:
+                SignalNetworkClientUpdate(NETWORKCLIENT_UPDATE_REASON_DETECTION_STARTED);
+                break;
+
+            case NET_PACKET_ID_DETECTION_PROGRESS_CHANGED:
+                ProcessRequest_DetectionProgressChanged(header.pkt_size, data);
+                break;
+
+            case NET_PACKET_ID_DETECTION_COMPLETE:
+                SignalNetworkClientUpdate(NETWORKCLIENT_UPDATE_REASON_DETECTION_COMPLETE);
+                break;
+
             case NET_PACKET_ID_PROFILEMANAGER_GET_PROFILE_LIST:
             case NET_PACKET_ID_PROFILEMANAGER_DOWNLOAD_PROFILE:
             case NET_PACKET_ID_PROFILEMANAGER_GET_ACTIVE_PROFILE:
@@ -1043,7 +1070,7 @@ listen_done:
     /*---------------------------------------------------------*\
     | Client info has changed, call the callbacks               |
     \*---------------------------------------------------------*/
-    ClientInfoChanged();
+    SignalNetworkClientUpdate(NETWORKCLIENT_UPDATE_REASON_CLIENT_DISCONNECTED);
 }
 
 /*---------------------------------------------------------*\
@@ -1122,6 +1149,25 @@ void NetworkClient::ProcessReply_ProtocolVersion(unsigned int data_size, char * 
     }
 }
 
+void NetworkClient::ProcessRequest_DetectionProgressChanged(unsigned int data_size, char * data)
+{
+    if(data_size == *((unsigned int*) data))
+    {
+        data += sizeof(data_size);
+
+        memcpy(&detection_percent, data, sizeof(detection_percent));
+        data += sizeof(detection_percent);
+
+        unsigned short string_length;
+        memcpy(&string_length, data, sizeof(string_length));
+        data += sizeof(string_length);
+
+        detection_string.assign(data, string_length);
+
+        SignalNetworkClientUpdate(NETWORKCLIENT_UPDATE_REASON_DETECTION_PROGRESS_CHANGED);
+    }
+}
+
 void NetworkClient::ProcessRequest_DeviceListChanged()
 {
     change_in_progress = true;
@@ -1157,7 +1203,7 @@ void NetworkClient::ProcessRequest_DeviceListChanged()
     /*---------------------------------------------------------*\
     | Client info has changed, call the callbacks               |
     \*---------------------------------------------------------*/
-    ClientInfoChanged();
+    SignalNetworkClientUpdate(NETWORKCLIENT_UPDATE_REASON_DEVICE_LIST_UPDATED);
 
     /*---------------------------------------------------------*\
     | Mark server as uninitialized and reset server             |
@@ -1248,7 +1294,7 @@ void NetworkClient::ProcessRequest_ServerString(unsigned int data_size, char * d
     /*---------------------------------------------------------*\
     | Client info has changed, call the callbacks               |
     \*---------------------------------------------------------*/
-    ClientInfoChanged();
+    SignalNetworkClientUpdate(NETWORKCLIENT_UPDATE_REASON_SERVER_STRING_RECEIVED);
 }
 
 void NetworkClient::SendData_ClientString()
