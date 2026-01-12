@@ -611,7 +611,10 @@ void DetectionManager::BackgroundDetectDevices()
     {
         if(initial_detection_delay_ms != 0)
         {
-            LOG_INFO("[ResourceManager] Delaying detection for %d ms", initial_detection_delay_ms);
+            detection_string = "Waiting for detection delay";
+            SignalUpdate(DETECTIONMANAGER_UPDATE_REASON_DETECTION_PROGRESS_CHANGED);
+
+            LOG_INFO("[%s] Delaying detection for %d ms", DETECTIONMANAGER, initial_detection_delay_ms);
             std::this_thread::sleep_for(initial_detection_delay_ms * 1ms);
         }
 
@@ -1370,6 +1373,8 @@ void DetectionManager::BackgroundHidInit()
 void DetectionManager::ProcessCleanup()
 {
     WaitForDetection();
+
+    SignalUpdate(DETECTIONMANAGER_UPDATE_REASON_RGBCONTROLLER_LIST_CLEARED);
 
     /*-----------------------------------------------------*\
     | Make a copy of the list so that the controllers can   |
