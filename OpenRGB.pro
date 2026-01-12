@@ -377,6 +377,7 @@ win32:contains(QMAKE_TARGET.arch, x86_64) {
         -L"$$PWD/dependencies/hidapi-win/x64/" -lhidapi                                         \
         -L"$$PWD/dependencies/mbedtls-3.2.1/lib/x64/" -lmbedcrypto -lmbedtls -lmbedx509         \
         -L"$$PWD/dependencies/PawnIO/" -lPawnIOLib                                              \
+        -L"$$PWD/Controllers/RtkArgbApi/rtk_argb_lib/windows/x64/" -lrtk_argb_libx64            \
 }
 
 win32:contains(QMAKE_TARGET.arch, x86) {
@@ -389,6 +390,7 @@ win32:contains(QMAKE_TARGET.arch, x86) {
         -L"$$PWD/dependencies/libusb-1.0.27/VS2019/MS32/dll" -llibusb-1.0                       \
         -L"$$PWD/dependencies/hidapi-win/x86/" -lhidapi                                         \
         -L"$$PWD/dependencies/mbedtls-3.2.1/lib/x86/" -lmbedcrypto -lmbedtls -lmbedx509         \
+        -L"$$PWD/Controllers/RtkArgbApi/rtk_argb_lib/windows/x86/" -lrtk_argb_libx86            \
 }
 
 win32:DEFINES -=                                                                                \
@@ -504,6 +506,9 @@ contains(QMAKE_PLATFORM, linux) {
     packagesExist(hidapi-hidraw) {
         PKGCONFIG += hidapi-hidraw
 
+        LIBS +=                                                                                 \
+        -L$$PWD/Controllers/RtkArgbApi/rtk_argb_lib/linux/hidraw/ -l_rtk_argbx86_64             \
+
         #---------------------------------------------------------------------------------------#
         # hidapi-hidraw >= 0.10.1 supports USAGE/USAGE_PAGE                                     #
         # Define USE_HID_USAGE if hidapi-hidraw supports it                                     #
@@ -515,8 +520,12 @@ contains(QMAKE_PLATFORM, linux) {
     } else {
         packagesExist(hidapi-libusb) {
             PKGCONFIG += hidapi-libusb
+            LIBS +=                                                                             \
+            -L$$PWD/Controllers/RtkArgbApi/rtk_argb_lib/linux/libusb/ -l_rtk_argbx86_64         \
         } else {
             PKGCONFIG += hidapi
+            LIBS +=                                                                             \
+            -L$$PWD/Controllers/RtkArgbApi/rtk_argb_lib/linux/libusb/ -l_rtk_argbx86_64         \
         }
     }
 
@@ -771,6 +780,7 @@ macx:contains(QMAKE_HOST.arch, arm64) {
 
     LIBS +=                                                                                     \
     -L/opt/homebrew/lib                                                                         \
+    -L$$PWD/Controllers/RtkArgbApi/rtk_argb_lib/mac/arm64/ -l_rtk_argbarm64                     \
 }
 
 #-----------------------------------------------------------------------------------------------#
@@ -800,6 +810,7 @@ macx:contains(QMAKE_HOST.arch, x86_64) {
     LIBS +=                                                                                     \
     -L/usr/local/lib                                                                            \
     -L/usr/local/homebrew/lib                                                                   \
+    -L$$PWD/Controllers/RtkArgbApi/rtk_argb_lib/mac/x86_64/ -l_rtk_argbx86_64                   \
 
     DEFINES +=                                                                                  \
     _MACOSX_X86_X64                                                                             \
