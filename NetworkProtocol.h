@@ -64,6 +64,9 @@ enum
     NET_PACKET_ID_SET_SERVER_NAME               = 51,   /* Send server name string to client                    */
 
     NET_PACKET_ID_DEVICE_LIST_UPDATED           = 100,  /* Indicate to clients that device list has updated     */
+    NET_PACKET_ID_DETECTION_STARTED             = 101,  /* Indicate to clients that detection started           */
+    NET_PACKET_ID_DETECTION_PROGRESS_CHANGED    = 102,  /* Indicate to clients that detection progress changed  */
+    NET_PACKET_ID_DETECTION_COMPLETE            = 103,  /* Indicate to clients that detection completed         */
 
     NET_PACKET_ID_REQUEST_RESCAN_DEVICES        = 140,  /* Request rescan of devices                            */
 
