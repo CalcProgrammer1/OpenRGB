@@ -83,9 +83,13 @@ public:
     /*-----------------------------------------------------*\
     | Callback functions                                    |
     \*-----------------------------------------------------*/
-    void                                DeviceListChanged();
     void                                RegisterClientInfoChangeCallback(NetServerCallback, void * new_callback_arg);
     void                                RegisterServerListeningChangeCallback(NetServerCallback, void * new_callback_arg);
+
+    /*-----------------------------------------------------*\
+    | Functions for forwarding callback sigals over network |
+    \*-----------------------------------------------------*/
+    void                                SignalResourceManagerUpdate(unsigned int );
 
     /*-----------------------------------------------------*\
     | Server Configuration functions                        |
@@ -169,8 +173,12 @@ private:
     /*-----------------------------------------------------*\
     | Server callback signal functions                      |
     \*-----------------------------------------------------*/
-    void                                ClientInfoChanged();
-    void                                ServerListeningChanged();
+    void                                SignalClientInfoChanged();
+    void                                SignalDetectionCompleted();
+    void                                SignalDetectionProgress();
+    void                                SignalDetectionStarted();
+    void                                SignalDeviceListUpdated();
+    void                                SignalServerListeningChanged();
 
     /*-----------------------------------------------------*\
     | Server Thread functions                               |
@@ -202,6 +210,9 @@ private:
     void                                SendReply_PluginList(SOCKET client_sock);
     void                                SendReply_PluginSpecific(SOCKET client_sock, unsigned int pkt_type, unsigned char* data, unsigned int data_size);
 
+    void                                SendRequest_DetectionCompleted(SOCKET client_sock, unsigned int protocol_version);
+    void                                SendRequest_DetectionProgress(SOCKET client_sock, unsigned int protocol_version, unsigned int detection_percent, std::string detection_string);
+    void                                SendRequest_DetectionStarted(SOCKET client_sock, unsigned int protocol_version);
     void                                SendRequest_DeviceListChanged(SOCKET client_sock);
 
     /*-----------------------------------------------------*\

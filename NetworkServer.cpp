@@ -192,24 +192,25 @@ unsigned int NetworkServer::GetClientProtocolVersion(unsigned int client_num)
 /*---------------------------------------------------------*\
 | Callback functions                                        |
 \*---------------------------------------------------------*/
-void NetworkServer::DeviceListChanged()
+void NetworkServer::SignalResourceManagerUpdate(unsigned int update_reason)
 {
-    /*-----------------------------------------------------*\
-    | Register the server's RGBController update handler    |
-    | for each RGBController in the controllers list        |
-    \*-----------------------------------------------------*/
-    for(std::size_t controller_idx = 0; controller_idx < controllers.size(); controller_idx++)
+    switch(update_reason)
     {
-        controllers[controller_idx]->RegisterUpdateCallback(RGBController_UpdateCallback, this);
-    }
+        case RESOURCEMANAGER_UPDATE_REASON_DEVICE_LIST_UPDATED:
+            SignalDeviceListUpdated();
+            break;
 
-    /*-----------------------------------------------------*\
-    | Indicate to the clients that the controller list has  |
-    | changed                                               |
-    \*-----------------------------------------------------*/
-    for(unsigned int client_idx = 0; client_idx < ServerClients.size(); client_idx++)
-    {
-        SendRequest_DeviceListChanged(ServerClients[client_idx]->client_sock);
+        case RESOURCEMANAGER_UPDATE_REASON_DETECTION_STARTED:
+            SignalDetectionStarted();
+            break;
+
+        case RESOURCEMANAGER_UPDATE_REASON_DETECTION_PROGRESS_CHANGED:
+            SignalDetectionProgress();
+            break;
+
+        case RESOURCEMANAGER_UPDATE_REASON_DETECTION_COMPLETE:
+            SignalDetectionCompleted();
+            break;
     }
 }
 
@@ -419,7 +420,7 @@ void NetworkServer::StopServer()
     /*-----------------------------------------------------*\
     | Client info has changed, call the callbacks           |
     \*-----------------------------------------------------*/
-    ClientInfoChanged();
+    SignalClientInfoChanged();
 }
 
 /*---------------------------------------------------------*\
@@ -443,7 +444,7 @@ void NetworkServer::SetSettingsManager(SettingsManagerInterface* settings_manage
 /*---------------------------------------------------------*\
 | Server callback signal functions                          |
 \*---------------------------------------------------------*/
-void NetworkServer::ClientInfoChanged()
+void NetworkServer::SignalClientInfoChanged()
 {
     ClientInfoChangeMutex.lock();
 
@@ -458,7 +459,64 @@ void NetworkServer::ClientInfoChanged()
     ClientInfoChangeMutex.unlock();
 }
 
-void NetworkServer::ServerListeningChanged()
+void NetworkServer::SignalDetectionCompleted()
+{
+    /*-----------------------------------------------------*\
+    | Indicate to the clients that detection has completed  |
+    \*-----------------------------------------------------*/
+    for(unsigned int client_idx = 0; client_idx < ServerClients.size(); client_idx++)
+    {
+        SendRequest_DetectionCompleted(ServerClients[client_idx]->client_sock, ServerClients[client_idx]->client_protocol_version);
+    }
+}
+
+void NetworkServer::SignalDetectionProgress()
+{
+    unsigned int detection_percent = ResourceManager::get()->GetDetectionPercent();
+    std::string  detection_string  = ResourceManager::get()->GetDetectionString();
+
+    /*-----------------------------------------------------*\
+    | Indicate to the clients detection progress changed    |
+    \*-----------------------------------------------------*/
+    for(unsigned int client_idx = 0; client_idx < ServerClients.size(); client_idx++)
+    {
+        SendRequest_DetectionProgress(ServerClients[client_idx]->client_sock, ServerClients[client_idx]->client_protocol_version, detection_percent, detection_string);
+    }
+}
+
+void NetworkServer::SignalDetectionStarted()
+{
+    /*-----------------------------------------------------*\
+    | Indicate to the clients that detection has started    |
+    \*-----------------------------------------------------*/
+    for(unsigned int client_idx = 0; client_idx < ServerClients.size(); client_idx++)
+    {
+        SendRequest_DetectionStarted(ServerClients[client_idx]->client_sock, ServerClients[client_idx]->client_protocol_version);
+    }
+}
+
+void NetworkServer::SignalDeviceListUpdated()
+{
+    /*-----------------------------------------------------*\
+    | Register the server's RGBController update handler    |
+    | for each RGBController in the controllers list        |
+    \*-----------------------------------------------------*/
+    for(std::size_t controller_idx = 0; controller_idx < controllers.size(); controller_idx++)
+    {
+        controllers[controller_idx]->RegisterUpdateCallback(RGBController_UpdateCallback, this);
+    }
+
+    /*-----------------------------------------------------*\
+    | Indicate to the clients that the controller list has  |
+    | changed                                               |
+    \*-----------------------------------------------------*/
+    for(unsigned int client_idx = 0; client_idx < ServerClients.size(); client_idx++)
+    {
+        SendRequest_DeviceListChanged(ServerClients[client_idx]->client_sock);
+    }
+}
+
+void NetworkServer::SignalServerListeningChanged()
 {
     ServerListeningChangeMutex.lock();
 
@@ -504,7 +562,7 @@ void NetworkServer::ConnectionThreadFunction(int socket_idx)
         }
 
         server_listening = true;
-        ServerListeningChanged();
+        SignalServerListeningChanged();
 
         /*-------------------------------------------------*\
         | Accept the client connection                      |
@@ -517,7 +575,7 @@ void NetworkServer::ConnectionThreadFunction(int socket_idx)
             server_online = false;
 
             server_listening = false;
-            ServerListeningChanged();
+            SignalServerListeningChanged();
 
             return;
         }
@@ -569,13 +627,13 @@ void NetworkServer::ConnectionThreadFunction(int socket_idx)
         /*-------------------------------------------------*\
         | Client info has changed, call the callbacks       |
         \*-------------------------------------------------*/
-        ClientInfoChanged();
+        SignalClientInfoChanged();
     }
 
     LOG_INFO("[NetworkServer] Connection thread closed");
     server_online = false;
     server_listening = false;
-    ServerListeningChanged();
+    SignalServerListeningChanged();
 }
 
 void NetworkServer::ControllerListenThread(NetworkServerControllerThread * this_thread)
@@ -1113,7 +1171,7 @@ listen_done:
     /*-----------------------------------------------------*\
     | Client info has changed, call the callbacks           |
     \*-----------------------------------------------------*/
-    ClientInfoChanged();
+    SignalClientInfoChanged();
 }
 
 /*---------------------------------------------------------*\
@@ -1147,7 +1205,7 @@ void NetworkServer::ProcessRequest_ClientProtocolVersion(SOCKET client_sock, uns
     /*---------------------------------------------------------*\
     | Client info has changed, call the callbacks               |
     \*---------------------------------------------------------*/
-    ClientInfoChanged();
+    SignalClientInfoChanged();
 }
 
 void NetworkServer::ProcessRequest_ClientString(SOCKET client_sock, unsigned int data_size, char * data)
@@ -1167,7 +1225,7 @@ void NetworkServer::ProcessRequest_ClientString(SOCKET client_sock, unsigned int
     /*---------------------------------------------------------*\
     | Client info has changed, call the callbacks               |
     \*---------------------------------------------------------*/
-    ClientInfoChanged();
+    SignalClientInfoChanged();
 }
 
 void NetworkServer::ProcessRequest_RescanDevices()
@@ -1702,6 +1760,74 @@ void NetworkServer::SendReply_PluginSpecific(SOCKET client_sock, unsigned int pk
     send_in_progress.unlock();
 
     delete [] data;
+}
+
+void NetworkServer::SendRequest_DetectionCompleted(SOCKET client_sock, unsigned int protocol_version)
+{
+    if(protocol_version >= 6)
+    {
+        NetPacketHeader pkt_hdr;
+
+        InitNetPacketHeader(&pkt_hdr, 0, NET_PACKET_ID_DETECTION_COMPLETE, 0);
+
+        send_in_progress.lock();
+        send(client_sock, (char *)&pkt_hdr, sizeof(NetPacketHeader), 0);
+        send_in_progress.unlock();
+    }
+}
+
+void NetworkServer::SendRequest_DetectionProgress(SOCKET client_sock, unsigned int protocol_version, unsigned int detection_percent, std::string detection_string)
+{
+    if(protocol_version >= 6)
+    {
+        unsigned int    data_size;
+        unsigned short  string_length;
+        NetPacketHeader reply_hdr;
+
+        string_length   = strlen(detection_string.c_str()) + 1;
+        data_size       = sizeof(data_size);
+        data_size      += sizeof(detection_percent);
+        data_size      += sizeof(string_length);
+        data_size      += string_length;
+
+        unsigned char * data_buf = new unsigned char[data_size];
+        unsigned char * data_ptr = data_buf;
+
+        memcpy(data_ptr, &data_size, sizeof(data_size));
+        data_ptr += sizeof(data_size);
+
+        memcpy(data_ptr, &detection_percent, sizeof(detection_percent));
+        data_ptr += sizeof(detection_percent);
+
+        memcpy(data_ptr, &string_length, sizeof(string_length));
+        data_ptr += sizeof(string_length);
+
+        memcpy(data_ptr, detection_string.c_str(), string_length);
+        data_ptr += string_length;
+
+        InitNetPacketHeader(&reply_hdr, 0, NET_PACKET_ID_DETECTION_PROGRESS_CHANGED, data_size);
+
+        send_in_progress.lock();
+        send(client_sock, (const char *)&reply_hdr, sizeof(NetPacketHeader), 0);
+        send(client_sock, (const char *)data_buf, data_size, 0);
+        send_in_progress.unlock();
+
+        delete [] data_buf;
+    }
+}
+
+void NetworkServer::SendRequest_DetectionStarted(SOCKET client_sock, unsigned int protocol_version)
+{
+    if(protocol_version >= 6)
+    {
+        NetPacketHeader pkt_hdr;
+
+        InitNetPacketHeader(&pkt_hdr, 0, NET_PACKET_ID_DETECTION_STARTED, 0);
+
+        send_in_progress.lock();
+        send(client_sock, (char *)&pkt_hdr, sizeof(NetPacketHeader), 0);
+        send_in_progress.unlock();
+    }
 }
 
 void NetworkServer::SendRequest_DeviceListChanged(SOCKET client_sock)
