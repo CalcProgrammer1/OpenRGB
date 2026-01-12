@@ -113,6 +113,7 @@ enum
     DETECTIONMANAGER_UPDATE_REASON_I2C_BUS_REGISTERED,          /* RegisterI2CBus() called          */
     DETECTIONMANAGER_UPDATE_REASON_RGBCONTROLLER_REGISTERED,    /* RegisterRGBController() called   */
     DETECTIONMANAGER_UPDATE_REASON_RGBCONTROLLER_UNREGISTERED,  /* UnregisterRGBController() called */
+    DETECTIONMANAGER_UPDATE_REASON_RGBCONTROLLER_LIST_CLEARED,  /* RGBController list cleared       */
     DETECTIONMANAGER_UPDATE_REASON_DETECTION_STARTED,           /* Detection started                */
     DETECTIONMANAGER_UPDATE_REASON_DETECTION_PROGRESS_CHANGED,  /* Detection progress changed       */
     DETECTIONMANAGER_UPDATE_REASON_DETECTION_COMPLETE,          /* Detection completed              */
