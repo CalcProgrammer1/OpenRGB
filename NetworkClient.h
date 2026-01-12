@@ -19,7 +19,29 @@
 #include "NetworkProtocol.h"
 #include "net_port.h"
 
-typedef void (*NetClientCallback)(void *);
+/*---------------------------------------------------------*\
+| Callback Types                                            |
+\*---------------------------------------------------------*/
+typedef void (*NetworkClientCallback)(void *, unsigned int);
+
+/*---------------------------------------------------------*\
+| NetworkClient Update Reason Codes                         |
+\*---------------------------------------------------------*/
+enum
+{
+    NETWORKCLIENT_UPDATE_REASON_CLIENT_STARTED,                 /* Client started                   */
+    NETWORKCLIENT_UPDATE_REASON_CLIENT_STOPPED,                 /* Client stopped                   */
+    NETWORKCLIENT_UPDATE_REASON_CLIENT_CONNECTED,               /* Client connectedd                */
+    NETWORKCLIENT_UPDATE_REASON_CLIENT_DISCONNECTED,            /* Client disconnected              */
+    NETWORKCLIENT_UPDATE_REASON_SERVER_STRING_RECEIVED,         /* Server string received           */
+    NETWORKCLIENT_UPDATE_REASON_PROTOCOL_NEGOTIATED,            /* Protocol version negotiated      */
+    NETWORKCLIENT_UPDATE_REASON_DEVICE_LIST_UPDATED,            /* Device list updated              */
+    NETWORKCLIENT_UPDATE_REASON_DETECTION_STARTED,              /* Detection started                */
+    NETWORKCLIENT_UPDATE_REASON_DETECTION_PROGRESS_CHANGED,     /* Detection progress changed       */
+    NETWORKCLIENT_UPDATE_REASON_DETECTION_COMPLETE,             /* Detection completed              */
+};
+
+
 
 class NetworkClient
 {
@@ -54,7 +76,13 @@ public:
     | Client Callback functions                             |
     \*-----------------------------------------------------*/
     void                                ClearCallbacks();
-    void                                RegisterClientInfoChangeCallback(NetClientCallback new_callback, void * new_callback_arg);
+    void                                RegisterNetworkClientCallback(NetworkClientCallback new_callback, void * new_callback_arg);
+
+    /*-----------------------------------------------------*\
+    | DetectionManager functions                            |
+    \*-----------------------------------------------------*/
+    unsigned int                        DetectionManager_GetDetectionPercent();
+    std::string                         DetectionManager_GetDetectionString();
 
     /*-----------------------------------------------------*\
     | ProfileManager functions                              |
@@ -146,9 +174,9 @@ private:
     /*-----------------------------------------------------*\
     | Callbacks                                             |
     \*-----------------------------------------------------*/
-    std::mutex                          ClientInfoChangeMutex;
-    std::vector<NetClientCallback>      ClientInfoChangeCallbacks;
-    std::vector<void *>                 ClientInfoChangeCallbackArgs;
+    std::mutex                          NetworkClientCallbackMutex;
+    std::vector<NetworkClientCallback>  NetworkClientCallbacks;
+    std::vector<void *>                 NetworkClientCallbackArgs;
 
     /*-----------------------------------------------------*\
     | Controller list                                       |
@@ -157,9 +185,15 @@ private:
     std::vector<RGBController *>&       controllers;
 
     /*-----------------------------------------------------*\
+    | Detection variables                                   |
+    \*-----------------------------------------------------*/
+    unsigned int                        detection_percent;
+    std::string                         detection_string;
+
+    /*-----------------------------------------------------*\
     | Client callback signal functions                      |
     \*-----------------------------------------------------*/
-    void                                ClientInfoChanged();
+    void                                SignalNetworkClientUpdate(unsigned int update_reason);
 
     /*-----------------------------------------------------*\
     | Client thread functions                               |
@@ -173,6 +207,7 @@ private:
     void                                ProcessReply_ControllerCount(unsigned int data_size, char * data);
     void                                ProcessReply_ControllerData(unsigned int data_size, char * data, unsigned int dev_idx);
     void                                ProcessReply_ProtocolVersion(unsigned int data_size, char * data);
+    void                                ProcessRequest_DetectionProgressChanged(unsigned int data_size, char * data);
     void                                ProcessRequest_DeviceListChanged();
     void                                ProcessRequest_RGBController_SignalUpdate(unsigned int data_size, char * data, unsigned int dev_idx);
     void                                ProcessRequest_ServerString(unsigned int data_size, char * data);
