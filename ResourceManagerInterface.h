@@ -62,7 +62,7 @@ public:
     \*-----------------------------------------------------*/
     virtual bool                                GetDetectionEnabled()                                                                               = 0;
     virtual unsigned int                        GetDetectionPercent()                                                                               = 0;
-    virtual const char*                         GetDetectionString()                                                                                = 0;
+    virtual std::string                         GetDetectionString()                                                                                = 0;
     virtual void                                WaitForDetection()                                                                            = 0;
 
 protected:

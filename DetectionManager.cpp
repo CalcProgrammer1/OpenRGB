@@ -451,7 +451,7 @@ unsigned int DetectionManager::GetDetectionPercent()
     return(detection_percent.load());
 }
 
-const char * DetectionManager::GetDetectionString()
+std::string DetectionManager::GetDetectionString()
 {
     return(detection_string);
 }
@@ -611,7 +611,10 @@ void DetectionManager::BackgroundDetectDevices()
     {
         if(initial_detection_delay_ms != 0)
         {
-            LOG_INFO("[ResourceManager] Delaying detection for %d ms", initial_detection_delay_ms);
+            detection_string = "Waiting for detection delay";
+            SignalUpdate(DETECTIONMANAGER_UPDATE_REASON_DETECTION_PROGRESS_CHANGED);
+
+            LOG_INFO("[%s] Delaying detection for %d ms", DETECTIONMANAGER, initial_detection_delay_ms);
             std::this_thread::sleep_for(initial_detection_delay_ms * 1ms);
         }
 
@@ -856,7 +859,7 @@ void DetectionManager::BackgroundDetectI2CDevices(json detector_settings)
             this_device_enabled = detector_settings["detectors"][detection_string];
         }
 
-        LOG_DEBUG("[%s] %s is %s", DETECTIONMANAGER, detection_string, ((this_device_enabled == true) ? "enabled" : "disabled"));
+        LOG_DEBUG("[%s] %s is %s", DETECTIONMANAGER, detection_string.c_str(), ((this_device_enabled == true) ? "enabled" : "disabled"));
 
         /*-------------------------------------------------*\
         | If enabled, signal progress changed and call the  |
@@ -869,7 +872,7 @@ void DetectionManager::BackgroundDetectI2CDevices(json detector_settings)
             i2c_device_detectors[i2c_detector_idx](i2c_buses);
         }
 
-        LOG_TRACE("[%s] %s detection end", DETECTIONMANAGER, detection_string);
+        LOG_TRACE("[%s] %s detection end", DETECTIONMANAGER, detection_string.c_str());
 
         /*-------------------------------------------------*\
         | Update detection percent                          |
@@ -926,7 +929,7 @@ void DetectionManager::BackgroundDetectI2CDRAMDevices(json detector_settings)
                         this_device_enabled = detector_settings["detectors"][detection_string];
                     }
 
-                    LOG_DEBUG("[%s] %s is %s", DETECTIONMANAGER, detection_string, ((this_device_enabled == true) ? "enabled" : "disabled"));
+                    LOG_DEBUG("[%s] %s is %s", DETECTIONMANAGER, detection_string.c_str(), ((this_device_enabled == true) ? "enabled" : "disabled"));
 
                     if(this_device_enabled)
                     {
@@ -936,7 +939,7 @@ void DetectionManager::BackgroundDetectI2CDRAMDevices(json detector_settings)
                         i2c_dram_device_detectors[i2c_detector_idx].function(i2c_buses[bus], matching_slots, i2c_dram_device_detectors[i2c_detector_idx].name);
                     }
 
-                    LOG_TRACE("[%s] %s detection end", DETECTIONMANAGER, detection_string);
+                    LOG_TRACE("[%s] %s detection end", DETECTIONMANAGER, detection_string.c_str());
                 }
 
                 /*-----------------------------------------*\
@@ -971,7 +974,7 @@ void DetectionManager::BackgroundDetectI2CPCIDevices(json detector_settings)
             this_device_enabled = detector_settings["detectors"][detection_string];
         }
 
-        LOG_DEBUG("[%s] %s is %s", DETECTIONMANAGER, detection_string, ((this_device_enabled == true) ? "enabled" : "disabled"));
+        LOG_DEBUG("[%s] %s is %s", DETECTIONMANAGER, detection_string.c_str(), ((this_device_enabled == true) ? "enabled" : "disabled"));
 
         if(this_device_enabled)
         {
@@ -989,7 +992,7 @@ void DetectionManager::BackgroundDetectI2CPCIDevices(json detector_settings)
             }
         }
 
-        LOG_TRACE("[%s] %s detection end", DETECTIONMANAGER, detection_string);
+        LOG_TRACE("[%s] %s detection end", DETECTIONMANAGER, detection_string.c_str());
 
         /*-------------------------------------------------*\
         | Update detection percent                          |
@@ -1052,7 +1055,7 @@ void DetectionManager::BackgroundDetectHIDDevices(hid_device_info* hid_devices, 
                     this_device_enabled = detector_settings["detectors"][detection_string];
                 }
 
-                LOG_DEBUG("[%s] %s is %s", DETECTIONMANAGER, detection_string, ((this_device_enabled == true) ? "enabled" : "disabled"));
+                LOG_DEBUG("[%s] %s is %s", DETECTIONMANAGER, detection_string.c_str(), ((this_device_enabled == true) ? "enabled" : "disabled"));
 
                 if(this_device_enabled)
                 {
@@ -1087,7 +1090,7 @@ void DetectionManager::BackgroundDetectHIDDevices(hid_device_info* hid_devices, 
                     this_device_enabled = detector_settings["detectors"][detection_string];
                 }
 
-                LOG_DEBUG("[%s] %s is %s", DETECTIONMANAGER, detection_string, ((this_device_enabled == true) ? "enabled" : "disabled"));
+                LOG_DEBUG("[%s] %s is %s", DETECTIONMANAGER, detection_string.c_str(), ((this_device_enabled == true) ? "enabled" : "disabled"));
 
                 if(this_device_enabled)
                 {
@@ -1158,7 +1161,7 @@ void DetectionManager::BackgroundDetectHIDDevicesSafe(json detector_settings)
                     this_device_enabled = detector_settings["detectors"][detection_string];
                 }
 
-                LOG_DEBUG("[%s] %s is %s", DETECTIONMANAGER, detection_string, ((this_device_enabled == true) ? "enabled" : "disabled"));
+                LOG_DEBUG("[%s] %s is %s", DETECTIONMANAGER, detection_string.c_str(), ((this_device_enabled == true) ? "enabled" : "disabled"));
 
                 if(this_device_enabled)
                 {
@@ -1166,7 +1169,7 @@ void DetectionManager::BackgroundDetectHIDDevicesSafe(json detector_settings)
 
                     detector.function(current_hid_device, hid_device_detectors[hid_detector_idx].name);
 
-                    LOG_TRACE("[%s] %s detection end", DETECTIONMANAGER, detection_string);
+                    LOG_TRACE("[%s] %s detection end", DETECTIONMANAGER, detection_string.c_str());
                 }
             }
 
@@ -1267,7 +1270,7 @@ void DetectionManager::BackgroundDetectHIDDevicesWrapped(hid_device_info* hid_de
                         this_device_enabled = detector_settings["detectors"][detection_string];
                     }
 
-                    LOG_DEBUG("[%s] %s is %s", DETECTIONMANAGER, detection_string, ((this_device_enabled == true) ? "enabled" : "disabled"));
+                    LOG_DEBUG("[%s] %s is %s", DETECTIONMANAGER, detection_string.c_str(), ((this_device_enabled == true) ? "enabled" : "disabled"));
 
                     if(this_device_enabled)
                     {
@@ -1320,7 +1323,7 @@ void DetectionManager::BackgroundDetectOtherDevices(json detector_settings)
             this_device_enabled = detector_settings["detectors"][detection_string];
         }
 
-        LOG_DEBUG("[%s] %s is %s", DETECTIONMANAGER, detection_string, ((this_device_enabled == true) ? "enabled" : "disabled"));
+        LOG_DEBUG("[%s] %s is %s", DETECTIONMANAGER, detection_string.c_str(), ((this_device_enabled == true) ? "enabled" : "disabled"));
 
         if(this_device_enabled)
         {
@@ -1329,7 +1332,7 @@ void DetectionManager::BackgroundDetectOtherDevices(json detector_settings)
             device_detectors[detector_idx]();
         }
 
-        LOG_TRACE("[%s] %s detection end", DETECTIONMANAGER, detection_string);
+        LOG_TRACE("[%s] %s detection end", DETECTIONMANAGER, detection_string.c_str());
 
         /*-------------------------------------------------*\
         | Update detection percent                          |
@@ -1370,6 +1373,8 @@ void DetectionManager::BackgroundHidInit()
 void DetectionManager::ProcessCleanup()
 {
     WaitForDetection();
+
+    SignalUpdate(DETECTIONMANAGER_UPDATE_REASON_RGBCONTROLLER_LIST_CLEARED);
 
     /*-----------------------------------------------------*\
     | Make a copy of the list so that the controllers can   |

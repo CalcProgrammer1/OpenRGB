@@ -84,7 +84,7 @@ public:
     \*-----------------------------------------------------*/
     bool                                GetDetectionEnabled();
     unsigned int                        GetDetectionPercent();
-    const char*                         GetDetectionString();
+    std::string                         GetDetectionString();
     void                                StopDeviceDetection();
     void                                RescanDevices();
     void                                ClearLocalDevices();

@@ -113,6 +113,7 @@ enum
     DETECTIONMANAGER_UPDATE_REASON_I2C_BUS_REGISTERED,          /* RegisterI2CBus() called          */
     DETECTIONMANAGER_UPDATE_REASON_RGBCONTROLLER_REGISTERED,    /* RegisterRGBController() called   */
     DETECTIONMANAGER_UPDATE_REASON_RGBCONTROLLER_UNREGISTERED,  /* UnregisterRGBController() called */
+    DETECTIONMANAGER_UPDATE_REASON_RGBCONTROLLER_LIST_CLEARED,  /* RGBController list cleared       */
     DETECTIONMANAGER_UPDATE_REASON_DETECTION_STARTED,           /* Detection started                */
     DETECTIONMANAGER_UPDATE_REASON_DETECTION_PROGRESS_CHANGED,  /* Detection progress changed       */
     DETECTIONMANAGER_UPDATE_REASON_DETECTION_COMPLETE,          /* Detection completed              */
@@ -184,7 +185,7 @@ public:
     void                                AbortDetection();
     void                                BeginDetection();
     unsigned int                        GetDetectionPercent();
-    const char *                        GetDetectionString();
+    std::string                         GetDetectionString();
     void                                WaitForDetection();
 
 private:
@@ -244,7 +245,7 @@ private:
     unsigned int                                detection_percent_other_count;
     unsigned int                                detection_percent_denominator;
     std::vector<bool>                           detection_size_entry_used;
-    const char*                                 detection_string;
+    std::string                                 detection_string;
     bool                                        dynamic_detectors_processed;
     bool                                        initial_detection;
     bool                                        i2c_interface_fail;
