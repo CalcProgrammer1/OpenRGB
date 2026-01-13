@@ -14,9 +14,12 @@
 #include "NollieController.h"
 #include "RGBController_Nollie.h"
 
-void DetectNollieControllers(hid_device_info* info, const std::string& name)
+DetectedControllers DetectNollieControllers(hid_device_info* info, const std::string& name)
 {
-    hid_device* dev = hid_open_path(info->path);
+    DetectedControllers detected_controllers;
+    hid_device*         dev;
+
+    dev = hid_open_path(info->path);
 
     if(dev)
     {
@@ -28,9 +31,10 @@ void DetectNollieControllers(hid_device_info* info, const std::string& name)
         NollieController*     controller     = new NollieController(dev, info->path, info->vendor_id, info->product_id, name);
         RGBController_Nollie* rgb_controller = new RGBController_Nollie(controller);
 
-        DetectionManager::get()->RegisterRGBController(rgb_controller);
-
+        detected_controllers.push_back(rgb_controller);
     }
+
+    return(detected_controllers);
 }
 
 REGISTER_HID_DETECTOR("Nollie 32CH", DetectNollieControllers, NOLLIE32_VID, NOLLIE32_PID);

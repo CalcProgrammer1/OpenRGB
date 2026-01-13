@@ -7,38 +7,35 @@
 |   SPDX-License-Identifier: GPL-2.0-or-later               |
 \*---------------------------------------------------------*/
 
+#include <hidapi.h>
 #include "DetectionManager.h"
 #include "MadCatzCyborgController.h"
 #include "RGBController_MadCatzCyborg.h"
-#include <hidapi.h>
 
-/*-----------------------------------------------------*\
-| MadCatz Cyborg VID/PID                               |
-\*-----------------------------------------------------*/
+/*---------------------------------------------------------*\
+| MadCatz Cyborg VID/PID                                    |
+\*---------------------------------------------------------*/
 #define MADCATZ_VID        0x06A3
 #define MADCATZ_CYBORG_PID 0x0DC5
 
-/******************************************************************************************\
-*                                                                                          *
-*   DetectMadCatzCyborgControllers                                                         *
-*                                                                                          *
-*       Tests the USB address to find MadCatz Cyborg Gaming Light devices                  *
-*                                                                                          *
-\******************************************************************************************/
-
-void DetectMadCatzCyborgControllers(hid_device_info* info, const std::string&  /*name*/)
+DetectedControllers DetectMadCatzCyborgControllers(hid_device_info* info, const std::string&  /*name*/)
 {
-    hid_device* dev = hid_open_path(info->path);
+    DetectedControllers detected_controllers;
+    hid_device*         dev;
+
+    dev = hid_open_path(info->path);
 
     if(dev)
     {
-        MadCatzCyborgController* controller = new MadCatzCyborgController(dev, info->path);
+        MadCatzCyborgController*     controller     = new MadCatzCyborgController(dev, info->path);
         controller->Initialize();
 
         RGBController_MadCatzCyborg* rgb_controller = new RGBController_MadCatzCyborg(controller);
 
-        DetectionManager::get()->RegisterRGBController(rgb_controller);
+        detected_controllers.push_back(rgb_controller);
     }
+
+    return(detected_controllers);
 }
 
 REGISTER_HID_DETECTOR("MadCatz Cyborg Gaming Light", DetectMadCatzCyborgControllers, MADCATZ_VID, MADCATZ_CYBORG_PID);
