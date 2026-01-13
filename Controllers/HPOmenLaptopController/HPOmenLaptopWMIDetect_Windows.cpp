@@ -7,22 +7,28 @@
 |   SPDX-License-Identifier: GPL-2.0-or-later               |
 \*---------------------------------------------------------*/
 
-#include "RGBController_HPOmenLaptopWMI_Windows.h"
+#include "DetectionManager.h"
 #include "HPOmenLaptopController_Windows.h"
-#include "Detector.h"
+#include "RGBController_HPOmenLaptopWMI_Windows.h"
 
-static void DetectHPOmenLaptopWMIControllers()
+DetectedControllers DetectHPOmenLaptopWMIControllers()
 {
-    HPOmenLaptopController_Windows *controller = new HPOmenLaptopController_Windows();
+    DetectedControllers detected_controllers;
+
+    HPOmenLaptopController_Windows * controller = new HPOmenLaptopController_Windows();
 
     if(!controller->isLightingSupported() || controller->getKeyboardType() != KeyboardType::WITHOUT_NUMPAD)
     {
         delete controller;
-        return;
+    }
+    else
+    {
+        RGBController * rgb_controller = new RGBController_HPOmenLaptopWMI_Windows(controller);
+
+        detected_controllers.push_back(rgb_controller);
     }
 
-    RGBController *hp_omen_controller = new RGBController_HPOmenLaptopWMI_Windows(controller);
-    ResourceManager::get()->RegisterRGBController(hp_omen_controller);
+    return(detected_controllers);
 }
 
 REGISTER_DETECTOR("HP Omen 4-Zone Laptop Keyboard", DetectHPOmenLaptopWMIControllers);

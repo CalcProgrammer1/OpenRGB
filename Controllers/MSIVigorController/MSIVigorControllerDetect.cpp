@@ -23,17 +23,22 @@
 \*---------------------------------------------------------*/
 #define MSI_VIGOR_GK30_PID                             0x0B30
 
-void DetectMSIVigorGK30Controllers(hid_device_info* info, const std::string& name)
+DetectedControllers DetectMSIVigorGK30Controllers(hid_device_info* info, const std::string& name)
 {
-    hid_device* dev = hid_open_path(info->path);
+    DetectedControllers detected_controllers;
+    hid_device*         dev;
+
+    dev = hid_open_path(info->path);
 
     if(dev)
     {
         MSIVigorGK30Controller*     controller      = new MSIVigorGK30Controller(dev, *info, name);
         RGBController_MSIVigorGK30* rgb_controller  = new RGBController_MSIVigorGK30(controller);
 
-        DetectionManager::get()->RegisterRGBController(rgb_controller);
+        detected_controllers.push_back(rgb_controller);
     }
+
+    return(detected_controllers);
 }
 
 REGISTER_HID_DETECTOR_IPU("MSI Vigor GK30 controller", DetectMSIVigorGK30Controllers, MSI_VID, MSI_VIGOR_GK30_PID, 1, 0xFF01, 1);

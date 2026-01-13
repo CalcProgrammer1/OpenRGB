@@ -11,31 +11,24 @@
 
 #include "DetectionManager.h"
 #include "EVGAGPUv2Controller.h"
-#include "RGBController_EVGAGPUv2.h"
 #include "i2c_smbus.h"
 #include "pci_ids.h"
+#include "RGBController_EVGAGPUv2.h"
 
-/******************************************************************************************\
-*                                                                                          *
-*   DetectEVGATuringGPUControllers                                                         *
-*                                                                                          *
-*       Detect EVGA Turing GPU controllers on the enumerated I2C busses at address 0x49.   *
-*                                                                                          *
-*           bus - pointer to i2c_smbus_interface where EVGA GPU device is connected        *
-*           dev - I2C address of EVGA GPU device                                           *
-*                                                                                          *
-\******************************************************************************************/
-
-void DetectEVGATuringGPUControllers(i2c_smbus_interface* bus, uint8_t address, const std::string& name)
+DetectedControllers DetectEVGATuringGPUControllers(i2c_smbus_interface* bus, uint8_t address, const std::string& name)
 {
+    DetectedControllers detected_controllers;
+
     if(bus->port_id == 1)
     {
         EVGAGPUv2Controller*     controller     = new EVGAGPUv2Controller(bus, address, name);
         RGBController_EVGAGPUv2* rgb_controller = new RGBController_EVGAGPUv2(controller);
 
-        DetectionManager::get()->RegisterRGBController(rgb_controller);
+        detected_controllers.push_back(rgb_controller);
     }
-}   /* DetectEVGATuringGPUControllers() */
+
+    return(detected_controllers);
+}
 
 REGISTER_I2C_PCI_DETECTOR("EVGA GeForce RTX 2070 XC Black"                        , DetectEVGATuringGPUControllers, NVIDIA_VEN,     NVIDIA_RTX2070_DEV,     EVGA_SUB_VEN,   EVGA_RTX2070_XC_BLACK_SUB_DEV,                  0x49);
 REGISTER_I2C_PCI_DETECTOR("EVGA GeForce RTX 2070 XC Gaming"                       , DetectEVGATuringGPUControllers, NVIDIA_VEN,     NVIDIA_RTX2070_OC_DEV,  EVGA_SUB_VEN,   EVGA_RTX2070_XC_GAMING_SUB_DEV,                 0x49);

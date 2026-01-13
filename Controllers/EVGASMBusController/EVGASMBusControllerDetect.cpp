@@ -12,22 +12,12 @@
 #include <vector>
 #include "DetectionManager.h"
 #include "EVGAACX30SMBusController.h"
-#include "LogManager.h"
-#include "RGBController_EVGAACX30SMBus.h"
 #include "i2c_smbus.h"
+#include "LogManager.h"
 #include "pci_ids.h"
+#include "RGBController_EVGAACX30SMBus.h"
 
-/******************************************************************************************\
-*                                                                                          *
-*   TestForAcx30SMBusController                                                            *
-*                                                                                          *
-*       Tests the given address to see if an EVGA ACX 30 controller exists there.          *
-*       First does a quick write to test for a response                                    *
-*       Then checks if it has 1st bit set in register 1                                    *
-*                                                                                          *
-\******************************************************************************************/
-
-#define EVGA_DETECTOR_NAME        "EVGA SMBus Detectector"
+#define EVGA_DETECTOR_NAME          "EVGA SMBus Detector"
 #define VENDOR_NAME                 "EVGA"
 #define SMBUS_ADDRESS               0x28
 
@@ -48,18 +38,12 @@ bool TestForAcx30SMBusController(i2c_smbus_interface *bus, uint8_t address)
     }
 
     return(pass);
-} /* TestForAcx30SMBusController() */
+}
 
-/******************************************************************************************\
-*                                                                                          *
-*   DetectAcx30SMBusControllers                                                            *
-*                                                                                          *
-*       Detect EVGA ACX 30 SMBus controllers on the enumerated I2C busses at address 0x28. *
-*                                                                                          *
-\******************************************************************************************/
-
-void DetectAcx30SMBusControllers(std::vector<i2c_smbus_interface *> &busses)
+DetectedControllers DetectAcx30SMBusControllers(std::vector<i2c_smbus_interface *> &busses)
 {
+    DetectedControllers detected_controllers;
+
     for(unsigned int bus = 0; bus < busses.size(); bus++)
     {
         IF_MOBO_SMBUS(busses[bus]->pci_vendor, busses[bus]->pci_device)
@@ -70,10 +54,10 @@ void DetectAcx30SMBusControllers(std::vector<i2c_smbus_interface *> &busses)
                 // Check for ACX 30 controller at 0x28
                 if(TestForAcx30SMBusController(busses[bus], SMBUS_ADDRESS))
                 {
-                    EVGAACX30SMBusController *controller = new EVGAACX30SMBusController(busses[bus], SMBUS_ADDRESS);
-                    RGBController_EVGAACX30SMBus *rgb_controller = new RGBController_EVGAACX30SMBus(controller);
+                    EVGAACX30SMBusController *     controller     = new EVGAACX30SMBusController(busses[bus], SMBUS_ADDRESS);
+                    RGBController_EVGAACX30SMBus * rgb_controller = new RGBController_EVGAACX30SMBus(controller);
 
-                    DetectionManager::get()->RegisterRGBController(rgb_controller);
+                    detected_controllers.push_back(rgb_controller);
                 }
             }
             else
@@ -82,6 +66,8 @@ void DetectAcx30SMBusControllers(std::vector<i2c_smbus_interface *> &busses)
             }
         }
     }
-} /* DetectAcx30SMBusControllers() */
+
+    return(detected_controllers);
+}
 
 REGISTER_I2C_DETECTOR("EVGA Motherboard SMBus Controllers", DetectAcx30SMBusControllers);

@@ -10,17 +10,20 @@
 \*---------------------------------------------------------*/
 
 #include <vector>
-#include "DetectionManager.h"
 #include "ArcticController.h"
-#include "RGBController_Arctic.h"
+#include "DetectionManager.h"
 #include "find_usb_serial_port.h"
+#include "RGBController_Arctic.h"
 
 #define CH341_VID   0x1A86
 #define CH341_PID   0x7523
 
-void DetectArcticControllers()
+DetectedControllers DetectArcticControllers()
 {
-    std::vector<std::string *> ports = find_usb_serial_port(CH341_VID, CH341_PID);
+    DetectedControllers         detected_controllers;
+    std::vector<std::string *>  ports;
+
+    ports = find_usb_serial_port(CH341_VID, CH341_PID);
 
     for(unsigned int device = 0; device < ports.size(); device++)
     {
@@ -29,7 +32,7 @@ void DetectArcticControllers()
         if(controller->IsPresent())
         {
             RGBController_Arctic *rgb_controller = new RGBController_Arctic(controller);
-            DetectionManager::get()->RegisterRGBController(rgb_controller);
+            detected_controllers.push_back(rgb_controller);
         }
         else
         {
@@ -38,6 +41,8 @@ void DetectArcticControllers()
 
         delete ports[device];
     }
+
+    return(detected_controllers);
 }
 
 REGISTER_DETECTOR("Arctic RGB controller", DetectArcticControllers);

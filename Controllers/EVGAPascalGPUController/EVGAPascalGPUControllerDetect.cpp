@@ -11,32 +11,25 @@
 
 #include "DetectionManager.h"
 #include "EVGAGPUv1Controller.h"
-#include "LogManager.h"
-#include "RGBController_EVGAGPUv1.h"
 #include "i2c_smbus.h"
+#include "LogManager.h"
 #include "pci_ids.h"
+#include "RGBController_EVGAGPUv1.h"
 
-/******************************************************************************************\
-*                                                                                          *
-*   DetectEVGAGPUControllers                                                               *
-*                                                                                          *
-*       Detect EVGA Pascal GPU controllers on the enumerated I2C busses at address 0x49.   *
-*                                                                                          *
-*           bus - pointer to i2c_smbus_interface where EVGA GPU device is connected        *
-*           dev - I2C address of EVGA GPU device                                           *
-*                                                                                          *
-\******************************************************************************************/
-
-void DetectEVGAPascalGPUControllers(i2c_smbus_interface* bus, uint8_t address, const std::string& name)
+DetectedControllers DetectEVGAPascalGPUControllers(i2c_smbus_interface* bus, uint8_t address, const std::string& name)
 {
+    DetectedControllers detected_controllers;
+
     if(bus->port_id == 1)
     {
         EVGAGPUv1Controller*     controller     = new EVGAGPUv1Controller(bus, address, name);
         RGBController_EVGAGPUv1* rgb_controller = new RGBController_EVGAGPUv1(controller);
 
-        DetectionManager::get()->RegisterRGBController(rgb_controller);
+        detected_controllers.push_back(rgb_controller);
     }
-}   /* DetectEVGAPascalGPUControllers() */
+
+    return(detected_controllers);
+}
 
 REGISTER_I2C_PCI_DETECTOR("EVGA GeForce GTX 1070 FTW DT Gaming",    DetectEVGAPascalGPUControllers, NVIDIA_VEN, NVIDIA_GTX1070_DEV,     EVGA_SUB_VEN,   EVGA_GTX1070_FTW_DT_GAMING_SUB_DEV, 0x49);
 REGISTER_I2C_PCI_DETECTOR("EVGA GeForce GTX 1070 FTW",              DetectEVGAPascalGPUControllers, NVIDIA_VEN, NVIDIA_GTX1070_DEV,     EVGA_SUB_VEN,   EVGA_GTX1070_FTW_SUB_DEV,           0x49);

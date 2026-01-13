@@ -15,30 +15,34 @@
 #include "IonicoController.h"
 #include "RGBController_Ionico.h"
 
-/*-----------------------------------------------------*\
-|                     FRONT BAR                         |
-\*-----------------------------------------------------*/
+/*---------------------------------------------------------*\
+|                       FRONT BAR                           |
+\*---------------------------------------------------------*/
 #define IONICO_FB_VID        0x048D
 #define IONICO_FB_PID        0x6005
 
-/*-----------------------------------------------------*\
-|                     KEYBOARD                          |
-\*-----------------------------------------------------*/
+/*---------------------------------------------------------*\
+|                       KEYBOARD                            |
+\*---------------------------------------------------------*/
 #define IONICO_KB_VID        0x048D
 #define IONICO_KB_PID        0xCE00
 
-
-void DetectIonicoControllers(hid_device_info* info, const std::string& name)
+DetectedControllers DetectIonicoControllers(hid_device_info* info, const std::string& name)
 {
-    hid_device* dev = hid_open_path(info->path);
+    DetectedControllers detected_controllers;
+    hid_device*         dev;
+
+    dev = hid_open_path(info->path);
 
     if(dev)
     {
         IonicoController*     controller         = new IonicoController(dev, *info, info->product_id, name);
         RGBController_Ionico* rgb_controller     = new RGBController_Ionico(controller);
 
-        DetectionManager::get()->RegisterRGBController(rgb_controller);
+        detected_controllers.push_back(rgb_controller);
     }
+
+    return(detected_controllers);
 }
 
 REGISTER_HID_DETECTOR_PU("Ionico Light Bar", DetectIonicoControllers, IONICO_FB_VID, IONICO_FB_PID,  0xFF03, 0x01);

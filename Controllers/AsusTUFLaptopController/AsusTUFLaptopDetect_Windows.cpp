@@ -12,41 +12,38 @@
 #include "RGBController_AsusTUFLaptop_Windows.h"
 #include "wmi.h"
 
-static void DetectAsusTUFLaptopWMIControllers()
+DetectedControllers DetectAsusTUFLaptopWMIControllers()
 {
     // Try to retrieve ProductID / Device name from WMI; Possibly can be rewritten to use wmi.cpp
     // IF you encounter false detection ( e.g. if your laptop keyboard backlight uses USB interface
     // instead of ACPI WMI) please add a WHITELIST by checking the
     // `name` variable for model substrings like "FX505DU"
     // For now, checking for "TUF Gaming" should suffice
+    DetectedControllers     detected_controllers;
+    Wmi                     wmi;
+    std::vector<QueryObj>   systemProduct;
 
-    Wmi wmi;
-
-    std::vector<QueryObj> systemProduct;
-    if (wmi.query("SELECT * FROM Win32_ComputerSystemProduct", systemProduct))
+    if(wmi.query("SELECT * FROM Win32_ComputerSystemProduct", systemProduct) != 0)
     {
-        return;
+        // There should only be one, a cycle is a precaution
+        if(systemProduct.size() == 1)
+        {
+            std::string& name = systemProduct[0]["Name"];
+
+            if(name.find("TUF Gaming") != name.npos)
+            {
+                AsusTUFLaptopController* controller = AsusTUFLaptopController::checkAndCreate();
+                if(controller)
+                {
+                    RGBController* rgb_controller = new RGBController_AsusTUFLaptopWMI(controller);
+
+                    detected_controllers.push_back(rgb_controller);
+                }
+            }
+        }
     }
 
-    // There should only be one, a cycle is a precaution
-    if(systemProduct.size() != 1)
-    {
-        return;
-    }
-    std::string& name = systemProduct[0]["Name"];
-
-    if(name.find("TUF Gaming") == name.npos)
-    {
-        return;
-    }
-
-    AsusTUFLaptopController* controller = AsusTUFLaptopController::checkAndCreate();
-    if(controller)
-    {
-        RGBController* new_controller = new RGBController_AsusTUFLaptopWMI(controller);
-
-        DetectionManager::get()->RegisterRGBController(new_controller);
-    }
+    return(detected_controllers);
 }   /* DetectAsusTUFLaptopWMIControllers() */
 
 REGISTER_DETECTOR("ASUS TUF Laptop", DetectAsusTUFLaptopWMIControllers);

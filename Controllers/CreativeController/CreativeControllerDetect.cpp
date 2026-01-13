@@ -9,29 +9,35 @@
 
 #include <hidapi.h>
 #include "CreativeSoundBlasterXG6Controller.h"
-#include "RGBController_CreativeSoundBlasterXG6.h"
 #include "DetectionManager.h"
+#include "RGBController_CreativeSoundBlasterXG6.h"
 
-/*-----------------------------------------------------*\
-| Creative vendor ID                                    |
-\*-----------------------------------------------------*/
+/*---------------------------------------------------------*\
+| Creative vendor ID                                        |
+\*---------------------------------------------------------*/
 #define CREATIVE_VID                            0x041E
-/*-----------------------------------------------------*\
-| SoundCards                                            |
-\*-----------------------------------------------------*/
+
+/*---------------------------------------------------------*\
+| SoundCards                                                |
+\*---------------------------------------------------------*/
 #define CREATIVE_SOUNDBLASTERX_G6_PID           0x3256
 
-void DetectCreativeDevice(hid_device_info* info, const std::string& name)
+DetectedControllers DetectCreativeDevice(hid_device_info* info, const std::string& name)
 {
-    hid_device* dev = hid_open_path(info->path);
+    DetectedControllers detected_controllers;
+    hid_device*         dev;
+
+    dev = hid_open_path(info->path);
 
     if(dev)
     {
         CreativeSoundBlasterXG6Controller*     controller     = new CreativeSoundBlasterXG6Controller(dev, info->path, name);
         RGBController_CreativeSoundBlasterXG6* rgb_controller = new RGBController_CreativeSoundBlasterXG6(controller);
 
-        DetectionManager::get()->RegisterRGBController(rgb_controller);
+        detected_controllers.push_back(rgb_controller);
     }
+
+    return(detected_controllers);
 }
 
 /*-------------------------------------------------------------------------------------------------------------------------------------------------*\
