@@ -15,26 +15,19 @@
 #include "RGBController_PhilipsWiz.h"
 #include "SettingsManager.h"
 
-/******************************************************************************************\
-*                                                                                          *
-*   DetectPhilipsWizControllers                                                            *
-*                                                                                          *
-*       Detect Philips Wiz devices                                                         *
-*                                                                                          *
-\******************************************************************************************/
-
-void DetectPhilipsWizControllers()
+DetectedControllers DetectPhilipsWizControllers()
 {
-    json                    wiz_settings;
+    DetectedControllers detected_controllers;
+    json                wiz_settings;
 
-    /*-------------------------------------------------*\
-    | Get Philips Wiz settings from settings manager    |
-    \*-------------------------------------------------*/
+    /*-----------------------------------------------------*\
+    | Get Philips Wiz settings from settings manager        |
+    \*-----------------------------------------------------*/
     wiz_settings = ResourceManager::get()->GetSettingsManager()->GetSettings("PhilipsWizDevices");
 
-    /*-------------------------------------------------*\
-    | If the Wiz settings contains devices, process     |
-    \*-------------------------------------------------*/
+    /*-----------------------------------------------------*\
+    | If the Wiz settings contains devices, process         |
+    \*-----------------------------------------------------*/
     if(wiz_settings.contains("devices"))
     {
         for(unsigned int device_idx = 0; device_idx < wiz_settings["devices"].size(); device_idx++)
@@ -64,11 +57,12 @@ void DetectPhilipsWizControllers()
                 PhilipsWizController*     controller     = new PhilipsWizController(wiz_ip, wiz_cool, wiz_warm, wiz_white_strategy);
                 RGBController_PhilipsWiz* rgb_controller = new RGBController_PhilipsWiz(controller);
 
-                DetectionManager::get()->RegisterRGBController(rgb_controller);
+                detected_controllers.push_back(rgb_controller);
             }
         }
     }
 
-}   /* DetectPhilipsWizControllers() */
+    return(detected_controllers);
+}
 
 REGISTER_DETECTOR("Philips Wiz", DetectPhilipsWizControllers);

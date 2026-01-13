@@ -23,43 +23,58 @@
 #define ASUS_SAGARIS_GK1100_PID     0x1835
 #define ASUS_ROG_STRIX_CLAW_PID     0x1016
 
-void DetectAsusCerberusMech(hid_device_info* info, const std::string& name)
+DetectedControllers DetectAsusCerberusMech(hid_device_info* info, const std::string& name)
 {
-    hid_device* dev = hid_open_path(info->path);
+    DetectedControllers detected_controllers;
+    hid_device*         dev;
+
+    dev = hid_open_path(info->path);
 
     if(dev)
     {
         AsusCerberusKeyboardController*     controller          = new AsusCerberusKeyboardController(dev, info->path, info->release_number, name);
         RGBController_AsusCerberusKeyboard* rgb_controller      = new RGBController_AsusCerberusKeyboard(controller);
 
-        DetectionManager::get()->RegisterRGBController(rgb_controller);
+        detected_controllers.push_back(rgb_controller);
     }
+
+    return(detected_controllers);
 }
 
-void DetectAsusSagarisKeyboard(hid_device_info* info, const std::string& name)
+DetectedControllers DetectAsusSagarisKeyboard(hid_device_info* info, const std::string& name)
 {
-    hid_device* dev = hid_open_path(info->path);
+    DetectedControllers detected_controllers;
+    hid_device*         dev;
+
+    dev = hid_open_path(info->path);
 
     if(dev)
     {
         AsusSagarisKeyboardController*     controller          = new AsusSagarisKeyboardController(dev, info->path, info->release_number, name);
         RGBController_AsusSagarisKeyboard* rgb_controller      = new RGBController_AsusSagarisKeyboard(controller);
 
-        DetectionManager::get()->RegisterRGBController(rgb_controller);
+        detected_controllers.push_back(rgb_controller);
     }
+
+    return(detected_controllers);
 }
 
-void DetectAsusStrixClaw(hid_device_info* info, const std::string& name)
+DetectedControllers DetectAsusStrixClaw(hid_device_info* info, const std::string& name)
 {
-    hid_device* dev = hid_open_path(info->path);
+    DetectedControllers detected_controllers;
+    hid_device*         dev;
+
+    dev = hid_open_path(info->path);
 
     if(dev)
     {
         StrixClawController*     controller          = new StrixClawController(dev, info->path, name);
         RGBController_StrixClaw* rgb_controller      = new RGBController_StrixClaw(controller);
 
-        DetectionManager::get()->RegisterRGBController(rgb_controller);
+        detected_controllers.push_back(rgb_controller);
     }
+
+    return(detected_controllers);
 }
 
 REGISTER_HID_DETECTOR_IPU("ASUS Cerberus Mech",  DetectAsusCerberusMech,    ASUS_LEGACY_USB_VID, ASUS_CERBERUS_MECH_PID,  1, 0xFF01, 1);

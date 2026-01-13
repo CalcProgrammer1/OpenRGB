@@ -14,31 +14,28 @@
 #include "NZXTMouseController.h"
 #include "RGBController_NZXTMouse.h"
 
-/*-----------------------------------------------------*\
-| NZXT USB IDs                                          |
-\*-----------------------------------------------------*/
+/*---------------------------------------------------------*\
+| NZXT USB IDs                                              |
+\*---------------------------------------------------------*/
 #define NZXT_VID                        0x1E71
 #define NZXT_LIFT_PID                   0x2100
 
-/******************************************************************************************\
-*                                                                                          *
-*   DetectNZXTMouseControllers                                                             *
-*                                                                                          *
-*       Detect devices supported by the NZXTMouse driver                                   *
-*                                                                                          *
-\******************************************************************************************/
-
-static void DetectNZXTMouseControllers(hid_device_info* info, const std::string& name)
+DetectedControllers DetectNZXTMouseControllers(hid_device_info* info, const std::string& name)
 {
-    hid_device* dev = hid_open_path(info->path);
+    DetectedControllers detected_controllers;
+    hid_device*         dev;
+
+    dev = hid_open_path(info->path);
 
     if(dev)
     {
         NZXTMouseController*     controller     = new NZXTMouseController(dev, info->path, name);
         RGBController_NZXTMouse* rgb_controller = new RGBController_NZXTMouse(controller);
 
-        DetectionManager::get()->RegisterRGBController(rgb_controller);
+        detected_controllers.push_back(rgb_controller);
     }
+
+    return(detected_controllers);
 }
 
 REGISTER_HID_DETECTOR_IPU("NZXT Lift",  DetectNZXTMouseControllers, NZXT_VID,   NZXT_LIFT_PID, 0, 0xFFCA, 1);
