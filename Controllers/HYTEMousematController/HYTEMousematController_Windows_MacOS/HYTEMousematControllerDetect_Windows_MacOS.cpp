@@ -12,9 +12,9 @@
 
 #include <vector>
 #include "DetectionManager.h"
+#include "find_usb_serial_port.h"
 #include "HYTEMousematController_Windows_MacOS.h"
 #include "RGBController_HYTEMousemat.h"
-#include "find_usb_serial_port.h"
 
 #define HYTE_VID                0x3402
 
@@ -36,16 +36,10 @@ static const hyte_mousemat_type hyte_mousemat_devices[] =
     { HYTE_VID, HYTE_CNVS_HW_VER_2_PID, "HYTE CNVS" },
 };
 
-/******************************************************************************************\
-*                                                                                          *
-*   DetectHYTEMousematControllers                                                          *
-*                                                                                          *
-*       Detect devices supported by the HyteMousemat driver                                *
-*                                                                                          *
-\******************************************************************************************/
-
-void DetectHYTEMousematControllers()
+DetectedControllers DetectHYTEMousematControllers()
 {
+    DetectedControllers detected_controllers;
+
     for(unsigned int device_id = 0; device_id < HYTE_MOUSEMAT_NUM_DEVICES; device_id++)
     {
         std::vector<std::string *> ports = find_usb_serial_port(hyte_mousemat_devices[device_id].vid, hyte_mousemat_devices[device_id].pid);
@@ -57,11 +51,13 @@ void DetectHYTEMousematControllers()
                 HYTEMousematController *     controller     = new HYTEMousematController((char *)ports[i]->c_str(), hyte_mousemat_devices[device_id].name);
                 RGBController_HYTEMousemat * rgb_controller = new RGBController_HYTEMousemat(controller);
 
-                DetectionManager::get()->RegisterRGBController(rgb_controller);
+                detected_controllers.push_back(rgb_controller);
             }
         }
     }
-}   /* DetectHYTEMousematControllers() */
+
+    return(detected_controllers);
+}
 
 REGISTER_DETECTOR("HYTE Mousemat", DetectHYTEMousematControllers);
 /*---------------------------------------------------------------------------------------------------------*\

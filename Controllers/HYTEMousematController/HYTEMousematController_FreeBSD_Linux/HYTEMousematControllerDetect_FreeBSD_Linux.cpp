@@ -14,14 +14,14 @@
 #include "DetectionManager.h"
 #include "RGBController_HYTEMousemat.h"
 
-/*-----------------------------------------------------*\
-| HYTE vendor ID                                        |
-\*-----------------------------------------------------*/
+/*---------------------------------------------------------*\
+| HYTE vendor ID                                            |
+\*---------------------------------------------------------*/
 #define HYTE_VID                        0x3402
 
-/*-----------------------------------------------------*\
-| HYTE CNVS product IDs                                 |
-\*-----------------------------------------------------*/
+/*---------------------------------------------------------*\
+| HYTE CNVS product IDs                                     |
+\*---------------------------------------------------------*/
 #define HYTE_CNVS_HW_VER_1_PID          0x0B00
 #define HYTE_CNVS_HW_VER_2_PID          0x0B01
 
@@ -37,23 +37,17 @@ typedef struct
 
 static const hyte_mousemat_device device_list[] =
 {
-    /*-----------------------------------------------------------------------------------------------------*\
-    | Mousemats                                                                                              |
-    \*-----------------------------------------------------------------------------------------------------*/
+    /*-----------------------------------------------------*\
+    | Mousemats                                             |
+    \*-----------------------------------------------------*/
     { HYTE_VID, HYTE_CNVS_HW_VER_1_PID, 0,  "HYTE CNVS" },
     { HYTE_VID, HYTE_CNVS_HW_VER_2_PID, 0,  "HYTE CNVS" },
 };
 
-/******************************************************************************************\
-*                                                                                          *
-*   DetectHYTEMousematControllers                                                          *
-*                                                                                          *
-*       Detect devices supported by the HyteMousemat driver                                *
-*                                                                                          *
-\******************************************************************************************/
-
-void DetectHYTEMousematControllers()
+DetectedControllers DetectHYTEMousematControllers()
 {
+    DetectedControllers detected_controllers;
+
     libusb_init(NULL);
 
     #ifdef _WIN32
@@ -73,11 +67,12 @@ void DetectHYTEMousematControllers()
             HYTEMousematController *     controller     = new HYTEMousematController(dev, device_list[device_idx].name);
             RGBController_HYTEMousemat * rgb_controller = new RGBController_HYTEMousemat(controller);
 
-            DetectionManager::get()->RegisterRGBController(rgb_controller);
+            detected_controllers.push_back(rgb_controller);
         }
     }
 
-}   /* DetectHYTEMousematControllers() */
+    return(detected_controllers);
+}
 
 REGISTER_DETECTOR("HYTE Mousemat", DetectHYTEMousematControllers);
 /*---------------------------------------------------------------------------------------------------------*\

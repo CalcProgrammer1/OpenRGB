@@ -23,17 +23,22 @@
 \*---------------------------------------------------------*/
 #define N5312A_PID                                     0x5406
 
-void DetectN5312AControllers(hid_device_info* info, const std::string& name)
+DetectedControllers DetectN5312AControllers(hid_device_info* info, const std::string& name)
 {
-    hid_device* dev = hid_open_path(info->path);
+    DetectedControllers detected_controllers;
+    hid_device*         dev;
+
+    dev = hid_open_path(info->path);
 
     if(dev)
     {
         N5312AController*     controller         = new N5312AController(dev, *info, name);
         RGBController_N5312A* rgb_controller     = new RGBController_N5312A(controller);
 
-        DetectionManager::get()->RegisterRGBController(rgb_controller);
+        detected_controllers.push_back(rgb_controller);
     }
+
+    return(detected_controllers);
 }
 
 REGISTER_HID_DETECTOR_IPU("N5312A USB Optical Mouse", DetectN5312AControllers, N5312A_VID, N5312A_PID, 1, 0xFF01, 0x01);

@@ -93,22 +93,11 @@ bool TestForCorsairDominatorPlatinumController(i2c_smbus_interface *bus, unsigne
     return true;
 }
 
-/******************************************************************************************\
-*                                                                                          *
-*   DetectCorsairDominatorPlatinumControllers                                              *
-*                                                                                          *
-*       Detect Corsair Dominator Platinum controllers on the enumerated I2C busses.        *
-*                                                                                          *
-*           bus - pointer to i2c_smbus_interface where Aura device is connected            *
-*           dev - I2C address of Aura device                                               *
-*                                                                                          *
-\******************************************************************************************/
-
-void DetectCorsairDominatorPlatinumControllers(std::vector<i2c_smbus_interface *> &busses)
+DetectedControllers DetectCorsairDominatorPlatinumControllers(std::vector<i2c_smbus_interface *> &busses)
 {
-    SettingsManager* settings_manager = ResourceManager::get()->GetSettingsManager();
-
-    json corsair_dominator_settings = settings_manager->GetSettings("CorsairDominatorSettings");
+    DetectedControllers detected_controllers;
+    SettingsManager*    settings_manager            = ResourceManager::get()->GetSettingsManager();
+    json                corsair_dominator_settings  = settings_manager->GetSettings("CorsairDominatorSettings");
 
     if(!corsair_dominator_settings.contains("model"))
     {
@@ -158,10 +147,10 @@ void DetectCorsairDominatorPlatinumControllers(std::vector<i2c_smbus_interface *
 
                     LOG_DEBUG("[%s] Model: %s, Leds: %d", CORSAIR_DOMINATOR_PLATINUM_NAME, name.c_str(), leds);
 
-                    CorsairDominatorPlatinumController*     controller    = new CorsairDominatorPlatinumController(busses[bus], addr, leds, name);
-                    RGBController_CorsairDominatorPlatinum* rgbcontroller = new RGBController_CorsairDominatorPlatinum(controller);
+                    CorsairDominatorPlatinumController*     controller     = new CorsairDominatorPlatinumController(busses[bus], addr, leds, name);
+                    RGBController_CorsairDominatorPlatinum* rgb_controller = new RGBController_CorsairDominatorPlatinum(controller);
 
-                    DetectionManager::get()->RegisterRGBController(rgbcontroller);
+                    detected_controllers.push_back(rgb_controller);
                 }
 
                 std::this_thread::sleep_for(10ms);
@@ -172,6 +161,8 @@ void DetectCorsairDominatorPlatinumControllers(std::vector<i2c_smbus_interface *
             LOG_DEBUG("[%s] Bus %d is not a DRAM bus", CORSAIR_DOMINATOR_PLATINUM_NAME, bus);
         }
     }
-}   /* DetectCorsairDominatorPlatinumControllers() */
+
+    return(detected_controllers);
+}
 
 REGISTER_I2C_DETECTOR(CORSAIR_DOMINATOR_PLATINUM_NAME, DetectCorsairDominatorPlatinumControllers);
