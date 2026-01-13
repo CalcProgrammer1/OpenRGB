@@ -17,25 +17,22 @@
 #define ZALMAN_VID          0x1C57
 #define ZALMAN_Z_SYNC_PID   0x7ED0
 
-/******************************************************************************************\
-*                                                                                          *
-*   DetectZalmanZSyncControllers                                                           *
-*                                                                                          *
-*       Detect devices supported by the Zalman Z Sync driver                               *
-*                                                                                          *
-\******************************************************************************************/
-
-void DetectZalmanZSyncControllers(hid_device_info* info, const std::string& name)
+DetectedControllers DetectZalmanZSyncControllers(hid_device_info* info, const std::string& name)
 {
-    hid_device* dev = hid_open_path(info->path);
+    DetectedControllers detected_controllers;
+    hid_device*         dev;
+
+    dev = hid_open_path(info->path);
 
     if(dev)
     {
         ZalmanZSyncController*     controller     = new ZalmanZSyncController(dev, info->path, name);
         RGBController_ZalmanZSync* rgb_controller = new RGBController_ZalmanZSync(controller);
 
-        DetectionManager::get()->RegisterRGBController(rgb_controller);
+        detected_controllers.push_back(rgb_controller);
     }
-}   /* DetectZalmanZSyncControllers() */
+
+    return(detected_controllers);
+}
 
 REGISTER_HID_DETECTOR("Zalman Z Sync", DetectZalmanZSyncControllers, ZALMAN_VID, ZALMAN_Z_SYNC_PID);

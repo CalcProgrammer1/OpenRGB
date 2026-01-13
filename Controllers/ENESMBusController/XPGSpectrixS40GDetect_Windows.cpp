@@ -19,20 +19,13 @@
 
 #define DEVBUFSIZE (128 * 1024)
 
-/*----------------------------------------------------------------------*\
-| Windows defines "interface" for some reason.  Work around this         |
-\*----------------------------------------------------------------------*/
+/*---------------------------------------------------------*\
+| Windows defines "interface" for some reason.  Work around |
+| this                                                      |
+\*---------------------------------------------------------*/
 #ifdef interface
 #undef interface
 #endif
-
-/******************************************************************************************\
-*                                                                                          *
-*   Search                                                                                 *
-*                                                                                          *
-*           Search for an NVMe device matching "XPG SPECTRIX S40G"                         *
-*                                                                                          *
-\******************************************************************************************/
 
 int Search(wchar_t *dev_name)
 {
@@ -61,14 +54,6 @@ int Search(wchar_t *dev_name)
     return 0;
 }
 
-/******************************************************************************************\
-*                                                                                          *
-*   OpenDevice                                                                             *
-*                                                                                          *
-*           Open a handle to the given device path                                         *
-*                                                                                          *
-\******************************************************************************************/
-
 HANDLE OpenDevice(wchar_t buff[MAX_PATH])
 {
     wchar_t path[MAX_PATH];
@@ -88,23 +73,14 @@ HANDLE OpenDevice(wchar_t buff[MAX_PATH])
     return(hDevice);
 }
 
-/******************************************************************************************\
-*                                                                                          *
-*   DetectSpectrixS40GControllers                                                          *
-*                                                                                          *
-*           Detects ENE SMBus controllers on XPG Spectrix S40G NVMe devices                *
-*                                                                                          *
-*           Tests for the existance of a file descriptor matching                          *
-*           SCSI#Disk&Ven_NVMe&Prod_XPG_SPECTRIX_S40# on Windows machines                  *
-*                                                                                          *
-\******************************************************************************************/
-
-void DetectSpectrixS40GControllers()
+DetectedControllers DetectSpectrixS40GControllers()
 {
+    DetectedControllers detected_controllers;
+
     /*-------------------------------------------------------------------------------------------------*\
     | https://docs.microsoft.com/en-us/windows-hardware/drivers/install/identifiers-for-scsi-devices    |
     \*-------------------------------------------------------------------------------------------------*/
-    wchar_t dev_name[MAX_PATH];
+    wchar_t             dev_name[MAX_PATH];
 
     if(Search(dev_name))
     {
@@ -116,10 +92,11 @@ void DetectSpectrixS40GControllers()
             ENESMBusController*             controller     = new ENESMBusController(interface, 0x67, "XPG Spectrix S40G", DEVICE_TYPE_STORAGE);
             RGBController_ENESMBus*         rgb_controller = new RGBController_ENESMBus(controller);
 
-            DetectionManager::get()->RegisterRGBController(rgb_controller);
+            detected_controllers.push_back(rgb_controller);
         }
     }
-}   /* DetectSpectrixS40GControllers() */
 
+    return(detected_controllers);
+}
 
 REGISTER_DETECTOR(    "XPG Spectrix S40G",              DetectSpectrixS40GControllers);

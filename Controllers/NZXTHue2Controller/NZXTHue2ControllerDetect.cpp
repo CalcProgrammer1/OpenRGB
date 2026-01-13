@@ -38,67 +38,73 @@
 #define NZXT_SMART_DEVICE_V2_1_PID              0x200D
 #define NZXT_SMART_DEVICE_V2_2_PID              0x200F
 
-static void spawn_hue(hid_device_info* info, const std::string& name, int rgb_channels, int fan_channels)
+static DetectedControllers spawn_hue(hid_device_info* info, const std::string& name, int rgb_channels, int fan_channels)
 {
-    hid_device* dev = hid_open_path(info->path);
+    DetectedControllers detected_controllers;
+    hid_device*         dev;
+
+    dev = hid_open_path(info->path);
 
     if(dev)
     {
         NZXTHue2Controller*     controller     = new NZXTHue2Controller(dev, rgb_channels, fan_channels, info->path, name);
         RGBController_NZXTHue2* rgb_controller = new RGBController_NZXTHue2(controller);
 
-        DetectionManager::get()->RegisterRGBController(rgb_controller);
+        detected_controllers.push_back(rgb_controller);
+
         LOG_TRACE("[NZXTHue2Controller] NZXT Controller setup: %s", info->path);
     }
     else
     {
         LOG_DEBUG("[NZXTHue2Controller] Failed to load device: %s!", info->path);
     }
+
+    return(detected_controllers);
 }
 
-void DetectNZXTHue2(hid_device_info* info, const std::string& name)
+DetectedControllers DetectNZXTHue2(hid_device_info* info, const std::string& name)
 {
-    spawn_hue(info, name, 4, 0);
+    return(spawn_hue(info, name, 4, 0));
 }
 
-void DetectNZXTHue2Ambient(hid_device_info* info, const std::string& name)
+DetectedControllers DetectNZXTHue2Ambient(hid_device_info* info, const std::string& name)
 {
-    spawn_hue(info, name, 2, 0);
+    return(spawn_hue(info, name, 2, 0));
 }
 
-void DetectNZXTHue2Motherboard(hid_device_info* info, const std::string& name)
+DetectedControllers DetectNZXTHue2Motherboard(hid_device_info* info, const std::string& name)
 {
-    spawn_hue(info, name, 2, 3);
+    return(spawn_hue(info, name, 2, 3));
 }
 
-void DetectNZXTSmartDeviceV2(hid_device_info* info, const std::string& name)
+DetectedControllers DetectNZXTSmartDeviceV2(hid_device_info* info, const std::string& name)
 {
-    spawn_hue(info, name, 2, 3);
+    return(spawn_hue(info, name, 2, 3));
 }
 
-void DetectNZXTKrakenX3(hid_device_info* info, const std::string& name)
+DetectedControllers DetectNZXTKrakenX3(hid_device_info* info, const std::string& name)
 {
-    spawn_hue(info, name, 3, 0);
+    return(spawn_hue(info, name, 3, 0));
 }
 
-void DetectNZXTKrakenElite(hid_device_info* info, const std::string& name)
+DetectedControllers DetectNZXTKrakenElite(hid_device_info* info, const std::string& name)
 {
-    spawn_hue(info, name, 2, 2);
+    return(spawn_hue(info, name, 2, 2));
 }
 
-void DetectNZXTFanController(hid_device_info* info, const std::string& name)
+DetectedControllers DetectNZXTFanController(hid_device_info* info, const std::string& name)
 {
-    spawn_hue(info, name, 2, 3);
+    return(spawn_hue(info, name, 2, 3));
 }
 
-void DetectNZXTFanController6Channel(hid_device_info* info, const std::string& name)
+DetectedControllers DetectNZXTFanController6Channel(hid_device_info* info, const std::string& name)
 {
-    spawn_hue(info, name, 6, 3);
+    return(spawn_hue(info, name, 6, 3));
 }
 
-void DetectNZXTRGBController(hid_device_info* info, const std::string& name)
+DetectedControllers DetectNZXTRGBController(hid_device_info* info, const std::string& name)
 {
-    spawn_hue(info, name, 3, 0);
+    return(spawn_hue(info, name, 3, 0));
 }
 
 REGISTER_HID_DETECTOR("NZXT RGB & Fan Controller",          DetectNZXTFanController,         NZXT_VID, NZXT_RGB_FAN_CONTROLLER_PID);

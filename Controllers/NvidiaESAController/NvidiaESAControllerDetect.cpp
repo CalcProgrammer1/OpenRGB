@@ -23,17 +23,22 @@
 \*---------------------------------------------------------*/
 #define NVIDIA_ESA_DELL_XPS_730X_PID                   0x000A
 
-void DetectNvidiaESAControllers(hid_device_info* info, const std::string& name)
+DetectedControllers DetectNvidiaESAControllers(hid_device_info* info, const std::string& name)
 {
-    hid_device* dev = hid_open_path(info->path);
+    DetectedControllers detected_controllers;
+    hid_device*         dev;
+
+    dev = hid_open_path(info->path);
 
     if(dev)
     {
         NvidiaESAController*     controller      = new NvidiaESAController(dev, *info, name);
         RGBController_NvidiaESA* rgb_controller  = new RGBController_NvidiaESA(controller);
 
-        DetectionManager::get()->RegisterRGBController(rgb_controller);
+        detected_controllers.push_back(rgb_controller);
     }
+
+    return(detected_controllers);
 }
 
 REGISTER_HID_DETECTOR_PU("Nvidia ESA - Dell XPS 730x", DetectNvidiaESAControllers, NVIDIA_ESA_VID, NVIDIA_ESA_DELL_XPS_730X_PID, 0xFFDE, 0x02);

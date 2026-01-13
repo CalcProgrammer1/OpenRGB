@@ -9,25 +9,27 @@
 
 #include <vector>
 #include "DetectionManager.h"
-#include "TForceXtreemController.h"
+#include "i2c_smbus.h"
 #include "LogManager.h"
 #include "RGBController_TForceXtreem.h"
-#include "i2c_smbus.h"
+#include "TForceXtreemController.h"
 
 #define DETECTOR_NAME   "TForce Xtreem Controller"
 
 using namespace std::chrono_literals;
 
-/*----------------------------------------------------------------------*\
-| Windows defines "interface" for some reason. Work around this          |
-\*----------------------------------------------------------------------*/
+/*---------------------------------------------------------*\
+| Windows defines "interface" for some reason. Work around  |
+| this                                                      |
+\*---------------------------------------------------------*/
 #ifdef interface
 #undef interface
 #endif
 
-/*----------------------------------------------------------------------*\
-| This list contains the available SMBus addresses for mapping ENE RAM   |
-\*----------------------------------------------------------------------*/
+/*---------------------------------------------------------*\
+| This list contains the available SMBus addresses for      |
+| mapping TForce Xtreem RAM                                 |
+\*---------------------------------------------------------*/
 #define XTREEM_RAM_ADDRESS_COUNT  13
 
 static const unsigned char xtreem_ram_addresses[] =
@@ -47,15 +49,6 @@ static const unsigned char xtreem_ram_addresses[] =
     0x3D
 };
 
-/******************************************************************************************\
-*                                                                                          *
-*   XtreemRegisterWrite                                                                    *
-*                                                                                          *
-*       A standalone version of the TForceXtreemController::ENERegisterWrite function for  *
-*       access to ENE devices without instancing the TForceXtreemController class.         *
-*                                                                                          *
-\******************************************************************************************/
-
 static void XtreemRegisterWrite(i2c_smbus_interface* bus, ene_dev_id dev, ene_register reg, unsigned char val)
 {
     //Write ENE register
@@ -64,16 +57,6 @@ static void XtreemRegisterWrite(i2c_smbus_interface* bus, ene_dev_id dev, ene_re
     //Write ENE value
     bus->i2c_smbus_write_byte_data(dev, 0x01, val);
 }
-
-/******************************************************************************************\
-*                                                                                          *
-*   TestForENESMBusController                                                              *
-*                                                                                          *
-*       Tests the given address to see if an ENE controller exists there.  First does a    *
-*       quick write to test for a response, and if so does a simple read at 0x90 to test   *
-*       for incrementing values 10...1F which was observed at this location                *
-*                                                                                          *
-\******************************************************************************************/
 
 bool TestForTForceXtreemController(i2c_smbus_interface* bus, unsigned char address)
 {
@@ -109,22 +92,11 @@ bool TestForTForceXtreemController(i2c_smbus_interface* bus, unsigned char addre
     }
 
     return(pass);
+}
 
-}   /* TestForTForceXtreemController() */
-
-/******************************************************************************************\
-*                                                                                          *
-*   DetectTForceXtreemDRAMControllers                                                      *
-*                                                                                          *
-*           Detects T-Force Xtreem controllers on DRAM devices                             *
-*                                                                                          *
-*           bus - pointer to i2c_smbus_interface where device is connected                 *
-*           slots - SPD accessors to occupied slots                                        *
-*                                                                                          *
-\******************************************************************************************/
-
-void DetectTForceXtreemControllers(i2c_smbus_interface* bus, std::vector<SPDWrapper*> &slots, const std::string &/*name*/)
+DetectedControllers DetectTForceXtreemControllers(i2c_smbus_interface* bus, std::vector<SPDWrapper*> &slots, const std::string &/*name*/)
 {
+    DetectedControllers detected_controllers;
 
     LOG_DEBUG("[%s] Remapping ENE SMBus RAM modules on 0x77", DETECTOR_NAME);
 
@@ -168,7 +140,9 @@ void DetectTForceXtreemControllers(i2c_smbus_interface* bus, std::vector<SPDWrap
         }
     }
 
-    // Add ENE controllers at their remapped addresses
+    /*-----------------------------------------------------*\
+    | Add Xtreem controllers at their remapped addresses    |
+    \*-----------------------------------------------------*/
     for(unsigned int address_list_idx = 0; address_list_idx < XTREEM_RAM_ADDRESS_COUNT; address_list_idx++)
     {
         if(TestForTForceXtreemController(bus, xtreem_ram_addresses[address_list_idx]))
@@ -176,9 +150,11 @@ void DetectTForceXtreemControllers(i2c_smbus_interface* bus, std::vector<SPDWrap
             TForceXtreemController*      controller     = new TForceXtreemController(bus, xtreem_ram_addresses[address_list_idx]);
             RGBController_TForceXtreem*  rgb_controller = new RGBController_TForceXtreem(controller);
 
-            DetectionManager::get()->RegisterRGBController(rgb_controller);
+            detected_controllers.push_back(rgb_controller);
         }
     }
-}   /* DetectTForceXtreemControllers() */
+
+    return(detected_controllers);
+}
 
 REGISTER_I2C_DRAM_DETECTOR("T-Force Xtreem DDR4 DRAM", DetectTForceXtreemControllers, JEDEC_TEAMGROUP, SPD_DDR4_SDRAM);

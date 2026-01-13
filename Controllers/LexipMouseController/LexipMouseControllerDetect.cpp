@@ -23,17 +23,22 @@
 \*---------------------------------------------------------*/
 #define LEXIP_NP93_ALPHA_PID                           0xFD0A
 
-void DetectLexipMouseControllers(hid_device_info* info, const std::string& name)
+DetectedControllers DetectLexipMouseControllers(hid_device_info* info, const std::string& name)
 {
-    hid_device* dev = hid_open_path(info->path);
+    DetectedControllers detected_controllers;
+    hid_device*         dev;
+
+    dev = hid_open_path(info->path);
 
     if(dev)
     {
         LexipMouseController*     controller        = new LexipMouseController(dev, *info, name);
         RGBController_LexipMouse* rgb_controller    = new RGBController_LexipMouse(controller);
 
-        DetectionManager::get()->RegisterRGBController(rgb_controller);
+        detected_controllers.push_back(rgb_controller);
     }
+
+    return(detected_controllers);
 }
 
 REGISTER_HID_DETECTOR_IPU("Np93 ALPHA - Gaming Mouse", DetectLexipMouseControllers, LEXIP_VID, LEXIP_NP93_ALPHA_PID, 0, 0x0001, 2);
