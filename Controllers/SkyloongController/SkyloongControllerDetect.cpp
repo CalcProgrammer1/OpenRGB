@@ -14,33 +14,32 @@
 #include "SkyloongGK104ProController.h"
 #include "RGBController_SkyloongGK104Pro.h"
 
-/*-----------------------------------------------------*\
-| Keyboard product IDs                                  |
-\*-----------------------------------------------------*/
+/*---------------------------------------------------------*\
+| Keyboard product IDs                                      |
+\*---------------------------------------------------------*/
 #define SKYLOONG_KEYBOARD_VID           0x1EA7
 #define SKYLOONG_GK104_PRO_PID          0x0907
 #define SKYLOONG_GK104_PRO_I            1
 
-/******************************************************************************************\
-*                                                                                          *
-*   DetectSkyloongGK104Pro                                                                 *
-*                                                                                          *
-*       Tests the USB address to see if a Skyloong GK104 Pro controller exists there.      *
-*                                                                                          *
-\******************************************************************************************/
-void DetectSkyloongGK104Pro(hid_device_info* info, const std::string& name)
+DetectedControllers DetectSkyloongGK104Pro(hid_device_info* info, const std::string& name)
 {
-    hid_device* dev = hid_open_path(info->path);
+    DetectedControllers detected_controllers;
+    hid_device*         dev;
+
+    dev = hid_open_path(info->path);
+
     if(dev)
     {
-        SkyloongGK104ProController* controller          = new SkyloongGK104ProController(dev, info->path, name);
+        SkyloongGK104ProController*     controller      = new SkyloongGK104ProController(dev, info->path, name);
         RGBController_SkyloongGK104Pro* rgb_controller  = new RGBController_SkyloongGK104Pro(controller);
 
-        DetectionManager::get()->RegisterRGBController(rgb_controller);
+        detected_controllers.push_back(rgb_controller);
     }
+
+    return(detected_controllers);
 }
 
-/*---------------------------------------------------------------------------------------------------------------------------------------------*\
-| Keyboards                                                                                                                                     |
-\*---------------------------------------------------------------------------------------------------------------------------------------------*/
+/*---------------------------------------------------------*\
+| Keyboards                                                 |
+\*---------------------------------------------------------*/
 REGISTER_HID_DETECTOR_I("Skyloong GK104 Pro", DetectSkyloongGK104Pro, SKYLOONG_KEYBOARD_VID, SKYLOONG_GK104_PRO_PID, SKYLOONG_GK104_PRO_I);

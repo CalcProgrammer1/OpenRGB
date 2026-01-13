@@ -19,14 +19,6 @@
 
 using namespace std::chrono_literals;
 
-/******************************************************************************************\
-*                                                                                          *
-*   TestForCorsairVengeanceProController                                                   *
-*                                                                                          *
-*       Tests the given address to see if a Corsair Pro controller exists there.           *
-*                                                                                          *
-\******************************************************************************************/
-
 bool TestForCorsairVengeanceProController(i2c_smbus_interface* bus, unsigned char address)
 {
     bool pass = false;
@@ -63,22 +55,11 @@ bool TestForCorsairVengeanceProController(i2c_smbus_interface* bus, unsigned cha
     std::this_thread::sleep_for(10ms);
 
     return(pass);
+}
 
-}   /* TestForCorsairVengeanceProController() */
-
-/******************************************************************************************\
-*                                                                                          *
-*   DetectCorsairVengeanceProControllers                                                   *
-*                                                                                          *
-*       Detect Corsair Vengeance Pro controllers on the enumerated I2C busses.             *
-*                                                                                          *
-*           bus - pointer to i2c_smbus_interface where Aura device is connected            *
-*           dev - I2C address of Aura device                                               *
-*                                                                                          *
-\******************************************************************************************/
-
-void DetectCorsairVengeanceProControllers(std::vector<i2c_smbus_interface*> &busses)
+DetectedControllers DetectCorsairVengeanceProControllers(std::vector<i2c_smbus_interface*> &busses)
 {
+    DetectedControllers detected_controllers;
     for(unsigned int bus = 0; bus < busses.size(); bus++)
     {
         LOG_DEBUG("[%s] Testing bus %d", CORSAIR_VENGEANCE_RGB_PRO_NAME, bus);
@@ -89,10 +70,10 @@ void DetectCorsairVengeanceProControllers(std::vector<i2c_smbus_interface*> &bus
             {
                 if(TestForCorsairVengeanceProController(busses[bus], addr))
                 {
-                    CorsairVengeanceProController*     new_controller    = new CorsairVengeanceProController(busses[bus], addr);
-                    RGBController_CorsairVengeancePro* new_rgbcontroller = new RGBController_CorsairVengeancePro(new_controller);
+                    CorsairVengeanceProController*     controller     = new CorsairVengeanceProController(busses[bus], addr);
+                    RGBController_CorsairVengeancePro* rgb_controller = new RGBController_CorsairVengeancePro(controller);
 
-                    DetectionManager::get()->RegisterRGBController(new_rgbcontroller);
+                    detected_controllers.push_back(rgb_controller);
                 }
             }
         }
@@ -102,6 +83,7 @@ void DetectCorsairVengeanceProControllers(std::vector<i2c_smbus_interface*> &bus
         }
     }
 
-}   /* DetectCorsairVengeanceProControllers() */
+    return(detected_controllers);
+}
 
 REGISTER_I2C_DETECTOR("Corsair Vengeance Pro", DetectCorsairVengeanceProControllers);

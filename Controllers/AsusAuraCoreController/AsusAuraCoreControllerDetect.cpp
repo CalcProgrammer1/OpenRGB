@@ -19,17 +19,12 @@
 
 #define AURA_CORE_VID                   0x0B05
 
-/******************************************************************************************\
-*                                                                                          *
-*   DetectAuraCoreControllers                                                              *
-*                                                                                          *
-*       Tests the USB address to see if an Asus ROG Aura Core controller exists there      *
-*                                                                                          *
-\******************************************************************************************/
-
-void DetectAsusAuraCoreControllers(hid_device_info* info, const std::string& /*name*/)
+DetectedControllers DetectAsusAuraCoreControllers(hid_device_info* info, const std::string& /*name*/)
 {
-    hid_device* dev = hid_open_path(info->path);
+    DetectedControllers detected_controllers;
+    hid_device*         dev;
+
+    dev = hid_open_path(info->path);
 
     if(dev)
     {
@@ -38,26 +33,33 @@ void DetectAsusAuraCoreControllers(hid_device_info* info, const std::string& /*n
 
         if(rgb_controller->GetDeviceType() != DEVICE_TYPE_UNKNOWN)
         {
-            DetectionManager::get()->RegisterRGBController(rgb_controller);
+            detected_controllers.push_back(rgb_controller);
         }
         else
         {
             delete rgb_controller;
         }
     }
+
+    return(detected_controllers);
 }
 
-void DetectAsusAuraCoreLaptopControllers(hid_device_info* info, const std::string& /*name*/)
+DetectedControllers DetectAsusAuraCoreLaptopControllers(hid_device_info* info, const std::string& /*name*/)
 {
-    hid_device* dev = hid_open_path(info->path);
+    DetectedControllers detected_controllers;
+    hid_device*         dev;
+
+    dev = hid_open_path(info->path);
 
     if(dev)
     {
         AsusAuraCoreLaptopController*     controller        = new AsusAuraCoreLaptopController(dev, info->path);
         RGBController_AsusAuraCoreLaptop* rgb_controller    = new RGBController_AsusAuraCoreLaptop(controller);
 
-        DetectionManager::get()->RegisterRGBController(rgb_controller);
+        detected_controllers.push_back(rgb_controller);
     }
+
+    return(detected_controllers);
 }
 
 

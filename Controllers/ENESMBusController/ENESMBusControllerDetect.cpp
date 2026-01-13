@@ -9,30 +9,33 @@
 
 #include <vector>
 #include "DetectionManager.h"
+#include "dmiinfo.h"
 #include "ENESMBusController.h"
 #include "ENESMBusInterface_i2c_smbus.h"
+#include "i2c_smbus.h"
 #include "LogManager.h"
+#include "pci_ids.h"
 #include "RGBController.h"
 #include "RGBController_ENESMBus.h"
-#include "i2c_smbus.h"
-#include "pci_ids.h"
-#include "dmiinfo.h"
-
-#define DETECTOR_NAME   "ENE (ASUS Aura) SMBus Controller"
-#define VENDOR_NAME     "ASUS"                                  //This should match the Vendor name from DMI
 
 using namespace std::chrono_literals;
 
-/*----------------------------------------------------------------------*\
-| Windows defines "interface" for some reason. Work around this          |
-\*----------------------------------------------------------------------*/
+#define DETECTOR_NAME                   "ENE (ASUS Aura) SMBus Controller"
+#define VENDOR_NAME                     "ASUS"                                  //This should match the Vendor name from DMI
+#define GPU_CHECK_DEVICE_MESSAGE_EN     "[%s] Bus %02d is a GPU and the subvendor matches the one for %s, looking for a device at 0x%02X"
+
+/*---------------------------------------------------------*\
+| Windows defines "interface" for some reason. Work around  |
+| this                                                      |
+\*---------------------------------------------------------*/
 #ifdef interface
 #undef interface
 #endif
 
-/*----------------------------------------------------------------------*\
-| This list contains the available SMBus addresses for mapping ENE RAM   |
-\*----------------------------------------------------------------------*/
+/*---------------------------------------------------------*\
+| This list contains the available SMBus addresses for      |
+| mapping ENE RAM                                           |
+\*---------------------------------------------------------*/
 #define ENE_RAM_ADDRESS_COUNT  23
 
 static const unsigned char ene_ram_addresses[] =
@@ -62,9 +65,10 @@ static const unsigned char ene_ram_addresses[] =
     0x3D
 };
 
-/*---------------------------------------------------------------------------------*\
-| This list contains the available SMBus addresses for mapping Aura motherboards    |
-\*---------------------------------------------------------------------------------*/
+/*---------------------------------------------------------*\
+| This list contains the available SMBus addresses for      |
+| mapping Aura motherboards                                 |
+\*---------------------------------------------------------*/
 #define AURA_MOBO_ADDRESS_COUNT 3
 
 static const unsigned char aura_mobo_addresses[] =
@@ -73,16 +77,6 @@ static const unsigned char aura_mobo_addresses[] =
     0x4E,
     0x4F
 };
-
-/******************************************************************************************\
-*                                                                                          *
-*   ENERegisterRead                                                                        *
-*                                                                                          *
-*       A standalone version of the ENESMBusController::ENERegisterRead function for       *
-*       access to ENE devices without instancing the ENESMBusController class or reading   *
-*       the config table from the device.                                                  *
-*                                                                                          *
-\******************************************************************************************/
 
 static unsigned char ENERegisterRead(i2c_smbus_interface* bus, ene_dev_id dev, ene_register reg)
 {
@@ -93,16 +87,6 @@ static unsigned char ENERegisterRead(i2c_smbus_interface* bus, ene_dev_id dev, e
     return(bus->i2c_smbus_read_byte_data(dev, 0x81));
 }
 
-/******************************************************************************************\
-*                                                                                          *
-*   ENERegisterWrite                                                                       *
-*                                                                                          *
-*       A standalone version of the ENESMBusController::ENERegisterWrite function for      *
-*       access to ENE devices without instancing the ENESMBusController class or reading   *
-*       the config table from the device.                                                  *
-*                                                                                          *
-\******************************************************************************************/
-
 static void ENERegisterWrite(i2c_smbus_interface* bus, ene_dev_id dev, ene_register reg, unsigned char val)
 {
     //Write ENE register
@@ -111,20 +95,6 @@ static void ENERegisterWrite(i2c_smbus_interface* bus, ene_dev_id dev, ene_regis
     //Write ENE value
     bus->i2c_smbus_write_byte_data(dev, 0x01, val);
 }
-
-/******************************************************************************************\
-*                                                                                          *
-*   TestForENESMBusController                                                              *
-*                                                                                          *
-*       Tests the given address to see if an ENE controller exists there.  First does a    *
-*       quick write to test for a response, and if so does a simple read at 0xA0 to test   *
-*       for incrementing values 0...F which was observed at this location during data dump *
-*                                                                                          *
-*       Also tests for the string "Micron" in the ENE register space.  Crucial (Micron)    *
-*       DRAM modules use an ENE controller with custom, incompatible firmware and must     *
-*       be excluded from this controller.                                                  *
-*                                                                                          *
-\******************************************************************************************/
 
 bool TestForENESMBusController(i2c_smbus_interface* bus, unsigned char address)
 {
@@ -181,23 +151,13 @@ bool TestForENESMBusController(i2c_smbus_interface* bus, unsigned char address)
     }
 
     return(pass);
+}
 
-}   /* TestForENESMBusController() */
-
-/******************************************************************************************\
-*                                                                                          *
-*   DetectENESMBusDRAMControllers                                                          *
-*                                                                                          *
-*           Detects ENE SMBus controllers on DRAM devices                                  *
-*                                                                                          *
-*           bus - pointer to i2c_smbus_interface where device is connected                 *
-*           dev - I2C address of device                                                    *
-*                                                                                          *
-\******************************************************************************************/
-
-void DetectENESMBusDRAMControllers(std::vector<i2c_smbus_interface*> &busses)
+DetectedControllers DetectENESMBusDRAMControllers(std::vector<i2c_smbus_interface*> &busses)
 {
-    for (unsigned int bus = 0; bus < busses.size(); bus++)
+    DetectedControllers detected_controllers;
+
+    for(unsigned int bus = 0; bus < busses.size(); bus++)
     {
         int address_list_idx = -1;
 
@@ -205,14 +165,13 @@ void DetectENESMBusDRAMControllers(std::vector<i2c_smbus_interface*> &busses)
         {
             LOG_DEBUG("[ENE SMBus DRAM] Remapping ENE SMBus RAM modules on 0x77");
 
-            for (unsigned int slot = 0; slot < 8; slot++)
+            for(unsigned int slot = 0; slot < 8; slot++)
             {
                 int res = busses[bus]->i2c_smbus_write_quick(0x77, I2C_SMBUS_WRITE);
 
                 if(res < 0)
                 {
                     LOG_DEBUG("[ENE SMBus DRAM] No device detected at 0x77, aborting remap");
-
                     break;
                 }
 
@@ -230,7 +189,7 @@ void DetectENESMBusDRAMControllers(std::vector<i2c_smbus_interface*> &busses)
                     {
                         break;
                     }
-                } while (res >= 0);
+                } while(res >= 0);
 
                 if(address_list_idx < ENE_RAM_ADDRESS_COUNT)
                 {
@@ -242,48 +201,41 @@ void DetectENESMBusDRAMControllers(std::vector<i2c_smbus_interface*> &busses)
             }
 
             // Add ENE controllers at their remapped addresses
-            for (unsigned int address_list_idx = 0; address_list_idx < ENE_RAM_ADDRESS_COUNT; address_list_idx++)
+            for(unsigned int address_list_idx = 0; address_list_idx < ENE_RAM_ADDRESS_COUNT; address_list_idx++)
             {
-                if (TestForENESMBusController(busses[bus], ene_ram_addresses[address_list_idx]))
+                if(TestForENESMBusController(busses[bus], ene_ram_addresses[address_list_idx]))
                 {
                     ENESMBusInterface_i2c_smbus* interface      = new ENESMBusInterface_i2c_smbus(busses[bus]);
                     ENESMBusController*          controller     = new ENESMBusController(interface, ene_ram_addresses[address_list_idx], "ENE DRAM", DEVICE_TYPE_DRAM);
                     RGBController_ENESMBus*      rgb_controller = new RGBController_ENESMBus(controller);
 
-                    DetectionManager::get()->RegisterRGBController(rgb_controller);
+                    detected_controllers.push_back(rgb_controller);
                 }
 
                 std::this_thread::sleep_for(1ms);
             }
         }
     }
-}   /* DetectENESMBusDRAMControllers() */
 
-/******************************************************************************************\
-*                                                                                          *
-*   DetectENESMBusMotherboardControllers                                                   *
-*                                                                                          *
-*           Detects ENE (ASUS Aura) SMBus controllers on ASUS motherboard devices          *
-*                                                                                          *
-*           bus - pointer to i2c_smbus_interface where Aura device is connected            *
-*           dev - I2C address of Aura device                                               *
-*                                                                                          *
-\******************************************************************************************/
+    return(detected_controllers);
+}
 
-void DetectENESMBusMotherboardControllers(std::vector<i2c_smbus_interface*> &busses)
+DetectedControllers DetectENESMBusMotherboardControllers(std::vector<i2c_smbus_interface*> &busses)
 {
-    for (unsigned int bus = 0; bus < busses.size(); bus++)
+    DetectedControllers detected_controllers;
+
+    for(unsigned int bus = 0; bus < busses.size(); bus++)
     {
         // Add ENE (ASUS Aura) motherboard controllers
         IF_MOBO_SMBUS(busses[bus]->pci_vendor, busses[bus]->pci_device)
         {
             if(busses[bus]->pci_subsystem_vendor == ASUS_SUB_VEN || busses[bus]->pci_subsystem_vendor == 0 || busses[bus]->pci_subsystem_vendor == 0xFFFF)
             {
-                for (unsigned int address_list_idx = 0; address_list_idx < AURA_MOBO_ADDRESS_COUNT; address_list_idx++)
+                for(unsigned int address_list_idx = 0; address_list_idx < AURA_MOBO_ADDRESS_COUNT; address_list_idx++)
                 {
                     LOG_DEBUG(SMBUS_CHECK_DEVICE_MESSAGE_EN, DETECTOR_NAME, bus, VENDOR_NAME, aura_mobo_addresses[address_list_idx]);
 
-                    if (TestForENESMBusController(busses[bus], aura_mobo_addresses[address_list_idx]))
+                    if(TestForENESMBusController(busses[bus], aura_mobo_addresses[address_list_idx]))
                     {
                         DMIInfo dmi;
 
@@ -291,7 +243,7 @@ void DetectENESMBusMotherboardControllers(std::vector<i2c_smbus_interface*> &bus
                         ENESMBusController*          controller     = new ENESMBusController(interface, aura_mobo_addresses[address_list_idx], "ASUS " + dmi.getMainboard(), DEVICE_TYPE_MOTHERBOARD);
                         RGBController_ENESMBus*      rgb_controller = new RGBController_ENESMBus(controller);
 
-                        DetectionManager::get()->RegisterRGBController(rgb_controller);
+                        detected_controllers.push_back(rgb_controller);
                     }
 
                     std::this_thread::sleep_for(1ms);
@@ -303,41 +255,43 @@ void DetectENESMBusMotherboardControllers(std::vector<i2c_smbus_interface*> &bus
             }
         }
     }
-}   /* DetectENESMBusMotherboardControllers() */
 
-/******************************************************************************************\
-*                                                                                          *
-*   DetectENESMBusGPUControllers                                                           *
-*                                                                                          *
-*           Detects ENE (ASUS Aura) SMBus controllers on ASUS GPU devices                  *
-*                                                                                          *
-\******************************************************************************************/
+    return(detected_controllers);
+}
 
-#define GPU_CHECK_DEVICE_MESSAGE_EN     "[%s] Bus %02d is a GPU and the subvendor matches the one for %s, looking for a device at 0x%02X"
-
-void DetectENESMBusGPUControllers(i2c_smbus_interface* bus, uint8_t i2c_addr, const std::string& name)
+DetectedControllers DetectENESMBusGPUControllers(i2c_smbus_interface* bus, uint8_t i2c_addr, const std::string& name)
 {
+    DetectedControllers detected_controllers;
+
     if(TestForENESMBusController(bus, i2c_addr))
     {
         ENESMBusInterface_i2c_smbus* interface      = new ENESMBusInterface_i2c_smbus(bus);
         ENESMBusController*          controller     = new ENESMBusController(interface, i2c_addr, name, DEVICE_TYPE_GPU);
         RGBController_ENESMBus*      rgb_controller = new RGBController_ENESMBus(controller);
 
-        DetectionManager::get()->RegisterRGBController(rgb_controller);
+        detected_controllers.push_back(rgb_controller);
     }
     else
     {
         LOG_DEBUG("[ENE SMBus ASUS GPU] Testing for controller at %d failed", i2c_addr);
     }
-} /* DetectENESMBusGPUControllers() */
 
+    return(detected_controllers);
+}
+
+/*---------------------------------------------------------*\
+| ENE RAM                                                   |
+\*---------------------------------------------------------*/
 REGISTER_I2C_DETECTOR("ENE SMBus DRAM",                 DetectENESMBusDRAMControllers);
+
+/*---------------------------------------------------------*\
+| ASUS Motherboards                                         |
+\*---------------------------------------------------------*/
 REGISTER_I2C_DETECTOR("ASUS Aura SMBus Motherboard",    DetectENESMBusMotherboardControllers);
 
-/*-----------------------------------------*\
-|  Nvidia GPUs                              |
-\*-----------------------------------------*/
-
+/*---------------------------------------------------------*\
+|  Nvidia GPUs                                              |
+\*---------------------------------------------------------*/
 REGISTER_I2C_PCI_DETECTOR("ASUS ROG STRIX GeForce RTX 3050 Gaming",                     DetectENESMBusGPUControllers,   NVIDIA_VEN,     NVIDIA_RTX3050_DEV,         ASUS_SUB_VEN,   ASUS_ROG_STRIX_RTX3050_8G_GAMING,               0x67);
 REGISTER_I2C_PCI_DETECTOR("ASUS KO GeForce RTX 3060 Gaming OC",                         DetectENESMBusGPUControllers,   NVIDIA_VEN,     NVIDIA_RTX3060_DEV,         ASUS_SUB_VEN,   ASUS_KO_RTX_3060_OC_O12G_GAMING,                0x67);
 REGISTER_I2C_PCI_DETECTOR("ASUS TUF GeForce RTX 3060 Gaming OC",                        DetectENESMBusGPUControllers,   NVIDIA_VEN,     NVIDIA_RTX3060_DEV,         ASUS_SUB_VEN,   ASUS_TUF_RTX_3060_O12G_GAMING,                  0x67);
@@ -478,10 +432,9 @@ REGISTER_I2C_PCI_DETECTOR("ASUS ROG ASTRAL LC GeForce RTX 5090 OC",             
 REGISTER_I2C_PCI_DETECTOR("ASUS ROG ASTRAL LC OC GeForce RTX 5090 OC",                  DetectENESMBusGPUControllers,   NVIDIA_VEN,     NVIDIA_RTX5090_DEV,         ASUS_SUB_VEN,   ASUS_ROG_ASTRAL_LC_OC_RTX_5090_O32G_GAMING,     0x67);
 REGISTER_I2C_PCI_DETECTOR("ASUS ROG MATRIX PLATINUM GeForce RTX 5090",                  DetectENESMBusGPUControllers,   NVIDIA_VEN,     NVIDIA_RTX5090_DEV,         ASUS_SUB_VEN,   ASUS_ROG_MATRIX_PLATINUM_RTX_5090_P32G,         0x67);
 
-/*-----------------------------------------*\
-|  AMD GPUs                                 |
-\*-----------------------------------------*/
-
+/*---------------------------------------------------------*\
+|  AMD GPUs                                                 |
+\*---------------------------------------------------------*/
 REGISTER_I2C_PCI_DETECTOR("ASUS ROG STRIX Radeon RX 6600 XT Gaming OC",                 DetectENESMBusGPUControllers,   AMD_GPU_VEN,    AMD_NAVI23_DEV,             ASUS_SUB_VEN,   ASUS_ROG_STRIX_RX_6600XT_O8G_GAMING,            0x67);
 REGISTER_I2C_PCI_DETECTOR("ASUS ROG STRIX Radeon RX 6650 XT Gaming",                    DetectENESMBusGPUControllers,   AMD_GPU_VEN,    AMD_NAVI23_DEV1,            ASUS_SUB_VEN,   ASUS_ROG_STRIX_RX_6650XT_O8G_GAMING,            0x67);
 REGISTER_I2C_PCI_DETECTOR("ASUS TUF Radeon RX 6700 XT Gaming OC",                       DetectENESMBusGPUControllers,   AMD_GPU_VEN,    AMD_NAVI22_DEV,             ASUS_SUB_VEN,   ASUS_TUF_RX_6700XT_O12G_GAMING,                 0x67);

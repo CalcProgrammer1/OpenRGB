@@ -10,47 +10,52 @@
 |   SPDX-License-Identifier: GPL-2.0-or-later               |
 \*---------------------------------------------------------*/
 
-/*-----------------------------------------------------*\
-| OpenRGB includes                                      |
-\*-----------------------------------------------------*/
 #include <hidapi.h>
+#include "BloodyB820RController.h"
+#include "BloodyMouseController.h"
 #include "DetectionManager.h"
-
-/*-----------------------------------------------------*\
-| A4 Tech specific includes                             |
-\*-----------------------------------------------------*/
-#include "RGBController_BloodyMouse.h"
 #include "RGBController_BloodyB820R.h"
+#include "RGBController_BloodyMouse.h"
 
-/*-----------------------------------------------------*\
-| A4 Tech USB vendor ID                                 |
-\*-----------------------------------------------------*/
+/*---------------------------------------------------------*\
+| A4 Tech USB vendor ID                                     |
+\*---------------------------------------------------------*/
 #define A4_TECH_VID                                 0x09DA
 
-void DetectA4TechMouseControllers(hid_device_info* info, const std::string& name)
+DetectedControllers DetectA4TechMouseControllers(hid_device_info* info, const std::string& name)
 {
-    hid_device* dev = hid_open_path(info->path);
+    DetectedControllers detected_controllers;
+    hid_device*         dev;
+
+    dev = hid_open_path(info->path);
 
     if(dev)
     {
-        BloodyMouseController* controller           = new BloodyMouseController(dev, info->path, info->product_id, name);
+        BloodyMouseController*     controller       = new BloodyMouseController(dev, info->path, info->product_id, name);
         RGBController_BloodyMouse* rgb_controller   = new RGBController_BloodyMouse(controller);
 
-        DetectionManager::get()->RegisterRGBController(rgb_controller);
+        detected_controllers.push_back(rgb_controller);
     }
+
+    return(detected_controllers);
 }
 
-void DetectBloodyB820R(hid_device_info* info, const std::string& name)
+DetectedControllers DetectBloodyB820R(hid_device_info* info, const std::string& name)
 {
-    hid_device* dev = hid_open_path(info->path);
+    DetectedControllers detected_controllers;
+    hid_device*         dev;
+
+    dev = hid_open_path(info->path);
 
     if(dev)
     {
         BloodyB820RController*     controller     = new BloodyB820RController(dev, info->path, name);
         RGBController_BloodyB820R* rgb_controller = new RGBController_BloodyB820R(controller);
 
-        DetectionManager::get()->RegisterRGBController(rgb_controller);
+        detected_controllers.push_back(rgb_controller);
     }
+
+    return(detected_controllers);
 }
 
 REGISTER_HID_DETECTOR_IPU("Bloody W60 Pro",  DetectA4TechMouseControllers,       A4_TECH_VID,    BLOODY_W60_PRO_PID,     2,      0xFF33,     0x0529);

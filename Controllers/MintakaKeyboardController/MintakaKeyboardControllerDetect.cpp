@@ -23,17 +23,22 @@
 \*---------------------------------------------------------*/
 #define VSG_MINTAKA_PID                               0x0256
 
-void DetectMintakaKeyboardControllers(hid_device_info* info, const std::string& name)
+DetectedControllers DetectMintakaKeyboardControllers(hid_device_info* info, const std::string& name)
 {
-    hid_device* dev = hid_open_path(info->path);
+    DetectedControllers detected_controllers;
+    hid_device*         dev;
+
+    dev = hid_open_path(info->path);
 
     if(dev)
     {
         MintakaKeyboardController*     controller      = new MintakaKeyboardController(dev, *info, name);
         RGBController_MintakaKeyboard* rgb_controller  = new RGBController_MintakaKeyboard(controller);
 
-        DetectionManager::get()->RegisterRGBController(rgb_controller);
+        detected_controllers.push_back(rgb_controller);
     }
+
+    return(detected_controllers);
 }
 
 REGISTER_HID_DETECTOR_IPU("VSG Mintaka", DetectMintakaKeyboardControllers, MINTAKA_KEYBOARD_VID, VSG_MINTAKA_PID, 0, 0x0001, 0x06);
