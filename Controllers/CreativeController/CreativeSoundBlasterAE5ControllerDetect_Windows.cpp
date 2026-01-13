@@ -9,11 +9,13 @@
 
 #include "DetectionManager.h"
 #include "CreativeSoundBlasterAE5Controller_Windows.h"
-#include "RGBController_CreativeSoundBlasterAE5_Windows.h"
 #include "LogManager.h"
+#include "RGBController_CreativeSoundBlasterAE5_Windows.h"
 
-void DetectCreativeAE5Device()
+DetectedControllers DetectCreativeAE5Device()
 {
+    DetectedControllers detected_controllers;
+
     LOG_INFO("[Creative SoundBlaster AE-5] Windows detection function called");
 
     CreativeSoundBlasterAE5Controller_Windows* controller = new CreativeSoundBlasterAE5Controller_Windows();
@@ -22,13 +24,16 @@ void DetectCreativeAE5Device()
     {
         LOG_INFO("[Creative SoundBlaster AE-5] Device initialized successfully, registering controller");
         RGBController_CreativeSoundBlasterAE5* rgb_controller = new RGBController_CreativeSoundBlasterAE5(controller);
-        DetectionManager::get()->RegisterRGBController(rgb_controller);
+
+        detected_controllers.push_back(rgb_controller);
     }
     else
     {
         LOG_WARNING("[Creative SoundBlaster AE-5] Device initialization failed");
         delete controller;
     }
+
+    return(detected_controllers);
 }
 
 REGISTER_DETECTOR("Creative SoundBlaster AE-5", DetectCreativeAE5Device);

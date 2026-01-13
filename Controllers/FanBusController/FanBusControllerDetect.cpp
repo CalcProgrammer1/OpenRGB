@@ -15,19 +15,20 @@
 #include "ResourceManager.h"
 #include "SettingsManager.h"
 
-void DetectFanBusControllers()
+DetectedControllers DetectFanBusControllers()
 {
+    DetectedControllers detected_controllers;
     FanBusInterface*    new_interface;
     json                fanbus_settings;
 
-    /*-------------------------------------------------*\
-    | Get LED Strip settings from settings manager      |
-    \*-------------------------------------------------*/
+    /*-----------------------------------------------------*\
+    | Get FanBus settings from settings manager             |
+    \*-----------------------------------------------------*/
     fanbus_settings = ResourceManager::get()->GetSettingsManager()->GetSettings("FanBusDevices");
 
-    /*-------------------------------------------------*\
-    | If the LEDStrip settings contains devices, process|
-    \*-------------------------------------------------*/
+    /*-----------------------------------------------------*\
+    | If the FanBus settings contains devices, process      |
+    \*-----------------------------------------------------*/
     if(fanbus_settings.contains("devices"))
     {
         for(unsigned int device_idx = 0; device_idx < fanbus_settings["devices"].size(); device_idx++)
@@ -38,18 +39,20 @@ void DetectFanBusControllers()
 
                 new_interface     = new FanBusInterface(port_val.c_str());
 
-                std::vector<unsigned char> detected_controllers = new_interface->DetectControllers();
+                std::vector<unsigned char> detected_fanbus_controllers = new_interface->DetectControllers();
 
-                for(unsigned int controller_idx = 0; controller_idx < detected_controllers.size(); controller_idx++)
+                for(unsigned int controller_idx = 0; controller_idx < detected_fanbus_controllers.size(); controller_idx++)
                 {
-                    FanBusController*     controller     = new FanBusController(new_interface, detected_controllers[controller_idx]);
+                    FanBusController*     controller     = new FanBusController(new_interface, detected_fanbus_controllers[controller_idx]);
                     RGBController_FanBus* rgb_controller = new RGBController_FanBus(controller);
 
-                    DetectionManager::get()->RegisterRGBController(rgb_controller);
+                    detected_controllers.push_back(rgb_controller);
                 }
             }
         }
     }
+
+    return(detected_controllers);
 }
 
 REGISTER_DETECTOR("FanBus", DetectFanBusControllers);

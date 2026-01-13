@@ -27,27 +27,32 @@
 #define AORUS_15BKF_BACKLIGHT_PID                      0x7A44
 #define AORUS_15BKF_KEYBOARD_PID                       0x7A43
 
-void DetectGigabyteAorusLaptopControllers(hid_device_info* info, const std::string& name, GIGABYTE_AORUS_LAPTOP_DEV_TYPE dev_type)
+DetectedControllers DetectGigabyteAorusLaptopControllers(hid_device_info* info, const std::string& name, GIGABYTE_AORUS_LAPTOP_DEV_TYPE dev_type)
 {
-    hid_device* dev = hid_open_path(info->path);
+    DetectedControllers detected_controllers;
+    hid_device*         dev;
+
+    dev = hid_open_path(info->path);
 
     if(dev)
     {
         GigabyteAorusLaptopController*     controller       = new GigabyteAorusLaptopController(dev, *info, name);
         RGBController_GigabyteAorusLaptop* rgb_controller   = new RGBController_GigabyteAorusLaptop(controller, dev_type);
 
-        DetectionManager::get()->RegisterRGBController(rgb_controller);
+        detected_controllers.push_back(rgb_controller);
     }
+
+    return(detected_controllers);
 }
 
-void DetectGigabyteAorusLaptopKeyboardControllers(hid_device_info* info, const std::string& name)
+DetectedControllers DetectGigabyteAorusLaptopKeyboardControllers(hid_device_info* info, const std::string& name)
 {
-    DetectGigabyteAorusLaptopControllers(info, name, GIGABYTE_AORUS_LAPTOP_KEYBOARD_TYPE);
+    return(DetectGigabyteAorusLaptopControllers(info, name, GIGABYTE_AORUS_LAPTOP_KEYBOARD_TYPE));
 }
 
-void DetectGigabyteAorusLaptopBacklightControllers(hid_device_info* info, const std::string& name)
+DetectedControllers DetectGigabyteAorusLaptopBacklightControllers(hid_device_info* info, const std::string& name)
 {
-    DetectGigabyteAorusLaptopControllers(info, name, GIGABYTE_AORUS_LAPTOP_BACKLIGHT_TYPE);
+    return(DetectGigabyteAorusLaptopControllers(info, name, GIGABYTE_AORUS_LAPTOP_BACKLIGHT_TYPE));
 }
 
 REGISTER_HID_DETECTOR_IPU("Gigabyte Aorus 17X Keyboard",    DetectGigabyteAorusLaptopKeyboardControllers,  GIGABYTE_AORUS_LAPTOP_VID, AORUS_17X_KEYBOARD_PID,    3, 0xFF01, 0x01);
