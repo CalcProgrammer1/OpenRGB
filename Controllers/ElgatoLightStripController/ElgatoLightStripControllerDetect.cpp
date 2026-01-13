@@ -13,24 +13,20 @@
 #include "RGBController_ElgatoLightStrip.h"
 #include "SettingsManager.h"
 
-/******************************************************************************************\
-*                                                                                          *
-*   Detect Elgato LightStrip devices                                                       *
-*                                                                                          *
-\******************************************************************************************/
-
-void DetectElgatoLightStripControllers()
+DetectedControllers DetectElgatoLightStripControllers()
 {
-    json elgato_lightstrip_settings;
+    DetectedControllers detected_controllers;
+    json                elgato_lightstrip_settings;
 
-    /*-------------------------------------------------*\
-    | Get LightStrip settings from settings manager     |
-    \*-------------------------------------------------*/
+    /*-----------------------------------------------------*\
+    | Get LightStrip settings from settings manager         |
+    \*-----------------------------------------------------*/
     elgato_lightstrip_settings = ResourceManager::get()->GetSettingsManager()->GetSettings("ElgatoLightStripDevices");
 
-    /*------------------------------------------------------------*\
-    | If the Elgato Light Strip settings contains devices, process |
-    \*------------------------------------------------------------*/
+    /*-----------------------------------------------------*\
+    | If the Elgato Light Strip settings contains devices,  |
+    | process                                               |
+    \*-----------------------------------------------------*/
     if(elgato_lightstrip_settings.contains("devices"))
     {
         for(unsigned int device_idx = 0; device_idx < elgato_lightstrip_settings["devices"].size(); device_idx++)
@@ -42,10 +38,12 @@ void DetectElgatoLightStripControllers()
                 ElgatoLightStripController*     controller     = new ElgatoLightStripController(elgato_lightstrip_ip);
                 RGBController_ElgatoLightStrip* rgb_controller = new RGBController_ElgatoLightStrip(controller);
 
-                DetectionManager::get()->RegisterRGBController(rgb_controller);
+                detected_controllers.push_back(rgb_controller);
             }
         }
     }
+
+    return(detected_controllers);
 }
 
 REGISTER_DETECTOR("Elgato Light Strip", DetectElgatoLightStripControllers);

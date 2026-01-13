@@ -18,26 +18,23 @@
 #define NZXT_KRAKEN_X2_PID  0x170E
 #define NZXT_KRAKEN_M2_PID  0x1715
 
-/******************************************************************************************\
-*                                                                                          *
-*   DetectNZXTKrakenControllers                                                            *
-*                                                                                          *
-*       Detect devices supported by the NZXTKraken driver                                  *
-*                                                                                          *
-\******************************************************************************************/
-
-void DetectNZXTKrakenControllers(hid_device_info* info, const std::string& name)
+DetectedControllers DetectNZXTKrakenControllers(hid_device_info* info, const std::string& name)
 {
-    hid_device* dev = hid_open_path(info->path);
+    DetectedControllers detected_controllers;
+    hid_device*         dev;
+
+    dev = hid_open_path(info->path);
 
     if(dev)
     {
         NZXTKrakenController*     controller     = new NZXTKrakenController(dev, info->path, name);
         RGBController_NZXTKraken* rgb_controller = new RGBController_NZXTKraken(controller);
 
-        DetectionManager::get()->RegisterRGBController(rgb_controller);
+        detected_controllers.push_back(rgb_controller);
     }
-}   /* DetectNZXTKrakenControllers() */
+
+    return(detected_controllers);
+}
 
 REGISTER_HID_DETECTOR("NZXT Kraken X2", DetectNZXTKrakenControllers, NZXT_KRAKEN_VID, NZXT_KRAKEN_X2_PID);
 REGISTER_HID_DETECTOR("NZXT Kraken M2", DetectNZXTKrakenControllers, NZXT_KRAKEN_VID, NZXT_KRAKEN_M2_PID);

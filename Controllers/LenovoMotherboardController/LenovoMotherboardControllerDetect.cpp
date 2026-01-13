@@ -10,9 +10,9 @@
 \*---------------------------------------------------------*/
 
 #include "DetectionManager.h"
+#include "dmiinfo.h"
 #include "LenovoMotherboardController.h"
 #include "RGBController_LenovoMotherboard.h"
-#include "dmiinfo.h"
 
 /*---------------------------------------------------------*\
 | vendor ID                                                 |
@@ -24,9 +24,12 @@
 \*---------------------------------------------------------*/
 #define LENOVO_MB_PID                                  0xC955
 
-void DetectLenovoMotherboardControllers(hid_device_info* info, const std::string& name)
+DetectedControllers DetectLenovoMotherboardControllers(hid_device_info* info, const std::string& name)
 {
-    hid_device* dev = hid_open_path(info->path);
+    DetectedControllers detected_controllers;
+    hid_device*         dev;
+
+    dev = hid_open_path(info->path);
 
     if(dev)
     {
@@ -35,8 +38,10 @@ void DetectLenovoMotherboardControllers(hid_device_info* info, const std::string
         LenovoMotherboardController*     controller         = new LenovoMotherboardController(dev, *info, name + " " + dmi.getMainboard());
         RGBController_LenovoMotherboard* rgb_controller     = new RGBController_LenovoMotherboard(controller);
 
-        DetectionManager::get()->RegisterRGBController(rgb_controller);
+        detected_controllers.push_back(rgb_controller);
     }
+
+    return(detected_controllers);
 }
 
 REGISTER_HID_DETECTOR_PU("Lenovo", DetectLenovoMotherboardControllers, LENOVO_MB_VID, LENOVO_MB_PID, 0xFF89, 0xCC);

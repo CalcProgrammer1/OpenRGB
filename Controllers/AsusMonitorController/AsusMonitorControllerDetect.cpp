@@ -25,17 +25,22 @@
 #define ASUS_ROG_SWIFT_XG27UCG_PID                     0x1BB4
 #define ASUS_ROG_SWIFT_PG32UCDM_PID                    0x1B2B
 
-void DetectAsusMonitorControllers(hid_device_info* info, const std::string& name)
+DetectedControllers DetectAsusMonitorControllers(hid_device_info* info, const std::string& name)
 {
-    hid_device* dev = hid_open_path(info->path);
+    DetectedControllers detected_controllers;
+    hid_device*         dev;
+
+    dev = hid_open_path(info->path);
 
     if(dev)
     {
         AsusMonitorController*     controller      = new AsusMonitorController(dev, *info, name);
         RGBController_AsusMonitor* rgb_controller  = new RGBController_AsusMonitor(controller);
 
-        DetectionManager::get()->RegisterRGBController(rgb_controller);
+        detected_controllers.push_back(rgb_controller);
     }
+
+    return(detected_controllers);
 }
 
 REGISTER_HID_DETECTOR_IPU("Asus ROG STRIX XG27AQDMG",   DetectAsusMonitorControllers, ASUS_VID, ASUS_ROG_STRIX_XG27AQDMG_PID,   1, 0xFF72, 0x00A1);

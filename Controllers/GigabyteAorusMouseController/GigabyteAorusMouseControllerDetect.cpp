@@ -14,27 +14,32 @@
 #include "GigabyteAorusMouseController.h"
 #include "RGBController_GigabyteAorusMouse.h"
 
-/*-----------------------------------------------------*\
-| Vendor ID                                             |
-\*-----------------------------------------------------*/
+/*---------------------------------------------------------*\
+| Vendor ID                                                 |
+\*---------------------------------------------------------*/
 #define HOLTEK_VID                                 0x1044
 
-/*-----------------------------------------------------*\
-| Controller product ids                                |
-\*-----------------------------------------------------*/
+/*---------------------------------------------------------*\
+| Controller product ids                                    |
+\*---------------------------------------------------------*/
 #define AORUS_M2_PID                               0x7A40
 
-void DetectGigabyteAorusMouseControllers(hid_device_info* info, const std::string& name)
+DetectedControllers DetectGigabyteAorusMouseControllers(hid_device_info* info, const std::string& name)
 {
-    hid_device* dev = hid_open_path(info->path);
+    DetectedControllers detected_controllers;
+    hid_device*         dev;
+
+    dev = hid_open_path(info->path);
 
     if(dev)
     {
         GigabyteAorusMouseController*     controller     = new GigabyteAorusMouseController(dev, *info, name);
         RGBController_GigabyteAorusMouse* rgb_controller = new RGBController_GigabyteAorusMouse(controller);
 
-        DetectionManager::get()->RegisterRGBController(rgb_controller);
+        detected_controllers.push_back(rgb_controller);
     }
+
+    return(detected_controllers);
 }
 
 REGISTER_HID_DETECTOR_IPU("Gigabyte Aorus M2", DetectGigabyteAorusMouseControllers, HOLTEK_VID, AORUS_M2_PID, 3, 0xFF01, 0x01);
