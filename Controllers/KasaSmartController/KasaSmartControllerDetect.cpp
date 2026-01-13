@@ -15,26 +15,19 @@
 #include "RGBController_KasaSmart.h"
 #include "SettingsManager.h"
 
-/******************************************************************************************\
-*                                                                                          *
-*   DetectKasaSmartControllers                                                             *
-*                                                                                          *
-*       Detect Kasa Smart devices                                                          *
-*                                                                                          *
-\******************************************************************************************/
-
-void DetectKasaSmartControllers()
+DetectedControllers DetectKasaSmartControllers()
 {
-    json kasa_smart_settings;
+    DetectedControllers detected_controllers;
+    json                kasa_smart_settings;
 
-    /*---------------------------------------------*\
-    | Get Kasa Smart settings from settings manager |
-    \*---------------------------------------------*/
+    /*-----------------------------------------------------*\
+    | Get Kasa Smart settings from settings manager         |
+    \*-----------------------------------------------------*/
     kasa_smart_settings = ResourceManager::get()->GetSettingsManager()->GetSettings("KasaSmartDevices");
 
-    /*---------------------------------------------*\
-    | If the Wiz settings contains devices, process |
-    \*---------------------------------------------*/
+    /*-----------------------------------------------------*\
+    | If the Kasa Smart settings contains devices, process  |
+    \*-----------------------------------------------------*/
     if(kasa_smart_settings.contains("devices"))
     {
         for(unsigned int device_idx = 0; device_idx < kasa_smart_settings["devices"].size(); device_idx++)
@@ -45,17 +38,20 @@ void DetectKasaSmartControllers()
                 std::string name          = kasa_smart_settings["devices"][device_idx]["name"];
 
                 KasaSmartController* controller = new KasaSmartController(kasa_smart_ip, name);
+
                 if(!controller->Initialize())
                 {
                     continue;
                 }
 
                 RGBController_KasaSmart* rgb_controller = new RGBController_KasaSmart(controller);
-                DetectionManager::get()->RegisterRGBController(rgb_controller);
+
+                detected_controllers.push_back(rgb_controller);
             }
         }
     }
 
-}   /* DetectKasaSmartControllers() */
+    return(detected_controllers);
+}
 
 REGISTER_DETECTOR("KasaSmart", DetectKasaSmartControllers);

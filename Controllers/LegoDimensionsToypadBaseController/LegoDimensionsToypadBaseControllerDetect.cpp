@@ -23,17 +23,22 @@
 \*---------------------------------------------------------*/
 #define LEGO_DIMENSIONS_TOYPAD_BASE_PID                0x0241
 
-void DetectLegoDimensionsToypadBaseControllers(hid_device_info* info, const std::string& name)
+DetectedControllers DetectLegoDimensionsToypadBaseControllers(hid_device_info* info, const std::string& name)
 {
-    hid_device* dev = hid_open_path(info->path);
+    DetectedControllers detected_controllers;
+    hid_device*         dev;
+
+    dev = hid_open_path(info->path);
 
     if(dev)
     {
         LegoDimensionsToypadBaseController*     controller      = new LegoDimensionsToypadBaseController(dev, *info, name);
         RGBController_LegoDimensionsToypadBase* rgb_controller  = new RGBController_LegoDimensionsToypadBase(controller);
 
-        DetectionManager::get()->RegisterRGBController(rgb_controller);
+        detected_controllers.push_back(rgb_controller);
     }
+
+    return(detected_controllers);
 }
 
 REGISTER_HID_DETECTOR("Lego Dimensions Toypad Base", DetectLegoDimensionsToypadBaseControllers, LOGIC_3_VID, LEGO_DIMENSIONS_TOYPAD_BASE_PID);

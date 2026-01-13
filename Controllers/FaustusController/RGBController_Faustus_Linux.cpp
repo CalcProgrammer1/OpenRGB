@@ -154,43 +154,41 @@ void RGBController_Faustus::DeviceUpdateMode()
     DeviceUpdateLEDs();
 }
 
-void DetectFaustusControllers()
+DetectedControllers DetectFaustusControllers()
 {
-    const char* base_path = "/sys/devices/platform/faustus/kbbl";
-    DIR* dir = opendir(base_path);
+    DetectedControllers detected_controllers;
+    const char*         base_path   = "/sys/devices/platform/faustus/kbbl";
+    DIR*                dir         = opendir(base_path);
 
-    if(!dir)
+    if(dir)
     {
-        return;
-    }
+        // Directory is present - we pretty much have a driver confirmation already, but double check for all files required just in case
+        struct dirent* dent = readdir(dir);
 
-    // Directory is present - we pretty much have a driver confirmation already, but double check for all files required just in case
-    struct dirent* dent = readdir(dir);
-
-    if(!dent)
-    {
-        return;
-    }
-
-    int found = 0;
-    while(dent)
-    {
-        const char* fname = dent->d_name;
-        if(!strcmp(fname, "kbbl_red") || !strcmp(fname, "kbbl_green") || !strcmp(fname, "kbbl_blue") || !strcmp(fname, "kbbl_mode") || !strcmp(fname, "kbbl_flags") || !strcmp(fname, "kbbl_set"))
+        if(dent)
         {
-            ++found;
+            int found = 0;
+            while(dent)
+            {
+                const char* fname = dent->d_name;
+                if(!strcmp(fname, "kbbl_red") || !strcmp(fname, "kbbl_green") || !strcmp(fname, "kbbl_blue") || !strcmp(fname, "kbbl_mode") || !strcmp(fname, "kbbl_flags") || !strcmp(fname, "kbbl_set"))
+                {
+                    ++found;
+                }
+                dent = readdir(dir);
+            }
+
+            closedir(dir);
+
+            if(found == 6)
+            {
+                RGBController_Faustus * rgb_controller = new RGBController_Faustus(base_path);
+                detected_controllers.push_back(rgb_controller);
+            }
         }
-        dent = readdir(dir);
     }
 
-    closedir(dir);
-
-    if(found != 6)
-    {
-        return;
-    }
-
-    DetectionManager::get()->RegisterRGBController(new RGBController_Faustus(base_path));
-}   /* DetectFaustusControllers() */
+    return(detected_controllers);
+}
 
 REGISTER_DETECTOR("Faustus", DetectFaustusControllers);

@@ -9,12 +9,12 @@
 |   SPDX-License-Identifier: GPL-2.0-or-later               |
 \*---------------------------------------------------------*/
 
-#include "DetectionManager.h"
+#include <hidapi.h>
 #include "AlienwareAW3423DWFController.h"
 #include "AlienwareMonitorController.h"
+#include "DetectionManager.h"
 #include "RGBController_AlienwareAW3423DWF.h"
 #include "RGBController_AlienwareMonitor.h"
-#include <hidapi.h>
 
 /*---------------------------------------------------------*\
 | Alienware Vendor ID                                       |
@@ -29,37 +29,40 @@
 #define ALIENWARE_USAGE_PAGE                        0xFFDA
 #define ALIENWARE_USAGE                             0x00DA
 
-/******************************************************************************************\
-*                                                                                          *
-*   AlienwareAW3423DWFControllerDetect                                                     *
-*                                                                                          *
-*       Tests the USB address to see if an Alienware AW3423DWF exists there.               *
-*                                                                                          *
-\******************************************************************************************/
-
-void DetectAlienwareAW3423DWFControllers(hid_device_info* info, const std::string&)
+DetectedControllers DetectAlienwareAW3423DWFControllers(hid_device_info* info, const std::string&)
 {
-    hid_device* dev = hid_open_path(info->path);
+    DetectedControllers detected_controllers;
+    hid_device*         dev;
+
+    dev = hid_open_path(info->path);
+
     if(dev)
     {
         AlienwareAW3423DWFController*     controller     = new AlienwareAW3423DWFController(dev, info->path);
         RGBController_AlienwareAW3423DWF* rgb_controller = new RGBController_AlienwareAW3423DWF(controller);
 
-        DetectionManager::get()->RegisterRGBController(rgb_controller);
+        detected_controllers.push_back(rgb_controller);
     }
+
+    return(detected_controllers);
 }
 
-void DetectAlienwareMonitorControllers(hid_device_info* info, const std::string& name)
+DetectedControllers DetectAlienwareMonitorControllers(hid_device_info* info, const std::string& name)
 {
-    hid_device* dev = hid_open_path(info->path);
+    DetectedControllers detected_controllers;
+    hid_device*         dev;
+
+    dev = hid_open_path(info->path);
 
     if(dev)
     {
         AlienwareMonitorController*     controller     = new AlienwareMonitorController(dev, info->path, name);
         RGBController_AlienwareMonitor* rgb_controller = new RGBController_AlienwareMonitor(controller);
 
-        DetectionManager::get()->RegisterRGBController(rgb_controller);
+        detected_controllers.push_back(rgb_controller);
     }
+
+    return(detected_controllers);
 }
 
 REGISTER_HID_DETECTOR("Alienware AW3423DWF", DetectAlienwareAW3423DWFControllers, ALIENWARE_VID, ALIENWARE_AW3423DWF_PID);

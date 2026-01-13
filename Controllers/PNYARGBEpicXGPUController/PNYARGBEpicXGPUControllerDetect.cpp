@@ -17,26 +17,34 @@
 #include "PNYARGBEpicXGPUController.h"
 #include "RGBController_PNYARGBEpicXGPU.h"
 
-void DetectPNYARGBEpicXGPUSmallControllers(i2c_smbus_interface* bus, uint8_t i2c_addr, const std::string& name)
+DetectedControllers DetectPNYARGBEpicXGPUSmallControllers(i2c_smbus_interface* bus, uint8_t i2c_addr, const std::string& name)
 {
+    DetectedControllers detected_controllers;
+
     if(bus->port_id == 1)
     {
         PNYARGBEpicXGPUController*     controller     = new PNYARGBEpicXGPUController(bus, i2c_addr, name, false);
         RGBController_PNYARGBEpicXGPU* rgb_controller = new RGBController_PNYARGBEpicXGPU(controller);
 
-        DetectionManager::get()->RegisterRGBController(rgb_controller);
+        detected_controllers.push_back(rgb_controller);
     }
+
+    return(detected_controllers);
 }
 
-void DetectPNYARGBEpicXGPULargeControllers(i2c_smbus_interface* bus, uint8_t i2c_addr, const std::string& name)
+DetectedControllers DetectPNYARGBEpicXGPULargeControllers(i2c_smbus_interface* bus, uint8_t i2c_addr, const std::string& name)
 {
+    DetectedControllers detected_controllers;
+
     if(bus->port_id == 1)
     {
         PNYARGBEpicXGPUController*     controller     = new PNYARGBEpicXGPUController(bus, i2c_addr, name, true);
         RGBController_PNYARGBEpicXGPU* rgb_controller = new RGBController_PNYARGBEpicXGPU(controller);
 
-        DetectionManager::get()->RegisterRGBController(rgb_controller);
+        detected_controllers.push_back(rgb_controller);
     }
+
+    return(detected_controllers);
 }
 
 REGISTER_I2C_PCI_DETECTOR("PNY GeForce RTX 5070 ARGB Epic-X OC",   DetectPNYARGBEpicXGPUSmallControllers, NVIDIA_VEN, NVIDIA_RTX5070_DEV,   PNY_SUB_VEN, PNY_RTX_5070_ARGB_EPIC_X_OC_SUB_DEV,   0x60);

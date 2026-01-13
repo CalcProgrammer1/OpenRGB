@@ -15,28 +15,23 @@
 #include "RGBController.h"
 #include "RGBController_CorsairWireless.h"
 
-/*-----------------------------------------------------*\
-| Corsair vendor ID                                     |
-\*-----------------------------------------------------*/
+/*---------------------------------------------------------*\
+| Corsair vendor ID                                         |
+\*---------------------------------------------------------*/
 #define CORSAIR_VID                     0x1B1C
 
-/*-----------------------------------------------------*\
-| Keyboard product IDs                                  |
-\*-----------------------------------------------------*/
+/*---------------------------------------------------------*\
+| Keyboard product IDs                                      |
+\*---------------------------------------------------------*/
 #define CORSAIR_K57_RGB_WIRED_PID       0x1B6E
 #define CORSAIR_K57_RGB_WIRELESS_PID    0x1B62
 
-/******************************************************************************************\
-*                                                                                          *
-*   DetectCorsairWirelessControllers                                                       *
-*                                                                                          *
-*       Tests the USB address to see if a Corsair RGB Keyboard controller exists there.    *
-*                                                                                          *
-\******************************************************************************************/
-
-void DetectCorsairWirelessControllers(hid_device_info* info, const std::string& name)
+DetectedControllers DetectCorsairWirelessControllers(hid_device_info* info, const std::string& name)
 {
-    hid_device* dev = hid_open_path(info->path);
+    DetectedControllers detected_controllers;
+    hid_device*         dev;
+
+    dev = hid_open_path(info->path);
 
     if(dev)
     {
@@ -46,17 +41,19 @@ void DetectCorsairWirelessControllers(hid_device_info* info, const std::string& 
         if(controller->GetDeviceType() != DEVICE_TYPE_UNKNOWN)
         {
             RGBController_CorsairWireless* rgb_controller = new RGBController_CorsairWireless(controller);
-            DetectionManager::get()->RegisterRGBController(rgb_controller);
+            detected_controllers.push_back(rgb_controller);
         }
         else
         {
             delete controller;
         }
     }
-}   /* DetectCorsairWirelessControllers() */
 
-/*-----------------------------------------------------------------------------------------------------*\
-| Keyboards                                                                                             |
-\*-----------------------------------------------------------------------------------------------------*/
+    return(detected_controllers);
+}
+
+/*---------------------------------------------------------*\
+| Keyboards                                                 |
+\*---------------------------------------------------------*/
 REGISTER_HID_DETECTOR_IPU("Corsair K57 RGB (Wired)",         DetectCorsairWirelessControllers,   CORSAIR_VID,    CORSAIR_K57_RGB_WIRED_PID,     1,  0xFF42, 1);
 //REGISTER_HID_DETECTOR_IPU("Corsair K57 RGB (Wireless)",      DetectCorsairWirelessControllers,   CORSAIR_VID,    CORSAIR_K57_RGB_WIRELESS_PID,  1,  0xFF42, 1);

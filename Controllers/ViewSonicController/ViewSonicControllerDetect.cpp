@@ -16,36 +16,46 @@
 #include "VS_XG270QC_Controller.h"
 #include "RGBController_XG270QC.h"
 
-#define WINBOND_VID 0x0416
-#define VIEWSONIC_VID 0x0543
-#define VS_XG270QG_PID 0x5020
-#define VS_XG271QG_PID 0xA004
-#define VS_XG270QC_PID 0xA002
+#define WINBOND_VID     0x0416
+#define VIEWSONIC_VID   0x0543
+#define VS_XG270QG_PID  0x5020
+#define VS_XG271QG_PID  0xA004
+#define VS_XG270QC_PID  0xA002
 
-void DetectViewSonicQG(hid_device_info* info, const std::string& name)
+DetectedControllers DetectViewSonicQG(hid_device_info* info, const std::string& name)
 {
-    hid_device* dev = hid_open_path(info->path);
+    DetectedControllers detected_controllers;
+    hid_device*         dev;
+
+    dev = hid_open_path(info->path);
 
     if(dev)
     {
         VS_XG270QG_Controller* controller     = new VS_XG270QG_Controller(dev, info->path, name);
         RGBController_XG270QG* rgb_controller = new RGBController_XG270QG(controller);
 
-        DetectionManager::get()->RegisterRGBController(rgb_controller);
+        detected_controllers.push_back(rgb_controller);
     }
+
+    return(detected_controllers);
 }
 
-void DetectViewSonicQC(hid_device_info* info, const std::string& name)
+DetectedControllers DetectViewSonicQC(hid_device_info* info, const std::string& name)
 {
-    hid_device* dev = hid_open_path(info->path);
+    DetectedControllers detected_controllers;
+    hid_device*         dev;
+
+    dev = hid_open_path(info->path);
 
     if(dev)
     {
         VS_XG270QC_Controller* controller     = new VS_XG270QC_Controller(dev, info->path, name);
         RGBController_XG270QC* rgb_controller = new RGBController_XG270QC(controller);
 
-        DetectionManager::get()->RegisterRGBController(rgb_controller);
+        detected_controllers.push_back(rgb_controller);
     }
+
+    return(detected_controllers);
 }
 
 REGISTER_HID_DETECTOR_IPU("ViewSonic Monitor XG270QG", DetectViewSonicQG, WINBOND_VID,   VS_XG270QG_PID, 0, 0xFF00, 1);
