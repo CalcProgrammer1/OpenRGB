@@ -14,35 +14,33 @@
 #include "CherryKeyboardController.h"
 #include "RGBController_CherryKeyboard.h"
 
-/*-----------------------------------------------------*\
-| Cherry keyboard VID and usage page                    |
-\*-----------------------------------------------------*/
+/*---------------------------------------------------------*\
+| Cherry keyboard VID and usage page                        |
+\*---------------------------------------------------------*/
 #define CHERRY_KEYBOARD_VID                     0x046A
 #define CHERRY_KEYBOARD_USAGE_PAGE              0xFF1C
 
-/******************************************************************************************\
-*                                                                                          *
-*   DetectCherryKeyboards                                                                 *
-*                                                                                          *
-*       Tests the USB address to see if an Cherry RGB Keyboard controller exists there.   *
-*                                                                                          *
-\******************************************************************************************/
-
-void DetectCherryKeyboards(hid_device_info* info, const std::string& name)
+DetectedControllers DetectCherryKeyboards(hid_device_info* info, const std::string& name)
 {
-    hid_device* dev = hid_open_path(info->path);
-    if( dev )
+    DetectedControllers detected_controllers;
+    hid_device*         dev;
+
+    dev = hid_open_path(info->path);
+
+    if(dev)
     {
         CherryKeyboardController*     controller     = new CherryKeyboardController(dev, info->path, name);
         RGBController_CherryKeyboard* rgb_controller = new RGBController_CherryKeyboard(controller, info->product_id);
 
-        DetectionManager::get()->RegisterRGBController(rgb_controller);
+        detected_controllers.push_back(rgb_controller);
     }
+
+    return(detected_controllers);
 }
 
-/*---------------------------------------------------------------------------------------------------------------------------------------------*\
-| Keyboards                                                                                                                                     |
-\*---------------------------------------------------------------------------------------------------------------------------------------------*/
+/*---------------------------------------------------------*\
+| Keyboards                                                 |
+\*---------------------------------------------------------*/
 REGISTER_HID_DETECTOR_IP("Cherry Keyboard MX BOARD 3.0S FL NBL",        DetectCherryKeyboards, CHERRY_KEYBOARD_VID,   MX_BOARD_3_0S_FL_NBL_PID    , 1, CHERRY_KEYBOARD_USAGE_PAGE);
 REGISTER_HID_DETECTOR_IP("Cherry Keyboard MX BOARD 3.0S FL RGB",        DetectCherryKeyboards, CHERRY_KEYBOARD_VID,   MX_BOARD_3_0S_FL_RGB_PID    , 1, CHERRY_KEYBOARD_USAGE_PAGE);
 REGISTER_HID_DETECTOR_IP("Cherry Keyboard MX BOARD 3.0S FL RGB KOREAN", DetectCherryKeyboards, CHERRY_KEYBOARD_VID,   MX_BOARD_3_0S_FL_RGB_KOR_PID, 1, CHERRY_KEYBOARD_USAGE_PAGE);

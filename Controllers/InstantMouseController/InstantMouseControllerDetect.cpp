@@ -10,22 +10,26 @@
 \*---------------------------------------------------------*/
 
 #include "DetectionManager.h"
+#include "InstantMouseDevices.h"
 #include "InstantMouseController.h"
 #include "RGBController_InstantMouse.h"
-#include "InstantMouseDevices.h"
 
-
-void DetectInstantMouseControllers(hid_device_info* info, const std::string& name)
+DetectedControllers DetectInstantMouseControllers(hid_device_info* info, const std::string& name)
 {
-    hid_device* dev = hid_open_path(info->path);
+    DetectedControllers detected_controllers;
+    hid_device*         dev;
+
+    dev = hid_open_path(info->path);
 
     if(dev)
     {
         InstantMouseController*     controller         = new InstantMouseController(dev, *info, name);
         RGBController_InstantMouse* rgb_controller     = new RGBController_InstantMouse(controller);
 
-        DetectionManager::get()->RegisterRGBController(rgb_controller);
+        detected_controllers.push_back(rgb_controller);
     }
+
+    return(detected_controllers);
 }
 
 REGISTER_HID_DETECTOR_IPU("Advanced GTA 250 USB Gaming Mouse",  DetectInstantMouseControllers,  INSTANT_MICROELECTRONICS_VID, ADVANCED_GTA_250_PID, 1, 0xFF01, 0x01);

@@ -15,14 +15,15 @@
 #include <stdlib.h>
 #include <vector>
 #include <hidapi.h>
-#include "serial_port.h"
-#include "find_usb_serial_port.h"
-#include "RGBController_JGINYUEInternalUSBV2.h"
-#include "JGINYUEInternalUSBV2Controller.h"
-#include "RGBController.h"
 #include "DetectionManager.h"
 #include "dmiinfo.h"
+#include "find_usb_serial_port.h"
+#include "JGINYUEInternalUSBV2Controller.h"
 #include "LogManager.h"
+#include "RGBController_JGINYUEInternalUSBV2.h"
+#include "RGBController.h"
+#include "serial_port.h"
+
 /*---------------------------------------------------------*\
 | JGINYUE vendor ID                                         |
 \*---------------------------------------------------------*/
@@ -33,63 +34,65 @@
 \*---------------------------------------------------------*/
 #define JGINYUE_MOTHERBOARD_PID_V2                     0xE30B
 
-void DetectJGINYUEInternalUSBV2Controller(hid_device_info* info,const std::string& /*name*/)
+DetectedControllers DetectJGINYUEInternalUSBV2Controller(hid_device_info* info,const std::string& /*name*/)
 {
-    hid_device* hid_dev = hid_open_path(info->path);
-    if(hid_dev == nullptr )
-    {
-        return;
-    }
+    DetectedControllers detected_controllers;
+    hid_device*         dev;
+    DMIInfo             dmi_info;
+    std::string         manufacturer = dmi_info.getManufacturer();
 
-    DMIInfo dmi_info;
-    std::string  manufacturer = dmi_info.getManufacturer();
     std::transform(manufacturer.begin(), manufacturer.end(), manufacturer.begin(), ::toupper);
-    if(manufacturer.find("JGINYUE") == std::string::npos)
+
+    if(manufacturer.find("JGINYUE") != std::string::npos)
+    {
+        LOG_INFO("[JGINYUEInternalUSBV2ControllerDetect] Pass manufacture name check.Start to init HID and CDC interface");
+
+        if(dev)
+        {
+            serial_port *port = nullptr;
+            std::vector<std::string*> serial_ports = find_usb_serial_port(JGINYUE_VID_V2, JGINYUE_MOTHERBOARD_PID_V2);
+
+            if(serial_ports.size() == 0)
+            {
+                LOG_WARNING("[JGINYUEInternalUSBV2ControllerDetect] JGINYUE device found but no serial port detected - Direct mode will be unavailable");
+            }
+            else if(serial_ports.size() > 1)
+            {
+                LOG_WARNING("[JGINYUEInternalUSBV2ControllerDetect] Multiple serial ports found for JGINYUE device, using first one");
+            }
+
+            if(serial_ports.size() >= 1)
+            {
+                port = new serial_port();
+                if(!port->serial_open(serial_ports[0]->c_str(), 115200))
+                {
+                    LOG_WARNING("[JGINYUEInternalUSBV2ControllerDetect] Failed to open serial port %s - Direct mode will be unavailable. HID modes will still work.", serial_ports[0]->c_str());
+                    delete port;
+                    port = nullptr;
+                }
+            }
+
+            /*---------------------------------------------*\
+            | Clean up serial port string vector            |
+            \*---------------------------------------------*/
+            for(std::string* str_ptr : serial_ports)
+            {
+                delete str_ptr;
+            }
+
+            JGINYUEInternalUSBV2Controller *     controller     = new JGINYUEInternalUSBV2Controller(dev, info->path, port);
+            RGBController_JGINYUEInternalUSBV2 * rgb_controller = new RGBController_JGINYUEInternalUSBV2(controller);
+
+            detected_controllers.push_back(rgb_controller);
+        }
+    }
+    else
     {
         LOG_INFO("[JGINYUEInternalUSBV2ControllerDetect] JGINYUE Internal USB ControllerV2 not found,error manufacturer name:%s",manufacturer.c_str());
-        hid_close(hid_dev);
-        return;
+        hid_close(dev);
     }
-    LOG_INFO("[JGINYUEInternalUSBV2ControllerDetect] Pass manufacture name check.Start to init HID and CDC interface");
 
-
-    if(hid_dev != nullptr )
-    {
-        serial_port *port = nullptr;
-        std::vector<std::string*> serial_ports = find_usb_serial_port(JGINYUE_VID_V2, JGINYUE_MOTHERBOARD_PID_V2);
-
-        if(serial_ports.size() == 0)
-        {
-            LOG_WARNING("[JGINYUEInternalUSBV2ControllerDetect] JGINYUE device found but no serial port detected - Direct mode will be unavailable");
-        }
-        else if(serial_ports.size() > 1)
-        {
-            LOG_WARNING("[JGINYUEInternalUSBV2ControllerDetect] Multiple serial ports found for JGINYUE device, using first one");
-        }
-
-        if(serial_ports.size() >= 1)
-        {
-            port = new serial_port();
-            if(!port->serial_open(serial_ports[0]->c_str(), 115200))
-            {
-                LOG_WARNING("[JGINYUEInternalUSBV2ControllerDetect] Failed to open serial port %s - Direct mode will be unavailable. HID modes will still work.", serial_ports[0]->c_str());
-                delete port;
-                port = nullptr;
-            }
-        }
-
-        /*-----------------------------------------------------*\
-        | Clean up serial port string vector                    |
-        \*-----------------------------------------------------*/
-        for(std::string* str_ptr : serial_ports)
-        {
-            delete str_ptr;
-        }
-
-        JGINYUEInternalUSBV2Controller *controller = new JGINYUEInternalUSBV2Controller(hid_dev, info->path, port);
-        RGBController_JGINYUEInternalUSBV2 *rgb_controller = new RGBController_JGINYUEInternalUSBV2(controller);
-        DetectionManager::get()->RegisterRGBController(rgb_controller);
-    }
+    return(detected_controllers);
 }
 
 #ifdef _WIN32

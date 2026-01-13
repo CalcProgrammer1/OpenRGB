@@ -66,17 +66,22 @@
 \*-----------------------------------------------------------------*/
 #define ROCCAT_ELO_PID              0x3A34
 
-void DetectRoccatMouseControllers(hid_device_info* info, const std::string& name)
+DetectedControllers DetectRoccatMouseControllers(hid_device_info* info, const std::string& name)
 {
-    hid_device* dev = hid_open_path(info->path);
+    DetectedControllers detected_controllers;
+    hid_device*         dev;
+
+    dev = hid_open_path(info->path);
 
     if(dev)
     {
         RoccatKoneAimoController *     controller     = new RoccatKoneAimoController(dev, info->path, name);
         RGBController_RoccatKoneAimo * rgb_controller = new RGBController_RoccatKoneAimo(controller);
 
-        DetectionManager::get()->RegisterRGBController(rgb_controller);
+        detected_controllers.push_back(rgb_controller);
     }
+
+    return(detected_controllers);
 }
 
 /*---------------------------------------------------------------------------------*\
@@ -93,8 +98,10 @@ void ResetRoccatVulcanKeyboardControllersPaths()
     used_paths.clear();
 }
 
-void DetectRoccatVulcanKeyboardControllers(hid_device_info* info, const std::string& name)
+DetectedControllers DetectRoccatVulcanKeyboardControllers(hid_device_info* info, const std::string& name)
 {
+    DetectedControllers detected_controllers;
+
     /*-------------------------------------------------------------------------------------------------*\
     | Create a local copy of the HID enumerations for the Roccat Vulcan Keyboard VID/PID and iterate    |
     | through it.  This prevents detection from failing if interface 1 comes before interface 0 in the  |
@@ -178,7 +185,7 @@ void DetectRoccatVulcanKeyboardControllers(hid_device_info* info, const std::str
         RoccatVulcanKeyboardController *     controller     = new RoccatVulcanKeyboardController(dev_ctrl, dev_led, info->path, info->product_id, name);
         RGBController_RoccatVulcanKeyboard * rgb_controller = new RGBController_RoccatVulcanKeyboard(controller);
 
-        DetectionManager::get()->RegisterRGBController(rgb_controller);
+        detected_controllers.push_back(rgb_controller);
 
         used_paths.insert(dev_ctrl_path);
         used_paths.insert(dev_led_path);
@@ -189,136 +196,188 @@ void DetectRoccatVulcanKeyboardControllers(hid_device_info* info, const std::str
         hid_close(dev_ctrl);
         hid_close(dev_led);
     }
+
+    return(detected_controllers);
 }
 
-void DetectRoccatHordeAimoKeyboardControllers(hid_device_info* info, const std::string& name)
+DetectedControllers DetectRoccatHordeAimoKeyboardControllers(hid_device_info* info, const std::string& name)
 {
-    hid_device* dev = hid_open_path(info->path);
+    DetectedControllers detected_controllers;
+    hid_device*         dev;
+
+    dev = hid_open_path(info->path);
 
     if(dev)
     {
         RoccatHordeAimoController *     controller      = new RoccatHordeAimoController(dev, *info, name);
         RGBController_RoccatHordeAimo * rgb_controller  = new RGBController_RoccatHordeAimo(controller);
 
-        DetectionManager::get()->RegisterRGBController(rgb_controller);
+        detected_controllers.push_back(rgb_controller);
     }
+
+    return(detected_controllers);
 }
 
-void DetectRoccatBurstCoreControllers(hid_device_info* info, const std::string& name)
+DetectedControllers DetectRoccatBurstCoreControllers(hid_device_info* info, const std::string& name)
 {
-    hid_device* dev = hid_open_path(info->path);
+    DetectedControllers detected_controllers;
+    hid_device*         dev;
+
+    dev = hid_open_path(info->path);
 
     if(dev)
     {
         RoccatBurstController *     controller          = new RoccatBurstController(dev, *info, name);
         RGBController_RoccatBurst * rgb_controller      = new RGBController_RoccatBurst(controller, ROCCAT_BURST_CORE_NUMBER_OF_LEDS);
 
-        DetectionManager::get()->RegisterRGBController(rgb_controller);
+        detected_controllers.push_back(rgb_controller);
     }
+
+    return(detected_controllers);
 }
 
-void DetectRoccatBurstProControllers(hid_device_info* info, const std::string& name)
+DetectedControllers DetectRoccatBurstProControllers(hid_device_info* info, const std::string& name)
 {
-    hid_device* dev = hid_open_path(info->path);
+    DetectedControllers detected_controllers;
+    hid_device*         dev;
+
+    dev = hid_open_path(info->path);
 
     if(dev)
     {
         RoccatBurstController *     controller          = new RoccatBurstController(dev, *info, name);
         RGBController_RoccatBurst * rgb_controller      = new RGBController_RoccatBurst(controller, ROCCAT_BURST_PRO_NUMBER_OF_LEDS);
 
-        DetectionManager::get()->RegisterRGBController(rgb_controller);
+        detected_controllers.push_back(rgb_controller);
     }
+
+    return(detected_controllers);
 }
 
-void DetectRoccatBurstProAirControllers(hid_device_info* info, const std::string& name)
+DetectedControllers DetectRoccatBurstProAirControllers(hid_device_info* info, const std::string& name)
 {
-    hid_device* dev = hid_open_path(info->path);
+    DetectedControllers detected_controllers;
+    hid_device*         dev;
+
+    dev = hid_open_path(info->path);
 
     if(dev)
     {
-        RoccatBurstProAirController *    controller      = new RoccatBurstProAirController(dev, *info, name);
+        RoccatBurstProAirController *     controller     = new RoccatBurstProAirController(dev, *info, name);
         RGBController_RoccatBurstProAir * rgb_controller = new RGBController_RoccatBurstProAir(controller);
 
-        DetectionManager::get()->RegisterRGBController(rgb_controller);
+        detected_controllers.push_back(rgb_controller);
     }
+
+    return(detected_controllers);
 }
 
-void DetectRoccatKoneProControllers(hid_device_info* info, const std::string& name)
+DetectedControllers DetectRoccatKoneProControllers(hid_device_info* info, const std::string& name)
 {
-    hid_device* dev = hid_open_path(info->path);
+    DetectedControllers detected_controllers;
+    hid_device*         dev;
+
+    dev = hid_open_path(info->path);
 
     if(dev)
     {
         RoccatKoneProController *     controller          = new RoccatKoneProController(dev, *info, name);
         RGBController_RoccatKonePro * rgb_controller      = new RGBController_RoccatKonePro(controller);
 
-        DetectionManager::get()->RegisterRGBController(rgb_controller);
+        detected_controllers.push_back(rgb_controller);
     }
+
+    return(detected_controllers);
 }
 
-void DetectRoccatKoneProAirControllers(hid_device_info* info, const std::string& name)
+DetectedControllers DetectRoccatKoneProAirControllers(hid_device_info* info, const std::string& name)
 {
-    hid_device* dev = hid_open_path(info->path);
+    DetectedControllers detected_controllers;
+    hid_device*         dev;
+
+    dev = hid_open_path(info->path);
 
     if(dev)
     {
         RoccatKoneProAirController *     controller       = new RoccatKoneProAirController(dev, *info, name);
         RGBController_RoccatKoneProAir * rgb_controller   = new RGBController_RoccatKoneProAir(controller);
 
-        DetectionManager::get()->RegisterRGBController(rgb_controller);
+        detected_controllers.push_back(rgb_controller);
     }
+
+    return(detected_controllers);
 }
 
-void DetectRoccatKoneXPControllers(hid_device_info* info, const std::string& name)
+DetectedControllers DetectRoccatKoneXPControllers(hid_device_info* info, const std::string& name)
 {
-    hid_device* dev = hid_open_path(info->path);
+    DetectedControllers detected_controllers;
+    hid_device*         dev;
+
+    dev = hid_open_path(info->path);
 
     if(dev)
     {
         RoccatKoneXPController *     controller          = new RoccatKoneXPController(dev, info->path, name);
         RGBController_RoccatKoneXP * rgb_controller      = new RGBController_RoccatKoneXP(controller);
 
-        DetectionManager::get()->RegisterRGBController(rgb_controller);
+        detected_controllers.push_back(rgb_controller);
     }
+
+    return(detected_controllers);
 }
 
-void DetectRoccatKovaControllers(hid_device_info* info, const std::string& name)
+DetectedControllers DetectRoccatKovaControllers(hid_device_info* info, const std::string& name)
 {
-    hid_device* dev = hid_open_path(info->path);
+    DetectedControllers detected_controllers;
+    hid_device*         dev;
+
+    dev = hid_open_path(info->path);
 
     if(dev)
     {
         RoccatKovaController *     controller           = new RoccatKovaController(dev, info->path, name);
         RGBController_RoccatKova * rgb_controller       = new RGBController_RoccatKova(controller);
 
-        DetectionManager::get()->RegisterRGBController(rgb_controller);
+        detected_controllers.push_back(rgb_controller);
     }
+
+    return(detected_controllers);
 }
 
-void DetectRoccatEloControllers(hid_device_info* info, const std::string& name)
+DetectedControllers DetectRoccatEloControllers(hid_device_info* info, const std::string& name)
 {
-    hid_device* dev = hid_open_path(info->path);
+    DetectedControllers detected_controllers;
+    hid_device*         dev;
+
+    dev = hid_open_path(info->path);
 
     if(dev)
     {
         RoccatEloController *      controller           = new RoccatEloController(dev, *info, name);
         RGBController_RoccatElo  * rgb_controller       = new RGBController_RoccatElo(controller);
 
-        DetectionManager::get()->RegisterRGBController(rgb_controller);
+        detected_controllers.push_back(rgb_controller);
     }
+
+    return(detected_controllers);
 }
 
-void DetectRoccatSenseAimoControllers(hid_device_info* info, const std::string& name)
+DetectedControllers DetectRoccatSenseAimoControllers(hid_device_info* info, const std::string& name)
 {
-    hid_device* dev = hid_open_path(info->path);
+    DetectedControllers detected_controllers;
+    hid_device*         dev;
+
+    dev = hid_open_path(info->path);
 
     if(dev)
     {
         RoccatSenseAimoController *     controller      = new RoccatSenseAimoController(dev, info->path, name);
         RGBController_RoccatSenseAimo * rgb_controller  = new RGBController_RoccatSenseAimo(controller);
 
-        DetectionManager::get()->RegisterRGBController(rgb_controller);
+        detected_controllers.push_back(rgb_controller);
     }
+
+    return(detected_controllers);
 }
 
 REGISTER_PRE_DETECTION_HOOK(ResetRoccatVulcanKeyboardControllersPaths);

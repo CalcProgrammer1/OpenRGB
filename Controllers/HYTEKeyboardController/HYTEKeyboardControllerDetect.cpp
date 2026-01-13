@@ -24,17 +24,22 @@
 \*---------------------------------------------------------*/
 #define HYTE_KEEB_TKL_PID                           0x0300
 
-void DetectHYTEKeyboard(hid_device_info* info, const std::string& name)
+DetectedControllers DetectHYTEKeyboard(hid_device_info* info, const std::string& name)
 {
-    hid_device* dev = hid_open_path(info->path);
+    DetectedControllers detected_controllers;
+    hid_device*         dev;
+
+    dev = hid_open_path(info->path);
 
     if(dev)
     {
         HYTEKeyboardController*     controller     = new HYTEKeyboardController(dev, info->path, name);
         RGBController_HYTEKeyboard* rgb_controller = new RGBController_HYTEKeyboard(controller);
 
-        DetectionManager::get()->RegisterRGBController(rgb_controller);
+        detected_controllers.push_back(rgb_controller);
     }
+
+    return(detected_controllers);
 }
 
 REGISTER_HID_DETECTOR_PU("HYTE Keeb TKL", DetectHYTEKeyboard, HYTE_VID, HYTE_KEEB_TKL_PID, 0xFF11, 0xF0);

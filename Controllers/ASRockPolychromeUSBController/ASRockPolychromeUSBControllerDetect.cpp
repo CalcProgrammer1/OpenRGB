@@ -11,8 +11,8 @@
 \*---------------------------------------------------------*/
 
 #include <hidapi.h>
-#include "DetectionManager.h"
 #include "ASRockPolychromeUSBController.h"
+#include "DetectionManager.h"
 #include "RGBController_ASRockPolychromeUSB.h"
 
 /*---------------------------------------------------------*\
@@ -26,16 +26,22 @@
 #define ASROCK_MOTHERBOARD_1_PID                    0x01A2
 #define ASROCK_DESKMINI_ADDRESSABLE_LED_STRIP_PID   0x01A6
 
-void DetectPolychromeUSBControllers(hid_device_info* info, const std::string& /*name*/)
+DetectedControllers DetectPolychromeUSBControllers(hid_device_info* info, const std::string& /*name*/)
 {
-    hid_device* dev = hid_open_path(info->path);
+    DetectedControllers detected_controllers;
+    hid_device*         dev;
+
+    dev = hid_open_path(info->path);
 
     if(dev)
     {
         PolychromeUSBController*     controller     = new PolychromeUSBController(dev, info->path);
         RGBController_PolychromeUSB* rgb_controller = new RGBController_PolychromeUSB(controller);
-        DetectionManager::get()->RegisterRGBController(rgb_controller);
+
+        detected_controllers.push_back(rgb_controller);
     }
+
+    return(detected_controllers);
 }
 
 REGISTER_HID_DETECTOR("ASRock Polychrome USB",                  DetectPolychromeUSBControllers, ASROCK_VID, ASROCK_MOTHERBOARD_1_PID);

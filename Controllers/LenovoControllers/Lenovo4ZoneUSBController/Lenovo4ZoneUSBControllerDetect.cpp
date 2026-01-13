@@ -13,31 +13,36 @@
 #include "LenovoDevices4Zone.h"
 #include "RGBController_Lenovo4ZoneUSB.h"
 
-/*-----------------------------------------------------*\
-| vendor IDs                                            |
-\*-----------------------------------------------------*/
+/*---------------------------------------------------------*\
+| vendor IDs                                                |
+\*---------------------------------------------------------*/
 #define ITE_VID                                 0x048D
 
-/*-----------------------------------------------------*\
-| Interface, Usage, and Usage Page                      |
-\*-----------------------------------------------------*/
+/*---------------------------------------------------------*\
+| Interface, Usage, and Usage Page                          |
+\*---------------------------------------------------------*/
 enum
 {
     LENOVO_PAGE  = 0xFF89,
     LENOVO_USAGE = 0xCC
 };
 
-void DetectLenovo4ZoneUSBControllers(hid_device_info* info, const std::string& name)
+DetectedControllers DetectLenovo4ZoneUSBControllers(hid_device_info* info, const std::string& name)
 {
-    hid_device* dev = hid_open_path(info->path);
+    DetectedControllers detected_controllers;
+    hid_device*         dev;
+
+    dev = hid_open_path(info->path);
 
     if(dev)
     {
         Lenovo4ZoneUSBController*     controller      = new Lenovo4ZoneUSBController(dev, info->path, info->product_id, name);
         RGBController_Lenovo4ZoneUSB* rgb_controller  = new RGBController_Lenovo4ZoneUSB(controller);
 
-        DetectionManager::get()->RegisterRGBController(rgb_controller);
+        detected_controllers.push_back(rgb_controller);
     }
+
+    return(detected_controllers);
 }
 
 REGISTER_HID_DETECTOR_PU("Lenovo Ideapad 3-15ach6", DetectLenovo4ZoneUSBControllers, ITE_VID, IDEAPAD_315ACH6,              LENOVO_PAGE, LENOVO_USAGE);
