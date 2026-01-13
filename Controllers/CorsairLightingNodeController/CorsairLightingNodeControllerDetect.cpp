@@ -10,8 +10,8 @@
 \*---------------------------------------------------------*/
 
 #include <hidapi.h>
-#include "DetectionManager.h"
 #include "CorsairLightingNodeController.h"
+#include "DetectionManager.h"
 #include "RGBController_CorsairLightingNode.h"
 
 #define CORSAIR_VID                     0x1B1C
@@ -23,26 +23,23 @@
 #define CORSAIR_SPEC_OMEGA_RGB_PID      0x1D04
 #define CORSAIR_LT100_PID               0x0C23
 
-/******************************************************************************************\
-*                                                                                          *
-*   DetectCorsairLightingNodeControllers                                                   *
-*                                                                                          *
-*       Detect devices supported by the Corsair Lighting Node Pro driver                   *
-*                                                                                          *
-\******************************************************************************************/
-
-void DetectCorsairLightingNodeControllers(hid_device_info* info, const std::string& name)
+DetectedControllers DetectCorsairLightingNodeControllers(hid_device_info* info, const std::string& name)
 {
-    hid_device* dev = hid_open_path(info->path);
+    DetectedControllers detected_controllers;
+    hid_device*         dev;
+
+    dev = hid_open_path(info->path);
 
     if(dev)
     {
         CorsairLightingNodeController*     controller     = new CorsairLightingNodeController(dev, info->path, name);
         RGBController_CorsairLightingNode* rgb_controller = new RGBController_CorsairLightingNode(controller);
 
-        DetectionManager::get()->RegisterRGBController(rgb_controller);
+        detected_controllers.push_back(rgb_controller);
     }
-}   /* DetectCorsairLightingNodeControllers() */
+
+    return(detected_controllers);
+}
 
 REGISTER_HID_DETECTOR("Corsair Lighting Node Core", DetectCorsairLightingNodeControllers, CORSAIR_VID, CORSAIR_LIGHTING_NODE_CORE_PID); // 1 channel
 REGISTER_HID_DETECTOR("Corsair Lighting Node Pro",  DetectCorsairLightingNodeControllers, CORSAIR_VID, CORSAIR_LIGHTING_NODE_PRO_PID);  // 2 channels

@@ -23,17 +23,22 @@
 \*---------------------------------------------------------*/
 #define MSI_OPTIX_MAG274QRF_PID                        0x3FA4
 
-void DetectMSIOptixControllers(hid_device_info* info, const std::string& name)
+DetectedControllers DetectMSIOptixControllers(hid_device_info* info, const std::string& name)
 {
-    hid_device* dev = hid_open_path(info->path);
+    DetectedControllers detected_controllers;
+    hid_device*         dev;
+
+    dev = hid_open_path(info->path);
 
     if(dev)
     {
         MSIOptixController*     controller      = new MSIOptixController(dev, *info, name);
         RGBController_MSIOptix* rgb_controller  = new RGBController_MSIOptix(controller);
 
-        DetectionManager::get()->RegisterRGBController(rgb_controller);
+        detected_controllers.push_back(rgb_controller);
     }
+
+    return(detected_controllers);
 }
 
 REGISTER_HID_DETECTOR_IPU("MSI Optix controller", DetectMSIOptixControllers, MSI_VID, MSI_OPTIX_MAG274QRF_PID, 0, 0xFF00, 1);

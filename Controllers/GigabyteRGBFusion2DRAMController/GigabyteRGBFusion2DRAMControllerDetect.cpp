@@ -12,20 +12,11 @@
 #include <string>
 #include <vector>
 #include "DetectionManager.h"
-#include "LogManager.h"
 #include "GigabyteRGBFusion2DRAMController.h"
-#include "RGBController_GigabyteRGBFusion2DRAM.h"
 #include "i2c_smbus.h"
+#include "LogManager.h"
 #include "pci_ids.h"
-
-/******************************************************************************************\
-*                                                                                          *
-*   TestForGigabyteRGBFusion2DRAMController                                                *
-*                                                                                          *
-*       Tests the given address to see if an RGB 2 Fusion DRAMcontroller exists there.     *
-*       First does a quick write to test for a response                                    *
-*                                                                                          *
-\******************************************************************************************/
+#include "RGBController_GigabyteRGBFusion2DRAM.h"
 
 bool TestForGigabyteRGBFusion2DRAMController(i2c_smbus_interface* bus, unsigned char address)
 {
@@ -55,22 +46,12 @@ bool TestForGigabyteRGBFusion2DRAMController(i2c_smbus_interface* bus, unsigned 
     }
 
     return(pass);
+}
 
-}   /* TestForGigabyteRGBFusion2DRAMController() */
-
-/***********************************************************************************************\
-*                                                                                               *
-*   DetectGigabyteRGBFusion2DRAMControllers                                                     *
-*                                                                                               *
-*       Detect Gigabyte RGB Fusion 2 controllers on the enumerated I2C buses at address 0x67.   *
-*                                                                                               *
-*           bus - pointer to i2c_smbus_interface where RGB Fusion device is connected           *
-*           dev - I2C address of RGB Fusion device                                              *
-*                                                                                               *
-\***********************************************************************************************/
-
-void DetectGigabyteRGBFusion2DRAMControllers(std::vector<i2c_smbus_interface*>& busses)
+DetectedControllers DetectGigabyteRGBFusion2DRAMControllers(std::vector<i2c_smbus_interface*>& busses)
 {
+    DetectedControllers detected_controllers;
+
     for(unsigned int bus = 0; bus < busses.size(); bus++)
     {
         IF_DRAM_SMBUS(busses[bus]->pci_vendor, busses[bus]->pci_device)
@@ -81,11 +62,12 @@ void DetectGigabyteRGBFusion2DRAMControllers(std::vector<i2c_smbus_interface*>& 
                 RGBFusion2DRAMController*     controller     = new RGBFusion2DRAMController(busses[bus], 0x67);
                 RGBController_RGBFusion2DRAM* rgb_controller = new RGBController_RGBFusion2DRAM(controller);
 
-                DetectionManager::get()->RegisterRGBController(rgb_controller);
+                detected_controllers.push_back(rgb_controller);
             }
         }
     }
 
-}   /* DetectGigabyteRGBFusion2DRAMControllers() */
+    return(detected_controllers);
+}
 
 REGISTER_I2C_DETECTOR("Gigabyte RGB Fusion 2 DRAM", DetectGigabyteRGBFusion2DRAMControllers);

@@ -23,17 +23,22 @@
 \*---------------------------------------------------------*/
 #define KEYCHRON_K3_V2_OPTICAL_RGB_PID                 0x024F
 
-void DetectKeychronKeyboardControllers(hid_device_info* info, const std::string& name)
+DetectedControllers DetectKeychronKeyboardControllers(hid_device_info* info, const std::string& name)
 {
-    hid_device* dev = hid_open_path(info->path);
+    DetectedControllers detected_controllers;
+    hid_device*         dev;
+
+    dev = hid_open_path(info->path);
 
     if(dev)
     {
         KeychronKeyboardController*     controller      = new KeychronKeyboardController(dev, *info, name);
         RGBController_KeychronKeyboard* rgb_controller  = new RGBController_KeychronKeyboard(controller);
 
-        DetectionManager::get()->RegisterRGBController(rgb_controller);
+        detected_controllers.push_back(rgb_controller);
     }
+
+    return(detected_controllers);
 }
 
 REGISTER_HID_DETECTOR_IPU("Keychron Gaming Keyboard 1", DetectKeychronKeyboardControllers, KEYCHRON_KEYBOARD_VID, KEYCHRON_K3_V2_OPTICAL_RGB_PID, 0, 0x0001, 0x06);

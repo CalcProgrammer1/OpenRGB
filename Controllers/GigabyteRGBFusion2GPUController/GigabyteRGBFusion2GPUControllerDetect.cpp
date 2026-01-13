@@ -10,22 +10,13 @@
 #include <stdio.h>
 #include "DetectionManager.h"
 #include "GigabyteRGBFusion2GPUController.h"
-#include "LogManager.h"
-#include "RGBController_GigabyteRGBFusion2GPU.h"
 #include "i2c_amd_gpu.h"
 #include "i2c_smbus.h"
+#include "LogManager.h"
 #include "pci_ids.h"
+#include "RGBController_GigabyteRGBFusion2GPU.h"
 
 #define GIGABYTEGPU_CONTROLLER_NAME2    "Gigabyte RGB Fusion2 GPU"
-
-/******************************************************************************************\
-*                                                                                          *
-*   TestForGigabyteRGBFusion2GPUController                                                 *
-*                                                                                          *
-*       Tests the given address to see if an RGB Fusion2 controller exists there.  First   *
-*       does a quick write to test for a response                                          *
-*                                                                                          *
-\******************************************************************************************/
 
 bool TestForGigabyteRGBFusion2GPUController(i2c_smbus_interface* bus, unsigned char address)
 {
@@ -79,35 +70,27 @@ bool TestForGigabyteRGBFusion2GPUController(i2c_smbus_interface* bus, unsigned c
     }
 
     return(pass);
-}   /* TestForRGBFusion2GPUController() */
+}
 
-/*******************************************************************************************\
-*                                                                                           *
-*   DetectRGBFusion2GPUControllers                                                          *
-*                                                                                           *
-*       Detect GigabyteRGB Fusion2 controllers on the enumerated I2C busses at address 0x70.*
-*                                                                                           *
-*           bus - pointer to i2c_smbus_interface where RGB Fusion2 device is connected      *
-*           dev - I2C address of RGB Fusion2 device                                         *
-*                                                                                           *
-\*******************************************************************************************/
-
-void DetectGigabyteRGBFusion2GPUControllers(i2c_smbus_interface* bus, uint8_t i2c_addr, const std::string& name)
+DetectedControllers DetectGigabyteRGBFusion2GPUControllers(i2c_smbus_interface* bus, uint8_t i2c_addr, const std::string& name)
 {
+    DetectedControllers detected_controllers;
+
     // Check for RGB Fusion2 controller
     if(TestForGigabyteRGBFusion2GPUController(bus, i2c_addr))
     {
         RGBFusion2GPUController*     controller     = new RGBFusion2GPUController(bus, i2c_addr, name);
         RGBController_RGBFusion2GPU* rgb_controller = new RGBController_RGBFusion2GPU(controller);
 
-        DetectionManager::get()->RegisterRGBController(rgb_controller);
+        detected_controllers.push_back(rgb_controller);
     }
-}   /* DetectGigabyteRGBFusion2GPUControllers() */
 
-/*-----------------------------------------*\
-|  Nvidia GPUs                              |
-\*-----------------------------------------*/
+    return(detected_controllers);
+}
 
+/*---------------------------------------------------------*\
+|  Nvidia GPUs                                              |
+\*---------------------------------------------------------*/
 REGISTER_I2C_PCI_DETECTOR("Gigabyte AORUS GeForce RTX 2060 SUPER",                     DetectGigabyteRGBFusion2GPUControllers, NVIDIA_VEN, NVIDIA_RTX2060S_OC_DEV,     GIGABYTE_SUB_VEN,   GIGABYTE_AORUS_RTX2060S_V1_SUB_DEV_H,           0x50);
 REGISTER_I2C_PCI_DETECTOR("Gigabyte AORUS GeForce RTX 2060 SUPER",                     DetectGigabyteRGBFusion2GPUControllers, NVIDIA_VEN, NVIDIA_RTX2060S_OC_DEV,     GIGABYTE_SUB_VEN,   GIGABYTE_AORUS_RTX2060S_V1_SUB_DEV_P,           0x50);
 REGISTER_I2C_PCI_DETECTOR("Gigabyte AORUS GeForce RTX 2070",                           DetectGigabyteRGBFusion2GPUControllers, NVIDIA_VEN, NVIDIA_RTX2070_OC_DEV,      GIGABYTE_SUB_VEN,   GIGABYTE_AORUS_RTX2070_SUB_DEV,                 0x50);
@@ -180,10 +163,9 @@ REGISTER_I2C_PCI_DETECTOR("Gigabyte GeForce RTX 5090 GAMING OC",                
 REGISTER_I2C_PCI_DETECTOR("Gigabyte AORUS GeForce RTX 5090 MASTER",                    DetectGigabyteRGBFusion2GPUControllers, NVIDIA_VEN, NVIDIA_RTX5090_DEV,         GIGABYTE_SUB_VEN,   GIGABYTE_AORUS_RTX5090_MASTER_32G_SUB_DEV,      0x71);
 REGISTER_I2C_PCI_DETECTOR("Gigabyte AORUS GeForce RTX 5090 MASTER ICE",                DetectGigabyteRGBFusion2GPUControllers, NVIDIA_VEN, NVIDIA_RTX5090_DEV,         GIGABYTE_SUB_VEN,   GIGABYTE_AORUS_RTX5090_MASTER_ICE_32G_SUB_DEV,  0x71);
 
-/*-----------------------------------------*\
-|  AMD GPUs                                 |
-\*-----------------------------------------*/
-
+/*---------------------------------------------------------*\
+|  AMD GPUs                                                 |
+\*---------------------------------------------------------*/
 REGISTER_I2C_PCI_DETECTOR("Gigabyte Radeon RX 7600 GAMING OC 8G",                      DetectGigabyteRGBFusion2GPUControllers, AMD_GPU_VEN, AMD_NAVI33_DEV,            GIGABYTE_SUB_VEN,   GIGABYTE_RX7600_GAMING_OC_8G_SUB_DEV,           0x55);
 REGISTER_I2C_PCI_DETECTOR("Gigabyte Radeon RX 7600 GAMING OC 8G",                      DetectGigabyteRGBFusion2GPUControllers, AMD_GPU_VEN, AMD_NAVI33_DEV,            GIGABYTE_SUB_VEN,   GIGABYTE_RX7600_GAMING_OC_8G_SUB_DEV2,          0x55);
 REGISTER_I2C_PCI_DETECTOR("Gigabyte Radeon RX 7600 XT GAMING OC 16G",                  DetectGigabyteRGBFusion2GPUControllers, AMD_GPU_VEN, AMD_NAVI33_DEV,            GIGABYTE_SUB_VEN,   GIGABYTE_RX7600XT_GAMING_OC_16G_SUB_DEV,        0x55);

@@ -10,22 +10,13 @@
 #include <stdio.h>
 #include "DetectionManager.h"
 #include "GigabyteRGBFusion2BlackwellGPUController.h"
-#include "LogManager.h"
-#include "RGBController_GigabyteRGBFusion2BlackwellGPU.h"
 #include "i2c_amd_gpu.h"
 #include "i2c_smbus.h"
+#include "LogManager.h"
 #include "pci_ids.h"
+#include "RGBController_GigabyteRGBFusion2BlackwellGPU.h"
 
 #define GIGABYTEGPU_CONTROLLER_NAME3    "Gigabyte RGB Fusion2 Blackwell GPU"
-
-/******************************************************************************************\
-*                                                                                          *
-*   TestForGigabyteRGBFusion2BlackwellGPUController                                        *
-*                                                                                          *
-*       Tests the given address to see if an RGB Fusion2 controller exists there.  First   *
-*       does a quick write to test for a response                                          *
-*                                                                                          *
-\******************************************************************************************/
 
 bool TestForGigabyteRGBFusion2BlackwellGPUController(i2c_smbus_interface* bus, unsigned char address)
 {
@@ -70,103 +61,47 @@ bool TestForGigabyteRGBFusion2BlackwellGPUController(i2c_smbus_interface* bus, u
     }
 
     return(pass);
-}   /* TestForRGBFusion2BlackwellGPUController() */
+}
 
-/*******************************************************************************************\
-*                                                                                           *
-*   DetectGigabyteRGBFusion2BlackwellGPUControllers                                         *
-*                                                                                           *
-*       Detect GigabyteRGB Fusion2 controllers with a specified layout on the enumerated    *
-*       I2C busses.                                                                         *
-*                                                                                           *
-*           bus - pointer to i2c_smbus_interface where RGB Fusion2 device is connected      *
-*           dev - I2C address of RGB Fusion2 device                                         *
-*                                                                                           *
-\*******************************************************************************************/
-
-void DetectGigabyteRGBFusion2BlackwellGPUControllers(i2c_smbus_interface* bus, uint8_t i2c_addr, const std::string& name, uint8_t led_zones)
+DetectedControllers DetectGigabyteRGBFusion2BlackwellGPUControllers(i2c_smbus_interface* bus, uint8_t i2c_addr, const std::string& name, uint8_t led_zones)
 {
+    DetectedControllers detected_controllers;
+
     // Check for RGB Fusion2 controller
     if(TestForGigabyteRGBFusion2BlackwellGPUController(bus, i2c_addr))
     {
         RGBFusion2BlackwellGPUController*     controller     = new RGBFusion2BlackwellGPUController(bus, i2c_addr, name);
         RGBController_RGBFusion2BlackwellGPU* rgb_controller = new RGBController_RGBFusion2BlackwellGPU(controller, led_zones);
 
-        DetectionManager::get()->RegisterRGBController(rgb_controller);
+        detected_controllers.push_back(rgb_controller);
     }
-}   /* DetectGigabyteRGBFusion2BlackwellGPUControllers() */
 
-/*******************************************************************************************\
-*                                                                                           *
-*   DetectGigabyteRGBFusion2BlackwellSingleZoneGPUControllers                               *
-*                                                                                           *
-*       Detect GigabyteRGB Fusion2 controllers with one zone on the enumerated I2C busses.  *
-*                                                                                           *
-*           bus - pointer to i2c_smbus_interface where RGB Fusion2 device is connected      *
-*           dev - I2C address of RGB Fusion2 device                                         *
-*                                                                                           *
-\*******************************************************************************************/
+    return(detected_controllers);
+}
 
-void DetectGigabyteRGBFusion2BlackwellSingleZoneGPUControllers(i2c_smbus_interface* bus, uint8_t i2c_addr, const std::string& name)
+DetectedControllers DetectGigabyteRGBFusion2BlackwellSingleZoneGPUControllers(i2c_smbus_interface* bus, uint8_t i2c_addr, const std::string& name)
 {
-    DetectGigabyteRGBFusion2BlackwellGPUControllers(bus, i2c_addr, name, RGB_FUSION2_BLACKWELL_GPU_SINGLE_ZONE);
-}   /* DetectGigabyteRGBFusion2BlackwellSingleZoneGPUControllers() */
+    return(DetectGigabyteRGBFusion2BlackwellGPUControllers(bus, i2c_addr, name, RGB_FUSION2_BLACKWELL_GPU_SINGLE_ZONE));
+}
 
-/*******************************************************************************************\
-*                                                                                           *
-*   DetectGigabyteRGBFusion2BlackwellGamingLayoutGPUControllers                             *
-*                                                                                           *
-*       Detect GigabyteRGB Fusion2 controllers with gaming layouts on the enumerated I2C    *
-*       busses.                                                                             *
-*                                                                                           *
-*           bus - pointer to i2c_smbus_interface where RGB Fusion2 device is connected      *
-*           dev - I2C address of RGB Fusion2 device                                         *
-*                                                                                           *
-\*******************************************************************************************/
-
-void DetectGigabyteRGBFusion2BlackwellGamingLayoutGPUControllers(i2c_smbus_interface* bus, uint8_t i2c_addr, const std::string& name)
+DetectedControllers DetectGigabyteRGBFusion2BlackwellGamingLayoutGPUControllers(i2c_smbus_interface* bus, uint8_t i2c_addr, const std::string& name)
 {
-    DetectGigabyteRGBFusion2BlackwellGPUControllers(bus, i2c_addr, name, RGB_FUSION2_BLACKWELL_GPU_GAMING_LAYOUT);
-}   /* DetectGigabyteRGBFusion2BlackwellGamingLayoutGPUControllers() */
+    return(DetectGigabyteRGBFusion2BlackwellGPUControllers(bus, i2c_addr, name, RGB_FUSION2_BLACKWELL_GPU_GAMING_LAYOUT));
+}
 
-/*******************************************************************************************\
-*                                                                                           *
-*   DetectGigabyteRGBFusion2BlackwellWaterforceLayoutGPUControllers                         *
-*                                                                                           *
-*       Detect GigabyteRGB Fusion2 controllers with waterforce layouts on the enumerated    *
-*       I2C busses.                                                                         *
-*                                                                                           *
-*           bus - pointer to i2c_smbus_interface where RGB Fusion2 device is connected      *
-*           dev - I2C address of RGB Fusion2 device                                         *
-*                                                                                           *
-\*******************************************************************************************/
-
-void DetectGigabyteRGBFusion2BlackwellWaterforceLayoutGPUControllers(i2c_smbus_interface* bus, uint8_t i2c_addr, const std::string& name)
+DetectedControllers DetectGigabyteRGBFusion2BlackwellWaterforceLayoutGPUControllers(i2c_smbus_interface* bus, uint8_t i2c_addr, const std::string& name)
 {
-    DetectGigabyteRGBFusion2BlackwellGPUControllers(bus, i2c_addr, name, RGB_FUSION2_BLACKWELL_GPU_WATERFORCE_LAYOUT);
-}   /* DetectGigabyteRGBFusion2BlackwellWaterforceLayoutGPUControllers() */
+    return(DetectGigabyteRGBFusion2BlackwellGPUControllers(bus, i2c_addr, name, RGB_FUSION2_BLACKWELL_GPU_WATERFORCE_LAYOUT));
+}
 
-/*******************************************************************************************\
-*                                                                                           *
-*   DetectGigabyteRGBFusion2BlackwellAorusWaterforceLayoutGPUControllers                    *
-*                                                                                           *
-*       Detect GigabyteRGB Fusion2 controllers with AORUS waterforce layout on the          *
-*       enumerated I2C busses.                                                              *
-*                                                                                           *
-*           bus - pointer to i2c_smbus_interface where RGB Fusion2 device is connected      *
-*           dev - I2C address of RGB Fusion2 device                                         *
-*                                                                                           *
-\*******************************************************************************************/
-
-void DetectGigabyteRGBFusion2BlackwellAorusWaterforceLayoutGPUControllers(i2c_smbus_interface* bus, uint8_t i2c_addr, const std::string& name)
+DetectedControllers DetectGigabyteRGBFusion2BlackwellAorusWaterforceLayoutGPUControllers(i2c_smbus_interface* bus, uint8_t i2c_addr, const std::string& name)
 {
-    DetectGigabyteRGBFusion2BlackwellGPUControllers(bus, i2c_addr, name, RGB_FUSION2_BLACKWELL_GPU_AORUS_WATERFORCE_LAYOUT);
-}   /* DetectGigabyteRGBFusion2BlackwellAorusWaterforceLayoutGPUControllers() */
+    return(DetectGigabyteRGBFusion2BlackwellGPUControllers(bus, i2c_addr, name, RGB_FUSION2_BLACKWELL_GPU_AORUS_WATERFORCE_LAYOUT));
+}
 
-/*-----------------------------------------*\
-|  Nvidia GPUs                              |
-\*-----------------------------------------*/
-
+/*---------------------------------------------------------*\
+|  Nvidia GPUs                                              |
+\*---------------------------------------------------------*/
 REGISTER_I2C_PCI_DETECTOR("Gigabyte GeForce RTX 5060 Ti Gaming OC",                 DetectGigabyteRGBFusion2BlackwellSingleZoneGPUControllers,          NVIDIA_VEN, NVIDIA_RTX5060TI_DEV,   GIGABYTE_SUB_VEN, GIGABYTE_RTX5060TI_GAMING_OC_16G_SUB_DEV,         0x75);
 REGISTER_I2C_PCI_DETECTOR("Gigabyte GeForce RTX 5070 Aero OC",                      DetectGigabyteRGBFusion2BlackwellSingleZoneGPUControllers,          NVIDIA_VEN, NVIDIA_RTX5070_DEV,     GIGABYTE_SUB_VEN, GIGABYTE_RTX5070_AERO_OC_12G_SUB_DEV,             0x75);
 REGISTER_I2C_PCI_DETECTOR("Gigabyte GeForce RTX 5070 Eagle OC",                     DetectGigabyteRGBFusion2BlackwellSingleZoneGPUControllers,          NVIDIA_VEN, NVIDIA_RTX5070_DEV,     GIGABYTE_SUB_VEN, GIGABYTE_RTX5070_EAGLE_OC_12G_SUB_DEV,            0x75);
@@ -185,14 +120,11 @@ REGISTER_I2C_PCI_DETECTOR("Gigabyte GeForce RTX 5090 XTREME WATERFORCE",        
 REGISTER_I2C_PCI_DETECTOR("Gigabyte AORUS GeForce RTX 5090 MASTER",                 DetectGigabyteRGBFusion2BlackwellGamingLayoutGPUControllers,        NVIDIA_VEN, NVIDIA_RTX5090_DEV,     GIGABYTE_SUB_VEN, GIGABYTE_AORUS_RTX5090_MASTER_32G_SUB_DEV,        0x75);
 REGISTER_I2C_PCI_DETECTOR("Gigabyte AORUS GeForce RTX 5090 MASTER ICE",             DetectGigabyteRGBFusion2BlackwellGamingLayoutGPUControllers,        NVIDIA_VEN, NVIDIA_RTX5090_DEV,     GIGABYTE_SUB_VEN, GIGABYTE_AORUS_RTX5090_MASTER_ICE_32G_SUB_DEV,    0x75);
 
-/*-----------------------------------------*\
-|  AMD GPUs                                 |
-\*-----------------------------------------*/
-
+/*---------------------------------------------------------*\
+|  AMD GPUs                                                 |
+\*---------------------------------------------------------*/
 REGISTER_I2C_PCI_DETECTOR("Gigabyte Radeon RX 9060 XT GAMING",                      DetectGigabyteRGBFusion2BlackwellGamingLayoutGPUControllers,        AMD_GPU_VEN, AMD_NAVI44_DEV,        GIGABYTE_SUB_VEN, GIGABYTE_RX9060XT_GAMING_16G_SUB_DEV,             0x75);
 REGISTER_I2C_PCI_DETECTOR("Gigabyte Radeon RX 9060 XT GAMING OC",                   DetectGigabyteRGBFusion2BlackwellGamingLayoutGPUControllers,        AMD_GPU_VEN, AMD_NAVI44_DEV,        GIGABYTE_SUB_VEN, GIGABYTE_RX9060XT_GAMING_OC_16G_SUB_DEV,          0x75);
 REGISTER_I2C_PCI_DETECTOR("Gigabyte AORUS Radeon RX 9070 XT Elite",                 DetectGigabyteRGBFusion2BlackwellGamingLayoutGPUControllers,        AMD_GPU_VEN, AMD_NAVI48_DEV,        GIGABYTE_SUB_VEN, GIGABYTE_AORUS_RX9070XT_ELITE_16G_SUB_DEV,        0x75);
 REGISTER_I2C_PCI_DETECTOR("Gigabyte Radeon RX 9070 XT GAMING OC",                   DetectGigabyteRGBFusion2BlackwellGamingLayoutGPUControllers,        AMD_GPU_VEN, AMD_NAVI48_DEV,        GIGABYTE_SUB_VEN, GIGABYTE_RX9070XT_GAMING_OC_16G_SUB_DEV,          0x75);
 REGISTER_I2C_PCI_DETECTOR("Gigabyte Radeon RX 9070 XT GAMING",                      DetectGigabyteRGBFusion2BlackwellGamingLayoutGPUControllers,        AMD_GPU_VEN, AMD_NAVI48_DEV,        GIGABYTE_SUB_VEN, GIGABYTE_RX9070XT_GAMING_16G_SUB_DEV,             0x75);
-
-
