@@ -151,7 +151,7 @@ DetectionManager::~DetectionManager()
     /*-----------------------------------------------------*\
     | Exit HID in background thread                         |
     \*-----------------------------------------------------*/
-    RunInBackgroundThread(std::bind(&DetectionManager::BackgroundHidExit, this));
+    RunInBackgroundThread(std::bind(&DetectionManager::BackgroundHIDExit, this));
 
     /*-----------------------------------------------------*\
     | Mark the background detection thread as not running   |
@@ -618,7 +618,7 @@ void DetectionManager::BackgroundDetectDevices()
         | Also initialize HID on first detection, as this   |
         | must be called from the background thread         |
         \*-------------------------------------------------*/
-        BackgroundHidInit();
+        BackgroundHIDInit();
 
         initial_detection = false;
     }
@@ -865,7 +865,12 @@ void DetectionManager::BackgroundDetectI2CDevices(json detector_settings)
         {
             SignalUpdate(DETECTIONMANAGER_UPDATE_REASON_DETECTION_PROGRESS_CHANGED);
 
-            i2c_device_detectors[i2c_detector_idx](i2c_buses);
+            DetectedControllers detected_controllers = i2c_device_detectors[i2c_detector_idx](i2c_buses);
+
+            for(std::size_t detected_controller_idx = 0; detected_controller_idx < detected_controllers.size(); detected_controller_idx++)
+            {
+                RegisterRGBController(detected_controllers[detected_controller_idx]);
+            }
         }
 
         LOG_TRACE("[%s] %s detection end", DETECTIONMANAGER, detection_string.c_str());
@@ -932,7 +937,13 @@ void DetectionManager::BackgroundDetectI2CDRAMDevices(json detector_settings)
                         SignalUpdate(DETECTIONMANAGER_UPDATE_REASON_DETECTION_PROGRESS_CHANGED);
 
                         std::vector<SPDWrapper*> matching_slots = slots_with_jedec(slots, i2c_dram_device_detectors[i2c_detector_idx].jedec_id);
-                        i2c_dram_device_detectors[i2c_detector_idx].function(i2c_buses[bus], matching_slots, i2c_dram_device_detectors[i2c_detector_idx].name);
+
+                        DetectedControllers detected_controllers = i2c_dram_device_detectors[i2c_detector_idx].function(i2c_buses[bus], matching_slots, i2c_dram_device_detectors[i2c_detector_idx].name);
+
+                        for(std::size_t detected_controller_idx = 0; detected_controller_idx < detected_controllers.size(); detected_controller_idx++)
+                        {
+                            RegisterRGBController(detected_controllers[detected_controller_idx]);
+                        }
                     }
 
                     LOG_TRACE("[%s] %s detection end", DETECTIONMANAGER, detection_string.c_str());
@@ -983,7 +994,12 @@ void DetectionManager::BackgroundDetectI2CPCIDevices(json detector_settings)
                    i2c_buses[bus]->pci_subsystem_vendor == i2c_pci_device_detectors[i2c_detector_idx].subven_id &&
                    i2c_buses[bus]->pci_subsystem_device == i2c_pci_device_detectors[i2c_detector_idx].subdev_id)
                 {
-                    i2c_pci_device_detectors[i2c_detector_idx].function(i2c_buses[bus], i2c_pci_device_detectors[i2c_detector_idx].i2c_addr, i2c_pci_device_detectors[i2c_detector_idx].name);
+                    DetectedControllers detected_controllers = i2c_pci_device_detectors[i2c_detector_idx].function(i2c_buses[bus], i2c_pci_device_detectors[i2c_detector_idx].i2c_addr, i2c_pci_device_detectors[i2c_detector_idx].name);
+
+                    for(std::size_t detected_controller_idx = 0; detected_controller_idx < detected_controllers.size(); detected_controller_idx++)
+                    {
+                        RegisterRGBController(detected_controllers[detected_controller_idx]);
+                    }
                 }
             }
         }
@@ -1016,86 +1032,8 @@ void DetectionManager::BackgroundDetectHIDDevices(hid_device_info* hid_devices, 
 
     while(current_hid_device)
     {
-        if(LogManager::get()->getLoglevel() >= LL_DEBUG)
-        {
-            const char* manu_name = StringUtils::wchar_to_char(current_hid_device->manufacturer_string);
-            const char* prod_name = StringUtils::wchar_to_char(current_hid_device->product_string);
-
-            LOG_DEBUG("[%s] %04X:%04X U=%04X P=0x%04X I=%d - %-25s - %s", DETECTIONMANAGER, current_hid_device->vendor_id, current_hid_device->product_id, current_hid_device->usage, current_hid_device->usage_page, current_hid_device->interface_number, manu_name, prod_name);
-        }
-
-        detection_string = "";
-
-        SignalUpdate(DETECTIONMANAGER_UPDATE_REASON_DETECTION_PROGRESS_CHANGED);
-
-        /*-------------------------------------------------*\
-        | Loop through all available detectors.  If all     |
-        | required information matches, run the detector    |
-        \*-------------------------------------------------*/
-        for(std::size_t hid_detector_idx = 0; hid_detector_idx < hid_device_detectors.size(); hid_detector_idx++)
-        {
-            HIDDeviceDetectorBlock & detector = hid_device_detectors[hid_detector_idx];
-
-            if(detector.compare(current_hid_device))
-            {
-                detection_string = detector.name.c_str();
-
-                /*-----------------------------------------*\
-                | Check if this detector is enabled or      |
-                | needs to be added to the settings list    |
-                \*-----------------------------------------*/
-                bool this_device_enabled = true;
-
-                if(detector_settings.contains("detectors") && detector_settings["detectors"].contains(detection_string))
-                {
-                    this_device_enabled = detector_settings["detectors"][detection_string];
-                }
-
-                LOG_DEBUG("[%s] %s is %s", DETECTIONMANAGER, detection_string.c_str(), ((this_device_enabled == true) ? "enabled" : "disabled"));
-
-                if(this_device_enabled)
-                {
-                    SignalUpdate(DETECTIONMANAGER_UPDATE_REASON_DETECTION_PROGRESS_CHANGED);
-
-                    detector.function(current_hid_device, hid_device_detectors[hid_detector_idx].name);
-                }
-            }
-        }
-
-        /*-------------------------------------------------*\
-        | Loop through all available wrapped HID detectors. |
-        | If all required information matches, run the      |
-        | detector                                          |
-        \*-------------------------------------------------*/
-        for(std::size_t hid_detector_idx = 0; hid_detector_idx < hid_wrapped_device_detectors.size(); hid_detector_idx++)
-        {
-            HIDWrappedDeviceDetectorBlock & detector = hid_wrapped_device_detectors[hid_detector_idx];
-
-            if(detector.compare(current_hid_device))
-            {
-                detection_string = detector.name.c_str();
-
-                /*-----------------------------------------*\
-                | Check if this detector is enabled or      |
-                | needs to be added to the settings list    |
-                \*-----------------------------------------*/
-                bool this_device_enabled = true;
-
-                if(detector_settings.contains("detectors") && detector_settings["detectors"].contains(detection_string))
-                {
-                    this_device_enabled = detector_settings["detectors"][detection_string];
-                }
-
-                LOG_DEBUG("[%s] %s is %s", DETECTIONMANAGER, detection_string.c_str(), ((this_device_enabled == true) ? "enabled" : "disabled"));
-
-                if(this_device_enabled)
-                {
-                    SignalUpdate(DETECTIONMANAGER_UPDATE_REASON_DETECTION_PROGRESS_CHANGED);
-
-                    detector.function(default_hidapi_wrapper, current_hid_device, hid_wrapped_device_detectors[hid_detector_idx].name);
-                }
-            }
-        }
+        RunHIDDetector(current_hid_device, detector_settings);
+        RunHIDWrappedDetector(&default_hidapi_wrapper, current_hid_device, detector_settings);
 
         /*-------------------------------------------------*\
         | Update detection percent                          |
@@ -1163,10 +1101,15 @@ void DetectionManager::BackgroundDetectHIDDevicesSafe(json detector_settings)
                 {
                     SignalUpdate(DETECTIONMANAGER_UPDATE_REASON_DETECTION_PROGRESS_CHANGED);
 
-                    detector.function(current_hid_device, hid_device_detectors[hid_detector_idx].name);
+                    DetectedControllers detected_controllers = detector.function(current_hid_device, hid_device_detectors[hid_detector_idx].name);
 
-                    LOG_TRACE("[%s] %s detection end", DETECTIONMANAGER, detection_string.c_str());
+                    for(std::size_t detected_controller_idx = 0; detected_controller_idx < detected_controllers.size(); detected_controller_idx++)
+                    {
+                        RegisterRGBController(detected_controllers[detected_controller_idx]);
+                    }
                 }
+
+                LOG_TRACE("[%s] %s detection end", DETECTIONMANAGER, detection_string.c_str());
             }
 
             current_hid_device = current_hid_device->next;
@@ -1230,52 +1173,7 @@ void DetectionManager::BackgroundDetectHIDDevicesWrapped(hid_device_info* hid_de
 
         while(current_hid_device)
         {
-            if(LogManager::get()->getLoglevel() >= LL_DEBUG)
-            {
-                const char* manu_name = StringUtils::wchar_to_char(current_hid_device->manufacturer_string);
-                const char* prod_name = StringUtils::wchar_to_char(current_hid_device->product_string);
-
-                LOG_DEBUG("[%s] %04X:%04X U=%04X P=0x%04X I=%d - %-25s - %s", DETECTIONMANAGER, current_hid_device->vendor_id, current_hid_device->product_id, current_hid_device->usage, current_hid_device->usage_page, current_hid_device->interface_number, manu_name, prod_name);
-            }
-
-            detection_string = "";
-
-            SignalUpdate(DETECTIONMANAGER_UPDATE_REASON_DETECTION_PROGRESS_CHANGED);
-
-            /*---------------------------------------------*\
-            | Loop through all available wrapped HID        |
-            | detectors.  If all required information       |
-            | matches, run the detector                     |
-            \*---------------------------------------------*/
-            for(std::size_t hid_detector_idx = 0; hid_detector_idx < hid_wrapped_device_detectors.size(); hid_detector_idx++)
-            {
-                HIDWrappedDeviceDetectorBlock & detector = hid_wrapped_device_detectors[hid_detector_idx];
-
-                if(detector.compare(current_hid_device))
-                {
-                    detection_string = detector.name.c_str();
-
-                    /*-------------------------------------*\
-                    | Check if this detector is enabled or  |
-                    | needs to be added to the settings list|
-                    \*-------------------------------------*/
-                    bool this_device_enabled = true;
-
-                    if(detector_settings.contains("detectors") && detector_settings["detectors"].contains(detection_string))
-                    {
-                        this_device_enabled = detector_settings["detectors"][detection_string];
-                    }
-
-                    LOG_DEBUG("[%s] %s is %s", DETECTIONMANAGER, detection_string.c_str(), ((this_device_enabled == true) ? "enabled" : "disabled"));
-
-                    if(this_device_enabled)
-                    {
-                        SignalUpdate(DETECTIONMANAGER_UPDATE_REASON_DETECTION_PROGRESS_CHANGED);
-
-                        detector.function(wrapper, current_hid_device, detector.name);
-                    }
-                }
-            }
+            RunHIDWrappedDetector(&wrapper, current_hid_device, detector_settings);
 
             /*---------------------------------------------*\
             | Update detection percent                      |
@@ -1325,7 +1223,12 @@ void DetectionManager::BackgroundDetectOtherDevices(json detector_settings)
         {
             SignalUpdate(DETECTIONMANAGER_UPDATE_REASON_DETECTION_PROGRESS_CHANGED);
 
-            device_detectors[detector_idx]();
+            DetectedControllers detected_controllers = device_detectors[detector_idx]();
+
+            for(std::size_t detected_controller_idx = 0; detected_controller_idx < detected_controllers.size(); detected_controller_idx++)
+            {
+                RegisterRGBController(detected_controllers[detected_controller_idx]);
+            }
         }
 
         LOG_TRACE("[%s] %s detection end", DETECTIONMANAGER, detection_string.c_str());
@@ -1343,7 +1246,7 @@ void DetectionManager::BackgroundDetectOtherDevices(json detector_settings)
     }
 }
 
-void DetectionManager::BackgroundHidExit()
+void DetectionManager::BackgroundHIDExit()
 {
     /*-----------------------------------------------------*\
     | Exit HID interface                                    |
@@ -1353,7 +1256,7 @@ void DetectionManager::BackgroundHidExit()
     LOG_DEBUG("[%s] Exiting HID interface: %s", DETECTIONMANAGER, ((hid_status == 0) ? "Success" : "Failed"));
 }
 
-void DetectionManager::BackgroundHidInit()
+void DetectionManager::BackgroundHIDInit()
 {
     /*-----------------------------------------------------*\
     | Initialize HID interface                              |
@@ -1361,6 +1264,121 @@ void DetectionManager::BackgroundHidInit()
     int hid_status = hid_init();
 
     LOG_DEBUG("[%s] Initializing HID interfaces: %s", DETECTIONMANAGER, ((hid_status == 0) ? "Success" : "Failed"));
+}
+
+/*---------------------------------------------------------*\
+| Functions to run detectors                                |
+\*---------------------------------------------------------*/
+void DetectionManager::RunHIDDetector(hid_device_info* current_hid_device, json detector_settings)
+{
+    if(LogManager::get()->getLoglevel() >= LL_DEBUG)
+    {
+        const char* manu_name = StringUtils::wchar_to_char(current_hid_device->manufacturer_string);
+        const char* prod_name = StringUtils::wchar_to_char(current_hid_device->product_string);
+
+        LOG_DEBUG("[%s] %04X:%04X U=%04X P=0x%04X I=%d - %-25s - %s", DETECTIONMANAGER, current_hid_device->vendor_id, current_hid_device->product_id, current_hid_device->usage, current_hid_device->usage_page, current_hid_device->interface_number, manu_name, prod_name);
+    }
+
+    detection_string = "";
+
+    SignalUpdate(DETECTIONMANAGER_UPDATE_REASON_DETECTION_PROGRESS_CHANGED);
+
+    /*-----------------------------------------------------*\
+    | Loop through all available detectors.  If all         |
+    | required information matches, run the detector.       |
+    \*-----------------------------------------------------*/
+    for(std::size_t hid_detector_idx = 0; hid_detector_idx < hid_device_detectors.size(); hid_detector_idx++)
+    {
+        HIDDeviceDetectorBlock & detector = hid_device_detectors[hid_detector_idx];
+
+        if(detector.compare(current_hid_device))
+        {
+            detection_string = detector.name.c_str();
+
+            /*---------------------------------------------*\
+            | Check if this detector is enabled or needs to |
+            | be added to the settings list                 |
+            \*---------------------------------------------*/
+            bool this_device_enabled = true;
+
+            if(detector_settings.contains("detectors") && detector_settings["detectors"].contains(detection_string))
+            {
+                this_device_enabled = detector_settings["detectors"][detection_string];
+            }
+
+            LOG_DEBUG("[%s] %s is %s", DETECTIONMANAGER, detection_string.c_str(), ((this_device_enabled == true) ? "enabled" : "disabled"));
+
+            if(this_device_enabled)
+            {
+                SignalUpdate(DETECTIONMANAGER_UPDATE_REASON_DETECTION_PROGRESS_CHANGED);
+
+                DetectedControllers detected_controllers = detector.function(current_hid_device, detector.name);
+
+                for(std::size_t detected_controller_idx = 0; detected_controller_idx < detected_controllers.size(); detected_controller_idx++)
+                {
+                    RegisterRGBController(detected_controllers[detected_controller_idx]);
+                }
+            }
+
+            break;
+        }
+    }
+}
+
+void DetectionManager::RunHIDWrappedDetector(const hidapi_wrapper* wrapper, hid_device_info* current_hid_device, json detector_settings)
+{
+    if(LogManager::get()->getLoglevel() >= LL_DEBUG)
+    {
+        const char* manu_name = StringUtils::wchar_to_char(current_hid_device->manufacturer_string);
+        const char* prod_name = StringUtils::wchar_to_char(current_hid_device->product_string);
+
+        LOG_DEBUG("[%s] %04X:%04X U=%04X P=0x%04X I=%d - %-25s - %s", DETECTIONMANAGER, current_hid_device->vendor_id, current_hid_device->product_id, current_hid_device->usage, current_hid_device->usage_page, current_hid_device->interface_number, manu_name, prod_name);
+    }
+
+    detection_string = "";
+
+    SignalUpdate(DETECTIONMANAGER_UPDATE_REASON_DETECTION_PROGRESS_CHANGED);
+
+    /*-----------------------------------------------------*\
+    | Loop through all available wrapped HID detectors.  If |
+    | all required information matches, run the detector.   |
+    \*-----------------------------------------------------*/
+    for(std::size_t hid_detector_idx = 0; hid_detector_idx < hid_wrapped_device_detectors.size(); hid_detector_idx++)
+    {
+        HIDWrappedDeviceDetectorBlock & detector = hid_wrapped_device_detectors[hid_detector_idx];
+
+        if(detector.compare(current_hid_device))
+        {
+            detection_string = detector.name.c_str();
+
+            /*---------------------------------------------*\
+            | Check if this detector is enabled or needs to |
+            | be added to the settings list                 |
+            \*---------------------------------------------*/
+            bool this_device_enabled = true;
+
+            if(detector_settings.contains("detectors") && detector_settings["detectors"].contains(detection_string))
+            {
+                this_device_enabled = detector_settings["detectors"][detection_string];
+            }
+
+            LOG_DEBUG("[%s] %s is %s", DETECTIONMANAGER, detection_string.c_str(), ((this_device_enabled == true) ? "enabled" : "disabled"));
+
+            if(this_device_enabled)
+            {
+                SignalUpdate(DETECTIONMANAGER_UPDATE_REASON_DETECTION_PROGRESS_CHANGED);
+
+                DetectedControllers detected_controllers = detector.function(*wrapper, current_hid_device, detector.name);
+
+                for(std::size_t detected_controller_idx = 0; detected_controller_idx < detected_controllers.size(); detected_controller_idx++)
+                {
+                    RegisterRGBController(detected_controllers[detected_controller_idx]);
+                }
+            }
+
+            break;
+        }
+    }
 }
 
 /*---------------------------------------------------------*\

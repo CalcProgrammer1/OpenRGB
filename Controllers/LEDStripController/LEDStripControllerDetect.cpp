@@ -16,27 +16,20 @@
 #include "RGBController_LEDStrip.h"
 #include "SettingsManager.h"
 
-/******************************************************************************************\
-*                                                                                          *
-*   DetectLEDStripControllers                                                              *
-*                                                                                          *
-*       Detect devices supported by the LEDStrip driver                                    *
-*                                                                                          *
-\******************************************************************************************/
-
-void DetectLEDStripControllers()
+DetectedControllers DetectLEDStripControllers()
 {
-    json                    ledstrip_settings;
-    LEDStripDevice          dev;
+    DetectedControllers detected_controllers;
+    json                ledstrip_settings;
+    LEDStripDevice      dev;
 
-    /*-------------------------------------------------*\
-    | Get LED Strip settings from settings manager      |
-    \*-------------------------------------------------*/
+    /*-----------------------------------------------------*\
+    | Get LED Strip settings from settings manager          |
+    \*-----------------------------------------------------*/
     ledstrip_settings = ResourceManager::get()->GetSettingsManager()->GetSettings("LEDStripDevices");
 
-    /*-------------------------------------------------*\
-    | If the LEDStrip settings contains devices, process|
-    \*-------------------------------------------------*/
+    /*-----------------------------------------------------*\
+    | If the LEDStrip settings contains devices, process    |
+    \*-----------------------------------------------------*/
     if(ledstrip_settings.contains("devices"))
     {
         for(unsigned int device_idx = 0; device_idx < ledstrip_settings["devices"].size(); device_idx++)
@@ -47,9 +40,9 @@ void DetectLEDStripControllers()
             }
             else
             {
-                /*-------------------------------------------------*\
-                | Default name                                      |
-                \*-------------------------------------------------*/
+                /*-----------------------------------------*\
+                | Default name                              |
+                \*-----------------------------------------*/
                 dev.name = "LED Strip";
             }
 
@@ -91,33 +84,34 @@ void DetectLEDStripControllers()
                 else
                 {
                     LOG_WARNING("[LEDStripController] '%s' is not a valid value for protocol", protocol_string.c_str());
-                    return;
+                    break;
                 }
             }
             else
             {
-                /*-------------------------------------------------*\
-                | Default to the Keyboard Visualizer protocol       |
-                \*-------------------------------------------------*/
+                /*-----------------------------------------*\
+                | Default to the Keyboard Visualizer        |
+                | protocol                                  |
+                \*-----------------------------------------*/
                 dev.protocol = LED_PROTOCOL_KEYBOARD_VISUALIZER;
             }
 
             if(dev.port.empty())
             {
                 LOG_WARNING("[LEDStripController] port value cannot be left empty.");
-                return;
+                break;
             }
 
             if(dev.baud <= 0)
             {
                 LOG_WARNING("[LEDStripController] baud value cannot be left empty.");
-                return;
+                break;
             }
 
             if(dev.num_leds <= 0)
             {
                 LOG_WARNING("[LEDStripController] num_leds value cannot be left empty.");
-                return;
+                break;
             }
 
             std::string value = dev.port + "," + std::to_string(dev.baud) + "," + std::to_string(dev.num_leds);
@@ -127,10 +121,11 @@ void DetectLEDStripControllers()
 
             RGBController_LEDStrip* rgb_controller = new RGBController_LEDStrip(controller);
 
-            DetectionManager::get()->RegisterRGBController(rgb_controller);
+            detected_controllers.push_back(rgb_controller);
         }
     }
 
-}   /* DetectLEDStripControllers() */
+    return(detected_controllers);
+}
 
 REGISTER_DETECTOR("LED Strip", DetectLEDStripControllers);

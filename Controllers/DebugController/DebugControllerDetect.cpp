@@ -15,17 +15,10 @@
 #include "RGBController_Debug.h"
 #include "SettingsManager.h"
 
-/******************************************************************************************\
-*                                                                                          *
-*   DetectDebugControllers                                                                 *
-*                                                                                          *
-*       Add debug controllers based on the DebugDevices key in the settings json           *
-*                                                                                          *
-\******************************************************************************************/
-
-void DetectDebugControllers()
+DetectedControllers DetectDebugControllers()
 {
-    json            debug_settings;
+    DetectedControllers detected_controllers;
+    json                debug_settings;
 
     /*-----------------------------------------------------*\
     | Get Debug Device settings from settings manager       |
@@ -39,12 +32,13 @@ void DetectDebugControllers()
     {
         for(unsigned int device_idx = 0; device_idx < debug_settings["devices"].size(); device_idx++)
         {
-            RGBController_Debug * debug_controller = new RGBController_Debug(false, debug_settings["devices"][device_idx]);
-            DetectionManager::get()->RegisterRGBController(debug_controller);
+            RGBController_Debug * rgb_controller = new RGBController_Debug(false, debug_settings["devices"][device_idx]);
+
+            detected_controllers.push_back(rgb_controller);
         }
     }
 
-    if (debug_settings.contains("CustomDevices"))
+    if(debug_settings.contains("CustomDevices"))
     {
         for(unsigned int device_idx = 0; device_idx < debug_settings["CustomDevices"].size(); device_idx++)
         {
@@ -68,12 +62,14 @@ void DetectDebugControllers()
             }
             else
             {
-                RGBController_Debug * debug_controller = new RGBController_Debug(true, custom_device_settings);
-                DetectionManager::get()->RegisterRGBController(debug_controller);
+                RGBController_Debug * rgb_controller = new RGBController_Debug(true, custom_device_settings);
+
+                detected_controllers.push_back(rgb_controller);
             }
         }
     }
 
-}   /* DetectDebugControllers() */
+    return(detected_controllers);
+}
 
 REGISTER_DETECTOR("Debug Controllers", DetectDebugControllers);

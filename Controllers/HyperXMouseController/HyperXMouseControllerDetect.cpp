@@ -19,9 +19,9 @@
 #include "RGBController_HyperXPulsefireDart.h"
 #include "RGBController_HyperXPulsefireRaid.h"
 
-/*-----------------------------------------------------*\
-| HyperX mouse vendor IDs                               |
-\*-----------------------------------------------------*/
+/*---------------------------------------------------------*\
+| HyperX mouse vendor IDs                                   |
+\*---------------------------------------------------------*/
 #define HYPERX_VID                              0x0951 //Kingston Technology
 #define HYPERX_VID_2                            0x03F0 //HP, Hewlett-Packard Company
 #define HYPERX_PULSEFIRE_SURGE_PID              0x16D3
@@ -37,70 +37,95 @@
 #define HYPERX_PULSEFIRE_HASTE_PID              0x1727
 #define HYPERX_PULSEFIRE_HASTE_PID_2            0x0F8F
 
-void DetectHyperXPulsefireSurgeControllers(hid_device_info* info, const std::string& name)
+DetectedControllers DetectHyperXPulsefireSurgeControllers(hid_device_info* info, const std::string& name)
 {
-    hid_device* dev = hid_open_path(info->path);
+    DetectedControllers detected_controllers;
+    hid_device*         dev;
+
+    dev = hid_open_path(info->path);
 
     if(dev)
     {
         HyperXPulsefireSurgeController*     controller     = new HyperXPulsefireSurgeController(dev, info->path, name);
         RGBController_HyperXPulsefireSurge* rgb_controller = new RGBController_HyperXPulsefireSurge(controller);
 
-        DetectionManager::get()->RegisterRGBController(rgb_controller);
+        detected_controllers.push_back(rgb_controller);
     }
-}   /* DetectHyperXPulsefireSurgeControllers() */
 
-void DetectHyperXPulsefireFPSProControllers(hid_device_info* info, const std::string& name)
+    return(detected_controllers);
+}
+
+DetectedControllers DetectHyperXPulsefireFPSProControllers(hid_device_info* info, const std::string& name)
 {
-    hid_device* dev = hid_open_path(info->path);
+    DetectedControllers detected_controllers;
+    hid_device*         dev;
+
+    dev = hid_open_path(info->path);
 
     if(dev)
     {
         HyperXPulsefireFPSProController*     controller     = new HyperXPulsefireFPSProController(dev, info->path, name);
         RGBController_HyperXPulsefireFPSPro* rgb_controller = new RGBController_HyperXPulsefireFPSPro(controller);
 
-        DetectionManager::get()->RegisterRGBController(rgb_controller);
+        detected_controllers.push_back(rgb_controller);
     }
-}   /* DetectHyperXPulsefireFPSProControllers() */
 
-void DetectHyperXPulsefireHasteControllers(hid_device_info* info, const std::string& name)
+    return(detected_controllers);
+}
+
+DetectedControllers DetectHyperXPulsefireHasteControllers(hid_device_info* info, const std::string& name)
 {
-    hid_device* dev = hid_open_path(info->path);
+    DetectedControllers detected_controllers;
+    hid_device*         dev;
+
+    dev = hid_open_path(info->path);
 
     if(dev)
     {
         HyperXPulsefireHasteController*     controller     = new HyperXPulsefireHasteController(dev, info->path, name);
         RGBController_HyperXPulsefireHaste* rgb_controller = new RGBController_HyperXPulsefireHaste(controller);
 
-        DetectionManager::get()->RegisterRGBController(rgb_controller);
+        detected_controllers.push_back(rgb_controller);
     }
-}   /* DetectHyperXPulsefireFPSProControllers() */
 
-void DetectHyperXPulsefireDartControllers(hid_device_info* info, const std::string& name)
+    return(detected_controllers);
+}
+
+DetectedControllers DetectHyperXPulsefireDartControllers(hid_device_info* info, const std::string& name)
 {
-    hid_device* dev = hid_open_path(info->path);
+    DetectedControllers detected_controllers;
+    hid_device*         dev;
+
+    dev = hid_open_path(info->path);
 
     if(dev)
     {
         HyperXPulsefireDartController*     controller     = new HyperXPulsefireDartController(dev, info->path, name);
         RGBController_HyperXPulsefireDart* rgb_controller = new RGBController_HyperXPulsefireDart(controller);
 
-        DetectionManager::get()->RegisterRGBController(rgb_controller);
+        detected_controllers.push_back(rgb_controller);
     }
-}   /* DetectHyperXPulsefireDartControllers() */
 
-void DetectHyperXPulsefireRaidControllers(hid_device_info* info, const std::string& name)
+    return(detected_controllers);
+}
+
+DetectedControllers DetectHyperXPulsefireRaidControllers(hid_device_info* info, const std::string& name)
 {
-    hid_device* dev = hid_open_path(info->path);
+    DetectedControllers detected_controllers;
+    hid_device*         dev;
+
+    dev = hid_open_path(info->path);
 
     if(dev)
     {
         HyperXPulsefireRaidController*     controller     = new HyperXPulsefireRaidController(dev, *info, name);
         RGBController_HyperXPulsefireRaid* rgb_controller = new RGBController_HyperXPulsefireRaid(controller);
 
-        DetectionManager::get()->RegisterRGBController(rgb_controller);
+        detected_controllers.push_back(rgb_controller);
     }
-}   /* DetectHyperXPulsefireRaidControllers() */
+
+    return(detected_controllers);
+}
 
 REGISTER_HID_DETECTOR_IP("HyperX Pulsefire Surge",              DetectHyperXPulsefireSurgeControllers,  HYPERX_VID,     HYPERX_PULSEFIRE_SURGE_PID,             1,      0xFF01);
 REGISTER_HID_DETECTOR_IP("HyperX Pulsefire Surge (HP)",         DetectHyperXPulsefireSurgeControllers,  HYPERX_VID_2,   HYPERX_PULSEFIRE_SURGE_PID_2,           1,      0xFF01);
