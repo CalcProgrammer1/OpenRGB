@@ -12,30 +12,24 @@
 #include "DetectionManager.h"
 #include "LogManager.h"
 #include "i2c_smbus.h"
-#include "RGBController_MSIGPUv2.h"
 #include "MSIGPUv2Controller.h"
+#include "RGBController_MSIGPUv2.h"
 
-/*-----------------------------------------------------------------------------------------*\
-|                                                                                           |
-|   DetectMSI GPU V2 Controllers                                                            |
-|                                                                                           |
-|       Detect MSI GPU v2 controllers on the enumerated I2C busses.                         |
-|                                                                                           |
-\*-----------------------------------------------------------------------------------------*/
-
-void DetectMSIGPUv2Controllers(i2c_smbus_interface* bus, uint8_t i2c_addr, const std::string& name)
+DetectedControllers DetectMSIGPUv2Controllers(i2c_smbus_interface* bus, uint8_t i2c_addr, const std::string& name)
 {
-    if(bus->pci_vendor == NVIDIA_VEN && bus->port_id != 1)
+    DetectedControllers detected_controllers;
+
+    if(bus->pci_vendor != NVIDIA_VEN || bus->port_id == 1)
     {
-        return;
+        int msi_gpu_id                          = bus->pci_subsystem_device | bus->pci_device << 16;
+        MSIGPUv2Controller*     controller      = new MSIGPUv2Controller(bus, i2c_addr, name);
+        RGBController_MSIGPUv2* rgb_controller  = new RGBController_MSIGPUv2(controller, msi_gpu_id);
+
+        detected_controllers.push_back(rgb_controller);
     }
 
-    int msi_gpu_id                          = bus->pci_subsystem_device | bus->pci_device << 16;
-    MSIGPUv2Controller*     controller      = new MSIGPUv2Controller(bus, i2c_addr, name);
-    RGBController_MSIGPUv2* rgb_controller  = new RGBController_MSIGPUv2(controller, msi_gpu_id);
-
-    DetectionManager::get()->RegisterRGBController(rgb_controller);
-} /* DetectMSIGPUv2Controllers() */
+    return(detected_controllers);
+}
 
 REGISTER_I2C_PCI_DETECTOR("MSI GeForce RTX 4060 Gaming X",                          DetectMSIGPUv2Controllers,    NVIDIA_VEN,     NVIDIA_RTX4060_DEV,         MSI_SUB_VEN,    MSI_RTX4060_GAMING_X_8G_SUB_DEV,               0x68);
 REGISTER_I2C_PCI_DETECTOR("MSI GeForce RTX 4060 Ti Gaming X",                       DetectMSIGPUv2Controllers,    NVIDIA_VEN,     NVIDIA_RTX4060TI_DEV,       MSI_SUB_VEN,    MSI_RTX4060TI_GAMING_X_8G_SUB_DEV,             0x68);

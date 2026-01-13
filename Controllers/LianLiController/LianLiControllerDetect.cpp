@@ -13,9 +13,9 @@
 #include "DetectionManager.h"
 #include "ResourceManager.h"
 
-/*-----------------------------------------------------*\
-| LianLi USB Controller specific includes               |
-\*-----------------------------------------------------*/
+/*---------------------------------------------------------*\
+| LianLi USB Controller specific includes                   |
+\*---------------------------------------------------------*/
 #include "RGBController_LianLiUniHub.h"
 #include "RGBController_LianLiStrimerLConnect.h"
 #include "LianLiUniHubController.h"
@@ -33,20 +33,20 @@
 #include "LianLiUniversalScreenController.h"
 #include "RGBController_LianLiUniversalScreen.h"
 
-/*-----------------------------------------------------*\
-| USB vendor IDs                                        |
-\*-----------------------------------------------------*/
+/*---------------------------------------------------------*\
+| USB vendor IDs                                            |
+\*---------------------------------------------------------*/
 #define ENE_USB_VID                                 0x0CF2
 #define NUVOTON_USB_VID                             0x0416
 
-/*-----------------------------------------------------*\
-| Keyboard product IDs                                  |
-\*-----------------------------------------------------*/
+/*---------------------------------------------------------*\
+| Keyboard product IDs                                      |
+\*---------------------------------------------------------*/
 #define STRIMER_L_CONNECT_PID                       0xA200
 
-/*-----------------------------------------------------*\
-| Fan controller product IDs                            |
-\*-----------------------------------------------------*/
+/*---------------------------------------------------------*\
+| Fan controller product IDs                                |
+\*---------------------------------------------------------*/
 #define UNI_HUB_PID                                 0x7750
 #define UNI_HUB_AL_PID                              0xA101
 #define UNI_HUB_SLINF_PID                           0xA102
@@ -56,112 +56,120 @@
 #define GAII_USB_PID                                0x7373
 #define GAII_Perf_USB_PID                           0x7371
 
-/*-----------------------------------------------------*\
-| Screen product IDs                                    |
-\*-----------------------------------------------------*/
+/*---------------------------------------------------------*\
+| Screen product IDs                                        |
+\*---------------------------------------------------------*/
 #define UNIVERSAL_SCREEN_LED_PID                    0x8050
 
-/*----------------------------------------------------------------------------*\
-| The Uni Hub is controlled by sending control transfers to various wIndex     |
-| addresses, allthough it announces some kind of hid interface. Hence it       |
-| requires libusb as hidapi provides no wIndex customization.                  |
-\*----------------------------------------------------------------------------*/
+/*---------------------------------------------------------*\
+| The Uni Hub is controlled by sending control transfers    |
+| to various wIndex addresses, allthough it announces some  |
+| kind of hid interface. Hence it requires libusb as hidapi |
+| provides no wIndex customization.                         |
+\*---------------------------------------------------------*/
 
-void DetectLianLiUniHub()
+DetectedControllers DetectLianLiUniHub()
 {
-    libusb_device** devices = nullptr;
-
-    ssize_t ret;
+    DetectedControllers detected_controllers;
+    libusb_device**     devices = nullptr;
+    ssize_t             ret;
 
     ret = libusb_init(NULL);
-    if(ret < 0)
+
+    if(ret >= 0)
     {
-        return;
-    }
+        ret = libusb_get_device_list(NULL, &devices);
 
-    ret = libusb_get_device_list(NULL, &devices);
-    if(ret < 0)
-    {
-        return;
-    }
-
-    ssize_t deviceCount = ret;
-
-    for(int i = 0; i < deviceCount; i++)
-    {
-        libusb_device* device = devices[i];
-        libusb_device_descriptor descriptor;
-        ret = libusb_get_device_descriptor(device, &descriptor);
-
-        if(ret < 0)
+        if(ret >= 0)
         {
-            continue;
-        }
+            ssize_t deviceCount = ret;
 
-        if( descriptor.idVendor  == ENE_USB_VID
-         && descriptor.idProduct == UNI_HUB_PID)
-        {
-            LianLiUniHubController*     controller     = new LianLiUniHubController(device, &descriptor);
-            RGBController_LianLiUniHub* rgb_controller = new RGBController_LianLiUniHub(controller);
-            DetectionManager::get()->RegisterRGBController(rgb_controller);
+            for(int i = 0; i < deviceCount; i++)
+            {
+                libusb_device*              device = devices[i];
+                libusb_device_descriptor    descriptor;
+
+                ret = libusb_get_device_descriptor(device, &descriptor);
+
+                if(ret < 0)
+                {
+                    continue;
+                }
+
+                if(descriptor.idVendor  == ENE_USB_VID
+                && descriptor.idProduct == UNI_HUB_PID)
+                {
+                    LianLiUniHubController*     controller     = new LianLiUniHubController(device, &descriptor);
+                    RGBController_LianLiUniHub* rgb_controller = new RGBController_LianLiUniHub(controller);
+
+                    detected_controllers.push_back(rgb_controller);
+                }
+            }
+
+            if(devices != nullptr)
+            {
+                libusb_free_device_list(devices, 1);
+            }
         }
     }
 
-    if(devices != nullptr)
-    {
-        libusb_free_device_list(devices, 1);
-    }
+    return(detected_controllers);
 }
 
-void DetectLianLiUniHub_AL10()
+DetectedControllers DetectLianLiUniHub_AL10()
 {
-    libusb_device** devices = nullptr;
-
-    ssize_t ret;
+    DetectedControllers detected_controller;
+    libusb_device**     devices = nullptr;
+    ssize_t             ret;
 
     ret = libusb_init(NULL);
-    if(ret < 0)
+
+    if(ret >= 0)
     {
-        return;
-    }
+        ret = libusb_get_device_list(NULL, &devices);
 
-    ret = libusb_get_device_list(NULL, &devices);
-    if(ret < 0)
-    {
-        return;
-    }
-
-    ssize_t deviceCount = ret;
-
-    for(int i = 0; i < deviceCount; i++)
-    {
-        libusb_device* device = devices[i];
-        libusb_device_descriptor descriptor;
-        ret = libusb_get_device_descriptor(device, &descriptor);
-
-        if(ret < 0)
+        if(ret >= 0)
         {
-            continue;
-        }
+            ssize_t deviceCount = ret;
 
-        if( descriptor.idVendor  == ENE_USB_VID
-         && descriptor.idProduct == UNI_HUB_AL_PID)
-        {
-            LianLiUniHub_AL10Controller*     controller     = new LianLiUniHub_AL10Controller(device, &descriptor);
-            RGBController_LianLiUniHub_AL10* rgb_controller = new RGBController_LianLiUniHub_AL10(controller);
-            DetectionManager::get()->RegisterRGBController(rgb_controller);
+            for(int i = 0; i < deviceCount; i++)
+            {
+                libusb_device*              device = devices[i];
+                libusb_device_descriptor    descriptor;
+
+                ret = libusb_get_device_descriptor(device, &descriptor);
+
+                if(ret < 0)
+                {
+                    continue;
+                }
+
+                if( descriptor.idVendor  == ENE_USB_VID
+                 && descriptor.idProduct == UNI_HUB_AL_PID)
+                {
+                    LianLiUniHub_AL10Controller*     controller     = new LianLiUniHub_AL10Controller(device, &descriptor);
+                    RGBController_LianLiUniHub_AL10* rgb_controller = new RGBController_LianLiUniHub_AL10(controller);
+
+                    detected_controller.push_back(rgb_controller);
+                }
+            }
+
+            if(devices != nullptr)
+            {
+                libusb_free_device_list(devices, 1);
+            }
         }
     }
 
-    if(devices != nullptr)
-    {
-        libusb_free_device_list(devices, 1);
-    }
-}   /* DetectLianLiUniHub_AL10() */
+    return(detected_controller);
+}
 
-void DetectLianLiUniHubAL(hid_device_info* info, const std::string& name)
+DetectedControllers DetectLianLiUniHubAL(hid_device_info* info, const std::string& name)
 {
-    hid_device* dev = hid_open_path(info->path);
+    DetectedControllers detected_controllers;
+    hid_device*         dev;
+
+    dev = hid_open_path(info->path);
 
     if(dev)
     {
@@ -172,7 +180,8 @@ void DetectLianLiUniHubAL(hid_device_info* info, const std::string& name)
         if(firmwareVersion == "v1.7")
         {
             RGBController_LianLiUniHubAL* rgb_controller = new RGBController_LianLiUniHubAL(controller);
-            DetectionManager::get()->RegisterRGBController(rgb_controller);
+
+            detected_controllers.push_back(rgb_controller);
         }
         else if(firmwareVersion == "v1.0")
         {
@@ -182,66 +191,88 @@ void DetectLianLiUniHubAL(hid_device_info* info, const std::string& name)
         else
         {
             delete controller;
-            return;
         }
-
     }
-}   /* DetectLianLiUniHubAL() */
 
-void DetectLianLiUniHubSLV2(hid_device_info* info, const std::string& name)
+    return(detected_controllers);
+}
+
+DetectedControllers DetectLianLiUniHubSLV2(hid_device_info* info, const std::string& name)
 {
-    hid_device* dev = hid_open_path(info->path);
+    DetectedControllers detected_controllers;
+    hid_device*         dev;
+
+    dev = hid_open_path(info->path);
 
     if(dev)
     {
-        LianLiUniHubSLV2Controller* controller = new LianLiUniHubSLV2Controller(dev, info->path, name);
-
+        LianLiUniHubSLV2Controller*     controller     = new LianLiUniHubSLV2Controller(dev, info->path, name);
         RGBController_LianLiUniHubSLV2* rgb_controller = new RGBController_LianLiUniHubSLV2(controller);
-        DetectionManager::get()->RegisterRGBController(rgb_controller);
-    }
-}   /* DetectLianLiUniHubSLV2() */
 
-void DetectLianLiUniHubSLInfinity(hid_device_info* info, const std::string& name)
+        detected_controllers.push_back(rgb_controller);
+    }
+
+    return(detected_controllers);
+}
+
+DetectedControllers DetectLianLiUniHubSLInfinity(hid_device_info* info, const std::string& name)
 {
-    hid_device* dev = hid_open_path(info->path);
+    DetectedControllers detected_controllers;
+    hid_device*         dev;
+
+    dev = hid_open_path(info->path);
 
     if(dev)
     {
-        LianLiUniHubSLInfinityController* controller = new LianLiUniHubSLInfinityController(dev, info->path, name);
-
+        LianLiUniHubSLInfinityController*     controller     = new LianLiUniHubSLInfinityController(dev, info->path, name);
         RGBController_LianLiUniHubSLInfinity* rgb_controller = new RGBController_LianLiUniHubSLInfinity(controller);
-        DetectionManager::get()->RegisterRGBController(rgb_controller);
-    }
-}   /* DetectLianLiUniHubSLInfinity() */
 
-void DetectLianLiStrimerControllers(hid_device_info* info, const std::string& /*name*/)
+        detected_controllers.push_back(rgb_controller);
+    }
+
+    return(detected_controllers);
+}
+
+DetectedControllers DetectLianLiStrimerControllers(hid_device_info* info, const std::string& /*name*/)
 {
-    hid_device* dev = hid_open_path(info->path);
+    DetectedControllers detected_controllers;
+    hid_device*         dev;
+
+    dev = hid_open_path(info->path);
 
     if(dev)
     {
         LianLiStrimerLConnectController*     controller       = new LianLiStrimerLConnectController(dev, info->path);
         RGBController_LianLiStrimerLConnect* rgb_controller   = new RGBController_LianLiStrimerLConnect(controller);
 
-        DetectionManager::get()->RegisterRGBController(rgb_controller);
+        detected_controllers.push_back(rgb_controller);
     }
+
+    return(detected_controllers);
 }
 
-void DetectLianLiGAIITrinity(hid_device_info* info, const std::string& /*name*/)
+DetectedControllers DetectLianLiGAIITrinity(hid_device_info* info, const std::string& /*name*/)
 {
-    hid_device* dev = hid_open_path(info->path);
+    DetectedControllers detected_controllers;
+    hid_device*         dev;
+
+    dev = hid_open_path(info->path);
 
     if(dev)
     {
         LianLiGAIITrinityController*     controller     = new LianLiGAIITrinityController(dev, info->path);
         RGBController_LianLiGAIITrinity* rgb_controller = new RGBController_LianLiGAIITrinity(controller);
 
-        DetectionManager::get()->RegisterRGBController(rgb_controller);
+        detected_controllers.push_back(rgb_controller);
     }
+
+    return(detected_controllers);
 }
 
-void DetectLianLiUniversalScreen()
+DetectedControllers DetectLianLiUniversalScreen()
 {
+    DetectedControllers detected_controllers;
+
     libusb_init(NULL);
 
     #ifdef _WIN32
@@ -258,8 +289,10 @@ void DetectLianLiUniversalScreen()
         LianLiUniversalScreenController*     controller     = new LianLiUniversalScreenController(dev);
         RGBController_LianLiUniversalScreen* rgb_controller = new RGBController_LianLiUniversalScreen(controller);
 
-        DetectionManager::get()->RegisterRGBController(rgb_controller);
+        detected_controllers.push_back(rgb_controller);
     }
+
+    return(detected_controllers);
 }
 
 /*---------------------------------------------------------------------------------------------------------*\

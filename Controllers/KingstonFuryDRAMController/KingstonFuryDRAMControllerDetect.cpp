@@ -13,10 +13,10 @@
 #include <vector>
 #include "DetectionManager.h"
 #include "KingstonFuryDRAMController.h"
-#include "LogManager.h"
-#include "RGBController_KingstonFuryDRAM.h"
 #include "i2c_smbus.h"
+#include "LogManager.h"
 #include "pci_ids.h"
+#include "RGBController_KingstonFuryDRAM.h"
 
 using namespace std::chrono_literals;
 
@@ -156,17 +156,10 @@ void DetectKingstonFuryDRAMControllers(i2c_smbus_interface* bus, std::vector<SPD
     }
 }
 
-/******************************************************************************************\
-*                                                                                          *
-*   DetectKingstonFuryDRAMControllers                                                      *
-*                                                                                          *
-*       Detect Kingston Fury DDR4/5 DRAM controllers on the enumerated I2C busses.           *
-*                                                                                          *
-\******************************************************************************************/
-
-void DetectKingstonFuryDDR4Controllers(i2c_smbus_interface* bus, std::vector<SPDWrapper*> &slots, const std::string &name)
+DetectedControllers DetectKingstonFuryDDR4Controllers(i2c_smbus_interface* bus, std::vector<SPDWrapper*> &slots, const std::string &name)
 {
-    std::vector<int> fury_slots;
+    DetectedControllers detected_controllers;
+    std::vector<int>    fury_slots;
 
     DetectKingstonFuryDRAMControllers(bus, slots, FURY_BASE_ADDR_DDR4, TestDDR4Models, fury_slots);
 
@@ -175,13 +168,16 @@ void DetectKingstonFuryDDR4Controllers(i2c_smbus_interface* bus, std::vector<SPD
         KingstonFuryDRAMController*     controller     = new KingstonFuryDRAMController(bus, FURY_BASE_ADDR_DDR4, fury_slots, name);
         RGBController_KingstonFuryDRAM* rgb_controller = new RGBController_KingstonFuryDRAM(controller);
 
-        DetectionManager::get()->RegisterRGBController(rgb_controller);
+        detected_controllers.push_back(rgb_controller);
     }
+
+    return(detected_controllers);
 }
 
-void DetectKingstonFuryDDR5Controllers(i2c_smbus_interface* bus, std::vector<SPDWrapper*> &slots, const std::string &name)
+DetectedControllers DetectKingstonFuryDDR5Controllers(i2c_smbus_interface* bus, std::vector<SPDWrapper*> &slots, const std::string &name)
 {
-    std::vector<int> fury_slots;
+    DetectedControllers detected_controllers;
+    std::vector<int>    fury_slots;
 
     DetectKingstonFuryDRAMControllers(bus, slots, FURY_BASE_ADDR_DDR5, TestDDR5Models, fury_slots);
 
@@ -190,8 +186,10 @@ void DetectKingstonFuryDDR5Controllers(i2c_smbus_interface* bus, std::vector<SPD
         KingstonFuryDRAMController*     controller     = new KingstonFuryDRAMController(bus, FURY_BASE_ADDR_DDR5, fury_slots, name);
         RGBController_KingstonFuryDRAM* rgb_controller = new RGBController_KingstonFuryDRAM(controller);
 
-        DetectionManager::get()->RegisterRGBController(rgb_controller);
+        detected_controllers.push_back(rgb_controller);
     }
+
+    return(detected_controllers);
 }
 
 REGISTER_I2C_DRAM_DETECTOR("Kingston Fury DDR4 DRAM",   DetectKingstonFuryDDR4Controllers,  JEDEC_KINGSTON,     SPD_DDR4_SDRAM);

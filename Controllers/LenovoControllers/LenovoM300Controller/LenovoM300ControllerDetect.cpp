@@ -21,17 +21,22 @@
 #define LENOVO_USAGE 0X01
 #define LENOVO_PAGE 0XFF01
 
-void DetectLenovoLegionM300Controllers(hid_device_info* info, const std::string& name)
+DetectedControllers DetectLenovoLegionM300Controllers(hid_device_info* info, const std::string& name)
 {
-    hid_device* dev = hid_open_path(info->path);
+    DetectedControllers detected_controllers;
+    hid_device*         dev;
+
+    dev = hid_open_path(info->path);
 
     if(dev)
     {
-        LenovoM300Controller* controller            = new LenovoM300Controller(dev, *info, name);
+        LenovoM300Controller*     controller        = new LenovoM300Controller(dev, *info, name);
         RGBController_LenovoM300* rgb_controller    = new RGBController_LenovoM300(controller);
 
-        DetectionManager::get()->RegisterRGBController(rgb_controller);
+        detected_controllers.push_back(rgb_controller);
     }
+
+    return(detected_controllers);
 }
 
 REGISTER_HID_DETECTOR_PU("Lenovo Legion M300", DetectLenovoLegionM300Controllers, LENOVO_VID, LEGION_M300_PID, LENOVO_PAGE, LENOVO_USAGE);

@@ -26,16 +26,22 @@
 \*---------------------------------------------------------*/
 #define JGINYUE_MOTHERBOARD_PID                     0xA125
 
-void DetectJGINYUEInternalUSBController(hid_device_info* info,const std::string& /*name*/)
+DetectedControllers DetectJGINYUEInternalUSBController(hid_device_info* info,const std::string& /*name*/)
 {
-    hid_device* dev = hid_open_path(info->path);
+    DetectedControllers detected_controllers;
+    hid_device*         dev;
+
+    dev = hid_open_path(info->path);
 
     if(dev)
     {
         JGINYUEInternalUSBController*       controller      =new JGINYUEInternalUSBController(dev,info->path);
         RGBController_JGINYUEInternalUSB*   rgb_controller  =new RGBController_JGINYUEInternalUSB(controller);
-        DetectionManager::get()->RegisterRGBController(rgb_controller);
+
+        detected_controllers.push_back(rgb_controller);
     }
+
+    return(detected_controllers);
 }
 
 REGISTER_HID_DETECTOR("JGINYUE Internal USB Controller", DetectJGINYUEInternalUSBController, JGINYUE_VID, JGINYUE_MOTHERBOARD_PID);

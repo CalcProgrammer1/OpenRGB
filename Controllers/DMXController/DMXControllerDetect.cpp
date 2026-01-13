@@ -15,36 +15,29 @@
 #include "RGBController_DMX.h"
 #include "SettingsManager.h"
 
-/******************************************************************************************\
-*                                                                                          *
-*   DetectDMXControllers                                                                   *
-*                                                                                          *
-*       Detect devices supported by the DMX driver                                         *
-*                                                                                          *
-\******************************************************************************************/
-
-void DetectDMXControllers()
+DetectedControllers DetectDMXControllers()
 {
+    DetectedControllers detected_controllers;
     json                dmx_settings;
 
     std::vector<std::vector<DMXDevice>> device_lists;
 	DMXDevice dev;
 
-    /*-------------------------------------------------*\
-    | Get DMX settings from settings manager            |
-    \*-------------------------------------------------*/
+    /*-----------------------------------------------------*\
+    | Get DMX settings from settings manager                |
+    \*-----------------------------------------------------*/
     dmx_settings = ResourceManager::get()->GetSettingsManager()->GetSettings("DMXDevices");
 
-    /*-------------------------------------------------*\
-    | If the DMX settings contains devices, process     |
-    \*-------------------------------------------------*/
+    /*-----------------------------------------------------*\
+    | If the DMX settings contains devices, process         |
+    \*-----------------------------------------------------*/
     if(dmx_settings.contains("devices"))
     {
         for(unsigned int device_idx = 0; device_idx < dmx_settings["devices"].size(); device_idx++)
         {
-            /*-------------------------------------------------*\
-            | Clear DMX device data                             |
-            \*-------------------------------------------------*/
+            /*---------------------------------------------*\
+            | Clear DMX device data                         |
+            \*---------------------------------------------*/
             dev.name           = "";
             dev.keepalive_time = 0;
 
@@ -83,26 +76,28 @@ void DetectDMXControllers()
                 dev.brightness_channel = dmx_settings["devices"][device_idx]["brightness_channel"];
             }
 
-            /*---------------------------------------------------------*\
-            | Determine whether to create a new list or add this device |
-            | to an existing list.  A device is added to an existing    |
-            | list if both devices share one or more universes for the  |
-            | same output destination                                   |
-            \*---------------------------------------------------------*/
+            /*---------------------------------------------*\
+            | Determine whether to create a new list or add |
+            | this device to an existing list.  A device is |
+            | added to an existing list if both devices     |
+            | share one or more universes for the same      |
+            | output destination                            |
+            \*---------------------------------------------*/
             bool device_added_to_existing_list = false;
 
-            /*---------------------------------------------------------*\
-            | Track grouping for all controllers.                       |
-            \*---------------------------------------------------------*/
+            /*---------------------------------------------*\
+            | Track grouping for all controllers.           |
+            \*---------------------------------------------*/
             for(unsigned int list_idx = 0; list_idx < device_lists.size(); list_idx++)
             {
                 for(unsigned int device_idx = 0; device_idx < device_lists[list_idx].size(); device_idx++)
                 {
-                    /*---------------------------------------------------------*\
-                    | Check if the port used by this new device is the same as  |
-                    | in the existing device.  If so, add the new device to the |
-                    | existing list.                                            |
-                    \*---------------------------------------------------------*/
+                    /*-------------------------------------*\
+                    | Check if the port used by this new    |
+                    | device is the same as in the existing |
+                    | device.  If so, add the new device to |
+                    | the existing list.                    |
+                    \*-------------------------------------*/
                     if(1)
                     {
                         device_lists[list_idx].push_back(dev);
@@ -131,15 +126,16 @@ void DetectDMXControllers()
             }
         }
 
-
         for(unsigned int list_idx = 0; list_idx < device_lists.size(); list_idx++)
         {
             RGBController_DMX* rgb_controller;
             rgb_controller = new RGBController_DMX(device_lists[list_idx]);
-            DetectionManager::get()->RegisterRGBController(rgb_controller);
+
+            detected_controllers.push_back(rgb_controller);
         }
     }
 
-}   /* DetectDMXControllers() */
+    return(detected_controllers);
+}
 
 REGISTER_DETECTOR("DMX", DetectDMXControllers);

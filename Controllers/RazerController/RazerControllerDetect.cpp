@@ -13,11 +13,11 @@
 #include <hidapi.h>
 #include "DetectionManager.h"
 #include "RazerController.h"
+#include "RazerDevices.h"
 #include "RazerKrakenController.h"
 #include "RazerKrakenV3Controller.h"
 #include "RazerKrakenV4Controller.h"
 #include "RazerHanboController.h"
-#include "RazerDevices.h"
 #include "ResourceManager.h"
 #include "RGBController_Razer.h"
 #include "RGBController_RazerAddressable.h"
@@ -26,199 +26,190 @@
 #include "RGBController_RazerKrakenV4.h"
 #include "RGBController_RazerHanbo.h"
 
-/******************************************************************************************\
-*                                                                                          *
-*   DetectRazerControllers                                                                 *
-*                                                                                          *
-*       Tests the USB address to see if a Razer controller exists there.                   *
-*                                                                                          *
-\******************************************************************************************/
-
-void DetectRazerControllers(hid_device_info* info, const std::string& name)
+DetectedControllers DetectRazerControllers(hid_device_info* info, const std::string& name)
 {
-    hid_device* dev = hid_open_path(info->path);
+    DetectedControllers detected_controllers;
+    hid_device*         dev;
+
+    dev = hid_open_path(info->path);
 
     if(dev)
     {
-        RazerController* controller = new RazerController(dev, dev, info->path, info->product_id, name);
-
+        RazerController*     controller     = new RazerController(dev, dev, info->path, info->product_id, name);
         RGBController_Razer* rgb_controller = new RGBController_Razer(controller);
-        DetectionManager::get()->RegisterRGBController(rgb_controller);
+
+        detected_controllers.push_back(rgb_controller);
     }
-}   /* DetectRazerControllers() */
 
-/******************************************************************************************\
-*                                                                                          *
-*   DetectRazerARGBControllers                                                             *
-*                                                                                          *
-*       Tests the USB address to see if a Razer ARGB controller exists there.              *
-*                                                                                          *
-\******************************************************************************************/
+    return(detected_controllers);
+}
 
-
-/*---------------------------------------------------------------------*\
-| Tracks the paths used in DetectRazerARGBControllers so multiple Razer |
-| devices can be detected without all controlling the same device.      |
-\*---------------------------------------------------------------------*/
+/*---------------------------------------------------------*\
+| Tracks the paths used in DetectRazerARGBControllers so    |
+| multiple Razer devices can be detected without all        |
+| controlling the same device.                              |
+\*---------------------------------------------------------*/
 static std::unordered_set<std::string> used_paths;
 
-/*--------------------------------------------------------------------------------*\
-| Removes all entries in used_paths so device discovery does not skip any of them. |
-\*--------------------------------------------------------------------------------*/
+/*---------------------------------------------------------*\
+| Removes all entries in used_paths so device discovery     |
+| does not skip any of them.                                |
+\*---------------------------------------------------------*/
 void ResetRazerARGBControllersPaths()
 {
     used_paths.clear();
 }
 
-void DetectRazerARGBControllers(hid_device_info* info, const std::string& name)
+DetectedControllers DetectRazerARGBControllers(hid_device_info* info, const std::string& name)
 {
-    /*-------------------------------------------------------------------------------------------------*\
-    | Razer's ARGB controller uses two different interfaces, one for 90-byte Razer report packets and   |
-    | one for 320-byte ARGB packets.  Interface 0 for 90-byte and interface 1 for 320-byte.             |
-    |                                                                                                   |
-    | Create a local copy of the HID enumerations for the Razer ARGB controller VID/PID and iterate     |
-    | through it.  This prevents detection from failing if interface 1 comes before interface 0 in the  |
-    | main info list.                                                                                   |
-    \*-------------------------------------------------------------------------------------------------*/
-     hid_device* dev_interface_0 = nullptr;
-     hid_device* dev_interface_1 = nullptr;
-     hid_device_info* info_full = hid_enumerate(RAZER_VID, RAZER_CHROMA_ADDRESSABLE_RGB_CONTROLLER_PID);
-     hid_device_info* info_temp = info_full;
-    /*--------------------------------------------------------------------------------------------*\
-    | Keep track of paths so they can be added to used_paths only if both interfaces can be found. |
-    \*--------------------------------------------------------------------------------------------*/
-     std::string dev_interface_0_path;
-     std::string dev_interface_1_path;
+    DetectedControllers detected_controllers;
 
-     while(info_temp)
-     {
-        /*----------------------------------------------------------------------------*\
-        | Check for paths used on an already registered Razer ARGB controller to avoid |
-        | registering multiple controllers that refer to the same physical hardware.   |
-        \*----------------------------------------------------------------------------*/
-         if(info_temp->vendor_id             == info->vendor_id
-         && info_temp->product_id            == info->product_id
-         && used_paths.find(info_temp->path) == used_paths.end() )
-         {
-             if(info_temp->interface_number == 0)
-             {
-                 dev_interface_0 = hid_open_path(info_temp->path);
-                 dev_interface_0_path = info_temp->path;
-             }
-             else if(info_temp->interface_number == 1)
-             {
-                 dev_interface_1 = hid_open_path(info_temp->path);
-                 dev_interface_1_path = info_temp->path;
-             }
-         }
-         if(dev_interface_0 && dev_interface_1)
-         {
-             break;
-         }
-         info_temp = info_temp->next;
-     }
+    /*-----------------------------------------------------*\
+    | Razer's ARGB controller uses two different interfaces,|
+    | one for 90-byte Razer report packets and one for      |
+    | 320-byte ARGB packets.  Interface 0 for 90-byte and   |
+    | interface 1 for 320-byte.                             |
+    |                                                       |
+    | Create a local copy of the HID enumerations for the   |
+    | Razer ARGB controller VID/PID and iterate through it. |
+    | This prevents detection from failing if interface 1   |
+    | comes before interface 0 in the main info list.       |
+    \*-----------------------------------------------------*/
+    hid_device*        dev_interface_0 = nullptr;
+    hid_device*        dev_interface_1 = nullptr;
+    hid_device_info*   info_full       = hid_enumerate(RAZER_VID, RAZER_CHROMA_ADDRESSABLE_RGB_CONTROLLER_PID);
+    hid_device_info*   info_temp       = info_full;
 
-     hid_free_enumeration(info_full);
+     /*----------------------------------------------------*\
+    | Keep track of paths so they can be added to           |
+    | used_paths only if both interfaces can be found.      |
+    \*-----------------------------------------------------*/
+    std::string        dev_interface_0_path;
+    std::string        dev_interface_1_path;
 
-     if(dev_interface_0 && dev_interface_1)
-     {
-         RazerController* controller                    = new RazerController(dev_interface_0, dev_interface_1, info->path, info->product_id, name);
-         RGBController_RazerAddressable* rgb_controller = new RGBController_RazerAddressable(controller);
-         DetectionManager::get()->RegisterRGBController(rgb_controller);
-         used_paths.insert(dev_interface_0_path);
-         used_paths.insert(dev_interface_1_path);
-     }
-     else
-     {
-         // Not all of them could be opened, do some cleanup
-         hid_close(dev_interface_0);
-         hid_close(dev_interface_1);
-     }
+    while(info_temp)
+    {
+        /*-------------------------------------------------*\
+        | Check for paths used on an already registered     |
+        | Razer ARGB controller to avoid registering        |
+        | multiple controllers that refer to the same       |
+        | physical hardware.                                |
+        \*-------------------------------------------------*/
+        if(info_temp->vendor_id             == info->vendor_id
+        && info_temp->product_id            == info->product_id
+        && used_paths.find(info_temp->path) == used_paths.end())
+        {
+            if(info_temp->interface_number == 0)
+            {
+                dev_interface_0 = hid_open_path(info_temp->path);
+                dev_interface_0_path = info_temp->path;
+            }
+            else if(info_temp->interface_number == 1)
+            {
+                dev_interface_1 = hid_open_path(info_temp->path);
+                dev_interface_1_path = info_temp->path;
+            }
+        }
+        if(dev_interface_0 && dev_interface_1)
+        {
+            break;
+        }
+        info_temp = info_temp->next;
+    }
+
+    hid_free_enumeration(info_full);
+
+    if(dev_interface_0 && dev_interface_1)
+    {
+        RazerController*                controller     = new RazerController(dev_interface_0, dev_interface_1, info->path, info->product_id, name);
+        RGBController_RazerAddressable* rgb_controller = new RGBController_RazerAddressable(controller);
+
+        detected_controllers.push_back(rgb_controller);
+
+        used_paths.insert(dev_interface_0_path);
+        used_paths.insert(dev_interface_1_path);
+    }
+    else
+    {
+        // Not all of them could be opened, do some cleanup
+        hid_close(dev_interface_0);
+        hid_close(dev_interface_1);
+    }
+
+    return(detected_controllers);
 }
 
-/******************************************************************************************\
-*                                                                                          *
-*   DetectRazerKrakenController                                                            *
-*                                                                                          *
-*       Tests the USB address to see if a Razer Kraken controller exists there.            *
-*                                                                                          *
-\******************************************************************************************/
-
-void DetectRazerKrakenControllers(hid_device_info* info, const std::string& name)
+DetectedControllers DetectRazerKrakenControllers(hid_device_info* info, const std::string& name)
 {
-    hid_device* dev = hid_open_path(info->path);
+    DetectedControllers detected_controllers;
+    hid_device*         dev;
+
+    dev = hid_open_path(info->path);
 
     if(dev)
     {
-        RazerKrakenController* controller = new RazerKrakenController(dev, info->path, info->product_id, name);
-
+        RazerKrakenController*     controller     = new RazerKrakenController(dev, info->path, info->product_id, name);
         RGBController_RazerKraken* rgb_controller = new RGBController_RazerKraken(controller);
-        DetectionManager::get()->RegisterRGBController(rgb_controller);
+
+        detected_controllers.push_back(rgb_controller);
     }
-}   /* DetectRazerKrakenControllers() */
 
-/******************************************************************************************\
-*                                                                                          *
-*   DetectRazerKrakenV3Controllers                                                         *
-*                                                                                          *
-*       Tests the USB address to see if a Razer Kraken V3 controller exists there.         *
-*                                                                                          *
-\******************************************************************************************/
+    return(detected_controllers);
+}
 
-void DetectRazerKrakenV3Controllers(hid_device_info* info, const std::string& name)
+DetectedControllers DetectRazerKrakenV3Controllers(hid_device_info* info, const std::string& name)
 {
-    hid_device* dev = hid_open_path(info->path);
+    DetectedControllers detected_controllers;
+    hid_device*         dev;
+
+    dev = hid_open_path(info->path);
 
     if(dev)
     {
-        RazerKrakenV3Controller* controller = new RazerKrakenV3Controller(dev, info->path, info->product_id, name);
-
+        RazerKrakenV3Controller*     controller     = new RazerKrakenV3Controller(dev, info->path, info->product_id, name);
         RGBController_RazerKrakenV3* rgb_controller = new RGBController_RazerKrakenV3(controller);
-        DetectionManager::get()->RegisterRGBController(rgb_controller);
+
+        detected_controllers.push_back(rgb_controller);
     }
-}   /* DetectRazerKrakenV3Controllers() */
 
-/******************************************************************************************\
-*                                                                                          *
-*   DetectRazerKrakenV4Controllers                                                         *
-*                                                                                          *
-*       Tests the USB address to see if a Razer Kraken V4 controller exists there.         *
-*                                                                                          *
-\******************************************************************************************/
+    return(detected_controllers);
+}
 
-void DetectRazerKrakenV4Controllers(hid_device_info* info, const std::string& name)
+DetectedControllers DetectRazerKrakenV4Controllers(hid_device_info* info, const std::string& name)
 {
-    hid_device* dev = hid_open_path(info->path);
+    DetectedControllers detected_controllers;
+    hid_device*         dev;
+
+    dev = hid_open_path(info->path);
 
     if(dev)
     {
-        RazerKrakenV4Controller* controller = new RazerKrakenV4Controller(dev, info->path, info->product_id, name);
-
+        RazerKrakenV4Controller*     controller     = new RazerKrakenV4Controller(dev, info->path, info->product_id, name);
         RGBController_RazerKrakenV4* rgb_controller = new RGBController_RazerKrakenV4(controller);
-        DetectionManager::get()->RegisterRGBController(rgb_controller);
+
+        detected_controllers.push_back(rgb_controller);
     }
-}   /* DetectRazerKrakenV4Controllers() */
 
-/******************************************************************************************\
-*                                                                                          *
-*   DetectRazerHanboController                                                             *
-*                                                                                          *
-*       Tests the USB address to see if a Razer Hanbo controller exists there.             *
-*                                                                                          *
-\******************************************************************************************/
+    return(detected_controllers);
+}
 
-void DetectRazerHanboControllers(hid_device_info* info, const std::string& name)
+DetectedControllers DetectRazerHanboControllers(hid_device_info* info, const std::string& name)
 {
-    hid_device* dev = hid_open_path(info->path);
+    DetectedControllers detected_controllers;
+    hid_device*         dev;
+
+    dev = hid_open_path(info->path);
 
     if(dev)
     {
-        RazerHanboController* controller = new RazerHanboController(dev, info->path, info->product_id, name);
-
+        RazerHanboController*     controller     = new RazerHanboController(dev, info->path, info->product_id, name);
         RGBController_RazerHanbo* rgb_controller = new RGBController_RazerHanbo(controller);
-        DetectionManager::get()->RegisterRGBController(rgb_controller);
+
+        detected_controllers.push_back(rgb_controller);
     }
-}   /* DetectRazerHanboControllers() */
+
+    return(detected_controllers);
+}
 
 /*-----------------------------------------------------------------------------------------------------*\
 | Keyboards                                                                                             |

@@ -9,10 +9,10 @@
 |   SPDX-License-Identifier: GPL-2.0-or-later               |
 \*---------------------------------------------------------*/
 
-#include "DetectionManager.h"
-#include "AnnePro2Controller.h"
-#include "RGBController_AnnePro2.h"
 #include <hidapi.h>
+#include "AnnePro2Controller.h"
+#include "DetectionManager.h"
+#include "RGBController_AnnePro2.h"
 
 /*---------------------------------------------------------*\
 | Anne Pro 2 vendor IDs                                     |
@@ -29,25 +29,22 @@
 #define ANNE_PRO_2_PID_4                            0xA293
 #define ANNE_PRO_2_PID_5                            0xA297
 
-/******************************************************************************************\
-*                                                                                          *
-*   DetectAnnePro2Controllers                                                              *
-*                                                                                          *
-*       Tests the USB address to see if an Obins Lab AnnePro2 keyboard exists there.       *
-*                                                                                          *
-\******************************************************************************************/
-
-void DetectAnnePro2Controllers(hid_device_info* info, const std::string&)
+DetectedControllers DetectAnnePro2Controllers(hid_device_info* info, const std::string&)
 {
-    hid_device* dev = hid_open_path(info->path);
+    DetectedControllers detected_controllers;
+    hid_device*         dev;
+
+    dev = hid_open_path(info->path);
 
     if(dev)
     {
         AnnePro2Controller*     controller     = new AnnePro2Controller(dev, info->path);
         RGBController_AnnePro2* rgb_controller = new RGBController_AnnePro2(controller);
 
-        DetectionManager::get()->RegisterRGBController(rgb_controller);
+        detected_controllers.push_back(rgb_controller);
     }
+
+    return(detected_controllers);
 }
 
 REGISTER_HID_DETECTOR_I("Anne Pro 2", DetectAnnePro2Controllers, ANNE_PRO_2_VID_1, ANNE_PRO_2_PID_1, 1);
