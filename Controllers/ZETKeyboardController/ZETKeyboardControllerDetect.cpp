@@ -14,26 +14,31 @@
 
 #include <hidapi.h>
 #include "DetectionManager.h"
-#include "ZETBladeOpticalController.h"
 #include "RGBController_ZETBladeOptical.h"
+#include "ZETBladeOpticalController.h"
 
-/*-----------------------------------------------------*\
-| ZET keyboard VID/PID pairs                            |
-\*-----------------------------------------------------*/
+/*---------------------------------------------------------*\
+| ZET keyboard VID/PID pairs                                |
+\*---------------------------------------------------------*/
 #define ZET_BLADE_OPTICAL_VID                     0x2EA8
 #define ZET_BLADE_OPTICAL_PID                     0x2125
 
-void DetectZETBladeOptical(hid_device_info* info, const std::string& name)
+DetectedControllers DetectZETBladeOptical(hid_device_info* info, const std::string& name)
 {
-    hid_device* dev = hid_open_path(info->path);
+    DetectedControllers detected_controllers;
+    hid_device*         dev;
 
-    if (dev)
+    dev = hid_open_path(info->path);
+
+    if(dev)
     {
         ZETBladeOpticalController*     controller     = new ZETBladeOpticalController(dev, info->path, name);
         RGBController_ZETBladeOptical* rgb_controller = new RGBController_ZETBladeOptical(controller);
 
-        DetectionManager::get()->RegisterRGBController(rgb_controller);
+        detected_controllers.push_back(rgb_controller);
     }
+
+    return(detected_controllers);
 }
 
 REGISTER_HID_DETECTOR_IP("ZET Blade Optical",    DetectZETBladeOptical, ZET_BLADE_OPTICAL_VID, ZET_BLADE_OPTICAL_PID,   1, 0xFF00);

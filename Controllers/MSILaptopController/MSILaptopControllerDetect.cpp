@@ -196,38 +196,40 @@ static const MSILaptopModel* GetMSILaptopModelDMI()
     return nullptr;
 }
 
-void DetectMSILaptop(hid_device_info* info, const std::string& name)
+DetectedControllers DetectMSILaptop(hid_device_info* info, const std::string& name)
 {
-    const MSILaptopModel* model = GetMSILaptopModelDMI();
-    if(!model)
+    DetectedControllers     detected_controllers;
+    const MSILaptopModel*   model = GetMSILaptopModelDMI();
+
+    if(model)
     {
-        return;
+        msi_laptop_device device_type;
+
+        if(info->product_id == STEELSERIES_MSI_RAIDER_A18_KLC_PID)
+        {
+            device_type = MSI_LAPTOP_KLC;
+        }
+        else if(info->product_id == STEELSERIES_MSI_RAIDER_A18_ALC_PID)
+        {
+            device_type = MSI_LAPTOP_ALC;
+        }
+        else
+        {
+            return(detected_controllers);
+        }
+
+        hid_device* dev = hid_open_path(info->path);
+
+        if(dev)
+        {
+            MSILaptopController*     controller     = new MSILaptopController(dev, info->path, name, device_type);
+            RGBController_MSILaptop* rgb_controller = new RGBController_MSILaptop(controller, model);
+
+            detected_controllers.push_back(rgb_controller);
+        }
     }
 
-    msi_laptop_device device_type;
-
-    if(info->product_id == STEELSERIES_MSI_RAIDER_A18_KLC_PID)
-    {
-        device_type = MSI_LAPTOP_KLC;
-    }
-    else if(info->product_id == STEELSERIES_MSI_RAIDER_A18_ALC_PID)
-    {
-        device_type = MSI_LAPTOP_ALC;
-    }
-    else
-    {
-        return;
-    }
-
-    hid_device* dev = hid_open_path(info->path);
-
-    if(dev)
-    {
-        MSILaptopController*     controller     = new MSILaptopController(dev, info->path, name, device_type);
-        RGBController_MSILaptop* rgb_controller = new RGBController_MSILaptop(controller, model);
-
-        DetectionManager::get()->RegisterRGBController(rgb_controller);
-    }
+    return(detected_controllers);
 }
 
 REGISTER_HID_DETECTOR("MSI Laptop Keyboard", DetectMSILaptop, STEELSERIES_VID, STEELSERIES_MSI_RAIDER_A18_KLC_PID);

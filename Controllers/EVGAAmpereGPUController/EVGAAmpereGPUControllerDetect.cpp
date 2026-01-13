@@ -11,24 +11,15 @@
 
 #include "DetectionManager.h"
 #include "EVGAGPUv3Controller.h"
-#include "LogManager.h"
-#include "RGBController_EVGAGPUv3.h"
 #include "i2c_smbus.h"
+#include "LogManager.h"
 #include "pci_ids.h"
+#include "RGBController_EVGAGPUv3.h"
 
-/******************************************************************************************\
-*                                                                                          *
-*   DetectEVGAAmpereGPUControllers                                                         *
-*                                                                                          *
-*       Detect EVGA Ampere GPU controllers on the enumerated I2C busses at address 0x2D.   *
-*                                                                                          *
-*           bus - pointer to i2c_smbus_interface where EVGA GPU device is connected        *
-*           dev - I2C address of EVGA GPU device                                           *
-*                                                                                          *
-\******************************************************************************************/
-
-void DetectEVGAAmpereGPUControllers(i2c_smbus_interface* bus, uint8_t address, const std::string& name)
+DetectedControllers DetectEVGAAmpereGPUControllers(i2c_smbus_interface* bus, uint8_t address, const std::string& name)
 {
+    DetectedControllers detected_controllers;
+
     if(bus->port_id == 1)
     {
         EVGAGPUv3Controller*     controller;
@@ -40,7 +31,7 @@ void DetectEVGAAmpereGPUControllers(i2c_smbus_interface* bus, uint8_t address, c
         {
             rgb_controller = new RGBController_EVGAGPUv3(controller);
 
-            DetectionManager::get()->RegisterRGBController(rgb_controller);
+            detected_controllers.push_back(rgb_controller);
         }
         else
         {
@@ -48,7 +39,9 @@ void DetectEVGAAmpereGPUControllers(i2c_smbus_interface* bus, uint8_t address, c
             delete controller;
         }
     }
-}   /* DetectEVGAAmpereGPUControllers() */
+
+    return(detected_controllers);
+}
 
 REGISTER_I2C_PCI_DETECTOR("EVGA GeForce RTX 3060 Ti FTW3 Gaming"                , DetectEVGAAmpereGPUControllers, NVIDIA_VEN,   NVIDIA_RTX3060TI_DEV,       EVGA_SUB_VEN,   EVGA_RTX3060TI_FTW3_GAMING_SUB_DEV,             0x2D);
 REGISTER_I2C_PCI_DETECTOR("EVGA GeForce RTX 3060 Ti FTW3 Ultra"                 , DetectEVGAAmpereGPUControllers, NVIDIA_VEN,   NVIDIA_RTX3060TI_DEV,       EVGA_SUB_VEN,   EVGA_RTX3060TI_FTW3_ULTRA_SUB_DEV,              0x2D);

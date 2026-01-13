@@ -20,53 +20,62 @@
 #include "RGBController_ThermaltakeRiingQuad.h"
 #include "RGBController_ThermaltakeRiingTrio.h"
 
-
 #define THERMALTAKE_RIING_VID       0x264A
 #define THERMALTAKE_RIING_PID_BEGIN 0x1FA5
 #define THERMALTAKE_RIING_PID_END   0x1FB5
 
-/******************************************************************************************\
-*                                                                                          *
-*   DetectThermaltakeRiingControllers                                                      *
-*                                                                                          *
-*       Tests the USB address to see if an AMD Wraith Prism controller exists there.       *
-*                                                                                          *
-\******************************************************************************************/
-
-void DetectThermaltakeRiingControllers(hid_device_info* info, const std::string&)
+DetectedControllers DetectThermaltakeRiingControllers(hid_device_info* info, const std::string&)
 {
-    hid_device* dev = hid_open_path(info->path);
+    DetectedControllers detected_controllers;
+    hid_device*         dev;
+
+    dev = hid_open_path(info->path);
+
     if(dev)
     {
-        ThermaltakeRiingController* controller = new ThermaltakeRiingController(dev, info->path);
+        ThermaltakeRiingController*     controller     = new ThermaltakeRiingController(dev, info->path);
         RGBController_ThermaltakeRiing* rgb_controller = new RGBController_ThermaltakeRiing(controller);
-        // Constructor sets the name
-        DetectionManager::get()->RegisterRGBController(rgb_controller);
-    }
-}   /* DetectThermaltakeRiingControllers() */
 
-void DetectThermaltakeRiingQuadControllers(hid_device_info* info, const std::string&)
-{
-    hid_device* dev = hid_open_path(info->path);
-    if(dev)
-    {
-        ThermaltakeRiingQuadController* controller = new ThermaltakeRiingQuadController(dev, info->path);
-        RGBController_ThermaltakeRiingQuad* rgb_controller = new RGBController_ThermaltakeRiingQuad(controller);
-        // Constructor sets the name
-        DetectionManager::get()->RegisterRGBController(rgb_controller);
+        detected_controllers.push_back(rgb_controller);
     }
+
+    return(detected_controllers);
 }
 
-void DetectThermaltakeRiingTrioControllers(hid_device_info* info, const std::string&)
+DetectedControllers DetectThermaltakeRiingQuadControllers(hid_device_info* info, const std::string&)
 {
-    hid_device* dev = hid_open_path(info->path);
+    DetectedControllers detected_controllers;
+    hid_device*         dev;
+
+    dev = hid_open_path(info->path);
+
     if(dev)
     {
-        ThermaltakeRiingTrioController* controller = new ThermaltakeRiingTrioController(dev, info->path);
-        RGBController_ThermaltakeRiingTrio* rgb_controller = new RGBController_ThermaltakeRiingTrio(controller);
-        // Constructor sets the name
-        DetectionManager::get()->RegisterRGBController(rgb_controller);
+        ThermaltakeRiingQuadController*     controller     = new ThermaltakeRiingQuadController(dev, info->path);
+        RGBController_ThermaltakeRiingQuad* rgb_controller = new RGBController_ThermaltakeRiingQuad(controller);
+
+        detected_controllers.push_back(rgb_controller);
     }
+
+    return(detected_controllers);
+}
+
+DetectedControllers DetectThermaltakeRiingTrioControllers(hid_device_info* info, const std::string&)
+{
+    DetectedControllers detected_controllers;
+    hid_device*         dev;
+
+    dev = hid_open_path(info->path);
+
+    if(dev)
+    {
+        ThermaltakeRiingTrioController*     controller     = new ThermaltakeRiingTrioController(dev, info->path);
+        RGBController_ThermaltakeRiingTrio* rgb_controller = new RGBController_ThermaltakeRiingTrio(controller);
+
+        detected_controllers.push_back(rgb_controller);
+    }
+
+    return(detected_controllers);
 }
 
 REGISTER_HID_DETECTOR("Thermaltake Riing (PID 0x1FA5)", DetectThermaltakeRiingControllers, THERMALTAKE_RIING_VID, 0x1FA5);

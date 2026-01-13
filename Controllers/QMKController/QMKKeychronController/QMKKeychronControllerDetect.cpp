@@ -14,9 +14,12 @@
 #include "QMKKeychronController.h"
 #include "RGBController_QMKKeychron.h"
 
-void DetectQMKKeychronControllers(hid_device_info *info, const std::string& /*name*/)
+DetectedControllers DetectQMKKeychronControllers(hid_device_info* info, const std::string& /*name*/)
 {
-    hid_device *dev = hid_open_path(info->path);
+    DetectedControllers detected_controllers;
+    hid_device*         dev;
+
+    dev = hid_open_path(info->path);
 
     if(dev)
     {
@@ -25,13 +28,16 @@ void DetectQMKKeychronControllers(hid_device_info *info, const std::string& /*na
         if(controller->GetSupported())
         {
             RGBController_QMKKeychron* rgb_controller = new RGBController_QMKKeychron(controller);
-            DetectionManager::get()->RegisterRGBController(rgb_controller);
+
+            detected_controllers.push_back(rgb_controller);
         }
         else
         {
             delete controller;
         }
     }
+
+    return(detected_controllers);
 }
 
 REGISTER_HID_DETECTOR_IPU("Keychron C1 Pro",    DetectQMKKeychronControllers,   KEYCHRON_VID,   KEYCHRON_C1_PRO_ANSI_RGB_PID,               1,  KEYCHRON_QMK_USAGE_PAGE,    KEYCHRON_QMK_USAGE);

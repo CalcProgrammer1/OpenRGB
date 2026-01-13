@@ -48,8 +48,10 @@ static const thrustmaster_sol_device device_list[] =
 *                                                                                          *
 \******************************************************************************************/
 
-void DetectThrustmasterSolControllers()
+DetectedControllers DetectThrustmasterSolControllers()
 {
+    DetectedControllers detected_controllers;
+
     libusb_init(NULL);
 
     #ifdef _WIN32
@@ -59,55 +61,55 @@ void DetectThrustmasterSolControllers()
     libusb_device** devs;
     ssize_t num_devs = libusb_get_device_list(NULL, &devs);
 
-    if(num_devs <= 0)
+    if(num_devs > 0)
     {
-        return;
-    }
-
-    for(ssize_t i = 0; i < num_devs; i++)
-    {
-        libusb_device_descriptor desc;
-
-        if(libusb_get_device_descriptor(devs[i], &desc) != 0)
+        for(ssize_t i = 0; i < num_devs; i++)
         {
-            continue;
-        }
+            libusb_device_descriptor desc;
 
-        for(std::size_t d = 0; d < THRUSTMASTER_SOL_NUM_DEVICES; d++)
-        {
-            if(desc.idVendor  == device_list[d].usb_vid &&
-               desc.idProduct == device_list[d].usb_pid)
+            if(libusb_get_device_descriptor(devs[i], &desc) != 0)
             {
-                libusb_device_handle* handle = NULL;
+                continue;
+            }
 
-                if(libusb_open(devs[i], &handle) != LIBUSB_SUCCESS)
+            for(std::size_t d = 0; d < THRUSTMASTER_SOL_NUM_DEVICES; d++)
+            {
+                if(desc.idVendor  == device_list[d].usb_vid &&
+                desc.idProduct == device_list[d].usb_pid)
                 {
-                    continue;
+                    libusb_device_handle* handle = NULL;
+
+                    if(libusb_open(devs[i], &handle) != LIBUSB_SUCCESS)
+                    {
+                        continue;
+                    }
+
+                    libusb_set_auto_detach_kernel_driver(handle, 1);
+
+                    if(libusb_claim_interface(handle, THRUSTMASTER_SOL_INTERFACE) != LIBUSB_SUCCESS)
+                    {
+                        libusb_close(handle);
+                        continue;
+                    }
+
+                    uint8_t bus     = libusb_get_bus_number(devs[i]);
+                    uint8_t address = libusb_get_device_address(devs[i]);
+                    char path[32];
+                    snprintf(path, sizeof(path), "%d-%d", bus, address);
+
+                    ThrustmasterSolController*      controller     = new ThrustmasterSolController(handle, path, desc.idProduct, device_list[d].name);
+                    RGBController_ThrustmasterSol*  rgb_controller = new RGBController_ThrustmasterSol(controller);
+
+                    detected_controllers.push_back(rgb_controller);
+                    break;
                 }
-
-                libusb_set_auto_detach_kernel_driver(handle, 1);
-
-                if(libusb_claim_interface(handle, THRUSTMASTER_SOL_INTERFACE) != LIBUSB_SUCCESS)
-                {
-                    libusb_close(handle);
-                    continue;
-                }
-
-                uint8_t bus     = libusb_get_bus_number(devs[i]);
-                uint8_t address = libusb_get_device_address(devs[i]);
-                char path[32];
-                snprintf(path, sizeof(path), "%d-%d", bus, address);
-
-                ThrustmasterSolController*      controller     = new ThrustmasterSolController(handle, path, desc.idProduct, device_list[d].name);
-                RGBController_ThrustmasterSol*  rgb_controller = new RGBController_ThrustmasterSol(controller);
-
-                DetectionManager::get()->RegisterRGBController(rgb_controller);
-                break;
             }
         }
+
+        libusb_free_device_list(devs, 1);
     }
 
-    libusb_free_device_list(devs, 1);
+    return(detected_controllers);
 }
 
 REGISTER_DETECTOR("Thrustmaster Sol", DetectThrustmasterSolControllers);

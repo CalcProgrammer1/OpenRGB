@@ -15,44 +15,54 @@
 #include "RGBController_LenovoUSB.h"
 #include "RGBController_Lenovo_Gen7_8.h"
 
-/*-----------------------------------------------------*\
-| vendor IDs                                            |
-\*-----------------------------------------------------*/
+/*---------------------------------------------------------*\
+| Vendor IDs                                                |
+\*---------------------------------------------------------*/
 #define ITE_VID                                 0x048D
 
-/*-----------------------------------------------------*\
-| Interface, Usage, and Usage Page                      |
-\*-----------------------------------------------------*/
+/*---------------------------------------------------------*\
+| Interface, Usage, and Usage Page                          |
+\*---------------------------------------------------------*/
 enum
 {
     LENOVO_PAGE   = 0xFF89,
     LENOVO_USAGE = 0x07
 };
 
-void DetectLenovoLegionUSBControllers(hid_device_info* info, const std::string& name)
+DetectedControllers DetectLenovoLegionUSBControllers(hid_device_info* info, const std::string& name)
 {
-    hid_device* dev = hid_open_path(info->path);
+    DetectedControllers detected_controllers;
+    hid_device*         dev;
+
+    dev = hid_open_path(info->path);
 
     if(dev)
     {
         LenovoUSBController*     controller      = new LenovoUSBController(dev, info->path, info->product_id, name);
         RGBController_LenovoUSB* rgb_controller  = new RGBController_LenovoUSB(controller);
 
-        DetectionManager::get()->RegisterRGBController(rgb_controller);
+        detected_controllers.push_back(rgb_controller);
     }
+
+    return(detected_controllers);
 }
 
-void DetectLenovoLegionUSBControllersGen7And8(hid_device_info* info, const std::string& name)
+DetectedControllers DetectLenovoLegionUSBControllersGen7And8(hid_device_info* info, const std::string& name)
 {
-    hid_device* dev = hid_open_path(info->path);
+    DetectedControllers detected_controllers;
+    hid_device*         dev;
+
+    dev = hid_open_path(info->path);
 
     if(dev)
     {
         LenovoGen7And8USBController*    controller      = new LenovoGen7And8USBController(dev, info->path, info->product_id, name);
         LenovoRGBController_Gen7_8*     rgb_controller  = new LenovoRGBController_Gen7_8(controller);
 
-        DetectionManager::get()->RegisterRGBController(rgb_controller);
+        detected_controllers.push_back(rgb_controller);
     }
+
+    return(detected_controllers);
 }
 
 REGISTER_HID_DETECTOR_PU("Lenovo Legion Y740",      DetectLenovoLegionUSBControllers,         ITE_VID, LEGION_Y740,    LENOVO_PAGE, LENOVO_USAGE);
