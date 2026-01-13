@@ -17,8 +17,10 @@
 #define CORSAIR_VID     0x1B1C
 #define H100I_V2_PID    0x0C09
 
-void DetectCorsairHydro2Controllers()
+DetectedControllers DetectCorsairHydro2Controllers()
 {
+    DetectedControllers detected_controllers;
+
     libusb_init(NULL);
 
     #ifdef _WIN32
@@ -35,8 +37,10 @@ void DetectCorsairHydro2Controllers()
         CorsairHydro2Controller*     controller     = new CorsairHydro2Controller(dev);
         RGBController_CorsairHydro2* rgb_controller = new RGBController_CorsairHydro2(controller);
 
-        DetectionManager::get()->RegisterRGBController(rgb_controller);
+        detected_controllers.push_back(rgb_controller);
     }
+
+    return(detected_controllers);
 }
 
 REGISTER_DETECTOR("Corsair H100i v2", DetectCorsairHydro2Controllers);

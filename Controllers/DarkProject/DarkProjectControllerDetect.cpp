@@ -22,17 +22,22 @@
 \*---------------------------------------------------------*/
 #define KD3B_V2_PID                                    0x2061
 
-void DetectDarkProjectKeyboardControllers(hid_device_info* info, const std::string& name)
+DetectedControllers DetectDarkProjectKeyboardControllers(hid_device_info* info, const std::string& name)
 {
-    hid_device* dev = hid_open_path(info->path);
+    DetectedControllers detected_controllers;
+    hid_device*         dev;
+
+    dev = hid_open_path(info->path);
 
     if(dev)
     {
         DarkProjectKeyboardController*     controller       = new DarkProjectKeyboardController(dev, info->path, name);
         RGBController_DarkProjectKeyboard* rgb_controller   = new RGBController_DarkProjectKeyboard(controller);
 
-        DetectionManager::get()->RegisterRGBController(rgb_controller);
+        detected_controllers.push_back(rgb_controller);
     }
+
+    return(detected_controllers);
 }
 
 REGISTER_HID_DETECTOR_IPU("Dark Project KD3B V2", DetectDarkProjectKeyboardControllers, DARKPROJECT_VID, KD3B_V2_PID, 2, 0xFFC2, 4);

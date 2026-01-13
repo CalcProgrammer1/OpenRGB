@@ -43,15 +43,17 @@ using json = nlohmann::json;
 /*---------------------------------------------------------*\
 | Detector Function Types                                   |
 \*---------------------------------------------------------*/
-typedef std::function<bool()>                                                                       I2CBusDetectorFunction;
-typedef std::function<void()>                                                                       DeviceDetectorFunction;
-typedef std::function<void(std::vector<i2c_smbus_interface*>&)>                                     I2CDeviceDetectorFunction;
-typedef std::function<void(i2c_smbus_interface*, std::vector<SPDWrapper*>&, const std::string&)>    I2CDRAMDeviceDetectorFunction;
-typedef std::function<void(i2c_smbus_interface*, uint8_t, const std::string&)>                      I2CPCIDeviceDetectorFunction;
-typedef std::function<void(hid_device_info*, const std::string&)>                                   HIDDeviceDetectorFunction;
-typedef std::function<void(hidapi_wrapper wrapper, hid_device_info*, const std::string&)>           HIDWrappedDeviceDetectorFunction;
-typedef std::function<void()>                                                                       DynamicDetectorFunction;
-typedef std::function<void()>                                                                       PreDetectionHookFunction;
+typedef std::vector<RGBController*> DetectedControllers;
+
+typedef std::function<bool()>                                                                                       I2CBusDetectorFunction;
+typedef std::function<DetectedControllers()>                                                                        DeviceDetectorFunction;
+typedef std::function<DetectedControllers(std::vector<i2c_smbus_interface*>&)>                                      I2CDeviceDetectorFunction;
+typedef std::function<DetectedControllers(i2c_smbus_interface*, std::vector<SPDWrapper*>&, const std::string&)>     I2CDRAMDeviceDetectorFunction;
+typedef std::function<DetectedControllers(i2c_smbus_interface*, uint8_t, const std::string&)>                       I2CPCIDeviceDetectorFunction;
+typedef std::function<DetectedControllers(hid_device_info*, const std::string&)>                                    HIDDeviceDetectorFunction;
+typedef std::function<DetectedControllers(hidapi_wrapper wrapper, hid_device_info*, const std::string&)>            HIDWrappedDeviceDetectorFunction;
+typedef std::function<void()>                                                                                       DynamicDetectorFunction;
+typedef std::function<void()>                                                                                       PreDetectionHookFunction;
 
 /*---------------------------------------------------------*\
 | Detector Block Types                                      |
@@ -283,8 +285,14 @@ private:
     void BackgroundDetectI2CDRAMDevices(json detector_settings);
     void BackgroundDetectI2CPCIDevices(json detector_settings);
     void BackgroundDetectOtherDevices(json detector_settings);
-    void BackgroundHidExit();
-    void BackgroundHidInit();
+    void BackgroundHIDExit();
+    void BackgroundHIDInit();
+
+    /*-----------------------------------------------------*\
+    | Functions to run detectors                            |
+    \*-----------------------------------------------------*/
+    void RunHIDDetector(hid_device_info* current_hid_device, json detector_settings);
+    void RunHIDWrappedDetector(const hidapi_wrapper* wrapper, hid_device_info* current_hid_device, json detector_settings);
 
     /*-----------------------------------------------------*\
     | Detection processing functions                        |

@@ -19,17 +19,22 @@
 #define CORSAIR_VID                         0x1B1C
 #define CORSAIR_ICUE_LINK_SYSTEM_HUB_PID    0x0C3F
 
-void DetectCorsairICueLinkControllers(hid_device_info* info, const std::string& name)
+DetectedControllers DetectCorsairICueLinkControllers(hid_device_info* info, const std::string& name)
 {
-    hid_device* dev = hid_open_path(info->path);
+    DetectedControllers detected_controllers;
+    hid_device*         dev;
+
+    dev = hid_open_path(info->path);
 
     if(dev)
     {
         CorsairICueLinkController*     controller     = new CorsairICueLinkController(dev, info->path, name);
         RGBController_CorsairICueLink* rgb_controller = new RGBController_CorsairICueLink(controller);
 
-        DetectionManager::get()->RegisterRGBController(rgb_controller);
+        detected_controllers.push_back(rgb_controller);
     }
+
+    return(detected_controllers);
 }
 
 REGISTER_HID_DETECTOR_IPU("Corsair iCUE Link System Hub", DetectCorsairICueLinkControllers, CORSAIR_VID, CORSAIR_ICUE_LINK_SYSTEM_HUB_PID, 0x00, 0xFF42, 0x01);

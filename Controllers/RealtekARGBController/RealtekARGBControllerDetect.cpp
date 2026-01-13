@@ -13,28 +13,24 @@
 #include "RGBController.h"
 #include "RGBController_RealtekARGB.h"
 
-/******************************************************************************************\
-*                                                                                          *
-*   DetectRealtekARGBControllers                                                           *
-*                                                                                          *
-*       Tests the USB address to see if an Realtek ARGB controller exists there            *
-*                                                                                          *
-\******************************************************************************************/
-void DetectRealtekARGBControllers(hid_device_info* info, const std::string& /*name*/)
+DetectedControllers DetectRealtekARGBControllers(hid_device_info* info, const std::string& /*name*/)
 {
-    RealtekARGBController* controller = NULL;
-    RGBController_RealtekARGB* rgb_controller = NULL;
-    hid_device* dev = hid_open_path(info->path);
+    DetectedControllers detected_controllers;
+    hid_device*         dev;
+
+    dev = hid_open_path(info->path);
 
     if(dev)
     {
-        controller = new RealtekARGBController(dev, info);
+        RealtekARGBController * controller = new RealtekARGBController(dev, info);
+
         if(controller->get_support_openrgb())
         {
-            rgb_controller = new RGBController_RealtekARGB(controller);
+            RGBController_RealtekARGB * rgb_controller = new RGBController_RealtekARGB(controller);
+
             if(rgb_controller->GetDeviceType() != DEVICE_TYPE_UNKNOWN)
             {
-                DetectionManager::get()->RegisterRGBController(rgb_controller);
+                detected_controllers.push_back(rgb_controller);
             }
             else
             {
@@ -46,7 +42,8 @@ void DetectRealtekARGBControllers(hid_device_info* info, const std::string& /*na
             delete controller;
         }
     }
-    return;
+
+    return(detected_controllers);
 }
 
 REGISTER_HID_DETECTOR_PU("RTL9209", DetectRealtekARGBControllers, REALTEK_ARGB_VID, REALTEK_ARGB_PID, REALTEK_ARGB_HID2SCSI_PG, REALTEK_ARGB_HID2SCSI_USAGE);

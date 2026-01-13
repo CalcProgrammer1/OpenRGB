@@ -14,26 +14,23 @@
 #include "GaiZhongGaiController.h"
 #include "RGBController_GaiZhongGai.h"
 
-/******************************************************************************************\
-*                                                                                          *
-*   DetectGaiZhongGaiKeyboardControllers                                                   *
-*                                                                                          *
-*       Tests the USB address to see if a GaiZhongGai RGB Keyboard controller exists there.*
-*                                                                                          *
-\******************************************************************************************/
-
-void DetectGaiZhongGaiKeyboardControllers(hid_device_info* info, const std::string& name)
+DetectedControllers DetectGaiZhongGaiKeyboardControllers(hid_device_info* info, const std::string& name)
 {
-    hid_device* dev = hid_open_path(info->path);
+    DetectedControllers detected_controllers;
+    hid_device*         dev;
+
+    dev = hid_open_path(info->path);
 
     if(dev)
     {
-        GaiZhongGaiKeyboardController* controller           = new GaiZhongGaiKeyboardController(dev, info, name);
+        GaiZhongGaiKeyboardController*     controller       = new GaiZhongGaiKeyboardController(dev, info, name);
         RGBController_GaiZhongGaiKeyboard* rgb_controller   = new RGBController_GaiZhongGaiKeyboard(controller);
 
-        DetectionManager::get()->RegisterRGBController(rgb_controller);
+        detected_controllers.push_back(rgb_controller);
     }
-}   /* DetectGaiZhongGaiKeyboardControllers() */
+
+    return(detected_controllers);
+}
 
 REGISTER_HID_DETECTOR_I("GaiZhongGai 68+4 PRO",         DetectGaiZhongGaiKeyboardControllers, GAIZHONGGAI_VID, GAIZHONGGAI_68_PRO_PID,          3);
 REGISTER_HID_DETECTOR_I("GaiZhongGai 42 PRO",           DetectGaiZhongGaiKeyboardControllers, GAIZHONGGAI_VID, GAIZHONGGAI_42_PRO_PID,          3);

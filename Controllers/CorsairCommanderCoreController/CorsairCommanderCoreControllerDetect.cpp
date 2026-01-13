@@ -10,8 +10,8 @@
 \*---------------------------------------------------------*/
 
 #include <hidapi.h>
-#include "DetectionManager.h"
 #include "CorsairCommanderCoreController.h"
+#include "DetectionManager.h"
 #include "RGBController_CorsairCommanderCore.h"
 
 /*-----------------------------------------------------*\
@@ -19,25 +19,22 @@
 \*-----------------------------------------------------*/
 #define CORSAIR_VID                         0x1B1C
 
-/******************************************************************************************\
-*                                                                                          *
-*   DetectCorsairCommanderCoreControllers                                                  *
-*                                                                                          *
-*       Tests the USB address to see if a Corsair RGB Cooler controller exists there.      *
-*                                                                                          *
-\******************************************************************************************/
-
-void DetectCorsairCommanderCoreControllers(hid_device_info* info, const std::string& name)
+DetectedControllers DetectCorsairCommanderCoreControllers(hid_device_info* info, const std::string& name)
 {
-    hid_device* dev = hid_open_path(info->path);
+    DetectedControllers detected_controllers;
+    hid_device*         dev;
+
+    dev = hid_open_path(info->path);
 
     if(dev)
     {
         CorsairCommanderCoreController*     controller     = new CorsairCommanderCoreController(dev, info->path, info->product_id, name);
         RGBController_CorsairCommanderCore* rgb_controller = new RGBController_CorsairCommanderCore(controller);
 
-        DetectionManager::get()->RegisterRGBController(rgb_controller);
+        detected_controllers.push_back(rgb_controller);
     }
+
+    return(detected_controllers);
 }
 
 REGISTER_HID_DETECTOR_IPU("Corsair Commander Core", DetectCorsairCommanderCoreControllers, CORSAIR_VID, CORSAIR_COMMANDER_CORE_PID,  0x00, 0xFF42, 0x01);

@@ -19,14 +19,6 @@
 
 #define ASUSGPU_CONTROLLER_NAME "ASUS Aura GPU"
 
-/******************************************************************************************\
-*                                                                                          *
-*   TestForAuraGPUController                                                               *
-*                                                                                          *
-*       Tests the given address to see if an Aura GPU controller exists there.             *
-*                                                                                          *
-\******************************************************************************************/
-
 bool TestForAsusAuraGPUController(i2c_smbus_interface* bus, unsigned char address)
 {
     if(bus->pci_vendor == AMD_GPU_VEN && !is_amd_gpu_i2c_bus(bus))
@@ -48,31 +40,26 @@ bool TestForAsusAuraGPUController(i2c_smbus_interface* bus, unsigned char addres
 
     return(pass);
 
-}   /* TestForAuraGPUController() */
+}
 
-/******************************************************************************************\
-*                                                                                          *
-*   DetectAuraGPUControllers                                                               *
-*                                                                                          *
-*       Detect Aura GPU controllers on the enumerated I2C busses.                          *
-*                                                                                          *
-\******************************************************************************************/
-
-void DetectAsusAuraGPUControllers(i2c_smbus_interface* bus, uint8_t i2c_addr, const std::string& name)
+DetectedControllers DetectAsusAuraGPUControllers(i2c_smbus_interface* bus, uint8_t i2c_addr, const std::string& name)
 {
+    DetectedControllers detected_controllers;
+
     if(TestForAsusAuraGPUController(bus, i2c_addr))
     {
         AuraGPUController*     controller     = new AuraGPUController(bus, i2c_addr, name);
         RGBController_AuraGPU* rgb_controller = new RGBController_AuraGPU(controller);
 
-        DetectionManager::get()->RegisterRGBController(rgb_controller);
+        detected_controllers.push_back(rgb_controller);
     }
-} /* DetectAsusAuraGPUControllers() */
 
-/*-----------------------------------------*\
-|  Nvidia GPUs                              |
-\*-----------------------------------------*/
+    return(detected_controllers);
+}
 
+/*---------------------------------------------------------*\
+|  Nvidia GPUs                                              |
+\*---------------------------------------------------------*/
 REGISTER_I2C_PCI_DETECTOR("ASUS ROG STRIX GeForce GTX 1050 Gaming OC",             DetectAsusAuraGPUControllers,   NVIDIA_VEN,     NVIDIA_GTX1050_DEV,         ASUS_SUB_VEN,   ASUS_GTX1050_STRIX_O2G_GAMING,              0x29);
 REGISTER_I2C_PCI_DETECTOR("ASUS ROG STRIX GeForce GTX 1050 Ti Gaming",             DetectAsusAuraGPUControllers,   NVIDIA_VEN,     NVIDIA_GTX1050TI_DEV,       ASUS_SUB_VEN,   ASUS_ROG_STRIX_GTX1050TI_4G_GAMING,         0x29);
 REGISTER_I2C_PCI_DETECTOR("ASUS ROG STRIX GeForce GTX 1050 Ti Gaming OC",          DetectAsusAuraGPUControllers,   NVIDIA_VEN,     NVIDIA_GTX1050TI_DEV,       ASUS_SUB_VEN,   ASUS_ROG_STRIX_GTX1050TI_O4G_GAMING,        0x29);
@@ -131,10 +118,9 @@ REGISTER_I2C_PCI_DETECTOR("ASUS ROG STRIX GeForce RTX 2080 Ti A11G Gaming",     
 REGISTER_I2C_PCI_DETECTOR("ASUS ROG STRIX GeForce RTX 2080 Ti Gaming OC",          DetectAsusAuraGPUControllers,   NVIDIA_VEN,     NVIDIA_RTX2080TI_A_DEV,     ASUS_SUB_VEN,   ASUS_ROG_STRIX_RTX2080TI_O11G_GAMING,       0x2A);
 REGISTER_I2C_PCI_DETECTOR("ASUS TUF GeForce RTX 3060 Ti Gaming OC",                DetectAsusAuraGPUControllers,   NVIDIA_VEN,     NVIDIA_RTX3060TI_LHR_DEV,   ASUS_SUB_VEN,   ASUS_TUF_RTX_3060TI_O8G_OC,                 0x2A);
 
-/*-----------------------------------------*\
-|  AMD GPUs                                 |
-\*-----------------------------------------*/
-
+/*---------------------------------------------------------*\
+|  AMD GPUs                                                 |
+\*---------------------------------------------------------*/
 REGISTER_I2C_PCI_DETECTOR("ASUS AREZ STRIX Radeon RX Vega 56 Gaming OC",           DetectAsusAuraGPUControllers,   AMD_GPU_VEN,    AMD_VEGA10_DEV,             ASUS_SUB_VEN,   ASUS_AREZ_STRIX_VEGA56_08G_GAMING,          0x29);
 REGISTER_I2C_PCI_DETECTOR("ASUS ROG STRIX Radeon Vega 64",                         DetectAsusAuraGPUControllers,   AMD_GPU_VEN,    AMD_VEGA10_DEV,             ASUS_SUB_VEN,   ASUS_VEGA64_STRIX,                          0x29);
 REGISTER_I2C_PCI_DETECTOR("ASUS ROG STRIX Radeon RX 470 Gaming OC",                DetectAsusAuraGPUControllers,   AMD_GPU_VEN,    AMD_POLARIS_DEV,            ASUS_SUB_VEN,   ASUS_RX470_STRIX_O4G_GAMING,                0x29);

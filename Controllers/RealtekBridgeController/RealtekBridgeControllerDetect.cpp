@@ -27,21 +27,24 @@
 *       Tests the USB address to see if an Realtek Bridge controller exists there          *
 *                                                                                          *
 \******************************************************************************************/
-void DetectRealtekBridgeControllers(hid_device_info* info, const std::string& /*name*/)
+DetectedControllers DetectRealtekBridgeControllers(hid_device_info* info, const std::string& /*name*/)
 {
-    RealtekBridgeController*     controller      = NULL;
-    RGBController_RealtekBridge* rgb_controller  = NULL;
-    hid_device*                  dev             = hid_open_path(info->path);
+    DetectedControllers detected_controllers;
+    hid_device*         dev;
+
+    dev = hid_open_path(info->path);
 
     if(dev)
     {
-        controller = new RealtekBridgeController(dev, info);
+        RealtekBridgeController * controller = new RealtekBridgeController(dev, info);
+
         if(controller->get_support_openrgb())
         {
-            rgb_controller = new RGBController_RealtekBridge(controller);
+            RGBController_RealtekBridge * rgb_controller = new RGBController_RealtekBridge(controller);
+
             if(rgb_controller->GetDeviceType() != DEVICE_TYPE_UNKNOWN)
             {
-                DetectionManager::get()->RegisterRGBController(rgb_controller);
+                detected_controllers.push_back(rgb_controller);
             }
             else
             {
@@ -53,7 +56,8 @@ void DetectRealtekBridgeControllers(hid_device_info* info, const std::string& /*
             delete controller;
         }
     }
-    return;
+
+    return(detected_controllers);
 }
 
 REGISTER_HID_DETECTOR_PU("RTL9220", DetectRealtekBridgeControllers, REALTEK_BRIDGE_VID, REALTEK_BRIDGE_PID0, REALTEK_HID2SCSI_PG, REALTEK_HID2SCSI_USAGE);
