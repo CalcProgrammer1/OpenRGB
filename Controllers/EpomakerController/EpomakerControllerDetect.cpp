@@ -19,28 +19,25 @@
 #define ATTACKSHARK_K86_USB_PID         0x4015
 #define EPOMAKER_TH80_Pro_Dongle_PID    0x4011 /* Attack shark's Dongle is the same. */
 #define EPOMAKER_TH80_Pro_BT_PID        0x4013
-#define ATTACKSHARK_K86_BT_PID          0x4012
+#define ATTACKSHARK_K86_BT_PID          0x401
 
-/******************************************************************************************\
-*                                                                                          *
-*   DetectEpomakerControllers                                                              *
-*                                                                                          *
-*       Tests the USB address to see if any Epomaker Controllers exists there.             *
-*                                                                                          *
-\******************************************************************************************/
-
-void DetectEpomakerControllers(hid_device_info* info, const std::string&)
+DetectedControllers DetectEpomakerControllers(hid_device_info* info, const std::string&)
 {
-    hid_device* dev = hid_open_path(info->path);
+    DetectedControllers detected_controllers;
+    hid_device*         dev;
+
+    dev = hid_open_path(info->path);
 
     if(dev)
     {
         EpomakerController*               controller     = new EpomakerController(dev, info->path);
         RGBController_EpomakerController* rgb_controller = new RGBController_EpomakerController(controller);
-        // Constructor sets the name
-        DetectionManager::get()->RegisterRGBController(rgb_controller);
+
+        detected_controllers.push_back(rgb_controller);
     }
-}   /* DetectEpomakerControllers() */
+
+    return(detected_controllers);
+}
 
 REGISTER_HID_DETECTOR_I("Epomaker TH80 Pro (USB Cable)", DetectEpomakerControllers, EPOMAKER_VID, EPOMAKER_TH80_Pro_USB_PID, 2);
 REGISTER_HID_DETECTOR_I("Epomaker TH80 Pro (USB Dongle)", DetectEpomakerControllers, EPOMAKER_VID, EPOMAKER_TH80_Pro_Dongle_PID, 2);

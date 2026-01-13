@@ -7,55 +7,65 @@
 |   SPDX-License-Identifier: GPL-2.0-or-later               |
 \*---------------------------------------------------------*/
 
-/*-----------------------------------------------------*\
-| OpenRGB includes                                      |
-\*-----------------------------------------------------*/
+/*---------------------------------------------------------*\
+| OpenRGB includes                                          |
+\*---------------------------------------------------------*/
 #include <hidapi.h>
 #include "DetectionManager.h"
 
-/*-----------------------------------------------------*\
-| Corsair Peripheral specific includes                  |
-\*-----------------------------------------------------*/
+/*---------------------------------------------------------*\
+| Corsair Peripheral specific includes                      |
+\*---------------------------------------------------------*/
 #include "CorsairPeripheralV2Devices.h"
 #include "RGBController_CorsairV2Hardware.h"
 #include "RGBController_CorsairV2Software.h"
 
 #define CORSAIR_PERIPHERAL_CONTROLLER_NAME "Corsair V2 Peripheral"
 
-/*-----------------------------------------------------*\
-| Corsair vendor ID                                     |
-\*-----------------------------------------------------*/
+/*---------------------------------------------------------*\
+| Corsair vendor ID                                         |
+\*---------------------------------------------------------*/
 #define CORSAIR_VID                                 0x1B1C
 
-void DetectCorsairV2HardwareControllers(hid_device_info* info, const std::string& name)
+DetectedControllers DetectCorsairV2HardwareControllers(hid_device_info* info, const std::string& name)
 {
-    hid_device* dev = hid_open_path(info->path);
+    DetectedControllers detected_controllers;
+    hid_device*         dev;
+
+    dev = hid_open_path(info->path);
 
     if(dev)
     {
         CorsairPeripheralV2HWController*    controller      = new CorsairPeripheralV2HWController(dev, info->path, name);
         RGBController_CorsairV2HW*          rgb_controller  = new RGBController_CorsairV2HW(controller);
 
-        DetectionManager::get()->RegisterRGBController(rgb_controller);
+        detected_controllers.push_back(rgb_controller);
     }
-}   /* DetectCorsairV2HardwareControllers() */
 
-void DetectCorsairV2SoftwareControllers(hid_device_info* info, const std::string& name)
+    return(detected_controllers);
+}
+
+DetectedControllers DetectCorsairV2SoftwareControllers(hid_device_info* info, const std::string& name)
 {
-    hid_device* dev = hid_open_path(info->path);
+    DetectedControllers detected_controllers;
+    hid_device*         dev;
+
+    dev = hid_open_path(info->path);
 
     if(dev)
     {
         CorsairPeripheralV2SWController*    controller      = new CorsairPeripheralV2SWController(dev, info->path, name);
         RGBController_CorsairV2SW*          rgb_controller  = new RGBController_CorsairV2SW(controller);
 
-        DetectionManager::get()->RegisterRGBController(rgb_controller);
+        detected_controllers.push_back(rgb_controller);
     }
-}   /* DetectCorsairV2SoftwareControllers() */
 
-/*-----------------------------------------------------------------------------------------------------*\
-| Keyboards                                                                                             |
-\*-----------------------------------------------------------------------------------------------------*/
+    return(detected_controllers);
+}
+
+/*---------------------------------------------------------*\
+| Keyboards                                                 |
+\*---------------------------------------------------------*/
 REGISTER_HID_DETECTOR_IP("Corsair K55 RGB PRO",                     DetectCorsairV2SoftwareControllers, CORSAIR_VID,    CORSAIR_K55_RGB_PRO_PID,                1,  0xFF42);
 REGISTER_HID_DETECTOR_IP("Corsair K60 RGB PRO",                     DetectCorsairV2SoftwareControllers, CORSAIR_VID,    CORSAIR_K60_RGB_PRO_PID,                1,  0xFF42);
 REGISTER_HID_DETECTOR_IP("Corsair K60 RGB PRO Low Profile",         DetectCorsairV2SoftwareControllers, CORSAIR_VID,    CORSAIR_K60_RGB_PRO_LP_PID,             1,  0xFF42);
@@ -73,9 +83,9 @@ REGISTER_HID_DETECTOR_IP("Corsair K100 RGB Optical",                DetectCorsai
 REGISTER_HID_DETECTOR_IP("Corsair K100 RGB Optical",                DetectCorsairV2HardwareControllers, CORSAIR_VID,    CORSAIR_K100_OPTICAL_V2_PID,            1,  0xFF42);
 REGISTER_HID_DETECTOR_IP("Corsair K100 MX Red",                     DetectCorsairV2HardwareControllers, CORSAIR_VID,    CORSAIR_K100_MXRED_PID,                 1,  0xFF42);
 
-/*-----------------------------------------------------------------------------------------------------*\
-| Mice                                                                                                  |
-\*-----------------------------------------------------------------------------------------------------*/
+/*---------------------------------------------------------*\
+| Mice                                                      |
+\*---------------------------------------------------------*/
 REGISTER_HID_DETECTOR_IP("Corsair Dark Core RGB SE (Wired)",        DetectCorsairV2HardwareControllers, CORSAIR_VID,    CORSAIR_DARK_CORE_RGB_PID,              1,  0xFF42);
 REGISTER_HID_DETECTOR_IP("Corsair Dark Core RGB Pro SE (Wired)",    DetectCorsairV2HardwareControllers, CORSAIR_VID,    CORSAIR_DARK_CORE_RGB_PRO_PID,          1,  0xFF42);
 REGISTER_HID_DETECTOR_IP("Corsair Harpoon Wireless (Wired)",        DetectCorsairV2SoftwareControllers, CORSAIR_VID,    CORSAIR_HARPOON_WIRELESS_PID,           1,  0xFF42);
@@ -91,9 +101,8 @@ REGISTER_HID_DETECTOR_IP("Corsair Slipstream Wireless Receiver HW", DetectCorsai
 REGISTER_HID_DETECTOR_IP("Corsair Slipstream Wireless Receiver SW", DetectCorsairV2SoftwareControllers, CORSAIR_VID,    CORSAIR_SLIPSTREAM_WIRELESS_PID2,       1,  0xFF42);
 REGISTER_HID_DETECTOR_IP("Corsair Slipstream Wireless Receiver HW", DetectCorsairV2SoftwareControllers, CORSAIR_VID,    CORSAIR_SLIPSTREAM_WIRELESS_V2_PID1,    1,  0xFF42);
 
-
-/*-----------------------------------------------------------------------------------------------------*\
-| Mousemat                                                                                              |
-\*-----------------------------------------------------------------------------------------------------*/
+/*---------------------------------------------------------*\
+| Mousemat                                                  |
+\*---------------------------------------------------------*/
 REGISTER_HID_DETECTOR_IP("Corsair MM700",                           DetectCorsairV2SoftwareControllers, CORSAIR_VID,    CORSAIR_MM700_PID,                      1,  0xFF42);
 REGISTER_HID_DETECTOR_IP("Corsair MM700 3XL",                       DetectCorsairV2SoftwareControllers, CORSAIR_VID,    CORSAIR_MM700_3XL_PID,                  1,  0xFF42);

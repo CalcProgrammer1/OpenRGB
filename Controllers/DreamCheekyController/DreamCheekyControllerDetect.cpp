@@ -23,17 +23,22 @@
 \*---------------------------------------------------------*/
 #define DREAM_CHEEKY_WEBMAIL_NOTIFIER_PID           0x0004
 
-void DetectDreamCheekyControllers(hid_device_info* info, const std::string& name)
+DetectedControllers DetectDreamCheekyControllers(hid_device_info* info, const std::string& name)
 {
-    hid_device* dev = hid_open_path(info->path);
+    DetectedControllers detected_controllers;
+    hid_device*         dev;
+
+    dev = hid_open_path(info->path);
 
     if(dev)
     {
         DreamCheekyController*     controller     = new DreamCheekyController(dev, info->path, name);
         RGBController_DreamCheeky* rgb_controller = new RGBController_DreamCheeky(controller);
 
-        DetectionManager::get()->RegisterRGBController(rgb_controller);
+        detected_controllers.push_back(rgb_controller);
     }
+
+    return(detected_controllers);
 }
 
 REGISTER_HID_DETECTOR( "Dream Cheeky Webmail Notifier", DetectDreamCheekyControllers, DREAM_CHEEKY_VID, DREAM_CHEEKY_WEBMAIL_NOTIFIER_PID );

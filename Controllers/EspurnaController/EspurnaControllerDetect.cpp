@@ -16,26 +16,19 @@
 #include "RGBController.h"
 #include "SettingsManager.h"
 
-/******************************************************************************************\
-*                                                                                          *
-*   DetectEspurnaControllers                                                               *
-*                                                                                          *
-*       Detect devices supported by the Espurna driver                                     *
-*                                                                                          *
-\******************************************************************************************/
-
-void DetectEspurnaControllers()
+DetectedControllers DetectEspurnaControllers()
 {
-    json espurna_settings;
+    DetectedControllers detected_controllers;
+    json                espurna_settings;
 
-    /*-------------------------------------------------*\
-    | Get Espurna settings from settings manager        |
-    \*-------------------------------------------------*/
+    /*-----------------------------------------------------*\
+    | Get Espurna settings from settings manager            |
+    \*-----------------------------------------------------*/
     espurna_settings = ResourceManager::get()->GetSettingsManager()->GetSettings("EspurnaDevices");
 
-    /*-------------------------------------------------*\
-    | If the Espurna settings contains devices, process |
-    \*-------------------------------------------------*/
+    /*-----------------------------------------------------*\
+    | If the Espurna settings contains devices, process     |
+    \*-----------------------------------------------------*/
     if(espurna_settings.contains("devices"))
     {
         for(unsigned int device_idx = 0; device_idx < espurna_settings["devices"].size(); device_idx++)
@@ -73,10 +66,11 @@ void DetectEspurnaControllers()
 
             RGBController_Espurna* rgb_controller = new RGBController_Espurna(controller);
 
-            DetectionManager::get()->RegisterRGBController(rgb_controller);
+            detected_controllers.push_back(rgb_controller);
         }
     }
 
-}   /* DetectEspurnaControllers() */
+    return(detected_controllers);
+}
 
 REGISTER_DETECTOR("Espurna", DetectEspurnaControllers);

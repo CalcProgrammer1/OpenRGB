@@ -24,17 +24,22 @@
 #define LG_27GN950_B_PID                               0x9A8A
 #define LG_38GL950G_PID                                0x9A57
 
-static void DetectLGMonitorControllers(hid_device_info* info, const std::string& name)
+DetectedControllers DetectLGMonitorControllers(hid_device_info* info, const std::string& name)
 {
-    hid_device* dev = hid_open_path(info->path);
+    DetectedControllers detected_controllers;
+    hid_device*         dev;
+
+    dev = hid_open_path(info->path);
 
     if(dev)
     {
         LGMonitorController*     controller         = new LGMonitorController(dev, *info, name);
         RGBController_LGMonitor* rgb_controller     = new RGBController_LGMonitor(controller);
 
-        DetectionManager::get()->RegisterRGBController(rgb_controller);
+        detected_controllers.push_back(rgb_controller);
     }
+
+    return(detected_controllers);
 }
 
 REGISTER_HID_DETECTOR_IPU("LG 27GN950-B Monitor", DetectLGMonitorControllers, LG_MONITOR_VID, LG_27GN950_B_PID, 1, 0xFF01, 0x01);

@@ -8,42 +8,30 @@
 \*---------------------------------------------------------*/
 
 #include "DetectionManager.h"
-#include "MSIGPUController.h"
-#include "RGBController_MSIGPU.h"
 #include "i2c_amd_gpu.h"
 #include "i2c_smbus.h"
+#include "MSIGPUController.h"
 #include "pci_ids.h"
+#include "RGBController_MSIGPU.h"
 
-/******************************************************************************************\
-*                                                                                          *
-*   DetectMSIGPUControllers                                                                *
-*                                                                                          *
-*       Detect MSI GPU controllers on the enumerated I2C busses.                           *
-*                                                                                          *
-\******************************************************************************************/
-
-void DetectMSIGPUControllers(i2c_smbus_interface* bus, uint8_t i2c_addr, const std::string& name)
+DetectedControllers DetectMSIGPUControllers(i2c_smbus_interface* bus, uint8_t i2c_addr, const std::string& name)
 {
-    if(bus->pci_vendor == NVIDIA_VEN && bus->port_id != 1)
+    DetectedControllers detected_controllers;
+
+    if((bus->pci_vendor != NVIDIA_VEN || bus->port_id == 1) && (bus->pci_vendor != AMD_GPU_VEN || is_amd_gpu_i2c_bus(bus)))
     {
-        return;
+        MSIGPUController*     controller     = new MSIGPUController(bus, i2c_addr, name);
+        RGBController_MSIGPU* rgb_controller = new RGBController_MSIGPU(controller);
+
+        detected_controllers.push_back(rgb_controller);
     }
-    if(bus->pci_vendor == AMD_GPU_VEN && !is_amd_gpu_i2c_bus(bus))
-    {
-        return;
-    }
 
-    MSIGPUController*     controller     = new MSIGPUController(bus, i2c_addr, name);
-    RGBController_MSIGPU* rgb_controller = new RGBController_MSIGPU(controller);
+    return(detected_controllers);
+}
 
-    DetectionManager::get()->RegisterRGBController(rgb_controller);
-
-} /* DetectMSIGPUControllers() */
-
-/*-----------------------------------------*\
-|  Nvidia GPUs                              |
-\*-----------------------------------------*/
-
+/*---------------------------------------------------------*\
+|  Nvidia GPUs                                              |
+\*---------------------------------------------------------*/
 REGISTER_I2C_PCI_DETECTOR("MSI GeForce GTX 1070 Gaming X",                  DetectMSIGPUControllers,    NVIDIA_VEN,     NVIDIA_GTX1070_DEV,         MSI_SUB_VEN,    MSI_GTX1070_GAMING_X_SUB_DEV,           0x68);
 REGISTER_I2C_PCI_DETECTOR("MSI GeForce GTX 1660 Gaming X",                  DetectMSIGPUControllers,    NVIDIA_VEN,     NVIDIA_GTX1660_DEV,         MSI_SUB_VEN,    MSI_GTX1660_GAMING_X_6G_SUB_DEV,        0x68);
 REGISTER_I2C_PCI_DETECTOR("MSI GeForce GTX 1660 Ti Gaming",                 DetectMSIGPUControllers,    NVIDIA_VEN,     NVIDIA_GTX1660TI_DEV,       MSI_SUB_VEN,    MSI_GTX1660TI_GAMING_6G_SUB_DEV,        0x68);
@@ -112,10 +100,9 @@ REGISTER_I2C_PCI_DETECTOR("MSI GeForce RTX 3090 Suprim X",                  Dete
 REGISTER_I2C_PCI_DETECTOR("MSI GeForce RTX 3090 Ti Suprim X",               DetectMSIGPUControllers,    NVIDIA_VEN,     NVIDIA_RTX3090TI_DEV,       MSI_SUB_VEN,    MSI_RTX3090TI_SUPRIM_X_SUB_DEV,         0x68);
 REGISTER_I2C_PCI_DETECTOR("MSI GeForce RTX 3090 Ti Gaming X Trio",          DetectMSIGPUControllers,    NVIDIA_VEN,     NVIDIA_RTX3090TI_DEV,       MSI_SUB_VEN,    MSI_RTX3090TI_GAMING_X_TRIO_SUB_DEV,    0x68);
 
-/*-----------------------------------------*\
-|  AMD GPUs                                 |
-\*-----------------------------------------*/
-
+/*---------------------------------------------------------*\
+|  AMD GPUs                                                 |
+\*---------------------------------------------------------*/
 REGISTER_I2C_PCI_DETECTOR("MSI Radeon RX 5600 XT Gaming X",                 DetectMSIGPUControllers,    AMD_GPU_VEN,    AMD_NAVI10_DEV,             MSI_SUB_VEN,    MSI_RX5600XT_GAMING_X_SUB_DEV,          0x68);
 REGISTER_I2C_PCI_DETECTOR("MSI Radeon RX 6600 XT Gaming X",                 DetectMSIGPUControllers,    AMD_GPU_VEN,    AMD_NAVI23_DEV,             MSI_SUB_VEN,    MSI_RX6600XT_GAMING_X_SUB_DEV,          0x68);
 REGISTER_I2C_PCI_DETECTOR("MSI Radeon RX 6650 XT Gaming X",                 DetectMSIGPUControllers,    AMD_GPU_VEN,    AMD_NAVI23_DEV1,            MSI_SUB_VEN,    MSI_RX6650XT_GAMING_X_SUB_DEV,          0x68);

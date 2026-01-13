@@ -15,26 +15,19 @@
 #include "RGBController_LinuxLED_Linux.h"
 #include "SettingsManager.h"
 
-/******************************************************************************************\
-*                                                                                          *
-*   DetectLinuxLEDControllers                                                              *
-*                                                                                          *
-*       Detect devices supported by the LinuxLED driver                                    *
-*                                                                                          *
-\******************************************************************************************/
-
-void DetectLinuxLEDControllers()
+DetectedControllers DetectLinuxLEDControllers()
 {
-    json                    linux_led_settings;
+    DetectedControllers detected_controllers;
+    json                linux_led_settings;
 
-    /*-------------------------------------------------*\
-    | Get Linux LED settings from settings manager      |
-    \*-------------------------------------------------*/
+    /*-----------------------------------------------------*\
+    | Get Linux LED settings from settings manager          |
+    \*-----------------------------------------------------*/
     linux_led_settings = ResourceManager::get()->GetSettingsManager()->GetSettings("LinuxLEDDevices");
 
-    /*-------------------------------------------------*\
-    | If the LinuxLED settings contains devices, process|
-    \*-------------------------------------------------*/
+    /*-----------------------------------------------------*\
+    | If the LinuxLED settings contains devices, process    |
+    \*-----------------------------------------------------*/
     if(linux_led_settings.contains("devices"))
     {
         for(unsigned int device_idx = 0; device_idx < linux_led_settings["devices"].size(); device_idx++)
@@ -78,10 +71,11 @@ void DetectLinuxLEDControllers()
 
             RGBController_LinuxLED* rgb_controller = new RGBController_LinuxLED(controller);
 
-            DetectionManager::get()->RegisterRGBController(rgb_controller);
+            detected_controllers.push_back(rgb_controller);
         }
     }
 
-}   /* DetectLinuxLEDControllers() */
+    return(detected_controllers);
+}
 
 REGISTER_DETECTOR("Linux LED", DetectLinuxLEDControllers);

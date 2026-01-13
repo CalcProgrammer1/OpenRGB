@@ -14,9 +14,9 @@
 #include "RGBController_HyperXMicrophone.h"
 #include "hidapi_wrapper.h"
 
-/*-----------------------------------------------------*\
-| HyperX microphone vendor and product IDs              |
-\*-----------------------------------------------------*/
+/*---------------------------------------------------------*\
+| HyperX microphone vendor and product IDs                  |
+\*---------------------------------------------------------*/
 #define HYPERX_VID          0x0951
 #define HYPERX_HP_VID       0x03F0
 
@@ -31,17 +31,22 @@
 
 #define HYPERX_DUOCAST_PID  0x098C
 
-void DetectHyperXMicrophoneControllers(hidapi_wrapper wrapper, hid_device_info* info, const std::string& name)
+DetectedControllers DetectHyperXMicrophoneControllers(hidapi_wrapper wrapper, hid_device_info* info, const std::string& name)
 {
-    hid_device* dev = wrapper.hid_open_path(info->path);
+    DetectedControllers detected_controllers;
+    hid_device*         dev;
+
+    dev = wrapper.hid_open_path(info->path);
 
     if(dev)
     {
-        HyperXMicrophoneController* controller         = new HyperXMicrophoneController(wrapper, dev, info->path, name);
-        RGBController_HyperXMicrophone *rgb_controller = new RGBController_HyperXMicrophone(controller);
+        HyperXMicrophoneController*      controller     = new HyperXMicrophoneController(wrapper, dev, info->path, name);
+        RGBController_HyperXMicrophone * rgb_controller = new RGBController_HyperXMicrophone(controller);
 
-        DetectionManager::get()->RegisterRGBController(rgb_controller);
+        detected_controllers.push_back(rgb_controller);
     }
+
+    return(detected_controllers);
 }
 
 REGISTER_HID_WRAPPED_DETECTOR_I("HyperX Quadcast S", DetectHyperXMicrophoneControllers, HYPERX_VID,    HYPERX_QS_PID,      0);//, 0xFF90, 0xFF00);

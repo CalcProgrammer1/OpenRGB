@@ -12,28 +12,17 @@
 #include <vector>
 #include "DetectionManager.h"
 #include "EVGAGP102Controller.h"
-#include "LogManager.h"
-#include "RGBController_EVGAGP102.h"
 #include "i2c_smbus.h"
+#include "LogManager.h"
 #include "pci_ids.h"
+#include "RGBController_EVGAGP102.h"
 
-/******************************************************************************************\
-*                                                                                          *
-*   DetectEVGAGP102GPUControllers                                                          *
-*                                                                                          *
-*       Detect EVGA GP102 GPU controllers on the enumerated I2C busses at address 0x49.    *
-*                                                                                          *
-*           bus - pointer to i2c_smbus_interface where EVGA GPU device is connected        *
-*           address - unused, the address comes from the GPU zone info table               *
-*           name - name string of detected PCI device                                      *
-*                                                                                          *
-\******************************************************************************************/
-
-void DetectEVGAGP102GPUControllers(i2c_smbus_interface* bus, uint8_t /*address*/, const std::string& name)
+DetectedControllers DetectEVGAGP102GPUControllers(i2c_smbus_interface* bus, uint8_t /*address*/, const std::string& name)
 {
+    DetectedControllers detected_controllers;
+
     if(bus->port_id == 1)
     {
-        RGBController_EVGAGP102*            new_rgbcontroller;
         std::vector<EVGAGP102Controller*>   controllers;
 
         for(unsigned int i = 0; i < sizeof(gpuzoneinfos) / sizeof(zoneinfo); i++)
@@ -52,12 +41,14 @@ void DetectEVGAGP102GPUControllers(i2c_smbus_interface* bus, uint8_t /*address*/
 
         if(controllers.size() != 0)
         {
-            new_rgbcontroller = new RGBController_EVGAGP102(controllers);
+            RGBController_EVGAGP102* rgb_controller = new RGBController_EVGAGP102(controllers);
 
-            DetectionManager::get()->RegisterRGBController(new_rgbcontroller);
+            detected_controllers.push_back(rgb_controller);
         }
     }
-}   /* DetectEVGAGP102GPUControllers() */
+
+    return(detected_controllers);
+}
 
 /*---------------------------------------------------------*\
 | The I2C address is provided by the GPU Zone Info table,   |
