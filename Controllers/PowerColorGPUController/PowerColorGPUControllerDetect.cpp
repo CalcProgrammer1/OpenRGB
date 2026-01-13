@@ -26,41 +26,45 @@ static const unsigned char magic_v2[3] = {0x01, 0x32, 0x00};
 | for good measure anyways.                                 |
 \*---------------------------------------------------------*/
 
-void DetectPowerColorRedDevilGPUControllersV1(i2c_smbus_interface* bus, uint8_t i2c_addr, const std::string& name)
+DetectedControllers DetectPowerColorRedDevilGPUControllersV1(i2c_smbus_interface* bus, uint8_t i2c_addr, const std::string& name)
 {
-    if(!is_amd_gpu_i2c_bus(bus))
+    DetectedControllers detected_controllers;
+
+    if(is_amd_gpu_i2c_bus(bus))
     {
-        return;
+        unsigned char data[3];
+        int ret = bus->i2c_smbus_read_i2c_block_data(i2c_addr, RED_DEVIL_V1_REG_MAGIC, 3, data);
+        if(ret == 3 && memcmp(data, magic_v1, 3) == 0)
+        {
+            PowerColorRedDevilV1Controller*     controller     = new PowerColorRedDevilV1Controller(bus, i2c_addr, name);
+            RGBController_PowerColorRedDevilV1* rgb_controller = new RGBController_PowerColorRedDevilV1(controller);
+
+            detected_controllers.push_back(rgb_controller);
+        }
     }
 
-    unsigned char data[3];
-    int ret = bus->i2c_smbus_read_i2c_block_data(i2c_addr, RED_DEVIL_V1_REG_MAGIC, 3, data);
-    if(ret == 3 && memcmp(data, magic_v1, 3) == 0)
-    {
-        PowerColorRedDevilV1Controller* controller         = new PowerColorRedDevilV1Controller(bus, i2c_addr, name);
-        RGBController_PowerColorRedDevilV1* rgb_controller = new RGBController_PowerColorRedDevilV1(controller);
-
-        DetectionManager::get()->RegisterRGBController(rgb_controller);
-    }
+    return(detected_controllers);
 }
 
 
-void DetectPowerColorRedDevilGPUControllersV2(i2c_smbus_interface* bus, uint8_t i2c_addr, const std::string& name)
+DetectedControllers DetectPowerColorRedDevilGPUControllersV2(i2c_smbus_interface* bus, uint8_t i2c_addr, const std::string& name)
 {
-    if(!is_amd_gpu_i2c_bus(bus))
+    DetectedControllers detected_controllers;
+
+    if(is_amd_gpu_i2c_bus(bus))
     {
-        return;
+        unsigned char data[3];
+        int ret = bus->i2c_smbus_read_i2c_block_data(i2c_addr, RED_DEVIL_V2_READ_REG_MAGIC, 3, data);
+        if(ret == 3 && memcmp(data, magic_v2, 3) == 0)
+        {
+            PowerColorRedDevilV2Controller*     controller     = new PowerColorRedDevilV2Controller(bus, i2c_addr, name);
+            RGBController_PowerColorRedDevilV2* rgb_controller = new RGBController_PowerColorRedDevilV2(controller);
+
+            detected_controllers.push_back(rgb_controller);
+        }
     }
 
-    unsigned char data[3];
-    int ret = bus->i2c_smbus_read_i2c_block_data(i2c_addr, RED_DEVIL_V2_READ_REG_MAGIC, 3, data);
-    if(ret == 3 && memcmp(data, magic_v2, 3) == 0)
-    {
-        PowerColorRedDevilV2Controller* controller         = new PowerColorRedDevilV2Controller(bus, i2c_addr, name);
-        RGBController_PowerColorRedDevilV2* rgb_controller = new RGBController_PowerColorRedDevilV2(controller);
-
-        DetectionManager::get()->RegisterRGBController(rgb_controller);
-    }
+    return(detected_controllers);
 }
 
 REGISTER_I2C_PCI_DETECTOR("PowerColor Red Devil RX5700",            DetectPowerColorRedDevilGPUControllersV1, AMD_GPU_VEN, AMD_NAVI10_DEV,  POWERCOLOR_SUB_VEN, POWERCOLOR_RED_DEVIL_RX5700_SUB_DEV,                0x22);

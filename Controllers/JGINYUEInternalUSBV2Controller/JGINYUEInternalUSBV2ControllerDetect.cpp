@@ -15,14 +15,15 @@
 #include <stdlib.h>
 #include <vector>
 #include <hidapi.h>
-#include "serial_port.h"
-#include "find_usb_serial_port.h"
-#include "RGBController_JGINYUEInternalUSBV2.h"
-#include "JGINYUEInternalUSBV2Controller.h"
-#include "RGBController.h"
 #include "DetectionManager.h"
 #include "dmiinfo.h"
+#include "find_usb_serial_port.h"
+#include "JGINYUEInternalUSBV2Controller.h"
 #include "LogManager.h"
+#include "RGBController_JGINYUEInternalUSBV2.h"
+#include "RGBController.h"
+#include "serial_port.h"
+
 /*---------------------------------------------------------*\
 | JGINYUE vendor ID                                         |
 \*---------------------------------------------------------*/
@@ -33,44 +34,54 @@
 \*---------------------------------------------------------*/
 #define JGINYUE_MOTHERBOARD_PID_V2                     0xE30B
 
-void DetectJGINYUEInternalUSBV2Controller(hid_device_info* info,const std::string& /*name*/)
+DetectedControllers DetectJGINYUEInternalUSBV2Controller(hid_device_info* info,const std::string& /*name*/)
 {
-    hid_device* hid_dev = hid_open_path(info->path);
-    if(hid_dev == nullptr )
-    {
-        return;
-    }
+    DetectedControllers detected_controllers;
+    hid_device*         dev;
 
-    DMIInfo dmi_info;
-    std::string  manufacturer = dmi_info.getManufacturer();
-    std::transform(manufacturer.begin(), manufacturer.end(), manufacturer.begin(), ::toupper);
-    if(manufacturer.find("JGINYUE") == std::string::npos)
-    {
-        LOG_INFO("JGINYUE Internal USB ControllerV2 not found,error manufacturer name:%s",manufacturer.c_str());
-        return;
-    }
-    LOG_INFO("Pass manufacture name check.Start to init HID and CDC interface");
+    dev = hid_open_path(info->path);
 
-
-    if(hid_dev != nullptr )
+    if(dev)
     {
-        std::vector<std::string*> serial_ports = find_usb_serial_port(JGINYUE_VID_V2, JGINYUE_MOTHERBOARD_PID_V2);
-        if(serial_ports.size() ==1)
+        DMIInfo         dmi_info;
+        std::string     manufacturer = dmi_info.getManufacturer();
+
+        std::transform(manufacturer.begin(), manufacturer.end(), manufacturer.begin(), ::toupper);
+
+        if(manufacturer.find("JGINYUE") != std::string::npos)
         {
-            serial_port *port = new serial_port();
-            if(!port->serial_open(serial_ports[0]->c_str(), 115200))
+            LOG_INFO("Pass manufacture name check.Start to init HID and CDC interface");
+
+            std::vector<std::string*> serial_ports = find_usb_serial_port(JGINYUE_VID_V2, JGINYUE_MOTHERBOARD_PID_V2);
+
+            if(serial_ports.size() ==1)
             {
-                LOG_ERROR("Failed to open serial port %s", serial_ports[0]->c_str());
-                delete port;
-                hid_close(hid_dev);
-                return;
+                serial_port *port = new serial_port();
+
+                if(port->serial_open(serial_ports[0]->c_str(), 115200))
+                {
+                    LOG_INFO("JGINYUE Internal USB ControllerV2 found");
+
+                    JGINYUEInternalUSBV2Controller *     controller     = new JGINYUEInternalUSBV2Controller(dev, info->path,port);
+                    RGBController_JGINYUEInternalUSBV2 * rgb_controller = new RGBController_JGINYUEInternalUSBV2(controller);
+
+                    detected_controllers.push_back(rgb_controller);
+                }
+                else
+                {
+                    LOG_ERROR("Failed to open serial port %s", serial_ports[0]->c_str());
+                    delete port;
+                    hid_close(dev);
+                }
             }
-            JGINYUEInternalUSBV2Controller *controller = new JGINYUEInternalUSBV2Controller(hid_dev, info->path,port);
-            RGBController_JGINYUEInternalUSBV2 *rgb_controller = new RGBController_JGINYUEInternalUSBV2(controller);
-            DetectionManager::get()->RegisterRGBController(rgb_controller);
-            LOG_INFO("JGINYUE Internal USB ControllerV2 found");
+        }
+        else
+        {
+            LOG_INFO("JGINYUE Internal USB ControllerV2 not found,error manufacturer name:%s",manufacturer.c_str());
         }
     }
+
+    return(detected_controllers);
 }
 
 #ifdef _WIN32

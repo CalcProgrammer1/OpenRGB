@@ -15,14 +15,6 @@
 #include "super_io.h"
 #include "dmiinfo.h"
 
-/******************************************************************************************\
-*                                                                                          *
-*   DetectMSIRGBControllers                                                                *
-*                                                                                          *
-*       Detect MSI-RGB compatible Super-IO chips.                                          *
-*                                                                                          *
-\******************************************************************************************/
-
 #define NUM_COMPATIBLE_DEVICES (sizeof(compatible_devices) / sizeof(compatible_devices[0]))
 
 typedef struct
@@ -85,45 +77,45 @@ static msi_device compatible_devices[] =
     {"7D95", false}
 };
 
-void DetectMSIRGBControllers()
+DetectedControllers DetectMSIRGBControllers()
 {
-    int sio_addrs[2] = {0x2E, 0x4E};
+    DetectedControllers detected_controllers;
+    int                 sio_addrs[2]            = {0x2E, 0x4E};
+    DMIInfo             board;
+    std::string         board_dmi               = board.getMainboard();
+    std::string         manufacturer            = board.getManufacturer();
 
-    DMIInfo board;
-    std::string board_dmi = board.getMainboard();
-    std::string manufacturer = board.getManufacturer();
-
-    if (manufacturer != "Micro-Star International Co., Ltd." && manufacturer != "Micro-Star International Co., Ltd" && manufacturer != "MSI")
+    if(manufacturer == "Micro-Star International Co., Ltd." || manufacturer == "Micro-Star International Co., Ltd" || manufacturer == "MSI")
     {
-        return;
-    }
-
-    for(int sioaddr_idx = 0; sioaddr_idx < 2; sioaddr_idx++)
-    {
-        int sioaddr = sio_addrs[sioaddr_idx];
-
-        superio_enter(sioaddr);
-
-        int val = (superio_inb(sioaddr, SIO_REG_DEVID) << 8) | superio_inb(sioaddr, SIO_REG_DEVID + 1);
-
-        switch (val & SIO_ID_MASK)
+        for(int sioaddr_idx = 0; sioaddr_idx < 2; sioaddr_idx++)
         {
-        case SIO_NCT6795_ID:
-        case SIO_NCT6797_ID:
-            for(unsigned int i = 0; i < NUM_COMPATIBLE_DEVICES; i++)
-            {
-                if (board_dmi.find(std::string(compatible_devices[i].name)) != std::string::npos)
-                {
-                    MSIRGBController*     controller     = new MSIRGBController(sioaddr, compatible_devices[i].invert, "MSI " + board_dmi);
-                    RGBController_MSIRGB* rgb_controller = new RGBController_MSIRGB(controller);
+            int sioaddr = sio_addrs[sioaddr_idx];
 
-                    DetectionManager::get()->RegisterRGBController(rgb_controller);
-                    break;
+            superio_enter(sioaddr);
+
+            int val = (superio_inb(sioaddr, SIO_REG_DEVID) << 8) | superio_inb(sioaddr, SIO_REG_DEVID + 1);
+
+            switch(val & SIO_ID_MASK)
+            {
+            case SIO_NCT6795_ID:
+            case SIO_NCT6797_ID:
+                for(unsigned int i = 0; i < NUM_COMPATIBLE_DEVICES; i++)
+                {
+                    if(board_dmi.find(std::string(compatible_devices[i].name)) != std::string::npos)
+                    {
+                        MSIRGBController*     controller     = new MSIRGBController(sioaddr, compatible_devices[i].invert, "MSI " + board_dmi);
+                        RGBController_MSIRGB* rgb_controller = new RGBController_MSIRGB(controller);
+
+                        detected_controllers.push_back(rgb_controller);
+                        break;
+                    }
                 }
+                break;
             }
-            break;
         }
     }
-}   /* DetectMSIRGBControllers() */
+
+    return(detected_controllers);
+}
 
 REGISTER_DETECTOR("MSI-RGB", DetectMSIRGBControllers);

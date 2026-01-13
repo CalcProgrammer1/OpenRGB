@@ -12,18 +12,10 @@
 #include "DetectionManager.h"
 #include "GalaxGPUv1Controller.h"
 #include "GalaxGPUv2Controller.h"
-#include "RGBController_GalaxGPUv1.h"
-#include "RGBController_GalaxGPUv2.h"
 #include "i2c_smbus.h"
 #include "pci_ids.h"
-
-/******************************************************************************************\
-*                                                                                          *
-*   TestForGalaxGPUController                                                              *
-*                                                                                          *
-*       Tests the given address to see if a Galax GPU controller exists there.             *
-*                                                                                          *
-\******************************************************************************************/
+#include "RGBController_GalaxGPUv1.h"
+#include "RGBController_GalaxGPUv2.h"
 
 bool TestForGalaxGPUController(i2c_smbus_interface* bus, unsigned char address)
 {
@@ -32,9 +24,9 @@ bool TestForGalaxGPUController(i2c_smbus_interface* bus, unsigned char address)
 
     switch (address)
     {
-        /*-----------------------------------------------------------------*\
-        | V1 Controller                                                     |
-        \*-----------------------------------------------------------------*/
+        /*-------------------------------------------------*\
+        | V1 Controller                                     |
+        \*-------------------------------------------------*/
         case 0x32:
             res  = bus->i2c_smbus_read_byte_data(address, 0x00);
             if(res == 0x27 || res == 0x26) {
@@ -44,9 +36,9 @@ bool TestForGalaxGPUController(i2c_smbus_interface* bus, unsigned char address)
             }
             break;
 
-        /*-----------------------------------------------------------------*\
-        | V1 Controller - RTX 3080                                          |
-        \*-----------------------------------------------------------------*/
+        /*-------------------------------------------------*\
+        | V1 Controller - RTX 3080                          |
+        \*-------------------------------------------------*/
         case 0x23:
             res = bus->i2c_smbus_read_byte_data(address, 0x00);
             if(res == 0x30)
@@ -55,9 +47,9 @@ bool TestForGalaxGPUController(i2c_smbus_interface* bus, unsigned char address)
             }
             break;
 
-        /*-----------------------------------------------------------------*\
-        | V2 Controller                                                     |
-        \*-----------------------------------------------------------------*/
+        /*-------------------------------------------------*\
+        | V2 Controller                                     |
+        \*-------------------------------------------------*/
         case 0x51:
             res = bus->i2c_smbus_read_byte_data(address, 0x00);
             if (res == 0x80)
@@ -66,26 +58,19 @@ bool TestForGalaxGPUController(i2c_smbus_interface* bus, unsigned char address)
     }
 
     return(pass);
-}   /* TestForGalaxGPUController() */
+}
 
-
-/******************************************************************************************\
-*                                                                                          *
-*   DetectGalaxGPUControllers                                                              *
-*                                                                                          *
-*       Detect Galax GPU controllers on the enumerated I2C busses.                         *
-*                                                                                          *
-\******************************************************************************************/
-
-void DetectGalaxGPUControllers(i2c_smbus_interface* bus, uint8_t i2c_addr, const std::string& name)
+DetectedControllers DetectGalaxGPUControllers(i2c_smbus_interface* bus, uint8_t i2c_addr, const std::string& name)
 {
+    DetectedControllers detected_controllers;
+
     if(TestForGalaxGPUController(bus, i2c_addr))
     {
         switch(i2c_addr)
         {
-            /*-----------------------------------------------------------------*\
-            | V1 Controller                                                     |
-            \*-----------------------------------------------------------------*/
+            /*---------------------------------------------*\
+            | V1 Controller                                 |
+            \*---------------------------------------------*/
             case 0x32:
             case 0x23:
                 {
@@ -96,20 +81,22 @@ void DetectGalaxGPUControllers(i2c_smbus_interface* bus, uint8_t i2c_addr, const
                 }
                 break;
 
-            /*-----------------------------------------------------------------*\
-            | V2 Controller                                                     |
-            \*-----------------------------------------------------------------*/
+            /*---------------------------------------------*\
+            | V2 Controller                                 |
+            \*---------------------------------------------*/
             case 0x51:
                 {
                     GalaxGPUv2Controller*     controller     = new GalaxGPUv2Controller(bus, i2c_addr, name);
                     RGBController_GalaxGPUv2* rgb_controller = new RGBController_GalaxGPUv2(controller);
 
-                    DetectionManager::get()->RegisterRGBController(rgb_controller);
+                    detected_controllers.push_back(rgb_controller);
                 }
                 break;
         }
     }
-} /* DetectGalaxGPUControllers() */
+
+    return(detected_controllers);
+}
 
 REGISTER_I2C_PCI_DETECTOR("KFA2 GeForce RTX 2070 EX",                       DetectGalaxGPUControllers,  NVIDIA_VEN, NVIDIA_RTX2070_DEV,     NVIDIA_SUB_VEN, KFA2_RTX_2070_EX_SUB_DEV,               0x23);
 REGISTER_I2C_PCI_DETECTOR("KFA2 GeForce RTX 2070 OC",                       DetectGalaxGPUControllers,  NVIDIA_VEN, NVIDIA_RTX2070_OC_DEV,  NVIDIA_SUB_VEN, KFA2_RTX_2070_OC_SUB_DEV,               0x23);

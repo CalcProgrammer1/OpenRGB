@@ -14,9 +14,9 @@
 #include "RedragonMouseController.h"
 #include "RGBController_RedragonMouse.h"
 
-/*-----------------------------------------------------*\
-| Mouse product IDs                                     |
-\*-----------------------------------------------------*/
+/*---------------------------------------------------------*\
+| Mouse product IDs                                         |
+\*---------------------------------------------------------*/
 #define REDRAGON_MOUSE_VID              0x04D9
 #define REDRAGON_MOUSE_USAGE_PAGE       0xFFA0
 #define REDRAGON_M711_PID               0xFC30
@@ -29,30 +29,27 @@
 #define REDRAGON_M810_PID               0xFA7E
 #define REDRAGON_M987_PID               0xFC69
 
-/******************************************************************************************\
-*                                                                                          *
-*   DetectRedragonMice                                                                     *
-*                                                                                          *
-*       Tests the USB address to see if a Redragon Mouse controller exists there.          *
-*                                                                                          *
-\******************************************************************************************/
-
-void DetectRedragonMice(hid_device_info* info, const std::string& name)
+DetectedControllers DetectRedragonMice(hid_device_info* info, const std::string& name)
 {
-    hid_device* dev = hid_open_path(info->path);
+    DetectedControllers detected_controllers;
+    hid_device*         dev;
+
+    dev = hid_open_path(info->path);
 
     if(dev)
     {
         RedragonMouseController*     controller     = new RedragonMouseController(dev, info->path, name);
         RGBController_RedragonMouse* rgb_controller = new RGBController_RedragonMouse(controller);
 
-        DetectionManager::get()->RegisterRGBController(rgb_controller);
+        detected_controllers.push_back(rgb_controller);
     }
+
+    return(detected_controllers);
 }
 
-/*---------------------------------------------------------------------------------------------------------------------------------------------*\
-| Mice                                                                                                                                          |
-\*---------------------------------------------------------------------------------------------------------------------------------------------*/
+/*---------------------------------------------------------*\
+| Mice                                                      |
+\*---------------------------------------------------------*/
 REGISTER_HID_DETECTOR_IP("Redragon M711 Cobra",      DetectRedragonMice,      REDRAGON_MOUSE_VID,    REDRAGON_M711_PID,         2, REDRAGON_MOUSE_USAGE_PAGE);
 REGISTER_HID_DETECTOR_IP("Redragon M715 Dagger",     DetectRedragonMice,      REDRAGON_MOUSE_VID,    REDRAGON_M715_PID,         2, REDRAGON_MOUSE_USAGE_PAGE);
 REGISTER_HID_DETECTOR_IP("Redragon M716 Inquisitor", DetectRedragonMice,      REDRAGON_MOUSE_VID,    REDRAGON_M716_PID,         2, REDRAGON_MOUSE_USAGE_PAGE);

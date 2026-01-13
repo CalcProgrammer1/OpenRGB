@@ -8,13 +8,12 @@
 \*---------------------------------------------------------*/
 
 #include <stdio.h>
-#include "Detector.h"
+#include "DetectionManager.h"
 #include "GigabyteRGBFusion2AorusMasterGPUController.h"
 #include "i2c_smbus.h"
 #include "LogManager.h"
 #include "pci_ids.h"
 #include "RGBController_GigabyteRGBFusion2AorusMasterGPU.h"
-
 
 #define GIGABYTEGPU_CONTROLLER_NAME_AORUS_MASTER    "Gigabyte RGB Fusion2 AORUS MASTER GPU"
 
@@ -65,15 +64,19 @@ bool TestForGigabyteRGBFusion2AorusMasterGPUController(i2c_smbus_interface* bus,
     return(pass);
 }
 
-void DetectGigabyteRGBFusion2AorusMasterGPUControllers(i2c_smbus_interface* bus, uint8_t i2c_addr, const std::string& name)
+DetectedControllers DetectGigabyteRGBFusion2AorusMasterGPUControllers(i2c_smbus_interface* bus, uint8_t i2c_addr, const std::string& name)
 {
+    DetectedControllers detected_controllers;
+
     if(TestForGigabyteRGBFusion2AorusMasterGPUController(bus, i2c_addr))
     {
         RGBFusion2AorusMasterGPUController*     controller     = new RGBFusion2AorusMasterGPUController(bus, i2c_addr, name);
         RGBController_RGBFusion2AorusMasterGPU* rgb_controller = new RGBController_RGBFusion2AorusMasterGPU(controller);
 
-        ResourceManager::get()->RegisterRGBController(rgb_controller);
+        detected_controllers.push_back(rgb_controller);
     }
+
+    return(detected_controllers);
 }
 
 /*---------------------------------------------------------*\

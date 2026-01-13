@@ -10,31 +10,24 @@
 \*---------------------------------------------------------*/
 
 #include "DetectionManager.h"
-#include "YeelightController.h"
 #include "ResourceManager.h"
 #include "RGBController_Yeelight.h"
 #include "SettingsManager.h"
+#include "YeelightController.h"
 
-/******************************************************************************************\
-*                                                                                          *
-*   DetectYeelightControllers                                                              *
-*                                                                                          *
-*       Detect Yeelight devices                                                            *
-*                                                                                          *
-\******************************************************************************************/
-
-void DetectYeelightControllers()
+DetectedControllers DetectYeelightControllers()
 {
-    json                    yeelight_settings;
+    DetectedControllers detected_controllers;
+    json                yeelight_settings;
 
-    /*-------------------------------------------------*\
-    | Get Yeelight settings from settings manager    |
-    \*-------------------------------------------------*/
+    /*-----------------------------------------------------*\
+    | Get Yeelight settings from settings manager           |
+    \*-----------------------------------------------------*/
     yeelight_settings = ResourceManager::get()->GetSettingsManager()->GetSettings("YeelightDevices");
 
-    /*-------------------------------------------------*\
-    | If the Yeelight settings contains devices, process|
-    \*-------------------------------------------------*/
+    /*-----------------------------------------------------*\
+    | If the Yeelight settings contains devices, process    |
+    \*-----------------------------------------------------*/
     if(yeelight_settings.contains("devices"))
     {
         for(unsigned int device_idx = 0; device_idx < yeelight_settings["devices"].size(); device_idx++)
@@ -59,11 +52,12 @@ void DetectYeelightControllers()
                 YeelightController*     controller     = new YeelightController(yeelight_ip, yeelight_host_ip, music_mode);
                 RGBController_Yeelight* rgb_controller = new RGBController_Yeelight(controller);
 
-                DetectionManager::get()->RegisterRGBController(rgb_controller);
+                detected_controllers.push_back(rgb_controller);
             }
         }
     }
 
-}   /* DetectYeelightControllers() */
+    return(detected_controllers);
+}
 
 REGISTER_DETECTOR("Yeelight", DetectYeelightControllers);
