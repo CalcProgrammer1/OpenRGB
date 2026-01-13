@@ -15,29 +15,22 @@
 #include "RGBController_ZotacBlackwellGPU.h"
 #include "ZotacBlackwellGPUController.h"
 
-/******************************************************************************************\
-*                                                                                          *
-*   DetectZotacBlackwellGPUControllersPCI                                                  *
-*                                                                                          *
-*       Detect ZOTAC Blackwell (RTX 50 series) RGB controllers on the enumerated           *
-*       I2C busses at address 0x4B.                                                        *
-*                                                                                          *
-*           bus - pointer to i2c_smbus_interface where RGB device is connected             *
-*           dev - I2C address of RGB device                                                *
-*                                                                                          *
-\******************************************************************************************/
-
-void DetectZotacBlackwellGPUControllersPCI(i2c_smbus_interface* bus, u8 i2c_addr, const std::string& name)
+DetectedControllers DetectZotacBlackwellGPUControllersPCI(i2c_smbus_interface* bus, u8 i2c_addr, const std::string& name)
 {
-    s32 result = bus->i2c_smbus_read_byte_data(i2c_addr, 0x10);
+    DetectedControllers detected_controllers;
+    s32                 result;
+
+    result = bus->i2c_smbus_read_byte_data(i2c_addr, 0x10);
 
     if(result >= 0)
     {
         ZotacBlackwellGPUController*     controller     = new ZotacBlackwellGPUController(bus, i2c_addr, name);
         RGBController_ZotacBlackwellGPU* rgb_controller = new RGBController_ZotacBlackwellGPU(controller);
 
-        DetectionManager::get()->RegisterRGBController(rgb_controller);
+        detected_controllers.push_back(rgb_controller);
     }
+
+    return(detected_controllers);
 }
 
 REGISTER_I2C_PCI_DETECTOR("ZOTAC GAMING GeForce RTX 5080 AMP Extreme INFINITY",  DetectZotacBlackwellGPUControllersPCI, NVIDIA_VEN, NVIDIA_RTX5080_DEV, ZOTAC_SUB_VEN, ZOTAC_RTX5080_AMP_EXTREME_SUB_DEV, 0x4B);

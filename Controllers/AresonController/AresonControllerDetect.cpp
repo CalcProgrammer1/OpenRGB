@@ -28,17 +28,22 @@
 #define REDRAGON_M914_PID                              0xFA7B
 #define REDRAGON_M914_WIRELESS_PID                     0xFA7C
 
-void DetectAresonControllers(hid_device_info* info, const std::string& name)
+DetectedControllers DetectAresonControllers(hid_device_info* info, const std::string& name)
 {
-    hid_device* dev = hid_open_path(info->path);
+    DetectedControllers detected_controllers;
+    hid_device*         dev;
+
+    dev = hid_open_path(info->path);
 
     if(dev)
     {
         AresonController*     controller      = new AresonController(dev, *info, name);
         RGBController_Areson* rgb_controller  = new RGBController_Areson(controller);
 
-        DetectionManager::get()->RegisterRGBController(rgb_controller);
+        detected_controllers.push_back(rgb_controller);
     }
+
+    return(detected_controllers);
 }
 
 REGISTER_HID_DETECTOR_IPU("ZET GAMING Edge Air Pro (Wireless)",     DetectAresonControllers, ARESON_VID, ZET_GAMING_EDGE_AIR_PRO_WIRELESS_PID,      1, 0xFF02, 2);

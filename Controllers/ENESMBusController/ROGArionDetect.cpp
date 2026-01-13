@@ -13,17 +13,12 @@
 #include "RGBController_ENESMBus.h"
 #include "scsiapi.h"
 
-/******************************************************************************************\
-*                                                                                          *
-*   DetectROGArionControllers                                                              *
-*                                                                                          *
-*           Detects ENE SMBus controllers on ASUS ROG Arion devices                        *
-*                                                                                          *
-\******************************************************************************************/
-
-void DetectROGArionControllers()
+DetectedControllers DetectROGArionControllers()
 {
-    scsi_device_info * info = scsi_enumerate(NULL, NULL);
+    DetectedControllers detected_controllers;
+    scsi_device_info *  info;
+
+    info = scsi_enumerate(NULL, NULL);
 
     while(info)
     {
@@ -37,7 +32,7 @@ void DetectROGArionControllers()
                 ENESMBusController*         controller     = new ENESMBusController(interface, 0x67, "Asus ROG Strix Arion", DEVICE_TYPE_STORAGE);
                 RGBController_ENESMBus*     rgb_controller = new RGBController_ENESMBus(controller);
 
-                DetectionManager::get()->RegisterRGBController(rgb_controller);
+                detected_controllers.push_back(rgb_controller);
             }
         }
         info = info->next;
@@ -45,6 +40,7 @@ void DetectROGArionControllers()
 
     scsi_free_enumeration(info);
 
-}   /* DetectROGArionControllers() */
+    return(detected_controllers);
+}
 
 REGISTER_DETECTOR("ASUS ROG Arion", DetectROGArionControllers);

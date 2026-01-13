@@ -15,6 +15,14 @@
 #include "ENESMBusInterface.h"
 #include "RGBController.h"
 
+/*---------------------------------------------------------*\
+| Windows defines "interface" for some reason. Work around  |
+| this                                                      |
+\*---------------------------------------------------------*/
+#ifdef interface
+#undef interface
+#endif
+
 #define ENE_APPLY_VAL                   0x01        /* Value for Apply Changes Register     */
 #define ENE_SAVE_VAL                    0xAA        /* Value for Save Changes               */
 #define ENE_NUM_ZONES                   8           /* Number of ENE config table zones     */

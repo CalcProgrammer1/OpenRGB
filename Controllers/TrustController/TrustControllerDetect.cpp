@@ -26,9 +26,12 @@
 #define TRUST_GXT_114_PID                              0x026D
 #define TRUST_GXT_180_PID                              0x0248
 
-void DetectTrustGXT114Controllers(hid_device_info* info, const std::string& name)
+DetectedControllers DetectTrustGXT114Controllers(hid_device_info* info, const std::string& name)
 {
-    hid_device* dev = hid_open_path(info->path);
+    DetectedControllers detected_controllers;
+    hid_device*         dev;
+
+    dev = hid_open_path(info->path);
 
     if(dev)
     {
@@ -38,26 +41,33 @@ void DetectTrustGXT114Controllers(hid_device_info* info, const std::string& name
         {
             RGBController_TrustGXT114* rgb_controller   = new RGBController_TrustGXT114(controller);
 
-            DetectionManager::get()->RegisterRGBController(rgb_controller);
+            detected_controllers.push_back(rgb_controller);
         }
         else
         {
             delete controller;
         }
     }
+
+    return(detected_controllers);
 }
 
-void DetectTrustGXT180Controllers(hid_device_info* info, const std::string& name)
+DetectedControllers DetectTrustGXT180Controllers(hid_device_info* info, const std::string& name)
 {
-    hid_device* dev = hid_open_path(info->path);
+    DetectedControllers detected_controllers;
+    hid_device*         dev;
+
+    dev = hid_open_path(info->path);
 
     if(dev)
     {
         TrustGXT180Controller*     controller       = new TrustGXT180Controller(dev, *info, name);
         RGBController_TrustGXT180* rgb_controller   = new RGBController_TrustGXT180(controller);
 
-        DetectionManager::get()->RegisterRGBController(rgb_controller);
+        detected_controllers.push_back(rgb_controller);
     }
+
+    return(detected_controllers);
 }
 
 REGISTER_HID_DETECTOR_IPU("Trust GXT 114", DetectTrustGXT114Controllers, TRUST_VID, TRUST_GXT_114_PID, 1, 0xFF00, 1);
