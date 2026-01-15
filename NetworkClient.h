@@ -46,7 +46,7 @@ enum
 class NetworkClient
 {
 public:
-    NetworkClient(std::vector<RGBController *>& control);
+    NetworkClient();
     ~NetworkClient();
 
     /*-----------------------------------------------------*\
@@ -105,6 +105,8 @@ public:
     /*-----------------------------------------------------*\
     | RGBController functions                               |
     \*-----------------------------------------------------*/
+    std::vector<RGBController*>&        GetRGBControllers();
+
     void                                SendRequest_RGBController_ClearSegments(unsigned int dev_idx, int zone);
     void                                SendRequest_RGBController_AddSegment(unsigned int dev_idx, unsigned char * data, unsigned int size);
     void                                SendRequest_RGBController_ResizeZone(unsigned int dev_idx, int zone, int new_size);
@@ -120,8 +122,6 @@ public:
     void                                SendRequest_RGBController_SaveMode(unsigned int dev_idx, unsigned char * data, unsigned int size);
 
     void                                WaitOnControllerData();
-
-    std::vector<RGBController *>        server_controllers;
 
 private:
     /*-----------------------------------------------------*\
@@ -182,7 +182,7 @@ private:
     | Controller list                                       |
     \*-----------------------------------------------------*/
     std::mutex                          ControllerListMutex;
-    std::vector<RGBController *>&       controllers;
+    std::vector<RGBController *>        server_controllers;
 
     /*-----------------------------------------------------*\
     | Detection variables                                   |

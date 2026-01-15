@@ -1355,7 +1355,7 @@ unsigned int cli_pre_detection(int argc, char* argv[])
         \*---------------------------------------------------------*/
         else if(option == "--client")
         {
-            NetworkClient * client = new NetworkClient(ResourceManager::get()->GetRGBControllers());
+            NetworkClient * client = new NetworkClient();
 
             std::size_t pos = argument.find(":");
             std::string ip = argument.substr(0, pos);
