@@ -49,11 +49,8 @@ static void ResourceManagerDetectionCallback(void * this_ptr, unsigned int updat
 
         case DETECTIONMANAGER_UPDATE_REASON_RGBCONTROLLER_REGISTERED:
         case DETECTIONMANAGER_UPDATE_REASON_RGBCONTROLLER_UNREGISTERED:
-            this_obj->UpdateDeviceList();
-            break;
-
         case DETECTIONMANAGER_UPDATE_REASON_RGBCONTROLLER_LIST_CLEARED:
-            this_obj->ClearLocalDevices();
+            this_obj->UpdateDeviceList();
             break;
 
         case DETECTIONMANAGER_UPDATE_REASON_DETECTION_PROGRESS_CHANGED:
@@ -449,78 +446,41 @@ void ResourceManager::StopDeviceDetection()
     //TODO: Call DetectionManager::AbortDetection() or send SDK command if local client
 }
 
-void ResourceManager::ClearLocalDevices()
-{
-    DeviceListChangeMutex.lock();
-
-    /*-----------------------------------------------------*\
-    | Remove hardware controllers from controller list      |
-    \*-----------------------------------------------------*/
-    std::vector<RGBController*>& rgb_controllers_hw = DetectionManager::get()->GetRGBControllers();
-
-    for(std::size_t hw_controller_idx = 0; hw_controller_idx < rgb_controllers_hw.size(); hw_controller_idx++)
-    {
-        for(std::size_t controller_idx = 0; controller_idx < rgb_controllers.size(); controller_idx++)
-        {
-            if(rgb_controllers[controller_idx] == rgb_controllers_hw[hw_controller_idx])
-            {
-                rgb_controllers.erase(rgb_controllers.begin() + controller_idx);
-                break;
-            }
-        }
-    }
-
-    DeviceListChangeMutex.unlock();
-
-    /*-----------------------------------------------------*\
-    | Signal device list update                             |
-    \*-----------------------------------------------------*/
-    SignalResourceManagerUpdate(RESOURCEMANAGER_UPDATE_REASON_DEVICE_LIST_UPDATED);
-}
-
 void ResourceManager::UpdateDeviceList()
 {
     DeviceListChangeMutex.lock();
 
     /*-----------------------------------------------------*\
+    | Clear the controller list                             |
+    \*-----------------------------------------------------*/
+    rgb_controllers.clear();
+
+    /*-----------------------------------------------------*\
     | Insert hardware controllers into controller list      |
     \*-----------------------------------------------------*/
-    std::vector<RGBController*>& rgb_controllers_hw = DetectionManager::get()->GetRGBControllers();
+    std::vector<RGBController*> rgb_controllers_hw          = DetectionManager::get()->GetRGBControllers();
 
-    for(std::size_t hw_controller_idx = 0; hw_controller_idx < rgb_controllers_hw.size(); hw_controller_idx++)
+    for(std::size_t rgb_controller_idx = 0; rgb_controller_idx < rgb_controllers_hw.size(); rgb_controller_idx++)
     {
-        /*-------------------------------------------------*\
-        | Check if the controller is already in the list    |
-        | at the correct index                              |
-        \*-------------------------------------------------*/
-        if(hw_controller_idx < rgb_controllers.size())
-        {
-            if(rgb_controllers[hw_controller_idx] == rgb_controllers_hw[hw_controller_idx])
-            {
-                continue;
-            }
-        }
-
-        /*-------------------------------------------------*\
-        | If not, check if the controller is already in the |
-        | list at a different index                         |
-        \*-------------------------------------------------*/
-        for(std::size_t controller_idx = 0; controller_idx < rgb_controllers.size(); controller_idx++)
-        {
-            if(rgb_controllers[controller_idx] == rgb_controllers_hw[hw_controller_idx])
-            {
-                rgb_controllers.erase(rgb_controllers.begin() + controller_idx);
-                rgb_controllers.insert(rgb_controllers.begin() + hw_controller_idx, rgb_controllers_hw[hw_controller_idx]);
-                break;
-            }
-        }
-
-        /*-------------------------------------------------*\
-        | If it still hasn't been found, add it to the list |
-        \*-------------------------------------------------*/
-        rgb_controllers.insert(rgb_controllers.begin() + hw_controller_idx, rgb_controllers_hw[hw_controller_idx]);
+        rgb_controllers.push_back(rgb_controllers_hw[rgb_controller_idx]);
     }
 
+    /*-----------------------------------------------------*\
+    | Insert client controllers into controller list        |
+    \*-----------------------------------------------------*/
+    for(std::size_t client_idx = 0; client_idx < clients.size(); client_idx++)
+    {
+        std::vector<RGBController*> rgb_controllers_client  = clients[client_idx]->GetRGBControllers();
+
+        for(std::size_t rgb_controller_idx = 0; rgb_controller_idx < rgb_controllers_client.size(); rgb_controller_idx++)
+        {
+            rgb_controllers.push_back(rgb_controllers_client[rgb_controller_idx]);
+        }
+    }
+
+    /*-----------------------------------------------------*\
+    | Signal list has changed                               |
+    \*-----------------------------------------------------*/
     DeviceListChangeMutex.unlock();
 
     /*-----------------------------------------------------*\
@@ -606,7 +566,7 @@ bool ResourceManager::AttemptLocalConnection()
 
     bool success = false;
 
-    auto_connection_client = new NetworkClient(ResourceManager::get()->GetRGBControllers());
+    auto_connection_client = new NetworkClient();
 
     std::string titleString = "OpenRGB ";
     titleString.append(VERSION_STRING);
@@ -703,7 +663,7 @@ void ResourceManager::Initialize(bool tryConnect, bool detectDevices, bool start
     {
         for(unsigned int client_idx = 0; client_idx < client_settings["clients"].size(); client_idx++)
         {
-            NetworkClient * client = new NetworkClient(rgb_controllers);
+            NetworkClient * client = new NetworkClient();
 
             std::string titleString = "OpenRGB ";
             titleString.append(VERSION_STRING);
