@@ -1392,8 +1392,6 @@ void DetectionManager::ProcessCleanup()
 {
     WaitForDetection();
 
-    SignalUpdate(DETECTIONMANAGER_UPDATE_REASON_RGBCONTROLLER_LIST_CLEARED);
-
     /*-----------------------------------------------------*\
     | Make a copy of the list so that the controllers can   |
     | be deleted after the list is cleared                  |
@@ -1404,6 +1402,11 @@ void DetectionManager::ProcessCleanup()
     | Clear the controllers list                            |
     \*-----------------------------------------------------*/
     rgb_controllers.clear();
+
+    /*-----------------------------------------------------*\
+    | Signal the list cleared callback                      |
+    \*-----------------------------------------------------*/
+    SignalUpdate(DETECTIONMANAGER_UPDATE_REASON_RGBCONTROLLER_LIST_CLEARED);
 
     /*-----------------------------------------------------*\
     | Delete the controllers                                |
