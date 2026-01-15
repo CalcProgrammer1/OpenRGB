@@ -88,7 +88,6 @@ public:
     std::string                         GetDetectionString();
     void                                StopDeviceDetection();
     void                                RescanDevices();
-    void                                ClearLocalDevices();
     void                                UpdateDeviceList();
     void                                WaitForDetection();
 
