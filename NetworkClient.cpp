@@ -36,7 +36,7 @@ const char yes = 1;
 
 using namespace std::chrono_literals;
 
-NetworkClient::NetworkClient(std::vector<RGBController *>& control) : controllers(control)
+NetworkClient::NetworkClient()
 {
     port_ip                             = "127.0.0.1";
     port_num                            = OPENRGB_SDK_PORT;
@@ -470,6 +470,11 @@ void NetworkClient::SettingsManager_SetSettings(std::string settings_json_str)
 /*---------------------------------------------------------*\
 | RGBController functions                                   |
 \*---------------------------------------------------------*/
+std::vector<RGBController*>& NetworkClient::GetRGBControllers()
+{
+    return(server_controllers);
+}
+
 void NetworkClient::SendRequest_RGBController_ClearSegments(unsigned int dev_idx, int zone)
 {
     if(change_in_progress)
@@ -839,26 +844,6 @@ void NetworkClient::ConnectionThreadFunction()
                         }
                         else
                         {
-                            ControllerListMutex.lock();
-
-                            /*-----------------------------------------*\
-                            | All controllers received, add them to     |
-                            | master list                               |
-                            \*-----------------------------------------*/
-                            printf("Client: All controllers received, adding them to master list\r\n");
-                            for(std::size_t controller_idx = 0; controller_idx < server_controllers.size(); controller_idx++)
-                            {
-                                controllers.push_back(server_controllers[controller_idx]);
-                            }
-
-                            ControllerListMutex.unlock();
-
-                            /*-----------------------------------------*\
-                            | Client info has changed, call the         |
-                            | callbacks                                 |
-                            \*-----------------------------------------*/
-                            SignalNetworkClientUpdate(NETWORKCLIENT_UPDATE_REASON_DEVICE_LIST_UPDATED);
-
                             server_initialized = true;
                         }
                     }
@@ -1044,18 +1029,6 @@ listen_done:
 
     ControllerListMutex.lock();
 
-    for(size_t server_controller_idx = 0; server_controller_idx < server_controllers.size(); server_controller_idx++)
-    {
-        for(size_t controller_idx = 0; controller_idx < controllers.size(); controller_idx++)
-        {
-            if(controllers[controller_idx] == server_controllers[server_controller_idx])
-            {
-                controllers.erase(controllers.begin() + controller_idx);
-                break;
-            }
-        }
-    }
-
     std::vector<RGBController *> server_controllers_copy = server_controllers;
 
     server_controllers.clear();
@@ -1067,9 +1040,9 @@ listen_done:
 
     ControllerListMutex.unlock();
 
-    /*---------------------------------------------------------*\
-    | Client info has changed, call the callbacks               |
-    \*---------------------------------------------------------*/
+    /*-----------------------------------------------------*\
+    | Client info has changed, call the callbacks           |
+    \*-----------------------------------------------------*/
     SignalNetworkClientUpdate(NETWORKCLIENT_UPDATE_REASON_CLIENT_DISCONNECTED);
 }
 
@@ -1092,10 +1065,10 @@ void NetworkClient::ProcessReply_ControllerCount(unsigned int data_size, char * 
 
 void NetworkClient::ProcessReply_ControllerData(unsigned int data_size, char * data, unsigned int dev_idx)
 {
-    /*---------------------------------------------------------*\
-    | Verify the controller description size (first 4 bytes of  |
-    | data) matches the packet size in the header               |
-    \*---------------------------------------------------------*/
+    /*-----------------------------------------------------*\
+    | Verify the controller description size (first 4 bytes |
+    | of data) matches the packet size in the header        |
+    \*-----------------------------------------------------*/
     if(data_size == *((unsigned int*)data))
     {
         data += sizeof(data_size);
@@ -1104,9 +1077,9 @@ void NetworkClient::ProcessReply_ControllerData(unsigned int data_size, char * d
 
         new_controller->SetDeviceDescription((unsigned char *)data, GetProtocolVersion());
 
-        /*-----------------------------------------------------*\
-        | Mark this controller as remote owned                  |
-        \*-----------------------------------------------------*/
+        /*-------------------------------------------------*\
+        | Mark this controller as remote owned              |
+        \*-------------------------------------------------*/
         new_controller->flags &= ~CONTROLLER_FLAG_LOCAL;
         new_controller->flags |= CONTROLLER_FLAG_REMOTE;
 
@@ -1115,6 +1088,11 @@ void NetworkClient::ProcessReply_ControllerData(unsigned int data_size, char * d
         if(dev_idx >= server_controllers.size())
         {
             server_controllers.push_back(new_controller);
+
+            /*---------------------------------------------*\
+            | Signal list updated callback                  |
+            \*---------------------------------------------*/
+            SignalNetworkClientUpdate(NETWORKCLIENT_UPDATE_REASON_DEVICE_LIST_UPDATED);
         }
         else
         {
@@ -1172,26 +1150,20 @@ void NetworkClient::ProcessRequest_DeviceListChanged()
 {
     change_in_progress = true;
 
-    /*---------------------------------------------------------*\
-    | Delete all controllers from the server's controller list  |
-    \*---------------------------------------------------------*/
+    /*-----------------------------------------------------*\
+    | Delete all controllers from the server's controller   |
+    | list                                                  |
+    \*-----------------------------------------------------*/
     ControllerListMutex.lock();
-
-    for(size_t server_controller_idx = 0; server_controller_idx < server_controllers.size(); server_controller_idx++)
-    {
-        for(size_t controller_idx = 0; controller_idx < controllers.size(); controller_idx++)
-        {
-            if(controllers[controller_idx] == server_controllers[server_controller_idx])
-            {
-                controllers.erase(controllers.begin() + controller_idx);
-                break;
-            }
-        }
-    }
 
     std::vector<RGBController *> server_controllers_copy = server_controllers;
 
     server_controllers.clear();
+
+    /*-----------------------------------------------------*\
+    | Signal list updated callback                          |
+    \*-----------------------------------------------------*/
+    SignalNetworkClientUpdate(NETWORKCLIENT_UPDATE_REASON_DEVICE_LIST_UPDATED);
 
     for(size_t server_controller_idx = 0; server_controller_idx < server_controllers_copy.size(); server_controller_idx++)
     {
@@ -1200,16 +1172,16 @@ void NetworkClient::ProcessRequest_DeviceListChanged()
 
     ControllerListMutex.unlock();
 
-    /*---------------------------------------------------------*\
-    | Client info has changed, call the callbacks               |
-    \*---------------------------------------------------------*/
+    /*-----------------------------------------------------*\
+    | Client info has changed, call the callbacks           |
+    \*-----------------------------------------------------*/
     SignalNetworkClientUpdate(NETWORKCLIENT_UPDATE_REASON_DEVICE_LIST_UPDATED);
 
-    /*---------------------------------------------------------*\
-    | Mark server as uninitialized and reset server             |
-    | initialization state so that it restarts the list         |
-    | requesting process                                        |
-    \*---------------------------------------------------------*/
+    /*-----------------------------------------------------*\
+    | Mark server as uninitialized and reset server         |
+    | initialization state so that it restarts the list     |
+    | requesting process                                    |
+    \*-----------------------------------------------------*/
     controller_data_requested           = false;
     controller_data_received            = false;
     requested_controllers               = 0;
@@ -1291,9 +1263,9 @@ void NetworkClient::ProcessRequest_ServerString(unsigned int data_size, char * d
 {
     server_name.assign(data, data_size);
 
-    /*---------------------------------------------------------*\
-    | Client info has changed, call the callbacks               |
-    \*---------------------------------------------------------*/
+    /*-----------------------------------------------------*\
+    | Client info has changed, call the callbacks           |
+    \*-----------------------------------------------------*/
     SignalNetworkClientUpdate(NETWORKCLIENT_UPDATE_REASON_SERVER_STRING_RECEIVED);
 }
 
