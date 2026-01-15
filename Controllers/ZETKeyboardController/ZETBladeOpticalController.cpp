@@ -43,7 +43,7 @@ ZETBladeOpticalController::~ZETBladeOpticalController()
 
 std::string ZETBladeOpticalController::GetDeviceLocation()
 {
-    return("HID " + location);
+    return("HID: " + location);
 }
 
 std::string ZETBladeOpticalController::GetNameString()
