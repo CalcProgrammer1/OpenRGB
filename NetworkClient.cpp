@@ -45,10 +45,10 @@ NetworkClient::NetworkClient()
     detection_percent                   = 100;
     detection_string                    = "";
     protocol_initialized                = false;
+    protocol_version                    = 0;
     server_connected                    = false;
-    server_controller_count             = 0;
-    server_controller_count_requested   = false;
-    server_controller_count_received    = false;
+    server_controller_ids_requested     = false;
+    server_controller_ids_received      = false;
     server_protocol_version             = 0;
     server_reinitialize                 = false;
     change_in_progress                  = false;
@@ -82,17 +82,6 @@ unsigned short NetworkClient::GetPort()
 
 unsigned int NetworkClient::GetProtocolVersion()
 {
-    unsigned int protocol_version = 0;
-
-    if(server_protocol_version > OPENRGB_SDK_PROTOCOL_VERSION)
-    {
-        protocol_version = OPENRGB_SDK_PROTOCOL_VERSION;
-    }
-    else
-    {
-        protocol_version = server_protocol_version;
-    }
-
     return(protocol_version);
 }
 
@@ -205,50 +194,41 @@ void NetworkClient::StopClient()
     SignalNetworkClientUpdate(NETWORKCLIENT_UPDATE_REASON_CLIENT_STOPPED);
 }
 
-void NetworkClient::SendRequest_ControllerData(unsigned int dev_idx)
+void NetworkClient::SendRequest_ControllerData(unsigned int dev_id)
 {
     NetPacketHeader request_hdr;
-    unsigned int    protocol_version;
 
+    /*---------------------------------------------------------*\
+    | Clear the controller data received flag                   |
+    \*---------------------------------------------------------*/
     controller_data_received = false;
 
-    memcpy(request_hdr.pkt_magic, openrgb_sdk_magic, sizeof(openrgb_sdk_magic));
-
-    request_hdr.pkt_dev_idx  = dev_idx;
-    request_hdr.pkt_id       = NET_PACKET_ID_REQUEST_CONTROLLER_DATA;
-
-    if(server_protocol_version == 0)
+    /*---------------------------------------------------------*\
+    | Protocol version 0 sends no data, all other protocols     |
+    | send the protocol version                                 |
+    \*---------------------------------------------------------*/
+    if(protocol_version == 0)
     {
-        request_hdr.pkt_size     = 0;
-
-        send_in_progress.lock();
-        send(client_sock, (char *)&request_hdr, sizeof(NetPacketHeader), MSG_NOSIGNAL);
-        send_in_progress.unlock();
+        InitNetPacketHeader(&request_hdr, dev_id, NET_PACKET_ID_REQUEST_CONTROLLER_DATA, 0);
     }
     else
     {
-        request_hdr.pkt_size     = sizeof(unsigned int);
-
-        /*-------------------------------------------------------------*\
-        | Limit the protocol version to the highest supported by both   |
-        | the client and the server.                                    |
-        \*-------------------------------------------------------------*/
-        if(server_protocol_version > OPENRGB_SDK_PROTOCOL_VERSION)
-        {
-            protocol_version = OPENRGB_SDK_PROTOCOL_VERSION;
-        }
-        else
-        {
-            protocol_version = server_protocol_version;
-        }
-
-        SignalNetworkClientUpdate(NETWORKCLIENT_UPDATE_REASON_PROTOCOL_NEGOTIATED);
-
-        send_in_progress.lock();
-        send(client_sock, (char *)&request_hdr, sizeof(NetPacketHeader), MSG_NOSIGNAL);
-        send(client_sock, (char *)&protocol_version, sizeof(unsigned int), MSG_NOSIGNAL);
-        send_in_progress.unlock();
+        InitNetPacketHeader(&request_hdr, dev_id, NET_PACKET_ID_REQUEST_CONTROLLER_DATA, sizeof(protocol_version));
     }
+
+    /*---------------------------------------------------------*\
+    | Send the packet, including the data field if protocol is  |
+    | greater than 0.                                           |
+    \*---------------------------------------------------------*/
+    send_in_progress.lock();
+    send(client_sock, (char *)&request_hdr, sizeof(NetPacketHeader), MSG_NOSIGNAL);
+
+    if(protocol_version > 0)
+    {
+        send(client_sock, (char *)&protocol_version, sizeof(unsigned int), MSG_NOSIGNAL);
+    }
+
+    send_in_progress.unlock();
 }
 
 void NetworkClient::SendRequest_RescanDevices()
@@ -750,6 +730,8 @@ void NetworkClient::ConnectionThreadFunction()
                 /*-----------------------------------------------------*\
                 | Request protocol version                              |
                 \*-----------------------------------------------------*/
+                server_protocol_version_received = false;
+
                 SendRequest_ProtocolVersion();
 
                 /*-----------------------------------------------------*\
@@ -779,6 +761,21 @@ void NetworkClient::ConnectionThreadFunction()
                     }
                 }
 
+                /*-------------------------------------------------------------*\
+                | Limit the protocol version to the highest supported by both   |
+                | the client and the server.                                    |
+                \*-------------------------------------------------------------*/
+                if(server_protocol_version > OPENRGB_SDK_PROTOCOL_VERSION)
+                {
+                    protocol_version = OPENRGB_SDK_PROTOCOL_VERSION;
+                }
+                else
+                {
+                    protocol_version = server_protocol_version;
+                }
+
+                SignalNetworkClientUpdate(NETWORKCLIENT_UPDATE_REASON_PROTOCOL_NEGOTIATED);
+
                 protocol_initialized = true;
             }
 
@@ -804,11 +801,11 @@ void NetworkClient::ConnectionThreadFunction()
                 /*-----------------------------------------------------*\
                 | Request the server controller count                   |
                 \*-----------------------------------------------------*/
-                if(!server_controller_count_requested)
+                if(!server_controller_ids_requested)
                 {
-                    SendRequest_ControllerCount();
+                    SendRequest_ControllerIDs();
 
-                    server_controller_count_requested = true;
+                    server_controller_ids_requested = true;
                 }
                 else
                 {
@@ -816,7 +813,7 @@ void NetworkClient::ConnectionThreadFunction()
                     | Wait for the server controller count to be        |
                     | received                                          |
                     \*-------------------------------------------------*/
-                    if(server_controller_count_received)
+                    if(server_controller_ids_received)
                     {
                         /*---------------------------------------------*\
                         | Once count is received, request controllers   |
@@ -824,21 +821,34 @@ void NetworkClient::ConnectionThreadFunction()
                         | requested controllers until all controllers   |
                         | have been received                            |
                         \*---------------------------------------------*/
-                        if(requested_controllers < server_controller_count)
+                        if(requested_controller_index < server_controller_ids.size())
                         {
                             if(!controller_data_requested)
                             {
-                                printf("Client: Requesting controller %d\r\n", requested_controllers);
+                                /*-------------------------*\
+                                | Check if this ID already  |
+                                | exists, if not, request it|
+                                \*-------------------------*/
+                                unsigned int    id              = server_controller_ids[requested_controller_index];
+                                RGBController * rgb_controller = controller_from_id(id);
 
-                                controller_data_received = false;
-                                SendRequest_ControllerData(requested_controllers);
+                                if(rgb_controller == NULL)
+                                {
+                                    printf("Client: Requesting controller ID %d\r\n", server_controller_ids[requested_controller_index]);
 
-                                controller_data_requested = true;
+                                    controller_data_received    = false;
+                                    SendRequest_ControllerData(id);
+                                    controller_data_requested   = true;
+                                }
+                                else
+                                {
+                                    controller_data_received = true;
+                                }
                             }
 
                             if(controller_data_received)
                             {
-                                requested_controllers++;
+                                requested_controller_index++;
                                 controller_data_requested = false;
                             }
                         }
@@ -909,7 +919,7 @@ void NetworkClient::ListenThreadFunction()
         {
             int tmp_bytes_read = 0;
 
-            tmp_bytes_read = recv_select(client_sock, (char *)&header.pkt_dev_idx + bytes_read, sizeof(header) - sizeof(header.pkt_magic) - bytes_read, 0);
+            tmp_bytes_read = recv_select(client_sock, (char *)&header.pkt_dev_id + bytes_read, sizeof(header) - sizeof(header.pkt_magic) - bytes_read, 0);
 
             bytes_read += tmp_bytes_read;
 
@@ -951,11 +961,11 @@ void NetworkClient::ListenThreadFunction()
         switch(header.pkt_id)
         {
             case NET_PACKET_ID_REQUEST_CONTROLLER_COUNT:
-                ProcessReply_ControllerCount(header.pkt_size, data);
+                ProcessReply_ControllerIDs(header.pkt_size, data);
                 break;
 
             case NET_PACKET_ID_REQUEST_CONTROLLER_DATA:
-                ProcessReply_ControllerData(header.pkt_size, data, header.pkt_dev_idx);
+                ProcessReply_ControllerData(header.pkt_size, data, header.pkt_dev_id);
                 break;
 
             case NET_PACKET_ID_REQUEST_PROTOCOL_VERSION:
@@ -1004,7 +1014,7 @@ void NetworkClient::ListenThreadFunction()
                 break;
 
             case NET_PACKET_ID_RGBCONTROLLER_SIGNALUPDATE:
-                ProcessRequest_RGBController_SignalUpdate(header.pkt_size, data, header.pkt_dev_idx);
+                ProcessRequest_RGBController_SignalUpdate(header.pkt_size, data, header.pkt_dev_id);
                 break;
         }
 
@@ -1020,10 +1030,9 @@ listen_done:
     controller_data_requested           = false;
     controller_data_received            = false;
     protocol_initialized                = false;
-    requested_controllers               = 0;
-    server_controller_count             = 0;
-    server_controller_count_requested   = false;
-    server_controller_count_received    = false;
+    requested_controller_index          = 0;
+    server_controller_ids_requested     = false;
+    server_controller_ids_received      = false;
     server_initialized                  = false;
     server_connected                    = false;
 
@@ -1049,21 +1058,7 @@ listen_done:
 /*---------------------------------------------------------*\
 | Private Client functions                                  |
 \*---------------------------------------------------------*/
-void NetworkClient::ProcessReply_ControllerCount(unsigned int data_size, char * data)
-{
-    if(data_size == sizeof(unsigned int))
-    {
-        memcpy(&server_controller_count, data, sizeof(unsigned int));
-
-        server_controller_count_received    = true;
-        requested_controllers               = 0;
-        controller_data_requested           = false;
-
-        printf("Client: Received controller count from server: %d\r\n", server_controller_count);
-    }
-}
-
-void NetworkClient::ProcessReply_ControllerData(unsigned int data_size, char * data, unsigned int dev_idx)
+void NetworkClient::ProcessReply_ControllerData(unsigned int data_size, char * data, unsigned int dev_id)
 {
     /*-----------------------------------------------------*\
     | Verify the controller description size (first 4 bytes |
@@ -1073,7 +1068,10 @@ void NetworkClient::ProcessReply_ControllerData(unsigned int data_size, char * d
     {
         data += sizeof(data_size);
 
-        RGBController_Network * new_controller   = new RGBController_Network(this, dev_idx);
+        /*-------------------------------------------------*\
+        | Create a new controller from the received data    |
+        \*-------------------------------------------------*/
+        RGBController_Network * new_controller   = new RGBController_Network(this, dev_id);
 
         new_controller->SetDeviceDescription((unsigned char *)data, GetProtocolVersion());
 
@@ -1083,38 +1081,110 @@ void NetworkClient::ProcessReply_ControllerData(unsigned int data_size, char * d
         new_controller->flags &= ~CONTROLLER_FLAG_LOCAL;
         new_controller->flags |= CONTROLLER_FLAG_REMOTE;
 
-        ControllerListMutex.lock();
+        /*-------------------------------------------------*\
+        | If no controller exists with this ID, add it to   |
+        | the list                                          |
+        \*-------------------------------------------------*/
+        RGBController * existing_controller     = controller_from_id(dev_id);
 
-        if(dev_idx >= server_controllers.size())
+        if(existing_controller == NULL)
         {
-            server_controllers.push_back(new_controller);
-
-            /*---------------------------------------------*\
-            | Signal list updated callback                  |
-            \*---------------------------------------------*/
-            SignalNetworkClientUpdate(NETWORKCLIENT_UPDATE_REASON_DEVICE_LIST_UPDATED);
+            UpdateDeviceList(new_controller);
         }
+
+        /*-------------------------------------------------*\
+        | Otherwise, update the existing controller with    |
+        | the new controller's data                         |
+        \*-------------------------------------------------*/
         else
         {
-            server_controllers[dev_idx]->active_mode = new_controller->active_mode;
-            server_controllers[dev_idx]->leds.clear();
-            server_controllers[dev_idx]->leds        = new_controller->leds;
-            server_controllers[dev_idx]->colors.clear();
-            server_controllers[dev_idx]->colors      = new_controller->colors;
-            for(unsigned int i = 0; i < server_controllers[dev_idx]->zones.size(); i++)
-            {
-                server_controllers[dev_idx]->zones[i].leds_count = new_controller->zones[i].leds_count;
-                server_controllers[dev_idx]->zones[i].segments.clear();
-                server_controllers[dev_idx]->zones[i].segments = new_controller->zones[i].segments;
-            }
-            server_controllers[dev_idx]->SetupColors();
+            existing_controller->active_mode        = new_controller->active_mode;
+            existing_controller->modes.clear();
+            existing_controller->modes              = new_controller->modes;
+            existing_controller->leds.clear();
+            existing_controller->leds               = new_controller->leds;
+            existing_controller->colors.clear();
+            existing_controller->colors             = new_controller->colors;
+            existing_controller->zones.clear();
+            existing_controller->zones              = new_controller->zones;
+            existing_controller->SetupColors();
 
             delete new_controller;
         }
 
-        ControllerListMutex.unlock();
-
         controller_data_received = true;
+    }
+}
+
+void NetworkClient::ProcessReply_ControllerIDs(unsigned int data_size, char * data_ptr)
+{
+    unsigned int controller_count           = 0;
+
+    /*-----------------------------------------------------*\
+    | Validate packet size                                  |
+    \*-----------------------------------------------------*/
+    if(data_size >= sizeof(unsigned int))
+    {
+        /*-------------------------------------------------*\
+        | Copy out controller count from data               |
+        \*-------------------------------------------------*/
+        memcpy(&controller_count, data_ptr, sizeof(controller_count));
+        data_ptr += sizeof(controller_count);
+
+        /*-------------------------------------------------*\
+        | On protocol versions >= 6, the server sends a     |
+        | list of unique 32-bit IDs, one per controller.    |
+        \*-------------------------------------------------*/
+        if(protocol_version >= 6)
+        {
+            /*---------------------------------------------*\
+            | Validate protocol >= 6 packet size            |
+            \*---------------------------------------------*/
+            if(data_size == (sizeof(controller_count) + (controller_count * sizeof(unsigned int))))
+            {
+                server_controller_ids.clear();
+                server_controller_ids.resize(controller_count);
+
+                for(unsigned int controller_id_idx = 0; controller_id_idx < controller_count; controller_id_idx++)
+                {
+                    memcpy(&server_controller_ids[controller_id_idx], data_ptr, sizeof(server_controller_ids[controller_id_idx]));
+                    data_ptr += sizeof(server_controller_ids[controller_id_idx]);
+                }
+            }
+            else
+            {
+                server_controller_ids.clear();
+                printf("Client: Received incorrect packet size for controller list, list cleared");
+            }
+        }
+        /*-------------------------------------------------*\
+        | On protocol versions < 6, the server only sends   |
+        | the controller count, using the index as the ID.  |
+        \*-------------------------------------------------*/
+        else
+        {
+            server_controller_ids.clear();
+            server_controller_ids.resize(controller_count);
+
+            for(unsigned int controller_id_idx = 0; controller_id_idx < controller_count; controller_id_idx++)
+            {
+                server_controller_ids[controller_id_idx] = controller_id_idx;
+            }
+        }
+
+        /*-------------------------------------------------*\
+        | Update the device list to remove any controllers  |
+        | no longer in the list                             |
+        \*-------------------------------------------------*/
+        UpdateDeviceList(NULL);
+
+        /*-------------------------------------------------*\
+        | Reset the controller data requested index and     |
+        | flag to begin the controller request cycle        |
+        \*-------------------------------------------------*/
+        server_controller_ids_received      = true;
+        requested_controller_index          = 0;
+        controller_data_requested           = false;
     }
 }
 
@@ -1148,34 +1218,17 @@ void NetworkClient::ProcessRequest_DetectionProgressChanged(unsigned int data_si
 
 void NetworkClient::ProcessRequest_DeviceListChanged()
 {
-    change_in_progress = true;
-
     /*-----------------------------------------------------*\
-    | Delete all controllers from the server's controller   |
-    | list                                                  |
+    | For protocol versions < 6, we need to redownload the  |
+    | entire device list, so clear the server IDs and       |
+    | update the device list to erase it.                   |
     \*-----------------------------------------------------*/
-    ControllerListMutex.lock();
-
-    std::vector<RGBController *> server_controllers_copy = server_controllers;
-
-    server_controllers.clear();
-
-    /*-----------------------------------------------------*\
-    | Signal list updated callback                          |
-    \*-----------------------------------------------------*/
-    SignalNetworkClientUpdate(NETWORKCLIENT_UPDATE_REASON_DEVICE_LIST_UPDATED);
-
-    for(size_t server_controller_idx = 0; server_controller_idx < server_controllers_copy.size(); server_controller_idx++)
+    if(protocol_version < 6)
     {
-        delete server_controllers_copy[server_controller_idx];
+        server_controller_ids.clear();
+
+        UpdateDeviceList(NULL);
     }
-
-    ControllerListMutex.unlock();
-
-    /*-----------------------------------------------------*\
-    | Client info has changed, call the callbacks           |
-    \*-----------------------------------------------------*/
-    SignalNetworkClientUpdate(NETWORKCLIENT_UPDATE_REASON_DEVICE_LIST_UPDATED);
 
     /*-----------------------------------------------------*\
     | Mark server as uninitialized and reset server         |
@@ -1184,24 +1237,25 @@ void NetworkClient::ProcessRequest_DeviceListChanged()
     \*-----------------------------------------------------*/
     controller_data_requested           = false;
     controller_data_received            = false;
-    requested_controllers               = 0;
-    server_controller_count             = 0;
-    server_controller_count_requested   = false;
-    server_controller_count_received    = false;
+    requested_controller_index          = 0;
+    server_controller_ids_requested     = false;
+    server_controller_ids_received      = false;
     server_initialized                  = false;
-
-    change_in_progress = false;
 }
 
-void NetworkClient::ProcessRequest_RGBController_SignalUpdate(unsigned int data_size, char * data, unsigned int dev_idx)
+void NetworkClient::ProcessRequest_RGBController_SignalUpdate(unsigned int data_size, char * data, unsigned int dev_id)
 {
+    RGBController * controller;
     unsigned int    pkt_data_size;
     unsigned int    update_reason;
 
     /*-----------------------------------------------------*\
-    | Ensure we have this controller in our list            |
+    | Get the controller pointer by ID and ensure it is     |
+    | valid                                                 |
     \*-----------------------------------------------------*/
-    if(dev_idx >= server_controllers.size() || server_controllers.size() == 0)
+    controller = controller_from_id(dev_id);
+
+    if(controller == NULL)
     {
         return;
     }
@@ -1237,7 +1291,7 @@ void NetworkClient::ProcessRequest_RGBController_SignalUpdate(unsigned int data_
         | UpdateLEDs() sends color description              |
         \*-------------------------------------------------*/
         case RGBCONTROLLER_UPDATE_REASON_UPDATELEDS:
-            server_controllers[dev_idx]->SetColorDescription((unsigned char *)data_ptr, GetProtocolVersion());
+            controller->SetColorDescription((unsigned char *)data_ptr, GetProtocolVersion());
             break;
 
         /*-------------------------------------------------*\
@@ -1252,11 +1306,11 @@ void NetworkClient::ProcessRequest_RGBController_SignalUpdate(unsigned int data_
         case RGBCONTROLLER_UPDATE_REASON_HIDDEN:
         case RGBCONTROLLER_UPDATE_REASON_UNHIDDEN:
         default:
-            server_controllers[dev_idx]->SetDeviceDescription((unsigned char *)data_ptr, GetProtocolVersion());
+            controller->SetDeviceDescription((unsigned char *)data_ptr, GetProtocolVersion());
             break;
     }
 
-    server_controllers[dev_idx]->SignalUpdate(update_reason);
+    controller->SignalUpdate(update_reason);
 }
 
 void NetworkClient::ProcessRequest_ServerString(unsigned int data_size, char * data)
@@ -1281,7 +1335,7 @@ void NetworkClient::SendData_ClientString()
     send_in_progress.unlock();
 }
 
-void NetworkClient::SendRequest_ControllerCount()
+void NetworkClient::SendRequest_ControllerIDs()
 {
     NetPacketHeader request_hdr;
 
@@ -1305,6 +1359,84 @@ void NetworkClient::SendRequest_ProtocolVersion()
     send(client_sock, (char *)&request_hdr, sizeof(NetPacketHeader), MSG_NOSIGNAL);
     send(client_sock, (char *)&request_data, sizeof(unsigned int), MSG_NOSIGNAL);
     send_in_progress.unlock();
+}
+
+void NetworkClient::UpdateDeviceList(RGBController* new_controller)
+{
+    /*-----------------------------------------------------*\
+    | Lock the controller list mutex                        |
+    \*-----------------------------------------------------*/
+    ControllerListMutex.lock();
+
+    /*-----------------------------------------------------*\
+    | Make a copy of the current controllers list           |
+    \*-----------------------------------------------------*/
+    std::vector<RGBController*> rgb_controllers_copy = server_controllers;
+
+    /*-----------------------------------------------------*\
+    | If adding a new controller, add it to the copied list |
+    \*-----------------------------------------------------*/
+    if(new_controller != NULL)
+    {
+        rgb_controllers_copy.push_back(new_controller);
+    }
+
+    /*-----------------------------------------------------*\
+    | Clear the controllers list                            |
+    \*-----------------------------------------------------*/
+    server_controllers.clear();
+
+    /*-----------------------------------------------------*\
+    | Loop through all of the controller IDs                |
+    \*-----------------------------------------------------*/
+    for(std::size_t controller_id_idx = 0; controller_id_idx < server_controller_ids.size(); controller_id_idx++)
+    {
+        /*-------------------------------------------------*\
+        | Loop through all of the controllers in the copied |
+        | list and see if any match the ID                  |
+        \*-------------------------------------------------*/
+        std::size_t controller_idx  = 0;
+        bool        match           = false;
+
+        for(; controller_idx < rgb_controllers_copy.size(); controller_idx++)
+        {
+            if(server_controller_ids[controller_id_idx] == ((RGBController_Network*)rgb_controllers_copy[controller_idx])->GetID())
+            {
+                match = true;
+                break;
+            }
+        }
+
+        /*-------------------------------------------------*\
+        | If a match was found, push it into the new        |
+        | controller list and remove it from the copy       |
+        \*-------------------------------------------------*/
+        if(match)
+        {
+            server_controllers.push_back(rgb_controllers_copy[controller_idx]);
+            rgb_controllers_copy.erase(rgb_controllers_copy.begin() + controller_idx);
+        }
+    }
+
+    /*-----------------------------------------------------*\
+    | The list has been updated, unlock the mutex           |
+    \*-----------------------------------------------------*/
+    ControllerListMutex.unlock();
+
+    /*-----------------------------------------------------*\
+    | Signal list updated callback                          |
+    \*-----------------------------------------------------*/
+    SignalNetworkClientUpdate(NETWORKCLIENT_UPDATE_REASON_DEVICE_LIST_UPDATED);
+
+    /*-----------------------------------------------------*\
+    | At this point, the copied list should contain only    |
+    | controllers no longer in the current list of IDs      |
+    | Delete them                                           |
+    \*-----------------------------------------------------*/
+    for(std::size_t controller_idx = 0; controller_idx < rgb_controllers_copy.size(); controller_idx++)
+    {
+        delete rgb_controllers_copy[controller_idx];
+    }
 }
 
 /*---------------------------------------------------------*\
@@ -1340,7 +1472,7 @@ std::vector<std::string> * NetworkClient::ProcessReply_ProfileList(unsigned int 
             data_ptr += name_len;
         }
 
-        server_controller_count_received = true;
+        server_controller_ids_received = true;
     }
     else
     {
@@ -1353,6 +1485,22 @@ std::vector<std::string> * NetworkClient::ProcessReply_ProfileList(unsigned int 
 /*---------------------------------------------------------*\
 | Private helper functions                                  |
 \*---------------------------------------------------------*/
+RGBController * NetworkClient::controller_from_id(unsigned int id)
+{
+    RGBController * rgb_controller = NULL;
+
+    for(std::size_t controller_idx = 0; controller_idx < server_controllers.size(); controller_idx++)
+    {
+        if(((RGBController_Network*)server_controllers[controller_idx])->GetID() == id)
+        {
+            rgb_controller = server_controllers[controller_idx];
+            break;
+        }
+    }
+
+    return(rgb_controller);
+}
+
 int NetworkClient::recv_select(SOCKET s, char *buf, int len, int flags)
 {
     fd_set              set;
