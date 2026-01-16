@@ -149,22 +149,9 @@ ResourceManager::ResourceManager()
     |   hardware controllers                                |
     \*-----------------------------------------------------*/
     json server_settings    = settings_manager->GetSettings("Server");
-    bool all_controllers    = false;
     bool legacy_workaround  = false;
 
-    if(server_settings.contains("all_controllers"))
-    {
-        all_controllers     = server_settings["all_controllers"];
-    }
-
-    if(all_controllers)
-    {
-        server              = new NetworkServer(rgb_controllers);
-    }
-    else
-    {
-        server              = new NetworkServer(DetectionManager::get()->GetRGBControllers());
-    }
+    server                  = new NetworkServer();
 
     /*-----------------------------------------------------*\
     | Set server name                                       |
@@ -476,6 +463,26 @@ void ResourceManager::UpdateDeviceList()
         {
             rgb_controllers.push_back(rgb_controllers_client[rgb_controller_idx]);
         }
+    }
+
+    /*-----------------------------------------------------*\
+    | Update server list                                    |
+    \*-----------------------------------------------------*/
+    json server_settings    = settings_manager->GetSettings("Server");
+    bool all_controllers    = false;
+
+    if(server_settings.contains("all_controllers"))
+    {
+        all_controllers     = server_settings["all_controllers"];
+    }
+
+    if(all_controllers)
+    {
+        server->SetControllers(rgb_controllers);
+    }
+    else
+    {
+        server->SetControllers(rgb_controllers_hw);
     }
 
     /*-----------------------------------------------------*\
