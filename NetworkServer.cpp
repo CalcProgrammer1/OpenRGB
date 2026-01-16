@@ -69,13 +69,15 @@ static void RGBController_UpdateCallback(void * this_ptr, unsigned int update_re
     this_obj->SendRequest_RGBController_SignalUpdate((RGBController *)controller_ptr, update_reason);
 }
 
-NetworkServer::NetworkServer(std::vector<RGBController *>& control) : controllers(control)
+NetworkServer::NetworkServer()
 {
     host                        = OPENRGB_SDK_HOST;
     port_num                    = OPENRGB_SDK_PORT;
     server_online               = false;
     server_listening            = false;
     legacy_workaround_enabled   = false;
+    controller_next_idx         = 0;
+    controller_updating         = false;
 
     for(int i = 0; i < MAXSOCK; i++)
     {
@@ -426,6 +428,169 @@ void NetworkServer::StopServer()
 /*---------------------------------------------------------*\
 | Server Interface functions                                |
 \*---------------------------------------------------------*/
+void NetworkServer::SetControllers(std::vector<RGBController *> new_controllers)
+{
+    /*-----------------------------------------------------*\
+    | Set the controller list updating flag to pause the    |
+    | controller packet processing                          |
+    \*-----------------------------------------------------*/
+    controller_updating = true;
+
+    /*-----------------------------------------------------*\
+    | Lock the controller list mutex                        |
+    \*-----------------------------------------------------*/
+    controller_ids_mutex.lock();
+
+    /*-----------------------------------------------------*\
+    | Update the controllers list                           |
+    \*-----------------------------------------------------*/
+    controllers = new_controllers;
+
+    /*-----------------------------------------------------*\
+    | Create a copy of the current controller IDs list      |
+    \*-----------------------------------------------------*/
+    std::vector<NetworkControllerID> controller_ids_old  = controller_ids;
+
+    /*-----------------------------------------------------*\
+    | Clear the current controller IDs list                 |
+    \*-----------------------------------------------------*/
+    controller_ids.clear();
+
+    /*-----------------------------------------------------*\
+    | Resize controller IDs list to be the same size as the |
+    | controllers list                                      |
+    \*-----------------------------------------------------*/
+    controller_ids.resize(controllers.size());
+
+    /*-----------------------------------------------------*\
+    | Loop through the controllers list and find the ID for |
+    | each controller, adding it to the IDs list.           |
+    \*-----------------------------------------------------*/
+    for(std::size_t controller_idx = 0; controller_idx < controller_ids.size(); controller_idx++)
+    {
+        bool match                                          = false;
+        for(std::size_t controller_id_idx = 0; controller_id_idx < controller_ids_old.size(); controller_id_idx++)
+        {
+            if(controllers[controller_idx] == controller_ids_old[controller_id_idx].controller)
+            {
+                controller_ids[controller_idx]              = controller_ids_old[controller_id_idx];
+                match                                       = true;
+
+                break;
+            }
+        }
+
+        /*-------------------------------------------------*\
+        | If an ID does not already exist, create a new ID  |
+        | for this controller                               |
+        \*-------------------------------------------------*/
+        if(!match)
+        {
+            NetworkControllerID new_controller_id;
+
+            new_controller_id.controller                    = controllers[controller_idx];
+            new_controller_id.id                            = controller_next_idx;
+
+            controller_next_idx++;
+
+            controller_ids[controller_idx]                  = new_controller_id;
+        }
+    }
+
+    /*-----------------------------------------------------*\
+    | Lock the controller threads mutex                     |
+    \*-----------------------------------------------------*/
+    controller_threads_mutex.lock();
+
+    /*-----------------------------------------------------*\
+    | Create a copy of the current controller threads list  |
+    \*-----------------------------------------------------*/
+    std::vector<NetworkServerControllerThread *> controller_threads_old = controller_threads;
+
+    /*-----------------------------------------------------*\
+    | Clear the current controller threads list             |
+    \*-----------------------------------------------------*/
+    controller_threads.clear();
+
+    /*-----------------------------------------------------*\
+    | Resize the controller threads so that there is one    |
+    | thread per controller ID                              |
+    \*-----------------------------------------------------*/
+    controller_threads.resize(controller_ids.size());
+
+    /*-----------------------------------------------------*\
+    | Loop through the controller IDs list and find the     |
+    | thread for each ID, adding it to the threads list.    |
+    \*-----------------------------------------------------*/
+    for(std::size_t controller_id_idx = 0; controller_id_idx < controller_ids.size(); controller_id_idx++)
+    {
+        std::size_t controller_thread_old_idx   = 0;
+        bool        match                       = false;
+
+        for(; controller_thread_old_idx < controller_threads_old.size(); controller_thread_old_idx++)
+        {
+            if(controller_ids[controller_id_idx].id == controller_threads_old[controller_thread_old_idx]->id)
+            {
+                match = true;
+
+                break;
+            }
+        }
+
+        /*-----------------------------------------------------*\
+        | If an existing thread was found with this ID, copy it |
+        | into the new list at the new index.                   |
+        \*-----------------------------------------------------*/
+        if(match)
+        {
+            controller_threads[controller_id_idx]           = controller_threads_old[controller_thread_old_idx];
+            controller_threads[controller_id_idx]->index    = controller_id_idx;
+
+            controller_threads_old.erase(controller_threads_old.begin() + controller_thread_old_idx);
+        }
+        /*-----------------------------------------------------*\
+        | Otherwise, if an existing thread was not found with   |
+        |this ID, create a new one.                             |
+        \*-----------------------------------------------------*/
+        else
+        {
+            NetworkServerControllerThread * new_controller_thread = new NetworkServerControllerThread;
+
+            new_controller_thread->id                       = controller_ids[controller_id_idx].id;
+            new_controller_thread->index                    = controller_id_idx;
+            new_controller_thread->online                   = true;
+            new_controller_thread->thread                   = new std::thread(&NetworkServer::ControllerListenThread, this, new_controller_thread);
+
+            controller_threads[controller_id_idx] = new_controller_thread;
+        }
+    }
+
+    /*-----------------------------------------------------*\
+    | Loop through the remaining threads in the old list    |
+    | and shut them down, their controller IDs are no       |
+    | longer valid.                                         |
+    \*-----------------------------------------------------*/
+    for(std::size_t controller_thread_old_idx = 0; controller_thread_old_idx < controller_threads_old.size(); controller_thread_old_idx++)
+    {
+        controller_threads_old[controller_thread_old_idx]->online   = false;
+        controller_threads_old[controller_thread_old_idx]->start_cv.notify_all();
+        controller_threads_old[controller_thread_old_idx]->thread->join();
+        delete controller_threads_old[controller_thread_old_idx]->thread;
+    }
+
+    /*-----------------------------------------------------*\
+    | Unlock the mutexes                                    |
+    \*-----------------------------------------------------*/
+    controller_threads_mutex.unlock();
+    controller_ids_mutex.unlock();
+
+    /*-----------------------------------------------------*\
+    | Clear the controller list updating flag to resume the |
+    | controller packet processing                          |
+    \*-----------------------------------------------------*/
+    controller_updating = false;
+}
+
 void NetworkServer::SetPluginManager(PluginManagerInterface* plugin_manager_pointer)
 {
     plugin_manager = plugin_manager_pointer;
@@ -640,44 +805,57 @@ void NetworkServer::ControllerListenThread(NetworkServerControllerThread * this_
 {
     while(this_thread->online == true)
     {
-        std::unique_lock<std::mutex> start_lock(this_thread->start_mutex);
-        this_thread->start_cv.wait(start_lock);
-
-        while(this_thread->queue.size() > 0)
+        /*-------------------------------------------------*\
+        | Stop processing RGBController packet queues if    |
+        | the controller list is being updated              |
+        \*-------------------------------------------------*/
+        if(!controller_updating)
         {
-            NetworkServerControllerThreadQueueEntry queue_entry;
+            std::unique_lock<std::mutex> start_lock(this_thread->start_mutex);
+            this_thread->start_cv.wait(start_lock);
 
-            this_thread->queue_mutex.lock();
-            queue_entry = this_thread->queue.front();
-            this_thread->queue.pop();
-            this_thread->queue_mutex.unlock();
-
-            switch(queue_entry.id)
+            while(this_thread->queue.size() > 0)
             {
-                case NET_PACKET_ID_RGBCONTROLLER_UPDATELEDS:
-                    ProcessRequest_RGBController_UpdateLEDs(this_thread->index, (unsigned char *)queue_entry.data, queue_entry.client_protocol_version);
-                    break;
+                NetworkServerControllerThreadQueueEntry queue_entry;
 
-                case NET_PACKET_ID_RGBCONTROLLER_UPDATEZONELEDS:
-                    ProcessRequest_RGBController_UpdateZoneLEDs(this_thread->index, (unsigned char *)queue_entry.data);
-                    break;
+                this_thread->queue_mutex.lock();
+                queue_entry = this_thread->queue.front();
+                this_thread->queue.pop();
+                this_thread->queue_mutex.unlock();
 
-                case NET_PACKET_ID_RGBCONTROLLER_UPDATEMODE:
-                    ProcessRequest_RGBController_UpdateSaveMode(this_thread->index, (unsigned char *)queue_entry.data, queue_entry.client_protocol_version);
-                    controllers[this_thread->index]->UpdateMode();
-                    break;
+                controller_ids_mutex.lock_shared();
 
-                case NET_PACKET_ID_RGBCONTROLLER_SAVEMODE:
-                    ProcessRequest_RGBController_UpdateSaveMode(this_thread->index, (unsigned char *)queue_entry.data, queue_entry.client_protocol_version);
-                    controllers[this_thread->index]->SaveMode();
-                    break;
+                switch(queue_entry.pkt_id)
+                {
+                    case NET_PACKET_ID_RGBCONTROLLER_UPDATELEDS:
+                        ProcessRequest_RGBController_UpdateLEDs(this_thread->id, (unsigned char *)queue_entry.data, queue_entry.client_protocol_version);
+                        break;
 
-                case NET_PACKET_ID_RGBCONTROLLER_UPDATEZONEMODE:
-                    ProcessRequest_RGBController_UpdateZoneMode(this_thread->index, (unsigned char *)queue_entry.data, queue_entry.client_protocol_version);
-                    break;
+                    case NET_PACKET_ID_RGBCONTROLLER_UPDATEZONELEDS:
+                        ProcessRequest_RGBController_UpdateZoneLEDs(this_thread->id, (unsigned char *)queue_entry.data, queue_entry.client_protocol_version);
+                        break;
+
+                    case NET_PACKET_ID_RGBCONTROLLER_UPDATEMODE:
+                        ProcessRequest_RGBController_UpdateSaveMode(this_thread->id, (unsigned char *)queue_entry.data, queue_entry.client_protocol_version, false);
+                        break;
+
+                    case NET_PACKET_ID_RGBCONTROLLER_SAVEMODE:
+                        ProcessRequest_RGBController_UpdateSaveMode(this_thread->id, (unsigned char *)queue_entry.data, queue_entry.client_protocol_version, true);
+                        break;
+
+                    case NET_PACKET_ID_RGBCONTROLLER_UPDATEZONEMODE:
+                        ProcessRequest_RGBController_UpdateZoneMode(this_thread->id, (unsigned char *)queue_entry.data, queue_entry.client_protocol_version);
+                        break;
+                }
+
+                controller_ids_mutex.unlock_shared();
+
+                delete[] queue_entry.data;
             }
-
-            delete[] queue_entry.data;
+        }
+        else
+        {
+            std::this_thread::sleep_for(1ms);
         }
     }
 }
@@ -730,7 +908,7 @@ void NetworkServer::ListenThreadFunction(NetworkClientInfo * client_info)
         {
             int tmp_bytes_read = 0;
 
-            tmp_bytes_read = recv_select(client_sock, (char *)&header.pkt_dev_idx + bytes_read, sizeof(header) - sizeof(header.pkt_magic) - bytes_read, 0);
+            tmp_bytes_read = recv_select(client_sock, (char *)&header.pkt_dev_id + bytes_read, sizeof(header) - sizeof(header.pkt_magic) - bytes_read, 0);
 
             bytes_read += tmp_bytes_read;
 
@@ -776,19 +954,32 @@ void NetworkServer::ListenThreadFunction(NetworkClientInfo * client_info)
         | Network requests                                  |
         \*-------------------------------------------------*/
             case NET_PACKET_ID_REQUEST_CONTROLLER_COUNT:
-                SendReply_ControllerCount(client_sock);
+                SendReply_ControllerCount(client_sock, client_info->client_protocol_version);
                 break;
 
             case NET_PACKET_ID_REQUEST_CONTROLLER_DATA:
                 {
-                    unsigned int protocol_version = 0;
-
-                    if(header.pkt_size == sizeof(unsigned int))
+                    /*-------------------------------------*\
+                    | Protocol versions < 6 sent the client |
+                    | protocol version with this request,   |
+                    | versions 6+ use the stored negotiated |
+                    | protocol version instead.             |
+                    \*-------------------------------------*/
+                    if(client_info->client_protocol_version < 6)
                     {
-                        memcpy(&protocol_version, data, sizeof(unsigned int));
-                    }
+                        unsigned int protocol_version = 0;
 
-                    SendReply_ControllerData(client_sock, header.pkt_dev_idx, protocol_version);
+                        if(header.pkt_size == sizeof(unsigned int))
+                        {
+                            memcpy(&protocol_version, data, sizeof(unsigned int));
+                        }
+
+                        SendReply_ControllerData(client_sock, header.pkt_dev_id, protocol_version);
+                    }
+                    else
+                    {
+                        SendReply_ControllerData(client_sock, header.pkt_dev_id, client_info->client_protocol_version);
+                    }
                 }
                 break;
 
@@ -932,7 +1123,7 @@ void NetworkServer::ListenThreadFunction(NetworkClientInfo * client_info)
                     unsigned int    plugin_pkt_id   = *((unsigned int*)(data));
                     unsigned int    plugin_pkt_size = header.pkt_size - (sizeof(unsigned int));
                     unsigned char*  plugin_data     = (unsigned char*)(data + sizeof(unsigned int));
-                    unsigned char*  output          = plugin_manager->OnSDKCommand(header.pkt_dev_idx, plugin_pkt_id, plugin_data, &plugin_pkt_size);
+                    unsigned char*  output          = plugin_manager->OnSDKCommand(header.pkt_dev_id, plugin_pkt_id, plugin_data, &plugin_pkt_size);
 
                     if(output != nullptr)
                     {
@@ -995,21 +1186,15 @@ void NetworkServer::ListenThreadFunction(NetworkClientInfo * client_info)
         | RGBController functions                           |
         \*-------------------------------------------------*/
             case NET_PACKET_ID_RGBCONTROLLER_RESIZEZONE:
-                if(data == NULL)
+                if((data != NULL)
+                && (header.pkt_size == (2 * sizeof(int))))
                 {
-                    break;
+                    ProcessRequest_RGBController_ResizeZone(header.pkt_dev_id, (unsigned char *)data, client_info->client_protocol_version);
                 }
-
-                if((header.pkt_dev_idx < controllers.size()) && (header.pkt_size == (2 * sizeof(int))))
+                else
                 {
-                    int zone;
-                    int new_size;
-
-                    memcpy(&zone, data, sizeof(int));
-                    memcpy(&new_size, data + sizeof(int), sizeof(int));
-
-                    controllers[header.pkt_dev_idx]->ResizeZone(zone, new_size);
-                    profile_manager->SaveSizes();
+                    LOG_ERROR("[NetworkServer] ResizeZone packet has invalid size. Packet size: %d", header.pkt_size);
+                    goto listen_done;
                 }
                 break;
 
@@ -1018,11 +1203,6 @@ void NetworkServer::ListenThreadFunction(NetworkClientInfo * client_info)
             case NET_PACKET_ID_RGBCONTROLLER_UPDATEMODE:
             case NET_PACKET_ID_RGBCONTROLLER_SAVEMODE:
             case NET_PACKET_ID_RGBCONTROLLER_UPDATEZONEMODE:
-                if(data == NULL)
-                {
-                    break;
-                }
-
                 /*-----------------------------------------*\
                 | Verify the color description size (first  |
                 | 4 bytes of data) matches the packet size  |
@@ -1035,111 +1215,124 @@ void NetworkServer::ListenThreadFunction(NetworkClientInfo * client_info)
                 | of SDK applications that didn't properly  |
                 | implement the size field.                 |
                 \*-----------------------------------------*/
-                if((header.pkt_size == *((unsigned int*)data))
-                || ((client_info->client_protocol_version <= 4)
-                 && (legacy_workaround_enabled)))
+                if((data != NULL)
+                && ((header.pkt_size == *((unsigned int*)data))
+                 || ((client_info->client_protocol_version <= 4)
+                  && (legacy_workaround_enabled))))
                 {
-                    if(header.pkt_dev_idx < controllers.size())
+                    /*-------------------------------------*\
+                    | Find the controller thread matching   |
+                    | this ID                               |
+                    \*-------------------------------------*/
+                    std::size_t controller_thread_idx   = 0;
+                    bool        match                   = false;
+
+                    controller_threads_mutex.lock_shared();
+
+                    for(; controller_thread_idx < controller_threads.size(); controller_thread_idx++)
                     {
-                        if(controller_threads.size() < controllers.size())
+                        if(client_info->client_protocol_version >= 6)
                         {
-                            for(std::size_t controller_idx = controller_threads.size(); controller_idx < controllers.size(); controller_idx++)
+                            if(controller_threads[controller_thread_idx]->id == header.pkt_dev_id)
                             {
-                                NetworkServerControllerThread * new_controller_thread = new NetworkServerControllerThread;
-
-                                new_controller_thread->index    = controller_idx;
-                                new_controller_thread->online   = true;
-                                new_controller_thread->thread   = new std::thread(&NetworkServer::ControllerListenThread, this, new_controller_thread);
-
-                                controller_threads.push_back(new_controller_thread);
+                                match = true;
+                                break;
                             }
                         }
+                        else
+                        {
+                            if(controller_threads[controller_thread_idx]->index == header.pkt_dev_id)
+                            {
+                                match = true;
+                                break;
+                            }
+                        }
+                    }
 
-                        controller_threads[header.pkt_dev_idx]->queue_mutex.lock();
+                    /*-------------------------------------*\
+                    | If this ID exists in the list, queue  |
+                    | the message to the matching thread    |
+                    \*-------------------------------------*/
+                    if(match)
+                    {
+                        controller_threads[controller_thread_idx]->queue_mutex.lock();
+
                         NetworkServerControllerThreadQueueEntry new_entry;
                         new_entry.data                      = data;
-                        new_entry.id                        = header.pkt_id;
+                        new_entry.pkt_id                    = header.pkt_id;
                         new_entry.size                      = header.pkt_size;
                         new_entry.client_protocol_version   = client_info->client_protocol_version;
-                        controller_threads[header.pkt_dev_idx]->queue.push(new_entry);
-                        controller_threads[header.pkt_dev_idx]->queue_mutex.unlock();
 
-                        controller_threads[header.pkt_dev_idx]->start_cv.notify_all();
+                        controller_threads[controller_thread_idx]->queue.push(new_entry);
+                        controller_threads[controller_thread_idx]->queue_mutex.unlock();
+                        controller_threads[controller_thread_idx]->start_cv.notify_all();
 
                         delete_data = false;
                     }
+
+                    controller_threads_mutex.unlock_shared();
                 }
                 else
                 {
-                    LOG_ERROR("[NetworkServer] RGBController packet with ID %d has invalid size. Packet size: %d, Data size: %d", header.pkt_id, header.pkt_size, *((unsigned int*)data));
+                    LOG_ERROR("[NetworkServer] RGBController packet with ID %d has invalid size. Packet size: %d,", header.pkt_id, header.pkt_size);
                     goto listen_done;
                 }
                 break;
 
             case NET_PACKET_ID_RGBCONTROLLER_UPDATESINGLELED:
-                if(data == NULL)
-                {
-                    break;
-                }
-
                 /*-----------------------------------------*\
                 | Verify the single LED color description   |
                 | size (8 bytes) matches the packet size in |
                 | the header                                |
                 \*-----------------------------------------*/
-                if(header.pkt_size == (sizeof(int) + sizeof(RGBColor)))
+                if((data != NULL)
+                && (header.pkt_size == (sizeof(int) + sizeof(RGBColor))))
                 {
-                    if(header.pkt_dev_idx < controllers.size())
-                    {
-                        ProcessRequest_RGBController_UpdateSingleLED(header.pkt_dev_idx, (unsigned char *)data);
-                    }
+                    ProcessRequest_RGBController_UpdateSingleLED(header.pkt_dev_id, (unsigned char *)data, client_info->client_protocol_version);
                 }
                 else
                 {
-                    LOG_ERROR("[NetworkServer] UpdateSingleLED packet has invalid size. Packet size: %d, Data size: %d", header.pkt_size, (sizeof(int) + sizeof(RGBColor)));
+                    LOG_ERROR("[NetworkServer] UpdateSingleLED packet has invalid size. Packet size: %d", header.pkt_size);
                     goto listen_done;
                 }
                 break;
 
             case NET_PACKET_ID_RGBCONTROLLER_SETCUSTOMMODE:
-                if(header.pkt_dev_idx < controllers.size())
-                {
-                    controllers[header.pkt_dev_idx]->SetCustomMode();
-                }
+                ProcessRequest_RGBController_SetCustomMode(header.pkt_dev_id, client_info->client_protocol_version);
                 break;
 
             case NET_PACKET_ID_RGBCONTROLLER_CLEARSEGMENTS:
-                if(data == NULL)
+                /*-----------------------------------------*\
+                | Verify the data size                      |
+                \*-----------------------------------------*/
+                if((data != NULL)
+                && (header.pkt_size == sizeof(int)))
                 {
-                    break;
+                    ProcessRequest_RGBController_ClearSegments(header.pkt_dev_id, (unsigned char *)data, client_info->client_protocol_version);
                 }
-
-                if((header.pkt_dev_idx < controllers.size()) && (header.pkt_size == sizeof(int)))
+                else
                 {
-                    int zone;
-
-                    memcpy(&zone, data, sizeof(int));
-
-                    controllers[header.pkt_dev_idx]->ClearSegments(zone);
-                    profile_manager->SaveSizes();
+                    LOG_ERROR("[NetworkServer] ClearSegments packet has invalid size. Packet size: %d", header.pkt_size);
+                    goto listen_done;
                 }
                 break;
 
             case NET_PACKET_ID_RGBCONTROLLER_ADDSEGMENT:
+                /*-----------------------------------------*\
+                | Verify the segment description size       |
+                | (first 4 bytes of data) matches the       |
+                | packet size in the header                 |
+                \*-----------------------------------------*/
+                if((data != NULL)
+                && (header.pkt_size >= sizeof(unsigned int))
+                && (header.pkt_size == *((unsigned int*)data)))
                 {
-                    /*-------------------------------------*\
-                    | Verify the segment description size   |
-                    | (first 4 bytes of data) matches the   |
-                    | packet size in the header             |
-                    \*-------------------------------------*/
-                    if(header.pkt_size == *((unsigned int*)data))
-                    {
-                        if(header.pkt_dev_idx < controllers.size())
-                        {
-                            ProcessRequest_RGBController_AddSegment(header.pkt_dev_idx, (unsigned char *)data, client_info->client_protocol_version);
-                            profile_manager->SaveSizes();
-                        }
-                    }
+                    ProcessRequest_RGBController_AddSegment(header.pkt_dev_id, (unsigned char *)data, client_info->client_protocol_version);
+                }
+                else
+                {
+                    LOG_ERROR("[NetworkServer] AddSegment packet has invalid size. Packet size: %d", header.pkt_size);
+                    goto listen_done;
                 }
                 break;
         }
@@ -1233,12 +1426,31 @@ void NetworkServer::ProcessRequest_RescanDevices()
     ResourceManager::get()->RescanDevices();
 }
 
-void NetworkServer::ProcessRequest_RGBController_AddSegment(std::size_t controller_idx, unsigned char * data_ptr, unsigned int protocol_version)
+void NetworkServer::ProcessRequest_RGBController_AddSegment(unsigned int controller_id, unsigned char * data_ptr, unsigned int protocol_version)
 {
+    /*-----------------------------------------------------*\
+    | Convert ID to index                                   |
+    \*-----------------------------------------------------*/
+    bool            idx_valid;
+    unsigned int    controller_idx = index_from_id(controller_id, protocol_version, &idx_valid);
+    int             zone_idx;
+
+    /*-----------------------------------------------------*\
+    | If controller ID is invalid, return                   |
+    \*-----------------------------------------------------*/
+    if(!idx_valid)
+    {
+        return;
+    }
+
+    /*-----------------------------------------------------*\
+    | Skip data size                                        |
+    \*-----------------------------------------------------*/
+    data_ptr += sizeof(unsigned int);
+
     /*-----------------------------------------------------*\
     | Copy in zone index                                    |
     \*-----------------------------------------------------*/
-    unsigned int zone_idx;
     memcpy(&zone_idx, data_ptr, sizeof(zone_idx));
     data_ptr += sizeof(zone_idx);
 
@@ -1250,10 +1462,124 @@ void NetworkServer::ProcessRequest_RGBController_AddSegment(std::size_t controll
     data_ptr = controllers[controller_idx]->SetSegmentDescription(data_ptr, &new_segment, protocol_version);
 
     controllers[controller_idx]->AddSegment(zone_idx, new_segment);
+
+    /*-----------------------------------------------------*\
+    | Save sizes                                            |
+    \*-----------------------------------------------------*/
+    profile_manager->SaveSizes();
 }
 
-void NetworkServer::ProcessRequest_RGBController_UpdateLEDs(std::size_t controller_idx, unsigned char * data_ptr, unsigned int protocol_version)
+void NetworkServer::ProcessRequest_RGBController_ClearSegments(unsigned int controller_id, unsigned char * data_ptr, unsigned int protocol_version)
 {
+    /*-----------------------------------------------------*\
+    | Convert ID to index                                   |
+    \*-----------------------------------------------------*/
+    bool            idx_valid;
+    unsigned int    controller_idx = index_from_id(controller_id, protocol_version, &idx_valid);
+    int             zone_idx;
+
+    /*-----------------------------------------------------*\
+    | If controller ID is invalid, return                   |
+    \*-----------------------------------------------------*/
+    if(!idx_valid)
+    {
+        return;
+    }
+
+    /*-----------------------------------------------------*\
+    | Copy in zone index                                    |
+    \*-----------------------------------------------------*/
+    memcpy(&zone_idx, data_ptr, sizeof(zone_idx));
+
+    /*-----------------------------------------------------*\
+    | Call ClearSegments on the given controller            |
+    \*-----------------------------------------------------*/
+    controllers[controller_idx]->ClearSegments(zone_idx);
+
+    /*-----------------------------------------------------*\
+    | Save sizes                                            |
+    \*-----------------------------------------------------*/
+    profile_manager->SaveSizes();
+}
+
+void NetworkServer::ProcessRequest_RGBController_ResizeZone(unsigned int controller_id, unsigned char * data_ptr, unsigned int protocol_version)
+{
+    /*-----------------------------------------------------*\
+    | Convert ID to index                                   |
+    \*-----------------------------------------------------*/
+    bool            idx_valid;
+    unsigned int    controller_idx = index_from_id(controller_id, protocol_version, &idx_valid);
+    int             new_size;
+    int             zone_idx;
+
+    /*-----------------------------------------------------*\
+    | If controller ID is invalid, return                   |
+    \*-----------------------------------------------------*/
+    if(!idx_valid)
+    {
+        return;
+    }
+
+    /*-----------------------------------------------------*\
+    | Copy in zone index                                    |
+    \*-----------------------------------------------------*/
+    memcpy(&zone_idx, data_ptr, sizeof(zone_idx));
+    data_ptr += sizeof(zone_idx);
+
+    /*-----------------------------------------------------*\
+    | Copy in new zone size                                 |
+    \*-----------------------------------------------------*/
+    memcpy(&new_size, data_ptr, sizeof(new_size));
+
+    /*-----------------------------------------------------*\
+    | Call ResizeZone on the given controller               |
+    \*-----------------------------------------------------*/
+    controllers[controller_idx]->ResizeZone(zone_idx, new_size);
+
+    /*-----------------------------------------------------*\
+    | Save sizes                                            |
+    \*-----------------------------------------------------*/
+    profile_manager->SaveSizes();
+}
+
+void NetworkServer::ProcessRequest_RGBController_SetCustomMode(unsigned int controller_id, unsigned int protocol_version)
+{
+    /*-----------------------------------------------------*\
+    | Convert ID to index                                   |
+    \*-----------------------------------------------------*/
+    bool            idx_valid;
+    unsigned int    controller_idx = index_from_id(controller_id, protocol_version, &idx_valid);
+
+    /*-----------------------------------------------------*\
+    | If controller ID is invalid, return                   |
+    \*-----------------------------------------------------*/
+    if(!idx_valid)
+    {
+        return;
+    }
+
+    /*-----------------------------------------------------*\
+    | Call SetCustomMode on the given controller            |
+    \*-----------------------------------------------------*/
+    controllers[controller_idx]->SetCustomMode();
+}
+
+void NetworkServer::ProcessRequest_RGBController_UpdateLEDs(unsigned int controller_id, unsigned char * data_ptr, unsigned int protocol_version)
+{
+    /*-----------------------------------------------------*\
+    | Convert ID to index                                   |
+    \*-----------------------------------------------------*/
+    bool            idx_valid;
+    unsigned int    controller_idx = index_from_id(controller_id, protocol_version, &idx_valid);
+
+    /*-----------------------------------------------------*\
+    | If controller ID is invalid, return                   |
+    \*-----------------------------------------------------*/
+    if(!idx_valid)
+    {
+        return;
+    }
+
     /*-----------------------------------------------------*\
     | Skip over data size                                   |
     \*-----------------------------------------------------*/
@@ -1275,13 +1601,27 @@ void NetworkServer::ProcessRequest_RGBController_UpdateLEDs(std::size_t controll
     controllers[controller_idx]->AccessMutex.unlock();
 
     /*-----------------------------------------------------*\
-    | Update LEDs                                           |
+    | Call UpdateLEDs on the given controller               |
     \*-----------------------------------------------------*/
     controllers[controller_idx]->UpdateLEDs();
 }
 
-void NetworkServer::ProcessRequest_RGBController_UpdateSaveMode(std::size_t controller_idx, unsigned char * data_ptr, unsigned int protocol_version)
+void NetworkServer::ProcessRequest_RGBController_UpdateSaveMode(unsigned int controller_id, unsigned char * data_ptr, unsigned int protocol_version, bool save_mode)
 {
+    /*-----------------------------------------------------*\
+    | Convert ID to index                                   |
+    \*-----------------------------------------------------*/
+    bool            idx_valid;
+    unsigned int    controller_idx = index_from_id(controller_id, protocol_version, &idx_valid);
+
+    /*-----------------------------------------------------*\
+    | If controller ID is invalid, return                   |
+    \*-----------------------------------------------------*/
+    if(!idx_valid)
+    {
+        return;
+    }
+
     /*-----------------------------------------------------*\
     | Lock access mutex                                     |
     \*-----------------------------------------------------*/
@@ -1325,10 +1665,37 @@ void NetworkServer::ProcessRequest_RGBController_UpdateSaveMode(std::size_t cont
     | Unlock access mutex                                   |
     \*-----------------------------------------------------*/
     controllers[controller_idx]->AccessMutex.unlock();
+
+    /*-----------------------------------------------------*\
+    | Call either SaveMode or UpdateMode on the given       |
+    | controller                                            |
+    \*-----------------------------------------------------*/
+    if(save_mode)
+    {
+        controllers[controller_idx]->SaveMode();
+    }
+    else
+    {
+        controllers[controller_idx]->UpdateMode();
+    }
 }
 
-void NetworkServer::ProcessRequest_RGBController_UpdateSingleLED(std::size_t controller_idx, unsigned char * data_ptr)
+void NetworkServer::ProcessRequest_RGBController_UpdateSingleLED(unsigned int controller_id, unsigned char * data_ptr, unsigned int protocol_version)
 {
+    /*-----------------------------------------------------*\
+    | Convert ID to index                                   |
+    \*-----------------------------------------------------*/
+    bool            idx_valid;
+    unsigned int    controller_idx = index_from_id(controller_id, protocol_version, &idx_valid);
+
+    /*-----------------------------------------------------*\
+    | If controller ID is invalid, return                   |
+    \*-----------------------------------------------------*/
+    if(!idx_valid)
+    {
+        return;
+    }
+
     /*-----------------------------------------------------*\
     | Lock access mutex                                     |
     \*-----------------------------------------------------*/
@@ -1376,8 +1743,22 @@ void NetworkServer::ProcessRequest_RGBController_UpdateSingleLED(std::size_t con
     controllers[controller_idx]->UpdateSingleLED(led_idx);
 }
 
-void NetworkServer::ProcessRequest_RGBController_UpdateZoneLEDs(std::size_t controller_idx, unsigned char* data_ptr)
+void NetworkServer::ProcessRequest_RGBController_UpdateZoneLEDs(unsigned int controller_id, unsigned char* data_ptr, unsigned int protocol_version)
 {
+    /*-----------------------------------------------------*\
+    | Convert ID to index                                   |
+    \*-----------------------------------------------------*/
+    bool            idx_valid;
+    unsigned int    controller_idx = index_from_id(controller_id, protocol_version, &idx_valid);
+
+    /*-----------------------------------------------------*\
+    | If controller ID is invalid, return                   |
+    \*-----------------------------------------------------*/
+    if(!idx_valid)
+    {
+        return;
+    }
+
     /*-----------------------------------------------------*\
     | Skip over data size                                   |
     \*-----------------------------------------------------*/
@@ -1443,8 +1824,22 @@ void NetworkServer::ProcessRequest_RGBController_UpdateZoneLEDs(std::size_t cont
     controllers[controller_idx]->UpdateZoneLEDs(zone_idx);
 }
 
-void NetworkServer::ProcessRequest_RGBController_UpdateZoneMode(std::size_t controller_idx, unsigned char * data_ptr, unsigned int protocol_version)
+void NetworkServer::ProcessRequest_RGBController_UpdateZoneMode(unsigned int controller_id, unsigned char * data_ptr, unsigned int protocol_version)
 {
+    /*-----------------------------------------------------*\
+    | Convert ID to index                                   |
+    \*-----------------------------------------------------*/
+    bool            idx_valid;
+    unsigned int    controller_idx = index_from_id(controller_id, protocol_version, &idx_valid);
+
+    /*-----------------------------------------------------*\
+    | If controller ID is invalid, return                   |
+    \*-----------------------------------------------------*/
+    if(!idx_valid)
+    {
+        return;
+    }
+
     /*-----------------------------------------------------*\
     | Lock access mutex                                     |
     \*-----------------------------------------------------*/
@@ -1505,24 +1900,66 @@ void NetworkServer::ProcessRequest_RGBController_UpdateZoneMode(std::size_t cont
     controllers[controller_idx]->UpdateZoneMode(zone_idx);
 }
 
-void NetworkServer::SendReply_ControllerCount(SOCKET client_sock)
+void NetworkServer::SendReply_ControllerCount(SOCKET client_sock, unsigned int protocol_version)
 {
+    controller_ids_mutex.lock_shared();
+
     NetPacketHeader reply_hdr;
-    unsigned int    reply_data;
+    unsigned int    controller_count    = (unsigned int)controller_ids.size();
+    unsigned int    data_size           = 0;
 
-    InitNetPacketHeader(&reply_hdr, 0, NET_PACKET_ID_REQUEST_CONTROLLER_COUNT, sizeof(unsigned int));
+    /*-----------------------------------------------------*\
+    | Determine data size                                   |
+    \*-----------------------------------------------------*/
+    data_size                          += sizeof(controller_count);
 
-    reply_data = (unsigned int)controllers.size();
+    /*-----------------------------------------------------*\
+    | Starting with protocol > 6, a list of controller IDs  |
+    | is sent in addition to the size                       |
+    \*-----------------------------------------------------*/
+    if(protocol_version >= 6)
+    {
+        data_size                      += (controller_count * sizeof(unsigned int));
+    }
+
+    unsigned char * data_buf            = new unsigned char[data_size];
+    unsigned char * data_ptr            = data_buf;
+
+    memcpy(data_ptr, &controller_count, sizeof(controller_count));
+    data_ptr += sizeof(controller_count);
+
+    if(protocol_version >= 6)
+    {
+        for(unsigned int controller_id_idx = 0; controller_id_idx < controller_count; controller_id_idx++)
+        {
+            memcpy(data_ptr, &controller_ids[controller_id_idx].id, sizeof(controller_ids[controller_id_idx].id));
+            data_ptr += sizeof(controller_ids[controller_id_idx].id);
+        }
+    }
+
+    controller_ids_mutex.unlock_shared();
+
+    InitNetPacketHeader(&reply_hdr, 0, NET_PACKET_ID_REQUEST_CONTROLLER_COUNT, data_size);
+
+    controller_count = (unsigned int)controllers.size();
 
     send_in_progress.lock();
     send(client_sock, (const char *)&reply_hdr, sizeof(NetPacketHeader), 0);
-    send(client_sock, (const char *)&reply_data, sizeof(unsigned int), 0);
+    send(client_sock, (const char *)data_buf, data_size, 0);
     send_in_progress.unlock();
+
+    delete[] data_buf;
 }
 
-void NetworkServer::SendReply_ControllerData(SOCKET client_sock, unsigned int dev_idx, unsigned int protocol_version)
+void NetworkServer::SendReply_ControllerData(SOCKET client_sock, unsigned int dev_id, unsigned int protocol_version)
 {
-    if(dev_idx < controllers.size())
+    /*---------------------------------------------------------*\
+    | Convert ID to index                                       |
+    \*---------------------------------------------------------*/
+    bool            idx_valid;
+    unsigned int    dev_idx = index_from_id(dev_id, protocol_version, &idx_valid);
+
+    if(idx_valid && (dev_idx < controller_ids.size()))
     {
         NetPacketHeader reply_hdr;
         unsigned char * reply_data;
@@ -1564,7 +2001,7 @@ void NetworkServer::SendReply_ControllerData(SOCKET client_sock, unsigned int de
         /*-----------------------------------------------------*\
         | Initialize packet header                              |
         \*-----------------------------------------------------*/
-        InitNetPacketHeader(&reply_hdr, dev_idx, NET_PACKET_ID_REQUEST_CONTROLLER_DATA, reply_size);
+        InitNetPacketHeader(&reply_hdr, dev_id, NET_PACKET_ID_REQUEST_CONTROLLER_DATA, reply_size);
 
         /*-----------------------------------------------------*\
         | Send packet                                           |
@@ -1848,12 +2285,14 @@ void NetworkServer::SendRequest_RGBController_SignalUpdate(RGBController * contr
     \*-----------------------------------------------------*/
     std::size_t                 controller_idx      = 0;
     bool                        found               = false;
+    unsigned int                controller_id;
 
     for(; controller_idx < controllers.size(); controller_idx++)
     {
-        if(controllers[controller_idx] == controller_ptr)
+        if(controller_ids[controller_idx].controller == controller_ptr)
         {
-            found = true;
+            controller_id   = controller_ids[controller_idx].id;
+            found           = true;
             break;
         }
     }
@@ -1967,8 +2406,11 @@ void NetworkServer::SendRequest_RGBController_SignalUpdate(RGBController * contr
 
                 /*-----------------------------------------*\
                 | Initialize packet header                  |
+                | Since this packet is only supported on    |
+                | protocols 6+, we do not need to handle    |
+                | index based controller IDs.               |
                 \*-----------------------------------------*/
-                InitNetPacketHeader(&reply_hdr, controller_idx, NET_PACKET_ID_RGBCONTROLLER_SIGNALUPDATE, reply_size);
+                InitNetPacketHeader(&reply_hdr, controller_id, NET_PACKET_ID_RGBCONTROLLER_SIGNALUPDATE, reply_size);
 
                 /*-----------------------------------------*\
                 | Send packet                               |
@@ -2018,6 +2460,46 @@ int NetworkServer::accept_select(int sockfd)
             return(accept((int)sockfd, NULL, NULL));
         }
     }
+}
+
+unsigned int NetworkServer::index_from_id(unsigned int id, unsigned int protocol_version, bool* index_valid)
+{
+    /*-----------------------------------------------------*\
+    | For protocol < 6, the ID is the index                 |
+    \*-----------------------------------------------------*/
+    unsigned int index  = id;
+    *index_valid        = true;
+
+    /*-----------------------------------------------------*\
+    | For protocol >= 6, look up the ID from the index      |
+    \*-----------------------------------------------------*/
+    if(protocol_version >= 6)
+    {
+        controller_ids_mutex.lock_shared();
+
+        *index_valid = false;
+
+        for(std::size_t controller_id_idx = 0; controller_id_idx < controller_ids.size(); controller_id_idx++)
+        {
+            if(controller_ids[controller_id_idx].id == id)
+            {
+                index           = controller_id_idx;
+                *index_valid    = true;
+                break;
+            }
+        }
+
+        controller_ids_mutex.unlock_shared();
+    }
+    else
+    {
+        if(index >= controllers.size())
+        {
+            *index_valid = false;
+        }
+    }
+
+    return(index);
 }
 
 int NetworkServer::recv_select(SOCKET s, char *buf, int len, int flags)
