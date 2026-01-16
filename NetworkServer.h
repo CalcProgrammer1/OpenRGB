@@ -33,13 +33,14 @@ typedef void (*NetServerCallback)(void *);
 typedef struct
 {
     char *                      data;
-    unsigned int                id;
+    unsigned int                pkt_id;
     unsigned int                size;
     unsigned int                client_protocol_version;
 } NetworkServerControllerThreadQueueEntry;
 
 typedef struct
 {
+    unsigned int                                        id;
     unsigned int                                        index;
     std::queue<NetworkServerControllerThreadQueueEntry> queue;
     std::mutex                                          queue_mutex;
@@ -62,6 +63,12 @@ public:
     std::string     client_ip;
 };
 
+typedef struct
+{
+    RGBController * controller;
+    unsigned int    id;
+} NetworkControllerID;
+
 class NetworkServer
 {
 public:
@@ -79,6 +86,11 @@ public:
     const char *                        GetClientString(unsigned int client_num);
     const char *                        GetClientIP(unsigned int client_num);
     unsigned int                        GetClientProtocolVersion(unsigned int client_num);
+
+    /*-----------------------------------------------------*\
+    | Signal that device list has been updated              |
+    \*-----------------------------------------------------*/
+    void                                DeviceListUpdated();
 
     /*-----------------------------------------------------*\
     | Callback functions                                    |
@@ -131,8 +143,12 @@ private:
     /*-----------------------------------------------------*\
     | Server controller list                                |
     \*-----------------------------------------------------*/
+    std::vector<NetworkControllerID>                controller_ids;
+    std::shared_mutex                               controller_ids_mutex;
+    unsigned int                                    controller_next_idx;
     std::vector<RGBController *>&                   controllers;
     std::vector<NetworkServerControllerThread *>    controller_threads;
+    std::shared_mutex                               controller_threads_mutex;
 
     /*-----------------------------------------------------*\
     | Server clients                                        |
@@ -194,15 +210,18 @@ private:
     void                                ProcessRequest_ClientString(SOCKET client_sock, unsigned int data_size, char * data);
     void                                ProcessRequest_RescanDevices();
 
-    void                                ProcessRequest_RGBController_AddSegment(std::size_t controller_idx, unsigned char * data_ptr, unsigned int protocol_version);
-    void                                ProcessRequest_RGBController_UpdateLEDs(std::size_t controller_idx, unsigned char * data_ptr, unsigned int protocol_version);
-    void                                ProcessRequest_RGBController_UpdateSaveMode(std::size_t controller_idx, unsigned char * data_ptr, unsigned int protocol_version);
-    void                                ProcessRequest_RGBController_UpdateSingleLED(std::size_t controller_idx, unsigned char * data_ptr);
-    void                                ProcessRequest_RGBController_UpdateZoneLEDs(std::size_t controller_idx, unsigned char* data_ptr);
-    void                                ProcessRequest_RGBController_UpdateZoneMode(std::size_t controller_idx, unsigned char * data_ptr, unsigned int protocol_version);
+    void                                ProcessRequest_RGBController_AddSegment(unsigned int controller_id, unsigned char * data_ptr, unsigned int protocol_version);
+    void                                ProcessRequest_RGBController_ClearSegments(unsigned int controller_id, unsigned char * data_ptr, unsigned int protocol_version);
+    void                                ProcessRequest_RGBController_ResizeZone(unsigned int controller_id, unsigned char * data_ptr, unsigned int protocol_version);
+    void                                ProcessRequest_RGBController_SetCustomMode(unsigned int controller_id, unsigned int protocol_version);
+    void                                ProcessRequest_RGBController_UpdateLEDs(unsigned int controller_id, unsigned char * data_ptr, unsigned int protocol_version);
+    void                                ProcessRequest_RGBController_UpdateSaveMode(unsigned int controller_id, unsigned char * data_ptr, unsigned int protocol_version, bool save_mode);
+    void                                ProcessRequest_RGBController_UpdateSingleLED(unsigned int controller_id, unsigned char * data_ptr, unsigned int protocol_version);
+    void                                ProcessRequest_RGBController_UpdateZoneLEDs(unsigned int controller_id, unsigned char* data_ptr, unsigned int protocol_version);
+    void                                ProcessRequest_RGBController_UpdateZoneMode(unsigned int controller_id, unsigned char * data_ptr, unsigned int protocol_version);
 
-    void                                SendReply_ControllerCount(SOCKET client_sock);
-    void                                SendReply_ControllerData(SOCKET client_sock, unsigned int dev_idx, unsigned int protocol_version);
+    void                                SendReply_ControllerCount(SOCKET client_sock, unsigned int protocol_version);
+    void                                SendReply_ControllerData(SOCKET client_sock, unsigned int dev_id, unsigned int protocol_version);
     void                                SendReply_ProtocolVersion(SOCKET client_sock);
     void                                SendReply_ServerString(SOCKET client_sock);
 
@@ -219,5 +238,6 @@ private:
     | Private helper functions                              |
     \*-----------------------------------------------------*/
     int                                 accept_select(int sockfd);
+    unsigned int                        index_from_id(unsigned int id, unsigned int protocol_version, bool* index_valid);
     int                                 recv_select(SOCKET s, char *buf, int len, int flags);
 };
