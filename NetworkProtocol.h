@@ -45,7 +45,7 @@ extern const char openrgb_sdk_magic[OPENRGB_SDK_MAGIC_SIZE];
 typedef struct NetPacketHeader
 {
     char                pkt_magic[4];               /* Magic value "ORGB" identifies beginning of packet    */
-    unsigned int        pkt_dev_idx;                /* Device index                                         */
+    unsigned int        pkt_dev_id;                 /* Device ID                                            */
     unsigned int        pkt_id;                     /* Packet ID                                            */
     unsigned int        pkt_size;                   /* Packet size                                          */
 } NetPacketHeader;
