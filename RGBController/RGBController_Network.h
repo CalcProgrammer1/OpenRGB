@@ -20,25 +20,27 @@ class RGBController_Network : public RGBController
 public:
     RGBController_Network(NetworkClient * client_ptr, unsigned int dev_idx_val);
 
-    void        ClearSegments(int zone);
-    void        AddSegment(int zone, segment new_segment);
-    void        ResizeZone(int zone, int new_size);
+    unsigned int    GetID();
 
-    void        DeviceUpdateLEDs();
-    void        DeviceUpdateZoneLEDs(int zone);
-    void        DeviceUpdateSingleLED(int led);
+    void            ClearSegments(int zone);
+    void            AddSegment(int zone, segment new_segment);
+    void            ResizeZone(int zone, int new_size);
 
-    void        SetCustomMode();
-    void        DeviceUpdateMode();
-    void        DeviceUpdateZoneMode(int zone);
-    void        DeviceSaveMode();
+    void            DeviceUpdateLEDs();
+    void            DeviceUpdateZoneLEDs(int zone);
+    void            DeviceUpdateSingleLED(int led);
 
-    void        UpdateLEDs();
-    void        UpdateMode();
+    void            SetCustomMode();
+    void            DeviceUpdateMode();
+    void            DeviceUpdateZoneMode(int zone);
+    void            DeviceSaveMode();
+
+    void            UpdateLEDs();
+    void            UpdateMode();
 
 private:
-    NetworkClient *     client;
-    unsigned int        dev_idx;
+    NetworkClient * client;
+    unsigned int    dev_id;
 
     unsigned char * CreateUpdateLEDsPacket(unsigned int protocol_version);
     unsigned char * CreateUpdateModePacket(int mode_idx, unsigned int* size, unsigned int protocol_version);
