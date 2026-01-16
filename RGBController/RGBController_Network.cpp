@@ -14,17 +14,22 @@
 
 #include "RGBController_Network.h"
 
-RGBController_Network::RGBController_Network(NetworkClient * client_ptr, unsigned int dev_idx_val)
+RGBController_Network::RGBController_Network(NetworkClient * client_ptr, unsigned int dev_id_val)
 {
     client  = client_ptr;
-    dev_idx = dev_idx_val;
+    dev_id  = dev_id_val;
+}
+
+unsigned int RGBController_Network::GetID()
+{
+    return(dev_id);
 }
 
 void RGBController_Network::ClearSegments(int zone)
 {
-    client->SendRequest_RGBController_ClearSegments(dev_idx, zone);
+    client->SendRequest_RGBController_ClearSegments(dev_id, zone);
 
-    client->SendRequest_ControllerData(dev_idx);
+    client->SendRequest_ControllerData(dev_id);
     client->WaitOnControllerData();
 }
 
@@ -75,19 +80,19 @@ void RGBController_Network::AddSegment(int zone, segment new_segment)
     \*-----------------------------------------------------*/
     AccessMutex.unlock_shared();
 
-    client->SendRequest_RGBController_AddSegment(dev_idx, data_buf, data_size);
+    client->SendRequest_RGBController_AddSegment(dev_id, data_buf, data_size);
 
     delete[] data_buf;
 
-    client->SendRequest_ControllerData(dev_idx);
+    client->SendRequest_ControllerData(dev_id);
     client->WaitOnControllerData();
 }
 
 void RGBController_Network::ResizeZone(int zone, int new_size)
 {
-    client->SendRequest_RGBController_ResizeZone(dev_idx, zone, new_size);
+    client->SendRequest_RGBController_ResizeZone(dev_id, zone, new_size);
 
-    client->SendRequest_ControllerData(dev_idx);
+    client->SendRequest_ControllerData(dev_id);
     client->WaitOnControllerData();
 }
 
@@ -98,7 +103,7 @@ void RGBController_Network::DeviceUpdateLEDs()
 
     memcpy(&size, &data[0], sizeof(unsigned int));
 
-    client->SendRequest_RGBController_UpdateLEDs(dev_idx, data, size);
+    client->SendRequest_RGBController_UpdateLEDs(dev_id, data, size);
 
     delete[] data;
 }
@@ -110,7 +115,7 @@ void RGBController_Network::DeviceUpdateZoneLEDs(int zone)
 
     memcpy(&size, &data[0], sizeof(unsigned int));
 
-    client->SendRequest_RGBController_UpdateZoneLEDs(dev_idx, data, size);
+    client->SendRequest_RGBController_UpdateZoneLEDs(dev_id, data, size);
 
     delete[] data;
 }
@@ -119,16 +124,16 @@ void RGBController_Network::DeviceUpdateSingleLED(int led)
 {
     unsigned char * data = CreateUpdateSingleLEDPacket(led);
 
-    client->SendRequest_RGBController_UpdateSingleLED(dev_idx, data, sizeof(int) + sizeof(RGBColor));
+    client->SendRequest_RGBController_UpdateSingleLED(dev_id, data, sizeof(int) + sizeof(RGBColor));
 
     delete[] data;
 }
 
 void RGBController_Network::SetCustomMode()
 {
-    client->SendRequest_RGBController_SetCustomMode(dev_idx);
+    client->SendRequest_RGBController_SetCustomMode(dev_id);
 
-    client->SendRequest_ControllerData(dev_idx);
+    client->SendRequest_ControllerData(dev_id);
     client->WaitOnControllerData();
 }
 
@@ -139,7 +144,7 @@ void RGBController_Network::DeviceUpdateMode()
 
     data = CreateUpdateModePacket(active_mode, &size, client->GetProtocolVersion());
 
-    client->SendRequest_RGBController_UpdateMode(dev_idx, data, size);
+    client->SendRequest_RGBController_UpdateMode(dev_id, data, size);
 
     delete[] data;
 }
@@ -151,7 +156,7 @@ void RGBController_Network::DeviceUpdateZoneMode(int zone)
 
     data = CreateUpdateZoneModePacket(zone, zones[zone].active_mode, &size, client->GetProtocolVersion());
 
-    client->SendRequest_RGBController_UpdateZoneMode(dev_idx, data, size);
+    client->SendRequest_RGBController_UpdateZoneMode(dev_id, data, size);
 
     delete[] data;
 }
@@ -163,7 +168,7 @@ void RGBController_Network::DeviceSaveMode()
 
     data = CreateUpdateModePacket(active_mode, &size, client->GetProtocolVersion());
 
-    client->SendRequest_RGBController_SaveMode(dev_idx, data, size);
+    client->SendRequest_RGBController_SaveMode(dev_id, data, size);
 
     delete[] data;
 }
