@@ -83,6 +83,15 @@ uint16_t SPDWrapper::jedec_id()
     return jedec_id_val;
 }
 
+std::string SPDWrapper::part_number()
+{
+    if(accessor == nullptr)
+    {
+        return std::string();
+    }
+    return accessor->part_number();
+}
+
 uint8_t SPDWrapper::manufacturer_data(uint16_t index)
 {
     if(accessor == nullptr)

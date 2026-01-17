@@ -29,11 +29,17 @@ using namespace std::chrono_literals;
 #define BASIC_MEMORY_TYPE_ADDR      (0x02)
 
 #define DDR4_JEDEC_ID_ADDR          (0x140)
+#define DDR4_PART_NR_START          (0x149)
+#define DDR4_PART_NR_END            (0x15C)
+#define DDR4_PART_NR_LEN            (DDR4_PART_NR_END - DDR4_PART_NR_START + 1)
 #define DDR4_MANUF_SPECIFIC_START   (0x161)
 #define DDR4_MANUF_SPECIFIC_END     (0x17D)
 #define DDR4_MANUF_SPECIFIC_LEN     (DDR4_MANUF_SPECIFIC_END - DDR4_MANUF_SPECIFIC_START + 1)
 
 #define DDR5_JEDEC_ID_ADDR          (0x200)
+#define DDR5_PART_NR_START          (0x209)
+#define DDR5_PART_NR_END            (0x226)
+#define DDR5_PART_NR_LEN            (DDR5_PART_NR_END - DDR5_PART_NR_START + 1)
 #define DDR5_MANUF_SPECIFIC_START   (0x22B)
 #define DDR5_MANUF_SPECIFIC_END     (0x27F)
 #define DDR5_MANUF_SPECIFIC_LEN     (DDR5_MANUF_SPECIFIC_END - DDR5_MANUF_SPECIFIC_START + 1)
@@ -105,6 +111,36 @@ SPDAccessor *SPDAccessor::for_memory_type(SPDMemoryType type, i2c_smbus_interfac
     return(nullptr);
 };
 
+std::string SPDAccessor::read_part_nr_at(uint16_t address, std::size_t len)
+{
+    std::string part_number;
+
+    for(std::size_t i = 0; i < len; i++)
+    {
+        std::size_t spd_addr = address + i;
+        part_number += (char)this->at(spd_addr);
+    }
+
+    // Find the true end of string & truncate it to that point.
+    // Part number should be padded with 0x20 (space) for DDR4 (Source: Wikipedia)
+    // It may be padded with 0x00 (Source: real-life tests on DDR5 memory)
+    // Note: To prevent infinite loop, end_of_string_idx MUST be signed.
+    int end_of_string_idx = part_number.length()-1;
+    for(; end_of_string_idx >= 0; end_of_string_idx--)
+    {
+        if(
+            part_number[end_of_string_idx] != '\0' &&
+            part_number[end_of_string_idx] != ' '
+        )
+        {
+            break;
+        }
+    }
+    part_number = part_number.substr(0, end_of_string_idx + 1);
+
+    return part_number;
+}
+
 /*---------------------------------------------------------*\
 | Internal implementation for specific memory type.         |
 \*---------------------------------------------------------*/
@@ -126,6 +162,11 @@ SPDMemoryType DDR4Accessor::memory_type()
 uint16_t DDR4Accessor::jedec_id()
 {
     return((this->at(DDR4_JEDEC_ID_ADDR) << 8) + (this->at(DDR4_JEDEC_ID_ADDR+1) & 0x7f) - 1);
+}
+
+std::string DDR4Accessor::part_number()
+{
+    return this->read_part_nr_at(DDR4_PART_NR_START, DDR4_PART_NR_LEN);
 }
 
 uint8_t DDR4Accessor::manufacturer_data(uint16_t index)
@@ -155,6 +196,11 @@ SPDMemoryType DDR5Accessor::memory_type()
 uint16_t DDR5Accessor::jedec_id()
 {
     return((this->at(DDR5_JEDEC_ID_ADDR) << 8) + (this->at(DDR5_JEDEC_ID_ADDR+1) & 0x7f) - 1);
+}
+
+std::string DDR5Accessor::part_number()
+{
+    return this->read_part_nr_at(DDR5_PART_NR_START, DDR5_PART_NR_LEN);
 }
 
 uint8_t DDR5Accessor::manufacturer_data(uint16_t index)
