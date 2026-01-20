@@ -976,6 +976,7 @@
 | Manli Sub-Device IDs                                  |
 \*-----------------------------------------------------*/
 #define MANLI_RTX3080TI_GALLARDO_SUB_DEV                0x2612
+#define MANLI_RTX4090_GALLARDO_SUB_DEV                 0x167C
 
 /*---------------------------------------------------------*\
 | PCI ID Macros                                             |
