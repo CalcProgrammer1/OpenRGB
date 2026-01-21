@@ -201,6 +201,7 @@ RGBController_ClevoKeyboard::RGBController_ClevoKeyboard(ClevoKeyboardController
     description                     = "CLEVO Laptop Keyboard";
     location                        = controller->GetDeviceLocation();
     serial                          = controller->GetSerialString();
+    version                         = controller->GetFirmwareVersion();
 
     mode Direct;
     Direct.name                     = "Direct";

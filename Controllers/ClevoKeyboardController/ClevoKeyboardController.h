@@ -72,6 +72,7 @@ public:
 
     std::string     GetDeviceLocation();
     std::string     GetSerialString();
+    std::string     GetFirmwareVersion();
 
     void            TurnOff();
     void            SetMode(unsigned char mode, unsigned char brightness, unsigned char speed, unsigned char behaviour);
@@ -81,6 +82,7 @@ public:
 private:
     hid_device*     dev;
     std::string     location;
+    unsigned short  version;
 
     void            WriteControl(unsigned char* data);
     void            WriteRowData(unsigned char* data);

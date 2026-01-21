@@ -17,6 +17,7 @@ ClevoKeyboardController::ClevoKeyboardController(hid_device* dev_handle, const h
 {
     dev      = dev_handle;
     location = info.path;
+    version  = info.release_number;
 }
 
 ClevoKeyboardController::~ClevoKeyboardController()
@@ -43,6 +44,13 @@ std::string ClevoKeyboardController::GetSerialString()
     std::string return_string(return_wstring.begin(), return_wstring.end());
 
     return(return_string);
+}
+
+std::string ClevoKeyboardController::GetFirmwareVersion()
+{
+    char version_string[16];
+    snprintf(version_string, sizeof(version_string), "%d.%02d", version >> 8, version & 0xFF);
+    return(version_string);
 }
 
 void ClevoKeyboardController::WriteControl(unsigned char* data)

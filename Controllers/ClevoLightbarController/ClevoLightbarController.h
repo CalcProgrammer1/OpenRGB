@@ -24,9 +24,13 @@
 
 enum
 {
-    CLEVO_LIGHTBAR_MODE_DIRECT     = 0,
-    CLEVO_LIGHTBAR_MODE_BREATHING  = 1,
-    CLEVO_LIGHTBAR_MODE_OFF        = 2
+    CLEVO_LIGHTBAR_MODE_DIRECT     = 0x01,
+    CLEVO_LIGHTBAR_MODE_BREATHING  = 0x02,
+    CLEVO_LIGHTBAR_MODE_WAVE       = 0x03,
+    CLEVO_LIGHTBAR_MODE_BOUNCE     = 0x04,
+    CLEVO_LIGHTBAR_MODE_MARQUEE    = 0x05,
+    CLEVO_LIGHTBAR_MODE_SCAN       = 0x06,
+    CLEVO_LIGHTBAR_MODE_OFF        = 0x00
 };
 
 class ClevoLightbarController
@@ -37,6 +41,7 @@ public:
 
     std::string GetDeviceLocation();
     std::string GetSerialString();
+    std::string GetFirmwareVersion();
 
     void        SetColor(unsigned char red, unsigned char green, unsigned char blue);
     void        SetBrightness(unsigned char brightness);
@@ -45,8 +50,9 @@ public:
     void        TurnOff();
 
 private:
-    hid_device* dev;
-    std::string location;
+    hid_device*     dev;
+    std::string     location;
+    unsigned short  version;
 
     void        WriteControl(unsigned char* data);
 };

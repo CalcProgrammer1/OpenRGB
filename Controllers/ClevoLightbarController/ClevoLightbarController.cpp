@@ -17,6 +17,7 @@ ClevoLightbarController::ClevoLightbarController(hid_device* dev_handle, const h
 {
     dev      = dev_handle;
     location = info.path;
+    version  = info.release_number;
 }
 
 ClevoLightbarController::~ClevoLightbarController()
@@ -43,6 +44,13 @@ std::string ClevoLightbarController::GetSerialString()
     std::string return_string(return_wstring.begin(), return_wstring.end());
 
     return(return_string);
+}
+
+std::string ClevoLightbarController::GetFirmwareVersion()
+{
+    char version_string[16];
+    snprintf(version_string, sizeof(version_string), "%d.%02d", version >> 8, version & 0xFF);
+    return(version_string);
 }
 
 void ClevoLightbarController::WriteControl(unsigned char* data)
@@ -126,11 +134,26 @@ void ClevoLightbarController::SetBrightness(unsigned char brightness)
 void ClevoLightbarController::SetMode(unsigned char mode, unsigned char brightness, unsigned char speed)
 {
     /*---------------------------------------------------------*\
-    | Currently only direct (mono) mode is implemented          |
-    | Breathing mode would be: 0x08 0x22 0x02 speed brightness  |
+    | Set mode for device 0x7001:                               |
+    | 0x08 0x22 MODE SPEED BRIGHTNESS 0x01 0x00 0x00            |
+    |                                                           |
+    | SPEED: 0x01 (fastest) to 0x0a (slowest) - we invert       |
     \*---------------------------------------------------------*/
-    (void)mode;
-    (void)speed;
+    unsigned char buf[CLEVO_LIGHTBAR_REPORT_SIZE];
 
-    SetBrightness(brightness);
+    /*---------------------------------------------------------*\
+    | Invert speed: UI uses 1=slow, 10=fast                     |
+    | Protocol uses 1=fast, 10=slow                             |
+    \*---------------------------------------------------------*/
+    unsigned char inverted_speed = (CLEVO_LIGHTBAR_SPEED_MAX + CLEVO_LIGHTBAR_SPEED_MIN) - speed;
+
+    memset(buf, 0x00, CLEVO_LIGHTBAR_REPORT_SIZE);
+    buf[0] = 0x08;
+    buf[1] = 0x22;
+    buf[2] = mode;
+    buf[3] = inverted_speed;
+    buf[4] = brightness;
+    buf[5] = 0x01;
+
+    WriteControl(buf);
 }

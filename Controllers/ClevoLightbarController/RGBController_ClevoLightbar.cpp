@@ -17,9 +17,9 @@
     @type USB
     @save :x:
     @direct :white_check_mark:
-    @effects :x:
+    @effects :white_check_mark:
     @detectors DetectClevoLightbarControllers
-    @comment
+    @comment Experimental effects based on ITE 8291 protocol
 \*-------------------------------------------------------------------*/
 
 RGBController_ClevoLightbar::RGBController_ClevoLightbar(ClevoLightbarController* controller_ptr)
@@ -32,16 +32,82 @@ RGBController_ClevoLightbar::RGBController_ClevoLightbar(ClevoLightbarController
     description = "CLEVO Laptop Lightbar";
     location    = controller->GetDeviceLocation();
     serial      = controller->GetSerialString();
+    version     = controller->GetFirmwareVersion();
 
     mode Direct;
-    Direct.name       = "Direct";
-    Direct.value      = CLEVO_LIGHTBAR_MODE_DIRECT;
-    Direct.flags      = MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_HAS_BRIGHTNESS;
-    Direct.color_mode = MODE_COLORS_PER_LED;
+    Direct.name           = "Direct";
+    Direct.value          = CLEVO_LIGHTBAR_MODE_DIRECT;
+    Direct.flags          = MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_HAS_BRIGHTNESS;
+    Direct.color_mode     = MODE_COLORS_PER_LED;
     Direct.brightness_min = CLEVO_LIGHTBAR_BRIGHTNESS_MIN;
     Direct.brightness_max = CLEVO_LIGHTBAR_BRIGHTNESS_MAX;
     Direct.brightness     = CLEVO_LIGHTBAR_BRIGHTNESS_MAX;
     modes.push_back(Direct);
+
+    mode Breathing;
+    Breathing.name           = "Breathing";
+    Breathing.value          = CLEVO_LIGHTBAR_MODE_BREATHING;
+    Breathing.flags          = MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_HAS_SPEED;
+    Breathing.color_mode     = MODE_COLORS_PER_LED;
+    Breathing.brightness_min = CLEVO_LIGHTBAR_BRIGHTNESS_MIN;
+    Breathing.brightness_max = CLEVO_LIGHTBAR_BRIGHTNESS_MAX;
+    Breathing.brightness     = CLEVO_LIGHTBAR_BRIGHTNESS_MAX;
+    Breathing.speed_min      = CLEVO_LIGHTBAR_SPEED_MIN;
+    Breathing.speed_max      = CLEVO_LIGHTBAR_SPEED_MAX;
+    Breathing.speed          = CLEVO_LIGHTBAR_SPEED_DEFAULT;
+    modes.push_back(Breathing);
+
+    mode Wave;
+    Wave.name           = "Wave";
+    Wave.value          = CLEVO_LIGHTBAR_MODE_WAVE;
+    Wave.flags          = MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_HAS_SPEED;
+    Wave.color_mode     = MODE_COLORS_NONE;
+    Wave.brightness_min = CLEVO_LIGHTBAR_BRIGHTNESS_MIN;
+    Wave.brightness_max = CLEVO_LIGHTBAR_BRIGHTNESS_MAX;
+    Wave.brightness     = CLEVO_LIGHTBAR_BRIGHTNESS_MAX;
+    Wave.speed_min      = CLEVO_LIGHTBAR_SPEED_MIN;
+    Wave.speed_max      = CLEVO_LIGHTBAR_SPEED_MAX;
+    Wave.speed          = CLEVO_LIGHTBAR_SPEED_DEFAULT;
+    modes.push_back(Wave);
+
+    mode Bounce;
+    Bounce.name           = "Bounce";
+    Bounce.value          = CLEVO_LIGHTBAR_MODE_BOUNCE;
+    Bounce.flags          = MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_HAS_SPEED;
+    Bounce.color_mode     = MODE_COLORS_PER_LED;
+    Bounce.brightness_min = CLEVO_LIGHTBAR_BRIGHTNESS_MIN;
+    Bounce.brightness_max = CLEVO_LIGHTBAR_BRIGHTNESS_MAX;
+    Bounce.brightness     = CLEVO_LIGHTBAR_BRIGHTNESS_MAX;
+    Bounce.speed_min      = CLEVO_LIGHTBAR_SPEED_MIN;
+    Bounce.speed_max      = CLEVO_LIGHTBAR_SPEED_MAX;
+    Bounce.speed          = CLEVO_LIGHTBAR_SPEED_DEFAULT;
+    modes.push_back(Bounce);
+
+    mode Marquee;
+    Marquee.name           = "Marquee";
+    Marquee.value          = CLEVO_LIGHTBAR_MODE_MARQUEE;
+    Marquee.flags          = MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_HAS_SPEED;
+    Marquee.color_mode     = MODE_COLORS_NONE;
+    Marquee.brightness_min = CLEVO_LIGHTBAR_BRIGHTNESS_MIN;
+    Marquee.brightness_max = CLEVO_LIGHTBAR_BRIGHTNESS_MAX;
+    Marquee.brightness     = CLEVO_LIGHTBAR_BRIGHTNESS_MAX;
+    Marquee.speed_min      = CLEVO_LIGHTBAR_SPEED_MIN;
+    Marquee.speed_max      = CLEVO_LIGHTBAR_SPEED_MAX;
+    Marquee.speed          = CLEVO_LIGHTBAR_SPEED_DEFAULT;
+    modes.push_back(Marquee);
+
+    mode Scan;
+    Scan.name           = "Scan";
+    Scan.value          = CLEVO_LIGHTBAR_MODE_SCAN;
+    Scan.flags          = MODE_FLAG_HAS_PER_LED_COLOR | MODE_FLAG_HAS_BRIGHTNESS | MODE_FLAG_HAS_SPEED;
+    Scan.color_mode     = MODE_COLORS_PER_LED;
+    Scan.brightness_min = CLEVO_LIGHTBAR_BRIGHTNESS_MIN;
+    Scan.brightness_max = CLEVO_LIGHTBAR_BRIGHTNESS_MAX;
+    Scan.brightness     = CLEVO_LIGHTBAR_BRIGHTNESS_MAX;
+    Scan.speed_min      = CLEVO_LIGHTBAR_SPEED_MIN;
+    Scan.speed_max      = CLEVO_LIGHTBAR_SPEED_MAX;
+    Scan.speed          = CLEVO_LIGHTBAR_SPEED_DEFAULT;
+    modes.push_back(Scan);
 
     mode Off;
     Off.name       = "Off";
@@ -90,7 +156,15 @@ void RGBController_ClevoLightbar::DeviceUpdateLEDs()
     unsigned char blue  = RGBGetBValue(colors[0]);
 
     controller->SetColor(red, green, blue);
-    controller->SetBrightness(modes[active_mode].brightness);
+
+    /*---------------------------------------------------------*\
+    | Re-apply current mode to maintain effect state            |
+    \*---------------------------------------------------------*/
+    unsigned char brightness = modes[active_mode].brightness;
+    unsigned char speed      = modes[active_mode].speed;
+    unsigned char mode_value = modes[active_mode].value;
+
+    controller->SetMode(mode_value, brightness, speed);
 }
 
 void RGBController_ClevoLightbar::UpdateZoneLEDs(int /*zone*/)
@@ -108,5 +182,24 @@ void RGBController_ClevoLightbar::DeviceUpdateMode()
     if(modes[active_mode].value == CLEVO_LIGHTBAR_MODE_OFF)
     {
         controller->TurnOff();
+    }
+    else
+    {
+        unsigned char brightness = modes[active_mode].brightness;
+        unsigned char speed      = modes[active_mode].speed;
+        unsigned char mode_value = modes[active_mode].value;
+
+        /*---------------------------------------------------------*\
+        | Set color first for modes that use it                     |
+        \*---------------------------------------------------------*/
+        if(modes[active_mode].color_mode == MODE_COLORS_PER_LED)
+        {
+            unsigned char red   = RGBGetRValue(colors[0]);
+            unsigned char green = RGBGetGValue(colors[0]);
+            unsigned char blue  = RGBGetBValue(colors[0]);
+            controller->SetColor(red, green, blue);
+        }
+
+        controller->SetMode(mode_value, brightness, speed);
     }
 }
