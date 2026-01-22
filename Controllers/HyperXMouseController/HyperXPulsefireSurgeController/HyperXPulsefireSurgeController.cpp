@@ -27,7 +27,7 @@ HyperXPulsefireSurgeController::~HyperXPulsefireSurgeController()
 
 std::string HyperXPulsefireSurgeController::GetDeviceLocation()
 {
-    return("HID " + location);
+    return("HID: " + location);
 }
 
 std::string HyperXPulsefireSurgeController::GetNameString()

@@ -228,6 +228,28 @@ private:
     std::vector<std::string>                    dynamic_detector_strings;
     std::vector<PreDetectionHookFunction>       pre_detection_hooks;
 
+#ifdef __linux__
+#ifdef __GLIBC__
+    /*-----------------------------------------------------*\
+    | Wrapped libusb hidapi handles                         |
+    \*-----------------------------------------------------*/
+    void *                                      hidapi_libusb_handle;
+    hidapi_wrapper                              hidapi_libusb_wrapper;
+#endif
+#endif
+
+    /*-----------------------------------------------------*\
+    | HID Hotplug handles                                   |
+    \*-----------------------------------------------------*/
+#if(HID_HOTPLUG_ENABLED)
+    hid_hotplug_callback_handle                 hotplug_callback_handle;
+#ifdef __linux__
+#ifdef __GLIBC__
+    hid_hotplug_callback_handle                 libusb_hotplug_callback_handle;
+#endif
+#endif
+#endif
+
     /*-----------------------------------------------------*\
     | Detection Callbacks                                   |
     \*-----------------------------------------------------*/
@@ -302,6 +324,26 @@ private:
     bool ProcessPreDetection();
     void ProcessPreDetectionHooks();
     void UpdateDetectorSettings();
+
+#if(HID_HOTPLUG_ENABLED)
+    /*-----------------------------------------------------*\
+    | HID hotplug management functions                      |
+    \*-----------------------------------------------------*/
+    void StartHIDHotplug();
+    void StopHIDHotplug();
+
+    /*-----------------------------------------------------*\
+    | HID hotplug callback functions                        |
+    \*-----------------------------------------------------*/
+    static int HotplugCallbackFunction(hid_hotplug_callback_handle callback_handle, hid_device_info *device, hid_hotplug_event event, void *user_data);
+    static int UnplugCallbackFunction(hid_hotplug_callback_handle callback_handle, hid_device_info *device, hid_hotplug_event event, void *user_data);
+
+#ifdef __linux__
+#ifdef __GLIBC__
+    static int WrappedHotplugCallbackFunction(hid_hotplug_callback_handle callback_handle, hid_device_info *device, hid_hotplug_event event, void *user_data);
+#endif
+#endif
+#endif
 
     /*-----------------------------------------------------*\
     | Function for signalling DetectionManager updates to   |
