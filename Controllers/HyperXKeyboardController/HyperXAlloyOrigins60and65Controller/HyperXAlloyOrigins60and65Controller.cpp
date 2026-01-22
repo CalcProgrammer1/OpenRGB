@@ -27,7 +27,7 @@ HyperXAlloyOrigins60and65Controller::~HyperXAlloyOrigins60and65Controller()
 
 std::string HyperXAlloyOrigins60and65Controller::GetDeviceLocation()
 {
-    return("HID " + location);
+    return("HID: " + location);
 }
 
 std::string HyperXAlloyOrigins60and65Controller::GetNameString()
