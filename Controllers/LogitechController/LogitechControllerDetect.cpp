@@ -209,7 +209,7 @@ DetectedControllers DetectLogitechKeyboardG810(hid_device_info* info, const std:
     }
     if(dev_usage_0x0602 && dev_usage_0x0604)
     {
-        LogitechG810Controller*     controller     = new LogitechG810Controller(dev_usage_0x0602, dev_usage_0x0604, name);
+        LogitechG810Controller*     controller     = new LogitechG810Controller(dev_usage_0x0602, dev_usage_0x0604, info->path, name);
         RGBController_LogitechG810* rgb_controller = new RGBController_LogitechG810(controller);
 
         detected_controllers.push_back(rgb_controller);
@@ -225,7 +225,7 @@ DetectedControllers DetectLogitechKeyboardG810(hid_device_info* info, const std:
 
     if(dev)
     {
-        LogitechG810Controller*     controller     = new LogitechG810Controller(dev, dev, name);
+        LogitechG810Controller*     controller     = new LogitechG810Controller(dev, dev, info->path, name);
         RGBController_LogitechG810* rgb_controller = new RGBController_LogitechG810(controller);
 
         detected_controllers.push_back(rgb_controller);
@@ -273,7 +273,7 @@ DetectedControllers DetectLogitechKeyboardG910(hid_device_info* info, const std:
     }
     if(dev_usage_0x0602 && dev_usage_0x0604)
     {
-        LogitechG910Controller*     controller     = new LogitechG910Controller(dev_usage_0x0602, dev_usage_0x0604, name);
+        LogitechG910Controller*     controller     = new LogitechG910Controller(dev_usage_0x0602, dev_usage_0x0604, info->path, name);
         RGBController_LogitechG910* rgb_controller = new RGBController_LogitechG910(controller);
 
         detected_controllers.push_back(rgb_controller);
@@ -289,7 +289,7 @@ DetectedControllers DetectLogitechKeyboardG910(hid_device_info* info, const std:
 
     if(dev)
     {
-        LogitechG910Controller*     controller     = new LogitechG910Controller(dev, dev, name);
+        LogitechG910Controller*     controller     = new LogitechG910Controller(dev, dev, info->path, name);
         RGBController_LogitechG910* rgb_controller = new RGBController_LogitechG910(controller);
 
         detected_controllers.push_back(rgb_controller);
