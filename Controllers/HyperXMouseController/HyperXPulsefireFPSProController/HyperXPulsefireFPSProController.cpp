@@ -27,7 +27,7 @@ HyperXPulsefireFPSProController::~HyperXPulsefireFPSProController()
 
 std::string HyperXPulsefireFPSProController::GetDeviceLocation()
 {
-    return("HID " + location);
+    return("HID: " + location);
 }
 
 std::string HyperXPulsefireFPSProController::GetNameString()

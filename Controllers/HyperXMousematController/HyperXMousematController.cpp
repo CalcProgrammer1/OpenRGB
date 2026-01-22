@@ -28,7 +28,7 @@ HyperXMousematController::~HyperXMousematController()
 
 std::string HyperXMousematController::GetDeviceLocation()
 {
-    return("HID " + location);
+    return("HID: " + location);
 }
 
 std::string HyperXMousematController::GetNameString()
