@@ -8,7 +8,7 @@ Summary:        Open source RGB lighting control that doesn't depend on manufact
 License:        GPLv2
 URL:            https://gitlab.com/CalcProgrammer1/%{_name}
 
-BuildRequires:  gcc-c++ libusbx-devel libstdc++-devel qt6-qtbase-devel qt6-linguist desktop-file-utils hidapi-devel mbedtls-devel systemd-rpm-macros
+BuildRequires:  gcc-c++ libusbx-devel libstdc++-devel qt6-qtbase-devel qt6-linguist desktop-file-utils hidapi-hotplug-devel mbedtls-devel systemd-rpm-macros
 Requires:       hicolor-icon-theme
 
 %description

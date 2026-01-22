@@ -26,12 +26,12 @@ WushiL50USBController::~WushiL50USBController()
 
 std::string WushiL50USBController::getName()
 {
-    return name;
+    return(name);
 }
 
 std::string WushiL50USBController::getLocation()
 {
-    return location;
+    return("HID: " + location);
 }
 
 std::string WushiL50USBController::GetSerialString()
