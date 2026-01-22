@@ -37,7 +37,7 @@ HyperXMicrophoneController::~HyperXMicrophoneController()
 
 std::string HyperXMicrophoneController::GetDeviceLocation()
 {
-    return(location);
+    return("HID: " + location);
 }
 
 std::string HyperXMicrophoneController::GetNameString()

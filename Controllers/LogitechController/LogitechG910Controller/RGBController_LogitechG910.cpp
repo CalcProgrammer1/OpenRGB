@@ -188,6 +188,7 @@ RGBController_LogitechG910::RGBController_LogitechG910(LogitechG910Controller* c
     vendor                          = "Logitech";
     type                            = DEVICE_TYPE_KEYBOARD;
     description                     = "Logitech Keyboard Device";
+    location                        = controller->GetLocationString();
     serial                          = controller->GetSerialString();
 
     mode Direct;

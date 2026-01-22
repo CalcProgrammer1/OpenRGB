@@ -52,9 +52,10 @@ enum
 class LogitechG810Controller
 {
 public:
-    LogitechG810Controller(hid_device* dev_handle_0x11, hid_device* dev_handle_0x12, std::string dev_name);
+    LogitechG810Controller(hid_device* dev_handle_0x11, hid_device* dev_handle_0x12, char* path, std::string dev_name);
     ~LogitechG810Controller();
 
+    std::string GetLocationString();
     std::string GetNameString();
     std::string GetSerialString();
 
@@ -79,6 +80,7 @@ public:
 private:
     hid_device* dev_pkt_0x11;
     hid_device* dev_pkt_0x12;
+    std::string location;
     std::string name;
 
     void        SendDirectFrame

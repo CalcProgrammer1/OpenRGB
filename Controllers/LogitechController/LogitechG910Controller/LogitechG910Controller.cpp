@@ -13,10 +13,11 @@
 #include "LogitechG910Controller.h"
 #include "StringUtils.h"
 
-LogitechG910Controller::LogitechG910Controller(hid_device* dev_handle_0x11, hid_device* dev_handle_0x12, std::string dev_name)
+LogitechG910Controller::LogitechG910Controller(hid_device* dev_handle_0x11, hid_device* dev_handle_0x12, char* path, std::string dev_name)
 {
     dev_pkt_0x11    = dev_handle_0x11;
     dev_pkt_0x12    = dev_handle_0x12;
+    location        = path;
     name            = dev_name;
 }
 
@@ -29,6 +30,11 @@ LogitechG910Controller::~LogitechG910Controller()
 std::string LogitechG910Controller::GetNameString()
 {
     return(name);
+}
+
+std::string LogitechG910Controller::GetLocationString()
+{
+    return("HID: " + location);
 }
 
 std::string LogitechG910Controller::GetSerialString()

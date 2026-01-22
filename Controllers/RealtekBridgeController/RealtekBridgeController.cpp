@@ -226,7 +226,8 @@ std::string RealtekBridgeController::get_sn()
 
 std::string RealtekBridgeController::get_dev_loc()
 {
-    return hidinfo->path;
+    std::string location = hidinfo->path;
+    return("HID: " + location);
 }
 
 std::string RealtekBridgeController::get_fw_ver()
