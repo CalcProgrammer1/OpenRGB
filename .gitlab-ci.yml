@@ -296,7 +296,10 @@ before_script:
   image: fedora:43
   stage: build
   script:
-  - dnf install rpmdevtools dnf-plugins-core libcurl-devel qt5-qtbase-devel git -y
+  - dnf install rpmdevtools dnf-plugins-core libcurl-devel qt5-qtbase-devel git wget -y
+  - 'wget -O hidapi-hotplug.zip https://gitlab.com/OpenRGBDevelopers/hidapi-hotplug/-/jobs/artifacts/master/download?job=Linux+64+F43+rpm'
+  - unzip hidapi-hotplug.zip
+  - dnf install ./*.rpm -y
   - rpmdev-setuptree
   - ./scripts/build-package-files.sh fedora/OpenRGB.spec
   - cp fedora/OpenRGB.spec /root/rpmbuild/SPECS
@@ -324,10 +327,14 @@ before_script:
   image: i386/debian:bookworm
   stage: test
   script:
-  - apt update
+  - DEBIAN_FRONTEND=noninteractive apt update
+  - DEBIAN_FRONTEND=noninteractive apt install -y unzip curl
+  - 'curl -o hidapi-hotplug.zip -L https://gitlab.com/OpenRGBDevelopers/hidapi-hotplug/-/jobs/artifacts/master/download?job=Linux+i386+.deb+%28Debian+Bookworm%29'
+  - unzip hidapi-hotplug.zip
+  - DEBIAN_FRONTEND=noninteractive apt install -yq --no-install-recommends ./libhidapi-hotplug*.deb
   - DEBIAN_FRONTEND=noninteractive apt install -yq --no-install-recommends ./openrgb*i386.deb
   - openrgb --version
-  - apt remove -y openrgb
+  - DEBIAN_FRONTEND=noninteractive apt remove -y openrgb
   dependencies:
   - "Linux i386 .deb (Debian Bookworm)"
   needs:
@@ -342,10 +349,14 @@ before_script:
   image: amd64/debian:bookworm
   stage: test
   script:
-  - apt update
+  - DEBIAN_FRONTEND=noninteractive apt update
+  - DEBIAN_FRONTEND=noninteractive apt install -y unzip curl
+  - 'curl -o hidapi-hotplug.zip -L https://gitlab.com/OpenRGBDevelopers/hidapi-hotplug/-/jobs/artifacts/master/download?job=Linux+amd64+.deb+%28Debian+Bookworm%29'
+  - unzip hidapi-hotplug.zip
+  - DEBIAN_FRONTEND=noninteractive apt install -yq --no-install-recommends ./libhidapi-hotplug*.deb
   - DEBIAN_FRONTEND=noninteractive apt install -yq --no-install-recommends ./openrgb*amd64.deb
   - openrgb --version
-  - apt remove -y openrgb
+  - DEBIAN_FRONTEND=noninteractive apt remove -y openrgb
   dependencies:
   - "Linux amd64 .deb (Debian Bookworm)"
   needs:
@@ -360,10 +371,14 @@ before_script:
   image: ubuntu:noble
   stage: test
   script:
-  - apt update
+  - DEBIAN_FRONTEND=noninteractive apt update
+  - DEBIAN_FRONTEND=noninteractive apt install -y unzip curl
+  - 'curl -o hidapi-hotplug.zip -L https://gitlab.com/OpenRGBDevelopers/hidapi-hotplug/-/jobs/artifacts/master/download?job=Linux+amd64+.deb+%28Debian+Bookworm%29'
+  - unzip hidapi-hotplug.zip
+  - DEBIAN_FRONTEND=noninteractive apt install -yq --no-install-recommends ./libhidapi-hotplug*.deb
   - DEBIAN_FRONTEND=noninteractive apt install -yq --no-install-recommends ./openrgb*amd64.deb
   - openrgb --version
-  - apt remove -y openrgb
+  - DEBIAN_FRONTEND=noninteractive apt remove -y openrgb
   dependencies:
   - "Linux amd64 .deb (Debian Bookworm)"
   needs:
@@ -378,6 +393,10 @@ before_script:
   image: fedora:43
   stage: test
   script:
+  - dnf install unzip wget -y
+  - 'wget -O hidapi-hotplug.zip https://gitlab.com/OpenRGBDevelopers/hidapi-hotplug/-/jobs/artifacts/master/download?job=Linux+64+F43+rpm'
+  - unzip hidapi-hotplug.zip
+  - dnf install ./*.rpm -y
   - dnf5 -y install ./openrgb*64.rpm
   - openrgb --version
   - dnf5 -y remove openrgb

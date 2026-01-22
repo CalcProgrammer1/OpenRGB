@@ -28,7 +28,7 @@ PatriotViperMouseController::~PatriotViperMouseController()
 
 std::string PatriotViperMouseController::GetLocation()
 {
-    return("HID " + location);
+    return("HID: " + location);
 }
 
 std::string PatriotViperMouseController::GetName()

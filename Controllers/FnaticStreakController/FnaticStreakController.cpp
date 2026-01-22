@@ -44,7 +44,7 @@ FnaticStreakController::~FnaticStreakController()
 
 std::string FnaticStreakController::GetDeviceLocation()
 {
-    return("HID " + location);
+    return("HID: " + location);
 }
 
 std::string FnaticStreakController::GetNameString()
