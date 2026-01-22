@@ -28,6 +28,11 @@ OpenRGBSoftwareInfoPage::OpenRGBSoftwareInfoPage(QWidget *parent) :
     ui->GitCommitDateValue->setText(GIT_COMMIT_DATE);
     ui->GitBranchValue->setText(GIT_BRANCH);
     ui->OsVersionValue->setText(QSysInfo::prettyProductName());
+#if(HID_HOTPLUG_ENABLED)
+    ui->HIDHotplugValue->setText("Supported");
+#else
+    ui->HIDHotplugValue->setText("Unsupported");
+#endif
 }
 
 OpenRGBSoftwareInfoPage::~OpenRGBSoftwareInfoPage()

@@ -32,7 +32,7 @@ HyperXAlloyElite2Controller::~HyperXAlloyElite2Controller()
 
 std::string HyperXAlloyElite2Controller::GetDeviceLocation()
 {
-    return("HID " + location);
+    return("HID: " + location);
 }
 
 std::string HyperXAlloyElite2Controller::GetNameString()
