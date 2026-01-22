@@ -750,6 +750,12 @@ private:
     std::vector<void *>                 UpdateCallbackArgs;
 
     /*-----------------------------------------------------*\
+    | Private path used internally by DetectionManager      |
+    | for HID hotplug path tracking                         |
+    \*-----------------------------------------------------*/
+    std::string             detection_path;
+
+    /*-----------------------------------------------------*\
     | Certain internal OpenRGB framework classes can modify |
     | protected members                                     |
     \*-----------------------------------------------------*/

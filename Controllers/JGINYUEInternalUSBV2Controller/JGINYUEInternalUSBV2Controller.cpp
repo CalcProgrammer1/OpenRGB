@@ -66,7 +66,7 @@ unsigned int JGINYUEInternalUSBV2Controller::GetZoneCount()
 
 std::string JGINYUEInternalUSBV2Controller::GetDeviceLocation()
 {
-    return("HID:" + location);
+    return("HID: " + location);
 }
 
 std::string JGINYUEInternalUSBV2Controller::GetDeviceName()
