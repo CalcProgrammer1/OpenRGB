@@ -27,7 +27,7 @@ AOCMouseController::~AOCMouseController()
 
 std::string AOCMouseController::GetDeviceLocation()
 {
-    return("HID " + location);
+    return("HID: " + location);
 }
 
 std::string AOCMouseController::GetDeviceName()

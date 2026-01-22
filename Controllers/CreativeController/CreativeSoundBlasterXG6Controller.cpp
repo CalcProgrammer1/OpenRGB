@@ -23,7 +23,7 @@ CreativeSoundBlasterXG6Controller::~CreativeSoundBlasterXG6Controller()
 
 std::string CreativeSoundBlasterXG6Controller::GetDeviceLocation()
 {
-    return("HID " + location);
+    return("HID: " + location);
 }
 
 std::string CreativeSoundBlasterXG6Controller::GetDeviceName()

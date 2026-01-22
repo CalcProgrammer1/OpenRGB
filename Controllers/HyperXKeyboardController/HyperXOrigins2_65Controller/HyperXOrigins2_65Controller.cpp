@@ -27,7 +27,7 @@ HyperXOrigins2_65Controller::~HyperXOrigins2_65Controller()
 
 std::string HyperXOrigins2_65Controller::GetDeviceLocation()
 {
-    return("HID " + location);
+    return("HID: " + location);
 }
 
 std::string HyperXOrigins2_65Controller::GetNameString()

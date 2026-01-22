@@ -31,7 +31,7 @@ AOCKeyboardController::~AOCKeyboardController()
 
 std::string AOCKeyboardController::GetDeviceLocation()
 {
-    return("HID " + location);
+    return("HID: " + location);
 }
 
 std::string AOCKeyboardController::GetDeviceName()
