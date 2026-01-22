@@ -11,7 +11,7 @@ Build-Depends:
  qt6-tools-dev-tools,
  qt5-qmake,
  libusb-1.0-0-dev,
- libhidapi-dev,
+ libhidapi-hotplug-dev,
  libmbedtls-dev,
 Homepage: https://gitlab.com/CalcProgrammer1/OpenRGB
 
