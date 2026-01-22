@@ -26,7 +26,7 @@ HYTEKeyboardController::~HYTEKeyboardController()
 
 std::string HYTEKeyboardController::GetDeviceLocation()
 {
-    return("HID " + location);
+    return("HID: " + location);
 }
 
 std::string HYTEKeyboardController::GetDeviceName()

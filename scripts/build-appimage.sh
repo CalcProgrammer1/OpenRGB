@@ -98,7 +98,16 @@ make install INSTALL_ROOT=AppDir
 #-----------------------------------------------------------------------#
 export QML_SOURCES_PATHS="$REPO_ROOT"/src
 
-linuxdeploy-"$ARCH_LINUXDEPLOY".AppImage --appdir AppDir -e "$TARGET" -i "$REPO_ROOT"/qt/org.openrgb.OpenRGB.png -d "$REPO_ROOT"/qt/org.openrgb.OpenRGB.desktop
+#-----------------------------------------------------------------------#
+# We need to bundle the libhidapi-libusb library for wrapped HID        #
+# devices, find its path using ldconfig                                 #
+#-----------------------------------------------------------------------#
+LIBHIDAPI_LIBUSB_PATH=$(find /usr/lib -name "libhidapi-hotplug-libusb.so")
+if [ ! -f $LIBHIDAPI_LIBUSB_PATH ]; then
+    LIBHIDAPI_LIBUSB_PATH=$(find /usr/lib -name "libhidapi-libusb.so")
+fi
+
+linuxdeploy-"$ARCH_LINUXDEPLOY".AppImage --appdir AppDir -e "$TARGET" -i "$REPO_ROOT"/qt/org.openrgb.OpenRGB.png -d "$REPO_ROOT"/qt/org.openrgb.OpenRGB.desktop --library "$LIBHIDAPI_LIBUSB_PATH"
 linuxdeploy-plugin-qt-"$ARCH_LINUXDEPLOY".AppImage --appdir AppDir
 linuxdeploy-"$ARCH_LINUXDEPLOY".AppImage --appdir AppDir --output appimage
 
