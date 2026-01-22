@@ -76,14 +76,18 @@ const char* UDEV_MUTLI =    QT_TRANSLATE_NOOP("DetectionManager",
 const hidapi_wrapper default_hidapi_wrapper =
 {
     NULL,
-    (hidapi_wrapper_send_feature_report)        hid_send_feature_report,
-    (hidapi_wrapper_get_feature_report)         hid_get_feature_report,
-    (hidapi_wrapper_get_serial_number_string)   hid_get_serial_number_string,
-    (hidapi_wrapper_open_path)                  hid_open_path,
-    (hidapi_wrapper_enumerate)                  hid_enumerate,
-    (hidapi_wrapper_free_enumeration)           hid_free_enumeration,
-    (hidapi_wrapper_close)                      hid_close,
-    (hidapi_wrapper_error)                      hid_error
+    (hidapi_wrapper_send_feature_report)            hid_send_feature_report,
+    (hidapi_wrapper_get_feature_report)             hid_get_feature_report,
+    (hidapi_wrapper_get_serial_number_string)       hid_get_serial_number_string,
+    (hidapi_wrapper_open_path)                      hid_open_path,
+    (hidapi_wrapper_enumerate)                      hid_enumerate,
+    (hidapi_wrapper_free_enumeration)               hid_free_enumeration,
+    (hidapi_wrapper_close)                          hid_close,
+    (hidapi_wrapper_error)                          hid_error,
+#if(HID_HOTPLUG_ENABLED)
+    (hidapi_wrapper_hotplug_register_callback)      hid_hotplug_register_callback,
+    (hidapi_wrapper_hotplug_deregister_callback)    hid_hotplug_deregister_callback,
+#endif
 };
 
 /*---------------------------------------------------------*\
@@ -142,6 +146,12 @@ DetectionManager::DetectionManager()
     detection_string                = "";
     dynamic_detectors_processed     = false;
     initial_detection               = true;
+
+#ifdef __linux__
+#ifdef __GLIBC__
+    hidapi_libusb_handle            = nullptr;
+#endif
+#endif
 
     /*-----------------------------------------------------*\
     | Start the background thread                           |
@@ -711,7 +721,12 @@ void DetectionManager::BackgroundDetectDevices()
     }
     else
     {
+#if(HID_HOTPLUG_ENABLED)
+        StopHIDHotplug();
+        StartHIDHotplug();
+#else
         BackgroundDetectHIDDevices(hid_devices, detector_settings);
+#endif
     }
 
     /*-----------------------------------------------------*\
@@ -1141,31 +1156,12 @@ void DetectionManager::BackgroundDetectHIDDevicesWrapped(hid_device_info* hid_de
     LOG_INFO("|            Detecting libusb HID devices            |");
     LOG_INFO("------------------------------------------------------");
 
-    void *         dyn_handle = NULL;
-    hidapi_wrapper wrapper;
-
     /*-----------------------------------------------------*\
     | Load the libhidapi-libusb library                     |
     \*-----------------------------------------------------*/
-    if((dyn_handle = dlopen("libhidapi-libusb.so", RTLD_NOW | RTLD_NODELETE | RTLD_DEEPBIND)))
+    if(hidapi_libusb_handle)
     {
-        /*-------------------------------------------------*\
-        | Create a wrapper with the libusb functions        |
-        \*-------------------------------------------------*/
-        wrapper =
-        {
-            .dyn_handle                     = dyn_handle,
-            .hid_send_feature_report        = (hidapi_wrapper_send_feature_report)          dlsym(dyn_handle,"hid_send_feature_report"),
-            .hid_get_feature_report         = (hidapi_wrapper_get_feature_report)           dlsym(dyn_handle,"hid_get_feature_report"),
-            .hid_get_serial_number_string   = (hidapi_wrapper_get_serial_number_string)     dlsym(dyn_handle,"hid_get_serial_number_string"),
-            .hid_open_path                  = (hidapi_wrapper_open_path)                    dlsym(dyn_handle,"hid_open_path"),
-            .hid_enumerate                  = (hidapi_wrapper_enumerate)                    dlsym(dyn_handle,"hid_enumerate"),
-            .hid_free_enumeration           = (hidapi_wrapper_free_enumeration)             dlsym(dyn_handle,"hid_free_enumeration"),
-            .hid_close                      = (hidapi_wrapper_close)                        dlsym(dyn_handle,"hid_close"),
-            .hid_error                      = (hidapi_wrapper_error)                        dlsym(dyn_handle,"hid_free_enumeration")
-        };
-
-        hid_devices                         = wrapper.hid_enumerate(0, 0);
+        hid_devices                         = hidapi_libusb_wrapper.hid_enumerate(0, 0);
 
         hid_device_info* current_hid_device = hid_devices;
 
@@ -1177,7 +1173,7 @@ void DetectionManager::BackgroundDetectHIDDevicesWrapped(hid_device_info* hid_de
 
         while(current_hid_device)
         {
-            RunHIDWrappedDetector(&wrapper, current_hid_device, detector_settings);
+            RunHIDWrappedDetector(&hidapi_libusb_wrapper, current_hid_device, detector_settings);
 
             /*---------------------------------------------*\
             | Update detection percent                      |
@@ -1195,7 +1191,7 @@ void DetectionManager::BackgroundDetectHIDDevicesWrapped(hid_device_info* hid_de
         /*-------------------------------------------------*\
         | Done using the device list, free it               |
         \*-------------------------------------------------*/
-        wrapper.hid_free_enumeration(hid_devices);
+        hidapi_libusb_wrapper.hid_free_enumeration(hid_devices);
     }
 }
 #endif
@@ -1268,6 +1264,48 @@ void DetectionManager::BackgroundHIDInit()
     int hid_status = hid_init();
 
     LOG_DEBUG("[%s] Initializing HID interfaces: %s", DETECTIONMANAGER, ((hid_status == 0) ? "Success" : "Failed"));
+
+#ifdef __linux__
+#ifdef __GLIBC__
+    /*-----------------------------------------------------*\
+    | Load the libhidapi-libusb library                     |
+    \*-----------------------------------------------------*/
+#if(HID_HOTPLUG_ENABLED)
+    hidapi_libusb_handle = dlopen("libhidapi-hotplug-libusb.so", RTLD_NOW | RTLD_NODELETE | RTLD_DEEPBIND);
+#else
+    hidapi_libusb_handle = dlopen("libhidapi-libusb.so", RTLD_NOW | RTLD_NODELETE | RTLD_DEEPBIND);
+#endif
+
+    if(hidapi_libusb_handle)
+    {
+        LOG_DEBUG("[%s] Loaded libusb HID library", DETECTIONMANAGER);
+
+        /*-------------------------------------------------*\
+        | Create a wrapper with the libusb functions        |
+        \*-------------------------------------------------*/
+        hidapi_libusb_wrapper =
+        {
+            .dyn_handle                         = hidapi_libusb_handle,
+            .hid_send_feature_report            = (hidapi_wrapper_send_feature_report)          dlsym(hidapi_libusb_handle,"hid_send_feature_report"),
+            .hid_get_feature_report             = (hidapi_wrapper_get_feature_report)           dlsym(hidapi_libusb_handle,"hid_get_feature_report"),
+            .hid_get_serial_number_string       = (hidapi_wrapper_get_serial_number_string)     dlsym(hidapi_libusb_handle,"hid_get_serial_number_string"),
+            .hid_open_path                      = (hidapi_wrapper_open_path)                    dlsym(hidapi_libusb_handle,"hid_open_path"),
+            .hid_enumerate                      = (hidapi_wrapper_enumerate)                    dlsym(hidapi_libusb_handle,"hid_enumerate"),
+            .hid_free_enumeration               = (hidapi_wrapper_free_enumeration)             dlsym(hidapi_libusb_handle,"hid_free_enumeration"),
+            .hid_close                          = (hidapi_wrapper_close)                        dlsym(hidapi_libusb_handle,"hid_close"),
+            .hid_error                          = (hidapi_wrapper_error)                        dlsym(hidapi_libusb_handle,"hid_free_enumeration"),
+#if(HID_HOTPLUG_ENABLED)
+            .hid_hotplug_register_callback      = (hidapi_wrapper_hotplug_register_callback)    dlsym(hidapi_libusb_handle,"hid_hotplug_register_callback"),
+            .hid_hotplug_deregister_callback    = (hidapi_wrapper_hotplug_deregister_callback)  dlsym(hidapi_libusb_handle,"hid_hotplug_deregister_callback"),
+#endif
+        };
+    }
+    else
+    {
+        LOG_DEBUG("[%s] Failed to load libusb HID library", DETECTIONMANAGER);
+    }
+#endif
+#endif
 }
 
 /*---------------------------------------------------------*\
@@ -1320,6 +1358,12 @@ void DetectionManager::RunHIDDetector(hid_device_info* current_hid_device, json 
 
                 for(std::size_t detected_controller_idx = 0; detected_controller_idx < detected_controllers.size(); detected_controller_idx++)
                 {
+                    detected_controllers[detected_controller_idx]->detection_path = std::string(current_hid_device->path);
+
+#if(HID_HOTPLUG_ENABLED)
+                    int handle;
+                    hid_hotplug_register_callback(current_hid_device->vendor_id, current_hid_device->product_id, HID_API_HOTPLUG_EVENT_DEVICE_LEFT, 0, &DetectionManager::UnplugCallbackFunction, detected_controllers[detected_controller_idx], &handle);
+#endif
                     RegisterRGBController(detected_controllers[detected_controller_idx]);
                 }
             }
@@ -1376,6 +1420,13 @@ void DetectionManager::RunHIDWrappedDetector(const hidapi_wrapper* wrapper, hid_
 
                 for(std::size_t detected_controller_idx = 0; detected_controller_idx < detected_controllers.size(); detected_controller_idx++)
                 {
+                    detected_controllers[detected_controller_idx]->detection_path = std::string(current_hid_device->path);
+
+#if(HID_HOTPLUG_ENABLED)
+                    int handle;
+
+                    wrapper->hid_hotplug_register_callback(current_hid_device->vendor_id, current_hid_device->product_id, HID_API_HOTPLUG_EVENT_DEVICE_LEFT, 0, &DetectionManager::UnplugCallbackFunction, detected_controllers[detected_controller_idx], &handle);
+#endif
                     RegisterRGBController(detected_controllers[detected_controller_idx]);
                 }
             }
@@ -1391,6 +1442,10 @@ void DetectionManager::RunHIDWrappedDetector(const hidapi_wrapper* wrapper, hid_
 void DetectionManager::ProcessCleanup()
 {
     WaitForDetection();
+
+#if(HID_HOTPLUG_ENABLED)
+    StopHIDHotplug();
+#endif
 
     /*-----------------------------------------------------*\
     | Make a copy of the list so that the controllers can   |
@@ -1618,6 +1673,110 @@ void DetectionManager::UpdateDetectorSettings()
         ResourceManager::get()->GetSettingsManager()->SaveSettings();
     }
 }
+
+#if(HID_HOTPLUG_ENABLED)
+/*---------------------------------------------------------*\
+| HID hotplug management functions                          |
+\*---------------------------------------------------------*/
+void DetectionManager::StartHIDHotplug()
+{
+    hid_hotplug_register_callback(0, 0, HID_API_HOTPLUG_EVENT_DEVICE_ARRIVED, HID_API_HOTPLUG_ENUMERATE, &DetectionManager::HotplugCallbackFunction, nullptr, &hotplug_callback_handle);
+
+#ifdef __linux__
+#ifdef __GLIBC__
+    if(hidapi_libusb_handle != nullptr)
+    {
+        hidapi_libusb_wrapper.hid_hotplug_register_callback(0, 0, HID_API_HOTPLUG_EVENT_DEVICE_ARRIVED, HID_API_HOTPLUG_ENUMERATE, &DetectionManager::WrappedHotplugCallbackFunction, nullptr, &libusb_hotplug_callback_handle);
+    }
+#endif
+#endif
+}
+
+void DetectionManager::StopHIDHotplug()
+{
+    hid_hotplug_deregister_callback(hotplug_callback_handle);
+
+#ifdef __linux__
+#ifdef __GLIBC__
+    if(hidapi_libusb_handle != nullptr)
+    {
+        hidapi_libusb_wrapper.hid_hotplug_deregister_callback(libusb_hotplug_callback_handle);
+    }
+#endif
+#endif
+}
+
+/*---------------------------------------------------------*\
+| HID hotplug callback functions                            |
+\*---------------------------------------------------------*/
+int DetectionManager::HotplugCallbackFunction(hid_hotplug_callback_handle callback_handle, hid_device_info *device, hid_hotplug_event event, void *user_data)
+{
+    /*-----------------------------------------------------*\
+    | Open device disable list and read in disabled         |
+    | device strings                                        |
+    \*-----------------------------------------------------*/
+    json                detector_settings   = ResourceManager::get()->GetSettingsManager()->GetSettings("Detectors");
+    DetectionManager*   dm                  = DetectionManager::get();
+
+    if(event == HID_API_HOTPLUG_EVENT_DEVICE_ARRIVED)
+    {
+        LOG_INFO("[%s] HID device connected: [%04x:%04x - %s]", DETECTIONMANAGER, device->vendor_id, device->product_id, device->path);
+
+        dm->RunHIDDetector(device, detector_settings);
+        dm->RunHIDWrappedDetector(&default_hidapi_wrapper, device, detector_settings);
+    }
+
+    return 0;
+}
+
+int DetectionManager::UnplugCallbackFunction(hid_hotplug_callback_handle callback_handle, hid_device_info *device, hid_hotplug_event event, void *user_data)
+{
+    DetectionManager* dm = DetectionManager::get();
+
+    if(event == HID_API_HOTPLUG_EVENT_DEVICE_LEFT)
+    {
+        LOG_INFO("[%s] HID device disconnected: [%04x:%04x - %s]", DETECTIONMANAGER, device->vendor_id, device->product_id, device->path);
+
+        /*-------------------------------------------------*\
+        | User data is the pointer to the controller being  |
+        | removed                                           |
+        \*-------------------------------------------------*/
+        RGBController* controller = (RGBController*)(user_data);
+
+        if(controller && controller->detection_path == std::string(device->path))
+        {
+            dm->UnregisterRGBController(controller);
+            delete controller;
+            return 1;
+        }
+    }
+    return 0;
+}
+
+#ifdef __linux__
+#ifdef __GLIBC__
+int DetectionManager::WrappedHotplugCallbackFunction(hid_hotplug_callback_handle callback_handle, hid_device_info *device, hid_hotplug_event event, void *user_data)
+{
+    /*-----------------------------------------------------*\
+    | Open device disable list and read in disabled         |
+    | device strings                                        |
+    \*-----------------------------------------------------*/
+    json                detector_settings   = ResourceManager::get()->GetSettingsManager()->GetSettings("Detectors");
+    DetectionManager*   dm                  = DetectionManager::get();
+
+    if(event == HID_API_HOTPLUG_EVENT_DEVICE_ARRIVED)
+    {
+        LOG_INFO("[%s] libusb HID device connected: [%04x:%04x - %s]", DETECTIONMANAGER, device->vendor_id, device->product_id, device->path);
+
+        dm->RunHIDDetector(device, detector_settings);
+        dm->RunHIDWrappedDetector(&DetectionManager::get()->hidapi_libusb_wrapper, device, detector_settings);
+    }
+
+    return 0;
+}
+#endif
+#endif
+#endif
 
 /*---------------------------------------------------------*\
 | Function for signalling DetectionManager updates to       |
