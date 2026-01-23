@@ -13,6 +13,7 @@
 #include <cstring>
 #include "nlohmann/json.hpp"
 #include "RGBController.h"
+#include "StringUtils.h"
 
 using namespace std::chrono_literals;
 
@@ -2399,7 +2400,8 @@ unsigned char* RGBController::SetDeviceDescription(unsigned char* data_ptr, unsi
     memcpy(&name_len, data_ptr, sizeof(name_len));
     data_ptr += sizeof(name_len);
 
-    name = (char *)data_ptr;
+    name.assign((char *)data_ptr, name_len);
+    name = StringUtils::remove_null_terminating_chars(name);
     data_ptr += name_len;
 
     /*-----------------------------------------------------*\
@@ -2422,7 +2424,8 @@ unsigned char* RGBController::SetDeviceDescription(unsigned char* data_ptr, unsi
     memcpy(&description_len, data_ptr, sizeof(description_len));
     data_ptr += sizeof(description_len);
 
-    description = (char *)data_ptr;
+    description.assign((char *)data_ptr, description_len);
+    description = StringUtils::remove_null_terminating_chars(description);
     data_ptr += description_len;
 
     /*-----------------------------------------------------*\
@@ -2432,7 +2435,8 @@ unsigned char* RGBController::SetDeviceDescription(unsigned char* data_ptr, unsi
     memcpy(&version_len, data_ptr, sizeof(version_len));
     data_ptr += sizeof(version_len);
 
-    version = (char *)data_ptr;
+    version.assign((char *)data_ptr, version_len);
+    version = StringUtils::remove_null_terminating_chars(version);
     data_ptr += version_len;
 
     /*-----------------------------------------------------*\
@@ -2442,7 +2446,8 @@ unsigned char* RGBController::SetDeviceDescription(unsigned char* data_ptr, unsi
     memcpy(&serial_len, data_ptr, sizeof(serial_len));
     data_ptr += sizeof(serial_len);
 
-    serial = (char *)data_ptr;
+    serial.assign((char *)data_ptr, serial_len);
+    serial = StringUtils::remove_null_terminating_chars(serial);
     data_ptr += serial_len;
 
     /*-----------------------------------------------------*\
@@ -2452,7 +2457,8 @@ unsigned char* RGBController::SetDeviceDescription(unsigned char* data_ptr, unsi
     memcpy(&location_len, data_ptr, sizeof(location_len));
     data_ptr += sizeof(location_len);
 
-    location = (char *)data_ptr;
+    location.assign((char *)data_ptr, location_len);
+    location = StringUtils::remove_null_terminating_chars(location);
     data_ptr += location_len;
 
     /*-----------------------------------------------------*\
@@ -2540,7 +2546,10 @@ unsigned char* RGBController::SetDeviceDescription(unsigned char* data_ptr, unsi
             memcpy(&string_length, data_ptr, sizeof(string_length));
             data_ptr += sizeof(string_length);
 
-            led_alt_names.push_back((char *)data_ptr);
+            std::string new_name((char *)data_ptr, string_length);
+            new_name = StringUtils::remove_null_terminating_chars(new_name);
+
+            led_alt_names.push_back(new_name);
             data_ptr += string_length;
         }
     }
@@ -2614,7 +2623,8 @@ unsigned char* RGBController::SetLEDDescription(unsigned char* data_ptr, led* le
     memcpy(&ledname_len, data_ptr, sizeof(ledname_len));
     data_ptr += sizeof(ledname_len);
 
-    led->name = (char *)data_ptr;
+    led->name.assign((char *)data_ptr, ledname_len);
+    led->name = StringUtils::remove_null_terminating_chars(led->name);
     data_ptr += ledname_len;
 
     /*-----------------------------------------------------*\
@@ -2635,7 +2645,8 @@ unsigned char* RGBController::SetModeDescription(unsigned char* data_ptr, mode* 
     memcpy(&modename_len, data_ptr, sizeof(unsigned short));
     data_ptr += sizeof(unsigned short);
 
-    mode->name = (char *)data_ptr;
+    mode->name.assign((char *)data_ptr, modename_len);
+    mode->name = StringUtils::remove_null_terminating_chars(mode->name);
     data_ptr += modename_len;
 
     /*-----------------------------------------------------*\
@@ -2743,7 +2754,8 @@ unsigned char* RGBController::SetSegmentDescription(unsigned char* data_ptr, seg
     memcpy(&segmentname_len, data_ptr, sizeof(segmentname_len));
     data_ptr += sizeof(segmentname_len);
 
-    segment->name = (char *)data_ptr;
+    segment->name.assign((char *)data_ptr, segmentname_len);
+    segment->name = StringUtils::remove_null_terminating_chars(segment->name);
     data_ptr += segmentname_len;
 
     /*-----------------------------------------------------*\
@@ -2822,7 +2834,8 @@ unsigned char* RGBController::SetZoneDescription(unsigned char* data_ptr, zone* 
     memcpy(&zonename_len, data_ptr, sizeof(zonename_len));
     data_ptr += sizeof(zonename_len);
 
-    zone->name = (char *)data_ptr;
+    zone->name.assign((char *)data_ptr, zonename_len);
+    zone->name = StringUtils::remove_null_terminating_chars(zone->name);
     data_ptr += zonename_len;
 
     /*-----------------------------------------------------*\
