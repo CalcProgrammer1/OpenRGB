@@ -7,6 +7,18 @@
 |   SPDX-License-Identifier: GPL-2.0-or-later               |
 \*---------------------------------------------------------*/
 
+/*---------------------------------------------------------*\
+| codecvt is deprecated, but there's no replacement so we   |
+| can ignore the warnings                                   |
+\*---------------------------------------------------------*/
+#if defined(_MSC_VER)
+#define _SILENCE_CXX17_CODECVT_HEADER_DEPRECATION_WARNING
+#elif defined(__GNUC__)
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+#elif defined(__clang__)
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+#endif
+
 #include <codecvt>
 #include <locale>
 #include <string>
