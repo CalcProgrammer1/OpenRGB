@@ -45,11 +45,6 @@ json SettingsManager::GetSettings(std::string settings_key)
     json result;
     bool ui_settings_key = false;
 
-    /*-----------------------------------------------------*\
-    | Remove any excess null termination from settings key  |
-    \*-----------------------------------------------------*/
-    settings_key = StringUtils::remove_null_terminating_chars(settings_key);
-
     for(std::size_t settings_key_idx = 0; settings_key_idx < 7; settings_key_idx++)
     {
         if(settings_key == ui_settings_keys[settings_key_idx])
@@ -97,11 +92,6 @@ json SettingsManager::GetSettings(std::string settings_key)
 void SettingsManager::SetSettings(std::string settings_key, json new_settings)
 {
     bool ui_settings_key = false;
-
-    /*-----------------------------------------------------*\
-    | Remove any excess null termination from settings key  |
-    \*-----------------------------------------------------*/
-    settings_key = StringUtils::remove_null_terminating_chars(settings_key);
 
     for(std::size_t settings_key_idx = 0; settings_key_idx < 7; settings_key_idx++)
     {
