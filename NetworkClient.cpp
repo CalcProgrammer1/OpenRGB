@@ -12,6 +12,7 @@
 #include <cstring>
 #include "NetworkClient.h"
 #include "RGBController_Network.h"
+#include "StringUtils.h"
 
 #ifdef _WIN32
 #include <Windows.h>
@@ -365,6 +366,7 @@ std::string NetworkClient::ProfileManager_DownloadProfile(std::string profile_na
     if(response_header.pkt_id == NET_PACKET_ID_PROFILEMANAGER_DOWNLOAD_PROFILE && response_data_ptr != NULL)
     {
         response_string.assign(response_data_ptr, response_header.pkt_size);
+        response_string = StringUtils::remove_null_terminating_chars(response_string);
         delete[] response_data_ptr;
         response_data_ptr = NULL;
     }
@@ -389,6 +391,7 @@ std::string NetworkClient::ProfileManager_GetActiveProfile()
     if(response_header.pkt_id == NET_PACKET_ID_PROFILEMANAGER_GET_ACTIVE_PROFILE && response_data_ptr != NULL)
     {
         response_string.assign(response_data_ptr, response_header.pkt_size);
+        response_string = StringUtils::remove_null_terminating_chars(response_string);
         delete[] response_data_ptr;
         response_data_ptr = NULL;
     }
@@ -417,6 +420,7 @@ std::string NetworkClient::SettingsManager_GetSettings(std::string settings_key)
     if(response_header.pkt_id == NET_PACKET_ID_SETTINGSMANAGER_GET_SETTINGS && response_data_ptr != NULL)
     {
         response_string.assign(response_data_ptr, response_header.pkt_size);
+        response_string = StringUtils::remove_null_terminating_chars(response_string);
         delete[] response_data_ptr;
         response_data_ptr = NULL;
     }
@@ -1211,6 +1215,7 @@ void NetworkClient::ProcessRequest_DetectionProgressChanged(unsigned int data_si
         data += sizeof(string_length);
 
         detection_string.assign(data, string_length);
+        detection_string = StringUtils::remove_null_terminating_chars(detection_string);
 
         SignalNetworkClientUpdate(NETWORKCLIENT_UPDATE_REASON_DETECTION_PROGRESS_CHANGED);
     }
@@ -1316,6 +1321,7 @@ void NetworkClient::ProcessRequest_RGBController_SignalUpdate(unsigned int data_
 void NetworkClient::ProcessRequest_ServerString(unsigned int data_size, char * data)
 {
     server_name.assign(data, data_size);
+    server_name = StringUtils::remove_null_terminating_chars(server_name);
 
     /*-----------------------------------------------------*\
     | Client info has changed, call the callbacks           |
