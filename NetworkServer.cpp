@@ -11,8 +11,9 @@
 
 #include <cstring>
 #include <queue>
-#include "NetworkServer.h"
 #include "LogManager.h"
+#include "NetworkServer.h"
+#include "StringUtils.h"
 
 #ifndef _WIN32
 #include <sys/ioctl.h>
@@ -1019,6 +1020,7 @@ void NetworkServer::ListenThreadFunction(NetworkClientInfo * client_info)
                 {
                     std::string profile_name;
                     profile_name.assign(data, header.pkt_size);
+                    profile_name = StringUtils::remove_null_terminating_chars(profile_name);
 
                     profile_manager->SaveProfile(profile_name);
                 }
@@ -1034,6 +1036,7 @@ void NetworkServer::ListenThreadFunction(NetworkClientInfo * client_info)
                 {
                     std::string profile_name;
                     profile_name.assign(data, header.pkt_size);
+                    profile_name = StringUtils::remove_null_terminating_chars(profile_name);
 
                     profile_manager->LoadProfile(profile_name);
                 }
@@ -1049,6 +1052,7 @@ void NetworkServer::ListenThreadFunction(NetworkClientInfo * client_info)
                 {
                     std::string profile_name;
                     profile_name.assign(data, header.pkt_size);
+                    profile_name = StringUtils::remove_null_terminating_chars(profile_name);
 
                     profile_manager->DeleteProfile(profile_name);
                 }
@@ -1064,6 +1068,7 @@ void NetworkServer::ListenThreadFunction(NetworkClientInfo * client_info)
                 {
                     std::string profile_json_string;
                     profile_json_string.assign(data, header.pkt_size);
+                    profile_json_string = StringUtils::remove_null_terminating_chars(profile_json_string);
 
                     nlohmann::json profile_json = nlohmann::json::parse(profile_json_string);
 
@@ -1081,6 +1086,7 @@ void NetworkServer::ListenThreadFunction(NetworkClientInfo * client_info)
                 {
                     std::string profile_name;
                     profile_name.assign(data, header.pkt_size);
+                    profile_name = StringUtils::remove_null_terminating_chars(profile_name);
 
                     std::string profile_json_string = profile_manager->ReadProfileJSON(profile_name).dump();
 
@@ -1145,6 +1151,7 @@ void NetworkServer::ListenThreadFunction(NetworkClientInfo * client_info)
                 {
                     std::string settings_key;
                     settings_key.assign(data, header.pkt_size);
+                    settings_key = StringUtils::remove_null_terminating_chars(settings_key);
 
                     nlohmann::json settings_json = settings_manager->GetSettings(settings_key);
                     std::string settings_json_str = settings_json.dump();
@@ -1170,6 +1177,7 @@ void NetworkServer::ListenThreadFunction(NetworkClientInfo * client_info)
                 {
                     std::string settings_json_str;
                     settings_json_str.assign(data, header.pkt_size);
+                    settings_json_str = StringUtils::remove_null_terminating_chars(settings_json_str);
 
                     settings_manager->SetSettingsFromJsonString(settings_json_str);
                 }
@@ -1409,6 +1417,7 @@ void NetworkServer::ProcessRequest_ClientString(SOCKET client_sock, unsigned int
         if(ServerClients[this_idx]->client_sock == client_sock)
         {
             ServerClients[this_idx]->client_string.assign(data, data_size);
+            ServerClients[this_idx]->client_string = StringUtils::remove_null_terminating_chars(ServerClients[this_idx]->client_string);
             break;
         }
     }
