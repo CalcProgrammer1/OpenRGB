@@ -97,11 +97,6 @@ ProfileManager::~ProfileManager()
 
 void ProfileManager::DeleteProfile(std::string profile_name)
 {
-    /*-----------------------------------------------------*\
-    | Clean up the profile name                             |
-    \*-----------------------------------------------------*/
-    profile_name = StringUtils::remove_null_terminating_chars(profile_name);
-
     if(ResourceManager::get()->IsLocalClient() && (ResourceManager::get()->GetLocalClientProtocolVersion() >= 6))
     {
         ResourceManager::get()->GetLocalClient()->ProfileManager_DeleteProfile(profile_name);
@@ -242,11 +237,6 @@ nlohmann::json ProfileManager::ReadProfileJSON(std::string profile_name)
 {
     nlohmann::json profile_json;
 
-    /*-----------------------------------------------------*\
-    | Clean up the profile name                             |
-    \*-----------------------------------------------------*/
-    profile_name = StringUtils::remove_null_terminating_chars(profile_name);
-
     if(ResourceManager::get()->IsLocalClient() && (ResourceManager::get()->GetLocalClientProtocolVersion() >= 6))
     {
         profile_json = nlohmann::json::parse(ResourceManager::get()->GetLocalClient()->ProfileManager_DownloadProfile(profile_name));
@@ -271,11 +261,6 @@ nlohmann::json ProfileManager::ReadProfileJSON(std::string profile_name)
 
 bool ProfileManager::SaveProfile(std::string profile_name)
 {
-    /*-----------------------------------------------------*\
-    | Clean up the profile name                             |
-    \*-----------------------------------------------------*/
-    profile_name = StringUtils::remove_null_terminating_chars(profile_name);
-
     /*-----------------------------------------------------*\
     | If a name was entered, save the profile file          |
     \*-----------------------------------------------------*/
