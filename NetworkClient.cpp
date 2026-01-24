@@ -10,6 +10,7 @@
 \*---------------------------------------------------------*/
 
 #include <cstring>
+#include "LogManager.h"
 #include "NetworkClient.h"
 #include "RGBController_Network.h"
 #include "StringUtils.h"
@@ -36,6 +37,11 @@ const char yes = 1;
 #endif
 
 using namespace std::chrono_literals;
+
+/*---------------------------------------------------------*\
+| NetworkClient name for log entries                        |
+\*---------------------------------------------------------*/
+const char* NETWORKCLIENT = "NetworkClient";
 
 NetworkClient::NetworkClient()
 {
@@ -692,7 +698,7 @@ void NetworkClient::ConnectionThreadFunction()
             if(port.tcp_client_connect() == true)
             {
                 client_sock = port.sock;
-                printf( "Connected to server\n" );
+                LOG_INFO("[%s] Connected to server", NETWORKCLIENT);
 
                 /*---------------------------------------------------------*\
                 | Server is now connected                                   |
@@ -716,7 +722,7 @@ void NetworkClient::ConnectionThreadFunction()
             }
             else
             {
-                printf( "Connection attempt failed\n" );
+                LOG_INFO("[%s] Connection attempt failed", NETWORKCLIENT);
             }
         }
 
@@ -838,7 +844,7 @@ void NetworkClient::ConnectionThreadFunction()
 
                                 if(rgb_controller == NULL)
                                 {
-                                    printf("Client: Requesting controller ID %d\r\n", server_controller_ids[requested_controller_index]);
+                                    LOG_INFO("[%s] Requesting controller ID %d", NETWORKCLIENT, server_controller_ids[requested_controller_index]);
 
                                     controller_data_received    = false;
                                     SendRequest_ControllerData(id);
@@ -881,7 +887,7 @@ void NetworkClient::ConnectionThreadFunction()
 
 void NetworkClient::ListenThreadFunction()
 {
-    printf("Network client listener started\n");
+    LOG_INFO("[%s] Listener thread started", NETWORKCLIENT);
 
     /*---------------------------------------------------------*\
     | This thread handles messages received from the server     |
@@ -1029,7 +1035,7 @@ void NetworkClient::ListenThreadFunction()
     }
 
 listen_done:
-    printf( "Client socket has been closed");
+    LOG_INFO("[%s] Client socket has been closed", NETWORKCLIENT);
     client_string_sent                  = false;
     controller_data_requested           = false;
     controller_data_received            = false;
@@ -1158,7 +1164,7 @@ void NetworkClient::ProcessReply_ControllerIDs(unsigned int data_size, char * da
             else
             {
                 server_controller_ids.clear();
-                printf("Client: Received incorrect packet size for controller list, list cleared");
+                LOG_INFO("[%s] Received incorrect packet size for controller list, list cleared", NETWORKCLIENT);
             }
         }
         /*-------------------------------------------------*\
