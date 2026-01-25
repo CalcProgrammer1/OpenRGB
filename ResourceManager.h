@@ -28,6 +28,7 @@
 
 using json = nlohmann::json;
 
+class LogManager;
 class NetworkClient;
 class NetworkServer;
 class PluginManagerInterface;
@@ -51,6 +52,7 @@ public:
     \*-----------------------------------------------------*/
     std::vector<NetworkClient*>&        GetClients();
     filesystem::path                    GetConfigurationDirectory();
+    LogManager*                         GetLogManager();
     std::vector<i2c_smbus_interface*>&  GetI2CBusses();
     PluginManagerInterface*             GetPluginManager();
     ProfileManager*                     GetProfileManager();
