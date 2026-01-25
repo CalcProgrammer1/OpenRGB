@@ -13,7 +13,8 @@ The protocol mimics the [RGBController API](The-RGBController-API) closely.  It 
 | 2                | 0.6             | Add profile controls                                                                                           |
 | 3                | 0.7             | Add brightness field to modes, add SaveMode()                                                                  |
 | 4                | 0.9             | Add segments field to zones, plugin interface                                                                  |
-| 5                | 1.0             | Add zone flags, controller flags, effects-only zones, alternative LED names, add ClearSegments and AddSegments |
+| 5                | 1.0rc1          | Add zone flags, controller flags, effects-only zones, alternative LED names, add ClearSegments and AddSegments |
+| 6*               | 1.0             | Add matrix map segments, per-zone modes, remote SettingsManager and ProfileManager, update callbacks           |
 
 \* Denotes unreleased version, reflects status of current pipeline
 
@@ -28,13 +29,13 @@ Each packet starts with a header that indicates the packet is an OpenRGB SDK pac
 | Size | Format       | Name        | Description         |
 | ---- | ------------ | ----------- | ------------------- |
 | 4    | char[4]      | pkt_magic   | Magic value, "ORGB" |
-| 4    | unsigned int | pkt_dev_idx | Device Index        |
+| 4    | unsigned int | pkt_dev_id  | Device ID           |
 | 4    | unsigned int | pkt_id      | Packet ID           |
 | 4    | unsigned int | pkt_size    | Packet Size         |
 
 `pkt_magic`: Always set this to the literal value "ORGB".
 
-`pkt_dev_idx`: The device index that the command is targeting.
+`pkt_dev_id`: The device index that the command is targeting.
 
 `pkt_id`: The command ID, see IDs table below
 
@@ -44,31 +45,55 @@ Each packet starts with a header that indicates the packet is an OpenRGB SDK pac
 
 The following IDs represent different SDK commands.  Each ID packet has a certain format of data associated with it, which will be explained under each ID's section of this document.  Gaps have been left in the ID values to allow for future expansion.  The same ID values are often used for both request and response packets.
 
-| Value | Name                                                                                        | Description                                      | Protocol Version |
-| ----- | ------------------------------------------------------------------------------------------- | ------------------------------------------------ | ---------------- |
-| 0     | [NET_PACKET_ID_REQUEST_CONTROLLER_COUNT](#net_packet_id_request_controller_count)           | Request RGBController device count from server   | 0                |
-| 1     | [NET_PACKET_ID_REQUEST_CONTROLLER_DATA](#net_packet_id_request_controller_data)             | Request RGBController data block                 | 0                |
-| 40    | [NET_PACKET_ID_REQUEST_PROTOCOL_VERSION](#net_packet_id_request_protocol_version)           | Request OpenRGB SDK protocol version from server | 1*               |
-| 50    | [NET_PACKET_ID_SET_CLIENT_NAME](#net_packet_id_set_client_name)                             | Send client name string to server                | 0                |
-| 100   | [NET_PACKET_ID_DEVICE_LIST_UPDATED](#net_packet_id_device_list_updated)                     | Indicate to clients that device list has updated | 1                |
-| 140   | [NET_PACKET_ID_REQUEST_RESCAN_DEVICES](#net_packet_id_request_rescan_devices)               | Request server to rescan devices                 | 5                |
-| 150   | [NET_PACKET_ID_REQUEST_PROFILE_LIST](#net_packet_id_request_profile_list)                   | Request profile list                             | 2                |
-| 151   | [NET_PACKET_ID_REQUEST_SAVE_PROFILE](#net_packet_id_request_save_profile)                   | Save current configuration in a new profile      | 2                |
-| 152   | [NET_PACKET_ID_REQUEST_LOAD_PROFILE](#net_packet_id_request_load_profile)                   | Load a given profile                             | 2                |
-| 153   | [NET_PACKET_ID_REQUEST_DELETE_PROFILE](#net_packet_id_request_delete_profile)               | Delete a given profile                           | 2                |
-| 200   | [NET_PACKET_ID_REQUEST_PLUGIN_LIST](#net_packet_id_request_plugin_list)                     | Request plugin list                              | 4                |
-| 201   | [NET_PACKET_ID_PLUGIN_SPECIFIC](#net_packet_id_plugin_specific)                             | Plugin specific                                  | 4                |
-| 1000  | [NET_PACKET_ID_RGBCONTROLLER_RESIZEZONE](#net_packet_id_rgbcontroller_resizezone)           | RGBController::ResizeZone()                      | 0                |
-| 1001  | [NET_PACKET_ID_RGBCONTROLLER_CLEARSEGMENTS](#net_packet_id_rgbcontroller_clearsegments)     | RGBController::ClearSegments()                   | 5                |
-| 1002  | [NET_PACKET_ID_RGBCONTROLLER_ADDSEGMENT](#net_packet_id_rgbcontroller_addsegment)           | RGBController::AddSegment()                      | 5                |
-| 1050  | [NET_PACKET_ID_RGBCONTROLLER_UPDATELEDS](#net_packet_id_rgbcontroller_updateleds)           | RGBController::UpdateLEDs()                      | 0                |
-| 1051  | [NET_PACKET_ID_RGBCONTROLLER_UPDATEZONELEDS](#net_packet_id_rgbcontroller_updatezoneleds)   | RGBController::UpdateZoneLEDs()                  | 0                |
-| 1052  | [NET_PACKET_ID_RGBCONTROLLER_UPDATESINGLELED](#net_packet_id_rgbcontroller_updatesingleled) | RGBController::UpdateSingleLED()                 | 0                |
-| 1100  | [NET_PACKET_ID_RGBCONTROLLER_SETCUSTOMMODE](#net_packet_id_rgbcontroller_setcustommode)     | RGBController::SetCustomMode()                   | 0                |
-| 1101  | [NET_PACKET_ID_RGBCONTROLLER_UPDATEMODE](#net_packet_id_rgbcontroller_updatemode)           | RGBController::UpdateMode()                      | 0                |
-| 1102  | [NET_PACKET_ID_RGBCONTROLLER_SAVEMODE](#net_packet_id_rgbcontroller_savemode)               | RGBController::SaveMode()                        | 3                |
+| Value | Name                                                                                                  | Description                                                   | Protocol Version |
+| ----- | ----------------------------------------------------------------------------------------------------- | ------------------------------------------------------------- | ---------------- |
+| 0     | [NET_PACKET_ID_REQUEST_CONTROLLER_COUNT](#net_packet_id_request_controller_count)                     | Request RGBController device count/device IDs from server     | 0                |
+| 1     | [NET_PACKET_ID_REQUEST_CONTROLLER_DATA](#net_packet_id_request_controller_data)                       | Request RGBController data block                              | 0                |
+| 40    | [NET_PACKET_ID_REQUEST_PROTOCOL_VERSION](#net_packet_id_request_protocol_version)                     | Request OpenRGB SDK protocol version from server              | 1*               |
+| 50    | [NET_PACKET_ID_SET_CLIENT_NAME](#net_packet_id_set_client_name)                                       | Send client name string to server                             | 0                |
+| 51    | [NET_PACKET_ID_SET_SERVER_NAME](#net_packet_id_set_server_name)                                       | Send server name string to client                             | 6                |
+| 100   | [NET_PACKET_ID_DEVICE_LIST_UPDATED](#net_packet_id_device_list_updated)                               | Indicate to clients that device list has updated              | 1                |
+| 101   | [NET_PACKET_ID_DETECTION_STARTED](#net_packet_id_detection_started)                                   | Indicate to clients that detection started                    | 6                |
+| 102   | [NET_PACKET_ID_DETECTION_PROGRESS_CHANGED](#net_packet_id_detection_progress_changed)                 | Indicate to clients that detection progress changed           | 6                |
+| 103   | [NET_PACKET_ID_DETECTION_COMPLETE](#net_packet_id_detection_complete)                                 | Indicate to clients that detection completed                  | 6                |
+| 140   | [NET_PACKET_ID_REQUEST_RESCAN_DEVICES](#net_packet_id_request_rescan_devices)                         | Request server to rescan devices                              | 5                |
+| 150   | [NET_PACKET_ID_PROFILEMANAGER_GET_PROFILE_LIST](#net_packet_id_profilemanager_get_profile_list)       | Get profile list                                              | 2                |
+| 151   | [NET_PACKET_ID_PROFILEMANAGER_SAVE_PROFILE](#net_packet_id_profilemanager_save_profile)               | Save current configuration in a new profile                   | 2                |
+| 152   | [NET_PACKET_ID_PROFILEMANAGER_LOAD_PROFILE](#net_packet_id_profilemanager_load_profile)               | Load a given profile                                          | 2                |
+| 153   | [NET_PACKET_ID_PROFILEMANAGER_DELETE_PROFILE](#net_packet_id_profilemanager_delete_profile)           | Delete a given profile                                        | 2                |
+| 154   | [NET_PACKET_ID_PROFILEMANAGER_UPLOAD_PROFILE](#net_packet_id_profilemanager_upload_profile)           | Upload a profile to the server in JSON format                 | 6                |
+| 155   | [NET_PACKET_ID_PROFILEMANAGER_DOWNLOAD_PROFILE](#net_packet_id_profilemanager_download_profile)       | Download a profile from the server in JSON format             | 6                | 
+| 156   | [NET_PACKET_ID_PROFILEMANAGER_GET_ACTIVE_PROFILE](#net_packet_id_profilemanager_get_active_profile)   | Get the active profile name                                   | 6                |
+| 200   | [NET_PACKET_ID_PLUGINMANAGER_GET_PLUGIN_LIST](#net_packet_id_pluginmanager_get_plugin_list)           | Get list of plugins                                           | 4                |
+| 201   | [NET_PACKET_ID_PLUGINMANAGER_PLUGIN_SPECIFIC](#net_packet_id_pluginmanager_plugin_specific)           | Interact with a plugin                                        | 4                |
+| 250   | [NET_PACKET_ID_SETTINGSMANAGER_GET_SETTINGS](#net_packet_id_settingsmanager_get_settings)             | Get settings for a given key in JSON format                   | 6                |
+| 251   | [NET_PACKET_ID_SETTINGSMANAGER_SET_SETTINGS](#net_packet_id_settingsmanager_set_settings)             | Set settings for a given key in JSON format                   | 6                |
+| 252   | [NET_PACKET_ID_SETTINGSMANAGER_SAVE_SETTINGS](#net_packet_id_settingsmanager_save_settings)           | Save settings                                                 | 6                |
+| 1000  | [NET_PACKET_ID_RGBCONTROLLER_RESIZEZONE](#net_packet_id_rgbcontroller_resizezone)                     | RGBController::ResizeZone()                                   | 0                |
+| 1001  | [NET_PACKET_ID_RGBCONTROLLER_CLEARSEGMENTS](#net_packet_id_rgbcontroller_clearsegments)               | RGBController::ClearSegments()                                | 5                |
+| 1002  | [NET_PACKET_ID_RGBCONTROLLER_ADDSEGMENT](#net_packet_id_rgbcontroller_addsegment)                     | RGBController::AddSegment()                                   | 5                |
+| 1050  | [NET_PACKET_ID_RGBCONTROLLER_UPDATELEDS](#net_packet_id_rgbcontroller_updateleds)                     | RGBController::UpdateLEDs()                                   | 0                |
+| 1051  | [NET_PACKET_ID_RGBCONTROLLER_UPDATEZONELEDS](#net_packet_id_rgbcontroller_updatezoneleds)             | RGBController::UpdateZoneLEDs()                               | 0                |
+| 1052  | [NET_PACKET_ID_RGBCONTROLLER_UPDATESINGLELED](#net_packet_id_rgbcontroller_updatesingleled)           | RGBController::UpdateSingleLED()                              | 0                |
+| 1100  | [NET_PACKET_ID_RGBCONTROLLER_SETCUSTOMMODE](#net_packet_id_rgbcontroller_setcustommode)               | RGBController::SetCustomMode()                                | 0                |
+| 1101  | [NET_PACKET_ID_RGBCONTROLLER_UPDATEMODE](#net_packet_id_rgbcontroller_updatemode)                     | RGBController::UpdateMode()                                   | 0                |
+| 1102  | [NET_PACKET_ID_RGBCONTROLLER_SAVEMODE](#net_packet_id_rgbcontroller_savemode)                         | RGBController::SaveMode()                                     | 3                |
+| 1103  | [NET_PACKET_ID_RGBCONTROLLER_UPDATEZONEMODE](#net_packet_id_rgbcontroller_updatezonemode)             | RGBController::UpdateZoneMode()                               | 6                |
+| 1150  | [NET_PACKET_ID_RGBCONTROLLER_SIGNALUPDATE](#net_packet_id_rgbcontroller_signalupdate)                 | RGBController::SignalUpdate()                                 | 6                |
         
-\* The NET_PACKET_ID_REQUEST_PROTOCOL_VERSION packet was not present in protocol version 0, but clients supporting protocol versions 1+ should always send this packet.  If no response is received, it should be assumed that the server is using protocol 0.
+\* The [NET_PACKET_ID_REQUEST_PROTOCOL_VERSION](#net_packet_id_request_protocol_version) packet was not present in protocol version 0, but clients supporting protocol versions 1+ should always send this packet.  If no response is received, it should be assumed that the server is using protocol 0.
+
+### Device IDs
+
+The OpenRGB SDK is used to allow a client to access one or more RGBControllers on the server.  As there are usually more than one controllers on the server, an identifier is needed to specify which controller the client wants to access.  The `pkt_dev_id` field in the header is used for this purpose.  Originally, OpenRGB used a simple indexing scheme, where the value of `pkt_dev_id` is the index in the server's controllers list.  Starting with protocol version 6, however, OpenRGB switched to using a unique ID scheme, where each controller detected on the server is assigned a unique ID and then the server sends a list of these unique IDs to the client.  If the list changes, the IDs of any existing controllers stay the same but new controllers have new unique IDs, allowing the client to keep track of which controllers stayed the same and which have changed.  The control flow for both schemes is described below.
+
+Protocol versions 0-5 (indexed IDs)
+
+In this scheme, the client starts by sending [NET_PACKET_ID_REQUEST_CONTROLLER_COUNT](#net_packet_id_request_controller_count) to the server, which returns the count of controllers in the list.  The client then sends [NET_PACKET_ID_REQUEST_CONTROLLER_DATA](#net_packet_id_request_controller_data) with `pkt_dev_id` for each controller index 0 to [count - 1], waiting for each controller data response before moving on to the next controller.  Following this, any accesses to the controllers use the index for the `pkt_dev_id` field of any NET_PACKET_ID_RGBCONTROLLER packet.  If the device list changes (indicated by the server sending [NET_PACKET_ID_DEVICE_LIST_UPDATED](#net_packet_id_device_list_updated)), the indexes on the client side may no longer match those on the server side.  The client must immediately stop using the existing indexes, clear its list of controllers, and obtain the new list by performing this sequence again.
+
+Protocol versions 6 and above (unique IDs)
+
+In this scheme, the client starts by sending [NET_PACKET_ID_REQUEST_CONTROLLER_COUNT](#net_packet_id_request_controller_count) to the server, which returns both the count of controllers in the list as well as a list of unique 32-bit IDs.  Each unique ID represents one controller in the server's list.  The order of these unique IDs also matches the order of controllers in the server's list.  The client then sends [NET_PACKET_ID_REQUEST_CONTROLLER_DATA](#net_packet_id_request_controller_data) with `pkt_dev_id` for each unique ID in the list, waiting for each controller data response before moving on to the next controller.  Following this, any accesses to the controllers use the unique ID for the `pkt_dev_id` field of any NET_PACKET_ID_RGBCONTROLLER packet.  If the device list changes (indicated by the server sending [NET_PACKET_ID_DEVICE_LIST_UPDATED](#net_packet_id_device_list_updated)), the client must request a new list of unique IDs by sending [NET_PACKET_ID_REQUEST_CONTROLLER_COUNT](#net_packet_id_request_controller_count) again.  Once the response is received, the client should compare the new list of unique IDs against its existing list.  Unique IDs that were in its existing list that no longer exist in the new list should be deleted on the client as these controllers are no longer present.  Unique IDs that exist in the new list but did not exist in the existing list are newly added controllers and the client should request these by sending [NET_PACKET_ID_REQUEST_CONTROLLER_DATA](#net_packet_id_request_controller_data) with `pkt_dev_id` for each newly added unique ID, waiting for each controller data response before moving on to the next controller.  Unique IDs that are present in the existing list as well as the new list are controllers that have not changed on the server side, so the client does not need to re-request these controllers and can continue using them as is.
 
 # Packet-Specific Documentation
 
@@ -78,15 +103,18 @@ The following IDs represent different SDK commands.  Each ID packet has a certai
 
 The client uses this ID to request the number of controllers on the server.  The request contains no data.
 
-### Response [Size: 4]
+### Response [Protocol 0-5 Size: 4] [Protocol 6+ Size: 4 + (4 * number of controllers)]
 
-The server responds to this request with the number of controllers in the device list.  The response contains a single `unsigned int`, size 4, holding this value.
+The server responds to this request with the number of controllers in the device list.  For protocol versions below 6, the response contains a single `unsigned int`, size 4, holding this value.
+
+For protocol versions 6 and above, the response contains a single `unsigned int`, size 4, holding this value followed by a list of `unsigned int`s, each size 4, representing the unique IDs of each controller in the device list.  See the [Device IDs](#device-ids) section for more information.
 
 ## NET_PACKET_ID_REQUEST_CONTROLLER_DATA
 
 ### Request [Protocol 0 Size: 0] [Protocol 1+ Size: 4]
 
-The client uses this ID to request the controller data for a given controller.  For protocol 0, this request contains no data.  For protocol 1 or higher, this request contains a single `unsigned int`, size 4, holding the highest protocol version supported by both the client and the server.  The `pkt_dev_idx` of this request's header indicates which controller you are requesting data for.  Upon connecting, the client should request controller data from 0 to [controller count], where [controller count] is the value from NET_PACKET_ID_REQUEST_CONTROLLER_COUNT.
+The client uses this ID to request the controller data for a given controller.  For protocol 0, this request contains no data.  For protocol 1 or higher, this request contains a single `unsigned int`, size 4, holding the highest protocol version supported by both the client and the server.  The `pkt_dev_id` of this request's header indicates which controller you are requesting data for.  See the [Device IDs](#device-ids) section for more information.
+
 
 NOTE: Before sending this request, the client should request the protocol version from the server and determine the value to send, if any.  If the server is using protocol version 0, even if the SDK implementation supports higher, send this packet with no data.
 
@@ -97,6 +125,14 @@ The server responds to this request with a large data block.  The format of the 
 | Size                | Format                                | Name                | Protocol Version | Description                                                                                                  |
 | ------------------- | ------------------------------------- | ------------------- | ---------------- | ------------------------------------------------------------------------------------------------------------ |
 | 4                   | unsigned int                          | data_size           | 0                | Size of all data in packet                                                                                   |
+| Variable            | Device Data                           | device_data         | 0                | See [Device Data](#device_data) block format table                                                           |
+
+## Device Data
+
+The Device Data block represents an entire `RGBController`.  This data block is provided by `RGBController::GetDeviceDescriptionData()`.  Portions of this block are omitted if the requested protocol level is below the listed value.
+
+| Size                | Format                                | Name                | Protocol Version | Description                                                                                                  |
+| ------------------- | ------------------------------------- | ------------------- | ---------------- | ------------------------------------------------------------------------------------------------------------ |
 | 4                   | int                                   | type                | 0                | RGBController type field value                                                                               |
 | 2                   | unsigned short                        | name_len            | 0                | Length of RGBController name field string, including null termination                                        |
 | name_len            | char[name_len]                        | name                | 0                | RGBController name field string value, including null termination                                            |
@@ -125,7 +161,7 @@ The server responds to this request with a large data block.  The format of the 
 
 ## Mode Data
 
-The Mode Data block represents one entry in the `RGBController::modes` vector.  Portions of this block are omitted if the requested protocol level is below the listed value.
+The Mode Data block represents one entry in the `RGBController::modes` vector.  This data block is provided by `RGBController::GetModeDescriptionData()`.  Portions of this block are omitted if the requested protocol level is below the listed value.
 
 | Size                | Format                    | Name                | Protocol Version | Description                                            |
 | ------------------- | ------------------------- | ------------------- | ---------------- | ------------------------------------------------------ |
@@ -148,7 +184,7 @@ The Mode Data block represents one entry in the `RGBController::modes` vector.  
 
 ## Zone Data
 
-The Zone Data block represents one entry in the `RGBController::zones` vector.
+The Zone Data block represents one entry in the `RGBController::zones` vector.  This data block is provided by `RGBController::GetZoneDescriptionData()`.  Portions of this block are omitted if the requested protocol level is below the listed value.
 
 | Size                   | Format                            | Name                | Protocol Version | Description                                                                            |
 | ---------------------- | --------------------------------- | ------------------- | ---------------- | -------------------------------------------------------------------------------------- |
@@ -169,7 +205,7 @@ The Zone Data block represents one entry in the `RGBController::zones` vector.
 
 ## Segment Data
 
-The Segment Data block represents one entry in the `RGBController::zones::segments` vector.  This data block was introduced in protocol version 4.
+The Segment Data block represents one entry in the `RGBController::zones::segments` vector.  This data block is provided by `RGBController::GetSegmentDescriptionData()`.  Portions of this block are omitted if the requested protocol level is below the listed value.
 
 | Size               | Format                 | Name               | Protocol Version | Description                                                                            |
 | ------------------ | ---------------------- | ------------------ | ---------------- | -------------------------------------------------------------------------------------- |
@@ -183,7 +219,7 @@ The Segment Data block represents one entry in the `RGBController::zones::segmen
 
 ## Matrix Map Data
 
-The Matrix Map Data block represents the matrix_map_type type.  This data block was introduced in protocol version 0.
+The Matrix Map Data block represents the matrix_map_type type.  This data block is provided by `RGBController::GetMatrixMapDescriptionData()`.  Portions of this block are omitted if the requested protocol level is below the listed value.
 
 | Size                   | Format                                             | Name              | Protocol Version | Description       |
 | ---------------------- | -------------------------------------------------- | ----------------- | ---------------- | ----------------- |
@@ -193,7 +229,7 @@ The Matrix Map Data block represents the matrix_map_type type.  This data block 
 
 ## LED Data
 
-The LED Data block represents one entry in the `RGBController::leds` vector.
+The LED Data block represents one entry in the `RGBController::leds` vector.  This data block is provided by `RGBController::GetLEDDescriptionData()`.  Portions of this block are omitted if the requested protocol level is below the listed value.
 
 | Size                | Format                    | Name                | Protocol Version | Description                                            |
 | ------------------- | ------------------------- | ------------------- | ---------------- | ------------------------------------------------------ |
@@ -226,11 +262,42 @@ The server responds to this request with a single `unsigned int`, size 4, contai
 
 The client uses this ID to send the client's null-terminated name string to the server.  The size of the packet is the size of the string including the null terminator.  In C, this is strlen() + 1.  There is no response from the server for this packet.
 
+## NET_PACKET_ID_SET_SERVER_NAME
+
+### Server Only [Size: Variable]
+
+The server uses this ID to send the server's null-terminated name string to the client.  The size of the packet is the size of the string including the null terminator.  In C, this is strlen() + 1.  There is no response from the server for this packet.
+
 ## NET_PACKET_ID_DEVICE_LIST_UPDATED
 
 ### Server Only [Size: 0]
 
 The server uses this ID to notify a client that the server's device list has been updated.  Upon receiving this packet, clients should synchronize their local device lists with the server by requesting size and controller data again.  This packet contains no data.
+
+## NET_PACKET_ID_DETECTION_STARTED
+
+### Server Only [Size: 0]
+
+The server uses this ID to notifiy a client that the server's detection process has started.
+
+## NET_PACKET_ID_DETECTION_PROGRESS_CHANGED
+
+### Server Only [Size: Variable]
+
+The server uses this ID to notify a client that the server's detection progress has changed.  The format of the block is shown below.
+
+| Size     | Format                     | Name              | Protocol Version | Description                                            |
+| -------- | -------------------------- | ----------------- | ---------------- | ------------------------------------------------------ |
+| 4        | unsigned int               | data_size         | 6                | Size of all data in packet                             |
+| 4        | unsigned int               | detection_percent | 6                | Detection percent                                      |
+| 2        | unsigned short             | string_length     | 6                | Length of detection string, including null termination |
+| Variable | char[string_length]        | detection_string  | 6                | Detection string value, including null termination     |
+
+## NET_PACKET_ID_DETECTION_COMPLETE
+
+### Server Only [Size: 0]
+
+The server uses this ID to notify a client that the server's detection process has completed.
 
 ## NET_PACKET_ID_REQUEST_RESCAN_DEVICES
 
@@ -238,7 +305,7 @@ The server uses this ID to notify a client that the server's device list has bee
 
 The client uses this ID to request the server rescan its devices.
 
-## NET_PACKET_ID_REQUEST_PROFILE_LIST
+## NET_PACKET_ID_PROFILEMANAGER_GET_PROFILE_LIST
 
 ### Request [Size: 0]
 
@@ -263,13 +330,13 @@ The profile data block represents the information of one profile.  This data blo
 | 2                | unsigned short         | profile_name_len | 2                | Length of profile name string, including null termination |
 | profile_name_len | char[profile_name_len] | profile_name     | 2                | Profile name string value, including null termination     |
 
-## NET_PACKET_ID_REQUEST_SAVE_PROFILE
+## NET_PACKET_ID_PROFILEMANAGER_SAVE_PROFILE
 
 ### Client Only [Size: Variable]
 
 The client uses this ID to command the server to save the current configuration to a profile.  It passes the name of the profile to save as a null-terminated string.  The size of the packet is the size of the string including the null terminator.  In C, this is strlen() + 1.  There is no response from the server for this packet.
 
-## NET_PACKET_ID_REQUEST_LOAD_PROFILE
+## NET_PACKET_ID_PROFILEMANAGER_LOAD_PROFILE
 
 ### Client Only [Size: Variable]
 
@@ -277,13 +344,19 @@ The client uses this ID to command the server to load the given profile.  It pas
 
 Calling this function will not actually update the controllers.  Instead, the controller states will be updated from the profile on the server side.  After sending this request, the client should re-request all controller states from the server so that the client controller states match the server states loaded from the profile.  After requesting all of the controller data, the client shall call UpdateMode() on all controllers to apply the updated state.
 
-## NET_PACKET_ID_REQUEST_DELETE_PROFILE
+## NET_PACKET_ID_PROFILEMANAGER_DELETE_PROFILE
 
 ### Client Only [Size: Variable]
 
 The client uses this ID to command the server to delete the given profile.  It passes the name of the profile to delete as a null-terminated string.  The size of the packet is the size of the string including the null terminator.  In C, this is strlen() + 1.  There is no response from the server for this packet.
 
-## NET_PACKET_ID_REQUEST_PLUGIN_LIST
+## NET_PACKET_ID_PROFILEMANAGER_UPLOAD_PROFILE
+
+## NET_PACKET_ID_PROFILEMANAGER_DOWNLOAD_PROFILE
+
+## NET_PACKET_ID_PROFILEMANAGER_GET_ACTIVE_PROFILE
+
+## NET_PACKET_ID_PLUGINMANAGER_GET_PLUGIN_LIST
 
 ### Request [Size: 0]
 
@@ -314,11 +387,11 @@ The plugin data block represents the information of one plugin.  This data block
 | 4                      | unsigned int                 | plugin_index            | 4                | Plugin index value                                              |
 | 4                      | unsigned int                 | plugin_protocol_version | 4                | Plugin protocol version value                                   |
 
-## NET_PACKET_ID_PLUGIN_SPECIFIC
+## NET_PACKET_ID_PLUGINMANAGER_PLUGIN_SPECIFIC
 
 ### Request [Size: Variable]
 
-This packet is used to send data to a plugin.  The `pkt_dev_idx` field in the header specifies which plugin to send to and corresponds to the `plugin_index` field in the plugin list.  The first 4 bytes of the data is the plugin packet type, the rest of the packet is plugin-specific.
+This packet is used to send data to a plugin.  The `pkt_dev_id` field in the header specifies which plugin to send to and corresponds to the `plugin_index` field in the plugin list.  The first 4 bytes of the data is the plugin packet type, the rest of the packet is plugin-specific.
 
 List of plugins that currently support this:
 
@@ -328,11 +401,17 @@ List of plugins that currently support this:
 
 The response is optionally generated by the plugin.  The data in the packet is plugin-specific.
 
+## NET_PACKET_ID_SETTINGSMANAGER_GET_SETTINGS
+
+## NET_PACKET_ID_SETTINGSMANAGER_SET_SETTINGS
+
+## NET_PACKET_ID_SETTINGSMANAGER_SAVE_SETTINGS
+
 ## NET_PACKET_ID_RGBCONTROLLER_RESIZEZONE
 
 ### Client Only [Size: 8]
 
-The client uses this ID to call the ResizeZone() function of an RGBController device.  The packet data contains a data block.  The format of the block is shown below.  The `pkt_dev_idx` of this request's header indicates which controller you are calling ResizeZone() on.
+The client uses this ID to call the ResizeZone() function of an RGBController device.  The packet data contains a data block.  The format of the block is shown below.  The `pkt_dev_id` of this request's header indicates which controller you are calling ResizeZone() on.  See the [Device IDs](#device-ids) section for more information.
 
 | Size | Format | Name     | Description          |
 | ---- | ------ | -------- | -------------------- |
@@ -343,13 +422,13 @@ The client uses this ID to call the ResizeZone() function of an RGBController de
 
 ### Client Only [Size: 4]
 
-The client uses this ID to call the ClearSegments() function of an RGBController device.  The packet contains the index of the zone to clear segments on, type int (size 4).  The `pkt_dev_idx` of this request's header indicates which controller you are calling ClearSegments() on.
+The client uses this ID to call the ClearSegments() function of an RGBController device.  The packet contains the index of the zone to clear segments on, type int (size 4).  The `pkt_dev_id` of this request's header indicates which controller you are calling ClearSegments() on.  See the [Device IDs](#device-ids) section for more information.
 
 ## NET_PACKET_ID_RGBCONTROLLER_ADDSEGMENT
 
 ### Client Only [Size: Variable]
 
-The client uses this ID to call the AddSegment() function of an RGBController device.  The packet contains a data block.  The format of the block is shown below.  The `pkt_dev_idx` of this request's header indicates which controller you are calling AddSegment() on.
+The client uses this ID to call the AddSegment() function of an RGBController device.  The packet contains a data block.  The format of the block is shown below.  The `pkt_dev_id` of this request's header indicates which controller you are calling AddSegment() on.  See the [Device IDs](#device-ids) section for more information.
 
 | Size             | Format                 | Name             | Description                                               |
 | ---------------- | ---------------------- | ---------------- | --------------------------------------------------------- |
@@ -361,7 +440,7 @@ The client uses this ID to call the AddSegment() function of an RGBController de
 
 ### Client Only [Size: Variable]
 
-The client uses this ID to call the UpdateLEDs() function of an RGBController device.  The packet data contains a data block.  The format of the block is shown below.  The `pkt_dev_idx` of this request's header indicates which controller you are calling UpdateLEDs() on.
+The client uses this ID to call the UpdateLEDs() function of an RGBController device.  The packet data contains a data block.  The format of the block is shown below.  The `pkt_dev_id` of this request's header indicates which controller you are calling UpdateLEDs() on.  See the [Device IDs](#device-ids) section for more information.
 
 | Size           | Format               | Name       | Description                         |
 | -------------- | -------------------- | ---------- | ----------------------------------- |
@@ -373,7 +452,7 @@ The client uses this ID to call the UpdateLEDs() function of an RGBController de
 
 ### Client Only [Size: Variable]
 
-The client uses this ID to call the UpdateZoneLEDs() function of an RGBController device.  The packet data contains a data block.  The format of the data block is shown below.  The `pkt_dev_idx` of this request's header indicates which controller you are calling UpdateZoneLEDs() on.
+The client uses this ID to call the UpdateZoneLEDs() function of an RGBController device.  The packet data contains a data block.  The format of the data block is shown below.  The `pkt_dev_id` of this request's header indicates which controller you are calling UpdateZoneLEDs() on.  See the [Device IDs](#device-ids) section for more information.
 
 | Size           | Format               | Name       | Description                       |
 | -------------- | -------------------- | ---------- | --------------------------------- |
@@ -386,7 +465,7 @@ The client uses this ID to call the UpdateZoneLEDs() function of an RGBControlle
 
 ### Client Only [Size: 8]
 
-The client uses this ID to call the UpdateSingleLED() function of an RGBController device.  The packet data contains a data block.  The format of the data block is shown below.  The `pkt_dev_idx` of this request's header indicates which controller you are calling UpdateSingleLED() on.
+The client uses this ID to call the UpdateSingleLED() function of an RGBController device.  The packet data contains a data block.  The format of the data block is shown below.  The `pkt_dev_id` of this request's header indicates which controller you are calling UpdateSingleLED() on.  See the [Device IDs](#device-ids) section for more information.
 
 | Size | Format   | Name      | Description |
 | ---- | -------- | --------- | ----------- |
@@ -397,13 +476,13 @@ The client uses this ID to call the UpdateSingleLED() function of an RGBControll
 
 ### Client Only [Size: 0]
 
-The client uses this ID to call the SetCustomMode() function of an RGBController device.  The packet contains no data.  The `pkt_dev_idx` of this request's header indicates which controller you are calling SetCustomMode() on.
+The client uses this ID to call the SetCustomMode() function of an RGBController device.  The packet contains no data.  The `pkt_dev_id` of this request's header indicates which controller you are calling SetCustomMode() on.  See the [Device IDs](#device-ids) section for more information.
 
 ## NET_PACKET_ID_RGBCONTROLLER_UPDATEMODE
 
 ### Client Only [Size: Variable]
 
-The client uses this ID to call the UpdateMode() function of an RGBController device.  The packet contains a data block.  The format of the data block is shown below.  The `pkt_dev_idx` of this request's header indicates which controller you are calling UpdateMode() on.
+The client uses this ID to call the UpdateMode() function of an RGBController device.  The packet contains a data block.  The format of the data block is shown below.  The `pkt_dev_id` of this request's header indicates which controller you are calling UpdateMode() on.  See the [Device IDs](#device-ids) section for more information.
 
 | Size                | Format                    | Name                | Protocol Version | Description                                            |
 | ------------------- | ------------------------- | ------------------- | ---------------- | ------------------------------------------------------ |
@@ -415,4 +494,12 @@ The client uses this ID to call the UpdateMode() function of an RGBController de
 
 ### Client Only [Size: Variable]
 
-The client uses this ID to call the SaveMode() function of an RGBController device.  The packet contains a data block.  The format of the data block is the same as for [NET_PACKET_ID_RGBCONTROLLER_UPDATEMODE](#net_packet_id_rgbcontroller_updatemode).  The `pkt_dev_idx` of this request's header indicates which controller you are calling SaveMode() on.
+The client uses this ID to call the SaveMode() function of an RGBController device.  The packet contains a data block.  The format of the data block is the same as for [NET_PACKET_ID_RGBCONTROLLER_UPDATEMODE](#net_packet_id_rgbcontroller_updatemode).  The `pkt_dev_id` of this request's header indicates which controller you are calling SaveMode() on.
+
+## NET_PACKET_ID_RGBCONTROLLER_UPDATEZONEMODE
+
+The client uses this ID to call the UpdateZoneMode() function of an RGBController device.  The packet contains a data block.  The format of the data block is shown below.  The `pkt_dev_id` of this request's header indicates which controller you are calling UpdateZoneMode() on.  See the [Device IDs](#device-ids) section for more information.
+
+## NET_PACKET_ID_RGBCONTROLLER_SIGNALUPDATE
+
+The server uses this ID to signal the client that SignalUpdate() was called on an RGBController device.  The packet contains a data block.  The format of the data block is shown below.  The `pkt_dev_id` of this request's header indicates which controller signalled SignalUpdate().  See the [Device IDs](#device-ids) section for more information.
