@@ -15,6 +15,7 @@
 #include "i2c_smbus.h"
 #include "filesystem.h"
 
+class LogManager;
 class PluginManagerInterface;
 class ProfileManager;
 class RGBController;
@@ -45,6 +46,7 @@ public:
     | Resource Accessors                                    |
     \*-----------------------------------------------------*/
     virtual filesystem::path                    GetConfigurationDirectory()                                                                         = 0;
+    virtual LogManager*                         GetLogManager()                                                                                     = 0;
     virtual std::vector<i2c_smbus_interface*> & GetI2CBusses()                                                                                      = 0;
     virtual PluginManagerInterface*             GetPluginManager()                                                                                  = 0;
     virtual ProfileManager*                     GetProfileManager()                                                                                 = 0;
