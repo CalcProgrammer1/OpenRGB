@@ -943,6 +943,7 @@
 #define SAPPHIRE_NAVI21_TOXIC_SUB_DEV                   0xF440
 #define SAPPHIRE_NAVI21_TOXIC_SUB_DEV1                  0xF441
 #define SAPPHIRE_NAVI31_NITRO_PLUS_SUB_DEV              0xE471
+#define SAPPHIRE_NAVI44_PURE_XT_SUB_DEV                 0x493E
 #define SAPPHIRE_NAVI48_NITRO_PLUS_SUB_DEV              0xE489
 #define SAPPHIRE_NAVI48_NITRO_PLUS_SUB_DEV1             0xE493
 #define SAPPHIRE_NAVI48_PURE_SUB_DEV                    0x4499
