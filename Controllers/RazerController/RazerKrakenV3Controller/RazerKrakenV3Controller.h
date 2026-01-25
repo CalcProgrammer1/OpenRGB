@@ -35,7 +35,7 @@ PACK(struct razer_kraken_v3_request_report
 {
     unsigned char report_id;     // usb_buf[0]
     unsigned char command_id;    // usb_buf[1]
-    unsigned char arguments[11]; // usb_buf[2...]
+    unsigned char arguments[13]; // usb_buf[2...]
 });
 
 class RazerKrakenV3Controller

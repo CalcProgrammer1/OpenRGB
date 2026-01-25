@@ -7842,6 +7842,72 @@ static const razer_device kraken_v3_device =
 };
 
 /*-------------------------------------------------------------*\
+|  Razer Kraken Kitty V2 Pro 1532:0554                          |
+|                                                               |
+|  Zone "Left Cat Ear"                                          |
+|       Single                                                  |
+|       1 LED                                                   |
+|  Zone "Right Cat Ear"                                         |
+|       Single                                                  |
+|       1 LED                                                   |
+|  Zone "Left Logo"                                             |
+|       Single                                                  |
+|       1 LED                                                   |
+|  Zone "Right Logo"                                            |
+|       Single                                                  |
+|       1 LED                                                   |
+\*-------------------------------------------------------------*/
+static const razer_zone kraken_kitty_v2_pro_left_ear_zone =
+{
+    "Left Cat Ear",
+    ZONE_TYPE_SINGLE,
+    1,
+    1
+};
+static const razer_zone kraken_kitty_v2_pro_right_ear_zone =
+{
+    "Right Cat Ear",
+    ZONE_TYPE_SINGLE,
+    1,
+    1
+};
+static const razer_zone kraken_kitty_v2_pro_left_logo_zone =
+{
+    "Left Logo",
+    ZONE_TYPE_SINGLE,
+    1,
+    1
+};
+static const razer_zone kraken_kitty_v2_pro_right_logo_zone =
+{
+    "Right Logo",
+    ZONE_TYPE_SINGLE,
+    1,
+    1
+};
+
+static const razer_device kraken_kitty_v2_pro_device =
+{
+    "Razer Kraken Kitty V2 Pro",
+    RAZER_KRAKEN_KITTY_V2_PRO_PID,
+    DEVICE_TYPE_HEADSET,
+    RAZER_MATRIX_TYPE_NONE,
+    0,
+    1,
+    4,
+    {
+        &kraken_kitty_v2_pro_left_ear_zone,
+        &kraken_kitty_v2_pro_right_ear_zone,
+        &kraken_kitty_v2_pro_left_logo_zone,
+        &kraken_kitty_v2_pro_right_logo_zone,
+        NULL,
+        NULL
+    },
+    NULL
+};
+
+
+/*-------------------------------------------------------------*\
 |  Razer Kraken V4 Wired 1532:056B                              |
 |                                                               |
 |  Zone "Headset"                                               |
@@ -9185,6 +9251,7 @@ const razer_device* razer_device_list[] =
     &kraken_v3_hs_device,
     &kraken_v3_x_device,
     &kraken_v3_device,
+    &kraken_kitty_v2_pro_device,
     &kraken_v4_wired_device,
     &kraken_v4_wireless_device,
     &kraken_kitty_v3_pro_wired_device,

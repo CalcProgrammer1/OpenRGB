@@ -228,6 +228,7 @@
 #define RAZER_KRAKEN_V3_HYPERSENSE_PID                  0x0533
 #define RAZER_KRAKEN_V3_X_PID                           0x0537
 #define RAZER_KRAKEN_V3_PID                             0x0549
+#define RAZER_KRAKEN_KITTY_V2_PRO_PID                   0x0554
 #define RAZER_KRAKEN_V4_WIRED_PID                       0x056B
 #define RAZER_KRAKEN_V4_WIRELESS_PID                    0x056C
 #define RAZER_KRAKEN_KITTY_V3_PRO_WIRED_PID             0x0587
