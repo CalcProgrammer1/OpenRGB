@@ -248,6 +248,11 @@ std::vector<i2c_smbus_interface*> & ResourceManager::GetI2CBusses()
     return DetectionManager::get()->GetI2CBuses();
 }
 
+LogManager* ResourceManager::GetLogManager()
+{
+    return LogManager::get();
+}
+
 PluginManagerInterface* ResourceManager::GetPluginManager()
 {
     return(plugin_manager);
