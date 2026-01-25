@@ -13,6 +13,7 @@
 
 #include "RGBController.h"
 #include "ClevoKeyboardController.h"
+#include "ClevoKeyboardDevices.h"
 
 class RGBController_ClevoKeyboard : public RGBController
 {
@@ -31,5 +32,7 @@ public:
     void        DeviceUpdateMode();
 
 private:
-    ClevoKeyboardController*   controller;
+    ClevoKeyboardController*        controller;
+    std::vector<RGBColor*>          buffer_map;
+    RGBColor                        null_color;
 };
