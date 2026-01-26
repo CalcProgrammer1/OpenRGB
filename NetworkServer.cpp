@@ -55,6 +55,8 @@ NetworkClientInfo::NetworkClientInfo()
     client_sock             = INVALID_SOCKET;
     client_listen_thread    = nullptr;
     client_protocol_version = 0;
+    client_is_local         = false;
+    client_is_local_client  = false;
 }
 
 NetworkClientInfo::~NetworkClientInfo()
@@ -84,6 +86,11 @@ NetworkServer::NetworkServer()
     legacy_workaround_enabled   = false;
     controller_next_idx         = 0;
     controller_updating         = false;
+    server_flags                = NET_SERVER_FLAG_SUPPORTS_RGBCONTROLLER
+                                | NET_SERVER_FLAG_SUPPORTS_PROFILEMANAGER
+                                | NET_SERVER_FLAG_SUPPORTS_PLUGINMANAGER
+                                | NET_SERVER_FLAG_SUPPORTS_SETTINGSMANAGER
+                                | NET_SERVER_FLAG_SUPPORTS_DETECTION;
 
     for(int i = 0; i < MAXSOCK; i++)
     {
@@ -773,12 +780,22 @@ void NetworkServer::ConnectionThreadFunction(int socket_idx)
             struct sockaddr_in *s_4 = (struct sockaddr_in *)&tmp_addr;
             inet_ntop(AF_INET, &s_4->sin_addr, ipstr, sizeof(ipstr));
             client_info->client_ip = ipstr;
+
+            if(s_4->sin_addr.s_addr == htonl(INADDR_LOOPBACK))
+            {
+                client_info->client_is_local = true;
+            }
         }
         else
         {
             struct sockaddr_in6 *s_6 = (struct sockaddr_in6 *)&tmp_addr;
             inet_ntop(AF_INET6, &s_6->sin6_addr, ipstr, sizeof(ipstr));
             client_info->client_ip = ipstr;
+
+            if(IN6_IS_ADDR_LOOPBACK(&s_6->sin6_addr))
+            {
+                client_info->client_is_local = true;
+            }
         }
 
         /*---------------------------------------------------------*\
@@ -995,12 +1012,12 @@ void NetworkServer::ListenThreadFunction(NetworkClientInfo * client_info)
                 SendReply_ServerString(client_sock);
                 break;
 
-            case NET_PACKET_ID_SET_CLIENT_NAME:
-                if(data == NULL)
-                {
-                    break;
-                }
+            case NET_PACKET_ID_SET_CLIENT_FLAGS:
+                ProcessRequest_ClientFlags(client_sock, header.pkt_size, data);
+                SendReply_ServerFlags(client_sock);
+                break;
 
+            case NET_PACKET_ID_SET_CLIENT_NAME:
                 ProcessRequest_ClientString(client_sock, header.pkt_size, data);
                 break;
 
@@ -1383,6 +1400,29 @@ listen_done:
 /*---------------------------------------------------------*\
 | Server Protocol functions                                 |
 \*---------------------------------------------------------*/
+void NetworkServer::ProcessRequest_ClientFlags(SOCKET client_sock, unsigned int data_size, char * data)
+{
+    if((data_size == sizeof(unsigned int)) && (data != NULL))
+    {
+        ServerClientsMutex.lock();
+        for(unsigned int this_idx = 0; this_idx < ServerClients.size(); this_idx++)
+        {
+            if(ServerClients[this_idx]->client_sock == client_sock)
+            {
+                ServerClients[this_idx]->client_flags = *(unsigned int *)data;
+                break;
+            }
+        }
+
+        ServerClientsMutex.unlock();
+
+        /*-----------------------------------------------------*\
+        | Client info has changed, call the callbacks           |
+        \*-----------------------------------------------------*/
+        SignalClientInfoChanged();
+    }
+}
+
 void NetworkServer::ProcessRequest_ClientProtocolVersion(SOCKET client_sock, unsigned int data_size, char * data)
 {
     unsigned int protocol_version = 0;
@@ -1416,23 +1456,26 @@ void NetworkServer::ProcessRequest_ClientProtocolVersion(SOCKET client_sock, uns
 
 void NetworkServer::ProcessRequest_ClientString(SOCKET client_sock, unsigned int data_size, char * data)
 {
-    ServerClientsMutex.lock();
-    for(unsigned int this_idx = 0; this_idx < ServerClients.size(); this_idx++)
+    if(data != NULL)
     {
-        if(ServerClients[this_idx]->client_sock == client_sock)
+        ServerClientsMutex.lock();
+        for(unsigned int this_idx = 0; this_idx < ServerClients.size(); this_idx++)
         {
-            ServerClients[this_idx]->client_string.assign(data, data_size);
-            ServerClients[this_idx]->client_string = StringUtils::remove_null_terminating_chars(ServerClients[this_idx]->client_string);
-            break;
+            if(ServerClients[this_idx]->client_sock == client_sock)
+            {
+                ServerClients[this_idx]->client_string.assign(data, data_size);
+                ServerClients[this_idx]->client_string = StringUtils::remove_null_terminating_chars(ServerClients[this_idx]->client_string);
+                break;
+            }
         }
+
+        ServerClientsMutex.unlock();
+
+        /*-----------------------------------------------------*\
+        | Client info has changed, call the callbacks           |
+        \*-----------------------------------------------------*/
+        SignalClientInfoChanged();
     }
-
-    ServerClientsMutex.unlock();
-
-    /*---------------------------------------------------------*\
-    | Client info has changed, call the callbacks               |
-    \*---------------------------------------------------------*/
-    SignalClientInfoChanged();
 }
 
 void NetworkServer::ProcessRequest_RescanDevices()
@@ -2047,10 +2090,49 @@ void NetworkServer::SendReply_ProtocolVersion(SOCKET client_sock)
     send_in_progress.unlock();
 }
 
+void NetworkServer::SendReply_ServerFlags(SOCKET client_sock)
+{
+    /*-----------------------------------------------------*\
+    | Send server flags to client only if protocol is 6 or  |
+    | greater                                               |
+    \*-----------------------------------------------------*/
+    ServerClientsMutex.lock();
+    for(unsigned int this_idx = 0; this_idx < ServerClients.size(); this_idx++)
+    {
+        if(ServerClients[this_idx]->client_sock == client_sock)
+        {
+            if(ServerClients[this_idx]->client_protocol_version >= 6)
+            {
+                unsigned int    flags_value = server_flags;
+                NetPacketHeader reply_hdr;
+
+                /*-----------------------------------------*\
+                | If client requested local client, grant   |
+                | it if the client is a local connection    |
+                \*-----------------------------------------*/
+                if((ServerClients[this_idx]->client_flags & NET_CLIENT_FLAG_REQUEST_LOCAL_CLIENT)
+                && (ServerClients[this_idx]->client_is_local))
+                {
+                    ServerClients[this_idx]->client_is_local_client = true;
+                    flags_value |= NET_SERVER_FLAG_LOCAL_CLIENT;
+                }
+
+                InitNetPacketHeader(&reply_hdr, 0, NET_PACKET_ID_SET_SERVER_FLAGS, sizeof(flags_value));
+
+                send_in_progress.lock();
+                send(client_sock, (char *)&reply_hdr, sizeof(NetPacketHeader), MSG_NOSIGNAL);
+                send(client_sock, (char *)&flags_value, reply_hdr.pkt_size, MSG_NOSIGNAL);
+                send_in_progress.unlock();
+            }
+        }
+    }
+    ServerClientsMutex.unlock();
+}
+
 void NetworkServer::SendReply_ServerString(SOCKET client_sock)
 {
     /*---------------------------------------------------------*\
-    | Send server string to client only if protocol is 5 or     |
+    | Send server string to client only if protocol is 6 or     |
     | greater                                                   |
     \*---------------------------------------------------------*/
     ServerClientsMutex.lock();
@@ -2058,7 +2140,7 @@ void NetworkServer::SendReply_ServerString(SOCKET client_sock)
     {
         if(ServerClients[this_idx]->client_sock == client_sock)
         {
-            if(ServerClients[this_idx]->client_protocol_version >= 5)
+            if(ServerClients[this_idx]->client_protocol_version >= 6)
             {
                 NetPacketHeader reply_hdr;
 
