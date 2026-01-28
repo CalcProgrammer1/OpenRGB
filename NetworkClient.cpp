@@ -47,6 +47,11 @@ NetworkClient::NetworkClient()
 {
     port_ip                             = "127.0.0.1";
     port_num                            = OPENRGB_SDK_PORT;
+    client_flags                        = NET_CLIENT_FLAG_SUPPORTS_RGBCONTROLLER
+                                        | NET_CLIENT_FLAG_SUPPORTS_PROFILEMANAGER
+                                        | NET_CLIENT_FLAG_SUPPORTS_SETTINGSMANAGER;
+    client_flags_sent                   = false;
+    client_is_local_client              = false;
     client_string_sent                  = false;
     client_sock                         = -1;
     detection_percent                   = 100;
@@ -56,6 +61,7 @@ NetworkClient::NetworkClient()
     server_connected                    = false;
     server_controller_ids_requested     = false;
     server_controller_ids_received      = false;
+    server_flags                        = 0;
     server_protocol_version             = 0;
     server_reinitialize                 = false;
     change_in_progress                  = false;
@@ -82,6 +88,11 @@ std::string NetworkClient::GetIP()
     return(port_ip);
 }
 
+bool NetworkClient::GetLocal()
+{
+    return(client_is_local_client);
+}
+
 unsigned short NetworkClient::GetPort()
 {
     return(port_num);
@@ -94,7 +105,7 @@ unsigned int NetworkClient::GetProtocolVersion()
 
 bool NetworkClient::GetOnline()
 {
-    return(server_connected && client_string_sent && protocol_initialized && server_initialized);
+    return(server_connected && client_string_sent && protocol_initialized && server_flags_initialized && server_initialized);
 }
 
 std::string NetworkClient::GetServerName()
@@ -102,9 +113,50 @@ std::string NetworkClient::GetServerName()
     return(server_name);
 }
 
+bool NetworkClient::GetSupportsRGBControllerAPI()
+{
+    return(server_flags & NET_SERVER_FLAG_SUPPORTS_RGBCONTROLLER);
+}
+
+bool NetworkClient::GetSupportsProfileManagerAPI()
+{
+    return(server_flags & NET_SERVER_FLAG_SUPPORTS_PROFILEMANAGER);
+}
+
+bool NetworkClient::GetSupportsPluginManagerAPI()
+{
+    return(server_flags & NET_SERVER_FLAG_SUPPORTS_PLUGINMANAGER);
+}
+
+bool NetworkClient::GetSupportsSettingsManagerAPI()
+{
+    return(server_flags & NET_SERVER_FLAG_SUPPORTS_SETTINGSMANAGER);
+}
+
+bool NetworkClient::GetSupportsDetectionAPI()
+{
+    return(server_flags & NET_SERVER_FLAG_SUPPORTS_DETECTION);
+}
+
 /*---------------------------------------------------------*\
 | Client Control functions                                  |
 \*---------------------------------------------------------*/
+void NetworkClient::RequestLocalClient(bool request_local)
+{
+    /*-----------------------------------------------------*\
+    | Set the request local client flag                     |
+    \*-----------------------------------------------------*/
+    client_flags |= NET_CLIENT_FLAG_REQUEST_LOCAL_CLIENT;
+
+    /*-----------------------------------------------------*\
+    | If we have already sent the flags, send again         |
+    \*-----------------------------------------------------*/
+    if(client_flags_sent)
+    {
+        SendData_ClientFlags();
+    }
+}
+
 void NetworkClient::SetIP(std::string new_ip)
 {
     if(server_connected == false)
@@ -784,6 +836,25 @@ void NetworkClient::ConnectionThreadFunction()
                     protocol_version = server_protocol_version;
                 }
 
+                /*-------------------------------------------------------------*\
+                | If the protocol version is less than 6, feature flags were    |
+                | not part of this protocol, initialize the server flags to a   |
+                | default value that represents what that protocol version      |
+                | supported.  Protocol 5 introduced rescan so set the supports  |
+                | detection flag.                                               |
+                \*-------------------------------------------------------------*/
+                if(protocol_version < 6)
+                {
+                    server_flags = NET_SERVER_FLAG_SUPPORTS_RGBCONTROLLER;
+
+                    if(protocol_version >= 5)
+                    {
+                        server_flags |= NET_SERVER_FLAG_SUPPORTS_DETECTION;
+                    }
+
+                    server_flags_initialized = true;
+                }
+
                 SignalNetworkClientUpdate(NETWORKCLIENT_UPDATE_REASON_PROTOCOL_NEGOTIATED);
 
                 protocol_initialized = true;
@@ -800,6 +871,16 @@ void NetworkClient::ConnectionThreadFunction()
                 SendData_ClientString();
 
                 client_string_sent = true;
+            }
+
+            if((!client_flags_sent) && (protocol_version >= 6))
+            {
+                /*-----------------------------------------------------*\
+                | Once server is connected, send client string          |
+                \*-----------------------------------------------------*/
+                SendData_ClientFlags();
+
+                client_flags_sent = true;
             }
 
             /*---------------------------------------------------------*\
@@ -983,12 +1064,11 @@ void NetworkClient::ListenThreadFunction()
                 break;
 
             case NET_PACKET_ID_SET_SERVER_NAME:
-                if(data == NULL)
-                {
-                    break;
-                }
-
                 ProcessRequest_ServerString(header.pkt_size, data);
+                break;
+
+            case NET_PACKET_ID_SET_SERVER_FLAGS:
+                ProcessRequest_ServerFlags(header.pkt_size, data);
                 break;
 
             case NET_PACKET_ID_DEVICE_LIST_UPDATED:
@@ -1036,6 +1116,11 @@ void NetworkClient::ListenThreadFunction()
 
 listen_done:
     LOG_INFO("[%s] Client socket has been closed", NETWORKCLIENT);
+    client_flags                        = NET_CLIENT_FLAG_SUPPORTS_RGBCONTROLLER
+                                        | NET_CLIENT_FLAG_SUPPORTS_PROFILEMANAGER
+                                        | NET_CLIENT_FLAG_SUPPORTS_SETTINGSMANAGER;
+    client_flags_sent                   = false;
+    client_is_local_client              = false;
     client_string_sent                  = false;
     controller_data_requested           = false;
     controller_data_received            = false;
@@ -1043,6 +1128,8 @@ listen_done:
     requested_controller_index          = 0;
     server_controller_ids_requested     = false;
     server_controller_ids_received      = false;
+    server_flags                        = 0;
+    server_flags_initialized            = false;
     server_initialized                  = false;
     server_connected                    = false;
 
@@ -1324,8 +1411,38 @@ void NetworkClient::ProcessRequest_RGBController_SignalUpdate(unsigned int data_
     controller->SignalUpdate(update_reason);
 }
 
+void NetworkClient::ProcessRequest_ServerFlags(unsigned int data_size, char * data)
+{
+    if(data == NULL || data_size < sizeof(unsigned int))
+    {
+        return;
+    }
+
+    server_flags = *(unsigned int *)data;
+
+    /*-----------------------------------------------------*\
+    | Update the local client status based on the server's  |
+    | response                                              |
+    \*-----------------------------------------------------*/
+    if(server_flags & NET_SERVER_FLAG_LOCAL_CLIENT)
+    {
+        client_is_local_client = true;
+    }
+    else
+    {
+        client_is_local_client = false;
+    }
+
+    server_flags_initialized = true;
+}
+
 void NetworkClient::ProcessRequest_ServerString(unsigned int data_size, char * data)
 {
+    if(data == NULL)
+    {
+        return;
+    }
+
     server_name.assign(data, data_size);
     server_name = StringUtils::remove_null_terminating_chars(server_name);
 
@@ -1333,6 +1450,18 @@ void NetworkClient::ProcessRequest_ServerString(unsigned int data_size, char * d
     | Client info has changed, call the callbacks           |
     \*-----------------------------------------------------*/
     SignalNetworkClientUpdate(NETWORKCLIENT_UPDATE_REASON_SERVER_STRING_RECEIVED);
+}
+
+void NetworkClient::SendData_ClientFlags()
+{
+    NetPacketHeader reply_hdr;
+
+    InitNetPacketHeader(&reply_hdr, 0, NET_PACKET_ID_SET_CLIENT_FLAGS, sizeof(client_flags));
+
+    send_in_progress.lock();
+    send(client_sock, (char *)&reply_hdr, sizeof(NetPacketHeader), MSG_NOSIGNAL);
+    send(client_sock, (char *)&client_flags, reply_hdr.pkt_size, MSG_NOSIGNAL);
+    send_in_progress.unlock();
 }
 
 void NetworkClient::SendData_ClientString()
