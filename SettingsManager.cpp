@@ -54,7 +54,7 @@ json SettingsManager::GetSettings(std::string settings_key)
         }
     }
 
-    if(!ui_settings_key && ResourceManager::get()->IsLocalClient() && (ResourceManager::get()->GetLocalClientProtocolVersion() >= 6))
+    if(!ui_settings_key && ResourceManager::get()->IsLocalClient() && (ResourceManager::get()->GetLocalClient()->GetSupportsSettingsManagerAPI()))
     {
         /*-------------------------------------------------*\
         | If this is a local client, request the settings   |
@@ -102,7 +102,7 @@ void SettingsManager::SetSettings(std::string settings_key, json new_settings)
         }
     }
 
-    if(!ui_settings_key && ResourceManager::get()->IsLocalClient() && (ResourceManager::get()->GetLocalClientProtocolVersion() >= 6))
+    if(!ui_settings_key && ResourceManager::get()->IsLocalClient() && (ResourceManager::get()->GetLocalClient()->GetSupportsSettingsManagerAPI()))
     {
         /*-------------------------------------------------*\
         | If this is a local client, request the settings   |
@@ -195,7 +195,7 @@ void SettingsManager::LoadSettings(const filesystem::path& filename)
 
 void SettingsManager::SaveSettings()
 {
-    if(ResourceManager::get()->IsLocalClient() && (ResourceManager::get()->GetLocalClientProtocolVersion() >= 6))
+    if(ResourceManager::get()->IsLocalClient() && (ResourceManager::get()->GetLocalClient()->GetSupportsSettingsManagerAPI()))
     {
         /*-------------------------------------------------*\
         | If this is a local client, save the settings on   |
