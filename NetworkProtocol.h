@@ -44,11 +44,32 @@ extern const char openrgb_sdk_magic[OPENRGB_SDK_MAGIC_SIZE];
 
 typedef struct NetPacketHeader
 {
-    char                pkt_magic[4];               /* Magic value "ORGB" identifies beginning of packet    */
-    unsigned int        pkt_dev_id;                 /* Device ID                                            */
-    unsigned int        pkt_id;                     /* Packet ID                                            */
-    unsigned int        pkt_size;                   /* Packet size                                          */
+    char                pkt_magic[4];                   /* Magic value "ORGB" identifies beginning of packet    */
+    unsigned int        pkt_dev_id;                     /* Device ID                                            */
+    unsigned int        pkt_id;                         /* Packet ID                                            */
+    unsigned int        pkt_size;                       /* Packet size                                          */
 } NetPacketHeader;
+
+enum
+{
+    NET_CLIENT_FLAG_SUPPORTS_RGBCONTROLLER      = ( 1 << 0 ),   /* Client supports RGBController API            */
+    NET_CLIENT_FLAG_SUPPORTS_PROFILEMANAGER     = ( 1 << 1 ),   /* Client supports ProfileManager API           */
+    NET_CLIENT_FLAG_SUPPORTS_PLUGINMANAGER      = ( 1 << 2 ),   /* Client supports PluginManager API            */
+    NET_CLIENT_FLAG_SUPPORTS_SETTINGSMANAGER    = ( 1 << 3 ),   /* Client supports SettingsManager API          */
+
+    NET_CLIENT_FLAG_REQUEST_LOCAL_CLIENT        = ( 1 << 16 ),  /* Request local client                         */
+};
+
+enum
+{
+    NET_SERVER_FLAG_SUPPORTS_RGBCONTROLLER      = ( 1 << 0 ),   /* Server supports RGBController API            */
+    NET_SERVER_FLAG_SUPPORTS_PROFILEMANAGER     = ( 1 << 1 ),   /* Server supports ProfileManager API           */
+    NET_SERVER_FLAG_SUPPORTS_PLUGINMANAGER      = ( 1 << 2 ),   /* Server supports PluginManager API            */
+    NET_SERVER_FLAG_SUPPORTS_SETTINGSMANAGER    = ( 1 << 3 ),   /* Server supports SettingsManager API          */
+    NET_SERVER_FLAG_SUPPORTS_DETECTION          = ( 1 << 4 ),   /* Server supports detection functions          */
+
+    NET_SERVER_FLAG_LOCAL_CLIENT                = ( 1 << 16),   /* Confirm that client is local client          */
+};
 
 enum
 {
@@ -62,7 +83,12 @@ enum
 
     NET_PACKET_ID_SET_CLIENT_NAME               = 50,   /* Send client name string to server                    */
     NET_PACKET_ID_SET_SERVER_NAME               = 51,   /* Send server name string to client                    */
+    NET_PACKET_ID_SET_CLIENT_FLAGS              = 52,   /* Send client flags to server                          */
+    NET_PACKET_ID_SET_SERVER_FLAGS              = 53,   /* Send server flags to client                          */
 
+    /*----------------------------------------------------------------------------------------------------------*\
+    | Detection functions                                                                                        |
+    \*----------------------------------------------------------------------------------------------------------*/
     NET_PACKET_ID_DEVICE_LIST_UPDATED           = 100,  /* Indicate to clients that device list has updated     */
     NET_PACKET_ID_DETECTION_STARTED             = 101,  /* Indicate to clients that detection started           */
     NET_PACKET_ID_DETECTION_PROGRESS_CHANGED    = 102,  /* Indicate to clients that detection progress changed  */
