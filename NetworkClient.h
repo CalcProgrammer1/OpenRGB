@@ -54,14 +54,21 @@ public:
     \*-----------------------------------------------------*/
     bool                                GetConnected();
     std::string                         GetIP();
+    bool                                GetLocal();
     unsigned short                      GetPort();
     unsigned int                        GetProtocolVersion();
     bool                                GetOnline();
     std::string                         GetServerName();
+    bool                                GetSupportsRGBControllerAPI();
+    bool                                GetSupportsProfileManagerAPI();
+    bool                                GetSupportsPluginManagerAPI();
+    bool                                GetSupportsSettingsManagerAPI();
+    bool                                GetSupportsDetectionAPI();
 
     /*-----------------------------------------------------*\
     | Client Control functions                              |
     \*-----------------------------------------------------*/
+    void                                RequestLocalClient(bool request_local);
     void                                SetIP(std::string new_ip);
     void                                SetName(std::string new_name);
     void                                SetPort(unsigned short new_port);
@@ -128,6 +135,8 @@ private:
     | Client state variables                                |
     \*-----------------------------------------------------*/
     std::atomic<bool>                   client_active;
+    bool                                client_flags_sent;
+    bool                                client_is_local_client;
     bool                                client_string_sent;
     bool                                controller_data_received;
     bool                                controller_data_requested;
@@ -145,6 +154,7 @@ private:
     /*-----------------------------------------------------*\
     | Client information                                    |
     \*-----------------------------------------------------*/
+    unsigned int                        client_flags;
     std::string                         client_name;
     SOCKET                              client_sock;
     net_port                            port;
@@ -154,6 +164,8 @@ private:
     /*-----------------------------------------------------*\
     | Server information                                    |
     \*-----------------------------------------------------*/
+    unsigned int                        server_flags;
+    bool                                server_flags_initialized;
     std::string                         server_name;
     bool                                server_connected;
     bool                                server_initialized;
@@ -211,8 +223,10 @@ private:
     void                                ProcessRequest_DetectionProgressChanged(unsigned int data_size, char * data);
     void                                ProcessRequest_DeviceListChanged();
     void                                ProcessRequest_RGBController_SignalUpdate(unsigned int data_size, char * data, unsigned int dev_id);
+    void                                ProcessRequest_ServerFlags(unsigned int data_size, char * data);
     void                                ProcessRequest_ServerString(unsigned int data_size, char * data);
 
+    void                                SendData_ClientFlags();
     void                                SendData_ClientString();
     void                                SendRequest_ControllerIDs();
     void                                SendRequest_ProtocolVersion();
