@@ -57,10 +57,13 @@ public:
     ~NetworkClientInfo();
 
     SOCKET          client_sock;
+    unsigned int    client_flags;
     std::thread *   client_listen_thread;
     std::string     client_string;
     unsigned int    client_protocol_version;
     std::string     client_ip;
+    bool            client_is_local;
+    bool            client_is_local_client;
 };
 
 typedef struct
@@ -135,6 +138,7 @@ private:
     bool                                legacy_workaround_enabled;
     unsigned short                      port_num;
     std::mutex                          send_in_progress;
+    unsigned int                        server_flags;
     std::string                         server_name;
     std::atomic<bool>                   server_online;
     std::atomic<bool>                   server_listening;
@@ -208,6 +212,7 @@ private:
     /*-----------------------------------------------------*\
     | Server Protocol functions                             |
     \*-----------------------------------------------------*/
+    void                                ProcessRequest_ClientFlags(SOCKET client_sock, unsigned int data_size, char * data);
     void                                ProcessRequest_ClientProtocolVersion(SOCKET client_sock, unsigned int data_size, char * data);
     void                                ProcessRequest_ClientString(SOCKET client_sock, unsigned int data_size, char * data);
     void                                ProcessRequest_RescanDevices();
@@ -225,6 +230,7 @@ private:
     void                                SendReply_ControllerCount(SOCKET client_sock, unsigned int protocol_version);
     void                                SendReply_ControllerData(SOCKET client_sock, unsigned int dev_id, unsigned int protocol_version);
     void                                SendReply_ProtocolVersion(SOCKET client_sock);
+    void                                SendReply_ServerFlags(SOCKET client_sock);
     void                                SendReply_ServerString(SOCKET client_sock);
 
     void                                SendReply_ProfileList(SOCKET client_sock);

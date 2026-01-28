@@ -97,7 +97,7 @@ ProfileManager::~ProfileManager()
 
 void ProfileManager::DeleteProfile(std::string profile_name)
 {
-    if(ResourceManager::get()->IsLocalClient() && (ResourceManager::get()->GetLocalClientProtocolVersion() >= 6))
+    if(ResourceManager::get()->IsLocalClient() && (ResourceManager::get()->GetLocalClient()->GetSupportsProfileManagerAPI()))
     {
         ResourceManager::get()->GetLocalClient()->ProfileManager_DeleteProfile(profile_name);
     }
@@ -237,7 +237,7 @@ nlohmann::json ProfileManager::ReadProfileJSON(std::string profile_name)
 {
     nlohmann::json profile_json;
 
-    if(ResourceManager::get()->IsLocalClient() && (ResourceManager::get()->GetLocalClientProtocolVersion() >= 6))
+    if(ResourceManager::get()->IsLocalClient() && (ResourceManager::get()->GetLocalClient()->GetSupportsProfileManagerAPI()))
     {
         profile_json = nlohmann::json::parse(ResourceManager::get()->GetLocalClient()->ProfileManager_DownloadProfile(profile_name));
     }
@@ -303,7 +303,7 @@ bool ProfileManager::SaveProfile(std::string profile_name)
             profile_json["plugins"] = plugin_manager->OnProfileSave();
         }
 
-        if(ResourceManager::get()->IsLocalClient() && (ResourceManager::get()->GetLocalClientProtocolVersion() >= 6))
+        if(ResourceManager::get()->IsLocalClient() && (ResourceManager::get()->GetLocalClient()->GetSupportsProfileManagerAPI()))
         {
             /*---------------------------------------------*\
             | Upload the profile to the server              |
@@ -466,7 +466,7 @@ void ProfileManager::UpdateProfileList()
 {
     profile_list.clear();
 
-    if(ResourceManager::get()->IsLocalClient() && (ResourceManager::get()->GetLocalClientProtocolVersion() >= 6))
+    if(ResourceManager::get()->IsLocalClient() && (ResourceManager::get()->GetLocalClient()->GetSupportsProfileManagerAPI()))
     {
         char * profile_data = ResourceManager::get()->GetLocalClient()->ProfileManager_GetProfileList();
 

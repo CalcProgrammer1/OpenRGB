@@ -347,7 +347,7 @@ unsigned int ResourceManager::GetLocalClientProtocolVersion()
 
 bool ResourceManager::IsLocalClient()
 {
-    return(auto_connection_active);
+    return(auto_connection_active && (auto_connection_client != NULL) && auto_connection_client->GetLocal());
 }
 
 /*---------------------------------------------------------*\
@@ -406,7 +406,7 @@ bool ResourceManager::GetDetectionEnabled()
 
 unsigned int ResourceManager::GetDetectionPercent()
 {
-    if(auto_connection_active && auto_connection_client != NULL)
+    if(auto_connection_active && (auto_connection_client != NULL) && auto_connection_client->GetLocal())
     {
         return auto_connection_client->DetectionManager_GetDetectionPercent();
     }
@@ -418,7 +418,7 @@ unsigned int ResourceManager::GetDetectionPercent()
 
 std::string ResourceManager::GetDetectionString()
 {
-    if(auto_connection_active && auto_connection_client != NULL)
+    if(auto_connection_active && (auto_connection_client != NULL) && auto_connection_client->GetLocal())
     {
         return auto_connection_client->DetectionManager_GetDetectionString();
     }
@@ -435,7 +435,7 @@ void ResourceManager::RescanDevices()
     | instance is the local server, so send rescan requests |
     | to the automatic local connection client              |
     \*-----------------------------------------------------*/
-    if(auto_connection_active && auto_connection_client != NULL)
+    if(auto_connection_active && (auto_connection_client != NULL) && auto_connection_client->GetLocal())
     {
         auto_connection_client->SendRequest_RescanDevices();
     }
@@ -610,6 +610,7 @@ bool ResourceManager::AttemptLocalConnection()
     std::string titleString = "OpenRGB ";
     titleString.append(VERSION_STRING);
 
+    auto_connection_client->RequestLocalClient(true);
     auto_connection_client->SetName(titleString.c_str());
     auto_connection_client->StartClient();
 
