@@ -154,7 +154,7 @@ void Swatches::drawSwatches(const QSize &newSize)
     /*-----------------------------------------------------*\
     | Paint the swatch cluster                              |
     \*-----------------------------------------------------*/
-    int width           = qMin(width_inc_margin, (newSize.width() / minColumns) - (margin * 2));
+    int width           = (newSize.width() / minColumns) - (margin * 2);
     int height          = minSize;
     width_inc_margin    = width + (margin * 2);
     height_inc_margin   = height + (margin * 2);
