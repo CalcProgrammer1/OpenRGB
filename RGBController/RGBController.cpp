@@ -228,13 +228,13 @@ int RGBController::GetZoneActiveMode(unsigned int zone)
     int active_mode;
 
     AccessMutex.lock_shared();
-    if(zone < zones.size())
+    if((zone < zones.size()) && (zones[zone].active_mode < zones[zone].modes.size()))
     {
         active_mode = zones[zone].active_mode;
     }
     else
     {
-        active_mode = 0;
+        active_mode = -1;
     }
     AccessMutex.unlock_shared();
 
@@ -929,7 +929,7 @@ unsigned int RGBController::GetLEDsInZone(unsigned int zone)
 void RGBController::SetZoneActiveMode(unsigned int zone, int mode)
 {
     AccessMutex.lock();
-    if(zone < zones.size())
+    if((zone < zones.size()) && (mode >= -1 ) && (mode < zones[zone].modes.size()))
     {
         zones[zone].active_mode = mode;
         AccessMutex.unlock();
@@ -978,7 +978,7 @@ void RGBController::SetZoneModeColorMode(unsigned int zone, unsigned int mode, u
 void RGBController::SetZoneModeColorsCount(unsigned int zone, unsigned int mode, std::size_t count)
 {
     AccessMutex.lock();
-    if((zone < zones.size()) && (mode < zones[zone].modes.size()))
+    if((zone < zones.size()) && (mode < zones[zone].modes.size()) && (count >= zones[zone].modes[mode].colors_min) && (count <= zones[zone].modes[mode].colors_max))
     {
         zones[zone].modes[mode].colors.resize(count);
     }
@@ -988,7 +988,11 @@ void RGBController::SetZoneModeColorsCount(unsigned int zone, unsigned int mode,
 void RGBController::SetZoneModeDirection(unsigned int zone, unsigned int mode, unsigned int direction)
 {
     AccessMutex.lock();
-    if((zone < zones.size()) && (mode < zones[zone].modes.size()))
+    if((zone < zones.size())
+    && (mode < zones[zone].modes.size())
+    && (((zones[zone].modes[mode].flags & MODE_FLAG_HAS_DIRECTION_HV) && ((direction == MODE_DIRECTION_HORIZONTAL) || (direction == MODE_DIRECTION_VERTICAL)))
+     || ((zones[zone].modes[mode].flags & MODE_FLAG_HAS_DIRECTION_LR) && ((direction == MODE_DIRECTION_LEFT) || (direction == MODE_DIRECTION_RIGHT)))
+     || ((zones[zone].modes[mode].flags & MODE_FLAG_HAS_DIRECTION_UD) && ((direction == MODE_DIRECTION_UP) || (direction == MODE_DIRECTION_DOWN)))))
     {
         zones[zone].modes[mode].direction = direction;
     }
@@ -1336,7 +1340,10 @@ void RGBController::SetModeColorsCount(unsigned int mode, std::size_t count)
 void RGBController::SetModeDirection(unsigned int mode, unsigned int direction)
 {
     AccessMutex.lock();
-    if(mode < modes.size())
+    if((mode < modes.size())
+    && (((modes[mode].flags & MODE_FLAG_HAS_DIRECTION_HV) && ((direction == MODE_DIRECTION_HORIZONTAL) || (direction == MODE_DIRECTION_VERTICAL)))
+     || ((modes[mode].flags & MODE_FLAG_HAS_DIRECTION_LR) && ((direction == MODE_DIRECTION_LEFT) || (direction == MODE_DIRECTION_RIGHT)))
+     || ((modes[mode].flags & MODE_FLAG_HAS_DIRECTION_UD) && ((direction == MODE_DIRECTION_UP) || (direction == MODE_DIRECTION_DOWN)))))
     {
         modes[mode].direction = direction;
     }
@@ -1357,11 +1364,35 @@ void RGBController::SetModeSpeed(unsigned int mode, unsigned int speed)
 
 int RGBController::GetActiveMode()
 {
-    return(active_mode);
+    int active_mode_val;
+
+    AccessMutex.lock_shared();
+    if(active_mode < modes.size())
+    {
+        active_mode_val = active_mode;
+    }
+    else
+    {
+        active_mode_val = 0;
+    }
+    AccessMutex.unlock_shared();
+
+    return(active_mode_val);
 }
 
 void RGBController::SetActiveMode(int mode)
 {
+    /*-----------------------------------------------------*\
+    | Ensure new active mode is within range                |
+    \*-----------------------------------------------------*/
+    AccessMutex.lock_shared();
+    if((mode < 0) || (mode >= modes.size()))
+    {
+        AccessMutex.unlock_shared();
+        return;
+    }
+    AccessMutex.unlock_shared();
+
     /*-----------------------------------------------------*\
     | If the newly set active mode requires entire device,  |
     | set all the per-zone active modes to the entire       |
