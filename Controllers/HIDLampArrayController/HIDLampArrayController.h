@@ -12,7 +12,7 @@
 #pragma once
 
 #include <string>
-#include <hidapi/hidapi.h>
+#include <hidapi.h>
 
 #include "RGBController.h"
 
@@ -26,17 +26,6 @@
 #ifdef _MSC_VER
 #define PACK( __Declaration__ ) __pragma( pack(push, 1) ) __Declaration__ __pragma( pack(pop))
 #endif
-
-typedef struct
-{
-    hid_device *    hid_dev_LampArray;
-    hid_device *    hid_dev_LampArrayAttributesReport;
-    hid_device *    hid_dev_LampAttributesRequestReport;
-    hid_device *    hid_dev_LampAttributesResponseReport;
-    hid_device *    hid_dev_LampMultiUpdateReport;
-    hid_device *    hid_dev_LampRangeUpdateReport;
-    hid_device *    hid_dev_LampArrayControlReport;
-} lamparray_hid_devs;
 
 PACK(struct LampArrayAttributes
 {
@@ -119,24 +108,20 @@ enum
 class HIDLampArrayController
 {
 public:
-    HIDLampArrayController(lamparray_hid_devs *devs_handle);
+    HIDLampArrayController(hid_device *dev_handle, const char *path, std::string dev_name);
     ~HIDLampArrayController();
 
     std::string GetDeviceLocation();
+    std::string GetDeviceName();
     std::string GetSerialString();
 
     unsigned int GetLampCount();
-void SetLampMultiUpdateReport(unsigned char LampCount, unsigned char LampUpdateFlags, unsigned short * LampIds, LampArrayColor * UpdateColors);
+    void SetLampMultiUpdateReport(unsigned char LampCount, unsigned char LampUpdateFlags, unsigned short * LampIds, LampArrayColor * UpdateColors);
+
 private:
-
-    void GetLampArrayAttributesReport();
-    void GetLampAttributesResponseReport();
-    void SetLampArrayControlReport(unsigned char AutonomousMode);
-    void SetLampAttributesRequestReport(unsigned short LampId);
-
-
-    lamparray_hid_devs * devs;
-    std::string location;
+    hid_device *        dev;
+    std::string         location;
+    std::string         name;
 
     /*-----------------------------------------------------*\
     | Vector to store lamp attributes for each lamp         |
@@ -147,4 +132,9 @@ private:
     | Parameters from LampArrayAttributesReport             |
     \*-----------------------------------------------------*/
     LampArrayAttributes         LampArray;
+
+    void GetLampArrayAttributesReport();
+    void GetLampAttributesResponseReport();
+    void SetLampArrayControlReport(unsigned char AutonomousMode);
+    void SetLampAttributesRequestReport(unsigned short LampId);
 };
