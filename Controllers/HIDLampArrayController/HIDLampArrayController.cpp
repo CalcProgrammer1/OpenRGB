@@ -12,9 +12,11 @@
 #include <cstring>
 #include "HIDLampArrayController.h"
 
-HIDLampArrayController::HIDLampArrayController(lamparray_hid_devs *devs_handle)
+HIDLampArrayController::HIDLampArrayController(hid_device *dev_handle, const char *path, std::string dev_name)
 {
-    devs = devs_handle;
+    dev         = dev_handle;
+    location    = path;
+    name        = dev_name;
 
     /*-----------------------------------------------------*\
     | Get LampArrayAttributesReport                         |
@@ -39,12 +41,17 @@ HIDLampArrayController::HIDLampArrayController(lamparray_hid_devs *devs_handle)
 
 HIDLampArrayController::~HIDLampArrayController()
 {
-
+    hid_close(dev);
 }
 
 std::string HIDLampArrayController::GetDeviceLocation()
 {
-    return("");
+    return("HID: " + location);
+}
+
+std::string HIDLampArrayController::GetDeviceName()
+{
+    return(name);
 }
 
 std::string HIDLampArrayController::GetSerialString()
@@ -72,7 +79,7 @@ void HIDLampArrayController::GetLampArrayAttributesReport()
     /*-----------------------------------------------------*\
     | Get the report                                        |
     \*-----------------------------------------------------*/
-    report_size         = hid_get_feature_report(devs->hid_dev_LampArrayAttributesReport, usb_buf, sizeof(usb_buf));
+    report_size         = hid_get_feature_report(dev, usb_buf, sizeof(usb_buf));
 
     memcpy(&LampArray, &usb_buf[1], sizeof(LampArray));
 }
@@ -93,7 +100,7 @@ void HIDLampArrayController::GetLampAttributesResponseReport()
     /*-----------------------------------------------------*\
     | Get the report                                        |
     \*-----------------------------------------------------*/
-    report_size = hid_get_feature_report(devs->hid_dev_LampAttributesResponseReport, usb_buf, sizeof(usb_buf));
+    report_size = hid_get_feature_report(dev, usb_buf, sizeof(usb_buf));
 
     memcpy(&attributes, &usb_buf[1], sizeof(attributes));
 
@@ -122,7 +129,7 @@ void HIDLampArrayController::SetLampArrayControlReport(unsigned char AutonomousM
     /*-----------------------------------------------------*\
     | Send the report                                       |
     \*-----------------------------------------------------*/
-    hid_send_feature_report(devs->hid_dev_LampArrayControlReport, usb_buf, sizeof(usb_buf));
+    hid_send_feature_report(dev, usb_buf, sizeof(usb_buf));
 }
 
 void HIDLampArrayController::SetLampAttributesRequestReport(unsigned short LampId)
@@ -144,7 +151,7 @@ void HIDLampArrayController::SetLampAttributesRequestReport(unsigned short LampI
     /*-----------------------------------------------------*\
     | Send the report                                       |
     \*-----------------------------------------------------*/
-    hid_send_feature_report(devs->hid_dev_LampAttributesRequestReport, usb_buf, sizeof(usb_buf));
+    hid_send_feature_report(dev, usb_buf, sizeof(usb_buf));
 }
 
 void HIDLampArrayController::SetLampMultiUpdateReport(unsigned char LampCount, unsigned char LampUpdateFlags, unsigned short * LampIds, LampArrayColor * UpdateColors)
@@ -173,5 +180,5 @@ void HIDLampArrayController::SetLampMultiUpdateReport(unsigned char LampCount, u
     /*-----------------------------------------------------*\
     | Send the report                                       |
     \*-----------------------------------------------------*/
-    hid_send_feature_report(devs->hid_dev_LampMultiUpdateReport, usb_buf, sizeof(usb_buf));
+    hid_send_feature_report(dev, usb_buf, sizeof(usb_buf));
 }
