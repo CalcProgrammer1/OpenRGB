@@ -15,7 +15,7 @@ RGBController_HIDLampArray::RGBController_HIDLampArray(HIDLampArrayController* c
 {
     controller          = controller_ptr;
 
-    name                = "HID LampArray Device";
+    name                = controller->GetDeviceName();
     vendor              = "Generic";
     type                = DEVICE_TYPE_MOUSEMAT;
     description         = "HID LampArray Device";
@@ -34,7 +34,7 @@ RGBController_HIDLampArray::RGBController_HIDLampArray(HIDLampArrayController* c
 
 RGBController_HIDLampArray::~RGBController_HIDLampArray()
 {
-
+    delete controller;
 }
 
 void RGBController_HIDLampArray::SetupZones()
@@ -56,11 +56,6 @@ void RGBController_HIDLampArray::SetupZones()
     }
 
     SetupColors();
-}
-
-void RGBController_HIDLampArray::ResizeZone(int /*zone*/, int /*new_size*/)
-{
-
 }
 
 void RGBController_HIDLampArray::DeviceUpdateLEDs()
@@ -100,12 +95,12 @@ void RGBController_HIDLampArray::DeviceUpdateLEDs()
     }
 }
 
-void RGBController_HIDLampArray::UpdateZoneLEDs(int /*zone*/)
+void RGBController_HIDLampArray::DeviceUpdateZoneLEDs(int /*zone*/)
 {
 
 }
 
-void RGBController_HIDLampArray::UpdateSingleLED(int /*led*/)
+void RGBController_HIDLampArray::DeviceUpdateSingleLED(int /*led*/)
 {
 
 }
