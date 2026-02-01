@@ -16,7 +16,7 @@
 #include <vector>
 #include <hidapi.h>
 
-DetectedControllers DetectHIDLampArrayControllers(hid_device_info* info, const std::string& name)
+DetectedControllers DetectHIDLampArrayControllers(hid_device_info* info, const std::string& /*name*/)
 {
     DetectedControllers detected_controllers;
     hid_device*         dev;
@@ -25,7 +25,7 @@ DetectedControllers DetectHIDLampArrayControllers(hid_device_info* info, const s
 
     if(dev)
     {
-        HIDLampArrayController*     controller     = new HIDLampArrayController(dev, info->path, name);
+        HIDLampArrayController*     controller     = new HIDLampArrayController(dev, info->path);
         RGBController_HIDLampArray* rgb_controller = new RGBController_HIDLampArray(controller);
 
         detected_controllers.push_back(rgb_controller);
