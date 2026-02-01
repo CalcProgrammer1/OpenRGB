@@ -116,6 +116,7 @@ public:
     std::string GetDeviceName();
     std::string GetSerialString();
 
+    unsigned int GetLampArrayKind();
     unsigned int GetLampCount();
     std::vector<LampAttributes> GetLamps();
 
