@@ -26,10 +26,10 @@ RGBController_HIDLampArray::RGBController_HIDLampArray(HIDLampArrayController* c
     controller          = controller_ptr;
 
     name                = controller->GetDeviceName();
-    vendor              = "Generic";
     description         = "HID LampArray Device";
     location            = controller->GetDeviceLocation();
-    serial              = controller->GetSerialString();
+    serial              = controller->GetDeviceSerial();
+    vendor              = controller->GetDeviceVendor();
 
     /*-----------------------------------------------------*\
     | Determine device type from LampArray kind             |
