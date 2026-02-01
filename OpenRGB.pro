@@ -388,7 +388,6 @@ win32:DEFINES -=                                                                
     UNICODE
 
 win32:DEFINES +=                                                                                \
-    USE_HID_USAGE                                                                               \
     _MBCS                                                                                       \
     WIN32                                                                                       \
     _CRT_SECURE_NO_WARNINGS                                                                     \
@@ -499,21 +498,11 @@ contains(QMAKE_PLATFORM, linux) {
     #-------------------------------------------------------------------------------------------#
     packagesExist(hidapi-hotplug-hidraw) {
         PKGCONFIG += hidapi-hotplug-hidraw
-        DEFINES   += USE_HID_USAGE=1                                                            \
-                     HID_HOTPLUG_ENABLED=1
+        DEFINES   += HID_HOTPLUG_ENABLED=1
         HID_HOTPLUG_ENABLED = "true"
     } else {
         packagesExist(hidapi-hidraw) {
             PKGCONFIG += hidapi-hidraw
-
-            #-----------------------------------------------------------------------------------#
-            # hidapi-hidraw >= 0.10.1 supports USAGE/USAGE_PAGE                                 #
-            # Define USE_HID_USAGE if hidapi-hidraw supports it                                 #
-            #-----------------------------------------------------------------------------------#
-            HIDAPI_HIDRAW_VERSION = $$system($$PKG_CONFIG --modversion hidapi-hidraw)
-            if(versionAtLeast(HIDAPI_HIDRAW_VERSION, "0.10.1")) {
-                DEFINES += USE_HID_USAGE
-            }
         } else {
             packagesExist(hidapi-libusb) {
                 PKGCONFIG += hidapi-libusb
@@ -640,14 +629,6 @@ contains(QMAKE_PLATFORM, freebsd) {
     #-------------------------------------------------------------------------------------------#
     packagesExist(hidapi-hidraw) {
         PKGCONFIG += hidapi-hidraw
-
-        #---------------------------------------------------------------------------------------#
-        # hidapi-hidraw >= 0.10.1 supports USAGE/USAGE_PAGE                                     #
-        # Define USE_HID_USAGE if hidapi-hidraw supports it                                     #
-        #---------------------------------------------------------------------------------------#
-        packagesExist(hidapi-hidraw>=0.10.1) {
-            DEFINES += USE_HID_USAGE
-        }
     } else {
         packagesExist(hidapi-libusb) {
             PKGCONFIG += hidapi-libusb
@@ -714,9 +695,6 @@ macx {
     PKGCONFIG +=                                                                                \
     libusb-1.0                                                                                  \
 
-    DEFINES +=                                                                                  \
-    USE_HID_USAGE                                                                               \
-
     QMAKE_CXXFLAGS +=                                                                           \
     -Wno-narrowing                                                                              \
 
@@ -743,13 +721,11 @@ macx {
     #-------------------------------------------------------------------------------------------#
     packagesExist(hidapi-hotplug) {
         PKGCONFIG += hidapi-hotplug
-        DEFINES   += USE_HID_USAGE=1                                                            \
-                     HID_HOTPLUG_ENABLED=1
+        DEFINES   += HID_HOTPLUG_ENABLED=1
         HID_HOTPLUG_ENABLED = "true"
 
     } else {
         PKGCONFIG += hidapi
-        DEFINES   += USE_HID_USAGE=1
     }
 
     # Use mbedtls 3
