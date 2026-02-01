@@ -173,7 +173,7 @@ DetectedControllers DetectLogitechKeyboardG810(hid_device_info* info, const std:
     | are on usage page 0xFF43                              |
     \*-----------------------------------------------------*/
     DetectedControllers detected_controllers;
-#ifdef USE_HID_USAGE
+
     hid_device* dev_usage_0x0602 = nullptr;
     hid_device* dev_usage_0x0604 = nullptr;
     hid_device_info* info_temp = info;
@@ -213,17 +213,6 @@ DetectedControllers DetectLogitechKeyboardG810(hid_device_info* info, const std:
         hid_close(dev_usage_0x0602);
         hid_close(dev_usage_0x0604);
     }
-#else
-    hid_device* dev = hid_open_path(info->path);
-
-    if(dev)
-    {
-        LogitechG810Controller*     controller     = new LogitechG810Controller(dev, dev, name);
-        RGBController_LogitechG810* rgb_controller = new RGBController_LogitechG810(controller);
-
-        detected_controllers.push_back(rgb_controller);
-    }
-#endif
 
     return(detected_controllers);
 }
@@ -237,7 +226,7 @@ DetectedControllers DetectLogitechKeyboardG910(hid_device_info* info, const std:
     | are on usage page 0xFF43                              |
     \*-----------------------------------------------------*/
     DetectedControllers detected_controllers;
-#ifdef USE_HID_USAGE
+
     hid_device* dev_usage_0x0602 = nullptr;
     hid_device* dev_usage_0x0604 = nullptr;
     hid_device_info* info_temp = info;
@@ -277,17 +266,6 @@ DetectedControllers DetectLogitechKeyboardG910(hid_device_info* info, const std:
         hid_close(dev_usage_0x0602);
         hid_close(dev_usage_0x0604);
     }
-#else
-    hid_device* dev = hid_open_path(info->path);
-
-    if(dev)
-    {
-        LogitechG910Controller*     controller     = new LogitechG910Controller(dev, dev, name);
-        RGBController_LogitechG910* rgb_controller = new RGBController_LogitechG910(controller);
-
-        detected_controllers.push_back(rgb_controller);
-    }
-#endif
 
     return(detected_controllers);
 }
@@ -301,7 +279,7 @@ DetectedControllers DetectLogitechKeyboardG815(hid_device_info* info, const std:
     | are on usage page 0xFF43                              |
     \*-----------------------------------------------------*/
     DetectedControllers detected_controllers;
-#ifdef USE_HID_USAGE
+
     hid_device* dev_usage_0x0602 = nullptr;
     hid_device* dev_usage_0x0604 = nullptr;
     hid_device_info* info_temp = info;
@@ -349,17 +327,6 @@ DetectedControllers DetectLogitechKeyboardG815(hid_device_info* info, const std:
             hid_close(dev_usage_0x0604);
         }
     }
-#else
-    hid_device* dev = hid_open_path(info->path);
-
-    if(dev)
-    {
-        LogitechG815Controller*     controller     = new LogitechG815Controller(dev, dev, name);
-        RGBController_LogitechG815* rgb_controller = new RGBController_LogitechG815(controller);
-
-        detected_controllers.push_back(rgb_controller);
-    }
-#endif
 
     return(detected_controllers);
 }
@@ -411,7 +378,7 @@ DetectedControllers DetectLogitechKeyboardGPro(hid_device_info* info, const std:
     | are on usage page 0xFF43                              |
     \*-----------------------------------------------------*/
     DetectedControllers detected_controllers;
-#ifdef USE_HID_USAGE
+
     hid_device* dev_usage_0x0602 = nullptr;
     hid_device* dev_usage_0x0604 = nullptr;
     hid_device_info* info_temp = info;
@@ -451,17 +418,6 @@ DetectedControllers DetectLogitechKeyboardGPro(hid_device_info* info, const std:
         hid_close(dev_usage_0x0602);
         hid_close(dev_usage_0x0604);
     }
-#else
-    hid_device* dev = hid_open_path(info->path);
-
-    if(dev)
-    {
-        LogitechGProKeyboardController*     controller     = new LogitechGProKeyboardController(dev, dev, name);
-        RGBController_LogitechGProKeyboard* rgb_controller = new RGBController_LogitechGProKeyboard(controller);
-
-        detected_controllers.push_back(rgb_controller);
-    }
-#endif
 
     return(detected_controllers);
 }
@@ -472,62 +428,46 @@ DetectedControllers DetectLogitechKeyboardGPro(hid_device_info* info, const std:
 DetectedControllers addLogitechLightsyncMouse1zone(hid_device_info* info, const std::string& name, unsigned char hid_dev_index, unsigned char hid_feature_index, unsigned char hid_fctn_ase_id)
 {
     DetectedControllers detected_controllers;
-#ifdef USE_HID_USAGE
+
+    hid_device* dev_usage_1 = nullptr;
+    hid_device* dev_usage_2 = nullptr;
+    hid_device_info* info_temp = info;
+
+    while(info_temp)
     {
-        hid_device* dev_usage_1 = nullptr;
-        hid_device* dev_usage_2 = nullptr;
-        hid_device_info* info_temp = info;
-
-        while(info_temp)
+        if(info_temp->vendor_id        == info->vendor_id           // constant LOGITECH_VID
+        && info_temp->product_id       == info->product_id          // NON-constant
+        && info_temp->interface_number == info->interface_number    // constant 1
+        && info_temp->usage_page       == info->usage_page)         // constant 0x00FF
         {
-            if(info_temp->vendor_id        == info->vendor_id           // constant LOGITECH_VID
-            && info_temp->product_id       == info->product_id          // NON-constant
-            && info_temp->interface_number == info->interface_number    // constant 1
-            && info_temp->usage_page       == info->usage_page)         // constant 0x00FF
+            if (info_temp->usage == 1)
             {
-                if (info_temp->usage == 1)
-                {
-                    dev_usage_1 = hid_open_path(info_temp->path);
-                }
-                else if (info_temp->usage == 2)
-                {
-                    dev_usage_2 = hid_open_path(info_temp->path);
-                }
+                dev_usage_1 = hid_open_path(info_temp->path);
             }
-            if (dev_usage_1 && dev_usage_2)
+            else if (info_temp->usage == 2)
             {
-                break;
+                dev_usage_2 = hid_open_path(info_temp->path);
             }
-            info_temp = info_temp->next;
         }
-        if(dev_usage_1 && dev_usage_2)
+        if (dev_usage_1 && dev_usage_2)
         {
-            LogitechGLightsyncController*          controller     = new LogitechGLightsyncController(dev_usage_1, dev_usage_2, info->path, hid_dev_index, hid_feature_index, hid_fctn_ase_id, name);
-            RGBController_LogitechGLightsync1zone* rgb_controller = new RGBController_LogitechGLightsync1zone (controller);
-
-            detected_controllers.push_back(rgb_controller);
+            break;
         }
-        else
-        {
-            LOG_INFO("Unable to open all device report endpoints, unable to add device");
-            hid_close(dev_usage_1);
-            hid_close(dev_usage_2);
-        }
+        info_temp = info_temp->next;
     }
-
-#else
+    if(dev_usage_1 && dev_usage_2)
     {
-        hid_device* dev = hid_open_path(info->path);
+        LogitechGLightsyncController*          controller     = new LogitechGLightsyncController(dev_usage_1, dev_usage_2, info->path, hid_dev_index, hid_feature_index, hid_fctn_ase_id, name);
+        RGBController_LogitechGLightsync1zone* rgb_controller = new RGBController_LogitechGLightsync1zone (controller);
 
-        if(dev)
-        {
-            LogitechGLightsyncController*          controller     = new LogitechGLightsyncController(dev, dev, info->path, hid_dev_index, hid_feature_index, hid_fctn_ase_id, name);
-            RGBController_LogitechGLightsync1zone* rgb_controller = new RGBController_LogitechGLightsync1zone(controller);
-
-            detected_controllers.push_back(rgb_controller);
-        }
+        detected_controllers.push_back(rgb_controller);
     }
-#endif
+    else
+    {
+        LOG_INFO("Unable to open all device report endpoints, unable to add device");
+        hid_close(dev_usage_1);
+        hid_close(dev_usage_2);
+    }
 
     return(detected_controllers);
 }
@@ -535,61 +475,46 @@ DetectedControllers addLogitechLightsyncMouse1zone(hid_device_info* info, const 
 DetectedControllers addLogitechLightsyncMouse2zone(hid_device_info* info, const std::string& name, unsigned char hid_dev_index, unsigned char hid_feature_index, unsigned char hid_fctn_ase_id)
 {
     DetectedControllers detected_controllers;
-#ifdef USE_HID_USAGE
-    {
-        hid_device* dev_usage_1 = nullptr;
-        hid_device* dev_usage_2 = nullptr;
-        hid_device_info* info_temp = info;
 
-        while(info_temp)
+    hid_device* dev_usage_1 = nullptr;
+    hid_device* dev_usage_2 = nullptr;
+    hid_device_info* info_temp = info;
+
+    while(info_temp)
+    {
+        if(info_temp->vendor_id        == info->vendor_id           // constant LOGITECH_VID
+        && info_temp->product_id       == info->product_id          // NON-constant
+        && info_temp->interface_number == info->interface_number    // constant 1
+        && info_temp->usage_page       == info->usage_page)         // constant 0x00FF
         {
-            if(info_temp->vendor_id        == info->vendor_id           // constant LOGITECH_VID
-            && info_temp->product_id       == info->product_id          // NON-constant
-            && info_temp->interface_number == info->interface_number    // constant 1
-            && info_temp->usage_page       == info->usage_page)         // constant 0x00FF
+            if(info_temp->usage == 1)
             {
-                if(info_temp->usage == 1)
-                {
-                    dev_usage_1 = hid_open_path(info_temp->path);
-                }
-                else if(info_temp->usage == 2)
-                {
-                    dev_usage_2 = hid_open_path(info_temp->path);
-                }
+                dev_usage_1 = hid_open_path(info_temp->path);
             }
-            if(dev_usage_1 && dev_usage_2)
+            else if(info_temp->usage == 2)
             {
-                break;
+                dev_usage_2 = hid_open_path(info_temp->path);
             }
-            info_temp = info_temp->next;
         }
         if(dev_usage_1 && dev_usage_2)
         {
-            LogitechGLightsyncController*     controller     = new LogitechGLightsyncController(dev_usage_1, dev_usage_2, info->path, hid_dev_index, hid_feature_index, hid_fctn_ase_id, name);
-            RGBController_LogitechGLightsync* rgb_controller = new RGBController_LogitechGLightsync (controller);
-
-            detected_controllers.push_back(rgb_controller);
+            break;
         }
-        else
-        {
-            LOG_INFO("Unable to open all device report endpoints, unable to add device");
-            hid_close(dev_usage_1);
-            hid_close(dev_usage_2);
-        }
+        info_temp = info_temp->next;
     }
-#else
+    if(dev_usage_1 && dev_usage_2)
     {
-        hid_device* dev = hid_open_path(info->path);
+        LogitechGLightsyncController*     controller     = new LogitechGLightsyncController(dev_usage_1, dev_usage_2, info->path, hid_dev_index, hid_feature_index, hid_fctn_ase_id, name);
+        RGBController_LogitechGLightsync* rgb_controller = new RGBController_LogitechGLightsync (controller);
 
-        if(dev)
-        {
-            LogitechGLightsyncController*     controller     = new LogitechGLightsyncController(dev, dev, info->path, hid_dev_index, hid_feature_index, hid_fctn_ase_id, name);
-            RGBController_LogitechGLightsync* rgb_controller = new RGBController_LogitechGLightsync(controller);
-
-            detected_controllers.push_back(rgb_controller);
-        }
+        detected_controllers.push_back(rgb_controller);
     }
-#endif
+    else
+    {
+        LOG_INFO("Unable to open all device report endpoints, unable to add device");
+        hid_close(dev_usage_1);
+        hid_close(dev_usage_2);
+    }
 
     return(detected_controllers);
 }
