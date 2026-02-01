@@ -95,8 +95,10 @@ const hidapi_wrapper default_hidapi_wrapper =
 \*---------------------------------------------------------*/
 bool BasicHIDBlock::compare(hid_device_info* info)
 {
-    return((vid == info->vendor_id)
-        && (pid == info->product_id)
+    return(((vid        == HID_VID_ANY)
+         || (vid == info->vendor_id))
+        && ((pid        == HID_PID_ANY)
+         || (pid == info->product_id))
         && ((usage_page == HID_USAGE_PAGE_ANY)
          || (usage_page == info->usage_page))
         && ((usage      == HID_USAGE_ANY)
@@ -232,7 +234,7 @@ void DetectionManager::RegisterDynamicDetector(std::string name, DynamicDetector
     dynamic_detectors.push_back(detector);
 }
 
-void DetectionManager::RegisterHIDDeviceDetector(std::string name, HIDDeviceDetectorFunction  detector, uint16_t vid, uint16_t pid, int interface, int usage_page, int usage)
+void DetectionManager::RegisterHIDDeviceDetector(std::string name, HIDDeviceDetectorFunction  detector, int vid, int pid, int interface, int usage_page, int usage)
 {
     HIDDeviceDetectorBlock block;
 
@@ -247,7 +249,7 @@ void DetectionManager::RegisterHIDDeviceDetector(std::string name, HIDDeviceDete
     hid_device_detectors.push_back(block);
 }
 
-void DetectionManager::RegisterHIDWrappedDeviceDetector(std::string name, HIDWrappedDeviceDetectorFunction  detector, uint16_t vid, uint16_t pid, int interface, int usage_page, int usage)
+void DetectionManager::RegisterHIDWrappedDeviceDetector(std::string name, HIDWrappedDeviceDetectorFunction  detector, int vid, int pid, int interface, int usage_page, int usage)
 {
     HIDWrappedDeviceDetectorBlock block;
 
