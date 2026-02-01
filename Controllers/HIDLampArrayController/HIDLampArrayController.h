@@ -109,12 +109,13 @@ enum
 class HIDLampArrayController
 {
 public:
-    HIDLampArrayController(hid_device *dev_handle, const char *path, std::string dev_name);
+    HIDLampArrayController(hid_device *dev_handle, const char *path);
     ~HIDLampArrayController();
 
     std::string GetDeviceLocation();
     std::string GetDeviceName();
-    std::string GetSerialString();
+    std::string GetDeviceSerial();
+    std::string GetDeviceVendor();
 
     unsigned int GetLampArrayKind();
     unsigned int GetLampCount();
@@ -126,7 +127,6 @@ private:
     hid_device *                dev;
     HIDLampArrayReportIDs       ids;
     std::string                 location;
-    std::string                 name;
 
     /*-----------------------------------------------------*\
     | Vector to store lamp attributes for each lamp         |
