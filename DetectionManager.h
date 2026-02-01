@@ -36,6 +36,8 @@ using json = nlohmann::json;
 /*---------------------------------------------------------*\
 | HID Default Values                                        |
 \*---------------------------------------------------------*/
+#define HID_PID_ANY                     -1
+#define HID_VID_ANY                     -1
 #define HID_INTERFACE_ANY               -1
 #define HID_USAGE_ANY                   -1
 #define HID_USAGE_PAGE_ANY              -1
@@ -62,8 +64,8 @@ class BasicHIDBlock
 {
 public:
     std::string                         name;
-    uint16_t                            vid;
-    uint16_t                            pid;
+    int                                 vid;
+    int                                 pid;
     int                                 interface;
     int                                 usage_page;
     int                                 usage;
@@ -151,8 +153,8 @@ public:
     \*-----------------------------------------------------*/
     void                                RegisterDeviceDetector(std::string name, DeviceDetectorFunction detector);
     void                                RegisterDynamicDetector(std::string name, DynamicDetectorFunction detector);
-    void                                RegisterHIDDeviceDetector(std::string name, HIDDeviceDetectorFunction  detector, uint16_t vid, uint16_t pid, int interface = HID_INTERFACE_ANY, int usage_page = HID_USAGE_PAGE_ANY, int usage = HID_USAGE_ANY);
-    void                                RegisterHIDWrappedDeviceDetector(std::string name, HIDWrappedDeviceDetectorFunction  detector, uint16_t vid, uint16_t pid, int interface = HID_INTERFACE_ANY, int usage_page = HID_USAGE_PAGE_ANY, int usage = HID_USAGE_ANY);
+    void                                RegisterHIDDeviceDetector(std::string name, HIDDeviceDetectorFunction  detector, int vid, int pid, int interface = HID_INTERFACE_ANY, int usage_page = HID_USAGE_PAGE_ANY, int usage = HID_USAGE_ANY);
+    void                                RegisterHIDWrappedDeviceDetector(std::string name, HIDWrappedDeviceDetectorFunction  detector, int vid, int pid, int interface = HID_INTERFACE_ANY, int usage_page = HID_USAGE_PAGE_ANY, int usage = HID_USAGE_ANY);
     void                                RegisterI2CDeviceDetector(std::string name, I2CDeviceDetectorFunction  detector);
     void                                RegisterI2CDRAMDeviceDetector(std::string name, I2CDRAMDeviceDetectorFunction detector, uint16_t jedec_id, uint8_t dram_type);
     void                                RegisterI2CPCIDeviceDetector(std::string name, I2CPCIDeviceDetectorFunction detector, uint16_t ven_id, uint16_t dev_id, uint16_t subven_id, uint16_t subdev_id, uint8_t i2c_addr);
@@ -405,7 +407,7 @@ public:
 class HIDDeviceDetector
 {
 public:
-    HIDDeviceDetector(std::string name, HIDDeviceDetectorFunction detector, uint16_t vid, uint16_t pid, int interface, int usage_page, int usage)
+    HIDDeviceDetector(std::string name, HIDDeviceDetectorFunction detector, int vid, int pid, int interface, int usage_page, int usage)
     {
         DetectionManager::get()->RegisterHIDDeviceDetector(name, detector, vid, pid, interface, usage_page, usage);
     }
@@ -414,7 +416,7 @@ public:
 class HIDWrappedDeviceDetector
 {
 public:
-    HIDWrappedDeviceDetector(std::string name, HIDWrappedDeviceDetectorFunction detector, uint16_t vid, uint16_t pid, int interface, int usage_page, int usage)
+    HIDWrappedDeviceDetector(std::string name, HIDWrappedDeviceDetectorFunction detector, int vid, int pid, int interface, int usage_page, int usage)
     {
         DetectionManager::get()->RegisterHIDWrappedDeviceDetector(name, detector, vid, pid, interface, usage_page, usage);
     }
@@ -452,10 +454,20 @@ public:
 #define REGISTER_HID_DETECTOR_IPU(name, func, vid, pid, interface, page, usage)         static HIDDeviceDetector        device_detector_obj_##vid##pid##_##interface##_##page##_##usage(name, func, vid, pid, interface, page, usage)
 #define REGISTER_HID_DETECTOR_P(name, func, vid, pid, page)                             static HIDDeviceDetector        device_detector_obj_##vid##pid##__##page(name, func, vid, pid, HID_INTERFACE_ANY, page, HID_USAGE_ANY)
 #define REGISTER_HID_DETECTOR_PU(name, func, vid, pid, page, usage)                     static HIDDeviceDetector        device_detector_obj_##vid##pid##__##page##_##usage(name, func, vid, pid, HID_INTERFACE_ANY, page, usage)
+#define REGISTER_HID_DETECTOR_I_ONLY(name, func, interface)                             static HIDDeviceDetector        device_detector_obj_##interface(name, func, HID_VID_ANY, HID_PID_ANY, interface, HID_USAGE_PAGE_ANY, HID_USAGE_ANY)
+#define REGISTER_HID_DETECTOR_IP_ONLY(name, func, interface, page)                      static HIDDeviceDetector        device_detector_obj_##interface##_##page(name, func, HID_VID_ANY, HID_PID_ANY, interface, page, HID_USAGE_ANY)
+#define REGISTER_HID_DETECTOR_IPU_ONLY(name, func, interface, page, usage)              static HIDDeviceDetector        device_detector_obj_##interface##_##page##_##usage(name, func, HID_VID_ANY, HID_PID_ANY, interface, page, usage)
+#define REGISTER_HID_DETECTOR_P_ONLY(name, func, page)                                  static HIDDeviceDetector        device_detector_obj__##page(name, func, HID_VID_ANY, HID_PID_ANY, HID_INTERFACE_ANY, page, HID_USAGE_ANY)
+#define REGISTER_HID_DETECTOR_PU_ONLY(name, func, page, usage)                          static HIDDeviceDetector        device_detector_obj__##page##_##usage(name, func, HID_VID_ANY, HID_PID_ANY, HID_INTERFACE_ANY, page, usage)
 #define REGISTER_HID_WRAPPED_DETECTOR(name, func, vid, pid)                             static HIDWrappedDeviceDetector device_detector_obj_##vid##pid(name, func, vid, pid, HID_INTERFACE_ANY, HID_USAGE_PAGE_ANY, HID_USAGE_ANY)
 #define REGISTER_HID_WRAPPED_DETECTOR_I(name, func, vid, pid, interface)                static HIDWrappedDeviceDetector device_detector_obj_##vid##pid##_##interface(name, func, vid, pid, interface, HID_USAGE_PAGE_ANY, HID_USAGE_ANY)
 #define REGISTER_HID_WRAPPED_DETECTOR_IPU(name, func, vid, pid, interface, page, usage) static HIDWrappedDeviceDetector device_detector_obj_##vid##pid##_##interface##_##page##_##usage(name, func, vid, pid, interface, page, usage)
 #define REGISTER_HID_WRAPPED_DETECTOR_PU(name, func, vid, pid, page, usage)             static HIDWrappedDeviceDetector device_detector_obj_##vid##pid##__##page##_##usage(name, func, vid, pid, HID_INTERFACE_ANY, page, usage)
+#define REGISTER_HID_WRAPPED_DETECTOR_I_ONLY(name, func, interface)                     static HIDWrappedDeviceDetector device_detector_obj_##interface(name, func, HID_VID_ANY, HID_PID_ANY, interface, HID_USAGE_PAGE_ANY, HID_USAGE_ANY)
+#define REGISTER_HID_WRAPPED_DETECTOR_IP_ONLY(name, func, interface, page)              static HIDWrappedDeviceDetector device_detector_obj_##interface##_##page(name, func, HID_VID_ANY, HID_PID_ANY, interface, page, HID_USAGE_ANY)
+#define REGISTER_HID_WRAPPED_DETECTOR_IPU_ONLY(name, func, interface, page, usage)      static HIDWrappedDeviceDetector device_detector_obj_##interface##_##page##_##usage(name, func, HID_VID_ANY, HID_PID_ANY, interface, page, usage)
+#define REGISTER_HID_WRAPPED_DETECTOR_P_ONLY(name, func, page)                          static HIDWrappedDeviceDetector device_detector_obj__##page(name, func, HID_VID_ANY, HID_PID_ANY, HID_INTERFACE_ANY, page, HID_USAGE_ANY)
+#define REGISTER_HID_WRAPPED_DETECTOR_PU_ONLY(name, func, page, usage)                  static HIDWrappedDeviceDetector device_detector_obj__##page##_##usage(name, func, HID_VID_ANY, HID_PID_ANY, HID_INTERFACE_ANY, page, usage)
 #define REGISTER_DYNAMIC_DETECTOR(name, func)                                           static DynamicDetector          device_detector_obj_##func(name, func)
 #define REGISTER_PRE_DETECTION_HOOK(func)                                               static PreDetectionHook         device_detector_obj_##func(func)
 
