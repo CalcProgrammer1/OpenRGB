@@ -97,17 +97,12 @@ bool BasicHIDBlock::compare(hid_device_info* info)
 {
     return((vid == info->vendor_id)
         && (pid == info->product_id)
-#ifdef USE_HID_USAGE
         && ((usage_page == HID_USAGE_PAGE_ANY)
          || (usage_page == info->usage_page))
         && ((usage      == HID_USAGE_ANY)
          || (usage      == info->usage))
         && ((interface  == HID_INTERFACE_ANY)
          || (interface  == info->interface_number))
-#else
-        && ((interface  == HID_INTERFACE_ANY)
-         || (interface  == info->interface_number))
-#endif
         );
 }
 
