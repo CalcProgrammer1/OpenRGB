@@ -27,10 +27,42 @@ RGBController_HIDLampArray::RGBController_HIDLampArray(HIDLampArrayController* c
 
     name                = controller->GetDeviceName();
     vendor              = "Generic";
-    type                = DEVICE_TYPE_MOUSEMAT;
     description         = "HID LampArray Device";
     location            = controller->GetDeviceLocation();
     serial              = controller->GetSerialString();
+
+    /*-----------------------------------------------------*\
+    | Determine device type from LampArray kind             |
+    \*-----------------------------------------------------*/
+    switch(controller->GetLampArrayKind())
+    {
+        case HID_LAMPARRAY_KIND_UNDEFINED:
+        default:
+            type        = DEVICE_TYPE_UNKNOWN;
+            break;
+
+        case HID_LAMPARRAY_KIND_KEYBOARD:
+            type        = DEVICE_TYPE_KEYBOARD;
+            break;
+
+        case HID_LAMPARRAY_KIND_MOUSE:
+            type        = DEVICE_TYPE_MOUSE;
+            break;
+
+        case HID_LAMPARRAY_KIND_GAME_CONTROLLER:
+            type        = DEVICE_TYPE_GAMEPAD;
+            break;
+
+        case HID_LAMPARRAY_KIND_PERIPHERAL:
+        case HID_LAMPARRAY_KIND_SCENE:
+        case HID_LAMPARRAY_KIND_NOTIFICATION:
+        case HID_LAMPARRAY_KIND_CHASSIS:
+        case HID_LAMPARRAY_KIND_WEARABLE:
+        case HID_LAMPARRAY_KIND_FURNITURE:
+        case HID_LAMPARRAY_KIND_ART:
+            type        = DEVICE_TYPE_ACCESSORY;
+            break;
+    }
 
     mode Direct;
     Direct.name         = "Direct";
