@@ -257,15 +257,12 @@ DetectedControllers DetectGenesisXenon200(hid_device_info* info, const std::stri
 DetectedControllers DetectZetFuryPro(hid_device_info* info, const std::string& name)
 {
     DetectedControllers detected_controllers;
-#ifdef USE_HID_USAGE
+
     expected_reports reports{expected_report(0x04, 59)};
     if(DetectUsages(info, name, 5, reports))
     {
         hid_device* dev = reports.at(0).device;
-#else
-    {
-        hid_device* dev = hid_open_path(info->path);
-#endif
+
         if(dev)
         {
             SinowealthController1007*     controller     = new SinowealthController1007(dev, info->path, name);
@@ -280,7 +277,7 @@ DetectedControllers DetectZetFuryPro(hid_device_info* info, const std::string& n
 DetectedControllers DetectSinowealthMouse(hid_device_info* info, const std::string& name)
 {
     DetectedControllers detected_controllers;
-#ifdef USE_HID_USAGE
+
     unsigned char command[6] = {0x05, 0x11, 0x00, 0x00, 0x00, 0x00};
     expected_reports reports{expected_report(0x04, 520, command, sizeof(command))};
 
@@ -288,11 +285,6 @@ DetectedControllers DetectSinowealthMouse(hid_device_info* info, const std::stri
     {
         hid_device *dev     = reports.at(0).device;
         hid_device *dev_cmd = reports.at(0).cmd_device;
-#else
-    {
-        hid_device* dev     = hid_open_path(info->path);
-        hid_device* dev_cmd = dev;
-#endif
 
         if(dev && dev_cmd)
         {
@@ -344,7 +336,6 @@ DetectedControllers DetectGMOW_Dongle(hid_device_info* info, const std::string& 
 
 // static void DetectSinowealthKeyboard16(hid_device_info* info, const std::string& name)
 // {
-// #ifdef USE_HID_USAGE
 //     unsigned char command[6] = {0x05, 0x83, 0x00, 0x00, 0x00, 0x00};
 //     expected_reports reports{expected_report(0x06, 1032, command, sizeof(command))};
 //     if(!DetectUsages(info, name, 3, reports))
@@ -353,10 +344,6 @@ DetectedControllers DetectGMOW_Dongle(hid_device_info* info, const std::string& 
 //     }
 //     hid_device *dev = reports.at(0).device;
 //     hid_device *dev_cmd = reports.at(0).cmd_device;
-// #else
-//     hid_device* dev = hid_open_path(info->path);
-//     hid_device* dev_cmd = dev;
-// #endif
 //     if(dev && dev_cmd)
 //     {
 //         SinowealthKeyboard16Controller*     controller     = new SinowealthKeyboard16Controller(dev_cmd, dev, info->path, name);
@@ -368,7 +355,6 @@ DetectedControllers DetectGMOW_Dongle(hid_device_info* info, const std::string& 
 
 // static void DetectSinowealthKeyboard(hid_device_info* info, const std::string& name)
 // {
-// #ifdef USE_HID_USAGE
 //     unsigned char command[6] = {0x05, 0x83, 0xB6, 0x00, 0x00, 0x00};
 //     expected_reports reports{expected_report(0x06, 1032, command, sizeof(command))};
 //     if(!DetectUsages(info, name, 3, reports))
@@ -386,18 +372,6 @@ DetectedControllers DetectGMOW_Dongle(hid_device_info* info, const std::string& 
 //
 //         DetectionManager::get()->RegisterRGBController(rgb_controller);
 //     }
-// #else
-//     // It is unknown why this code used the MOUSE controller here; could it be the reason why it was disabled?
-//     hid_device* dev = hid_open_path(info->path);
-//
-//     if(dev)
-//     {
-//         SinowealthController*     controller     = new SinowealthController(dev, dev, info->path, name);
-//         RGBController_Sinowealth* rgb_controller = new RGBController_Sinowealth(controller);
-//
-//         DetectionManager::get()->RegisterRGBController(rgb_controller);
-//     }
-// #endif
 // }
 
 DetectedControllers DetectSinowealthGenesisKeyboard(hid_device_info* info, const std::string& name)
@@ -442,7 +416,6 @@ DetectedControllers DetectSinowealthKeyboard10c(hid_device_info* info, const std
     return(detected_controllers);
 }
 
-#ifdef USE_HID_USAGE
 REGISTER_HID_DETECTOR_P("Glorious Model O / O-",            DetectSinowealthMouse,              SINOWEALTH_VID, Glorious_Model_O_PID,                   0xFF00          );
 REGISTER_HID_DETECTOR_P("Glorious Model D / D-",            DetectSinowealthMouse,              SINOWEALTH_VID, Glorious_Model_D_PID,                   0xFF00          );
 REGISTER_HID_DETECTOR_P("Everest GT-100 RGB",               DetectSinowealthMouse,              SINOWEALTH_VID, Everest_GT100_PID,                      0xFF00          );
@@ -458,18 +431,3 @@ REGISTER_HID_DETECTOR_IPU("Sinowealth Keyboard",            DetectSinowealthKeyb
 // Sinowealth keyboards are disabled due to VID/PID pairs being reused from Redragon keyboards, which ended up in bricking the latter
 //REGISTER_HID_DETECTOR_P("FL ESPORTS F11",                   DetectSinowealthKeyboard,   SINOWEALTH_VID, Fl_Esports_F11_PID,                             0xFF00          );
 //REGISTER_HID_DETECTOR_P("Sinowealth Keyboard",              DetectSinowealthKeyboard16, SINOWEALTH_VID, RGB_KEYBOARD_0016PID,                           0xFF00          );
-#else
-REGISTER_HID_DETECTOR_I("Glorious Model O / O-",            DetectSinowealthMouse,              SINOWEALTH_VID, Glorious_Model_O_PID,               1);
-REGISTER_HID_DETECTOR_I("Glorious Model D / D-",            DetectSinowealthMouse,              SINOWEALTH_VID, Glorious_Model_D_PID,               1);
-REGISTER_HID_DETECTOR_I("Everest GT-100 RGB",               DetectSinowealthMouse,              SINOWEALTH_VID, Everest_GT100_PID,                  1);
-REGISTER_HID_DETECTOR_I("ZET Fury Pro",                     DetectZetFuryPro,                   SINOWEALTH_VID, ZET_FURY_PRO_PID,                   1);
-REGISTER_HID_DETECTOR_I("Glorious Model O / O- Wireless",   DetectGMOW_Dongle,                  SINOWEALTH_VID, Glorious_Model_OW_PID1,             1);
-REGISTER_HID_DETECTOR_I("Glorious Model O / O- Wireless",   DetectGMOW_Cable,                   SINOWEALTH_VID, Glorious_Model_OW_PID2,             2);
-REGISTER_HID_DETECTOR_I("Glorious Model D / D- Wireless",   DetectGMOW_Dongle,                  SINOWEALTH_VID, Glorious_Model_DW_PID1,             2);
-REGISTER_HID_DETECTOR_I("Glorious Model D / D- Wireless",   DetectGMOW_Cable,                   SINOWEALTH_VID, Glorious_Model_DW_PID2,             2);
-REGISTER_HID_DETECTOR_I("Genesis Xenon 200",                DetectGenesisXenon200,              SINOWEALTH_VID, GENESIS_XENON_200_PID,              1);
-REGISTER_HID_DETECTOR_I("Genesis Thor 300",                 DetectSinowealthGenesisKeyboard,    SINOWEALTH_VID, GENESIS_THOR_300_PID,               1);
-
-//REGISTER_HID_DETECTOR_I("FL ESPORTS F11",                   DetectSinowealthKeyboard,   SINOWEALTH_VID, Fl_Esports_F11_PID,                         1);
-//REGISTER_HID_DETECTOR_I("Sinowealth Keyboard",              DetectSinowealthKeyboard16, SINOWEALTH_VID, RGB_KEYBOARD_0016PID,                       1);
-#endif
