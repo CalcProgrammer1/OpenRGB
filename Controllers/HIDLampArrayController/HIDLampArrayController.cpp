@@ -15,11 +15,10 @@
 #include "HIDLampArrayController.h"
 #include "StringUtils.h"
 
-HIDLampArrayController::HIDLampArrayController(hid_device *dev_handle, const char *path, std::string dev_name)
+HIDLampArrayController::HIDLampArrayController(hid_device *dev_handle, const char *path)
 {
     dev                                 = dev_handle;
     location                            = path;
-    name                                = dev_name;
 
     /*-----------------------------------------------------*\
     | Parse report IDs from descriptor                      |
@@ -128,10 +127,18 @@ std::string HIDLampArrayController::GetDeviceLocation()
 
 std::string HIDLampArrayController::GetDeviceName()
 {
-    return(name);
+    wchar_t name_string[128];
+    int ret = hid_get_product_string(dev, name_string, 128);
+
+    if(ret != 0)
+    {
+        return("");
+    }
+
+    return(StringUtils::wstring_to_string(name_string));
 }
 
-std::string HIDLampArrayController::GetSerialString()
+std::string HIDLampArrayController::GetDeviceSerial()
 {
     wchar_t serial_string[128];
     int ret = hid_get_serial_number_string(dev, serial_string, 128);
@@ -142,6 +149,19 @@ std::string HIDLampArrayController::GetSerialString()
     }
 
     return(StringUtils::wstring_to_string(serial_string));
+}
+
+std::string HIDLampArrayController::GetDeviceVendor()
+{
+    wchar_t vendor_string[128];
+    int ret = hid_get_manufacturer_string(dev, vendor_string, 128);
+
+    if(ret != 0)
+    {
+        return("");
+    }
+
+    return(StringUtils::wstring_to_string(vendor_string));
 }
 
 unsigned int HIDLampArrayController::GetLampArrayKind()
