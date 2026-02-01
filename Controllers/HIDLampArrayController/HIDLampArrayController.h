@@ -30,9 +30,9 @@
 PACK(struct LampArrayAttributes
 {
     unsigned short  LampCount;
-    unsigned int    BoundingBoxWidthInMillimeters;
-    unsigned int    BoundingBoxHeightInMillimeters;
-    unsigned int    BoundingBoxDepthInMillimeters;
+    unsigned int    BoundingBoxWidthInMicrometers;
+    unsigned int    BoundingBoxHeightInMicrometers;
+    unsigned int    BoundingBoxDepthInMicrometers;
     unsigned int    LampArrayKind;
     unsigned int    MinUpdateIntervalInMilliseconds;
 });
@@ -53,9 +53,9 @@ PACK(struct LampArrayControl
 PACK(struct LampAttributes
 {
     unsigned short  LampId;
-    unsigned int    PositionXInMillimeters;
-    unsigned int    PositionYInMillimeters;
-    unsigned int    PositionZInMillimeters;
+    unsigned int    PositionXInMicrometers;
+    unsigned int    PositionYInMicrometers;
+    unsigned int    PositionZInMicrometers;
     unsigned int    UpdateLatencyInMilliseconds;
     unsigned int    LampPurposes;
     unsigned char   RedLevelCount;
