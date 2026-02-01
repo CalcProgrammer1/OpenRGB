@@ -34,4 +34,4 @@ DetectedControllers DetectHIDLampArrayControllers(hid_device_info* info, const s
     return(detected_controllers);
 }
 
-REGISTER_HID_DETECTOR_PU("Arduino Zero HID Lamp Array Demo", DetectHIDLampArrayControllers, 0x2341, 0x804D, 0x59, 0x01);
+REGISTER_HID_DETECTOR_PU_ONLY("HID LampArray Device", DetectHIDLampArrayControllers, 0x59, 0x01);
