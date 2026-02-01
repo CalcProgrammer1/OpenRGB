@@ -323,8 +323,8 @@ void RGBController_HIDLampArray::SetupZones()
 
     for(std::size_t lamp_idx = 0; lamp_idx < controller->GetLamps().size(); lamp_idx++)
     {
-        rows.insert(controller->GetLamps()[lamp_idx].PositionYInMillimeters);
-        columns.insert(controller->GetLamps()[lamp_idx].PositionXInMillimeters);
+        rows.insert(controller->GetLamps()[lamp_idx].PositionYInMicrometers);
+        columns.insert(controller->GetLamps()[lamp_idx].PositionXInMicrometers);
     }
 
     new_zone.matrix_map.height  = rows.size();
@@ -336,8 +336,8 @@ void RGBController_HIDLampArray::SetupZones()
     for(std::size_t lamp_idx = 0; lamp_idx < controller->GetLamps().size(); lamp_idx++)
     {
         //FIXME this assumes that matrix_size is big enough which is only guaranteed when no key possition is doubled
-        size_t idx      = std::distance(columns.begin(), columns.find(controller->GetLamps()[lamp_idx].PositionXInMillimeters));
-        size_t idy      = std::distance(rows.begin(), rows.find(controller->GetLamps()[lamp_idx].PositionYInMillimeters));
+        size_t idx      = std::distance(columns.begin(), columns.find(controller->GetLamps()[lamp_idx].PositionXInMicrometers));
+        size_t idy      = std::distance(rows.begin(), rows.find(controller->GetLamps()[lamp_idx].PositionYInMicrometers));
 
         new_zone.matrix_map.map[idx + idy * new_zone.matrix_map.width] = lamp_idx;
     }
