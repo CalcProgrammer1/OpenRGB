@@ -135,6 +135,11 @@ std::string HIDLampArrayController::GetSerialString()
     return("");
 }
 
+unsigned int HIDLampArrayController::GetLampArrayKind()
+{
+    return(LampArray.LampArrayKind);
+}
+
 unsigned int HIDLampArrayController::GetLampCount()
 {
     return(LampArray.LampCount);
