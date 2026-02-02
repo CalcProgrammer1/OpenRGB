@@ -46,6 +46,8 @@ RGBController_SteelSeriesArctis5::RGBController_SteelSeriesArctis5(SteelSeriesAr
 
 RGBController_SteelSeriesArctis5::~RGBController_SteelSeriesArctis5()
 {
+    Shutdown();
+
     delete controller;
 }
 

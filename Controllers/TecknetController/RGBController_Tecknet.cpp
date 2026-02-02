@@ -67,6 +67,8 @@ RGBController_Tecknet::RGBController_Tecknet(TecknetController* controller_ptr)
 
 RGBController_Tecknet::~RGBController_Tecknet()
 {
+    Shutdown();
+
     delete controller;
 }
 

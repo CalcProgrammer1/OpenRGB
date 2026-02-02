@@ -44,6 +44,8 @@ RGBController_ColorfulGPU::RGBController_ColorfulGPU(ColorfulGPUController * col
 
 RGBController_ColorfulGPU::~RGBController_ColorfulGPU()
 {
+    Shutdown();
+
     delete controller;
 }
 

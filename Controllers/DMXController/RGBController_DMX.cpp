@@ -101,6 +101,8 @@ RGBController_DMX::RGBController_DMX(std::vector<DMXDevice> device_list)
 
 RGBController_DMX::~RGBController_DMX()
 {
+    Shutdown();
+
     if(keepalive_thread != nullptr)
     {
         keepalive_thread_run = 0;

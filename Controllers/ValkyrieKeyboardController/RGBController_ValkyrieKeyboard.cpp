@@ -293,6 +293,8 @@ RGBController_ValkyrieKeyboard::RGBController_ValkyrieKeyboard(ValkyrieKeyboardC
 
 RGBController_ValkyrieKeyboard::~RGBController_ValkyrieKeyboard()
 {
+    Shutdown();
+
     delete controller;
 }
 

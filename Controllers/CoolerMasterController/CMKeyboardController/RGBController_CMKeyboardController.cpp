@@ -49,6 +49,8 @@ RGBController_CMKeyboardController::RGBController_CMKeyboardController(CMKeyboar
 
 RGBController_CMKeyboardController::~RGBController_CMKeyboardController()
 {
+    Shutdown();
+
     if(m_pController)
     {
         delete m_pController;

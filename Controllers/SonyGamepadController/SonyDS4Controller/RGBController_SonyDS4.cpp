@@ -46,6 +46,8 @@ RGBController_SonyDS4::RGBController_SonyDS4(SonyDS4Controller* controller_ptr)
 
 RGBController_SonyDS4::~RGBController_SonyDS4()
 {
+    Shutdown();
+
     delete controller;
 }
 

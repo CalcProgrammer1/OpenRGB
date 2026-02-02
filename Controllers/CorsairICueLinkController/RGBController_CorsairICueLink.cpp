@@ -54,6 +54,8 @@ RGBController_CorsairICueLink::RGBController_CorsairICueLink(CorsairICueLinkCont
 
 RGBController_CorsairICueLink::~RGBController_CorsairICueLink()
 {
+    Shutdown();
+
     keepalive_thread_run = 0;
     keepalive_thread->join();
     delete keepalive_thread;

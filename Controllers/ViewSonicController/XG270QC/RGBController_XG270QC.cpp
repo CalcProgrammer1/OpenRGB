@@ -84,6 +84,13 @@ RGBController_XG270QC::RGBController_XG270QC(VS_XG270QC_Controller* controller_p
     RGBController_XG270QC::SetupZones();
 }
 
+RGBController_XG270QC::~RGBController_XG270QC()
+{
+    Shutdown();
+
+    delete controller;
+}
+
 void RGBController_XG270QC::SetupZones()
 {
     zone base;

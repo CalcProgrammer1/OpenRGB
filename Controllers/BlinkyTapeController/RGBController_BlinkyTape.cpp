@@ -44,6 +44,8 @@ RGBController_BlinkyTape::RGBController_BlinkyTape(BlinkyTapeController* control
 
 RGBController_BlinkyTape::~RGBController_BlinkyTape()
 {
+    Shutdown();
+
     delete controller;
 }
 

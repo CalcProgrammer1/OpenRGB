@@ -92,6 +92,13 @@ RGBController_AsusTUFLaptopLinux::RGBController_AsusTUFLaptopLinux(AsusTUFLaptop
     SetupZones();
 }
 
+RGBController_AsusTUFLaptopLinux::~RGBController_AsusTUFLaptopLinux()
+{
+    Shutdown();
+
+    delete controller;
+}
+
 void RGBController_AsusTUFLaptopLinux::SetupZones()
 {
     /*---------------------------------------------------------*\

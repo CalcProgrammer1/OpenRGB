@@ -159,6 +159,8 @@ RGBController_LogitechLightspeed::RGBController_LogitechLightspeed(LogitechLight
 
 RGBController_LogitechLightspeed::~RGBController_LogitechLightspeed()
 {
+    Shutdown();
+
     delete controller;
 }
 

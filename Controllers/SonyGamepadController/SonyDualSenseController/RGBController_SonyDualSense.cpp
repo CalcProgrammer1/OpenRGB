@@ -75,6 +75,8 @@ RGBController_SonyDualSense::RGBController_SonyDualSense(SonyDualSenseController
 
 RGBController_SonyDualSense::~RGBController_SonyDualSense()
 {
+    Shutdown();
+
     delete controller;
 }
 

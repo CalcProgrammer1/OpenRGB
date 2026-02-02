@@ -49,6 +49,13 @@ RGBController_LogitechG560::RGBController_LogitechG560(LogitechG560Controller* c
     SetupZones();
 }
 
+RGBController_LogitechG560::~RGBController_LogitechG560()
+{
+    Shutdown();
+
+    delete controller;
+}
+
 void RGBController_LogitechG560::SetupZones()
 {
     zone G560_left_front;

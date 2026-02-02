@@ -283,6 +283,8 @@ RGBController_AsusCerberusKeyboard::RGBController_AsusCerberusKeyboard(AsusCerbe
 
 RGBController_AsusCerberusKeyboard::~RGBController_AsusCerberusKeyboard()
 {
+    Shutdown();
+
     delete controller;
 }
 

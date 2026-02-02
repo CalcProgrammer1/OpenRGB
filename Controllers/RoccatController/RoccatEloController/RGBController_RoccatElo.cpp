@@ -46,6 +46,8 @@ RGBController_RoccatElo::RGBController_RoccatElo(RoccatEloController* controller
 
 RGBController_RoccatElo::~RGBController_RoccatElo()
 {
+    Shutdown();
+
     delete controller;
 }
 

@@ -79,6 +79,8 @@ RGBController_LogitechGPowerPlay::RGBController_LogitechGPowerPlay(LogitechGLigh
 
 RGBController_LogitechGPowerPlay::~RGBController_LogitechGPowerPlay()
 {
+    Shutdown();
+
     delete controller;
 }
 

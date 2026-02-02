@@ -138,6 +138,8 @@ RGBController_MSIVigorGK30::RGBController_MSIVigorGK30(MSIVigorGK30Controller* c
 
 RGBController_MSIVigorGK30::~RGBController_MSIVigorGK30()
 {
+    Shutdown();
+
     delete controller;
 }
 

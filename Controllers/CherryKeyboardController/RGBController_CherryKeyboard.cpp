@@ -312,6 +312,8 @@ RGBController_CherryKeyboard::RGBController_CherryKeyboard(CherryKeyboardControl
 
 RGBController_CherryKeyboard::~RGBController_CherryKeyboard()
 {
+    Shutdown();
+
     delete controller;
 }
 

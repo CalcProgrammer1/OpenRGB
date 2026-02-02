@@ -278,6 +278,8 @@ RGBController_LianLiGAIITrinity::RGBController_LianLiGAIITrinity(LianLiGAIITrini
 
 RGBController_LianLiGAIITrinity::~RGBController_LianLiGAIITrinity()
 {
+    Shutdown();
+
     delete controller;
 }
 

@@ -410,6 +410,8 @@ RGBController_AuraTUFKeyboard::RGBController_AuraTUFKeyboard(AuraTUFKeyboardCont
 
 RGBController_AuraTUFKeyboard::~RGBController_AuraTUFKeyboard()
 {
+    Shutdown();
+
     delete controller;
 }
 

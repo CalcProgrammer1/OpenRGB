@@ -43,6 +43,8 @@ RGBController_MSIKeyboard::RGBController_MSIKeyboard
 
 RGBController_MSIKeyboard::~RGBController_MSIKeyboard()
 {
+    Shutdown();
+
     delete controller;
 }
 

@@ -248,6 +248,8 @@ RGBController_DasKeyboard::RGBController_DasKeyboard(DasKeyboardController* cont
 
 RGBController_DasKeyboard::~RGBController_DasKeyboard()
 {
+    Shutdown();
+
     delete controller;
 }
 

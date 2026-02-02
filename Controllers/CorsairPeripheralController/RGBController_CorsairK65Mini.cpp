@@ -166,6 +166,8 @@ RGBController_CorsairK65Mini::RGBController_CorsairK65Mini(CorsairK65MiniControl
 
 RGBController_CorsairK65Mini::~RGBController_CorsairK65Mini()
 {
+    Shutdown();
+
     /*-----------------------------------------------------*\
     | Close keepalive thread                                |
     \*-----------------------------------------------------*/

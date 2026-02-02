@@ -127,6 +127,8 @@ RGBController_PatriotViper::RGBController_PatriotViper(PatriotViperController* v
 
 RGBController_PatriotViper::~RGBController_PatriotViper()
 {
+    Shutdown();
+
     delete viper;
 }
 

@@ -160,6 +160,8 @@ RGBController_InstantMouse::RGBController_InstantMouse(InstantMouseController* c
 
 RGBController_InstantMouse::~RGBController_InstantMouse()
 {
+    Shutdown();
+
     delete controller;
 }
 
