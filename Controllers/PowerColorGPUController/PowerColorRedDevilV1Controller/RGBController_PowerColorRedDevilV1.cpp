@@ -182,6 +182,8 @@ RGBController_PowerColorRedDevilV1::RGBController_PowerColorRedDevilV1(PowerColo
 
 RGBController_PowerColorRedDevilV1::~RGBController_PowerColorRedDevilV1()
 {
+    Shutdown();
+
     delete controller;
 }
 

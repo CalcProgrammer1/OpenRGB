@@ -293,6 +293,8 @@ void RGBController_RealtekARGB::SetupModes()
 
 RGBController_RealtekARGB::~RGBController_RealtekARGB()
 {
+    Shutdown();
+
     delete controller;
 }
 

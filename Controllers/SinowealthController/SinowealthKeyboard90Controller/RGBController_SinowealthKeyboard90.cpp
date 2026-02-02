@@ -79,6 +79,8 @@ RGBController_SinowealthKeyboard90::RGBController_SinowealthKeyboard90(Sinowealt
 
 RGBController_SinowealthKeyboard90::~RGBController_SinowealthKeyboard90()
 {
+    Shutdown();
+
     delete controller;
 }
 

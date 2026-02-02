@@ -304,6 +304,8 @@ RGBController_GigabyteCastor3::RGBController_GigabyteCastor3(GigabyteCastor3Cont
 
 RGBController_GigabyteCastor3::~RGBController_GigabyteCastor3()
 {
+    Shutdown();
+
     delete controller;
 }
 

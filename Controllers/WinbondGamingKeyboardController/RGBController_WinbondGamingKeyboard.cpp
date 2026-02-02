@@ -730,6 +730,8 @@ RGBController_WinbondGamingKeyboard::RGBController_WinbondGamingKeyboard(Winbond
 
 RGBController_WinbondGamingKeyboard::~RGBController_WinbondGamingKeyboard()
 {
+    Shutdown();
+
     delete controller;
 }
 

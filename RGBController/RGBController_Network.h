@@ -19,6 +19,7 @@ class RGBController_Network : public RGBController
 {
 public:
     RGBController_Network(NetworkClient * client_ptr, unsigned int dev_idx_val);
+    ~RGBController_Network();
 
     unsigned int    GetID();
 

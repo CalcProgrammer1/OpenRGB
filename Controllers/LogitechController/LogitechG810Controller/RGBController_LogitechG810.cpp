@@ -242,6 +242,8 @@ RGBController_LogitechG810::RGBController_LogitechG810(LogitechG810Controller* c
 
 RGBController_LogitechG810::~RGBController_LogitechG810()
 {
+    Shutdown();
+
     delete controller;
 }
 

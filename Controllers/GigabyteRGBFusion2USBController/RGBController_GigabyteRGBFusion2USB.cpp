@@ -215,6 +215,8 @@ RGBController_RGBFusion2USB::~RGBController_RGBFusion2USB()
     }
     allocated_zones.clear();
 
+    Shutdown();
+
     delete controller;
 }
 

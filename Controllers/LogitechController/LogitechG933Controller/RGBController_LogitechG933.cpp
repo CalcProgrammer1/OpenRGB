@@ -50,6 +50,13 @@ RGBController_LogitechG933::RGBController_LogitechG933(LogitechG933Controller* c
     SetupZones();
 }
 
+RGBController_LogitechG933::~RGBController_LogitechG933()
+{
+    Shutdown();
+
+    delete controller;
+}
+
 void RGBController_LogitechG933::SetupZones()
 {
     zone G933_logo;

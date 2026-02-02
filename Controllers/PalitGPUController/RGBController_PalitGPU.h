@@ -18,6 +18,7 @@ class RGBController_PalitGPU : public RGBController
 {
 public:
     RGBController_PalitGPU(PalitGPUController* controller_ptr);
+    ~RGBController_PalitGPU();
 
     void        SetupZones();
 

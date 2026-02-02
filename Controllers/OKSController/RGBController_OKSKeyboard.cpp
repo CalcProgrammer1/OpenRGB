@@ -158,6 +158,8 @@ RGBController_OKSKeyboard::RGBController_OKSKeyboard(OKSKeyboardController* cont
 
 RGBController_OKSKeyboard::~RGBController_OKSKeyboard()
 {
+    Shutdown();
+
     delete controller;
 }
 

@@ -41,6 +41,8 @@ RGBController_MSIMysticLight64::RGBController_MSIMysticLight64
 
 RGBController_MSIMysticLight64::~RGBController_MSIMysticLight64()
 {
+    Shutdown();
+
     delete controller;
 }
 
