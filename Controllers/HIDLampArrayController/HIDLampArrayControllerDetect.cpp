@@ -25,10 +25,23 @@ DetectedControllers DetectHIDLampArrayControllers(hid_device_info* info, const s
 
     if(dev)
     {
-        HIDLampArrayController*     controller     = new HIDLampArrayController(dev, info->path);
-        RGBController_HIDLampArray* rgb_controller = new RGBController_HIDLampArray(controller);
+        HIDLampArrayController* controller = new HIDLampArrayController(dev, info->path);
 
-        detected_controllers.push_back(rgb_controller);
+        /*-------------------------------------------------*\
+        | Only create the RGBController if there are lamps  |
+        | detected in the controller.  Otherwise, delete    |
+        | the controller.                                   |
+        \*-------------------------------------------------*/
+        if(controller->GetLampCount() > 0)
+        {
+            RGBController_HIDLampArray* rgb_controller = new RGBController_HIDLampArray(controller);
+
+            detected_controllers.push_back(rgb_controller);
+        }
+        else
+        {
+            delete controller;
+        }
     }
 
     return(detected_controllers);
