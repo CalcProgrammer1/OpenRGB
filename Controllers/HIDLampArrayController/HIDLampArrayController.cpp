@@ -23,6 +23,7 @@ HIDLampArrayController::HIDLampArrayController(hid_device *dev_handle, const cha
     /*-----------------------------------------------------*\
     | Parse report IDs from descriptor                      |
     \*-----------------------------------------------------*/
+    unsigned int  curr_collection_usage = 0;
     unsigned char data_len              = 0;
     unsigned char key                   = 0;
     unsigned char key_cmd               = 0;
@@ -34,12 +35,33 @@ HIDLampArrayController::HIDLampArrayController(hid_device *dev_handle, const cha
     unsigned int  usage                 = 0;
     unsigned char usage_page            = 0;
 
+    /*-----------------------------------------------------*\
+    | Create a list of usages and their report IDs          |
+    \*-----------------------------------------------------*/
+    std::unordered_map<unsigned int, unsigned int> usage_to_report_id;
+
     while(pos < size)
     {
         get_hid_item_size(report_descriptor, size, pos, &data_len, &key_size);
 
         key                             = report_descriptor[pos];
         key_cmd                         = key & 0xFC;
+
+        switch(key)
+        {
+            case 0xA1:
+                curr_collection_usage   = usage;
+                if(usage_page == 0x59 && report_id)
+                {
+                    usage_to_report_id[curr_collection_usage] = report_id;
+                }
+                break;
+
+            case 0xC0:
+                curr_collection_usage   = 0;
+                report_id               = 0;
+                break;
+        }
 
         switch(key_cmd)
         {
@@ -49,49 +71,76 @@ HIDLampArrayController::HIDLampArrayController(hid_device *dev_handle, const cha
 
             case 0x8:
                 usage                   = get_hid_report_bytes(report_descriptor, size, data_len, pos);
-
                 if(data_len == 4)
                 {
-                    usage_page          = usage >> 16;
-                    usage              &= 0x0000FFFF;
-                }
-                if(usage_page == 0x59 && report_id)
-                {
-                    switch(usage)
+                    int local_usage_page = usage >> 16;
+                    usage &= 0x0000FFFF;
+                    if (local_usage_page == 0x59 && report_id)
                     {
-                        case 0x02:
-                            ids.LampArrayAttributesReportID     = report_id;
-                            break;
-
-                        case 0x20:
-                            ids.LampAttributesRequestReportID   = report_id;
-                            break;
-
-                        case 0x22:
-                            ids.LampAttributesResponseReportID  = report_id;
-                            break;
-
-                        case 0x50:
-                            ids.LampMultiUpdateReportID         = report_id;
-                            break;
-
-                        case 0x60:
-                            ids.LampRangeUpdateReportID         = report_id;
-                            break;
-
-                        case 0x70:
-                            ids.LampArrayControlReportID        = report_id;
-                            break;
+                        usage_to_report_id[usage] = report_id;
                     }
-                    report_id = 0;
                 }
                 break;
 
             case 0x84:
                 report_id               = get_hid_report_bytes(report_descriptor, size, data_len, pos);
+                if (usage_page == 0x59 && curr_collection_usage)
+                {
+                    usage_to_report_id[curr_collection_usage] = report_id;
+                }
                 break;
         }
         pos += data_len + key_size;
+    }
+
+    /*-----------------------------------------------------*\
+    | Get the report IDs for each report                    |
+    \*-----------------------------------------------------*/
+    for(const std::pair<unsigned int, unsigned int>& pair : usage_to_report_id)
+    {
+        switch(pair.first)
+        {
+            case 0x02:
+                ids.LampArrayAttributesReportID     = pair.second;
+                break;
+
+            case 0x20:
+                ids.LampAttributesRequestReportID   = pair.second;
+                break;
+
+            case 0x22:
+                ids.LampAttributesResponseReportID  = pair.second;
+                break;
+
+            case 0x50:
+                ids.LampMultiUpdateReportID         = pair.second;
+                break;
+
+            case 0x60:
+                ids.LampRangeUpdateReportID         = pair.second;
+                break;
+
+            case 0x70:
+                ids.LampArrayControlReportID        = pair.second;
+                break;
+        }
+    }
+
+    /*-----------------------------------------------------*\
+    | If reports are missing, return                        |
+    \*-----------------------------------------------------*/
+    bool report_missing                 = (ids.LampArrayAttributesReportID == 0)
+                                       || (ids.LampAttributesRequestReportID == 0)
+                                       || (ids.LampAttributesResponseReportID == 0)
+                                       || (ids.LampMultiUpdateReportID == 0)
+                                       || (ids.LampRangeUpdateReportID == 0)
+                                       || (ids.LampArrayControlReportID == 0);
+
+    if(report_missing)
+    {
+        LampArray.LampCount = 0;
+        LampArray.LampArrayKind = HID_LAMPARRAY_KIND_UNDEFINED;
+        return;
     }
 
     /*-----------------------------------------------------*\
