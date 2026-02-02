@@ -102,6 +102,13 @@ exit:
     return;
 }
 
+static std::string int_to_hex_str(uint32_t value)
+{
+    char hex_str[20] = {0};
+    snprintf(hex_str, sizeof(hex_str), "%X", value);
+    return std::string(hex_str);
+}
+
 std::string RtkArgbWrapper::get_manu_name()
 {
     return wcharToString(hidinfo->manufacturer_string);
@@ -132,6 +139,34 @@ std::string RtkArgbWrapper::get_fw_ver()
            std::to_string(fw_ver.fw_extra_ver) + "." +
            std::to_string(fw_ver.fw_build_date);
     return ver;
+}
+
+std::string RtkArgbWrapper::get_ic_uuid()
+{
+    uint32_t uuid = 0;
+    std::string uuid_str = "";
+
+    if (bridge_get_uuid(adev, (uint8_t *)&uuid))
+        goto exit;
+
+    uuid_str = int_to_hex_str(uuid);
+exit:
+    return uuid_str;
+}
+
+std::string RtkArgbWrapper::get_dev_name()
+{
+    PGINFO info = { 0 };
+    std::string devname = get_product_name();
+
+    if (!pg_read(adev, &info))
+    {
+        if (info.customized_led[5] == CUST_DEVNAME_MANU_UUID)
+        {
+            devname = get_manu_name() + get_ic_uuid();
+        }
+    }
+    return devname;
 }
 
 int RtkArgbWrapper::get_fix_grps()
@@ -219,7 +254,7 @@ int RtkArgbWrapper::set_argb_num(int grp_num, int new_num)
         if (led_argb_set_pos(adev, argb_ctl, group, poses, true))
             continue;
     }
-exit:
+
     if (poses)
     {
         free(poses);
@@ -232,13 +267,13 @@ exit:
 int RtkArgbWrapper::set_argb_direct(int grp_num, std::vector<RGBColor> color_buf, unsigned short brightness)
 {
     int ret = -1;
-    int color_num = color_buf.size();
+    size_t color_num = color_buf.size();
     int buf_len = color_num * ARGB_COLOR_DEPTH;
     static unsigned short prev_bright = 0xFFFF;
     uint8_t *buf;
     std::lock_guard<std::mutex> lock(my_mutex);
 
-    if (color_num <= 0)
+    if (color_num == 0)
         goto exit;
 
     if (appctl[grp_num] != LED_CTL_APP)
@@ -259,7 +294,7 @@ int RtkArgbWrapper::set_argb_direct(int grp_num, std::vector<RGBColor> color_buf
 
     buf = (uint8_t*)malloc(buf_len);
     memset(buf, 0, buf_len);
-    for (int i = 0; i < color_num; i++)
+    for (size_t i = 0; i < color_num; i++)
     {
         buf[i * ARGB_COLOR_DEPTH + 0] = RGBGetRValue(color_buf[i]);
         buf[i * ARGB_COLOR_DEPTH + 1] = RGBGetGValue(color_buf[i]);

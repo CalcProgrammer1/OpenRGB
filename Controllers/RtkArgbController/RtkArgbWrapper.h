@@ -37,6 +37,12 @@ enum RTK_ARGB_CYCLE_MS
     RTK_ARGB_CYCLE_MAX = 10000,
 };
 
+enum RTK_ARGB_CUST_DEVNAME
+{
+    CUST_DEVNAME_NULL = 0x0,
+    CUST_DEVNAME_MANU_UUID = 0x1,
+};
+
 class RtkArgbWrapper
 {
 public:
@@ -49,6 +55,8 @@ public:
     std::string get_sn();
     std::string get_dev_loc();
     std::string get_fw_ver();
+    std::string get_ic_uuid();
+    std::string get_dev_name();
     int get_fix_grps();
     int get_argb_num(int grp_num);
     int get_argb_brightness(int grp_num);

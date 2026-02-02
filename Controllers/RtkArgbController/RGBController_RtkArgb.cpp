@@ -26,7 +26,7 @@ RGBController_RtkArgb::RGBController_RtkArgb(RtkArgbWrapper *_wrapper)
 {
     this->wrapper = _wrapper;
 
-    name        = wrapper->get_product_name();
+    name        = wrapper->get_dev_name();
     vendor      = wrapper->get_manu_name();
     location    = wrapper->get_dev_loc();
     serial      = wrapper->get_sn();

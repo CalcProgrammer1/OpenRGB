@@ -17,6 +17,7 @@
 void DetectRtkArgbControllers(hid_device_info *info, const std::string &name)
 {
     RGBController_RtkArgb *controller = NULL;
+    RtkArgbWrapper *wrapper = NULL;
     static struct argb_device *dev = NULL;
     argbCtl *argb_ctl = NULL;
     int ret = -1;
@@ -46,7 +47,7 @@ void DetectRtkArgbControllers(hid_device_info *info, const std::string &name)
     }
     argb_ctl->sync_method = SYNC_METHOD_OPENRGB;
 
-    RtkArgbWrapper *wrapper = new RtkArgbWrapper(dev, argb_ctl, info);
+    wrapper = new RtkArgbWrapper(dev, argb_ctl, info);
     controller = new RGBController_RtkArgb(wrapper);
     if(controller->type != DEVICE_TYPE_UNKNOWN)
     {
