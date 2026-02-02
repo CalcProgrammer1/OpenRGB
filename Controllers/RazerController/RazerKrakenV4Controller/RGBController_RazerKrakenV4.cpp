@@ -48,6 +48,8 @@ RGBController_RazerKrakenV4::RGBController_RazerKrakenV4(RazerKrakenV4Controller
 
 RGBController_RazerKrakenV4::~RGBController_RazerKrakenV4()
 {
+    Shutdown();
+
     delete controller;
 }
 

@@ -18,6 +18,7 @@ class RGBController_PNYLovelaceGPU : public RGBController
 {
 public:
     RGBController_PNYLovelaceGPU(PNYLovelaceGPUController* controller_ptr);
+    ~RGBController_PNYLovelaceGPU();
 
     void        SetupZones();
 

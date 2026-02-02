@@ -158,6 +158,8 @@ RGBController_GMOW::RGBController_GMOW(SinowealthGMOWController* controller_ptr)
 
 RGBController_GMOW::~RGBController_GMOW()
 {
+    Shutdown();
+
     delete controller;
 }
 

@@ -86,6 +86,8 @@ RGBController_EVGAGPUv1::RGBController_EVGAGPUv1(EVGAGPUv1Controller* controller
 
 RGBController_EVGAGPUv1::~RGBController_EVGAGPUv1()
 {
+    Shutdown();
+
     delete controller;
 }
 

@@ -48,6 +48,8 @@ RGBController_ThermaltakeRiingTrio::RGBController_ThermaltakeRiingTrio(Thermalta
 
 RGBController_ThermaltakeRiingTrio::~RGBController_ThermaltakeRiingTrio()
 {
+    Shutdown();
+
     delete controller;
 }
 

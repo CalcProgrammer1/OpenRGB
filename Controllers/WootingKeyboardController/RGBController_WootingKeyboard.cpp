@@ -635,6 +635,8 @@ RGBController_WootingKeyboard::RGBController_WootingKeyboard(WootingKeyboardCont
 
 RGBController_WootingKeyboard::~RGBController_WootingKeyboard()
 {
+    Shutdown();
+
     delete controller;
 }
 

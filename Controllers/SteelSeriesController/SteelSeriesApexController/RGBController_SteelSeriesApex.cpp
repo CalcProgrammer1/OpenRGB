@@ -65,6 +65,8 @@ RGBController_SteelSeriesApex::RGBController_SteelSeriesApex(SteelSeriesApexBase
 
 RGBController_SteelSeriesApex::~RGBController_SteelSeriesApex()
 {
+    Shutdown();
+
     delete controller;
 }
 

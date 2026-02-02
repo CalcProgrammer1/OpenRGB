@@ -89,6 +89,8 @@ RGBController_BloodyMouse::RGBController_BloodyMouse(BloodyMouseController *cont
 
 RGBController_BloodyMouse::~RGBController_BloodyMouse()
 {
+    Shutdown();
+
     delete controller;
 }
 

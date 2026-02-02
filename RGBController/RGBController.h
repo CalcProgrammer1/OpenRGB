@@ -665,6 +665,8 @@ public:
     /*-----------------------------------------------------*\
     | Device Update Functions                               |
     \*-----------------------------------------------------*/
+    void                    Shutdown();
+
     void                    UpdateLEDs();
     void                    UpdateZoneLEDs(int zone);
     void                    UpdateSingleLED(int led);

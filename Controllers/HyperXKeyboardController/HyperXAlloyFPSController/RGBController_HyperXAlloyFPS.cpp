@@ -192,6 +192,8 @@ RGBController_HyperXAlloyFPS::RGBController_HyperXAlloyFPS(HyperXAlloyFPSControl
 
 RGBController_HyperXAlloyFPS::~RGBController_HyperXAlloyFPS()
 {
+    Shutdown();
+
     keepalive_thread_run = false;
     keepalive_thread->join();
     delete keepalive_thread;

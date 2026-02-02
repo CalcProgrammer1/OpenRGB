@@ -52,6 +52,8 @@ RGBController_DDP::RGBController_DDP(std::vector<DDPDevice> device_list)
 
 RGBController_DDP::~RGBController_DDP()
 {
+    Shutdown();
+
     delete controller;
 }
 

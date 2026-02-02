@@ -313,6 +313,8 @@ RGBController_LianLiUniHubSLV2::RGBController_LianLiUniHubSLV2(LianLiUniHubSLV2C
 
 RGBController_LianLiUniHubSLV2::~RGBController_LianLiUniHubSLV2()
 {
+    Shutdown();
+
     delete controller;
 }
 

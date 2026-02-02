@@ -144,6 +144,8 @@ RGBController_AnnePro2::RGBController_AnnePro2(AnnePro2Controller* controller_pt
 
 RGBController_AnnePro2::~RGBController_AnnePro2()
 {
+    Shutdown();
+
     delete controller;
 }
 

@@ -47,6 +47,8 @@ RGBController_Nollie::RGBController_Nollie(NollieController* controller_ptr)
 
 RGBController_Nollie::~RGBController_Nollie()
 {
+    Shutdown();
+
     delete controller;
 }
 

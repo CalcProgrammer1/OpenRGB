@@ -153,6 +153,8 @@ RGBController_DarkProjectKeyboard::RGBController_DarkProjectKeyboard(DarkProject
 
 RGBController_DarkProjectKeyboard::~RGBController_DarkProjectKeyboard()
 {
+    Shutdown();
+
     delete controller;
 }
 

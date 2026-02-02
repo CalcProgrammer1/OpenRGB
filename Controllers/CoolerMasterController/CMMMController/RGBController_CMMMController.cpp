@@ -168,6 +168,8 @@ RGBController_CMMMController::RGBController_CMMMController(CMMMController* contr
 
 RGBController_CMMMController::~RGBController_CMMMController()
 {
+    Shutdown();
+
     delete controller;
 }
 

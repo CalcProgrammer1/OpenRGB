@@ -53,6 +53,8 @@ RGBController_HYTEMousemat::RGBController_HYTEMousemat(HYTEMousematController* c
 
 RGBController_HYTEMousemat::~RGBController_HYTEMousemat()
 {
+    Shutdown();
+
     delete controller;
 }
 

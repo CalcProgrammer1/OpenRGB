@@ -129,6 +129,8 @@ RGBController_LenovoMotherboard::RGBController_LenovoMotherboard(LenovoMotherboa
 
 RGBController_LenovoMotherboard::~RGBController_LenovoMotherboard()
 {
+    Shutdown();
+
     delete controller;
 }
 

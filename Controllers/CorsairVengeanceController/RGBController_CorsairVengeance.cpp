@@ -59,6 +59,8 @@ RGBController_CorsairVengeance::RGBController_CorsairVengeance(CorsairVengeanceC
 
 RGBController_CorsairVengeance::~RGBController_CorsairVengeance()
 {
+    Shutdown();
+
     delete controller;
 }
 

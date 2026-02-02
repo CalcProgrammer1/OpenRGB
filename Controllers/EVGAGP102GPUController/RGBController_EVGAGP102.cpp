@@ -77,6 +77,8 @@ RGBController_EVGAGP102::RGBController_EVGAGP102(std::vector<EVGAGP102Controller
 
 RGBController_EVGAGP102::~RGBController_EVGAGP102()
 {
+    Shutdown();
+
     for(unsigned int i = 0; i < controllers.size(); i++)
     {
         delete controllers[i];

@@ -125,6 +125,8 @@ RGBController_EKController::RGBController_EKController(EKController* controller_
 
 RGBController_EKController::~RGBController_EKController()
 {
+    Shutdown();
+
     delete controller;
 }
 

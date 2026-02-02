@@ -71,6 +71,8 @@ RGBController_SinowealthKeyboard10c::RGBController_SinowealthKeyboard10c(
 
 RGBController_SinowealthKeyboard10c::~RGBController_SinowealthKeyboard10c()
 {
+    Shutdown();
+
     keepalive_thread_run = false;
     keepalive_thread->join();
     delete keepalive_thread;

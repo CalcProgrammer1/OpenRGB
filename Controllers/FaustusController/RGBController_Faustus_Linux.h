@@ -38,6 +38,7 @@ class RGBController_Faustus : public RGBController
 
     public:
         RGBController_Faustus(const std::string& dev_path);
+        ~RGBController_Faustus();
 
         void        SetupZones();
 

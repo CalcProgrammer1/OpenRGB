@@ -58,7 +58,13 @@ RGBController_HyperXPulsefireRaid::RGBController_HyperXPulsefireRaid(HyperXPulse
 
 RGBController_HyperXPulsefireRaid::~RGBController_HyperXPulsefireRaid()
 {
+    Shutdown();
 
+    keepalive_thread_run = 0;
+    keepalive_thread->join();
+    delete keepalive_thread;
+
+    delete controller;
 }
 
 void RGBController_HyperXPulsefireRaid::SetupZones()

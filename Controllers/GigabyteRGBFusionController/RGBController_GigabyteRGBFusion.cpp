@@ -74,6 +74,8 @@ RGBController_RGBFusion::RGBController_RGBFusion(RGBFusionController* controller
 
 RGBController_RGBFusion::~RGBController_RGBFusion()
 {
+    Shutdown();
+
     delete controller;
 }
 

@@ -64,6 +64,8 @@ RGBController_LogitechG600::RGBController_LogitechG600(LogitechG600Controller* c
 
 RGBController_LogitechG600::~RGBController_LogitechG600()
 {
+    Shutdown();
+
     delete controller;
 }
 

@@ -65,6 +65,8 @@ RGBController_Yeelight::RGBController_Yeelight(YeelightController* controller_pt
 
 RGBController_Yeelight::~RGBController_Yeelight()
 {
+    Shutdown();
+
     delete controller;
 }
 

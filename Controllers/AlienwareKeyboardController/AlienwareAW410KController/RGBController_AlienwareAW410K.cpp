@@ -278,6 +278,8 @@ RGBController_AlienwareAW410K::RGBController_AlienwareAW410K(AlienwareAW410KCont
 
 RGBController_AlienwareAW410K::~RGBController_AlienwareAW410K()
 {
+    Shutdown();
+
     delete controller;
 }
 

@@ -46,6 +46,13 @@ RGBController_PalitGPU::RGBController_PalitGPU(PalitGPUController* controller_pt
     active_mode = 0;
 }
 
+RGBController_PalitGPU::~RGBController_PalitGPU()
+{
+    Shutdown();
+
+    delete controller;
+}
+
 void RGBController_PalitGPU::SetupZones()
 {
     /*---------------------------------------------------------*\

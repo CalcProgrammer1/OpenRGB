@@ -46,6 +46,8 @@ RGBController_AlienwareMonitor::RGBController_AlienwareMonitor(AlienwareMonitorC
 
 RGBController_AlienwareMonitor::~RGBController_AlienwareMonitor()
 {
+    Shutdown();
+
     delete controller;
 }
 

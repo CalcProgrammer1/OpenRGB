@@ -107,6 +107,8 @@ RGBController_CougarRevengerST::RGBController_CougarRevengerST(CougarRevengerSTC
 
 RGBController_CougarRevengerST::~RGBController_CougarRevengerST()
 {
+    Shutdown();
+
     delete controller;
 }
 

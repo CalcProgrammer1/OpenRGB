@@ -212,6 +212,8 @@ RGBController_PoseidonZRGB::RGBController_PoseidonZRGB(PoseidonZRGBController* c
 
 RGBController_PoseidonZRGB::~RGBController_PoseidonZRGB()
 {
+    Shutdown();
+
     delete controller;
 }
 

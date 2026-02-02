@@ -117,7 +117,9 @@ RGBController_Luxafor::RGBController_Luxafor(LuxaforController* controller_ptr)
 
 RGBController_Luxafor::~RGBController_Luxafor()
 {
+    Shutdown();
 
+    delete controller;
 }
 
 void RGBController_Luxafor::SetupZones()
