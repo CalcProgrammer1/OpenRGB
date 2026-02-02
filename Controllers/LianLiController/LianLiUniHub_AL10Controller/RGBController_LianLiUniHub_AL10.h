@@ -21,6 +21,7 @@ class RGBController_LianLiUniHub_AL10 : public RGBController
 {
 public:
     RGBController_LianLiUniHub_AL10(LianLiUniHub_AL10Controller* controller_ptr);
+    ~RGBController_LianLiUniHub_AL10();
 
     void SetupZones();
 

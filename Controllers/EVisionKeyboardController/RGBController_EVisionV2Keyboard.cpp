@@ -330,6 +330,8 @@ RGBController_EVisionV2Keyboard::RGBController_EVisionV2Keyboard(EVisionV2Keyboa
 
 RGBController_EVisionV2Keyboard::~RGBController_EVisionV2Keyboard()
 {
+    Shutdown();
+
     if(keepalive_thread)
     {
         keepalive_thread_run = false;

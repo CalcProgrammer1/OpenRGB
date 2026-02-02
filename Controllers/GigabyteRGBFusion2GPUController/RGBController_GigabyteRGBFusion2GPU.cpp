@@ -156,6 +156,8 @@ RGBController_RGBFusion2GPU::RGBController_RGBFusion2GPU(RGBFusion2GPUController
 
 RGBController_RGBFusion2GPU::~RGBController_RGBFusion2GPU()
 {
+    Shutdown();
+
     delete controller;
 }
 

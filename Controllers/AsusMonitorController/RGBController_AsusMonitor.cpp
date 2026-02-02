@@ -46,6 +46,8 @@ RGBController_AsusMonitor::RGBController_AsusMonitor(AsusMonitorController* cont
 
 RGBController_AsusMonitor::~RGBController_AsusMonitor()
 {
+    Shutdown();
+
     delete controller;
 }
 

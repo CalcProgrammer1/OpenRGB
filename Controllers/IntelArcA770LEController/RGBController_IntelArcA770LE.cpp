@@ -51,6 +51,8 @@ RGBController_IntelArcA770LE::RGBController_IntelArcA770LE(IntelArcA770LEControl
 
 RGBController_IntelArcA770LE::~RGBController_IntelArcA770LE()
 {
+    Shutdown();
+
     delete controller;
 }
 

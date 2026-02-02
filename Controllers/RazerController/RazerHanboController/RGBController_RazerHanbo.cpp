@@ -65,6 +65,8 @@ RGBController_RazerHanbo::RGBController_RazerHanbo(RazerHanboController* control
 
 RGBController_RazerHanbo::~RGBController_RazerHanbo()
 {
+    Shutdown();
+
     delete controller;
 }
 

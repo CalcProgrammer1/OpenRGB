@@ -138,6 +138,8 @@ RGBController_ManliGPU::RGBController_ManliGPU(ManliGPUController* controller_pt
 
 RGBController_ManliGPU::~RGBController_ManliGPU()
 {
+    Shutdown();
+
     delete controller;
 }
 

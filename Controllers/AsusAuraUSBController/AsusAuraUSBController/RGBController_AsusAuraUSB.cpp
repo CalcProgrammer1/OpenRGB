@@ -119,6 +119,8 @@ RGBController_AuraUSB::RGBController_AuraUSB(AuraUSBController* controller_ptr) 
 
 RGBController_AuraUSB::~RGBController_AuraUSB()
 {
+    Shutdown();
+
     delete controller;
 }
 

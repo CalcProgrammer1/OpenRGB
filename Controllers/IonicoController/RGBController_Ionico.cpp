@@ -130,6 +130,8 @@ RGBController_Ionico::RGBController_Ionico(IonicoController* controller_ptr)
 
 RGBController_Ionico::~RGBController_Ionico()
 {
+    Shutdown();
+
     delete controller;
 }
 

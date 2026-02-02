@@ -79,6 +79,8 @@ RGBController_HYTEKeyboard::RGBController_HYTEKeyboard(HYTEKeyboardController* c
 
 RGBController_HYTEKeyboard::~RGBController_HYTEKeyboard()
 {
+    Shutdown();
+
     delete controller;
 }
 
