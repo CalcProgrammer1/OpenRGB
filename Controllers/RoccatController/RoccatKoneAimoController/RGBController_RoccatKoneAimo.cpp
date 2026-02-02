@@ -50,6 +50,8 @@ RGBController_RoccatKoneAimo::RGBController_RoccatKoneAimo(RoccatKoneAimoControl
 
 RGBController_RoccatKoneAimo::~RGBController_RoccatKoneAimo()
 {
+    Shutdown();
+
     delete controller;
 }
 

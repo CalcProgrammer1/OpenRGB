@@ -151,6 +151,8 @@ RGBController_Sinowealth::RGBController_Sinowealth(SinowealthController* control
 
 RGBController_Sinowealth::~RGBController_Sinowealth()
 {
+    Shutdown();
+
     delete controller;
 }
 

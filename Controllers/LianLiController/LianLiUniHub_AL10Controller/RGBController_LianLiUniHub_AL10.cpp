@@ -353,6 +353,13 @@ RGBController_LianLiUniHub_AL10::RGBController_LianLiUniHub_AL10(LianLiUniHub_AL
     RGBController_LianLiUniHub_AL10::SetupZones();
 }
 
+RGBController_LianLiUniHub_AL10::~RGBController_LianLiUniHub_AL10()
+{
+    Shutdown();
+
+    delete controller;
+}
+
 void RGBController_LianLiUniHub_AL10::SetupZones()
 {
     /*-------------------------------------------------*\

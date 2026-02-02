@@ -274,6 +274,8 @@ RGBController_EpomakerController::RGBController_EpomakerController(EpomakerContr
 
 RGBController_EpomakerController::~RGBController_EpomakerController()
 {
+    Shutdown();
+
     delete controller;
 }
 

@@ -196,6 +196,8 @@ RGBController_RedSquareKeyroxTKLClassic::RGBController_RedSquareKeyroxTKLClassic
 
 RGBController_RedSquareKeyroxTKLClassic::~RGBController_RedSquareKeyroxTKLClassic()
 {
+    Shutdown();
+
     delete controller;
 }
 

@@ -186,6 +186,8 @@ RGBController_CMARGBGen2A1Controller::RGBController_CMARGBGen2A1Controller(CMARG
 
 RGBController_CMARGBGen2A1Controller::~RGBController_CMARGBGen2A1Controller()
 {
+    Shutdown();
+
     delete controller;
 }
 

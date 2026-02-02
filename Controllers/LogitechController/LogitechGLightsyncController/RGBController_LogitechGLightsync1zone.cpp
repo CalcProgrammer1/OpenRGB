@@ -85,6 +85,8 @@ RGBController_LogitechGLightsync1zone::RGBController_LogitechGLightsync1zone(Log
 
 RGBController_LogitechGLightsync1zone::~RGBController_LogitechGLightsync1zone()
 {
+    Shutdown();
+
     delete controller;
 }
 

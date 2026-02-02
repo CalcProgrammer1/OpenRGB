@@ -133,6 +133,8 @@ RGBController_RoccatSenseAimo::RGBController_RoccatSenseAimo(RoccatSenseAimoCont
 
 RGBController_RoccatSenseAimo::~RGBController_RoccatSenseAimo()
 {
+    Shutdown();
+
     delete controller;
 }
 

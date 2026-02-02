@@ -50,6 +50,8 @@ RGBController_SteelSeriesOldApex::RGBController_SteelSeriesOldApex(SteelSeriesOl
 
 RGBController_SteelSeriesOldApex::~RGBController_SteelSeriesOldApex()
 {
+    Shutdown();
+
     delete controller;
 }
 

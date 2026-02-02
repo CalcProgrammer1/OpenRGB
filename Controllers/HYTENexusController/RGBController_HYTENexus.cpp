@@ -52,6 +52,8 @@ RGBController_HYTENexus::RGBController_HYTENexus(HYTENexusController* controller
 
 RGBController_HYTENexus::~RGBController_HYTENexus()
 {
+    Shutdown();
+
     delete controller;
 }
 

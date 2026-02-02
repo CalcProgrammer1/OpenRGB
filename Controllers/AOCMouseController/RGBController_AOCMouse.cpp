@@ -123,6 +123,8 @@ RGBController_AOCMouse::RGBController_AOCMouse(AOCMouseController* controller_pt
 
 RGBController_AOCMouse::~RGBController_AOCMouse()
 {
+    Shutdown();
+
     delete controller;
 }
 

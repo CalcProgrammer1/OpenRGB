@@ -73,6 +73,8 @@ RGBController_RedragonMouse::RGBController_RedragonMouse(RedragonMouseController
 
 RGBController_RedragonMouse::~RGBController_RedragonMouse()
 {
+    Shutdown();
+
     delete controller;
 }
 

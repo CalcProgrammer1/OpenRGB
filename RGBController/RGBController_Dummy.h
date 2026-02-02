@@ -18,6 +18,7 @@ class RGBController_Dummy : public RGBController
 {
 public:
     RGBController_Dummy();
+    ~RGBController_Dummy();
 
     void        SetupZones();
 

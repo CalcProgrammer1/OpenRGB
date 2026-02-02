@@ -129,6 +129,8 @@ RGBController_AsusROGStrixLC::RGBController_AsusROGStrixLC(AsusROGStrixLCControl
 
 RGBController_AsusROGStrixLC::~RGBController_AsusROGStrixLC()
 {
+    Shutdown();
+
     delete controller;
 }
 
