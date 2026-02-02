@@ -164,6 +164,8 @@ RGBController_DygmaRaise::RGBController_DygmaRaise(DygmaRaiseController* control
 
 RGBController_DygmaRaise::~RGBController_DygmaRaise()
 {
+    Shutdown();
+
     delete controller;
 }
 

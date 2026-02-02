@@ -112,6 +112,8 @@ RGBController_AuraHeadsetStand::RGBController_AuraHeadsetStand(AuraHeadsetStandC
 
 RGBController_AuraHeadsetStand::~RGBController_AuraHeadsetStand()
 {
+    Shutdown();
+
     delete controller;
 }
 

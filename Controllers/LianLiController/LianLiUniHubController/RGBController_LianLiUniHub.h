@@ -20,6 +20,7 @@ class RGBController_LianLiUniHub : public RGBController
 {
 public:
     RGBController_LianLiUniHub(LianLiUniHubController* controller_ptr);
+    ~RGBController_LianLiUniHub();
 
     void SetupZones();
     void DeviceResizeZone(int zone, int new_size);

@@ -66,6 +66,8 @@ RGBController_SteelSeriesSensei::RGBController_SteelSeriesSensei(SteelSeriesSens
 
 RGBController_SteelSeriesSensei::~RGBController_SteelSeriesSensei()
 {
+    Shutdown();
+
     delete controller;
 }
 

@@ -48,6 +48,8 @@ RGBController_DRGB::RGBController_DRGB(DRGBController* controller_ptr)
 
 RGBController_DRGB::~RGBController_DRGB()
 {
+    Shutdown();
+
     delete controller;
 }
 

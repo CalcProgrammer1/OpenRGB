@@ -82,6 +82,8 @@ RGBController_HoltekA1FA::RGBController_HoltekA1FA(HoltekA1FAController* control
 
 RGBController_HoltekA1FA::~RGBController_HoltekA1FA()
 {
+    Shutdown();
+
     delete controller;
 }
 

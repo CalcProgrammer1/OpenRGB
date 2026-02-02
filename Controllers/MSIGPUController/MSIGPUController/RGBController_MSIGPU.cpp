@@ -324,6 +324,8 @@ RGBController_MSIGPU::RGBController_MSIGPU(MSIGPUController * controller_ptr)
 
 RGBController_MSIGPU::~RGBController_MSIGPU()
 {
+    Shutdown();
+
     delete controller;
 }
 

@@ -199,6 +199,8 @@ RGBController_ClevoKeyboard::RGBController_ClevoKeyboard(ClevoKeyboardController
 
 RGBController_ClevoKeyboard::~RGBController_ClevoKeyboard()
 {
+    Shutdown();
+
     delete controller;
 }
 

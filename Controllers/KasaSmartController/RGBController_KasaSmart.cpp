@@ -72,6 +72,8 @@ RGBController_KasaSmart::RGBController_KasaSmart(KasaSmartController* controller
 
 RGBController_KasaSmart::~RGBController_KasaSmart()
 {
+    Shutdown();
+
     delete controller;
 }
 

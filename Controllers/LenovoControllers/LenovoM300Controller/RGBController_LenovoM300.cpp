@@ -73,6 +73,8 @@ RGBController_LenovoM300::RGBController_LenovoM300(LenovoM300Controller* control
 
 RGBController_LenovoM300::~RGBController_LenovoM300()
 {
+    Shutdown();
+
     delete controller;
 }
 

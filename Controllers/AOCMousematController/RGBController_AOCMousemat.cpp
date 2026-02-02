@@ -113,6 +113,8 @@ RGBController_AOCMousemat::RGBController_AOCMousemat(AOCMousematController* cont
 
 RGBController_AOCMousemat::~RGBController_AOCMousemat()
 {
+    Shutdown();
+
     delete controller;
 }
 

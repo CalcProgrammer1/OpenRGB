@@ -19,6 +19,7 @@ class RGBController_Alienware : public RGBController
 {
 public:
     RGBController_Alienware(AlienwareController* controller_ptr);
+    ~RGBController_Alienware();
 
     void        SetupZones();
 

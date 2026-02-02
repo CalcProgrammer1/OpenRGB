@@ -293,6 +293,8 @@ RGBController_MSIGPUv2::RGBController_MSIGPUv2(MSIGPUv2Controller * controller_p
 
 RGBController_MSIGPUv2::~RGBController_MSIGPUv2()
 {
+    Shutdown();
+
     delete controller;
 }
 

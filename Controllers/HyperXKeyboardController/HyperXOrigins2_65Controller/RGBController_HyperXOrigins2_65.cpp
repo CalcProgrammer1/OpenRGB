@@ -153,6 +153,8 @@ RGBController_HyperXOrigins2_65::RGBController_HyperXOrigins2_65(HyperXOrigins2_
 
 RGBController_HyperXOrigins2_65::~RGBController_HyperXOrigins2_65()
 {
+    Shutdown();
+
     keepalive_thread_run = 0;
     keepalive_thread->join();
     delete keepalive_thread;

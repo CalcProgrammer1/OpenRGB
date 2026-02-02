@@ -132,6 +132,8 @@ RGBController_AMDWraithPrism::RGBController_AMDWraithPrism(AMDWraithPrismControl
 
 RGBController_AMDWraithPrism::~RGBController_AMDWraithPrism()
 {
+    Shutdown();
+
     delete controller;
 }
 

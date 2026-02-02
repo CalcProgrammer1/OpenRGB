@@ -141,6 +141,8 @@ RGBController_CMMonitorController::RGBController_CMMonitorController(CMMonitorCo
 
 RGBController_CMMonitorController::~RGBController_CMMonitorController()
 {
+    Shutdown();
+
     delete controller;
 }
 

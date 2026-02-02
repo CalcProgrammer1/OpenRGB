@@ -44,6 +44,8 @@ RGBController_SteelSeriesSiberia::RGBController_SteelSeriesSiberia(SteelSeriesSi
 
 RGBController_SteelSeriesSiberia::~RGBController_SteelSeriesSiberia()
 {
+    Shutdown();
+
     delete controller;
 }
 

@@ -128,6 +128,8 @@ RGBController_AsusAuraRyuoAIO::RGBController_AsusAuraRyuoAIO(AsusAuraRyuoAIOCont
 
 RGBController_AsusAuraRyuoAIO::~RGBController_AsusAuraRyuoAIO()
 {
+    Shutdown();
+
     delete controller;
 }
 
