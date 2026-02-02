@@ -1,3 +1,5 @@
+#ifndef __FreeBSD__
+
 #include "RtkArgbWrapper.h"
 
 static struct usb_id id[] = {
@@ -53,7 +55,7 @@ retry:
     {
         if (adev)
         {
-            argb_bridge_disconnect(adev, 1);
+            bridge_disconnect(adev, 1);
             argb_dev_close(adev);
             adev = NULL;
         }
@@ -66,7 +68,7 @@ opendev:
             goto retry;
         }
 
-        adev = argb_path_open(devs->path, ARGB_DEV_HID);
+        adev = argb_path_open(devs->path, BRINTF_TYPE_HID, NULL);
         if (!adev) {
             devs = devs->next;
             goto opendev;
@@ -77,7 +79,7 @@ opendev:
             goto opendev;
         }
 
-        if (argb_bridge_write_unlock(adev)) {
+        if (bridge_write_unlock(adev)) {
             devs = devs->next;
             goto opendev;
         }
@@ -124,7 +126,7 @@ std::string RtkArgbWrapper::get_fw_ver()
 {
     struct bridge_fw_version fw_ver;
     std::string ver = "";
-    argb_bridge_get_fw_ver(adev, &fw_ver);
+    bridge_get_fw_ver(adev, &fw_ver);
     ver += std::to_string(fw_ver.fw_major_ver) + "." +
            std::to_string(fw_ver.fw_minor_ver) + "." +
            std::to_string(fw_ver.fw_extra_ver) + "." +
@@ -345,3 +347,5 @@ std::string RtkArgbWrapper::wcharToString(const wchar_t *wstr)
 #endif
     return str;
 }
+
+#endif

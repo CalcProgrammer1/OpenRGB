@@ -1,3 +1,5 @@
+#ifndef __FreeBSD__
+
 #include "Detector.h"
 #include "RGBController.h"
 #include "RGBController_RtkArgb.h"
@@ -19,7 +21,7 @@ void DetectRtkArgbControllers(hid_device_info *info, const std::string &name)
     argbCtl *argb_ctl = NULL;
     int ret = -1;
 
-    dev = argb_path_open(info->path, ARGB_DEV_HID);
+    dev = argb_path_open(info->path, BRINTF_TYPE_HID, NULL);
     if (!dev) {
         goto exit;
     }
@@ -28,7 +30,7 @@ void DetectRtkArgbControllers(hid_device_info *info, const std::string &name)
         goto exit;
     }
 
-    if (argb_bridge_write_unlock(dev)) {
+    if (bridge_write_unlock(dev)) {
         goto exit;
     }
 
@@ -60,3 +62,5 @@ exit:
 }
 
 REGISTER_HID_DETECTOR_PU   ("RTL9209", DetectRtkArgbControllers, RTK_ARGB_VID, RTK_ARGB_PID, RTK_HID2SCSI_PG, RTK_HID2SCSI_USAGE);
+
+#endif

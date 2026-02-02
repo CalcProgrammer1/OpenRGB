@@ -1,3 +1,5 @@
+#ifndef __FreeBSD__
+
 #include "RGBController_RtkBridge.h"
 
 /**------------------------------------------------------------------*\
@@ -288,3 +290,5 @@ void RGBController_RtkBridge::DeviceUpdateMode()
         DeviceUpdateLEDs();
     }
 }
+
+#endif

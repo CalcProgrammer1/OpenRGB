@@ -7,6 +7,7 @@
 |   This file is part of the OpenRGB project                |
 |   SPDX-License-Identifier: GPL-2.0-only                   |
 \*---------------------------------------------------------*/
+#ifndef __FreeBSD__
 
 #include "RGBController_RtkArgb.h"
 
@@ -371,3 +372,5 @@ void RGBController_RtkArgb::DeviceUpdateMode()
         DeviceUpdateLEDs();
     }
 }
+
+#endif

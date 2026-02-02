@@ -1,3 +1,5 @@
+#ifndef __FreeBSD__
+
 #include "Detector.h"
 #include "RGBController_RtkBridge.h"
 
@@ -76,3 +78,5 @@ exit:
 
 REGISTER_HID_DETECTOR_PU   ("RTL9220", DetectRtkBridgeControllers, RTK_BRIDGE_VID, RTK_BRIDGE_PID0, RTK_HID2SCSI_PG, RTK_HID2SCSI_USAGE);
 REGISTER_HID_DETECTOR_PU   ("RTL9201", DetectRtkBridgeControllers, RTK_BRIDGE_VID, RTK_BRIDGE_PID1, RTK_HID2SCSI_PG, RTK_HID2SCSI_USAGE);
+
+#endif

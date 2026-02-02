@@ -1,3 +1,5 @@
+#ifndef __FreeBSD__
+
 #include "RtkBridgeWrapper.h"
 
 
@@ -211,3 +213,5 @@ std::string RtkBridgeWrapper::wcharToString(const wchar_t *wstr)
 #endif
     return str;
 }
+
+#endif

@@ -1,6 +1,7 @@
 #pragma once
 
 #define CONFIG_HID
+#define CONFIG_HID_ALL
 #define CONFIG_ARGB_DEV
 
 #include <stdlib.h>
