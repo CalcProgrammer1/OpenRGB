@@ -20,6 +20,11 @@ RGBController_Network::RGBController_Network(NetworkClient * client_ptr, unsigne
     dev_id  = dev_id_val;
 }
 
+RGBController_Network::~RGBController_Network()
+{
+    Shutdown();
+}
+
 unsigned int RGBController_Network::GetID()
 {
     return(dev_id);

@@ -58,6 +58,8 @@ RGBController_Govee::RGBController_Govee(GoveeController* controller_ptr)
 
 RGBController_Govee::~RGBController_Govee()
 {
+    Shutdown();
+
     keepalive_thread_run = 0;
     keepalive_thread->join();
     delete keepalive_thread;

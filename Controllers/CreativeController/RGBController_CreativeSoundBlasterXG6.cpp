@@ -46,6 +46,8 @@ RGBController_CreativeSoundBlasterXG6::RGBController_CreativeSoundBlasterXG6(Cre
 
 RGBController_CreativeSoundBlasterXG6::~RGBController_CreativeSoundBlasterXG6()
 {
+    Shutdown();
+
     delete controller;
 }
 

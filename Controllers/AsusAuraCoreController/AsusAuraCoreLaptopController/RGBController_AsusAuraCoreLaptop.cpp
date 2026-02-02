@@ -268,6 +268,8 @@ RGBController_AsusAuraCoreLaptop::RGBController_AsusAuraCoreLaptop(AsusAuraCoreL
 
 RGBController_AsusAuraCoreLaptop::~RGBController_AsusAuraCoreLaptop()
 {
+    Shutdown();
+
     delete controller;
 }
 

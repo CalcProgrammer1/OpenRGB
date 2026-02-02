@@ -122,6 +122,8 @@ RGBController_CMMM712Controller::RGBController_CMMM712Controller(CMMM712Controll
 
 RGBController_CMMM712Controller::~RGBController_CMMM712Controller()
 {
+    Shutdown();
+
     delete controller;
 }
 

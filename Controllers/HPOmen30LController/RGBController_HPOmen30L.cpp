@@ -142,6 +142,8 @@ RGBController_HPOmen30L::RGBController_HPOmen30L(HPOmen30LController* controller
 
 RGBController_HPOmen30L::~RGBController_HPOmen30L()
 {
+    Shutdown();
+
     delete controller;
 }
 

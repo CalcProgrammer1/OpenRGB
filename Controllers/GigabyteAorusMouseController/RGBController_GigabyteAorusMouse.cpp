@@ -121,6 +121,8 @@ RGBController_GigabyteAorusMouse::RGBController_GigabyteAorusMouse(GigabyteAorus
 
 RGBController_GigabyteAorusMouse::~RGBController_GigabyteAorusMouse()
 {
+    Shutdown();
+
     delete controller;
 }
 

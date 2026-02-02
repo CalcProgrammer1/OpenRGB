@@ -44,6 +44,8 @@ RGBController_AMBX::RGBController_AMBX(AMBXController* controller_ptr)
 
 RGBController_AMBX::~RGBController_AMBX()
 {
+    Shutdown();
+
     delete controller;
 }
 

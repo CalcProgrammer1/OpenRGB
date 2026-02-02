@@ -19,6 +19,7 @@ class RGBController_Nanoleaf : public RGBController
 
 public:
     RGBController_Nanoleaf(std::string a_address, int a_port, std::string a_auth_token);
+    ~RGBController_Nanoleaf();
 
     void        SetupZones();
 

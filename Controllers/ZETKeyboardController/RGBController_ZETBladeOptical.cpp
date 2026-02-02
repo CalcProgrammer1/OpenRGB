@@ -432,6 +432,8 @@ RGBController_ZETBladeOptical::RGBController_ZETBladeOptical(ZETBladeOpticalCont
 
 RGBController_ZETBladeOptical::~RGBController_ZETBladeOptical()
 {
+    Shutdown();
+
     delete controller;
 }
 

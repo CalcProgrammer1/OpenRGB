@@ -19,6 +19,7 @@ class RGBController_LogitechG560 : public RGBController
 {
 public:
     RGBController_LogitechG560(LogitechG560Controller* controller_ptr);
+    ~RGBController_LogitechG560();
 
     void        SetupZones();
 

@@ -85,6 +85,8 @@ RGBController_NVIDIAIlluminationV1::RGBController_NVIDIAIlluminationV1(NVIDIAIll
 
 RGBController_NVIDIAIlluminationV1::~RGBController_NVIDIAIlluminationV1()
 {
+    Shutdown();
+
     delete controller;
 }
 

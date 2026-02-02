@@ -99,6 +99,8 @@ RGBController_GalaxGPUv1::RGBController_GalaxGPUv1(GalaxGPUv1Controller* control
 
 RGBController_GalaxGPUv1::~RGBController_GalaxGPUv1()
 {
+    Shutdown();
+
     delete controller;
 }
 

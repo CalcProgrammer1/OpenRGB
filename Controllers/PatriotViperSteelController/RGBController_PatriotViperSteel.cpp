@@ -45,6 +45,8 @@ RGBController_PatriotViperSteel::RGBController_PatriotViperSteel(PatriotViperSte
 
 RGBController_PatriotViperSteel::~RGBController_PatriotViperSteel()
 {
+    Shutdown();
+
     delete controller;
 }
 

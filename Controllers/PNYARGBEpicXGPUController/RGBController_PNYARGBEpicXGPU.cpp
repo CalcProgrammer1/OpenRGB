@@ -144,6 +144,8 @@ RGBController_PNYARGBEpicXGPU::RGBController_PNYARGBEpicXGPU(PNYARGBEpicXGPUCont
 
 RGBController_PNYARGBEpicXGPU::~RGBController_PNYARGBEpicXGPU()
 {
+    Shutdown();
+
     delete controller;
 }
 

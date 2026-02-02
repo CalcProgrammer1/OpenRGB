@@ -182,6 +182,8 @@ RGBController_AuraMousemat::RGBController_AuraMousemat(AuraMousematController* c
 
 RGBController_AuraMousemat::~RGBController_AuraMousemat()
 {
+    Shutdown();
+
     delete controller;
 }
 

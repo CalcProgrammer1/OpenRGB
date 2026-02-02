@@ -93,6 +93,8 @@ RGBController_CMMP750Controller::RGBController_CMMP750Controller(CMMP750Controll
 
 RGBController_CMMP750Controller::~RGBController_CMMP750Controller()
 {
+    Shutdown();
+
     delete controller;
 }
 

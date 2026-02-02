@@ -83,6 +83,8 @@ RGBController_RoccatKova::RGBController_RoccatKova(RoccatKovaController* control
 
 RGBController_RoccatKova::~RGBController_RoccatKova()
 {
+    Shutdown();
+
     delete controller;
 }
 

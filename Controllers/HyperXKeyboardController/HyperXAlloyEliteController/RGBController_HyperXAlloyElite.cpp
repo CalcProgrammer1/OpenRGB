@@ -251,6 +251,8 @@ RGBController_HyperXAlloyElite::RGBController_HyperXAlloyElite(HyperXAlloyEliteC
 
 RGBController_HyperXAlloyElite::~RGBController_HyperXAlloyElite()
 {
+    Shutdown();
+
     keepalive_thread_run = false;
     keepalive_thread->join();
     delete keepalive_thread;

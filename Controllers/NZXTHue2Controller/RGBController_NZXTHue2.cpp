@@ -40,6 +40,8 @@ RGBController_NZXTHue2::RGBController_NZXTHue2(NZXTHue2Controller* controller_pt
 
 RGBController_NZXTHue2::~RGBController_NZXTHue2()
 {
+    Shutdown();
+
     delete controller;
 }
 

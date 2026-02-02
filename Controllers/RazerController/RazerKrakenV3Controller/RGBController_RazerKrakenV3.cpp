@@ -70,6 +70,8 @@ RGBController_RazerKrakenV3::RGBController_RazerKrakenV3(RazerKrakenV3Controller
 
 RGBController_RazerKrakenV3::~RGBController_RazerKrakenV3()
 {
+    Shutdown();
+
     delete controller;
 }
 

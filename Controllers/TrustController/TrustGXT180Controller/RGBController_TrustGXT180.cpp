@@ -83,6 +83,8 @@ RGBController_TrustGXT180::RGBController_TrustGXT180(TrustGXT180Controller* cont
 
 RGBController_TrustGXT180::~RGBController_TrustGXT180()
 {
+    Shutdown();
+
     delete controller;
 }
 

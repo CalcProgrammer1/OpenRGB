@@ -75,6 +75,8 @@ RGBController_ColorfulTuringGPU::RGBController_ColorfulTuringGPU(ColorfulTuringG
 
 RGBController_ColorfulTuringGPU::~RGBController_ColorfulTuringGPU()
 {
+    Shutdown();
+
     delete controller;
 }
 

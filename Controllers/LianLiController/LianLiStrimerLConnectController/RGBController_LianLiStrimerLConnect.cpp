@@ -147,6 +147,8 @@ RGBController_LianLiStrimerLConnect::RGBController_LianLiStrimerLConnect(LianLiS
 
 RGBController_LianLiStrimerLConnect::~RGBController_LianLiStrimerLConnect()
 {
+    Shutdown();
+
     delete controller;
 }
 

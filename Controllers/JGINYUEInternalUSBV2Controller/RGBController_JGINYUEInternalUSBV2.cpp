@@ -333,6 +333,8 @@ RGBController_JGINYUEInternalUSBV2::RGBController_JGINYUEInternalUSBV2(JGINYUEIn
 
 RGBController_JGINYUEInternalUSBV2::~RGBController_JGINYUEInternalUSBV2()
 {
+    Shutdown();
+
     delete controller;
 }
 

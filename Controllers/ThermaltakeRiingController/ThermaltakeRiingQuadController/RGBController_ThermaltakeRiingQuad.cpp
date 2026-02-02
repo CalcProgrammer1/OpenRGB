@@ -48,6 +48,8 @@ RGBController_ThermaltakeRiingQuad::RGBController_ThermaltakeRiingQuad(Thermalta
 
 RGBController_ThermaltakeRiingQuad::~RGBController_ThermaltakeRiingQuad()
 {
+    Shutdown();
+
     delete controller;
 }
 

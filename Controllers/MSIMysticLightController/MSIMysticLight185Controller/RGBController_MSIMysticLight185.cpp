@@ -101,6 +101,8 @@ RGBController_MSIMysticLight185::RGBController_MSIMysticLight185
 
 RGBController_MSIMysticLight185::~RGBController_MSIMysticLight185()
 {
+    Shutdown();
+
     zone_description.clear();
     delete controller;
 }

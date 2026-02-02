@@ -18,6 +18,7 @@ class RGBController_PNYGPU : public RGBController
 {
 public:
     RGBController_PNYGPU(PNYGPUController* controller_ptr);
+    ~RGBController_PNYGPU();
 
     void        SetupZones();
 

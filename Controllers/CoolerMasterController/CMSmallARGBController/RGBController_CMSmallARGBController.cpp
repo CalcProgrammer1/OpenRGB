@@ -181,6 +181,8 @@ RGBController_CMSmallARGBController::RGBController_CMSmallARGBController(CMSmall
 
 RGBController_CMSmallARGBController::~RGBController_CMSmallARGBController()
 {
+    Shutdown();
+
     delete controller;
 }
 

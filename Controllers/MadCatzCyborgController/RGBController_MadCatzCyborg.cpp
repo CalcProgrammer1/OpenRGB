@@ -48,6 +48,8 @@ RGBController_MadCatzCyborg::RGBController_MadCatzCyborg(MadCatzCyborgController
 
 RGBController_MadCatzCyborg::~RGBController_MadCatzCyborg()
 {
+    Shutdown();
+
     delete controller;
 }
 

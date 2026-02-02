@@ -43,6 +43,8 @@ RGBController_ElgatoStreamDeck::RGBController_ElgatoStreamDeck(ElgatoStreamDeckC
 
 RGBController_ElgatoStreamDeck::~RGBController_ElgatoStreamDeck()
 {
+    Shutdown();
+
     delete controller;
 }
 

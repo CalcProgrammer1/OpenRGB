@@ -246,6 +246,8 @@ RGBController_ZotacBlackwellGPU::RGBController_ZotacBlackwellGPU(ZotacBlackwellG
 
 RGBController_ZotacBlackwellGPU::~RGBController_ZotacBlackwellGPU()
 {
+    Shutdown();
+
     delete controller;
 }
 

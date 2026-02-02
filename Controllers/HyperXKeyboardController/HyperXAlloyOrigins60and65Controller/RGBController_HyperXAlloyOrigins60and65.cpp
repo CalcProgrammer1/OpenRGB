@@ -245,6 +245,8 @@ RGBController_HyperXAlloyOrigins60and65::RGBController_HyperXAlloyOrigins60and65
 
 RGBController_HyperXAlloyOrigins60and65::~RGBController_HyperXAlloyOrigins60and65()
 {
+    Shutdown();
+
     keepalive_thread_run = 0;
     keepalive_thread->join();
     delete keepalive_thread;

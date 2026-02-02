@@ -20,6 +20,7 @@ class RGBController_PhilipsHueEntertainment : public RGBController
 {
 public:
     RGBController_PhilipsHueEntertainment(PhilipsHueEntertainmentController* controller_ptr);
+    ~RGBController_PhilipsHueEntertainment();
 
     void        SetupZones();
 

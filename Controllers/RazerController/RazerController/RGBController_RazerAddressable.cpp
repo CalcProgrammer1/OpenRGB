@@ -124,6 +124,8 @@ RGBController_RazerAddressable::RGBController_RazerAddressable(RazerController* 
 
 RGBController_RazerAddressable::~RGBController_RazerAddressable()
 {
+    Shutdown();
+
     delete controller;
 }
 

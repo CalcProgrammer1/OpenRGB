@@ -274,6 +274,8 @@ RGBController_QMKOpenRGBRevE::RGBController_QMKOpenRGBRevE(QMKOpenRGBRevDControl
 
 RGBController_QMKOpenRGBRevE::~RGBController_QMKOpenRGBRevE()
 {
+    Shutdown();
+
     delete controller;
 }
 
