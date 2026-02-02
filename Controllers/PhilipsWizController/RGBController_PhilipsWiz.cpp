@@ -374,6 +374,8 @@ RGBController_PhilipsWiz::RGBController_PhilipsWiz(PhilipsWizController* control
 
 RGBController_PhilipsWiz::~RGBController_PhilipsWiz()
 {
+    Shutdown();
+
     delete controller;
 }
 

@@ -275,6 +275,8 @@ RGBController_LenovoK510::RGBController_LenovoK510(LenovoK510Controller* control
 
 RGBController_LenovoK510::~RGBController_LenovoK510()
 {
+    Shutdown();
+
     delete controller;
 }
 

@@ -106,6 +106,8 @@ RGBController_LogitechG213::RGBController_LogitechG213(LogitechG213Controller* c
 
 RGBController_LogitechG213::~RGBController_LogitechG213()
 {
+    Shutdown();
+
     delete controller;
 }
 

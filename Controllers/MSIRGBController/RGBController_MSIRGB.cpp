@@ -44,6 +44,8 @@ RGBController_MSIRGB::RGBController_MSIRGB(MSIRGBController* controller_ptr)
 
 RGBController_MSIRGB::~RGBController_MSIRGB()
 {
+    Shutdown();
+
     delete controller;
 }
 

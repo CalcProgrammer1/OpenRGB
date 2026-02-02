@@ -39,6 +39,8 @@ RGBController_RealtekBridge::RGBController_RealtekBridge(RealtekBridgeController
 
 RGBController_RealtekBridge::~RGBController_RealtekBridge()
 {
+    Shutdown();
+
     delete controller;
 }
 

@@ -203,6 +203,8 @@ RGBController_CorsairDRAM::RGBController_CorsairDRAM(CorsairDRAMController* cont
 
 RGBController_CorsairDRAM::~RGBController_CorsairDRAM()
 {
+    Shutdown();
+
     delete controller;
 }
 

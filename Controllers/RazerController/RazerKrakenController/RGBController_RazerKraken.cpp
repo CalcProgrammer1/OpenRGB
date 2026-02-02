@@ -91,6 +91,8 @@ RGBController_RazerKraken::RGBController_RazerKraken(RazerKrakenController* cont
 
 RGBController_RazerKraken::~RGBController_RazerKraken()
 {
+    Shutdown();
+
     delete controller;
 }
 

@@ -43,6 +43,8 @@ RGBController_Espurna::RGBController_Espurna(EspurnaController* controller_ptr)
 
 RGBController_Espurna::~RGBController_Espurna()
 {
+    Shutdown();
+
     delete controller;
 }
 

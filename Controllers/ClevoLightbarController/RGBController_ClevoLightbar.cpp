@@ -121,6 +121,8 @@ RGBController_ClevoLightbar::RGBController_ClevoLightbar(ClevoLightbarController
 
 RGBController_ClevoLightbar::~RGBController_ClevoLightbar()
 {
+    Shutdown();
+
     delete controller;
 }
 

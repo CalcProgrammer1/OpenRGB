@@ -33,6 +33,8 @@ static RGBColor DeflectColor(bool deflection, RGBColor color)
 
 RGBController_LightSalt::~RGBController_LightSalt()
 {
+    Shutdown();
+
     delete controller;
 }
 

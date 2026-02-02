@@ -169,6 +169,8 @@ RGBController_RoccatKoneXP::RGBController_RoccatKoneXP(RoccatKoneXPController* c
 
 RGBController_RoccatKoneXP::~RGBController_RoccatKoneXP()
 {
+    Shutdown();
+
     delete controller;
 }
 

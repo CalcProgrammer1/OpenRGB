@@ -18,6 +18,7 @@ class RGBController_LianLiUniversalScreen : public RGBController
 {
 public:
     RGBController_LianLiUniversalScreen(LianLiUniversalScreenController* controller_ptr);
+    ~RGBController_LianLiUniversalScreen();
 
     void SetupZones();
 

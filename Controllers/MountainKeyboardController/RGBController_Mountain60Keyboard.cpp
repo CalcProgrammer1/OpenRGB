@@ -344,6 +344,8 @@ RGBController_Mountain60Keyboard::RGBController_Mountain60Keyboard(Mountain60Key
 
 RGBController_Mountain60Keyboard::~RGBController_Mountain60Keyboard()
 {
+    Shutdown();
+
     mountain_thread_running             = false;
     mountain_thread->join();
     delete mountain_thread;

@@ -45,6 +45,8 @@ RGBController_AuraMonitor::RGBController_AuraMonitor(AuraMonitorController* cont
 
 RGBController_AuraMonitor::~RGBController_AuraMonitor()
 {
+    Shutdown();
+
     delete controller;
 }
 

@@ -94,6 +94,8 @@ RGBController_ThrustmasterSol::RGBController_ThrustmasterSol(ThrustmasterSolCont
 
 RGBController_ThrustmasterSol::~RGBController_ThrustmasterSol()
 {
+    Shutdown();
+
     delete controller;
 }
 

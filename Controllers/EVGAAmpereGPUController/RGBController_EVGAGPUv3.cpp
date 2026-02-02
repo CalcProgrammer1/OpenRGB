@@ -205,6 +205,8 @@ RGBController_EVGAGPUv3::RGBController_EVGAGPUv3(EVGAGPUv3Controller* controller
 
 RGBController_EVGAGPUv3::~RGBController_EVGAGPUv3()
 {
+    Shutdown();
+
     delete controller;
 }
 

@@ -263,6 +263,8 @@ RGBController_SinowealthKeyboard16::RGBController_SinowealthKeyboard16(Sinowealt
 
 RGBController_SinowealthKeyboard16::~RGBController_SinowealthKeyboard16()
 {
+    Shutdown();
+
     delete controller;
 }
 

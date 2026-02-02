@@ -165,6 +165,8 @@ RGBController_AsusSagarisKeyboard::RGBController_AsusSagarisKeyboard(AsusSagaris
 
 RGBController_AsusSagarisKeyboard::~RGBController_AsusSagarisKeyboard()
 {
+    Shutdown();
+
     delete controller;
 }
 

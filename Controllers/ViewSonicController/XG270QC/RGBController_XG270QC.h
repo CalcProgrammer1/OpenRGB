@@ -16,6 +16,7 @@ class RGBController_XG270QC : public RGBController
 {
 public:
     RGBController_XG270QC(VS_XG270QC_Controller* controller_ptr);
+    ~RGBController_XG270QC();
 
     void SetupZones();
 

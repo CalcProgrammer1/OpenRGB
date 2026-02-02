@@ -334,6 +334,8 @@ RGBController_MSIOptix::RGBController_MSIOptix(MSIOptixController* controller_pt
 
 RGBController_MSIOptix::~RGBController_MSIOptix()
 {
+    Shutdown();
+
     delete controller;
 }
 

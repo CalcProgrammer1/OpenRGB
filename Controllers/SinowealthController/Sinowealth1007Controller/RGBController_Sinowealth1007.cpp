@@ -177,6 +177,8 @@ RGBController_Sinowealth1007::RGBController_Sinowealth1007(SinowealthController1
 
 RGBController_Sinowealth1007::~RGBController_Sinowealth1007()
 {
+    Shutdown();
+
     delete controller;
 }
 

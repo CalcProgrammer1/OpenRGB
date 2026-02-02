@@ -355,6 +355,8 @@ RGBController_LianLiUniHubAL::RGBController_LianLiUniHubAL(LianLiUniHubALControl
 
 RGBController_LianLiUniHubAL::~RGBController_LianLiUniHubAL()
 {
+    Shutdown();
+
     delete controller;
 }
 

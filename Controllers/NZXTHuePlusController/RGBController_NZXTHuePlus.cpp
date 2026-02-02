@@ -38,6 +38,8 @@ RGBController_HuePlus::RGBController_HuePlus(HuePlusController* controller_ptr)
 
 RGBController_HuePlus::~RGBController_HuePlus()
 {
+    Shutdown();
+
     delete controller;
 }
 
