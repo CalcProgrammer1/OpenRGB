@@ -257,6 +257,8 @@ RGBController_AOCKeyboard::RGBController_AOCKeyboard(AOCKeyboardController* cont
 
 RGBController_AOCKeyboard::~RGBController_AOCKeyboard()
 {
+    Shutdown();
+
     delete controller;
 }
 

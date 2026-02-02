@@ -596,6 +596,8 @@ RGBController_KeychronKeyboard::RGBController_KeychronKeyboard(KeychronKeyboardC
 
 RGBController_KeychronKeyboard::~RGBController_KeychronKeyboard()
 {
+    Shutdown();
+
     delete controller;
 }
 

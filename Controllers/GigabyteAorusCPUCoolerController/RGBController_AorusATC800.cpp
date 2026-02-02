@@ -194,6 +194,8 @@ RGBController_AorusATC800::RGBController_AorusATC800(ATC800Controller* controlle
 
 RGBController_AorusATC800::~RGBController_AorusATC800()
 {
+    Shutdown();
+
     delete controller;
 }
 

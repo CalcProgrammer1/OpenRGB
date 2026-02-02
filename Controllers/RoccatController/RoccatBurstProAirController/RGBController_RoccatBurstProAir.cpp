@@ -87,6 +87,8 @@ RGBController_RoccatBurstProAir::RGBController_RoccatBurstProAir(RoccatBurstProA
 
 RGBController_RoccatBurstProAir::~RGBController_RoccatBurstProAir()
 {
+    Shutdown();
+
     delete controller;
 }
 

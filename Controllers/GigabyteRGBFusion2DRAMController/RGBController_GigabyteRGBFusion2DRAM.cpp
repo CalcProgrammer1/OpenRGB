@@ -77,6 +77,8 @@ RGBController_RGBFusion2DRAM::RGBController_RGBFusion2DRAM(RGBFusion2DRAMControl
 
 RGBController_RGBFusion2DRAM::~RGBController_RGBFusion2DRAM()
 {
+    Shutdown();
+
     delete controller;
 }
 

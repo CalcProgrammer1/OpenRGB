@@ -139,6 +139,8 @@ RGBController_HyperXDRAM::RGBController_HyperXDRAM(HyperXDRAMController* control
 
 RGBController_HyperXDRAM::~RGBController_HyperXDRAM()
 {
+    Shutdown();
+
     delete controller;
 }
 

@@ -85,6 +85,8 @@ RGBController_LogitechGLightsync::RGBController_LogitechGLightsync(LogitechGLigh
 
 RGBController_LogitechGLightsync::~RGBController_LogitechGLightsync()
 {
+    Shutdown();
+
     delete controller;
 }
 

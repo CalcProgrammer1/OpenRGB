@@ -112,6 +112,8 @@ RGBController_RGBFusionGPU::RGBController_RGBFusionGPU(RGBFusionGPUController* c
 
 RGBController_RGBFusionGPU::~RGBController_RGBFusionGPU()
 {
+    Shutdown();
+
     delete controller;
 }
 

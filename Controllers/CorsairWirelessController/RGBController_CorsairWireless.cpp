@@ -226,6 +226,8 @@ RGBController_CorsairWireless::RGBController_CorsairWireless(CorsairWirelessCont
 
 RGBController_CorsairWireless::~RGBController_CorsairWireless()
 {
+    Shutdown();
+
     /*-----------------------------------------------------*\
     | Close keepalive thread                                |
     \*-----------------------------------------------------*/

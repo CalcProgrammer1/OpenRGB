@@ -302,6 +302,8 @@ RGBController_EVisionKeyboard::RGBController_EVisionKeyboard(EVisionKeyboardCont
 
 RGBController_EVisionKeyboard::~RGBController_EVisionKeyboard()
 {
+    Shutdown();
+
     delete controller;
 }
 

@@ -79,6 +79,8 @@ RGBController_TrustGXT114::RGBController_TrustGXT114(TrustGXT114Controller* cont
 
 RGBController_TrustGXT114::~RGBController_TrustGXT114()
 {
+    Shutdown();
+
     delete controller;
 }
 

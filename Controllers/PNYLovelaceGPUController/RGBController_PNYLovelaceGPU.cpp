@@ -107,6 +107,13 @@ RGBController_PNYLovelaceGPU::RGBController_PNYLovelaceGPU(PNYLovelaceGPUControl
     active_mode = 0;
 }
 
+RGBController_PNYLovelaceGPU::~RGBController_PNYLovelaceGPU()
+{
+    Shutdown();
+
+    delete controller;
+}
+
 void RGBController_PNYLovelaceGPU::SetupZones()
 {
     /*---------------------------------------------------------*\

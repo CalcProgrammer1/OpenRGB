@@ -113,6 +113,8 @@ RGBController_ASRockASRRGBSMBus::RGBController_ASRockASRRGBSMBus(ASRockASRRGBSMB
 
 RGBController_ASRockASRRGBSMBus::~RGBController_ASRockASRRGBSMBus()
 {
+    Shutdown();
+
     delete controller;
 }
 

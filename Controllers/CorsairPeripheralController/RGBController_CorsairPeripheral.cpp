@@ -929,6 +929,8 @@ RGBController_CorsairPeripheral::RGBController_CorsairPeripheral(CorsairPeripher
 
 RGBController_CorsairPeripheral::~RGBController_CorsairPeripheral()
 {
+    Shutdown();
+
     delete controller;
 }
 

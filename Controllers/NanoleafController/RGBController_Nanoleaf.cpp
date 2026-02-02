@@ -87,6 +87,11 @@ RGBController_Nanoleaf::RGBController_Nanoleaf(std::string a_address, int a_port
     SetupZones();
 }
 
+RGBController_Nanoleaf::~RGBController_Nanoleaf()
+{
+    Shutdown();
+}
+
 void RGBController_Nanoleaf::SetupZones()
 {
     zone led_zone;

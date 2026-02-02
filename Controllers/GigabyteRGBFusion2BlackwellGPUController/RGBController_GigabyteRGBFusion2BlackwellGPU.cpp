@@ -174,6 +174,8 @@ RGBController_RGBFusion2BlackwellGPU::RGBController_RGBFusion2BlackwellGPU(RGBFu
 
 RGBController_RGBFusion2BlackwellGPU::~RGBController_RGBFusion2BlackwellGPU()
 {
+    Shutdown();
+
     delete controller;
 }
 

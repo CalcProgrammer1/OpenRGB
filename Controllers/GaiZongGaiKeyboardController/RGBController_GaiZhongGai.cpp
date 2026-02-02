@@ -451,6 +451,8 @@ RGBController_GaiZhongGaiKeyboard::RGBController_GaiZhongGaiKeyboard(GaiZhongGai
 
 RGBController_GaiZhongGaiKeyboard::~RGBController_GaiZhongGaiKeyboard()
 {
+    Shutdown();
+
     delete controller;
 }
 

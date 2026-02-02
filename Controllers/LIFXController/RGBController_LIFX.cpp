@@ -46,6 +46,8 @@ RGBController_LIFX::RGBController_LIFX(LIFXController* controller_ptr)
 
 RGBController_LIFX::~RGBController_LIFX()
 {
+    Shutdown();
+
     delete controller;
 }
 

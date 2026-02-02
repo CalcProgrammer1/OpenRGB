@@ -206,6 +206,8 @@ RGBController_RGBFusion2USB::RGBController_RGBFusion2USB(RGBFusion2USBController
 
 RGBController_RGBFusion2USB::~RGBController_RGBFusion2USB()
 {
+    Shutdown();
+
     delete controller;
 }
 

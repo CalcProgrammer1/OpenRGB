@@ -353,6 +353,8 @@ RGBController_CorsairK55RGBPROXT::RGBController_CorsairK55RGBPROXT(CorsairK55RGB
 
 RGBController_CorsairK55RGBPROXT::~RGBController_CorsairK55RGBPROXT()
 {
+    Shutdown();
+
     /*-----------------------------------------------------*\
     | Close keepalive thread                                |
     \*-----------------------------------------------------*/

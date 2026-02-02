@@ -91,6 +91,8 @@ RGBController_LGMonitor::RGBController_LGMonitor(LGMonitorController* controller
 
 RGBController_LGMonitor::~RGBController_LGMonitor()
 {
+    Shutdown();
+
     keepalive_thread_run = 0;
     keepalive_thread->join();
     delete keepalive_thread;

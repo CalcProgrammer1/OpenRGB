@@ -79,6 +79,8 @@ RGBController_GenesisXenon200::RGBController_GenesisXenon200(GenesisXenon200Cont
 
 RGBController_GenesisXenon200::~RGBController_GenesisXenon200()
 {
+    Shutdown();
+
     delete controller;
 }
 

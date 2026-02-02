@@ -46,6 +46,8 @@ RGBController_AlienwareAW3423DWF::RGBController_AlienwareAW3423DWF(AlienwareAW34
 
 RGBController_AlienwareAW3423DWF::~RGBController_AlienwareAW3423DWF()
 {
+    Shutdown();
+
     delete controller;
 }
 

@@ -145,6 +145,8 @@ RGBController_Razer::RGBController_Razer(RazerController* controller_ptr)
 
 RGBController_Razer::~RGBController_Razer()
 {
+    Shutdown();
+
     delete controller;
 }
 

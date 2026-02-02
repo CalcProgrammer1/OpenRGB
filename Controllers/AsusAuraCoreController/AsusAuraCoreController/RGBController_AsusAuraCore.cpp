@@ -45,6 +45,13 @@ RGBController_AuraCore::RGBController_AuraCore(AuraCoreController* controller_pt
     SetupZones();
 }
 
+RGBController_AuraCore::~RGBController_AuraCore()
+{
+    Shutdown();
+
+    delete controller;
+}
+
 void RGBController_AuraCore::SetupKeyboard()
 {
     name                    = "ASUS Aura Keyboard";
@@ -168,11 +175,6 @@ void RGBController_AuraCore::SetupGA15DH()
     Static.flags            = MODE_FLAG_HAS_PER_LED_COLOR;
     Static.color_mode       = MODE_COLORS_PER_LED;
     modes.push_back(Static);
-}
-
-RGBController_AuraCore::~RGBController_AuraCore()
-{
-    delete controller;
 }
 
 void RGBController_AuraCore::SetupZones()

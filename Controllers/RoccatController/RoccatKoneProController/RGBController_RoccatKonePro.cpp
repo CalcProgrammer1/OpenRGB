@@ -114,6 +114,8 @@ RGBController_RoccatKonePro::RGBController_RoccatKonePro(RoccatKoneProController
 
 RGBController_RoccatKonePro::~RGBController_RoccatKonePro()
 {
+    Shutdown();
+
     delete controller;
 }
 

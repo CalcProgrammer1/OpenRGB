@@ -45,6 +45,8 @@ RGBController_PatriotViperMouse::RGBController_PatriotViperMouse(PatriotViperMou
 
 RGBController_PatriotViperMouse::~RGBController_PatriotViperMouse()
 {
+    Shutdown();
+
     delete controller;
 }
 

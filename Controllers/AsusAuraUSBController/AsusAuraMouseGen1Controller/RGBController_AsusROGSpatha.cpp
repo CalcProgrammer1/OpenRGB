@@ -116,6 +116,8 @@ RGBController_AsusROGSpatha::RGBController_AsusROGSpatha(AsusAuraMouseGen1Contro
 
 RGBController_AsusROGSpatha::~RGBController_AsusROGSpatha()
 {
+    Shutdown();
+
     delete controller;
 }
 

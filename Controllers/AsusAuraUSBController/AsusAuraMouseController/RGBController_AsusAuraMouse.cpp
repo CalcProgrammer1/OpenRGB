@@ -185,6 +185,8 @@ RGBController_AuraMouse::RGBController_AuraMouse(AuraMouseController* controller
 
 RGBController_AuraMouse::~RGBController_AuraMouse()
 {
+    Shutdown();
+
     delete controller;
 }
 

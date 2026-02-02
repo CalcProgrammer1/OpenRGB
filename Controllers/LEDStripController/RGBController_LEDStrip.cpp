@@ -43,6 +43,8 @@ RGBController_LEDStrip::RGBController_LEDStrip(LEDStripController* controller_pt
 
 RGBController_LEDStrip::~RGBController_LEDStrip()
 {
+    Shutdown();
+
     delete controller;
 }
 

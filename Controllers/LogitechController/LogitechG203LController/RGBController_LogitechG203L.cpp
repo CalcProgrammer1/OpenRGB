@@ -107,6 +107,8 @@ RGBController_LogitechG203L::RGBController_LogitechG203L(LogitechG203LController
 
 RGBController_LogitechG203L::~RGBController_LogitechG203L()
 {
+    Shutdown();
+
     delete controller;
 }
 

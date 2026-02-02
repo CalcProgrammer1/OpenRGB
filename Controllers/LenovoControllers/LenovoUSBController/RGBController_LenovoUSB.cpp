@@ -190,6 +190,8 @@ RGBController_LenovoUSB::RGBController_LenovoUSB(LenovoUSBController* controller
 
 RGBController_LenovoUSB::~RGBController_LenovoUSB()
 {
+    Shutdown();
+
     /*--------------------------------*\
     | see LenovoUSBController.cpp for  |
     | details                          |

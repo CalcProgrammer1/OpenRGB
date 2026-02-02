@@ -380,6 +380,8 @@ RGBController_AuraKeyboard::RGBController_AuraKeyboard(AuraKeyboardController* c
 
 RGBController_AuraKeyboard::~RGBController_AuraKeyboard()
 {
+    Shutdown();
+
     delete controller;
 }
 

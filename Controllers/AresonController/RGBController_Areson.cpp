@@ -125,6 +125,8 @@ RGBController_Areson::RGBController_Areson(AresonController* controller_ptr)
 
 RGBController_Areson::~RGBController_Areson()
 {
+    Shutdown();
+
     delete controller;
 }
 

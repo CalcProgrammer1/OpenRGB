@@ -82,6 +82,8 @@ RGBController_GainwardGPUv2::RGBController_GainwardGPUv2(GainwardGPUv2Controller
 
 RGBController_GainwardGPUv2::~RGBController_GainwardGPUv2()
 {
+    Shutdown();
+
     delete controller;
 }
 

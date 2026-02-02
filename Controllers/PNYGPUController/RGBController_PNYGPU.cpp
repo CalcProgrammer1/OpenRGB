@@ -80,6 +80,13 @@ RGBController_PNYGPU::RGBController_PNYGPU(PNYGPUController* controller_ptr)
     active_mode = 0;
 }
 
+RGBController_PNYGPU::~RGBController_PNYGPU()
+{
+    Shutdown();
+
+    delete controller;
+}
+
 void RGBController_PNYGPU::SetupZones()
 {
     /*---------------------------------------------------------*\

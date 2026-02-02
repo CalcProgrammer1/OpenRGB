@@ -84,6 +84,8 @@ RGBController_ZotacTuringGPU::RGBController_ZotacTuringGPU(ZotacTuringGPUControl
 
 RGBController_ZotacTuringGPU::~RGBController_ZotacTuringGPU()
 {
+    Shutdown();
+
     delete controller;
 }
 

@@ -54,6 +54,8 @@ RGBController_RGBFusion2AorusMasterGPU::RGBController_RGBFusion2AorusMasterGPU(R
 
 RGBController_RGBFusion2AorusMasterGPU::~RGBController_RGBFusion2AorusMasterGPU()
 {
+    Shutdown();
+
     delete controller;
 }
 

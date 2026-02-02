@@ -56,6 +56,8 @@ RGBController_HyperXPulsefireFPSPro::RGBController_HyperXPulsefireFPSPro(HyperXP
 
 RGBController_HyperXPulsefireFPSPro::~RGBController_HyperXPulsefireFPSPro()
 {
+    Shutdown();
+
     keepalive_thread_run = 0;
     keepalive_thread->join();
     delete keepalive_thread;

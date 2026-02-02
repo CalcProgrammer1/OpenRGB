@@ -71,6 +71,8 @@ RGBController_CorsairCommanderCore::RGBController_CorsairCommanderCore(CorsairCo
 
 RGBController_CorsairCommanderCore::~RGBController_CorsairCommanderCore()
 {
+    Shutdown();
+
     delete controller;
 }
 
