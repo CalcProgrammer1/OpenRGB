@@ -125,6 +125,13 @@ RGBController_Alienware::RGBController_Alienware(AlienwareController* controller
     controller->UpdateDim();
 }
 
+RGBController_Alienware::~RGBController_Alienware()
+{
+    Shutdown();
+
+    delete controller;
+}
+
 void RGBController_Alienware::SetupZones()
 {
     /*-------------------------------------------------*\

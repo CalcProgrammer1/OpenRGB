@@ -191,6 +191,8 @@ RGBController_ENESMBus::RGBController_ENESMBus(ENESMBusController * controller_p
 
 RGBController_ENESMBus::~RGBController_ENESMBus()
 {
+    Shutdown();
+
     delete controller;
 }
 

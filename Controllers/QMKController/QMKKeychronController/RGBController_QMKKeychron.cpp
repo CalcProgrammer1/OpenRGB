@@ -124,6 +124,8 @@ RGBController_QMKKeychron::RGBController_QMKKeychron(QMKKeychronController* cont
 
 RGBController_QMKKeychron::~RGBController_QMKKeychron()
 {
+    Shutdown();
+
     delete controller;
 }
 

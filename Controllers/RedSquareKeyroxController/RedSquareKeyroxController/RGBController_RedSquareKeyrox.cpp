@@ -291,6 +291,8 @@ RGBController_RedSquareKeyrox::RGBController_RedSquareKeyrox(RedSquareKeyroxCont
 
 RGBController_RedSquareKeyrox::~RGBController_RedSquareKeyrox()
 {
+    Shutdown();
+
     delete controller;
 }
 

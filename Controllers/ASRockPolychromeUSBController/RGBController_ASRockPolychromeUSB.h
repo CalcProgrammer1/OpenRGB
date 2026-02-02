@@ -19,6 +19,7 @@ class RGBController_PolychromeUSB : public RGBController
 {
 public:
     RGBController_PolychromeUSB(PolychromeUSBController* controller_ptr);
+    ~RGBController_PolychromeUSB();
 
     void        SetupZones();
 

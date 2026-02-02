@@ -69,6 +69,8 @@ RGBController_BlinkController::RGBController_BlinkController(BlinkController* co
 
 RGBController_BlinkController::~RGBController_BlinkController()
 {
+    Shutdown();
+
     delete controller;
 }
 

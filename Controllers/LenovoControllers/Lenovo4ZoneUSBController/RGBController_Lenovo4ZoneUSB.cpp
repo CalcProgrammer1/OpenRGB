@@ -87,6 +87,8 @@ RGBController_Lenovo4ZoneUSB::RGBController_Lenovo4ZoneUSB(Lenovo4ZoneUSBControl
 
 RGBController_Lenovo4ZoneUSB::~RGBController_Lenovo4ZoneUSB()
 {
+    Shutdown();
+
     delete controller;
 }
 

@@ -59,6 +59,8 @@ RGBController_HyperXEve1800::~RGBController_HyperXEve1800()
     keepalive_thread->join();
     delete keepalive_thread;
 
+    Shutdown();
+
     delete controller;
 }
 

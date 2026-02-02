@@ -45,6 +45,8 @@ RGBController_MSILaptop::RGBController_MSILaptop(MSILaptopController* controller
 
 RGBController_MSILaptop::~RGBController_MSILaptop()
 {
+    Shutdown();
+
     delete controller;
 }
 

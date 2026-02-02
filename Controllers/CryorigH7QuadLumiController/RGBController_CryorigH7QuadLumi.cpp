@@ -40,6 +40,8 @@ RGBController_CryorigH7QuadLumi::RGBController_CryorigH7QuadLumi(CryorigH7QuadLu
 
 RGBController_CryorigH7QuadLumi::~RGBController_CryorigH7QuadLumi()
 {
+    Shutdown();
+
     delete controller;
 }
 

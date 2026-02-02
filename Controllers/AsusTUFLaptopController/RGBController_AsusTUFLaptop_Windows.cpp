@@ -85,6 +85,8 @@ RGBController_AsusTUFLaptopWMI::RGBController_AsusTUFLaptopWMI(AsusTUFLaptopCont
 
 RGBController_AsusTUFLaptopWMI::~RGBController_AsusTUFLaptopWMI()
 {
+    Shutdown();
+
     delete controller;
 }
 

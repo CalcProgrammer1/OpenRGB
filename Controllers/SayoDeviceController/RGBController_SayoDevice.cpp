@@ -98,6 +98,8 @@ RGBController_SayoDevice::RGBController_SayoDevice(SayoDeviceController* control
 
 RGBController_SayoDevice::~RGBController_SayoDevice()
 {
+    Shutdown();
+
     delete controller;
 }
 

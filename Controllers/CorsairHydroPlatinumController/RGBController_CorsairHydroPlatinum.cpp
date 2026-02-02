@@ -57,6 +57,8 @@ RGBController_CorsairHydroPlatinum::RGBController_CorsairHydroPlatinum(CorsairHy
 
 RGBController_CorsairHydroPlatinum::~RGBController_CorsairHydroPlatinum()
 {
+    Shutdown();
+
     delete controller;
 }
 

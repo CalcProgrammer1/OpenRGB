@@ -140,6 +140,8 @@ RGBController_CMGD160Controller::RGBController_CMGD160Controller(CMGD160Controll
 
 RGBController_CMGD160Controller::~RGBController_CMGD160Controller()
 {
+    Shutdown();
+
     delete controller;
 }
 

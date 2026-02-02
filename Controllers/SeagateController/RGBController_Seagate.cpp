@@ -65,6 +65,8 @@ RGBController_Seagate::RGBController_Seagate(SeagateController* controller_ptr)
 
 RGBController_Seagate::~RGBController_Seagate()
 {
+    Shutdown();
+
     delete controller;
 }
 

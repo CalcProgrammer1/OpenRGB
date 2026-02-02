@@ -116,6 +116,8 @@ RGBController_MSIMonitor::~RGBController_MSIMonitor()
     keepalive_thread->join();
     delete keepalive_thread;
 
+    Shutdown();
+
     delete controller;
 }
 

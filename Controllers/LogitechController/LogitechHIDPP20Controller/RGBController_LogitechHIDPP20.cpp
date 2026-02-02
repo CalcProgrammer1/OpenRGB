@@ -696,6 +696,9 @@ void RGBController_LogitechHIDPP20::OnRepaintRequest()
 RGBController_LogitechHIDPP20::~RGBController_LogitechHIDPP20()
 {
     controller->StopPowerManager();
+
+    Shutdown();
+
     delete controller;
 }
 

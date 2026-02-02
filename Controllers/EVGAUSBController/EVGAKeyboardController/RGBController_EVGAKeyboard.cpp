@@ -390,6 +390,8 @@ RGBController_EVGAKeyboard::RGBController_EVGAKeyboard(EVGAKeyboardController* c
 
 RGBController_EVGAKeyboard::~RGBController_EVGAKeyboard()
 {
+    Shutdown();
+
     delete controller;
 }
 
