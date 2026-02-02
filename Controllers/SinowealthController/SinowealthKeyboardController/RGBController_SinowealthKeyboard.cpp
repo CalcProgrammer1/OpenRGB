@@ -406,6 +406,8 @@ RGBController_SinowealthKeyboard::RGBController_SinowealthKeyboard(SinowealthKey
 
 RGBController_SinowealthKeyboard::~RGBController_SinowealthKeyboard()
 {
+    Shutdown();
+
     delete controller;
 }
 

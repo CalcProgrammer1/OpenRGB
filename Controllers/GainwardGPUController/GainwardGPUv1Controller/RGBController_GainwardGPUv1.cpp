@@ -50,6 +50,8 @@ RGBController_GainwardGPUv1::RGBController_GainwardGPUv1(GainwardGPUv1Controller
 
 RGBController_GainwardGPUv1::~RGBController_GainwardGPUv1()
 {
+    Shutdown();
+
     delete controller;
 }
 

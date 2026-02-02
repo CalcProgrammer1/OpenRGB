@@ -218,6 +218,8 @@ RGBController_LogitechGProKeyboard::RGBController_LogitechGProKeyboard(LogitechG
 
 RGBController_LogitechGProKeyboard::~RGBController_LogitechGProKeyboard()
 {
+    Shutdown();
+
     delete controller;
 }
 

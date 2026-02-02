@@ -75,6 +75,11 @@ RGBController_Faustus::RGBController_Faustus(const std::string& dev_path)
     set_path.append("/kbbl_set");
 }
 
+RGBController_Faustus::~RGBController_Faustus()
+{
+    Shutdown();
+}
+
 void RGBController_Faustus::SetupZones()
 {
     /*---------------------------------------------------------*\

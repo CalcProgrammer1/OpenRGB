@@ -98,6 +98,8 @@ RGBController_RoccatVulcanKeyboard::RGBController_RoccatVulcanKeyboard(RoccatVul
 
 RGBController_RoccatVulcanKeyboard::~RGBController_RoccatVulcanKeyboard()
 {
+    Shutdown();
+
     delete controller;
 }
 

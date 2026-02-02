@@ -489,6 +489,8 @@ RGBController_FnaticStreak::RGBController_FnaticStreak(FnaticStreakController* c
 
 RGBController_FnaticStreak::~RGBController_FnaticStreak()
 {
+    Shutdown();
+
     keepalive_thread_run = false;
     keepalive_thread->join();
     delete keepalive_thread;

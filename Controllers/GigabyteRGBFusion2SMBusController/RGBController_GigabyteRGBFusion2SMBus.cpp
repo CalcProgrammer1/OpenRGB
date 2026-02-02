@@ -203,6 +203,8 @@ RGBController_RGBFusion2SMBus::RGBController_RGBFusion2SMBus(RGBFusion2SMBusCont
 
 RGBController_RGBFusion2SMBus::~RGBController_RGBFusion2SMBus()
 {
+    Shutdown();
+
     delete controller;
 }
 

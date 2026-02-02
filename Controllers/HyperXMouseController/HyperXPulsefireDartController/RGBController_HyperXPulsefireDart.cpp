@@ -88,7 +88,9 @@ RGBController_HyperXPulsefireDart::RGBController_HyperXPulsefireDart(HyperXPulse
 
 RGBController_HyperXPulsefireDart::~RGBController_HyperXPulsefireDart()
 {
+    Shutdown();
 
+    delete controller;
 }
 
 void RGBController_HyperXPulsefireDart::SetupZones()

@@ -43,6 +43,8 @@ RGBController_FanBus::RGBController_FanBus(FanBusController* controller_ptr)
 
 RGBController_FanBus::~RGBController_FanBus()
 {
+    Shutdown();
+
     delete controller;
 }
 

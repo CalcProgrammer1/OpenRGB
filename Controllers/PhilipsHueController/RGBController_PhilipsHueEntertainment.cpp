@@ -69,6 +69,13 @@ RGBController_PhilipsHueEntertainment::RGBController_PhilipsHueEntertainment(Phi
     KeepaliveThread = new std::thread(&RGBController_PhilipsHueEntertainment::KeepaliveThreadFunction, this);
 }
 
+RGBController_PhilipsHueEntertainment::~RGBController_PhilipsHueEntertainment()
+{
+    Shutdown();
+
+    delete controller;
+}
+
 void RGBController_PhilipsHueEntertainment::SetupZones()
 {
     zone led_zone;

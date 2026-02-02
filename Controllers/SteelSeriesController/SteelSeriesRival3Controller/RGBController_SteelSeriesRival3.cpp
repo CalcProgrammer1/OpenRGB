@@ -113,6 +113,8 @@ void RGBController_SteelSeriesRival3::DeviceSaveMode()
 
 RGBController_SteelSeriesRival3::~RGBController_SteelSeriesRival3()
 {
+    Shutdown();
+
     delete controller;
 }
 

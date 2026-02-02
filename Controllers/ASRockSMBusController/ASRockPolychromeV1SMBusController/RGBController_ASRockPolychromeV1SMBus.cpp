@@ -230,6 +230,8 @@ RGBController_ASRockPolychromeV1SMBus::RGBController_ASRockPolychromeV1SMBus(ASR
 
 RGBController_ASRockPolychromeV1SMBus::~RGBController_ASRockPolychromeV1SMBus()
 {
+    Shutdown();
+
     delete controller;
 }
 

@@ -45,6 +45,8 @@ RGBController_MSI3Zone::RGBController_MSI3Zone(MSI3ZoneController* controller_pt
 
 RGBController_MSI3Zone::~RGBController_MSI3Zone()
 {
+    Shutdown();
+
     delete controller;
 }
 

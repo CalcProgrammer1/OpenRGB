@@ -148,6 +148,13 @@ RGBController_LaviewTechnology::RGBController_LaviewTechnology(LaviewTechnologyC
     SetupZones();
 }
 
+RGBController_LaviewTechnology::~RGBController_LaviewTechnology()
+{
+    Shutdown();
+
+    delete controller;
+}
+
 void RGBController_LaviewTechnology::SetupZones()
 {
     /*---------------------------------------------------------*\
@@ -169,11 +176,6 @@ void RGBController_LaviewTechnology::SetupZones()
     leds.push_back(new_led);
 
     SetupColors();
-}
-
-RGBController_LaviewTechnology::~RGBController_LaviewTechnology()
-{
-    delete controller;
 }
 
 void RGBController_LaviewTechnology::DeviceUpdateLEDs()

@@ -12,6 +12,7 @@
 
 #include <cstring>
 #include "nlohmann/json.hpp"
+#include "LogManager.h"
 #include "RGBController.h"
 #include "StringUtils.h"
 
@@ -139,11 +140,16 @@ RGBController::RGBController()
 RGBController::~RGBController()
 {
     /*-----------------------------------------------------*\
-    | Stop device thread                                    |
+    | Stop device thread if not already stopped             |
     \*-----------------------------------------------------*/
-    DeviceThreadRunning = false;
-    DeviceCallThread->join();
-    delete DeviceCallThread;
+    if(DeviceThreadRunning)
+    {
+        LOG_ERROR("[RGBController] %s: Device thread still active in base class destructor, ensure Shutdown() was called from inherited destructor", name.c_str());
+
+        DeviceThreadRunning = false;
+        DeviceCallThread->join();
+        delete DeviceCallThread;
+    }
 
     /*-----------------------------------------------------*\
     | Clear member vectors                                  |
@@ -3592,6 +3598,21 @@ void RGBController::SignalUpdate(unsigned int update_reason)
 /*---------------------------------------------------------*\
 | Device Update Functions                                   |
 \*---------------------------------------------------------*/
+void RGBController::Shutdown()
+{
+    /*-----------------------------------------------------*\
+    | Stop device thread                                    |
+    \*-----------------------------------------------------*/
+    DeviceThreadRunning = false;
+    DeviceCallThread->join();
+    delete DeviceCallThread;
+
+    /*-----------------------------------------------------*\
+    | Lock the access mutex                                 |
+    \*-----------------------------------------------------*/
+    AccessMutex.lock();
+}
+
 void RGBController::UpdateLEDs()
 {
     CallFlag_UpdateLEDs = true;

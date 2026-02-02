@@ -74,6 +74,8 @@ RGBController_EVGAACX30SMBus::RGBController_EVGAACX30SMBus(EVGAACX30SMBusControl
 
 RGBController_EVGAACX30SMBus::~RGBController_EVGAACX30SMBus()
 {
+    Shutdown();
+
     delete controller;
 }
 

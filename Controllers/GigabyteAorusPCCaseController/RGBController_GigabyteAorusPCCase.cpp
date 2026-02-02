@@ -113,6 +113,8 @@ RGBController_GigabyteAorusPCCase::RGBController_GigabyteAorusPCCase(GigabyteAor
 
 RGBController_GigabyteAorusPCCase::~RGBController_GigabyteAorusPCCase()
 {
+    Shutdown();
+
     delete controller;
 }
 

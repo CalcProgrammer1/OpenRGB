@@ -688,6 +688,8 @@ RGBController_MountainKeyboard::RGBController_MountainKeyboard(MountainKeyboardC
 
 RGBController_MountainKeyboard::~RGBController_MountainKeyboard()
 {
+    Shutdown();
+
     delete controller;
 }
 

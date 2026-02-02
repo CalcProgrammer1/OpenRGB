@@ -34,7 +34,9 @@ RGBController_DreamCheeky::RGBController_DreamCheeky(DreamCheekyController* cont
 
 RGBController_DreamCheeky::~RGBController_DreamCheeky()
 {
+    Shutdown();
 
+    delete controller;
 }
 
 void RGBController_DreamCheeky::SetupZones()

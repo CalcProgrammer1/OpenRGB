@@ -52,6 +52,8 @@ RGBController_HPOmenLaptopWMI_Windows::RGBController_HPOmenLaptopWMI_Windows(HPO
 
 RGBController_HPOmenLaptopWMI_Windows::~RGBController_HPOmenLaptopWMI_Windows()
 {
+    Shutdown();
+
     delete this->controller;
 }
 

@@ -45,6 +45,8 @@ RGBController_RoccatHordeAimo::RGBController_RoccatHordeAimo(RoccatHordeAimoCont
 
 RGBController_RoccatHordeAimo::~RGBController_RoccatHordeAimo()
 {
+    Shutdown();
+
     delete controller;
 }
 

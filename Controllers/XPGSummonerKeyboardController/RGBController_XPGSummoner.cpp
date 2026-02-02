@@ -239,6 +239,8 @@ RGBController_XPGSummoner::RGBController_XPGSummoner(XPGSummonerController *cont
 \*---------------------------------------------------------*/
 RGBController_XPGSummoner::~RGBController_XPGSummoner()
 {
+    Shutdown();
+
     delete controller;
 }
 

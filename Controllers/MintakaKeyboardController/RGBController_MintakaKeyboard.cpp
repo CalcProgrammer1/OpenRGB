@@ -245,6 +245,8 @@ RGBController_MintakaKeyboard::RGBController_MintakaKeyboard(MintakaKeyboardCont
 
 RGBController_MintakaKeyboard::~RGBController_MintakaKeyboard()
 {
+    Shutdown();
+
     delete controller;
 }
 
