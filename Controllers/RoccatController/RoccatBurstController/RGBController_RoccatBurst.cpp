@@ -112,6 +112,8 @@ RGBController_RoccatBurst::RGBController_RoccatBurst(RoccatBurstController* cont
 
 RGBController_RoccatBurst::~RGBController_RoccatBurst()
 {
+    Shutdown();
+
     delete controller;
 }
 

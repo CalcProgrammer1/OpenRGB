@@ -76,6 +76,8 @@ RGBController_SkyloongGK104Pro::RGBController_SkyloongGK104Pro(SkyloongGK104ProC
 
 RGBController_SkyloongGK104Pro::~RGBController_SkyloongGK104Pro()
 {
+    Shutdown();
+
     delete controller;
 }
 

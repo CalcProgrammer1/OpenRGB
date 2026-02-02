@@ -55,6 +55,8 @@ RGBController_Arctic::RGBController_Arctic(ArcticController* controller_ptr)
 
 RGBController_Arctic::~RGBController_Arctic()
 {
+    Shutdown();
+
     keepalive_thread_run = false;
     keepalive_thread.join();
     delete controller;

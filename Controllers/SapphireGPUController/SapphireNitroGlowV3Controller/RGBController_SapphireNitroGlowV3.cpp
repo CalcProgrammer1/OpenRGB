@@ -96,6 +96,8 @@ RGBController_SapphireNitroGlowV3::RGBController_SapphireNitroGlowV3(SapphireNit
 
 RGBController_SapphireNitroGlowV3::~RGBController_SapphireNitroGlowV3()
 {
+    Shutdown();
+
     delete controller;
 }
 

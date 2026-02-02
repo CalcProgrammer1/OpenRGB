@@ -138,6 +138,8 @@ RGBController_EVGAMouse::RGBController_EVGAMouse(EVGAMouseController* controller
 
 RGBController_EVGAMouse::~RGBController_EVGAMouse()
 {
+    Shutdown();
+
     delete controller;
 }
 

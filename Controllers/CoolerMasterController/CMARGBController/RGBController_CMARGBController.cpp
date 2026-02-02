@@ -88,6 +88,8 @@ RGBController_CMARGBController::RGBController_CMARGBController(CMARGBController*
 
 RGBController_CMARGBController::~RGBController_CMARGBController()
 {
+    Shutdown();
+
     delete controller;
 }
 

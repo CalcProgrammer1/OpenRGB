@@ -286,6 +286,8 @@ RGBController_LianLiUniHubSL::RGBController_LianLiUniHubSL(LianLiUniHubSLControl
 
 RGBController_LianLiUniHubSL::~RGBController_LianLiUniHubSL()
 {
+    Shutdown();
+
     delete this->controller;
 }
 

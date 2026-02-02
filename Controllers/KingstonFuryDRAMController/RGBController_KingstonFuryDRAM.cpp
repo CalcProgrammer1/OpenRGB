@@ -377,6 +377,8 @@ RGBController_KingstonFuryDRAM::RGBController_KingstonFuryDRAM(KingstonFuryDRAMC
 
 RGBController_KingstonFuryDRAM::~RGBController_KingstonFuryDRAM()
 {
+    Shutdown();
+
     delete controller;
 }
 

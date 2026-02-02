@@ -310,6 +310,8 @@ RGBController_E131::RGBController_E131(std::vector<E131Device> device_list)
 
 RGBController_E131::~RGBController_E131()
 {
+    Shutdown();
+
     if(keepalive_thread != nullptr)
     {
         keepalive_thread_run = 0;

@@ -375,6 +375,8 @@ RGBController_CougarKeyboard::RGBController_CougarKeyboard(CougarKeyboardControl
 
 RGBController_CougarKeyboard::~RGBController_CougarKeyboard()
 {
+    Shutdown();
+
     delete controller;
 }
 

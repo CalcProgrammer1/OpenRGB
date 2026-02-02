@@ -44,6 +44,8 @@ RGBController_SteelSeriesQCKMat::RGBController_SteelSeriesQCKMat(SteelSeriesQCKM
 
 RGBController_SteelSeriesQCKMat::~RGBController_SteelSeriesQCKMat()
 {
+    Shutdown();
+
     delete controller;
 }
 

@@ -122,6 +122,8 @@ RGBController_ThermaltakeRiing::RGBController_ThermaltakeRiing(ThermaltakeRiingC
 
 RGBController_ThermaltakeRiing::~RGBController_ThermaltakeRiing()
 {
+    Shutdown();
+
     delete controller;
 }
 

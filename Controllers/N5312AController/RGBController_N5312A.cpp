@@ -85,6 +85,8 @@ RGBController_N5312A::RGBController_N5312A(N5312AController* controller_ptr)
 
 RGBController_N5312A::~RGBController_N5312A()
 {
+    Shutdown();
+
     delete controller;
 }
 

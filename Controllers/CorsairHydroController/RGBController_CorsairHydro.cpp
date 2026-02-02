@@ -84,6 +84,8 @@ RGBController_CorsairHydro::RGBController_CorsairHydro(CorsairHydroController* c
 
 RGBController_CorsairHydro::~RGBController_CorsairHydro()
 {
+    Shutdown();
+
     delete controller;
 }
 

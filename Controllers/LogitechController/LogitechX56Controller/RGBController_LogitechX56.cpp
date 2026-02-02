@@ -47,6 +47,8 @@ RGBController_LogitechX56::RGBController_LogitechX56(LogitechX56Controller* cont
 
 RGBController_LogitechX56::~RGBController_LogitechX56()
 {
+    Shutdown();
+
     delete controller;
 }
 

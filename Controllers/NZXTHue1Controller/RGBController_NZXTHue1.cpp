@@ -178,6 +178,8 @@ RGBController_NZXTHue1::RGBController_NZXTHue1(NZXTHue1Controller* controller_pt
 
 RGBController_NZXTHue1::~RGBController_NZXTHue1()
 {
+    Shutdown();
+
     delete controller;
 }
 

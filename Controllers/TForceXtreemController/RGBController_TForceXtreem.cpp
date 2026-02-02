@@ -261,6 +261,8 @@ RGBController_TForceXtreem::RGBController_TForceXtreem(TForceXtreemController * 
 
 RGBController_TForceXtreem::~RGBController_TForceXtreem()
 {
+    Shutdown();
+
     delete controller;
 }
 

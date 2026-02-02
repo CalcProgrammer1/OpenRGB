@@ -46,7 +46,9 @@ RGBController_NZXTMouse::RGBController_NZXTMouse(NZXTMouseController* controller
 
 RGBController_NZXTMouse::~RGBController_NZXTMouse()
 {
+    Shutdown();
 
+    delete controller;
 }
 
 void RGBController_NZXTMouse::SetupZones()

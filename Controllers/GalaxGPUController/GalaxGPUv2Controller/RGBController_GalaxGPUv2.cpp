@@ -119,6 +119,8 @@ RGBController_GalaxGPUv2::RGBController_GalaxGPUv2(GalaxGPUv2Controller* control
 
 RGBController_GalaxGPUv2::~RGBController_GalaxGPUv2()
 {
+    Shutdown();
+
     delete controller;
 }
 

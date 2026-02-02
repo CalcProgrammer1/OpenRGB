@@ -19,6 +19,7 @@ class RGBController_LogitechG933 : public RGBController
 {
 public:
     RGBController_LogitechG933(LogitechG933Controller* controller_ptr);
+    ~RGBController_LogitechG933();
 
     void        SetupZones();
 

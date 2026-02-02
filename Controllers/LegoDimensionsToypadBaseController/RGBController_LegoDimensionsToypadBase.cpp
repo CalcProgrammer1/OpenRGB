@@ -72,6 +72,8 @@ RGBController_LegoDimensionsToypadBase::RGBController_LegoDimensionsToypadBase(L
 
 RGBController_LegoDimensionsToypadBase::~RGBController_LegoDimensionsToypadBase()
 {
+    Shutdown();
+
     delete controller;
 }
 
