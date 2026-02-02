@@ -222,6 +222,8 @@ RGBController_DuckyKeyboard::RGBController_DuckyKeyboard(DuckyKeyboardController
 
 RGBController_DuckyKeyboard::~RGBController_DuckyKeyboard()
 {
+    Shutdown();
+
     delete controller;
 }
 

@@ -43,6 +43,8 @@ RGBController_CreativeSoundBlasterAE5::RGBController_CreativeSoundBlasterAE5(Cre
 
 RGBController_CreativeSoundBlasterAE5::~RGBController_CreativeSoundBlasterAE5()
 {
+    Shutdown();
+
     delete controller;
 }
 

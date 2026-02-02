@@ -40,6 +40,8 @@ RGBController_ZalmanZSync::RGBController_ZalmanZSync(ZalmanZSyncController* cont
 
 RGBController_ZalmanZSync::~RGBController_ZalmanZSync()
 {
+    Shutdown();
+
     delete controller;
 }
 

@@ -381,6 +381,8 @@ RGBController_LogitechG915::RGBController_LogitechG915(LogitechG915Controller* c
 
 RGBController_LogitechG915::~RGBController_LogitechG915()
 {
+    Shutdown();
+
     delete controller;
 }
 

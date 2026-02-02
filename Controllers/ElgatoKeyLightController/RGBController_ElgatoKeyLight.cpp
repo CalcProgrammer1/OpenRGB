@@ -36,6 +36,8 @@ RGBController_ElgatoKeyLight::RGBController_ElgatoKeyLight(ElgatoKeyLightControl
 
 RGBController_ElgatoKeyLight::~RGBController_ElgatoKeyLight()
 {
+    Shutdown();
+
     delete controller;
 }
 

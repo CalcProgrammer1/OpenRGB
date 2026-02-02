@@ -202,6 +202,8 @@ RGBController_NZXTKraken::RGBController_NZXTKraken(NZXTKrakenController* control
 
 RGBController_NZXTKraken::~RGBController_NZXTKraken()
 {
+    Shutdown();
+
     delete controller;
 }
 

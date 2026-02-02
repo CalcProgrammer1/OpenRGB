@@ -79,6 +79,8 @@ RGBController_AsusROGStrixEvolve::RGBController_AsusROGStrixEvolve(AsusAuraMouse
 
 RGBController_AsusROGStrixEvolve::~RGBController_AsusROGStrixEvolve()
 {
+    Shutdown();
+
     delete controller;
 }
 

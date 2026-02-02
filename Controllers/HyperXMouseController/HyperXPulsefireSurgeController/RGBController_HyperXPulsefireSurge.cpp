@@ -56,6 +56,8 @@ RGBController_HyperXPulsefireSurge::RGBController_HyperXPulsefireSurge(HyperXPul
 
 RGBController_HyperXPulsefireSurge::~RGBController_HyperXPulsefireSurge()
 {
+    Shutdown();
+
     keepalive_thread_run = 0;
     keepalive_thread->join();
     delete keepalive_thread;

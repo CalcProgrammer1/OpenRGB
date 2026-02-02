@@ -16,6 +16,7 @@ class RGBController_AsusTUFLaptopLinux : public RGBController
 {
 public:
     RGBController_AsusTUFLaptopLinux(AsusTUFLaptopLinuxController* controller_ptr);
+    ~RGBController_AsusTUFLaptopLinux();
 
     void SetupZones();
 

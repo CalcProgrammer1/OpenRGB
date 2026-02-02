@@ -87,6 +87,8 @@ RGBController_SRGBmodsLEDControllerV1::RGBController_SRGBmodsLEDControllerV1(SRG
 
 RGBController_SRGBmodsLEDControllerV1::~RGBController_SRGBmodsLEDControllerV1()
 {
+    Shutdown();
+
     delete controller;
 }
 

@@ -40,6 +40,8 @@ RGBController_CorsairLightingNode::RGBController_CorsairLightingNode(CorsairLigh
 
 RGBController_CorsairLightingNode::~RGBController_CorsairLightingNode()
 {
+    Shutdown();
+
     delete controller;
 }
 

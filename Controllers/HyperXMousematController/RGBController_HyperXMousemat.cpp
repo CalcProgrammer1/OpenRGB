@@ -58,6 +58,8 @@ RGBController_HyperXMousemat::RGBController_HyperXMousemat(HyperXMousematControl
 
 RGBController_HyperXMousemat::~RGBController_HyperXMousemat()
 {
+    Shutdown();
+
     keepalive_thread_run = 0;
     keepalive_thread->join();
     delete keepalive_thread;

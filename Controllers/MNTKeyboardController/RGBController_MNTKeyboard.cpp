@@ -27,6 +27,8 @@ void RGBController_MNTKeyboard::CommonInit()
 
 RGBController_MNTKeyboard::~RGBController_MNTKeyboard()
 {
+    Shutdown();
+
     delete controller;
 }
 

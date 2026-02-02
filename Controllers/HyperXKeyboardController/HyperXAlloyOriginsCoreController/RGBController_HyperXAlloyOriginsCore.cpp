@@ -128,6 +128,8 @@ RGBController_HyperXAlloyOriginsCore::RGBController_HyperXAlloyOriginsCore(Hyper
 
 RGBController_HyperXAlloyOriginsCore::~RGBController_HyperXAlloyOriginsCore()
 {
+    Shutdown();
+
     keepalive_thread_run = 0;
     keepalive_thread->join();
     delete keepalive_thread;

@@ -59,6 +59,8 @@ RGBController_CorsairDominatorPlatinum::RGBController_CorsairDominatorPlatinum(C
 
 RGBController_CorsairDominatorPlatinum::~RGBController_CorsairDominatorPlatinum()
 {
+    Shutdown();
+
     delete controller;
 }
 

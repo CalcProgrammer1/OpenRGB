@@ -53,6 +53,8 @@ RGBController_HyperXMicrophoneV2::RGBController_HyperXMicrophoneV2(HyperXMicroph
 
 RGBController_HyperXMicrophoneV2::~RGBController_HyperXMicrophoneV2()
 {
+    Shutdown();
+
     keepalive_thread_run = 0;
     keepalive_thread->join();
     delete keepalive_thread;

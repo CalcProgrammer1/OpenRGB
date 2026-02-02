@@ -105,6 +105,8 @@ RGBController_RobobloqLightStrip::RGBController_RobobloqLightStrip(RobobloqLight
 
 RGBController_RobobloqLightStrip::~RGBController_RobobloqLightStrip()
 {
+    Shutdown();
+
     delete controller;
 }
 

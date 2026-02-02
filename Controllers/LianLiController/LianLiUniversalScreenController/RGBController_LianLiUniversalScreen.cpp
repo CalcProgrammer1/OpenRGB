@@ -45,6 +45,13 @@ RGBController_LianLiUniversalScreen::RGBController_LianLiUniversalScreen(LianLiU
     SetupZones();
 }
 
+RGBController_LianLiUniversalScreen::~RGBController_LianLiUniversalScreen()
+{
+    Shutdown();
+
+    delete controller;
+}
+
 void RGBController_LianLiUniversalScreen::SetupZones()
 {
     zone Screen;

@@ -173,6 +173,8 @@ RGBController_BloodyB820R::RGBController_BloodyB820R(BloodyB820RController *cont
 
 RGBController_BloodyB820R::~RGBController_BloodyB820R()
 {
+    Shutdown();
+
     delete controller;
 }
 

@@ -548,7 +548,7 @@ RGBController_Debug::RGBController_Debug(bool custom_controller, json debug_sett
 
 RGBController_Debug::~RGBController_Debug()
 {
-
+    Shutdown();
 }
 
 void RGBController_Debug::DeviceResizeZone(int index, int new_size)

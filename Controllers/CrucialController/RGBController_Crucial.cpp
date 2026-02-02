@@ -129,6 +129,8 @@ RGBController_Crucial::RGBController_Crucial(CrucialController* controller_ptr)
 
 RGBController_Crucial::~RGBController_Crucial()
 {
+    Shutdown();
+
     delete controller;
 }
 

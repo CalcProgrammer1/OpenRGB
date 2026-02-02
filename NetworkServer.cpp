@@ -579,6 +579,11 @@ void NetworkServer::SetControllers(std::vector<RGBController *> new_controllers)
     }
 
     /*-----------------------------------------------------*\
+    | Unlock the controller IDs mutex                       |
+    \*-----------------------------------------------------*/
+    controller_ids_mutex.unlock();
+
+    /*-----------------------------------------------------*\
     | Loop through the remaining threads in the old list    |
     | and shut them down, their controller IDs are no       |
     | longer valid.                                         |
@@ -592,10 +597,9 @@ void NetworkServer::SetControllers(std::vector<RGBController *> new_controllers)
     }
 
     /*-----------------------------------------------------*\
-    | Unlock the mutexes                                    |
+    | Unlock the controller threads mutex                   |
     \*-----------------------------------------------------*/
     controller_threads_mutex.unlock();
-    controller_ids_mutex.unlock();
 
     /*-----------------------------------------------------*\
     | Clear the controller list updating flag to resume the |
@@ -2001,8 +2005,8 @@ void NetworkServer::SendReply_ControllerCount(SOCKET client_sock, unsigned int p
     controller_count = (unsigned int)controllers.size();
 
     send_in_progress.lock();
-    send(client_sock, (const char *)&reply_hdr, sizeof(NetPacketHeader), 0);
-    send(client_sock, (const char *)data_buf, data_size, 0);
+    send(client_sock, (const char *)&reply_hdr, sizeof(NetPacketHeader), MSG_NOSIGNAL);
+    send(client_sock, (const char *)data_buf, data_size, MSG_NOSIGNAL);
     send_in_progress.unlock();
 
     delete[] data_buf;
@@ -2064,8 +2068,8 @@ void NetworkServer::SendReply_ControllerData(SOCKET client_sock, unsigned int de
         | Send packet                                           |
         \*-----------------------------------------------------*/
         send_in_progress.lock();
-        send(client_sock, (const char *)&reply_hdr, sizeof(NetPacketHeader), 0);
-        send(client_sock, (const char *)reply_data, reply_size, 0);
+        send(client_sock, (const char *)&reply_hdr, sizeof(NetPacketHeader), MSG_NOSIGNAL);
+        send(client_sock, (const char *)reply_data, reply_size, MSG_NOSIGNAL);
         send_in_progress.unlock();
 
         /*-----------------------------------------------------*\
@@ -2085,8 +2089,8 @@ void NetworkServer::SendReply_ProtocolVersion(SOCKET client_sock)
     reply_data = OPENRGB_SDK_PROTOCOL_VERSION;
 
     send_in_progress.lock();
-    send(client_sock, (const char *)&reply_hdr, sizeof(NetPacketHeader), 0);
-    send(client_sock, (const char *)&reply_data, sizeof(unsigned int), 0);
+    send(client_sock, (const char *)&reply_hdr, sizeof(NetPacketHeader), MSG_NOSIGNAL);
+    send(client_sock, (const char *)&reply_data, sizeof(unsigned int), MSG_NOSIGNAL);
     send_in_progress.unlock();
 }
 
@@ -2172,8 +2176,8 @@ void NetworkServer::SendReply_ProfileList(SOCKET client_sock)
     InitNetPacketHeader(&reply_hdr, 0, NET_PACKET_ID_PROFILEMANAGER_GET_PROFILE_LIST, reply_size);
 
     send_in_progress.lock();
-    send(client_sock, (const char *)&reply_hdr, sizeof(NetPacketHeader), 0);
-    send(client_sock, (const char *)reply_data, reply_size, 0);
+    send(client_sock, (const char *)&reply_hdr, sizeof(NetPacketHeader), MSG_NOSIGNAL);
+    send(client_sock, (const char *)reply_data, reply_size, MSG_NOSIGNAL);
     send_in_progress.unlock();
 }
 
@@ -2273,8 +2277,8 @@ void NetworkServer::SendReply_PluginList(SOCKET client_sock)
     InitNetPacketHeader(&reply_hdr, 0, NET_PACKET_ID_PLUGINMANAGER_GET_PLUGIN_LIST, reply_size);
 
     send_in_progress.lock();
-    send(client_sock, (const char *)&reply_hdr, sizeof(NetPacketHeader), 0);
-    send(client_sock, (const char *)data_buf, reply_size, 0);
+    send(client_sock, (const char *)&reply_hdr, sizeof(NetPacketHeader), MSG_NOSIGNAL);
+    send(client_sock, (const char *)data_buf, reply_size, MSG_NOSIGNAL);
     send_in_progress.unlock();
 
     delete [] data_buf;
@@ -2287,9 +2291,9 @@ void NetworkServer::SendReply_PluginSpecific(SOCKET client_sock, unsigned int pk
     InitNetPacketHeader(&reply_hdr, 0, NET_PACKET_ID_PLUGINMANAGER_PLUGIN_SPECIFIC, data_size + sizeof(pkt_id));
 
     send_in_progress.lock();
-    send(client_sock, (const char *)&reply_hdr, sizeof(NetPacketHeader), 0);
-    send(client_sock, (const char *)&pkt_id, sizeof(pkt_id), 0);
-    send(client_sock, (const char *)data, data_size, 0);
+    send(client_sock, (const char *)&reply_hdr, sizeof(NetPacketHeader), MSG_NOSIGNAL);
+    send(client_sock, (const char *)&pkt_id, sizeof(pkt_id), MSG_NOSIGNAL);
+    send(client_sock, (const char *)data, data_size, MSG_NOSIGNAL);
     send_in_progress.unlock();
 
     delete [] data;
@@ -2304,7 +2308,7 @@ void NetworkServer::SendRequest_DetectionCompleted(SOCKET client_sock, unsigned 
         InitNetPacketHeader(&pkt_hdr, 0, NET_PACKET_ID_DETECTION_COMPLETE, 0);
 
         send_in_progress.lock();
-        send(client_sock, (char *)&pkt_hdr, sizeof(NetPacketHeader), 0);
+        send(client_sock, (char *)&pkt_hdr, sizeof(NetPacketHeader), MSG_NOSIGNAL);
         send_in_progress.unlock();
     }
 }
@@ -2341,8 +2345,8 @@ void NetworkServer::SendRequest_DetectionProgress(SOCKET client_sock, unsigned i
         InitNetPacketHeader(&reply_hdr, 0, NET_PACKET_ID_DETECTION_PROGRESS_CHANGED, data_size);
 
         send_in_progress.lock();
-        send(client_sock, (const char *)&reply_hdr, sizeof(NetPacketHeader), 0);
-        send(client_sock, (const char *)data_buf, data_size, 0);
+        send(client_sock, (const char *)&reply_hdr, sizeof(NetPacketHeader), MSG_NOSIGNAL);
+        send(client_sock, (const char *)data_buf, data_size, MSG_NOSIGNAL);
         send_in_progress.unlock();
 
         delete [] data_buf;
@@ -2358,7 +2362,7 @@ void NetworkServer::SendRequest_DetectionStarted(SOCKET client_sock, unsigned in
         InitNetPacketHeader(&pkt_hdr, 0, NET_PACKET_ID_DETECTION_STARTED, 0);
 
         send_in_progress.lock();
-        send(client_sock, (char *)&pkt_hdr, sizeof(NetPacketHeader), 0);
+        send(client_sock, (char *)&pkt_hdr, sizeof(NetPacketHeader), MSG_NOSIGNAL);
         send_in_progress.unlock();
     }
 }
@@ -2370,7 +2374,7 @@ void NetworkServer::SendRequest_DeviceListChanged(SOCKET client_sock)
     InitNetPacketHeader(&pkt_hdr, 0, NET_PACKET_ID_DEVICE_LIST_UPDATED, 0);
 
     send_in_progress.lock();
-    send(client_sock, (char *)&pkt_hdr, sizeof(NetPacketHeader), 0);
+    send(client_sock, (char *)&pkt_hdr, sizeof(NetPacketHeader), MSG_NOSIGNAL);
     send_in_progress.unlock();
 }
 
@@ -2512,8 +2516,8 @@ void NetworkServer::SendRequest_RGBController_SignalUpdate(RGBController * contr
                 | Send packet                               |
                 \*-----------------------------------------*/
                 send_in_progress.lock();
-                send(client_sock, (const char *)&reply_hdr, sizeof(NetPacketHeader), 0);
-                send(client_sock, (const char *)reply_data, reply_size, 0);
+                send(client_sock, (const char *)&reply_hdr, sizeof(NetPacketHeader), MSG_NOSIGNAL);
+                send(client_sock, (const char *)reply_data, reply_size, MSG_NOSIGNAL);
                 send_in_progress.unlock();
 
                 /*-----------------------------------------*\

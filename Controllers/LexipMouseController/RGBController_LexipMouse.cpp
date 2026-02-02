@@ -47,6 +47,8 @@ RGBController_LexipMouse::RGBController_LexipMouse(LexipMouseController* control
 
 RGBController_LexipMouse::~RGBController_LexipMouse()
 {
+    Shutdown();
+
     delete controller;
 }
 
