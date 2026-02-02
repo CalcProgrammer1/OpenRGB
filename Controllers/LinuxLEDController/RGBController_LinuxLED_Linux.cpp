@@ -53,6 +53,8 @@ RGBController_LinuxLED::RGBController_LinuxLED(LinuxLEDController* controller_pt
 
 RGBController_LinuxLED::~RGBController_LinuxLED()
 {
+    Shutdown();
+
     delete controller;
 }
 

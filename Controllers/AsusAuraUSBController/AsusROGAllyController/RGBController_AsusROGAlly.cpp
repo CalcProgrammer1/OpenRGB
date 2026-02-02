@@ -117,6 +117,8 @@ RGBController_AsusROGAlly::RGBController_AsusROGAlly(ROGAllyController* controll
 
 RGBController_AsusROGAlly::~RGBController_AsusROGAlly()
 {
+    Shutdown();
+
     delete controller;
 }
 

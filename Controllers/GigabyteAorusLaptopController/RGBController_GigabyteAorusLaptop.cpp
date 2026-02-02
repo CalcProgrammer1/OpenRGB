@@ -354,6 +354,8 @@ RGBController_GigabyteAorusLaptop::RGBController_GigabyteAorusLaptop(GigabyteAor
 
 RGBController_GigabyteAorusLaptop::~RGBController_GigabyteAorusLaptop()
 {
+    Shutdown();
+
     delete controller;
 }
 

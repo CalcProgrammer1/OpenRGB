@@ -341,6 +341,8 @@ RGBController_ZotacV2GPU::RGBController_ZotacV2GPU(ZotacV2GPUController* control
 
 RGBController_ZotacV2GPU::~RGBController_ZotacV2GPU()
 {
+    Shutdown();
+
     delete controller;
 }
 

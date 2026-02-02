@@ -185,6 +185,13 @@ RGBController_PolychromeUSB::RGBController_PolychromeUSB(PolychromeUSBController
     SetupZones();
 }
 
+RGBController_PolychromeUSB::~RGBController_PolychromeUSB()
+{
+    Shutdown();
+
+    delete controller;
+}
+
 void RGBController_PolychromeUSB::SetupZones()
 {
     /*-------------------------------------------------*\

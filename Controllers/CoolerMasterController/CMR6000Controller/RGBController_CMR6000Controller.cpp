@@ -152,6 +152,8 @@ RGBController_CMR6000Controller::RGBController_CMR6000Controller(CMR6000Controll
 
 RGBController_CMR6000Controller::~RGBController_CMR6000Controller()
 {
+    Shutdown();
+
     delete controller;
 }
 

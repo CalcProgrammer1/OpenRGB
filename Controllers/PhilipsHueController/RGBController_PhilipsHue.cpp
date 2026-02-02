@@ -43,6 +43,13 @@ RGBController_PhilipsHue::RGBController_PhilipsHue(PhilipsHueController* control
     SetupZones();
 }
 
+RGBController_PhilipsHue::~RGBController_PhilipsHue()
+{
+    Shutdown();
+
+    delete controller;
+}
+
 void RGBController_PhilipsHue::SetupZones()
 {
     zone led_zone;

@@ -47,6 +47,8 @@ RGBController_NvidiaESA::RGBController_NvidiaESA(NvidiaESAController* controller
 
 RGBController_NvidiaESA::~RGBController_NvidiaESA()
 {
+    Shutdown();
+
     delete controller;
 }
 

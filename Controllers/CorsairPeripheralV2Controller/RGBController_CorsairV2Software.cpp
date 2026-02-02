@@ -59,6 +59,8 @@ RGBController_CorsairV2SW::RGBController_CorsairV2SW(CorsairPeripheralV2Controll
 
 RGBController_CorsairV2SW::~RGBController_CorsairV2SW()
 {
+    Shutdown();
+
     /*-----------------------------------------------------*\
     | Close keepalive thread                                |
     \*-----------------------------------------------------*/

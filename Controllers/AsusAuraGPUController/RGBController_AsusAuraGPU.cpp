@@ -124,6 +124,8 @@ RGBController_AuraGPU::RGBController_AuraGPU(AuraGPUController * controller_ptr)
 
 RGBController_AuraGPU::~RGBController_AuraGPU()
 {
+    Shutdown();
+
     delete controller;
 }
 

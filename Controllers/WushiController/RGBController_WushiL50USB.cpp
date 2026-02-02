@@ -91,6 +91,8 @@ RGBController_WushiL50USB::RGBController_WushiL50USB(WushiL50USBController* cont
 
 RGBController_WushiL50USB::~RGBController_WushiL50USB()
 {
+    Shutdown();
+
     delete controller;
 }
 

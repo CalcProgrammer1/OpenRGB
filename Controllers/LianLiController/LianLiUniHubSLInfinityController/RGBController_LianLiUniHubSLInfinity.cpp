@@ -314,6 +314,8 @@ RGBController_LianLiUniHubSLInfinity::RGBController_LianLiUniHubSLInfinity(LianL
 
 RGBController_LianLiUniHubSLInfinity::~RGBController_LianLiUniHubSLInfinity()
 {
+    Shutdown();
+
     delete controller;
 }
 

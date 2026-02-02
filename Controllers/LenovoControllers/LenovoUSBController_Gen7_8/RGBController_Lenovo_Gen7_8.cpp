@@ -304,6 +304,8 @@ LenovoRGBController_Gen7_8::LenovoRGBController_Gen7_8(LenovoGen7And8USBControll
 
 LenovoRGBController_Gen7_8::~LenovoRGBController_Gen7_8()
 {
+    Shutdown();
+
     delete controller;
 }
 

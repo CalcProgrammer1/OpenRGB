@@ -40,6 +40,8 @@ RGBController_ElgatoLightStrip::RGBController_ElgatoLightStrip(ElgatoLightStripC
 
 RGBController_ElgatoLightStrip::~RGBController_ElgatoLightStrip()
 {
+    Shutdown();
+
     delete controller;
 }
 

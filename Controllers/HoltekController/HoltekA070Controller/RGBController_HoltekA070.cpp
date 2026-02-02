@@ -54,6 +54,8 @@ RGBController_HoltekA070::RGBController_HoltekA070(HoltekA070Controller* control
 
 RGBController_HoltekA070::~RGBController_HoltekA070()
 {
+    Shutdown();
+
     delete controller;
 }
 

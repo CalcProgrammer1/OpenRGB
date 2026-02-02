@@ -82,6 +82,8 @@ RGBController_SteelSeriesRival::RGBController_SteelSeriesRival(SteelSeriesRivalC
 
 RGBController_SteelSeriesRival::~RGBController_SteelSeriesRival()
 {
+    Shutdown();
+
     delete controller;
 }
 

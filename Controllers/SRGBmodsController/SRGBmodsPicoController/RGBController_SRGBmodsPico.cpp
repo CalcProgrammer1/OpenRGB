@@ -46,6 +46,8 @@ RGBController_SRGBmodsPico::RGBController_SRGBmodsPico(SRGBmodsPicoController* c
 
 RGBController_SRGBmodsPico::~RGBController_SRGBmodsPico()
 {
+    Shutdown();
+
     delete controller;
 }
 

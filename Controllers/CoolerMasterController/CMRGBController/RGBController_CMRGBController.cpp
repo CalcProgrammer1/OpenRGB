@@ -153,6 +153,8 @@ RGBController_CMRGBController::RGBController_CMRGBController(CMRGBController* co
 
 RGBController_CMRGBController::~RGBController_CMRGBController()
 {
+    Shutdown();
+
     delete controller;
 }
 

@@ -149,6 +149,8 @@ RGBController_QMKVialRGB::RGBController_QMKVialRGB(QMKVialRGBController* control
 
 RGBController_QMKVialRGB::~RGBController_QMKVialRGB()
 {
+    Shutdown();
+
     delete controller;
 }
 

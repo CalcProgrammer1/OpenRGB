@@ -135,6 +135,8 @@ RGBController_GigabyteSuperIORGB::RGBController_GigabyteSuperIORGB(GigabyteSuper
 
 RGBController_GigabyteSuperIORGB::~RGBController_GigabyteSuperIORGB()
 {
+    Shutdown();
+
     delete controller;
 }
 
