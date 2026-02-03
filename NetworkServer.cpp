@@ -390,6 +390,16 @@ void NetworkServer::StartServer()
     server_online = true;
 
     /*-----------------------------------------------------*\
+    | Start the ProfileManager thread                       |
+    \*-----------------------------------------------------*/
+    profilemanager_thread                           = new NetworkServerControllerThread;
+
+    profilemanager_thread->id                       = 0;
+    profilemanager_thread->index                    = 0;
+    profilemanager_thread->online                   = true;
+    profilemanager_thread->thread                   = new std::thread(&NetworkServer::ProfileManagerListenThread, this, profilemanager_thread);
+
+    /*-----------------------------------------------------*\
     | Start the connection thread                           |
     \*-----------------------------------------------------*/
     for(int curr_socket = 0; curr_socket < socket_count; curr_socket++)
@@ -852,7 +862,7 @@ void NetworkServer::ControllerListenThread(NetworkServerControllerThread * this_
 
                 controller_ids_mutex.lock_shared();
 
-                switch(queue_entry.pkt_id)
+                switch(queue_entry.header.pkt_id)
                 {
                     case NET_PACKET_ID_RGBCONTROLLER_UPDATELEDS:
                         ProcessRequest_RGBController_UpdateLEDs(this_thread->id, (unsigned char *)queue_entry.data, queue_entry.client_protocol_version);
@@ -883,6 +893,58 @@ void NetworkServer::ControllerListenThread(NetworkServerControllerThread * this_
         else
         {
             std::this_thread::sleep_for(1ms);
+        }
+    }
+}
+
+void NetworkServer::ProfileManagerListenThread(NetworkServerControllerThread * this_thread)
+{
+    while(this_thread->online ==  true)
+    {
+        std::unique_lock<std::mutex> start_lock(this_thread->start_mutex);
+        this_thread->start_cv.wait(start_lock);
+
+        while(this_thread->queue.size() > 0)
+        {
+            NetworkServerControllerThreadQueueEntry queue_entry;
+
+            this_thread->queue_mutex.lock();
+            queue_entry = this_thread->queue.front();
+            this_thread->queue.pop();
+            this_thread->queue_mutex.unlock();
+
+            switch(queue_entry.header.pkt_id)
+            {
+                case NET_PACKET_ID_PROFILEMANAGER_GET_PROFILE_LIST:
+                    SendReply_ProfileList(queue_entry.client_sock);
+                    break;
+
+                case NET_PACKET_ID_PROFILEMANAGER_SAVE_PROFILE:
+                    ProcessRequest_ProfileManager_SaveProfile(queue_entry.header.pkt_size, queue_entry.data);
+                    break;
+
+                case NET_PACKET_ID_PROFILEMANAGER_LOAD_PROFILE:
+                    ProcessRequest_ProfileManager_LoadProfile(queue_entry.header.pkt_size, queue_entry.data);
+                    break;
+
+                case NET_PACKET_ID_PROFILEMANAGER_DELETE_PROFILE:
+                    ProcessRequest_ProfileManager_DeleteProfile(queue_entry.header.pkt_size, queue_entry.data);
+                    break;
+
+                case NET_PACKET_ID_PROFILEMANAGER_UPLOAD_PROFILE:
+                    ProcessRequest_ProfileManager_UploadProfile(queue_entry.header.pkt_size, queue_entry.data);
+                    break;
+
+                case NET_PACKET_ID_PROFILEMANAGER_DOWNLOAD_PROFILE:
+                    ProcessRequest_ProfileManager_DownloadProfile(queue_entry.client_sock, queue_entry.header.pkt_size, queue_entry.data);
+                    break;
+
+                case NET_PACKET_ID_PROFILEMANAGER_GET_ACTIVE_PROFILE:
+                    ProcessRequest_ProfileManager_GetActiveProfile(queue_entry.client_sock);
+                    break;
+            }
+
+            delete[] queue_entry.data;
         }
     }
 }
@@ -1030,116 +1092,35 @@ void NetworkServer::ListenThreadFunction(NetworkClientInfo * client_info)
                 break;
 
         /*-------------------------------------------------*\
-        | ProfileManager functions                          |
+        | ProfileManager functions are handled in a         |
+        | separate thread, queue the messages               |
         \*-------------------------------------------------*/
             case NET_PACKET_ID_PROFILEMANAGER_GET_PROFILE_LIST:
-                SendReply_ProfileList(client_sock);
-                break;
-
             case NET_PACKET_ID_PROFILEMANAGER_SAVE_PROFILE:
-                if(data == NULL)
-                {
-                    break;
-                }
-
-                if(profile_manager)
-                {
-                    std::string profile_name;
-                    profile_name.assign(data, header.pkt_size);
-                    profile_name = StringUtils::remove_null_terminating_chars(profile_name);
-
-                    profile_manager->SaveProfile(profile_name);
-                }
-                break;
-
             case NET_PACKET_ID_PROFILEMANAGER_LOAD_PROFILE:
-                if(data == NULL)
-                {
-                    break;
-                }
-
-                if(profile_manager)
-                {
-                    std::string profile_name;
-                    profile_name.assign(data, header.pkt_size);
-                    profile_name = StringUtils::remove_null_terminating_chars(profile_name);
-
-                    profile_manager->LoadProfile(profile_name);
-                }
-                break;
-
             case NET_PACKET_ID_PROFILEMANAGER_DELETE_PROFILE:
-                if(data == NULL)
-                {
-                    break;
-                }
-
-                if(profile_manager)
-                {
-                    std::string profile_name;
-                    profile_name.assign(data, header.pkt_size);
-                    profile_name = StringUtils::remove_null_terminating_chars(profile_name);
-
-                    profile_manager->DeleteProfile(profile_name);
-                }
-                break;
-
             case NET_PACKET_ID_PROFILEMANAGER_UPLOAD_PROFILE:
-                if(data == NULL)
-                {
-                    break;
-                }
-
-                if(profile_manager)
-                {
-                    std::string profile_json_string;
-                    profile_json_string.assign(data, header.pkt_size);
-                    profile_json_string = StringUtils::remove_null_terminating_chars(profile_json_string);
-
-                    nlohmann::json profile_json = nlohmann::json::parse(profile_json_string);
-
-                    profile_manager->SaveProfileFromJSON(profile_json);
-                }
-                break;
-
             case NET_PACKET_ID_PROFILEMANAGER_DOWNLOAD_PROFILE:
-                if(data == NULL)
-                {
-                    break;
-                }
-
-                if(profile_manager)
-                {
-                    std::string profile_name;
-                    profile_name.assign(data, header.pkt_size);
-                    profile_name = StringUtils::remove_null_terminating_chars(profile_name);
-
-                    std::string profile_json_string = profile_manager->ReadProfileJSON(profile_name).dump();
-
-                    NetPacketHeader reply_hdr;
-
-                    InitNetPacketHeader(&reply_hdr, 0, NET_PACKET_ID_PROFILEMANAGER_DOWNLOAD_PROFILE, (unsigned int)strlen(profile_json_string.c_str()) + 1);
-
-                    send_in_progress.lock();
-                    send(client_sock, (char *)&reply_hdr, sizeof(NetPacketHeader), MSG_NOSIGNAL);
-                    send(client_sock, (char *)profile_json_string.c_str(), reply_hdr.pkt_size, MSG_NOSIGNAL);
-                    send_in_progress.unlock();
-                }
-                break;
-
             case NET_PACKET_ID_PROFILEMANAGER_GET_ACTIVE_PROFILE:
                 {
-                    std::string active_profile_name = profile_manager->GetActiveProfile();
+                    profilemanager_thread->queue_mutex.lock();
 
-                    NetPacketHeader reply_hdr;
+                    NetworkServerControllerThreadQueueEntry new_entry;
+                    new_entry.data                      = data;
+                    new_entry.header                    = header;
+                    new_entry.client_sock               = client_sock;
+                    new_entry.client_protocol_version   = client_info->client_protocol_version;
 
-                    InitNetPacketHeader(&reply_hdr, 0, NET_PACKET_ID_PROFILEMANAGER_GET_ACTIVE_PROFILE, (unsigned int)strlen(active_profile_name.c_str()) + 1);
+                    profilemanager_thread->queue.push(new_entry);
+                    profilemanager_thread->queue_mutex.unlock();
+                    profilemanager_thread->start_cv.notify_all();
 
-                    send_in_progress.lock();
-                    send(client_sock, (char *)&reply_hdr, sizeof(NetPacketHeader), MSG_NOSIGNAL);
-                    send(client_sock, (char *)active_profile_name.c_str(), reply_hdr.pkt_size, MSG_NOSIGNAL);
-                    send_in_progress.unlock();
+                    delete_data = false;
                 }
+                break;
+
+            case NET_PACKET_ID_PROFILEMANAGER_PROFILE_ABOUT_TO_LOAD:
+                profile_about_to_load_acks++;
                 break;
 
         /*-------------------------------------------------*\
@@ -1293,8 +1274,8 @@ void NetworkServer::ListenThreadFunction(NetworkClientInfo * client_info)
 
                         NetworkServerControllerThreadQueueEntry new_entry;
                         new_entry.data                      = data;
-                        new_entry.pkt_id                    = header.pkt_id;
-                        new_entry.size                      = header.pkt_size;
+                        new_entry.header                    = header;
+                        new_entry.client_sock               = client_sock;
                         new_entry.client_protocol_version   = client_info->client_protocol_version;
 
                         controller_threads[controller_thread_idx]->queue.push(new_entry);
@@ -1485,6 +1466,119 @@ void NetworkServer::ProcessRequest_ClientString(SOCKET client_sock, unsigned int
 void NetworkServer::ProcessRequest_RescanDevices()
 {
     ResourceManager::get()->RescanDevices();
+}
+
+void NetworkServer::ProcessRequest_ProfileManager_DeleteProfile(unsigned int data_size, char * data)
+{
+    if(data == NULL)
+    {
+        return;
+    }
+
+    if(profile_manager)
+    {
+        std::string profile_name;
+        profile_name.assign(data, data_size);
+        profile_name = StringUtils::remove_null_terminating_chars(profile_name);
+
+        profile_manager->DeleteProfile(profile_name);
+    }
+}
+
+void NetworkServer::ProcessRequest_ProfileManager_DownloadProfile(SOCKET client_sock, unsigned int data_size, char * data)
+{
+    if(data == NULL)
+    {
+        return;
+    }
+
+    if(profile_manager)
+    {
+        std::string profile_name;
+        profile_name.assign(data, data_size);
+        profile_name = StringUtils::remove_null_terminating_chars(profile_name);
+
+        std::string profile_json_string = profile_manager->ReadProfileJSON(profile_name).dump();
+
+        NetPacketHeader reply_hdr;
+
+        InitNetPacketHeader(&reply_hdr, 0, NET_PACKET_ID_PROFILEMANAGER_DOWNLOAD_PROFILE, (unsigned int)strlen(profile_json_string.c_str()) + 1);
+
+        send_in_progress.lock();
+        send(client_sock, (char *)&reply_hdr, sizeof(NetPacketHeader), MSG_NOSIGNAL);
+        send(client_sock, (char *)profile_json_string.c_str(), reply_hdr.pkt_size, MSG_NOSIGNAL);
+        send_in_progress.unlock();
+    }
+}
+
+void NetworkServer::ProcessRequest_ProfileManager_GetActiveProfile(SOCKET client_sock)
+{
+    if(profile_manager)
+    {
+        std::string active_profile_name = profile_manager->GetActiveProfile();
+
+        NetPacketHeader reply_hdr;
+
+        InitNetPacketHeader(&reply_hdr, 0, NET_PACKET_ID_PROFILEMANAGER_GET_ACTIVE_PROFILE, (unsigned int)strlen(active_profile_name.c_str()) + 1);
+
+        send_in_progress.lock();
+        send(client_sock, (char *)&reply_hdr, sizeof(NetPacketHeader), MSG_NOSIGNAL);
+        send(client_sock, (char *)active_profile_name.c_str(), reply_hdr.pkt_size, MSG_NOSIGNAL);
+        send_in_progress.unlock();
+    }
+}
+
+void NetworkServer::ProcessRequest_ProfileManager_LoadProfile(unsigned int data_size, char * data)
+{
+    if(data == NULL)
+    {
+        return;
+    }
+
+    if(profile_manager)
+    {
+        std::string profile_name;
+        profile_name.assign(data, data_size);
+        profile_name = StringUtils::remove_null_terminating_chars(profile_name);
+
+        profile_manager->LoadProfile(profile_name);
+    }
+}
+
+void NetworkServer::ProcessRequest_ProfileManager_SaveProfile(unsigned int data_size, char * data)
+{
+    if(data == NULL)
+    {
+        return;
+    }
+
+    if(profile_manager)
+    {
+        std::string profile_name;
+        profile_name.assign(data, data_size);
+        profile_name = StringUtils::remove_null_terminating_chars(profile_name);
+
+        profile_manager->SaveProfile(profile_name);
+    }
+}
+
+void NetworkServer::ProcessRequest_ProfileManager_UploadProfile(unsigned int data_size, char * data)
+{
+    if(data == NULL)
+    {
+        return;
+    }
+
+    if(profile_manager)
+    {
+        std::string profile_json_string;
+        profile_json_string.assign(data, data_size);
+        profile_json_string = StringUtils::remove_null_terminating_chars(profile_json_string);
+
+        nlohmann::json profile_json = nlohmann::json::parse(profile_json_string);
+
+        profile_manager->SaveProfileFromJSON(profile_json);
+    }
 }
 
 void NetworkServer::ProcessRequest_RGBController_AddSegment(unsigned int controller_id, unsigned char * data_ptr, unsigned int protocol_version)
@@ -2376,6 +2470,115 @@ void NetworkServer::SendRequest_DeviceListChanged(SOCKET client_sock)
     send_in_progress.lock();
     send(client_sock, (char *)&pkt_hdr, sizeof(NetPacketHeader), MSG_NOSIGNAL);
     send_in_progress.unlock();
+}
+
+void NetworkServer::ProfileManager_ProfileAboutToLoad()
+{
+    SendRequest_ProfileManager_ProfileAboutToLoad();
+
+    /*-----------------------------------------------------*\
+    | Wait for about to load completion or timeout          |
+    \*-----------------------------------------------------*/
+    unsigned int timeout = 0;
+
+    while(true)
+    {
+        /*-------------------------------------------------*\
+        | Test for the following conditions:                |
+        |   1.  All acks to ProfileAboutToLoad have been    |
+        |       received from clients                       |
+        |   2.  All RGBController queues have been emptied  |
+        |   3.  We haven't exceeded the 1 second timeout    |
+        \*-------------------------------------------------*/
+        bool all_acks_received = (profile_about_to_load_acks >= profile_about_to_load_count);
+
+        bool all_rgbcontroller_queues_emptied = true;
+
+        controller_threads_mutex.lock_shared();
+        for(std::size_t controller_thread_idx = 0; controller_thread_idx < controller_threads.size(); controller_thread_idx++)
+        {
+            if(controller_threads[controller_thread_idx]->queue.size() > 0)
+            {
+                all_rgbcontroller_queues_emptied = false;
+                break;
+            }
+        }
+        controller_threads_mutex.unlock_shared();
+
+        bool timed_out = (timeout >= 1000);
+
+        if((all_acks_received && all_rgbcontroller_queues_emptied) || timed_out)
+        {
+            break;
+        }
+
+        timeout++;
+        std::this_thread::sleep_for(1ms);
+    }
+}
+
+void NetworkServer::SendRequest_ProfileManager_ActiveProfileChanged(std::string profile_name)
+{
+    NetPacketHeader pkt_hdr;
+
+    InitNetPacketHeader(&pkt_hdr, 0, NET_PACKET_ID_PROFILEMANAGER_ACTIVE_PROFILE_CHANGED, strlen(profile_name.c_str()) + 1);
+
+    for(std::size_t client_idx = 0; client_idx < ServerClients.size(); client_idx++)
+    {
+        if(ServerClients[client_idx]->client_flags & NET_CLIENT_FLAG_SUPPORTS_PROFILEMANAGER)
+        {
+            SOCKET client_sock = ServerClients[client_idx]->client_sock;
+
+            send_in_progress.lock();
+            send(client_sock, (char *)&pkt_hdr, sizeof(NetPacketHeader), MSG_NOSIGNAL);
+            send(client_sock, (char *)profile_name.c_str(), pkt_hdr.pkt_size, MSG_NOSIGNAL);
+            send_in_progress.unlock();
+        }
+    }
+}
+
+void NetworkServer::SendRequest_ProfileManager_ProfileAboutToLoad()
+{
+    NetPacketHeader pkt_hdr;
+
+    InitNetPacketHeader(&pkt_hdr, 0, NET_PACKET_ID_PROFILEMANAGER_PROFILE_ABOUT_TO_LOAD, 0);
+
+    profile_about_to_load_acks = 0;
+    profile_about_to_load_count = 0;
+
+    for(std::size_t client_idx = 0; client_idx < ServerClients.size(); client_idx++)
+    {
+        if(ServerClients[client_idx]->client_flags & NET_CLIENT_FLAG_SUPPORTS_PROFILEMANAGER)
+        {
+            profile_about_to_load_count++;
+
+            SOCKET client_sock = ServerClients[client_idx]->client_sock;
+
+            send_in_progress.lock();
+            send(client_sock, (char *)&pkt_hdr, sizeof(NetPacketHeader), MSG_NOSIGNAL);
+            send_in_progress.unlock();
+        }
+    }
+}
+
+void NetworkServer::SendRequest_ProfileManager_ProfileLoaded(std::string profile_json_string)
+{
+    NetPacketHeader pkt_hdr;
+
+    InitNetPacketHeader(&pkt_hdr, 0, NET_PACKET_ID_PROFILEMANAGER_PROFILE_LOADED, strlen(profile_json_string.c_str()) + 1);
+
+    for(std::size_t client_idx = 0; client_idx < ServerClients.size(); client_idx++)
+    {
+        if((ServerClients[client_idx]->client_flags & NET_CLIENT_FLAG_SUPPORTS_PROFILEMANAGER) && (ServerClients[client_idx]->client_is_local_client))
+        {
+            SOCKET client_sock = ServerClients[client_idx]->client_sock;
+
+            send_in_progress.lock();
+            send(client_sock, (char *)&pkt_hdr, sizeof(NetPacketHeader), MSG_NOSIGNAL);
+            send(client_sock, (char *)profile_json_string.c_str(), pkt_hdr.pkt_size, MSG_NOSIGNAL);
+            send_in_progress.unlock();
+        }
+    }
 }
 
 void NetworkServer::SendRequest_RGBController_SignalUpdate(RGBController * controller_ptr, unsigned int update_reason)
