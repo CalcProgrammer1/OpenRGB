@@ -71,6 +71,7 @@ public:
     int                                 usage;
 
     bool compare(hid_device_info* info);
+    bool matching_id(hid_device_info* info);
 };
 
 class HIDDeviceDetectorBlock : public BasicHIDBlock
@@ -224,8 +225,10 @@ private:
     std::vector<std::string>                    i2c_device_detector_strings;
     std::vector<I2CDRAMDeviceDetectorBlock>     i2c_dram_device_detectors;
     std::vector<I2CPCIDeviceDetectorBlock>      i2c_pci_device_detectors;
-    std::vector<HIDDeviceDetectorBlock>         hid_device_detectors;
-    std::vector<HIDWrappedDeviceDetectorBlock>  hid_wrapped_device_detectors;
+    std::vector<HIDDeviceDetectorBlock>         hid_generic_detectors;
+    std::vector<HIDDeviceDetectorBlock>         hid_specific_detectors;
+    std::vector<HIDWrappedDeviceDetectorBlock>  hid_wrapped_generic_detectors;
+    std::vector<HIDWrappedDeviceDetectorBlock>  hid_wrapped_specific_detectors;
     std::vector<DynamicDetectorFunction>        dynamic_detectors;
     std::vector<std::string>                    dynamic_detector_strings;
     std::vector<PreDetectionHookFunction>       pre_detection_hooks;
