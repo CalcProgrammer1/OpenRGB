@@ -12,6 +12,8 @@
 #include <cstring>
 #include "LogManager.h"
 #include "NetworkClient.h"
+#include "ProfileManager.h"
+#include "ResourceManager.h"
 #include "RGBController_Network.h"
 #include "StringUtils.h"
 
@@ -1103,6 +1105,18 @@ void NetworkClient::ListenThreadFunction()
                 }
                 break;
 
+            case NET_PACKET_ID_PROFILEMANAGER_ACTIVE_PROFILE_CHANGED:
+                ProcessRequest_ProfileManager_ActiveProfileChanged(header.pkt_size, data);
+                break;
+
+            case NET_PACKET_ID_PROFILEMANAGER_PROFILE_LOADED:
+                ProcessRequest_ProfileManager_ProfileLoaded(header.pkt_size, data);
+                break;
+
+            case NET_PACKET_ID_PROFILEMANAGER_PROFILE_ABOUT_TO_LOAD:
+                ProcessRequest_ProfileManager_ProfileAboutToLoad();
+                break;
+
             case NET_PACKET_ID_RGBCONTROLLER_SIGNALUPDATE:
                 ProcessRequest_RGBController_SignalUpdate(header.pkt_size, data, header.pkt_dev_id);
                 break;
@@ -1339,6 +1353,47 @@ void NetworkClient::ProcessRequest_DeviceListChanged()
     server_controller_ids_requested     = false;
     server_controller_ids_received      = false;
     server_initialized                  = false;
+}
+
+void NetworkClient::ProcessRequest_ProfileManager_ActiveProfileChanged(unsigned int data_size, char * data)
+{
+    if(data_size == 0 || data == NULL)
+    {
+        return;
+    }
+
+    std::string profile_name;
+    profile_name.assign(data, data_size);
+    profile_name = StringUtils::remove_null_terminating_chars(profile_name);
+
+    ResourceManager::get()->GetProfileManager()->SetActiveProfile(profile_name);
+}
+
+void NetworkClient::ProcessRequest_ProfileManager_ProfileAboutToLoad()
+{
+    ResourceManager::get()->GetProfileManager()->OnProfileAboutToLoad();
+
+    NetPacketHeader pkt_hdr;
+
+    InitNetPacketHeader(&pkt_hdr, 0, NET_PACKET_ID_PROFILEMANAGER_PROFILE_ABOUT_TO_LOAD, 0);
+
+    send_in_progress.lock();
+    send(client_sock, (char *)&pkt_hdr, sizeof(NetPacketHeader), MSG_NOSIGNAL);
+    send_in_progress.unlock();
+}
+
+void NetworkClient::ProcessRequest_ProfileManager_ProfileLoaded(unsigned int data_size, char * data)
+{
+    if(data_size == 0 || data == NULL)
+    {
+        return;
+    }
+
+    std::string profile_json_str;
+    profile_json_str.assign(data, data_size);
+    profile_json_str = StringUtils::remove_null_terminating_chars(profile_json_str);
+
+    ResourceManager::get()->GetProfileManager()->OnProfileLoaded(profile_json_str);
 }
 
 void NetworkClient::ProcessRequest_RGBController_SignalUpdate(unsigned int data_size, char * data, unsigned int dev_id)
