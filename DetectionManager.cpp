@@ -108,6 +108,11 @@ bool BasicHIDBlock::compare(hid_device_info* info)
         );
 }
 
+bool BasicHIDBlock::matching_id(hid_device_info* info)
+{
+    return((vid == info->vendor_id) && (pid == info->product_id));
+}
+
 /*---------------------------------------------------------*\
 | DetectionManager Global Instance Pointer                  |
 \*---------------------------------------------------------*/
@@ -246,7 +251,14 @@ void DetectionManager::RegisterHIDDeviceDetector(std::string name, HIDDeviceDete
     block.usage_page    = usage_page;
     block.usage         = usage;
 
-    hid_device_detectors.push_back(block);
+    if(block.vid == HID_VID_ANY && block.pid == HID_PID_ANY)
+    {
+        hid_generic_detectors.push_back(block);
+    }
+    else
+    {
+        hid_specific_detectors.push_back(block);
+    }
 }
 
 void DetectionManager::RegisterHIDWrappedDeviceDetector(std::string name, HIDWrappedDeviceDetectorFunction  detector, int vid, int pid, int interface, int usage_page, int usage)
@@ -261,7 +273,14 @@ void DetectionManager::RegisterHIDWrappedDeviceDetector(std::string name, HIDWra
     block.usage_page    = usage_page;
     block.usage         = usage;
 
-    hid_wrapped_device_detectors.push_back(block);
+    if(block.vid == HID_VID_ANY && block.pid == HID_PID_ANY)
+    {
+        hid_wrapped_generic_detectors.push_back(block);
+    }
+    else
+    {
+        hid_wrapped_specific_detectors.push_back(block);
+    }
 }
 
 void DetectionManager::RegisterI2CDeviceDetector(std::string name, I2CDeviceDetectorFunction detector)
@@ -666,7 +685,7 @@ void DetectionManager::BackgroundDetectDevices()
 
     if(hid_safe_mode)
     {
-        detection_percent_hid_count     = (unsigned int)hid_device_detectors.size();
+        detection_percent_hid_count     = (unsigned int)hid_generic_detectors.size() + (unsigned int)hid_specific_detectors.size();
     }
     else
     {
@@ -1086,9 +1105,9 @@ void DetectionManager::BackgroundDetectHIDDevicesSafe(json detector_settings)
     | Loop through all available detectors.  If all         |
     | required information matches, run the detector        |
     \*-----------------------------------------------------*/
-    for(std::size_t hid_detector_idx = 0; hid_detector_idx < hid_device_detectors.size(); hid_detector_idx++)
+    for(std::size_t hid_detector_idx = 0; hid_detector_idx < hid_specific_detectors.size(); hid_detector_idx++)
     {
-        HIDDeviceDetectorBlock & detector = hid_device_detectors[hid_detector_idx];
+        HIDDeviceDetectorBlock & detector = hid_specific_detectors[hid_detector_idx];
 
         LOG_VERBOSE("[%s] Trying to run detector for [%s] (for %04x:%04x)", DETECTIONMANAGER, detector.name.c_str(), detector.vid, detector.pid);
 
@@ -1117,7 +1136,7 @@ void DetectionManager::BackgroundDetectHIDDevicesSafe(json detector_settings)
                 {
                     SignalUpdate(DETECTIONMANAGER_UPDATE_REASON_DETECTION_PROGRESS_CHANGED);
 
-                    DetectedControllers detected_controllers = detector.function(current_hid_device, hid_device_detectors[hid_detector_idx].name);
+                    DetectedControllers detected_controllers = detector.function(current_hid_device, hid_specific_detectors[hid_detector_idx].name);
 
                     for(std::size_t detected_controller_idx = 0; detected_controller_idx < detected_controllers.size(); detected_controller_idx++)
                     {
@@ -1326,14 +1345,43 @@ void DetectionManager::RunHIDDetector(hid_device_info* current_hid_device, json 
     | Loop through all available detectors.  If all         |
     | required information matches, run the detector.       |
     \*-----------------------------------------------------*/
-    for(std::size_t hid_detector_idx = 0; hid_detector_idx < hid_device_detectors.size(); hid_detector_idx++)
+    bool skip_generic_detectors = false;
+
+    for(std::size_t hid_detector_idx = 0; hid_detector_idx < (hid_specific_detectors.size() + hid_generic_detectors.size()); hid_detector_idx++)
     {
-        HIDDeviceDetectorBlock & detector = hid_device_detectors[hid_detector_idx];
-
-        if(detector.compare(current_hid_device))
+        /*-------------------------------------------------*\
+        | Loop through all specific detectors (those with   |
+        | VID/PID matching) first, then generic detectors   |
+        | (those that only check IPU values) second.        |
+        \*-------------------------------------------------*/
+        bool generic_detector = false;
+        if(hid_detector_idx >= hid_specific_detectors.size())
         {
-            detection_string = detector.name.c_str();
+            generic_detector = true;
+        }
 
+        /*-------------------------------------------------*\
+        | Get a pointer to the current detector             |
+        \*-------------------------------------------------*/
+        HIDDeviceDetectorBlock* detector;
+
+        if(generic_detector)
+        {
+            detector = &hid_generic_detectors[hid_detector_idx - hid_specific_detectors.size()];
+        }
+        else
+        {
+            detector = &hid_specific_detectors[hid_detector_idx];
+        }
+
+        /*-------------------------------------------------*\
+        | Try to use this detector if its VID/PID matches   |
+        | or if it is a generic detector and generic        |
+        | detectors are not skipped.                        |
+        \*-------------------------------------------------*/
+        if((detector->matching_id(current_hid_device))
+        || (generic_detector && !skip_generic_detectors))
+        {
             /*---------------------------------------------*\
             | Check if this detector is enabled or needs to |
             | be added to the settings list                 |
@@ -1349,23 +1397,46 @@ void DetectionManager::RunHIDDetector(hid_device_info* current_hid_device, json 
 
             if(this_device_enabled)
             {
-                SignalUpdate(DETECTIONMANAGER_UPDATE_REASON_DETECTION_PROGRESS_CHANGED);
-
-                DetectedControllers detected_controllers = detector.function(current_hid_device, detector.name);
-
-                for(std::size_t detected_controller_idx = 0; detected_controller_idx < detected_controllers.size(); detected_controller_idx++)
+                /*-----------------------------------------*\
+                | If this was a specific detector, this     |
+                | device VID/PID has at least one specific  |
+                | detector available, so ignore generic     |
+                | detectors.                                |
+                \*-----------------------------------------*/
+                if(!generic_detector)
                 {
-                    detected_controllers[detected_controller_idx]->detection_path = std::string(current_hid_device->path);
+                    skip_generic_detectors = true;
+                }
+
+                /*-----------------------------------------*\
+                | Now compare the detector to see if it     |
+                | should run.                               |
+                \*-----------------------------------------*/
+                if(detector->compare(current_hid_device))
+                {
+                    detection_string = detector->name.c_str();
+
+                    SignalUpdate(DETECTIONMANAGER_UPDATE_REASON_DETECTION_PROGRESS_CHANGED);
+
+                    DetectedControllers detected_controllers = detector->function(current_hid_device, detector->name);
+
+                    for(std::size_t detected_controller_idx = 0; detected_controller_idx < detected_controllers.size(); detected_controller_idx++)
+                    {
+                        detected_controllers[detected_controller_idx]->detection_path = std::string(current_hid_device->path);
 
 #if(HID_HOTPLUG_ENABLED)
-                    int handle;
-                    hid_hotplug_register_callback(current_hid_device->vendor_id, current_hid_device->product_id, HID_API_HOTPLUG_EVENT_DEVICE_LEFT, 0, &DetectionManager::UnplugCallbackFunction, detected_controllers[detected_controller_idx], &handle);
+                        int handle;
+                        hid_hotplug_register_callback(current_hid_device->vendor_id, current_hid_device->product_id, HID_API_HOTPLUG_EVENT_DEVICE_LEFT, 0, &DetectionManager::UnplugCallbackFunction, detected_controllers[detected_controller_idx], &handle);
 #endif
-                    RegisterRGBController(detected_controllers[detected_controller_idx]);
+                        RegisterRGBController(detected_controllers[detected_controller_idx]);
+                    }
+
+                    if(detected_controllers.size() > 0)
+                    {
+                        break;
+                    }
                 }
             }
-
-            break;
         }
     }
 }
@@ -1388,14 +1459,43 @@ void DetectionManager::RunHIDWrappedDetector(const hidapi_wrapper* wrapper, hid_
     | Loop through all available wrapped HID detectors.  If |
     | all required information matches, run the detector.   |
     \*-----------------------------------------------------*/
-    for(std::size_t hid_detector_idx = 0; hid_detector_idx < hid_wrapped_device_detectors.size(); hid_detector_idx++)
+    bool skip_generic_detectors = false;
+
+    for(std::size_t hid_detector_idx = 0; hid_detector_idx < (hid_wrapped_specific_detectors.size() + hid_wrapped_generic_detectors.size()); hid_detector_idx++)
     {
-        HIDWrappedDeviceDetectorBlock & detector = hid_wrapped_device_detectors[hid_detector_idx];
-
-        if(detector.compare(current_hid_device))
+        /*-------------------------------------------------*\
+        | Loop through all specific detectors (those with   |
+        | VID/PID matching) first, then generic detectors   |
+        | (those that only check IPU values) second.        |
+        \*-------------------------------------------------*/
+        bool generic_detector = false;
+        if(hid_detector_idx >= hid_wrapped_specific_detectors.size())
         {
-            detection_string = detector.name.c_str();
+            generic_detector = true;
+        }
 
+        /*-------------------------------------------------*\
+        | Get a pointer to the current detector             |
+        \*-------------------------------------------------*/
+        HIDWrappedDeviceDetectorBlock* detector;
+
+        if(generic_detector)
+        {
+            detector = &hid_wrapped_generic_detectors[hid_detector_idx - hid_wrapped_specific_detectors.size()];
+        }
+        else
+        {
+            detector = &hid_wrapped_specific_detectors[hid_detector_idx];
+        }
+
+        /*-------------------------------------------------*\
+        | Try to use this detector if its VID/PID matches   |
+        | or if it is a generic detector and generic        |
+        | detectors are not skipped.                        |
+        \*-------------------------------------------------*/
+        if((detector->matching_id(current_hid_device))
+        || (generic_detector && !skip_generic_detectors))
+        {
             /*---------------------------------------------*\
             | Check if this detector is enabled or needs to |
             | be added to the settings list                 |
@@ -1411,24 +1511,46 @@ void DetectionManager::RunHIDWrappedDetector(const hidapi_wrapper* wrapper, hid_
 
             if(this_device_enabled)
             {
-                SignalUpdate(DETECTIONMANAGER_UPDATE_REASON_DETECTION_PROGRESS_CHANGED);
-
-                DetectedControllers detected_controllers = detector.function(*wrapper, current_hid_device, detector.name);
-
-                for(std::size_t detected_controller_idx = 0; detected_controller_idx < detected_controllers.size(); detected_controller_idx++)
+                /*-----------------------------------------*\
+                | If this was a specific detector, this     |
+                | device VID/PID has at least one specific  |
+                | detector available, so ignore generic     |
+                | detectors.                                |
+                \*-----------------------------------------*/
+                if(!generic_detector)
                 {
-                    detected_controllers[detected_controller_idx]->detection_path = std::string(current_hid_device->path);
+                    skip_generic_detectors = true;
+                }
 
+                /*-----------------------------------------*\
+                | Now compare the detector to see if it     |
+                | should run.                               |
+                \*-----------------------------------------*/
+                if(detector->compare(current_hid_device))
+                {
+                    detection_string = detector->name.c_str();
+
+                    SignalUpdate(DETECTIONMANAGER_UPDATE_REASON_DETECTION_PROGRESS_CHANGED);
+
+                    DetectedControllers detected_controllers = detector->function(*wrapper, current_hid_device, detector->name);
+
+                    for(std::size_t detected_controller_idx = 0; detected_controller_idx < detected_controllers.size(); detected_controller_idx++)
+                    {
+                        detected_controllers[detected_controller_idx]->detection_path = std::string(current_hid_device->path);
 #if(HID_HOTPLUG_ENABLED)
-                    int handle;
+                        int handle;
 
-                    wrapper->hid_hotplug_register_callback(current_hid_device->vendor_id, current_hid_device->product_id, HID_API_HOTPLUG_EVENT_DEVICE_LEFT, 0, &DetectionManager::UnplugCallbackFunction, detected_controllers[detected_controller_idx], &handle);
+                        wrapper->hid_hotplug_register_callback(current_hid_device->vendor_id, current_hid_device->product_id, HID_API_HOTPLUG_EVENT_DEVICE_LEFT, 0, &DetectionManager::UnplugCallbackFunction, detected_controllers[detected_controller_idx], &handle);
 #endif
-                    RegisterRGBController(detected_controllers[detected_controller_idx]);
+                        RegisterRGBController(detected_controllers[detected_controller_idx]);
+                    }
+
+                    if(detected_controllers.size() > 0)
+                    {
+                        break;
+                    }
                 }
             }
-
-            break;
         }
     }
 }
@@ -1612,12 +1734,12 @@ void DetectionManager::UpdateDetectorSettings()
     }
 
     /*-----------------------------------------------------*\
-    | Loop through all HID detectors and see if any need to |
-    | be saved to the settings                              |
+    | Loop through all generic HID detectors and see if any |
+    | need to be saved to the settings                      |
     \*-----------------------------------------------------*/
-    for(std::size_t hid_detector_idx = 0; hid_detector_idx < hid_device_detectors.size(); hid_detector_idx++)
+    for(std::size_t hid_detector_idx = 0; hid_detector_idx < hid_generic_detectors.size(); hid_detector_idx++)
     {
-        detection_string = hid_device_detectors[hid_detector_idx].name.c_str();
+        detection_string = hid_generic_detectors[hid_detector_idx].name.c_str();
 
         if(!(detector_settings.contains("detectors") && detector_settings["detectors"].contains(detection_string)))
         {
@@ -1627,12 +1749,42 @@ void DetectionManager::UpdateDetectorSettings()
     }
 
     /*-----------------------------------------------------*\
-    | Loop through all HID wrapped detectors and see if any |
-    | need to be saved to the settings                      |
+    | Loop through all specific HID detectors and see if    |
+    | any need to be saved to the settings                  |
     \*-----------------------------------------------------*/
-    for(std::size_t hid_wrapped_detector_idx = 0; hid_wrapped_detector_idx < hid_wrapped_device_detectors.size(); hid_wrapped_detector_idx++)
+    for(std::size_t hid_detector_idx = 0; hid_detector_idx < hid_specific_detectors.size(); hid_detector_idx++)
     {
-        detection_string = hid_wrapped_device_detectors[hid_wrapped_detector_idx].name.c_str();
+        detection_string = hid_specific_detectors[hid_detector_idx].name.c_str();
+
+        if(!(detector_settings.contains("detectors") && detector_settings["detectors"].contains(detection_string)))
+        {
+            detector_settings["detectors"][detection_string] = true;
+            save_settings = true;
+        }
+    }
+
+    /*-----------------------------------------------------*\
+    | Loop through all generic HID wrapped detectors and    |
+    | see if any need to be saved to the settings           |
+    \*-----------------------------------------------------*/
+    for(std::size_t hid_wrapped_detector_idx = 0; hid_wrapped_detector_idx < hid_wrapped_generic_detectors.size(); hid_wrapped_detector_idx++)
+    {
+        detection_string = hid_wrapped_generic_detectors[hid_wrapped_detector_idx].name.c_str();
+
+        if(!(detector_settings.contains("detectors") && detector_settings["detectors"].contains(detection_string)))
+        {
+            detector_settings["detectors"][detection_string] = true;
+            save_settings = true;
+        }
+    }
+
+    /*-----------------------------------------------------*\
+    | Loop through all specific HID wrapped detectors and   |
+    | see if any need to be saved to the settings           |
+    \*-----------------------------------------------------*/
+    for(std::size_t hid_wrapped_detector_idx = 0; hid_wrapped_detector_idx < hid_wrapped_specific_detectors.size(); hid_wrapped_detector_idx++)
+    {
+        detection_string = hid_wrapped_specific_detectors[hid_wrapped_detector_idx].name.c_str();
 
         if(!(detector_settings.contains("detectors") && detector_settings["detectors"].contains(detection_string)))
         {
