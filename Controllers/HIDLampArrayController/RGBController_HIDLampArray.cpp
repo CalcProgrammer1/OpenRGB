@@ -71,6 +71,13 @@ RGBController_HIDLampArray::RGBController_HIDLampArray(HIDLampArrayController* c
     Direct.color_mode   = MODE_COLORS_PER_LED;
     modes.push_back(Direct);
 
+    mode Autonomous;
+    Autonomous.name         = "Autonomous";
+    Autonomous.value        = 1;
+    Autonomous.flags        = 0;
+    Autonomous.color_mode   = MODE_COLORS_NONE;
+    modes.push_back(Autonomous);
+
     SetupZones();
 }
 
@@ -411,5 +418,12 @@ void RGBController_HIDLampArray::DeviceUpdateSingleLED(int /*led*/)
 
 void RGBController_HIDLampArray::DeviceUpdateMode()
 {
-
+    if(modes[active_mode].value == 0)
+    {
+        controller->SetLampArrayControlReport(false);
+    }
+    else
+    {
+        controller->SetLampArrayControlReport(true);
+    }
 }
