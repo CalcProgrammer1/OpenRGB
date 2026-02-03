@@ -16,6 +16,7 @@
 #include "LogManager.h"
 #include "NetworkClient.h"
 #include "NetworkProtocol.h"
+#include "NetworkServer.h"
 #include "PluginManagerInterface.h"
 #include "ProfileManager.h"
 #include "ResourceManager.h"
@@ -230,7 +231,57 @@ bool ProfileManager::LoadAutoProfileSuspend()
 
 bool ProfileManager::LoadProfile(std::string profile_name)
 {
-    return(LoadProfileWithOptions(profile_name, false, true));
+    if(ResourceManager::get()->IsLocalClient() && (ResourceManager::get()->GetLocalClient()->GetSupportsProfileManagerAPI()))
+    {
+        ResourceManager::get()->GetLocalClient()->ProfileManager_LoadProfile(profile_name);
+
+        return(true);
+    }
+    else
+    {
+        bool success = false;
+
+        success = LoadProfileWithOptions(profile_name, false, true);
+
+        if(success)
+        {
+            ResourceManager::get()->GetServer()->SendRequest_ProfileManager_ActiveProfileChanged(profile_name);
+        }
+
+        return(success);
+    }
+}
+
+void ProfileManager::OnProfileAboutToLoad()
+{
+    /*-------------------------------------------------*\
+    | Signal to plugins that a profile is about to load |
+    \*-------------------------------------------------*/
+    PluginManagerInterface* plugin_manager = ResourceManager::get()->GetPluginManager();
+
+    if(plugin_manager != NULL)
+    {
+        plugin_manager->OnProfileAboutToLoad();
+    }
+
+    ResourceManager::get()->GetServer()->ProfileManager_ProfileAboutToLoad();
+}
+
+void ProfileManager::OnProfileLoaded(std::string profile_json_string)
+{
+    nlohmann::json profile_json;
+
+    profile_json = nlohmann::json::parse(profile_json_string);
+
+    /*-------------------------------------------------*\
+    | Get plugin profile data                           |
+    \*-------------------------------------------------*/
+    PluginManagerInterface* plugin_manager = ResourceManager::get()->GetPluginManager();
+
+    if(plugin_manager != NULL && profile_json.contains("plugins"))
+    {
+        plugin_manager->OnProfileLoad(profile_json["plugins"]);
+    }
 }
 
 nlohmann::json ProfileManager::ReadProfileJSON(std::string profile_name)
@@ -419,6 +470,11 @@ bool ProfileManager::SaveSizes()
     controller_file.close();
 
     return(true);
+}
+
+void ProfileManager::SetActiveProfile(std::string profile_name)
+{
+    active_profile = profile_name;
 }
 
 void ProfileManager::SetConfigurationDirectory(const filesystem::path& directory)
@@ -775,6 +831,8 @@ bool ProfileManager::LoadProfileWithOptions
         plugin_manager->OnProfileAboutToLoad();
     }
 
+    ResourceManager::get()->GetServer()->ProfileManager_ProfileAboutToLoad();
+
     /*-------------------------------------------------*\
     | Set up used flag vector                           |
     \*-------------------------------------------------*/
@@ -813,6 +871,11 @@ bool ProfileManager::LoadProfileWithOptions
     {
         plugin_manager->OnProfileLoad(profile_json["plugins"]);
     }
+
+    /*-------------------------------------------------*\
+    | Notify local client                               |
+    \*-------------------------------------------------*/
+    ResourceManager::get()->GetServer()->SendRequest_ProfileManager_ProfileLoaded(profile_json.dump());
 
     return(ret_val);
 }
