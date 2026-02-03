@@ -160,8 +160,6 @@ HIDLampArrayController::HIDLampArrayController(hid_device *dev_handle, const cha
     {
         GetLampAttributesResponseReport();
     }
-
-    SetLampArrayControlReport(false);
 }
 
 HIDLampArrayController::~HIDLampArrayController()

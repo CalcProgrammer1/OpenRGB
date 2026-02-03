@@ -121,6 +121,7 @@ public:
     unsigned int GetLampCount();
     std::vector<LampAttributes> GetLamps();
 
+    void SetLampArrayControlReport(unsigned char AutonomousMode);
     void SetLampMultiUpdateReport(unsigned char LampCount, unsigned char LampUpdateFlags, unsigned short * LampIds, LampArrayColor * UpdateColors);
 
 private:
@@ -140,6 +141,5 @@ private:
 
     void GetLampArrayAttributesReport();
     void GetLampAttributesResponseReport();
-    void SetLampArrayControlReport(unsigned char AutonomousMode);
     void SetLampAttributesRequestReport(unsigned short LampId);
 };
