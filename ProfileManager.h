@@ -82,12 +82,16 @@ public:
 
     bool                        LoadProfile(std::string profile_name);
 
+    void                        OnProfileAboutToLoad();
+    void                        OnProfileLoaded(std::string profile_json_string);
+
     nlohmann::json              ReadProfileJSON(std::string profile_name);
 
     bool                        SaveProfile(std::string profile_name);
     bool                        SaveProfileFromJSON(nlohmann::json profile_json);
     bool                        SaveSizes();
 
+    void                        SetActiveProfile(std::string profile_name);
     void                        SetConfigurationDirectory(const filesystem::path& directory);
 
     void                        SetProfileListFromDescription(char * data_buf);
