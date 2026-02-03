@@ -226,6 +226,10 @@ private:
     void                                ProcessRequest_ServerFlags(unsigned int data_size, char * data);
     void                                ProcessRequest_ServerString(unsigned int data_size, char * data);
 
+    void                                ProcessRequest_ProfileManager_ActiveProfileChanged(unsigned int data_size, char * data);
+    void                                ProcessRequest_ProfileManager_ProfileAboutToLoad();
+    void                                ProcessRequest_ProfileManager_ProfileLoaded(unsigned int data_size, char * data);
+
     void                                SendData_ClientFlags();
     void                                SendData_ClientString();
     void                                SendRequest_ControllerIDs();
