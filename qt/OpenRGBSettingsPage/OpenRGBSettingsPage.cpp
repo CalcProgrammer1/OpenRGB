@@ -139,9 +139,24 @@ OpenRGBSettingsPage::OpenRGBSettingsPage(QWidget *parent) :
         }
     }
 
+    /*-------------------------------------*\
+    | Use PascalCase key for compatibility |
+    | should be removed later on.          |
+    \*-------------------------------------*/
     if(ui_settings.contains("RunZoneChecks"))
     {
-        ui->CheckboxRunZoneChecks->setChecked(ui_settings["RunZoneChecks"]);
+        /*----------------------------------*\
+        | Migrate key to snake_case version |
+        \*----------------------------------*/
+        ui_settings["run_zone_checks"] = ui_settings["RunZoneChecks"];
+        ui_settings.erase("RunZoneChecks");
+        ResourceManager::get()->GetSettingsManager()->SetSettings("UserInterface", ui_settings);
+
+        ui->CheckboxRunZoneChecks->setChecked(ui_settings["run_zone_checks"]);
+    }
+    else if (ui_settings.contains("run_zone_checks"))
+    {
+        ui->CheckboxRunZoneChecks->setChecked(ui_settings["run_zone_checks"]);
     }
     else
     {
@@ -579,7 +594,7 @@ void OpenRGBSettingsPage::on_CheckboxSaveGeometry_clicked()
 void OpenRGBSettingsPage::on_CheckboxRunZoneChecks_clicked()
 {
     json ui_settings = ResourceManager::get()->GetSettingsManager()->GetSettings("UserInterface");
-    ui_settings["RunZoneChecks"] = ui->CheckboxRunZoneChecks->isChecked();
+    ui_settings["run_zone_checks"] = ui->CheckboxRunZoneChecks->isChecked();
     ResourceManager::get()->GetSettingsManager()->SetSettings("UserInterface", ui_settings);
     SaveSettings();
 }
