@@ -337,27 +337,15 @@ std::string NetworkClient::DetectionManager_GetDetectionString()
 /*---------------------------------------------------------*\
 | ProfileManager functions                                  |
 \*---------------------------------------------------------*/
-char * NetworkClient::ProfileManager_GetProfileList()
+void NetworkClient::ProfileManager_GetProfileList()
 {
     NetPacketHeader reply_hdr;
-    char *          response_data = NULL;
 
     InitNetPacketHeader(&reply_hdr, 0, NET_PACKET_ID_PROFILEMANAGER_GET_PROFILE_LIST, 0);
 
     send_in_progress.lock();
     send(client_sock, (char *)&reply_hdr, sizeof(NetPacketHeader), MSG_NOSIGNAL);
     send_in_progress.unlock();
-
-    std::unique_lock<std::mutex> wait_lock(waiting_on_response_mutex);
-    waiting_on_response_cv.wait(wait_lock);
-
-    if(response_header.pkt_id == NET_PACKET_ID_PROFILEMANAGER_GET_PROFILE_LIST && response_data_ptr != NULL)
-    {
-        response_data = response_data_ptr;
-        response_data_ptr = NULL;
-    }
-
-    return(response_data);
 }
 
 void NetworkClient::ProfileManager_LoadProfile(std::string profile_name)
@@ -457,6 +445,17 @@ std::string NetworkClient::ProfileManager_GetActiveProfile()
     }
 
     return(response_string);
+}
+
+void NetworkClient::ProfileManager_ClearActiveProfile()
+{
+    NetPacketHeader pkt_hdr;
+
+    InitNetPacketHeader(&pkt_hdr, 0, NET_PACKET_ID_PROFILEMANAGER_CLEAR_ACTIVE_PROFILE, 0);
+
+    send_in_progress.lock();
+    send(client_sock, (char *)&pkt_hdr, sizeof(NetPacketHeader), MSG_NOSIGNAL);
+    send_in_progress.unlock();
 }
 
 /*---------------------------------------------------------*\
@@ -1089,7 +1088,6 @@ void NetworkClient::ListenThreadFunction()
                 SignalNetworkClientUpdate(NETWORKCLIENT_UPDATE_REASON_DETECTION_COMPLETE);
                 break;
 
-            case NET_PACKET_ID_PROFILEMANAGER_GET_PROFILE_LIST:
             case NET_PACKET_ID_PROFILEMANAGER_DOWNLOAD_PROFILE:
             case NET_PACKET_ID_PROFILEMANAGER_GET_ACTIVE_PROFILE:
             case NET_PACKET_ID_SETTINGSMANAGER_GET_SETTINGS:
@@ -1115,6 +1113,11 @@ void NetworkClient::ListenThreadFunction()
 
             case NET_PACKET_ID_PROFILEMANAGER_PROFILE_ABOUT_TO_LOAD:
                 ProcessRequest_ProfileManager_ProfileAboutToLoad();
+                break;
+
+            case NET_PACKET_ID_PROFILEMANAGER_GET_PROFILE_LIST:
+            case NET_PACKET_ID_PROFILEMANAGER_PROFILE_LIST_UPDATED:
+                ProcessRequest_ProfileManager_ProfileListUpdated(header.pkt_size, data);
                 break;
 
             case NET_PACKET_ID_RGBCONTROLLER_SIGNALUPDATE:
@@ -1380,6 +1383,11 @@ void NetworkClient::ProcessRequest_ProfileManager_ProfileAboutToLoad()
     send_in_progress.lock();
     send(client_sock, (char *)&pkt_hdr, sizeof(NetPacketHeader), MSG_NOSIGNAL);
     send_in_progress.unlock();
+}
+
+void NetworkClient::ProcessRequest_ProfileManager_ProfileListUpdated(unsigned int data_size, char * data)
+{
+    ResourceManager::get()->GetProfileManager()->SetProfileListFromDescription(data);
 }
 
 void NetworkClient::ProcessRequest_ProfileManager_ProfileLoaded(unsigned int data_size, char * data)

@@ -112,6 +112,10 @@ enum
                                                             /* Forwards loaded profile data                     */
     NET_PACKET_ID_PROFILEMANAGER_PROFILE_ABOUT_TO_LOAD
                                                     = 159,  /* Indicate to clients profile about to load        */
+    NET_PACKET_ID_PROFILEMANAGER_PROFILE_LIST_UPDATED
+                                                    = 160,  /* Indicate to clients profile list updated         */
+    NET_PACKET_ID_PROFILEMANAGER_CLEAR_ACTIVE_PROFILE
+                                                    = 161,  /* Clear the active profile                         */
 
     /*----------------------------------------------------------------------------------------------------------*\
     | PluginManager functions                                                                                    |
