@@ -345,7 +345,7 @@ keyboard_keymap_overlay_values razer_blackwidow_v4_pro_layout
     }
 };
 
-keyboard_keymap_overlay_values razer_blackwidow_v4_pro_75_wired_layout
+keyboard_keymap_overlay_values razer_blackwidow_v4_pro_75_layout
 {
     KEYBOARD_SIZE::KEYBOARD_SIZE_SEVENTY_FIVE,
     {
@@ -361,27 +361,34 @@ keyboard_keymap_overlay_values razer_blackwidow_v4_pro_75_wired_layout
         \*-------------------------------------------------------------------------------------------------------------------------------------*/
         {   0,      0,      0,          0,          "Left Underglow 0",     KEY_EN_UNUSED,                  KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
         {   0,      0,      2,          0,          KEY_EN_UNUSED,          KEY_EN_UNUSED,                  KEYBOARD_OPCODE_REMOVE_SHIFT_LEFT,  },  // Delete gap between ESC and F1
+        {   0,      0,     14,          0,          "Left Underglow 1",     KEY_EN_UNUSED,                  KEYBOARD_OPCODE_SWAP_ONLY           },
+        {   0,      0,     15,          0,          "Left Underglow 5",     KEY_EN_UNUSED,                  KEYBOARD_OPCODE_SWAP_ONLY           },
+        {   0,      0,     16,          0,          "Left Underglow 8",     KEY_EN_UNUSED,                  KEYBOARD_OPCODE_SWAP_ONLY           },
         {   0,      0,     17,          0,          "Right Underglow 0",    KEY_EN_UNUSED,                  KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      1,      0,          0,          "Left Underglow 1",     KEY_EN_UNUSED,                  KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+
+        {   0,      1,      0,          0,          "Left Underglow 2",     KEY_EN_UNUSED,                  KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
         {   0,      1,     14,          0,          KEY_EN_UNUSED,          KEY_EN_UNUSED,                  KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Add gap between = and Backspace
         {   0,      1,     16,          0,          KEY_EN_DELETE,          KEY_EN_UNUSED,                  KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      1,     17,          0,          "Right Underglow 1",    KEY_EN_UNUSED,                  KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      2,      0,          0,          "Left Underglow 2",     KEY_EN_UNUSED,                  KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      1,     17,          0,          "Right Underglow 2",    KEY_EN_UNUSED,                  KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      2,      0,          0,          "Left Underglow 3",     KEY_EN_UNUSED,                  KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
         {   0,      2,     16,          0,          KEY_EN_PAGE_UP,         KEY_EN_UNUSED,                  KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      2,     17,          0,          "Right Underglow 2",    KEY_EN_UNUSED,                  KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      3,      0,          0,          "Left Underglow 3",     KEY_EN_UNUSED,                  KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      2,     17,          0,          "Right Underglow 3",    KEY_EN_UNUSED,                  KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      3,      0,          0,          "Left Underglow 4",     KEY_EN_UNUSED,                  KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
         {   0,      3,     16,          0,          KEY_EN_PAGE_DOWN,       KEY_EN_UNUSED,                  KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      3,     17,          0,          "Right Underglow 3",    KEY_EN_UNUSED,                  KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      4,      0,          0,          "Left Underglow 4",     KEY_EN_UNUSED,                  KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      3,     17,          0,          "Right Underglow 4",    KEY_EN_UNUSED,                  KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      4,      0,          0,          "Left Underglow 6",     KEY_EN_UNUSED,                  KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
         {   0,      4,     15,          0,          KEY_EN_UP_ARROW,        KEY_EN_UNUSED,                  KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
         {   0,      4,     16,          0,          KEY_EN_INSERT,          KEY_EN_UNUSED,                  KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      4,     17,          0,          "Right Underglow 4",    KEY_EN_UNUSED,                  KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      5,      0,          0,          "Left Underglow 5",     KEY_EN_UNUSED,                  KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      4,     17,          0,          "Right Underglow 6",    KEY_EN_UNUSED,                  KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      5,      0,          0,          "Left Underglow 7",     KEY_EN_UNUSED,                  KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      5,      5,          0,          "Right Underglow 1",    KEY_EN_UNUSED,                  KEYBOARD_OPCODE_SWAP_ONLY           },
+        {   0,      5,      6,          0,          "Right Underglow 5",    KEY_EN_UNUSED,                  KEYBOARD_OPCODE_SWAP_ONLY           },
+        {   0,      5,      8,          0,          "Right Underglow 8",    KEY_EN_UNUSED,                  KEYBOARD_OPCODE_SWAP_ONLY           },
         {   0,      5,     13,          0,          KEY_EN_UNUSED,          KEY_EN_UNUSED,                  KEYBOARD_OPCODE_REMOVE_SHIFT_LEFT,  },  // Remove Menu key between Fn and RCtrl
         {   0,      5,     14,          0,          KEY_EN_LEFT_ARROW,      KEY_EN_UNUSED,                  KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
         {   0,      5,     15,          0,          KEY_EN_DOWN_ARROW,      KEY_EN_UNUSED,                  KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
         {   0,      5,     16,          0,          KEY_EN_RIGHT_ARROW,     KEY_EN_UNUSED,                  KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
-        {   0,      5,     17,          0,          "Right Underglow 5",    KEY_EN_UNUSED,                  KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
+        {   0,      5,     17,          0,          "Right Underglow 7",    KEY_EN_UNUSED,                  KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },
     }
 };
 
@@ -1817,7 +1824,7 @@ static const razer_device blackwidow_v4_pro_device =
 };
 
 /*-------------------------------------------------------------*\
-|  Razer Blackwidow V4 Pro 75% 1532:02B3                        |
+|  Razer Blackwidow V4 Pro 75% (Wired) 1532:02B3                |
 |                                                               |
 |  Zone "Keyboard"                                              |
 |       Matrix                                                  |
@@ -1848,7 +1855,42 @@ static const razer_device blackwidow_v4_pro_75_wired_device =
         NULL,
         NULL
     },
-    &razer_blackwidow_v4_pro_75_wired_layout
+    &razer_blackwidow_v4_pro_75_layout
+};
+
+/*-------------------------------------------------------------*\
+|  Razer Blackwidow V4 Pro 75% (Wireless) 1532:02B4             |
+|                                                               |
+|  Zone "Keyboard"                                              |
+|       Matrix                                                  |
+|       6 Rows, 18 Columns                                      |
+\*-------------------------------------------------------------*/
+static const razer_zone blackwidow_v4_pro_75_wireless_zone =
+{
+    ZONE_EN_KEYBOARD,
+    ZONE_TYPE_MATRIX,
+    6,
+    18
+};
+
+static const razer_device blackwidow_v4_pro_75_wireless_device =
+{
+    "Razer Blackwidow V4 Pro 75% (Wireless)",
+    RAZER_BLACKWIDOW_V4_PRO_75_WIRELESS_PID,
+    DEVICE_TYPE_KEYBOARD,
+    RAZER_MATRIX_TYPE_EXTENDED,
+    0x1F,
+    6,
+    18,
+    {
+        &blackwidow_v4_pro_75_wireless_zone,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL
+    },
+    &razer_blackwidow_v4_pro_75_layout
 };
 
 /*-------------------------------------------------------------*\
@@ -1883,7 +1925,7 @@ static const razer_device blackwidow_v4_75_wired_device =
         NULL,
         NULL
     },
-    &razer_blackwidow_v4_pro_75_wired_layout
+    &razer_blackwidow_v4_pro_75_layout
 };
 
 /*-------------------------------------------------------------*\
@@ -9093,6 +9135,7 @@ const razer_device* razer_device_list[] =
     &blackwidow_v4_device,
     &blackwidow_v4_pro_device,
     &blackwidow_v4_pro_75_wired_device,
+    &blackwidow_v4_pro_75_wireless_device,
     &blackwidow_v4_75_wired_device,
     &blackwidow_v4_x_device,
     &blackwidow_x_chroma_device,
