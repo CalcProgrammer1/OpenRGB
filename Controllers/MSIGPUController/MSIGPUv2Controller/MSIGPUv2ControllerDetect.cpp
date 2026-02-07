@@ -38,6 +38,7 @@ void DetectMSIGPUv2Controllers(i2c_smbus_interface* bus, uint8_t i2c_addr, const
 } /* DetectMSIGPUv2Controllers() */
 
 REGISTER_I2C_PCI_DETECTOR("MSI GeForce RTX 4060 Gaming X",                          DetectMSIGPUv2Controllers,    NVIDIA_VEN,     NVIDIA_RTX4060_DEV,         MSI_SUB_VEN,    MSI_RTX4060_GAMING_X_8G_SUB_DEV,               0x68);
+REGISTER_I2C_PCI_DETECTOR("MSI GeForce RTX 4060 Gaming X NV Edition",               DetectMSIGPUv2Controllers,    NVIDIA_VEN,     NVIDIA_RTX4060_DEV,         MSI_SUB_VEN,    MSI_RTX4060_GAMING_X_NV_EDITION_8G_SUB_DEV,    0x68);
 REGISTER_I2C_PCI_DETECTOR("MSI GeForce RTX 4060 Ti Gaming X",                       DetectMSIGPUv2Controllers,    NVIDIA_VEN,     NVIDIA_RTX4060TI_DEV,       MSI_SUB_VEN,    MSI_RTX4060TI_GAMING_X_8G_SUB_DEV,             0x68);
 REGISTER_I2C_PCI_DETECTOR("MSI GeForce RTX 4060 Ti 16GB Gaming X",                  DetectMSIGPUv2Controllers,    NVIDIA_VEN,     NVIDIA_RTX4060TI_16G_DEV,   MSI_SUB_VEN,    MSI_RTX4060TI_GAMING_X_16G_SUB_DEV,            0x68);
 REGISTER_I2C_PCI_DETECTOR("MSI GeForce RTX 4060 Ti 16GB Gaming X Slim White",       DetectMSIGPUv2Controllers,    NVIDIA_VEN,     NVIDIA_RTX4060TI_16G_DEV,   MSI_SUB_VEN,    MSI_RTX4060TI_GAMING_X_16G_SLIM_WHITE_SUB_DEV, 0x68);
