@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>OpenRGBProfileSaveDialog</class>
- <widget class="QDialog" name="OpenRGBProfileSaveDialog">
+ <class>OpenRGBProfileListDialog</class>
+ <widget class="QDialog" name="OpenRGBProfileListDialog">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -17,28 +17,28 @@
    </sizepolicy>
   </property>
   <property name="windowTitle">
-   <string>Profile Name</string>
+   <string>Profile Selection</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
-    <widget class="QLabel" name="existing">
+    <widget class="QLabel" name="select_label">
      <property name="text">
-      <string>Save to an existing profile:</string>
+      <string>Select Profile:</string>
      </property>
     </widget>
    </item>
    <item>
-    <widget class="QListWidget" name="list_profile"/>
+    <widget class="QListWidget" name="select_list"/>
    </item>
    <item>
-    <widget class="QLabel" name="new_2">
+    <widget class="QLabel" name="new_label">
      <property name="text">
       <string>Create a new profile:</string>
      </property>
     </widget>
    </item>
    <item>
-    <widget class="QLineEdit" name="lineEdit"/>
+    <widget class="QLineEdit" name="new_edit"/>
    </item>
    <item>
     <widget class="QDialogButtonBox" name="buttonBox">
@@ -57,7 +57,7 @@
   <connection>
    <sender>buttonBox</sender>
    <signal>accepted()</signal>
-   <receiver>OpenRGBProfileSaveDialog</receiver>
+   <receiver>OpenRGBProfileListDialog</receiver>
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
@@ -73,7 +73,7 @@
   <connection>
    <sender>buttonBox</sender>
    <signal>rejected()</signal>
-   <receiver>OpenRGBProfileSaveDialog</receiver>
+   <receiver>OpenRGBProfileListDialog</receiver>
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">
