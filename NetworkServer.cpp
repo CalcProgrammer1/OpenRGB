@@ -207,6 +207,24 @@ unsigned int NetworkServer::GetClientProtocolVersion(unsigned int client_num)
 /*---------------------------------------------------------*\
 | Callback functions                                        |
 \*---------------------------------------------------------*/
+void NetworkServer::SignalProfileManagerUpdate(unsigned int update_reason)
+{
+    switch(update_reason)
+    {
+        case PROFILEMANAGER_UPDATE_REASON_PROFILE_LIST_UPDATED:
+            SignalProfileListUpdated();
+            break;
+
+        case PROFILEMANAGER_UPDATE_REASON_ACTIVE_PROFILE_CHANGED:
+            SignalActiveProfileChanged();
+            break;
+
+        case PROFILEMANAGER_UPDATE_REASON_PROFILE_ABOUT_TO_LOAD:
+            ProfileManager_ProfileAboutToLoad();
+            break;
+    }
+}
+
 void NetworkServer::SignalResourceManagerUpdate(unsigned int update_reason)
 {
     switch(update_reason)
@@ -636,6 +654,26 @@ void NetworkServer::SetSettingsManager(SettingsManagerInterface* settings_manage
 /*---------------------------------------------------------*\
 | Server callback signal functions                          |
 \*---------------------------------------------------------*/
+void NetworkServer::SignalActiveProfileChanged()
+{
+    if(profile_manager)
+    {
+        std::string active_profile = profile_manager->GetActiveProfile();
+
+        /*-------------------------------------------------*\
+        | Indicate to the clients that the profile list has |
+        | changed                                           |
+        \*-------------------------------------------------*/
+        for(unsigned int client_idx = 0; client_idx < ServerClients.size(); client_idx++)
+        {
+            if(ServerClients[client_idx]->client_flags & NET_CLIENT_FLAG_SUPPORTS_PROFILEMANAGER)
+            {
+                SendRequest_ProfileManager_ActiveProfileChanged(ServerClients[client_idx]->client_sock, active_profile);
+            }
+        }
+    }
+}
+
 void NetworkServer::SignalClientInfoChanged()
 {
     ClientInfoChangeMutex.lock();
@@ -705,6 +743,25 @@ void NetworkServer::SignalDeviceListUpdated()
     for(unsigned int client_idx = 0; client_idx < ServerClients.size(); client_idx++)
     {
         SendRequest_DeviceListChanged(ServerClients[client_idx]->client_sock);
+    }
+}
+
+void NetworkServer::SignalProfileListUpdated()
+{
+    if(profile_manager)
+    {
+        unsigned char *profile_list_description = profile_manager->GetProfileListDescription();
+
+        /*-------------------------------------------------*\
+        | Indicate to the clients that the profile list has |
+        | changed                                           |
+        \*-------------------------------------------------*/
+        for(unsigned int client_idx = 0; client_idx < ServerClients.size(); client_idx++)
+        {
+            SendRequest_ProfileManager_ProfileListChanged(ServerClients[client_idx]->client_sock, profile_list_description);
+        }
+
+        delete[] profile_list_description;
     }
 }
 
@@ -942,6 +999,10 @@ void NetworkServer::ProfileManagerListenThread(NetworkServerControllerThread * t
                 case NET_PACKET_ID_PROFILEMANAGER_GET_ACTIVE_PROFILE:
                     ProcessRequest_ProfileManager_GetActiveProfile(queue_entry.client_sock);
                     break;
+
+                case NET_PACKET_ID_PROFILEMANAGER_CLEAR_ACTIVE_PROFILE:
+                    ProcessRequest_ProfileManager_ClearActiveProfile();
+                    break;
             }
 
             delete[] queue_entry.data;
@@ -1102,6 +1163,7 @@ void NetworkServer::ListenThreadFunction(NetworkClientInfo * client_info)
             case NET_PACKET_ID_PROFILEMANAGER_UPLOAD_PROFILE:
             case NET_PACKET_ID_PROFILEMANAGER_DOWNLOAD_PROFILE:
             case NET_PACKET_ID_PROFILEMANAGER_GET_ACTIVE_PROFILE:
+            case NET_PACKET_ID_PROFILEMANAGER_CLEAR_ACTIVE_PROFILE:
                 {
                     profilemanager_thread->queue_mutex.lock();
 
@@ -1466,6 +1528,14 @@ void NetworkServer::ProcessRequest_ClientString(SOCKET client_sock, unsigned int
 void NetworkServer::ProcessRequest_RescanDevices()
 {
     ResourceManager::get()->RescanDevices();
+}
+
+void NetworkServer::ProcessRequest_ProfileManager_ClearActiveProfile()
+{
+    if(profile_manager)
+    {
+        profile_manager->ClearActiveProfile();
+    }
 }
 
 void NetworkServer::ProcessRequest_ProfileManager_DeleteProfile(unsigned int data_size, char * data)
@@ -2273,6 +2343,8 @@ void NetworkServer::SendReply_ProfileList(SOCKET client_sock)
     send(client_sock, (const char *)&reply_hdr, sizeof(NetPacketHeader), MSG_NOSIGNAL);
     send(client_sock, (const char *)reply_data, reply_size, MSG_NOSIGNAL);
     send_in_progress.unlock();
+
+    delete[] reply_data;
 }
 
 void NetworkServer::SendReply_PluginList(SOCKET client_sock)
@@ -2391,6 +2463,18 @@ void NetworkServer::SendReply_PluginSpecific(SOCKET client_sock, unsigned int pk
     send_in_progress.unlock();
 
     delete [] data;
+}
+
+void NetworkServer::SendRequest_ProfileManager_ActiveProfileChanged(SOCKET client_sock, std::string active_profile)
+{
+    NetPacketHeader pkt_hdr;
+
+    InitNetPacketHeader(&pkt_hdr, 0, NET_PACKET_ID_PROFILEMANAGER_ACTIVE_PROFILE_CHANGED, (unsigned int)strlen(active_profile.c_str()) + 1);
+
+    send_in_progress.lock();
+    send(client_sock, (char *)&pkt_hdr, sizeof(NetPacketHeader), MSG_NOSIGNAL);
+    send(client_sock, (char *)active_profile.c_str(), pkt_hdr.pkt_size, MSG_NOSIGNAL);
+    send_in_progress.unlock();
 }
 
 void NetworkServer::SendRequest_DetectionCompleted(SOCKET client_sock, unsigned int protocol_version)
@@ -2559,6 +2643,21 @@ void NetworkServer::SendRequest_ProfileManager_ProfileAboutToLoad()
             send_in_progress.unlock();
         }
     }
+}
+
+void NetworkServer::SendRequest_ProfileManager_ProfileListChanged(SOCKET client_sock, unsigned char *profile_list_description)
+{
+    NetPacketHeader pkt_hdr;
+    unsigned int    pkt_size;
+
+    memcpy(&pkt_size, profile_list_description, sizeof(pkt_size));
+
+    InitNetPacketHeader(&pkt_hdr, 0, NET_PACKET_ID_PROFILEMANAGER_PROFILE_LIST_UPDATED, pkt_size);
+
+    send_in_progress.lock();
+    send(client_sock, (const char *)&pkt_hdr, sizeof(NetPacketHeader), MSG_NOSIGNAL);
+    send(client_sock, (const char *)profile_list_description, pkt_size, MSG_NOSIGNAL);
+    send_in_progress.unlock();
 }
 
 void NetworkServer::SendRequest_ProfileManager_ProfileLoaded(std::string profile_json_string)
