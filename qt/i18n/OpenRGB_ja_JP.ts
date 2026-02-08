@@ -996,7 +996,7 @@
     </message>
 </context>
 <context>
-    <name>OpenRGBProfileSaveDialog</name>
+    <name>OpenRGBProfileListDialog</name>
     <message>
         <source>Profile Name</source>
         <translation>プロファイル名</translation>
