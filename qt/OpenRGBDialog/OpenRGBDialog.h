@@ -128,7 +128,6 @@ private:
 
     void ClearDevicesList();
     void UpdateDevicesList();
-    void UpdateProfileList();
     void closeEvent(QCloseEvent *event) override;
     bool SelectConfigProfile(const std::string name);
 
@@ -164,7 +163,7 @@ private slots:
     void onShowDialogMessage();
     void on_ReShow(QSystemTrayIcon::ActivationReason reason);
     void on_ProfileSelected();
-    void on_ButtonLoadProfile_clicked();
+    void on_ProfileBox_currentIndexChanged(int index);
     void on_ButtonDeleteProfile_clicked();
     void on_ButtonToggleDeviceView_clicked();
     void on_ButtonStopDetection_clicked();
@@ -175,4 +174,7 @@ private slots:
     void on_InformationTabBar_currentChanged(int);
     void on_DevicesTabBar_currentChanged(int);
     void on_SettingsTabBar_currentChanged(int);
+
+    void UpdateActiveProfile();
+    void UpdateProfileList();
 };
