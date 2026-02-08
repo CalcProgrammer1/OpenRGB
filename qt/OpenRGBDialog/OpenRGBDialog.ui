@@ -18,7 +18,7 @@
     <item row="2" column="0" colspan="5">
      <widget class="QTabWidget" name="MainTabBar">
       <property name="tabShape">
-       <enum>QTabWidget::Rounded</enum>
+       <enum>QTabWidget::TabShape::Rounded</enum>
       </property>
       <property name="currentIndex">
        <number>0</number>
@@ -37,7 +37,7 @@
         <item row="1" column="0">
          <widget class="QTabWidget" name="DevicesTabBar">
           <property name="tabPosition">
-           <enum>QTabWidget::West</enum>
+           <enum>QTabWidget::TabPosition::West</enum>
           </property>
          </widget>
         </item>
@@ -51,7 +51,7 @@
         <item row="0" column="0">
          <widget class="QTabWidget" name="InformationTabBar">
           <property name="tabPosition">
-           <enum>QTabWidget::West</enum>
+           <enum>QTabWidget::TabPosition::West</enum>
           </property>
           <property name="currentIndex">
            <number>-1</number>
@@ -68,7 +68,7 @@
         <item row="0" column="0">
          <widget class="QTabWidget" name="SettingsTabBar">
           <property name="tabPosition">
-           <enum>QTabWidget::West</enum>
+           <enum>QTabWidget::TabPosition::West</enum>
           </property>
           <property name="currentIndex">
            <number>-1</number>
@@ -84,10 +84,10 @@
       <item>
        <widget class="QFrame" name="MainButtonsFrame">
         <property name="frameShape">
-         <enum>QFrame::NoFrame</enum>
+         <enum>QFrame::Shape::NoFrame</enum>
         </property>
         <property name="frameShadow">
-         <enum>QFrame::Raised</enum>
+         <enum>QFrame::Shadow::Raised</enum>
         </property>
         <layout class="QGridLayout" name="gridLayout_5">
          <property name="leftMargin">
@@ -102,6 +102,20 @@
          <property name="bottomMargin">
           <number>0</number>
          </property>
+         <item row="0" column="1">
+          <widget class="QPushButton" name="ButtonRescan">
+           <property name="text">
+            <string>Rescan Devices</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="3">
+          <widget class="QPushButton" name="ButtonDeleteProfile">
+           <property name="text">
+            <string>Delete Profile</string>
+           </property>
+          </widget>
+         </item>
          <item row="0" column="0">
           <widget class="QPushButton" name="ButtonToggleDeviceView">
            <property name="text">
@@ -109,12 +123,8 @@
            </property>
           </widget>
          </item>
-         <item row="0" column="1">
-          <widget class="QPushButton" name="ButtonRescan">
-           <property name="text">
-            <string>Rescan Devices</string>
-           </property>
-          </widget>
+         <item row="0" column="5">
+          <widget class="QComboBox" name="ProfileBox"/>
          </item>
          <item row="0" column="2">
           <widget class="QToolButton" name="ButtonSaveProfile">
@@ -128,26 +138,19 @@
             <string>Save Profile</string>
            </property>
            <property name="popupMode">
-            <enum>QToolButton::MenuButtonPopup</enum>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="3">
-          <widget class="QPushButton" name="ButtonDeleteProfile">
-           <property name="text">
-            <string>Delete Profile</string>
+            <enum>QToolButton::ToolButtonPopupMode::MenuButtonPopup</enum>
            </property>
           </widget>
          </item>
          <item row="0" column="4">
-          <widget class="QPushButton" name="ButtonLoadProfile">
+          <widget class="QLabel" name="ActiveProfileLabel">
            <property name="text">
-            <string>Load Profile</string>
+            <string>Active Profile:</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
            </property>
           </widget>
-         </item>
-         <item row="0" column="5">
-          <widget class="QComboBox" name="ProfileBox"/>
          </item>
         </layout>
        </widget>
@@ -162,7 +165,7 @@
          <string>OpenRGB is detecting devices...</string>
         </property>
         <property name="alignment">
-         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+         <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
         </property>
        </widget>
       </item>
