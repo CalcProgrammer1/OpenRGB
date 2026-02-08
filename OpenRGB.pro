@@ -243,6 +243,7 @@ SOURCES +=                                                                      
     NetworkClient.cpp                                                                           \
     NetworkProtocol.cpp                                                                         \
     NetworkServer.cpp                                                                           \
+    OpenRGBPluginAPI.cpp                                                                        \
     PluginManager.cpp                                                                           \
     ProfileManager.cpp                                                                          \
     ResourceManager.cpp                                                                         \
