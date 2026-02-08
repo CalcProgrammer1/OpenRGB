@@ -15,7 +15,7 @@
 #include "OpenRGBServerInfoPage.h"
 #include "OpenRGBConsolePage.h"
 #include "OpenRGBPluginContainer.h"
-#include "OpenRGBProfileSaveDialog.h"
+#include "OpenRGBProfileListDialog.h"
 #include "ResourceManager.h"
 #include "SettingsManager.h"
 #include "TabLabel.h"
@@ -120,6 +120,22 @@ static int GetIcon(device_type type)
     }
 
     return icon;
+}
+
+static void OpenRGBDialogProfileManagerCallback(void * this_ptr, unsigned int update_reason)
+{
+    OpenRGBDialog * this_obj = (OpenRGBDialog *)this_ptr;
+
+    switch(update_reason)
+    {
+        case PROFILEMANAGER_UPDATE_REASON_PROFILE_LIST_UPDATED:
+            QMetaObject::invokeMethod(this_obj, "UpdateProfileList", Qt::QueuedConnection);
+            break;
+
+        case PROFILEMANAGER_UPDATE_REASON_ACTIVE_PROFILE_CHANGED:
+            QMetaObject::invokeMethod(this_obj, "UpdateActiveProfile", Qt::QueuedConnection);
+            break;
+    }
 }
 
 static void OpenRGBDialogResourceManagerCallback(void * this_ptr, unsigned int update_reason)
@@ -263,6 +279,11 @@ OpenRGBDialog::OpenRGBDialog(QWidget *parent) : QMainWindow(parent), ui(new Ui::
     | Register resource manager callbacks                   |
     \*-----------------------------------------------------*/
     ResourceManager::get()->RegisterResourceManagerCallback(OpenRGBDialogResourceManagerCallback, this);
+
+    /*-----------------------------------------------------*\
+    | Register profile manager callbacks                    |
+    \*-----------------------------------------------------*/
+    ResourceManager::get()->GetProfileManager()->RegisterProfileManagerCallback(OpenRGBDialogProfileManagerCallback, this);
 
     /*-----------------------------------------------------*\
     | Register dialog show callback with log manager        |
@@ -501,6 +522,15 @@ OpenRGBDialog::OpenRGBDialog(QWidget *parent) : QMainWindow(parent), ui(new Ui::
 
 OpenRGBDialog::~OpenRGBDialog()
 {
+    /*-----------------------------------------------------*\
+    | Unregister resource manager callbacks                 |
+    \*-----------------------------------------------------*/
+    ResourceManager::get()->UnregisterResourceManagerCallback(OpenRGBDialogResourceManagerCallback, this);
+
+    /*-----------------------------------------------------*\
+    | Unregister profile manager callbacks                  |
+    \*-----------------------------------------------------*/
+    ResourceManager::get()->GetProfileManager()->UnregisterProfileManagerCallback(OpenRGBDialogProfileManagerCallback, this);
     delete ui;
 }
 
@@ -1236,17 +1266,36 @@ void OpenRGBDialog::SetDialogMessage(PLogMessage msg)
     dialog_message = QString::fromStdString(msg->buffer);
 }
 
+void OpenRGBDialog::UpdateActiveProfile()
+{
+    ProfileManager* profile_manager = ResourceManager::get()->GetProfileManager();
+    int             profile_index   = ui->ProfileBox->findText(QString::fromStdString(profile_manager->GetActiveProfile()));
+
+    if(profile_index < 1)
+    {
+        profile_index = 0;
+    }
+
+    ui->ProfileBox->blockSignals(true);
+    ui->ProfileBox->setCurrentIndex(profile_index);
+    ui->ProfileBox->blockSignals(false);
+}
+
 void OpenRGBDialog::UpdateProfileList()
 {
     ProfileManager* profile_manager = ResourceManager::get()->GetProfileManager();
 
     if(profile_manager != NULL)
     {
+        ui->ProfileBox->blockSignals(true);
+
         /*-------------------------------------------------*\
         | Clear profile combo box and tray icon menu        |
         \*-------------------------------------------------*/
         ui->ProfileBox->clear();
         profileMenu->clear();
+
+        ui->ProfileBox->addItem("No Active Profile");
 
         for(std::size_t profile_index = 0; profile_index < profile_manager->GetProfileList().size(); profile_index++)
         {
@@ -1263,7 +1312,11 @@ void OpenRGBDialog::UpdateProfileList()
             connect(actionProfileSelected, SIGNAL(triggered()), this, SLOT(on_ProfileSelected()));
             profileMenu->addAction(actionProfileSelected);
         }
+
+        ui->ProfileBox->blockSignals(false);
     }
+
+    UpdateActiveProfile();
 
     emit ProfileListChanged();
 }
@@ -1407,6 +1460,8 @@ void OpenRGBDialog::onDetectionEnded()
 
 void OpenRGBDialog::on_SetAllDevices(unsigned char red, unsigned char green, unsigned char blue)
 {
+    ResourceManager::get()->GetProfileManager()->ClearActiveProfile();
+
     /*-----------------------------------------------------*\
     | Send the about to load profile signal to plugins      |
     \*-----------------------------------------------------*/
@@ -1570,25 +1625,33 @@ void OpenRGBDialog::on_ProfileSelected()
         \*-------------------------------------------------*/
         profile_manager->LoadProfile(profile_name);
 
-        ui->ProfileBox->setCurrentIndex(ui->ProfileBox->findText(QString::fromStdString(profile_name)));
+        UpdateActiveProfile();
     }
 }
 
-void OpenRGBDialog::on_ButtonLoadProfile_clicked()
+void OpenRGBDialog::on_ProfileBox_currentIndexChanged(int index)
 {
     ProfileManager* profile_manager = ResourceManager::get()->GetProfileManager();
 
     if(profile_manager != NULL)
     {
-        /*-------------------------------------------------*\
-        | Get the profile filename from the profiles list   |
-        \*-------------------------------------------------*/
-        std::string profile_name = ui->ProfileBox->currentText().toStdString();
+        if(index > 0)
+        {
+            /*---------------------------------------------*\
+            | Get the profile filename from the profiles    |
+            | list                                          |
+            \*---------------------------------------------*/
+            std::string profile_name = ui->ProfileBox->currentText().toStdString();
 
-        /*-------------------------------------------------*\
-        | Load the profile                                  |
-        \*-------------------------------------------------*/
-        profile_manager->LoadProfile(profile_name);
+            /*---------------------------------------------*\
+            | Load the profile                              |
+            \*---------------------------------------------*/
+            profile_manager->LoadProfile(profile_name);
+        }
+        else
+        {
+            profile_manager->ClearActiveProfile();
+        }
     }
 }
 
@@ -1598,25 +1661,41 @@ void OpenRGBDialog::on_ButtonDeleteProfile_clicked()
 
     if(profile_manager != NULL)
     {
-        /*-------------------------------------------------*\
-        | Get the profile filename from the profiles list   |
-        \*-------------------------------------------------*/
-        std::string profile_name = ui->ProfileBox->currentText().toStdString();
+        std::string profile_name = "";
 
-        /*-------------------------------------------------*\
-        | Confirm we want to delete the profile             |
-        \*-------------------------------------------------*/
-        QMessageBox::StandardButton reply;
-        reply = QMessageBox::question(this, tr("Delete Profile"), tr("Do you really want to delete this profile?"), QMessageBox::Yes|QMessageBox::No);
-
-        /*-------------------------------------------------*\
-        | Load the profile                                  |
-        \*-------------------------------------------------*/
-        if(reply == QMessageBox::Yes)
+        if(ui->ProfileBox->currentIndex() == 0)
         {
-            profile_manager->DeleteProfile(profile_name);
+            OpenRGBProfileListDialog dialog(false);
 
-            UpdateProfileList();
+            /*---------------------------------------------*\
+            | Open Profile Name Dialog                      |
+            \*---------------------------------------------*/
+            profile_name = dialog.show();
+        }
+        else
+        {
+            /*---------------------------------------------*\
+            | Get the profile filename from the profiles    |
+            | list                                          |
+            \*---------------------------------------------*/
+            profile_name = ui->ProfileBox->currentText().toStdString();
+        }
+
+        if(profile_name != "")
+        {
+            /*---------------------------------------------*\
+            | Confirm we want to delete the profile         |
+            \*---------------------------------------------*/
+            QMessageBox::StandardButton reply;
+            reply = QMessageBox::question(this, tr("Delete Profile"), tr("Do you really want to delete this profile?"), QMessageBox::Yes|QMessageBox::No);
+
+            /*---------------------------------------------*\
+            | Delete the profile                            |
+            \*---------------------------------------------*/
+            if(reply == QMessageBox::Yes)
+            {
+                profile_manager->DeleteProfile(profile_name);
+            }
         }
     }
 }
@@ -1682,9 +1761,9 @@ void OpenRGBDialog::SetDetectionViewState(bool detection_showing)
         | Show the detection progress and hide the normal   |
         | buttons                                           |
         \*-------------------------------------------------*/
+        ui->ActiveProfileLabel->setVisible(false);
         ui->ButtonToggleDeviceView->setVisible(false);
         ui->ButtonRescan->setVisible(false);
-        ui->ButtonLoadProfile->setVisible(false);
         ui->ButtonSaveProfile->setVisible(false);
         ui->ButtonDeleteProfile->setVisible(false);
         ui->ProfileBox->setVisible(false);
@@ -1703,9 +1782,9 @@ void OpenRGBDialog::SetDetectionViewState(bool detection_showing)
         ui->DetectionProgressLabel->setVisible(false);
         ui->ButtonStopDetection->setVisible(false);
 
+        ui->ActiveProfileLabel->setVisible(true);
         ui->ButtonToggleDeviceView->setVisible(true);
         ui->ButtonRescan->setVisible(true);
-        ui->ButtonLoadProfile->setVisible(true);
         ui->ButtonSaveProfile->setVisible(true);
         ui->ButtonDeleteProfile->setVisible(true);
         ui->ProfileBox->setVisible(true);
@@ -1748,7 +1827,7 @@ void OpenRGBDialog::SaveProfileAs()
 
     if(profile_manager != NULL)
     {
-        OpenRGBProfileSaveDialog dialog;
+        OpenRGBProfileListDialog dialog;
 
         /*-------------------------------------------------*\
         | Open Profile Name Dialog                          |
@@ -1765,12 +1844,7 @@ void OpenRGBDialog::SaveProfileAs()
             /*---------------------------------------------*\
             | Save the profile                              |
             \*---------------------------------------------*/
-            if(profile_manager->SaveProfile(filename))
-            {
-                UpdateProfileList();
-
-                ui->ProfileBox->setCurrentIndex(ui->ProfileBox->findText(QString::fromStdString(profile_name)));
-            }
+            profile_manager->SaveProfile(filename);
         }
     }
 }
@@ -1785,7 +1859,7 @@ void OpenRGBDialog::on_ButtonRescan_clicked()
 
 void OpenRGBDialog::on_ActionSaveProfile_triggered()
 {
-    if(ui->ProfileBox->currentIndex() >= 0)
+    if(ui->ProfileBox->currentIndex() > 0)
     {
         SaveProfile();
     }

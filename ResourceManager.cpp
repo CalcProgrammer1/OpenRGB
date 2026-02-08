@@ -85,6 +85,14 @@ static void ResourceManagerNetworkClientCallback(void* this_ptr, unsigned int up
         case NETWORKCLIENT_UPDATE_REASON_DETECTION_COMPLETE:
             this_obj->SignalResourceManagerUpdate(RESOURCEMANAGER_UPDATE_REASON_DETECTION_COMPLETE);
             break;
+
+        case NETWORKCLIENT_UPDATE_REASON_PROFILEMANAGER_PROFILE_LIST_UPDATED:
+            this_obj->GetProfileManager()->SignalProfileManagerUpdate(PROFILEMANAGER_UPDATE_REASON_PROFILE_LIST_UPDATED);
+            break;
+
+        case NETWORKCLIENT_UPDATE_REASON_PROFILEMANAGER_ACTIVE_PROFILE_CHANGED:
+            this_obj->GetProfileManager()->SignalProfileManagerUpdate(PROFILEMANAGER_UPDATE_REASON_ACTIVE_PROFILE_CHANGED);
+            break;
     }
 }
 
