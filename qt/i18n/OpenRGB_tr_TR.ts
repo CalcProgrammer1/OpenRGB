@@ -813,7 +813,7 @@
     </message>
 </context>
 <context>
-    <name>OpenRGBProfileSaveDialog</name>
+    <name>OpenRGBProfileListDialog</name>
     <message>
         <source>Profile Name</source>
         <translation>Profil Adı</translation>

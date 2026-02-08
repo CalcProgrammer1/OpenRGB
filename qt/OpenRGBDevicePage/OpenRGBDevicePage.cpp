@@ -9,6 +9,7 @@
 
 #include "OpenRGBDevicePage.h"
 #include "OpenRGBZoneResizeDialog.h"
+#include "ProfileManager.h"
 #include "ResourceManager.h"
 #include "SettingsManager.h"
 #include "ui_OpenRGBDevicePage.h"
@@ -2025,11 +2026,15 @@ void OpenRGBDevicePage::changeEvent(QEvent *event)
 \*---------------------------------------------------------*/
 void OpenRGBDevicePage::on_ApplyColorsButton_clicked()
 {
+    ResourceManager::get()->GetProfileManager()->ClearActiveProfile();
+
     UpdateColor();
 }
 
 void OpenRGBDevicePage::on_BlueSpinBox_valueChanged(int blue)
 {
+    ResourceManager::get()->GetProfileManager()->ClearActiveProfile();
+
     /*-----------------------------------------------------*\
     | Update the current color QColor blue channel          |
     \*-----------------------------------------------------*/
@@ -2043,6 +2048,8 @@ void OpenRGBDevicePage::on_BlueSpinBox_valueChanged(int blue)
 
 void OpenRGBDevicePage::on_BrightnessSlider_valueChanged(int /*value*/)
 {
+    ResourceManager::get()->GetProfileManager()->ClearActiveProfile();
+
     /*-----------------------------------------------------*\
     | Change device mode                                    |
     \*-----------------------------------------------------*/
@@ -2051,6 +2058,8 @@ void OpenRGBDevicePage::on_BrightnessSlider_valueChanged(int /*value*/)
 
 void OpenRGBDevicePage::on_ColorWheelBox_colorChanged(const QColor color)
 {
+    ResourceManager::get()->GetProfileManager()->ClearActiveProfile();
+
     /*-----------------------------------------------------*\
     | Store the wheel color to the current color QColor     |
     \*-----------------------------------------------------*/
@@ -2117,6 +2126,8 @@ void OpenRGBDevicePage::on_DeviceViewBox_selectionChanged(QVector<int> indices)
 
 void OpenRGBDevicePage::on_DirectionBox_currentIndexChanged(int /*index*/)
 {
+    ResourceManager::get()->GetProfileManager()->ClearActiveProfile();
+
     /*-----------------------------------------------------*\
     | Change device mode                                    |
     \*-----------------------------------------------------*/
@@ -2185,6 +2196,8 @@ void OpenRGBDevicePage::on_EditZoneButton_clicked()
 
 void OpenRGBDevicePage::on_GreenSpinBox_valueChanged(int green)
 {
+    ResourceManager::get()->GetProfileManager()->ClearActiveProfile();
+
     /*-----------------------------------------------------*\
     | Update the current color QColor green channel         |
     \*-----------------------------------------------------*/
@@ -2198,6 +2211,8 @@ void OpenRGBDevicePage::on_GreenSpinBox_valueChanged(int green)
 
 void OpenRGBDevicePage::on_HexLineEdit_textChanged(const QString &arg1)
 {
+    ResourceManager::get()->GetProfileManager()->ClearActiveProfile();
+
     /*-----------------------------------------------------*\
     | Make an editable copy of the string                   |
     \*-----------------------------------------------------*/
@@ -2242,6 +2257,8 @@ void OpenRGBDevicePage::on_HexLineEdit_textChanged(const QString &arg1)
 
 void OpenRGBDevicePage::on_HueSpinBox_valueChanged(int hue)
 {
+    ResourceManager::get()->GetProfileManager()->ClearActiveProfile();
+
     /*-----------------------------------------------------*\
     | Read the saturation and value box values              |
     \*-----------------------------------------------------*/
@@ -2269,6 +2286,8 @@ void OpenRGBDevicePage::on_LEDBox_currentIndexChanged(int /*index*/)
 
 void OpenRGBDevicePage::on_ModeBox_currentIndexChanged(int /*index*/)
 {
+    ResourceManager::get()->GetProfileManager()->ClearActiveProfile();
+
     /*-----------------------------------------------------*\
     | Update mode user interface elements                   |
     \*-----------------------------------------------------*/
@@ -2292,6 +2311,8 @@ void OpenRGBDevicePage::on_ModeBox_currentIndexChanged(int /*index*/)
 
 void OpenRGBDevicePage::on_ModeSpecificCheck_clicked()
 {
+    ResourceManager::get()->GetProfileManager()->ClearActiveProfile();
+
     /*-----------------------------------------------------*\
     | Change device mode                                    |
     \*-----------------------------------------------------*/
@@ -2315,6 +2336,8 @@ void OpenRGBDevicePage::on_ModeSpecificCheck_clicked()
 
 void OpenRGBDevicePage::on_PerLEDCheck_clicked()
 {
+    ResourceManager::get()->GetProfileManager()->ClearActiveProfile();
+
     /*-----------------------------------------------------*\
     | Change device mode                                    |
     \*-----------------------------------------------------*/
@@ -2338,6 +2361,8 @@ void OpenRGBDevicePage::on_PerLEDCheck_clicked()
 
 void OpenRGBDevicePage::on_RandomCheck_clicked()
 {
+    ResourceManager::get()->GetProfileManager()->ClearActiveProfile();
+
     /*-----------------------------------------------------*\
     | Change device mode                                    |
     \*-----------------------------------------------------*/
@@ -2361,6 +2386,8 @@ void OpenRGBDevicePage::on_RandomCheck_clicked()
 
 void OpenRGBDevicePage::on_RedSpinBox_valueChanged(int red)
 {
+    ResourceManager::get()->GetProfileManager()->ClearActiveProfile();
+
     /*-----------------------------------------------------*\
     | Update the current color QColor red channel           |
     \*-----------------------------------------------------*/
@@ -2374,6 +2401,8 @@ void OpenRGBDevicePage::on_RedSpinBox_valueChanged(int red)
 
 void OpenRGBDevicePage::on_SatSpinBox_valueChanged(int sat)
 {
+    ResourceManager::get()->GetProfileManager()->ClearActiveProfile();
+
     /*-----------------------------------------------------*\
     | Read the hue and value box values                     |
     \*-----------------------------------------------------*/
@@ -2443,6 +2472,8 @@ void OpenRGBDevicePage::on_SetAllButton_clicked()
 
 void OpenRGBDevicePage::on_SpeedSlider_valueChanged(int /*value*/)
 {
+    ResourceManager::get()->GetProfileManager()->ClearActiveProfile();
+
     /*-----------------------------------------------------*\
     | Change device mode                                    |
     \*-----------------------------------------------------*/
@@ -2533,6 +2564,8 @@ void OpenRGBDevicePage::on_SpinBoxModeColors_valueChanged(int count)
 
 void OpenRGBDevicePage::on_SwatchBox_swatchChanged(const QColor color)
 {
+    ResourceManager::get()->GetProfileManager()->ClearActiveProfile();
+
     /*-----------------------------------------------------*\
     | Store the swatch color to the current color QColor    |
     \*-----------------------------------------------------*/
@@ -2546,6 +2579,8 @@ void OpenRGBDevicePage::on_SwatchBox_swatchChanged(const QColor color)
 
 void OpenRGBDevicePage::on_ValSpinBox_valueChanged(int val)
 {
+    ResourceManager::get()->GetProfileManager()->ClearActiveProfile();
+
     /*-----------------------------------------------------*\
     | Read the hue and saturation box values                |
     \*-----------------------------------------------------*/

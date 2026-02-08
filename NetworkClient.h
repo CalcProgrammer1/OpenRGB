@@ -29,16 +29,18 @@ typedef void (*NetworkClientCallback)(void *, unsigned int);
 \*---------------------------------------------------------*/
 enum
 {
-    NETWORKCLIENT_UPDATE_REASON_CLIENT_STARTED,                 /* Client started                   */
-    NETWORKCLIENT_UPDATE_REASON_CLIENT_STOPPED,                 /* Client stopped                   */
-    NETWORKCLIENT_UPDATE_REASON_CLIENT_CONNECTED,               /* Client connectedd                */
-    NETWORKCLIENT_UPDATE_REASON_CLIENT_DISCONNECTED,            /* Client disconnected              */
-    NETWORKCLIENT_UPDATE_REASON_SERVER_STRING_RECEIVED,         /* Server string received           */
-    NETWORKCLIENT_UPDATE_REASON_PROTOCOL_NEGOTIATED,            /* Protocol version negotiated      */
-    NETWORKCLIENT_UPDATE_REASON_DEVICE_LIST_UPDATED,            /* Device list updated              */
-    NETWORKCLIENT_UPDATE_REASON_DETECTION_STARTED,              /* Detection started                */
-    NETWORKCLIENT_UPDATE_REASON_DETECTION_PROGRESS_CHANGED,     /* Detection progress changed       */
-    NETWORKCLIENT_UPDATE_REASON_DETECTION_COMPLETE,             /* Detection completed              */
+    NETWORKCLIENT_UPDATE_REASON_CLIENT_STARTED,                         /* Client started                   */
+    NETWORKCLIENT_UPDATE_REASON_CLIENT_STOPPED,                         /* Client stopped                   */
+    NETWORKCLIENT_UPDATE_REASON_CLIENT_CONNECTED,                       /* Client connectedd                */
+    NETWORKCLIENT_UPDATE_REASON_CLIENT_DISCONNECTED,                    /* Client disconnected              */
+    NETWORKCLIENT_UPDATE_REASON_SERVER_STRING_RECEIVED,                 /* Server string received           */
+    NETWORKCLIENT_UPDATE_REASON_PROTOCOL_NEGOTIATED,                    /* Protocol version negotiated      */
+    NETWORKCLIENT_UPDATE_REASON_DEVICE_LIST_UPDATED,                    /* Device list updated              */
+    NETWORKCLIENT_UPDATE_REASON_DETECTION_STARTED,                      /* Detection started                */
+    NETWORKCLIENT_UPDATE_REASON_DETECTION_PROGRESS_CHANGED,             /* Detection progress changed       */
+    NETWORKCLIENT_UPDATE_REASON_DETECTION_COMPLETE,                     /* Detection completed              */
+    NETWORKCLIENT_UPDATE_REASON_PROFILEMANAGER_PROFILE_LIST_UPDATED,    /* Profile list updated             */
+    NETWORKCLIENT_UPDATE_REASON_PROFILEMANAGER_ACTIVE_PROFILE_CHANGED,  /* Active profile changed           */
 };
 
 
@@ -94,13 +96,14 @@ public:
     /*-----------------------------------------------------*\
     | ProfileManager functions                              |
     \*-----------------------------------------------------*/
-    char *                              ProfileManager_GetProfileList();
+    void                                ProfileManager_GetProfileList();
     void                                ProfileManager_LoadProfile(std::string profile_name);
     void                                ProfileManager_SaveProfile(std::string profile_name);
     void                                ProfileManager_DeleteProfile(std::string profile_name);
     void                                ProfileManager_UploadProfile(std::string profile_json_str);
     std::string                         ProfileManager_DownloadProfile(std::string profile_name);
     std::string                         ProfileManager_GetActiveProfile();
+    void                                ProfileManager_ClearActiveProfile();
 
     /*-----------------------------------------------------*\
     | SettingsManager functions                             |
@@ -228,6 +231,7 @@ private:
 
     void                                ProcessRequest_ProfileManager_ActiveProfileChanged(unsigned int data_size, char * data);
     void                                ProcessRequest_ProfileManager_ProfileAboutToLoad();
+    void                                ProcessRequest_ProfileManager_ProfileListUpdated(unsigned int data_size, char * data);
     void                                ProcessRequest_ProfileManager_ProfileLoaded(unsigned int data_size, char * data);
 
     void                                SendData_ClientFlags();

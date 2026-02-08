@@ -1,5 +1,5 @@
 /*---------------------------------------------------------*\
-| OpenRGBProfileSaveDialog.h                                |
+| OpenRGBProfileListDialog.h                                |
 |                                                           |
 |   User interface entry for OpenRGB profile save dialog    |
 |                                                           |
@@ -14,21 +14,21 @@
 
 namespace Ui
 {
-    class OpenRGBProfileSaveDialog;
+    class OpenRGBProfileListDialog;
 }
 
-class OpenRGBProfileSaveDialog : public QDialog
+class OpenRGBProfileListDialog : public QDialog
 {
     Q_OBJECT
 
 public:
-    explicit OpenRGBProfileSaveDialog(QWidget *parent = nullptr);
-    ~OpenRGBProfileSaveDialog();
+    explicit OpenRGBProfileListDialog(bool create = true, QWidget *parent = nullptr);
+    ~OpenRGBProfileListDialog();
 
     std::string show();
 
 private:
-    Ui::OpenRGBProfileSaveDialog *ui;
+    Ui::OpenRGBProfileListDialog *ui;
 
 private slots:
     void changeEvent(QEvent *event);
